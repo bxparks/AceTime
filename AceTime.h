@@ -10,5 +10,6 @@
 #include "ace_time/TimeKeeper.h"
 #include "ace_time/SystemTimeKeeper.h"
 #include "ace_time/DS3231TimeKeeper.h"
+#include "ace_time/NtpTimeKeeper.h"
 
 #endif
