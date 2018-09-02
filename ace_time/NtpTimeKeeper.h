@@ -65,32 +65,36 @@ class NtpTimeKeeper: public TimeKeeper {
     uint32_t getNtpTime() const {
       while (mUdp.parsePacket() > 0); // discard any previously received packets
 
-      Serial.println("Transmit NTP Request");
+      Serial.print("Transmit NTP request to ");
       // get a random server from the pool
       IPAddress ntpServerIP; // NTP server's ip address
       WiFi.hostByName(kNtpServerName, ntpServerIP);
       Serial.print(kNtpServerName);
-      Serial.print(": ");
-      Serial.println(ntpServerIP);
+      Serial.print(" (");
+      Serial.print(ntpServerIP);
+      Serial.print("); ");
 
       sendNTPpacket(ntpServerIP);
-      uint32_t beginWait = millis();
-      while (millis() - beginWait < 1500) {
-        int size = mUdp.parsePacket();
-        if (size >= kNtpPacketSize) {
-          Serial.println("Receive NTP Response");
+      uint16_t startTime = millis();
+      uint16_t waitTime;
+      while ((waitTime = millis() - startTime) < 1500) {
+        if (mUdp.parsePacket() >= kNtpPacketSize) {
+          Serial.print("Received NTP response: ");
+          Serial.print(waitTime);
+          Serial.println(" ms");
+
           // read packet into the buffer
           mUdp.read(mPacketBuffer, kNtpPacketSize);
 
-          uint32_t secsSince1900;
           // convert four bytes starting at location 40 to a long integer
-          secsSince1900 =  (uint32_t) mPacketBuffer[40] << 24;
+          uint32_t secsSince1900 =  (uint32_t) mPacketBuffer[40] << 24;
           secsSince1900 |= (uint32_t) mPacketBuffer[41] << 16;
           secsSince1900 |= (uint32_t) mPacketBuffer[42] << 8;
           secsSince1900 |= (uint32_t) mPacketBuffer[43];
           return secsSince1900;
         }
       }
+      Serial.println(" timed out after 1500 ms");
       return 0; // return 0 if unable to get the time
     }
 
