@@ -43,7 +43,6 @@ class SystemTimeKeeper: public TimeKeeper {
     virtual unsigned long millis() const { return ::millis(); }
   
   private:
-    //const TimeKeeper& mSyncTimeKeeper;
     mutable uint32_t mSecondsSinceEpoch;
     mutable uint16_t mPrevMillis;
 };
