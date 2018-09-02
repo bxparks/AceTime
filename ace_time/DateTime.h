@@ -299,18 +299,18 @@ class DateTime {
       }
     }
 
+    /** Mark the DateTime so that isError() returns true. */
+    DateTime& setError() {
+      mMonth = 0;
+      return *this;
+    }
+
   private:
     /** Expected length of an ISO8601 date string. */
     static const uint8_t kDateStringLength = 25;
 
     friend bool operator==(const DateTime& a, const DateTime& b);
     friend bool operator!=(const DateTime& a, const DateTime& b);
-
-    /** Mark the DateTime so that isError() returns true. */
-    void setError() {
-      // Setting mMonth = 0 causes isError() to return the quickest
-      mMonth = 0;
-    }
 
     /** Extract the date time components from the given dateString. */
     void init(const char* dateString);

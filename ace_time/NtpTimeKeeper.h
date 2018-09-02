@@ -16,12 +16,6 @@ class NtpTimeKeeper: public TimeKeeper {
         mSsid(ssid),
         mPassword(password) {}
 
-    virtual uint32_t now() const override {
-      uint32_t secondsSince1900 = getNtpTime();
-      return (secondsSince1900 == 0) ? 0
-          : secondsSince1900 - kSecondsSinceNtpEpoch;
-    }
-
     virtual bool isSettable() const override { return false; }
 
     virtual void setNow(uint32_t /*secondsSinceEpoch*/) override {}
@@ -47,34 +41,97 @@ class NtpTimeKeeper: public TimeKeeper {
       Serial.println(mUdp.localPort());
     }
 
+    virtual uint32_t now() const override {
+      uint32_t secondsSince1900 = getNtpTime();
+      return (secondsSince1900 == 0) ? 0
+          : secondsSince1900 - kSecondsSinceNtpEpoch;
+    }
+
+    /**
+     * Return the current time asynchronously. Returns false if response is
+     * not ready, true if a result is ready or the request has timed out.
+     */
+    virtual bool nowAsync(uint8_t& status, uint32_t& seconds) const override {
+      // send off a request, then return
+      if (!mIsRequestPending) {
+        sendRequest();
+        mRequestStartTime = millis();
+        mIsRequestPending = true;
+        return false;
+      }
+
+      // there's request pending, check for time out
+      if (millis() - mRequestStartTime > kRequestTimeOut) {
+        Serial.println("Timed out");
+        status = kStatusTimedOut;
+        mIsRequestPending = false;
+        return true;
+      }
+
+      // keep waiting if the response has not arrived
+      if (mUdp.parsePacket() < kNtpPacketSize) return false;
+
+      // process the response
+      uint32_t secondsSince1900 = readResponse();
+      seconds = (secondsSince1900 == 0) ? 0
+          : secondsSince1900 - kSecondsSinceNtpEpoch;
+      mIsRequestPending = false;
+      status = kStatusOk;
+      return true;
+    }
+
   private:
-    // NTP Servers:
+    /** NTP Server */
     static const char kNtpServerName[];
 
-    // Port used for UDP packets.
+    /** Port used for UDP packets. */
     static const uint16_t kLocalPort = 8888;
 
-    // NTP time is in the first 48 bytes of message
+    /** NTP time is in the first 48 bytes of message. */
     static const uint8_t kNtpPacketSize = 48;
 
-    // Number of seconds between NTP epoch (1900-01-01T00:00:00Z) and
-    // AceTime epoch (2000-01-01T00:00:00Z).
+    /**
+     * Number of seconds between NTP epoch (1900-01-01T00:00:00Z) and
+     * AceTime epoch (2000-01-01T00:00:00Z).
+     */
     static const uint32_t kSecondsSinceNtpEpoch = 3155673600;
 
-    /** Return seconds from NTP eposh 1900-01-01. */
-    uint32_t getNtpTime() const {
+    /** Request time out milliseconds. */
+    static const uint16_t kRequestTimeOut = 1500;
+
+    void sendRequest() const {
       while (mUdp.parsePacket() > 0); // discard any previously received packets
 
-      Serial.print("Transmit NTP request to ");
       // get a random server from the pool
       IPAddress ntpServerIP; // NTP server's ip address
       WiFi.hostByName(kNtpServerName, ntpServerIP);
+
+      Serial.print("Transmit NTP request to ");
       Serial.print(kNtpServerName);
       Serial.print(" (");
       Serial.print(ntpServerIP);
-      Serial.print("); ");
+      Serial.println(")");
 
       sendNTPpacket(ntpServerIP);
+    }
+
+    /** Returns number of seconds since NTP epoch (1900-01-01). */
+    uint32_t readResponse() const {
+      // read packet into the buffer
+      mUdp.read(mPacketBuffer, kNtpPacketSize);
+
+      // convert four bytes starting at location 40 to a long integer
+      uint32_t secsSince1900 =  (uint32_t) mPacketBuffer[40] << 24;
+      secsSince1900 |= (uint32_t) mPacketBuffer[41] << 16;
+      secsSince1900 |= (uint32_t) mPacketBuffer[42] << 8;
+      secsSince1900 |= (uint32_t) mPacketBuffer[43];
+      return secsSince1900;
+    }
+
+    /** Return seconds from NTP eposh 1900-01-01. */
+    uint32_t getNtpTime() const {
+      sendRequest();
+
       uint16_t startTime = millis();
       uint16_t waitTime;
       while ((waitTime = millis() - startTime) < 1500) {
@@ -82,19 +139,10 @@ class NtpTimeKeeper: public TimeKeeper {
           Serial.print("Received NTP response: ");
           Serial.print(waitTime);
           Serial.println(" ms");
-
-          // read packet into the buffer
-          mUdp.read(mPacketBuffer, kNtpPacketSize);
-
-          // convert four bytes starting at location 40 to a long integer
-          uint32_t secsSince1900 =  (uint32_t) mPacketBuffer[40] << 24;
-          secsSince1900 |= (uint32_t) mPacketBuffer[41] << 16;
-          secsSince1900 |= (uint32_t) mPacketBuffer[42] << 8;
-          secsSince1900 |= (uint32_t) mPacketBuffer[43];
-          return secsSince1900;
+          return readResponse();
         }
       }
-      Serial.println(" timed out after 1500 ms");
+      Serial.println("Timed out after 1500 ms");
       return 0; // return 0 if unable to get the time
     }
 
@@ -126,6 +174,8 @@ class NtpTimeKeeper: public TimeKeeper {
     mutable WiFiUDP mUdp;
     //buffer to hold incoming & outgoing packets
     mutable uint8_t mPacketBuffer[kNtpPacketSize];
+    mutable bool mIsRequestPending;
+    mutable uint16_t mRequestStartTime;
 
 };
 

@@ -6,6 +6,11 @@ namespace ace_time {
 
 // Print DateTime in ISO8601 format
 void DateTime::printTo(Print& printer) const {
+  if (isError()) {
+    printer.println(F("<Invalid DateTime>"));
+    return;
+  }
+
   // Date
   printer.print(F("20"));
   printPad2(printer, mYear);

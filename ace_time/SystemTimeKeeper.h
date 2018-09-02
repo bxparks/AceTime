@@ -2,6 +2,7 @@
 #define ACE_TIME_SYSTEM_TIME_KEEPER_H
 
 #include <stdint.h>
+#include "TimeKeeper.h"
 
 namespace ace_time {
 
@@ -39,9 +40,10 @@ class SystemTimeKeeper: public TimeKeeper {
     }
 
   protected:
-    virtual uint32_t millis() const { return ::millis(); }
+    virtual unsigned long millis() const { return ::millis(); }
   
   private:
+    //const TimeKeeper& mSyncTimeKeeper;
     mutable uint32_t mSecondsSinceEpoch;
     mutable uint16_t mPrevMillis;
 };

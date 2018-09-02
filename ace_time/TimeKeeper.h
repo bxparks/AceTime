@@ -11,6 +11,12 @@ namespace ace_time {
  */
 class TimeKeeper {
   public:
+    /** nowAync() returned valid result. */
+    static const uint8_t kStatusOk = 0;
+
+    /** nowAsync() timed out. */
+    static const uint8_t kStatusTimedOut = 1;
+
     /** Setup the time keeper. */
     virtual void setup() = 0;
 
@@ -19,6 +25,10 @@ class TimeKeeper {
      * 00:00:00Z).
      */
     virtual uint32_t now() const = 0;
+
+    virtual bool nowAsync(uint8_t& /*status*/, uint32_t& /*seconds*/) const {
+      return true;
+    }
 
     /**
      * Return true if the time keeper is settable. For example, an RTC chip is
