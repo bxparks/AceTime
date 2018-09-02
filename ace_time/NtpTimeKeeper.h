@@ -26,7 +26,7 @@ class NtpTimeKeeper: public TimeKeeper {
 
     virtual void setNow(uint32_t /*secondsSinceEpoch*/) override {}
 
-    void setup() {
+    virtual void setup() override {
       Serial.println("TimeNTP Example");
       Serial.print("Connecting to ");
       Serial.println(mSsid);

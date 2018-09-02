@@ -11,6 +11,8 @@ class DS3231TimeKeeper: public TimeKeeper {
     explicit DS3231TimeKeeper(const DS3231& ds3231):
         mDS3231(ds3231) {}
 
+    virtual void setup() override {}
+
     virtual uint32_t now() const override {
       DateTime now;
       mDS3231.readDateTime(&now);

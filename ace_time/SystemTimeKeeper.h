@@ -7,6 +7,11 @@ namespace ace_time {
 
 class SystemTimeKeeper: public TimeKeeper {
   public:
+    explicit SystemTimeKeeper():
+        mPrevMillis(0) {}
+
+    virtual void setup() override {}
+
     /**
      * @copydoc TimeKeeper::now()
      *
