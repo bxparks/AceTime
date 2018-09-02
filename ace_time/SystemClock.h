@@ -18,12 +18,12 @@ class SystemClock: public TimeKeeper, public Coroutine {
         mPrevMillis(0) {}
 
     virtual void setup() override {
-      uint32_t now = mBackupTimeKeeper.now();
+      uint32_t now = mBackupTimeKeeper.getNow();
       setNow(now);
     }
 
     /**
-     * @copydoc TimeKeeper::now()
+     * @copydoc TimeKeeper::getNow()
      *
      * The value of the previous system time millis() is stored internally as a
      * uint16_t. This method synchronizes the secondsSinceEpoch with the
@@ -35,7 +35,7 @@ class SystemClock: public TimeKeeper, public Coroutine {
      * the upper bound of the run time of this method is automatically limited
      * to 65 iterations.
      */
-    virtual uint32_t now() const override {
+    virtual uint32_t getNow() const override {
       while ((uint16_t) ((uint16_t) millis() - mPrevMillis) >= 1000) {
         mPrevMillis += 1000;
         mSecondsSinceEpoch += 1;
@@ -54,7 +54,7 @@ class SystemClock: public TimeKeeper, public Coroutine {
       uint8_t status;
       uint32_t seconds;
       COROUTINE_LOOP() {
-        COROUTINE_AWAIT(mSyncTimeKeeper.nowPolling(status, seconds));
+        COROUTINE_AWAIT(mSyncTimeKeeper.pollNow(status, seconds));
         if (status != TimeKeeper::kStatusOk) {
           Serial.println("Invalid status");
         } else if (seconds == 0) {

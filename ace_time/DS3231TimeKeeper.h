@@ -13,7 +13,7 @@ class DS3231TimeKeeper: public TimeKeeper {
 
     virtual void setup() override {}
 
-    virtual uint32_t now() const override {
+    virtual uint32_t getNow() const override {
       DateTime now;
       mDS3231.readDateTime(&now);
       return now.toSecondsSinceEpoch();

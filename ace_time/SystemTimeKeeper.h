@@ -14,7 +14,7 @@ class SystemTimeKeeper: public TimeKeeper {
     virtual void setup() override {}
 
     /**
-     * @copydoc TimeKeeper::now()
+     * @copydoc TimeKeeper::getNow()
      *
      * The value of the previous system time millis() is stored internally as a
      * uint16_t. This method synchronizes the secondsSinceEpoch with the
@@ -24,7 +24,7 @@ class SystemTimeKeeper: public TimeKeeper {
      * the upper bound of the run time of this method is automatically limited
      * to 65 iterations.
      */
-    virtual uint32_t now() const override {
+    virtual uint32_t getNow() const override {
       while ((uint16_t) ((uint16_t) millis() - mPrevMillis) >= 1000) {
         mPrevMillis += 1000;
         mSecondsSinceEpoch += 1;

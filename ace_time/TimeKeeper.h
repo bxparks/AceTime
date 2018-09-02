@@ -11,10 +11,10 @@ namespace ace_time {
  */
 class TimeKeeper {
   public:
-    /** nowPolling() returned valid result. */
+    /** pollNow() returned valid result. */
     static const uint8_t kStatusOk = 0;
 
-    /** nowPolling() timed out. */
+    /** pollNow() timed out. */
     static const uint8_t kStatusTimedOut = 1;
 
     /** Setup the time keeper. */
@@ -24,7 +24,7 @@ class TimeKeeper {
      * Return the number of seconds since the DateTime epoch (2000-01-01
      * 00:00:00Z).
      */
-    virtual uint32_t now() const = 0;
+    virtual uint32_t getNow() const = 0;
 
     /**
      * Return the current time by polling. First it fires off a request, then
@@ -45,7 +45,7 @@ class TimeKeeper {
      * This method is designed to be used in the AceRoutine::COROUTINE_AWAIT()
      * macro, but you can call it directly with a suitable while() loop.
      */
-    virtual bool nowPolling(uint8_t& /*status*/, uint32_t& /*seconds*/) const {
+    virtual bool pollNow(uint8_t& /*status*/, uint32_t& /*seconds*/) const {
       return true;
     }
 

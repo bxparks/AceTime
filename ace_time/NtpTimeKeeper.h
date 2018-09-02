@@ -41,13 +41,13 @@ class NtpTimeKeeper: public TimeKeeper {
       Serial.println(mUdp.localPort());
     }
 
-    virtual uint32_t now() const override {
+    virtual uint32_t getNow() const override {
       uint32_t secondsSince1900 = getNtpTime();
       return (secondsSince1900 == 0) ? 0
           : secondsSince1900 - kSecondsSinceNtpEpoch;
     }
 
-    virtual bool nowPolling(uint8_t& status, uint32_t& seconds) const override {
+    virtual bool pollNow(uint8_t& status, uint32_t& seconds) const override {
       // send off a request, then return
       if (!mIsRequestPending) {
         sendRequest();
