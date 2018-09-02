@@ -11,10 +11,10 @@ namespace ace_time {
  */
 class TimeKeeper {
   public:
-    /** nowAync() returned valid result. */
+    /** nowPolling() returned valid result. */
     static const uint8_t kStatusOk = 0;
 
-    /** nowAsync() timed out. */
+    /** nowPolling() timed out. */
     static const uint8_t kStatusTimedOut = 1;
 
     /** Setup the time keeper. */
@@ -26,7 +26,26 @@ class TimeKeeper {
      */
     virtual uint32_t now() const = 0;
 
-    virtual bool nowAsync(uint8_t& /*status*/, uint32_t& /*seconds*/) const {
+    /**
+     * Return the current time by polling. First it fires off a request, then
+     * returns false. Subsequent calls to this method returns false until the
+     * response is ready. When the method returns true, the status is set to
+     * kStatusOk, and the seconds parameter is filled.
+     *
+     * The method will return true if an internal time out limit is reached.
+     * In that case, the status will be set to kStatusTimedOut. If the
+     * seconds parameter is 0, that also indicates an error.
+     *
+     * While waiting for the response (i.e. while this method returns false), it
+     * must be called more often than every 65.535 seconds because the time out
+     * parameter is stored as a uint16_t (to save memory). After the method
+     * returns true, it does not need to be called again until another request
+     * is needed.
+     *
+     * This method is designed to be used in the AceRoutine::COROUTINE_AWAIT()
+     * macro, but you can call it directly with a suitable while() loop.
+     */
+    virtual bool nowPolling(uint8_t& /*status*/, uint32_t& /*seconds*/) const {
       return true;
     }
 

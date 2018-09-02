@@ -47,11 +47,7 @@ class NtpTimeKeeper: public TimeKeeper {
           : secondsSince1900 - kSecondsSinceNtpEpoch;
     }
 
-    /**
-     * Return the current time asynchronously. Returns false if response is
-     * not ready, true if a result is ready or the request has timed out.
-     */
-    virtual bool nowAsync(uint8_t& status, uint32_t& seconds) const override {
+    virtual bool nowPolling(uint8_t& status, uint32_t& seconds) const override {
       // send off a request, then return
       if (!mIsRequestPending) {
         sendRequest();
@@ -61,8 +57,7 @@ class NtpTimeKeeper: public TimeKeeper {
       }
 
       // there's request pending, check for time out
-      if (millis() - mRequestStartTime > kRequestTimeOut) {
-        Serial.println("Timed out");
+      if ((uint16_t) (millis() - mRequestStartTime) > kRequestTimeOut) {
         status = kStatusTimedOut;
         mIsRequestPending = false;
         return true;
