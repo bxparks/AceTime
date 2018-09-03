@@ -1,5 +1,7 @@
 #include "NtpTimeKeeper.h"
 
+#if defined(ESP8266)
+
 namespace ace_time {
 
 const char NtpTimeKeeper::kNtpServerName[] = "us.pool.ntp.org";
@@ -10,3 +12,5 @@ const char NtpTimeKeeper::kNtpServerName[] = "us.pool.ntp.org";
 //const char kNtpServerName[] = "time-c.timefreq.bldrdoc.gov";
 
 }
+
+#endif
