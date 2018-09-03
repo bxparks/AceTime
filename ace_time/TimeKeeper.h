@@ -21,8 +21,8 @@ class TimeKeeper {
     virtual void setup() = 0;
 
     /**
-     * Return the number of seconds since the DateTime epoch (2000-01-01
-     * 00:00:00Z).
+     * Return the number of seconds since the DateTime epoch
+     * (2000-01-01T00:00:00Z).
      */
     virtual uint32_t getNow() const = 0;
 
