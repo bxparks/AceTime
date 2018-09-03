@@ -6,6 +6,18 @@
 
 namespace ace_time {
 
+/**
+ * A TimeKeeper that uses the Arduino millis() function as the source of its
+ * time. The value of the previous system time millis() is stored internally as
+ * a uint16_t. That has 2 advantages: 1) it saves memory, 2) the upper bound of
+ * the execution time of getNow() limited to 65 iterations.
+ *
+ * The disadvantage is the that internal counter will rollover within 65.535
+ * milliseconds. To prevent that, getNow() or setNow() must be called more
+ * frequently than 65.536 seconds. Using either the SystemSyncManual or
+ * SystemSyncCoroutine helper classes will automatically satisfy this
+ * requirement.
+ */
 class SystemTimeKeeper: public TimeKeeper {
   public:
     explicit SystemTimeKeeper():
@@ -13,17 +25,6 @@ class SystemTimeKeeper: public TimeKeeper {
 
     virtual void setup() override {}
 
-    /**
-     * @copydoc TimeKeeper::getNow()
-     *
-     * The value of the previous system time millis() is stored internally as a
-     * uint16_t. This method synchronizes the secondsSinceEpoch with the
-     * system time on each call. Therefore, this method must be called more
-     * frequently than the rollover time of a uin16_t, i.e. 65.536 seconds.
-     * Using a uint16_t internally has two advantages: 1) it saves memory, 2)
-     * the upper bound of the run time of this method is automatically limited
-     * to 65 iterations.
-     */
     virtual uint32_t getNow() const override {
       while ((uint16_t) ((uint16_t) millis() - mPrevMillis) >= 1000) {
         mPrevMillis += 1000;

@@ -44,8 +44,12 @@ class TimeKeeper {
      *
      * This method is designed to be used in the AceRoutine::COROUTINE_AWAIT()
      * macro, but you can call it directly with a suitable while() loop.
+     *
+     * The default implementation simply calls the blocking getNow() method.
      */
-    virtual bool pollNow(uint8_t& /*status*/, uint32_t& /*seconds*/) const {
+    virtual bool pollNow(uint8_t& status, uint32_t& seconds) const {
+      seconds = getNow();
+      status = kStatusOk;
       return true;
     }
 

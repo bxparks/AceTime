@@ -11,6 +11,7 @@
 #include "ace_time/DS3231TimeKeeper.h"
 #include "ace_time/NtpTimeKeeper.h"
 #include "ace_time/SystemTimeKeeper.h"
-#include "ace_time/SystemClock.h"
+#include "ace_time/SystemSyncManual.h"
+#include "ace_time/SystemSyncCoroutine.h"
 
 #endif
