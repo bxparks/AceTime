@@ -469,28 +469,6 @@ test(timeZoneToHourMinute) {
 }
 
 // --------------------------------------------------------------------------
-// Temperature
-// --------------------------------------------------------------------------
-
-test(temperatureCompareAndEquals) {
-  Temperature a{1, 2};
-  Temperature b{1, 2};
-  assertEqual(a.compareTo(b), 0);
-  assertTrue(a == b);
-  assertFalse(a != b);
-
-  a = Temperature{1, 2};
-  b = Temperature{2, 2};
-  assertLess(a.compareTo(b), 0);
-  assertMore(b.compareTo(a), 0);
-
-  a = Temperature{1, 2};
-  b = Temperature{1, 3};
-  assertLess(a.compareTo(b), 0);
-  assertMore(b.compareTo(a), 0);
-}
-
-// --------------------------------------------------------------------------
 // DateStrings
 // --------------------------------------------------------------------------
 
