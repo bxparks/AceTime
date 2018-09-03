@@ -20,10 +20,10 @@ class SystemSyncCoroutine: public Coroutine {
   public:
     explicit SystemSyncCoroutine(
             TimeKeeper* systemTimeKeeper,
-            TimeKeeper* syncTimeKeeper,
-            TimeKeeper* backupTimeKeeper /* optional */):
+            TimeProvider* syncTimeProvider,
+            TimeKeeper* backupTimeKeeper /* nullable */):
         mSystemTimeKeeper(systemTimeKeeper),
-        mSyncTimeKeeper(syncTimeKeeper),
+        mSyncTimeProvider(syncTimeProvider),
         mBackupTimeKeeper(backupTimeKeeper) {}
 
     virtual int run() override {
@@ -38,7 +38,7 @@ class SystemSyncCoroutine: public Coroutine {
         startTime = millis();
 #endif
 
-        COROUTINE_AWAIT(mSyncTimeKeeper->pollNow(status, nowSeconds));
+        COROUTINE_AWAIT(mSyncTimeProvider->pollNow(status, nowSeconds));
         if (status != TimeKeeper::kStatusOk) {
 #if ENABLE_SERIAL == 1
           Serial.print("SystemSyncCoroutine: Invalid status: ");
@@ -57,7 +57,7 @@ class SystemSyncCoroutine: public Coroutine {
           // TODO: Implement a more graceful SystemTimeKeeper.sync() method
           mSystemTimeKeeper->setNow(nowSeconds);
           if (mBackupTimeKeeper != nullptr
-              && mBackupTimeKeeper != mSyncTimeKeeper) {
+              && mBackupTimeKeeper != mSyncTimeProvider) {
             mBackupTimeKeeper->setNow(nowSeconds);
           }
         }
@@ -69,7 +69,7 @@ class SystemSyncCoroutine: public Coroutine {
     static const uint16_t kSyncingPeriodMillis = 30000;
 
     TimeKeeper* mSystemTimeKeeper;
-    TimeKeeper* mSyncTimeKeeper;
+    TimeProvider* mSyncTimeProvider;
     TimeKeeper* mBackupTimeKeeper;
 };
 

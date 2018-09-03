@@ -1,5 +1,5 @@
-#ifndef ACE_TIME_NTP_TIME_KEEPER_H
-#define ACE_TIME_NTP_TIME_KEEPER_H
+#ifndef ACE_TIME_NTP_TIME_PROVIDER_H
+#define ACE_TIME_NTP_TIME_PROVIDER_H
 
 #if defined(ESP8266)
 
@@ -10,15 +10,11 @@
 
 namespace ace_time {
 
-class NtpTimeKeeper: public TimeKeeper {
+class NtpTimeProvider: public TimeProvider {
   public:
-    explicit NtpTimeKeeper(const char* ssid, const char* password):
+    explicit NtpTimeProvider(const char* ssid, const char* password):
         mSsid(ssid),
         mPassword(password) {}
-
-    virtual bool isSettable() const override { return false; }
-
-    virtual void setNow(uint32_t /*secondsSinceEpoch*/) override {}
 
     virtual void setup() override {
       Serial.println("TimeNTP Example");

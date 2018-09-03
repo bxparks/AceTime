@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <AceHardware.h>
+#include "TimeKeeper.h"
 #include "DateTime.h"
 
 using namespace ace_hardware;
@@ -22,8 +23,6 @@ class DS3231TimeKeeper: public TimeKeeper {
       mDS3231.readDateTime(&hardwareDateTime);
       return toDateTime(hardwareDateTime).toSecondsSinceEpoch();
     }
-
-    virtual bool isSettable() const override { return true; }
 
     virtual void setNow(uint32_t secondsSinceEpoch) override {
       DateTime now(secondsSinceEpoch);

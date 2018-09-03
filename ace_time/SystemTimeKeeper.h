@@ -33,8 +33,6 @@ class SystemTimeKeeper: public TimeKeeper {
       return mSecondsSinceEpoch;
     }
 
-    virtual bool isSettable() const override { return true; }
-
     virtual void setNow(uint32_t secondsSinceEpoch) override {
       mSecondsSinceEpoch = secondsSinceEpoch;
       mPrevMillis = millis();
