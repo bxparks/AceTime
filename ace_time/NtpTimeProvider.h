@@ -10,6 +10,7 @@
 
 namespace ace_time {
 
+// TODO: remove or comment out the Serial output.
 class NtpTimeProvider: public TimeProvider {
   public:
     explicit NtpTimeProvider(const char* ssid, const char* password):
