@@ -4,17 +4,16 @@
 #include <EEPROM.h>
 #include <FastCRC.h>
 
+#if !defined(AVR) && !defined(ESP8266) && !defined(ESP32)
+  #error Unsupported board type
+#endif
+
 namespace ace_time {
 namespace hw {
-
-#if defined(AVR)
 
 /**
  * Thin wrapper around the EEPROM object (from the the built-in EEPROM library)
  * to read and write using CRC check.
- *
- * Currently works only with AVR because the ESP8266 (and ESP32?) API is
- * slightly different than the AVR library.
  *
  * Depends on the FastCRC (https://github.com/FrankBoesing/FastCRC) library.
  *
@@ -23,48 +22,69 @@ namespace hw {
  */
 class CrcEeprom {
   public:
+
+#if defined(ESP8266) || defined(ESP32)
+    /** Call from global setup() function. Needed for ESP8266 and ESP32. */
+    void begin(uint16_t size) {
+      EEPROM.begin(size);
+    }
+#endif
+
     /**
      * Write the data with its CRC8. Returns the number of bytes written.
      */
-    uint16_t writeWithCrc(uint16_t address, const void* const data,
+    uint16_t writeWithCrc(int address, const void* const data,
         const uint16_t dataSize) {
       uint16_t byteCount = dataSize;
       const uint8_t* d = (const uint8_t*) data;
       uint8_t crc = FastCRC8().smbus(d, dataSize);
-      EEPROM.update(address++, crc);
-      while (byteCount > 0) {
-        EEPROM.update(address, *d);
-        d++;
-        address++;
-        byteCount--;
+      write(address++, crc);
+      while (byteCount-- > 0) {
+        write(address++, *d++);
       }
-      return dataSize + 1;
+      bool success = commit();
+      return (success) ? dataSize + 1 : 0;
     }
 
     /**
      * Read the data from EEPROM along with its CRC8. Return true if the CRC of
      * the data retrieved matches the CRC of the data when it was written.
      */
-    bool readWithCrc(uint16_t address, void* const data,
+    bool readWithCrc(int address, void* const data,
         const uint16_t dataSize) const {
       uint16_t byteCount = dataSize;
       uint8_t* d = (uint8_t*) data;
-      uint8_t crc = EEPROM[address++];
-      while (byteCount > 0) {
-        *d = EEPROM.read(address);
-        d++;
-        address++;
-        byteCount--;
+      uint8_t crc = read(address++);
+      while (byteCount-- > 0) {
+        *d++ = read(address++);
       }
-
       uint8_t dataCrc = FastCRC8().smbus((const uint8_t*)data, dataSize);
       return crc == dataCrc;
+    }
+
+  private:
+    void write(int address, uint8_t val) {
+#if defined(AVR)
+      EEPROM.update(address++, val);
+#elif defined(ESP8266) || defined(ESP32)
+      EEPROM.write(address++, val);
+#endif
+    }
+
+    uint8_t read(int address) const {
+      return EEPROM.read(address);
+    }
+
+    bool commit() {
+#if defined(AVR)
+      return true;
+#elif defined(ESP8266) || defined(ESP32)
+      return EEPROM.commit();
+#endif
     }
 };
 
 }
 }
-
-#endif
 
 #endif
