@@ -19,6 +19,10 @@ namespace hw {
  *
  * Currently in the AceTime library because it's used to store backup time.
  * Might be moved to another library later.
+ *
+ * TODO: Use CRC8 for AVR, and CRC16 or CRC32 for ESP8266 or ESP32.
+ * Unfortunately CRC8 works for all, but CRC16 doesn't work on ESP8266 or ESP32
+ * because it depends on <util/crc16.h> which is an AVR header.
  */
 class CrcEeprom {
   public:
