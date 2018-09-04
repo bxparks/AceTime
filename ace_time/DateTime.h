@@ -1,7 +1,6 @@
 #ifndef ACE_TIME_DATE_TIME_H
 #define ACE_TIME_DATE_TIME_H
 
-#include <string.h> // strlcpy()
 #include <stdint.h>
 #include "common/Flash.h"
 #include "common/Util.h"
@@ -332,9 +331,9 @@ class DateTime {
      * Return number of days since AceTime epoch (2000-01-01 00:00:00Z),
      * ignoring the tzCode.
      *
-     * Uses Julian days which normally start at 12:00:00. But this method returns
-     * the delta number of days since 00:00:00, so we can interpret the Gregorian
-     * calendar day to start at 00:00:00.
+     * Uses Julian days which normally start at 12:00:00. But this method
+     * returns the delta number of days since 00:00:00, so we can interpret the
+     * Gregorian calendar day to start at 00:00:00.
      *
      * See https://en.wikipedia.org/wiki/Julian_day
      */

@@ -19,11 +19,21 @@ namespace ace_time {
  */
 class TimeZone {
   public:
-    /** Constructor. Create from time zone code. */
+    /**
+     * Constructor. Create from time zone code. To create a TimeZone(0), use the
+     * empty constructor TimeZone(), since TimeZone(0) is ambiguous with
+     * TimeZone(nullptr).
+     */
     explicit TimeZone(int8_t tzCode = 0):
         mTzCode(tzCode) {}
 
+    /** Constructor. Create from UTC offset string ("-07:00" or "+01:00"). */
+    explicit TimeZone(const char* tzString) {
+      init(tzString);
+    }
+
     int8_t tzCode() const { return mTzCode; }
+
     void tzCode(int8_t tzCode) { mTzCode = tzCode; }
 
     /** Return the number of minutes offset from UTC. */
@@ -66,6 +76,17 @@ class TimeZone {
       minute = (tzCode & 0x03) * 15;
     }
 
+    /** Mark the DateTime so that isError() returns true. */
+    TimeZone& setError() {
+      mTzCode = kTimeZoneErrorCode;
+      return *this;
+    }
+
+    /** Return true if this TimeZone represents an error. */
+    bool isError() const {
+      return mTzCode == kTimeZoneErrorCode;
+    }
+
     /**
      * Print to the given printer as an offset from UTC. A '+' or '-' sign is
      * always printed (e.g. "+01:00"). This can be used to print a DateTime in
@@ -75,8 +96,14 @@ class TimeZone {
     void printTo(Print& printer) const;
 
   private:
+    static const int8_t kTimeZoneErrorCode = -128;
+    static const uint8_t kTimeZoneLength = 6;
+
     friend bool operator==(const TimeZone& a, const TimeZone& b);
     friend bool operator!=(const TimeZone& a, const TimeZone& b);
+
+    /** Set time zone code from the given UTC offset string. */
+    void init(const char* dateString);
 
     /**
      * Time zone code, offset from UTC in 15 minute increments from UTC. In
