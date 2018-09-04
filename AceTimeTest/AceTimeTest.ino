@@ -251,6 +251,11 @@ test(calculateAndCacheDayOfWeek) {
   assertEqual(7, dt.dayOfWeek());
 }
 
+test(dateTimeErrorForZeroValue) {
+  DateTime dt((uint32_t) 0);
+  assertTrue(dt.isError());
+}
+
 test(dateTimeIsError) {
   DateTime dt(18, 1, 1, 0, 0, 0); // 2018-01-01 00:00:00Z
   assertFalse(dt.isError());
