@@ -19,18 +19,20 @@ namespace hw {
  *
  * Currently in the AceTime library because it's used to store backup time.
  * Might be moved to another library later.
- *
- * TODO: Use CRC8 for AVR, and CRC16 or CRC32 for ESP8266 or ESP32.
- * Unfortunately CRC8 works for all, but CRC16 doesn't work on ESP8266 or ESP32
- * because it depends on <util/crc16.h> which is an AVR header.
  */
 class CrcEeprom {
   public:
 
+    /**
+     * Call from global setup() function. Needed for ESP8266 and ESP32,
+     * does nothing for AVR and others.
+     */
 #if defined(ESP8266) || defined(ESP32)
-    /** Call from global setup() function. Needed for ESP8266 and ESP32. */
     void begin(uint16_t size) {
       EEPROM.begin(size);
+    }
+#else
+    void begin(uint16_t /*size*/) {
     }
 #endif
 
@@ -68,10 +70,10 @@ class CrcEeprom {
 
   private:
     void write(int address, uint8_t val) {
-#if defined(AVR)
-      EEPROM.update(address++, val);
-#elif defined(ESP8266) || defined(ESP32)
+#if defined(ESP8266) || defined(ESP32)
       EEPROM.write(address++, val);
+#else
+      EEPROM.update(address++, val);
 #endif
     }
 
@@ -80,10 +82,10 @@ class CrcEeprom {
     }
 
     bool commit() {
-#if defined(AVR)
-      return true;
-#elif defined(ESP8266) || defined(ESP32)
+#if defined(ESP8266) || defined(ESP32)
       return EEPROM.commit();
+#else
+      return true;
 #endif
     }
 };
