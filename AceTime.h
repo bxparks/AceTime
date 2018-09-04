@@ -6,7 +6,7 @@
 #include "ace_time/hw/DS3231.h"
 #include "ace_time/hw/HardwareDateTime.h"
 #include "ace_time/hw/HardwareTemperature.h"
-#include "ace_time/hw/EepromManager.h"
+#include "ace_time/hw/CrcEeprom.h"
 #include "ace_time/TimeZone.h"
 #include "ace_time/DateTime.h"
 #include "ace_time/TimePeriod.h"
