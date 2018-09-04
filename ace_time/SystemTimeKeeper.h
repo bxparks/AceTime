@@ -33,11 +33,14 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
   public:
 
     /**
-     * @param syncTimeProvider The authoritative source of the time.
+     * @param syncTimeProvider The authoritative source of the time. Can be
+     * null in which case the objec relies just on millis() and the user
+     * to set the proper time using setNow().
      * @param backupTimeKeeper An RTC chip which continues to keep time
      * even when power is lost. Can be null.
      */
-    explicit SystemTimeKeeper(TimeProvider* syncTimeProvider,
+    explicit SystemTimeKeeper(
+            TimeProvider* syncTimeProvider /* nullable */,
             TimeKeeper* backupTimeKeeper /* nullable */):
         mSyncTimeProvider(syncTimeProvider),
         mBackupTimeKeeper(backupTimeKeeper),
@@ -70,6 +73,8 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
      * Otherwise, manually call loop() in the global loop() function.
      */
     virtual int run() override {
+      if (mSyncTimeProvider == nullptr) return 0;
+
 #if ENABLE_SERIAL == 1
       static uint16_t startTime;
 #endif
@@ -108,6 +113,8 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
      * the global loop() method.
      */
     void loop() {
+      if (mSyncTimeProvider == nullptr) return;
+
       uint16_t nowMillis = millis();
       if (nowMillis - mPrevMillis < kSyncingPeriodMillis) return;
       uint32_t nowSeconds = mSyncTimeProvider->getNow(); // blocking call
@@ -121,11 +128,17 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
     }
 
   protected:
+    // Override for unit testing.
     virtual unsigned long millis() const { return ::millis(); }
   
   private:
     static const uint16_t kSyncingPeriodMillis = 30000;
 
+    /**
+     * Write the nowSeconds to the backup TimeKeeper (which can be an RTC that
+     * has non-volatile memory, or simply flash memory which emulates a backup
+     * TimeKeeper.
+     */
     void backupNow(uint32_t nowSeconds) {
       if (mBackupTimeKeeper != nullptr) {
         mBackupTimeKeeper->setNow(nowSeconds);
