@@ -20,6 +20,20 @@ test(daysAndSecondsSinceEpochAt2000_01_01) {
   assertEqual(7, dt.dayOfWeek());
 }
 
+// 2000-02-29 was a leap year, due to the every 400 year rule
+// 2100-02-29 is *not* a leap year, due to the every 100 year rule
+test(daysAndSecondsSinceEpochAt2000_02_29) {
+  DateTime dt{0, 2, 29, 0, 0, 0, TimeZone(0)}; // 2000-02-29 00:00:00Z
+
+  uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
+  assertEqual((uint32_t) 59, daysSinceEpoch);
+
+  uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
+  assertEqual((uint32_t) 86400 * 59, secondsSinceEpoch);
+
+  assertEqual(3, dt.dayOfWeek());
+}
+
 test(daysAndSecondsSinceEpochAt2000_01_02) {
   DateTime dt{0, 1, 2, 0, 0, 0, TimeZone(0)}; // 2000-01-02 00:00:00Z
 
