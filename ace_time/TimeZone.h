@@ -2,8 +2,8 @@
 #define ACE_TIME_TIME_ZONE_H
 
 #include <stdint.h>
-#include <Print.h> // Print
-#include "common/Util.h" // printPad2()
+
+class Print;
 
 namespace ace_time {
 
@@ -60,7 +60,7 @@ class TimeZone {
     }
 
     /** Extract the (hour, minute) components of the time zone. */
-    void toHourMinute(uint8_t& hour, uint8_t& minute) const {
+    void extractHourMinute(uint8_t& hour, uint8_t& minute) const {
       uint8_t tzCode = (mTzCode < 0) ? -mTzCode : mTzCode;
       hour = tzCode / 4;
       minute = (tzCode & 0x03) * 15;
@@ -72,16 +72,7 @@ class TimeZone {
      * ISO8601 format with a time zone specifier at the end (e.g.
      * "2018-08-29T11:32:00-07:00").
      */
-    void printTo(Print& printer) const {
-      uint8_t hour;
-      uint8_t minute;
-      toHourMinute(hour, minute);
-
-      printer.print((mTzCode < 0) ? '-' : '+');
-      common::printPad2(printer, hour);
-      printer.print(':');
-      common::printPad2(printer, minute);
-    }
+    void printTo(Print& printer) const;
 
   private:
     friend bool operator==(const TimeZone& a, const TimeZone& b);

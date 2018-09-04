@@ -3,10 +3,11 @@
 
 #include <string.h> // strlcpy()
 #include <stdint.h>
-#include <Print.h> // Print
 #include "common/Flash.h"
 #include "common/Util.h"
 #include "TimeZone.h"
+
+class Print;
 
 namespace ace_time {
 
