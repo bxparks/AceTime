@@ -480,7 +480,7 @@ test(timeZoneIncrement15Minutes) {
 test(timeZoneToHourMinute) {
   TimeZone tz(-29);
   uint8_t hour, minute;
-  tz.toHourMinute(hour, minute);
+  tz.extractHourMinute(hour, minute);
   assertEqual(7, hour);
   assertEqual(15, minute);
 }
