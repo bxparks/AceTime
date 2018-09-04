@@ -1,7 +1,5 @@
-#ifndef ACE_TIME_FLASH_H
-#define ACE_TIME_FLASH_H
-
-class __FlashStringHelper;
+#ifndef ACE_TIME_COMMON_FLASH_H
+#define ACE_TIME_COMMON_FLASH_H
 
 #if defined(__AVR__) || defined(__arm__)
   #include <avr/pgmspace.h>

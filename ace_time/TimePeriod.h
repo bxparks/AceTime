@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <Print.h> // Print
-#include "Util.h"
+#include "common/Util.h"
 
 namespace ace_time {
 
@@ -62,17 +62,17 @@ class TimePeriod {
       if (mSign < 0) {
         printer.print('-');
       }
-      printPad2(printer, mHour);
+      common::printPad2(printer, mHour);
       printer.print(':');
-      printPad2(printer, mMinute);
+      common::printPad2(printer, mMinute);
       printer.print(':');
-      printPad2(printer, mSecond);
+      common::printPad2(printer, mSecond);
     }
 
     /**
-     * Convert to number of seconds. The largest/smallest possible value returned
-     * by this method is +/- 933555, corresponding to (hour=255, minute=255,
-     * second=255).
+     * Convert to number of seconds. The largest/smallest possible value
+     * returned by this method is +/- 933555, corresponding to (hour=255,
+     * minute=255, second=255).
      */
     int32_t toSeconds() const {
       int32_t seconds = ((mHour * (uint16_t) 60) + mMinute) * (uint32_t) 60
@@ -85,17 +85,17 @@ class TimePeriod {
 
     /** Increment the hour component by one, modulo 24. */
     void incrementHour() {
-      incrementMod(mHour, (uint8_t) 24);
+      common::incrementMod(mHour, (uint8_t) 24);
     }
 
     /** Increment the hour by one, modulo 'limit'. */
     void incrementHour(uint8_t limit) {
-      incrementMod(mHour, limit);
+      common::incrementMod(mHour, limit);
     }
 
     /** Increment the minute by one, modulo 60. */
     void incrementMinute() {
-      incrementMod(mMinute, (uint8_t) 60);
+      common::incrementMod(mMinute, (uint8_t) 60);
     }
 
     /**

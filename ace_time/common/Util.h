@@ -1,10 +1,11 @@
-#ifndef ACE_TIME_UTIL_H
-#define ACE_TIME_UTIL_H
+#ifndef ACE_TIME_COMMON_UTIL_H
+#define ACE_TIME_COMMON_UTIL_H
 
 #include <stdint.h>
 #include <Print.h>
 
 namespace ace_time {
+namespace common {
 
 /**
  * Increment 'd' mod 'm', avoiding '%' operator which is expensive
@@ -44,6 +45,7 @@ inline void printPad2(Print& printer, uint8_t value) {
   printer.print(value);
 }
 
+}
 }
 
 #endif

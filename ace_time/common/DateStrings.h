@@ -1,18 +1,12 @@
-#ifndef ACE_TIME_DATE_STRINGS_H
-#define ACE_TIME_DATE_STRINGS_H
+#ifndef ACE_TIME_COMMON_DATE_STRINGS_H
+#define ACE_TIME_COMMON_DATE_STRINGS_H
 
 #include <stdint.h>
 #include <string.h>
-
-#if defined(__AVR__) || defined(__arm__)
-  #include <avr/pgmspace.h>
-#elif defined(ESP8266) || defined(ESP32)
-  #include <pgmspace.h>
-#else
-  #error Unsupported platform
-#endif
+#include "Flash.h"
 
 namespace ace_time {
+namespace common {
 
 /**
  * Class that translates a numeric month (1-12) or weekDay (1-7) into a human
@@ -66,6 +60,7 @@ class DateStrings {
     mutable char mBuffer[kBufferSize];
 };
 
+}
 }
 
 #endif

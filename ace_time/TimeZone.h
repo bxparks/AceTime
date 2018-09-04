@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <Print.h> // Print
+#include "common/Util.h" // printPad2()
 
 namespace ace_time {
 
@@ -77,9 +78,9 @@ class TimeZone {
       toHourMinute(hour, minute);
 
       printer.print((mTzCode < 0) ? '-' : '+');
-      printPad2(printer, hour);
+      common::printPad2(printer, hour);
       printer.print(':');
-      printPad2(printer, minute);
+      common::printPad2(printer, minute);
     }
 
   private:

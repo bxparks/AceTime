@@ -1,6 +1,7 @@
 #include "DateStrings.h"
 
 namespace ace_time {
+namespace common {
 
 static const char kError[] PROGMEM = "Error";
 static const char kJanuary[] PROGMEM = "January";
@@ -17,8 +18,8 @@ static const char kNovember[] PROGMEM = "November";
 static const char kDecember[] PROGMEM = "December";
 
 const char* const DateStrings::kMonthNames[] = {
-    kError, kJanuary, kFebruary, kMarch, kApril, kMay, kJune,
-    kJuly, kAugust, kSeptember, kOctober, kNovember, kDecember
+  kError, kJanuary, kFebruary, kMarch, kApril, kMay, kJune,
+  kJuly, kAugust, kSeptember, kOctober, kNovember, kDecember
 };
 
 const uint8_t DateStrings::kNumMonthNames =
@@ -39,4 +40,5 @@ const char* const DateStrings::kWeekDayNames[] = {
 const uint8_t DateStrings::kNumWeekDayNames =
     sizeof(kWeekDayNames) / sizeof(const char *);
 
+}
 }
