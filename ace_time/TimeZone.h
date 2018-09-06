@@ -91,12 +91,16 @@ class TimeZone {
      * Print to the given printer as an offset from UTC. A '+' or '-' sign is
      * always printed (e.g. "+01:00"). This can be used to print a DateTime in
      * ISO8601 format with a time zone specifier at the end (e.g.
-     * "2018-08-29T11:32:00-07:00").
+     * "2018-08-29T11:32:00-07:00"). Does not implement Printable to avoid
+     * memory cost of vtable pointer.
      */
     void printTo(Print& printer) const;
 
   private:
+    /** Sential value that represents an error. */
     static const int8_t kTimeZoneErrorCode = -128;
+
+    /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
     static const uint8_t kTimeZoneLength = 6;
 
     friend bool operator==(const TimeZone& a, const TimeZone& b);
@@ -107,9 +111,10 @@ class TimeZone {
 
     /**
      * Time zone code, offset from UTC in 15 minute increments from UTC. In
-     * theory, the code can range from [-128, 127], but in practice, it is
-     * expected to be in the range of [-64, 63], i.e. [-16:00, +15:45], maybe
-     * slightly smaller.
+     * theory, the code can range from [-128, 127]. The value of -128 represents
+     * an internal error, causing isError() to return true. In practice, real
+     * life values are expected to be in the range of [-64, 63], i.e. [-16:00,
+     * +15:45], maybe slightly smaller.
      */
     int8_t mTzCode;
 };

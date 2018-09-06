@@ -48,7 +48,7 @@ class DateTime {
     /** Base year of epoch. */
     static const uint16_t kEpochYear = 2000;
 
-    /** Constructor. */
+    /** Constructor. All internal fields are left in an undefined state. */
     explicit DateTime() {}
 
     /**
@@ -73,10 +73,10 @@ class DateTime {
      * the year 1999, which cannot be represented by a 2-digit year beginning
      * with the year 2000. The dayOfWeek will be calculated internally.
      *
-     * @param secondsSinceEpoch number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00Z). A 0 value a sentinel value causes
-     *    isError() to return true.
-     * @param timeZone time zone
+     * @param secondsSinceEpoch Number of seconds from AceTime epoch
+     *    (2000-01-01 00:00:00Z). A 0 value is a sentinel value that is
+     *    considerd to be an error, and causes isError() to return true.
+     * @param timeZone The time zone.
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
@@ -91,7 +91,7 @@ class DateTime {
       secondsSinceEpoch += timeZone.toSeconds();
 
       uint32_t daysSinceEpoch = secondsSinceEpoch / 86400;
-      fillFromDaysSinceEpoch(daysSinceEpoch);
+      fillUsingDaysSinceEpoch(daysSinceEpoch);
 
       uint32_t seconds = secondsSinceEpoch % 86400;
       mSecond = seconds % 60;
@@ -140,6 +140,8 @@ class DateTime {
 
     /** Return true if any component indicates an error condition. */
     bool isError() const {
+      // Warning: Don't change the order of the following boolean conditionals
+      // without changing setError().
       return mMonth < 1 || mMonth > 12
           || mDay < 1 || mDay > 31
           || mHour >= 24
@@ -171,22 +173,28 @@ class DateTime {
     uint8_t hour() const { return mHour; }
 
     void hour(uint8_t hour) {
+      // Does not affect dayOfWeek so no need to invalidate dayOfWeek cache.
       mHour = hour;
     }
 
     uint8_t minute() const { return mMinute; }
 
     void minute(uint8_t month) {
+      // Does not affect dayOfWeek so no need to invalidate dayOfWeek cache.
       mMinute = month;
     }
 
     uint8_t second() const { return mSecond; }
 
     void second(uint8_t second) {
+      // Does not affect dayOfWeek so no need to invalidate dayOfWeek cache.
       mSecond = second;
     }
 
-    /** The dayOfWeek is calculated lazily and cached internally. */
+    /**
+     * The dayOfWeek is calculated lazily and cached internally. Not
+     * thread-sfae.
+     */
     uint8_t dayOfWeek() const {
       if (mDayOfWeek == 0) {
         mDayOfWeek = calculateDayOfWeek();
@@ -209,7 +217,10 @@ class DateTime {
       return DateTime(secondsSinceEpoch, timeZone);
     }
 
-    /** Print DateTime to 'printer'. */
+    /**
+     * Print DateTime to 'printer'. Does not implement Printable to avoid
+     * memory cost of vtable pointer.
+     */
     void printTo(Print& printer) const;
 
     void incrementHour() {
@@ -291,7 +302,9 @@ class DateTime {
     /**
      * Compare this DateTime with another DateTime, and return (<0, 0, >0)
      * according to whether the secondsSinceEpoch() is (a<b, a==b, a>b). The
-     * dayOfWeek field is ignored but the time zone is used.
+     * dayOfWeek field is ignored but the time zone is used.  This method
+     * can return 0 (equal) even if the operator==() returns false if the
+     * two DateTime objects are in different time zones.
      */
     int8_t compareTo(const DateTime& that) const {
       uint32_t thisSeconds = toSecondsSinceEpoch();
@@ -305,7 +318,11 @@ class DateTime {
       }
     }
 
-    /** Mark the DateTime so that isError() returns true. */
+    /**
+     * Mark the DateTime so that isError() returns true. Returns a reference to
+     * (*this) so that you can return a DateTime that represents an error
+     * condition using 'return DateTime().setError()'.
+     */
     DateTime& setError() {
       mMonth = 0;
       return *this;
@@ -372,7 +389,7 @@ class DateTime {
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
-    void fillFromDaysSinceEpoch(uint32_t daysSinceEpoch) {
+    void fillUsingDaysSinceEpoch(uint32_t daysSinceEpoch) {
       uint32_t J = daysSinceEpoch + kDaysSinceJulianEpoch;
       uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;
       uint32_t e = 4 * f + 3;
@@ -397,15 +414,16 @@ class DateTime {
 };
 
 /**
- * Return true if two DateTime objects are equal. Optimized for small changes in
- * the less signficant fields, such as 'second' or 'minute'. The dayOfWeek field
- * must also match, unlike compareTo() where it is ignored.
+ * Return true if two DateTime objects are equal in all components. Optimized
+ * for small changes in the less signficant fields, such as 'second' or
+ * 'minute'. The dayOfWeek is a derived field so it is not explicitly used to
+ * test equality, but it follows that if all the other fields are identical,
+ * thenthe dayOfWeek must also be equal.
  */
 inline bool operator==(const DateTime& a, const DateTime& b) {
   return a.mSecond == b.mSecond
       && a.mMinute == b.mMinute
       && a.mHour == b.mHour
-      && a.dayOfWeek() == b.dayOfWeek()
       && a.mDay == b.mDay
       && a.mMonth == b.mMonth
       && a.mYear == b.mYear

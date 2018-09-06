@@ -10,8 +10,8 @@ namespace ace_time {
 /**
  * Represents a period of time relative to some known point in time, potentially
  * represented by DateTime. Each component (hour, minute, second) is stored as
- * an unsigned byte (uint8_t). The sign bit allows forward and backward periods
- * to be represented.
+ * an unsigned byte (uint8_t). The sign bit allows forward and backward time
+ * periods to be represented.
  */
 class TimePeriod {
   public:
@@ -56,7 +56,9 @@ class TimePeriod {
 
     /**
      * Print to given printer. If the time period is negative, a minus sign is
-     * prepended.
+     * prepended. Does not implement Printable to avoid memory cost of vtable
+     * pointer. Does not implement Printable to avoid memory cost of vtable
+     * pointer.
      */
     void printTo(Print& printer) const {
       if (mSign < 0) {
@@ -121,7 +123,14 @@ class TimePeriod {
     uint8_t mHour; // [0, 255], normally hour < 24
     uint8_t mMinute; // [0, 59], normally minute < 60
     uint8_t mSecond; // [0, 59], normally second < 60
-    // -1 or +1, in practice (>=0) is same as +1, and (<0) is same as -1
+
+    /**
+     * -1 or +1. In practice (>=0) is same as +1, and (<0) is same as -1. An
+     * alternative design is to make the mHour field a signed int (int8_t) which
+     * could hold the sign bit, saving us a byte in memory. But having some
+     * fields be unsigned, and some fields (hour) signed, makes the code far
+     * more complicated.
+    */
     int8_t mSign;
 };
 
