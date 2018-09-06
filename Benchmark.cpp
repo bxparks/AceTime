@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <Arduino.h>
 #include <AceTime.h>
 #include "Benchmark.h"
 
@@ -49,6 +50,17 @@ void disableOptimization(const DateTime& dt) {
          ^ dt.timeZone().tzCode();
 }
 
+// A small helper that runs the given lamba expression in a loop
+// and returns how long it took.
+template <typename F>
+unsigned long runLambda(uint32_t count, F&& lambda) {
+  unsigned long startMillis = millis();
+  while (count--) {
+    lambda();
+  }
+  return millis() - startMillis;
+}
+
 void printPad3(uint16_t val, char padChar) {
   if (val < 100) Serial.print(padChar);
   if (val < 10) Serial.print(padChar);
@@ -84,6 +96,7 @@ void runBenchmark() {
   unsigned long constructorFromSecondsMillis =
       runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
+    // DateTime(seconds) takes seconds, but use millis for testing purposes.
     DateTime dateTime = DateTime(tickMillis);
 
     disableOptimization(dateTime);
@@ -98,6 +111,7 @@ void runBenchmark() {
   // DateTime::toDaysSinceEpoch()
   unsigned long toDaysSinceEpochMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
+    // DateTime(seconds) takes seconds, but use millis for testing purposes.
     DateTime dateTime = DateTime(tickMillis);
     uint32_t daysSinceEpoch = dateTime.toDaysSinceEpoch();
 
@@ -114,6 +128,7 @@ void runBenchmark() {
   // DateTime::toSecondsSinceEpoch()
   unsigned long toSecondsSinceEpochMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
+    // DateTime(seconds) takes seconds, but use millis for testing purposes.
     DateTime dateTime = DateTime(tickMillis);
     uint32_t secondsSinceEpoch = dateTime.toSecondsSinceEpoch();
 
