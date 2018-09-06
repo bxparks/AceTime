@@ -3,6 +3,7 @@
 
 #define ENABLE_SERIAL 0
 
+#include <Arduino.h> // millis()
 #include <AceRoutine.h>
 #include <stdint.h>
 #include "TimeKeeper.h"

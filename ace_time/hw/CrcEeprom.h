@@ -4,7 +4,8 @@
 #include <EEPROM.h>
 #include <FastCRC.h>
 
-#if !defined(AVR) && !defined(ESP8266) && !defined(ESP32)
+#if !defined(AVR) && !defined(ESP8266) && !defined(ESP32) && \
+    !defined(TEENSYDUINO)
   #error Unsupported board type
 #endif
 
