@@ -25,10 +25,22 @@ namespace ace_time {
  *
  * The disadvantage is the that internal counter will rollover within 65.535
  * milliseconds. To prevent that, getNow(), setNow(), or sync() must be called
- * more frequently than 65.536 seconds. This can be satisfied by enabling the
- * syncing from syncTimeProvider, using either the AceRoutine infrastructure
- * which automatically calls SystemTimeKeeper::run(), or manually calling
- * SystemTimeKeeper::loop() from the global loop() function.
+ * more frequently than every 65.536 seconds. This can be satisfied by enabling
+ * the syncing from syncTimeProvider.
+ *
+ * There are 2 ways to perform syncing from the syncTimeProvider:
+ *
+ * 1) Use either the AceRoutine infrastructure by calling setupCoroutine()
+ * (inherited from Coroutine) of this object in the global setup() function,
+ * which allows the CoroutineScheduler to call SystemTimeKeeper::run()
+ * periodically. The run() method uses the non-blocking TimeProvicer::pollNow()
+ * method to retrieve the current time. Some time providers (e.g.
+ * NtpTimeProvider) can take 100s of milliseconds to return, so using the
+ * coroutine infrastructure allows other coroutines to continue executing.
+ *
+ * 2) Call the SystemTimeKeeper::loop() method from the global loop() function.
+ * This method uses the blocking TimeProvider::getNow() method which can take
+ * 100s milliseconds for something like NtpTimeProvider.
  */
 class SystemTimeKeeper: public TimeKeeper, public Coroutine {
   public:
@@ -70,8 +82,9 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
     /**
      * @copydoc Coroutine::run()
      *
-     * Use this when using the AceRoutine coroutine infrastracture.
-     * Otherwise, manually call loop() in the global loop() function.
+     * Use this when using the AceRoutine coroutine infrastracture. Don't forget
+     * to call setupCoroutine() (inherited from Coroutine) in the global setup()
+     * to register this coroutine into the CoroutineScheduler
      */
     virtual int run() override {
       if (mSyncTimeProvider == nullptr) return 0;
