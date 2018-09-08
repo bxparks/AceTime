@@ -32,11 +32,12 @@ namespace ace_time {
  *
  * 1) Use either the AceRoutine infrastructure by calling setupCoroutine()
  * (inherited from Coroutine) of this object in the global setup() function,
- * which allows the CoroutineScheduler to call SystemTimeKeeper::run()
- * periodically. The run() method uses the non-blocking TimeProvicer::pollNow()
- * method to retrieve the current time. Some time providers (e.g.
- * NtpTimeProvider) can take 100s of milliseconds to return, so using the
- * coroutine infrastructure allows other coroutines to continue executing.
+ * which allows the CoroutineScheduler to call SystemTimeKeeper::runCoroutine()
+ * periodically. The runCoroutine() method uses the non-blocking
+ * TimeProvicer::pollNow() method to retrieve the current time. Some time
+ * providers (e.g. NtpTimeProvider) can take 100s of milliseconds to return, so
+ * using the coroutine infrastructure allows other coroutines to continue
+ * executing.
  *
  * 2) Call the SystemTimeKeeper::loop() method from the global loop() function.
  * This method uses the blocking TimeProvider::getNow() method which can take
@@ -80,13 +81,13 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
     }
 
     /**
-     * @copydoc Coroutine::run()
+     * @copydoc Coroutine::runCoroutine()
      *
-     * Use this when using the AceRoutine coroutine infrastracture. Don't forget
-     * to call setupCoroutine() (inherited from Coroutine) in the global setup()
-     * to register this coroutine into the CoroutineScheduler
+     * The CoroutineScheduler will use this method if enabled. Don't forget to
+     * call setupCoroutine() (inherited from Coroutine) in the global setup() to
+     * register this coroutine into the CoroutineScheduler.
      */
-    virtual int run() override {
+    virtual int runCoroutine() override {
       if (mSyncTimeProvider == nullptr) return 0;
 
 #if ENABLE_SERIAL == 1
