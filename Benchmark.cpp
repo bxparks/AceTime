@@ -13,7 +13,7 @@ const uint32_t COUNT = 50000;
 const uint32_t COUNT = 200000;
 #endif
 
-const uint32_t TO_NANO = ( 1000000 / COUNT);
+const uint32_t MILLIS_TO_NANO_PER_ITERATION = ( 1000000 / COUNT);
 
 const char TOP[] = 
   "----------------------------+---------+";
@@ -39,7 +39,6 @@ const char ENDING[] = " |";
 // variable is used to ensure user-visible side-effects, preventing the compiler
 // optimization.
 uint32_t guard;
-
 void disableOptimization(const DateTime& dt) {
   guard ^= ((uint32_t) dt.year() << 24)
          ^ ((uint32_t) dt.month() << 16)
@@ -67,7 +66,12 @@ void printPad3(uint16_t val, char padChar) {
   Serial.print(val);
 }
 
-void printNanosAsMicros(unsigned long nanos) {
+/**
+ * Given total elapsed time in millis, print micros per iteration as
+ * a floating point number (without using floating point operations).
+ */
+void printMicrosPerIteration(unsigned long elapsedMillis) {
+  unsigned long nanos = elapsedMillis * MILLIS_TO_NANO_PER_ITERATION;
   uint16_t whole = nanos / 1000;
   uint16_t frac = nanos % 1000;
   printPad3(whole, ' ');
@@ -88,7 +92,7 @@ void runBenchmark() {
   });
   yield();
   Serial.print(EMPTY_LOOP_LABEL);
-  printNanosAsMicros((emptyLoopMillis) * TO_NANO);
+  printMicrosPerIteration(emptyLoopMillis);
   Serial.println(ENDING);
   Serial.println(DIVIDER);
 
@@ -104,8 +108,7 @@ void runBenchmark() {
   });
   yield();
   Serial.print(CONSTRUCTOR2_LABEL);
-  printNanosAsMicros((constructorFromSecondsMillis - emptyLoopMillis)
-      * TO_NANO);
+  printMicrosPerIteration(constructorFromSecondsMillis - emptyLoopMillis);
   Serial.println(ENDING);
 
   // DateTime::toDaysSinceEpoch()
@@ -121,8 +124,8 @@ void runBenchmark() {
   });
   yield();
   Serial.print(DAYS_SINCE_EPOCH_LABEL);
-  printNanosAsMicros((toDaysSinceEpochMillis - constructorFromSecondsMillis)
-      * TO_NANO);
+  printMicrosPerIteration(
+      toDaysSinceEpochMillis - constructorFromSecondsMillis);
   Serial.println(ENDING);
 
   // DateTime::toSecondsSinceEpoch()
@@ -138,8 +141,8 @@ void runBenchmark() {
   });
   yield();
   Serial.print(SECOND_SINCE_EPOCH_LABEL);
-  printNanosAsMicros(
-      (toSecondsSinceEpochMillis - constructorFromSecondsMillis) * TO_NANO);
+  printMicrosPerIteration(
+      toSecondsSinceEpochMillis - constructorFromSecondsMillis);
   Serial.println(ENDING);
 
   Serial.println(BOTTOM);
