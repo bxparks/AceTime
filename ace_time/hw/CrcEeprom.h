@@ -44,8 +44,15 @@ class CrcEeprom {
         const uint16_t dataSize) {
       uint16_t byteCount = dataSize;
       const uint8_t* d = (const uint8_t*) data;
-      uint8_t crc = FastCRC8().smbus(d, dataSize);
-      write(address++, crc);
+
+      uint32_t crc = FastCRC32().crc32(d, dataSize);
+      uint8_t buf[4];
+      memcpy(buf, &crc, 4);
+      write(address++, buf[0]);
+      write(address++, buf[1]);
+      write(address++, buf[2]);
+      write(address++, buf[3]);
+
       while (byteCount-- > 0) {
         write(address++, *d++);
       }
@@ -61,20 +68,28 @@ class CrcEeprom {
         const uint16_t dataSize) const {
       uint16_t byteCount = dataSize;
       uint8_t* d = (uint8_t*) data;
-      uint8_t crc = read(address++);
+
+      uint8_t buf[4];
+      buf[0] = read(address++);
+      buf[1] = read(address++);
+      buf[2] = read(address++);
+      buf[3] = read(address++);
+      uint32_t crc;
+      memcpy(&crc, buf, 4);
+
       while (byteCount-- > 0) {
         *d++ = read(address++);
       }
-      uint8_t dataCrc = FastCRC8().smbus((const uint8_t*)data, dataSize);
+      uint32_t dataCrc = FastCRC32().crc32((const uint8_t*) data, dataSize);
       return crc == dataCrc;
     }
 
   private:
     void write(int address, uint8_t val) {
 #if defined(ESP8266) || defined(ESP32)
-      EEPROM.write(address++, val);
+      EEPROM.write(address, val);
 #else
-      EEPROM.update(address++, val);
+      EEPROM.update(address, val);
 #endif
     }
 
