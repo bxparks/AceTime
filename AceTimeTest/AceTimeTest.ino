@@ -128,7 +128,8 @@ test(unixSeconds) {
   dt = DateTime{18, 1, 1, 0, 0, 0, TimeZone()}; // 2018-01-01 00:00:00Z
   assertEqual((uint32_t) 1514764800, dt.toUnixSeconds());
 
-  dt = DateTime{18, 8, 30, 6, 45, 1, TimeZone(-28)}; // 2018-08-30T06:45:01-07:00
+  // 2018-08-30T06:45:01-07:00
+  dt = DateTime{18, 8, 30, 6, 45, 1, TimeZone(-28)};
   assertEqual((uint32_t) 1535636701, dt.toUnixSeconds());
 
   dt = DateTime{38, 1, 1, 0, 0, 0, TimeZone()}; // 2038-01-01 00:00:00Z
@@ -554,7 +555,10 @@ test(monthString) {
   assertEqual("Nov", ds.monthShortString(11));
   assertEqual("Dec", ds.monthShortString(12));
   assertEqual("Err", ds.monthShortString(13));
+}
 
+test(monthStringsFitInBuffer) {
+  DateStrings ds;
   uint8_t maxLength = 0;
   for (uint8_t month = 0; month <= 12; month++) {
     const char* monthString = ds.monthLongString(month);
@@ -586,7 +590,10 @@ test(weekDayStrings) {
   assertEqual("Fri", ds.weekDayShortString(6));
   assertEqual("Sat", ds.weekDayShortString(7));
   assertEqual("Err", ds.weekDayShortString(8));
+}
 
+test(weekDayStringsFitInBuffer) {
+  DateStrings ds;
   uint8_t maxLength = 0;
   for (uint8_t weekDay = 0; weekDay <= 7; weekDay++) {
     const char* weekDayString = ds.weekDayLongString(weekDay);
