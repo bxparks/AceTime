@@ -38,26 +38,37 @@ const char ENDING[] = " |";
 // The compiler is extremelly good about removing code that does nothing. This
 // variable is used to ensure user-visible side-effects, preventing the compiler
 // optimization.
-uint32_t guard;
+uint8_t guard;
 void disableOptimization(const DateTime& dt) {
-  guard ^= ((uint32_t) dt.year() << 24)
-         ^ ((uint32_t) dt.month() << 16)
-         ^ ((uint32_t) dt.day() << 8)
-         ^ ((uint32_t) dt.hour() << 16)
-         ^ ((uint32_t) dt.minute() << 8)
-         ^ ((uint32_t) dt.second())
-         ^ dt.timeZone().tzCode();
+  guard ^= dt.year();
+  guard ^= dt.month();
+  guard ^= dt.day();
+  guard ^= dt.hour();
+  guard ^= dt.minute();
+  guard ^= dt.second();
+  guard ^= dt.timeZone().tzCode();
+}
+
+void disableOptimization(uint32_t value) {
+  guard ^= value & 0xff;
+  guard ^= (value >> 8) & 0xff;
+  guard ^= (value >> 16) & 0xff;
+  guard ^= (value >> 24) & 0xff;
 }
 
 // A small helper that runs the given lamba expression in a loop
 // and returns how long it took.
 template <typename F>
 unsigned long runLambda(uint32_t count, F&& lambda) {
+  yield();
   unsigned long startMillis = millis();
   while (count--) {
     lambda();
   }
-  return millis() - startMillis;
+  unsigned long elapsedTime = millis() - startMillis;
+  yield();
+  digitalWrite(LED_BENCHMARK, (guard & 0x55) ? 1 : 0);
+  return elapsedTime;
 }
 
 void printPad3(uint16_t val, char padChar) {
@@ -79,7 +90,7 @@ void printMicrosPerIteration(unsigned long elapsedMillis) {
   printPad3(frac, '0');
 }
 
-void runBenchmark() {
+void runBenchmarks() {
   Serial.println(TOP);
   Serial.println(HEADER);
   Serial.println(DIVIDER);
@@ -87,10 +98,8 @@ void runBenchmark() {
   // Empty loop
   unsigned long emptyLoopMillis = runLambda(COUNT, []() {
     unsigned long tickMillis = millis();
-    guard ^= tickMillis;
-    digitalWrite(LED_BENCHMARK, guard);
+    disableOptimization(tickMillis);
   });
-  yield();
   Serial.print(EMPTY_LOOP_LABEL);
   printMicrosPerIteration(emptyLoopMillis);
   Serial.println(ENDING);
@@ -102,11 +111,9 @@ void runBenchmark() {
     unsigned long tickMillis = millis();
     // DateTime(seconds) takes seconds, but use millis for testing purposes.
     DateTime dateTime = DateTime(tickMillis);
-
     disableOptimization(dateTime);
-    digitalWrite(LED_BENCHMARK, guard);
+    disableOptimization(tickMillis);
   });
-  yield();
   Serial.print(CONSTRUCTOR2_LABEL);
   printMicrosPerIteration(constructorFromSecondsMillis - emptyLoopMillis);
   Serial.println(ENDING);
@@ -117,12 +124,9 @@ void runBenchmark() {
     // DateTime(seconds) takes seconds, but use millis for testing purposes.
     DateTime dateTime = DateTime(tickMillis);
     uint32_t daysSinceEpoch = dateTime.toDaysSinceEpoch();
-
-    guard ^= daysSinceEpoch;
     disableOptimization(dateTime);
-    digitalWrite(LED_BENCHMARK, guard);
+    disableOptimization(daysSinceEpoch);
   });
-  yield();
   Serial.print(DAYS_SINCE_EPOCH_LABEL);
   printMicrosPerIteration(
       toDaysSinceEpochMillis - constructorFromSecondsMillis);
@@ -134,12 +138,9 @@ void runBenchmark() {
     // DateTime(seconds) takes seconds, but use millis for testing purposes.
     DateTime dateTime = DateTime(tickMillis);
     uint32_t secondsSinceEpoch = dateTime.toSecondsSinceEpoch();
-
-    guard ^= secondsSinceEpoch;
     disableOptimization(dateTime);
-    digitalWrite(LED_BENCHMARK, guard);
+    disableOptimization(secondsSinceEpoch);
   });
-  yield();
   Serial.print(SECOND_SINCE_EPOCH_LABEL);
   printMicrosPerIteration(
       toSecondsSinceEpochMillis - constructorFromSecondsMillis);

@@ -4,4 +4,4 @@
 #define LED_BENCHMARK 5
 #endif
 
-extern void runBenchmark();
+extern void runBenchmarks();

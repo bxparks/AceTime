@@ -6,7 +6,7 @@ void setup() {
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
   pinMode(LED_BENCHMARK, OUTPUT);
 
-  runBenchmark();
+  runBenchmarks();
 }
 
 void loop() {
