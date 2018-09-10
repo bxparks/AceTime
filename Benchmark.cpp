@@ -67,6 +67,7 @@ unsigned long runBenchmark(uint32_t startSeconds, F&& lambda) {
     startSeconds += DELTA_SECONDS;
   }
   yield();
+  digitalWrite(LED_BENCHMARK, (guard & 0x55) ? 1 : 0);
   return millis() - startMillis;
 }
 
@@ -102,7 +103,6 @@ void runBenchmarks() {
   unsigned long baseMillis = runBenchmark(START_SECONDS, [](uint32_t seconds) {
     return seconds;
   });
-  digitalWrite(LED_BENCHMARK, guard);
   Serial.print(EMPTY_LOOP_LABEL);
   printMicrosPerIteration(baseMillis);
   Serial.println(ENDING);
@@ -111,9 +111,8 @@ void runBenchmarks() {
   elapsedMillis = runBenchmark(START_SECONDS, [](uint32_t seconds) {
     DateTime dt(seconds);
     uint32_t roundTripSeconds = dt.toSecondsSinceEpoch();
-    return roundTripSeconds + DateTime::kSecondsSinceUnixEpoch;
+    return roundTripSeconds;
   });
-  digitalWrite(LED_BENCHMARK, guard);
   Serial.print(ACE_TIME_LABEL);
   printMicrosPerIteration(elapsedMillis - baseMillis);
   Serial.println(ENDING);
@@ -124,7 +123,6 @@ void runBenchmarks() {
     breakTime((time_t) seconds, tm);
     return makeTime(tm);
   });
-  digitalWrite(LED_BENCHMARK, guard);
   Serial.print(ARDUINO_TIME_LABEL);
   printMicrosPerIteration(elapsedMillis - baseMillis);
   Serial.println(ENDING);
