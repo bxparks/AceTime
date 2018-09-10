@@ -12,7 +12,10 @@ namespace ace_time {
  */
 class TimeKeeper: public TimeProvider {
   public:
-    /** Set the time to the indicated seconds. */
+    /**
+     * Set the time to the indicated seconds. Calling with a value of 0
+     * indicates an error condition, so the method should do nothing.
+     */
     virtual void setNow(uint32_t secondsSinceEpoch) = 0;
 };
 

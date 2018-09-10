@@ -74,22 +74,28 @@ class DateTime {
      * with the year 2000. The dayOfWeek will be calculated internally.
      *
      * @param secondsSinceEpoch Number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00Z). A 0 value is a sentinel value that is
-     *    considerd to be an error, and causes isError() to return true.
+     *    (2000-01-01 00:00:00Z). A 0 value is a sentinel that is considerd to
+     *    be an error, and causes isError() to return true.
      * @param timeZone The time zone.
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
     explicit DateTime(uint32_t secondsSinceEpoch,
         TimeZone timeZone = TimeZone()) {
+      mTimeZone = timeZone;
+
       if (secondsSinceEpoch == 0) {
+        mYear = 0;
         setError();
+        mDay = 0;
+        mHour = 0;
+        mMinute = 0;
+        mSecond = 0;
+        mDayOfWeek = 0;
         return;
       }
 
-      mTimeZone = timeZone;
       secondsSinceEpoch += timeZone.toSeconds();
-
       uint32_t daysSinceEpoch = secondsSinceEpoch / 86400;
       fillUsingDaysSinceEpoch(daysSinceEpoch);
 

@@ -75,6 +75,7 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
     }
 
     virtual void setNow(uint32_t secondsSinceEpoch) override {
+      if (secondsSinceEpoch == 0) return;
       mSecondsSinceEpoch = secondsSinceEpoch;
       mPrevMillis = millis();
       backupNow(secondsSinceEpoch);
@@ -171,6 +172,7 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
      * goes backwards in time.
      */
     void sync(uint32_t secondsSinceEpoch) {
+      if (secondsSinceEpoch == 0) return;
       mSecondsSinceEpoch = secondsSinceEpoch;
       mPrevMillis = millis();
       if (mBackupTimeKeeper != mSyncTimeProvider) {

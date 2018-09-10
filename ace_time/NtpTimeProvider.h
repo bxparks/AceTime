@@ -74,9 +74,11 @@ class NtpTimeProvider: public TimeProvider {
 
   private:
     /** NTP Server */
+    // TODO: move this into the constructor
     static const char kNtpServerName[];
 
     /** Port used for UDP packets. */
+    // TODO: move this into the constructor
     static const uint16_t kLocalPort = 8888;
 
     /** NTP time is in the first 48 bytes of message. */

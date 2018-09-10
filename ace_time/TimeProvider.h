@@ -22,7 +22,8 @@ class TimeProvider {
 
     /**
      * Return the number of seconds since the DateTime epoch
-     * (2000-01-01T00:00:00Z).
+     * (2000-01-01T00:00:00Z). Some TimeProviders will return a 0 to indicate an
+     * error has occured.
      */
     virtual uint32_t getNow() const = 0;
 
