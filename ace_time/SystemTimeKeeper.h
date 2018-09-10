@@ -1,7 +1,9 @@
 #ifndef ACE_TIME_SYSTEM_TIME_KEEPER_H
 #define ACE_TIME_SYSTEM_TIME_KEEPER_H
 
-#define ENABLE_SERIAL 0
+#ifndef ACE_TIME_ENABLE_SERIAL
+#define ACE_TIME_ENABLE_SERIAL 0
+#endif
 
 #include <Arduino.h> // millis()
 #include <AceRoutine.h>
@@ -91,30 +93,31 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
     virtual int runCoroutine() override {
       if (mSyncTimeProvider == nullptr) return 0;
 
-#if ENABLE_SERIAL == 1
+#if ACE_TIME_ENABLE_SERIAL == 1
       static uint16_t startTime;
 #endif
 
       uint8_t status;
       uint32_t nowSeconds;
       COROUTINE_LOOP() {
-#if ENABLE_SERIAL == 1
+#if ACE_TIME_ENABLE_SERIAL == 1
         startTime = millis();
 #endif
 
         COROUTINE_AWAIT(mSyncTimeProvider->pollNow(status, nowSeconds));
         if (status != TimeKeeper::kStatusOk) {
-#if ENABLE_SERIAL == 1
-          Serial.print("SystemSyncCoroutine: Invalid status: ");
+#if ACE_TIME_ENABLE_SERIAL == 1
+          Serial.print("SystemTimeKeeper::runCoroutine(): Invalid status: ");
           Serial.println(status);
 #endif
         } else if (nowSeconds == 0) {
-#if ENABLE_SERIAL == 1
-          Serial.println("SystemSyncCoroutine: Invalid nowSeconds == 0");
+#if ACE_TIME_ENABLE_SERIAL == 1
+          Serial.println(
+              "SystemTimeKeeper::runCoroutine(): Invalid nowSeconds == 0");
 #endif
         } else {
-#if ENABLE_SERIAL == 1
-          Serial.print("SystemSyncCoroutine: ok: ");
+#if ACE_TIME_ENABLE_SERIAL == 1
+          Serial.print("SystemTimeKeeper::runCoroutine(): status ok: ");
           Serial.print((uint16_t) (millis() - startTime));
           Serial.println("ms");
 #endif
@@ -135,8 +138,8 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
       if (nowMillis - mPrevMillis < kSyncingPeriodMillis) return;
       uint32_t nowSeconds = mSyncTimeProvider->getNow(); // blocking call
       if (nowSeconds != 0) {
-#if ENABLE_SERIAL == 1
-        Serial.println("SystemSyncManual: Syncing system time keeper");
+#if ACE_TIME_ENABLE_SERIAL == 1
+        Serial.println("SystemTimeKeeper::loop(): Syncing system time keeper");
 #endif
         sync(nowSeconds);
       }
