@@ -8,34 +8,77 @@
 #include <WiFiUdp.h>
 #include "TimeKeeper.h"
 
+#ifndef ACE_TIME_NTP_TIME_PROVIDER_DEBUG
+#define ACE_TIME_NTP_TIME_PROVIDER_DEBUG 1
+#endif
+
 namespace ace_time {
 
-// TODO: remove or comment out the Serial output.
+/**
+ * A TimeProvider that retrieves the time from an NTP server.
+ *
+ * Borrowed from
+ * https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/examples/NTPClient/NTPClient.ino
+ * and
+ * https://github.com/PaulStoffregen/Time/blob/master/examples/TimeNTP/TimeNTP.ino
+ */
 class NtpTimeProvider: public TimeProvider {
   public:
-    explicit NtpTimeProvider(const char* ssid, const char* password):
+    /** Default NTP Server */
+    static const char kNtpServerName[];
+
+    /** Default port used for UDP packets. */
+    static const uint16_t kLocalPort = 8888;
+
+    /** Request time out milliseconds. */
+    static const uint16_t kRequestTimeout = 1500;
+
+    /**
+     * Constructor.
+     * @param ssid wireless SSID
+     * @param password password of the SSID
+     * @param server name of the NTP server (default us.pool.ntp.org)
+     * @param localPort used by the UDP client (default 8888)
+     * @paran requestTimeout milliseconds for a request timesout (default 1000)
+     */
+    explicit NtpTimeProvider(const char* ssid, const char* password,
+            const char* server = kNtpServerName,
+            uint16_t localPort = kLocalPort,
+            uint16_t requestTimeout = kRequestTimeout):
         mSsid(ssid),
-        mPassword(password) {}
+        mPassword(password),
+        mServer(server),
+        mLocalPort(localPort),
+        mRequestTimeout(requestTimeout) {}
 
     virtual void setup() override {
-      Serial.println("TimeNTP Example");
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
       Serial.print("Connecting to ");
       Serial.println(mSsid);
-      WiFi.begin(mSsid, mPassword);
+#endif
 
+      WiFi.begin(mSsid, mPassword);
       while (WiFi.status() != WL_CONNECTED) {
         delay(500);
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
         Serial.print(".");
+#endif
       }
 
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
       Serial.print("IP number assigned by DHCP is ");
       Serial.println(WiFi.localIP());
+#endif
 
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
       Serial.println("Starting UDP");
-      mUdp.begin(kLocalPort);
+#endif
+      mUdp.begin(mLocalPort);
 
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
       Serial.print("Local port: ");
       Serial.println(mUdp.localPort());
+#endif
     }
 
     virtual uint32_t getNow() const override {
@@ -47,6 +90,9 @@ class NtpTimeProvider: public TimeProvider {
     virtual bool pollNow(uint8_t& status, uint32_t& seconds) const override {
       // send off a request, then return
       if (!mIsRequestPending) {
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+        Serial.println("pollNow(): Sending NTP response");
+#endif
         sendRequest();
         mRequestStartTime = millis();
         mIsRequestPending = true;
@@ -54,7 +100,11 @@ class NtpTimeProvider: public TimeProvider {
       }
 
       // there's request pending, check for time out
-      if ((uint16_t) (millis() - mRequestStartTime) > kRequestTimeOut) {
+      if ((uint16_t) ((uint16_t) millis() - mRequestStartTime)
+          > mRequestTimeout) {
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+        Serial.println("pollNow(): Timed out");
+#endif
         status = kStatusTimedOut;
         mIsRequestPending = false;
         return true;
@@ -63,6 +113,12 @@ class NtpTimeProvider: public TimeProvider {
       // keep waiting if the response has not arrived
       if (mUdp.parsePacket() < kNtpPacketSize) return false;
 
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+      uint16_t waitTime = (uint16_t) millis() - mRequestStartTime;
+      Serial.print("pollNow(): Received NTP response after ");
+      Serial.print(waitTime);
+      Serial.println(" ms");
+#endif
       // process the response
       uint32_t secondsSince1900 = readResponse();
       seconds = (secondsSince1900 == 0) ? 0
@@ -73,14 +129,6 @@ class NtpTimeProvider: public TimeProvider {
     }
 
   private:
-    /** NTP Server */
-    // TODO: move this into the constructor
-    static const char kNtpServerName[];
-
-    /** Port used for UDP packets. */
-    // TODO: move this into the constructor
-    static const uint16_t kLocalPort = 8888;
-
     /** NTP time is in the first 48 bytes of message. */
     static const uint8_t kNtpPacketSize = 48;
 
@@ -90,21 +138,20 @@ class NtpTimeProvider: public TimeProvider {
      */
     static const uint32_t kSecondsSinceNtpEpoch = 3155673600;
 
-    /** Request time out milliseconds. */
-    static const uint16_t kRequestTimeOut = 1500;
-
     void sendRequest() const {
       while (mUdp.parsePacket() > 0); // discard any previously received packets
 
       // get a random server from the pool
       IPAddress ntpServerIP; // NTP server's ip address
-      WiFi.hostByName(kNtpServerName, ntpServerIP);
+      WiFi.hostByName(mServer, ntpServerIP);
 
-      Serial.print("Transmit NTP request to ");
-      Serial.print(kNtpServerName);
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+      Serial.print("sendRequest(): Transmitting NTP request to ");
+      Serial.print(mServer);
       Serial.print(" (");
       Serial.print(ntpServerIP);
       Serial.println(")");
+#endif
 
       sendNTPpacket(ntpServerIP);
     }
@@ -122,21 +169,28 @@ class NtpTimeProvider: public TimeProvider {
       return secsSince1900;
     }
 
-    /** Return seconds from NTP eposh 1900-01-01. */
+    /**
+     * Return seconds from NTP eposh 1900-01-01. Return 0 if error.
+     * This is a blocking call.
+     */
     uint32_t getNtpTime() const {
       sendRequest();
 
       uint16_t startTime = millis();
       uint16_t waitTime;
-      while ((waitTime = millis() - startTime) < 1500) {
+      while ((waitTime = (uint16_t) millis() - startTime) < 1000) {
         if (mUdp.parsePacket() >= kNtpPacketSize) {
-          Serial.print("Received NTP response: ");
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+          Serial.print("getNtpTime(): Received NTP response: ");
           Serial.print(waitTime);
           Serial.println(" ms");
+#endif
           return readResponse();
         }
       }
-      Serial.println("Timed out after 1500 ms");
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+      Serial.println("getNtpTime(): Timed out");
+#endif
       return 0; // return 0 if unable to get the time
     }
 
@@ -164,13 +218,15 @@ class NtpTimeProvider: public TimeProvider {
 
     const char* const mSsid;
     const char* const mPassword;
+    const char* const mServer;
+    uint16_t const mLocalPort;
+    uint16_t const mRequestTimeout;
 
     mutable WiFiUDP mUdp;
-    //buffer to hold incoming & outgoing packets
+    // buffer to hold incoming & outgoing packets
     mutable uint8_t mPacketBuffer[kNtpPacketSize];
     mutable bool mIsRequestPending;
     mutable uint16_t mRequestStartTime;
-
 };
 
 }
