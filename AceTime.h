@@ -3,6 +3,7 @@
 
 #include "ace_time/common/Util.h"
 #include "ace_time/common/DateStrings.h"
+#include "ace_time/common/TimingStats.h"
 #include "ace_time/hw/DS3231.h"
 #include "ace_time/hw/HardwareDateTime.h"
 #include "ace_time/hw/HardwareTemperature.h"

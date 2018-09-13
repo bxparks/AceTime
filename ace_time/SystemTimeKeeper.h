@@ -2,7 +2,7 @@
 #define ACE_TIME_SYSTEM_TIME_KEEPER_H
 
 #ifndef ACE_TIME_ENABLE_SERIAL
-#define ACE_TIME_ENABLE_SERIAL 0
+#define ACE_TIME_ENABLE_SERIAL 1
 #endif
 
 #include <Arduino.h> // millis()
@@ -54,12 +54,15 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
      * to set the proper time using setNow().
      * @param backupTimeKeeper An RTC chip which continues to keep time
      * even when power is lost. Can be null.
+     * @param TimingStats internal statistics
      */
     explicit SystemTimeKeeper(
             TimeProvider* syncTimeProvider /* nullable */,
-            TimeKeeper* backupTimeKeeper /* nullable */):
+            TimeKeeper* backupTimeKeeper /* nullable */,
+            common::TimingStats* timingStats = nullptr):
         mSyncTimeProvider(syncTimeProvider),
         mBackupTimeKeeper(backupTimeKeeper),
+        mTimingStats(timingStats),
         mPrevMillis(0),
         mIsSynced(false) {}
 
@@ -88,6 +91,10 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
       backupNow(secondsSinceEpoch);
     }
 
+    common::TimingStats* getTimingStats() const {
+      return mTimingStats;
+    }
+
     /**
      * @copydoc Coroutine::runCoroutine()
      *
@@ -96,20 +103,20 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
      * register this coroutine into the CoroutineScheduler.
      */
     virtual int runCoroutine() override {
-      if (mSyncTimeProvider == nullptr) return 0;
-
-#if ACE_TIME_ENABLE_SERIAL == 1
       static uint16_t startTime;
-#endif
+
+      if (mSyncTimeProvider == nullptr) return 0;
 
       uint8_t status;
       uint32_t nowSeconds;
       COROUTINE_LOOP() {
-#if ACE_TIME_ENABLE_SERIAL == 1
         startTime = millis();
-#endif
-
         COROUTINE_AWAIT(mSyncTimeProvider->pollNow(status, nowSeconds));
+        uint16_t elapsedTime = millis() - startTime;
+        if (mTimingStats != nullptr) {
+          mTimingStats->update(elapsedTime);
+        }
+
         if (status != TimeKeeper::kStatusOk) {
 #if ACE_TIME_ENABLE_SERIAL == 1
           Serial.print("SystemTimeKeeper::runCoroutine(): Invalid status: ");
@@ -123,11 +130,33 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
         } else {
 #if ACE_TIME_ENABLE_SERIAL == 1
           Serial.print("SystemTimeKeeper::runCoroutine(): status ok: ");
-          Serial.print((uint16_t) (millis() - startTime));
+          Serial.print((uint16_t) (elapsedTime));
           Serial.println("ms");
 #endif
           sync(nowSeconds);
         }
+
+
+#if ACE_TIME_ENABLE_SERIAL == 1
+        if (mTimingStats != nullptr) {
+          if (mTimingStats->getMax() > 2000) {
+            Serial.println("SystemTimeKeeper::runCoroutine(): timing stats");
+            Serial.print("min/avg/max: ");
+            Serial.print(mTimingStats->getMin());
+            Serial.print('/');
+            Serial.print(mTimingStats->getAvg());
+            Serial.print('/');
+            Serial.println(mTimingStats->getMax());
+            Serial.print("count: "); Serial.println(mTimingStats->getCount());
+          }
+
+          if (mTimingStats->getCount() > 10) {
+            Serial.println("SystemTimeKeeper::runCoroutine(): reset stats");
+            mTimingStats->reset();
+          }
+        }
+#endif
+
         COROUTINE_DELAY(kSyncingPeriodMillis);
       }
     }
@@ -192,6 +221,8 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
 
     const TimeProvider* const mSyncTimeProvider;
     TimeKeeper* const mBackupTimeKeeper;
+    common::TimingStats* const mTimingStats;
+
     mutable uint32_t mSecondsSinceEpoch;
     mutable uint16_t mPrevMillis;
     bool mIsSynced;
