@@ -9,6 +9,9 @@
 
 namespace ace_time {
 
+/**
+ * An implementation of TimeKeeper that uses a DS3231 RTC chip.
+ */
 class DS3231TimeKeeper: public TimeKeeper {
   public:
     explicit DS3231TimeKeeper(const hw::DS3231& ds3231):
@@ -28,10 +31,19 @@ class DS3231TimeKeeper: public TimeKeeper {
     }
 
   private:
+    /**
+     * Convert the HardwareDateTime returned by the DS3231 chip to
+     * the DateTime object using UTC time zone.
+     */
     static DateTime toDateTime(const hw::HardwareDateTime& dt) {
       return DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
     }
 
+    /**
+     * Convert a DateTime object to a HardwareDateTime object, ignore time zone.
+     * In practice, it will often be most convenient to store the DS3231 as UTC
+     * time.
+     */
     static hw::HardwareDateTime toHardwareDateTime(const DateTime& dt) {
       return hw::HardwareDateTime{dt.year(), dt.month(), dt.day(), dt.hour(),
           dt.minute(), dt.second(), dt.dayOfWeek()};

@@ -18,8 +18,8 @@ namespace hw {
  *
  * Depends on the FastCRC (https://github.com/FrankBoesing/FastCRC) library.
  *
- * Currently in the AceTime library because it's used to store backup time.
- * Might be moved to another library later.
+ * Currently located in the AceTime library because it's used to store backup
+ * time. Might be moved to another library later.
  */
 class CrcEeprom {
   public:
@@ -38,7 +38,7 @@ class CrcEeprom {
 #endif
 
     /**
-     * Write the data with its CRC8. Returns the number of bytes written.
+     * Write the data with its CRC. Returns the number of bytes written.
      */
     uint16_t writeWithCrc(int address, const void* const data,
         const uint16_t dataSize) {
@@ -61,7 +61,7 @@ class CrcEeprom {
     }
 
     /**
-     * Read the data from EEPROM along with its CRC8. Return true if the CRC of
+     * Read the data from EEPROM along with its CRC. Return true if the CRC of
      * the data retrieved matches the CRC of the data when it was written.
      */
     bool readWithCrc(int address, void* const data,

@@ -28,7 +28,7 @@ namespace ace_time {
  * select a specific DateTime component using one of the buttons, then press the
  * other button to increment it.
  *
- * Some of the design of this class was inspired by the DateTime class of
+ * Some parts of this class was inspired by the DateTime class of
  * http://www.joda.org.
  */
 class DateTime {
@@ -55,10 +55,16 @@ class DateTime {
      * Constructor using separated date, time, and time zone fields. The
      * dayOfWeek will be internally generated.
      *
-     * @param timeZone Optional. The time zone offset in 15-minute increments
-     * from UTC. Using a TimeZone object here in the last component allows us to
-     * add an additional constructor that accepts a millisecond component in the
-     * future.
+     * @param year last 2 digits of the year from year 2000
+     * @param month month with January=1, December=12
+     * @param day day of month (1-31)
+     * @param hour hour (0-23)
+     * @param minute minute (0-59)
+     * @param second second (0-59), does not support leap seconds
+     * @param timeZone Optional, default is UTC time zone. The time zone offset
+     * in 15-minute increments from UTC. Using a TimeZone object here in the
+     * last component allows us to add an additional constructor that accepts a
+     * millisecond component in the future.
      */
     explicit DateTime(uint8_t year, uint8_t month, uint8_t day, uint8_t hour,
             uint8_t minute, uint8_t second, TimeZone timeZone = TimeZone()):
@@ -76,7 +82,7 @@ class DateTime {
      * @param secondsSinceEpoch Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00Z). A 0 value is a sentinel that is considerd to
      *    be an error, and causes isError() to return true.
-     * @param timeZone The time zone.
+     * @param timeZone Optional, default UTC time zone.
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
@@ -85,6 +91,7 @@ class DateTime {
       mTimeZone = timeZone;
 
       if (secondsSinceEpoch == 0) {
+        // All of the member variables set to avoid compiler warnings.
         mYear = 0;
         setError();
         mDay = 0;
@@ -155,51 +162,73 @@ class DateTime {
           || mSecond >= 60;
     }
 
+    /** Return the 2 digit year from year 2000. */
     uint8_t year() const { return mYear; }
 
+    /** Set the 2 digit year from year 2000. */
     void year(uint8_t year) {
       mYear = year;
       mDayOfWeek = 0;
     }
 
+    /** Return the full year instead of just the last 2 digits. */
+    uint16_t yearFull() const { return mYear + kEpochYear; }
+
+    /** Set the year given the full year. */
+    void yearFull(uint16_t yearFull) {
+      mYear = yearFull - kEpochYear;
+      mDayOfWeek = 0;
+    }
+
+    /** Return the month with January=1, December=12. */
     uint8_t month() const { return mMonth; }
 
+    /** Set the month. */
     void month(uint8_t month) {
       mMonth = month;
       mDayOfWeek = 0;
     }
 
+    /** Return the day of the month. */
     uint8_t day() const { return mDay; }
 
+    /** Set the day of the month. */
     void day(uint8_t day) {
       mDay = day;
       mDayOfWeek = 0;
     }
 
+    /** Return the hour. */
     uint8_t hour() const { return mHour; }
 
+    /** Set the hour. */
     void hour(uint8_t hour) {
-      // Does not affect dayOfWeek so no need to invalidate dayOfWeek cache.
+      // Does not affect dayOfWeek.
       mHour = hour;
     }
 
+    /** Return the minute. */
     uint8_t minute() const { return mMinute; }
 
+    /** Set the minute. */
     void minute(uint8_t month) {
-      // Does not affect dayOfWeek so no need to invalidate dayOfWeek cache.
+      // Does not affect dayOfWeek.
       mMinute = month;
     }
 
+    /** Return the second. */
     uint8_t second() const { return mSecond; }
 
+    /** Set the second. */
     void second(uint8_t second) {
-      // Does not affect dayOfWeek so no need to invalidate dayOfWeek cache.
+      // Does not affect dayOfWeek.
       mSecond = second;
     }
 
     /**
+     * Return the day of the week, Sunday=1, Saturday=7.
      * The dayOfWeek is calculated lazily and cached internally. Not
-     * thread-sfae.
+     * thread-safe.
      */
     uint8_t dayOfWeek() const {
       if (mDayOfWeek == 0) {
@@ -208,11 +237,17 @@ class DateTime {
       return mDayOfWeek;
     }
 
+    /** Return the time zone of the DateTime. */
     const TimeZone& timeZone() const { return mTimeZone; }
 
+    /** Return the time zone of the DateTime. */
     TimeZone& timeZone() { return mTimeZone; }
 
-    void timeZone(const TimeZone& timeZone) { mTimeZone = timeZone; }
+    /** Set the time zone. */
+    void timeZone(const TimeZone& timeZone) {
+      // Does not affect dayOfWeek.
+      mTimeZone = timeZone;
+    }
 
     /**
      * Create a DateTime in a different time zone code (with the same
@@ -229,34 +264,39 @@ class DateTime {
      */
     void printTo(Print& printer) const;
 
-    void incrementHour() {
-      common::incrementMod(mHour, (uint8_t) 24);
-      mDayOfWeek = 0;
-    }
-
-    void incrementMinute() {
-      common::incrementMod(mMinute, (uint8_t) 60);
-      mDayOfWeek = 0;
-    }
-
+    /** Increment the year by one, wrapping from 99 to 0. */
     void incrementYear() {
       common::incrementMod(mYear, (uint8_t) 100);
       mDayOfWeek = 0;
     }
 
+    /** Increment the year by one, wrapping from 12 to 1. */
     void incrementMonth() {
       common::incrementMod(mMonth, (uint8_t) 12, (uint8_t) 1);
       mDayOfWeek = 0;
     }
 
+    /** Increment the day by one, wrapping from 31 to 1. */
     void incrementDay() {
       common::incrementMod(mDay, (uint8_t) 31, (uint8_t) 1);
       mDayOfWeek = 0;
     }
 
+    /** Increment the hour by one, wrapping from 23 to 0. */
+    void incrementHour() {
+      common::incrementMod(mHour, (uint8_t) 24);
+      mDayOfWeek = 0;
+    }
+
+    /** Increment the minute by one, wrapping from 59 to 0. */
+    void incrementMinute() {
+      common::incrementMod(mMinute, (uint8_t) 60);
+      mDayOfWeek = 0;
+    }
+
     /**
-     * Return number of whole days since AceTime epoch, taking into account the
-     * time zone.
+     * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
+     * taking into account the time zone.
      */
     uint32_t toDaysSinceEpoch() const {
       uint32_t daysSinceEpoch = toDaysSinceEpochIgnoringTimeZone();

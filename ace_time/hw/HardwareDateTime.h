@@ -16,9 +16,6 @@ struct HardwareDateTime {
   /** Print HardwareDateTime to 'printer'. */
   void printTo(Print& printer) const;
 
-  friend bool operator==(const HardwareDateTime& a, const HardwareDateTime& b);
-  friend bool operator!=(const HardwareDateTime& a, const HardwareDateTime& b);
-
   uint8_t year; // [00, 99], year - 2000
   uint8_t month; // [1, 12]
   uint8_t day; // [1, 31]
@@ -31,7 +28,7 @@ struct HardwareDateTime {
 /**
  * Return true if two HardwareDateTime objects are equal. Optimized for small
  * changes in the less signficant fields, such as 'second' or 'minute'. The
- * dayOfWeek field must also match, unlike compareTo() where it is ignored.
+ * dayOfWeek field must also match.
  */
 inline bool operator==(const HardwareDateTime& a, const HardwareDateTime& b) {
   return a.second == b.second

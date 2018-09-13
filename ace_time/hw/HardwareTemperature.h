@@ -42,18 +42,13 @@ struct HardwareTemperature {
     common::printPad2(printer, frac);
   }
 
-  friend bool operator==(const HardwareTemperature& a,
-      const HardwareTemperature& b);
-  friend bool operator!=(const HardwareTemperature& a,
-      const HardwareTemperature& b);
-
   uint8_t msb;
   uint8_t lsb;
 };
 
 /**
-* Return true if two HardwareTemperature objects are equal. Optimized for small changes
-* in the less signficant fields.
+* Return true if two HardwareTemperature objects are equal. Optimized for small
+* changes in the less signficant fields.
 */
 inline bool operator==(const HardwareTemperature& a,
     const HardwareTemperature& b) {

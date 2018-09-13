@@ -27,7 +27,7 @@ class DS3231 {
     /** Set the DS3231 with the HardwareDateTime values. */
     void setDateTime(const HardwareDateTime& dateTime) const;
 
-    /** Read the temperatue into the HardwareTemperature object. */
+    /** Read the temperature into the HardwareTemperature object. */
     void readTemperature(HardwareTemperature* temperature) const;
 
   private:

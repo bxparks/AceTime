@@ -15,7 +15,14 @@ namespace ace_time {
  */
 class TimePeriod {
   public:
-    /** Constructor. */
+    /** Constructor.
+     * @param hour hour (0-255)
+     * @param minute minute (0-59)
+     * @param second second (0-59)
+     * @param sign The sign bit. Should be either +1 or -1, but in practice,
+     * anything greater than equal to 0 will be considered to be +1, and
+     * anything less than zero will be considered -1.
+     */
     explicit TimePeriod(uint8_t hour, uint8_t minute, uint8_t second,
             int8_t sign = 1):
         mHour(hour),
@@ -42,22 +49,37 @@ class TimePeriod {
       mHour = seconds;
     }
 
+    /** Return the hour. */
     uint8_t hour() const { return mHour; }
+
+    /** Set the hour. */
     void hour(uint8_t hour) { mHour = hour; }
 
+    /** Return the minute. */
     uint8_t minute() const { return mMinute; }
+
+    /** Set the minute. */
     void minute(uint8_t minute) { mMinute = minute; }
 
+    /** Return the second. */
     uint8_t second() const { return mSecond; }
+
+    /** Set the second. */
     void second(uint8_t second) { mSecond = second; }
 
+    /** Return the sign bit. */
     int8_t sign() const { return mSign; }
+
+    /**
+     * Set the sign bit. Should be either +1 or -1, but in practice, anything
+     * greater than equal to 0 will be considered to be +1, and anything less
+     * than zero will be considered -1.
+     */
     void sign(int8_t sign) { mSign = sign; }
 
     /**
      * Print to given printer. If the time period is negative, a minus sign is
      * prepended. Does not implement Printable to avoid memory cost of vtable
-     * pointer. Does not implement Printable to avoid memory cost of vtable
      * pointer.
      */
     void printTo(Print& printer) const {
@@ -128,8 +150,8 @@ class TimePeriod {
      * -1 or +1. In practice (>=0) is same as +1, and (<0) is same as -1. An
      * alternative design is to make the mHour field a signed int (int8_t) which
      * could hold the sign bit, saving us a byte in memory. But having some
-     * fields be unsigned, and some fields (hour) signed, makes the code far
-     * more complicated.
+     * fields be unsigned, and some fields signed, makes the code far more
+     * complicated.
     */
     int8_t mSign;
 };
