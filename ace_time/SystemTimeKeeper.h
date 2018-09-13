@@ -60,7 +60,8 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
             TimeKeeper* backupTimeKeeper /* nullable */):
         mSyncTimeProvider(syncTimeProvider),
         mBackupTimeKeeper(backupTimeKeeper),
-        mPrevMillis(0) {}
+        mPrevMillis(0),
+        mIsSynced(false) {}
 
     virtual void setup() override {
       if (mBackupTimeKeeper != nullptr) {
@@ -69,6 +70,8 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
     }
 
     virtual uint32_t getNow() const override {
+      if (!mIsSynced) return 0;
+
       while ((uint16_t) ((uint16_t) millis() - mPrevMillis) >= 1000) {
         mPrevMillis += 1000;
         mSecondsSinceEpoch += 1;
@@ -78,8 +81,10 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
 
     virtual void setNow(uint32_t secondsSinceEpoch) override {
       if (secondsSinceEpoch == 0) return;
+
       mSecondsSinceEpoch = secondsSinceEpoch;
       mPrevMillis = millis();
+      mIsSynced = true;
       backupNow(secondsSinceEpoch);
     }
 
@@ -176,8 +181,10 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
      */
     void sync(uint32_t secondsSinceEpoch) {
       if (secondsSinceEpoch == 0) return;
+
       mSecondsSinceEpoch = secondsSinceEpoch;
       mPrevMillis = millis();
+      mIsSynced = true;
       if (mBackupTimeKeeper != mSyncTimeProvider) {
         backupNow(secondsSinceEpoch);
       }
@@ -187,6 +194,7 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
     TimeKeeper* const mBackupTimeKeeper;
     mutable uint32_t mSecondsSinceEpoch;
     mutable uint16_t mPrevMillis;
+    bool mIsSynced;
 };
 
 }
