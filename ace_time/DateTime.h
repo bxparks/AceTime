@@ -93,11 +93,11 @@ class DateTime {
       if (secondsSinceEpoch == 0) {
         // All of the member variables set to avoid compiler warnings.
         mYear = 0;
-        setError();
+        mMonth = 0;
         mDay = 0;
         mHour = 0;
         mMinute = 0;
-        mSecond = 0;
+        setError(); // mSecond = 255
         mDayOfWeek = 0;
         return;
       }
@@ -155,11 +155,11 @@ class DateTime {
     bool isError() const {
       // Warning: Don't change the order of the following boolean conditionals
       // without changing setError().
-      return mMonth < 1 || mMonth > 12
-          || mDay < 1 || mDay > 31
-          || mHour >= 24
+      return mSecond >= 60
           || mMinute >= 60
-          || mSecond >= 60;
+          || mHour >= 24
+          || mDay < 1 || mDay > 31
+          || mMonth < 1 || mMonth > 12;
     }
 
     /** Return the 2 digit year from year 2000. */
@@ -366,11 +366,14 @@ class DateTime {
 
     /**
      * Mark the DateTime so that isError() returns true. Returns a reference to
-     * (*this) so that you can return a DateTime that represents an error
-     * condition using 'return DateTime().setError()'.
+     * (*this) so that an invalid DateTime can be returned in a single
+     * statement like this: 'return DateTime().setError()'.
      */
     DateTime& setError() {
-      mMonth = 0;
+      // We use the second field to represent an error condition because it is
+      // the first field checked by operator==(), so will provide the fastest
+      // detection of the transition from isError() to a valid DateTime.
+      mSecond = 255;
       return *this;
     }
 
