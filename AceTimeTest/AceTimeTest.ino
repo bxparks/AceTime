@@ -143,6 +143,7 @@ test(unixSeconds) {
 test(constructFromSecondsSinceEpochAt2049_12_31) {
   DateTime dt(18263 * (int32_t) 86400 - 1); // 2049-12-31 23:59:59Z
 
+  assertEqual((uint16_t) 2049, dt.yearFull());
   assertEqual(49, dt.year());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
@@ -154,6 +155,7 @@ test(constructFromSecondsSinceEpochAt2049_12_31) {
   // 2049-12-31 15:59:59-08:00
   TimeZone tz(-32); // UTC-08:00
   dt = DateTime(18263 * (int32_t) 86400 - 1, tz);
+  assertEqual((uint16_t) 2049, dt.yearFull());
   assertEqual(49, dt.year());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
@@ -167,6 +169,7 @@ test(convertToTimeZone) {
   DateTime a{18, 1, 1, 12, 0, 0, TimeZone()};
   DateTime b = a.convertToTimeZone(TimeZone(-28)); // UTC-07:00
 
+  assertEqual((uint16_t) 2018, b.yearFull());
   assertEqual(18, b.year());
   assertEqual(1, b.month());
   assertEqual(1, b.day());
@@ -230,26 +233,29 @@ test(calculateAndCacheDayOfWeek) {
   DateTime dt{18, 1, 1, 0, 0, 0, TimeZone()}; // 2018-01-01 00:00:00Z
   assertEqual(2, dt.dayOfWeek()); // Monday
 
-  dt.hour(23); // no change to dayOfWeek
+  dt.hour(23); // 2018-01-01 23:00:00Z, no change to dayOfWeek
   assertEqual(2, dt.dayOfWeek());
 
-  dt.minute(40); // no change to dayOfWeek
+  dt.minute(40); // 2018-01-01 23:40:00Z, no change to dayOfWeek
   assertEqual(2, dt.dayOfWeek());
 
-  dt.second(3); // no change to dayOfWeek
+  dt.second(3); // 2018-01-01 23:40:03Z, no change to dayOfWeek
   assertEqual(2, dt.dayOfWeek());
 
-  dt.timeZone(TimeZone(3)); // no change to dayOfWeek
+  dt.timeZone(TimeZone(3)); // 2018-01-01 23:40:03+00:45, no change to dayOfWeek
   assertEqual(2, dt.dayOfWeek());
 
-  dt.day(2); // changes dayOfWeek
+  dt.day(2); // 2018-01-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(3, dt.dayOfWeek());
 
-  dt.month(2); // changes dayOfWeek
+  dt.month(2); // 2018-02-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(6, dt.dayOfWeek()); // Friday
 
-  dt.year(19); // changes dayOfWeek
+  dt.year(19); // 2019-02-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(7, dt.dayOfWeek());
+
+  dt.yearFull(2020); // 2020-02-02 23:40:03+00:45, changes dayOfWeek
+  assertEqual(1, dt.dayOfWeek()); // Sunday
 }
 
 test(dateTimeErrorForZeroValue) {
@@ -313,6 +319,7 @@ test(dateTimFromString) {
   // exact ISO8601 format
   DateTime dt = DateTime(F("2018-08-31T13:48:01-07:00"));
   assertFalse(dt.isError());
+  assertEqual((uint16_t) 2018, dt.yearFull());
   assertEqual(18, dt.year());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
