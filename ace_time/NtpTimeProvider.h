@@ -91,7 +91,7 @@ class NtpTimeProvider: public TimeProvider {
       // send off a request, then return
       if (!mIsRequestPending) {
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-        Serial.println("pollNow(): Sending NTP response");
+        Serial.println("pollNow(): Sending NTP request");
 #endif
         sendRequest();
         mRequestStartTime = millis();
@@ -100,8 +100,7 @@ class NtpTimeProvider: public TimeProvider {
       }
 
       // there's request pending, check for time out
-      if ((uint16_t) ((uint16_t) millis() - mRequestStartTime)
-          > mRequestTimeout) {
+      if ((uint16_t) (millis() - mRequestStartTime) > mRequestTimeout) {
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
         Serial.println("pollNow(): Timed out");
 #endif
@@ -119,6 +118,7 @@ class NtpTimeProvider: public TimeProvider {
       Serial.print(waitTime);
       Serial.println(" ms");
 #endif
+
       // process the response
       uint32_t secondsSince1900 = readResponse();
       seconds = (secondsSince1900 == 0) ? 0
@@ -158,8 +158,17 @@ class NtpTimeProvider: public TimeProvider {
 
     /** Returns number of seconds since NTP epoch (1900-01-01). */
     uint32_t readResponse() const {
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+      uint16_t startTime = millis();
+#endif
       // read packet into the buffer
       mUdp.read(mPacketBuffer, kNtpPacketSize);
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+      uint16_t elapsedTime = millis() - startTime;
+      Serial.print("readResponse(): ");
+      Serial.print(elapsedTime);
+      Serial.println(" ms");
+#endif
 
       // convert four bytes starting at location 40 to a long integer
       uint32_t secsSince1900 =  (uint32_t) mPacketBuffer[40] << 24;

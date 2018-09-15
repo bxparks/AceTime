@@ -139,16 +139,16 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
 
 #if ACE_TIME_ENABLE_SERIAL == 1
         if (mTimingStats != nullptr) {
-          if (mTimingStats->getMax() > 2000) {
-            Serial.println("SystemTimeKeeper::runCoroutine(): timing stats");
-            Serial.print("min/avg/max: ");
-            Serial.print(mTimingStats->getMin());
-            Serial.print('/');
-            Serial.print(mTimingStats->getAvg());
-            Serial.print('/');
-            Serial.println(mTimingStats->getMax());
-            Serial.print("count: "); Serial.println(mTimingStats->getCount());
-          }
+          Serial.print("SystemTimeKeeper::runCoroutine(): ");
+          Serial.print("min/avg/max: ");
+          Serial.print(mTimingStats->getMin());
+          Serial.print('/');
+          Serial.print(mTimingStats->getAvg());
+          Serial.print('/');
+          Serial.print(mTimingStats->getMax());
+          Serial.print("; ");
+          Serial.print("count: ");
+          Serial.println(mTimingStats->getCount());
 
           if (mTimingStats->getCount() > 10) {
             mTimingStats->reset();
