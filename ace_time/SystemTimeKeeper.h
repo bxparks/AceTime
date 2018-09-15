@@ -151,7 +151,6 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
           }
 
           if (mTimingStats->getCount() > 10) {
-            Serial.println("SystemTimeKeeper::runCoroutine(): reset stats");
             mTimingStats->reset();
           }
         }
