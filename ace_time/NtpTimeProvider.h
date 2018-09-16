@@ -91,7 +91,7 @@ class NtpTimeProvider: public TimeProvider {
       // send off a request, then return
       if (!mIsRequestPending) {
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-        Serial.println("pollNow(): Sending NTP request");
+        Serial.println("=== NtpTimeProvider::pollNow(): Sending NTP request");
 #endif
         sendRequest();
         mRequestStartTime = millis();
@@ -100,9 +100,10 @@ class NtpTimeProvider: public TimeProvider {
       }
 
       // there's request pending, check for time out
-      if ((uint16_t) (millis() - mRequestStartTime) > mRequestTimeout) {
+      if ((uint16_t) ((uint16_t) millis() - mRequestStartTime)
+          > mRequestTimeout) {
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-        Serial.println("pollNow(): Timed out");
+        Serial.println("NtpTimeProvider::pollNow(): Timed out");
 #endif
         status = kStatusTimedOut;
         mIsRequestPending = false;
@@ -114,7 +115,7 @@ class NtpTimeProvider: public TimeProvider {
 
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
       uint16_t waitTime = (uint16_t) millis() - mRequestStartTime;
-      Serial.print("pollNow(): Received NTP response after ");
+      Serial.print("NtpTimeProvider::pollNow(): Received NTP response after ");
       Serial.print(waitTime);
       Serial.println(" ms");
 #endif
@@ -125,6 +126,12 @@ class NtpTimeProvider: public TimeProvider {
           : secondsSince1900 - kSecondsSinceNtpEpoch;
       mIsRequestPending = false;
       status = kStatusOk;
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+      waitTime = (uint16_t) millis() - mRequestStartTime;
+      Serial.print("NtpTimeProvider::pollNow(): Returning response after ");
+      Serial.print(waitTime);
+      Serial.println(" ms");
+#endif
       return true;
     }
 
@@ -139,21 +146,37 @@ class NtpTimeProvider: public TimeProvider {
     static const uint32_t kSecondsSinceNtpEpoch = 3155673600;
 
     void sendRequest() const {
-      while (mUdp.parsePacket() > 0); // discard any previously received packets
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+      uint16_t startTime = millis();
+      uint16_t packets = 0;
+#endif
+      // discard any previously received packets
+      while (mUdp.parsePacket() > 0) {
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+        packets++;
+#endif
+      }
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+      Serial.print("NtpTimeProvider::sendRequest(): Discarded ");
+      Serial.print(packets);
+      Serial.print(" packets in ");
+      Serial.print((uint16_t) ((uint16_t) millis() - startTime));
+      Serial.println(" ms");
+#endif
 
       // get a random server from the pool
       IPAddress ntpServerIP; // NTP server's ip address
       WiFi.hostByName(mServer, ntpServerIP);
 
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      Serial.print("sendRequest(): Transmitting NTP request to ");
+      Serial.print("NtpTimeProvider::sendRequest(): Transmitting NTP request to ");
       Serial.print(mServer);
       Serial.print(" (");
       Serial.print(ntpServerIP);
       Serial.println(")");
 #endif
 
-      sendNTPpacket(ntpServerIP);
+      sendNtpPacket(ntpServerIP);
     }
 
     /** Returns number of seconds since NTP epoch (1900-01-01). */
@@ -165,7 +188,7 @@ class NtpTimeProvider: public TimeProvider {
       mUdp.read(mPacketBuffer, kNtpPacketSize);
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
       uint16_t elapsedTime = millis() - startTime;
-      Serial.print("readResponse(): ");
+      Serial.print("NtpTimeProvider::readResponse(): ");
       Serial.print(elapsedTime);
       Serial.println(" ms");
 #endif
@@ -190,7 +213,7 @@ class NtpTimeProvider: public TimeProvider {
       while ((waitTime = (uint16_t) millis() - startTime) < 1000) {
         if (mUdp.parsePacket() >= kNtpPacketSize) {
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-          Serial.print("getNtpTime(): Received NTP response: ");
+          Serial.print("NtpTimeProvider::getNtpTime(): Received NTP response: ");
           Serial.print(waitTime);
           Serial.println(" ms");
 #endif
@@ -198,13 +221,16 @@ class NtpTimeProvider: public TimeProvider {
         }
       }
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      Serial.println("getNtpTime(): Timed out");
+      Serial.println("NtpTimeProvider::getNtpTime(): Timed out");
 #endif
       return 0; // return 0 if unable to get the time
     }
 
     /** Send an NTP request to the time server at the given address. */
-    void sendNTPpacket(const IPAddress& address) const {
+    void sendNtpPacket(const IPAddress& address) const {
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+      uint16_t startTime = millis();
+#endif
       // set all bytes in the buffer to 0
       memset(mPacketBuffer, 0, kNtpPacketSize);
       // Initialize values needed to form NTP request
@@ -223,6 +249,11 @@ class NtpTimeProvider: public TimeProvider {
       mUdp.beginPacket(address, 123); //NTP requests are to port 123
       mUdp.write(mPacketBuffer, kNtpPacketSize);
       mUdp.endPacket();
+#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+      Serial.print("NtpTimeProvider::sendNtpPacket(): ");
+      Serial.print((uint16_t) ((uint16_t) millis() - startTime));
+      Serial.println(" ms");
+#endif
     }
 
     const char* const mSsid;

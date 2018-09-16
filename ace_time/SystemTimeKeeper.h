@@ -120,21 +120,24 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
         if (status != TimeKeeper::kStatusOk) {
 #if ACE_TIME_ENABLE_SERIAL == 1
           Serial.print("SystemTimeKeeper::runCoroutine(): Invalid status: ");
-          Serial.println(status);
+          Serial.print(status);
 #endif
         } else if (nowSeconds == 0) {
 #if ACE_TIME_ENABLE_SERIAL == 1
-          Serial.println(
+          Serial.print(
               "SystemTimeKeeper::runCoroutine(): Invalid nowSeconds == 0");
 #endif
         } else {
 #if ACE_TIME_ENABLE_SERIAL == 1
-          Serial.print("SystemTimeKeeper::runCoroutine(): status ok: ");
-          Serial.print((uint16_t) (elapsedTime));
-          Serial.println("ms");
-#endif
+          Serial.print("SystemTimeKeeper::runCoroutine(): status ok");
           sync(nowSeconds);
+#endif
         }
+#if ACE_TIME_ENABLE_SERIAL == 1
+        Serial.print("; ");
+        Serial.print((uint16_t) (elapsedTime));
+        Serial.println("ms");
+#endif
 
 
 #if ACE_TIME_ENABLE_SERIAL == 1
@@ -184,7 +187,7 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
     virtual unsigned long millis() const { return ::millis(); }
   
   private:
-    static const uint16_t kSyncingPeriodMillis = 30000;
+    static const uint16_t kSyncingPeriodMillis = 5000;
 
     /**
      * Write the nowSeconds to the backup TimeKeeper (which can be an RTC that
@@ -209,6 +212,7 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
      */
     void sync(uint32_t secondsSinceEpoch) {
       if (secondsSinceEpoch == 0) return;
+      if (mSecondsSinceEpoch == secondsSinceEpoch) return;
 
       mSecondsSinceEpoch = secondsSinceEpoch;
       mPrevMillis = millis();
