@@ -184,6 +184,8 @@ class NtpTimeProvider: public TimeProvider {
       startTime = millis();
 #endif
       IPAddress ntpServerIP; // NTP server's ip address
+      // TODO: check return value for errors
+      // When there is an error, the ntpServerIP seems to become "0.0.0.0".
       WiFi.hostByName(mServer, ntpServerIP);
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
       Serial.print((uint16_t) millis());

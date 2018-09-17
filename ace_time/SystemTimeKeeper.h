@@ -194,7 +194,8 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
     virtual unsigned long millis() const { return ::millis(); }
   
   private:
-    static const uint16_t kSyncingPeriodMillis = 5000;
+    // TODO: Make this configurable through constructor.
+    static const uint16_t kSyncingPeriodMillis = 30000;
 
     /**
      * Write the nowSeconds to the backup TimeKeeper (which can be an RTC that
