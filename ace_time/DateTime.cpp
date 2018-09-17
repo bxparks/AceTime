@@ -39,7 +39,7 @@ void DateTime::printTo(Print& printer) const {
   printer.print(ds.weekDayLongString(dayOfWeek()));
 }
 
-void DateTime::init(const char* ds) {
+void DateTime::initFromDateString(const char* ds) {
   // verify exact ISO8601 string length
   if (strlen(ds) != kDateStringLength) {
     setError();

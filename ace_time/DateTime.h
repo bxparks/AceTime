@@ -129,7 +129,7 @@ class DateTime {
      * "2018/08/31 13#48#01-07#00"
      */
     explicit DateTime(const char* dateString) {
-      init(dateString);
+      initFromDateString(dateString);
     }
 
     /** Constructor from flash memory F() strings. Mostly for unit testing. */
@@ -148,7 +148,7 @@ class DateTime {
         return;
       }
 
-      init(buffer);
+      initFromDateString(buffer);
     }
 
     /** Return true if any component indicates an error condition. */
@@ -385,7 +385,7 @@ class DateTime {
     friend bool operator!=(const DateTime& a, const DateTime& b);
 
     /** Extract the date time components from the given dateString. */
-    void init(const char* dateString);
+    void initFromDateString(const char* dateString);
 
     /**
      * Calculate the correct day of week from the internal fields. If any of the
