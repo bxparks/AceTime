@@ -111,32 +111,39 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
       uint32_t nowSeconds;
       COROUTINE_LOOP() {
         startTime = millis();
+#if ACE_TIME_ENABLE_SERIAL == 1
+          Serial.print((uint16_t) startTime);
+          Serial.println(": === SystemTimeKeeper::runCoroutine(): sending request");
+#endif
         COROUTINE_AWAIT(mSyncTimeProvider->pollNow(status, nowSeconds));
         uint16_t elapsedTime = millis() - startTime;
         if (mTimingStats != nullptr) {
           mTimingStats->update(elapsedTime);
         }
 
+#if ACE_TIME_ENABLE_SERIAL == 1
+        Serial.print((uint16_t) millis());
+#endif
         if (status != TimeKeeper::kStatusOk) {
 #if ACE_TIME_ENABLE_SERIAL == 1
-          Serial.print("SystemTimeKeeper::runCoroutine(): Invalid status: ");
+          Serial.print(": SystemTimeKeeper::runCoroutine(): Invalid status: ");
           Serial.print(status);
 #endif
         } else if (nowSeconds == 0) {
 #if ACE_TIME_ENABLE_SERIAL == 1
           Serial.print(
-              "SystemTimeKeeper::runCoroutine(): Invalid nowSeconds == 0");
+              ": SystemTimeKeeper::runCoroutine(): Invalid nowSeconds == 0");
 #endif
         } else {
 #if ACE_TIME_ENABLE_SERIAL == 1
-          Serial.print("SystemTimeKeeper::runCoroutine(): status ok");
+          Serial.print(": SystemTimeKeeper::runCoroutine(): status ok");
           sync(nowSeconds);
 #endif
         }
 #if ACE_TIME_ENABLE_SERIAL == 1
         Serial.print("; ");
         Serial.print((uint16_t) (elapsedTime));
-        Serial.println("ms");
+        Serial.println(" ms");
 #endif
 
 
