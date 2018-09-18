@@ -1,10 +1,10 @@
 /*
- * A quick implementation of printf() and logf() for Arduino. I finally got
+ * A quick implementation of printf() and loggerf() for Arduino. I finally got
  * very tired of writing multiple lines of Serial.print() for debugging.
  */
 
-#ifndef ACE_TIME_COMMON_PRINTF
-#define ACE_TIME_COMMON_PRINTF
+#ifndef ACE_TIME_COMMON_LOGGERF
+#define ACE_TIME_COMMON_LOGGERF
 
 namespace ace_time {
 namespace common {
@@ -26,10 +26,10 @@ inline void printf(const char* fmt, ...) {
 }
 
 /**
- * Similar to printf() but prints the last 2 bytes of millis() before printing
- * out the fmt and arguments.
+ * Log the lower 16-bits of millis(), then print the log message using its fmt
+ * and arguments. Automatically prints a newline.
  */
-inline void logf(const char *fmt, ... ) {
+inline void logger(const char *fmt, ... ) {
   uint16_t now = millis();
   Serial.print(now);
   Serial.print(": ");
@@ -38,6 +38,7 @@ inline void logf(const char *fmt, ... ) {
 	va_start(args, fmt);
   common::vprintf(fmt, args);
   va_end(args);
+  Serial.println();
 }
 
 }
