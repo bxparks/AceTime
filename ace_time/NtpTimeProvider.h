@@ -18,7 +18,12 @@ namespace ace_time {
 using common::logger;
 
 /**
- * A TimeProvider that retrieves the time from an NTP server.
+ * A TimeProvider that retrieves the time from an NTP server. This class has the
+ * deficiency that the DNS name resolver WiFi.hostByName() is a blocking call.
+ * So every now and then, it can take 5-6 seconds for the call to return,
+ * blocking everything (e.g. display refresh, button clicks) until it times out.
+ *
+ * TODO: Create a version that uses a non-blocking DNS look up.
  *
  * Borrowed from
  * https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/examples/NTPClient/NTPClient.ino

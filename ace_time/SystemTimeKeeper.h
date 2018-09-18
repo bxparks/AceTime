@@ -18,19 +18,21 @@ namespace ace_time {
 using namespace common;
 
 /**
- * A TimeKeeper that uses the Arduino millis() function to advance the time.
- * The built-in millis() is not accurate, so this class performs a periodic
+ * A TimeKeeper that uses the Arduino millis() function to advance the time
+ * returned to the user. The real time is returned as the number of seconds
+ * since the AceTime epoch of 2000-01-01T00:00:00Z.
+ *
+ * The built-in millis() is not accurate, so this class allows a periodic
  * sync using the (presumably) more accurate syncTimeProvider. The current
- * is periodically backed up into the backupTimeKeeper which is expected
- * to be an RTC chip that continues to keep time during power loss.
+ * time can be periodically backed up into the backupTimeKeeper which is
+ * expected to be an RTC chip that continues to keep time during power loss.
  *
  * The value of the previous system time millis() is stored internally as
  * a uint16_t. That has 2 advantages: 1) it saves memory, 2) the upper bound of
- * the execution time of getNow() limited to 65 iterations.
- *
- * The disadvantage is the that internal counter will rollover within 65.535
- * milliseconds. To prevent that, getNow() or setNow() must be called more
- * frequently than every 65.536 seconds. This can be satisfied by using the
+ * the execution time of getNow() limited to 65 iterations. The disadvantage is
+ * the that internal counter will rollover within 65.535 milliseconds. To
+ * prevent that, getNow() or setNow() must be called more frequently than every
+ * 65.536 seconds. This can be satisfied by using the
  * SystemTimeHeartbeatCoroutine or SystemTimeLoop helper classes.
  *
  * There are 2 ways to perform syncing from the syncTimeProvider:
@@ -46,6 +48,11 @@ using namespace common;
  * 2) Call the SystemTimeLoop::loop() method from the global loop() function.
  * This method uses the blocking TimeProvider::getNow() method which can take
  * 100s milliseconds for something like NtpTimeProvider.
+ *
+ * The SystemTimeLoop::loop() performs both syncing (against the
+ * syncTimeProvider) and heartbeat freshening (against the builtin millis()). If
+ * you are using Coroutines, you must use both the SystemTimeHeartbeatCoroutine
+ * and the SystemTimeSyncCoroutine.
  */
 class SystemTimeKeeper: public TimeKeeper {
   public:
@@ -142,7 +149,7 @@ class SystemTimeKeeper: public TimeKeeper {
 };
 
 /**
- * A coroutine that synchs the SystemTimeKeeper with its syncTimeProvider.
+ * A coroutine that syncs the SystemTimeKeeper with its syncTimeProvider.
  */
 class SystemTimeSyncCoroutine: public Coroutine {
   public:
@@ -236,9 +243,16 @@ class SystemTimeSyncCoroutine: public Coroutine {
     TimingStats* const mTimingStats;
 };
 
-/** A coroutine that calls SystemTimeKeeper.getNow() every 5 seconds. */
+/**
+ * A coroutine that calls SystemTimeKeeper.getNow() peridically.
+ */
 class SystemTimeHeartbeatCoroutine: public Coroutine {
   public:
+    /**
+     * Constructor.
+     * @param systemTimeKeeper reference to the SystemTimeKeeper
+     * @param heartbeatPeriodMillis milliseconds between calls to getNow()
+     */
     SystemTimeHeartbeatCoroutine(SystemTimeKeeper& systemTimeKeeper,
         uint16_t heartbeatPeriodMillis = 5000):
       mSystemTimeKeeper(systemTimeKeeper),
@@ -259,6 +273,11 @@ class SystemTimeHeartbeatCoroutine: public Coroutine {
     uint16_t const mHeartbeatPeriodMillis;
 };
 
+/**
+ * A class that peridically freshens the SystemTimeKeeper using the heartbeat
+ * call to getNow(), and peridically syncs with the syncTimeProvider (if it was
+ * provided to the SystemTimeKeeper).
+ */
 class SystemTimeLoop {
   public:
     SystemTimeLoop(SystemTimeKeeper& systemTimeKeeper,
