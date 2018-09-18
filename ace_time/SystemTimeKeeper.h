@@ -29,26 +29,25 @@ using namespace common;
  * the execution time of getNow() limited to 65 iterations.
  *
  * The disadvantage is the that internal counter will rollover within 65.535
- * milliseconds. To prevent that, getNow(), setNow(), or sync() must be called
- * more frequently than every 65.536 seconds. This can be satisfied by enabling
- * the syncing from syncTimeProvider.
+ * milliseconds. To prevent that, getNow() or setNow() must be called more
+ * frequently than every 65.536 seconds. This can be satisfied by using the
+ * SystemTimeHeartbeatCoroutine or SystemTimeLoop helper classes.
  *
  * There are 2 ways to perform syncing from the syncTimeProvider:
  *
- * 1) Use either the AceRoutine infrastructure by calling setupCoroutine()
- * (inherited from Coroutine) of this object in the global setup() function,
- * which allows the CoroutineScheduler to call SystemTimeKeeper::runCoroutine()
- * periodically. The runCoroutine() method uses the non-blocking
+ * 1) Create an instance of SystemTimeSyncCoroutine and register it with the
+ * CoroutineSchedule so that it runs periodically. The
+ * SystemTimeSyncCoroutine::runCoroutine() method uses the non-blocking
  * TimeProvicer::pollNow() method to retrieve the current time. Some time
  * providers (e.g. NtpTimeProvider) can take 100s of milliseconds to return, so
  * using the coroutine infrastructure allows other coroutines to continue
  * executing.
  *
- * 2) Call the SystemTimeKeeper::loop() method from the global loop() function.
+ * 2) Call the SystemTimeLoop::loop() method from the global loop() function.
  * This method uses the blocking TimeProvider::getNow() method which can take
  * 100s milliseconds for something like NtpTimeProvider.
  */
-class SystemTimeKeeper: public TimeKeeper, public Coroutine {
+class SystemTimeKeeper: public TimeKeeper {
   public:
 
     /**
@@ -57,17 +56,12 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
      * to set the proper time using setNow().
      * @param backupTimeKeeper An RTC chip which continues to keep time
      * even when power is lost. Can be null.
-     * @param TimingStats internal statistics
      */
     explicit SystemTimeKeeper(
             TimeProvider* syncTimeProvider /* nullable */,
-            TimeKeeper* backupTimeKeeper /* nullable */,
-            uint16_t syncPeriodSeconds = 3600,
-            common::TimingStats* timingStats = nullptr):
+            TimeKeeper* backupTimeKeeper /* nullable */):
         mSyncTimeProvider(syncTimeProvider),
         mBackupTimeKeeper(backupTimeKeeper),
-        mSyncPeriodSeconds(syncPeriodSeconds),
-        mTimingStats(timingStats),
         mPrevMillis(0),
         mIsSynced(false) {}
 
@@ -96,113 +90,15 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
       backupNow(secondsSinceEpoch);
     }
 
-    common::TimingStats* getTimingStats() const {
-      return mTimingStats;
-    }
-
-    /**
-     * @copydoc Coroutine::runCoroutine()
-     *
-     * The CoroutineScheduler will use this method if enabled. Don't forget to
-     * call setupCoroutine() (inherited from Coroutine) in the global setup() to
-     * register this coroutine into the CoroutineScheduler.
-     */
-    virtual int runCoroutine() override {
-      static uint16_t startTime;
-
-      if (mSyncTimeProvider == nullptr) return 0;
-
-      uint8_t status;
-      uint32_t nowSeconds;
-      COROUTINE_LOOP() {
-        startTime = millis();
-#if ACE_TIME_ENABLE_SERIAL == 1
-          logger("=== SystemTimeKeeper::runCoroutine(): sending request");
-#endif
-        COROUTINE_AWAIT(mSyncTimeProvider->pollNow(status, nowSeconds));
-        uint16_t elapsedTime = millis() - startTime;
-        if (mTimingStats != nullptr) {
-          mTimingStats->update(elapsedTime);
-        }
-
-        if (status != TimeKeeper::kStatusOk) {
-#if ACE_TIME_ENABLE_SERIAL == 1
-          logger("SystemTimeKeeper::runCoroutine(): Invalid status: %u",
-              status);
-#endif
-        } else if (nowSeconds == 0) {
-#if ACE_TIME_ENABLE_SERIAL == 1
-          logger("SystemTimeKeeper::runCoroutine(): Invalid nowSeconds == 0");
-#endif
-        } else {
-#if ACE_TIME_ENABLE_SERIAL == 1
-          logger("SystemTimeKeeper::runCoroutine(): status ok");
-          sync(nowSeconds);
-#endif
-        }
-#if ACE_TIME_ENABLE_SERIAL == 1
-        logger("SystemTimeKeeper::runCoroutine; %u ms", elapsedTime);
-#endif
-
-
-#if ACE_TIME_ENABLE_SERIAL == 1
-        if (mTimingStats != nullptr) {
-          logger("SystemTimeKeeper::runCoroutine(): "
-                 "min/avg/max: %u/%u/%u; count: %u",
-                 mTimingStats->getMin(),
-                 mTimingStats->getAvg(),
-                 mTimingStats->getMax(),
-                 mTimingStats->getCount());
-
-          if (mTimingStats->getCount() >= 10) {
-            mTimingStats->reset();
-          }
-        }
-#endif
-
-        // Wait for mSyncPeriodSeconds. Another method that has less drift would
-        // be to loop in 16000ms chunks, since division of mSyncPeriodSeconds by
-        // 16 is fast.
-        static uint16_t i;
-        for (i = 0; i < mSyncPeriodSeconds; i++) {
-          COROUTINE_DELAY(1000);
-        }
-      }
-    }
-
-    /**
-     * If AceRoutine coroutine infrastructure is not used, then call this from
-     * the global loop() method.
-     */
-    void loop() {
-      unsigned long nowMillis = millis();
-      uint32_t timeSinceLastSync = nowMillis - mLastSyncMillis;
-
-      // Make sure that mSecondsSinceEpoch does not fall too far behind.
-      if (timeSinceLastSync >= 5000) {
-        getNow();
-      }
-
-      // Synchronize if a TimeProvider is available, and mSyncPeriodSeconds has
-      // passed.
-      if (mSyncTimeProvider != nullptr) {
-        if (timeSinceLastSync >= mSyncPeriodSeconds * (uint32_t) 1000) {
-          uint32_t nowSeconds = mSyncTimeProvider->getNow(); // blocking call
-          if (nowSeconds == 0) return;
-#if ACE_TIME_ENABLE_SERIAL == 1
-            logger("SystemTimeKeeper::loop(): Syncing system time keeper");
-#endif
-          sync(nowSeconds);
-          mLastSyncMillis = nowMillis;
-        }
-      }
-    }
-
   protected:
     // Override for unit testing.
     virtual unsigned long millis() const { return ::millis(); }
-  
+
   private:
+    friend class SystemTimeSyncCoroutine;
+    friend class SystemTimeHeartbeatCoroutine;
+    friend class SystemTimeLoop;
+
     /**
      * Write the nowSeconds to the backup TimeKeeper (which can be an RTC that
      * has non-volatile memory, or simply flash memory which emulates a backup
@@ -239,13 +135,176 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
 
     const TimeProvider* const mSyncTimeProvider;
     TimeKeeper* const mBackupTimeKeeper;
-    uint16_t mSyncPeriodSeconds;
-    TimingStats* const mTimingStats;
 
     mutable uint32_t mSecondsSinceEpoch; // time presented to the user
     mutable uint16_t mPrevMillis;  // lower 16-bits of millis()
-    mutable uint16_t mLastSyncMillis;
     bool mIsSynced;
+};
+
+/**
+ * A coroutine that synchs the SystemTimeKeeper with its syncTimeProvider.
+ */
+class SystemTimeSyncCoroutine: public Coroutine {
+  public:
+    /**
+     * Constructor.
+     * @param systemTimeKeeper the system time keeper to sync up
+     * @param timingStats internal statistics
+     */
+    SystemTimeSyncCoroutine(SystemTimeKeeper& systemTimeKeeper,
+        uint16_t syncPeriodSeconds = 3600,
+        TimingStats* timingStats = nullptr):
+      mSystemTimeKeeper(systemTimeKeeper),
+      mSyncPeriodSeconds(syncPeriodSeconds),
+      mTimingStats(timingStats) {}
+
+    /**
+     * @copydoc Coroutine::runCoroutine()
+     *
+     * The CoroutineScheduler will use this method if enabled. Don't forget to
+     * call setupCoroutine() (inherited from Coroutine) in the global setup() to
+     * register this coroutine into the CoroutineScheduler.
+     */
+    virtual int runCoroutine() override {
+      static uint16_t startTime;
+
+      if (mSystemTimeKeeper.mSyncTimeProvider == nullptr) return 0;
+
+      uint8_t status;
+      uint32_t nowSeconds;
+      COROUTINE_LOOP() {
+        startTime = millis();
+
+#if ACE_TIME_ENABLE_SERIAL == 1
+        logger("=== SystemTimeSyncCoroutine: sending request");
+#endif
+        COROUTINE_AWAIT(mSystemTimeKeeper.mSyncTimeProvider->pollNow(
+            status, nowSeconds));
+        uint16_t elapsedTime = millis() - startTime;
+        if (mTimingStats != nullptr) {
+          mTimingStats->update(elapsedTime);
+        }
+
+        if (status != TimeKeeper::kStatusOk) {
+#if ACE_TIME_ENABLE_SERIAL == 1
+          logger("SystemTimeSyncCoroutine: Invalid status: %u",
+              status);
+#endif
+        } else if (nowSeconds == 0) {
+#if ACE_TIME_ENABLE_SERIAL == 1
+          logger("SystemTimeSyncCoroutine: Invalid nowSeconds == 0");
+#endif
+        } else {
+#if ACE_TIME_ENABLE_SERIAL == 1
+          logger("SystemTimeSyncCoroutine: status ok");
+          mSystemTimeKeeper.sync(nowSeconds);
+#endif
+        }
+#if ACE_TIME_ENABLE_SERIAL == 1
+        logger("SystemTimeSyncCoroutine: %u ms", elapsedTime);
+#endif
+
+
+#if ACE_TIME_ENABLE_SERIAL == 1
+        if (mTimingStats != nullptr) {
+          logger("SystemTimeSyncCoroutine: "
+                 "min/avg/max: %u/%u/%u; count: %u",
+                 mTimingStats->getMin(),
+                 mTimingStats->getAvg(),
+                 mTimingStats->getMax(),
+                 mTimingStats->getCount());
+
+          if (mTimingStats->getCount() >= 10) {
+            mTimingStats->reset();
+          }
+        }
+#endif
+
+        // Wait for mSyncPeriodSeconds. Another method that has less drift would
+        // be to loop in 16000ms chunks, since division of mSyncPeriodSeconds by
+        // 16 is fast.
+        static uint16_t i;
+        for (i = 0; i < mSyncPeriodSeconds; i++) {
+          COROUTINE_DELAY(1000);
+        }
+      }
+    }
+
+  private:
+    SystemTimeKeeper& mSystemTimeKeeper;
+    uint16_t const mSyncPeriodSeconds;
+    TimingStats* const mTimingStats;
+};
+
+/** A coroutine that calls SystemTimeKeeper.getNow() every 5 seconds. */
+class SystemTimeHeartbeatCoroutine: public Coroutine {
+  public:
+    SystemTimeHeartbeatCoroutine(SystemTimeKeeper& systemTimeKeeper,
+        uint16_t heartbeatPeriodMillis = 5000):
+      mSystemTimeKeeper(systemTimeKeeper),
+      mHeartbeatPeriodMillis(heartbeatPeriodMillis) {}
+
+    virtual int runCoroutine() override {
+      COROUTINE_LOOP() {
+#if ACE_TIME_ENABLE_SERIAL == 1
+        logger("SystemTimeHeartbeatCoroutine: calling getNow()");
+#endif
+        mSystemTimeKeeper.getNow();
+        COROUTINE_DELAY(mHeartbeatPeriodMillis);
+      }
+    }
+
+  private:
+    SystemTimeKeeper& mSystemTimeKeeper;
+    uint16_t const mHeartbeatPeriodMillis;
+};
+
+class SystemTimeLoop {
+  public:
+    SystemTimeLoop(SystemTimeKeeper& systemTimeKeeper,
+          uint16_t syncPeriodSeconds = 3600,
+          uint16_t heartbeatPeriodMillis = 5000):
+      mSystemTimeKeeper(systemTimeKeeper),
+      mSyncPeriodSeconds(syncPeriodSeconds),
+      mHeartbeatPeriodMillis(heartbeatPeriodMillis) {}
+
+    /**
+     * If AceRoutine coroutine infrastructure is not used, then call this from
+     * the global loop() method.
+     */
+    void loop() {
+      unsigned long nowMillis = millis();
+      uint32_t timeSinceLastSync = nowMillis - mLastSyncMillis;
+
+      // Make sure that mSecondsSinceEpoch does not fall too far behind.
+      if (timeSinceLastSync >= 5000) {
+#if ACE_TIME_ENABLE_SERIAL == 1
+        logger("SystemTimeLoop::loop(): calling SystemTimeKeeper::getNow()");
+#endif
+        mSystemTimeKeeper.getNow();
+      }
+
+      // Synchronize if a TimeProvider is available, and mSyncPeriodSeconds has
+      // passed.
+      if (mSystemTimeKeeper.mSyncTimeProvider != nullptr) {
+        if (timeSinceLastSync >= mSyncPeriodSeconds * (uint32_t) 1000) {
+          // blocking call
+          uint32_t nowSeconds = mSystemTimeKeeper.mSyncTimeProvider->getNow();
+          if (nowSeconds == 0) return;
+#if ACE_TIME_ENABLE_SERIAL == 1
+            logger("SystemTimeLoop::loop(): calling SystemTimeKeeper::sync()");
+#endif
+          mSystemTimeKeeper.sync(nowSeconds);
+          mLastSyncMillis = nowMillis;
+        }
+      }
+    }
+
+  private:
+    SystemTimeKeeper& mSystemTimeKeeper;
+    uint16_t const mSyncPeriodSeconds;
+    uint16_t const mHeartbeatPeriodMillis;
+    uint16_t mLastSyncMillis;
 };
 
 }
