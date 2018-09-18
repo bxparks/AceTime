@@ -160,7 +160,9 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
         }
 #endif
 
-        // Wait for mSyncPeriodSeconds.
+        // Wait for mSyncPeriodSeconds. Another method that has less drift would
+        // be to loop in 16000ms chunks, since division of mSyncPeriodSeconds by
+        // 16 is fast.
         static uint16_t i;
         for (i = 0; i < mSyncPeriodSeconds; i++) {
           COROUTINE_DELAY(1000);
@@ -173,20 +175,27 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
      * the global loop() method.
      */
     void loop() {
-      if (mSyncTimeProvider == nullptr) return;
-
       unsigned long nowMillis = millis();
       uint32_t timeSinceLastSync = nowMillis - mLastSyncMillis;
-      if (timeSinceLastSync < mSyncPeriodSeconds * (uint32_t) 1000) return;
 
-      uint32_t nowSeconds = mSyncTimeProvider->getNow(); // blocking call
-      if (nowSeconds == 0) return;
+      // Make sure that mSecondsSinceEpoch does not fall too far behind.
+      if (timeSinceLastSync >= 5000) {
+        getNow();
+      }
 
+      // Synchronize if a TimeProvider is available, and mSyncPeriodSeconds has
+      // passed.
+      if (mSyncTimeProvider != nullptr) {
+        if (timeSinceLastSync >= mSyncPeriodSeconds * (uint32_t) 1000) {
+          uint32_t nowSeconds = mSyncTimeProvider->getNow(); // blocking call
+          if (nowSeconds == 0) return;
 #if ACE_TIME_ENABLE_SERIAL == 1
-      Serial.println("SystemTimeKeeper::loop(): Syncing system time keeper");
+            logger("SystemTimeKeeper::loop(): Syncing system time keeper");
 #endif
-      sync(nowSeconds);
-      mLastSyncMillis = nowMillis;
+          sync(nowSeconds);
+          mLastSyncMillis = nowMillis;
+        }
+      }
     }
 
   protected:
