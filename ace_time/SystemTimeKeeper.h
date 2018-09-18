@@ -160,7 +160,7 @@ class SystemTimeKeeper: public TimeKeeper, public Coroutine {
           Serial.print("count: ");
           Serial.println(mTimingStats->getCount());
 
-          if (mTimingStats->getCount() > 10) {
+          if (mTimingStats->getCount() >= 10) {
             mTimingStats->reset();
           }
         }
