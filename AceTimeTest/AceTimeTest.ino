@@ -2,6 +2,7 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
+#include <ace_time/common/DateStrings.h>
 
 using namespace aunit;
 using namespace ace_time;

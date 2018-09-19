@@ -2,10 +2,11 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
+#include <ace_time/hw/HardwareDateTime.h>
+#include <ace_time/hw/HardwareTemperature.h>
 
 using namespace aunit;
 using namespace ace_time::hw;
-using namespace ace_time::common;
 
 // --------------------------------------------------------------------------
 // HardwareTemperature
