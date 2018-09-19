@@ -160,9 +160,11 @@ class SystemTimeSyncCoroutine: public Coroutine {
      */
     SystemTimeSyncCoroutine(SystemTimeKeeper& systemTimeKeeper,
         uint16_t syncPeriodSeconds = 3600,
+        uint16_t initialSyncPeriodSeconds = 5,
         TimingStats* timingStats = nullptr):
       mSystemTimeKeeper(systemTimeKeeper),
       mSyncPeriodSeconds(syncPeriodSeconds),
+      mInitialSyncPeriodSeconds(initialSyncPeriodSeconds),
       mTimingStats(timingStats) {}
 
     /**
@@ -231,8 +233,14 @@ class SystemTimeSyncCoroutine: public Coroutine {
         // be to loop in 16000ms chunks, since division of mSyncPeriodSeconds by
         // 16 is fast.
         static uint16_t i;
-        for (i = 0; i < mSyncPeriodSeconds; i++) {
-          COROUTINE_DELAY(1000);
+        if (mSystemTimeKeeper.mIsSynced) {
+          for (i = 0; i < mSyncPeriodSeconds; i++) {
+            COROUTINE_DELAY(1000);
+          }
+        } else {
+          for (i = 0; i < mInitialSyncPeriodSeconds; i++) {
+            COROUTINE_DELAY(1000);
+          }
         }
       }
     }
@@ -240,6 +248,7 @@ class SystemTimeSyncCoroutine: public Coroutine {
   private:
     SystemTimeKeeper& mSystemTimeKeeper;
     uint16_t const mSyncPeriodSeconds;
+    uint16_t const mInitialSyncPeriodSeconds;
     TimingStats* const mTimingStats;
 };
 
