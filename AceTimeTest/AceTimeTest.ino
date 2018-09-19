@@ -264,6 +264,11 @@ test(dateTimeErrorForZeroValue) {
   assertTrue(dt.isError());
 }
 
+test(dateTimeSetError) {
+  DateTime dt = DateTime().setError();
+  assertTrue(dt.isError());
+}
+
 test(dateTimeIsError) {
   DateTime dt(18, 1, 1, 0, 0, 0); // 2018-01-01 00:00:00Z
   assertFalse(dt.isError());
