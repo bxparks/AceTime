@@ -9,20 +9,18 @@
 
 namespace ace_time {
 
-using namespace hw;
-
 /**
  * An implementation of TimeKeeper that uses a DS3231 RTC chip.
  */
 class DS3231TimeKeeper: public TimeKeeper {
   public:
-    explicit DS3231TimeKeeper(const DS3231& ds3231):
+    explicit DS3231TimeKeeper(const hw::DS3231& ds3231):
         mDS3231(ds3231) {}
 
     virtual void setup() override {}
 
     virtual uint32_t getNow() const override {
-      HardwareDateTime hardwareDateTime;
+      hw::HardwareDateTime hardwareDateTime;
       mDS3231.readDateTime(&hardwareDateTime);
       return toDateTime(hardwareDateTime).toSecondsSinceEpoch();
     }
@@ -37,7 +35,7 @@ class DS3231TimeKeeper: public TimeKeeper {
      * Convert the HardwareDateTime returned by the DS3231 chip to
      * the DateTime object using UTC time zone.
      */
-    static DateTime toDateTime(const HardwareDateTime& dt) {
+    static DateTime toDateTime(const hw::HardwareDateTime& dt) {
       return DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
     }
 
@@ -46,12 +44,12 @@ class DS3231TimeKeeper: public TimeKeeper {
      * In practice, it will often be most convenient to store the DS3231 as UTC
      * time.
      */
-    static HardwareDateTime toHardwareDateTime(const DateTime& dt) {
-      return HardwareDateTime{dt.year(), dt.month(), dt.day(), dt.hour(),
+    static hw::HardwareDateTime toHardwareDateTime(const DateTime& dt) {
+      return hw::HardwareDateTime{dt.year(), dt.month(), dt.day(), dt.hour(),
           dt.minute(), dt.second(), dt.dayOfWeek()};
     }
 
-    const DS3231& mDS3231;
+    const hw::DS3231& mDS3231;
 };
 
 }

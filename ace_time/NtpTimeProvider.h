@@ -15,8 +15,6 @@
 
 namespace ace_time {
 
-using common::logger;
-
 /**
  * A TimeProvider that retrieves the time from an NTP server. This class has the
  * deficiency that the DNS name resolver WiFi.hostByName() is a blocking call.
@@ -103,7 +101,7 @@ class NtpTimeProvider: public TimeProvider {
       // send off a request, then return
       if (!mIsRequestPending) {
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-        logger("NtpTimeProvider::pollNow(): Sending NTP request");
+        common::logger("NtpTimeProvider::pollNow(): Sending NTP request");
 #endif
         sendRequest();
         mRequestStartTime = millis();
@@ -118,7 +116,8 @@ class NtpTimeProvider: public TimeProvider {
       uint16_t waitTime= (uint16_t) millis() - mRequestStartTime;
       if (waitTime > mRequestTimeout) {
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-        logger("NtpTimeProvider::pollNow(): Timed out after %u polls and %u ms",
+        common::logger(
+            "NtpTimeProvider::pollNow(): Timed out after %u polls and %u ms",
             mRequestPendingCount, waitTime);
 #endif
         status = kStatusTimedOut;
@@ -134,7 +133,8 @@ class NtpTimeProvider: public TimeProvider {
 
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
       waitTime = (uint16_t) millis() - mRequestStartTime;
-      logger("NtpTimeProvider::pollNow(): Received after %u polls and %u ms",
+      common::logger(
+          "NtpTimeProvider::pollNow(): Received after %u polls and %u ms",
           mRequestPendingCount, waitTime);
 #endif
 
@@ -146,9 +146,9 @@ class NtpTimeProvider: public TimeProvider {
       status = kStatusOk;
 
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      logger("NtpTimeProvider::pollNow(): Returning response: %u ms",
+      common::logger("NtpTimeProvider::pollNow(): Returning response: %u ms",
           (uint16_t) ((uint16_t) millis() - mRequestStartTime));
-      logger("NtpTimeProvider::pollNow(): method duration: %u ms",
+      common::logger("NtpTimeProvider::pollNow(): method duration: %u ms",
           (uint16_t) ((uint16_t) millis() - methodTime));
 #endif
       return true;
@@ -178,7 +178,8 @@ class NtpTimeProvider: public TimeProvider {
 #endif
       }
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      logger("NtpTimeProvider::sendRequest(): Discarded %u packets: %hu ms",
+      common::logger(
+          "NtpTimeProvider::sendRequest(): Discarded %u packets: %hu ms",
           packets, (uint16_t) ((uint16_t) millis() - startTime));
 #endif
 
@@ -206,7 +207,7 @@ class NtpTimeProvider: public TimeProvider {
       sendNtpPacket(ntpServerIP);
 
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      logger("NtpTimeProvider::sendRequest(): method duration: %u ms",
+      common::logger("NtpTimeProvider::sendRequest(): method duration: %u ms",
           (uint16_t) (millis() - methodStart));
 #endif
     }
@@ -220,7 +221,7 @@ class NtpTimeProvider: public TimeProvider {
       // read packet into the buffer
       mUdp.read(mPacketBuffer, kNtpPacketSize);
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      logger("NtpTimeProvider::readResponse(): %u ms",
+      common::logger("NtpTimeProvider::readResponse(): %u ms",
           (uint16_t) (millis() - startTime));
 #endif
 
@@ -281,7 +282,7 @@ class NtpTimeProvider: public TimeProvider {
       mUdp.write(mPacketBuffer, kNtpPacketSize);
       mUdp.endPacket();
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      logger("NtpTimeProvider::sendNtpPacket(): %u ms",
+      common::logger("NtpTimeProvider::sendNtpPacket(): %u ms",
           (uint16_t) (millis() - startTime));
 #endif
     }

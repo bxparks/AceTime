@@ -12,11 +12,7 @@
 #include "common/TimingStats.h"
 #include "common/logger.h"
 
-using namespace ace_routine;
-
 namespace ace_time {
-
-using namespace common;
 
 /**
  * A TimeKeeper that uses the Arduino millis() function to advance the time
@@ -150,7 +146,7 @@ class SystemTimeKeeper: public TimeKeeper {
 /**
  * A coroutine that syncs the SystemTimeKeeper with its syncTimeProvider.
  */
-class SystemTimeSyncCoroutine: public Coroutine {
+class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
   public:
     /**
      * Constructor.
@@ -160,7 +156,7 @@ class SystemTimeSyncCoroutine: public Coroutine {
     SystemTimeSyncCoroutine(SystemTimeKeeper& systemTimeKeeper,
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
-        TimingStats* timingStats = nullptr):
+        common::TimingStats* timingStats = nullptr):
       mSystemTimeKeeper(systemTimeKeeper),
       mSyncPeriodSeconds(syncPeriodSeconds),
       mInitialSyncPeriodSeconds(initialSyncPeriodSeconds),
@@ -184,7 +180,7 @@ class SystemTimeSyncCoroutine: public Coroutine {
         startTime = millis();
 
 #if ACE_TIME_ENABLE_SERIAL == 1
-        logger("=== SystemTimeSyncCoroutine: sending request");
+        common::logger("=== SystemTimeSyncCoroutine: sending request");
 #endif
         COROUTINE_AWAIT(mSystemTimeKeeper.mSyncTimeProvider->pollNow(
             status, nowSeconds));
@@ -195,27 +191,27 @@ class SystemTimeSyncCoroutine: public Coroutine {
 
         if (status != TimeKeeper::kStatusOk) {
 #if ACE_TIME_ENABLE_SERIAL == 1
-          logger("SystemTimeSyncCoroutine: Invalid status: %u",
+          common::logger("SystemTimeSyncCoroutine: Invalid status: %u",
               status);
 #endif
         } else if (nowSeconds == 0) {
 #if ACE_TIME_ENABLE_SERIAL == 1
-          logger("SystemTimeSyncCoroutine: Invalid nowSeconds == 0");
+          common::logger("SystemTimeSyncCoroutine: Invalid nowSeconds == 0");
 #endif
         } else {
 #if ACE_TIME_ENABLE_SERIAL == 1
-          logger("SystemTimeSyncCoroutine: status ok");
+          common::logger("SystemTimeSyncCoroutine: status ok");
           mSystemTimeKeeper.sync(nowSeconds);
 #endif
         }
 #if ACE_TIME_ENABLE_SERIAL == 1
-        logger("SystemTimeSyncCoroutine: %u ms", elapsedTime);
+        common::logger("SystemTimeSyncCoroutine: %u ms", elapsedTime);
 #endif
 
 
 #if ACE_TIME_ENABLE_SERIAL == 1
         if (mTimingStats != nullptr) {
-          logger("SystemTimeSyncCoroutine: "
+          common::logger("SystemTimeSyncCoroutine: "
                  "min/avg/max: %u/%u/%u; count: %u",
                  mTimingStats->getMin(),
                  mTimingStats->getAvg(),
@@ -248,13 +244,13 @@ class SystemTimeSyncCoroutine: public Coroutine {
     SystemTimeKeeper& mSystemTimeKeeper;
     uint16_t const mSyncPeriodSeconds;
     uint16_t const mInitialSyncPeriodSeconds;
-    TimingStats* const mTimingStats;
+    common::TimingStats* const mTimingStats;
 };
 
 /**
  * A coroutine that calls SystemTimeKeeper.getNow() peridically.
  */
-class SystemTimeHeartbeatCoroutine: public Coroutine {
+class SystemTimeHeartbeatCoroutine: public ace_routine::Coroutine {
   public:
     /**
      * Constructor.
@@ -269,7 +265,7 @@ class SystemTimeHeartbeatCoroutine: public Coroutine {
     virtual int runCoroutine() override {
       COROUTINE_LOOP() {
 #if ACE_TIME_ENABLE_SERIAL == 1
-        logger("SystemTimeHeartbeatCoroutine: calling getNow()");
+        common::logger("SystemTimeHeartbeatCoroutine: calling getNow()");
 #endif
         mSystemTimeKeeper.getNow();
         COROUTINE_DELAY(mHeartbeatPeriodMillis);
@@ -306,7 +302,8 @@ class SystemTimeLoop {
       // Make sure that mSecondsSinceEpoch does not fall too far behind.
       if (timeSinceLastSync >= 5000) {
 #if ACE_TIME_ENABLE_SERIAL == 1
-        logger("SystemTimeLoop::loop(): calling SystemTimeKeeper::getNow()");
+        common::logger(
+            "SystemTimeLoop::loop(): calling SystemTimeKeeper::getNow()");
 #endif
         mSystemTimeKeeper.getNow();
       }
@@ -319,7 +316,8 @@ class SystemTimeLoop {
           uint32_t nowSeconds = mSystemTimeKeeper.mSyncTimeProvider->getNow();
           if (nowSeconds == 0) return;
 #if ACE_TIME_ENABLE_SERIAL == 1
-            logger("SystemTimeLoop::loop(): calling SystemTimeKeeper::sync()");
+            common::logger(
+                "SystemTimeLoop::loop(): calling SystemTimeKeeper::sync()");
 #endif
           mSystemTimeKeeper.sync(nowSeconds);
           mLastSyncMillis = nowMillis;

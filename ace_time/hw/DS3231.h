@@ -11,7 +11,10 @@ class HardwareTemperature;
 
 /**
  * A class that reads and writes HardwareDateTime and HardwareTemperature from a
- * DS3231 RTC chip.
+ * DS3231 RTC chip. This class is designed to access just enough features of the
+ * DS3231 chip to implement the ace_time::DS3231TimeKeeper class. It is not
+ * meant to provide access to all the features of the DS3231 chip. There are
+ * other libraries which are far better for that purpose.
  */
 class DS3231 {
   public:

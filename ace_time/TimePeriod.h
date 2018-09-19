@@ -2,12 +2,11 @@
 #define ACE_TIME_TIME_PERIOD_H
 
 #include <stdint.h>
-#include <Print.h> // Print
 #include "common/Util.h"
 
-namespace ace_time {
+class Print;
 
-using namespace common;
+namespace ace_time {
 
 /**
  * Represents a period of time relative to some known point in time, potentially
@@ -84,16 +83,7 @@ class TimePeriod {
      * prepended. Does not implement Printable to avoid memory cost of vtable
      * pointer.
      */
-    void printTo(Print& printer) const {
-      if (mSign < 0) {
-        printer.print('-');
-      }
-      printPad2(printer, mHour);
-      printer.print(':');
-      printPad2(printer, mMinute);
-      printer.print(':');
-      printPad2(printer, mSecond);
-    }
+    void printTo(Print& printer) const;
 
     /**
      * Convert to number of seconds. The largest/smallest possible value
@@ -111,17 +101,17 @@ class TimePeriod {
 
     /** Increment the hour component by one, modulo 24. */
     void incrementHour() {
-      incrementMod(mHour, (uint8_t) 24);
+      common::incrementMod(mHour, (uint8_t) 24);
     }
 
     /** Increment the hour by one, modulo 'limit'. */
     void incrementHour(uint8_t limit) {
-      incrementMod(mHour, limit);
+      common::incrementMod(mHour, limit);
     }
 
     /** Increment the minute by one, modulo 60. */
     void incrementMinute() {
-      incrementMod(mMinute, (uint8_t) 60);
+      common::incrementMod(mMinute, (uint8_t) 60);
     }
 
     /**
