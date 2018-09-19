@@ -29,7 +29,7 @@ class TimeZone {
 
     /** Constructor. Create from UTC offset string ("-07:00" or "+01:00"). */
     explicit TimeZone(const char* tzString) {
-      init(tzString);
+      initFromOffsetString(tzString);
     }
 
     int8_t tzCode() const { return mTzCode; }
@@ -76,7 +76,11 @@ class TimeZone {
       minute = (tzCode & 0x03) * 15;
     }
 
-    /** Mark the DateTime so that isError() returns true. */
+    /**
+     * Mark the TimeZone so that isError() returns true. An invalid TimeZone can
+     * be returned using 'return TimeZone().setError()'. The compiler will
+     * optimize away all the apparent method calls.
+     */
     TimeZone& setError() {
       mTzCode = kTimeZoneErrorCode;
       return *this;
@@ -107,14 +111,15 @@ class TimeZone {
     friend bool operator!=(const TimeZone& a, const TimeZone& b);
 
     /** Set time zone code from the given UTC offset string. */
-    void init(const char* dateString);
+    void initFromOffsetString(const char* offsetString);
 
     /**
      * Time zone code, offset from UTC in 15 minute increments from UTC. In
-     * theory, the code can range from [-128, 127]. The value of -128 represents
-     * an internal error, causing isError() to return true. In practice, real
-     * life values are expected to be in the range of [-64, 63], i.e. [-16:00,
-     * +15:45], maybe slightly smaller.
+     * theory, the code can range from [-128, 127]. But the value of -128 is
+     * used to represent an internal error, causing isError() to return true.
+     * The actual range of time zones used in real life values are expected to
+     * be smaller, probably smaller than the range of [-64, 63], i.e. [-16:00,
+     * +15:45].
      */
     int8_t mTzCode;
 };

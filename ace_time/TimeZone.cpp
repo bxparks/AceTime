@@ -18,7 +18,7 @@ void TimeZone::printTo(Print& printer) const {
   common::printPad2(printer, minute);
 }
 
-void TimeZone::init(const char* ts) {
+void TimeZone::initFromOffsetString(const char* ts) {
   // verify exact ISO8601 string length
   if (strlen(ts) != kTimeZoneLength) {
     setError();
