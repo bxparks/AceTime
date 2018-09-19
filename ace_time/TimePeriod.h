@@ -7,6 +7,8 @@
 
 namespace ace_time {
 
+using namespace common;
+
 /**
  * Represents a period of time relative to some known point in time, potentially
  * represented by DateTime. Each component (hour, minute, second) is stored as
@@ -86,11 +88,11 @@ class TimePeriod {
       if (mSign < 0) {
         printer.print('-');
       }
-      common::printPad2(printer, mHour);
+      printPad2(printer, mHour);
       printer.print(':');
-      common::printPad2(printer, mMinute);
+      printPad2(printer, mMinute);
       printer.print(':');
-      common::printPad2(printer, mSecond);
+      printPad2(printer, mSecond);
     }
 
     /**
@@ -109,17 +111,17 @@ class TimePeriod {
 
     /** Increment the hour component by one, modulo 24. */
     void incrementHour() {
-      common::incrementMod(mHour, (uint8_t) 24);
+      incrementMod(mHour, (uint8_t) 24);
     }
 
     /** Increment the hour by one, modulo 'limit'. */
     void incrementHour(uint8_t limit) {
-      common::incrementMod(mHour, limit);
+      incrementMod(mHour, limit);
     }
 
     /** Increment the minute by one, modulo 60. */
     void incrementMinute() {
-      common::incrementMod(mMinute, (uint8_t) 60);
+      incrementMod(mMinute, (uint8_t) 60);
     }
 
     /**

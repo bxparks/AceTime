@@ -10,6 +10,8 @@ class Print;
 
 namespace ace_time {
 
+using namespace common;
+
 /**
  * The date (year, month, day) and time (hour, minute, second) fields
  * representing an instant in time. The year field is internally represented as
@@ -266,31 +268,31 @@ class DateTime {
 
     /** Increment the year by one, wrapping from 99 to 0. */
     void incrementYear() {
-      common::incrementMod(mYear, (uint8_t) 100);
+      incrementMod(mYear, (uint8_t) 100);
       mDayOfWeek = 0;
     }
 
     /** Increment the year by one, wrapping from 12 to 1. */
     void incrementMonth() {
-      common::incrementMod(mMonth, (uint8_t) 12, (uint8_t) 1);
+      incrementMod(mMonth, (uint8_t) 12, (uint8_t) 1);
       mDayOfWeek = 0;
     }
 
     /** Increment the day by one, wrapping from 31 to 1. */
     void incrementDay() {
-      common::incrementMod(mDay, (uint8_t) 31, (uint8_t) 1);
+      incrementMod(mDay, (uint8_t) 31, (uint8_t) 1);
       mDayOfWeek = 0;
     }
 
     /** Increment the hour by one, wrapping from 23 to 0. */
     void incrementHour() {
-      common::incrementMod(mHour, (uint8_t) 24);
+      incrementMod(mHour, (uint8_t) 24);
       mDayOfWeek = 0;
     }
 
     /** Increment the minute by one, wrapping from 59 to 0. */
     void incrementMinute() {
-      common::incrementMod(mMinute, (uint8_t) 60);
+      incrementMod(mMinute, (uint8_t) 60);
       mDayOfWeek = 0;
     }
 

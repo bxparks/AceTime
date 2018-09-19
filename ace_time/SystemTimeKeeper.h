@@ -9,6 +9,7 @@
 #include <AceRoutine.h>
 #include <stdint.h>
 #include "TimeKeeper.h"
+#include "common/TimingStats.h"
 #include "common/logger.h"
 
 using namespace ace_routine;
