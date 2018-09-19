@@ -3,7 +3,7 @@
 #include <AUnitVerbose.h>
 #include <AceTime.h>
 #include <ace_time/testing/FakeTimeKeeper.h>
-#include <ace_time/testing/FakeSystemTimeKeeper.h>
+#include <ace_time/testing/TestableSystemTimeKeeper.h>
 
 using namespace aunit;
 using namespace ace_time;
@@ -14,7 +14,7 @@ class SystemTimeKeeperTest: public TestOnce {
   protected:
     virtual void setup() override {
       timeKeeper = new FakeTimeKeeper();
-      systemTimeKeeper = new FakeSystemTimeKeeper(timeKeeper, timeKeeper);
+      systemTimeKeeper = new TestableSystemTimeKeeper(timeKeeper, timeKeeper);
       timeKeeper->setup();
       systemTimeKeeper->setup();
     }
@@ -25,7 +25,7 @@ class SystemTimeKeeperTest: public TestOnce {
     }
 
     FakeTimeKeeper* timeKeeper; // backup and sync time keeper
-    FakeSystemTimeKeeper* systemTimeKeeper;
+    TestableSystemTimeKeeper* systemTimeKeeper;
 };
 
 testF(SystemTimeKeeperTest, setup) {
