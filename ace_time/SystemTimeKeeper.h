@@ -68,9 +68,7 @@ class SystemTimeKeeper: public TimeKeeper {
             TimeProvider* syncTimeProvider /* nullable */,
             TimeKeeper* backupTimeKeeper /* nullable */):
         mSyncTimeProvider(syncTimeProvider),
-        mBackupTimeKeeper(backupTimeKeeper),
-        mPrevMillis(0),
-        mIsSynced(false) {}
+        mBackupTimeKeeper(backupTimeKeeper) {}
 
     virtual void setup() override {
       if (mBackupTimeKeeper != nullptr) {
@@ -97,26 +95,6 @@ class SystemTimeKeeper: public TimeKeeper {
       backupNow(secondsSinceEpoch);
     }
 
-  protected:
-    // Override for unit testing.
-    virtual unsigned long millis() const { return ::millis(); }
-
-  private:
-    friend class SystemTimeSyncCoroutine;
-    friend class SystemTimeHeartbeatCoroutine;
-    friend class SystemTimeLoop;
-
-    /**
-     * Write the nowSeconds to the backup TimeKeeper (which can be an RTC that
-     * has non-volatile memory, or simply flash memory which emulates a backup
-     * TimeKeeper.
-     */
-    void backupNow(uint32_t nowSeconds) {
-      if (mBackupTimeKeeper != nullptr) {
-        mBackupTimeKeeper->setNow(nowSeconds);
-      }
-    }
-
     /**
      * Similar to setNow() except that backupNow() is called only if the
      * backupTimeKeeper is different from the syncTimeKeeper. This prevents us
@@ -140,12 +118,32 @@ class SystemTimeKeeper: public TimeKeeper {
       }
     }
 
+  protected:
+    // Override for unit testing.
+    virtual unsigned long millis() const { return ::millis(); }
+
+  private:
+    friend class SystemTimeSyncCoroutine;
+    friend class SystemTimeHeartbeatCoroutine;
+    friend class SystemTimeLoop;
+
+    /**
+     * Write the nowSeconds to the backup TimeKeeper (which can be an RTC that
+     * has non-volatile memory, or simply flash memory which emulates a backup
+     * TimeKeeper.
+     */
+    void backupNow(uint32_t nowSeconds) {
+      if (mBackupTimeKeeper != nullptr) {
+        mBackupTimeKeeper->setNow(nowSeconds);
+      }
+    }
+
     const TimeProvider* const mSyncTimeProvider;
     TimeKeeper* const mBackupTimeKeeper;
 
-    mutable uint32_t mSecondsSinceEpoch; // time presented to the user
-    mutable uint16_t mPrevMillis;  // lower 16-bits of millis()
-    bool mIsSynced;
+    mutable uint32_t mSecondsSinceEpoch = 0; // time presented to the user
+    mutable uint16_t mPrevMillis = 0;  // lower 16-bits of millis()
+    bool mIsSynced = false;
 };
 
 /**

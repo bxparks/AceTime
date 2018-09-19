@@ -17,6 +17,9 @@ class TimeProvider {
     /** pollNow() timed out. */
     static const uint8_t kStatusTimedOut = 1;
 
+    /** Virtual destructor. Unused except in unit tests. */
+    virtual ~TimeProvider() {}
+
     /** Setup the time keeper. */
     virtual void setup() = 0;
 
