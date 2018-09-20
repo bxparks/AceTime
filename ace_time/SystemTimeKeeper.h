@@ -1,16 +1,16 @@
 #ifndef ACE_TIME_SYSTEM_TIME_KEEPER_H
 #define ACE_TIME_SYSTEM_TIME_KEEPER_H
 
-#ifndef ACE_TIME_ENABLE_SERIAL
-#define ACE_TIME_ENABLE_SERIAL 0
-#endif
-
 #include <Arduino.h> // millis()
 #include <AceRoutine.h>
 #include <stdint.h>
 #include "TimeKeeper.h"
 #include "common/TimingStats.h"
 #include "common/logger.h"
+
+#ifndef ACE_TIME_ENABLE_SERIAL
+#define ACE_TIME_ENABLE_SERIAL 0
+#endif
 
 namespace ace_time {
 
@@ -199,9 +199,12 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
           common::logger("SystemTimeSyncCoroutine: Invalid nowSeconds == 0");
 #endif
         } else {
+          mSystemTimeKeeper.sync(nowSeconds);
 #if ACE_TIME_ENABLE_SERIAL == 1
           common::logger("SystemTimeSyncCoroutine: status ok");
-          mSystemTimeKeeper.sync(nowSeconds);
+          DateTime now(nowSeconds);
+          now.printTo(Serial);
+          Serial.println();
 #endif
         }
 #if ACE_TIME_ENABLE_SERIAL == 1
