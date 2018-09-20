@@ -2,7 +2,7 @@
 #define ACE_TIME_SYSTEM_TIME_KEEPER_H
 
 #ifndef ACE_TIME_ENABLE_SERIAL
-#define ACE_TIME_ENABLE_SERIAL 1
+#define ACE_TIME_ENABLE_SERIAL 0
 #endif
 
 #include <Arduino.h> // millis()
