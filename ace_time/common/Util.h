@@ -39,10 +39,17 @@ inline uint8_t bcdToDec(uint8_t val) {
   return (val/16*10) + (val%16);
 }
 
-/** Print a 2-digit integer to 'printer', padding with a 0 if less than 10. */
-inline void printPad2(Print& printer, uint8_t value) {
-  if (value < 10) printer.print('0');
+/** Print an unsigned 2-digit integer to 'printer'. */
+inline void printPad2(Print& printer, uint8_t value, char padChar = '0') {
+  if (value < 10) printer.print(padChar);
   printer.print(value);
+}
+
+/** Print an unsigned 3-digit integer to 'printer'. */
+inline void printPad3(Print& printer, uint16_t val, char padChar = '0') {
+  if (val < 100) printer.print(padChar);
+  if (val < 10) printer.print(padChar);
+  printer.print(val);
 }
 
 }
