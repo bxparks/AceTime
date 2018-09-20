@@ -1,8 +1,9 @@
 /*
  * Compare the run time of AceTime to the Arduino Time Library
- * (https://github.com/PaulStoffregen/Time). Each iteration performs: (1) a
- * conversion from seconds (from epoch) to the date/time components (y, m, d, h,
- * m, s), then (2) a round trip conversion back to seconds (from epoch).
+ * (https://github.com/PaulStoffregen/Time). Each iteration performs:
+ *    1) a conversion from seconds (from epoch) to the date/time components (y,
+ *       m, d, h, m, s), then,
+ *    2) a round trip conversion back to seconds (from epoch).
  */
 
 #include <stdint.h>
@@ -23,7 +24,8 @@ const uint32_t COUNT = 100000;
 
 // Number of seconds to increment on each iteration, enough to scan for 15
 // years, from 2018 to 2023.
-uint32_t const DELTA_SECONDS = (uint32_t)  15 * 365.25 * 86400 / COUNT;
+uint32_t const DELTA_SECONDS = (uint32_t) 15 * 365.25 * 86400 / COUNT;
+
 uint32_t const START_SECONDS = 568080000; // 2018-01-01
 uint32_t const START_SECONDS_UNIX = 1514764800; // 2018-01-01
   
