@@ -55,6 +55,9 @@ toSecondsSinceEpochMillis() |   0.405 |
 Number of iterations per run: 200000
 ```
 
+Note: Once the benchmark of the function under test becomes smaller than the
+duration of an empty loop, the numbers become suspect.
+
 ## Teensy 3.2
 
 IDE: Arduino 1.8.5 (Teensyduino 1.42)
@@ -71,3 +74,6 @@ toSecondsSinceEpochMillis() |   0.915 |
 ----------------------------+---------+
 Number of iterations per run: 200000
 ```
+
+Note: Once the benchmark of the function under test becomes smaller than the
+duration of an empty loop, the numbers become suspect.

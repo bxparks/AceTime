@@ -2,8 +2,10 @@
 #include <Arduino.h>
 #include <AceTime.h>
 #include "Benchmark.h"
+#include "ace_time/common/Util.h"
 
 using namespace ace_time;
+using ace_time::common::printPad3;
 
 #if defined(AVR)
 const uint32_t COUNT = 10000;
@@ -13,7 +15,7 @@ const uint32_t COUNT = 50000;
 const uint32_t COUNT = 200000;
 #endif
 
-const uint32_t MILLIS_TO_NANO_PER_ITERATION = ( 1000000 / COUNT);
+const uint32_t MILLIS_TO_NANO_PER_ITERATION = (1000000 / COUNT);
 
 const char TOP[] = 
   "----------------------------+---------+";
