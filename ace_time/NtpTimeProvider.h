@@ -245,9 +245,10 @@ class NtpTimeProvider: public TimeProvider {
       while ((waitTime = (uint16_t) millis() - startTime) < 1000) {
         if (mUdp.parsePacket() >= kNtpPacketSize) {
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-          Serial.print("NtpTimeProvider::getNtpTime(): Received NTP response: ");
-          Serial.print(waitTime);
-          Serial.println(" ms");
+          common::logger(
+              "NtpTimeProvider::getNtpTime(): "
+              "Received NTP response: %u ms",
+              waitTime);
 #endif
           return readResponse();
         }
