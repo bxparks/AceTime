@@ -37,10 +37,10 @@ namespace ace_time {
  * 1) Create an instance of SystemTimeSyncCoroutine and register it with the
  * CoroutineSchedule so that it runs periodically. The
  * SystemTimeSyncCoroutine::runCoroutine() method uses the non-blocking
- * TimeProvicer::pollNow() method to retrieve the current time. Some time
- * providers (e.g. NtpTimeProvider) can take 100s of milliseconds to return, so
- * using the coroutine infrastructure allows other coroutines to continue
- * executing.
+ * sendRequest(), isResponseReady() and readResponse() methods of TimeProvider
+ * to retrieve the current time. Some time providers (e.g. NtpTimeProvider) can
+ * take 100s of milliseconds to return, so using the coroutine infrastructure
+ * allows other coroutines to continue executing.
  *
  * 2) Call the SystemTimeLoop::loop() method from the global loop() function.
  * This method uses the blocking TimeProvider::getNow() method which can take
@@ -156,10 +156,12 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
     SystemTimeSyncCoroutine(SystemTimeKeeper& systemTimeKeeper,
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
+        uint16_t requestTimeoutMillis = 1000,
         common::TimingStats* timingStats = nullptr):
       mSystemTimeKeeper(systemTimeKeeper),
       mSyncPeriodSeconds(syncPeriodSeconds),
       mInitialSyncPeriodSeconds(initialSyncPeriodSeconds),
+      mRequestTimeoutMillis(requestTimeoutMillis),
       mTimingStats(timingStats) {}
 
     /**
@@ -170,84 +172,60 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
      * register this coroutine into the CoroutineScheduler.
      */
     virtual int runCoroutine() override {
-      static uint16_t startTime;
-
       if (mSystemTimeKeeper.mSyncTimeProvider == nullptr) return 0;
 
-      uint8_t status;
-      uint32_t nowSeconds;
       COROUTINE_LOOP() {
-        startTime = millis();
+        // Send request
+        mSystemTimeKeeper.mSyncTimeProvider->sendRequest();
+        mRequestStartTime = millis();
 
-#if ACE_TIME_ENABLE_SERIAL == 1
-        common::logger("=== SystemTimeSyncCoroutine: sending request");
-#endif
-        COROUTINE_AWAIT(mSystemTimeKeeper.mSyncTimeProvider->pollNow(
-            status, nowSeconds));
-        uint16_t elapsedTime = millis() - startTime;
-        if (mTimingStats != nullptr) {
-          mTimingStats->update(elapsedTime);
+        // Wait for request
+        while (true) {
+          if (mSystemTimeKeeper.mSyncTimeProvider->isResponseReady()) {
+            mStatus = kStatusOk;
+            break;
+          }
+
+          uint16_t waitTime = millis() - mRequestStartTime;
+          if (waitTime >= mRequestTimeoutMillis) {
+            mStatus = kStatusTimedOut;
+            break;
+          }
+
+          COROUTINE_YIELD();
         }
 
-        if (status != TimeKeeper::kStatusOk) {
-#if ACE_TIME_ENABLE_SERIAL == 1
-          common::logger("SystemTimeSyncCoroutine: Invalid status: %u",
-              status);
-#endif
-        } else if (nowSeconds == 0) {
-#if ACE_TIME_ENABLE_SERIAL == 1
-          common::logger("SystemTimeSyncCoroutine: Invalid nowSeconds == 0");
-#endif
-        } else {
+        // Process the response
+        if (mStatus == kStatusOk) {
+          uint32_t nowSeconds =
+              mSystemTimeKeeper.mSyncTimeProvider->readResponse();
+          uint16_t elapsedTime = millis() - mRequestStartTime;
+          if (mTimingStats != nullptr) {
+            mTimingStats->update(elapsedTime);
+          }
           mSystemTimeKeeper.sync(nowSeconds);
-#if ACE_TIME_ENABLE_SERIAL == 1
-          common::logger("SystemTimeSyncCoroutine: status ok");
-          DateTime now(nowSeconds);
-          now.printTo(Serial);
-          Serial.println();
-#endif
         }
-#if ACE_TIME_ENABLE_SERIAL == 1
-        common::logger("SystemTimeSyncCoroutine: %u ms", elapsedTime);
-#endif
 
-
-#if ACE_TIME_ENABLE_SERIAL == 1
-        if (mTimingStats != nullptr) {
-          common::logger("SystemTimeSyncCoroutine: "
-                 "min/avg/max: %u/%u/%u; count: %u",
-                 mTimingStats->getMin(),
-                 mTimingStats->getAvg(),
-                 mTimingStats->getMax(),
-                 mTimingStats->getCount());
-
-          if (mTimingStats->getCount() >= 10) {
-            mTimingStats->reset();
-          }
-        }
-#endif
-
-        // Wait for mSyncPeriodSeconds. Another method that has less drift would
-        // be to loop in 16000ms chunks, since division of mSyncPeriodSeconds by
-        // 16 is fast.
-        static uint16_t i;
         if (mSystemTimeKeeper.mIsSynced) {
-          for (i = 0; i < mSyncPeriodSeconds; i++) {
-            COROUTINE_DELAY(1000);
-          }
+          COROUTINE_DELAY_SECONDS(mSyncPeriodSeconds);
         } else {
-          for (i = 0; i < mInitialSyncPeriodSeconds; i++) {
-            COROUTINE_DELAY(1000);
-          }
+          COROUTINE_DELAY_SECONDS(mInitialSyncPeriodSeconds);
         }
       }
     }
 
   private:
+    static const uint8_t kStatusOk = 0;
+    static const uint8_t kStatusTimedOut = 1;
+
     SystemTimeKeeper& mSystemTimeKeeper;
     uint16_t const mSyncPeriodSeconds;
     uint16_t const mInitialSyncPeriodSeconds;
+    uint16_t const mRequestTimeoutMillis;
     common::TimingStats* const mTimingStats;
+
+    uint16_t mRequestStartTime;
+    uint8_t mStatus;
 };
 
 /**

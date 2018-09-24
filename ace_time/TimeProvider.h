@@ -11,12 +11,6 @@ namespace ace_time {
  */
 class TimeProvider {
   public:
-    /** pollNow() returned valid result. */
-    static const uint8_t kStatusOk = 0;
-
-    /** pollNow() timed out. */
-    static const uint8_t kStatusTimedOut = 1;
-
     /** Virtual destructor. Unused except in unit tests. */
     virtual ~TimeProvider() {}
 
@@ -30,32 +24,18 @@ class TimeProvider {
      */
     virtual uint32_t getNow() const = 0;
 
+    /** Send a time request asynchronously. Used by SystemTimeSyncCoroutine. */
+    virtual void sendRequest() const {}
+
+    /** Return true if a response is ready. Used by SystemTimeSyncCoroutine. */
+    virtual bool isResponseReady() const { return true; }
+
     /**
-     * Return the current time by polling. First it fires off a request, then
-     * returns false. Subsequent calls to this method returns false until the
-     * response is ready. When the method returns true, the status is set to
-     * kStatusOk, and the seconds parameter is filled.
-     *
-     * The method will return true if an internal time out limit is reached.
-     * In that case, the status will be set to kStatusTimedOut. If the
-     * seconds parameter is 0, that also indicates an error.
-     *
-     * While waiting for the response (i.e. while this method returns false), it
-     * must be called more often than every 65.535 seconds because the time out
-     * parameter is stored as a uint16_t (to save memory). After the method
-     * returns true, it does not need to be called again until another request
-     * is needed.
-     *
-     * This method is designed to be used in the AceRoutine::COROUTINE_AWAIT()
-     * macro, but you can call it directly with a suitable while() loop.
-     *
-     * The default implementation simply calls the blocking getNow() method.
+     * Returns number of seconds since AceTime epoch (2000-01-01). Return 0 if
+     * there is an error. Valid only if isResponseReady() returns true. Used by
+     * SystemTimeSyncCoroutine.
      */
-    virtual bool pollNow(uint8_t& status, uint32_t& seconds) const {
-      seconds = getNow();
-      status = kStatusOk;
-      return true;
-    }
+    virtual uint32_t readResponse() const { return getNow(); }
 };
 
 }

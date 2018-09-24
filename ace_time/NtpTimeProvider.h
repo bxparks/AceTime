@@ -88,70 +88,47 @@ class NtpTimeProvider: public TimeProvider {
     }
 
     virtual uint32_t getNow() const override {
-      uint32_t secondsSince1900 = getNtpTime();
-      return (secondsSince1900 == 0) ? 0
-          : secondsSince1900 - kSecondsSinceNtpEpoch;
+      sendRequest();
+
+      uint16_t startTime = millis();
+      while ((uint16_t) (millis() - startTime) < mRequestTimeout) {
+        if (isResponseReady()) {
+          return readResponse();
+        }
+      }
+      return 0; // return 0 if unable to get the time
     }
 
-    virtual bool pollNow(uint8_t& status, uint32_t& seconds) const override {
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      uint16_t methodTime = millis();
-#endif
+    virtual void sendRequest() const override {
+      // discard any previously received packets
+      while (mUdp.parsePacket() > 0) {}
 
-      // send off a request, then return
-      if (!mIsRequestPending) {
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-        common::logger("NtpTimeProvider::pollNow(): Sending NTP request");
-#endif
-        sendRequest();
-        mRequestStartTime = millis();
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-        mRequestPendingCount = 0;
-#endif
-        mIsRequestPending = true;
-        return false;
-      }
+      // Get a random server from the pool. Unfortunately, hostByName() is a
+      // blocking is a blocking call. So if the DNS resolver goes flaky,
+      // everything stops.
+      //
+      // TODO: Change to a non-blocking NTP library.
+      // TODO: check return value of hostByName() for errors
+      // When there is an error, the ntpServerIP seems to become "0.0.0.0".
+      IPAddress ntpServerIP;
+      WiFi.hostByName(mServer, ntpServerIP);
+      sendNtpPacket(ntpServerIP);
+    }
 
-      // there's request pending, check for time out
-      uint16_t waitTime= (uint16_t) millis() - mRequestStartTime;
-      if (waitTime > mRequestTimeout) {
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-        common::logger(
-            "NtpTimeProvider::pollNow(): Timed out after %u polls and %u ms",
-            mRequestPendingCount, waitTime);
-#endif
-        status = kStatusTimedOut;
-        mIsRequestPending = false;
-        return true;
-      }
+    virtual bool isResponseReady() const override {
+      return mUdp.parsePacket() >= kNtpPacketSize;
+    }
 
-      // keep waiting if the response has not arrived
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      mRequestPendingCount++;
-#endif
-      if (mUdp.parsePacket() < kNtpPacketSize) return false;
+    virtual uint32_t readResponse() const override {
+      // read packet into the buffer
+      mUdp.read(mPacketBuffer, kNtpPacketSize);
 
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      waitTime = (uint16_t) millis() - mRequestStartTime;
-      common::logger(
-          "NtpTimeProvider::pollNow(): Received after %u polls and %u ms",
-          mRequestPendingCount, waitTime);
-#endif
-
-      // process the response
-      uint32_t secondsSince1900 = readResponse();
-      seconds = (secondsSince1900 == 0) ? 0
-          : secondsSince1900 - kSecondsSinceNtpEpoch;
-      mIsRequestPending = false;
-      status = kStatusOk;
-
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      common::logger("NtpTimeProvider::pollNow(): Returning response: %u ms",
-          (uint16_t) ((uint16_t) millis() - mRequestStartTime));
-      common::logger("NtpTimeProvider::pollNow(): method duration: %u ms",
-          (uint16_t) ((uint16_t) millis() - methodTime));
-#endif
-      return true;
+      // convert four bytes starting at location 40 to a long integer
+      uint32_t secsSince1900 =  (uint32_t) mPacketBuffer[40] << 24;
+      secsSince1900 |= (uint32_t) mPacketBuffer[41] << 16;
+      secsSince1900 |= (uint32_t) mPacketBuffer[42] << 8;
+      secsSince1900 |= (uint32_t) mPacketBuffer[43];
+      return (secsSince1900 == 0) ? 0 : secsSince1900 - kSecondsSinceNtpEpoch;
     }
 
   private:
@@ -163,101 +140,6 @@ class NtpTimeProvider: public TimeProvider {
      * AceTime epoch (2000-01-01T00:00:00Z).
      */
     static const uint32_t kSecondsSinceNtpEpoch = 3155673600;
-
-    void sendRequest() const {
-      uint16_t methodStart = millis();
-
-      // discard any previously received packets
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      uint16_t startTime = millis();
-      uint16_t packets = 0;
-#endif
-      while (mUdp.parsePacket() > 0) {
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-        packets++;
-#endif
-      }
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      common::logger(
-          "NtpTimeProvider::sendRequest(): Discarded %u packets: %hu ms",
-          packets, (uint16_t) ((uint16_t) millis() - startTime));
-#endif
-
-      // Get a random server from the pool. Unfortunately, hostByName() is a
-      // blocking is a blocking call. So if the DNS resolver goes flaky,
-      // everything stops. TODO: Change to a non-blocking NTP library.
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      startTime = millis();
-#endif
-      IPAddress ntpServerIP; // NTP server's ip address
-      // TODO: check return value for errors
-      // When there is an error, the ntpServerIP seems to become "0.0.0.0".
-      WiFi.hostByName(mServer, ntpServerIP);
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      Serial.print((uint16_t) millis());
-      Serial.print(": NtpTimeProvider::sendRequest(): resolved ");
-      Serial.print(mServer);
-      Serial.print(" to (");
-      Serial.print(ntpServerIP);
-      Serial.print("): ");
-      Serial.print((uint16_t) (millis() - startTime));
-      Serial.println(" ms");
-#endif
-
-      sendNtpPacket(ntpServerIP);
-
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      common::logger("NtpTimeProvider::sendRequest(): method duration: %u ms",
-          (uint16_t) (millis() - methodStart));
-#endif
-    }
-
-    /** Returns number of seconds since NTP epoch (1900-01-01). */
-    uint32_t readResponse() const {
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      uint16_t startTime = millis();
-#endif
-
-      // read packet into the buffer
-      mUdp.read(mPacketBuffer, kNtpPacketSize);
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      common::logger("NtpTimeProvider::readResponse(): %u ms",
-          (uint16_t) (millis() - startTime));
-#endif
-
-      // convert four bytes starting at location 40 to a long integer
-      uint32_t secsSince1900 =  (uint32_t) mPacketBuffer[40] << 24;
-      secsSince1900 |= (uint32_t) mPacketBuffer[41] << 16;
-      secsSince1900 |= (uint32_t) mPacketBuffer[42] << 8;
-      secsSince1900 |= (uint32_t) mPacketBuffer[43];
-      return secsSince1900;
-    }
-
-    /**
-     * Return seconds from NTP eposh 1900-01-01. Return 0 if error.
-     * This is a blocking call.
-     */
-    uint32_t getNtpTime() const {
-      sendRequest();
-
-      uint16_t startTime = millis();
-      uint16_t waitTime;
-      while ((waitTime = (uint16_t) millis() - startTime) < 1000) {
-        if (mUdp.parsePacket() >= kNtpPacketSize) {
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-          common::logger(
-              "NtpTimeProvider::getNtpTime(): "
-              "Received NTP response: %u ms",
-              waitTime);
-#endif
-          return readResponse();
-        }
-      }
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      Serial.println("NtpTimeProvider::getNtpTime(): Timed out");
-#endif
-      return 0; // return 0 if unable to get the time
-    }
 
     /** Send an NTP request to the time server at the given address. */
     void sendNtpPacket(const IPAddress& address) const {
@@ -297,8 +179,6 @@ class NtpTimeProvider: public TimeProvider {
     mutable WiFiUDP mUdp;
     // buffer to hold incoming & outgoing packets
     mutable uint8_t mPacketBuffer[kNtpPacketSize];
-    mutable bool mIsRequestPending;
-    mutable uint16_t mRequestStartTime;
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
     mutable uint16_t mRequestPendingCount;
 #endif
