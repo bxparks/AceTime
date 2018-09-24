@@ -13,46 +13,48 @@ using namespace ace_time::testing;
 class SystemTimeKeeperTest: public TestOnce {
   protected:
     virtual void setup() override {
-      timeKeeper = new FakeTimeKeeper();
-      systemTimeKeeper = new TestableSystemTimeKeeper(timeKeeper, timeKeeper);
-      timeKeeper->setup();
+      backupAndSyncTimeKeeper = new FakeTimeKeeper();
+      systemTimeKeeper = new TestableSystemTimeKeeper(
+          backupAndSyncTimeKeeper, backupAndSyncTimeKeeper);
+      backupAndSyncTimeKeeper->setup();
       systemTimeKeeper->setup();
     }
 
     virtual void teardown() override {
       delete systemTimeKeeper;
-      delete timeKeeper;
+      delete backupAndSyncTimeKeeper;
     }
 
-    FakeTimeKeeper* timeKeeper; // backup and sync time keeper
+    FakeTimeKeeper* backupAndSyncTimeKeeper; // backup and sync time keeper
     TestableSystemTimeKeeper* systemTimeKeeper;
 };
 
 testF(SystemTimeKeeperTest, setup) {
   assertEqual((uint32_t) 0, systemTimeKeeper->getNow());
 
-  timeKeeper->setNow(100);
+  backupAndSyncTimeKeeper->setNow(100);
   systemTimeKeeper->setup();
   assertEqual((uint32_t) 100, systemTimeKeeper->getNow());
 }
 
 testF(SystemTimeKeeperTest, backupNow) {
   assertEqual((uint32_t) 0, systemTimeKeeper->getNow());
-  assertEqual((uint32_t) 0, timeKeeper->getNow());
+  assertEqual((uint32_t) 0, backupAndSyncTimeKeeper->getNow());
 
   unsigned long nowMillis = 1;
   systemTimeKeeper->millis(nowMillis);
   systemTimeKeeper->setNow(100);
 
   // setNow() caused a save to the backupTimeKeeper which happens to be the
-  // same timeKeeper
+  // same backupAndSyncTimeKeeper
   assertEqual((uint32_t) 100, systemTimeKeeper->getNow());
-  assertEqual((uint32_t) 100, timeKeeper->getNow());
+  assertEqual((uint32_t) 100, backupAndSyncTimeKeeper->getNow());
 }
 
 testF(SystemTimeKeeperTest, sync) {
   assertEqual((uint32_t) 0, systemTimeKeeper->getNow());
-  assertEqual((uint32_t) 0, timeKeeper->getNow());
+  assertEqual((uint32_t) 0, systemTimeKeeper->getLastSyncTime());
+  assertEqual((uint32_t) 0, backupAndSyncTimeKeeper->getNow());
 
   unsigned long nowMillis = 1;
   systemTimeKeeper->millis(nowMillis);
@@ -62,7 +64,8 @@ testF(SystemTimeKeeperTest, sync) {
   // sources are identical, so it does not try to write the time back into
   // itself.
   assertEqual((uint32_t) 100, systemTimeKeeper->getNow());
-  assertEqual((uint32_t) 0, timeKeeper->getNow());
+  assertEqual((uint32_t) 100, systemTimeKeeper->getLastSyncTime());
+  assertEqual((uint32_t) 0, backupAndSyncTimeKeeper->getNow());
 }
 
 testF(SystemTimeKeeperTest, getNow) {
