@@ -109,10 +109,16 @@ class SystemTimeKeeper: public TimeKeeper {
       mSecondsSinceEpoch = secondsSinceEpoch;
       mPrevMillis = millis();
       mIsSynced = true;
+      mLastSyncTime = secondsSinceEpoch;
 
       if (mBackupTimeKeeper != mSyncTimeProvider) {
         backupNow(secondsSinceEpoch);
       }
+    }
+
+    /** Return the time (seconds since Epoch) of the last valid sync() call. */
+    uint32_t getLastSyncTime() const {
+      return mLastSyncTime;
     }
 
   protected:
@@ -141,6 +147,7 @@ class SystemTimeKeeper: public TimeKeeper {
     mutable uint32_t mSecondsSinceEpoch = 0; // time presented to the user
     mutable uint16_t mPrevMillis = 0;  // lower 16-bits of millis()
     bool mIsSynced = false;
+    uint32_t mLastSyncTime = 0; // time when last synced
 };
 
 /**
