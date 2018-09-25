@@ -8,6 +8,20 @@ on 8-bit AVR processors.
 
 IDE: Arduino 1.8.6 (AVR Core 1.6.22)
 
+Memory:
+
+```
+sizeof(DateTime): 8
+sizeof(TimeZone): 1
+sizeof(TimePeriod): 4
+sizeof(SystemTimeKeeper): 17
+sizeof(DS3231TimeKeeper): 4
+sizeof(SystemTimeSyncCoroutine): 29
+sizeof(SystemTimeHeartbeatCoroutine): 18
+```
+
+CPU:
+
 ```
 ----------------------------+---------+
 Method                      |  micros |
@@ -25,6 +39,20 @@ Number of iterations per run: 10000
 
 IDE: Arduino 1.8.6 (ESP Core 2.4.2)
 
+Memory:
+```
+sizeof(DateTime): 8
+sizeof(TimeZone): 1
+sizeof(TimePeriod): 4
+sizeof(SystemTimeKeeper): 24
+sizeof(DS3231TimeKeeper): 8
+sizeof(NtpTimeProvider): 96
+sizeof(SystemTimeSyncCoroutine): 52
+sizeof(SystemTimeHeartbeatCoroutine): 36
+```
+
+CPU:
+
 ```
 ----------------------------+---------+
 Method                      |  micros |
@@ -41,6 +69,20 @@ Number of iterations per run: 50000
 ## ESP32
 
 IDE: Arduino 1.8.6 (ESP32 Core 2018-09-09)
+
+Memory:
+
+```
+sizeof(DateTime): 8
+sizeof(TimeZone): 1
+sizeof(TimePeriod): 4
+sizeof(SystemTimeKeeper): 24
+sizeof(DS3231TimeKeeper): 8
+sizeof(SystemTimeSyncCoroutine): 52
+sizeof(SystemTimeHeartbeatCoroutine): 36
+```
+
+CPU:
 
 ```
 ----------------------------+---------+
@@ -61,6 +103,20 @@ duration of an empty loop, the numbers become suspect.
 ## Teensy 3.2
 
 IDE: Arduino 1.8.5 (Teensyduino 1.42)
+
+Memory:
+
+```
+sizeof(DateTime): 8
+sizeof(TimeZone): 1
+sizeof(TimePeriod): 4
+sizeof(SystemTimeKeeper): 24
+sizeof(DS3231TimeKeeper): 8
+sizeof(SystemTimeSyncCoroutine): 52
+sizeof(SystemTimeHeartbeatCoroutine): 36
+```
+
+CPU:
 
 ```
 ----------------------------+---------+
