@@ -2,7 +2,6 @@
 #define ACE_TIME_SYSTEM_TIME_KEEPER_H
 
 #include <Arduino.h> // millis()
-#include <AceRoutine.h>
 #include <stdint.h>
 #include "TimeKeeper.h"
 #include "common/TimingStats.h"
@@ -150,6 +149,10 @@ class SystemTimeKeeper: public TimeKeeper {
     uint32_t mLastSyncTime = 0; // time when last synced
 };
 
+// Enable Coroutines if <AceRoutine.h> is included before this header.
+
+#ifdef ACE_ROUTINE_VERSION
+
 /**
  * A coroutine that syncs the SystemTimeKeeper with its syncTimeProvider.
  */
@@ -264,6 +267,8 @@ class SystemTimeHeartbeatCoroutine: public ace_routine::Coroutine {
     SystemTimeKeeper& mSystemTimeKeeper;
     uint16_t const mHeartbeatPeriodMillis;
 };
+
+#endif
 
 /**
  * A class that peridically freshens the SystemTimeKeeper using the heartbeat
