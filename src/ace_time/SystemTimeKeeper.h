@@ -192,13 +192,13 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
         // Wait for request
         while (true) {
           if (mSystemTimeKeeper.mSyncTimeProvider->isResponseReady()) {
-            mStatus = kStatusOk;
+            mRequestStatus = kStatusOk;
             break;
           }
 
           uint16_t waitTime = millis() - mRequestStartTime;
           if (waitTime >= mRequestTimeoutMillis) {
-            mStatus = kStatusTimedOut;
+            mRequestStatus = kStatusTimedOut;
             break;
           }
 
@@ -206,7 +206,7 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
         }
 
         // Process the response
-        if (mStatus == kStatusOk) {
+        if (mRequestStatus == kStatusOk) {
           uint32_t nowSeconds =
               mSystemTimeKeeper.mSyncTimeProvider->readResponse();
           uint16_t elapsedTime = millis() - mRequestStartTime;
@@ -217,9 +217,9 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
         }
 
         if (mSystemTimeKeeper.mIsSynced) {
-          COROUTINE_DELAY_SECONDS(mSyncPeriodSeconds);
+          COROUTINE_DELAY_SECONDS(mDelayLoopCounter, mSyncPeriodSeconds);
         } else {
-          COROUTINE_DELAY_SECONDS(mInitialSyncPeriodSeconds);
+          COROUTINE_DELAY_SECONDS(mDelayLoopCounter, mInitialSyncPeriodSeconds);
         }
       }
     }
@@ -235,11 +235,15 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
     common::TimingStats* const mTimingStats;
 
     uint16_t mRequestStartTime;
-    uint8_t mStatus;
+    uint8_t mRequestStatus;
+    uint16_t mDelayLoopCounter;
 };
 
 /**
- * A coroutine that calls SystemTimeKeeper.getNow() peridically.
+ * A coroutine that calls SystemTimeKeeper.getNow() peridically. This must be
+ * performed before the uint16_t timer in SystemTimeKeeper overflows, i.e.
+ * every 65535 milliseconds at a minimum. I recommend every 5000 millis, which
+ * is the default.
  */
 class SystemTimeHeartbeatCoroutine: public ace_routine::Coroutine {
   public:
@@ -255,9 +259,6 @@ class SystemTimeHeartbeatCoroutine: public ace_routine::Coroutine {
 
     virtual int runCoroutine() override {
       COROUTINE_LOOP() {
-#if ACE_TIME_ENABLE_SERIAL == 1
-        common::logger("SystemTimeHeartbeatCoroutine: calling getNow()");
-#endif
         mSystemTimeKeeper.getNow();
         COROUTINE_DELAY(mHeartbeatPeriodMillis);
       }
@@ -294,10 +295,6 @@ class SystemTimeLoop {
 
       // Make sure that mSecondsSinceEpoch does not fall too far behind.
       if (timeSinceLastSync >= 5000) {
-#if ACE_TIME_ENABLE_SERIAL == 1
-        common::logger(
-            "SystemTimeLoop::loop(): calling SystemTimeKeeper::getNow()");
-#endif
         mSystemTimeKeeper.getNow();
       }
 
@@ -308,10 +305,6 @@ class SystemTimeLoop {
           // blocking call
           uint32_t nowSeconds = mSystemTimeKeeper.mSyncTimeProvider->getNow();
           if (nowSeconds == 0) return;
-#if ACE_TIME_ENABLE_SERIAL == 1
-            common::logger(
-                "SystemTimeLoop::loop(): calling SystemTimeKeeper::sync()");
-#endif
           mSystemTimeKeeper.sync(nowSeconds);
           mLastSyncMillis = nowMillis;
         }
@@ -322,7 +315,7 @@ class SystemTimeLoop {
     SystemTimeKeeper& mSystemTimeKeeper;
     uint16_t const mSyncPeriodSeconds;
     uint16_t const mHeartbeatPeriodMillis;
-    uint16_t mLastSyncMillis;
+    unsigned long mLastSyncMillis; // should be the same type as millis()
 };
 
 }
