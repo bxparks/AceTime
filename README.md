@@ -16,7 +16,7 @@ epoch using an `uint32_t`, the AceTime library can handle all dates from the
 year 2000 to the end of year 2099. This date range corresponds to the date range
 of the DS3231 RTC chip.
 
-There are roughtly 2 categories of classes provided by the AceTime library:
+There are roughly 2 categories of classes provided by the AceTime library:
 
 * date and time primitives
     * `DateTime`, `TimeZone`, `TimePeriod`
