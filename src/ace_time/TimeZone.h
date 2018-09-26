@@ -20,17 +20,36 @@ namespace ace_time {
 class TimeZone {
   public:
     /**
-     * Constructor. Create from time zone code. To create a TimeZone(0), use the
-     * empty constructor TimeZone(), since TimeZone(0) is ambiguous with
-     * TimeZone(nullptr).
+     * Create TimeZone from integer hour offset from UTC. For example,
+     * UTC-07:00 is 'forHour(-7)'.
      */
-    explicit TimeZone(int8_t tzCode = 0):
-        mTzCode(tzCode) {}
-
-    /** Constructor. Create from UTC offset string ("-07:00" or "+01:00"). */
-    explicit TimeZone(const char* tzString) {
-      initFromOffsetString(tzString);
+    static TimeZone forHour(int8_t hour) {
+      return TimeZone(hour * 4);
     }
+
+    /**
+     * Create TimeZone from (sign, hour, minute) offset from UTC, where 'sign'
+     * is either -1 or +1. The 'minute' must be in multiples of 15-minutes. For
+     * example, UTC-07:30 is 'forHourMinute(-1, 7, 30)'.
+     */
+    static TimeZone forHourMinute(int8_t sign, uint8_t hour, uint8_t minute) {
+      uint8_t code = hour * 4 + minute / 15;
+      return (sign < 0) ? TimeZone(-code) : TimeZone(code);
+    }
+
+    /** Create from UTC offset string ("-07:00" or "+01:00"). */
+    static TimeZone forOffsetString(const char* tzString) {
+      TimeZone tz(0);
+      tz.initFromOffsetString(tzString);
+      return tz;
+    }
+
+    /**
+     * Constructor. Create from time zone code, the number of 15-minute
+     * offset from UTC. TimeZone(0) is UTC.
+     */
+    explicit TimeZone(int8_t tzCode):
+        mTzCode(tzCode) {}
 
     int8_t tzCode() const { return mTzCode; }
 

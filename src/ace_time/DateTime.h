@@ -48,8 +48,12 @@ class DateTime {
     /** Base year of epoch. */
     static const uint16_t kEpochYear = 2000;
 
-    /** Constructor. All internal fields are left in an undefined state. */
-    explicit DateTime() {}
+    /**
+     * Constructor. All internal fields (except mTimeZone) are left in an
+     * undefined state.
+     */
+    explicit DateTime():
+      mTimeZone(0) {}
 
     /**
      * Constructor using separated date, time, and time zone fields. The
@@ -67,7 +71,7 @@ class DateTime {
      * millisecond component in the future.
      */
     explicit DateTime(uint8_t year, uint8_t month, uint8_t day, uint8_t hour,
-            uint8_t minute, uint8_t second, TimeZone timeZone = TimeZone()):
+            uint8_t minute, uint8_t second, TimeZone timeZone = TimeZone(0)):
         mYear(year), mMonth(month), mDay(day), mHour(hour), mMinute(minute),
         mSecond(second), mTimeZone(timeZone), mDayOfWeek(0) {
     }
@@ -87,8 +91,8 @@ class DateTime {
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
     explicit DateTime(uint32_t secondsSinceEpoch,
-        TimeZone timeZone = TimeZone()) {
-      mTimeZone = timeZone;
+              TimeZone timeZone = TimeZone(0)):
+          mTimeZone(timeZone) {
 
       if (secondsSinceEpoch == 0) {
         // All of the member variables set to avoid compiler warnings.
@@ -128,13 +132,12 @@ class DateTime {
      * "2018-08-31T13:48:01-07:00"
      * "2018/08/31 13#48#01-07#00"
      */
-    explicit DateTime(const char* dateString) {
+    explicit DateTime(const char* dateString): mTimeZone(0) {
       initFromDateString(dateString);
     }
 
     /** Constructor from flash memory F() strings. Mostly for unit testing. */
-    explicit DateTime(const __FlashStringHelper* dateString) {
-
+    explicit DateTime(const __FlashStringHelper* dateString): mTimeZone(0) {
       // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
       // ESP8266 do not have strlcpy_P().
       char buffer[kDateStringLength + 2];

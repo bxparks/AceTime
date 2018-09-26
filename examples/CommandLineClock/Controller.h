@@ -17,7 +17,7 @@ class Controller {
     Controller(hw::CrcEeprom& crcEeprom, TimeKeeper& systemTimeKeeper):
         mCrcEeprom(crcEeprom),
         mSystemTimeKeeper(systemTimeKeeper),
-        mTimeZone() {}
+        mTimeZone(0) {}
 
     void setup() {
       // Restore from EEPROM to retrieve time zone.

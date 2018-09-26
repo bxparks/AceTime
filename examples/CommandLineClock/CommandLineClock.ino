@@ -152,7 +152,7 @@ void timezoneCommand(Print& printer, int argc, const char** argv) {
   }
 
   if (newTimeZoneString != nullptr) {
-    TimeZone tz(newTimeZoneString);
+    TimeZone tz = TimeZone::forOffsetString(newTimeZoneString);
     if (tz.isError()) {
       printer.println(FF("Invalid time zone"));
       return;

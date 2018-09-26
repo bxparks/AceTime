@@ -13,7 +13,7 @@ using namespace ace_time::common;
 // --------------------------------------------------------------------------
 
 test(daysAndSecondsSinceEpochAt2000_01_01) {
-  DateTime dt{0, 1, 1, 0, 0, 0, TimeZone()}; // 2000-01-01 00:00:00Z
+  DateTime dt{0, 1, 1, 0, 0, 0, TimeZone(0)}; // 2000-01-01 00:00:00Z
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 0, daysSinceEpoch);
@@ -27,7 +27,7 @@ test(daysAndSecondsSinceEpochAt2000_01_01) {
 // 2000-02-29 was a leap year, due to the every 400 year rule
 // 2100-02-29 is *not* a leap year, due to the every 100 year rule
 test(daysAndSecondsSinceEpochAt2000_02_29) {
-  DateTime dt{0, 2, 29, 0, 0, 0, TimeZone()}; // 2000-02-29 00:00:00Z
+  DateTime dt{0, 2, 29, 0, 0, 0, TimeZone(0)}; // 2000-02-29 00:00:00Z
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 59, daysSinceEpoch);
@@ -39,7 +39,7 @@ test(daysAndSecondsSinceEpochAt2000_02_29) {
 }
 
 test(daysAndSecondsSinceEpochAt2000_01_02) {
-  DateTime dt{0, 1, 2, 0, 0, 0, TimeZone()}; // 2000-01-02 00:00:00Z
+  DateTime dt{0, 1, 2, 0, 0, 0, TimeZone(0)}; // 2000-01-02 00:00:00Z
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 1, daysSinceEpoch);
@@ -51,7 +51,7 @@ test(daysAndSecondsSinceEpochAt2000_01_02) {
 }
 
 test(daysAndSecondsSinceEpochAt2018_01_01) {
-  DateTime dt{18, 1, 1, 0, 0, 0, TimeZone()}; // 2018-01-01 00:00:00Z
+  DateTime dt{18, 1, 1, 0, 0, 0, TimeZone(0)}; // 2018-01-01 00:00:00Z
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 6575, daysSinceEpoch);
@@ -75,7 +75,7 @@ test(daysAndSecondsSinceEpochAt2018_01_01WithTimeZone) {
 }
 
 test(daysAndSecondsSinceEpochAt2049_12_31) {
-  DateTime dt{49, 12, 31, 23, 59, 59, TimeZone()}; // 2049-12-31 23:59:59Z
+  DateTime dt{49, 12, 31, 23, 59, 59, TimeZone(0)}; // 2049-12-31 23:59:59Z
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 18262, daysSinceEpoch);
@@ -87,7 +87,8 @@ test(daysAndSecondsSinceEpochAt2049_12_31) {
 }
 
 test(daysAndSecondsSinceEpochAt2049_12_31WithTimeZone) {
-  DateTime dt{49, 12, 31, 23, 59, 59, TimeZone(-1)}; // 2049-12-31 23:59:59-00:15
+  // 2049-12-31 23:59:59-00:15
+  DateTime dt{49, 12, 31, 23, 59, 59, TimeZone(-1)};
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 18263, daysSinceEpoch);
@@ -99,7 +100,7 @@ test(daysAndSecondsSinceEpochAt2049_12_31WithTimeZone) {
 }
 
 test(daysAndSsecondsSinceEpochAt2050_01_01) {
-  DateTime dt{50, 1, 1, 0, 0, 0, TimeZone()}; // 2050-01-01 00:00:00Z
+  DateTime dt{50, 1, 1, 0, 0, 0, TimeZone(0)}; // 2050-01-01 00:00:00Z
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 18263, daysSinceEpoch);
@@ -111,7 +112,7 @@ test(daysAndSsecondsSinceEpochAt2050_01_01) {
 }
 
 test(daysAndSsecondsSinceEpochAt2099_12_31) {
-  DateTime dt{99, 12, 31, 23, 59, 59, TimeZone()}; // 2099-12-31 23:59:59Z
+  DateTime dt{99, 12, 31, 23, 59, 59, TimeZone(0)}; // 2099-12-31 23:59:59Z
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 36524, daysSinceEpoch);
@@ -123,21 +124,21 @@ test(daysAndSsecondsSinceEpochAt2099_12_31) {
 }
 
 test(unixSeconds) {
-  DateTime dt{0, 1, 1, 0, 0, 0, TimeZone()}; // 2000-01-01 00:00:00Z
+  DateTime dt{0, 1, 1, 0, 0, 0, TimeZone(0)}; // 2000-01-01 00:00:00Z
   assertEqual((uint32_t) 946684800, dt.toUnixSeconds());
 
-  dt = DateTime{18, 1, 1, 0, 0, 0, TimeZone()}; // 2018-01-01 00:00:00Z
+  dt = DateTime{18, 1, 1, 0, 0, 0, TimeZone(0)}; // 2018-01-01 00:00:00Z
   assertEqual((uint32_t) 1514764800, dt.toUnixSeconds());
 
   // 2018-08-30T06:45:01-07:00
-  dt = DateTime{18, 8, 30, 6, 45, 1, TimeZone(-28)};
+  dt = DateTime{18, 8, 30, 6, 45, 1, TimeZone::forHour(-7)};
   assertEqual((uint32_t) 1535636701, dt.toUnixSeconds());
 
-  dt = DateTime{38, 1, 1, 0, 0, 0, TimeZone()}; // 2038-01-01 00:00:00Z
+  dt = DateTime{38, 1, 1, 0, 0, 0, TimeZone(0)}; // 2038-01-01 00:00:00Z
   assertEqual((uint32_t) 2145916800, dt.toUnixSeconds());
 
   // 2099-12-31 23:59:59-16:00
-  dt = DateTime{99, 12, 31, 23, 59, 59, TimeZone(-64)};
+  dt = DateTime{99, 12, 31, 23, 59, 59, TimeZone::forHour(-16)};
   assertEqual((uint32_t) 4102502399, dt.toUnixSeconds());
 }
 
@@ -167,8 +168,8 @@ test(constructFromSecondsSinceEpochAt2049_12_31) {
 }
 
 test(convertToTimeZone) {
-  DateTime a{18, 1, 1, 12, 0, 0, TimeZone()};
-  DateTime b = a.convertToTimeZone(TimeZone(-28)); // UTC-07:00
+  DateTime a{18, 1, 1, 12, 0, 0, TimeZone(0)};
+  DateTime b = a.convertToTimeZone(TimeZone::forHour(-7));
 
   assertEqual((uint16_t) 2018, b.yearFull());
   assertEqual(18, b.year());
@@ -181,57 +182,59 @@ test(convertToTimeZone) {
 }
 
 test(dateTimeCompareAndEquals) {
-  DateTime a{18, 1, 1, 12, 0, 0, TimeZone()};
-  DateTime b{18, 1, 1, 12, 0, 0, TimeZone()};
+  DateTime a{18, 1, 1, 12, 0, 0, TimeZone(0)};
+  DateTime b{18, 1, 1, 12, 0, 0, TimeZone(0)};
   assertEqual(a.compareTo(b), 0);
   assertTrue(a == b);
   assertFalse(a != b);
 
-  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone()};
-  b = DateTime{18, 1, 1, 12, 0, 1, TimeZone()};
+  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone(0)};
+  b = DateTime{18, 1, 1, 12, 0, 1, TimeZone(0)};
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone()};
-  b = DateTime{18, 1, 1, 12, 1, 0, TimeZone()};
+  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone(0)};
+  b = DateTime{18, 1, 1, 12, 1, 0, TimeZone(0)};
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = DateTime{18, 1, 1, 11, 0, 0, TimeZone()};
+  a = DateTime{18, 1, 1, 11, 0, 0, TimeZone(0)};
   b = DateTime{18, 1, 1, 12, 0, 0, TimeZone(1)};
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone()};
-  b = DateTime{18, 1, 2, 12, 0, 0, TimeZone()};
+  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone(0)};
+  b = DateTime{18, 1, 2, 12, 0, 0, TimeZone(0)};
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone()};
-  b = DateTime{18, 2, 1, 12, 0, 0, TimeZone()};
+  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone(0)};
+  b = DateTime{18, 2, 1, 12, 0, 0, TimeZone(0)};
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone()};
-  b = DateTime{19, 1, 1, 12, 0, 0, TimeZone()};
+  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone(0)};
+  b = DateTime{19, 1, 1, 12, 0, 0, TimeZone(0)};
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone(4)}; // 2018-1-1 12:00:00+01:00
-  b = DateTime{18, 1, 1, 12, 0, 0, TimeZone(-32)}; // 2018-1-1 12:00:00-08:00
+  // 2018-1-1 12:00:00+01:00
+  a = DateTime{18, 1, 1, 12, 0, 0, TimeZone::forHour(1)};
+  // 2018-1-1 12:00:00-08:00
+  b = DateTime{18, 1, 1, 12, 0, 0, TimeZone::forHour(-8)};
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 }
 
 test(calculateAndCacheDayOfWeek) {
-  DateTime dt{18, 1, 1, 0, 0, 0, TimeZone()}; // 2018-01-01 00:00:00Z
+  DateTime dt{18, 1, 1, 0, 0, 0, TimeZone(0)}; // 2018-01-01 00:00:00Z
   assertEqual(2, dt.dayOfWeek()); // Monday
 
   dt.hour(23); // 2018-01-01 23:00:00Z, no change to dayOfWeek
@@ -443,7 +446,7 @@ test(timePeriodNegate) {
 // TimeZone
 // --------------------------------------------------------------------------
 
-test(timeZone) {
+test(timeZoneCodeConstructor) {
   TimeZone tz(-1);
   assertEqual((int16_t) -15, tz.toMinutes());
   assertEqual((int32_t) -900, tz.toSeconds());
@@ -453,32 +456,33 @@ test(timeZone) {
   assertEqual((int32_t) 900, tz.toSeconds());
 }
 
+test(timeZoneForHour) {
+  assertEqual(TimeZone::forHour(-7).tzCode(), -28);
+  assertEqual(TimeZone::forHour(1).tzCode(), 4);
+}
+
+test(timeZoneForHourMinute) {
+  assertEqual(TimeZone::forHourMinute(-1, 7, 0).tzCode(), -28);
+  assertEqual(TimeZone::forHourMinute(-1, 7, 15).tzCode(), -29);
+  assertEqual(TimeZone::forHourMinute(1, 1, 0).tzCode(), 4);
+  assertEqual(TimeZone::forHourMinute(1, 1, 15).tzCode(), 5);
+}
+
+test(timeZoneForOffsetString) {
+  assertTrue(TimeZone::forOffsetString("").isError());
+  assertEqual(TimeZone::forOffsetString("-07:00").tzCode(), -28);
+  assertEqual(TimeZone::forOffsetString("-07:45").tzCode(), -31);
+  assertEqual(TimeZone::forOffsetString("+01:00").tzCode(), 4);
+  assertEqual(TimeZone::forOffsetString("+01:15").tzCode(), 5);
+  assertEqual(TimeZone::forOffsetString("+01:16").tzCode(), 5);
+}
+
 test(timeZoneError) {
-  TimeZone tz;
+  TimeZone tz(0);
   assertFalse(tz.isError());
 
   tz.setError();
   assertTrue(tz.isError());
-}
-
-test(timeZoneFromString) {
-  TimeZone tz("");
-  assertTrue(tz.isError());
-
-  tz = TimeZone("-07:00");
-  assertTrue(TimeZone(-28) == tz);
-
-  tz = TimeZone("-07:45");
-  assertTrue(TimeZone(-31) == tz);
-
-  tz = TimeZone("+01:00");
-  assertTrue(TimeZone(4) == tz);
-
-  tz = TimeZone("+01:15");
-  assertTrue(TimeZone(5) == tz);
-
-  tz = TimeZone("+01:16");
-  assertTrue(TimeZone(5) == tz);
 }
 
 test(timeZoneIncrementHour) {

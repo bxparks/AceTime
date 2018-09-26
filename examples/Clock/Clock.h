@@ -34,7 +34,8 @@ class Clock {
             Presenter& presenter):
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),
-        mPresenter(presenter) {}
+        mPresenter(presenter),
+        mTimeZone(0) {}
 
     void setup() {
       // Retrieve current time from TimeKeeper.
