@@ -88,16 +88,16 @@ The following example sketches are provided:
 
 * [AutoBenchmark.ino](examples/AutoBenchmark/)
     * a program that performs CPU and memory benchmarking and print a report
-* [Clock.ino/](examples/Clock/)
+* [Clock.ino](examples/Clock/)
     * a digital clock using a DS3231 RTC chip, an NTP client, 2 buttons, and a
       SSD1306 OLED display
-* [CommandLineClock.ino/](examples/CommandLineClock/)
+* [CommandLineClock.ino](examples/CommandLineClock/)
     * a clock using a DS3231 RTC chip, an NTP client, and serial port command
       line interface,
-* [ComparisonBenchmark.ino/](examples/ComparisonBenchmark/)
+* [ComparisonBenchmark.ino](examples/ComparisonBenchmark/)
     * a program that compares the speed of AceTime with the
       [Arduino Time Library](https://github.com/PaulStoffregen/Time).
-* [CrcEepromDemo.ino/](examples/CrcEepromDemo/)
+* [CrcEepromDemo.ino](examples/CrcEepromDemo/)
     * a program that verifies the `CrcEeprom` class
 
 ## Usage
