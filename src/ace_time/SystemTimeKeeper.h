@@ -121,7 +121,7 @@ class SystemTimeKeeper: public TimeKeeper {
     }
 
   protected:
-    // Override for unit testing.
+    /** Return the Arduino millis(). Override for unit testing. */
     virtual unsigned long millis() const { return ::millis(); }
 
   private:
@@ -160,7 +160,14 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
   public:
     /**
      * Constructor.
+     *
      * @param systemTimeKeeper the system time keeper to sync up
+     * @param syncPeriodSeconds seconds between normal sync attempts
+     *    (default 3600)
+     * @param initialSyncPeriodSeconds seconds between sync attempts when
+     *    the systemTimeKeeper is not initialized (default 5)
+     * @param requestTimeoutMillis number of milliseconds before the request to
+     *    syncTimeProvider times out
      * @param timingStats internal statistics
      */
     SystemTimeSyncCoroutine(SystemTimeKeeper& systemTimeKeeper,
@@ -249,6 +256,7 @@ class SystemTimeHeartbeatCoroutine: public ace_routine::Coroutine {
   public:
     /**
      * Constructor.
+     *
      * @param systemTimeKeeper reference to the SystemTimeKeeper
      * @param heartbeatPeriodMillis milliseconds between calls to getNow()
      */
@@ -278,6 +286,14 @@ class SystemTimeHeartbeatCoroutine: public ace_routine::Coroutine {
  */
 class SystemTimeLoop {
   public:
+    /**
+     * Constructor.
+     *
+     * @param systemTimeKeeper the underlying SystemTimeKeeper to sync
+     * @param syncPeriodSeconds seconds between sync attempts (default 3600)
+     * @param heartbeatPeriodMillis millis between calls to getNow()
+     *    (default 5000)
+     */
     SystemTimeLoop(SystemTimeKeeper& systemTimeKeeper,
           uint16_t syncPeriodSeconds = 3600,
           uint16_t heartbeatPeriodMillis = 5000):

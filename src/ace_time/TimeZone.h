@@ -51,8 +51,10 @@ class TimeZone {
     explicit TimeZone(int8_t tzCode):
         mTzCode(tzCode) {}
 
+    /** Return the UTC offset as the number of 15 minute offset. */
     int8_t tzCode() const { return mTzCode; }
 
+    /** Set the UTC offset using the tzCode. */
     void tzCode(int8_t tzCode) { mTzCode = tzCode; }
 
     /** Return the number of minutes offset from UTC. */

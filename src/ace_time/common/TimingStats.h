@@ -32,6 +32,9 @@ class Print;
 namespace ace_time {
 namespace common {
 
+/**
+ * Helper class to collect timing statistics such as min, max, average.
+ */
 class TimingStats {
   public:
     /** Constructor. Default copy-constructor and assignment operator ok. */

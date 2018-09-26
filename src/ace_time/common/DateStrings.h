@@ -18,7 +18,12 @@ namespace common {
  */
 class DateStrings {
   public:
+    /**
+     * Length of the longest month or week name, including the '\0' terminator.
+     */
     static const uint8_t kBufferSize = 10;
+
+    /** Number of prefix characters to use to create a short name. */
     static const uint8_t kShortNameLength = 3;
 
     /** Return the long month name. 0=Error, 1=January, 12=December. */

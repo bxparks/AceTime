@@ -16,7 +16,9 @@ namespace ace_time {
  */
 class TimePeriod {
   public:
-    /** Constructor.
+    /**
+     * Constructor.
+     *
      * @param hour hour (0-255)
      * @param minute minute (0-59)
      * @param second second (0-59)
@@ -31,10 +33,12 @@ class TimePeriod {
         mSecond(second),
         mSign(sign) {}
 
-    /*
+    /**
      * Constructor from number of seconds. The largest valid 'seconds' is +/-
      * 921599 corresponding to (hour=255, minute=59, second=59). For larger
      * numbers, the 'hour' component will be truncated.
+     *
+     * @param seconds number of seconds (default 0)
      */
     explicit TimePeriod(int32_t seconds = 0) {
       if (seconds < 0) {
