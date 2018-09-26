@@ -7,8 +7,9 @@ from an external time source, such as an
 or a DS3231 RTC chip. This library is meant to be an alternative to the
 venerable [Arduino Time Library](https://github.com/PaulStoffregen/Time).
 
-Compared to the Arduino Time Library, here are differences:
-1. AceTime is more object-oriented.
+Compared to the Arduino Time Library, here are the main differences:
+1. AceTime is more object-oriented. For example, you can create multiple
+   instances of the system clock if you need to.
 1. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z instead of the Unix
    epoch of 1970-01-01T00:00:00Z.
     * Using an `uint32_t` to track the number of seconds since the Epoch, the
@@ -20,11 +21,11 @@ Compared to the Arduino Time Library, here are differences:
 There are roughly 2 categories of classes provided by the AceTime library:
 
 * date and time primitives
-    * `DateTime`, `TimeZone`, `TimePeriod`
-    * Borrowing design elements from the
+    * e.g. `DateTime`, `TimeZone`, `TimePeriod`
+    * Borrowing some concepts from the
       [Joda-Time](http://www.joda.org/joda-time/quickstart.html) Java library.
 * system clock classes
-    * `SystemTimeKeeper`, `NtpTimeProvider`, `DS3231TimeKeeper`
+    * e.g. `SystemTimeKeeper`, `NtpTimeProvider`, `DS3231TimeKeeper`
     * Implements the system clock syncing feature of the Arduino Time library.
 
 Time zones are handled as offsets from UTC in 15-minute increments which
@@ -106,17 +107,18 @@ these components are stored internally as an unsigned `uint8_t` integer, except
 for the `TimeZone` which is stored as a signed `int8_t` integer. The year is
 represented by the last 2 digits of the years between 2000 and 2099.
 
-Here are the basic usage. More details can be found in the Doxygen docs.
+The following is basic usage guide. More details can be found in the Doxygen
+docs.
 
 #### TimeZone
 
-The `TimeZone` class is a thin wrapper around a `int8_t` integer that represents
-the number of 15-minute offsets from the UTC time zone. For convenience, a
-constructor is provided that takes a human-readable UTC offset.
+The `TimeZone` class is a thin wrapper around an `int8_t` integer that
+represents the number of 15-minute offsets from the UTC time zone. A time zone
+object can created using a constructor or one of 3 factory methods.
 
 For example, the Pacific Standard Time is `UTC-08:00`, which is `-32` units away
-from UTC. It can be created using one of the following 4 methods (constructor
-and 3 factory methods) in order of increasing complexity (and CPU time):
+from UTC. Here are the 4 ways to create the TimeZone object:
+
 ```C++
 TimeZone tz(-32);
 TimeZone tz = TimeZone::forHour(-8);
@@ -124,8 +126,8 @@ TimeZone tz = TimeZone::forHourMinute(-1, 8, 0);
 TimeZone tz = TimeZone::forOffsetString("-08:00");
 ```
 
-Another example, the Central European Time Zone `UTC+01:00` can be constructed
-using one of the following:
+As another example, the Central European Time Zone `UTC+01:00` can be
+constructed using one of the following:
 ```C++
 TimeZone tz(4);
 TimeZone tz = TimeZone::forHour(1);
@@ -138,7 +140,7 @@ the time zone is a positive offset from UTC.
 #### DateTime Components
 
 You can create an instance of the `DateTime` object using the constructor that
-takes all of these parameters:
+takes the (year, month, day, hour, minute, second, timeZone) parameters:
 ```C++
 DateTime dt;
 
@@ -152,8 +154,8 @@ dt = DateTime(18, 8, 30, 6, 45, 1, TimeZone::forHour(-7));
 dt = DateTime(99, 12, 31, 23, 59, 59, TimeZone::forHour(-16));
 ```
 
-Once a `DateTime` object is created you can access that individual components
-using the accessor methods:
+Once a `DateTime` object is created you can access the individual date/time
+components using the accessor methods:
 ```C++
 dt = DateTime(18, 8, 30, 6, 45, 1, TimeZone::forHour(-7));
 
@@ -173,9 +175,8 @@ because the day of the week is unaffected by it.
 
 #### Days and Seconds From Epoch
 
-The `DateTime` object can be created from and converted to the number of seconds
-since its **Epoch**. For the AceTime library, that Epoch is at the beginning of
-this century, **2000-01-01T00:00:00Z** at the UTC time zone. For example:
+The `DateTime` object can calculate the number of seconds since the AceTime
+Epoch which is **2000-01-01T00:00:00Z** at the UTC time zone. For example:
 ```C++
 DateTime dt(18, 1, 1, 0, 0, 0, TimeZone(1)); // 2018-01-01 00:00:00+00:15
 uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
@@ -185,10 +186,11 @@ Serial.println(daysSinceEpoch);
 Serial.println(secondsSinceEpoch);
 ```
 
-This prints `6574` and `568079100` respectively. The `toDaysSinceEpoch()` counts
-the number of whole days since the Epoch, including leap days.
+This prints `6574` and `568079100` respectively. The `toDaysSinceEpoch()` method
+counts the number of whole days since the Epoch, including leap days.
 
-You can create a `DateTime` objects from the seconds from Epoch:
+You can go the other way and create a `DateTime` object from the seconds from
+Epoch:
 ```C++
 DateTime dt(568079100, TimeZone(1));
 ```
@@ -198,52 +200,59 @@ This will produce the same object as
 #### Invalid DateTime Objects
 
 A value of `0` for the `secondsSinceEpoch` is used internally as an ERROR
-marker. In other words,
+marker, so users should never create a`DateTime` object with this value. In
+other words,
 ```C++
 DateTime dt(0);
 ```
 creates a `dt` object which returns `true` for `dt.isError()`.
 
-More generally, you should avoid creating any `DateTime` object corresponding to
-the first day of the year 2000 (2000-01-01). That's because there exists a time
-zone on the first day of year 2000 when the object's `toSecondsSinceEpoch()` is
-`<= 0`. Such a `DateTime` cannot be properly represented using a `DateTime`
-object and will produce invalid `DateTime` components (year, month, day, hour,
-minute, seconds). Stated another way, the safest thing is to make sure that the
-`toSecondsSinceEpoch()` of a `DateTime` object is always greater than or equal
-to 86400. Smaller values may work for some time zones, but not for others.
+More generally, users should avoid creating any `DateTime` object corresponding
+to the first day of the year 2000 (2000-01-01). On that day, there is a danger
+that the object may exceed the range of its internal variables. There may exists
+a time zone on the first day of year 2000 when the object's
+`toSecondsSinceEpoch()` is `<= 0`. Such a `DateTime` cannot be properly
+represented using a `DateTime` object and will produce invalid `DateTime`
+components (year, month, day, hour, minute, seconds). Stated another way, users
+should create `DateTime` objects where the `toSecondsSinceEpoch() >= 86400`.
+Smaller values *may* work for some time zones, but not for others.
 
 #### Convert to Another Time Zone
 
 You can convert a given `DateTime` object into a representation in a different
 time zone using the `DateTime::convertToTimeZone()` method:
 ```C++
-DateTime dt(18, 1, 1, 0, 0, 0, TimeZone(1)); // 2018-01-01 00:00:00+00:15
+// Central European Time
+// 2018-01-01T09:20:00+01:00
+DateTime dt(18, 1, 1, 9, 20, 0, TimeZone::forHour(1));
 
-DateTime pacificTime = dt.convertToTimeZone(TimeZone(-28));
+// Convert to Pacific Daylight Time.
+DateTime pacificTime = dt.convertToTimeZone(TimeZone::forHour(-7));
 ```
 The two `DateTime` objects return the same value for `secondsSinceEpoch()`
 because that is not affected by the time zone. However, the various date time
-components (year, month, day, hour, minute, seconds) will be different in the
-target time zone.
+components (year, month, day, hour, minute, seconds) will be different.
 
 ### TimeProviders and TimeKeepers
 
-The `TimeProvider` forms a set of classes which can be a source of time.
-Subclasses are expected to implement the `getNow()` method which returns the
-number of seconds since the AceTime Epoch (2000-01-01). This value can be used
-to construct the `DateTime` object when needed.
+The `TimeProvider` class and its subclasses implement the `getNow()` method
+which returns the number of seconds since the AceTime Epoch (2000-01-01). This
+value can be used to construct the `DateTime` object when needed.
 
-The `TimeKeeper` is a subclass of `TimeProvider` which provides the `setNow()`
-method in addition to `getNow()` method. In other words, the `TimeKeeper` can be
-set to the current time and it is normally expected to have an internal clock
-which allows it to continue to update the current time.
+The `TimeKeeper` class and its subclasses are also subclasses of`TimeProvider`
+but the time keepers implement the `setNow()` method which allows their time to
+be set. In other words, the `TimeKeeper` can be set to the current time and it
+is normally expected to have an internal clock which allows it to continue to
+update the current time.
+
+The following time providers and keepers have been implemented.
 
 #### NTP Time Provider
 
-The `NtpTimeProvider` is available on the ESP8266 microcontroller. It uses
-an NTP client to fetch the current time from the specified NTP server. The
-constructor takes 5, with 2 of them being required:
+The `NtpTimeProvider` is available on the ESP8266 microcontroller. (ESP32
+support will be forthcoming.) It uses an NTP client to fetch the current time
+from the specified NTP server. The constructor takes 5 parameters, but only 2 of
+them being required:
 ```C++
 NtpTimeProvider ntpTimeProvider(SSID, PASSWORD);
 ...
@@ -258,15 +267,17 @@ void loop() {
 }
 ```
 The `SSID` and `PASSWORD` are the credentials needed for the ESP8266 to get on
-your wireless network. (**Security Warning**: Avoid checking in your
+your wireless network. (**Security Warning**: Avoid committing your
 SSID/PASSWORD into a public repository like GitHub because it will become public
 to anyone.)
 
 #### DS3231 Time Keeper
 
-The `DS3231TimeKeeper` is a `TimeKeeper` which is backed by a DS3231 RTC chip.
-It is recommended that the `DS3231TimeKeeper` is used to store only UTC date
-time, instead of the local time. When the current time is read back in using the
+The `DS3231TimeKeeper` is backed by a DS3231 RTC chip which normally operates
+through a power failure using a battery backup or a super capacitor. The
+DS3231 chip does not contain the concept of a time zone. Therefore, I recommend
+that the `DS3231TimeKeeper` class is used to store only the UTC date/time
+components, instead of the local time. When the time is read back in using the
 `DS3231TimeKeeper::getNow()`, you can convert that to the appropriate time zone
 using the `DateTime::convertToTimeZone()` method.
 
@@ -286,30 +297,34 @@ void loop() {
 
 #### System Time Keeper
 
-The `SystemTimeKeeper` is a special `TimeKeeper` that uses the the
-Arduino built-in `millis()` method as the source of its time. The biggest
-advantage of `SystemTimeKeeper` is that its `getNow()` has very little overhead
-_(TBD: insert benchmark)_ so can be called as frequently as needed. Other
-`TimeProviders` can take a significant amount of time to talk to the DS3231 RTC
-chip, or even worse, talk to the NTP server over thet network.
+The `SystemTimeKeeper` is a special `TimeKeeper` that uses the Arduino built-in
+`millis()` method as the source of its time. The biggest advantage of
+`SystemTimeKeeper` is that its `getNow()` has very little overhead _(TBD: insert
+benchmark)_ so can be called as frequently as needed. The `getNow()` method of
+other `TimeProviders` can consume a significant amount of time. For example, the
+`DS3231TimeKeeper` must talk to the DS3231 RTC chip over an I2C bus. Even worse,
+the `NtpTimeProvider` must the talk to the NTP server over the network which can
+be unpredictably slow.
 
-Unfortunately, the `millis()` internal clock of the Arduino boards is not
-accurate. Therefore, the `SystemTimeKeeper` provides a mechanism to synchronize
-its clock to an external (and presumably more accurate clock) `TimeProvider`.
+Unfortunately, the `millis()` internal clock of most (all?) Arduino boards is
+not accurate. Therefore, the `SystemTimeKeeper` provides a mechanism to
+synchronize its clock to an external (and presumably more accurate clock)
+`TimeProvider`.
 
 The `SystemTimeKeeper` also provides a way to save the current time to a
 `backupTimeKeeper` (e.g. the `DS3231TimeKeeper` using an RTC chip with battery
 backup). When the `SystemTimeKeeper` starts up, it will read the backup
 `TimeKeeper` and set the current time. Then it can synchronize with an external
-clock source (e.g. the `NtpTimeProvider`). It could actually use the
-`DS3231TimeKeeper` is *both* the backup `TimeKeeper` and the syncing
-`TimeProvider`.
+clock source (e.g. the `NtpTimeProvider`). The time is saved to the backup time
+keeper whenever the `SystemTimeKeeper` is synced with the external time
+provider.
 
 Here is how to set up the `SystemTimeKeeper`:
 ```C++
 DS3231TimeKeeper dsTimeKeeper;
 NtpTimeProvider ntpTimeProvider(SSID, PASSWORD);
-SystemTimeKeeper systemTimeKeeper(&ntpTimeProvider, &dsTimeKeeper);
+SystemTimeKeeper systemTimeKeeper(
+  &ntpTimeProvider /*sync*/, &dsTimeKeeper /*backup*/);
 ...
 
 void setup() {
@@ -323,7 +338,7 @@ void loop() {
 }
 ```
 
-If you wanted to use the `DS3231TimeKeeper` as both the backup and sync
+If you wanted to use the `DS3231TimeKeeper` as *both* the backup and sync
 time sources, then the setup would something like this:
 ```C++
 DS3231TimeKeeper dsTimeKeeper;
@@ -355,19 +370,20 @@ void setup() {
 
 #### System Clock Syncing and Heartbeat
 
-For reasons which are slightly obscure --- see the implementation of
-`SystemTimeKeeper::getNow()`) for details --- the `getNow()` method must be
-called periodically to avoid an integer overflow. The maximum period between 2
-consecutive calls to `getNow()` is 65.535 seconds. We call this the "heartbeat"
-of the system time keeper.
+For technical reasons &mdash; see the implementation of
+`SystemTimeKeeper::getNow()`) &mdash; the `getNow()` method must be called
+periodically to avoid an integer overflow. The maximum period between 2
+consecutive calls to `getNow()` is 65.535 seconds. We need to implement a
+"heartbeat" mechanism which simply calls the `getNow()` of the system time
+keeper.
 
 Secondly, since the internal `millis()` clock is not very accurate, we must
-synchronize the system time keeper periodically. The frequency would dependend
-on the accurate of the `millis()` and how expensive it is to call the `getNow()`
-method of the syncing time provider. For a DS3231 time source, syncing once
-every 10 minutes might work since talking to the RTC chip is cheap. For syncing
-with the `NtpTimeProvider` with an accurate `millis()` maybe once every 12 hours
-might be good enough.
+synchronize the system time keeper periodically. The frequency depends on the
+accurate of the `millis()` and the cost of the call to the `getNow()` method of
+the syncing time provider. For a DS3231 time source, syncing once every 1-10
+minutes might work since talking to the RTC chip is cheap. For syncing with the
+`NtpTimeProvider` with an accurate `millis()` maybe once every 1-12 hours might
+be advisable.
 
 The `SystemTimeKeeper` provides 2 ways to perform these periodic maintenance
 actions.
@@ -389,8 +405,9 @@ void loop() {
 **Using AceRoutine Coroutines**
 
 You can use 2 AceRoutine coroutines to perform the sync and heartbeat. First,
-`#include <AceRoutine.h>` before the `<AceTime.h>`. Then create the 2
-coroutines, and set it up to run using the `CoroutineScheduler`:
+`#include <AceRoutine.h>` before the `<AceTime.h>` (to activate the
+`SystemTimeSyncCoroutine` and `SystemTimeHeartbeatCoroutine` classes). Then
+create the 2 coroutines, and configure it to run using the `CoroutineScheduler`:
 
 ```C++
 #include <AceRoutine.h>
@@ -448,7 +465,7 @@ I will occasionally test on the following hardware as a sanity check:
 
 ## Bugs and Limitations
 
-* The `NtpTimeProvider` should be able to run on an ESP32 but I haven't
+* The `NtpTimeProvider` should be supported on an ESP32 but I haven't
   had the time to implement it.
 * The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
   the IP address of the NTP server. Unfortunately, this seems to be blocking
