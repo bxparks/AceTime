@@ -213,11 +213,6 @@ first 3 characters of the week day (i.e. "Sun", "Mon", "Tue", "Wed", "Thu",
 Similarly the `month()` method returns a code where `1=January` and
 `12=December`, which can be translated into English strings using:
 
-**Caution**: The `DateStrings` object uses an internal buffer to hold the
-generated human-readable strings. The strings must be used before the
-`DateStrings` object is destructed (e.g. goes out of scope if it is created on
-the local stack).
-
 ```C++
 common::DateStrings dateStrings;
 uint8_t month = dt.dayOfWeek();
@@ -227,6 +222,11 @@ const char* shortName = dateStrings.monthShortString(month);
 The `monthShortString()` method returns the first 3 characters of the month
 (i.e. "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
 "Nov", "Dec").
+
+**Caution**: The `DateStrings` object uses an internal buffer to hold the
+generated human-readable strings. The strings must be used before the
+`DateStrings` object is destructed (e.g. goes out of scope if it is created on
+the local stack).
 
 #### Days and Seconds From Epoch
 
@@ -282,6 +282,7 @@ time zone using the `DateTime::convertToTimeZone()` method:
 DateTime dt(18, 1, 1, 9, 20, 0, TimeZone::forHour(1));
 
 // Convert to Pacific Daylight Time.
+// 2018-01-01T01:20:00-07:00
 DateTime pacificTime = dt.convertToTimeZone(TimeZone::forHour(-7));
 ```
 The two `DateTime` objects return the same value for `secondsSinceEpoch()`
@@ -328,11 +329,11 @@ to anyone.)
 
 #### DS3231 Time Keeper
 
-The `DS3231TimeKeeper` is backed by a DS3231 RTC chip which normally operates
-through a power failure using a battery backup or a super capacitor. The
-DS3231 chip does not contain the concept of a time zone. Therefore, I recommend
-that the `DS3231TimeKeeper` class is used to store only the UTC date/time
-components, instead of the local time. When the time is read back in using the
+The `DS3231TimeKeeper` is backed by a DS3231 RTC chip which is normally backed
+by a battery or a supercapacitor to survive power failures. The DS3231 chip does
+not contain the concept of a time zone. Therefore, I recommend that the
+`DS3231TimeKeeper` class is used to store only the UTC date/time components,
+instead of the local time. When the time is read back in using the
 `DS3231TimeKeeper::getNow()`, you can convert that to the appropriate time zone
 using the `DateTime::convertToTimeZone()` method.
 
@@ -355,11 +356,11 @@ void loop() {
 The `SystemTimeKeeper` is a special `TimeKeeper` that uses the Arduino built-in
 `millis()` method as the source of its time. The biggest advantage of
 `SystemTimeKeeper` is that its `getNow()` has very little overhead _(TBD: insert
-benchmark)_ so can be called as frequently as needed. The `getNow()` method of
-other `TimeProviders` can consume a significant amount of time. For example, the
-`DS3231TimeKeeper` must talk to the DS3231 RTC chip over an I2C bus. Even worse,
-the `NtpTimeProvider` must the talk to the NTP server over the network which can
-be unpredictably slow.
+benchmark)_ so it can be called as frequently as needed. The `getNow()` method
+of other `TimeProviders` can consume a significant amount of time. For example,
+the `DS3231TimeKeeper` must talk to the DS3231 RTC chip over an I2C bus. Even
+worse, the `NtpTimeProvider` must the talk to the NTP server over the network
+which can be unpredictably slow.
 
 Unfortunately, the `millis()` internal clock of most (all?) Arduino boards is
 not accurate. Therefore, the `SystemTimeKeeper` provides a mechanism to
@@ -443,7 +444,7 @@ be advisable.
 The `SystemTimeKeeper` provides 2 ways to perform these periodic maintenance
 actions.
 
-**Using the Global Loop()**
+**Method 1: Using the Global Loop()**
 
 You can use the `SystemTimeLoop` class and insert that into the global `loop()`
 method.
@@ -457,7 +458,7 @@ void loop() {
 }
 ```
 
-**Using AceRoutine Coroutines**
+**Method 2: Using AceRoutine Coroutines**
 
 You can use 2 AceRoutine coroutines to perform the sync and heartbeat. First,
 `#include <AceRoutine.h>` before the `<AceTime.h>` (to activate the
