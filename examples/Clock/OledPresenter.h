@@ -26,7 +26,6 @@ class OledPresenter: public Presenter {
       mOled.set2X();
 
       const DateTime& dateTime = mRenderingInfo.dateTime;
-      const HardwareTemperature& temperature = mRenderingInfo.temperature;
       switch (mRenderingInfo.mode) {
         case MODE_HOUR_MINUTE:
           printPad2(mOled, dateTime.hour());
@@ -84,13 +83,6 @@ class OledPresenter: public Presenter {
           mOled.setFont(Arial_bold_14);
           mOled.set2X();
           mOled.print(DateStrings().weekDayShortString(dateTime.dayOfWeek()));
-          break;
-
-        case MODE_TEMPERATURE:
-          mOled.setFont(Arial_bold_14);
-          mOled.set2X();
-          temperature.printTo(mOled);
-          mOled.print('C');
           break;
       }
     }

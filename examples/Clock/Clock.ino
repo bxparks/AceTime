@@ -15,6 +15,7 @@ Supported boards are:
 #include <AceButton.h>
 #include <AceRoutine.h>
 #include <AceTime.h>
+#include <ace_time/hw/CrcEeprom.h>
 #include <SSD1306AsciiWire.h>
 #include "config.h"
 #include "LedDisplay.h"
@@ -26,21 +27,19 @@ using namespace ace_segment;
 using namespace ace_button;
 using namespace ace_routine;
 using namespace ace_time;
-using namespace ace_time::hw;
 
 //------------------------------------------------------------------
 // Configure CrcEeprom.
 //------------------------------------------------------------------
 
-CrcEeprom crcEeprom;
+hw::CrcEeprom crcEeprom;
 
 //------------------------------------------------------------------
-// Configure RTC, and various TimeKeepers and TimeProviders.
+// Configure various TimeKeepers and TimeProviders.
 //------------------------------------------------------------------
 
 #if defined(USE_DS3231)
-  DS3231 rtc;
-  DS3231TimeKeeper dsTimeKeeper(rtc);
+  DS3231TimeKeeper dsTimeKeeper;
   SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper);
 #elif defined(USE_NTP)
   NtpTimeProvider ntpTimeProvider(AUNITER_SSID, AUNITER_PASSWORD);
@@ -159,21 +158,15 @@ void setupLed() {
 // the DISPLAY_TYPE.
 //------------------------------------------------------------------
 
-#if defined(USE_DS3231)
-  #define RTC &rtc
-#else
-  #define RTC nullptr
-#endif
-
 #if DISPLAY_TYPE == DISPLAY_TYPE_OLED
   OledPresenter presenter(oled);
-  OledClock clock(systemTimeKeeper, crcEeprom, presenter, RTC);
+  OledClock clock(systemTimeKeeper, crcEeprom, presenter);
 #elif DISPLAY_TYPE == DISPLAY_TYPE_FULL_OLED
   FullOledPresenter presenter(oled);
-  FullOledClock clock(systemTimeKeeper, crcEeprom, presenter, RTC);
+  FullOledClock clock(systemTimeKeeper, crcEeprom, presenter);
 #elif DISPLAY_TYPE == DISPLAY_TYPE_LED
   LedPresenter presenter(ledDisplay);
-  LedClock clock(systemTimeKeeper, crcEeprom, presenter, RTC);
+  LedClock clock(systemTimeKeeper, crcEeprom, presenter);
 #else
   #error Invalid DISPLAY_TYPE
 #endif

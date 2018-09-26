@@ -48,7 +48,6 @@ class LedPresenter: public Presenter {
       setBlinkStyle();
 
       const DateTime& dateTime = mRenderingInfo.dateTime;
-      const HardwareTemperature& temperature = mRenderingInfo.temperature;
       switch (mRenderingInfo.mode) {
         case MODE_HOUR_MINUTE:
         case MODE_CHANGE_HOUR:
@@ -84,12 +83,6 @@ class LedPresenter: public Presenter {
           mDisplay.stringWriter->writeStringAt(
               0, DateStrings().weekDayShortString(dateTime.dayOfWeek()),
               true /* padRight */);
-          break;
-        case MODE_TEMPERATURE:
-          mDisplay.clockWriter->writeClock(temperature.msb, 0);
-          mDisplay.clockWriter->writeColon(false);
-          mDisplay.clockWriter->writeCharAt(2, ClockWriter::kDegrees);
-          mDisplay.clockWriter->writeCharAt(3, ClockWriter::kSpace);
           break;
       }
     }

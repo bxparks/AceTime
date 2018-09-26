@@ -20,13 +20,13 @@
 #include <AceRoutine.h>
 #include <ace_routine/cli/CommandManager.h>
 #include <AceTime.h>
+#include <ace_time/hw/CrcEeprom.h>
 #include "config.h"
 #include "Controller.h"
 
 using namespace ace_routine;
 using namespace ace_routine::cli;
 using namespace ace_time;
-using namespace ace_time::hw;
 
 //---------------------------------------------------------------------------
 // Compensate for buggy F() implementation in ESP8266.
@@ -43,8 +43,7 @@ using namespace ace_time::hw;
 //---------------------------------------------------------------------------
 
 #if defined(USE_DS3231)
-  DS3231 rtc;
-  DS3231TimeKeeper dsTimeKeeper(rtc);
+  DS3231TimeKeeper dsTimeKeeper;
   SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper /*backup*/);
 #elif defined(USE_NTP)
   NtpTimeProvider ntpTimeProvider(AUNITER_SSID, AUNITER_PASSWORD);
@@ -66,7 +65,7 @@ using namespace ace_time::hw;
 // Create a controller retrieves or modifies the underlying clock.
 //---------------------------------------------------------------------------
 
-CrcEeprom crcEeprom;
+hw::CrcEeprom crcEeprom;
 Controller controller(crcEeprom, systemTimeKeeper);
 
 //---------------------------------------------------------------------------

@@ -14,8 +14,7 @@ namespace ace_time {
  */
 class DS3231TimeKeeper: public TimeKeeper {
   public:
-    explicit DS3231TimeKeeper(const hw::DS3231& ds3231):
-        mDS3231(ds3231) {}
+    explicit DS3231TimeKeeper() {}
 
     virtual void setup() override {}
 
@@ -49,7 +48,7 @@ class DS3231TimeKeeper: public TimeKeeper {
           dt.minute(), dt.second(), dt.dayOfWeek()};
     }
 
-    const hw::DS3231& mDS3231;
+    const hw::DS3231 mDS3231;
 };
 
 }

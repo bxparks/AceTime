@@ -3,6 +3,7 @@
 
 #include <SSD1306AsciiWire.h>
 #include <AceTime.h>
+#include <ace_time/hw/CrcEeprom.h>
 #include "Clock.h"
 #include "FullOledPresenter.h"
 #include "config.h"
@@ -12,9 +13,9 @@
 class FullOledClock: public Clock {
   public:
     /** Constructor. */
-    FullOledClock(TimeKeeper& timeKeeper, CrcEeprom& crcEeprom,
-            FullOledPresenter& presenter, const DS3231* ds3231):
-        Clock(timeKeeper, crcEeprom, presenter, ds3231) {
+    FullOledClock(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
+            FullOledPresenter& presenter):
+        Clock(timeKeeper, crcEeprom, presenter) {
       mMode = MODE_DATE_TIME;
     }
 
@@ -27,9 +28,6 @@ class FullOledClock: public Clock {
           mMode = MODE_WEEKDAY;
           break;
         case MODE_WEEKDAY:
-          mMode = MODE_TEMPERATURE;
-          break;
-        case MODE_TEMPERATURE:
           mMode = MODE_DATE_TIME;
           break;
 

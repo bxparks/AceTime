@@ -45,10 +45,6 @@ class FullOledPresenter: public Presenter {
         case MODE_CHANGE_TIME_ZONE_MINUTE:
           displayTimeZone();
           break;
-
-        case MODE_TEMPERATURE:
-          displayTemperature();
-          break;
       }
     }
 
@@ -118,12 +114,6 @@ class FullOledPresenter: public Presenter {
       } else {
         mOled.print("  ");
       }
-    }
-
-    void displayTemperature() const {
-      const HardwareTemperature& temperature = mRenderingInfo.temperature;
-      temperature.printTo(mOled);
-      mOled.print('C');
     }
 
   private:

@@ -15,8 +15,8 @@ class LedClock: public Clock {
   public:
     /** Constructor. */
     LedClock(TimeKeeper& timeKeeper, CrcEeprom& crcEeprom,
-          LedPresenter& presenter, const DS3231* ds3231):
-        Clock(timeKeeper, crcEeprom, presenter, ds3231) {
+          LedPresenter& presenter):
+        Clock(timeKeeper, crcEeprom, presenter) {
       mMode = MODE_HOUR_MINUTE;
     }
 
@@ -38,9 +38,6 @@ class LedClock: public Clock {
           mMode = MODE_WEEKDAY;
           break;
         case MODE_WEEKDAY:
-          mMode = MODE_TEMPERATURE;
-          break;
-        case MODE_TEMPERATURE:
           mMode = MODE_HOUR_MINUTE;
           break;
         case MODE_CHANGE_HOUR:

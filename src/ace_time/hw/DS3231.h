@@ -15,14 +15,14 @@ class HardwareTemperature;
  * DS3231 chip to implement the ace_time::DS3231TimeKeeper class. It is not
  * meant to provide access to all the features of the DS3231 chip. There are
  * other libraries which are far better for that purpose.
+ *
+ * According to https://learn.adafruit.com/i2c-addresses/the-list, the DS3231
+ * is always on I2C address 0x68, so let's hardcode that.
  */
 class DS3231 {
   public:
-    static const uint8_t kI2cAddress = 0x68;
-
     /** Constructor. */
-    explicit DS3231(uint8_t address = kI2cAddress):
-        mAddress(address) {}
+    explicit DS3231() {}
 
     /** Read the time into the HardwareDateTime object. */
     void readDateTime(HardwareDateTime* dateTime) const;
@@ -34,7 +34,7 @@ class DS3231 {
     void readTemperature(HardwareTemperature* temperature) const;
 
   private:
-    const uint8_t mAddress;
+    static const uint8_t kAddress = 0x68;
 };
 
 }

@@ -13,8 +13,8 @@ class OledClock: public Clock {
   public:
     /** Constructor. */
     OledClock(TimeKeeper& timeKeeper, CrcEeprom& crcEeprom,
-            OledPresenter& presenter, const DS3231* ds3231):
-        Clock(timeKeeper, crcEeprom, presenter, ds3231) {
+            OledPresenter& presenter):
+        Clock(timeKeeper, crcEeprom, presenter) {
       mMode = MODE_HOUR_MINUTE;
     }
 
@@ -36,9 +36,6 @@ class OledClock: public Clock {
           mMode = MODE_WEEKDAY;
           break;
         case MODE_WEEKDAY:
-          mMode = MODE_TEMPERATURE;
-          break;
-        case MODE_TEMPERATURE:
           mMode = MODE_HOUR_MINUTE;
           break;
         case MODE_CHANGE_HOUR:

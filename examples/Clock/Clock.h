@@ -2,7 +2,6 @@
 #define CLOCK_CLOCK_H
 
 #include <AceTime.h>
-#include <ace_time/hw/HardwareTemperature.h>
 #include <ace_time/hw/CrcEeprom.h>
 #include <ace_time/common/DateStrings.h>
 #include "RenderingInfo.h"
@@ -11,7 +10,6 @@
 
 using namespace ace_time;
 using namespace ace_time::common;
-using namespace ace_time::hw;
 
 /**
  * Class responsible for rendering the RenderingInfo to the indicated display.
@@ -31,14 +29,12 @@ class Clock {
      * Constructor.
      * @param timeKeeper
      * @crcEeprom
-     * @ds3231 nullable if the device does not have a DS3231 RTC chip
      */
-    Clock(TimeKeeper& timeKeeper, CrcEeprom& crcEeprom, Presenter& presenter,
-            const DS3231* ds3231):
+    Clock(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
+            Presenter& presenter):
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),
-        mPresenter(presenter),
-        mDS3231(ds3231) {}
+        mPresenter(presenter) {}
 
     void setup() {
       // Retrieve current time from TimeKeeper.
@@ -167,12 +163,6 @@ class Clock {
       *dateTime = DateTime(now, mTimeZone);
     }
 
-    void readTemperature(HardwareTemperature* temperature) {
-      if (mDS3231) {
-        mDS3231->readTemperature(temperature);
-      }
-    }
-
     void preserveInfo() {
       StoredInfo storedInfo;
       storedInfo.tzCode = mTimeZone.tzCode();
@@ -182,9 +172,8 @@ class Clock {
 
   protected:
     TimeKeeper& mTimeKeeper;
-    CrcEeprom& mCrcEeprom;
+    hw::CrcEeprom& mCrcEeprom;
     Presenter& mPresenter;
-    const DS3231* const mDS3231;
 
     uint8_t mMode = MODE_UNKNOWN; // current mode
     TimeZone mTimeZone; // current time zone of clock
