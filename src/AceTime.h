@@ -1,5 +1,12 @@
-#ifndef ACE_TIME_H
-#define ACE_TIME_H
+/**
+ * @mainpage AceTime Library
+ *
+ * This is the Doxygen documentation for the
+ * <a href="https://github.com/bxparks/AceTime">AceTime Library</a>.
+ */
+
+#ifndef ACE_TIME_ACE_TIME_H
+#define ACE_TIME_ACE_TIME_H
 
 #include "ace_time/TimeZone.h"
 #include "ace_time/DateTime.h"
