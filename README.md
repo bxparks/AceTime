@@ -13,7 +13,7 @@ Compared to the Arduino Time Library, here are the main differences:
 1. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z instead of the Unix
    epoch of 1970-01-01T00:00:00Z.
     * Using an `uint32_t` to track the number of seconds since the Epoch, the
-      AceTime library can handle all dates from **2000 to the end of 2099**.
+      AceTime library can handle all dates from **2000** to the **end of 2099**.
     * This date range corresponds to the range of the DS3231 RTC chip.
 1. AceTime is **2-3X** faster on an ATmega328P, **4X** faster on the ESP8266,
    and **10-20X** faster on the ARM (Teensy) and ESP32 processors.
@@ -189,6 +189,45 @@ The `dayOfWeek()` method calculates the correct day of the week from the (year,
 month, day) information. The method does not use the time zone information
 because the day of the week is unaffected by it.
 
+#### Date Strings
+
+The `dayOfweek()` method returns a numerical code where `1=Sunday` and
+`7=Saturday`. The code can be translated into their English names using the
+`common::DateStrings` class:
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+...
+
+common::DateStrings dateStrings;
+uint8_t dayOfWeek = dt.dayOfWeek();
+const char* longName = dateStrings.weekDayLongString(dayOfWeek);
+const char* shortName = dateStrings.weekDayShortString(dayOfWeek);
+```
+The `DateStrings` class is inside the `ace_time::common` namespace, so you need
+to prefix it with `common::`. The `weekDayShortString()` method returns the
+first 3 characters of the week day (i.e. "Sun", "Mon", "Tue", "Wed", "Thu",
+"Fri", "Sat").
+
+Similarly the `month()` method returns a code where `1=January` and
+`12=December`, which can be translated into English strings using:
+
+**Caution**: The `DateStrings` object uses an internal buffer to hold the
+generated human-readable strings. The strings must be used before the
+`DateStrings` object is destructed (e.g. goes out of scope if it is created on
+the local stack).
+
+```C++
+common::DateStrings dateStrings;
+uint8_t month = dt.dayOfWeek();
+const char* longName = dateStrings.monthLongString(month);
+const char* shortName = dateStrings.monthShortString(month);
+```
+The `monthShortString()` method returns the first 3 characters of the month
+(i.e. "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
+"Nov", "Dec").
+
 #### Days and Seconds From Epoch
 
 The `DateTime` object can calculate the number of seconds since the AceTime
@@ -233,7 +272,7 @@ components (year, month, day, hour, minute, seconds). Stated another way, users
 should create `DateTime` objects where the `toSecondsSinceEpoch() >= 86400`.
 Smaller values *may* work for some time zones, but not for others.
 
-#### Convert to Another Time Zone
+#### Conversion to Other Time Zones
 
 You can convert a given `DateTime` object into a representation in a different
 time zone using the `DateTime::convertToTimeZone()` method:

@@ -11,9 +11,12 @@ namespace common {
 /**
  * Class that translates a numeric month (1-12) or weekDay (1-7) into a human
  * readable string. Both long and short versions can be retrieved. The object
- * uses an internal char[] buffer to store the result strings, so this is not
- * thread-safe but Arduino boards are single-threaded currently so we don't have
- * to worry about this. Inspired by the DateStrings.cpp file in
+ * uses an internal char[] buffer to store the result strings, so the strings
+ * must be used before DateStrings object is destroyed. This also means that
+ * the object is not thread-safe but Arduino boards are single-threaded
+ * currently so we don't have to worry about this.
+ *
+ * Inspired by the DateStrings.cpp file in
  * https://github.com/PaulStoffregen/Time/blob/master/DateStrings.cpp.
  */
 class DateStrings {
