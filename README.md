@@ -275,7 +275,7 @@ DS3231TimeKeeper dsTimeKeeper;
 ...
 void setup() {
   ...
-  dsTimeProvider.setup();
+  dsTimeKeeper.setup();
   ...
 
 }
@@ -327,7 +327,8 @@ If you wanted to use the `DS3231TimeKeeper` as both the backup and sync
 time sources, then the setup would something like this:
 ```C++
 DS3231TimeKeeper dsTimeKeeper;
-SystemTimeKeeper systemTimeKeeper(&dsTimeProvider, &dsTimeKeeper);
+SystemTimeKeeper systemTimeKeeper(
+    &dsTimeKeeper /*sync*/, &dsTimeKeeper /*backup*/);
 ...
 
 void setup() {
@@ -342,7 +343,7 @@ which case you can give `nullptr` as the correspond argument. For example,
 to use no backup time keeper:
 ```C++
 DS3231TimeKeeper dsTimeKeeper;
-SystemTimeKeeper systemTimeKeeper(&dsTimeProvider, nullptr /*backup*/);
+SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper /*sync*/, nullptr /*backup*/);
 ...
 
 void setup() {
