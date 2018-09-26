@@ -1,7 +1,7 @@
 # Compare Time Libraries
 
 This program compares the runtime performance of AceTime library versus the
-[Arduino Time library](https://github.com/PaulStoffregen/Time) for the
+[Arduino Time Library](https://github.com/PaulStoffregen/Time) for the
 functions that perform the round trip conversion from the set of human-readable
 date/time components (i.e. year, month, day, hour, minute, second) into the
 number of seconds since a particular epoch (2000-01-01 for AceTime and
@@ -11,7 +11,7 @@ components.
 From the benchmarks below on various processors, I conclude that the AceTime
 library is:
 
-* ~2.5X faster on an 8-bit AVR processor,
+* ~2.5X faster on an 8-bit AVR processor
 * 3-4X faster on an ESP8266
 * 10-20X faster on an ESP32 or a Teensy controller
 
@@ -29,9 +29,9 @@ take the same amount of time no matter what the year is. They contain a fair
 number of integer division operations, which are notoriously slow on an 8-bit
 AVR processor because divisions are emulated in software instead of implemented
 in hardware. Even with the slow integer division operations, the AceTime library
-is faster on the AVR boards than the Time library. As soon as the processor
-supports hardware divisions, then the AceTime library becomes an order of
-magnitude (10X) faster than the Time library.
+is faster on the AVR boards than the Arduino Time Library. As soon as the
+processor supports hardware divisions, then the AceTime library becomes an order
+of magnitude (10X) faster than the Arduino Time Library.
 
 ## Arduino Nano
 
@@ -87,5 +87,4 @@ Arduino Time library        |  22.570 |
 ----------------------------+---------+
 Number of iterations per run: 100000
 Delta seconds: 4733
-
 ```

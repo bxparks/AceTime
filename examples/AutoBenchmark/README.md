@@ -1,8 +1,8 @@
 # Auto Benchmark
 
 Here are the results from `AutoBenchmark.ino` for various boards.
-Integer division and modulus operations are incredibly slow
-on 8-bit AVR processors.
+These results show that integer division and modulus operations are incredibly
+slow on 8-bit AVR processors.
 
 ## Arduino Nano
 
