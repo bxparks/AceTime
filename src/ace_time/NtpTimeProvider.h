@@ -186,6 +186,6 @@ class NtpTimeProvider: public TimeProvider {
 
 }
 
-#endif // defined(ESP8266)
+#endif // #if defined(ESP8266)
 
-#endif // ACE_TIME_NTP_TIME_PROVIDER_H
+#endif // #ifndef ACE_TIME_NTP_TIME_PROVIDER_H

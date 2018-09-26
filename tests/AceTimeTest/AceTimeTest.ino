@@ -298,35 +298,35 @@ test(dateTimeIsError) {
   assertTrue(dt.isError());
 }
 
-test(dateTimeFromString_errors) {
+test(dateTimeForDateString_errors) {
   // empty string, too short
-  DateTime dt("");
+  DateTime dt = DateTime::forDateString("");
   assertTrue(dt.isError());
 
   // not enough components
-  dt = DateTime(F("2018-08-31"));
+  dt = DateTime::forDateString(F("2018-08-31"));
   assertTrue(dt.isError());
 
   // too long
-  dt = DateTime(F("2018-08-31T13:48:01-07:00X"));
+  dt = DateTime::forDateString(F("2018-08-31T13:48:01-07:00X"));
   assertTrue(dt.isError());
 
   // too short
-  dt = DateTime(F("2018-08-31T13:48:01-07:0"));
+  dt = DateTime::forDateString(F("2018-08-31T13:48:01-07:0"));
   assertTrue(dt.isError());
 
   // missing UTC
-  dt = DateTime(F("2018-08-31T13:48:01"));
+  dt = DateTime::forDateString(F("2018-08-31T13:48:01"));
   assertTrue(dt.isError());
 
   // parser cares about UTC+/- offset
-  dt = DateTime(F("2018-08-31 13:48:01&07:00"));
+  dt = DateTime::forDateString(F("2018-08-31 13:48:01&07:00"));
   assertTrue(dt.isError());
 }
 
-test(dateTimFromString) {
+test(dateTimForDateString) {
   // exact ISO8601 format
-  DateTime dt = DateTime(F("2018-08-31T13:48:01-07:00"));
+  DateTime dt = DateTime::forDateString(F("2018-08-31T13:48:01-07:00"));
   assertFalse(dt.isError());
   assertEqual((uint16_t) 2018, dt.yearFull());
   assertEqual(18, dt.year());
@@ -339,7 +339,7 @@ test(dateTimFromString) {
   assertEqual(6, dt.dayOfWeek());
 
   // parser does not care about most separators, this may change in the future
-  dt = DateTime(F("2018/08/31 13#48#01+07#00"));
+  dt = DateTime::forDateString(F("2018/08/31 13#48#01+07#00"));
   assertFalse(dt.isError());
   assertEqual(18, dt.year());
   assertEqual(8, dt.month());

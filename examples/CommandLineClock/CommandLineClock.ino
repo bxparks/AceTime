@@ -107,7 +107,7 @@ void dateCommand(Print& printer, int argc, const char** argv) {
   }
 
   if (newDateString != nullptr) {
-    DateTime newDate(newDateString);
+    DateTime newDate = DateTime::forDateString(newDateString);
     if (newDate.isError()) {
       printer.print(FF("Invalid date: "));
       printer.println(newDateString);

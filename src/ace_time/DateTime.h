@@ -95,14 +95,7 @@ class DateTime {
           mTimeZone(timeZone) {
 
       if (secondsSinceEpoch == 0) {
-        // All of the member variables set to avoid compiler warnings.
-        mYear = 0;
-        mMonth = 0;
-        mDay = 0;
-        mHour = 0;
-        mMinute = 0;
-        setError(); // mSecond = 255
-        mDayOfWeek = 0;
+        setError();
         return;
       }
 
@@ -119,9 +112,9 @@ class DateTime {
     }
 
     /**
-     * Constructor. Create a DateTime from the ISO8601 date string. If the
-     * string cannot be parsed, then isError() on the constructed object returns
-     * true.
+     * Factory method. Create a DateTime from the ISO8601 date string. If the
+     * string cannot be parsed, then isError() on the constructed object
+     * returns true.
      *
      * The dateString is expected to be in ISO8601 format
      * "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very lenient
@@ -132,12 +125,17 @@ class DateTime {
      * "2018-08-31T13:48:01-07:00"
      * "2018/08/31 13#48#01-07#00"
      */
-    explicit DateTime(const char* dateString): mTimeZone(0) {
-      initFromDateString(dateString);
+    static DateTime forDateString(const char* dateString) {
+      DateTime dt;
+      dt.initFromDateString(dateString);
+      return dt;
     }
 
-    /** Constructor from flash memory F() strings. Mostly for unit testing. */
-    explicit DateTime(const __FlashStringHelper* dateString): mTimeZone(0) {
+    /**
+     * Factory method. Create a DateTime from date string in flash memory F()
+     * strings. Mostly for unit testing.
+     */
+    static DateTime forDateString(const __FlashStringHelper* dateString) {
       // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
       // ESP8266 do not have strlcpy_P().
       char buffer[kDateStringLength + 2];
@@ -147,11 +145,10 @@ class DateTime {
       // check if the original F() was too long
       size_t len = strlen(buffer);
       if (len > kDateStringLength) {
-        setError();
-        return;
+        return DateTime().setError();
       }
 
-      initFromDateString(buffer);
+      return forDateString(buffer);
     }
 
     /** Return true if any component indicates an error condition. */
@@ -373,10 +370,18 @@ class DateTime {
      * statement like this: 'return DateTime().setError()'.
      */
     DateTime& setError() {
-      // We use the second field to represent an error condition because it is
+      // We use the 'second' field to represent an error condition because it is
       // the first field checked by operator==(), so will provide the fastest
-      // detection of the transition from isError() to a valid DateTime.
+      // detection of the transition from isError() to a valid DateTime. All
+      // other fields set to 0 to avoid compiler warnings about uninitialized
+      // member variables.
+      mYear = 0;
+      mMonth = 0;
+      mDay = 0;
+      mHour = 0;
+      mMinute = 0;
       mSecond = 255;
+      mDayOfWeek = 0;
       return *this;
     }
 
