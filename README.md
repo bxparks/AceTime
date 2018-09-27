@@ -584,10 +584,12 @@ I will occasionally test on the following hardware as a sanity check:
 * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
   of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds counter.
   It will overflow just after 2036-02-07T06:28:15Z.
-* Unix time uses an epoch of 1970-01-01T00:00:00Z. But unlike a 32-bit Unix
-  system which uses a signed 32-bit integer to represent the seconds, the
-  `DateTime::toUnixSeconds()` method returns an unsigned 32-bit integer, so it
-  will rollover just after 2106-02-07T06:23:15Z, not 2038-01-19T03:14:07Z.
+* [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
+  1970-01-01T00:00:00Z. On 32-bit Unix systems that use a signed 32-bit integer
+  to represent the seconds field, the unix time will rollover just after
+  2038-01-19T03:14:07Z. The AceTime `DateTime::toUnixSeconds()` method returns
+  an *unsigned* 32-bit integer, so it will rollover about 70 later, just after
+  2106-02-07T06:23:15Z.
 
 ## Changelog
 
