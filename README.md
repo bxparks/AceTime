@@ -175,7 +175,7 @@ components using the accessor methods:
 ```C++
 dt = DateTime(18, 8, 30, 6, 45, 1, TimeZone::forHour(-7));
 
-uint8_t year = dt.year(); // 0 - 99
+uint8_t year = dt.year(); // 0 - 99 (actually 0 - 136)
 uint8_t month = dt.month(); // 1 - 12
 uint8_t day = dt.day(); // 1 - 31
 uint8_t hour = dt.hour(); // 0 - 23
@@ -292,16 +292,42 @@ components (year, month, day, hour, minute, seconds) will be different.
 ### TimeProviders and TimeKeepers
 
 The `TimeProvider` class and its subclasses implement the `getNow()` method
-which returns the number of seconds since the AceTime Epoch (2000-01-01). This
-value can be used to construct the `DateTime` object when needed.
+which returns a `uint32_t` that represents the number of seconds since the
+AceTime Epoch (2000-01-01T00:00:00Z). The relevant part of the `TimeProvider`
+class is:
+
+```C++
+class TimeProvider {
+  public:
+    ...
+    virtual uint32_t getNow() const = 0;
+    ...
+};
+```
+To obtain the human-readable version of the current time, create a
+`DateTime` object from the seconds from Epoch returned by `getNow()`:
+```C++
+TimeProvider* timeProvider = ...;
+
+uint32_t nowSeconds = timeProvider->getNow();
+DateTime now(nowSeconds);
+```
 
 The `TimeKeeper` class and its subclasses are also subclasses of`TimeProvider`
 but the time keepers implement the `setNow()` method which allows their time to
-be set. In other words, the `TimeKeeper` can be set to the current time and it
-is normally expected to have an internal clock which allows it to continue to
-update the current time.
+be set.
+```C++
+class TimeKeeper: public TimeProvider {
+  public:
+    virtual void setNow(uint32_t secondsSinceEpoch) = 0;
+};
+```
 
-The following time providers and keepers have been implemented.
+In other words, the `TimeKeeper` can be set to the current time. It is then
+expected to have an internal clock that continues to update the current time.
+
+The AceTime library comes with a number of time providers and keepers, as
+described in the following subsections.
 
 #### DS3231 Time Keeper
 
@@ -529,6 +555,19 @@ I will occasionally test on the following hardware as a sanity check:
   less. But sometimes, the DNS resolver seems to get into a state where it takes
   4-5 **seconds** to time out. Even if you use coroutines, the entire program
   will block for those 4-5 seconds.
+* AceTime uses an epoch of 2000-01-01T00:00:00Z. `getNow()` returns
+  the number of seconds as a 32-bit unsigned integer. So it will rollover just
+  after 2136-02-07T06:23:15Z.
+* It is possible to construct a `DateTime` object with a `year` component
+  greater than 136, but such an object may not be very useful because the
+  `toSecondsSincEpoch()` method would return an incorrect number.
+* [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
+  of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds counter.
+  It will overflow just after 2036-02-07T06:28:15Z.
+* Unix time uses an epoch of 1970-01-01T00:00:00Z. But unlike a 32-bit Unix
+  system which uses a signed 32-bit integer to represent the seconds, the
+  `DateTime::toUnixSeconds()` method returns an unsigned 32-bit integer, so it
+  will rollover just after 2106-02-07T06:23:15Z, not 2038-01-19T03:14:07Z.
 
 ## Changelog
 
