@@ -543,21 +543,18 @@ The library is tested on the following hardware before each release:
 I will occasionally test on the following hardware as a sanity check:
 
 * Teensy 3.2 (72 MHz ARM Cortex-M4)
-* NodeMCU 1.0 clone (ESP-12E module, 80 MHz ESP8266)
 
 ## Bugs and Limitations
 
-* The `NtpTimeProvider` should be supported on an ESP32 but I haven't
-  had the time to implement it.
 * The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
   the IP address of the NTP server. Unfortunately, this seems to be blocking
   call. When the DNS resolver is working properly, this call returns in ~10ms or
   less. But sometimes, the DNS resolver seems to get into a state where it takes
   4-5 **seconds** to time out. Even if you use coroutines, the entire program
   will block for those 4-5 seconds.
-* AceTime uses an epoch of 2000-01-01T00:00:00Z. `getNow()` returns
-  the number of seconds as a 32-bit unsigned integer. So it will rollover just
-  after 2136-02-07T06:23:15Z.
+* AceTime uses an epoch of 2000-01-01T00:00:00Z. `DateTime::getNow()` returns
+  the number of seconds since the epoch as a 32-bit unsigned integer. So it will
+  rollover just after 2136-02-07T06:23:15Z.
 * It is possible to construct a `DateTime` object with a `year` component
   greater than 136, but such an object may not be very useful because the
   `toSecondsSincEpoch()` method would return an incorrect number.
