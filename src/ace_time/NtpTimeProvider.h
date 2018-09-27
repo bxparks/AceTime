@@ -1,16 +1,20 @@
 #ifndef ACE_TIME_NTP_TIME_PROVIDER_H
 #define ACE_TIME_NTP_TIME_PROVIDER_H
 
-#if defined(ESP8266)
+#if defined(ESP8266) || defined(ESP32)
 
 #include <stdint.h>
-#include <ESP8266WiFi.h>
+#if defined(ESP8266)
+  #include <ESP8266WiFi.h>
+#else
+  #include <WiFi.h>
+#endif
 #include <WiFiUdp.h>
 #include "TimeKeeper.h"
 #include "common/logger.h"
 
 #ifndef ACE_TIME_NTP_TIME_PROVIDER_DEBUG
-#define ACE_TIME_NTP_TIME_PROVIDER_DEBUG 1
+#define ACE_TIME_NTP_TIME_PROVIDER_DEBUG 0
 #endif
 
 namespace ace_time {
@@ -37,7 +41,7 @@ class NtpTimeProvider: public TimeProvider {
     static const uint16_t kLocalPort = 8888;
 
     /** Request time out milliseconds. */
-    static const uint16_t kRequestTimeout = 1500;
+    static const uint16_t kRequestTimeout = 1000;
 
     /**
      * Constructor.
@@ -82,8 +86,10 @@ class NtpTimeProvider: public TimeProvider {
       mUdp.begin(mLocalPort);
 
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+  #if defined(ESP8266)
       Serial.print("Local port: ");
       Serial.println(mUdp.localPort());
+  #endif
 #endif
     }
 
@@ -186,6 +192,6 @@ class NtpTimeProvider: public TimeProvider {
 
 }
 
-#endif // #if defined(ESP8266)
+#endif // defined(ESP8266) || defined(ESP32)
 
-#endif // #ifndef ACE_TIME_NTP_TIME_PROVIDER_H
+#endif
