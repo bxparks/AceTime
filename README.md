@@ -303,30 +303,6 @@ update the current time.
 
 The following time providers and keepers have been implemented.
 
-#### NTP Time Provider
-
-The `NtpTimeProvider` is available on the ESP8266 microcontroller. (ESP32
-support will be forthcoming.) It uses an NTP client to fetch the current time
-from the specified NTP server. The constructor takes 5 parameters, but only 2 of
-them being required:
-```C++
-NtpTimeProvider ntpTimeProvider(SSID, PASSWORD);
-...
-void setup() {
-  ...
-  ntpTimeProvider.setup();
-  ...
-}
-
-void loop() {
-  ...
-}
-```
-The `SSID` and `PASSWORD` are the credentials needed for the ESP8266 to get on
-your wireless network. (**Security Warning**: Avoid committing your
-SSID/PASSWORD into a public repository like GitHub because it will become public
-to anyone.)
-
 #### DS3231 Time Keeper
 
 The `DS3231TimeKeeper` is backed by a DS3231 RTC chip which is normally backed
@@ -350,6 +326,30 @@ void loop() {
   ...
 }
 ```
+
+#### NTP Time Provider
+
+The `NtpTimeProvider` is available on the ESP8266 and ESP32 have builtin WiFi
+capability. This class uses an NTP client to fetch the current time from the
+specified NTP server. The constructor takes 5 parameters, 2 of them
+related to the WiFi authentication, and 3 of them related to timing parameters.
+Only the SSID and PASSWORD parameters are required:
+```C++
+NtpTimeProvider ntpTimeProvider(SSID, PASSWORD);
+...
+void setup() {
+  ...
+  ntpTimeProvider.setup();
+  ...
+}
+
+void loop() {
+  ...
+}
+```
+**Security Warning**: You should avoid committing your SSID and PASSWORD into a
+public repository like GitHub because it will become public to anyone. Even if
+you delete the commit, it will be accessible through the git history.
 
 #### System Time Keeper
 
