@@ -289,6 +289,29 @@ The two `DateTime` objects return the same value for `secondsSinceEpoch()`
 because that is not affected by the time zone. However, the various date time
 components (year, month, day, hour, minute, seconds) will be different.
 
+#### TimePeriod
+
+The `TimePeriod` class can be used to represents a difference between two
+`DateTime` objects, if the difference is not too large. Internally, it is
+implemented as 3 unsigned `uint8_t` integers representing the hour, minute and
+seconds. There is a 4th signed `int8_t` integer that holds the sign (-1 or +1)
+of the time period. The largest (or smallest) time period that can be
+represented by this class is +/- 255h59m59s, corresponding to +/- 921599
+seconds.
+
+This class is intended to be used when the difference between 2 dates need
+to be presented to the user broken down into hours, minutes and seconds. For
+example, we can print out a count down to a target `DateTime` from the current
+`DateTime` like this:
+```C++
+DateTime currentDate(...);
+DateTime targetDate(...);
+int32_t diffSeconds =
+        targetDate.toSecondsSinceEpoch() - currentDate.toSecondsSincEpoch();
+TimePeriod diff(diffSeconds);
+diff.printTo(Serial)
+```
+
 ### TimeProviders and TimeKeepers
 
 The `TimeProvider` class and its subclasses implement the `getNow()` method
