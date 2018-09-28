@@ -567,6 +567,77 @@ I will occasionally test on the following hardware as a sanity check:
 
 * Teensy 3.2 (72 MHz ARM Cortex-M4)
 
+## Benchmarks
+
+### CPU
+
+The [AutoBenchmark.ino](examples/AutoBenchmark/) program measures the
+amount of CPU cycles taken by some of the more expensive `DateTime`
+methods. The most expensive method is the constructor `DateTime(seconds)`.
+Here is a summary of how long that constructor takes for some Arduino boards
+that I have access to:
+```
+----------------------------+---------+
+Board or CPU                |  micros |
+----------------------------+---------+
+ATmega328P 16MHz (Nano)     | 401.800 |
+ESP8266 80MHz               |  12.080 |
+ESP32 240MHz                |   0.705 |
+Teensy 3.2 96MHz            |   2.750 |
+----------------------------+---------+
+```
+
+### Memory
+
+Here is a quick summary of the amount of static RAM consumed by various
+classes:
+
+**8-bit processors**
+
+```
+sizeof(DateTime): 8
+sizeof(TimeZone): 1
+sizeof(TimePeriod): 4
+sizeof(SystemTimeKeeper): 17
+sizeof(DS3231TimeKeeper): 4
+sizeof(SystemTimeLoop): 10
+sizeof(SystemTimeSyncCoroutine): 29
+sizeof(SystemTimeHeartbeatCoroutine): 18
+```
+
+**32-bit processors**
+```
+sizeof(DateTime): 8
+sizeof(TimeZone): 1
+sizeof(TimePeriod): 4
+sizeof(SystemTimeKeeper): 24
+sizeof(DS3231TimeKeeper): 8
+sizeof(NtpTimeProvider): 96 (ESP8266), 120 (ESP32)
+sizeof(SystemTimeLoop): 12
+sizeof(SystemTimeSyncCoroutine): 52
+sizeof(SystemTimeHeartbeatCoroutine): 36
+```
+
+### Comparison to Arduino Time Library
+
+The [ComparisonBenchmark.ino](examples/ComparisonBenchmark/) program compares
+the CPU time of AceTime methods with the equilvalent methods
+[Arduino Time Library](https://github.com/PaulStoffregen/Time).
+The functionality tested was the roundtrip conversion from `secondsFromEpoch` to
+the date time components, then back to `secondsFromEpoch` again. Details are
+given in the README.md file in that folder, but here is a summary for various
+boards (all times in microseconds):
+```
+----------------------------+---------+----------+
+Board or CPU                | AceTime | Time Lib |
+----------------------------+---------+----------+
+ATmega328P 16MHz (Nano)     | 364.000 |  879.000 |
+ESP8266 80MHz               |  20.900 |   68.500 |
+ESP32 240MHz                |   0.570 |    9.330 |
+Teensy 3.2 96MHz            |   1.980 |   22.570 |
+----------------------------+---------+---------+
+```
+
 ## Bugs and Limitations
 
 * The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
