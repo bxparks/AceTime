@@ -15,11 +15,14 @@ class PersistentStore {
     }
 
     bool readStoredInfo(StoredInfo& storedInfo) const {
-      return mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
+      bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
+      storedInfo.ssid[StoredInfo::kSsidMaxLength - 1] = '\0';
+      storedInfo.ssid[StoredInfo::kPasswordMaxLength - 1] = '\0';
+      return isValid;
     }
 
-    void writeStoredInfo(const StoredInfo& storedInfo) {
+    void writeStoredInfo(const StoredInfo& storedInfo) const {
       mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
           sizeof(StoredInfo));
     }
@@ -28,7 +31,7 @@ class PersistentStore {
     static const uint16_t kStoredInfoEepromAddress = 0;
 
     // Must be greater than (sizeof(StoredInfo) + 4).
-    static const uint8_t kEepromSize = 32;
+    static const uint8_t kEepromSize = sizeof(StoredInfo) + 4;
 
     hw::CrcEeprom mCrcEeprom;
 };

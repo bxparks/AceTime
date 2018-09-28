@@ -203,33 +203,57 @@ class TimezoneCommand: public CommandHandler {
  */
 class WifiCommand: public CommandHandler {
   public:
-    WifiCommand():
-      CommandHandler("wifi", "[ (ssid {ssid}) | (password {password}) ]" ) {}
+    WifiCommand(PersistentStore& persistentStore):
+      CommandHandler("wifi", "[ (ssid {ssid}) | (password {password}) ]" ),
+      mPersistentStore(persistentStore)
+      {}
 
     virtual void run(Print& printer, int argc, const char** argv)
         const override {
+      StoredInfo storedInfo;
+      bool isValid = mPersistentStore.readStoredInfo(storedInfo);
+
+      SHIFT;
       if (argc == 0) {
+        // print ssid and password
+        if (isValid) {
+          printer.print(FF("ssid: "));
+          printer.println(storedInfo.ssid);
+          printer.print(FF("password: "));
+          printer.println(storedInfo.password);
+        } else {
+          printer.println(
+            FF("Error reading ssid and password from persistent storage"));
+        }
       } else {
-        if (strcmp(*argv, "ssid") == 0) {
+        if (strcmp(argv[0], "ssid") == 0) {
           SHIFT;
           if (argc == 0) {
-            // print ssid
+            printer.println(FF("Invalid 'wifi ssid' command"));
           } else {
-            // set new ssid
+            strncpy(storedInfo.ssid, argv[0], StoredInfo::kSsidMaxLength);
+            storedInfo.ssid[StoredInfo::kSsidMaxLength - 1] = '\0';
+            mPersistentStore.writeStoredInfo(storedInfo);
           }
         } else if (strcmp(*argv, "password") == 0) {
           SHIFT;
           if (argc == 0) {
-            // print password
+            printer.println(FF("Invalid 'wifi password' command"));
           } else {
-            // set new password
+            strncpy(storedInfo.password, argv[0],
+                StoredInfo::kPasswordMaxLength);
+            storedInfo.ssid[StoredInfo::kPasswordMaxLength - 1] = '\0';
+            mPersistentStore.writeStoredInfo(storedInfo);
           }
         } else {
-          printer.print(FF("Unknown wifi parameter: "));
-          printer.println(*argv);
+          printer.print(FF("Unknown wifi command: "));
+          printer.println(argv[0]);
         }
       }
     }
+
+  private:
+    PersistentStore& mPersistentStore;
 };
 
 // Create an instance of the CommandManager.
@@ -241,7 +265,7 @@ CommandManager<MAX_COMMANDS, BUF_SIZE, ARGV_SIZE> commandManager(Serial, "> ");
 ListCommand listCommand;
 DateCommand dateCommand;
 TimezoneCommand timezoneCommand;
-WifiCommand wifiCommand;
+WifiCommand wifiCommand(persistentStore);
 
 //---------------------------------------------------------------------------
 // Main setup and loop

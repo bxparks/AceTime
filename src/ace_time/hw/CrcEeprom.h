@@ -41,7 +41,7 @@ class CrcEeprom {
      * Write the data with its CRC. Returns the number of bytes written.
      */
     uint16_t writeWithCrc(int address, const void* const data,
-        const uint16_t dataSize) {
+        const uint16_t dataSize) const {
       uint16_t byteCount = dataSize;
       const uint8_t* d = (const uint8_t*) data;
 
@@ -85,7 +85,7 @@ class CrcEeprom {
     }
 
   private:
-    void write(int address, uint8_t val) {
+    void write(int address, uint8_t val) const {
 #if defined(ESP8266) || defined(ESP32)
       EEPROM.write(address, val);
 #else
@@ -97,7 +97,7 @@ class CrcEeprom {
       return EEPROM.read(address);
     }
 
-    bool commit() {
+    bool commit() const {
 #if defined(ESP8266) || defined(ESP32)
       return EEPROM.commit();
 #else
