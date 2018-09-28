@@ -2,8 +2,8 @@
 #define COMMAND_LINE_CLOCK_CONTROLLER_H
 
 #include <AceTime.h>
-#include <ace_time/hw/CrcEeprom.h>
 #include "config.h"
+#include "PersistentStore.h"
 #include "StoredInfo.h"
 
 using namespace ace_time;
@@ -11,31 +11,26 @@ using namespace ace_time;
 // Set to 1 to set the TimeProvider::pollNow() method.
 class Controller {
   public:
-    static const uint16_t kStoredInfoEepromAddress = 0;
     static const int8_t kDefaultTzCode = -28; // Pacific Daylight Time, -07:00
 
-    Controller(hw::CrcEeprom& crcEeprom, TimeKeeper& systemTimeKeeper):
-        mCrcEeprom(crcEeprom),
+    Controller(PersistentStore& persistentStore, TimeKeeper& systemTimeKeeper):
+        mPersistentStore(persistentStore),
         mSystemTimeKeeper(systemTimeKeeper),
         mTimeZone(0) {}
 
     void setup() {
-      // Restore from EEPROM to retrieve time zone.
+      // Retrieve time zone from persistent storage.
       StoredInfo storedInfo;
-      bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
-          &storedInfo, sizeof(StoredInfo));
-      if (isValid) {
-        mTimeZone = TimeZone(storedInfo.tzCode);
-      } else {
-        mTimeZone = TimeZone(kDefaultTzCode);
-      }
+      bool isValid = mPersistentStore.readStoredInfo(storedInfo);
+      mTimeZone = TimeZone(isValid ? storedInfo.tzCode : kDefaultTzCode);
     }
 
     void preserveInfo() {
       StoredInfo storedInfo;
+      // TODO: check isValid return type
+      mPersistentStore.readStoredInfo(storedInfo);
       storedInfo.tzCode = mTimeZone.tzCode();
-      mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
-          sizeof(StoredInfo));
+      mPersistentStore.writeStoredInfo(storedInfo);
     }
 
     void setTimeZone(const TimeZone& timeZone) {
@@ -57,7 +52,7 @@ class Controller {
     }
 
   private:
-    hw::CrcEeprom& mCrcEeprom;
+    PersistentStore& mPersistentStore;
     TimeKeeper& mSystemTimeKeeper;
     TimeZone mTimeZone;
 };

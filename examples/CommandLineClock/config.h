@@ -29,7 +29,4 @@
 #define SYNC_TYPE_COROUTINE 1
 #define SYNC_TYPE SYNC_TYPE_COROUTINE
 
-// Must be greater than (sizeof(StoredInfo) + 4).
-#define EEPROM_SIZE 32
-
 #endif

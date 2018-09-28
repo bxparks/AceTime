@@ -20,9 +20,9 @@
 #include <AceRoutine.h>
 #include <ace_routine/cli/CommandManager.h>
 #include <AceTime.h>
-#include <ace_time/hw/CrcEeprom.h>
 #include "config.h"
 #include "Controller.h"
+#include "PersistentStore.h"
 
 using namespace ace_routine;
 using namespace ace_routine::cli;
@@ -65,8 +65,8 @@ using namespace ace_time;
 // Create a controller retrieves or modifies the underlying clock.
 //---------------------------------------------------------------------------
 
-hw::CrcEeprom crcEeprom;
-Controller controller(crcEeprom, systemTimeKeeper);
+PersistentStore persistentStore;
+Controller controller(persistentStore, systemTimeKeeper);
 
 //---------------------------------------------------------------------------
 // AceRoutine CLI commands
@@ -80,7 +80,8 @@ void listCommand(Print& printer, int /* argc */, const char** /* argv */) {
 }
 
 /**
- * Date command. Usage:
+ * Date command.
+ * Usage:
  *    date - print current date
  *    date -s {iso8601} - set current date
  */
@@ -125,7 +126,8 @@ void dateCommand(Print& printer, int argc, const char** argv) {
 }
 
 /**
- * Timezone command. Usage:
+ * Timezone command.
+ * Usage:
  *    timezone - print current timezone
  *    timezone -s {code} - set current timezone
  */
@@ -166,6 +168,39 @@ void timezoneCommand(Print& printer, int argc, const char** argv) {
     printer.print(FF("UTC"));
     timeZone.printTo(printer);
     printer.println();
+  }
+}
+
+/**
+ * WiFi manager command.
+ * Usage:
+ *    wifi - print current wifi parameters
+ *    wifi ssid - print current ssid
+ *    wifi ssid {ssid} - set new ssid
+ *    wifi password - print current password
+ *    wifi password {password} - set new password
+ */
+void wifiCommand(Print& printer, int argc, const char** argv) {
+  if (argc == 0) {
+  } else {
+    if (strcmp(*argv, "ssid") == 0) {
+      SHIFT;
+      if (argc == 0) {
+        // print ssid
+      } else {
+        // set new ssid
+      }
+    } else if (strcmp(*argv, "password") == 0) {
+      SHIFT;
+      if (argc == 0) {
+        // print password
+      } else {
+        // set new password
+      }
+    } else {
+      printer.print(FF("Unknown wifi parameter: "));
+      printer.println(*argv);
+    }
   }
 }
 
@@ -212,7 +247,7 @@ void setup() {
 #endif
 
   systemTimeKeeper.setup();
-  crcEeprom.begin(EEPROM_SIZE);
+  persistentStore.setup();
   controller.setup();
 
   // add commands
