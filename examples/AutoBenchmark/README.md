@@ -78,6 +78,7 @@ sizeof(TimeZone): 1
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 24
 sizeof(DS3231TimeKeeper): 8
+sizeof(NtpTimeProvider): 120
 sizeof(SystemTimeSyncCoroutine): 52
 sizeof(SystemTimeHeartbeatCoroutine): 36
 ```

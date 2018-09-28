@@ -38,7 +38,7 @@ void setup() {
   Serial.print("sizeof(DS3231TimeKeeper): ");
   Serial.println(sizeof(DS3231TimeKeeper));
 
-#ifdef ESP8266
+#if defined(ESP8266) || defined(ESP32)
   Serial.print("sizeof(NtpTimeProvider): ");
   Serial.println(sizeof(NtpTimeProvider));
 #endif
