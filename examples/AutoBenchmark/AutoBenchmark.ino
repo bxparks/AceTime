@@ -43,6 +43,9 @@ void setup() {
   Serial.println(sizeof(NtpTimeProvider));
 #endif
 
+  Serial.print("sizeof(SystemTimeLoop): ");
+  Serial.println(sizeof(SystemTimeLoop));
+
   Serial.print("sizeof(SystemTimeSyncCoroutine): ");
   Serial.println(sizeof(SystemTimeSyncCoroutine));
 
