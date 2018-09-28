@@ -14,7 +14,14 @@ namespace hw {
 
 /**
  * Thin wrapper around the EEPROM object (from the the built-in EEPROM library)
- * to read and write using CRC check.
+ * to read and write a given block of data along with its CRC check. The CRC is
+ * written *after* the data block, instead of at the beginning of the data
+ * block to reduce flash write wear of the bytes corresonding to the CRC. Over
+ * time, it is expected that the size of the data block will change, as fields
+ * are added or deleted. Therefore, the location of the CRC bytes will also
+ * change, which helps wear leveling. If the CRC bytes were at the beginning,
+ * those CRC byes would experience the highest level of writes, even when the
+ * actua data block size changes.
  *
  * Depends on the FastCRC (https://github.com/FrankBoesing/FastCRC) library.
  *
@@ -45,7 +52,13 @@ class CrcEeprom {
       uint16_t byteCount = dataSize;
       const uint8_t* d = (const uint8_t*) data;
 
-      uint32_t crc = FastCRC32().crc32(d, dataSize);
+      // write data blcok
+      while (byteCount-- > 0) {
+        write(address++, *d++);
+      }
+
+      // write CRC at the end of the data block
+      uint32_t crc = FastCRC32().crc32((const uint8_t*) data, dataSize);
       uint8_t buf[4];
       memcpy(buf, &crc, 4);
       write(address++, buf[0]);
@@ -53,11 +66,8 @@ class CrcEeprom {
       write(address++, buf[2]);
       write(address++, buf[3]);
 
-      while (byteCount-- > 0) {
-        write(address++, *d++);
-      }
       bool success = commit();
-      return (success) ? dataSize + 1 : 0;
+      return (success) ? dataSize + sizeof(crc) : 0;
     }
 
     /**
@@ -69,6 +79,12 @@ class CrcEeprom {
       uint16_t byteCount = dataSize;
       uint8_t* d = (uint8_t*) data;
 
+      // read data block
+      while (byteCount-- > 0) {
+        *d++ = read(address++);
+      }
+
+      // read CRC at the end of the data block
       uint8_t buf[4];
       buf[0] = read(address++);
       buf[1] = read(address++);
@@ -77,9 +93,6 @@ class CrcEeprom {
       uint32_t crc;
       memcpy(&crc, buf, 4);
 
-      while (byteCount-- > 0) {
-        *d++ = read(address++);
-      }
       uint32_t dataCrc = FastCRC32().crc32((const uint8_t*) data, dataSize);
       return crc == dataCrc;
     }
