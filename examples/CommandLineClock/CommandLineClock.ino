@@ -75,9 +75,16 @@ Controller controller(persistentStore, systemTimeKeeper);
 #define SHIFT do { argv++; argc--; } while (false)
 
 /** List the coroutines known by the CoroutineScheduler. */
-void listCommand(Print& printer, int /* argc */, const char** /* argv */) {
-  CoroutineScheduler::list(printer);
-}
+class ListCommand: public CommandHandler {
+  public:
+    ListCommand():
+        CommandHandler("list", nullptr) {}
+
+    virtual void run(Print& printer, int /* argc */, const char** /* argv */)
+            const override {
+      CoroutineScheduler::list(printer);
+    }
+};
 
 /**
  * Date command.
@@ -85,45 +92,52 @@ void listCommand(Print& printer, int /* argc */, const char** /* argv */) {
  *    date - print current date
  *    date -s {iso8601} - set current date
  */
-void dateCommand(Print& printer, int argc, const char** argv) {
-  // parse the command line arguments
-  const char* newDateString = nullptr;
-  SHIFT;
-  while (argc > 0) {
-    if (strcmp(*argv, "-s") == 0) {
-      SHIFT;
-      if (argc == 0) {
-        printer.println(FF("No date after -s flag"));
-        return;
-      }
-      newDateString = *argv;
-    } else if (**argv == '-') {
-      printer.print(FF("Unknown flag: "));
-      printer.println(*argv);
-      return;
-    } else {
-      break;
-    }
-    SHIFT;
-  }
+class DateCommand: public CommandHandler {
+  public:
+    DateCommand():
+        CommandHandler("date", "[-s dateString]") {}
 
-  if (newDateString != nullptr) {
-    DateTime newDate = DateTime::forDateString(newDateString);
-    if (newDate.isError()) {
-      printer.print(FF("Invalid date: "));
-      printer.println(newDateString);
-      return;
+    virtual void run(Print& printer, int argc, const char** argv)
+        const override {
+      // parse the command line arguments
+      const char* newDateString = nullptr;
+      SHIFT;
+      while (argc > 0) {
+        if (strcmp(*argv, "-s") == 0) {
+          SHIFT;
+          if (argc == 0) {
+            printer.println(FF("No date after -s flag"));
+            return;
+          }
+          newDateString = *argv;
+        } else if (**argv == '-') {
+          printer.print(FF("Unknown flag: "));
+          printer.println(*argv);
+          return;
+        } else {
+          break;
+        }
+        SHIFT;
+      }
+
+      if (newDateString != nullptr) {
+        DateTime newDate = DateTime::forDateString(newDateString);
+        if (newDate.isError()) {
+          printer.print(FF("Invalid date: "));
+          printer.println(newDateString);
+          return;
+        }
+        controller.setDateTime(newDate);
+        printer.print(FF("Date set to: "));
+        newDate.printTo(printer);
+        printer.println();
+      } else {
+        DateTime now = controller.now();
+        now.printTo(printer);
+        printer.println();
+      }
     }
-    controller.setDateTime(newDate);
-    printer.print(FF("Date set to: "));
-    newDate.printTo(printer);
-    printer.println();
-  } else {
-    DateTime now = controller.now();
-    now.printTo(printer);
-    printer.println();
-  }
-}
+};
 
 /**
  * Timezone command.
@@ -131,45 +145,52 @@ void dateCommand(Print& printer, int argc, const char** argv) {
  *    timezone - print current timezone
  *    timezone -s {code} - set current timezone
  */
-void timezoneCommand(Print& printer, int argc, const char** argv) {
-  // parse the command line arguments
-  const char* newTimeZoneString = nullptr;
-  SHIFT;
-  while (argc > 0) {
-    if (strcmp(*argv, "-s") == 0) {
-      SHIFT;
-      if (argc == 0) {
-        printer.println(FF("No tzCode after -s flag"));
-        return;
-      }
-      newTimeZoneString = *argv;
-    } else if (**argv == '-') {
-      printer.print(FF("Unknown flag: "));
-      printer.println(*argv);
-      return;
-    } else {
-      break;
-    }
-    SHIFT;
-  }
+class TimezoneCommand: public CommandHandler {
+  public:
+    TimezoneCommand():
+      CommandHandler("timezone", "[-s utcOffset]") {}
 
-  if (newTimeZoneString != nullptr) {
-    TimeZone tz = TimeZone::forOffsetString(newTimeZoneString);
-    if (tz.isError()) {
-      printer.println(FF("Invalid time zone"));
-      return;
+    virtual void run(Print& printer, int argc, const char** argv)
+        const override {
+      // parse the command line arguments
+      const char* newTimeZoneString = nullptr;
+      SHIFT;
+      while (argc > 0) {
+        if (strcmp(*argv, "-s") == 0) {
+          SHIFT;
+          if (argc == 0) {
+            printer.println(FF("No tzCode after -s flag"));
+            return;
+          }
+          newTimeZoneString = *argv;
+        } else if (**argv == '-') {
+          printer.print(FF("Unknown flag: "));
+          printer.println(*argv);
+          return;
+        } else {
+          break;
+        }
+        SHIFT;
+      }
+
+      if (newTimeZoneString != nullptr) {
+        TimeZone tz = TimeZone::forOffsetString(newTimeZoneString);
+        if (tz.isError()) {
+          printer.println(FF("Invalid time zone"));
+          return;
+        }
+        controller.setTimeZone(tz);
+        printer.print(FF("Time zone set to: UTC"));
+        tz.printTo(printer);
+        printer.println();
+      } else {
+        TimeZone timeZone = controller.timeZone();
+        printer.print(FF("UTC"));
+        timeZone.printTo(printer);
+        printer.println();
+      }
     }
-    controller.setTimeZone(tz);
-    printer.print(FF("Time zone set to: UTC"));
-    tz.printTo(printer);
-    printer.println();
-  } else {
-    TimeZone timeZone = controller.timeZone();
-    printer.print(FF("UTC"));
-    timeZone.printTo(printer);
-    printer.println();
-  }
-}
+};
 
 /**
  * WiFi manager command.
@@ -180,43 +201,47 @@ void timezoneCommand(Print& printer, int argc, const char** argv) {
  *    wifi password - print current password
  *    wifi password {password} - set new password
  */
-void wifiCommand(Print& printer, int argc, const char** argv) {
-  if (argc == 0) {
-  } else {
-    if (strcmp(*argv, "ssid") == 0) {
-      SHIFT;
+class WifiCommand: public CommandHandler {
+  public:
+    WifiCommand():
+      CommandHandler("wifi", "[ (ssid {ssid}) | (password {password}) ]" ) {}
+
+    virtual void run(Print& printer, int argc, const char** argv)
+        const override {
       if (argc == 0) {
-        // print ssid
       } else {
-        // set new ssid
+        if (strcmp(*argv, "ssid") == 0) {
+          SHIFT;
+          if (argc == 0) {
+            // print ssid
+          } else {
+            // set new ssid
+          }
+        } else if (strcmp(*argv, "password") == 0) {
+          SHIFT;
+          if (argc == 0) {
+            // print password
+          } else {
+            // set new password
+          }
+        } else {
+          printer.print(FF("Unknown wifi parameter: "));
+          printer.println(*argv);
+        }
       }
-    } else if (strcmp(*argv, "password") == 0) {
-      SHIFT;
-      if (argc == 0) {
-        // print password
-      } else {
-        // set new password
-      }
-    } else {
-      printer.print(FF("Unknown wifi parameter: "));
-      printer.println(*argv);
     }
-  }
-}
+};
 
 // Create an instance of the CommandManager.
-const uint8_t TABLE_SIZE = 3;
+const uint8_t MAX_COMMANDS = 10;
 const uint8_t BUF_SIZE = 64;
 const uint8_t ARGV_SIZE = 5;
-#if defined(AVR) || defined(__arm__) || defined(ESP32)
-CommandManager<__FlashStringHelper, BUF_SIZE, ARGV_SIZE>
-    commandManager(Serial, TABLE_SIZE, "> ");
-#elif defined(ESP8266)
-CommandManager<char, BUF_SIZE, ARGV_SIZE>
-    commandManager(Serial, TABLE_SIZE, "> ");
-#else
-  #error Unsupported board
-#endif
+CommandManager<MAX_COMMANDS, BUF_SIZE, ARGV_SIZE> commandManager(Serial, "> ");
+
+ListCommand listCommand;
+DateCommand dateCommand;
+TimezoneCommand timezoneCommand;
+WifiCommand wifiCommand;
 
 //---------------------------------------------------------------------------
 // Main setup and loop
@@ -251,16 +276,18 @@ void setup() {
   controller.setup();
 
   // add commands
-  commandManager.add(dateCommand, FF("date"), FF("[-s dateString]"));
-  commandManager.add(timezoneCommand, FF("timezone"), FF("[-s utcOffset]"));
-  commandManager.add(listCommand, FF("list"), nullptr);
+  commandManager.add(&listCommand);
+  commandManager.add(&dateCommand);
+  commandManager.add(&timezoneCommand);
+  commandManager.add(&wifiCommand);
+  commandManager.setupCommands();
 
-  // insert into the scheduler
+  // insert coroutines into the scheduler
 #if SYNC_TYPE == SYNC_TYPE_COROUTINE
-  systemTimeSync.setupCoroutine("systemTimeSync");
-  systemTimeHeartbeat.setupCoroutine("systemTimeHeartbeat");
+  systemTimeSync.setupCoroutine(FF("systemTimeSync"));
+  systemTimeHeartbeat.setupCoroutine(FF("systemTimeHeartbeat"));
 #endif
-  commandManager.setupCoroutine("commandManager");
+  commandManager.setupCoroutine(FF("commandManager"));
   CoroutineScheduler::setup();
 
   Serial.println(FF("setup(): end"));
