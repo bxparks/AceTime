@@ -42,7 +42,7 @@ hw::CrcEeprom crcEeprom;
   DS3231TimeKeeper dsTimeKeeper;
   SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper);
 #elif defined(USE_NTP)
-  NtpTimeProvider ntpTimeProvider(AUNITER_SSID, AUNITER_PASSWORD);
+  NtpTimeProvider ntpTimeProvider;
   SystemTimeKeeper systemTimeKeeper(&ntpTimeProvider, nullptr);
 #else
   SystemTimeKeeper systemTimeKeeper(nullptr /*sync*/, nullptr /*backup*/);
@@ -286,7 +286,7 @@ void setup() {
 #if defined(USE_DS3231)
   dsTimeKeeper.setup();
 #elif defined(USE_NTP)
-  ntpTimeProvider.setup();
+  ntpTimeProvider.setup(AUNITER_SSID, AUNITER_PASSWORD);
 #endif
   systemTimeKeeper.setup();
   clock.setup();

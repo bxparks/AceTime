@@ -290,7 +290,9 @@ const CommandHandler* const COMMANDS[] = {
   &listCommand,
   &dateCommand,
   &timezoneCommand,
+#if defined(USE_NTP)
   &wifiCommand
+#endif
 };
 uint8_t const NUM_COMMANDS = sizeof(COMMANDS) / sizeof(CommandHandler*);
 
