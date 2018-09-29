@@ -380,15 +380,25 @@ void loop() {
 
 The `NtpTimeProvider` is available on the ESP8266 and ESP32 have builtin WiFi
 capability. This class uses an NTP client to fetch the current time from the
-specified NTP server. The constructor takes 5 parameters, 2 of them
-related to the WiFi authentication, and 3 of them related to timing parameters.
-Only the SSID and PASSWORD parameters are required:
+specified NTP server. The constructor takes 3 parameters which all of default
+values so are optional.
+
+You need to call the `setup()` with the `ssid` and `password` of the WiFi
+connection. The method will time out after 5 seconds if the connection cannot
+be established.
+
 ```C++
-NtpTimeProvider ntpTimeProvider(SSID, PASSWORD);
-...
+const char SSID[] = ...;
+const char PASSWORD[] = ...;
+
+NtpTimeProvider ntpTimeProvider;
+
 void setup() {
   ...
-  ntpTimeProvider.setup();
+  ntpTimeProvider.setup(SSID, PASSWORD);
+  if (ntpTimeProvider.isSetup()) {
+    Serial.println("WiFi connection failed... try again.");
+  }
   ...
 }
 
