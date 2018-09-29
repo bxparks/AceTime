@@ -16,6 +16,12 @@
  *    * ESP32
  */
 
+#if defined(ESP8266)
+  #include <ESP8266WiFi.h>
+#elif defined(ESP32)
+  #include <WiFi.h>
+#endif
+
 #include <Wire.h>
 #include <AceRoutine.h>
 #include <ace_routine/cli/CommandManager.h>
@@ -46,7 +52,7 @@ using namespace ace_time;
   DS3231TimeKeeper dsTimeKeeper;
   SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper /*backup*/);
 #elif defined(USE_NTP)
-  NtpTimeProvider ntpTimeProvider(AUNITER_SSID, AUNITER_PASSWORD);
+  NtpTimeProvider ntpTimeProvider;
   SystemTimeKeeper systemTimeKeeper(&ntpTimeProvider, nullptr /*backup*/);
 #elif defined(USE_SYSTEM)
   SystemTimeKeeper systemTimeKeeper(nullptr /*sync*/, nullptr /*backup*/);
@@ -127,12 +133,12 @@ class DateCommand: public CommandHandler {
           printer.println(newDateString);
           return;
         }
-        controller.setDateTime(newDate);
+        controller.setNow(newDate);
         printer.print(FF("Date set to: "));
         newDate.printTo(printer);
         printer.println();
       } else {
-        DateTime now = controller.now();
+        DateTime now = controller.getNow();
         now.printTo(printer);
         printer.println();
       }
@@ -184,7 +190,7 @@ class TimezoneCommand: public CommandHandler {
         tz.printTo(printer);
         printer.println();
       } else {
-        TimeZone timeZone = controller.timeZone();
+        TimeZone timeZone = controller.getTimeZone();
         printer.print(FF("UTC"));
         timeZone.printTo(printer);
         printer.println();
@@ -192,69 +198,86 @@ class TimezoneCommand: public CommandHandler {
     }
 };
 
+#if defined(USE_NTP)
+
 /**
  * WiFi manager command.
  * Usage:
- *    wifi - print current wifi parameters
- *    wifi ssid - print current ssid
- *    wifi ssid {ssid} - set new ssid
- *    wifi password - print current password
- *    wifi password {password} - set new password
+ *    wifi status - print current wifi parameters
+ *    wifi config - print current ssid and password
+ *    wifi config {ssid} {password} - set new ssid and password
  */
 class WifiCommand: public CommandHandler {
   public:
-    WifiCommand(PersistentStore& persistentStore):
-      CommandHandler("wifi", "[ (ssid {ssid}) | (password {password}) ]" ),
-      mPersistentStore(persistentStore)
+    WifiCommand(
+        Controller& controller,
+        NtpTimeProvider& ntpTimeProvider):
+      CommandHandler(
+          "wifi", "status | (config [ssid password]) | connect " ),
+      mController(controller),
+      mNtpTimeProvider(ntpTimeProvider)
       {}
 
     virtual void run(Print& printer, int argc, const char** argv)
         const override {
-      StoredInfo storedInfo;
-      bool isValid = mPersistentStore.readStoredInfo(storedInfo);
-
       SHIFT;
       if (argc == 0) {
-        // print ssid and password
-        if (isValid) {
-          printer.print(FF("ssid: "));
-          printer.println(storedInfo.ssid);
-          printer.print(FF("password: "));
-          printer.println(storedInfo.password);
+        printer.println(FF("Must give either 'status' or 'config' command"));
+      } else if (strcmp(argv[0], "config") == 0) {
+        SHIFT;
+        if (argc == 0) {
+          if (mController.isStoredInfoValid()) {
+            // print ssid and password
+            const StoredInfo& storedInfo = mController.getStoredInfo();
+            printer.print(FF("ssid: "));
+            printer.println(storedInfo.ssid);
+            printer.print(FF("password: "));
+            printer.println(storedInfo.password);
+          } else {
+            printer.println(
+              FF("Invalid ssid and password in persistent storage"));
+          }
+        } else if (argc == 2) {
+          const char* ssid = argv[0];
+          const char* password = argv[1];
+          mController.setWiFi(ssid, password);
+          connect(printer);
         } else {
-          printer.println(
-            FF("Error reading ssid and password from persistent storage"));
+          printer.println(FF("Wifi config command requires 2 arguments"));
         }
+      } else if (strcmp(argv[0], "status") == 0) {
+        printer.print(FF("NtpTimeProvider::isSetup(): "));
+        printer.println(mNtpTimeProvider.isSetup() ? FF("true") : FF("false"));
+        printer.print(FF("NTP Server: "));
+        printer.println(mNtpTimeProvider.getServer());
+        printer.print(FF("WiFi IP address: "));
+        printer.println(WiFi.localIP());
+      } else if (strcmp(argv[0], "connect") == 0) {
+        connect(printer);
       } else {
-        if (strcmp(argv[0], "ssid") == 0) {
-          SHIFT;
-          if (argc == 0) {
-            printer.println(FF("Invalid 'wifi ssid' command"));
-          } else {
-            strncpy(storedInfo.ssid, argv[0], StoredInfo::kSsidMaxLength);
-            storedInfo.ssid[StoredInfo::kSsidMaxLength - 1] = '\0';
-            mPersistentStore.writeStoredInfo(storedInfo);
-          }
-        } else if (strcmp(*argv, "password") == 0) {
-          SHIFT;
-          if (argc == 0) {
-            printer.println(FF("Invalid 'wifi password' command"));
-          } else {
-            strncpy(storedInfo.password, argv[0],
-                StoredInfo::kPasswordMaxLength);
-            storedInfo.ssid[StoredInfo::kPasswordMaxLength - 1] = '\0';
-            mPersistentStore.writeStoredInfo(storedInfo);
-          }
-        } else {
-          printer.print(FF("Unknown wifi command: "));
-          printer.println(argv[0]);
-        }
+        printer.print(FF("Unknown wifi command: "));
+        printer.println(argv[0]);
+      }
+    }
+
+    void connect(Print& printer) const {
+      const StoredInfo& storedInfo = mController.getStoredInfo();
+      const char* ssid = storedInfo.ssid;
+      const char* password = storedInfo.password;
+      mNtpTimeProvider.setup(ssid, password);
+      if (mNtpTimeProvider.isSetup()) {
+        printer.println(F("Connection succeeded."));
+      } else {
+        printer.println(F("Connection failed... run 'wifi connect' again"));
       }
     }
 
   private:
-    PersistentStore& mPersistentStore;
+    Controller& mController;
+    NtpTimeProvider& mNtpTimeProvider;
 };
+
+#endif
 
 // Create an instance of the CommandManager.
 const uint8_t MAX_COMMANDS = 10;
@@ -265,7 +288,9 @@ CommandManager<MAX_COMMANDS, BUF_SIZE, ARGV_SIZE> commandManager(Serial, "> ");
 ListCommand listCommand;
 DateCommand dateCommand;
 TimezoneCommand timezoneCommand;
-WifiCommand wifiCommand(persistentStore);
+#if defined(USE_NTP)
+WifiCommand wifiCommand(controller, ntpTimeProvider);
+#endif
 
 //---------------------------------------------------------------------------
 // Main setup and loop
@@ -286,24 +311,36 @@ void setup() {
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
   Serial.println(FF("setup(): begin"));
 
+  Serial.print(FF("sizeof(StoredInfo): "));
+  Serial.println(sizeof(StoredInfo));
+
   Wire.begin();
   Wire.setClock(400000L);
 
 #if defined(USE_DS3231)
   dsTimeKeeper.setup();
-#elif defined(USE_NTP)
-  ntpTimeProvider.setup();
 #endif
 
-  systemTimeKeeper.setup();
   persistentStore.setup();
+  systemTimeKeeper.setup();
   controller.setup();
+
+#if defined(USE_NTP)
+/*
+  if (controller.isStoredInfoValid()) {
+    const StoredInfo& storedInfo = controller.getStoredInfo();
+    ntpTimeProvider.setup(storedInfo.ssid, storedInfo.password);
+  }
+*/
+#endif
 
   // add commands
   commandManager.add(&listCommand);
   commandManager.add(&dateCommand);
   commandManager.add(&timezoneCommand);
+#if defined(USE_NTP)
   commandManager.add(&wifiCommand);
+#endif
   commandManager.setupCommands();
 
   // insert coroutines into the scheduler

@@ -15,46 +15,62 @@ class Controller {
 
     Controller(PersistentStore& persistentStore, TimeKeeper& systemTimeKeeper):
         mPersistentStore(persistentStore),
-        mSystemTimeKeeper(systemTimeKeeper),
-        mTimeZone(0) {}
+        mSystemTimeKeeper(systemTimeKeeper) {}
 
     void setup() {
-      // Retrieve time zone from persistent storage.
-      StoredInfo storedInfo;
-      bool isValid = mPersistentStore.readStoredInfo(storedInfo);
-      mTimeZone = TimeZone(isValid ? storedInfo.tzCode : kDefaultTzCode);
+      mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
     }
 
-    void preserveInfo() {
-      StoredInfo storedInfo;
-      // TODO: check isValid return type
-      mPersistentStore.readStoredInfo(storedInfo);
-      storedInfo.tzCode = mTimeZone.tzCode();
-      mPersistentStore.writeStoredInfo(storedInfo);
-    }
-
+    /** Set the time zone of the clock and preserve it. */
     void setTimeZone(const TimeZone& timeZone) {
-      mTimeZone = timeZone;
+      mStoredInfo.tzCode = timeZone.tzCode();
       preserveInfo();
     }
 
-    void setDateTime(const DateTime& newDateTime) {
+    /** Return the current time zone. */
+    TimeZone getTimeZone() const { return TimeZone(mStoredInfo.tzCode); }
+
+#if defined(USE_NTP)
+    /**
+     * Set the wifi credentials and setup the NtpTimeProvider.
+     * Return the number of bytes written.
+     */
+    uint16_t setWiFi(const char* ssid, const char* password) {
+      strncpy(mStoredInfo.ssid, ssid, StoredInfo::kSsidMaxLength);
+      mStoredInfo.ssid[StoredInfo::kSsidMaxLength - 1] = '\0';
+      strncpy(mStoredInfo.password, password, StoredInfo::kPasswordMaxLength);
+      mStoredInfo.password[StoredInfo::kPasswordMaxLength - 1] = '\0';
+      return preserveInfo();
+    }
+#endif
+
+    /** Set the current time of the system time keeper. */
+    void setNow(const DateTime& newDateTime) {
       uint32_t seconds = newDateTime.toSecondsSinceEpoch();
       mSystemTimeKeeper.setNow(seconds);
     }
 
-    DateTime now() const {
-      return DateTime(mSystemTimeKeeper.getNow(), mTimeZone);
+    /** Return the current time from the system time keeper. */
+    DateTime getNow() const {
+      return DateTime(mSystemTimeKeeper.getNow(), TimeZone(mStoredInfo.tzCode));
     }
 
-    TimeZone timeZone() const {
-      return mTimeZone;
-    }
+    /** Return true if the initial setup() retrieved a valid storedInfo. */
+    bool isStoredInfoValid() const { return mIsStoredInfoValid; }
+
+    /** Return the stored info. */
+    const StoredInfo& getStoredInfo() const { return mStoredInfo; }
 
   private:
+    uint16_t preserveInfo() {
+      return mPersistentStore.writeStoredInfo(mStoredInfo);
+    }
+
     PersistentStore& mPersistentStore;
     TimeKeeper& mSystemTimeKeeper;
-    TimeZone mTimeZone;
+
+    StoredInfo mStoredInfo;
+    bool mIsStoredInfoValid = false;
 };
 
 #endif

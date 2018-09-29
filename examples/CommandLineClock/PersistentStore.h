@@ -3,6 +3,7 @@
 
 #include <AceTime.h>
 #include <ace_time/hw/CrcEeprom.h>
+#include "config.h"
 #include "StoredInfo.h"
 
 using namespace ace_time;
@@ -17,13 +18,15 @@ class PersistentStore {
     bool readStoredInfo(StoredInfo& storedInfo) const {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
+#if defined(USE_NTP)
       storedInfo.ssid[StoredInfo::kSsidMaxLength - 1] = '\0';
-      storedInfo.ssid[StoredInfo::kPasswordMaxLength - 1] = '\0';
+      storedInfo.password[StoredInfo::kPasswordMaxLength - 1] = '\0';
+#endif
       return isValid;
     }
 
-    void writeStoredInfo(const StoredInfo& storedInfo) const {
-      mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
+    uint16_t writeStoredInfo(const StoredInfo& storedInfo) const {
+      return mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
           sizeof(StoredInfo));
     }
 
