@@ -14,9 +14,6 @@ class TimeProvider {
     /** Virtual destructor. Unused except in unit tests. */
     virtual ~TimeProvider() {}
 
-    /** Setup the time keeper. */
-    virtual void setup() = 0;
-
     /**
      * Return the number of seconds since the DateTime epoch
      * (2000-01-01T00:00:00Z). Some TimeProviders will return a 0 to indicate an

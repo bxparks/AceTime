@@ -51,49 +51,24 @@ class NtpTimeProvider: public TimeProvider {
      * @param localPort used by the UDP client (default 8888)
      * @paran requestTimeout milliseconds for a request timesout (default 1000)
      */
-    explicit NtpTimeProvider(const char* ssid, const char* password,
+    explicit NtpTimeProvider(
             const char* server = kNtpServerName,
             uint16_t localPort = kLocalPort,
             uint16_t requestTimeout = kRequestTimeout):
-        mSsid(ssid),
-        mPassword(password),
         mServer(server),
         mLocalPort(localPort),
         mRequestTimeout(requestTimeout) {}
 
-    virtual void setup() override {
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      Serial.print("Connecting to ");
-      Serial.println(mSsid);
-#endif
+    /** Set up using the provided ssid and password. */
+    void setup(const char* ssid, const char* password);
 
-      WiFi.begin(mSsid, mPassword);
-      while (WiFi.status() != WL_CONNECTED) {
-        delay(500);
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-        Serial.print(".");
-#endif
-      }
+    const char* getServer() const { return mServer; }
 
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      Serial.print("IP number assigned by DHCP is ");
-      Serial.println(WiFi.localIP());
-#endif
-
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      Serial.println("Starting UDP");
-#endif
-      mUdp.begin(mLocalPort);
-
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-  #if defined(ESP8266)
-      Serial.print("Local port: ");
-      Serial.println(mUdp.localPort());
-  #endif
-#endif
-    }
+    bool isSetup() const { return mIsSetUp; }
 
     virtual uint32_t getNow() const override {
+      if (!mIsSetUp) return 0;
+
       sendRequest();
 
       uint16_t startTime = millis();
@@ -106,6 +81,8 @@ class NtpTimeProvider: public TimeProvider {
     }
 
     virtual void sendRequest() const override {
+      if (!mIsSetUp) return;
+
       // discard any previously received packets
       while (mUdp.parsePacket() > 0) {}
 
@@ -122,10 +99,13 @@ class NtpTimeProvider: public TimeProvider {
     }
 
     virtual bool isResponseReady() const override {
+      if (!mIsSetUp) return false;
       return mUdp.parsePacket() >= kNtpPacketSize;
     }
 
     virtual uint32_t readResponse() const override {
+      if (!mIsSetUp) return 0;
+
       // read packet into the buffer
       mUdp.read(mPacketBuffer, kNtpPacketSize);
 
@@ -146,6 +126,9 @@ class NtpTimeProvider: public TimeProvider {
      * AceTime epoch (2000-01-01T00:00:00Z).
      */
     static const uint32_t kSecondsSinceNtpEpoch = 3155673600;
+
+    /** Number of millis to wait during connect before timing out. */
+    static const uint16_t kConnectTimeoutMillis = 5000;
 
     /** Send an NTP request to the time server at the given address. */
     void sendNtpPacket(const IPAddress& address) const {
@@ -176,18 +159,14 @@ class NtpTimeProvider: public TimeProvider {
 #endif
     }
 
-    const char* const mSsid;
-    const char* const mPassword;
-    const char* const mServer;
+    const char* const mServer; // TODO: make this configurable
     uint16_t const mLocalPort;
     uint16_t const mRequestTimeout;
 
     mutable WiFiUDP mUdp;
     // buffer to hold incoming & outgoing packets
     mutable uint8_t mPacketBuffer[kNtpPacketSize];
-#if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-    mutable uint16_t mRequestPendingCount;
-#endif
+    bool mIsSetUp = false;
 };
 
 }

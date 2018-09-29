@@ -16,7 +16,7 @@ class DS3231TimeKeeper: public TimeKeeper {
   public:
     explicit DS3231TimeKeeper() {}
 
-    virtual void setup() override {}
+    void setup() {}
 
     virtual uint32_t getNow() const override {
       hw::HardwareDateTime hardwareDateTime;

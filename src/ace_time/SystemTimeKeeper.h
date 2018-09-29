@@ -66,7 +66,7 @@ class SystemTimeKeeper: public TimeKeeper {
         mSyncTimeProvider(syncTimeProvider),
         mBackupTimeKeeper(backupTimeKeeper) {}
 
-    virtual void setup() override {
+    void setup() {
       if (mBackupTimeKeeper != nullptr) {
         setNow(mBackupTimeKeeper->getNow());
       }

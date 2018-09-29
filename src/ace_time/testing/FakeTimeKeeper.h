@@ -9,7 +9,7 @@ namespace testing {
 
 class FakeTimeKeeper: public TimeKeeper {
   public:
-    virtual void setup() override {}
+    void setup() {}
 
     virtual void setNow(uint32_t secondsSinceEpoch) override {
       mSecondsSinceEpoch = secondsSinceEpoch;
