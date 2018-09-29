@@ -279,18 +279,26 @@ class WifiCommand: public CommandHandler {
 
 #endif
 
-// Create an instance of the CommandManager.
-const uint8_t MAX_COMMANDS = 10;
-const uint8_t BUF_SIZE = 64;
-const uint8_t ARGV_SIZE = 5;
-CommandManager<MAX_COMMANDS, BUF_SIZE, ARGV_SIZE> commandManager(Serial, "> ");
-
+// Create a list of CommandHandlers.
 ListCommand listCommand;
 DateCommand dateCommand;
 TimezoneCommand timezoneCommand;
 #if defined(USE_NTP)
 WifiCommand wifiCommand(controller, ntpTimeProvider);
 #endif
+const CommandHandler* const COMMANDS[] = {
+  &listCommand,
+  &dateCommand,
+  &timezoneCommand,
+  &wifiCommand
+};
+uint8_t const NUM_COMMANDS = sizeof(COMMANDS) / sizeof(CommandHandler*);
+
+// Create an instance of the CommandManager.
+uint8_t const BUF_SIZE = 64;
+uint8_t const ARGV_SIZE = 5;
+CommandManager<BUF_SIZE, ARGV_SIZE> commandManager(
+    COMMANDS, NUM_COMMANDS, Serial, "> ");
 
 //---------------------------------------------------------------------------
 // Main setup and loop
@@ -333,15 +341,6 @@ void setup() {
   }
 */
 #endif
-
-  // add commands
-  commandManager.add(&listCommand);
-  commandManager.add(&dateCommand);
-  commandManager.add(&timezoneCommand);
-#if defined(USE_NTP)
-  commandManager.add(&wifiCommand);
-#endif
-  commandManager.setupCommands();
 
   // insert coroutines into the scheduler
 #if SYNC_TYPE == SYNC_TYPE_COROUTINE
