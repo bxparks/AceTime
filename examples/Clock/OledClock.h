@@ -1,8 +1,9 @@
 #ifndef CLOCK_OLED_CLOCK_H
 #define CLOCK_OLED_CLOCK_H
 
-#include <AceTime.h>
 #include <SSD1306AsciiWire.h>
+#include <AceTime.h>
+#include <ace_time/hw/CrcEeprom.h>
 #include "Clock.h"
 #include "OledPresenter.h"
 #include "config.h"
@@ -12,7 +13,7 @@
 class OledClock: public Clock {
   public:
     /** Constructor. */
-    OledClock(TimeKeeper& timeKeeper, CrcEeprom& crcEeprom,
+    OledClock(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
             OledPresenter& presenter):
         Clock(timeKeeper, crcEeprom, presenter) {
       mMode = MODE_HOUR_MINUTE;
