@@ -7,15 +7,30 @@ namespace ace_time {
 
 using common::printPad2;
 
-void TimeZone::printTo(Print& printer) const {
+void TimeZone::printEffectiveOffsetTo(Print& printer) const {
+  int8_t sign;
   uint8_t hour;
   uint8_t minute;
-  extractHourMinute(hour, minute);
+  extractEffectiveHourMinute(sign, hour, minute);
 
-  printer.print((mTzCode < 0) ? '-' : '+');
+  printer.print((sign < 0) ? '-' : '+');
   common::printPad2(printer, hour);
   printer.print(':');
   common::printPad2(printer, minute);
+}
+
+void TimeZone::printTo(Print& printer) const {
+  int8_t sign;
+  uint8_t hour;
+  uint8_t minute;
+  extractStandardHourMinute(sign, hour, minute);
+
+  printer.print(F("UTC"));
+  printer.print((sign < 0) ? '-' : '+');
+  common::printPad2(printer, hour);
+  printer.print(':');
+  common::printPad2(printer, minute);
+  printer.print(mIsDst ? F(" DST") : F(" STD"));
 }
 
 void TimeZone::initFromOffsetString(const char* ts) {

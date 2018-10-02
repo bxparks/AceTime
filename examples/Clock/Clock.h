@@ -94,6 +94,7 @@ class Clock {
 #if ENABLE_UNIFIED_DATE == 1
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_DST:
 #endif
           if (!mSecondFieldCleared) {
             mChangingDateTime.second(mCurrentDateTime.second());
@@ -142,6 +143,7 @@ class Clock {
         case MODE_CHANGE_SECOND:
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_DST:
           mPresenter.setDateTime(mChangingDateTime);
           break;
       }

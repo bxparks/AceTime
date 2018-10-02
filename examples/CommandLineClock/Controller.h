@@ -23,12 +23,12 @@ class Controller {
 
     /** Set the time zone of the clock and preserve it. */
     void setTimeZone(const TimeZone& timeZone) {
-      mStoredInfo.tzCode = timeZone.tzCode();
+      mStoredInfo.timeZone = timeZone;
       preserveInfo();
     }
 
     /** Return the current time zone. */
-    TimeZone getTimeZone() const { return TimeZone(mStoredInfo.tzCode); }
+    TimeZone getTimeZone() const { return mStoredInfo.timeZone; }
 
 #if defined(USE_NTP)
     /**
@@ -52,7 +52,7 @@ class Controller {
 
     /** Return the current time from the system time keeper. */
     DateTime getNow() const {
-      return DateTime(mSystemTimeKeeper.getNow(), TimeZone(mStoredInfo.tzCode));
+      return DateTime(mSystemTimeKeeper.getNow(), mStoredInfo.timeZone);
     }
 
     /** Return true if the initial setup() retrieved a valid storedInfo. */
@@ -60,6 +60,15 @@ class Controller {
 
     /** Return the stored info. */
     const StoredInfo& getStoredInfo() const { return mStoredInfo; }
+
+    /** Return DST mode. */
+    bool isDst() const { return mStoredInfo.timeZone.isDst(); }
+
+    /** Set DST on or off */
+    void setDst(bool status) {
+      mStoredInfo.timeZone.isDst(status);
+      preserveInfo();
+    }
 
   private:
     uint16_t preserveInfo() {

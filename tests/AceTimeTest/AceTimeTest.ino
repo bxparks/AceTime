@@ -448,22 +448,22 @@ test(timePeriodNegate) {
 
 test(timeZoneCodeConstructor) {
   TimeZone tz(-1);
-  assertEqual((int16_t) -15, tz.toMinutes());
-  assertEqual((int32_t) -900, tz.toSeconds());
+  assertEqual((int16_t) -15, tz.asStandardMinuteOffset());
+  assertEqual((int32_t) -900, tz.asStandardSecondOffset());
 
   tz = TimeZone(1);
-  assertEqual((int16_t) 15, tz.toMinutes());
-  assertEqual((int32_t) 900, tz.toSeconds());
+  assertEqual((int16_t) 15, tz.asStandardMinuteOffset());
+  assertEqual((int32_t) 900, tz.asStandardSecondOffset());
 }
 
 test(timeZoneForHour) {
-  assertEqual(TimeZone::forHour(-7).tzCode(), -28);
+  assertEqual(TimeZone::forHour(-8).tzCode(), -32);
   assertEqual(TimeZone::forHour(1).tzCode(), 4);
 }
 
 test(timeZoneForHourMinute) {
-  assertEqual(TimeZone::forHourMinute(-1, 7, 0).tzCode(), -28);
-  assertEqual(TimeZone::forHourMinute(-1, 7, 15).tzCode(), -29);
+  assertEqual(TimeZone::forHourMinute(-1, 8, 0).tzCode(), -32);
+  assertEqual(TimeZone::forHourMinute(-1, 8, 15).tzCode(), -33);
   assertEqual(TimeZone::forHourMinute(1, 1, 0).tzCode(), 4);
   assertEqual(TimeZone::forHourMinute(1, 1, 15).tzCode(), 5);
 }
@@ -475,6 +475,13 @@ test(timeZoneForOffsetString) {
   assertEqual(TimeZone::forOffsetString("+01:00").tzCode(), 4);
   assertEqual(TimeZone::forOffsetString("+01:15").tzCode(), 5);
   assertEqual(TimeZone::forOffsetString("+01:16").tzCode(), 5);
+}
+
+test(timeZoneDstOffset) {
+  TimeZone pdt = TimeZone::forHour(-8).isDst(true);
+  assertTrue(pdt.isDst());
+  assertEqual(pdt.tzCode(), -32);
+  assertEqual(pdt.effectiveTzCode(), -28);
 }
 
 test(timeZoneError) {
@@ -528,11 +535,25 @@ test(timeZoneIncrement15Minutes) {
   assertEqual((int8_t) -4, tz.tzCode());
 }
 
-test(timeZoneExtractHourMinute) {
+test(timeZoneExtractStandardHourMinute) {
   TimeZone tz(-29);
-  uint8_t hour, minute;
-  tz.extractHourMinute(hour, minute);
+  int8_t sign;
+  uint8_t hour;
+  uint8_t minute;
+  tz.extractStandardHourMinute(sign, hour, minute);
+  assertEqual(-1, sign);
   assertEqual(7, hour);
+  assertEqual(15, minute);
+}
+
+test(timeZoneExtractEffectiveHourMinute) {
+  TimeZone tz = TimeZone(-29).isDst(true);
+  int8_t sign;
+  uint8_t hour;
+  uint8_t minute;
+  tz.extractEffectiveHourMinute(sign, hour, minute);
+  assertEqual(-1, sign);
+  assertEqual(6, hour);
   assertEqual(15, minute);
 }
 
@@ -543,35 +564,35 @@ test(timeZoneExtractHourMinute) {
 test(monthString) {
   DateStrings ds;
 
-  assertEqual("Error", ds.monthLongString(0));
-  assertEqual("January", ds.monthLongString(1));
-  assertEqual("February", ds.monthLongString(2));
-  assertEqual("March", ds.monthLongString(3));
-  assertEqual("April", ds.monthLongString(4));
-  assertEqual("May", ds.monthLongString(5));
-  assertEqual("June", ds.monthLongString(6));
-  assertEqual("July", ds.monthLongString(7));
-  assertEqual("August", ds.monthLongString(8));
-  assertEqual("September", ds.monthLongString(9));
-  assertEqual("October", ds.monthLongString(10));
-  assertEqual("November", ds.monthLongString(11));
-  assertEqual("December", ds.monthLongString(12));
-  assertEqual("Error", ds.monthLongString(13));
+  assertEqual(F("Error"), ds.monthLongString(0));
+  assertEqual(F("January"), ds.monthLongString(1));
+  assertEqual(F("February"), ds.monthLongString(2));
+  assertEqual(F("March"), ds.monthLongString(3));
+  assertEqual(F("April"), ds.monthLongString(4));
+  assertEqual(F("May"), ds.monthLongString(5));
+  assertEqual(F("June"), ds.monthLongString(6));
+  assertEqual(F("July"), ds.monthLongString(7));
+  assertEqual(F("August"), ds.monthLongString(8));
+  assertEqual(F("September"), ds.monthLongString(9));
+  assertEqual(F("October"), ds.monthLongString(10));
+  assertEqual(F("November"), ds.monthLongString(11));
+  assertEqual(F("December"), ds.monthLongString(12));
+  assertEqual(F("Error"), ds.monthLongString(13));
 
-  assertEqual("Err", ds.monthShortString(0));
-  assertEqual("Jan", ds.monthShortString(1));
-  assertEqual("Feb", ds.monthShortString(2));
-  assertEqual("Mar", ds.monthShortString(3));
-  assertEqual("Apr", ds.monthShortString(4));
-  assertEqual("May", ds.monthShortString(5));
-  assertEqual("Jun", ds.monthShortString(6));
-  assertEqual("Jul", ds.monthShortString(7));
-  assertEqual("Aug", ds.monthShortString(8));
-  assertEqual("Sep", ds.monthShortString(9));
-  assertEqual("Oct", ds.monthShortString(10));
-  assertEqual("Nov", ds.monthShortString(11));
-  assertEqual("Dec", ds.monthShortString(12));
-  assertEqual("Err", ds.monthShortString(13));
+  assertEqual(F("Err"), ds.monthShortString(0));
+  assertEqual(F("Jan"), ds.monthShortString(1));
+  assertEqual(F("Feb"), ds.monthShortString(2));
+  assertEqual(F("Mar"), ds.monthShortString(3));
+  assertEqual(F("Apr"), ds.monthShortString(4));
+  assertEqual(F("May"), ds.monthShortString(5));
+  assertEqual(F("Jun"), ds.monthShortString(6));
+  assertEqual(F("Jul"), ds.monthShortString(7));
+  assertEqual(F("Aug"), ds.monthShortString(8));
+  assertEqual(F("Sep"), ds.monthShortString(9));
+  assertEqual(F("Oct"), ds.monthShortString(10));
+  assertEqual(F("Nov"), ds.monthShortString(11));
+  assertEqual(F("Dec"), ds.monthShortString(12));
+  assertEqual(F("Err"), ds.monthShortString(13));
 }
 
 test(monthStringsFitInBuffer) {
@@ -588,25 +609,25 @@ test(monthStringsFitInBuffer) {
 test(weekDayStrings) {
   DateStrings ds;
 
-  assertEqual("Error", ds.weekDayLongString(0));
-  assertEqual("Sunday", ds.weekDayLongString(1));
-  assertEqual("Monday", ds.weekDayLongString(2));
-  assertEqual("Tuesday", ds.weekDayLongString(3));
-  assertEqual("Wednesday", ds.weekDayLongString(4));
-  assertEqual("Thursday", ds.weekDayLongString(5));
-  assertEqual("Friday", ds.weekDayLongString(6));
-  assertEqual("Saturday", ds.weekDayLongString(7));
-  assertEqual("Error", ds.weekDayLongString(8));
+  assertEqual(F("Error"), ds.weekDayLongString(0));
+  assertEqual(F("Sunday"), ds.weekDayLongString(1));
+  assertEqual(F("Monday"), ds.weekDayLongString(2));
+  assertEqual(F("Tuesday"), ds.weekDayLongString(3));
+  assertEqual(F("Wednesday"), ds.weekDayLongString(4));
+  assertEqual(F("Thursday"), ds.weekDayLongString(5));
+  assertEqual(F("Friday"), ds.weekDayLongString(6));
+  assertEqual(F("Saturday"), ds.weekDayLongString(7));
+  assertEqual(F("Error"), ds.weekDayLongString(8));
 
-  assertEqual("Err", ds.weekDayShortString(0));
-  assertEqual("Sun", ds.weekDayShortString(1));
-  assertEqual("Mon", ds.weekDayShortString(2));
-  assertEqual("Tue", ds.weekDayShortString(3));
-  assertEqual("Wed", ds.weekDayShortString(4));
-  assertEqual("Thu", ds.weekDayShortString(5));
-  assertEqual("Fri", ds.weekDayShortString(6));
-  assertEqual("Sat", ds.weekDayShortString(7));
-  assertEqual("Err", ds.weekDayShortString(8));
+  assertEqual(F("Err"), ds.weekDayShortString(0));
+  assertEqual(F("Sun"), ds.weekDayShortString(1));
+  assertEqual(F("Mon"), ds.weekDayShortString(2));
+  assertEqual(F("Tue"), ds.weekDayShortString(3));
+  assertEqual(F("Wed"), ds.weekDayShortString(4));
+  assertEqual(F("Thu"), ds.weekDayShortString(5));
+  assertEqual(F("Fri"), ds.weekDayShortString(6));
+  assertEqual(F("Sat"), ds.weekDayShortString(7));
+  assertEqual(F("Err"), ds.weekDayShortString(8));
 }
 
 test(weekDayStringsFitInBuffer) {

@@ -43,6 +43,7 @@ class FullOledPresenter: public Presenter {
         case MODE_TIME_ZONE:
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_DST:
           displayTimeZone();
           break;
       }
@@ -97,13 +98,14 @@ class FullOledPresenter: public Presenter {
 
     void displayTimeZone() const {
       const TimeZone& timeZone = mRenderingInfo.dateTime.timeZone();
+      int8_t sign;
       uint8_t hour;
       uint8_t minute;
-      timeZone.extractHourMinute(hour, minute);
+      timeZone.extractStandardHourMinute(sign, hour, minute);
 
       mOled.print("UTC");
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_HOUR)) {
-        mOled.print((timeZone.tzCode() < 0) ? '-' : '+');
+        mOled.print((sign < 0) ? '-' : '+');
         printPad2(mOled, hour);
       } else {
         mOled.print("   ");
@@ -113,6 +115,12 @@ class FullOledPresenter: public Presenter {
         printPad2(mOled, minute);
       } else {
         mOled.print("  ");
+      }
+      mOled.println();
+      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
+        mOled.print(timeZone.isDst() ? "DST" : "STD");
+      } else {
+        mOled.print("   ");
       }
     }
 

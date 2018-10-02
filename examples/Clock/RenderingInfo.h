@@ -25,6 +25,7 @@ static const uint8_t MODE_CHANGE_MINUTE = 14;
 static const uint8_t MODE_CHANGE_SECOND = 15;
 static const uint8_t MODE_CHANGE_TIME_ZONE_HOUR = 16;
 static const uint8_t MODE_CHANGE_TIME_ZONE_MINUTE = 17;
+static const uint8_t MODE_CHANGE_TIME_ZONE_DST = 18;
 
 /**
  * Data used by the Presenter (the "View") to determine what has changed and

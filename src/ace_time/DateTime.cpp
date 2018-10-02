@@ -31,7 +31,7 @@ void DateTime::printTo(Print& printer) const {
   printPad2(printer, mSecond);
 
   // TimeZone
-  mTimeZone.printTo(printer);
+  mTimeZone.printEffectiveOffsetTo(printer);
   printer.print(' ');
 
   // Week day

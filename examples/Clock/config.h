@@ -54,8 +54,8 @@
   #define CHANGE_BUTTON_PIN D3
   #define USE_NTP
   #define DISPLAY_TYPE DISPLAY_TYPE_FULL_OLED
-  #define OLED_DISPLAY OLED_DIPLAY_ADA32
-  #define OLED_REMAP false
+  #define OLED_DISPLAY OLED_DIPLAY_ADA64
+  #define OLED_REMAP true
 #else
   #error Unknown AUNITER environment
 #endif

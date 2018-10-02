@@ -54,6 +54,9 @@ class FullOledClock: public Clock {
           mMode = MODE_CHANGE_TIME_ZONE_MINUTE;
           break;
         case MODE_CHANGE_TIME_ZONE_MINUTE:
+          mMode = MODE_CHANGE_TIME_ZONE_DST;
+          break;
+        case MODE_CHANGE_TIME_ZONE_DST:
           mMode = MODE_CHANGE_TIME_ZONE_HOUR;
           break;
       }
@@ -84,6 +87,7 @@ class FullOledClock: public Clock {
 
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_DST:
           saveTimeZone();
           mMode = MODE_TIME_ZONE;
           break;
@@ -126,6 +130,11 @@ class FullOledClock: public Clock {
           mSuppressBlink = true;
           mChangingDateTime.timeZone().increment15Minutes();
           break;
+        case MODE_CHANGE_TIME_ZONE_DST:
+          mSuppressBlink = true;
+          mChangingDateTime.timeZone().isDst(
+              !mChangingDateTime.timeZone().isDst());
+          break;
       }
 
       // Update the display right away to prevent jitters in the display when
@@ -147,6 +156,7 @@ class FullOledClock: public Clock {
         case MODE_CHANGE_SECOND:
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = false;
           break;
       }

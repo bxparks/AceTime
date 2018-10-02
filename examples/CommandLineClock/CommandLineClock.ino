@@ -96,50 +96,29 @@ class ListCommand: public CommandHandler {
  * Date command.
  * Usage:
  *    date - print current date
- *    date -s {iso8601} - set current date
+ *    date {iso8601} - set current date
  */
 class DateCommand: public CommandHandler {
   public:
     DateCommand():
-        CommandHandler("date", "[-s dateString]") {}
+        CommandHandler("date", "[dateString]") {}
 
     virtual void run(Print& printer, int argc, const char** argv)
         const override {
-      // parse the command line arguments
-      const char* newDateString = nullptr;
-      SHIFT;
-      while (argc > 0) {
-        if (strcmp(*argv, "-s") == 0) {
-          SHIFT;
-          if (argc == 0) {
-            printer.println(FF("No date after -s flag"));
-            return;
-          }
-          newDateString = *argv;
-        } else if (**argv == '-') {
-          printer.print(FF("Unknown flag: "));
-          printer.println(*argv);
-          return;
-        } else {
-          break;
-        }
+      if (argc == 1) {
+        DateTime now = controller.getNow();
+        now.printTo(printer);
+        printer.println();
+      } else {
         SHIFT;
-      }
-
-      if (newDateString != nullptr) {
-        DateTime newDate = DateTime::forDateString(newDateString);
+        DateTime newDate = DateTime::forDateString(argv[0]);
         if (newDate.isError()) {
-          printer.print(FF("Invalid date: "));
-          printer.println(newDateString);
+          printer.println(FF("Invalid date"));
           return;
         }
         controller.setNow(newDate);
         printer.print(FF("Date set to: "));
         newDate.printTo(printer);
-        printer.println();
-      } else {
-        DateTime now = controller.getNow();
-        now.printTo(printer);
         printer.println();
       }
     }
@@ -149,53 +128,65 @@ class DateCommand: public CommandHandler {
  * Timezone command.
  * Usage:
  *    timezone - print current timezone
- *    timezone -s {code} - set current timezone
+ *    timezone {utcOffset} - set current timezone
  */
 class TimezoneCommand: public CommandHandler {
   public:
     TimezoneCommand():
-      CommandHandler("timezone", "[-s utcOffset]") {}
+      CommandHandler("timezone", "[utcOffset]") {}
 
     virtual void run(Print& printer, int argc, const char** argv)
         const override {
-      // parse the command line arguments
-      const char* newTimeZoneString = nullptr;
-      SHIFT;
-      while (argc > 0) {
-        if (strcmp(*argv, "-s") == 0) {
-          SHIFT;
-          if (argc == 0) {
-            printer.println(FF("No tzCode after -s flag"));
-            return;
-          }
-          newTimeZoneString = *argv;
-        } else if (**argv == '-') {
-          printer.print(FF("Unknown flag: "));
-          printer.println(*argv);
-          return;
-        } else {
-          break;
-        }
+      if (argc == 1) {
+        TimeZone timeZone = controller.getTimeZone();
+        timeZone.printTo(printer);
+        printer.println();
+      } else {
         SHIFT;
-      }
-
-      if (newTimeZoneString != nullptr) {
-        TimeZone tz = TimeZone::forOffsetString(newTimeZoneString);
+        TimeZone tz = TimeZone::forOffsetString(argv[0]);
         if (tz.isError()) {
           printer.println(FF("Invalid time zone"));
           return;
         }
         controller.setTimeZone(tz);
-        printer.print(FF("Time zone set to: UTC"));
+        printer.print(FF("Time zone set to: "));
         tz.printTo(printer);
-        printer.println();
-      } else {
-        TimeZone timeZone = controller.getTimeZone();
-        printer.print(FF("UTC"));
-        timeZone.printTo(printer);
         printer.println();
       }
     }
+};
+
+/**
+ * Dst command.
+ * Usage:
+ *    dst - print the current DST setting
+ *    dst on - turn on DST, changing the current timeZone
+ *    dst off - turn off DST, changing the current timeZone
+ */
+class DstCommand: public CommandHandler {
+  public:
+    DstCommand(Controller& controller):
+          CommandHandler("dst", "[on | off]"),
+      mController(controller) {}
+
+    virtual void run(Print& printer, int argc, const char** argv)
+        const override {
+      SHIFT;
+      if (argc == 0) {
+        printer.print(FF("DST: "));
+        printer.println(mController.isDst() ? FF("on") : FF("off"));
+      } else if (strcmp(argv[0], "on") == 0) {
+        mController.setDst(true);
+      } else if (strcmp(argv[0], "off") == 0) {
+        mController.setDst(false);
+      } else {
+        printer.print(FF("Unknown argument: "));
+        printer.println(argv[0]);
+      }
+    }
+
+  private:
+    Controller& mController;
 };
 
 #if defined(USE_NTP)
@@ -283,13 +274,16 @@ class WifiCommand: public CommandHandler {
 ListCommand listCommand;
 DateCommand dateCommand;
 TimezoneCommand timezoneCommand;
+DstCommand dstCommand(controller);
 #if defined(USE_NTP)
 WifiCommand wifiCommand(controller, ntpTimeProvider);
 #endif
+
 const CommandHandler* const COMMANDS[] = {
   &listCommand,
   &dateCommand,
   &timezoneCommand,
+  &dstCommand,
 #if defined(USE_NTP)
   &wifiCommand
 #endif

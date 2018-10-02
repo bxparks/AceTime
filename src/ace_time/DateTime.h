@@ -99,7 +99,7 @@ class DateTime {
         return;
       }
 
-      secondsSinceEpoch += timeZone.toSeconds();
+      secondsSinceEpoch += timeZone.asEffectiveSecondOffset();
       uint32_t daysSinceEpoch = secondsSinceEpoch / 86400;
       fillUsingDaysSinceEpoch(daysSinceEpoch);
 
@@ -301,7 +301,7 @@ class DateTime {
     uint32_t toDaysSinceEpoch() const {
       uint32_t daysSinceEpoch = toDaysSinceEpochIgnoringTimeZone();
       int32_t utcOffset = ((mHour * 60) + mMinute) * (uint32_t) 60 + mSecond;
-      utcOffset -= mTimeZone.toSeconds();
+      utcOffset -= mTimeZone.asEffectiveSecondOffset();
 
       // Increment or decrement the day count depending on the time zone.
       if (utcOffset >= 86400) {
@@ -328,7 +328,7 @@ class DateTime {
     uint32_t toSecondsSinceEpoch() const {
       uint32_t daysSinceEpoch = toDaysSinceEpochIgnoringTimeZone();
       int32_t utcOffset = ((mHour * 60) + mMinute) * (uint32_t) 60 + mSecond;
-      utcOffset -= mTimeZone.toSeconds();
+      utcOffset -= mTimeZone.asEffectiveSecondOffset();
       return daysSinceEpoch * (uint32_t) 86400 + utcOffset;
     }
 
