@@ -25,9 +25,6 @@ class FullOledClock: public Clock {
           mMode = MODE_TIME_ZONE;
           break;
         case MODE_TIME_ZONE:
-          mMode = MODE_WEEKDAY;
-          break;
-        case MODE_WEEKDAY:
           mMode = MODE_DATE_TIME;
           break;
 

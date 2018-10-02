@@ -36,10 +36,6 @@ class FullOledPresenter: public Presenter {
           displayDateTime();
           break;
 
-        case MODE_WEEKDAY:
-          displayWeekday();
-          break;
-
         case MODE_TIME_ZONE:
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
@@ -51,6 +47,8 @@ class FullOledPresenter: public Presenter {
 
     void displayDateTime() const {
       const DateTime& dateTime = mRenderingInfo.dateTime;
+
+      // date
       if (shouldShowFor(MODE_CHANGE_YEAR)) {
         mOled.print("20");
         printPad2(mOled, dateTime.year());
@@ -69,8 +67,10 @@ class FullOledPresenter: public Presenter {
       } else{
         mOled.print("  ");
       }
+      mOled.clearToEOL();
       mOled.println();
 
+      // time
       if (shouldShowFor(MODE_CHANGE_HOUR)) {
         printPad2(mOled, dateTime.hour());
       } else {
@@ -88,10 +88,10 @@ class FullOledPresenter: public Presenter {
       } else {
         mOled.print("  ");
       }
-    }
+      mOled.clearToEOL();
+      mOled.println();
 
-    void displayWeekday() const {
-      const DateTime& dateTime = mRenderingInfo.dateTime;
+      // week day
       mOled.print(DateStrings().weekDayLongString(dateTime.dayOfWeek()));
       mOled.clearToEOL();
     }
@@ -117,8 +117,9 @@ class FullOledPresenter: public Presenter {
         mOled.print("  ");
       }
       mOled.println();
+      mOled.print("DST: ");
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-        mOled.print(timeZone.isDst() ? "DST" : "STD");
+        mOled.print(timeZone.isDst() ? "on " : "off");
       } else {
         mOled.print("   ");
       }

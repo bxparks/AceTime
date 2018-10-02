@@ -23,7 +23,7 @@ using namespace ace_time::common;
 class Clock {
   public:
     static const uint16_t kStoredInfoEepromAddress = 0;
-    static const int8_t kDefaultTzCode = -28; // Pacific Daylight Time, -07:00
+    static const int8_t kDefaultTzCode = -32; // Pacific Standard Time, -08:00
 
     /**
      * Constructor.
@@ -46,7 +46,7 @@ class Clock {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
       if (isValid) {
-        mTimeZone = TimeZone(storedInfo.tzCode);
+        mTimeZone = storedInfo.timeZone;
       } else {
         mTimeZone = TimeZone(kDefaultTzCode);
       }
@@ -91,11 +91,6 @@ class Clock {
         case MODE_CHANGE_HOUR:
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
-#if ENABLE_UNIFIED_DATE == 1
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
-        case MODE_CHANGE_TIME_ZONE_DST:
-#endif
           if (!mSecondFieldCleared) {
             mChangingDateTime.second(mCurrentDateTime.second());
           }
@@ -168,7 +163,7 @@ class Clock {
 
     void preserveInfo() {
       StoredInfo storedInfo;
-      storedInfo.tzCode = mTimeZone.tzCode();
+      storedInfo.timeZone = mTimeZone;
       mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
           sizeof(StoredInfo));
     }

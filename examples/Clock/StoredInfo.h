@@ -5,7 +5,7 @@
 
 /** Data that is saved to and retrieved from EEPROM. */
 struct StoredInfo {
-  int8_t tzCode;
+  TimeZone timeZone;
 };
 
 #endif
