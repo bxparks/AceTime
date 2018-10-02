@@ -10,13 +10,29 @@ venerable [Arduino Time Library](https://github.com/PaulStoffregen/Time).
 Compared to the Arduino Time Library, here are the main differences:
 1. AceTime is more object-oriented. For example, you can create multiple
    instances of the system clock if you need to.
-1. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z instead of the Unix
-   epoch of 1970-01-01T00:00:00Z.
+1. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z, where as
+   Arduino Time Library uses the Unix epoch of 1970-01-01T00:00:00Z.
     * Using an `uint32_t` to track the number of seconds since the Epoch, the
       AceTime library can handle all dates from **2000** to the **end of 2099**.
     * This date range corresponds to the range of the DS3231 RTC chip.
 1. AceTime is **2-3X** faster on an ATmega328P, **4X** faster on the ESP8266,
    and **10-20X** faster on the ARM (Teensy) and ESP32 processors.
+
+Compared to the
+[AVR libc time library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html),
+which is based on the UNIX/POSIX time library, AceTime has the following
+differences:
+1. AceTime is written in C++ and is more object oriented. For example, you can
+   create multiple system clocks if you need to.
+1. AceTime is far easier to understand and use (in my opinion).
+1. All AceTime classes and methods are re-entrant (i.e. does not use
+  static buffers).
+1. AceTime does not require an ISR to be called at 1 second intervals to
+  maintain the system clock. AceTime uses the `millis()` method and
+  synchronizes to it lazily when `DateTime::getNow()` is called.
+1. AceTime works across all platforms supported by the Arduino framework
+   (e.g. ESP8266 and ESP32), instead of just the AVR platform.
+1. Both AceTime and AVR time library uses an epoch of 2000-01-01T00:00:00Z.
 
 There are roughly 2 categories of classes provided by the AceTime library:
 
@@ -152,6 +168,18 @@ TimeZone tz = TimeZone::forOffsetString("+01:00");
 ```
 The `+` symbol in `"+01:00"` is currently required by the string parser if
 the time zone is a positive offset from UTC.
+
+Daylight saving time is handled manually by setting a `isDst` flag
+on the `TimeZone` object. When this flag is set, the "effective" UTC
+offset of the time zone is shifted by 1 hour. For example, Pacific Daylight
+is UTC-07:00 and is created like this:
+
+```C++
+TimeZone pdt = TimeZone::forHour(-8).isDst(true); // UTC-08:00 w/ DST true
+int16_t standardMinutes = pdt.asStandardMinuteOffset(); // returns -480
+int16_t effectiveMinutes = pdt.asEffectiveMinuteOffset(); // returns -420
+bool isDst = pdt.isDst(); // returns true
+```
 
 #### DateTime Components
 
