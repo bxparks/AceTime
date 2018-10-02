@@ -47,14 +47,24 @@ toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
 
 # TimeZone.h
+forHour	KEYWORD2
+forHourMinute	KEYWORD2
+forOffsetString	KEYWORD2
 tzCode	KEYWORD2
+effectiveTzCode	KEYWORD2
 toMinutes	KEYWORD2
-toSeconds	KEYWORD2
+isDst	KEYWORD2
+asStandardMinuteOffset	KEYWORD2
+asStandardSecondOffset	KEYWORD2
+asEffectiveMinuteOffset	KEYWORD2
+asEffectiveSecondOffset	KEYWORD2
 incrementHour	KEYWORD2
 increment15Minutes	KEYWORD2
-extractHourMinute	KEYWORD2
+extractStandardHourMinute	KEYWORD2
+extractEffectiveHourMinute	KEYWORD2
 setError	KEYWORD2
 isError	KEYWORD2
+printEffectiveOffsetTo	KEYWORD2
 printTo	KEYWORD2
 
 # TimePeriod.h
