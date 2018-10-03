@@ -15,18 +15,17 @@ class TestableSystemTimeKeeper: public SystemTimeKeeper {
   public:
     explicit TestableSystemTimeKeeper(
             TimeProvider* syncTimeProvider /* nullable */,
-            TimeKeeper* backupTimeKeeper /* nullable */):
-        SystemTimeKeeper(syncTimeProvider, backupTimeKeeper) {}
+            TimeKeeper* backupTimeKeeper /* nullable */,
+            FakeMillis* fakeMillis):
+        SystemTimeKeeper(syncTimeProvider, backupTimeKeeper),
+        mFakeMillis(fakeMillis) {}
 
     virtual unsigned long millis() const override {
-      return mMillis;
+      return mFakeMillis->millis();
     }
 
-    void millis(unsigned long millis) {
-      mMillis = millis;
-    }
-
-    unsigned long mMillis = 0;
+  private:
+    FakeMillis* mFakeMillis;
 };
 
 }
