@@ -38,12 +38,16 @@ hw::CrcEeprom crcEeprom;
 // Configure various TimeKeepers and TimeProviders.
 //------------------------------------------------------------------
 
-#if defined(USE_DS3231)
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
   DS3231TimeKeeper dsTimeKeeper;
   SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper);
-#elif defined(USE_NTP)
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   NtpTimeProvider ntpTimeProvider;
   SystemTimeKeeper systemTimeKeeper(&ntpTimeProvider, nullptr);
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_BOTH
+  DS3231TimeKeeper dsTimeKeeper;
+  NtpTimeProvider ntpTimeProvider;
+  SystemTimeKeeper systemTimeKeeper(&ntpTimeProvider, &dsTimeKeeper);
 #else
   SystemTimeKeeper systemTimeKeeper(nullptr /*sync*/, nullptr /*backup*/);
 #endif
@@ -273,6 +277,7 @@ void setup() {
 
   Wire.begin();
   Wire.setClock(400000L);
+  crcEeprom.begin(EEPROM_SIZE);
 
   setupAceButton();
 
@@ -282,10 +287,12 @@ void setup() {
   setupOled();
 #endif
 
-  crcEeprom.begin(EEPROM_SIZE);
-#if defined(USE_DS3231)
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
   dsTimeKeeper.setup();
-#elif defined(USE_NTP)
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
+  ntpTimeProvider.setup(AUNITER_SSID, AUNITER_PASSWORD);
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_BOTH
+  dsTimeKeeper.setup();
   ntpTimeProvider.setup(AUNITER_SSID, AUNITER_PASSWORD);
 #endif
   systemTimeKeeper.setup();
