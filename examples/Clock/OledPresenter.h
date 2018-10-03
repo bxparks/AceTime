@@ -22,68 +22,112 @@ class OledPresenter: public Presenter {
 
     virtual void displayData() override {
       mOled.home();
-      mOled.setFont(lcdnums12x16);
+      mOled.setFont(lcd5x7);
       mOled.set2X();
 
-      const DateTime& dateTime = mRenderingInfo.dateTime;
       switch (mRenderingInfo.mode) {
-        case MODE_HOUR_MINUTE:
-          printPad2(mOled, dateTime.hour());
-          mOled.print(':');
-          printPad2(mOled, dateTime.minute());
-          break;
-        case MODE_CHANGE_HOUR:
-          if (shouldShowFor(MODE_CHANGE_HOUR)) {
-            printPad2(mOled, dateTime.hour());
-          } else {
-            mOled.print("  ");
-          }
-          mOled.print(':');
-          printPad2(mOled, dateTime.minute());
-          break;
-        case MODE_CHANGE_MINUTE:
-          printPad2(mOled, dateTime.hour());
-          mOled.print(':');
-          if (shouldShowFor(MODE_CHANGE_MINUTE)) {
-            printPad2(mOled, dateTime.minute());
-          } else {
-            mOled.print("  ");
-          }
-          break;
-        case MODE_MINUTE_SECOND:
-          mOled.print("  :");
-          printPad2(mOled, dateTime.second());
-          break;
-        case MODE_YEAR:
+        case MODE_DATE_TIME:
         case MODE_CHANGE_YEAR:
-          if (shouldShowFor(MODE_CHANGE_YEAR)) {
-            mOled.print("20");
-            printPad2(mOled, dateTime.year());
-          } else {
-            mOled.print("    ");
-          }
-          break;
-        case MODE_MONTH:
         case MODE_CHANGE_MONTH:
-          if (shouldShowFor(MODE_CHANGE_MONTH)) {
-            printPad2(mOled, dateTime.month());
-          } else {
-            mOled.print("  ");
-          }
-          break;
-        case MODE_DAY:
         case MODE_CHANGE_DAY:
-          if (shouldShowFor(MODE_CHANGE_DAY)) {
-            printPad2(mOled, dateTime.day());
-          } else {
-            mOled.print("  ");
-          }
+        case MODE_CHANGE_HOUR:
+        case MODE_CHANGE_MINUTE:
+        case MODE_CHANGE_SECOND:
+          displayDateTime();
           break;
+
         case MODE_WEEKDAY:
-          mOled.setFont(Arial_bold_14);
-          mOled.set2X();
-          mOled.print(DateStrings().weekDayShortString(dateTime.dayOfWeek()));
+          displayWeekDay();
           break;
+
+        case MODE_TIME_ZONE:
+        case MODE_CHANGE_TIME_ZONE_HOUR:
+        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_DST:
+          displayTimeZone();
+          break;
+      }
+    }
+
+    void displayDateTime() const {
+      const DateTime& dateTime = mRenderingInfo.dateTime;
+
+      // date
+      if (shouldShowFor(MODE_CHANGE_YEAR)) {
+        mOled.print("20");
+        printPad2(mOled, dateTime.year());
+      } else {
+        mOled.print("    ");
+      }
+      mOled.print('-');
+      if (shouldShowFor(MODE_CHANGE_MONTH)) {
+        printPad2(mOled, dateTime.month());
+      } else {
+        mOled.print("  ");
+      }
+      mOled.print('-');
+      if (shouldShowFor(MODE_CHANGE_DAY)) {
+        printPad2(mOled, dateTime.day());
+      } else {
+        mOled.print("  ");
+      }
+      mOled.clearToEOL();
+      mOled.println();
+
+      // time
+      if (shouldShowFor(MODE_CHANGE_HOUR)) {
+        printPad2(mOled, dateTime.hour());
+      } else {
+        mOled.print("  ");
+      }
+      mOled.print(':');
+      if (shouldShowFor(MODE_CHANGE_MINUTE)) {
+        printPad2(mOled, dateTime.minute());
+      } else {
+        mOled.print("  ");
+      }
+      mOled.print(':');
+      if (shouldShowFor(MODE_CHANGE_SECOND)) {
+        printPad2(mOled, dateTime.second());
+      } else {
+        mOled.print("  ");
+      }
+      mOled.clearToEOL();
+      mOled.println();
+    }
+
+    void displayWeekDay() const {
+      const DateTime& dateTime = mRenderingInfo.dateTime;
+      mOled.print(DateStrings().weekDayLongString(dateTime.dayOfWeek()));
+      mOled.clearToEOL();
+    }
+
+    void displayTimeZone() const {
+      const TimeZone& timeZone = mRenderingInfo.dateTime.timeZone();
+      int8_t sign;
+      uint8_t hour;
+      uint8_t minute;
+      timeZone.extractStandardHourMinute(sign, hour, minute);
+
+      mOled.print("UTC");
+      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_HOUR)) {
+        mOled.print((sign < 0) ? '-' : '+');
+        printPad2(mOled, hour);
+      } else {
+        mOled.print("   ");
+      }
+      mOled.print(':');
+      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_MINUTE)) {
+        printPad2(mOled, minute);
+      } else {
+        mOled.print("  ");
+      }
+      mOled.println();
+      mOled.print("DST: ");
+      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
+        mOled.print(timeZone.isDst() ? "on " : "off");
+      } else {
+        mOled.print("   ");
       }
     }
 
