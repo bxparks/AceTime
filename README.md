@@ -169,7 +169,7 @@ TimeZone tz = TimeZone::forOffsetString("+01:00");
 The `+` symbol in `"+01:00"` is currently required by the string parser if
 the time zone is a positive offset from UTC.
 
-Daylight saving time is handled manually by setting a `isDst` flag
+Daylight saving time is handled manually by setting the `isDst` flag
 on the `TimeZone` object. When this flag is set, the "effective" UTC
 offset of the time zone is shifted by 1 hour. For example, Pacific Daylight
 is UTC-07:00 and is created like this:
@@ -191,17 +191,17 @@ DateTime dt;
 // 2001-01-01 00:00:00Z
 dt = DateTime(1, 1, 1, 0, 0, 0, TimeZone(0));
 
-// 2018-08-30T06:45:01-07:00
-dt = DateTime(18, 8, 30, 6, 45, 1, TimeZone::forHour(-7));
+// 2018-08-30T06:45:01-08:00
+dt = DateTime(18, 8, 30, 6, 45, 1, TimeZone::forHour(-8));
 
-// 2099-12-31 23:59:59-16:00
-dt = DateTime(99, 12, 31, 23, 59, 59, TimeZone::forHour(-16));
+// 2099-12-31 23:59:59+06:00
+dt = DateTime(99, 12, 31, 23, 59, 59, TimeZone::forHour(6));
 ```
 
 Once a `DateTime` object is created you can access the individual date/time
 components using the accessor methods:
 ```C++
-dt = DateTime(18, 8, 30, 6, 45, 1, TimeZone::forHour(-7));
+dt = DateTime(18, 8, 30, 6, 45, 1, TimeZone::forHour(-8));
 
 uint8_t year = dt.year(); // 0 - 99 (actually 0 - 136)
 uint8_t month = dt.month(); // 1 - 12
@@ -307,11 +307,11 @@ time zone using the `DateTime::convertToTimeZone()` method:
 ```C++
 // Central European Time
 // 2018-01-01T09:20:00+01:00
-DateTime dt(18, 1, 1, 9, 20, 0, TimeZone::forHour(1));
+DateTime cetTime(18, 1, 1, 9, 20, 0, TimeZone::forHour(1));
 
 // Convert to Pacific Daylight Time.
 // 2018-01-01T01:20:00-07:00
-DateTime pacificTime = dt.convertToTimeZone(TimeZone::forHour(-7));
+DateTime pdtTime = dt.convertToTimeZone(TimeZone::forHour(-8).isDst(true));
 ```
 The two `DateTime` objects return the same value for `secondsSinceEpoch()`
 because that is not affected by the time zone. However, the various date time
