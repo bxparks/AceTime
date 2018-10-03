@@ -63,7 +63,7 @@ SystemTimeHeartbeatCoroutine systemTimeHeartbeat(systemTimeKeeper);
 SSD1306AsciiWire oled;
 
 void setupOled() {
-#if OLED_DISPLAY == OLED_DIPLAY_ADA64
+#if DISPLAY_TYPE == DISPLAY_TYPE_FULL_OLED
   oled.begin(&Adafruit128x64, OLED_I2C_ADDRESS);
 #else
   oled.begin(&Adafruit128x32, OLED_I2C_ADDRESS);
