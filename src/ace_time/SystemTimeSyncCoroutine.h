@@ -5,10 +5,17 @@
 #include "SystemTimeKeeper.h"
 #include "common/TimingStats.h"
 
+class SystemTimeSyncCoroutineTest;
+
 namespace ace_time {
 
 /**
  * A coroutine that syncs the SystemTimeKeeper with its syncTimeProvider.
+ * Initially, the class attempts to sync with its syncTimeProvider every
+ * initialSyncPeriodSeconds. If the request fails, then it retries with an
+ * exponential backoff (doubling the delay every iteration), until the sync
+ * period becomes greater than syncPeriodSeconds, then the delay is set
+ * permanently to syncPeriodSeconds.
  */
 class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
   public:
@@ -33,7 +40,8 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
       mSyncPeriodSeconds(syncPeriodSeconds),
       mInitialSyncPeriodSeconds(initialSyncPeriodSeconds),
       mRequestTimeoutMillis(requestTimeoutMillis),
-      mTimingStats(timingStats) {}
+      mTimingStats(timingStats),
+      mCurrentSyncPeriodSeconds(initialSyncPeriodSeconds) {}
 
     /**
      * @copydoc Coroutine::runCoroutine()
@@ -75,17 +83,27 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
             mTimingStats->update(elapsedTime);
           }
           mSystemTimeKeeper.sync(nowSeconds);
+          mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
         }
 
-        if (mSystemTimeKeeper.mIsSynced) {
-          COROUTINE_DELAY_SECONDS(mDelayLoopCounter, mSyncPeriodSeconds);
-        } else {
-          COROUTINE_DELAY_SECONDS(mDelayLoopCounter, mInitialSyncPeriodSeconds);
+        COROUTINE_DELAY_SECONDS(mDelayLoopCounter, mCurrentSyncPeriodSeconds);
+
+        // Determine the retry delay time based on success or failure. If
+        // failure, retry with exponential backoff, until the delay becomes
+        // mSyncPeriodSeconds.
+        if (mRequestStatus == kStatusTimedOut) {
+          if (mCurrentSyncPeriodSeconds >= mSyncPeriodSeconds / 2) {
+            mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
+          } else {
+            mCurrentSyncPeriodSeconds *= 2;
+          }
         }
       }
     }
 
   private:
+    friend class ::SystemTimeSyncCoroutineTest;
+
     static const uint8_t kStatusOk = 0;
     static const uint8_t kStatusTimedOut = 1;
 
@@ -96,6 +114,7 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
     common::TimingStats* const mTimingStats;
 
     uint16_t mRequestStartTime;
+    uint16_t mCurrentSyncPeriodSeconds;
     uint8_t mRequestStatus;
     uint16_t mDelayLoopCounter;
 };

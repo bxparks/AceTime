@@ -9,17 +9,19 @@ namespace testing {
 
 class FakeTimeKeeper: public TimeKeeper {
   public:
-    void setup() {}
-
-    virtual void setNow(uint32_t secondsSinceEpoch) override {
+    void setNow(uint32_t secondsSinceEpoch) override {
       mSecondsSinceEpoch = secondsSinceEpoch;
     }
 
-    virtual uint32_t getNow() const override {
-      return mSecondsSinceEpoch;
-    }
+    uint32_t getNow() const override { return mSecondsSinceEpoch; }
 
+    bool isResponseReady() const override { return mIsResponseReady; }
+
+    void isResponseReady(bool ready) { mIsResponseReady = ready; }
+
+  private:
     uint32_t mSecondsSinceEpoch = 0;
+    bool mIsResponseReady = false;
 };
 
 }

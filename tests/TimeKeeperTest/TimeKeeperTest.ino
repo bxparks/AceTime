@@ -1,10 +1,12 @@
 #line 2 "TimeKeeperTest.ino"
 
 #include <AUnitVerbose.h>
+#include <AceRoutine.h> // enable SystemTimeSyncCoroutine
 #include <AceTime.h>
 #include <ace_time/testing/FakeMillis.h>
 #include <ace_time/testing/FakeTimeKeeper.h>
 #include <ace_time/testing/TestableSystemTimeKeeper.h>
+#include <ace_time/testing/TestableSystemTimeSyncCoroutine.h>
 
 using namespace aunit;
 using namespace ace_time;
@@ -19,7 +21,6 @@ class SystemTimeKeeperTest: public TestOnce {
       systemTimeKeeper = new TestableSystemTimeKeeper(
           backupAndSyncTimeKeeper, backupAndSyncTimeKeeper, fakeMillis);
 
-      backupAndSyncTimeKeeper->setup();
       systemTimeKeeper->setup();
     }
 
@@ -102,7 +103,98 @@ testF(SystemTimeKeeperTest, getNow) {
   assertEqual((uint32_t) 171, systemTimeKeeper->getNow());
 }
 
-// --------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+
+// Create dedicated test class to allow friend access to private members of
+// SystemTimeSyncCoroutine for testing purposes.
+class SystemTimeSyncCoroutineTest: public TestOnce {
+  protected:
+    virtual void setup() override {
+      fakeMillis = new FakeMillis();
+      backupAndSyncTimeKeeper = new FakeTimeKeeper();
+      systemTimeKeeper = new TestableSystemTimeKeeper(
+          backupAndSyncTimeKeeper, backupAndSyncTimeKeeper, fakeMillis);
+      systemTimeSyncCoroutine = new TestableSystemTimeSyncCoroutine(
+          *systemTimeKeeper, fakeMillis);
+
+      systemTimeKeeper->setup();
+      systemTimeSyncCoroutine->setupCoroutine("systemTimeSyncCoroutine");
+    }
+
+    virtual void teardown() override {
+      delete systemTimeSyncCoroutine;
+      delete systemTimeKeeper;
+      delete backupAndSyncTimeKeeper;
+      delete fakeMillis;
+    }
+
+    void assertRunCoroutine() {
+      unsigned long millis = 0;
+      backupAndSyncTimeKeeper->isResponseReady(false);
+
+      // t = 0, sends request and waits for response
+      systemTimeSyncCoroutine->runCoroutine();
+      assertTrue(systemTimeSyncCoroutine->isYielding());
+
+      // retry with exponential backoff 10 times, doubling the delay on each
+      // iteration
+      uint16_t expectedDelaySeconds = 5;
+      for (int retries = 0; retries < 10; retries++) {
+        // t = +1 s, request timed out, delay for 5 sec
+        for (uint16_t i = 1; i <= expectedDelaySeconds; i++) {
+          millis += 1000;
+          fakeMillis->millis(millis);
+          systemTimeSyncCoroutine->runCoroutine();
+          assertTrue(systemTimeSyncCoroutine->isDelaying());
+        }
+
+        // t = +1 s, make another request and wait for response
+        millis += 1000;
+        fakeMillis->millis(millis);
+        systemTimeSyncCoroutine->runCoroutine();
+        assertTrue(systemTimeSyncCoroutine->isYielding());
+
+        expectedDelaySeconds *= 2;
+      }
+
+      // Final delay of 3600
+      expectedDelaySeconds = 3600;
+
+      // t = +1 s, request timed out, delay for 5 sec
+      for (uint16_t i = 1; i <= expectedDelaySeconds; i++) {
+        millis += 1000;
+        fakeMillis->millis(millis);
+        systemTimeSyncCoroutine->runCoroutine();
+        assertTrue(systemTimeSyncCoroutine->isDelaying());
+      }
+
+      // Make a new request and let it succeed
+      millis += 1000;
+      fakeMillis->millis(millis);
+      backupAndSyncTimeKeeper->isResponseReady(true);
+      backupAndSyncTimeKeeper->setNow(42);
+
+      // verify successful request
+      systemTimeSyncCoroutine->runCoroutine();
+      assertTrue(systemTimeSyncCoroutine->isDelaying());
+      assertEqual(systemTimeSyncCoroutine->mRequestStatus,
+          SystemTimeSyncCoroutine::kStatusOk);
+      assertEqual((uint32_t) 42, systemTimeKeeper->getNow());
+      assertEqual((uint32_t) 42, systemTimeKeeper->getLastSyncTime());
+      assertTrue(systemTimeKeeper->isInit());
+    }
+
+    FakeMillis* fakeMillis;
+    FakeTimeKeeper* backupAndSyncTimeKeeper;
+    TestableSystemTimeKeeper* systemTimeKeeper;
+    SystemTimeSyncCoroutine* systemTimeSyncCoroutine;
+};
+
+testF(SystemTimeSyncCoroutineTest, sync) {
+  assertRunCoroutine();
+}
+
+//---------------------------------------------------------------------------
 
 void setup() {
   delay(1000); // wait for stability on some boards to prevent garbage Serial

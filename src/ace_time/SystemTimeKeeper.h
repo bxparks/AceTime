@@ -72,8 +72,8 @@ class SystemTimeKeeper: public TimeKeeper {
       }
     }
 
-    virtual uint32_t getNow() const override {
-      if (!mIsSynced) return 0;
+    uint32_t getNow() const override {
+      if (!mIsInit) return 0;
 
       while ((uint16_t) ((uint16_t) millis() - mPrevMillis) >= 1000) {
         mPrevMillis += 1000;
@@ -82,12 +82,12 @@ class SystemTimeKeeper: public TimeKeeper {
       return mSecondsSinceEpoch;
     }
 
-    virtual void setNow(uint32_t secondsSinceEpoch) override {
+    void setNow(uint32_t secondsSinceEpoch) override {
       if (secondsSinceEpoch == 0) return;
 
       mSecondsSinceEpoch = secondsSinceEpoch;
       mPrevMillis = millis();
-      mIsSynced = true;
+      mIsInit = true;
       backupNow(secondsSinceEpoch);
     }
 
@@ -107,7 +107,7 @@ class SystemTimeKeeper: public TimeKeeper {
 
       mSecondsSinceEpoch = secondsSinceEpoch;
       mPrevMillis = millis();
-      mIsSynced = true;
+      mIsInit = true;
       mLastSyncTime = secondsSinceEpoch;
 
       if (mBackupTimeKeeper != mSyncTimeProvider) {
@@ -115,10 +115,16 @@ class SystemTimeKeeper: public TimeKeeper {
       }
     }
 
-    /** Return the time (seconds since Epoch) of the last valid sync() call. */
+    /**
+     * Return the time (seconds since Epoch) of the last valid sync() call.
+     * Returns 0 if never synced.
+     */
     uint32_t getLastSyncTime() const {
       return mLastSyncTime;
     }
+
+    /** Return true if initialized by setNow() or sync(). */
+    bool isInit() const { return mIsInit; }
 
   protected:
     /** Return the Arduino millis(). Override for unit testing. */
@@ -145,7 +151,7 @@ class SystemTimeKeeper: public TimeKeeper {
 
     mutable uint32_t mSecondsSinceEpoch = 0; // time presented to the user
     mutable uint16_t mPrevMillis = 0;  // lower 16-bits of millis()
-    bool mIsSynced = false;
+    bool mIsInit = false; // true if setNow() or sync() was successful
     uint32_t mLastSyncTime = 0; // time when last synced
 };
 
