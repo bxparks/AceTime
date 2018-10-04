@@ -132,7 +132,6 @@ class SystemTimeKeeper: public TimeKeeper {
 
   private:
     friend class SystemTimeSyncCoroutine;
-    friend class SystemTimeHeartbeatCoroutine;
     friend class SystemTimeLoop;
 
     /**

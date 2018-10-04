@@ -37,14 +37,15 @@ class SystemTimeLoop {
       uint32_t timeSinceLastSync = nowMillis - mLastSyncMillis;
 
       // Make sure that mSecondsSinceEpoch does not fall too far behind.
-      if (timeSinceLastSync >= 5000) {
+      if (timeSinceLastSync >= mHeartbeatPeriodMillis) {
         mSystemTimeKeeper.getNow();
       }
 
       // Synchronize if a TimeProvider is available, and mSyncPeriodSeconds has
       // passed.
       if (mSystemTimeKeeper.mSyncTimeProvider != nullptr) {
-        if (timeSinceLastSync >= mSyncPeriodSeconds * (uint32_t) 1000) {
+        if (timeSinceLastSync >= mSyncPeriodSeconds
+            * (uint32_t) syncPeriodSeconds) {
           // blocking call
           uint32_t nowSeconds = mSystemTimeKeeper.mSyncTimeProvider->getNow();
           if (nowSeconds == 0) return;
