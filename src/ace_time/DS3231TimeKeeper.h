@@ -18,13 +18,13 @@ class DS3231TimeKeeper: public TimeKeeper {
 
     void setup() {}
 
-    virtual uint32_t getNow() const override {
+    uint32_t getNow() const override {
       hw::HardwareDateTime hardwareDateTime;
       mDS3231.readDateTime(&hardwareDateTime);
       return toDateTime(hardwareDateTime).toSecondsSinceEpoch();
     }
 
-    virtual void setNow(uint32_t secondsSinceEpoch) override {
+    void setNow(uint32_t secondsSinceEpoch) override {
       DateTime now(secondsSinceEpoch);
       mDS3231.setDateTime(toHardwareDateTime(now));
     }

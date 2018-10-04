@@ -44,8 +44,7 @@ class SystemTimeLoop {
       // Synchronize if a TimeProvider is available, and mSyncPeriodSeconds has
       // passed.
       if (mSystemTimeKeeper.mSyncTimeProvider != nullptr) {
-        if (timeSinceLastSync >= mSyncPeriodSeconds
-            * (uint32_t) syncPeriodSeconds) {
+        if (timeSinceLastSync >= mSyncPeriodSeconds * (uint32_t) 1000) {
           // blocking call
           uint32_t nowSeconds = mSystemTimeKeeper.mSyncTimeProvider->getNow();
           if (nowSeconds == 0) return;

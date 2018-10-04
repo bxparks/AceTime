@@ -19,7 +19,7 @@ class FullOledClock: public Clock {
       mMode = MODE_DATE_TIME;
     }
 
-    virtual void modeButtonPress() override {
+    void modeButtonPress() override {
       switch (mMode) {
         case MODE_DATE_TIME:
           mMode = MODE_TIME_ZONE;
@@ -59,7 +59,7 @@ class FullOledClock: public Clock {
       }
     }
 
-    virtual void modeButtonLongPress() override {
+    void modeButtonLongPress() override {
       switch (mMode) {
         case MODE_DATE_TIME:
           mChangingDateTime = mCurrentDateTime;
@@ -91,7 +91,7 @@ class FullOledClock: public Clock {
       }
     }
 
-    virtual void changeButtonPress() override {
+    void changeButtonPress() override {
       switch (mMode) {
         case MODE_CHANGE_YEAR:
           mSuppressBlink = true;
@@ -139,11 +139,11 @@ class FullOledClock: public Clock {
       update();
     }
 
-    virtual void changeButtonRepeatPress() override {
+    void changeButtonRepeatPress() override {
       changeButtonPress();
     }
 
-    virtual void changeButtonRelease() override {
+    void changeButtonRelease() override {
       switch (mMode) {
         case MODE_CHANGE_YEAR:
         case MODE_CHANGE_MONTH:

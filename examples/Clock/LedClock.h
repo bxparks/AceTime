@@ -20,7 +20,7 @@ class LedClock: public Clock {
       mMode = MODE_HOUR_MINUTE;
     }
 
-    virtual void modeButtonPress() override {
+    void modeButtonPress() override {
       switch (mMode) {
         case MODE_HOUR_MINUTE:
           mMode = MODE_MINUTE_SECOND;
@@ -58,7 +58,7 @@ class LedClock: public Clock {
       }
     }
 
-    virtual void modeButtonLongPress() override {
+    void modeButtonLongPress() override {
       switch (mMode) {
         case MODE_HOUR_MINUTE:
           mChangingDateTime = mCurrentDateTime;
@@ -110,7 +110,7 @@ class LedClock: public Clock {
       }
     }
 
-    virtual void changeButtonPress() override {
+    void changeButtonPress() override {
       switch (mMode) {
         case MODE_CHANGE_HOUR:
           mSuppressBlink = true;
@@ -139,11 +139,11 @@ class LedClock: public Clock {
       update();
     }
 
-    virtual void changeButtonRepeatPress() override {
+    void changeButtonRepeatPress() override {
       changeButtonPress();
     }
 
-    virtual void changeButtonRelease() override {
+    void changeButtonRelease() override {
       switch (mMode) {
         case MODE_CHANGE_YEAR:
         case MODE_CHANGE_MONTH:

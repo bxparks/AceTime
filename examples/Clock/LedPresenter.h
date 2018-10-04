@@ -42,9 +42,9 @@ class LedPresenter: public Presenter {
     }
 
   private:
-    virtual void clearDisplay() override { mDisplay.renderer->clear(); }
+    void clearDisplay() override { mDisplay.renderer->clear(); }
 
-    virtual void displayData() override {
+    void displayData() override {
       setBlinkStyle();
 
       const DateTime& dateTime = mRenderingInfo.dateTime;

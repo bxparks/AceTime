@@ -15,7 +15,7 @@ using namespace ace_time::testing;
 
 class SystemTimeKeeperTest: public TestOnce {
   protected:
-    virtual void setup() override {
+    void setup() override {
       fakeMillis = new FakeMillis();
       backupAndSyncTimeKeeper = new FakeTimeKeeper();
       systemTimeKeeper = new TestableSystemTimeKeeper(
@@ -24,7 +24,7 @@ class SystemTimeKeeperTest: public TestOnce {
       systemTimeKeeper->setup();
     }
 
-    virtual void teardown() override {
+    void teardown() override {
       delete systemTimeKeeper;
       delete backupAndSyncTimeKeeper;
       delete fakeMillis;
@@ -109,7 +109,7 @@ testF(SystemTimeKeeperTest, getNow) {
 // SystemTimeSyncCoroutine for testing purposes.
 class SystemTimeSyncCoroutineTest: public TestOnce {
   protected:
-    virtual void setup() override {
+    void setup() override {
       fakeMillis = new FakeMillis();
       backupAndSyncTimeKeeper = new FakeTimeKeeper();
       systemTimeKeeper = new TestableSystemTimeKeeper(
@@ -121,7 +121,7 @@ class SystemTimeSyncCoroutineTest: public TestOnce {
       systemTimeSyncCoroutine->setupCoroutine("systemTimeSyncCoroutine");
     }
 
-    virtual void teardown() override {
+    void teardown() override {
       delete systemTimeSyncCoroutine;
       delete systemTimeKeeper;
       delete backupAndSyncTimeKeeper;

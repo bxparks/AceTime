@@ -18,9 +18,9 @@ class OledPresenter: public Presenter {
         mOled(oled) {}
 
   private:
-    virtual void clearDisplay() override { mOled.clear(); }
+    void clearDisplay() override { mOled.clear(); }
 
-    virtual void displayData() override {
+    void displayData() override {
       mOled.home();
       mOled.setFont(lcd5x7);
       mOled.set2X();

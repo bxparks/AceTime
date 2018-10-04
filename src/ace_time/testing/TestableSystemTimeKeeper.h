@@ -20,7 +20,7 @@ class TestableSystemTimeKeeper: public SystemTimeKeeper {
         SystemTimeKeeper(syncTimeProvider, backupTimeKeeper),
         mFakeMillis(fakeMillis) {}
 
-    virtual unsigned long millis() const override {
+    unsigned long millis() const override {
       return mFakeMillis->millis();
     }
 

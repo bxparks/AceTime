@@ -66,7 +66,7 @@ class NtpTimeProvider: public TimeProvider {
 
     bool isSetup() const { return mIsSetUp; }
 
-    virtual uint32_t getNow() const override {
+    uint32_t getNow() const override {
       if (!mIsSetUp) return 0;
 
       sendRequest();
@@ -80,7 +80,7 @@ class NtpTimeProvider: public TimeProvider {
       return 0; // return 0 if unable to get the time
     }
 
-    virtual void sendRequest() const override {
+    void sendRequest() const override {
       if (!mIsSetUp) return;
 
       // discard any previously received packets
@@ -98,12 +98,12 @@ class NtpTimeProvider: public TimeProvider {
       sendNtpPacket(ntpServerIP);
     }
 
-    virtual bool isResponseReady() const override {
+    bool isResponseReady() const override {
       if (!mIsSetUp) return false;
       return mUdp.parsePacket() >= kNtpPacketSize;
     }
 
-    virtual uint32_t readResponse() const override {
+    uint32_t readResponse() const override {
       if (!mIsSetUp) return 0;
 
       // read packet into the buffer
