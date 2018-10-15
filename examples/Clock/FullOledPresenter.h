@@ -40,6 +40,7 @@ class FullOledPresenter: public Presenter {
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
+        case MODE_CHANGE_HOUR_MODE:
           displayTimeZone();
           break;
       }
@@ -116,12 +117,22 @@ class FullOledPresenter: public Presenter {
       } else {
         mOled.print("  ");
       }
+
       mOled.println();
       mOled.print("DST: ");
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
         mOled.print(timeZone.isDst() ? "on " : "off");
       } else {
         mOled.print("   ");
+      }
+
+      mOled.println();
+      mOled.print("12/24: ");
+      if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
+        mOled.print(mRenderingInfo.hourMode == StoredInfo::kTwelve
+            ? "12" : "24");
+      } else {
+        mOled.print("  ");
       }
     }
 

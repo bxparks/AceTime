@@ -25,6 +25,10 @@ class Presenter {
       mRenderingInfo.dateTime = dateTime;
     }
 
+    void setHourMode(uint8_t hourMode) {
+      mRenderingInfo.hourMode = hourMode;
+    }
+
     void setSuppressBlink(bool suppressBlink) {
       mRenderingInfo.suppressBlink = suppressBlink;
     }

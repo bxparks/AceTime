@@ -15,10 +15,8 @@ using namespace ace_time::common;
  * Class responsible for rendering the RenderingInfo to the indicated display.
  * Different subclasses output to different types of displays. In an MVC
  * architecture, this would be the Controller. The Model would be the various
- * member variables in thic class. There is no clear separation of the View
- * class in the current implementation, it is somewhat implemented in the
- * various subclasses of Clock (i.e. OledClock, FullOledClock, and LedClock).
- * TODO: Extract those out into a proper View layer.
+ * member variables in thic class. The View layer are the various Presenter
+ * classes.
  */
 class Clock {
   public:
@@ -27,8 +25,9 @@ class Clock {
 
     /**
      * Constructor.
-     * @param timeKeeper
-     * @crcEeprom
+     * @param timeKeeper source of the current time
+     * @param crcEeprom stores objects into the EEPROM with CRC
+     * @param presenter renders the date and time info to the screen
      */
     Clock(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
             Presenter& presenter):
@@ -38,18 +37,20 @@ class Clock {
         mTimeZone(0) {}
 
     void setup() {
-      // Retrieve current time from TimeKeeper.
-      uint32_t nowSeconds = mTimeKeeper.getNow();
-
       // Restore from EEPROM to retrieve time zone.
       StoredInfo storedInfo;
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
       if (isValid) {
         mTimeZone = storedInfo.timeZone;
+        mHourMode = storedInfo.hourMode;
       } else {
         mTimeZone = TimeZone(kDefaultTzCode);
+        mHourMode = StoredInfo::kTwentyFour;
       }
+
+      // Retrieve current time from TimeKeeper.
+      uint32_t nowSeconds = mTimeKeeper.getNow();
 
       // Set the current date time using the mTimeZone.
       mCurrentDateTime = DateTime(nowSeconds, mTimeZone);
@@ -128,6 +129,7 @@ class Clock {
         case MODE_WEEKDAY:
         case MODE_TIME_ZONE:
           mPresenter.setDateTime(mCurrentDateTime);
+          mPresenter.setHourMode(mHourMode);
           break;
 
         case MODE_CHANGE_YEAR:
@@ -139,7 +141,9 @@ class Clock {
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
+        case MODE_CHANGE_HOUR_MODE:
           mPresenter.setDateTime(mChangingDateTime);
+          mPresenter.setHourMode(mHourMode);
           break;
       }
     }
@@ -152,7 +156,7 @@ class Clock {
     void saveTimeZone() {
       mTimeZone = mChangingDateTime.timeZone();
       mCurrentDateTime = mCurrentDateTime.convertToTimeZone(mTimeZone);
-      preserveInfo(); // save mTimeZone in EEPROM
+      preserveInfo(); // save mTimeZone
     }
 
     /** Read the UTC DateTime from RTC and convert to current time zone. */
@@ -164,6 +168,8 @@ class Clock {
     void preserveInfo() {
       StoredInfo storedInfo;
       storedInfo.timeZone = mTimeZone;
+      storedInfo.hourMode = mHourMode;
+
       mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
           sizeof(StoredInfo));
     }
@@ -179,6 +185,7 @@ class Clock {
     DateTime mChangingDateTime; // DateTime set by user in "Change" modes
     bool mSecondFieldCleared;
     bool mSuppressBlink; // true if blinking should be suppressed
+    uint8_t mHourMode = 0; // 12/24 mode
 
     bool mBlinkShowState = true; // true means actually show
     uint16_t mBlinkCycleStartMillis = 0; // millis since blink cycle start
