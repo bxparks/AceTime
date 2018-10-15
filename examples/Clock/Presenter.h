@@ -64,7 +64,8 @@ class Presenter {
           || (!mRenderingInfo.suppressBlink
               && (mRenderingInfo.blinkShowState
                   != mPrevRenderingInfo.blinkShowState))
-          || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime;
+          || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime
+          || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode;
     }
 
     RenderingInfo mRenderingInfo;

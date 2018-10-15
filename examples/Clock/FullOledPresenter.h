@@ -73,7 +73,17 @@ class FullOledPresenter: public Presenter {
 
       // time
       if (shouldShowFor(MODE_CHANGE_HOUR)) {
-        printPad2(mOled, dateTime.hour());
+        uint8_t hour = dateTime.hour();
+        if (mRenderingInfo.hourMode == StoredInfo::kTwelve) {
+          if (hour == 0) {
+            hour = 12;
+          } else if (hour > 12) {
+            hour -= 12;
+          }
+          printPad2(mOled, hour, ' ');
+        } else {
+          printPad2(mOled, hour);
+        }
       } else {
         mOled.print("  ");
       }
@@ -88,6 +98,11 @@ class FullOledPresenter: public Presenter {
         printPad2(mOled, dateTime.second());
       } else {
         mOled.print("  ");
+      }
+
+      mOled.print(' ');
+      if (mRenderingInfo.hourMode == StoredInfo::kTwelve) {
+        mOled.print((dateTime.hour() < 12) ? 'A' : 'P');
       }
       mOled.clearToEOL();
       mOled.println();
