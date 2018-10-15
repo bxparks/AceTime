@@ -22,8 +22,8 @@ class FullOledPresenter: public Presenter {
 
     void displayData() override {
       mOled.home();
-      mOled.setFont(lcd5x7);
-      mOled.set2X();
+      mOled.setFont(fixed_bold10x15);
+      //mOled.set2X();
 
       switch (mRenderingInfo.mode) {
         case MODE_DATE_TIME:
@@ -99,10 +99,9 @@ class FullOledPresenter: public Presenter {
       } else {
         mOled.print("  ");
       }
-
       mOled.print(' ');
       if (mRenderingInfo.hourMode == StoredInfo::kTwelve) {
-        mOled.print((dateTime.hour() < 12) ? 'A' : 'P');
+        mOled.print((dateTime.hour() < 12) ? "AM" : "PM");
       }
       mOled.clearToEOL();
       mOled.println();
