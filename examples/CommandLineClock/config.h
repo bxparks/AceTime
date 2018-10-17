@@ -12,7 +12,7 @@
 
 #if defined(AUNITER_NANO)
   #define USE_DS3231
-#elif defined(AUNITER_LEONARDO)
+#elif defined(AUNITER_MICRO)
   #define USE_DS3231
 #elif defined(AUNITER_ESP8266)
   #define USE_NTP
