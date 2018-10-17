@@ -16,23 +16,17 @@
 #define TIME_SOURCE_TYPE_NTP 2
 #define TIME_SOURCE_TYPE_BOTH 3
 
-#ifndef AUNITER
-  #define AUNITER_WORLD_CLOCK
-  #warning Using default AUNITER_WORLD_CLOCK
-#endif
-
-#if defined(AUNITER_WORLD_CLOCK)
-  #define MODE_BUTTON_PIN 8
-  #define CHANGE_BUTTON_PIN 9
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
-  #define OLED_REMAP false
-  #define OLED_CS0_PIN 18
-  #define OLED_CS1_PIN 19
-  #define OLED_CS2_PIN 20
-  #define OLED_RST_PIN 4
-  #define OLED_DC_PIN 10
-#else
-  #error Unknown AUNITER environment
-#endif
+// This program should compile for most target environments, including
+// AVR, ESP8266, and ESP32. The parameters below are for a Pro Micro
+// with 3 OLED displays.
+#define MODE_BUTTON_PIN 8
+#define CHANGE_BUTTON_PIN 9
+#define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
+#define OLED_REMAP false
+#define OLED_CS0_PIN 18
+#define OLED_CS1_PIN 19
+#define OLED_CS2_PIN 20
+#define OLED_RST_PIN 4
+#define OLED_DC_PIN 10
 
 #endif
