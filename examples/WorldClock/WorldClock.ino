@@ -17,7 +17,7 @@
 #include <ace_time/hw/CrcEeprom.h>
 #include "SSD1306AsciiSpi.h"
 #include "config.h"
-#include "FullOledClock.h"
+#include "Controller.h"
 
 using namespace ace_button;
 using namespace ace_routine;
@@ -71,17 +71,16 @@ void setupOled() {
 // the DISPLAY_TYPE.
 //------------------------------------------------------------------
 
-FullOledPresenter presenter(oled0);
-FullOledClock clock(systemTimeKeeper, crcEeprom, presenter);
+Presenter presenter(oled0);
+Controller controller(systemTimeKeeper, crcEeprom, presenter);
 
 // The RTC has a resolution of only 1s, so we need to poll it fast enough to
 // make it appear that the display is tracking it correctly. The benchmarking
-// code says that clock.display() runs as fast as or faster than 1ms for all
-// DISPLAY_TYPEs. So we can set this to 100ms without worrying about too
-// much overhead.
-COROUTINE(displayClock) {
+// code says that controller.update() runs faster than 1ms so we can set this
+// to 100ms without worrying about too much overhead.
+COROUTINE(updateController) {
   COROUTINE_LOOP() {
-    clock.update();
+    controller.update();
     COROUTINE_DELAY(100);
   }
 }
@@ -100,10 +99,10 @@ void handleModeButton(AceButton* /* button */, uint8_t eventType,
     uint8_t /* buttonState */) {
   switch (eventType) {
     case AceButton::kEventReleased:
-      clock.modeButtonPress();
+      controller.modeButtonPress();
       break;
     case AceButton::kEventLongPressed:
-      clock.modeButtonLongPress();
+      controller.modeButtonLongPress();
       break;
   }
 }
@@ -112,13 +111,13 @@ void handleChangeButton(AceButton* /* button */, uint8_t eventType,
     uint8_t /* buttonState */) {
   switch (eventType) {
     case AceButton::kEventPressed:
-      clock.changeButtonPress();
+      controller.changeButtonPress();
       break;
     case AceButton::kEventReleased:
-      clock.changeButtonRelease();
+      controller.changeButtonRelease();
       break;
     case AceButton::kEventRepeatPressed:
-      clock.changeButtonRepeatPress();
+      controller.changeButtonRepeatPress();
       break;
   }
 }
@@ -179,7 +178,7 @@ void setup() {
 
   dsTimeKeeper.setup();
   systemTimeKeeper.setup();
-  clock.setup();
+  controller.setup();
 
   systemTimeSync.setupCoroutine(F("systemTimeSync"));
   systemTimeHeartbeat.setupCoroutine(F("systemTimeHeartbeat"));

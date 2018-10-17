@@ -1,5 +1,5 @@
-#ifndef CLOCK_CLOCK_H
-#define CLOCK_CLOCK_H
+#ifndef WORLD_CLOCK_CONTROLLER_H
+#define WORLD_CLOCK_CONTROLLER_H
 
 #include <AceTime.h>
 #include <ace_time/hw/CrcEeprom.h>
@@ -12,13 +12,12 @@ using namespace ace_time;
 using namespace ace_time::common;
 
 /**
- * Class responsible for rendering the RenderingInfo to the indicated display.
- * Different subclasses output to different types of displays. In an MVC
+ * Maintains the internal state of the world clock, handling button inputs,
+ * and calling out to the Presenter to display the clock. In an MVC
  * architecture, this would be the Controller. The Model would be the various
- * member variables in thic class. The View layer are the various Presenter
- * classes.
+ * member variables in thic class. The View layer is the Presenter class.
  */
-class Clock {
+class Controller {
   public:
     static const uint16_t kStoredInfoEepromAddress = 0;
     static const int8_t kDefaultTzCode = -32; // Pacific Standard Time, -08:00
@@ -29,11 +28,12 @@ class Clock {
      * @param crcEeprom stores objects into the EEPROM with CRC
      * @param presenter renders the date and time info to the screen
      */
-    Clock(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
+    Controller(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
             Presenter& presenter):
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),
         mPresenter(presenter),
+        mMode(MODE_DATE_TIME),
         mTimeZone(0) {}
 
     void setup() {
@@ -62,23 +62,160 @@ class Clock {
      */
     void update() {
       if (mMode == MODE_UNKNOWN) return;
-      if (mIsPreparingToSleep) return;
       updateDateTime();
       updateBlinkState();
       updateRenderingInfo();
       mPresenter.display();
     }
 
-    virtual void modeButtonPress() = 0;
+    void modeButtonPress() {
+      switch (mMode) {
+        case MODE_DATE_TIME:
+          mMode = MODE_TIME_ZONE;
+          break;
+        case MODE_TIME_ZONE:
+          mMode = MODE_DATE_TIME;
+          break;
 
-    virtual void modeButtonLongPress() = 0;
+        case MODE_CHANGE_YEAR:
+          mMode = MODE_CHANGE_MONTH;
+          break;
+        case MODE_CHANGE_MONTH:
+          mMode = MODE_CHANGE_DAY;
+          break;
+        case MODE_CHANGE_DAY:
+          mMode = MODE_CHANGE_HOUR;
+          break;
+        case MODE_CHANGE_HOUR:
+          mMode = MODE_CHANGE_MINUTE;
+          break;
+        case MODE_CHANGE_MINUTE:
+          mMode = MODE_CHANGE_SECOND;
+          break;
+        case MODE_CHANGE_SECOND:
+          mMode = MODE_CHANGE_YEAR;
+          break;
 
-    virtual void changeButtonPress() = 0;
+        case MODE_CHANGE_TIME_ZONE_HOUR:
+          mMode = MODE_CHANGE_TIME_ZONE_MINUTE;
+          break;
+        case MODE_CHANGE_TIME_ZONE_MINUTE:
+          mMode = MODE_CHANGE_TIME_ZONE_DST;
+          break;
+        case MODE_CHANGE_TIME_ZONE_DST:
+          mMode = MODE_CHANGE_HOUR_MODE;
+          break;
+        case MODE_CHANGE_HOUR_MODE:
+          mMode = MODE_CHANGE_TIME_ZONE_HOUR;
+          break;
+      }
+    }
 
-    virtual void changeButtonRelease() = 0;
+    void modeButtonLongPress() {
+      switch (mMode) {
+        case MODE_DATE_TIME:
+          mChangingDateTime = mCurrentDateTime;
+          mSecondFieldCleared = false;
+          mMode = MODE_CHANGE_YEAR;
+          break;
 
-    virtual void changeButtonRepeatPress() = 0;
+        case MODE_CHANGE_YEAR:
+        case MODE_CHANGE_MONTH:
+        case MODE_CHANGE_DAY:
+        case MODE_CHANGE_HOUR:
+        case MODE_CHANGE_MINUTE:
+        case MODE_CHANGE_SECOND:
+          saveDateTime();
+          mMode = MODE_DATE_TIME;
+          break;
 
+        case MODE_TIME_ZONE:
+          mChangingDateTime.timeZone(mTimeZone);
+          mMode = MODE_CHANGE_TIME_ZONE_HOUR;
+          break;
+
+        case MODE_CHANGE_TIME_ZONE_HOUR:
+        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_DST:
+        case MODE_CHANGE_HOUR_MODE:
+          saveTimeZone();
+          mMode = MODE_TIME_ZONE;
+          break;
+      }
+    }
+
+    void changeButtonPress() {
+      switch (mMode) {
+        case MODE_CHANGE_YEAR:
+          mSuppressBlink = true;
+          mChangingDateTime.incrementYear();
+          break;
+        case MODE_CHANGE_MONTH:
+          mSuppressBlink = true;
+          mChangingDateTime.incrementMonth();
+          break;
+        case MODE_CHANGE_DAY:
+          mSuppressBlink = true;
+          mChangingDateTime.incrementDay();
+          break;
+        case MODE_CHANGE_HOUR:
+          mSuppressBlink = true;
+          mChangingDateTime.incrementHour();
+          break;
+        case MODE_CHANGE_MINUTE:
+          mSuppressBlink = true;
+          mChangingDateTime.incrementMinute();
+          break;
+        case MODE_CHANGE_SECOND:
+          mSuppressBlink = true;
+          mChangingDateTime.second(0);
+          mSecondFieldCleared = true;
+          break;
+
+        case MODE_CHANGE_TIME_ZONE_HOUR:
+          mSuppressBlink = true;
+          mChangingDateTime.timeZone().incrementHour();
+          break;
+        case MODE_CHANGE_TIME_ZONE_MINUTE:
+          mSuppressBlink = true;
+          mChangingDateTime.timeZone().increment15Minutes();
+          break;
+        case MODE_CHANGE_TIME_ZONE_DST:
+          mSuppressBlink = true;
+          mChangingDateTime.timeZone().isDst(
+              !mChangingDateTime.timeZone().isDst());
+          break;
+        case MODE_CHANGE_HOUR_MODE:
+          mSuppressBlink = true;
+          mHourMode = 1 - mHourMode;
+          break;
+      }
+
+      // Update the display right away to prevent jitters in the display when
+      // the button is triggering RepeatPressed events.
+      update();
+    }
+
+    void changeButtonRepeatPress() {
+      changeButtonPress();
+    }
+
+    void changeButtonRelease() {
+      switch (mMode) {
+        case MODE_CHANGE_YEAR:
+        case MODE_CHANGE_MONTH:
+        case MODE_CHANGE_DAY:
+        case MODE_CHANGE_HOUR:
+        case MODE_CHANGE_MINUTE:
+        case MODE_CHANGE_SECOND:
+        case MODE_CHANGE_TIME_ZONE_HOUR:
+        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_DST:
+        case MODE_CHANGE_HOUR_MODE:
+          mSuppressBlink = false;
+          break;
+      }
+    }
   protected:
     void updateDateTime() {
       mCurrentDateTime = DateTime(mTimeKeeper.getNow(), mTimeZone);
@@ -119,14 +256,6 @@ class Clock {
 
       switch (mMode) {
         case MODE_DATE_TIME:
-#if DISPLAY_TYPE == DISPLAY_TYPE_LED || DISPLAY_TYPE == DISPLAY_TYPE_OLED
-        case MODE_HOUR_MINUTE:
-        case MODE_MINUTE_SECOND:
-        case MODE_YEAR:
-        case MODE_MONTH:
-        case MODE_DAY:
-#endif
-        case MODE_WEEKDAY:
         case MODE_TIME_ZONE:
           mPresenter.setDateTime(mCurrentDateTime);
           mPresenter.setHourMode(mHourMode);
@@ -174,12 +303,16 @@ class Clock {
           sizeof(StoredInfo));
     }
 
-  protected:
+  private:
+    // Disable copy-constructor and assignment operator
+    Controller(const Controller&) = delete;
+    Controller& operator=(const Controller&) = delete;
+
     TimeKeeper& mTimeKeeper;
     hw::CrcEeprom& mCrcEeprom;
     Presenter& mPresenter;
 
-    uint8_t mMode = MODE_UNKNOWN; // current mode
+    uint8_t mMode; // current mode
     TimeZone mTimeZone; // current time zone of clock
     DateTime mCurrentDateTime; // DateTime from the TimeKeeper
     DateTime mChangingDateTime; // DateTime set by user in "Change" modes
@@ -189,7 +322,6 @@ class Clock {
 
     bool mBlinkShowState = true; // true means actually show
     uint16_t mBlinkCycleStartMillis = 0; // millis since blink cycle start
-    bool mIsPreparingToSleep = false;
 };
 
 #endif

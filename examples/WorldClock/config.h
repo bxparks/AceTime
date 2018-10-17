@@ -7,6 +7,8 @@
 
 #define ENABLE_SERIAL 0
 
+// Needed by ESP32 chips. Has no effect on other chips.
+// Should be bigger than (sizeof(crc32) + sizeof(StoredInfo)).
 #define EEPROM_SIZE 32
 
 #define TIME_SOURCE_TYPE_NONE 0

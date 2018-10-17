@@ -8,14 +8,6 @@ using namespace ace_time;
 
 static const uint8_t MODE_UNKNOWN = 0; // uninitialized
 static const uint8_t MODE_DATE_TIME = 1;
-#if DISPLAY_TYPE == DISPLAY_TYPE_LED || DISPLAY_TYPE == DISPLAY_TYPE_OLED
-static const uint8_t MODE_HOUR_MINUTE = 2;
-static const uint8_t MODE_MINUTE_SECOND = 3;
-static const uint8_t MODE_YEAR = 4;
-static const uint8_t MODE_MONTH = 5;
-static const uint8_t MODE_DAY = 6;
-#endif
-static const uint8_t MODE_WEEKDAY = 7;
 static const uint8_t MODE_TIME_ZONE = 8;
 static const uint8_t MODE_CHANGE_YEAR = 10;
 static const uint8_t MODE_CHANGE_MONTH = 11;
