@@ -72,12 +72,12 @@ class Presenter {
           displayDateTime();
           break;
 
-        case MODE_TIME_ZONE:
+        case MODE_CLOCK_INFO:
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
         case MODE_CHANGE_HOUR_MODE:
-          displayTimeZone();
+          displayClockInfo();
           break;
       }
     }
@@ -153,7 +153,7 @@ class Presenter {
       mOled.clearToEOL();
     }
 
-    void displayTimeZone() const {
+    void displayClockInfo() const {
       const TimeZone& timeZone = mRenderingInfo.clockInfo.timeZone;
       int8_t sign;
       uint8_t hour;

@@ -43,7 +43,11 @@ class Controller {
       StoredInfo storedInfo;
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
-      if (!isValid) {
+      if (isValid) {
+        mClockInfo0 = storedInfo.clock0;
+        mClockInfo1 = storedInfo.clock1;
+        mClockInfo2 = storedInfo.clock2;
+      } else {
         strncpy(mClockInfo0.name, "SFO - PDT", ClockInfo::kNameSize);
         mClockInfo0.timeZone = TimeZone::forHour(-8).isDst(true);
 
@@ -52,6 +56,8 @@ class Controller {
 
         strncpy(mClockInfo2.name, "LHR - BST", ClockInfo::kNameSize);
         mClockInfo2.timeZone = TimeZone::forHour(0).isDst(true);
+
+        preserveInfo();
       }
     }
 
@@ -73,9 +79,9 @@ class Controller {
     void modeButtonPress() {
       switch (mMode) {
         case MODE_DATE_TIME:
-          mMode = MODE_TIME_ZONE;
+          mMode = MODE_CLOCK_INFO;
           break;
-        case MODE_TIME_ZONE:
+        case MODE_CLOCK_INFO:
           mMode = MODE_DATE_TIME;
           break;
 
@@ -133,7 +139,7 @@ class Controller {
           mMode = MODE_DATE_TIME;
           break;
 
-        case MODE_TIME_ZONE:
+        case MODE_CLOCK_INFO:
           mChangingClockInfo = mClockInfo0;
           mMode = MODE_CHANGE_TIME_ZONE_HOUR;
           break;
@@ -142,8 +148,8 @@ class Controller {
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
         case MODE_CHANGE_HOUR_MODE:
-          saveTimeZone();
-          mMode = MODE_TIME_ZONE;
+          saveClockInfo();
+          mMode = MODE_CLOCK_INFO;
           break;
       }
     }
@@ -265,7 +271,7 @@ class Controller {
 
       switch (mMode) {
         case MODE_DATE_TIME:
-        case MODE_TIME_ZONE:
+        case MODE_CLOCK_INFO:
           presenter.setNow(mTimeKeeper.getNow());
           presenter.setClockInfo(clockInfo);
           break;
@@ -292,7 +298,7 @@ class Controller {
       mTimeKeeper.setNow(mChangingDateTime.toSecondsSinceEpoch());
     }
 
-    void saveTimeZone() {
+    void saveClockInfo() {
       mClockInfo0 = mChangingClockInfo;
 
       mClockInfo1.hourMode = mChangingClockInfo.hourMode;
@@ -301,7 +307,7 @@ class Controller {
       mClockInfo2.hourMode = mChangingClockInfo.hourMode;
       mClockInfo2.timeZone.isDst(mChangingClockInfo.timeZone.isDst());
 
-      preserveInfo(); // save mTimeZone
+      preserveInfo();
     }
 
     /** Read the UTC DateTime from RTC and convert to current time zone. */
