@@ -49,12 +49,15 @@ class Controller {
         mClockInfo2 = storedInfo.clock2;
       } else {
         strncpy(mClockInfo0.name, "SFO - PDT", ClockInfo::kNameSize);
+        mClockInfo0.name[ClockInfo::kNameSize - 1] = '\0';
         mClockInfo0.timeZone = TimeZone::forHour(-8).isDst(true);
 
         strncpy(mClockInfo1.name, "PHL - EDT", ClockInfo::kNameSize);
+        mClockInfo1.name[ClockInfo::kNameSize - 1] = '\0';
         mClockInfo1.timeZone = TimeZone::forHour(-5).isDst(true);
 
         strncpy(mClockInfo2.name, "LHR - BST", ClockInfo::kNameSize);
+        mClockInfo2.name[ClockInfo::kNameSize - 1] = '\0';
         mClockInfo2.timeZone = TimeZone::forHour(0).isDst(true);
 
         preserveInfo();
