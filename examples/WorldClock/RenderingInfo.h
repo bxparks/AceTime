@@ -13,10 +13,10 @@ using namespace ace_time;
  */ 
 struct RenderingInfo {
   uint8_t mode = MODE_UNKNOWN; // display mode
-  DateTime dateTime; // the current or user-configured time
   bool suppressBlink = false; // true if blinking should be suppressed
   bool blinkShowState = true; // true if blinking info should be shown
-  uint8_t hourMode = ClockInfo::kTwentyFour; // 12/24 mode
+  uint32_t now; // seconds from AceTime epoch
+  ClockInfo clockInfo; // time zone and other info about the clock
 };
 
 #endif

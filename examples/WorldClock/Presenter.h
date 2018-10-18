@@ -33,12 +33,12 @@ class Presenter {
       mRenderingInfo.mode = mode;
     }
 
-    void setDateTime(const DateTime& dateTime) {
-      mRenderingInfo.dateTime = dateTime;
+    void setNow(uint32_t now) {
+      mRenderingInfo.now = now;
     }
 
-    void setHourMode(uint8_t hourMode) {
-      mRenderingInfo.hourMode = hourMode;
+    void setClockInfo(const ClockInfo& clockInfo) {
+      mRenderingInfo.clockInfo = clockInfo;
     }
 
     void setSuppressBlink(bool suppressBlink) {
@@ -83,7 +83,8 @@ class Presenter {
     }
 
     void displayDateTime() const {
-      const DateTime& dateTime = mRenderingInfo.dateTime;
+      const DateTime dateTime(mRenderingInfo.now,
+          mRenderingInfo.clockInfo.timeZone);
 
       // date
       if (shouldShowFor(MODE_CHANGE_YEAR)) {
@@ -105,12 +106,12 @@ class Presenter {
         mOled.print("  ");
       }
       mOled.clearToEOL();
-      mOled.println();
 
       // time
+      mOled.println();
       if (shouldShowFor(MODE_CHANGE_HOUR)) {
         uint8_t hour = dateTime.hour();
-        if (mRenderingInfo.hourMode == ClockInfo::kTwelve) {
+        if (mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve) {
           if (hour == 0) {
             hour = 12;
           } else if (hour > 12) {
@@ -136,19 +137,24 @@ class Presenter {
         mOled.print("  ");
       }
       mOled.print(' ');
-      if (mRenderingInfo.hourMode == ClockInfo::kTwelve) {
+      if (mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve) {
         mOled.print((dateTime.hour() < 12) ? "AM" : "PM");
       }
       mOled.clearToEOL();
-      mOled.println();
 
       // week day
+      mOled.println();
       mOled.print(DateStrings().weekDayLongString(dateTime.dayOfWeek()));
+      mOled.clearToEOL();
+
+      // place name
+      mOled.println();
+      mOled.print(mRenderingInfo.clockInfo.name);
       mOled.clearToEOL();
     }
 
     void displayTimeZone() const {
-      const TimeZone& timeZone = mRenderingInfo.dateTime.timeZone();
+      const TimeZone& timeZone = mRenderingInfo.clockInfo.timeZone;
       int8_t sign;
       uint8_t hour;
       uint8_t minute;
@@ -179,7 +185,7 @@ class Presenter {
       mOled.println();
       mOled.print("12/24: ");
       if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
-        mOled.print(mRenderingInfo.hourMode == ClockInfo::kTwelve
+        mOled.print(mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve
             ? "12" : "24");
       } else {
         mOled.print("  ");
@@ -209,8 +215,11 @@ class Presenter {
           || (!mRenderingInfo.suppressBlink
               && (mRenderingInfo.blinkShowState
                   != mPrevRenderingInfo.blinkShowState))
-          || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime
-          || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode;
+          || mRenderingInfo.now != mPrevRenderingInfo.now
+          || mRenderingInfo.clockInfo.timeZone
+              != mPrevRenderingInfo.clockInfo.timeZone
+          || mRenderingInfo.clockInfo.hourMode
+              != mPrevRenderingInfo.clockInfo.hourMode;
     }
 
   private:

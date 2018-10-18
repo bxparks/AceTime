@@ -44,21 +44,15 @@ class Controller {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
       if (!isValid) {
-        strncpy(mClock0.name, "SFO - PDT", ClockInfo::kNameSize);
-        mClock0.timeZone = TimeZone::forHour(-8).isDst(true);
+        strncpy(mClockInfo0.name, "SFO - PDT", ClockInfo::kNameSize);
+        mClockInfo0.timeZone = TimeZone::forHour(-8).isDst(true);
 
-        strncpy(mClock1.name, "PHL - EDT", ClockInfo::kNameSize);
-        mClock1.timeZone = TimeZone::forHour(-5).isDst(true);
+        strncpy(mClockInfo1.name, "PHL - EDT", ClockInfo::kNameSize);
+        mClockInfo1.timeZone = TimeZone::forHour(-5).isDst(true);
 
-        strncpy(mClock2.name, "LHR - BST", ClockInfo::kNameSize);
-        mClock2.timeZone = TimeZone::forHour(0).isDst(true);
+        strncpy(mClockInfo2.name, "LHR - BST", ClockInfo::kNameSize);
+        mClockInfo2.timeZone = TimeZone::forHour(0).isDst(true);
       }
-
-      // Retrieve current time from TimeKeeper.
-      uint32_t nowSeconds = mTimeKeeper.getNow();
-
-      // Set the current date time using the mTimeZone of clock0.
-      mCurrentDateTime = DateTime(nowSeconds, mClock0.timeZone);
     }
 
     /**
@@ -122,7 +116,9 @@ class Controller {
     void modeButtonLongPress() {
       switch (mMode) {
         case MODE_DATE_TIME:
-          mChangingDateTime = mCurrentDateTime;
+          mChangingDateTime = DateTime(mTimeKeeper.getNow(),
+              mClockInfo0.timeZone);
+          mChangingClockInfo = mClockInfo0;
           mSecondFieldCleared = false;
           mMode = MODE_CHANGE_YEAR;
           break;
@@ -138,7 +134,7 @@ class Controller {
           break;
 
         case MODE_TIME_ZONE:
-          mChangingDateTime.timeZone(mClock0.timeZone);
+          mChangingClockInfo = mClockInfo0;
           mMode = MODE_CHANGE_TIME_ZONE_HOUR;
           break;
 
@@ -182,20 +178,20 @@ class Controller {
 
         case MODE_CHANGE_TIME_ZONE_HOUR:
           mSuppressBlink = true;
-          mChangingDateTime.timeZone().incrementHour();
+          mChangingClockInfo.timeZone.incrementHour();
           break;
         case MODE_CHANGE_TIME_ZONE_MINUTE:
           mSuppressBlink = true;
-          mChangingDateTime.timeZone().increment15Minutes();
+          mChangingClockInfo.timeZone.increment15Minutes();
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
-          mChangingDateTime.timeZone().isDst(
-              !mChangingDateTime.timeZone().isDst());
+          mChangingClockInfo.timeZone.isDst(
+              !mChangingClockInfo.timeZone.isDst());
           break;
         case MODE_CHANGE_HOUR_MODE:
           mSuppressBlink = true;
-          mHourMode = 1 - mHourMode;
+          mChangingClockInfo.hourMode = 1 - mChangingClockInfo.hourMode;
           break;
       }
 
@@ -226,8 +222,6 @@ class Controller {
     }
   protected:
     void updateDateTime() {
-      mCurrentDateTime = DateTime(mTimeKeeper.getNow());
-
       // If in CHANGE mode, and the 'second' field has not been cleared,
       // update the mChangingDateTime.second field with the current second.
       switch (mMode) {
@@ -238,7 +232,8 @@ class Controller {
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
           if (!mSecondFieldCleared) {
-            mChangingDateTime.second(mCurrentDateTime.second());
+            DateTime dt = DateTime(mTimeKeeper.getNow());
+            mChangingDateTime.second(dt.second());
           }
           break;
       }
@@ -258,9 +253,9 @@ class Controller {
     }
 
     void updateRenderingInfo() {
-      updatePresenter(mPresenter0, mClock0);
-      updatePresenter(mPresenter1, mClock1);
-      updatePresenter(mPresenter2, mClock2);
+      updatePresenter(mPresenter0, mClockInfo0);
+      updatePresenter(mPresenter1, mClockInfo1);
+      updatePresenter(mPresenter2, mClockInfo2);
     }
 
     void updatePresenter(Presenter& presenter, ClockInfo& clockInfo) {
@@ -271,9 +266,8 @@ class Controller {
       switch (mMode) {
         case MODE_DATE_TIME:
         case MODE_TIME_ZONE:
-          presenter.setDateTime(
-              mCurrentDateTime.convertToTimeZone(clockInfo.timeZone));
-          presenter.setHourMode(clockInfo.hourMode);
+          presenter.setNow(mTimeKeeper.getNow());
+          presenter.setClockInfo(clockInfo);
           break;
 
         case MODE_CHANGE_YEAR:
@@ -285,10 +279,11 @@ class Controller {
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
-        case MODE_CHANGE_HOUR_MODE:
-          presenter.setDateTime(mChangingDateTime);
-          presenter.setHourMode(clockInfo.hourMode);
+        case MODE_CHANGE_HOUR_MODE: {
+          presenter.setNow(mChangingDateTime.toSecondsSinceEpoch());
+          presenter.setClockInfo(mChangingClockInfo);
           break;
+        }
       }
     }
 
@@ -298,22 +293,28 @@ class Controller {
     }
 
     void saveTimeZone() {
-      mClock0.timeZone = mChangingDateTime.timeZone();
-      mCurrentDateTime = mCurrentDateTime.convertToTimeZone(mClock0.timeZone);
+      mClockInfo0 = mChangingClockInfo;
+
+      mClockInfo1.hourMode = mChangingClockInfo.hourMode;
+      mClockInfo1.timeZone.isDst(mChangingClockInfo.timeZone.isDst());
+
+      mClockInfo2.hourMode = mChangingClockInfo.hourMode;
+      mClockInfo2.timeZone.isDst(mChangingClockInfo.timeZone.isDst());
+
       preserveInfo(); // save mTimeZone
     }
 
     /** Read the UTC DateTime from RTC and convert to current time zone. */
     void readDateTime(DateTime* dateTime) {
       uint32_t now = mTimeKeeper.getNow();
-      *dateTime = DateTime(now, mClock0.timeZone);
+      *dateTime = DateTime(now, mClockInfo0.timeZone);
     }
 
     void preserveInfo() {
       StoredInfo storedInfo;
-      storedInfo.clock0 = mClock0;
-      storedInfo.clock1 = mClock1;
-      storedInfo.clock2 = mClock2;
+      storedInfo.clock0 = mClockInfo0;
+      storedInfo.clock1 = mClockInfo1;
+      storedInfo.clock2 = mClockInfo2;
 
       mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
           sizeof(StoredInfo));
@@ -329,16 +330,16 @@ class Controller {
     Presenter& mPresenter0;
     Presenter& mPresenter1;
     Presenter& mPresenter2;
-    ClockInfo mClock0;
-    ClockInfo mClock1;
-    ClockInfo mClock2;
+    ClockInfo mClockInfo0;
+    ClockInfo mClockInfo1;
+    ClockInfo mClockInfo2;
 
     uint8_t mMode; // current mode
-    DateTime mCurrentDateTime; // DateTime from the TimeKeeper
     DateTime mChangingDateTime; // DateTime set by user in "Change" modes
+    ClockInfo mChangingClockInfo; // ClockInfo set by user in "Change" modes
+
     bool mSecondFieldCleared;
     bool mSuppressBlink; // true if blinking should be suppressed
-    uint8_t mHourMode = 0; // 12/24 mode
 
     bool mBlinkShowState = true; // true means actually show
     uint16_t mBlinkCycleStartMillis = 0; // millis since blink cycle start
