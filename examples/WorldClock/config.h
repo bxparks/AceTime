@@ -7,10 +7,6 @@
 
 #define ENABLE_SERIAL 0
 
-// Needed by ESP32 chips. Has no effect on other chips.
-// Should be bigger than (sizeof(crc32) + sizeof(StoredInfo)).
-#define EEPROM_SIZE 32
-
 #define TIME_SOURCE_TYPE_NONE 0
 #define TIME_SOURCE_TYPE_DS3231 1
 #define TIME_SOURCE_TYPE_NTP 2
@@ -28,5 +24,23 @@
 #define OLED_CS2_PIN 20
 #define OLED_RST_PIN 4
 #define OLED_DC_PIN 10
+
+//------------------------------------------------------------------
+// Rendering modes.
+//------------------------------------------------------------------
+
+static const uint8_t MODE_UNKNOWN = 0; // uninitialized
+static const uint8_t MODE_DATE_TIME = 1;
+static const uint8_t MODE_TIME_ZONE = 8;
+static const uint8_t MODE_CHANGE_YEAR = 10;
+static const uint8_t MODE_CHANGE_MONTH = 11;
+static const uint8_t MODE_CHANGE_DAY = 12;
+static const uint8_t MODE_CHANGE_HOUR = 13;
+static const uint8_t MODE_CHANGE_MINUTE = 14;
+static const uint8_t MODE_CHANGE_SECOND = 15;
+static const uint8_t MODE_CHANGE_TIME_ZONE_HOUR = 16;
+static const uint8_t MODE_CHANGE_TIME_ZONE_MINUTE = 17;
+static const uint8_t MODE_CHANGE_TIME_ZONE_DST = 18;
+static const uint8_t MODE_CHANGE_HOUR_MODE = 19;
 
 #endif

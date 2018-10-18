@@ -15,8 +15,9 @@
 #include <AceRoutine.h>
 #include <AceTime.h>
 #include <ace_time/hw/CrcEeprom.h>
-#include "SSD1306AsciiSpi.h"
+#include <SSD1306AsciiSpi.h>
 #include "config.h"
+#include "ClockInfo.h"
 #include "Controller.h"
 
 using namespace ace_button;
@@ -26,6 +27,10 @@ using namespace ace_time;
 //------------------------------------------------------------------
 // Configure CrcEeprom.
 //------------------------------------------------------------------
+
+// Needed by ESP32 chips. Has no effect on other chips.
+// Should be bigger than (sizeof(crc32) + sizeof(StoredInfo)).
+#define EEPROM_SIZE (3 * sizeof(ClockInfo) + sizeof(uint32_t))
 
 hw::CrcEeprom crcEeprom;
 
@@ -67,12 +72,14 @@ void setupOled() {
 }
 
 //------------------------------------------------------------------
-// Create an appropriate controller/presenter pair depending on
-// the DISPLAY_TYPE.
+// Create an appropriate controller/presenter pair.
 //------------------------------------------------------------------
 
-Presenter presenter(oled0);
-Controller controller(systemTimeKeeper, crcEeprom, presenter);
+Presenter presenter0(oled0);
+Presenter presenter1(oled1);
+Presenter presenter2(oled2);
+Controller controller(systemTimeKeeper, crcEeprom,
+    presenter0, presenter1, presenter2);
 
 // The RTC has a resolution of only 1s, so we need to poll it fast enough to
 // make it appear that the display is tracking it correctly. The benchmarking
@@ -143,7 +150,7 @@ COROUTINE(checkButton) {
   COROUTINE_LOOP() {
     modeButton.check();
     changeButton.check();
-    COROUTINE_DELAY(10); // check button 100/sec
+    COROUTINE_DELAY(5); // check buttons 200/sec
   }
 }
 
@@ -178,6 +185,7 @@ void setup() {
 
   dsTimeKeeper.setup();
   systemTimeKeeper.setup();
+
   controller.setup();
 
   systemTimeSync.setupCoroutine(F("systemTimeSync"));

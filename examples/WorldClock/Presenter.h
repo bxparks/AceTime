@@ -110,7 +110,7 @@ class Presenter {
       // time
       if (shouldShowFor(MODE_CHANGE_HOUR)) {
         uint8_t hour = dateTime.hour();
-        if (mRenderingInfo.hourMode == StoredInfo::kTwelve) {
+        if (mRenderingInfo.hourMode == ClockInfo::kTwelve) {
           if (hour == 0) {
             hour = 12;
           } else if (hour > 12) {
@@ -136,7 +136,7 @@ class Presenter {
         mOled.print("  ");
       }
       mOled.print(' ');
-      if (mRenderingInfo.hourMode == StoredInfo::kTwelve) {
+      if (mRenderingInfo.hourMode == ClockInfo::kTwelve) {
         mOled.print((dateTime.hour() < 12) ? "AM" : "PM");
       }
       mOled.clearToEOL();
@@ -179,7 +179,7 @@ class Presenter {
       mOled.println();
       mOled.print("12/24: ");
       if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
-        mOled.print(mRenderingInfo.hourMode == StoredInfo::kTwelve
+        mOled.print(mRenderingInfo.hourMode == ClockInfo::kTwelve
             ? "12" : "24");
       } else {
         mOled.print("  ");
