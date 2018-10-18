@@ -58,18 +58,19 @@ class Presenter {
 
     void displayData() {
       mOled.home();
-      mOled.setFont(fixed_bold10x15);
-      //mOled.set2X();
 
       switch (mRenderingInfo.mode) {
         case MODE_DATE_TIME:
+          displayDateTime();
+          break;
+
         case MODE_CHANGE_YEAR:
         case MODE_CHANGE_MONTH:
         case MODE_CHANGE_DAY:
         case MODE_CHANGE_HOUR:
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
-          displayDateTime();
+          displayChangeableDateTime();
           break;
 
         case MODE_CLOCK_INFO:
@@ -85,6 +86,55 @@ class Presenter {
     void displayDateTime() const {
       const DateTime dateTime(mRenderingInfo.now,
           mRenderingInfo.clockInfo.timeZone);
+      mOled.setFont(fixed_bold10x15);
+
+      mOled.set2X();
+
+      // time
+      uint8_t hour = dateTime.hour();
+      if (mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve) {
+        if (hour == 0) {
+          hour = 12;
+        } else if (hour > 12) {
+          hour -= 12;
+        }
+        printPad2(mOled, hour, ' ');
+      } else {
+        printPad2(mOled, hour);
+      }
+      mOled.print(':');
+      printPad2(mOled, dateTime.minute());
+
+      // AM/PM indicator
+      mOled.set1X();
+      if (mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve) {
+        mOled.print((dateTime.hour() < 12) ? 'A' : 'P');
+      }
+
+      // weekDay, month/day, AM/PM
+      // "Thu 10/18 P"
+      mOled.println();
+      mOled.println();
+
+      mOled.print(DateStrings().weekDayShortString(dateTime.dayOfWeek()));
+      mOled.print(' ');
+      printPad2(mOled, dateTime.month(), ' ');
+      mOled.print('/');
+      printPad2(mOled, dateTime.day(), '0');
+      mOled.print(' ');
+      mOled.clearToEOL();
+
+      // place name
+      mOled.println();
+      mOled.print(mRenderingInfo.clockInfo.name);
+      mOled.clearToEOL();
+    }
+
+    void displayChangeableDateTime() const {
+      const DateTime dateTime(mRenderingInfo.now,
+          mRenderingInfo.clockInfo.timeZone);
+      mOled.setFont(fixed_bold10x15);
+      mOled.set1X();
 
       // date
       if (shouldShowFor(MODE_CHANGE_YEAR)) {
