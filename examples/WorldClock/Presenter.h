@@ -102,7 +102,11 @@ class Presenter {
       } else {
         printPad2(mOled, hour);
       }
-      mOled.print(':');
+      if (shouldShowFor(MODE_DATE_TIME)) {
+        mOled.print(':');
+      } else {
+        mOled.print(' ');
+      }
       printPad2(mOled, dateTime.minute());
 
       // AM/PM indicator
