@@ -1,5 +1,5 @@
-#ifndef CLOCK_RENDERING_INFO_H
-#define CLOCK_RENDERING_INFO_H
+#ifndef WORLD_CLOCK_RENDERING_INFO_H
+#define WORLD_CLOCK_RENDERING_INFO_H
 
 #include <AceTime.h>
 #include "config.h"

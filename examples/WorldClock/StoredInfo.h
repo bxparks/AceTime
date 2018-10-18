@@ -1,5 +1,5 @@
-#ifndef CLOCK_STORED_INFO_H
-#define CLOCK_STORED_INFO_H
+#ifndef WORLD_CLOCK_STORED_INFO_H
+#define WORLD_CLOCK_STORED_INFO_H
 
 #include <AceTime.h>
 
