@@ -11,7 +11,7 @@ using namespace ace_time;
 // Set to 1 to set the TimeProvider::pollNow() method.
 class Controller {
   public:
-    static const int8_t kDefaultTzCode = -28; // Pacific Daylight Time, -07:00
+    static const int8_t kDefaultTzCode = -32; // Pacific Standard Time, -08:00
 
     Controller(PersistentStore& persistentStore, TimeKeeper& systemTimeKeeper):
         mPersistentStore(persistentStore),
@@ -30,7 +30,7 @@ class Controller {
     /** Return the current time zone. */
     TimeZone getTimeZone() const { return mStoredInfo.timeZone; }
 
-#if defined(USE_NTP)
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
     /**
      * Set the wifi credentials and setup the NtpTimeProvider.
      * Return the number of bytes written.

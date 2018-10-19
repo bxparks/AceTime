@@ -18,7 +18,7 @@ class PersistentStore {
     bool readStoredInfo(StoredInfo& storedInfo) const {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
-#if defined(USE_NTP)
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
       storedInfo.ssid[StoredInfo::kSsidMaxLength - 1] = '\0';
       storedInfo.password[StoredInfo::kPasswordMaxLength - 1] = '\0';
 #endif

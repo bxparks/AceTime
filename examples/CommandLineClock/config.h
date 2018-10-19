@@ -5,31 +5,36 @@
 // Configuration parameters.
 //---------------------------------------------------------------------------
 
+#define TIME_SOURCE_TYPE_NONE 0
+#define TIME_SOURCE_TYPE_DS3231 1
+#define TIME_SOURCE_TYPE_NTP 2
+#define TIME_SOURCE_TYPE_BOTH 3
+
 #ifndef AUNITER
   #warning Using ESP8266 environment to verify compilation of NTP code
   #define AUNITER_ESP8266
 #endif
 
 #if defined(AUNITER_NANO)
-  #define USE_DS3231
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
 #elif defined(AUNITER_MICRO)
-  #define USE_DS3231
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
 #elif defined(AUNITER_ESP8266)
-  #define USE_NTP
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
 #elif defined(AUNITER_ESP32)
-  #define USE_NTP
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
 #elif defined(AUNITER_MICRO_MINDER)
-  #define USE_DS3231
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
 #elif defined(AUNITER_MINI_MINDER)
-  #define USE_DS3231
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
 #elif defined(AUNITER_ESP_MINDER)
-  #define USE_NTP
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
 #elif defined(AUNITER_ESP_MINDER2)
-  #define USE_NTP
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
 #elif defined(AUNITER_ESP32_MINDER)
-  #define USE_NTP
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
 #else
-  #define USE_SYSTEM
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NONE
 #endif
 
 // Determine how to sync the SystemTimeKeeper.

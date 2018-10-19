@@ -48,13 +48,13 @@ using namespace ace_time;
 // Configure RTC and TimeKeeper
 //---------------------------------------------------------------------------
 
-#if defined(USE_DS3231)
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
   DS3231TimeKeeper dsTimeKeeper;
   SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper /*backup*/);
-#elif defined(USE_NTP)
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   NtpTimeProvider ntpTimeProvider;
   SystemTimeKeeper systemTimeKeeper(&ntpTimeProvider, nullptr /*backup*/);
-#elif defined(USE_SYSTEM)
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
   SystemTimeKeeper systemTimeKeeper(nullptr /*sync*/, nullptr /*backup*/);
 #else
   #error Unknown time keeper option
@@ -190,7 +190,7 @@ class DstCommand: public CommandHandler {
     Controller& mController;
 };
 
-#if defined(USE_NTP)
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 
 /**
  * WiFi manager command.
@@ -276,7 +276,7 @@ ListCommand listCommand;
 DateCommand dateCommand;
 TimezoneCommand timezoneCommand;
 DstCommand dstCommand(controller);
-#if defined(USE_NTP)
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 WifiCommand wifiCommand(controller, ntpTimeProvider);
 #endif
 
@@ -285,7 +285,7 @@ const CommandHandler* const COMMANDS[] = {
   &dateCommand,
   &timezoneCommand,
   &dstCommand,
-#if defined(USE_NTP)
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   &wifiCommand
 #endif
 };
@@ -322,7 +322,7 @@ void setup() {
   Wire.begin();
   Wire.setClock(400000L);
 
-#if defined(USE_DS3231)
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
   dsTimeKeeper.setup();
 #endif
 
@@ -330,7 +330,7 @@ void setup() {
   systemTimeKeeper.setup();
   controller.setup();
 
-#if defined(USE_NTP)
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 /*
   if (controller.isStoredInfoValid()) {
     const StoredInfo& storedInfo = controller.getStoredInfo();

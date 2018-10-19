@@ -48,8 +48,10 @@ hw::CrcEeprom crcEeprom;
   DS3231TimeKeeper dsTimeKeeper;
   NtpTimeProvider ntpTimeProvider;
   SystemTimeKeeper systemTimeKeeper(&ntpTimeProvider, &dsTimeKeeper);
-#else
+#elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
   SystemTimeKeeper systemTimeKeeper(nullptr /*sync*/, nullptr /*backup*/);
+#else
+  #error Unknown time keeper option
 #endif
 
 SystemTimeSyncCoroutine systemTimeSync(systemTimeKeeper);
