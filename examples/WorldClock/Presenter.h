@@ -217,7 +217,7 @@ class Presenter {
       uint8_t minute;
       timeZone.extractStandardHourMinute(sign, hour, minute);
 
-      mOled.print(F("12/24: "));
+      mOled.print(FF("12/24: "));
       if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
         mOled.print(mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve
             ? "12" : "24");
@@ -226,7 +226,7 @@ class Presenter {
       }
 
       mOled.println();
-      mOled.print(F("Blink: "));
+      mOled.print(FF("Blink: "));
       if (shouldShowFor(MODE_CHANGE_BLINKING_COLON)) {
         mOled.print(clockInfo.blinkingColon ? "on " : "off");
       } else {
@@ -234,7 +234,7 @@ class Presenter {
       }
 
       mOled.println();
-      mOled.print(F("UTC"));
+      mOled.print(FF("UTC"));
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_HOUR)) {
         mOled.print((sign < 0) ? '-' : '+');
         printPad2(mOled, hour);
@@ -249,7 +249,7 @@ class Presenter {
       }
 
       mOled.println();
-      mOled.print(F("DST: "));
+      mOled.print(FF("DST: "));
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
         mOled.print(timeZone.isDst() ? "on " : "off");
       } else {
