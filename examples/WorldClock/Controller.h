@@ -107,6 +107,12 @@ class Controller {
           mMode = MODE_CHANGE_YEAR;
           break;
 
+        case MODE_CHANGE_HOUR_MODE:
+          mMode = MODE_CHANGE_BLINKING_COLON;
+          break;
+        case MODE_CHANGE_BLINKING_COLON:
+          mMode = MODE_CHANGE_TIME_ZONE_HOUR;
+          break;
         case MODE_CHANGE_TIME_ZONE_HOUR:
           mMode = MODE_CHANGE_TIME_ZONE_MINUTE;
           break;
@@ -115,9 +121,6 @@ class Controller {
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mMode = MODE_CHANGE_HOUR_MODE;
-          break;
-        case MODE_CHANGE_HOUR_MODE:
-          mMode = MODE_CHANGE_TIME_ZONE_HOUR;
           break;
       }
     }
@@ -144,13 +147,14 @@ class Controller {
 
         case MODE_CLOCK_INFO:
           mChangingClockInfo = mClockInfo0;
-          mMode = MODE_CHANGE_TIME_ZONE_HOUR;
+          mMode = MODE_CHANGE_HOUR_MODE;
           break;
 
+        case MODE_CHANGE_HOUR_MODE:
+        case MODE_CHANGE_BLINKING_COLON:
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
-        case MODE_CHANGE_HOUR_MODE:
           saveClockInfo();
           mMode = MODE_CLOCK_INFO;
           break;
@@ -185,6 +189,14 @@ class Controller {
           mSecondFieldCleared = true;
           break;
 
+        case MODE_CHANGE_HOUR_MODE:
+          mSuppressBlink = true;
+          mChangingClockInfo.hourMode = 1 - mChangingClockInfo.hourMode;
+          break;
+        case MODE_CHANGE_BLINKING_COLON:
+          mSuppressBlink = true;
+          mChangingClockInfo.blinkingColon = !mChangingClockInfo.blinkingColon;
+          break;
         case MODE_CHANGE_TIME_ZONE_HOUR:
           mSuppressBlink = true;
           mChangingClockInfo.timeZone.incrementHour();
@@ -197,10 +209,6 @@ class Controller {
           mSuppressBlink = true;
           mChangingClockInfo.timeZone.isDst(
               !mChangingClockInfo.timeZone.isDst());
-          break;
-        case MODE_CHANGE_HOUR_MODE:
-          mSuppressBlink = true;
-          mChangingClockInfo.hourMode = 1 - mChangingClockInfo.hourMode;
           break;
       }
 
@@ -221,10 +229,11 @@ class Controller {
         case MODE_CHANGE_HOUR:
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
+        case MODE_CHANGE_HOUR_MODE:
+        case MODE_CHANGE_BLINKING_COLON:
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
-        case MODE_CHANGE_HOUR_MODE:
           mSuppressBlink = false;
           break;
       }
@@ -285,10 +294,12 @@ class Controller {
         case MODE_CHANGE_HOUR:
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
+        case MODE_CHANGE_HOUR_MODE:
+        case MODE_CHANGE_BLINKING_COLON:
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
-        case MODE_CHANGE_HOUR_MODE: {
+        {
           presenter.setNow(mChangingDateTime.toSecondsSinceEpoch());
           presenter.setClockInfo(mChangingClockInfo);
           break;
@@ -305,9 +316,11 @@ class Controller {
       mClockInfo0 = mChangingClockInfo;
 
       mClockInfo1.hourMode = mChangingClockInfo.hourMode;
+      mClockInfo1.blinkingColon = mChangingClockInfo.blinkingColon;
       mClockInfo1.timeZone.isDst(mChangingClockInfo.timeZone.isDst());
 
       mClockInfo2.hourMode = mChangingClockInfo.hourMode;
+      mClockInfo2.blinkingColon = mChangingClockInfo.blinkingColon;
       mClockInfo2.timeZone.isDst(mChangingClockInfo.timeZone.isDst());
 
       preserveInfo();

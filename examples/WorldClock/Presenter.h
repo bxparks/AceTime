@@ -74,10 +74,11 @@ class Presenter {
           break;
 
         case MODE_CLOCK_INFO:
+        case MODE_CHANGE_HOUR_MODE:
+        case MODE_CHANGE_BLINKING_COLON:
         case MODE_CHANGE_TIME_ZONE_HOUR:
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
-        case MODE_CHANGE_HOUR_MODE:
           displayClockInfo();
           break;
       }
@@ -102,7 +103,8 @@ class Presenter {
       } else {
         printPad2(mOled, hour);
       }
-      if (shouldShowFor(MODE_DATE_TIME)) {
+      if (!mRenderingInfo.clockInfo.blinkingColon
+          || shouldShowFor(MODE_DATE_TIME)) {
         mOled.print(':');
       } else {
         mOled.print(' ');
@@ -208,13 +210,31 @@ class Presenter {
     }
 
     void displayClockInfo() const {
-      const TimeZone& timeZone = mRenderingInfo.clockInfo.timeZone;
+      const ClockInfo& clockInfo = mRenderingInfo.clockInfo;
+      const TimeZone& timeZone = clockInfo.timeZone;
       int8_t sign;
       uint8_t hour;
       uint8_t minute;
       timeZone.extractStandardHourMinute(sign, hour, minute);
 
-      mOled.print("UTC");
+      mOled.print(F("12/24: "));
+      if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
+        mOled.print(mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve
+            ? "12" : "24");
+      } else {
+        mOled.print("  ");
+      }
+
+      mOled.println();
+      mOled.print(F("Blink: "));
+      if (shouldShowFor(MODE_CHANGE_BLINKING_COLON)) {
+        mOled.print(clockInfo.blinkingColon ? "on " : "off");
+      } else {
+        mOled.print("   ");
+      }
+
+      mOled.println();
+      mOled.print(F("UTC"));
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_HOUR)) {
         mOled.print((sign < 0) ? '-' : '+');
         printPad2(mOled, hour);
@@ -229,20 +249,11 @@ class Presenter {
       }
 
       mOled.println();
-      mOled.print("DST: ");
+      mOled.print(F("DST: "));
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
         mOled.print(timeZone.isDst() ? "on " : "off");
       } else {
         mOled.print("   ");
-      }
-
-      mOled.println();
-      mOled.print("12/24: ");
-      if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
-        mOled.print(mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve
-            ? "12" : "24");
-      } else {
-        mOled.print("  ");
       }
     }
 

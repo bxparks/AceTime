@@ -31,16 +31,17 @@
 
 static const uint8_t MODE_UNKNOWN = 0; // uninitialized
 static const uint8_t MODE_DATE_TIME = 1;
-static const uint8_t MODE_CLOCK_INFO = 8;
-static const uint8_t MODE_CHANGE_YEAR = 10;
-static const uint8_t MODE_CHANGE_MONTH = 11;
-static const uint8_t MODE_CHANGE_DAY = 12;
-static const uint8_t MODE_CHANGE_HOUR = 13;
-static const uint8_t MODE_CHANGE_MINUTE = 14;
-static const uint8_t MODE_CHANGE_SECOND = 15;
-static const uint8_t MODE_CHANGE_TIME_ZONE_HOUR = 16;
-static const uint8_t MODE_CHANGE_TIME_ZONE_MINUTE = 17;
-static const uint8_t MODE_CHANGE_TIME_ZONE_DST = 18;
-static const uint8_t MODE_CHANGE_HOUR_MODE = 19;
+static const uint8_t MODE_CLOCK_INFO = 2;
+static const uint8_t MODE_CHANGE_YEAR = 3;
+static const uint8_t MODE_CHANGE_MONTH = 4;
+static const uint8_t MODE_CHANGE_DAY = 5;
+static const uint8_t MODE_CHANGE_HOUR = 6;
+static const uint8_t MODE_CHANGE_MINUTE = 7;
+static const uint8_t MODE_CHANGE_SECOND = 8;
+static const uint8_t MODE_CHANGE_TIME_ZONE_HOUR = 9;
+static const uint8_t MODE_CHANGE_TIME_ZONE_MINUTE = 10;
+static const uint8_t MODE_CHANGE_TIME_ZONE_DST = 11;
+static const uint8_t MODE_CHANGE_HOUR_MODE = 12;
+static const uint8_t MODE_CHANGE_BLINKING_COLON = 13;
 
 #endif
