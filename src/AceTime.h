@@ -16,7 +16,8 @@
 #include "ace_time/NtpTimeProvider.h"
 #include "ace_time/DS3231TimeKeeper.h"
 #include "ace_time/SystemTimeKeeper.h"
-#include "ace_time/SystemTimeLoop.h"
+#include "ace_time/SystemTimeSyncLoop.h"
+#include "ace_time/SystemTimeHeartbeatLoop.h"
 
 // activate only if <AceRoutine.h> is included before this header
 #ifdef ACE_ROUTINE_VERSION

@@ -17,8 +17,9 @@ class SystemTimeHeartbeatCoroutine: public ace_routine::Coroutine {
     /**
      * Constructor.
      *
-     * @param systemTimeKeeper reference to the SystemTimeKeeper
+     * @param systemTimeKeeper the underlying SystemTimeKeeper
      * @param heartbeatPeriodMillis milliseconds between calls to getNow()
+     *    (default 5000)
      */
     SystemTimeHeartbeatCoroutine(SystemTimeKeeper& systemTimeKeeper,
         uint16_t heartbeatPeriodMillis = 5000):

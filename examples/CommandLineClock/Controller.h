@@ -72,6 +72,7 @@ class Controller {
 
   private:
     uint16_t preserveInfo() {
+      mIsStoredInfoValid = true;
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
 

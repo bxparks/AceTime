@@ -529,19 +529,23 @@ minutes might work since talking to the RTC chip is cheap. For syncing with the
 be advisable.
 
 The `SystemTimeKeeper` provides 2 ways to perform these periodic maintenance
-actions.
+actions. By default, the syncing happens every 3600 seconds, and the heartbeat
+happens every 5 seconds. Those parameters are configurable in the constructors
+of the following classes.
 
 **Method 1: Using the Global Loop()**
 
-You can use the `SystemTimeLoop` class and insert that into the global `loop()`
-method.
+You can use the `SystemTimeSyncLoop` and `SystemTimeHeartbeatLoop` classes and
+insert them into the global `loop()` method:
+
 ```C++
 SystemTimeKeeper systemTimeKeeper(...);
-SystemTimeLoop systemTimeLoop(
-    systemTimeKeeper, syncPeriodSeconds, heartbeatPeriodMillis);
+SystemTimeSyncLoop systemTimeSyncLoop(systemTimeKeeper);
+SystemTimeHeartbeatLoop systemTimeHeartbeatLoop(systemTimeKeeper);
 
 void loop() {
-  systemTimeLoop.loop();
+  systemTimeSyncLoop.loop();
+  systemTimeHeartbeatLoop.loop();
 }
 ```
 
@@ -557,10 +561,8 @@ create the 2 coroutines, and configure it to run using the `CoroutineScheduler`:
 #include <AceTime.h>
 ...
 SystemTimeKeeper systemTimeKeeper(...);
-SystemTimeSyncCoroutine systemTimeSync(systemTimeKeeper, syncPeriodSeconds,
-    initialSyncPeriodSeconds, requestTimeoutMillis);
-SystemTimeHeartbeatCoroutine systemTimeHeartbeat(systemTimeKeeper,
-    heartbeatPeriodMillis);
+SystemTimeSyncCoroutine systemTimeSync(systemTimeKeeper);
+SystemTimeHeartbeatCoroutine systemTimeHeartbeat(systemTimeKeeper);
 
 void setup() {
   ...
@@ -578,18 +580,19 @@ void loop() {
 
 The biggest advantage of using AceRoutine coroutines is that the syncing process
 becomes non-blocking. In other words, if you are using the `NtpTimeProvider` to
-provide syncing, the `SystemTimeLoop` object calls its `getNow()` method, which
-blocks the execution of the program until the NTP server returns a response (or
-the request times out after 1000 milliseconds). If you use the coroutines, the
-program continues to do other things (e.g. update displays, scan for buttons)
-during the time that the `NtpTimeProvider` has issued a request and is waiting
-for a response from the NTP server.
+provide syncing, the `SystemTimeSyncLoop` object calls its `getNow()` method,
+which blocks the execution of the program until the NTP server returns a
+response (or the request times out after 1000 milliseconds). If you use the
+coroutines, the program continues to do other things (e.g. update displays, scan
+for buttons) during the time that the `NtpTimeProvider` has issued a request and
+is waiting for a response from the NTP server.
 
 ## System Requirements
 
 This library was developed and tested using:
-* [Arduino IDE 1.8.6](https://www.arduino.cc/en/Main/Software)
-* [ESP8266 Arduino Core 2.4.1](https://arduino-esp8266.readthedocs.io/en/2.4.1/)
+
+* [Arduino IDE 1.8.5 - 1.8.7](https://www.arduino.cc/en/Main/Software)
+* [ESP8266 Arduino Core 2.4.2](https://arduino-esp8266.readthedocs.io/en/2.4.2/)
 * [arduino-esp32](https://github.com/espressif/arduino-esp32)
 
 I used Ubuntu 17.10 for most of my development.
@@ -638,7 +641,8 @@ sizeof(TimeZone): 1
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 17
 sizeof(DS3231TimeKeeper): 4
-sizeof(SystemTimeLoop): 10
+sizeof(SystemTimeSyncLoop): 14
+sizeof(SystemTimeHeartbeatLoop): 8
 sizeof(SystemTimeSyncCoroutine): 29
 sizeof(SystemTimeHeartbeatCoroutine): 18
 ```
@@ -651,7 +655,8 @@ sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 24
 sizeof(DS3231TimeKeeper): 8
 sizeof(NtpTimeProvider): 96 (ESP8266), 120 (ESP32)
-sizeof(SystemTimeLoop): 12
+sizeof(SystemTimeSyncLoop): 20
+sizeof(SystemTimeHeartbeatLoop): 12
 sizeof(SystemTimeSyncCoroutine): 52
 sizeof(SystemTimeHeartbeatCoroutine): 36
 ```

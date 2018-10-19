@@ -29,7 +29,7 @@ namespace ace_time {
  * the that internal counter will rollover within 65.535 milliseconds. To
  * prevent that, getNow() or setNow() must be called more frequently than every
  * 65.536 seconds. This can be satisfied by using the
- * SystemTimeHeartbeatCoroutine or SystemTimeLoop helper classes.
+ * SystemTimeHeartbeatCoroutine or SystemTimeHeartbeatLoop helper classes.
  *
  * There are 2 ways to perform syncing from the syncTimeProvider:
  *
@@ -41,14 +41,9 @@ namespace ace_time {
  * take 100s of milliseconds to return, so using the coroutine infrastructure
  * allows other coroutines to continue executing.
  *
- * 2) Call the SystemTimeLoop::loop() method from the global loop() function.
- * This method uses the blocking TimeProvider::getNow() method which can take
- * 100s milliseconds for something like NtpTimeProvider.
- *
- * The SystemTimeLoop::loop() performs both syncing (against the
- * syncTimeProvider) and heartbeat freshening (against the builtin millis()). If
- * you are using Coroutines, you must use both the SystemTimeHeartbeatCoroutine
- * and the SystemTimeSyncCoroutine.
+ * 2) Call the SystemTimeSyncLoop::loop() method from the global loop()
+ * function. This method uses the blocking TimeProvider::getNow() method which
+ * can take 100s of milliseconds for something like NtpTimeProvider.
  */
 class SystemTimeKeeper: public TimeKeeper {
   public:
@@ -132,7 +127,7 @@ class SystemTimeKeeper: public TimeKeeper {
 
   private:
     friend class SystemTimeSyncCoroutine;
-    friend class SystemTimeLoop;
+    friend class SystemTimeSyncLoop;
 
     /**
      * Write the nowSeconds to the backup TimeKeeper (which can be an RTC that

@@ -64,7 +64,8 @@ using namespace ace_time;
   SystemTimeSyncCoroutine systemTimeSync(systemTimeKeeper);
   SystemTimeHeartbeatCoroutine systemTimeHeartbeat(systemTimeKeeper);
 #else
-  SystemTimeLoop systemTimeLoop;
+  SystemTimeSyncLoop systemTimeSyncLoop(systemTimeKeeper);
+  SystemTimeHeartbeatLoop systemTimeHeartbeatLoop(systemTimeKeeper);
 #endif
 
 //---------------------------------------------------------------------------
@@ -352,6 +353,7 @@ void setup() {
 void loop() {
   CoroutineScheduler::loop();
 #if SYNC_TYPE == SYNC_TYPE_MANUAL
-  systemTimeLoop.loop();
+  systemTimeSyncLoop.loop();
+  systemTimeHeartbeatLoop.loop();
 #endif
 }

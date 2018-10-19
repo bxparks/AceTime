@@ -26,6 +26,8 @@
   #define USE_NTP
 #elif defined(AUNITER_ESP_MINDER2)
   #define USE_NTP
+#elif defined(AUNITER_ESP32_MINDER)
+  #define USE_NTP
 #else
   #define USE_SYSTEM
 #endif
@@ -33,6 +35,6 @@
 // Determine how to sync the SystemTimeKeeper.
 #define SYNC_TYPE_MANUAL 0
 #define SYNC_TYPE_COROUTINE 1
-#define SYNC_TYPE SYNC_TYPE_COROUTINE
+#define SYNC_TYPE SYNC_TYPE_MANUAL
 
 #endif

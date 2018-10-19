@@ -6,12 +6,10 @@
  *  - DateTime::toDaysSinceEpoch()
  *  - DateTime::toSecondsSinceEpoch()
  *
- * This should run on all microcontrollers supported by the Arduino IDE.
+ * This should compile on all microcontrollers supported by the Arduino IDE.
  */
 
-// AceRoutine.h Needed to activate SystemTimeSyncCoroutine and
-// SystemTimeHeartbeatCoroutine.
-#include <AceRoutine.h>
+#include <AceRoutine.h> // activate SystemTime coroutines
 #include <AceTime.h>
 #include "Benchmark.h"
 
@@ -43,8 +41,11 @@ void setup() {
   Serial.println(sizeof(NtpTimeProvider));
 #endif
 
-  Serial.print("sizeof(SystemTimeLoop): ");
-  Serial.println(sizeof(SystemTimeLoop));
+  Serial.print("sizeof(SystemTimeSyncLoop): ");
+  Serial.println(sizeof(SystemTimeSyncLoop));
+
+  Serial.print("sizeof(SystemTimeHeartbeatLoop): ");
+  Serial.println(sizeof(SystemTimeHeartbeatLoop));
 
   Serial.print("sizeof(SystemTimeSyncCoroutine): ");
   Serial.println(sizeof(SystemTimeSyncCoroutine));

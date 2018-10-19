@@ -16,7 +16,8 @@ sizeof(TimeZone): 1
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 17
 sizeof(DS3231TimeKeeper): 4
-sizeof(SystemTimeLoop): 10
+sizeof(SystemTimeSyncLoop): 14
+sizeof(SystemTimeHeartbeatLoop): 8
 sizeof(SystemTimeSyncCoroutine): 29
 sizeof(SystemTimeHeartbeatCoroutine): 18
 ```
@@ -48,7 +49,8 @@ sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 24
 sizeof(DS3231TimeKeeper): 8
 sizeof(NtpTimeProvider): 96
-sizeof(SystemTimeLoop): 12
+sizeof(SystemTimeSyncLoop): 20
+sizeof(SystemTimeHeartbeatLoop): 12
 sizeof(SystemTimeSyncCoroutine): 52
 sizeof(SystemTimeHeartbeatCoroutine): 36
 ```
@@ -81,7 +83,8 @@ sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 24
 sizeof(DS3231TimeKeeper): 8
 sizeof(NtpTimeProvider): 120
-sizeof(SystemTimeLoop): 12
+sizeof(SystemTimeSyncLoop): 20
+sizeof(SystemTimeHeartbeatLoop): 12
 sizeof(SystemTimeSyncCoroutine): 52
 sizeof(SystemTimeHeartbeatCoroutine): 36
 ```
@@ -116,7 +119,8 @@ sizeof(TimeZone): 1
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 24
 sizeof(DS3231TimeKeeper): 8
-sizeof(SystemTimeLoop): 12
+sizeof(SystemTimeSyncLoop): 20
+sizeof(SystemTimeHeartbeatLoop): 12
 sizeof(SystemTimeSyncCoroutine): 52
 sizeof(SystemTimeHeartbeatCoroutine): 36
 ```
