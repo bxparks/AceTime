@@ -63,6 +63,15 @@ class SystemTimeSyncLoop {
       }
     }
 
+    /**
+     * Return the number of seconds since last sync. Mostly for
+     * debugging purposes.
+     */
+    uint16_t getSecondsSinceLastSync() const {
+      unsigned long elapsedMillis = millis() - mLastSyncMillis;
+      return elapsedMillis / 1000;
+    }
+
   private:
     SystemTimeKeeper& mSystemTimeKeeper;
     uint16_t const mSyncPeriodSeconds;

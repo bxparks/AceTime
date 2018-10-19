@@ -87,7 +87,7 @@ class ListCommand: public CommandHandler {
     ListCommand():
         CommandHandler("list", nullptr) {}
 
-    virtual void run(Print& printer, int /* argc */, const char** /* argv */)
+    void run(Print& printer, int /*argc*/, const char** /*argv*/)
             const override {
       CoroutineScheduler::list(printer);
     }
@@ -104,8 +104,7 @@ class DateCommand: public CommandHandler {
     DateCommand():
         CommandHandler("date", "[dateString]") {}
 
-    virtual void run(Print& printer, int argc, const char** argv)
-        const override {
+    void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
         DateTime now = controller.getNow();
         now.printTo(printer);
@@ -136,8 +135,7 @@ class TimezoneCommand: public CommandHandler {
     TimezoneCommand():
       CommandHandler("timezone", "[utcOffset]") {}
 
-    virtual void run(Print& printer, int argc, const char** argv)
-        const override {
+    void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
         TimeZone timeZone = controller.getTimeZone();
         timeZone.printTo(printer);
@@ -170,8 +168,7 @@ class DstCommand: public CommandHandler {
           CommandHandler("dst", "[on | off]"),
       mController(controller) {}
 
-    virtual void run(Print& printer, int argc, const char** argv)
-        const override {
+    void run(Print& printer, int argc, const char** argv) const override {
       SHIFT;
       if (argc == 0) {
         printer.print(FF("DST: "));
@@ -189,6 +186,30 @@ class DstCommand: public CommandHandler {
   private:
     Controller& mController;
 };
+
+#if SYNC_TYPE == SYNC_TYPE_MANUAL
+
+/**
+ * Sync status command.
+ * Usage:
+ *    sync - print the sync status
+ */
+class SyncStatusCommand: public CommandHandler {
+  public:
+    SyncStatusCommand(SystemTimeSyncLoop& systemTimeSyncLoop):
+          CommandHandler("sync", nullptr),
+      mSystemTimeSyncLoop(systemTimeSyncLoop) {}
+
+    void run(Print& printer, int argc, const char** argv) const override {
+      printer.print(FF("Seconds since last sync: "));
+      printer.println(mSystemTimeSyncLoop.getSecondsSinceLastSync());
+    }
+
+  private:
+    SystemTimeSyncLoop& mSystemTimeSyncLoop;
+};
+
+#endif
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 
@@ -210,8 +231,7 @@ class WifiCommand: public CommandHandler {
       mNtpTimeProvider(ntpTimeProvider)
       {}
 
-    virtual void run(Print& printer, int argc, const char** argv)
-        const override {
+    void run(Print& printer, int argc, const char** argv) const override {
       SHIFT;
       if (argc == 0) {
         printer.println(FF("Must give either 'status' or 'config' command"));
@@ -279,6 +299,9 @@ DstCommand dstCommand(controller);
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 WifiCommand wifiCommand(controller, ntpTimeProvider);
 #endif
+#if SYNC_TYPE == SYNC_TYPE_MANUAL
+SyncStatusCommand syncStatusCommand(systemTimeSyncLoop);
+#endif
 
 const CommandHandler* const COMMANDS[] = {
   &listCommand,
@@ -286,7 +309,10 @@ const CommandHandler* const COMMANDS[] = {
   &timezoneCommand,
   &dstCommand,
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-  &wifiCommand
+  &wifiCommand,
+#endif
+#if SYNC_TYPE == SYNC_TYPE_MANUAL
+  &syncStatusCommand,
 #endif
 };
 uint8_t const NUM_COMMANDS = sizeof(COMMANDS) / sizeof(CommandHandler*);

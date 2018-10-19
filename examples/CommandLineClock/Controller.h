@@ -19,6 +19,9 @@ class Controller {
 
     void setup() {
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
+      // TODO: I think this needs to set the default timezone and
+      // set the ssid and password to some initial blank state, so that
+      // the user can be notified that they need to be provided.
     }
 
     /** Set the time zone of the clock and preserve it. */
