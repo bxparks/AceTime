@@ -100,9 +100,9 @@ void DateTime::initFromDateString(const char* ds) {
   utcMinute = 10 * utcMinute + (*ds++ - '0');
   ds++;
 
-  // Calculate the offsetCode (offset from UTC in 15 minute increments)
-  uint8_t code = (utcHour * 4) + (utcMinute / 15);
-  mTimeZone = TimeZone((utcSign == '+') ? code : -code);
+  // create timeZone from (hour, minute)
+  mTimeZone = TimeZone::forHourMinute(
+      (utcSign == '+') ? 1 : -1, utcHour, utcMinute);
 
   // dayOfWeek
   mDayOfWeek = 0;

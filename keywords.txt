@@ -48,6 +48,7 @@ toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
 
 # TimeZone.h
+forOffsetCode	KEYWORD2
 forHour	KEYWORD2
 forHourMinute	KEYWORD2
 forOffsetString	KEYWORD2

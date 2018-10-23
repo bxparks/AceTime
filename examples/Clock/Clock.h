@@ -34,8 +34,7 @@ class Clock {
             Presenter& presenter):
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),
-        mPresenter(presenter),
-        mTimeZone(0) {}
+        mPresenter(presenter) {}
 
     void setup() {
       // Restore from EEPROM to retrieve time zone.
@@ -46,7 +45,7 @@ class Clock {
         mTimeZone = storedInfo.timeZone;
         mHourMode = storedInfo.hourMode;
       } else {
-        mTimeZone = TimeZone(kDefaultOffsetCode);
+        mTimeZone = TimeZone::forOffsetCode(kDefaultOffsetCode);
         mHourMode = StoredInfo::kTwentyFour;
       }
 

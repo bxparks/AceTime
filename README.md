@@ -134,38 +134,45 @@ using namespace ace_time;
 
 The `DateTime` class holds the components of a date, time and its associated
 time zone. This includes the `year`, `month`, `day`, `hour`, `minute`, `second`,
-and the UTC offset represented as an integral multiple of 15 minutes. Each of
-these components are stored internally as an unsigned `uint8_t` integer, except
-for the `TimeZone` which is stored as a signed `int8_t` integer. The year is
-represented by the last 2 digits of the years between 2000 and 2099.
+and the UTC offset. Each of these components are stored internally as an
+unsigned `uint8_t` integer, except for the `TimeZone` which is stored as a
+signed `int8_t` integer. The year is represented by the last 2 digits of the
+years between 2000 and 2099.
 
-The following is basic usage guide. More details can be found in the Doxygen
+The following is the basic usage guide. More details can be found in the Doxygen
 docs.
 
 #### TimeZone
 
-The `TimeZone` class is a thin wrapper around an `int8_t` integer that
-represents the number of 15-minute offsets from the UTC time zone. A time zone
-object can created using a constructor or one of 3 factory methods.
+The `TimeZone` class represents the amount of offset from the UTC time zone.
+One internal representation of the offset is the number of 15-minute increments
+which is called a "offset code". A time zone object can created using the
+default constructor or one of 4 factory methods.
 
-For example, the Pacific Standard Time is `UTC-08:00`, which is `-32` units away
-from UTC. Here are the 4 ways to create the TimeZone object:
+The default constructor creates a TimeZone in UTC time zone with no offset:
+```C++
+TimeZone tz; // UTC+00:00
+```
+
+Here is an example of the Pacific Standard Time `UTC-08:00`, which is `-32`
+units of 15-minute increments away from UTC, and it can be created in 4 ways:
 
 ```C++
-TimeZone tz(-32);
+TimeZone tz = TimeZone::forOffsetCode(-32);
 TimeZone tz = TimeZone::forHour(-8);
 TimeZone tz = TimeZone::forHourMinute(-1, 8, 0);
 TimeZone tz = TimeZone::forOffsetString("-08:00");
 ```
 
-As another example, the Central European Time Zone `UTC+01:00` can be
-constructed using one of the following:
+Here is another example, Central European Time Zone `UTC+01:00`, which can be
+created using one of the following:
 ```C++
-TimeZone tz(4);
+TimeZone tz = TimeZone::forOffsetCode(4);
 TimeZone tz = TimeZone::forHour(1);
 TimeZone tz = TimeZone::forHourMinute(1, 1, 0);
 TimeZone tz = TimeZone::forOffsetString("+01:00");
 ```
+
 The `+` symbol in `"+01:00"` is currently required by the string parser if
 the time zone is a positive offset from UTC.
 
@@ -176,6 +183,7 @@ is UTC-07:00 and is created like this:
 
 ```C++
 TimeZone pdt = TimeZone::forHour(-8).isDst(true); // UTC-08:00 w/ DST true
+
 int16_t standardOffsetMinutes = pdt.asStandardOffsetMinutes(); // returns -480
 int16_t effectiveOffsetMinutes = pdt.asEffectiveOffsetMinutes(); // returns -420
 bool isDst = pdt.isDst(); // returns true
@@ -189,7 +197,7 @@ takes the (year, month, day, hour, minute, second, timeZone) parameters:
 DateTime dt;
 
 // 2001-01-01 00:00:00Z
-dt = DateTime(1, 1, 1, 0, 0, 0, TimeZone(0));
+dt = DateTime(1, 1, 1, 0, 0, 0, TimeZone());
 
 // 2018-08-30T06:45:01-08:00
 dt = DateTime(18, 8, 30, 6, 45, 1, TimeZone::forHour(-8));
@@ -261,7 +269,8 @@ the local stack).
 The `DateTime` object can calculate the number of seconds since the AceTime
 Epoch which is **2000-01-01T00:00:00Z** at the UTC time zone. For example:
 ```C++
-DateTime dt(18, 1, 1, 0, 0, 0, TimeZone(1)); // 2018-01-01 00:00:00+00:15
+// 2018-01-01 00:00:00+00:15
+DateTime dt(18, 1, 1, 0, 0, 0, TimeZone::forOffsetCode(1));
 uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
 uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
 
@@ -275,10 +284,10 @@ counts the number of whole days since the Epoch, including leap days.
 You can go the other way and create a `DateTime` object from the seconds from
 Epoch:
 ```C++
-DateTime dt(568079100, TimeZone(1));
+DateTime dt(568079100, TimeZone::forOffsetCode(1));
 ```
 This will produce the same object as
-`DateTime(18, 1, 1, 0, 0, 0, TimeZone(1))`.
+`DateTime(18, 1, 1, 0, 0, 0, TimeZone::forOffsetCode(1))`.
 
 #### Invalid DateTime Objects
 

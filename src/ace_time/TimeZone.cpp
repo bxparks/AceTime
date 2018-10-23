@@ -33,18 +33,16 @@ void TimeZone::printTo(Print& printer) const {
   printer.print(mIsDst ? F(" DST") : F(" STD"));
 }
 
-void TimeZone::initFromOffsetString(const char* ts) {
+TimeZone& TimeZone::initFromOffsetString(const char* ts) {
   // verify exact ISO8601 string length
   if (strlen(ts) != kTimeZoneLength) {
-    setError();
-    return;
+    return setError();
   }
 
   // '+' or '-'
   char utcSign = *ts++;
   if (utcSign != '-' && utcSign != '+') {
-    setError();
-    return;
+    return setError();
   }
 
   // hour
@@ -59,6 +57,8 @@ void TimeZone::initFromOffsetString(const char* ts) {
 
   uint8_t offsetCode = hour * 4 + (minute / 15);
   mOffsetCode = (utcSign == '-') ? -offsetCode : offsetCode;
+
+  return *this;
 }
 
 }

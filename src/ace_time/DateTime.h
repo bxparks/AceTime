@@ -52,8 +52,7 @@ class DateTime {
      * Constructor. All internal fields (except mTimeZone) are left in an
      * undefined state.
      */
-    explicit DateTime():
-      mTimeZone(0) {}
+    explicit DateTime() {}
 
     /**
      * Constructor using separated date, time, and time zone fields. The
@@ -71,7 +70,7 @@ class DateTime {
      * millisecond component in the future.
      */
     explicit DateTime(uint8_t year, uint8_t month, uint8_t day, uint8_t hour,
-            uint8_t minute, uint8_t second, TimeZone timeZone = TimeZone(0)):
+            uint8_t minute, uint8_t second, TimeZone timeZone = TimeZone()):
         mYear(year), mMonth(month), mDay(day), mHour(hour), mMinute(minute),
         mSecond(second), mTimeZone(timeZone), mDayOfWeek(0) {
     }
@@ -92,7 +91,7 @@ class DateTime {
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
     explicit DateTime(uint32_t secondsSinceEpoch,
-              TimeZone timeZone = TimeZone(0)):
+              TimeZone timeZone = TimeZone()):
           mTimeZone(timeZone) {
 
       if (secondsSinceEpoch == 0) {
