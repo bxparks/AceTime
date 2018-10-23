@@ -11,8 +11,6 @@ using namespace ace_time;
 // Set to 1 to set the TimeProvider::pollNow() method.
 class Controller {
   public:
-    static const int8_t kDefaultTzCode = -32; // Pacific Standard Time, -08:00
-
     Controller(PersistentStore& persistentStore, TimeKeeper& systemTimeKeeper):
         mPersistentStore(persistentStore),
         mSystemTimeKeeper(systemTimeKeeper) {}

@@ -21,7 +21,8 @@ using namespace ace_time::common;
 class Clock {
   public:
     static const uint16_t kStoredInfoEepromAddress = 0;
-    static const int8_t kDefaultTzCode = -32; // Pacific Standard Time, -08:00
+
+    static const int8_t kDefaultOffsetCode = -32; // UTC-08:00
 
     /**
      * Constructor.
@@ -45,7 +46,7 @@ class Clock {
         mTimeZone = storedInfo.timeZone;
         mHourMode = storedInfo.hourMode;
       } else {
-        mTimeZone = TimeZone(kDefaultTzCode);
+        mTimeZone = TimeZone(kDefaultOffsetCode);
         mHourMode = StoredInfo::kTwentyFour;
       }
 

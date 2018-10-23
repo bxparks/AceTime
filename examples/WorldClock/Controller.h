@@ -20,7 +20,6 @@ using namespace ace_time::common;
 class Controller {
   public:
     static const uint16_t kStoredInfoEepromAddress = 0;
-    static const int8_t kDefaultTzCode = -32; // Pacific Standard Time, -08:00
 
     /**
      * Constructor.

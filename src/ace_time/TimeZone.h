@@ -86,13 +86,10 @@ class TimeZone {
         mIsDst(false) {}
 
     /**
-     * Return the UTC offset as the number of 15 minute offset, excluding
+     * Return the UTC offset as the number of 15 minute increments, excluding
      * DST shift.
      */
     int8_t offsetCode() const { return mOffsetCode; }
-
-    /** Set the UTC offset using the offsetCode. */
-    void offsetCode(int8_t offsetCode) { mOffsetCode = offsetCode; }
 
     /**
      * Return the effective UTC offset as the number of 15 minute offset,
@@ -165,7 +162,7 @@ class TimeZone {
      */
     void extractStandardHourMinute(int8_t& sign, uint8_t& hour,
         uint8_t& minute) const {
-      convertTzCodeToHourMinute(mOffsetCode, sign, hour, minute);
+      convertOffsetCodeToHourMinute(mOffsetCode, sign, hour, minute);
     }
 
     /**
@@ -174,7 +171,7 @@ class TimeZone {
      */
     void extractEffectiveHourMinute(int8_t& sign, uint8_t& hour,
         uint8_t& minute) const {
-      convertTzCodeToHourMinute(effectiveOffsetCode(), sign, hour, minute);
+      convertOffsetCodeToHourMinute(effectiveOffsetCode(), sign, hour, minute);
     }
 
     /**
@@ -234,7 +231,7 @@ class TimeZone {
     void initFromOffsetString(const char* offsetString);
 
     /** Helper method to convert a offsetCode to (sign, hour, minute) triple. */
-    static void convertTzCodeToHourMinute(int8_t offsetCode, int8_t& sign,
+    static void convertOffsetCodeToHourMinute(int8_t offsetCode, int8_t& sign,
         uint8_t& hour, uint8_t& minute) {
       sign = (offsetCode < 0) ? -1 : 1;
       uint8_t code = (offsetCode < 0) ? -offsetCode : offsetCode;
