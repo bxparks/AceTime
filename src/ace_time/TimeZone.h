@@ -14,18 +14,18 @@ namespace ace_time {
  * DST mode.
  *
  * For example, Pacific Standard Time is UTC-08:00, which is encoded
- * internally as code -32 and the TimeZone object can be created using the
- * constructor TimeZone(-32) or the factory method TimeZone::forHour(-8).
- * When the PST time goes into DST mode, setting the isDst(true) causes the
- * time zone object to return UTC offsets which includes the DST shift. When
- * the isDst flag is set, the "effective" UTC offset returned by
- * effectiveTzCode(), asEffectiveMinuteOffset() and asEffectiveSecondOffset()
- * will include the DST shift.
+ * internally as an offset code of -32 and the TimeZone object can be created
+ * using the constructor TimeZone(-32) or the factory method
+ * TimeZone::forHour(-8). When the PST time goes into DST mode, setting the
+ * isDst(true) causes the time zone object to return UTC offsets which includes
+ * the DST shift. When the isDst flag is set, the "effective" UTC offset
+ * returned by effectiveOffsetCode(), asEffectiveOffsetMinutes() and
+ * asEffectiveOffsetSeconds() will include the DST shift.
  *
  * Here is the TimeZone object that represents Pacific Daylight Time:
  * @code
  * TimeZone tz = TimeZone::forHour(-8).isDst(true);
- * int16_t minutes = tz.toEffectiveMinuteOffset(); // returns -420, not -480
+ * int16_t minutes = tz.asEffectiveOffsetMinutes(); // returns -420, not -480
  * @endcode
  *
  * According to https://en.wikipedia.org/wiki/List_of_UTC_time_offsets, all
@@ -79,26 +79,28 @@ class TimeZone {
     /**
      * Constructor. Create from time zone code, and dst flag.
      *
-     * @param tzCode the number of 15-minute offset from UTC. 0 means UTC.
+     * @param offsetCode the number of 15-minute offset from UTC. 0 means UTC.
      */
-    explicit TimeZone(int8_t tzCode = 0):
-        mTzCode(tzCode),
+    explicit TimeZone(int8_t offsetCode = 0):
+        mOffsetCode(offsetCode),
         mIsDst(false) {}
 
     /**
      * Return the UTC offset as the number of 15 minute offset, excluding
      * DST shift.
      */
-    int8_t tzCode() const { return mTzCode; }
+    int8_t offsetCode() const { return mOffsetCode; }
 
-    /** Set the UTC offset using the tzCode. */
-    void tzCode(int8_t tzCode) { mTzCode = tzCode; }
+    /** Set the UTC offset using the offsetCode. */
+    void offsetCode(int8_t offsetCode) { mOffsetCode = offsetCode; }
 
     /**
      * Return the effective UTC offset as the number of 15 minute offset,
      * including DST shift.
      */
-    int8_t effectiveTzCode() const { return mTzCode + (mIsDst ? 4 : 0); }
+    int8_t effectiveOffsetCode() const {
+      return mOffsetCode + (mIsDst ? 4 : 0);
+    }
 
     /** Return the DST mode setting. */
     bool isDst() const { return mIsDst; }
@@ -115,46 +117,46 @@ class TimeZone {
     }
 
     /** Return the number of minutes offset from UTC, excluding the DST mode. */
-    int16_t asStandardMinuteOffset() const {
-      return (int16_t) 15 * mTzCode;
+    int16_t asStandardOffsetMinutes() const {
+      return (int16_t) 15 * mOffsetCode;
     }
 
     /** Return the number of minutes offset from UTC, excluding the DST mode. */
-    int32_t asStandardSecondOffset() const {
-      return (int32_t) 60 * asStandardMinuteOffset();
+    int32_t asStandardOffsetSeconds() const {
+      return (int32_t) 60 * asStandardOffsetMinutes();
     }
 
     /** Return the number of minutes offset from UTC, including the DST mode. */
-    int16_t asEffectiveMinuteOffset() const {
-      return (int16_t) 15 * effectiveTzCode();
+    int16_t asEffectiveOffsetMinutes() const {
+      return (int16_t) 15 * effectiveOffsetCode();
     }
 
     /** Return the number of seconds offset from UTC, including the DST mode. */
-    int32_t asEffectiveSecondOffset() const {
-      return (int32_t) 60 * asEffectiveMinuteOffset();
+    int32_t asEffectiveOffsetSeconds() const {
+      return (int32_t) 60 * asEffectiveOffsetMinutes();
     }
 
     /**
-     * Increment the time zone by one hour (+4 in tzCode). For usability,
+     * Increment the time zone by one hour (+4 in offsetCode). For usability,
      * incrementing a time zone code of +63 (UTC+15:45) by one wraps to -64
      * (UTC-16:00).
      */
     void incrementHour() {
-      mTzCode += 4;
-      if (mTzCode >= 64) {
-        mTzCode = mTzCode - 128;
+      mOffsetCode += 4;
+      if (mOffsetCode >= 64) {
+        mOffsetCode = mOffsetCode - 128;
       }
     }
 
     /**
      * Increment time zone by one zone (i.e. 15 minutes) keeping the hour
-     * component unchanged. If the tzCode is negative, the cycle looks like:
+     * component unchanged. If the offsetCode is negative, the cycle looks like:
      * (-01:00, -01:15, -01:30, -01:45, -01:00, ...).
      */
     void increment15Minutes() {
-      uint8_t tzCode = (mTzCode < 0) ? -mTzCode : mTzCode;
-      tzCode = (tzCode & 0xFC) | (((tzCode & 0x03) + 1) & 0x03);
-      mTzCode = (mTzCode < 0) ? -tzCode : tzCode;
+      uint8_t offsetCode = (mOffsetCode < 0) ? -mOffsetCode : mOffsetCode;
+      offsetCode = (offsetCode & 0xFC) | (((offsetCode & 0x03) + 1) & 0x03);
+      mOffsetCode = (mOffsetCode < 0) ? -offsetCode : offsetCode;
     }
 
     /**
@@ -163,7 +165,7 @@ class TimeZone {
      */
     void extractStandardHourMinute(int8_t& sign, uint8_t& hour,
         uint8_t& minute) const {
-      convertTzCodeToHourMinute(mTzCode, sign, hour, minute);
+      convertTzCodeToHourMinute(mOffsetCode, sign, hour, minute);
     }
 
     /**
@@ -172,7 +174,7 @@ class TimeZone {
      */
     void extractEffectiveHourMinute(int8_t& sign, uint8_t& hour,
         uint8_t& minute) const {
-      convertTzCodeToHourMinute(effectiveTzCode(), sign, hour, minute);
+      convertTzCodeToHourMinute(effectiveOffsetCode(), sign, hour, minute);
     }
 
     /**
@@ -181,13 +183,13 @@ class TimeZone {
      * optimize away all the apparent method calls.
      */
     TimeZone& setError() {
-      mTzCode = kTimeZoneErrorCode;
+      mOffsetCode = kTimeZoneErrorCode;
       return *this;
     }
 
     /** Return true if this TimeZone represents an error. */
     bool isError() const {
-      return mTzCode == kTimeZoneErrorCode;
+      return mOffsetCode == kTimeZoneErrorCode;
     }
 
     /**
@@ -231,11 +233,11 @@ class TimeZone {
     /** Set time zone code from the given UTC offset string. */
     void initFromOffsetString(const char* offsetString);
 
-    /** Helper method to convert a tzCode to (sign, hour, minute) triple. */
-    static void convertTzCodeToHourMinute(int8_t tzCode, int8_t& sign,
+    /** Helper method to convert a offsetCode to (sign, hour, minute) triple. */
+    static void convertTzCodeToHourMinute(int8_t offsetCode, int8_t& sign,
         uint8_t& hour, uint8_t& minute) {
-      sign = (tzCode < 0) ? -1 : 1;
-      uint8_t code = (tzCode < 0) ? -tzCode : tzCode;
+      sign = (offsetCode < 0) ? -1 : 1;
+      uint8_t code = (offsetCode < 0) ? -offsetCode : offsetCode;
       hour = code / 4;
       minute = (code & 0x03) * 15;
     }
@@ -248,7 +250,7 @@ class TimeZone {
      * be smaller, probably smaller than the range of [-64, 63], i.e. [-16:00,
      * +15:45].
      */
-    int8_t mTzCode;
+    int8_t mOffsetCode;
 
     /**
      * Indicate whether Daylight Saving Time is in effect. If true, then
@@ -258,7 +260,7 @@ class TimeZone {
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
-  return a.mTzCode == b.mTzCode
+  return a.mOffsetCode == b.mOffsetCode
       && a.mIsDst == b.mIsDst;
 }
 

@@ -200,7 +200,8 @@ class SyncStatusCommand: public CommandHandler {
           CommandHandler("sync", nullptr),
       mSystemTimeSyncLoop(systemTimeSyncLoop) {}
 
-    void run(Print& printer, int argc, const char** argv) const override {
+    void run(Print& printer, int /*argc*/, const char** /*argv*/)
+        const override {
       printer.print(FF("Seconds since last sync: "));
       printer.println(mSystemTimeSyncLoop.getSecondsSinceLastSync());
     }

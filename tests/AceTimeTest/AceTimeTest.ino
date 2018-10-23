@@ -178,7 +178,7 @@ test(convertToTimeZone) {
   assertEqual(5, b.hour());
   assertEqual(0, b.minute());
   assertEqual(0, b.second());
-  assertEqual(-28, b.timeZone().tzCode());
+  assertEqual(-28, b.timeZone().offsetCode());
 }
 
 test(dateTimeCompareAndEquals) {
@@ -335,7 +335,7 @@ test(dateTimForDateString) {
   assertEqual(13, dt.hour());
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
-  assertEqual(-28, dt.timeZone().tzCode());
+  assertEqual(-28, dt.timeZone().offsetCode());
   assertEqual(6, dt.dayOfWeek());
 
   // parser does not care about most separators, this may change in the future
@@ -347,7 +347,7 @@ test(dateTimForDateString) {
   assertEqual(13, dt.hour());
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
-  assertEqual(28, dt.timeZone().tzCode());
+  assertEqual(28, dt.timeZone().offsetCode());
   assertEqual(6, dt.dayOfWeek());
 }
 
@@ -448,40 +448,40 @@ test(timePeriodNegate) {
 
 test(timeZoneCodeConstructor) {
   TimeZone tz(-1);
-  assertEqual((int16_t) -15, tz.asStandardMinuteOffset());
-  assertEqual((int32_t) -900, tz.asStandardSecondOffset());
+  assertEqual((int16_t) -15, tz.asStandardOffsetMinutes());
+  assertEqual((int32_t) -900, tz.asStandardOffsetSeconds());
 
   tz = TimeZone(1);
-  assertEqual((int16_t) 15, tz.asStandardMinuteOffset());
-  assertEqual((int32_t) 900, tz.asStandardSecondOffset());
+  assertEqual((int16_t) 15, tz.asStandardOffsetMinutes());
+  assertEqual((int32_t) 900, tz.asStandardOffsetSeconds());
 }
 
 test(timeZoneForHour) {
-  assertEqual(TimeZone::forHour(-8).tzCode(), -32);
-  assertEqual(TimeZone::forHour(1).tzCode(), 4);
+  assertEqual(TimeZone::forHour(-8).offsetCode(), -32);
+  assertEqual(TimeZone::forHour(1).offsetCode(), 4);
 }
 
 test(timeZoneForHourMinute) {
-  assertEqual(TimeZone::forHourMinute(-1, 8, 0).tzCode(), -32);
-  assertEqual(TimeZone::forHourMinute(-1, 8, 15).tzCode(), -33);
-  assertEqual(TimeZone::forHourMinute(1, 1, 0).tzCode(), 4);
-  assertEqual(TimeZone::forHourMinute(1, 1, 15).tzCode(), 5);
+  assertEqual(TimeZone::forHourMinute(-1, 8, 0).offsetCode(), -32);
+  assertEqual(TimeZone::forHourMinute(-1, 8, 15).offsetCode(), -33);
+  assertEqual(TimeZone::forHourMinute(1, 1, 0).offsetCode(), 4);
+  assertEqual(TimeZone::forHourMinute(1, 1, 15).offsetCode(), 5);
 }
 
 test(timeZoneForOffsetString) {
   assertTrue(TimeZone::forOffsetString("").isError());
-  assertEqual(TimeZone::forOffsetString("-07:00").tzCode(), -28);
-  assertEqual(TimeZone::forOffsetString("-07:45").tzCode(), -31);
-  assertEqual(TimeZone::forOffsetString("+01:00").tzCode(), 4);
-  assertEqual(TimeZone::forOffsetString("+01:15").tzCode(), 5);
-  assertEqual(TimeZone::forOffsetString("+01:16").tzCode(), 5);
+  assertEqual(TimeZone::forOffsetString("-07:00").offsetCode(), -28);
+  assertEqual(TimeZone::forOffsetString("-07:45").offsetCode(), -31);
+  assertEqual(TimeZone::forOffsetString("+01:00").offsetCode(), 4);
+  assertEqual(TimeZone::forOffsetString("+01:15").offsetCode(), 5);
+  assertEqual(TimeZone::forOffsetString("+01:16").offsetCode(), 5);
 }
 
 test(timeZoneDstOffset) {
   TimeZone pdt = TimeZone::forHour(-8).isDst(true);
   assertTrue(pdt.isDst());
-  assertEqual(pdt.tzCode(), -32);
-  assertEqual(pdt.effectiveTzCode(), -28);
+  assertEqual(pdt.offsetCode(), -32);
+  assertEqual(pdt.effectiveOffsetCode(), -28);
 }
 
 test(timeZoneError) {
@@ -495,44 +495,44 @@ test(timeZoneError) {
 test(timeZoneIncrementHour) {
   TimeZone tz(-1);
   tz.incrementHour();
-  assertEqual((int8_t) 3, tz.tzCode());
+  assertEqual((int8_t) 3, tz.offsetCode());
 
   tz = TimeZone(63);
   tz.incrementHour();
-  assertEqual((int8_t) -61, tz.tzCode());
+  assertEqual((int8_t) -61, tz.offsetCode());
 
   tz = TimeZone(60);
   tz.incrementHour();
-  assertEqual((int8_t) -64, tz.tzCode());
+  assertEqual((int8_t) -64, tz.offsetCode());
 }
 
 test(timeZoneIncrement15Minutes) {
   TimeZone tz(3);
 
   tz.increment15Minutes();
-  assertEqual((int8_t) 0, tz.tzCode());
+  assertEqual((int8_t) 0, tz.offsetCode());
 
   tz.increment15Minutes();
-  assertEqual((int8_t) 1, tz.tzCode());
+  assertEqual((int8_t) 1, tz.offsetCode());
 
   tz.increment15Minutes();
-  assertEqual((int8_t) 2, tz.tzCode());
+  assertEqual((int8_t) 2, tz.offsetCode());
 
   tz.increment15Minutes();
-  assertEqual((int8_t) 3, tz.tzCode());
+  assertEqual((int8_t) 3, tz.offsetCode());
 
   tz = TimeZone(-4);
   tz.increment15Minutes();
-  assertEqual((int8_t) -5, tz.tzCode());
+  assertEqual((int8_t) -5, tz.offsetCode());
 
   tz.increment15Minutes();
-  assertEqual((int8_t) -6, tz.tzCode());
+  assertEqual((int8_t) -6, tz.offsetCode());
 
   tz.increment15Minutes();
-  assertEqual((int8_t) -7, tz.tzCode());
+  assertEqual((int8_t) -7, tz.offsetCode());
 
   tz.increment15Minutes();
-  assertEqual((int8_t) -4, tz.tzCode());
+  assertEqual((int8_t) -4, tz.offsetCode());
 }
 
 test(timeZoneExtractStandardHourMinute) {

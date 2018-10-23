@@ -48,7 +48,7 @@ void disableOptimization(const DateTime& dt) {
   guard ^= dt.hour();
   guard ^= dt.minute();
   guard ^= dt.second();
-  guard ^= dt.timeZone().tzCode();
+  guard ^= dt.timeZone().offsetCode();
 }
 
 void disableOptimization(uint32_t value) {

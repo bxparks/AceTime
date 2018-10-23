@@ -78,10 +78,11 @@ class DateTime {
 
     /**
      * Constructor. Create the various components of the local DateTime as seen
-     * from the given time zone. If tzCode is negative, then (secondsSinceEpoch
-     * >= (|tzCode| * 900)) must be true. Otherwise, the local time will be in
-     * the year 1999, which cannot be represented by a 2-digit year beginning
-     * with the year 2000. The dayOfWeek will be calculated internally.
+     * from the given time zone. If offsetCode is negative, then
+     * (secondsSinceEpoch >= TimeZone::asEffectiveOffsetSeconds() must be true.
+     * Otherwise, the local time will be in the year 1999, which cannot be
+     * represented by a 2-digit year beginning with the year 2000. The
+     * dayOfWeek will be calculated internally.
      *
      * @param secondsSinceEpoch Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00Z). A 0 value is a sentinel that is considerd to
@@ -99,7 +100,7 @@ class DateTime {
         return;
       }
 
-      secondsSinceEpoch += timeZone.asEffectiveSecondOffset();
+      secondsSinceEpoch += timeZone.asEffectiveOffsetSeconds();
       uint32_t daysSinceEpoch = secondsSinceEpoch / 86400;
       fillUsingDaysSinceEpoch(daysSinceEpoch);
 
@@ -301,7 +302,7 @@ class DateTime {
     uint32_t toDaysSinceEpoch() const {
       uint32_t daysSinceEpoch = toDaysSinceEpochIgnoringTimeZone();
       int32_t utcOffset = ((mHour * 60) + mMinute) * (uint32_t) 60 + mSecond;
-      utcOffset -= mTimeZone.asEffectiveSecondOffset();
+      utcOffset -= mTimeZone.asEffectiveOffsetSeconds();
 
       // Increment or decrement the day count depending on the time zone.
       if (utcOffset >= 86400) {
@@ -328,7 +329,7 @@ class DateTime {
     uint32_t toSecondsSinceEpoch() const {
       uint32_t daysSinceEpoch = toDaysSinceEpochIgnoringTimeZone();
       int32_t utcOffset = ((mHour * 60) + mMinute) * (uint32_t) 60 + mSecond;
-      utcOffset -= mTimeZone.asEffectiveSecondOffset();
+      utcOffset -= mTimeZone.asEffectiveOffsetSeconds();
       return daysSinceEpoch * (uint32_t) 86400 + utcOffset;
     }
 
@@ -409,7 +410,7 @@ class DateTime {
 
     /**
      * Return number of days since AceTime epoch (2000-01-01 00:00:00Z),
-     * ignoring the tzCode.
+     * ignoring the offsetCode.
      *
      * Uses Julian days which normally start at 12:00:00. But this method
      * returns the delta number of days since 00:00:00, so we can interpret the

@@ -176,8 +176,8 @@ is UTC-07:00 and is created like this:
 
 ```C++
 TimeZone pdt = TimeZone::forHour(-8).isDst(true); // UTC-08:00 w/ DST true
-int16_t standardMinutes = pdt.asStandardMinuteOffset(); // returns -480
-int16_t effectiveMinutes = pdt.asEffectiveMinuteOffset(); // returns -420
+int16_t standardOffsetMinutes = pdt.asStandardOffsetMinutes(); // returns -480
+int16_t effectiveOffsetMinutes = pdt.asEffectiveOffsetMinutes(); // returns -420
 bool isDst = pdt.isDst(); // returns true
 ```
 

@@ -57,8 +57,8 @@ void TimeZone::initFromOffsetString(const char* ts) {
   minute = 10 * minute + (*ts++ - '0');
   ts++;
 
-  uint8_t code = hour * 4 + (minute / 15);
-  mTzCode = (utcSign == '-') ? -code : code;
+  uint8_t offsetCode = hour * 4 + (minute / 15);
+  mOffsetCode = (utcSign == '-') ? -offsetCode : offsetCode;
 }
 
 }
