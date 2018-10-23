@@ -10,14 +10,15 @@
   #include <WiFi.h>
 #endif
 #include <WiFiUdp.h>
+#include "../common/logger.h"
 #include "TimeKeeper.h"
-#include "common/logger.h"
 
 #ifndef ACE_TIME_NTP_TIME_PROVIDER_DEBUG
 #define ACE_TIME_NTP_TIME_PROVIDER_DEBUG 0
 #endif
 
 namespace ace_time {
+namespace provider {
 
 /**
  * A TimeProvider that retrieves the time from an NTP server. This class has the
@@ -169,6 +170,7 @@ class NtpTimeProvider: public TimeProvider {
     bool mIsSetUp = false;
 };
 
+}
 }
 
 #endif // defined(ESP8266) || defined(ESP32)

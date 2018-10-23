@@ -7,6 +7,7 @@
 #include "StoredInfo.h"
 
 using namespace ace_time;
+using namespace ace_time::provider;
 
 // Set to 1 to set the TimeProvider::pollNow() method.
 class Controller {

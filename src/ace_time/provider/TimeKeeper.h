@@ -5,6 +5,7 @@
 #include "TimeProvider.h"
 
 namespace ace_time {
+namespace provider {
 
 /**
  * A TimeProvider whose time can be set by the end-user. For example, an RTC
@@ -19,6 +20,7 @@ class TimeKeeper: public TimeProvider {
     virtual void setNow(uint32_t secondsSinceEpoch) = 0;
 };
 
+}
 }
 
 #endif

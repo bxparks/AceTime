@@ -2,7 +2,7 @@
 #define ACE_TIME_TESTABLE_SYSTEM_TIME_KEEPER_H
 
 #include <stdint.h>
-#include "../SystemTimeKeeper.h"
+#include "../provider/SystemTimeKeeper.h"
 
 namespace ace_time {
 namespace testing {
@@ -11,7 +11,7 @@ namespace testing {
  * A version of SystemTimeKeeper that allows the millis() function to be
  * manually set for testing purposes.
  */
-class TestableSystemTimeKeeper: public SystemTimeKeeper {
+class TestableSystemTimeKeeper: public provider::SystemTimeKeeper {
   public:
     explicit TestableSystemTimeKeeper(
             TimeProvider* syncTimeProvider /* nullable */,

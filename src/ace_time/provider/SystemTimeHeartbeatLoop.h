@@ -5,6 +5,7 @@
 #include "SystemTimeKeeper.h"
 
 namespace ace_time {
+namespace provider {
 
 /**
  * A class that peridically freshens the SystemTimeKeeper using the heartbeat
@@ -45,6 +46,7 @@ class SystemTimeHeartbeatLoop {
     unsigned long mLastSyncMillis = 0; // should be the same type as millis()
 };
 
+}
 }
 
 #endif

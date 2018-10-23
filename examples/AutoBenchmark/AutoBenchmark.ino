@@ -14,6 +14,7 @@
 #include "Benchmark.h"
 
 using namespace ace_time;
+using namespace ace_time::provider;
 
 void setup() {
   delay(1000);

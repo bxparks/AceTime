@@ -5,6 +5,7 @@
 #include "SystemTimeKeeper.h"
 
 namespace ace_time {
+namespace provider {
 
 /**
  * A coroutine that calls SystemTimeKeeper.getNow() peridically. This must be
@@ -38,6 +39,7 @@ class SystemTimeHeartbeatCoroutine: public ace_routine::Coroutine {
     uint16_t const mHeartbeatPeriodMillis;
 };
 
+}
 }
 
 #endif

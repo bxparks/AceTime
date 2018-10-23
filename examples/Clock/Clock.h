@@ -10,6 +10,7 @@
 
 using namespace ace_time;
 using namespace ace_time::common;
+using namespace ace_time::provider;
 
 /**
  * Class responsible for rendering the RenderingInfo to the indicated display.

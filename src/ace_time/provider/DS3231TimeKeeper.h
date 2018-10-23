@@ -2,12 +2,13 @@
 #define ACE_TIME_DS3231_TIME_KEEPER_H
 
 #include <stdint.h>
-#include "hw/DS3231.h"
-#include "hw/HardwareDateTime.h"
+#include "../hw/DS3231.h"
+#include "../hw/HardwareDateTime.h"
+#include "../DateTime.h"
 #include "TimeKeeper.h"
-#include "DateTime.h"
 
 namespace ace_time {
+namespace provider {
 
 /**
  * An implementation of TimeKeeper that uses a DS3231 RTC chip.
@@ -51,6 +52,7 @@ class DS3231TimeKeeper: public TimeKeeper {
     const hw::DS3231 mDS3231;
 };
 
+}
 }
 
 #endif

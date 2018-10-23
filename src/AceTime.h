@@ -11,18 +11,18 @@
 #include "ace_time/TimeZone.h"
 #include "ace_time/DateTime.h"
 #include "ace_time/TimePeriod.h"
-#include "ace_time/TimeProvider.h"
-#include "ace_time/TimeKeeper.h"
-#include "ace_time/NtpTimeProvider.h"
-#include "ace_time/DS3231TimeKeeper.h"
-#include "ace_time/SystemTimeKeeper.h"
-#include "ace_time/SystemTimeSyncLoop.h"
-#include "ace_time/SystemTimeHeartbeatLoop.h"
+#include "ace_time/provider/TimeProvider.h"
+#include "ace_time/provider/TimeKeeper.h"
+#include "ace_time/provider/NtpTimeProvider.h"
+#include "ace_time/provider/DS3231TimeKeeper.h"
+#include "ace_time/provider/SystemTimeKeeper.h"
+#include "ace_time/provider/SystemTimeSyncLoop.h"
+#include "ace_time/provider/SystemTimeHeartbeatLoop.h"
 
 // activate only if <AceRoutine.h> is included before this header
 #ifdef ACE_ROUTINE_VERSION
-  #include "ace_time/SystemTimeSyncCoroutine.h"
-  #include "ace_time/SystemTimeHeartbeatCoroutine.h"
+  #include "ace_time/provider/SystemTimeSyncCoroutine.h"
+  #include "ace_time/provider/SystemTimeHeartbeatCoroutine.h"
 #endif
 
 // Version format: xxyyzz == "xx.yy.zz", 100 == 0.1.0

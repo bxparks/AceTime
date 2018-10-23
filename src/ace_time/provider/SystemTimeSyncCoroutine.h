@@ -2,12 +2,13 @@
 #define ACE_TIME_SYSTEM_TIME_SYNC_COROUTINE_H
 
 #include <stdint.h>
+#include "../common/TimingStats.h"
 #include "SystemTimeKeeper.h"
-#include "common/TimingStats.h"
 
 class SystemTimeSyncCoroutineTest;
 
 namespace ace_time {
+namespace provider {
 
 /**
  * A coroutine that syncs the SystemTimeKeeper with its syncTimeProvider.
@@ -119,6 +120,7 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
     uint16_t mDelayLoopCounter;
 };
 
+}
 }
 
 #endif

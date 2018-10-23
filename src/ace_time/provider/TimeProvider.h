@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 namespace ace_time {
+namespace provider {
 
 /**
  * Base class for objects that provide a source of time whose time cannot be
@@ -35,6 +36,7 @@ class TimeProvider {
     virtual uint32_t readResponse() const { return getNow(); }
 };
 
+}
 }
 
 #endif

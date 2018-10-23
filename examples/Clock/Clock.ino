@@ -27,6 +27,7 @@ using namespace ace_segment;
 using namespace ace_button;
 using namespace ace_routine;
 using namespace ace_time;
+using namespace ace_time::provider;
 
 //------------------------------------------------------------------
 // Configure CrcEeprom.

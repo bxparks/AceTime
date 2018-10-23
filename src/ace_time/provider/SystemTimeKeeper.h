@@ -3,15 +3,12 @@
 
 #include <Arduino.h> // millis()
 #include <stdint.h>
+#include "../common/TimingStats.h"
+#include "../common/logger.h"
 #include "TimeKeeper.h"
-#include "common/TimingStats.h"
-#include "common/logger.h"
-
-#ifndef ACE_TIME_ENABLE_SERIAL
-#define ACE_TIME_ENABLE_SERIAL 0
-#endif
 
 namespace ace_time {
+namespace provider {
 
 /**
  * A TimeKeeper that uses the Arduino millis() function to advance the time
@@ -149,6 +146,7 @@ class SystemTimeKeeper: public TimeKeeper {
     uint32_t mLastSyncTime = 0; // time when last synced
 };
 
+}
 }
 
 #endif

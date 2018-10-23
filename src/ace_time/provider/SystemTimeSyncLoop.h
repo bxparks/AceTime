@@ -5,6 +5,7 @@
 #include "SystemTimeKeeper.h"
 
 namespace ace_time {
+namespace provider {
 
 /**
  * A class that periodically that syncs the SystemTimeKeeper with its
@@ -82,6 +83,7 @@ class SystemTimeSyncLoop {
     uint16_t mCurrentSyncPeriodSeconds;
 };
 
+}
 }
 
 #endif

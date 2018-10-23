@@ -8,9 +8,11 @@
 namespace ace_time {
 namespace testing {
 
-class TestableSystemTimeSyncCoroutine: public SystemTimeSyncCoroutine {
+class TestableSystemTimeSyncCoroutine:
+    public provider::SystemTimeSyncCoroutine {
   public:
-    TestableSystemTimeSyncCoroutine(SystemTimeKeeper& systemTimeKeeper,
+    TestableSystemTimeSyncCoroutine(
+        provider::SystemTimeKeeper& systemTimeKeeper,
         FakeMillis* fakeMillis):
       SystemTimeSyncCoroutine(systemTimeKeeper),
       mFakeMillis(fakeMillis) {}

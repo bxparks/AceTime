@@ -3,6 +3,7 @@
 #if defined(ESP8266) || defined(ESP32)
 
 namespace ace_time {
+namespace provider {
 
 const char NtpTimeProvider::kNtpServerName[] = "us.pool.ntp.org";
 
@@ -33,6 +34,7 @@ void NtpTimeProvider::setup(const char* ssid, const char* password) {
   mIsSetUp = true;
 }
 
+}
 }
 
 #endif
