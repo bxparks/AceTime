@@ -38,18 +38,20 @@ There are roughly 2 categories of classes provided by the AceTime library:
 
 * date and time primitives
     * e.g. `DateTime`, `TimeZone`, `TimePeriod`
+    * uses `namespace ace_time`
     * Borrowing some concepts from the
       [Joda-Time](http://www.joda.org/joda-time/quickstart.html) Java library.
 * system clock classes
     * e.g. `SystemTimeKeeper`, `NtpTimeProvider`, `DS3231TimeKeeper`
+    * uses `namespace ace_time::provider`
     * Implements the system clock syncing feature of the Arduino Time library.
 
-Time zones are handled as offsets from UTC in 15-minute increments which
-supports every time zone offset currently used today. This allows the time zone
-to be stored as a single `int8_t` integer. The AceTime library does **not**
-support the [tz database](https://en.wikipedia.org/wiki/Tz_database) because of
-the limited flash memory capacity of most Arduino boards. This means that
-Daylight Saving time must be handled manually.
+Time zones are internally represented as offsets from UTC in 15-minute
+increments which supports every time zone offset currently used today. This
+allows the time zone to be stored as a single `int8_t` integer. The AceTime
+library currently does **not** support the [tz
+database](https://en.wikipedia.org/wiki/Tz_database).
+This means that Daylight Saving time must be handled manually.
 
 Version: 0.1 (2018-09-25)
 
@@ -122,12 +124,23 @@ The following example sketches are provided:
 
 Only a single header file `AceTime.h` is required to use this library.
 To prevent name clashes with other libraries that the calling code may use, all
-classes are defined in the `ace_time` namespace. To use the code without
-prepending the `ace_time::` prefix, use the `using` directive:
+classes are separated into a number of namespaces.
+
+* Date Time primitives
+    * `ace_time` namespace
+    * `DateTime`, `TimeZone`, `TimePeriod`, etc
+* Time providers (aka "clocks")
+    * `ace_time::provider` namespace
+    * `SystemTimeKeeper`, `NtpTimeProvider`, `DS3231TimeKeeper`, etc
+
+The clases in these 2 namespaces do *not* depend on each other.
+To use the classes without prepending the `ace_time::` or `ace_time::provider::`
+prefixes, use the `using` directive:
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
+using namespace ace_time::provider;
 ```
 
 ### Date Time Primitives
@@ -364,6 +377,7 @@ class TimeProvider {
     ...
 };
 ```
+
 To obtain the human-readable version of the current time, create a
 `DateTime` object from the seconds from Epoch returned by `getNow()`:
 ```C++
@@ -387,7 +401,14 @@ In other words, the `TimeKeeper` can be set to the current time. It is then
 expected to have an internal clock that continues to update the current time.
 
 The AceTime library comes with a number of time providers and keepers, as
-described in the following subsections.
+described in the following subsections. All of these classes are in the
+`ace_time::provider` namespace, and they do *not* depend on the
+`DateTime` classes of the `ace_time` namespace.
+
+```
+#include <AceTime.h>
+using namespace ace_time::provider;
+```
 
 #### DS3231 Time Keeper
 
