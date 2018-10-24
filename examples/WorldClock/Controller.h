@@ -128,8 +128,8 @@ class Controller {
     void modeButtonLongPress() {
       switch (mMode) {
         case MODE_DATE_TIME:
-          mChangingDateTime = DateTime(mTimeKeeper.getNow(),
-              mClockInfo0.timeZone);
+          mChangingDateTime = DateTime::forSeconds(
+              mTimeKeeper.getNow(), mClockInfo0.timeZone);
           mChangingClockInfo = mClockInfo0;
           mSecondFieldCleared = false;
           mMode = MODE_CHANGE_YEAR;
@@ -199,11 +199,11 @@ class Controller {
           break;
         case MODE_CHANGE_TIME_ZONE_HOUR:
           mSuppressBlink = true;
-          mChangingClockInfo.timeZone.incrementHour();
+          mChangingClockInfo.timeZone.zoneOffset().incrementHour();
           break;
         case MODE_CHANGE_TIME_ZONE_MINUTE:
           mSuppressBlink = true;
-          mChangingClockInfo.timeZone.increment15Minutes();
+          mChangingClockInfo.timeZone.zoneOffset().increment15Minutes();
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
@@ -250,7 +250,7 @@ class Controller {
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
           if (!mSecondFieldCleared) {
-            DateTime dt = DateTime(mTimeKeeper.getNow());
+            DateTime dt = DateTime::forSeconds(mTimeKeeper.getNow());
             mChangingDateTime.second(dt.second());
           }
           break;
@@ -329,7 +329,7 @@ class Controller {
     /** Read the UTC DateTime from RTC and convert to current time zone. */
     void readDateTime(DateTime* dateTime) {
       uint32_t now = mTimeKeeper.getNow();
-      *dateTime = DateTime(now, mClockInfo0.timeZone);
+      *dateTime = DateTime::forSeconds(now, mClockInfo0.timeZone);
     }
 
     void preserveInfo() {

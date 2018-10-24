@@ -143,11 +143,12 @@ class TimezoneCommand: public CommandHandler {
         printer.println();
       } else {
         SHIFT;
-        TimeZone tz = TimeZone::forOffsetString(argv[0]);
-        if (tz.isError()) {
-          printer.println(FF("Invalid time zone"));
+        ZoneOffset offset = ZoneOffset::forOffsetString(argv[0]);
+        if (offset.isError()) {
+          printer.println(FF("Invalid time zone offset"));
           return;
         }
+        TimeZone tz = TimeZone::forZoneOffset(offset);
         controller.setTimeZone(tz);
         printer.print(FF("Time zone set to: "));
         tz.printTo(printer);

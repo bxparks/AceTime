@@ -46,7 +46,8 @@ class Clock {
         mTimeZone = storedInfo.timeZone;
         mHourMode = storedInfo.hourMode;
       } else {
-        mTimeZone = TimeZone::forOffsetCode(kDefaultOffsetCode);
+        mTimeZone = TimeZone::forZoneOffset(
+            ZoneOffset::forOffsetCode(kDefaultOffsetCode));
         mHourMode = StoredInfo::kTwentyFour;
       }
 
@@ -54,7 +55,7 @@ class Clock {
       uint32_t nowSeconds = mTimeKeeper.getNow();
 
       // Set the current date time using the mTimeZone.
-      mCurrentDateTime = DateTime(nowSeconds, mTimeZone);
+      mCurrentDateTime = DateTime::forSeconds(nowSeconds, mTimeZone);
     }
 
     /**
@@ -82,7 +83,7 @@ class Clock {
 
   protected:
     void updateDateTime() {
-      mCurrentDateTime = DateTime(mTimeKeeper.getNow(), mTimeZone);
+      mCurrentDateTime = DateTime::forSeconds(mTimeKeeper.getNow(), mTimeZone);
 
       // If in CHANGE mode, and the 'second' field has not been cleared,
       // update the mChangingDateTime.second field with the current second.
@@ -163,7 +164,7 @@ class Clock {
     /** Read the UTC DateTime from RTC and convert to current time zone. */
     void readDateTime(DateTime* dateTime) {
       uint32_t now = mTimeKeeper.getNow();
-      *dateTime = DateTime(now, mTimeZone);
+      *dateTime = DateTime::forSeconds(now, mTimeZone);
     }
 
     void preserveInfo() {

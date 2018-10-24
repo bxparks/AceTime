@@ -126,21 +126,30 @@ Only a single header file `AceTime.h` is required to use this library.
 To prevent name clashes with other libraries that the calling code may use, all
 classes are separated into a number of namespaces.
 
+* Common utilities
+    * `ace_time::common` namespace
+    * e.g. `DateStrings`
 * Date Time primitives
     * `ace_time` namespace
-    * `DateTime`, `TimeZone`, `TimePeriod`, etc
+    * e.g. `DateTime`, `TimeZone`, `TimePeriod`
 * Time providers (aka "clocks")
     * `ace_time::provider` namespace
-    * `SystemTimeKeeper`, `NtpTimeProvider`, `DS3231TimeKeeper`, etc
+    * e.g. `SystemTimeKeeper`, `NtpTimeProvider`, `DS3231TimeKeeper`
 
-The clases in these 2 namespaces do *not* depend on each other.
-To use the classes without prepending the `ace_time::` or `ace_time::provider::`
-prefixes, use the `using` directive:
+Each namespace in the above depends on the classes of the previous namespace.
+The `ace_time::provider` is mostly independent of `ace_time` except that
+`DS3231TimeKeeper` uses `LocalDateTime` to convert between `secondsSinceEpoch`
+and the `LocalDateTime`.
+
+To use the classes without prepending the `ace_time::`, `ace_time::provider::`
+or `ace_tme::common` prefixes, use one or more of the following `using`
+directives:
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
 using namespace ace_time::provider;
+using namespace ace_time::common;
 ```
 
 ### Date Time Primitives

@@ -8,7 +8,10 @@
 #ifndef ACE_TIME_ACE_TIME_H
 #define ACE_TIME_ACE_TIME_H
 
+#include "ace_time/common/DateStrings.h"
+#include "ace_time/ZoneOffset.h"
 #include "ace_time/TimeZone.h"
+#include "ace_time/OffsetDateTime.h"
 #include "ace_time/DateTime.h"
 #include "ace_time/TimePeriod.h"
 #include "ace_time/provider/TimeProvider.h"

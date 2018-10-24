@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "../hw/DS3231.h"
 #include "../hw/HardwareDateTime.h"
-#include "../DateTime.h"
+#include "../OffsetDateTime.h"
 #include "TimeKeeper.h"
 
 namespace ace_time {
@@ -26,25 +26,26 @@ class DS3231TimeKeeper: public TimeKeeper {
     }
 
     void setNow(uint32_t secondsSinceEpoch) override {
-      DateTime now(secondsSinceEpoch);
+      OffsetDateTime now(secondsSinceEpoch);
       mDS3231.setDateTime(toHardwareDateTime(now));
     }
 
   private:
     /**
      * Convert the HardwareDateTime returned by the DS3231 chip to
-     * the DateTime object using UTC time zone.
+     * the OffsetDateTime object using UTC time zone.
      */
-    static DateTime toDateTime(const hw::HardwareDateTime& dt) {
-      return DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
+    static OffsetDateTime toDateTime(const hw::HardwareDateTime& dt) {
+      return OffsetDateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute,
+          dt.second);
     }
 
     /**
-     * Convert a DateTime object to a HardwareDateTime object, ignore time zone.
-     * In practice, it will often be most convenient to store the DS3231 as UTC
-     * time.
+     * Convert a OffsetDateTime object to a HardwareDateTime object, ignore time
+     * zone. In practice, it will often be most convenient to store the DS3231
+     * as UTC time.
      */
-    static hw::HardwareDateTime toHardwareDateTime(const DateTime& dt) {
+    static hw::HardwareDateTime toHardwareDateTime(const OffsetDateTime& dt) {
       return hw::HardwareDateTime{dt.year(), dt.month(), dt.day(), dt.hour(),
           dt.minute(), dt.second(), dt.dayOfWeek()};
     }

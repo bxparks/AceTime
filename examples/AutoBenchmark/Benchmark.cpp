@@ -48,7 +48,7 @@ void disableOptimization(const DateTime& dt) {
   guard ^= dt.hour();
   guard ^= dt.minute();
   guard ^= dt.second();
-  guard ^= dt.timeZone().offsetCode();
+  guard ^= dt.timeZone().zoneOffset().offsetCode();
 }
 
 void disableOptimization(uint32_t value) {
@@ -112,7 +112,7 @@ void runBenchmarks() {
       runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
     // DateTime(seconds) takes seconds, but use millis for testing purposes.
-    DateTime dateTime = DateTime(tickMillis);
+    DateTime dateTime = DateTime::forSeconds(tickMillis);
     disableOptimization(dateTime);
     disableOptimization(tickMillis);
   });
@@ -124,7 +124,7 @@ void runBenchmarks() {
   unsigned long toDaysSinceEpochMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
     // DateTime(seconds) takes seconds, but use millis for testing purposes.
-    DateTime dateTime = DateTime(tickMillis);
+    DateTime dateTime = DateTime::forSeconds(tickMillis);
     uint32_t daysSinceEpoch = dateTime.toDaysSinceEpoch();
     disableOptimization(dateTime);
     disableOptimization(daysSinceEpoch);
@@ -138,7 +138,7 @@ void runBenchmarks() {
   unsigned long toSecondsSinceEpochMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
     // DateTime(seconds) takes seconds, but use millis for testing purposes.
-    DateTime dateTime = DateTime(tickMillis);
+    DateTime dateTime = DateTime::forSeconds(tickMillis);
     uint32_t secondsSinceEpoch = dateTime.toSecondsSinceEpoch();
     disableOptimization(dateTime);
     disableOptimization(secondsSinceEpoch);

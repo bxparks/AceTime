@@ -112,11 +112,11 @@ class FullOledPresenter: public Presenter {
     }
 
     void displayTimeZone() const {
-      const TimeZone& timeZone = mRenderingInfo.dateTime.timeZone();
       int8_t sign;
       uint8_t hour;
       uint8_t minute;
-      timeZone.extractStandardHourMinute(sign, hour, minute);
+      const TimeZone& timeZone = mRenderingInfo.dateTime.timeZone();
+      timeZone.zoneOffset().asHourMinute(sign, hour, minute);
 
       mOled.print("UTC");
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_HOUR)) {

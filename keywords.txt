@@ -6,8 +6,11 @@
 # Datatypes (KEYWORD1)
 #######################################
 
+DateStrings	KEYWORD1
 DateTime	KEYWORD1
+OffsetDateTime	KEYWORD1
 TimeZone	KEYWORD1
+ZoneOffset	KEYWORD1
 TimePeriod	KEYWORD1
 TimeProvider	KEYWORD1
 TimeKeeper	KEYWORD1
@@ -23,7 +26,14 @@ SystemTimeHeartbeatCoroutine	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-# DateTime.h
+# DateStrings.h
+monthLongString	KEYWORD2
+monthShortString	KEYWORD2
+weekDayLongString	KEYWORD2
+weekDayShortString	KEYWORD2
+
+# OffsetDateTime.h
+forDateString	KEYWORD2
 isError	KEYWORD2
 setError	KEYWORD2
 year	KEYWORD2
@@ -34,8 +44,8 @@ hour	KEYWORD2
 minute	KEYWORD2
 second	KEYWORD2
 dayOfWeek	KEYWORD2
-timeZone	KEYWORD2
-convertToTimeZone	KEYWORD2
+zoneOffset	KEYWORD2
+convertToZoneOffset	KEYWORD2
 printTo	KEYWORD2
 incrementYear	KEYWORD2
 incrementMonth	KEYWORD2
@@ -47,25 +57,28 @@ toSecondsSinceEpoch	KEYWORD2
 toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
 
-# TimeZone.h
+# ZoneOffset.h
 forOffsetCode	KEYWORD2
 forHour	KEYWORD2
 forHourMinute	KEYWORD2
 forOffsetString	KEYWORD2
 offsetCode	KEYWORD2
-effectiveOffsetCode	KEYWORD2
-isDst	KEYWORD2
-asStandardOffsetMinutes	KEYWORD2
-asStandardOffsetSeconds	KEYWORD2
-asEffectiveOffsetMinutes	KEYWORD2
-asEffectiveOffsetSeconds	KEYWORD2
+asMinutes	KEYWORD2
+asSeconds	KEYWORD2
+asHourMinute	KEYWORD2
 incrementHour	KEYWORD2
 increment15Minutes	KEYWORD2
-extractStandardHourMinute	KEYWORD2
-extractEffectiveHourMinute	KEYWORD2
 setError	KEYWORD2
 isError	KEYWORD2
-printEffectiveOffsetTo	KEYWORD2
+printTo	KEYWORD2
+
+# TimeZone.h
+forZoneOffset	KEYWORD2
+zoneOffset	KEYWORD2
+effectiveZoneOffset	KEYWORD2
+isDst	KEYWORD2
+setError	KEYWORD2
+isError	KEYWORD2
 printTo	KEYWORD2
 
 # TimePeriod.h
@@ -101,7 +114,7 @@ getLastSyncTime	KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
-# DateTime.h
+# OffsetDateTime.h
 kSecondsSinceUnixEpoch	LITERAL1
 kDaysSinceJulianEpoch	LITERAL1
 kEpochYear	LITERAL1

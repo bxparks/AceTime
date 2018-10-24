@@ -85,7 +85,7 @@ class Presenter {
     }
 
     void displayDateTime() const {
-      const DateTime dateTime(mRenderingInfo.now,
+      const DateTime dateTime = DateTime::forSeconds(mRenderingInfo.now,
           mRenderingInfo.clockInfo.timeZone);
       mOled.setFont(fixed_bold10x15);
 
@@ -137,7 +137,7 @@ class Presenter {
     }
 
     void displayChangeableDateTime() const {
-      const DateTime dateTime(mRenderingInfo.now,
+      const DateTime dateTime = DateTime::forSeconds(mRenderingInfo.now,
           mRenderingInfo.clockInfo.timeZone);
       mOled.setFont(fixed_bold10x15);
       mOled.set1X();
@@ -212,10 +212,11 @@ class Presenter {
     void displayClockInfo() const {
       const ClockInfo& clockInfo = mRenderingInfo.clockInfo;
       const TimeZone& timeZone = clockInfo.timeZone;
+      const ZoneOffset& zoneOffset = timeZone.zoneOffset();
       int8_t sign;
       uint8_t hour;
       uint8_t minute;
-      timeZone.extractStandardHourMinute(sign, hour, minute);
+      zoneOffset.asHourMinute(sign, hour, minute);
 
       mOled.print(FF("12/24: "));
       if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
