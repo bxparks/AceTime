@@ -531,6 +531,13 @@ test(TimeZoneTest, setError) {
   assertTrue(error.isError());
 }
 
+test(timeZoneZoneInfo) {
+  uint32_t now = 593481600; // 2018-10-21
+  TimeZone losAngeles = TimeZone::forZone(&ZoneInfo::kZoneInfoLosAngeles);
+  ZoneOffset offset = losAngeles.effectiveZoneOffset(now);
+  assertEqual(offset.toOffsetCode(), -28);
+}
+
 // --------------------------------------------------------------------------
 // DateStrings
 // --------------------------------------------------------------------------

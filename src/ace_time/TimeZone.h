@@ -2,7 +2,10 @@
 #define ACE_TIME_TIME_ZONE_H
 
 #include <stdint.h>
+#include "OffsetDateTime.h"
 #include "ZoneOffset.h"
+#include "ZoneInfo.h"
+#include "ZoneRule.h"
 
 class Print;
 
@@ -34,17 +37,11 @@ namespace ace_time {
  * we can encode all currently used time zones as integer multiples of
  * 15-minute offsets from UTC. Some locations may observe daylight saving time,
  * so the actual range of the offset in practice may be UTC-12:00 to UTC+15:00.
- *
- * This class does NOT know about the "tz database" (aka Olson database)
- * https://en.wikipedia.org/wiki/Tz_database. Therefore, it does not know about
- * symbolic time zones (e.g. "America/Los_Angeles"). It also does not know
- * about when daylight saving time (DST) starts and ends for specific time
- * zones.
  */
 class TimeZone {
   public:
     /** Factory method. Create from ZoneOffset. */
-    static TimeZone forZoneOffset(const ZoneOffset& zoneOffset) {
+    static TimeZone forZoneOffset(ZoneOffset zoneOffset) {
       return TimeZone(zoneOffset);
     }
 
@@ -59,10 +56,16 @@ class TimeZone {
           ZoneOffset::forHourMinute(sign, hour, minute));
     }
 
-    /**
-     * Constructor. Create a time zone corresponding to UTC with no offset.
-     */
-    explicit TimeZone() {}
+    /** Factory method. Create from ZoneInfo. */
+    static TimeZone forZone(const ZoneInfo* zoneInfo) {
+      return TimeZone(zoneInfo);
+    }
+
+    /** Constructor. Create UTC time zone with no offset. */
+    explicit TimeZone():
+        mTimeZoneType(kTimeZoneTypeOffset),
+        mZoneOffset(),
+        mZoneInfo(nullptr) {}
 
     /** Return the ZoneOffset. */
     const ZoneOffset& zoneOffset() const { return mZoneOffset; }
@@ -103,9 +106,19 @@ class TimeZone {
     }
 
     /** Return the effective zone offset. */
-    ZoneOffset effectiveZoneOffset(uint32_t /*epochSeconds*/) const {
-      return ZoneOffset::forOffsetCode(
-					mZoneOffset.toOffsetCode() + (mIsDst ? 4 : 0));
+    ZoneOffset effectiveZoneOffset(uint32_t secondsSinceEpoch) const {
+      if (mTimeZoneType == kTimeZoneTypeOffset) {
+        return ZoneOffset::forOffsetCode(
+            mZoneOffset.toOffsetCode() + (mIsDst ? 4 : 0));
+      } else {
+        ZoneOffset standardOffset =
+            ZoneOffset::forOffsetCode(mZoneInfo->offsetCode);
+        OffsetDateTime dt = OffsetDateTime::forEpochSeconds(
+            secondsSinceEpoch, standardOffset);
+        const ZoneRule* zoneRule = findZoneRule(dt);
+        int8_t offsetCode = mZoneInfo->offsetCode + zoneRule->offsetHour * 4;
+        return ZoneOffset::forOffsetCode(offsetCode);
+      }
     }
 
     /**
@@ -137,11 +150,35 @@ class TimeZone {
     friend bool operator!=(const TimeZone& a, const TimeZone& b);
 
     /** Constructor. */
-    explicit TimeZone(const ZoneOffset& zoneOffset):
-        mZoneOffset(zoneOffset) {}
+    explicit TimeZone(ZoneOffset zoneOffset):
+        mTimeZoneType(kTimeZoneTypeOffset),
+        mZoneOffset(zoneOffset),
+        mZoneInfo(nullptr) {}
+
+    /** Constructor. */
+    explicit TimeZone(const ZoneInfo* zoneInfo):
+        mTimeZoneType(kTimeZoneTypeInfo),
+        mZoneOffset(),
+        mZoneInfo(zoneInfo) {}
 
     /** Set time zone from the given UTC offset string. */
     TimeZone& initFromOffsetString(const char* offsetString);
+
+    const ZoneRule* findZoneRule(const OffsetDateTime& /*dt*/) const {
+      const ZoneRule* rule = mZoneInfo->rules[0];
+      return rule;
+    }
+
+    /** Time zone using ZoneOffset with manual DST. */
+    static const uint8_t kTimeZoneTypeOffset = 0;
+
+    /** Time zone using ZoneInfo from the TZ Database. */
+    static const uint8_t kTimeZoneTypeInfo = 1;
+
+    // TODO: See if the member variables can be made 'const'.
+
+    /** Time Zone type. */
+    uint8_t mTimeZoneType;
 
     /**
      * Time zone code, offset from UTC in 15 minute increments from UTC. In
@@ -160,6 +197,9 @@ class TimeZone {
      * effectiveZoneOffset() will increased by 1h.
      */
     bool mIsDst = false;
+
+    /** Zone info if the TimeZone represents a TZ Database time zone. */
+    const ZoneInfo* mZoneInfo;
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
