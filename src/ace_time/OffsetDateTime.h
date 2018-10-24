@@ -50,13 +50,8 @@ class OffsetDateTime {
     static const uint16_t kEpochYear = 2000;
 
     /**
-     * Constructor. All internal fields are left in an undefined state.
-     */
-    explicit OffsetDateTime() {}
-
-    /**
-     * Constructor using separated date, time, and time zone fields. The
-     * dayOfWeek will be internally generated.
+     * Factory method using separated date, time, and time zone fields. The
+     * dayOfWeek will be lazily evaluated.
      *
      * @param year last 2 digits of the year from year 2000
      * @param month month with January=1, December=12
@@ -69,21 +64,14 @@ class OffsetDateTime {
      * in the last component allows us to add an additional constructor that
      * accepts a millisecond component in the future.
      */
-    explicit OffsetDateTime(uint8_t year, uint8_t month, uint8_t day,
-            uint8_t hour, uint8_t minute, uint8_t second,
-            ZoneOffset zoneOffset = ZoneOffset()):
-        mYear(year),
-        mMonth(month),
-        mDay(day),
-        mHour(hour),
-        mMinute(minute),
-        mSecond(second),
-        mZoneOffset(zoneOffset),
-        mDayOfWeek(0) {
+    static OffsetDateTime forComponents(uint8_t year, uint8_t month,
+            uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
+            ZoneOffset zoneOffset = ZoneOffset()) {
+      return OffsetDateTime(year, month, day, hour, minute, second, zoneOffset);
     }
 
     /**
-     * Constructor. Create the various components of the OffsetDateTime from
+     * Factory method. Create the various components of the OffsetDateTime from
      * the secondsSinceEpoch and its ZoneOffset. The dayOfWeek will be
      * calculated lazily.
      *
@@ -95,29 +83,32 @@ class OffsetDateTime {
      * @param secondsSinceEpoch Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00Z). A 0 value is a sentinel that is considerd to
      *    be an error, and causes isError() to return true.
-     * @param zoneOffset Optional, default UTC time zone.
+     * @param zoneOffset Optional. Default is UTC time zone.
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
-    explicit OffsetDateTime(uint32_t secondsSinceEpoch,
+    static OffsetDateTime forSeconds(uint32_t secondsSinceEpoch,
           ZoneOffset zoneOffset = ZoneOffset()) {
+      OffsetDateTime dt;
       if (secondsSinceEpoch == 0) {
-        setError();
-        return;
+        return dt.setError();
       }
 
-      mZoneOffset = zoneOffset;
+      dt.mZoneOffset = zoneOffset;
 
       secondsSinceEpoch += zoneOffset.asSeconds();
       uint32_t daysSinceEpoch = secondsSinceEpoch / 86400;
-      fillUsingDaysSinceEpoch(daysSinceEpoch);
+      extractYearMonthDay(daysSinceEpoch, dt.mYear, dt.mMonth, dt.mDay,
+          dt.mDayOfWeek);
 
       uint32_t seconds = secondsSinceEpoch % 86400;
-      mSecond = seconds % 60;
+      dt.mSecond = seconds % 60;
       seconds /= 60;
-      mMinute = seconds % 60;
+      dt.mMinute = seconds % 60;
       seconds /= 60;
-      mHour = seconds;
+      dt.mHour = seconds;
+
+      return dt;
     }
 
     /**
@@ -157,6 +148,11 @@ class OffsetDateTime {
 
       return forDateString(buffer);
     }
+
+    /**
+     * Constructor. All internal fields are left in an undefined state.
+     */
+    explicit OffsetDateTime() {}
 
     /** Return true if any component indicates an error condition. */
     bool isError() const {
@@ -262,7 +258,7 @@ class OffsetDateTime {
      */
     OffsetDateTime convertToZoneOffset(const ZoneOffset& zoneOffset) const {
       uint32_t secondsSinceEpoch = toSecondsSinceEpoch();
-      return OffsetDateTime(secondsSinceEpoch, zoneOffset);
+      return OffsetDateTime::forSeconds(secondsSinceEpoch, zoneOffset);
     }
 
     /**
@@ -399,6 +395,33 @@ class OffsetDateTime {
     friend bool operator==(const OffsetDateTime& a, const OffsetDateTime& b);
     friend bool operator!=(const OffsetDateTime& a, const OffsetDateTime& b);
 
+    /**
+     * Constructor using separated date, time, and time zone fields. The
+     * dayOfWeek will be internally generated.
+     *
+     * @param year last 2 digits of the year from year 2000
+     * @param month month with January=1, December=12
+     * @param day day of month (1-31)
+     * @param hour hour (0-23)
+     * @param minute minute (0-59)
+     * @param second second (0-59), does not support leap seconds
+     * @param zoneOffset Optional, default is UTC time zone. The time zone
+     * offset in 15-minute increments from UTC. Using a ZoneOffset object here
+     * in the last component allows us to add an additional constructor that
+     * accepts a millisecond component in the future.
+     */
+    explicit OffsetDateTime(uint8_t year, uint8_t month, uint8_t day,
+            uint8_t hour, uint8_t minute, uint8_t second,
+            ZoneOffset zoneOffset = ZoneOffset()):
+        mYear(year),
+        mMonth(month),
+        mDay(day),
+        mHour(hour),
+        mMinute(minute),
+        mSecond(second),
+        mZoneOffset(zoneOffset),
+        mDayOfWeek(0) {}
+
     /** Extract the date time components from the given dateString. */
     OffsetDateTime& initFromDateString(const char* dateString);
 
@@ -448,23 +471,23 @@ class OffsetDateTime {
 
 
     /**
-     * Fill in the (year, month, day, dayOfWeek) fields from daysSinceEpoch.
-     * The (hour, minute, second, zoneOffset) fields are left untouched.
+     * Extract the (year, month, day, dayOfWeek) fields from daysSinceEpoch.
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
-    void fillUsingDaysSinceEpoch(uint32_t daysSinceEpoch) {
+    static void extractYearMonthDay(uint32_t daysSinceEpoch, uint8_t& year,
+        uint8_t& month, uint8_t& day, uint8_t& dayOfWeek) {
       uint32_t J = daysSinceEpoch + kDaysSinceJulianEpoch;
       uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;
       uint32_t e = 4 * f + 3;
       uint32_t g = e % 1461 / 4;
       uint32_t h = 5 * g + 2;
-      mDay = (h % 153) / 5 + 1;
-      mMonth = (h / 153 + 2) % 12 + 1;
-      mYear = (e / 1461) - 4716 + (12 + 2 - mMonth) / 12 - kEpochYear;
+      day = (h % 153) / 5 + 1;
+      month = (h / 153 + 2) % 12 + 1;
+      year = (e / 1461) - 4716 + (12 + 2 - month) / 12 - kEpochYear;
 
       // 2000-01-01 is Saturday (7)
-      mDayOfWeek = (daysSinceEpoch + 6) % 7 + 1;
+      dayOfWeek = (daysSinceEpoch + 6) % 7 + 1;
     }
 
     uint8_t mYear; // [00, 99], year - 2000

@@ -33,6 +33,8 @@ weekDayLongString	KEYWORD2
 weekDayShortString	KEYWORD2
 
 # OffsetDateTime.h
+forComponents	KEYWORD2
+forSeconds	KEYWORD2
 forDateString	KEYWORD2
 isError	KEYWORD2
 setError	KEYWORD2
@@ -46,6 +48,33 @@ second	KEYWORD2
 dayOfWeek	KEYWORD2
 zoneOffset	KEYWORD2
 convertToZoneOffset	KEYWORD2
+printTo	KEYWORD2
+incrementYear	KEYWORD2
+incrementMonth	KEYWORD2
+incrementDay	KEYWORD2
+incrementHour	KEYWORD2
+incrementMinute	KEYWORD2
+toDaysSinceEpoch	KEYWORD2
+toSecondsSinceEpoch	KEYWORD2
+toUnixSeconds	KEYWORD2
+compareTo	KEYWORD2
+
+# DateTime.h
+forComponents	KEYWORD2
+forSeconds	KEYWORD2
+forDateString	KEYWORD2
+isError	KEYWORD2
+setError	KEYWORD2
+year	KEYWORD2
+yearFull	KEYWORD2
+month	KEYWORD2
+day	KEYWORD2
+hour	KEYWORD2
+minute	KEYWORD2
+second	KEYWORD2
+dayOfWeek	KEYWORD2
+zoneOffset	KEYWORD2
+convertToTimeZone	KEYWORD2
 printTo	KEYWORD2
 incrementYear	KEYWORD2
 incrementMonth	KEYWORD2

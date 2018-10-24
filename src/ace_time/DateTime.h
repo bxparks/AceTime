@@ -49,8 +49,11 @@ class DateTime {
     static DateTime forComponents(uint8_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             TimeZone timeZone = TimeZone()) {
+
+      // TODO: Fix calculation of zoneOffset using real secondsSinceEpoch.
       ZoneOffset zoneOffset = timeZone.effectiveZoneOffset(0);
-      OffsetDateTime dt(year, month, day, hour, minute, second, zoneOffset);
+      OffsetDateTime dt = OffsetDateTime::forComponents(
+          year, month, day, hour, minute, second, zoneOffset);
       return DateTime(dt, timeZone);
     }
 
@@ -75,7 +78,8 @@ class DateTime {
       }
 
       ZoneOffset zoneOffset = timeZone.effectiveZoneOffset(secondsSinceEpoch);
-      dt.mOffsetDateTime = OffsetDateTime(secondsSinceEpoch, zoneOffset);
+      dt.mOffsetDateTime = OffsetDateTime::forSeconds(
+          secondsSinceEpoch, zoneOffset);
       dt.mTimeZone = timeZone;
       return dt;
     }
@@ -115,6 +119,16 @@ class DateTime {
 
     /** Return true if any component indicates an error condition. */
     bool isError() const { return mOffsetDateTime.isError(); }
+
+    /**
+     * Mark the DateTime so that isError() returns true. Returns a reference to
+     * (*this) so that an invalid DateTime can be returned in a single
+     * statement like this: 'return DateTime().setError()'.
+     */
+    DateTime& setError() {
+      mOffsetDateTime.setError();
+      return *this;
+    }
 
     /** Return the 2 digit year from year 2000. */
     uint8_t year() const { return mOffsetDateTime.year(); }
@@ -252,16 +266,6 @@ class DateTime {
      */
     int8_t compareTo(const DateTime& that) const {
       return mOffsetDateTime.compareTo(that.mOffsetDateTime);
-    }
-
-    /**
-     * Mark the DateTime so that isError() returns true. Returns a reference to
-     * (*this) so that an invalid DateTime can be returned in a single
-     * statement like this: 'return DateTime().setError()'.
-     */
-    DateTime& setError() {
-      mOffsetDateTime.setError();
-      return *this;
     }
 
   private:

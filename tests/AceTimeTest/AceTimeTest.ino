@@ -12,7 +12,8 @@ using namespace ace_time::common;
 // --------------------------------------------------------------------------
 
 test(daysAndSecondsSinceEpochAt2000_01_01) {
-  OffsetDateTime dt{0, 1, 1, 0, 0, 0}; // 2000-01-01 00:00:00Z
+  // 2000-01-01 00:00:00Z
+  OffsetDateTime dt = OffsetDateTime::forComponents(0, 1, 1, 0, 0, 0);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 0, daysSinceEpoch);
@@ -26,7 +27,8 @@ test(daysAndSecondsSinceEpochAt2000_01_01) {
 // 2000-02-29 was a leap year, due to the every 400 year rule
 // 2100-02-29 is *not* a leap year, due to the every 100 year rule
 test(daysAndSecondsSinceEpochAt2000_02_29) {
-  OffsetDateTime dt{0, 2, 29, 0, 0, 0}; // 2000-02-29 00:00:00Z
+  // 2000-02-29 00:00:00Z
+  OffsetDateTime dt = OffsetDateTime::forComponents(0, 2, 29, 0, 0, 0);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 59, daysSinceEpoch);
@@ -38,7 +40,8 @@ test(daysAndSecondsSinceEpochAt2000_02_29) {
 }
 
 test(daysAndSecondsSinceEpochAt2000_01_02) {
-  OffsetDateTime dt{0, 1, 2, 0, 0, 0}; // 2000-01-02 00:00:00Z
+  // 2000-01-02 00:00:00Z
+  OffsetDateTime dt = OffsetDateTime::forComponents(0, 1, 2, 0, 0, 0);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 1, daysSinceEpoch);
@@ -50,7 +53,8 @@ test(daysAndSecondsSinceEpochAt2000_01_02) {
 }
 
 test(daysAndSecondsSinceEpochAt2018_01_01) {
-  OffsetDateTime dt{18, 1, 1, 0, 0, 0}; // 2018-01-01 00:00:00Z
+  // 2018-01-01 00:00:00Z
+  OffsetDateTime dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 6575, daysSinceEpoch);
@@ -63,7 +67,8 @@ test(daysAndSecondsSinceEpochAt2018_01_01) {
 
 test(daysAndSecondsSinceEpochAt2018_01_01WithTimeZone) {
   // 2018-01-01 00:00:00+00:15
-  OffsetDateTime dt{18, 1, 1, 0, 0, 0, ZoneOffset::forOffsetCode(1)};
+  OffsetDateTime dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0,
+      ZoneOffset::forOffsetCode(1));
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 6574, daysSinceEpoch);
@@ -75,7 +80,8 @@ test(daysAndSecondsSinceEpochAt2018_01_01WithTimeZone) {
 }
 
 test(daysAndSecondsSinceEpochAt2049_12_31) {
-  OffsetDateTime dt{49, 12, 31, 23, 59, 59}; // 2049-12-31 23:59:59Z
+  // 2049-12-31 23:59:59Z
+  OffsetDateTime dt = OffsetDateTime::forComponents(49, 12, 31, 23, 59, 59);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 18262, daysSinceEpoch);
@@ -88,7 +94,8 @@ test(daysAndSecondsSinceEpochAt2049_12_31) {
 
 test(daysAndSecondsSinceEpochAt2049_12_31WithTimeZone) {
   // 2049-12-31 23:59:59-00:15
-  OffsetDateTime dt{49, 12, 31, 23, 59, 59, ZoneOffset::forOffsetCode(-1)};
+  OffsetDateTime dt = OffsetDateTime::forComponents(49, 12, 31, 23, 59, 59,
+      ZoneOffset::forOffsetCode(-1));
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 18263, daysSinceEpoch);
@@ -100,7 +107,8 @@ test(daysAndSecondsSinceEpochAt2049_12_31WithTimeZone) {
 }
 
 test(daysAndSecondsSinceEpochAt2050_01_01) {
-  OffsetDateTime dt{50, 1, 1, 0, 0, 0}; // 2050-01-01 00:00:00Z
+  // 2050-01-01 00:00:00Z
+  OffsetDateTime dt = OffsetDateTime::forComponents(50, 1, 1, 0, 0, 0);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 18263, daysSinceEpoch);
@@ -112,7 +120,8 @@ test(daysAndSecondsSinceEpochAt2050_01_01) {
 }
 
 test(daysAndSecondsSinceEpochAt2099_12_31) {
-  OffsetDateTime dt{99, 12, 31, 23, 59, 59}; // 2099-12-31 23:59:59Z
+  // 2099-12-31 23:59:59Z
+  OffsetDateTime dt = OffsetDateTime::forComponents(99, 12, 31, 23, 59, 59);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
   assertEqual((uint32_t) 36524, daysSinceEpoch);
@@ -124,26 +133,32 @@ test(daysAndSecondsSinceEpochAt2099_12_31) {
 }
 
 test(unixSeconds) {
-  OffsetDateTime dt{0, 1, 1, 0, 0, 0}; // 2000-01-01 00:00:00Z
+  // 2000-01-01 00:00:00Z
+  OffsetDateTime dt = OffsetDateTime::forComponents(0, 1, 1, 0, 0, 0);
   assertEqual((uint32_t) 946684800, dt.toUnixSeconds());
 
-  dt = OffsetDateTime{18, 1, 1, 0, 0, 0}; // 2018-01-01 00:00:00Z
+  // 2018-01-01 00:00:00Z
+  dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0);
   assertEqual((uint32_t) 1514764800, dt.toUnixSeconds());
 
   // 2018-08-30T06:45:01-07:00
-  dt = OffsetDateTime{18, 8, 30, 6, 45, 1, ZoneOffset::forHour(-7)};
+  dt = OffsetDateTime::forComponents(18, 8, 30, 6, 45, 1,
+      ZoneOffset::forHour(-7));
   assertEqual((uint32_t) 1535636701, dt.toUnixSeconds());
 
-  dt = OffsetDateTime{38, 1, 1, 0, 0, 0}; // 2038-01-01 00:00:00Z
+  // 2038-01-01 00:00:00Z
+  dt = OffsetDateTime::forComponents(38, 1, 1, 0, 0, 0);
   assertEqual((uint32_t) 2145916800, dt.toUnixSeconds());
 
   // 2099-12-31 23:59:59-16:00
-  dt = OffsetDateTime{99, 12, 31, 23, 59, 59, ZoneOffset::forHour(-16)};
+  dt = OffsetDateTime::forComponents(99, 12, 31, 23, 59, 59,
+      ZoneOffset::forHour(-16));
   assertEqual((uint32_t) 4102502399, dt.toUnixSeconds());
 }
 
 test(constructFromSecondsSinceEpochAt2049_12_31) {
-  OffsetDateTime dt(18263 * (int32_t) 86400 - 1); // 2049-12-31 23:59:59Z
+  // 2049-12-31 23:59:59Z
+  OffsetDateTime dt = OffsetDateTime::forSeconds(18263 * (int32_t) 86400 - 1);
 
   assertEqual((uint16_t) 2049, dt.yearFull());
   assertEqual(49, dt.year());
@@ -156,7 +171,7 @@ test(constructFromSecondsSinceEpochAt2049_12_31) {
 
   // 2049-12-31 15:59:59-08:00
   ZoneOffset offset = ZoneOffset::forOffsetCode(-32); // UTC-08:00
-  dt = OffsetDateTime(18263 * (int32_t) 86400 - 1, offset);
+  dt = OffsetDateTime::forSeconds(18263 * (int32_t) 86400 - 1, offset);
   assertEqual((uint16_t) 2049, dt.yearFull());
   assertEqual(49, dt.year());
   assertEqual(12, dt.month());
@@ -168,7 +183,7 @@ test(constructFromSecondsSinceEpochAt2049_12_31) {
 }
 
 test(convertToZoneOffset) {
-  OffsetDateTime a{18, 1, 1, 12, 0, 0};
+  OffsetDateTime a = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 0);
   OffsetDateTime b = a.convertToZoneOffset(ZoneOffset::forHour(-7));
 
   assertEqual((uint16_t) 2018, b.yearFull());
@@ -182,59 +197,62 @@ test(convertToZoneOffset) {
 }
 
 test(dateTimeCompareAndEquals) {
-  OffsetDateTime a{18, 1, 1, 12, 0, 0};
-  OffsetDateTime b{18, 1, 1, 12, 0, 0};
+  OffsetDateTime a = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 0);
+  OffsetDateTime b = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 0);
   assertEqual(a.compareTo(b), 0);
   assertTrue(a == b);
   assertFalse(a != b);
 
-  a = OffsetDateTime{18, 1, 1, 12, 0, 0};
-  b = OffsetDateTime{18, 1, 1, 12, 0, 1};
+  a = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 0);
+  b = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 1);
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = OffsetDateTime{18, 1, 1, 12, 0, 0};
-  b = OffsetDateTime{18, 1, 1, 12, 1, 0};
+  a = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 0);
+  b = OffsetDateTime::forComponents(18, 1, 1, 12, 1, 0);
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = OffsetDateTime{18, 1, 1, 11, 0, 0};
-  b = OffsetDateTime{18, 1, 1, 12, 0, 0, ZoneOffset::forOffsetCode(1)};
+  a = OffsetDateTime::forComponents(18, 1, 1, 11, 0, 0);
+  b = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 0,
+      ZoneOffset::forOffsetCode(1));
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = OffsetDateTime{18, 1, 1, 12, 0, 0};
-  b = OffsetDateTime{18, 1, 2, 12, 0, 0};
+  a = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 0);
+  b = OffsetDateTime::forComponents(18, 1, 2, 12, 0, 0);
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = OffsetDateTime{18, 1, 1, 12, 0, 0};
-  b = OffsetDateTime{18, 2, 1, 12, 0, 0};
+  a = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 0);
+  b = OffsetDateTime::forComponents(18, 2, 1, 12, 0, 0);
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = OffsetDateTime{18, 1, 1, 12, 0, 0};
-  b = OffsetDateTime{19, 1, 1, 12, 0, 0};
+  a = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 0);
+  b = OffsetDateTime::forComponents(19, 1, 1, 12, 0, 0);
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
   // 2018-1-1 12:00:00+01:00
-  a = OffsetDateTime{18, 1, 1, 12, 0, 0, ZoneOffset::forHour(1)};
+  a = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 0, ZoneOffset::forHour(1));
   // 2018-1-1 12:00:00-08:00
-  b = OffsetDateTime{18, 1, 1, 12, 0, 0, ZoneOffset::forHour(-8)};
+  b = OffsetDateTime::forComponents(18, 1, 1, 12, 0, 0,
+      ZoneOffset::forHour(-8));
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 }
 
 test(calculateAndCacheDayOfWeek) {
-  OffsetDateTime dt{18, 1, 1, 0, 0, 0}; // 2018-01-01 00:00:00Z
+  // 2018-01-01 00:00:00Z
+  OffsetDateTime dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0);
   assertEqual(2, dt.dayOfWeek()); // Monday
 
   dt.hour(23); // 2018-01-01 23:00:00Z, no change to dayOfWeek
@@ -264,7 +282,7 @@ test(calculateAndCacheDayOfWeek) {
 }
 
 test(dateTimeErrorForZeroValue) {
-  OffsetDateTime dt((uint32_t) 0);
+  OffsetDateTime dt = OffsetDateTime::forSeconds(0);
   assertTrue(dt.isError());
 }
 
@@ -274,28 +292,29 @@ test(dateTimeSetError) {
 }
 
 test(dateTimeIsError) {
-  OffsetDateTime dt(18, 1, 1, 0, 0, 0); // 2018-01-01 00:00:00Z
+  // 2018-01-01 00:00:00Z
+  OffsetDateTime dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0);
   assertFalse(dt.isError());
 
-  dt = OffsetDateTime(18, 0, 1, 0, 0, 0);
+  dt = OffsetDateTime::forComponents(18, 0, 1, 0, 0, 0);
   assertTrue(dt.isError());
 
-  dt = OffsetDateTime(18, 255, 1, 0, 0, 0);
+  dt = OffsetDateTime::forComponents(18, 255, 1, 0, 0, 0);
   assertTrue(dt.isError());
 
-  dt = OffsetDateTime(18, 1, 0, 0, 0, 0);
+  dt = OffsetDateTime::forComponents(18, 1, 0, 0, 0, 0);
   assertTrue(dt.isError());
 
-  dt = OffsetDateTime(18, 1, 255, 0, 0, 0);
+  dt = OffsetDateTime::forComponents(18, 1, 255, 0, 0, 0);
   assertTrue(dt.isError());
 
-  dt = OffsetDateTime(18, 1, 1, 255, 0, 0);
+  dt = OffsetDateTime::forComponents(18, 1, 1, 255, 0, 0);
   assertTrue(dt.isError());
 
-  dt = OffsetDateTime(18, 1, 1, 0, 255, 0);
+  dt = OffsetDateTime::forComponents(18, 1, 1, 0, 255, 0);
   assertTrue(dt.isError());
 
-  dt = OffsetDateTime(18, 1, 1, 0, 0, 255);
+  dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 255);
   assertTrue(dt.isError());
 }
 

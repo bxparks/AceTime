@@ -26,7 +26,7 @@ class DS3231TimeKeeper: public TimeKeeper {
     }
 
     void setNow(uint32_t secondsSinceEpoch) override {
-      OffsetDateTime now(secondsSinceEpoch);
+      OffsetDateTime now = OffsetDateTime::forSeconds(secondsSinceEpoch);
       mDS3231.setDateTime(toHardwareDateTime(now));
     }
 
@@ -36,8 +36,8 @@ class DS3231TimeKeeper: public TimeKeeper {
      * the OffsetDateTime object using UTC time zone.
      */
     static OffsetDateTime toDateTime(const hw::HardwareDateTime& dt) {
-      return OffsetDateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute,
-          dt.second);
+      return OffsetDateTime::forComponents(
+          dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
     }
 
     /**
