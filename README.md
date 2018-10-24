@@ -219,19 +219,19 @@ takes the (year, month, day, hour, minute, second, timeZone) parameters:
 DateTime dt;
 
 // 2001-01-01 00:00:00Z
-dt = DateTime(1, 1, 1, 0, 0, 0, TimeZone());
+dt = DateTime::forComponents(1, 1, 1, 0, 0, 0, TimeZone());
 
 // 2018-08-30T06:45:01-08:00
-dt = DateTime(18, 8, 30, 6, 45, 1, TimeZone::forHour(-8));
+dt = DateTime::forComponents(18, 8, 30, 6, 45, 1, TimeZone::forHour(-8));
 
 // 2099-12-31 23:59:59+06:00
-dt = DateTime(99, 12, 31, 23, 59, 59, TimeZone::forHour(6));
+dt = DateTime::forComponents(99, 12, 31, 23, 59, 59, TimeZone::forHour(6));
 ```
 
 Once a `DateTime` object is created you can access the individual date/time
 components using the accessor methods:
 ```C++
-dt = DateTime(18, 8, 30, 6, 45, 1, TimeZone::forHour(-8));
+dt = DateTime::forComponents(18, 8, 30, 6, 45, 1, TimeZone::forHour(-8));
 
 uint8_t year = dt.year(); // 0 - 99 (actually 0 - 136)
 uint8_t month = dt.month(); // 1 - 12
@@ -292,7 +292,8 @@ The `DateTime` object can calculate the number of seconds since the AceTime
 Epoch which is **2000-01-01T00:00:00Z** at the UTC time zone. For example:
 ```C++
 // 2018-01-01 00:00:00+00:15
-DateTime dt(18, 1, 1, 0, 0, 0, TimeZone::forOffsetCode(1));
+DateTime dt = DateTime::forComponents(18, 1, 1, 0, 0, 0,
+    TimeZone::forOffsetCode(1));
 uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
 uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
 
@@ -306,10 +307,10 @@ counts the number of whole days since the Epoch, including leap days.
 You can go the other way and create a `DateTime` object from the seconds from
 Epoch:
 ```C++
-DateTime dt(568079100, TimeZone::forOffsetCode(1));
+DateTime dt = DateTime::forSeconds(568079100, TimeZone::forOffsetCode(1));
 ```
 This will produce the same object as
-`DateTime(18, 1, 1, 0, 0, 0, TimeZone::forOffsetCode(1))`.
+`DateTime::forComponents(18, 1, 1, 0, 0, 0, TimeZone::forOffsetCode(1))`.
 
 #### Invalid DateTime Objects
 
@@ -317,7 +318,7 @@ A value of `0` for the `secondsSinceEpoch` is used internally as an ERROR
 marker, so users should never create a`DateTime` object with this value. In
 other words,
 ```C++
-DateTime dt(0);
+DateTime::forSeconds(0);
 ```
 creates a `dt` object which returns `true` for `dt.isError()`.
 
@@ -338,7 +339,8 @@ time zone using the `DateTime::convertToTimeZone()` method:
 ```C++
 // Central European Time
 // 2018-01-01T09:20:00+01:00
-DateTime cetTime(18, 1, 1, 9, 20, 0, TimeZone::forHour(1));
+DateTime cetTime = DateTime::forComponents(
+    18, 1, 1, 9, 20, 0, TimeZone::forHour(1));
 
 // Convert to Pacific Daylight Time.
 // 2018-01-01T01:20:00-07:00
@@ -653,9 +655,9 @@ I will occasionally test on the following hardware as a sanity check:
 
 The [AutoBenchmark.ino](examples/AutoBenchmark/) program measures the
 amount of CPU cycles taken by some of the more expensive `DateTime`
-methods. The most expensive method is the constructor `DateTime(seconds)`.
-Here is a summary of how long that constructor takes for some Arduino boards
-that I have access to:
+methods. The most expensive method is the `DateTime::forSeconds(seconds)`
+factory method. Here is a summary of how long that constructor takes for some
+Arduino boards that I have access to:
 ```
 ----------------------------+---------+
 Board or CPU                |  micros |
