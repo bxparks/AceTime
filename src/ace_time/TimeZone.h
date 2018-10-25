@@ -106,19 +106,8 @@ class TimeZone {
     }
 
     /** Return the effective zone offset. */
-    ZoneOffset effectiveZoneOffset(uint32_t secondsSinceEpoch) const {
-      if (mTimeZoneType == kTimeZoneTypeOffset) {
-        return ZoneOffset::forOffsetCode(
-            mZoneOffset.toOffsetCode() + (mIsDst ? 4 : 0));
-      } else {
-        ZoneOffset standardOffset =
-            ZoneOffset::forOffsetCode(mZoneInfo->offsetCode);
-        OffsetDateTime dt = OffsetDateTime::forEpochSeconds(
-            secondsSinceEpoch, standardOffset);
-        const ZoneRule* zoneRule = findZoneRule(dt);
-        int8_t offsetCode = mZoneInfo->offsetCode + zoneRule->offsetHour * 4;
-        return ZoneOffset::forOffsetCode(offsetCode);
-      }
+    ZoneOffset effectiveZoneOffset(uint32_t /*secondsSinceEpoch*/) const {
+      return ZoneOffset::forOffsetCode(0);
     }
 
     /**
@@ -163,11 +152,6 @@ class TimeZone {
 
     /** Set time zone from the given UTC offset string. */
     TimeZone& initFromOffsetString(const char* offsetString);
-
-    const ZoneRule* findZoneRule(const OffsetDateTime& /*dt*/) const {
-      const ZoneRule* rule = mZoneInfo->rules[0];
-      return rule;
-    }
 
     /** Time zone using ZoneOffset with manual DST. */
     static const uint8_t kTimeZoneTypeOffset = 0;

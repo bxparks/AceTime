@@ -6,15 +6,28 @@
 
 namespace ace_time {
 
+/**
+ * An entry in ZoneInfo which describe which rule the zone followed during
+ * a particular time period, starting with fromYear.
+ */
+struct ZoneInfoEntry {
+  int8_t const offsetCode; // UTC offset in 15 min increments
+  const ZoneRules* const zoneRules; // ZoneRules
+  const char* const format; // PST, EST, etc
+  uint8_t const untilYear; // 0 = 2000
+};
+
+/** Data structure that represents a given time zone. */
 struct ZoneInfo {
-  static const ZoneInfo kZoneInfoLosAngeles;
-  static const ZoneInfo kZoneInfoToronto;
+  static const ZoneInfo kLosAngeles;
+  static const ZoneInfo kToronto;
+  static const ZoneInfo kPetersburg;
+  static const ZoneInfo kIndianapolis;
+  static const ZoneInfo kLondon;
 
   const char* const name; // name of zone
-  int8_t const offsetCode; // UTC offset in 15 min increments
-  const ZoneRule* const* rules;
-  uint8_t const numRules;
-  const char* const zoneFormat; // PST, EST, etc
+  ZoneInfoEntry const* entries;
+  uint8_t const numEntries;
 };
 
 }
