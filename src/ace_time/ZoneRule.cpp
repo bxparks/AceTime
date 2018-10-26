@@ -13,10 +13,10 @@ static const ZoneRule kZoneRulesUS[] = {
     0 /*fromYear*/,
     6 /*toYear*/,
     10 /*inMonth*/,
-    1 /*onDayOfWeek=Sunday*/,
+    7 /*onDayOfWeek=Sunday*/,
     24 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
-    0 /*atHourModifier=wall*/,
+    'w' /*atHourModifier*/,
     0 /*offsetHour*/,
     'S' /*letter*/
   },
@@ -26,10 +26,10 @@ static const ZoneRule kZoneRulesUS[] = {
     0 /*fromYear*/,
     6 /*toYear*/,
     4 /*inMonth*/,
-    1 /*onDayOfWeek=Sunday*/,
+    7 /*onDayOfWeek=Sunday*/,
     1 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
-    0 /*atHourModifier=wall*/,
+    'w' /*atHourModifier*/,
     1 /*offsetHour*/,
     'D' /*letter*/
   },
@@ -39,10 +39,10 @@ static const ZoneRule kZoneRulesUS[] = {
     7 /*fromYear*/,
     255 /*toYear*/,
     3 /*inMonth*/,
-    1 /*onDayOfWeek=Sunday*/,
+    7 /*onDayOfWeek=Sunday*/,
     8 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
-    0 /*atHourModifier=wall*/,
+    'w' /*atHourModifier*/,
     1 /*offsetHour*/,
     'D' /*letter*/
   },
@@ -52,10 +52,10 @@ static const ZoneRule kZoneRulesUS[] = {
     7 /*fromYear*/,
     255 /*toYear*/,
     11 /*inMonth*/,
-    1 /*onDayOfWeek=Sunday*/,
+    7 /*onDayOfWeek=Sunday*/,
     1 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
-    0 /*atHourModifier=wall*/,
+    'w' /*atHourModifier*/,
     0 /*offsetHour*/,
     'S' /*letter*/
   },
@@ -79,7 +79,7 @@ static const ZoneRule kZoneRulesEU[] = {
     7 /*onDayOfWeek=Sunday*/,
     24 /*onDayOfMonth*/,
     1 /*atHour=2:00*/,
-    2 /*atHourModifier=u*/,
+    'u' /*atHourModifier*/,
     1 /*offsetHour*/,
     'S' /*letter*/
   },
@@ -91,7 +91,7 @@ static const ZoneRule kZoneRulesEU[] = {
     7 /*onDayOfWeek=Sunday*/,
     25 /*onDayOfMonth*/,
     1 /*atHour=2:00*/,
-    2 /*atHourModifier=u*/,
+    'u' /*atHourModifier*/,
     0 /*offsetHour*/,
     '-' /*letter*/
   },
@@ -100,6 +100,90 @@ static const ZoneRule kZoneRulesEU[] = {
 const ZoneRules ZoneRules::kEU = {
   sizeof(kZoneRulesEU) / sizeof(ZoneRule) /*numRules*/,
   kZoneRulesEU /*rules*/,
+};
+
+//---------------------------------------------------------------------------
+// Australia AN rules
+//---------------------------------------------------------------------------
+
+static const ZoneRule kZoneRulesAN[] = {
+  // Rule    AN      2000    only    -       Aug     lastSun 2:00s   1:00    D
+  {
+    0 /*fromYear*/,
+    0 /*toYear*/,
+    8 /*inMonth*/,
+    7 /*onDayOfWeek=Sunday*/,
+    24 /*onDayOfMonth*/,
+    2 /*atHour=2:00*/,
+    's' /*atHourModifier*/,
+    1 /*offsetHour*/,
+    'D' /*letter*/
+  },
+  // Rule    AN      2001    2007    -       Oct     lastSun 2:00s   1:00    D
+  {
+    1 /*fromYear*/,
+    7 /*toYear*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek=Sunday*/,
+    24 /*onDayOfMonth*/,
+    2 /*atHour=2:00*/,
+    's' /*atHourModifier*/,
+    1 /*offsetHour*/,
+    'D' /*letter*/
+  },
+  // Rule    AN      2006    only    -       Apr     Sun>=1  2:00s   0       S
+  {
+    6 /*fromYear*/,
+    6 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek=Sunday*/,
+    1 /*onDayOfMonth*/,
+    2 /*atHour=2:00*/,
+    's' /*atHourModifier*/,
+    0 /*offsetHour*/,
+    'S' /*letter*/
+  },
+  // Rule    AN      2007    only    -       Mar     lastSun 2:00s   0       S
+  {
+    7 /*fromYear*/,
+    7 /*toYear*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek=Sunday*/,
+    24 /*onDayOfMonth*/,
+    2 /*atHour=2:00*/,
+    's' /*atHourModifier*/,
+    0 /*offsetHour*/,
+    'S' /*letter*/
+  },
+  // Rule    AN      2008    max     -       Apr     Sun>=1  2:00s   0       S
+  {
+    8 /*fromYear*/,
+    255 /*toYear*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek=Sunday*/,
+    1 /*onDayOfMonth*/,
+    2 /*atHour=2:00*/,
+    's' /*atHourModifier*/,
+    0 /*offsetHour*/,
+    'S' /*letter*/
+  },
+  // Rule    AN      2008    max     -       Oct     Sun>=1  2:00s   1:00    D
+  {
+    8 /*fromYear*/,
+    255 /*toYear*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek=Sunday*/,
+    1 /*onDayOfMonth*/,
+    2 /*atHour=2:00*/,
+    's' /*atHourModifier*/,
+    1 /*offsetHour*/,
+    'D' /*letter*/
+  },
+};
+
+const ZoneRules ZoneRules::kAN = {
+  sizeof(kZoneRulesAN) / sizeof(ZoneRule) /*numRules*/,
+  kZoneRulesAN /*rules*/,
 };
 
 }
