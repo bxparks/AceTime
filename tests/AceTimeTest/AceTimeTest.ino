@@ -21,7 +21,7 @@ test(daysAndEpochSecondsAt2000_01_01) {
   uint32_t epochSeconds = dt.toEpochSeconds();
   assertEqual((uint32_t) 0, epochSeconds);
 
-  assertEqual(OffsetDateTime::kSaturday, dt.dayOfWeek());
+  assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
 }
 
 // 2000-02-29 was a leap year, due to the every 400 year rule
@@ -36,7 +36,7 @@ test(daysAndEpochSecondsAt2000_02_29) {
   uint32_t epochSeconds = dt.toEpochSeconds();
   assertEqual((uint32_t) 86400 * 59, epochSeconds);
 
-  assertEqual(OffsetDateTime::kTuesday, dt.dayOfWeek());
+  assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 }
 
 test(daysAndEpochSecondsAt2000_01_02) {
@@ -49,7 +49,7 @@ test(daysAndEpochSecondsAt2000_01_02) {
   uint32_t epochSeconds = dt.toEpochSeconds();
   assertEqual((uint32_t) 86400, epochSeconds);
 
-  assertEqual(OffsetDateTime::kSunday, dt.dayOfWeek());
+  assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 }
 
 test(daysAndEpochSecondsAt2018_01_01) {
@@ -62,7 +62,7 @@ test(daysAndEpochSecondsAt2018_01_01) {
   uint32_t epochSeconds = dt.toEpochSeconds();
   assertEqual(6575 * (uint32_t) 86400, epochSeconds);
 
-  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 }
 
 test(daysAndEpochSecondsAt2018_01_01WithTimeZone) {
@@ -76,7 +76,7 @@ test(daysAndEpochSecondsAt2018_01_01WithTimeZone) {
   uint32_t epochSeconds = dt.toEpochSeconds();
   assertEqual(6575 * (uint32_t) 86400 - 15*60, epochSeconds);
 
-  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 }
 
 test(daysAndEpochSecondsAt2049_12_31) {
@@ -89,7 +89,7 @@ test(daysAndEpochSecondsAt2049_12_31) {
   uint32_t epochSeconds = dt.toEpochSeconds();
   assertEqual(18263 * (uint32_t) 86400 - 1, epochSeconds);
 
-  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
+  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 }
 
 test(daysAndEpochSecondsAt2049_12_31WithTimeZone) {
@@ -103,7 +103,7 @@ test(daysAndEpochSecondsAt2049_12_31WithTimeZone) {
   uint32_t epochSeconds = dt.toEpochSeconds();
   assertEqual(18263 * (uint32_t) 86400 + 15*60 - 1, epochSeconds);
 
-  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
+  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 }
 
 test(daysAndEpochSecondsAt2050_01_01) {
@@ -116,7 +116,7 @@ test(daysAndEpochSecondsAt2050_01_01) {
   uint32_t epochSeconds = dt.toEpochSeconds();
   assertEqual(18263 * (uint32_t) 86400, epochSeconds);
 
-  assertEqual(OffsetDateTime::kSaturday, dt.dayOfWeek());
+  assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
 }
 
 test(daysAndEpochSecondsAt2099_12_31) {
@@ -129,7 +129,7 @@ test(daysAndEpochSecondsAt2099_12_31) {
   uint32_t epochSeconds = dt.toEpochSeconds();
   assertEqual(36525 * (uint32_t) 86400 - 1, epochSeconds);
 
-  assertEqual(OffsetDateTime::kThursday, dt.dayOfWeek());
+  assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 
 test(unixSeconds) {
@@ -168,7 +168,7 @@ test(constructFromEpochSecondsAt2049_12_31) {
   assertEqual(23, dt.hour());
   assertEqual(59, dt.minute());
   assertEqual(59, dt.second());
-  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
+  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 
   // 2049-12-31 15:59:59-08:00 Friday
   ZoneOffset offset = ZoneOffset::forOffsetCode(-32); // UTC-08:00
@@ -180,7 +180,7 @@ test(constructFromEpochSecondsAt2049_12_31) {
   assertEqual(15, dt.hour());
   assertEqual(59, dt.minute());
   assertEqual(59, dt.second());
-  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
+  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 }
 
 test(convertToZoneOffset) {
@@ -254,32 +254,32 @@ test(dateTimeCompareAndEquals) {
 test(calculateAndCacheDayOfWeek) {
   // 2018-01-01 00:00:00Z Monday
   OffsetDateTime dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0);
-  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   dt.hour(23); // 2018-01-01 23:00:00Z, no change to dayOfWeek
-  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   dt.minute(40); // 2018-01-01 23:40:00Z, no change to dayOfWeek
-  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   dt.second(3); // 2018-01-01 23:40:03Z, no change to dayOfWeek
-  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2018-01-01 23:40:03+00:45, no change to dayOfWeek
   dt.zoneOffset(ZoneOffset::forOffsetCode(3));
-  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   dt.day(2); // 2018-01-02 23:40:03+00:45, changes dayOfWeek
-  assertEqual(OffsetDateTime::kTuesday, dt.dayOfWeek());
+  assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 
   dt.month(2); // 2018-02-02 23:40:03+00:45, changes dayOfWeek
-  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
+  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 
   dt.year(19); // 2019-02-02 23:40:03+00:45, changes dayOfWeek
-  assertEqual(OffsetDateTime::kSaturday, dt.dayOfWeek());
+  assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
 
   dt.yearFull(2020); // 2020-02-02 23:40:03+00:45, changes dayOfWeek
-  assertEqual(OffsetDateTime::kSunday, dt.dayOfWeek());
+  assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 }
 
 test(dateTimeErrorForZeroValue) {
@@ -358,7 +358,7 @@ test(dateTimForDateString) {
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
   assertEqual(-28, dt.zoneOffset().offsetCode());
-  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
+  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 
   // parser does not care about most separators, this may change in the future
   dt = OffsetDateTime::forDateString(F("2018/08/31 13#48#01+07#00"));
@@ -370,7 +370,7 @@ test(dateTimForDateString) {
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
   assertEqual(28, dt.zoneOffset().offsetCode());
-  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
+  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 }
 
 // --------------------------------------------------------------------------

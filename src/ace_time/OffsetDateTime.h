@@ -48,27 +48,6 @@ class OffsetDateTime {
     /** Base year of epoch. */
     static const uint16_t kEpochYear = 2000;
 
-    /** Monday ISO 8601 number. */
-    static const uint8_t kMonday = 1;
-
-    /** Tuesday ISO 8601 number. */
-    static const uint8_t kTuesday = 2;
-
-    /** Wednesday ISO 8601 number. */
-    static const uint8_t kWednesday = 3;
-
-    /** Thursday ISO 8601 number. */
-    static const uint8_t kThursday = 4;
-
-    /** Friday ISO 8601 number. */
-    static const uint8_t kFriday = 5;
-
-    /** Saturday ISO 8601 number. */
-    static const uint8_t kSaturday = 6;
-
-    /** Sunday ISO 8601 number. */
-    static const uint8_t kSunday = 7;
-
     /**
      * Factory method using separated date, time, and time zone fields. The
      * dayOfWeek will be lazily evaluated.
