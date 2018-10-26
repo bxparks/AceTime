@@ -17,6 +17,8 @@ Compared to the Arduino Time Library, here are the main differences:
     * This date range corresponds to the range of the DS3231 RTC chip.
 1. AceTime is **2-3X** faster on an ATmega328P, **4X** faster on the ESP8266,
    and **10-20X** faster on the ARM (Teensy) and ESP32 processors.
+1. AceTime begins the week on a Monday, assigning 1=Monday and 7=Sunday, per ISO
+   8601 standard, instead of beginning the week on a Sunday.
 
 Compared to the
 [AVR libc time library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html),
@@ -239,7 +241,7 @@ uint8_t day = dt.day(); // 1 - 31
 uint8_t hour = dt.hour(); // 0 - 23
 uint8_t minute = dt.minute(); // 0 - 59
 uint8_t second = dt.second(); // 0 - 59
-uint8_t dayOfWeek = dt.dayOfWeek(); // 1=Sunday, 7=Saturday
+uint8_t dayOfWeek = dt.dayOfWeek(); // 1=Monday, 7=Sunday
 TimeZone tz = dt.timeZone();
 ```
 
@@ -249,9 +251,9 @@ because the day of the week is unaffected by it.
 
 #### Date Strings
 
-The `dayOfweek()` method returns a numerical code where `1=Sunday` and
-`7=Saturday`. The code can be translated into their English names using the
-`common::DateStrings` class:
+The `dayOfweek()` method returns a numerical code where `1=Monday` and
+`7=Sunday` (per ISO 8601). The code can be translated into their English names
+using the `common::DateStrings` class:
 
 ```C++
 #include <AceTime.h>
@@ -265,15 +267,15 @@ const char* shortName = dateStrings.weekDayShortString(dayOfWeek);
 ```
 The `DateStrings` class is inside the `ace_time::common` namespace, so you need
 to prefix it with `common::`. The `weekDayShortString()` method returns the
-first 3 characters of the week day (i.e. "Sun", "Mon", "Tue", "Wed", "Thu",
-"Fri", "Sat").
+first 3 characters of the week day (i.e. "Mon", "Tue", "Wed", "Thu",
+"Fri", "Sat", "Sun").
 
 Similarly the `month()` method returns a code where `1=January` and
 `12=December`, which can be translated into English strings using:
 
 ```C++
 common::DateStrings dateStrings;
-uint8_t month = dt.dayOfWeek();
+uint8_t month = dt.month();
 const char* longName = dateStrings.monthLongString(month);
 const char* shortName = dateStrings.monthShortString(month);
 ```
