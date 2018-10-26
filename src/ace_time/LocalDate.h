@@ -37,21 +37,46 @@ class LocalDate {
     /** Sunday ISO 8601 number. */
     static const uint8_t kSunday = 7;
 
+    /**
+     * Factory method using separated year, month and day fields.
+     *
+     * @param year last 2 digits of the year from year 2000
+     * @param month month with January=1, December=12
+     * @param day day of month (1-31)
+     */
     static LocalDate forComponents(uint8_t year, uint8_t month, uint8_t day) {
       return LocalDate(year, month, day);
     }
 
+    /**
+     * Factory method using the number of days from AceTime epoch of 2000-01-01.
+     */
     static LocalDate forEpochDays(uint32_t epochDays) {
       uint8_t year, month, day;
       extractYearMonthDay(epochDays, year, month, day);
       return LocalDate(year, month, day);
     }
 
-    static LocalDate forDateString(const char* /*dateString*/) {
-      return LocalDate();
+    /**
+     * Factory method. Create a LocalDate from the ISO 8601 date string. If
+     * the string cannot be parsed, then isError() on the constructed object
+     * returns true.
+     */
+    static LocalDate forDateString(const char* dateString) {
+      return LocalDate().initFromDateString(dateString);
     }
 
     explicit LocalDate() {}
+
+    /**
+     * Mark the LocalDate so that isError() returns true. Returns a reference
+     * to (*this) so that an invalid LocalDate can be returned in a single
+     * statement like this: 'return LocalDate().setError()'.
+     */
+    LocalDate& setError() {
+      mYear = mMonth = mDay = 0;
+      return *this;
+    }
 
     /** Return the 2 digit year from year 2000. */
     uint8_t year() const { return mYear; }
@@ -162,6 +187,9 @@ class LocalDate {
     friend bool operator==(const LocalDate& a, const LocalDate& b);
     friend bool operator!=(const LocalDate& a, const LocalDate& b);
 
+    /** Minimum length of the date string. yyyy-mm-dd. */
+    static const uint8_t kDateStringLength = 10;
+
     /**
      * Day of week table for each month, with 0=Jan to 11=Dec. The table
      * offsets actualy start with March to make the leap year calculation
@@ -173,6 +201,9 @@ class LocalDate {
         mYear(year),
         mMonth(month),
         mDay(day) {}
+
+    /** Extract the date components from the given dateString. */
+    LocalDate& initFromDateString(const char* dateString);
 
     uint8_t mYear; // [00, 99], year - 2000
     uint8_t mMonth; // [1, 12], 0 indicates error

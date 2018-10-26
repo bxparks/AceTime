@@ -42,4 +42,35 @@ void LocalDate::printTo(Print& printer) const {
   printer.print(ds.weekDayLongString(dayOfWeek()));
 }
 
+LocalDate& LocalDate::initFromDateString(const char* ds) {
+  if (strlen(ds) < kDateStringLength) {
+    return setError();
+  }
+
+  // year
+  uint8_t year = (*ds++ - '0') - 2; // subtract 2000
+  year = 10 * year + (*ds++ - '0');
+  year = 10 * year + (*ds++ - '0');
+  year = 10 * year + (*ds++ - '0');
+  mYear = year;
+
+  // '-'
+  ds++;
+
+  // month
+  uint8_t month = (*ds++ - '0');
+  month = 10 * month + (*ds++ - '0');
+  mMonth = month;
+
+  // '-'
+  ds++;
+
+  // day
+  uint8_t day = (*ds++ - '0');
+  day = 10 * day + (*ds++ - '0');
+  mDay = day;
+
+  return *this;
+}
+
 }

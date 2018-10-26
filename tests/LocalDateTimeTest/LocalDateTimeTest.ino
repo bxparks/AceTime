@@ -12,10 +12,24 @@ using namespace ace_time::common;
 // --------------------------------------------------------------------------
 
 test(localDateAccessors) {
-  LocalDate dt = LocalDate::forComponents(1, 2, 3);
-  assertEqual(1, dt.year());
-  assertEqual(2, dt.month());
-  assertEqual(3, dt.day());
+  LocalDate ld = LocalDate::forComponents(1, 2, 3);
+  assertEqual(1, ld.year());
+  assertEqual(2, ld.month());
+  assertEqual(3, ld.day());
+}
+
+test(localDateSetError) {
+  LocalDate ld = LocalDate().setError();
+  assertTrue(ld.isError());
+}
+
+test(localDateForDateString) {
+  LocalDate ld;
+  ld = LocalDate::forDateString("2000-01-01");
+  assertTrue(ld == LocalDate::forComponents(0, 1, 1));
+
+  ld = LocalDate::forDateString("2099-02-28");
+  assertTrue(ld == LocalDate::forComponents(99, 2, 28));
 }
 
 test(localDateDayOfWeek) {
@@ -108,27 +122,27 @@ test(localDateDayOfWeek) {
 }
 
 test(localDateToAndFromEpochDays) {
-  LocalDate dt;
+  LocalDate ld;
   
-  dt = LocalDate::forComponents(0, 1, 1);
-  assertEqual((uint32_t) 0, dt.toEpochDays());
-  assertTrue(dt == LocalDate::forEpochDays(0));
+  ld = LocalDate::forComponents(0, 1, 1);
+  assertEqual((uint32_t) 0, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(0));
 
-  dt = LocalDate::forComponents(0, 2, 29);
-  assertEqual((uint32_t) 59, dt.toEpochDays());
-  assertTrue(dt == LocalDate::forEpochDays(59));
+  ld = LocalDate::forComponents(0, 2, 29);
+  assertEqual((uint32_t) 59, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(59));
 
-  dt = LocalDate::forComponents(18, 1, 1);
-  assertEqual((uint32_t) 6575, dt.toEpochDays());
-  assertTrue(dt == LocalDate::forEpochDays(6575));
+  ld = LocalDate::forComponents(18, 1, 1);
+  assertEqual((uint32_t) 6575, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(6575));
 
-  dt = LocalDate::forComponents(49, 12, 31);
-  assertEqual((uint32_t) 18262, dt.toEpochDays());
-  assertTrue(dt == LocalDate::forEpochDays(18262));
+  ld = LocalDate::forComponents(49, 12, 31);
+  assertEqual((uint32_t) 18262, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(18262));
 
-  dt = LocalDate::forComponents(99, 12, 31);
-  assertEqual((uint32_t) 36524, dt.toEpochDays());
-  assertTrue(dt == LocalDate::forEpochDays(36524));
+  ld = LocalDate::forComponents(99, 12, 31);
+  assertEqual((uint32_t) 36524, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(36524));
 }
 
 test(localDateCompareTo) {

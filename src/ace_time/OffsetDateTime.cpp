@@ -39,8 +39,7 @@ void OffsetDateTime::printTo(Print& printer) const {
 }
 
 OffsetDateTime& OffsetDateTime::initFromDateString(const char* ds) {
-  // verify exact ISO 8601 string length
-  if (strlen(ds) != kDateStringLength) {
+  if (strlen(ds) < kDateStringLength) {
     return setError();
   }
 
@@ -50,30 +49,40 @@ OffsetDateTime& OffsetDateTime::initFromDateString(const char* ds) {
   year = 10 * year + (*ds++ - '0');
   year = 10 * year + (*ds++ - '0');
   mYear = year;
+
+  // '-'
   ds++;
 
   // month
   uint8_t month = (*ds++ - '0');
   month = 10 * month + (*ds++ - '0');
   mMonth = month;
+
+  // '-'
   ds++;
 
   // day
   uint8_t day = (*ds++ - '0');
   day = 10 * day + (*ds++ - '0');
   mDay = day;
+
+  // 'T'
   ds++;
 
   // hour
   uint8_t hour = (*ds++ - '0');
   hour = 10 * hour + (*ds++ - '0');
   mHour = hour;
+
+  // '-'
   ds++;
 
   // minute
   uint8_t minute = (*ds++ - '0');
   minute = 10 * minute + (*ds++ - '0');
   mMinute = minute;
+
+  // '-'
   ds++;
 
   // second
