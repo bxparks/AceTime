@@ -1,10 +1,6 @@
 /*
  * A program to determine how long it takes to execute some of the more complex
- * methods of DateTime:
- *
- *  - DateTime(seconds) constructor
- *  - DateTime::toEpochDays()
- *  - DateTime::toEpochSeconds()
+ * methods of DateTime and LocalDate.
  *
  * This should compile on all microcontrollers supported by the Arduino IDE.
  */
@@ -22,6 +18,17 @@ void setup() {
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
   pinMode(LED_BENCHMARK, OUTPUT);
 
+  // ace_time primitives
+
+  Serial.print("sizeof(LocalDate): ");
+  Serial.println(sizeof(LocalDate));
+
+  Serial.print("sizeof(ZoneOffset): ");
+  Serial.println(sizeof(ZoneOffset));
+
+  Serial.print("sizeof(OffsetDateTime): ");
+  Serial.println(sizeof(OffsetDateTime));
+
   Serial.print("sizeof(DateTime): ");
   Serial.println(sizeof(DateTime));
 
@@ -30,6 +37,8 @@ void setup() {
 
   Serial.print("sizeof(TimePeriod): ");
   Serial.println(sizeof(TimePeriod));
+
+  // ace_time::provider classes
 
   Serial.print("sizeof(SystemTimeKeeper): ");
   Serial.println(sizeof(SystemTimeKeeper));

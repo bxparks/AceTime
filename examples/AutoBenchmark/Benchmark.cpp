@@ -27,20 +27,25 @@ const char BOTTOM[] =
   "----------------------------+---------+";
 const char EMPTY_LOOP_LABEL[] =
   "Empty loop                  | ";
-const char CONSTRUCTOR1_LABEL[] =
-  "DateTime(y,m,d,h,m,s)       | ";
-const char CONSTRUCTOR2_LABEL[] =
-  "DateTime(seconds)           | ";
-const char DAYS_SINCE_EPOCH_LABEL[] =
-  "toEpochDaysMillis()         | ";
-const char SECOND_SINCE_EPOCH_LABEL[] =
-  "toEpochSecondsMillis()      | ";
+const char DATE_TIME_FOR_SECONDS_LABEL[] =
+  "DateTime::forSeconds()      | ";
+const char DATE_TIME_DAYS_SINCE_EPOCH_LABEL[] =
+  "DateTime::toEpochDays()     | ";
+const char DATE_TIME_SECOND_SINCE_EPOCH_LABEL[] =
+  "DateTime::toEpochSeconds()  | ";
+const char LOCAL_DATE_FOR_EPOCH_DAYS_LABEL[] =
+  "LocalDate::forEpochDays()   | ";
+const char LOCAL_DATE_TO_EPOCH_DAYS_LABEL[] =
+  "LocalDate::toEpochDays()    | ";
+const char LOCAL_DATE_DAY_OF_WEEK_LABEL[] =
+  "LocalDate::dayOfWeek()      | ";
 const char ENDING[] = " |";
 
 // The compiler is extremelly good about removing code that does nothing. This
 // variable is used to ensure user-visible side-effects, preventing the compiler
 // optimization.
 uint8_t guard;
+
 void disableOptimization(const DateTime& dt) {
   guard ^= dt.year();
   guard ^= dt.month();
@@ -49,6 +54,12 @@ void disableOptimization(const DateTime& dt) {
   guard ^= dt.minute();
   guard ^= dt.second();
   guard ^= dt.timeZone().zoneOffset().offsetCode();
+}
+
+void disableOptimization(const LocalDate& ld) {
+  guard ^= ld.year();
+  guard ^= ld.month();
+  guard ^= ld.day();
 }
 
 void disableOptimization(uint32_t value) {
@@ -107,47 +118,90 @@ void runBenchmarks() {
   Serial.println(ENDING);
   Serial.println(DIVIDER);
 
-  // DateTime(seconds) constructor
-  unsigned long constructorFromSecondsMillis =
-      runLambda(COUNT, []() mutable {
+  // DateTime::forSeconds(seconds)
+  unsigned long forSecondsMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
-    // DateTime(seconds) takes seconds, but use millis for testing purposes.
+    // DateTime::forSeconds(seconds) takes seconds, but use millis for testing
+    // purposes.
     DateTime dateTime = DateTime::forSeconds(tickMillis);
     disableOptimization(dateTime);
     disableOptimization(tickMillis);
   });
-  Serial.print(CONSTRUCTOR2_LABEL);
-  printMicrosPerIteration(constructorFromSecondsMillis - emptyLoopMillis);
+  Serial.print(DATE_TIME_FOR_SECONDS_LABEL);
+  printMicrosPerIteration(forSecondsMillis - emptyLoopMillis);
   Serial.println(ENDING);
 
   // DateTime::toEpochDays()
   unsigned long toEpochDaysMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
-    // DateTime(seconds) takes seconds, but use millis for testing purposes.
+    // DateTime::forSeconds(seconds) takes seconds, but use millis for testing
+    // purposes.
     DateTime dateTime = DateTime::forSeconds(tickMillis);
     uint32_t epochDays = dateTime.toEpochDays();
     disableOptimization(dateTime);
     disableOptimization(epochDays);
   });
-  Serial.print(DAYS_SINCE_EPOCH_LABEL);
-  printMicrosPerIteration(
-      toEpochDaysMillis - constructorFromSecondsMillis);
+  Serial.print(DATE_TIME_DAYS_SINCE_EPOCH_LABEL);
+  printMicrosPerIteration(toEpochDaysMillis - forSecondsMillis);
   Serial.println(ENDING);
 
   // DateTime::toEpochSeconds()
   unsigned long toEpochSecondsMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
-    // DateTime(seconds) takes seconds, but use millis for testing purposes.
+    // DateTime::forSeconds(seconds) takes seconds, but use millis for testing
+    // purposes.
     DateTime dateTime = DateTime::forSeconds(tickMillis);
     uint32_t epochSeconds = dateTime.toEpochSeconds();
     disableOptimization(dateTime);
     disableOptimization(epochSeconds);
   });
-  Serial.print(SECOND_SINCE_EPOCH_LABEL);
-  printMicrosPerIteration(
-      toEpochSecondsMillis - constructorFromSecondsMillis);
+  Serial.print(DATE_TIME_SECOND_SINCE_EPOCH_LABEL);
+  printMicrosPerIteration(toEpochSecondsMillis - forSecondsMillis);
   Serial.println(ENDING);
 
+  // LocalDate::forEpochDays()
+  unsigned long localDateFromDaysMillis =
+      runLambda(COUNT, []() mutable {
+    unsigned long tickMillis = millis();
+    // LocalDate::forEpochDays() takes days, but use millis for testing
+    // purposes.
+    LocalDate localDate = LocalDate::forEpochDays(tickMillis);
+    disableOptimization(localDate);
+    disableOptimization(tickMillis);
+  });
+  Serial.print(LOCAL_DATE_FOR_EPOCH_DAYS_LABEL);
+  printMicrosPerIteration(localDateFromDaysMillis - emptyLoopMillis);
+  Serial.println(ENDING);
+
+  // LocalDate::toEpochDays()
+  unsigned long localDateToEpochDaysMillis = runLambda(COUNT, []() mutable {
+    unsigned long tickMillis = millis();
+    // LocalDate::forEpochDays(seconds) takes seconds, but use millis for
+    // testing purposes.
+    LocalDate localDate = LocalDate::forEpochDays(tickMillis);
+    uint32_t epochDays = localDate.toEpochDays();
+    disableOptimization(localDate);
+    disableOptimization(epochDays);
+  });
+  Serial.print(LOCAL_DATE_TO_EPOCH_DAYS_LABEL);
+  printMicrosPerIteration(localDateToEpochDaysMillis - localDateFromDaysMillis);
+  Serial.println(ENDING);
+
+  // LocalDate::dayOfWeek()
+  unsigned long localDateDayOfWeekMillis = runLambda(COUNT, []() mutable {
+    unsigned long tickMillis = millis();
+    // LocalDate::forEpochDays(seconds) takes seconds, but use millis for
+    // testing purposes.
+    LocalDate localDate = LocalDate::forEpochDays(tickMillis);
+    uint32_t dayOfWeek = localDate.dayOfWeek();
+    disableOptimization(localDate);
+    disableOptimization(dayOfWeek);
+  });
+  Serial.print(LOCAL_DATE_DAY_OF_WEEK_LABEL);
+  printMicrosPerIteration(localDateDayOfWeekMillis - localDateFromDaysMillis);
+  Serial.println(ENDING);
+
+  // End footer
   Serial.println(BOTTOM);
 
   // Print some stats
