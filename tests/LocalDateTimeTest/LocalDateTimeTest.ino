@@ -21,6 +21,9 @@ test(localDateAccessors) {
 test(localDateSetError) {
   LocalDate ld = LocalDate().setError();
   assertTrue(ld.isError());
+
+  ld = LocalDate::forEpochDays(0);
+  assertTrue(ld.isError());
 }
 
 test(localDateForDateString) {
@@ -124,9 +127,9 @@ test(localDateDayOfWeek) {
 test(localDateToAndFromEpochDays) {
   LocalDate ld;
   
-  ld = LocalDate::forComponents(0, 1, 1);
-  assertEqual((uint32_t) 0, ld.toEpochDays());
-  assertTrue(ld == LocalDate::forEpochDays(0));
+  ld = LocalDate::forComponents(0, 1, 2);
+  assertEqual((uint32_t) 1, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(1));
 
   ld = LocalDate::forComponents(0, 2, 29);
   assertEqual((uint32_t) 59, ld.toEpochDays());

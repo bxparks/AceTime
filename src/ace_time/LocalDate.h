@@ -53,7 +53,11 @@ class LocalDate {
      */
     static LocalDate forEpochDays(uint32_t epochDays) {
       uint8_t year, month, day;
-      extractYearMonthDay(epochDays, year, month, day);
+      if (epochDays == 0) {
+        year = month = day = 0;
+      } else {
+        extractYearMonthDay(epochDays, year, month, day);
+      }
       return LocalDate(year, month, day);
     }
 
