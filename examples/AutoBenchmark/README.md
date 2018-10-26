@@ -33,7 +33,7 @@ Method                      |  micros |
 ----------------------------|---------|
 Empty loop                  |   2.800 |
 ----------------------------|---------|
-DateTime::forSeconds()      | 370.100 |
+DateTime::forEpochSeconds() | 370.100 |
 DateTime::toEpochDays()     |  64.100 |
 Datetime::toEpochSeconds()  |  70.000 |
 LocalDate::forEpochDays()   | 215.900 |
@@ -72,7 +72,7 @@ Method                      |  micros |
 ----------------------------|---------|
 Empty loop                  |   4.720 |
 ----------------------------|---------|
-DateTime::forSeconds()      |  13.160 |
+DateTime::forEpochSeconds() |  13.160 |
 DateTime::toEpochDays()     |   4.420 |
 DateTime::toEpochSeconds()  |   4.620 |
 LocalDate::forEpochDays()   |   7.880 |
@@ -112,7 +112,7 @@ Method                      |  micros |
 ----------------------------|---------|
 Empty loop                  |   1.310 |
 ----------------------------|---------|
-DateTime::forSeconds()      |   1.115 |
+DateTime::forEpochSeconds() |   1.115 |
 DateTime::toEpochDays()     |   0.445 |
 DateTime::toEpochSeconds()  |   0.410 |
 LocalDate::forEpochDays()   |   0.450 |
@@ -154,7 +154,7 @@ Method                      |  micros |
 ----------------------------|---------|
 Empty loop                  |   0.175 |
 ----------------------------|---------|
-DateTime::forSeconds()      |   2.500 |
+DateTime::forEpochSeconds() |   2.500 |
 DateTime::toEpochDays()     |   0.585 |
 DateTime::toEpochSeconds()  |   0.750 |
 LocalDate::forEpochDays()   |   0.525 |

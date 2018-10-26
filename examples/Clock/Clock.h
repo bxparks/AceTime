@@ -55,7 +55,7 @@ class Clock {
       uint32_t nowSeconds = mTimeKeeper.getNow();
 
       // Set the current date time using the mTimeZone.
-      mCurrentDateTime = DateTime::forSeconds(nowSeconds, mTimeZone);
+      mCurrentDateTime = DateTime::forEpochSeconds(nowSeconds, mTimeZone);
     }
 
     /**
@@ -83,7 +83,8 @@ class Clock {
 
   protected:
     void updateDateTime() {
-      mCurrentDateTime = DateTime::forSeconds(mTimeKeeper.getNow(), mTimeZone);
+      mCurrentDateTime = DateTime::forEpochSeconds(
+          mTimeKeeper.getNow(), mTimeZone);
 
       // If in CHANGE mode, and the 'second' field has not been cleared,
       // update the mChangingDateTime.second field with the current second.
@@ -164,7 +165,7 @@ class Clock {
     /** Read the UTC DateTime from RTC and convert to current time zone. */
     void readDateTime(DateTime* dateTime) {
       uint32_t now = mTimeKeeper.getNow();
-      *dateTime = DateTime::forSeconds(now, mTimeZone);
+      *dateTime = DateTime::forEpochSeconds(now, mTimeZone);
     }
 
     void preserveInfo() {

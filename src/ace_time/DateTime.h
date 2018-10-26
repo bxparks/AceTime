@@ -70,7 +70,7 @@ class DateTime {
      *    an error and causes isError() to return true.
      * @param timeZone Optional. Default is UTC time zone.
      */
-    static DateTime forSeconds(uint32_t epochSeconds,
+    static DateTime forEpochSeconds(uint32_t epochSeconds,
               TimeZone timeZone = TimeZone()) {
       DateTime dt;
       if (epochSeconds == 0) {
@@ -78,7 +78,8 @@ class DateTime {
       }
 
       ZoneOffset zoneOffset = timeZone.effectiveZoneOffset(epochSeconds);
-      dt.mOffsetDateTime = OffsetDateTime::forSeconds(epochSeconds, zoneOffset);
+      dt.mOffsetDateTime = OffsetDateTime::forEpochSeconds(
+          epochSeconds, zoneOffset);
       dt.mTimeZone = timeZone;
       return dt;
     }
@@ -196,7 +197,7 @@ class DateTime {
      */
     DateTime convertToTimeZone(TimeZone timeZone) const {
       uint32_t epochSeconds = toEpochSeconds();
-      return DateTime::forSeconds(epochSeconds, timeZone);
+      return DateTime::forEpochSeconds(epochSeconds, timeZone);
     }
 
     /**

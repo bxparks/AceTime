@@ -34,7 +34,7 @@ weekDayShortString	KEYWORD2
 
 # OffsetDateTime.h
 forComponents	KEYWORD2
-forSeconds	KEYWORD2
+forEpochSeconds	KEYWORD2
 forDateString	KEYWORD2
 isError	KEYWORD2
 setError	KEYWORD2
@@ -61,7 +61,7 @@ compareTo	KEYWORD2
 
 # DateTime.h
 forComponents	KEYWORD2
-forSeconds	KEYWORD2
+forEpochSeconds	KEYWORD2
 forDateString	KEYWORD2
 isError	KEYWORD2
 setError	KEYWORD2

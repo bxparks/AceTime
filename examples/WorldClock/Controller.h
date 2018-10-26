@@ -128,7 +128,7 @@ class Controller {
     void modeButtonLongPress() {
       switch (mMode) {
         case MODE_DATE_TIME:
-          mChangingDateTime = DateTime::forSeconds(
+          mChangingDateTime = DateTime::forEpochSeconds(
               mTimeKeeper.getNow(), mClockInfo0.timeZone);
           mChangingClockInfo = mClockInfo0;
           mSecondFieldCleared = false;
@@ -250,7 +250,7 @@ class Controller {
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
           if (!mSecondFieldCleared) {
-            DateTime dt = DateTime::forSeconds(mTimeKeeper.getNow());
+            DateTime dt = DateTime::forEpochSeconds(mTimeKeeper.getNow());
             mChangingDateTime.second(dt.second());
           }
           break;
@@ -329,7 +329,7 @@ class Controller {
     /** Read the UTC DateTime from RTC and convert to current time zone. */
     void readDateTime(DateTime* dateTime) {
       uint32_t now = mTimeKeeper.getNow();
-      *dateTime = DateTime::forSeconds(now, mClockInfo0.timeZone);
+      *dateTime = DateTime::forEpochSeconds(now, mClockInfo0.timeZone);
     }
 
     void preserveInfo() {

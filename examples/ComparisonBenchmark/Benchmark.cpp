@@ -111,7 +111,7 @@ void runBenchmarks() {
 
   // AceTime library
   elapsedMillis = runBenchmark(START_SECONDS, [](uint32_t seconds) {
-    DateTime dt = DateTime::forSeconds(seconds);
+    DateTime dt = DateTime::forEpochSeconds(seconds);
     uint32_t roundTripSeconds = dt.toEpochSeconds();
     return roundTripSeconds;
   });

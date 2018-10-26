@@ -309,7 +309,7 @@ counts the number of whole days since the Epoch, including leap days.
 You can go the other way and create a `DateTime` object from the seconds from
 Epoch:
 ```C++
-DateTime dt = DateTime::forSeconds(568079100, TimeZone::forOffsetCode(1));
+DateTime dt = DateTime::forEpochSeconds(568079100, TimeZone::forOffsetCode(1));
 ```
 This will produce the same object as
 `DateTime::forComponents(18, 1, 1, 0, 0, 0, TimeZone::forOffsetCode(1))`.
@@ -320,7 +320,7 @@ A value of `0` for the `epochSeconds` is used internally as an ERROR
 marker, so users should never create a`DateTime` object with this value. In
 other words,
 ```C++
-DateTime::forSeconds(0);
+DateTime::forEpochSeconds(0);
 ```
 creates a `dt` object which returns `true` for `dt.isError()`.
 
@@ -657,7 +657,7 @@ I will occasionally test on the following hardware as a sanity check:
 
 The [AutoBenchmark.ino](examples/AutoBenchmark/) program measures the
 amount of CPU cycles taken by some of the more expensive `DateTime`
-methods. The most expensive method is the `DateTime::forSeconds(seconds)`
+methods. The most expensive method is the `DateTime::forEpochSeconds(seconds)`
 factory method. Here is a summary of how long that constructor takes for some
 Arduino boards that I have access to:
 ```

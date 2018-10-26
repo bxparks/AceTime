@@ -158,7 +158,8 @@ test(unixSeconds) {
 
 test(constructFromEpochSecondsAt2049_12_31) {
   // 2049-12-31 23:59:59Z Friday
-  OffsetDateTime dt = OffsetDateTime::forSeconds(18263 * (int32_t) 86400 - 1);
+  OffsetDateTime dt = OffsetDateTime::forEpochSeconds(
+      18263 * (int32_t) 86400 - 1);
 
   assertEqual((uint16_t) 2049, dt.yearFull());
   assertEqual(49, dt.year());
@@ -171,7 +172,7 @@ test(constructFromEpochSecondsAt2049_12_31) {
 
   // 2049-12-31 15:59:59-08:00 Friday
   ZoneOffset offset = ZoneOffset::forOffsetCode(-32); // UTC-08:00
-  dt = OffsetDateTime::forSeconds(18263 * (int32_t) 86400 - 1, offset);
+  dt = OffsetDateTime::forEpochSeconds(18263 * (int32_t) 86400 - 1, offset);
   assertEqual((uint16_t) 2049, dt.yearFull());
   assertEqual(49, dt.year());
   assertEqual(12, dt.month());
@@ -282,7 +283,7 @@ test(calculateAndCacheDayOfWeek) {
 }
 
 test(dateTimeErrorForZeroValue) {
-  OffsetDateTime dt = OffsetDateTime::forSeconds(0);
+  OffsetDateTime dt = OffsetDateTime::forEpochSeconds(0);
   assertTrue(dt.isError());
 }
 

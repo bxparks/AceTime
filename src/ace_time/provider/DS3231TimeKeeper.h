@@ -26,7 +26,7 @@ class DS3231TimeKeeper: public TimeKeeper {
     }
 
     void setNow(uint32_t epochSeconds) override {
-      OffsetDateTime now = OffsetDateTime::forSeconds(epochSeconds);
+      OffsetDateTime now = OffsetDateTime::forEpochSeconds(epochSeconds);
       mDS3231.setDateTime(toHardwareDateTime(now));
     }
 

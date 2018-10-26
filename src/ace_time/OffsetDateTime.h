@@ -107,7 +107,7 @@ class OffsetDateTime {
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
-    static OffsetDateTime forSeconds(uint32_t epochSeconds,
+    static OffsetDateTime forEpochSeconds(uint32_t epochSeconds,
           ZoneOffset zoneOffset = ZoneOffset()) {
       OffsetDateTime dt;
       if (epochSeconds == 0) {
@@ -277,7 +277,7 @@ class OffsetDateTime {
      */
     OffsetDateTime convertToZoneOffset(const ZoneOffset& zoneOffset) const {
       uint32_t epochSeconds = toEpochSeconds();
-      return OffsetDateTime::forSeconds(epochSeconds, zoneOffset);
+      return OffsetDateTime::forEpochSeconds(epochSeconds, zoneOffset);
     }
 
     /**

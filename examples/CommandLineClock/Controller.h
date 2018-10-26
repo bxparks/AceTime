@@ -54,7 +54,7 @@ class Controller {
 
     /** Return the current time from the system time keeper. */
     DateTime getNow() const {
-      return DateTime::forSeconds(
+      return DateTime::forEpochSeconds(
           mSystemTimeKeeper.getNow(), mStoredInfo.timeZone);
     }
 
