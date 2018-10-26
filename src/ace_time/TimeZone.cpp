@@ -14,7 +14,7 @@ void TimeZone::printTo(Print& printer) const {
 }
 
 TimeZone& TimeZone::initFromOffsetString(const char* ts) {
-  // verify exact ISO8601 string length
+  // verify exact ISO 8601 string length
   if (strlen(ts) != kTimeZoneLength) {
     return setError();
   }

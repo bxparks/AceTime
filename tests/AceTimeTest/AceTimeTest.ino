@@ -12,7 +12,7 @@ using namespace ace_time::common;
 // --------------------------------------------------------------------------
 
 test(daysAndSecondsSinceEpochAt2000_01_01) {
-  // 2000-01-01 00:00:00Z
+  // 2000-01-01 00:00:00Z Saturday
   OffsetDateTime dt = OffsetDateTime::forComponents(0, 1, 1, 0, 0, 0);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
@@ -21,13 +21,13 @@ test(daysAndSecondsSinceEpochAt2000_01_01) {
   uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
   assertEqual((uint32_t) 0, secondsSinceEpoch);
 
-  assertEqual(7, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kSaturday, dt.dayOfWeek());
 }
 
 // 2000-02-29 was a leap year, due to the every 400 year rule
 // 2100-02-29 is *not* a leap year, due to the every 100 year rule
 test(daysAndSecondsSinceEpochAt2000_02_29) {
-  // 2000-02-29 00:00:00Z
+  // 2000-02-29 00:00:00Z Tuesday
   OffsetDateTime dt = OffsetDateTime::forComponents(0, 2, 29, 0, 0, 0);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
@@ -36,11 +36,11 @@ test(daysAndSecondsSinceEpochAt2000_02_29) {
   uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
   assertEqual((uint32_t) 86400 * 59, secondsSinceEpoch);
 
-  assertEqual(3, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kTuesday, dt.dayOfWeek());
 }
 
 test(daysAndSecondsSinceEpochAt2000_01_02) {
-  // 2000-01-02 00:00:00Z
+  // 2000-01-02 00:00:00Z Sunday
   OffsetDateTime dt = OffsetDateTime::forComponents(0, 1, 2, 0, 0, 0);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
@@ -49,11 +49,11 @@ test(daysAndSecondsSinceEpochAt2000_01_02) {
   uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
   assertEqual((uint32_t) 86400, secondsSinceEpoch);
 
-  assertEqual(1, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kSunday, dt.dayOfWeek());
 }
 
 test(daysAndSecondsSinceEpochAt2018_01_01) {
-  // 2018-01-01 00:00:00Z
+  // 2018-01-01 00:00:00Z Monday
   OffsetDateTime dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
@@ -62,11 +62,11 @@ test(daysAndSecondsSinceEpochAt2018_01_01) {
   uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
   assertEqual(6575 * (uint32_t) 86400, secondsSinceEpoch);
 
-  assertEqual(2, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
 }
 
 test(daysAndSecondsSinceEpochAt2018_01_01WithTimeZone) {
-  // 2018-01-01 00:00:00+00:15
+  // 2018-01-01 00:00:00+00:15 Monday
   OffsetDateTime dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0,
       ZoneOffset::forOffsetCode(1));
 
@@ -76,11 +76,11 @@ test(daysAndSecondsSinceEpochAt2018_01_01WithTimeZone) {
   uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
   assertEqual(6575 * (uint32_t) 86400 - 15*60, secondsSinceEpoch);
 
-  assertEqual(2, dt.dayOfWeek()); // 2018-01-01 is a Monday
+  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
 }
 
 test(daysAndSecondsSinceEpochAt2049_12_31) {
-  // 2049-12-31 23:59:59Z
+  // 2049-12-31 23:59:59Z Friday
   OffsetDateTime dt = OffsetDateTime::forComponents(49, 12, 31, 23, 59, 59);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
@@ -89,11 +89,11 @@ test(daysAndSecondsSinceEpochAt2049_12_31) {
   uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
   assertEqual(18263 * (uint32_t) 86400 - 1, secondsSinceEpoch);
 
-  assertEqual(6, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
 }
 
 test(daysAndSecondsSinceEpochAt2049_12_31WithTimeZone) {
-  // 2049-12-31 23:59:59-00:15
+  // 2049-12-31 23:59:59-00:15 Friday
   OffsetDateTime dt = OffsetDateTime::forComponents(49, 12, 31, 23, 59, 59,
       ZoneOffset::forOffsetCode(-1));
 
@@ -103,11 +103,11 @@ test(daysAndSecondsSinceEpochAt2049_12_31WithTimeZone) {
   uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
   assertEqual(18263 * (uint32_t) 86400 + 15*60 - 1, secondsSinceEpoch);
 
-  assertEqual(6, dt.dayOfWeek()); // 2049-12-31 is a Friday
+  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
 }
 
 test(daysAndSecondsSinceEpochAt2050_01_01) {
-  // 2050-01-01 00:00:00Z
+  // 2050-01-01 00:00:00Z Saturday
   OffsetDateTime dt = OffsetDateTime::forComponents(50, 1, 1, 0, 0, 0);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
@@ -116,11 +116,11 @@ test(daysAndSecondsSinceEpochAt2050_01_01) {
   uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
   assertEqual(18263 * (uint32_t) 86400, secondsSinceEpoch);
 
-  assertEqual(7, dt.dayOfWeek()); // Saturday
+  assertEqual(OffsetDateTime::kSaturday, dt.dayOfWeek());
 }
 
 test(daysAndSecondsSinceEpochAt2099_12_31) {
-  // 2099-12-31 23:59:59Z
+  // 2099-12-31 23:59:59Z Thursday
   OffsetDateTime dt = OffsetDateTime::forComponents(99, 12, 31, 23, 59, 59);
 
   uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
@@ -129,7 +129,7 @@ test(daysAndSecondsSinceEpochAt2099_12_31) {
   uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
   assertEqual(36525 * (uint32_t) 86400 - 1, secondsSinceEpoch);
 
-  assertEqual(5, dt.dayOfWeek()); // Thursday
+  assertEqual(OffsetDateTime::kThursday, dt.dayOfWeek());
 }
 
 test(unixSeconds) {
@@ -157,7 +157,7 @@ test(unixSeconds) {
 }
 
 test(constructFromSecondsSinceEpochAt2049_12_31) {
-  // 2049-12-31 23:59:59Z
+  // 2049-12-31 23:59:59Z Friday
   OffsetDateTime dt = OffsetDateTime::forSeconds(18263 * (int32_t) 86400 - 1);
 
   assertEqual((uint16_t) 2049, dt.yearFull());
@@ -167,9 +167,9 @@ test(constructFromSecondsSinceEpochAt2049_12_31) {
   assertEqual(23, dt.hour());
   assertEqual(59, dt.minute());
   assertEqual(59, dt.second());
-  assertEqual(6, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
 
-  // 2049-12-31 15:59:59-08:00
+  // 2049-12-31 15:59:59-08:00 Friday
   ZoneOffset offset = ZoneOffset::forOffsetCode(-32); // UTC-08:00
   dt = OffsetDateTime::forSeconds(18263 * (int32_t) 86400 - 1, offset);
   assertEqual((uint16_t) 2049, dt.yearFull());
@@ -179,7 +179,7 @@ test(constructFromSecondsSinceEpochAt2049_12_31) {
   assertEqual(15, dt.hour());
   assertEqual(59, dt.minute());
   assertEqual(59, dt.second());
-  assertEqual(6, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
 }
 
 test(convertToZoneOffset) {
@@ -251,34 +251,34 @@ test(dateTimeCompareAndEquals) {
 }
 
 test(calculateAndCacheDayOfWeek) {
-  // 2018-01-01 00:00:00Z
+  // 2018-01-01 00:00:00Z Monday
   OffsetDateTime dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0);
-  assertEqual(2, dt.dayOfWeek()); // Monday
+  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
 
   dt.hour(23); // 2018-01-01 23:00:00Z, no change to dayOfWeek
-  assertEqual(2, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
 
   dt.minute(40); // 2018-01-01 23:40:00Z, no change to dayOfWeek
-  assertEqual(2, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
 
   dt.second(3); // 2018-01-01 23:40:03Z, no change to dayOfWeek
-  assertEqual(2, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
 
   // 2018-01-01 23:40:03+00:45, no change to dayOfWeek
   dt.zoneOffset(ZoneOffset::forOffsetCode(3));
-  assertEqual(2, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kMonday, dt.dayOfWeek());
 
   dt.day(2); // 2018-01-02 23:40:03+00:45, changes dayOfWeek
-  assertEqual(3, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kTuesday, dt.dayOfWeek());
 
   dt.month(2); // 2018-02-02 23:40:03+00:45, changes dayOfWeek
-  assertEqual(6, dt.dayOfWeek()); // Friday
+  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
 
   dt.year(19); // 2019-02-02 23:40:03+00:45, changes dayOfWeek
-  assertEqual(7, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kSaturday, dt.dayOfWeek());
 
   dt.yearFull(2020); // 2020-02-02 23:40:03+00:45, changes dayOfWeek
-  assertEqual(1, dt.dayOfWeek()); // Sunday
+  assertEqual(OffsetDateTime::kSunday, dt.dayOfWeek());
 }
 
 test(dateTimeErrorForZeroValue) {
@@ -357,7 +357,7 @@ test(dateTimForDateString) {
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
   assertEqual(-28, dt.zoneOffset().offsetCode());
-  assertEqual(6, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
 
   // parser does not care about most separators, this may change in the future
   dt = OffsetDateTime::forDateString(F("2018/08/31 13#48#01+07#00"));
@@ -369,7 +369,7 @@ test(dateTimForDateString) {
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
   assertEqual(28, dt.zoneOffset().offsetCode());
-  assertEqual(6, dt.dayOfWeek());
+  assertEqual(OffsetDateTime::kFriday, dt.dayOfWeek());
 }
 
 // --------------------------------------------------------------------------
@@ -629,23 +629,23 @@ test(weekDayStrings) {
   DateStrings ds;
 
   assertEqual(F("Error"), ds.weekDayLongString(0));
-  assertEqual(F("Sunday"), ds.weekDayLongString(1));
-  assertEqual(F("Monday"), ds.weekDayLongString(2));
-  assertEqual(F("Tuesday"), ds.weekDayLongString(3));
-  assertEqual(F("Wednesday"), ds.weekDayLongString(4));
-  assertEqual(F("Thursday"), ds.weekDayLongString(5));
-  assertEqual(F("Friday"), ds.weekDayLongString(6));
-  assertEqual(F("Saturday"), ds.weekDayLongString(7));
+  assertEqual(F("Monday"), ds.weekDayLongString(1));
+  assertEqual(F("Tuesday"), ds.weekDayLongString(2));
+  assertEqual(F("Wednesday"), ds.weekDayLongString(3));
+  assertEqual(F("Thursday"), ds.weekDayLongString(4));
+  assertEqual(F("Friday"), ds.weekDayLongString(5));
+  assertEqual(F("Saturday"), ds.weekDayLongString(6));
+  assertEqual(F("Sunday"), ds.weekDayLongString(7));
   assertEqual(F("Error"), ds.weekDayLongString(8));
 
   assertEqual(F("Err"), ds.weekDayShortString(0));
-  assertEqual(F("Sun"), ds.weekDayShortString(1));
-  assertEqual(F("Mon"), ds.weekDayShortString(2));
-  assertEqual(F("Tue"), ds.weekDayShortString(3));
-  assertEqual(F("Wed"), ds.weekDayShortString(4));
-  assertEqual(F("Thu"), ds.weekDayShortString(5));
-  assertEqual(F("Fri"), ds.weekDayShortString(6));
-  assertEqual(F("Sat"), ds.weekDayShortString(7));
+  assertEqual(F("Mon"), ds.weekDayShortString(1));
+  assertEqual(F("Tue"), ds.weekDayShortString(2));
+  assertEqual(F("Wed"), ds.weekDayShortString(3));
+  assertEqual(F("Thu"), ds.weekDayShortString(4));
+  assertEqual(F("Fri"), ds.weekDayShortString(5));
+  assertEqual(F("Sat"), ds.weekDayShortString(6));
+  assertEqual(F("Sun"), ds.weekDayShortString(7));
   assertEqual(F("Err"), ds.weekDayShortString(8));
 }
 

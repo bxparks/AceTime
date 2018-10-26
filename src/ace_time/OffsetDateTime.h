@@ -2,7 +2,6 @@
 #define ACE_TIME_OFFSET_DATE_TIME_H
 
 #include <stdint.h>
-#include "common/Flash.h"
 #include "common/Util.h"
 #include "ZoneOffset.h"
 
@@ -18,10 +17,10 @@ namespace ace_time {
  * 2099]. Therefore, the "epoch" for this library is 2000-01-01 00:00:00Z.
  * These fields map directly to the fields supported by the DS3231 RTC chip.
  *
- * The dayOfWeek (1=Sunday, 7=Saturday) is calculated internally from the date.
- * The value is calculated lazily and cached internally. If any components are
- * changed, then the cache is invalidated and the dayOfWeek is lazily
- * recalculated.
+ * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated
+ * internally from the date. The value is calculated lazily and cached
+ * internally. If any components are changed, then the cache is invalidated and
+ * the dayOfWeek is lazily recalculated.
  *
  * The incrementXxx() methods are convenience methods to allow the user to
  * change the date and time using just two buttons. The user is expected to
@@ -48,6 +47,27 @@ class OffsetDateTime {
 
     /** Base year of epoch. */
     static const uint16_t kEpochYear = 2000;
+
+    /** Monday ISO 8601 number. */
+    static const uint8_t kMonday = 1;
+
+    /** Tuesday ISO 8601 number. */
+    static const uint8_t kTuesday = 2;
+
+    /** Wednesday ISO 8601 number. */
+    static const uint8_t kWednesday = 3;
+
+    /** Thursday ISO 8601 number. */
+    static const uint8_t kThursday = 4;
+
+    /** Friday ISO 8601 number. */
+    static const uint8_t kFriday = 5;
+
+    /** Saturday ISO 8601 number. */
+    static const uint8_t kSaturday = 6;
+
+    /** Sunday ISO 8601 number. */
+    static const uint8_t kSunday = 7;
 
     /**
      * Factory method using separated date, time, and time zone fields. The
@@ -108,15 +128,17 @@ class OffsetDateTime {
       seconds /= 60;
       dt.mHour = seconds;
 
+      dt.mDayOfWeek = 0;
+
       return dt;
     }
 
     /**
-     * Factory method. Create a OffsetDateTime from the ISO8601 date string. If
+     * Factory method. Create a OffsetDateTime from the ISO 8601 date string. If
      * the string cannot be parsed, then isError() on the constructed object
      * returns true.
      *
-     * The dateString is expected to be in ISO8601 format
+     * The dateString is expected to be in ISO 8601 format
      * "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very lenient
      * and does not detect most errors. It cares mostly about the positional
      * placement of the various components. It does not validate the separation
@@ -149,9 +171,7 @@ class OffsetDateTime {
       return forDateString(buffer);
     }
 
-    /**
-     * Constructor. All internal fields are left in an undefined state.
-     */
+    /** Constructor. All internal fields are left in an undefined state. */
     explicit OffsetDateTime() {}
 
     /** Return true if any component indicates an error condition. */
@@ -229,9 +249,8 @@ class OffsetDateTime {
     }
 
     /**
-     * Return the day of the week, Sunday=1, Saturday=7.
-     * The dayOfWeek is calculated lazily and cached internally. Not
-     * thread-safe.
+     * Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). The
+     * dayOfWeek is calculated lazily and cached internally. Not thread-safe.
      */
     uint8_t dayOfWeek() const {
       if (mDayOfWeek == 0) {
@@ -389,7 +408,7 @@ class OffsetDateTime {
     }
 
   private:
-    /** Expected length of an ISO8601 date string. */
+    /** Expected length of an ISO 8601 date string. */
     static const uint8_t kDateStringLength = 25;
 
     friend bool operator==(const OffsetDateTime& a, const OffsetDateTime& b);
@@ -433,8 +452,8 @@ class OffsetDateTime {
      */
     uint8_t calculateDayOfWeek() const {
       uint32_t daysSinceEpoch = toDaysSinceEpochIgnoringZoneOffset();
-      // 2000-01-01 is a Saturday (7)
-      return (daysSinceEpoch + 6) % 7 + 1;
+      // 2000-01-01 is a Saturday (6)
+      return (daysSinceEpoch + 5) % 7 + 1;
     }
 
     /**
@@ -497,7 +516,7 @@ class OffsetDateTime {
     uint8_t mMinute; // [0, 59]
     uint8_t mSecond; // [0, 59]
     ZoneOffset mZoneOffset; // offset from UTC
-    mutable uint8_t mDayOfWeek; // (1=Sunday, 7=Saturday)
+    mutable uint8_t mDayOfWeek; // (1=Monday, 7=Sunday)
 };
 
 /**

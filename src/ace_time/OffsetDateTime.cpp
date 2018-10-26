@@ -7,7 +7,7 @@ namespace ace_time {
 using common::printPad2;
 using common::DateStrings;
 
-// Print OffsetDateTime in ISO8601 format
+// Print OffsetDateTime in ISO 8601 format
 void OffsetDateTime::printTo(Print& printer) const {
   if (isError()) {
     printer.println(F("<Invalid OffsetDateTime>"));
@@ -40,7 +40,7 @@ void OffsetDateTime::printTo(Print& printer) const {
 }
 
 OffsetDateTime& OffsetDateTime::initFromDateString(const char* ds) {
-  // verify exact ISO8601 string length
+  // verify exact ISO 8601 string length
   if (strlen(ds) != kDateStringLength) {
     return setError();
   }

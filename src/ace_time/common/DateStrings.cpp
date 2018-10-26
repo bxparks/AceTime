@@ -25,16 +25,17 @@ const char* const DateStrings::kMonthNames[] = {
 const uint8_t DateStrings::kNumMonthNames =
     sizeof(kMonthNames) / sizeof(const char *);
 
-static const char kSunday[] PROGMEM = "Sunday";
 static const char kMonday[] PROGMEM = "Monday";
 static const char kTuesday[] PROGMEM = "Tuesday";
 static const char kWednesday[] PROGMEM = "Wednesday";
 static const char kThursday[] PROGMEM = "Thursday";
 static const char kFriday[] PROGMEM = "Friday";
 static const char kSaturday[] PROGMEM = "Saturday";
+static const char kSunday[] PROGMEM = "Sunday";
 
+// ISO8601 says Monday=1, Sunday=7.
 const char* const DateStrings::kWeekDayNames[] = {
-  kError, kSunday, kMonday, kTuesday, kWednesday, kThursday, kFriday, kSaturday
+  kError, kMonday, kTuesday, kWednesday, kThursday, kFriday, kSaturday, kSunday
 };
 
 const uint8_t DateStrings::kNumWeekDayNames =

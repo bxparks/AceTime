@@ -44,14 +44,14 @@ class DateStrings {
       return mBuffer;
     }
 
-    /** Return the short weekDay name. 0=Error, 1=Sunday, 7=Saturday. */
+    /** Return the short weekDay name. 0=Error, 1=Monday, 7=Sunday. */
     const char* weekDayLongString(uint8_t weekDay) const {
       uint8_t index = (weekDay < kNumWeekDayNames) ? weekDay : 0;
       strcpy_P(mBuffer, kWeekDayNames[index]);
       return mBuffer;
     }
 
-    /** Return the short weekDay name. 0=Err, 1=Sun, 7=Sat. */
+    /** Return the short weekDay name. 0=Err, 1=Mon, 7=Sun. */
     const char* weekDayShortString(uint8_t weekDay) const {
       uint8_t index = (weekDay < kNumWeekDayNames) ? weekDay : 0;
       strncpy_P(mBuffer, kWeekDayNames[index], kShortNameLength);

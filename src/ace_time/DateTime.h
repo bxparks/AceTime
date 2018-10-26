@@ -85,11 +85,11 @@ class DateTime {
     }
 
     /**
-     * Factory method. Create a DateTime from the ISO8601 date string. If the
+     * Factory method. Create a DateTime from the ISO 8601 date string. If the
      * string cannot be parsed, then isError() on the constructed object
      * returns true.
      *
-     * The dateString is expected to be in ISO8601 format
+     * The dateString is expected to be in ISO 8601 format
      * "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very lenient
      * and does not detect most errors. It cares mostly about the positional
      * placement of the various components. It does not validate the separation
@@ -173,8 +173,9 @@ class DateTime {
     void second(uint8_t second) { mOffsetDateTime.second(second); }
 
     /**
-     * Return the day of the week, Sunday=1, Saturday=7. This is calculated
-     * lazily and cached internally. Not thread-safe.
+     * Return the day of the week using ISO 8601 numbering where Monday=1 and
+     * Sunday=7. This is calculated lazily and cached internally. Not
+     * thread-safe.
      */
     uint8_t dayOfWeek() const { return mOffsetDateTime.dayOfWeek(); }
 
@@ -269,7 +270,7 @@ class DateTime {
     }
 
   private:
-    /** Expected length of an ISO8601 date string. */
+    /** Expected length of an ISO 8601 date string. */
     static const uint8_t kDateStringLength = 25;
 
     friend bool operator==(const DateTime& a, const DateTime& b);
