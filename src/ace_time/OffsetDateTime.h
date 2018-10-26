@@ -281,8 +281,8 @@ class OffsetDateTime {
     }
 
     /**
-     * Print OffsetDateTime to 'printer'. Does not implement Printable to avoid
-     * memory cost of vtable pointer.
+     * Print OffsetDateTime to 'printer' in ISO 8601 format. Does not implement
+     * Printable to avoid memory cost of a vtable pointer.
      */
     void printTo(Print& printer) const;
 

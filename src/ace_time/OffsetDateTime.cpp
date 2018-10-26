@@ -7,10 +7,9 @@ namespace ace_time {
 using common::printPad2;
 using common::DateStrings;
 
-// Print OffsetDateTime in ISO 8601 format
 void OffsetDateTime::printTo(Print& printer) const {
   if (isError()) {
-    printer.println(F("<Invalid OffsetDateTime>"));
+    printer.print(F("<Invalid OffsetDateTime>"));
     return;
   }
 

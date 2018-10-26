@@ -10,7 +10,7 @@ using common::DateStrings;
 // Print DateTime in ISO 8601 format
 void DateTime::printTo(Print& printer) const {
   if (isError()) {
-    printer.println(F("<Invalid DateTime>"));
+    printer.print(F("<Invalid DateTime>"));
     return;
   }
 

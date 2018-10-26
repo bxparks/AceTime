@@ -132,6 +132,13 @@ class LocalDate {
     }
 
     /**
+     * Print LocalDate to 'printer' in ISO 8601 format, along with the
+     * day of week. Does not implement Printable to avoid memory cost of a
+     * vtable pointer.
+     */
+    void printTo(Print& printer) const;
+
+    /**
      * Extract the (year, month, day, dayOfWeek) fields from epochDays.
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
