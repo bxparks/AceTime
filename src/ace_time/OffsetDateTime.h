@@ -85,8 +85,8 @@ class OffsetDateTime {
      * accepts a millisecond component in the future.
      */
     static OffsetDateTime forComponents(uint8_t year, uint8_t month,
-            uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
-            ZoneOffset zoneOffset = ZoneOffset()) {
+        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
+        ZoneOffset zoneOffset = ZoneOffset()) {
       return OffsetDateTime(year, month, day, hour, minute, second, zoneOffset);
     }
 
@@ -487,7 +487,6 @@ class OffsetDateTime {
           + mDay - 32075;
       return jdn - kDaysSinceJulianEpoch;
     }
-
 
     /**
      * Extract the (year, month, day, dayOfWeek) fields from epochDays.

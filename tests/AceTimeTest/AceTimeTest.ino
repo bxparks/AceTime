@@ -661,6 +661,99 @@ test(weekDayStringsFitInBuffer) {
 }
 
 // --------------------------------------------------------------------------
+// LocalDate
+// --------------------------------------------------------------------------
+
+test(localDateDayOfWeek) {
+  // year 2000 (leap year due to every 400 rule)
+  assertEqual(LocalDate::kSaturday,
+      LocalDate::forComponents(0, 1, 1).dayOfWeek());
+  assertEqual(LocalDate::kMonday,
+      LocalDate::forComponents(0, 1, 31).dayOfWeek());
+
+  assertEqual(LocalDate::kTuesday,
+      LocalDate::forComponents(0, 2, 1).dayOfWeek());
+  assertEqual(LocalDate::kTuesday,
+      LocalDate::forComponents(0, 2, 29).dayOfWeek());
+
+  assertEqual(LocalDate::kWednesday,
+      LocalDate::forComponents(0, 3, 1).dayOfWeek());
+  assertEqual(LocalDate::kFriday,
+      LocalDate::forComponents(0, 3, 31).dayOfWeek());
+
+  assertEqual(LocalDate::kSaturday,
+      LocalDate::forComponents(0, 4, 1).dayOfWeek());
+  assertEqual(LocalDate::kSunday,
+      LocalDate::forComponents(0, 4, 30).dayOfWeek());
+
+  assertEqual(LocalDate::kMonday,
+      LocalDate::forComponents(0, 5, 1).dayOfWeek());
+  assertEqual(LocalDate::kWednesday,
+      LocalDate::forComponents(0, 5, 31).dayOfWeek());
+
+  assertEqual(LocalDate::kThursday,
+      LocalDate::forComponents(0, 6, 1).dayOfWeek());
+  assertEqual(LocalDate::kFriday,
+      LocalDate::forComponents(0, 6, 30).dayOfWeek());
+
+  assertEqual(LocalDate::kSaturday,
+      LocalDate::forComponents(0, 7, 1).dayOfWeek());
+  assertEqual(LocalDate::kMonday,
+      LocalDate::forComponents(0, 7, 31).dayOfWeek());
+
+  assertEqual(LocalDate::kTuesday,
+      LocalDate::forComponents(0, 8, 1).dayOfWeek());
+  assertEqual(LocalDate::kThursday,
+      LocalDate::forComponents(0, 8, 31).dayOfWeek());
+
+  assertEqual(LocalDate::kFriday,
+      LocalDate::forComponents(0, 9, 1).dayOfWeek());
+  assertEqual(LocalDate::kSaturday,
+      LocalDate::forComponents(0, 9, 30).dayOfWeek());
+
+  assertEqual(LocalDate::kSunday,
+      LocalDate::forComponents(0, 10, 1).dayOfWeek());
+  assertEqual(LocalDate::kTuesday,
+      LocalDate::forComponents(0, 10, 31).dayOfWeek());
+
+  assertEqual(LocalDate::kWednesday,
+      LocalDate::forComponents(0, 11, 1).dayOfWeek());
+  assertEqual(LocalDate::kThursday,
+      LocalDate::forComponents(0, 11, 30).dayOfWeek());
+
+  assertEqual(LocalDate::kFriday,
+      LocalDate::forComponents(0, 12, 1).dayOfWeek());
+  assertEqual(LocalDate::kSunday,
+      LocalDate::forComponents(0, 12, 31).dayOfWeek());
+
+  // year 2001
+  assertEqual(LocalDate::kMonday,
+      LocalDate::forComponents(1, 1, 1).dayOfWeek());
+  assertEqual(LocalDate::kWednesday,
+      LocalDate::forComponents(1, 1, 31).dayOfWeek());
+
+  // year 2004 (leap year)
+  assertEqual(LocalDate::kSunday,
+      LocalDate::forComponents(4, 2, 1).dayOfWeek());
+  assertEqual(LocalDate::kSunday,
+      LocalDate::forComponents(4, 2, 29).dayOfWeek());
+  assertEqual(LocalDate::kMonday,
+      LocalDate::forComponents(4, 3, 1).dayOfWeek());
+
+  // year 2099
+  assertEqual(LocalDate::kThursday,
+      LocalDate::forComponents(99, 1, 1).dayOfWeek());
+  assertEqual(LocalDate::kThursday,
+      LocalDate::forComponents(99, 12, 31).dayOfWeek());
+
+  // year 2100 (not leap year due to every 100 rule)
+  assertEqual(LocalDate::kSunday,
+      LocalDate::forComponents(100, 2, 28).dayOfWeek());
+  assertEqual(LocalDate::kMonday,
+      LocalDate::forComponents(100, 3, 1).dayOfWeek());
+}
+
+// --------------------------------------------------------------------------
 
 void setup() {
   delay(1000); // wait for stability on some boards to prevent garbage Serial
