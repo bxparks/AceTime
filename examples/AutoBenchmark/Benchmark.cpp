@@ -32,9 +32,9 @@ const char CONSTRUCTOR1_LABEL[] =
 const char CONSTRUCTOR2_LABEL[] =
   "DateTime(seconds)           | ";
 const char DAYS_SINCE_EPOCH_LABEL[] =
-  "toDaysSinceEpochMillis()    | ";
+  "toEpochDaysMillis()         | ";
 const char SECOND_SINCE_EPOCH_LABEL[] =
-  "toSecondsSinceEpochMillis() | ";
+  "toEpochSecondsMillis()      | ";
 const char ENDING[] = " |";
 
 // The compiler is extremelly good about removing code that does nothing. This
@@ -120,32 +120,32 @@ void runBenchmarks() {
   printMicrosPerIteration(constructorFromSecondsMillis - emptyLoopMillis);
   Serial.println(ENDING);
 
-  // DateTime::toDaysSinceEpoch()
-  unsigned long toDaysSinceEpochMillis = runLambda(COUNT, []() mutable {
+  // DateTime::toEpochDays()
+  unsigned long toEpochDaysMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
     // DateTime(seconds) takes seconds, but use millis for testing purposes.
     DateTime dateTime = DateTime::forSeconds(tickMillis);
-    uint32_t daysSinceEpoch = dateTime.toDaysSinceEpoch();
+    uint32_t epochDays = dateTime.toEpochDays();
     disableOptimization(dateTime);
-    disableOptimization(daysSinceEpoch);
+    disableOptimization(epochDays);
   });
   Serial.print(DAYS_SINCE_EPOCH_LABEL);
   printMicrosPerIteration(
-      toDaysSinceEpochMillis - constructorFromSecondsMillis);
+      toEpochDaysMillis - constructorFromSecondsMillis);
   Serial.println(ENDING);
 
-  // DateTime::toSecondsSinceEpoch()
-  unsigned long toSecondsSinceEpochMillis = runLambda(COUNT, []() mutable {
+  // DateTime::toEpochSeconds()
+  unsigned long toEpochSecondsMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
     // DateTime(seconds) takes seconds, but use millis for testing purposes.
     DateTime dateTime = DateTime::forSeconds(tickMillis);
-    uint32_t secondsSinceEpoch = dateTime.toSecondsSinceEpoch();
+    uint32_t epochSeconds = dateTime.toEpochSeconds();
     disableOptimization(dateTime);
-    disableOptimization(secondsSinceEpoch);
+    disableOptimization(epochSeconds);
   });
   Serial.print(SECOND_SINCE_EPOCH_LABEL);
   printMicrosPerIteration(
-      toSecondsSinceEpochMillis - constructorFromSecondsMillis);
+      toEpochSecondsMillis - constructorFromSecondsMillis);
   Serial.println(ENDING);
 
   Serial.println(BOTTOM);

@@ -50,7 +50,7 @@ class DateTime {
             uint8_t hour, uint8_t minute, uint8_t second,
             TimeZone timeZone = TimeZone()) {
 
-      // TODO: Fix calculation of zoneOffset using real secondsSinceEpoch.
+      // TODO: Fix calculation of zoneOffset using real epochSeconds.
       ZoneOffset zoneOffset = timeZone.effectiveZoneOffset(0);
       OffsetDateTime dt = OffsetDateTime::forComponents(
           year, month, day, hour, minute, second, zoneOffset);
@@ -58,28 +58,27 @@ class DateTime {
     }
 
     /**
-     * Factory method. Create the DateTime from secondsSinceEpoch as seen from
+     * Factory method. Create the DateTime from epochSeconds as seen from
      * the given time zone. If the time zone's offset is negative, then
-     * (secondsSinceEpoch >= TimeZone::asEffectiveOffsetSeconds() must be true.
+     * (epochSeconds >= TimeZone::asEffectiveOffsetSeconds() must be true.
      * Otherwise, the local time will be in the year 1999, which cannot be
      * represented by a 2-digit year beginning with the year 2000. The
      * dayOfWeek will be calculated internally.
      *
-     * @param secondsSinceEpoch Number of seconds from AceTime epoch
+     * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00Z). A 0 value is a sentinel is considered to be
      *    an error and causes isError() to return true.
      * @param timeZone Optional. Default is UTC time zone.
      */
-    static DateTime forSeconds(uint32_t secondsSinceEpoch,
+    static DateTime forSeconds(uint32_t epochSeconds,
               TimeZone timeZone = TimeZone()) {
       DateTime dt;
-      if (secondsSinceEpoch == 0) {
+      if (epochSeconds == 0) {
         return dt.setError();
       }
 
-      ZoneOffset zoneOffset = timeZone.effectiveZoneOffset(secondsSinceEpoch);
-      dt.mOffsetDateTime = OffsetDateTime::forSeconds(
-          secondsSinceEpoch, zoneOffset);
+      ZoneOffset zoneOffset = timeZone.effectiveZoneOffset(epochSeconds);
+      dt.mOffsetDateTime = OffsetDateTime::forSeconds(epochSeconds, zoneOffset);
       dt.mTimeZone = timeZone;
       return dt;
     }
@@ -193,11 +192,11 @@ class DateTime {
 
     /**
      * Create a DateTime in a different time zone code (with the same
-     * secondsSinceEpoch).
+     * epochSeconds).
      */
     DateTime convertToTimeZone(TimeZone timeZone) const {
-      uint32_t secondsSinceEpoch = toSecondsSinceEpoch();
-      return DateTime::forSeconds(secondsSinceEpoch, timeZone);
+      uint32_t epochSeconds = toEpochSeconds();
+      return DateTime::forSeconds(epochSeconds, timeZone);
     }
 
     /**
@@ -225,8 +224,8 @@ class DateTime {
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
      * taking into account the time zone.
      */
-    uint32_t toDaysSinceEpoch() const {
-      return mOffsetDateTime.toDaysSinceEpoch();
+    uint32_t toEpochDays() const {
+      return mOffsetDateTime.toEpochDays();
     }
 
     /**
@@ -241,8 +240,8 @@ class DateTime {
      *
      * See https://en.wikipedia.org/wiki/Julian_day
      */
-    uint32_t toSecondsSinceEpoch() const {
-      return mOffsetDateTime.toSecondsSinceEpoch();
+    uint32_t toEpochSeconds() const {
+      return mOffsetDateTime.toEpochSeconds();
     }
 
     /**
@@ -260,7 +259,7 @@ class DateTime {
 
     /**
      * Compare this DateTime with another DateTime, and return (<0, 0, >0)
-     * according to whether the secondsSinceEpoch() is (a<b, a==b, a>b). The
+     * according to whether the epochSeconds is (a<b, a==b, a>b). The
      * dayOfWeek field is ignored but the time zone is used.  This method
      * can return 0 (equal) even if the operator==() returns false if the
      * two DateTime objects are in different time zones.

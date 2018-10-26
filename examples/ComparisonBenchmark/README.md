@@ -24,7 +24,7 @@ the current year. As the years pass, the number of cycles in those methods will
 increase and the performance will become worse.
 
 In contrast, the AceTime library uses deterministic, arithmetic formulas to
-convert between date/time components and secondsSinceEpoch. These expressions
+convert between date/time components and epochSeconds. These expressions
 take the same amount of time no matter what the year is. They contain a fair
 number of integer division operations, which are notoriously slow on an 8-bit
 AVR processor because divisions are emulated in software instead of implemented

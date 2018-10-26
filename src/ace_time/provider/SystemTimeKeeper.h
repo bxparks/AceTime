@@ -69,18 +69,18 @@ class SystemTimeKeeper: public TimeKeeper {
 
       while ((uint16_t) ((uint16_t) millis() - mPrevMillis) >= 1000) {
         mPrevMillis += 1000;
-        mSecondsSinceEpoch += 1;
+        mEpochSeconds += 1;
       }
-      return mSecondsSinceEpoch;
+      return mEpochSeconds;
     }
 
-    void setNow(uint32_t secondsSinceEpoch) override {
-      if (secondsSinceEpoch == 0) return;
+    void setNow(uint32_t epochSeconds) override {
+      if (epochSeconds == 0) return;
 
-      mSecondsSinceEpoch = secondsSinceEpoch;
+      mEpochSeconds = epochSeconds;
       mPrevMillis = millis();
       mIsInit = true;
-      backupNow(secondsSinceEpoch);
+      backupNow(epochSeconds);
     }
 
     /**
@@ -93,17 +93,17 @@ class SystemTimeKeeper: public TimeKeeper {
      * milliseconds per iteration, and which guarantees that the clock never
      * goes backwards in time.
      */
-    void sync(uint32_t secondsSinceEpoch) {
-      if (secondsSinceEpoch == 0) return;
-      if (mSecondsSinceEpoch == secondsSinceEpoch) return;
+    void sync(uint32_t epochSeconds) {
+      if (epochSeconds == 0) return;
+      if (mEpochSeconds == epochSeconds) return;
 
-      mSecondsSinceEpoch = secondsSinceEpoch;
+      mEpochSeconds = epochSeconds;
       mPrevMillis = millis();
       mIsInit = true;
-      mLastSyncTime = secondsSinceEpoch;
+      mLastSyncTime = epochSeconds;
 
       if (mBackupTimeKeeper != mSyncTimeProvider) {
-        backupNow(secondsSinceEpoch);
+        backupNow(epochSeconds);
       }
     }
 
@@ -140,7 +140,7 @@ class SystemTimeKeeper: public TimeKeeper {
     const TimeProvider* const mSyncTimeProvider;
     TimeKeeper* const mBackupTimeKeeper;
 
-    mutable uint32_t mSecondsSinceEpoch = 0; // time presented to the user
+    mutable uint32_t mEpochSeconds = 0; // time presented to the user
     mutable uint16_t mPrevMillis = 0;  // lower 16-bits of millis()
     bool mIsInit = false; // true if setNow() or sync() was successful
     uint32_t mLastSyncTime = 0; // time when last synced

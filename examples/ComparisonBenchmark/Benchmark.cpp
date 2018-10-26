@@ -112,7 +112,7 @@ void runBenchmarks() {
   // AceTime library
   elapsedMillis = runBenchmark(START_SECONDS, [](uint32_t seconds) {
     DateTime dt = DateTime::forSeconds(seconds);
-    uint32_t roundTripSeconds = dt.toSecondsSinceEpoch();
+    uint32_t roundTripSeconds = dt.toEpochSeconds();
     return roundTripSeconds;
   });
   Serial.print(ACE_TIME_LABEL);

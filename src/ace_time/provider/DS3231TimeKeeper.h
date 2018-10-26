@@ -22,11 +22,11 @@ class DS3231TimeKeeper: public TimeKeeper {
     uint32_t getNow() const override {
       hw::HardwareDateTime hardwareDateTime;
       mDS3231.readDateTime(&hardwareDateTime);
-      return toDateTime(hardwareDateTime).toSecondsSinceEpoch();
+      return toDateTime(hardwareDateTime).toEpochSeconds();
     }
 
-    void setNow(uint32_t secondsSinceEpoch) override {
-      OffsetDateTime now = OffsetDateTime::forSeconds(secondsSinceEpoch);
+    void setNow(uint32_t epochSeconds) override {
+      OffsetDateTime now = OffsetDateTime::forSeconds(epochSeconds);
       mDS3231.setDateTime(toHardwareDateTime(now));
     }
 

@@ -300,7 +300,7 @@ class Controller {
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
         {
-          presenter.setNow(mChangingDateTime.toSecondsSinceEpoch());
+          presenter.setNow(mChangingDateTime.toEpochSeconds());
           presenter.setClockInfo(mChangingClockInfo);
           break;
         }
@@ -309,7 +309,7 @@ class Controller {
 
     /** Save the current UTC DateTime to the RTC. */
     void saveDateTime() {
-      mTimeKeeper.setNow(mChangingDateTime.toSecondsSinceEpoch());
+      mTimeKeeper.setNow(mChangingDateTime.toEpochSeconds());
     }
 
     void saveClockInfo() {

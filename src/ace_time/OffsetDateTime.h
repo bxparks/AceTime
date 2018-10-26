@@ -92,36 +92,36 @@ class OffsetDateTime {
 
     /**
      * Factory method. Create the various components of the OffsetDateTime from
-     * the secondsSinceEpoch and its ZoneOffset. The dayOfWeek will be
+     * the epochSeconds and its ZoneOffset. The dayOfWeek will be
      * calculated lazily.
      *
-     * If ZoneOffset.offsetCode() is negative, then (secondsSinceEpoch >=
+     * If ZoneOffset.offsetCode() is negative, then (epochSeconds >=
      * ZoneOffset::asSeconds() must be true. Otherwise, the local time will be
      * in the year 1999, which cannot be represented by a 2-digit year
      * beginning with the year 2000.
      *
-     * @param secondsSinceEpoch Number of seconds from AceTime epoch
+     * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00Z). A 0 value is a sentinel that is considerd to
      *    be an error, and causes isError() to return true.
      * @param zoneOffset Optional. Default is UTC time zone.
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
-    static OffsetDateTime forSeconds(uint32_t secondsSinceEpoch,
+    static OffsetDateTime forSeconds(uint32_t epochSeconds,
           ZoneOffset zoneOffset = ZoneOffset()) {
       OffsetDateTime dt;
-      if (secondsSinceEpoch == 0) {
+      if (epochSeconds == 0) {
         return dt.setError();
       }
 
       dt.mZoneOffset = zoneOffset;
 
-      secondsSinceEpoch += zoneOffset.asSeconds();
-      uint32_t daysSinceEpoch = secondsSinceEpoch / 86400;
-      extractYearMonthDay(daysSinceEpoch, dt.mYear, dt.mMonth, dt.mDay,
+      epochSeconds += zoneOffset.asSeconds();
+      uint32_t epochDays = epochSeconds / 86400;
+      extractYearMonthDay(epochDays, dt.mYear, dt.mMonth, dt.mDay,
           dt.mDayOfWeek);
 
-      uint32_t seconds = secondsSinceEpoch % 86400;
+      uint32_t seconds = epochSeconds % 86400;
       dt.mSecond = seconds % 60;
       seconds /= 60;
       dt.mMinute = seconds % 60;
@@ -273,11 +273,11 @@ class OffsetDateTime {
 
     /**
      * Create a OffsetDateTime in a different offset zone code (with the same
-     * secondsSinceEpoch).
+     * epochSeconds).
      */
     OffsetDateTime convertToZoneOffset(const ZoneOffset& zoneOffset) const {
-      uint32_t secondsSinceEpoch = toSecondsSinceEpoch();
-      return OffsetDateTime::forSeconds(secondsSinceEpoch, zoneOffset);
+      uint32_t epochSeconds = toEpochSeconds();
+      return OffsetDateTime::forSeconds(epochSeconds, zoneOffset);
     }
 
     /**
@@ -320,18 +320,18 @@ class OffsetDateTime {
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
      * taking into account the offset zone.
      */
-    uint32_t toDaysSinceEpoch() const {
-      uint32_t daysSinceEpoch = toDaysSinceEpochIgnoringZoneOffset();
+    uint32_t toEpochDays() const {
+      uint32_t epochDays = toEpochDaysIgnoringZoneOffset();
       int32_t utcOffset = ((mHour * 60) + mMinute) * (uint32_t) 60 + mSecond;
       utcOffset -= mZoneOffset.asSeconds();
 
       // Increment or decrement the day count depending on the offset zone.
       if (utcOffset >= 86400) {
-        return daysSinceEpoch + 1;
+        return epochDays + 1;
       } else if (utcOffset < 0) {
-        return daysSinceEpoch - 1;
+        return epochDays - 1;
       } else {
-        return daysSinceEpoch;
+        return epochDays;
       }
     }
 
@@ -347,11 +347,11 @@ class OffsetDateTime {
      *
      * See https://en.wikipedia.org/wiki/Julian_day
      */
-    uint32_t toSecondsSinceEpoch() const {
-      uint32_t daysSinceEpoch = toDaysSinceEpochIgnoringZoneOffset();
+    uint32_t toEpochSeconds() const {
+      uint32_t epochDays = toEpochDaysIgnoringZoneOffset();
       int32_t utcOffset = ((mHour * 60) + mMinute) * (uint32_t) 60 + mSecond;
       utcOffset -= mZoneOffset.asSeconds();
-      return daysSinceEpoch * (uint32_t) 86400 + utcOffset;
+      return epochDays * (uint32_t) 86400 + utcOffset;
     }
 
     /**
@@ -364,19 +364,19 @@ class OffsetDateTime {
      * print the unix seconds.
      */
     uint32_t toUnixSeconds() const {
-      return toSecondsSinceEpoch() + kSecondsSinceUnixEpoch;
+      return toEpochSeconds() + kSecondsSinceUnixEpoch;
     }
 
     /**
      * Compare this OffsetDateTime with another OffsetDateTime, and return (<0,
-     * 0, >0) according to whether the secondsSinceEpoch() is (a<b, a==b, a>b).
+     * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b).
      * The dayOfWeek field is ignored but the offset zone is used.  This method
      * can return 0 (equal) even if the operator==() returns false if the two
      * OffsetDateTime objects are in different offset zones.
      */
     int8_t compareTo(const OffsetDateTime& that) const {
-      uint32_t thisSeconds = toSecondsSinceEpoch();
-      uint32_t thatSeconds = that.toSecondsSinceEpoch();
+      uint32_t thisSeconds = toEpochSeconds();
+      uint32_t thatSeconds = that.toEpochSeconds();
       if (thisSeconds < thatSeconds) {
         return -1;
       } else if (thisSeconds == thatSeconds) {
@@ -451,9 +451,9 @@ class OffsetDateTime {
      * dayOfWeek does not depend on the offset zone.
      */
     uint8_t calculateDayOfWeek() const {
-      uint32_t daysSinceEpoch = toDaysSinceEpochIgnoringZoneOffset();
+      uint32_t epochDays = toEpochDaysIgnoringZoneOffset();
       // 2000-01-01 is a Saturday (6)
-      return (daysSinceEpoch + 5) % 7 + 1;
+      return (epochDays + 5) % 7 + 1;
     }
 
     /**
@@ -466,7 +466,7 @@ class OffsetDateTime {
      *
      * See https://en.wikipedia.org/wiki/Julian_day
      */
-    uint32_t toDaysSinceEpochIgnoringZoneOffset() const {
+    uint32_t toEpochDaysIgnoringZoneOffset() const {
       // From wiki article:
       //
       // JDN = (1461 x (Y + 4800 + (M - 14)/12))/4
@@ -490,13 +490,13 @@ class OffsetDateTime {
 
 
     /**
-     * Extract the (year, month, day, dayOfWeek) fields from daysSinceEpoch.
+     * Extract the (year, month, day, dayOfWeek) fields from epochDays.
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
-    static void extractYearMonthDay(uint32_t daysSinceEpoch, uint8_t& year,
+    static void extractYearMonthDay(uint32_t epochDays, uint8_t& year,
         uint8_t& month, uint8_t& day, uint8_t& dayOfWeek) {
-      uint32_t J = daysSinceEpoch + kDaysSinceJulianEpoch;
+      uint32_t J = epochDays + kDaysSinceJulianEpoch;
       uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;
       uint32_t e = 4 * f + 3;
       uint32_t g = e % 1461 / 4;
@@ -506,7 +506,7 @@ class OffsetDateTime {
       year = (e / 1461) - 4716 + (12 + 2 - month) / 12 - kEpochYear;
 
       // 2000-01-01 is Saturday (7)
-      dayOfWeek = (daysSinceEpoch + 6) % 7 + 1;
+      dayOfWeek = (epochDays + 6) % 7 + 1;
     }
 
     uint8_t mYear; // [00, 99], year - 2000

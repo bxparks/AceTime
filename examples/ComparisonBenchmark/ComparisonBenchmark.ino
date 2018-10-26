@@ -1,6 +1,6 @@
 /*
  * Determine the execution time of a round trip conversion from human-readable
- * date/time components, to secondsSinceEpoch, then back to human-readable
+ * date/time components, to epochSeconds, then back to human-readable
  * components. We compare this round trip for the AceTime library compared to
  * the Arduino Time library (https://github.com/PaulStoffregen/Time).
  */

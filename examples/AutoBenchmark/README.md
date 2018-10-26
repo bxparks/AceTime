@@ -31,8 +31,8 @@ Method                      |  micros |
 Empty loop                  |   2.800 |
 ----------------------------|---------|
 DateTime(seconds)           | 401.800 |
-toDaysSinceEpochMillis()    |  63.800 |
-toSecondsSinceEpochMillis() |  68.600 |
+toEpochDaysMillis()         |  63.800 |
+toEpochSecondsMillis()      |  68.600 |
 ----------------------------+---------+
 Number of iterations per run: 10000
 ```
@@ -64,8 +64,8 @@ Method                      |  micros |
 Empty loop                  |   4.720 |
 ----------------------------|---------|
 DateTime(seconds)           |  12.080 |
-toDaysSinceEpochMillis()    |   4.280 |
-toSecondsSinceEpochMillis() |   4.540 |
+toEpochDaysMillis()         |   4.280 |
+toEpochSecondsMillis()      |   4.540 |
 ----------------------------+---------+
 Number of iterations per run: 50000
 ```
@@ -98,8 +98,8 @@ Method                      |  micros |
 Empty loop                  |   1.310 |
 ----------------------------|---------|
 DateTime(seconds)           |   0.705 |
-toDaysSinceEpochMillis()    |   0.445 |
-toSecondsSinceEpochMillis() |   0.405 |
+toEpochDaysMillis()         |   0.445 |
+toEpochSecondsMillis()      |   0.405 |
 ----------------------------+---------+
 Number of iterations per run: 200000
 ```
@@ -134,8 +134,8 @@ Method                      |  micros |
 Empty loop                  |   0.175 |
 ----------------------------|---------|
 DateTime(seconds)           |   2.750 |
-toDaysSinceEpochMillis()    |   0.710 |
-toSecondsSinceEpochMillis() |   0.915 |
+toEpochDaysMillis()         |   0.710 |
+toEpochSecondsMillis()      |   0.915 |
 ----------------------------+---------+
 Number of iterations per run: 200000
 ```

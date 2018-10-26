@@ -3,8 +3,8 @@
  * methods of DateTime:
  *
  *  - DateTime(seconds) constructor
- *  - DateTime::toDaysSinceEpoch()
- *  - DateTime::toSecondsSinceEpoch()
+ *  - DateTime::toEpochDays()
+ *  - DateTime::toEpochSeconds()
  *
  * This should compile on all microcontrollers supported by the Arduino IDE.
  */

@@ -17,7 +17,7 @@ class TimeKeeper: public TimeProvider {
      * Set the time to the indicated seconds. Calling with a value of 0
      * indicates an error condition, so the method should do nothing.
      */
-    virtual void setNow(uint32_t secondsSinceEpoch) = 0;
+    virtual void setNow(uint32_t epochSeconds) = 0;
 };
 
 }

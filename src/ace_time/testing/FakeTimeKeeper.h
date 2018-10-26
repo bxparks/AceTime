@@ -9,18 +9,18 @@ namespace testing {
 
 class FakeTimeKeeper: public provider::TimeKeeper {
   public:
-    void setNow(uint32_t secondsSinceEpoch) override {
-      mSecondsSinceEpoch = secondsSinceEpoch;
+    void setNow(uint32_t epochSeconds) override {
+      mEpochSeconds = epochSeconds;
     }
 
-    uint32_t getNow() const override { return mSecondsSinceEpoch; }
+    uint32_t getNow() const override { return mEpochSeconds; }
 
     bool isResponseReady() const override { return mIsResponseReady; }
 
     void isResponseReady(bool ready) { mIsResponseReady = ready; }
 
   private:
-    uint32_t mSecondsSinceEpoch = 0;
+    uint32_t mEpochSeconds = 0;
     bool mIsResponseReady = false;
 };
 

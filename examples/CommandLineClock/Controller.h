@@ -48,7 +48,7 @@ class Controller {
 
     /** Set the current time of the system time keeper. */
     void setNow(const DateTime& newDateTime) {
-      uint32_t seconds = newDateTime.toSecondsSinceEpoch();
+      uint32_t seconds = newDateTime.toEpochSeconds();
       mSystemTimeKeeper.setNow(seconds);
     }
 

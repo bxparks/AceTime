@@ -152,7 +152,7 @@ class Clock {
 
     /** Save the current UTC DateTime to the RTC. */
     void saveDateTime() {
-      mTimeKeeper.setNow(mChangingDateTime.toSecondsSinceEpoch());
+      mTimeKeeper.setNow(mChangingDateTime.toEpochSeconds());
     }
 
     void saveTimeZone() {

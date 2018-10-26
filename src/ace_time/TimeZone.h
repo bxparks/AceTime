@@ -104,7 +104,7 @@ class TimeZone {
     }
 
     /** Return the effective zone offset. */
-    ZoneOffset effectiveZoneOffset(uint32_t /*secondsSinceEpoch*/) const {
+    ZoneOffset effectiveZoneOffset(uint32_t /*epochSeconds*/) const {
       return ZoneOffset::forOffsetCode(
 					mZoneOffset.offsetCode() + (mIsDst ? 4 : 0));
     }

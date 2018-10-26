@@ -1,4 +1,4 @@
-#######################################
+    #######################################
 # Syntax Coloring Map for AceTime library
 #######################################
 
@@ -54,8 +54,8 @@ incrementMonth	KEYWORD2
 incrementDay	KEYWORD2
 incrementHour	KEYWORD2
 incrementMinute	KEYWORD2
-toDaysSinceEpoch	KEYWORD2
-toSecondsSinceEpoch	KEYWORD2
+toEpochDays	KEYWORD2
+toEpochSeconds	KEYWORD2
 toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
 
@@ -81,8 +81,8 @@ incrementMonth	KEYWORD2
 incrementDay	KEYWORD2
 incrementHour	KEYWORD2
 incrementMinute	KEYWORD2
-toDaysSinceEpoch	KEYWORD2
-toSecondsSinceEpoch	KEYWORD2
+toEpochDays	KEYWORD2
+toEpochSeconds	KEYWORD2
 toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
 

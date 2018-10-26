@@ -140,7 +140,7 @@ classes are separated into a number of namespaces.
 
 Each namespace in the above depends on the classes of the previous namespace.
 The `ace_time::provider` is mostly independent of `ace_time` except that
-`DS3231TimeKeeper` uses `LocalDateTime` to convert between `secondsSinceEpoch`
+`DS3231TimeKeeper` uses `LocalDateTime` to convert between `epochSeconds`
 and the `LocalDateTime`.
 
 To use the classes without prepending the `ace_time::`, `ace_time::provider::`
@@ -296,14 +296,14 @@ Epoch which is **2000-01-01T00:00:00Z** at the UTC time zone. For example:
 // 2018-01-01 00:00:00+00:15
 DateTime dt = DateTime::forComponents(18, 1, 1, 0, 0, 0,
     TimeZone::forOffsetCode(1));
-uint32_t daysSinceEpoch = dt.toDaysSinceEpoch();
-uint32_t secondsSinceEpoch = dt.toSecondsSinceEpoch();
+uint32_t epochDays = dt.toEpochDays();
+uint32_t epochSeconds = dt.toEpochSeconds();
 
-Serial.println(daysSinceEpoch);
-Serial.println(secondsSinceEpoch);
+Serial.println(epochDays);
+Serial.println(epochSeconds);
 ```
 
-This prints `6574` and `568079100` respectively. The `toDaysSinceEpoch()` method
+This prints `6574` and `568079100` respectively. The `toEpochDays()` method
 counts the number of whole days since the Epoch, including leap days.
 
 You can go the other way and create a `DateTime` object from the seconds from
@@ -316,7 +316,7 @@ This will produce the same object as
 
 #### Invalid DateTime Objects
 
-A value of `0` for the `secondsSinceEpoch` is used internally as an ERROR
+A value of `0` for the `epochSeconds` is used internally as an ERROR
 marker, so users should never create a`DateTime` object with this value. In
 other words,
 ```C++
@@ -328,10 +328,10 @@ More generally, users should avoid creating any `DateTime` object corresponding
 to the first day of the year 2000 (2000-01-01). On that day, there is a danger
 that the object may exceed the range of its internal variables. There may exists
 a time zone on the first day of year 2000 when the object's
-`toSecondsSinceEpoch()` is `<= 0`. Such a `DateTime` cannot be properly
+`toEpochSeconds()` is `<= 0`. Such a `DateTime` cannot be properly
 represented using a `DateTime` object and will produce invalid `DateTime`
 components (year, month, day, hour, minute, seconds). Stated another way, users
-should create `DateTime` objects where the `toSecondsSinceEpoch() >= 86400`.
+should create `DateTime` objects where the `toEpochSeconds() >= 86400`.
 Smaller values *may* work for some time zones, but not for others.
 
 #### Conversion to Other Time Zones
@@ -348,7 +348,7 @@ DateTime cetTime = DateTime::forComponents(
 // 2018-01-01T01:20:00-07:00
 DateTime pdtTime = dt.convertToTimeZone(TimeZone::forHour(-8).isDst(true));
 ```
-The two `DateTime` objects return the same value for `secondsSinceEpoch()`
+The two `DateTime` objects return the same value for `epochSeconds()`
 because that is not affected by the time zone. However, the various date time
 components (year, month, day, hour, minute, seconds) will be different.
 
@@ -370,7 +370,7 @@ example, we can print out a count down to a target `DateTime` from the current
 DateTime currentDate(...);
 DateTime targetDate(...);
 int32_t diffSeconds =
-        targetDate.toSecondsSinceEpoch() - currentDate.toSecondsSincEpoch();
+    targetDate.toEpochSeconds() - currentDate.toEpochSeconds();
 TimePeriod diff(diffSeconds);
 diff.printTo(Serial)
 ```
@@ -406,7 +406,7 @@ be set.
 ```C++
 class TimeKeeper: public TimeProvider {
   public:
-    virtual void setNow(uint32_t secondsSinceEpoch) = 0;
+    virtual void setNow(uint32_t epochSeconds) = 0;
 };
 ```
 
