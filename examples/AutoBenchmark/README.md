@@ -6,19 +6,22 @@ slow on 8-bit AVR processors.
 
 ## Arduino Nano
 
-IDE: Arduino 1.8.6 (AVR Core 1.6.22)
+IDE: Arduino 1.8.7 (AVR Core 1.6.23)
 
 Memory:
 
 ```
-sizeof(DateTime): 8
-sizeof(TimeZone): 1
+sizeof(LocalDate): 3
+sizeof(ZoneOffset): 1
+sizeof(OffsetDateTime): 8
+sizeof(DateTime): 10
+sizeof(TimeZone): 2
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 17
-sizeof(DS3231TimeKeeper): 4
+sizeof(DS3231TimeKeeper): 3
 sizeof(SystemTimeSyncLoop): 14
 sizeof(SystemTimeHeartbeatLoop): 8
-sizeof(SystemTimeSyncCoroutine): 29
+sizeof(SystemTimeSyncCoroutine): 31
 sizeof(SystemTimeHeartbeatCoroutine): 18
 ```
 
@@ -30,25 +33,31 @@ Method                      |  micros |
 ----------------------------|---------|
 Empty loop                  |   2.800 |
 ----------------------------|---------|
-DateTime(seconds)           | 401.800 |
-toEpochDaysMillis()         |  63.800 |
-toEpochSecondsMillis()      |  68.600 |
+DateTime::forSeconds()      | 370.100 |
+DateTime::toEpochDays()     |  64.100 |
+Datetime::toEpochSeconds()  |  70.000 |
+LocalDate::forEpochDays()   | 215.900 |
+LocalDate::toEpochDays()    |  52.000 |
+LocalDate::dayOfWeek()      |  41.300 |
 ----------------------------+---------+
 Number of iterations per run: 10000
 ```
 
 ## ESP8266
 
-IDE: Arduino 1.8.6 (ESP Core 2.4.2)
+IDE: Arduino 1.8.7 (ESP Core 2.4.2)
 
 Memory:
 ```
-sizeof(DateTime): 8
-sizeof(TimeZone): 1
+sizeof(LocalDate): 3
+sizeof(ZoneOffset): 1
+sizeof(OffsetDateTime): 8
+sizeof(DateTime): 10
+sizeof(TimeZone): 2
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 24
 sizeof(DS3231TimeKeeper): 8
-sizeof(NtpTimeProvider): 96
+sizeof(NtpTimeProvider): 88
 sizeof(SystemTimeSyncLoop): 20
 sizeof(SystemTimeHeartbeatLoop): 12
 sizeof(SystemTimeSyncCoroutine): 52
@@ -63,26 +72,32 @@ Method                      |  micros |
 ----------------------------|---------|
 Empty loop                  |   4.720 |
 ----------------------------|---------|
-DateTime(seconds)           |  12.080 |
-toEpochDaysMillis()         |   4.280 |
-toEpochSecondsMillis()      |   4.540 |
+DateTime::forSeconds()      |  13.160 |
+DateTime::toEpochDays()     |   4.420 |
+DateTime::toEpochSeconds()  |   4.620 |
+LocalDate::forEpochDays()   |   7.880 |
+LocalDate::toEpochDays()    |   3.600 |
+LocalDate::dayOfWeek()      |   3.040 |
 ----------------------------+---------+
 Number of iterations per run: 50000
 ```
 
 ## ESP32
 
-IDE: Arduino 1.8.6 (ESP32 Core 2018-09-09)
+IDE: Arduino 1.8.7 (ESP32 Core 1.0.0)
 
 Memory:
 
 ```
-sizeof(DateTime): 8
-sizeof(TimeZone): 1
+sizeof(LocalDate): 3
+sizeof(ZoneOffset): 1
+sizeof(OffsetDateTime): 8
+sizeof(DateTime): 10
+sizeof(TimeZone): 2
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 24
 sizeof(DS3231TimeKeeper): 8
-sizeof(NtpTimeProvider): 120
+sizeof(NtpTimeProvider): 116
 sizeof(SystemTimeSyncLoop): 20
 sizeof(SystemTimeHeartbeatLoop): 12
 sizeof(SystemTimeSyncCoroutine): 52
@@ -97,9 +112,12 @@ Method                      |  micros |
 ----------------------------|---------|
 Empty loop                  |   1.310 |
 ----------------------------|---------|
-DateTime(seconds)           |   0.705 |
-toEpochDaysMillis()         |   0.445 |
-toEpochSecondsMillis()      |   0.405 |
+DateTime::forSeconds()      |   1.115 |
+DateTime::toEpochDays()     |   0.445 |
+DateTime::toEpochSeconds()  |   0.410 |
+LocalDate::forEpochDays()   |   0.450 |
+LocalDate::toEpochDays()    |   0.225 |
+LocalDate::dayOfWeek()      |   0.180 |
 ----------------------------+---------+
 Number of iterations per run: 200000
 ```
@@ -114,8 +132,11 @@ IDE: Arduino 1.8.5 (Teensyduino 1.42)
 Memory:
 
 ```
-sizeof(DateTime): 8
-sizeof(TimeZone): 1
+sizeof(LocalDate): 3
+sizeof(ZoneOffset): 1
+sizeof(OffsetDateTime): 8
+sizeof(DateTime): 10
+sizeof(TimeZone): 2
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 24
 sizeof(DS3231TimeKeeper): 8
@@ -133,9 +154,12 @@ Method                      |  micros |
 ----------------------------|---------|
 Empty loop                  |   0.175 |
 ----------------------------|---------|
-DateTime(seconds)           |   2.750 |
-toEpochDaysMillis()         |   0.710 |
-toEpochSecondsMillis()      |   0.915 |
+DateTime::forSeconds()      |   2.500 |
+DateTime::toEpochDays()     |   0.585 |
+DateTime::toEpochSeconds()  |   0.750 |
+LocalDate::forEpochDays()   |   0.525 |
+LocalDate::toEpochDays()    |   1.140 |
+LocalDate::dayOfWeek()      |   0.595 |
 ----------------------------+---------+
 Number of iterations per run: 200000
 ```
