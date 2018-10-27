@@ -11,124 +11,115 @@ using namespace ace_time::common;
 // OffsetDateTime
 // --------------------------------------------------------------------------
 
-test(daysAndEpochSecondsAt2000_01_01) {
-  // 2000-01-01 00:00:00Z Saturday
-  OffsetDateTime dt = OffsetDateTime::forComponents(0, 1, 1, 0, 0, 0);
-
-  uint32_t epochDays = dt.toEpochDays();
-  assertEqual((uint32_t) 0, epochDays);
-
-  uint32_t epochSeconds = dt.toEpochSeconds();
-  assertEqual((uint32_t) 0, epochSeconds);
-
-  assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
+test(offsetDateTimeAccessors) {
+  OffsetDateTime dt = OffsetDateTime::forComponents(1, 2, 3, 4, 5, 6);
+  assertEqual((uint16_t) 2001, dt.yearFull());
+  assertEqual(1, dt.year());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(0, dt.zoneOffset().offsetCode());
 }
 
-// 2000-02-29 was a leap year, due to the every 400 year rule
-// 2100-02-29 is *not* a leap year, due to the every 100 year rule
-test(daysAndEpochSecondsAt2000_02_29) {
-  // 2000-02-29 00:00:00Z Tuesday
-  OffsetDateTime dt = OffsetDateTime::forComponents(0, 2, 29, 0, 0, 0);
-
-  uint32_t epochDays = dt.toEpochDays();
-  assertEqual((uint32_t) 59, epochDays);
-
-  uint32_t epochSeconds = dt.toEpochSeconds();
-  assertEqual((uint32_t) 86400 * 59, epochSeconds);
-
-  assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
+test(offsetDateTimeError) {
+  OffsetDateTime dt = OffsetDateTime::forEpochSeconds(
+      OffsetDateTime::kInvalidEpochSeconds);
+  assertTrue(dt.isError());
+  assertEqual(OffsetDateTime::kInvalidEpochSeconds, dt.toEpochSeconds());
+  assertEqual(OffsetDateTime::kInvalidEpochDays, dt.toEpochDays());
 }
 
-test(daysAndEpochSecondsAt2000_01_02) {
-  // 2000-01-02 00:00:00Z Sunday
-  OffsetDateTime dt = OffsetDateTime::forComponents(0, 1, 2, 0, 0, 0);
-
-  uint32_t epochDays = dt.toEpochDays();
-  assertEqual((uint32_t) 1, epochDays);
-
-  uint32_t epochSeconds = dt.toEpochSeconds();
-  assertEqual((uint32_t) 86400, epochSeconds);
-
-  assertEqual(LocalDate::kSunday, dt.dayOfWeek());
+test(dateTimeSetError) {
+  OffsetDateTime dt = OffsetDateTime().setError();
+  assertTrue(dt.isError());
 }
 
-test(daysAndEpochSecondsAt2018_01_01) {
-  // 2018-01-01 00:00:00Z Monday
+test(dateTimeIsError) {
+  // 2018-01-01 00:00:00Z
   OffsetDateTime dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0);
+  assertFalse(dt.isError());
 
-  uint32_t epochDays = dt.toEpochDays();
-  assertEqual((uint32_t) 6575, epochDays);
+  dt = OffsetDateTime::forComponents(18, 0, 1, 0, 0, 0);
+  assertTrue(dt.isError());
 
-  uint32_t epochSeconds = dt.toEpochSeconds();
-  assertEqual(6575 * (uint32_t) 86400, epochSeconds);
+  dt = OffsetDateTime::forComponents(18, 255, 1, 0, 0, 0);
+  assertTrue(dt.isError());
 
-  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
+  dt = OffsetDateTime::forComponents(18, 1, 0, 0, 0, 0);
+  assertTrue(dt.isError());
+
+  dt = OffsetDateTime::forComponents(18, 1, 255, 0, 0, 0);
+  assertTrue(dt.isError());
+
+  dt = OffsetDateTime::forComponents(18, 1, 1, 255, 0, 0);
+  assertTrue(dt.isError());
+
+  dt = OffsetDateTime::forComponents(18, 1, 1, 0, 255, 0);
+  assertTrue(dt.isError());
+
+  dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 255);
+  assertTrue(dt.isError());
 }
 
-test(daysAndEpochSecondsAt2018_01_01WithTimeZone) {
-  // 2018-01-01 00:00:00+00:15 Monday
-  OffsetDateTime dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0,
-      ZoneOffset::forOffsetCode(1));
+test(offsetDateTimeToAndFromEpochSeconds) {
+  OffsetDateTime dt;
 
-  uint32_t epochDays = dt.toEpochDays();
-  assertEqual((uint32_t) 6574, epochDays);
-
-  uint32_t epochSeconds = dt.toEpochSeconds();
-  assertEqual(6575 * (uint32_t) 86400 - 15*60, epochSeconds);
-
-  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
-}
-
-test(daysAndEpochSecondsAt2049_12_31) {
-  // 2049-12-31 23:59:59Z Friday
-  OffsetDateTime dt = OffsetDateTime::forComponents(49, 12, 31, 23, 59, 59);
-
-  uint32_t epochDays = dt.toEpochDays();
-  assertEqual((uint32_t) 18262, epochDays);
-
-  uint32_t epochSeconds = dt.toEpochSeconds();
-  assertEqual(18263 * (uint32_t) 86400 - 1, epochSeconds);
-
-  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
-}
-
-test(daysAndEpochSecondsAt2049_12_31WithTimeZone) {
-  // 2049-12-31 23:59:59-00:15 Friday
-  OffsetDateTime dt = OffsetDateTime::forComponents(49, 12, 31, 23, 59, 59,
-      ZoneOffset::forOffsetCode(-1));
-
-  uint32_t epochDays = dt.toEpochDays();
-  assertEqual((uint32_t) 18263, epochDays);
-
-  uint32_t epochSeconds = dt.toEpochSeconds();
-  assertEqual(18263 * (uint32_t) 86400 + 15*60 - 1, epochSeconds);
-
-  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
-}
-
-test(daysAndEpochSecondsAt2050_01_01) {
-  // 2050-01-01 00:00:00Z Saturday
-  OffsetDateTime dt = OffsetDateTime::forComponents(50, 1, 1, 0, 0, 0);
-
-  uint32_t epochDays = dt.toEpochDays();
-  assertEqual((uint32_t) 18263, epochDays);
-
-  uint32_t epochSeconds = dt.toEpochSeconds();
-  assertEqual(18263 * (uint32_t) 86400, epochSeconds);
-
+  // 2000-01-01 00:00:00Z Saturday
+  dt = OffsetDateTime::forComponents(0, 1, 1, 0, 0, 0);
+  assertEqual((uint32_t) 0, dt.toEpochDays());
+  assertEqual((uint32_t) 0, dt.toEpochSeconds());
   assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
-}
 
-test(daysAndEpochSecondsAt2099_12_31) {
+  // 2000-02-29 00:00:00Z Tuesday
+  dt = OffsetDateTime::forComponents(0, 2, 29, 0, 0, 0);
+  assertEqual((uint32_t) 59, dt.toEpochDays());
+  assertEqual((uint32_t) 86400 * 59, dt.toEpochSeconds());
+  assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
+
+  // 2000-01-02 00:00:00Z Sunday
+  dt = OffsetDateTime::forComponents(0, 1, 2, 0, 0, 0);
+  assertEqual((uint32_t) 1, dt.toEpochDays());
+  assertEqual((uint32_t) 86400, dt.toEpochSeconds());
+  assertEqual(LocalDate::kSunday, dt.dayOfWeek());
+
+  // 2018-01-01 00:00:00Z Monday
+  dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0);
+  assertEqual((uint32_t) 6575, dt.toEpochDays());
+  assertEqual(6575 * (uint32_t) 86400, dt.toEpochSeconds());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
+
+  // 2018-01-01 00:00:00+00:15 Monday
+  dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0,
+      ZoneOffset::forOffsetCode(1));
+  assertEqual((uint32_t) 6574, dt.toEpochDays());
+  assertEqual(6575 * (uint32_t) 86400 - 15*60, dt.toEpochSeconds());
+  assertEqual(LocalDate::kMonday, dt.dayOfWeek());
+
+  // 2049-12-31 23:59:59Z Friday
+  dt = OffsetDateTime::forComponents(49, 12, 31, 23, 59, 59);
+  assertEqual((uint32_t) 18262, dt.toEpochDays());
+  assertEqual(18263 * (uint32_t) 86400 - 1, dt.toEpochSeconds());
+  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
+
+  // 2049-12-31 23:59:59-00:15 Friday
+  dt = OffsetDateTime::forComponents(49, 12, 31, 23, 59, 59,
+      ZoneOffset::forOffsetCode(-1));
+  assertEqual((uint32_t) 18263, dt.toEpochDays());
+  assertEqual(18263 * (uint32_t) 86400 + 15*60 - 1, dt.toEpochSeconds());
+  assertEqual(LocalDate::kFriday, dt.dayOfWeek());
+
+  // 2050-01-01 00:00:00Z Saturday
+  dt = OffsetDateTime::forComponents(50, 1, 1, 0, 0, 0);
+  assertEqual((uint32_t) 18263, dt.toEpochDays());
+  assertEqual(18263 * (uint32_t) 86400, dt.toEpochSeconds());
+  assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
+
   // 2099-12-31 23:59:59Z Thursday
-  OffsetDateTime dt = OffsetDateTime::forComponents(99, 12, 31, 23, 59, 59);
-
-  uint32_t epochDays = dt.toEpochDays();
-  assertEqual((uint32_t) 36524, epochDays);
-
-  uint32_t epochSeconds = dt.toEpochSeconds();
-  assertEqual(36525 * (uint32_t) 86400 - 1, epochSeconds);
-
+  dt = OffsetDateTime::forComponents(99, 12, 31, 23, 59, 59);
+  assertEqual((uint32_t) 36524, dt.toEpochDays());
+  assertEqual(36525 * (uint32_t) 86400 - 1, dt.toEpochSeconds());
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 
@@ -156,7 +147,7 @@ test(unixSeconds) {
   assertEqual((uint32_t) 4102502399, dt.toUnixSeconds());
 }
 
-test(constructFromEpochSecondsAt2049_12_31) {
+test(offsetDateTimeForEpochSeconds) {
   // 2049-12-31 23:59:59Z Friday
   OffsetDateTime dt = OffsetDateTime::forEpochSeconds(
       18263 * (int32_t) 86400 - 1);
@@ -280,43 +271,6 @@ test(calculateAndCacheDayOfWeek) {
 
   dt.yearFull(2020); // 2020-02-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
-}
-
-test(dateTimeErrorForZeroValue) {
-  OffsetDateTime dt = OffsetDateTime::forEpochSeconds(0);
-  assertTrue(dt.isError());
-}
-
-test(dateTimeSetError) {
-  OffsetDateTime dt = OffsetDateTime().setError();
-  assertTrue(dt.isError());
-}
-
-test(dateTimeIsError) {
-  // 2018-01-01 00:00:00Z
-  OffsetDateTime dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0);
-  assertFalse(dt.isError());
-
-  dt = OffsetDateTime::forComponents(18, 0, 1, 0, 0, 0);
-  assertTrue(dt.isError());
-
-  dt = OffsetDateTime::forComponents(18, 255, 1, 0, 0, 0);
-  assertTrue(dt.isError());
-
-  dt = OffsetDateTime::forComponents(18, 1, 0, 0, 0, 0);
-  assertTrue(dt.isError());
-
-  dt = OffsetDateTime::forComponents(18, 1, 255, 0, 0, 0);
-  assertTrue(dt.isError());
-
-  dt = OffsetDateTime::forComponents(18, 1, 1, 255, 0, 0);
-  assertTrue(dt.isError());
-
-  dt = OffsetDateTime::forComponents(18, 1, 1, 0, 255, 0);
-  assertTrue(dt.isError());
-
-  dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 255);
-  assertTrue(dt.isError());
 }
 
 test(dateTimeForDateString_errors) {

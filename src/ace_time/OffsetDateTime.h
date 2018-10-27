@@ -14,12 +14,18 @@ namespace ace_time {
  * The date (year, month, day) and time (hour, minute, second) fields
  * representing the time with an offset from UTC.
  *
- * The year field is internally represented as a 2 digit number from [2000,
- * 2099]. Therefore, the "epoch" for this library is 2000-01-01 00:00:00Z.
- * These fields map directly to the fields supported by the DS3231 RTC chip.
+ * The year field is internally represented as uint8_t offset from the year
+ * 2000, so in theory it is valid from [2000, 2255]. If the year is restricted
+ * to the range 00-99, these fields map directly to the fields supported by the
+ * DS3231 RTC chip. The "epoch" for this library is 2000-01-01T00:00:00Z and
+ * toEpochSeconds() returns a uint32_t number of seconds offset from that
+ * epoch. The largest possible uint32_t value is UINT32_MAX which corresponds
+ * to 2136-02-07T06:28:15Z. However, this value is used by kInvalidEpochSeconds
+ * to indicate an invalid value. Therefore, the largest fully representable
+ * value of this class is one second before that, i.e. 2136-02-07T06:28:14Z.
  *
  * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated
- * internally from the date. The value is calculated lazily and cached
+ * internally from the date fields. The value is calculated lazily and cached
  * internally. If any components are changed, then the cache is invalidated and
  * the dayOfWeek is lazily recalculated.
  *
@@ -35,6 +41,18 @@ namespace ace_time {
 class OffsetDateTime {
   public:
     /**
+     * An invalid epochSeconds used by toEpochSeconds() and forEpochSeconds()
+     * to indicate an invalid instance. This means that the largest possible
+     * value that can be fully represented by this class is
+     * 2136-02-07T06:28:14Z, not the theorectical maximum of
+     * 2136-02-07T06:28:15Z.
+     */
+    static const uint32_t kInvalidEpochSeconds = UINT32_MAX;
+
+    /** Invalid epochDays returned by epochDays() when isError() is true. */
+    static const uint32_t kInvalidEpochDays = UINT32_MAX;
+
+    /**
      * Number of seconds from Unix epoch (1970-01-01 00:00:00Z) to
      * the AceTime epoch (2000-01-01 00:00:00Z).
      */
@@ -45,9 +63,12 @@ class OffsetDateTime {
 
     /**
      * Factory method using separated date, time, and time zone fields. The
-     * dayOfWeek will be lazily evaluated.
+     * dayOfWeek will be calculated from the other fields.
      *
-     * @param year last 2 digits of the year from year 2000
+     * The largest date that can be fully supported by this class is
+     * 2136-02-07T06:28:14Z (one second before the uint32_t overflow).
+     *
+     * @param year year offset from year 2000
      * @param month month with January=1, December=12
      * @param day day of month (1-31)
      * @param hour hour (0-23)
@@ -69,14 +90,17 @@ class OffsetDateTime {
      * the epochSeconds and its ZoneOffset. The dayOfWeek will be
      * calculated lazily.
      *
+     * The largest date that can be fully supported by this class is
+     * 2136-02-07T06:28:14Z (one second before the uint32_t overflow).
+     *
      * If ZoneOffset.offsetCode() is negative, then (epochSeconds >=
      * ZoneOffset::asSeconds() must be true. Otherwise, the local time will be
-     * in the year 1999, which cannot be represented by a 2-digit year
-     * beginning with the year 2000.
+     * in the year 1999, which cannot be represented by the internal year
+     * component which is a uint8_t offset from the year 2000.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00Z). A 0 value is a sentinel that is considerd to
-     *    be an error, and causes isError() to return true.
+     *    (2000-01-01 00:00:00). Use kInvalidEpochSeconds to define an
+     *    invalid instance whose isError() returns true.
      * @param zoneOffset Optional. Default is UTC time zone.
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
@@ -84,7 +108,7 @@ class OffsetDateTime {
     static OffsetDateTime forEpochSeconds(uint32_t epochSeconds,
           ZoneOffset zoneOffset = ZoneOffset()) {
       OffsetDateTime dt;
-      if (epochSeconds == 0) {
+      if (epochSeconds == kInvalidEpochSeconds) {
         return dt.setError();
       }
 
@@ -106,13 +130,21 @@ class OffsetDateTime {
      * returns true.
      *
      * The dateString is expected to be in ISO 8601 format
-     * "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very lenient
-     * and does not detect most errors. It cares mostly about the positional
-     * placement of the various components. It does not validate the separation
-     * characters like '-' or ':'. For example, both of the following will parse
-     * to the exactly same OffsetDateTime object:
-     * "2018-08-31T13:48:01-07:00"
-     * "2018/08/31 13#48#01-07#00"
+     * "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very lenient.
+     * It cares mostly about the positional placement of the various
+     * components. It does not validate the separation characters like '-' or
+     * ':'. For example, both of the following will parse to the exactly same
+     * OffsetDateTime object: "2018-08-31T13:48:01-07:00" "2018/08/31
+     * 13#48#01-07#00"
+     *
+     * The largest date that can be fully supported by this class is
+     * 2136-02-07T06:28:14Z (one second before the uint32_t overflow).
+     *
+     * The parsing validation is so weak that the behavior is undefined for
+     * most invalid date/time strings. The range of valid dates is roughly from
+     * 2000-01-01T00:00:00 to 2255-12-31T23:59:59. However, the UTC offset may
+     * cause some of the dates on the two extreme ends invalid. The behavior is
+     * undefined in those cases.
      */
     static OffsetDateTime forDateString(const char* dateString) {
       return OffsetDateTime().initFromDateString(dateString);
@@ -282,6 +314,10 @@ class OffsetDateTime {
      * taking into account the offset zone.
      */
     uint32_t toEpochDays() const {
+      if (mLocalDate.isError() || mLocalTime.isError()) {
+        return kInvalidEpochDays;
+      }
+
       uint32_t epochDays = mLocalDate.toEpochDays();
 
       // Increment or decrement the day count depending on the offset zone.
@@ -294,8 +330,8 @@ class OffsetDateTime {
     /**
      * Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into
      * account the offset zone. The return type is an unsigned 32-bit integer,
-     * which can represent a range of 136 years. Since the year is stored as a 2
-     * digit offset from the year 2000, the return type will be valid for all
+     * which can represent a range of 136 years. Since the year is stored as a
+     * uint8_t offset from the year 2000, the return type will be valid for all
      * OffsetDateTime values which can be stored in this class.
      *
      * Normally, Julian day starts at 12:00:00. We modify the formula given in
@@ -304,6 +340,10 @@ class OffsetDateTime {
      * See https://en.wikipedia.org/wiki/Julian_day
      */
     uint32_t toEpochSeconds() const {
+      if (mLocalDate.isError() || mLocalTime.isError()) {
+        return kInvalidEpochSeconds;
+      }
+
       uint32_t epochDays = mLocalDate.toEpochDays();
       int32_t utcOffset = mLocalTime.toSeconds() - mZoneOffset.asSeconds();
       return epochDays * (uint32_t) 86400 + utcOffset;
@@ -311,14 +351,21 @@ class OffsetDateTime {
 
     /**
      * Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z. The
-     * return type is a uint32_t which can represent a range of 136 years. Since
-     * the year is stored as a 2 digit year (from 2000), this method will return
-     * a valid result for all dates which can be stored by this class.
+     * return type is a uint32_t which can represent a range of 136 years. It
+     * returns kInvalidEpochSeconds if isError() is true.
+     *
+     * The largest date that this method will support is 2106-02-07T06:28:14Z
+     * (one second before the uint32_t overflow). The behavior is undefined for
+     * dates larger than this.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * print the unix seconds.
      */
     uint32_t toUnixSeconds() const {
+      if (mLocalDate.isError() || mLocalTime.isError()) {
+        return kInvalidEpochSeconds;
+      }
+
       return toEpochSeconds() + kSecondsSinceUnixEpoch;
     }
 
