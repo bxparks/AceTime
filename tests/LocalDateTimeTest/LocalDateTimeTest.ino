@@ -203,6 +203,10 @@ test(localTimeAccessors) {
 test(localTimeSetError) {
   LocalTime lt = LocalTime().setError();
   assertTrue(lt.isError());
+  assertEqual(LocalTime::kInvalidSeconds, lt.toSeconds());
+
+  lt = LocalTime::forSeconds(LocalTime::kInvalidSeconds);
+  assertTrue(lt.isError());
 }
 
 test(localTimeToAndFromSeconds) {

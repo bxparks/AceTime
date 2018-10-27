@@ -7,17 +7,24 @@
 namespace ace_time {
 
 /**
- * The time (hour, minute, second) fields representing the time without
- * regards to the day or the time zone.
+ * The time (hour, minute, second) fields representing the time without regards
+ * to the day or the time zone. The valid range is 00:00:00 to 23:59:59.
+ * Trying to create an instance outside of this range causes the isError()
+ * method to return true, and toSeconds() returns kInvalidSeconds.
  *
  * Parts of this class were inspired by the java.time.LocalTime class of Java 8
  * (https://docs.oracle.com/javase/8/docs/api/java/time/LocalTime.html).
  */
 class LocalTime {
   public:
+    /** An invalid seconds marker that indicates isError() true. */
+    static const uint32_t kInvalidSeconds = UINT32_MAX;
+
     /**
      * Factory method using separated date, time, and time zone fields. The
-     * dayOfWeek will be lazily evaluated.
+     * dayOfWeek will be lazily evaluated. No data validation is performed on
+     * the fields on construction, but if any field is out of range, then
+     * isError() will return true.
      *
      * @param hour hour (0-23)
      * @param minute minute (0-59)
@@ -30,23 +37,33 @@ class LocalTime {
 
     /**
      * Factory method. Create the various components of the LocalTime from
-     * the number of seconds from midnight.
+     * the number of seconds from midnight. If kInvalidSeconds is given,
+     * the isError() condition is set to be true. The behavior is undefined
+     * if seconds is greater than 86399.
      *
      * @param seconds number of seconds from midnight, (0-86399)
      */
     static LocalTime forSeconds(uint32_t seconds)  {
-      uint8_t second = seconds % 60;
-      uint16_t minutes = seconds / 60;
-      uint8_t minute = minutes % 60;
-      uint8_t hour = minutes / 60;
+      uint8_t second, minute, hour;
 
+      if (seconds == kInvalidSeconds) {
+        second = minute = hour = 255; // causes isError() to be true
+      } else {
+        second = seconds % 60;
+        uint16_t minutes = seconds / 60;
+        minute = minutes % 60;
+        hour = minutes / 60;
+      }
+
+      // Return a single object to allow return value optimization.
       return LocalTime(hour, minute, second);
     }
 
     /**
      * Factory method. Create a LocalTime from the ISO 8601 time string. If
      * the string cannot be parsed, then isError() on the constructed object
-     * returns true.
+     * returns true. However, the data validation on parsing is very weak and
+     * the behavior is undefined for most invalid time strings.
      */
     static LocalTime forTimeString(const char* timeString) {
       return LocalTime().initFromTimeString(timeString);
@@ -65,19 +82,12 @@ class LocalTime {
     }
 
     /**
-     * Mark the LocalTime so that isError() returns true. Returns a
-     * reference to (*this) so that an invalid OffsetDateTime can be returned in
-     * a single statement like this: 'return OffsetDateTime().setError()'.
+     * Mark the LocalTime so that isError() returns true. Returns a reference
+     * to (*this) so that an invalid OffsetDateTime can be returned in a single
+     * statement like this: 'return OffsetDateTime().setError()'.
      */
     LocalTime& setError() {
-      // We use the 'second' field to represent an error condition because it is
-      // the first field checked by operator==(), so will provide the fastest
-      // detection of the transition from isError() to a valid OffsetDateTime.
-      // All other fields set to 0 to avoid compiler warnings about
-      // uninitialized member variables.
-      mHour = 0;
-      mMinute = 0;
-      mSecond = 255;
+      mHour = mMinute = mSecond = 255;
       return *this;
     }
 
@@ -99,10 +109,17 @@ class LocalTime {
     /** Set the second. */
     void second(uint8_t second) { mSecond = second; }
 
-    /** Return the number of seconds since midnight. */
+    /**
+     * Return the number of seconds since midnight.
+     * Return kInvalidSeconds if isError() is true.
+     */
     uint32_t toSeconds() const {
-      return ((mHour * (uint16_t) 60) + mMinute)
-          * (uint32_t) 60 + mSecond;
+      if (isError()) {
+        return kInvalidSeconds;
+      } else {
+        return ((mHour * (uint16_t) 60) + mMinute)
+            * (uint32_t) 60 + mSecond;
+      }
     }
 
     /** Increment the hour by one, wrapping from 23 to 0. */
@@ -117,7 +134,8 @@ class LocalTime {
 
     /**
      * Compare this LocalTime with that LocalTime, and return (<0, 0, >0)
-     * according to whether (this<that, this==that, this>that).
+     * according to whether (this<that, this==that, this>that). The behavior
+     * is undefined if isError() is true.
      */
     int8_t compareTo(const LocalTime& that) const {
       if (mHour < that.mHour) return -1;
