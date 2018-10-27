@@ -5,6 +5,7 @@
 namespace ace_time {
 
 using common::printPad2;
+using common::printPad3;
 using common::DateStrings;
 
 const uint8_t LocalDate::sDayOfWeek[12] = {
@@ -29,8 +30,8 @@ void LocalDate::printTo(Print& printer) const {
   }
 
   // Date
-  printer.print(F("20"));
-  printPad2(printer, mYear);
+  printer.print(F("2"));
+  printPad3(printer, mYear);
   printer.print('-');
   printPad2(printer, mMonth);
   printer.print('-');

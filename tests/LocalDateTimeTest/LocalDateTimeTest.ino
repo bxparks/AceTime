@@ -18,11 +18,12 @@ test(localDateAccessors) {
   assertEqual(3, ld.day());
 }
 
+// full round trip of toEpochDays()/forEpochDays() works when isError()==true
 test(localDateSetError) {
   LocalDate ld = LocalDate().setError();
   assertTrue(ld.isError());
-
-  ld = LocalDate::forEpochDays(0);
+  assertEqual(LocalDate::kInvalidEpochDays, ld.toEpochDays());
+  ld = LocalDate::forEpochDays(LocalDate::kInvalidEpochDays);
   assertTrue(ld.isError());
 }
 
@@ -113,14 +114,18 @@ test(localDateDayOfWeek) {
       LocalDate::forComponents(100, 2, 28).dayOfWeek());
   assertEqual(LocalDate::kMonday,
       LocalDate::forComponents(100, 3, 1).dayOfWeek());
+
+  // year 2255-12-31
+  assertEqual(LocalDate::kMonday,
+      LocalDate::forComponents(255, 12, 31).dayOfWeek());
 }
 
 test(localDateToAndFromEpochDays) {
   LocalDate ld;
 
-  ld = LocalDate::forComponents(0, 1, 2);
-  assertEqual((uint32_t) 1, ld.toEpochDays());
-  assertTrue(ld == LocalDate::forEpochDays(1));
+  ld = LocalDate::forComponents(0, 1, 1);
+  assertEqual((uint32_t) 0, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(0));
 
   ld = LocalDate::forComponents(0, 2, 29);
   assertEqual((uint32_t) 59, ld.toEpochDays());
@@ -130,13 +135,13 @@ test(localDateToAndFromEpochDays) {
   assertEqual((uint32_t) 6575, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(6575));
 
-  ld = LocalDate::forComponents(49, 12, 31);
-  assertEqual((uint32_t) 18262, ld.toEpochDays());
-  assertTrue(ld == LocalDate::forEpochDays(18262));
-
   ld = LocalDate::forComponents(99, 12, 31);
   assertEqual((uint32_t) 36524, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(36524));
+
+  ld = LocalDate::forComponents(255, 12, 31);
+  assertEqual((uint32_t) 93501, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(93501));
 }
 
 test(localDateCompareTo) {
@@ -174,6 +179,9 @@ test(localDateForDateString) {
 
   ld = LocalDate::forDateString("2099-02-28");
   assertTrue(ld == LocalDate::forComponents(99, 2, 28));
+
+  ld = LocalDate::forDateString("2255-12-31");
+  assertTrue(ld == LocalDate::forComponents(255, 12, 31));
 }
 
 test(localDateForDateString_invalid) {
