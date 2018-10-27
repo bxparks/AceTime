@@ -31,7 +31,7 @@ differences:
   static buffers).
 1. AceTime does not require an ISR to be called at 1 second intervals to
   maintain the system clock. AceTime uses the `millis()` method and
-  synchronizes to it lazily when `DateTime::getNow()` is called.
+  synchronizes to it lazily when `SystemTimeKeeper::getNow()` is called.
 1. AceTime works across all platforms supported by the Arduino framework
    (e.g. ESP8266 and ESP32), instead of just the AVR platform.
 1. Both AceTime and AVR time library uses an epoch of 2000-01-01T00:00:00Z.

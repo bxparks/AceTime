@@ -13,6 +13,8 @@ namespace ace_time {
 /**
  * The date (year, month, day) and time (hour, minute, second) fields
  * representing the time with an offset from UTC.
+ * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated
+ * internally from the date fields.
  *
  * The year field is internally represented as uint8_t offset from the year
  * 2000, so in theory it is valid from [2000, 2255]. If the year is restricted
@@ -23,11 +25,6 @@ namespace ace_time {
  * to 2136-02-07T06:28:15Z. However, this value is used by kInvalidEpochSeconds
  * to indicate an invalid value. Therefore, the largest fully representable
  * value of this class is one second before that, i.e. 2136-02-07T06:28:14Z.
- *
- * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated
- * internally from the date fields. The value is calculated lazily and cached
- * internally. If any components are changed, then the cache is invalidated and
- * the dayOfWeek is lazily recalculated.
  *
  * The incrementXxx() methods are convenience methods to allow the user to
  * change the date and time using just two buttons. The user is expected to
@@ -62,8 +59,7 @@ class OffsetDateTime {
     static const uint16_t kEpochYear = 2000;
 
     /**
-     * Factory method using separated date, time, and time zone fields. The
-     * dayOfWeek will be calculated from the other fields.
+     * Factory method using separated date, time, and time zone fields.
      *
      * The largest date that can be fully supported by this class is
      * 2136-02-07T06:28:14Z (one second before the uint32_t overflow).
@@ -87,8 +83,7 @@ class OffsetDateTime {
 
     /**
      * Factory method. Create the various components of the OffsetDateTime from
-     * the epochSeconds and its ZoneOffset. The dayOfWeek will be
-     * calculated lazily.
+     * the epochSeconds and its ZoneOffset.
      *
      * The largest date that can be fully supported by this class is
      * 2136-02-07T06:28:14Z (one second before the uint32_t overflow).
@@ -184,7 +179,6 @@ class OffsetDateTime {
     /** Set the 2 digit year from year 2000. */
     void year(uint8_t year) {
       mLocalDate.year(year);
-      mDayOfWeek = 0;
     }
 
     /** Return the full year instead of just the last 2 digits. */
@@ -193,7 +187,6 @@ class OffsetDateTime {
     /** Set the year given the full year. */
     void yearFull(uint16_t yearFull) {
       mLocalDate.yearFull(yearFull);
-      mDayOfWeek = 0;
     }
 
     /** Return the month with January=1, December=12. */
@@ -202,7 +195,6 @@ class OffsetDateTime {
     /** Set the month. */
     void month(uint8_t month) {
       mLocalDate.month(month);
-      mDayOfWeek = 0;
     }
 
     /** Return the day of the month. */
@@ -211,7 +203,6 @@ class OffsetDateTime {
     /** Set the day of the month. */
     void day(uint8_t day) {
       mLocalDate.day(day);
-      mDayOfWeek = 0;
     }
 
     /** Return the hour. */
@@ -219,7 +210,6 @@ class OffsetDateTime {
 
     /** Set the hour. */
     void hour(uint8_t hour) {
-      // Does not affect dayOfWeek.
       mLocalTime.hour(hour);
     }
 
@@ -228,7 +218,6 @@ class OffsetDateTime {
 
     /** Set the minute. */
     void minute(uint8_t minute) {
-      // Does not affect dayOfWeek.
       mLocalTime.minute(minute);
     }
 
@@ -237,19 +226,12 @@ class OffsetDateTime {
 
     /** Set the second. */
     void second(uint8_t second) {
-      // Does not affect dayOfWeek.
       mLocalTime.second(second);
     }
 
-    /**
-     * Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). The
-     * dayOfWeek is calculated lazily and cached internally. Not thread-safe.
-     */
+    /** Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). */
     uint8_t dayOfWeek() const {
-      if (mDayOfWeek == 0) {
-        mDayOfWeek = calculateDayOfWeek();
-      }
-      return mDayOfWeek;
+      return mLocalDate.dayOfWeek();
     }
 
     /** Return the offset zone of the OffsetDateTime. */
@@ -260,7 +242,6 @@ class OffsetDateTime {
 
     /** Set the offset zone. */
     void zoneOffset(const ZoneOffset& zoneOffset) {
-      // Does not affect dayOfWeek.
       mZoneOffset = zoneOffset;
     }
 
@@ -282,31 +263,26 @@ class OffsetDateTime {
     /** Increment the year by one, wrapping from 99 to 0. */
     void incrementYear() {
       mLocalDate.incrementYear();
-      mDayOfWeek = 0;
     }
 
     /** Increment the year by one, wrapping from 12 to 1. */
     void incrementMonth() {
       mLocalDate.incrementMonth();
-      mDayOfWeek = 0;
     }
 
     /** Increment the day by one, wrapping from 31 to 1. */
     void incrementDay() {
       mLocalDate.incrementDay();
-      mDayOfWeek = 0;
     }
 
     /** Increment the hour by one, wrapping from 23 to 0. */
     void incrementHour() {
       mLocalTime.incrementHour();
-      mDayOfWeek = 0;
     }
 
     /** Increment the minute by one, wrapping from 59 to 0. */
     void incrementMinute() {
       mLocalTime.incrementMinute();
-      mDayOfWeek = 0;
     }
 
     /**
@@ -330,14 +306,12 @@ class OffsetDateTime {
     /**
      * Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into
      * account the offset zone. The return type is an unsigned 32-bit integer,
-     * which can represent a range of 136 years. Since the year is stored as a
-     * uint8_t offset from the year 2000, the return type will be valid for all
-     * OffsetDateTime values which can be stored in this class.
+     * which can represent a range of 136 years.
      *
-     * Normally, Julian day starts at 12:00:00. We modify the formula given in
-     * wiki page to start the Gregorian day at 00:00:00.
-     *
-     * See https://en.wikipedia.org/wiki/Julian_day
+     * The largest possible uint32_t value is UINT32_MAX corresponds to
+     * 2136-02-07T06:28:15Z but that is used to indicate an error condition. So
+     * the largest valid value returned by this method is (UINT32_MAX-1) which
+     * corresponds to 2136-02-07T06:28:14Z.
      */
     uint32_t toEpochSeconds() const {
       if (mLocalDate.isError() || mLocalTime.isError()) {
@@ -371,10 +345,9 @@ class OffsetDateTime {
 
     /**
      * Compare this OffsetDateTime with another OffsetDateTime, and return (<0,
-     * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b).
-     * The dayOfWeek field is ignored but the offset zone is used.  This method
-     * can return 0 (equal) even if the operator==() returns false if the two
-     * OffsetDateTime objects are in different offset zones.
+     * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b). This
+     * method can return 0 (equal) even if the operator==() returns false if
+     * the two OffsetDateTime objects are in different offset zones.
      */
     int8_t compareTo(const OffsetDateTime& that) const {
       uint32_t thisSeconds = toEpochSeconds();
@@ -392,7 +365,6 @@ class OffsetDateTime {
     OffsetDateTime& setError() {
       mLocalDate.setError();
       mLocalTime.setError();
-      mDayOfWeek = 0;
       return *this;
     }
 
@@ -404,8 +376,7 @@ class OffsetDateTime {
     friend bool operator!=(const OffsetDateTime& a, const OffsetDateTime& b);
 
     /**
-     * Constructor using separated date, time, and time zone fields. The
-     * dayOfWeek will be internally generated.
+     * Constructor using separated date, time, and time zone fields.
      *
      * @param year last 2 digits of the year from year 2000
      * @param month month with January=1, December=12
@@ -423,36 +394,20 @@ class OffsetDateTime {
             ZoneOffset zoneOffset = ZoneOffset()):
         mLocalDate(year, month, day),
         mLocalTime(hour, minute, second),
-        mZoneOffset(zoneOffset),
-        mDayOfWeek(0) {}
+        mZoneOffset(zoneOffset) {}
 
     /** Extract the date time components from the given dateString. */
     OffsetDateTime& initFromDateString(const char* dateString);
 
-    /**
-     * Calculate the correct day of week from the internal fields. If any of the
-     * component fields (year, month, day, hour, minute, second) are manually
-     * changed, this method must be called to update the dayOfWeek. The
-     * dayOfWeek does not depend on the offset zone.
-     */
-    uint8_t calculateDayOfWeek() const {
-      uint32_t epochDays = mLocalDate.toEpochDays();
-      // 2000-01-01 is a Saturday (6)
-      return (epochDays + 5) % 7 + 1;
-    }
-
     LocalDate mLocalDate;
     LocalTime mLocalTime;
     ZoneOffset mZoneOffset; // offset from UTC
-    mutable uint8_t mDayOfWeek; // (1=Monday, 7=Sunday)
 };
 
 /**
  * Return true if two OffsetDateTime objects are equal in all components.
  * Optimized for small changes in the less signficant fields, such as 'second'
- * or 'minute'. The dayOfWeek is a derived field so it is not explicitly used
- * to test equality. If all the other fields are identical, then the dayOfWeek
- * must also be equal.
+ * or 'minute'.
  */
 inline bool operator==(const OffsetDateTime& a, const OffsetDateTime& b) {
   return a.mLocalDate == b.mLocalDate

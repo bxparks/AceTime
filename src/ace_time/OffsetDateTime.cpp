@@ -80,9 +80,6 @@ OffsetDateTime& OffsetDateTime::initFromDateString(const char* ds) {
   // create timeZone from (hour, minute)
   mZoneOffset = ZoneOffset::forHourMinute(sign, utcHour, utcMinute);
 
-  // dayOfWeek
-  mDayOfWeek = 0;
-
   return *this;
 }
 

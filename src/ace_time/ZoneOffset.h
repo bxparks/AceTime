@@ -154,7 +154,7 @@ class ZoneOffset {
 
     /** Constructor. Create a time zone from the offset code. */
     explicit ZoneOffset(int8_t offsetCode):
-      mOffsetCode(offsetCode) {}
+        mOffsetCode(offsetCode) {}
 
     /** Set time zone from the given UTC offset string. */
     ZoneOffset& initFromOffsetString(const char* offsetString);
