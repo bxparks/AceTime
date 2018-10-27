@@ -2,8 +2,9 @@
 #define ACE_TIME_OFFSET_DATE_TIME_H
 
 #include <stdint.h>
-#include "common/Util.h"
 #include "ZoneOffset.h"
+#include "LocalDate.h"
+#include "LocalTime.h"
 
 class Print;
 
@@ -38,12 +39,6 @@ class OffsetDateTime {
      * the AceTime epoch (2000-01-01 00:00:00Z).
      */
     static const uint32_t kSecondsSinceUnixEpoch = 946684800;
-
-    /**
-     * Number of days between the Julian calendar epoch (4713 BC 01-01) and the
-     * AceTime epoch (2000-01-01).
-     */
-    static const uint32_t kDaysSinceJulianEpoch = 2451545;
 
     /** Base year of epoch. */
     static const uint16_t kEpochYear = 2000;
@@ -97,17 +92,10 @@ class OffsetDateTime {
 
       epochSeconds += zoneOffset.asSeconds();
       uint32_t epochDays = epochSeconds / 86400;
-      extractYearMonthDay(epochDays, dt.mYear, dt.mMonth, dt.mDay,
-          dt.mDayOfWeek);
+      dt.mLocalDate = LocalDate::forEpochDays(epochDays);
 
       uint32_t seconds = epochSeconds % 86400;
-      dt.mSecond = seconds % 60;
-      seconds /= 60;
-      dt.mMinute = seconds % 60;
-      seconds /= 60;
-      dt.mHour = seconds;
-
-      dt.mDayOfWeek = 0;
+      dt.mLocalTime = LocalTime::forSeconds(seconds);
 
       return dt;
     }
@@ -155,76 +143,70 @@ class OffsetDateTime {
 
     /** Return true if any component indicates an error condition. */
     bool isError() const {
-      // Warning: Don't change the order of the following boolean conditionals
-      // without changing setError().
-      return mSecond >= 60
-          || mMinute >= 60
-          || mHour >= 24
-          || mDay < 1 || mDay > 31
-          || mMonth < 1 || mMonth > 12;
+      return mLocalDate.isError() || mLocalTime.isError();
     }
 
     /** Return the 2 digit year from year 2000. */
-    uint8_t year() const { return mYear; }
+    uint8_t year() const { return mLocalDate.year(); }
 
     /** Set the 2 digit year from year 2000. */
     void year(uint8_t year) {
-      mYear = year;
+      mLocalDate.year(year);
       mDayOfWeek = 0;
     }
 
     /** Return the full year instead of just the last 2 digits. */
-    uint16_t yearFull() const { return mYear + kEpochYear; }
+    uint16_t yearFull() const { return year() + kEpochYear; }
 
     /** Set the year given the full year. */
     void yearFull(uint16_t yearFull) {
-      mYear = yearFull - kEpochYear;
+      mLocalDate.yearFull(yearFull);
       mDayOfWeek = 0;
     }
 
     /** Return the month with January=1, December=12. */
-    uint8_t month() const { return mMonth; }
+    uint8_t month() const { return mLocalDate.month(); }
 
     /** Set the month. */
     void month(uint8_t month) {
-      mMonth = month;
+      mLocalDate.month(month);
       mDayOfWeek = 0;
     }
 
     /** Return the day of the month. */
-    uint8_t day() const { return mDay; }
+    uint8_t day() const { return mLocalDate.day(); }
 
     /** Set the day of the month. */
     void day(uint8_t day) {
-      mDay = day;
+      mLocalDate.day(day);
       mDayOfWeek = 0;
     }
 
     /** Return the hour. */
-    uint8_t hour() const { return mHour; }
+    uint8_t hour() const { return mLocalTime.hour(); }
 
     /** Set the hour. */
     void hour(uint8_t hour) {
       // Does not affect dayOfWeek.
-      mHour = hour;
+      mLocalTime.hour(hour);
     }
 
     /** Return the minute. */
-    uint8_t minute() const { return mMinute; }
+    uint8_t minute() const { return mLocalTime.minute(); }
 
     /** Set the minute. */
-    void minute(uint8_t month) {
+    void minute(uint8_t minute) {
       // Does not affect dayOfWeek.
-      mMinute = month;
+      mLocalTime.minute(minute);
     }
 
     /** Return the second. */
-    uint8_t second() const { return mSecond; }
+    uint8_t second() const { return mLocalTime.second(); }
 
     /** Set the second. */
     void second(uint8_t second) {
       // Does not affect dayOfWeek.
-      mSecond = second;
+      mLocalTime.second(second);
     }
 
     /**
@@ -267,31 +249,31 @@ class OffsetDateTime {
 
     /** Increment the year by one, wrapping from 99 to 0. */
     void incrementYear() {
-      common::incrementMod(mYear, (uint8_t) 100);
+      mLocalDate.incrementYear();
       mDayOfWeek = 0;
     }
 
     /** Increment the year by one, wrapping from 12 to 1. */
     void incrementMonth() {
-      common::incrementMod(mMonth, (uint8_t) 12, (uint8_t) 1);
+      mLocalDate.incrementMonth();
       mDayOfWeek = 0;
     }
 
     /** Increment the day by one, wrapping from 31 to 1. */
     void incrementDay() {
-      common::incrementMod(mDay, (uint8_t) 31, (uint8_t) 1);
+      mLocalDate.incrementDay();
       mDayOfWeek = 0;
     }
 
     /** Increment the hour by one, wrapping from 23 to 0. */
     void incrementHour() {
-      common::incrementMod(mHour, (uint8_t) 24);
+      mLocalTime.incrementHour();
       mDayOfWeek = 0;
     }
 
     /** Increment the minute by one, wrapping from 59 to 0. */
     void incrementMinute() {
-      common::incrementMod(mMinute, (uint8_t) 60);
+      mLocalTime.incrementMinute();
       mDayOfWeek = 0;
     }
 
@@ -300,19 +282,13 @@ class OffsetDateTime {
      * taking into account the offset zone.
      */
     uint32_t toEpochDays() const {
-      uint32_t epochDays = toEpochDaysIgnoringZoneOffset();
-      int32_t utcOffset = ((mHour * (uint16_t) 60) + mMinute)
-          * (uint32_t) 60 + mSecond;
-      utcOffset -= mZoneOffset.asSeconds();
+      uint32_t epochDays = mLocalDate.toEpochDays();
 
       // Increment or decrement the day count depending on the offset zone.
-      if (utcOffset >= 86400) {
-        return epochDays + 1;
-      } else if (utcOffset < 0) {
-        return epochDays - 1;
-      } else {
-        return epochDays;
-      }
+      int32_t utcOffset = mLocalTime.toSeconds() - mZoneOffset.asSeconds();
+      if (utcOffset >= 86400) return epochDays + 1;
+      if (utcOffset < 0) return epochDays - 1;
+      return epochDays;
     }
 
     /**
@@ -328,9 +304,8 @@ class OffsetDateTime {
      * See https://en.wikipedia.org/wiki/Julian_day
      */
     uint32_t toEpochSeconds() const {
-      uint32_t epochDays = toEpochDaysIgnoringZoneOffset();
-      int32_t utcOffset = ((mHour * 60) + mMinute) * (uint32_t) 60 + mSecond;
-      utcOffset -= mZoneOffset.asSeconds();
+      uint32_t epochDays = mLocalDate.toEpochDays();
+      int32_t utcOffset = mLocalTime.toSeconds() - mZoneOffset.asSeconds();
       return epochDays * (uint32_t) 86400 + utcOffset;
     }
 
@@ -357,13 +332,9 @@ class OffsetDateTime {
     int8_t compareTo(const OffsetDateTime& that) const {
       uint32_t thisSeconds = toEpochSeconds();
       uint32_t thatSeconds = that.toEpochSeconds();
-      if (thisSeconds < thatSeconds) {
-        return -1;
-      } else if (thisSeconds == thatSeconds) {
-        return 0;
-      } else {
-        return 1;
-      }
+      if (thisSeconds < thatSeconds) return -1;
+      if (thisSeconds > thatSeconds) return 1;
+      return 0;
     }
 
     /**
@@ -372,17 +343,8 @@ class OffsetDateTime {
      * a single statement like this: 'return OffsetDateTime().setError()'.
      */
     OffsetDateTime& setError() {
-      // We use the 'second' field to represent an error condition because it is
-      // the first field checked by operator==(), so will provide the fastest
-      // detection of the transition from isError() to a valid OffsetDateTime.
-      // All other fields set to 0 to avoid compiler warnings about
-      // uninitialized member variables.
-      mYear = 0;
-      mMonth = 0;
-      mDay = 0;
-      mHour = 0;
-      mMinute = 0;
-      mSecond = 255;
+      mLocalDate.setError();
+      mLocalTime.setError();
       mDayOfWeek = 0;
       return *this;
     }
@@ -412,12 +374,8 @@ class OffsetDateTime {
     explicit OffsetDateTime(uint8_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             ZoneOffset zoneOffset = ZoneOffset()):
-        mYear(year),
-        mMonth(month),
-        mDay(day),
-        mHour(hour),
-        mMinute(minute),
-        mSecond(second),
+        mLocalDate(year, month, day),
+        mLocalTime(hour, minute, second),
         mZoneOffset(zoneOffset),
         mDayOfWeek(0) {}
 
@@ -431,69 +389,13 @@ class OffsetDateTime {
      * dayOfWeek does not depend on the offset zone.
      */
     uint8_t calculateDayOfWeek() const {
-      uint32_t epochDays = toEpochDaysIgnoringZoneOffset();
+      uint32_t epochDays = mLocalDate.toEpochDays();
       // 2000-01-01 is a Saturday (6)
       return (epochDays + 5) % 7 + 1;
     }
 
-    /**
-     * Return number of days since AceTime epoch (2000-01-01 00:00:00Z),
-     * ignoring the offsetCode.
-     *
-     * Uses Julian days which normally start at 12:00:00. But this method
-     * returns the delta number of days since 00:00:00, so we can interpret the
-     * Gregorian calendar day to start at 00:00:00.
-     *
-     * See https://en.wikipedia.org/wiki/Julian_day
-     */
-    uint32_t toEpochDaysIgnoringZoneOffset() const {
-      // From wiki article:
-      //
-      // JDN = (1461 x (Y + 4800 + (M - 14)/12))/4
-      //     + (367 x (M - 2 - 12 x ((M - 14)/12)))/12
-      //     - (3 x ((Y + 4900 + (M - 14)/12)/100))/4
-      //     + D - 32075
-      // JDN2000 = JDN - 2451545
-      //
-      // It looks like the formula needs to be done using signed integers
-      // because it depends on the modulo operation (%) to truncate towards 0
-      // for negative numbers.
-
-      int8_t mm = (mMonth - 14)/12;
-      int16_t yy = mYear + kEpochYear;
-      int32_t jdn = ((int32_t) 1461 * (yy + 4800 + mm))/4
-          + (367 * (mMonth - 2 - 12 * mm))/12
-          - (3 * ((yy + 4900 + mm)/100))/4
-          + mDay - 32075;
-      return jdn - kDaysSinceJulianEpoch;
-    }
-
-    /**
-     * Extract the (year, month, day, dayOfWeek) fields from epochDays.
-     *
-     * See https://en.wikipedia.org/wiki/Julian_day.
-     */
-    static void extractYearMonthDay(uint32_t epochDays, uint8_t& year,
-        uint8_t& month, uint8_t& day, uint8_t& dayOfWeek) {
-      uint32_t J = epochDays + kDaysSinceJulianEpoch;
-      uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;
-      uint32_t e = 4 * f + 3;
-      uint32_t g = e % 1461 / 4;
-      uint32_t h = 5 * g + 2;
-      day = (h % 153) / 5 + 1;
-      month = (h / 153 + 2) % 12 + 1;
-      year = (e / 1461) - 4716 + (12 + 2 - month) / 12 - kEpochYear;
-
-      // 2000-01-01 is Saturday (7)
-      dayOfWeek = (epochDays + 6) % 7 + 1;
-    }
-
-    uint8_t mYear; // [00, 99], year - 2000
-    uint8_t mMonth; // [1, 12]
-    uint8_t mDay; // [1, 31]
-    uint8_t mHour; // [0, 23]
-    uint8_t mMinute; // [0, 59]
-    uint8_t mSecond; // [0, 59]
+    LocalDate mLocalDate;
+    LocalTime mLocalTime;
     ZoneOffset mZoneOffset; // offset from UTC
     mutable uint8_t mDayOfWeek; // (1=Monday, 7=Sunday)
 };
@@ -506,12 +408,8 @@ class OffsetDateTime {
  * must also be equal.
  */
 inline bool operator==(const OffsetDateTime& a, const OffsetDateTime& b) {
-  return a.mSecond == b.mSecond
-      && a.mMinute == b.mMinute
-      && a.mHour == b.mHour
-      && a.mDay == b.mDay
-      && a.mMonth == b.mMonth
-      && a.mYear == b.mYear
+  return a.mLocalDate == b.mLocalDate
+      && a.mLocalTime == b.mLocalTime
       && a.mZoneOffset == b.mZoneOffset;
 }
 

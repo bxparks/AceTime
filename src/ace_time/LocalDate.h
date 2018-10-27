@@ -2,6 +2,7 @@
 #define ACE_TIME_LOCAL_DATE_H
 
 #include <stdint.h>
+#include "common/Util.h"
 
 namespace ace_time {
 
@@ -97,17 +98,44 @@ class LocalDate {
       return *this;
     }
 
+    /** Return the full year instead of just the last 2 digits. */
+    uint16_t yearFull() const { return mYear + kEpochYear; }
+
+    /** Set the year given the full year. */
+    void yearFull(uint16_t yearFull) { mYear = yearFull - kEpochYear; }
+
     /** Return the 2 digit year from year 2000. */
     uint8_t year() const { return mYear; }
 
-    /** Return the full year instead of just the last 2 digits. */
-    uint16_t yearFull() const { return mYear + kEpochYear; }
+    /** Set the 2 digit year from year 2000. */
+    void year(uint8_t year) { mYear = year; }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mMonth; }
 
+    /** Set the month. */
+    void month(uint8_t month) { mMonth = month; }
+
     /** Return the day of the month. */
     uint8_t day() const { return mDay; }
+
+    /** Set the day of the month. */
+    void day(uint8_t day) { mDay = day; }
+
+    /** Increment the year by one, wrapping from 99 to 0. */
+    void incrementYear() {
+      common::incrementMod(mYear, (uint8_t) 100);
+    }
+
+    /** Increment the year by one, wrapping from 12 to 1. */
+    void incrementMonth() {
+      common::incrementMod(mDay, (uint8_t) 31, (uint8_t) 1);
+    }
+
+    /** Increment the day by one, wrapping from 31 to 1. */
+    void incrementDay() {
+      common::incrementMod(mDay, (uint8_t) 31, (uint8_t) 1);
+    }
 
     /**
      * Calculate the day of week given the (year, month, day). Idea borrowed
@@ -203,6 +231,7 @@ class LocalDate {
     }
 
   private:
+    friend class OffsetDateTime;
     friend bool operator==(const LocalDate& a, const LocalDate& b);
     friend bool operator!=(const LocalDate& a, const LocalDate& b);
 

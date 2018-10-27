@@ -2,6 +2,7 @@
 #define ACE_TIME_LOCAL_TIME_H
 
 #include <stdint.h>
+#include "common/Util.h"
 
 namespace ace_time {
 
@@ -83,16 +84,35 @@ class LocalTime {
     /** Return the hour. */
     uint8_t hour() const { return mHour; }
 
+    /** Set the hour. */
+    void hour(uint8_t hour) { mHour = hour; }
+
     /** Return the minute. */
     uint8_t minute() const { return mMinute; }
 
+    /** Set the minute. */
+    void minute(uint8_t month) { mMinute = month; }
+
     /** Return the second. */
     uint8_t second() const { return mSecond; }
+
+    /** Set the second. */
+    void second(uint8_t second) { mSecond = second; }
 
     /** Return the number of seconds since midnight. */
     uint32_t toSeconds() const {
       return ((mHour * (uint16_t) 60) + mMinute)
           * (uint32_t) 60 + mSecond;
+    }
+
+    /** Increment the hour by one, wrapping from 23 to 0. */
+    void incrementHour() {
+      common::incrementMod(mHour, (uint8_t) 24);
+    }
+
+    /** Increment the minute by one, wrapping from 59 to 0. */
+    void incrementMinute() {
+      common::incrementMod(mMinute, (uint8_t) 60);
     }
 
     /**
@@ -117,6 +137,7 @@ class LocalTime {
 
 
   private:
+    friend class OffsetDateTime;
     friend bool operator==(const LocalTime& a, const LocalTime& b);
     friend bool operator!=(const LocalTime& a, const LocalTime& b);
 

@@ -15,19 +15,21 @@ void OffsetDateTime::printTo(Print& printer) const {
 
   // Date
   printer.print(F("20"));
-  printPad2(printer, mYear);
+  printPad2(printer, mLocalDate.year());
   printer.print('-');
-  printPad2(printer, mMonth);
+  printPad2(printer, mLocalDate.month());
   printer.print('-');
-  printPad2(printer, mDay);
+  printPad2(printer, mLocalDate.day());
+
+  // 'T' separator
   printer.print('T');
 
   // Time
-  printPad2(printer, mHour);
+  printPad2(printer, mLocalTime.hour());
   printer.print(':');
-  printPad2(printer, mMinute);
+  printPad2(printer, mLocalTime.minute());
   printer.print(':');
-  printPad2(printer, mSecond);
+  printPad2(printer, mLocalTime.second());
 
   // ZoneOffset
   mZoneOffset.printTo(printer);
@@ -43,52 +45,16 @@ OffsetDateTime& OffsetDateTime::initFromDateString(const char* ds) {
     return setError();
   }
 
-  // year
-  uint8_t year = (*ds++ - '0') - 2; // subtract 2000
-  year = 10 * year + (*ds++ - '0');
-  year = 10 * year + (*ds++ - '0');
-  year = 10 * year + (*ds++ - '0');
-  mYear = year;
-
-  // '-'
-  ds++;
-
-  // month
-  uint8_t month = (*ds++ - '0');
-  month = 10 * month + (*ds++ - '0');
-  mMonth = month;
-
-  // '-'
-  ds++;
-
-  // day
-  uint8_t day = (*ds++ - '0');
-  day = 10 * day + (*ds++ - '0');
-  mDay = day;
+  // date
+  mLocalDate.initFromDateString(ds);
+  ds += LocalDate::kDateStringLength;
 
   // 'T'
   ds++;
 
-  // hour
-  uint8_t hour = (*ds++ - '0');
-  hour = 10 * hour + (*ds++ - '0');
-  mHour = hour;
-
-  // '-'
-  ds++;
-
-  // minute
-  uint8_t minute = (*ds++ - '0');
-  minute = 10 * minute + (*ds++ - '0');
-  mMinute = minute;
-
-  // '-'
-  ds++;
-
-  // second
-  uint8_t second = (*ds++ - '0');
-  second = 10 * second + (*ds++ - '0');
-  mSecond = second;
+  // time
+  mLocalTime.initFromTimeString(ds);
+  ds += LocalTime::kTimeStringLength;
 
   // '+' or '-'
   char utcSign = *ds++;
