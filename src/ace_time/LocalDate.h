@@ -5,6 +5,20 @@
 
 namespace ace_time {
 
+/**
+ * The date (year, month, day) representing the date without regards to time
+ * zone.
+ *
+ * The year field is internally represented as a 2 digit number from [2000,
+ * 2099]. Therefore, the "epoch" for this library is 2000-01-01 00:00:00Z.
+ * These fields map directly to the fields supported by the DS3231 RTC chip.
+ *
+ * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated from the date
+ * fields.
+ *
+ * Parts of this class were inspired by the java.time.LocalDate class of Java 8
+ * (https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html).
+ */
 class LocalDate {
   public:
     /** Base year of epoch. */
@@ -70,6 +84,7 @@ class LocalDate {
       return LocalDate().initFromDateString(dateString);
     }
 
+    /** Default constructor does nothing. */
     explicit LocalDate() {}
 
     /**

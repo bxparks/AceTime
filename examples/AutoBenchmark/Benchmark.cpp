@@ -28,7 +28,7 @@ const char BOTTOM[] =
 const char EMPTY_LOOP_LABEL[] =
   "Empty loop                  | ";
 const char DATE_TIME_FOR_SECONDS_LABEL[] =
-  "DateTime::forEpochSeconds()      | ";
+  "DateTime::forEpochSeconds() | ";
 const char DATE_TIME_DAYS_SINCE_EPOCH_LABEL[] =
   "DateTime::toEpochDays()     | ";
 const char DATE_TIME_SECOND_SINCE_EPOCH_LABEL[] =

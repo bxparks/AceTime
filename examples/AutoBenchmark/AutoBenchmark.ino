@@ -23,6 +23,9 @@ void setup() {
   Serial.print("sizeof(LocalDate): ");
   Serial.println(sizeof(LocalDate));
 
+  Serial.print("sizeof(LocalTime): ");
+  Serial.println(sizeof(LocalTime));
+
   Serial.print("sizeof(ZoneOffset): ");
   Serial.println(sizeof(ZoneOffset));
 

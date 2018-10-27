@@ -10,6 +10,7 @@
 
 #include "ace_time/common/DateStrings.h"
 #include "ace_time/LocalDate.h"
+#include "ace_time/LocalTime.h"
 #include "ace_time/ZoneOffset.h"
 #include "ace_time/TimeZone.h"
 #include "ace_time/OffsetDateTime.h"

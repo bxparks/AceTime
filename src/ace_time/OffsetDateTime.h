@@ -301,7 +301,8 @@ class OffsetDateTime {
      */
     uint32_t toEpochDays() const {
       uint32_t epochDays = toEpochDaysIgnoringZoneOffset();
-      int32_t utcOffset = ((mHour * 60) + mMinute) * (uint32_t) 60 + mSecond;
+      int32_t utcOffset = ((mHour * (uint16_t) 60) + mMinute)
+          * (uint32_t) 60 + mSecond;
       utcOffset -= mZoneOffset.asSeconds();
 
       // Increment or decrement the day count depending on the offset zone.
