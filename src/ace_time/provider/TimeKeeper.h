@@ -14,8 +14,9 @@ namespace provider {
 class TimeKeeper: public TimeProvider {
   public:
     /**
-     * Set the time to the indicated seconds. Calling with a value of 0
-     * indicates an error condition, so the method should do nothing.
+     * Set the time to the indicated seconds. Calling with a value of
+     * kInvalidSeconds indicates an error condition, so the method should do
+     * nothing.
      */
     virtual void setNow(uint32_t epochSeconds) = 0;
 };

@@ -40,7 +40,7 @@ namespace provider {
  *
  * 2) Call the SystemTimeSyncLoop::loop() method from the global loop()
  * function. This method uses the blocking TimeProvider::getNow() method which
- * can take 100s of milliseconds for something like NtpTimeProvider.
+ * can take O(100) milliseconds for something like NtpTimeProvider.
  */
 class SystemTimeKeeper: public TimeKeeper {
   public:
@@ -65,7 +65,7 @@ class SystemTimeKeeper: public TimeKeeper {
     }
 
     uint32_t getNow() const override {
-      if (!mIsInit) return 0;
+      if (!mIsInit) return kInvalidSeconds;
 
       while ((uint16_t) ((uint16_t) millis() - mPrevMillis) >= 1000) {
         mPrevMillis += 1000;
@@ -75,7 +75,7 @@ class SystemTimeKeeper: public TimeKeeper {
     }
 
     void setNow(uint32_t epochSeconds) override {
-      if (epochSeconds == 0) return;
+      if (epochSeconds == kInvalidSeconds) return;
 
       mEpochSeconds = epochSeconds;
       mPrevMillis = millis();
@@ -94,7 +94,7 @@ class SystemTimeKeeper: public TimeKeeper {
      * goes backwards in time.
      */
     void sync(uint32_t epochSeconds) {
-      if (epochSeconds == 0) return;
+      if (epochSeconds == kInvalidSeconds) return;
       if (mEpochSeconds == epochSeconds) return;
 
       mEpochSeconds = epochSeconds;

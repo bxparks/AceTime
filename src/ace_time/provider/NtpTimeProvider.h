@@ -68,7 +68,7 @@ class NtpTimeProvider: public TimeProvider {
     bool isSetup() const { return mIsSetUp; }
 
     uint32_t getNow() const override {
-      if (!mIsSetUp) return 0;
+      if (!mIsSetUp) return kInvalidSeconds;
 
       sendRequest();
 
@@ -78,7 +78,7 @@ class NtpTimeProvider: public TimeProvider {
           return readResponse();
         }
       }
-      return 0; // return 0 if unable to get the time
+      return kInvalidSeconds;
     }
 
     void sendRequest() const override {
@@ -105,7 +105,7 @@ class NtpTimeProvider: public TimeProvider {
     }
 
     uint32_t readResponse() const override {
-      if (!mIsSetUp) return 0;
+      if (!mIsSetUp) return kInvalidSeconds;
 
       // read packet into the buffer
       mUdp.read(mPacketBuffer, kNtpPacketSize);
@@ -115,7 +115,10 @@ class NtpTimeProvider: public TimeProvider {
       secsSince1900 |= (uint32_t) mPacketBuffer[41] << 16;
       secsSince1900 |= (uint32_t) mPacketBuffer[42] << 8;
       secsSince1900 |= (uint32_t) mPacketBuffer[43];
-      return (secsSince1900 == 0) ? 0 : secsSince1900 - kSecondsSinceNtpEpoch;
+
+      return (secsSince1900 == 0)
+          ? kInvalidSeconds
+          : secsSince1900 - kSecondsSinceNtpEpoch;
     }
 
   private:
