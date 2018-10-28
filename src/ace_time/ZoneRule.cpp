@@ -17,7 +17,7 @@ static const ZoneRule kZoneRulesUS[] = {
     24 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
     'w' /*atHourModifier*/,
-    0 /*offsetHour*/,
+    0 /*deltaCode*/,
     'S' /*letter*/
   },
 
@@ -30,7 +30,7 @@ static const ZoneRule kZoneRulesUS[] = {
     1 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
     'w' /*atHourModifier*/,
-    1 /*offsetHour*/,
+    4 /*deltaCode*/,
     'D' /*letter*/
   },
 
@@ -43,7 +43,7 @@ static const ZoneRule kZoneRulesUS[] = {
     8 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
     'w' /*atHourModifier*/,
-    1 /*offsetHour*/,
+    4 /*deltaCode*/,
     'D' /*letter*/
   },
 
@@ -56,12 +56,12 @@ static const ZoneRule kZoneRulesUS[] = {
     1 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
     'w' /*atHourModifier*/,
-    0 /*offsetHour*/,
+    0 /*deltaCode*/,
     'S' /*letter*/
   },
 };
 
-const ZoneRules ZoneRules::kUS = {
+const ZonePolicy ZonePolicy::kUS = {
   sizeof(kZoneRulesUS) / sizeof(ZoneRule) /*numRules*/,
   kZoneRulesUS /*rules*/,
 };
@@ -80,7 +80,7 @@ static const ZoneRule kZoneRulesEU[] = {
     24 /*onDayOfMonth*/,
     1 /*atHour=2:00*/,
     'u' /*atHourModifier*/,
-    1 /*offsetHour*/,
+    4 /*deltaCode*/,
     'S' /*letter*/
   },
   // Rule	EU	1996	max	-	Oct	lastSun	 1:00u	0	-
@@ -92,12 +92,12 @@ static const ZoneRule kZoneRulesEU[] = {
     25 /*onDayOfMonth*/,
     1 /*atHour=2:00*/,
     'u' /*atHourModifier*/,
-    0 /*offsetHour*/,
+    0 /*deltaCode*/,
     '-' /*letter*/
   },
 };
 
-const ZoneRules ZoneRules::kEU = {
+const ZonePolicy ZonePolicy::kEU = {
   sizeof(kZoneRulesEU) / sizeof(ZoneRule) /*numRules*/,
   kZoneRulesEU /*rules*/,
 };
@@ -116,7 +116,7 @@ static const ZoneRule kZoneRulesAN[] = {
     24 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
     's' /*atHourModifier*/,
-    1 /*offsetHour*/,
+    4 /*deltaCode*/,
     'D' /*letter*/
   },
   // Rule    AN      2001    2007    -       Oct     lastSun 2:00s   1:00    D
@@ -128,7 +128,7 @@ static const ZoneRule kZoneRulesAN[] = {
     24 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
     's' /*atHourModifier*/,
-    1 /*offsetHour*/,
+    4 /*deltaCode*/,
     'D' /*letter*/
   },
   // Rule    AN      2006    only    -       Apr     Sun>=1  2:00s   0       S
@@ -140,7 +140,7 @@ static const ZoneRule kZoneRulesAN[] = {
     1 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
     's' /*atHourModifier*/,
-    0 /*offsetHour*/,
+    0 /*deltaCode*/,
     'S' /*letter*/
   },
   // Rule    AN      2007    only    -       Mar     lastSun 2:00s   0       S
@@ -152,7 +152,7 @@ static const ZoneRule kZoneRulesAN[] = {
     24 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
     's' /*atHourModifier*/,
-    0 /*offsetHour*/,
+    0 /*deltaCode*/,
     'S' /*letter*/
   },
   // Rule    AN      2008    max     -       Apr     Sun>=1  2:00s   0       S
@@ -164,7 +164,7 @@ static const ZoneRule kZoneRulesAN[] = {
     1 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
     's' /*atHourModifier*/,
-    0 /*offsetHour*/,
+    0 /*deltaCode*/,
     'S' /*letter*/
   },
   // Rule    AN      2008    max     -       Oct     Sun>=1  2:00s   1:00    D
@@ -176,12 +176,12 @@ static const ZoneRule kZoneRulesAN[] = {
     1 /*onDayOfMonth*/,
     2 /*atHour=2:00*/,
     's' /*atHourModifier*/,
-    1 /*offsetHour*/,
+    4 /*deltaCode*/,
     'D' /*letter*/
   },
 };
 
-const ZoneRules ZoneRules::kAN = {
+const ZonePolicy ZonePolicy::kAN = {
   sizeof(kZoneRulesAN) / sizeof(ZoneRule) /*numRules*/,
   kZoneRulesAN /*rules*/,
 };

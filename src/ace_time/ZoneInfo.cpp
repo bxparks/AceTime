@@ -11,7 +11,7 @@ static ZoneInfoEntry const kZoneInfoEntryLosAngeles[] = {
   // -8:00   US      P%sT
   {
     -32 /*offsetCode*/,
-    &ZoneRules::kUS /*zone*/,
+    &ZonePolicy::kUS /*zonePolicy*/,
     "P%sT" /*format*/,
     255 /*untilYear*/,
   }
@@ -31,7 +31,7 @@ static ZoneInfoEntry const kZoneInfoEntryToronto[] = {
   // -5:00   Canada  E%sT
   {
     -20 /*offsetCode*/,
-    &ZoneRules::kUS /*zone*/,
+    &ZonePolicy::kUS /*zonePolicy*/,
     "E%sT" /*format*/,
     255 /*fromYear*/,
   }
@@ -58,7 +58,7 @@ static ZoneInfoEntry const kZoneInfoEntryIndianapolis[] = {
   // -5:00   US      E%sT
   {
     -20 /*offsetCode*/,
-    &ZoneRules::kUS /*zone*/,
+    &ZonePolicy::kUS /*zonePolicy*/,
     "E%sT" /*format*/,
     255 /*untilYear*/,
   },
@@ -77,21 +77,21 @@ static ZoneInfoEntry const kZoneInfoEntryPetersburg[] = {
   // -5:00   -       EST     2006 Apr  2  2:00
   {
     -20 /*offsetCode*/,
-    nullptr /*zone*/,
+    nullptr /*zonePolicy*/,
     "EST" /*format*/,
     6 /*untilYear*/,
   },
   // -6:00   US      C%sT    2007 Nov  4  2:00
   {
     -24 /*offsetCode*/,
-    &ZoneRules::kUS /*zone*/,
+    &ZonePolicy::kUS /*zonePolicy*/,
     "C%sT" /*format*/,
     7 /*untilYear*/,
   },
   // -5:00   US      E%sT
   {
     -20 /*offsetCode*/,
-    &ZoneRules::kUS /*zone*/,
+    &ZonePolicy::kUS /*zonePolicy*/,
     "E%sT" /*format*/,
     255 /*untilYear*/,
   },
@@ -111,7 +111,7 @@ static ZoneInfoEntry const kZoneInfoEntryLondon[] = {
   // 0:00   EU      GMT/BST
   {
     0 /*offsetCode*/,
-    &ZoneRules::kEU /*zone*/,
+    &ZonePolicy::kEU /*zonePolicy*/,
     "GMT/BST" /*format*/,
     255 /*untilYear*/,
   }
@@ -131,7 +131,7 @@ static ZoneInfoEntry const kZoneInfoEntrySydney[] = {
   // 10:00   AN      AE%sT
   {
     40 /*offsetCode*/,
-    &ZoneRules::kAN /*zone*/,
+    &ZonePolicy::kAN /*zonePolicy*/,
     "AE%St" /*format*/,
     255 /*untilYear*/,
   }
@@ -151,7 +151,7 @@ static ZoneInfoEntry const kZoneInfoEntryJohannesburg[] = {
   // 2:00    SA      SAST
   {
     8 /*offsetCode*/,
-    nullptr /*zone*/,
+    nullptr /*zonePolicy*/,
     "SAST" /*format*/,
     255 /*untilYear*/,
   }

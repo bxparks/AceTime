@@ -2,7 +2,6 @@
 #define ACE_TIME_TIME_ZONE_H
 
 #include <stdint.h>
-#include "OffsetDateTime.h"
 #include "ZoneOffset.h"
 #include "ZoneInfo.h"
 #include "ZoneRule.h"
@@ -70,7 +69,7 @@ class TimeZone {
     /** Return the ZoneOffset. */
     const ZoneOffset& zoneOffset() const { return mZoneOffset; }
 
-    /** Return the ZoneOffset. */
+    /** Return a mutable ZoneOffset. */
     ZoneOffset& zoneOffset() { return mZoneOffset; }
 
     /** Return the DST mode setting. */
