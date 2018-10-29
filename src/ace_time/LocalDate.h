@@ -27,6 +27,9 @@ class LocalDate {
     /** Sentinel epochDays which indicates an error. */
     static const uint32_t kInvalidEpochDays = UINT32_MAX;
 
+    /** Sentinel epochSeconds which indicates an error. */
+    static const uint32_t kInvalidEpochSeconds = UINT32_MAX;
+
     /** Base year of epoch. */
     static const uint16_t kEpochYear = 2000;
 
@@ -69,8 +72,9 @@ class LocalDate {
     }
 
     /**
-     * Factory method using the number of days from AceTime epoch of 2000-01-01.
-     * If epochDays is kInvalidEpochDays, isError() will return true.
+     * Factory method using the number of days since AceTime epoch of
+     * 2000-01-01. If epochDays is kInvalidEpochDays, isError() will return
+     * true.
      *
      * If epochDays is greater than 93501 (i.e. 2255-12-31), the year is
      * greater than 255 and cannot be represented by a uint8_t. The behavior of
@@ -87,6 +91,26 @@ class LocalDate {
         extractYearMonthDay(epochDays, year, month, day);
       }
       return LocalDate(year, month, day);
+    }
+
+    /**
+     * Factory method using the number of seconds since AceTime epoch of
+     * 2000-01-01. The number of seconds from midnight of the given day is
+     * thrown away. If epochSeconds is kInvalidEpochSeconds, isError() will
+     * return true.
+     *
+     * The largest date supported by this method is 2136-02-07, corresponding
+     * to 4,294,944,000 seconds. (Actually, up to 4,294,967,294 will also
+     * return 2136-02-07 because the partial day is thrown away.)
+     *
+     * @param epochSeconds number of seconds since AceTime epoch (2000-01-01)
+     */
+    static LocalDate forEpochSeconds(uint32_t epochSeconds) {
+      if (epochSeconds == kInvalidEpochSeconds) {
+        return forEpochDays(kInvalidEpochDays);
+      } else {
+        return forEpochDays(epochSeconds / 86400);
+      }
     }
 
     /**
@@ -207,6 +231,18 @@ class LocalDate {
           - (3 * ((yy + 4900 + mm)/100))/4
           + mDay - 32075;
       return jdn - kDaysSinceJulianEpoch;
+    }
+
+    /**
+     * Return the number of seconds since AceTime epoch (2000-01-01 00:00:00).
+     * Returns kInvalidEpochSeconds if isError() is true.
+     *
+     * The result is undefined if the date is greater than 2136-02-07 because
+     * the epoch seconds will overflow the uint32_t.
+     */
+    uint32_t toEpochSeconds() const {
+      if (isError()) return kInvalidEpochSeconds;
+      return 86400 * toEpochDays();
     }
 
     /**

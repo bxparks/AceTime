@@ -11,23 +11,32 @@ using namespace ace_time::common;
 // LocalDate
 // --------------------------------------------------------------------------
 
-test(localDateAccessors) {
+test(LocalDate, accessors) {
   LocalDate ld = LocalDate::forComponents(1, 2, 3);
   assertEqual(1, ld.year());
   assertEqual(2, ld.month());
   assertEqual(3, ld.day());
 }
 
-// full round trip of toEpochDays()/forEpochDays() works when isError()==true
-test(localDateSetError) {
-  LocalDate ld = LocalDate().setError();
+// Verify that toEpochDays()/forEpochDays() and
+// toEpochSeconds()/forEpochSeconds() support round trip conversions when when
+// isError()==true.
+test(LocalDate, setError) {
+  LocalDate ld;
+
+  ld = LocalDate().setError();
   assertTrue(ld.isError());
   assertEqual(LocalDate::kInvalidEpochDays, ld.toEpochDays());
+  assertEqual(LocalDate::kInvalidEpochSeconds, ld.toEpochSeconds());
+
   ld = LocalDate::forEpochDays(LocalDate::kInvalidEpochDays);
+  assertTrue(ld.isError());
+
+  ld = LocalDate::forEpochSeconds(LocalDate::kInvalidEpochSeconds);
   assertTrue(ld.isError());
 }
 
-test(localDateDayOfWeek) {
+test(LocalDate, dayOfWeek) {
   // year 2000 (leap year due to every 400 rule)
   assertEqual(LocalDate::kSaturday,
       LocalDate::forComponents(0, 1, 1).dayOfWeek());
@@ -120,7 +129,7 @@ test(localDateDayOfWeek) {
       LocalDate::forComponents(255, 12, 31).dayOfWeek());
 }
 
-test(localDateToAndFromEpochDays) {
+test(LocalDate, toAndFromEpochDays) {
   LocalDate ld;
 
   ld = LocalDate::forComponents(0, 1, 1);
@@ -144,7 +153,32 @@ test(localDateToAndFromEpochDays) {
   assertTrue(ld == LocalDate::forEpochDays(93501));
 }
 
-test(localDateCompareTo) {
+test(LocalDate, toAndFromEpochSeconds) {
+  LocalDate ld;
+
+  ld = LocalDate::forComponents(0, 1, 1);
+  assertEqual((uint32_t) 0, ld.toEpochSeconds());
+  assertTrue(ld == LocalDate::forEpochSeconds(0));
+
+  ld = LocalDate::forComponents(0, 2, 29);
+  assertEqual((uint32_t) 59 * 86400, ld.toEpochSeconds());
+  assertTrue(ld == LocalDate::forEpochSeconds((uint32_t) 59 * 86400 + 1));
+
+  ld = LocalDate::forComponents(18, 1, 1);
+  assertEqual((uint32_t) 6575 * 86400, ld.toEpochSeconds());
+  assertTrue(ld == LocalDate::forEpochSeconds((uint32_t) 6575 * 86400 + 2));
+
+  ld = LocalDate::forComponents(99, 12, 31);
+  assertEqual((uint32_t) 36524 * 86400, ld.toEpochSeconds());
+  assertTrue(ld == LocalDate::forEpochSeconds(
+      (uint32_t) 36524 * 86400 + 84399));
+
+  ld = LocalDate::forComponents(136, 2, 7);
+  assertEqual((uint32_t) 49710 * 86400, ld.toEpochSeconds());
+  assertTrue(ld == LocalDate::forEpochSeconds((uint32_t) 49710 * 86400 + 4));
+}
+
+test(LocalDate, compareTo) {
   LocalDate a, b;
 
   a = LocalDate::forComponents(0, 1, 1);
@@ -172,7 +206,7 @@ test(localDateCompareTo) {
   assertTrue(a != b);
 }
 
-test(localDateForDateString) {
+test(LocalDate, forDateString) {
   LocalDate ld;
   ld = LocalDate::forDateString("2000-01-01");
   assertTrue(ld == LocalDate::forComponents(0, 1, 1));
@@ -184,7 +218,7 @@ test(localDateForDateString) {
   assertTrue(ld == LocalDate::forComponents(255, 12, 31));
 }
 
-test(localDateForDateString_invalid) {
+test(LocalDate, forDateString_invalid) {
   LocalDate ld = LocalDate::forDateString("2000-01");
   assertTrue(ld.isError());
 }
@@ -193,14 +227,14 @@ test(localDateForDateString_invalid) {
 // LocalTime
 // --------------------------------------------------------------------------
 
-test(localTimeAccessors) {
+test(LocalTime, accessors) {
   LocalTime lt = LocalTime::forComponents(1, 2, 3);
   assertEqual(1, lt.hour());
   assertEqual(2, lt.minute());
   assertEqual(3, lt.second());
 }
 
-test(localTimeSetError) {
+test(LocalTime, setError) {
   LocalTime lt = LocalTime().setError();
   assertTrue(lt.isError());
   assertEqual(LocalTime::kInvalidSeconds, lt.toSeconds());
@@ -209,7 +243,7 @@ test(localTimeSetError) {
   assertTrue(lt.isError());
 }
 
-test(localTimeToAndFromSeconds) {
+test(LocalTime, toAndFromSeconds) {
   LocalTime lt;
 
   lt = LocalTime::forSeconds(0);
@@ -225,7 +259,7 @@ test(localTimeToAndFromSeconds) {
   assertEqual((uint32_t) 86399, lt.toSeconds());
 }
 
-test(localTimeCompareTo) {
+test(LocalTime, compareTo) {
   LocalTime a, b;
 
   a = LocalTime::forComponents(0, 1, 1);
@@ -253,7 +287,7 @@ test(localTimeCompareTo) {
   assertTrue(a != b);
 }
 
-test(localTimeForTimeString) {
+test(LocalTime, forTimeString) {
   LocalTime lt;
   lt = LocalTime::forTimeString("00:00:00");
   assertTrue(lt == LocalTime::forComponents(0, 0, 0));
@@ -262,7 +296,7 @@ test(localTimeForTimeString) {
   assertTrue(lt == LocalTime::forComponents(1, 2, 3));
 }
 
-test(localTimeFortimeString_invalid) {
+test(LocalTime, fortimeString_invalid) {
   LocalTime lt = LocalTime::forTimeString("01:02");
   assertTrue(lt.isError());
 }
