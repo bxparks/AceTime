@@ -95,7 +95,16 @@ class ZoneOffset {
 
     /** Extract hour and minute representation of the offset. */
     void asHourMinute(int8_t& sign, uint8_t& hour, uint8_t& minute) const {
-      convertOffsetCodeToHourMinute(mOffsetCode, sign, hour, minute);
+      uint8_t code;
+      if (mOffsetCode < 0) {
+        sign = -1;
+        code = -mOffsetCode;
+      } else {
+        sign = 1;
+        code = mOffsetCode;
+      }
+      hour = code / 4;
+      minute = (code & 0x03) * 15;
     }
 
     /**
@@ -158,15 +167,6 @@ class ZoneOffset {
 
     /** Set time zone from the given UTC offset string. */
     ZoneOffset& initFromOffsetString(const char* offsetString);
-
-    /** Helper method to convert a offsetCode to (sign, hour, minute) triple. */
-    static void convertOffsetCodeToHourMinute(int8_t offsetCode, int8_t& sign,
-        uint8_t& hour, uint8_t& minute) {
-      sign = (offsetCode < 0) ? -1 : 1;
-      uint8_t code = (offsetCode < 0) ? -offsetCode : offsetCode;
-      hour = code / 4;
-      minute = (code & 0x03) * 15;
-    }
 
     /**
      * Time zone code, offset from UTC in 15 minute increments from UTC. In
