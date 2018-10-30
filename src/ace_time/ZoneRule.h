@@ -15,7 +15,7 @@ struct ZoneRule {
   uint8_t const onDayOfMonth; // 1 - 31
   uint8_t const atHour; // 0-23
   uint8_t const atHourModifier; // 'w'=wall; 's'=standard; 'u'=g=z=meridian
-  uint8_t const deltaCode; // 0 - 12, DST shift in 15-min increments
+  int8_t const deltaCode; // 0 - 12, DST shift in 15-min increments
   uint8_t const letter; // 'S', 'D', '-'
 
 };

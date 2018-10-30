@@ -5,6 +5,9 @@
 #include "ZoneOffset.h"
 #include "ZoneInfo.h"
 
+class ZoneManagerTest_init_2001;
+class ZoneManagerTest_init_2018;
+
 namespace ace_time {
 
 /**
@@ -15,7 +18,8 @@ struct ZoneMatch {
   const ZoneInfoEntry* entry;
   const ZoneRule* rule;
   uint32_t startEpochSeconds; // transition time of given rule
-  uint8_t offsetCode;
+  int8_t offsetCode; // effective offsetCode at the start of zone period
+  // TODO: add abbreviation
 };
 
 /**
@@ -42,13 +46,16 @@ class ZoneManager {
     }
 
   private:
+    friend class ::ZoneManagerTest_init_2001;
+    friend class ::ZoneManagerTest_init_2018;
+
     static const uint8_t kMaxCacheEntries = 5;
 
     void init(uint8_t year) {
       mYear = year;
       mNumMatches = 0;
-      addLastYear(year);
-      addCurrentYear(year);
+      addLastYear();
+      addCurrentYear();
       calcTransitions();
     }
 
@@ -61,8 +68,8 @@ class ZoneManager {
      * at the beginning of the current year.
      *  TODO: special handing for year 2000 (i.e. year == 0)
      */
-    void addLastYear(uint8_t year) {
-      uint8_t lastYear = year - 1;
+    void addLastYear() {
+      uint8_t lastYear = mYear - 1;
       const ZoneInfoEntry* const entry = findEntry(lastYear);
       // TODO: check for (entry == nullptr).
 
@@ -84,13 +91,13 @@ class ZoneManager {
     }
 
     /** Add all matching rules from the current year. */
-    void addCurrentYear(uint8_t year) {
-      const ZoneInfoEntry* const entry = findEntry(year);
+    void addCurrentYear() {
+      const ZoneInfoEntry* const entry = findEntry(mYear);
 
       const ZonePolicy* const zonePolicy = entry->zonePolicy;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const ZoneRule* const rule = &zonePolicy->rules[i];
-        if ((rule->fromYear <= year) && (year <= rule->toYear)) {
+        if ((rule->fromYear <= mYear) && (mYear <= rule->toYear)) {
           addRule(entry, rule);
         }
       }
@@ -146,13 +153,16 @@ class ZoneManager {
             (match.rule->onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
         uint8_t startDayOfMonth = match.rule->onDayOfMonth + dayOfWeekShift;
 
+        // Determine the effective offset code
+        match.offsetCode = match.entry->offsetCode + match.rule->deltaCode;
+
         // Determine the offset of the 'atHourModifier'. If 'w', then we
         // must use the offset of the *previous* zone rule.
         int8_t ruleOffsetCode;
         if (match.rule->atHourModifier == 'w') {
           ruleOffsetCode = previousMatch->entry->offsetCode
               + previousMatch->rule->deltaCode;
-        } if (match.rule->atHourModifier == 's') {
+        } else if (match.rule->atHourModifier == 's') {
           ruleOffsetCode = previousMatch->entry->offsetCode;
         } else {
           ruleOffsetCode = 0;
@@ -164,7 +174,6 @@ class ZoneManager {
                 match.rule->atHour, 0, 0,
                 ZoneOffset::forOffsetCode(ruleOffsetCode));
         match.startEpochSeconds = startDateTime.toEpochSeconds();
-        match.offsetCode = ruleOffsetCode;
 
         previousMatch = &match;
       }
