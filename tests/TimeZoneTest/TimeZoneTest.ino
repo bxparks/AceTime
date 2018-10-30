@@ -54,7 +54,8 @@ test(ZoneManagerTest, init_2001) {
 
 test(ZoneManagerTest, init_2018) {
   ZoneManager manager(&ZoneInfo::kLosAngeles);
-  manager.init(18);
+  LocalDate ld = LocalDate::forComponents(18, 1, 1);
+  manager.init(ld);
 
   assertEqual(2, manager.mNumMatches);
 
@@ -86,6 +87,78 @@ test(ZoneManagerTest, init_2018) {
   // t >= 2018-11-04 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-32, manager.mMatches[1].offsetCode);
   assertEqual((uint32_t) 594637200, manager.mMatches[1].startEpochSeconds);
+}
+
+// https://www.timeanddate.com/time/zone/usa/los-angeles
+test(ZoneManagerTest, getZoneOffset_Los_Angeles) {
+  ZoneManager manager(&ZoneInfo::kLosAngeles);
+  OffsetDateTime dt;
+  const ZoneMatch* match;
+
+  dt = OffsetDateTime::forComponents(18, 3, 11, 1, 59, 59,
+      ZoneOffset::forHour(-8));
+  match = manager.getZoneMatch(dt.toEpochSeconds());
+  assertEqual(-32, match->offsetCode);
+
+  dt = OffsetDateTime::forComponents(18, 3, 11, 2, 0, 0,
+      ZoneOffset::forHour(-8));
+  match = manager.getZoneMatch(dt.toEpochSeconds());
+  assertEqual(-28, match->offsetCode);
+
+  dt = OffsetDateTime::forComponents(18, 11, 4, 1, 0, 0,
+      ZoneOffset::forHour(-7));
+  match = manager.getZoneMatch(dt.toEpochSeconds());
+  assertEqual(-28, match->offsetCode);
+
+  dt = OffsetDateTime::forComponents(18, 11, 4, 1, 59, 59,
+      ZoneOffset::forHour(-7));
+  match = manager.getZoneMatch(dt.toEpochSeconds());
+  assertEqual(-28, match->offsetCode);
+
+  dt = OffsetDateTime::forComponents(18, 11, 4, 2, 0, 0,
+      ZoneOffset::forHour(-7));
+  match = manager.getZoneMatch(dt.toEpochSeconds());
+  assertEqual(-32, match->offsetCode);
+}
+
+// https://www.timeanddate.com/time/zone/australia/sydney
+test(ZoneManagerTest, getZoneOffset_Sydney) {
+  ZoneManager manager(&ZoneInfo::kSydney);
+  OffsetDateTime dt;
+  const ZoneMatch* match;
+
+  dt = OffsetDateTime::forComponents(7, 3, 25, 2, 59, 59,
+      ZoneOffset::forHour(11));
+  match = manager.getZoneMatch(dt.toEpochSeconds());
+  assertEqual(44, match->offsetCode);
+
+  dt = OffsetDateTime::forComponents(7, 3, 25, 3, 0, 0,
+      ZoneOffset::forHour(11));
+  match = manager.getZoneMatch(dt.toEpochSeconds());
+  assertEqual(40, match->offsetCode);
+
+  dt = OffsetDateTime::forComponents(7, 10, 28, 1, 59, 59,
+      ZoneOffset::forHour(10));
+  match = manager.getZoneMatch(dt.toEpochSeconds());
+  assertEqual(40, match->offsetCode);
+
+  dt = OffsetDateTime::forComponents(7, 10, 28, 2, 0, 0,
+      ZoneOffset::forHour(10));
+  match = manager.getZoneMatch(dt.toEpochSeconds());
+  assertEqual(44, match->offsetCode);
+}
+
+// https://www.timeanddate.com/time/zone/south-africa/johannesburg
+// No DST changes at all.
+test(ZoneManagerTest, getZoneOffset_Johannesburg) {
+  ZoneManager manager(&ZoneInfo::kJohannesburg);
+  OffsetDateTime dt;
+  const ZoneMatch* match;
+
+  dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0,
+      ZoneOffset::forHour(2));
+  match = manager.getZoneMatch(dt.toEpochSeconds());
+  assertEqual(8, match->offsetCode);
 }
 
 // --------------------------------------------------------------------------

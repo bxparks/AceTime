@@ -16,7 +16,7 @@ namespace ace_time {
  */
 struct ZoneMatch {
   const ZoneInfoEntry* entry;
-  const ZoneRule* rule;
+  const ZoneRule* rule; // can be null
   uint32_t startEpochSeconds; // transition time of given rule
   int8_t offsetCode; // effective offsetCode at the start of zone period
   // TODO: add abbreviation
@@ -30,19 +30,15 @@ class ZoneManager {
     ZoneManager(const ZoneInfo* zoneInfo):
         mZoneInfo(zoneInfo) {}
 
-    /** Return the zoneOffset of the Zone at the given epochSeconds. */
-    ZoneOffset getZoneOffset(uint32_t epochSeconds) {
-      // Find the year of the given epochSeconds. This could potentially fail if
-      // epochSeconds is on Jan 1 or Dec 31 because we have a Catch 22 situation
-      // where we don't know the actual local year until we find the
-      // ZoneInfoEntry, but we can't find the ZoneInfoEntry until we know the
-      // year. So we use the year assuming UTC zone offset.
+    /** Return the ZoneMatch at the given epochSeconds. */
+    const ZoneMatch* getZoneMatch(uint32_t epochSeconds) {
+      // TODO: The UTC year will be slightly different if epochSeconds lands on
+      // Jan 1 or Dec 31. Unfortunately, we don't know the actual local year
+      // until we find the ZoneInfoEntry, but we can't find the ZoneInfoEntry
+      // until we know the year. We may need to cache multiple years.
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
-      if (!isFilled(ld.year())) {
-        init(ld.year());
-      }
-      const ZoneMatch* match = findMatch(epochSeconds);
-      return ZoneOffset::forOffsetCode(match->offsetCode);
+      init(ld);
+      return findMatch(epochSeconds);
     }
 
   private:
@@ -51,16 +47,28 @@ class ZoneManager {
 
     static const uint8_t kMaxCacheEntries = 5;
 
-    void init(uint8_t year) {
-      mYear = year;
-      mNumMatches = 0;
-      addLastYear();
-      addCurrentYear();
-      calcTransitions();
+    void init(const LocalDate& ld) {
+      // If the UTC date is 12/31, the local date could be the next year. If we
+      // assume that no DST transitions happen on 12/31, then we can pretend
+      // that the current year is (UTC year + 1) and extract the various rules
+      // based upon that year.
+      uint8_t year = ld.year();
+      if (ld.month() == 12 && ld.day() == 31) {
+        year++;
+      }
+
+      if (!isFilled(year)) {
+        mYear = year;
+        mNumMatches = 0;
+        addLastYear();
+        addCurrentYear();
+        calcTransitions();
+        mIsFilled = true;
+      }
     }
 
     bool isFilled(uint8_t year) const {
-      return (year == mYear) && (mNumMatches != 0);
+      return (year == mYear) && mIsFilled;
     }
 
     /**
@@ -73,9 +81,15 @@ class ZoneManager {
       const ZoneInfoEntry* const entry = findEntry(lastYear);
       // TODO: check for (entry == nullptr).
 
+      // Some countries don't have a ZonePolicy, e.g. South Africa
+      const ZonePolicy* const zonePolicy = entry->zonePolicy;
+      if (zonePolicy == nullptr) {
+        mPreviousMatch = {entry, nullptr, 0, 0};
+        return;
+      }
+
       // Find the latest rule for last year. Assume that there are no more than
       // 1 rule per month.
-      const ZonePolicy* const zonePolicy = entry->zonePolicy;
       const ZoneRule* latest = nullptr;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const ZoneRule* const rule = &zonePolicy->rules[i];
@@ -85,8 +99,6 @@ class ZoneManager {
           }
         }
       }
-
-      // Add the last rule from the previous year.
       mPreviousMatch = {entry, latest, 0, 0};
     }
 
@@ -95,6 +107,8 @@ class ZoneManager {
       const ZoneInfoEntry* const entry = findEntry(mYear);
 
       const ZonePolicy* const zonePolicy = entry->zonePolicy;
+      if (zonePolicy == nullptr) return;
+
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const ZoneRule* const rule = &zonePolicy->rules[i];
         if ((rule->fromYear <= mYear) && (mYear <= rule->toYear)) {
@@ -194,6 +208,7 @@ class ZoneManager {
     const ZoneInfo* const mZoneInfo;
 
     mutable uint8_t mYear = 0;
+    mutable bool mIsFilled = false;
     mutable uint8_t mNumMatches = 0;
     mutable ZoneMatch mMatches[kMaxCacheEntries];
     mutable ZoneMatch mPreviousMatch; // previous year's match
