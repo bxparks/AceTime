@@ -32,10 +32,6 @@ class ZoneManager {
 
     /** Return the ZoneMatch at the given epochSeconds. */
     const ZoneMatch* getZoneMatch(uint32_t epochSeconds) {
-      // TODO: The UTC year will be slightly different if epochSeconds lands on
-      // Jan 1 or Dec 31. Unfortunately, we don't know the actual local year
-      // until we find the ZoneInfoEntry, but we can't find the ZoneInfoEntry
-      // until we know the year. We may need to cache multiple years.
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
       init(ld);
       return findMatch(epochSeconds);
@@ -47,11 +43,15 @@ class ZoneManager {
 
     static const uint8_t kMaxCacheEntries = 5;
 
+    /**
+     * Initialize the zone rules cache, keyed by the "current" year.
+     *
+     * If the UTC date is 12/31, the local date could be the next year. If we
+     * assume that no DST transitions happen on 12/31, then we can pretend that
+     * the current year is (UTC year + 1) and extract the various rules based
+     * upon that year.
+     */
     void init(const LocalDate& ld) {
-      // If the UTC date is 12/31, the local date could be the next year. If we
-      // assume that no DST transitions happen on 12/31, then we can pretend
-      // that the current year is (UTC year + 1) and extract the various rules
-      // based upon that year.
       uint8_t year = ld.year();
       if (ld.month() == 12 && ld.day() == 31) {
         year++;
@@ -119,16 +119,20 @@ class ZoneManager {
 
     /**
      * Add (entry, rule) to the cache, in sorted order. Essentially, this is
-     * doing an Insertion Sort of the ZoneMatch elements.
+     * doing an Insertion Sort of the ZoneMatch elements. Even through it is
+     * O(N^2), for small number of ZoneMatch elements, this is faster than than
+     * the O(N log(N)) algorithms such as Merge Sort, Heap Sort, Quick Sort, or
+     * Shell Sort. The nice property of this Insertion Sort is that if the
+     * ZoneInfoEntries are already sorted, then the total sort time is O(N).
      */
     void addRule(const ZoneInfoEntry* entry, const ZoneRule* rule) const {
       if (mNumMatches >= kMaxCacheEntries) return;
 
-      // insert
+      // insert new element at the end of the list
       mMatches[mNumMatches] = {entry, rule, 0, 0};
       mNumMatches++;
 
-      // sort
+      // perform an insertion sort
       for (uint8_t i = mNumMatches - 1; i > 0; i--) {
         ZoneMatch& left = mMatches[i - 1];
         ZoneMatch& right = mMatches[i];
@@ -150,7 +154,7 @@ class ZoneManager {
       return nullptr;
     }
 
-    /** Calculate the epochSeconds of each ZoneMatch rule. */
+    /** Calculate the transitional epochSeconds of each ZoneMatch rule. */
     void calcTransitions() {
       mPreviousMatch.startEpochSeconds = 0;
       mPreviousMatch.offsetCode = mPreviousMatch.entry->offsetCode
@@ -178,15 +182,15 @@ class ZoneManager {
               + previousMatch->rule->deltaCode;
         } else if (match.rule->atHourModifier == 's') {
           ruleOffsetCode = previousMatch->entry->offsetCode;
-        } else {
+        } else { /* e.g. 'u', 'g' or 'z' */
           ruleOffsetCode = 0;
         }
 
         // startDateTime
         OffsetDateTime startDateTime = OffsetDateTime::forComponents(
             mYear, match.rule->inMonth, startDayOfMonth,
-                match.rule->atHour, 0, 0,
-                ZoneOffset::forOffsetCode(ruleOffsetCode));
+            match.rule->atHour, 0, 0,
+            ZoneOffset::forOffsetCode(ruleOffsetCode));
         match.startEpochSeconds = startDateTime.toEpochSeconds();
 
         previousMatch = &match;
