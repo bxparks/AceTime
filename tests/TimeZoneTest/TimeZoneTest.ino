@@ -19,7 +19,7 @@ test(ZoneManagerTest, init_2001) {
   manager.addLastYear();
   assertEqual(0, manager.mNumMatches);
   assertEqual(-32, manager.mPreviousMatch.entry->offsetCode);
-  assertEqual("P%sT", manager.mPreviousMatch.entry->format);
+  assertEqual("P%T", manager.mPreviousMatch.entry->format);
   assertEqual(0, manager.mPreviousMatch.rule->fromYear);
   assertEqual(6, manager.mPreviousMatch.rule->toYear);
   assertEqual(10, manager.mPreviousMatch.rule->inMonth);
@@ -27,13 +27,13 @@ test(ZoneManagerTest, init_2001) {
   manager.addCurrentYear();
   assertEqual(2, manager.mNumMatches);
 
-  assertEqual("P%sT", manager.mMatches[0].entry->format);
+  assertEqual("P%T", manager.mMatches[0].entry->format);
   assertEqual(0, manager.mMatches[0].rule->fromYear);
   assertEqual(6, manager.mMatches[0].rule->toYear);
   assertEqual(4, manager.mMatches[0].rule->inMonth);
   assertEqual(-32, manager.mMatches[0].entry->offsetCode);
 
-  assertEqual("P%sT", manager.mMatches[1].entry->format);
+  assertEqual("P%T", manager.mMatches[1].entry->format);
   assertEqual(0, manager.mMatches[1].rule->fromYear);
   assertEqual(6, manager.mMatches[1].rule->toYear);
   assertEqual(10, manager.mMatches[1].rule->inMonth);
@@ -60,18 +60,18 @@ test(ZoneManagerTest, init_2018) {
   assertEqual(2, manager.mNumMatches);
 
   assertEqual(-32, manager.mPreviousMatch.entry->offsetCode);
-  assertEqual("P%sT", manager.mPreviousMatch.entry->format);
+  assertEqual("P%T", manager.mPreviousMatch.entry->format);
   assertEqual(7, manager.mPreviousMatch.rule->fromYear);
   assertEqual(255, manager.mPreviousMatch.rule->toYear);
   assertEqual(11, manager.mPreviousMatch.rule->inMonth);
 
-  assertEqual("P%sT", manager.mMatches[0].entry->format);
+  assertEqual("P%T", manager.mMatches[0].entry->format);
   assertEqual(7, manager.mMatches[0].rule->fromYear);
   assertEqual(255, manager.mMatches[0].rule->toYear);
   assertEqual(3, manager.mMatches[0].rule->inMonth);
   assertEqual(-32, manager.mMatches[0].entry->offsetCode);
 
-  assertEqual("P%sT", manager.mMatches[1].entry->format);
+  assertEqual("P%T", manager.mMatches[1].entry->format);
   assertEqual(7, manager.mMatches[1].rule->fromYear);
   assertEqual(255, manager.mMatches[1].rule->toYear);
   assertEqual(11, manager.mMatches[1].rule->inMonth);
@@ -99,26 +99,31 @@ test(ZoneManagerTest, getZoneOffset_Los_Angeles) {
       ZoneOffset::forHour(-8));
   match = manager.getZoneMatch(dt.toEpochSeconds());
   assertEqual(-32, match->offsetCode);
+  assertEqual("PST", match->abbrev);
 
   dt = OffsetDateTime::forComponents(18, 3, 11, 2, 0, 0,
       ZoneOffset::forHour(-8));
   match = manager.getZoneMatch(dt.toEpochSeconds());
   assertEqual(-28, match->offsetCode);
+  assertEqual("PDT", match->abbrev);
 
   dt = OffsetDateTime::forComponents(18, 11, 4, 1, 0, 0,
       ZoneOffset::forHour(-7));
   match = manager.getZoneMatch(dt.toEpochSeconds());
   assertEqual(-28, match->offsetCode);
+  assertEqual("PDT", match->abbrev);
 
   dt = OffsetDateTime::forComponents(18, 11, 4, 1, 59, 59,
       ZoneOffset::forHour(-7));
   match = manager.getZoneMatch(dt.toEpochSeconds());
   assertEqual(-28, match->offsetCode);
+  assertEqual("PDT", match->abbrev);
 
   dt = OffsetDateTime::forComponents(18, 11, 4, 2, 0, 0,
       ZoneOffset::forHour(-7));
   match = manager.getZoneMatch(dt.toEpochSeconds());
   assertEqual(-32, match->offsetCode);
+  assertEqual("PST", match->abbrev);
 }
 
 // https://www.timeanddate.com/time/zone/australia/sydney
@@ -131,21 +136,25 @@ test(ZoneManagerTest, getZoneOffset_Sydney) {
       ZoneOffset::forHour(11));
   match = manager.getZoneMatch(dt.toEpochSeconds());
   assertEqual(44, match->offsetCode);
+  assertEqual("AEDT", match->abbrev);
 
   dt = OffsetDateTime::forComponents(7, 3, 25, 3, 0, 0,
       ZoneOffset::forHour(11));
   match = manager.getZoneMatch(dt.toEpochSeconds());
   assertEqual(40, match->offsetCode);
+  assertEqual("AEST", match->abbrev);
 
   dt = OffsetDateTime::forComponents(7, 10, 28, 1, 59, 59,
       ZoneOffset::forHour(10));
   match = manager.getZoneMatch(dt.toEpochSeconds());
   assertEqual(40, match->offsetCode);
+  assertEqual("AEST", match->abbrev);
 
   dt = OffsetDateTime::forComponents(7, 10, 28, 2, 0, 0,
       ZoneOffset::forHour(10));
   match = manager.getZoneMatch(dt.toEpochSeconds());
   assertEqual(44, match->offsetCode);
+  assertEqual("AEDT", match->abbrev);
 }
 
 // https://www.timeanddate.com/time/zone/south-africa/johannesburg
@@ -159,6 +168,30 @@ test(ZoneManagerTest, getZoneOffset_Johannesburg) {
       ZoneOffset::forHour(2));
   match = manager.getZoneMatch(dt.toEpochSeconds());
   assertEqual(8, match->offsetCode);
+  assertEqual("SAST", match->abbrev);
+}
+
+test(ZoneManagerTest, createAbbreviation) {
+  const uint8_t kDstSize = 6;
+  char dst[kDstSize];
+
+  ZoneManager::createAbbreviation(dst, kDstSize, "P%T", 4, 'D');
+  assertEqual("PDT", dst);
+
+  ZoneManager::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
+  assertEqual("PST", dst);
+
+  ZoneManager::createAbbreviation(dst, kDstSize, "P%T", 0, '-');
+  assertEqual("PT", dst);
+
+  ZoneManager::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '-');
+  assertEqual("GMT", dst);
+
+  ZoneManager::createAbbreviation(dst, kDstSize, "GMT/BST", 4, '-');
+  assertEqual("BST", dst);
+
+  ZoneManager::createAbbreviation(dst, kDstSize, "P%T3456", 4, 'D');
+  assertEqual("PDT34", dst);
 }
 
 // --------------------------------------------------------------------------

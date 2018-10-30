@@ -12,7 +12,7 @@ static ZoneInfoEntry const kZoneInfoEntryLosAngeles[] = {
   {
     -32 /*offsetCode*/,
     &ZonePolicy::kUS /*zonePolicy*/,
-    "P%sT" /*format*/,
+    "P%T" /*format*/,
     255 /*untilYear*/,
   }
 };
@@ -32,7 +32,7 @@ static ZoneInfoEntry const kZoneInfoEntryToronto[] = {
   {
     -20 /*offsetCode*/,
     &ZonePolicy::kUS /*zonePolicy*/,
-    "E%sT" /*format*/,
+    "E%T" /*format*/,
     255 /*fromYear*/,
   }
 };
@@ -59,7 +59,7 @@ static ZoneInfoEntry const kZoneInfoEntryIndianapolis[] = {
   {
     -20 /*offsetCode*/,
     &ZonePolicy::kUS /*zonePolicy*/,
-    "E%sT" /*format*/,
+    "E%T" /*format*/,
     255 /*untilYear*/,
   },
 };
@@ -85,14 +85,14 @@ static ZoneInfoEntry const kZoneInfoEntryPetersburg[] = {
   {
     -24 /*offsetCode*/,
     &ZonePolicy::kUS /*zonePolicy*/,
-    "C%sT" /*format*/,
+    "C%T" /*format*/,
     7 /*untilYear*/,
   },
   // -5:00   US      E%sT
   {
     -20 /*offsetCode*/,
     &ZonePolicy::kUS /*zonePolicy*/,
-    "E%sT" /*format*/,
+    "E%T" /*format*/,
     255 /*untilYear*/,
   },
 };
@@ -132,7 +132,7 @@ static ZoneInfoEntry const kZoneInfoEntrySydney[] = {
   {
     40 /*offsetCode*/,
     &ZonePolicy::kAN /*zonePolicy*/,
-    "AE%St" /*format*/,
+    "AE%T" /*format*/,
     255 /*untilYear*/,
   }
 };

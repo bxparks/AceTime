@@ -7,6 +7,7 @@
 
 class ZoneManagerTest_init_2001;
 class ZoneManagerTest_init_2018;
+class ZoneManagerTest_createAbbreviation;
 
 namespace ace_time {
 
@@ -15,11 +16,15 @@ namespace ace_time {
  * Can be cached based on the year.
  */
 struct ZoneMatch {
+  // Longest abbreviation seems to be 5 characters.
+  // https://www.timeanddate.com/time/zones/
+  static const uint8_t kAbbrevSize = 5 + 1;
+
   const ZoneInfoEntry* entry;
   const ZoneRule* rule; // can be null
   uint32_t startEpochSeconds; // transition time of given rule
   int8_t offsetCode; // effective offsetCode at the start of zone period
-  // TODO: add abbreviation
+  char abbrev[kAbbrevSize]; // time zone abbreviation
 };
 
 /**
@@ -40,6 +45,7 @@ class ZoneManager {
   private:
     friend class ::ZoneManagerTest_init_2001;
     friend class ::ZoneManagerTest_init_2018;
+    friend class ::ZoneManagerTest_createAbbreviation;
 
     static const uint8_t kMaxCacheEntries = 5;
 
@@ -63,6 +69,7 @@ class ZoneManager {
         addLastYear();
         addCurrentYear();
         calcTransitions();
+        calcAbbreviations();
         mIsFilled = true;
       }
     }
@@ -84,7 +91,7 @@ class ZoneManager {
       // Some countries don't have a ZonePolicy, e.g. South Africa
       const ZonePolicy* const zonePolicy = entry->zonePolicy;
       if (zonePolicy == nullptr) {
-        mPreviousMatch = {entry, nullptr, 0, 0};
+        mPreviousMatch = {entry, nullptr, 0, 0, {0}};
         return;
       }
 
@@ -99,7 +106,7 @@ class ZoneManager {
           }
         }
       }
-      mPreviousMatch = {entry, latest, 0, 0};
+      mPreviousMatch = {entry, latest, 0, 0, {0}};
     }
 
     /** Add all matching rules from the current year. */
@@ -129,7 +136,7 @@ class ZoneManager {
       if (mNumMatches >= kMaxCacheEntries) return;
 
       // insert new element at the end of the list
-      mMatches[mNumMatches] = {entry, rule, 0, 0};
+      mMatches[mNumMatches] = {entry, rule, 0, 0, {0}};
       mNumMatches++;
 
       // perform an insertion sort
@@ -195,6 +202,67 @@ class ZoneManager {
 
         previousMatch = &match;
       }
+    }
+
+    /** Determine the time zone abbreviations. */
+    void calcAbbreviations() {
+      calcAbbreviation(&mPreviousMatch);
+      for (uint8_t i = 0; i < mNumMatches; i++) {
+        calcAbbreviation(&mMatches[i]);
+      }
+    }
+
+    static void calcAbbreviation(ZoneMatch* zoneMatch) {
+      createAbbreviation(zoneMatch->abbrev,
+          ZoneMatch::kAbbrevSize,
+          zoneMatch->entry->format,
+          zoneMatch->rule->deltaCode,
+          zoneMatch->rule->letter);
+    }
+
+    /**
+     * Create the time zone abbreviation in dest from the format string
+     * (e.g. "P%T", "E%T"), the time zone deltaCode (!= 0 means DST), and the
+     * replacement letter (e.g. 'S', 'D', or '-').
+     */
+    static void createAbbreviation(char* dest, uint8_t destSize,
+        const char* format, uint8_t deltaCode, char letter) {
+      if (strchr(format, '%') != nullptr) {
+        copyAndReplace(dest, destSize, format, '%', letter);
+      } else {
+        char* slashPos = strchr(format, '/');
+        if (slashPos != nullptr) {
+          if (deltaCode == 0) {
+            copyAndReplace(dest, destSize, format, '/', '\0');
+          } else {
+            memmove(dest, slashPos+1, strlen(slashPos+1) + 1);
+          }
+        }
+      }
+    }
+
+    static void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
+        char oldChar, char newChar) {
+      while (*src != '\0' && dstSize > 0) {
+        if (*src == oldChar) {
+          if (newChar == '-') {
+            src++;
+          } else {
+            *dst = newChar;
+            dst++;
+            src++;
+            dstSize--;
+          }
+        } else {
+          *dst++ = *src++;
+          dstSize--;
+        }
+      }
+
+      if (dstSize == 0) {
+        --dst;
+      }
+      *dst = '\0';
     }
 
     /** Search the cache and find closest ZoneMatch. */
