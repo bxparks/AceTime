@@ -216,7 +216,7 @@ class Presenter {
       int8_t sign;
       uint8_t hour;
       uint8_t minute;
-      zoneOffset.asHourMinute(sign, hour, minute);
+      zoneOffset.toHourMinute(sign, hour, minute);
 
       mOled.print(FF("12/24: "));
       if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
