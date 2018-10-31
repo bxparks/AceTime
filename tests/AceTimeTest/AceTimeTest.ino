@@ -20,7 +20,7 @@ test(OffsetDateTimeTest, accessors) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.zoneOffset().offsetCode());
+  assertEqual(0, dt.zoneOffset().toOffsetCode());
 }
 
 test(OffsetDateTimeTest, invalidSeconds) {
@@ -185,7 +185,7 @@ test(OffsetDateTimeTest, convertToZoneOffset) {
   assertEqual(5, b.hour());
   assertEqual(0, b.minute());
   assertEqual(0, b.second());
-  assertEqual(-28, b.zoneOffset().offsetCode());
+  assertEqual(-28, b.zoneOffset().toOffsetCode());
 }
 
 test(OffsetDateTimeTest, compareTo) {
@@ -311,7 +311,7 @@ test(OffsetDateTimeTest, forDateString) {
   assertEqual(13, dt.hour());
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
-  assertEqual(-28, dt.zoneOffset().offsetCode());
+  assertEqual(-28, dt.zoneOffset().toOffsetCode());
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 
   // parser does not care about most separators, this may change in the future
@@ -323,7 +323,7 @@ test(OffsetDateTimeTest, forDateString) {
   assertEqual(13, dt.hour());
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
-  assertEqual(28, dt.zoneOffset().offsetCode());
+  assertEqual(28, dt.zoneOffset().toOffsetCode());
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 }
 
@@ -422,35 +422,35 @@ test(TimePeriodTest, negate) {
 // ZoneOffset
 // --------------------------------------------------------------------------
 
-test(ZoneOffsetTest, asMinutesAsSeconds) {
+test(ZoneOffsetTest, forOffsetCode) {
   ZoneOffset offset = ZoneOffset::forOffsetCode(-1);
-  assertEqual((int16_t) -15, offset.asMinutes());
-  assertEqual((int32_t) -900, offset.asSeconds());
+  assertEqual((int16_t) -15, offset.toMinutes());
+  assertEqual((int32_t) -900, offset.toSeconds());
 
   offset = ZoneOffset::forOffsetCode(1);
-  assertEqual((int16_t) 15, offset.asMinutes());
-  assertEqual((int32_t) 900, offset.asSeconds());
+  assertEqual((int16_t) 15, offset.toMinutes());
+  assertEqual((int32_t) 900, offset.toSeconds());
 }
 
 test(ZoneOffsetTest, forHour) {
-  assertEqual(ZoneOffset::forHour(-8).offsetCode(), -32);
-  assertEqual(ZoneOffset::forHour(1).offsetCode(), 4);
+  assertEqual(ZoneOffset::forHour(-8).toOffsetCode(), -32);
+  assertEqual(ZoneOffset::forHour(1).toOffsetCode(), 4);
 }
 
 test(ZoneOffsetTest, forHourMinute) {
-  assertEqual(ZoneOffset::forHourMinute(-1, 8, 0).offsetCode(), -32);
-  assertEqual(ZoneOffset::forHourMinute(-1, 8, 15).offsetCode(), -33);
-  assertEqual(ZoneOffset::forHourMinute(1, 1, 0).offsetCode(), 4);
-  assertEqual(ZoneOffset::forHourMinute(1, 1, 15).offsetCode(), 5);
+  assertEqual(ZoneOffset::forHourMinute(-1, 8, 0).toOffsetCode(), -32);
+  assertEqual(ZoneOffset::forHourMinute(-1, 8, 15).toOffsetCode(), -33);
+  assertEqual(ZoneOffset::forHourMinute(1, 1, 0).toOffsetCode(), 4);
+  assertEqual(ZoneOffset::forHourMinute(1, 1, 15).toOffsetCode(), 5);
 }
 
 test(ZoneOffsetTest, forOffsetString) {
   assertTrue(ZoneOffset::forOffsetString("").isError());
-  assertEqual(ZoneOffset::forOffsetString("-07:00").offsetCode(), -28);
-  assertEqual(ZoneOffset::forOffsetString("-07:45").offsetCode(), -31);
-  assertEqual(ZoneOffset::forOffsetString("+01:00").offsetCode(), 4);
-  assertEqual(ZoneOffset::forOffsetString("+01:15").offsetCode(), 5);
-  assertEqual(ZoneOffset::forOffsetString("+01:16").offsetCode(), 5);
+  assertEqual(ZoneOffset::forOffsetString("-07:00").toOffsetCode(), -28);
+  assertEqual(ZoneOffset::forOffsetString("-07:45").toOffsetCode(), -31);
+  assertEqual(ZoneOffset::forOffsetString("+01:00").toOffsetCode(), 4);
+  assertEqual(ZoneOffset::forOffsetString("+01:15").toOffsetCode(), 5);
+  assertEqual(ZoneOffset::forOffsetString("+01:16").toOffsetCode(), 5);
 }
 
 test(ZoneOffsetTest, error) {
@@ -464,44 +464,44 @@ test(ZoneOffsetTest, error) {
 test(ZoneOffsetTest, incrementHour) {
   ZoneOffset offset = ZoneOffset::forOffsetCode(-1);
   offset.incrementHour();
-  assertEqual((int8_t) 3, offset.offsetCode());
+  assertEqual((int8_t) 3, offset.toOffsetCode());
 
   offset = ZoneOffset::forOffsetCode(63);
   offset.incrementHour();
-  assertEqual((int8_t) -61, offset.offsetCode());
+  assertEqual((int8_t) -61, offset.toOffsetCode());
 
   offset = ZoneOffset::forOffsetCode(60);
   offset.incrementHour();
-  assertEqual((int8_t) -64, offset.offsetCode());
+  assertEqual((int8_t) -64, offset.toOffsetCode());
 }
 
 test(ZoneOffsetTest, increment15Minutes) {
   ZoneOffset offset = ZoneOffset::forOffsetCode(3);
 
   offset.increment15Minutes();
-  assertEqual((int8_t) 0, offset.offsetCode());
+  assertEqual((int8_t) 0, offset.toOffsetCode());
 
   offset.increment15Minutes();
-  assertEqual((int8_t) 1, offset.offsetCode());
+  assertEqual((int8_t) 1, offset.toOffsetCode());
 
   offset.increment15Minutes();
-  assertEqual((int8_t) 2, offset.offsetCode());
+  assertEqual((int8_t) 2, offset.toOffsetCode());
 
   offset.increment15Minutes();
-  assertEqual((int8_t) 3, offset.offsetCode());
+  assertEqual((int8_t) 3, offset.toOffsetCode());
 
   offset = ZoneOffset::forOffsetCode(-4);
   offset.increment15Minutes();
-  assertEqual((int8_t) -5, offset.offsetCode());
+  assertEqual((int8_t) -5, offset.toOffsetCode());
 
   offset.increment15Minutes();
-  assertEqual((int8_t) -6, offset.offsetCode());
+  assertEqual((int8_t) -6, offset.toOffsetCode());
 
   offset.increment15Minutes();
-  assertEqual((int8_t) -7, offset.offsetCode());
+  assertEqual((int8_t) -7, offset.toOffsetCode());
 
   offset.increment15Minutes();
-  assertEqual((int8_t) -4, offset.offsetCode());
+  assertEqual((int8_t) -4, offset.toOffsetCode());
 }
 
 test(ZoneOffsetTest, convertOffsetCode) {
@@ -509,7 +509,7 @@ test(ZoneOffsetTest, convertOffsetCode) {
   int8_t sign;
   uint8_t hour;
   uint8_t minute;
-  zoneOffset.asHourMinute(sign, hour, minute);
+  zoneOffset.toHourMinute(sign, hour, minute);
   assertEqual(-1, sign);
   assertEqual(7, hour);
   assertEqual(15, minute);
@@ -522,8 +522,8 @@ test(ZoneOffsetTest, convertOffsetCode) {
 test(TimeZoneTest, dstOffset) {
   TimeZone pdt = TimeZone::forZoneOffset(ZoneOffset::forHour(-8)).isDst(true);
   assertTrue(pdt.isDst());
-  assertEqual(pdt.zoneOffset().offsetCode(), -32);
-  assertEqual(pdt.effectiveZoneOffset(0).offsetCode(), -28);
+  assertEqual(pdt.zoneOffset().toOffsetCode(), -32);
+  assertEqual(pdt.effectiveZoneOffset(0).toOffsetCode(), -28);
 }
 
 test(TimeZoneTest, setError) {

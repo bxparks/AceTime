@@ -81,20 +81,20 @@ class ZoneOffset {
      * Return the UTC offset as the number of 15 minute increments, excluding
      * DST shift.
      */
-    int8_t offsetCode() const { return mOffsetCode; }
+    int8_t toOffsetCode() const { return mOffsetCode; }
 
     /** Return the number of minutes offset from UTC. */
-    int16_t asMinutes() const {
+    int16_t toMinutes() const {
       return (int16_t) 15 * mOffsetCode;
     }
 
     /** Return the number of minutes offset from UTC. */
-    int32_t asSeconds() const {
-      return (int32_t) 60 * asMinutes();
+    int32_t toSeconds() const {
+      return (int32_t) 60 * toMinutes();
     }
 
     /** Extract hour and minute representation of the offset. */
-    void asHourMinute(int8_t& sign, uint8_t& hour, uint8_t& minute) const {
+    void toHourMinute(int8_t& sign, uint8_t& hour, uint8_t& minute) const {
       uint8_t code;
       if (mOffsetCode < 0) {
         sign = -1;

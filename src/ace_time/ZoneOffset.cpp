@@ -11,7 +11,7 @@ void ZoneOffset::printTo(Print& printer) const {
   int8_t sign;
   uint8_t hour;
   uint8_t minute;
-  asHourMinute(sign, hour, minute);
+  toHourMinute(sign, hour, minute);
 
   printer.print((sign < 0) ? '-' : '+');
   common::printPad2(printer, hour);

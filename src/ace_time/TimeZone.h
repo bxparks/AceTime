@@ -20,8 +20,7 @@ namespace ace_time {
  * TimeZone::forHour(-8). When the PST time goes into DST mode, setting the
  * isDst(true) causes the time zone object to return UTC offsets which includes
  * the DST shift. When the isDst flag is set, the "effective" UTC offset
- * returned by effectiveOffsetCode(), asEffectiveOffsetMinutes() and
- * asEffectiveOffsetSeconds() will include the DST shift.
+ * returned by effectiveZoneOffset() will include the DST shift.
  *
  * Here is the TimeZone object that represents Pacific Daylight Time:
  * @code
@@ -106,7 +105,7 @@ class TimeZone {
     /** Return the effective zone offset. */
     ZoneOffset effectiveZoneOffset(uint32_t /*epochSeconds*/) const {
       return ZoneOffset::forOffsetCode(
-					mZoneOffset.offsetCode() + (mIsDst ? 4 : 0));
+					mZoneOffset.toOffsetCode() + (mIsDst ? 4 : 0));
     }
 
     /**
@@ -158,8 +157,7 @@ class TimeZone {
 
     /**
      * Indicate whether Daylight Saving Time is in effect. If true, then
-     * asEffectiveOffsetMinutes() and asEffectiveOffsetSeconds() will be
-     * increased by 1h.
+     * effectiveZoneOffset() will increased by 1h.
      */
     bool mIsDst = false;
 };

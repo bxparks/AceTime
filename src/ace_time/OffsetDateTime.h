@@ -89,7 +89,7 @@ class OffsetDateTime {
      * 2136-02-07T06:28:14Z (one second before the uint32_t overflow).
      *
      * If ZoneOffset.offsetCode() is negative, then (epochSeconds >=
-     * ZoneOffset::asSeconds() must be true. Otherwise, the local time will be
+     * ZoneOffset::toSeconds() must be true. Otherwise, the local time will be
      * in the year 1999, which cannot be represented by the internal year
      * component which is a uint8_t offset from the year 2000.
      *
@@ -109,7 +109,7 @@ class OffsetDateTime {
 
       dt.mZoneOffset = zoneOffset;
 
-      epochSeconds += zoneOffset.asSeconds();
+      epochSeconds += zoneOffset.toSeconds();
       uint32_t epochDays = epochSeconds / 86400;
       dt.mLocalDate = LocalDate::forEpochDays(epochDays);
 
@@ -297,7 +297,7 @@ class OffsetDateTime {
       uint32_t epochDays = mLocalDate.toEpochDays();
 
       // Increment or decrement the day count depending on the offset zone.
-      int32_t utcOffset = mLocalTime.toSeconds() - mZoneOffset.asSeconds();
+      int32_t utcOffset = mLocalTime.toSeconds() - mZoneOffset.toSeconds();
       if (utcOffset >= 86400) return epochDays + 1;
       if (utcOffset < 0) return epochDays - 1;
       return epochDays;
@@ -319,7 +319,7 @@ class OffsetDateTime {
       }
 
       uint32_t epochDays = mLocalDate.toEpochDays();
-      int32_t utcOffset = mLocalTime.toSeconds() - mZoneOffset.asSeconds();
+      int32_t utcOffset = mLocalTime.toSeconds() - mZoneOffset.toSeconds();
       return epochDays * (uint32_t) 86400 + utcOffset;
     }
 

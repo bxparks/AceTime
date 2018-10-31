@@ -60,10 +60,10 @@ class DateTime {
     /**
      * Factory method. Create the DateTime from epochSeconds as seen from
      * the given time zone. If the time zone's offset is negative, then
-     * (epochSeconds >= TimeZone::asEffectiveOffsetSeconds() must be true.
-     * Otherwise, the local time will be in the year 1999, which cannot be
-     * represented by a 2-digit year beginning with the year 2000. The
-     * dayOfWeek will be calculated internally.
+     * (epochSeconds >= TimeZone::effectiveOffsetSeconds().toEpochSeconds())
+     * must be true. Otherwise, the local time will be in the year 1999, which
+     * cannot be represented by a 2-digit year beginning with the year 2000.
+     * The dayOfWeek will be calculated internally.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00Z). A 0 value is a sentinel is considered to be
