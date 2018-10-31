@@ -24,6 +24,66 @@ const ZoneInfo ZoneInfo::kLosAngeles = {
 };
 
 //---------------------------------------------------------------------------
+// America/Denver
+//---------------------------------------------------------------------------
+
+static ZoneInfoEntry const kZoneInfoEntryDenver[] = {
+  // -7:00   US      M%sT
+  {
+    -24 /*offsetCode*/,
+    &ZonePolicy::kUS /*zonePolicy*/,
+    "M%T" /*format*/,
+    255 /*untilYear*/,
+  }
+};
+
+const ZoneInfo ZoneInfo::kDenver = {
+  "America/Denver" /*name*/,
+  kZoneInfoEntryDenver /*entries*/,
+  sizeof(kZoneInfoEntryDenver)/sizeof(ZoneInfoEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// America/Chicago
+//---------------------------------------------------------------------------
+
+static ZoneInfoEntry const kZoneInfoEntryChicago[] = {
+  // -6:00   US      C%sT
+  {
+    -24 /*offsetCode*/,
+    &ZonePolicy::kUS /*zonePolicy*/,
+    "C%T" /*format*/,
+    255 /*untilYear*/,
+  }
+};
+
+const ZoneInfo ZoneInfo::kChicago = {
+  "America/Chicago" /*name*/,
+  kZoneInfoEntryChicago /*entries*/,
+  sizeof(kZoneInfoEntryChicago)/sizeof(ZoneInfoEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// America/New_York
+//---------------------------------------------------------------------------
+
+static ZoneInfoEntry const kZoneInfoEntryNewYork[] = {
+  // -5:00 US  E%sT
+  {
+    -20 /*offsetCode*/,
+    &ZonePolicy::kUS /*zonePolicy*/,
+    "E%T" /*format*/,
+    255 /*untilYear*/,
+  }
+};
+
+const ZoneInfo ZoneInfo::kNewYork = {
+  "America/New_York" /*name*/,
+  kZoneInfoEntryNewYork /*entries*/,
+  sizeof(kZoneInfoEntryNewYork)/sizeof(ZoneInfoEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
 // America/Toronto
 //---------------------------------------------------------------------------
 

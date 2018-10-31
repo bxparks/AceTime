@@ -31,6 +31,9 @@ struct ZoneInfoEntry {
 /** Data structure that represents a given time zone. */
 struct ZoneInfo {
   static ZoneInfo const kLosAngeles;
+  static ZoneInfo const kDenver;
+  static ZoneInfo const kChicago;
+  static ZoneInfo const kNewYork;
   static ZoneInfo const kToronto;
   static ZoneInfo const kPetersburg;
   static ZoneInfo const kIndianapolis;
