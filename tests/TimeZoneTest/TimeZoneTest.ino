@@ -93,68 +93,68 @@ test(ZoneManagerTest, init_2018) {
 test(ZoneManagerTest, getZoneOffset_Los_Angeles) {
   ZoneManager manager(&ZoneInfo::kLosAngeles);
   OffsetDateTime dt;
-  const ZoneMatch* match;
+  uint32_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(18, 3, 11, 1, 59, 59,
       ZoneOffset::forHour(-8));
-  match = manager.getZoneMatch(dt.toEpochSeconds());
-  assertEqual(-32, match->offsetCode);
-  assertEqual("PST", match->abbrev);
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-32, manager.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("PST", manager.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(18, 3, 11, 2, 0, 0,
       ZoneOffset::forHour(-8));
-  match = manager.getZoneMatch(dt.toEpochSeconds());
-  assertEqual(-28, match->offsetCode);
-  assertEqual("PDT", match->abbrev);
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-28, manager.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("PDT", manager.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(18, 11, 4, 1, 0, 0,
       ZoneOffset::forHour(-7));
-  match = manager.getZoneMatch(dt.toEpochSeconds());
-  assertEqual(-28, match->offsetCode);
-  assertEqual("PDT", match->abbrev);
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-28, manager.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("PDT", manager.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(18, 11, 4, 1, 59, 59,
       ZoneOffset::forHour(-7));
-  match = manager.getZoneMatch(dt.toEpochSeconds());
-  assertEqual(-28, match->offsetCode);
-  assertEqual("PDT", match->abbrev);
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-28, manager.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("PDT", manager.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(18, 11, 4, 2, 0, 0,
       ZoneOffset::forHour(-7));
-  match = manager.getZoneMatch(dt.toEpochSeconds());
-  assertEqual(-32, match->offsetCode);
-  assertEqual("PST", match->abbrev);
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-32, manager.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("PST", manager.getAbbrev(epochSeconds));
 }
 
 // https://www.timeanddate.com/time/zone/australia/sydney
 test(ZoneManagerTest, getZoneOffset_Sydney) {
   ZoneManager manager(&ZoneInfo::kSydney);
   OffsetDateTime dt;
-  const ZoneMatch* match;
+  uint32_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(7, 3, 25, 2, 59, 59,
       ZoneOffset::forHour(11));
-  match = manager.getZoneMatch(dt.toEpochSeconds());
-  assertEqual(44, match->offsetCode);
-  assertEqual("AEDT", match->abbrev);
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(44, manager.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("AEDT", manager.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(7, 3, 25, 3, 0, 0,
       ZoneOffset::forHour(11));
-  match = manager.getZoneMatch(dt.toEpochSeconds());
-  assertEqual(40, match->offsetCode);
-  assertEqual("AEST", match->abbrev);
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(40, manager.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("AEST", manager.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(7, 10, 28, 1, 59, 59,
       ZoneOffset::forHour(10));
-  match = manager.getZoneMatch(dt.toEpochSeconds());
-  assertEqual(40, match->offsetCode);
-  assertEqual("AEST", match->abbrev);
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(40, manager.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("AEST", manager.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(7, 10, 28, 2, 0, 0,
       ZoneOffset::forHour(10));
-  match = manager.getZoneMatch(dt.toEpochSeconds());
-  assertEqual(44, match->offsetCode);
-  assertEqual("AEDT", match->abbrev);
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(44, manager.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("AEDT", manager.getAbbrev(epochSeconds));
 }
 
 // https://www.timeanddate.com/time/zone/south-africa/johannesburg
@@ -162,18 +162,21 @@ test(ZoneManagerTest, getZoneOffset_Sydney) {
 test(ZoneManagerTest, getZoneOffset_Johannesburg) {
   ZoneManager manager(&ZoneInfo::kJohannesburg);
   OffsetDateTime dt;
-  const ZoneMatch* match;
+  uint32_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0,
       ZoneOffset::forHour(2));
-  match = manager.getZoneMatch(dt.toEpochSeconds());
-  assertEqual(8, match->offsetCode);
-  assertEqual("SAST", match->abbrev);
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(8, manager.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("SAST", manager.getAbbrev(epochSeconds));
 }
 
 test(ZoneManagerTest, createAbbreviation) {
   const uint8_t kDstSize = 6;
   char dst[kDstSize];
+
+  ZoneManager::createAbbreviation(dst, kDstSize, "SAST", 0, '\0');
+  assertEqual("SAST", dst);
 
   ZoneManager::createAbbreviation(dst, kDstSize, "P%T", 4, 'D');
   assertEqual("PDT", dst);
@@ -192,6 +195,72 @@ test(ZoneManagerTest, createAbbreviation) {
 
   ZoneManager::createAbbreviation(dst, kDstSize, "P%T3456", 4, 'D');
   assertEqual("PDT34", dst);
+}
+
+// --------------------------------------------------------------------------
+// TimeZone
+// --------------------------------------------------------------------------
+
+test(TimeZone, operatorEqualEqual) {
+  TimeZone tz1;
+  TimeZone tz2 = TimeZone::forZoneOffset(
+      ZoneOffset::forHour(-8), false, "PST");
+  TimeZone tz3 = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+
+  assertTrue(tz1 != tz2);
+  assertTrue(tz1 != tz3);
+  assertTrue(tz2 != tz3);
+
+  TimeZone tz4 = tz3;
+  assertTrue(tz4 == tz3);
+}
+
+test(FixedTimeZone, default) {
+  TimeZone tz;
+  assertEqual(TimeZone::kTypeFixed, tz.getType());
+  assertEqual(0, tz.getStandardZoneOffset().toOffsetCode());
+  assertEqual(false, tz.getStandardDst());
+  assertEqual("", tz.getStandardAbbrev());
+}
+
+test(FixedTimeZone, standardTime) {
+  TimeZone tz = TimeZone::forZoneOffset(
+      ZoneOffset::forHour(-8), false, "PST");
+  assertEqual(TimeZone::kTypeFixed, tz.getType());
+  assertEqual(-32, tz.getStandardZoneOffset().toOffsetCode());
+  assertEqual(false, tz.getStandardDst());
+  assertEqual("PST", tz.getStandardAbbrev());
+}
+
+test(FixedTimeZone, daylightTime) {
+  TimeZone tz = TimeZone::forZoneOffset(
+      ZoneOffset::forHour(-8), true, "PDT");
+  assertEqual(TimeZone::kTypeFixed, tz.getType());
+  assertEqual(-28, tz.getStandardZoneOffset().toOffsetCode());
+  assertEqual(true, tz.getStandardDst());
+  assertEqual("PDT", tz.getStandardAbbrev());
+}
+
+// TODO: add tests for forOffsetString()
+
+test(AutoTimeZone, LosAngeles) {
+  OffsetDateTime dt;
+  uint32_t epochSeconds;
+
+  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  assertEqual(TimeZone::kTypeAuto, tz.getType());
+
+  dt = OffsetDateTime::forComponents(18, 3, 11, 1, 59, 59,
+      ZoneOffset::forHour(-8));
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-32, tz.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("PST", tz.getAbbrev(epochSeconds));
+
+  dt = OffsetDateTime::forComponents(18, 3, 11, 2, 0, 0,
+      ZoneOffset::forHour(-8));
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-28, tz.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("PDT", tz.getAbbrev(epochSeconds));
 }
 
 // --------------------------------------------------------------------------

@@ -104,11 +104,11 @@ class OledPresenter: public Presenter {
 
     void displayTimeZone() const {
       const TimeZone& timeZone = mRenderingInfo.dateTime.timeZone();
-      const ZoneOffset& zoneOffset = timeZone.zoneOffset();
+      const ZoneOffset zoneOffset = timeZone.getStandardZoneOffset();
       int8_t sign;
       uint8_t hour;
       uint8_t minute;
-      zoneOffset.asHourMinute(sign, hour, minute);
+      zoneOffset.toHourMinute(sign, hour, minute);
 
       mOled.print("UTC");
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_HOUR)) {
@@ -126,7 +126,7 @@ class OledPresenter: public Presenter {
       mOled.println();
       mOled.print("DST: ");
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-        mOled.print(timeZone.isDst() ? "on " : "off");
+        mOled.print(timeZone.getStandardDst() ? "on " : "off");
       } else {
         mOled.print("   ");
       }

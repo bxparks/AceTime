@@ -1,6 +1,7 @@
 #ifndef ACE_TIME_ZONE_MANAGER_H
 #define ACE_TIME_ZONE_MANAGER_H
 
+#include <string.h> // strchr()
 #include <stdint.h>
 #include "ZoneOffset.h"
 #include "ZoneInfo.h"
@@ -20,8 +21,8 @@ struct ZoneMatch {
   // https://www.timeanddate.com/time/zones/
   static const uint8_t kAbbrevSize = 5 + 1;
 
-  const ZoneInfoEntry* entry;
-  const ZoneRule* rule; // can be null
+  const ZoneInfoEntry* entry; // NonNull
+  const ZoneRule* rule; // Nullable
   uint32_t startEpochSeconds; // transition time of given rule
   int8_t offsetCode; // effective offsetCode at the start of zone period
   char abbrev[kAbbrevSize]; // time zone abbreviation
@@ -32,14 +33,36 @@ struct ZoneMatch {
  */
 class ZoneManager {
   public:
+    /** Constructor */
     ZoneManager(const ZoneInfo* zoneInfo):
         mZoneInfo(zoneInfo) {}
 
-    /** Return the ZoneMatch at the given epochSeconds. */
-    const ZoneMatch* getZoneMatch(uint32_t epochSeconds) {
-      LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
-      init(ld);
-      return findMatch(epochSeconds);
+    /** Assignment operator. */
+    ZoneManager& operator=(const ZoneManager& that) {
+      mZoneInfo = that.mZoneInfo;
+      mIsFilled = false;
+      return *this;
+    }
+
+    /** Return the underlying ZoneInfo. */
+    const ZoneInfo* getZoneInfo() const { return mZoneInfo; }
+
+    /** Return if the time zone is observing DST. */
+    bool isDst(uint32_t epochSeconds) {
+      const ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
+      return zoneMatch->rule != nullptr && zoneMatch->rule->deltaCode != 0;
+    }
+
+    /** Return the current offset. */
+    ZoneOffset getZoneOffset(uint32_t epochSeconds) {
+      const ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
+      return ZoneOffset::forOffsetCode(zoneMatch->offsetCode);
+    }
+
+    /** Return the time zone abbreviation. */
+    const char* getAbbrev(uint32_t epochSeconds) {
+      const ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
+      return zoneMatch->abbrev;
     }
 
   private:
@@ -47,7 +70,14 @@ class ZoneManager {
     friend class ::ZoneManagerTest_init_2018;
     friend class ::ZoneManagerTest_createAbbreviation;
 
-    static const uint8_t kMaxCacheEntries = 5;
+    static const uint8_t kMaxCacheEntries = 4;
+
+    /** Return the ZoneMatch at the given epochSeconds. */
+    const ZoneMatch* getZoneMatch(uint32_t epochSeconds) {
+      LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
+      init(ld);
+      return findMatch(epochSeconds);
+    }
 
     /**
      * Initialize the zone rules cache, keyed by the "current" year.
@@ -75,7 +105,7 @@ class ZoneManager {
     }
 
     bool isFilled(uint8_t year) const {
-      return (year == mYear) && mIsFilled;
+      return mIsFilled && (year == mYear);
     }
 
     /**
@@ -213,20 +243,34 @@ class ZoneManager {
     }
 
     static void calcAbbreviation(ZoneMatch* zoneMatch) {
-      createAbbreviation(zoneMatch->abbrev,
+      createAbbreviation(
+          zoneMatch->abbrev,
           ZoneMatch::kAbbrevSize,
           zoneMatch->entry->format,
-          zoneMatch->rule->deltaCode,
-          zoneMatch->rule->letter);
+          zoneMatch->rule != nullptr ? zoneMatch->rule->deltaCode : 0,
+          zoneMatch->rule != nullptr ? zoneMatch->rule->letter : '\0');
     }
 
     /**
      * Create the time zone abbreviation in dest from the format string
      * (e.g. "P%T", "E%T"), the time zone deltaCode (!= 0 means DST), and the
      * replacement letter (e.g. 'S', 'D', or '-').
+     *
+     * @param dest destination string buffer
+     * @param destSize size of buffer
+     * @param format encoded abbreviation, '%' is a character substitution
+     * @param deltaCode the offsetCode (0 for standard, != 0 for DST)
+     * @param letter during standard or DST time ('S', 'D', '-' for no
+     *        substitution, or '\0' when zoneMatch.rule == nullptr)
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
         const char* format, uint8_t deltaCode, char letter) {
+      if (deltaCode == 0 && letter == '\0') {
+        strncpy(dest, format, destSize);
+        dest[destSize - 1] = '\0';
+        return;
+      }
+
       if (strchr(format, '%') != nullptr) {
         copyAndReplace(dest, destSize, format, '%', letter);
       } else {
@@ -237,6 +281,9 @@ class ZoneManager {
           } else {
             memmove(dest, slashPos+1, strlen(slashPos+1) + 1);
           }
+        } else {
+          strncpy(dest, format, destSize);
+          dest[destSize - 1] = '\0';
         }
       }
     }
@@ -277,7 +324,7 @@ class ZoneManager {
       return closestMatch;
     }
 
-    const ZoneInfo* const mZoneInfo;
+    const ZoneInfo* mZoneInfo;
 
     mutable uint8_t mYear = 0;
     mutable bool mIsFilled = false;

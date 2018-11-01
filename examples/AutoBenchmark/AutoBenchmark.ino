@@ -20,50 +20,65 @@ void setup() {
 
   // ace_time primitives
 
-  Serial.print("sizeof(LocalDate): ");
+  Serial.print(F("sizeof(LocalDate): "));
   Serial.println(sizeof(LocalDate));
 
-  Serial.print("sizeof(LocalTime): ");
+  Serial.print(F("sizeof(LocalTime): "));
   Serial.println(sizeof(LocalTime));
 
-  Serial.print("sizeof(ZoneOffset): ");
+  Serial.print(F("sizeof(ZoneOffset): "));
   Serial.println(sizeof(ZoneOffset));
 
-  Serial.print("sizeof(OffsetDateTime): ");
+  Serial.print(F("sizeof(ZoneInfo): "));
+  Serial.println(sizeof(ZoneInfo));
+
+  Serial.print(F("sizeof(ZoneInfoEntry): "));
+  Serial.println(sizeof(ZoneInfoEntry));
+
+  Serial.print(F("sizeof(ZoneRule): "));
+  Serial.println(sizeof(ZoneRule));
+
+  Serial.print(F("sizeof(ZoneMatch): "));
+  Serial.println(sizeof(ZoneMatch));
+
+  Serial.print(F("sizeof(ZoneManager): "));
+  Serial.println(sizeof(ZoneManager));
+
+  Serial.print(F("sizeof(OffsetDateTime): "));
   Serial.println(sizeof(OffsetDateTime));
 
-  Serial.print("sizeof(DateTime): ");
+  Serial.print(F("sizeof(DateTime): "));
   Serial.println(sizeof(DateTime));
 
-  Serial.print("sizeof(TimeZone): ");
+  Serial.print(F("sizeof(TimeZone): "));
   Serial.println(sizeof(TimeZone));
 
-  Serial.print("sizeof(TimePeriod): ");
+  Serial.print(F("sizeof(TimePeriod): "));
   Serial.println(sizeof(TimePeriod));
 
   // ace_time::provider classes
 
-  Serial.print("sizeof(SystemTimeKeeper): ");
+  Serial.print(F("sizeof(SystemTimeKeeper): "));
   Serial.println(sizeof(SystemTimeKeeper));
 
-  Serial.print("sizeof(DS3231TimeKeeper): ");
+  Serial.print(F("sizeof(DS3231TimeKeeper): "));
   Serial.println(sizeof(DS3231TimeKeeper));
 
 #if defined(ESP8266) || defined(ESP32)
-  Serial.print("sizeof(NtpTimeProvider): ");
+  Serial.print(F("sizeof(NtpTimeProvider): "));
   Serial.println(sizeof(NtpTimeProvider));
 #endif
 
-  Serial.print("sizeof(SystemTimeSyncLoop): ");
+  Serial.print(F("sizeof(SystemTimeSyncLoop): "));
   Serial.println(sizeof(SystemTimeSyncLoop));
 
-  Serial.print("sizeof(SystemTimeHeartbeatLoop): ");
+  Serial.print(F("sizeof(SystemTimeHeartbeatLoop): "));
   Serial.println(sizeof(SystemTimeHeartbeatLoop));
 
-  Serial.print("sizeof(SystemTimeSyncCoroutine): ");
+  Serial.print(F("sizeof(SystemTimeSyncCoroutine): "));
   Serial.println(sizeof(SystemTimeSyncCoroutine));
 
-  Serial.print("sizeof(SystemTimeHeartbeatCoroutine): ");
+  Serial.print(F("sizeof(SystemTimeHeartbeatCoroutine): "));
   Serial.println(sizeof(SystemTimeHeartbeatCoroutine));
 
   runBenchmarks();

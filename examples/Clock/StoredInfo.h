@@ -11,7 +11,9 @@ struct StoredInfo {
   /** 00:00:00 - 23:59:59 */
   static uint8_t const kTwentyFour = 1;
 
-  TimeZone timeZone;
+  uint8_t timeZoneType;
+  int8_t offsetCode;
+  bool isDst;
   uint8_t hourMode = kTwentyFour;
 };
 
