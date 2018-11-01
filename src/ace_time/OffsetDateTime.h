@@ -234,6 +234,12 @@ class OffsetDateTime {
       return mLocalDate.dayOfWeek();
     }
 
+    /** Return the LocalDate. */
+    const LocalDate& localDate() const { return mLocalDate; }
+
+    /** Return the LocalTime. */
+    const LocalTime& localTime() const { return mLocalTime; }
+
     /** Return the offset zone of the OffsetDateTime. */
     const ZoneOffset& zoneOffset() const { return mZoneOffset; }
 

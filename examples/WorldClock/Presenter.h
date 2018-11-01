@@ -212,7 +212,7 @@ class Presenter {
     void displayClockInfo() const {
       const ClockInfo& clockInfo = mRenderingInfo.clockInfo;
       const TimeZone& timeZone = clockInfo.timeZone;
-      const ZoneOffset& zoneOffset = timeZone.zoneOffset();
+      ZoneOffset zoneOffset = timeZone.getStandardZoneOffset();
       int8_t sign;
       uint8_t hour;
       uint8_t minute;
@@ -252,7 +252,7 @@ class Presenter {
       mOled.println();
       mOled.print(FF("DST: "));
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-        mOled.print(timeZone.isDst() ? "on " : "off");
+        mOled.print(timeZone.getStandardDst() ? "on " : "off");
       } else {
         mOled.print("   ");
       }

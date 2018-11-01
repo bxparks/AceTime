@@ -16,7 +16,7 @@ using namespace ace_time::provider;
  * Class responsible for rendering the RenderingInfo to the indicated display.
  * Different subclasses output to different types of displays. In an MVC
  * architecture, this would be the Controller. The Model would be the various
- * member variables in thic class. The View layer are the various Presenter
+ * member variables in this class. The View layer are the various Presenter
  * classes.
  */
 class Clock {
@@ -35,7 +35,8 @@ class Clock {
             Presenter& presenter):
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),
-        mPresenter(presenter) {}
+        mPresenter(presenter),
+        mTimeZone() {}
 
     void setup() {
       // Restore from EEPROM to retrieve time zone.
@@ -43,7 +44,8 @@ class Clock {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
       if (isValid) {
-        mTimeZone = storedInfo.timeZone;
+        mTimeZone = TimeZone::forZoneOffset(
+            ZoneOffset::forOffsetCode(storedInfo.offsetCode), storedInfo.isDst);
         mHourMode = storedInfo.hourMode;
       } else {
         mTimeZone = TimeZone::forZoneOffset(
@@ -170,7 +172,9 @@ class Clock {
 
     void preserveInfo() {
       StoredInfo storedInfo;
-      storedInfo.timeZone = mTimeZone;
+      storedInfo.timeZoneType = mTimeZone.getType();
+      storedInfo.offsetCode = mTimeZone.getStandardZoneOffset().toOffsetCode();
+      storedInfo.isDst = mTimeZone.getStandardDst();
       storedInfo.hourMode = mHourMode;
 
       mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,

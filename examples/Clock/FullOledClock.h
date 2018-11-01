@@ -125,16 +125,17 @@ class FullOledClock: public Clock {
 
         case MODE_CHANGE_TIME_ZONE_HOUR:
           mSuppressBlink = true;
-          mChangingDateTime.timeZone().zoneOffset().incrementHour();
+          mChangingDateTime.timeZone().getStandardZoneOffset().incrementHour();
           break;
         case MODE_CHANGE_TIME_ZONE_MINUTE:
           mSuppressBlink = true;
-          mChangingDateTime.timeZone().zoneOffset().increment15Minutes();
+          mChangingDateTime.timeZone().getStandardZoneOffset()
+              .increment15Minutes();
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
-          mChangingDateTime.timeZone().isDst(
-              !mChangingDateTime.timeZone().isDst());
+          mChangingDateTime.timeZone().setStandardDst(
+              !mChangingDateTime.timeZone().getStandardDst());
           break;
         case MODE_CHANGE_HOUR_MODE:
           mSuppressBlink = true;

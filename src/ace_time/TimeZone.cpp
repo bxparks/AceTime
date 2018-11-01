@@ -7,16 +7,21 @@ namespace ace_time {
 
 using common::printPad2;
 
+// TODO: write auto time zone
 void TimeZone::printTo(Print& printer) const {
   printer.print(F("UTC"));
   mZoneOffset.printTo(printer);
   printer.print(mIsDst ? F(" DST") : F(" STD"));
 }
 
-TimeZone& TimeZone::initFromOffsetString(const char* ts) {
+void TimeZone::parseFromOffsetString(const char* ts,
+    uint8_t* offsetCode, bool* isDst) {
+
   // verify exact ISO 8601 string length
-  if (strlen(ts) != kTimeZoneLength) {
-    return setError();
+  if (strlen(ts) != kTimeZoneStringLength) {
+    *offsetCode = ZoneOffset::kErrorCode;
+    *isDst = false;
+    return;
   }
 
   // '+' or '-'
@@ -27,7 +32,9 @@ TimeZone& TimeZone::initFromOffsetString(const char* ts) {
   } else if (utcSign == '+') {
     sign = 1;
   } else {
-    return setError();
+    *offsetCode = ZoneOffset::kErrorCode;
+    *isDst = false;
+    return;
   }
 
   // hour
@@ -41,8 +48,10 @@ TimeZone& TimeZone::initFromOffsetString(const char* ts) {
   uint8_t minute = (*ts++ - '0');
   minute = 10 * minute + (*ts++ - '0');
 
-  mZoneOffset = ZoneOffset::forHourMinute(sign, hour, minute);
-  return *this;
+  *offsetCode = ZoneOffset::forHourMinute(sign, hour, minute).toOffsetCode();
+
+  // TODO: parse the DST from the string
+  *isDst = false;
 }
 
 }

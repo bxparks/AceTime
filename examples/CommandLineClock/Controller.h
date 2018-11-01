@@ -25,12 +25,12 @@ class Controller {
 
     /** Set the time zone of the clock and preserve it. */
     void setTimeZone(const TimeZone& timeZone) {
-      mStoredInfo.timeZone = timeZone;
+      mTimeZone = timeZone;
       preserveInfo();
     }
 
     /** Return the current time zone. */
-    TimeZone getTimeZone() const { return mStoredInfo.timeZone; }
+    const TimeZone& getTimeZone() const { return mTimeZone; }
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
     /**
@@ -55,7 +55,7 @@ class Controller {
     /** Return the current time from the system time keeper. */
     DateTime getNow() const {
       return DateTime::forEpochSeconds(
-          mSystemTimeKeeper.getNow(), mStoredInfo.timeZone);
+          mSystemTimeKeeper.getNow(), mTimeZone);
     }
 
     /** Return true if the initial setup() retrieved a valid storedInfo. */
@@ -65,22 +65,26 @@ class Controller {
     const StoredInfo& getStoredInfo() const { return mStoredInfo; }
 
     /** Return DST mode. */
-    bool isDst() const { return mStoredInfo.timeZone.isDst(); }
+    bool isDst() const { return mTimeZone.getStandardDst(); }
 
     /** Set DST on or off */
     void setDst(bool status) {
-      mStoredInfo.timeZone.isDst(status);
+      mTimeZone.setStandardDst(status);
       preserveInfo();
     }
 
   private:
     uint16_t preserveInfo() {
       mIsStoredInfoValid = true;
+      mStoredInfo.timeZoneType = mTimeZone.getType();
+      mStoredInfo.offsetCode = mTimeZone.getStandardZoneOffset().toOffsetCode();
+      mStoredInfo.isDst = mTimeZone.getStandardDst();
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
 
     PersistentStore& mPersistentStore;
     TimeKeeper& mSystemTimeKeeper;
+    TimeZone mTimeZone;
 
     StoredInfo mStoredInfo;
     bool mIsStoredInfoValid = false;

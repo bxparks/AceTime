@@ -1,0 +1,40 @@
+#ifndef ACE_TIME_ZONE_RULE_H
+#define ACE_TIME_ZONE_RULE_H
+
+#include <stdint.h>
+#include "OffsetDateTime.h"
+
+namespace ace_time {
+
+/** A time zone transition rule. */
+struct ZoneRule {
+  uint8_t const fromYear; // 0 = 2000
+  uint8_t const toYear; // 255 = 2255
+  uint8_t const inMonth; // 1 - 12
+  uint8_t const onDayOfWeek; // 1=Monday, 7=Sunday, per ISO 8601
+  uint8_t const onDayOfMonth; // 1 - 31
+  uint8_t const atHour; // 0-23
+  uint8_t const atHourModifier; // 'w'=wall; 's'=standard; 'u'=g=z=meridian
+  int8_t const deltaCode; // 0 - 12, DST shift in 15-min increments
+  uint8_t const letter; // 'S', 'D', '-'
+
+};
+
+/**
+ * A collection of transition rules which describe the DST rules of a given
+ * administrative region. A given time zone (ZoneInfo) can follow a different
+ * ZonePolicy at different times. Conversely, multiple time zones (ZoneInfo)
+ * can choose to follow the same ZonePolicy at different times.
+ */
+struct ZonePolicy {
+  static const ZonePolicy kUS;
+  static const ZonePolicy kEU;
+  static const ZonePolicy kAN;
+
+  uint8_t const numRules;
+  const ZoneRule* const rules;
+};
+
+}
+
+#endif

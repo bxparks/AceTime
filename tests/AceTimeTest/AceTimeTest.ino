@@ -516,22 +516,6 @@ test(ZoneOffsetTest, convertOffsetCode) {
 }
 
 // --------------------------------------------------------------------------
-// TimeZone
-// --------------------------------------------------------------------------
-
-test(TimeZoneTest, dstOffset) {
-  TimeZone pdt = TimeZone::forZoneOffset(ZoneOffset::forHour(-8)).isDst(true);
-  assertTrue(pdt.isDst());
-  assertEqual(pdt.zoneOffset().toOffsetCode(), -32);
-  assertEqual(pdt.effectiveZoneOffset(0).toOffsetCode(), -28);
-}
-
-test(TimeZoneTest, setError) {
-  TimeZone error = TimeZone::forZoneOffset(ZoneOffset::forHour(-8)).setError();
-  assertTrue(error.isError());
-}
-
-// --------------------------------------------------------------------------
 // DateStrings
 // --------------------------------------------------------------------------
 

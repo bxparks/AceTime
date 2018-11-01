@@ -3,168 +3,163 @@
 
 #include <stdint.h>
 #include "ZoneOffset.h"
+#include "ZoneInfo.h"
+#include "ZoneManager.h"
 
 class Print;
 
 namespace ace_time {
 
 /**
- * A thin object wrapper around an integer (int8_t) time zone code which
- * represents the time offset from UTC in 15 minute increments, and a daylight
- * saving time flag (bool) that indicates whether the time zone is currently in
- * DST mode.
- *
- * For example, Pacific Standard Time is UTC-08:00, which is encoded
- * internally as an offset code of -32 and the TimeZone object can be created
- * using the constructor TimeZone(-32) or the factory method
- * TimeZone::forHour(-8). When the PST time goes into DST mode, setting the
- * isDst(true) causes the time zone object to return UTC offsets which includes
- * the DST shift. When the isDst flag is set, the "effective" UTC offset
- * returned by effectiveZoneOffset() will include the DST shift.
- *
- * Here is the TimeZone object that represents Pacific Daylight Time:
- * @code
- * TimeZone tz = TimeZone::forZoneOffset(ZoneOffset::forHour(-8)).isDst(true);
- * int16_t minutes = tz.asEffectiveOffsetMinutes();
- * @endcode
- *
- * According to https://en.wikipedia.org/wiki/List_of_UTC_time_offsets, all
- * time zones currently in use occur at 15 minute boundaries, and the smallest
- * time zone is UTC-12:00 and the biggest time zone is UTC+14:00. Therefore,
- * we can encode all currently used time zones as integer multiples of
- * 15-minute offsets from UTC. Some locations may observe daylight saving time,
- * so the actual range of the offset in practice may be UTC-12:00 to UTC+15:00.
- *
- * This class does NOT know about the "tz database" (aka Olson database)
- * https://en.wikipedia.org/wiki/Tz_database. Therefore, it does not know about
- * symbolic time zones (e.g. "America/Los_Angeles"). It also does not know
- * about when daylight saving time (DST) starts and ends for specific time
- * zones.
+ * Class that describes a time zone. There are 2 subtypes:
+ * kTypeFixed represents a fixed offset from UTC, with an optional DST flag.
+ * kTypeAuto represents a time zone described by the TZ Database which
+ * contains rules about when the transition occurs from standard to DST modes.
  */
 class TimeZone {
   public:
+    static const uint8_t kTypeFixed = 0;
+    static const uint8_t kTypeAuto = 1;
+
     /** Factory method. Create from ZoneOffset. */
-    static TimeZone forZoneOffset(const ZoneOffset& zoneOffset) {
-      return TimeZone(zoneOffset);
+    static TimeZone forZoneOffset(ZoneOffset zoneOffset,
+        bool isDst = false, const char* abbrev = nullptr) {
+      return TimeZone(zoneOffset, isDst, abbrev);
     }
 
-    /** Factory method. Create from hour offset. */
-    static TimeZone forHour(int8_t hour) {
-      return TimeZone::forZoneOffset(ZoneOffset::forHour(hour));
-    }
-
-    /** Factory method. Create from hour/minute offset. */
-    static TimeZone forHourMinute(int8_t sign, uint8_t hour, uint8_t minute) {
+    /** Factory method. Create from time zone string. */
+    static TimeZone forOffsetString(const char* ts) {
+      uint8_t offsetCode;
+      bool isDst;
+      // TODO: write better time zone parser
+      parseFromOffsetString(ts, &offsetCode, &isDst);
       return TimeZone::forZoneOffset(
-          ZoneOffset::forHourMinute(sign, hour, minute));
+          ZoneOffset::forOffsetCode(offsetCode), isDst);
     }
 
-    /**
-     * Constructor. Create a time zone corresponding to UTC with no offset.
-     */
-    explicit TimeZone() {}
+    /** Factory method. Create from ZoneInfo. */
+    static TimeZone forZone(const ZoneInfo* zoneInfo) {
+      return TimeZone(zoneInfo);
+    }
 
-    /** Return the ZoneOffset. */
-    const ZoneOffset& zoneOffset() const { return mZoneOffset; }
+    /** Default constructor. */
+    TimeZone():
+        mType(kTypeFixed),
+        mZoneOffset(),
+        mIsDst(false),
+        mAbbrev(nullptr),
+        mZoneManager(nullptr) {}
 
-    /** Return the ZoneOffset. */
-    ZoneOffset& zoneOffset() { return mZoneOffset; }
+    /** Return the type of TimeZone. */
+    uint8_t getType() const { return mType; }
 
     /** Return the DST mode setting. */
-    bool isDst() const { return mIsDst; }
-
-    /**
-     * Set the current DST mode. Returns the reference to 'this' pointer, which
-     * allows chaining to set the DST flag when creating this object. For
-     * example, to create a time zone for Pacific Daylight Time, you can write:
-     * @code
-     * TimeZone tz = TimeZone::forZoneOffset(ZoneOffset::forHour(-8))
-     *      .isDst(true);
-     * @endcode
-     */
-    TimeZone& isDst(bool isDst) {
-      mIsDst = isDst;
-      return *this;
-    }
-
-    /**
-     * Mark the TimeZone so that isError() returns true. An invalid TimeZone can
-     * be returned using 'return TimeZone().setError()'. The compiler will
-     * optimize away all the apparent method calls.
-     */
-    TimeZone& setError() {
-      mZoneOffset.setError();
-      return *this;
-    }
-
-    /** Return true if this TimeZone represents an error. */
-    bool isError() const {
-      return mZoneOffset.isError();
+    bool isDst(uint32_t epochSeconds) const {
+      if (mType == kTypeFixed) {
+        return mIsDst;
+      } else {
+        return mZoneManager.isDst(epochSeconds);
+      }
     }
 
     /** Return the effective zone offset. */
-    ZoneOffset effectiveZoneOffset(uint32_t /*epochSeconds*/) const {
-      return ZoneOffset::forOffsetCode(
-					mZoneOffset.toOffsetCode() + (mIsDst ? 4 : 0));
+    ZoneOffset getZoneOffset(uint32_t epochSeconds) const {
+      if (mType == kTypeFixed) {
+        return ZoneOffset::forOffsetCode(
+            mZoneOffset.toOffsetCode() + (mIsDst ? 4 : 0));
+      } else {
+        return mZoneManager.getZoneOffset(epochSeconds);
+      }
     }
 
-    /**
-     * Print the human readable representation of the time zone as offset from
-     * UTC, with an indicator of the current DST mode. The printed UTC offset
-     * is the standard (i.e. base) UTC offset of the time zone, not the UTC
-     * offset that includes the DST shift. In other words, a time zone of
-     * UTC-08:00 whose DST is enabled (i.e. Pacific Daylight Time) is printed
-     * as "UTC-08:00 DST", instead of "UTC-07:00 DST".
-     *
-     * In some ways, displaying the Standard UTC offset could be confusing
-     * because the actual UTC offset used for DateTime calculations is not what
-     * is displayed. On the other hand, displaying the effective UTC offset
-     * causes confusion in other ways, for example, when the user is prompted
-     * to set their current time zone, because it is not clear if the DST flag
-     * describes the UTC offset that they just entered, or whether it shifts
-     * the UTC offset that they just entered.
-     *
-     * Use effectiveZoneOffset().printTo() to print the UTC offset that includes
-     * the DST shift.
-     */
+    /** Return the abbreviation of the time zone. */
+    const char* getAbbrev(uint32_t epochSeconds) const {
+      if (mType == kTypeFixed) {
+        return mAbbrev == nullptr ? "" : mAbbrev;
+      } else {
+        return mZoneManager.getAbbrev(epochSeconds);
+      }
+    }
+
+    /** Return the standard offset without regards to the DST setting. */
+    const ZoneOffset& getStandardZoneOffset() const { return mZoneOffset; }
+
+    /** Return the standard offset without regards to the DST setting. */
+    ZoneOffset& getStandardZoneOffset() { return mZoneOffset; }
+
+    /** Set the standdardoffset. */
+    void setStandardZoneOffset(ZoneOffset zoneOffset) {
+      mZoneOffset = zoneOffset;
+    }
+
+    /** Return the standard isDst flag. */
+    bool getStandardDst() const { return mIsDst; }
+
+    /** Set the standard isDst flag. */
+    void setStandardDst(bool isDst) { mIsDst = isDst; }
+
+    /** Return the standard abbreviation. */
+    const char* getStandardAbbrev() const { return mAbbrev; }
+
+    /** Set the standard abbreviation. */
+    void setStandardAbbrev(const char* abbrev) { mAbbrev = abbrev; }
+
+    /** Print the human readable representation of the time zone. */
     void printTo(Print& printer) const;
 
   private:
-    /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
-    static const uint8_t kTimeZoneLength = 6;
-
     friend bool operator==(const TimeZone& a, const TimeZone& b);
     friend bool operator!=(const TimeZone& a, const TimeZone& b);
 
-    /** Constructor. */
-    explicit TimeZone(const ZoneOffset& zoneOffset):
-        mZoneOffset(zoneOffset) {}
+    /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
+    static const uint8_t kTimeZoneStringLength = 6;
+
+    /** Constructor for kTypeFixed. */
+    explicit TimeZone(ZoneOffset zoneOffset, bool isDst, const char* abbrev):
+        mType(kTypeFixed),
+        mZoneOffset(zoneOffset),
+        mIsDst(isDst),
+        mAbbrev(abbrev),
+        mZoneManager(nullptr) {}
+
+    /** Constructor for kTypeAuto. */
+    explicit TimeZone(const ZoneInfo* zoneInfo):
+        mType(kTypeAuto),
+        mZoneOffset(),
+        mIsDst(false),
+        mAbbrev(nullptr),
+        mZoneManager(zoneInfo) {}
 
     /** Set time zone from the given UTC offset string. */
-    TimeZone& initFromOffsetString(const char* offsetString);
+    static void parseFromOffsetString(const char* offsetString,
+        uint8_t* offsetCode, bool* isDst);
 
-    /**
-     * Time zone code, offset from UTC in 15 minute increments from UTC. In
-     * theory, the code can range from [-128, 127]. But the value of -128 is
-     * used to represent an internal error, causing isError() to return true
-     * so the valid range is [-127, 127].
-     *
-     * The actual range of time zones used in real life values are expected to
-     * be smaller, probably smaller than the range of [-64, 63], i.e. [-16:00,
-     * +15:45].
-     */
+    /** Type of time zone. */
+    uint8_t mType;
+
+    /** Offset from UTC. */
     ZoneOffset mZoneOffset;
 
-    /**
-     * Indicate whether Daylight Saving Time is in effect. If true, then
-     * effectiveZoneOffset() will increased by 1h.
-     */
-    bool mIsDst = false;
+    /** Indicate whether Daylight Saving Time is in effect. */
+    bool mIsDst;
+
+    /** Time zone abbreviation, e.g. "PDT". Nullable. */
+    const char* mAbbrev;
+
+    /** Manager of the time zone rules for the given ZoneInfo. */
+    mutable ZoneManager mZoneManager;
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
-  return a.mZoneOffset == b.mZoneOffset
-      && a.mIsDst == b.mIsDst;
+  if (a.mType != b.mType) return false;
+
+  if (a.mType == TimeZone::kTypeFixed) {
+    return a.mZoneOffset == b.mZoneOffset
+        && a.mIsDst == b.mIsDst
+        && a.mAbbrev == b.mAbbrev;
+  } else {
+    return a.mZoneManager.getZoneInfo() == b.mZoneManager.getZoneInfo();
+  }
 }
 
 inline bool operator!=(const TimeZone& a, const TimeZone& b) {

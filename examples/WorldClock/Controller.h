@@ -50,15 +50,18 @@ class Controller {
       } else {
         strncpy(mClockInfo0.name, "SFO - PDT", ClockInfo::kNameSize);
         mClockInfo0.name[ClockInfo::kNameSize - 1] = '\0';
-        mClockInfo0.timeZone = TimeZone::forHour(-8).isDst(true);
+        mClockInfo0.timeZone = TimeZone::forZoneOffset(
+            ZoneOffset::forOffsetCode(-8), true);
 
         strncpy(mClockInfo1.name, "PHL - EDT", ClockInfo::kNameSize);
         mClockInfo1.name[ClockInfo::kNameSize - 1] = '\0';
-        mClockInfo1.timeZone = TimeZone::forHour(-5).isDst(true);
+        mClockInfo1.timeZone = TimeZone::forZoneOffset(
+            ZoneOffset::forOffsetCode(-5), true);
 
         strncpy(mClockInfo2.name, "LHR - BST", ClockInfo::kNameSize);
         mClockInfo2.name[ClockInfo::kNameSize - 1] = '\0';
-        mClockInfo2.timeZone = TimeZone::forHour(0).isDst(true);
+        mClockInfo2.timeZone = TimeZone::forZoneOffset(
+            ZoneOffset::forOffsetCode(0), true);
 
         preserveInfo();
       }
@@ -199,16 +202,17 @@ class Controller {
           break;
         case MODE_CHANGE_TIME_ZONE_HOUR:
           mSuppressBlink = true;
-          mChangingClockInfo.timeZone.zoneOffset().incrementHour();
+          mChangingClockInfo.timeZone.getStandardZoneOffset().incrementHour();
           break;
         case MODE_CHANGE_TIME_ZONE_MINUTE:
           mSuppressBlink = true;
-          mChangingClockInfo.timeZone.zoneOffset().increment15Minutes();
+          mChangingClockInfo.timeZone.getStandardZoneOffset()
+              .increment15Minutes();
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
-          mChangingClockInfo.timeZone.isDst(
-              !mChangingClockInfo.timeZone.isDst());
+          mChangingClockInfo.timeZone.setStandardDst(
+              !mChangingClockInfo.timeZone.getStandardDst());
           break;
       }
 
@@ -317,11 +321,13 @@ class Controller {
 
       mClockInfo1.hourMode = mChangingClockInfo.hourMode;
       mClockInfo1.blinkingColon = mChangingClockInfo.blinkingColon;
-      mClockInfo1.timeZone.isDst(mChangingClockInfo.timeZone.isDst());
+      mClockInfo1.timeZone.setStandardDst(
+          mChangingClockInfo.timeZone.getStandardDst());
 
       mClockInfo2.hourMode = mChangingClockInfo.hourMode;
       mClockInfo2.blinkingColon = mChangingClockInfo.blinkingColon;
-      mClockInfo2.timeZone.isDst(mChangingClockInfo.timeZone.isDst());
+      mClockInfo2.timeZone.setStandardDst(
+          mChangingClockInfo.timeZone.getStandardDst());
 
       preserveInfo();
     }

@@ -34,6 +34,9 @@ namespace ace_time {
  */
 class DateTime {
   public:
+    static const uint32_t kInvalidEpochSeconds =
+        OffsetDateTime::kInvalidEpochSeconds;
+
     /**
      * Factory method using separated date, time, and time zone fields. The
      * dayOfWeek will be lazily calculated.
@@ -44,14 +47,14 @@ class DateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param timeZone Optional. Default is UTC time zone.
+     * @param timeZone pointer to an existing TimeZone instance
      */
     static DateTime forComponents(uint8_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             TimeZone timeZone = TimeZone()) {
 
       // TODO: Fix calculation of zoneOffset using real epochSeconds.
-      ZoneOffset zoneOffset = timeZone.effectiveZoneOffset(0);
+      ZoneOffset zoneOffset = timeZone.getZoneOffset(0);
       OffsetDateTime dt = OffsetDateTime::forComponents(
           year, month, day, hour, minute, second, zoneOffset);
       return DateTime(dt, timeZone);
@@ -66,18 +69,18 @@ class DateTime {
      * The dayOfWeek will be calculated internally.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00Z). A 0 value is a sentinel is considered to be
-     *    an error and causes isError() to return true.
+     *    (2000-01-01 00:00:00Z). A value of kInvalidEpochSeconds is a sentinel
+     *    is considered to be an error and causes isError() to return true.
      * @param timeZone Optional. Default is UTC time zone.
      */
     static DateTime forEpochSeconds(uint32_t epochSeconds,
-              TimeZone timeZone = TimeZone()) {
+        TimeZone timeZone = TimeZone()) {
       DateTime dt;
-      if (epochSeconds == 0) {
+      if (epochSeconds == kInvalidEpochSeconds) {
         return dt.setError();
       }
 
-      ZoneOffset zoneOffset = timeZone.effectiveZoneOffset(epochSeconds);
+      ZoneOffset zoneOffset = timeZone.getZoneOffset(epochSeconds);
       dt.mOffsetDateTime = OffsetDateTime::forEpochSeconds(
           epochSeconds, zoneOffset);
       dt.mTimeZone = timeZone;
@@ -100,8 +103,8 @@ class DateTime {
      */
     static DateTime forDateString(const char* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
-      TimeZone tz = TimeZone::forZoneOffset(dt.zoneOffset());
-      return DateTime(dt, tz);
+      // TODO: fix time zone
+      return DateTime(dt);
     }
 
     /**
@@ -110,8 +113,8 @@ class DateTime {
      */
     static DateTime forDateString(const __FlashStringHelper* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
-      TimeZone tz = TimeZone::forZoneOffset(dt.zoneOffset());
-      return DateTime(dt, tz);
+      // TODO: fix time zone
+      return DateTime(dt);
     }
 
     /** Default constructor. */
@@ -186,10 +189,7 @@ class DateTime {
     TimeZone& timeZone() { return mTimeZone; }
 
     /** Set the time zone. */
-    void timeZone(const TimeZone& timeZone) {
-      // Does not affect dayOfWeek.
-      mTimeZone = timeZone;
-    }
+    void timeZone(TimeZone timeZone) { mTimeZone = timeZone; }
 
     /**
      * Create a DateTime in a different time zone code (with the same
@@ -280,12 +280,12 @@ class DateTime {
     DateTime& initFromDateString(const char* dateString);
 
     /** Constructor. From OffsetDateTime and TimeZone. */
-    DateTime(const OffsetDateTime& offsetDateTime, TimeZone tz):
+    DateTime(const OffsetDateTime& offsetDateTime, TimeZone tz = TimeZone()):
       mOffsetDateTime(offsetDateTime),
       mTimeZone(tz) {}
 
     OffsetDateTime mOffsetDateTime;
-    TimeZone mTimeZone; // offset from UTC in 15 minute increments
+    TimeZone mTimeZone;
 };
 
 /**

@@ -8,7 +8,9 @@
 struct StoredInfo {
 
   /** Time zone of the displayed time */
-  ace_time::TimeZone timeZone;
+  uint8_t timeZoneType;
+  int8_t offsetCode;
+  bool isDst;
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   static const uint8_t kSsidMaxLength = 33; // 32 + NUL terminator

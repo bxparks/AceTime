@@ -39,6 +39,9 @@ namespace ace_time {
  */
 class ZoneOffset {
   public:
+    /** Sentinel value that represents an error. */
+    static const int8_t kErrorCode = -128;
+
     /**
      * Create ZoneOffset from the offset code.
      *
@@ -135,6 +138,7 @@ class ZoneOffset {
      * ZoneOffset can be returned using 'return ZoneOffset().setError()'. The
      * compiler will optimize away all the apparent method calls.
      */
+    // TODO: convert this into an immutable object?
     ZoneOffset& setError() {
       mOffsetCode = kErrorCode;
       return *this;
@@ -152,9 +156,6 @@ class ZoneOffset {
     void printTo(Print& printer) const;
 
   private:
-    /** Sentinel value that represents an error. */
-    static const int8_t kErrorCode = -128;
-
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
     static const uint8_t kTimeZoneLength = 6;
 
