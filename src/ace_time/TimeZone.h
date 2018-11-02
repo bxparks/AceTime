@@ -21,10 +21,18 @@ class TimeZone {
     static const uint8_t kTypeFixed = 0;
     static const uint8_t kTypeAuto = 1;
 
-    /** Factory method. Create from ZoneOffset. */
+    /**
+     * Factory method. Create from ZoneOffset.
+     *
+     * @param zoneOffset offset from UTC
+     * @param isDst true if DST is in effect
+     * @param stdAbbrev abbreviation during standard time (e.g. "PST")
+     * @param dstAbbrev abbreviation during DST time (e.g. "PDT")
+     */
     static TimeZone forZoneOffset(ZoneOffset zoneOffset,
-        bool isDst = false, const char* abbrev = nullptr) {
-      return TimeZone(zoneOffset, isDst, abbrev);
+        bool isDst = false, const char* stdAbbrev = nullptr,
+        const char* dstAbbrev = nullptr) {
+      return TimeZone(zoneOffset, isDst, stdAbbrev, dstAbbrev);
     }
 
     /** Factory method. Create from time zone string. */
@@ -47,7 +55,8 @@ class TimeZone {
         mType(kTypeFixed),
         mZoneOffset(),
         mIsDst(false),
-        mAbbrev(nullptr),
+        mStdAbbrev(nullptr),
+        mDstAbbrev(nullptr),
         mZoneManager(nullptr) {}
 
     /** Return the type of TimeZone. */
@@ -65,8 +74,7 @@ class TimeZone {
     /** Return the effective zone offset. */
     ZoneOffset getZoneOffset(uint32_t epochSeconds) const {
       if (mType == kTypeFixed) {
-        return ZoneOffset::forOffsetCode(
-            mZoneOffset.toOffsetCode() + (mIsDst ? 4 : 0));
+        return getZoneOffset();
       } else {
         return mZoneManager.getZoneOffset(epochSeconds);
       }
@@ -75,34 +83,49 @@ class TimeZone {
     /** Return the abbreviation of the time zone. */
     const char* getAbbrev(uint32_t epochSeconds) const {
       if (mType == kTypeFixed) {
-        return mAbbrev == nullptr ? "" : mAbbrev;
+        return getAbbrev();
       } else {
         return mZoneManager.getAbbrev(epochSeconds);
       }
     }
 
-    /** Return the standard offset without regards to the DST setting. */
-    const ZoneOffset& getStandardZoneOffset() const { return mZoneOffset; }
+    /** Return the base offset without regards to the DST setting. */
+    const ZoneOffset& getBaseZoneOffset() const { return mZoneOffset; }
 
-    /** Return the standard offset without regards to the DST setting. */
-    ZoneOffset& getStandardZoneOffset() { return mZoneOffset; }
+    /** Return the base offset without regards to the DST setting. */
+    ZoneOffset& getBaseZoneOffset() { return mZoneOffset; }
 
-    /** Set the standdardoffset. */
-    void setStandardZoneOffset(ZoneOffset zoneOffset) {
+    /** Set the base offset without regards to the DST setting. */
+    void setBaseZoneOffset(ZoneOffset zoneOffset) {
       mZoneOffset = zoneOffset;
     }
 
-    /** Return the standard isDst flag. */
-    bool getStandardDst() const { return mIsDst; }
+    /** Return the base isDst flag. */
+    bool getBaseDst() const { return mIsDst; }
 
-    /** Set the standard isDst flag. */
-    void setStandardDst(bool isDst) { mIsDst = isDst; }
+    /** Set the base isDst flag. */
+    void setBaseDst(bool isDst) { mIsDst = isDst; }
 
-    /** Return the standard abbreviation. */
-    const char* getStandardAbbrev() const { return mAbbrev; }
+    /** Return the standard abbreviation. Nullable. */
+    const char* getStdAbbrev() const { return mStdAbbrev; }
 
-    /** Set the standard abbreviation. */
-    void setStandardAbbrev(const char* abbrev) { mAbbrev = abbrev; }
+    /** Return the DST abbreviation. Nullable. */
+    const char* getDstAbbrev() const { return mDstAbbrev; }
+
+    /**
+     * Return the abbreviation depending on the isDst flag.
+     * Return empty string if nullptr.
+     */
+    const char* getAbbrev() const {
+      const char* abbrev = mIsDst ? mDstAbbrev : mStdAbbrev;
+      return (abbrev == nullptr) ? "" : abbrev;
+    }
+
+    /** Return the effective zone offset for kTypeFixed. */
+    ZoneOffset getZoneOffset() const {
+      return ZoneOffset::forOffsetCode(
+          mZoneOffset.toOffsetCode() + (mIsDst ? 4 : 0));
+    }
 
     /** Print the human readable representation of the time zone. */
     void printTo(Print& printer) const;
@@ -115,11 +138,13 @@ class TimeZone {
     static const uint8_t kTimeZoneStringLength = 6;
 
     /** Constructor for kTypeFixed. */
-    explicit TimeZone(ZoneOffset zoneOffset, bool isDst, const char* abbrev):
+    explicit TimeZone(ZoneOffset zoneOffset, bool isDst,
+            const char* stdAbbrev, const char* dstAbbrev):
         mType(kTypeFixed),
         mZoneOffset(zoneOffset),
         mIsDst(isDst),
-        mAbbrev(abbrev),
+        mStdAbbrev(stdAbbrev),
+        mDstAbbrev(dstAbbrev),
         mZoneManager(nullptr) {}
 
     /** Constructor for kTypeAuto. */
@@ -127,7 +152,8 @@ class TimeZone {
         mType(kTypeAuto),
         mZoneOffset(),
         mIsDst(false),
-        mAbbrev(nullptr),
+        mStdAbbrev(nullptr),
+        mDstAbbrev(nullptr),
         mZoneManager(zoneInfo) {}
 
     /** Set time zone from the given UTC offset string. */
@@ -143,8 +169,11 @@ class TimeZone {
     /** Indicate whether Daylight Saving Time is in effect. */
     bool mIsDst;
 
-    /** Time zone abbreviation, e.g. "PDT". Nullable. */
-    const char* mAbbrev;
+    /** Time zone abbreviation for standard time, e.g. "PST". Nullable. */
+    const char* mStdAbbrev;
+
+    /** Time zone abbreviation for daylight time, e.g. "PDT". Nullable. */
+    const char* mDstAbbrev;
 
     /** Manager of the time zone rules for the given ZoneInfo. */
     mutable ZoneManager mZoneManager;
@@ -156,7 +185,8 @@ inline bool operator==(const TimeZone& a, const TimeZone& b) {
   if (a.mType == TimeZone::kTypeFixed) {
     return a.mZoneOffset == b.mZoneOffset
         && a.mIsDst == b.mIsDst
-        && a.mAbbrev == b.mAbbrev;
+        && a.mStdAbbrev == b.mStdAbbrev
+        && a.mDstAbbrev == b.mDstAbbrev;
   } else {
     return a.mZoneManager.getZoneInfo() == b.mZoneManager.getZoneInfo();
   }

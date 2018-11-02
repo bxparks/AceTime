@@ -65,11 +65,11 @@ class Controller {
     const StoredInfo& getStoredInfo() const { return mStoredInfo; }
 
     /** Return DST mode. */
-    bool isDst() const { return mTimeZone.getStandardDst(); }
+    bool isDst() const { return mTimeZone.getBaseDst(); }
 
     /** Set DST on or off */
     void setDst(bool status) {
-      mTimeZone.setStandardDst(status);
+      mTimeZone.setBaseDst(status);
       preserveInfo();
     }
 
@@ -77,8 +77,8 @@ class Controller {
     uint16_t preserveInfo() {
       mIsStoredInfoValid = true;
       mStoredInfo.timeZoneType = mTimeZone.getType();
-      mStoredInfo.offsetCode = mTimeZone.getStandardZoneOffset().toOffsetCode();
-      mStoredInfo.isDst = mTimeZone.getStandardDst();
+      mStoredInfo.offsetCode = mTimeZone.getBaseZoneOffset().toOffsetCode();
+      mStoredInfo.isDst = mTimeZone.getBaseDst();
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
 

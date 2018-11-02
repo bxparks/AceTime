@@ -168,8 +168,8 @@ class Controller {
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
-          mChangingClockInfo.timeZone.setStandardDst(
-              !mChangingClockInfo.timeZone.getStandardDst());
+          mChangingClockInfo.timeZone.setBaseDst(
+              !mChangingClockInfo.timeZone.getBaseDst());
           break;
       }
 
@@ -274,13 +274,13 @@ class Controller {
 
       mClockInfo1.hourMode = mChangingClockInfo.hourMode;
       mClockInfo1.blinkingColon = mChangingClockInfo.blinkingColon;
-      mClockInfo1.timeZone.setStandardDst(
-          mChangingClockInfo.timeZone.getStandardDst());
+      mClockInfo1.timeZone.setBaseDst(
+          mChangingClockInfo.timeZone.getBaseDst());
 
       mClockInfo2.hourMode = mChangingClockInfo.hourMode;
       mClockInfo2.blinkingColon = mChangingClockInfo.blinkingColon;
-      mClockInfo2.timeZone.setStandardDst(
-          mChangingClockInfo.timeZone.getStandardDst());
+      mClockInfo2.timeZone.setBaseDst(
+          mChangingClockInfo.timeZone.getBaseDst());
 
       preserveInfo();
     }
@@ -295,7 +295,7 @@ class Controller {
       // Create StoreInfo from clock0. The others will be identical.
       // TODO: isDst should be saved for each clock
       StoredInfo storedInfo;
-      storedInfo.isDst = mClockInfo0.timeZone.getStandardDst();
+      storedInfo.isDst = mClockInfo0.timeZone.getBaseDst();
       storedInfo.hourMode = mClockInfo0.hourMode;
       storedInfo.blinkingColon = mClockInfo0.blinkingColon;
 

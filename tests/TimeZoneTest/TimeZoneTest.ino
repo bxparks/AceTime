@@ -218,27 +218,28 @@ test(TimeZone, operatorEqualEqual) {
 test(FixedTimeZone, default) {
   TimeZone tz;
   assertEqual(TimeZone::kTypeFixed, tz.getType());
-  assertEqual(0, tz.getStandardZoneOffset().toOffsetCode());
-  assertEqual(false, tz.getStandardDst());
-  assertEqual("", tz.getStandardAbbrev());
+  assertEqual(0, tz.getBaseZoneOffset().toOffsetCode());
+  assertEqual(false, tz.getBaseDst());
+  assertEqual((uintptr_t) 0, (uintptr_t) tz.getStdAbbrev());
+  assertEqual((uintptr_t) 0, (uintptr_t) tz.getDstAbbrev());
 }
 
 test(FixedTimeZone, standardTime) {
   TimeZone tz = TimeZone::forZoneOffset(
-      ZoneOffset::forHour(-8), false, "PST");
+      ZoneOffset::forHour(-8), false, "PST", "PDT");
   assertEqual(TimeZone::kTypeFixed, tz.getType());
-  assertEqual(-32, tz.getStandardZoneOffset().toOffsetCode());
-  assertEqual(false, tz.getStandardDst());
-  assertEqual("PST", tz.getStandardAbbrev());
+  assertEqual(-32, tz.getZoneOffset().toOffsetCode());
+  assertEqual(false, tz.getBaseDst());
+  assertEqual("PST", tz.getAbbrev());
 }
 
 test(FixedTimeZone, daylightTime) {
   TimeZone tz = TimeZone::forZoneOffset(
-      ZoneOffset::forHour(-8), true, "PDT");
+      ZoneOffset::forHour(-8), true, "PST", "PDT");
   assertEqual(TimeZone::kTypeFixed, tz.getType());
-  assertEqual(-28, tz.getStandardZoneOffset().toOffsetCode());
-  assertEqual(true, tz.getStandardDst());
-  assertEqual("PDT", tz.getStandardAbbrev());
+  assertEqual(-28, tz.getZoneOffset().toOffsetCode());
+  assertEqual(true, tz.getBaseDst());
+  assertEqual("PDT", tz.getAbbrev());
 }
 
 // TODO: add tests for forOffsetString()

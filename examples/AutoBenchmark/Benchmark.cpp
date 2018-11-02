@@ -53,7 +53,7 @@ void disableOptimization(const DateTime& dt) {
   guard ^= dt.hour();
   guard ^= dt.minute();
   guard ^= dt.second();
-  guard ^= dt.timeZone().getStandardZoneOffset().toOffsetCode();
+  guard ^= dt.timeZone().getBaseZoneOffset().toOffsetCode();
 }
 
 void disableOptimization(const LocalDate& ld) {

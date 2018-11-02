@@ -173,8 +173,8 @@ class Clock {
     void preserveInfo() {
       StoredInfo storedInfo;
       storedInfo.timeZoneType = mTimeZone.getType();
-      storedInfo.offsetCode = mTimeZone.getStandardZoneOffset().toOffsetCode();
-      storedInfo.isDst = mTimeZone.getStandardDst();
+      storedInfo.offsetCode = mTimeZone.getBaseZoneOffset().toOffsetCode();
+      storedInfo.isDst = mTimeZone.getBaseDst();
       storedInfo.hourMode = mHourMode;
 
       mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
