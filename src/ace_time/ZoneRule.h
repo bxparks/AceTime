@@ -8,11 +8,17 @@ namespace ace_time {
 
 /** A time zone transition rule. */
 struct ZoneRule {
-  uint8_t const fromYear; // 0 = 2000
-  uint8_t const toYear; // 255 = 2255
+  uint8_t const fromYear; // 0=2000, 255=2255
+  uint8_t const toYear; // 0=2000, 255=2255
   uint8_t const inMonth; // 1 - 12
-  uint8_t const onDayOfWeek; // 1=Monday, 7=Sunday, per ISO 8601
-  uint8_t const onDayOfMonth; // 1 - 31
+
+  // 1=Mon, 7=Sun
+  // - if > 0, then interpret as onDayOfWeek >= onDayOfMonth
+  // - if 0, then interpret as day == onDayOfMonth
+  // - "last{DayOfWeek}" is preprocessed to (onDayOfWeek >= (numDaysInMonth - 6)
+  uint8_t const onDayOfWeek;
+
+  uint8_t const onDayOfMonth; // 1-31
   uint8_t const atHour; // 0-23
   uint8_t const atHourModifier; // 'w'=wall; 's'=standard; 'u'=g=z=meridian
   int8_t const deltaCode; // 0 - 12, DST shift in 15-min increments

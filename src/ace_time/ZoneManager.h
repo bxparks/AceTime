@@ -9,6 +9,7 @@
 class ZoneManagerTest_init_2001;
 class ZoneManagerTest_init_2018;
 class ZoneManagerTest_createAbbreviation;
+class ZoneManagerTest_calcStartDayOfMonth;
 
 namespace ace_time {
 
@@ -69,6 +70,7 @@ class ZoneManager {
     friend class ::ZoneManagerTest_init_2001;
     friend class ::ZoneManagerTest_init_2018;
     friend class ::ZoneManagerTest_createAbbreviation;
+    friend class ::ZoneManagerTest_calcStartDayOfMonth;
 
     static const uint8_t kMaxCacheEntries = 4;
 
@@ -202,11 +204,9 @@ class ZoneManager {
         ZoneMatch& match = mMatches[i];
 
         // Determine the start date of the rule.
-        LocalDate limitDate = LocalDate::forComponents(
-            mYear, match.rule->inMonth, match.rule->onDayOfMonth);
-        uint8_t dayOfWeekShift =
-            (match.rule->onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
-        uint8_t startDayOfMonth = match.rule->onDayOfMonth + dayOfWeekShift;
+        uint8_t startDayOfMonth = calcStartDayOfMonth(
+            mYear, match.rule->inMonth, match.rule->onDayOfWeek,
+            match.rule->onDayOfMonth);
 
         // Determine the effective offset code
         match.offsetCode = match.entry->offsetCode + match.rule->deltaCode;
@@ -232,6 +232,21 @@ class ZoneManager {
 
         previousMatch = &match;
       }
+    }
+
+    /**
+     * Calculate the actual dayOfMonth of the expresssion
+     * (onDayOfWeek >= onDayOfMonth). The "last{dayOfWeek}" expression is
+     * pre-converted by the parser to (onDayOfWeek >= {daysInMonth - 6}).
+     */
+    static uint8_t calcStartDayOfMonth(uint8_t year, uint8_t month,
+        uint8_t onDayOfWeek, uint8_t onDayOfMonth) {
+      if (onDayOfWeek == 0) return onDayOfMonth;
+
+      LocalDate limitDate = LocalDate::forComponents(
+          year, month, onDayOfMonth);
+      uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
+      return onDayOfMonth + dayOfWeekShift;
     }
 
     /** Determine the time zone abbreviations. */
