@@ -88,12 +88,6 @@ class Controller {
           mMode = MODE_CHANGE_BLINKING_COLON;
           break;
         case MODE_CHANGE_BLINKING_COLON:
-          mMode = MODE_CHANGE_TIME_ZONE_HOUR;
-          break;
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-          mMode = MODE_CHANGE_TIME_ZONE_MINUTE;
-          break;
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
           mMode = MODE_CHANGE_TIME_ZONE_DST;
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
@@ -129,8 +123,6 @@ class Controller {
 
         case MODE_CHANGE_HOUR_MODE:
         case MODE_CHANGE_BLINKING_COLON:
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
           saveClockInfo();
           mMode = MODE_CLOCK_INFO;
@@ -174,15 +166,6 @@ class Controller {
           mSuppressBlink = true;
           mChangingClockInfo.blinkingColon = !mChangingClockInfo.blinkingColon;
           break;
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-          mSuppressBlink = true;
-          mChangingClockInfo.timeZone.getStandardZoneOffset().incrementHour();
-          break;
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
-          mSuppressBlink = true;
-          mChangingClockInfo.timeZone.getStandardZoneOffset()
-              .increment15Minutes();
-          break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
           mChangingClockInfo.timeZone.setStandardDst(
@@ -209,8 +192,6 @@ class Controller {
         case MODE_CHANGE_SECOND:
         case MODE_CHANGE_HOUR_MODE:
         case MODE_CHANGE_BLINKING_COLON:
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = false;
           break;
@@ -274,8 +255,6 @@ class Controller {
         case MODE_CHANGE_SECOND:
         case MODE_CHANGE_HOUR_MODE:
         case MODE_CHANGE_BLINKING_COLON:
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
         {
           presenter.setNow(mChangingDateTime.toEpochSeconds());

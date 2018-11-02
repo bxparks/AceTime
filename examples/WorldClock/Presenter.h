@@ -76,8 +76,6 @@ class Presenter {
         case MODE_CLOCK_INFO:
         case MODE_CHANGE_HOUR_MODE:
         case MODE_CHANGE_BLINKING_COLON:
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
           displayClockInfo();
           break;
@@ -241,18 +239,10 @@ class Presenter {
 
       mOled.println();
       mOled.print(FF("UTC"));
-      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_HOUR)) {
-        mOled.print((sign < 0) ? '-' : '+');
-        printPad2(mOled, hour);
-      } else {
-        mOled.print("   ");
-      }
+      mOled.print((sign < 0) ? '-' : '+');
+      printPad2(mOled, hour);
       mOled.print(':');
-      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_MINUTE)) {
-        printPad2(mOled, minute);
-      } else {
-        mOled.print("  ");
-      }
+      printPad2(mOled, minute);
 
       mOled.println();
       mOled.print(FF("DST: "));
