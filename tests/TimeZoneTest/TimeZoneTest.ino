@@ -28,7 +28,13 @@ test(ZoneManagerTest, calcStartDayOfMonth) {
   assertEqual(30, ZoneManager::calcStartDayOfMonth(18, 3, 0, 30));
 }
 
-test(ZoneManagerTest, init_2001) {
+test(ZoneManagerTest, calcRuleOffsetCode) {
+  assertEqual(0, ZoneManager::calcRuleOffsetCode(1, 2, 'u'));
+  assertEqual(1, ZoneManager::calcRuleOffsetCode(1, 2, 'w'));
+  assertEqual(2, ZoneManager::calcRuleOffsetCode(1, 2, 's'));
+}
+
+test(ZoneManagerTest, init_primitives) {
   ZoneManager manager(&ZoneInfo::kLosAngeles);
   manager.mYear = 1;
   manager.mNumMatches = 0;
@@ -69,7 +75,7 @@ test(ZoneManagerTest, init_2001) {
   assertEqual((uint32_t) 57574800, manager.mMatches[1].startEpochSeconds);
 }
 
-test(ZoneManagerTest, init_2018) {
+test(ZoneManagerTest, init) {
   ZoneManager manager(&ZoneInfo::kLosAngeles);
   LocalDate ld = LocalDate::forComponents(18, 1, 1);
   manager.init(ld);

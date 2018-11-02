@@ -6,10 +6,11 @@
 #include "ZoneOffset.h"
 #include "ZoneInfo.h"
 
-class ZoneManagerTest_init_2001;
-class ZoneManagerTest_init_2018;
+class ZoneManagerTest_init_primitives;
+class ZoneManagerTest_init;
 class ZoneManagerTest_createAbbreviation;
 class ZoneManagerTest_calcStartDayOfMonth;
+class ZoneManagerTest_calcRuleOffsetCode;
 
 namespace ace_time {
 
@@ -67,10 +68,11 @@ class ZoneManager {
     }
 
   private:
-    friend class ::ZoneManagerTest_init_2001;
-    friend class ::ZoneManagerTest_init_2018;
+    friend class ::ZoneManagerTest_init_primitives;
+    friend class ::ZoneManagerTest_init;
     friend class ::ZoneManagerTest_createAbbreviation;
     friend class ::ZoneManagerTest_calcStartDayOfMonth;
+    friend class ::ZoneManagerTest_calcRuleOffsetCode;
 
     static const uint8_t kMaxCacheEntries = 4;
 
@@ -200,35 +202,32 @@ class ZoneManager {
           + mPreviousMatch.rule->deltaCode;
       ZoneMatch* previousMatch = &mPreviousMatch;
 
+      // Loop through ZoneMatch entries to calculate 2 things:
+      // 1) ZoneMatch::startEpochSeconds
+      // 2) ZoneMatch::offsetCode
       for (uint8_t i = 0; i < mNumMatches; i++) {
         ZoneMatch& match = mMatches[i];
 
         // Determine the start date of the rule.
-        uint8_t startDayOfMonth = calcStartDayOfMonth(
+        const uint8_t startDayOfMonth = calcStartDayOfMonth(
             mYear, match.rule->inMonth, match.rule->onDayOfWeek,
             match.rule->onDayOfMonth);
 
-        // Determine the effective offset code
-        match.offsetCode = match.entry->offsetCode + match.rule->deltaCode;
-
-        // Determine the offset of the 'atHourModifier'. If 'w', then we
-        // must use the offset of the *previous* zone rule.
-        int8_t ruleOffsetCode;
-        if (match.rule->atHourModifier == 'w') {
-          ruleOffsetCode = previousMatch->entry->offsetCode
-              + previousMatch->rule->deltaCode;
-        } else if (match.rule->atHourModifier == 's') {
-          ruleOffsetCode = previousMatch->entry->offsetCode;
-        } else { /* e.g. 'u', 'g' or 'z' */
-          ruleOffsetCode = 0;
-        }
+        // Determine the offset of the 'atHourModifier'.
+        const int8_t ruleOffsetCode = calcRuleOffsetCode(
+            previousMatch->offsetCode,
+            match.entry->offsetCode,
+            match.rule->atHourModifier);
 
         // startDateTime
         OffsetDateTime startDateTime = OffsetDateTime::forComponents(
             mYear, match.rule->inMonth, startDayOfMonth,
-            match.rule->atHour, 0, 0,
+            match.rule->atHour, 0 /*minute*/, 0 /*second*/,
             ZoneOffset::forOffsetCode(ruleOffsetCode));
         match.startEpochSeconds = startDateTime.toEpochSeconds();
+
+        // Determine the effective offset code
+        match.offsetCode = match.entry->offsetCode + match.rule->deltaCode;
 
         previousMatch = &match;
       }
@@ -237,7 +236,8 @@ class ZoneManager {
     /**
      * Calculate the actual dayOfMonth of the expresssion
      * (onDayOfWeek >= onDayOfMonth). The "last{dayOfWeek}" expression is
-     * pre-converted by the parser to (onDayOfWeek >= {daysInMonth - 6}).
+     * pre-converted by the parser to (onDayOfWeek >= {daysInMonth - 6}). If
+     * onDayOfWeek is 0, then onDayOfMonth is interpreted to be an exact match.
      */
     static uint8_t calcStartDayOfMonth(uint8_t year, uint8_t month,
         uint8_t onDayOfWeek, uint8_t onDayOfMonth) {
@@ -247,6 +247,23 @@ class ZoneManager {
           year, month, onDayOfMonth);
       uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
       return onDayOfMonth + dayOfWeekShift;
+    }
+
+    /**
+     * Determine the offset of the 'atHourModifier'. If 'w', then we
+     * must use the offset of the *previous* zone rule. If 's', use the
+     * current base offset. If 'u', 'g', 'z', then use 0 offset.
+     */
+    static int8_t calcRuleOffsetCode(int8_t prevEffectiveOffsetCode,
+        int8_t currentBaseOffsetCode, uint8_t modifier) {
+      if (modifier == 'w') {
+        return prevEffectiveOffsetCode;
+      } else if (modifier == 's') {
+        // TODO: Is this right, use the current matched base offset code?
+        return currentBaseOffsetCode;
+      } else { // 'u', 'g' or 'z'
+        return 0;
+      }
     }
 
     /** Determine the time zone abbreviations. */
