@@ -6,7 +6,7 @@
 /** Data that describes the clock of a single time zone. */
 struct ClockInfo {
   /** Size of the clock name buffer, including '\0'. */
-  static uint8_t const kNameSize = 12;
+  static uint8_t const kNameSize = 5;
 
   /** 12:00:00 AM to 12:00:00 PM */
   static uint8_t const kTwelve = 0;

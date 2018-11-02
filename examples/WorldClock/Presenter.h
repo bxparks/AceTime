@@ -85,15 +85,16 @@ class Presenter {
     }
 
     void displayDateTime() const {
-      const DateTime dateTime = DateTime::forEpochSeconds(mRenderingInfo.now,
-          mRenderingInfo.clockInfo.timeZone);
-      mOled.setFont(fixed_bold10x15);
+      const ClockInfo& clockInfo = mRenderingInfo.clockInfo;
+      const DateTime dateTime = DateTime::forEpochSeconds(
+          mRenderingInfo.now, clockInfo.timeZone);
 
+      mOled.setFont(fixed_bold10x15);
       mOled.set2X();
 
       // time
       uint8_t hour = dateTime.hour();
-      if (mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve) {
+      if (clockInfo.hourMode == ClockInfo::kTwelve) {
         if (hour == 0) {
           hour = 12;
         } else if (hour > 12) {
@@ -103,8 +104,7 @@ class Presenter {
       } else {
         printPad2(mOled, hour);
       }
-      if (!mRenderingInfo.clockInfo.blinkingColon
-          || shouldShowFor(MODE_DATE_TIME)) {
+      if (!clockInfo.blinkingColon || shouldShowFor(MODE_DATE_TIME)) {
         mOled.print(':');
       } else {
         mOled.print(' ');
@@ -113,7 +113,7 @@ class Presenter {
 
       // AM/PM indicator
       mOled.set1X();
-      if (mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve) {
+      if (clockInfo.hourMode == ClockInfo::kTwelve) {
         mOled.print((dateTime.hour() < 12) ? 'A' : 'P');
       }
 
@@ -131,8 +131,13 @@ class Presenter {
       mOled.clearToEOL();
 
       // place name
+      uint32_t epochSeconds = dateTime.toEpochSeconds();
       mOled.println();
-      mOled.print(mRenderingInfo.clockInfo.name);
+      mOled.print(dateTime.timeZone().getAbbrev(epochSeconds));
+      mOled.print(' ');
+      mOled.print('(');
+      mOled.print(clockInfo.name);
+      mOled.print(')');
       mOled.clearToEOL();
     }
 

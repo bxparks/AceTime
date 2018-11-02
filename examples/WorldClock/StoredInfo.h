@@ -3,11 +3,19 @@
 
 #include "ClockInfo.h"
 
-/** Data that is saved to and retrieved from EEPROM. */
+/**
+ * Data that is saved to and retrieved from EEPROM.
+ * These settings apply to all clocks.
+ */
 struct StoredInfo {
-  ClockInfo clock0;
-  ClockInfo clock1;
-  ClockInfo clock2;
+  /** DST or not. */
+  bool isDst;
+
+  /** Hour mode, 12H or 24H. */
+  uint8_t hourMode;
+
+  /** Blink the colon in HH:MM. */
+  bool blinkingColon;
 };
 
 #endif

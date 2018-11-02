@@ -38,34 +38,8 @@ class Controller {
         mPresenter2(presenter2),
         mMode(MODE_DATE_TIME) {}
 
-    void setup() {
-      // Restore from EEPROM to retrieve time zone.
-      StoredInfo storedInfo;
-      bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
-          &storedInfo, sizeof(StoredInfo));
-      if (isValid) {
-        mClockInfo0 = storedInfo.clock0;
-        mClockInfo1 = storedInfo.clock1;
-        mClockInfo2 = storedInfo.clock2;
-      } else {
-        strncpy(mClockInfo0.name, "SFO - PDT", ClockInfo::kNameSize);
-        mClockInfo0.name[ClockInfo::kNameSize - 1] = '\0';
-        mClockInfo0.timeZone = TimeZone::forZoneOffset(
-            ZoneOffset::forOffsetCode(-8), true);
-
-        strncpy(mClockInfo1.name, "PHL - EDT", ClockInfo::kNameSize);
-        mClockInfo1.name[ClockInfo::kNameSize - 1] = '\0';
-        mClockInfo1.timeZone = TimeZone::forZoneOffset(
-            ZoneOffset::forOffsetCode(-5), true);
-
-        strncpy(mClockInfo2.name, "LHR - BST", ClockInfo::kNameSize);
-        mClockInfo2.name[ClockInfo::kNameSize - 1] = '\0';
-        mClockInfo2.timeZone = TimeZone::forZoneOffset(
-            ZoneOffset::forOffsetCode(0), true);
-
-        preserveInfo();
-      }
-    }
+    /** Initialize the controller with the various time zones of each clock. */
+    void setup();
 
     /**
      * This should be called every 0.1s to support blinking mode and to avoid
@@ -339,10 +313,12 @@ class Controller {
     }
 
     void preserveInfo() {
+      // Create StoreInfo from clock0. The others will be identical.
+      // TODO: isDst should be saved for each clock
       StoredInfo storedInfo;
-      storedInfo.clock0 = mClockInfo0;
-      storedInfo.clock1 = mClockInfo1;
-      storedInfo.clock2 = mClockInfo2;
+      storedInfo.isDst = mClockInfo0.timeZone.getStandardDst();
+      storedInfo.hourMode = mClockInfo0.hourMode;
+      storedInfo.blinkingColon = mClockInfo0.blinkingColon;
 
       mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
           sizeof(StoredInfo));
