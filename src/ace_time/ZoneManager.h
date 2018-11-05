@@ -236,12 +236,18 @@ class ZoneManager {
     /**
      * Calculate the actual dayOfMonth of the expresssion
      * (onDayOfWeek >= onDayOfMonth). The "last{dayOfWeek}" expression is
-     * pre-converted by the parser to (onDayOfWeek >= {daysInMonth - 6}). If
-     * onDayOfWeek is 0, then onDayOfMonth is interpreted to be an exact match.
+     * expressed by onDayOfMonth being 0. An exact match on dayOfMonth is
+     * expressed by setting onDayOfWeek to 0.
      */
     static uint8_t calcStartDayOfMonth(uint8_t year, uint8_t month,
         uint8_t onDayOfWeek, uint8_t onDayOfMonth) {
       if (onDayOfWeek == 0) return onDayOfMonth;
+
+
+      // Convert "last{Xxx}" to "last{Xxx}>={daysInMonth-6}".
+      if (onDayOfMonth == 0) {
+        onDayOfMonth = LocalDate::daysInMonth(year, month) - 6;
+      }
 
       LocalDate limitDate = LocalDate::forComponents(
           year, month, onDayOfMonth);

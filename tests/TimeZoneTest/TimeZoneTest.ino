@@ -16,9 +16,9 @@ test(ZoneManagerTest, calcStartDayOfMonth) {
   assertEqual(4, ZoneManager::calcStartDayOfMonth(
       18, 11, LocalDate::kSunday, 1));
 
-  // 2018-11, lastSun (translated to Sun>=(30-6)
+  // 2018-11, lastSun
   assertEqual(25, ZoneManager::calcStartDayOfMonth(
-      18, 11, LocalDate::kSunday, 24));
+      18, 11, LocalDate::kSunday, 0));
 
   // 2018-03, Thu>=9
   assertEqual(15, ZoneManager::calcStartDayOfMonth(
