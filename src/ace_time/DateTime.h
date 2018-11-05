@@ -38,8 +38,32 @@ class DateTime {
         OffsetDateTime::kInvalidEpochSeconds;
 
     /**
-     * Factory method using separated date, time, and time zone fields. The
-     * dayOfWeek will be lazily calculated.
+     * Factory method using separated date, time, and time zone fields.
+     * This is mostly provided for testing purposes. Most production code
+     * will use the forEpochSeconds() method.
+     *
+     * If the timeZone derived from the ZoneInfo, then the local time may be
+     * ambiguous, because we need to calculate the epochSeconds of the local
+     * time before we can determine the ZoneOffset, but the ZoneOffset is a
+     * function of the epochSeconds. This function resolves the ambiguity by
+     * first obtaining the ZoneOffset defined on Jan 1 of the specified year.
+     * (In the northern hemisphere, this will be the Standard time). Using
+     * that, it calculates what it believes is the actaul epochSeconds of the
+     * components given to the method. Using this epochSeconds, it obtains a
+     * second guess of the ZoneOffset at that instant in time. Then it uses
+     * that as the actual ZoneOffset of this object.
+     *
+     * In the northern hemisphere the Standard time is observed on Jan 1.
+     * If there are 2 valid ZoneOffset for a given local date/time (i.e. when
+     * the clock is shifted back by an hour in the autumn), this method will
+     * prefer the Standard time representation, instead of the Daylight time
+     * representation. If the local date/time represents a time in the gap
+     * (i.e. when the clock is shifted forward), it is interpreted as if the
+     * Standard time was extended into the gap. For example, in the United
+     * States, the time of 2018-03-11T02:01 does not actually exist because the
+     * clock was shifted forward that day from 02:00 to 03:00. However, this
+     * method will interpret the 02:01 as if it was measured using the Standard
+     * time offset.
      *
      * @param year last 2 digits of the year from year 2000
      * @param month month with January=1, December=12
@@ -53,11 +77,28 @@ class DateTime {
             uint8_t hour, uint8_t minute, uint8_t second,
             TimeZone timeZone = TimeZone()) {
 
-      // TODO: Fix calculation of zoneOffset using real epochSeconds.
-      ZoneOffset zoneOffset = timeZone.getZoneOffset(0);
-      OffsetDateTime dt = OffsetDateTime::forComponents(
-          year, month, day, hour, minute, second, zoneOffset);
-      return DateTime(dt, timeZone);
+      if (timeZone.getType() == TimeZone::kTypeFixed) {
+        ZoneOffset zoneOffset = timeZone.getZoneOffset();
+        OffsetDateTime odt = OffsetDateTime::forComponents(
+            year, month, day, hour, minute, second, zoneOffset);
+        return DateTime(odt, timeZone);
+      } else {
+        // First guess at the ZoneOffset using Jan 1 of the given year.
+        uint32_t initialEpochSeconds =
+            LocalDate::forComponents(year, 1, 1).toEpochSeconds();
+        ZoneOffset initialZoneOffset =
+            timeZone.getZoneOffset(initialEpochSeconds);
+
+        // Second guess at the ZoneOffset using the first ZoneOffset.
+        OffsetDateTime odt = OffsetDateTime::forComponents(
+            year, month, day, hour, minute, second, initialZoneOffset);
+        uint32_t epochSeconds = odt.toEpochSeconds();
+        ZoneOffset actualZoneOffset = timeZone.getZoneOffset(epochSeconds);
+
+        odt = OffsetDateTime::forComponents(
+            year, month, day, hour, minute, second, actualZoneOffset);
+        return DateTime(odt, timeZone);
+      }
     }
 
     /**

@@ -5,7 +5,6 @@
 
 using namespace aunit;
 using namespace ace_time;
-using namespace ace_time::common;
 
 // --------------------------------------------------------------------------
 // OffsetDateTime
@@ -327,6 +326,70 @@ test(OffsetDateTimeTest, forDateString) {
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 }
 
+// --------------------------------------------------------------------------
+// DateTime
+// --------------------------------------------------------------------------
+
+test(DateTimeTest, forComponents_beforeDst) {
+  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  DateTime dt = DateTime::forComponents(18, 3, 11, 1, 59, 59, tz);
+
+  ZoneOffset pst = ZoneOffset::forHour(-8);
+  OffsetDateTime otz = OffsetDateTime::forComponents(18, 3, 11, 1, 59, 59, pst);
+
+  assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
+}
+
+test(DateTimeTest, forComponents_inDstGap) {
+  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  DateTime dt = DateTime::forComponents(18, 3, 11, 2, 0, 1, tz);
+
+  ZoneOffset pdt = ZoneOffset::forHour(-7);
+  OffsetDateTime odt = OffsetDateTime::forComponents(18, 3, 11, 2, 0, 1, pdt);
+
+  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+}
+
+test(DateTimeTest, forComponents_inDst) {
+  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  DateTime dt = DateTime::forComponents(18, 3, 11, 3, 0, 1, tz);
+
+  ZoneOffset pdt = ZoneOffset::forHour(-7);
+  OffsetDateTime odt = OffsetDateTime::forComponents(18, 3, 11, 3, 0, 1, pdt);
+
+  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+}
+
+test(DateTimeTest, forComponents_beforeStd) {
+  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  DateTime dt = DateTime::forComponents(18, 11, 4, 0, 59, 59, tz);
+
+  ZoneOffset pdt = ZoneOffset::forHour(-7);
+  OffsetDateTime odt = OffsetDateTime::forComponents(18, 11, 4, 0, 59, 59, pdt);
+
+  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+}
+
+test(DateTimeTest, forComponents_inOverlap) {
+  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  DateTime dt = DateTime::forComponents(18, 11, 4, 1, 0, 1, tz); // ambiguous
+
+  ZoneOffset pdt = ZoneOffset::forHour(-8);
+  OffsetDateTime odt = OffsetDateTime::forComponents(18, 11, 4, 1, 0, 1, pdt);
+
+  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+}
+
+
+test(DateTimeTest, forComponents_afterOverlap) {
+  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  DateTime dt = DateTime::forComponents(18, 11, 4, 2, 0, 1, tz); // ambiguous
+
+  ZoneOffset pdt = ZoneOffset::forHour(-8);
+  OffsetDateTime odt = OffsetDateTime::forComponents(18, 11, 4, 2, 0, 1, pdt);
+
+  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+}
 // --------------------------------------------------------------------------
 
 void setup() {

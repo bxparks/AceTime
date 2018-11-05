@@ -7,11 +7,16 @@ namespace ace_time {
 
 using common::printPad2;
 
-// TODO: write auto time zone
 void TimeZone::printTo(Print& printer) const {
-  printer.print(F("UTC"));
-  mZoneOffset.printTo(printer);
-  printer.print(mIsDst ? F(" DST") : F(" STD"));
+  if (mType == kTypeFixed) {
+    printer.print(F("UTC"));
+    mZoneOffset.printTo(printer);
+    printer.print(mIsDst ? F(" (DST)") : F(" (STD)"));
+  } else {
+    printer.print('[');
+    printer.print(mZoneManager.getZoneInfo()->name);
+    printer.print(']');
+  }
 }
 
 void TimeZone::parseFromOffsetString(const char* ts,
