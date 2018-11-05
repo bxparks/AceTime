@@ -162,6 +162,19 @@ class LocalDate {
     /** Set the day of the month. */
     void day(uint8_t day) { mDay = day; }
 
+    /** True if year is a leap year. */
+    bool isLeapYear() const {
+      // NOTE: The compiler will optimize the (year % 400) expression into
+      // (year == 0) since it knows that the max value of mYear is 255.
+      return ((mYear % 4 == 0) && (mYear % 100 != 0)) || (mYear % 400 == 0);
+    }
+
+    /** Return the number of days in the current month. */
+    uint8_t daysInMonth() const {
+      uint8_t days = sDaysInMonth[mMonth - 1];
+      return (mMonth == 2 && isLeapYear()) ? days + 1 : days;
+    }
+
     /** Increment the year by one, wrapping from 99 to 0. */
     void incrementYear() {
       common::incrementMod(mYear, (uint8_t) 100);
@@ -277,10 +290,13 @@ class LocalDate {
 
     /**
      * Day of week table for each month, with 0=Jan to 11=Dec. The table
-     * offsets actualy start with March to make the leap year calculation
-     * easier.
+     * offsets actually start with March, causing the leap year to happen at
+     * the end of the "year", which makes the leap year calculation easier.
      */
     static const uint8_t sDayOfWeek[12];
+
+    /** Number of days in each month in a non-leap year. 0=Jan, 11=Dec. */
+    static const uint8_t sDaysInMonth[12];
 
     /** Constructor. */
     explicit LocalDate(uint8_t year, uint8_t month, uint8_t day):

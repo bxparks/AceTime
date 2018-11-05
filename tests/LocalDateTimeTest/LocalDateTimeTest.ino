@@ -223,6 +223,33 @@ test(LocalDate, forDateString_invalid) {
   assertTrue(ld.isError());
 }
 
+test(LocalDate, isLeapYear) {
+  assertTrue(LocalDate::forComponents(0, 1, 1).isLeapYear());
+  assertFalse(LocalDate::forComponents(1, 1, 1).isLeapYear());
+  assertTrue(LocalDate::forComponents(4, 1, 1).isLeapYear());
+  assertFalse(LocalDate::forComponents(100, 1, 1).isLeapYear());
+  assertFalse(LocalDate::forComponents(200, 1, 1).isLeapYear());
+}
+
+test(LocalDate, daysInMonth) {
+  assertEqual(31, LocalDate::forComponents(0, 1, 1).daysInMonth());
+  assertEqual(29, LocalDate::forComponents(0, 2, 1).daysInMonth());
+  assertEqual(31, LocalDate::forComponents(0, 3, 1).daysInMonth());
+  assertEqual(30, LocalDate::forComponents(0, 4, 1).daysInMonth());
+  assertEqual(31, LocalDate::forComponents(0, 5, 1).daysInMonth());
+  assertEqual(30, LocalDate::forComponents(0, 6, 1).daysInMonth());
+  assertEqual(31, LocalDate::forComponents(0, 7, 1).daysInMonth());
+  assertEqual(31, LocalDate::forComponents(0, 8, 1).daysInMonth());
+  assertEqual(30, LocalDate::forComponents(0, 9, 1).daysInMonth());
+  assertEqual(31, LocalDate::forComponents(0, 10, 1).daysInMonth());
+  assertEqual(30, LocalDate::forComponents(0, 11, 1).daysInMonth());
+  assertEqual(31, LocalDate::forComponents(0, 12, 1).daysInMonth());
+
+  assertEqual(28, LocalDate::forComponents(1, 2, 1).daysInMonth());
+  assertEqual(29, LocalDate::forComponents(4, 2, 1).daysInMonth());
+  assertEqual(28, LocalDate::forComponents(100, 2, 1).daysInMonth());
+}
+
 // --------------------------------------------------------------------------
 // LocalTime
 // --------------------------------------------------------------------------
