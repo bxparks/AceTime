@@ -125,6 +125,19 @@ class LocalDate {
       return LocalDate().initFromDateString(dateString);
     }
 
+    /** True if year is a leap year. */
+    static bool isLeapYear(uint8_t year) {
+      // NOTE: The compiler will optimize the (year % 400) expression into
+      // (year == 0) since it knows that the max value of yYear is 255.
+      return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+    }
+
+    /** Return the number of days in the current month. */
+    static uint8_t daysInMonth(uint8_t year, uint8_t month) {
+      uint8_t days = sDaysInMonth[month - 1];
+      return (month == 2 && isLeapYear(year)) ? days + 1 : days;
+    }
+
     /** Default constructor does nothing. */
     explicit LocalDate() {}
 
@@ -161,19 +174,6 @@ class LocalDate {
 
     /** Set the day of the month. */
     void day(uint8_t day) { mDay = day; }
-
-    /** True if year is a leap year. */
-    bool isLeapYear() const {
-      // NOTE: The compiler will optimize the (year % 400) expression into
-      // (year == 0) since it knows that the max value of mYear is 255.
-      return ((mYear % 4 == 0) && (mYear % 100 != 0)) || (mYear % 400 == 0);
-    }
-
-    /** Return the number of days in the current month. */
-    uint8_t daysInMonth() const {
-      uint8_t days = sDaysInMonth[mMonth - 1];
-      return (mMonth == 2 && isLeapYear()) ? days + 1 : days;
-    }
 
     /** Increment the year by one, wrapping from 99 to 0. */
     void incrementYear() {
