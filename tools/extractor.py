@@ -24,18 +24,18 @@ Of these, the following are not relevant:
     systemv - 'SystemV' zone
 
 Rule entries have the following columns:
-# Rule	NAME	FROM	TO	TYPE	IN	ON	AT	SAVE	LETTER
-Rule	US	2007	max	-	Mar	Sun>=8	2:00	1:00	D
-Rule	US	2007	max	-	Nov	Sun>=1	2:00	0	S
+# Rule  NAME    FROM    TO    TYPE IN   ON      AT      SAVE    LETTER
+Rule    US      2007    max   -    Mar  Sun>=8  2:00    1:00    D
+Rule    US      2007    max   -    Nov  Sun>=1  2:00    0       S
 
 Zone entries have the following columns:
-# Zone	NAME		GMTOFF	RULES	FORMAT	[UNTIL]
-Zone America/Chicago	-5:50:36 -	LMT	1883 Nov 18 12:09:24
-			-6:00	US	C%sT	1920
+# Zone  NAME                GMTOFF      RULES   FORMAT  [UNTIL]
+Zone    America/Chicago     -5:50:36    -       LMT     1883 Nov 18 12:09:24
+                            -6:00       US      C%sT    1920
 
 Usage:
     cat africa antarctica asia australasia europe northamerica southamerica \
-        | ./extractor.py --cpp_file file.cpp --header_file file.h 
+        | ./extractor.py {flags}
 """
 
 import argparse
@@ -45,23 +45,34 @@ import sys
 
 class Extractor:
     """Reads each test data section from the given file-like object (e.g.
+    sys.stdin).
 
-        extractor = Extractor(sys.stdin)
+    Usage:
+
+        extractor = Extractor(invocation, sys.stdin, cpp_file, header_file)
         extractor.parse_zone_file()
+        extractor.process_rules()
+        extractor.process_zones()
+
+        extractor.print_rules()
+        extractor.print_zones()
+        extractor.print_summary()
     """
 
-    # Recognized tags.
-    # TODO: Change to a hash set to speed up the lookup if many are added.
-    TAG_TOKENS = ['DATA', 'ERRORS', 'SCHEMA', 'END']
-
-    def __init__(self, input, **kwargs):
+    def __init__(self, invocation, input, **kwargs):
+        self.invocation = invocation
         self.input = input
+
         self.next_line = None
         self.rule_lines = {} # dictionary of ruleName to lines[]
         self.zone_lines = {} # dictionary of zoneName to lines[]
         self.link_lines = {} # dictionary of linkName to lines[]
         self.rules = {}
         self.zones = {}
+        self.ignored_rule_lines = 0
+        self.ignored_zone_lines = 0
+        self.invalid_rule_lines = 0
+        self.invalid_zone_lines = 0
 
     def parse_zone_file(self):
         in_zone_mode = False
@@ -94,110 +105,95 @@ class Extractor:
         for name, lines in self.rule_lines.items():
             for line in lines:
                 try:
-                    rule_entry = self.process_rule_line(name, line)
+                    rule_entry = process_rule_line(line)
                     if rule_entry:
                         add_item(self.rules, name, rule_entry)
+                    else:
+                        self.ignored_rule_lines += 1
                 except Exception as e:
-                    logging.error('Exception %s: %s', e, line)
-                    continue
-
-    def process_rule_line(self, name, line):
-        tokens = line.split()
-
-        # Check for valid year. We can ignore everything before 2000.
-        from_year = tokens[2]
-        to_year = tokens[3]
-        if to_year == 'only':
-            to_year = from_year
-        if from_year < '2000' and to_year < '2000':
-            return None
-
-        # Check for LETTER field longer than 1 character
-        letter = tokens[9]
-        if len(letter) > 1:
-            logging.error(
-                'Rule %s: LETTER field (%s) more than 1 character: %s',
-                name, letter, line)
-            return None
-
-        # Add rule entry
-        rule_entry = {
-            'from': from_year,
-            'to': to_year,
-            'in_month': tokens[5],
-            'on_day': tokens[6],
-            'at_time': tokens[7],
-            'save': tokens[8],
-            'letter': letter,
-        }
-        normalize_rule_entry(rule_entry)
-
-        return rule_entry
+                    logging.exception('Exception %s: %s', e, line)
+                    self.invalid_rule_lines += 1
 
     def process_zones(self):
         for name, lines in self.zone_lines.items():
             for line in lines:
                 try:
-                    zone_entry = self.process_zone_line(name, line)
+                    zone_entry = process_zone_line(line)
                     if zone_entry:
                         add_item(self.zones, name, zone_entry)
+                    else:
+                        self.ignored_zone_lines += 1
                 except Exception as e:
-                    logging.error('Exception %s: %s', e, line)
-                    continue
+                    logging.exception('Exception %s: %s', e, line)
+                    self.invalid_zone_lines += 1
 
-
-    def process_zone_line(self, name, line):
-        tokens = line.split()
-
-        if len(tokens) >= 4:
-            until_year = tokens[3]
-        else:
-            until_year = '9999'
-
-        # Skip zone entries before 2000
-        if until_year < '2000':
-            return None
-
-        # Create the zone entry
-        zone_entry = {
-            'gmtoff': tokens[0],
-            'rules': tokens[1],
-            'format': tokens[2],
-            'until_year': until_year,
-        }
-        if len(tokens) >= 5:
-            until_month = tokens[4]
-            if until_month:
-                # TODO: relax this constraint because too many zones seem
-                # to use the month, day and time fields in the UNTIL field.
-                raise Exception(
-                    'Zone %s: Unsupported month in until_date (%s %s)' %
-                    (name, until_year, until_month))
-            zone_entry['until_month'] = until_month
-        if len(tokens) >= 6:
-            zone_entry['until_day'] = tokens[5]
-        if len(tokens) >= 7:
-            zone_entry['until_time'] = tokens[6]
-
-        normalize_zone_entry(zone_entry)
-        return zone_entry
 
     def print_summary(self):
+        rule_entry_count = 0
+        for name, rules in self.rules.items():
+            for rule in rules:
+                rule_entry_count += 1
+
+        zone_entry_count = 0
+        for name, zones in self.zones.items():
+            for zone in zones:
+                zone_entry_count += 1
+
         print('Rule lines count: %s' % len(self.rule_lines))
         print('Zone lines count: %s' % len(self.zone_lines))
         print('Link lines count: %s' % len(self.link_lines))
-        print('Rules count: %s' % len(self.rules))
-        print('Zones count: %s' % len(self.zones))
+        print('Rules name count: %s' % len(self.rules))
+        print('Zones name count: %s' % len(self.zones))
+        print('Rule entry count: %s' % rule_entry_count)
+        print('Zone entry count: %s' % zone_entry_count)
+        print('Ignored Rule lines: %s' % self.ignored_rule_lines)
+        print('Ignored Zone lines: %s' % self.ignored_zone_lines)
+        print('Invalid Rule lines: %s' % self.invalid_rule_lines)
+        print('Invalid Zone lines: %s' % self.invalid_zone_lines)
 
+    def print_rules(self):
         for name, rules in self.rules.items():
-            print('Rules %s' % name)
+            print('Rule name %s' % name)
             for rule in rules:
                 print(rule)
-        
+
+    def print_invalid_rules(self):
+        for name, rules in self.rules.items():
+            print('Rule name %s' % name)
+            for rule in rules:
+                if rule['from_year'] < 2000 and rule['to_year'] < 2000:
+                    print('from or to year < 2000: %s' % rule)
+                if len(rule['letter']) > 1:
+                    print('LETTER (%s) more than 1 char: %s' % line)
+
+    def print_rules_long_dst_letter(self):
+        """Print rules with multiple characters in the DST 'letter' field.
+        """
+        for name, rules in self.rules.items():
+            name_printed = False
+            for rule in rules:
+                if len(rule['letter']) > 1:
+                    if not name_printed:
+                        print('Rule name %s' % name)
+                        name_printed = True
+                    print(rule)
+
+    def print_zones(self):
         for name, zones in self.zones.items():
-            print('Zones %s' % name)
+            print('Zone name %s' % name)
             for zone in zones:
                 print(zone)
+
+    def print_short_names(self):
+        """Print the last component in the "a/b/c" zone names.
+        """
+        names = set()
+        for name, zones in self.zones.items():
+            index = name.rfind('/')
+            if index >=0:
+                print(name[index+1:])
+            else:
+                print(name)
 
     def read_line(self):
         """Return the next line, while supporting a one-line push_back().
@@ -267,9 +263,13 @@ WEEK_TO_WEEK_INDEX = {
 }
 
 
-def normalize_rule_entry(rule):
+def process_rule_line(line):
     """ Normalize a dictionary that represents a 'Rule' line from the TZ
-    database. The result is a modified dictionary with the following fields:
+    database. Contains the following fields:
+    Rule NAME FROM TO TYPE IN ON AT SAVE LETTER
+    0    1    2    3  4    5  6  7  8    9
+
+    Returns a dictionary with the following fields:
         from: from year (int)
         to: to year (int), 9999=max
         in: month index (1-12)
@@ -277,22 +277,40 @@ def normalize_rule_entry(rule):
         on_day_of_month: (1-31), 0={last dayOfWeek match}
         at_hour: hour to transition to and from DST
         at_modifier: 's', 'w', 'g', 'u', 'z'
+        delta_code: offset code from Standard time (int)
         letter: 'D', 'S', '-'
     """
-    rule['from'] = int(rule['from'])
-    to_year = rule['to']
-    if to_year == 'max':
-        rule['to'] = 9999
-    else:
-        rule['to'] = int(to_year)
-    rule['in_month'] = MONTH_TO_MONTH_INDEX[rule['in_month']]
-    (on_day_of_week, on_day_of_month) = parse_on_day_string(rule['on_day'])
-    rule['on_day_of_week'] = on_day_of_week
-    rule['on_day_of_month'] = on_day_of_month
-    (at_hour, at_modifier) = parse_at_hour_string(rule['at_time'])
-    rule['at_hour'] = at_hour
-    rule['at_modifier'] = at_modifier
+    tokens = line.split()
 
+    # Check for valid year.
+    from_year = int(tokens[2])
+    to_year_string = tokens[3]
+    if to_year_string == 'only':
+        to_year = from_year
+    elif to_year_string == 'max':
+        to_year = 9999
+    else:
+        to_year = int(to_year_string)
+
+    if to_year < 2000 and from_year < 2000:
+        return None
+
+    in_month = MONTH_TO_MONTH_INDEX[tokens[5]]
+    (on_day_of_week, on_day_of_month) = parse_on_day_string(tokens[6])
+    (at_hour, at_modifier) = parse_at_hour_string(tokens[7])
+    delta_code = hour_string_to_offset_code(tokens[8])
+
+    return {
+        'from': from_year,
+        'to': to_year,
+        'in_month': in_month,
+        'on_day_of_week': on_day_of_week,
+        'on_day_of_month': on_day_of_month,
+        'at_hour': at_hour,
+        'at_modifier': at_modifier,
+        'delta_code': delta_code,
+        'letter': tokens[9],
+    }
 
 def parse_on_day_string(on_string):
     """ Parse things like "Mon>=1", "lastTue", "20".
@@ -329,23 +347,62 @@ def parse_at_hour_string(at_string):
     return (at_hour, modifier)
 
 
-def normalize_zone_entry(entry):
-    """Normalize an entry from dictionary that represents one line of 
-    a 'Zone' record. The result is a modified entry with:
+def process_zone_line(line):
+    """Normalize an entry from dictionary that represents one line of
+    a 'Zone' record. The columns are:
+    GMTOFF	 RULES	FORMAT	[UNTIL]
+    0        1      2       3
+    -5:50:36 -      LMT     1883 Nov 18 12:09:24
+    -6:00    US     C%sT    1920
 
-        offsetCode: off set from UTC/GMT in 15 minute increments (int)
+    Return a dictionary with:
+
+        offset_code: offset from UTC/GMT in 15 minute increments (int)
         rules: name of the Rule in effect (string)
-        format: abbreviation with '%s' replaced with '%'
-                (e.g. P%sT -> P%T, GMT/BST, SAST)
-        until_year: (int)
+        abbrev: abbreviation with '%s' replaced with '%'
+                (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
+        until_year: 2000-9999 (int)
+        until_month: 1-12 (int) optional
+        until_day: (string) 1-31, lastSun, Sun>=3, etc
+        until_time: (string) optional
     """
-    offset_code = hour_string_to_offset_code(entry['gmtoff'])
-    abbrev = entry['format'].replace('%s', '%')
+    tokens = line.split()
 
-    entry['offset_code'] = offset_code
-    entry['abbrev'] = abbrev
-    entry['until_year'] = int(entry['until_year'])
+    # check 'until' year
+    if len(tokens) >= 4:
+        until_year = int(tokens[3])
+    else:
+        until_year = 9999
+    if until_year < 2000:
+        return None
 
+    # check for additional components of 'UNTIL' field
+    if len(tokens) >= 5:
+        until_month = MONTH_TO_MONTH_INDEX[tokens[4]]
+    else:
+        until_month = None
+    if len(tokens) >= 6:
+        until_day = tokens[5]
+    else:
+        until_day = None
+    if len(tokens) >= 7:
+        until_time = tokens[6]
+    else:
+        until_time = None
+
+    offset_code = hour_string_to_offset_code(tokens[0])
+    abbrev = tokens[2].replace('%s', '%')
+
+    # Create the zone entry
+    return {
+        'offset_code': offset_code,
+        'rules': tokens[1],
+        'abbrev': abbrev,
+        'until_year': until_year,
+        'until_month': until_month,
+        'until_day': until_day,
+        'until_time': until_time,
+    }
 
 def hour_string_to_offset_code(hs):
     i = 0
@@ -365,9 +422,9 @@ def hour_string_to_offset_code(hs):
     minute = int(minute_string)
     if minute % 15 != 0:
         raise Exception('Cannot support GMTOFF (%s)' % hs)
-    offset_code = sign * (hour * 4 + minute/15)
+    offset_code = sign * (hour * 4 + minute//15)
     return offset_code
-    
+
 
 def main():
     """Read the test data chunks from the STDIN and print them out. The ability
@@ -382,16 +439,55 @@ def main():
         '--cpp_file', help='Name of the output .cpp file', required=False)
     parser.add_argument(
         '--header_file', help='Name of the output .h file', required=False)
+    parser.add_argument(
+        '--print_rules',
+        help='Print list of rules',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '--print_rules_long_dst_letter',
+        help='Print rules with long DST letter',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '--print_zones',
+        help='Print list of zones',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '--print_short_names',
+        help='Print the short zone names',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '--print_summary',
+        help='Print summary of rules and zones',
+        action="store_true",
+        default=False)
     args = parser.parse_args()
 
+    # How the script was invoked
+    invocation = " ".join(sys.argv)
+
     extractor = Extractor(
+        invocation,
         sys.stdin,
         cpp_file=args.cpp_file,
         header_file=args.header_file)
+
     extractor.parse_zone_file()
     extractor.process_rules()
     extractor.process_zones()
-    extractor.print_summary()
+    if args.print_rules:
+        extractor.print_rules()
+    if args.print_zones:
+        extractor.print_zones()
+    if args.print_summary:
+        extractor.print_summary()
+    if args.print_rules_long_dst_letter:
+        extractor.print_rules_long_dst_letter()
+    if args.print_short_names:
+        extractor.print_short_names()
 
 
 if __name__ == '__main__':
