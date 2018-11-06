@@ -64,9 +64,9 @@ class Extractor:
         self.input = input
 
         self.next_line = None
-        self.rule_lines = {} # dictionary of ruleName to lines[]
-        self.zone_lines = {} # dictionary of zoneName to lines[]
-        self.link_lines = {} # dictionary of linkName to lines[]
+        self.rule_lines = {}  # dictionary of ruleName to lines[]
+        self.zone_lines = {}  # dictionary of zoneName to lines[]
+        self.link_lines = {}  # dictionary of linkName to lines[]
         self.rules = {}
         self.zones = {}
         self.ignored_rule_lines = 0
@@ -126,7 +126,6 @@ class Extractor:
                 except Exception as e:
                     logging.exception('Exception %s: %s', e, line)
                     self.invalid_zone_lines += 1
-
 
     def print_summary(self):
         rule_entry_count = 0
@@ -190,8 +189,8 @@ class Extractor:
         names = set()
         for name, zones in self.zones.items():
             index = name.rfind('/')
-            if index >=0:
-                print(name[index+1:])
+            if index >= 0:
+                print(name[index + 1:])
             else:
                 print(name)
 
@@ -228,6 +227,7 @@ class Extractor:
 
             return line
 
+
 def add_item(table, name, line):
     array = table.get(name)
     if not array:
@@ -250,7 +250,6 @@ MONTH_TO_MONTH_INDEX = {
     'Nov': 11,
     'Dec': 12
 }
-
 
 WEEK_TO_WEEK_INDEX = {
     'Mon': 1,
@@ -311,6 +310,7 @@ def process_rule_line(line):
         'delta_code': delta_code,
         'letter': tokens[9],
     }
+
 
 def parse_on_day_string(on_string):
     """ Parse things like "Mon>=1", "lastTue", "20".
@@ -404,6 +404,7 @@ def process_zone_line(line):
         'until_time': until_time,
     }
 
+
 def hour_string_to_offset_code(hs):
     i = 0
     sign = 1
@@ -417,12 +418,12 @@ def hour_string_to_offset_code(hs):
         minute_string = '0'
     else:
         hour_string = hs[i:colon_index]
-        minute_string = hs[colon_index+1:]
+        minute_string = hs[colon_index + 1:]
     hour = int(hour_string)
     minute = int(minute_string)
     if minute % 15 != 0:
         raise Exception('Cannot support GMTOFF (%s)' % hs)
-    offset_code = sign * (hour * 4 + minute//15)
+    offset_code = sign * (hour * 4 + minute // 15)
     return offset_code
 
 

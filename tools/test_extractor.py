@@ -21,6 +21,7 @@ class TestParseOnDayString(unittest.TestCase):
         self.assertRaises(Exception, parse_on_day_string, 'Sun<=10')
         self.assertRaises(Exception, parse_on_day_string, 'lastFriday')
 
+
 class TestParseAtHourString(unittest.TestCase):
     def test_parse_at_hour_string(self):
         self.assertEqual(('2:00', 'w'), parse_at_hour_string('2:00'))
@@ -31,6 +32,7 @@ class TestParseAtHourString(unittest.TestCase):
 
     def test_pase_at_hour_string_fails(self):
         self.assertRaises(Exception, parse_at_hour_string, '2:00p')
+
 
 class TestHourStringToOffsetCode(unittest.TestCase):
     def test_hour_string_to_offset_code(self):
@@ -47,6 +49,7 @@ class TestHourStringToOffsetCode(unittest.TestCase):
 
     def test_hour_string_to_offset_code_fails(self):
         self.assertRaises(Exception, hour_string_to_offset_code, '1:01')
+
 
 if __name__ == '__main__':
     unittest.main()
