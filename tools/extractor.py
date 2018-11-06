@@ -186,13 +186,26 @@ class Extractor:
     def print_short_names(self):
         """Print the last component in the "a/b/c" zone names.
         """
-        names = set()
         for name, zones in self.zones.items():
             index = name.rfind('/')
             if index >= 0:
-                print(name[index + 1:])
+                short_name = name[index + 1:]
             else:
-                print(name)
+                short_name = name
+            print(short_name)
+
+    def print_complex_zones(self):
+        """Print the zones which have complex 'until' dates, with month, day
+        and/or time.
+        """
+        for name, zones in self.zones.items():
+            name_printed = False
+            for zone in zones:
+                if zone['until_month']:
+                    if not name_printed:
+                        print('Zone name %s' % name)
+                        name_printed = True
+                    print(zone)
 
     def read_line(self):
         """Return the next line, while supporting a one-line push_back().
@@ -461,6 +474,11 @@ def main():
         action="store_true",
         default=False)
     parser.add_argument(
+        '--print_complex_zones',
+        help='Print the Zones with complex "UNTIL" fields',
+        action="store_true",
+        default=False)
+    parser.add_argument(
         '--print_summary',
         help='Print summary of rules and zones',
         action="store_true",
@@ -489,6 +507,8 @@ def main():
         extractor.print_rules_long_dst_letter()
     if args.print_short_names:
         extractor.print_short_names()
+    if args.print_complex_zones:
+        extractor.print_complex_zones()
 
 
 if __name__ == '__main__':
