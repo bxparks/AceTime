@@ -183,6 +183,19 @@ class Extractor:
             for zone in zones:
                 print(zone)
 
+    def print_zones_without_rules(self):
+        """Print zones which point to unknown rules. "-" is a valid rule.
+        """
+        for name, zones in self.zones.items():
+            name_printed = False
+            for zone in zones:
+                rule_name = zone['rules']
+                if rule_name != '-' and rule_name not in self.rules:
+                    if not name_printed:
+                        print('Zone name %s' % name)
+                        name_printed = True
+                    print(zone)
+
     def print_short_names(self):
         """Print the last component in the "a/b/c" zone names.
         """
@@ -281,6 +294,11 @@ def process_rule_line(line):
     Rule NAME FROM TO TYPE IN ON AT SAVE LETTER
     0    1    2    3  4    5  6  7  8    9
 
+    These represent transitions from Daylight to/from Standard. If the 'from'
+    and 'to' entries are before 2000, then the last transition remains in
+    effect, so we need to capture all transitions in the database, even the ones
+    before year 2000.
+
     Returns a dictionary with the following fields:
         from: from year (int)
         to: to year (int), 9999=max
@@ -289,7 +307,7 @@ def process_rule_line(line):
         on_day_of_month: (1-31), 0={last dayOfWeek match}
         at_hour: hour to transition to and from DST
         at_modifier: 's', 'w', 'g', 'u', 'z'
-        delta_code: offset code from Standard time (int)
+        delta_minutes: offset code from Standard time (int)
         letter: 'D', 'S', '-'
     """
     tokens = line.split()
@@ -304,13 +322,10 @@ def process_rule_line(line):
     else:
         to_year = int(to_year_string)
 
-    if to_year < 2000 and from_year < 2000:
-        return None
-
     in_month = MONTH_TO_MONTH_INDEX[tokens[5]]
     (on_day_of_week, on_day_of_month) = parse_on_day_string(tokens[6])
     (at_hour, at_modifier) = parse_at_hour_string(tokens[7])
-    delta_code = hour_string_to_offset_code(tokens[8])
+    delta_minutes = hour_string_to_offset_minutes(tokens[8])
 
     return {
         'from': from_year,
@@ -320,7 +335,7 @@ def process_rule_line(line):
         'on_day_of_month': on_day_of_month,
         'at_hour': at_hour,
         'at_modifier': at_modifier,
-        'delta_code': delta_code,
+        'delta_minutes': delta_minutes,
         'letter': tokens[9],
     }
 
@@ -370,8 +385,8 @@ def process_zone_line(line):
 
     Return a dictionary with:
 
-        offset_code: offset from UTC/GMT in 15 minute increments (int)
-        rules: name of the Rule in effect (string)
+        offset_minutes: offset from UTC/GMT in minutes (int)
+        rules: name of the Rule in effect, '-', or minute offset (string)
         abbrev: abbreviation with '%s' replaced with '%'
                 (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
         until_year: 2000-9999 (int)
@@ -403,13 +418,22 @@ def process_zone_line(line):
     else:
         until_time = None
 
-    offset_code = hour_string_to_offset_code(tokens[0])
+    offset_minutes = hour_string_to_offset_minutes(tokens[0])
     abbrev = tokens[2].replace('%s', '%')
+
+    # the 'RULES' field can be:
+    #   * '-' no rules
+    #   * a string reference to a rule
+    #   * an offset like "01:00" (e.g. America/Argentina/San_Luis,
+    #       Europe/Istanbul).
+    rules_string = tokens[1]
+    if rules_string.find(':') >= 0:
+        rules_string = str(hour_string_to_offset_minutes(rules_string))
 
     # Create the zone entry
     return {
-        'offset_code': offset_code,
-        'rules': tokens[1],
+        'offset_minutes': offset_minutes,
+        'rules': rules_string,
         'abbrev': abbrev,
         'until_year': until_year,
         'until_month': until_month,
@@ -418,7 +442,7 @@ def process_zone_line(line):
     }
 
 
-def hour_string_to_offset_code(hs):
+def hour_string_to_offset_minutes(hs):
     i = 0
     sign = 1
     if hs[i] == '-':
@@ -434,10 +458,7 @@ def hour_string_to_offset_code(hs):
         minute_string = hs[colon_index + 1:]
     hour = int(hour_string)
     minute = int(minute_string)
-    if minute % 15 != 0:
-        raise Exception('Cannot support GMTOFF (%s)' % hs)
-    offset_code = sign * (hour * 4 + minute // 15)
-    return offset_code
+    return sign * (hour * 60 + minute)
 
 
 def main():
@@ -479,6 +500,11 @@ def main():
         action="store_true",
         default=False)
     parser.add_argument(
+        '--print_zones_without_rules',
+        help='Print rules which references an unknown zone',
+        action="store_true",
+        default=False)
+    parser.add_argument(
         '--print_summary',
         help='Print summary of rules and zones',
         action="store_true",
@@ -509,6 +535,8 @@ def main():
         extractor.print_short_names()
     if args.print_complex_zones:
         extractor.print_complex_zones()
+    if args.print_zones_without_rules:
+        extractor.print_zones_without_rules()
 
 
 if __name__ == '__main__':

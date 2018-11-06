@@ -7,7 +7,7 @@
 import unittest
 from extractor import parse_on_day_string
 from extractor import parse_at_hour_string
-from extractor import hour_string_to_offset_code
+from extractor import hour_string_to_offset_minutes
 
 
 class TestParseOnDayString(unittest.TestCase):
@@ -35,20 +35,21 @@ class TestParseAtHourString(unittest.TestCase):
 
 
 class TestHourStringToOffsetCode(unittest.TestCase):
-    def test_hour_string_to_offset_code(self):
-        self.assertEqual(0, hour_string_to_offset_code('0'))
-        self.assertEqual(0, hour_string_to_offset_code('0:00'))
-        self.assertEqual(0, hour_string_to_offset_code('00:00'))
-        self.assertEqual(4, hour_string_to_offset_code('1:00'))
-        self.assertEqual(4, hour_string_to_offset_code('01:00'))
-        self.assertEqual(-4, hour_string_to_offset_code('-1:00'))
-        self.assertEqual(-4, hour_string_to_offset_code('-01:00'))
-        self.assertEqual(5, hour_string_to_offset_code('1:15'))
-        self.assertEqual(6, hour_string_to_offset_code('1:30'))
-        self.assertEqual(7, hour_string_to_offset_code('1:45'))
+    def test_hour_string_to_offset_minutes(self):
+        self.assertEqual(0, hour_string_to_offset_minutes('0'))
+        self.assertEqual(0, hour_string_to_offset_minutes('0:00'))
+        self.assertEqual(0, hour_string_to_offset_minutes('00:00'))
+        self.assertEqual(60, hour_string_to_offset_minutes('1:00'))
+        self.assertEqual(60, hour_string_to_offset_minutes('01:00'))
+        self.assertEqual(-60, hour_string_to_offset_minutes('-1:00'))
+        self.assertEqual(-60, hour_string_to_offset_minutes('-01:00'))
+        self.assertEqual(75, hour_string_to_offset_minutes('1:15'))
+        self.assertEqual(90, hour_string_to_offset_minutes('1:30'))
+        self.assertEqual(105, hour_string_to_offset_minutes('1:45'))
+        self.assertEqual(106, hour_string_to_offset_minutes('1:46'))
 
     def test_hour_string_to_offset_code_fails(self):
-        self.assertRaises(Exception, hour_string_to_offset_code, '1:01')
+        self.assertRaises(Exception, hour_string_to_offset_minutes, 'abc')
 
 
 if __name__ == '__main__':
