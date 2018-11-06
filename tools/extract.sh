@@ -9,7 +9,8 @@ set -eu
 # Can't use $(realpath $(dirname $0)) because realpath doesn't exist on MacOS
 DIRNAME=$(dirname $0)
 
-DB_DIR=$HOME/Downloads/tzdb-2018e/
+# Point to the github repository.
+DB_DIR=$HOME/dev/tz
 
 cat $DB_DIR/africa \
     $DB_DIR/antarctica \
