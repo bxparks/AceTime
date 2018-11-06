@@ -183,20 +183,7 @@ class Extractor:
             for zone in zones:
                 print(zone)
 
-    def print_zones_without_rules(self):
-        """Print zones which point to unknown rules. "-" is a valid rule.
-        """
-        for name, zones in self.zones.items():
-            name_printed = False
-            for zone in zones:
-                rule_name = zone['rules']
-                if rule_name != '-' and rule_name not in self.rules:
-                    if not name_printed:
-                        print('Zone name %s' % name)
-                        name_printed = True
-                    print(zone)
-
-    def print_short_names(self):
+    def print_zones_short_name(self):
         """Print the last component in the "a/b/c" zone names.
         """
         for name, zones in self.zones.items():
@@ -207,14 +194,53 @@ class Extractor:
                 short_name = name
             print(short_name)
 
-    def print_complex_zones(self):
-        """Print the zones which have complex 'until' dates, with month, day
-        and/or time.
+    def print_zones_with_until_month(self):
+        """Print the zones which have months in the 'UNTIL' field.
         """
         for name, zones in self.zones.items():
             name_printed = False
             for zone in zones:
                 if zone['until_month']:
+                    if not name_printed:
+                        print('Zone name %s' % name)
+                        name_printed = True
+                    print(zone)
+
+    def print_zones_without_rules(self):
+        """Print zones whose RULES column is "-" which indicates NO rules.
+        """
+        for name, zones in self.zones.items():
+            name_printed = False
+            for zone in zones:
+                rule_name = zone['rules']
+                if rule_name == '-':
+                    if not name_printed:
+                        print('Zone name %s' % name)
+                        name_printed = True
+                    print(zone)
+
+    def print_zones_with_offset_as_rules(self):
+        """Print zones which point to a DST offset in its RULES column.
+        """
+        for name, zones in self.zones.items():
+            name_printed = False
+            for zone in zones:
+                rule_name = zone['rules']
+                if rule_name.isdigit():
+                    if not name_printed:
+                        print('Zone name %s' % name)
+                        name_printed = True
+                    print(zone)
+
+    def print_zones_with_unknown_rules(self):
+        """Print zones whose RULES is a reference that cannot be found.
+        """
+        for name, zones in self.zones.items():
+            name_printed = False
+            for zone in zones:
+                rule_name = zone['rules']
+                if rule_name != '-' and not rule_name.isdigit() \
+                        and rule_name not in self.rules:
                     if not name_printed:
                         print('Zone name %s' % name)
                         name_printed = True
@@ -490,18 +516,28 @@ def main():
         action="store_true",
         default=False)
     parser.add_argument(
-        '--print_short_names',
+        '--print_zones_short_name',
         help='Print the short zone names',
         action="store_true",
         default=False)
     parser.add_argument(
-        '--print_complex_zones',
-        help='Print the Zones with complex "UNTIL" fields',
+        '--print_zones_with_until_month',
+        help='Print the Zones with "UNTIL" month fields',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '--print_zones_with_offset_as_rules',
+        help='Print rules which contains a DST offset in the RULES column',
         action="store_true",
         default=False)
     parser.add_argument(
         '--print_zones_without_rules',
-        help='Print rules which references an unknown zone',
+        help='Print rules which contain "-" in the RULES column',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '--print_zones_with_unknown_rules',
+        help='Print rules which contain a valid RULES that cannot be found',
         action="store_true",
         default=False)
     parser.add_argument(
@@ -531,12 +567,16 @@ def main():
         extractor.print_summary()
     if args.print_rules_long_dst_letter:
         extractor.print_rules_long_dst_letter()
-    if args.print_short_names:
-        extractor.print_short_names()
-    if args.print_complex_zones:
-        extractor.print_complex_zones()
+    if args.print_zones_short_name:
+        extractor.print_zones_short_name()
+    if args.print_zones_with_until_month:
+        extractor.print_zones_with_until_month()
+    if args.print_zones_with_offset_as_rules:
+        extractor.print_zones_with_offset_as_rules()
     if args.print_zones_without_rules:
         extractor.print_zones_without_rules()
+    if args.print_zones_with_unknown_rules:
+        extractor.print_zones_with_unknown_rules()
 
 
 if __name__ == '__main__':
