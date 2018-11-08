@@ -1,6 +1,8 @@
 #ifndef ACE_TIME_ZONE_POLICIES_H
 #define ACE_TIME_ZONE_POLICIES_H
 
+#include "../ZoneRule.h"
+
 namespace ace_time {
 namespace zonedb {
 

@@ -1,7 +1,7 @@
 #ifndef ACE_TIME_ZONE_INFOS_H
 #define ACE_TIME_ZONE_INFOS_H
 
-#include "ZoneInfo.h"
+#include "../ZoneInfo.h"
 
 namespace ace_time {
 namespace zonedb {
