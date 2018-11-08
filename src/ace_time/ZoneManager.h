@@ -188,11 +188,11 @@ class ZoneManager {
       }
     }
 
-    /** Find the matching entry for year. */
+    /** Find the matching entry for year < untilYear. */
     const ZoneInfoEntry* findEntry(uint8_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {
         const ZoneInfoEntry* entry = &mZoneInfo->entries[i];
-        if (year <= entry->untilYear) return entry;
+        if (year < entry->untilYear) return entry;
       }
       return nullptr;
     }

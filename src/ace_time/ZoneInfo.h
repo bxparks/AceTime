@@ -21,9 +21,11 @@ struct ZoneInfoEntry {
   /** Zone abbreviations (e.g. PST, EST, etc) */
   const char* const format;
 
-  /** Entry valid until year. 0 = 2000. */
-  // TODO: Petersburg has month/day, do we need that?
+  /** Entry valid until t < earliest date with (year==untilYear). 0 = 2000. */
   uint8_t const untilYear;
+
+  // TODO: add untilMonth, untilDayOfMonth, untilDayOfWeek, untilTime,
+  // untilTimeModifier
 };
 
 /** Data structure that represents a given time zone. */
