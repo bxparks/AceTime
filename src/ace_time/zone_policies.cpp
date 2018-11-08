@@ -1,7 +1,9 @@
 #include "ZoneRule.h"
 #include "ZoneInfo.h"
+#include "zone_policies.h"
 
 namespace ace_time {
+namespace zonedb {
 
 //---------------------------------------------------------------------------
 // US Rules
@@ -61,7 +63,7 @@ static const ZoneRule kZoneRulesUS[] = {
   },
 };
 
-const ZonePolicy ZonePolicy::kUS = {
+const ZonePolicy kPolicyUS = {
   sizeof(kZoneRulesUS) / sizeof(ZoneRule) /*numRules*/,
   kZoneRulesUS /*rules*/,
 };
@@ -97,7 +99,7 @@ static const ZoneRule kZoneRulesEU[] = {
   },
 };
 
-const ZonePolicy ZonePolicy::kEU = {
+const ZonePolicy kPolicyEU = {
   sizeof(kZoneRulesEU) / sizeof(ZoneRule) /*numRules*/,
   kZoneRulesEU /*rules*/,
 };
@@ -181,9 +183,10 @@ static const ZoneRule kZoneRulesAN[] = {
   },
 };
 
-const ZonePolicy ZonePolicy::kAN = {
+const ZonePolicy kPolicyAN = {
   sizeof(kZoneRulesAN) / sizeof(ZoneRule) /*numRules*/,
   kZoneRulesAN /*rules*/,
 };
 
+}
 }

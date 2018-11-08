@@ -2,8 +2,6 @@
 #define ACE_TIME_ZONE_INFO_H
 
 #include <stdint.h>
-#include "OffsetDateTime.h"
-#include "ZoneOffset.h"
 #include "ZoneRule.h"
 
 namespace ace_time {
@@ -30,17 +28,6 @@ struct ZoneInfoEntry {
 
 /** Data structure that represents a given time zone. */
 struct ZoneInfo {
-  static ZoneInfo const kLosAngeles;
-  static ZoneInfo const kDenver;
-  static ZoneInfo const kChicago;
-  static ZoneInfo const kNewYork;
-  static ZoneInfo const kToronto;
-  static ZoneInfo const kPetersburg;
-  static ZoneInfo const kIndianapolis;
-  static ZoneInfo const kLondon;
-  static ZoneInfo const kSydney;
-  static ZoneInfo const kJohannesburg;
-
   /** Name of zone. */
   const char* const name; // name of zone
 

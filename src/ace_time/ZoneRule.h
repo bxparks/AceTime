@@ -2,7 +2,6 @@
 #define ACE_TIME_ZONE_RULE_H
 
 #include <stdint.h>
-#include "OffsetDateTime.h"
 
 namespace ace_time {
 
@@ -32,10 +31,6 @@ struct ZoneRule {
  * can choose to follow the same ZonePolicy at different times.
  */
 struct ZonePolicy {
-  static const ZonePolicy kUS;
-  static const ZonePolicy kEU;
-  static const ZonePolicy kAN;
-
   uint8_t const numRules;
   const ZoneRule* const rules;
 };

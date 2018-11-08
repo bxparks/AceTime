@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include "ZoneOffset.h"
 #include "ZoneInfo.h"
+#include "LocalDate.h"
+#include "OffsetDateTime.h"
 
 class ZoneManagerTest_init_primitives;
 class ZoneManagerTest_init;

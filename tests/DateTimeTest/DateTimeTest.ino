@@ -331,7 +331,7 @@ test(OffsetDateTimeTest, forDateString) {
 // --------------------------------------------------------------------------
 
 test(DateTimeTest, forComponents_beforeDst) {
-  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  TimeZone tz = TimeZone::forZone(&zonedb::kLosAngeles);
   DateTime dt = DateTime::forComponents(18, 3, 11, 1, 59, 59, tz);
 
   ZoneOffset pst = ZoneOffset::forHour(-8);
@@ -341,7 +341,7 @@ test(DateTimeTest, forComponents_beforeDst) {
 }
 
 test(DateTimeTest, forComponents_inDstGap) {
-  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  TimeZone tz = TimeZone::forZone(&zonedb::kLosAngeles);
   DateTime dt = DateTime::forComponents(18, 3, 11, 2, 0, 1, tz);
 
   ZoneOffset pdt = ZoneOffset::forHour(-7);
@@ -351,7 +351,7 @@ test(DateTimeTest, forComponents_inDstGap) {
 }
 
 test(DateTimeTest, forComponents_inDst) {
-  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  TimeZone tz = TimeZone::forZone(&zonedb::kLosAngeles);
   DateTime dt = DateTime::forComponents(18, 3, 11, 3, 0, 1, tz);
 
   ZoneOffset pdt = ZoneOffset::forHour(-7);
@@ -361,7 +361,7 @@ test(DateTimeTest, forComponents_inDst) {
 }
 
 test(DateTimeTest, forComponents_beforeStd) {
-  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  TimeZone tz = TimeZone::forZone(&zonedb::kLosAngeles);
   DateTime dt = DateTime::forComponents(18, 11, 4, 0, 59, 59, tz);
 
   ZoneOffset pdt = ZoneOffset::forHour(-7);
@@ -371,7 +371,7 @@ test(DateTimeTest, forComponents_beforeStd) {
 }
 
 test(DateTimeTest, forComponents_inOverlap) {
-  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  TimeZone tz = TimeZone::forZone(&zonedb::kLosAngeles);
   DateTime dt = DateTime::forComponents(18, 11, 4, 1, 0, 1, tz); // ambiguous
 
   ZoneOffset pdt = ZoneOffset::forHour(-8);
@@ -382,7 +382,7 @@ test(DateTimeTest, forComponents_inOverlap) {
 
 
 test(DateTimeTest, forComponents_afterOverlap) {
-  TimeZone tz = TimeZone::forZone(&ZoneInfo::kLosAngeles);
+  TimeZone tz = TimeZone::forZone(&zonedb::kLosAngeles);
   DateTime dt = DateTime::forComponents(18, 11, 4, 2, 0, 1, tz); // ambiguous
 
   ZoneOffset pdt = ZoneOffset::forHour(-8);

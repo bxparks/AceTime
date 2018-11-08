@@ -16,6 +16,8 @@
 #include "ace_time/TimeZone.h"
 #include "ace_time/TimeZone.h"
 #include "ace_time/ZoneManager.h"
+#include "ace_time/zone_policies.h"
+#include "ace_time/zone_infos.h"
 #include "ace_time/DateTime.h"
 #include "ace_time/TimePeriod.h"
 #include "ace_time/provider/TimeProvider.h"
