@@ -57,6 +57,7 @@ class Extractor:
         extractor.print_rules()
         extractor.print_zones()
         extractor.print_summary()
+        ...
     """
 
     def __init__(self, invocation, input, **kwargs):
@@ -67,8 +68,8 @@ class Extractor:
         self.rule_lines = {}  # dictionary of ruleName to lines[]
         self.zone_lines = {}  # dictionary of zoneName to lines[]
         self.link_lines = {}  # dictionary of linkName to lines[]
-        self.rules = {}
-        self.zones = {}
+        self.rules = {} # map of ruleName to ruleEntry[]
+        self.zones = {} # map fo ruleName to zoneEntry[]
         self.ignored_rule_lines = 0
         self.ignored_zone_lines = 0
         self.invalid_rule_lines = 0
@@ -246,6 +247,47 @@ class Extractor:
                         name_printed = True
                     print(zone)
 
+    def print_zones_requiring_historic_rules(self):
+        """Print zones which contains a zone rule entry which does not have a
+        directly matching transition rule (after the year 2000). This means that
+        we need to go back to historical records before year 2000 to find the
+        most recent prior transition rule.
+        """
+        for name, zone_entries in self.zones.items():
+            begin_year = 2000
+            for zone_entry in zone_entries:
+                rule_name = zone_entry['rules']
+                if rule_name == '-' or rule_name.isdigit():
+                    continue
+
+                rule_entries = self.rules.get(rule_name)
+                if not rule_entries:
+                    # This shouldn't happen
+                    print('Zone name %s: Missing rule' % name)
+                    continue
+
+                # Check if there's exists a transition rule during the
+                # [begin_year, until_year) interval.
+                until_year = zone_entry['until_year']
+                if find_matching_rules(rule_entries, begin_year, until_year):
+                    begin_year = until_year
+                    continue
+
+                # Check if there's a transition rule prior to the first year.
+                prior_match = find_most_recent_prior_rule(
+                        rule_entries, begin_year)
+                if prior_match:
+                    begin_year = until_year
+                    print('Zone name %s: %s' % (name, zone_entry))
+                    print('    Matching rule: %s' % prior_match)
+                    begin_year = until_year
+                    continue
+
+                print('Zone name %s: No matching rule: %s' % (name, zone_entry))
+
+                begin_year = until_year
+
+
     def read_line(self):
         """Return the next line, while supporting a one-line push_back().
         Comment lines begin with a '#' character and are skipped.
@@ -278,6 +320,36 @@ class Extractor:
                 continue
 
             return line
+
+
+def find_matching_rules(rule_entries, from_year, until_year):
+    """ Return True if there is a directly matching transition rule in
+    [from_year, until_year) exclusive.
+    """
+    rules = []
+    for rule_entry in rule_entries:
+        if rule_entry['from'] <= until_year - 1 and \
+                from_year <= rule_entry['to']:
+            rules.append(rule_entry)
+    return rules
+
+
+def find_most_recent_prior_rule(rule_entries, year):
+    """Find the most recent prior rule before the given year.
+    """
+    candidate = None
+    for rule_entry in rule_entries:
+        if rule_entry['to'] < year:
+            if not candidate:
+                candidate = rule_entry
+                continue
+            if rule_entry['to'] > candidate['to']:
+                candidate = rule_entry
+                continue
+            if rule_entry['to'] == candidate['to'] and \
+                    rule_entry['in_month'] > candidate['in_month']:
+                candidate = rule_entry
+    return candidate
 
 
 def add_item(table, name, line):
@@ -501,6 +573,11 @@ def main():
     parser.add_argument(
         '--header_file', help='Name of the output .h file', required=False)
     parser.add_argument(
+        '--print_summary',
+        help='Print summary of rules and zones',
+        action="store_true",
+        default=False)
+    parser.add_argument(
         '--print_rules',
         help='Print list of rules',
         action="store_true",
@@ -541,8 +618,8 @@ def main():
         action="store_true",
         default=False)
     parser.add_argument(
-        '--print_summary',
-        help='Print summary of rules and zones',
+        '--print_zones_requiring_historic_rules',
+        help='Print rules which require historic transition rules',
         action="store_true",
         default=False)
     args = parser.parse_args()
@@ -559,14 +636,17 @@ def main():
     extractor.parse_zone_file()
     extractor.process_rules()
     extractor.process_zones()
+
+    if args.print_summary:
+        extractor.print_summary()
+
     if args.print_rules:
         extractor.print_rules()
     if args.print_zones:
         extractor.print_zones()
-    if args.print_summary:
-        extractor.print_summary()
     if args.print_rules_long_dst_letter:
         extractor.print_rules_long_dst_letter()
+
     if args.print_zones_short_name:
         extractor.print_zones_short_name()
     if args.print_zones_with_until_month:
@@ -577,6 +657,10 @@ def main():
         extractor.print_zones_without_rules()
     if args.print_zones_with_unknown_rules:
         extractor.print_zones_with_unknown_rules()
+    if args.print_zones_with_unknown_rules:
+        extractor.print_zones_with_unknown_rules()
+    if args.print_zones_requiring_historic_rules:
+        extractor.print_zones_requiring_historic_rules()
 
 
 if __name__ == '__main__':
