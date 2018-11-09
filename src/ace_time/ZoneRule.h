@@ -5,22 +5,64 @@
 
 namespace ace_time {
 
-/** A time zone transition rule. */
+/**
+ * A time zone transition rule. It is useful to think of this as a transition
+ * rule that repeats on the given (month, day, hour) every year during the
+ * interval [fromYear, toYear] inclusive.
+ */
 struct ZoneRule {
-  uint8_t const fromYear; // 0=2000, 255=2255
-  uint8_t const toYear; // 0=2000, 255=2255
-  uint8_t const inMonth; // 1 - 12
+  /** Determined by the FROM column. 0=2000, 255=2255. */
+  uint8_t const fromYear;
 
-  // onDayOfWeek=0, onDayOfMonth=(1-31): exact match
-  // onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
-  // onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
-  uint8_t const onDayOfWeek; // 0, 1=Mon, 7=Sun
-  uint8_t const onDayOfMonth; // 0, 1-31
+  /** Determined by the TO column. 0=2000, 255=2255. */
+  uint8_t const toYear;
 
-  uint8_t const atHour; // 0-23
-  uint8_t const atHourModifier; // 'w'=wall; 's'=standard; 'u'=g=z=meridian
-  int8_t const deltaCode; // 0 - 12, DST shift in 15-min increments
-  uint8_t const letter; // 'S', 'D', '-'
+  /** Determined by the IN column. 1=Jan, 12=Dec. */
+  uint8_t const inMonth;
+
+  /**
+   * Determined by the ON column. Possible values are: 0, 1=Mon, 7=Sun.
+   * There are 3 combinations:
+   * @verbatim
+   * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
+   * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
+   * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
+   * @endverbatim
+   *
+   * We support only the '>=' operator, not the '<=' operator which does not
+   * seem to be used currently.
+   */
+  uint8_t const onDayOfWeek;
+
+  /**
+   * Determined by the ON column. Used with onDayOfWeek. Possible values are:
+   * 0, 1-31.
+   */
+  uint8_t const onDayOfMonth;
+
+  /** Determined by the AT column. 0-23. */
+  uint8_t const atHour;
+
+  /** Determined by the suffix in the AT column.
+   * 'w'=wall; 's'=standard; 'u'=g=z=meridian
+   */
+  uint8_t const atHourModifier;
+
+  /**
+   * Determined by the SAVE column, containing the offset from UTC, in 15-min
+   * increments.
+   */
+  int8_t const deltaCode;
+
+  /**
+   * Determined by the LETTER column. Determines the substitution into the '%s'
+   * field (implemented here by just a '%') of the ZoneInfo::format field.
+   * Possible values are 'S', 'D', '-'. There are only 2 Rule entries which
+   * have LETTER fields longer than 1 characters as of TZ Database version
+   * 2018g: Rule Namibia (used by Africa/Windhoek) and Rule Troll (used by
+   * Antarctica/Troll).
+   */
+  uint8_t const letter;
 };
 
 /**

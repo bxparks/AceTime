@@ -17,19 +17,35 @@ class ZoneManagerTest_calcRuleOffsetCode;
 namespace ace_time {
 
 /**
- * Data structure that captures the matching ZoneInfoEntry for a given year.
- * Can be cached based on the year.
+ * Data structure that captures the matching ZoneInfoEntry and its ZoneRule
+ * transitions for a given year. Can be cached based on the year.
  */
 struct ZoneMatch {
-  // Longest abbreviation seems to be 5 characters.
-  // https://www.timeanddate.com/time/zones/
+  /**
+   * Longest abbreviation seems to be 5 characters.
+   * https://www.timeanddate.com/time/zones/
+   */
   static const uint8_t kAbbrevSize = 5 + 1;
 
-  const ZoneInfoEntry* entry; // NonNull
-  const ZoneRule* rule; // Nullable
-  uint32_t startEpochSeconds; // transition time of given rule
-  int8_t offsetCode; // effective offsetCode at the start of zone period
-  char abbrev[kAbbrevSize]; // time zone abbreviation
+  /** The Zone entry that matched for the given year. NonNullable. */
+  const ZoneInfoEntry* entry;
+
+  /**
+   * The Zone transition rule that matched for the the given year. Set to
+   * nullptr if the RULES column is '-'. We do not support a RULES column that
+   * contains a UTC offset. There are only 2 time zones that has this property
+   * as of version 2018g: Europe/Istanbul and America/Argentina/San_Luis.
+   */
+  const ZoneRule* rule;
+
+  /** The calculated transition time of the given rule. */
+  uint32_t startEpochSeconds;
+
+  /** The calculated effective UTC offsetCode at the start of transition. */
+  int8_t offsetCode;
+
+  /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
+  char abbrev[kAbbrevSize];
 };
 
 /**
@@ -102,8 +118,8 @@ class ZoneManager {
       if (!isFilled(year)) {
         mYear = year;
         mNumMatches = 0;
-        addLastYear();
-        addCurrentYear();
+        addRuleForLastYear();
+        addRulesForCurrentYear();
         calcTransitions();
         calcAbbreviations();
         mIsFilled = true;
@@ -117,9 +133,9 @@ class ZoneManager {
     /**
      * Add the last matching rule from last year, to determine the offset
      * at the beginning of the current year.
-     *  TODO: special handing for year 2000 (i.e. year == 0)
      */
-    void addLastYear() {
+    void addRuleForLastYear() {
+      // TODO: special handing for year 2000 (i.e. year == 0)
       uint8_t lastYear = mYear - 1;
       const ZoneInfoEntry* const entry = findEntry(lastYear);
       // TODO: check for (entry == nullptr).
@@ -146,12 +162,18 @@ class ZoneManager {
     }
 
     /** Add all matching rules from the current year. */
-    void addCurrentYear() {
+    void addRulesForCurrentYear() {
       const ZoneInfoEntry* const entry = findEntry(mYear);
 
       const ZonePolicy* const zonePolicy = entry->zonePolicy;
       if (zonePolicy == nullptr) return;
 
+      // Find all matching transition rules, and add them to the mMatches list,
+      // in sorted order according to the ZoneRule::inMonth field.
+      //
+      // TODO: Update the matching algorithm so that it finds the last matching
+      // transition even if it happened in a prior year. In some cases (e.g.
+      // Australia/Darwin) happened way before the year 2000.
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const ZoneRule* const rule = &zonePolicy->rules[i];
         if ((rule->fromYear <= mYear) && (mYear <= rule->toYear)) {
@@ -161,12 +183,16 @@ class ZoneManager {
     }
 
     /**
-     * Add (entry, rule) to the cache, in sorted order. Essentially, this is
-     * doing an Insertion Sort of the ZoneMatch elements. Even through it is
-     * O(N^2), for small number of ZoneMatch elements, this is faster than than
-     * the O(N log(N)) algorithms such as Merge Sort, Heap Sort, Quick Sort, or
-     * Shell Sort. The nice property of this Insertion Sort is that if the
-     * ZoneInfoEntries are already sorted, then the total sort time is O(N).
+     * Add (entry, rule) to the cache, in sorted order according to the
+     * 'ZoneRule::inMonth' field. This assumes that there are no more than one
+     * transitions per month.
+     *
+     * Essentially, this is doing an Insertion Sort of the ZoneMatch elements.
+     * Even through it is O(N^2), for small number of ZoneMatch elements, this
+     * is faster than than the O(N log(N)) algorithms such as Merge Sort, Heap
+     * Sort, Quick Sort. The nice property of this Insertion Sort is that if
+     * the ZoneInfoEntries are already sorted, then the loop terminates early
+     * and the total sort time is O(N).
      */
     void addRule(const ZoneInfoEntry* entry, const ZoneRule* rule) const {
       if (mNumMatches >= kMaxCacheEntries) return;
@@ -215,7 +241,8 @@ class ZoneManager {
             mYear, match.rule->inMonth, match.rule->onDayOfWeek,
             match.rule->onDayOfMonth);
 
-        // Determine the offset of the 'atHourModifier'.
+        // Determine the offset of the 'atHourModifier'. The 'w' modifier
+        // requires the offset of the previous match.
         const int8_t ruleOffsetCode = calcRuleOffsetCode(
             previousMatch->offsetCode,
             match.entry->offsetCode,
@@ -282,6 +309,7 @@ class ZoneManager {
       }
     }
 
+    /** Calculate the time zone abbreviation of the current zoneMatch. */
     static void calcAbbreviation(ZoneMatch* zoneMatch) {
       createAbbreviation(
           zoneMatch->abbrev,
@@ -328,6 +356,11 @@ class ZoneManager {
       }
     }
 
+    /**
+     * Copy at most dstSize characters from src to dst, while replacing all
+     * occurance of oldChar with newChar. If newChar is '-', then replace with
+     * nothing. The resulting dst string is always NUL terminated.
+     */
     static void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
         char oldChar, char newChar) {
       while (*src != '\0' && dstSize > 0) {

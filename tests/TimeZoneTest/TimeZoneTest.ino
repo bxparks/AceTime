@@ -39,7 +39,7 @@ test(ZoneManagerTest, init_primitives) {
   manager.mYear = 1;
   manager.mNumMatches = 0;
 
-  manager.addLastYear();
+  manager.addRuleForLastYear();
   assertEqual(0, manager.mNumMatches);
   assertEqual(-32, manager.mPreviousMatch.entry->offsetCode);
   assertEqual("P%T", manager.mPreviousMatch.entry->format);
@@ -47,7 +47,7 @@ test(ZoneManagerTest, init_primitives) {
   assertEqual(6, manager.mPreviousMatch.rule->toYear);
   assertEqual(10, manager.mPreviousMatch.rule->inMonth);
 
-  manager.addCurrentYear();
+  manager.addRulesForCurrentYear();
   assertEqual(2, manager.mNumMatches);
 
   assertEqual("P%T", manager.mMatches[0].entry->format);
