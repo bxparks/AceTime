@@ -75,7 +75,6 @@ test(ZoneManagerTest, init_primitives) {
   assertEqual((uint32_t) 57574800, manager.mMatches[1].startEpochSeconds);
 }
 
-/*
 test(ZoneManagerTest, init) {
   ZoneManager manager(&zonedb::kLosAngeles);
   LocalDate ld = LocalDate::forComponents(18, 1, 1);
@@ -287,7 +286,6 @@ test(AutoTimeZone, LosAngeles) {
   assertEqual(-28, tz.getZoneOffset(epochSeconds).toOffsetCode());
   assertEqual("PDT", tz.getAbbrev(epochSeconds));
 }
-*/
 
 // --------------------------------------------------------------------------
 
