@@ -50,7 +50,12 @@ struct ZoneMatch {
 };
 
 /**
- * Manages a given ZoneInfo.
+ * Manages a given ZoneInfo. The ZoneRule and ZoneEntry records that match the
+ * year of the given epochSeconds are cached internally for performance. The
+ * expectation is that repeated calls to the various methods will have
+ * epochSeconds which do not vary too greatly and will occur in the same year.
+ *
+ * Not thread-safe.
  */
 class ZoneManager {
   public:
