@@ -117,66 +117,99 @@ class ZoneManager {
 
       if (!isFilled(year)) {
         mYear = year;
-        mNumMatches = 0;
-        addRuleForLastYear();
-        addRulesForCurrentYear();
+        mNumMatches = 0; // clear cache
+
+        addRulePriorToYear(year);
+        addRulesForYear(year);
         calcTransitions();
         calcAbbreviations();
         mIsFilled = true;
       }
     }
 
+    /** Check if the ZoneRule cache is filled for the given year. */
     bool isFilled(uint8_t year) const {
       return mIsFilled && (year == mYear);
     }
 
     /**
-     * Add the last matching rule from last year, to determine the offset
-     * at the beginning of the current year.
+     * Add the last matching rule just prior to the given year. This determines
+     * the offset at the beginning of the current year.
      */
-    void addRuleForLastYear() {
-      // TODO: special handing for year 2000 (i.e. year == 0)
-      uint8_t lastYear = mYear - 1;
-      const ZoneInfoEntry* const entry = findEntry(lastYear);
-      // TODO: check for (entry == nullptr).
+    void addRulePriorToYear(uint8_t year) {
+      const ZoneInfoEntry* const entry = findZoneEntryPriorTo(year);
+      // TODO: Will never return nullptr if there is at least one Rule whose
+      // toYearFull is ZoneRule::kMaxYear.
 
-      // Some countries don't have a ZonePolicy, e.g. South Africa
       const ZonePolicy* const zonePolicy = entry->zonePolicy;
       if (zonePolicy == nullptr) {
-        mPreviousMatch = {entry, nullptr, 0, 0, {0}};
+        mPreviousMatch = {
+          entry,
+          nullptr /*rule*/,
+          0 /*epochSeconds*/,
+          0 /*offsetCode*/,
+          {0} /*abbrev*/
+        };
         return;
       }
 
-      // Find the latest rule for last year. Assume that there are no more than
-      // 1 rule per month.
+      // Find the latest rule for the matching Zone entry whose
+      // ZoneRule::toYearFull < year. Assume that there are no more than 1 rule
+      // per month.
       const ZoneRule* latest = nullptr;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const ZoneRule* const rule = &zonePolicy->rules[i];
-        if ((rule->fromYear <= lastYear) && (lastYear <= rule->toYear)) {
-          if ((latest == nullptr) || (rule->inMonth > latest->inMonth)) {
+        uint16_t yearFull = year + LocalDate::kEpochYear;
+        // Check if rule is effective prior to the given year
+        if (rule->fromYearFull < yearFull) {
+          if ((latest == nullptr)
+              || compareZoneRule(yearFull, rule, latest) > 0) {
             latest = rule;
           }
         }
       }
-      mPreviousMatch = {entry, latest, 0, 0, {0}};
+      mPreviousMatch = {
+        entry,
+        latest /*rule*/,
+        0 /*epochSeconds*/,
+        0 /*offsetCode*/,
+        {0} /*abbrev*/
+      };
+    }
+
+    /** Compare two ZoneRules which are valid prior to the given year. */
+    static int8_t compareZoneRule(uint16_t yearFull,
+        const ZoneRule* a, const ZoneRule* b) {
+      uint16_t aYearFull = effectiveRuleYear(yearFull, a);
+      uint16_t bYearFull = effectiveRuleYear(yearFull, b);
+      if (aYearFull < bYearFull) return -1;
+      if (aYearFull > bYearFull) return 1;
+      if (a->inMonth < b->inMonth) return -1;
+      if (a->inMonth > b->inMonth) return 1;
+      return 0;
+    }
+
+    /** Return the largest effective year of the rule, prior to given year. */
+    static int16_t effectiveRuleYear(uint16_t yearFull, const ZoneRule* rule) {
+      if (rule->toYearFull < yearFull) return rule->toYearFull;
+      if (rule->fromYearFull < yearFull) return yearFull - 1;
+      return 0;
     }
 
     /** Add all matching rules from the current year. */
-    void addRulesForCurrentYear() {
-      const ZoneInfoEntry* const entry = findEntry(mYear);
+    void addRulesForYear(uint8_t year) {
+      const ZoneInfoEntry* const entry = findZoneEntry(year);
 
       const ZonePolicy* const zonePolicy = entry->zonePolicy;
       if (zonePolicy == nullptr) return;
 
       // Find all matching transition rules, and add them to the mMatches list,
       // in sorted order according to the ZoneRule::inMonth field.
-      //
-      // TODO: Update the matching algorithm so that it finds the last matching
-      // transition even if it happened in a prior year. In some cases (e.g.
-      // Australia/Darwin) happened way before the year 2000.
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const ZoneRule* const rule = &zonePolicy->rules[i];
-        if ((rule->fromYear <= mYear) && (mYear <= rule->toYear)) {
+        uint16_t yearFull = year + LocalDate::kEpochYear;
+        if ((rule->fromYearFull <= yearFull)
+            && (yearFull <= rule->toYearFull)) {
           addRule(entry, rule);
         }
       }
@@ -185,7 +218,7 @@ class ZoneManager {
     /**
      * Add (entry, rule) to the cache, in sorted order according to the
      * 'ZoneRule::inMonth' field. This assumes that there are no more than one
-     * transitions per month.
+     * transition per month.
      *
      * Essentially, this is doing an Insertion Sort of the ZoneMatch elements.
      * Even through it is O(N^2), for small number of ZoneMatch elements, this
@@ -214,11 +247,31 @@ class ZoneManager {
       }
     }
 
-    /** Find the matching entry for year < untilYear. */
-    const ZoneInfoEntry* findEntry(uint8_t year) const {
+    /**
+     * Find the Zone entry which applies to the given year. The entry will have
+     * an untilYear where (y < untilYear).
+     *
+     * Since the smallest year is 0 (i.e. 2000), this will return a Zone entry
+     * with untilYear >= 1 (i.e. 2001). The largest supported year is 254 (i.e.
+     * 2254) because no Zone entry will match (255 < untilYear) since untilYear
+     * is stored as a uint8_t.
+     */
+    const ZoneInfoEntry* findZoneEntry(uint8_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {
         const ZoneInfoEntry* entry = &mZoneInfo->entries[i];
         if (year < entry->untilYear) return entry;
+      }
+      return nullptr;
+    }
+
+    /**
+     * Find the zone entry which applies to the year prior to the previous year.
+     * The entry will have an untilYear where (y <= untilYear).
+     */
+    const ZoneInfoEntry* findZoneEntryPriorTo(uint8_t year) const {
+      for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {
+        const ZoneInfoEntry* entry = &mZoneInfo->entries[i];
+        if (year <= entry->untilYear) return entry;
       }
       return nullptr;
     }

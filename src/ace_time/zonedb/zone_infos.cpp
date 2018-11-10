@@ -207,6 +207,26 @@ ZoneInfo const kSydney = {
 };
 
 //---------------------------------------------------------------------------
+// Australia/Darwin
+//---------------------------------------------------------------------------
+
+static ZoneInfoEntry const kZoneInfoEntryDarwin[] = {
+  // 9:30   Aus     AC%sT
+  {
+    38 /*offsetCode*/,
+    &kPolicyAus /*zonePolicy*/,
+    "AC%T" /*format*/,
+    255 /*untilYear*/,
+  }
+};
+
+ZoneInfo const kDarwin = {
+  "Australia/Darwin" /*name*/,
+  kZoneInfoEntryDarwin /*zoneRules*/,
+  sizeof(kZoneInfoEntryDarwin)/sizeof(ZoneInfoEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
 // Africa/Johannesburg
 //---------------------------------------------------------------------------
 
@@ -214,7 +234,7 @@ static ZoneInfoEntry const kZoneInfoEntryJohannesburg[] = {
   // 2:00    SA      SAST
   {
     8 /*offsetCode*/,
-    nullptr /*zonePolicy*/,
+    &kPolicySA /*zonePolicy*/,
     "SAST" /*format*/,
     255 /*untilYear*/,
   }

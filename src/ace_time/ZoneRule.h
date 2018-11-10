@@ -8,14 +8,19 @@ namespace ace_time {
 /**
  * A time zone transition rule. It is useful to think of this as a transition
  * rule that repeats on the given (month, day, hour) every year during the
- * interval [fromYear, toYear] inclusive.
+ * interval [fromYearFull, toYearFull] inclusive.
  */
 struct ZoneRule {
-  /** Determined by the FROM column. 0=2000, 255=2255. */
-  uint8_t const fromYear;
+  static const uint16_t kMaxYear = 9999;
 
-  /** Determined by the TO column. 0=2000, 255=2255. */
-  uint8_t const toYear;
+  /** Determined by the FROM column. Supports years before 2000. */
+  uint16_t const fromYearFull;
+
+  /**
+   * Determined by the TO column. Supports years before 2000. "max" is
+   * represented by 9999.
+   */
+  uint16_t const toYearFull;
 
   /** Determined by the IN column. 1=Jan, 12=Dec. */
   uint8_t const inMonth;

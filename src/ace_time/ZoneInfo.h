@@ -32,7 +32,7 @@ struct ZoneInfoEntry {
 
   /**
    * Entry is valid until currentTime < untilYear (Jan 1 00:00). 0 = 2000.
-   * Comes from the UNTIL column.
+   * Comes from the UNTIL column. This field will always be >= 1 (i.e. 2001).
    */
   uint8_t const untilYear;
 

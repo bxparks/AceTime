@@ -15,6 +15,7 @@ extern ZoneInfo const kPetersburg;
 extern ZoneInfo const kIndianapolis;
 extern ZoneInfo const kLondon;
 extern ZoneInfo const kSydney;
+extern ZoneInfo const kDarwin;
 extern ZoneInfo const kJohannesburg;
 
 }
