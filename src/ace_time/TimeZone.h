@@ -2,8 +2,8 @@
 #define ACE_TIME_TIME_ZONE_H
 
 #include <stdint.h>
+#include "common/ZoneInfo.h"
 #include "ZoneOffset.h"
-#include "ZoneInfo.h"
 #include "ZoneManager.h"
 
 class Print;
@@ -46,7 +46,7 @@ class TimeZone {
     }
 
     /** Factory method. Create from ZoneInfo. */
-    static TimeZone forZone(const ZoneInfo* zoneInfo) {
+    static TimeZone forZone(const common::ZoneInfo* zoneInfo) {
       return TimeZone(zoneInfo);
     }
 
@@ -148,7 +148,7 @@ class TimeZone {
         mZoneManager(nullptr) {}
 
     /** Constructor for kTypeAuto. */
-    explicit TimeZone(const ZoneInfo* zoneInfo):
+    explicit TimeZone(const common::ZoneInfo* zoneInfo):
         mType(kTypeAuto),
         mZoneOffset(),
         mIsDst(false),

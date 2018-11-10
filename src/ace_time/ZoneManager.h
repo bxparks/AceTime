@@ -3,8 +3,9 @@
 
 #include <string.h> // strchr()
 #include <stdint.h>
+#include "common/ZonePolicy.h"
+#include "common/ZoneInfo.h"
 #include "ZoneOffset.h"
-#include "ZoneInfo.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 
@@ -28,7 +29,7 @@ struct ZoneMatch {
   static const uint8_t kAbbrevSize = 5 + 1;
 
   /** The Zone entry that matched for the given year. NonNullable. */
-  const ZoneEntry* entry;
+  const common::ZoneEntry* entry;
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
@@ -36,7 +37,7 @@ struct ZoneMatch {
    * contains a UTC offset. There are only 2 time zones that has this property
    * as of version 2018g: Europe/Istanbul and America/Argentina/San_Luis.
    */
-  const ZoneRule* rule;
+  const common::ZoneRule* rule;
 
   /** The calculated transition time of the given rule. */
   uint32_t startEpochSeconds;
@@ -54,7 +55,7 @@ struct ZoneMatch {
 class ZoneManager {
   public:
     /** Constructor */
-    ZoneManager(const ZoneInfo* zoneInfo):
+    ZoneManager(const common::ZoneInfo* zoneInfo):
         mZoneInfo(zoneInfo) {}
 
     /** Assignment operator. */
@@ -65,7 +66,7 @@ class ZoneManager {
     }
 
     /** Return the underlying ZoneInfo. */
-    const ZoneInfo* getZoneInfo() const { return mZoneInfo; }
+    const common::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
     /** Return if the time zone is observing DST. */
     bool isDst(uint32_t epochSeconds) {
@@ -137,11 +138,11 @@ class ZoneManager {
      * the offset at the beginning of the current year.
      */
     void addRulePriorToYear(uint8_t year) {
-      const ZoneEntry* const entry = findZoneEntryPriorTo(year);
+      const common::ZoneEntry* const entry = findZoneEntryPriorTo(year);
       // TODO: Will never return nullptr if there is at least one Rule whose
       // toYearFull is ZoneRule::kMaxYear.
 
-      const ZonePolicy* const zonePolicy = entry->zonePolicy;
+      const common::ZonePolicy* const zonePolicy = entry->zonePolicy;
       if (zonePolicy == nullptr) {
         mPreviousMatch = {
           entry,
@@ -156,9 +157,9 @@ class ZoneManager {
       // Find the latest rule for the matching Zone entry whose
       // ZoneRule::toYearFull < year. Assume that there are no more than 1 rule
       // per month.
-      const ZoneRule* latest = nullptr;
+      const common::ZoneRule* latest = nullptr;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
-        const ZoneRule* const rule = &zonePolicy->rules[i];
+        const common::ZoneRule* const rule = &zonePolicy->rules[i];
         uint16_t yearFull = year + LocalDate::kEpochYear;
         // Check if rule is effective prior to the given year
         if (rule->fromYearFull < yearFull) {
@@ -179,7 +180,7 @@ class ZoneManager {
 
     /** Compare two ZoneRules which are valid prior to the given year. */
     static int8_t compareZoneRule(uint16_t yearFull,
-        const ZoneRule* a, const ZoneRule* b) {
+        const common::ZoneRule* a, const common::ZoneRule* b) {
       uint16_t aYearFull = effectiveRuleYear(yearFull, a);
       uint16_t bYearFull = effectiveRuleYear(yearFull, b);
       if (aYearFull < bYearFull) return -1;
@@ -190,7 +191,8 @@ class ZoneManager {
     }
 
     /** Return the largest effective year of the rule, prior to given year. */
-    static int16_t effectiveRuleYear(uint16_t yearFull, const ZoneRule* rule) {
+    static int16_t effectiveRuleYear(uint16_t yearFull,
+        const common::ZoneRule* rule) {
       if (rule->toYearFull < yearFull) return rule->toYearFull;
       if (rule->fromYearFull < yearFull) return yearFull - 1;
       return 0;
@@ -198,15 +200,15 @@ class ZoneManager {
 
     /** Add all matching rules from the current year. */
     void addRulesForYear(uint8_t year) {
-      const ZoneEntry* const entry = findZoneEntry(year);
+      const common::ZoneEntry* const entry = findZoneEntry(year);
 
-      const ZonePolicy* const zonePolicy = entry->zonePolicy;
+      const common::ZonePolicy* const zonePolicy = entry->zonePolicy;
       if (zonePolicy == nullptr) return;
 
       // Find all matching transition rules, and add them to the mMatches list,
       // in sorted order according to the ZoneRule::inMonth field.
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
-        const ZoneRule* const rule = &zonePolicy->rules[i];
+        const common::ZoneRule* const rule = &zonePolicy->rules[i];
         uint16_t yearFull = year + LocalDate::kEpochYear;
         if ((rule->fromYearFull <= yearFull)
             && (yearFull <= rule->toYearFull)) {
@@ -227,7 +229,8 @@ class ZoneManager {
      * the ZoneInfoEntries are already sorted, then the loop terminates early
      * and the total sort time is O(N).
      */
-    void addRule(const ZoneEntry* entry, const ZoneRule* rule) const {
+    void addRule(const common::ZoneEntry* entry, const common::ZoneRule* rule)
+        const {
       if (mNumMatches >= kMaxCacheEntries) return;
 
       // insert new element at the end of the list
@@ -256,9 +259,9 @@ class ZoneManager {
      * 2254) because no Zone entry will match (255 < untilYear) since untilYear
      * is stored as a uint8_t.
      */
-    const ZoneEntry* findZoneEntry(uint8_t year) const {
+    const common::ZoneEntry* findZoneEntry(uint8_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {
-        const ZoneEntry* entry = &mZoneInfo->entries[i];
+        const common::ZoneEntry* entry = &mZoneInfo->entries[i];
         if (year < entry->untilYear) return entry;
       }
       return nullptr;
@@ -268,9 +271,9 @@ class ZoneManager {
      * Find the zone entry which applies to the year prior to the previous year.
      * The entry will have an untilYear where (y <= untilYear).
      */
-    const ZoneEntry* findZoneEntryPriorTo(uint8_t year) const {
+    const common::ZoneEntry* findZoneEntryPriorTo(uint8_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {
-        const ZoneEntry* entry = &mZoneInfo->entries[i];
+        const common::ZoneEntry* entry = &mZoneInfo->entries[i];
         if (year <= entry->untilYear) return entry;
       }
       return nullptr;
@@ -450,7 +453,7 @@ class ZoneManager {
       return closestMatch;
     }
 
-    const ZoneInfo* mZoneInfo;
+    const common::ZoneInfo* mZoneInfo;
 
     mutable uint8_t mYear = 0;
     mutable bool mIsFilled = false;

@@ -11,6 +11,7 @@
 
 using namespace ace_time;
 using namespace ace_time::provider;
+using namespace ace_time::common;
 
 void setup() {
   delay(1000);
@@ -19,6 +20,18 @@ void setup() {
   pinMode(LED_BENCHMARK, OUTPUT);
 
   // ace_time primitives
+
+  Serial.print(F("sizeof(ZoneEntry): "));
+  Serial.println(sizeof(ZoneEntry));
+
+  Serial.print(F("sizeof(ZoneInfo): "));
+  Serial.println(sizeof(ZoneInfo));
+
+  Serial.print(F("sizeof(ZoneRule): "));
+  Serial.println(sizeof(ZoneRule));
+
+  Serial.print(F("sizeof(ZonePolicy): "));
+  Serial.println(sizeof(ZoneRule));
 
   Serial.print(F("sizeof(LocalDate): "));
   Serial.println(sizeof(LocalDate));
@@ -29,29 +42,20 @@ void setup() {
   Serial.print(F("sizeof(ZoneOffset): "));
   Serial.println(sizeof(ZoneOffset));
 
-  Serial.print(F("sizeof(ZoneInfo): "));
-  Serial.println(sizeof(ZoneInfo));
-
-  Serial.print(F("sizeof(ZoneEntry): "));
-  Serial.println(sizeof(ZoneEntry));
-
-  Serial.print(F("sizeof(ZoneRule): "));
-  Serial.println(sizeof(ZoneRule));
-
   Serial.print(F("sizeof(ZoneMatch): "));
   Serial.println(sizeof(ZoneMatch));
 
   Serial.print(F("sizeof(ZoneManager): "));
   Serial.println(sizeof(ZoneManager));
 
+  Serial.print(F("sizeof(TimeZone): "));
+  Serial.println(sizeof(TimeZone));
+
   Serial.print(F("sizeof(OffsetDateTime): "));
   Serial.println(sizeof(OffsetDateTime));
 
   Serial.print(F("sizeof(DateTime): "));
   Serial.println(sizeof(DateTime));
-
-  Serial.print(F("sizeof(TimeZone): "));
-  Serial.println(sizeof(TimeZone));
 
   Serial.print(F("sizeof(TimePeriod): "));
   Serial.println(sizeof(TimePeriod));

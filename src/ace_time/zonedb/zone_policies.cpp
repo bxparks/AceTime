@@ -1,4 +1,3 @@
-#include "../ZonePolicy.h"
 #include "zone_policies.h"
 
 namespace ace_time {
@@ -8,7 +7,7 @@ namespace zonedb {
 // US Rules
 //---------------------------------------------------------------------------
 
-static const ZoneRule kZoneRulesUS[] = {
+static const common::ZoneRule kZoneRulesUS[] = {
   // Rule	US	1967	2006	-	Oct	lastSun	2:00	0	S
   {
     1967 /*fromYearFull*/,
@@ -38,7 +37,7 @@ static const ZoneRule kZoneRulesUS[] = {
   // Rule	US	2007	max	-	Mar	Sun>=8	2:00	1:00	D
   {
     2007 /*fromYearFull*/,
-    ZoneRule::kMaxYear /*toYearFull*/,
+    common::ZoneRule::kMaxYear /*toYearFull*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek=Sunday*/,
     8 /*onDayOfMonth*/,
@@ -51,7 +50,7 @@ static const ZoneRule kZoneRulesUS[] = {
   // Rule	US	2007	max	-	Nov	Sun>=1	2:00	0	S
   {
     2007 /*fromYearFull*/,
-    ZoneRule::kMaxYear /*toYearFull*/,
+    common::ZoneRule::kMaxYear /*toYearFull*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek=Sunday*/,
     1 /*onDayOfMonth*/,
@@ -62,8 +61,8 @@ static const ZoneRule kZoneRulesUS[] = {
   },
 };
 
-const ZonePolicy kPolicyUS = {
-  sizeof(kZoneRulesUS) / sizeof(ZoneRule) /*numRules*/,
+const common::ZonePolicy kPolicyUS = {
+  sizeof(kZoneRulesUS) / sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesUS /*rules*/,
 };
 
@@ -71,11 +70,11 @@ const ZonePolicy kPolicyUS = {
 // EU rules
 //---------------------------------------------------------------------------
 
-static const ZoneRule kZoneRulesEU[] = {
+static const common::ZoneRule kZoneRulesEU[] = {
   // Rule	EU	1981	max	-	Mar	lastSun	 1:00u	1:00	S
   {
     1981 /*fromYearFull*/,
-    ZoneRule::kMaxYear /*toYearFull*/,
+    common::ZoneRule::kMaxYear /*toYearFull*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek=Sunday*/,
     0 /*onDayOfMonth*/,
@@ -87,7 +86,7 @@ static const ZoneRule kZoneRulesEU[] = {
   // Rule	EU	1996	max	-	Oct	lastSun	 1:00u	0	-
   {
     1996 /*fromYearFull*/,
-    ZoneRule::kMaxYear /*toYearFull*/,
+    common::ZoneRule::kMaxYear /*toYearFull*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek=Sunday*/,
     0 /*onDayOfMonth*/,
@@ -98,8 +97,8 @@ static const ZoneRule kZoneRulesEU[] = {
   },
 };
 
-const ZonePolicy kPolicyEU = {
-  sizeof(kZoneRulesEU) / sizeof(ZoneRule) /*numRules*/,
+const common::ZonePolicy kPolicyEU = {
+  sizeof(kZoneRulesEU) / sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesEU /*rules*/,
 };
 
@@ -107,7 +106,7 @@ const ZonePolicy kPolicyEU = {
 // Australia New South Wales AN rules
 //---------------------------------------------------------------------------
 
-static const ZoneRule kZoneRulesAN[] = {
+static const common::ZoneRule kZoneRulesAN[] = {
   // Rule    AN      1996    2005    -       Mar     lastSun 2:00s   0       S
   {
     1996 /*fromYearFull*/,
@@ -171,7 +170,7 @@ static const ZoneRule kZoneRulesAN[] = {
   // Rule    AN      2008    max     -       Apr     Sun>=1  2:00s   0       S
   {
     2008 /*fromYearFull*/,
-    ZoneRule::kMaxYear /*toYearFull*/,
+    common::ZoneRule::kMaxYear /*toYearFull*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek=Sunday*/,
     1 /*onDayOfMonth*/,
@@ -183,7 +182,7 @@ static const ZoneRule kZoneRulesAN[] = {
   // Rule    AN      2008    max     -       Oct     Sun>=1  2:00s   1:00    D
   {
     2008 /*fromYearFull*/,
-    ZoneRule::kMaxYear /*toYearFull*/,
+    common::ZoneRule::kMaxYear /*toYearFull*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek=Sunday*/,
     1 /*onDayOfMonth*/,
@@ -194,8 +193,8 @@ static const ZoneRule kZoneRulesAN[] = {
   },
 };
 
-const ZonePolicy kPolicyAN = {
-  sizeof(kZoneRulesAN) / sizeof(ZoneRule) /*numRules*/,
+const common::ZonePolicy kPolicyAN = {
+  sizeof(kZoneRulesAN) / sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesAN /*rules*/,
 };
 
@@ -203,7 +202,7 @@ const ZonePolicy kPolicyAN = {
 // Australia Aus rules
 //---------------------------------------------------------------------------
 
-static const ZoneRule kZoneRulesAus[] = {
+static const common::ZoneRule kZoneRulesAus[] = {
   // Rule    Aus     1943    1944    -       Mar     lastSun 2:00    0       S
   {
     1943 /*fromYearFull*/,
@@ -218,8 +217,8 @@ static const ZoneRule kZoneRulesAus[] = {
   },
 };
 
-const ZonePolicy kPolicyAus = {
-  sizeof(kZoneRulesAus) / sizeof(ZoneRule) /*numRules*/,
+const common::ZonePolicy kPolicyAus = {
+  sizeof(kZoneRulesAus) / sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesAus /*rules*/,
 };
 
@@ -228,7 +227,7 @@ const ZonePolicy kPolicyAus = {
 // South Africa SA rules
 //---------------------------------------------------------------------------
 
-static const ZoneRule kZoneRulesSA[] = {
+static const common::ZoneRule kZoneRulesSA[] = {
   // Rule    SA      1943    1944    -       Mar     Sun>=15 2:00    0       -
   {
     1943 /*fromYearFull*/,
@@ -243,8 +242,8 @@ static const ZoneRule kZoneRulesSA[] = {
   },
 };
 
-const ZonePolicy kPolicySA = {
-  sizeof(kZoneRulesSA) / sizeof(ZoneRule) /*numRules*/,
+const common::ZonePolicy kPolicySA = {
+  sizeof(kZoneRulesSA) / sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesSA /*rules*/,
 };
 

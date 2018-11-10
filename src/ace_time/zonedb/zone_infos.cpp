@@ -1,5 +1,4 @@
-#include "../ZonePolicy.h"
-#include "../ZoneInfo.h"
+#include "../common/ZoneInfo.h"
 #include "zone_policies.h"
 #include "zone_infos.h"
 
@@ -10,7 +9,7 @@ namespace zonedb {
 // America/Los_Angeles
 //---------------------------------------------------------------------------
 
-static ZoneEntry const kZoneEntryLosAngeles[] = {
+static common::ZoneEntry const kZoneEntryLosAngeles[] = {
   // -8:00   US      P%sT
   {
     -32 /*offsetCode*/,
@@ -20,17 +19,17 @@ static ZoneEntry const kZoneEntryLosAngeles[] = {
   }
 };
 
-ZoneInfo const kLosAngeles = {
+common::ZoneInfo const kLosAngeles = {
   "America/Los_Angeles" /*name*/,
   kZoneEntryLosAngeles /*entries*/,
-  sizeof(kZoneEntryLosAngeles)/sizeof(ZoneEntry) /*numEntries*/,
+  sizeof(kZoneEntryLosAngeles)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
 // America/Denver
 //---------------------------------------------------------------------------
 
-static ZoneEntry const kZoneEntryDenver[] = {
+static common::ZoneEntry const kZoneEntryDenver[] = {
   // -7:00   US      M%sT
   {
     -24 /*offsetCode*/,
@@ -40,17 +39,17 @@ static ZoneEntry const kZoneEntryDenver[] = {
   }
 };
 
-ZoneInfo const kDenver = {
+common::ZoneInfo const kDenver = {
   "America/Denver" /*name*/,
   kZoneEntryDenver /*entries*/,
-  sizeof(kZoneEntryDenver)/sizeof(ZoneEntry) /*numEntries*/,
+  sizeof(kZoneEntryDenver)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
 // America/Chicago
 //---------------------------------------------------------------------------
 
-static ZoneEntry const kZoneEntryChicago[] = {
+static common::ZoneEntry const kZoneEntryChicago[] = {
   // -6:00   US      C%sT
   {
     -24 /*offsetCode*/,
@@ -60,17 +59,17 @@ static ZoneEntry const kZoneEntryChicago[] = {
   }
 };
 
-ZoneInfo const kChicago = {
+common::ZoneInfo const kChicago = {
   "America/Chicago" /*name*/,
   kZoneEntryChicago /*entries*/,
-  sizeof(kZoneEntryChicago)/sizeof(ZoneEntry) /*numEntries*/,
+  sizeof(kZoneEntryChicago)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
 // America/New_York
 //---------------------------------------------------------------------------
 
-static ZoneEntry const kZoneEntryNewYork[] = {
+static common::ZoneEntry const kZoneEntryNewYork[] = {
   // -5:00 US  E%sT
   {
     -20 /*offsetCode*/,
@@ -80,17 +79,17 @@ static ZoneEntry const kZoneEntryNewYork[] = {
   }
 };
 
-ZoneInfo const kNewYork = {
+common::ZoneInfo const kNewYork = {
   "America/New_York" /*name*/,
   kZoneEntryNewYork /*entries*/,
-  sizeof(kZoneEntryNewYork)/sizeof(ZoneEntry) /*numEntries*/,
+  sizeof(kZoneEntryNewYork)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
 // America/Toronto
 //---------------------------------------------------------------------------
 
-static ZoneEntry const kZoneEntryToronto[] = {
+static common::ZoneEntry const kZoneEntryToronto[] = {
   // -5:00   Canada  E%sT
   {
     -20 /*offsetCode*/,
@@ -100,17 +99,17 @@ static ZoneEntry const kZoneEntryToronto[] = {
   }
 };
 
-ZoneInfo const kToronto = {
+common::ZoneInfo const kToronto = {
   "America/Toronto" /*name*/,
   kZoneEntryToronto /*zoneRules*/,
-  sizeof(kZoneEntryToronto)/sizeof(ZoneEntry) /*numEntries*/,
+  sizeof(kZoneEntryToronto)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
 // America/Indiana/Indianapolis
 //---------------------------------------------------------------------------
 
-static ZoneEntry const kZoneEntryIndianapolis[] = {
+static common::ZoneEntry const kZoneEntryIndianapolis[] = {
   // -5:00   -       EST     2006
   {
     -20 /*offsetCode*/,
@@ -126,17 +125,17 @@ static ZoneEntry const kZoneEntryIndianapolis[] = {
     255 /*untilYear*/,
   },
 };
-ZoneInfo const kIndianapolis = {
+common::ZoneInfo const kIndianapolis = {
   "America/Indiana/Indianapolis" /*name*/,
   kZoneEntryIndianapolis /*zoneRules*/,
-  sizeof(kZoneEntryIndianapolis)/sizeof(ZoneEntry) /*numEntries*/,
+  sizeof(kZoneEntryIndianapolis)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
 // America/Indiana/Petersburg
 //---------------------------------------------------------------------------
 
-static ZoneEntry const kZoneEntryPetersburg[] = {
+static common::ZoneEntry const kZoneEntryPetersburg[] = {
   // -5:00   -       EST     2006 Apr  2  2:00
   {
     -20 /*offsetCode*/,
@@ -160,17 +159,17 @@ static ZoneEntry const kZoneEntryPetersburg[] = {
   },
 };
 
-ZoneInfo const kPetersburg = {
+common::ZoneInfo const kPetersburg = {
   "America/Indiana/Petersburg" /*name*/,
   kZoneEntryPetersburg /*zoneRules*/,
-  sizeof(kZoneEntryPetersburg)/sizeof(ZoneEntry) /*numEntries*/,
+  sizeof(kZoneEntryPetersburg)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
 // Europe/London
 //---------------------------------------------------------------------------
 
-static ZoneEntry const kZoneEntryLondon[] = {
+static common::ZoneEntry const kZoneEntryLondon[] = {
   // 0:00   EU      GMT/BST
   {
     0 /*offsetCode*/,
@@ -180,17 +179,17 @@ static ZoneEntry const kZoneEntryLondon[] = {
   }
 };
 
-ZoneInfo const kLondon = {
+common::ZoneInfo const kLondon = {
   "Europe/London" /*name*/,
   kZoneEntryLondon /*zoneRules*/,
-  sizeof(kZoneEntryLondon)/sizeof(ZoneEntry) /*numEntries*/,
+  sizeof(kZoneEntryLondon)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
 // Australia/Sydney
 //---------------------------------------------------------------------------
 
-static ZoneEntry const kZoneEntrySydney[] = {
+static common::ZoneEntry const kZoneEntrySydney[] = {
   // 10:00   AN      AE%sT
   {
     40 /*offsetCode*/,
@@ -200,17 +199,17 @@ static ZoneEntry const kZoneEntrySydney[] = {
   }
 };
 
-ZoneInfo const kSydney = {
+common::ZoneInfo const kSydney = {
   "Australia/Sydney" /*name*/,
   kZoneEntrySydney /*zoneRules*/,
-  sizeof(kZoneEntrySydney)/sizeof(ZoneEntry) /*numEntries*/,
+  sizeof(kZoneEntrySydney)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
 // Australia/Darwin
 //---------------------------------------------------------------------------
 
-static ZoneEntry const kZoneEntryDarwin[] = {
+static common::ZoneEntry const kZoneEntryDarwin[] = {
   // 9:30   Aus     AC%sT
   {
     38 /*offsetCode*/,
@@ -220,17 +219,17 @@ static ZoneEntry const kZoneEntryDarwin[] = {
   }
 };
 
-ZoneInfo const kDarwin = {
+common::ZoneInfo const kDarwin = {
   "Australia/Darwin" /*name*/,
   kZoneEntryDarwin /*zoneRules*/,
-  sizeof(kZoneEntryDarwin)/sizeof(ZoneEntry) /*numEntries*/,
+  sizeof(kZoneEntryDarwin)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
 // Africa/Johannesburg
 //---------------------------------------------------------------------------
 
-static ZoneEntry const kZoneEntryJohannesburg[] = {
+static common::ZoneEntry const kZoneEntryJohannesburg[] = {
   // 2:00    SA      SAST
   {
     8 /*offsetCode*/,
@@ -240,10 +239,10 @@ static ZoneEntry const kZoneEntryJohannesburg[] = {
   }
 };
 
-ZoneInfo const kJohannesburg = {
+common::ZoneInfo const kJohannesburg = {
   "Africa/Johannesburg" /*name*/,
   kZoneEntryJohannesburg /*zoneRules*/,
-  sizeof(kZoneEntryJohannesburg)/sizeof(ZoneEntry) /*numEntries*/,
+  sizeof(kZoneEntryJohannesburg)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 }

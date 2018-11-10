@@ -5,6 +5,7 @@
 #include "ZonePolicy.h"
 
 namespace ace_time {
+namespace common {
 
 /**
  * An entry in ZoneInfo which describes which ZonePolicy was being followed
@@ -40,7 +41,10 @@ struct ZoneEntry {
   // untilTimeModifier
 };
 
-/** Data structure that represents a given time zone. */
+/**
+ * Representation of a given time zone, implemented as a collection of
+ * ZoneEntry objects.
+ */
 struct ZoneInfo {
   /** Name of zone. */
   const char* const name; // name of zone
@@ -52,6 +56,7 @@ struct ZoneInfo {
   uint8_t const numEntries;
 };
 
+}
 }
 
 #endif

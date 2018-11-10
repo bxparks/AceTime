@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 namespace ace_time {
+namespace common {
 
 /**
  * A time zone transition rule. It is useful to think of this as a transition
@@ -81,6 +82,7 @@ struct ZonePolicy {
   const ZoneRule* const rules;
 };
 
+}
 }
 
 #endif
