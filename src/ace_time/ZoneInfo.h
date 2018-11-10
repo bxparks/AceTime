@@ -11,7 +11,7 @@ namespace ace_time {
  * during a particular time period. The ZonePolicy is determined by the RULES
  * column in the TZ Database file.
  */
-struct ZoneInfoEntry {
+struct ZoneEntry {
 
   /** UTC offset in 15 min increments. Determined by the GMTOFF column. */
   int8_t const offsetCode;
@@ -45,10 +45,10 @@ struct ZoneInfo {
   /** Name of zone. */
   const char* const name; // name of zone
 
-  /** ZoneInfoEntry records in increasing order of untilYear. */
-  const ZoneInfoEntry* const entries;
+  /** ZoneEntry records in increasing order of untilYear. */
+  const ZoneEntry* const entries;
 
-  /** Number of ZoneInfoEntry records. */
+  /** Number of ZoneEntry records. */
   uint8_t const numEntries;
 };
 

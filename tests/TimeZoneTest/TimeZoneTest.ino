@@ -194,6 +194,21 @@ test(ZoneManagerTest, getZoneOffset_Johannesburg) {
   assertEqual("SAST", manager.getAbbrev(epochSeconds));
 }
 
+// https://www.timeanddate.com/time/zone/australia/darwin
+// No DST changes since 1944. Uses the last transition which occurred in March
+// 1944.
+test(ZoneManagerTest, getZoneOffset_Darwin) {
+  ZoneManager manager(&zonedb::kDarwin);
+  OffsetDateTime dt;
+  uint32_t epochSeconds;
+
+  dt = OffsetDateTime::forComponents(18, 1, 1, 0, 0, 0,
+      ZoneOffset::forHourMinute(1, 9, 30));
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(38, manager.getZoneOffset(epochSeconds).toOffsetCode());
+  assertEqual("ACST", manager.getAbbrev(epochSeconds));
+}
+
 test(ZoneManagerTest, createAbbreviation) {
   const uint8_t kDstSize = 6;
   char dst[kDstSize];

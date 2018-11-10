@@ -17,7 +17,7 @@ class ZoneManagerTest_calcRuleOffsetCode;
 namespace ace_time {
 
 /**
- * Data structure that captures the matching ZoneInfoEntry and its ZoneRule
+ * Data structure that captures the matching ZoneEntry and its ZoneRule
  * transitions for a given year. Can be cached based on the year.
  */
 struct ZoneMatch {
@@ -28,7 +28,7 @@ struct ZoneMatch {
   static const uint8_t kAbbrevSize = 5 + 1;
 
   /** The Zone entry that matched for the given year. NonNullable. */
-  const ZoneInfoEntry* entry;
+  const ZoneEntry* entry;
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
@@ -137,7 +137,7 @@ class ZoneManager {
      * the offset at the beginning of the current year.
      */
     void addRulePriorToYear(uint8_t year) {
-      const ZoneInfoEntry* const entry = findZoneEntryPriorTo(year);
+      const ZoneEntry* const entry = findZoneEntryPriorTo(year);
       // TODO: Will never return nullptr if there is at least one Rule whose
       // toYearFull is ZoneRule::kMaxYear.
 
@@ -198,7 +198,7 @@ class ZoneManager {
 
     /** Add all matching rules from the current year. */
     void addRulesForYear(uint8_t year) {
-      const ZoneInfoEntry* const entry = findZoneEntry(year);
+      const ZoneEntry* const entry = findZoneEntry(year);
 
       const ZonePolicy* const zonePolicy = entry->zonePolicy;
       if (zonePolicy == nullptr) return;
@@ -227,7 +227,7 @@ class ZoneManager {
      * the ZoneInfoEntries are already sorted, then the loop terminates early
      * and the total sort time is O(N).
      */
-    void addRule(const ZoneInfoEntry* entry, const ZoneRule* rule) const {
+    void addRule(const ZoneEntry* entry, const ZoneRule* rule) const {
       if (mNumMatches >= kMaxCacheEntries) return;
 
       // insert new element at the end of the list
@@ -256,9 +256,9 @@ class ZoneManager {
      * 2254) because no Zone entry will match (255 < untilYear) since untilYear
      * is stored as a uint8_t.
      */
-    const ZoneInfoEntry* findZoneEntry(uint8_t year) const {
+    const ZoneEntry* findZoneEntry(uint8_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {
-        const ZoneInfoEntry* entry = &mZoneInfo->entries[i];
+        const ZoneEntry* entry = &mZoneInfo->entries[i];
         if (year < entry->untilYear) return entry;
       }
       return nullptr;
@@ -268,9 +268,9 @@ class ZoneManager {
      * Find the zone entry which applies to the year prior to the previous year.
      * The entry will have an untilYear where (y <= untilYear).
      */
-    const ZoneInfoEntry* findZoneEntryPriorTo(uint8_t year) const {
+    const ZoneEntry* findZoneEntryPriorTo(uint8_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {
-        const ZoneInfoEntry* entry = &mZoneInfo->entries[i];
+        const ZoneEntry* entry = &mZoneInfo->entries[i];
         if (year <= entry->untilYear) return entry;
       }
       return nullptr;

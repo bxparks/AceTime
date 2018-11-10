@@ -32,8 +32,8 @@ void setup() {
   Serial.print(F("sizeof(ZoneInfo): "));
   Serial.println(sizeof(ZoneInfo));
 
-  Serial.print(F("sizeof(ZoneInfoEntry): "));
-  Serial.println(sizeof(ZoneInfoEntry));
+  Serial.print(F("sizeof(ZoneEntry): "));
+  Serial.println(sizeof(ZoneEntry));
 
   Serial.print(F("sizeof(ZoneRule): "));
   Serial.println(sizeof(ZoneRule));
