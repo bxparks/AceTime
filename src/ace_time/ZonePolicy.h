@@ -1,5 +1,5 @@
-#ifndef ACE_TIME_ZONE_RULE_H
-#define ACE_TIME_ZONE_RULE_H
+#ifndef ACE_TIME_ZONE_POLICY_H
+#define ACE_TIME_ZONE_POLICY_H
 
 #include <stdint.h>
 
