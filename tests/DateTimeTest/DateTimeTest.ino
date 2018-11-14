@@ -326,6 +326,62 @@ test(OffsetDateTimeTest, forDateString) {
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 }
 
+test(OffsetDateTimeTest, increment) {
+  OffsetDateTime dt = OffsetDateTime::forComponents(1, 2, 3, 4, 5, 6);
+  assertEqual(1, dt.year());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(0, dt.zoneOffset().toOffsetCode());
+
+  dt.incrementYear();
+  assertEqual(2, dt.year());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(0, dt.zoneOffset().toOffsetCode());
+
+  dt.incrementMonth();
+  assertEqual(2, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(0, dt.zoneOffset().toOffsetCode());
+
+  dt.incrementDay();
+  assertEqual(2, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(4, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(0, dt.zoneOffset().toOffsetCode());
+
+  dt.incrementHour();
+  assertEqual(2, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(4, dt.day());
+  assertEqual(5, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(0, dt.zoneOffset().toOffsetCode());
+
+  dt.incrementMinute();
+  assertEqual(2, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(4, dt.day());
+  assertEqual(5, dt.hour());
+  assertEqual(6, dt.minute());
+  assertEqual(6, dt.second());
+  assertEqual(0, dt.zoneOffset().toOffsetCode());
+}
+
 // --------------------------------------------------------------------------
 // DateTime
 // --------------------------------------------------------------------------
