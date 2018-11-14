@@ -107,7 +107,9 @@ class DateCommand: public CommandHandler {
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
-        DateTime now = controller.getNow();
+        DateTime now = (controller.inModifyMode())
+            ? controller.getChangingDateTime()
+            : controller.getNow();
         now.printTo(printer);
         printer.println();
       } else {
@@ -125,6 +127,61 @@ class DateCommand: public CommandHandler {
     }
 };
 
+class ModifyCommand: public CommandHandler {
+  public:
+    ModifyCommand():
+        CommandHandler("modify", nullptr) {}
+
+    void run(Print& printer, int argc, const char** argv) const override {
+      controller.modifyDateTime();
+    }
+};
+
+class SaveCommand: public CommandHandler {
+  public:
+    SaveCommand():
+        CommandHandler("save", nullptr) {}
+
+    void run(Print& printer, int argc, const char** argv) const override {
+      controller.saveDateTime();
+    }
+};
+
+
+/**
+ * Increment year, month, day, hour, minute
+ * Usage:
+ *    inc (year | month | day | hour | minute)
+ */
+class IncrementCommand: public CommandHandler {
+  public:
+    IncrementCommand():
+        CommandHandler("inc", "(year | month | day | hour | minute)") {}
+
+    void run(Print& printer, int argc, const char** argv) const override {
+      if (argc != 2) {
+        printer.println(FF("Missing argument"));
+        return;
+      }
+      SHIFT;
+      DateTime& dt = controller.getChangingDateTime();
+      if (strcmp(argv[0], "year") == 0) {
+        dt.incrementYear();
+      } else if (strcmp(argv[0], "month") == 0) {
+        dt.incrementMonth();
+      } else if (strcmp(argv[0], "day") == 0) {
+        dt.incrementDay();
+      } else if (strcmp(argv[0], "hour") == 0) {
+        dt.incrementHour();
+      } else if (strcmp(argv[0], "minute") == 0) {
+        dt.incrementMinute();
+      } else {
+        printer.println(FF("Ivalid 'inc' argument"));
+        return;
+      }
+    }
+};
+
 /**
  * Timezone command.
  * Usage:
@@ -134,7 +191,7 @@ class DateCommand: public CommandHandler {
 class TimezoneCommand: public CommandHandler {
   public:
     TimezoneCommand():
-      CommandHandler("timezone", "[utcOffset]") {}
+      CommandHandler("timezone", "[utcOffset | Los_Angeles]") {}
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
@@ -143,16 +200,24 @@ class TimezoneCommand: public CommandHandler {
         printer.println();
       } else {
         SHIFT;
-        ZoneOffset offset = ZoneOffset::forOffsetString(argv[0]);
-        if (offset.isError()) {
-          printer.println(FF("Invalid time zone offset"));
-          return;
+        if (strcmp(argv[0], "Los_Angeles") == 0) {
+          TimeZone tz = TimeZone::forZone(&zonedb::kLosAngeles);
+          controller.setTimeZone(tz);
+          printer.print(FF("Time zone set to: "));
+          tz.printTo(printer);
+          printer.println();
+        } else {
+          ZoneOffset offset = ZoneOffset::forOffsetString(argv[0]);
+          if (offset.isError()) {
+            printer.println(FF("Invalid time zone offset"));
+            return;
+          }
+          TimeZone tz = TimeZone::forZoneOffset(offset);
+          controller.setTimeZone(tz);
+          printer.print(FF("Time zone set to: "));
+          tz.printTo(printer);
+          printer.println();
         }
-        TimeZone tz = TimeZone::forZoneOffset(offset);
-        controller.setTimeZone(tz);
-        printer.print(FF("Time zone set to: "));
-        tz.printTo(printer);
-        printer.println();
       }
     }
 };
@@ -298,6 +363,9 @@ class WifiCommand: public CommandHandler {
 ListCommand listCommand;
 DateCommand dateCommand;
 TimezoneCommand timezoneCommand;
+ModifyCommand modifyCommand;
+SaveCommand saveCommand;
+IncrementCommand incrementCommand;
 DstCommand dstCommand(controller);
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 WifiCommand wifiCommand(controller, ntpTimeProvider);
@@ -310,6 +378,9 @@ const CommandHandler* const COMMANDS[] = {
   &listCommand,
   &dateCommand,
   &timezoneCommand,
+  &modifyCommand,
+  &saveCommand,
+  &incrementCommand,
   &dstCommand,
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   &wifiCommand,

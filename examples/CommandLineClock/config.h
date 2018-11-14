@@ -11,8 +11,8 @@
 #define TIME_SOURCE_TYPE_BOTH 3
 
 #ifndef AUNITER
-  #warning Using ESP8266 environment to verify compilation of NTP code
-  #define AUNITER_ESP8266
+  #warning Using AUNITER_NANO
+  #define AUNITER_NANO
 #endif
 
 #if defined(AUNITER_NANO)

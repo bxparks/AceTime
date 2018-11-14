@@ -73,6 +73,27 @@ class Controller {
       preserveInfo();
     }
 
+    /**
+     * Implement the 'modify' command, which copies the current DateTime to
+     * mChangingDateTime.
+     */
+    void modifyDateTime() {
+      DateTime dt = getNow();
+      mChangingDateTime = dt;
+      mInModifyMode = true;
+    }
+
+    bool inModifyMode() const { return mInModifyMode; }
+
+    /** Return reference to mChangingDateTime. */
+    DateTime& getChangingDateTime() { return mChangingDateTime; }
+
+    /** Save the current mChangingDateTime to system time. */
+    void saveDateTime() {
+      setNow(mChangingDateTime);
+      mInModifyMode = false;
+    }
+
   private:
     uint16_t preserveInfo() {
       mIsStoredInfoValid = true;
@@ -84,10 +105,12 @@ class Controller {
 
     PersistentStore& mPersistentStore;
     TimeKeeper& mSystemTimeKeeper;
+    DateTime mChangingDateTime;
     TimeZone mTimeZone;
 
     StoredInfo mStoredInfo;
     bool mIsStoredInfoValid = false;
+    bool mInModifyMode = false;
 };
 
 #endif
