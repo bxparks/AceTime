@@ -250,7 +250,7 @@ test(LocalDate, daysInMonth) {
   assertEqual(28, LocalDate::daysInMonth(100, 2));
 }
 
-test(LocalDate, incrementYear) {
+test(LocalDate, increment) {
   LocalDate ld = LocalDate::forComponents(1, 2, 3);
 
   ld.incrementYear();
@@ -345,6 +345,20 @@ test(LocalTime, forTimeString) {
 test(LocalTime, fortimeString_invalid) {
   LocalTime lt = LocalTime::forTimeString("01:02");
   assertTrue(lt.isError());
+}
+
+test(LocalTime, increment) {
+  LocalTime lt = LocalTime::forComponents(1, 2, 3);
+
+  lt.incrementHour();
+  assertEqual(2, lt.hour());
+  assertEqual(2, lt.minute());
+  assertEqual(3, lt.second());
+
+  lt.incrementMinute();
+  assertEqual(2, lt.hour());
+  assertEqual(3, lt.minute());
+  assertEqual(3, lt.second());
 }
 
 // --------------------------------------------------------------------------
