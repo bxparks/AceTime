@@ -250,6 +250,25 @@ test(LocalDate, daysInMonth) {
   assertEqual(28, LocalDate::daysInMonth(100, 2));
 }
 
+test(LocalDate, incrementYear) {
+  LocalDate ld = LocalDate::forComponents(1, 2, 3);
+
+  ld.incrementYear();
+  assertEqual(2, ld.year());
+  assertEqual(2, ld.month());
+  assertEqual(3, ld.day());
+
+  ld.incrementMonth();
+  assertEqual(2, ld.year());
+  assertEqual(3, ld.month());
+  assertEqual(3, ld.day());
+
+  ld.incrementDay();
+  assertEqual(2, ld.year());
+  assertEqual(3, ld.month());
+  assertEqual(4, ld.day());
+}
+
 // --------------------------------------------------------------------------
 // LocalTime
 // --------------------------------------------------------------------------

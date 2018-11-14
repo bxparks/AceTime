@@ -182,7 +182,7 @@ class LocalDate {
 
     /** Increment the year by one, wrapping from 12 to 1. */
     void incrementMonth() {
-      common::incrementMod(mDay, (uint8_t) 31, (uint8_t) 1);
+      common::incrementMod(mMonth, (uint8_t) 31, (uint8_t) 1);
     }
 
     /** Increment the day by one, wrapping from 31 to 1. */
