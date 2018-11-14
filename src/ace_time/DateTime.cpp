@@ -15,6 +15,10 @@ void DateTime::printTo(Print& printer) const {
   }
 
   mOffsetDateTime.printTo(printer);
+  if (mTimeZone.getType() == TimeZone::kTypeAuto) {
+    printer.print(' ');
+    mTimeZone.printTo(printer);
+  }
 }
 
 }
