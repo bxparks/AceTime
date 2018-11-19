@@ -68,8 +68,8 @@ class Extractor:
         self.rule_lines = {}  # dictionary of ruleName to lines[]
         self.zone_lines = {}  # dictionary of zoneName to lines[]
         self.link_lines = {}  # dictionary of linkName to lines[]
-        self.rules = {} # map of ruleName to ruleEntry[]
-        self.zones = {} # map fo ruleName to zoneEntry[]
+        self.rules = {} # map of ruleName to ruleEntry[], RuleEntry = {}
+        self.zones = {} # map fo ruleName to zoneEntry[], ZoneEntry = {}
         self.ignored_rule_lines = 0
         self.ignored_zone_lines = 0
         self.invalid_rule_lines = 0
@@ -157,17 +157,21 @@ class Extractor:
             for rule in rules:
                 print(rule)
 
-    def print_invalid_rules(self):
+    def print_rules_historical(self):
+        """Print rules whose fromYear and toYear occur before 2000.
+        Some of these are required for zones whose most recent DST transition
+        happened a long time ago.
+        """
         for name, rules in self.rules.items():
             print('Rule name %s' % name)
             for rule in rules:
-                if rule['from_year'] < 2000 and rule['to_year'] < 2000:
-                    print('from or to year < 2000: %s' % rule)
-                if len(rule['letter']) > 1:
-                    print('LETTER (%s) more than 1 char: %s' % line)
+                if rule['from'] < 2000 and rule['to'] < 2000:
+                    print(rule)
 
     def print_rules_long_dst_letter(self):
         """Print rules with multiple characters in the DST 'letter' field.
+        Currently NOT supported by the ZoneRule class because the
+        ZoneRule::letter field is a single uint8_t.
         """
         for name, rules in self.rules.items():
             name_printed = False
@@ -185,7 +189,8 @@ class Extractor:
                 print(zone)
 
     def print_zones_short_name(self):
-        """Print the last component in the "a/b/c" zone names.
+        """Print the last component in the "a/b/c" zone names. Used to determine
+        if the last component is unique. Currently, it seems to be.
         """
         for name, zones in self.zones.items():
             index = name.rfind('/')
@@ -197,6 +202,8 @@ class Extractor:
 
     def print_zones_with_until_month(self):
         """Print the zones which have months in the 'UNTIL' field.
+        Currently NOT supported by the ZoneEntry class which contains only
+        a 'untilYear' field.
         """
         for name, zones in self.zones.items():
             name_printed = False
@@ -209,6 +216,8 @@ class Extractor:
 
     def print_zones_without_rules(self):
         """Print zones whose RULES column is "-" which indicates NO rules.
+        Supported by the ZoneEntry class by setting the zonePolicy field
+        to nullptr.
         """
         for name, zones in self.zones.items():
             name_printed = False
@@ -222,6 +231,10 @@ class Extractor:
 
     def print_zones_with_offset_as_rules(self):
         """Print zones which point to a DST offset in its RULES column.
+        There seems to be only 2 zones that does this: Europe/Istanbul and
+        America/Argentina/San_Luis. Not sure how to support this. Do we need to
+        add another field in ZoneEntry, or can we just clobber the
+        ZoneEntry::offsetCode with this zone offset?
         """
         for name, zones in self.zones.items():
             name_printed = False
@@ -235,6 +248,7 @@ class Extractor:
 
     def print_zones_with_unknown_rules(self):
         """Print zones whose RULES is a reference that cannot be found.
+        There should be NO rule that matches this because it doesn't make sense.
         """
         for name, zones in self.zones.items():
             name_printed = False
@@ -323,7 +337,7 @@ class Extractor:
 
 
 def find_matching_rules(rule_entries, from_year, until_year):
-    """ Return True if there is a directly matching transition rule in
+    """Return True if there is a directly matching transition rule in
     [from_year, until_year) exclusive.
     """
     rules = []
@@ -387,7 +401,7 @@ WEEK_TO_WEEK_INDEX = {
 
 
 def process_rule_line(line):
-    """ Normalize a dictionary that represents a 'Rule' line from the TZ
+    """Normalize a dictionary that represents a 'Rule' line from the TZ
     database. Contains the following fields:
     Rule NAME FROM TO TYPE IN ON AT SAVE LETTER
     0    1    2    3  4    5  6  7  8    9
@@ -439,7 +453,7 @@ def process_rule_line(line):
 
 
 def parse_on_day_string(on_string):
-    """ Parse things like "Mon>=1", "lastTue", "20".
+    """Parse things like "Mon>=1", "lastTue", "20".
     Returns (on_day_of_week, on_day_of_month) where
         (0, dayOfMonth) = exact match on dayOfMonth
         (dayOfWeek, dayOfMonth) = matches dayOfWeek>=dayOfMonth
@@ -583,6 +597,11 @@ def main():
         action="store_true",
         default=False)
     parser.add_argument(
+        '--print_rules_historical',
+        help='Print rules which start and end before year 2000',
+        action="store_true",
+        default=False)
+    parser.add_argument(
         '--print_rules_long_dst_letter',
         help='Print rules with long DST letter',
         action="store_true",
@@ -642,11 +661,13 @@ def main():
 
     if args.print_rules:
         extractor.print_rules()
-    if args.print_zones:
-        extractor.print_zones()
+    if args.print_rules_historical:
+        extractor.print_rules_historical()
     if args.print_rules_long_dst_letter:
         extractor.print_rules_long_dst_letter()
 
+    if args.print_zones:
+        extractor.print_zones()
     if args.print_zones_short_name:
         extractor.print_zones_short_name()
     if args.print_zones_with_until_month:
