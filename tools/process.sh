@@ -19,4 +19,4 @@ cat $DB_DIR/africa \
     $DB_DIR/europe \
     $DB_DIR/northamerica \
     $DB_DIR/southamerica \
-        | $DIRNAME/extractor.py "$@"
+        | $DIRNAME/process.py "$@"
