@@ -227,15 +227,16 @@ def process_rule_line(line):
     before year 2000.
 
     Returns a dictionary with the following fields:
-        from: from year (int)
-        to: to year (int), 9999=max
-        in: month index (1-12)
-        on_day_of_week: 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-        on_day_of_month: (1-31), 0={last dayOfWeek match}
-        at_hour: hour to transition to and from DST
-        at_modifier: 's', 'w', 'g', 'u', 'z'
-        delta_minutes: offset code from Standard time (int)
-        letter: 'D', 'S', '-'
+        fromYear: (int) from year
+        toYear: (int) to year, 2000 to 9999=max
+        inMonth: (int) month index (1-12)
+        onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+        onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
+        atHour: (int) hour to transition to and from DST
+        atHourModifier: (char) 's', 'w', 'g', 'u', 'z'
+        deltaMinutes: (int) offset code from Standard time
+        letter: (char) 'D', 'S', '-'
+        rawLine: (string) the original RULE line from the TZ file
     """
     tokens = line.split()
 
@@ -251,19 +252,21 @@ def process_rule_line(line):
 
     in_month = MONTH_TO_MONTH_INDEX[tokens[5]]
     (on_day_of_week, on_day_of_month) = parse_on_day_string(tokens[6])
-    (at_hour, at_modifier) = parse_at_hour_string(tokens[7])
+    (at_hour, at_hour_modifier) = parse_at_hour_string(tokens[7])
     delta_minutes = hour_string_to_offset_minutes(tokens[8])
 
+    # Return map corresponding to a ZoneRule instance
     return {
-        'from': from_year,
-        'to': to_year,
-        'in_month': in_month,
-        'on_day_of_week': on_day_of_week,
-        'on_day_of_month': on_day_of_month,
-        'at_hour': at_hour,
-        'at_modifier': at_modifier,
-        'delta_minutes': delta_minutes,
+        'fromYear': from_year,
+        'toYear': to_year,
+        'inMonth': in_month,
+        'onDayOfWeek': on_day_of_week,
+        'onDayOfMonth': on_day_of_month,
+        'atHour': at_hour,
+        'atHourModifier': at_hour_modifier,
+        'deltaMinutes': delta_minutes, # need conversion to deltaCode
         'letter': tokens[9],
+        'rawLine': line,
     }
 
 
@@ -312,14 +315,15 @@ def process_zone_line(line):
 
     Return a dictionary with:
 
-        offset_minutes: offset from UTC/GMT in minutes (int)
-        rules: name of the Rule in effect, '-', or minute offset (string)
-        abbrev: abbreviation with '%s' replaced with '%'
+        offsetMinutes: (int) offset from UTC/GMT in minutes
+        rules: (string) name of the Rule in effect, '-', or minute offset
+        abbrev: (string) abbreviation with '%s' replaced with '%'
                 (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
-        until_year: 2000-9999 (int)
-        until_month: 1-12 (int) optional
-        until_day: (string) 1-31, lastSun, Sun>=3, etc
-        until_time: (string) optional
+        untilYear: (int) 2000-9999
+        untilMonth: (int) 1-12 optional
+        untilDay: (string) 1-31, 'lastSun', 'Sun>=3', etc
+        untilTime: (string) optional
+        rawLine: (string) original ZONE line in TZ file
     """
     tokens = line.split()
 
@@ -357,15 +361,16 @@ def process_zone_line(line):
     if rules_string.find(':') >= 0:
         rules_string = str(hour_string_to_offset_minutes(rules_string))
 
-    # Create the zone entry
+    # Return map corresponding to a ZoneEntry instance
     return {
-        'offset_minutes': offset_minutes,
+        'offsetMinutes': offset_minutes,
         'rules': rules_string,
         'abbrev': abbrev,
-        'until_year': until_year,
-        'until_month': until_month,
-        'until_day': until_day,
-        'until_time': until_time,
+        'untilYear': until_year,
+        'untilMonth': until_month,
+        'untilDay': until_day,
+        'untilTime': until_time,
+        'rawLine': line,
     }
 
 
