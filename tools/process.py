@@ -17,6 +17,7 @@ import sys
 
 from printer import Printer
 from extractor import Extractor
+from transformer import Transformer
 
 def main():
     """Read the test data chunks from the STDIN and print them out. The ability
@@ -88,6 +89,21 @@ def main():
         help='Print rules which require historic transition rules',
         action="store_true",
         default=False)
+    parser.add_argument(
+        '--transform',
+        help='Transform the zones and rules for code generation',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '--print_transformed_zones',
+        help='Print transformed zones',
+        action="store_true",
+        default=False)
+    parser.add_argument(
+        '--print_transformed_rules',
+        help='Print transformed rules',
+        action="store_true",
+        default=False)
     args = parser.parse_args()
 
     # How the script was invoked
@@ -131,6 +147,21 @@ def main():
         printer.print_zones_with_unknown_rules()
     if args.print_zones_requiring_historic_rules:
         printer.print_zones_requiring_historic_rules()
+
+    # transform
+    transformer = Transformer(zones, rules)
+    if args.transform:
+        transformer.transform()
+
+    # transform printer
+    (zones, rules) = transformer.get_data()
+    printer = Printer(zones, rules)
+
+    # print transformed data
+    if args.print_transformed_zones:
+        printer.print_zones()
+    if args.print_transformed_rules:
+        printer.print_rules()
 
 
 if __name__ == '__main__':

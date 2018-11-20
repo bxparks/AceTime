@@ -10,11 +10,14 @@ generate the code for the static instances ZoneInfo and ZonePolicy classes.
 
 class Transformer:
 
-    def __init__(self, rules, zones):
-        self.rules = rules
+    def __init__(self, zones, rules):
         self.zones = zones
-        self.transformed_rules = {}
+        self.rules = rules
         self.transformed_zones = {}
+        self.transformed_rules = {}
+
+    def get_data(self):
+        return (self.transformed_zones, self.transformed_rules)
 
     @staticmethod
     def remove_rules_long_dst_letter(rules_map):
@@ -81,14 +84,14 @@ class Transformer:
         2) The rule is the most recent transition that happened before year
         2000.
         """
-        for name, zone_entries in self.zones.items():
+        for name, zone_entries in zones_map.items():
             begin_year = 2000
             for zone_entry in zone_entries:
                 rule_name = zone_entry['rules']
                 if rule_name == '-' or rule_name.isdigit():
                     continue
 
-                rule_entries = self.rules.get(rule_name)
+                rule_entries = rules_map.get(rule_name)
                 if not rule_entries:
                     # This shouldn't happen
                     print('Zone name %s: Missing rule' % name)
@@ -109,32 +112,30 @@ class Transformer:
 
                 begin_year = until_year
 
+        return (zones_map, rules_map)
+
     @staticmethod
     def remove_unused_rules(rules_map):
         results = {}
         for name, rules in rules_map.items():
             used_rules = []
             for rule in rules:
-                if rule['used']:
+                if 'used' in rule:
                     used_rules.append(rule)
             results[name] = used_rules
         return results
 
     def transform(self):
-        rules = self.remove_rules_long_dst_letter(self.rules)
+        (zones, rules) = self.mark_rules_used_by_zones(self.zones, self.rules)
+        rules = self.remove_unused_rules(rules)
+        rules = self.remove_rules_long_dst_letter(rules)
 
-        zones = self.remove_zones_with_until_month(self.zones)
+        zones = self.remove_zones_with_until_month(zones)
         zones = self.remove_zones_with_offset_as_rules(zones)
         zones = self.remove_zone_entries_too_old(zones)
 
-        self.mark_rules_used_by_zones(zones, rules)
-        rules = self.remove_unused_rules(rules)
-
         self.transformed_rules = rules
         self.transformed_zones = zones
-
-    def get_data(self):
-        return (rules, zones)
 
 
 def find_matching_rules(rule_entries, from_year, until_year):
@@ -165,5 +166,3 @@ def find_most_recent_prior_rule(rule_entries, year):
                     rule_entry['in_month'] > candidate['in_month']:
                 candidate = rule_entry
     return candidate
-
-
