@@ -37,16 +37,31 @@ if [[ "$tag" == '' ]]; then
     usage
 fi
 
+echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
+
+echo "\$ git co $tag"
 git co $tag
+
+echo "\$ popd"
 popd
 
+echo "\$ $DIRNAME/process.py \
+    --input_dir $INPUT_DIR \
+    --tz_version $tag \
+    $output_option \
+    $@"
 $DIRNAME/process.py \
     --input_dir $INPUT_DIR \
     --tz_version $tag \
     $output_option \
     "$@"
 
+echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
+
+echo "\$ git co master"
 git co master
+
+echo "\$ popd"
 popd

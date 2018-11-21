@@ -15,6 +15,7 @@
 namespace ace_time {
 namespace zonedb {
 
+// numInfos: 228
 extern common::ZoneInfo const kAbidjan;
 extern common::ZoneInfo const kAccra;
 extern common::ZoneInfo const kAlgiers;

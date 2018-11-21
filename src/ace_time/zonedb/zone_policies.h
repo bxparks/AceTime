@@ -15,6 +15,7 @@
 namespace ace_time {
 namespace zonedb {
 
+// numPolicies: 61
 extern const common::ZonePolicy kPolicyAN;
 extern const common::ZonePolicy kPolicyAQ;
 extern const common::ZonePolicy kPolicyAS;

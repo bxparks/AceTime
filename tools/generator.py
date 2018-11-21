@@ -29,6 +29,7 @@ class Generator:
 namespace ace_time {{
 namespace zonedb {{
 
+// numPolicies: {numPolicies}
 {policyItems}
 
 }}
@@ -64,7 +65,7 @@ namespace zonedb {{
 
     ZONE_POLICIES_CPP_POLICY_ITEM = """\
 //---------------------------------------------------------------------------
-// {policyName} Rules
+// Policy: {policyName}; Rules: {numRules}
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRules{policyName}[] = {{
@@ -111,6 +112,7 @@ const common::ZonePolicy kPolicy{policyName} = {{
 namespace ace_time {{
 namespace zonedb {{
 
+// numInfos: {numInfos}
 {infoItems}
 
 }}
@@ -148,7 +150,7 @@ namespace zonedb {{
 
     ZONE_INFOS_CPP_INFO_ITEM = """\
 //---------------------------------------------------------------------------
-// {infoFullName}
+// Zone: {infoFullName}; Entries: {numEntries}
 //---------------------------------------------------------------------------
 
 static common::ZoneEntry const kZoneEntry{infoShortName}[] = {{
@@ -218,6 +220,7 @@ common::ZoneInfo const k{infoShortName} = {{
         return self.ZONE_POLICIES_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            numPolicies=len(self.rules),
             policyItems=policy_items)
 
     def generate_policies_cpp(self):
@@ -249,6 +252,7 @@ common::ZoneInfo const k{infoShortName} = {{
 
         return self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
             policyName=normalize_name(name),
+            numRules=len(rules),
             ruleItems=rule_items)
             
     def generate_infos_h(self):
@@ -260,6 +264,7 @@ common::ZoneInfo const k{infoShortName} = {{
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            numInfos=len(self.zones),
             infoItems=info_items)
 
     def generate_infos_cpp(self):
@@ -297,6 +302,7 @@ common::ZoneInfo const k{infoShortName} = {{
         return self.ZONE_INFOS_CPP_INFO_ITEM.format(
             infoFullName=normalize_name(name),
             infoShortName=normalize_name(short_name(name)),
+            numEntries=len(zones),
             entryItems=entry_items)
 
 def normalize_name(name):
