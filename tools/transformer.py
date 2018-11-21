@@ -12,27 +12,60 @@ import logging
 
 class Transformer:
 
-    def __init__(self, zones, rules):
-        self.zones = zones
-        self.rules = rules
-        self.transformed_zones = {}
-        self.transformed_rules = {}
+    def __init__(self, zones_map, rules_map):
+        self.zones_map = zones_map
+        self.rules_map = rules_map
+        self.transformed_zones_map = {}
+        self.transformed_rules_map = {}
 
     def get_data(self):
-        return (self.transformed_zones, self.transformed_rules)
+        """
+        The returned 'rules_map' is a map of (name -> rules[]), where each
+        element in rules is another map with the following fields:
+
+            offsetMinutes: (int) offset from UTC/GMT in minutes
+            rules: (string) name of the Rule in effect, '-', or minute offset
+            abbrev: (string) abbreviation with '%s' replaced with '%'
+                    (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
+            untilYear: (int) 2000-9999
+            untilMonth: (int) 1-12 optional
+            untilDay: (string) 1-31, 'lastSun', 'Sun>=3', etc
+            untilTime: (string) optional
+            rawLine: (string) original ZONE line in TZ file
+            used: (boolean) indicates whether or not the rule is used by a zone
+
+        The returned 'zones_map' is a map of (name -> zones[]), where each
+        element in rules
+
+            fromYear: (int) from year
+            toYear: (int) to year, 2000 to 9999=max
+            inMonth: (int) month index (1-12)
+            onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+            onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
+            atHour: (int) hour to transition to and from DST
+            atHourModifier: (char) 's', 'w', 'g', 'u', 'z'
+            deltaMinutes: (int) offset minutes from Standard time
+            letter: (char) 'D', 'S', '-'
+            rawLine: (string) the original RULE line from the TZ file
+            deltaCode: (int) offset code (15 min chunks) from Standard time
+            shortName: (string) short name of the zone
+        """
+        return (self.transformed_zones_map, self.transformed_rules_map)
 
     def transform(self):
-        (zones, rules) = self.mark_rules_used_by_zones(self.zones, self.rules)
-        rules = self.remove_unused_rules(rules)
-        rules = self.remove_rules_long_dst_letter(rules)
-        rules = self.create_rules_with_delta_code(rules)
+        (zones_map, rules_map) = self.mark_rules_used_by_zones(
+            self.zones_map, self.rules_map)
+        rules_map = self.remove_unused_rules(rules_map)
+        rules_map = self.remove_rules_long_dst_letter(rules_map)
+        rules_map = self.create_rules_with_delta_code(rules_map)
 
-        zones = self.remove_zones_with_until_month(zones)
-        zones = self.remove_zones_with_offset_as_rules(zones)
-        zones = self.remove_zone_entries_too_old(zones)
+        zones_map = self.remove_zones_with_until_month(zones_map)
+        zones_map = self.remove_zones_with_offset_as_rules(zones_map)
+        zones_map = self.remove_zone_entries_too_old(zones_map)
+        zones_map = self.remove_zones_without_slash(zones_map)
 
-        self.transformed_rules = rules
-        self.transformed_zones = zones
+        self.transformed_rules_map = rules_map
+        self.transformed_zones_map = zones_map
 
     @staticmethod
     def mark_rules_used_by_zones(zones_map, rules_map):
@@ -153,6 +186,23 @@ class Transformer:
             if keep_zones:
                 results[name] = keep_zones
         return results
+
+    @staticmethod
+    def remove_zones_without_slash(zones_map):
+        results = {}
+        for name, zones in zones_map.items():
+            if name.rfind('/') >= 0:
+               results[name] = zones
+        return results
+
+
+def short_name(name):
+    index = name.rfind('/')
+    if index >= 0:
+        short_name = name[index + 1:]
+    else:
+        short_name = name
+    return short_name
 
 
 def find_matching_rules(rule_entries, from_year, until_year):

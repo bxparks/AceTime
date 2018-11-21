@@ -6,6 +6,7 @@ Generate the zone_info and zone_policies files.
 """
 
 import logging
+from transformer import short_name
 
 class Generator:
     ZONE_POLICIES_H_FILE = """\
@@ -95,12 +96,16 @@ const common::ZonePolicy kPolicy{policyName} = {{
 namespace ace_time {{
 namespace zonedb {{
 
-{zone_infos_h_body}
+{infoItems}
 
 }}
 }}
 
 #endif
+"""
+
+    ZONE_INFOS_H_INFO_ITEM = """\
+external const common::ZoneInfo const k{infoShortName};
 """
 
     ZONE_INFOS_CPP_FILE = """\
@@ -113,13 +118,40 @@ namespace zonedb {{
 #include "zone_policies.h"
 #include "zone_infos.h"
 
-namespace ace_time {
-namespace zonedb {
+namespace ace_time {{
+namespace zonedb {{
 
-{zone_infos_cpp}
+{infoItems}
 
-}
-}
+}}
+}}
+"""
+
+    ZONE_INFOS_CPP_INFO_ITEM = """\
+//---------------------------------------------------------------------------
+// {infoFullName}
+//---------------------------------------------------------------------------
+
+static common::ZoneEntry const kZoneEntry{infoShortName}[] = {{
+{entryItems}
+}};
+
+common::ZoneInfo const k{infoShortName} = {{
+  "{infoFullName}" /*name*/,
+  kZoneEntry{infoShortName} /*entries*/,
+  sizeof(kZoneEntry{infoShortName})/sizeof(common::ZoneEntry) /*numEntries*/,
+}};
+
+"""
+
+    ZONE_INFOS_CPP_ENTRY_ITEM = """\
+  // {zoneLine}
+  {{
+    {offsetCode} /*offsetCode*/,
+    &kPolicy{policyName} /*zonePolicy*/,
+    "{format}" /*format*/,
+    {untilYear} /*untilYear*/,
+  }},
 """
 
     def __init__(self, invocation, zones, rules):
@@ -137,7 +169,7 @@ namespace zonedb {
 
     def generate_policies_h(self):
         policy_items = ''
-        for name, rules in self.rules.items():
+        for name, rules in sorted(self.rules.items()):
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
                 policyName=name)
 
@@ -147,15 +179,15 @@ namespace zonedb {
 
     def generate_policies_cpp(self):
         policy_items = ''
-        for name, rules in self.rules.items():
-            policy_items += self.generate_rules(name, rules)
+        for name, rules in sorted(self.rules.items()):
+            policy_items += self.generate_policy_item(name, rules)
 
         return self.ZONE_POLICIES_CPP_FILE.format(
             invocation=self.invocation,
             policyItems=policy_items
         )
 
-    def generate_rules(self, name, rules):
+    def generate_policy_item(self, name, rules):
         rule_items = ''
         for rule in rules:
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
@@ -175,7 +207,14 @@ namespace zonedb {
             ruleItems=rule_items)
             
     def generate_infos_h(self):
-        pass
+        info_items = ''
+        for name, zones in sorted(self.zones.items()):
+            info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
+                infoShortName=short_name(name))
+
+        return self.ZONE_INFOS_H_FILE.format(
+            invocation=self.invocation,
+            infoItems=info_items)
 
     def generate_infos_cpp(self):
         pass

@@ -10,6 +10,7 @@ generate the code for the static instances ZoneInfo and ZonePolicy classes.
 
 from transformer import find_matching_rules
 from transformer import find_most_recent_prior_rule
+from transformer import short_name
 
 class Printer:
 
@@ -59,12 +60,7 @@ class Printer:
         if the last component is unique. Currently, it seems to be.
         """
         for name, zones in self.zones.items():
-            index = name.rfind('/')
-            if index >= 0:
-                short_name = name[index + 1:]
-            else:
-                short_name = name
-            print(short_name)
+            print(short_name(name))
 
     def print_zones_with_until_month(self):
         """Print the zones which have months in the 'UNTIL' field.
