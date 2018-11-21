@@ -38,7 +38,7 @@ namespace zonedb {{
 """
 
     ZONE_POLICIES_H_POLICY_ITEM = """\
-external const common::ZonePolicy kPolicy{policyName};
+extern const common::ZonePolicy kPolicy{policyName};
 """
 
     ZONE_POLICIES_CPP_FILE = """\
@@ -120,7 +120,7 @@ namespace zonedb {{
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-external const common::ZoneInfo const k{infoShortName};
+extern common::ZoneInfo const k{infoShortName};
 """
 
     ZONE_INFOS_CPP_FILE = """\
@@ -279,7 +279,7 @@ common::ZoneInfo const k{infoShortName} = {{
             if rules == '-':
                 zonePolicy = 'nullptr'
             else:
-                zonePolicy = 'kPolicy%s' % rules
+                zonePolicy = '&kPolicy%s' % rules
 
             until_year = zone['untilYear']
             if until_year == 9999:
