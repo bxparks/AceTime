@@ -234,6 +234,7 @@ common::ZoneInfo const k{infoShortName} = {{
     def generate_policy_item(self, name, rules):
         rule_items = ''
         for rule in rules:
+            atHour = rule['atMinute'] // 60
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
                 rawLine=rule['rawLine'],
                 fromYearFull=rule['fromYear'],
@@ -241,7 +242,7 @@ common::ZoneInfo const k{infoShortName} = {{
                 inMonth=rule['inMonth'],
                 onDayOfWeek=rule['onDayOfWeek'],
                 onDayOfMonth=rule['onDayOfMonth'],
-                atHour=rule['atHour'],
+                atHour=atHour,
                 atHourModifier=rule['atHourModifier'],
                 deltaCode=rule['deltaCode'],
                 letter=rule['letter'])
