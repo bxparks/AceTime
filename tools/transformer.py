@@ -23,20 +23,6 @@ class Transformer:
         The returned 'rules_map' is a map of (name -> rules[]), where each
         element in rules is another map with the following fields:
 
-            offsetMinutes: (int) offset from UTC/GMT in minutes
-            rules: (string) name of the Rule in effect, '-', or minute offset
-            abbrev: (string) abbreviation with '%s' replaced with '%'
-                    (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
-            untilYear: (int) 2000-9999
-            untilMonth: (int) 1-12 optional
-            untilDay: (string) 1-31, 'lastSun', 'Sun>=3', etc
-            untilTime: (string) optional
-            rawLine: (string) original ZONE line in TZ file
-            used: (boolean) indicates whether or not the rule is used by a zone
-
-        The returned 'zones_map' is a map of (name -> zones[]), where each
-        element in rules
-
             fromYear: (int) from year
             toYear: (int) to year, 2000 to 9999=max
             inMonth: (int) month index (1-12)
@@ -49,12 +35,27 @@ class Transformer:
             rawLine: (string) the original RULE line from the TZ file
             deltaCode: (int) offset code (15 min chunks) from Standard time
             shortName: (string) short name of the zone
+
+        The returned 'zones_map' is a map of (name -> zones[]), where each
+        element in zones is another map with the following fields:
+
+            offsetMinutes: (int) offset from UTC/GMT in minutes
+            rules: (string) name of the Rule in effect, '-', or minute offset
+            abbrev: (string) abbreviation with '%s' replaced with '%'
+                    (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
+            untilYear: (int) 2000-9999
+            untilMonth: (int) 1-12 optional
+            untilDay: (string) 1-31, 'lastSun', 'Sun>=3', etc
+            untilTime: (string) optional
+            rawLine: (string) original ZONE line in TZ file
+            used: (boolean) indicates whether or not the rule is used by a zone
         """
         return (self.transformed_zones_map, self.transformed_rules_map)
 
     def transform(self):
         (zones_map, rules_map) = self.mark_rules_used_by_zones(
             self.zones_map, self.rules_map)
+
         rules_map = self.remove_unused_rules(rules_map)
         rules_map = self.remove_rules_long_dst_letter(rules_map)
         rules_map = self.create_rules_with_delta_code(rules_map)
@@ -63,6 +64,7 @@ class Transformer:
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
         zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.remove_zones_without_slash(zones_map)
+        zones_map = self.create_zones_with_offset_code(zones_map)
 
         self.transformed_rules_map = rules_map
         self.transformed_zones_map = zones_map
@@ -194,6 +196,18 @@ class Transformer:
             if name.rfind('/') >= 0:
                results[name] = zones
         return results
+
+    @staticmethod
+    def create_zones_with_offset_code(zones_map):
+        for name, zones in zones_map.items():
+            for zone in zones:
+                offset_minutes = zone['offsetMinutes']
+                if offset_minutes % 15 != 0:
+                    logging.error("Zone %s: offset minutes not multiple of 15: %s"
+                            % (name, offset_minutes))
+                offset_code = int(offset_minutes / 15)
+                zone['offsetCode'] = offset_code
+        return zones_map
 
 
 def short_name(name):

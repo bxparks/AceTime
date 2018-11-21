@@ -148,7 +148,7 @@ common::ZoneInfo const k{infoShortName} = {{
   // {zoneLine}
   {{
     {offsetCode} /*offsetCode*/,
-    &kPolicy{policyName} /*zonePolicy*/,
+    {zonePolicy} /*zonePolicy*/,
     "{format}" /*format*/,
     {untilYear} /*untilYear*/,
   }},
@@ -217,4 +217,32 @@ common::ZoneInfo const k{infoShortName} = {{
             infoItems=info_items)
 
     def generate_infos_cpp(self):
-        pass
+        info_items = ''
+        for name, zones in sorted(self.zones.items()):
+            info_items += self.generate_entry_item(name, zones)
+
+        return self.ZONE_INFOS_CPP_FILE.format(
+            invocation=self.invocation,
+            infoItems=info_items)
+
+    def generate_entry_item(self, name, zones):
+        entry_items = ''
+        for zone in zones:
+            rules = zone['rules']
+            if rules == '-':
+                zonePolicy = 'nullptr'
+            else:
+                zonePolicy = '"kPolicy%s"' % rules
+
+            entry_items += self.ZONE_INFOS_CPP_ENTRY_ITEM.format(
+                zoneLine=zone['rawLine'],
+                offsetCode=zone['offsetCode'],
+                zonePolicy=zonePolicy,
+                format=zone['abbrev'],
+                untilYear=zone['untilYear'])
+
+        return self.ZONE_INFOS_CPP_INFO_ITEM.format(
+            infoFullName=name,
+            infoShortName=short_name(name),
+            entryItems=entry_items)
+
