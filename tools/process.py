@@ -175,5 +175,9 @@ def main():
     if args.print_generated_infos:
         generator.print_generated_infos()
 
+    # generate files
+    if args.output_dir:
+        generator.generate_files(args.output_dir)
+
 if __name__ == '__main__':
     main()

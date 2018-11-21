@@ -6,6 +6,8 @@ Generate the zone_info and zone_policies files.
 """
 
 import logging
+import os
+
 from transformer import short_name
 
 class Generator:
@@ -159,6 +161,11 @@ common::ZoneInfo const k{infoShortName} = {{
   }},
 """
 
+    ZONE_INFOS_H_FILE_NAME = 'zone_infos.h'
+    ZONE_INFOS_CPP_FILE_NAME = 'zone_infos.cpp'
+    ZONE_POLICIES_H_FILE_NAME = 'zone_policies.h'
+    ZONE_POLICIES_CPP_FILE_NAME = 'zone_policies.cpp'
+
     def __init__(self, invocation, zones, rules):
         self.invocation = invocation
         self.zones = zones
@@ -171,6 +178,23 @@ common::ZoneInfo const k{infoShortName} = {{
     def print_generated_infos(self):
         print(self.generate_infos_h())
         print(self.generate_infos_cpp())
+
+    def generate_files(self, output_dir):
+        self.write_file(output_dir,
+            self.ZONE_POLICIES_H_FILE_NAME, self.generate_policies_h())
+        self.write_file(output_dir,
+            self.ZONE_POLICIES_CPP_FILE_NAME, self.generate_policies_cpp())
+
+        self.write_file(output_dir,
+            self.ZONE_INFOS_H_FILE_NAME, self.generate_infos_h())
+        self.write_file(output_dir,
+            self.ZONE_INFOS_CPP_FILE_NAME, self.generate_infos_cpp())
+
+    def write_file(self, output_dir, filename, content):
+        full_filename = os.path.join(output_dir, filename)
+        with open(full_filename, 'w', encoding='utf-8') as output_file:
+            print(content, end='', file=output_file)
+        logging.info("Created %s", full_filename)
 
     def generate_policies_h(self):
         policy_items = ''
