@@ -127,7 +127,7 @@ class Transformer:
                     break
             if valid:
                 results[name] = rules
-        logging.info('Removed %s rules with long DST letter' % count)
+        logging.info('Removed %s rule policies with long DST letter' % count)
         return results
 
     @staticmethod
@@ -145,7 +145,8 @@ class Transformer:
                     break
             if valid:
                 results[name] = rules
-        logging.info('Removed %s rules with non-integral atHour' % count)
+        logging.info('Removed %s rule policies with non-integral atHour'
+            % count)
         return results
 
     @staticmethod
@@ -161,7 +162,7 @@ class Transformer:
                     count += 1
             if used_rules:
                 results[name] = used_rules
-        logging.info('Removed %s unused rules' % count)
+        logging.info('Removed %s rule entries not used' % count)
         return results
 
     @staticmethod
@@ -240,7 +241,7 @@ class Transformer:
             if keep_zones:
                 results[name] = keep_zones
 
-        logging.info("Removed %s zones entries too old" % count)
+        logging.info("Removed %s zone entries too old" % count)
         return results
 
     @staticmethod
