@@ -13,7 +13,7 @@ DIRNAME=$(dirname $0)
 INPUT_DIR=$HOME/dev/tz
 
 # Output directory points to AceTime/src/ace_time/zonedb
-OUTPUT_DIR=../src/ace_time/zonedb
+OUTPUT_DIR=$HOME/dev/AceTime/src/ace_time/zonedb
 
 function usage() {
     echo 'Usage: process.sh --tag tag [--code] [python_flags...]'
