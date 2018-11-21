@@ -30,7 +30,10 @@ def main():
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Generate Zone Info.')
     parser.add_argument(
+        '--input_dir', help='Location of the input directory', required=True)
+    parser.add_argument(
         '--output_dir', help='Location of the output directory', required=False)
+
     parser.add_argument(
         '--print_summary',
         help='Print summary of rules and zones',
@@ -108,12 +111,15 @@ def main():
         default=False)
     args = parser.parse_args()
 
+    # Configure logging
+    logging.basicConfig(level=logging.INFO)
+
     # How the script was invoked
     invocation = " ".join(sys.argv)
 
     # Extract the TZ files
-    extractor = Extractor(sys.stdin)
-    extractor.parse_zone_file()
+    extractor = Extractor(args.input_dir)
+    extractor.parse_zone_files()
     extractor.process_rules()
     extractor.process_zones()
     (zones, rules) = extractor.get_data()

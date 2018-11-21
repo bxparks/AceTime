@@ -37,6 +37,7 @@ Zone    America/Chicago     -5:50:36    -       LMT     1883 Nov 18 12:09:24
 import argparse
 import logging
 import sys
+import os
 
 
 class Extractor:
@@ -45,8 +46,8 @@ class Extractor:
 
     Usage:
 
-        extractor = Extractor(sys.stdin)
-        extractor.parse_zone_file()
+        extractor = Extractor(input_dir)
+        extractor.parse_zone_files()
         extractor.process_rules()
         extractor.process_zones()
         extractor.print_summary()
@@ -54,8 +55,18 @@ class Extractor:
         ...
     """
 
-    def __init__(self, input, **kwargs):
-        self.input = input
+    ZONE_FILES = [
+        'africa',
+        'antarctica',
+        'asia',
+        'australasia',
+        'europe',
+        'northamerica',
+        'southamerica',
+    ]
+
+    def __init__(self, input_dir, **kwargs):
+        self.input_dir = input_dir
 
         self.next_line = None
         self.rule_lines = {}  # dictionary of ruleName to lines[]
@@ -71,12 +82,20 @@ class Extractor:
     def get_data(self):
         return (self.zones, self.rules)
 
-    def parse_zone_file(self):
+    def parse_zone_files(self):
+        logging.basicConfig(level=logging.INFO)
+        for file_name in self.ZONE_FILES:
+            full_filename = os.path.join(self.input_dir, file_name)
+            logging.info('Processing %s' % full_filename)
+            with open(full_filename, 'r', encoding='utf-8') as f:
+                self.parse_zone_file(f)
+
+    def parse_zone_file(self, input):
         in_zone_mode = False
         prev_tag = ''
         prev_name = ''
         while True:
-            line = self.read_line()
+            line = self.read_line(input)
             if line is None:
                 break
 
@@ -124,7 +143,7 @@ class Extractor:
                     logging.exception('Exception %s: %s', e, line)
                     self.invalid_zone_lines += 1
 
-    def read_line(self):
+    def read_line(self, input):
         """Return the next line, while supporting a one-line push_back().
         Comment lines begin with a '#' character and are skipped.
         Blank lines are skipped.
@@ -137,7 +156,7 @@ class Extractor:
             return line
 
         while True:
-            line = self.input.readline()
+            line = input.readline()
 
             # EOF
             if line == '':
