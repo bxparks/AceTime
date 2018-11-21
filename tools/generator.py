@@ -213,7 +213,7 @@ common::ZoneInfo const k{infoShortName} = {{
         policy_items = ''
         for name, rules in sorted(self.rules.items()):
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
-                policyName=name)
+                policyName=normalize_name(name))
 
         return self.ZONE_POLICIES_H_FILE.format(
             invocation=self.invocation,
@@ -248,14 +248,14 @@ common::ZoneInfo const k{infoShortName} = {{
                 letter=rule['letter'])
 
         return self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
-            policyName=name,
+            policyName=normalize_name(name),
             ruleItems=rule_items)
             
     def generate_infos_h(self):
         info_items = ''
         for name, zones in sorted(self.zones.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
-                infoShortName=short_name(name))
+                infoShortName=normalize_name(short_name(name)))
 
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
@@ -295,7 +295,11 @@ common::ZoneInfo const k{infoShortName} = {{
                 untilYear=until_year)
 
         return self.ZONE_INFOS_CPP_INFO_ITEM.format(
-            infoFullName=name,
-            infoShortName=short_name(name),
+            infoFullName=normalize_name(name),
+            infoShortName=normalize_name(short_name(name)),
             entryItems=entry_items)
 
+def normalize_name(name):
+    """Replace hyphen with underscore so that the C++ symbol can compile.
+    """
+    return name.replace('-', '_')
