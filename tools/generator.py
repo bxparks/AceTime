@@ -122,7 +122,7 @@ namespace zonedb {{
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-extern common::ZoneInfo const k{infoShortName};
+extern const common::ZoneInfo k{infoShortName};
 """
 
     ZONE_INFOS_CPP_FILE = """\
@@ -153,11 +153,11 @@ namespace zonedb {{
 // Zone: {infoFullName}; Entries: {numEntries}
 //---------------------------------------------------------------------------
 
-static common::ZoneEntry const kZoneEntry{infoShortName}[] = {{
+static const common::ZoneEntry kZoneEntry{infoShortName}[] = {{
 {entryItems}
 }};
 
-common::ZoneInfo const k{infoShortName} = {{
+const common::ZoneInfo k{infoShortName} = {{
   "{infoFullName}" /*name*/,
   kZoneEntry{infoShortName} /*entries*/,
   sizeof(kZoneEntry{infoShortName})/sizeof(common::ZoneEntry) /*numEntries*/,
