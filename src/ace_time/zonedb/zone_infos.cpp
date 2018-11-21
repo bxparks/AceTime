@@ -5,6 +5,8 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018g
 //
+// numInfos: 228; numEntries: 237
+//
 // DO NOT EDIT
 
 #include "../common/ZoneInfo.h"
@@ -15,7 +17,7 @@ namespace ace_time {
 namespace zonedb {
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Abidjan; Entries: 1
+// Zone: Africa/Abidjan; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAbidjan[] = {
@@ -36,7 +38,7 @@ const common::ZoneInfo kAbidjan = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Accra; Entries: 1
+// Zone: Africa/Accra; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAccra[] = {
@@ -57,7 +59,7 @@ const common::ZoneInfo kAccra = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Algiers; Entries: 1
+// Zone: Africa/Algiers; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAlgiers[] = {
@@ -78,7 +80,7 @@ const common::ZoneInfo kAlgiers = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Bissau; Entries: 1
+// Zone: Africa/Bissau; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBissau[] = {
@@ -99,7 +101,7 @@ const common::ZoneInfo kBissau = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Cairo; Entries: 1
+// Zone: Africa/Cairo; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCairo[] = {
@@ -120,7 +122,7 @@ const common::ZoneInfo kCairo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Ceuta; Entries: 1
+// Zone: Africa/Ceuta; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCeuta[] = {
@@ -141,7 +143,7 @@ const common::ZoneInfo kCeuta = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Johannesburg; Entries: 1
+// Zone: Africa/Johannesburg; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJohannesburg[] = {
@@ -162,7 +164,7 @@ const common::ZoneInfo kJohannesburg = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Lagos; Entries: 1
+// Zone: Africa/Lagos; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLagos[] = {
@@ -183,7 +185,7 @@ const common::ZoneInfo kLagos = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Maputo; Entries: 1
+// Zone: Africa/Maputo; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMaputo[] = {
@@ -204,7 +206,7 @@ const common::ZoneInfo kMaputo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Monrovia; Entries: 1
+// Zone: Africa/Monrovia; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMonrovia[] = {
@@ -225,7 +227,7 @@ const common::ZoneInfo kMonrovia = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Nairobi; Entries: 1
+// Zone: Africa/Nairobi; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNairobi[] = {
@@ -246,7 +248,7 @@ const common::ZoneInfo kNairobi = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Ndjamena; Entries: 1
+// Zone: Africa/Ndjamena; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNdjamena[] = {
@@ -267,7 +269,7 @@ const common::ZoneInfo kNdjamena = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Tunis; Entries: 1
+// Zone: Africa/Tunis; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTunis[] = {
@@ -288,7 +290,7 @@ const common::ZoneInfo kTunis = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Adak; Entries: 1
+// Zone: America/Adak; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAdak[] = {
@@ -309,7 +311,7 @@ const common::ZoneInfo kAdak = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Anchorage; Entries: 1
+// Zone: America/Anchorage; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAnchorage[] = {
@@ -330,7 +332,7 @@ const common::ZoneInfo kAnchorage = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Asuncion; Entries: 1
+// Zone: America/Asuncion; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAsuncion[] = {
@@ -351,7 +353,7 @@ const common::ZoneInfo kAsuncion = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Atikokan; Entries: 1
+// Zone: America/Atikokan; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAtikokan[] = {
@@ -372,7 +374,7 @@ const common::ZoneInfo kAtikokan = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Barbados; Entries: 1
+// Zone: America/Barbados; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBarbados[] = {
@@ -393,7 +395,7 @@ const common::ZoneInfo kBarbados = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Belem; Entries: 1
+// Zone: America/Belem; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBelem[] = {
@@ -414,7 +416,7 @@ const common::ZoneInfo kBelem = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Blanc_Sablon; Entries: 1
+// Zone: America/Blanc_Sablon; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBlanc_Sablon[] = {
@@ -435,7 +437,7 @@ const common::ZoneInfo kBlanc_Sablon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Bogota; Entries: 1
+// Zone: America/Bogota; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBogota[] = {
@@ -456,7 +458,7 @@ const common::ZoneInfo kBogota = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Boise; Entries: 1
+// Zone: America/Boise; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBoise[] = {
@@ -477,7 +479,7 @@ const common::ZoneInfo kBoise = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Campo_Grande; Entries: 1
+// Zone: America/Campo_Grande; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCampo_Grande[] = {
@@ -498,7 +500,7 @@ const common::ZoneInfo kCampo_Grande = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Cayenne; Entries: 1
+// Zone: America/Cayenne; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCayenne[] = {
@@ -519,7 +521,7 @@ const common::ZoneInfo kCayenne = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Chicago; Entries: 1
+// Zone: America/Chicago; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChicago[] = {
@@ -540,7 +542,7 @@ const common::ZoneInfo kChicago = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Chihuahua; Entries: 1
+// Zone: America/Chihuahua; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChihuahua[] = {
@@ -561,7 +563,7 @@ const common::ZoneInfo kChihuahua = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Costa_Rica; Entries: 1
+// Zone: America/Costa_Rica; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCosta_Rica[] = {
@@ -582,7 +584,7 @@ const common::ZoneInfo kCosta_Rica = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Creston; Entries: 1
+// Zone: America/Creston; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCreston[] = {
@@ -603,7 +605,7 @@ const common::ZoneInfo kCreston = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Curacao; Entries: 1
+// Zone: America/Curacao; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCuracao[] = {
@@ -624,7 +626,7 @@ const common::ZoneInfo kCuracao = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Danmarkshavn; Entries: 1
+// Zone: America/Danmarkshavn; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDanmarkshavn[] = {
@@ -645,7 +647,7 @@ const common::ZoneInfo kDanmarkshavn = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Dawson; Entries: 1
+// Zone: America/Dawson; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDawson[] = {
@@ -666,7 +668,7 @@ const common::ZoneInfo kDawson = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Dawson_Creek; Entries: 1
+// Zone: America/Dawson_Creek; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDawson_Creek[] = {
@@ -687,7 +689,7 @@ const common::ZoneInfo kDawson_Creek = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Denver; Entries: 1
+// Zone: America/Denver; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDenver[] = {
@@ -708,7 +710,7 @@ const common::ZoneInfo kDenver = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Detroit; Entries: 1
+// Zone: America/Detroit; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDetroit[] = {
@@ -729,7 +731,7 @@ const common::ZoneInfo kDetroit = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Edmonton; Entries: 1
+// Zone: America/Edmonton; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEdmonton[] = {
@@ -750,7 +752,7 @@ const common::ZoneInfo kEdmonton = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/El_Salvador; Entries: 1
+// Zone: America/El_Salvador; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEl_Salvador[] = {
@@ -771,7 +773,7 @@ const common::ZoneInfo kEl_Salvador = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Glace_Bay; Entries: 1
+// Zone: America/Glace_Bay; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGlace_Bay[] = {
@@ -792,7 +794,7 @@ const common::ZoneInfo kGlace_Bay = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Godthab; Entries: 1
+// Zone: America/Godthab; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGodthab[] = {
@@ -813,7 +815,7 @@ const common::ZoneInfo kGodthab = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Guatemala; Entries: 1
+// Zone: America/Guatemala; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGuatemala[] = {
@@ -834,7 +836,7 @@ const common::ZoneInfo kGuatemala = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Guayaquil; Entries: 1
+// Zone: America/Guayaquil; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGuayaquil[] = {
@@ -855,7 +857,7 @@ const common::ZoneInfo kGuayaquil = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Guyana; Entries: 1
+// Zone: America/Guyana; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGuyana[] = {
@@ -876,7 +878,7 @@ const common::ZoneInfo kGuyana = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Halifax; Entries: 1
+// Zone: America/Halifax; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHalifax[] = {
@@ -897,7 +899,7 @@ const common::ZoneInfo kHalifax = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Havana; Entries: 1
+// Zone: America/Havana; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHavana[] = {
@@ -918,7 +920,7 @@ const common::ZoneInfo kHavana = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Hermosillo; Entries: 1
+// Zone: America/Hermosillo; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHermosillo[] = {
@@ -939,7 +941,7 @@ const common::ZoneInfo kHermosillo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Indiana/Indianapolis; Entries: 2
+// Zone: America/Indiana/Indianapolis; numEntries: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryIndianapolis[] = {
@@ -967,7 +969,7 @@ const common::ZoneInfo kIndianapolis = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Indiana/Marengo; Entries: 2
+// Zone: America/Indiana/Marengo; numEntries: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMarengo[] = {
@@ -995,7 +997,7 @@ const common::ZoneInfo kMarengo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Indiana/Vevay; Entries: 2
+// Zone: America/Indiana/Vevay; numEntries: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryVevay[] = {
@@ -1023,7 +1025,7 @@ const common::ZoneInfo kVevay = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Inuvik; Entries: 1
+// Zone: America/Inuvik; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryInuvik[] = {
@@ -1044,7 +1046,7 @@ const common::ZoneInfo kInuvik = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Jamaica; Entries: 1
+// Zone: America/Jamaica; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJamaica[] = {
@@ -1065,7 +1067,7 @@ const common::ZoneInfo kJamaica = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Juneau; Entries: 1
+// Zone: America/Juneau; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJuneau[] = {
@@ -1086,7 +1088,7 @@ const common::ZoneInfo kJuneau = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Kentucky/Louisville; Entries: 1
+// Zone: America/Kentucky/Louisville; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLouisville[] = {
@@ -1107,7 +1109,7 @@ const common::ZoneInfo kLouisville = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/La_Paz; Entries: 1
+// Zone: America/La_Paz; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLa_Paz[] = {
@@ -1128,7 +1130,7 @@ const common::ZoneInfo kLa_Paz = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Lima; Entries: 1
+// Zone: America/Lima; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLima[] = {
@@ -1149,7 +1151,7 @@ const common::ZoneInfo kLima = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Los_Angeles; Entries: 1
+// Zone: America/Los_Angeles; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLos_Angeles[] = {
@@ -1170,7 +1172,7 @@ const common::ZoneInfo kLos_Angeles = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Managua; Entries: 1
+// Zone: America/Managua; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryManagua[] = {
@@ -1191,7 +1193,7 @@ const common::ZoneInfo kManagua = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Manaus; Entries: 1
+// Zone: America/Manaus; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryManaus[] = {
@@ -1212,7 +1214,7 @@ const common::ZoneInfo kManaus = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Martinique; Entries: 1
+// Zone: America/Martinique; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMartinique[] = {
@@ -1233,7 +1235,7 @@ const common::ZoneInfo kMartinique = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Matamoros; Entries: 2
+// Zone: America/Matamoros; numEntries: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMatamoros[] = {
@@ -1261,7 +1263,7 @@ const common::ZoneInfo kMatamoros = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Mazatlan; Entries: 1
+// Zone: America/Mazatlan; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMazatlan[] = {
@@ -1282,7 +1284,7 @@ const common::ZoneInfo kMazatlan = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Menominee; Entries: 1
+// Zone: America/Menominee; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMenominee[] = {
@@ -1303,7 +1305,7 @@ const common::ZoneInfo kMenominee = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Merida; Entries: 1
+// Zone: America/Merida; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMerida[] = {
@@ -1324,7 +1326,7 @@ const common::ZoneInfo kMerida = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Miquelon; Entries: 1
+// Zone: America/Miquelon; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMiquelon[] = {
@@ -1345,7 +1347,7 @@ const common::ZoneInfo kMiquelon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Monterrey; Entries: 1
+// Zone: America/Monterrey; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMonterrey[] = {
@@ -1366,7 +1368,7 @@ const common::ZoneInfo kMonterrey = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Montevideo; Entries: 1
+// Zone: America/Montevideo; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMontevideo[] = {
@@ -1387,7 +1389,7 @@ const common::ZoneInfo kMontevideo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Nassau; Entries: 1
+// Zone: America/Nassau; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNassau[] = {
@@ -1408,7 +1410,7 @@ const common::ZoneInfo kNassau = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/New_York; Entries: 1
+// Zone: America/New_York; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNew_York[] = {
@@ -1429,7 +1431,7 @@ const common::ZoneInfo kNew_York = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Nipigon; Entries: 1
+// Zone: America/Nipigon; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNipigon[] = {
@@ -1450,7 +1452,7 @@ const common::ZoneInfo kNipigon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Nome; Entries: 1
+// Zone: America/Nome; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNome[] = {
@@ -1471,7 +1473,7 @@ const common::ZoneInfo kNome = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/North_Dakota/Center; Entries: 1
+// Zone: America/North_Dakota/Center; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCenter[] = {
@@ -1492,7 +1494,7 @@ const common::ZoneInfo kCenter = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Ojinaga; Entries: 2
+// Zone: America/Ojinaga; numEntries: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryOjinaga[] = {
@@ -1520,7 +1522,7 @@ const common::ZoneInfo kOjinaga = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Panama; Entries: 1
+// Zone: America/Panama; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPanama[] = {
@@ -1541,7 +1543,7 @@ const common::ZoneInfo kPanama = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Paramaribo; Entries: 1
+// Zone: America/Paramaribo; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryParamaribo[] = {
@@ -1562,7 +1564,7 @@ const common::ZoneInfo kParamaribo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Phoenix; Entries: 1
+// Zone: America/Phoenix; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPhoenix[] = {
@@ -1583,7 +1585,7 @@ const common::ZoneInfo kPhoenix = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Port_au_Prince; Entries: 1
+// Zone: America/Port_au_Prince; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPort_au_Prince[] = {
@@ -1604,7 +1606,7 @@ const common::ZoneInfo kPort_au_Prince = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Port_of_Spain; Entries: 1
+// Zone: America/Port_of_Spain; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPort_of_Spain[] = {
@@ -1625,7 +1627,7 @@ const common::ZoneInfo kPort_of_Spain = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Porto_Velho; Entries: 1
+// Zone: America/Porto_Velho; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPorto_Velho[] = {
@@ -1646,7 +1648,7 @@ const common::ZoneInfo kPorto_Velho = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Puerto_Rico; Entries: 1
+// Zone: America/Puerto_Rico; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPuerto_Rico[] = {
@@ -1667,7 +1669,7 @@ const common::ZoneInfo kPuerto_Rico = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Rainy_River; Entries: 1
+// Zone: America/Rainy_River; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRainy_River[] = {
@@ -1688,7 +1690,7 @@ const common::ZoneInfo kRainy_River = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Regina; Entries: 1
+// Zone: America/Regina; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRegina[] = {
@@ -1709,7 +1711,7 @@ const common::ZoneInfo kRegina = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Santiago; Entries: 1
+// Zone: America/Santiago; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySantiago[] = {
@@ -1730,7 +1732,7 @@ const common::ZoneInfo kSantiago = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Sao_Paulo; Entries: 1
+// Zone: America/Sao_Paulo; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySao_Paulo[] = {
@@ -1751,7 +1753,7 @@ const common::ZoneInfo kSao_Paulo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Scoresbysund; Entries: 1
+// Zone: America/Scoresbysund; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryScoresbysund[] = {
@@ -1772,7 +1774,7 @@ const common::ZoneInfo kScoresbysund = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Sitka; Entries: 1
+// Zone: America/Sitka; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySitka[] = {
@@ -1793,7 +1795,7 @@ const common::ZoneInfo kSitka = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Swift_Current; Entries: 1
+// Zone: America/Swift_Current; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySwift_Current[] = {
@@ -1814,7 +1816,7 @@ const common::ZoneInfo kSwift_Current = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Tegucigalpa; Entries: 1
+// Zone: America/Tegucigalpa; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTegucigalpa[] = {
@@ -1835,7 +1837,7 @@ const common::ZoneInfo kTegucigalpa = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Thule; Entries: 1
+// Zone: America/Thule; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryThule[] = {
@@ -1856,7 +1858,7 @@ const common::ZoneInfo kThule = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Thunder_Bay; Entries: 1
+// Zone: America/Thunder_Bay; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryThunder_Bay[] = {
@@ -1877,7 +1879,7 @@ const common::ZoneInfo kThunder_Bay = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Toronto; Entries: 1
+// Zone: America/Toronto; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryToronto[] = {
@@ -1898,7 +1900,7 @@ const common::ZoneInfo kToronto = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Vancouver; Entries: 1
+// Zone: America/Vancouver; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryVancouver[] = {
@@ -1919,7 +1921,7 @@ const common::ZoneInfo kVancouver = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Whitehorse; Entries: 1
+// Zone: America/Whitehorse; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryWhitehorse[] = {
@@ -1940,7 +1942,7 @@ const common::ZoneInfo kWhitehorse = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Winnipeg; Entries: 2
+// Zone: America/Winnipeg; numEntries: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryWinnipeg[] = {
@@ -1968,7 +1970,7 @@ const common::ZoneInfo kWinnipeg = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Yakutat; Entries: 1
+// Zone: America/Yakutat; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryYakutat[] = {
@@ -1989,7 +1991,7 @@ const common::ZoneInfo kYakutat = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Yellowknife; Entries: 1
+// Zone: America/Yellowknife; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryYellowknife[] = {
@@ -2010,7 +2012,7 @@ const common::ZoneInfo kYellowknife = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Antarctica/DumontDUrville; Entries: 1
+// Zone: Antarctica/DumontDUrville; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDumontDUrville[] = {
@@ -2031,7 +2033,7 @@ const common::ZoneInfo kDumontDUrville = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Antarctica/Rothera; Entries: 1
+// Zone: Antarctica/Rothera; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRothera[] = {
@@ -2052,7 +2054,7 @@ const common::ZoneInfo kRothera = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Antarctica/Syowa; Entries: 1
+// Zone: Antarctica/Syowa; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySyowa[] = {
@@ -2073,7 +2075,7 @@ const common::ZoneInfo kSyowa = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Antarctica/Vostok; Entries: 1
+// Zone: Antarctica/Vostok; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryVostok[] = {
@@ -2094,7 +2096,7 @@ const common::ZoneInfo kVostok = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Amman; Entries: 1
+// Zone: Asia/Amman; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAmman[] = {
@@ -2115,7 +2117,7 @@ const common::ZoneInfo kAmman = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Ashgabat; Entries: 1
+// Zone: Asia/Ashgabat; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAshgabat[] = {
@@ -2136,7 +2138,7 @@ const common::ZoneInfo kAshgabat = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Baghdad; Entries: 1
+// Zone: Asia/Baghdad; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBaghdad[] = {
@@ -2157,7 +2159,7 @@ const common::ZoneInfo kBaghdad = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Baku; Entries: 1
+// Zone: Asia/Baku; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBaku[] = {
@@ -2178,7 +2180,7 @@ const common::ZoneInfo kBaku = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Bangkok; Entries: 1
+// Zone: Asia/Bangkok; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBangkok[] = {
@@ -2199,7 +2201,7 @@ const common::ZoneInfo kBangkok = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Beirut; Entries: 1
+// Zone: Asia/Beirut; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBeirut[] = {
@@ -2220,7 +2222,7 @@ const common::ZoneInfo kBeirut = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Brunei; Entries: 1
+// Zone: Asia/Brunei; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBrunei[] = {
@@ -2241,7 +2243,7 @@ const common::ZoneInfo kBrunei = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Damascus; Entries: 1
+// Zone: Asia/Damascus; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDamascus[] = {
@@ -2262,7 +2264,7 @@ const common::ZoneInfo kDamascus = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Dhaka; Entries: 2
+// Zone: Asia/Dhaka; numEntries: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDhaka[] = {
@@ -2290,7 +2292,7 @@ const common::ZoneInfo kDhaka = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Dubai; Entries: 1
+// Zone: Asia/Dubai; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDubai[] = {
@@ -2311,7 +2313,7 @@ const common::ZoneInfo kDubai = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Dushanbe; Entries: 1
+// Zone: Asia/Dushanbe; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDushanbe[] = {
@@ -2332,7 +2334,7 @@ const common::ZoneInfo kDushanbe = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Ho_Chi_Minh; Entries: 1
+// Zone: Asia/Ho_Chi_Minh; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHo_Chi_Minh[] = {
@@ -2353,7 +2355,7 @@ const common::ZoneInfo kHo_Chi_Minh = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Hovd; Entries: 1
+// Zone: Asia/Hovd; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHovd[] = {
@@ -2374,7 +2376,7 @@ const common::ZoneInfo kHovd = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Jakarta; Entries: 1
+// Zone: Asia/Jakarta; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJakarta[] = {
@@ -2395,7 +2397,7 @@ const common::ZoneInfo kJakarta = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Jayapura; Entries: 1
+// Zone: Asia/Jayapura; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJayapura[] = {
@@ -2416,7 +2418,7 @@ const common::ZoneInfo kJayapura = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Jerusalem; Entries: 1
+// Zone: Asia/Jerusalem; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJerusalem[] = {
@@ -2437,7 +2439,7 @@ const common::ZoneInfo kJerusalem = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Kabul; Entries: 1
+// Zone: Asia/Kabul; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKabul[] = {
@@ -2458,7 +2460,7 @@ const common::ZoneInfo kKabul = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Karachi; Entries: 1
+// Zone: Asia/Karachi; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKarachi[] = {
@@ -2479,7 +2481,7 @@ const common::ZoneInfo kKarachi = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Kathmandu; Entries: 1
+// Zone: Asia/Kathmandu; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKathmandu[] = {
@@ -2500,7 +2502,7 @@ const common::ZoneInfo kKathmandu = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Kolkata; Entries: 1
+// Zone: Asia/Kolkata; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKolkata[] = {
@@ -2521,7 +2523,7 @@ const common::ZoneInfo kKolkata = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Kuala_Lumpur; Entries: 1
+// Zone: Asia/Kuala_Lumpur; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKuala_Lumpur[] = {
@@ -2542,7 +2544,7 @@ const common::ZoneInfo kKuala_Lumpur = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Kuching; Entries: 1
+// Zone: Asia/Kuching; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKuching[] = {
@@ -2563,7 +2565,7 @@ const common::ZoneInfo kKuching = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Makassar; Entries: 1
+// Zone: Asia/Makassar; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMakassar[] = {
@@ -2584,7 +2586,7 @@ const common::ZoneInfo kMakassar = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Manila; Entries: 1
+// Zone: Asia/Manila; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryManila[] = {
@@ -2605,7 +2607,7 @@ const common::ZoneInfo kManila = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Nicosia; Entries: 1
+// Zone: Asia/Nicosia; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNicosia[] = {
@@ -2626,7 +2628,7 @@ const common::ZoneInfo kNicosia = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Pontianak; Entries: 1
+// Zone: Asia/Pontianak; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPontianak[] = {
@@ -2647,7 +2649,7 @@ const common::ZoneInfo kPontianak = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Qatar; Entries: 1
+// Zone: Asia/Qatar; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryQatar[] = {
@@ -2668,7 +2670,7 @@ const common::ZoneInfo kQatar = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Riyadh; Entries: 1
+// Zone: Asia/Riyadh; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRiyadh[] = {
@@ -2689,7 +2691,7 @@ const common::ZoneInfo kRiyadh = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Samarkand; Entries: 1
+// Zone: Asia/Samarkand; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySamarkand[] = {
@@ -2710,7 +2712,7 @@ const common::ZoneInfo kSamarkand = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Seoul; Entries: 1
+// Zone: Asia/Seoul; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySeoul[] = {
@@ -2731,7 +2733,7 @@ const common::ZoneInfo kSeoul = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Shanghai; Entries: 1
+// Zone: Asia/Shanghai; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryShanghai[] = {
@@ -2752,7 +2754,7 @@ const common::ZoneInfo kShanghai = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Singapore; Entries: 1
+// Zone: Asia/Singapore; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySingapore[] = {
@@ -2773,7 +2775,7 @@ const common::ZoneInfo kSingapore = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Taipei; Entries: 1
+// Zone: Asia/Taipei; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTaipei[] = {
@@ -2794,7 +2796,7 @@ const common::ZoneInfo kTaipei = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Tashkent; Entries: 1
+// Zone: Asia/Tashkent; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTashkent[] = {
@@ -2815,7 +2817,7 @@ const common::ZoneInfo kTashkent = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Tehran; Entries: 1
+// Zone: Asia/Tehran; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTehran[] = {
@@ -2836,7 +2838,7 @@ const common::ZoneInfo kTehran = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Thimphu; Entries: 1
+// Zone: Asia/Thimphu; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryThimphu[] = {
@@ -2857,7 +2859,7 @@ const common::ZoneInfo kThimphu = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Tokyo; Entries: 1
+// Zone: Asia/Tokyo; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTokyo[] = {
@@ -2878,7 +2880,7 @@ const common::ZoneInfo kTokyo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Ulaanbaatar; Entries: 1
+// Zone: Asia/Ulaanbaatar; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryUlaanbaatar[] = {
@@ -2899,7 +2901,7 @@ const common::ZoneInfo kUlaanbaatar = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Urumqi; Entries: 1
+// Zone: Asia/Urumqi; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryUrumqi[] = {
@@ -2920,7 +2922,7 @@ const common::ZoneInfo kUrumqi = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Yangon; Entries: 1
+// Zone: Asia/Yangon; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryYangon[] = {
@@ -2941,7 +2943,7 @@ const common::ZoneInfo kYangon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Yerevan; Entries: 2
+// Zone: Asia/Yerevan; numEntries: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryYerevan[] = {
@@ -2969,7 +2971,7 @@ const common::ZoneInfo kYerevan = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Azores; Entries: 1
+// Zone: Atlantic/Azores; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAzores[] = {
@@ -2990,7 +2992,7 @@ const common::ZoneInfo kAzores = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Bermuda; Entries: 1
+// Zone: Atlantic/Bermuda; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBermuda[] = {
@@ -3011,7 +3013,7 @@ const common::ZoneInfo kBermuda = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Canary; Entries: 1
+// Zone: Atlantic/Canary; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCanary[] = {
@@ -3032,7 +3034,7 @@ const common::ZoneInfo kCanary = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Cape_Verde; Entries: 1
+// Zone: Atlantic/Cape_Verde; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCape_Verde[] = {
@@ -3053,7 +3055,7 @@ const common::ZoneInfo kCape_Verde = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Faroe; Entries: 1
+// Zone: Atlantic/Faroe; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryFaroe[] = {
@@ -3074,7 +3076,7 @@ const common::ZoneInfo kFaroe = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Madeira; Entries: 1
+// Zone: Atlantic/Madeira; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMadeira[] = {
@@ -3095,7 +3097,7 @@ const common::ZoneInfo kMadeira = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Reykjavik; Entries: 1
+// Zone: Atlantic/Reykjavik; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryReykjavik[] = {
@@ -3116,7 +3118,7 @@ const common::ZoneInfo kReykjavik = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/South_Georgia; Entries: 1
+// Zone: Atlantic/South_Georgia; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySouth_Georgia[] = {
@@ -3137,7 +3139,7 @@ const common::ZoneInfo kSouth_Georgia = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Adelaide; Entries: 1
+// Zone: Australia/Adelaide; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAdelaide[] = {
@@ -3158,7 +3160,7 @@ const common::ZoneInfo kAdelaide = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Brisbane; Entries: 1
+// Zone: Australia/Brisbane; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBrisbane[] = {
@@ -3179,7 +3181,7 @@ const common::ZoneInfo kBrisbane = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Broken_Hill; Entries: 2
+// Zone: Australia/Broken_Hill; numEntries: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBroken_Hill[] = {
@@ -3207,7 +3209,7 @@ const common::ZoneInfo kBroken_Hill = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Currie; Entries: 1
+// Zone: Australia/Currie; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCurrie[] = {
@@ -3228,7 +3230,7 @@ const common::ZoneInfo kCurrie = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Darwin; Entries: 1
+// Zone: Australia/Darwin; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDarwin[] = {
@@ -3249,7 +3251,7 @@ const common::ZoneInfo kDarwin = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Eucla; Entries: 1
+// Zone: Australia/Eucla; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEucla[] = {
@@ -3270,7 +3272,7 @@ const common::ZoneInfo kEucla = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Hobart; Entries: 1
+// Zone: Australia/Hobart; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHobart[] = {
@@ -3291,7 +3293,7 @@ const common::ZoneInfo kHobart = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Lindeman; Entries: 1
+// Zone: Australia/Lindeman; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLindeman[] = {
@@ -3312,7 +3314,7 @@ const common::ZoneInfo kLindeman = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Lord_Howe; Entries: 1
+// Zone: Australia/Lord_Howe; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLord_Howe[] = {
@@ -3333,7 +3335,7 @@ const common::ZoneInfo kLord_Howe = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Melbourne; Entries: 1
+// Zone: Australia/Melbourne; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMelbourne[] = {
@@ -3354,7 +3356,7 @@ const common::ZoneInfo kMelbourne = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Perth; Entries: 1
+// Zone: Australia/Perth; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPerth[] = {
@@ -3375,7 +3377,7 @@ const common::ZoneInfo kPerth = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Sydney; Entries: 1
+// Zone: Australia/Sydney; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySydney[] = {
@@ -3396,7 +3398,7 @@ const common::ZoneInfo kSydney = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Amsterdam; Entries: 1
+// Zone: Europe/Amsterdam; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAmsterdam[] = {
@@ -3417,7 +3419,7 @@ const common::ZoneInfo kAmsterdam = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Andorra; Entries: 1
+// Zone: Europe/Andorra; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAndorra[] = {
@@ -3438,7 +3440,7 @@ const common::ZoneInfo kAndorra = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Athens; Entries: 1
+// Zone: Europe/Athens; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAthens[] = {
@@ -3459,7 +3461,7 @@ const common::ZoneInfo kAthens = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Belgrade; Entries: 1
+// Zone: Europe/Belgrade; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBelgrade[] = {
@@ -3480,7 +3482,7 @@ const common::ZoneInfo kBelgrade = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Berlin; Entries: 1
+// Zone: Europe/Berlin; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBerlin[] = {
@@ -3501,7 +3503,7 @@ const common::ZoneInfo kBerlin = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Brussels; Entries: 1
+// Zone: Europe/Brussels; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBrussels[] = {
@@ -3522,7 +3524,7 @@ const common::ZoneInfo kBrussels = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Bucharest; Entries: 1
+// Zone: Europe/Bucharest; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBucharest[] = {
@@ -3543,7 +3545,7 @@ const common::ZoneInfo kBucharest = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Budapest; Entries: 1
+// Zone: Europe/Budapest; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBudapest[] = {
@@ -3564,7 +3566,7 @@ const common::ZoneInfo kBudapest = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Chisinau; Entries: 1
+// Zone: Europe/Chisinau; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChisinau[] = {
@@ -3585,7 +3587,7 @@ const common::ZoneInfo kChisinau = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Copenhagen; Entries: 1
+// Zone: Europe/Copenhagen; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCopenhagen[] = {
@@ -3606,7 +3608,7 @@ const common::ZoneInfo kCopenhagen = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Dublin; Entries: 1
+// Zone: Europe/Dublin; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDublin[] = {
@@ -3627,7 +3629,7 @@ const common::ZoneInfo kDublin = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Gibraltar; Entries: 1
+// Zone: Europe/Gibraltar; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGibraltar[] = {
@@ -3648,7 +3650,7 @@ const common::ZoneInfo kGibraltar = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Helsinki; Entries: 1
+// Zone: Europe/Helsinki; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHelsinki[] = {
@@ -3669,7 +3671,7 @@ const common::ZoneInfo kHelsinki = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Kiev; Entries: 1
+// Zone: Europe/Kiev; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKiev[] = {
@@ -3690,7 +3692,7 @@ const common::ZoneInfo kKiev = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Lisbon; Entries: 1
+// Zone: Europe/Lisbon; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLisbon[] = {
@@ -3711,7 +3713,7 @@ const common::ZoneInfo kLisbon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/London; Entries: 1
+// Zone: Europe/London; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLondon[] = {
@@ -3732,7 +3734,7 @@ const common::ZoneInfo kLondon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Luxembourg; Entries: 1
+// Zone: Europe/Luxembourg; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLuxembourg[] = {
@@ -3753,7 +3755,7 @@ const common::ZoneInfo kLuxembourg = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Madrid; Entries: 1
+// Zone: Europe/Madrid; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMadrid[] = {
@@ -3774,7 +3776,7 @@ const common::ZoneInfo kMadrid = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Malta; Entries: 1
+// Zone: Europe/Malta; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMalta[] = {
@@ -3795,7 +3797,7 @@ const common::ZoneInfo kMalta = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Monaco; Entries: 1
+// Zone: Europe/Monaco; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMonaco[] = {
@@ -3816,7 +3818,7 @@ const common::ZoneInfo kMonaco = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Oslo; Entries: 1
+// Zone: Europe/Oslo; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryOslo[] = {
@@ -3837,7 +3839,7 @@ const common::ZoneInfo kOslo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Paris; Entries: 1
+// Zone: Europe/Paris; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryParis[] = {
@@ -3858,7 +3860,7 @@ const common::ZoneInfo kParis = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Prague; Entries: 1
+// Zone: Europe/Prague; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPrague[] = {
@@ -3879,7 +3881,7 @@ const common::ZoneInfo kPrague = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Rome; Entries: 1
+// Zone: Europe/Rome; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRome[] = {
@@ -3900,7 +3902,7 @@ const common::ZoneInfo kRome = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Sofia; Entries: 1
+// Zone: Europe/Sofia; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySofia[] = {
@@ -3921,7 +3923,7 @@ const common::ZoneInfo kSofia = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Stockholm; Entries: 1
+// Zone: Europe/Stockholm; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryStockholm[] = {
@@ -3942,7 +3944,7 @@ const common::ZoneInfo kStockholm = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Tirane; Entries: 1
+// Zone: Europe/Tirane; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTirane[] = {
@@ -3963,7 +3965,7 @@ const common::ZoneInfo kTirane = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Uzhgorod; Entries: 1
+// Zone: Europe/Uzhgorod; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryUzhgorod[] = {
@@ -3984,7 +3986,7 @@ const common::ZoneInfo kUzhgorod = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Vienna; Entries: 1
+// Zone: Europe/Vienna; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryVienna[] = {
@@ -4005,7 +4007,7 @@ const common::ZoneInfo kVienna = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Warsaw; Entries: 1
+// Zone: Europe/Warsaw; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryWarsaw[] = {
@@ -4026,7 +4028,7 @@ const common::ZoneInfo kWarsaw = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Zaporozhye; Entries: 1
+// Zone: Europe/Zaporozhye; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryZaporozhye[] = {
@@ -4047,7 +4049,7 @@ const common::ZoneInfo kZaporozhye = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Zurich; Entries: 1
+// Zone: Europe/Zurich; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryZurich[] = {
@@ -4068,7 +4070,7 @@ const common::ZoneInfo kZurich = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Chagos; Entries: 1
+// Zone: Indian/Chagos; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChagos[] = {
@@ -4089,7 +4091,7 @@ const common::ZoneInfo kChagos = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Christmas; Entries: 1
+// Zone: Indian/Christmas; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChristmas[] = {
@@ -4110,7 +4112,7 @@ const common::ZoneInfo kChristmas = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Cocos; Entries: 1
+// Zone: Indian/Cocos; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCocos[] = {
@@ -4131,7 +4133,7 @@ const common::ZoneInfo kCocos = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Kerguelen; Entries: 1
+// Zone: Indian/Kerguelen; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKerguelen[] = {
@@ -4152,7 +4154,7 @@ const common::ZoneInfo kKerguelen = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Mahe; Entries: 1
+// Zone: Indian/Mahe; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMahe[] = {
@@ -4173,7 +4175,7 @@ const common::ZoneInfo kMahe = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Maldives; Entries: 1
+// Zone: Indian/Maldives; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMaldives[] = {
@@ -4194,7 +4196,7 @@ const common::ZoneInfo kMaldives = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Mauritius; Entries: 1
+// Zone: Indian/Mauritius; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMauritius[] = {
@@ -4215,7 +4217,7 @@ const common::ZoneInfo kMauritius = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Reunion; Entries: 1
+// Zone: Indian/Reunion; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryReunion[] = {
@@ -4236,7 +4238,7 @@ const common::ZoneInfo kReunion = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Auckland; Entries: 1
+// Zone: Pacific/Auckland; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAuckland[] = {
@@ -4257,7 +4259,7 @@ const common::ZoneInfo kAuckland = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Chuuk; Entries: 1
+// Zone: Pacific/Chuuk; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChuuk[] = {
@@ -4278,7 +4280,7 @@ const common::ZoneInfo kChuuk = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Easter; Entries: 1
+// Zone: Pacific/Easter; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEaster[] = {
@@ -4299,7 +4301,7 @@ const common::ZoneInfo kEaster = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Efate; Entries: 1
+// Zone: Pacific/Efate; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEfate[] = {
@@ -4320,7 +4322,7 @@ const common::ZoneInfo kEfate = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Enderbury; Entries: 1
+// Zone: Pacific/Enderbury; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEnderbury[] = {
@@ -4341,7 +4343,7 @@ const common::ZoneInfo kEnderbury = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Fiji; Entries: 1
+// Zone: Pacific/Fiji; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryFiji[] = {
@@ -4362,7 +4364,7 @@ const common::ZoneInfo kFiji = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Funafuti; Entries: 1
+// Zone: Pacific/Funafuti; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryFunafuti[] = {
@@ -4383,7 +4385,7 @@ const common::ZoneInfo kFunafuti = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Galapagos; Entries: 1
+// Zone: Pacific/Galapagos; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGalapagos[] = {
@@ -4404,7 +4406,7 @@ const common::ZoneInfo kGalapagos = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Gambier; Entries: 1
+// Zone: Pacific/Gambier; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGambier[] = {
@@ -4425,7 +4427,7 @@ const common::ZoneInfo kGambier = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Guadalcanal; Entries: 1
+// Zone: Pacific/Guadalcanal; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGuadalcanal[] = {
@@ -4446,7 +4448,7 @@ const common::ZoneInfo kGuadalcanal = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Honolulu; Entries: 1
+// Zone: Pacific/Honolulu; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHonolulu[] = {
@@ -4467,7 +4469,7 @@ const common::ZoneInfo kHonolulu = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Kiritimati; Entries: 1
+// Zone: Pacific/Kiritimati; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKiritimati[] = {
@@ -4488,7 +4490,7 @@ const common::ZoneInfo kKiritimati = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Kosrae; Entries: 1
+// Zone: Pacific/Kosrae; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKosrae[] = {
@@ -4509,7 +4511,7 @@ const common::ZoneInfo kKosrae = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Kwajalein; Entries: 1
+// Zone: Pacific/Kwajalein; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKwajalein[] = {
@@ -4530,7 +4532,7 @@ const common::ZoneInfo kKwajalein = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Majuro; Entries: 1
+// Zone: Pacific/Majuro; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMajuro[] = {
@@ -4551,7 +4553,7 @@ const common::ZoneInfo kMajuro = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Marquesas; Entries: 1
+// Zone: Pacific/Marquesas; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMarquesas[] = {
@@ -4572,7 +4574,7 @@ const common::ZoneInfo kMarquesas = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Nauru; Entries: 1
+// Zone: Pacific/Nauru; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNauru[] = {
@@ -4593,7 +4595,7 @@ const common::ZoneInfo kNauru = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Niue; Entries: 1
+// Zone: Pacific/Niue; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNiue[] = {
@@ -4614,7 +4616,7 @@ const common::ZoneInfo kNiue = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Noumea; Entries: 1
+// Zone: Pacific/Noumea; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNoumea[] = {
@@ -4635,7 +4637,7 @@ const common::ZoneInfo kNoumea = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Pago_Pago; Entries: 1
+// Zone: Pacific/Pago_Pago; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPago_Pago[] = {
@@ -4656,7 +4658,7 @@ const common::ZoneInfo kPago_Pago = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Palau; Entries: 1
+// Zone: Pacific/Palau; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPalau[] = {
@@ -4677,7 +4679,7 @@ const common::ZoneInfo kPalau = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Pitcairn; Entries: 1
+// Zone: Pacific/Pitcairn; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPitcairn[] = {
@@ -4698,7 +4700,7 @@ const common::ZoneInfo kPitcairn = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Pohnpei; Entries: 1
+// Zone: Pacific/Pohnpei; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPohnpei[] = {
@@ -4719,7 +4721,7 @@ const common::ZoneInfo kPohnpei = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Port_Moresby; Entries: 1
+// Zone: Pacific/Port_Moresby; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPort_Moresby[] = {
@@ -4740,7 +4742,7 @@ const common::ZoneInfo kPort_Moresby = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Rarotonga; Entries: 1
+// Zone: Pacific/Rarotonga; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRarotonga[] = {
@@ -4761,7 +4763,7 @@ const common::ZoneInfo kRarotonga = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Tahiti; Entries: 1
+// Zone: Pacific/Tahiti; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTahiti[] = {
@@ -4782,7 +4784,7 @@ const common::ZoneInfo kTahiti = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Tarawa; Entries: 1
+// Zone: Pacific/Tarawa; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTarawa[] = {
@@ -4803,7 +4805,7 @@ const common::ZoneInfo kTarawa = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Tongatapu; Entries: 1
+// Zone: Pacific/Tongatapu; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTongatapu[] = {
@@ -4824,7 +4826,7 @@ const common::ZoneInfo kTongatapu = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Wake; Entries: 1
+// Zone: Pacific/Wake; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryWake[] = {
@@ -4845,7 +4847,7 @@ const common::ZoneInfo kWake = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Wallis; Entries: 1
+// Zone: Pacific/Wallis; numEntries: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryWallis[] = {

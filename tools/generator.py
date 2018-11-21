@@ -50,6 +50,8 @@ extern const common::ZonePolicy kPolicy{policyName};
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/{tz_version}
 //
+// numPolicies: {numPolicies}; numRules: {numRules}
+//
 // DO NOT EDIT
 
 #include "zone_policies.h"
@@ -65,7 +67,7 @@ namespace zonedb {{
 
     ZONE_POLICIES_CPP_POLICY_ITEM = """\
 //---------------------------------------------------------------------------
-// Policy: {policyName}; Rules: {numRules}
+// Policy: {policyName}; numRules: {numRules}
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRules{policyName}[] = {{
@@ -133,6 +135,8 @@ extern const common::ZoneInfo k{infoShortName};
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/{tz_version}
 //
+// numInfos: {numInfos}; numEntries: {numEntries}
+//
 // DO NOT EDIT
 
 #include "../common/ZoneInfo.h"
@@ -150,7 +154,7 @@ namespace zonedb {{
 
     ZONE_INFOS_CPP_INFO_ITEM = """\
 //---------------------------------------------------------------------------
-// Zone: {infoFullName}; Entries: {numEntries}
+// Zone: {infoFullName}; numEntries: {numEntries}
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntry{infoShortName}[] = {{
@@ -225,12 +229,16 @@ const common::ZoneInfo k{infoShortName} = {{
 
     def generate_policies_cpp(self):
         policy_items = ''
+        num_rules = 0
         for name, rules in sorted(self.rules.items()):
             policy_items += self.generate_policy_item(name, rules)
+            num_rules += len(rules)
 
         return self.ZONE_POLICIES_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            numPolicies=len(self.rules),
+            numRules=num_rules,
             policyItems=policy_items
         )
 
@@ -269,12 +277,16 @@ const common::ZoneInfo k{infoShortName} = {{
 
     def generate_infos_cpp(self):
         info_items = ''
+        num_entries = 0
         for name, zones in sorted(self.zones.items()):
             info_items += self.generate_entry_item(name, zones)
+            num_entries += len(zones)
 
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            numInfos=len(self.zones),
+            numEntries=num_entries,
             infoItems=info_items)
 
     def generate_entry_item(self, name, zones):

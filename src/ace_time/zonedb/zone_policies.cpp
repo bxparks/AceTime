@@ -5,6 +5,8 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018g
 //
+// numPolicies: 61; numRules: 340
+//
 // DO NOT EDIT
 
 #include "zone_policies.h"
@@ -13,7 +15,7 @@ namespace ace_time {
 namespace zonedb {
 
 //---------------------------------------------------------------------------
-// Policy: AN; Rules: 8
+// Policy: AN; numRules: 8
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAN[] = {
@@ -122,7 +124,7 @@ const common::ZonePolicy kPolicyAN = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: AQ; Rules: 1
+// Policy: AQ; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAQ[] = {
@@ -147,7 +149,7 @@ const common::ZonePolicy kPolicyAQ = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: AS; Rules: 7
+// Policy: AS; numRules: 7
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAS[] = {
@@ -244,7 +246,7 @@ const common::ZonePolicy kPolicyAS = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: AT; Rules: 7
+// Policy: AT; numRules: 7
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAT[] = {
@@ -341,7 +343,7 @@ const common::ZonePolicy kPolicyAT = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: AV; Rules: 8
+// Policy: AV; numRules: 8
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAV[] = {
@@ -450,7 +452,7 @@ const common::ZonePolicy kPolicyAV = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: AW; Rules: 4
+// Policy: AW; numRules: 4
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAW[] = {
@@ -511,7 +513,7 @@ const common::ZonePolicy kPolicyAW = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Armenia; Rules: 2
+// Policy: Armenia; numRules: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesArmenia[] = {
@@ -548,7 +550,7 @@ const common::ZonePolicy kPolicyArmenia = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Aus; Rules: 1
+// Policy: Aus; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAus[] = {
@@ -573,7 +575,7 @@ const common::ZonePolicy kPolicyAus = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Azer; Rules: 2
+// Policy: Azer; numRules: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAzer[] = {
@@ -610,7 +612,7 @@ const common::ZonePolicy kPolicyAzer = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Barb; Rules: 1
+// Policy: Barb; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesBarb[] = {
@@ -635,7 +637,7 @@ const common::ZonePolicy kPolicyBarb = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Brazil; Rules: 26
+// Policy: Brazil; numRules: 26
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesBrazil[] = {
@@ -960,7 +962,7 @@ const common::ZonePolicy kPolicyBrazil = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: CO; Rules: 1
+// Policy: CO; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesCO[] = {
@@ -985,7 +987,7 @@ const common::ZonePolicy kPolicyCO = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: CR; Rules: 1
+// Policy: CR; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesCR[] = {
@@ -1010,7 +1012,7 @@ const common::ZonePolicy kPolicyCR = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Canada; Rules: 5
+// Policy: Canada; numRules: 5
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesCanada[] = {
@@ -1083,7 +1085,7 @@ const common::ZonePolicy kPolicyCanada = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Chile; Rules: 14
+// Policy: Chile; numRules: 14
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesChile[] = {
@@ -1264,7 +1266,7 @@ const common::ZonePolicy kPolicyChile = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Cook; Rules: 1
+// Policy: Cook; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesCook[] = {
@@ -1289,7 +1291,7 @@ const common::ZonePolicy kPolicyCook = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Cuba; Rules: 13
+// Policy: Cuba; numRules: 13
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesCuba[] = {
@@ -1458,7 +1460,7 @@ const common::ZonePolicy kPolicyCuba = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Dhaka; Rules: 2
+// Policy: Dhaka; numRules: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesDhaka[] = {
@@ -1495,7 +1497,7 @@ const common::ZonePolicy kPolicyDhaka = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: EU; Rules: 3
+// Policy: EU; numRules: 3
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesEU[] = {
@@ -1544,7 +1546,7 @@ const common::ZonePolicy kPolicyEU = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: EUAsia; Rules: 3
+// Policy: EUAsia; numRules: 3
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesEUAsia[] = {
@@ -1593,7 +1595,7 @@ const common::ZonePolicy kPolicyEUAsia = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Ecuador; Rules: 1
+// Policy: Ecuador; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesEcuador[] = {
@@ -1618,7 +1620,7 @@ const common::ZonePolicy kPolicyEcuador = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Egypt; Rules: 14
+// Policy: Egypt; numRules: 14
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesEgypt[] = {
@@ -1799,7 +1801,7 @@ const common::ZonePolicy kPolicyEgypt = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Eire; Rules: 3
+// Policy: Eire; numRules: 3
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesEire[] = {
@@ -1848,7 +1850,7 @@ const common::ZonePolicy kPolicyEire = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Fiji; Rules: 10
+// Policy: Fiji; numRules: 10
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesFiji[] = {
@@ -1981,7 +1983,7 @@ const common::ZonePolicy kPolicyFiji = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Ghana; Rules: 1
+// Policy: Ghana; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesGhana[] = {
@@ -2006,7 +2008,7 @@ const common::ZonePolicy kPolicyGhana = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Guat; Rules: 3
+// Policy: Guat; numRules: 3
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesGuat[] = {
@@ -2055,7 +2057,7 @@ const common::ZonePolicy kPolicyGuat = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Haiti; Rules: 7
+// Policy: Haiti; numRules: 7
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesHaiti[] = {
@@ -2152,7 +2154,7 @@ const common::ZonePolicy kPolicyHaiti = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Holiday; Rules: 1
+// Policy: Holiday; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesHoliday[] = {
@@ -2177,7 +2179,7 @@ const common::ZonePolicy kPolicyHoliday = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Hond; Rules: 3
+// Policy: Hond; numRules: 3
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesHond[] = {
@@ -2226,7 +2228,7 @@ const common::ZonePolicy kPolicyHond = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Iran; Rules: 39
+// Policy: Iran; numRules: 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesIran[] = {
@@ -2707,7 +2709,7 @@ const common::ZonePolicy kPolicyIran = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Iraq; Rules: 3
+// Policy: Iraq; numRules: 3
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesIraq[] = {
@@ -2756,7 +2758,7 @@ const common::ZonePolicy kPolicyIraq = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Japan; Rules: 1
+// Policy: Japan; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesJapan[] = {
@@ -2781,7 +2783,7 @@ const common::ZonePolicy kPolicyJapan = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Jordan; Rules: 11
+// Policy: Jordan; numRules: 11
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesJordan[] = {
@@ -2926,7 +2928,7 @@ const common::ZonePolicy kPolicyJordan = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: LH; Rules: 8
+// Policy: LH; numRules: 8
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesLH[] = {
@@ -3035,7 +3037,7 @@ const common::ZonePolicy kPolicyLH = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Lebanon; Rules: 3
+// Policy: Lebanon; numRules: 3
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesLebanon[] = {
@@ -3084,7 +3086,7 @@ const common::ZonePolicy kPolicyLebanon = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Mauritius; Rules: 3
+// Policy: Mauritius; numRules: 3
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesMauritius[] = {
@@ -3133,7 +3135,7 @@ const common::ZonePolicy kPolicyMauritius = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Mexico; Rules: 7
+// Policy: Mexico; numRules: 7
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesMexico[] = {
@@ -3230,7 +3232,7 @@ const common::ZonePolicy kPolicyMexico = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Moldova; Rules: 2
+// Policy: Moldova; numRules: 2
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesMoldova[] = {
@@ -3267,7 +3269,7 @@ const common::ZonePolicy kPolicyMoldova = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Mongol; Rules: 6
+// Policy: Mongol; numRules: 6
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesMongol[] = {
@@ -3352,7 +3354,7 @@ const common::ZonePolicy kPolicyMongol = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: NC; Rules: 1
+// Policy: NC; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesNC[] = {
@@ -3377,7 +3379,7 @@ const common::ZonePolicy kPolicyNC = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: NZ; Rules: 5
+// Policy: NZ; numRules: 5
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesNZ[] = {
@@ -3450,7 +3452,7 @@ const common::ZonePolicy kPolicyNZ = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Nic; Rules: 5
+// Policy: Nic; numRules: 5
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesNic[] = {
@@ -3523,7 +3525,7 @@ const common::ZonePolicy kPolicyNic = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: PRC; Rules: 1
+// Policy: PRC; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesPRC[] = {
@@ -3548,7 +3550,7 @@ const common::ZonePolicy kPolicyPRC = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Pakistan; Rules: 5
+// Policy: Pakistan; numRules: 5
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesPakistan[] = {
@@ -3621,7 +3623,7 @@ const common::ZonePolicy kPolicyPakistan = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Para; Rules: 10
+// Policy: Para; numRules: 10
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesPara[] = {
@@ -3754,7 +3756,7 @@ const common::ZonePolicy kPolicyPara = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Peru; Rules: 1
+// Policy: Peru; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesPeru[] = {
@@ -3779,7 +3781,7 @@ const common::ZonePolicy kPolicyPeru = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Phil; Rules: 1
+// Policy: Phil; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesPhil[] = {
@@ -3804,7 +3806,7 @@ const common::ZonePolicy kPolicyPhil = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: ROK; Rules: 1
+// Policy: ROK; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesROK[] = {
@@ -3829,7 +3831,7 @@ const common::ZonePolicy kPolicyROK = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: RussiaAsia; Rules: 3
+// Policy: RussiaAsia; numRules: 3
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesRussiaAsia[] = {
@@ -3878,7 +3880,7 @@ const common::ZonePolicy kPolicyRussiaAsia = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: SA; Rules: 1
+// Policy: SA; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesSA[] = {
@@ -3903,7 +3905,7 @@ const common::ZonePolicy kPolicySA = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Salv; Rules: 1
+// Policy: Salv; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesSalv[] = {
@@ -3928,7 +3930,7 @@ const common::ZonePolicy kPolicySalv = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Syria; Rules: 12
+// Policy: Syria; numRules: 12
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesSyria[] = {
@@ -4085,7 +4087,7 @@ const common::ZonePolicy kPolicySyria = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Taiwan; Rules: 1
+// Policy: Taiwan; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesTaiwan[] = {
@@ -4110,7 +4112,7 @@ const common::ZonePolicy kPolicyTaiwan = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Thule; Rules: 5
+// Policy: Thule; numRules: 5
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesThule[] = {
@@ -4183,7 +4185,7 @@ const common::ZonePolicy kPolicyThule = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Tonga; Rules: 6
+// Policy: Tonga; numRules: 6
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesTonga[] = {
@@ -4268,7 +4270,7 @@ const common::ZonePolicy kPolicyTonga = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Tunisia; Rules: 5
+// Policy: Tunisia; numRules: 5
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesTunisia[] = {
@@ -4341,7 +4343,7 @@ const common::ZonePolicy kPolicyTunisia = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: US; Rules: 5
+// Policy: US; numRules: 5
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesUS[] = {
@@ -4414,7 +4416,7 @@ const common::ZonePolicy kPolicyUS = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Uruguay; Rules: 6
+// Policy: Uruguay; numRules: 6
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesUruguay[] = {
@@ -4499,7 +4501,7 @@ const common::ZonePolicy kPolicyUruguay = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Vanuatu; Rules: 1
+// Policy: Vanuatu; numRules: 1
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesVanuatu[] = {
@@ -4524,7 +4526,7 @@ const common::ZonePolicy kPolicyVanuatu = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Winn; Rules: 3
+// Policy: Winn; numRules: 3
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesWinn[] = {
@@ -4573,7 +4575,7 @@ const common::ZonePolicy kPolicyWinn = {
 };
 
 //---------------------------------------------------------------------------
-// Policy: Zion; Rules: 25
+// Policy: Zion; numRules: 25
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesZion[] = {
