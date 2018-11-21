@@ -67,6 +67,7 @@ const common::ZonePolicy kPolicy{policyName} = {{
   sizeof(kZoneRules{policyName})/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRules{policyName} /*rules*/,
 }};
+
 """
 
     ZONE_POLICIES_CPP_RULE_ITEM = """\
@@ -197,7 +198,7 @@ common::ZoneInfo const k{infoShortName} = {{
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
                 rawLine=rule['rawLine'],
                 fromYearFull=rule['fromYear'],
-                toYearFull=rule['fromYear'],
+                toYearFull=rule['toYear'],
                 inMonth=rule['inMonth'],
                 onDayOfWeek=rule['onDayOfWeek'],
                 onDayOfMonth=rule['onDayOfMonth'],
@@ -236,14 +237,20 @@ common::ZoneInfo const k{infoShortName} = {{
             if rules == '-':
                 zonePolicy = 'nullptr'
             else:
-                zonePolicy = '"kPolicy%s"' % rules
+                zonePolicy = 'kPolicy%s' % rules
+
+            until_year = zone['untilYear']
+            if until_year == 9999:
+                until_year = 255
+            else:
+                until_year -= 2000
 
             entry_items += self.ZONE_INFOS_CPP_ENTRY_ITEM.format(
                 rawLine=zone['rawLine'],
                 offsetCode=zone['offsetCode'],
                 zonePolicy=zonePolicy,
-                format=zone['abbrev'],
-                untilYear=zone['untilYear'])
+                format=zone['format'],
+                untilYear=until_year)
 
         return self.ZONE_INFOS_CPP_INFO_ITEM.format(
             infoFullName=name,

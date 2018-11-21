@@ -15,8 +15,6 @@ class Transformer:
     def __init__(self, zones_map, rules_map):
         self.zones_map = zones_map
         self.rules_map = rules_map
-        self.transformed_zones_map = {}
-        self.transformed_rules_map = {}
 
     def get_data(self):
         """
@@ -41,7 +39,7 @@ class Transformer:
 
             offsetMinutes: (int) offset from UTC/GMT in minutes
             rules: (string) name of the Rule in effect, '-', or minute offset
-            abbrev: (string) abbreviation with '%s' replaced with '%'
+            format: (string) abbreviation with '%s' replaced with '%'
                     (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
             untilYear: (int) 2000-9999
             untilMonth: (int) 1-12 optional
@@ -50,24 +48,27 @@ class Transformer:
             rawLine: (string) original ZONE line in TZ file
             used: (boolean) indicates whether or not the rule is used by a zone
         """
-        return (self.transformed_zones_map, self.transformed_rules_map)
+        return (self.zones_map, self.rules_map)
 
     def transform(self):
-        (zones_map, rules_map) = self.mark_rules_used_by_zones(
-            self.zones_map, self.rules_map)
-
-        rules_map = self.remove_unused_rules(rules_map)
-        rules_map = self.remove_rules_long_dst_letter(rules_map)
-        rules_map = self.create_rules_with_delta_code(rules_map)
+        zones_map = self.zones_map
+        rules_map = self.rules_map
 
         zones_map = self.remove_zones_with_until_month(zones_map)
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
-        zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.remove_zones_without_slash(zones_map)
+        zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.create_zones_with_offset_code(zones_map)
 
-        self.transformed_rules_map = rules_map
-        self.transformed_zones_map = zones_map
+        (zones_map, rules_map) = self.mark_rules_used_by_zones(
+            zones_map, rules_map)
+        rules_map = self.remove_unused_rules(rules_map)
+
+        rules_map = self.remove_rules_long_dst_letter(rules_map)
+        rules_map = self.create_rules_with_delta_code(rules_map)
+
+        self.rules_map = rules_map
+        self.zones_map = zones_map
 
     @staticmethod
     def mark_rules_used_by_zones(zones_map, rules_map):

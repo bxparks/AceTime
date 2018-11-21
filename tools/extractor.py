@@ -317,7 +317,7 @@ def process_zone_line(line):
 
         offsetMinutes: (int) offset from UTC/GMT in minutes
         rules: (string) name of the Rule in effect, '-', or minute offset
-        abbrev: (string) abbreviation with '%s' replaced with '%'
+        format: (string) abbreviation with '%s' replaced with '%'
                 (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
         untilYear: (int) 2000-9999
         untilMonth: (int) 1-12 optional
@@ -350,7 +350,7 @@ def process_zone_line(line):
         until_time = None
 
     offset_minutes = hour_string_to_offset_minutes(tokens[0])
-    abbrev = tokens[2].replace('%s', '%')
+    format = tokens[2].replace('%s', '%')
 
     # the 'RULES' field can be:
     #   * '-' no rules
@@ -365,7 +365,7 @@ def process_zone_line(line):
     return {
         'offsetMinutes': offset_minutes,
         'rules': rules_string,
-        'abbrev': abbrev,
+        'format': format,
         'untilYear': until_year,
         'untilMonth': until_month,
         'untilDay': until_day,
