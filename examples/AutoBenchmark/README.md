@@ -11,11 +11,18 @@ IDE: Arduino 1.8.7 (AVR Core 1.6.23)
 Memory:
 
 ```
+sizeof(ZoneEntry): 6
+sizeof(ZoneInfo): 5
+sizeof(ZoneRule): 11
+sizeof(ZonePolicy): 11
 sizeof(LocalDate): 3
+sizeof(LocalTime): 3
 sizeof(ZoneOffset): 1
-sizeof(OffsetDateTime): 8
-sizeof(DateTime): 10
-sizeof(TimeZone): 2
+sizeof(ZoneMatch): 15
+sizeof(ZoneManager): 80
+sizeof(TimeZone): 87
+sizeof(OffsetDateTime): 7
+sizeof(DateTime): 94
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 17
 sizeof(DS3231TimeKeeper): 3
