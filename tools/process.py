@@ -4,11 +4,7 @@
 #
 # MIT License.
 """
-Main driver for the Extractor, Printer, and Transformer.
-
-Usage:
-    cat africa antarctica asia australasia europe northamerica southamerica \
-        | ./processor.py {flags}
+Main driver for the Extractor, Printer, Transformer, and Generator.
 """
 
 import argparse
@@ -25,12 +21,14 @@ def main():
     to run this from the command line is intended mostly for testing purposes.
 
     Usage:
-        process.py [flags...] < test_data.txt
+        process.py [flags...]
     """
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Generate Zone Info.')
     parser.add_argument(
         '--input_dir', help='Location of the input directory', required=True)
+    parser.add_argument(
+        '--tz_version', help='Version string of the TZ files', required=True)
     parser.add_argument(
         '--output_dir', help='Location of the output directory', required=False)
 
@@ -130,7 +128,7 @@ def main():
     (zones, rules) = transformer.get_data()
 
     # create the generator
-    generator = Generator(invocation, zones, rules)
+    generator = Generator(invocation, args.tz_version, zones, rules)
 
     # Extractor summary
     if args.print_summary:

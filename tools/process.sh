@@ -12,11 +12,4 @@ DIRNAME=$(dirname $0)
 # Point to the github repository.
 DB_DIR=$HOME/dev/tz
 
-cat $DB_DIR/africa \
-    $DB_DIR/antarctica \
-    $DB_DIR/asia \
-    $DB_DIR/australasia \
-    $DB_DIR/europe \
-    $DB_DIR/northamerica \
-    $DB_DIR/southamerica \
-        | $DIRNAME/process.py "$@"
+$DIRNAME/process.py --input_dir $DB_DIR "$@"
