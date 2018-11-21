@@ -236,7 +236,7 @@ common::ZoneInfo const k{infoShortName} = {{
         for rule in rules:
             atHour = rule['atMinute'] // 60
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
-                rawLine=rule['rawLine'],
+                rawLine=normalize_raw(rule['rawLine']),
                 fromYearFull=rule['fromYear'],
                 toYearFull=rule['toYear'],
                 inMonth=rule['inMonth'],
@@ -288,7 +288,7 @@ common::ZoneInfo const k{infoShortName} = {{
                 until_year -= 2000
 
             entry_items += self.ZONE_INFOS_CPP_ENTRY_ITEM.format(
-                rawLine=zone['rawLine'],
+                rawLine=normalize_raw(zone['rawLine']),
                 offsetCode=zone['offsetCode'],
                 zonePolicy=zonePolicy,
                 format=zone['format'],
@@ -303,3 +303,8 @@ def normalize_name(name):
     """Replace hyphen with underscore so that the C++ symbol can compile.
     """
     return name.replace('-', '_')
+
+def normalize_raw(raw_line):
+    """Replace hard tabs with 4 spaces.
+    """
+    return raw_line.replace('\t', '    ')

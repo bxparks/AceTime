@@ -6,7 +6,7 @@
 namespace ace_time {
 namespace zonedb {
 
-extern common::ZoneInfo const kLosAngeles;
+extern common::ZoneInfo const kLos_Angeles;
 extern common::ZoneInfo const kDenver;
 extern common::ZoneInfo const kChicago;
 extern common::ZoneInfo const kNewYork;

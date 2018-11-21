@@ -9,7 +9,7 @@ namespace zonedb {
 // America/Los_Angeles
 //---------------------------------------------------------------------------
 
-static common::ZoneEntry const kZoneEntryLosAngeles[] = {
+static common::ZoneEntry const kZoneEntryLos_Angeles[] = {
   // -8:00   US      P%sT
   {
     -32 /*offsetCode*/,
@@ -19,10 +19,10 @@ static common::ZoneEntry const kZoneEntryLosAngeles[] = {
   }
 };
 
-common::ZoneInfo const kLosAngeles = {
+common::ZoneInfo const kLos_Angeles = {
   "America/Los_Angeles" /*name*/,
-  kZoneEntryLosAngeles /*entries*/,
-  sizeof(kZoneEntryLosAngeles)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEntryLos_Angeles /*entries*/,
+  sizeof(kZoneEntryLos_Angeles)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------

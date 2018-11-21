@@ -35,7 +35,7 @@ test(ZoneManagerTest, calcRuleOffsetCode) {
 }
 
 test(ZoneManagerTest, init_primitives) {
-  ZoneManager manager(&zonedb::kLosAngeles);
+  ZoneManager manager(&zonedb::kLos_Angeles);
   manager.mYear = 1;
   manager.mNumMatches = 0;
 
@@ -76,7 +76,7 @@ test(ZoneManagerTest, init_primitives) {
 }
 
 test(ZoneManagerTest, init) {
-  ZoneManager manager(&zonedb::kLosAngeles);
+  ZoneManager manager(&zonedb::kLos_Angeles);
   LocalDate ld = LocalDate::forComponents(18, 1, 1); // 2018-01-01
   manager.init(ld);
 
@@ -114,7 +114,7 @@ test(ZoneManagerTest, init) {
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
 test(ZoneManagerTest, getZoneOffset_Los_Angeles) {
-  ZoneManager manager(&zonedb::kLosAngeles);
+  ZoneManager manager(&zonedb::kLos_Angeles);
   OffsetDateTime dt;
   uint32_t epochSeconds;
 
@@ -243,7 +243,7 @@ test(TimeZone, operatorEqualEqual) {
   TimeZone tz1;
   TimeZone tz2 = TimeZone::forZoneOffset(
       ZoneOffset::forHour(-8), false, "PST");
-  TimeZone tz3 = TimeZone::forZone(&zonedb::kLosAngeles);
+  TimeZone tz3 = TimeZone::forZone(&zonedb::kLos_Angeles);
 
   assertTrue(tz1 != tz2);
   assertTrue(tz1 != tz3);
@@ -286,7 +286,7 @@ test(AutoTimeZone, LosAngeles) {
   OffsetDateTime dt;
   uint32_t epochSeconds;
 
-  TimeZone tz = TimeZone::forZone(&zonedb::kLosAngeles);
+  TimeZone tz = TimeZone::forZone(&zonedb::kLos_Angeles);
   assertEqual(TimeZone::kTypeAuto, tz.getType());
 
   dt = OffsetDateTime::forComponents(18, 3, 11, 1, 59, 59,
