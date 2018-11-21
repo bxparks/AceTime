@@ -31,7 +31,7 @@ static const common::ZoneEntry kZoneEntryAbidjan[] = {
 
 };
 
-const common::ZoneInfo kAbidjan = {
+const common::ZoneInfo kZoneAbidjan = {
   "Africa/Abidjan" /*name*/,
   kZoneEntryAbidjan /*entries*/,
   sizeof(kZoneEntryAbidjan)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -52,7 +52,7 @@ static const common::ZoneEntry kZoneEntryAccra[] = {
 
 };
 
-const common::ZoneInfo kAccra = {
+const common::ZoneInfo kZoneAccra = {
   "Africa/Accra" /*name*/,
   kZoneEntryAccra /*entries*/,
   sizeof(kZoneEntryAccra)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -73,7 +73,7 @@ static const common::ZoneEntry kZoneEntryAlgiers[] = {
 
 };
 
-const common::ZoneInfo kAlgiers = {
+const common::ZoneInfo kZoneAlgiers = {
   "Africa/Algiers" /*name*/,
   kZoneEntryAlgiers /*entries*/,
   sizeof(kZoneEntryAlgiers)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -94,7 +94,7 @@ static const common::ZoneEntry kZoneEntryBissau[] = {
 
 };
 
-const common::ZoneInfo kBissau = {
+const common::ZoneInfo kZoneBissau = {
   "Africa/Bissau" /*name*/,
   kZoneEntryBissau /*entries*/,
   sizeof(kZoneEntryBissau)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -115,7 +115,7 @@ static const common::ZoneEntry kZoneEntryCairo[] = {
 
 };
 
-const common::ZoneInfo kCairo = {
+const common::ZoneInfo kZoneCairo = {
   "Africa/Cairo" /*name*/,
   kZoneEntryCairo /*entries*/,
   sizeof(kZoneEntryCairo)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -136,7 +136,7 @@ static const common::ZoneEntry kZoneEntryCeuta[] = {
 
 };
 
-const common::ZoneInfo kCeuta = {
+const common::ZoneInfo kZoneCeuta = {
   "Africa/Ceuta" /*name*/,
   kZoneEntryCeuta /*entries*/,
   sizeof(kZoneEntryCeuta)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -157,7 +157,7 @@ static const common::ZoneEntry kZoneEntryJohannesburg[] = {
 
 };
 
-const common::ZoneInfo kJohannesburg = {
+const common::ZoneInfo kZoneJohannesburg = {
   "Africa/Johannesburg" /*name*/,
   kZoneEntryJohannesburg /*entries*/,
   sizeof(kZoneEntryJohannesburg)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -178,7 +178,7 @@ static const common::ZoneEntry kZoneEntryLagos[] = {
 
 };
 
-const common::ZoneInfo kLagos = {
+const common::ZoneInfo kZoneLagos = {
   "Africa/Lagos" /*name*/,
   kZoneEntryLagos /*entries*/,
   sizeof(kZoneEntryLagos)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -199,7 +199,7 @@ static const common::ZoneEntry kZoneEntryMaputo[] = {
 
 };
 
-const common::ZoneInfo kMaputo = {
+const common::ZoneInfo kZoneMaputo = {
   "Africa/Maputo" /*name*/,
   kZoneEntryMaputo /*entries*/,
   sizeof(kZoneEntryMaputo)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -220,7 +220,7 @@ static const common::ZoneEntry kZoneEntryMonrovia[] = {
 
 };
 
-const common::ZoneInfo kMonrovia = {
+const common::ZoneInfo kZoneMonrovia = {
   "Africa/Monrovia" /*name*/,
   kZoneEntryMonrovia /*entries*/,
   sizeof(kZoneEntryMonrovia)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -241,7 +241,7 @@ static const common::ZoneEntry kZoneEntryNairobi[] = {
 
 };
 
-const common::ZoneInfo kNairobi = {
+const common::ZoneInfo kZoneNairobi = {
   "Africa/Nairobi" /*name*/,
   kZoneEntryNairobi /*entries*/,
   sizeof(kZoneEntryNairobi)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -262,7 +262,7 @@ static const common::ZoneEntry kZoneEntryNdjamena[] = {
 
 };
 
-const common::ZoneInfo kNdjamena = {
+const common::ZoneInfo kZoneNdjamena = {
   "Africa/Ndjamena" /*name*/,
   kZoneEntryNdjamena /*entries*/,
   sizeof(kZoneEntryNdjamena)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -283,7 +283,7 @@ static const common::ZoneEntry kZoneEntryTunis[] = {
 
 };
 
-const common::ZoneInfo kTunis = {
+const common::ZoneInfo kZoneTunis = {
   "Africa/Tunis" /*name*/,
   kZoneEntryTunis /*entries*/,
   sizeof(kZoneEntryTunis)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -304,7 +304,7 @@ static const common::ZoneEntry kZoneEntryAdak[] = {
 
 };
 
-const common::ZoneInfo kAdak = {
+const common::ZoneInfo kZoneAdak = {
   "America/Adak" /*name*/,
   kZoneEntryAdak /*entries*/,
   sizeof(kZoneEntryAdak)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -325,7 +325,7 @@ static const common::ZoneEntry kZoneEntryAnchorage[] = {
 
 };
 
-const common::ZoneInfo kAnchorage = {
+const common::ZoneInfo kZoneAnchorage = {
   "America/Anchorage" /*name*/,
   kZoneEntryAnchorage /*entries*/,
   sizeof(kZoneEntryAnchorage)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -346,7 +346,7 @@ static const common::ZoneEntry kZoneEntryAsuncion[] = {
 
 };
 
-const common::ZoneInfo kAsuncion = {
+const common::ZoneInfo kZoneAsuncion = {
   "America/Asuncion" /*name*/,
   kZoneEntryAsuncion /*entries*/,
   sizeof(kZoneEntryAsuncion)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -367,7 +367,7 @@ static const common::ZoneEntry kZoneEntryAtikokan[] = {
 
 };
 
-const common::ZoneInfo kAtikokan = {
+const common::ZoneInfo kZoneAtikokan = {
   "America/Atikokan" /*name*/,
   kZoneEntryAtikokan /*entries*/,
   sizeof(kZoneEntryAtikokan)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -388,7 +388,7 @@ static const common::ZoneEntry kZoneEntryBarbados[] = {
 
 };
 
-const common::ZoneInfo kBarbados = {
+const common::ZoneInfo kZoneBarbados = {
   "America/Barbados" /*name*/,
   kZoneEntryBarbados /*entries*/,
   sizeof(kZoneEntryBarbados)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -409,7 +409,7 @@ static const common::ZoneEntry kZoneEntryBelem[] = {
 
 };
 
-const common::ZoneInfo kBelem = {
+const common::ZoneInfo kZoneBelem = {
   "America/Belem" /*name*/,
   kZoneEntryBelem /*entries*/,
   sizeof(kZoneEntryBelem)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -430,7 +430,7 @@ static const common::ZoneEntry kZoneEntryBlanc_Sablon[] = {
 
 };
 
-const common::ZoneInfo kBlanc_Sablon = {
+const common::ZoneInfo kZoneBlanc_Sablon = {
   "America/Blanc_Sablon" /*name*/,
   kZoneEntryBlanc_Sablon /*entries*/,
   sizeof(kZoneEntryBlanc_Sablon)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -451,7 +451,7 @@ static const common::ZoneEntry kZoneEntryBogota[] = {
 
 };
 
-const common::ZoneInfo kBogota = {
+const common::ZoneInfo kZoneBogota = {
   "America/Bogota" /*name*/,
   kZoneEntryBogota /*entries*/,
   sizeof(kZoneEntryBogota)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -472,7 +472,7 @@ static const common::ZoneEntry kZoneEntryBoise[] = {
 
 };
 
-const common::ZoneInfo kBoise = {
+const common::ZoneInfo kZoneBoise = {
   "America/Boise" /*name*/,
   kZoneEntryBoise /*entries*/,
   sizeof(kZoneEntryBoise)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -493,7 +493,7 @@ static const common::ZoneEntry kZoneEntryCampo_Grande[] = {
 
 };
 
-const common::ZoneInfo kCampo_Grande = {
+const common::ZoneInfo kZoneCampo_Grande = {
   "America/Campo_Grande" /*name*/,
   kZoneEntryCampo_Grande /*entries*/,
   sizeof(kZoneEntryCampo_Grande)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -514,7 +514,7 @@ static const common::ZoneEntry kZoneEntryCayenne[] = {
 
 };
 
-const common::ZoneInfo kCayenne = {
+const common::ZoneInfo kZoneCayenne = {
   "America/Cayenne" /*name*/,
   kZoneEntryCayenne /*entries*/,
   sizeof(kZoneEntryCayenne)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -535,7 +535,7 @@ static const common::ZoneEntry kZoneEntryChicago[] = {
 
 };
 
-const common::ZoneInfo kChicago = {
+const common::ZoneInfo kZoneChicago = {
   "America/Chicago" /*name*/,
   kZoneEntryChicago /*entries*/,
   sizeof(kZoneEntryChicago)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -556,7 +556,7 @@ static const common::ZoneEntry kZoneEntryChihuahua[] = {
 
 };
 
-const common::ZoneInfo kChihuahua = {
+const common::ZoneInfo kZoneChihuahua = {
   "America/Chihuahua" /*name*/,
   kZoneEntryChihuahua /*entries*/,
   sizeof(kZoneEntryChihuahua)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -577,7 +577,7 @@ static const common::ZoneEntry kZoneEntryCosta_Rica[] = {
 
 };
 
-const common::ZoneInfo kCosta_Rica = {
+const common::ZoneInfo kZoneCosta_Rica = {
   "America/Costa_Rica" /*name*/,
   kZoneEntryCosta_Rica /*entries*/,
   sizeof(kZoneEntryCosta_Rica)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -598,7 +598,7 @@ static const common::ZoneEntry kZoneEntryCreston[] = {
 
 };
 
-const common::ZoneInfo kCreston = {
+const common::ZoneInfo kZoneCreston = {
   "America/Creston" /*name*/,
   kZoneEntryCreston /*entries*/,
   sizeof(kZoneEntryCreston)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -619,7 +619,7 @@ static const common::ZoneEntry kZoneEntryCuracao[] = {
 
 };
 
-const common::ZoneInfo kCuracao = {
+const common::ZoneInfo kZoneCuracao = {
   "America/Curacao" /*name*/,
   kZoneEntryCuracao /*entries*/,
   sizeof(kZoneEntryCuracao)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -640,7 +640,7 @@ static const common::ZoneEntry kZoneEntryDanmarkshavn[] = {
 
 };
 
-const common::ZoneInfo kDanmarkshavn = {
+const common::ZoneInfo kZoneDanmarkshavn = {
   "America/Danmarkshavn" /*name*/,
   kZoneEntryDanmarkshavn /*entries*/,
   sizeof(kZoneEntryDanmarkshavn)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -661,7 +661,7 @@ static const common::ZoneEntry kZoneEntryDawson[] = {
 
 };
 
-const common::ZoneInfo kDawson = {
+const common::ZoneInfo kZoneDawson = {
   "America/Dawson" /*name*/,
   kZoneEntryDawson /*entries*/,
   sizeof(kZoneEntryDawson)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -682,7 +682,7 @@ static const common::ZoneEntry kZoneEntryDawson_Creek[] = {
 
 };
 
-const common::ZoneInfo kDawson_Creek = {
+const common::ZoneInfo kZoneDawson_Creek = {
   "America/Dawson_Creek" /*name*/,
   kZoneEntryDawson_Creek /*entries*/,
   sizeof(kZoneEntryDawson_Creek)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -703,7 +703,7 @@ static const common::ZoneEntry kZoneEntryDenver[] = {
 
 };
 
-const common::ZoneInfo kDenver = {
+const common::ZoneInfo kZoneDenver = {
   "America/Denver" /*name*/,
   kZoneEntryDenver /*entries*/,
   sizeof(kZoneEntryDenver)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -724,7 +724,7 @@ static const common::ZoneEntry kZoneEntryDetroit[] = {
 
 };
 
-const common::ZoneInfo kDetroit = {
+const common::ZoneInfo kZoneDetroit = {
   "America/Detroit" /*name*/,
   kZoneEntryDetroit /*entries*/,
   sizeof(kZoneEntryDetroit)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -745,7 +745,7 @@ static const common::ZoneEntry kZoneEntryEdmonton[] = {
 
 };
 
-const common::ZoneInfo kEdmonton = {
+const common::ZoneInfo kZoneEdmonton = {
   "America/Edmonton" /*name*/,
   kZoneEntryEdmonton /*entries*/,
   sizeof(kZoneEntryEdmonton)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -766,7 +766,7 @@ static const common::ZoneEntry kZoneEntryEl_Salvador[] = {
 
 };
 
-const common::ZoneInfo kEl_Salvador = {
+const common::ZoneInfo kZoneEl_Salvador = {
   "America/El_Salvador" /*name*/,
   kZoneEntryEl_Salvador /*entries*/,
   sizeof(kZoneEntryEl_Salvador)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -787,7 +787,7 @@ static const common::ZoneEntry kZoneEntryGlace_Bay[] = {
 
 };
 
-const common::ZoneInfo kGlace_Bay = {
+const common::ZoneInfo kZoneGlace_Bay = {
   "America/Glace_Bay" /*name*/,
   kZoneEntryGlace_Bay /*entries*/,
   sizeof(kZoneEntryGlace_Bay)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -808,7 +808,7 @@ static const common::ZoneEntry kZoneEntryGodthab[] = {
 
 };
 
-const common::ZoneInfo kGodthab = {
+const common::ZoneInfo kZoneGodthab = {
   "America/Godthab" /*name*/,
   kZoneEntryGodthab /*entries*/,
   sizeof(kZoneEntryGodthab)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -829,7 +829,7 @@ static const common::ZoneEntry kZoneEntryGuatemala[] = {
 
 };
 
-const common::ZoneInfo kGuatemala = {
+const common::ZoneInfo kZoneGuatemala = {
   "America/Guatemala" /*name*/,
   kZoneEntryGuatemala /*entries*/,
   sizeof(kZoneEntryGuatemala)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -850,7 +850,7 @@ static const common::ZoneEntry kZoneEntryGuayaquil[] = {
 
 };
 
-const common::ZoneInfo kGuayaquil = {
+const common::ZoneInfo kZoneGuayaquil = {
   "America/Guayaquil" /*name*/,
   kZoneEntryGuayaquil /*entries*/,
   sizeof(kZoneEntryGuayaquil)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -871,7 +871,7 @@ static const common::ZoneEntry kZoneEntryGuyana[] = {
 
 };
 
-const common::ZoneInfo kGuyana = {
+const common::ZoneInfo kZoneGuyana = {
   "America/Guyana" /*name*/,
   kZoneEntryGuyana /*entries*/,
   sizeof(kZoneEntryGuyana)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -892,7 +892,7 @@ static const common::ZoneEntry kZoneEntryHalifax[] = {
 
 };
 
-const common::ZoneInfo kHalifax = {
+const common::ZoneInfo kZoneHalifax = {
   "America/Halifax" /*name*/,
   kZoneEntryHalifax /*entries*/,
   sizeof(kZoneEntryHalifax)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -913,7 +913,7 @@ static const common::ZoneEntry kZoneEntryHavana[] = {
 
 };
 
-const common::ZoneInfo kHavana = {
+const common::ZoneInfo kZoneHavana = {
   "America/Havana" /*name*/,
   kZoneEntryHavana /*entries*/,
   sizeof(kZoneEntryHavana)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -934,7 +934,7 @@ static const common::ZoneEntry kZoneEntryHermosillo[] = {
 
 };
 
-const common::ZoneInfo kHermosillo = {
+const common::ZoneInfo kZoneHermosillo = {
   "America/Hermosillo" /*name*/,
   kZoneEntryHermosillo /*entries*/,
   sizeof(kZoneEntryHermosillo)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -962,7 +962,7 @@ static const common::ZoneEntry kZoneEntryIndianapolis[] = {
 
 };
 
-const common::ZoneInfo kIndianapolis = {
+const common::ZoneInfo kZoneIndianapolis = {
   "America/Indiana/Indianapolis" /*name*/,
   kZoneEntryIndianapolis /*entries*/,
   sizeof(kZoneEntryIndianapolis)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -990,7 +990,7 @@ static const common::ZoneEntry kZoneEntryMarengo[] = {
 
 };
 
-const common::ZoneInfo kMarengo = {
+const common::ZoneInfo kZoneMarengo = {
   "America/Indiana/Marengo" /*name*/,
   kZoneEntryMarengo /*entries*/,
   sizeof(kZoneEntryMarengo)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1018,7 +1018,7 @@ static const common::ZoneEntry kZoneEntryVevay[] = {
 
 };
 
-const common::ZoneInfo kVevay = {
+const common::ZoneInfo kZoneVevay = {
   "America/Indiana/Vevay" /*name*/,
   kZoneEntryVevay /*entries*/,
   sizeof(kZoneEntryVevay)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1039,7 +1039,7 @@ static const common::ZoneEntry kZoneEntryInuvik[] = {
 
 };
 
-const common::ZoneInfo kInuvik = {
+const common::ZoneInfo kZoneInuvik = {
   "America/Inuvik" /*name*/,
   kZoneEntryInuvik /*entries*/,
   sizeof(kZoneEntryInuvik)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1060,7 +1060,7 @@ static const common::ZoneEntry kZoneEntryJamaica[] = {
 
 };
 
-const common::ZoneInfo kJamaica = {
+const common::ZoneInfo kZoneJamaica = {
   "America/Jamaica" /*name*/,
   kZoneEntryJamaica /*entries*/,
   sizeof(kZoneEntryJamaica)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1081,7 +1081,7 @@ static const common::ZoneEntry kZoneEntryJuneau[] = {
 
 };
 
-const common::ZoneInfo kJuneau = {
+const common::ZoneInfo kZoneJuneau = {
   "America/Juneau" /*name*/,
   kZoneEntryJuneau /*entries*/,
   sizeof(kZoneEntryJuneau)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1102,7 +1102,7 @@ static const common::ZoneEntry kZoneEntryLouisville[] = {
 
 };
 
-const common::ZoneInfo kLouisville = {
+const common::ZoneInfo kZoneLouisville = {
   "America/Kentucky/Louisville" /*name*/,
   kZoneEntryLouisville /*entries*/,
   sizeof(kZoneEntryLouisville)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1123,7 +1123,7 @@ static const common::ZoneEntry kZoneEntryLa_Paz[] = {
 
 };
 
-const common::ZoneInfo kLa_Paz = {
+const common::ZoneInfo kZoneLa_Paz = {
   "America/La_Paz" /*name*/,
   kZoneEntryLa_Paz /*entries*/,
   sizeof(kZoneEntryLa_Paz)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1144,7 +1144,7 @@ static const common::ZoneEntry kZoneEntryLima[] = {
 
 };
 
-const common::ZoneInfo kLima = {
+const common::ZoneInfo kZoneLima = {
   "America/Lima" /*name*/,
   kZoneEntryLima /*entries*/,
   sizeof(kZoneEntryLima)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1165,7 +1165,7 @@ static const common::ZoneEntry kZoneEntryLos_Angeles[] = {
 
 };
 
-const common::ZoneInfo kLos_Angeles = {
+const common::ZoneInfo kZoneLos_Angeles = {
   "America/Los_Angeles" /*name*/,
   kZoneEntryLos_Angeles /*entries*/,
   sizeof(kZoneEntryLos_Angeles)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1186,7 +1186,7 @@ static const common::ZoneEntry kZoneEntryManagua[] = {
 
 };
 
-const common::ZoneInfo kManagua = {
+const common::ZoneInfo kZoneManagua = {
   "America/Managua" /*name*/,
   kZoneEntryManagua /*entries*/,
   sizeof(kZoneEntryManagua)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1207,7 +1207,7 @@ static const common::ZoneEntry kZoneEntryManaus[] = {
 
 };
 
-const common::ZoneInfo kManaus = {
+const common::ZoneInfo kZoneManaus = {
   "America/Manaus" /*name*/,
   kZoneEntryManaus /*entries*/,
   sizeof(kZoneEntryManaus)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1228,7 +1228,7 @@ static const common::ZoneEntry kZoneEntryMartinique[] = {
 
 };
 
-const common::ZoneInfo kMartinique = {
+const common::ZoneInfo kZoneMartinique = {
   "America/Martinique" /*name*/,
   kZoneEntryMartinique /*entries*/,
   sizeof(kZoneEntryMartinique)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1256,7 +1256,7 @@ static const common::ZoneEntry kZoneEntryMatamoros[] = {
 
 };
 
-const common::ZoneInfo kMatamoros = {
+const common::ZoneInfo kZoneMatamoros = {
   "America/Matamoros" /*name*/,
   kZoneEntryMatamoros /*entries*/,
   sizeof(kZoneEntryMatamoros)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1277,7 +1277,7 @@ static const common::ZoneEntry kZoneEntryMazatlan[] = {
 
 };
 
-const common::ZoneInfo kMazatlan = {
+const common::ZoneInfo kZoneMazatlan = {
   "America/Mazatlan" /*name*/,
   kZoneEntryMazatlan /*entries*/,
   sizeof(kZoneEntryMazatlan)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1298,7 +1298,7 @@ static const common::ZoneEntry kZoneEntryMenominee[] = {
 
 };
 
-const common::ZoneInfo kMenominee = {
+const common::ZoneInfo kZoneMenominee = {
   "America/Menominee" /*name*/,
   kZoneEntryMenominee /*entries*/,
   sizeof(kZoneEntryMenominee)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1319,7 +1319,7 @@ static const common::ZoneEntry kZoneEntryMerida[] = {
 
 };
 
-const common::ZoneInfo kMerida = {
+const common::ZoneInfo kZoneMerida = {
   "America/Merida" /*name*/,
   kZoneEntryMerida /*entries*/,
   sizeof(kZoneEntryMerida)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1340,7 +1340,7 @@ static const common::ZoneEntry kZoneEntryMiquelon[] = {
 
 };
 
-const common::ZoneInfo kMiquelon = {
+const common::ZoneInfo kZoneMiquelon = {
   "America/Miquelon" /*name*/,
   kZoneEntryMiquelon /*entries*/,
   sizeof(kZoneEntryMiquelon)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1361,7 +1361,7 @@ static const common::ZoneEntry kZoneEntryMonterrey[] = {
 
 };
 
-const common::ZoneInfo kMonterrey = {
+const common::ZoneInfo kZoneMonterrey = {
   "America/Monterrey" /*name*/,
   kZoneEntryMonterrey /*entries*/,
   sizeof(kZoneEntryMonterrey)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1382,7 +1382,7 @@ static const common::ZoneEntry kZoneEntryMontevideo[] = {
 
 };
 
-const common::ZoneInfo kMontevideo = {
+const common::ZoneInfo kZoneMontevideo = {
   "America/Montevideo" /*name*/,
   kZoneEntryMontevideo /*entries*/,
   sizeof(kZoneEntryMontevideo)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1403,7 +1403,7 @@ static const common::ZoneEntry kZoneEntryNassau[] = {
 
 };
 
-const common::ZoneInfo kNassau = {
+const common::ZoneInfo kZoneNassau = {
   "America/Nassau" /*name*/,
   kZoneEntryNassau /*entries*/,
   sizeof(kZoneEntryNassau)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1424,7 +1424,7 @@ static const common::ZoneEntry kZoneEntryNew_York[] = {
 
 };
 
-const common::ZoneInfo kNew_York = {
+const common::ZoneInfo kZoneNew_York = {
   "America/New_York" /*name*/,
   kZoneEntryNew_York /*entries*/,
   sizeof(kZoneEntryNew_York)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1445,7 +1445,7 @@ static const common::ZoneEntry kZoneEntryNipigon[] = {
 
 };
 
-const common::ZoneInfo kNipigon = {
+const common::ZoneInfo kZoneNipigon = {
   "America/Nipigon" /*name*/,
   kZoneEntryNipigon /*entries*/,
   sizeof(kZoneEntryNipigon)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1466,7 +1466,7 @@ static const common::ZoneEntry kZoneEntryNome[] = {
 
 };
 
-const common::ZoneInfo kNome = {
+const common::ZoneInfo kZoneNome = {
   "America/Nome" /*name*/,
   kZoneEntryNome /*entries*/,
   sizeof(kZoneEntryNome)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1487,7 +1487,7 @@ static const common::ZoneEntry kZoneEntryCenter[] = {
 
 };
 
-const common::ZoneInfo kCenter = {
+const common::ZoneInfo kZoneCenter = {
   "America/North_Dakota/Center" /*name*/,
   kZoneEntryCenter /*entries*/,
   sizeof(kZoneEntryCenter)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1515,7 +1515,7 @@ static const common::ZoneEntry kZoneEntryOjinaga[] = {
 
 };
 
-const common::ZoneInfo kOjinaga = {
+const common::ZoneInfo kZoneOjinaga = {
   "America/Ojinaga" /*name*/,
   kZoneEntryOjinaga /*entries*/,
   sizeof(kZoneEntryOjinaga)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1536,7 +1536,7 @@ static const common::ZoneEntry kZoneEntryPanama[] = {
 
 };
 
-const common::ZoneInfo kPanama = {
+const common::ZoneInfo kZonePanama = {
   "America/Panama" /*name*/,
   kZoneEntryPanama /*entries*/,
   sizeof(kZoneEntryPanama)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1557,7 +1557,7 @@ static const common::ZoneEntry kZoneEntryParamaribo[] = {
 
 };
 
-const common::ZoneInfo kParamaribo = {
+const common::ZoneInfo kZoneParamaribo = {
   "America/Paramaribo" /*name*/,
   kZoneEntryParamaribo /*entries*/,
   sizeof(kZoneEntryParamaribo)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1578,7 +1578,7 @@ static const common::ZoneEntry kZoneEntryPhoenix[] = {
 
 };
 
-const common::ZoneInfo kPhoenix = {
+const common::ZoneInfo kZonePhoenix = {
   "America/Phoenix" /*name*/,
   kZoneEntryPhoenix /*entries*/,
   sizeof(kZoneEntryPhoenix)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1599,7 +1599,7 @@ static const common::ZoneEntry kZoneEntryPort_au_Prince[] = {
 
 };
 
-const common::ZoneInfo kPort_au_Prince = {
+const common::ZoneInfo kZonePort_au_Prince = {
   "America/Port_au_Prince" /*name*/,
   kZoneEntryPort_au_Prince /*entries*/,
   sizeof(kZoneEntryPort_au_Prince)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1620,7 +1620,7 @@ static const common::ZoneEntry kZoneEntryPort_of_Spain[] = {
 
 };
 
-const common::ZoneInfo kPort_of_Spain = {
+const common::ZoneInfo kZonePort_of_Spain = {
   "America/Port_of_Spain" /*name*/,
   kZoneEntryPort_of_Spain /*entries*/,
   sizeof(kZoneEntryPort_of_Spain)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1641,7 +1641,7 @@ static const common::ZoneEntry kZoneEntryPorto_Velho[] = {
 
 };
 
-const common::ZoneInfo kPorto_Velho = {
+const common::ZoneInfo kZonePorto_Velho = {
   "America/Porto_Velho" /*name*/,
   kZoneEntryPorto_Velho /*entries*/,
   sizeof(kZoneEntryPorto_Velho)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1662,7 +1662,7 @@ static const common::ZoneEntry kZoneEntryPuerto_Rico[] = {
 
 };
 
-const common::ZoneInfo kPuerto_Rico = {
+const common::ZoneInfo kZonePuerto_Rico = {
   "America/Puerto_Rico" /*name*/,
   kZoneEntryPuerto_Rico /*entries*/,
   sizeof(kZoneEntryPuerto_Rico)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1683,7 +1683,7 @@ static const common::ZoneEntry kZoneEntryRainy_River[] = {
 
 };
 
-const common::ZoneInfo kRainy_River = {
+const common::ZoneInfo kZoneRainy_River = {
   "America/Rainy_River" /*name*/,
   kZoneEntryRainy_River /*entries*/,
   sizeof(kZoneEntryRainy_River)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1704,7 +1704,7 @@ static const common::ZoneEntry kZoneEntryRegina[] = {
 
 };
 
-const common::ZoneInfo kRegina = {
+const common::ZoneInfo kZoneRegina = {
   "America/Regina" /*name*/,
   kZoneEntryRegina /*entries*/,
   sizeof(kZoneEntryRegina)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1725,7 +1725,7 @@ static const common::ZoneEntry kZoneEntrySantiago[] = {
 
 };
 
-const common::ZoneInfo kSantiago = {
+const common::ZoneInfo kZoneSantiago = {
   "America/Santiago" /*name*/,
   kZoneEntrySantiago /*entries*/,
   sizeof(kZoneEntrySantiago)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1746,7 +1746,7 @@ static const common::ZoneEntry kZoneEntrySao_Paulo[] = {
 
 };
 
-const common::ZoneInfo kSao_Paulo = {
+const common::ZoneInfo kZoneSao_Paulo = {
   "America/Sao_Paulo" /*name*/,
   kZoneEntrySao_Paulo /*entries*/,
   sizeof(kZoneEntrySao_Paulo)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1767,7 +1767,7 @@ static const common::ZoneEntry kZoneEntryScoresbysund[] = {
 
 };
 
-const common::ZoneInfo kScoresbysund = {
+const common::ZoneInfo kZoneScoresbysund = {
   "America/Scoresbysund" /*name*/,
   kZoneEntryScoresbysund /*entries*/,
   sizeof(kZoneEntryScoresbysund)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1788,7 +1788,7 @@ static const common::ZoneEntry kZoneEntrySitka[] = {
 
 };
 
-const common::ZoneInfo kSitka = {
+const common::ZoneInfo kZoneSitka = {
   "America/Sitka" /*name*/,
   kZoneEntrySitka /*entries*/,
   sizeof(kZoneEntrySitka)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1809,7 +1809,7 @@ static const common::ZoneEntry kZoneEntrySwift_Current[] = {
 
 };
 
-const common::ZoneInfo kSwift_Current = {
+const common::ZoneInfo kZoneSwift_Current = {
   "America/Swift_Current" /*name*/,
   kZoneEntrySwift_Current /*entries*/,
   sizeof(kZoneEntrySwift_Current)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1830,7 +1830,7 @@ static const common::ZoneEntry kZoneEntryTegucigalpa[] = {
 
 };
 
-const common::ZoneInfo kTegucigalpa = {
+const common::ZoneInfo kZoneTegucigalpa = {
   "America/Tegucigalpa" /*name*/,
   kZoneEntryTegucigalpa /*entries*/,
   sizeof(kZoneEntryTegucigalpa)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1851,7 +1851,7 @@ static const common::ZoneEntry kZoneEntryThule[] = {
 
 };
 
-const common::ZoneInfo kThule = {
+const common::ZoneInfo kZoneThule = {
   "America/Thule" /*name*/,
   kZoneEntryThule /*entries*/,
   sizeof(kZoneEntryThule)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1872,7 +1872,7 @@ static const common::ZoneEntry kZoneEntryThunder_Bay[] = {
 
 };
 
-const common::ZoneInfo kThunder_Bay = {
+const common::ZoneInfo kZoneThunder_Bay = {
   "America/Thunder_Bay" /*name*/,
   kZoneEntryThunder_Bay /*entries*/,
   sizeof(kZoneEntryThunder_Bay)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1893,7 +1893,7 @@ static const common::ZoneEntry kZoneEntryToronto[] = {
 
 };
 
-const common::ZoneInfo kToronto = {
+const common::ZoneInfo kZoneToronto = {
   "America/Toronto" /*name*/,
   kZoneEntryToronto /*entries*/,
   sizeof(kZoneEntryToronto)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1914,7 +1914,7 @@ static const common::ZoneEntry kZoneEntryVancouver[] = {
 
 };
 
-const common::ZoneInfo kVancouver = {
+const common::ZoneInfo kZoneVancouver = {
   "America/Vancouver" /*name*/,
   kZoneEntryVancouver /*entries*/,
   sizeof(kZoneEntryVancouver)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1935,7 +1935,7 @@ static const common::ZoneEntry kZoneEntryWhitehorse[] = {
 
 };
 
-const common::ZoneInfo kWhitehorse = {
+const common::ZoneInfo kZoneWhitehorse = {
   "America/Whitehorse" /*name*/,
   kZoneEntryWhitehorse /*entries*/,
   sizeof(kZoneEntryWhitehorse)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1963,7 +1963,7 @@ static const common::ZoneEntry kZoneEntryWinnipeg[] = {
 
 };
 
-const common::ZoneInfo kWinnipeg = {
+const common::ZoneInfo kZoneWinnipeg = {
   "America/Winnipeg" /*name*/,
   kZoneEntryWinnipeg /*entries*/,
   sizeof(kZoneEntryWinnipeg)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -1984,7 +1984,7 @@ static const common::ZoneEntry kZoneEntryYakutat[] = {
 
 };
 
-const common::ZoneInfo kYakutat = {
+const common::ZoneInfo kZoneYakutat = {
   "America/Yakutat" /*name*/,
   kZoneEntryYakutat /*entries*/,
   sizeof(kZoneEntryYakutat)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2005,7 +2005,7 @@ static const common::ZoneEntry kZoneEntryYellowknife[] = {
 
 };
 
-const common::ZoneInfo kYellowknife = {
+const common::ZoneInfo kZoneYellowknife = {
   "America/Yellowknife" /*name*/,
   kZoneEntryYellowknife /*entries*/,
   sizeof(kZoneEntryYellowknife)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2026,7 +2026,7 @@ static const common::ZoneEntry kZoneEntryDumontDUrville[] = {
 
 };
 
-const common::ZoneInfo kDumontDUrville = {
+const common::ZoneInfo kZoneDumontDUrville = {
   "Antarctica/DumontDUrville" /*name*/,
   kZoneEntryDumontDUrville /*entries*/,
   sizeof(kZoneEntryDumontDUrville)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2047,7 +2047,7 @@ static const common::ZoneEntry kZoneEntryRothera[] = {
 
 };
 
-const common::ZoneInfo kRothera = {
+const common::ZoneInfo kZoneRothera = {
   "Antarctica/Rothera" /*name*/,
   kZoneEntryRothera /*entries*/,
   sizeof(kZoneEntryRothera)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2068,7 +2068,7 @@ static const common::ZoneEntry kZoneEntrySyowa[] = {
 
 };
 
-const common::ZoneInfo kSyowa = {
+const common::ZoneInfo kZoneSyowa = {
   "Antarctica/Syowa" /*name*/,
   kZoneEntrySyowa /*entries*/,
   sizeof(kZoneEntrySyowa)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2089,7 +2089,7 @@ static const common::ZoneEntry kZoneEntryVostok[] = {
 
 };
 
-const common::ZoneInfo kVostok = {
+const common::ZoneInfo kZoneVostok = {
   "Antarctica/Vostok" /*name*/,
   kZoneEntryVostok /*entries*/,
   sizeof(kZoneEntryVostok)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2110,7 +2110,7 @@ static const common::ZoneEntry kZoneEntryAmman[] = {
 
 };
 
-const common::ZoneInfo kAmman = {
+const common::ZoneInfo kZoneAmman = {
   "Asia/Amman" /*name*/,
   kZoneEntryAmman /*entries*/,
   sizeof(kZoneEntryAmman)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2131,7 +2131,7 @@ static const common::ZoneEntry kZoneEntryAshgabat[] = {
 
 };
 
-const common::ZoneInfo kAshgabat = {
+const common::ZoneInfo kZoneAshgabat = {
   "Asia/Ashgabat" /*name*/,
   kZoneEntryAshgabat /*entries*/,
   sizeof(kZoneEntryAshgabat)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2152,7 +2152,7 @@ static const common::ZoneEntry kZoneEntryBaghdad[] = {
 
 };
 
-const common::ZoneInfo kBaghdad = {
+const common::ZoneInfo kZoneBaghdad = {
   "Asia/Baghdad" /*name*/,
   kZoneEntryBaghdad /*entries*/,
   sizeof(kZoneEntryBaghdad)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2173,7 +2173,7 @@ static const common::ZoneEntry kZoneEntryBaku[] = {
 
 };
 
-const common::ZoneInfo kBaku = {
+const common::ZoneInfo kZoneBaku = {
   "Asia/Baku" /*name*/,
   kZoneEntryBaku /*entries*/,
   sizeof(kZoneEntryBaku)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2194,7 +2194,7 @@ static const common::ZoneEntry kZoneEntryBangkok[] = {
 
 };
 
-const common::ZoneInfo kBangkok = {
+const common::ZoneInfo kZoneBangkok = {
   "Asia/Bangkok" /*name*/,
   kZoneEntryBangkok /*entries*/,
   sizeof(kZoneEntryBangkok)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2215,7 +2215,7 @@ static const common::ZoneEntry kZoneEntryBeirut[] = {
 
 };
 
-const common::ZoneInfo kBeirut = {
+const common::ZoneInfo kZoneBeirut = {
   "Asia/Beirut" /*name*/,
   kZoneEntryBeirut /*entries*/,
   sizeof(kZoneEntryBeirut)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2236,7 +2236,7 @@ static const common::ZoneEntry kZoneEntryBrunei[] = {
 
 };
 
-const common::ZoneInfo kBrunei = {
+const common::ZoneInfo kZoneBrunei = {
   "Asia/Brunei" /*name*/,
   kZoneEntryBrunei /*entries*/,
   sizeof(kZoneEntryBrunei)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2257,7 +2257,7 @@ static const common::ZoneEntry kZoneEntryDamascus[] = {
 
 };
 
-const common::ZoneInfo kDamascus = {
+const common::ZoneInfo kZoneDamascus = {
   "Asia/Damascus" /*name*/,
   kZoneEntryDamascus /*entries*/,
   sizeof(kZoneEntryDamascus)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2285,7 +2285,7 @@ static const common::ZoneEntry kZoneEntryDhaka[] = {
 
 };
 
-const common::ZoneInfo kDhaka = {
+const common::ZoneInfo kZoneDhaka = {
   "Asia/Dhaka" /*name*/,
   kZoneEntryDhaka /*entries*/,
   sizeof(kZoneEntryDhaka)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2306,7 +2306,7 @@ static const common::ZoneEntry kZoneEntryDubai[] = {
 
 };
 
-const common::ZoneInfo kDubai = {
+const common::ZoneInfo kZoneDubai = {
   "Asia/Dubai" /*name*/,
   kZoneEntryDubai /*entries*/,
   sizeof(kZoneEntryDubai)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2327,7 +2327,7 @@ static const common::ZoneEntry kZoneEntryDushanbe[] = {
 
 };
 
-const common::ZoneInfo kDushanbe = {
+const common::ZoneInfo kZoneDushanbe = {
   "Asia/Dushanbe" /*name*/,
   kZoneEntryDushanbe /*entries*/,
   sizeof(kZoneEntryDushanbe)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2348,7 +2348,7 @@ static const common::ZoneEntry kZoneEntryHo_Chi_Minh[] = {
 
 };
 
-const common::ZoneInfo kHo_Chi_Minh = {
+const common::ZoneInfo kZoneHo_Chi_Minh = {
   "Asia/Ho_Chi_Minh" /*name*/,
   kZoneEntryHo_Chi_Minh /*entries*/,
   sizeof(kZoneEntryHo_Chi_Minh)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2369,7 +2369,7 @@ static const common::ZoneEntry kZoneEntryHovd[] = {
 
 };
 
-const common::ZoneInfo kHovd = {
+const common::ZoneInfo kZoneHovd = {
   "Asia/Hovd" /*name*/,
   kZoneEntryHovd /*entries*/,
   sizeof(kZoneEntryHovd)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2390,7 +2390,7 @@ static const common::ZoneEntry kZoneEntryJakarta[] = {
 
 };
 
-const common::ZoneInfo kJakarta = {
+const common::ZoneInfo kZoneJakarta = {
   "Asia/Jakarta" /*name*/,
   kZoneEntryJakarta /*entries*/,
   sizeof(kZoneEntryJakarta)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2411,7 +2411,7 @@ static const common::ZoneEntry kZoneEntryJayapura[] = {
 
 };
 
-const common::ZoneInfo kJayapura = {
+const common::ZoneInfo kZoneJayapura = {
   "Asia/Jayapura" /*name*/,
   kZoneEntryJayapura /*entries*/,
   sizeof(kZoneEntryJayapura)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2432,7 +2432,7 @@ static const common::ZoneEntry kZoneEntryJerusalem[] = {
 
 };
 
-const common::ZoneInfo kJerusalem = {
+const common::ZoneInfo kZoneJerusalem = {
   "Asia/Jerusalem" /*name*/,
   kZoneEntryJerusalem /*entries*/,
   sizeof(kZoneEntryJerusalem)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2453,7 +2453,7 @@ static const common::ZoneEntry kZoneEntryKabul[] = {
 
 };
 
-const common::ZoneInfo kKabul = {
+const common::ZoneInfo kZoneKabul = {
   "Asia/Kabul" /*name*/,
   kZoneEntryKabul /*entries*/,
   sizeof(kZoneEntryKabul)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2474,7 +2474,7 @@ static const common::ZoneEntry kZoneEntryKarachi[] = {
 
 };
 
-const common::ZoneInfo kKarachi = {
+const common::ZoneInfo kZoneKarachi = {
   "Asia/Karachi" /*name*/,
   kZoneEntryKarachi /*entries*/,
   sizeof(kZoneEntryKarachi)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2495,7 +2495,7 @@ static const common::ZoneEntry kZoneEntryKathmandu[] = {
 
 };
 
-const common::ZoneInfo kKathmandu = {
+const common::ZoneInfo kZoneKathmandu = {
   "Asia/Kathmandu" /*name*/,
   kZoneEntryKathmandu /*entries*/,
   sizeof(kZoneEntryKathmandu)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2516,7 +2516,7 @@ static const common::ZoneEntry kZoneEntryKolkata[] = {
 
 };
 
-const common::ZoneInfo kKolkata = {
+const common::ZoneInfo kZoneKolkata = {
   "Asia/Kolkata" /*name*/,
   kZoneEntryKolkata /*entries*/,
   sizeof(kZoneEntryKolkata)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2537,7 +2537,7 @@ static const common::ZoneEntry kZoneEntryKuala_Lumpur[] = {
 
 };
 
-const common::ZoneInfo kKuala_Lumpur = {
+const common::ZoneInfo kZoneKuala_Lumpur = {
   "Asia/Kuala_Lumpur" /*name*/,
   kZoneEntryKuala_Lumpur /*entries*/,
   sizeof(kZoneEntryKuala_Lumpur)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2558,7 +2558,7 @@ static const common::ZoneEntry kZoneEntryKuching[] = {
 
 };
 
-const common::ZoneInfo kKuching = {
+const common::ZoneInfo kZoneKuching = {
   "Asia/Kuching" /*name*/,
   kZoneEntryKuching /*entries*/,
   sizeof(kZoneEntryKuching)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2579,7 +2579,7 @@ static const common::ZoneEntry kZoneEntryMakassar[] = {
 
 };
 
-const common::ZoneInfo kMakassar = {
+const common::ZoneInfo kZoneMakassar = {
   "Asia/Makassar" /*name*/,
   kZoneEntryMakassar /*entries*/,
   sizeof(kZoneEntryMakassar)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2600,7 +2600,7 @@ static const common::ZoneEntry kZoneEntryManila[] = {
 
 };
 
-const common::ZoneInfo kManila = {
+const common::ZoneInfo kZoneManila = {
   "Asia/Manila" /*name*/,
   kZoneEntryManila /*entries*/,
   sizeof(kZoneEntryManila)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2621,7 +2621,7 @@ static const common::ZoneEntry kZoneEntryNicosia[] = {
 
 };
 
-const common::ZoneInfo kNicosia = {
+const common::ZoneInfo kZoneNicosia = {
   "Asia/Nicosia" /*name*/,
   kZoneEntryNicosia /*entries*/,
   sizeof(kZoneEntryNicosia)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2642,7 +2642,7 @@ static const common::ZoneEntry kZoneEntryPontianak[] = {
 
 };
 
-const common::ZoneInfo kPontianak = {
+const common::ZoneInfo kZonePontianak = {
   "Asia/Pontianak" /*name*/,
   kZoneEntryPontianak /*entries*/,
   sizeof(kZoneEntryPontianak)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2663,7 +2663,7 @@ static const common::ZoneEntry kZoneEntryQatar[] = {
 
 };
 
-const common::ZoneInfo kQatar = {
+const common::ZoneInfo kZoneQatar = {
   "Asia/Qatar" /*name*/,
   kZoneEntryQatar /*entries*/,
   sizeof(kZoneEntryQatar)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2684,7 +2684,7 @@ static const common::ZoneEntry kZoneEntryRiyadh[] = {
 
 };
 
-const common::ZoneInfo kRiyadh = {
+const common::ZoneInfo kZoneRiyadh = {
   "Asia/Riyadh" /*name*/,
   kZoneEntryRiyadh /*entries*/,
   sizeof(kZoneEntryRiyadh)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2705,7 +2705,7 @@ static const common::ZoneEntry kZoneEntrySamarkand[] = {
 
 };
 
-const common::ZoneInfo kSamarkand = {
+const common::ZoneInfo kZoneSamarkand = {
   "Asia/Samarkand" /*name*/,
   kZoneEntrySamarkand /*entries*/,
   sizeof(kZoneEntrySamarkand)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2726,7 +2726,7 @@ static const common::ZoneEntry kZoneEntrySeoul[] = {
 
 };
 
-const common::ZoneInfo kSeoul = {
+const common::ZoneInfo kZoneSeoul = {
   "Asia/Seoul" /*name*/,
   kZoneEntrySeoul /*entries*/,
   sizeof(kZoneEntrySeoul)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2747,7 +2747,7 @@ static const common::ZoneEntry kZoneEntryShanghai[] = {
 
 };
 
-const common::ZoneInfo kShanghai = {
+const common::ZoneInfo kZoneShanghai = {
   "Asia/Shanghai" /*name*/,
   kZoneEntryShanghai /*entries*/,
   sizeof(kZoneEntryShanghai)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2768,7 +2768,7 @@ static const common::ZoneEntry kZoneEntrySingapore[] = {
 
 };
 
-const common::ZoneInfo kSingapore = {
+const common::ZoneInfo kZoneSingapore = {
   "Asia/Singapore" /*name*/,
   kZoneEntrySingapore /*entries*/,
   sizeof(kZoneEntrySingapore)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2789,7 +2789,7 @@ static const common::ZoneEntry kZoneEntryTaipei[] = {
 
 };
 
-const common::ZoneInfo kTaipei = {
+const common::ZoneInfo kZoneTaipei = {
   "Asia/Taipei" /*name*/,
   kZoneEntryTaipei /*entries*/,
   sizeof(kZoneEntryTaipei)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2810,7 +2810,7 @@ static const common::ZoneEntry kZoneEntryTashkent[] = {
 
 };
 
-const common::ZoneInfo kTashkent = {
+const common::ZoneInfo kZoneTashkent = {
   "Asia/Tashkent" /*name*/,
   kZoneEntryTashkent /*entries*/,
   sizeof(kZoneEntryTashkent)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2831,7 +2831,7 @@ static const common::ZoneEntry kZoneEntryTehran[] = {
 
 };
 
-const common::ZoneInfo kTehran = {
+const common::ZoneInfo kZoneTehran = {
   "Asia/Tehran" /*name*/,
   kZoneEntryTehran /*entries*/,
   sizeof(kZoneEntryTehran)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2852,7 +2852,7 @@ static const common::ZoneEntry kZoneEntryThimphu[] = {
 
 };
 
-const common::ZoneInfo kThimphu = {
+const common::ZoneInfo kZoneThimphu = {
   "Asia/Thimphu" /*name*/,
   kZoneEntryThimphu /*entries*/,
   sizeof(kZoneEntryThimphu)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2873,7 +2873,7 @@ static const common::ZoneEntry kZoneEntryTokyo[] = {
 
 };
 
-const common::ZoneInfo kTokyo = {
+const common::ZoneInfo kZoneTokyo = {
   "Asia/Tokyo" /*name*/,
   kZoneEntryTokyo /*entries*/,
   sizeof(kZoneEntryTokyo)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2894,7 +2894,7 @@ static const common::ZoneEntry kZoneEntryUlaanbaatar[] = {
 
 };
 
-const common::ZoneInfo kUlaanbaatar = {
+const common::ZoneInfo kZoneUlaanbaatar = {
   "Asia/Ulaanbaatar" /*name*/,
   kZoneEntryUlaanbaatar /*entries*/,
   sizeof(kZoneEntryUlaanbaatar)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2915,7 +2915,7 @@ static const common::ZoneEntry kZoneEntryUrumqi[] = {
 
 };
 
-const common::ZoneInfo kUrumqi = {
+const common::ZoneInfo kZoneUrumqi = {
   "Asia/Urumqi" /*name*/,
   kZoneEntryUrumqi /*entries*/,
   sizeof(kZoneEntryUrumqi)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2936,7 +2936,7 @@ static const common::ZoneEntry kZoneEntryYangon[] = {
 
 };
 
-const common::ZoneInfo kYangon = {
+const common::ZoneInfo kZoneYangon = {
   "Asia/Yangon" /*name*/,
   kZoneEntryYangon /*entries*/,
   sizeof(kZoneEntryYangon)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2964,7 +2964,7 @@ static const common::ZoneEntry kZoneEntryYerevan[] = {
 
 };
 
-const common::ZoneInfo kYerevan = {
+const common::ZoneInfo kZoneYerevan = {
   "Asia/Yerevan" /*name*/,
   kZoneEntryYerevan /*entries*/,
   sizeof(kZoneEntryYerevan)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -2985,7 +2985,7 @@ static const common::ZoneEntry kZoneEntryAzores[] = {
 
 };
 
-const common::ZoneInfo kAzores = {
+const common::ZoneInfo kZoneAzores = {
   "Atlantic/Azores" /*name*/,
   kZoneEntryAzores /*entries*/,
   sizeof(kZoneEntryAzores)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3006,7 +3006,7 @@ static const common::ZoneEntry kZoneEntryBermuda[] = {
 
 };
 
-const common::ZoneInfo kBermuda = {
+const common::ZoneInfo kZoneBermuda = {
   "Atlantic/Bermuda" /*name*/,
   kZoneEntryBermuda /*entries*/,
   sizeof(kZoneEntryBermuda)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3027,7 +3027,7 @@ static const common::ZoneEntry kZoneEntryCanary[] = {
 
 };
 
-const common::ZoneInfo kCanary = {
+const common::ZoneInfo kZoneCanary = {
   "Atlantic/Canary" /*name*/,
   kZoneEntryCanary /*entries*/,
   sizeof(kZoneEntryCanary)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3048,7 +3048,7 @@ static const common::ZoneEntry kZoneEntryCape_Verde[] = {
 
 };
 
-const common::ZoneInfo kCape_Verde = {
+const common::ZoneInfo kZoneCape_Verde = {
   "Atlantic/Cape_Verde" /*name*/,
   kZoneEntryCape_Verde /*entries*/,
   sizeof(kZoneEntryCape_Verde)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3069,7 +3069,7 @@ static const common::ZoneEntry kZoneEntryFaroe[] = {
 
 };
 
-const common::ZoneInfo kFaroe = {
+const common::ZoneInfo kZoneFaroe = {
   "Atlantic/Faroe" /*name*/,
   kZoneEntryFaroe /*entries*/,
   sizeof(kZoneEntryFaroe)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3090,7 +3090,7 @@ static const common::ZoneEntry kZoneEntryMadeira[] = {
 
 };
 
-const common::ZoneInfo kMadeira = {
+const common::ZoneInfo kZoneMadeira = {
   "Atlantic/Madeira" /*name*/,
   kZoneEntryMadeira /*entries*/,
   sizeof(kZoneEntryMadeira)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3111,7 +3111,7 @@ static const common::ZoneEntry kZoneEntryReykjavik[] = {
 
 };
 
-const common::ZoneInfo kReykjavik = {
+const common::ZoneInfo kZoneReykjavik = {
   "Atlantic/Reykjavik" /*name*/,
   kZoneEntryReykjavik /*entries*/,
   sizeof(kZoneEntryReykjavik)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3132,7 +3132,7 @@ static const common::ZoneEntry kZoneEntrySouth_Georgia[] = {
 
 };
 
-const common::ZoneInfo kSouth_Georgia = {
+const common::ZoneInfo kZoneSouth_Georgia = {
   "Atlantic/South_Georgia" /*name*/,
   kZoneEntrySouth_Georgia /*entries*/,
   sizeof(kZoneEntrySouth_Georgia)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3153,7 +3153,7 @@ static const common::ZoneEntry kZoneEntryAdelaide[] = {
 
 };
 
-const common::ZoneInfo kAdelaide = {
+const common::ZoneInfo kZoneAdelaide = {
   "Australia/Adelaide" /*name*/,
   kZoneEntryAdelaide /*entries*/,
   sizeof(kZoneEntryAdelaide)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3174,7 +3174,7 @@ static const common::ZoneEntry kZoneEntryBrisbane[] = {
 
 };
 
-const common::ZoneInfo kBrisbane = {
+const common::ZoneInfo kZoneBrisbane = {
   "Australia/Brisbane" /*name*/,
   kZoneEntryBrisbane /*entries*/,
   sizeof(kZoneEntryBrisbane)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3202,7 +3202,7 @@ static const common::ZoneEntry kZoneEntryBroken_Hill[] = {
 
 };
 
-const common::ZoneInfo kBroken_Hill = {
+const common::ZoneInfo kZoneBroken_Hill = {
   "Australia/Broken_Hill" /*name*/,
   kZoneEntryBroken_Hill /*entries*/,
   sizeof(kZoneEntryBroken_Hill)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3223,7 +3223,7 @@ static const common::ZoneEntry kZoneEntryCurrie[] = {
 
 };
 
-const common::ZoneInfo kCurrie = {
+const common::ZoneInfo kZoneCurrie = {
   "Australia/Currie" /*name*/,
   kZoneEntryCurrie /*entries*/,
   sizeof(kZoneEntryCurrie)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3244,7 +3244,7 @@ static const common::ZoneEntry kZoneEntryDarwin[] = {
 
 };
 
-const common::ZoneInfo kDarwin = {
+const common::ZoneInfo kZoneDarwin = {
   "Australia/Darwin" /*name*/,
   kZoneEntryDarwin /*entries*/,
   sizeof(kZoneEntryDarwin)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3265,7 +3265,7 @@ static const common::ZoneEntry kZoneEntryEucla[] = {
 
 };
 
-const common::ZoneInfo kEucla = {
+const common::ZoneInfo kZoneEucla = {
   "Australia/Eucla" /*name*/,
   kZoneEntryEucla /*entries*/,
   sizeof(kZoneEntryEucla)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3286,7 +3286,7 @@ static const common::ZoneEntry kZoneEntryHobart[] = {
 
 };
 
-const common::ZoneInfo kHobart = {
+const common::ZoneInfo kZoneHobart = {
   "Australia/Hobart" /*name*/,
   kZoneEntryHobart /*entries*/,
   sizeof(kZoneEntryHobart)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3307,7 +3307,7 @@ static const common::ZoneEntry kZoneEntryLindeman[] = {
 
 };
 
-const common::ZoneInfo kLindeman = {
+const common::ZoneInfo kZoneLindeman = {
   "Australia/Lindeman" /*name*/,
   kZoneEntryLindeman /*entries*/,
   sizeof(kZoneEntryLindeman)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3328,7 +3328,7 @@ static const common::ZoneEntry kZoneEntryLord_Howe[] = {
 
 };
 
-const common::ZoneInfo kLord_Howe = {
+const common::ZoneInfo kZoneLord_Howe = {
   "Australia/Lord_Howe" /*name*/,
   kZoneEntryLord_Howe /*entries*/,
   sizeof(kZoneEntryLord_Howe)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3349,7 +3349,7 @@ static const common::ZoneEntry kZoneEntryMelbourne[] = {
 
 };
 
-const common::ZoneInfo kMelbourne = {
+const common::ZoneInfo kZoneMelbourne = {
   "Australia/Melbourne" /*name*/,
   kZoneEntryMelbourne /*entries*/,
   sizeof(kZoneEntryMelbourne)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3370,7 +3370,7 @@ static const common::ZoneEntry kZoneEntryPerth[] = {
 
 };
 
-const common::ZoneInfo kPerth = {
+const common::ZoneInfo kZonePerth = {
   "Australia/Perth" /*name*/,
   kZoneEntryPerth /*entries*/,
   sizeof(kZoneEntryPerth)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3391,7 +3391,7 @@ static const common::ZoneEntry kZoneEntrySydney[] = {
 
 };
 
-const common::ZoneInfo kSydney = {
+const common::ZoneInfo kZoneSydney = {
   "Australia/Sydney" /*name*/,
   kZoneEntrySydney /*entries*/,
   sizeof(kZoneEntrySydney)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3412,7 +3412,7 @@ static const common::ZoneEntry kZoneEntryAmsterdam[] = {
 
 };
 
-const common::ZoneInfo kAmsterdam = {
+const common::ZoneInfo kZoneAmsterdam = {
   "Europe/Amsterdam" /*name*/,
   kZoneEntryAmsterdam /*entries*/,
   sizeof(kZoneEntryAmsterdam)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3433,7 +3433,7 @@ static const common::ZoneEntry kZoneEntryAndorra[] = {
 
 };
 
-const common::ZoneInfo kAndorra = {
+const common::ZoneInfo kZoneAndorra = {
   "Europe/Andorra" /*name*/,
   kZoneEntryAndorra /*entries*/,
   sizeof(kZoneEntryAndorra)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3454,7 +3454,7 @@ static const common::ZoneEntry kZoneEntryAthens[] = {
 
 };
 
-const common::ZoneInfo kAthens = {
+const common::ZoneInfo kZoneAthens = {
   "Europe/Athens" /*name*/,
   kZoneEntryAthens /*entries*/,
   sizeof(kZoneEntryAthens)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3475,7 +3475,7 @@ static const common::ZoneEntry kZoneEntryBelgrade[] = {
 
 };
 
-const common::ZoneInfo kBelgrade = {
+const common::ZoneInfo kZoneBelgrade = {
   "Europe/Belgrade" /*name*/,
   kZoneEntryBelgrade /*entries*/,
   sizeof(kZoneEntryBelgrade)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3496,7 +3496,7 @@ static const common::ZoneEntry kZoneEntryBerlin[] = {
 
 };
 
-const common::ZoneInfo kBerlin = {
+const common::ZoneInfo kZoneBerlin = {
   "Europe/Berlin" /*name*/,
   kZoneEntryBerlin /*entries*/,
   sizeof(kZoneEntryBerlin)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3517,7 +3517,7 @@ static const common::ZoneEntry kZoneEntryBrussels[] = {
 
 };
 
-const common::ZoneInfo kBrussels = {
+const common::ZoneInfo kZoneBrussels = {
   "Europe/Brussels" /*name*/,
   kZoneEntryBrussels /*entries*/,
   sizeof(kZoneEntryBrussels)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3538,7 +3538,7 @@ static const common::ZoneEntry kZoneEntryBucharest[] = {
 
 };
 
-const common::ZoneInfo kBucharest = {
+const common::ZoneInfo kZoneBucharest = {
   "Europe/Bucharest" /*name*/,
   kZoneEntryBucharest /*entries*/,
   sizeof(kZoneEntryBucharest)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3559,7 +3559,7 @@ static const common::ZoneEntry kZoneEntryBudapest[] = {
 
 };
 
-const common::ZoneInfo kBudapest = {
+const common::ZoneInfo kZoneBudapest = {
   "Europe/Budapest" /*name*/,
   kZoneEntryBudapest /*entries*/,
   sizeof(kZoneEntryBudapest)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3580,7 +3580,7 @@ static const common::ZoneEntry kZoneEntryChisinau[] = {
 
 };
 
-const common::ZoneInfo kChisinau = {
+const common::ZoneInfo kZoneChisinau = {
   "Europe/Chisinau" /*name*/,
   kZoneEntryChisinau /*entries*/,
   sizeof(kZoneEntryChisinau)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3601,7 +3601,7 @@ static const common::ZoneEntry kZoneEntryCopenhagen[] = {
 
 };
 
-const common::ZoneInfo kCopenhagen = {
+const common::ZoneInfo kZoneCopenhagen = {
   "Europe/Copenhagen" /*name*/,
   kZoneEntryCopenhagen /*entries*/,
   sizeof(kZoneEntryCopenhagen)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3622,7 +3622,7 @@ static const common::ZoneEntry kZoneEntryDublin[] = {
 
 };
 
-const common::ZoneInfo kDublin = {
+const common::ZoneInfo kZoneDublin = {
   "Europe/Dublin" /*name*/,
   kZoneEntryDublin /*entries*/,
   sizeof(kZoneEntryDublin)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3643,7 +3643,7 @@ static const common::ZoneEntry kZoneEntryGibraltar[] = {
 
 };
 
-const common::ZoneInfo kGibraltar = {
+const common::ZoneInfo kZoneGibraltar = {
   "Europe/Gibraltar" /*name*/,
   kZoneEntryGibraltar /*entries*/,
   sizeof(kZoneEntryGibraltar)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3664,7 +3664,7 @@ static const common::ZoneEntry kZoneEntryHelsinki[] = {
 
 };
 
-const common::ZoneInfo kHelsinki = {
+const common::ZoneInfo kZoneHelsinki = {
   "Europe/Helsinki" /*name*/,
   kZoneEntryHelsinki /*entries*/,
   sizeof(kZoneEntryHelsinki)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3685,7 +3685,7 @@ static const common::ZoneEntry kZoneEntryKiev[] = {
 
 };
 
-const common::ZoneInfo kKiev = {
+const common::ZoneInfo kZoneKiev = {
   "Europe/Kiev" /*name*/,
   kZoneEntryKiev /*entries*/,
   sizeof(kZoneEntryKiev)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3706,7 +3706,7 @@ static const common::ZoneEntry kZoneEntryLisbon[] = {
 
 };
 
-const common::ZoneInfo kLisbon = {
+const common::ZoneInfo kZoneLisbon = {
   "Europe/Lisbon" /*name*/,
   kZoneEntryLisbon /*entries*/,
   sizeof(kZoneEntryLisbon)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3727,7 +3727,7 @@ static const common::ZoneEntry kZoneEntryLondon[] = {
 
 };
 
-const common::ZoneInfo kLondon = {
+const common::ZoneInfo kZoneLondon = {
   "Europe/London" /*name*/,
   kZoneEntryLondon /*entries*/,
   sizeof(kZoneEntryLondon)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3748,7 +3748,7 @@ static const common::ZoneEntry kZoneEntryLuxembourg[] = {
 
 };
 
-const common::ZoneInfo kLuxembourg = {
+const common::ZoneInfo kZoneLuxembourg = {
   "Europe/Luxembourg" /*name*/,
   kZoneEntryLuxembourg /*entries*/,
   sizeof(kZoneEntryLuxembourg)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3769,7 +3769,7 @@ static const common::ZoneEntry kZoneEntryMadrid[] = {
 
 };
 
-const common::ZoneInfo kMadrid = {
+const common::ZoneInfo kZoneMadrid = {
   "Europe/Madrid" /*name*/,
   kZoneEntryMadrid /*entries*/,
   sizeof(kZoneEntryMadrid)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3790,7 +3790,7 @@ static const common::ZoneEntry kZoneEntryMalta[] = {
 
 };
 
-const common::ZoneInfo kMalta = {
+const common::ZoneInfo kZoneMalta = {
   "Europe/Malta" /*name*/,
   kZoneEntryMalta /*entries*/,
   sizeof(kZoneEntryMalta)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3811,7 +3811,7 @@ static const common::ZoneEntry kZoneEntryMonaco[] = {
 
 };
 
-const common::ZoneInfo kMonaco = {
+const common::ZoneInfo kZoneMonaco = {
   "Europe/Monaco" /*name*/,
   kZoneEntryMonaco /*entries*/,
   sizeof(kZoneEntryMonaco)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3832,7 +3832,7 @@ static const common::ZoneEntry kZoneEntryOslo[] = {
 
 };
 
-const common::ZoneInfo kOslo = {
+const common::ZoneInfo kZoneOslo = {
   "Europe/Oslo" /*name*/,
   kZoneEntryOslo /*entries*/,
   sizeof(kZoneEntryOslo)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3853,7 +3853,7 @@ static const common::ZoneEntry kZoneEntryParis[] = {
 
 };
 
-const common::ZoneInfo kParis = {
+const common::ZoneInfo kZoneParis = {
   "Europe/Paris" /*name*/,
   kZoneEntryParis /*entries*/,
   sizeof(kZoneEntryParis)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3874,7 +3874,7 @@ static const common::ZoneEntry kZoneEntryPrague[] = {
 
 };
 
-const common::ZoneInfo kPrague = {
+const common::ZoneInfo kZonePrague = {
   "Europe/Prague" /*name*/,
   kZoneEntryPrague /*entries*/,
   sizeof(kZoneEntryPrague)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3895,7 +3895,7 @@ static const common::ZoneEntry kZoneEntryRome[] = {
 
 };
 
-const common::ZoneInfo kRome = {
+const common::ZoneInfo kZoneRome = {
   "Europe/Rome" /*name*/,
   kZoneEntryRome /*entries*/,
   sizeof(kZoneEntryRome)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3916,7 +3916,7 @@ static const common::ZoneEntry kZoneEntrySofia[] = {
 
 };
 
-const common::ZoneInfo kSofia = {
+const common::ZoneInfo kZoneSofia = {
   "Europe/Sofia" /*name*/,
   kZoneEntrySofia /*entries*/,
   sizeof(kZoneEntrySofia)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3937,7 +3937,7 @@ static const common::ZoneEntry kZoneEntryStockholm[] = {
 
 };
 
-const common::ZoneInfo kStockholm = {
+const common::ZoneInfo kZoneStockholm = {
   "Europe/Stockholm" /*name*/,
   kZoneEntryStockholm /*entries*/,
   sizeof(kZoneEntryStockholm)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3958,7 +3958,7 @@ static const common::ZoneEntry kZoneEntryTirane[] = {
 
 };
 
-const common::ZoneInfo kTirane = {
+const common::ZoneInfo kZoneTirane = {
   "Europe/Tirane" /*name*/,
   kZoneEntryTirane /*entries*/,
   sizeof(kZoneEntryTirane)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -3979,7 +3979,7 @@ static const common::ZoneEntry kZoneEntryUzhgorod[] = {
 
 };
 
-const common::ZoneInfo kUzhgorod = {
+const common::ZoneInfo kZoneUzhgorod = {
   "Europe/Uzhgorod" /*name*/,
   kZoneEntryUzhgorod /*entries*/,
   sizeof(kZoneEntryUzhgorod)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4000,7 +4000,7 @@ static const common::ZoneEntry kZoneEntryVienna[] = {
 
 };
 
-const common::ZoneInfo kVienna = {
+const common::ZoneInfo kZoneVienna = {
   "Europe/Vienna" /*name*/,
   kZoneEntryVienna /*entries*/,
   sizeof(kZoneEntryVienna)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4021,7 +4021,7 @@ static const common::ZoneEntry kZoneEntryWarsaw[] = {
 
 };
 
-const common::ZoneInfo kWarsaw = {
+const common::ZoneInfo kZoneWarsaw = {
   "Europe/Warsaw" /*name*/,
   kZoneEntryWarsaw /*entries*/,
   sizeof(kZoneEntryWarsaw)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4042,7 +4042,7 @@ static const common::ZoneEntry kZoneEntryZaporozhye[] = {
 
 };
 
-const common::ZoneInfo kZaporozhye = {
+const common::ZoneInfo kZoneZaporozhye = {
   "Europe/Zaporozhye" /*name*/,
   kZoneEntryZaporozhye /*entries*/,
   sizeof(kZoneEntryZaporozhye)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4063,7 +4063,7 @@ static const common::ZoneEntry kZoneEntryZurich[] = {
 
 };
 
-const common::ZoneInfo kZurich = {
+const common::ZoneInfo kZoneZurich = {
   "Europe/Zurich" /*name*/,
   kZoneEntryZurich /*entries*/,
   sizeof(kZoneEntryZurich)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4084,7 +4084,7 @@ static const common::ZoneEntry kZoneEntryChagos[] = {
 
 };
 
-const common::ZoneInfo kChagos = {
+const common::ZoneInfo kZoneChagos = {
   "Indian/Chagos" /*name*/,
   kZoneEntryChagos /*entries*/,
   sizeof(kZoneEntryChagos)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4105,7 +4105,7 @@ static const common::ZoneEntry kZoneEntryChristmas[] = {
 
 };
 
-const common::ZoneInfo kChristmas = {
+const common::ZoneInfo kZoneChristmas = {
   "Indian/Christmas" /*name*/,
   kZoneEntryChristmas /*entries*/,
   sizeof(kZoneEntryChristmas)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4126,7 +4126,7 @@ static const common::ZoneEntry kZoneEntryCocos[] = {
 
 };
 
-const common::ZoneInfo kCocos = {
+const common::ZoneInfo kZoneCocos = {
   "Indian/Cocos" /*name*/,
   kZoneEntryCocos /*entries*/,
   sizeof(kZoneEntryCocos)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4147,7 +4147,7 @@ static const common::ZoneEntry kZoneEntryKerguelen[] = {
 
 };
 
-const common::ZoneInfo kKerguelen = {
+const common::ZoneInfo kZoneKerguelen = {
   "Indian/Kerguelen" /*name*/,
   kZoneEntryKerguelen /*entries*/,
   sizeof(kZoneEntryKerguelen)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4168,7 +4168,7 @@ static const common::ZoneEntry kZoneEntryMahe[] = {
 
 };
 
-const common::ZoneInfo kMahe = {
+const common::ZoneInfo kZoneMahe = {
   "Indian/Mahe" /*name*/,
   kZoneEntryMahe /*entries*/,
   sizeof(kZoneEntryMahe)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4189,7 +4189,7 @@ static const common::ZoneEntry kZoneEntryMaldives[] = {
 
 };
 
-const common::ZoneInfo kMaldives = {
+const common::ZoneInfo kZoneMaldives = {
   "Indian/Maldives" /*name*/,
   kZoneEntryMaldives /*entries*/,
   sizeof(kZoneEntryMaldives)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4210,7 +4210,7 @@ static const common::ZoneEntry kZoneEntryMauritius[] = {
 
 };
 
-const common::ZoneInfo kMauritius = {
+const common::ZoneInfo kZoneMauritius = {
   "Indian/Mauritius" /*name*/,
   kZoneEntryMauritius /*entries*/,
   sizeof(kZoneEntryMauritius)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4231,7 +4231,7 @@ static const common::ZoneEntry kZoneEntryReunion[] = {
 
 };
 
-const common::ZoneInfo kReunion = {
+const common::ZoneInfo kZoneReunion = {
   "Indian/Reunion" /*name*/,
   kZoneEntryReunion /*entries*/,
   sizeof(kZoneEntryReunion)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4252,7 +4252,7 @@ static const common::ZoneEntry kZoneEntryAuckland[] = {
 
 };
 
-const common::ZoneInfo kAuckland = {
+const common::ZoneInfo kZoneAuckland = {
   "Pacific/Auckland" /*name*/,
   kZoneEntryAuckland /*entries*/,
   sizeof(kZoneEntryAuckland)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4273,7 +4273,7 @@ static const common::ZoneEntry kZoneEntryChuuk[] = {
 
 };
 
-const common::ZoneInfo kChuuk = {
+const common::ZoneInfo kZoneChuuk = {
   "Pacific/Chuuk" /*name*/,
   kZoneEntryChuuk /*entries*/,
   sizeof(kZoneEntryChuuk)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4294,7 +4294,7 @@ static const common::ZoneEntry kZoneEntryEaster[] = {
 
 };
 
-const common::ZoneInfo kEaster = {
+const common::ZoneInfo kZoneEaster = {
   "Pacific/Easter" /*name*/,
   kZoneEntryEaster /*entries*/,
   sizeof(kZoneEntryEaster)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4315,7 +4315,7 @@ static const common::ZoneEntry kZoneEntryEfate[] = {
 
 };
 
-const common::ZoneInfo kEfate = {
+const common::ZoneInfo kZoneEfate = {
   "Pacific/Efate" /*name*/,
   kZoneEntryEfate /*entries*/,
   sizeof(kZoneEntryEfate)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4336,7 +4336,7 @@ static const common::ZoneEntry kZoneEntryEnderbury[] = {
 
 };
 
-const common::ZoneInfo kEnderbury = {
+const common::ZoneInfo kZoneEnderbury = {
   "Pacific/Enderbury" /*name*/,
   kZoneEntryEnderbury /*entries*/,
   sizeof(kZoneEntryEnderbury)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4357,7 +4357,7 @@ static const common::ZoneEntry kZoneEntryFiji[] = {
 
 };
 
-const common::ZoneInfo kFiji = {
+const common::ZoneInfo kZoneFiji = {
   "Pacific/Fiji" /*name*/,
   kZoneEntryFiji /*entries*/,
   sizeof(kZoneEntryFiji)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4378,7 +4378,7 @@ static const common::ZoneEntry kZoneEntryFunafuti[] = {
 
 };
 
-const common::ZoneInfo kFunafuti = {
+const common::ZoneInfo kZoneFunafuti = {
   "Pacific/Funafuti" /*name*/,
   kZoneEntryFunafuti /*entries*/,
   sizeof(kZoneEntryFunafuti)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4399,7 +4399,7 @@ static const common::ZoneEntry kZoneEntryGalapagos[] = {
 
 };
 
-const common::ZoneInfo kGalapagos = {
+const common::ZoneInfo kZoneGalapagos = {
   "Pacific/Galapagos" /*name*/,
   kZoneEntryGalapagos /*entries*/,
   sizeof(kZoneEntryGalapagos)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4420,7 +4420,7 @@ static const common::ZoneEntry kZoneEntryGambier[] = {
 
 };
 
-const common::ZoneInfo kGambier = {
+const common::ZoneInfo kZoneGambier = {
   "Pacific/Gambier" /*name*/,
   kZoneEntryGambier /*entries*/,
   sizeof(kZoneEntryGambier)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4441,7 +4441,7 @@ static const common::ZoneEntry kZoneEntryGuadalcanal[] = {
 
 };
 
-const common::ZoneInfo kGuadalcanal = {
+const common::ZoneInfo kZoneGuadalcanal = {
   "Pacific/Guadalcanal" /*name*/,
   kZoneEntryGuadalcanal /*entries*/,
   sizeof(kZoneEntryGuadalcanal)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4462,7 +4462,7 @@ static const common::ZoneEntry kZoneEntryHonolulu[] = {
 
 };
 
-const common::ZoneInfo kHonolulu = {
+const common::ZoneInfo kZoneHonolulu = {
   "Pacific/Honolulu" /*name*/,
   kZoneEntryHonolulu /*entries*/,
   sizeof(kZoneEntryHonolulu)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4483,7 +4483,7 @@ static const common::ZoneEntry kZoneEntryKiritimati[] = {
 
 };
 
-const common::ZoneInfo kKiritimati = {
+const common::ZoneInfo kZoneKiritimati = {
   "Pacific/Kiritimati" /*name*/,
   kZoneEntryKiritimati /*entries*/,
   sizeof(kZoneEntryKiritimati)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4504,7 +4504,7 @@ static const common::ZoneEntry kZoneEntryKosrae[] = {
 
 };
 
-const common::ZoneInfo kKosrae = {
+const common::ZoneInfo kZoneKosrae = {
   "Pacific/Kosrae" /*name*/,
   kZoneEntryKosrae /*entries*/,
   sizeof(kZoneEntryKosrae)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4525,7 +4525,7 @@ static const common::ZoneEntry kZoneEntryKwajalein[] = {
 
 };
 
-const common::ZoneInfo kKwajalein = {
+const common::ZoneInfo kZoneKwajalein = {
   "Pacific/Kwajalein" /*name*/,
   kZoneEntryKwajalein /*entries*/,
   sizeof(kZoneEntryKwajalein)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4546,7 +4546,7 @@ static const common::ZoneEntry kZoneEntryMajuro[] = {
 
 };
 
-const common::ZoneInfo kMajuro = {
+const common::ZoneInfo kZoneMajuro = {
   "Pacific/Majuro" /*name*/,
   kZoneEntryMajuro /*entries*/,
   sizeof(kZoneEntryMajuro)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4567,7 +4567,7 @@ static const common::ZoneEntry kZoneEntryMarquesas[] = {
 
 };
 
-const common::ZoneInfo kMarquesas = {
+const common::ZoneInfo kZoneMarquesas = {
   "Pacific/Marquesas" /*name*/,
   kZoneEntryMarquesas /*entries*/,
   sizeof(kZoneEntryMarquesas)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4588,7 +4588,7 @@ static const common::ZoneEntry kZoneEntryNauru[] = {
 
 };
 
-const common::ZoneInfo kNauru = {
+const common::ZoneInfo kZoneNauru = {
   "Pacific/Nauru" /*name*/,
   kZoneEntryNauru /*entries*/,
   sizeof(kZoneEntryNauru)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4609,7 +4609,7 @@ static const common::ZoneEntry kZoneEntryNiue[] = {
 
 };
 
-const common::ZoneInfo kNiue = {
+const common::ZoneInfo kZoneNiue = {
   "Pacific/Niue" /*name*/,
   kZoneEntryNiue /*entries*/,
   sizeof(kZoneEntryNiue)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4630,7 +4630,7 @@ static const common::ZoneEntry kZoneEntryNoumea[] = {
 
 };
 
-const common::ZoneInfo kNoumea = {
+const common::ZoneInfo kZoneNoumea = {
   "Pacific/Noumea" /*name*/,
   kZoneEntryNoumea /*entries*/,
   sizeof(kZoneEntryNoumea)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4651,7 +4651,7 @@ static const common::ZoneEntry kZoneEntryPago_Pago[] = {
 
 };
 
-const common::ZoneInfo kPago_Pago = {
+const common::ZoneInfo kZonePago_Pago = {
   "Pacific/Pago_Pago" /*name*/,
   kZoneEntryPago_Pago /*entries*/,
   sizeof(kZoneEntryPago_Pago)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4672,7 +4672,7 @@ static const common::ZoneEntry kZoneEntryPalau[] = {
 
 };
 
-const common::ZoneInfo kPalau = {
+const common::ZoneInfo kZonePalau = {
   "Pacific/Palau" /*name*/,
   kZoneEntryPalau /*entries*/,
   sizeof(kZoneEntryPalau)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4693,7 +4693,7 @@ static const common::ZoneEntry kZoneEntryPitcairn[] = {
 
 };
 
-const common::ZoneInfo kPitcairn = {
+const common::ZoneInfo kZonePitcairn = {
   "Pacific/Pitcairn" /*name*/,
   kZoneEntryPitcairn /*entries*/,
   sizeof(kZoneEntryPitcairn)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4714,7 +4714,7 @@ static const common::ZoneEntry kZoneEntryPohnpei[] = {
 
 };
 
-const common::ZoneInfo kPohnpei = {
+const common::ZoneInfo kZonePohnpei = {
   "Pacific/Pohnpei" /*name*/,
   kZoneEntryPohnpei /*entries*/,
   sizeof(kZoneEntryPohnpei)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4735,7 +4735,7 @@ static const common::ZoneEntry kZoneEntryPort_Moresby[] = {
 
 };
 
-const common::ZoneInfo kPort_Moresby = {
+const common::ZoneInfo kZonePort_Moresby = {
   "Pacific/Port_Moresby" /*name*/,
   kZoneEntryPort_Moresby /*entries*/,
   sizeof(kZoneEntryPort_Moresby)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4756,7 +4756,7 @@ static const common::ZoneEntry kZoneEntryRarotonga[] = {
 
 };
 
-const common::ZoneInfo kRarotonga = {
+const common::ZoneInfo kZoneRarotonga = {
   "Pacific/Rarotonga" /*name*/,
   kZoneEntryRarotonga /*entries*/,
   sizeof(kZoneEntryRarotonga)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4777,7 +4777,7 @@ static const common::ZoneEntry kZoneEntryTahiti[] = {
 
 };
 
-const common::ZoneInfo kTahiti = {
+const common::ZoneInfo kZoneTahiti = {
   "Pacific/Tahiti" /*name*/,
   kZoneEntryTahiti /*entries*/,
   sizeof(kZoneEntryTahiti)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4798,7 +4798,7 @@ static const common::ZoneEntry kZoneEntryTarawa[] = {
 
 };
 
-const common::ZoneInfo kTarawa = {
+const common::ZoneInfo kZoneTarawa = {
   "Pacific/Tarawa" /*name*/,
   kZoneEntryTarawa /*entries*/,
   sizeof(kZoneEntryTarawa)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4819,7 +4819,7 @@ static const common::ZoneEntry kZoneEntryTongatapu[] = {
 
 };
 
-const common::ZoneInfo kTongatapu = {
+const common::ZoneInfo kZoneTongatapu = {
   "Pacific/Tongatapu" /*name*/,
   kZoneEntryTongatapu /*entries*/,
   sizeof(kZoneEntryTongatapu)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4840,7 +4840,7 @@ static const common::ZoneEntry kZoneEntryWake[] = {
 
 };
 
-const common::ZoneInfo kWake = {
+const common::ZoneInfo kZoneWake = {
   "Pacific/Wake" /*name*/,
   kZoneEntryWake /*entries*/,
   sizeof(kZoneEntryWake)/sizeof(common::ZoneEntry) /*numEntries*/,
@@ -4861,7 +4861,7 @@ static const common::ZoneEntry kZoneEntryWallis[] = {
 
 };
 
-const common::ZoneInfo kWallis = {
+const common::ZoneInfo kZoneWallis = {
   "Pacific/Wallis" /*name*/,
   kZoneEntryWallis /*entries*/,
   sizeof(kZoneEntryWallis)/sizeof(common::ZoneEntry) /*numEntries*/,
