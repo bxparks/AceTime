@@ -26,7 +26,8 @@ class Transformer:
             inMonth: (int) month index (1-12)
             onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
             onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
-            atHour: (int) hour to transition to and from DST
+            atHour: (string) hour at which to transition to and from DST
+            atMinute: (int) atHour as minutes since 00:00
             atHourModifier: (char) 's', 'w', 'g', 'u', 'z'
             deltaMinutes: (int) offset minutes from Standard time
             letter: (char) 'D', 'S', '-'
@@ -54,10 +55,10 @@ class Transformer:
         zones_map = self.zones_map
         rules_map = self.rules_map
 
+        zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.remove_zones_with_until_month(zones_map)
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
         zones_map = self.remove_zones_without_slash(zones_map)
-        zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.create_zones_with_offset_code(zones_map)
 
         (zones_map, rules_map) = self.mark_rules_used_by_zones(
@@ -65,7 +66,10 @@ class Transformer:
         rules_map = self.remove_unused_rules(rules_map)
 
         rules_map = self.remove_rules_long_dst_letter(rules_map)
+        rules_map = self.remove_rules_invalid_at_hour(rules_map)
         rules_map = self.create_rules_with_delta_code(rules_map)
+
+        zones_map = self.remove_zones_without_rules(zones_map, rules_map)
 
         self.rules_map = rules_map
         self.zones_map = zones_map
@@ -113,26 +117,51 @@ class Transformer:
         """Return a new map which filters out rules with long DST letter.
         """
         results = {}
+        count = 0
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
                 if len(rule['letter']) > 1:
                     valid = False
+                    count += 1
                     break
             if valid:
                 results[name] = rules
+        logging.info('Removed %s rules with long DST letter' % count)
+        return results
+
+    @staticmethod
+    def remove_rules_invalid_at_hour(rules_map):
+        """Remove rules whose atHour occurs off hour.
+        """
+        results = {}
+        count = 0
+        for name, rules in rules_map.items():
+            valid = True
+            for rule in rules:
+                if rule['atMinute'] % 60 != 0:
+                    valid = False
+                    count += 1
+                    break
+            if valid:
+                results[name] = rules
+        logging.info('Removed %s rules with non-integral atHour' % count)
         return results
 
     @staticmethod
     def remove_unused_rules(rules_map):
         results = {}
+        count = 0
         for name, rules in rules_map.items():
             used_rules = []
             for rule in rules:
                 if 'used' in rule:
                     used_rules.append(rule)
+                else:
+                    count += 1
             if used_rules:
                 results[name] = used_rules
+        logging.info('Removed %s unused rules' % count)
         return results
 
     @staticmethod
@@ -141,8 +170,9 @@ class Transformer:
             for rule in rules:
                 delta_minutes = rule['deltaMinutes']
                 if delta_minutes % 15 != 0:
-                    logging.error("Rule %s: delta minutes not multiple of 15: %s"
-                            % (name, delta_minutes))
+                    logging.error(
+                        "Rule %s: delta minutes not multiple of 15: %s"
+                        % (name, delta_minutes))
                 delta_code = int(delta_minutes / 15)
                 rule['deltaCode'] = delta_code
         return rules_map
@@ -152,28 +182,46 @@ class Transformer:
         """
         """
         results = {}
+        count = 0
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
                 if zone['untilMonth']:
                     valid = False
+                    count += 1
                     break
             if valid:
                 results[name] = zones
+        logging.info("Removed %s zones with unsupported untilMonth" % count)
         return results
 
     @staticmethod
     def remove_zones_with_offset_as_rules(zones_map):
         results = {}
+        count = 0
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
                 rule_name = zone['rules']
                 if rule_name.isdigit():
                     valid = False
+                    count += 1
                     break
             if valid:
                results[name] = zones
+        logging.info("Removed %s zones with offset in 'rules' field" % count)
+        return results
+
+    @staticmethod
+    def remove_zones_without_slash(zones_map):
+        results = {}
+        count = 0
+        for name, zones in zones_map.items():
+            if name.rfind('/') >= 0:
+               results[name] = zones
+            else:
+                count += 1
+        logging.info("Removed %s zones without '/' in name" % count)
         return results
 
     @staticmethod
@@ -181,21 +229,18 @@ class Transformer:
         """Remove zone entries which are too old, i.e. before 2000.
         """
         results = {}
+        count = 0
         for name, zones in zones_map.items():
             keep_zones = []
             for zone in zones:
                 if zone['untilYear'] >= 2000:
                     keep_zones.append(zone)
+                else:
+                    count += 1
             if keep_zones:
                 results[name] = keep_zones
-        return results
 
-    @staticmethod
-    def remove_zones_without_slash(zones_map):
-        results = {}
-        for name, zones in zones_map.items():
-            if name.rfind('/') >= 0:
-               results[name] = zones
+        logging.info("Removed %s zones entries too old" % count)
         return results
 
     @staticmethod
@@ -204,12 +249,31 @@ class Transformer:
             for zone in zones:
                 offset_minutes = zone['offsetMinutes']
                 if offset_minutes % 15 != 0:
-                    logging.error("Zone %s: offset minutes not multiple of 15: %s"
-                            % (name, offset_minutes))
+                    logging.error(
+                        "Zone %s: offset minutes not multiple of 15: %s"
+                        % (name, offset_minutes))
                 offset_code = int(offset_minutes / 15)
                 zone['offsetCode'] = offset_code
         return zones_map
 
+    @staticmethod
+    def remove_zones_without_rules(zones_map, rules_map):
+        results = {}
+        count = 0
+        for name, zones in zones_map.items():
+            valid = True
+            for zone in zones:
+                rule_name = zone['rules']
+                if rule_name != '-' and rule_name not in rules_map:
+                    valid = False
+                    break
+
+            if valid:
+                results[name] = zones
+            else:
+                count += 1
+        logging.info("Removed %s zones without rules" % count)
+        return results
 
 def short_name(name):
     index = name.rfind('/')

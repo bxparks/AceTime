@@ -251,7 +251,8 @@ def process_rule_line(line):
         inMonth: (int) month index (1-12)
         onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
         onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
-        atHour: (int) hour to transition to and from DST
+        atHour: (string) the time when transition to and from DST happens
+        atMinute: (int) version of atHour in units of 'minutes from 00:00'
         atHourModifier: (char) 's', 'w', 'g', 'u', 'z'
         deltaMinutes: (int) offset code from Standard time
         letter: (char) 'D', 'S', '-'
@@ -272,6 +273,7 @@ def process_rule_line(line):
     in_month = MONTH_TO_MONTH_INDEX[tokens[5]]
     (on_day_of_week, on_day_of_month) = parse_on_day_string(tokens[6])
     (at_hour, at_hour_modifier) = parse_at_hour_string(tokens[7])
+    at_minute = hour_string_to_offset_minutes(at_hour)
     delta_minutes = hour_string_to_offset_minutes(tokens[8])
 
     # Return map corresponding to a ZoneRule instance
@@ -282,6 +284,7 @@ def process_rule_line(line):
         'onDayOfWeek': on_day_of_week,
         'onDayOfMonth': on_day_of_month,
         'atHour': at_hour,
+        'atMinute': at_minute,
         'atHourModifier': at_hour_modifier,
         'deltaMinutes': delta_minutes, # need conversion to deltaCode
         'letter': tokens[9],
@@ -313,6 +316,8 @@ def parse_on_day_string(on_string):
 
 
 def parse_at_hour_string(at_string):
+    """Parses the '2:00s' string into '2:00' and 's'.
+    """
     modifier = at_string[-1:]
     if modifier.isdigit():
         modifier = 'w'
@@ -394,6 +399,8 @@ def process_zone_line(line):
 
 
 def hour_string_to_offset_minutes(hs):
+    """Converts the '+/-hh:mm' string into +/- minute offset.
+    """
     i = 0
     sign = 1
     if hs[i] == '-':
