@@ -10,26 +10,38 @@ set -eu
 DIRNAME=$(dirname $0)
 
 # Point to the github repository.
-DB_DIR=$HOME/dev/tz
+INPUT_DIR=$HOME/dev/tz
+
+# Output directory points to AceTime/src/ace_time/zonedb
+OUTPUT_DIR=../src/ace_time/zonedb
 
 function usage() {
-    echo 'Usage: process.sh version'
+    echo 'Usage: process.sh [--code] [--tag tag] [python_flags...]'
     exit 1
 }
 
+pass_thru_flags=''
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --code) output_option="--output_dir $OUTPUT_DIR" ;;
+        --tag) shift; tag=$1 ;;
+        --help|-h) usage ;;
+        -*) break ;;
+        *) break ;;
+    esac
+    shift
+done
 
-if [[ $# -ne 1 ]]; then
-    usage
-fi
-tz_version=$1
-shift
-
-pushd $DB_DIR
-git co $tz_version
+pushd $INPUT_DIR
+git co $tag
 popd
 
-$DIRNAME/process.py --input_dir $DB_DIR --tz_version $tz_version "$@"
+$DIRNAME/process.py \
+    --input_dir $INPUT_DIR \
+    --tz_version $tag \
+    $output_option \
+    "$@"
 
-pushd $DB_DIR
+pushd $INPUT_DIR
 git co master
 popd
