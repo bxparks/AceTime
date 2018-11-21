@@ -16,11 +16,13 @@ INPUT_DIR=$HOME/dev/tz
 OUTPUT_DIR=../src/ace_time/zonedb
 
 function usage() {
-    echo 'Usage: process.sh [--code] [--tag tag] [python_flags...]'
+    echo 'Usage: process.sh --tag tag [--code] [python_flags...]'
     exit 1
 }
 
 pass_thru_flags=''
+tag=''
+output_option=''
 while [[ $# -gt 0 ]]; do
     case $1 in
         --code) output_option="--output_dir $OUTPUT_DIR" ;;
@@ -31,6 +33,9 @@ while [[ $# -gt 0 ]]; do
     esac
     shift
 done
+if [[ "$tag" == '' ]]; then
+    usage
+fi
 
 pushd $INPUT_DIR
 git co $tag
