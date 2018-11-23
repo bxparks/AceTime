@@ -50,7 +50,10 @@ extern const common::ZonePolicy kPolicy{policyName};
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/{tz_version}
 //
-// numPolicies: {numPolicies}; numRules: {numRules}
+// Policy count: {numPolicies}
+// Rule count: {numRules}
+// Memory (8-bit): {memory8}
+// Memory (32-bit): {memory32}
 //
 // DO NOT EDIT
 
@@ -67,7 +70,10 @@ namespace zonedb {{
 
     ZONE_POLICIES_CPP_POLICY_ITEM = """\
 //---------------------------------------------------------------------------
-// Policy: {policyName}; numRules: {numRules}
+// Policy name: {policyName}
+// Rule count: {numRules}
+// Memory (8-bit): {memory8}
+// Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRules{policyName}[] = {{
@@ -135,7 +141,10 @@ extern const common::ZoneInfo kZone{infoShortName};
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/{tz_version}
 //
-// numInfos: {numInfos}; numEntries: {numEntries}
+// Info count: {numInfos}
+// Entry count: {numEntries}
+// Memory (8-bit): {memory8}
+// Memory (32-bit): {memory32}
 //
 // DO NOT EDIT
 
@@ -154,7 +163,10 @@ namespace zonedb {{
 
     ZONE_INFOS_CPP_INFO_ITEM = """\
 //---------------------------------------------------------------------------
-// Zone: {infoFullName}; numEntries: {numEntries}
+// Zone name: {infoFullName}
+// Entry count: {numEntries}
+// Memory (8-bit): {memory8}
+// Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntry{infoShortName}[] = {{
@@ -183,6 +195,15 @@ const common::ZoneInfo kZone{infoShortName} = {{
     ZONE_INFOS_CPP_FILE_NAME = 'zone_infos.cpp'
     ZONE_POLICIES_H_FILE_NAME = 'zone_policies.h'
     ZONE_POLICIES_CPP_FILE_NAME = 'zone_policies.cpp'
+
+    SIZEOF_ZONE_ENTRY_8 = 6
+    SIZEOF_ZONE_ENTRY_32 = 10
+    SIZEOF_ZONE_INFO_8 = 5
+    SIZEOF_ZONE_INFO_32 = 9
+    SIZEOF_ZONE_RULE_8 = 11
+    SIZEOF_ZONE_RULE_32 = 11
+    SIZEOF_ZONE_POLICY_8 = 3
+    SIZEOF_ZONE_POLICY_32 = 5
 
     def __init__(self, invocation, tz_version, zones, rules):
         self.invocation = invocation
@@ -234,11 +255,19 @@ const common::ZoneInfo kZone{infoShortName} = {{
             policy_items += self.generate_policy_item(name, rules)
             num_rules += len(rules)
 
+        num_policies = len(self.rules)
+        memory8 = (num_policies * self.SIZEOF_ZONE_POLICY_8 +
+            num_rules * self.SIZEOF_ZONE_RULE_8)
+        memory32 = (num_policies * self.SIZEOF_ZONE_POLICY_32 +
+            num_rules * self.SIZEOF_ZONE_RULE_32)
+
         return self.ZONE_POLICIES_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            numPolicies=len(self.rules),
+            numPolicies=num_policies,
             numRules=num_rules,
+            memory8=memory8,
+            memory32=memory32,
             policyItems=policy_items
         )
 
@@ -258,9 +287,17 @@ const common::ZoneInfo kZone{infoShortName} = {{
                 deltaCode=rule['deltaCode'],
                 letter=rule['letter'])
 
+        num_rules = len(rules)
+        memory8 = (1 * self.SIZEOF_ZONE_POLICY_8 +
+            num_rules * self.SIZEOF_ZONE_RULE_8)
+        memory32 = (1 * self.SIZEOF_ZONE_POLICY_32 +
+            num_rules * self.SIZEOF_ZONE_RULE_32)
+
         return self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
             policyName=normalize_name(name),
-            numRules=len(rules),
+            numRules=num_rules,
+            memory8=memory8,
+            memory32=memory32,
             ruleItems=rule_items)
             
     def generate_infos_h(self):
@@ -278,44 +315,68 @@ const common::ZoneInfo kZone{infoShortName} = {{
     def generate_infos_cpp(self):
         info_items = ''
         num_entries = 0
-        for name, zones in sorted(self.zones.items()):
-            info_items += self.generate_entry_item(name, zones)
-            num_entries += len(zones)
+        string_length = 0
+        for name, entries in sorted(self.zones.items()):
+            (info_item, format_length) = self.generate_entry_item(name, entries)
+            info_items += info_item
+            string_length += format_length 
+            num_entries += len(entries)
+
+        num_infos = len(self.zones)
+        memory8 = (string_length + num_entries * self.SIZEOF_ZONE_ENTRY_8 +
+            num_infos * self.SIZEOF_ZONE_INFO_8)
+        memory32 = (string_length + num_entries * self.SIZEOF_ZONE_ENTRY_32 +
+            num_infos *self.SIZEOF_ZONE_INFO_32)
 
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            numInfos=len(self.zones),
+            numInfos=num_infos,
             numEntries=num_entries,
+            memory8=memory8,
+            memory32=memory32,
             infoItems=info_items)
 
-    def generate_entry_item(self, name, zones):
+    def generate_entry_item(self, name, entries):
         entry_items = ''
-        for zone in zones:
-            rules = zone['rules']
+        string_length = 0
+        for entry in entries:
+            rules = entry['rules']
             if rules == '-':
                 zonePolicy = 'nullptr'
             else:
                 zonePolicy = '&kPolicy%s' % rules
 
-            until_year = zone['untilYear']
+            until_year = entry['untilYear']
             if until_year == 9999:
                 until_year = 255
             else:
                 until_year -= 2000
 
+            string_length += len(entry['format']) + 1
+
             entry_items += self.ZONE_INFOS_CPP_ENTRY_ITEM.format(
-                rawLine=normalize_raw(zone['rawLine']),
-                offsetCode=zone['offsetCode'],
+                rawLine=normalize_raw(entry['rawLine']),
+                offsetCode=entry['offsetCode'],
                 zonePolicy=zonePolicy,
-                format=zone['format'],
+                format=entry['format'],
                 untilYear=until_year)
 
-        return self.ZONE_INFOS_CPP_INFO_ITEM.format(
+        string_length += len(name) + 1
+        num_entries = len(entries)
+        memory8 = (string_length + num_entries * self.SIZEOF_ZONE_ENTRY_8 +
+            1 * self.SIZEOF_ZONE_INFO_8)
+        memory32 = (string_length + num_entries * self.SIZEOF_ZONE_ENTRY_32 +
+            1 *self.SIZEOF_ZONE_INFO_32)
+
+        info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
             infoFullName=normalize_name(name),
             infoShortName=normalize_name(short_name(name)),
-            numEntries=len(zones),
+            numEntries=num_entries,
+            memory8=memory8,
+            memory32=memory32,
             entryItems=entry_items)
+        return (info_item, string_length)
 
 def normalize_name(name):
     """Replace hyphen with underscore so that the C++ symbol can compile.

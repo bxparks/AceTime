@@ -5,7 +5,10 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018g
 //
-// numInfos: 228; numEntries: 237
+// Info count: 228
+// Entry count: 237
+// Memory (8-bit): 7400
+// Memory (32-bit): 9260
 //
 // DO NOT EDIT
 
@@ -17,7 +20,10 @@ namespace ace_time {
 namespace zonedb {
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Abidjan; numEntries: 1
+// Zone name: Africa/Abidjan
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAbidjan[] = {
@@ -38,7 +44,10 @@ const common::ZoneInfo kZoneAbidjan = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Accra; numEntries: 1
+// Zone name: Africa/Accra
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAccra[] = {
@@ -59,7 +68,10 @@ const common::ZoneInfo kZoneAccra = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Algiers; numEntries: 1
+// Zone name: Africa/Algiers
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAlgiers[] = {
@@ -80,7 +92,10 @@ const common::ZoneInfo kZoneAlgiers = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Bissau; numEntries: 1
+// Zone name: Africa/Bissau
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBissau[] = {
@@ -101,7 +116,10 @@ const common::ZoneInfo kZoneBissau = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Cairo; numEntries: 1
+// Zone name: Africa/Cairo
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCairo[] = {
@@ -122,7 +140,10 @@ const common::ZoneInfo kZoneCairo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Ceuta; numEntries: 1
+// Zone name: Africa/Ceuta
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCeuta[] = {
@@ -143,7 +164,10 @@ const common::ZoneInfo kZoneCeuta = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Johannesburg; numEntries: 1
+// Zone name: Africa/Johannesburg
+// Entry count: 1
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJohannesburg[] = {
@@ -164,7 +188,10 @@ const common::ZoneInfo kZoneJohannesburg = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Lagos; numEntries: 1
+// Zone name: Africa/Lagos
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLagos[] = {
@@ -185,7 +212,10 @@ const common::ZoneInfo kZoneLagos = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Maputo; numEntries: 1
+// Zone name: Africa/Maputo
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMaputo[] = {
@@ -206,7 +236,10 @@ const common::ZoneInfo kZoneMaputo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Monrovia; numEntries: 1
+// Zone name: Africa/Monrovia
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMonrovia[] = {
@@ -227,7 +260,10 @@ const common::ZoneInfo kZoneMonrovia = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Nairobi; numEntries: 1
+// Zone name: Africa/Nairobi
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNairobi[] = {
@@ -248,7 +284,10 @@ const common::ZoneInfo kZoneNairobi = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Ndjamena; numEntries: 1
+// Zone name: Africa/Ndjamena
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNdjamena[] = {
@@ -269,7 +308,10 @@ const common::ZoneInfo kZoneNdjamena = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Africa/Tunis; numEntries: 1
+// Zone name: Africa/Tunis
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTunis[] = {
@@ -290,7 +332,10 @@ const common::ZoneInfo kZoneTunis = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Adak; numEntries: 1
+// Zone name: America/Adak
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAdak[] = {
@@ -311,7 +356,10 @@ const common::ZoneInfo kZoneAdak = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Anchorage; numEntries: 1
+// Zone name: America/Anchorage
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAnchorage[] = {
@@ -332,7 +380,10 @@ const common::ZoneInfo kZoneAnchorage = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Asuncion; numEntries: 1
+// Zone name: America/Asuncion
+// Entry count: 1
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAsuncion[] = {
@@ -353,7 +404,10 @@ const common::ZoneInfo kZoneAsuncion = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Atikokan; numEntries: 1
+// Zone name: America/Atikokan
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAtikokan[] = {
@@ -374,7 +428,10 @@ const common::ZoneInfo kZoneAtikokan = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Barbados; numEntries: 1
+// Zone name: America/Barbados
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBarbados[] = {
@@ -395,7 +452,10 @@ const common::ZoneInfo kZoneBarbados = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Belem; numEntries: 1
+// Zone name: America/Belem
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBelem[] = {
@@ -416,7 +476,10 @@ const common::ZoneInfo kZoneBelem = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Blanc_Sablon; numEntries: 1
+// Zone name: America/Blanc_Sablon
+// Entry count: 1
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBlanc_Sablon[] = {
@@ -437,7 +500,10 @@ const common::ZoneInfo kZoneBlanc_Sablon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Bogota; numEntries: 1
+// Zone name: America/Bogota
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBogota[] = {
@@ -458,7 +524,10 @@ const common::ZoneInfo kZoneBogota = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Boise; numEntries: 1
+// Zone name: America/Boise
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBoise[] = {
@@ -479,7 +548,10 @@ const common::ZoneInfo kZoneBoise = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Campo_Grande; numEntries: 1
+// Zone name: America/Campo_Grande
+// Entry count: 1
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCampo_Grande[] = {
@@ -500,7 +572,10 @@ const common::ZoneInfo kZoneCampo_Grande = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Cayenne; numEntries: 1
+// Zone name: America/Cayenne
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCayenne[] = {
@@ -521,7 +596,10 @@ const common::ZoneInfo kZoneCayenne = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Chicago; numEntries: 1
+// Zone name: America/Chicago
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChicago[] = {
@@ -542,7 +620,10 @@ const common::ZoneInfo kZoneChicago = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Chihuahua; numEntries: 1
+// Zone name: America/Chihuahua
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChihuahua[] = {
@@ -563,7 +644,10 @@ const common::ZoneInfo kZoneChihuahua = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Costa_Rica; numEntries: 1
+// Zone name: America/Costa_Rica
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCosta_Rica[] = {
@@ -584,7 +668,10 @@ const common::ZoneInfo kZoneCosta_Rica = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Creston; numEntries: 1
+// Zone name: America/Creston
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCreston[] = {
@@ -605,7 +692,10 @@ const common::ZoneInfo kZoneCreston = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Curacao; numEntries: 1
+// Zone name: America/Curacao
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCuracao[] = {
@@ -626,7 +716,10 @@ const common::ZoneInfo kZoneCuracao = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Danmarkshavn; numEntries: 1
+// Zone name: America/Danmarkshavn
+// Entry count: 1
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDanmarkshavn[] = {
@@ -647,7 +740,10 @@ const common::ZoneInfo kZoneDanmarkshavn = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Dawson; numEntries: 1
+// Zone name: America/Dawson
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDawson[] = {
@@ -668,7 +764,10 @@ const common::ZoneInfo kZoneDawson = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Dawson_Creek; numEntries: 1
+// Zone name: America/Dawson_Creek
+// Entry count: 1
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDawson_Creek[] = {
@@ -689,7 +788,10 @@ const common::ZoneInfo kZoneDawson_Creek = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Denver; numEntries: 1
+// Zone name: America/Denver
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDenver[] = {
@@ -710,7 +812,10 @@ const common::ZoneInfo kZoneDenver = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Detroit; numEntries: 1
+// Zone name: America/Detroit
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDetroit[] = {
@@ -731,7 +836,10 @@ const common::ZoneInfo kZoneDetroit = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Edmonton; numEntries: 1
+// Zone name: America/Edmonton
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEdmonton[] = {
@@ -752,7 +860,10 @@ const common::ZoneInfo kZoneEdmonton = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/El_Salvador; numEntries: 1
+// Zone name: America/El_Salvador
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEl_Salvador[] = {
@@ -773,7 +884,10 @@ const common::ZoneInfo kZoneEl_Salvador = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Glace_Bay; numEntries: 1
+// Zone name: America/Glace_Bay
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGlace_Bay[] = {
@@ -794,7 +908,10 @@ const common::ZoneInfo kZoneGlace_Bay = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Godthab; numEntries: 1
+// Zone name: America/Godthab
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGodthab[] = {
@@ -815,7 +932,10 @@ const common::ZoneInfo kZoneGodthab = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Guatemala; numEntries: 1
+// Zone name: America/Guatemala
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGuatemala[] = {
@@ -836,7 +956,10 @@ const common::ZoneInfo kZoneGuatemala = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Guayaquil; numEntries: 1
+// Zone name: America/Guayaquil
+// Entry count: 1
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGuayaquil[] = {
@@ -857,7 +980,10 @@ const common::ZoneInfo kZoneGuayaquil = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Guyana; numEntries: 1
+// Zone name: America/Guyana
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGuyana[] = {
@@ -878,7 +1004,10 @@ const common::ZoneInfo kZoneGuyana = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Halifax; numEntries: 1
+// Zone name: America/Halifax
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHalifax[] = {
@@ -899,7 +1028,10 @@ const common::ZoneInfo kZoneHalifax = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Havana; numEntries: 1
+// Zone name: America/Havana
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHavana[] = {
@@ -920,7 +1052,10 @@ const common::ZoneInfo kZoneHavana = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Hermosillo; numEntries: 1
+// Zone name: America/Hermosillo
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHermosillo[] = {
@@ -941,7 +1076,10 @@ const common::ZoneInfo kZoneHermosillo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Indiana/Indianapolis; numEntries: 2
+// Zone name: America/Indiana/Indianapolis
+// Entry count: 2
+// Memory (8-bit): 54
+// Memory (32-bit): 66
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryIndianapolis[] = {
@@ -969,7 +1107,10 @@ const common::ZoneInfo kZoneIndianapolis = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Indiana/Marengo; numEntries: 2
+// Zone name: America/Indiana/Marengo
+// Entry count: 2
+// Memory (8-bit): 49
+// Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMarengo[] = {
@@ -997,7 +1138,10 @@ const common::ZoneInfo kZoneMarengo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Indiana/Vevay; numEntries: 2
+// Zone name: America/Indiana/Vevay
+// Entry count: 2
+// Memory (8-bit): 47
+// Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryVevay[] = {
@@ -1025,7 +1169,10 @@ const common::ZoneInfo kZoneVevay = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Inuvik; numEntries: 1
+// Zone name: America/Inuvik
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryInuvik[] = {
@@ -1046,7 +1193,10 @@ const common::ZoneInfo kZoneInuvik = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Jamaica; numEntries: 1
+// Zone name: America/Jamaica
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJamaica[] = {
@@ -1067,7 +1217,10 @@ const common::ZoneInfo kZoneJamaica = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Juneau; numEntries: 1
+// Zone name: America/Juneau
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJuneau[] = {
@@ -1088,7 +1241,10 @@ const common::ZoneInfo kZoneJuneau = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Kentucky/Louisville; numEntries: 1
+// Zone name: America/Kentucky/Louisville
+// Entry count: 1
+// Memory (8-bit): 43
+// Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLouisville[] = {
@@ -1109,7 +1265,10 @@ const common::ZoneInfo kZoneLouisville = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/La_Paz; numEntries: 1
+// Zone name: America/La_Paz
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLa_Paz[] = {
@@ -1130,7 +1289,10 @@ const common::ZoneInfo kZoneLa_Paz = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Lima; numEntries: 1
+// Zone name: America/Lima
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLima[] = {
@@ -1151,7 +1313,10 @@ const common::ZoneInfo kZoneLima = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Los_Angeles; numEntries: 1
+// Zone name: America/Los_Angeles
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLos_Angeles[] = {
@@ -1172,7 +1337,10 @@ const common::ZoneInfo kZoneLos_Angeles = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Managua; numEntries: 1
+// Zone name: America/Managua
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryManagua[] = {
@@ -1193,7 +1361,10 @@ const common::ZoneInfo kZoneManagua = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Manaus; numEntries: 1
+// Zone name: America/Manaus
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryManaus[] = {
@@ -1214,7 +1385,10 @@ const common::ZoneInfo kZoneManaus = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Martinique; numEntries: 1
+// Zone name: America/Martinique
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMartinique[] = {
@@ -1235,7 +1409,10 @@ const common::ZoneInfo kZoneMartinique = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Matamoros; numEntries: 2
+// Zone name: America/Matamoros
+// Entry count: 2
+// Memory (8-bit): 43
+// Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMatamoros[] = {
@@ -1263,7 +1440,10 @@ const common::ZoneInfo kZoneMatamoros = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Mazatlan; numEntries: 1
+// Zone name: America/Mazatlan
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMazatlan[] = {
@@ -1284,7 +1464,10 @@ const common::ZoneInfo kZoneMazatlan = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Menominee; numEntries: 1
+// Zone name: America/Menominee
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMenominee[] = {
@@ -1305,7 +1488,10 @@ const common::ZoneInfo kZoneMenominee = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Merida; numEntries: 1
+// Zone name: America/Merida
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMerida[] = {
@@ -1326,7 +1512,10 @@ const common::ZoneInfo kZoneMerida = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Miquelon; numEntries: 1
+// Zone name: America/Miquelon
+// Entry count: 1
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMiquelon[] = {
@@ -1347,7 +1536,10 @@ const common::ZoneInfo kZoneMiquelon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Monterrey; numEntries: 1
+// Zone name: America/Monterrey
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMonterrey[] = {
@@ -1368,7 +1560,10 @@ const common::ZoneInfo kZoneMonterrey = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Montevideo; numEntries: 1
+// Zone name: America/Montevideo
+// Entry count: 1
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMontevideo[] = {
@@ -1389,7 +1584,10 @@ const common::ZoneInfo kZoneMontevideo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Nassau; numEntries: 1
+// Zone name: America/Nassau
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNassau[] = {
@@ -1410,7 +1608,10 @@ const common::ZoneInfo kZoneNassau = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/New_York; numEntries: 1
+// Zone name: America/New_York
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNew_York[] = {
@@ -1431,7 +1632,10 @@ const common::ZoneInfo kZoneNew_York = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Nipigon; numEntries: 1
+// Zone name: America/Nipigon
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNipigon[] = {
@@ -1452,7 +1656,10 @@ const common::ZoneInfo kZoneNipigon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Nome; numEntries: 1
+// Zone name: America/Nome
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNome[] = {
@@ -1473,7 +1680,10 @@ const common::ZoneInfo kZoneNome = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/North_Dakota/Center; numEntries: 1
+// Zone name: America/North_Dakota/Center
+// Entry count: 1
+// Memory (8-bit): 43
+// Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCenter[] = {
@@ -1494,7 +1704,10 @@ const common::ZoneInfo kZoneCenter = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Ojinaga; numEntries: 2
+// Zone name: America/Ojinaga
+// Entry count: 2
+// Memory (8-bit): 41
+// Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryOjinaga[] = {
@@ -1522,7 +1735,10 @@ const common::ZoneInfo kZoneOjinaga = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Panama; numEntries: 1
+// Zone name: America/Panama
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPanama[] = {
@@ -1543,7 +1759,10 @@ const common::ZoneInfo kZonePanama = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Paramaribo; numEntries: 1
+// Zone name: America/Paramaribo
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryParamaribo[] = {
@@ -1564,7 +1783,10 @@ const common::ZoneInfo kZoneParamaribo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Phoenix; numEntries: 1
+// Zone name: America/Phoenix
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPhoenix[] = {
@@ -1585,7 +1807,10 @@ const common::ZoneInfo kZonePhoenix = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Port_au_Prince; numEntries: 1
+// Zone name: America/Port_au_Prince
+// Entry count: 1
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPort_au_Prince[] = {
@@ -1606,7 +1831,10 @@ const common::ZoneInfo kZonePort_au_Prince = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Port_of_Spain; numEntries: 1
+// Zone name: America/Port_of_Spain
+// Entry count: 1
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPort_of_Spain[] = {
@@ -1627,7 +1855,10 @@ const common::ZoneInfo kZonePort_of_Spain = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Porto_Velho; numEntries: 1
+// Zone name: America/Porto_Velho
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPorto_Velho[] = {
@@ -1648,7 +1879,10 @@ const common::ZoneInfo kZonePorto_Velho = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Puerto_Rico; numEntries: 1
+// Zone name: America/Puerto_Rico
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPuerto_Rico[] = {
@@ -1669,7 +1903,10 @@ const common::ZoneInfo kZonePuerto_Rico = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Rainy_River; numEntries: 1
+// Zone name: America/Rainy_River
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRainy_River[] = {
@@ -1690,7 +1927,10 @@ const common::ZoneInfo kZoneRainy_River = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Regina; numEntries: 1
+// Zone name: America/Regina
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRegina[] = {
@@ -1711,7 +1951,10 @@ const common::ZoneInfo kZoneRegina = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Santiago; numEntries: 1
+// Zone name: America/Santiago
+// Entry count: 1
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySantiago[] = {
@@ -1732,7 +1975,10 @@ const common::ZoneInfo kZoneSantiago = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Sao_Paulo; numEntries: 1
+// Zone name: America/Sao_Paulo
+// Entry count: 1
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySao_Paulo[] = {
@@ -1753,7 +1999,10 @@ const common::ZoneInfo kZoneSao_Paulo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Scoresbysund; numEntries: 1
+// Zone name: America/Scoresbysund
+// Entry count: 1
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryScoresbysund[] = {
@@ -1774,7 +2023,10 @@ const common::ZoneInfo kZoneScoresbysund = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Sitka; numEntries: 1
+// Zone name: America/Sitka
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySitka[] = {
@@ -1795,7 +2047,10 @@ const common::ZoneInfo kZoneSitka = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Swift_Current; numEntries: 1
+// Zone name: America/Swift_Current
+// Entry count: 1
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySwift_Current[] = {
@@ -1816,7 +2071,10 @@ const common::ZoneInfo kZoneSwift_Current = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Tegucigalpa; numEntries: 1
+// Zone name: America/Tegucigalpa
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTegucigalpa[] = {
@@ -1837,7 +2095,10 @@ const common::ZoneInfo kZoneTegucigalpa = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Thule; numEntries: 1
+// Zone name: America/Thule
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryThule[] = {
@@ -1858,7 +2119,10 @@ const common::ZoneInfo kZoneThule = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Thunder_Bay; numEntries: 1
+// Zone name: America/Thunder_Bay
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryThunder_Bay[] = {
@@ -1879,7 +2143,10 @@ const common::ZoneInfo kZoneThunder_Bay = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Toronto; numEntries: 1
+// Zone name: America/Toronto
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryToronto[] = {
@@ -1900,7 +2167,10 @@ const common::ZoneInfo kZoneToronto = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Vancouver; numEntries: 1
+// Zone name: America/Vancouver
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryVancouver[] = {
@@ -1921,7 +2191,10 @@ const common::ZoneInfo kZoneVancouver = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Whitehorse; numEntries: 1
+// Zone name: America/Whitehorse
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryWhitehorse[] = {
@@ -1942,7 +2215,10 @@ const common::ZoneInfo kZoneWhitehorse = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Winnipeg; numEntries: 2
+// Zone name: America/Winnipeg
+// Entry count: 2
+// Memory (8-bit): 42
+// Memory (32-bit): 54
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryWinnipeg[] = {
@@ -1970,7 +2246,10 @@ const common::ZoneInfo kZoneWinnipeg = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Yakutat; numEntries: 1
+// Zone name: America/Yakutat
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryYakutat[] = {
@@ -1991,7 +2270,10 @@ const common::ZoneInfo kZoneYakutat = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: America/Yellowknife; numEntries: 1
+// Zone name: America/Yellowknife
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryYellowknife[] = {
@@ -2012,7 +2294,10 @@ const common::ZoneInfo kZoneYellowknife = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Antarctica/DumontDUrville; numEntries: 1
+// Zone name: Antarctica/DumontDUrville
+// Entry count: 1
+// Memory (8-bit): 41
+// Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDumontDUrville[] = {
@@ -2033,7 +2318,10 @@ const common::ZoneInfo kZoneDumontDUrville = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Antarctica/Rothera; numEntries: 1
+// Zone name: Antarctica/Rothera
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRothera[] = {
@@ -2054,7 +2342,10 @@ const common::ZoneInfo kZoneRothera = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Antarctica/Syowa; numEntries: 1
+// Zone name: Antarctica/Syowa
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySyowa[] = {
@@ -2075,7 +2366,10 @@ const common::ZoneInfo kZoneSyowa = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Antarctica/Vostok; numEntries: 1
+// Zone name: Antarctica/Vostok
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryVostok[] = {
@@ -2096,7 +2390,10 @@ const common::ZoneInfo kZoneVostok = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Amman; numEntries: 1
+// Zone name: Asia/Amman
+// Entry count: 1
+// Memory (8-bit): 27
+// Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAmman[] = {
@@ -2117,7 +2414,10 @@ const common::ZoneInfo kZoneAmman = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Ashgabat; numEntries: 1
+// Zone name: Asia/Ashgabat
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAshgabat[] = {
@@ -2138,7 +2438,10 @@ const common::ZoneInfo kZoneAshgabat = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Baghdad; numEntries: 1
+// Zone name: Asia/Baghdad
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBaghdad[] = {
@@ -2159,7 +2462,10 @@ const common::ZoneInfo kZoneBaghdad = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Baku; numEntries: 1
+// Zone name: Asia/Baku
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBaku[] = {
@@ -2180,7 +2486,10 @@ const common::ZoneInfo kZoneBaku = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Bangkok; numEntries: 1
+// Zone name: Asia/Bangkok
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBangkok[] = {
@@ -2201,7 +2510,10 @@ const common::ZoneInfo kZoneBangkok = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Beirut; numEntries: 1
+// Zone name: Asia/Beirut
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBeirut[] = {
@@ -2222,7 +2534,10 @@ const common::ZoneInfo kZoneBeirut = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Brunei; numEntries: 1
+// Zone name: Asia/Brunei
+// Entry count: 1
+// Memory (8-bit): 27
+// Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBrunei[] = {
@@ -2243,7 +2558,10 @@ const common::ZoneInfo kZoneBrunei = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Damascus; numEntries: 1
+// Zone name: Asia/Damascus
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDamascus[] = {
@@ -2264,7 +2582,10 @@ const common::ZoneInfo kZoneDamascus = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Dhaka; numEntries: 2
+// Zone name: Asia/Dhaka
+// Entry count: 2
+// Memory (8-bit): 40
+// Memory (32-bit): 52
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDhaka[] = {
@@ -2292,7 +2613,10 @@ const common::ZoneInfo kZoneDhaka = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Dubai; numEntries: 1
+// Zone name: Asia/Dubai
+// Entry count: 1
+// Memory (8-bit): 26
+// Memory (32-bit): 34
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDubai[] = {
@@ -2313,7 +2637,10 @@ const common::ZoneInfo kZoneDubai = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Dushanbe; numEntries: 1
+// Zone name: Asia/Dushanbe
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDushanbe[] = {
@@ -2334,7 +2661,10 @@ const common::ZoneInfo kZoneDushanbe = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Ho_Chi_Minh; numEntries: 1
+// Zone name: Asia/Ho_Chi_Minh
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHo_Chi_Minh[] = {
@@ -2355,7 +2685,10 @@ const common::ZoneInfo kZoneHo_Chi_Minh = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Hovd; numEntries: 1
+// Zone name: Asia/Hovd
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHovd[] = {
@@ -2376,7 +2709,10 @@ const common::ZoneInfo kZoneHovd = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Jakarta; numEntries: 1
+// Zone name: Asia/Jakarta
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJakarta[] = {
@@ -2397,7 +2733,10 @@ const common::ZoneInfo kZoneJakarta = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Jayapura; numEntries: 1
+// Zone name: Asia/Jayapura
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJayapura[] = {
@@ -2418,7 +2757,10 @@ const common::ZoneInfo kZoneJayapura = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Jerusalem; numEntries: 1
+// Zone name: Asia/Jerusalem
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryJerusalem[] = {
@@ -2439,7 +2781,10 @@ const common::ZoneInfo kZoneJerusalem = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Kabul; numEntries: 1
+// Zone name: Asia/Kabul
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKabul[] = {
@@ -2460,7 +2805,10 @@ const common::ZoneInfo kZoneKabul = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Karachi; numEntries: 1
+// Zone name: Asia/Karachi
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKarachi[] = {
@@ -2481,7 +2829,10 @@ const common::ZoneInfo kZoneKarachi = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Kathmandu; numEntries: 1
+// Zone name: Asia/Kathmandu
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKathmandu[] = {
@@ -2502,7 +2853,10 @@ const common::ZoneInfo kZoneKathmandu = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Kolkata; numEntries: 1
+// Zone name: Asia/Kolkata
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKolkata[] = {
@@ -2523,7 +2877,10 @@ const common::ZoneInfo kZoneKolkata = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Kuala_Lumpur; numEntries: 1
+// Zone name: Asia/Kuala_Lumpur
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKuala_Lumpur[] = {
@@ -2544,7 +2901,10 @@ const common::ZoneInfo kZoneKuala_Lumpur = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Kuching; numEntries: 1
+// Zone name: Asia/Kuching
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKuching[] = {
@@ -2565,7 +2925,10 @@ const common::ZoneInfo kZoneKuching = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Makassar; numEntries: 1
+// Zone name: Asia/Makassar
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMakassar[] = {
@@ -2586,7 +2949,10 @@ const common::ZoneInfo kZoneMakassar = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Manila; numEntries: 1
+// Zone name: Asia/Manila
+// Entry count: 1
+// Memory (8-bit): 27
+// Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryManila[] = {
@@ -2607,7 +2973,10 @@ const common::ZoneInfo kZoneManila = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Nicosia; numEntries: 1
+// Zone name: Asia/Nicosia
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNicosia[] = {
@@ -2628,7 +2997,10 @@ const common::ZoneInfo kZoneNicosia = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Pontianak; numEntries: 1
+// Zone name: Asia/Pontianak
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPontianak[] = {
@@ -2649,7 +3021,10 @@ const common::ZoneInfo kZonePontianak = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Qatar; numEntries: 1
+// Zone name: Asia/Qatar
+// Entry count: 1
+// Memory (8-bit): 26
+// Memory (32-bit): 34
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryQatar[] = {
@@ -2670,7 +3045,10 @@ const common::ZoneInfo kZoneQatar = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Riyadh; numEntries: 1
+// Zone name: Asia/Riyadh
+// Entry count: 1
+// Memory (8-bit): 27
+// Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRiyadh[] = {
@@ -2691,7 +3069,10 @@ const common::ZoneInfo kZoneRiyadh = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Samarkand; numEntries: 1
+// Zone name: Asia/Samarkand
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySamarkand[] = {
@@ -2712,7 +3093,10 @@ const common::ZoneInfo kZoneSamarkand = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Seoul; numEntries: 1
+// Zone name: Asia/Seoul
+// Entry count: 1
+// Memory (8-bit): 26
+// Memory (32-bit): 34
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySeoul[] = {
@@ -2733,7 +3117,10 @@ const common::ZoneInfo kZoneSeoul = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Shanghai; numEntries: 1
+// Zone name: Asia/Shanghai
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryShanghai[] = {
@@ -2754,7 +3141,10 @@ const common::ZoneInfo kZoneShanghai = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Singapore; numEntries: 1
+// Zone name: Asia/Singapore
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySingapore[] = {
@@ -2775,7 +3165,10 @@ const common::ZoneInfo kZoneSingapore = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Taipei; numEntries: 1
+// Zone name: Asia/Taipei
+// Entry count: 1
+// Memory (8-bit): 27
+// Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTaipei[] = {
@@ -2796,7 +3189,10 @@ const common::ZoneInfo kZoneTaipei = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Tashkent; numEntries: 1
+// Zone name: Asia/Tashkent
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTashkent[] = {
@@ -2817,7 +3213,10 @@ const common::ZoneInfo kZoneTashkent = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Tehran; numEntries: 1
+// Zone name: Asia/Tehran
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTehran[] = {
@@ -2838,7 +3237,10 @@ const common::ZoneInfo kZoneTehran = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Thimphu; numEntries: 1
+// Zone name: Asia/Thimphu
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryThimphu[] = {
@@ -2859,7 +3261,10 @@ const common::ZoneInfo kZoneThimphu = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Tokyo; numEntries: 1
+// Zone name: Asia/Tokyo
+// Entry count: 1
+// Memory (8-bit): 26
+// Memory (32-bit): 34
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTokyo[] = {
@@ -2880,7 +3285,10 @@ const common::ZoneInfo kZoneTokyo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Ulaanbaatar; numEntries: 1
+// Zone name: Asia/Ulaanbaatar
+// Entry count: 1
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryUlaanbaatar[] = {
@@ -2901,7 +3309,10 @@ const common::ZoneInfo kZoneUlaanbaatar = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Urumqi; numEntries: 1
+// Zone name: Asia/Urumqi
+// Entry count: 1
+// Memory (8-bit): 27
+// Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryUrumqi[] = {
@@ -2922,7 +3333,10 @@ const common::ZoneInfo kZoneUrumqi = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Yangon; numEntries: 1
+// Zone name: Asia/Yangon
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryYangon[] = {
@@ -2943,7 +3357,10 @@ const common::ZoneInfo kZoneYangon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Asia/Yerevan; numEntries: 2
+// Zone name: Asia/Yerevan
+// Entry count: 2
+// Memory (8-bit): 46
+// Memory (32-bit): 58
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryYerevan[] = {
@@ -2971,7 +3388,10 @@ const common::ZoneInfo kZoneYerevan = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Azores; numEntries: 1
+// Zone name: Atlantic/Azores
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAzores[] = {
@@ -2992,7 +3412,10 @@ const common::ZoneInfo kZoneAzores = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Bermuda; numEntries: 1
+// Zone name: Atlantic/Bermuda
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBermuda[] = {
@@ -3013,7 +3436,10 @@ const common::ZoneInfo kZoneBermuda = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Canary; numEntries: 1
+// Zone name: Atlantic/Canary
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCanary[] = {
@@ -3034,7 +3460,10 @@ const common::ZoneInfo kZoneCanary = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Cape_Verde; numEntries: 1
+// Zone name: Atlantic/Cape_Verde
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCape_Verde[] = {
@@ -3055,7 +3484,10 @@ const common::ZoneInfo kZoneCape_Verde = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Faroe; numEntries: 1
+// Zone name: Atlantic/Faroe
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryFaroe[] = {
@@ -3076,7 +3508,10 @@ const common::ZoneInfo kZoneFaroe = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Madeira; numEntries: 1
+// Zone name: Atlantic/Madeira
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMadeira[] = {
@@ -3097,7 +3532,10 @@ const common::ZoneInfo kZoneMadeira = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/Reykjavik; numEntries: 1
+// Zone name: Atlantic/Reykjavik
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryReykjavik[] = {
@@ -3118,7 +3556,10 @@ const common::ZoneInfo kZoneReykjavik = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Atlantic/South_Georgia; numEntries: 1
+// Zone name: Atlantic/South_Georgia
+// Entry count: 1
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySouth_Georgia[] = {
@@ -3139,7 +3580,10 @@ const common::ZoneInfo kZoneSouth_Georgia = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Adelaide; numEntries: 1
+// Zone name: Australia/Adelaide
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAdelaide[] = {
@@ -3160,7 +3604,10 @@ const common::ZoneInfo kZoneAdelaide = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Brisbane; numEntries: 1
+// Zone name: Australia/Brisbane
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBrisbane[] = {
@@ -3181,7 +3628,10 @@ const common::ZoneInfo kZoneBrisbane = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Broken_Hill; numEntries: 2
+// Zone name: Australia/Broken_Hill
+// Entry count: 2
+// Memory (8-bit): 49
+// Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBroken_Hill[] = {
@@ -3209,7 +3659,10 @@ const common::ZoneInfo kZoneBroken_Hill = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Currie; numEntries: 1
+// Zone name: Australia/Currie
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCurrie[] = {
@@ -3230,7 +3683,10 @@ const common::ZoneInfo kZoneCurrie = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Darwin; numEntries: 1
+// Zone name: Australia/Darwin
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDarwin[] = {
@@ -3251,7 +3707,10 @@ const common::ZoneInfo kZoneDarwin = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Eucla; numEntries: 1
+// Zone name: Australia/Eucla
+// Entry count: 1
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEucla[] = {
@@ -3272,7 +3731,10 @@ const common::ZoneInfo kZoneEucla = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Hobart; numEntries: 1
+// Zone name: Australia/Hobart
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHobart[] = {
@@ -3293,7 +3755,10 @@ const common::ZoneInfo kZoneHobart = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Lindeman; numEntries: 1
+// Zone name: Australia/Lindeman
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLindeman[] = {
@@ -3314,7 +3779,10 @@ const common::ZoneInfo kZoneLindeman = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Lord_Howe; numEntries: 1
+// Zone name: Australia/Lord_Howe
+// Entry count: 1
+// Memory (8-bit): 41
+// Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLord_Howe[] = {
@@ -3335,7 +3803,10 @@ const common::ZoneInfo kZoneLord_Howe = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Melbourne; numEntries: 1
+// Zone name: Australia/Melbourne
+// Entry count: 1
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMelbourne[] = {
@@ -3356,7 +3827,10 @@ const common::ZoneInfo kZoneMelbourne = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Perth; numEntries: 1
+// Zone name: Australia/Perth
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPerth[] = {
@@ -3377,7 +3851,10 @@ const common::ZoneInfo kZonePerth = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Australia/Sydney; numEntries: 1
+// Zone name: Australia/Sydney
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySydney[] = {
@@ -3398,7 +3875,10 @@ const common::ZoneInfo kZoneSydney = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Amsterdam; numEntries: 1
+// Zone name: Europe/Amsterdam
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAmsterdam[] = {
@@ -3419,7 +3899,10 @@ const common::ZoneInfo kZoneAmsterdam = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Andorra; numEntries: 1
+// Zone name: Europe/Andorra
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAndorra[] = {
@@ -3440,7 +3923,10 @@ const common::ZoneInfo kZoneAndorra = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Athens; numEntries: 1
+// Zone name: Europe/Athens
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAthens[] = {
@@ -3461,7 +3947,10 @@ const common::ZoneInfo kZoneAthens = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Belgrade; numEntries: 1
+// Zone name: Europe/Belgrade
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBelgrade[] = {
@@ -3482,7 +3971,10 @@ const common::ZoneInfo kZoneBelgrade = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Berlin; numEntries: 1
+// Zone name: Europe/Berlin
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBerlin[] = {
@@ -3503,7 +3995,10 @@ const common::ZoneInfo kZoneBerlin = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Brussels; numEntries: 1
+// Zone name: Europe/Brussels
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBrussels[] = {
@@ -3524,7 +4019,10 @@ const common::ZoneInfo kZoneBrussels = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Bucharest; numEntries: 1
+// Zone name: Europe/Bucharest
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBucharest[] = {
@@ -3545,7 +4043,10 @@ const common::ZoneInfo kZoneBucharest = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Budapest; numEntries: 1
+// Zone name: Europe/Budapest
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryBudapest[] = {
@@ -3566,7 +4067,10 @@ const common::ZoneInfo kZoneBudapest = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Chisinau; numEntries: 1
+// Zone name: Europe/Chisinau
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChisinau[] = {
@@ -3587,7 +4091,10 @@ const common::ZoneInfo kZoneChisinau = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Copenhagen; numEntries: 1
+// Zone name: Europe/Copenhagen
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCopenhagen[] = {
@@ -3608,7 +4115,10 @@ const common::ZoneInfo kZoneCopenhagen = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Dublin; numEntries: 1
+// Zone name: Europe/Dublin
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryDublin[] = {
@@ -3629,7 +4139,10 @@ const common::ZoneInfo kZoneDublin = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Gibraltar; numEntries: 1
+// Zone name: Europe/Gibraltar
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGibraltar[] = {
@@ -3650,7 +4163,10 @@ const common::ZoneInfo kZoneGibraltar = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Helsinki; numEntries: 1
+// Zone name: Europe/Helsinki
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHelsinki[] = {
@@ -3671,7 +4187,10 @@ const common::ZoneInfo kZoneHelsinki = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Kiev; numEntries: 1
+// Zone name: Europe/Kiev
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKiev[] = {
@@ -3692,7 +4211,10 @@ const common::ZoneInfo kZoneKiev = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Lisbon; numEntries: 1
+// Zone name: Europe/Lisbon
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLisbon[] = {
@@ -3713,7 +4235,10 @@ const common::ZoneInfo kZoneLisbon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/London; numEntries: 1
+// Zone name: Europe/London
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLondon[] = {
@@ -3734,7 +4259,10 @@ const common::ZoneInfo kZoneLondon = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Luxembourg; numEntries: 1
+// Zone name: Europe/Luxembourg
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryLuxembourg[] = {
@@ -3755,7 +4283,10 @@ const common::ZoneInfo kZoneLuxembourg = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Madrid; numEntries: 1
+// Zone name: Europe/Madrid
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMadrid[] = {
@@ -3776,7 +4307,10 @@ const common::ZoneInfo kZoneMadrid = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Malta; numEntries: 1
+// Zone name: Europe/Malta
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMalta[] = {
@@ -3797,7 +4331,10 @@ const common::ZoneInfo kZoneMalta = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Monaco; numEntries: 1
+// Zone name: Europe/Monaco
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMonaco[] = {
@@ -3818,7 +4355,10 @@ const common::ZoneInfo kZoneMonaco = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Oslo; numEntries: 1
+// Zone name: Europe/Oslo
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryOslo[] = {
@@ -3839,7 +4379,10 @@ const common::ZoneInfo kZoneOslo = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Paris; numEntries: 1
+// Zone name: Europe/Paris
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryParis[] = {
@@ -3860,7 +4403,10 @@ const common::ZoneInfo kZoneParis = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Prague; numEntries: 1
+// Zone name: Europe/Prague
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPrague[] = {
@@ -3881,7 +4427,10 @@ const common::ZoneInfo kZonePrague = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Rome; numEntries: 1
+// Zone name: Europe/Rome
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRome[] = {
@@ -3902,7 +4451,10 @@ const common::ZoneInfo kZoneRome = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Sofia; numEntries: 1
+// Zone name: Europe/Sofia
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntrySofia[] = {
@@ -3923,7 +4475,10 @@ const common::ZoneInfo kZoneSofia = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Stockholm; numEntries: 1
+// Zone name: Europe/Stockholm
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryStockholm[] = {
@@ -3944,7 +4499,10 @@ const common::ZoneInfo kZoneStockholm = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Tirane; numEntries: 1
+// Zone name: Europe/Tirane
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTirane[] = {
@@ -3965,7 +4523,10 @@ const common::ZoneInfo kZoneTirane = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Uzhgorod; numEntries: 1
+// Zone name: Europe/Uzhgorod
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryUzhgorod[] = {
@@ -3986,7 +4547,10 @@ const common::ZoneInfo kZoneUzhgorod = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Vienna; numEntries: 1
+// Zone name: Europe/Vienna
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryVienna[] = {
@@ -4007,7 +4571,10 @@ const common::ZoneInfo kZoneVienna = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Warsaw; numEntries: 1
+// Zone name: Europe/Warsaw
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryWarsaw[] = {
@@ -4028,7 +4595,10 @@ const common::ZoneInfo kZoneWarsaw = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Zaporozhye; numEntries: 1
+// Zone name: Europe/Zaporozhye
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryZaporozhye[] = {
@@ -4049,7 +4619,10 @@ const common::ZoneInfo kZoneZaporozhye = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Europe/Zurich; numEntries: 1
+// Zone name: Europe/Zurich
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryZurich[] = {
@@ -4070,7 +4643,10 @@ const common::ZoneInfo kZoneZurich = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Chagos; numEntries: 1
+// Zone name: Indian/Chagos
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChagos[] = {
@@ -4091,7 +4667,10 @@ const common::ZoneInfo kZoneChagos = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Christmas; numEntries: 1
+// Zone name: Indian/Christmas
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChristmas[] = {
@@ -4112,7 +4691,10 @@ const common::ZoneInfo kZoneChristmas = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Cocos; numEntries: 1
+// Zone name: Indian/Cocos
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryCocos[] = {
@@ -4133,7 +4715,10 @@ const common::ZoneInfo kZoneCocos = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Kerguelen; numEntries: 1
+// Zone name: Indian/Kerguelen
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKerguelen[] = {
@@ -4154,7 +4739,10 @@ const common::ZoneInfo kZoneKerguelen = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Mahe; numEntries: 1
+// Zone name: Indian/Mahe
+// Entry count: 1
+// Memory (8-bit): 27
+// Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMahe[] = {
@@ -4175,7 +4763,10 @@ const common::ZoneInfo kZoneMahe = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Maldives; numEntries: 1
+// Zone name: Indian/Maldives
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMaldives[] = {
@@ -4196,7 +4787,10 @@ const common::ZoneInfo kZoneMaldives = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Mauritius; numEntries: 1
+// Zone name: Indian/Mauritius
+// Entry count: 1
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMauritius[] = {
@@ -4217,7 +4811,10 @@ const common::ZoneInfo kZoneMauritius = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Indian/Reunion; numEntries: 1
+// Zone name: Indian/Reunion
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryReunion[] = {
@@ -4238,7 +4835,10 @@ const common::ZoneInfo kZoneReunion = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Auckland; numEntries: 1
+// Zone name: Pacific/Auckland
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryAuckland[] = {
@@ -4259,7 +4859,10 @@ const common::ZoneInfo kZoneAuckland = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Chuuk; numEntries: 1
+// Zone name: Pacific/Chuuk
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryChuuk[] = {
@@ -4280,7 +4883,10 @@ const common::ZoneInfo kZoneChuuk = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Easter; numEntries: 1
+// Zone name: Pacific/Easter
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEaster[] = {
@@ -4301,7 +4907,10 @@ const common::ZoneInfo kZoneEaster = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Efate; numEntries: 1
+// Zone name: Pacific/Efate
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEfate[] = {
@@ -4322,7 +4931,10 @@ const common::ZoneInfo kZoneEfate = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Enderbury; numEntries: 1
+// Zone name: Pacific/Enderbury
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryEnderbury[] = {
@@ -4343,7 +4955,10 @@ const common::ZoneInfo kZoneEnderbury = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Fiji; numEntries: 1
+// Zone name: Pacific/Fiji
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryFiji[] = {
@@ -4364,7 +4979,10 @@ const common::ZoneInfo kZoneFiji = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Funafuti; numEntries: 1
+// Zone name: Pacific/Funafuti
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryFunafuti[] = {
@@ -4385,7 +5003,10 @@ const common::ZoneInfo kZoneFunafuti = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Galapagos; numEntries: 1
+// Zone name: Pacific/Galapagos
+// Entry count: 1
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGalapagos[] = {
@@ -4406,7 +5027,10 @@ const common::ZoneInfo kZoneGalapagos = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Gambier; numEntries: 1
+// Zone name: Pacific/Gambier
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGambier[] = {
@@ -4427,7 +5051,10 @@ const common::ZoneInfo kZoneGambier = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Guadalcanal; numEntries: 1
+// Zone name: Pacific/Guadalcanal
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryGuadalcanal[] = {
@@ -4448,7 +5075,10 @@ const common::ZoneInfo kZoneGuadalcanal = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Honolulu; numEntries: 1
+// Zone name: Pacific/Honolulu
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryHonolulu[] = {
@@ -4469,7 +5099,10 @@ const common::ZoneInfo kZoneHonolulu = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Kiritimati; numEntries: 1
+// Zone name: Pacific/Kiritimati
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKiritimati[] = {
@@ -4490,7 +5123,10 @@ const common::ZoneInfo kZoneKiritimati = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Kosrae; numEntries: 1
+// Zone name: Pacific/Kosrae
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKosrae[] = {
@@ -4511,7 +5147,10 @@ const common::ZoneInfo kZoneKosrae = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Kwajalein; numEntries: 1
+// Zone name: Pacific/Kwajalein
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryKwajalein[] = {
@@ -4532,7 +5171,10 @@ const common::ZoneInfo kZoneKwajalein = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Majuro; numEntries: 1
+// Zone name: Pacific/Majuro
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMajuro[] = {
@@ -4553,7 +5195,10 @@ const common::ZoneInfo kZoneMajuro = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Marquesas; numEntries: 1
+// Zone name: Pacific/Marquesas
+// Entry count: 1
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryMarquesas[] = {
@@ -4574,7 +5219,10 @@ const common::ZoneInfo kZoneMarquesas = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Nauru; numEntries: 1
+// Zone name: Pacific/Nauru
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNauru[] = {
@@ -4595,7 +5243,10 @@ const common::ZoneInfo kZoneNauru = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Niue; numEntries: 1
+// Zone name: Pacific/Niue
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNiue[] = {
@@ -4616,7 +5267,10 @@ const common::ZoneInfo kZoneNiue = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Noumea; numEntries: 1
+// Zone name: Pacific/Noumea
+// Entry count: 1
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryNoumea[] = {
@@ -4637,7 +5291,10 @@ const common::ZoneInfo kZoneNoumea = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Pago_Pago; numEntries: 1
+// Zone name: Pacific/Pago_Pago
+// Entry count: 1
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPago_Pago[] = {
@@ -4658,7 +5315,10 @@ const common::ZoneInfo kZonePago_Pago = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Palau; numEntries: 1
+// Zone name: Pacific/Palau
+// Entry count: 1
+// Memory (8-bit): 29
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPalau[] = {
@@ -4679,7 +5339,10 @@ const common::ZoneInfo kZonePalau = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Pitcairn; numEntries: 1
+// Zone name: Pacific/Pitcairn
+// Entry count: 1
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPitcairn[] = {
@@ -4700,7 +5363,10 @@ const common::ZoneInfo kZonePitcairn = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Pohnpei; numEntries: 1
+// Zone name: Pacific/Pohnpei
+// Entry count: 1
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPohnpei[] = {
@@ -4721,7 +5387,10 @@ const common::ZoneInfo kZonePohnpei = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Port_Moresby; numEntries: 1
+// Zone name: Pacific/Port_Moresby
+// Entry count: 1
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryPort_Moresby[] = {
@@ -4742,7 +5411,10 @@ const common::ZoneInfo kZonePort_Moresby = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Rarotonga; numEntries: 1
+// Zone name: Pacific/Rarotonga
+// Entry count: 1
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryRarotonga[] = {
@@ -4763,7 +5435,10 @@ const common::ZoneInfo kZoneRarotonga = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Tahiti; numEntries: 1
+// Zone name: Pacific/Tahiti
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTahiti[] = {
@@ -4784,7 +5459,10 @@ const common::ZoneInfo kZoneTahiti = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Tarawa; numEntries: 1
+// Zone name: Pacific/Tarawa
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTarawa[] = {
@@ -4805,7 +5483,10 @@ const common::ZoneInfo kZoneTarawa = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Tongatapu; numEntries: 1
+// Zone name: Pacific/Tongatapu
+// Entry count: 1
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryTongatapu[] = {
@@ -4826,7 +5507,10 @@ const common::ZoneInfo kZoneTongatapu = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Wake; numEntries: 1
+// Zone name: Pacific/Wake
+// Entry count: 1
+// Memory (8-bit): 28
+// Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryWake[] = {
@@ -4847,7 +5531,10 @@ const common::ZoneInfo kZoneWake = {
 };
 
 //---------------------------------------------------------------------------
-// Zone: Pacific/Wallis; numEntries: 1
+// Zone name: Pacific/Wallis
+// Entry count: 1
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const common::ZoneEntry kZoneEntryWallis[] = {
