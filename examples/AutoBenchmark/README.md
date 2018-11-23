@@ -14,7 +14,7 @@ Memory:
 sizeof(ZoneEntry): 6
 sizeof(ZoneInfo): 5
 sizeof(ZoneRule): 11
-sizeof(ZonePolicy): 11
+sizeof(ZonePolicy): 3
 sizeof(LocalDate): 3
 sizeof(LocalTime): 3
 sizeof(ZoneOffset): 1

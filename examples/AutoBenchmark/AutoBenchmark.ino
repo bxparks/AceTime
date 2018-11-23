@@ -31,7 +31,7 @@ void setup() {
   Serial.println(sizeof(ZoneRule));
 
   Serial.print(F("sizeof(ZonePolicy): "));
-  Serial.println(sizeof(ZoneRule));
+  Serial.println(sizeof(ZonePolicy));
 
   Serial.print(F("sizeof(LocalDate): "));
   Serial.println(sizeof(LocalDate));
