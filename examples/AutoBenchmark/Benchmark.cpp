@@ -233,15 +233,16 @@ void runBenchmarks() {
   Serial.println(DIVIDER);
 
   unsigned long emptyLoopMillis = runEmptyLoop();
-  unsigned long dateTimeForEpochSecondsMillis =
-      runDateTimeForEpochSeconds(emptyLoopMillis);
-  runDateTimeToEpochDays(dateTimeForEpochSecondsMillis);
-  runDateTimeToEpochSeconds(dateTimeForEpochSecondsMillis);
 
   unsigned long localDateForEpochDaysMillis =
       runLocalDateForEpochDays(emptyLoopMillis);
   runLocalDateToEpochDaysMillis(localDateForEpochDaysMillis);
   runLocalDateDaysOfWeekMillis(localDateForEpochDaysMillis);
+
+  unsigned long dateTimeForEpochSecondsMillis =
+      runDateTimeForEpochSeconds(emptyLoopMillis);
+  runDateTimeToEpochDays(dateTimeForEpochSecondsMillis);
+  runDateTimeToEpochSeconds(dateTimeForEpochSecondsMillis);
 
   // End footer
   Serial.println(BOTTOM);
