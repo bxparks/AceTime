@@ -17,13 +17,13 @@ const uint32_t COUNT = 200000;
 
 const uint32_t MILLIS_TO_NANO_PER_ITERATION = (1000000 / COUNT);
 
-const char TOP[] = 
+const char TOP[] =
   "----------------------------+---------+";
-const char HEADER[] = 
+const char HEADER[] =
   "Method                      |  micros |";
-const char DIVIDER[] = 
+const char DIVIDER[] =
   "----------------------------|---------|";
-const char BOTTOM[] = 
+const char BOTTOM[] =
   "----------------------------+---------+";
 const char EMPTY_LOOP_LABEL[] =
   "Empty loop                  | ";
@@ -69,8 +69,10 @@ void disableOptimization(uint32_t value) {
   guard ^= (value >> 24) & 0xff;
 }
 
-// A small helper that runs the given lamba expression in a loop
-// and returns how long it took.
+/**
+ * A small helper that runs the given lamba expression in a loop
+ * and returns how long it took.
+ */
 template <typename F>
 unsigned long runLambda(uint32_t count, F&& lambda) {
   yield();
@@ -78,10 +80,10 @@ unsigned long runLambda(uint32_t count, F&& lambda) {
   while (count--) {
     lambda();
   }
-  unsigned long elapsedTime = millis() - startMillis;
+  unsigned long elapsedMillis = millis() - startMillis;
   yield();
   digitalWrite(LED_BENCHMARK, (guard & 0x55) ? 1 : 0);
-  return elapsedTime;
+  return elapsedMillis;
 }
 
 void printPad3(uint16_t val, char padChar) {
@@ -94,7 +96,7 @@ void printPad3(uint16_t val, char padChar) {
  * Given total elapsed time in millis, print micros per iteration as
  * a floating point number (without using floating point operations).
  */
-void printMicrosPerIteration(unsigned long elapsedMillis) {
+static void printMicrosPerIteration(unsigned long elapsedMillis) {
   unsigned long nanos = elapsedMillis * MILLIS_TO_NANO_PER_ITERATION;
   uint16_t whole = nanos / 1000;
   uint16_t frac = nanos % 1000;
@@ -103,12 +105,7 @@ void printMicrosPerIteration(unsigned long elapsedMillis) {
   printPad3(frac, '0');
 }
 
-void runBenchmarks() {
-  Serial.println(TOP);
-  Serial.println(HEADER);
-  Serial.println(DIVIDER);
-
-  // Empty loop
+static unsigned long runEmptyLoop() {
   unsigned long emptyLoopMillis = runLambda(COUNT, []() {
     unsigned long tickMillis = millis();
     disableOptimization(tickMillis);
@@ -117,8 +114,11 @@ void runBenchmarks() {
   printMicrosPerIteration(emptyLoopMillis);
   Serial.println(ENDING);
   Serial.println(DIVIDER);
+  return emptyLoopMillis;
+}
 
-  // DateTime::forEpochSeconds(seconds)
+// DateTime::forEpochSeconds(seconds)
+static unsigned long runDateTimeForEpochSeconds(unsigned long emptyLoopMillis) {
   unsigned long forEpochSecondsMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
     // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
@@ -128,10 +128,15 @@ void runBenchmarks() {
     disableOptimization(tickMillis);
   });
   Serial.print(DATE_TIME_FOR_SECONDS_LABEL);
-  printMicrosPerIteration(forEpochSecondsMillis - emptyLoopMillis);
+  unsigned long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
+  printMicrosPerIteration(elapsedMillis);
   Serial.println(ENDING);
+  return elapsedMillis;
+}
 
-  // DateTime::toEpochDays()
+// DateTime::toEpochDays()
+static unsigned long runDateTimeToEpochDays(
+    unsigned long forEpochSecondsMillis) {
   unsigned long toEpochDaysMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
     // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
@@ -142,10 +147,15 @@ void runBenchmarks() {
     disableOptimization(epochDays);
   });
   Serial.print(DATE_TIME_DAYS_SINCE_EPOCH_LABEL);
-  printMicrosPerIteration(toEpochDaysMillis - forEpochSecondsMillis);
+  unsigned long elapsedMillis = toEpochDaysMillis - forEpochSecondsMillis;
+  printMicrosPerIteration(elapsedMillis);
   Serial.println(ENDING);
+  return elapsedMillis;
+}
 
-  // DateTime::toEpochSeconds()
+// DateTime::toEpochSeconds()
+static unsigned long runDateTimeToEpochSeconds(
+    unsigned long forEpochSecondsMillis) {
   unsigned long toEpochSecondsMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
     // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
@@ -156,12 +166,15 @@ void runBenchmarks() {
     disableOptimization(epochSeconds);
   });
   Serial.print(DATE_TIME_SECOND_SINCE_EPOCH_LABEL);
-  printMicrosPerIteration(toEpochSecondsMillis - forEpochSecondsMillis);
+  unsigned long elapsedMillis = toEpochSecondsMillis - forEpochSecondsMillis;
+  printMicrosPerIteration(elapsedMillis);
   Serial.println(ENDING);
+  return elapsedMillis;
+}
 
-  // LocalDate::forEpochDays()
-  unsigned long localDateFromDaysMillis =
-      runLambda(COUNT, []() mutable {
+// LocalDate::forEpochDays()
+static unsigned long runLocalDateForEpochDays(unsigned long emptyLoopMillis) {
+  unsigned long localDateForDaysMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
     // LocalDate::forEpochDays() takes days, but use millis for testing
     // purposes.
@@ -170,10 +183,15 @@ void runBenchmarks() {
     disableOptimization(tickMillis);
   });
   Serial.print(LOCAL_DATE_FOR_EPOCH_DAYS_LABEL);
-  printMicrosPerIteration(localDateFromDaysMillis - emptyLoopMillis);
+  unsigned long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
+  printMicrosPerIteration(elapsedMillis);
   Serial.println(ENDING);
+  return elapsedMillis;
+}
 
-  // LocalDate::toEpochDays()
+// LocalDate::toEpochDays()
+static unsigned long runLocalDateToEpochDaysMillis(
+    unsigned long forEpochDaysMillis) {
   unsigned long localDateToEpochDaysMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
     // LocalDate::forEpochDays(seconds) takes seconds, but use millis for
@@ -184,10 +202,15 @@ void runBenchmarks() {
     disableOptimization(epochDays);
   });
   Serial.print(LOCAL_DATE_TO_EPOCH_DAYS_LABEL);
-  printMicrosPerIteration(localDateToEpochDaysMillis - localDateFromDaysMillis);
+  unsigned long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
+  printMicrosPerIteration(elapsedMillis);
   Serial.println(ENDING);
+  return elapsedMillis;
+}
 
-  // LocalDate::dayOfWeek()
+// LocalDate::dayOfWeek()
+static unsigned long runLocalDateDaysOfWeekMillis(
+    unsigned long forEpochDaysMillis) {
   unsigned long localDateDayOfWeekMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
     // LocalDate::forEpochDays(seconds) takes seconds, but use millis for
@@ -198,8 +221,27 @@ void runBenchmarks() {
     disableOptimization(dayOfWeek);
   });
   Serial.print(LOCAL_DATE_DAY_OF_WEEK_LABEL);
-  printMicrosPerIteration(localDateDayOfWeekMillis - localDateFromDaysMillis);
+  unsigned long elapsedMillis = localDateDayOfWeekMillis - forEpochDaysMillis;
+  printMicrosPerIteration(elapsedMillis);
   Serial.println(ENDING);
+  return elapsedMillis;
+}
+
+void runBenchmarks() {
+  Serial.println(TOP);
+  Serial.println(HEADER);
+  Serial.println(DIVIDER);
+
+  unsigned long emptyLoopMillis = runEmptyLoop();
+  unsigned long dateTimeForEpochSecondsMillis =
+      runDateTimeForEpochSeconds(emptyLoopMillis);
+  runDateTimeToEpochDays(dateTimeForEpochSecondsMillis);
+  runDateTimeToEpochSeconds(dateTimeForEpochSecondsMillis);
+
+  unsigned long localDateForEpochDaysMillis =
+      runLocalDateForEpochDays(emptyLoopMillis);
+  runLocalDateToEpochDaysMillis(localDateForEpochDaysMillis);
+  runLocalDateDaysOfWeekMillis(localDateForEpochDaysMillis);
 
   // End footer
   Serial.println(BOTTOM);
