@@ -8,7 +8,7 @@ using namespace ace_time;
 using ace_time::common::printPad3;
 
 #if defined(AVR)
-const uint32_t COUNT = 10000;
+const uint32_t COUNT = 5000;
 #elif defined(ESP8266)
 const uint32_t COUNT = 50000;
 #else
@@ -18,28 +18,31 @@ const uint32_t COUNT = 200000;
 const uint32_t MILLIS_TO_NANO_PER_ITERATION = (1000000 / COUNT);
 
 const char TOP[] =
-  "----------------------------+---------+";
+  "----------------------------------------+----------+";
 const char HEADER[] =
-  "Method                      |  micros |";
+  "Method                                  |   micros |";
 const char DIVIDER[] =
-  "----------------------------|---------|";
+  "----------------------------------------|----------|";
 const char BOTTOM[] =
-  "----------------------------+---------+";
-const char EMPTY_LOOP_LABEL[] =
-  "Empty loop                  | ";
-const char DATE_TIME_FOR_SECONDS_LABEL[] =
-  "DateTime::forEpochSeconds() | ";
-const char DATE_TIME_DAYS_SINCE_EPOCH_LABEL[] =
-  "DateTime::toEpochDays()     | ";
-const char DATE_TIME_SECOND_SINCE_EPOCH_LABEL[] =
-  "DateTime::toEpochSeconds()  | ";
-const char LOCAL_DATE_FOR_EPOCH_DAYS_LABEL[] =
-  "LocalDate::forEpochDays()   | ";
-const char LOCAL_DATE_TO_EPOCH_DAYS_LABEL[] =
-  "LocalDate::toEpochDays()    | ";
-const char LOCAL_DATE_DAY_OF_WEEK_LABEL[] =
-  "LocalDate::dayOfWeek()      | ";
+  "----------------------------------------+----------+";
 const char ENDING[] = " |";
+const char EMPTY_LOOP_LABEL[] =
+  "Empty loop                              | ";
+const char LOCAL_DATE_FOR_EPOCH_DAYS_LABEL[] =
+  "LocalDate::forEpochDays()               | ";
+const char LOCAL_DATE_TO_EPOCH_DAYS_LABEL[] =
+  "LocalDate::toEpochDays()                | ";
+const char LOCAL_DATE_DAY_OF_WEEK_LABEL[] =
+  "LocalDate::dayOfWeek()                  | ";
+
+const char DATE_TIME_FOR_EPOCH_SECONDS_LABEL[] =
+  "DateTime::forEpochSeconds(UTC)          | ";
+const char DATE_TIME_FOR_EPOCH_SECONDS_LOS_ANGELES_LABEL[] =
+  "DateTime::forEpochSeconds(Los_Angeles)  | ";
+const char DATE_TIME_TO_EPOCH_DAYS_LABEL[] =
+  "DateTime::toEpochDays()                 | ";
+const char DATE_TIME_TO_EPOCH_SECONDS_LABEL[] =
+  "DateTime::toEpochSeconds()              | ";
 
 // The compiler is extremelly good about removing code that does nothing. This
 // variable is used to ensure user-visible side-effects, preventing the compiler
@@ -92,6 +95,13 @@ void printPad3(uint16_t val, char padChar) {
   Serial.print(val);
 }
 
+void printPad4(uint16_t val, char padChar) {
+  if (val < 1000) Serial.print(padChar);
+  if (val < 100) Serial.print(padChar);
+  if (val < 10) Serial.print(padChar);
+  Serial.print(val);
+}
+
 /**
  * Given total elapsed time in millis, print micros per iteration as
  * a floating point number (without using floating point operations).
@@ -100,7 +110,7 @@ static void printMicrosPerIteration(unsigned long elapsedMillis) {
   unsigned long nanos = elapsedMillis * MILLIS_TO_NANO_PER_ITERATION;
   uint16_t whole = nanos / 1000;
   uint16_t frac = nanos % 1000;
-  printPad3(whole, ' ');
+  printPad4(whole, ' ');
   Serial.print('.');
   printPad3(frac, '0');
 }
@@ -115,61 +125,6 @@ static unsigned long runEmptyLoop() {
   Serial.println(ENDING);
   Serial.println(DIVIDER);
   return emptyLoopMillis;
-}
-
-// DateTime::forEpochSeconds(seconds)
-static unsigned long runDateTimeForEpochSeconds(unsigned long emptyLoopMillis) {
-  unsigned long forEpochSecondsMillis = runLambda(COUNT, []() mutable {
-    unsigned long tickMillis = millis();
-    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
-    // testing purposes.
-    DateTime dateTime = DateTime::forEpochSeconds(tickMillis);
-    disableOptimization(dateTime);
-    disableOptimization(tickMillis);
-  });
-  Serial.print(DATE_TIME_FOR_SECONDS_LABEL);
-  unsigned long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
-  printMicrosPerIteration(elapsedMillis);
-  Serial.println(ENDING);
-  return elapsedMillis;
-}
-
-// DateTime::toEpochDays()
-static unsigned long runDateTimeToEpochDays(
-    unsigned long forEpochSecondsMillis) {
-  unsigned long toEpochDaysMillis = runLambda(COUNT, []() mutable {
-    unsigned long tickMillis = millis();
-    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
-    // testing purposes.
-    DateTime dateTime = DateTime::forEpochSeconds(tickMillis);
-    uint32_t epochDays = dateTime.toEpochDays();
-    disableOptimization(dateTime);
-    disableOptimization(epochDays);
-  });
-  Serial.print(DATE_TIME_DAYS_SINCE_EPOCH_LABEL);
-  unsigned long elapsedMillis = toEpochDaysMillis - forEpochSecondsMillis;
-  printMicrosPerIteration(elapsedMillis);
-  Serial.println(ENDING);
-  return elapsedMillis;
-}
-
-// DateTime::toEpochSeconds()
-static unsigned long runDateTimeToEpochSeconds(
-    unsigned long forEpochSecondsMillis) {
-  unsigned long toEpochSecondsMillis = runLambda(COUNT, []() mutable {
-    unsigned long tickMillis = millis();
-    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
-    // testing purposes.
-    DateTime dateTime = DateTime::forEpochSeconds(tickMillis);
-    uint32_t epochSeconds = dateTime.toEpochSeconds();
-    disableOptimization(dateTime);
-    disableOptimization(epochSeconds);
-  });
-  Serial.print(DATE_TIME_SECOND_SINCE_EPOCH_LABEL);
-  unsigned long elapsedMillis = toEpochSecondsMillis - forEpochSecondsMillis;
-  printMicrosPerIteration(elapsedMillis);
-  Serial.println(ENDING);
-  return elapsedMillis;
 }
 
 // LocalDate::forEpochDays()
@@ -227,6 +182,80 @@ static unsigned long runLocalDateDaysOfWeekMillis(
   return elapsedMillis;
 }
 
+// DateTime::forEpochSeconds(seconds)
+static unsigned long runDateTimeForEpochSeconds(unsigned long emptyLoopMillis) {
+  unsigned long forEpochSecondsMillis = runLambda(COUNT, []() mutable {
+    unsigned long tickMillis = millis();
+    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
+    // testing purposes.
+    DateTime dateTime = DateTime::forEpochSeconds(tickMillis);
+    disableOptimization(dateTime);
+    disableOptimization(tickMillis);
+  });
+  Serial.print(DATE_TIME_FOR_EPOCH_SECONDS_LABEL);
+  unsigned long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
+  printMicrosPerIteration(elapsedMillis);
+  Serial.println(ENDING);
+  return elapsedMillis;
+}
+
+// DateTime::toEpochDays()
+static unsigned long runDateTimeToEpochDays(
+    unsigned long forEpochSecondsMillis) {
+  unsigned long toEpochDaysMillis = runLambda(COUNT, []() mutable {
+    unsigned long tickMillis = millis();
+    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
+    // testing purposes.
+    DateTime dateTime = DateTime::forEpochSeconds(tickMillis);
+    uint32_t epochDays = dateTime.toEpochDays();
+    disableOptimization(dateTime);
+    disableOptimization(epochDays);
+  });
+  Serial.print(DATE_TIME_TO_EPOCH_DAYS_LABEL);
+  unsigned long elapsedMillis = toEpochDaysMillis - forEpochSecondsMillis;
+  printMicrosPerIteration(elapsedMillis);
+  Serial.println(ENDING);
+  return elapsedMillis;
+}
+
+// DateTime::toEpochSeconds()
+static unsigned long runDateTimeToEpochSeconds(
+    unsigned long forEpochSecondsMillis) {
+  unsigned long toEpochSecondsMillis = runLambda(COUNT, []() mutable {
+    unsigned long tickMillis = millis();
+    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
+    // testing purposes.
+    DateTime dateTime = DateTime::forEpochSeconds(tickMillis);
+    uint32_t epochSeconds = dateTime.toEpochSeconds();
+    disableOptimization(dateTime);
+    disableOptimization(epochSeconds);
+  });
+  Serial.print(DATE_TIME_TO_EPOCH_SECONDS_LABEL);
+  unsigned long elapsedMillis = toEpochSecondsMillis - forEpochSecondsMillis;
+  printMicrosPerIteration(elapsedMillis);
+  Serial.println(ENDING);
+  return elapsedMillis;
+}
+
+// DateTime::forEpochSeconds(seconds, kZoneLos_Angeles)
+static unsigned long runDateTimeForEpochSecondsLosAngeles(
+    unsigned long emptyLoopMillis) {
+  unsigned long forEpochSecondsMillis = runLambda(COUNT, []() mutable {
+    unsigned long tickMillis = millis();
+    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
+    // testing purposes.
+    TimeZone tz = TimeZone::forZone(&zonedb::kZoneLos_Angeles);
+    DateTime dateTime = DateTime::forEpochSeconds(tickMillis, tz);
+    disableOptimization(dateTime);
+    disableOptimization(tickMillis);
+  });
+  Serial.print(DATE_TIME_FOR_EPOCH_SECONDS_LOS_ANGELES_LABEL);
+  unsigned long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
+  printMicrosPerIteration(elapsedMillis);
+  Serial.println(ENDING);
+  return elapsedMillis;
+}
+
 void runBenchmarks() {
   Serial.println(TOP);
   Serial.println(HEADER);
@@ -241,6 +270,7 @@ void runBenchmarks() {
 
   unsigned long dateTimeForEpochSecondsMillis =
       runDateTimeForEpochSeconds(emptyLoopMillis);
+  runDateTimeForEpochSecondsLosAngeles(emptyLoopMillis);
   runDateTimeToEpochDays(dateTimeForEpochSecondsMillis);
   runDateTimeToEpochSeconds(dateTimeForEpochSecondsMillis);
 

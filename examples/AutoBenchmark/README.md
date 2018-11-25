@@ -35,19 +35,20 @@ sizeof(SystemTimeHeartbeatCoroutine): 18
 CPU:
 
 ```
-----------------------------+---------+
-Method                      |  micros |
-----------------------------|---------|
-Empty loop                  |   2.800 |
-----------------------------|---------|
-DateTime::forEpochSeconds() | 370.100 |
-DateTime::toEpochDays()     |  64.100 |
-Datetime::toEpochSeconds()  |  70.000 |
-LocalDate::forEpochDays()   | 215.900 |
-LocalDate::toEpochDays()    |  52.000 |
-LocalDate::dayOfWeek()      |  41.300 |
-----------------------------+---------+
-Number of iterations per run: 10000
+----------------------------------------+----------+
+Method                                  |   micros |
+----------------------------------------|----------|
+Empty loop                              |    2.800 |
+----------------------------------------|----------|
+LocalDate::forEpochDays()               |  216.200 |
+LocalDate::toEpochDays()                |   58.800 |
+LocalDate::dayOfWeek()                  |   44.800 |
+DateTime::forEpochSeconds(UTC)          |  365.200 |
+DateTime::forEpochSeconds(Los_Angeles)  | 1024.800 |
+DateTime::toEpochDays()                 |   68.200 |
+DateTime::toEpochSeconds()              |   76.000 |
+----------------------------------------+----------+
+Number of iterations per run: 5000
 ```
 
 ## ESP8266
