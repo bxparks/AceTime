@@ -23,7 +23,7 @@ void TimeZone::parseFromOffsetString(const char* ts,
     uint8_t* offsetCode, bool* isDst) {
 
   // verify exact ISO 8601 string length
-  if (strlen(ts) != kTimeZoneStringLength) {
+  if (strlen(ts) != kUtcOffsetStringLength) {
     *offsetCode = ZoneOffset::kErrorCode;
     *isDst = false;
     return;

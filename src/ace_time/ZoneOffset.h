@@ -157,7 +157,7 @@ class ZoneOffset {
 
   private:
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
-    static const uint8_t kTimeZoneLength = 6;
+    static const uint8_t kUtcOffsetStringLength = 6;
 
     friend bool operator==(const ZoneOffset& a, const ZoneOffset& b);
     friend bool operator!=(const ZoneOffset& a, const ZoneOffset& b);

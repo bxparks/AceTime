@@ -135,7 +135,7 @@ class TimeZone {
     friend bool operator!=(const TimeZone& a, const TimeZone& b);
 
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
-    static const uint8_t kTimeZoneStringLength = 6;
+    static const uint8_t kUtcOffsetStringLength = 6;
 
     /** Constructor for kTypeFixed. */
     explicit TimeZone(ZoneOffset zoneOffset, bool isDst,
