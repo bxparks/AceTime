@@ -1,13 +1,13 @@
 #include <string.h> // strlen()
 #include "common/Util.h"
 #include "common/DateStrings.h"
-#include "ZoneOffset.h"
+#include "UtcOffset.h"
 
 namespace ace_time {
 
 using common::printPad2;
 
-void ZoneOffset::printTo(Print& printer) const {
+void UtcOffset::printTo(Print& printer) const {
   int8_t sign;
   uint8_t hour;
   uint8_t minute;
@@ -19,7 +19,7 @@ void ZoneOffset::printTo(Print& printer) const {
   common::printPad2(printer, minute);
 }
 
-ZoneOffset& ZoneOffset::initFromOffsetString(const char* ts) {
+UtcOffset& UtcOffset::initFromOffsetString(const char* ts) {
   // verify exact ISO 8601 string length
   if (strlen(ts) != kUtcOffsetStringLength) {
     return setError();

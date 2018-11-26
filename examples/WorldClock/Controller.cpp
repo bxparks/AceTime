@@ -4,18 +4,18 @@ void Controller::setup() {
   // Create the 3 time zones.
   strncpy(mClockInfo0.name, "SFO", ClockInfo::kNameSize);
   mClockInfo0.name[ClockInfo::kNameSize - 1] = '\0';
-  mClockInfo0.timeZone = TimeZone::forZoneOffset(
-      ZoneOffset::forHour(-8), true, "PST", "PDT");
+  mClockInfo0.timeZone = TimeZone::forUtcOffset(
+      UtcOffset::forHour(-8), true, "PST", "PDT");
 
   strncpy(mClockInfo1.name, "PHL", ClockInfo::kNameSize);
   mClockInfo1.name[ClockInfo::kNameSize - 1] = '\0';
-  mClockInfo1.timeZone = TimeZone::forZoneOffset(
-      ZoneOffset::forHour(-5), true, "EST", "EDT");
+  mClockInfo1.timeZone = TimeZone::forUtcOffset(
+      UtcOffset::forHour(-5), true, "EST", "EDT");
 
   strncpy(mClockInfo2.name, "LHR", ClockInfo::kNameSize);
   mClockInfo2.name[ClockInfo::kNameSize - 1] = '\0';
-  mClockInfo2.timeZone = TimeZone::forZoneOffset(
-      ZoneOffset::forHour(0), true, "GMT", "BST");
+  mClockInfo2.timeZone = TimeZone::forUtcOffset(
+      UtcOffset::forHour(0), true, "GMT", "BST");
 
   // Restore from EEPROM to other settings
   StoredInfo storedInfo;

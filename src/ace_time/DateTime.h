@@ -41,17 +41,17 @@ class DateTime {
      *
      * If the timeZone derived from the ZoneInfo, then the local time may be
      * ambiguous, because we need to calculate the epochSeconds of the local
-     * time before we can determine the ZoneOffset, but the ZoneOffset is a
+     * time before we can determine the UtcOffset, but the UtcOffset is a
      * function of the epochSeconds. This function resolves the ambiguity by
-     * first obtaining the ZoneOffset defined on Jan 1 of the specified year.
+     * first obtaining the UtcOffset defined on Jan 1 of the specified year.
      * (In the northern hemisphere, this will be the Standard time). Using
      * that, it calculates what it believes is the actaul epochSeconds of the
      * components given to the method. Using this epochSeconds, it obtains a
-     * second guess of the ZoneOffset at that instant in time. Then it uses
-     * that as the actual ZoneOffset of this object.
+     * second guess of the UtcOffset at that instant in time. Then it uses
+     * that as the actual UtcOffset of this object.
      *
      * In the northern hemisphere the Standard time is observed on Jan 1.
-     * If there are 2 valid ZoneOffset for a given local date/time (i.e. when
+     * If there are 2 valid UtcOffset for a given local date/time (i.e. when
      * the clock is shifted back by an hour in the autumn), this method will
      * prefer the Standard time representation, instead of the Daylight time
      * representation. If the local date/time represents a time in the gap
@@ -75,25 +75,25 @@ class DateTime {
             uint8_t hour, uint8_t minute, uint8_t second,
             const TimeZone* timeZone = &TimeZone::sUtc) {
       if (timeZone->getType() == TimeZone::kTypeFixed) {
-        ZoneOffset zoneOffset = timeZone->getZoneOffset();
+        UtcOffset utcOffset = timeZone->getUtcOffset();
         OffsetDateTime odt = OffsetDateTime::forComponents(
-            year, month, day, hour, minute, second, zoneOffset);
+            year, month, day, hour, minute, second, utcOffset);
         return DateTime(odt, timeZone);
       } else {
-        // First guess at the ZoneOffset using Jan 1 of the given year.
+        // First guess at the UtcOffset using Jan 1 of the given year.
         uint32_t initialEpochSeconds =
             LocalDate::forComponents(year, 1, 1).toEpochSeconds();
-        ZoneOffset initialZoneOffset =
-            timeZone->getZoneOffset(initialEpochSeconds);
+        UtcOffset initialUtcOffset =
+            timeZone->getUtcOffset(initialEpochSeconds);
 
-        // Second guess at the ZoneOffset using the first ZoneOffset.
+        // Second guess at the UtcOffset using the first UtcOffset.
         OffsetDateTime odt = OffsetDateTime::forComponents(
-            year, month, day, hour, minute, second, initialZoneOffset);
+            year, month, day, hour, minute, second, initialUtcOffset);
         uint32_t epochSeconds = odt.toEpochSeconds();
-        ZoneOffset actualZoneOffset = timeZone->getZoneOffset(epochSeconds);
+        UtcOffset actualUtcOffset = timeZone->getUtcOffset(epochSeconds);
 
         odt = OffsetDateTime::forComponents(
-            year, month, day, hour, minute, second, actualZoneOffset);
+            year, month, day, hour, minute, second, actualUtcOffset);
         return DateTime(odt, timeZone);
       }
     }
@@ -118,9 +118,9 @@ class DateTime {
         return dt.setError();
       }
 
-      ZoneOffset zoneOffset = timeZone->getZoneOffset(epochSeconds);
+      UtcOffset utcOffset = timeZone->getUtcOffset(epochSeconds);
       dt.mOffsetDateTime = OffsetDateTime::forEpochSeconds(
-          epochSeconds, zoneOffset);
+          epochSeconds, utcOffset);
       dt.mTimeZone = timeZone;
       return dt;
     }

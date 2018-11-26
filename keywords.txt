@@ -10,7 +10,7 @@ DateStrings	KEYWORD1
 DateTime	KEYWORD1
 OffsetDateTime	KEYWORD1
 TimeZone	KEYWORD1
-ZoneOffset	KEYWORD1
+UtcOffset	KEYWORD1
 TimePeriod	KEYWORD1
 TimeProvider	KEYWORD1
 TimeKeeper	KEYWORD1
@@ -46,8 +46,8 @@ hour	KEYWORD2
 minute	KEYWORD2
 second	KEYWORD2
 dayOfWeek	KEYWORD2
-zoneOffset	KEYWORD2
-convertToZoneOffset	KEYWORD2
+utcOffset	KEYWORD2
+convertToUtcOffset	KEYWORD2
 printTo	KEYWORD2
 incrementYear	KEYWORD2
 incrementMonth	KEYWORD2
@@ -73,7 +73,7 @@ hour	KEYWORD2
 minute	KEYWORD2
 second	KEYWORD2
 dayOfWeek	KEYWORD2
-zoneOffset	KEYWORD2
+utcOffset	KEYWORD2
 convertToTimeZone	KEYWORD2
 printTo	KEYWORD2
 incrementYear	KEYWORD2
@@ -86,7 +86,7 @@ toEpochSeconds	KEYWORD2
 toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
 
-# ZoneOffset.h
+# UtcOffset.h
 forOffsetCode	KEYWORD2
 forHour	KEYWORD2
 forHourMinute	KEYWORD2
@@ -102,9 +102,9 @@ isError	KEYWORD2
 printTo	KEYWORD2
 
 # TimeZone.h
-forZoneOffset	KEYWORD2
-zoneOffset	KEYWORD2
-effectiveZoneOffset	KEYWORD2
+forUtcOffset	KEYWORD2
+utcOffset	KEYWORD2
+effectiveUtcOffset	KEYWORD2
 isDst	KEYWORD2
 setError	KEYWORD2
 isError	KEYWORD2

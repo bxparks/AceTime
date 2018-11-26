@@ -98,7 +98,7 @@ class Controller {
     uint16_t preserveInfo() {
       mIsStoredInfoValid = true;
       mStoredInfo.timeZoneType = mTimeZone.getType();
-      mStoredInfo.offsetCode = mTimeZone.getBaseZoneOffset().toOffsetCode();
+      mStoredInfo.offsetCode = mTimeZone.getBaseUtcOffset().toOffsetCode();
       mStoredInfo.isDst = mTimeZone.getBaseDst();
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }

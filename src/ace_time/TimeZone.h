@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include "common/ZoneInfo.h"
-#include "ZoneOffset.h"
+#include "UtcOffset.h"
 #include "ZoneManager.h"
 
 class Print;
@@ -33,17 +33,17 @@ class TimeZone {
     static const TimeZone sUtc;
 
     /**
-     * Factory method. Create from ZoneOffset.
+     * Factory method. Create from UtcOffset.
      *
-     * @param zoneOffset offset from UTC
+     * @param utcOffset offset from UTC
      * @param isDst true if DST is in effect
      * @param stdAbbrev abbreviation during standard time (e.g. "PST")
      * @param dstAbbrev abbreviation during DST time (e.g. "PDT")
      */
-    static TimeZone forZoneOffset(ZoneOffset zoneOffset,
+    static TimeZone forUtcOffset(UtcOffset utcOffset,
         bool isDst = false, const char* stdAbbrev = nullptr,
         const char* dstAbbrev = nullptr) {
-      return TimeZone(zoneOffset, isDst, stdAbbrev, dstAbbrev);
+      return TimeZone(utcOffset, isDst, stdAbbrev, dstAbbrev);
     }
 
     /** Factory method. Create from time zone string. */
@@ -52,8 +52,8 @@ class TimeZone {
       bool isDst;
       // TODO: write better time zone parser
       parseFromOffsetString(ts, &offsetCode, &isDst);
-      return TimeZone::forZoneOffset(
-          ZoneOffset::forOffsetCode(offsetCode), isDst);
+      return TimeZone::forUtcOffset(
+          UtcOffset::forOffsetCode(offsetCode), isDst);
     }
 
     /** Factory method. Create from ZoneInfo. */
@@ -64,7 +64,7 @@ class TimeZone {
     /** Default constructor creates the UTC time zone. */
     explicit TimeZone():
         mType(kTypeFixed),
-        mZoneOffset(),
+        mUtcOffset(),
         mIsDst(false),
         mStdAbbrev(nullptr),
         mDstAbbrev(nullptr),
@@ -83,11 +83,11 @@ class TimeZone {
     }
 
     /** Return the effective zone offset. */
-    ZoneOffset getZoneOffset(uint32_t epochSeconds) const {
+    UtcOffset getUtcOffset(uint32_t epochSeconds) const {
       if (mType == kTypeFixed) {
-        return getZoneOffset();
+        return getUtcOffset();
       } else {
-        return mZoneManager.getZoneOffset(epochSeconds);
+        return mZoneManager.getUtcOffset(epochSeconds);
       }
     }
 
@@ -101,11 +101,11 @@ class TimeZone {
     }
 
     /** Return the base offset without regards to the DST setting. */
-    const ZoneOffset& getBaseZoneOffset() const { return mZoneOffset; }
+    const UtcOffset& getBaseUtcOffset() const { return mUtcOffset; }
 
     /** Set the base offset without regards to the DST setting. */
-    void setBaseZoneOffset(ZoneOffset zoneOffset) {
-      mZoneOffset = zoneOffset;
+    void setBaseUtcOffset(UtcOffset utcOffset) {
+      mUtcOffset = utcOffset;
     }
 
     /** Return the base isDst flag. */
@@ -130,9 +130,9 @@ class TimeZone {
     }
 
     /** Return the effective zone offset for kTypeFixed. */
-    ZoneOffset getZoneOffset() const {
-      return ZoneOffset::forOffsetCode(
-          mZoneOffset.toOffsetCode() + (mIsDst ? 4 : 0));
+    UtcOffset getUtcOffset() const {
+      return UtcOffset::forOffsetCode(
+          mUtcOffset.toOffsetCode() + (mIsDst ? 4 : 0));
     }
 
     /** Print the human readable representation of the time zone. */
@@ -146,10 +146,10 @@ class TimeZone {
     static const uint8_t kUtcOffsetStringLength = 6;
 
     /** Constructor for kTypeFixed. */
-    explicit TimeZone(ZoneOffset zoneOffset, bool isDst,
+    explicit TimeZone(UtcOffset utcOffset, bool isDst,
             const char* stdAbbrev, const char* dstAbbrev):
         mType(kTypeFixed),
-        mZoneOffset(zoneOffset),
+        mUtcOffset(utcOffset),
         mIsDst(isDst),
         mStdAbbrev(stdAbbrev),
         mDstAbbrev(dstAbbrev),
@@ -158,7 +158,7 @@ class TimeZone {
     /** Constructor for kTypeAuto. */
     explicit TimeZone(const common::ZoneInfo* zoneInfo):
         mType(kTypeAuto),
-        mZoneOffset(),
+        mUtcOffset(),
         mIsDst(false),
         mStdAbbrev(nullptr),
         mDstAbbrev(nullptr),
@@ -172,7 +172,7 @@ class TimeZone {
     uint8_t mType;
 
     /** Offset from UTC. */
-    ZoneOffset mZoneOffset;
+    UtcOffset mUtcOffset;
 
     /** Indicate whether Daylight Saving Time is in effect. */
     bool mIsDst;
@@ -191,7 +191,7 @@ inline bool operator==(const TimeZone& a, const TimeZone& b) {
   if (a.mType != b.mType) return false;
 
   if (a.mType == TimeZone::kTypeFixed) {
-    return a.mZoneOffset == b.mZoneOffset
+    return a.mUtcOffset == b.mUtcOffset
         && a.mIsDst == b.mIsDst
         && a.mStdAbbrev == b.mStdAbbrev
         && a.mDstAbbrev == b.mDstAbbrev;

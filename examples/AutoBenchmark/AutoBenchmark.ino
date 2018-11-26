@@ -39,8 +39,8 @@ void setup() {
   Serial.print(F("sizeof(LocalTime): "));
   Serial.println(sizeof(LocalTime));
 
-  Serial.print(F("sizeof(ZoneOffset): "));
-  Serial.println(sizeof(ZoneOffset));
+  Serial.print(F("sizeof(UtcOffset): "));
+  Serial.println(sizeof(UtcOffset));
 
   Serial.print(F("sizeof(ZoneMatch): "));
   Serial.println(sizeof(ZoneMatch));

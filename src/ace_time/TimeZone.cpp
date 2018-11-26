@@ -12,7 +12,7 @@ const TimeZone TimeZone::sUtc;
 void TimeZone::printTo(Print& printer) const {
   if (mType == kTypeFixed) {
     printer.print(F("UTC"));
-    mZoneOffset.printTo(printer);
+    mUtcOffset.printTo(printer);
     printer.print(mIsDst ? F(" (DST)") : F(" (STD)"));
   } else {
     printer.print('[');
@@ -26,7 +26,7 @@ void TimeZone::parseFromOffsetString(const char* ts,
 
   // verify exact ISO 8601 string length
   if (strlen(ts) != kUtcOffsetStringLength) {
-    *offsetCode = ZoneOffset::kErrorCode;
+    *offsetCode = UtcOffset::kErrorCode;
     *isDst = false;
     return;
   }
@@ -39,7 +39,7 @@ void TimeZone::parseFromOffsetString(const char* ts,
   } else if (utcSign == '+') {
     sign = 1;
   } else {
-    *offsetCode = ZoneOffset::kErrorCode;
+    *offsetCode = UtcOffset::kErrorCode;
     *isDst = false;
     return;
   }
@@ -55,7 +55,7 @@ void TimeZone::parseFromOffsetString(const char* ts,
   uint8_t minute = (*ts++ - '0');
   minute = 10 * minute + (*ts++ - '0');
 
-  *offsetCode = ZoneOffset::forHourMinute(sign, hour, minute).toOffsetCode();
+  *offsetCode = UtcOffset::forHourMinute(sign, hour, minute).toOffsetCode();
 
   // TODO: parse the DST from the string
   *isDst = false;

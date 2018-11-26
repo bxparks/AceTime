@@ -2,7 +2,7 @@
 #define ACE_TIME_OFFSET_DATE_TIME_H
 
 #include <stdint.h>
-#include "ZoneOffset.h"
+#include "UtcOffset.h"
 #include "LocalDate.h"
 #include "LocalTime.h"
 
@@ -70,46 +70,46 @@ class OffsetDateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param zoneOffset Optional, default is UTC time zone. The time zone
-     * offset in 15-minute increments from UTC. Using a ZoneOffset object here
+     * @param utcOffset Optional, default is UTC time zone. The time zone
+     * offset in 15-minute increments from UTC. Using a UtcOffset object here
      * in the last component allows us to add an additional constructor that
      * accepts a millisecond component in the future.
      */
     static OffsetDateTime forComponents(uint8_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
-        ZoneOffset zoneOffset = ZoneOffset()) {
-      return OffsetDateTime(year, month, day, hour, minute, second, zoneOffset);
+        UtcOffset utcOffset = UtcOffset()) {
+      return OffsetDateTime(year, month, day, hour, minute, second, utcOffset);
     }
 
     /**
      * Factory method. Create the various components of the OffsetDateTime from
-     * the epochSeconds and its ZoneOffset.
+     * the epochSeconds and its UtcOffset.
      *
      * The largest date that can be fully supported by this class is
      * 2136-02-07T06:28:14Z (one second before the uint32_t overflow).
      *
-     * If ZoneOffset.offsetCode() is negative, then (epochSeconds >=
-     * ZoneOffset::toSeconds() must be true. Otherwise, the local time will be
+     * If UtcOffset.offsetCode() is negative, then (epochSeconds >=
+     * UtcOffset::toSeconds() must be true. Otherwise, the local time will be
      * in the year 1999, which cannot be represented by the internal year
      * component which is a uint8_t offset from the year 2000.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00). Use kInvalidEpochSeconds to define an
      *    invalid instance whose isError() returns true.
-     * @param zoneOffset Optional. Default is UTC time zone.
+     * @param utcOffset Optional. Default is UTC time zone.
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
     static OffsetDateTime forEpochSeconds(uint32_t epochSeconds,
-          ZoneOffset zoneOffset = ZoneOffset()) {
+          UtcOffset utcOffset = UtcOffset()) {
       OffsetDateTime dt;
       if (epochSeconds == kInvalidEpochSeconds) {
         return dt.setError();
       }
 
-      dt.mZoneOffset = zoneOffset;
+      dt.mUtcOffset = utcOffset;
 
-      epochSeconds += zoneOffset.toSeconds();
+      epochSeconds += utcOffset.toSeconds();
       uint32_t epochDays = epochSeconds / 86400;
       dt.mLocalDate = LocalDate::forEpochDays(epochDays);
 
@@ -241,23 +241,23 @@ class OffsetDateTime {
     const LocalTime& localTime() const { return mLocalTime; }
 
     /** Return the offset zone of the OffsetDateTime. */
-    const ZoneOffset& zoneOffset() const { return mZoneOffset; }
+    const UtcOffset& utcOffset() const { return mUtcOffset; }
 
     /** Return the offset zone of the OffsetDateTime. */
-    ZoneOffset& zoneOffset() { return mZoneOffset; }
+    UtcOffset& utcOffset() { return mUtcOffset; }
 
     /** Set the offset zone. */
-    void zoneOffset(const ZoneOffset& zoneOffset) {
-      mZoneOffset = zoneOffset;
+    void utcOffset(const UtcOffset& utcOffset) {
+      mUtcOffset = utcOffset;
     }
 
     /**
      * Create a OffsetDateTime in a different offset zone code (with the same
      * epochSeconds).
      */
-    OffsetDateTime convertToZoneOffset(const ZoneOffset& zoneOffset) const {
+    OffsetDateTime convertToUtcOffset(const UtcOffset& utcOffset) const {
       uint32_t epochSeconds = toEpochSeconds();
-      return OffsetDateTime::forEpochSeconds(epochSeconds, zoneOffset);
+      return OffsetDateTime::forEpochSeconds(epochSeconds, utcOffset);
     }
 
     /**
@@ -303,7 +303,7 @@ class OffsetDateTime {
       uint32_t epochDays = mLocalDate.toEpochDays();
 
       // Increment or decrement the day count depending on the offset zone.
-      int32_t utcOffset = mLocalTime.toSeconds() - mZoneOffset.toSeconds();
+      int32_t utcOffset = mLocalTime.toSeconds() - mUtcOffset.toSeconds();
       if (utcOffset >= 86400) return epochDays + 1;
       if (utcOffset < 0) return epochDays - 1;
       return epochDays;
@@ -325,7 +325,7 @@ class OffsetDateTime {
       }
 
       uint32_t epochDays = mLocalDate.toEpochDays();
-      int32_t utcOffset = mLocalTime.toSeconds() - mZoneOffset.toSeconds();
+      int32_t utcOffset = mLocalTime.toSeconds() - mUtcOffset.toSeconds();
       return epochDays * (uint32_t) 86400 + utcOffset;
     }
 
@@ -390,24 +390,24 @@ class OffsetDateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param zoneOffset Optional, default is UTC time zone. The time zone
-     * offset in 15-minute increments from UTC. Using a ZoneOffset object here
+     * @param utcOffset Optional, default is UTC time zone. The time zone
+     * offset in 15-minute increments from UTC. Using a UtcOffset object here
      * in the last component allows us to add an additional constructor that
      * accepts a millisecond component in the future.
      */
     explicit OffsetDateTime(uint8_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
-            ZoneOffset zoneOffset = ZoneOffset()):
+            UtcOffset utcOffset = UtcOffset()):
         mLocalDate(year, month, day),
         mLocalTime(hour, minute, second),
-        mZoneOffset(zoneOffset) {}
+        mUtcOffset(utcOffset) {}
 
     /** Extract the date time components from the given dateString. */
     OffsetDateTime& initFromDateString(const char* dateString);
 
     LocalDate mLocalDate;
     LocalTime mLocalTime;
-    ZoneOffset mZoneOffset; // offset from UTC
+    UtcOffset mUtcOffset; // offset from UTC
 };
 
 /**
@@ -418,7 +418,7 @@ class OffsetDateTime {
 inline bool operator==(const OffsetDateTime& a, const OffsetDateTime& b) {
   return a.mLocalDate == b.mLocalDate
       && a.mLocalTime == b.mLocalTime
-      && a.mZoneOffset == b.mZoneOffset;
+      && a.mUtcOffset == b.mUtcOffset;
 }
 
 /** Return true if two OffsetDateTime objects are not equal. */

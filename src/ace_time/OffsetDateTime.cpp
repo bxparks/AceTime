@@ -31,8 +31,8 @@ void OffsetDateTime::printTo(Print& printer) const {
   printer.print(':');
   printPad2(printer, mLocalTime.second());
 
-  // ZoneOffset
-  mZoneOffset.printTo(printer);
+  // UtcOffset
+  mUtcOffset.printTo(printer);
   printer.print(' ');
 
   // Week day
@@ -78,7 +78,7 @@ OffsetDateTime& OffsetDateTime::initFromDateString(const char* ds) {
   ds++;
 
   // create timeZone from (hour, minute)
-  mZoneOffset = ZoneOffset::forHourMinute(sign, utcHour, utcMinute);
+  mUtcOffset = UtcOffset::forHourMinute(sign, utcHour, utcMinute);
 
   return *this;
 }

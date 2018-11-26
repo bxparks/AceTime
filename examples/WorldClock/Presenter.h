@@ -221,11 +221,11 @@ class Presenter {
     void displayClockInfo() const {
       const ClockInfo& clockInfo = mRenderingInfo.clockInfo;
       const TimeZone& timeZone = clockInfo.timeZone;
-      ZoneOffset zoneOffset = timeZone.getBaseZoneOffset();
+      UtcOffset utcOffset = timeZone.getBaseUtcOffset();
       int8_t sign;
       uint8_t hour;
       uint8_t minute;
-      zoneOffset.toHourMinute(sign, hour, minute);
+      utcOffset.toHourMinute(sign, hour, minute);
 
       mOled.print(FF("12/24: "));
       if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {

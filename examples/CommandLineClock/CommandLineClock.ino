@@ -207,12 +207,12 @@ class TimezoneCommand: public CommandHandler {
           tz.printTo(printer);
           printer.println();
         } else {
-          ZoneOffset offset = ZoneOffset::forOffsetString(argv[0]);
+          UtcOffset offset = UtcOffset::forOffsetString(argv[0]);
           if (offset.isError()) {
             printer.println(FF("Invalid time zone offset"));
             return;
           }
-          TimeZone tz = TimeZone::forZoneOffset(offset);
+          TimeZone tz = TimeZone::forUtcOffset(offset);
           controller.setTimeZone(tz);
           printer.print(FF("Time zone set to: "));
           tz.printTo(printer);

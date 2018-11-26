@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include "common/ZonePolicy.h"
 #include "common/ZoneInfo.h"
-#include "ZoneOffset.h"
+#include "UtcOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 
@@ -80,9 +80,9 @@ class ZoneManager {
     }
 
     /** Return the current offset. */
-    ZoneOffset getZoneOffset(uint32_t epochSeconds) {
+    UtcOffset getUtcOffset(uint32_t epochSeconds) {
       const ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
-      return ZoneOffset::forOffsetCode(zoneMatch->offsetCode);
+      return UtcOffset::forOffsetCode(zoneMatch->offsetCode);
     }
 
     /** Return the time zone abbreviation. */
@@ -313,7 +313,7 @@ class ZoneManager {
         OffsetDateTime startDateTime = OffsetDateTime::forComponents(
             mYear, match.rule->inMonth, startDayOfMonth,
             match.rule->atHour, 0 /*minute*/, 0 /*second*/,
-            ZoneOffset::forOffsetCode(ruleOffsetCode));
+            UtcOffset::forOffsetCode(ruleOffsetCode));
         match.startEpochSeconds = startDateTime.toEpochSeconds();
 
         // Determine the effective offset code

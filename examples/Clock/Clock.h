@@ -44,12 +44,12 @@ class Clock {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
       if (isValid) {
-        mTimeZone = TimeZone::forZoneOffset(
-            ZoneOffset::forOffsetCode(storedInfo.offsetCode), storedInfo.isDst);
+        mTimeZone = TimeZone::forUtcOffset(
+            UtcOffset::forOffsetCode(storedInfo.offsetCode), storedInfo.isDst);
         mHourMode = storedInfo.hourMode;
       } else {
-        mTimeZone = TimeZone::forZoneOffset(
-            ZoneOffset::forOffsetCode(kDefaultOffsetCode));
+        mTimeZone = TimeZone::forUtcOffset(
+            UtcOffset::forOffsetCode(kDefaultOffsetCode));
         mHourMode = StoredInfo::kTwentyFour;
       }
 
@@ -173,7 +173,7 @@ class Clock {
     void preserveInfo() {
       StoredInfo storedInfo;
       storedInfo.timeZoneType = mTimeZone.getType();
-      storedInfo.offsetCode = mTimeZone.getBaseZoneOffset().toOffsetCode();
+      storedInfo.offsetCode = mTimeZone.getBaseUtcOffset().toOffsetCode();
       storedInfo.isDst = mTimeZone.getBaseDst();
       storedInfo.hourMode = mHourMode;
 

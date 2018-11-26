@@ -17,7 +17,7 @@ sizeof(ZoneRule): 11
 sizeof(ZonePolicy): 3
 sizeof(LocalDate): 3
 sizeof(LocalTime): 3
-sizeof(ZoneOffset): 1
+sizeof(UtcOffset): 1
 sizeof(ZoneMatch): 15
 sizeof(ZoneManager): 80
 sizeof(TimeZone): 87
@@ -58,7 +58,7 @@ IDE: Arduino 1.8.7 (ESP Core 2.4.2)
 Memory:
 ```
 sizeof(LocalDate): 3
-sizeof(ZoneOffset): 1
+sizeof(UtcOffset): 1
 sizeof(OffsetDateTime): 8
 sizeof(DateTime): 10
 sizeof(TimeZone): 2
@@ -98,7 +98,7 @@ Memory:
 
 ```
 sizeof(LocalDate): 3
-sizeof(ZoneOffset): 1
+sizeof(UtcOffset): 1
 sizeof(OffsetDateTime): 8
 sizeof(DateTime): 10
 sizeof(TimeZone): 2
@@ -141,7 +141,7 @@ Memory:
 
 ```
 sizeof(LocalDate): 3
-sizeof(ZoneOffset): 1
+sizeof(UtcOffset): 1
 sizeof(OffsetDateTime): 8
 sizeof(DateTime): 10
 sizeof(TimeZone): 2
