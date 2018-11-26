@@ -81,7 +81,7 @@ class FullOledClock: public Clock {
           break;
 
         case MODE_TIME_ZONE:
-          mChangingDateTime.timeZone(mTimeZone);
+          mChangingDateTime.timeZone(&mTimeZone);
           mMode = MODE_CHANGE_TIME_ZONE_HOUR;
           break;
 

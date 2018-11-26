@@ -240,10 +240,10 @@ test(ZoneManagerTest, createAbbreviation) {
 // --------------------------------------------------------------------------
 
 test(TimeZone, operatorEqualEqual) {
-  TimeZone tz1;
-  TimeZone tz2 = TimeZone::forZoneOffset(
+  const TimeZone &tz1 = TimeZone::sUtc;
+  const TimeZone tz2 = TimeZone::forZoneOffset(
       ZoneOffset::forHour(-8), false, "PST");
-  TimeZone tz3 = TimeZone::forZone(&zonedb::kZoneLos_Angeles);
+  const TimeZone tz3 = TimeZone::forZone(&zonedb::kZoneLos_Angeles);
 
   assertTrue(tz1 != tz2);
   assertTrue(tz1 != tz3);
@@ -254,7 +254,7 @@ test(TimeZone, operatorEqualEqual) {
 }
 
 test(FixedTimeZone, default) {
-  TimeZone tz;
+  const TimeZone &tz = TimeZone::sUtc;
   assertEqual(TimeZone::kTypeFixed, tz.getType());
   assertEqual(0, tz.getBaseZoneOffset().toOffsetCode());
   assertEqual(false, tz.getBaseDst());
@@ -263,7 +263,7 @@ test(FixedTimeZone, default) {
 }
 
 test(FixedTimeZone, standardTime) {
-  TimeZone tz = TimeZone::forZoneOffset(
+  const TimeZone tz = TimeZone::forZoneOffset(
       ZoneOffset::forHour(-8), false, "PST", "PDT");
   assertEqual(TimeZone::kTypeFixed, tz.getType());
   assertEqual(-32, tz.getZoneOffset().toOffsetCode());

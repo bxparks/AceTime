@@ -100,7 +100,7 @@ class Controller {
       switch (mMode) {
         case MODE_DATE_TIME:
           mChangingDateTime = DateTime::forEpochSeconds(
-              mTimeKeeper.getNow(), mClockInfo0.timeZone);
+              mTimeKeeper.getNow(), &mClockInfo0.timeZone);
           mChangingClockInfo = mClockInfo0;
           mSecondFieldCleared = false;
           mMode = MODE_CHANGE_YEAR;
@@ -288,7 +288,7 @@ class Controller {
     /** Read the UTC DateTime from RTC and convert to current time zone. */
     void readDateTime(DateTime* dateTime) {
       uint32_t now = mTimeKeeper.getNow();
-      *dateTime = DateTime::forEpochSeconds(now, mClockInfo0.timeZone);
+      *dateTime = DateTime::forEpochSeconds(now, &mClockInfo0.timeZone);
     }
 
     void preserveInfo() {

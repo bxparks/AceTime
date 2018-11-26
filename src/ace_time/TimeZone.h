@@ -12,14 +12,25 @@ namespace ace_time {
 
 /**
  * Class that describes a time zone. There are 2 subtypes:
- * kTypeFixed represents a fixed offset from UTC, with an optional DST flag.
- * kTypeAuto represents a time zone described by the TZ Database which
- * contains rules about when the transition occurs from standard to DST modes.
+ *
+ *    - kTypeFixed represents a fixed offset from UTC, with an optional DST
+ *    flag.
+ *    - kTypeAuto represents a time zone described by the TZ Database which
+ *    contains rules about when the transition occurs from standard to DST
+ *    modes.
+ *
+ * This class is designed to be logically immutable (an internal cache is
+ * mutable but hidden from the calling code). The application should create
+ * a single instance of TimeZone for each time zone needed, and reuse the
+ * same instance for multiple DateTime objects.
  */
 class TimeZone {
   public:
     static const uint8_t kTypeFixed = 0;
     static const uint8_t kTypeAuto = 1;
+
+    /** Default UTC TimeZone instance. */
+    static const TimeZone sUtc;
 
     /**
      * Factory method. Create from ZoneOffset.
@@ -50,8 +61,8 @@ class TimeZone {
       return TimeZone(zoneInfo);
     }
 
-    /** Default constructor. */
-    TimeZone():
+    /** Default constructor creates the UTC time zone. */
+    explicit TimeZone():
         mType(kTypeFixed),
         mZoneOffset(),
         mIsDst(false),
@@ -91,9 +102,6 @@ class TimeZone {
 
     /** Return the base offset without regards to the DST setting. */
     const ZoneOffset& getBaseZoneOffset() const { return mZoneOffset; }
-
-    /** Return the base offset without regards to the DST setting. */
-    ZoneOffset& getBaseZoneOffset() { return mZoneOffset; }
 
     /** Set the base offset without regards to the DST setting. */
     void setBaseZoneOffset(ZoneOffset zoneOffset) {

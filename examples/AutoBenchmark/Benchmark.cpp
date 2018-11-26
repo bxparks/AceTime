@@ -56,7 +56,7 @@ void disableOptimization(const DateTime& dt) {
   guard ^= dt.hour();
   guard ^= dt.minute();
   guard ^= dt.second();
-  guard ^= dt.timeZone().getBaseZoneOffset().toOffsetCode();
+  guard ^= dt.timeZone()->getBaseZoneOffset().toOffsetCode();
 }
 
 void disableOptimization(const LocalDate& ld) {
@@ -245,7 +245,7 @@ static unsigned long runDateTimeForEpochSecondsLosAngeles(
     // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
     TimeZone tz = TimeZone::forZone(&zonedb::kZoneLos_Angeles);
-    DateTime dateTime = DateTime::forEpochSeconds(tickMillis, tz);
+    DateTime dateTime = DateTime::forEpochSeconds(tickMillis, &tz);
     disableOptimization(dateTime);
     disableOptimization(tickMillis);
   });

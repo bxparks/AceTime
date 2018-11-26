@@ -57,7 +57,7 @@ class Clock {
       uint32_t nowSeconds = mTimeKeeper.getNow();
 
       // Set the current date time using the mTimeZone.
-      mCurrentDateTime = DateTime::forEpochSeconds(nowSeconds, mTimeZone);
+      mCurrentDateTime = DateTime::forEpochSeconds(nowSeconds, &mTimeZone);
     }
 
     /**
@@ -86,7 +86,7 @@ class Clock {
   protected:
     void updateDateTime() {
       mCurrentDateTime = DateTime::forEpochSeconds(
-          mTimeKeeper.getNow(), mTimeZone);
+          mTimeKeeper.getNow(), &mTimeZone);
 
       // If in CHANGE mode, and the 'second' field has not been cleared,
       // update the mChangingDateTime.second field with the current second.
@@ -160,7 +160,7 @@ class Clock {
 
     void saveTimeZone() {
       mTimeZone = mChangingDateTime.timeZone();
-      mCurrentDateTime = mCurrentDateTime.convertToTimeZone(mTimeZone);
+      mCurrentDateTime = mCurrentDateTime.convertToTimeZone(&mTimeZone);
       preserveInfo(); // save mTimeZone
     }
 

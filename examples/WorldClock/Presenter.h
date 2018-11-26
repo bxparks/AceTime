@@ -85,7 +85,7 @@ class Presenter {
     void displayDateTime() const {
       const ClockInfo& clockInfo = mRenderingInfo.clockInfo;
       const DateTime dateTime = DateTime::forEpochSeconds(
-          mRenderingInfo.now, clockInfo.timeZone);
+          mRenderingInfo.now, &clockInfo.timeZone);
 
       mOled.setFont(fixed_bold10x15);
       mOled.set2X();
@@ -131,7 +131,7 @@ class Presenter {
       // place name
       mOled.println();
       uint32_t epochSeconds = dateTime.toEpochSeconds();
-      mOled.print(dateTime.timeZone().getAbbrev(epochSeconds));
+      mOled.print(dateTime.timeZone()->getAbbrev(epochSeconds));
       mOled.print(' ');
       mOled.print('(');
       mOled.print(clockInfo.name);
@@ -142,7 +142,7 @@ class Presenter {
     void displayChangeableDateTime() const {
       const ClockInfo& clockInfo = mRenderingInfo.clockInfo;
       const DateTime dateTime = DateTime::forEpochSeconds(
-          mRenderingInfo.now, clockInfo.timeZone);
+          mRenderingInfo.now, &clockInfo.timeZone);
 
       mOled.setFont(fixed_bold10x15);
       mOled.set1X();
@@ -210,7 +210,7 @@ class Presenter {
 
       // abbreviation and place name, assume TimeZone::kTypeFixed
       mOled.println();
-      mOled.print(dateTime.timeZone().getAbbrev());
+      mOled.print(dateTime.timeZone()->getAbbrev());
       mOled.print(' ');
       mOled.print('(');
       mOled.print(clockInfo.name);

@@ -7,6 +7,8 @@ namespace ace_time {
 
 using common::printPad2;
 
+const TimeZone TimeZone::sUtc;
+
 void TimeZone::printTo(Print& printer) const {
   if (mType == kTypeFixed) {
     printer.print(F("UTC"));
