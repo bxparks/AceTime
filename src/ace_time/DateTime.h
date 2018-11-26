@@ -75,7 +75,7 @@ class DateTime {
             uint8_t hour, uint8_t minute, uint8_t second,
             const TimeZone* timeZone = &TimeZone::sUtc) {
       if (timeZone->getType() == TimeZone::kTypeFixed) {
-        UtcOffset utcOffset = timeZone->getUtcOffset();
+        UtcOffset utcOffset = timeZone->getUtcOffset(0);
         OffsetDateTime odt = OffsetDateTime::forComponents(
             year, month, day, hour, minute, second, utcOffset);
         return DateTime(odt, timeZone);

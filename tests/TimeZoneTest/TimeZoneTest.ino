@@ -266,18 +266,18 @@ test(FixedTimeZone, standardTime) {
   const TimeZone tz = TimeZone::forUtcOffset(
       UtcOffset::forHour(-8), false, "PST", "PDT");
   assertEqual(TimeZone::kTypeFixed, tz.getType());
-  assertEqual(-32, tz.getUtcOffset().toOffsetCode());
+  assertEqual(-32, tz.getUtcOffset(0).toOffsetCode());
   assertEqual(false, tz.getBaseDst());
-  assertEqual("PST", tz.getAbbrev());
+  assertEqual("PST", tz.getAbbrev(0));
 }
 
 test(FixedTimeZone, daylightTime) {
   TimeZone tz = TimeZone::forUtcOffset(
       UtcOffset::forHour(-8), true, "PST", "PDT");
   assertEqual(TimeZone::kTypeFixed, tz.getType());
-  assertEqual(-28, tz.getUtcOffset().toOffsetCode());
+  assertEqual(-28, tz.getUtcOffset(0).toOffsetCode());
   assertEqual(true, tz.getBaseDst());
-  assertEqual("PDT", tz.getAbbrev());
+  assertEqual("PDT", tz.getAbbrev(0));
 }
 
 // TODO: add tests for forOffsetString()

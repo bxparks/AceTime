@@ -73,15 +73,6 @@ class TimeZone {
     /** Return the type of TimeZone. */
     uint8_t getType() const { return mType; }
 
-    /** Return the DST mode setting. */
-    bool isDst(uint32_t epochSeconds) const {
-      if (mType == kTypeFixed) {
-        return mIsDst;
-      } else {
-        return mZoneManager.isDst(epochSeconds);
-      }
-    }
-
     /** Return the effective zone offset. */
     UtcOffset getUtcOffset(uint32_t epochSeconds) const {
       if (mType == kTypeFixed) {
@@ -120,21 +111,6 @@ class TimeZone {
     /** Return the DST abbreviation. Nullable. */
     const char* getDstAbbrev() const { return mDstAbbrev; }
 
-    /**
-     * Return the abbreviation depending on the isDst flag.
-     * Return empty string if nullptr.
-     */
-    const char* getAbbrev() const {
-      const char* abbrev = mIsDst ? mDstAbbrev : mStdAbbrev;
-      return (abbrev == nullptr) ? "" : abbrev;
-    }
-
-    /** Return the effective zone offset for kTypeFixed. */
-    UtcOffset getUtcOffset() const {
-      return UtcOffset::forOffsetCode(
-          mUtcOffset.toOffsetCode() + (mIsDst ? 4 : 0));
-    }
-
     /** Print the human readable representation of the time zone. */
     void printTo(Print& printer) const;
 
@@ -167,6 +143,21 @@ class TimeZone {
     /** Set time zone from the given UTC offset string. */
     static void parseFromOffsetString(const char* offsetString,
         uint8_t* offsetCode, bool* isDst);
+
+    /**
+     * Return the abbreviation depending on the isDst flag.
+     * Return empty string if nullptr.
+     */
+    const char* getAbbrev() const {
+      const char* abbrev = mIsDst ? mDstAbbrev : mStdAbbrev;
+      return (abbrev == nullptr) ? "" : abbrev;
+    }
+
+    /** Return the effective zone offset for kTypeFixed. */
+    UtcOffset getUtcOffset() const {
+      return UtcOffset::forOffsetCode(
+          mUtcOffset.toOffsetCode() + (mIsDst ? 4 : 0));
+    }
 
     /** Type of time zone. */
     uint8_t mType;

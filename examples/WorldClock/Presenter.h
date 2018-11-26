@@ -210,7 +210,7 @@ class Presenter {
 
       // abbreviation and place name, assume TimeZone::kTypeFixed
       mOled.println();
-      mOled.print(dateTime.timeZone()->getAbbrev());
+      mOled.print(dateTime.timeZone()->getAbbrev(mRenderingInfo.now));
       mOled.print(' ');
       mOled.print('(');
       mOled.print(clockInfo.name);
