@@ -135,18 +135,6 @@ def main():
     extractor.process_zones()
     (zones, rules) = extractor.get_data()
 
-    # Extractor summary
-    if args.print_summary:
-        extractor.print_summary()
-
-    # Transform the TZ zones and rules
-    transformer = Transformer(zones, rules, args.print_removed)
-    transformer.transform()
-    (zones, rules) = transformer.get_data()
-
-    # create the generator
-    generator = Generator(invocation, args.tz_version, zones, rules)
-
     # Print various slices of the data
     printer = Printer(zones, rules)
     # rules
@@ -174,8 +162,16 @@ def main():
     if args.print_zones_requiring_historic_rules:
         printer.print_zones_requiring_historic_rules()
 
+    # Extractor summary
+    if args.print_summary:
+        extractor.print_summary()
+
+    # Transform the TZ zones and rules
+    transformer = Transformer(zones, rules, args.print_removed)
+    transformer.transform()
+    (zones, rules, removed_zones) = transformer.get_data()
+
     # printer for the transformer
-    (zones, rules) = transformer.get_data()
     printer = Printer(zones, rules)
 
     # print the transformed data
@@ -183,6 +179,10 @@ def main():
         printer.print_zones()
     if args.print_transformed_rules:
         printer.print_rules()
+
+    # create the generator
+    generator = Generator(invocation, args.tz_version, zones, rules,
+        removed_zones)
 
     # print the generated zone_policies.*
     if args.print_generated_policies:

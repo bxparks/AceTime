@@ -17,6 +17,7 @@ class Transformer:
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.print_removed = print_removed
+        self.all_removed_zones = []
 
     def get_data(self):
         """
@@ -50,8 +51,11 @@ class Transformer:
             untilTime: (string) optional
             rawLine: (string) original ZONE line in TZ file
             used: (boolean) indicates whether or not the rule is used by a zone
+
+        The returned 'all_removed_zones' is a list of the names of zones
+        which were removed for one reason or another.
         """
-        return (self.zones_map, self.rules_map)
+        return (self.zones_map, self.rules_map, self.all_removed_zones)
 
     def transform(self):
         zones_map = self.zones_map
@@ -79,6 +83,8 @@ class Transformer:
         self.rules_map = rules_map
         self.zones_map = zones_map
 
+        logging.info('Removed Total %s zone infos'
+            % len(self.all_removed_zones))
         logging.info('Remaining %s zone infos' % len(self.zones_map))
         logging.info('Remaining %s rule policies' % len(self.rules_map))
 
@@ -121,6 +127,7 @@ class Transformer:
         if self.print_removed:
             for name in sorted(removed_zones):
                 print('  %s' % name, file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones)
         return results
 
     def remove_zones_with_offset_as_rules(self, zones_map):
@@ -142,6 +149,7 @@ class Transformer:
         if self.print_removed:
             for name in sorted(removed_zones):
                 print('  %s' % name, file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones)
         return results
 
     def remove_zones_without_slash(self, zones_map):
@@ -157,6 +165,7 @@ class Transformer:
         if self.print_removed:
             for name in sorted(removed_zones):
                 print('  %s' % name, file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones)
         return results
 
     @staticmethod
@@ -190,6 +199,7 @@ class Transformer:
         if self.print_removed:
             for name in sorted(removed_zones):
                 print('  %s' % name, file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones)
         return results
 
     def remove_rules_long_dst_letter(self, rules_map):

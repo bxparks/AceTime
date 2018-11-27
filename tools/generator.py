@@ -125,6 +125,11 @@ namespace zonedb {{
 // numInfos: {numInfos}
 {infoItems}
 
+// The following zones are not supported in the current version of AceTime.
+// numZones: {numRemovedInfos}
+
+{removedInfoItems}
+
 }}
 }}
 
@@ -133,6 +138,10 @@ namespace zonedb {{
 
     ZONE_INFOS_H_INFO_ITEM = """\
 extern const common::ZoneInfo kZone{infoShortName}; // {infoFullName}
+"""
+
+    ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
+// {infoFullName}
 """
 
     ZONE_INFOS_CPP_FILE = """\
@@ -207,11 +216,12 @@ const common::ZoneInfo kZone{infoShortName} = {{
     SIZEOF_ZONE_POLICY_8 = 3
     SIZEOF_ZONE_POLICY_32 = 5
 
-    def __init__(self, invocation, tz_version, zones, rules):
+    def __init__(self, invocation, tz_version, zones, rules, removed_zones):
         self.invocation = invocation
         self.tz_version = tz_version
         self.zones = zones
         self.rules = rules
+        self.removed_zones = removed_zones
 
     def print_generated_policies(self):
         print(self.generate_policies_h())
@@ -309,11 +319,18 @@ const common::ZoneInfo kZone{infoShortName} = {{
                 infoShortName=normalize_name(short_name(name)),
                 infoFullName=name)
 
+        removed_info_items = ''
+        for name in sorted(self.removed_zones):
+            removed_info_items += self.ZONE_INFOS_H_REMOVED_INFO_ITEM.format(
+                infoFullName=name)
+
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
             numInfos=len(self.zones),
-            infoItems=info_items)
+            infoItems=info_items,
+            numRemovedInfos=len(self.removed_zones),
+            removedInfoItems=removed_info_items)
 
     def generate_infos_cpp(self):
         info_items = ''
