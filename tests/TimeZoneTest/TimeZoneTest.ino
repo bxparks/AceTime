@@ -112,8 +112,34 @@ test(ZoneManagerTest, init) {
   assertEqual((uint32_t) 594637200, manager.mMatches[1].startEpochSeconds);
 }
 
+// zoneInfo == nullptr means UTC
+test(ZoneManagerTest, nullptr) {
+  ZoneManager manager(nullptr);
+  assertEqual(0, manager.getUtcOffset(0).toOffsetCode());
+  assertEqual("UTC", manager.getAbbrev(0));
+  assertFalse(manager.isDst(0));
+}
+
+test(ZoneManagerTest, copyConstructorAssignmentOperator) {
+  OffsetDateTime dt = OffsetDateTime::forComponents(18, 3, 11, 1, 59, 59,
+      UtcOffset::forHour(-8));
+  uint32_t epochSeconds = dt.toEpochSeconds();
+
+  ZoneManager m1(nullptr);
+  assertEqual(0, m1.getUtcOffset(0).toOffsetCode());
+
+  ZoneManager m2(&zonedb::kZoneLos_Angeles);
+  assertEqual(-32, m2.getUtcOffset(epochSeconds).toOffsetCode());
+
+  m1 = m2;
+  assertEqual(-32, m1.getUtcOffset(0).toOffsetCode());
+
+  ZoneManager m3(m2);
+  assertEqual(-32, m1.getUtcOffset(0).toOffsetCode());
+}
+
 // https://www.timeanddate.com/time/zone/usa/los-angeles
-test(ZoneManagerTest, getUtcOffset_Los_Angeles) {
+test(ZoneManagerTest, kZoneLos_Angeles) {
   ZoneManager manager(&zonedb::kZoneLos_Angeles);
   OffsetDateTime dt;
   uint32_t epochSeconds;
@@ -123,34 +149,39 @@ test(ZoneManagerTest, getUtcOffset_Los_Angeles) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-32, manager.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("PST", manager.getAbbrev(epochSeconds));
+  assertFalse(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(18, 3, 11, 2, 0, 0,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-28, manager.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("PDT", manager.getAbbrev(epochSeconds));
+  assertTrue(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(18, 11, 4, 1, 0, 0,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-28, manager.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("PDT", manager.getAbbrev(epochSeconds));
+  assertTrue(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(18, 11, 4, 1, 59, 59,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-28, manager.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("PDT", manager.getAbbrev(epochSeconds));
+  assertTrue(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(18, 11, 4, 2, 0, 0,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-32, manager.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("PST", manager.getAbbrev(epochSeconds));
+  assertFalse(manager.isDst(epochSeconds));
 }
 
 // https://www.timeanddate.com/time/zone/australia/sydney
-test(ZoneManagerTest, getUtcOffset_Sydney) {
+test(ZoneManagerTest, kZoneSydney) {
   ZoneManager manager(&zonedb::kZoneSydney);
   OffsetDateTime dt;
   uint32_t epochSeconds;
@@ -160,29 +191,33 @@ test(ZoneManagerTest, getUtcOffset_Sydney) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(44, manager.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("AEDT", manager.getAbbrev(epochSeconds));
+  assertTrue(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(7, 3, 25, 3, 0, 0,
       UtcOffset::forHour(11));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(40, manager.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("AEST", manager.getAbbrev(epochSeconds));
+  assertFalse(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(7, 10, 28, 1, 59, 59,
       UtcOffset::forHour(10));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(40, manager.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("AEST", manager.getAbbrev(epochSeconds));
+  assertFalse(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(7, 10, 28, 2, 0, 0,
       UtcOffset::forHour(10));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(44, manager.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("AEDT", manager.getAbbrev(epochSeconds));
+  assertTrue(manager.isDst(epochSeconds));
 }
 
 // https://www.timeanddate.com/time/zone/south-africa/johannesburg
 // No DST changes at all.
-test(ZoneManagerTest, getUtcOffset_Johannesburg) {
+test(ZoneManagerTest, kZoneJohannesburg) {
   ZoneManager manager(&zonedb::kZoneJohannesburg);
   OffsetDateTime dt;
   uint32_t epochSeconds;
@@ -192,12 +227,13 @@ test(ZoneManagerTest, getUtcOffset_Johannesburg) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(8, manager.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("SAST", manager.getAbbrev(epochSeconds));
+  assertFalse(manager.isDst(epochSeconds));
 }
 
 // https://www.timeanddate.com/time/zone/australia/darwin
 // No DST changes since 1944. Uses the last transition which occurred in March
 // 1944.
-test(ZoneManagerTest, getUtcOffset_Darwin) {
+test(ZoneManagerTest, kZoneDarwin) {
   ZoneManager manager(&zonedb::kZoneDarwin);
   OffsetDateTime dt;
   uint32_t epochSeconds;
@@ -207,6 +243,7 @@ test(ZoneManagerTest, getUtcOffset_Darwin) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(38, manager.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("ACST", manager.getAbbrev(epochSeconds));
+  assertFalse(manager.isDst(epochSeconds));
 }
 
 test(ZoneManagerTest, createAbbreviation) {

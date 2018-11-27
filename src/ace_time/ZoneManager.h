@@ -59,9 +59,18 @@ struct ZoneMatch {
  */
 class ZoneManager {
   public:
-    /** Constructor */
-    ZoneManager(const common::ZoneInfo* zoneInfo):
+    /**
+     * Constructor.
+     * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
+     * interpreted as UTC.
+     */
+    explicit ZoneManager(const common::ZoneInfo* zoneInfo):
         mZoneInfo(zoneInfo) {}
+
+    /** Copy constructor. */
+    explicit ZoneManager(const ZoneManager& that):
+      mZoneInfo(that.mZoneInfo),
+      mIsFilled(false) {}
 
     /** Assignment operator. */
     ZoneManager& operator=(const ZoneManager& that) {
@@ -75,18 +84,21 @@ class ZoneManager {
 
     /** Return if the time zone is observing DST. */
     bool isDst(uint32_t epochSeconds) {
+      if (mZoneInfo == nullptr) return false;
       const ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return zoneMatch->rule != nullptr && zoneMatch->rule->deltaCode != 0;
     }
 
     /** Return the current offset. */
     UtcOffset getUtcOffset(uint32_t epochSeconds) {
+      if (mZoneInfo == nullptr) return UtcOffset();
       const ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return UtcOffset::forOffsetCode(zoneMatch->offsetCode);
     }
 
     /** Return the time zone abbreviation. */
     const char* getAbbrev(uint32_t epochSeconds) {
+      if (mZoneInfo == nullptr) return "UTC";
       const ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return zoneMatch->abbrev;
     }
