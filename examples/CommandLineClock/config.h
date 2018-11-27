@@ -11,11 +11,9 @@
 #define TIME_SOURCE_TYPE_BOTH 3
 
 #ifndef AUNITER
-  #warning Using AUNITER_NANO
-  #define AUNITER_NANO
-#endif
-
-#if defined(AUNITER_NANO)
+  #warning Using Arduino IDE configuration
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
+#elif defined(AUNITER_NANO)
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
 #elif defined(AUNITER_MICRO)
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231

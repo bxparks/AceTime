@@ -102,13 +102,21 @@ isError	KEYWORD2
 printTo	KEYWORD2
 
 # TimeZone.h
-forUtcOffset	KEYWORD2
-utcOffset	KEYWORD2
-effectiveUtcOffset	KEYWORD2
-isDst	KEYWORD2
-setError	KEYWORD2
-isError	KEYWORD2
+getUtcOffset	KEYWORD2
+getAbbrev	KEYWORD2
+getDst	KEYWORD2
 printTo	KEYWORD2
+
+# AutoTimeZone.h
+forZone	KEYWORD2
+
+# ManualTimeZone.h
+forUtcOffset	KEYWORD2
+forOffsetString	KEYWORD2
+utcOffset	KEYWORD2
+isDst	KEYWORD2
+dstAbbrev	KEYWORD2
+stdAbbrev	KEYWORD2
 
 # TimePeriod.h
 hour	KEYWORD2

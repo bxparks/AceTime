@@ -5,7 +5,7 @@
 #include "common/Flash.h"
 #include "common/Util.h"
 #include "OffsetDateTime.h"
-#include "TimeZone.h"
+#include "ManualTimeZone.h"
 
 class Print;
 
@@ -69,11 +69,11 @@ class DateTime {
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
      * @param timeZone pointer to an existing TimeZone instance. Optional,
-     *        not nullable. Default is TimeZone::sUtc.
+     *        not nullable. Default is ManualTimeZone::sUtc.
      */
     static DateTime forComponents(uint8_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
-            const TimeZone* timeZone = &TimeZone::sUtc) {
+            const TimeZone* timeZone = &ManualTimeZone::sUtc) {
       if (timeZone->getType() == TimeZone::kTypeFixed) {
         UtcOffset utcOffset = timeZone->getUtcOffset(0);
         OffsetDateTime odt = OffsetDateTime::forComponents(
@@ -109,10 +109,10 @@ class DateTime {
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00Z). A value of kInvalidEpochSeconds is a sentinel
      *    is considered to be an error and causes isError() to return true.
-     * @param timeZone Optional, not nullable. Default is TimeZone::sUtc.
+     * @param timeZone Optional, not nullable. Default is ManualTimeZone::sUtc.
      */
     static DateTime forEpochSeconds(uint32_t epochSeconds,
-        const TimeZone* timeZone = &TimeZone::sUtc) {
+        const TimeZone* timeZone = &ManualTimeZone::sUtc) {
       DateTime dt;
       if (epochSeconds == kInvalidEpochSeconds) {
         return dt.setError();
@@ -142,7 +142,7 @@ class DateTime {
     static DateTime forDateString(const char* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
       // TODO: fix time zone
-      return DateTime(dt, &TimeZone::sUtc);
+      return DateTime(dt, &ManualTimeZone::sUtc);
     }
 
     /**
@@ -152,7 +152,7 @@ class DateTime {
     static DateTime forDateString(const __FlashStringHelper* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
       // TODO: fix time zone
-      return DateTime(dt, &TimeZone::sUtc);
+      return DateTime(dt, &ManualTimeZone::sUtc);
     }
 
     /** Default constructor. */

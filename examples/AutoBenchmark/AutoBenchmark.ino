@@ -51,6 +51,12 @@ void setup() {
   Serial.print(F("sizeof(TimeZone): "));
   Serial.println(sizeof(TimeZone));
 
+  Serial.print(F("sizeof(ManualTimeZone): "));
+  Serial.println(sizeof(ManualTimeZone));
+
+  Serial.print(F("sizeof(AutoTimeZone): "));
+  Serial.println(sizeof(AutoTimeZone));
+
   Serial.print(F("sizeof(OffsetDateTime): "));
   Serial.println(sizeof(OffsetDateTime));
 

@@ -18,7 +18,11 @@ struct ClockInfo {
   char name[kNameSize];
 
   /** Time zone of the clock. */
-  ace_time::TimeZone timeZone;
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
+  ace_time::ManualTimeZone timeZone;
+#else
+  ace_time::AutoTimeZone timeZone;
+#endif
 
   /** Hour mode, 12H or 24H. */
   uint8_t hourMode = kTwelve;

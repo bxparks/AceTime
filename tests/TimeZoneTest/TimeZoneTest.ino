@@ -277,53 +277,84 @@ test(ZoneManagerTest, createAbbreviation) {
 // --------------------------------------------------------------------------
 
 test(TimeZone, operatorEqualEqual) {
-  const TimeZone &tz1 = TimeZone::sUtc;
-  const TimeZone tz2 = TimeZone::forUtcOffset(
-      UtcOffset::forHour(-8), false, "PST");
-  const TimeZone tz3 = TimeZone::forZone(&zonedb::kZoneLos_Angeles);
+  const ManualTimeZone &tz1 = ManualTimeZone::sUtc;
+  const ManualTimeZone tz2 = ManualTimeZone::forUtcOffset(
+      UtcOffset::forHour(-8), false, "PST", "PDT");
+  const AutoTimeZone tz3 = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
 
   assertTrue(tz1 != tz2);
   assertTrue(tz1 != tz3);
   assertTrue(tz2 != tz3);
 
-  TimeZone tz4 = tz3;
+  AutoTimeZone tz4 = tz3;
   assertTrue(tz4 == tz3);
 }
 
-test(FixedTimeZone, default) {
-  const TimeZone &tz = TimeZone::sUtc;
+// --------------------------------------------------------------------------
+// ManualTimeZone
+// --------------------------------------------------------------------------
+
+test(ManualTimeZone, default) {
+  const ManualTimeZone tz;
   assertEqual(TimeZone::kTypeFixed, tz.getType());
-  assertEqual(0, tz.getBaseUtcOffset().toOffsetCode());
-  assertEqual(false, tz.getBaseDst());
-  assertEqual((uintptr_t) 0, (uintptr_t) tz.getStdAbbrev());
-  assertEqual((uintptr_t) 0, (uintptr_t) tz.getDstAbbrev());
+  assertEqual(0, tz.utcOffset().toOffsetCode());
+  assertEqual((uintptr_t) 0, (uintptr_t) tz.stdAbbrev());
+  assertEqual((uintptr_t) 0, (uintptr_t) tz.dstAbbrev());
+
+  assertEqual(0, tz.getUtcOffset(0).toOffsetCode());
+  assertEqual("", tz.getAbbrev(0));
+  assertFalse(tz.getDst(0));
 }
 
-test(FixedTimeZone, standardTime) {
-  const TimeZone tz = TimeZone::forUtcOffset(
+test(ManualTimeZone, UTC) {
+  const ManualTimeZone &tz = ManualTimeZone::sUtc;
+  assertEqual(TimeZone::kTypeFixed, tz.getType());
+  assertEqual(0, tz.utcOffset().toOffsetCode());
+  assertEqual("UTC", tz.stdAbbrev());
+  assertEqual("UTC", tz.dstAbbrev());
+  assertFalse(tz.isDst());
+
+  assertEqual(0, tz.getUtcOffset(0).toOffsetCode());
+  assertEqual("UTC", tz.getAbbrev(0));
+  assertFalse(tz.getDst(0));
+}
+
+test(ManualTimeZone, forUtcOffset) {
+  ManualTimeZone tz = ManualTimeZone::forUtcOffset(
       UtcOffset::forHour(-8), false, "PST", "PDT");
   assertEqual(TimeZone::kTypeFixed, tz.getType());
+  assertEqual(-32, tz.utcOffset().toOffsetCode());
+  assertEqual("PST", (uintptr_t) tz.stdAbbrev());
+  assertEqual("PDT", (uintptr_t) tz.dstAbbrev());
+  assertFalse(tz.isDst());
+
   assertEqual(-32, tz.getUtcOffset(0).toOffsetCode());
-  assertEqual(false, tz.getBaseDst());
   assertEqual("PST", tz.getAbbrev(0));
-}
+  assertFalse(tz.getDst(0));
 
-test(FixedTimeZone, daylightTime) {
-  TimeZone tz = TimeZone::forUtcOffset(
-      UtcOffset::forHour(-8), true, "PST", "PDT");
-  assertEqual(TimeZone::kTypeFixed, tz.getType());
+  tz.isDst(true);
   assertEqual(-28, tz.getUtcOffset(0).toOffsetCode());
-  assertEqual(true, tz.getBaseDst());
   assertEqual("PDT", tz.getAbbrev(0));
+  assertTrue(tz.getDst(0));
 }
 
-// TODO: add tests for forOffsetString()
+// --------------------------------------------------------------------------
+// AutoTimeZone
+// --------------------------------------------------------------------------
+
+test(AutoTimeZone, nullptr) {
+  AutoTimeZone tz = AutoTimeZone::forZone(nullptr);
+  assertEqual(TimeZone::kTypeAuto, tz.getType());
+  assertEqual(0, tz.getUtcOffset(0).toOffsetCode());
+  assertEqual("UTC", tz.getAbbrev(0));
+  assertFalse(tz.getDst(0));
+}
 
 test(AutoTimeZone, LosAngeles) {
   OffsetDateTime dt;
   uint32_t epochSeconds;
 
-  TimeZone tz = TimeZone::forZone(&zonedb::kZoneLos_Angeles);
+  AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
   assertEqual(TimeZone::kTypeAuto, tz.getType());
 
   dt = OffsetDateTime::forComponents(18, 3, 11, 1, 59, 59,
@@ -331,12 +362,14 @@ test(AutoTimeZone, LosAngeles) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-32, tz.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("PST", tz.getAbbrev(epochSeconds));
+  assertFalse(tz.getDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(18, 3, 11, 2, 0, 0,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-28, tz.getUtcOffset(epochSeconds).toOffsetCode());
   assertEqual("PDT", tz.getAbbrev(epochSeconds));
+  assertTrue(tz.getDst(epochSeconds));
 }
 
 // --------------------------------------------------------------------------

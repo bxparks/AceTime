@@ -132,7 +132,7 @@ class ModifyCommand: public CommandHandler {
     ModifyCommand():
         CommandHandler("modify", nullptr) {}
 
-    void run(Print& printer, int argc, const char** argv) const override {
+    void run(Print&, int, const char**) const override {
       controller.modifyDateTime();
     }
 };
@@ -142,7 +142,7 @@ class SaveCommand: public CommandHandler {
     SaveCommand():
         CommandHandler("save", nullptr) {}
 
-    void run(Print& printer, int argc, const char** argv) const override {
+    void run(Print&, int, const char**) const override {
       controller.saveDateTime();
     }
 };
@@ -195,14 +195,14 @@ class TimezoneCommand: public CommandHandler {
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
-        TimeZone timeZone = controller.getTimeZone();
-        timeZone.printTo(printer);
+        const TimeZone* timeZone = controller.getTimeZone();
+        timeZone->printTo(printer);
         printer.println();
       } else {
         SHIFT;
         if (strcmp(argv[0], "Los_Angeles") == 0) {
-          TimeZone tz = TimeZone::forZone(&zonedb::kZoneLos_Angeles);
-          controller.setTimeZone(tz);
+          AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
+          controller.setAutoTimeZone(tz);
           printer.print(FF("Time zone set to: "));
           tz.printTo(printer);
           printer.println();
@@ -212,8 +212,8 @@ class TimezoneCommand: public CommandHandler {
             printer.println(FF("Invalid time zone offset"));
             return;
           }
-          TimeZone tz = TimeZone::forUtcOffset(offset);
-          controller.setTimeZone(tz);
+          ManualTimeZone tz = ManualTimeZone::forUtcOffset(offset);
+          controller.setManualTimeZone(tz);
           printer.print(FF("Time zone set to: "));
           tz.printTo(printer);
           printer.println();
