@@ -132,7 +132,7 @@ namespace zonedb {{
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-extern const common::ZoneInfo kZone{infoShortName};
+extern const common::ZoneInfo kZone{infoShortName}; // {infoFullName}
 """
 
     ZONE_INFOS_CPP_FILE = """\
@@ -306,7 +306,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
         info_items = ''
         for name, zones in sorted(self.zones.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
-                infoShortName=normalize_name(short_name(name)))
+                infoShortName=normalize_name(short_name(name)),
+                infoFullName=name)
 
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,

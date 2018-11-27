@@ -18,234 +18,234 @@ namespace ace_time {
 namespace zonedb {
 
 // numInfos: 228
-extern const common::ZoneInfo kZoneAbidjan;
-extern const common::ZoneInfo kZoneAccra;
-extern const common::ZoneInfo kZoneAlgiers;
-extern const common::ZoneInfo kZoneBissau;
-extern const common::ZoneInfo kZoneCairo;
-extern const common::ZoneInfo kZoneCeuta;
-extern const common::ZoneInfo kZoneJohannesburg;
-extern const common::ZoneInfo kZoneLagos;
-extern const common::ZoneInfo kZoneMaputo;
-extern const common::ZoneInfo kZoneMonrovia;
-extern const common::ZoneInfo kZoneNairobi;
-extern const common::ZoneInfo kZoneNdjamena;
-extern const common::ZoneInfo kZoneTunis;
-extern const common::ZoneInfo kZoneAdak;
-extern const common::ZoneInfo kZoneAnchorage;
-extern const common::ZoneInfo kZoneAsuncion;
-extern const common::ZoneInfo kZoneAtikokan;
-extern const common::ZoneInfo kZoneBarbados;
-extern const common::ZoneInfo kZoneBelem;
-extern const common::ZoneInfo kZoneBlanc_Sablon;
-extern const common::ZoneInfo kZoneBogota;
-extern const common::ZoneInfo kZoneBoise;
-extern const common::ZoneInfo kZoneCampo_Grande;
-extern const common::ZoneInfo kZoneCayenne;
-extern const common::ZoneInfo kZoneChicago;
-extern const common::ZoneInfo kZoneChihuahua;
-extern const common::ZoneInfo kZoneCosta_Rica;
-extern const common::ZoneInfo kZoneCreston;
-extern const common::ZoneInfo kZoneCuracao;
-extern const common::ZoneInfo kZoneDanmarkshavn;
-extern const common::ZoneInfo kZoneDawson;
-extern const common::ZoneInfo kZoneDawson_Creek;
-extern const common::ZoneInfo kZoneDenver;
-extern const common::ZoneInfo kZoneDetroit;
-extern const common::ZoneInfo kZoneEdmonton;
-extern const common::ZoneInfo kZoneEl_Salvador;
-extern const common::ZoneInfo kZoneGlace_Bay;
-extern const common::ZoneInfo kZoneGodthab;
-extern const common::ZoneInfo kZoneGuatemala;
-extern const common::ZoneInfo kZoneGuayaquil;
-extern const common::ZoneInfo kZoneGuyana;
-extern const common::ZoneInfo kZoneHalifax;
-extern const common::ZoneInfo kZoneHavana;
-extern const common::ZoneInfo kZoneHermosillo;
-extern const common::ZoneInfo kZoneIndianapolis;
-extern const common::ZoneInfo kZoneMarengo;
-extern const common::ZoneInfo kZoneVevay;
-extern const common::ZoneInfo kZoneInuvik;
-extern const common::ZoneInfo kZoneJamaica;
-extern const common::ZoneInfo kZoneJuneau;
-extern const common::ZoneInfo kZoneLouisville;
-extern const common::ZoneInfo kZoneLa_Paz;
-extern const common::ZoneInfo kZoneLima;
-extern const common::ZoneInfo kZoneLos_Angeles;
-extern const common::ZoneInfo kZoneManagua;
-extern const common::ZoneInfo kZoneManaus;
-extern const common::ZoneInfo kZoneMartinique;
-extern const common::ZoneInfo kZoneMatamoros;
-extern const common::ZoneInfo kZoneMazatlan;
-extern const common::ZoneInfo kZoneMenominee;
-extern const common::ZoneInfo kZoneMerida;
-extern const common::ZoneInfo kZoneMiquelon;
-extern const common::ZoneInfo kZoneMonterrey;
-extern const common::ZoneInfo kZoneMontevideo;
-extern const common::ZoneInfo kZoneNassau;
-extern const common::ZoneInfo kZoneNew_York;
-extern const common::ZoneInfo kZoneNipigon;
-extern const common::ZoneInfo kZoneNome;
-extern const common::ZoneInfo kZoneCenter;
-extern const common::ZoneInfo kZoneOjinaga;
-extern const common::ZoneInfo kZonePanama;
-extern const common::ZoneInfo kZoneParamaribo;
-extern const common::ZoneInfo kZonePhoenix;
-extern const common::ZoneInfo kZonePort_au_Prince;
-extern const common::ZoneInfo kZonePort_of_Spain;
-extern const common::ZoneInfo kZonePorto_Velho;
-extern const common::ZoneInfo kZonePuerto_Rico;
-extern const common::ZoneInfo kZoneRainy_River;
-extern const common::ZoneInfo kZoneRegina;
-extern const common::ZoneInfo kZoneSantiago;
-extern const common::ZoneInfo kZoneSao_Paulo;
-extern const common::ZoneInfo kZoneScoresbysund;
-extern const common::ZoneInfo kZoneSitka;
-extern const common::ZoneInfo kZoneSwift_Current;
-extern const common::ZoneInfo kZoneTegucigalpa;
-extern const common::ZoneInfo kZoneThule;
-extern const common::ZoneInfo kZoneThunder_Bay;
-extern const common::ZoneInfo kZoneToronto;
-extern const common::ZoneInfo kZoneVancouver;
-extern const common::ZoneInfo kZoneWhitehorse;
-extern const common::ZoneInfo kZoneWinnipeg;
-extern const common::ZoneInfo kZoneYakutat;
-extern const common::ZoneInfo kZoneYellowknife;
-extern const common::ZoneInfo kZoneDumontDUrville;
-extern const common::ZoneInfo kZoneRothera;
-extern const common::ZoneInfo kZoneSyowa;
-extern const common::ZoneInfo kZoneVostok;
-extern const common::ZoneInfo kZoneAmman;
-extern const common::ZoneInfo kZoneAshgabat;
-extern const common::ZoneInfo kZoneBaghdad;
-extern const common::ZoneInfo kZoneBaku;
-extern const common::ZoneInfo kZoneBangkok;
-extern const common::ZoneInfo kZoneBeirut;
-extern const common::ZoneInfo kZoneBrunei;
-extern const common::ZoneInfo kZoneDamascus;
-extern const common::ZoneInfo kZoneDhaka;
-extern const common::ZoneInfo kZoneDubai;
-extern const common::ZoneInfo kZoneDushanbe;
-extern const common::ZoneInfo kZoneHo_Chi_Minh;
-extern const common::ZoneInfo kZoneHovd;
-extern const common::ZoneInfo kZoneJakarta;
-extern const common::ZoneInfo kZoneJayapura;
-extern const common::ZoneInfo kZoneJerusalem;
-extern const common::ZoneInfo kZoneKabul;
-extern const common::ZoneInfo kZoneKarachi;
-extern const common::ZoneInfo kZoneKathmandu;
-extern const common::ZoneInfo kZoneKolkata;
-extern const common::ZoneInfo kZoneKuala_Lumpur;
-extern const common::ZoneInfo kZoneKuching;
-extern const common::ZoneInfo kZoneMakassar;
-extern const common::ZoneInfo kZoneManila;
-extern const common::ZoneInfo kZoneNicosia;
-extern const common::ZoneInfo kZonePontianak;
-extern const common::ZoneInfo kZoneQatar;
-extern const common::ZoneInfo kZoneRiyadh;
-extern const common::ZoneInfo kZoneSamarkand;
-extern const common::ZoneInfo kZoneSeoul;
-extern const common::ZoneInfo kZoneShanghai;
-extern const common::ZoneInfo kZoneSingapore;
-extern const common::ZoneInfo kZoneTaipei;
-extern const common::ZoneInfo kZoneTashkent;
-extern const common::ZoneInfo kZoneTehran;
-extern const common::ZoneInfo kZoneThimphu;
-extern const common::ZoneInfo kZoneTokyo;
-extern const common::ZoneInfo kZoneUlaanbaatar;
-extern const common::ZoneInfo kZoneUrumqi;
-extern const common::ZoneInfo kZoneYangon;
-extern const common::ZoneInfo kZoneYerevan;
-extern const common::ZoneInfo kZoneAzores;
-extern const common::ZoneInfo kZoneBermuda;
-extern const common::ZoneInfo kZoneCanary;
-extern const common::ZoneInfo kZoneCape_Verde;
-extern const common::ZoneInfo kZoneFaroe;
-extern const common::ZoneInfo kZoneMadeira;
-extern const common::ZoneInfo kZoneReykjavik;
-extern const common::ZoneInfo kZoneSouth_Georgia;
-extern const common::ZoneInfo kZoneAdelaide;
-extern const common::ZoneInfo kZoneBrisbane;
-extern const common::ZoneInfo kZoneBroken_Hill;
-extern const common::ZoneInfo kZoneCurrie;
-extern const common::ZoneInfo kZoneDarwin;
-extern const common::ZoneInfo kZoneEucla;
-extern const common::ZoneInfo kZoneHobart;
-extern const common::ZoneInfo kZoneLindeman;
-extern const common::ZoneInfo kZoneLord_Howe;
-extern const common::ZoneInfo kZoneMelbourne;
-extern const common::ZoneInfo kZonePerth;
-extern const common::ZoneInfo kZoneSydney;
-extern const common::ZoneInfo kZoneAmsterdam;
-extern const common::ZoneInfo kZoneAndorra;
-extern const common::ZoneInfo kZoneAthens;
-extern const common::ZoneInfo kZoneBelgrade;
-extern const common::ZoneInfo kZoneBerlin;
-extern const common::ZoneInfo kZoneBrussels;
-extern const common::ZoneInfo kZoneBucharest;
-extern const common::ZoneInfo kZoneBudapest;
-extern const common::ZoneInfo kZoneChisinau;
-extern const common::ZoneInfo kZoneCopenhagen;
-extern const common::ZoneInfo kZoneDublin;
-extern const common::ZoneInfo kZoneGibraltar;
-extern const common::ZoneInfo kZoneHelsinki;
-extern const common::ZoneInfo kZoneKiev;
-extern const common::ZoneInfo kZoneLisbon;
-extern const common::ZoneInfo kZoneLondon;
-extern const common::ZoneInfo kZoneLuxembourg;
-extern const common::ZoneInfo kZoneMadrid;
-extern const common::ZoneInfo kZoneMalta;
-extern const common::ZoneInfo kZoneMonaco;
-extern const common::ZoneInfo kZoneOslo;
-extern const common::ZoneInfo kZoneParis;
-extern const common::ZoneInfo kZonePrague;
-extern const common::ZoneInfo kZoneRome;
-extern const common::ZoneInfo kZoneSofia;
-extern const common::ZoneInfo kZoneStockholm;
-extern const common::ZoneInfo kZoneTirane;
-extern const common::ZoneInfo kZoneUzhgorod;
-extern const common::ZoneInfo kZoneVienna;
-extern const common::ZoneInfo kZoneWarsaw;
-extern const common::ZoneInfo kZoneZaporozhye;
-extern const common::ZoneInfo kZoneZurich;
-extern const common::ZoneInfo kZoneChagos;
-extern const common::ZoneInfo kZoneChristmas;
-extern const common::ZoneInfo kZoneCocos;
-extern const common::ZoneInfo kZoneKerguelen;
-extern const common::ZoneInfo kZoneMahe;
-extern const common::ZoneInfo kZoneMaldives;
-extern const common::ZoneInfo kZoneMauritius;
-extern const common::ZoneInfo kZoneReunion;
-extern const common::ZoneInfo kZoneAuckland;
-extern const common::ZoneInfo kZoneChuuk;
-extern const common::ZoneInfo kZoneEaster;
-extern const common::ZoneInfo kZoneEfate;
-extern const common::ZoneInfo kZoneEnderbury;
-extern const common::ZoneInfo kZoneFiji;
-extern const common::ZoneInfo kZoneFunafuti;
-extern const common::ZoneInfo kZoneGalapagos;
-extern const common::ZoneInfo kZoneGambier;
-extern const common::ZoneInfo kZoneGuadalcanal;
-extern const common::ZoneInfo kZoneHonolulu;
-extern const common::ZoneInfo kZoneKiritimati;
-extern const common::ZoneInfo kZoneKosrae;
-extern const common::ZoneInfo kZoneKwajalein;
-extern const common::ZoneInfo kZoneMajuro;
-extern const common::ZoneInfo kZoneMarquesas;
-extern const common::ZoneInfo kZoneNauru;
-extern const common::ZoneInfo kZoneNiue;
-extern const common::ZoneInfo kZoneNoumea;
-extern const common::ZoneInfo kZonePago_Pago;
-extern const common::ZoneInfo kZonePalau;
-extern const common::ZoneInfo kZonePitcairn;
-extern const common::ZoneInfo kZonePohnpei;
-extern const common::ZoneInfo kZonePort_Moresby;
-extern const common::ZoneInfo kZoneRarotonga;
-extern const common::ZoneInfo kZoneTahiti;
-extern const common::ZoneInfo kZoneTarawa;
-extern const common::ZoneInfo kZoneTongatapu;
-extern const common::ZoneInfo kZoneWake;
-extern const common::ZoneInfo kZoneWallis;
+extern const common::ZoneInfo kZoneAbidjan; // Africa/Abidjan
+extern const common::ZoneInfo kZoneAccra; // Africa/Accra
+extern const common::ZoneInfo kZoneAlgiers; // Africa/Algiers
+extern const common::ZoneInfo kZoneBissau; // Africa/Bissau
+extern const common::ZoneInfo kZoneCairo; // Africa/Cairo
+extern const common::ZoneInfo kZoneCeuta; // Africa/Ceuta
+extern const common::ZoneInfo kZoneJohannesburg; // Africa/Johannesburg
+extern const common::ZoneInfo kZoneLagos; // Africa/Lagos
+extern const common::ZoneInfo kZoneMaputo; // Africa/Maputo
+extern const common::ZoneInfo kZoneMonrovia; // Africa/Monrovia
+extern const common::ZoneInfo kZoneNairobi; // Africa/Nairobi
+extern const common::ZoneInfo kZoneNdjamena; // Africa/Ndjamena
+extern const common::ZoneInfo kZoneTunis; // Africa/Tunis
+extern const common::ZoneInfo kZoneAdak; // America/Adak
+extern const common::ZoneInfo kZoneAnchorage; // America/Anchorage
+extern const common::ZoneInfo kZoneAsuncion; // America/Asuncion
+extern const common::ZoneInfo kZoneAtikokan; // America/Atikokan
+extern const common::ZoneInfo kZoneBarbados; // America/Barbados
+extern const common::ZoneInfo kZoneBelem; // America/Belem
+extern const common::ZoneInfo kZoneBlanc_Sablon; // America/Blanc-Sablon
+extern const common::ZoneInfo kZoneBogota; // America/Bogota
+extern const common::ZoneInfo kZoneBoise; // America/Boise
+extern const common::ZoneInfo kZoneCampo_Grande; // America/Campo_Grande
+extern const common::ZoneInfo kZoneCayenne; // America/Cayenne
+extern const common::ZoneInfo kZoneChicago; // America/Chicago
+extern const common::ZoneInfo kZoneChihuahua; // America/Chihuahua
+extern const common::ZoneInfo kZoneCosta_Rica; // America/Costa_Rica
+extern const common::ZoneInfo kZoneCreston; // America/Creston
+extern const common::ZoneInfo kZoneCuracao; // America/Curacao
+extern const common::ZoneInfo kZoneDanmarkshavn; // America/Danmarkshavn
+extern const common::ZoneInfo kZoneDawson; // America/Dawson
+extern const common::ZoneInfo kZoneDawson_Creek; // America/Dawson_Creek
+extern const common::ZoneInfo kZoneDenver; // America/Denver
+extern const common::ZoneInfo kZoneDetroit; // America/Detroit
+extern const common::ZoneInfo kZoneEdmonton; // America/Edmonton
+extern const common::ZoneInfo kZoneEl_Salvador; // America/El_Salvador
+extern const common::ZoneInfo kZoneGlace_Bay; // America/Glace_Bay
+extern const common::ZoneInfo kZoneGodthab; // America/Godthab
+extern const common::ZoneInfo kZoneGuatemala; // America/Guatemala
+extern const common::ZoneInfo kZoneGuayaquil; // America/Guayaquil
+extern const common::ZoneInfo kZoneGuyana; // America/Guyana
+extern const common::ZoneInfo kZoneHalifax; // America/Halifax
+extern const common::ZoneInfo kZoneHavana; // America/Havana
+extern const common::ZoneInfo kZoneHermosillo; // America/Hermosillo
+extern const common::ZoneInfo kZoneIndianapolis; // America/Indiana/Indianapolis
+extern const common::ZoneInfo kZoneMarengo; // America/Indiana/Marengo
+extern const common::ZoneInfo kZoneVevay; // America/Indiana/Vevay
+extern const common::ZoneInfo kZoneInuvik; // America/Inuvik
+extern const common::ZoneInfo kZoneJamaica; // America/Jamaica
+extern const common::ZoneInfo kZoneJuneau; // America/Juneau
+extern const common::ZoneInfo kZoneLouisville; // America/Kentucky/Louisville
+extern const common::ZoneInfo kZoneLa_Paz; // America/La_Paz
+extern const common::ZoneInfo kZoneLima; // America/Lima
+extern const common::ZoneInfo kZoneLos_Angeles; // America/Los_Angeles
+extern const common::ZoneInfo kZoneManagua; // America/Managua
+extern const common::ZoneInfo kZoneManaus; // America/Manaus
+extern const common::ZoneInfo kZoneMartinique; // America/Martinique
+extern const common::ZoneInfo kZoneMatamoros; // America/Matamoros
+extern const common::ZoneInfo kZoneMazatlan; // America/Mazatlan
+extern const common::ZoneInfo kZoneMenominee; // America/Menominee
+extern const common::ZoneInfo kZoneMerida; // America/Merida
+extern const common::ZoneInfo kZoneMiquelon; // America/Miquelon
+extern const common::ZoneInfo kZoneMonterrey; // America/Monterrey
+extern const common::ZoneInfo kZoneMontevideo; // America/Montevideo
+extern const common::ZoneInfo kZoneNassau; // America/Nassau
+extern const common::ZoneInfo kZoneNew_York; // America/New_York
+extern const common::ZoneInfo kZoneNipigon; // America/Nipigon
+extern const common::ZoneInfo kZoneNome; // America/Nome
+extern const common::ZoneInfo kZoneCenter; // America/North_Dakota/Center
+extern const common::ZoneInfo kZoneOjinaga; // America/Ojinaga
+extern const common::ZoneInfo kZonePanama; // America/Panama
+extern const common::ZoneInfo kZoneParamaribo; // America/Paramaribo
+extern const common::ZoneInfo kZonePhoenix; // America/Phoenix
+extern const common::ZoneInfo kZonePort_au_Prince; // America/Port-au-Prince
+extern const common::ZoneInfo kZonePort_of_Spain; // America/Port_of_Spain
+extern const common::ZoneInfo kZonePorto_Velho; // America/Porto_Velho
+extern const common::ZoneInfo kZonePuerto_Rico; // America/Puerto_Rico
+extern const common::ZoneInfo kZoneRainy_River; // America/Rainy_River
+extern const common::ZoneInfo kZoneRegina; // America/Regina
+extern const common::ZoneInfo kZoneSantiago; // America/Santiago
+extern const common::ZoneInfo kZoneSao_Paulo; // America/Sao_Paulo
+extern const common::ZoneInfo kZoneScoresbysund; // America/Scoresbysund
+extern const common::ZoneInfo kZoneSitka; // America/Sitka
+extern const common::ZoneInfo kZoneSwift_Current; // America/Swift_Current
+extern const common::ZoneInfo kZoneTegucigalpa; // America/Tegucigalpa
+extern const common::ZoneInfo kZoneThule; // America/Thule
+extern const common::ZoneInfo kZoneThunder_Bay; // America/Thunder_Bay
+extern const common::ZoneInfo kZoneToronto; // America/Toronto
+extern const common::ZoneInfo kZoneVancouver; // America/Vancouver
+extern const common::ZoneInfo kZoneWhitehorse; // America/Whitehorse
+extern const common::ZoneInfo kZoneWinnipeg; // America/Winnipeg
+extern const common::ZoneInfo kZoneYakutat; // America/Yakutat
+extern const common::ZoneInfo kZoneYellowknife; // America/Yellowknife
+extern const common::ZoneInfo kZoneDumontDUrville; // Antarctica/DumontDUrville
+extern const common::ZoneInfo kZoneRothera; // Antarctica/Rothera
+extern const common::ZoneInfo kZoneSyowa; // Antarctica/Syowa
+extern const common::ZoneInfo kZoneVostok; // Antarctica/Vostok
+extern const common::ZoneInfo kZoneAmman; // Asia/Amman
+extern const common::ZoneInfo kZoneAshgabat; // Asia/Ashgabat
+extern const common::ZoneInfo kZoneBaghdad; // Asia/Baghdad
+extern const common::ZoneInfo kZoneBaku; // Asia/Baku
+extern const common::ZoneInfo kZoneBangkok; // Asia/Bangkok
+extern const common::ZoneInfo kZoneBeirut; // Asia/Beirut
+extern const common::ZoneInfo kZoneBrunei; // Asia/Brunei
+extern const common::ZoneInfo kZoneDamascus; // Asia/Damascus
+extern const common::ZoneInfo kZoneDhaka; // Asia/Dhaka
+extern const common::ZoneInfo kZoneDubai; // Asia/Dubai
+extern const common::ZoneInfo kZoneDushanbe; // Asia/Dushanbe
+extern const common::ZoneInfo kZoneHo_Chi_Minh; // Asia/Ho_Chi_Minh
+extern const common::ZoneInfo kZoneHovd; // Asia/Hovd
+extern const common::ZoneInfo kZoneJakarta; // Asia/Jakarta
+extern const common::ZoneInfo kZoneJayapura; // Asia/Jayapura
+extern const common::ZoneInfo kZoneJerusalem; // Asia/Jerusalem
+extern const common::ZoneInfo kZoneKabul; // Asia/Kabul
+extern const common::ZoneInfo kZoneKarachi; // Asia/Karachi
+extern const common::ZoneInfo kZoneKathmandu; // Asia/Kathmandu
+extern const common::ZoneInfo kZoneKolkata; // Asia/Kolkata
+extern const common::ZoneInfo kZoneKuala_Lumpur; // Asia/Kuala_Lumpur
+extern const common::ZoneInfo kZoneKuching; // Asia/Kuching
+extern const common::ZoneInfo kZoneMakassar; // Asia/Makassar
+extern const common::ZoneInfo kZoneManila; // Asia/Manila
+extern const common::ZoneInfo kZoneNicosia; // Asia/Nicosia
+extern const common::ZoneInfo kZonePontianak; // Asia/Pontianak
+extern const common::ZoneInfo kZoneQatar; // Asia/Qatar
+extern const common::ZoneInfo kZoneRiyadh; // Asia/Riyadh
+extern const common::ZoneInfo kZoneSamarkand; // Asia/Samarkand
+extern const common::ZoneInfo kZoneSeoul; // Asia/Seoul
+extern const common::ZoneInfo kZoneShanghai; // Asia/Shanghai
+extern const common::ZoneInfo kZoneSingapore; // Asia/Singapore
+extern const common::ZoneInfo kZoneTaipei; // Asia/Taipei
+extern const common::ZoneInfo kZoneTashkent; // Asia/Tashkent
+extern const common::ZoneInfo kZoneTehran; // Asia/Tehran
+extern const common::ZoneInfo kZoneThimphu; // Asia/Thimphu
+extern const common::ZoneInfo kZoneTokyo; // Asia/Tokyo
+extern const common::ZoneInfo kZoneUlaanbaatar; // Asia/Ulaanbaatar
+extern const common::ZoneInfo kZoneUrumqi; // Asia/Urumqi
+extern const common::ZoneInfo kZoneYangon; // Asia/Yangon
+extern const common::ZoneInfo kZoneYerevan; // Asia/Yerevan
+extern const common::ZoneInfo kZoneAzores; // Atlantic/Azores
+extern const common::ZoneInfo kZoneBermuda; // Atlantic/Bermuda
+extern const common::ZoneInfo kZoneCanary; // Atlantic/Canary
+extern const common::ZoneInfo kZoneCape_Verde; // Atlantic/Cape_Verde
+extern const common::ZoneInfo kZoneFaroe; // Atlantic/Faroe
+extern const common::ZoneInfo kZoneMadeira; // Atlantic/Madeira
+extern const common::ZoneInfo kZoneReykjavik; // Atlantic/Reykjavik
+extern const common::ZoneInfo kZoneSouth_Georgia; // Atlantic/South_Georgia
+extern const common::ZoneInfo kZoneAdelaide; // Australia/Adelaide
+extern const common::ZoneInfo kZoneBrisbane; // Australia/Brisbane
+extern const common::ZoneInfo kZoneBroken_Hill; // Australia/Broken_Hill
+extern const common::ZoneInfo kZoneCurrie; // Australia/Currie
+extern const common::ZoneInfo kZoneDarwin; // Australia/Darwin
+extern const common::ZoneInfo kZoneEucla; // Australia/Eucla
+extern const common::ZoneInfo kZoneHobart; // Australia/Hobart
+extern const common::ZoneInfo kZoneLindeman; // Australia/Lindeman
+extern const common::ZoneInfo kZoneLord_Howe; // Australia/Lord_Howe
+extern const common::ZoneInfo kZoneMelbourne; // Australia/Melbourne
+extern const common::ZoneInfo kZonePerth; // Australia/Perth
+extern const common::ZoneInfo kZoneSydney; // Australia/Sydney
+extern const common::ZoneInfo kZoneAmsterdam; // Europe/Amsterdam
+extern const common::ZoneInfo kZoneAndorra; // Europe/Andorra
+extern const common::ZoneInfo kZoneAthens; // Europe/Athens
+extern const common::ZoneInfo kZoneBelgrade; // Europe/Belgrade
+extern const common::ZoneInfo kZoneBerlin; // Europe/Berlin
+extern const common::ZoneInfo kZoneBrussels; // Europe/Brussels
+extern const common::ZoneInfo kZoneBucharest; // Europe/Bucharest
+extern const common::ZoneInfo kZoneBudapest; // Europe/Budapest
+extern const common::ZoneInfo kZoneChisinau; // Europe/Chisinau
+extern const common::ZoneInfo kZoneCopenhagen; // Europe/Copenhagen
+extern const common::ZoneInfo kZoneDublin; // Europe/Dublin
+extern const common::ZoneInfo kZoneGibraltar; // Europe/Gibraltar
+extern const common::ZoneInfo kZoneHelsinki; // Europe/Helsinki
+extern const common::ZoneInfo kZoneKiev; // Europe/Kiev
+extern const common::ZoneInfo kZoneLisbon; // Europe/Lisbon
+extern const common::ZoneInfo kZoneLondon; // Europe/London
+extern const common::ZoneInfo kZoneLuxembourg; // Europe/Luxembourg
+extern const common::ZoneInfo kZoneMadrid; // Europe/Madrid
+extern const common::ZoneInfo kZoneMalta; // Europe/Malta
+extern const common::ZoneInfo kZoneMonaco; // Europe/Monaco
+extern const common::ZoneInfo kZoneOslo; // Europe/Oslo
+extern const common::ZoneInfo kZoneParis; // Europe/Paris
+extern const common::ZoneInfo kZonePrague; // Europe/Prague
+extern const common::ZoneInfo kZoneRome; // Europe/Rome
+extern const common::ZoneInfo kZoneSofia; // Europe/Sofia
+extern const common::ZoneInfo kZoneStockholm; // Europe/Stockholm
+extern const common::ZoneInfo kZoneTirane; // Europe/Tirane
+extern const common::ZoneInfo kZoneUzhgorod; // Europe/Uzhgorod
+extern const common::ZoneInfo kZoneVienna; // Europe/Vienna
+extern const common::ZoneInfo kZoneWarsaw; // Europe/Warsaw
+extern const common::ZoneInfo kZoneZaporozhye; // Europe/Zaporozhye
+extern const common::ZoneInfo kZoneZurich; // Europe/Zurich
+extern const common::ZoneInfo kZoneChagos; // Indian/Chagos
+extern const common::ZoneInfo kZoneChristmas; // Indian/Christmas
+extern const common::ZoneInfo kZoneCocos; // Indian/Cocos
+extern const common::ZoneInfo kZoneKerguelen; // Indian/Kerguelen
+extern const common::ZoneInfo kZoneMahe; // Indian/Mahe
+extern const common::ZoneInfo kZoneMaldives; // Indian/Maldives
+extern const common::ZoneInfo kZoneMauritius; // Indian/Mauritius
+extern const common::ZoneInfo kZoneReunion; // Indian/Reunion
+extern const common::ZoneInfo kZoneAuckland; // Pacific/Auckland
+extern const common::ZoneInfo kZoneChuuk; // Pacific/Chuuk
+extern const common::ZoneInfo kZoneEaster; // Pacific/Easter
+extern const common::ZoneInfo kZoneEfate; // Pacific/Efate
+extern const common::ZoneInfo kZoneEnderbury; // Pacific/Enderbury
+extern const common::ZoneInfo kZoneFiji; // Pacific/Fiji
+extern const common::ZoneInfo kZoneFunafuti; // Pacific/Funafuti
+extern const common::ZoneInfo kZoneGalapagos; // Pacific/Galapagos
+extern const common::ZoneInfo kZoneGambier; // Pacific/Gambier
+extern const common::ZoneInfo kZoneGuadalcanal; // Pacific/Guadalcanal
+extern const common::ZoneInfo kZoneHonolulu; // Pacific/Honolulu
+extern const common::ZoneInfo kZoneKiritimati; // Pacific/Kiritimati
+extern const common::ZoneInfo kZoneKosrae; // Pacific/Kosrae
+extern const common::ZoneInfo kZoneKwajalein; // Pacific/Kwajalein
+extern const common::ZoneInfo kZoneMajuro; // Pacific/Majuro
+extern const common::ZoneInfo kZoneMarquesas; // Pacific/Marquesas
+extern const common::ZoneInfo kZoneNauru; // Pacific/Nauru
+extern const common::ZoneInfo kZoneNiue; // Pacific/Niue
+extern const common::ZoneInfo kZoneNoumea; // Pacific/Noumea
+extern const common::ZoneInfo kZonePago_Pago; // Pacific/Pago_Pago
+extern const common::ZoneInfo kZonePalau; // Pacific/Palau
+extern const common::ZoneInfo kZonePitcairn; // Pacific/Pitcairn
+extern const common::ZoneInfo kZonePohnpei; // Pacific/Pohnpei
+extern const common::ZoneInfo kZonePort_Moresby; // Pacific/Port_Moresby
+extern const common::ZoneInfo kZoneRarotonga; // Pacific/Rarotonga
+extern const common::ZoneInfo kZoneTahiti; // Pacific/Tahiti
+extern const common::ZoneInfo kZoneTarawa; // Pacific/Tarawa
+extern const common::ZoneInfo kZoneTongatapu; // Pacific/Tongatapu
+extern const common::ZoneInfo kZoneWake; // Pacific/Wake
+extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 
 }
