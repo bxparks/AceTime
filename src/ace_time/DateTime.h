@@ -229,8 +229,14 @@ class DateTime {
     void timeZone(const TimeZone* timeZone) { mTimeZone = timeZone; }
 
     /**
-     * Create a DateTime in a different time zone code (with the same
-     * epochSeconds).
+     * Create a DateTime in a different time zone (with the same epochSeconds).
+     *
+     * This method supports the case where the given timeZone is the same as
+     * this->mTimeZone of the current DateTime instance. If that timeZone is an
+     * instance of a ManualTimeZone, then its value could be different from the
+     * value that was used to create this DateTime instance. Fortunately, the
+     * internal calculation of toEpochSeconds() does not depend on the original
+     * mTimeZone value, so the conversion will be correctly performed.
      */
     DateTime convertToTimeZone(const TimeZone* timeZone) const {
       uint32_t epochSeconds = toEpochSeconds();

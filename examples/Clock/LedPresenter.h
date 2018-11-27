@@ -27,20 +27,6 @@ class LedPresenter: public Presenter {
       mPrevRenderingInfo = mRenderingInfo;
     }
 
-    void setMode(uint8_t mode) { mRenderingInfo.mode = mode; }
-
-    void setDateTime(const DateTime& dateTime) {
-      mRenderingInfo.dateTime = dateTime;
-    }
-
-    void setSuppressBlink(bool suppressBlink) {
-      mRenderingInfo.suppressBlink = suppressBlink;
-    }
-
-    void setBlinkShowState(bool blinkShowState) {
-      mRenderingInfo.blinkShowState = blinkShowState;
-    }
-
   private:
     void clearDisplay() override { mDisplay.renderer->clear(); }
 

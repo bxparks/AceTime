@@ -33,8 +33,9 @@ static const uint8_t MODE_CHANGE_HOUR_MODE = 19;
  * what needs to be displayed.
  */ 
 struct RenderingInfo {
-  uint8_t mode = 0; // display mode
+  uint8_t mode = 0; // display mode, see MODE_xxx above
   DateTime dateTime; // the current or user-configured time
+  ManualTimeZone timeZone; // the current or user-configured time zone
   bool suppressBlink = false; // true if blinking should be suppressed
   bool blinkShowState = true; // true if blinking info should be shown
   uint8_t hourMode = 0; // 12/24 mode
