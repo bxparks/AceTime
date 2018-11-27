@@ -296,7 +296,7 @@ test(TimeZone, operatorEqualEqual) {
 
 test(ManualTimeZone, default) {
   const ManualTimeZone tz;
-  assertEqual(TimeZone::kTypeFixed, tz.getType());
+  assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(0, tz.utcOffset().toOffsetCode());
   assertEqual((uintptr_t) 0, (uintptr_t) tz.stdAbbrev());
   assertEqual((uintptr_t) 0, (uintptr_t) tz.dstAbbrev());
@@ -308,7 +308,7 @@ test(ManualTimeZone, default) {
 
 test(ManualTimeZone, UTC) {
   const ManualTimeZone &tz = ManualTimeZone::sUtc;
-  assertEqual(TimeZone::kTypeFixed, tz.getType());
+  assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(0, tz.utcOffset().toOffsetCode());
   assertEqual("UTC", tz.stdAbbrev());
   assertEqual("UTC", tz.dstAbbrev());
@@ -322,7 +322,7 @@ test(ManualTimeZone, UTC) {
 test(ManualTimeZone, forUtcOffset) {
   ManualTimeZone tz = ManualTimeZone::forUtcOffset(
       UtcOffset::forHour(-8), false, "PST", "PDT");
-  assertEqual(TimeZone::kTypeFixed, tz.getType());
+  assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(-32, tz.utcOffset().toOffsetCode());
   assertEqual("PST", (uintptr_t) tz.stdAbbrev());
   assertEqual("PDT", (uintptr_t) tz.dstAbbrev());

@@ -24,7 +24,7 @@ namespace ace_time {
  */
 class TimeZone {
   public:
-    static const uint8_t kTypeFixed = 0;
+    static const uint8_t kTypeManual = 0;
     static const uint8_t kTypeAuto = 1;
 
     /** Return the type of TimeZone. */

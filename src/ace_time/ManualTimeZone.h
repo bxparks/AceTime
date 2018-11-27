@@ -47,7 +47,7 @@ class ManualTimeZone: public TimeZone {
 
     /** Default constructor creates the UTC time zone. */
     explicit ManualTimeZone():
-        TimeZone(kTypeFixed),
+        TimeZone(kTypeManual),
         mUtcOffset(),
         mIsDst(false),
         mStdAbbrev(nullptr),
@@ -97,10 +97,10 @@ class ManualTimeZone: public TimeZone {
     static void parseFromOffsetString(const char* offsetString,
         uint8_t* offsetCode);
 
-    /** Constructor for kTypeFixed. */
+    /** Constructor for kTypeManual. */
     explicit ManualTimeZone(UtcOffset utcOffset, bool isDst,
             const char* stdAbbrev, const char* dstAbbrev):
-        TimeZone(kTypeFixed),
+        TimeZone(kTypeManual),
         mUtcOffset(utcOffset),
         mIsDst(isDst),
         mStdAbbrev(stdAbbrev),
