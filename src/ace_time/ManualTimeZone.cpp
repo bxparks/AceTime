@@ -1,33 +1,25 @@
 #include <string.h> // strlen()
 #include "common/Util.h"
-#include "common/DateStrings.h"
-#include "TimeZone.h"
+#include "ManualTimeZone.h"
 
 namespace ace_time {
 
 using common::printPad2;
 
-const TimeZone TimeZone::sUtc;
+const ManualTimeZone ManualTimeZone::sUtc(UtcOffset(), false, "UTC", "UTC");
 
-void TimeZone::printTo(Print& printer) const {
-  if (mType == kTypeFixed) {
-    printer.print(F("UTC"));
-    mUtcOffset.printTo(printer);
-    printer.print(mIsDst ? F(" (DST)") : F(" (STD)"));
-  } else {
-    printer.print('[');
-    printer.print(mZoneManager.getZoneInfo()->name);
-    printer.print(']');
-  }
+void ManualTimeZone::printTo(Print& printer) const {
+  printer.print(F("UTC"));
+  mUtcOffset.printTo(printer);
+  printer.print(mIsDst ? F(" (DST)") : F(" (STD)"));
 }
 
-void TimeZone::parseFromOffsetString(const char* ts,
-    uint8_t* offsetCode, bool* isDst) {
+void ManualTimeZone::parseFromOffsetString(const char* ts,
+    uint8_t* offsetCode) {
 
   // verify exact ISO 8601 string length
   if (strlen(ts) != kUtcOffsetStringLength) {
     *offsetCode = UtcOffset::kErrorCode;
-    *isDst = false;
     return;
   }
 
@@ -40,7 +32,6 @@ void TimeZone::parseFromOffsetString(const char* ts,
     sign = 1;
   } else {
     *offsetCode = UtcOffset::kErrorCode;
-    *isDst = false;
     return;
   }
 
@@ -56,9 +47,6 @@ void TimeZone::parseFromOffsetString(const char* ts,
   minute = 10 * minute + (*ts++ - '0');
 
   *offsetCode = UtcOffset::forHourMinute(sign, hour, minute).toOffsetCode();
-
-  // TODO: parse the DST from the string
-  *isDst = false;
 }
 
 }
