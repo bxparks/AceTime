@@ -81,6 +81,149 @@ class Transformer:
         logging.info('Remaining %s rule policies' % len(self.rules_map))
 
     @staticmethod
+    def remove_zone_entries_too_old(zones_map):
+        """Remove zone entries which are too old, i.e. before 2000.
+        """
+        results = {}
+        count = 0
+        for name, zones in zones_map.items():
+            keep_zones = []
+            for zone in zones:
+                if zone['untilYear'] >= 2000:
+                    keep_zones.append(zone)
+                else:
+                    count += 1
+            if keep_zones:
+                results[name] = keep_zones
+
+        logging.info("Removed %s zone entries too old" % count)
+        return results
+
+    @staticmethod
+    def remove_zones_with_until_month(zones_map):
+        """
+        """
+        results = {}
+        removed_zones = []
+        for name, zones in zones_map.items():
+            valid = True
+            for zone in zones:
+                if zone['untilMonth']:
+                    valid = False
+                    break
+            if valid:
+                results[name] = zones
+            else:
+                removed_zones.append(name)
+        logging.info("Removed %s zone infos with unsupported untilMonth"
+            % len(removed_zones))
+        return results
+
+    @staticmethod
+    def remove_zones_with_offset_as_rules(zones_map):
+        results = {}
+        removed_zones = []
+        for name, zones in zones_map.items():
+            valid = True
+            for zone in zones:
+                rule_name = zone['rules']
+                if rule_name.isdigit():
+                    valid = False
+                    break
+            if valid:
+               results[name] = zones
+            else:
+                removed_zones.append(name)
+        logging.info("Removed %s zone infos with offset in 'rules' field"
+            % len(removed_zones))
+        return results
+
+    @staticmethod
+    def remove_zones_without_slash(zones_map):
+        results = {}
+        removed_zones = []
+        for name, zones in zones_map.items():
+            if name.rfind('/') >= 0:
+               results[name] = zones
+            else:
+                removed_zones.append(name)
+        logging.info("Removed %s zone infos without '/' in name" %
+            len(removed_zones))
+        return results
+
+    @staticmethod
+    def create_zones_with_offset_code(zones_map):
+        for name, zones in zones_map.items():
+            for zone in zones:
+                offset_minutes = zone['offsetMinutes']
+                if offset_minutes % 15 != 0:
+                    logging.error(
+                        "Zone %s: offset minutes not multiple of 15: %s"
+                        % (name, offset_minutes))
+                offset_code = int(offset_minutes / 15)
+                zone['offsetCode'] = offset_code
+        return zones_map
+
+    @staticmethod
+    def remove_zones_without_rules(zones_map, rules_map):
+        results = {}
+        count = 0
+        for name, zones in zones_map.items():
+            valid = True
+            for zone in zones:
+                rule_name = zone['rules']
+                if rule_name != '-' and rule_name not in rules_map:
+                    valid = False
+                    break
+
+            if valid:
+                results[name] = zones
+            else:
+                count += 1
+        logging.info("Removed %s zone infos without rules" % count)
+        return results
+
+    @staticmethod
+    def remove_rules_long_dst_letter(rules_map):
+        """Return a new map which filters out rules with long DST letter.
+        """
+        results = {}
+        removed_policies = []
+        for name, rules in rules_map.items():
+            valid = True
+            for rule in rules:
+                if len(rule['letter']) > 1:
+                    valid = False
+                    break
+            if valid:
+                results[name] = rules
+            else:
+                removed_policies.append(name)
+        logging.info('Removed %s rule policies with long DST letter' %
+            len(removed_policies))
+        return results
+
+    @staticmethod
+    def remove_rules_invalid_at_hour(rules_map):
+        """Remove rules whose atHour occurs off hour.
+        """
+        results = {}
+        removed_policies = []
+        for name, rules in rules_map.items():
+            valid = True
+            for rule in rules:
+                if rule['atMinute'] % 60 != 0:
+                    valid = False
+                    break
+            if valid:
+                results[name] = rules
+            else:
+                removed_policies.append(name)
+        logging.info('Removed %s rule policies with non-integral atHour'
+            % len(removed_policies))
+        return results
+
+    @staticmethod
     def mark_rules_used_by_zones(zones_map, rules_map):
         """Mark all rules which are required by various zones. There are 2 ways
         that a rule can be used by a zone entry:
@@ -119,47 +262,10 @@ class Transformer:
         return (zones_map, rules_map)
 
     @staticmethod
-    def remove_rules_long_dst_letter(rules_map):
-        """Return a new map which filters out rules with long DST letter.
-        """
-        results = {}
-        count = 0
-        for name, rules in rules_map.items():
-            valid = True
-            for rule in rules:
-                if len(rule['letter']) > 1:
-                    valid = False
-                    count += 1
-                    break
-            if valid:
-                results[name] = rules
-        logging.info('Removed %s rule policies with long DST letter' % count)
-        return results
-
-    @staticmethod
-    def remove_rules_invalid_at_hour(rules_map):
-        """Remove rules whose atHour occurs off hour.
-        """
-        results = {}
-        count = 0
-        for name, rules in rules_map.items():
-            valid = True
-            for rule in rules:
-                if rule['atMinute'] % 60 != 0:
-                    valid = False
-                    count += 1
-                    break
-            if valid:
-                results[name] = rules
-        logging.info('Removed %s rule policies with non-integral atHour'
-            % count)
-        return results
-
-    @staticmethod
     def remove_unused_rules(rules_map):
         results = {}
         removed_rule_count = 0
-        removed_policy_count = 0
+        removed_policies = []
         for name, rules in rules_map.items():
             used_rules = []
             for rule in rules:
@@ -170,9 +276,9 @@ class Transformer:
             if used_rules:
                 results[name] = used_rules
             else:
-                removed_policy_count += 1
+                removed_policies.append(name)
         logging.info('Removed %s rule policies (%s rules) not used' %
-                (removed_policy_count, removed_rule_count))
+                (len(removed_policies), removed_rule_count))
         return results
 
     @staticmethod
@@ -187,106 +293,6 @@ class Transformer:
                 delta_code = int(delta_minutes / 15)
                 rule['deltaCode'] = delta_code
         return rules_map
-
-    @staticmethod
-    def remove_zones_with_until_month(zones_map):
-        """
-        """
-        results = {}
-        count = 0
-        for name, zones in zones_map.items():
-            valid = True
-            for zone in zones:
-                if zone['untilMonth']:
-                    valid = False
-                    count += 1
-                    break
-            if valid:
-                results[name] = zones
-        logging.info("Removed %s zone infos with unsupported untilMonth"
-            % count)
-        return results
-
-    @staticmethod
-    def remove_zones_with_offset_as_rules(zones_map):
-        results = {}
-        count = 0
-        for name, zones in zones_map.items():
-            valid = True
-            for zone in zones:
-                rule_name = zone['rules']
-                if rule_name.isdigit():
-                    valid = False
-                    count += 1
-                    break
-            if valid:
-               results[name] = zones
-        logging.info("Removed %s zone infos with offset in 'rules' field"
-            % count)
-        return results
-
-    @staticmethod
-    def remove_zones_without_slash(zones_map):
-        results = {}
-        count = 0
-        for name, zones in zones_map.items():
-            if name.rfind('/') >= 0:
-               results[name] = zones
-            else:
-                count += 1
-        logging.info("Removed %s zone infos without '/' in name" % count)
-        return results
-
-    @staticmethod
-    def remove_zone_entries_too_old(zones_map):
-        """Remove zone entries which are too old, i.e. before 2000.
-        """
-        results = {}
-        count = 0
-        for name, zones in zones_map.items():
-            keep_zones = []
-            for zone in zones:
-                if zone['untilYear'] >= 2000:
-                    keep_zones.append(zone)
-                else:
-                    count += 1
-            if keep_zones:
-                results[name] = keep_zones
-
-        logging.info("Removed %s zone entries too old" % count)
-        return results
-
-    @staticmethod
-    def create_zones_with_offset_code(zones_map):
-        for name, zones in zones_map.items():
-            for zone in zones:
-                offset_minutes = zone['offsetMinutes']
-                if offset_minutes % 15 != 0:
-                    logging.error(
-                        "Zone %s: offset minutes not multiple of 15: %s"
-                        % (name, offset_minutes))
-                offset_code = int(offset_minutes / 15)
-                zone['offsetCode'] = offset_code
-        return zones_map
-
-    @staticmethod
-    def remove_zones_without_rules(zones_map, rules_map):
-        results = {}
-        count = 0
-        for name, zones in zones_map.items():
-            valid = True
-            for zone in zones:
-                rule_name = zone['rules']
-                if rule_name != '-' and rule_name not in rules_map:
-                    valid = False
-                    break
-
-            if valid:
-                results[name] = zones
-            else:
-                count += 1
-        logging.info("Removed %s zone infos without rules" % count)
-        return results
 
 def short_name(name):
     index = name.rfind('/')
