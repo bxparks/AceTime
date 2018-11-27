@@ -25,18 +25,24 @@ def main():
     """
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Generate Zone Info.')
+
+    # Extractor
     parser.add_argument(
         '--input_dir', help='Location of the input directory', required=True)
-    parser.add_argument(
-        '--tz_version', help='Version string of the TZ files', required=True)
-    parser.add_argument(
-        '--output_dir', help='Location of the output directory', required=False)
-
     parser.add_argument(
         '--print_summary',
         help='Print summary of rules and zones',
         action="store_true",
         default=False)
+
+    # Transformer
+    parser.add_argument(
+        '--print_removed',
+        help='Print names of removed zones and policies',
+        action="store_true",
+        default=True)
+
+    # Printer
     parser.add_argument(
         '--print_rules',
         help='Print list of rules',
@@ -97,6 +103,12 @@ def main():
         help='Print transformed rules',
         action="store_true",
         default=False)
+
+    # Generator
+    parser.add_argument(
+        '--tz_version', help='Version string of the TZ files', required=True)
+    parser.add_argument(
+        '--output_dir', help='Location of the output directory', required=False)
     parser.add_argument(
         '--print_generated_policies',
         help='Print generated zone_policies.h and zone_policies.cpp',
@@ -107,6 +119,7 @@ def main():
         help='Print generated zone_infos.h and zone_infos.cpp',
         action="store_true",
         default=False)
+
     args = parser.parse_args()
 
     # Configure logging
@@ -122,17 +135,17 @@ def main():
     extractor.process_zones()
     (zones, rules) = extractor.get_data()
 
+    # Extractor summary
+    if args.print_summary:
+        extractor.print_summary()
+
     # Transform the TZ zones and rules
-    transformer = Transformer(zones, rules)
+    transformer = Transformer(zones, rules, args.print_removed)
     transformer.transform()
     (zones, rules) = transformer.get_data()
 
     # create the generator
     generator = Generator(invocation, args.tz_version, zones, rules)
-
-    # Extractor summary
-    if args.print_summary:
-        extractor.print_summary()
 
     # Print various slices of the data
     printer = Printer(zones, rules)

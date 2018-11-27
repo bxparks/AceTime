@@ -9,12 +9,14 @@ generate the code for the static instances ZoneInfo and ZonePolicy classes.
 """
 
 import logging
+import sys
 
 class Transformer:
 
-    def __init__(self, zones_map, rules_map):
+    def __init__(self, zones_map, rules_map, print_removed):
         self.zones_map = zones_map
         self.rules_map = rules_map
+        self.print_removed = print_removed
 
     def get_data(self):
         """
@@ -99,8 +101,7 @@ class Transformer:
         logging.info("Removed %s zone entries too old" % count)
         return results
 
-    @staticmethod
-    def remove_zones_with_until_month(zones_map):
+    def remove_zones_with_until_month(self, zones_map):
         """
         """
         results = {}
@@ -117,10 +118,12 @@ class Transformer:
                 removed_zones.append(name)
         logging.info("Removed %s zone infos with unsupported untilMonth"
             % len(removed_zones))
+        if self.print_removed:
+            for name in sorted(removed_zones):
+                print('  %s' % name, file=sys.stderr)
         return results
 
-    @staticmethod
-    def remove_zones_with_offset_as_rules(zones_map):
+    def remove_zones_with_offset_as_rules(self, zones_map):
         results = {}
         removed_zones = []
         for name, zones in zones_map.items():
@@ -136,10 +139,12 @@ class Transformer:
                 removed_zones.append(name)
         logging.info("Removed %s zone infos with offset in 'rules' field"
             % len(removed_zones))
+        if self.print_removed:
+            for name in sorted(removed_zones):
+                print('  %s' % name, file=sys.stderr)
         return results
 
-    @staticmethod
-    def remove_zones_without_slash(zones_map):
+    def remove_zones_without_slash(self, zones_map):
         results = {}
         removed_zones = []
         for name, zones in zones_map.items():
@@ -149,6 +154,9 @@ class Transformer:
                 removed_zones.append(name)
         logging.info("Removed %s zone infos without '/' in name" %
             len(removed_zones))
+        if self.print_removed:
+            for name in sorted(removed_zones):
+                print('  %s' % name, file=sys.stderr)
         return results
 
     @staticmethod
@@ -164,10 +172,9 @@ class Transformer:
                 zone['offsetCode'] = offset_code
         return zones_map
 
-    @staticmethod
-    def remove_zones_without_rules(zones_map, rules_map):
+    def remove_zones_without_rules(self, zones_map, rules_map):
         results = {}
-        count = 0
+        removed_zones = []
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
@@ -175,16 +182,17 @@ class Transformer:
                 if rule_name != '-' and rule_name not in rules_map:
                     valid = False
                     break
-
             if valid:
                 results[name] = zones
             else:
-                count += 1
-        logging.info("Removed %s zone infos without rules" % count)
+                removed_zones.append(name)
+        logging.info("Removed %s zone infos without rules" % len(removed_zones))
+        if self.print_removed:
+            for name in sorted(removed_zones):
+                print('  %s' % name, file=sys.stderr)
         return results
 
-    @staticmethod
-    def remove_rules_long_dst_letter(rules_map):
+    def remove_rules_long_dst_letter(self, rules_map):
         """Return a new map which filters out rules with long DST letter.
         """
         results = {}
@@ -201,10 +209,12 @@ class Transformer:
                 removed_policies.append(name)
         logging.info('Removed %s rule policies with long DST letter' %
             len(removed_policies))
+        if self.print_removed:
+            for name in sorted(removed_policies):
+                print('  %s' % name, file=sys.stderr)
         return results
 
-    @staticmethod
-    def remove_rules_invalid_at_hour(rules_map):
+    def remove_rules_invalid_at_hour(self, rules_map):
         """Remove rules whose atHour occurs off hour.
         """
         results = {}
@@ -221,6 +231,9 @@ class Transformer:
                 removed_policies.append(name)
         logging.info('Removed %s rule policies with non-integral atHour'
             % len(removed_policies))
+        if self.print_removed:
+            for name in sorted(removed_policies):
+                print('  %s' % name, file=sys.stderr)
         return results
 
     @staticmethod
@@ -240,8 +253,8 @@ class Transformer:
 
                 rule_entries = rules_map.get(rule_name)
                 if not rule_entries:
-                    # This shouldn't happen
-                    print('Zone name %s: Missing rule' % name)
+                    logging.error(
+                        'Zone name %s: Missing rule: should not happen', name)
                     continue
 
                 # Mark rules in the [begin_year, until_year) interval.
@@ -261,8 +274,7 @@ class Transformer:
 
         return (zones_map, rules_map)
 
-    @staticmethod
-    def remove_unused_rules(rules_map):
+    def remove_unused_rules(self, rules_map):
         results = {}
         removed_rule_count = 0
         removed_policies = []
@@ -279,6 +291,9 @@ class Transformer:
                 removed_policies.append(name)
         logging.info('Removed %s rule policies (%s rules) not used' %
                 (len(removed_policies), removed_rule_count))
+        if self.print_removed:
+            for name in sorted(removed_policies):
+                print('  %s' % name, file=sys.stderr)
         return results
 
     @staticmethod
