@@ -342,6 +342,14 @@ test(ManualTimeZone, forUtcOffset) {
 // AutoTimeZone
 // --------------------------------------------------------------------------
 
+test(AutoTimeZone, nullptr) {
+  AutoTimeZone tz = AutoTimeZone::forZone(nullptr);
+  assertEqual(TimeZone::kTypeAuto, tz.getType());
+  assertEqual(0, tz.getUtcOffset(0).toOffsetCode());
+  assertEqual("UTC", tz.getAbbrev(0));
+  assertFalse(tz.getDst(0));
+}
+
 test(AutoTimeZone, LosAngeles) {
   OffsetDateTime dt;
   uint32_t epochSeconds;

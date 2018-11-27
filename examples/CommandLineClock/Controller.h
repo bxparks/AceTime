@@ -9,7 +9,6 @@
 using namespace ace_time;
 using namespace ace_time::provider;
 
-// Set to 1 to set the TimeProvider::pollNow() method.
 class Controller {
   public:
     Controller(PersistentStore& persistentStore, TimeKeeper& systemTimeKeeper):
@@ -18,19 +17,43 @@ class Controller {
 
     void setup() {
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
-      // TODO: I think this needs to set the default timezone and
-      // set the ssid and password to some initial blank state, so that
+      mCurrentTimeZone = &mManualTimeZone;
+
+      if (mIsStoredInfoValid) {
+        if (mStoredInfo.timeZoneType == TimeZone::kTypeAuto) {
+          AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
+          setAutoTimeZone(tz);
+        } else {
+          ManualTimeZone tz = ManualTimeZone::forUtcOffset(
+              UtcOffset::forOffsetCode(mStoredInfo.offsetCode),
+              mStoredInfo.isDst);
+          setManualTimeZone(tz);
+        }
+      } else {
+        AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
+        setAutoTimeZone(tz);
+      }
+
+      // TODO: Set the ssid and password to some initial blank state, so that
       // the user can be notified that they need to be provided.
     }
 
     /** Set the time zone of the clock and preserve it. */
-    void setTimeZone(const TimeZone& timeZone) {
-      mTimeZone = timeZone;
+    void setManualTimeZone(const ManualTimeZone& timeZone) {
+      mManualTimeZone = timeZone;
+      mCurrentTimeZone = &mManualTimeZone;
+      preserveInfo();
+    }
+
+    /** Set the time zone of the clock and preserve it. */
+    void setAutoTimeZone(const AutoTimeZone& timeZone) {
+      mAutoTimeZone = timeZone;
+      mCurrentTimeZone = &mAutoTimeZone;
       preserveInfo();
     }
 
     /** Return the current time zone. */
-    const TimeZone& getTimeZone() const { return mTimeZone; }
+    const TimeZone* getTimeZone() const { return mCurrentTimeZone; }
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
     /**
@@ -55,7 +78,7 @@ class Controller {
     /** Return the current time from the system time keeper. */
     DateTime getNow() const {
       return DateTime::forEpochSeconds(
-          mSystemTimeKeeper.getNow(), &mTimeZone);
+          mSystemTimeKeeper.getNow(), mCurrentTimeZone);
     }
 
     /** Return true if the initial setup() retrieved a valid storedInfo. */
@@ -65,11 +88,11 @@ class Controller {
     const StoredInfo& getStoredInfo() const { return mStoredInfo; }
 
     /** Return DST mode. */
-    bool isDst() const { return mTimeZone.getBaseDst(); }
+    bool isDst() const { return mManualTimeZone.isDst(); }
 
     /** Set DST on or off */
     void setDst(bool status) {
-      mTimeZone.setBaseDst(status);
+      mManualTimeZone.isDst(status);
       preserveInfo();
     }
 
@@ -97,16 +120,18 @@ class Controller {
   private:
     uint16_t preserveInfo() {
       mIsStoredInfoValid = true;
-      mStoredInfo.timeZoneType = mTimeZone.getType();
-      mStoredInfo.offsetCode = mTimeZone.getBaseUtcOffset().toOffsetCode();
-      mStoredInfo.isDst = mTimeZone.getBaseDst();
+      mStoredInfo.timeZoneType = mCurrentTimeZone->getType();
+      mStoredInfo.offsetCode = mManualTimeZone.utcOffset().toOffsetCode();
+      mStoredInfo.isDst = mManualTimeZone.isDst();
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
 
     PersistentStore& mPersistentStore;
     TimeKeeper& mSystemTimeKeeper;
     DateTime mChangingDateTime;
-    TimeZone mTimeZone;
+    ManualTimeZone mManualTimeZone;
+    AutoTimeZone mAutoTimeZone;
+    TimeZone* mCurrentTimeZone; // points to mManualTimeZone or mAutoTimeZone
 
     StoredInfo mStoredInfo;
     bool mIsStoredInfoValid = false;

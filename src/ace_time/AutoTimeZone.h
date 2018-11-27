@@ -28,6 +28,11 @@ class AutoTimeZone: public TimeZone {
       return AutoTimeZone(zoneInfo);
     }
 
+    /** Constructor. */
+    explicit AutoTimeZone(const common::ZoneInfo* zoneInfo = nullptr):
+        TimeZone(kTypeAuto),
+        mZoneManager(zoneInfo) {}
+
     UtcOffset getUtcOffset(uint32_t epochSeconds) const override {
       return mZoneManager.getUtcOffset(epochSeconds);
     }
@@ -43,11 +48,6 @@ class AutoTimeZone: public TimeZone {
     void printTo(Print& printer) const override;
 
   private:
-    /** Constructor. */
-    explicit AutoTimeZone(const common::ZoneInfo* zoneInfo):
-        TimeZone(kTypeAuto),
-        mZoneManager(zoneInfo) {}
-
     bool equals(const TimeZone& that) const override {
       const AutoTimeZone& other = static_cast<const AutoTimeZone&>(that);
       return mZoneManager.getZoneInfo() == other.mZoneManager.getZoneInfo();
