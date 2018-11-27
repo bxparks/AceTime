@@ -65,6 +65,8 @@ class Transformer:
         logging.info('Found %s rule policies' % len(self.rules_map))
 
         zones_map = self.remove_zone_entries_too_old(zones_map)
+        zones_map = self.remove_zones_with_until_time(zones_map)
+        zones_map = self.remove_zones_with_until_day(zones_map)
         zones_map = self.remove_zones_with_until_month(zones_map)
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
         zones_map = self.remove_zones_without_slash(zones_map)
@@ -107,9 +109,49 @@ class Transformer:
         logging.info("Removed %s zone entries too old" % count)
         return results
 
+    def remove_zones_with_until_time(self, zones_map):
+        results = {}
+        removed_zones = []
+        for name, zones in zones_map.items():
+            valid = True
+            for zone in zones:
+                if zone['untilTime']:
+                    valid = False
+                    break
+            if valid:
+                results[name] = zones
+            else:
+                removed_zones.append(name)
+        logging.info("Removed %s zone infos with unsupported untilTime"
+            % len(removed_zones))
+        if self.print_removed:
+            for name in sorted(removed_zones):
+                print('  %s' % name, file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones)
+        return results
+
+    def remove_zones_with_until_day(self, zones_map):
+        results = {}
+        removed_zones = []
+        for name, zones in zones_map.items():
+            valid = True
+            for zone in zones:
+                if zone['untilDay']:
+                    valid = False
+                    break
+            if valid:
+                results[name] = zones
+            else:
+                removed_zones.append(name)
+        logging.info("Removed %s zone infos with unsupported untilDay"
+            % len(removed_zones))
+        if self.print_removed:
+            for name in sorted(removed_zones):
+                print('  %s' % name, file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones)
+        return results
+
     def remove_zones_with_until_month(self, zones_map):
-        """
-        """
         results = {}
         removed_zones = []
         for name, zones in zones_map.items():
