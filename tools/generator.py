@@ -117,6 +117,8 @@ const common::ZonePolicy kPolicy{policyName} = {{
 
 #include "../common/ZoneInfo.h"
 
+#define ACE_TIME_TZ_DATABASE_VERSION "{tz_version}"
+
 namespace ace_time {{
 namespace zonedb {{
 

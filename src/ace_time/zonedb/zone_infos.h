@@ -12,6 +12,8 @@
 
 #include "../common/ZoneInfo.h"
 
+#define ACE_TIME_TZ_DATABASE_VERSION "2018g"
+
 namespace ace_time {
 namespace zonedb {
 
