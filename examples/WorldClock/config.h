@@ -35,6 +35,11 @@
 #define OLED_RST_PIN 4
 #define OLED_DC_PIN 10
 
+// Whether to use ManualTimeZone or AutoTimeZone
+#define TIME_ZONE_TYPE_MANUAL 0
+#define TIME_ZONE_TYPE_AUTO 1
+#define TIME_ZONE_TYPE TIME_ZONE_TYPE_MANUAL
+
 //------------------------------------------------------------------
 // Rendering modes.
 //------------------------------------------------------------------
@@ -48,7 +53,9 @@ static const uint8_t MODE_CHANGE_DAY = 5;
 static const uint8_t MODE_CHANGE_HOUR = 6;
 static const uint8_t MODE_CHANGE_MINUTE = 7;
 static const uint8_t MODE_CHANGE_SECOND = 8;
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
 static const uint8_t MODE_CHANGE_TIME_ZONE_DST = 11;
+#endif
 static const uint8_t MODE_CHANGE_HOUR_MODE = 12;
 static const uint8_t MODE_CHANGE_BLINKING_COLON = 13;
 

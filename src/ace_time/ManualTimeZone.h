@@ -70,7 +70,7 @@ class ManualTimeZone: public TimeZone {
     void printTo(Print& printer) const override;
 
     /** Return the base offset without regards to the DST setting. */
-    const UtcOffset& utcOffset() const { return mUtcOffset; }
+    UtcOffset utcOffset() const { return mUtcOffset; }
 
     /** Set the base offset without regards to the DST setting. */
     void utcOffset(UtcOffset utcOffset) {

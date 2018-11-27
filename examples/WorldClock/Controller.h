@@ -88,9 +88,11 @@ class Controller {
           mMode = MODE_CHANGE_BLINKING_COLON;
           break;
         case MODE_CHANGE_BLINKING_COLON:
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
           mMode = MODE_CHANGE_TIME_ZONE_DST;
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
+#endif
           mMode = MODE_CHANGE_HOUR_MODE;
           break;
       }
@@ -123,7 +125,9 @@ class Controller {
 
         case MODE_CHANGE_HOUR_MODE:
         case MODE_CHANGE_BLINKING_COLON:
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case MODE_CHANGE_TIME_ZONE_DST:
+#endif
           saveClockInfo();
           mMode = MODE_CLOCK_INFO;
           break;
@@ -166,11 +170,13 @@ class Controller {
           mSuppressBlink = true;
           mChangingClockInfo.blinkingColon = !mChangingClockInfo.blinkingColon;
           break;
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
-          mChangingClockInfo.timeZone.setBaseDst(
-              !mChangingClockInfo.timeZone.getBaseDst());
+          mChangingClockInfo.timeZone.isDst(
+              !mChangingClockInfo.timeZone.isDst());
           break;
+#endif
       }
 
       // Update the display right away to prevent jitters in the display when
@@ -192,7 +198,9 @@ class Controller {
         case MODE_CHANGE_SECOND:
         case MODE_CHANGE_HOUR_MODE:
         case MODE_CHANGE_BLINKING_COLON:
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case MODE_CHANGE_TIME_ZONE_DST:
+#endif
           mSuppressBlink = false;
           break;
       }
@@ -255,7 +263,9 @@ class Controller {
         case MODE_CHANGE_SECOND:
         case MODE_CHANGE_HOUR_MODE:
         case MODE_CHANGE_BLINKING_COLON:
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case MODE_CHANGE_TIME_ZONE_DST:
+#endif
         {
           presenter.setNow(mChangingDateTime.toEpochSeconds());
           presenter.setClockInfo(mChangingClockInfo);
@@ -274,13 +284,14 @@ class Controller {
 
       mClockInfo1.hourMode = mChangingClockInfo.hourMode;
       mClockInfo1.blinkingColon = mChangingClockInfo.blinkingColon;
-      mClockInfo1.timeZone.setBaseDst(
-          mChangingClockInfo.timeZone.getBaseDst());
 
       mClockInfo2.hourMode = mChangingClockInfo.hourMode;
       mClockInfo2.blinkingColon = mChangingClockInfo.blinkingColon;
-      mClockInfo2.timeZone.setBaseDst(
-          mChangingClockInfo.timeZone.getBaseDst());
+
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
+      mClockInfo1.timeZone.isDst(mChangingClockInfo.timeZone.isDst());
+      mClockInfo2.timeZone.isDst(mChangingClockInfo.timeZone.isDst());
+#endif
 
       preserveInfo();
     }
@@ -295,7 +306,7 @@ class Controller {
       // Create StoreInfo from clock0. The others will be identical.
       // TODO: isDst should be saved for each clock
       StoredInfo storedInfo;
-      storedInfo.isDst = mClockInfo0.timeZone.getBaseDst();
+      storedInfo.isDst = mClockInfo0.timeZone.isDst();
       storedInfo.hourMode = mClockInfo0.hourMode;
       storedInfo.blinkingColon = mClockInfo0.blinkingColon;
 

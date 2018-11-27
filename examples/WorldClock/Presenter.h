@@ -208,7 +208,7 @@ class Presenter {
       mOled.print(DateStrings().weekDayLongString(dateTime.dayOfWeek()));
       mOled.clearToEOL();
 
-      // abbreviation and place name, assume TimeZone::kTypeFixed
+      // abbreviation and place name
       mOled.println();
       mOled.print(dateTime.timeZone()->getAbbrev(mRenderingInfo.now));
       mOled.print(' ');
@@ -220,12 +220,6 @@ class Presenter {
 
     void displayClockInfo() const {
       const ClockInfo& clockInfo = mRenderingInfo.clockInfo;
-      const TimeZone& timeZone = clockInfo.timeZone;
-      UtcOffset utcOffset = timeZone.getBaseUtcOffset();
-      int8_t sign;
-      uint8_t hour;
-      uint8_t minute;
-      utcOffset.toHourMinute(sign, hour, minute);
 
       mOled.print(FF("12/24: "));
       if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
@@ -243,6 +237,15 @@ class Presenter {
         mOled.print("   ");
       }
 
+      // Extract time zone info.
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
+      const ManualTimeZone& timeZone = clockInfo.timeZone;
+      UtcOffset utcOffset = timeZone.utcOffset();
+      int8_t sign;
+      uint8_t hour;
+      uint8_t minute;
+      utcOffset.toHourMinute(sign, hour, minute);
+
       mOled.println();
       mOled.print(FF("UTC"));
       mOled.print((sign < 0) ? '-' : '+');
@@ -253,10 +256,11 @@ class Presenter {
       mOled.println();
       mOled.print(FF("DST: "));
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-        mOled.print(timeZone.getBaseDst() ? "on " : "off");
+        mOled.print(timeZone.isDst() ? "on " : "off");
       } else {
         mOled.print("   ");
       }
+#endif
     }
 
     /**
