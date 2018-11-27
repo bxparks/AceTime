@@ -55,6 +55,9 @@ class Transformer:
         zones_map = self.zones_map
         rules_map = self.rules_map
 
+        logging.info('Found %s zone infos' % len(self.zones_map))
+        logging.info('Found %s rule policies' % len(self.rules_map))
+
         zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.remove_zones_with_until_month(zones_map)
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
@@ -73,6 +76,9 @@ class Transformer:
 
         self.rules_map = rules_map
         self.zones_map = zones_map
+
+        logging.info('Remaining %s zone infos' % len(self.zones_map))
+        logging.info('Remaining %s rule policies' % len(self.rules_map))
 
     @staticmethod
     def mark_rules_used_by_zones(zones_map, rules_map):
@@ -152,17 +158,21 @@ class Transformer:
     @staticmethod
     def remove_unused_rules(rules_map):
         results = {}
-        count = 0
+        removed_rule_count = 0
+        removed_policy_count = 0
         for name, rules in rules_map.items():
             used_rules = []
             for rule in rules:
                 if 'used' in rule:
                     used_rules.append(rule)
                 else:
-                    count += 1
+                    removed_rule_count += 1
             if used_rules:
                 results[name] = used_rules
-        logging.info('Removed %s rule entries not used' % count)
+            else:
+                removed_policy_count += 1
+        logging.info('Removed %s rule policies (%s rules) not used' %
+                (removed_policy_count, removed_rule_count))
         return results
 
     @staticmethod
@@ -193,7 +203,8 @@ class Transformer:
                     break
             if valid:
                 results[name] = zones
-        logging.info("Removed %s zones with unsupported untilMonth" % count)
+        logging.info("Removed %s zone infos with unsupported untilMonth"
+            % count)
         return results
 
     @staticmethod
@@ -210,7 +221,8 @@ class Transformer:
                     break
             if valid:
                results[name] = zones
-        logging.info("Removed %s zones with offset in 'rules' field" % count)
+        logging.info("Removed %s zone infos with offset in 'rules' field"
+            % count)
         return results
 
     @staticmethod
@@ -222,7 +234,7 @@ class Transformer:
                results[name] = zones
             else:
                 count += 1
-        logging.info("Removed %s zones without '/' in name" % count)
+        logging.info("Removed %s zone infos without '/' in name" % count)
         return results
 
     @staticmethod
@@ -273,7 +285,7 @@ class Transformer:
                 results[name] = zones
             else:
                 count += 1
-        logging.info("Removed %s zones without rules" % count)
+        logging.info("Removed %s zone infos without rules" % count)
         return results
 
 def short_name(name):

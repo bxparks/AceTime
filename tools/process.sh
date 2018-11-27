@@ -43,14 +43,14 @@ pushd $INPUT_DIR
 echo "\$ git co $tag"
 git co $tag
 
-echo "\$ popd"
+echo '$ popd'
 popd
 
-echo "\$ $DIRNAME/process.py \
+echo \$ $DIRNAME/process.py \
     --input_dir $INPUT_DIR \
     --tz_version $tag \
     $output_option \
-    $@"
+    $@
 $DIRNAME/process.py \
     --input_dir $INPUT_DIR \
     --tz_version $tag \
@@ -60,8 +60,8 @@ $DIRNAME/process.py \
 echo "\$ pushd $INPUT_DIR"
 pushd $INPUT_DIR
 
-echo "\$ git co master"
+echo '$ git co master'
 git co master
 
-echo "\$ popd"
+echo '$ popd'
 popd
