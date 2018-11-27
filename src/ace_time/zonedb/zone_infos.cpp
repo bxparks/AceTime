@@ -5,8 +5,8 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018g
 //
-// Info count: 228
-// Entry count: 237
+// Zone info count: 228
+// Zone entry count: 237
 // Memory (8-bit): 7400
 // Memory (32-bit): 9260
 //

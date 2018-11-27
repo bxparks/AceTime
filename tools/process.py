@@ -126,7 +126,7 @@ def main():
     logging.basicConfig(level=logging.INFO)
 
     # How the script was invoked
-    invocation = " ".join(sys.argv)
+    invocation = ' '.join(sys.argv)
 
     # Extract the TZ files
     extractor = Extractor(args.input_dir)
@@ -181,8 +181,8 @@ def main():
         printer.print_rules()
 
     # create the generator
-    generator = Generator(invocation, args.tz_version, zones, rules,
-        removed_zones)
+    generator = Generator(invocation, args.tz_version, Extractor.ZONE_FILES,
+        zones, rules, removed_zones)
 
     # print the generated zone_policies.*
     if args.print_generated_policies:
