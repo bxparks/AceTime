@@ -53,6 +53,13 @@ class TimeZone {
 
     /** Type of time zone. */
     uint8_t mType;
+
+  private:
+    // Disable copy-constructor and assignment operator
+    // This prevents slicing of the subclasses.
+    TimeZone(const TimeZone&) = delete;
+    TimeZone& operator=(const TimeZone&) = delete;
+
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {

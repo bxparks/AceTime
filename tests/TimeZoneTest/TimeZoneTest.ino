@@ -285,9 +285,38 @@ test(TimeZone, operatorEqualEqual) {
   assertTrue(tz1 != tz2);
   assertTrue(tz1 != tz3);
   assertTrue(tz2 != tz3);
+}
 
-  AutoTimeZone tz4 = tz3;
-  assertTrue(tz4 == tz3);
+test(TimeZone, copyConstructor) {
+  ManualTimeZone mtz = ManualTimeZone::forUtcOffset(
+      UtcOffset::forHour(-8), false, "PST", "PDT");
+  AutoTimeZone atz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
+
+  // Test copy constructor
+  ManualTimeZone mtz2 = mtz;
+  assertTrue(mtz2 == mtz);
+  AutoTimeZone atz2 = atz;
+  assertTrue(atz2 == atz);
+}
+
+test(TimeZone, assignmentOperator) {
+  ManualTimeZone mtz = ManualTimeZone::forUtcOffset(
+      UtcOffset::forHour(-8), false, "PST", "PDT");
+  AutoTimeZone atz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
+
+  // This generates a compiler error because the assignment operator for
+  // TimeZone was deleted to prevent slicing.
+  /*
+  TimeZone& tz = mtz;
+  tz = atz;
+  */
+
+  ManualTimeZone mtz3;
+  mtz3 = mtz;
+  assertTrue(mtz3 == mtz);
+  AutoTimeZone atz3;
+  atz3 = atz;
+  assertTrue(atz3 == atz);
 }
 
 // --------------------------------------------------------------------------

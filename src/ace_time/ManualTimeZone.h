@@ -53,6 +53,24 @@ class ManualTimeZone: public TimeZone {
         mStdAbbrev(nullptr),
         mDstAbbrev(nullptr) {}
 
+    /** Copy constructor. */
+    ManualTimeZone(const ManualTimeZone& other):
+      TimeZone(other.mType),
+      mUtcOffset(other.mUtcOffset),
+      mIsDst(other.mIsDst),
+      mStdAbbrev(other.mStdAbbrev),
+      mDstAbbrev(other.mDstAbbrev) {}
+
+    /** Assignment operator. */
+    ManualTimeZone& operator=(const ManualTimeZone& other) {
+      mType = other.mType;
+      mUtcOffset = other.mUtcOffset;
+      mIsDst = other.mIsDst,
+      mStdAbbrev = other.mStdAbbrev;
+      mDstAbbrev = other.mDstAbbrev;
+      return *this;
+    }
+
     UtcOffset getUtcOffset(uint32_t /*epochSeconds*/) const override {
       return UtcOffset::forOffsetCode(
           mUtcOffset.toOffsetCode() + (mIsDst ? 4 : 0));

@@ -33,6 +33,18 @@ class AutoTimeZone: public TimeZone {
         TimeZone(kTypeAuto),
         mZoneManager(zoneInfo) {}
 
+    /** Copy constructor. */
+    AutoTimeZone(const AutoTimeZone& other):
+      TimeZone(other.mType),
+      mZoneManager(other.mZoneManager) {}
+
+    /** Assignment operator. */
+    AutoTimeZone& operator=(const AutoTimeZone& other) {
+      mType = other.mType;
+      mZoneManager = other.mZoneManager;
+      return *this;
+    }
+
     UtcOffset getUtcOffset(uint32_t epochSeconds) const override {
       return mZoneManager.getUtcOffset(epochSeconds);
     }
