@@ -132,7 +132,7 @@ namespace zonedb {{
 {infoItems}
 
 // The following zones are not supported in the current version of AceTime.
-// numZones: {numRemovedInfos}
+// numInfos: {numRemovedInfos}
 
 {removedInfoItems}
 
