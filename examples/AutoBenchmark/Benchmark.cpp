@@ -39,6 +39,8 @@ const char DATE_TIME_FOR_EPOCH_SECONDS_LABEL[] =
   "DateTime::forEpochSeconds(UTC)          | ";
 const char DATE_TIME_FOR_EPOCH_SECONDS_LOS_ANGELES_LABEL[] =
   "DateTime::forEpochSeconds(Los_Angeles)  | ";
+const char DATE_TIME_FOR_EPOCH_SECONDS_CACHED_LABEL[] =
+  "DateTime::forEpochSeconds(Cached)       | ";
 const char DATE_TIME_TO_EPOCH_DAYS_LABEL[] =
   "DateTime::toEpochDays()                 | ";
 const char DATE_TIME_TO_EPOCH_SECONDS_LABEL[] =
@@ -255,6 +257,26 @@ static unsigned long runDateTimeForEpochSecondsLosAngeles(
   return elapsedMillis;
 }
 
+AutoTimeZone tzLosAngeles = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
+
+// DateTime::forEpochSeconds(seconds, kZoneLos_Angeles) w/ cached TimeZone
+static unsigned long runDateTimeForEpochSecondsLosAngelesCached(
+    unsigned long emptyLoopMillis) {
+  unsigned long forEpochSecondsMillis = runLambda(COUNT, []() mutable {
+    unsigned long tickMillis = millis();
+    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
+    // testing purposes.
+    DateTime dateTime = DateTime::forEpochSeconds(tickMillis, &tzLosAngeles);
+    disableOptimization(dateTime);
+    disableOptimization(tickMillis);
+  });
+  Serial.print(DATE_TIME_FOR_EPOCH_SECONDS_CACHED_LABEL);
+  unsigned long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
+  printMicrosPerIteration(elapsedMillis);
+  Serial.println(ENDING);
+  return elapsedMillis;
+}
+
 void runBenchmarks() {
   Serial.println(TOP);
   Serial.println(HEADER);
@@ -270,6 +292,7 @@ void runBenchmarks() {
   unsigned long dateTimeForEpochSecondsMillis =
       runDateTimeForEpochSeconds(emptyLoopMillis);
   runDateTimeForEpochSecondsLosAngeles(emptyLoopMillis);
+  runDateTimeForEpochSecondsLosAngelesCached(emptyLoopMillis);
   runDateTimeToEpochDays(dateTimeForEpochSecondsMillis);
   runDateTimeToEpochSeconds(dateTimeForEpochSecondsMillis);
 

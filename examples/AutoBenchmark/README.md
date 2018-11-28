@@ -43,8 +43,9 @@ Empty loop                              |    2.800 |
 LocalDate::forEpochDays()               |  216.200 |
 LocalDate::toEpochDays()                |   58.800 |
 LocalDate::dayOfWeek()                  |   44.800 |
-DateTime::forEpochSeconds(UTC)          |  365.200 |
-DateTime::forEpochSeconds(Los_Angeles)  | 1024.800 |
+DateTime::forEpochSeconds(UTC)          |  317.200 |
+DateTime::forEpochSeconds(Los_Angeles)  |  985.600 |
+DateTime::forEpochSeconds(Cached)       |  582.400 |
 DateTime::toEpochDays()                 |   68.200 |
 DateTime::toEpochSeconds()              |   76.000 |
 ----------------------------------------+----------+
