@@ -111,103 +111,103 @@ class Transformer:
 
     def remove_zones_with_until_time(self, zones_map):
         results = {}
-        removed_zones = []
+        removed_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
                 if zone['untilTime']:
                     valid = False
+                    removed_zones[name] = '%s %s %s %s' % (
+                        zone['untilYear'], zone['untilMonth'], zone['untilDay'],
+                        zone['untilTime'])
                     break
             if valid:
                 results[name] = zones
-            else:
-                removed_zones.append(name)
         logging.info("Removed %s zone infos with unsupported untilTime"
             % len(removed_zones))
         if self.print_removed:
-            for name in sorted(removed_zones):
-                print('  %s' % name, file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones)
+            for name, reason in sorted(removed_zones.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones.keys())
         return results
 
     def remove_zones_with_until_day(self, zones_map):
         results = {}
-        removed_zones = []
+        removed_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
                 if zone['untilDay']:
                     valid = False
+                    removed_zones[name] = '%s %s %s' % (
+                        zone['untilYear'], zone['untilMonth'], zone['untilDay'])
                     break
             if valid:
                 results[name] = zones
-            else:
-                removed_zones.append(name)
         logging.info("Removed %s zone infos with unsupported untilDay"
             % len(removed_zones))
         if self.print_removed:
-            for name in sorted(removed_zones):
-                print('  %s' % name, file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones)
+            for name, reason in sorted(removed_zones.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones.keys())
         return results
 
     def remove_zones_with_until_month(self, zones_map):
         results = {}
-        removed_zones = []
+        removed_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
                 if zone['untilMonth']:
                     valid = False
+                    removed_zones[name] = '%s %s' % (
+                        zone['untilYear'], zone['untilMonth'])
                     break
             if valid:
                 results[name] = zones
-            else:
-                removed_zones.append(name)
         logging.info("Removed %s zone infos with unsupported untilMonth"
             % len(removed_zones))
         if self.print_removed:
-            for name in sorted(removed_zones):
-                print('  %s' % name, file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones)
+            for name, reason in sorted(removed_zones.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones.keys())
         return results
 
     def remove_zones_with_offset_as_rules(self, zones_map):
         results = {}
-        removed_zones = []
+        removed_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
                 rule_name = zone['rules']
                 if rule_name.isdigit():
                     valid = False
+                    removed_zones[name] = rule_name
                     break
             if valid:
                results[name] = zones
-            else:
-                removed_zones.append(name)
         logging.info("Removed %s zone infos with offset in 'rules' field"
             % len(removed_zones))
         if self.print_removed:
-            for name in sorted(removed_zones):
-                print('  %s' % name, file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones)
+            for name, reason in sorted(removed_zones.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones.keys())
         return results
 
     def remove_zones_without_slash(self, zones_map):
         results = {}
-        removed_zones = []
+        removed_zones = {}
         for name, zones in zones_map.items():
             if name.rfind('/') >= 0:
                results[name] = zones
             else:
-                removed_zones.append(name)
+                removed_zones[name] = 'missing /'
         logging.info("Removed %s zone infos without '/' in name" %
             len(removed_zones))
         if self.print_removed:
-            for name in sorted(removed_zones):
-                print('  %s' % name, file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones)
+            for name, reason in sorted(removed_zones.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones.keys())
         return results
 
     @staticmethod
@@ -225,67 +225,66 @@ class Transformer:
 
     def remove_zones_without_rules(self, zones_map, rules_map):
         results = {}
-        removed_zones = []
+        removed_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
                 rule_name = zone['rules']
                 if rule_name != '-' and rule_name not in rules_map:
                     valid = False
+                    removed_zones[name] = 'Rule %s not found' % rule_name
                     break
             if valid:
                 results[name] = zones
-            else:
-                removed_zones.append(name)
         logging.info("Removed %s zone infos without rules" % len(removed_zones))
         if self.print_removed:
-            for name in sorted(removed_zones):
-                print('  %s' % name, file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones)
+            for name, reason in sorted(removed_zones.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones.keys())
         return results
 
     def remove_rules_long_dst_letter(self, rules_map):
         """Return a new map which filters out rules with long DST letter.
         """
         results = {}
-        removed_policies = []
+        removed_policies = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                if len(rule['letter']) > 1:
+                letter = rule['letter']
+                if len(letter) > 1:
                     valid = False
+                    removed_policies[name] = letter
                     break
             if valid:
                 results[name] = rules
-            else:
-                removed_policies.append(name)
         logging.info('Removed %s rule policies with long DST letter' %
             len(removed_policies))
         if self.print_removed:
-            for name in sorted(removed_policies):
-                print('  %s' % name, file=sys.stderr)
+            for name, reason in sorted(removed_policies.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
         return results
 
     def remove_rules_invalid_at_hour(self, rules_map):
         """Remove rules whose atHour occurs off hour.
         """
         results = {}
-        removed_policies = []
+        removed_policies = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                if rule['atMinute'] % 60 != 0:
+                at_minute = rule['atMinute']
+                if  at_minute % 60 != 0:
                     valid = False
+                    removed_policies[name] = rule['atHour']
                     break
             if valid:
                 results[name] = rules
-            else:
-                removed_policies.append(name)
         logging.info('Removed %s rule policies with non-integral atHour'
             % len(removed_policies))
         if self.print_removed:
-            for name in sorted(removed_policies):
-                print('  %s' % name, file=sys.stderr)
+            for name, reason in sorted(removed_policies.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
         return results
 
     @staticmethod
@@ -329,7 +328,7 @@ class Transformer:
     def remove_unused_rules(self, rules_map):
         results = {}
         removed_rule_count = 0
-        removed_policies = []
+        removed_policies = {}
         for name, rules in rules_map.items():
             used_rules = []
             for rule in rules:
@@ -340,12 +339,12 @@ class Transformer:
             if used_rules:
                 results[name] = used_rules
             else:
-                removed_policies.append(name)
+                removed_policies[name] = 'unused'
         logging.info('Removed %s rule policies (%s rules) not used' %
                 (len(removed_policies), removed_rule_count))
         if self.print_removed:
-            for name in sorted(removed_policies):
-                print('  %s' % name, file=sys.stderr)
+            for name, reason in sorted(removed_policies.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
         return results
 
     @staticmethod
