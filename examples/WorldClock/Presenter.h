@@ -38,7 +38,7 @@ class Presenter {
     }
 
     void setClockInfo(const ClockInfo& clockInfo) {
-      mRenderingInfo.clockInfo = clockInfo;
+      mRenderingInfo.clockInfo = &clockInfo;
     }
 
     void setSuppressBlink(bool suppressBlink) {
@@ -85,7 +85,7 @@ class Presenter {
     }
 
     void displayDateTime() const {
-      const ClockInfo& clockInfo = mRenderingInfo.clockInfo;
+      const ClockInfo& clockInfo = *mRenderingInfo.clockInfo;
       const DateTime dateTime = DateTime::forEpochSeconds(
           mRenderingInfo.now, &clockInfo.timeZone);
 
@@ -142,7 +142,7 @@ class Presenter {
     }
 
     void displayChangeableDateTime() const {
-      const ClockInfo& clockInfo = mRenderingInfo.clockInfo;
+      const ClockInfo& clockInfo = *mRenderingInfo.clockInfo;
       const DateTime dateTime = DateTime::forEpochSeconds(
           mRenderingInfo.now, &clockInfo.timeZone);
 
@@ -174,7 +174,7 @@ class Presenter {
       mOled.println();
       if (shouldShowFor(MODE_CHANGE_HOUR)) {
         uint8_t hour = dateTime.hour();
-        if (mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve) {
+        if (mRenderingInfo.clockInfo->hourMode == ClockInfo::kTwelve) {
           if (hour == 0) {
             hour = 12;
           } else if (hour > 12) {
@@ -200,7 +200,7 @@ class Presenter {
         mOled.print("  ");
       }
       mOled.print(' ');
-      if (mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve) {
+      if (mRenderingInfo.clockInfo->hourMode == ClockInfo::kTwelve) {
         mOled.print((dateTime.hour() < 12) ? "AM" : "PM");
       }
       mOled.clearToEOL();
@@ -221,11 +221,11 @@ class Presenter {
     }
 
     void displayClockInfo() const {
-      const ClockInfo& clockInfo = mRenderingInfo.clockInfo;
+      const ClockInfo& clockInfo = *mRenderingInfo.clockInfo;
 
       mOled.print(FF("12/24: "));
       if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
-        mOled.print(mRenderingInfo.clockInfo.hourMode == ClockInfo::kTwelve
+        mOled.print(mRenderingInfo.clockInfo->hourMode == ClockInfo::kTwelve
             ? "12" : "24");
       } else {
         mOled.print("  ");
@@ -289,10 +289,14 @@ class Presenter {
               && (mRenderingInfo.blinkShowState
                   != mPrevRenderingInfo.blinkShowState))
           || mRenderingInfo.now != mPrevRenderingInfo.now
-          || mRenderingInfo.clockInfo.timeZone
-              != mPrevRenderingInfo.clockInfo.timeZone
-          || mRenderingInfo.clockInfo.hourMode
-              != mPrevRenderingInfo.clockInfo.hourMode;
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
+// TODO: replace with code that detects changes to manual DST mode
+          || mRenderingInfo.clockInfo->timeZone
+              != mPrevRenderingInfo.clockInfo->timeZone
+          || mRenderingInfo.clockInfo->hourMode
+              != mPrevRenderingInfo.clockInfo->hourMode
+#endif
+          ;
     }
 
   private:

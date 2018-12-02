@@ -16,7 +16,7 @@ struct RenderingInfo {
   bool suppressBlink = false; // true if blinking should be suppressed
   bool blinkShowState = true; // true if blinking info should be shown
   uint32_t now; // seconds from AceTime epoch
-  ClockInfo clockInfo; // time zone and other info about the clock
+  const ClockInfo* clockInfo; // time zone and other info about the clock
 };
 
 #endif
