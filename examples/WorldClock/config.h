@@ -38,7 +38,7 @@
 // Whether to use ManualTimeZone or AutoTimeZone
 #define TIME_ZONE_TYPE_MANUAL 0
 #define TIME_ZONE_TYPE_AUTO 1
-#define TIME_ZONE_TYPE TIME_ZONE_TYPE_MANUAL
+#define TIME_ZONE_TYPE TIME_ZONE_TYPE_AUTO
 
 //------------------------------------------------------------------
 // Rendering modes.

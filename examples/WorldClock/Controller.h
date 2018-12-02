@@ -306,7 +306,11 @@ class Controller {
       // Create StoreInfo from clock0. The others will be identical.
       // TODO: isDst should be saved for each clock
       StoredInfo storedInfo;
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
       storedInfo.isDst = mClockInfo0.timeZone.isDst();
+#else
+      storedInfo.isDst = false;
+#endif
       storedInfo.hourMode = mClockInfo0.hourMode;
       storedInfo.blinkingColon = mClockInfo0.blinkingColon;
 
