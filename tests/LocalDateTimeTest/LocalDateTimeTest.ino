@@ -250,23 +250,34 @@ test(LocalDate, daysInMonth) {
   assertEqual(28, LocalDate::daysInMonth(100, 2));
 }
 
-test(LocalDate, increment) {
-  LocalDate ld = LocalDate::forComponents(1, 2, 3);
-
+test(LocalDate, incrementYear) {
+  LocalDate ld = LocalDate::forComponents(0, 1, 1);
   ld.incrementYear();
-  assertEqual(2, ld.year());
-  assertEqual(2, ld.month());
-  assertEqual(3, ld.day());
+  assertEqual(1, ld.year());
 
+  ld.year(99);
+  ld.incrementYear();
+  assertEqual(0, ld.year());
+}
+
+test(LocalDate, incrementMonth) {
+  LocalDate ld = LocalDate::forComponents(0, 1, 1);
   ld.incrementMonth();
-  assertEqual(2, ld.year());
-  assertEqual(3, ld.month());
-  assertEqual(3, ld.day());
+  assertEqual(2, ld.month());
 
+  ld.month(12);
+  ld.incrementMonth();
+  assertEqual(1, ld.month());
+}
+
+test(LocalDate, incrementDay) {
+  LocalDate ld = LocalDate::forComponents(0, 1, 1);
   ld.incrementDay();
-  assertEqual(2, ld.year());
-  assertEqual(3, ld.month());
-  assertEqual(4, ld.day());
+  assertEqual(2, ld.day());
+
+  ld.day(31);
+  ld.incrementDay();
+  assertEqual(1, ld.day());
 }
 
 // --------------------------------------------------------------------------
@@ -347,18 +358,24 @@ test(LocalTime, fortimeString_invalid) {
   assertTrue(lt.isError());
 }
 
-test(LocalTime, increment) {
-  LocalTime lt = LocalTime::forComponents(1, 2, 3);
-
+test(LocalTime, incrementHour) {
+  LocalTime lt = LocalTime::forComponents(0, 0, 0);
   lt.incrementHour();
-  assertEqual(2, lt.hour());
-  assertEqual(2, lt.minute());
-  assertEqual(3, lt.second());
+  assertEqual(1, lt.hour());
 
+  lt.hour(23);
+  lt.incrementHour();
+  assertEqual(0, lt.hour());
+}
+
+test(LocalTime, incrementMinute) {
+  LocalTime lt = LocalTime::forComponents(0, 0, 0);
   lt.incrementMinute();
-  assertEqual(2, lt.hour());
-  assertEqual(3, lt.minute());
-  assertEqual(3, lt.second());
+  assertEqual(1, lt.minute());
+
+  lt.minute(59);
+  lt.incrementMinute();
+  assertEqual(0, lt.minute());
 }
 
 // --------------------------------------------------------------------------
