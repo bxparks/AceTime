@@ -25,7 +25,7 @@ class Presenter {
       mRenderingInfo.dateTime = dateTime;
     }
 
-    void setTimeZone(const ManualTimeZone& timeZone) {
+    void setTimeZone(const TimeZone& timeZone) {
       mRenderingInfo.timeZone = timeZone;
     }
 

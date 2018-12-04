@@ -386,9 +386,9 @@ test(OffsetDateTimeTest, increment) {
 // DateTime
 // --------------------------------------------------------------------------
 
-test(DateTimeTest, ManualTimeZone) {
-  ManualTimeZone tz = ManualTimeZone::forUtcOffset(UtcOffset::forHour(-8));
-  DateTime dt = DateTime::forComponents(18, 3, 11, 1, 59, 59, &tz);
+test(DateTimeTest, TimeZone_Manual) {
+  TimeZone tz = TimeZone::forUtcOffset(UtcOffset::forHour(-8));
+  DateTime dt = DateTime::forComponents(18, 3, 11, 1, 59, 59, tz);
 
   UtcOffset pst = UtcOffset::forHour(-8);
   OffsetDateTime otz = OffsetDateTime::forComponents(18, 3, 11, 1, 59, 59, pst);
@@ -397,8 +397,9 @@ test(DateTimeTest, ManualTimeZone) {
 }
 
 test(DateTimeTest, forComponents_beforeDst) {
-  AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
-  DateTime dt = DateTime::forComponents(18, 3, 11, 1, 59, 59, &tz);
+  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz = TimeZone::forZone(&agent);
+  DateTime dt = DateTime::forComponents(18, 3, 11, 1, 59, 59, tz);
 
   UtcOffset pst = UtcOffset::forHour(-8);
   OffsetDateTime otz = OffsetDateTime::forComponents(18, 3, 11, 1, 59, 59, pst);
@@ -407,8 +408,9 @@ test(DateTimeTest, forComponents_beforeDst) {
 }
 
 test(DateTimeTest, forComponents_inDstGap) {
-  AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
-  DateTime dt = DateTime::forComponents(18, 3, 11, 2, 0, 1, &tz);
+  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz = TimeZone::forZone(&agent);
+  DateTime dt = DateTime::forComponents(18, 3, 11, 2, 0, 1, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
   OffsetDateTime odt = OffsetDateTime::forComponents(18, 3, 11, 2, 0, 1, pdt);
@@ -417,8 +419,9 @@ test(DateTimeTest, forComponents_inDstGap) {
 }
 
 test(DateTimeTest, forComponents_inDst) {
-  AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
-  DateTime dt = DateTime::forComponents(18, 3, 11, 3, 0, 1, &tz);
+  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz = TimeZone::forZone(&agent);
+  DateTime dt = DateTime::forComponents(18, 3, 11, 3, 0, 1, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
   OffsetDateTime odt = OffsetDateTime::forComponents(18, 3, 11, 3, 0, 1, pdt);
@@ -427,8 +430,9 @@ test(DateTimeTest, forComponents_inDst) {
 }
 
 test(DateTimeTest, forComponents_beforeStd) {
-  AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
-  DateTime dt = DateTime::forComponents(18, 11, 4, 0, 59, 59, &tz);
+  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz = TimeZone::forZone(&agent);
+  DateTime dt = DateTime::forComponents(18, 11, 4, 0, 59, 59, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
   OffsetDateTime odt = OffsetDateTime::forComponents(18, 11, 4, 0, 59, 59, pdt);
@@ -437,8 +441,9 @@ test(DateTimeTest, forComponents_beforeStd) {
 }
 
 test(DateTimeTest, forComponents_inOverlap) {
-  AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
-  DateTime dt = DateTime::forComponents(18, 11, 4, 1, 0, 1, &tz); // ambiguous
+  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz = TimeZone::forZone(&agent);
+  DateTime dt = DateTime::forComponents(18, 11, 4, 1, 0, 1, tz); // ambiguous
 
   UtcOffset pdt = UtcOffset::forHour(-8);
   OffsetDateTime odt = OffsetDateTime::forComponents(18, 11, 4, 1, 0, 1, pdt);
@@ -448,8 +453,9 @@ test(DateTimeTest, forComponents_inOverlap) {
 
 
 test(DateTimeTest, forComponents_afterOverlap) {
-  AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
-  DateTime dt = DateTime::forComponents(18, 11, 4, 2, 0, 1, &tz); // ambiguous
+  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz = TimeZone::forZone(&agent);
+  DateTime dt = DateTime::forComponents(18, 11, 4, 2, 0, 1, tz); // ambiguous
 
   UtcOffset pdt = UtcOffset::forHour(-8);
   OffsetDateTime odt = OffsetDateTime::forComponents(18, 11, 4, 2, 0, 1, pdt);

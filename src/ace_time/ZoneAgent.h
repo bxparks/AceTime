@@ -9,11 +9,11 @@
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 
-class ZoneManagerTest_init_primitives;
-class ZoneManagerTest_init;
-class ZoneManagerTest_createAbbreviation;
-class ZoneManagerTest_calcStartDayOfMonth;
-class ZoneManagerTest_calcRuleOffsetCode;
+class ZoneAgentTest_init_primitives;
+class ZoneAgentTest_init;
+class ZoneAgentTest_createAbbreviation;
+class ZoneAgentTest_calcStartDayOfMonth;
+class ZoneAgentTest_calcRuleOffsetCode;
 
 namespace ace_time {
 
@@ -57,23 +57,23 @@ struct ZoneMatch {
  *
  * Not thread-safe.
  */
-class ZoneManager {
+class ZoneAgent {
   public:
     /**
      * Constructor.
      * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
      * interpreted as UTC.
      */
-    explicit ZoneManager(const common::ZoneInfo* zoneInfo):
+    explicit ZoneAgent(const common::ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     /** Copy constructor. */
-    explicit ZoneManager(const ZoneManager& that):
+    explicit ZoneAgent(const ZoneAgent& that):
       mZoneInfo(that.mZoneInfo),
       mIsFilled(false) {}
 
     /** Assignment operator. */
-    ZoneManager& operator=(const ZoneManager& that) {
+    ZoneAgent& operator=(const ZoneAgent& that) {
       mZoneInfo = that.mZoneInfo;
       mIsFilled = false;
       return *this;
@@ -104,11 +104,11 @@ class ZoneManager {
     }
 
   private:
-    friend class ::ZoneManagerTest_init_primitives;
-    friend class ::ZoneManagerTest_init;
-    friend class ::ZoneManagerTest_createAbbreviation;
-    friend class ::ZoneManagerTest_calcStartDayOfMonth;
-    friend class ::ZoneManagerTest_calcRuleOffsetCode;
+    friend class ::ZoneAgentTest_init_primitives;
+    friend class ::ZoneAgentTest_init;
+    friend class ::ZoneAgentTest_createAbbreviation;
+    friend class ::ZoneAgentTest_calcStartDayOfMonth;
+    friend class ::ZoneAgentTest_calcRuleOffsetCode;
 
     static const uint8_t kMaxCacheEntries = 4;
 

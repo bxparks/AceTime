@@ -19,10 +19,10 @@ sizeof(LocalDate): 3
 sizeof(LocalTime): 3
 sizeof(UtcOffset): 1
 sizeof(ZoneMatch): 15
-sizeof(ZoneManager): 80
-sizeof(TimeZone): 87
+sizeof(ZoneAgent): 80
+sizeof(TimeZone): 7
 sizeof(OffsetDateTime): 7
-sizeof(DateTime): 94
+sizeof(DateTime): 14
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 17
 sizeof(DS3231TimeKeeper): 3
@@ -43,11 +43,11 @@ Empty loop                              |    2.800 |
 LocalDate::forEpochDays()               |  216.200 |
 LocalDate::toEpochDays()                |   58.800 |
 LocalDate::dayOfWeek()                  |   44.800 |
-DateTime::forEpochSeconds(UTC)          |  317.200 |
-DateTime::forEpochSeconds(Los_Angeles)  |  985.600 |
-DateTime::forEpochSeconds(Cached)       |  582.400 |
-DateTime::toEpochDays()                 |   68.200 |
-DateTime::toEpochSeconds()              |   76.000 |
+DateTime::forEpochSeconds(UTC)          |  324.200 |
+DateTime::forEpochSeconds(Los_Angeles)  |  990.600 |
+DateTime::forEpochSeconds(Cached)       |  583.200 |
+DateTime::toEpochDays()                 |   69.800 |
+DateTime::toEpochSeconds()              |   75.800 |
 ----------------------------------------+----------+
 Number of iterations per run: 5000
 ```

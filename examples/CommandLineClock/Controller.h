@@ -16,22 +16,19 @@ class Controller {
         mSystemTimeKeeper(systemTimeKeeper) {}
 
     void setup() {
+      mZoneAgent = ZoneAgent(&zonedb::kZoneLos_Angeles);
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
-      mCurrentTimeZone = &mManualTimeZone;
 
       if (mIsStoredInfoValid) {
         if (mStoredInfo.timeZoneType == TimeZone::kTypeAuto) {
-          AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
-          setAutoTimeZone(tz);
+          setTimeZone(TimeZone::forZone(&mZoneAgent));
         } else {
-          ManualTimeZone tz = ManualTimeZone::forUtcOffset(
+          setTimeZone(TimeZone::forUtcOffset(
               UtcOffset::forOffsetCode(mStoredInfo.offsetCode),
-              mStoredInfo.isDst);
-          setManualTimeZone(tz);
+              mStoredInfo.isDst));
         }
       } else {
-        AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
-        setAutoTimeZone(tz);
+        setTimeZone(TimeZone::forZone(&mZoneAgent));
       }
 
       // TODO: Set the ssid and password to some initial blank state, so that
@@ -39,21 +36,16 @@ class Controller {
     }
 
     /** Set the time zone of the clock and preserve it. */
-    void setManualTimeZone(const ManualTimeZone& timeZone) {
-      mManualTimeZone = timeZone;
-      mCurrentTimeZone = &mManualTimeZone;
+    void setTimeZone(const TimeZone& timeZone) {
+      mTimeZone = timeZone;
       preserveInfo();
     }
 
-    /** Set the time zone of the clock and preserve it. */
-    void setAutoTimeZone(const AutoTimeZone& timeZone) {
-      mAutoTimeZone = timeZone;
-      mCurrentTimeZone = &mAutoTimeZone;
-      preserveInfo();
-    }
+    /** Return the Zone agent. */
+    ZoneAgent* getZoneAgent() { return &mZoneAgent; }
 
     /** Return the current time zone. */
-    const TimeZone* getTimeZone() const { return mCurrentTimeZone; }
+    const TimeZone& getTimeZone() const { return mTimeZone; }
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
     /**
@@ -78,7 +70,7 @@ class Controller {
     /** Return the current time from the system time keeper. */
     DateTime getNow() const {
       return DateTime::forEpochSeconds(
-          mSystemTimeKeeper.getNow(), mCurrentTimeZone);
+          mSystemTimeKeeper.getNow(), mTimeZone);
     }
 
     /** Return true if the initial setup() retrieved a valid storedInfo. */
@@ -88,11 +80,11 @@ class Controller {
     const StoredInfo& getStoredInfo() const { return mStoredInfo; }
 
     /** Return DST mode. */
-    bool isDst() const { return mManualTimeZone.isDst(); }
+    bool isDst() const { return mTimeZone.isDst(); }
 
     /** Set DST on or off */
     void setDst(bool status) {
-      mManualTimeZone.isDst(status);
+      mTimeZone.isDst(status);
       preserveInfo();
     }
 
@@ -120,18 +112,17 @@ class Controller {
   private:
     uint16_t preserveInfo() {
       mIsStoredInfoValid = true;
-      mStoredInfo.timeZoneType = mCurrentTimeZone->getType();
-      mStoredInfo.offsetCode = mManualTimeZone.utcOffset().toOffsetCode();
-      mStoredInfo.isDst = mManualTimeZone.isDst();
+      mStoredInfo.timeZoneType = mTimeZone.getType();
+      mStoredInfo.offsetCode = mTimeZone.utcOffset().toOffsetCode();
+      mStoredInfo.isDst = mTimeZone.isDst();
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
 
     PersistentStore& mPersistentStore;
     TimeKeeper& mSystemTimeKeeper;
     DateTime mChangingDateTime;
-    ManualTimeZone mManualTimeZone;
-    AutoTimeZone mAutoTimeZone;
-    TimeZone* mCurrentTimeZone; // points to mManualTimeZone or mAutoTimeZone
+    TimeZone mTimeZone;
+    ZoneAgent mZoneAgent;
 
     StoredInfo mStoredInfo;
     bool mIsStoredInfoValid = false;
