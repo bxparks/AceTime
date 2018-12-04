@@ -43,11 +43,11 @@ class Clock {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
       if (isValid) {
-        mCurrentTimeZone = ManualTimeZone::forUtcOffset(
+        mCurrentTimeZone = TimeZone::forUtcOffset(
             UtcOffset::forOffsetCode(storedInfo.offsetCode), storedInfo.isDst);
         mHourMode = storedInfo.hourMode;
       } else {
-        mCurrentTimeZone = ManualTimeZone::forUtcOffset(
+        mCurrentTimeZone = TimeZone::forUtcOffset(
             UtcOffset::forOffsetCode(kDefaultOffsetCode));
         mHourMode = StoredInfo::kTwentyFour;
       }
@@ -57,7 +57,7 @@ class Clock {
 
       // Set the current date time using the mTimeZone.
       mCurrentDateTime = DateTime::forEpochSeconds(
-          nowSeconds, &mCurrentTimeZone);
+          nowSeconds, mCurrentTimeZone);
     }
 
     /**
@@ -86,7 +86,7 @@ class Clock {
   protected:
     void updateDateTime() {
       mCurrentDateTime = DateTime::forEpochSeconds(
-          mTimeKeeper.getNow(), &mCurrentTimeZone);
+          mTimeKeeper.getNow(), mCurrentTimeZone);
 
       // If in CHANGE mode, and the 'second' field has not been cleared,
       // update the mChangingDateTime.second field with the current second.
@@ -162,7 +162,7 @@ class Clock {
 
     void saveTimeZone() {
       mCurrentTimeZone = mChangingTimeZone;
-      mCurrentDateTime = mCurrentDateTime.convertToTimeZone(&mCurrentTimeZone);
+      mCurrentDateTime = mCurrentDateTime.convertToTimeZone(mCurrentTimeZone);
       preserveInfo();
     }
 
@@ -183,9 +183,9 @@ class Clock {
     Presenter& mPresenter;
 
     uint8_t mMode = MODE_UNKNOWN; // current mode
-    ManualTimeZone mCurrentTimeZone; // current time zone of clock
+    TimeZone mCurrentTimeZone; // current time zone of clock
     DateTime mCurrentDateTime; // DateTime from the TimeKeeper
-    ManualTimeZone mChangingTimeZone; // time zone set by user in "Change" modes
+    TimeZone mChangingTimeZone; // time zone set by user in "Change" modes
     DateTime mChangingDateTime; // DateTime set by user in "Change" modes
     bool mSecondFieldCleared;
     bool mSuppressBlink; // true if blinking should be suppressed

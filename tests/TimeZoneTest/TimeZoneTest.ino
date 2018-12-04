@@ -276,80 +276,61 @@ test(ZoneAgentTest, createAbbreviation) {
 // TimeZone
 // --------------------------------------------------------------------------
 
-test(TimeZone, operatorEqualEqual) {
-  const ManualTimeZone &tz1 = ManualTimeZone::sUtc;
-  const ManualTimeZone tz2 = ManualTimeZone::forUtcOffset(
-      UtcOffset::forHour(-8), false, "PST", "PDT");
-  const AutoTimeZone tz3 = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
-
-  assertTrue(tz1 != tz2);
-  assertTrue(tz1 != tz3);
-  assertTrue(tz2 != tz3);
-}
-
-test(TimeZone, copyConstructor) {
-  ManualTimeZone mtz = ManualTimeZone::forUtcOffset(
-      UtcOffset::forHour(-8), false, "PST", "PDT");
-  AutoTimeZone atz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
-
-  // Test copy constructor
-  ManualTimeZone mtz2 = mtz;
-  assertTrue(mtz2 == mtz);
-  AutoTimeZone atz2 = atz;
-  assertTrue(atz2 == atz);
-}
-
 test(TimeZone, assignmentOperator) {
-  ManualTimeZone mtz = ManualTimeZone::forUtcOffset(
+  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone a = TimeZone::forUtcOffset(
       UtcOffset::forHour(-8), false, "PST", "PDT");
-  AutoTimeZone atz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
 
-  // This generates a compiler error because the assignment operator for
-  // TimeZone was deleted to prevent slicing.
-  /*
-  TimeZone& tz = mtz;
-  tz = atz;
-  */
-
-  ManualTimeZone mtz3;
-  mtz3 = mtz;
-  assertTrue(mtz3 == mtz);
-  AutoTimeZone atz3;
-  atz3 = atz;
-  assertTrue(atz3 == atz);
+  TimeZone b;
+  b = a;
+  assertTrue(a == b);
 }
 
 // --------------------------------------------------------------------------
-// ManualTimeZone
+// Manual TimeZone
 // --------------------------------------------------------------------------
 
-test(ManualTimeZone, default) {
-  const ManualTimeZone tz;
-  assertEqual(TimeZone::kTypeManual, tz.getType());
-  assertEqual(0, tz.utcOffset().toOffsetCode());
-  assertEqual((uintptr_t) 0, (uintptr_t) tz.stdAbbrev());
-  assertEqual((uintptr_t) 0, (uintptr_t) tz.dstAbbrev());
+test(TimeZone_Manual, operatorEqualEqual) {
+  TimeZone a = TimeZone::forUtcOffset(
+      UtcOffset::forHour(-8), false, "PST", "PDT");
+  TimeZone b = TimeZone::forUtcOffset(
+      UtcOffset::forHour(-8), false, "PST", "PDT");
+  assertTrue(a == b);
 
-  assertEqual(0, tz.getUtcOffset(0).toOffsetCode());
-  assertEqual("", tz.getAbbrev(0));
-  assertFalse(tz.getDst(0));
+  b = TimeZone::forUtcOffset(UtcOffset::forHour(-7), false, "PST", "PDT");
+  assertTrue(a != b);
+
+  b = TimeZone::forUtcOffset(UtcOffset::forHour(-8), true, "PST", "PDT");
+  assertTrue(a != b);
+
+  b = TimeZone::forUtcOffset(UtcOffset::forHour(-8), false, "xxx", "PDT");
+  assertTrue(a != b);
+
+  b = TimeZone::forUtcOffset(UtcOffset::forHour(-8), false, "PST", "xxx");
+  assertTrue(a != b);
 }
 
-test(ManualTimeZone, UTC) {
-  const ManualTimeZone &tz = ManualTimeZone::sUtc;
+test(TimeZone_Manual, copyConstructor) {
+  TimeZone a = TimeZone::forUtcOffset(
+      UtcOffset::forHour(-8), false, "PST", "PDT");
+  TimeZone b(a);
+  assertTrue(a == b);
+}
+
+test(TimeZone_Manual, default) {
+  const TimeZone tz;
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(0, tz.utcOffset().toOffsetCode());
   assertEqual("UTC", tz.stdAbbrev());
   assertEqual("UTC", tz.dstAbbrev());
-  assertFalse(tz.isDst());
 
   assertEqual(0, tz.getUtcOffset(0).toOffsetCode());
   assertEqual("UTC", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));
 }
 
-test(ManualTimeZone, forUtcOffset) {
-  ManualTimeZone tz = ManualTimeZone::forUtcOffset(
+test(TimeZone_Manual, forUtcOffset) {
+  TimeZone tz = TimeZone::forUtcOffset(
       UtcOffset::forHour(-8), false, "PST", "PDT");
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(-32, tz.utcOffset().toOffsetCode());
@@ -368,22 +349,40 @@ test(ManualTimeZone, forUtcOffset) {
 }
 
 // --------------------------------------------------------------------------
-// AutoTimeZone
+// Auto TimeZone
 // --------------------------------------------------------------------------
 
-test(AutoTimeZone, nullptr) {
-  AutoTimeZone tz = AutoTimeZone::forZone(nullptr);
+test(TimeZone_Auto, operatorEqualEqual) {
+  ZoneAgent agentLA(&zonedb::kZoneLos_Angeles);
+  ZoneAgent agentNY(&zonedb::kZoneNew_York);
+  TimeZone a = TimeZone::forZone(&agentLA);
+  TimeZone b = TimeZone::forZone(&agentNY);
+
+  assertTrue(a != b);
+}
+
+test(TimeZone_Auto, copyConstructor) {
+  ZoneAgent zoneAgent(&zonedb::kZoneLos_Angeles);
+  TimeZone a = TimeZone::forZone(&zoneAgent);
+  TimeZone b(a);
+  assertTrue(a == b);
+}
+
+test(TimeZone_Auto, nullptr) {
+  TimeZone tz = TimeZone::forZone(nullptr);
   assertEqual(TimeZone::kTypeAuto, tz.getType());
   assertEqual(0, tz.getUtcOffset(0).toOffsetCode());
-  assertEqual("UTC", tz.getAbbrev(0));
+  assertEqual("", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));
 }
 
-test(AutoTimeZone, LosAngeles) {
+test(TimeZone_Auto, LosAngeles) {
+  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
+
   OffsetDateTime dt;
   uint32_t epochSeconds;
 
-  AutoTimeZone tz = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
+  TimeZone tz = TimeZone::forZone(&agent);
   assertEqual(TimeZone::kTypeAuto, tz.getType());
 
   dt = OffsetDateTime::forComponents(18, 3, 11, 1, 59, 59,

@@ -1,22 +1,23 @@
-#include <string.h> // strlen()
 #include "common/Util.h"
-#include "ManualTimeZone.h"
+#include "TimeZone.h"
 
 namespace ace_time {
 
 using common::printPad2;
 
-const ManualTimeZone ManualTimeZone::sUtc(UtcOffset(), false, "UTC", "UTC");
-
-void ManualTimeZone::printTo(Print& printer) const {
-  printer.print(F("UTC"));
-  mUtcOffset.printTo(printer);
-  printer.print(mIsDst ? F(" (DST)") : F(" (STD)"));
+void TimeZone::printTo(Print& printer) const {
+  if (mType == kTypeAuto) {
+    printer.print('[');
+    printer.print(mAuto.zoneAgent->getZoneInfo()->name);
+    printer.print(']');
+  } else {
+    printer.print(F("UTC"));
+    mManual.utcOffset.printTo(printer);
+    printer.print(mManual.isDst ? F(" (DST)") : F(" (STD)"));
+  }
 }
 
-void ManualTimeZone::parseFromOffsetString(const char* ts,
-    uint8_t* offsetCode) {
-
+void TimeZone::parseFromOffsetString(const char* ts, uint8_t* offsetCode) {
   // verify exact ISO 8601 string length
   if (strlen(ts) != kUtcOffsetStringLength) {
     *offsetCode = UtcOffset::kErrorCode;

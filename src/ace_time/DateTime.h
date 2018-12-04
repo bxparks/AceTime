@@ -5,7 +5,7 @@
 #include "common/Flash.h"
 #include "common/Util.h"
 #include "OffsetDateTime.h"
-#include "ManualTimeZone.h"
+#include "TimeZone.h"
 
 class Print;
 
@@ -69,13 +69,13 @@ class DateTime {
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
      * @param timeZone pointer to an existing TimeZone instance. Optional,
-     *        not nullable. Default is ManualTimeZone::sUtc.
+     *        not nullable. Default is UTC TimeZone.
      */
     static DateTime forComponents(uint8_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
-            const TimeZone* timeZone = &ManualTimeZone::sUtc) {
-      if (timeZone->getType() == TimeZone::kTypeManual) {
-        UtcOffset utcOffset = timeZone->getUtcOffset(0);
+            const TimeZone& timeZone = TimeZone()) {
+      if (timeZone.getType() == TimeZone::kTypeManual) {
+        UtcOffset utcOffset = timeZone.getUtcOffset(0);
         OffsetDateTime odt = OffsetDateTime::forComponents(
             year, month, day, hour, minute, second, utcOffset);
         return DateTime(odt, timeZone);
@@ -84,13 +84,13 @@ class DateTime {
         uint32_t initialEpochSeconds =
             LocalDate::forComponents(year, 1, 1).toEpochSeconds();
         UtcOffset initialUtcOffset =
-            timeZone->getUtcOffset(initialEpochSeconds);
+            timeZone.getUtcOffset(initialEpochSeconds);
 
         // Second guess at the UtcOffset using the first UtcOffset.
         OffsetDateTime odt = OffsetDateTime::forComponents(
             year, month, day, hour, minute, second, initialUtcOffset);
         uint32_t epochSeconds = odt.toEpochSeconds();
-        UtcOffset actualUtcOffset = timeZone->getUtcOffset(epochSeconds);
+        UtcOffset actualUtcOffset = timeZone.getUtcOffset(epochSeconds);
 
         odt = OffsetDateTime::forComponents(
             year, month, day, hour, minute, second, actualUtcOffset);
@@ -109,16 +109,16 @@ class DateTime {
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00Z). A value of kInvalidEpochSeconds is a sentinel
      *    is considered to be an error and causes isError() to return true.
-     * @param timeZone Optional, not nullable. Default is ManualTimeZone::sUtc.
+     * @param timeZone Optional, not nullable. Default is UTC TimeZone.
      */
     static DateTime forEpochSeconds(uint32_t epochSeconds,
-        const TimeZone* timeZone = &ManualTimeZone::sUtc) {
+        const TimeZone& timeZone = TimeZone()) {
       DateTime dt;
       if (epochSeconds == kInvalidEpochSeconds) {
         return dt.setError();
       }
 
-      UtcOffset utcOffset = timeZone->getUtcOffset(epochSeconds);
+      UtcOffset utcOffset = timeZone.getUtcOffset(epochSeconds);
       dt.mOffsetDateTime = OffsetDateTime::forEpochSeconds(
           epochSeconds, utcOffset);
       dt.mTimeZone = timeZone;
@@ -142,7 +142,7 @@ class DateTime {
     static DateTime forDateString(const char* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
       // TODO: fix time zone
-      return DateTime(dt, &ManualTimeZone::sUtc);
+      return DateTime(dt, TimeZone());
     }
 
     /**
@@ -152,7 +152,7 @@ class DateTime {
     static DateTime forDateString(const __FlashStringHelper* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
       // TODO: fix time zone
-      return DateTime(dt, &ManualTimeZone::sUtc);
+      return DateTime(dt, TimeZone());
     }
 
     /** Default constructor. */
@@ -220,25 +220,18 @@ class DateTime {
     uint8_t dayOfWeek() const { return mOffsetDateTime.dayOfWeek(); }
 
     /** Return the time zone of the DateTime. */
-    const TimeZone* timeZone() const { return mTimeZone; }
+    const TimeZone& timeZone() const { return mTimeZone; }
 
     /**
      * Set the time zone. Note that this does not convert a given DateTime
      * into a different TimeZone. Use converToTimeZone() instead.
      */
-    void timeZone(const TimeZone* timeZone) { mTimeZone = timeZone; }
+    void timeZone(const TimeZone& timeZone) { mTimeZone = timeZone; }
 
     /**
      * Create a DateTime in a different time zone (with the same epochSeconds).
-     *
-     * This method supports the case where the given timeZone is the same as
-     * this->mTimeZone of the current DateTime instance. If that timeZone is an
-     * instance of a ManualTimeZone, then its value could be different from the
-     * value that was used to create this DateTime instance. Fortunately, the
-     * internal calculation of toEpochSeconds() does not depend on the original
-     * mTimeZone value, so the conversion will be correctly performed.
      */
-    DateTime convertToTimeZone(const TimeZone* timeZone) const {
+    DateTime convertToTimeZone(const TimeZone& timeZone) const {
       uint32_t epochSeconds = toEpochSeconds();
       return DateTime::forEpochSeconds(epochSeconds, timeZone);
     }
@@ -323,12 +316,12 @@ class DateTime {
     DateTime& initFromDateString(const char* dateString);
 
     /** Constructor. From OffsetDateTime and TimeZone. */
-    DateTime(const OffsetDateTime& offsetDateTime, const TimeZone* tz):
+    DateTime(const OffsetDateTime& offsetDateTime, TimeZone tz):
       mOffsetDateTime(offsetDateTime),
       mTimeZone(tz) {}
 
     OffsetDateTime mOffsetDateTime;
-    const TimeZone* mTimeZone;
+    TimeZone mTimeZone;
 };
 
 /**

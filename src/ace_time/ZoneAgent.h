@@ -64,7 +64,7 @@ class ZoneAgent {
      * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
      * interpreted as UTC.
      */
-    explicit ZoneAgent(const common::ZoneInfo* zoneInfo):
+    explicit ZoneAgent(const common::ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     /** Copy constructor. */

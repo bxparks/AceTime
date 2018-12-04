@@ -44,10 +44,7 @@ class Presenter {
       mRenderingInfo.name = clockInfo.name;
       mRenderingInfo.hourMode = clockInfo.hourMode;
       mRenderingInfo.blinkingColon = clockInfo.blinkingColon;
-      mRenderingInfo.timeZone = &clockInfo.timeZone;
-#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-      mRenderingInfo.isDst = clockInfo.timeZone.isDst();
-#endif
+      mRenderingInfo.timeZone = clockInfo.timeZone;
     }
 
   private:
@@ -135,7 +132,7 @@ class Presenter {
       // place name
       mOled.println();
       uint32_t epochSeconds = dateTime.toEpochSeconds();
-      mOled.print(dateTime.timeZone()->getAbbrev(epochSeconds));
+      mOled.print(dateTime.timeZone().getAbbrev(epochSeconds));
       mOled.print(' ');
       mOled.print('(');
       mOled.print(mRenderingInfo.name);
@@ -213,7 +210,7 @@ class Presenter {
 
       // abbreviation and place name
       mOled.println();
-      mOled.print(dateTime.timeZone()->getAbbrev(mRenderingInfo.now));
+      mOled.print(dateTime.timeZone().getAbbrev(mRenderingInfo.now));
       mOled.print(' ');
       mOled.print('(');
       mOled.print(mRenderingInfo.name);
@@ -240,7 +237,7 @@ class Presenter {
 
       // Extract time zone info.
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-      const ManualTimeZone& timeZone = *mRenderingInfo.timeZone;
+      const TimeZone& timeZone = mRenderingInfo.timeZone;
       UtcOffset utcOffset = timeZone.utcOffset();
       int8_t sign;
       uint8_t hour;
@@ -290,9 +287,6 @@ class Presenter {
           || (!mRenderingInfo.suppressBlink
               && (mRenderingInfo.blinkShowState
                   != mPrevRenderingInfo.blinkShowState))
-#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-          || mRenderingInfo.isDst != mPrevRenderingInfo.isDst
-#endif
           || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode
           || mRenderingInfo.blinkingColon != mPrevRenderingInfo.blinkingColon
           || mRenderingInfo.name != mPrevRenderingInfo.name

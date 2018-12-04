@@ -24,10 +24,10 @@ struct ClockInfo {
   bool blinkingColon = false;
 
   /** Time zone of the clock. */
-#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-  ace_time::ManualTimeZone timeZone;
-#else
-  ace_time::AutoTimeZone timeZone;
+  ace_time::TimeZone timeZone;
+
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_AUTO
+  ace_time::ZoneAgent zoneAgent;
 #endif
 };
 

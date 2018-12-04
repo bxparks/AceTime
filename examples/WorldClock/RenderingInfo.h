@@ -24,12 +24,7 @@ struct RenderingInfo {
   const char* name;
   uint8_t hourMode;
   bool blinkingColon;
-#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-  const ace_time::ManualTimeZone* timeZone;
-  bool isDst; // denormalized copy of timeZone.isDst() to detect changes
-#else
-  const ace_time::AutoTimeZone* timeZone;
-#endif
+  ace_time::TimeZone timeZone;
 };
 
 #endif
