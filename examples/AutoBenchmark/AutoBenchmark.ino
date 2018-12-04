@@ -45,8 +45,8 @@ void setup() {
   Serial.print(F("sizeof(ZoneMatch): "));
   Serial.println(sizeof(ZoneMatch));
 
-  Serial.print(F("sizeof(ZoneManager): "));
-  Serial.println(sizeof(ZoneManager));
+  Serial.print(F("sizeof(ZoneAgent): "));
+  Serial.println(sizeof(ZoneAgent));
 
   Serial.print(F("sizeof(TimeZone): "));
   Serial.println(sizeof(TimeZone));

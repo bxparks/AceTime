@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "common/ZoneInfo.h"
 #include "UtcOffset.h"
-#include "ZoneManager.h"
+#include "ZoneAgent.h"
 #include "TimeZone.h"
 
 class Print;
@@ -31,30 +31,30 @@ class AutoTimeZone: public TimeZone {
     /** Constructor. */
     explicit AutoTimeZone(const common::ZoneInfo* zoneInfo = nullptr):
         TimeZone(kTypeAuto),
-        mZoneManager(zoneInfo) {}
+        mZoneAgent(zoneInfo) {}
 
     /** Copy constructor. */
     AutoTimeZone(const AutoTimeZone& other):
       TimeZone(other.mType),
-      mZoneManager(other.mZoneManager) {}
+      mZoneAgent(other.mZoneAgent) {}
 
     /** Assignment operator. */
     AutoTimeZone& operator=(const AutoTimeZone& other) {
       mType = other.mType;
-      mZoneManager = other.mZoneManager;
+      mZoneAgent = other.mZoneAgent;
       return *this;
     }
 
     UtcOffset getUtcOffset(uint32_t epochSeconds) const override {
-      return mZoneManager.getUtcOffset(epochSeconds);
+      return mZoneAgent.getUtcOffset(epochSeconds);
     }
 
     const char* getAbbrev(uint32_t epochSeconds) const override {
-      return mZoneManager.getAbbrev(epochSeconds);
+      return mZoneAgent.getAbbrev(epochSeconds);
     }
 
     bool getDst(uint32_t epochSeconds) const override {
-      return mZoneManager.isDst(epochSeconds);
+      return mZoneAgent.isDst(epochSeconds);
     }
 
     void printTo(Print& printer) const override;
@@ -62,11 +62,11 @@ class AutoTimeZone: public TimeZone {
   private:
     bool equals(const TimeZone& that) const override {
       const AutoTimeZone& other = static_cast<const AutoTimeZone&>(that);
-      return mZoneManager.getZoneInfo() == other.mZoneManager.getZoneInfo();
+      return mZoneAgent.getZoneInfo() == other.mZoneAgent.getZoneInfo();
     }
 
     /** Manager of the time zone rules for the given ZoneInfo. */
-    mutable ZoneManager mZoneManager;
+    mutable ZoneAgent mZoneAgent;
 };
 
 }

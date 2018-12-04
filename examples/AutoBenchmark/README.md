@@ -19,7 +19,7 @@ sizeof(LocalDate): 3
 sizeof(LocalTime): 3
 sizeof(UtcOffset): 1
 sizeof(ZoneMatch): 15
-sizeof(ZoneManager): 80
+sizeof(ZoneAgent): 80
 sizeof(TimeZone): 87
 sizeof(OffsetDateTime): 7
 sizeof(DateTime): 94

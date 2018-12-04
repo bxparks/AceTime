@@ -7,7 +7,7 @@ using common::printPad2;
 
 void AutoTimeZone::printTo(Print& printer) const {
   printer.print('[');
-  printer.print(mZoneManager.getZoneInfo()->name);
+  printer.print(mZoneAgent.getZoneInfo()->name);
   printer.print(']');
 }
 

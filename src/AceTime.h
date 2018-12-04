@@ -16,7 +16,7 @@
 #include "ace_time/UtcOffset.h"
 #include "ace_time/OffsetDateTime.h"
 #include "ace_time/ManualTimeZone.h"
-#include "ace_time/ZoneManager.h"
+#include "ace_time/ZoneAgent.h"
 #include "ace_time/AutoTimeZone.h"
 #include "ace_time/DateTime.h"
 #include "ace_time/TimePeriod.h"
