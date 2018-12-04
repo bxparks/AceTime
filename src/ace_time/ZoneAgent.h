@@ -17,6 +17,8 @@ class ZoneAgentTest_calcRuleOffsetCode;
 
 namespace ace_time {
 
+namespace internal {
+
 /**
  * Data structure that captures the matching ZoneEntry and its ZoneRule
  * transitions for a given year. Can be cached based on the year.
@@ -48,6 +50,8 @@ struct ZoneMatch {
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[kAbbrevSize];
 };
+
+}
 
 /**
  * Manages a given ZoneInfo. The ZoneRule and ZoneEntry records that match the
@@ -85,21 +89,21 @@ class ZoneAgent {
     /** Return if the time zone is observing DST. */
     bool isDst(uint32_t epochSeconds) {
       if (mZoneInfo == nullptr) return false;
-      const ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
+      const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return zoneMatch->rule != nullptr && zoneMatch->rule->deltaCode != 0;
     }
 
     /** Return the current offset. */
     UtcOffset getUtcOffset(uint32_t epochSeconds) {
       if (mZoneInfo == nullptr) return UtcOffset();
-      const ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
+      const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return UtcOffset::forOffsetCode(zoneMatch->offsetCode);
     }
 
     /** Return the time zone abbreviation. */
     const char* getAbbrev(uint32_t epochSeconds) {
       if (mZoneInfo == nullptr) return "UTC";
-      const ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
+      const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return zoneMatch->abbrev;
     }
 
@@ -113,7 +117,7 @@ class ZoneAgent {
     static const uint8_t kMaxCacheEntries = 4;
 
     /** Return the ZoneMatch at the given epochSeconds. */
-    const ZoneMatch* getZoneMatch(uint32_t epochSeconds) {
+    const internal::ZoneMatch* getZoneMatch(uint32_t epochSeconds) {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
       init(ld);
       return findMatch(epochSeconds);
@@ -256,11 +260,11 @@ class ZoneAgent {
 
       // perform an insertion sort
       for (uint8_t i = mNumMatches - 1; i > 0; i--) {
-        ZoneMatch& left = mMatches[i - 1];
-        ZoneMatch& right = mMatches[i];
+        internal::ZoneMatch& left = mMatches[i - 1];
+        internal::ZoneMatch& right = mMatches[i];
         // assume only 1 rule per month
         if (left.rule->inMonth > right.rule->inMonth) {
-          ZoneMatch tmp = left;
+          internal::ZoneMatch tmp = left;
           left = right;
           right = tmp;
         }
@@ -301,13 +305,13 @@ class ZoneAgent {
       mPreviousMatch.startEpochSeconds = 0;
       mPreviousMatch.offsetCode = mPreviousMatch.entry->offsetCode
           + mPreviousMatch.rule->deltaCode;
-      ZoneMatch* previousMatch = &mPreviousMatch;
+      internal::ZoneMatch* previousMatch = &mPreviousMatch;
 
       // Loop through ZoneMatch entries to calculate 2 things:
       // 1) ZoneMatch::startEpochSeconds
       // 2) ZoneMatch::offsetCode
       for (uint8_t i = 0; i < mNumMatches; i++) {
-        ZoneMatch& match = mMatches[i];
+        internal::ZoneMatch& match = mMatches[i];
 
         // Determine the start date of the rule.
         const uint8_t startDayOfMonth = calcStartDayOfMonth(
@@ -383,10 +387,10 @@ class ZoneAgent {
     }
 
     /** Calculate the time zone abbreviation of the current zoneMatch. */
-    static void calcAbbreviation(ZoneMatch* zoneMatch) {
+    static void calcAbbreviation(internal::ZoneMatch* zoneMatch) {
       createAbbreviation(
           zoneMatch->abbrev,
-          ZoneMatch::kAbbrevSize,
+          internal::ZoneMatch::kAbbrevSize,
           zoneMatch->entry->format,
           zoneMatch->rule != nullptr ? zoneMatch->rule->deltaCode : 0,
           zoneMatch->rule != nullptr ? zoneMatch->rule->letter : '\0');
@@ -459,10 +463,10 @@ class ZoneAgent {
     }
 
     /** Search the cache and find closest ZoneMatch. */
-    const ZoneMatch* findMatch(uint32_t epochSeconds) const {
-      const ZoneMatch* closestMatch = &mPreviousMatch;
+    const internal::ZoneMatch* findMatch(uint32_t epochSeconds) const {
+      const internal::ZoneMatch* closestMatch = &mPreviousMatch;
       for (uint8_t i = 0; i < mNumMatches; i++) {
-        const ZoneMatch* m = &mMatches[i];
+        const internal::ZoneMatch* m = &mMatches[i];
         if (m->startEpochSeconds <= epochSeconds) {
           closestMatch = m;
         }
@@ -475,8 +479,8 @@ class ZoneAgent {
     mutable uint8_t mYear = 0;
     mutable bool mIsFilled = false;
     mutable uint8_t mNumMatches = 0;
-    mutable ZoneMatch mMatches[kMaxCacheEntries];
-    mutable ZoneMatch mPreviousMatch; // previous year's match
+    mutable internal::ZoneMatch mMatches[kMaxCacheEntries];
+    mutable internal::ZoneMatch mPreviousMatch; // previous year's match
 };
 
 }

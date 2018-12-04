@@ -18,7 +18,7 @@ sizeof(ZonePolicy): 3
 sizeof(LocalDate): 3
 sizeof(LocalTime): 3
 sizeof(UtcOffset): 1
-sizeof(ZoneMatch): 15
+sizeof(internal::ZoneMatch): 15
 sizeof(ZoneAgent): 80
 sizeof(TimeZone): 7
 sizeof(OffsetDateTime): 7

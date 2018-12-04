@@ -42,8 +42,8 @@ void setup() {
   Serial.print(F("sizeof(UtcOffset): "));
   Serial.println(sizeof(UtcOffset));
 
-  Serial.print(F("sizeof(ZoneMatch): "));
-  Serial.println(sizeof(ZoneMatch));
+  Serial.print(F("sizeof(internal::ZoneMatch): "));
+  Serial.println(sizeof(internal::ZoneMatch));
 
   Serial.print(F("sizeof(ZoneAgent): "));
   Serial.println(sizeof(ZoneAgent));
