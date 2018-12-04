@@ -8,9 +8,12 @@
  * These settings apply to all clocks.
  */
 struct StoredInfo {
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
   /** DST or not. */
-  // TODO: add isDst0, isDst1, isDst2
-  bool isDst;
+  bool isDst0;
+  bool isDst1;
+  bool isDst2;
+#endif
 
   /** Hour mode, 12H or 24H. */
   uint8_t hourMode;

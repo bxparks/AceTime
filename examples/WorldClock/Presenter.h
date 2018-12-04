@@ -78,7 +78,9 @@ class Presenter {
         case MODE_CHANGE_HOUR_MODE:
         case MODE_CHANGE_BLINKING_COLON:
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-        case MODE_CHANGE_TIME_ZONE_DST:
+        case MODE_CHANGE_TIME_ZONE_DST0:
+        case MODE_CHANGE_TIME_ZONE_DST1:
+        case MODE_CHANGE_TIME_ZONE_DST2:
 #endif
           displayClockInfo();
           break;
@@ -254,7 +256,9 @@ class Presenter {
 
       mOled.println();
       mOled.print(FF("DST: "));
-      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
+      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST0)
+          && shouldShowFor(MODE_CHANGE_TIME_ZONE_DST1)
+          && shouldShowFor(MODE_CHANGE_TIME_ZONE_DST2)) {
         mOled.print(timeZone.isDst() ? "on " : "off");
       } else {
         mOled.print("   ");

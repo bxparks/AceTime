@@ -89,9 +89,15 @@ class Controller {
           break;
         case MODE_CHANGE_BLINKING_COLON:
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-          mMode = MODE_CHANGE_TIME_ZONE_DST;
+          mMode = MODE_CHANGE_TIME_ZONE_DST0;
           break;
-        case MODE_CHANGE_TIME_ZONE_DST:
+        case MODE_CHANGE_TIME_ZONE_DST0:
+          mMode = MODE_CHANGE_TIME_ZONE_DST1;
+          break;
+        case MODE_CHANGE_TIME_ZONE_DST1:
+          mMode = MODE_CHANGE_TIME_ZONE_DST2;
+          break;
+        case MODE_CHANGE_TIME_ZONE_DST2:
 #endif
           mMode = MODE_CHANGE_HOUR_MODE;
           break;
@@ -124,7 +130,9 @@ class Controller {
         case MODE_CHANGE_HOUR_MODE:
         case MODE_CHANGE_BLINKING_COLON:
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-        case MODE_CHANGE_TIME_ZONE_DST:
+        case MODE_CHANGE_TIME_ZONE_DST0:
+        case MODE_CHANGE_TIME_ZONE_DST1:
+        case MODE_CHANGE_TIME_ZONE_DST2:
 #endif
           saveClockInfo();
           mMode = MODE_CLOCK_INFO;
@@ -173,10 +181,18 @@ class Controller {
           mClockInfo2.blinkingColon = !mClockInfo2.blinkingColon;
           break;
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-        case MODE_CHANGE_TIME_ZONE_DST:
+        case MODE_CHANGE_TIME_ZONE_DST0:
           mSuppressBlink = true;
           mClockInfo0.timeZone.isDst(!mClockInfo0.timeZone.isDst());
+          break;
+
+        case MODE_CHANGE_TIME_ZONE_DST1:
+          mSuppressBlink = true;
           mClockInfo1.timeZone.isDst(!mClockInfo1.timeZone.isDst());
+          break;
+
+        case MODE_CHANGE_TIME_ZONE_DST2:
+          mSuppressBlink = true;
           mClockInfo2.timeZone.isDst(!mClockInfo2.timeZone.isDst());
           break;
 #endif
@@ -202,7 +218,9 @@ class Controller {
         case MODE_CHANGE_HOUR_MODE:
         case MODE_CHANGE_BLINKING_COLON:
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-        case MODE_CHANGE_TIME_ZONE_DST:
+        case MODE_CHANGE_TIME_ZONE_DST0:
+        case MODE_CHANGE_TIME_ZONE_DST1:
+        case MODE_CHANGE_TIME_ZONE_DST2:
 #endif
           mSuppressBlink = false;
           break;
@@ -261,11 +279,7 @@ class Controller {
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
         case MODE_CHANGE_HOUR_MODE:
-        case MODE_CHANGE_BLINKING_COLON:
-#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-        case MODE_CHANGE_TIME_ZONE_DST:
-#endif
-        {
+        case MODE_CHANGE_BLINKING_COLON: {
           uint32_t now = mChangingDateTime.toEpochSeconds();
           mPresenter0.update(mMode, now, mBlinkShowState, mSuppressBlink,
               mClockInfo0);
@@ -273,7 +287,26 @@ class Controller {
           mPresenter2.update(mMode, now, mBlinkShowState, true, mClockInfo2);
           break;
         }
+
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
+        case MODE_CHANGE_TIME_ZONE_DST0:
+          updateChangingDst(0);
+          break;
+        case MODE_CHANGE_TIME_ZONE_DST1:
+          updateChangingDst(1);
+          break;
+        case MODE_CHANGE_TIME_ZONE_DST2:
+          updateChangingDst(2);
+          break;
+#endif
       }
+    }
+
+    void updateChangingDst(uint8_t clockId) {
+      uint32_t now = mChangingDateTime.toEpochSeconds();
+      mPresenter0.update(mMode, now, mBlinkShowState, clockId!=0, mClockInfo0);
+      mPresenter1.update(mMode, now, mBlinkShowState, clockId!=1, mClockInfo1);
+      mPresenter2.update(mMode, now, mBlinkShowState, clockId!=2, mClockInfo2);
     }
 
     /** Save the current UTC DateTime to the RTC. */
@@ -292,16 +325,18 @@ class Controller {
     }
 
     void preserveInfo() {
-      // Create StoreInfo from clock0. The others will be identical.
-      // TODO: isDst should be saved for each clock
       StoredInfo storedInfo;
-#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-      storedInfo.isDst = mClockInfo0.timeZone.isDst();
-#else
-      storedInfo.isDst = false;
-#endif
+
+      // Create hourMode and blinkingColon from clock0. The others will be
+      // identical.
       storedInfo.hourMode = mClockInfo0.hourMode;
       storedInfo.blinkingColon = mClockInfo0.blinkingColon;
+
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
+      storedInfo.isDst0 = mClockInfo0.timeZone.isDst();
+      storedInfo.isDst1 = mClockInfo1.timeZone.isDst();
+      storedInfo.isDst2 = mClockInfo2.timeZone.isDst();
+#endif
 
       mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
           sizeof(StoredInfo));
