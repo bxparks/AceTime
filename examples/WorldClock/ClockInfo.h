@@ -15,7 +15,13 @@ struct ClockInfo {
   static uint8_t const kTwentyFour = 1;
 
   /** Name of this clock, e.g. City or Time Zone ID */
-  char name[kNameSize];
+  const char* name;
+
+  /** Hour mode, 12H or 24H. */
+  uint8_t hourMode = kTwelve;
+
+  /** Blink the colon in HH:MM. */
+  bool blinkingColon = false;
 
   /** Time zone of the clock. */
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
@@ -23,12 +29,6 @@ struct ClockInfo {
 #else
   ace_time::AutoTimeZone timeZone;
 #endif
-
-  /** Hour mode, 12H or 24H. */
-  uint8_t hourMode = kTwelve;
-
-  /** Blink the colon in HH:MM. */
-  bool blinkingColon = false;
 };
 
 #endif

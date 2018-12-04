@@ -4,26 +4,21 @@ void Controller::setup() {
   // Create the timezones
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
   mClockInfo0.timeZone = ManualTimeZone::forUtcOffset(
-      UtcOffset::forHour(-8), true, "PST", "PDT");
+      UtcOffset::forHour(-8), true /*isDst*/, "PST", "PDT");
   mClockInfo1.timeZone = ManualTimeZone::forUtcOffset(
-      UtcOffset::forHour(-5), true, "EST", "EDT");
+      UtcOffset::forHour(-5), true /*isDst*/, "EST", "EDT");
   mClockInfo2.timeZone = ManualTimeZone::forUtcOffset(
-      UtcOffset::forHour(0), true, "GMT", "BST");
+      UtcOffset::forHour(0), true /*isDst*/, "GMT", "BST");
 #else
   mClockInfo0.timeZone = AutoTimeZone::forZone(&zonedb::kZoneLos_Angeles);
   mClockInfo1.timeZone = AutoTimeZone::forZone(&zonedb::kZoneNew_York);
   mClockInfo2.timeZone = AutoTimeZone::forZone(&zonedb::kZoneLondon);
 #endif
 
-  // Create the 3 time zones.
-  mClockInfo0.name[ClockInfo::kNameSize - 1] = '\0';
-  strncpy(mClockInfo0.name, "SFO", ClockInfo::kNameSize);
-
-  strncpy(mClockInfo1.name, "PHL", ClockInfo::kNameSize);
-  mClockInfo1.name[ClockInfo::kNameSize - 1] = '\0';
-
-  strncpy(mClockInfo2.name, "LHR", ClockInfo::kNameSize);
-  mClockInfo2.name[ClockInfo::kNameSize - 1] = '\0';
+  // Name the 3 clocks using the airport codes.
+  mClockInfo0.name = "SFO";
+  mClockInfo1.name = "PHL";
+  mClockInfo2.name = "LHR";
 
   // Restore from EEPROM to other settings
   StoredInfo storedInfo;
@@ -48,4 +43,6 @@ void Controller::setup() {
   } else {
     preserveInfo();
   }
+
+  mMode = MODE_DATE_TIME;
 }

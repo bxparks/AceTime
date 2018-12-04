@@ -36,7 +36,7 @@ class Controller {
         mPresenter0(presenter0),
         mPresenter1(presenter1),
         mPresenter2(presenter2),
-        mMode(MODE_DATE_TIME) {}
+        mMode(MODE_UNKNOWN) {}
 
     /** Initialize the controller with the various time zones of each clock. */
     void setup();
@@ -103,7 +103,6 @@ class Controller {
         case MODE_DATE_TIME:
           mChangingDateTime = DateTime::forEpochSeconds(
               mTimeKeeper.getNow(), &mClockInfo0.timeZone);
-          mChangingClockInfo = mClockInfo0;
           mSecondFieldCleared = false;
           mMode = MODE_CHANGE_YEAR;
           break;
@@ -119,7 +118,6 @@ class Controller {
           break;
 
         case MODE_CLOCK_INFO:
-          mChangingClockInfo = mClockInfo0;
           mMode = MODE_CHANGE_HOUR_MODE;
           break;
 
@@ -164,17 +162,22 @@ class Controller {
 
         case MODE_CHANGE_HOUR_MODE:
           mSuppressBlink = true;
-          mChangingClockInfo.hourMode = 1 - mChangingClockInfo.hourMode;
+          mClockInfo0.hourMode = 1 - mClockInfo0.hourMode;
+          mClockInfo1.hourMode = 1 - mClockInfo1.hourMode;
+          mClockInfo2.hourMode = 1 - mClockInfo2.hourMode;
           break;
         case MODE_CHANGE_BLINKING_COLON:
           mSuppressBlink = true;
-          mChangingClockInfo.blinkingColon = !mChangingClockInfo.blinkingColon;
+          mClockInfo0.blinkingColon = !mClockInfo0.blinkingColon;
+          mClockInfo1.blinkingColon = !mClockInfo1.blinkingColon;
+          mClockInfo2.blinkingColon = !mClockInfo2.blinkingColon;
           break;
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
-          mChangingClockInfo.timeZone.isDst(
-              !mChangingClockInfo.timeZone.isDst());
+          mClockInfo0.timeZone.isDst(!mClockInfo0.timeZone.isDst());
+          mClockInfo1.timeZone.isDst(!mClockInfo1.timeZone.isDst());
+          mClockInfo2.timeZone.isDst(!mClockInfo2.timeZone.isDst());
           break;
 #endif
       }
@@ -238,22 +241,18 @@ class Controller {
     }
 
     void updateRenderingInfo() {
-      updatePresenter(mPresenter0, mClockInfo0);
-      updatePresenter(mPresenter1, mClockInfo1);
-      updatePresenter(mPresenter2, mClockInfo2);
-    }
-
-    void updatePresenter(Presenter& presenter, ClockInfo& clockInfo) {
-      presenter.setMode(mMode);
-      presenter.setSuppressBlink(mSuppressBlink);
-      presenter.setBlinkShowState(mBlinkShowState);
-
       switch (mMode) {
         case MODE_DATE_TIME:
-        case MODE_CLOCK_INFO:
-          presenter.setNow(mTimeKeeper.getNow());
-          presenter.setClockInfo(clockInfo);
+        case MODE_CLOCK_INFO: {
+          uint32_t now = mTimeKeeper.getNow();
+          mPresenter0.update(mMode, now, mBlinkShowState, mSuppressBlink,
+              mClockInfo0);
+          mPresenter1.update(mMode, now, mBlinkShowState, mSuppressBlink,
+              mClockInfo1);
+          mPresenter2.update(mMode, now, mBlinkShowState, mSuppressBlink,
+              mClockInfo2);
           break;
+        }
 
         case MODE_CHANGE_YEAR:
         case MODE_CHANGE_MONTH:
@@ -267,8 +266,11 @@ class Controller {
         case MODE_CHANGE_TIME_ZONE_DST:
 #endif
         {
-          presenter.setNow(mChangingDateTime.toEpochSeconds());
-          presenter.setClockInfo(mChangingClockInfo);
+          uint32_t now = mChangingDateTime.toEpochSeconds();
+          mPresenter0.update(mMode, now, mBlinkShowState, mSuppressBlink,
+              mClockInfo0);
+          mPresenter1.update(mMode, now, mBlinkShowState, true, mClockInfo1);
+          mPresenter2.update(mMode, now, mBlinkShowState, true, mClockInfo2);
           break;
         }
       }
@@ -280,19 +282,6 @@ class Controller {
     }
 
     void saveClockInfo() {
-      mClockInfo0 = mChangingClockInfo;
-
-      mClockInfo1.hourMode = mChangingClockInfo.hourMode;
-      mClockInfo1.blinkingColon = mChangingClockInfo.blinkingColon;
-
-      mClockInfo2.hourMode = mChangingClockInfo.hourMode;
-      mClockInfo2.blinkingColon = mChangingClockInfo.blinkingColon;
-
-#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-      mClockInfo1.timeZone.isDst(mChangingClockInfo.timeZone.isDst());
-      mClockInfo2.timeZone.isDst(mChangingClockInfo.timeZone.isDst());
-#endif
-
       preserveInfo();
     }
 
@@ -333,8 +322,7 @@ class Controller {
     ClockInfo mClockInfo2;
 
     uint8_t mMode; // current mode
-    DateTime mChangingDateTime; // DateTime set by user in "Change" modes
-    ClockInfo mChangingClockInfo; // ClockInfo set by user in "Change" modes
+    DateTime mChangingDateTime; // source of now() in "Change" modes
 
     bool mSecondFieldCleared;
     bool mSuppressBlink; // true if blinking should be suppressed

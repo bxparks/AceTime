@@ -9,6 +9,7 @@
  */
 struct StoredInfo {
   /** DST or not. */
+  // TODO: add isDst0, isDst1, isDst2
   bool isDst;
 
   /** Hour mode, 12H or 24H. */
