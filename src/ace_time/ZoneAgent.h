@@ -59,6 +59,21 @@ struct ZoneMatch {
  * expectation is that repeated calls to the various methods will have
  * epochSeconds which do not vary too greatly and will occur in the same year.
  *
+ * The Rule records are transition points which look like this:
+ * @verbatim
+ * Rule  NAME  FROM    TO  TYPE    IN     ON        AT      SAVE    LETTER/S
+ * @endverbatim
+ * Each record is represented by common::ZoneRule and the entire
+ * collection is represented by common::ZonePolicy.
+ *
+ * The Zone records define the region which follows a specific set of Rules
+ * for certain time periods (given by UNTIL below):
+ * @verbatim
+ * Zone NAME              GMTOFF    RULES FORMAT  [UNTIL]
+ * @endverbatim
+ * Each record is represented by common::ZoneEntry and the entire collection is
+ * represented by common::ZoneInfo.
+ *
  * Not thread-safe.
  */
 class ZoneAgent {
