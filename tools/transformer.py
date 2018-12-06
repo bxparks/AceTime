@@ -51,7 +51,7 @@ class Transformer:
                     "hh:mm" delta
             format: (string) (FORMAT field) abbreviation with '%s' replaced with
                     '%' (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
-            untilYear: (int) 2000-9999
+            untilYear: (int) 9999 means 'max'
             untilMonth: (int) 1-12 optional
             untilDay: (string) 1-31, 'lastSun', 'Sun>=3', etc
             untilTime: (string) optional
@@ -74,10 +74,10 @@ class Transformer:
         logging.info('Found %s zone infos' % len(self.zones_map))
         logging.info('Found %s rule policies' % len(self.rules_map))
 
+        zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.create_zones_with_offset_minute(zones_map)
         zones_map = self.create_zones_with_offset_code(zones_map)
         zones_map = self.create_zones_with_rules_expansion(zones_map)
-        zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.remove_zones_with_until_time(zones_map)
         zones_map = self.remove_zones_with_until_day(zones_map)
         zones_map = self.remove_zones_with_until_month(zones_map)
@@ -120,7 +120,7 @@ class Transformer:
             if keep_zones:
                 results[name] = keep_zones
 
-        logging.info("Removed %s zone entries too old" % count)
+        logging.info("Removed %s zone entries before year 2000" % count)
         return results
 
     def remove_zones_with_until_time(self, zones_map):

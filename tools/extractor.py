@@ -304,7 +304,7 @@ def process_zone_line(line):
         rules: (string) name of the Rule in effect, '-', or minute offset
         format: (string) abbreviation with '%s' replaced with '%'
                 (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
-        untilYear: (int) 2000-9999
+        untilYear: (int) 9999 means 'max'
         untilMonth: (int, optional) 1-12
         untilDay: (string, optional) e.g. '1', 'lastSun', 'Sun>=3', etc
         untilTime: (string, optional) e.g. '2:00', '2:00s'
@@ -323,8 +323,6 @@ def process_zone_line(line):
         until_year = int(tokens[3])
     else:
         until_year = 9999
-    if until_year < 2000:
-        return None
 
     # check for additional components of 'UNTIL' field
     if len(tokens) >= 5:
