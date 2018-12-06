@@ -308,10 +308,13 @@ class Transformer:
                         'Zone name %s: Missing rule: should not happen', name)
                     continue
 
-                # Mark rules in the [begin_year, until_year) interval.
+                # Some Zone entries have an until_month, until_day and
+                # until_time. To make sure that we include rules which happen to
+                # match the extra fields, let's collect rules which overlap with
+                # [begin_year, until_year + 1).
                 until_year = zone_entry['untilYear']
                 matching_rules = find_matching_rules(
-                    rule_entries, begin_year, until_year)
+                    rule_entries, begin_year, until_year + 1)
                 for rule in matching_rules:
                     rule['used'] = True
 

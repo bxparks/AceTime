@@ -252,7 +252,7 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 
 // The following zones are not supported in the current version of AceTime.
-// numZones: 130
+// numInfos: 130
 
 // Africa/Casablanca
 // Africa/El_Aaiun
