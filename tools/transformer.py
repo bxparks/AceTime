@@ -144,7 +144,7 @@ class Transformer:
                         valid = False
                     elif until_minute % 60 != 0: # support only integral hour
                         valid = False
-                elif zone['untilDay']:
+                if zone['untilDay']:
                     until_day = zone['untilDay']
                     if not until_day.isdigit():
                         valid = False
