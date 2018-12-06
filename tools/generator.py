@@ -205,6 +205,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
     {zonePolicy} /*zonePolicy*/,
     "{format}" /*format*/,
     {untilYearShort} /*untilYearShort*/,
+    {untilMonth} /*untilMonth*/,
+    {untilDay} /*untilDay*/,
+    {untilHour} /*untilHour*/,
   }},
 """
 
@@ -213,7 +216,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
     ZONE_POLICIES_H_FILE_NAME = 'zone_policies.h'
     ZONE_POLICIES_CPP_FILE_NAME = 'zone_policies.cpp'
 
-    ZONE_INFO_EPOCH_YEAR = 2000
+    EPOCH_YEAR = 2000
     YEAR_SHORT_MAX = 127
     YEAR_MAX = 9999
 
@@ -385,7 +388,19 @@ const common::ZoneInfo kZone{infoShortName} = {{
             if until_year == self.YEAR_MAX:
                 until_year_short = self.YEAR_SHORT_MAX
             else:
-                until_year_short = until_year - self.ZONE_INFO_EPOCH_YEAR
+                until_year_short = until_year - self.EPOCH_YEAR
+
+            until_month = entry['untilMonth']
+            if not until_month:
+                until_month = 1
+
+            until_day = entry['untilDay']
+            if not until_day:
+                until_day = 1
+
+            until_hour = entry['untilHour']
+            if not until_hour:
+                until_hour = 0
 
             string_length += len(entry['format']) + 1
 
@@ -395,6 +410,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
                 zonePolicy=zonePolicy,
                 format=entry['format'],
                 untilYearShort=until_year_short)
+                untilMonth=until_month,
+                untilDay=until_day,
+                untilHour=until_hour)
 
         string_length += len(name) + 1
         num_entries = len(entries)
