@@ -34,11 +34,12 @@ class TestHourStringToOffsetCode(unittest.TestCase):
         self.assertEqual(90, hour_string_to_minute('1:30'))
         self.assertEqual(105, hour_string_to_minute('1:45'))
         self.assertEqual(106, hour_string_to_minute('1:46'))
+        self.assertEqual(1500, hour_string_to_minute('25:00'))
 
     def test_hour_string_to_offset_code_fails(self):
-        self.assertEqual(-1, hour_string_to_minute('25:00'))
-        self.assertEqual(-1, hour_string_to_minute('1:60'))
-        self.assertEqual(-1, hour_string_to_minute('abc'))
+        self.assertEqual(9999, hour_string_to_minute('26:00'))
+        self.assertEqual(9999, hour_string_to_minute('1:60'))
+        self.assertEqual(9999, hour_string_to_minute('abc'))
 
 
 if __name__ == '__main__':
