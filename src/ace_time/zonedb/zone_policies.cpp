@@ -5,10 +5,10 @@
 // using the TZ Database files from
 //  https://github.com/eggert/tz/releases/tag/2018g
 //
-// Policy count: 61
-// Rule count: 340
-// Memory (8-bit): 3923
-// Memory (32-bit): 4045
+// Policy count: 69
+// Rule count: 392
+// Memory (8-bit): 4519
+// Memory (32-bit): 4657
 //
 // DO NOT EDIT
 
@@ -531,6 +531,82 @@ static const common::ZoneRule kZoneRulesAW[] = {
 const common::ZonePolicy kPolicyAW = {
   sizeof(kZoneRulesAW)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesAW /*rules*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: Arg
+// Rule count: 5
+// Memory (8-bit): 58
+// Memory (32-bit): 60
+//---------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesArg[] = {
+  // Rule    Arg    1999    only    -    Oct    Sun>=1    0:00    1:00    -
+  {
+    1999 /*fromYearFull*/,
+    1999 /*toYearFull*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Arg    2000    only    -    Mar    3    0:00    0    -
+  {
+    2000 /*fromYearFull*/,
+    2000 /*toYearFull*/,
+    3 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    3 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Arg    2007    only    -    Dec    30    0:00    1:00    -
+  {
+    2007 /*fromYearFull*/,
+    2007 /*toYearFull*/,
+    12 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    30 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Arg    2008    2009    -    Mar    Sun>=15    0:00    0    -
+  {
+    2008 /*fromYearFull*/,
+    2009 /*toYearFull*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    15 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Arg    2008    only    -    Oct    Sun>=15    0:00    1:00    -
+  {
+    2008 /*fromYearFull*/,
+    2008 /*toYearFull*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    15 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+
+};
+
+const common::ZonePolicy kPolicyArg = {
+  sizeof(kZoneRulesArg)/sizeof(common::ZoneRule) /*numRules*/,
+  kZoneRulesArg /*rules*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1554,6 +1630,58 @@ const common::ZonePolicy kPolicyDhaka = {
 };
 
 //---------------------------------------------------------------------------
+// Policy name: E_EurAsia
+// Rule count: 3
+// Memory (8-bit): 36
+// Memory (32-bit): 38
+//---------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesE_EurAsia[] = {
+  // Rule E-EurAsia    1981    max    -    Mar    lastSun     0:00    1:00    -
+  {
+    1981 /*fromYearFull*/,
+    9999 /*toYearFull*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule E-EurAsia    1979    1995    -    Sep    lastSun     0:00    0    -
+  {
+    1979 /*fromYearFull*/,
+    1995 /*toYearFull*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule E-EurAsia    1996    max    -    Oct    lastSun     0:00    0    -
+  {
+    1996 /*fromYearFull*/,
+    9999 /*toYearFull*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+
+};
+
+const common::ZonePolicy kPolicyE_EurAsia = {
+  sizeof(kZoneRulesE_EurAsia)/sizeof(common::ZoneRule) /*numRules*/,
+  kZoneRulesE_EurAsia /*rules*/,
+};
+
+//---------------------------------------------------------------------------
 // Policy name: EU
 // Rule count: 3
 // Memory (8-bit): 36
@@ -1919,6 +2047,82 @@ static const common::ZoneRule kZoneRulesEire[] = {
 const common::ZonePolicy kPolicyEire = {
   sizeof(kZoneRulesEire)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesEire /*rules*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: Falk
+// Rule count: 5
+// Memory (8-bit): 58
+// Memory (32-bit): 60
+//---------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesFalk[] = {
+  // Rule    Falk    1984    1985    -    Apr    lastSun    0:00    0    -
+  {
+    1984 /*fromYearFull*/,
+    1985 /*toYearFull*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Falk    1985    2000    -    Sep    Sun>=9    0:00    1:00    -
+  {
+    1985 /*fromYearFull*/,
+    2000 /*toYearFull*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    9 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Falk    1986    2000    -    Apr    Sun>=16    0:00    0    -
+  {
+    1986 /*fromYearFull*/,
+    2000 /*toYearFull*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    16 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Falk    2001    2010    -    Apr    Sun>=15    2:00    0    -
+  {
+    2001 /*fromYearFull*/,
+    2010 /*toYearFull*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    15 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Falk    2001    2010    -    Sep    Sun>=1    2:00    1:00    -
+  {
+    2001 /*fromYearFull*/,
+    2010 /*toYearFull*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+
+};
+
+const common::ZonePolicy kPolicyFalk = {
+  sizeof(kZoneRulesFalk)/sizeof(common::ZoneRule) /*numRules*/,
+  kZoneRulesFalk /*rules*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3194,6 +3398,58 @@ const common::ZonePolicy kPolicyLebanon = {
 };
 
 //---------------------------------------------------------------------------
+// Policy name: Libya
+// Rule count: 3
+// Memory (8-bit): 36
+// Memory (32-bit): 38
+//---------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesLibya[] = {
+  // Rule    Libya    1997    only    -    Oct     4    0:00    0    -
+  {
+    1997 /*fromYearFull*/,
+    1997 /*toYearFull*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    4 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Libya    2013    only    -    Mar    lastFri    1:00    1:00    S
+  {
+    2013 /*fromYearFull*/,
+    2013 /*toYearFull*/,
+    3 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    1 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule    Libya    2013    only    -    Oct    lastFri    2:00    0    -
+  {
+    2013 /*fromYearFull*/,
+    2013 /*toYearFull*/,
+    10 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+
+};
+
+const common::ZonePolicy kPolicyLibya = {
+  sizeof(kZoneRulesLibya)/sizeof(common::ZoneRule) /*numRules*/,
+  kZoneRulesLibya /*rules*/,
+};
+
+//---------------------------------------------------------------------------
 // Policy name: Mauritius
 // Rule count: 3
 // Memory (8-bit): 36
@@ -3474,6 +3730,346 @@ const common::ZonePolicy kPolicyMongol = {
 };
 
 //---------------------------------------------------------------------------
+// Policy name: Morocco
+// Rule count: 27
+// Memory (8-bit): 300
+// Memory (32-bit): 302
+//---------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesMorocco[] = {
+  // Rule    Morocco    1978    only    -    Aug     4     0:00    0    -
+  {
+    1978 /*fromYearFull*/,
+    1978 /*toYearFull*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    4 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2008    only    -    Jun     1     0:00    1:00    -
+  {
+    2008 /*fromYearFull*/,
+    2008 /*toYearFull*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2008    only    -    Sep     1     0:00    0    -
+  {
+    2008 /*fromYearFull*/,
+    2008 /*toYearFull*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2009    only    -    Jun     1     0:00    1:00    -
+  {
+    2009 /*fromYearFull*/,
+    2009 /*toYearFull*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2009    only    -    Aug    21     0:00    0    -
+  {
+    2009 /*fromYearFull*/,
+    2009 /*toYearFull*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    21 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2010    only    -    May     2     0:00    1:00    -
+  {
+    2010 /*fromYearFull*/,
+    2010 /*toYearFull*/,
+    5 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    2 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2010    only    -    Aug     8     0:00    0    -
+  {
+    2010 /*fromYearFull*/,
+    2010 /*toYearFull*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    8 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2011    only    -    Apr     3     0:00    1:00    -
+  {
+    2011 /*fromYearFull*/,
+    2011 /*toYearFull*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    3 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2011    only    -    Jul    31     0:00    0    -
+  {
+    2011 /*fromYearFull*/,
+    2011 /*toYearFull*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    31 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2012    2013    -    Apr    lastSun     2:00    1:00    -
+  {
+    2012 /*fromYearFull*/,
+    2013 /*toYearFull*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2012    only    -    Jul    20     3:00    0    -
+  {
+    2012 /*fromYearFull*/,
+    2012 /*toYearFull*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    20 /*onDayOfMonth*/,
+    3 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2012    only    -    Aug    20     2:00    1:00    -
+  {
+    2012 /*fromYearFull*/,
+    2012 /*toYearFull*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    20 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2012    only    -    Sep    30     3:00    0    -
+  {
+    2012 /*fromYearFull*/,
+    2012 /*toYearFull*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    30 /*onDayOfMonth*/,
+    3 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2013    only    -    Jul     7     3:00    0    -
+  {
+    2013 /*fromYearFull*/,
+    2013 /*toYearFull*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    7 /*onDayOfMonth*/,
+    3 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2013    only    -    Aug    10     2:00    1:00    -
+  {
+    2013 /*fromYearFull*/,
+    2013 /*toYearFull*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    10 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2013    2018    -    Oct    lastSun     3:00    0    -
+  {
+    2013 /*fromYearFull*/,
+    2018 /*toYearFull*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    3 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2014    2018    -    Mar    lastSun     2:00    1:00    -
+  {
+    2014 /*fromYearFull*/,
+    2018 /*toYearFull*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2014    only    -    Jun    28     3:00    0    -
+  {
+    2014 /*fromYearFull*/,
+    2014 /*toYearFull*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    28 /*onDayOfMonth*/,
+    3 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2014    only    -    Aug     2     2:00    1:00    -
+  {
+    2014 /*fromYearFull*/,
+    2014 /*toYearFull*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    2 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2015    only    -    Jun    14     3:00    0    -
+  {
+    2015 /*fromYearFull*/,
+    2015 /*toYearFull*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    14 /*onDayOfMonth*/,
+    3 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2015    only    -    Jul    19     2:00    1:00    -
+  {
+    2015 /*fromYearFull*/,
+    2015 /*toYearFull*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    19 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2016    only    -    Jun     5     3:00    0    -
+  {
+    2016 /*fromYearFull*/,
+    2016 /*toYearFull*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    5 /*onDayOfMonth*/,
+    3 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2016    only    -    Jul    10     2:00    1:00    -
+  {
+    2016 /*fromYearFull*/,
+    2016 /*toYearFull*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    10 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2017    only    -    May    21     3:00    0    -
+  {
+    2017 /*fromYearFull*/,
+    2017 /*toYearFull*/,
+    5 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    21 /*onDayOfMonth*/,
+    3 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2017    only    -    Jul     2     2:00    1:00    -
+  {
+    2017 /*fromYearFull*/,
+    2017 /*toYearFull*/,
+    7 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    2 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2018    only    -    May    13     3:00    0    -
+  {
+    2018 /*fromYearFull*/,
+    2018 /*toYearFull*/,
+    5 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    13 /*onDayOfMonth*/,
+    3 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    Morocco    2018    only    -    Jun    17     2:00    1:00    -
+  {
+    2018 /*fromYearFull*/,
+    2018 /*toYearFull*/,
+    6 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    17 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+
+};
+
+const common::ZonePolicy kPolicyMorocco = {
+  sizeof(kZoneRulesMorocco)/sizeof(common::ZoneRule) /*numRules*/,
+  kZoneRulesMorocco /*rules*/,
+};
+
+//---------------------------------------------------------------------------
 // Policy name: NC
 // Rule count: 1
 // Memory (8-bit): 14
@@ -3499,6 +4095,58 @@ static const common::ZoneRule kZoneRulesNC[] = {
 const common::ZonePolicy kPolicyNC = {
   sizeof(kZoneRulesNC)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesNC /*rules*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: NT_YK
+// Rule count: 3
+// Memory (8-bit): 36
+// Memory (32-bit): 38
+//---------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesNT_YK[] = {
+  // Rule    NT_YK    1980    1986    -    Apr    lastSun    2:00    1:00    D
+  {
+    1980 /*fromYearFull*/,
+    1986 /*toYearFull*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    'D' /*letter*/,
+  },
+  // Rule    NT_YK    1980    2006    -    Oct    lastSun    2:00    0    S
+  {
+    1980 /*fromYearFull*/,
+    2006 /*toYearFull*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule    NT_YK    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
+  {
+    1987 /*fromYearFull*/,
+    2006 /*toYearFull*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    2 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    'D' /*letter*/,
+  },
+
+};
+
+const common::ZonePolicy kPolicyNT_YK = {
+  sizeof(kZoneRulesNT_YK)/sizeof(common::ZoneRule) /*numRules*/,
+  kZoneRulesNT_YK /*rules*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4083,6 +4731,34 @@ static const common::ZoneRule kZoneRulesSalv[] = {
 const common::ZonePolicy kPolicySalv = {
   sizeof(kZoneRulesSalv)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesSalv /*rules*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: Sudan
+// Rule count: 1
+// Memory (8-bit): 14
+// Memory (32-bit): 16
+//---------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesSudan[] = {
+  // Rule    Sudan    1970    1985    -    Oct    15    0:00    0    -
+  {
+    1970 /*fromYearFull*/,
+    1985 /*toYearFull*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    15 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+
+};
+
+const common::ZonePolicy kPolicySudan = {
+  sizeof(kZoneRulesSudan)/sizeof(common::ZoneRule) /*numRules*/,
+  kZoneRulesSudan /*rules*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4703,6 +5379,82 @@ static const common::ZoneRule kZoneRulesVanuatu[] = {
 const common::ZonePolicy kPolicyVanuatu = {
   sizeof(kZoneRulesVanuatu)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesVanuatu /*rules*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: WS
+// Rule count: 5
+// Memory (8-bit): 58
+// Memory (32-bit): 60
+//---------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesWS[] = {
+  // Rule    WS    2010    only    -    Sep    lastSun    0:00    1    -
+  {
+    2010 /*fromYearFull*/,
+    2010 /*toYearFull*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
+  {
+    2011 /*fromYearFull*/,
+    2011 /*toYearFull*/,
+    4 /*inMonth*/,
+    6 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    4 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    WS    2011    only    -    Sep    lastSat    3:00    1    -
+  {
+    2011 /*fromYearFull*/,
+    2011 /*toYearFull*/,
+    9 /*inMonth*/,
+    6 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    3 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    WS    2012    max    -    Apr    Sun>=1    4:00    0    -
+  {
+    2012 /*fromYearFull*/,
+    9999 /*toYearFull*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    4 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule    WS    2012    max    -    Sep    lastSun    3:00    1    -
+  {
+    2012 /*fromYearFull*/,
+    9999 /*toYearFull*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    3 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+
+};
+
+const common::ZonePolicy kPolicyWS = {
+  sizeof(kZoneRulesWS)/sizeof(common::ZoneRule) /*numRules*/,
+  kZoneRulesWS /*rules*/,
 };
 
 //---------------------------------------------------------------------------
