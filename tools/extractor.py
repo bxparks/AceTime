@@ -240,9 +240,8 @@ def process_rule_line(line):
         inMonth: (int) month index (1-12)
         onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
         atHour: (string) the time when transition to and from DST happens
-        atMinute: (int) version of atHour in units of 'minutes from 00:00'
         atHourModifier: (char) 's', 'w', 'g', 'u', 'z'
-        deltaMinutes: (int) offset code from Standard time
+        deltaHour: (string) offset from Standard time ('SAVE' field)
         letter: (char) 'D', 'S', '-'
         rawLine: (string) the original RULE line from the TZ file
     """
@@ -261,8 +260,7 @@ def process_rule_line(line):
     in_month = MONTH_TO_MONTH_INDEX[tokens[5]]
     on_day = tokens[6]
     (at_hour, at_hour_modifier) = parse_at_hour_string(tokens[7])
-    at_minute = hour_string_to_offset_minutes(at_hour)
-    delta_minutes = hour_string_to_offset_minutes(tokens[8])
+    delta_hour = tokens[8]
 
     # Return map corresponding to a ZoneRule instance
     return {
@@ -271,9 +269,8 @@ def process_rule_line(line):
         'inMonth': in_month,
         'onDay': on_day,
         'atHour': at_hour,
-        'atMinute': at_minute,
         'atHourModifier': at_hour_modifier,
-        'deltaMinutes': delta_minutes, # need conversion to deltaCode
+        'deltaHour': delta_hour,
         'letter': tokens[9],
         'rawLine': line,
     }
@@ -303,7 +300,7 @@ def process_zone_line(line):
 
     Return a dictionary with:
 
-        offsetMinutes: (int) offset from UTC/GMT in minutes
+        offsetHour: (string) offset from UTC/GMT
         rules: (string) name of the Rule in effect, '-', or minute offset
         format: (string) abbreviation with '%s' replaced with '%'
                 (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
@@ -314,6 +311,12 @@ def process_zone_line(line):
         rawLine: (string) original ZONE line in TZ file
     """
     tokens = line.split()
+
+    # GMTOFF
+    offset_hour = tokens[0]
+
+    # 'RULES' field can be:
+    rules_string = tokens[1]
 
     # check 'until' year
     if len(tokens) >= 4:
@@ -337,21 +340,12 @@ def process_zone_line(line):
     else:
         until_time = None
 
-    offset_minutes = hour_string_to_offset_minutes(tokens[0])
+    # FORMAT
     format = tokens[2].replace('%s', '%')
-
-    # the 'RULES' field can be:
-    #   * '-' no rules
-    #   * a string reference to a rule
-    #   * an offset like "01:00" (e.g. America/Argentina/San_Luis,
-    #       Europe/Istanbul).
-    rules_string = tokens[1]
-    if rules_string.find(':') >= 0:
-        rules_string = str(hour_string_to_offset_minutes(rules_string))
 
     # Return map corresponding to a ZoneEntry instance
     return {
-        'offsetMinutes': offset_minutes,
+        'offsetHour': offset_hour,
         'rules': rules_string,
         'format': format,
         'untilYear': until_year,
@@ -360,24 +354,3 @@ def process_zone_line(line):
         'untilTime': until_time,
         'rawLine': line,
     }
-
-
-def hour_string_to_offset_minutes(hs):
-    """Converts the '+/-hh:mm' string into +/- minute offset.
-    """
-    i = 0
-    sign = 1
-    if hs[i] == '-':
-        sign = -1
-        i += 1
-
-    colon_index = hs.find(':')
-    if colon_index < 0:
-        hour_string = hs[i:]
-        minute_string = '0'
-    else:
-        hour_string = hs[i:colon_index]
-        minute_string = hs[colon_index + 1:]
-    hour = int(hour_string)
-    minute = int(minute_string)
-    return sign * (hour * 60 + minute)

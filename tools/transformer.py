@@ -21,39 +21,49 @@ class Transformer:
 
     def get_data(self):
         """
-        The returned 'rules_map' is a map of (name -> rules[]), where each
-        element in rules is another map with the following fields:
+        Returns a tuple of 3 data structures:
+
+        'rules_map' is a map of (name -> rules[]), where each element in rules
+        is another map with the following fields:
 
             fromYear: (int) from year
             toYear: (int) to year, 2000 to 9999=max
             inMonth: (int) month index (1-12)
-            onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-            onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
+            onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
             atHour: (string) hour at which to transition to and from DST
-            atMinute: (int) atHour as minutes since 00:00
             atHourModifier: (char) 's', 'w', 'g', 'u', 'z'
-            deltaMinutes: (int) offset minutes from Standard time
+            deltaHour: (string) offset from Standard time
             letter: (char) 'D', 'S', '-'
             rawLine: (string) the original RULE line from the TZ file
+
+            onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+            onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
+            atMinute: (int) atHour in units of minutes from 00:00
+            deltaMinute: (int) offset from Standard time in minutes
             deltaCode: (int) offset code (15 min chunks) from Standard time
             shortName: (string) short name of the zone
 
-        The returned 'zones_map' is a map of (name -> zones[]), where each
-        element in zones is another map with the following fields:
+        'zones_map' is a map of (name -> zones[]), where each element in zones
+        is another map with the following fields:
 
-            offsetMinutes: (int) offset from UTC/GMT in minutes
-            rules: (string) name of the Rule in effect, '-', or minute offset
-            format: (string) abbreviation with '%s' replaced with '%'
-                    (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
+            offsetHour: (string) (GMTOFF field) offset from UTC/GMT
+            rules: (string) (RULES field) name of the Rule in effect, '-', or
+                    "hh:mm" delta
+            format: (string) (FORMAT field) abbreviation with '%s' replaced with
+                    '%' (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
             untilYear: (int) 2000-9999
             untilMonth: (int) 1-12 optional
             untilDay: (string) 1-31, 'lastSun', 'Sun>=3', etc
             untilTime: (string) optional
             rawLine: (string) original ZONE line in TZ file
+
+            offsetMinute: (int) offset from UTC/GMT in minutes
+            offsetCode: (int) offset from UTC/GMT in 15-minute units
+            rulesDeltaMinute: (int) delta offset from UTC in minutes
             used: (boolean) indicates whether or not the rule is used by a zone
 
-        The returned 'all_removed_zones' is a list of the names of zones
-        which were removed for one reason or another.
+        'all_removed_zones' is a list of the names of zones which were removed
+        for one reason or another.
         """
         return (self.zones_map, self.rules_map, self.all_removed_zones)
 
@@ -64,30 +74,33 @@ class Transformer:
         logging.info('Found %s zone infos' % len(self.zones_map))
         logging.info('Found %s rule policies' % len(self.rules_map))
 
+        zones_map = self.create_zones_with_offset_minute(zones_map)
+        zones_map = self.create_zones_with_offset_code(zones_map)
+        zones_map = self.create_zones_with_rules_expansion(zones_map)
         zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.remove_zones_with_until_time(zones_map)
         zones_map = self.remove_zones_with_until_day(zones_map)
         zones_map = self.remove_zones_with_until_month(zones_map)
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
         zones_map = self.remove_zones_without_slash(zones_map)
-        zones_map = self.create_zones_with_offset_code(zones_map)
 
         (zones_map, rules_map) = self.mark_rules_used_by_zones(
             zones_map, rules_map)
         rules_map = self.remove_unused_rules(rules_map)
 
-        rules_map = self.remove_rules_long_dst_letter(rules_map)
-        rules_map = self.remove_rules_invalid_at_hour(rules_map)
+        rules_map = self.create_rules_with_at_minute(rules_map)
+        rules_map = self.create_rules_with_delta_minute(rules_map)
         rules_map = self.create_rules_with_delta_code(rules_map)
         rules_map = self.create_rules_with_on_day_expansion(rules_map)
+        rules_map = self.remove_rules_long_dst_letter(rules_map)
+        rules_map = self.remove_rules_invalid_at_hour(rules_map)
 
         zones_map = self.remove_zones_without_rules(zones_map, rules_map)
 
         self.rules_map = rules_map
         self.zones_map = zones_map
 
-        logging.info('Removed Total %s zone infos'
-            % len(self.all_removed_zones))
+        logging.info('Removed %s zone infos' % len(self.all_removed_zones))
         logging.info('Remaining %s zone infos' % len(self.zones_map))
         logging.info('Remaining %s rule policies' % len(self.rules_map))
 
@@ -180,14 +193,13 @@ class Transformer:
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
-                rule_name = zone['rules']
-                if rule_name.isdigit():
+                if 'rulesDeltaMinute' in zone:
                     valid = False
                     removed_zones[name] = rule_name
                     break
             if valid:
                results[name] = zones
-        logging.info("Removed %s zone infos with offset in 'rules' field"
+        logging.info("Removed %s zone infos with UTC offset in 'rules' field"
             % len(removed_zones))
         if self.print_removed:
             for name, reason in sorted(removed_zones.items()):
@@ -212,19 +224,64 @@ class Transformer:
         return results
 
     @staticmethod
-    def create_zones_with_offset_code(zones_map):
+    def create_zones_with_offset_minute(zones_map):
+        """ Create zone['offsetMinute'] from zone['offsetHour'].
+        """
         for name, zones in zones_map.items():
             for zone in zones:
-                offset_minutes = zone['offsetMinutes']
-                if offset_minutes % 15 != 0:
+                offset_hour = zone['offsetHour']
+                offset_minute = hour_string_to_minute(offset_hour)
+                if offset_minute == 9999:
                     logging.error(
-                        "Zone %s: offset minutes not multiple of 15: %s"
-                        % (name, offset_minutes))
-                offset_code = int(offset_minutes / 15)
+                        "Zone %s: could not parse offsetHour (%s)",
+                        name , offset_hour)
+                    continue
+                zone['offsetMinute'] = offset_minute
+        return zones_map
+
+    @staticmethod
+    def create_zones_with_offset_code(zones_map):
+        """ Create zone['offsetCode'] from zone['offsetMinute'].
+        """
+        for name, zones in zones_map.items():
+            for zone in zones:
+                offset_minute = zone['offsetMinute']
+                if offset_minute % 15 != 0:
+                    logging.error(
+                        "Zone %s: offset minutes not multiple of 15: %s",
+                        name, offset_minute)
+                    continue
+                offset_code = int(offset_minute / 15)
                 zone['offsetCode'] = offset_code
         return zones_map
 
+    @staticmethod
+    def create_zones_with_rules_expansion(zones_map):
+        """ Create zone['rulesDeltaMinute'] from zone['rules'].
+
+        The RULES field can hold the following:
+            * '-' no rules
+            * a string reference to a set of Rules
+            * a delta offset like "01:00" to be added to the GMTOFF field
+                (see America/Argentina/San_Luis, Europe/Istanbul for example).
+        """
+        for name, zones in zones_map.items():
+            for zone in zones:
+                rules_string = zone['rules']
+                if rules_string.find(':') >= 0:
+                    rules_delta_minute = hour_string_to_minute(rules_string)
+                    if rules_delta_minute == 9999:
+                        logging.error(
+                            "Zone %s: could not parse RULES delta string (%s)",
+                            name , rules_string)
+                        continue
+                    zone['rulesDeltaMinute'] = rules_delta_minute
+        return zones_map
+
     def remove_zones_without_rules(self, zones_map, rules_map):
+        """Remove Zone entries whose RULES field contains a reference to
+        a set of Rules, which cannot be found.
+        """
         results = {}
         removed_zones = {}
         for name, zones in zones_map.items():
@@ -352,29 +409,67 @@ class Transformer:
         return results
 
     @staticmethod
-    def create_rules_with_delta_code(rules_map):
-        for name, rules in rules_map.items():
-            for rule in rules:
-                delta_minutes = rule['deltaMinutes']
-                if delta_minutes % 15 != 0:
-                    logging.error(
-                        "Rule %s: delta minutes not multiple of 15: %s"
-                        % (name, delta_minutes))
-                delta_code = int(delta_minutes / 15)
-                rule['deltaCode'] = delta_code
-        return rules_map
-
-    @staticmethod
     def create_rules_with_on_day_expansion(rules_map):
+        """ Create rule['onDayOfWeek'] and rule['onDayOfMonth']
+            from rule['onDay'].
+        """
         for name, rules in rules_map.items():
             for rule in rules:
                 on_day = rule['onDay']
                 (on_day_of_week, on_day_of_month) = parse_on_day_string(on_day)
                 if (on_day_of_week, on_day_of_month) == (0, 0):
                     logging.error(
-                        "Rule %s: could not parse %s" % (name, on_day))
+                        "Rule %s: could not parse onDay (%s)", name, on_day)
+                    continue
                 rule['onDayOfWeek'] = on_day_of_week
                 rule['onDayOfMonth'] = on_day_of_month
+        return rules_map
+
+    @staticmethod
+    def create_rules_with_at_minute(rules_map):
+        """ Create rule['atMinute'] from rule['atHour'].
+        """
+        for name, rules in rules_map.items():
+            for rule in rules:
+                at_hour = rule['atHour']
+                at_minute = hour_string_to_minute(at_hour)
+                if at_minute == 9999:
+                    logging.error(
+                        "Rule %s: could not parse atHour (%s)", name, at_hour)
+                    continue
+                rule['atMinute'] = at_minute
+        return rules_map
+
+    @staticmethod
+    def create_rules_with_delta_minute(rules_map):
+        """ Create rule['deltaMinute'] from rule['deltaHour'].
+        """
+        for name, rules in rules_map.items():
+            for rule in rules:
+                delta_hour = rule['deltaHour']
+                delta_minute = hour_string_to_minute(delta_hour)
+                if delta_minute == 9999:
+                    logging.error(
+                        "Rule %s: could not parse deltaHour (%s)",
+                        name, delta_hour)
+                    continue
+                rule['deltaMinute'] = delta_minute
+        return rules_map
+
+    @staticmethod
+    def create_rules_with_delta_code(rules_map):
+        """ Create rule['deltaCode'] from rule['deltaMinute'].
+        """
+        for name, rules in rules_map.items():
+            for rule in rules:
+                delta_minute = rule['deltaMinute']
+                if delta_minute % 15 != 0:
+                    logging.error(
+                        "Rule %s: deltaMinute not multiple of 15: %s"
+                        % (name, delta_minute))
+                    continue
+                delta_code = int(delta_minute / 15)
+                rule['deltaCode'] = delta_code
         return rules_map
 
 
@@ -415,6 +510,41 @@ def parse_on_day_string(on_string):
         return (WEEK_TO_WEEK_INDEX[dayOfWeek], int(dayOfMonth))
 
     return (0, 0)
+
+
+def hour_string_to_minute(hs):
+    """Converts the '+/-hh:mm' string into +/- minute offset.
+    Returns 9999 if there is a parsing error.
+    """
+    i = 0
+    sign = 1
+    if hs[i] == '-':
+        sign = -1
+        i += 1
+
+    colon_index = hs.find(':')
+    if colon_index < 0:
+        hour_string = hs[i:]
+        minute_string = '0'
+    else:
+        hour_string = hs[i:colon_index]
+        minute_string = hs[colon_index + 1:]
+    try:
+        hour = int(hour_string)
+        # Japan uses 24:00 and 25:00:
+        # Rule  NAME    FROM    TO    TYPE  IN  ON      AT  	SAVE    LETTER/S
+        # Rule  Japan   1948    only  -     May Sat>=1  24:00   1:00    D
+        # Rule  Japan   1948    1951  -     Sep Sat>=8  25:00   0   	S
+        # Rule  Japan   1949    only  -     Apr Sat>=1  24:00   1:00    D
+        # Rule  Japan   1950    1951  -     May Sat>=1  24:00   1:00    D
+        if hour > 25:
+            return 9999
+        minute = int(minute_string)
+        if minute > 59:
+            return 9999
+        return sign * (hour * 60 + minute)
+    except Exception as e:
+        return 9999
 
 
 def short_name(name):
