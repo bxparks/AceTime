@@ -211,7 +211,7 @@ class Transformer:
         results = {}
         removed_zones = {}
         for name, zones in zones_map.items():
-            if name.find('/') >= 0:
+            if name.rfind('/') >= 0:
                results[name] = zones
             else:
                 removed_zones[name] = 'missing /'

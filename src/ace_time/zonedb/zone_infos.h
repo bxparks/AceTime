@@ -353,6 +353,11 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 // Asia/Yakutsk
 // Asia/Yekaterinburg
 // Atlantic/Stanley
+// CET
+// CST6CDT
+// EET
+// EST
+// EST5EDT
 // Europe/Astrakhan
 // Europe/Istanbul
 // Europe/Kaliningrad
@@ -367,12 +372,18 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 // Europe/Ulyanovsk
 // Europe/Vilnius
 // Europe/Volgograd
+// HST
+// MET
+// MST
+// MST7MDT
+// PST8PDT
 // Pacific/Apia
 // Pacific/Bougainville
 // Pacific/Chatham
 // Pacific/Fakaofo
 // Pacific/Guam
 // Pacific/Norfolk
+// WET
 
 
 }

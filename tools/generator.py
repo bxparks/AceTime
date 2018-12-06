@@ -328,12 +328,10 @@ const common::ZoneInfo kZone{infoShortName} = {{
                 infoShortName=normalize_name(short_name(name)),
                 infoFullName=name)
 
-        removed = ''
+        removed_info_items = ''
         for name in sorted(self.removed_zones):
-            # List only the zones witha '/' in their names
-            if name.find('/') >= 0:
-                removed += self.ZONE_INFOS_H_REMOVED_INFO_ITEM.format(
-                        infoFullName=name)
+            removed_info_items += self.ZONE_INFOS_H_REMOVED_INFO_ITEM.format(
+                infoFullName=name)
 
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
@@ -342,7 +340,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
             numInfos=len(self.zones),
             infoItems=info_items,
             numRemovedInfos=len(self.removed_zones),
-            removedInfoItems=removed)
+            removedInfoItems=removed_info_items)
 
     def generate_infos_cpp(self):
         info_items = ''
