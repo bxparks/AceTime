@@ -79,6 +79,7 @@ class Transformer:
         rules_map = self.remove_rules_long_dst_letter(rules_map)
         rules_map = self.remove_rules_invalid_at_hour(rules_map)
         rules_map = self.create_rules_with_delta_code(rules_map)
+        rules_map = self.create_rules_with_on_day_expansion(rules_map)
 
         zones_map = self.remove_zones_without_rules(zones_map, rules_map)
 
@@ -362,6 +363,59 @@ class Transformer:
                 delta_code = int(delta_minutes / 15)
                 rule['deltaCode'] = delta_code
         return rules_map
+
+    @staticmethod
+    def create_rules_with_on_day_expansion(rules_map):
+        for name, rules in rules_map.items():
+            for rule in rules:
+                on_day = rule['onDay']
+                (on_day_of_week, on_day_of_month) = parse_on_day_string(on_day)
+                if (on_day_of_week, on_day_of_month) == (0, 0):
+                    logging.error(
+                        "Rule %s: could not parse %s" % (name, on_day))
+                rule['onDayOfWeek'] = on_day_of_week
+                rule['onDayOfMonth'] = on_day_of_month
+        return rules_map
+
+
+WEEK_TO_WEEK_INDEX = {
+    'Mon': 1,
+    'Tue': 2,
+    'Wed': 3,
+    'Thu': 4,
+    'Fri': 5,
+    'Sat': 6,
+    'Sun': 7,
+}
+
+
+def parse_on_day_string(on_string):
+    """Parse things like "Sun>=1", "lastSun", "20". Mon=1, Sun=7.
+    Returns (on_day_of_week, on_day_of_month) where
+        (0, dayOfMonth) = exact match on dayOfMonth
+        (dayOfWeek, dayOfMonth) = matches dayOfWeek>=dayOfMonth
+        (dayOfWeek, 0) = matches lastDayOfWeek
+        (0, 0) = error
+    """
+    if on_string.isdigit():
+        return (0, int(on_string))
+
+    if on_string[:4] == 'last':
+        dayOfWeek = on_string[4:]
+        if dayOfWeek not in WEEK_TO_WEEK_INDEX:
+            return (0, 0)
+        return (WEEK_TO_WEEK_INDEX[dayOfWeek], 0)
+
+    greater_than_equal_index = on_string.find('>=')
+    if greater_than_equal_index >= 0:
+        dayOfWeek = on_string[:greater_than_equal_index]
+        dayOfMonth = on_string[greater_than_equal_index + 2:]
+        if dayOfWeek not in WEEK_TO_WEEK_INDEX:
+            return (0, 0)
+        return (WEEK_TO_WEEK_INDEX[dayOfWeek], int(dayOfMonth))
+
+    return (0, 0)
+
 
 def short_name(name):
     index = name.rfind('/')

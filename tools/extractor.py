@@ -223,17 +223,6 @@ MONTH_TO_MONTH_INDEX = {
     'Dec': 12
 }
 
-WEEK_TO_WEEK_INDEX = {
-    'Mon': 1,
-    'Tue': 2,
-    'Wed': 3,
-    'Thu': 4,
-    'Fri': 5,
-    'Sat': 6,
-    'Sun': 7,
-}
-
-
 def process_rule_line(line):
     """Normalize a dictionary that represents a 'Rule' line from the TZ
     database. Contains the following fields:
@@ -249,8 +238,7 @@ def process_rule_line(line):
         fromYear: (int) from year
         toYear: (int) to year, 2000 to 9999=max
         inMonth: (int) month index (1-12)
-        onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-        onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
+        onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
         atHour: (string) the time when transition to and from DST happens
         atMinute: (int) version of atHour in units of 'minutes from 00:00'
         atHourModifier: (char) 's', 'w', 'g', 'u', 'z'
@@ -271,7 +259,7 @@ def process_rule_line(line):
         to_year = int(to_year_string)
 
     in_month = MONTH_TO_MONTH_INDEX[tokens[5]]
-    (on_day_of_week, on_day_of_month) = parse_on_day_string(tokens[6])
+    on_day = tokens[6]
     (at_hour, at_hour_modifier) = parse_at_hour_string(tokens[7])
     at_minute = hour_string_to_offset_minutes(at_hour)
     delta_minutes = hour_string_to_offset_minutes(tokens[8])
@@ -281,8 +269,7 @@ def process_rule_line(line):
         'fromYear': from_year,
         'toYear': to_year,
         'inMonth': in_month,
-        'onDayOfWeek': on_day_of_week,
-        'onDayOfMonth': on_day_of_month,
+        'onDay': on_day,
         'atHour': at_hour,
         'atMinute': at_minute,
         'atHourModifier': at_hour_modifier,
@@ -290,29 +277,6 @@ def process_rule_line(line):
         'letter': tokens[9],
         'rawLine': line,
     }
-
-
-def parse_on_day_string(on_string):
-    """Parse things like "Mon>=1", "lastTue", "20".
-    Returns (on_day_of_week, on_day_of_month) where
-        (0, dayOfMonth) = exact match on dayOfMonth
-        (dayOfWeek, dayOfMonth) = matches dayOfWeek>=dayOfMonth
-        (dayOfWeek, 0) = matches lastDayOfWeek
-    """
-    if on_string.isdigit():
-        return (0, int(on_string))
-
-    if on_string[:4] == 'last':
-        dayOfWeek = on_string[4:]
-        return (WEEK_TO_WEEK_INDEX[dayOfWeek], 0)
-
-    greater_than_equal_index = on_string.find('>=')
-    if greater_than_equal_index >= 0:
-        dayOfWeek = on_string[:greater_than_equal_index]
-        dayOfMonth = on_string[greater_than_equal_index + 2:]
-        return (WEEK_TO_WEEK_INDEX[dayOfWeek], int(dayOfMonth))
-
-    raise Exception('Unable to parse ON string %s' % on_string)
 
 
 def parse_at_hour_string(at_string):
@@ -344,9 +308,9 @@ def process_zone_line(line):
         format: (string) abbreviation with '%s' replaced with '%'
                 (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
         untilYear: (int) 2000-9999
-        untilMonth: (int) 1-12 optional
-        untilDay: (string) 1-31, 'lastSun', 'Sun>=3', etc
-        untilTime: (string) optional
+        untilMonth: (int, optional) 1-12
+        untilDay: (string, optional) e.g. '1', 'lastSun', 'Sun>=3', etc
+        untilTime: (string, optional) e.g. '2:00', '2:00s'
         rawLine: (string) original ZONE line in TZ file
     """
     tokens = line.split()

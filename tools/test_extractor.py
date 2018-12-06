@@ -5,21 +5,8 @@
 # MIT License
 
 import unittest
-from extractor import parse_on_day_string
 from extractor import parse_at_hour_string
 from extractor import hour_string_to_offset_minutes
-
-
-class TestParseOnDayString(unittest.TestCase):
-    def test_parse_transition_day(self):
-        self.assertEqual((0, 20), parse_on_day_string('20'))
-        self.assertEqual((7, 10), parse_on_day_string('Sun>=10'))
-        self.assertEqual((5, 0), parse_on_day_string('lastFri'))
-
-    def test_parse_transition_day_fails(self):
-        self.assertRaises(Exception, parse_on_day_string, '20ab')
-        self.assertRaises(Exception, parse_on_day_string, 'Sun<=10')
-        self.assertRaises(Exception, parse_on_day_string, 'lastFriday')
 
 
 class TestParseAtHourString(unittest.TestCase):
