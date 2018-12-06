@@ -230,12 +230,12 @@ const common::ZoneInfo kZone{infoShortName} = {{
     SIZEOF_ZONE_POLICY_32 = 5
 
     def __init__(self, invocation, tz_version, tz_files,
-                 zones, rules, removed_zones):
+                 zones_map, rules_map, removed_zones):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
-        self.zones = zones
-        self.rules = rules
+        self.zones_map = zones_map
+        self.rules_map = rules_map
         self.removed_zones = removed_zones
 
     def print_generated_policies(self):
@@ -265,7 +265,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
     def generate_policies_h(self):
         policy_items = ''
-        for name, rules in sorted(self.rules.items()):
+        for name, rules in sorted(self.rules_map.items()):
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
                 policyName=normalize_name(name))
 
@@ -273,17 +273,17 @@ const common::ZoneInfo kZone{infoShortName} = {{
             invocation=self.invocation,
             tz_version=self.tz_version,
             tz_files=', '.join(self.tz_files),
-            numPolicies=len(self.rules),
+            numPolicies=len(self.rules_map),
             policyItems=policy_items)
 
     def generate_policies_cpp(self):
         policy_items = ''
         num_rules = 0
-        for name, rules in sorted(self.rules.items()):
+        for name, rules in sorted(self.rules_map.items()):
             policy_items += self.generate_policy_item(name, rules)
             num_rules += len(rules)
 
-        num_policies = len(self.rules)
+        num_policies = len(self.rules_map)
         memory8 = (num_policies * self.SIZEOF_ZONE_POLICY_8 +
             num_rules * self.SIZEOF_ZONE_RULE_8)
         memory32 = (num_policies * self.SIZEOF_ZONE_POLICY_32 +
@@ -330,7 +330,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
     def generate_infos_h(self):
         info_items = ''
-        for name, zones in sorted(self.zones.items()):
+        for name, zones in sorted(self.zones_map.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
                 infoShortName=normalize_name(short_name(name)),
                 infoFullName=name)
@@ -344,7 +344,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
             invocation=self.invocation,
             tz_version=self.tz_version,
             tz_files=', '.join(self.tz_files),
-            numInfos=len(self.zones),
+            numInfos=len(self.zones_map),
             infoItems=info_items,
             numRemovedInfos=len(self.removed_zones),
             removedInfoItems=removed_info_items)
@@ -353,13 +353,13 @@ const common::ZoneInfo kZone{infoShortName} = {{
         info_items = ''
         num_entries = 0
         string_length = 0
-        for name, entries in sorted(self.zones.items()):
+        for name, entries in sorted(self.zones_map.items()):
             (info_item, format_length) = self.generate_entry_item(name, entries)
             info_items += info_item
             string_length += format_length
             num_entries += len(entries)
 
-        num_infos = len(self.zones)
+        num_infos = len(self.zones_map)
         memory8 = (string_length + num_entries * self.SIZEOF_ZONE_ENTRY_8 +
             num_infos * self.SIZEOF_ZONE_INFO_8)
         memory32 = (string_length + num_entries * self.SIZEOF_ZONE_ENTRY_32 +
