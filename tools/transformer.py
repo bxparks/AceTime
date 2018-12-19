@@ -128,25 +128,31 @@ class Transformer:
         return results
 
     def remove_zones_with_complex_until(self, zones_map):
-        """Remove zones with a complex, unsupported UNTIL field. The format
-        "dow>=n" is not supported because it we should convert it into an exact
-        day of month. The time field must be in in multiples of 15 minutes.
+        """Remove zones with a complex, unsupported UNTIL field. Currently,
+        the unsupported formats are:
+
+        1) The dayOfMonth field does not support "dow>=n" because the Python
+        tool should convert it into an exact day of month, since the year and
+        month are already known.
+        2) The time field must be in multiples of 15 minutes.
+        3) The time field must represent 'wall' clock, i.e. does not contain
+        any suffix ('s', 'u', 't' or even just a 'w').
         """
         results = {}
         removed_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
-                if zone['untilTime']:
-                    until_hour = zone['untilTime']
-                    until_minute = hour_string_to_minute(until_hour)
-                    if until_minute == 9999:
-                        valid = False
-                    elif until_minute % 60 != 0: # support only integral hour
-                        valid = False
                 if zone['untilDay']:
                     until_day = zone['untilDay']
                     if not until_day.isdigit():
+                        valid = False
+                if zone['untilTime']:
+                    until_time = zone['untilTime']
+                    until_minute = hour_string_to_minute(until_time)
+                    if until_minute == 9999:
+                        valid = False
+                    elif until_minute % 60 != 0: # support only integral hour
                         valid = False
 
                 if not valid:
