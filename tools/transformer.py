@@ -86,6 +86,7 @@ class Transformer:
         zones_map = self.create_zones_with_offset_code(zones_map)
         zones_map = self.create_zones_with_rules_expansion(zones_map)
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
+        zones_map = self.remove_zones_with_non_monotonic_until(zones_map)
 
         (zones_map, rules_map) = self.mark_rules_used_by_zones(
             zones_map, rules_map)
@@ -131,12 +132,12 @@ class Transformer:
         """Remove zones with a complex, unsupported UNTIL field. Currently,
         the unsupported formats are:
 
-        1) The dayOfMonth field does not support "dow>=n" because the Python
-        tool should convert it into an exact day of month, since the year and
-        month are already known.
-        2) The time field must be in multiples of 15 minutes.
-        3) The time field must represent 'wall' clock, i.e. does not contain
-        any suffix ('s', 'u', 't' or even just a 'w').
+            1) The dayOfMonth field does not support "dow>=n" because the Python
+            tool should convert it into an exact day of month, since the year
+            and month are already known.
+            2) The time field not in multiples of 15 minutes.
+            3) The time field other than 'wall' clock, i.e. contains any suffix
+            ('s', 'u', 't' or even just a 'w').
         """
         results = {}
         removed_zones = {}
@@ -369,6 +370,45 @@ class Transformer:
             if valid:
                 results[name] = zones
         logging.info("Removed %s zone infos without rules" % len(removed_zones))
+        if self.print_removed:
+            for name, reason in sorted(removed_zones.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones.keys())
+        return results
+
+    def remove_zones_with_non_monotonic_until(self, zones_map):
+        """Remove Zone entries whose UNTIL fields are:
+            1) not monotonically increasing, or
+            2) does not end in year=9999
+        """
+        results = {}
+        removed_zones = {}
+        for name, zones in zones_map.items():
+            valid = True
+            prev_until = None
+            current_until = None
+            for zone in zones:
+                current_until = (
+                    zone['untilYear'],
+                    zone['untilMonth'] if zone['untilMonth'] else 0,
+                    zone['untilDay'] if zone['untilDay'] else 0,
+                    zone['untilHour'] if zone['untilHour'] else 0
+                )
+                if prev_until and current_until <= prev_until:
+                    valid = False
+                    removed_zones[name] = ('non increasing UNTIL: %s %s %s %s' %
+                        current_until)
+                    break;
+                prev_until = current_until
+            if valid and current_until[0] != 9999:
+                valid = False
+                removed_zones[name] = ('invalid final UNTIL: %s %s %s %s' %
+                    current_until)
+
+            if valid:
+                results[name] = zones
+        logging.info("Removed %s zone infos with invalid UNTIL fields",
+            len(removed_zones))
         if self.print_removed:
             for name, reason in sorted(removed_zones.items()):
                 print('  %s (%s)' % (name, reason), file=sys.stderr)
