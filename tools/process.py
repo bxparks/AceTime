@@ -130,9 +130,7 @@ def main():
 
     # Extract the TZ files
     extractor = Extractor(args.input_dir)
-    extractor.parse_zone_files()
-    extractor.process_rules()
-    extractor.process_zones()
+    extractor.parse()
     (zones, rules) = extractor.get_data()
 
     # Print various slices of the data
