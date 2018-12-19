@@ -78,6 +78,7 @@ class Transformer:
         #zones_map = self.remove_zones_with_until_time(zones_map)
         #zones_map = self.remove_zones_with_until_day(zones_map)
         #zones_map = self.remove_zones_with_until_month(zones_map)
+        zones_map = self.remove_zones_without_slash(zones_map)
         zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.remove_zones_with_complex_until(zones_map)
         zones_map = self.create_zones_with_until_hour(zones_map)
@@ -85,7 +86,6 @@ class Transformer:
         zones_map = self.create_zones_with_offset_code(zones_map)
         zones_map = self.create_zones_with_rules_expansion(zones_map)
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
-        zones_map = self.remove_zones_without_slash(zones_map)
 
         (zones_map, rules_map) = self.mark_rules_used_by_zones(
             zones_map, rules_map)
@@ -237,6 +237,11 @@ class Transformer:
         return results
 
     def remove_zones_with_offset_as_rules(self, zones_map):
+        """
+        Remove Zones with an offset in the RULES column. This method must be
+        called after create_zones_with_rules_expansion() which creates the
+        zone['rulesDeltaMinute'] entry.
+        """
         results = {}
         removed_zones = {}
         for name, zones in zones_map.items():
