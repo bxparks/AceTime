@@ -147,7 +147,7 @@ extern const common::ZoneInfo kZone{infoShortName}; // {infoFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
-// {infoFullName}
+// {infoFullName} ({infoRemovalReason})
 """
 
     ZONE_INFOS_CPP_FILE = """\
@@ -336,9 +336,10 @@ const common::ZoneInfo kZone{infoShortName} = {{
                 infoFullName=name)
 
         removed_info_items = ''
-        for name in sorted(self.removed_zones):
+        for name, reason in sorted(self.removed_zones.items()):
             removed_info_items += self.ZONE_INFOS_H_REMOVED_INFO_ITEM.format(
-                infoFullName=name)
+                infoFullName=name,
+                infoRemovalReason=reason)
 
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
