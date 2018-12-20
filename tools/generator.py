@@ -35,6 +35,13 @@ namespace zonedb {{
 // numPolicies: {numPolicies}
 {policyItems}
 
+// The following zone policies are not supported in the current version of
+// AceTime.
+//
+// numPolicies: {numRemovedPolicies}
+//
+{removedPolicyItems}
+
 }}
 }}
 
@@ -43,6 +50,10 @@ namespace zonedb {{
 
     ZONE_POLICIES_H_POLICY_ITEM = """\
 extern const common::ZonePolicy kPolicy{policyName};
+"""
+
+    ZONE_POLICIES_H_REMOVED_POLICY_ITEM = """\
+// kPolicy{policyName} ({policyRemovalReason})
 """
 
     ZONE_POLICIES_CPP_FILE = """\
@@ -132,8 +143,9 @@ namespace zonedb {{
 {infoItems}
 
 // The following zones are not supported in the current version of AceTime.
+//
 // numInfos: {numRemovedInfos}
-
+//
 {removedInfoItems}
 
 }}
@@ -230,13 +242,14 @@ const common::ZoneInfo kZone{infoShortName} = {{
     SIZEOF_ZONE_POLICY_32 = 5
 
     def __init__(self, invocation, tz_version, tz_files,
-                 zones_map, rules_map, removed_zones):
+                 zones_map, rules_map, removed_zones, removed_policies):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.removed_zones = removed_zones
+        self.removed_policies = removed_policies
 
     def print_generated_policies(self):
         print(self.generate_policies_h())
@@ -269,12 +282,21 @@ const common::ZoneInfo kZone{infoShortName} = {{
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
                 policyName=normalize_name(name))
 
+        removed_policy_items = ''
+        for name, reason in sorted(self.removed_policies.items()):
+            removed_policy_items += \
+                self.ZONE_POLICIES_H_REMOVED_POLICY_ITEM.format(
+                    policyName=name,
+                    policyRemovalReason=reason)
+
         return self.ZONE_POLICIES_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
             tz_files=', '.join(self.tz_files),
             numPolicies=len(self.rules_map),
-            policyItems=policy_items)
+            policyItems=policy_items,
+            numRemovedPolicies=len(self.removed_policies),
+            removedPolicyItems=removed_policy_items)
 
     def generate_policies_cpp(self):
         policy_items = ''

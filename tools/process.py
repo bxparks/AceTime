@@ -167,7 +167,7 @@ def main():
     # Transform the TZ zones and rules
     transformer = Transformer(zones, rules, args.print_removed)
     transformer.transform()
-    (zones, rules, removed_zones) = transformer.get_data()
+    (zones, rules, removed_zones, removed_policies) = transformer.get_data()
 
     # printer for the transformer
     printer = Printer(zones, rules)
@@ -180,7 +180,7 @@ def main():
 
     # create the generator
     generator = Generator(invocation, args.tz_version, Extractor.ZONE_FILES,
-        zones, rules, removed_zones)
+        zones, rules, removed_zones, removed_policies)
 
     # print the generated zone_policies.*
     if args.print_generated_policies:

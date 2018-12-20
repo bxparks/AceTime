@@ -17,31 +17,12 @@ class Transformer:
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.print_removed = print_removed
-        self.all_removed_zones = {} # map of name -> reason
+        self.all_removed_zones = {} # map of zone name -> reason
+        self.all_removed_policies = {} # map of policy name -> reason
 
     def get_data(self):
         """
-        Returns a tuple of 3 data structures:
-
-        'rules_map' is a map of (name -> rules[]), where each element in rules
-        is another map with the following fields:
-
-            fromYear: (int) from year
-            toYear: (int) to year, 2000 to 9999=max
-            inMonth: (int) month index (1-12)
-            onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
-            atHour: (string) hour at which to transition to and from DST
-            atHourModifier: (char) 's', 'w', 'g', 'u', 'z'
-            deltaHour: (string) offset from Standard time
-            letter: (char) 'D', 'S', '-'
-            rawLine: (string) the original RULE line from the TZ file
-
-            onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-            onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
-            atMinute: (int) atHour in units of minutes from 00:00
-            deltaMinute: (int) offset from Standard time in minutes
-            deltaCode: (int) offset code (15 min chunks) from Standard time
-            shortName: (string) short name of the zone
+        Returns a tuple of 4 data structures:
 
         'zones_map' is a map of (name -> zones[]), where each element in zones
         is another map with the following fields:
@@ -63,11 +44,37 @@ class Transformer:
             untilHour: (int) untilTime converted into 0-23
             used: (boolean) indicates whether or not the rule is used by a zone
 
+        'rules_map' is a map of (name -> rules[]), where each element in rules
+        is another map with the following fields:
+
+            fromYear: (int) from year
+            toYear: (int) to year, 2000 to 9999=max
+            inMonth: (int) month index (1-12)
+            onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
+            atHour: (string) hour at which to transition to and from DST
+            atHourModifier: (char) 's', 'w', 'g', 'u', 'z'
+            deltaHour: (string) offset from Standard time
+            letter: (char) 'D', 'S', '-'
+            rawLine: (string) the original RULE line from the TZ file
+
+            onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+            onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
+            atMinute: (int) atHour in units of minutes from 00:00
+            deltaMinute: (int) offset from Standard time in minutes
+            deltaCode: (int) offset code (15 min chunks) from Standard time
+            shortName: (string) short name of the zone
+
         'all_removed_zones' is a map of the zones which were removed:
             name: name of zone removed
             reason: human readable reason
+
+        'all_removed_policies' is a map of the policies (entire set of RULEs)
+        which were removed:
+            name: name of policy removed
+            reason: human readable reason
         """
-        return (self.zones_map, self.rules_map, self.all_removed_zones)
+        return (self.zones_map, self.rules_map, self.all_removed_zones,
+            self.all_removed_policies)
 
     def transform(self):
         zones_map = self.zones_map
@@ -159,7 +166,7 @@ class Transformer:
                         valid = False
 
                 if not valid:
-                    removed_zones[name] = "Unsupported UNTIL '%s %s %s %s'" % (
+                    removed_zones[name] = "unsupported UNTIL '%s %s %s %s'" % (
                         zone['untilYear'], zone['untilMonth'],
                         zone['untilDay'], zone['untilTime'])
                     break
@@ -271,7 +278,7 @@ class Transformer:
             if name.rfind('/') >= 0:
                results[name] = zones
             else:
-                removed_zones[name] = 'No / in zone name'
+                removed_zones[name] = "no '/' in zone name"
         logging.info("Removed %s zone infos without '/' in name" %
             len(removed_zones))
         if self.print_removed:
@@ -367,7 +374,7 @@ class Transformer:
                 rule_name = zone['rules']
                 if rule_name != '-' and rule_name not in rules_map:
                     valid = False
-                    removed_zones[name] = "Rule '%s' not found" % rule_name
+                    removed_zones[name] = "rule '%s' not found" % rule_name
                     break
             if valid:
                 results[name] = zones
@@ -434,7 +441,7 @@ class Transformer:
                     if current_until_year == prev_until_year:
                         valid = False
                         removed_zones[name] = (
-                            'Multiple records for year %s' %
+                            'multiple records for year %s' %
                             current_until_year)
                         break;
                 prev_until_year = current_until_year
@@ -460,7 +467,7 @@ class Transformer:
                 letter = rule['letter']
                 if len(letter) > 1:
                     valid = False
-                    removed_policies[name] = letter
+                    removed_policies[name] = "LETTER '%s' too long" % letter
                     break
             if valid:
                 results[name] = rules
@@ -469,6 +476,7 @@ class Transformer:
         if self.print_removed:
             for name, reason in sorted(removed_policies.items()):
                 print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.all_removed_policies.update(removed_policies)
         return results
 
     def remove_rules_invalid_at_hour(self, rules_map):
@@ -482,7 +490,8 @@ class Transformer:
                 at_minute = rule['atMinute']
                 if  at_minute % 60 != 0:
                     valid = False
-                    removed_policies[name] = rule['atHour']
+                    removed_policies[name] = ("non-integral AT hour '%s'" %
+                        rule['atHour'])
                     break
             if valid:
                 results[name] = rules
@@ -491,6 +500,7 @@ class Transformer:
         if self.print_removed:
             for name, reason in sorted(removed_policies.items()):
                 print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.all_removed_policies.update(removed_policies)
         return results
 
     @staticmethod
@@ -587,6 +597,7 @@ class Transformer:
         if self.print_removed:
             for name, reason in sorted(removed_policies.items()):
                 print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.all_removed_policies.update(removed_policies)
         return results
 
     @staticmethod
