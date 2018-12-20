@@ -190,9 +190,10 @@ class Transformer:
             for zone in zones:
                 if zone['untilTime']:
                     valid = False
-                    removed_zones[name] = '%s %s %s %s' % (
+                    removed_zones[name] = \
+                        ("unsupported time in UNTIL '%s %s %s %s'" % (
                         zone['untilYear'], zone['untilMonth'], zone['untilDay'],
-                        zone['untilTime'])
+                        zone['untilTime']))
                     break
             if valid:
                 results[name] = zones
@@ -212,8 +213,10 @@ class Transformer:
             for zone in zones:
                 if zone['untilDay']:
                     valid = False
-                    removed_zones[name] = '%s %s %s' % (
-                        zone['untilYear'], zone['untilMonth'], zone['untilDay'])
+                    removed_zones[name] = \
+                        ("unsupported day in UNTIL ''%s %s %s'" % (
+                        zone['untilYear'], zone['untilMonth'],
+                        zone['untilDay']))
                     break
             if valid:
                 results[name] = zones
@@ -233,7 +236,8 @@ class Transformer:
             for zone in zones:
                 if zone['untilMonth']:
                     valid = False
-                    removed_zones[name] = '%s %s' % (
+                    removed_zones[name] = \
+                        "unsupported month in UNTIL '%s %s'" % (
                         zone['untilYear'], zone['untilMonth'])
                     break
             if valid:
@@ -259,7 +263,7 @@ class Transformer:
             for zone in zones:
                 if 'rulesDeltaMinute' in zone:
                     valid = False
-                    removed_zones[name] = zone['rules']
+                    removed_zones[name] = "offset in RULES '%s'" % zone['rules']
                     break
             if valid:
                results[name] = zones
