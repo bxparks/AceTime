@@ -87,6 +87,7 @@ class Transformer:
         zones_map = self.create_zones_with_rules_expansion(zones_map)
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
         zones_map = self.remove_zones_with_non_monotonic_until(zones_map)
+        zones_map = self.remove_zones_with_multiple_records_per_year(zones_map)
 
         (zones_map, rules_map) = self.mark_rules_used_by_zones(
             zones_map, rules_map)
@@ -377,7 +378,7 @@ class Transformer:
         return results
 
     def remove_zones_with_non_monotonic_until(self, zones_map):
-        """Remove Zone entries whose UNTIL fields are:
+        """Remove Zone infos whose UNTIL fields are:
             1) not monotonically increasing, or
             2) does not end in year=9999
         """
@@ -394,11 +395,12 @@ class Transformer:
                     zone['untilDay'] if zone['untilDay'] else 0,
                     zone['untilHour'] if zone['untilHour'] else 0
                 )
-                if prev_until and current_until <= prev_until:
-                    valid = False
-                    removed_zones[name] = ('non increasing UNTIL: %s %s %s %s' %
-                        current_until)
-                    break;
+                if prev_until:
+                    if current_until <= prev_until:
+                        valid = False
+                        removed_zones[name] = (
+                            'non increasing UNTIL: %s %s %s %s' % current_until)
+                        break;
                 prev_until = current_until
             if valid and current_until[0] != 9999:
                 valid = False
@@ -408,6 +410,37 @@ class Transformer:
             if valid:
                 results[name] = zones
         logging.info("Removed %s zone infos with invalid UNTIL fields",
+            len(removed_zones))
+        if self.print_removed:
+            for name, reason in sorted(removed_zones.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.all_removed_zones.extend(removed_zones.keys())
+        return results
+
+    def remove_zones_with_multiple_records_per_year(self, zones_map):
+        """Remove Zones with multiple records per year. Currently not supported
+        but should be in the future.
+        """
+        results = {}
+        removed_zones = {}
+        for name, zones in zones_map.items():
+            valid = True
+            prev_until_year = None
+            current_until_year = None
+            for zone in zones:
+                current_until_year = zone['untilYear']
+                if prev_until_year:
+                    if current_until_year == prev_until_year:
+                        valid = False
+                        removed_zones[name] = (
+                            'Multiple records for year (%s)' %
+                            current_until_year)
+                        break;
+                prev_until_year = current_until_year
+            if valid:
+                results[name] = zones
+
+        logging.info("Removed %s zone infos with multiple records per year",
             len(removed_zones))
         if self.print_removed:
             for name, reason in sorted(removed_zones.items()):
