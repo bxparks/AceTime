@@ -137,6 +137,11 @@ class Transformer:
         logging.info("Removed %s zone entries before year 2000" % count)
         return results
 
+    def print_removed_map(self, removed_map):
+        if self.print_removed:
+            for name, reason in sorted(removed_map.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
+
     def remove_zones_with_complex_until(self, zones_map):
         """Remove zones with a complex, unsupported UNTIL field. Currently,
         the unsupported formats are:
@@ -172,11 +177,10 @@ class Transformer:
                     break
             if valid:
                 results[name] = zones
+
         logging.info("Removed %s zone infos with unsupported UNTIL fields"
             % len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
@@ -197,11 +201,10 @@ class Transformer:
                     break
             if valid:
                 results[name] = zones
+
         logging.info("Removed %s zone infos with unsupported untilTime"
             % len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(self.removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
@@ -220,11 +223,10 @@ class Transformer:
                     break
             if valid:
                 results[name] = zones
+
         logging.info("Removed %s zone infos with unsupported untilDay"
             % len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(self.removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
@@ -242,11 +244,10 @@ class Transformer:
                     break
             if valid:
                 results[name] = zones
+
         logging.info("Removed %s zone infos with unsupported untilMonth"
             % len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(self.removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
@@ -267,11 +268,10 @@ class Transformer:
                     break
             if valid:
                results[name] = zones
+
         logging.info("Removed %s zone infos with UTC offset in 'rules' field"
             % len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
@@ -283,11 +283,10 @@ class Transformer:
                results[name] = zones
             else:
                 removed_zones[name] = "no '/' in zone name"
+
         logging.info("Removed %s zone infos without '/' in name" %
             len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
@@ -382,10 +381,9 @@ class Transformer:
                     break
             if valid:
                 results[name] = zones
+
         logging.info("Removed %s zone infos without rules" % len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
@@ -421,11 +419,10 @@ class Transformer:
 
             if valid:
                 results[name] = zones
+
         logging.info("Removed %s zone infos with invalid UNTIL fields",
             len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
@@ -454,9 +451,7 @@ class Transformer:
 
         logging.info("Removed %s zone infos with multiple records per year",
             len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
@@ -475,11 +470,10 @@ class Transformer:
                     break
             if valid:
                 results[name] = rules
+
         logging.info('Removed %s rule policies with long DST letter' %
             len(removed_policies))
-        if self.print_removed:
-            for name, reason in sorted(removed_policies.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
 
@@ -499,11 +493,10 @@ class Transformer:
                     break
             if valid:
                 results[name] = rules
+
         logging.info('Removed %s rule policies with non-integral atHour'
             % len(removed_policies))
-        if self.print_removed:
-            for name, reason in sorted(removed_policies.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
 
@@ -569,11 +562,11 @@ class Transformer:
                 results[name] = used_rules
             else:
                 removed_policies[name] = 'unused'
+
         logging.info('Removed %s rule policies (%s rules) not used' %
                 (len(removed_policies), removed_rule_count))
-        if self.print_removed:
-            for name, reason in sorted(removed_policies.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
         return results
 
     def remove_rules_out_of_bounds(self, rules_map):
@@ -598,9 +591,7 @@ class Transformer:
         logging.info(
             'Removed %s rule policies with fromYear or toYear out of bounds' %
             len(removed_policies))
-        if self.print_removed:
-            for name, reason in sorted(removed_policies.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
 
