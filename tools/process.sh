@@ -26,6 +26,7 @@ output_option=''
 while [[ $# -gt 0 ]]; do
     case $1 in
         --code) output_option="--output_dir $OUTPUT_DIR" ;;
+        --pycode) output_option="--python --output_dir $OUTPUT_DIR" ;;
         --tag) shift; tag=$1 ;;
         --help|-h) usage ;;
         -*) break ;;

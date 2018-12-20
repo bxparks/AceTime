@@ -15,6 +15,7 @@ from printer import Printer
 from extractor import Extractor
 from transformer import Transformer
 from generator import Generator
+from pygenerator import PythonGenerator
 
 def main():
     """Read the test data chunks from the STDIN and print them out. The ability
@@ -106,19 +107,14 @@ def main():
 
     # Generator
     parser.add_argument(
+        '--python',
+        help='Generate Python files instead of C++',
+        action="store_true",
+        default=False)
+    parser.add_argument(
         '--tz_version', help='Version string of the TZ files', required=True)
     parser.add_argument(
         '--output_dir', help='Location of the output directory', required=False)
-    parser.add_argument(
-        '--print_generated_policies',
-        help='Print generated zone_policies.h and zone_policies.cpp',
-        action="store_true",
-        default=False)
-    parser.add_argument(
-        '--print_generated_infos',
-        help='Print generated zone_infos.h and zone_infos.cpp',
-        action="store_true",
-        default=False)
 
     args = parser.parse_args()
 
@@ -178,17 +174,13 @@ def main():
     if args.print_transformed_rules:
         printer.print_rules()
 
-    # create the generator
-    generator = Generator(invocation, args.tz_version, Extractor.ZONE_FILES,
-        zones, rules, removed_zones, removed_policies)
-
-    # print the generated zone_policies.*
-    if args.print_generated_policies:
-        generator.print_generated_policies()
-
-    # print the generated zone_infos.*
-    if args.print_generated_infos:
-        generator.print_generated_infos()
+    # create the generator (Python or C++
+    if args.python:
+        generator = PythonGenerator(invocation, args.tz_version,
+            Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies)
+    else:
+        generator = Generator(invocation, args.tz_version,
+            Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies)
 
     # generate files
     if args.output_dir:
