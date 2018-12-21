@@ -204,7 +204,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
     {offsetCode} /*offsetCode*/,
     {zonePolicy} /*zonePolicy*/,
     "{format}" /*format*/,
-    {untilYear} /*untilYear*/,
+    {untilYearShort} /*untilYearShort*/,
   }},
 """
 
@@ -212,6 +212,10 @@ const common::ZoneInfo kZone{infoShortName} = {{
     ZONE_INFOS_CPP_FILE_NAME = 'zone_infos.cpp'
     ZONE_POLICIES_H_FILE_NAME = 'zone_policies.h'
     ZONE_POLICIES_CPP_FILE_NAME = 'zone_policies.cpp'
+
+    ZONE_INFO_EPOCH_YEAR = 2000
+    YEAR_SHORT_MAX = 127
+    YEAR_MAX = 9999
 
     SIZEOF_ZONE_ENTRY_8 = 6
     SIZEOF_ZONE_ENTRY_32 = 10
@@ -378,10 +382,10 @@ const common::ZoneInfo kZone{infoShortName} = {{
                 zonePolicy = '&kPolicy%s' % rules
 
             until_year = entry['untilYear']
-            if until_year == 9999:
-                until_year = 127 # INT8_MAX
+            if until_year == self.YEAR_MAX:
+                until_year_short = self.YEAR_SHORT_MAX
             else:
-                until_year -= 2000
+                until_year_short = until_year - self.ZONE_INFO_EPOCH_YEAR
 
             string_length += len(entry['format']) + 1
 
@@ -390,7 +394,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
                 offsetCode=entry['offsetCode'],
                 zonePolicy=zonePolicy,
                 format=entry['format'],
-                untilYear=until_year)
+                untilYearShort=until_year_short)
 
         string_length += len(name) + 1
         num_entries = len(entries)
