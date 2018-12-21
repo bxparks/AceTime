@@ -9,6 +9,8 @@ import logging
 import os
 
 from transformer import short_name
+from generator import normalize_name
+from generator import normalize_raw
 
 class PythonGenerator:
     """Generate Python files for zone infos and policies.
@@ -46,9 +48,13 @@ class PythonGenerator:
 # Policy name: {policyName}
 # Rule count: {numRules}
 #---------------------------------------------------------------------------
-ZONE_POLICY_{policyName} = [
+ZONE_RULES_{policyName} = [
 {ruleItems}
 ]
+ZONE_POLICY_{policyName} = {{
+    "name": "{policyName}",
+    "rules": ZONE_RULES_{policyName}
+}}
 
 """
 
@@ -92,6 +98,10 @@ from zone_policies import *
 
 {infoItems}
 
+ZONE_INFO_MAP = {{
+{infoMapItems}
+}}
+
 # The following zones are not supported in the current version of AceTime.
 #
 # numInfos: {numRemovedInfos}
@@ -130,6 +140,10 @@ ZONE_INFO_{infoShortName} = {{
       "untilDay": {untilDay},
       "untilHour": {untilHour},
     }},
+"""
+
+    ZONE_INFO_MAP_ITEM = """\
+    "{infoShortName}": ZONE_INFO_{infoShortName},
 """
 
     ZONE_INFOS_FILE_NAME = 'zone_infos.py'
@@ -186,6 +200,7 @@ ZONE_INFO_{infoShortName} = {{
         for rule in rules:
             atHour = rule['atMinute'] // 60
             rule_items += self.ZONE_RULE_ITEM.format(
+                policyName=normalize_name(name),
                 rawLine=normalize_raw(rule['rawLine']),
                 fromYearFull=rule['fromYear'],
                 toYearFull=rule['toYear'],
@@ -214,6 +229,7 @@ ZONE_INFO_{infoShortName} = {{
         (num_entries, info_items) = self.generate_info_items(self.zones_map)
         removed_info_items = self.generate_removed_info_items(
             self.removed_zones)
+        info_map_items = self.generate_info_map_items(self.zones_map)
 
         return self.ZONE_INFOS_FILE.format(
             invocation=self.invocation,
@@ -222,6 +238,7 @@ ZONE_INFO_{infoShortName} = {{
             numInfos=len(self.zones_map),
             numEntries=num_entries,
             infoItems=info_items,
+            infoMapItems=info_map_items,
             numRemovedInfos=len(self.removed_zones),
             removedInfoItems=removed_info_items)
 
@@ -253,11 +270,11 @@ ZONE_INFO_{infoShortName} = {{
             entryItems=entry_items)
 
     def generate_entry_item(self, entry):
-        rules = entry['rules']
-        if rules == '-':
+        policy_name = entry['rules']
+        if policy_name == '-':
             zone_policy = 'None'
         else:
-            zone_policy = 'ZONE_POLICY_%s' % rules
+            zone_policy = 'ZONE_POLICY_%s' % policy_name
 
         until_year = entry['untilYear']
         if until_year == 9999:
@@ -287,12 +304,9 @@ ZONE_INFO_{infoShortName} = {{
             untilDay=until_day,
             untilHour=until_hour)
 
-def normalize_name(name):
-    """Replace hyphen with underscore so that the Python symbol can compile.
-    """
-    return name.replace('-', '_')
-
-def normalize_raw(raw_line):
-    """Replace hard tabs with 4 spaces.
-    """
-    return raw_line.replace('\t', '    ')
+    def generate_info_map_items(self, zones_map):
+        info_map_items = ''
+        for name, zones in zones_map.items():
+            info_map_items += self.ZONE_INFO_MAP_ITEM.format(
+                infoShortName=normalize_name(short_name(name)))
+        return info_map_items
