@@ -8,13 +8,12 @@ namespace ace_time {
 
 /**
  * The date (year, month, day) representing the date without regards to time
- * zone. The "epoch" for this library is 2000-01-01. All fields are internally
- * represented as a uint8_t, with the year representing an offset from the year
- * 2000. The range of dates of this class is therefore 2000-01-01 Saturday to
- * 2255-12-31 Monday (inclusive).
+ * zone. The "epoch" for this library is 2000-01-01.
  *
- * If the year is restricted to 2000-2099 (2 digit years), these fields
- * correspond to the range supported by the DS3231 RTC chip.
+ * The year field is internally represented as int8_t offset from the year
+ * 2000, so in theory it is valid from [1872, 2127]. If the year is restricted
+ * to 2000-2099 (2 digit years), these fields correspond to the range supported
+ * by the DS3231 RTC chip.
  *
  * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated from the date
  * fields.
@@ -63,11 +62,11 @@ class LocalDate {
     /**
      * Factory method using separated year, month and day fields.
      *
-     * @param year year offset from 2000 (0-255)
+     * @param year year (1872 - 2127, i.e. [-128, 127] + 2000)
      * @param month month with January=1, December=12
      * @param day day of month (1-31)
      */
-    static LocalDate forComponents(uint8_t year, uint8_t month, uint8_t day) {
+    static LocalDate forComponents(uint16_t year, uint8_t month, uint8_t day) {
       return LocalDate(year, month, day);
     }
 
@@ -76,15 +75,16 @@ class LocalDate {
      * 2000-01-01. If epochDays is kInvalidEpochDays, isError() will return
      * true.
      *
-     * If epochDays is greater than 93501 (i.e. 2255-12-31), the year is
-     * greater than 255 and cannot be represented by a uint8_t. The behavior of
-     * this method is undefined. Most likely, a truncation of the correct year
-     * to uint8_t will occur.
+     * If epochDays is greater than 46751 (i.e. 2127-12-31), the year is
+     * greater than 127 and cannot be represented by the internal int8_t field.
+     * The behavior of this method is undefined.
      *
      * @param epochDays number of days since AceTime epoch (2000-01-01)
      */
     static LocalDate forEpochDays(uint32_t epochDays) {
-      uint8_t year, month, day;
+      uint16_t year;
+      uint8_t month;
+      uint8_t day;
       if (epochDays == kInvalidEpochDays) {
         year = month = day = 0;
       } else {
@@ -116,8 +116,8 @@ class LocalDate {
     /**
      * Factory method. Create a LocalDate from the ISO 8601 date string. If
      * the string cannot be parsed, then isError() on the constructed object
-     * returns true, but the data validation is very weak. If the date string
-     * is greater than 2255-12-31, the result is undefined.
+     * returns true, but the data validation is very weak. Year should probably
+     * be between 1872 and 2127.
      *
      * @param dateString the date in ISO 8601 format (yyyy-mm-dd)
      */
@@ -126,14 +126,12 @@ class LocalDate {
     }
 
     /** True if year is a leap year. */
-    static bool isLeapYear(uint8_t year) {
-      // NOTE: The compiler will optimize the (year % 400) expression into
-      // (year == 0) since it knows that the max value of yYear is 255.
+    static bool isLeapYear(uint16_t year) {
       return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
     }
 
     /** Return the number of days in the current month. */
-    static uint8_t daysInMonth(uint8_t year, uint8_t month) {
+    static uint8_t daysInMonth(uint16_t year, uint8_t month) {
       uint8_t days = sDaysInMonth[month - 1];
       return (month == 2 && isLeapYear(year)) ? days + 1 : days;
     }
@@ -147,21 +145,21 @@ class LocalDate {
      * statement like this: 'return LocalDate().setError()'.
      */
     LocalDate& setError() {
-      mYear = mMonth = mDay = 0;
+      mYear2 = mMonth = mDay = 0;
       return *this;
     }
 
     /** Return the full year instead of just the last 2 digits. */
-    uint16_t yearFull() const { return mYear + kEpochYear; }
+    uint16_t year() const { return mYear2 + kEpochYear; }
 
     /** Set the year given the full year. */
-    void yearFull(uint16_t yearFull) { mYear = yearFull - kEpochYear; }
+    void year(uint16_t year) { mYear2 = year - kEpochYear; }
 
-    /** Return the 2 digit year from year 2000. */
-    uint8_t year() const { return mYear; }
+    /** Return the 2 digit year offset from year 2000. */
+    int8_t year2() const { return mYear2; }
 
     /** Set the 2 digit year from year 2000. */
-    void year(uint8_t year) { mYear = year; }
+    void year2(int8_t year2) { mYear2 = year2; }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mMonth; }
@@ -177,7 +175,7 @@ class LocalDate {
 
     /** Increment the year by one, wrapping from 99 to 0. */
     void incrementYear() {
-      common::incrementMod(mYear, (uint8_t) 100);
+      common::incrementMod(mYear2, (int8_t) 100);
     }
 
     /** Increment the month by one, wrapping from 12 to 1. */
@@ -198,7 +196,7 @@ class LocalDate {
      */
     uint8_t dayOfWeek() const {
       // The "year" starts in March to shift leap year calculation to end.
-      uint16_t y = kEpochYear + mYear - (mMonth < 3);
+      uint16_t y = year() - (mMonth < 3);
       uint16_t d = y + y/4 - y/100 + y/400 + sDayOfWeek[mMonth-1] + mDay;
       // 2000-1-1 was a Saturday=6
       return (d + 1) % 7 + 1;
@@ -238,7 +236,7 @@ class LocalDate {
       // for negative numbers.
 
       int8_t mm = (mMonth - 14)/12;
-      int16_t yy = mYear + kEpochYear;
+      int16_t yy = year();
       int32_t jdn = ((int32_t) 1461 * (yy + 4800 + mm))/4
           + (367 * (mMonth - 2 - 12 * mm))/12
           - (3 * ((yy + 4900 + mm)/100))/4
@@ -264,8 +262,8 @@ class LocalDate {
      * this>that). If isError() is true, the behavior is undefined.
      */
     int8_t compareTo(const LocalDate& that) const {
-      if (mYear < that.mYear) return -1;
-      if (mYear > that.mYear) return 1;
+      if (mYear2 < that.mYear2) return -1;
+      if (mYear2 > that.mYear2) return 1;
       if (mMonth < that.mMonth) return -1;
       if (mMonth > that.mMonth) return 1;
       if (mDay < that.mDay) return -1;
@@ -299,8 +297,14 @@ class LocalDate {
     static const uint8_t sDaysInMonth[12];
 
     /** Constructor. */
-    explicit LocalDate(uint8_t year, uint8_t month, uint8_t day):
-        mYear(year),
+    explicit LocalDate(uint16_t year, uint8_t month, uint8_t day):
+        mYear2(year - kEpochYear),
+        mMonth(month),
+        mDay(day) {}
+
+    /** Constructor. */
+    explicit LocalDate(int8_t year2, uint8_t month, uint8_t day):
+        mYear2(year2),
         mMonth(month),
         mDay(day) {}
 
@@ -309,7 +313,7 @@ class LocalDate {
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
-    static void extractYearMonthDay(uint32_t epochDays, uint8_t& year,
+    static void extractYearMonthDay(uint32_t epochDays, uint16_t& year,
         uint8_t& month, uint8_t& day) {
       uint32_t J = epochDays + kDaysSinceJulianEpoch;
       uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;
@@ -318,7 +322,7 @@ class LocalDate {
       uint32_t h = 5 * g + 2;
       day = (h % 153) / 5 + 1;
       month = (h / 153 + 2) % 12 + 1;
-      year = (e / 1461) - 4716 + (12 + 2 - month) / 12 - kEpochYear;
+      year = (e / 1461) - 4716 + (12 + 2 - month) / 12;
 
       // 2000-01-01 is Saturday (7)
       //dayOfWeek = (epochDays + 6) % 7 + 1;
@@ -327,7 +331,12 @@ class LocalDate {
     /** Extract the date components from the given dateString. */
     LocalDate& initFromDateString(const char* dateString);
 
-    uint8_t mYear; // [00, 255], year offset from 2000
+    /**
+     * Store year as a int8_t offset from year 2000. This saves memory, but may
+     * cause other problems later, so this may change to uint16_t later.
+     */
+    int8_t mYear2; // [-128, 127], year offset from 2000
+
     uint8_t mMonth; // [1, 12], 0 indicates error
     uint8_t mDay; // [1, 31], 0 indicates error
 };
@@ -336,7 +345,7 @@ class LocalDate {
 inline bool operator==(const LocalDate& a, const LocalDate& b) {
   return a.mDay == b.mDay
       && a.mMonth == b.mMonth
-      && a.mYear == b.mYear;
+      && a.mYear2 == b.mYear2;
 }
 
 /** Return true if two LocalDate objects are not equal. */

@@ -43,13 +43,14 @@ class DS3231TimeKeeper: public TimeKeeper {
     }
 
     /**
-     * Convert a OffsetDateTime object to a HardwareDateTime object, ignore time
-     * zone. In practice, it will often be most convenient to store the DS3231
-     * as UTC time.
+     * Convert a OffsetDateTime object to a HardwareDateTime object, ignoring
+     * time zone. In practice, it will often be most convenient to store the
+     * DS3231 as UTC time. Only 2 digits are supported by the year field in the
+     * DS3231 so the year is assumed to be between 2000 and 2099.
      */
     static hw::HardwareDateTime toHardwareDateTime(const OffsetDateTime& dt) {
-      return hw::HardwareDateTime{dt.year(), dt.month(), dt.day(), dt.hour(),
-          dt.minute(), dt.second(), dt.dayOfWeek()};
+      return hw::HardwareDateTime{(uint8_t) dt.year2(), dt.month(), dt.day(),
+          dt.hour(), dt.minute(), dt.second(), dt.dayOfWeek()};
     }
 
     const hw::DS3231 mDS3231;

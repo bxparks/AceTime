@@ -14,12 +14,12 @@ namespace ace_time {
 /**
  * The date (year, month, day) and time (hour, minute, second) fields
  * representing an instant in time. The year field is internally represented as
- * a uint8_t number from 0 to 255 representing the year 2000 to 2255.
- * Therefore, the "epoch" for this library is 2000-01-01 00:00:00Z. If the year
- * is restricted to 0 to 99, the DateTime components map directly to the fields
- * supported by the DS3231 RTC chip. The dayOfWeek (1=Sunday, 7=Saturday) is
- * calculated internally from the date components. Changing the timeZone does
- * not affect the dayOfWeek.
+ * a int8_t number from -128 to 127 representing the year 1872 to 2127. The
+ * "epoch" for this library is 2000-01-01 00:00:00Z. If the year is restricted
+ * to 0 to 99, the DateTime components map directly to the fields supported by
+ * the DS3231 RTC chip. The dayOfWeek (1=Sunday, 7=Saturday) is calculated
+ * internally from the date components. Changing the timeZone does not affect
+ * the dayOfWeek.
  *
  * The incrementXxx() methods are convenience methods to allow the user to
  * change the date and time using just two buttons. The user is expected to
@@ -62,7 +62,7 @@ class DateTime {
      * method will interpret the 02:01 as if it was measured using the Standard
      * time offset.
      *
-     * @param year last 2 digits of the year from year 2000
+     * @param year
      * @param month month with January=1, December=12
      * @param day day of month (1-31)
      * @param hour hour (0-23)
@@ -71,7 +71,7 @@ class DateTime {
      * @param timeZone pointer to an existing TimeZone instance. Optional,
      *        not nullable. Default is UTC TimeZone.
      */
-    static DateTime forComponents(uint8_t year, uint8_t month, uint8_t day,
+    static DateTime forComponents(uint16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             const TimeZone& timeZone = TimeZone()) {
       if (timeZone.getType() == TimeZone::kTypeManual) {
@@ -172,16 +172,16 @@ class DateTime {
     }
 
     /** Return the 2 digit year from year 2000. */
-    uint8_t year() const { return mOffsetDateTime.year(); }
+    int8_t year2() const { return mOffsetDateTime.year2(); }
 
     /** Set the 2 digit year from year 2000. */
-    void year(uint8_t year) { mOffsetDateTime.year(year); }
+    void year2(int8_t year2) { mOffsetDateTime.year2(year2); }
 
-    /** Return the full year instead of just the last 2 digits. */
-    uint16_t yearFull() const { return mOffsetDateTime.yearFull(); }
+    /** Return the year. */
+    uint16_t year() const { return mOffsetDateTime.year(); }
 
     /** Set the year given the full year. */
-    void yearFull(uint16_t yearFull) { mOffsetDateTime.yearFull(yearFull); }
+    void year(uint16_t year) { mOffsetDateTime.year(year); }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mOffsetDateTime.month(); }

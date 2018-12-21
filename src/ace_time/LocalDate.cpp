@@ -47,8 +47,7 @@ void LocalDate::printTo(Print& printer) const {
   }
 
   // Date
-  printer.print(F("2"));
-  printPad3(printer, mYear);
+  printer.print(year());
   printer.print('-');
   printPad2(printer, mMonth);
   printer.print('-');
@@ -66,11 +65,11 @@ LocalDate& LocalDate::initFromDateString(const char* ds) {
   }
 
   // year
-  uint8_t year = (*ds++ - '0') - 2; // subtract 2000
+  uint16_t year = (*ds++ - '0');
   year = 10 * year + (*ds++ - '0');
   year = 10 * year + (*ds++ - '0');
   year = 10 * year + (*ds++ - '0');
-  mYear = year;
+  mYear2 = year - kEpochYear;
 
   // '-'
   ds++;

@@ -12,8 +12,8 @@ using namespace ace_time::common;
 // --------------------------------------------------------------------------
 
 test(LocalDate, accessors) {
-  LocalDate ld = LocalDate::forComponents(1, 2, 3);
-  assertEqual(1, ld.year());
+  LocalDate ld = LocalDate::forComponents(2001, 2, 3);
+  assertEqual((uint16_t) 2001, ld.year());
   assertEqual(2, ld.month());
   assertEqual(3, ld.day());
 }
@@ -39,168 +39,162 @@ test(LocalDate, setError) {
 test(LocalDate, dayOfWeek) {
   // year 2000 (leap year due to every 400 rule)
   assertEqual(LocalDate::kSaturday,
-      LocalDate::forComponents(0, 1, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 1, 1).dayOfWeek());
   assertEqual(LocalDate::kMonday,
-      LocalDate::forComponents(0, 1, 31).dayOfWeek());
+      LocalDate::forComponents(2000, 1, 31).dayOfWeek());
 
   assertEqual(LocalDate::kTuesday,
-      LocalDate::forComponents(0, 2, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 2, 1).dayOfWeek());
   assertEqual(LocalDate::kTuesday,
-      LocalDate::forComponents(0, 2, 29).dayOfWeek());
+      LocalDate::forComponents(2000, 2, 29).dayOfWeek());
 
   assertEqual(LocalDate::kWednesday,
-      LocalDate::forComponents(0, 3, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 3, 1).dayOfWeek());
   assertEqual(LocalDate::kFriday,
-      LocalDate::forComponents(0, 3, 31).dayOfWeek());
+      LocalDate::forComponents(2000, 3, 31).dayOfWeek());
 
   assertEqual(LocalDate::kSaturday,
-      LocalDate::forComponents(0, 4, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 4, 1).dayOfWeek());
   assertEqual(LocalDate::kSunday,
-      LocalDate::forComponents(0, 4, 30).dayOfWeek());
+      LocalDate::forComponents(2000, 4, 30).dayOfWeek());
 
   assertEqual(LocalDate::kMonday,
-      LocalDate::forComponents(0, 5, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 5, 1).dayOfWeek());
   assertEqual(LocalDate::kWednesday,
-      LocalDate::forComponents(0, 5, 31).dayOfWeek());
+      LocalDate::forComponents(2000, 5, 31).dayOfWeek());
 
   assertEqual(LocalDate::kThursday,
-      LocalDate::forComponents(0, 6, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 6, 1).dayOfWeek());
   assertEqual(LocalDate::kFriday,
-      LocalDate::forComponents(0, 6, 30).dayOfWeek());
+      LocalDate::forComponents(2000, 6, 30).dayOfWeek());
 
   assertEqual(LocalDate::kSaturday,
-      LocalDate::forComponents(0, 7, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 7, 1).dayOfWeek());
   assertEqual(LocalDate::kMonday,
-      LocalDate::forComponents(0, 7, 31).dayOfWeek());
+      LocalDate::forComponents(2000, 7, 31).dayOfWeek());
 
   assertEqual(LocalDate::kTuesday,
-      LocalDate::forComponents(0, 8, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 8, 1).dayOfWeek());
   assertEqual(LocalDate::kThursday,
-      LocalDate::forComponents(0, 8, 31).dayOfWeek());
+      LocalDate::forComponents(2000, 8, 31).dayOfWeek());
 
   assertEqual(LocalDate::kFriday,
-      LocalDate::forComponents(0, 9, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 9, 1).dayOfWeek());
   assertEqual(LocalDate::kSaturday,
-      LocalDate::forComponents(0, 9, 30).dayOfWeek());
+      LocalDate::forComponents(2000, 9, 30).dayOfWeek());
 
   assertEqual(LocalDate::kSunday,
-      LocalDate::forComponents(0, 10, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 10, 1).dayOfWeek());
   assertEqual(LocalDate::kTuesday,
-      LocalDate::forComponents(0, 10, 31).dayOfWeek());
+      LocalDate::forComponents(2000, 10, 31).dayOfWeek());
 
   assertEqual(LocalDate::kWednesday,
-      LocalDate::forComponents(0, 11, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 11, 1).dayOfWeek());
   assertEqual(LocalDate::kThursday,
-      LocalDate::forComponents(0, 11, 30).dayOfWeek());
+      LocalDate::forComponents(2000, 11, 30).dayOfWeek());
 
   assertEqual(LocalDate::kFriday,
-      LocalDate::forComponents(0, 12, 1).dayOfWeek());
+      LocalDate::forComponents(2000, 12, 1).dayOfWeek());
   assertEqual(LocalDate::kSunday,
-      LocalDate::forComponents(0, 12, 31).dayOfWeek());
+      LocalDate::forComponents(2000, 12, 31).dayOfWeek());
 
   // year 2001
   assertEqual(LocalDate::kMonday,
-      LocalDate::forComponents(1, 1, 1).dayOfWeek());
+      LocalDate::forComponents(2001, 1, 1).dayOfWeek());
   assertEqual(LocalDate::kWednesday,
-      LocalDate::forComponents(1, 1, 31).dayOfWeek());
+      LocalDate::forComponents(2001, 1, 31).dayOfWeek());
 
   // year 2004 (leap year)
   assertEqual(LocalDate::kSunday,
-      LocalDate::forComponents(4, 2, 1).dayOfWeek());
+      LocalDate::forComponents(2004, 2, 1).dayOfWeek());
   assertEqual(LocalDate::kSunday,
-      LocalDate::forComponents(4, 2, 29).dayOfWeek());
+      LocalDate::forComponents(2004, 2, 29).dayOfWeek());
   assertEqual(LocalDate::kMonday,
-      LocalDate::forComponents(4, 3, 1).dayOfWeek());
+      LocalDate::forComponents(2004, 3, 1).dayOfWeek());
 
   // year 2099
   assertEqual(LocalDate::kThursday,
-      LocalDate::forComponents(99, 1, 1).dayOfWeek());
+      LocalDate::forComponents(2099, 1, 1).dayOfWeek());
   assertEqual(LocalDate::kThursday,
-      LocalDate::forComponents(99, 12, 31).dayOfWeek());
+      LocalDate::forComponents(2099, 12, 31).dayOfWeek());
 
   // year 2100 (not leap year due to every 100 rule)
   assertEqual(LocalDate::kSunday,
-      LocalDate::forComponents(100, 2, 28).dayOfWeek());
+      LocalDate::forComponents(2100, 2, 28).dayOfWeek());
   assertEqual(LocalDate::kMonday,
-      LocalDate::forComponents(100, 3, 1).dayOfWeek());
+      LocalDate::forComponents(2100, 3, 1).dayOfWeek());
 
-  // year 2255-12-31
-  assertEqual(LocalDate::kMonday,
-      LocalDate::forComponents(255, 12, 31).dayOfWeek());
+  // year 1900 (not leap year due to every 100 rule)
+  assertEqual(LocalDate::kWednesday,
+      LocalDate::forComponents(1900, 2, 28).dayOfWeek());
+  assertEqual(LocalDate::kThursday,
+      LocalDate::forComponents(1900, 3, 1).dayOfWeek());
 }
 
 test(LocalDate, toAndFromEpochDays) {
   LocalDate ld;
 
-  ld = LocalDate::forComponents(0, 1, 1);
+  ld = LocalDate::forComponents(2000, 1, 1);
   assertEqual((uint32_t) 0, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(0));
 
-  ld = LocalDate::forComponents(0, 2, 29);
+  ld = LocalDate::forComponents(2000, 2, 29);
   assertEqual((uint32_t) 59, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(59));
 
-  ld = LocalDate::forComponents(18, 1, 1);
+  ld = LocalDate::forComponents(2018, 1, 1);
   assertEqual((uint32_t) 6575, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(6575));
 
-  ld = LocalDate::forComponents(99, 12, 31);
+  ld = LocalDate::forComponents(2099, 12, 31);
   assertEqual((uint32_t) 36524, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(36524));
-
-  ld = LocalDate::forComponents(255, 12, 31);
-  assertEqual((uint32_t) 93501, ld.toEpochDays());
-  assertTrue(ld == LocalDate::forEpochDays(93501));
 }
 
 test(LocalDate, toAndFromEpochSeconds) {
   LocalDate ld;
 
-  ld = LocalDate::forComponents(0, 1, 1);
+  ld = LocalDate::forComponents(2000, 1, 1);
   assertEqual((uint32_t) 0, ld.toEpochSeconds());
   assertTrue(ld == LocalDate::forEpochSeconds(0));
 
-  ld = LocalDate::forComponents(0, 2, 29);
+  ld = LocalDate::forComponents(2000, 2, 29);
   assertEqual((uint32_t) 59 * 86400, ld.toEpochSeconds());
   assertTrue(ld == LocalDate::forEpochSeconds((uint32_t) 59 * 86400 + 1));
 
-  ld = LocalDate::forComponents(18, 1, 1);
+  ld = LocalDate::forComponents(2018, 1, 1);
   assertEqual((uint32_t) 6575 * 86400, ld.toEpochSeconds());
   assertTrue(ld == LocalDate::forEpochSeconds((uint32_t) 6575 * 86400 + 2));
 
-  ld = LocalDate::forComponents(99, 12, 31);
+  ld = LocalDate::forComponents(2099, 12, 31);
   assertEqual((uint32_t) 36524 * 86400, ld.toEpochSeconds());
   assertTrue(ld == LocalDate::forEpochSeconds(
       (uint32_t) 36524 * 86400 + 84399));
-
-  ld = LocalDate::forComponents(136, 2, 7);
-  assertEqual((uint32_t) 49710 * 86400, ld.toEpochSeconds());
-  assertTrue(ld == LocalDate::forEpochSeconds((uint32_t) 49710 * 86400 + 4));
 }
 
 test(LocalDate, compareTo) {
   LocalDate a, b;
 
-  a = LocalDate::forComponents(0, 1, 1);
-  b = LocalDate::forComponents(0, 1, 1);
+  a = LocalDate::forComponents(2000, 1, 1);
+  b = LocalDate::forComponents(2000, 1, 1);
   assertEqual(a.compareTo(b), 0);
   assertTrue(a == b);
   assertFalse(a != b);
 
-  a = LocalDate::forComponents(0, 1, 1);
-  b = LocalDate::forComponents(0, 1, 2);
+  a = LocalDate::forComponents(2000, 1, 1);
+  b = LocalDate::forComponents(2000, 1, 2);
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = LocalDate::forComponents(0, 1, 1);
-  b = LocalDate::forComponents(0, 2, 1);
+  a = LocalDate::forComponents(2000, 1, 1);
+  b = LocalDate::forComponents(2000, 2, 1);
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
 
-  a = LocalDate::forComponents(0, 1, 1);
-  b = LocalDate::forComponents(1, 1, 1);
+  a = LocalDate::forComponents(2000, 1, 1);
+  b = LocalDate::forComponents(2001, 1, 1);
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
@@ -209,13 +203,13 @@ test(LocalDate, compareTo) {
 test(LocalDate, forDateString) {
   LocalDate ld;
   ld = LocalDate::forDateString("2000-01-01");
-  assertTrue(ld == LocalDate::forComponents(0, 1, 1));
+  assertTrue(ld == LocalDate::forComponents(2000, 1, 1));
 
   ld = LocalDate::forDateString("2099-02-28");
-  assertTrue(ld == LocalDate::forComponents(99, 2, 28));
+  assertTrue(ld == LocalDate::forComponents(2099, 2, 28));
 
-  ld = LocalDate::forDateString("2255-12-31");
-  assertTrue(ld == LocalDate::forComponents(255, 12, 31));
+  ld = LocalDate::forDateString("2127-12-31");
+  assertTrue(ld == LocalDate::forComponents(2127, 12, 31));
 }
 
 test(LocalDate, forDateString_invalid) {
@@ -224,44 +218,44 @@ test(LocalDate, forDateString_invalid) {
 }
 
 test(LocalDate, isLeapYear) {
-  assertTrue(LocalDate::isLeapYear(0));
-  assertFalse(LocalDate::isLeapYear(1));
-  assertTrue(LocalDate::isLeapYear(4));
-  assertFalse(LocalDate::isLeapYear(100));
-  assertFalse(LocalDate::isLeapYear(200));
+  assertFalse(LocalDate::isLeapYear(1900));
+  assertTrue(LocalDate::isLeapYear(2000));
+  assertFalse(LocalDate::isLeapYear(2001));
+  assertTrue(LocalDate::isLeapYear(2004));
+  assertFalse(LocalDate::isLeapYear(2100));
 }
 
 test(LocalDate, daysInMonth) {
-  assertEqual(31, LocalDate::daysInMonth(0, 1));
-  assertEqual(29, LocalDate::daysInMonth(0, 2));
-  assertEqual(31, LocalDate::daysInMonth(0, 3));
-  assertEqual(30, LocalDate::daysInMonth(0, 4));
-  assertEqual(31, LocalDate::daysInMonth(0, 5));
-  assertEqual(30, LocalDate::daysInMonth(0, 6));
-  assertEqual(31, LocalDate::daysInMonth(0, 7));
-  assertEqual(31, LocalDate::daysInMonth(0, 8));
-  assertEqual(30, LocalDate::daysInMonth(0, 9));
-  assertEqual(31, LocalDate::daysInMonth(0, 10));
-  assertEqual(30, LocalDate::daysInMonth(0, 11));
-  assertEqual(31, LocalDate::daysInMonth(0, 12));
+  assertEqual(31, LocalDate::daysInMonth(2000, 1));
+  assertEqual(29, LocalDate::daysInMonth(2000, 2));
+  assertEqual(31, LocalDate::daysInMonth(2000, 3));
+  assertEqual(30, LocalDate::daysInMonth(2000, 4));
+  assertEqual(31, LocalDate::daysInMonth(2000, 5));
+  assertEqual(30, LocalDate::daysInMonth(2000, 6));
+  assertEqual(31, LocalDate::daysInMonth(2000, 7));
+  assertEqual(31, LocalDate::daysInMonth(2000, 8));
+  assertEqual(30, LocalDate::daysInMonth(2000, 9));
+  assertEqual(31, LocalDate::daysInMonth(2000, 10));
+  assertEqual(30, LocalDate::daysInMonth(2000, 11));
+  assertEqual(31, LocalDate::daysInMonth(2000, 12));
 
-  assertEqual(28, LocalDate::daysInMonth(1, 2));
-  assertEqual(29, LocalDate::daysInMonth(4, 2));
-  assertEqual(28, LocalDate::daysInMonth(100, 2));
+  assertEqual(28, LocalDate::daysInMonth(2001, 2));
+  assertEqual(29, LocalDate::daysInMonth(2004, 2));
+  assertEqual(28, LocalDate::daysInMonth(2100, 2));
 }
 
 test(LocalDate, incrementYear) {
-  LocalDate ld = LocalDate::forComponents(0, 1, 1);
+  LocalDate ld = LocalDate::forComponents(2000, 1, 1);
   ld.incrementYear();
-  assertEqual(1, ld.year());
+  assertEqual((uint16_t) 2001, ld.year());
 
-  ld.year(99);
+  ld.year(2099);
   ld.incrementYear();
-  assertEqual(0, ld.year());
+  assertEqual((uint16_t) 2000, ld.year());
 }
 
 test(LocalDate, incrementMonth) {
-  LocalDate ld = LocalDate::forComponents(0, 1, 1);
+  LocalDate ld = LocalDate::forComponents(2000, 1, 1);
   ld.incrementMonth();
   assertEqual(2, ld.month());
 
@@ -271,7 +265,7 @@ test(LocalDate, incrementMonth) {
 }
 
 test(LocalDate, incrementDay) {
-  LocalDate ld = LocalDate::forComponents(0, 1, 1);
+  LocalDate ld = LocalDate::forComponents(2000, 1, 1);
   ld.incrementDay();
   assertEqual(2, ld.day());
 
