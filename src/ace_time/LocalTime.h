@@ -47,7 +47,7 @@ class LocalTime {
       uint8_t second, minute, hour;
 
       if (seconds == kInvalidSeconds) {
-        second = minute = hour = 255; // causes isError() to be true
+        second = minute = hour = kInvalidValue; // causes isError() to be true
       } else {
         second = seconds % 60;
         uint16_t minutes = seconds / 60;
@@ -87,7 +87,7 @@ class LocalTime {
      * statement like this: 'return OffsetDateTime().setError()'.
      */
     LocalTime& setError() {
-      mHour = mMinute = mSecond = 255;
+      mHour = mMinute = mSecond = kInvalidValue;
       return *this;
     }
 
@@ -161,6 +161,8 @@ class LocalTime {
 
     /** Expected length of an ISO 8601 time string "hh:mm:ss" */
     static const uint8_t kTimeStringLength = 8;
+
+    static const uint8_t kInvalidValue = UINT8_MAX;
 
     explicit LocalTime(uint8_t hour, uint8_t minute, uint8_t second):
         mHour(hour),

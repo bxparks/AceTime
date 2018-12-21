@@ -379,7 +379,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
             until_year = entry['untilYear']
             if until_year == 9999:
-                until_year = 255
+                until_year = 127 # INT8_MAX
             else:
                 until_year -= 2000
 

@@ -14,8 +14,7 @@ void OffsetDateTime::printTo(Print& printer) const {
   }
 
   // Date
-  printer.print(F("20"));
-  printPad2(printer, mLocalDate.year());
+  printer.print(mLocalDate.year());
   printer.print('-');
   printPad2(printer, mLocalDate.month());
   printer.print('-');

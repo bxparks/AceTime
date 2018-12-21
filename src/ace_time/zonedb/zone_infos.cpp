@@ -32,7 +32,7 @@ static const common::ZoneEntry kZoneEntryAbidjan[] = {
     0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "GMT" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -56,7 +56,7 @@ static const common::ZoneEntry kZoneEntryAccra[] = {
     0 /*offsetCode*/,
     &kPolicyGhana /*zonePolicy*/,
     "GMT/+0020" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -80,7 +80,7 @@ static const common::ZoneEntry kZoneEntryAlgiers[] = {
     4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "CET" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -104,7 +104,7 @@ static const common::ZoneEntry kZoneEntryBissau[] = {
     0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "GMT" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -128,7 +128,7 @@ static const common::ZoneEntry kZoneEntryCairo[] = {
     8 /*offsetCode*/,
     &kPolicyEgypt /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -152,7 +152,7 @@ static const common::ZoneEntry kZoneEntryCeuta[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -176,7 +176,7 @@ static const common::ZoneEntry kZoneEntryJohannesburg[] = {
     8 /*offsetCode*/,
     &kPolicySA /*zonePolicy*/,
     "SAST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -200,7 +200,7 @@ static const common::ZoneEntry kZoneEntryLagos[] = {
     4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WAT" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -224,7 +224,7 @@ static const common::ZoneEntry kZoneEntryMaputo[] = {
     8 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "CAT" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -248,7 +248,7 @@ static const common::ZoneEntry kZoneEntryMonrovia[] = {
     0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "GMT" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -272,7 +272,7 @@ static const common::ZoneEntry kZoneEntryNairobi[] = {
     12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "EAT" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -296,7 +296,7 @@ static const common::ZoneEntry kZoneEntryNdjamena[] = {
     4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WAT" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -320,7 +320,7 @@ static const common::ZoneEntry kZoneEntryTunis[] = {
     4 /*offsetCode*/,
     &kPolicyTunisia /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -344,7 +344,7 @@ static const common::ZoneEntry kZoneEntryAdak[] = {
     -40 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "H%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -368,7 +368,7 @@ static const common::ZoneEntry kZoneEntryAnchorage[] = {
     -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "AK%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -392,7 +392,7 @@ static const common::ZoneEntry kZoneEntryAsuncion[] = {
     -16 /*offsetCode*/,
     &kPolicyPara /*zonePolicy*/,
     "-04/-03" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -416,7 +416,7 @@ static const common::ZoneEntry kZoneEntryAtikokan[] = {
     -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "EST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -440,7 +440,7 @@ static const common::ZoneEntry kZoneEntryBarbados[] = {
     -16 /*offsetCode*/,
     &kPolicyBarb /*zonePolicy*/,
     "A%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -464,7 +464,7 @@ static const common::ZoneEntry kZoneEntryBelem[] = {
     -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-03" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -488,7 +488,7 @@ static const common::ZoneEntry kZoneEntryBlanc_Sablon[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "AST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -512,7 +512,7 @@ static const common::ZoneEntry kZoneEntryBogota[] = {
     -20 /*offsetCode*/,
     &kPolicyCO /*zonePolicy*/,
     "-05/-04" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -536,7 +536,7 @@ static const common::ZoneEntry kZoneEntryBoise[] = {
     -28 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "M%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -560,7 +560,7 @@ static const common::ZoneEntry kZoneEntryCampo_Grande[] = {
     -16 /*offsetCode*/,
     &kPolicyBrazil /*zonePolicy*/,
     "-04/-03" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -584,7 +584,7 @@ static const common::ZoneEntry kZoneEntryCayenne[] = {
     -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-03" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -608,7 +608,7 @@ static const common::ZoneEntry kZoneEntryChicago[] = {
     -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -632,7 +632,7 @@ static const common::ZoneEntry kZoneEntryChihuahua[] = {
     -28 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
     "M%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -656,7 +656,7 @@ static const common::ZoneEntry kZoneEntryCosta_Rica[] = {
     -24 /*offsetCode*/,
     &kPolicyCR /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -680,7 +680,7 @@ static const common::ZoneEntry kZoneEntryCreston[] = {
     -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "MST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -704,7 +704,7 @@ static const common::ZoneEntry kZoneEntryCuracao[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "AST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -728,7 +728,7 @@ static const common::ZoneEntry kZoneEntryDanmarkshavn[] = {
     0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "GMT" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -752,7 +752,7 @@ static const common::ZoneEntry kZoneEntryDawson[] = {
     -32 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "P%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -776,7 +776,7 @@ static const common::ZoneEntry kZoneEntryDawson_Creek[] = {
     -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "MST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -800,7 +800,7 @@ static const common::ZoneEntry kZoneEntryDenver[] = {
     -28 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "M%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -824,7 +824,7 @@ static const common::ZoneEntry kZoneEntryDetroit[] = {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -848,7 +848,7 @@ static const common::ZoneEntry kZoneEntryEdmonton[] = {
     -28 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "M%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -872,7 +872,7 @@ static const common::ZoneEntry kZoneEntryEl_Salvador[] = {
     -24 /*offsetCode*/,
     &kPolicySalv /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -896,7 +896,7 @@ static const common::ZoneEntry kZoneEntryGlace_Bay[] = {
     -16 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "A%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -920,7 +920,7 @@ static const common::ZoneEntry kZoneEntryGodthab[] = {
     -12 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "-03/-02" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -944,7 +944,7 @@ static const common::ZoneEntry kZoneEntryGuatemala[] = {
     -24 /*offsetCode*/,
     &kPolicyGuat /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -968,7 +968,7 @@ static const common::ZoneEntry kZoneEntryGuayaquil[] = {
     -20 /*offsetCode*/,
     &kPolicyEcuador /*zonePolicy*/,
     "-05/-04" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -992,7 +992,7 @@ static const common::ZoneEntry kZoneEntryGuyana[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-04" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1016,7 +1016,7 @@ static const common::ZoneEntry kZoneEntryHalifax[] = {
     -16 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "A%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1040,7 +1040,7 @@ static const common::ZoneEntry kZoneEntryHavana[] = {
     -20 /*offsetCode*/,
     &kPolicyCuba /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1064,7 +1064,7 @@ static const common::ZoneEntry kZoneEntryHermosillo[] = {
     -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "MST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1095,7 +1095,7 @@ static const common::ZoneEntry kZoneEntryIndianapolis[] = {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1126,7 +1126,7 @@ static const common::ZoneEntry kZoneEntryMarengo[] = {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1157,7 +1157,7 @@ static const common::ZoneEntry kZoneEntryVevay[] = {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1181,7 +1181,7 @@ static const common::ZoneEntry kZoneEntryInuvik[] = {
     -28 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "M%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1205,7 +1205,7 @@ static const common::ZoneEntry kZoneEntryJamaica[] = {
     -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "EST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1229,7 +1229,7 @@ static const common::ZoneEntry kZoneEntryJuneau[] = {
     -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "AK%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1253,7 +1253,7 @@ static const common::ZoneEntry kZoneEntryLouisville[] = {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1277,7 +1277,7 @@ static const common::ZoneEntry kZoneEntryLa_Paz[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-04" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1301,7 +1301,7 @@ static const common::ZoneEntry kZoneEntryLima[] = {
     -20 /*offsetCode*/,
     &kPolicyPeru /*zonePolicy*/,
     "-05/-04" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1325,7 +1325,7 @@ static const common::ZoneEntry kZoneEntryLos_Angeles[] = {
     -32 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "P%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1349,7 +1349,7 @@ static const common::ZoneEntry kZoneEntryManagua[] = {
     -24 /*offsetCode*/,
     &kPolicyNic /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1373,7 +1373,7 @@ static const common::ZoneEntry kZoneEntryManaus[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-04" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1397,7 +1397,7 @@ static const common::ZoneEntry kZoneEntryMartinique[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "AST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1428,7 +1428,7 @@ static const common::ZoneEntry kZoneEntryMatamoros[] = {
     -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1452,7 +1452,7 @@ static const common::ZoneEntry kZoneEntryMazatlan[] = {
     -28 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
     "M%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1476,7 +1476,7 @@ static const common::ZoneEntry kZoneEntryMenominee[] = {
     -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1500,7 +1500,7 @@ static const common::ZoneEntry kZoneEntryMerida[] = {
     -24 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1524,7 +1524,7 @@ static const common::ZoneEntry kZoneEntryMiquelon[] = {
     -12 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "-03/-02" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1548,7 +1548,7 @@ static const common::ZoneEntry kZoneEntryMonterrey[] = {
     -24 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1572,7 +1572,7 @@ static const common::ZoneEntry kZoneEntryMontevideo[] = {
     -12 /*offsetCode*/,
     &kPolicyUruguay /*zonePolicy*/,
     "-03/-02" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1596,7 +1596,7 @@ static const common::ZoneEntry kZoneEntryNassau[] = {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1620,7 +1620,7 @@ static const common::ZoneEntry kZoneEntryNew_York[] = {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1644,7 +1644,7 @@ static const common::ZoneEntry kZoneEntryNipigon[] = {
     -20 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "E%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1668,7 +1668,7 @@ static const common::ZoneEntry kZoneEntryNome[] = {
     -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "AK%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1692,7 +1692,7 @@ static const common::ZoneEntry kZoneEntryCenter[] = {
     -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1723,7 +1723,7 @@ static const common::ZoneEntry kZoneEntryOjinaga[] = {
     -28 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "M%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1747,7 +1747,7 @@ static const common::ZoneEntry kZoneEntryPanama[] = {
     -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "EST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1771,7 +1771,7 @@ static const common::ZoneEntry kZoneEntryParamaribo[] = {
     -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-03" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1795,7 +1795,7 @@ static const common::ZoneEntry kZoneEntryPhoenix[] = {
     -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "MST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1819,7 +1819,7 @@ static const common::ZoneEntry kZoneEntryPort_au_Prince[] = {
     -20 /*offsetCode*/,
     &kPolicyHaiti /*zonePolicy*/,
     "E%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1843,7 +1843,7 @@ static const common::ZoneEntry kZoneEntryPort_of_Spain[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "AST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1867,7 +1867,7 @@ static const common::ZoneEntry kZoneEntryPorto_Velho[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-04" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1891,7 +1891,7 @@ static const common::ZoneEntry kZoneEntryPuerto_Rico[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "AST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1915,7 +1915,7 @@ static const common::ZoneEntry kZoneEntryRainy_River[] = {
     -24 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1939,7 +1939,7 @@ static const common::ZoneEntry kZoneEntryRegina[] = {
     -24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "CST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1963,7 +1963,7 @@ static const common::ZoneEntry kZoneEntrySantiago[] = {
     -16 /*offsetCode*/,
     &kPolicyChile /*zonePolicy*/,
     "-04/-03" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -1987,7 +1987,7 @@ static const common::ZoneEntry kZoneEntrySao_Paulo[] = {
     -12 /*offsetCode*/,
     &kPolicyBrazil /*zonePolicy*/,
     "-03/-02" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2011,7 +2011,7 @@ static const common::ZoneEntry kZoneEntryScoresbysund[] = {
     -4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "-01/+00" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2035,7 +2035,7 @@ static const common::ZoneEntry kZoneEntrySitka[] = {
     -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "AK%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2059,7 +2059,7 @@ static const common::ZoneEntry kZoneEntrySwift_Current[] = {
     -24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "CST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2083,7 +2083,7 @@ static const common::ZoneEntry kZoneEntryTegucigalpa[] = {
     -24 /*offsetCode*/,
     &kPolicyHond /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2107,7 +2107,7 @@ static const common::ZoneEntry kZoneEntryThule[] = {
     -16 /*offsetCode*/,
     &kPolicyThule /*zonePolicy*/,
     "A%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2131,7 +2131,7 @@ static const common::ZoneEntry kZoneEntryThunder_Bay[] = {
     -20 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "E%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2155,7 +2155,7 @@ static const common::ZoneEntry kZoneEntryToronto[] = {
     -20 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "E%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2179,7 +2179,7 @@ static const common::ZoneEntry kZoneEntryVancouver[] = {
     -32 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "P%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2203,7 +2203,7 @@ static const common::ZoneEntry kZoneEntryWhitehorse[] = {
     -32 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "P%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2234,7 +2234,7 @@ static const common::ZoneEntry kZoneEntryWinnipeg[] = {
     -24 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2258,7 +2258,7 @@ static const common::ZoneEntry kZoneEntryYakutat[] = {
     -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "AK%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2282,7 +2282,7 @@ static const common::ZoneEntry kZoneEntryYellowknife[] = {
     -28 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "M%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2306,7 +2306,7 @@ static const common::ZoneEntry kZoneEntryDumontDUrville[] = {
     40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+10" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2330,7 +2330,7 @@ static const common::ZoneEntry kZoneEntryRothera[] = {
     -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-03" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2354,7 +2354,7 @@ static const common::ZoneEntry kZoneEntrySyowa[] = {
     12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+03" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2378,7 +2378,7 @@ static const common::ZoneEntry kZoneEntryVostok[] = {
     24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2402,7 +2402,7 @@ static const common::ZoneEntry kZoneEntryAmman[] = {
     8 /*offsetCode*/,
     &kPolicyJordan /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2426,7 +2426,7 @@ static const common::ZoneEntry kZoneEntryAshgabat[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2450,7 +2450,7 @@ static const common::ZoneEntry kZoneEntryBaghdad[] = {
     12 /*offsetCode*/,
     &kPolicyIraq /*zonePolicy*/,
     "+03/+04" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2474,7 +2474,7 @@ static const common::ZoneEntry kZoneEntryBaku[] = {
     16 /*offsetCode*/,
     &kPolicyAzer /*zonePolicy*/,
     "+04/+05" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2498,7 +2498,7 @@ static const common::ZoneEntry kZoneEntryBangkok[] = {
     28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+07" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2522,7 +2522,7 @@ static const common::ZoneEntry kZoneEntryBeirut[] = {
     8 /*offsetCode*/,
     &kPolicyLebanon /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2546,7 +2546,7 @@ static const common::ZoneEntry kZoneEntryBrunei[] = {
     32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+08" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2570,7 +2570,7 @@ static const common::ZoneEntry kZoneEntryDamascus[] = {
     8 /*offsetCode*/,
     &kPolicySyria /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2601,7 +2601,7 @@ static const common::ZoneEntry kZoneEntryDhaka[] = {
     24 /*offsetCode*/,
     &kPolicyDhaka /*zonePolicy*/,
     "+06/+07" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2625,7 +2625,7 @@ static const common::ZoneEntry kZoneEntryDubai[] = {
     16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+04" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2649,7 +2649,7 @@ static const common::ZoneEntry kZoneEntryDushanbe[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2673,7 +2673,7 @@ static const common::ZoneEntry kZoneEntryHo_Chi_Minh[] = {
     28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+07" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2697,7 +2697,7 @@ static const common::ZoneEntry kZoneEntryHovd[] = {
     28 /*offsetCode*/,
     &kPolicyMongol /*zonePolicy*/,
     "+07/+08" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2721,7 +2721,7 @@ static const common::ZoneEntry kZoneEntryJakarta[] = {
     28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WIB" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2745,7 +2745,7 @@ static const common::ZoneEntry kZoneEntryJayapura[] = {
     36 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WIT" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2769,7 +2769,7 @@ static const common::ZoneEntry kZoneEntryJerusalem[] = {
     8 /*offsetCode*/,
     &kPolicyZion /*zonePolicy*/,
     "I%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2793,7 +2793,7 @@ static const common::ZoneEntry kZoneEntryKabul[] = {
     18 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+0430" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2817,7 +2817,7 @@ static const common::ZoneEntry kZoneEntryKarachi[] = {
     20 /*offsetCode*/,
     &kPolicyPakistan /*zonePolicy*/,
     "PK%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2841,7 +2841,7 @@ static const common::ZoneEntry kZoneEntryKathmandu[] = {
     23 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+0545" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2865,7 +2865,7 @@ static const common::ZoneEntry kZoneEntryKolkata[] = {
     22 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "IST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2889,7 +2889,7 @@ static const common::ZoneEntry kZoneEntryKuala_Lumpur[] = {
     32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+08" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2913,7 +2913,7 @@ static const common::ZoneEntry kZoneEntryKuching[] = {
     32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+08" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2937,7 +2937,7 @@ static const common::ZoneEntry kZoneEntryMakassar[] = {
     32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WITA" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2961,7 +2961,7 @@ static const common::ZoneEntry kZoneEntryManila[] = {
     32 /*offsetCode*/,
     &kPolicyPhil /*zonePolicy*/,
     "P%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -2985,7 +2985,7 @@ static const common::ZoneEntry kZoneEntryNicosia[] = {
     8 /*offsetCode*/,
     &kPolicyEUAsia /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3009,7 +3009,7 @@ static const common::ZoneEntry kZoneEntryPontianak[] = {
     28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WIB" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3033,7 +3033,7 @@ static const common::ZoneEntry kZoneEntryQatar[] = {
     12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+03" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3057,7 +3057,7 @@ static const common::ZoneEntry kZoneEntryRiyadh[] = {
     12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+03" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3081,7 +3081,7 @@ static const common::ZoneEntry kZoneEntrySamarkand[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3105,7 +3105,7 @@ static const common::ZoneEntry kZoneEntrySeoul[] = {
     36 /*offsetCode*/,
     &kPolicyROK /*zonePolicy*/,
     "K%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3129,7 +3129,7 @@ static const common::ZoneEntry kZoneEntryShanghai[] = {
     32 /*offsetCode*/,
     &kPolicyPRC /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3153,7 +3153,7 @@ static const common::ZoneEntry kZoneEntrySingapore[] = {
     32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+08" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3177,7 +3177,7 @@ static const common::ZoneEntry kZoneEntryTaipei[] = {
     32 /*offsetCode*/,
     &kPolicyTaiwan /*zonePolicy*/,
     "C%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3201,7 +3201,7 @@ static const common::ZoneEntry kZoneEntryTashkent[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3225,7 +3225,7 @@ static const common::ZoneEntry kZoneEntryTehran[] = {
     14 /*offsetCode*/,
     &kPolicyIran /*zonePolicy*/,
     "+0330/+0430" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3249,7 +3249,7 @@ static const common::ZoneEntry kZoneEntryThimphu[] = {
     24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3273,7 +3273,7 @@ static const common::ZoneEntry kZoneEntryTokyo[] = {
     36 /*offsetCode*/,
     &kPolicyJapan /*zonePolicy*/,
     "J%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3297,7 +3297,7 @@ static const common::ZoneEntry kZoneEntryUlaanbaatar[] = {
     32 /*offsetCode*/,
     &kPolicyMongol /*zonePolicy*/,
     "+08/+09" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3321,7 +3321,7 @@ static const common::ZoneEntry kZoneEntryUrumqi[] = {
     24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3345,7 +3345,7 @@ static const common::ZoneEntry kZoneEntryYangon[] = {
     26 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+0630" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3376,7 +3376,7 @@ static const common::ZoneEntry kZoneEntryYerevan[] = {
     16 /*offsetCode*/,
     &kPolicyArmenia /*zonePolicy*/,
     "+04/+05" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3400,7 +3400,7 @@ static const common::ZoneEntry kZoneEntryAzores[] = {
     -4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "-01/+00" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3424,7 +3424,7 @@ static const common::ZoneEntry kZoneEntryBermuda[] = {
     -16 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "A%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3448,7 +3448,7 @@ static const common::ZoneEntry kZoneEntryCanary[] = {
     0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "WE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3472,7 +3472,7 @@ static const common::ZoneEntry kZoneEntryCape_Verde[] = {
     -4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-01" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3496,7 +3496,7 @@ static const common::ZoneEntry kZoneEntryFaroe[] = {
     0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "WE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3520,7 +3520,7 @@ static const common::ZoneEntry kZoneEntryMadeira[] = {
     0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "WE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3544,7 +3544,7 @@ static const common::ZoneEntry kZoneEntryReykjavik[] = {
     0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "GMT" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3568,7 +3568,7 @@ static const common::ZoneEntry kZoneEntrySouth_Georgia[] = {
     -8 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-02" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3592,7 +3592,7 @@ static const common::ZoneEntry kZoneEntryAdelaide[] = {
     38 /*offsetCode*/,
     &kPolicyAS /*zonePolicy*/,
     "AC%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3616,7 +3616,7 @@ static const common::ZoneEntry kZoneEntryBrisbane[] = {
     40 /*offsetCode*/,
     &kPolicyAQ /*zonePolicy*/,
     "AE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3647,7 +3647,7 @@ static const common::ZoneEntry kZoneEntryBroken_Hill[] = {
     38 /*offsetCode*/,
     &kPolicyAS /*zonePolicy*/,
     "AC%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3671,7 +3671,7 @@ static const common::ZoneEntry kZoneEntryCurrie[] = {
     40 /*offsetCode*/,
     &kPolicyAT /*zonePolicy*/,
     "AE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3695,7 +3695,7 @@ static const common::ZoneEntry kZoneEntryDarwin[] = {
     38 /*offsetCode*/,
     &kPolicyAus /*zonePolicy*/,
     "AC%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3719,7 +3719,7 @@ static const common::ZoneEntry kZoneEntryEucla[] = {
     35 /*offsetCode*/,
     &kPolicyAW /*zonePolicy*/,
     "+0845/+0945" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3743,7 +3743,7 @@ static const common::ZoneEntry kZoneEntryHobart[] = {
     40 /*offsetCode*/,
     &kPolicyAT /*zonePolicy*/,
     "AE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3767,7 +3767,7 @@ static const common::ZoneEntry kZoneEntryLindeman[] = {
     40 /*offsetCode*/,
     &kPolicyHoliday /*zonePolicy*/,
     "AE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3791,7 +3791,7 @@ static const common::ZoneEntry kZoneEntryLord_Howe[] = {
     42 /*offsetCode*/,
     &kPolicyLH /*zonePolicy*/,
     "+1030/+11" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3815,7 +3815,7 @@ static const common::ZoneEntry kZoneEntryMelbourne[] = {
     40 /*offsetCode*/,
     &kPolicyAV /*zonePolicy*/,
     "AE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3839,7 +3839,7 @@ static const common::ZoneEntry kZoneEntryPerth[] = {
     32 /*offsetCode*/,
     &kPolicyAW /*zonePolicy*/,
     "AW%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3863,7 +3863,7 @@ static const common::ZoneEntry kZoneEntrySydney[] = {
     40 /*offsetCode*/,
     &kPolicyAN /*zonePolicy*/,
     "AE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3887,7 +3887,7 @@ static const common::ZoneEntry kZoneEntryAmsterdam[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3911,7 +3911,7 @@ static const common::ZoneEntry kZoneEntryAndorra[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3935,7 +3935,7 @@ static const common::ZoneEntry kZoneEntryAthens[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3959,7 +3959,7 @@ static const common::ZoneEntry kZoneEntryBelgrade[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -3983,7 +3983,7 @@ static const common::ZoneEntry kZoneEntryBerlin[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4007,7 +4007,7 @@ static const common::ZoneEntry kZoneEntryBrussels[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4031,7 +4031,7 @@ static const common::ZoneEntry kZoneEntryBucharest[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4055,7 +4055,7 @@ static const common::ZoneEntry kZoneEntryBudapest[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4079,7 +4079,7 @@ static const common::ZoneEntry kZoneEntryChisinau[] = {
     8 /*offsetCode*/,
     &kPolicyMoldova /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4103,7 +4103,7 @@ static const common::ZoneEntry kZoneEntryCopenhagen[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4127,7 +4127,7 @@ static const common::ZoneEntry kZoneEntryDublin[] = {
     4 /*offsetCode*/,
     &kPolicyEire /*zonePolicy*/,
     "IST/GMT" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4151,7 +4151,7 @@ static const common::ZoneEntry kZoneEntryGibraltar[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4175,7 +4175,7 @@ static const common::ZoneEntry kZoneEntryHelsinki[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4199,7 +4199,7 @@ static const common::ZoneEntry kZoneEntryKiev[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4223,7 +4223,7 @@ static const common::ZoneEntry kZoneEntryLisbon[] = {
     0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "WE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4247,7 +4247,7 @@ static const common::ZoneEntry kZoneEntryLondon[] = {
     0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "GMT/BST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4271,7 +4271,7 @@ static const common::ZoneEntry kZoneEntryLuxembourg[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4295,7 +4295,7 @@ static const common::ZoneEntry kZoneEntryMadrid[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4319,7 +4319,7 @@ static const common::ZoneEntry kZoneEntryMalta[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4343,7 +4343,7 @@ static const common::ZoneEntry kZoneEntryMonaco[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4367,7 +4367,7 @@ static const common::ZoneEntry kZoneEntryOslo[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4391,7 +4391,7 @@ static const common::ZoneEntry kZoneEntryParis[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4415,7 +4415,7 @@ static const common::ZoneEntry kZoneEntryPrague[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4439,7 +4439,7 @@ static const common::ZoneEntry kZoneEntryRome[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4463,7 +4463,7 @@ static const common::ZoneEntry kZoneEntrySofia[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4487,7 +4487,7 @@ static const common::ZoneEntry kZoneEntryStockholm[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4511,7 +4511,7 @@ static const common::ZoneEntry kZoneEntryTirane[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4535,7 +4535,7 @@ static const common::ZoneEntry kZoneEntryUzhgorod[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4559,7 +4559,7 @@ static const common::ZoneEntry kZoneEntryVienna[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4583,7 +4583,7 @@ static const common::ZoneEntry kZoneEntryWarsaw[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4607,7 +4607,7 @@ static const common::ZoneEntry kZoneEntryZaporozhye[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4631,7 +4631,7 @@ static const common::ZoneEntry kZoneEntryZurich[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4655,7 +4655,7 @@ static const common::ZoneEntry kZoneEntryChagos[] = {
     24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4679,7 +4679,7 @@ static const common::ZoneEntry kZoneEntryChristmas[] = {
     28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+07" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4703,7 +4703,7 @@ static const common::ZoneEntry kZoneEntryCocos[] = {
     26 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+0630" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4727,7 +4727,7 @@ static const common::ZoneEntry kZoneEntryKerguelen[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4751,7 +4751,7 @@ static const common::ZoneEntry kZoneEntryMahe[] = {
     16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+04" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4775,7 +4775,7 @@ static const common::ZoneEntry kZoneEntryMaldives[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4799,7 +4799,7 @@ static const common::ZoneEntry kZoneEntryMauritius[] = {
     16 /*offsetCode*/,
     &kPolicyMauritius /*zonePolicy*/,
     "+04/+05" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4823,7 +4823,7 @@ static const common::ZoneEntry kZoneEntryReunion[] = {
     16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+04" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4847,7 +4847,7 @@ static const common::ZoneEntry kZoneEntryAuckland[] = {
     48 /*offsetCode*/,
     &kPolicyNZ /*zonePolicy*/,
     "NZ%T" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4871,7 +4871,7 @@ static const common::ZoneEntry kZoneEntryChuuk[] = {
     40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+10" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4895,7 +4895,7 @@ static const common::ZoneEntry kZoneEntryEaster[] = {
     -24 /*offsetCode*/,
     &kPolicyChile /*zonePolicy*/,
     "-06/-05" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4919,7 +4919,7 @@ static const common::ZoneEntry kZoneEntryEfate[] = {
     44 /*offsetCode*/,
     &kPolicyVanuatu /*zonePolicy*/,
     "+11/+12" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4943,7 +4943,7 @@ static const common::ZoneEntry kZoneEntryEnderbury[] = {
     52 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+13" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4967,7 +4967,7 @@ static const common::ZoneEntry kZoneEntryFiji[] = {
     48 /*offsetCode*/,
     &kPolicyFiji /*zonePolicy*/,
     "+12/+13" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -4991,7 +4991,7 @@ static const common::ZoneEntry kZoneEntryFunafuti[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5015,7 +5015,7 @@ static const common::ZoneEntry kZoneEntryGalapagos[] = {
     -24 /*offsetCode*/,
     &kPolicyEcuador /*zonePolicy*/,
     "-06/-05" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5039,7 +5039,7 @@ static const common::ZoneEntry kZoneEntryGambier[] = {
     -36 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-09" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5063,7 +5063,7 @@ static const common::ZoneEntry kZoneEntryGuadalcanal[] = {
     44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+11" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5087,7 +5087,7 @@ static const common::ZoneEntry kZoneEntryHonolulu[] = {
     -40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "HST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5111,7 +5111,7 @@ static const common::ZoneEntry kZoneEntryKiritimati[] = {
     56 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+14" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5135,7 +5135,7 @@ static const common::ZoneEntry kZoneEntryKosrae[] = {
     44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+11" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5159,7 +5159,7 @@ static const common::ZoneEntry kZoneEntryKwajalein[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5183,7 +5183,7 @@ static const common::ZoneEntry kZoneEntryMajuro[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5207,7 +5207,7 @@ static const common::ZoneEntry kZoneEntryMarquesas[] = {
     -38 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-0930" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5231,7 +5231,7 @@ static const common::ZoneEntry kZoneEntryNauru[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5255,7 +5255,7 @@ static const common::ZoneEntry kZoneEntryNiue[] = {
     -44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-11" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5279,7 +5279,7 @@ static const common::ZoneEntry kZoneEntryNoumea[] = {
     44 /*offsetCode*/,
     &kPolicyNC /*zonePolicy*/,
     "+11/+12" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5303,7 +5303,7 @@ static const common::ZoneEntry kZoneEntryPago_Pago[] = {
     -44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "SST" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5327,7 +5327,7 @@ static const common::ZoneEntry kZoneEntryPalau[] = {
     36 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+09" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5351,7 +5351,7 @@ static const common::ZoneEntry kZoneEntryPitcairn[] = {
     -32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-08" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5375,7 +5375,7 @@ static const common::ZoneEntry kZoneEntryPohnpei[] = {
     44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+11" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5399,7 +5399,7 @@ static const common::ZoneEntry kZoneEntryPort_Moresby[] = {
     40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+10" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5423,7 +5423,7 @@ static const common::ZoneEntry kZoneEntryRarotonga[] = {
     -40 /*offsetCode*/,
     &kPolicyCook /*zonePolicy*/,
     "-10/-0930" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5447,7 +5447,7 @@ static const common::ZoneEntry kZoneEntryTahiti[] = {
     -40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-10" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5471,7 +5471,7 @@ static const common::ZoneEntry kZoneEntryTarawa[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5495,7 +5495,7 @@ static const common::ZoneEntry kZoneEntryTongatapu[] = {
     52 /*offsetCode*/,
     &kPolicyTonga /*zonePolicy*/,
     "+13/+14" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5519,7 +5519,7 @@ static const common::ZoneEntry kZoneEntryWake[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };
@@ -5543,7 +5543,7 @@ static const common::ZoneEntry kZoneEntryWallis[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    255 /*untilYear*/,
+    127 /*untilYear*/,
   },
 
 };

@@ -149,8 +149,7 @@ class Presenter {
 
       // date
       if (shouldShowFor(MODE_CHANGE_YEAR)) {
-        mOled.print("20");
-        printPad2(mOled, dateTime.year());
+        mOled.print(dateTime.year());
       } else {
         mOled.print("    ");
       }

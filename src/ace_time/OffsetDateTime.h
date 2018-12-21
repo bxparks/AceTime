@@ -16,8 +16,8 @@ namespace ace_time {
  * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated
  * internally from the date fields.
  *
- * The year field is internally represented as uint8_t offset from the year
- * 2000, so in theory it is valid from [2000, 2255]. If the year is restricted
+ * The year field is internally represented as int8_t offset from the year
+ * 2000, so in theory it is valid from [1872, 2127]. If the year is restricted
  * to the range 00-99, these fields map directly to the fields supported by the
  * DS3231 RTC chip. The "epoch" for this library is 2000-01-01T00:00:00Z and
  * toEpochSeconds() returns a uint32_t number of seconds offset from that
@@ -64,7 +64,7 @@ class OffsetDateTime {
      * The largest date that can be fully supported by this class is
      * 2136-02-07T06:28:14Z (one second before the uint32_t overflow).
      *
-     * @param year year offset from year 2000
+     * @param year year
      * @param month month with January=1, December=12
      * @param day day of month (1-31)
      * @param hour hour (0-23)
@@ -75,7 +75,7 @@ class OffsetDateTime {
      * in the last component allows us to add an additional constructor that
      * accepts a millisecond component in the future.
      */
-    static OffsetDateTime forComponents(uint8_t year, uint8_t month,
+    static OffsetDateTime forComponents(uint16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
         UtcOffset utcOffset = UtcOffset()) {
       return OffsetDateTime(year, month, day, hour, minute, second, utcOffset);
@@ -137,7 +137,7 @@ class OffsetDateTime {
      *
      * The parsing validation is so weak that the behavior is undefined for
      * most invalid date/time strings. The range of valid dates is roughly from
-     * 2000-01-01T00:00:00 to 2255-12-31T23:59:59. However, the UTC offset may
+     * 1872-01-01T00:00:00 to 2127-12-31T23:59:59. However, the UTC offset may
      * cause some of the dates on the two extreme ends invalid. The behavior is
      * undefined in those cases.
      */
@@ -174,65 +174,49 @@ class OffsetDateTime {
     }
 
     /** Return the 2 digit year from year 2000. */
-    uint8_t year() const { return mLocalDate.year(); }
+    int8_t year2() const { return mLocalDate.year2(); }
 
     /** Set the 2 digit year from year 2000. */
-    void year(uint8_t year) {
-      mLocalDate.year(year);
-    }
+    void year2(int8_t year2) { mLocalDate.year2(year2); }
 
-    /** Return the full year instead of just the last 2 digits. */
-    uint16_t yearFull() const { return year() + kEpochYear; }
+    /** Return the year. */
+    uint16_t year() const { return mLocalDate.year(); }
 
-    /** Set the year given the full year. */
-    void yearFull(uint16_t yearFull) {
-      mLocalDate.yearFull(yearFull);
-    }
+    /** Set the year. */
+    void year(uint16_t year) { mLocalDate.year(year); }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mLocalDate.month(); }
 
     /** Set the month. */
-    void month(uint8_t month) {
-      mLocalDate.month(month);
-    }
+    void month(uint8_t month) { mLocalDate.month(month); }
 
     /** Return the day of the month. */
     uint8_t day() const { return mLocalDate.day(); }
 
     /** Set the day of the month. */
-    void day(uint8_t day) {
-      mLocalDate.day(day);
-    }
+    void day(uint8_t day) { mLocalDate.day(day); }
 
     /** Return the hour. */
     uint8_t hour() const { return mLocalTime.hour(); }
 
     /** Set the hour. */
-    void hour(uint8_t hour) {
-      mLocalTime.hour(hour);
-    }
+    void hour(uint8_t hour) { mLocalTime.hour(hour); }
 
     /** Return the minute. */
     uint8_t minute() const { return mLocalTime.minute(); }
 
     /** Set the minute. */
-    void minute(uint8_t minute) {
-      mLocalTime.minute(minute);
-    }
+    void minute(uint8_t minute) { mLocalTime.minute(minute); }
 
     /** Return the second. */
     uint8_t second() const { return mLocalTime.second(); }
 
     /** Set the second. */
-    void second(uint8_t second) {
-      mLocalTime.second(second);
-    }
+    void second(uint8_t second) { mLocalTime.second(second); }
 
     /** Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). */
-    uint8_t dayOfWeek() const {
-      return mLocalDate.dayOfWeek();
-    }
+    uint8_t dayOfWeek() const { return mLocalDate.dayOfWeek(); }
 
     /** Return the LocalDate. */
     const LocalDate& localDate() const { return mLocalDate; }
@@ -247,9 +231,7 @@ class OffsetDateTime {
     UtcOffset& utcOffset() { return mUtcOffset; }
 
     /** Set the offset zone. */
-    void utcOffset(const UtcOffset& utcOffset) {
-      mUtcOffset = utcOffset;
-    }
+    void utcOffset(const UtcOffset& utcOffset) { mUtcOffset = utcOffset; }
 
     /**
      * Create a OffsetDateTime in a different offset zone code (with the same
@@ -384,7 +366,7 @@ class OffsetDateTime {
     /**
      * Constructor using separated date, time, and time zone fields.
      *
-     * @param year last 2 digits of the year from year 2000
+     * @param year
      * @param month month with January=1, December=12
      * @param day day of month (1-31)
      * @param hour hour (0-23)
@@ -395,7 +377,7 @@ class OffsetDateTime {
      * in the last component allows us to add an additional constructor that
      * accepts a millisecond component in the future.
      */
-    explicit OffsetDateTime(uint8_t year, uint8_t month, uint8_t day,
+    explicit OffsetDateTime(uint16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             UtcOffset utcOffset = UtcOffset()):
         mLocalDate(year, month, day),

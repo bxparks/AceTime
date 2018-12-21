@@ -48,7 +48,7 @@ class LedPresenter: public Presenter {
           break;
         case MODE_YEAR:
         case MODE_CHANGE_YEAR:
-          mDisplay.clockWriter->writeClock(20, dateTime.year());
+          mDisplay.clockWriter->writeClock(20, dateTime.year2());
           mDisplay.clockWriter->writeColon(false);
           break;
         case MODE_MONTH:
