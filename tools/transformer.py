@@ -86,7 +86,8 @@ class Transformer:
 
         (zones_map, rules_map) = self.mark_rules_used_by_zones(
             zones_map, rules_map)
-        rules_map = self.remove_unused_rules(rules_map)
+        rules_map = self.remove_rules_unused(rules_map)
+        rules_map = self.remove_rules_out_of_bounds(rules_map)
 
         rules_map = self.create_rules_with_at_minute(rules_map)
         rules_map = self.create_rules_with_delta_minute(rules_map)
@@ -386,7 +387,13 @@ class Transformer:
 
         return (zones_map, rules_map)
 
-    def remove_unused_rules(self, rules_map):
+    def remove_rules_unused(self, rules_map):
+        """Remove RULE entries which have not been marked as used by the
+        mark_rules_used_by_zones() method. It is expected that all remaining
+        RULE entries have FROM and TO fields which is greater than 1872 (the
+        earliest year which can be represented by an int8_t toYearShort field,
+        2000 - 128).
+        """
         results = {}
         removed_rule_count = 0
         removed_policies = {}
@@ -403,6 +410,33 @@ class Transformer:
                 removed_policies[name] = 'unused'
         logging.info('Removed %s rule policies (%s rules) not used' %
                 (len(removed_policies), removed_rule_count))
+        if self.print_removed:
+            for name, reason in sorted(removed_policies.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        return results
+
+    def remove_rules_out_of_bounds(self, rules_map):
+        """Remove policies which have FROM and TO fields do not fit in an
+        int8_t. In other words, y < 1872 or (y > 2127 and y != 9999).
+        """
+        results = {}
+        removed_policies = {}
+        for name, rules in rules_map.items():
+            valid = True
+            for rule in rules:
+                from_year = rule['fromYear']
+                to_year = rule['toYear']
+                if not is_year_short(from_year) or not is_year_short(from_year):
+                    removed_policies[name] = (
+                        "fromYear (%s) or toYear (%s) out of bounds" %
+                        (from_year, to_year))
+                    valid = False
+                    break;
+            if valid:
+                results[name] = rules
+        logging.info(
+            'Removed %s rule policies with fromYear or toYear out of bounds' %
+            len(removed_policies))
         if self.print_removed:
             for name, reason in sorted(removed_policies.items()):
                 print('  %s (%s)' % (name, reason), file=sys.stderr)
@@ -584,3 +618,10 @@ def find_most_recent_prior_rule(rule_entries, year):
                     rule_entry['inMonth'] > candidate['inMonth']:
                 candidate = rule_entry
     return candidate
+
+
+def is_year_short(year):
+    """Determine if year fits in an int8_t field (i.e. a 'short' year).
+    9999 is a marker for 'max'.
+    """
+    return year >= 1872 and (year == 9999 or year <= 2127)
