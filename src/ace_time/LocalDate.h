@@ -145,21 +145,21 @@ class LocalDate {
      * statement like this: 'return LocalDate().setError()'.
      */
     LocalDate& setError() {
-      mYear2 = mMonth = mDay = 0;
+      mYearShort = mMonth = mDay = 0;
       return *this;
     }
 
     /** Return the full year instead of just the last 2 digits. */
-    uint16_t year() const { return mYear2 + kEpochYear; }
+    uint16_t year() const { return mYearShort + kEpochYear; }
 
     /** Set the year given the full year. */
-    void year(uint16_t year) { mYear2 = year - kEpochYear; }
+    void year(uint16_t year) { mYearShort = year - kEpochYear; }
 
     /** Return the 2 digit year offset from year 2000. */
-    int8_t year2() const { return mYear2; }
+    int8_t yearShort() const { return mYearShort; }
 
     /** Set the 2 digit year from year 2000. */
-    void year2(int8_t year2) { mYear2 = year2; }
+    void yearShort(int8_t yearShort) { mYearShort = yearShort; }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mMonth; }
@@ -175,7 +175,7 @@ class LocalDate {
 
     /** Increment the year by one, wrapping from 99 to 0. */
     void incrementYear() {
-      common::incrementMod(mYear2, (int8_t) 100);
+      common::incrementMod(mYearShort, (int8_t) 100);
     }
 
     /** Increment the month by one, wrapping from 12 to 1. */
@@ -262,8 +262,8 @@ class LocalDate {
      * this>that). If isError() is true, the behavior is undefined.
      */
     int8_t compareTo(const LocalDate& that) const {
-      if (mYear2 < that.mYear2) return -1;
-      if (mYear2 > that.mYear2) return 1;
+      if (mYearShort < that.mYearShort) return -1;
+      if (mYearShort > that.mYearShort) return 1;
       if (mMonth < that.mMonth) return -1;
       if (mMonth > that.mMonth) return 1;
       if (mDay < that.mDay) return -1;
@@ -298,13 +298,13 @@ class LocalDate {
 
     /** Constructor. */
     explicit LocalDate(uint16_t year, uint8_t month, uint8_t day):
-        mYear2(year - kEpochYear),
+        mYearShort(year - kEpochYear),
         mMonth(month),
         mDay(day) {}
 
     /** Constructor. */
-    explicit LocalDate(int8_t year2, uint8_t month, uint8_t day):
-        mYear2(year2),
+    explicit LocalDate(int8_t yearShort, uint8_t month, uint8_t day):
+        mYearShort(yearShort),
         mMonth(month),
         mDay(day) {}
 
@@ -335,7 +335,7 @@ class LocalDate {
      * Store year as a int8_t offset from year 2000. This saves memory, but may
      * cause other problems later, so this may change to uint16_t later.
      */
-    int8_t mYear2; // [-128, 127], year offset from 2000
+    int8_t mYearShort; // [-128, 127], year offset from 2000
 
     uint8_t mMonth; // [1, 12], 0 indicates error
     uint8_t mDay; // [1, 31], 0 indicates error
@@ -345,7 +345,7 @@ class LocalDate {
 inline bool operator==(const LocalDate& a, const LocalDate& b) {
   return a.mDay == b.mDay
       && a.mMonth == b.mMonth
-      && a.mYear2 == b.mYear2;
+      && a.mYearShort == b.mYearShort;
 }
 
 /** Return true if two LocalDate objects are not equal. */

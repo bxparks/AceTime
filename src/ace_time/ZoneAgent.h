@@ -284,32 +284,26 @@ class ZoneAgent {
     }
 
     /**
-     * Find the Zone entry which applies to the given year. The entry will have
-     * an untilYear where (y < untilYear).
-     *
-     * Since the smallest year is 0 (i.e. 2000), this will return a Zone entry
-     * with untilYear >= 1 (i.e. 2001). The largest supported year is 254 (i.e.
-     * 2254) because no Zone entry will match (255 < untilYear) since untilYear
-     * is stored as a uint8_t.
+     * Find the Zone entry which applies to the given year. The entry will
+     * satisfy (year < ZoneEntry.untilYearShort + kEpochYear). Since the
+     * largest untilYearShort is 127, the largest supported 'year' is 2126.
      */
     const common::ZoneEntry* findZoneEntry(uint16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {
         const common::ZoneEntry* entry = &mZoneInfo->entries[i];
-        // TODO: make untilYear uint16
-        if (year < entry->untilYear + LocalDate::kEpochYear) return entry;
+        if (year < entry->untilYearShort + LocalDate::kEpochYear) return entry;
       }
       return nullptr;
     }
 
     /**
      * Find the zone entry which applies to the year prior to the previous year.
-     * The entry will have an untilYear where (y <= untilYear).
+     * The entry will satisfy (year <= untilYearShort + kEpochYear).
      */
     const common::ZoneEntry* findZoneEntryPriorTo(uint16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {
         const common::ZoneEntry* entry = &mZoneInfo->entries[i];
-        // TODO: make untilYear uint16
-        if (year <= entry->untilYear + LocalDate::kEpochYear) return entry;
+        if (year <= entry->untilYearShort + LocalDate::kEpochYear) return entry;
       }
       return nullptr;
     }

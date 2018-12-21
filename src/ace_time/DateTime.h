@@ -172,10 +172,10 @@ class DateTime {
     }
 
     /** Return the 2 digit year from year 2000. */
-    int8_t year2() const { return mOffsetDateTime.year2(); }
+    int8_t yearShort() const { return mOffsetDateTime.yearShort(); }
 
     /** Set the 2 digit year from year 2000. */
-    void year2(int8_t year2) { mOffsetDateTime.year2(year2); }
+    void yearShort(int8_t yearShort) { mOffsetDateTime.yearShort(yearShort); }
 
     /** Return the year. */
     uint16_t year() const { return mOffsetDateTime.year(); }

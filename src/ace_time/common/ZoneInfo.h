@@ -35,7 +35,7 @@ struct ZoneEntry {
    * Entry is valid until currentTime < untilYear. Stored as (year - 2000)
    * to save space. Comes from the UNTIL column.
    */
-  int8_t const untilYear;
+  int8_t const untilYearShort;
 
   // TODO: add untilMonth, untilDayOfMonth, untilDayOfWeek, untilTime,
   // untilTimeModifier

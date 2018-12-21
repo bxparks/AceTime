@@ -69,7 +69,7 @@ LocalDate& LocalDate::initFromDateString(const char* ds) {
   year = 10 * year + (*ds++ - '0');
   year = 10 * year + (*ds++ - '0');
   year = 10 * year + (*ds++ - '0');
-  mYear2 = year - kEpochYear;
+  mYearShort = year - kEpochYear;
 
   // '-'
   ds++;
