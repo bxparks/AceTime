@@ -174,10 +174,10 @@ class OffsetDateTime {
     }
 
     /** Return the 2 digit year from year 2000. */
-    int8_t year2() const { return mLocalDate.year2(); }
+    int8_t yearShort() const { return mLocalDate.yearShort(); }
 
     /** Set the 2 digit year from year 2000. */
-    void year2(int8_t year2) { mLocalDate.year2(year2); }
+    void yearShort(int8_t yearShort) { mLocalDate.yearShort(yearShort); }
 
     /** Return the year. */
     uint16_t year() const { return mLocalDate.year(); }

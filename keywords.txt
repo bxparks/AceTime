@@ -39,7 +39,7 @@ forDateString	KEYWORD2
 isError	KEYWORD2
 setError	KEYWORD2
 year	KEYWORD2
-year2	KEYWORD2
+yearShort	KEYWORD2
 month	KEYWORD2
 day	KEYWORD2
 hour	KEYWORD2
@@ -66,7 +66,7 @@ forDateString	KEYWORD2
 isError	KEYWORD2
 setError	KEYWORD2
 year	KEYWORD2
-year2	KEYWORD2
+yearShort	KEYWORD2
 month	KEYWORD2
 day	KEYWORD2
 hour	KEYWORD2
