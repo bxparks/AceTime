@@ -20,7 +20,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numInfos: 293
+// numInfos: 282
 extern const common::ZoneInfo kZoneAbidjan; // Africa/Abidjan
 extern const common::ZoneInfo kZoneAccra; // Africa/Accra
 extern const common::ZoneInfo kZoneAlgiers; // Africa/Algiers
@@ -44,16 +44,9 @@ extern const common::ZoneInfo kZoneAdak; // America/Adak
 extern const common::ZoneInfo kZoneAnchorage; // America/Anchorage
 extern const common::ZoneInfo kZoneAraguaina; // America/Araguaina
 extern const common::ZoneInfo kZoneBuenos_Aires; // America/Argentina/Buenos_Aires
-extern const common::ZoneInfo kZoneCatamarca; // America/Argentina/Catamarca
 extern const common::ZoneInfo kZoneCordoba; // America/Argentina/Cordoba
 extern const common::ZoneInfo kZoneJujuy; // America/Argentina/Jujuy
-extern const common::ZoneInfo kZoneLa_Rioja; // America/Argentina/La_Rioja
-extern const common::ZoneInfo kZoneMendoza; // America/Argentina/Mendoza
-extern const common::ZoneInfo kZoneRio_Gallegos; // America/Argentina/Rio_Gallegos
 extern const common::ZoneInfo kZoneSalta; // America/Argentina/Salta
-extern const common::ZoneInfo kZoneSan_Juan; // America/Argentina/San_Juan
-extern const common::ZoneInfo kZoneTucuman; // America/Argentina/Tucuman
-extern const common::ZoneInfo kZoneUshuaia; // America/Argentina/Ushuaia
 extern const common::ZoneInfo kZoneAsuncion; // America/Asuncion
 extern const common::ZoneInfo kZoneAtikokan; // America/Atikokan
 extern const common::ZoneInfo kZoneBahia; // America/Bahia
@@ -64,7 +57,6 @@ extern const common::ZoneInfo kZoneBlanc_Sablon; // America/Blanc-Sablon
 extern const common::ZoneInfo kZoneBoa_Vista; // America/Boa_Vista
 extern const common::ZoneInfo kZoneBogota; // America/Bogota
 extern const common::ZoneInfo kZoneBoise; // America/Boise
-extern const common::ZoneInfo kZoneCambridge_Bay; // America/Cambridge_Bay
 extern const common::ZoneInfo kZoneCampo_Grande; // America/Campo_Grande
 extern const common::ZoneInfo kZoneCancun; // America/Cancun
 extern const common::ZoneInfo kZoneCayenne; // America/Cayenne
@@ -86,7 +78,6 @@ extern const common::ZoneInfo kZoneFort_Nelson; // America/Fort_Nelson
 extern const common::ZoneInfo kZoneFortaleza; // America/Fortaleza
 extern const common::ZoneInfo kZoneGlace_Bay; // America/Glace_Bay
 extern const common::ZoneInfo kZoneGodthab; // America/Godthab
-extern const common::ZoneInfo kZoneGrand_Turk; // America/Grand_Turk
 extern const common::ZoneInfo kZoneGuatemala; // America/Guatemala
 extern const common::ZoneInfo kZoneGuayaquil; // America/Guayaquil
 extern const common::ZoneInfo kZoneGuyana; // America/Guyana
@@ -149,7 +140,6 @@ extern const common::ZoneInfo kZoneResolute; // America/Resolute
 extern const common::ZoneInfo kZoneRio_Branco; // America/Rio_Branco
 extern const common::ZoneInfo kZoneSantarem; // America/Santarem
 extern const common::ZoneInfo kZoneSantiago; // America/Santiago
-extern const common::ZoneInfo kZoneSanto_Domingo; // America/Santo_Domingo
 extern const common::ZoneInfo kZoneSao_Paulo; // America/Sao_Paulo
 extern const common::ZoneInfo kZoneScoresbysund; // America/Scoresbysund
 extern const common::ZoneInfo kZoneSitka; // America/Sitka
@@ -207,7 +197,6 @@ extern const common::ZoneInfo kZoneShanghai; // Asia/Shanghai
 extern const common::ZoneInfo kZoneSingapore; // Asia/Singapore
 extern const common::ZoneInfo kZoneTaipei; // Asia/Taipei
 extern const common::ZoneInfo kZoneTashkent; // Asia/Tashkent
-extern const common::ZoneInfo kZoneTbilisi; // Asia/Tbilisi
 extern const common::ZoneInfo kZoneTehran; // Asia/Tehran
 extern const common::ZoneInfo kZoneThimphu; // Asia/Thimphu
 extern const common::ZoneInfo kZoneTokyo; // Asia/Tokyo
@@ -317,73 +306,85 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 
 // The following zones are not supported in the current version of AceTime.
-// numInfos: 65
-
-// Africa/Windhoek
-// America/Argentina/San_Luis
-// America/Belize
-// America/Caracas
-// America/Goose_Bay
-// America/Moncton
-// America/St_Johns
-// Antarctica/Casey
-// Antarctica/Davis
-// Antarctica/Troll
-// Asia/Almaty
-// Asia/Anadyr
-// Asia/Aqtau
-// Asia/Aqtobe
-// Asia/Atyrau
-// Asia/Barnaul
-// Asia/Bishkek
-// Asia/Chita
-// Asia/Colombo
-// Asia/Famagusta
-// Asia/Gaza
-// Asia/Hebron
-// Asia/Hong_Kong
-// Asia/Irkutsk
-// Asia/Kamchatka
-// Asia/Khandyga
-// Asia/Krasnoyarsk
-// Asia/Macau
-// Asia/Magadan
-// Asia/Novokuznetsk
-// Asia/Novosibirsk
-// Asia/Omsk
-// Asia/Oral
-// Asia/Pyongyang
-// Asia/Qyzylorda
-// Asia/Sakhalin
-// Asia/Srednekolymsk
-// Asia/Tomsk
-// Asia/Ust-Nera
-// Asia/Vladivostok
-// Asia/Yakutsk
-// Asia/Yekaterinburg
-// CET
-// CST6CDT
-// EET
-// EST
-// EST5EDT
-// Europe/Astrakhan
-// Europe/Istanbul
-// Europe/Kaliningrad
-// Europe/Kirov
-// Europe/Minsk
-// Europe/Moscow
-// Europe/Samara
-// Europe/Saratov
-// Europe/Simferopol
-// Europe/Ulyanovsk
-// Europe/Volgograd
-// HST
-// MET
-// MST
-// MST7MDT
-// PST8PDT
-// Pacific/Chatham
-// WET
+//
+// numInfos: 76
+//
+// Africa/Windhoek (rule 'Namibia' not found)
+// America/Argentina/Catamarca (multiple records for year 2004)
+// America/Argentina/La_Rioja (multiple records for year 2004)
+// America/Argentina/Mendoza (multiple records for year 2004)
+// America/Argentina/Rio_Gallegos (multiple records for year 2004)
+// America/Argentina/San_Juan (multiple records for year 2004)
+// America/Argentina/San_Luis (offset in RULES '1:00')
+// America/Argentina/Tucuman (multiple records for year 2004)
+// America/Argentina/Ushuaia (multiple records for year 2004)
+// America/Belize (rule 'Belize' not found)
+// America/Cambridge_Bay (multiple records for year 2000)
+// America/Caracas (unsupported UNTIL '2016 5 1 2:30')
+// America/Goose_Bay (rule 'StJohns' not found)
+// America/Grand_Turk (unsupported UNTIL '2015 11 Sun>=1 2:00')
+// America/Moncton (rule 'Moncton' not found)
+// America/Santo_Domingo (multiple records for year 2000)
+// America/St_Johns (rule 'StJohns' not found)
+// Antarctica/Casey (unsupported UNTIL '2012 2 21 17:00u')
+// Antarctica/Davis (unsupported UNTIL '2010 3 10 20:00u')
+// Antarctica/Troll (rule 'Troll' not found)
+// Asia/Almaty (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Anadyr (unsupported UNTIL '2010 3 28 2:00s')
+// Asia/Aqtau (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Aqtobe (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Atyrau (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Barnaul (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Bishkek (rule 'Kyrgyz' not found)
+// Asia/Chita (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Colombo (unsupported UNTIL '2006 4 15 0:30')
+// Asia/Famagusta (unsupported UNTIL '2017 10 29 1:00u')
+// Asia/Gaza (unsupported UNTIL '2010 3 27 0:01')
+// Asia/Hebron (rule 'Palestine' not found)
+// Asia/Hong_Kong (rule 'HK' not found)
+// Asia/Irkutsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Kamchatka (unsupported UNTIL '2010 3 28 2:00s')
+// Asia/Khandyga (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Krasnoyarsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Macau (rule 'Macau' not found)
+// Asia/Magadan (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Novokuznetsk (unsupported UNTIL '2010 3 28 2:00s')
+// Asia/Novosibirsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Omsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Oral (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Pyongyang (unsupported UNTIL '2018 5 4 23:30')
+// Asia/Qyzylorda (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Sakhalin (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Srednekolymsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Tbilisi (unsupported UNTIL '2005 3 lastSun 2:00')
+// Asia/Tomsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Ust-Nera (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Vladivostok (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Yakutsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Yekaterinburg (unsupported UNTIL '2011 3 27 2:00s')
+// CET (no '/' in zone name)
+// CST6CDT (no '/' in zone name)
+// EET (no '/' in zone name)
+// EST (no '/' in zone name)
+// EST5EDT (no '/' in zone name)
+// Europe/Astrakhan (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Istanbul (unsupported UNTIL '2011 3 27 1:00u')
+// Europe/Kaliningrad (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Kirov (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Minsk (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Moscow (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Samara (unsupported UNTIL '2010 3 28 2:00s')
+// Europe/Saratov (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Simferopol (unsupported UNTIL '2014 10 26 2:00s')
+// Europe/Ulyanovsk (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Volgograd (unsupported UNTIL '2011 3 27 2:00s')
+// HST (no '/' in zone name)
+// MET (no '/' in zone name)
+// MST (no '/' in zone name)
+// MST7MDT (no '/' in zone name)
+// PST8PDT (no '/' in zone name)
+// Pacific/Chatham (rule 'Chatham' not found)
+// WET (no '/' in zone name)
 
 
 }

@@ -18,7 +18,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numPolicies: 69
+// numPolicies: 68
 extern const common::ZonePolicy kPolicyAN;
 extern const common::ZonePolicy kPolicyAQ;
 extern const common::ZonePolicy kPolicyAS;
@@ -38,7 +38,6 @@ extern const common::ZonePolicy kPolicyChile;
 extern const common::ZonePolicy kPolicyCook;
 extern const common::ZonePolicy kPolicyCuba;
 extern const common::ZonePolicy kPolicyDhaka;
-extern const common::ZonePolicy kPolicyE_EurAsia;
 extern const common::ZonePolicy kPolicyEU;
 extern const common::ZonePolicy kPolicyEUAsia;
 extern const common::ZonePolicy kPolicyEcuador;
@@ -88,6 +87,83 @@ extern const common::ZonePolicy kPolicyVanuatu;
 extern const common::ZonePolicy kPolicyWS;
 extern const common::ZonePolicy kPolicyWinn;
 extern const common::ZonePolicy kPolicyZion;
+
+
+// The following zone policies are not supported in the current version of
+// AceTime.
+//
+// numPolicies: 70
+//
+// kPolicyAlbania (unused)
+// kPolicyAlgeria (unused)
+// kPolicyAustria (unused)
+// kPolicyBahamas (unused)
+// kPolicyBelgium (unused)
+// kPolicyBelize (LETTER 'CST' too long)
+// kPolicyBulg (unused)
+// kPolicyC-Eur (unused)
+// kPolicyCA (unused)
+// kPolicyChatham (non-integral AT hour '2:45')
+// kPolicyChicago (unused)
+// kPolicyCyprus (unused)
+// kPolicyCzech (unused)
+// kPolicyDR (unused)
+// kPolicyDenmark (unused)
+// kPolicyDenver (unused)
+// kPolicyDetroit (unused)
+// kPolicyE-Eur (unused)
+// kPolicyE-EurAsia (unused)
+// kPolicyEdm (unused)
+// kPolicyEgyptAsia (unused)
+// kPolicyFinland (unused)
+// kPolicyFrance (unused)
+// kPolicyGB-Eire (unused)
+// kPolicyGermany (unused)
+// kPolicyGreece (unused)
+// kPolicyHK (non-integral AT hour '3:30')
+// kPolicyHalifax (unused)
+// kPolicyHungary (unused)
+// kPolicyIceland (unused)
+// kPolicyIndianapolis (unused)
+// kPolicyItaly (unused)
+// kPolicyKyrgyz (non-integral AT hour '2:30')
+// kPolicyLatvia (unused)
+// kPolicyLouisville (unused)
+// kPolicyLux (unused)
+// kPolicyMacau (non-integral AT hour '03:30')
+// kPolicyMalta (unused)
+// kPolicyMarengo (unused)
+// kPolicyMenominee (unused)
+// kPolicyMoncton (non-integral AT hour '0:01')
+// kPolicyNBorneo (unused)
+// kPolicyNYC (unused)
+// kPolicyNamibia (LETTER 'WAT' too long)
+// kPolicyNeth (unused)
+// kPolicyNorway (unused)
+// kPolicyPalestine (non-integral AT hour '0:01')
+// kPolicyPerry (unused)
+// kPolicyPike (unused)
+// kPolicyPoland (unused)
+// kPolicyPort (unused)
+// kPolicyPulaski (unused)
+// kPolicyRegina (unused)
+// kPolicyRomania (unused)
+// kPolicyRussia (unused)
+// kPolicySanLuis (unused)
+// kPolicyShang (unused)
+// kPolicySovietZone (unused)
+// kPolicySpain (unused)
+// kPolicySpainAfrica (unused)
+// kPolicyStJohns (LETTER 'DD' too long)
+// kPolicyStarke (unused)
+// kPolicySwift (unused)
+// kPolicySwiss (unused)
+// kPolicyToronto (unused)
+// kPolicyTroll (LETTER '+02' too long)
+// kPolicyTurkey (unused)
+// kPolicyVanc (unused)
+// kPolicyVincennes (unused)
+// kPolicyW-Eur (unused)
 
 
 }
