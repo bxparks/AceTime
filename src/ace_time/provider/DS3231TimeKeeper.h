@@ -39,7 +39,8 @@ class DS3231TimeKeeper: public TimeKeeper {
      */
     static OffsetDateTime toDateTime(const hw::HardwareDateTime& dt) {
       return OffsetDateTime::forComponents(
-          dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
+          dt.year + LocalDate::kEpochYear, dt.month, dt.day,
+          dt.hour, dt.minute, dt.second);
     }
 
     /**
