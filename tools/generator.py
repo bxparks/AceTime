@@ -372,7 +372,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
         num_entries = 0
         string_length = 0
         for name, entries in sorted(self.zones_map.items()):
-            (info_item, format_length) = self.generate_entry_item(name, entries)
+            (info_item, format_length) = self.generate_info_item(name, entries)
             info_items += info_item
             string_length += format_length
             num_entries += len(entries)
@@ -392,45 +392,13 @@ const common::ZoneInfo kZone{infoShortName} = {{
             memory32=memory32,
             infoItems=info_items)
 
-    def generate_entry_item(self, name, entries):
+    def generate_info_item(self, name, entries):
         entry_items = ''
         string_length = 0
         for entry in entries:
-            rules = entry['rules']
-            if rules == '-':
-                zonePolicy = 'nullptr'
-            else:
-                zonePolicy = '&kPolicy%s' % rules
-
-            until_year = entry['untilYear']
-            if until_year == self.YEAR_MAX:
-                until_year_short = self.YEAR_SHORT_MAX
-            else:
-                until_year_short = until_year - self.EPOCH_YEAR
-
-            until_month = entry['untilMonth']
-            if not until_month:
-                until_month = 1
-
-            until_day = entry['untilDay']
-            if not until_day:
-                until_day = 1
-
-            until_hour = entry['untilHour']
-            if not until_hour:
-                until_hour = 0
-
-            string_length += len(entry['format']) + 1
-
-            entry_items += self.ZONE_INFOS_CPP_ENTRY_ITEM.format(
-                rawLine=normalize_raw(entry['rawLine']),
-                offsetCode=entry['offsetCode'],
-                zonePolicy=zonePolicy,
-                format=entry['format'],
-                untilYearShort=until_year_short,
-                untilMonth=until_month,
-                untilDay=until_day,
-                untilHour=until_hour)
+            (entry_item, length) = self.generate_entry_item(name, entry)
+            entry_items += entry_item
+            string_length += length
 
         string_length += len(name) + 1
         num_entries = len(entries)
@@ -447,6 +415,46 @@ const common::ZoneInfo kZone{infoShortName} = {{
             memory32=memory32,
             entryItems=entry_items)
         return (info_item, string_length)
+
+    def generate_entry_item(self, name, entry):
+        rules = entry['rules']
+        if rules == '-':
+            zonePolicy = 'nullptr'
+        else:
+            zonePolicy = '&kPolicy%s' % rules
+
+        until_year = entry['untilYear']
+        if until_year == self.YEAR_MAX:
+            until_year_short = self.YEAR_SHORT_MAX
+        else:
+            until_year_short = until_year - self.EPOCH_YEAR
+
+        until_month = entry['untilMonth']
+        if not until_month:
+            until_month = 1
+
+        until_day = entry['untilDay']
+        if not until_day:
+            until_day = 1
+
+        until_hour = entry['untilHour']
+        if not until_hour:
+            until_hour = 0
+
+        string_length = len(entry['format']) + 1
+
+        entry_item = self.ZONE_INFOS_CPP_ENTRY_ITEM.format(
+            rawLine=normalize_raw(entry['rawLine']),
+            offsetCode=entry['offsetCode'],
+            zonePolicy=zonePolicy,
+            format=entry['format'],
+            untilYearShort=until_year_short,
+            untilMonth=until_month,
+            untilDay=until_day,
+            untilHour=until_hour)
+
+        return (entry_item, string_length)
+
 
 def normalize_name(name):
     """Replace hyphen with underscore so that the C++ symbol can compile.
