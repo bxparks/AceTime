@@ -135,7 +135,7 @@ ZONE_INFO_{infoShortName} = {{
       "offsetCode": {offsetCode},
       "zonePolicy": {zonePolicy},
       "format": "{format}",
-      "untilYear": {untilYear},
+      "untilYearShort": {untilYearShort},
       "untilMonth": {untilMonth},
       "untilDay": {untilDay},
       "untilHour": {untilHour},
@@ -148,6 +148,10 @@ ZONE_INFO_{infoShortName} = {{
 
     ZONE_INFOS_FILE_NAME = 'zone_infos.py'
     ZONE_POLICIES_FILE_NAME = 'zone_policies.py'
+
+    EPOCH_YEAR = 2000
+    YEAR_SHORT_MAX = 127
+    YEAR_MAX = 9999
 
     def __init__(self, invocation, tz_version, tz_files,
                  zones_map, rules_map, removed_zones, removed_policies):
@@ -277,10 +281,10 @@ ZONE_INFO_{infoShortName} = {{
             zone_policy = 'ZONE_POLICY_%s' % policy_name
 
         until_year = entry['untilYear']
-        if until_year == 9999:
-            until_year = 255
+        if until_year == self.YEAR_MAX:
+            until_year_short = self.YEAR_SHORT_MAX
         else:
-            until_year -= 2000
+            until_year_short = until_year - self.EPOCH_YEAR
 
         until_month = entry['untilMonth']
         if not until_month:
@@ -299,7 +303,7 @@ ZONE_INFO_{infoShortName} = {{
             offsetCode=entry['offsetCode'],
             zonePolicy=zone_policy,
             format=entry['format'],
-            untilYear=until_year,
+            untilYearShort=until_year_short,
             untilMonth=until_month,
             untilDay=until_day,
             untilHour=until_hour)
