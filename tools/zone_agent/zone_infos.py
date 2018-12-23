@@ -117,7 +117,7 @@ ZONE_ENTRIES_Cairo = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_Egypt,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -173,7 +173,7 @@ ZONE_ENTRIES_Ceuta = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -252,7 +252,7 @@ ZONE_ENTRIES_Juba = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_Sudan,
-      "format": "CA%T",
+      "format": "CA%sT",
       "untilYearShort": 0,
       "untilMonth": 1,
       "untilDay": 15,
@@ -285,7 +285,7 @@ ZONE_ENTRIES_Khartoum = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_Sudan,
-      "format": "CA%T",
+      "format": "CA%sT",
       "untilYearShort": 0,
       "untilMonth": 1,
       "untilDay": 15,
@@ -486,7 +486,7 @@ ZONE_ENTRIES_Tripoli = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_Libya,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 13,
       "untilMonth": 10,
       "untilDay": 25,
@@ -519,7 +519,7 @@ ZONE_ENTRIES_Tunis = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_Tunisia,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -542,7 +542,7 @@ ZONE_ENTRIES_Adak = [
     {
       "offsetCode": -40,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "H%T",
+      "format": "H%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -565,7 +565,7 @@ ZONE_ENTRIES_Anchorage = [
     {
       "offsetCode": -36,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%T",
+      "format": "AK%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -892,7 +892,7 @@ ZONE_ENTRIES_Bahia_Banderas = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 10,
       "untilMonth": 4,
       "untilDay": 4,
@@ -902,7 +902,7 @@ ZONE_ENTRIES_Bahia_Banderas = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -925,7 +925,7 @@ ZONE_ENTRIES_Barbados = [
     {
       "offsetCode": -16,
       "zonePolicy": ZONE_POLICY_Barb,
-      "format": "A%T",
+      "format": "A%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1050,7 +1050,7 @@ ZONE_ENTRIES_Boise = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1096,7 +1096,7 @@ ZONE_ENTRIES_Cancun = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 15,
       "untilMonth": 2,
       "untilDay": 1,
@@ -1152,7 +1152,7 @@ ZONE_ENTRIES_Chicago = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1175,7 +1175,7 @@ ZONE_ENTRIES_Chihuahua = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1198,7 +1198,7 @@ ZONE_ENTRIES_Costa_Rica = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_CR,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1333,7 +1333,7 @@ ZONE_ENTRIES_Dawson = [
     {
       "offsetCode": -32,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "P%T",
+      "format": "P%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1379,7 +1379,7 @@ ZONE_ENTRIES_Denver = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1402,7 +1402,7 @@ ZONE_ENTRIES_Detroit = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1425,7 +1425,7 @@ ZONE_ENTRIES_Edmonton = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1491,7 +1491,7 @@ ZONE_ENTRIES_El_Salvador = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Salv,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1514,7 +1514,7 @@ ZONE_ENTRIES_Fort_Nelson = [
     {
       "offsetCode": -32,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "P%T",
+      "format": "P%sT",
       "untilYearShort": 15,
       "untilMonth": 3,
       "untilDay": 8,
@@ -1600,7 +1600,7 @@ ZONE_ENTRIES_Glace_Bay = [
     {
       "offsetCode": -16,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "A%T",
+      "format": "A%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1646,7 +1646,7 @@ ZONE_ENTRIES_Guatemala = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Guat,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1715,7 +1715,7 @@ ZONE_ENTRIES_Halifax = [
     {
       "offsetCode": -16,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "A%T",
+      "format": "A%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1738,7 +1738,7 @@ ZONE_ENTRIES_Havana = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_Cuba,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1794,7 +1794,7 @@ ZONE_ENTRIES_Indianapolis = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1827,7 +1827,7 @@ ZONE_ENTRIES_Knox = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1860,7 +1860,7 @@ ZONE_ENTRIES_Marengo = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1893,7 +1893,7 @@ ZONE_ENTRIES_Petersburg = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 7,
       "untilMonth": 11,
       "untilDay": 4,
@@ -1903,7 +1903,7 @@ ZONE_ENTRIES_Petersburg = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1936,7 +1936,7 @@ ZONE_ENTRIES_Tell_City = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -1969,7 +1969,7 @@ ZONE_ENTRIES_Vevay = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2002,7 +2002,7 @@ ZONE_ENTRIES_Vincennes = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 7,
       "untilMonth": 11,
       "untilDay": 4,
@@ -2012,7 +2012,7 @@ ZONE_ENTRIES_Vincennes = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2045,7 +2045,7 @@ ZONE_ENTRIES_Winamac = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 7,
       "untilMonth": 3,
       "untilDay": 11,
@@ -2055,7 +2055,7 @@ ZONE_ENTRIES_Winamac = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2078,7 +2078,7 @@ ZONE_ENTRIES_Inuvik = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2101,7 +2101,7 @@ ZONE_ENTRIES_Iqaluit = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 0,
       "untilMonth": 10,
       "untilDay": 29,
@@ -2111,7 +2111,7 @@ ZONE_ENTRIES_Iqaluit = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2157,7 +2157,7 @@ ZONE_ENTRIES_Juneau = [
     {
       "offsetCode": -36,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%T",
+      "format": "AK%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2180,7 +2180,7 @@ ZONE_ENTRIES_Louisville = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2203,7 +2203,7 @@ ZONE_ENTRIES_Monticello = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 0,
       "untilMonth": 10,
       "untilDay": 29,
@@ -2213,7 +2213,7 @@ ZONE_ENTRIES_Monticello = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2282,7 +2282,7 @@ ZONE_ENTRIES_Los_Angeles = [
     {
       "offsetCode": -32,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "P%T",
+      "format": "P%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2358,7 +2358,7 @@ ZONE_ENTRIES_Managua = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Nic,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2427,7 +2427,7 @@ ZONE_ENTRIES_Matamoros = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 10,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2437,7 +2437,7 @@ ZONE_ENTRIES_Matamoros = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2460,7 +2460,7 @@ ZONE_ENTRIES_Mazatlan = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2483,7 +2483,7 @@ ZONE_ENTRIES_Menominee = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2506,7 +2506,7 @@ ZONE_ENTRIES_Merida = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2539,7 +2539,7 @@ ZONE_ENTRIES_Metlakatla = [
     {
       "offsetCode": -36,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%T",
+      "format": "AK%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2562,7 +2562,7 @@ ZONE_ENTRIES_Mexico_City = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 1,
       "untilMonth": 9,
       "untilDay": 30,
@@ -2582,7 +2582,7 @@ ZONE_ENTRIES_Mexico_City = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2628,7 +2628,7 @@ ZONE_ENTRIES_Monterrey = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2674,7 +2674,7 @@ ZONE_ENTRIES_Nassau = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2697,7 +2697,7 @@ ZONE_ENTRIES_New_York = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2720,7 +2720,7 @@ ZONE_ENTRIES_Nipigon = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2743,7 +2743,7 @@ ZONE_ENTRIES_Nome = [
     {
       "offsetCode": -36,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%T",
+      "format": "AK%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2819,7 +2819,7 @@ ZONE_ENTRIES_Beulah = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 10,
       "untilMonth": 11,
       "untilDay": 7,
@@ -2829,7 +2829,7 @@ ZONE_ENTRIES_Beulah = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2852,7 +2852,7 @@ ZONE_ENTRIES_Center = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2875,7 +2875,7 @@ ZONE_ENTRIES_New_Salem = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 3,
       "untilMonth": 10,
       "untilDay": 26,
@@ -2885,7 +2885,7 @@ ZONE_ENTRIES_New_Salem = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2908,7 +2908,7 @@ ZONE_ENTRIES_Ojinaga = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 10,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2918,7 +2918,7 @@ ZONE_ENTRIES_Ojinaga = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -2964,7 +2964,7 @@ ZONE_ENTRIES_Pangnirtung = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 0,
       "untilMonth": 10,
       "untilDay": 29,
@@ -2974,7 +2974,7 @@ ZONE_ENTRIES_Pangnirtung = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3043,7 +3043,7 @@ ZONE_ENTRIES_Port_au_Prince = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_Haiti,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3168,7 +3168,7 @@ ZONE_ENTRIES_Rainy_River = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3191,7 +3191,7 @@ ZONE_ENTRIES_Rankin_Inlet = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_NT_YK,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 0,
       "untilMonth": 10,
       "untilDay": 29,
@@ -3211,7 +3211,7 @@ ZONE_ENTRIES_Rankin_Inlet = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3310,7 +3310,7 @@ ZONE_ENTRIES_Resolute = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_NT_YK,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 0,
       "untilMonth": 10,
       "untilDay": 29,
@@ -3330,7 +3330,7 @@ ZONE_ENTRIES_Resolute = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 6,
       "untilMonth": 10,
       "untilDay": 29,
@@ -3350,7 +3350,7 @@ ZONE_ENTRIES_Resolute = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3518,7 +3518,7 @@ ZONE_ENTRIES_Sitka = [
     {
       "offsetCode": -36,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%T",
+      "format": "AK%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3564,7 +3564,7 @@ ZONE_ENTRIES_Tegucigalpa = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Hond,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3587,7 +3587,7 @@ ZONE_ENTRIES_Thule = [
     {
       "offsetCode": -16,
       "zonePolicy": ZONE_POLICY_Thule,
-      "format": "A%T",
+      "format": "A%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3610,7 +3610,7 @@ ZONE_ENTRIES_Thunder_Bay = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3633,7 +3633,7 @@ ZONE_ENTRIES_Tijuana = [
     {
       "offsetCode": -32,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "P%T",
+      "format": "P%sT",
       "untilYearShort": 1,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3643,7 +3643,7 @@ ZONE_ENTRIES_Tijuana = [
     {
       "offsetCode": -32,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "P%T",
+      "format": "P%sT",
       "untilYearShort": 2,
       "untilMonth": 2,
       "untilDay": 20,
@@ -3653,7 +3653,7 @@ ZONE_ENTRIES_Tijuana = [
     {
       "offsetCode": -32,
       "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "P%T",
+      "format": "P%sT",
       "untilYearShort": 10,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3663,7 +3663,7 @@ ZONE_ENTRIES_Tijuana = [
     {
       "offsetCode": -32,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "P%T",
+      "format": "P%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3686,7 +3686,7 @@ ZONE_ENTRIES_Toronto = [
     {
       "offsetCode": -20,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "E%T",
+      "format": "E%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3709,7 +3709,7 @@ ZONE_ENTRIES_Vancouver = [
     {
       "offsetCode": -32,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "P%T",
+      "format": "P%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3732,7 +3732,7 @@ ZONE_ENTRIES_Whitehorse = [
     {
       "offsetCode": -32,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "P%T",
+      "format": "P%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3755,7 +3755,7 @@ ZONE_ENTRIES_Winnipeg = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Winn,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 6,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3765,7 +3765,7 @@ ZONE_ENTRIES_Winnipeg = [
     {
       "offsetCode": -24,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3788,7 +3788,7 @@ ZONE_ENTRIES_Yakutat = [
     {
       "offsetCode": -36,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%T",
+      "format": "AK%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3811,7 +3811,7 @@ ZONE_ENTRIES_Yellowknife = [
     {
       "offsetCode": -28,
       "zonePolicy": ZONE_POLICY_Canada,
-      "format": "M%T",
+      "format": "M%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -3857,7 +3857,7 @@ ZONE_ENTRIES_Macquarie = [
     {
       "offsetCode": 40,
       "zonePolicy": ZONE_POLICY_AT,
-      "format": "AE%T",
+      "format": "AE%sT",
       "untilYearShort": 10,
       "untilMonth": 4,
       "untilDay": 4,
@@ -4025,7 +4025,7 @@ ZONE_ENTRIES_Amman = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_Jordan,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -4140,7 +4140,7 @@ ZONE_ENTRIES_Beirut = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_Lebanon,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -4219,7 +4219,7 @@ ZONE_ENTRIES_Damascus = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_Syria,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -4446,7 +4446,7 @@ ZONE_ENTRIES_Jerusalem = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_Zion,
-      "format": "I%T",
+      "format": "I%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -4492,7 +4492,7 @@ ZONE_ENTRIES_Karachi = [
     {
       "offsetCode": 20,
       "zonePolicy": ZONE_POLICY_Pakistan,
-      "format": "PK%T",
+      "format": "PK%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -4630,7 +4630,7 @@ ZONE_ENTRIES_Manila = [
     {
       "offsetCode": 32,
       "zonePolicy": ZONE_POLICY_Phil,
-      "format": "P%T",
+      "format": "P%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -4653,7 +4653,7 @@ ZONE_ENTRIES_Nicosia = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EUAsia,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -4768,7 +4768,7 @@ ZONE_ENTRIES_Seoul = [
     {
       "offsetCode": 36,
       "zonePolicy": ZONE_POLICY_ROK,
-      "format": "K%T",
+      "format": "K%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -4791,7 +4791,7 @@ ZONE_ENTRIES_Shanghai = [
     {
       "offsetCode": 32,
       "zonePolicy": ZONE_POLICY_PRC,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -4837,7 +4837,7 @@ ZONE_ENTRIES_Taipei = [
     {
       "offsetCode": 32,
       "zonePolicy": ZONE_POLICY_Taiwan,
-      "format": "C%T",
+      "format": "C%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -4929,7 +4929,7 @@ ZONE_ENTRIES_Tokyo = [
     {
       "offsetCode": 36,
       "zonePolicy": ZONE_POLICY_Japan,
-      "format": "J%T",
+      "format": "J%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5077,7 +5077,7 @@ ZONE_ENTRIES_Bermuda = [
     {
       "offsetCode": -16,
       "zonePolicy": ZONE_POLICY_US,
-      "format": "A%T",
+      "format": "A%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5100,7 +5100,7 @@ ZONE_ENTRIES_Canary = [
     {
       "offsetCode": 0,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "WE%T",
+      "format": "WE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5146,7 +5146,7 @@ ZONE_ENTRIES_Faroe = [
     {
       "offsetCode": 0,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "WE%T",
+      "format": "WE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5169,7 +5169,7 @@ ZONE_ENTRIES_Madeira = [
     {
       "offsetCode": 0,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "WE%T",
+      "format": "WE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5271,7 +5271,7 @@ ZONE_ENTRIES_Adelaide = [
     {
       "offsetCode": 38,
       "zonePolicy": ZONE_POLICY_AS,
-      "format": "AC%T",
+      "format": "AC%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5294,7 +5294,7 @@ ZONE_ENTRIES_Brisbane = [
     {
       "offsetCode": 40,
       "zonePolicy": ZONE_POLICY_AQ,
-      "format": "AE%T",
+      "format": "AE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5317,7 +5317,7 @@ ZONE_ENTRIES_Broken_Hill = [
     {
       "offsetCode": 38,
       "zonePolicy": ZONE_POLICY_AN,
-      "format": "AC%T",
+      "format": "AC%sT",
       "untilYearShort": 0,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5327,7 +5327,7 @@ ZONE_ENTRIES_Broken_Hill = [
     {
       "offsetCode": 38,
       "zonePolicy": ZONE_POLICY_AS,
-      "format": "AC%T",
+      "format": "AC%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5350,7 +5350,7 @@ ZONE_ENTRIES_Currie = [
     {
       "offsetCode": 40,
       "zonePolicy": ZONE_POLICY_AT,
-      "format": "AE%T",
+      "format": "AE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5373,7 +5373,7 @@ ZONE_ENTRIES_Darwin = [
     {
       "offsetCode": 38,
       "zonePolicy": ZONE_POLICY_Aus,
-      "format": "AC%T",
+      "format": "AC%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5419,7 +5419,7 @@ ZONE_ENTRIES_Hobart = [
     {
       "offsetCode": 40,
       "zonePolicy": ZONE_POLICY_AT,
-      "format": "AE%T",
+      "format": "AE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5442,7 +5442,7 @@ ZONE_ENTRIES_Lindeman = [
     {
       "offsetCode": 40,
       "zonePolicy": ZONE_POLICY_Holiday,
-      "format": "AE%T",
+      "format": "AE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5488,7 +5488,7 @@ ZONE_ENTRIES_Melbourne = [
     {
       "offsetCode": 40,
       "zonePolicy": ZONE_POLICY_AV,
-      "format": "AE%T",
+      "format": "AE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5511,7 +5511,7 @@ ZONE_ENTRIES_Perth = [
     {
       "offsetCode": 32,
       "zonePolicy": ZONE_POLICY_AW,
-      "format": "AW%T",
+      "format": "AW%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5534,7 +5534,7 @@ ZONE_ENTRIES_Sydney = [
     {
       "offsetCode": 40,
       "zonePolicy": ZONE_POLICY_AN,
-      "format": "AE%T",
+      "format": "AE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5557,7 +5557,7 @@ ZONE_ENTRIES_Amsterdam = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5580,7 +5580,7 @@ ZONE_ENTRIES_Andorra = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5603,7 +5603,7 @@ ZONE_ENTRIES_Athens = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5626,7 +5626,7 @@ ZONE_ENTRIES_Belgrade = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5649,7 +5649,7 @@ ZONE_ENTRIES_Berlin = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5672,7 +5672,7 @@ ZONE_ENTRIES_Brussels = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5695,7 +5695,7 @@ ZONE_ENTRIES_Bucharest = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5718,7 +5718,7 @@ ZONE_ENTRIES_Budapest = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5741,7 +5741,7 @@ ZONE_ENTRIES_Chisinau = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_Moldova,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5764,7 +5764,7 @@ ZONE_ENTRIES_Copenhagen = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5810,7 +5810,7 @@ ZONE_ENTRIES_Gibraltar = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5833,7 +5833,7 @@ ZONE_ENTRIES_Helsinki = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5856,7 +5856,7 @@ ZONE_ENTRIES_Kiev = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5879,7 +5879,7 @@ ZONE_ENTRIES_Lisbon = [
     {
       "offsetCode": 0,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "WE%T",
+      "format": "WE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5925,7 +5925,7 @@ ZONE_ENTRIES_Luxembourg = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5948,7 +5948,7 @@ ZONE_ENTRIES_Madrid = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5971,7 +5971,7 @@ ZONE_ENTRIES_Malta = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -5994,7 +5994,7 @@ ZONE_ENTRIES_Monaco = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6017,7 +6017,7 @@ ZONE_ENTRIES_Oslo = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6040,7 +6040,7 @@ ZONE_ENTRIES_Paris = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6063,7 +6063,7 @@ ZONE_ENTRIES_Prague = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6086,7 +6086,7 @@ ZONE_ENTRIES_Riga = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 0,
       "untilMonth": 2,
       "untilDay": 29,
@@ -6106,7 +6106,7 @@ ZONE_ENTRIES_Riga = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6129,7 +6129,7 @@ ZONE_ENTRIES_Rome = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6152,7 +6152,7 @@ ZONE_ENTRIES_Sofia = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6175,7 +6175,7 @@ ZONE_ENTRIES_Stockholm = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6208,7 +6208,7 @@ ZONE_ENTRIES_Tallinn = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6231,7 +6231,7 @@ ZONE_ENTRIES_Tirane = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6254,7 +6254,7 @@ ZONE_ENTRIES_Uzhgorod = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6277,7 +6277,7 @@ ZONE_ENTRIES_Vienna = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6310,7 +6310,7 @@ ZONE_ENTRIES_Vilnius = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6333,7 +6333,7 @@ ZONE_ENTRIES_Warsaw = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6356,7 +6356,7 @@ ZONE_ENTRIES_Zaporozhye = [
     {
       "offsetCode": 8,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%T",
+      "format": "EE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6379,7 +6379,7 @@ ZONE_ENTRIES_Zurich = [
     {
       "offsetCode": 4,
       "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%T",
+      "format": "CE%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
@@ -6619,7 +6619,7 @@ ZONE_ENTRIES_Auckland = [
     {
       "offsetCode": 48,
       "zonePolicy": ZONE_POLICY_NZ,
-      "format": "NZ%T",
+      "format": "NZ%sT",
       "untilYearShort": 127,
       "untilMonth": 1,
       "untilDay": 1,
