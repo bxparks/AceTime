@@ -441,13 +441,15 @@ const common::ZoneInfo kZone{infoShortName} = {{
         if not until_hour:
             until_hour = 0
 
-        string_length = len(entry['format']) + 1
+        # Replace %s with just a % for C++
+        format = entry['format'].replace('%s', '%')
+        string_length = len(format) + 1
 
         entry_item = self.ZONE_INFOS_CPP_ENTRY_ITEM.format(
             rawLine=normalize_raw(entry['rawLine']),
             offsetCode=entry['offsetCode'],
             zonePolicy=zonePolicy,
-            format=entry['format'],
+            format=format,
             untilYearShort=until_year_short,
             untilMonth=until_month,
             untilDay=until_day,

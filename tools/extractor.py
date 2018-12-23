@@ -351,7 +351,7 @@ def process_zone_line(line):
         until_time = None
 
     # FORMAT
-    format = tokens[2].replace('%s', '%')
+    format = tokens[2]
 
     # Return map corresponding to a ZoneEntry instance
     return {
