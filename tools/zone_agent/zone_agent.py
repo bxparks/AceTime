@@ -10,9 +10,14 @@ C++ code in the Arduino environment.
 
 Examples:
 
-    # Print out the zone entry matches and transitions for
-    # America/Indivana/Petersburg for the year 2006.
-    $ ./zone_agent --zone Petersburg --year 2006
+    # America/Indiana/Petersburg for the year 2006.
+    $ ./zone_agent.py --zone Petersburg --year 2006
+
+    # America/Indiana/Indianapolis for the year 2006.
+    $ ./zone_agent.py --zone Indianapolis --year 2006
+
+    # Australia/Darwin for the year 2006.
+    $ ./zone_agent.py --zone Darwin --year 2006
 """
 
 import sys
