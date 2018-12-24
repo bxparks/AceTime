@@ -9,19 +9,19 @@ namespace common {
 /**
  * A time zone transition rule. It is useful to think of this as a transition
  * rule that repeats on the given (month, day, hour) every year during the
- * interval [fromYearFull, toYearFull] inclusive.
+ * interval [fromYear, toYear] inclusive.
  */
 struct ZoneRule {
   static const uint16_t kMaxYear = 9999;
 
   /** Determined by the FROM column. Supports years before 2000. */
-  uint16_t const fromYearFull;
+  uint16_t const fromYear;
 
   /**
    * Determined by the TO column. Supports years before 2000. "max" is
    * represented by 9999.
    */
-  uint16_t const toYearFull;
+  uint16_t const toYear;
 
   /** Determined by the IN column. 1=Jan, 12=Dec. */
   uint8_t const inMonth;

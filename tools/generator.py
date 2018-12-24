@@ -107,8 +107,8 @@ const common::ZonePolicy kPolicy{policyName} = {{
     ZONE_POLICIES_CPP_RULE_ITEM = """\
   // {rawLine}
   {{
-    {fromYearFull} /*fromYearFull*/,
-    {toYearFull} /*toYearFull*/,
+    {fromYear} /*fromYear*/,
+    {toYear} /*toYear*/,
     {inMonth} /*inMonth*/,
     {onDayOfWeek} /*onDayOfWeek*/,
     {onDayOfMonth} /*onDayOfMonth*/,
@@ -322,8 +322,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
             atHour = rule['atMinute'] // 60
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
                 rawLine=normalize_raw(rule['rawLine']),
-                fromYearFull=rule['fromYear'],
-                toYearFull=rule['toYear'],
+                fromYear=rule['fromYear'],
+                toYear=rule['toYear'],
                 inMonth=rule['inMonth'],
                 onDayOfWeek=rule['onDayOfWeek'],
                 onDayOfMonth=rule['onDayOfMonth'],

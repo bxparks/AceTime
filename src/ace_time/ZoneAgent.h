@@ -189,13 +189,13 @@ class ZoneAgent {
       }
 
       // Find the latest rule for the matching Zone entry whose
-      // ZoneRule::toYearFull < year. Assume that there are no more than 1 rule
+      // ZoneRule::toYear < year. Assume that there are no more than 1 rule
       // per month.
       const common::ZoneRule* latest = nullptr;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const common::ZoneRule* const rule = &zonePolicy->rules[i];
         // Check if rule is effective prior to the given year
-        if (rule->fromYearFull < year) {
+        if (rule->fromYear < year) {
           if ((latest == nullptr)
               || compareZoneRule(year, rule, latest) > 0) {
             latest = rule;
@@ -214,10 +214,10 @@ class ZoneAgent {
     /** Compare two ZoneRules which are valid prior to the given year. */
     static int8_t compareZoneRule(uint16_t year,
         const common::ZoneRule* a, const common::ZoneRule* b) {
-      uint16_t aYearFull = effectiveRuleYear(year, a);
-      uint16_t bYearFull = effectiveRuleYear(year, b);
-      if (aYearFull < bYearFull) return -1;
-      if (aYearFull > bYearFull) return 1;
+      uint16_t aYear = effectiveRuleYear(year, a);
+      uint16_t bYear = effectiveRuleYear(year, b);
+      if (aYear < bYear) return -1;
+      if (aYear > bYear) return 1;
       if (a->inMonth < b->inMonth) return -1;
       if (a->inMonth > b->inMonth) return 1;
       return 0;
@@ -226,8 +226,8 @@ class ZoneAgent {
     /** Return the largest effective year of the rule, prior to given year. */
     static uint16_t effectiveRuleYear(uint16_t year,
         const common::ZoneRule* rule) {
-      if (rule->toYearFull < year) return rule->toYearFull;
-      if (rule->fromYearFull < year) return year - 1;
+      if (rule->toYear < year) return rule->toYear;
+      if (rule->fromYear < year) return year - 1;
       return 0;
     }
 
@@ -242,7 +242,7 @@ class ZoneAgent {
       // in sorted order according to the ZoneRule::inMonth field.
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const common::ZoneRule* const rule = &zonePolicy->rules[i];
-        if ((rule->fromYearFull <= year) && (year <= rule->toYearFull)) {
+        if ((rule->fromYear <= year) && (year <= rule->toYear)) {
           addRule(entry, rule);
         }
       }

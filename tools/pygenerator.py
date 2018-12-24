@@ -66,8 +66,8 @@ ZONE_POLICY_{policyName} = {{
     ZONE_RULE_ITEM = """\
     # {rawLine}
     {{
-        "fromYearFull": {fromYearFull},
-        "toYearFull": {toYearFull},
+        "fromYear": {fromYear},
+        "toYear": {toYear},
         "inMonth": {inMonth},
         "onDayOfWeek": {onDayOfWeek},
         "onDayOfMonth": {onDayOfMonth},
@@ -206,8 +206,8 @@ ZONE_INFO_{infoShortName} = {{
             rule_items += self.ZONE_RULE_ITEM.format(
                 policyName=normalize_name(name),
                 rawLine=normalize_raw(rule['rawLine']),
-                fromYearFull=rule['fromYear'],
-                toYearFull=rule['toYear'],
+                fromYear=rule['fromYear'],
+                toYear=rule['toYear'],
                 inMonth=rule['inMonth'],
                 onDayOfWeek=rule['onDayOfWeek'],
                 onDayOfMonth=rule['onDayOfMonth'],

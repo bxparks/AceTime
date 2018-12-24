@@ -51,8 +51,8 @@ class ZoneAgent:
 
     # Sentinel Zone Rule that represents the earliest zone rule.
     ZONE_RULE_ANCHOR = {
-        'fromYearFull': 0,
-        'toYearFull': 0
+        'fromYear': 0,
+        'toYear': 0
     }
 
     def __init__(self, zone_info):
@@ -140,8 +140,8 @@ class ZoneAgent:
             delta_code = transition['deltaCode']
             letter = transition['letter']
             zone_rule = transition['zoneRule']
-            zone_rule_from = zone_rule['fromYearFull']
-            zone_rule_to = zone_rule['toYearFull']
+            zone_rule_from = zone_rule['fromYear']
+            zone_rule_to = zone_rule['toYear']
             original_transition_time = transition['originalTransitionTime'] \
                 if 'originalTransitionTime' in transition \
                 else None
@@ -232,8 +232,8 @@ class ZoneAgent:
         latest_prior_transition = None
         start_transition_found = False
         for rule in rules:
-            rule_from_year = rule['fromYearFull']
-            rule_to_year = rule['toYearFull']
+            rule_from_year = rule['fromYear']
+            rule_to_year = rule['toYear']
 
             rule_versus_year = compare_rule_to_year(rule, year)
             if rule_versus_year > 0:
@@ -298,8 +298,8 @@ class ZoneAgent:
 def compare_rule_to_year(rule, year):
     """Determine if rule is < year, overlaps with year, or > year.
     """
-    to_year = rule['toYearFull']
-    from_year = rule['fromYearFull']
+    to_year = rule['toYear']
+    from_year = rule['fromYear']
     if to_year < year:
         return -1
     if from_year > year:
@@ -387,9 +387,9 @@ def largest_rule_year(year, rule):
     """Return the largest year of the rule *prior* to the given year.
     Return 0 if the rule is not valid before the given 'year'.
     """
-    if rule['toYearFull'] < year:
-        return rule['toYearFull']
-    if rule['fromYearFull'] < year:
+    if rule['toYear'] < year:
+        return rule['toYear']
+    if rule['fromYear'] < year:
         return year - 1
     return 0
 
