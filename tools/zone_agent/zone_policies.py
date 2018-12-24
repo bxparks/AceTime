@@ -20,8 +20,8 @@
 ZONE_RULES_AN = [
     # Rule    AN    1987    1999    -    Oct    lastSun    2:00s    1:00    D
     {
-        "fromYearFull": 1987,
-        "toYearFull": 1999,
+        "fromYear": 1987,
+        "toYear": 1999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -32,8 +32,8 @@ ZONE_RULES_AN = [
     },
     # Rule    AN    1996    2005    -    Mar    lastSun    2:00s    0    S
     {
-        "fromYearFull": 1996,
-        "toYearFull": 2005,
+        "fromYear": 1996,
+        "toYear": 2005,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -44,8 +44,8 @@ ZONE_RULES_AN = [
     },
     # Rule    AN    2000    only    -    Aug    lastSun    2:00s    1:00    D
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2000,
+        "fromYear": 2000,
+        "toYear": 2000,
         "inMonth": 8,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -56,8 +56,8 @@ ZONE_RULES_AN = [
     },
     # Rule    AN    2001    2007    -    Oct    lastSun    2:00s    1:00    D
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2007,
+        "fromYear": 2001,
+        "toYear": 2007,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -68,8 +68,8 @@ ZONE_RULES_AN = [
     },
     # Rule    AN    2006    only    -    Apr    Sun>=1    2:00s    0    S
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -80,8 +80,8 @@ ZONE_RULES_AN = [
     },
     # Rule    AN    2007    only    -    Mar    lastSun    2:00s    0    S
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -92,8 +92,8 @@ ZONE_RULES_AN = [
     },
     # Rule    AN    2008    max    -    Apr    Sun>=1    2:00s    0    S
     {
-        "fromYearFull": 2008,
-        "toYearFull": 9999,
+        "fromYear": 2008,
+        "toYear": 9999,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -104,8 +104,8 @@ ZONE_RULES_AN = [
     },
     # Rule    AN    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
     {
-        "fromYearFull": 2008,
-        "toYearFull": 9999,
+        "fromYear": 2008,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -128,8 +128,8 @@ ZONE_POLICY_AN = {
 ZONE_RULES_AQ = [
     # Rule    AQ    1990    1992    -    Mar    Sun>=1    2:00s    0    S
     {
-        "fromYearFull": 1990,
-        "toYearFull": 1992,
+        "fromYear": 1990,
+        "toYear": 1992,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -152,8 +152,8 @@ ZONE_POLICY_AQ = {
 ZONE_RULES_AS = [
     # Rule    AS    1987    2007    -    Oct    lastSun    2:00s    1:00    D
     {
-        "fromYearFull": 1987,
-        "toYearFull": 2007,
+        "fromYear": 1987,
+        "toYear": 2007,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -164,8 +164,8 @@ ZONE_RULES_AS = [
     },
     # Rule    AS    1994    only    -    Mar    20    2:00s    0    S
     {
-        "fromYearFull": 1994,
-        "toYearFull": 1994,
+        "fromYear": 1994,
+        "toYear": 1994,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 20,
@@ -176,8 +176,8 @@ ZONE_RULES_AS = [
     },
     # Rule    AS    1995    2005    -    Mar    lastSun    2:00s    0    S
     {
-        "fromYearFull": 1995,
-        "toYearFull": 2005,
+        "fromYear": 1995,
+        "toYear": 2005,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -188,8 +188,8 @@ ZONE_RULES_AS = [
     },
     # Rule    AS    2006    only    -    Apr    2    2:00s    0    S
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 2,
@@ -200,8 +200,8 @@ ZONE_RULES_AS = [
     },
     # Rule    AS    2007    only    -    Mar    lastSun    2:00s    0    S
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -212,8 +212,8 @@ ZONE_RULES_AS = [
     },
     # Rule    AS    2008    max    -    Apr    Sun>=1    2:00s    0    S
     {
-        "fromYearFull": 2008,
-        "toYearFull": 9999,
+        "fromYear": 2008,
+        "toYear": 9999,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -224,8 +224,8 @@ ZONE_RULES_AS = [
     },
     # Rule    AS    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
     {
-        "fromYearFull": 2008,
-        "toYearFull": 9999,
+        "fromYear": 2008,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -248,8 +248,8 @@ ZONE_POLICY_AS = {
 ZONE_RULES_AT = [
     # Rule    AT    1991    1999    -    Oct    Sun>=1    2:00s    1:00    D
     {
-        "fromYearFull": 1991,
-        "toYearFull": 1999,
+        "fromYear": 1991,
+        "toYear": 1999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -260,8 +260,8 @@ ZONE_RULES_AT = [
     },
     # Rule    AT    1991    2005    -    Mar    lastSun    2:00s    0    S
     {
-        "fromYearFull": 1991,
-        "toYearFull": 2005,
+        "fromYear": 1991,
+        "toYear": 2005,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -272,8 +272,8 @@ ZONE_RULES_AT = [
     },
     # Rule    AT    2000    only    -    Aug    lastSun    2:00s    1:00    D
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2000,
+        "fromYear": 2000,
+        "toYear": 2000,
         "inMonth": 8,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -284,8 +284,8 @@ ZONE_RULES_AT = [
     },
     # Rule    AT    2001    max    -    Oct    Sun>=1    2:00s    1:00    D
     {
-        "fromYearFull": 2001,
-        "toYearFull": 9999,
+        "fromYear": 2001,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -296,8 +296,8 @@ ZONE_RULES_AT = [
     },
     # Rule    AT    2006    only    -    Apr    Sun>=1    2:00s    0    S
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -308,8 +308,8 @@ ZONE_RULES_AT = [
     },
     # Rule    AT    2007    only    -    Mar    lastSun    2:00s    0    S
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -320,8 +320,8 @@ ZONE_RULES_AT = [
     },
     # Rule    AT    2008    max    -    Apr    Sun>=1    2:00s    0    S
     {
-        "fromYearFull": 2008,
-        "toYearFull": 9999,
+        "fromYear": 2008,
+        "toYear": 9999,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -344,8 +344,8 @@ ZONE_POLICY_AT = {
 ZONE_RULES_AV = [
     # Rule    AV    1988    1999    -    Oct    lastSun    2:00s    1:00    D
     {
-        "fromYearFull": 1988,
-        "toYearFull": 1999,
+        "fromYear": 1988,
+        "toYear": 1999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -356,8 +356,8 @@ ZONE_RULES_AV = [
     },
     # Rule    AV    1995    2005    -    Mar    lastSun    2:00s    0    S
     {
-        "fromYearFull": 1995,
-        "toYearFull": 2005,
+        "fromYear": 1995,
+        "toYear": 2005,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -368,8 +368,8 @@ ZONE_RULES_AV = [
     },
     # Rule    AV    2000    only    -    Aug    lastSun    2:00s    1:00    D
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2000,
+        "fromYear": 2000,
+        "toYear": 2000,
         "inMonth": 8,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -380,8 +380,8 @@ ZONE_RULES_AV = [
     },
     # Rule    AV    2001    2007    -    Oct    lastSun    2:00s    1:00    D
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2007,
+        "fromYear": 2001,
+        "toYear": 2007,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -392,8 +392,8 @@ ZONE_RULES_AV = [
     },
     # Rule    AV    2006    only    -    Apr    Sun>=1    2:00s    0    S
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -404,8 +404,8 @@ ZONE_RULES_AV = [
     },
     # Rule    AV    2007    only    -    Mar    lastSun    2:00s    0    S
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -416,8 +416,8 @@ ZONE_RULES_AV = [
     },
     # Rule    AV    2008    max    -    Apr    Sun>=1    2:00s    0    S
     {
-        "fromYearFull": 2008,
-        "toYearFull": 9999,
+        "fromYear": 2008,
+        "toYear": 9999,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -428,8 +428,8 @@ ZONE_RULES_AV = [
     },
     # Rule    AV    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
     {
-        "fromYearFull": 2008,
-        "toYearFull": 9999,
+        "fromYear": 2008,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -452,8 +452,8 @@ ZONE_POLICY_AV = {
 ZONE_RULES_AW = [
     # Rule    AW    1992    only    -    Mar    Sun>=1    2:00s    0    S
     {
-        "fromYearFull": 1992,
-        "toYearFull": 1992,
+        "fromYear": 1992,
+        "toYear": 1992,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -464,8 +464,8 @@ ZONE_RULES_AW = [
     },
     # Rule    AW    2006    only    -    Dec     3    2:00s    1:00    D
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 12,
         "onDayOfWeek": 0,
         "onDayOfMonth": 3,
@@ -476,8 +476,8 @@ ZONE_RULES_AW = [
     },
     # Rule    AW    2007    2009    -    Mar    lastSun    2:00s    0    S
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2009,
+        "fromYear": 2007,
+        "toYear": 2009,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -488,8 +488,8 @@ ZONE_RULES_AW = [
     },
     # Rule    AW    2007    2008    -    Oct    lastSun    2:00s    1:00    D
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2008,
+        "fromYear": 2007,
+        "toYear": 2008,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -512,8 +512,8 @@ ZONE_POLICY_AW = {
 ZONE_RULES_Arg = [
     # Rule    Arg    1999    only    -    Oct    Sun>=1    0:00    1:00    -
     {
-        "fromYearFull": 1999,
-        "toYearFull": 1999,
+        "fromYear": 1999,
+        "toYear": 1999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -524,8 +524,8 @@ ZONE_RULES_Arg = [
     },
     # Rule    Arg    2000    only    -    Mar    3    0:00    0    -
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2000,
+        "fromYear": 2000,
+        "toYear": 2000,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 3,
@@ -536,8 +536,8 @@ ZONE_RULES_Arg = [
     },
     # Rule    Arg    2007    only    -    Dec    30    0:00    1:00    -
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 12,
         "onDayOfWeek": 0,
         "onDayOfMonth": 30,
@@ -548,8 +548,8 @@ ZONE_RULES_Arg = [
     },
     # Rule    Arg    2008    2009    -    Mar    Sun>=15    0:00    0    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2009,
+        "fromYear": 2008,
+        "toYear": 2009,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -560,8 +560,8 @@ ZONE_RULES_Arg = [
     },
     # Rule    Arg    2008    only    -    Oct    Sun>=15    0:00    1:00    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -584,8 +584,8 @@ ZONE_POLICY_Arg = {
 ZONE_RULES_Armenia = [
     # Rule Armenia    2011    only    -    Mar    lastSun     2:00s    1:00    -
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -596,8 +596,8 @@ ZONE_RULES_Armenia = [
     },
     # Rule Armenia    2011    only    -    Oct    lastSun     2:00s    0    -
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -620,8 +620,8 @@ ZONE_POLICY_Armenia = {
 ZONE_RULES_Aus = [
     # Rule    Aus    1943    1944    -    Mar    lastSun    2:00    0    S
     {
-        "fromYearFull": 1943,
-        "toYearFull": 1944,
+        "fromYear": 1943,
+        "toYear": 1944,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -644,8 +644,8 @@ ZONE_POLICY_Aus = {
 ZONE_RULES_Azer = [
     # Rule    Azer    1997    2015    -    Mar    lastSun     4:00    1:00    -
     {
-        "fromYearFull": 1997,
-        "toYearFull": 2015,
+        "fromYear": 1997,
+        "toYear": 2015,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -656,8 +656,8 @@ ZONE_RULES_Azer = [
     },
     # Rule    Azer    1997    2015    -    Oct    lastSun     5:00    0    -
     {
-        "fromYearFull": 1997,
-        "toYearFull": 2015,
+        "fromYear": 1997,
+        "toYear": 2015,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -680,8 +680,8 @@ ZONE_POLICY_Azer = {
 ZONE_RULES_Barb = [
     # Rule    Barb    1980    only    -    Sep    25    2:00    0    S
     {
-        "fromYearFull": 1980,
-        "toYearFull": 1980,
+        "fromYear": 1980,
+        "toYear": 1980,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 25,
@@ -704,8 +704,8 @@ ZONE_POLICY_Barb = {
 ZONE_RULES_Brazil = [
     # Rule    Brazil    1999    only    -    Oct     3     0:00    1:00    -
     {
-        "fromYearFull": 1999,
-        "toYearFull": 1999,
+        "fromYear": 1999,
+        "toYear": 1999,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 3,
@@ -716,8 +716,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2000    only    -    Feb    27     0:00    0    -
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2000,
+        "fromYear": 2000,
+        "toYear": 2000,
         "inMonth": 2,
         "onDayOfWeek": 0,
         "onDayOfMonth": 27,
@@ -728,8 +728,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2000    2001    -    Oct    Sun>=8     0:00    1:00    -
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2001,
+        "fromYear": 2000,
+        "toYear": 2001,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -740,8 +740,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2001    2006    -    Feb    Sun>=15     0:00    0    -
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2006,
+        "fromYear": 2001,
+        "toYear": 2006,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -752,8 +752,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2002    only    -    Nov     3     0:00    1:00    -
     {
-        "fromYearFull": 2002,
-        "toYearFull": 2002,
+        "fromYear": 2002,
+        "toYear": 2002,
         "inMonth": 11,
         "onDayOfWeek": 0,
         "onDayOfMonth": 3,
@@ -764,8 +764,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2003    only    -    Oct    19     0:00    1:00    -
     {
-        "fromYearFull": 2003,
-        "toYearFull": 2003,
+        "fromYear": 2003,
+        "toYear": 2003,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 19,
@@ -776,8 +776,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2004    only    -    Nov     2     0:00    1:00    -
     {
-        "fromYearFull": 2004,
-        "toYearFull": 2004,
+        "fromYear": 2004,
+        "toYear": 2004,
         "inMonth": 11,
         "onDayOfWeek": 0,
         "onDayOfMonth": 2,
@@ -788,8 +788,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2005    only    -    Oct    16     0:00    1:00    -
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 16,
@@ -800,8 +800,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2006    only    -    Nov     5     0:00    1:00    -
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 11,
         "onDayOfWeek": 0,
         "onDayOfMonth": 5,
@@ -812,8 +812,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2007    only    -    Feb    25     0:00    0    -
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 2,
         "onDayOfWeek": 0,
         "onDayOfMonth": 25,
@@ -824,8 +824,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2007    only    -    Oct    Sun>=8     0:00    1:00    -
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -836,8 +836,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2008    2017    -    Oct    Sun>=15    0:00    1:00    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2017,
+        "fromYear": 2008,
+        "toYear": 2017,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -848,8 +848,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2008    2011    -    Feb    Sun>=15    0:00    0    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2011,
+        "fromYear": 2008,
+        "toYear": 2011,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -860,8 +860,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2012    only    -    Feb    Sun>=22    0:00    0    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2012,
+        "fromYear": 2012,
+        "toYear": 2012,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 22,
@@ -872,8 +872,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2013    2014    -    Feb    Sun>=15    0:00    0    -
     {
-        "fromYearFull": 2013,
-        "toYearFull": 2014,
+        "fromYear": 2013,
+        "toYear": 2014,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -884,8 +884,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2015    only    -    Feb    Sun>=22    0:00    0    -
     {
-        "fromYearFull": 2015,
-        "toYearFull": 2015,
+        "fromYear": 2015,
+        "toYear": 2015,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 22,
@@ -896,8 +896,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2016    2022    -    Feb    Sun>=15    0:00    0    -
     {
-        "fromYearFull": 2016,
-        "toYearFull": 2022,
+        "fromYear": 2016,
+        "toYear": 2022,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -908,8 +908,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2018    max    -    Nov    Sun>=1    0:00    1:00    -
     {
-        "fromYearFull": 2018,
-        "toYearFull": 9999,
+        "fromYear": 2018,
+        "toYear": 9999,
         "inMonth": 11,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -920,8 +920,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2023    only    -    Feb    Sun>=22    0:00    0    -
     {
-        "fromYearFull": 2023,
-        "toYearFull": 2023,
+        "fromYear": 2023,
+        "toYear": 2023,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 22,
@@ -932,8 +932,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2024    2025    -    Feb    Sun>=15    0:00    0    -
     {
-        "fromYearFull": 2024,
-        "toYearFull": 2025,
+        "fromYear": 2024,
+        "toYear": 2025,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -944,8 +944,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2026    only    -    Feb    Sun>=22    0:00    0    -
     {
-        "fromYearFull": 2026,
-        "toYearFull": 2026,
+        "fromYear": 2026,
+        "toYear": 2026,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 22,
@@ -956,8 +956,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2027    2033    -    Feb    Sun>=15    0:00    0    -
     {
-        "fromYearFull": 2027,
-        "toYearFull": 2033,
+        "fromYear": 2027,
+        "toYear": 2033,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -968,8 +968,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2034    only    -    Feb    Sun>=22    0:00    0    -
     {
-        "fromYearFull": 2034,
-        "toYearFull": 2034,
+        "fromYear": 2034,
+        "toYear": 2034,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 22,
@@ -980,8 +980,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2035    2036    -    Feb    Sun>=15    0:00    0    -
     {
-        "fromYearFull": 2035,
-        "toYearFull": 2036,
+        "fromYear": 2035,
+        "toYear": 2036,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -992,8 +992,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2037    only    -    Feb    Sun>=22    0:00    0    -
     {
-        "fromYearFull": 2037,
-        "toYearFull": 2037,
+        "fromYear": 2037,
+        "toYear": 2037,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 22,
@@ -1004,8 +1004,8 @@ ZONE_RULES_Brazil = [
     },
     # Rule    Brazil    2038    max    -    Feb    Sun>=15    0:00    0    -
     {
-        "fromYearFull": 2038,
-        "toYearFull": 9999,
+        "fromYear": 2038,
+        "toYear": 9999,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -1028,8 +1028,8 @@ ZONE_POLICY_Brazil = {
 ZONE_RULES_CO = [
     # Rule    CO    1993    only    -    Apr     4    0:00    0    -
     {
-        "fromYearFull": 1993,
-        "toYearFull": 1993,
+        "fromYear": 1993,
+        "toYear": 1993,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 4,
@@ -1052,8 +1052,8 @@ ZONE_POLICY_CO = {
 ZONE_RULES_CR = [
     # Rule    CR    1992    only    -    Mar    15    0:00    0    S
     {
-        "fromYearFull": 1992,
-        "toYearFull": 1992,
+        "fromYear": 1992,
+        "toYear": 1992,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 15,
@@ -1076,8 +1076,8 @@ ZONE_POLICY_CR = {
 ZONE_RULES_Canada = [
     # Rule    Canada    1974    1986    -    Apr    lastSun    2:00    1:00    D
     {
-        "fromYearFull": 1974,
-        "toYearFull": 1986,
+        "fromYear": 1974,
+        "toYear": 1986,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1088,8 +1088,8 @@ ZONE_RULES_Canada = [
     },
     # Rule    Canada    1974    2006    -    Oct    lastSun    2:00    0    S
     {
-        "fromYearFull": 1974,
-        "toYearFull": 2006,
+        "fromYear": 1974,
+        "toYear": 2006,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1100,8 +1100,8 @@ ZONE_RULES_Canada = [
     },
     # Rule    Canada    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
     {
-        "fromYearFull": 1987,
-        "toYearFull": 2006,
+        "fromYear": 1987,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -1112,8 +1112,8 @@ ZONE_RULES_Canada = [
     },
     # Rule    Canada    2007    max    -    Mar    Sun>=8    2:00    1:00    D
     {
-        "fromYearFull": 2007,
-        "toYearFull": 9999,
+        "fromYear": 2007,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -1124,8 +1124,8 @@ ZONE_RULES_Canada = [
     },
     # Rule    Canada    2007    max    -    Nov    Sun>=1    2:00    0    S
     {
-        "fromYearFull": 2007,
-        "toYearFull": 9999,
+        "fromYear": 2007,
+        "toYear": 9999,
         "inMonth": 11,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -1148,8 +1148,8 @@ ZONE_POLICY_Canada = {
 ZONE_RULES_Chile = [
     # Rule    Chile    1999    only    -    Apr     4    3:00u    0    -
     {
-        "fromYearFull": 1999,
-        "toYearFull": 1999,
+        "fromYear": 1999,
+        "toYear": 1999,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 4,
@@ -1160,8 +1160,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    1999    2010    -    Oct    Sun>=9    4:00u    1:00    -
     {
-        "fromYearFull": 1999,
-        "toYearFull": 2010,
+        "fromYear": 1999,
+        "toYear": 2010,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 9,
@@ -1172,8 +1172,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2000    2007    -    Mar    Sun>=9    3:00u    0    -
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2007,
+        "fromYear": 2000,
+        "toYear": 2007,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 9,
@@ -1184,8 +1184,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2008    only    -    Mar    30    3:00u    0    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 30,
@@ -1196,8 +1196,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2009    only    -    Mar    Sun>=9    3:00u    0    -
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2009,
+        "fromYear": 2009,
+        "toYear": 2009,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 9,
@@ -1208,8 +1208,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2010    only    -    Apr    Sun>=1    3:00u    0    -
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2010,
+        "fromYear": 2010,
+        "toYear": 2010,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -1220,8 +1220,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2011    only    -    May    Sun>=2    3:00u    0    -
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 5,
         "onDayOfWeek": 7,
         "onDayOfMonth": 2,
@@ -1232,8 +1232,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2011    only    -    Aug    Sun>=16    4:00u    1:00    -
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 8,
         "onDayOfWeek": 7,
         "onDayOfMonth": 16,
@@ -1244,8 +1244,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2012    2014    -    Apr    Sun>=23    3:00u    0    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2014,
+        "fromYear": 2012,
+        "toYear": 2014,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 23,
@@ -1256,8 +1256,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2012    2014    -    Sep    Sun>=2    4:00u    1:00    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2014,
+        "fromYear": 2012,
+        "toYear": 2014,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 2,
@@ -1268,8 +1268,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2016    2018    -    May    Sun>=9    3:00u    0    -
     {
-        "fromYearFull": 2016,
-        "toYearFull": 2018,
+        "fromYear": 2016,
+        "toYear": 2018,
         "inMonth": 5,
         "onDayOfWeek": 7,
         "onDayOfMonth": 9,
@@ -1280,8 +1280,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2016    2018    -    Aug    Sun>=9    4:00u    1:00    -
     {
-        "fromYearFull": 2016,
-        "toYearFull": 2018,
+        "fromYear": 2016,
+        "toYear": 2018,
         "inMonth": 8,
         "onDayOfWeek": 7,
         "onDayOfMonth": 9,
@@ -1292,8 +1292,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2019    max    -    Apr    Sun>=2    3:00u    0    -
     {
-        "fromYearFull": 2019,
-        "toYearFull": 9999,
+        "fromYear": 2019,
+        "toYear": 9999,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 2,
@@ -1304,8 +1304,8 @@ ZONE_RULES_Chile = [
     },
     # Rule    Chile    2019    max    -    Sep    Sun>=2    4:00u    1:00    -
     {
-        "fromYearFull": 2019,
-        "toYearFull": 9999,
+        "fromYear": 2019,
+        "toYear": 9999,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 2,
@@ -1328,8 +1328,8 @@ ZONE_POLICY_Chile = {
 ZONE_RULES_Cook = [
     # Rule    Cook    1979    1991    -    Mar    Sun>=1    0:00    0    -
     {
-        "fromYearFull": 1979,
-        "toYearFull": 1991,
+        "fromYear": 1979,
+        "toYear": 1991,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -1352,8 +1352,8 @@ ZONE_POLICY_Cook = {
 ZONE_RULES_Cuba = [
     # Rule    Cuba    1998    1999    -    Mar    lastSun    0:00s    1:00    D
     {
-        "fromYearFull": 1998,
-        "toYearFull": 1999,
+        "fromYear": 1998,
+        "toYear": 1999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1364,8 +1364,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    1998    2003    -    Oct    lastSun    0:00s    0    S
     {
-        "fromYearFull": 1998,
-        "toYearFull": 2003,
+        "fromYear": 1998,
+        "toYear": 2003,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1376,8 +1376,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    2000    2003    -    Apr    Sun>=1    0:00s    1:00    D
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2003,
+        "fromYear": 2000,
+        "toYear": 2003,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -1388,8 +1388,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    2004    only    -    Mar    lastSun    0:00s    1:00    D
     {
-        "fromYearFull": 2004,
-        "toYearFull": 2004,
+        "fromYear": 2004,
+        "toYear": 2004,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1400,8 +1400,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    2006    2010    -    Oct    lastSun    0:00s    0    S
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2010,
+        "fromYear": 2006,
+        "toYear": 2010,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1412,8 +1412,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    2007    only    -    Mar    Sun>=8    0:00s    1:00    D
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -1424,8 +1424,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    2008    only    -    Mar    Sun>=15    0:00s    1:00    D
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -1436,8 +1436,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    2009    2010    -    Mar    Sun>=8    0:00s    1:00    D
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2010,
+        "fromYear": 2009,
+        "toYear": 2010,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -1448,8 +1448,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    2011    only    -    Mar    Sun>=15    0:00s    1:00    D
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -1460,8 +1460,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    2011    only    -    Nov    13    0:00s    0    S
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 11,
         "onDayOfWeek": 0,
         "onDayOfMonth": 13,
@@ -1472,8 +1472,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    2012    only    -    Apr    1    0:00s    1:00    D
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2012,
+        "fromYear": 2012,
+        "toYear": 2012,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -1484,8 +1484,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    2012    max    -    Nov    Sun>=1    0:00s    0    S
     {
-        "fromYearFull": 2012,
-        "toYearFull": 9999,
+        "fromYear": 2012,
+        "toYear": 9999,
         "inMonth": 11,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -1496,8 +1496,8 @@ ZONE_RULES_Cuba = [
     },
     # Rule    Cuba    2013    max    -    Mar    Sun>=8    0:00s    1:00    D
     {
-        "fromYearFull": 2013,
-        "toYearFull": 9999,
+        "fromYear": 2013,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -1520,8 +1520,8 @@ ZONE_POLICY_Cuba = {
 ZONE_RULES_Dhaka = [
     # Rule    Dhaka    2009    only    -    Jun    19    23:00    1:00    -
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2009,
+        "fromYear": 2009,
+        "toYear": 2009,
         "inMonth": 6,
         "onDayOfWeek": 0,
         "onDayOfMonth": 19,
@@ -1532,8 +1532,8 @@ ZONE_RULES_Dhaka = [
     },
     # Rule    Dhaka    2009    only    -    Dec    31    24:00    0    -
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2009,
+        "fromYear": 2009,
+        "toYear": 2009,
         "inMonth": 12,
         "onDayOfWeek": 0,
         "onDayOfMonth": 31,
@@ -1556,8 +1556,8 @@ ZONE_POLICY_Dhaka = {
 ZONE_RULES_EU = [
     # Rule    EU    1979    1995    -    Sep    lastSun     1:00u    0    -
     {
-        "fromYearFull": 1979,
-        "toYearFull": 1995,
+        "fromYear": 1979,
+        "toYear": 1995,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1568,8 +1568,8 @@ ZONE_RULES_EU = [
     },
     # Rule    EU    1981    max    -    Mar    lastSun     1:00u    1:00    S
     {
-        "fromYearFull": 1981,
-        "toYearFull": 9999,
+        "fromYear": 1981,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1580,8 +1580,8 @@ ZONE_RULES_EU = [
     },
     # Rule    EU    1996    max    -    Oct    lastSun     1:00u    0    -
     {
-        "fromYearFull": 1996,
-        "toYearFull": 9999,
+        "fromYear": 1996,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1604,8 +1604,8 @@ ZONE_POLICY_EU = {
 ZONE_RULES_EUAsia = [
     # Rule    EUAsia    1981    max    -    Mar    lastSun     1:00u    1:00    S
     {
-        "fromYearFull": 1981,
-        "toYearFull": 9999,
+        "fromYear": 1981,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1616,8 +1616,8 @@ ZONE_RULES_EUAsia = [
     },
     # Rule    EUAsia    1979    1995    -    Sep    lastSun     1:00u    0    -
     {
-        "fromYearFull": 1979,
-        "toYearFull": 1995,
+        "fromYear": 1979,
+        "toYear": 1995,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1628,8 +1628,8 @@ ZONE_RULES_EUAsia = [
     },
     # Rule    EUAsia    1996    max    -    Oct    lastSun     1:00u    0    -
     {
-        "fromYearFull": 1996,
-        "toYearFull": 9999,
+        "fromYear": 1996,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1652,8 +1652,8 @@ ZONE_POLICY_EUAsia = {
 ZONE_RULES_Ecuador = [
     # Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
     {
-        "fromYearFull": 1993,
-        "toYearFull": 1993,
+        "fromYear": 1993,
+        "toYear": 1993,
         "inMonth": 2,
         "onDayOfWeek": 0,
         "onDayOfMonth": 5,
@@ -1676,8 +1676,8 @@ ZONE_POLICY_Ecuador = {
 ZONE_RULES_Egypt = [
     # Rule    Egypt    1966    1994    -    Oct     1    3:00    0    -
     {
-        "fromYearFull": 1966,
-        "toYearFull": 1994,
+        "fromYear": 1966,
+        "toYear": 1994,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -1688,8 +1688,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    1995    2010    -    Apr    lastFri     0:00s    1:00    S
     {
-        "fromYearFull": 1995,
-        "toYearFull": 2010,
+        "fromYear": 1995,
+        "toYear": 2010,
         "inMonth": 4,
         "onDayOfWeek": 5,
         "onDayOfMonth": 0,
@@ -1700,8 +1700,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    1995    2005    -    Sep    lastThu    24:00    0    -
     {
-        "fromYearFull": 1995,
-        "toYearFull": 2005,
+        "fromYear": 1995,
+        "toYear": 2005,
         "inMonth": 9,
         "onDayOfWeek": 4,
         "onDayOfMonth": 0,
@@ -1712,8 +1712,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    2006    only    -    Sep    21    24:00    0    -
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -1724,8 +1724,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    2007    only    -    Sep    Thu>=1    24:00    0    -
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 9,
         "onDayOfWeek": 4,
         "onDayOfMonth": 1,
@@ -1736,8 +1736,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    2008    only    -    Aug    lastThu    24:00    0    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 8,
         "onDayOfWeek": 4,
         "onDayOfMonth": 0,
@@ -1748,8 +1748,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    2009    only    -    Aug    20    24:00    0    -
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2009,
+        "fromYear": 2009,
+        "toYear": 2009,
         "inMonth": 8,
         "onDayOfWeek": 0,
         "onDayOfMonth": 20,
@@ -1760,8 +1760,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    2010    only    -    Aug    10    24:00    0    -
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2010,
+        "fromYear": 2010,
+        "toYear": 2010,
         "inMonth": 8,
         "onDayOfWeek": 0,
         "onDayOfMonth": 10,
@@ -1772,8 +1772,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    2010    only    -    Sep     9    24:00    1:00    S
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2010,
+        "fromYear": 2010,
+        "toYear": 2010,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 9,
@@ -1784,8 +1784,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    2010    only    -    Sep    lastThu    24:00    0    -
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2010,
+        "fromYear": 2010,
+        "toYear": 2010,
         "inMonth": 9,
         "onDayOfWeek": 4,
         "onDayOfMonth": 0,
@@ -1796,8 +1796,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    2014    only    -    May    15    24:00    1:00    S
     {
-        "fromYearFull": 2014,
-        "toYearFull": 2014,
+        "fromYear": 2014,
+        "toYear": 2014,
         "inMonth": 5,
         "onDayOfWeek": 0,
         "onDayOfMonth": 15,
@@ -1808,8 +1808,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    2014    only    -    Jun    26    24:00    0    -
     {
-        "fromYearFull": 2014,
-        "toYearFull": 2014,
+        "fromYear": 2014,
+        "toYear": 2014,
         "inMonth": 6,
         "onDayOfWeek": 0,
         "onDayOfMonth": 26,
@@ -1820,8 +1820,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    2014    only    -    Jul    31    24:00    1:00    S
     {
-        "fromYearFull": 2014,
-        "toYearFull": 2014,
+        "fromYear": 2014,
+        "toYear": 2014,
         "inMonth": 7,
         "onDayOfWeek": 0,
         "onDayOfMonth": 31,
@@ -1832,8 +1832,8 @@ ZONE_RULES_Egypt = [
     },
     # Rule    Egypt    2014    only    -    Sep    lastThu    24:00    0    -
     {
-        "fromYearFull": 2014,
-        "toYearFull": 2014,
+        "fromYear": 2014,
+        "toYear": 2014,
         "inMonth": 9,
         "onDayOfWeek": 4,
         "onDayOfMonth": 0,
@@ -1856,8 +1856,8 @@ ZONE_POLICY_Egypt = {
 ZONE_RULES_Eire = [
     # Rule    Eire    1981    max    -    Mar    lastSun     1:00u    0    -
     {
-        "fromYearFull": 1981,
-        "toYearFull": 9999,
+        "fromYear": 1981,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1868,8 +1868,8 @@ ZONE_RULES_Eire = [
     },
     # Rule    Eire    1990    1995    -    Oct    Sun>=22     1:00u    -1:00    -
     {
-        "fromYearFull": 1990,
-        "toYearFull": 1995,
+        "fromYear": 1990,
+        "toYear": 1995,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 22,
@@ -1880,8 +1880,8 @@ ZONE_RULES_Eire = [
     },
     # Rule    Eire    1996    max    -    Oct    lastSun     1:00u    -1:00    -
     {
-        "fromYearFull": 1996,
-        "toYearFull": 9999,
+        "fromYear": 1996,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1904,8 +1904,8 @@ ZONE_POLICY_Eire = {
 ZONE_RULES_Falk = [
     # Rule    Falk    1984    1985    -    Apr    lastSun    0:00    0    -
     {
-        "fromYearFull": 1984,
-        "toYearFull": 1985,
+        "fromYear": 1984,
+        "toYear": 1985,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -1916,8 +1916,8 @@ ZONE_RULES_Falk = [
     },
     # Rule    Falk    1985    2000    -    Sep    Sun>=9    0:00    1:00    -
     {
-        "fromYearFull": 1985,
-        "toYearFull": 2000,
+        "fromYear": 1985,
+        "toYear": 2000,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 9,
@@ -1928,8 +1928,8 @@ ZONE_RULES_Falk = [
     },
     # Rule    Falk    1986    2000    -    Apr    Sun>=16    0:00    0    -
     {
-        "fromYearFull": 1986,
-        "toYearFull": 2000,
+        "fromYear": 1986,
+        "toYear": 2000,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 16,
@@ -1940,8 +1940,8 @@ ZONE_RULES_Falk = [
     },
     # Rule    Falk    2001    2010    -    Apr    Sun>=15    2:00    0    -
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2010,
+        "fromYear": 2001,
+        "toYear": 2010,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -1952,8 +1952,8 @@ ZONE_RULES_Falk = [
     },
     # Rule    Falk    2001    2010    -    Sep    Sun>=1    2:00    1:00    -
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2010,
+        "fromYear": 2001,
+        "toYear": 2010,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -1976,8 +1976,8 @@ ZONE_POLICY_Falk = {
 ZONE_RULES_Fiji = [
     # Rule    Fiji    1998    1999    -    Nov    Sun>=1    2:00    1:00    -
     {
-        "fromYearFull": 1998,
-        "toYearFull": 1999,
+        "fromYear": 1998,
+        "toYear": 1999,
         "inMonth": 11,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -1988,8 +1988,8 @@ ZONE_RULES_Fiji = [
     },
     # Rule    Fiji    1999    2000    -    Feb    lastSun    3:00    0    -
     {
-        "fromYearFull": 1999,
-        "toYearFull": 2000,
+        "fromYear": 1999,
+        "toYear": 2000,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -2000,8 +2000,8 @@ ZONE_RULES_Fiji = [
     },
     # Rule    Fiji    2009    only    -    Nov    29    2:00    1:00    -
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2009,
+        "fromYear": 2009,
+        "toYear": 2009,
         "inMonth": 11,
         "onDayOfWeek": 0,
         "onDayOfMonth": 29,
@@ -2012,8 +2012,8 @@ ZONE_RULES_Fiji = [
     },
     # Rule    Fiji    2010    only    -    Mar    lastSun    3:00    0    -
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2010,
+        "fromYear": 2010,
+        "toYear": 2010,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -2024,8 +2024,8 @@ ZONE_RULES_Fiji = [
     },
     # Rule    Fiji    2010    2013    -    Oct    Sun>=21    2:00    1:00    -
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2013,
+        "fromYear": 2010,
+        "toYear": 2013,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 21,
@@ -2036,8 +2036,8 @@ ZONE_RULES_Fiji = [
     },
     # Rule    Fiji    2011    only    -    Mar    Sun>=1    3:00    0    -
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -2048,8 +2048,8 @@ ZONE_RULES_Fiji = [
     },
     # Rule    Fiji    2012    2013    -    Jan    Sun>=18    3:00    0    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2013,
+        "fromYear": 2012,
+        "toYear": 2013,
         "inMonth": 1,
         "onDayOfWeek": 7,
         "onDayOfMonth": 18,
@@ -2060,8 +2060,8 @@ ZONE_RULES_Fiji = [
     },
     # Rule    Fiji    2014    only    -    Jan    Sun>=18    2:00    0    -
     {
-        "fromYearFull": 2014,
-        "toYearFull": 2014,
+        "fromYear": 2014,
+        "toYear": 2014,
         "inMonth": 1,
         "onDayOfWeek": 7,
         "onDayOfMonth": 18,
@@ -2072,8 +2072,8 @@ ZONE_RULES_Fiji = [
     },
     # Rule    Fiji    2014    max    -    Nov    Sun>=1    2:00    1:00    -
     {
-        "fromYearFull": 2014,
-        "toYearFull": 9999,
+        "fromYear": 2014,
+        "toYear": 9999,
         "inMonth": 11,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -2084,8 +2084,8 @@ ZONE_RULES_Fiji = [
     },
     # Rule    Fiji    2015    max    -    Jan    Sun>=13    3:00    0    -
     {
-        "fromYearFull": 2015,
-        "toYearFull": 9999,
+        "fromYear": 2015,
+        "toYear": 9999,
         "inMonth": 1,
         "onDayOfWeek": 7,
         "onDayOfMonth": 13,
@@ -2108,8 +2108,8 @@ ZONE_POLICY_Fiji = {
 ZONE_RULES_Ghana = [
     # Rule    Ghana    1920    1942    -    Dec    31    0:00    0    -
     {
-        "fromYearFull": 1920,
-        "toYearFull": 1942,
+        "fromYear": 1920,
+        "toYear": 1942,
         "inMonth": 12,
         "onDayOfWeek": 0,
         "onDayOfMonth": 31,
@@ -2132,8 +2132,8 @@ ZONE_POLICY_Ghana = {
 ZONE_RULES_Guat = [
     # Rule    Guat    1991    only    -    Sep     7    0:00    0    S
     {
-        "fromYearFull": 1991,
-        "toYearFull": 1991,
+        "fromYear": 1991,
+        "toYear": 1991,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 7,
@@ -2144,8 +2144,8 @@ ZONE_RULES_Guat = [
     },
     # Rule    Guat    2006    only    -    Apr    30    0:00    1:00    D
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 30,
@@ -2156,8 +2156,8 @@ ZONE_RULES_Guat = [
     },
     # Rule    Guat    2006    only    -    Oct     1    0:00    0    S
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -2180,8 +2180,8 @@ ZONE_POLICY_Guat = {
 ZONE_RULES_Haiti = [
     # Rule    Haiti    1988    1997    -    Oct    lastSun    1:00s    0    S
     {
-        "fromYearFull": 1988,
-        "toYearFull": 1997,
+        "fromYear": 1988,
+        "toYear": 1997,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -2192,8 +2192,8 @@ ZONE_RULES_Haiti = [
     },
     # Rule    Haiti    2005    2006    -    Apr    Sun>=1    0:00    1:00    D
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2006,
+        "fromYear": 2005,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -2204,8 +2204,8 @@ ZONE_RULES_Haiti = [
     },
     # Rule    Haiti    2005    2006    -    Oct    lastSun    0:00    0    S
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2006,
+        "fromYear": 2005,
+        "toYear": 2006,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -2216,8 +2216,8 @@ ZONE_RULES_Haiti = [
     },
     # Rule    Haiti    2012    2015    -    Mar    Sun>=8    2:00    1:00    D
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2015,
+        "fromYear": 2012,
+        "toYear": 2015,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -2228,8 +2228,8 @@ ZONE_RULES_Haiti = [
     },
     # Rule    Haiti    2012    2015    -    Nov    Sun>=1    2:00    0    S
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2015,
+        "fromYear": 2012,
+        "toYear": 2015,
         "inMonth": 11,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -2240,8 +2240,8 @@ ZONE_RULES_Haiti = [
     },
     # Rule    Haiti    2017    max    -    Mar    Sun>=8    2:00    1:00    D
     {
-        "fromYearFull": 2017,
-        "toYearFull": 9999,
+        "fromYear": 2017,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -2252,8 +2252,8 @@ ZONE_RULES_Haiti = [
     },
     # Rule    Haiti    2017    max    -    Nov    Sun>=1    2:00    0    S
     {
-        "fromYearFull": 2017,
-        "toYearFull": 9999,
+        "fromYear": 2017,
+        "toYear": 9999,
         "inMonth": 11,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -2276,8 +2276,8 @@ ZONE_POLICY_Haiti = {
 ZONE_RULES_Holiday = [
     # Rule    Holiday    1993    1994    -    Mar    Sun>=1    2:00s    0    S
     {
-        "fromYearFull": 1993,
-        "toYearFull": 1994,
+        "fromYear": 1993,
+        "toYear": 1994,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -2300,8 +2300,8 @@ ZONE_POLICY_Holiday = {
 ZONE_RULES_Hond = [
     # Rule    Hond    1987    1988    -    Sep    lastSun    0:00    0    S
     {
-        "fromYearFull": 1987,
-        "toYearFull": 1988,
+        "fromYear": 1987,
+        "toYear": 1988,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -2312,8 +2312,8 @@ ZONE_RULES_Hond = [
     },
     # Rule    Hond    2006    only    -    May    Sun>=1    0:00    1:00    D
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 5,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -2324,8 +2324,8 @@ ZONE_RULES_Hond = [
     },
     # Rule    Hond    2006    only    -    Aug    Mon>=1    0:00    0    S
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 8,
         "onDayOfWeek": 1,
         "onDayOfMonth": 1,
@@ -2348,8 +2348,8 @@ ZONE_POLICY_Hond = {
 ZONE_RULES_Iran = [
     # Rule    Iran    1997    1999    -    Sep    22    0:00    0    -
     {
-        "fromYearFull": 1997,
-        "toYearFull": 1999,
+        "fromYear": 1997,
+        "toYear": 1999,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2360,8 +2360,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2000    only    -    Mar    21    0:00    1:00    -
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2000,
+        "fromYear": 2000,
+        "toYear": 2000,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2372,8 +2372,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2000    only    -    Sep    21    0:00    0    -
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2000,
+        "fromYear": 2000,
+        "toYear": 2000,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2384,8 +2384,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2001    2003    -    Mar    22    0:00    1:00    -
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2003,
+        "fromYear": 2001,
+        "toYear": 2003,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2396,8 +2396,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2001    2003    -    Sep    22    0:00    0    -
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2003,
+        "fromYear": 2001,
+        "toYear": 2003,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2408,8 +2408,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2004    only    -    Mar    21    0:00    1:00    -
     {
-        "fromYearFull": 2004,
-        "toYearFull": 2004,
+        "fromYear": 2004,
+        "toYear": 2004,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2420,8 +2420,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2004    only    -    Sep    21    0:00    0    -
     {
-        "fromYearFull": 2004,
-        "toYearFull": 2004,
+        "fromYear": 2004,
+        "toYear": 2004,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2432,8 +2432,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2005    only    -    Mar    22    0:00    1:00    -
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2444,8 +2444,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2005    only    -    Sep    22    0:00    0    -
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2456,8 +2456,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2008    only    -    Mar    21    0:00    1:00    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2468,8 +2468,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2008    only    -    Sep    21    0:00    0    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2480,8 +2480,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2009    2011    -    Mar    22    0:00    1:00    -
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2011,
+        "fromYear": 2009,
+        "toYear": 2011,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2492,8 +2492,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2009    2011    -    Sep    22    0:00    0    -
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2011,
+        "fromYear": 2009,
+        "toYear": 2011,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2504,8 +2504,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2012    only    -    Mar    21    0:00    1:00    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2012,
+        "fromYear": 2012,
+        "toYear": 2012,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2516,8 +2516,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2012    only    -    Sep    21    0:00    0    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2012,
+        "fromYear": 2012,
+        "toYear": 2012,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2528,8 +2528,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2013    2015    -    Mar    22    0:00    1:00    -
     {
-        "fromYearFull": 2013,
-        "toYearFull": 2015,
+        "fromYear": 2013,
+        "toYear": 2015,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2540,8 +2540,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2013    2015    -    Sep    22    0:00    0    -
     {
-        "fromYearFull": 2013,
-        "toYearFull": 2015,
+        "fromYear": 2013,
+        "toYear": 2015,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2552,8 +2552,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2016    only    -    Mar    21    0:00    1:00    -
     {
-        "fromYearFull": 2016,
-        "toYearFull": 2016,
+        "fromYear": 2016,
+        "toYear": 2016,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2564,8 +2564,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2016    only    -    Sep    21    0:00    0    -
     {
-        "fromYearFull": 2016,
-        "toYearFull": 2016,
+        "fromYear": 2016,
+        "toYear": 2016,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2576,8 +2576,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2017    2019    -    Mar    22    0:00    1:00    -
     {
-        "fromYearFull": 2017,
-        "toYearFull": 2019,
+        "fromYear": 2017,
+        "toYear": 2019,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2588,8 +2588,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2017    2019    -    Sep    22    0:00    0    -
     {
-        "fromYearFull": 2017,
-        "toYearFull": 2019,
+        "fromYear": 2017,
+        "toYear": 2019,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2600,8 +2600,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2020    only    -    Mar    21    0:00    1:00    -
     {
-        "fromYearFull": 2020,
-        "toYearFull": 2020,
+        "fromYear": 2020,
+        "toYear": 2020,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2612,8 +2612,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2020    only    -    Sep    21    0:00    0    -
     {
-        "fromYearFull": 2020,
-        "toYearFull": 2020,
+        "fromYear": 2020,
+        "toYear": 2020,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2624,8 +2624,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2021    2023    -    Mar    22    0:00    1:00    -
     {
-        "fromYearFull": 2021,
-        "toYearFull": 2023,
+        "fromYear": 2021,
+        "toYear": 2023,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2636,8 +2636,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2021    2023    -    Sep    22    0:00    0    -
     {
-        "fromYearFull": 2021,
-        "toYearFull": 2023,
+        "fromYear": 2021,
+        "toYear": 2023,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2648,8 +2648,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2024    only    -    Mar    21    0:00    1:00    -
     {
-        "fromYearFull": 2024,
-        "toYearFull": 2024,
+        "fromYear": 2024,
+        "toYear": 2024,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2660,8 +2660,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2024    only    -    Sep    21    0:00    0    -
     {
-        "fromYearFull": 2024,
-        "toYearFull": 2024,
+        "fromYear": 2024,
+        "toYear": 2024,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2672,8 +2672,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2025    2027    -    Mar    22    0:00    1:00    -
     {
-        "fromYearFull": 2025,
-        "toYearFull": 2027,
+        "fromYear": 2025,
+        "toYear": 2027,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2684,8 +2684,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2025    2027    -    Sep    22    0:00    0    -
     {
-        "fromYearFull": 2025,
-        "toYearFull": 2027,
+        "fromYear": 2025,
+        "toYear": 2027,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2696,8 +2696,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2028    2029    -    Mar    21    0:00    1:00    -
     {
-        "fromYearFull": 2028,
-        "toYearFull": 2029,
+        "fromYear": 2028,
+        "toYear": 2029,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2708,8 +2708,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2028    2029    -    Sep    21    0:00    0    -
     {
-        "fromYearFull": 2028,
-        "toYearFull": 2029,
+        "fromYear": 2028,
+        "toYear": 2029,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2720,8 +2720,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2030    2031    -    Mar    22    0:00    1:00    -
     {
-        "fromYearFull": 2030,
-        "toYearFull": 2031,
+        "fromYear": 2030,
+        "toYear": 2031,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2732,8 +2732,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2030    2031    -    Sep    22    0:00    0    -
     {
-        "fromYearFull": 2030,
-        "toYearFull": 2031,
+        "fromYear": 2030,
+        "toYear": 2031,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2744,8 +2744,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2032    2033    -    Mar    21    0:00    1:00    -
     {
-        "fromYearFull": 2032,
-        "toYearFull": 2033,
+        "fromYear": 2032,
+        "toYear": 2033,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2756,8 +2756,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2032    2033    -    Sep    21    0:00    0    -
     {
-        "fromYearFull": 2032,
-        "toYearFull": 2033,
+        "fromYear": 2032,
+        "toYear": 2033,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2768,8 +2768,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2034    2035    -    Mar    22    0:00    1:00    -
     {
-        "fromYearFull": 2034,
-        "toYearFull": 2035,
+        "fromYear": 2034,
+        "toYear": 2035,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2780,8 +2780,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2034    2035    -    Sep    22    0:00    0    -
     {
-        "fromYearFull": 2034,
-        "toYearFull": 2035,
+        "fromYear": 2034,
+        "toYear": 2035,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -2792,8 +2792,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2036    max    -    Mar    21    0:00    1:00    -
     {
-        "fromYearFull": 2036,
-        "toYearFull": 9999,
+        "fromYear": 2036,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2804,8 +2804,8 @@ ZONE_RULES_Iran = [
     },
     # Rule    Iran    2036    max    -    Sep    21    0:00    0    -
     {
-        "fromYearFull": 2036,
-        "toYearFull": 9999,
+        "fromYear": 2036,
+        "toYear": 9999,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -2828,8 +2828,8 @@ ZONE_POLICY_Iran = {
 ZONE_RULES_Iraq = [
     # Rule    Iraq    1985    1990    -    Sep    lastSun    1:00s    0    -
     {
-        "fromYearFull": 1985,
-        "toYearFull": 1990,
+        "fromYear": 1985,
+        "toYear": 1990,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -2840,8 +2840,8 @@ ZONE_RULES_Iraq = [
     },
     # Rule    Iraq    1991    2007    -    Apr     1    3:00s    1:00    -
     {
-        "fromYearFull": 1991,
-        "toYearFull": 2007,
+        "fromYear": 1991,
+        "toYear": 2007,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -2852,8 +2852,8 @@ ZONE_RULES_Iraq = [
     },
     # Rule    Iraq    1991    2007    -    Oct     1    3:00s    0    -
     {
-        "fromYearFull": 1991,
-        "toYearFull": 2007,
+        "fromYear": 1991,
+        "toYear": 2007,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -2876,8 +2876,8 @@ ZONE_POLICY_Iraq = {
 ZONE_RULES_Japan = [
     # Rule    Japan    1948    1951    -    Sep    Sat>=8    25:00    0    S
     {
-        "fromYearFull": 1948,
-        "toYearFull": 1951,
+        "fromYear": 1948,
+        "toYear": 1951,
         "inMonth": 9,
         "onDayOfWeek": 6,
         "onDayOfMonth": 8,
@@ -2900,8 +2900,8 @@ ZONE_POLICY_Japan = {
 ZONE_RULES_Jordan = [
     # Rule    Jordan    1999    only    -    Jul     1    0:00s    1:00    S
     {
-        "fromYearFull": 1999,
-        "toYearFull": 1999,
+        "fromYear": 1999,
+        "toYear": 1999,
         "inMonth": 7,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -2912,8 +2912,8 @@ ZONE_RULES_Jordan = [
     },
     # Rule    Jordan    1999    2002    -    Sep    lastFri    0:00s    0    -
     {
-        "fromYearFull": 1999,
-        "toYearFull": 2002,
+        "fromYear": 1999,
+        "toYear": 2002,
         "inMonth": 9,
         "onDayOfWeek": 5,
         "onDayOfMonth": 0,
@@ -2924,8 +2924,8 @@ ZONE_RULES_Jordan = [
     },
     # Rule    Jordan    2000    2001    -    Mar    lastThu    0:00s    1:00    S
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2001,
+        "fromYear": 2000,
+        "toYear": 2001,
         "inMonth": 3,
         "onDayOfWeek": 4,
         "onDayOfMonth": 0,
@@ -2936,8 +2936,8 @@ ZONE_RULES_Jordan = [
     },
     # Rule    Jordan    2002    2012    -    Mar    lastThu    24:00    1:00    S
     {
-        "fromYearFull": 2002,
-        "toYearFull": 2012,
+        "fromYear": 2002,
+        "toYear": 2012,
         "inMonth": 3,
         "onDayOfWeek": 4,
         "onDayOfMonth": 0,
@@ -2948,8 +2948,8 @@ ZONE_RULES_Jordan = [
     },
     # Rule    Jordan    2003    only    -    Oct    24    0:00s    0    -
     {
-        "fromYearFull": 2003,
-        "toYearFull": 2003,
+        "fromYear": 2003,
+        "toYear": 2003,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 24,
@@ -2960,8 +2960,8 @@ ZONE_RULES_Jordan = [
     },
     # Rule    Jordan    2004    only    -    Oct    15    0:00s    0    -
     {
-        "fromYearFull": 2004,
-        "toYearFull": 2004,
+        "fromYear": 2004,
+        "toYear": 2004,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 15,
@@ -2972,8 +2972,8 @@ ZONE_RULES_Jordan = [
     },
     # Rule    Jordan    2005    only    -    Sep    lastFri    0:00s    0    -
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 9,
         "onDayOfWeek": 5,
         "onDayOfMonth": 0,
@@ -2984,8 +2984,8 @@ ZONE_RULES_Jordan = [
     },
     # Rule    Jordan    2006    2011    -    Oct    lastFri    0:00s    0    -
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2011,
+        "fromYear": 2006,
+        "toYear": 2011,
         "inMonth": 10,
         "onDayOfWeek": 5,
         "onDayOfMonth": 0,
@@ -2996,8 +2996,8 @@ ZONE_RULES_Jordan = [
     },
     # Rule    Jordan    2013    only    -    Dec    20    0:00    0    -
     {
-        "fromYearFull": 2013,
-        "toYearFull": 2013,
+        "fromYear": 2013,
+        "toYear": 2013,
         "inMonth": 12,
         "onDayOfWeek": 0,
         "onDayOfMonth": 20,
@@ -3008,8 +3008,8 @@ ZONE_RULES_Jordan = [
     },
     # Rule    Jordan    2014    max    -    Mar    lastThu    24:00    1:00    S
     {
-        "fromYearFull": 2014,
-        "toYearFull": 9999,
+        "fromYear": 2014,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 4,
         "onDayOfMonth": 0,
@@ -3020,8 +3020,8 @@ ZONE_RULES_Jordan = [
     },
     # Rule    Jordan    2014    max    -    Oct    lastFri    0:00s    0    -
     {
-        "fromYearFull": 2014,
-        "toYearFull": 9999,
+        "fromYear": 2014,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 5,
         "onDayOfMonth": 0,
@@ -3044,8 +3044,8 @@ ZONE_POLICY_Jordan = {
 ZONE_RULES_LH = [
     # Rule    LH    1987    1999    -    Oct    lastSun    2:00    0:30    -
     {
-        "fromYearFull": 1987,
-        "toYearFull": 1999,
+        "fromYear": 1987,
+        "toYear": 1999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3056,8 +3056,8 @@ ZONE_RULES_LH = [
     },
     # Rule    LH    1996    2005    -    Mar    lastSun    2:00    0    -
     {
-        "fromYearFull": 1996,
-        "toYearFull": 2005,
+        "fromYear": 1996,
+        "toYear": 2005,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3068,8 +3068,8 @@ ZONE_RULES_LH = [
     },
     # Rule    LH    2000    only    -    Aug    lastSun    2:00    0:30    -
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2000,
+        "fromYear": 2000,
+        "toYear": 2000,
         "inMonth": 8,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3080,8 +3080,8 @@ ZONE_RULES_LH = [
     },
     # Rule    LH    2001    2007    -    Oct    lastSun    2:00    0:30    -
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2007,
+        "fromYear": 2001,
+        "toYear": 2007,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3092,8 +3092,8 @@ ZONE_RULES_LH = [
     },
     # Rule    LH    2006    only    -    Apr    Sun>=1    2:00    0    -
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -3104,8 +3104,8 @@ ZONE_RULES_LH = [
     },
     # Rule    LH    2007    only    -    Mar    lastSun    2:00    0    -
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3116,8 +3116,8 @@ ZONE_RULES_LH = [
     },
     # Rule    LH    2008    max    -    Apr    Sun>=1    2:00    0    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 9999,
+        "fromYear": 2008,
+        "toYear": 9999,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -3128,8 +3128,8 @@ ZONE_RULES_LH = [
     },
     # Rule    LH    2008    max    -    Oct    Sun>=1    2:00    0:30    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 9999,
+        "fromYear": 2008,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -3152,8 +3152,8 @@ ZONE_POLICY_LH = {
 ZONE_RULES_Lebanon = [
     # Rule    Lebanon    1993    max    -    Mar    lastSun    0:00    1:00    S
     {
-        "fromYearFull": 1993,
-        "toYearFull": 9999,
+        "fromYear": 1993,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3164,8 +3164,8 @@ ZONE_RULES_Lebanon = [
     },
     # Rule    Lebanon    1993    1998    -    Sep    lastSun    0:00    0    -
     {
-        "fromYearFull": 1993,
-        "toYearFull": 1998,
+        "fromYear": 1993,
+        "toYear": 1998,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3176,8 +3176,8 @@ ZONE_RULES_Lebanon = [
     },
     # Rule    Lebanon    1999    max    -    Oct    lastSun    0:00    0    -
     {
-        "fromYearFull": 1999,
-        "toYearFull": 9999,
+        "fromYear": 1999,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3200,8 +3200,8 @@ ZONE_POLICY_Lebanon = {
 ZONE_RULES_Libya = [
     # Rule    Libya    1997    only    -    Oct     4    0:00    0    -
     {
-        "fromYearFull": 1997,
-        "toYearFull": 1997,
+        "fromYear": 1997,
+        "toYear": 1997,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 4,
@@ -3212,8 +3212,8 @@ ZONE_RULES_Libya = [
     },
     # Rule    Libya    2013    only    -    Mar    lastFri    1:00    1:00    S
     {
-        "fromYearFull": 2013,
-        "toYearFull": 2013,
+        "fromYear": 2013,
+        "toYear": 2013,
         "inMonth": 3,
         "onDayOfWeek": 5,
         "onDayOfMonth": 0,
@@ -3224,8 +3224,8 @@ ZONE_RULES_Libya = [
     },
     # Rule    Libya    2013    only    -    Oct    lastFri    2:00    0    -
     {
-        "fromYearFull": 2013,
-        "toYearFull": 2013,
+        "fromYear": 2013,
+        "toYear": 2013,
         "inMonth": 10,
         "onDayOfWeek": 5,
         "onDayOfMonth": 0,
@@ -3248,8 +3248,8 @@ ZONE_POLICY_Libya = {
 ZONE_RULES_Mauritius = [
     # Rule Mauritius    1983    only    -    Mar    21    0:00    0    -
     {
-        "fromYearFull": 1983,
-        "toYearFull": 1983,
+        "fromYear": 1983,
+        "toYear": 1983,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -3260,8 +3260,8 @@ ZONE_RULES_Mauritius = [
     },
     # Rule Mauritius    2008    only    -    Oct    lastSun    2:00    1:00    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3272,8 +3272,8 @@ ZONE_RULES_Mauritius = [
     },
     # Rule Mauritius    2009    only    -    Mar    lastSun    2:00    0    -
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2009,
+        "fromYear": 2009,
+        "toYear": 2009,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3296,8 +3296,8 @@ ZONE_POLICY_Mauritius = {
 ZONE_RULES_Mexico = [
     # Rule    Mexico    1950    only    -    Jul    30    0:00    0    S
     {
-        "fromYearFull": 1950,
-        "toYearFull": 1950,
+        "fromYear": 1950,
+        "toYear": 1950,
         "inMonth": 7,
         "onDayOfWeek": 0,
         "onDayOfMonth": 30,
@@ -3308,8 +3308,8 @@ ZONE_RULES_Mexico = [
     },
     # Rule    Mexico    1996    2000    -    Apr    Sun>=1    2:00    1:00    D
     {
-        "fromYearFull": 1996,
-        "toYearFull": 2000,
+        "fromYear": 1996,
+        "toYear": 2000,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -3320,8 +3320,8 @@ ZONE_RULES_Mexico = [
     },
     # Rule    Mexico    1996    2000    -    Oct    lastSun    2:00    0    S
     {
-        "fromYearFull": 1996,
-        "toYearFull": 2000,
+        "fromYear": 1996,
+        "toYear": 2000,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3332,8 +3332,8 @@ ZONE_RULES_Mexico = [
     },
     # Rule    Mexico    2001    only    -    May    Sun>=1    2:00    1:00    D
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2001,
+        "fromYear": 2001,
+        "toYear": 2001,
         "inMonth": 5,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -3344,8 +3344,8 @@ ZONE_RULES_Mexico = [
     },
     # Rule    Mexico    2001    only    -    Sep    lastSun    2:00    0    S
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2001,
+        "fromYear": 2001,
+        "toYear": 2001,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3356,8 +3356,8 @@ ZONE_RULES_Mexico = [
     },
     # Rule    Mexico    2002    max    -    Apr    Sun>=1    2:00    1:00    D
     {
-        "fromYearFull": 2002,
-        "toYearFull": 9999,
+        "fromYear": 2002,
+        "toYear": 9999,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -3368,8 +3368,8 @@ ZONE_RULES_Mexico = [
     },
     # Rule    Mexico    2002    max    -    Oct    lastSun    2:00    0    S
     {
-        "fromYearFull": 2002,
-        "toYearFull": 9999,
+        "fromYear": 2002,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3392,8 +3392,8 @@ ZONE_POLICY_Mexico = {
 ZONE_RULES_Moldova = [
     # Rule    Moldova    1997    max    -    Mar    lastSun     2:00    1:00    S
     {
-        "fromYearFull": 1997,
-        "toYearFull": 9999,
+        "fromYear": 1997,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3404,8 +3404,8 @@ ZONE_RULES_Moldova = [
     },
     # Rule    Moldova    1997    max    -    Oct    lastSun     3:00    0    -
     {
-        "fromYearFull": 1997,
-        "toYearFull": 9999,
+        "fromYear": 1997,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3428,8 +3428,8 @@ ZONE_POLICY_Moldova = {
 ZONE_RULES_Mongol = [
     # Rule    Mongol    1984    1998    -    Sep    lastSun    0:00    0    -
     {
-        "fromYearFull": 1984,
-        "toYearFull": 1998,
+        "fromYear": 1984,
+        "toYear": 1998,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3440,8 +3440,8 @@ ZONE_RULES_Mongol = [
     },
     # Rule    Mongol    2001    only    -    Apr    lastSat    2:00    1:00    -
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2001,
+        "fromYear": 2001,
+        "toYear": 2001,
         "inMonth": 4,
         "onDayOfWeek": 6,
         "onDayOfMonth": 0,
@@ -3452,8 +3452,8 @@ ZONE_RULES_Mongol = [
     },
     # Rule    Mongol    2001    2006    -    Sep    lastSat    2:00    0    -
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2006,
+        "fromYear": 2001,
+        "toYear": 2006,
         "inMonth": 9,
         "onDayOfWeek": 6,
         "onDayOfMonth": 0,
@@ -3464,8 +3464,8 @@ ZONE_RULES_Mongol = [
     },
     # Rule    Mongol    2002    2006    -    Mar    lastSat    2:00    1:00    -
     {
-        "fromYearFull": 2002,
-        "toYearFull": 2006,
+        "fromYear": 2002,
+        "toYear": 2006,
         "inMonth": 3,
         "onDayOfWeek": 6,
         "onDayOfMonth": 0,
@@ -3476,8 +3476,8 @@ ZONE_RULES_Mongol = [
     },
     # Rule    Mongol    2015    2016    -    Mar    lastSat    2:00    1:00    -
     {
-        "fromYearFull": 2015,
-        "toYearFull": 2016,
+        "fromYear": 2015,
+        "toYear": 2016,
         "inMonth": 3,
         "onDayOfWeek": 6,
         "onDayOfMonth": 0,
@@ -3488,8 +3488,8 @@ ZONE_RULES_Mongol = [
     },
     # Rule    Mongol    2015    2016    -    Sep    lastSat    0:00    0    -
     {
-        "fromYearFull": 2015,
-        "toYearFull": 2016,
+        "fromYear": 2015,
+        "toYear": 2016,
         "inMonth": 9,
         "onDayOfWeek": 6,
         "onDayOfMonth": 0,
@@ -3512,8 +3512,8 @@ ZONE_POLICY_Mongol = {
 ZONE_RULES_Morocco = [
     # Rule    Morocco    1978    only    -    Aug     4     0:00    0    -
     {
-        "fromYearFull": 1978,
-        "toYearFull": 1978,
+        "fromYear": 1978,
+        "toYear": 1978,
         "inMonth": 8,
         "onDayOfWeek": 0,
         "onDayOfMonth": 4,
@@ -3524,8 +3524,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2008    only    -    Jun     1     0:00    1:00    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 6,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -3536,8 +3536,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2008    only    -    Sep     1     0:00    0    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -3548,8 +3548,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2009    only    -    Jun     1     0:00    1:00    -
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2009,
+        "fromYear": 2009,
+        "toYear": 2009,
         "inMonth": 6,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -3560,8 +3560,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2009    only    -    Aug    21     0:00    0    -
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2009,
+        "fromYear": 2009,
+        "toYear": 2009,
         "inMonth": 8,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -3572,8 +3572,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2010    only    -    May     2     0:00    1:00    -
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2010,
+        "fromYear": 2010,
+        "toYear": 2010,
         "inMonth": 5,
         "onDayOfWeek": 0,
         "onDayOfMonth": 2,
@@ -3584,8 +3584,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2010    only    -    Aug     8     0:00    0    -
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2010,
+        "fromYear": 2010,
+        "toYear": 2010,
         "inMonth": 8,
         "onDayOfWeek": 0,
         "onDayOfMonth": 8,
@@ -3596,8 +3596,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2011    only    -    Apr     3     0:00    1:00    -
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 3,
@@ -3608,8 +3608,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2011    only    -    Jul    31     0:00    0    -
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 7,
         "onDayOfWeek": 0,
         "onDayOfMonth": 31,
@@ -3620,8 +3620,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2012    2013    -    Apr    lastSun     2:00    1:00    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2013,
+        "fromYear": 2012,
+        "toYear": 2013,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3632,8 +3632,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2012    only    -    Jul    20     3:00    0    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2012,
+        "fromYear": 2012,
+        "toYear": 2012,
         "inMonth": 7,
         "onDayOfWeek": 0,
         "onDayOfMonth": 20,
@@ -3644,8 +3644,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2012    only    -    Aug    20     2:00    1:00    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2012,
+        "fromYear": 2012,
+        "toYear": 2012,
         "inMonth": 8,
         "onDayOfWeek": 0,
         "onDayOfMonth": 20,
@@ -3656,8 +3656,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2012    only    -    Sep    30     3:00    0    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2012,
+        "fromYear": 2012,
+        "toYear": 2012,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 30,
@@ -3668,8 +3668,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2013    only    -    Jul     7     3:00    0    -
     {
-        "fromYearFull": 2013,
-        "toYearFull": 2013,
+        "fromYear": 2013,
+        "toYear": 2013,
         "inMonth": 7,
         "onDayOfWeek": 0,
         "onDayOfMonth": 7,
@@ -3680,8 +3680,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2013    only    -    Aug    10     2:00    1:00    -
     {
-        "fromYearFull": 2013,
-        "toYearFull": 2013,
+        "fromYear": 2013,
+        "toYear": 2013,
         "inMonth": 8,
         "onDayOfWeek": 0,
         "onDayOfMonth": 10,
@@ -3692,8 +3692,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2013    2018    -    Oct    lastSun     3:00    0    -
     {
-        "fromYearFull": 2013,
-        "toYearFull": 2018,
+        "fromYear": 2013,
+        "toYear": 2018,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3704,8 +3704,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2014    2018    -    Mar    lastSun     2:00    1:00    -
     {
-        "fromYearFull": 2014,
-        "toYearFull": 2018,
+        "fromYear": 2014,
+        "toYear": 2018,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3716,8 +3716,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2014    only    -    Jun    28     3:00    0    -
     {
-        "fromYearFull": 2014,
-        "toYearFull": 2014,
+        "fromYear": 2014,
+        "toYear": 2014,
         "inMonth": 6,
         "onDayOfWeek": 0,
         "onDayOfMonth": 28,
@@ -3728,8 +3728,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2014    only    -    Aug     2     2:00    1:00    -
     {
-        "fromYearFull": 2014,
-        "toYearFull": 2014,
+        "fromYear": 2014,
+        "toYear": 2014,
         "inMonth": 8,
         "onDayOfWeek": 0,
         "onDayOfMonth": 2,
@@ -3740,8 +3740,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2015    only    -    Jun    14     3:00    0    -
     {
-        "fromYearFull": 2015,
-        "toYearFull": 2015,
+        "fromYear": 2015,
+        "toYear": 2015,
         "inMonth": 6,
         "onDayOfWeek": 0,
         "onDayOfMonth": 14,
@@ -3752,8 +3752,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2015    only    -    Jul    19     2:00    1:00    -
     {
-        "fromYearFull": 2015,
-        "toYearFull": 2015,
+        "fromYear": 2015,
+        "toYear": 2015,
         "inMonth": 7,
         "onDayOfWeek": 0,
         "onDayOfMonth": 19,
@@ -3764,8 +3764,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2016    only    -    Jun     5     3:00    0    -
     {
-        "fromYearFull": 2016,
-        "toYearFull": 2016,
+        "fromYear": 2016,
+        "toYear": 2016,
         "inMonth": 6,
         "onDayOfWeek": 0,
         "onDayOfMonth": 5,
@@ -3776,8 +3776,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2016    only    -    Jul    10     2:00    1:00    -
     {
-        "fromYearFull": 2016,
-        "toYearFull": 2016,
+        "fromYear": 2016,
+        "toYear": 2016,
         "inMonth": 7,
         "onDayOfWeek": 0,
         "onDayOfMonth": 10,
@@ -3788,8 +3788,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2017    only    -    May    21     3:00    0    -
     {
-        "fromYearFull": 2017,
-        "toYearFull": 2017,
+        "fromYear": 2017,
+        "toYear": 2017,
         "inMonth": 5,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -3800,8 +3800,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2017    only    -    Jul     2     2:00    1:00    -
     {
-        "fromYearFull": 2017,
-        "toYearFull": 2017,
+        "fromYear": 2017,
+        "toYear": 2017,
         "inMonth": 7,
         "onDayOfWeek": 0,
         "onDayOfMonth": 2,
@@ -3812,8 +3812,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2018    only    -    May    13     3:00    0    -
     {
-        "fromYearFull": 2018,
-        "toYearFull": 2018,
+        "fromYear": 2018,
+        "toYear": 2018,
         "inMonth": 5,
         "onDayOfWeek": 0,
         "onDayOfMonth": 13,
@@ -3824,8 +3824,8 @@ ZONE_RULES_Morocco = [
     },
     # Rule    Morocco    2018    only    -    Jun    17     2:00    1:00    -
     {
-        "fromYearFull": 2018,
-        "toYearFull": 2018,
+        "fromYear": 2018,
+        "toYear": 2018,
         "inMonth": 6,
         "onDayOfWeek": 0,
         "onDayOfMonth": 17,
@@ -3848,8 +3848,8 @@ ZONE_POLICY_Morocco = {
 ZONE_RULES_NC = [
     # Rule    NC    1997    only    -    Mar     2    2:00s    0    -
     {
-        "fromYearFull": 1997,
-        "toYearFull": 1997,
+        "fromYear": 1997,
+        "toYear": 1997,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 2,
@@ -3872,8 +3872,8 @@ ZONE_POLICY_NC = {
 ZONE_RULES_NT_YK = [
     # Rule    NT_YK    1980    1986    -    Apr    lastSun    2:00    1:00    D
     {
-        "fromYearFull": 1980,
-        "toYearFull": 1986,
+        "fromYear": 1980,
+        "toYear": 1986,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3884,8 +3884,8 @@ ZONE_RULES_NT_YK = [
     },
     # Rule    NT_YK    1980    2006    -    Oct    lastSun    2:00    0    S
     {
-        "fromYearFull": 1980,
-        "toYearFull": 2006,
+        "fromYear": 1980,
+        "toYear": 2006,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3896,8 +3896,8 @@ ZONE_RULES_NT_YK = [
     },
     # Rule    NT_YK    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
     {
-        "fromYearFull": 1987,
-        "toYearFull": 2006,
+        "fromYear": 1987,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -3920,8 +3920,8 @@ ZONE_POLICY_NT_YK = {
 ZONE_RULES_NZ = [
     # Rule    NZ    1989    only    -    Oct    Sun>=8    2:00s    1:00    D
     {
-        "fromYearFull": 1989,
-        "toYearFull": 1989,
+        "fromYear": 1989,
+        "toYear": 1989,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -3932,8 +3932,8 @@ ZONE_RULES_NZ = [
     },
     # Rule    NZ    1990    2006    -    Oct    Sun>=1    2:00s    1:00    D
     {
-        "fromYearFull": 1990,
-        "toYearFull": 2006,
+        "fromYear": 1990,
+        "toYear": 2006,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -3944,8 +3944,8 @@ ZONE_RULES_NZ = [
     },
     # Rule    NZ    1990    2007    -    Mar    Sun>=15    2:00s    0    S
     {
-        "fromYearFull": 1990,
-        "toYearFull": 2007,
+        "fromYear": 1990,
+        "toYear": 2007,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -3956,8 +3956,8 @@ ZONE_RULES_NZ = [
     },
     # Rule    NZ    2007    max    -    Sep    lastSun    2:00s    1:00    D
     {
-        "fromYearFull": 2007,
-        "toYearFull": 9999,
+        "fromYear": 2007,
+        "toYear": 9999,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -3968,8 +3968,8 @@ ZONE_RULES_NZ = [
     },
     # Rule    NZ    2008    max    -    Apr    Sun>=1    2:00s    0    S
     {
-        "fromYearFull": 2008,
-        "toYearFull": 9999,
+        "fromYear": 2008,
+        "toYear": 9999,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -3992,8 +3992,8 @@ ZONE_POLICY_NZ = {
 ZONE_RULES_Nic = [
     # Rule    Nic    1979    1980    -    Jun    Mon>=23    0:00    0    S
     {
-        "fromYearFull": 1979,
-        "toYearFull": 1980,
+        "fromYear": 1979,
+        "toYear": 1980,
         "inMonth": 6,
         "onDayOfWeek": 1,
         "onDayOfMonth": 23,
@@ -4004,8 +4004,8 @@ ZONE_RULES_Nic = [
     },
     # Rule    Nic    2005    only    -    Apr    10    0:00    1:00    D
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 10,
@@ -4016,8 +4016,8 @@ ZONE_RULES_Nic = [
     },
     # Rule    Nic    2005    only    -    Oct    Sun>=1    0:00    0    S
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4028,8 +4028,8 @@ ZONE_RULES_Nic = [
     },
     # Rule    Nic    2006    only    -    Apr    30    2:00    1:00    D
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 30,
@@ -4040,8 +4040,8 @@ ZONE_RULES_Nic = [
     },
     # Rule    Nic    2006    only    -    Oct    Sun>=1    1:00    0    S
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4064,8 +4064,8 @@ ZONE_POLICY_Nic = {
 ZONE_RULES_PRC = [
     # Rule    PRC    1986    1991    -    Sep    Sun>=11     2:00    0    S
     {
-        "fromYearFull": 1986,
-        "toYearFull": 1991,
+        "fromYear": 1986,
+        "toYear": 1991,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 11,
@@ -4088,8 +4088,8 @@ ZONE_POLICY_PRC = {
 ZONE_RULES_Pakistan = [
     # Rule Pakistan    2002    only    -    Apr    Sun>=2    0:00    1:00    S
     {
-        "fromYearFull": 2002,
-        "toYearFull": 2002,
+        "fromYear": 2002,
+        "toYear": 2002,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 2,
@@ -4100,8 +4100,8 @@ ZONE_RULES_Pakistan = [
     },
     # Rule Pakistan    2002    only    -    Oct    Sun>=2    0:00    0    -
     {
-        "fromYearFull": 2002,
-        "toYearFull": 2002,
+        "fromYear": 2002,
+        "toYear": 2002,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 2,
@@ -4112,8 +4112,8 @@ ZONE_RULES_Pakistan = [
     },
     # Rule Pakistan    2008    only    -    Jun    1    0:00    1:00    S
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 6,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -4124,8 +4124,8 @@ ZONE_RULES_Pakistan = [
     },
     # Rule Pakistan    2008    2009    -    Nov    1    0:00    0    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2009,
+        "fromYear": 2008,
+        "toYear": 2009,
         "inMonth": 11,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -4136,8 +4136,8 @@ ZONE_RULES_Pakistan = [
     },
     # Rule Pakistan    2009    only    -    Apr    15    0:00    1:00    S
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2009,
+        "fromYear": 2009,
+        "toYear": 2009,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 15,
@@ -4160,8 +4160,8 @@ ZONE_POLICY_Pakistan = {
 ZONE_RULES_Para = [
     # Rule    Para    1996    2001    -    Oct    Sun>=1    0:00    1:00    -
     {
-        "fromYearFull": 1996,
-        "toYearFull": 2001,
+        "fromYear": 1996,
+        "toYear": 2001,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4172,8 +4172,8 @@ ZONE_RULES_Para = [
     },
     # Rule    Para    1997    only    -    Feb    lastSun    0:00    0    -
     {
-        "fromYearFull": 1997,
-        "toYearFull": 1997,
+        "fromYear": 1997,
+        "toYear": 1997,
         "inMonth": 2,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4184,8 +4184,8 @@ ZONE_RULES_Para = [
     },
     # Rule    Para    1998    2001    -    Mar    Sun>=1    0:00    0    -
     {
-        "fromYearFull": 1998,
-        "toYearFull": 2001,
+        "fromYear": 1998,
+        "toYear": 2001,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4196,8 +4196,8 @@ ZONE_RULES_Para = [
     },
     # Rule    Para    2002    2004    -    Apr    Sun>=1    0:00    0    -
     {
-        "fromYearFull": 2002,
-        "toYearFull": 2004,
+        "fromYear": 2002,
+        "toYear": 2004,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4208,8 +4208,8 @@ ZONE_RULES_Para = [
     },
     # Rule    Para    2002    2003    -    Sep    Sun>=1    0:00    1:00    -
     {
-        "fromYearFull": 2002,
-        "toYearFull": 2003,
+        "fromYear": 2002,
+        "toYear": 2003,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4220,8 +4220,8 @@ ZONE_RULES_Para = [
     },
     # Rule    Para    2004    2009    -    Oct    Sun>=15    0:00    1:00    -
     {
-        "fromYearFull": 2004,
-        "toYearFull": 2009,
+        "fromYear": 2004,
+        "toYear": 2009,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -4232,8 +4232,8 @@ ZONE_RULES_Para = [
     },
     # Rule    Para    2005    2009    -    Mar    Sun>=8    0:00    0    -
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2009,
+        "fromYear": 2005,
+        "toYear": 2009,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -4244,8 +4244,8 @@ ZONE_RULES_Para = [
     },
     # Rule    Para    2010    max    -    Oct    Sun>=1    0:00    1:00    -
     {
-        "fromYearFull": 2010,
-        "toYearFull": 9999,
+        "fromYear": 2010,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4256,8 +4256,8 @@ ZONE_RULES_Para = [
     },
     # Rule    Para    2010    2012    -    Apr    Sun>=8    0:00    0    -
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2012,
+        "fromYear": 2010,
+        "toYear": 2012,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -4268,8 +4268,8 @@ ZONE_RULES_Para = [
     },
     # Rule    Para    2013    max    -    Mar    Sun>=22    0:00    0    -
     {
-        "fromYearFull": 2013,
-        "toYearFull": 9999,
+        "fromYear": 2013,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 22,
@@ -4292,8 +4292,8 @@ ZONE_POLICY_Para = {
 ZONE_RULES_Peru = [
     # Rule    Peru    1994    only    -    Apr     1    0:00    0    -
     {
-        "fromYearFull": 1994,
-        "toYearFull": 1994,
+        "fromYear": 1994,
+        "toYear": 1994,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -4316,8 +4316,8 @@ ZONE_POLICY_Peru = {
 ZONE_RULES_Phil = [
     # Rule    Phil    1978    only    -    Sep    21    0:00    0    S
     {
-        "fromYearFull": 1978,
-        "toYearFull": 1978,
+        "fromYear": 1978,
+        "toYear": 1978,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 21,
@@ -4340,8 +4340,8 @@ ZONE_POLICY_Phil = {
 ZONE_RULES_ROK = [
     # Rule    ROK    1987    1988    -    Oct    Sun>=8    3:00    0    S
     {
-        "fromYearFull": 1987,
-        "toYearFull": 1988,
+        "fromYear": 1987,
+        "toYear": 1988,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -4364,8 +4364,8 @@ ZONE_POLICY_ROK = {
 ZONE_RULES_RussiaAsia = [
     # Rule RussiaAsia    1984    1995    -    Sep    lastSun     2:00s    0    -
     {
-        "fromYearFull": 1984,
-        "toYearFull": 1995,
+        "fromYear": 1984,
+        "toYear": 1995,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4376,8 +4376,8 @@ ZONE_RULES_RussiaAsia = [
     },
     # Rule RussiaAsia    1985    2010    -    Mar    lastSun     2:00s    1:00    -
     {
-        "fromYearFull": 1985,
-        "toYearFull": 2010,
+        "fromYear": 1985,
+        "toYear": 2010,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4388,8 +4388,8 @@ ZONE_RULES_RussiaAsia = [
     },
     # Rule RussiaAsia    1996    2010    -    Oct    lastSun     2:00s    0    -
     {
-        "fromYearFull": 1996,
-        "toYearFull": 2010,
+        "fromYear": 1996,
+        "toYear": 2010,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4412,8 +4412,8 @@ ZONE_POLICY_RussiaAsia = {
 ZONE_RULES_SA = [
     # Rule    SA    1943    1944    -    Mar    Sun>=15    2:00    0    -
     {
-        "fromYearFull": 1943,
-        "toYearFull": 1944,
+        "fromYear": 1943,
+        "toYear": 1944,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -4436,8 +4436,8 @@ ZONE_POLICY_SA = {
 ZONE_RULES_Salv = [
     # Rule    Salv    1987    1988    -    Sep    lastSun    0:00    0    S
     {
-        "fromYearFull": 1987,
-        "toYearFull": 1988,
+        "fromYear": 1987,
+        "toYear": 1988,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4460,8 +4460,8 @@ ZONE_POLICY_Salv = {
 ZONE_RULES_Sudan = [
     # Rule    Sudan    1970    1985    -    Oct    15    0:00    0    -
     {
-        "fromYearFull": 1970,
-        "toYearFull": 1985,
+        "fromYear": 1970,
+        "toYear": 1985,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 15,
@@ -4484,8 +4484,8 @@ ZONE_POLICY_Sudan = {
 ZONE_RULES_Syria = [
     # Rule    Syria    1994    2005    -    Oct     1    0:00    0    -
     {
-        "fromYearFull": 1994,
-        "toYearFull": 2005,
+        "fromYear": 1994,
+        "toYear": 2005,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -4496,8 +4496,8 @@ ZONE_RULES_Syria = [
     },
     # Rule    Syria    1997    1998    -    Mar    lastMon    0:00    1:00    S
     {
-        "fromYearFull": 1997,
-        "toYearFull": 1998,
+        "fromYear": 1997,
+        "toYear": 1998,
         "inMonth": 3,
         "onDayOfWeek": 1,
         "onDayOfMonth": 0,
@@ -4508,8 +4508,8 @@ ZONE_RULES_Syria = [
     },
     # Rule    Syria    1999    2006    -    Apr     1    0:00    1:00    S
     {
-        "fromYearFull": 1999,
-        "toYearFull": 2006,
+        "fromYear": 1999,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -4520,8 +4520,8 @@ ZONE_RULES_Syria = [
     },
     # Rule    Syria    2006    only    -    Sep    22    0:00    0    -
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -4532,8 +4532,8 @@ ZONE_RULES_Syria = [
     },
     # Rule    Syria    2007    only    -    Mar    lastFri    0:00    1:00    S
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 3,
         "onDayOfWeek": 5,
         "onDayOfMonth": 0,
@@ -4544,8 +4544,8 @@ ZONE_RULES_Syria = [
     },
     # Rule    Syria    2007    only    -    Nov     Fri>=1    0:00    0    -
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 11,
         "onDayOfWeek": 5,
         "onDayOfMonth": 1,
@@ -4556,8 +4556,8 @@ ZONE_RULES_Syria = [
     },
     # Rule    Syria    2008    only    -    Apr    Fri>=1    0:00    1:00    S
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 4,
         "onDayOfWeek": 5,
         "onDayOfMonth": 1,
@@ -4568,8 +4568,8 @@ ZONE_RULES_Syria = [
     },
     # Rule    Syria    2008    only    -    Nov    1    0:00    0    -
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 11,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -4580,8 +4580,8 @@ ZONE_RULES_Syria = [
     },
     # Rule    Syria    2009    only    -    Mar    lastFri    0:00    1:00    S
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2009,
+        "fromYear": 2009,
+        "toYear": 2009,
         "inMonth": 3,
         "onDayOfWeek": 5,
         "onDayOfMonth": 0,
@@ -4592,8 +4592,8 @@ ZONE_RULES_Syria = [
     },
     # Rule    Syria    2010    2011    -    Apr    Fri>=1    0:00    1:00    S
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2011,
+        "fromYear": 2010,
+        "toYear": 2011,
         "inMonth": 4,
         "onDayOfWeek": 5,
         "onDayOfMonth": 1,
@@ -4604,8 +4604,8 @@ ZONE_RULES_Syria = [
     },
     # Rule    Syria    2012    max    -    Mar    lastFri    0:00    1:00    S
     {
-        "fromYearFull": 2012,
-        "toYearFull": 9999,
+        "fromYear": 2012,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 5,
         "onDayOfMonth": 0,
@@ -4616,8 +4616,8 @@ ZONE_RULES_Syria = [
     },
     # Rule    Syria    2009    max    -    Oct    lastFri    0:00    0    -
     {
-        "fromYearFull": 2009,
-        "toYearFull": 9999,
+        "fromYear": 2009,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 5,
         "onDayOfMonth": 0,
@@ -4640,8 +4640,8 @@ ZONE_POLICY_Syria = {
 ZONE_RULES_Taiwan = [
     # Rule    Taiwan    1979    only    -    Oct    1    0:00    0    S
     {
-        "fromYearFull": 1979,
-        "toYearFull": 1979,
+        "fromYear": 1979,
+        "toYear": 1979,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -4664,8 +4664,8 @@ ZONE_POLICY_Taiwan = {
 ZONE_RULES_Thule = [
     # Rule    Thule    1991    1992    -    Sep    lastSun    2:00    0    S
     {
-        "fromYearFull": 1991,
-        "toYearFull": 1992,
+        "fromYear": 1991,
+        "toYear": 1992,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4676,8 +4676,8 @@ ZONE_RULES_Thule = [
     },
     # Rule    Thule    1993    2006    -    Apr    Sun>=1    2:00    1:00    D
     {
-        "fromYearFull": 1993,
-        "toYearFull": 2006,
+        "fromYear": 1993,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4688,8 +4688,8 @@ ZONE_RULES_Thule = [
     },
     # Rule    Thule    1993    2006    -    Oct    lastSun    2:00    0    S
     {
-        "fromYearFull": 1993,
-        "toYearFull": 2006,
+        "fromYear": 1993,
+        "toYear": 2006,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4700,8 +4700,8 @@ ZONE_RULES_Thule = [
     },
     # Rule    Thule    2007    max    -    Mar    Sun>=8    2:00    1:00    D
     {
-        "fromYearFull": 2007,
-        "toYearFull": 9999,
+        "fromYear": 2007,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -4712,8 +4712,8 @@ ZONE_RULES_Thule = [
     },
     # Rule    Thule    2007    max    -    Nov    Sun>=1    2:00    0    S
     {
-        "fromYearFull": 2007,
-        "toYearFull": 9999,
+        "fromYear": 2007,
+        "toYear": 9999,
         "inMonth": 11,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4736,8 +4736,8 @@ ZONE_POLICY_Thule = {
 ZONE_RULES_Tonga = [
     # Rule    Tonga    1999    only    -    Oct     7    2:00s    1:00    -
     {
-        "fromYearFull": 1999,
-        "toYearFull": 1999,
+        "fromYear": 1999,
+        "toYear": 1999,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 7,
@@ -4748,8 +4748,8 @@ ZONE_RULES_Tonga = [
     },
     # Rule    Tonga    2000    only    -    Mar    19    2:00s    0    -
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2000,
+        "fromYear": 2000,
+        "toYear": 2000,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 19,
@@ -4760,8 +4760,8 @@ ZONE_RULES_Tonga = [
     },
     # Rule    Tonga    2000    2001    -    Nov    Sun>=1    2:00    1:00    -
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2001,
+        "fromYear": 2000,
+        "toYear": 2001,
         "inMonth": 11,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4772,8 +4772,8 @@ ZONE_RULES_Tonga = [
     },
     # Rule    Tonga    2001    2002    -    Jan    lastSun    2:00    0    -
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2002,
+        "fromYear": 2001,
+        "toYear": 2002,
         "inMonth": 1,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4784,8 +4784,8 @@ ZONE_RULES_Tonga = [
     },
     # Rule    Tonga    2016    only    -    Nov    Sun>=1    2:00    1:00    -
     {
-        "fromYearFull": 2016,
-        "toYearFull": 2016,
+        "fromYear": 2016,
+        "toYear": 2016,
         "inMonth": 11,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4796,8 +4796,8 @@ ZONE_RULES_Tonga = [
     },
     # Rule    Tonga    2017    only    -    Jan    Sun>=15    3:00    0    -
     {
-        "fromYearFull": 2017,
-        "toYearFull": 2017,
+        "fromYear": 2017,
+        "toYear": 2017,
         "inMonth": 1,
         "onDayOfWeek": 7,
         "onDayOfMonth": 15,
@@ -4820,8 +4820,8 @@ ZONE_POLICY_Tonga = {
 ZONE_RULES_Tunisia = [
     # Rule    Tunisia    1988    1990    -    Sep    lastSun     0:00s    0    -
     {
-        "fromYearFull": 1988,
-        "toYearFull": 1990,
+        "fromYear": 1988,
+        "toYear": 1990,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4832,8 +4832,8 @@ ZONE_RULES_Tunisia = [
     },
     # Rule    Tunisia    2005    only    -    May     1     0:00s    1:00    S
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 5,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -4844,8 +4844,8 @@ ZONE_RULES_Tunisia = [
     },
     # Rule    Tunisia    2005    only    -    Sep    30     1:00s    0    -
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 30,
@@ -4856,8 +4856,8 @@ ZONE_RULES_Tunisia = [
     },
     # Rule    Tunisia    2006    2008    -    Mar    lastSun     2:00s    1:00    S
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2008,
+        "fromYear": 2006,
+        "toYear": 2008,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4868,8 +4868,8 @@ ZONE_RULES_Tunisia = [
     },
     # Rule    Tunisia    2006    2008    -    Oct    lastSun     2:00s    0    -
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2008,
+        "fromYear": 2006,
+        "toYear": 2008,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4892,8 +4892,8 @@ ZONE_POLICY_Tunisia = {
 ZONE_RULES_US = [
     # Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
     {
-        "fromYearFull": 1967,
-        "toYearFull": 2006,
+        "fromYear": 1967,
+        "toYear": 2006,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4904,8 +4904,8 @@ ZONE_RULES_US = [
     },
     # Rule    US    1976    1986    -    Apr    lastSun    2:00    1:00    D
     {
-        "fromYearFull": 1976,
-        "toYearFull": 1986,
+        "fromYear": 1976,
+        "toYear": 1986,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -4916,8 +4916,8 @@ ZONE_RULES_US = [
     },
     # Rule    US    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
     {
-        "fromYearFull": 1987,
-        "toYearFull": 2006,
+        "fromYear": 1987,
+        "toYear": 2006,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4928,8 +4928,8 @@ ZONE_RULES_US = [
     },
     # Rule    US    2007    max    -    Mar    Sun>=8    2:00    1:00    D
     {
-        "fromYearFull": 2007,
-        "toYearFull": 9999,
+        "fromYear": 2007,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -4940,8 +4940,8 @@ ZONE_RULES_US = [
     },
     # Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
     {
-        "fromYearFull": 2007,
-        "toYearFull": 9999,
+        "fromYear": 2007,
+        "toYear": 9999,
         "inMonth": 11,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -4964,8 +4964,8 @@ ZONE_POLICY_US = {
 ZONE_RULES_Uruguay = [
     # Rule    Uruguay    1993    only    -    Feb    28     0:00    0    -
     {
-        "fromYearFull": 1993,
-        "toYearFull": 1993,
+        "fromYear": 1993,
+        "toYear": 1993,
         "inMonth": 2,
         "onDayOfWeek": 0,
         "onDayOfMonth": 28,
@@ -4976,8 +4976,8 @@ ZONE_RULES_Uruguay = [
     },
     # Rule    Uruguay    2004    only    -    Sep    19     0:00    1:00    -
     {
-        "fromYearFull": 2004,
-        "toYearFull": 2004,
+        "fromYear": 2004,
+        "toYear": 2004,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 19,
@@ -4988,8 +4988,8 @@ ZONE_RULES_Uruguay = [
     },
     # Rule    Uruguay    2005    only    -    Mar    27     2:00    0    -
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 27,
@@ -5000,8 +5000,8 @@ ZONE_RULES_Uruguay = [
     },
     # Rule    Uruguay    2005    only    -    Oct     9     2:00    1:00    -
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 9,
@@ -5012,8 +5012,8 @@ ZONE_RULES_Uruguay = [
     },
     # Rule    Uruguay    2006    2015    -    Mar    Sun>=8     2:00    0    -
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2015,
+        "fromYear": 2006,
+        "toYear": 2015,
         "inMonth": 3,
         "onDayOfWeek": 7,
         "onDayOfMonth": 8,
@@ -5024,8 +5024,8 @@ ZONE_RULES_Uruguay = [
     },
     # Rule    Uruguay    2006    2014    -    Oct    Sun>=1     2:00    1:00    -
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2014,
+        "fromYear": 2006,
+        "toYear": 2014,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -5048,8 +5048,8 @@ ZONE_POLICY_Uruguay = {
 ZONE_RULES_Vanuatu = [
     # Rule    Vanuatu    1992    1993    -    Jan    Sun>=23    0:00    0    -
     {
-        "fromYearFull": 1992,
-        "toYearFull": 1993,
+        "fromYear": 1992,
+        "toYear": 1993,
         "inMonth": 1,
         "onDayOfWeek": 7,
         "onDayOfMonth": 23,
@@ -5072,8 +5072,8 @@ ZONE_POLICY_Vanuatu = {
 ZONE_RULES_WS = [
     # Rule    WS    2010    only    -    Sep    lastSun    0:00    1    -
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2010,
+        "fromYear": 2010,
+        "toYear": 2010,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -5084,8 +5084,8 @@ ZONE_RULES_WS = [
     },
     # Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 4,
         "onDayOfWeek": 6,
         "onDayOfMonth": 1,
@@ -5096,8 +5096,8 @@ ZONE_RULES_WS = [
     },
     # Rule    WS    2011    only    -    Sep    lastSat    3:00    1    -
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 9,
         "onDayOfWeek": 6,
         "onDayOfMonth": 0,
@@ -5108,8 +5108,8 @@ ZONE_RULES_WS = [
     },
     # Rule    WS    2012    max    -    Apr    Sun>=1    4:00    0    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 9999,
+        "fromYear": 2012,
+        "toYear": 9999,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -5120,8 +5120,8 @@ ZONE_RULES_WS = [
     },
     # Rule    WS    2012    max    -    Sep    lastSun    3:00    1    -
     {
-        "fromYearFull": 2012,
-        "toYearFull": 9999,
+        "fromYear": 2012,
+        "toYear": 9999,
         "inMonth": 9,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -5144,8 +5144,8 @@ ZONE_POLICY_WS = {
 ZONE_RULES_Winn = [
     # Rule    Winn    1966    1986    -    Apr    lastSun    2:00s    1:00    D
     {
-        "fromYearFull": 1966,
-        "toYearFull": 1986,
+        "fromYear": 1966,
+        "toYear": 1986,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -5156,8 +5156,8 @@ ZONE_RULES_Winn = [
     },
     # Rule    Winn    1966    2005    -    Oct    lastSun    2:00s    0    S
     {
-        "fromYearFull": 1966,
-        "toYearFull": 2005,
+        "fromYear": 1966,
+        "toYear": 2005,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
@@ -5168,8 +5168,8 @@ ZONE_RULES_Winn = [
     },
     # Rule    Winn    1987    2005    -    Apr    Sun>=1    2:00s    1:00    D
     {
-        "fromYearFull": 1987,
-        "toYearFull": 2005,
+        "fromYear": 1987,
+        "toYear": 2005,
         "inMonth": 4,
         "onDayOfWeek": 7,
         "onDayOfMonth": 1,
@@ -5192,8 +5192,8 @@ ZONE_POLICY_Winn = {
 ZONE_RULES_Zion = [
     # Rule    Zion    1999    only    -    Sep     3    2:00    0    S
     {
-        "fromYearFull": 1999,
-        "toYearFull": 1999,
+        "fromYear": 1999,
+        "toYear": 1999,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 3,
@@ -5204,8 +5204,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2000    only    -    Apr    14    2:00    1:00    D
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2000,
+        "fromYear": 2000,
+        "toYear": 2000,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 14,
@@ -5216,8 +5216,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2000    only    -    Oct     6    1:00    0    S
     {
-        "fromYearFull": 2000,
-        "toYearFull": 2000,
+        "fromYear": 2000,
+        "toYear": 2000,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 6,
@@ -5228,8 +5228,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2001    only    -    Apr     9    1:00    1:00    D
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2001,
+        "fromYear": 2001,
+        "toYear": 2001,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 9,
@@ -5240,8 +5240,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2001    only    -    Sep    24    1:00    0    S
     {
-        "fromYearFull": 2001,
-        "toYearFull": 2001,
+        "fromYear": 2001,
+        "toYear": 2001,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 24,
@@ -5252,8 +5252,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2002    only    -    Mar    29    1:00    1:00    D
     {
-        "fromYearFull": 2002,
-        "toYearFull": 2002,
+        "fromYear": 2002,
+        "toYear": 2002,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 29,
@@ -5264,8 +5264,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2002    only    -    Oct     7    1:00    0    S
     {
-        "fromYearFull": 2002,
-        "toYearFull": 2002,
+        "fromYear": 2002,
+        "toYear": 2002,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 7,
@@ -5276,8 +5276,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2003    only    -    Mar    28    1:00    1:00    D
     {
-        "fromYearFull": 2003,
-        "toYearFull": 2003,
+        "fromYear": 2003,
+        "toYear": 2003,
         "inMonth": 3,
         "onDayOfWeek": 0,
         "onDayOfMonth": 28,
@@ -5288,8 +5288,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2003    only    -    Oct     3    1:00    0    S
     {
-        "fromYearFull": 2003,
-        "toYearFull": 2003,
+        "fromYear": 2003,
+        "toYear": 2003,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 3,
@@ -5300,8 +5300,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2004    only    -    Apr     7    1:00    1:00    D
     {
-        "fromYearFull": 2004,
-        "toYearFull": 2004,
+        "fromYear": 2004,
+        "toYear": 2004,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 7,
@@ -5312,8 +5312,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2004    only    -    Sep    22    1:00    0    S
     {
-        "fromYearFull": 2004,
-        "toYearFull": 2004,
+        "fromYear": 2004,
+        "toYear": 2004,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 22,
@@ -5324,8 +5324,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2005    only    -    Apr     1    2:00    1:00    D
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -5336,8 +5336,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2005    only    -    Oct     9    2:00    0    S
     {
-        "fromYearFull": 2005,
-        "toYearFull": 2005,
+        "fromYear": 2005,
+        "toYear": 2005,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 9,
@@ -5348,8 +5348,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2006    2010    -    Mar    Fri>=26    2:00    1:00    D
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2010,
+        "fromYear": 2006,
+        "toYear": 2010,
         "inMonth": 3,
         "onDayOfWeek": 5,
         "onDayOfMonth": 26,
@@ -5360,8 +5360,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2006    only    -    Oct     1    2:00    0    S
     {
-        "fromYearFull": 2006,
-        "toYearFull": 2006,
+        "fromYear": 2006,
+        "toYear": 2006,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -5372,8 +5372,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2007    only    -    Sep    16    2:00    0    S
     {
-        "fromYearFull": 2007,
-        "toYearFull": 2007,
+        "fromYear": 2007,
+        "toYear": 2007,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 16,
@@ -5384,8 +5384,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2008    only    -    Oct     5    2:00    0    S
     {
-        "fromYearFull": 2008,
-        "toYearFull": 2008,
+        "fromYear": 2008,
+        "toYear": 2008,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 5,
@@ -5396,8 +5396,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2009    only    -    Sep    27    2:00    0    S
     {
-        "fromYearFull": 2009,
-        "toYearFull": 2009,
+        "fromYear": 2009,
+        "toYear": 2009,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 27,
@@ -5408,8 +5408,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2010    only    -    Sep    12    2:00    0    S
     {
-        "fromYearFull": 2010,
-        "toYearFull": 2010,
+        "fromYear": 2010,
+        "toYear": 2010,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 12,
@@ -5420,8 +5420,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2011    only    -    Apr     1    2:00    1:00    D
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 4,
         "onDayOfWeek": 0,
         "onDayOfMonth": 1,
@@ -5432,8 +5432,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2011    only    -    Oct     2    2:00    0    S
     {
-        "fromYearFull": 2011,
-        "toYearFull": 2011,
+        "fromYear": 2011,
+        "toYear": 2011,
         "inMonth": 10,
         "onDayOfWeek": 0,
         "onDayOfMonth": 2,
@@ -5444,8 +5444,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2012    only    -    Mar    Fri>=26    2:00    1:00    D
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2012,
+        "fromYear": 2012,
+        "toYear": 2012,
         "inMonth": 3,
         "onDayOfWeek": 5,
         "onDayOfMonth": 26,
@@ -5456,8 +5456,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2012    only    -    Sep    23    2:00    0    S
     {
-        "fromYearFull": 2012,
-        "toYearFull": 2012,
+        "fromYear": 2012,
+        "toYear": 2012,
         "inMonth": 9,
         "onDayOfWeek": 0,
         "onDayOfMonth": 23,
@@ -5468,8 +5468,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2013    max    -    Mar    Fri>=23    2:00    1:00    D
     {
-        "fromYearFull": 2013,
-        "toYearFull": 9999,
+        "fromYear": 2013,
+        "toYear": 9999,
         "inMonth": 3,
         "onDayOfWeek": 5,
         "onDayOfMonth": 23,
@@ -5480,8 +5480,8 @@ ZONE_RULES_Zion = [
     },
     # Rule    Zion    2013    max    -    Oct    lastSun    2:00    0    S
     {
-        "fromYearFull": 2013,
-        "toYearFull": 9999,
+        "fromYear": 2013,
+        "toYear": 9999,
         "inMonth": 10,
         "onDayOfWeek": 7,
         "onDayOfMonth": 0,
