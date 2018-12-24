@@ -175,8 +175,6 @@ class ZoneAgent {
      */
     void addRulePriorToYear(uint16_t year) {
       const common::ZoneEntry* const entry = findZoneEntryPriorTo(year);
-      // TODO: Will never return nullptr if there is at least one Rule whose
-      // toYearFull is ZoneRule::kMaxYear.
 
       const common::ZonePolicy* const zonePolicy = entry->zonePolicy;
       if (zonePolicy == nullptr) {
@@ -297,8 +295,14 @@ class ZoneAgent {
     }
 
     /**
-     * Find the zone entry which applies to the year prior to the previous year.
-     * The entry will satisfy (year <= untilYearShort + kEpochYear).
+     * Find the most recent zone entry which was in effect just before the
+     * beginning of the given year, in other words, just before {year}-01-01
+     * 00:00:00. It will be first entry whose untilYear matches (year <=
+     * untilYear).
+     *
+     * This should never return nullptr because the code generator for
+     * zone_infos.cpp verified that the final ZoneEntry contains an empty
+     * untilYear, interpreted as 'max', and set to 255.
      */
     const common::ZoneEntry* findZoneEntryPriorTo(uint16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {

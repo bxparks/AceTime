@@ -5,10 +5,10 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018g
 //
-// Zone info count: 228
-// Zone entry count: 237
-// Memory (8-bit): 7400
-// Memory (32-bit): 9260
+// Zone info count: 282
+// Zone entry count: 375
+// Memory (8-bit): 10210
+// Memory (32-bit): 12838
 //
 // DO NOT EDIT
 
@@ -32,7 +32,10 @@ static const common::ZoneEntry kZoneEntryAbidjan[] = {
     0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "GMT" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -56,7 +59,10 @@ static const common::ZoneEntry kZoneEntryAccra[] = {
     0 /*offsetCode*/,
     &kPolicyGhana /*zonePolicy*/,
     "GMT/+0020" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -80,7 +86,10 @@ static const common::ZoneEntry kZoneEntryAlgiers[] = {
     4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "CET" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -104,7 +113,10 @@ static const common::ZoneEntry kZoneEntryBissau[] = {
     0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "GMT" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -128,7 +140,10 @@ static const common::ZoneEntry kZoneEntryCairo[] = {
     8 /*offsetCode*/,
     &kPolicyEgypt /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -137,6 +152,43 @@ const common::ZoneInfo kZoneCairo = {
   "Africa/Cairo" /*name*/,
   kZoneEntryCairo /*entries*/,
   sizeof(kZoneEntryCairo)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Africa/Casablanca
+// Entry count: 2
+// Memory (8-bit): 47
+// Memory (32-bit): 59
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryCasablanca[] = {
+  //              0:00    Morocco    +00/+01    2018 Oct 27
+  {
+    0 /*offsetCode*/,
+    &kPolicyMorocco /*zonePolicy*/,
+    "+00/+01" /*format*/,
+    18 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    27 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //              1:00    -    +01
+  {
+    4 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+01" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneCasablanca = {
+  "Africa/Casablanca" /*name*/,
+  kZoneEntryCasablanca /*entries*/,
+  sizeof(kZoneEntryCasablanca)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -152,7 +204,10 @@ static const common::ZoneEntry kZoneEntryCeuta[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -161,6 +216,43 @@ const common::ZoneInfo kZoneCeuta = {
   "Africa/Ceuta" /*name*/,
   kZoneEntryCeuta /*entries*/,
   sizeof(kZoneEntryCeuta)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Africa/El_Aaiun
+// Entry count: 2
+// Memory (8-bit): 45
+// Memory (32-bit): 57
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryEl_Aaiun[] = {
+  //              0:00    Morocco    +00/+01    2018 Oct 27
+  {
+    0 /*offsetCode*/,
+    &kPolicyMorocco /*zonePolicy*/,
+    "+00/+01" /*format*/,
+    18 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    27 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //              1:00    -    +01
+  {
+    4 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+01" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneEl_Aaiun = {
+  "Africa/El_Aaiun" /*name*/,
+  kZoneEntryEl_Aaiun /*entries*/,
+  sizeof(kZoneEntryEl_Aaiun)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -176,7 +268,10 @@ static const common::ZoneEntry kZoneEntryJohannesburg[] = {
     8 /*offsetCode*/,
     &kPolicySA /*zonePolicy*/,
     "SAST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -185,6 +280,90 @@ const common::ZoneInfo kZoneJohannesburg = {
   "Africa/Johannesburg" /*name*/,
   kZoneEntryJohannesburg /*entries*/,
   sizeof(kZoneEntryJohannesburg)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Africa/Juba
+// Entry count: 2
+// Memory (8-bit): 38
+// Memory (32-bit): 50
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryJuba[] = {
+  //             2:00    Sudan    CA%sT    2000 Jan 15 12:00
+  {
+    8 /*offsetCode*/,
+    &kPolicySudan /*zonePolicy*/,
+    "CA%T" /*format*/,
+    0 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    15 /*untilDay*/,
+    12 /*untilHour*/,
+  },
+  //             3:00    -    EAT
+  {
+    12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EAT" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneJuba = {
+  "Africa/Juba" /*name*/,
+  kZoneEntryJuba /*entries*/,
+  sizeof(kZoneEntryJuba)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Africa/Khartoum
+// Entry count: 3
+// Memory (8-bit): 52
+// Memory (32-bit): 68
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryKhartoum[] = {
+  //             2:00    Sudan    CA%sT    2000 Jan 15 12:00
+  {
+    8 /*offsetCode*/,
+    &kPolicySudan /*zonePolicy*/,
+    "CA%T" /*format*/,
+    0 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    15 /*untilDay*/,
+    12 /*untilHour*/,
+  },
+  //             3:00    -    EAT    2017 Nov  1
+  {
+    12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EAT" /*format*/,
+    17 /*untilYearShort*/,
+    11 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             2:00    -    CAT
+  {
+    8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "CAT" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneKhartoum = {
+  "Africa/Khartoum" /*name*/,
+  kZoneEntryKhartoum /*entries*/,
+  sizeof(kZoneEntryKhartoum)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -200,7 +379,10 @@ static const common::ZoneEntry kZoneEntryLagos[] = {
     4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WAT" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -224,7 +406,10 @@ static const common::ZoneEntry kZoneEntryMaputo[] = {
     8 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "CAT" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -248,7 +433,10 @@ static const common::ZoneEntry kZoneEntryMonrovia[] = {
     0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "GMT" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -272,7 +460,10 @@ static const common::ZoneEntry kZoneEntryNairobi[] = {
     12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "EAT" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -296,7 +487,10 @@ static const common::ZoneEntry kZoneEntryNdjamena[] = {
     4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WAT" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -305,6 +499,90 @@ const common::ZoneInfo kZoneNdjamena = {
   "Africa/Ndjamena" /*name*/,
   kZoneEntryNdjamena /*entries*/,
   sizeof(kZoneEntryNdjamena)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Africa/Sao_Tome
+// Entry count: 2
+// Memory (8-bit): 41
+// Memory (32-bit): 53
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntrySao_Tome[] = {
+  //              0:00    -    GMT    2018 Jan  1 01:00
+  {
+    0 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "GMT" /*format*/,
+    18 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    1 /*untilHour*/,
+  },
+  //              1:00    -    WAT
+  {
+    4 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "WAT" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneSao_Tome = {
+  "Africa/Sao_Tome" /*name*/,
+  kZoneEntrySao_Tome /*entries*/,
+  sizeof(kZoneEntrySao_Tome)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Africa/Tripoli
+// Entry count: 3
+// Memory (8-bit): 51
+// Memory (32-bit): 67
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryTripoli[] = {
+  //             2:00    -    EET    2012 Nov 10  2:00
+  {
+    8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EET" /*format*/,
+    12 /*untilYearShort*/,
+    11 /*untilMonth*/,
+    10 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             1:00    Libya    CE%sT    2013 Oct 25  2:00
+  {
+    4 /*offsetCode*/,
+    &kPolicyLibya /*zonePolicy*/,
+    "CE%T" /*format*/,
+    13 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    25 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             2:00    -    EET
+  {
+    8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EET" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneTripoli = {
+  "Africa/Tripoli" /*name*/,
+  kZoneEntryTripoli /*entries*/,
+  sizeof(kZoneEntryTripoli)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -320,7 +598,10 @@ static const common::ZoneEntry kZoneEntryTunis[] = {
     4 /*offsetCode*/,
     &kPolicyTunisia /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -344,7 +625,10 @@ static const common::ZoneEntry kZoneEntryAdak[] = {
     -40 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "H%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -368,7 +652,10 @@ static const common::ZoneEntry kZoneEntryAnchorage[] = {
     -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "AK%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -377,6 +664,231 @@ const common::ZoneInfo kZoneAnchorage = {
   "America/Anchorage" /*name*/,
   kZoneEntryAnchorage /*entries*/,
   sizeof(kZoneEntryAnchorage)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Araguaina
+// Entry count: 4
+// Memory (8-bit): 71
+// Memory (32-bit): 91
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryAraguaina[] = {
+  //             -3:00    Brazil    -03/-02    2003 Sep 24
+  {
+    -12 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    3 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    24 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03    2012 Oct 21
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    12 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    21 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    Brazil    -03/-02    2013 Sep
+  {
+    -12 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    13 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneAraguaina = {
+  "America/Araguaina" /*name*/,
+  kZoneEntryAraguaina /*entries*/,
+  sizeof(kZoneEntryAraguaina)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Argentina/Buenos_Aires
+// Entry count: 2
+// Memory (8-bit): 64
+// Memory (32-bit): 76
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryBuenos_Aires[] = {
+  //             -4:00    Arg    -04/-03    2000 Mar  3
+  {
+    -16 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    3 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    Arg    -03/-02
+  {
+    -12 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBuenos_Aires = {
+  "America/Argentina/Buenos_Aires" /*name*/,
+  kZoneEntryBuenos_Aires /*entries*/,
+  sizeof(kZoneEntryBuenos_Aires)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Argentina/Cordoba
+// Entry count: 2
+// Memory (8-bit): 59
+// Memory (32-bit): 71
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryCordoba[] = {
+  //             -4:00    Arg    -04/-03    2000 Mar  3
+  {
+    -16 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    3 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    Arg    -03/-02
+  {
+    -12 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneCordoba = {
+  "America/Argentina/Cordoba" /*name*/,
+  kZoneEntryCordoba /*entries*/,
+  sizeof(kZoneEntryCordoba)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Argentina/Jujuy
+// Entry count: 3
+// Memory (8-bit): 67
+// Memory (32-bit): 83
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryJujuy[] = {
+  //             -4:00    Arg    -04/-03    2000 Mar  3
+  {
+    -16 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    3 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    Arg    -03/-02    2008 Oct 18
+  {
+    -12 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    8 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    18 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneJujuy = {
+  "America/Argentina/Jujuy" /*name*/,
+  kZoneEntryJujuy /*entries*/,
+  sizeof(kZoneEntryJujuy)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Argentina/Salta
+// Entry count: 3
+// Memory (8-bit): 67
+// Memory (32-bit): 83
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntrySalta[] = {
+  //             -4:00    Arg    -04/-03    2000 Mar  3
+  {
+    -16 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    3 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    Arg    -03/-02    2008 Oct 18
+  {
+    -12 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    8 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    18 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneSalta = {
+  "America/Argentina/Salta" /*name*/,
+  kZoneEntrySalta /*entries*/,
+  sizeof(kZoneEntrySalta)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -392,7 +904,10 @@ static const common::ZoneEntry kZoneEntryAsuncion[] = {
     -16 /*offsetCode*/,
     &kPolicyPara /*zonePolicy*/,
     "-04/-03" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -416,7 +931,10 @@ static const common::ZoneEntry kZoneEntryAtikokan[] = {
     -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "EST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -425,6 +943,100 @@ const common::ZoneInfo kZoneAtikokan = {
   "America/Atikokan" /*name*/,
   kZoneEntryAtikokan /*entries*/,
   sizeof(kZoneEntryAtikokan)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Bahia
+// Entry count: 4
+// Memory (8-bit): 67
+// Memory (32-bit): 87
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryBahia[] = {
+  //             -3:00    Brazil    -03/-02    2003 Sep 24
+  {
+    -12 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    3 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    24 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03    2011 Oct 16
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    11 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    16 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    Brazil    -03/-02    2012 Oct 21
+  {
+    -12 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    12 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    21 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBahia = {
+  "America/Bahia" /*name*/,
+  kZoneEntryBahia /*entries*/,
+  sizeof(kZoneEntryBahia)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Bahia_Banderas
+// Entry count: 2
+// Memory (8-bit): 48
+// Memory (32-bit): 60
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryBahia_Banderas[] = {
+  //             -7:00    Mexico    M%sT    2010 Apr  4  2:00
+  {
+    -28 /*offsetCode*/,
+    &kPolicyMexico /*zonePolicy*/,
+    "M%T" /*format*/,
+    10 /*untilYearShort*/,
+    4 /*untilMonth*/,
+    4 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -6:00    Mexico    C%sT
+  {
+    -24 /*offsetCode*/,
+    &kPolicyMexico /*zonePolicy*/,
+    "C%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBahia_Banderas = {
+  "America/Bahia_Banderas" /*name*/,
+  kZoneEntryBahia_Banderas /*entries*/,
+  sizeof(kZoneEntryBahia_Banderas)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -440,7 +1052,10 @@ static const common::ZoneEntry kZoneEntryBarbados[] = {
     -16 /*offsetCode*/,
     &kPolicyBarb /*zonePolicy*/,
     "A%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -464,7 +1079,10 @@ static const common::ZoneEntry kZoneEntryBelem[] = {
     -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-03" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -488,7 +1106,10 @@ static const common::ZoneEntry kZoneEntryBlanc_Sablon[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "AST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -497,6 +1118,43 @@ const common::ZoneInfo kZoneBlanc_Sablon = {
   "America/Blanc_Sablon" /*name*/,
   kZoneEntryBlanc_Sablon /*entries*/,
   sizeof(kZoneEntryBlanc_Sablon)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Boa_Vista
+// Entry count: 2
+// Memory (8-bit): 47
+// Memory (32-bit): 59
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryBoa_Vista[] = {
+  //             -4:00    Brazil    -04/-03    2000 Oct 15
+  {
+    -16 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    15 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -4:00    -    -04
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBoa_Vista = {
+  "America/Boa_Vista" /*name*/,
+  kZoneEntryBoa_Vista /*entries*/,
+  sizeof(kZoneEntryBoa_Vista)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -512,7 +1170,10 @@ static const common::ZoneEntry kZoneEntryBogota[] = {
     -20 /*offsetCode*/,
     &kPolicyCO /*zonePolicy*/,
     "-05/-04" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -536,7 +1197,10 @@ static const common::ZoneEntry kZoneEntryBoise[] = {
     -28 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "M%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -560,7 +1224,10 @@ static const common::ZoneEntry kZoneEntryCampo_Grande[] = {
     -16 /*offsetCode*/,
     &kPolicyBrazil /*zonePolicy*/,
     "-04/-03" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -569,6 +1236,43 @@ const common::ZoneInfo kZoneCampo_Grande = {
   "America/Campo_Grande" /*name*/,
   kZoneEntryCampo_Grande /*entries*/,
   sizeof(kZoneEntryCampo_Grande)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Cancun
+// Entry count: 2
+// Memory (8-bit): 40
+// Memory (32-bit): 52
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryCancun[] = {
+  //             -6:00    Mexico    C%sT    2015 Feb  1  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyMexico /*zonePolicy*/,
+    "C%T" /*format*/,
+    15 /*untilYearShort*/,
+    2 /*untilMonth*/,
+    1 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -5:00    -    EST
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EST" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneCancun = {
+  "America/Cancun" /*name*/,
+  kZoneEntryCancun /*entries*/,
+  sizeof(kZoneEntryCancun)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -584,7 +1288,10 @@ static const common::ZoneEntry kZoneEntryCayenne[] = {
     -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-03" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -608,7 +1315,10 @@ static const common::ZoneEntry kZoneEntryChicago[] = {
     -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -632,7 +1342,10 @@ static const common::ZoneEntry kZoneEntryChihuahua[] = {
     -28 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
     "M%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -656,7 +1369,10 @@ static const common::ZoneEntry kZoneEntryCosta_Rica[] = {
     -24 /*offsetCode*/,
     &kPolicyCR /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -680,7 +1396,10 @@ static const common::ZoneEntry kZoneEntryCreston[] = {
     -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "MST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -689,6 +1408,53 @@ const common::ZoneInfo kZoneCreston = {
   "America/Creston" /*name*/,
   kZoneEntryCreston /*entries*/,
   sizeof(kZoneEntryCreston)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Cuiaba
+// Entry count: 3
+// Memory (8-bit): 58
+// Memory (32-bit): 74
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryCuiaba[] = {
+  //             -4:00    Brazil    -04/-03    2003 Sep 24
+  {
+    -16 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    3 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    24 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -4:00    -    -04    2004 Oct  1
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    4 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -4:00    Brazil    -04/-03
+  {
+    -16 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneCuiaba = {
+  "America/Cuiaba" /*name*/,
+  kZoneEntryCuiaba /*entries*/,
+  sizeof(kZoneEntryCuiaba)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -704,7 +1470,10 @@ static const common::ZoneEntry kZoneEntryCuracao[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "AST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -728,7 +1497,10 @@ static const common::ZoneEntry kZoneEntryDanmarkshavn[] = {
     0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "GMT" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -752,7 +1524,10 @@ static const common::ZoneEntry kZoneEntryDawson[] = {
     -32 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "P%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -776,7 +1551,10 @@ static const common::ZoneEntry kZoneEntryDawson_Creek[] = {
     -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "MST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -800,7 +1578,10 @@ static const common::ZoneEntry kZoneEntryDenver[] = {
     -28 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "M%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -824,7 +1605,10 @@ static const common::ZoneEntry kZoneEntryDetroit[] = {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -848,7 +1632,10 @@ static const common::ZoneEntry kZoneEntryEdmonton[] = {
     -28 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "M%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -857,6 +1644,53 @@ const common::ZoneInfo kZoneEdmonton = {
   "America/Edmonton" /*name*/,
   kZoneEntryEdmonton /*entries*/,
   sizeof(kZoneEntryEdmonton)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Eirunepe
+// Entry count: 3
+// Memory (8-bit): 52
+// Memory (32-bit): 68
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryEirunepe[] = {
+  //             -5:00    -    -05    2008 Jun 24  0:00
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-05" /*format*/,
+    8 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    24 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -4:00    -    -04    2013 Nov 10
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    13 /*untilYearShort*/,
+    11 /*untilMonth*/,
+    10 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -5:00    -    -05
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-05" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneEirunepe = {
+  "America/Eirunepe" /*name*/,
+  kZoneEntryEirunepe /*entries*/,
+  sizeof(kZoneEntryEirunepe)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -872,7 +1706,10 @@ static const common::ZoneEntry kZoneEntryEl_Salvador[] = {
     -24 /*offsetCode*/,
     &kPolicySalv /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -881,6 +1718,100 @@ const common::ZoneInfo kZoneEl_Salvador = {
   "America/El_Salvador" /*name*/,
   kZoneEntryEl_Salvador /*entries*/,
   sizeof(kZoneEntryEl_Salvador)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Fort_Nelson
+// Entry count: 2
+// Memory (8-bit): 45
+// Memory (32-bit): 57
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryFort_Nelson[] = {
+  //             -8:00    Canada    P%sT    2015 Mar  8  2:00
+  {
+    -32 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    "P%T" /*format*/,
+    15 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    8 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -7:00    -    MST
+  {
+    -28 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "MST" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneFort_Nelson = {
+  "America/Fort_Nelson" /*name*/,
+  kZoneEntryFort_Nelson /*entries*/,
+  sizeof(kZoneEntryFort_Nelson)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Fortaleza
+// Entry count: 4
+// Memory (8-bit): 71
+// Memory (32-bit): 91
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryFortaleza[] = {
+  //             -3:00    Brazil    -03/-02    2000 Oct 22
+  {
+    -12 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    22 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03    2001 Sep 13
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    1 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    13 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    Brazil    -03/-02    2002 Oct  1
+  {
+    -12 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    2 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneFortaleza = {
+  "America/Fortaleza" /*name*/,
+  kZoneEntryFortaleza /*entries*/,
+  sizeof(kZoneEntryFortaleza)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -896,7 +1827,10 @@ static const common::ZoneEntry kZoneEntryGlace_Bay[] = {
     -16 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "A%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -920,7 +1854,10 @@ static const common::ZoneEntry kZoneEntryGodthab[] = {
     -12 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "-03/-02" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -944,7 +1881,10 @@ static const common::ZoneEntry kZoneEntryGuatemala[] = {
     -24 /*offsetCode*/,
     &kPolicyGuat /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -968,7 +1908,10 @@ static const common::ZoneEntry kZoneEntryGuayaquil[] = {
     -20 /*offsetCode*/,
     &kPolicyEcuador /*zonePolicy*/,
     "-05/-04" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -992,7 +1935,10 @@ static const common::ZoneEntry kZoneEntryGuyana[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-04" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1016,7 +1962,10 @@ static const common::ZoneEntry kZoneEntryHalifax[] = {
     -16 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "A%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1040,7 +1989,10 @@ static const common::ZoneEntry kZoneEntryHavana[] = {
     -20 /*offsetCode*/,
     &kPolicyCuba /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1064,7 +2016,10 @@ static const common::ZoneEntry kZoneEntryHermosillo[] = {
     -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "MST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1088,14 +2043,20 @@ static const common::ZoneEntry kZoneEntryIndianapolis[] = {
     -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "EST" /*format*/,
-    6 /*untilYear*/,
+    6 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
   //             -5:00    US    E%sT
   {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1104,6 +2065,43 @@ const common::ZoneInfo kZoneIndianapolis = {
   "America/Indiana/Indianapolis" /*name*/,
   kZoneEntryIndianapolis /*entries*/,
   sizeof(kZoneEntryIndianapolis)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Indiana/Knox
+// Entry count: 2
+// Memory (8-bit): 46
+// Memory (32-bit): 58
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryKnox[] = {
+  //             -5:00    -    EST    2006 Apr  2  2:00
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EST" /*format*/,
+    6 /*untilYearShort*/,
+    4 /*untilMonth*/,
+    2 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -6:00    US    C%sT
+  {
+    -24 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "C%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneKnox = {
+  "America/Indiana/Knox" /*name*/,
+  kZoneEntryKnox /*entries*/,
+  sizeof(kZoneEntryKnox)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1119,14 +2117,20 @@ static const common::ZoneEntry kZoneEntryMarengo[] = {
     -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "EST" /*format*/,
-    6 /*untilYear*/,
+    6 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
   //             -5:00    US    E%sT
   {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1135,6 +2139,90 @@ const common::ZoneInfo kZoneMarengo = {
   "America/Indiana/Marengo" /*name*/,
   kZoneEntryMarengo /*entries*/,
   sizeof(kZoneEntryMarengo)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Indiana/Petersburg
+// Entry count: 3
+// Memory (8-bit): 62
+// Memory (32-bit): 78
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryPetersburg[] = {
+  //             -5:00    -    EST    2006 Apr  2  2:00
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EST" /*format*/,
+    6 /*untilYearShort*/,
+    4 /*untilMonth*/,
+    2 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -6:00    US    C%sT    2007 Nov  4  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "C%T" /*format*/,
+    7 /*untilYearShort*/,
+    11 /*untilMonth*/,
+    4 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -5:00    US    E%sT
+  {
+    -20 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "E%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZonePetersburg = {
+  "America/Indiana/Petersburg" /*name*/,
+  kZoneEntryPetersburg /*entries*/,
+  sizeof(kZoneEntryPetersburg)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Indiana/Tell_City
+// Entry count: 2
+// Memory (8-bit): 51
+// Memory (32-bit): 63
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryTell_City[] = {
+  //             -5:00    -    EST    2006 Apr  2  2:00
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EST" /*format*/,
+    6 /*untilYearShort*/,
+    4 /*untilMonth*/,
+    2 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -6:00    US    C%sT
+  {
+    -24 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "C%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneTell_City = {
+  "America/Indiana/Tell_City" /*name*/,
+  kZoneEntryTell_City /*entries*/,
+  sizeof(kZoneEntryTell_City)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1150,14 +2238,20 @@ static const common::ZoneEntry kZoneEntryVevay[] = {
     -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "EST" /*format*/,
-    6 /*untilYear*/,
+    6 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
   //             -5:00    US    E%sT
   {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1166,6 +2260,100 @@ const common::ZoneInfo kZoneVevay = {
   "America/Indiana/Vevay" /*name*/,
   kZoneEntryVevay /*entries*/,
   sizeof(kZoneEntryVevay)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Indiana/Vincennes
+// Entry count: 3
+// Memory (8-bit): 61
+// Memory (32-bit): 77
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryVincennes[] = {
+  //             -5:00    -    EST    2006 Apr  2  2:00
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EST" /*format*/,
+    6 /*untilYearShort*/,
+    4 /*untilMonth*/,
+    2 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -6:00    US    C%sT    2007 Nov  4  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "C%T" /*format*/,
+    7 /*untilYearShort*/,
+    11 /*untilMonth*/,
+    4 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -5:00    US    E%sT
+  {
+    -20 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "E%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneVincennes = {
+  "America/Indiana/Vincennes" /*name*/,
+  kZoneEntryVincennes /*entries*/,
+  sizeof(kZoneEntryVincennes)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Indiana/Winamac
+// Entry count: 3
+// Memory (8-bit): 59
+// Memory (32-bit): 75
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryWinamac[] = {
+  //             -5:00    -    EST    2006 Apr  2  2:00
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EST" /*format*/,
+    6 /*untilYearShort*/,
+    4 /*untilMonth*/,
+    2 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -6:00    US    C%sT    2007 Mar 11  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "C%T" /*format*/,
+    7 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    11 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -5:00    US    E%sT
+  {
+    -20 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "E%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneWinamac = {
+  "America/Indiana/Winamac" /*name*/,
+  kZoneEntryWinamac /*entries*/,
+  sizeof(kZoneEntryWinamac)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1181,7 +2369,10 @@ static const common::ZoneEntry kZoneEntryInuvik[] = {
     -28 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "M%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1190,6 +2381,43 @@ const common::ZoneInfo kZoneInuvik = {
   "America/Inuvik" /*name*/,
   kZoneEntryInuvik /*entries*/,
   sizeof(kZoneEntryInuvik)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Iqaluit
+// Entry count: 2
+// Memory (8-bit): 41
+// Memory (32-bit): 53
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryIqaluit[] = {
+  //             -6:00    Canada    C%sT    2000 Oct 29  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    "C%T" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    29 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -5:00    Canada    E%sT
+  {
+    -20 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    "E%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneIqaluit = {
+  "America/Iqaluit" /*name*/,
+  kZoneEntryIqaluit /*entries*/,
+  sizeof(kZoneEntryIqaluit)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1205,7 +2433,10 @@ static const common::ZoneEntry kZoneEntryJamaica[] = {
     -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "EST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1229,7 +2460,10 @@ static const common::ZoneEntry kZoneEntryJuneau[] = {
     -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "AK%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1253,7 +2487,10 @@ static const common::ZoneEntry kZoneEntryLouisville[] = {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1262,6 +2499,43 @@ const common::ZoneInfo kZoneLouisville = {
   "America/Kentucky/Louisville" /*name*/,
   kZoneEntryLouisville /*entries*/,
   sizeof(kZoneEntryLouisville)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Kentucky/Monticello
+// Entry count: 2
+// Memory (8-bit): 53
+// Memory (32-bit): 65
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryMonticello[] = {
+  //             -6:00    US    C%sT    2000 Oct 29  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "C%T" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    29 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -5:00    US    E%sT
+  {
+    -20 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "E%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMonticello = {
+  "America/Kentucky/Monticello" /*name*/,
+  kZoneEntryMonticello /*entries*/,
+  sizeof(kZoneEntryMonticello)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1277,7 +2551,10 @@ static const common::ZoneEntry kZoneEntryLa_Paz[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-04" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1301,7 +2578,10 @@ static const common::ZoneEntry kZoneEntryLima[] = {
     -20 /*offsetCode*/,
     &kPolicyPeru /*zonePolicy*/,
     "-05/-04" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1325,7 +2605,10 @@ static const common::ZoneEntry kZoneEntryLos_Angeles[] = {
     -32 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "P%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1334,6 +2617,63 @@ const common::ZoneInfo kZoneLos_Angeles = {
   "America/Los_Angeles" /*name*/,
   kZoneEntryLos_Angeles /*entries*/,
   sizeof(kZoneEntryLos_Angeles)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Maceio
+// Entry count: 4
+// Memory (8-bit): 68
+// Memory (32-bit): 88
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryMaceio[] = {
+  //             -3:00    Brazil    -03/-02    2000 Oct 22
+  {
+    -12 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    22 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03    2001 Sep 13
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    1 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    13 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    Brazil    -03/-02    2002 Oct  1
+  {
+    -12 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    2 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMaceio = {
+  "America/Maceio" /*name*/,
+  kZoneEntryMaceio /*entries*/,
+  sizeof(kZoneEntryMaceio)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1349,7 +2689,10 @@ static const common::ZoneEntry kZoneEntryManagua[] = {
     -24 /*offsetCode*/,
     &kPolicyNic /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1373,7 +2716,10 @@ static const common::ZoneEntry kZoneEntryManaus[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-04" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1397,7 +2743,10 @@ static const common::ZoneEntry kZoneEntryMartinique[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "AST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1421,14 +2770,20 @@ static const common::ZoneEntry kZoneEntryMatamoros[] = {
     -24 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
     "C%T" /*format*/,
-    10 /*untilYear*/,
+    10 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
   //             -6:00    US    C%sT
   {
     -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1452,7 +2807,10 @@ static const common::ZoneEntry kZoneEntryMazatlan[] = {
     -28 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
     "M%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1476,7 +2834,10 @@ static const common::ZoneEntry kZoneEntryMenominee[] = {
     -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1500,7 +2861,10 @@ static const common::ZoneEntry kZoneEntryMerida[] = {
     -24 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1509,6 +2873,90 @@ const common::ZoneInfo kZoneMerida = {
   "America/Merida" /*name*/,
   kZoneEntryMerida /*entries*/,
   sizeof(kZoneEntryMerida)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Metlakatla
+// Entry count: 2
+// Memory (8-bit): 45
+// Memory (32-bit): 57
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryMetlakatla[] = {
+  //              -8:00    -    PST    2015 Nov  1  2:00
+  {
+    -32 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "PST" /*format*/,
+    15 /*untilYearShort*/,
+    11 /*untilMonth*/,
+    1 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //              -9:00    US    AK%sT
+  {
+    -36 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "AK%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMetlakatla = {
+  "America/Metlakatla" /*name*/,
+  kZoneEntryMetlakatla /*entries*/,
+  sizeof(kZoneEntryMetlakatla)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Mexico_City
+// Entry count: 3
+// Memory (8-bit): 55
+// Memory (32-bit): 71
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryMexico_City[] = {
+  //             -6:00    Mexico    C%sT    2001 Sep 30  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyMexico /*zonePolicy*/,
+    "C%T" /*format*/,
+    1 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    30 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -6:00    -    CST    2002 Feb 20
+  {
+    -24 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "CST" /*format*/,
+    2 /*untilYearShort*/,
+    2 /*untilMonth*/,
+    20 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -6:00    Mexico    C%sT
+  {
+    -24 /*offsetCode*/,
+    &kPolicyMexico /*zonePolicy*/,
+    "C%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMexico_City = {
+  "America/Mexico_City" /*name*/,
+  kZoneEntryMexico_City /*entries*/,
+  sizeof(kZoneEntryMexico_City)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1524,7 +2972,10 @@ static const common::ZoneEntry kZoneEntryMiquelon[] = {
     -12 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "-03/-02" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1548,7 +2999,10 @@ static const common::ZoneEntry kZoneEntryMonterrey[] = {
     -24 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1572,7 +3026,10 @@ static const common::ZoneEntry kZoneEntryMontevideo[] = {
     -12 /*offsetCode*/,
     &kPolicyUruguay /*zonePolicy*/,
     "-03/-02" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1596,7 +3053,10 @@ static const common::ZoneEntry kZoneEntryNassau[] = {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1620,7 +3080,10 @@ static const common::ZoneEntry kZoneEntryNew_York[] = {
     -20 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "E%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1644,7 +3107,10 @@ static const common::ZoneEntry kZoneEntryNipigon[] = {
     -20 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "E%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1668,7 +3134,10 @@ static const common::ZoneEntry kZoneEntryNome[] = {
     -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "AK%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1677,6 +3146,100 @@ const common::ZoneInfo kZoneNome = {
   "America/Nome" /*name*/,
   kZoneEntryNome /*entries*/,
   sizeof(kZoneEntryNome)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Noronha
+// Entry count: 4
+// Memory (8-bit): 69
+// Memory (32-bit): 89
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryNoronha[] = {
+  //             -2:00    Brazil    -02/-01    2000 Oct 15
+  {
+    -8 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-02/-01" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    15 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -2:00    -    -02    2001 Sep 13
+  {
+    -8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-02" /*format*/,
+    1 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    13 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -2:00    Brazil    -02/-01    2002 Oct  1
+  {
+    -8 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-02/-01" /*format*/,
+    2 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -2:00    -    -02
+  {
+    -8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-02" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneNoronha = {
+  "America/Noronha" /*name*/,
+  kZoneEntryNoronha /*entries*/,
+  sizeof(kZoneEntryNoronha)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/North_Dakota/Beulah
+// Entry count: 2
+// Memory (8-bit): 53
+// Memory (32-bit): 65
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryBeulah[] = {
+  //             -7:00    US    M%sT    2010 Nov  7  2:00
+  {
+    -28 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "M%T" /*format*/,
+    10 /*untilYearShort*/,
+    11 /*untilMonth*/,
+    7 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -6:00    US    C%sT
+  {
+    -24 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "C%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBeulah = {
+  "America/North_Dakota/Beulah" /*name*/,
+  kZoneEntryBeulah /*entries*/,
+  sizeof(kZoneEntryBeulah)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1692,7 +3255,10 @@ static const common::ZoneEntry kZoneEntryCenter[] = {
     -24 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1701,6 +3267,43 @@ const common::ZoneInfo kZoneCenter = {
   "America/North_Dakota/Center" /*name*/,
   kZoneEntryCenter /*entries*/,
   sizeof(kZoneEntryCenter)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/North_Dakota/New_Salem
+// Entry count: 2
+// Memory (8-bit): 56
+// Memory (32-bit): 68
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryNew_Salem[] = {
+  //             -7:00    US    M%sT    2003 Oct 26  2:00
+  {
+    -28 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "M%T" /*format*/,
+    3 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    26 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -6:00    US    C%sT
+  {
+    -24 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "C%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneNew_Salem = {
+  "America/North_Dakota/New_Salem" /*name*/,
+  kZoneEntryNew_Salem /*entries*/,
+  sizeof(kZoneEntryNew_Salem)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1716,14 +3319,20 @@ static const common::ZoneEntry kZoneEntryOjinaga[] = {
     -28 /*offsetCode*/,
     &kPolicyMexico /*zonePolicy*/,
     "M%T" /*format*/,
-    10 /*untilYear*/,
+    10 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
   //             -7:00    US    M%sT
   {
     -28 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "M%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1747,7 +3356,10 @@ static const common::ZoneEntry kZoneEntryPanama[] = {
     -20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "EST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1756,6 +3368,43 @@ const common::ZoneInfo kZonePanama = {
   "America/Panama" /*name*/,
   kZoneEntryPanama /*entries*/,
   sizeof(kZoneEntryPanama)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Pangnirtung
+// Entry count: 2
+// Memory (8-bit): 45
+// Memory (32-bit): 57
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryPangnirtung[] = {
+  //             -6:00    Canada    C%sT    2000 Oct 29  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    "C%T" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    29 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -5:00    Canada    E%sT
+  {
+    -20 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    "E%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZonePangnirtung = {
+  "America/Pangnirtung" /*name*/,
+  kZoneEntryPangnirtung /*entries*/,
+  sizeof(kZoneEntryPangnirtung)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1771,7 +3420,10 @@ static const common::ZoneEntry kZoneEntryParamaribo[] = {
     -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-03" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1795,7 +3447,10 @@ static const common::ZoneEntry kZoneEntryPhoenix[] = {
     -28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "MST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1819,7 +3474,10 @@ static const common::ZoneEntry kZoneEntryPort_au_Prince[] = {
     -20 /*offsetCode*/,
     &kPolicyHaiti /*zonePolicy*/,
     "E%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1843,7 +3501,10 @@ static const common::ZoneEntry kZoneEntryPort_of_Spain[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "AST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1867,7 +3528,10 @@ static const common::ZoneEntry kZoneEntryPorto_Velho[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-04" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1891,7 +3555,10 @@ static const common::ZoneEntry kZoneEntryPuerto_Rico[] = {
     -16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "AST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1900,6 +3567,43 @@ const common::ZoneInfo kZonePuerto_Rico = {
   "America/Puerto_Rico" /*name*/,
   kZoneEntryPuerto_Rico /*entries*/,
   sizeof(kZoneEntryPuerto_Rico)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Punta_Arenas
+// Entry count: 2
+// Memory (8-bit): 50
+// Memory (32-bit): 62
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryPunta_Arenas[] = {
+  //             -4:00    Chile    -04/-03    2016 Dec  4
+  {
+    -16 /*offsetCode*/,
+    &kPolicyChile /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    16 /*untilYearShort*/,
+    12 /*untilMonth*/,
+    4 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZonePunta_Arenas = {
+  "America/Punta_Arenas" /*name*/,
+  kZoneEntryPunta_Arenas /*entries*/,
+  sizeof(kZoneEntryPunta_Arenas)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1915,7 +3619,10 @@ static const common::ZoneEntry kZoneEntryRainy_River[] = {
     -24 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1924,6 +3631,110 @@ const common::ZoneInfo kZoneRainy_River = {
   "America/Rainy_River" /*name*/,
   kZoneEntryRainy_River /*entries*/,
   sizeof(kZoneEntryRainy_River)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Rankin_Inlet
+// Entry count: 3
+// Memory (8-bit): 56
+// Memory (32-bit): 72
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryRankin_Inlet[] = {
+  //             -6:00    NT_YK    C%sT    2000 Oct 29  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyNT_YK /*zonePolicy*/,
+    "C%T" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    29 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -5:00    -    EST    2001 Apr  1  3:00
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EST" /*format*/,
+    1 /*untilYearShort*/,
+    4 /*untilMonth*/,
+    1 /*untilDay*/,
+    3 /*untilHour*/,
+  },
+  //             -6:00    Canada    C%sT
+  {
+    -24 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    "C%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneRankin_Inlet = {
+  "America/Rankin_Inlet" /*name*/,
+  kZoneEntryRankin_Inlet /*entries*/,
+  sizeof(kZoneEntryRankin_Inlet)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Recife
+// Entry count: 4
+// Memory (8-bit): 68
+// Memory (32-bit): 88
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryRecife[] = {
+  //             -3:00    Brazil    -03/-02    2000 Oct 15
+  {
+    -12 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    15 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03    2001 Sep 13
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    1 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    13 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    Brazil    -03/-02    2002 Oct  1
+  {
+    -12 /*offsetCode*/,
+    &kPolicyBrazil /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    2 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneRecife = {
+  "America/Recife" /*name*/,
+  kZoneEntryRecife /*entries*/,
+  sizeof(kZoneEntryRecife)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1939,7 +3750,10 @@ static const common::ZoneEntry kZoneEntryRegina[] = {
     -24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "CST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1948,6 +3762,157 @@ const common::ZoneInfo kZoneRegina = {
   "America/Regina" /*name*/,
   kZoneEntryRegina /*entries*/,
   sizeof(kZoneEntryRegina)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Resolute
+// Entry count: 5
+// Memory (8-bit): 72
+// Memory (32-bit): 96
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryResolute[] = {
+  //             -6:00    NT_YK    C%sT    2000 Oct 29  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyNT_YK /*zonePolicy*/,
+    "C%T" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    29 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -5:00    -    EST    2001 Apr  1  3:00
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EST" /*format*/,
+    1 /*untilYearShort*/,
+    4 /*untilMonth*/,
+    1 /*untilDay*/,
+    3 /*untilHour*/,
+  },
+  //             -6:00    Canada    C%sT    2006 Oct 29  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    "C%T" /*format*/,
+    6 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    29 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -5:00    -    EST    2007 Mar 11  3:00
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EST" /*format*/,
+    7 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    11 /*untilDay*/,
+    3 /*untilHour*/,
+  },
+  //             -6:00    Canada    C%sT
+  {
+    -24 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    "C%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneResolute = {
+  "America/Resolute" /*name*/,
+  kZoneEntryResolute /*entries*/,
+  sizeof(kZoneEntryResolute)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Rio_Branco
+// Entry count: 3
+// Memory (8-bit): 54
+// Memory (32-bit): 70
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryRio_Branco[] = {
+  //             -5:00    -    -05    2008 Jun 24  0:00
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-05" /*format*/,
+    8 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    24 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -4:00    -    -04    2013 Nov 10
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    13 /*untilYearShort*/,
+    11 /*untilMonth*/,
+    10 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -5:00    -    -05
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-05" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneRio_Branco = {
+  "America/Rio_Branco" /*name*/,
+  kZoneEntryRio_Branco /*entries*/,
+  sizeof(kZoneEntryRio_Branco)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Santarem
+// Entry count: 2
+// Memory (8-bit): 42
+// Memory (32-bit): 54
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntrySantarem[] = {
+  //             -4:00    -    -04    2008 Jun 24  0:00
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    8 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    24 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneSantarem = {
+  "America/Santarem" /*name*/,
+  kZoneEntrySantarem /*entries*/,
+  sizeof(kZoneEntrySantarem)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1963,7 +3928,10 @@ static const common::ZoneEntry kZoneEntrySantiago[] = {
     -16 /*offsetCode*/,
     &kPolicyChile /*zonePolicy*/,
     "-04/-03" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -1987,7 +3955,10 @@ static const common::ZoneEntry kZoneEntrySao_Paulo[] = {
     -12 /*offsetCode*/,
     &kPolicyBrazil /*zonePolicy*/,
     "-03/-02" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2011,7 +3982,10 @@ static const common::ZoneEntry kZoneEntryScoresbysund[] = {
     -4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "-01/+00" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2035,7 +4009,10 @@ static const common::ZoneEntry kZoneEntrySitka[] = {
     -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "AK%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2059,7 +4036,10 @@ static const common::ZoneEntry kZoneEntrySwift_Current[] = {
     -24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "CST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2083,7 +4063,10 @@ static const common::ZoneEntry kZoneEntryTegucigalpa[] = {
     -24 /*offsetCode*/,
     &kPolicyHond /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2107,7 +4090,10 @@ static const common::ZoneEntry kZoneEntryThule[] = {
     -16 /*offsetCode*/,
     &kPolicyThule /*zonePolicy*/,
     "A%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2131,7 +4117,10 @@ static const common::ZoneEntry kZoneEntryThunder_Bay[] = {
     -20 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "E%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2140,6 +4129,63 @@ const common::ZoneInfo kZoneThunder_Bay = {
   "America/Thunder_Bay" /*name*/,
   kZoneEntryThunder_Bay /*entries*/,
   sizeof(kZoneEntryThunder_Bay)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Tijuana
+// Entry count: 4
+// Memory (8-bit): 61
+// Memory (32-bit): 81
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryTijuana[] = {
+  //             -8:00    Mexico    P%sT    2001
+  {
+    -32 /*offsetCode*/,
+    &kPolicyMexico /*zonePolicy*/,
+    "P%T" /*format*/,
+    1 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -8:00    US    P%sT    2002 Feb 20
+  {
+    -32 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "P%T" /*format*/,
+    2 /*untilYearShort*/,
+    2 /*untilMonth*/,
+    20 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -8:00    Mexico    P%sT    2010
+  {
+    -32 /*offsetCode*/,
+    &kPolicyMexico /*zonePolicy*/,
+    "P%T" /*format*/,
+    10 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -8:00    US    P%sT
+  {
+    -32 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "P%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneTijuana = {
+  "America/Tijuana" /*name*/,
+  kZoneEntryTijuana /*entries*/,
+  sizeof(kZoneEntryTijuana)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2155,7 +4201,10 @@ static const common::ZoneEntry kZoneEntryToronto[] = {
     -20 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "E%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2179,7 +4228,10 @@ static const common::ZoneEntry kZoneEntryVancouver[] = {
     -32 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "P%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2203,7 +4255,10 @@ static const common::ZoneEntry kZoneEntryWhitehorse[] = {
     -32 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "P%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2227,14 +4282,20 @@ static const common::ZoneEntry kZoneEntryWinnipeg[] = {
     -24 /*offsetCode*/,
     &kPolicyWinn /*zonePolicy*/,
     "C%T" /*format*/,
-    6 /*untilYear*/,
+    6 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
   //             -6:00    Canada    C%sT
   {
     -24 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2258,7 +4319,10 @@ static const common::ZoneEntry kZoneEntryYakutat[] = {
     -36 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "AK%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2282,7 +4346,10 @@ static const common::ZoneEntry kZoneEntryYellowknife[] = {
     -28 /*offsetCode*/,
     &kPolicyCanada /*zonePolicy*/,
     "M%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2306,7 +4373,10 @@ static const common::ZoneEntry kZoneEntryDumontDUrville[] = {
     40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+10" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2315,6 +4385,117 @@ const common::ZoneInfo kZoneDumontDUrville = {
   "Antarctica/DumontDUrville" /*name*/,
   kZoneEntryDumontDUrville /*entries*/,
   sizeof(kZoneEntryDumontDUrville)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Antarctica/Macquarie
+// Entry count: 2
+// Memory (8-bit): 47
+// Memory (32-bit): 59
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryMacquarie[] = {
+  //             10:00    AT    AE%sT    2010 Apr  4  3:00
+  {
+    40 /*offsetCode*/,
+    &kPolicyAT /*zonePolicy*/,
+    "AE%T" /*format*/,
+    10 /*untilYearShort*/,
+    4 /*untilMonth*/,
+    4 /*untilDay*/,
+    3 /*untilHour*/,
+  },
+  //             11:00    -    +11
+  {
+    44 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+11" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMacquarie = {
+  "Antarctica/Macquarie" /*name*/,
+  kZoneEntryMacquarie /*entries*/,
+  sizeof(kZoneEntryMacquarie)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Antarctica/Mawson
+// Entry count: 2
+// Memory (8-bit): 43
+// Memory (32-bit): 55
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryMawson[] = {
+  //             6:00    -    +06    2009 Oct 18  2:00
+  {
+    24 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+06" /*format*/,
+    9 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    18 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             5:00    -    +05
+  {
+    20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+05" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMawson = {
+  "Antarctica/Mawson" /*name*/,
+  kZoneEntryMawson /*entries*/,
+  sizeof(kZoneEntryMawson)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Antarctica/Palmer
+// Entry count: 2
+// Memory (8-bit): 47
+// Memory (32-bit): 59
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryPalmer[] = {
+  //             -4:00    Chile    -04/-03    2016 Dec  4
+  {
+    -16 /*offsetCode*/,
+    &kPolicyChile /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    16 /*untilYearShort*/,
+    12 /*untilMonth*/,
+    4 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZonePalmer = {
+  "Antarctica/Palmer" /*name*/,
+  kZoneEntryPalmer /*entries*/,
+  sizeof(kZoneEntryPalmer)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2330,7 +4511,10 @@ static const common::ZoneEntry kZoneEntryRothera[] = {
     -12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-03" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2354,7 +4538,10 @@ static const common::ZoneEntry kZoneEntrySyowa[] = {
     12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+03" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2378,7 +4565,10 @@ static const common::ZoneEntry kZoneEntryVostok[] = {
     24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2402,7 +4592,10 @@ static const common::ZoneEntry kZoneEntryAmman[] = {
     8 /*offsetCode*/,
     &kPolicyJordan /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2426,7 +4619,10 @@ static const common::ZoneEntry kZoneEntryAshgabat[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2450,7 +4646,10 @@ static const common::ZoneEntry kZoneEntryBaghdad[] = {
     12 /*offsetCode*/,
     &kPolicyIraq /*zonePolicy*/,
     "+03/+04" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2474,7 +4673,10 @@ static const common::ZoneEntry kZoneEntryBaku[] = {
     16 /*offsetCode*/,
     &kPolicyAzer /*zonePolicy*/,
     "+04/+05" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2498,7 +4700,10 @@ static const common::ZoneEntry kZoneEntryBangkok[] = {
     28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+07" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2522,7 +4727,10 @@ static const common::ZoneEntry kZoneEntryBeirut[] = {
     8 /*offsetCode*/,
     &kPolicyLebanon /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2546,7 +4754,10 @@ static const common::ZoneEntry kZoneEntryBrunei[] = {
     32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+08" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2555,6 +4766,43 @@ const common::ZoneInfo kZoneBrunei = {
   "Asia/Brunei" /*name*/,
   kZoneEntryBrunei /*entries*/,
   sizeof(kZoneEntryBrunei)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Asia/Choibalsan
+// Entry count: 2
+// Memory (8-bit): 49
+// Memory (32-bit): 61
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryChoibalsan[] = {
+  //             9:00    Mongol    +09/+10    2008 Mar 31
+  {
+    36 /*offsetCode*/,
+    &kPolicyMongol /*zonePolicy*/,
+    "+09/+10" /*format*/,
+    8 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    31 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             8:00    Mongol    +08/+09
+  {
+    32 /*offsetCode*/,
+    &kPolicyMongol /*zonePolicy*/,
+    "+08/+09" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneChoibalsan = {
+  "Asia/Choibalsan" /*name*/,
+  kZoneEntryChoibalsan /*entries*/,
+  sizeof(kZoneEntryChoibalsan)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2570,7 +4818,10 @@ static const common::ZoneEntry kZoneEntryDamascus[] = {
     8 /*offsetCode*/,
     &kPolicySyria /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2594,14 +4845,20 @@ static const common::ZoneEntry kZoneEntryDhaka[] = {
     24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
-    9 /*untilYear*/,
+    9 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
   //             6:00    Dhaka    +06/+07
   {
     24 /*offsetCode*/,
     &kPolicyDhaka /*zonePolicy*/,
     "+06/+07" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2610,6 +4867,43 @@ const common::ZoneInfo kZoneDhaka = {
   "Asia/Dhaka" /*name*/,
   kZoneEntryDhaka /*entries*/,
   sizeof(kZoneEntryDhaka)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Asia/Dili
+// Entry count: 2
+// Memory (8-bit): 35
+// Memory (32-bit): 47
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryDili[] = {
+  //             8:00    -    +08    2000 Sep 17  0:00
+  {
+    32 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+08" /*format*/,
+    0 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    17 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             9:00    -    +09
+  {
+    36 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+09" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneDili = {
+  "Asia/Dili" /*name*/,
+  kZoneEntryDili /*entries*/,
+  sizeof(kZoneEntryDili)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2625,7 +4919,10 @@ static const common::ZoneEntry kZoneEntryDubai[] = {
     16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+04" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2649,7 +4946,10 @@ static const common::ZoneEntry kZoneEntryDushanbe[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2673,7 +4973,10 @@ static const common::ZoneEntry kZoneEntryHo_Chi_Minh[] = {
     28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+07" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2697,7 +5000,10 @@ static const common::ZoneEntry kZoneEntryHovd[] = {
     28 /*offsetCode*/,
     &kPolicyMongol /*zonePolicy*/,
     "+07/+08" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2721,7 +5027,10 @@ static const common::ZoneEntry kZoneEntryJakarta[] = {
     28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WIB" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2745,7 +5054,10 @@ static const common::ZoneEntry kZoneEntryJayapura[] = {
     36 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WIT" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2769,7 +5081,10 @@ static const common::ZoneEntry kZoneEntryJerusalem[] = {
     8 /*offsetCode*/,
     &kPolicyZion /*zonePolicy*/,
     "I%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2793,7 +5108,10 @@ static const common::ZoneEntry kZoneEntryKabul[] = {
     18 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+0430" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2817,7 +5135,10 @@ static const common::ZoneEntry kZoneEntryKarachi[] = {
     20 /*offsetCode*/,
     &kPolicyPakistan /*zonePolicy*/,
     "PK%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2841,7 +5162,10 @@ static const common::ZoneEntry kZoneEntryKathmandu[] = {
     23 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+0545" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2865,7 +5189,10 @@ static const common::ZoneEntry kZoneEntryKolkata[] = {
     22 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "IST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2889,7 +5216,10 @@ static const common::ZoneEntry kZoneEntryKuala_Lumpur[] = {
     32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+08" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2913,7 +5243,10 @@ static const common::ZoneEntry kZoneEntryKuching[] = {
     32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+08" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2937,7 +5270,10 @@ static const common::ZoneEntry kZoneEntryMakassar[] = {
     32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WITA" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2961,7 +5297,10 @@ static const common::ZoneEntry kZoneEntryManila[] = {
     32 /*offsetCode*/,
     &kPolicyPhil /*zonePolicy*/,
     "P%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -2985,7 +5324,10 @@ static const common::ZoneEntry kZoneEntryNicosia[] = {
     8 /*offsetCode*/,
     &kPolicyEUAsia /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3009,7 +5351,10 @@ static const common::ZoneEntry kZoneEntryPontianak[] = {
     28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "WIB" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3033,7 +5378,10 @@ static const common::ZoneEntry kZoneEntryQatar[] = {
     12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+03" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3057,7 +5405,10 @@ static const common::ZoneEntry kZoneEntryRiyadh[] = {
     12 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+03" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3081,7 +5432,10 @@ static const common::ZoneEntry kZoneEntrySamarkand[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3105,7 +5459,10 @@ static const common::ZoneEntry kZoneEntrySeoul[] = {
     36 /*offsetCode*/,
     &kPolicyROK /*zonePolicy*/,
     "K%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3129,7 +5486,10 @@ static const common::ZoneEntry kZoneEntryShanghai[] = {
     32 /*offsetCode*/,
     &kPolicyPRC /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3153,7 +5513,10 @@ static const common::ZoneEntry kZoneEntrySingapore[] = {
     32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+08" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3177,7 +5540,10 @@ static const common::ZoneEntry kZoneEntryTaipei[] = {
     32 /*offsetCode*/,
     &kPolicyTaiwan /*zonePolicy*/,
     "C%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3201,7 +5567,10 @@ static const common::ZoneEntry kZoneEntryTashkent[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3225,7 +5594,10 @@ static const common::ZoneEntry kZoneEntryTehran[] = {
     14 /*offsetCode*/,
     &kPolicyIran /*zonePolicy*/,
     "+0330/+0430" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3249,7 +5621,10 @@ static const common::ZoneEntry kZoneEntryThimphu[] = {
     24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3273,7 +5648,10 @@ static const common::ZoneEntry kZoneEntryTokyo[] = {
     36 /*offsetCode*/,
     &kPolicyJapan /*zonePolicy*/,
     "J%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3297,7 +5675,10 @@ static const common::ZoneEntry kZoneEntryUlaanbaatar[] = {
     32 /*offsetCode*/,
     &kPolicyMongol /*zonePolicy*/,
     "+08/+09" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3321,7 +5702,10 @@ static const common::ZoneEntry kZoneEntryUrumqi[] = {
     24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3345,7 +5729,10 @@ static const common::ZoneEntry kZoneEntryYangon[] = {
     26 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+0630" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3369,14 +5756,20 @@ static const common::ZoneEntry kZoneEntryYerevan[] = {
     16 /*offsetCode*/,
     &kPolicyRussiaAsia /*zonePolicy*/,
     "+04/+05" /*format*/,
-    11 /*untilYear*/,
+    11 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
   //             4:00    Armenia    +04/+05
   {
     16 /*offsetCode*/,
     &kPolicyArmenia /*zonePolicy*/,
     "+04/+05" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3400,7 +5793,10 @@ static const common::ZoneEntry kZoneEntryAzores[] = {
     -4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "-01/+00" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3424,7 +5820,10 @@ static const common::ZoneEntry kZoneEntryBermuda[] = {
     -16 /*offsetCode*/,
     &kPolicyUS /*zonePolicy*/,
     "A%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3448,7 +5847,10 @@ static const common::ZoneEntry kZoneEntryCanary[] = {
     0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "WE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3472,7 +5874,10 @@ static const common::ZoneEntry kZoneEntryCape_Verde[] = {
     -4 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-01" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3496,7 +5901,10 @@ static const common::ZoneEntry kZoneEntryFaroe[] = {
     0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "WE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3520,7 +5928,10 @@ static const common::ZoneEntry kZoneEntryMadeira[] = {
     0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "WE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3544,7 +5955,10 @@ static const common::ZoneEntry kZoneEntryReykjavik[] = {
     0 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "GMT" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3568,7 +5982,10 @@ static const common::ZoneEntry kZoneEntrySouth_Georgia[] = {
     -8 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-02" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3577,6 +5994,43 @@ const common::ZoneInfo kZoneSouth_Georgia = {
   "Atlantic/South_Georgia" /*name*/,
   kZoneEntrySouth_Georgia /*entries*/,
   sizeof(kZoneEntrySouth_Georgia)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Atlantic/Stanley
+// Entry count: 2
+// Memory (8-bit): 46
+// Memory (32-bit): 58
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryStanley[] = {
+  //             -4:00    Falk    -04/-03    2010 Sep  5  2:00
+  {
+    -16 /*offsetCode*/,
+    &kPolicyFalk /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    10 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    5 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneStanley = {
+  "Atlantic/Stanley" /*name*/,
+  kZoneEntryStanley /*entries*/,
+  sizeof(kZoneEntryStanley)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3592,7 +6046,10 @@ static const common::ZoneEntry kZoneEntryAdelaide[] = {
     38 /*offsetCode*/,
     &kPolicyAS /*zonePolicy*/,
     "AC%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3616,7 +6073,10 @@ static const common::ZoneEntry kZoneEntryBrisbane[] = {
     40 /*offsetCode*/,
     &kPolicyAQ /*zonePolicy*/,
     "AE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3640,14 +6100,20 @@ static const common::ZoneEntry kZoneEntryBroken_Hill[] = {
     38 /*offsetCode*/,
     &kPolicyAN /*zonePolicy*/,
     "AC%T" /*format*/,
-    0 /*untilYear*/,
+    0 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
   //             9:30    AS    AC%sT
   {
     38 /*offsetCode*/,
     &kPolicyAS /*zonePolicy*/,
     "AC%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3671,7 +6137,10 @@ static const common::ZoneEntry kZoneEntryCurrie[] = {
     40 /*offsetCode*/,
     &kPolicyAT /*zonePolicy*/,
     "AE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3695,7 +6164,10 @@ static const common::ZoneEntry kZoneEntryDarwin[] = {
     38 /*offsetCode*/,
     &kPolicyAus /*zonePolicy*/,
     "AC%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3719,7 +6191,10 @@ static const common::ZoneEntry kZoneEntryEucla[] = {
     35 /*offsetCode*/,
     &kPolicyAW /*zonePolicy*/,
     "+0845/+0945" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3743,7 +6218,10 @@ static const common::ZoneEntry kZoneEntryHobart[] = {
     40 /*offsetCode*/,
     &kPolicyAT /*zonePolicy*/,
     "AE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3767,7 +6245,10 @@ static const common::ZoneEntry kZoneEntryLindeman[] = {
     40 /*offsetCode*/,
     &kPolicyHoliday /*zonePolicy*/,
     "AE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3791,7 +6272,10 @@ static const common::ZoneEntry kZoneEntryLord_Howe[] = {
     42 /*offsetCode*/,
     &kPolicyLH /*zonePolicy*/,
     "+1030/+11" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3815,7 +6299,10 @@ static const common::ZoneEntry kZoneEntryMelbourne[] = {
     40 /*offsetCode*/,
     &kPolicyAV /*zonePolicy*/,
     "AE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3839,7 +6326,10 @@ static const common::ZoneEntry kZoneEntryPerth[] = {
     32 /*offsetCode*/,
     &kPolicyAW /*zonePolicy*/,
     "AW%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3863,7 +6353,10 @@ static const common::ZoneEntry kZoneEntrySydney[] = {
     40 /*offsetCode*/,
     &kPolicyAN /*zonePolicy*/,
     "AE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3887,7 +6380,10 @@ static const common::ZoneEntry kZoneEntryAmsterdam[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3911,7 +6407,10 @@ static const common::ZoneEntry kZoneEntryAndorra[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3935,7 +6434,10 @@ static const common::ZoneEntry kZoneEntryAthens[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3959,7 +6461,10 @@ static const common::ZoneEntry kZoneEntryBelgrade[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -3983,7 +6488,10 @@ static const common::ZoneEntry kZoneEntryBerlin[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4007,7 +6515,10 @@ static const common::ZoneEntry kZoneEntryBrussels[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4031,7 +6542,10 @@ static const common::ZoneEntry kZoneEntryBucharest[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4055,7 +6569,10 @@ static const common::ZoneEntry kZoneEntryBudapest[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4079,7 +6596,10 @@ static const common::ZoneEntry kZoneEntryChisinau[] = {
     8 /*offsetCode*/,
     &kPolicyMoldova /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4103,7 +6623,10 @@ static const common::ZoneEntry kZoneEntryCopenhagen[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4127,7 +6650,10 @@ static const common::ZoneEntry kZoneEntryDublin[] = {
     4 /*offsetCode*/,
     &kPolicyEire /*zonePolicy*/,
     "IST/GMT" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4151,7 +6677,10 @@ static const common::ZoneEntry kZoneEntryGibraltar[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4175,7 +6704,10 @@ static const common::ZoneEntry kZoneEntryHelsinki[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4199,7 +6731,10 @@ static const common::ZoneEntry kZoneEntryKiev[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4223,7 +6758,10 @@ static const common::ZoneEntry kZoneEntryLisbon[] = {
     0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "WE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4247,7 +6785,10 @@ static const common::ZoneEntry kZoneEntryLondon[] = {
     0 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "GMT/BST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4271,7 +6812,10 @@ static const common::ZoneEntry kZoneEntryLuxembourg[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4295,7 +6839,10 @@ static const common::ZoneEntry kZoneEntryMadrid[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4319,7 +6866,10 @@ static const common::ZoneEntry kZoneEntryMalta[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4343,7 +6893,10 @@ static const common::ZoneEntry kZoneEntryMonaco[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4367,7 +6920,10 @@ static const common::ZoneEntry kZoneEntryOslo[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4391,7 +6947,10 @@ static const common::ZoneEntry kZoneEntryParis[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4415,7 +6974,10 @@ static const common::ZoneEntry kZoneEntryPrague[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4424,6 +6986,53 @@ const common::ZoneInfo kZonePrague = {
   "Europe/Prague" /*name*/,
   kZoneEntryPrague /*entries*/,
   sizeof(kZoneEntryPrague)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Riga
+// Entry count: 3
+// Memory (8-bit): 49
+// Memory (32-bit): 65
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryRiga[] = {
+  //             2:00    EU    EE%sT    2000 Feb 29
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    "EE%T" /*format*/,
+    0 /*untilYearShort*/,
+    2 /*untilMonth*/,
+    29 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             2:00    -    EET    2001 Jan  2
+  {
+    8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EET" /*format*/,
+    1 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    2 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             2:00    EU    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    "EE%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneRiga = {
+  "Europe/Riga" /*name*/,
+  kZoneEntryRiga /*entries*/,
+  sizeof(kZoneEntryRiga)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4439,7 +7048,10 @@ static const common::ZoneEntry kZoneEntryRome[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4463,7 +7075,10 @@ static const common::ZoneEntry kZoneEntrySofia[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4487,7 +7102,10 @@ static const common::ZoneEntry kZoneEntryStockholm[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4496,6 +7114,43 @@ const common::ZoneInfo kZoneStockholm = {
   "Europe/Stockholm" /*name*/,
   kZoneEntryStockholm /*entries*/,
   sizeof(kZoneEntryStockholm)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Tallinn
+// Entry count: 2
+// Memory (8-bit): 41
+// Memory (32-bit): 53
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryTallinn[] = {
+  //             2:00    -    EET    2002 Feb 21
+  {
+    8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EET" /*format*/,
+    2 /*untilYearShort*/,
+    2 /*untilMonth*/,
+    21 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             2:00    EU    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    "EE%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneTallinn = {
+  "Europe/Tallinn" /*name*/,
+  kZoneEntryTallinn /*entries*/,
+  sizeof(kZoneEntryTallinn)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4511,7 +7166,10 @@ static const common::ZoneEntry kZoneEntryTirane[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4535,7 +7193,10 @@ static const common::ZoneEntry kZoneEntryUzhgorod[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4559,7 +7220,10 @@ static const common::ZoneEntry kZoneEntryVienna[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4568,6 +7232,43 @@ const common::ZoneInfo kZoneVienna = {
   "Europe/Vienna" /*name*/,
   kZoneEntryVienna /*entries*/,
   sizeof(kZoneEntryVienna)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Vilnius
+// Entry count: 2
+// Memory (8-bit): 41
+// Memory (32-bit): 53
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryVilnius[] = {
+  //             2:00    -    EET    2003 Jan  1
+  {
+    8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EET" /*format*/,
+    3 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             2:00    EU    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    "EE%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneVilnius = {
+  "Europe/Vilnius" /*name*/,
+  kZoneEntryVilnius /*entries*/,
+  sizeof(kZoneEntryVilnius)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4583,7 +7284,10 @@ static const common::ZoneEntry kZoneEntryWarsaw[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4607,7 +7311,10 @@ static const common::ZoneEntry kZoneEntryZaporozhye[] = {
     8 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "EE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4631,7 +7338,10 @@ static const common::ZoneEntry kZoneEntryZurich[] = {
     4 /*offsetCode*/,
     &kPolicyEU /*zonePolicy*/,
     "CE%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4655,7 +7365,10 @@ static const common::ZoneEntry kZoneEntryChagos[] = {
     24 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+06" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4679,7 +7392,10 @@ static const common::ZoneEntry kZoneEntryChristmas[] = {
     28 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+07" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4703,7 +7419,10 @@ static const common::ZoneEntry kZoneEntryCocos[] = {
     26 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+0630" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4727,7 +7446,10 @@ static const common::ZoneEntry kZoneEntryKerguelen[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4751,7 +7473,10 @@ static const common::ZoneEntry kZoneEntryMahe[] = {
     16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+04" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4775,7 +7500,10 @@ static const common::ZoneEntry kZoneEntryMaldives[] = {
     20 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+05" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4799,7 +7527,10 @@ static const common::ZoneEntry kZoneEntryMauritius[] = {
     16 /*offsetCode*/,
     &kPolicyMauritius /*zonePolicy*/,
     "+04/+05" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4823,7 +7554,10 @@ static const common::ZoneEntry kZoneEntryReunion[] = {
     16 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+04" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4832,6 +7566,43 @@ const common::ZoneInfo kZoneReunion = {
   "Indian/Reunion" /*name*/,
   kZoneEntryReunion /*entries*/,
   sizeof(kZoneEntryReunion)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Apia
+// Entry count: 2
+// Memory (8-bit): 46
+// Memory (32-bit): 58
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryApia[] = {
+  //             -11:00    WS    -11/-10    2011 Dec 29 24:00
+  {
+    -44 /*offsetCode*/,
+    &kPolicyWS /*zonePolicy*/,
+    "-11/-10" /*format*/,
+    11 /*untilYearShort*/,
+    12 /*untilMonth*/,
+    29 /*untilDay*/,
+    24 /*untilHour*/,
+  },
+  //              13:00    WS    +13/+14
+  {
+    52 /*offsetCode*/,
+    &kPolicyWS /*zonePolicy*/,
+    "+13/+14" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneApia = {
+  "Pacific/Apia" /*name*/,
+  kZoneEntryApia /*entries*/,
+  sizeof(kZoneEntryApia)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4847,7 +7618,10 @@ static const common::ZoneEntry kZoneEntryAuckland[] = {
     48 /*offsetCode*/,
     &kPolicyNZ /*zonePolicy*/,
     "NZ%T" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4856,6 +7630,43 @@ const common::ZoneInfo kZoneAuckland = {
   "Pacific/Auckland" /*name*/,
   kZoneEntryAuckland /*entries*/,
   sizeof(kZoneEntryAuckland)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Bougainville
+// Entry count: 2
+// Memory (8-bit): 46
+// Memory (32-bit): 58
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryBougainville[] = {
+  //             10:00    -    +10    2014 Dec 28  2:00
+  {
+    40 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+10" /*format*/,
+    14 /*untilYearShort*/,
+    12 /*untilMonth*/,
+    28 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             11:00    -    +11
+  {
+    44 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+11" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBougainville = {
+  "Pacific/Bougainville" /*name*/,
+  kZoneEntryBougainville /*entries*/,
+  sizeof(kZoneEntryBougainville)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4871,7 +7682,10 @@ static const common::ZoneEntry kZoneEntryChuuk[] = {
     40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+10" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4895,7 +7709,10 @@ static const common::ZoneEntry kZoneEntryEaster[] = {
     -24 /*offsetCode*/,
     &kPolicyChile /*zonePolicy*/,
     "-06/-05" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4919,7 +7736,10 @@ static const common::ZoneEntry kZoneEntryEfate[] = {
     44 /*offsetCode*/,
     &kPolicyVanuatu /*zonePolicy*/,
     "+11/+12" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4943,7 +7763,10 @@ static const common::ZoneEntry kZoneEntryEnderbury[] = {
     52 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+13" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4952,6 +7775,43 @@ const common::ZoneInfo kZoneEnderbury = {
   "Pacific/Enderbury" /*name*/,
   kZoneEntryEnderbury /*entries*/,
   sizeof(kZoneEntryEnderbury)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Fakaofo
+// Entry count: 2
+// Memory (8-bit): 41
+// Memory (32-bit): 53
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryFakaofo[] = {
+  //             -11:00    -    -11    2011 Dec 30
+  {
+    -44 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-11" /*format*/,
+    11 /*untilYearShort*/,
+    12 /*untilMonth*/,
+    30 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             13:00    -    +13
+  {
+    52 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+13" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneFakaofo = {
+  "Pacific/Fakaofo" /*name*/,
+  kZoneEntryFakaofo /*entries*/,
+  sizeof(kZoneEntryFakaofo)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4967,7 +7827,10 @@ static const common::ZoneEntry kZoneEntryFiji[] = {
     48 /*offsetCode*/,
     &kPolicyFiji /*zonePolicy*/,
     "+12/+13" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -4991,7 +7854,10 @@ static const common::ZoneEntry kZoneEntryFunafuti[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5015,7 +7881,10 @@ static const common::ZoneEntry kZoneEntryGalapagos[] = {
     -24 /*offsetCode*/,
     &kPolicyEcuador /*zonePolicy*/,
     "-06/-05" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5039,7 +7908,10 @@ static const common::ZoneEntry kZoneEntryGambier[] = {
     -36 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-09" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5063,7 +7935,10 @@ static const common::ZoneEntry kZoneEntryGuadalcanal[] = {
     44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+11" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5072,6 +7947,43 @@ const common::ZoneInfo kZoneGuadalcanal = {
   "Pacific/Guadalcanal" /*name*/,
   kZoneEntryGuadalcanal /*entries*/,
   sizeof(kZoneEntryGuadalcanal)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Guam
+// Entry count: 2
+// Memory (8-bit): 39
+// Memory (32-bit): 51
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryGuam[] = {
+  //             10:00    -    GST    2000 Dec 23
+  {
+    40 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "GST" /*format*/,
+    0 /*untilYearShort*/,
+    12 /*untilMonth*/,
+    23 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             10:00    -    ChST
+  {
+    40 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "ChST" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneGuam = {
+  "Pacific/Guam" /*name*/,
+  kZoneEntryGuam /*entries*/,
+  sizeof(kZoneEntryGuam)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5087,7 +7999,10 @@ static const common::ZoneEntry kZoneEntryHonolulu[] = {
     -40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "HST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5111,7 +8026,10 @@ static const common::ZoneEntry kZoneEntryKiritimati[] = {
     56 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+14" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5135,7 +8053,10 @@ static const common::ZoneEntry kZoneEntryKosrae[] = {
     44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+11" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5159,7 +8080,10 @@ static const common::ZoneEntry kZoneEntryKwajalein[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5183,7 +8107,10 @@ static const common::ZoneEntry kZoneEntryMajuro[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5207,7 +8134,10 @@ static const common::ZoneEntry kZoneEntryMarquesas[] = {
     -38 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-0930" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5231,7 +8161,10 @@ static const common::ZoneEntry kZoneEntryNauru[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5255,7 +8188,10 @@ static const common::ZoneEntry kZoneEntryNiue[] = {
     -44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-11" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5264,6 +8200,43 @@ const common::ZoneInfo kZoneNiue = {
   "Pacific/Niue" /*name*/,
   kZoneEntryNiue /*entries*/,
   sizeof(kZoneEntryNiue)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Norfolk
+// Entry count: 2
+// Memory (8-bit): 43
+// Memory (32-bit): 55
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryNorfolk[] = {
+  //             11:30    -    +1130    2015 Oct  4 02:00
+  {
+    46 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+1130" /*format*/,
+    15 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    4 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             11:00    -    +11
+  {
+    44 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+11" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneNorfolk = {
+  "Pacific/Norfolk" /*name*/,
+  kZoneEntryNorfolk /*entries*/,
+  sizeof(kZoneEntryNorfolk)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5279,7 +8252,10 @@ static const common::ZoneEntry kZoneEntryNoumea[] = {
     44 /*offsetCode*/,
     &kPolicyNC /*zonePolicy*/,
     "+11/+12" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5303,7 +8279,10 @@ static const common::ZoneEntry kZoneEntryPago_Pago[] = {
     -44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "SST" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5327,7 +8306,10 @@ static const common::ZoneEntry kZoneEntryPalau[] = {
     36 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+09" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5351,7 +8333,10 @@ static const common::ZoneEntry kZoneEntryPitcairn[] = {
     -32 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-08" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5375,7 +8360,10 @@ static const common::ZoneEntry kZoneEntryPohnpei[] = {
     44 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+11" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5399,7 +8387,10 @@ static const common::ZoneEntry kZoneEntryPort_Moresby[] = {
     40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+10" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5423,7 +8414,10 @@ static const common::ZoneEntry kZoneEntryRarotonga[] = {
     -40 /*offsetCode*/,
     &kPolicyCook /*zonePolicy*/,
     "-10/-0930" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5447,7 +8441,10 @@ static const common::ZoneEntry kZoneEntryTahiti[] = {
     -40 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "-10" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5471,7 +8468,10 @@ static const common::ZoneEntry kZoneEntryTarawa[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5495,7 +8495,10 @@ static const common::ZoneEntry kZoneEntryTongatapu[] = {
     52 /*offsetCode*/,
     &kPolicyTonga /*zonePolicy*/,
     "+13/+14" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5519,7 +8522,10 @@ static const common::ZoneEntry kZoneEntryWake[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };
@@ -5543,7 +8549,10 @@ static const common::ZoneEntry kZoneEntryWallis[] = {
     48 /*offsetCode*/,
     nullptr /*zonePolicy*/,
     "+12" /*format*/,
-    127 /*untilYear*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
   },
 
 };

@@ -32,6 +32,10 @@ Zone entries have the following columns:
 # Zone  NAME                GMTOFF      RULES   FORMAT  [UNTIL]
 Zone    America/Chicago     -5:50:36    -       LMT     1883 Nov 18 12:09:24
                             -6:00       US      C%sT    1920
+                            ...
+                            -6:00       US      C%sT
+The UNTIL column should be monotonically increasing and the last entry
+should be empty.
 """
 
 import argparse
@@ -78,6 +82,14 @@ class Extractor:
         self.ignored_zone_lines = 0
         self.invalid_rule_lines = 0
         self.invalid_zone_lines = 0
+
+    def parse(self):
+        """Read the zoneinfo files from TZ Database and create the 'zones' and
+        'rules' maps which can be retrieved by get_data().
+        """
+        self.parse_zone_files()
+        self.process_rules()
+        self.process_zones()
 
     def get_data(self):
         return (self.zones, self.rules)
@@ -339,7 +351,7 @@ def process_zone_line(line):
         until_time = None
 
     # FORMAT
-    format = tokens[2].replace('%s', '%')
+    format = tokens[2]
 
     # Return map corresponding to a ZoneEntry instance
     return {

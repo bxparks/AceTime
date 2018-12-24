@@ -17,11 +17,32 @@ class Transformer:
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.print_removed = print_removed
-        self.all_removed_zones = []
+        self.all_removed_zones = {} # map of zone name -> reason
+        self.all_removed_policies = {} # map of policy name -> reason
 
     def get_data(self):
         """
-        Returns a tuple of 3 data structures:
+        Returns a tuple of 4 data structures:
+
+        'zones_map' is a map of (name -> zones[]), where each element in zones
+        is another map with the following fields:
+
+            offsetHour: (string) (GMTOFF field) offset from UTC/GMT
+            rules: (string) (RULES field) name of the Rule in effect, '-', or
+                    "hh:mm" delta
+            format: (string) (FORMAT field) abbreviation with '%s' replaced with
+                    '%' (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
+            untilYear: (int) 9999 means 'max'
+            untilMonth: (int) 1-12 or None
+            untilDay: (string) 1-31, 'lastSun', 'Sun>=3', or None
+            untilTime: (string) 'hh:mm', or None
+            rawLine: (string) original ZONE line in TZ file
+
+            offsetMinute: (int) offset from UTC/GMT in minutes
+            offsetCode: (int) offset from UTC/GMT in 15-minute units
+            rulesDeltaMinute: (int) delta offset from UTC in minutes
+            untilHour: (int) untilTime converted into 0-23
+            used: (boolean) indicates whether or not the rule is used by a zone
 
         'rules_map' is a map of (name -> rules[]), where each element in rules
         is another map with the following fields:
@@ -43,29 +64,17 @@ class Transformer:
             deltaCode: (int) offset code (15 min chunks) from Standard time
             shortName: (string) short name of the zone
 
-        'zones_map' is a map of (name -> zones[]), where each element in zones
-        is another map with the following fields:
+        'all_removed_zones' is a map of the zones which were removed:
+            name: name of zone removed
+            reason: human readable reason
 
-            offsetHour: (string) (GMTOFF field) offset from UTC/GMT
-            rules: (string) (RULES field) name of the Rule in effect, '-', or
-                    "hh:mm" delta
-            format: (string) (FORMAT field) abbreviation with '%s' replaced with
-                    '%' (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
-            untilYear: (int) 9999 means 'max'
-            untilMonth: (int) 1-12 optional
-            untilDay: (string) 1-31, 'lastSun', 'Sun>=3', etc
-            untilTime: (string) optional
-            rawLine: (string) original ZONE line in TZ file
-
-            offsetMinute: (int) offset from UTC/GMT in minutes
-            offsetCode: (int) offset from UTC/GMT in 15-minute units
-            rulesDeltaMinute: (int) delta offset from UTC in minutes
-            used: (boolean) indicates whether or not the rule is used by a zone
-
-        'all_removed_zones' is a list of the names of zones which were removed
-        for one reason or another.
+        'all_removed_policies' is a map of the policies (entire set of RULEs)
+        which were removed:
+            name: name of policy removed
+            reason: human readable reason
         """
-        return (self.zones_map, self.rules_map, self.all_removed_zones)
+        return (self.zones_map, self.rules_map, self.all_removed_zones,
+            self.all_removed_policies)
 
     def transform(self):
         zones_map = self.zones_map
@@ -74,15 +83,19 @@ class Transformer:
         logging.info('Found %s zone infos' % len(self.zones_map))
         logging.info('Found %s rule policies' % len(self.rules_map))
 
+        #zones_map = self.remove_zones_with_until_time(zones_map)
+        #zones_map = self.remove_zones_with_until_day(zones_map)
+        #zones_map = self.remove_zones_with_until_month(zones_map)
+        zones_map = self.remove_zones_without_slash(zones_map)
         zones_map = self.remove_zone_entries_too_old(zones_map)
+        zones_map = self.remove_zones_with_complex_until(zones_map)
+        zones_map = self.create_zones_with_until_hour(zones_map)
         zones_map = self.create_zones_with_offset_minute(zones_map)
         zones_map = self.create_zones_with_offset_code(zones_map)
         zones_map = self.create_zones_with_rules_expansion(zones_map)
-        zones_map = self.remove_zones_with_until_time(zones_map)
-        zones_map = self.remove_zones_with_until_day(zones_map)
-        zones_map = self.remove_zones_with_until_month(zones_map)
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
-        zones_map = self.remove_zones_without_slash(zones_map)
+        zones_map = self.remove_zones_with_non_monotonic_until(zones_map)
+        zones_map = self.remove_zones_with_multiple_records_per_year(zones_map)
 
         (zones_map, rules_map) = self.mark_rules_used_by_zones(
             zones_map, rules_map)
@@ -124,7 +137,56 @@ class Transformer:
         logging.info("Removed %s zone entries before year 2000" % count)
         return results
 
+    def print_removed_map(self, removed_map):
+        if self.print_removed:
+            for name, reason in sorted(removed_map.items()):
+                print('  %s (%s)' % (name, reason), file=sys.stderr)
+
+    def remove_zones_with_complex_until(self, zones_map):
+        """Remove zones with a complex, unsupported UNTIL field. Currently,
+        the unsupported formats are:
+
+            1) The dayOfMonth field does not support "dow>=n" because the Python
+            tool should convert it into an exact day of month, since the year
+            and month are already known.
+            2) The time field not in multiples of 15 minutes.
+            3) The time field other than 'wall' clock, i.e. contains any suffix
+            ('s', 'u', 't' or even just a 'w').
+        """
+        results = {}
+        removed_zones = {}
+        for name, zones in zones_map.items():
+            valid = True
+            for zone in zones:
+                if zone['untilDay']:
+                    until_day = zone['untilDay']
+                    if not until_day.isdigit():
+                        valid = False
+                if zone['untilTime']:
+                    until_time = zone['untilTime']
+                    until_minute = hour_string_to_minute(until_time)
+                    if until_minute == 9999:
+                        valid = False
+                    elif until_minute % 60 != 0: # support only integral hour
+                        valid = False
+
+                if not valid:
+                    removed_zones[name] = "unsupported UNTIL '%s %s %s %s'" % (
+                        zone['untilYear'], zone['untilMonth'],
+                        zone['untilDay'], zone['untilTime'])
+                    break
+            if valid:
+                results[name] = zones
+
+        logging.info("Removed %s zone infos with unsupported UNTIL fields"
+            % len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        return results
+
     def remove_zones_with_until_time(self, zones_map):
+        """Remove zones with a time field in the UNTIL field.
+        """
         results = {}
         removed_zones = {}
         for name, zones in zones_map.items():
@@ -132,18 +194,18 @@ class Transformer:
             for zone in zones:
                 if zone['untilTime']:
                     valid = False
-                    removed_zones[name] = '%s %s %s %s' % (
+                    removed_zones[name] = \
+                        ("unsupported time in UNTIL '%s %s %s %s'" % (
                         zone['untilYear'], zone['untilMonth'], zone['untilDay'],
-                        zone['untilTime'])
+                        zone['untilTime']))
                     break
             if valid:
                 results[name] = zones
+
         logging.info("Removed %s zone infos with unsupported untilTime"
             % len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones.keys())
+        self.print_removed_map(self.removed_zones)
+        self.all_removed_zones.update(removed_zones)
         return results
 
     def remove_zones_with_until_day(self, zones_map):
@@ -154,17 +216,18 @@ class Transformer:
             for zone in zones:
                 if zone['untilDay']:
                     valid = False
-                    removed_zones[name] = '%s %s %s' % (
-                        zone['untilYear'], zone['untilMonth'], zone['untilDay'])
+                    removed_zones[name] = \
+                        ("unsupported day in UNTIL ''%s %s %s'" % (
+                        zone['untilYear'], zone['untilMonth'],
+                        zone['untilDay']))
                     break
             if valid:
                 results[name] = zones
+
         logging.info("Removed %s zone infos with unsupported untilDay"
             % len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones.keys())
+        self.print_removed_map(self.removed_zones)
+        self.all_removed_zones.update(removed_zones)
         return results
 
     def remove_zones_with_until_month(self, zones_map):
@@ -175,20 +238,25 @@ class Transformer:
             for zone in zones:
                 if zone['untilMonth']:
                     valid = False
-                    removed_zones[name] = '%s %s' % (
+                    removed_zones[name] = \
+                        "unsupported month in UNTIL '%s %s'" % (
                         zone['untilYear'], zone['untilMonth'])
                     break
             if valid:
                 results[name] = zones
+
         logging.info("Removed %s zone infos with unsupported untilMonth"
             % len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones.keys())
+        self.print_removed_map(self.removed_zones)
+        self.all_removed_zones.update(removed_zones)
         return results
 
     def remove_zones_with_offset_as_rules(self, zones_map):
+        """
+        Remove Zones with an offset in the RULES column. This method must be
+        called after create_zones_with_rules_expansion() which creates the
+        zone['rulesDeltaMinute'] entry.
+        """
         results = {}
         removed_zones = {}
         for name, zones in zones_map.items():
@@ -196,16 +264,15 @@ class Transformer:
             for zone in zones:
                 if 'rulesDeltaMinute' in zone:
                     valid = False
-                    removed_zones[name] = rule_name
+                    removed_zones[name] = "offset in RULES '%s'" % zone['rules']
                     break
             if valid:
                results[name] = zones
+
         logging.info("Removed %s zone infos with UTC offset in 'rules' field"
             % len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones.keys())
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
         return results
 
     def remove_zones_without_slash(self, zones_map):
@@ -215,14 +282,33 @@ class Transformer:
             if name.rfind('/') >= 0:
                results[name] = zones
             else:
-                removed_zones[name] = 'missing /'
+                removed_zones[name] = "no '/' in zone name"
+
         logging.info("Removed %s zone infos without '/' in name" %
             len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones.keys())
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
         return results
+
+    @staticmethod
+    def create_zones_with_until_hour(zones_map):
+        """ Create zone['untilHour'] from zone['untilTime']. Set to 9999 if
+        any error in the conversion.
+        """
+        for name, zones in zones_map.items():
+            for zone in zones:
+                until_time = zone['untilTime']
+                if until_time:
+                    until_minute = hour_string_to_minute(until_time)
+                    if until_minute == 9999 or until_minute % 60 != 0:
+                        logging.error("Zone %s: invalid untilTime (%s)",
+                            name, until_time)
+                        break;
+                    until_hour = until_minute // 60
+                else:
+                    until_hour = None
+                zone['untilHour'] = until_hour
+        return zones_map
 
     @staticmethod
     def create_zones_with_offset_minute(zones_map):
@@ -291,15 +377,82 @@ class Transformer:
                 rule_name = zone['rules']
                 if rule_name != '-' and rule_name not in rules_map:
                     valid = False
-                    removed_zones[name] = 'Rule %s not found' % rule_name
+                    removed_zones[name] = "rule '%s' not found" % rule_name
                     break
             if valid:
                 results[name] = zones
+
         logging.info("Removed %s zone infos without rules" % len(removed_zones))
-        if self.print_removed:
-            for name, reason in sorted(removed_zones.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
-        self.all_removed_zones.extend(removed_zones.keys())
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        return results
+
+    def remove_zones_with_non_monotonic_until(self, zones_map):
+        """Remove Zone infos whose UNTIL fields are:
+            1) not monotonically increasing, or
+            2) does not end in year=9999
+        """
+        results = {}
+        removed_zones = {}
+        for name, zones in zones_map.items():
+            valid = True
+            prev_until = None
+            current_until = None
+            for zone in zones:
+                current_until = (
+                    zone['untilYear'],
+                    zone['untilMonth'] if zone['untilMonth'] else 0,
+                    zone['untilDay'] if zone['untilDay'] else 0,
+                    zone['untilHour'] if zone['untilHour'] else 0
+                )
+                if prev_until:
+                    if current_until <= prev_until:
+                        valid = False
+                        removed_zones[name] = (
+                            'non increasing UNTIL: %s %s %s %s' % current_until)
+                        break;
+                prev_until = current_until
+            if valid and current_until[0] != 9999:
+                valid = False
+                removed_zones[name] = ('invalid final UNTIL: %s %s %s %s' %
+                    current_until)
+
+            if valid:
+                results[name] = zones
+
+        logging.info("Removed %s zone infos with invalid UNTIL fields",
+            len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        return results
+
+    def remove_zones_with_multiple_records_per_year(self, zones_map):
+        """Remove Zones with multiple records per year. Currently not supported
+        but should be in the future.
+        """
+        results = {}
+        removed_zones = {}
+        for name, zones in zones_map.items():
+            valid = True
+            prev_until_year = None
+            current_until_year = None
+            for zone in zones:
+                current_until_year = zone['untilYear']
+                if prev_until_year:
+                    if current_until_year == prev_until_year:
+                        valid = False
+                        removed_zones[name] = (
+                            'multiple records for year %s' %
+                            current_until_year)
+                        break;
+                prev_until_year = current_until_year
+            if valid:
+                results[name] = zones
+
+        logging.info("Removed %s zone infos with multiple records per year",
+            len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
         return results
 
     def remove_rules_long_dst_letter(self, rules_map):
@@ -313,15 +466,15 @@ class Transformer:
                 letter = rule['letter']
                 if len(letter) > 1:
                     valid = False
-                    removed_policies[name] = letter
+                    removed_policies[name] = "LETTER '%s' too long" % letter
                     break
             if valid:
                 results[name] = rules
+
         logging.info('Removed %s rule policies with long DST letter' %
             len(removed_policies))
-        if self.print_removed:
-            for name, reason in sorted(removed_policies.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
         return results
 
     def remove_rules_invalid_at_hour(self, rules_map):
@@ -335,15 +488,16 @@ class Transformer:
                 at_minute = rule['atMinute']
                 if  at_minute % 60 != 0:
                     valid = False
-                    removed_policies[name] = rule['atHour']
+                    removed_policies[name] = ("non-integral AT hour '%s'" %
+                        rule['atHour'])
                     break
             if valid:
                 results[name] = rules
+
         logging.info('Removed %s rule policies with non-integral atHour'
             % len(removed_policies))
-        if self.print_removed:
-            for name, reason in sorted(removed_policies.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
         return results
 
     @staticmethod
@@ -408,11 +562,11 @@ class Transformer:
                 results[name] = used_rules
             else:
                 removed_policies[name] = 'unused'
+
         logging.info('Removed %s rule policies (%s rules) not used' %
                 (len(removed_policies), removed_rule_count))
-        if self.print_removed:
-            for name, reason in sorted(removed_policies.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
         return results
 
     def remove_rules_out_of_bounds(self, rules_map):
@@ -437,9 +591,8 @@ class Transformer:
         logging.info(
             'Removed %s rule policies with fromYear or toYear out of bounds' %
             len(removed_policies))
-        if self.print_removed:
-            for name, reason in sorted(removed_policies.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
         return results
 
     @staticmethod

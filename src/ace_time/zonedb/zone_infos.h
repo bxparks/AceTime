@@ -20,35 +20,51 @@
 namespace ace_time {
 namespace zonedb {
 
-// numInfos: 228
+// numInfos: 282
 extern const common::ZoneInfo kZoneAbidjan; // Africa/Abidjan
 extern const common::ZoneInfo kZoneAccra; // Africa/Accra
 extern const common::ZoneInfo kZoneAlgiers; // Africa/Algiers
 extern const common::ZoneInfo kZoneBissau; // Africa/Bissau
 extern const common::ZoneInfo kZoneCairo; // Africa/Cairo
+extern const common::ZoneInfo kZoneCasablanca; // Africa/Casablanca
 extern const common::ZoneInfo kZoneCeuta; // Africa/Ceuta
+extern const common::ZoneInfo kZoneEl_Aaiun; // Africa/El_Aaiun
 extern const common::ZoneInfo kZoneJohannesburg; // Africa/Johannesburg
+extern const common::ZoneInfo kZoneJuba; // Africa/Juba
+extern const common::ZoneInfo kZoneKhartoum; // Africa/Khartoum
 extern const common::ZoneInfo kZoneLagos; // Africa/Lagos
 extern const common::ZoneInfo kZoneMaputo; // Africa/Maputo
 extern const common::ZoneInfo kZoneMonrovia; // Africa/Monrovia
 extern const common::ZoneInfo kZoneNairobi; // Africa/Nairobi
 extern const common::ZoneInfo kZoneNdjamena; // Africa/Ndjamena
+extern const common::ZoneInfo kZoneSao_Tome; // Africa/Sao_Tome
+extern const common::ZoneInfo kZoneTripoli; // Africa/Tripoli
 extern const common::ZoneInfo kZoneTunis; // Africa/Tunis
 extern const common::ZoneInfo kZoneAdak; // America/Adak
 extern const common::ZoneInfo kZoneAnchorage; // America/Anchorage
+extern const common::ZoneInfo kZoneAraguaina; // America/Araguaina
+extern const common::ZoneInfo kZoneBuenos_Aires; // America/Argentina/Buenos_Aires
+extern const common::ZoneInfo kZoneCordoba; // America/Argentina/Cordoba
+extern const common::ZoneInfo kZoneJujuy; // America/Argentina/Jujuy
+extern const common::ZoneInfo kZoneSalta; // America/Argentina/Salta
 extern const common::ZoneInfo kZoneAsuncion; // America/Asuncion
 extern const common::ZoneInfo kZoneAtikokan; // America/Atikokan
+extern const common::ZoneInfo kZoneBahia; // America/Bahia
+extern const common::ZoneInfo kZoneBahia_Banderas; // America/Bahia_Banderas
 extern const common::ZoneInfo kZoneBarbados; // America/Barbados
 extern const common::ZoneInfo kZoneBelem; // America/Belem
 extern const common::ZoneInfo kZoneBlanc_Sablon; // America/Blanc-Sablon
+extern const common::ZoneInfo kZoneBoa_Vista; // America/Boa_Vista
 extern const common::ZoneInfo kZoneBogota; // America/Bogota
 extern const common::ZoneInfo kZoneBoise; // America/Boise
 extern const common::ZoneInfo kZoneCampo_Grande; // America/Campo_Grande
+extern const common::ZoneInfo kZoneCancun; // America/Cancun
 extern const common::ZoneInfo kZoneCayenne; // America/Cayenne
 extern const common::ZoneInfo kZoneChicago; // America/Chicago
 extern const common::ZoneInfo kZoneChihuahua; // America/Chihuahua
 extern const common::ZoneInfo kZoneCosta_Rica; // America/Costa_Rica
 extern const common::ZoneInfo kZoneCreston; // America/Creston
+extern const common::ZoneInfo kZoneCuiaba; // America/Cuiaba
 extern const common::ZoneInfo kZoneCuracao; // America/Curacao
 extern const common::ZoneInfo kZoneDanmarkshavn; // America/Danmarkshavn
 extern const common::ZoneInfo kZoneDawson; // America/Dawson
@@ -56,7 +72,10 @@ extern const common::ZoneInfo kZoneDawson_Creek; // America/Dawson_Creek
 extern const common::ZoneInfo kZoneDenver; // America/Denver
 extern const common::ZoneInfo kZoneDetroit; // America/Detroit
 extern const common::ZoneInfo kZoneEdmonton; // America/Edmonton
+extern const common::ZoneInfo kZoneEirunepe; // America/Eirunepe
 extern const common::ZoneInfo kZoneEl_Salvador; // America/El_Salvador
+extern const common::ZoneInfo kZoneFort_Nelson; // America/Fort_Nelson
+extern const common::ZoneInfo kZoneFortaleza; // America/Fortaleza
 extern const common::ZoneInfo kZoneGlace_Bay; // America/Glace_Bay
 extern const common::ZoneInfo kZoneGodthab; // America/Godthab
 extern const common::ZoneInfo kZoneGuatemala; // America/Guatemala
@@ -66,15 +85,23 @@ extern const common::ZoneInfo kZoneHalifax; // America/Halifax
 extern const common::ZoneInfo kZoneHavana; // America/Havana
 extern const common::ZoneInfo kZoneHermosillo; // America/Hermosillo
 extern const common::ZoneInfo kZoneIndianapolis; // America/Indiana/Indianapolis
+extern const common::ZoneInfo kZoneKnox; // America/Indiana/Knox
 extern const common::ZoneInfo kZoneMarengo; // America/Indiana/Marengo
+extern const common::ZoneInfo kZonePetersburg; // America/Indiana/Petersburg
+extern const common::ZoneInfo kZoneTell_City; // America/Indiana/Tell_City
 extern const common::ZoneInfo kZoneVevay; // America/Indiana/Vevay
+extern const common::ZoneInfo kZoneVincennes; // America/Indiana/Vincennes
+extern const common::ZoneInfo kZoneWinamac; // America/Indiana/Winamac
 extern const common::ZoneInfo kZoneInuvik; // America/Inuvik
+extern const common::ZoneInfo kZoneIqaluit; // America/Iqaluit
 extern const common::ZoneInfo kZoneJamaica; // America/Jamaica
 extern const common::ZoneInfo kZoneJuneau; // America/Juneau
 extern const common::ZoneInfo kZoneLouisville; // America/Kentucky/Louisville
+extern const common::ZoneInfo kZoneMonticello; // America/Kentucky/Monticello
 extern const common::ZoneInfo kZoneLa_Paz; // America/La_Paz
 extern const common::ZoneInfo kZoneLima; // America/Lima
 extern const common::ZoneInfo kZoneLos_Angeles; // America/Los_Angeles
+extern const common::ZoneInfo kZoneMaceio; // America/Maceio
 extern const common::ZoneInfo kZoneManagua; // America/Managua
 extern const common::ZoneInfo kZoneManaus; // America/Manaus
 extern const common::ZoneInfo kZoneMartinique; // America/Martinique
@@ -82,6 +109,8 @@ extern const common::ZoneInfo kZoneMatamoros; // America/Matamoros
 extern const common::ZoneInfo kZoneMazatlan; // America/Mazatlan
 extern const common::ZoneInfo kZoneMenominee; // America/Menominee
 extern const common::ZoneInfo kZoneMerida; // America/Merida
+extern const common::ZoneInfo kZoneMetlakatla; // America/Metlakatla
+extern const common::ZoneInfo kZoneMexico_City; // America/Mexico_City
 extern const common::ZoneInfo kZoneMiquelon; // America/Miquelon
 extern const common::ZoneInfo kZoneMonterrey; // America/Monterrey
 extern const common::ZoneInfo kZoneMontevideo; // America/Montevideo
@@ -89,17 +118,27 @@ extern const common::ZoneInfo kZoneNassau; // America/Nassau
 extern const common::ZoneInfo kZoneNew_York; // America/New_York
 extern const common::ZoneInfo kZoneNipigon; // America/Nipigon
 extern const common::ZoneInfo kZoneNome; // America/Nome
+extern const common::ZoneInfo kZoneNoronha; // America/Noronha
+extern const common::ZoneInfo kZoneBeulah; // America/North_Dakota/Beulah
 extern const common::ZoneInfo kZoneCenter; // America/North_Dakota/Center
+extern const common::ZoneInfo kZoneNew_Salem; // America/North_Dakota/New_Salem
 extern const common::ZoneInfo kZoneOjinaga; // America/Ojinaga
 extern const common::ZoneInfo kZonePanama; // America/Panama
+extern const common::ZoneInfo kZonePangnirtung; // America/Pangnirtung
 extern const common::ZoneInfo kZoneParamaribo; // America/Paramaribo
 extern const common::ZoneInfo kZonePhoenix; // America/Phoenix
 extern const common::ZoneInfo kZonePort_au_Prince; // America/Port-au-Prince
 extern const common::ZoneInfo kZonePort_of_Spain; // America/Port_of_Spain
 extern const common::ZoneInfo kZonePorto_Velho; // America/Porto_Velho
 extern const common::ZoneInfo kZonePuerto_Rico; // America/Puerto_Rico
+extern const common::ZoneInfo kZonePunta_Arenas; // America/Punta_Arenas
 extern const common::ZoneInfo kZoneRainy_River; // America/Rainy_River
+extern const common::ZoneInfo kZoneRankin_Inlet; // America/Rankin_Inlet
+extern const common::ZoneInfo kZoneRecife; // America/Recife
 extern const common::ZoneInfo kZoneRegina; // America/Regina
+extern const common::ZoneInfo kZoneResolute; // America/Resolute
+extern const common::ZoneInfo kZoneRio_Branco; // America/Rio_Branco
+extern const common::ZoneInfo kZoneSantarem; // America/Santarem
 extern const common::ZoneInfo kZoneSantiago; // America/Santiago
 extern const common::ZoneInfo kZoneSao_Paulo; // America/Sao_Paulo
 extern const common::ZoneInfo kZoneScoresbysund; // America/Scoresbysund
@@ -108,6 +147,7 @@ extern const common::ZoneInfo kZoneSwift_Current; // America/Swift_Current
 extern const common::ZoneInfo kZoneTegucigalpa; // America/Tegucigalpa
 extern const common::ZoneInfo kZoneThule; // America/Thule
 extern const common::ZoneInfo kZoneThunder_Bay; // America/Thunder_Bay
+extern const common::ZoneInfo kZoneTijuana; // America/Tijuana
 extern const common::ZoneInfo kZoneToronto; // America/Toronto
 extern const common::ZoneInfo kZoneVancouver; // America/Vancouver
 extern const common::ZoneInfo kZoneWhitehorse; // America/Whitehorse
@@ -115,6 +155,9 @@ extern const common::ZoneInfo kZoneWinnipeg; // America/Winnipeg
 extern const common::ZoneInfo kZoneYakutat; // America/Yakutat
 extern const common::ZoneInfo kZoneYellowknife; // America/Yellowknife
 extern const common::ZoneInfo kZoneDumontDUrville; // Antarctica/DumontDUrville
+extern const common::ZoneInfo kZoneMacquarie; // Antarctica/Macquarie
+extern const common::ZoneInfo kZoneMawson; // Antarctica/Mawson
+extern const common::ZoneInfo kZonePalmer; // Antarctica/Palmer
 extern const common::ZoneInfo kZoneRothera; // Antarctica/Rothera
 extern const common::ZoneInfo kZoneSyowa; // Antarctica/Syowa
 extern const common::ZoneInfo kZoneVostok; // Antarctica/Vostok
@@ -125,8 +168,10 @@ extern const common::ZoneInfo kZoneBaku; // Asia/Baku
 extern const common::ZoneInfo kZoneBangkok; // Asia/Bangkok
 extern const common::ZoneInfo kZoneBeirut; // Asia/Beirut
 extern const common::ZoneInfo kZoneBrunei; // Asia/Brunei
+extern const common::ZoneInfo kZoneChoibalsan; // Asia/Choibalsan
 extern const common::ZoneInfo kZoneDamascus; // Asia/Damascus
 extern const common::ZoneInfo kZoneDhaka; // Asia/Dhaka
+extern const common::ZoneInfo kZoneDili; // Asia/Dili
 extern const common::ZoneInfo kZoneDubai; // Asia/Dubai
 extern const common::ZoneInfo kZoneDushanbe; // Asia/Dushanbe
 extern const common::ZoneInfo kZoneHo_Chi_Minh; // Asia/Ho_Chi_Minh
@@ -167,6 +212,7 @@ extern const common::ZoneInfo kZoneFaroe; // Atlantic/Faroe
 extern const common::ZoneInfo kZoneMadeira; // Atlantic/Madeira
 extern const common::ZoneInfo kZoneReykjavik; // Atlantic/Reykjavik
 extern const common::ZoneInfo kZoneSouth_Georgia; // Atlantic/South_Georgia
+extern const common::ZoneInfo kZoneStanley; // Atlantic/Stanley
 extern const common::ZoneInfo kZoneAdelaide; // Australia/Adelaide
 extern const common::ZoneInfo kZoneBrisbane; // Australia/Brisbane
 extern const common::ZoneInfo kZoneBroken_Hill; // Australia/Broken_Hill
@@ -202,12 +248,15 @@ extern const common::ZoneInfo kZoneMonaco; // Europe/Monaco
 extern const common::ZoneInfo kZoneOslo; // Europe/Oslo
 extern const common::ZoneInfo kZoneParis; // Europe/Paris
 extern const common::ZoneInfo kZonePrague; // Europe/Prague
+extern const common::ZoneInfo kZoneRiga; // Europe/Riga
 extern const common::ZoneInfo kZoneRome; // Europe/Rome
 extern const common::ZoneInfo kZoneSofia; // Europe/Sofia
 extern const common::ZoneInfo kZoneStockholm; // Europe/Stockholm
+extern const common::ZoneInfo kZoneTallinn; // Europe/Tallinn
 extern const common::ZoneInfo kZoneTirane; // Europe/Tirane
 extern const common::ZoneInfo kZoneUzhgorod; // Europe/Uzhgorod
 extern const common::ZoneInfo kZoneVienna; // Europe/Vienna
+extern const common::ZoneInfo kZoneVilnius; // Europe/Vilnius
 extern const common::ZoneInfo kZoneWarsaw; // Europe/Warsaw
 extern const common::ZoneInfo kZoneZaporozhye; // Europe/Zaporozhye
 extern const common::ZoneInfo kZoneZurich; // Europe/Zurich
@@ -219,16 +268,20 @@ extern const common::ZoneInfo kZoneMahe; // Indian/Mahe
 extern const common::ZoneInfo kZoneMaldives; // Indian/Maldives
 extern const common::ZoneInfo kZoneMauritius; // Indian/Mauritius
 extern const common::ZoneInfo kZoneReunion; // Indian/Reunion
+extern const common::ZoneInfo kZoneApia; // Pacific/Apia
 extern const common::ZoneInfo kZoneAuckland; // Pacific/Auckland
+extern const common::ZoneInfo kZoneBougainville; // Pacific/Bougainville
 extern const common::ZoneInfo kZoneChuuk; // Pacific/Chuuk
 extern const common::ZoneInfo kZoneEaster; // Pacific/Easter
 extern const common::ZoneInfo kZoneEfate; // Pacific/Efate
 extern const common::ZoneInfo kZoneEnderbury; // Pacific/Enderbury
+extern const common::ZoneInfo kZoneFakaofo; // Pacific/Fakaofo
 extern const common::ZoneInfo kZoneFiji; // Pacific/Fiji
 extern const common::ZoneInfo kZoneFunafuti; // Pacific/Funafuti
 extern const common::ZoneInfo kZoneGalapagos; // Pacific/Galapagos
 extern const common::ZoneInfo kZoneGambier; // Pacific/Gambier
 extern const common::ZoneInfo kZoneGuadalcanal; // Pacific/Guadalcanal
+extern const common::ZoneInfo kZoneGuam; // Pacific/Guam
 extern const common::ZoneInfo kZoneHonolulu; // Pacific/Honolulu
 extern const common::ZoneInfo kZoneKiritimati; // Pacific/Kiritimati
 extern const common::ZoneInfo kZoneKosrae; // Pacific/Kosrae
@@ -237,6 +290,7 @@ extern const common::ZoneInfo kZoneMajuro; // Pacific/Majuro
 extern const common::ZoneInfo kZoneMarquesas; // Pacific/Marquesas
 extern const common::ZoneInfo kZoneNauru; // Pacific/Nauru
 extern const common::ZoneInfo kZoneNiue; // Pacific/Niue
+extern const common::ZoneInfo kZoneNorfolk; // Pacific/Norfolk
 extern const common::ZoneInfo kZoneNoumea; // Pacific/Noumea
 extern const common::ZoneInfo kZonePago_Pago; // Pacific/Pago_Pago
 extern const common::ZoneInfo kZonePalau; // Pacific/Palau
@@ -252,138 +306,85 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 
 // The following zones are not supported in the current version of AceTime.
-// numInfos: 130
-
-// Africa/Casablanca
-// Africa/El_Aaiun
-// Africa/Juba
-// Africa/Khartoum
-// Africa/Sao_Tome
-// Africa/Tripoli
-// Africa/Windhoek
-// America/Araguaina
-// America/Argentina/Buenos_Aires
-// America/Argentina/Catamarca
-// America/Argentina/Cordoba
-// America/Argentina/Jujuy
-// America/Argentina/La_Rioja
-// America/Argentina/Mendoza
-// America/Argentina/Rio_Gallegos
-// America/Argentina/Salta
-// America/Argentina/San_Juan
-// America/Argentina/San_Luis
-// America/Argentina/Tucuman
-// America/Argentina/Ushuaia
-// America/Bahia
-// America/Bahia_Banderas
-// America/Belize
-// America/Boa_Vista
-// America/Cambridge_Bay
-// America/Cancun
-// America/Caracas
-// America/Cuiaba
-// America/Eirunepe
-// America/Fort_Nelson
-// America/Fortaleza
-// America/Goose_Bay
-// America/Grand_Turk
-// America/Indiana/Knox
-// America/Indiana/Petersburg
-// America/Indiana/Tell_City
-// America/Indiana/Vincennes
-// America/Indiana/Winamac
-// America/Iqaluit
-// America/Kentucky/Monticello
-// America/Maceio
-// America/Metlakatla
-// America/Mexico_City
-// America/Moncton
-// America/Noronha
-// America/North_Dakota/Beulah
-// America/North_Dakota/New_Salem
-// America/Pangnirtung
-// America/Punta_Arenas
-// America/Rankin_Inlet
-// America/Recife
-// America/Resolute
-// America/Rio_Branco
-// America/Santarem
-// America/Santo_Domingo
-// America/St_Johns
-// America/Tijuana
-// Antarctica/Casey
-// Antarctica/Davis
-// Antarctica/Macquarie
-// Antarctica/Mawson
-// Antarctica/Palmer
-// Antarctica/Troll
-// Asia/Almaty
-// Asia/Anadyr
-// Asia/Aqtau
-// Asia/Aqtobe
-// Asia/Atyrau
-// Asia/Barnaul
-// Asia/Bishkek
-// Asia/Chita
-// Asia/Choibalsan
-// Asia/Colombo
-// Asia/Dili
-// Asia/Famagusta
-// Asia/Gaza
-// Asia/Hebron
-// Asia/Hong_Kong
-// Asia/Irkutsk
-// Asia/Kamchatka
-// Asia/Khandyga
-// Asia/Krasnoyarsk
-// Asia/Macau
-// Asia/Magadan
-// Asia/Novokuznetsk
-// Asia/Novosibirsk
-// Asia/Omsk
-// Asia/Oral
-// Asia/Pyongyang
-// Asia/Qyzylorda
-// Asia/Sakhalin
-// Asia/Srednekolymsk
-// Asia/Tbilisi
-// Asia/Tomsk
-// Asia/Ust-Nera
-// Asia/Vladivostok
-// Asia/Yakutsk
-// Asia/Yekaterinburg
-// Atlantic/Stanley
-// CET
-// CST6CDT
-// EET
-// EST
-// EST5EDT
-// Europe/Astrakhan
-// Europe/Istanbul
-// Europe/Kaliningrad
-// Europe/Kirov
-// Europe/Minsk
-// Europe/Moscow
-// Europe/Riga
-// Europe/Samara
-// Europe/Saratov
-// Europe/Simferopol
-// Europe/Tallinn
-// Europe/Ulyanovsk
-// Europe/Vilnius
-// Europe/Volgograd
-// HST
-// MET
-// MST
-// MST7MDT
-// PST8PDT
-// Pacific/Apia
-// Pacific/Bougainville
-// Pacific/Chatham
-// Pacific/Fakaofo
-// Pacific/Guam
-// Pacific/Norfolk
-// WET
+//
+// numInfos: 76
+//
+// Africa/Windhoek (rule 'Namibia' not found)
+// America/Argentina/Catamarca (multiple records for year 2004)
+// America/Argentina/La_Rioja (multiple records for year 2004)
+// America/Argentina/Mendoza (multiple records for year 2004)
+// America/Argentina/Rio_Gallegos (multiple records for year 2004)
+// America/Argentina/San_Juan (multiple records for year 2004)
+// America/Argentina/San_Luis (offset in RULES '1:00')
+// America/Argentina/Tucuman (multiple records for year 2004)
+// America/Argentina/Ushuaia (multiple records for year 2004)
+// America/Belize (rule 'Belize' not found)
+// America/Cambridge_Bay (multiple records for year 2000)
+// America/Caracas (unsupported UNTIL '2016 5 1 2:30')
+// America/Goose_Bay (rule 'StJohns' not found)
+// America/Grand_Turk (unsupported UNTIL '2015 11 Sun>=1 2:00')
+// America/Moncton (rule 'Moncton' not found)
+// America/Santo_Domingo (multiple records for year 2000)
+// America/St_Johns (rule 'StJohns' not found)
+// Antarctica/Casey (unsupported UNTIL '2012 2 21 17:00u')
+// Antarctica/Davis (unsupported UNTIL '2010 3 10 20:00u')
+// Antarctica/Troll (rule 'Troll' not found)
+// Asia/Almaty (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Anadyr (unsupported UNTIL '2010 3 28 2:00s')
+// Asia/Aqtau (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Aqtobe (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Atyrau (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Barnaul (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Bishkek (rule 'Kyrgyz' not found)
+// Asia/Chita (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Colombo (unsupported UNTIL '2006 4 15 0:30')
+// Asia/Famagusta (unsupported UNTIL '2017 10 29 1:00u')
+// Asia/Gaza (unsupported UNTIL '2010 3 27 0:01')
+// Asia/Hebron (rule 'Palestine' not found)
+// Asia/Hong_Kong (rule 'HK' not found)
+// Asia/Irkutsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Kamchatka (unsupported UNTIL '2010 3 28 2:00s')
+// Asia/Khandyga (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Krasnoyarsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Macau (rule 'Macau' not found)
+// Asia/Magadan (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Novokuznetsk (unsupported UNTIL '2010 3 28 2:00s')
+// Asia/Novosibirsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Omsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Oral (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Pyongyang (unsupported UNTIL '2018 5 4 23:30')
+// Asia/Qyzylorda (unsupported UNTIL '2004 10 31 2:00s')
+// Asia/Sakhalin (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Srednekolymsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Tbilisi (unsupported UNTIL '2005 3 lastSun 2:00')
+// Asia/Tomsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Ust-Nera (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Vladivostok (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Yakutsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Yekaterinburg (unsupported UNTIL '2011 3 27 2:00s')
+// CET (no '/' in zone name)
+// CST6CDT (no '/' in zone name)
+// EET (no '/' in zone name)
+// EST (no '/' in zone name)
+// EST5EDT (no '/' in zone name)
+// Europe/Astrakhan (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Istanbul (unsupported UNTIL '2011 3 27 1:00u')
+// Europe/Kaliningrad (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Kirov (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Minsk (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Moscow (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Samara (unsupported UNTIL '2010 3 28 2:00s')
+// Europe/Saratov (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Simferopol (unsupported UNTIL '2014 10 26 2:00s')
+// Europe/Ulyanovsk (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Volgograd (unsupported UNTIL '2011 3 27 2:00s')
+// HST (no '/' in zone name)
+// MET (no '/' in zone name)
+// MST (no '/' in zone name)
+// MST7MDT (no '/' in zone name)
+// PST8PDT (no '/' in zone name)
+// Pacific/Chatham (rule 'Chatham' not found)
+// WET (no '/' in zone name)
 
 
 }

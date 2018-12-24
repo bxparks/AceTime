@@ -37,8 +37,9 @@ struct ZoneEntry {
    */
   int8_t const untilYearShort;
 
-  // TODO: add untilMonth, untilDayOfMonth, untilDayOfWeek, untilTime,
-  // untilTimeModifier
+  uint8_t untilMonth;
+  uint8_t untilDay; // no need for untilDayOfWeek, because the day is known
+  uint8_t untilHour; // integral hour (wall clock)
 };
 
 /**
