@@ -10,6 +10,7 @@ generate the code for the static instances ZoneInfo and ZonePolicy classes.
 
 import logging
 import sys
+import datetime
 
 class Transformer:
 
@@ -88,6 +89,7 @@ class Transformer:
         #zones_map = self.remove_zones_with_until_month(zones_map)
         zones_map = self.remove_zones_without_slash(zones_map)
         zones_map = self.remove_zone_entries_too_old(zones_map)
+        zones_map = self.create_zones_with_until_day(zones_map)
         zones_map = self.remove_zones_with_complex_until(zones_map)
         zones_map = self.create_zones_with_until_hour(zones_map)
         zones_map = self.create_zones_with_offset_minute(zones_map)
@@ -146,9 +148,10 @@ class Transformer:
         """Remove zones with a complex, unsupported UNTIL field. Currently,
         the unsupported formats are:
 
-            1) The dayOfMonth field does not support "dow>=n" because the Python
-            tool should convert it into an exact day of month, since the year
-            and month are already known.
+            1) The dayOfMonth field should be only integers. The conditional
+            expressions (e.g. "dow>=n") should already have been converted to an
+            int by the time this routine gets call.
+            (e.g. Asia/Tbilisi '2005 3 lastSun 2:00')
             2) The time field not in multiples of 15 minutes.
             3) The time field other than 'wall' clock, i.e. contains any suffix
             ('s', 'u', 't' or even just a 'w').
@@ -158,10 +161,9 @@ class Transformer:
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
-                if zone['untilDay']:
-                    until_day = zone['untilDay']
-                    if not until_day.isdigit():
-                        valid = False
+                if zone['untilDay'] and type(zone['untilDay']) != int:
+                    valid = False
+
                 if zone['untilTime']:
                     until_time = zone['untilTime']
                     until_minute = hour_string_to_minute(until_time)
@@ -289,6 +291,33 @@ class Transformer:
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
+
+    @staticmethod
+    def create_zones_with_until_day(zones_map):
+        """Convert zone['untilDay'] from 'lastSun' or 'Sun>=1' to a precise day,
+        which is possible because the year and month are already known. For
+        example:
+            * Asia/Tbilisi 2005 3 lastSun 2:00
+            * America/Grand_Turk 2015 Nov Sun>=1 2:00
+        """
+        for name, zones in zones_map.items():
+            for zone in zones:
+                until_day = zone['untilDay']
+                if not until_day:
+                    continue
+
+                (on_day_of_week, on_day_of_month) = \
+                    parse_on_day_string(until_day)
+                if (on_day_of_week, on_day_of_month) == (0, 0):
+                    logging.error(
+                        "Zone %s: could not parse untilDay (%s)",
+                        name, until_day)
+                until_year = zone['untilYear']
+                until_month = zone['untilMonth']
+                until_day = calc_day_of_month(
+                    until_year, until_month, on_day_of_week, on_day_of_month)
+                zone['untilDay'] = until_day
+        return zones_map
 
     @staticmethod
     def create_zones_with_until_hour(zones_map):
@@ -778,3 +807,27 @@ def is_year_short(year):
     9999 is a marker for 'max'.
     """
     return year >= 1872 and (year == 9999 or year <= 2127)
+
+def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
+    """Return the actual day of month of expressions such as
+    (onDayOfWeek >= onDayOfMonth) or (lastMon).
+    """
+    if on_day_of_week == 0:
+        return on_day_of_month
+
+    if on_day_of_month == 0:
+        # lastXxx == (Xxx >= (daysInMonth - 6))
+        on_day_of_month = days_in_month(year, month) - 6
+    limit_date = datetime.date(year, month, on_day_of_month)
+    day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
+    return on_day_of_month + day_of_week_shift
+
+def days_in_month(year, month):
+    """Return the number of days in the given (year, month).
+    """
+    DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    is_leap = (year % 4 == 0) and ((year % 100 != 0) or (year % 400) == 0)
+    days = DAYS_IN_MONTH[month - 1]
+    if month == 2:
+        days += is_leap
+    return days
