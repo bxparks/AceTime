@@ -10,8 +10,8 @@
 #
 # DO NOT EDIT
 
-# numPolicies: 68
-# numRules: 389
+# numPolicies: 69
+# numRules: 392
 
 #---------------------------------------------------------------------------
 # Policy name: AN
@@ -1547,6 +1547,54 @@ ZONE_RULES_Dhaka = [
 ZONE_POLICY_Dhaka = {
     "name": "Dhaka",
     "rules": ZONE_RULES_Dhaka
+}
+
+#---------------------------------------------------------------------------
+# Policy name: E_EurAsia
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_E_EurAsia = [
+    # Rule E-EurAsia    1981    max    -    Mar    lastSun     0:00    1:00    -
+    {
+        "fromYear": 1981,
+        "toYear": 9999,
+        "inMonth": 3,
+        "onDayOfWeek": 7,
+        "onDayOfMonth": 0,
+        "atHour": 0,
+        "atHourModifier": 'w',
+        "deltaCode": 4,
+        "letter": '-',
+    },
+    # Rule E-EurAsia    1979    1995    -    Sep    lastSun     0:00    0    -
+    {
+        "fromYear": 1979,
+        "toYear": 1995,
+        "inMonth": 9,
+        "onDayOfWeek": 7,
+        "onDayOfMonth": 0,
+        "atHour": 0,
+        "atHourModifier": 'w',
+        "deltaCode": 0,
+        "letter": '-',
+    },
+    # Rule E-EurAsia    1996    max    -    Oct    lastSun     0:00    0    -
+    {
+        "fromYear": 1996,
+        "toYear": 9999,
+        "inMonth": 10,
+        "onDayOfWeek": 7,
+        "onDayOfMonth": 0,
+        "atHour": 0,
+        "atHourModifier": 'w',
+        "deltaCode": 0,
+        "letter": '-',
+    },
+
+]
+ZONE_POLICY_E_EurAsia = {
+    "name": "E_EurAsia",
+    "rules": ZONE_RULES_E_EurAsia
 }
 
 #---------------------------------------------------------------------------
@@ -5502,7 +5550,7 @@ ZONE_POLICY_Zion = {
 # The following zone policies are not supported in the current version of
 # AceTime.
 #
-# numPolicies: 70
+# numPolicies: 69
 #
 # Albania (unused)
 # Algeria (unused)
@@ -5522,7 +5570,6 @@ ZONE_POLICY_Zion = {
 # Denver (unused)
 # Detroit (unused)
 # E_Eur (unused)
-# E_EurAsia (unused)
 # Edm (unused)
 # EgyptAsia (unused)
 # Finland (unused)

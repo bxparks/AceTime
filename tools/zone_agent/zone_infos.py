@@ -12,8 +12,8 @@
 
 from zone_policies import *
 
-# numInfos: 282
-# numEntries: 375
+# numInfos: 284
+# numEntries: 381
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Abidjan
@@ -1634,6 +1634,49 @@ ZONE_ENTRIES_Godthab = [
 ZONE_INFO_Godthab = {
     "name": "America/Godthab",
     "entries": ZONE_ENTRIES_Godthab
+}
+
+#---------------------------------------------------------------------------
+# Zone name: America/Grand_Turk
+# Entry count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ENTRIES_Grand_Turk = [
+    #             -5:00    US    E%sT    2015 Nov Sun>=1 2:00
+    {
+      "offsetCode": -20,
+      "zonePolicy": ZONE_POLICY_US,
+      "format": "E%sT",
+      "untilYearShort": 15,
+      "untilMonth": 11,
+      "untilDay": 1,
+      "untilHour": 2,
+    },
+    #             -4:00    -    AST    2018 Mar 11 3:00
+    {
+      "offsetCode": -16,
+      "zonePolicy": None,
+      "format": "AST",
+      "untilYearShort": 18,
+      "untilMonth": 3,
+      "untilDay": 11,
+      "untilHour": 3,
+    },
+    #             -5:00    US    E%sT
+    {
+      "offsetCode": -20,
+      "zonePolicy": ZONE_POLICY_US,
+      "format": "E%sT",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+    },
+
+]
+ZONE_INFO_Grand_Turk = {
+    "name": "America/Grand_Turk",
+    "entries": ZONE_ENTRIES_Grand_Turk
 }
 
 #---------------------------------------------------------------------------
@@ -4874,6 +4917,49 @@ ZONE_INFO_Tashkent = {
 }
 
 #---------------------------------------------------------------------------
+# Zone name: Asia/Tbilisi
+# Entry count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ENTRIES_Tbilisi = [
+    #             4:00 E-EurAsia    +04/+05    2004 Jun 27
+    {
+      "offsetCode": 16,
+      "zonePolicy": ZONE_POLICY_E-EurAsia,
+      "format": "+04/+05",
+      "untilYearShort": 4,
+      "untilMonth": 6,
+      "untilDay": 27,
+      "untilHour": 0,
+    },
+    #             3:00 RussiaAsia    +03/+04    2005 Mar lastSun  2:00
+    {
+      "offsetCode": 12,
+      "zonePolicy": ZONE_POLICY_RussiaAsia,
+      "format": "+03/+04",
+      "untilYearShort": 5,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+    },
+    #             4:00    -    +04
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "+04",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+    },
+
+]
+ZONE_INFO_Tbilisi = {
+    "name": "Asia/Tbilisi",
+    "entries": ZONE_ENTRIES_Tbilisi
+}
+
+#---------------------------------------------------------------------------
 # Zone name: Asia/Tehran
 # Entry count: 1
 #---------------------------------------------------------------------------
@@ -7474,6 +7560,7 @@ ZONE_INFO_MAP = {
     "Urumqi": ZONE_INFO_Urumqi,
     "Taipei": ZONE_INFO_Taipei,
     "Nicosia": ZONE_INFO_Nicosia,
+    "Tbilisi": ZONE_INFO_Tbilisi,
     "Dili": ZONE_INFO_Dili,
     "Kolkata": ZONE_INFO_Kolkata,
     "Jakarta": ZONE_INFO_Jakarta,
@@ -7678,6 +7765,7 @@ ZONE_INFO_MAP = {
     "Panama": ZONE_INFO_Panama,
     "Puerto_Rico": ZONE_INFO_Puerto_Rico,
     "Miquelon": ZONE_INFO_Miquelon,
+    "Grand_Turk": ZONE_INFO_Grand_Turk,
     "Buenos_Aires": ZONE_INFO_Buenos_Aires,
     "Cordoba": ZONE_INFO_Cordoba,
     "Salta": ZONE_INFO_Salta,
@@ -7721,7 +7809,7 @@ ZONE_INFO_MAP = {
 
 # The following zones are not supported in the current version of AceTime.
 #
-# numInfos: 76
+# numInfos: 74
 #
 # Africa/Windhoek (rule 'Namibia' not found)
 # America/Argentina/Catamarca (multiple records for year 2004)
@@ -7736,7 +7824,6 @@ ZONE_INFO_MAP = {
 # America/Cambridge_Bay (multiple records for year 2000)
 # America/Caracas (unsupported UNTIL '2016 5 1 2:30')
 # America/Goose_Bay (rule 'StJohns' not found)
-# America/Grand_Turk (unsupported UNTIL '2015 11 Sun>=1 2:00')
 # America/Moncton (rule 'Moncton' not found)
 # America/Santo_Domingo (multiple records for year 2000)
 # America/St_Johns (rule 'StJohns' not found)
@@ -7770,7 +7857,6 @@ ZONE_INFO_MAP = {
 # Asia/Qyzylorda (unsupported UNTIL '2004 10 31 2:00s')
 # Asia/Sakhalin (unsupported UNTIL '2011 3 27 2:00s')
 # Asia/Srednekolymsk (unsupported UNTIL '2011 3 27 2:00s')
-# Asia/Tbilisi (unsupported UNTIL '2005 3 lastSun 2:00')
 # Asia/Tomsk (unsupported UNTIL '2011 3 27 2:00s')
 # Asia/Ust-Nera (unsupported UNTIL '2011 3 27 2:00s')
 # Asia/Vladivostok (unsupported UNTIL '2011 3 27 2:00s')
