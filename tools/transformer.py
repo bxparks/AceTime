@@ -84,9 +84,6 @@ class Transformer:
         logging.info('Found %s zone infos' % len(self.zones_map))
         logging.info('Found %s rule policies' % len(self.rules_map))
 
-        #zones_map = self.remove_zones_with_until_time(zones_map)
-        #zones_map = self.remove_zones_with_until_day(zones_map)
-        #zones_map = self.remove_zones_with_until_month(zones_map)
         zones_map = self.remove_zones_without_slash(zones_map)
         zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.create_zones_with_until_day(zones_map)
@@ -183,73 +180,6 @@ class Transformer:
         logging.info("Removed %s zone infos with unsupported UNTIL fields"
             % len(removed_zones))
         self.print_removed_map(removed_zones)
-        self.all_removed_zones.update(removed_zones)
-        return results
-
-    def remove_zones_with_until_time(self, zones_map):
-        """Remove zones with a time field in the UNTIL field.
-        """
-        results = {}
-        removed_zones = {}
-        for name, zones in zones_map.items():
-            valid = True
-            for zone in zones:
-                if zone['untilTime']:
-                    valid = False
-                    removed_zones[name] = \
-                        ("unsupported time in UNTIL '%s %s %s %s'" % (
-                        zone['untilYear'], zone['untilMonth'], zone['untilDay'],
-                        zone['untilTime']))
-                    break
-            if valid:
-                results[name] = zones
-
-        logging.info("Removed %s zone infos with unsupported untilTime"
-            % len(removed_zones))
-        self.print_removed_map(self.removed_zones)
-        self.all_removed_zones.update(removed_zones)
-        return results
-
-    def remove_zones_with_until_day(self, zones_map):
-        results = {}
-        removed_zones = {}
-        for name, zones in zones_map.items():
-            valid = True
-            for zone in zones:
-                if zone['untilDay']:
-                    valid = False
-                    removed_zones[name] = \
-                        ("unsupported day in UNTIL ''%s %s %s'" % (
-                        zone['untilYear'], zone['untilMonth'],
-                        zone['untilDay']))
-                    break
-            if valid:
-                results[name] = zones
-
-        logging.info("Removed %s zone infos with unsupported untilDay"
-            % len(removed_zones))
-        self.print_removed_map(self.removed_zones)
-        self.all_removed_zones.update(removed_zones)
-        return results
-
-    def remove_zones_with_until_month(self, zones_map):
-        results = {}
-        removed_zones = {}
-        for name, zones in zones_map.items():
-            valid = True
-            for zone in zones:
-                if zone['untilMonth']:
-                    valid = False
-                    removed_zones[name] = \
-                        "unsupported month in UNTIL '%s %s'" % (
-                        zone['untilYear'], zone['untilMonth'])
-                    break
-            if valid:
-                results[name] = zones
-
-        logging.info("Removed %s zone infos with unsupported untilMonth"
-            % len(removed_zones))
-        self.print_removed_map(self.removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
