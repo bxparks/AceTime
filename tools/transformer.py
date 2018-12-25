@@ -87,7 +87,6 @@ class Transformer:
         zones_map = self.remove_zones_without_slash(zones_map)
         zones_map = self.remove_zone_entries_too_old(zones_map)
         zones_map = self.create_zones_with_until_day(zones_map)
-        zones_map = self.remove_zones_with_complex_until(zones_map)
         zones_map = self.create_zones_with_until_hour(zones_map)
         zones_map = self.create_zones_with_offset_minute(zones_map)
         zones_map = self.create_zones_with_offset_code(zones_map)
@@ -141,48 +140,6 @@ class Transformer:
             for name, reason in sorted(removed_map.items()):
                 print('  %s (%s)' % (name, reason), file=sys.stderr)
 
-    def remove_zones_with_complex_until(self, zones_map):
-        """Remove zones with a complex, unsupported UNTIL field. Currently,
-        the unsupported formats are:
-
-            1) The dayOfMonth field should be only integers. The conditional
-            expressions (e.g. "dow>=n") should already have been converted to an
-            int by the time this routine gets call.
-            (e.g. Asia/Tbilisi '2005 3 lastSun 2:00')
-            2) The time field not in multiples of 15 minutes.
-            3) The time field other than 'wall' clock, i.e. contains any suffix
-            ('s', 'u', 't' or even just a 'w').
-        """
-        results = {}
-        removed_zones = {}
-        for name, zones in zones_map.items():
-            valid = True
-            for zone in zones:
-                if zone['untilDay'] and type(zone['untilDay']) != int:
-                    valid = False
-
-                if zone['untilTime']:
-                    until_time = zone['untilTime']
-                    until_minute = hour_string_to_minute(until_time)
-                    if until_minute == 9999:
-                        valid = False
-                    elif until_minute % 60 != 0: # support only integral hour
-                        valid = False
-
-                if not valid:
-                    removed_zones[name] = "unsupported UNTIL '%s %s %s %s'" % (
-                        zone['untilYear'], zone['untilMonth'],
-                        zone['untilDay'], zone['untilTime'])
-                    break
-            if valid:
-                results[name] = zones
-
-        logging.info("Removed %s zone infos with unsupported UNTIL fields"
-            % len(removed_zones))
-        self.print_removed_map(removed_zones)
-        self.all_removed_zones.update(removed_zones)
-        return results
-
     def remove_zones_with_offset_as_rules(self, zones_map):
         """
         Remove Zones with an offset in the RULES column. This method must be
@@ -222,87 +179,125 @@ class Transformer:
         self.all_removed_zones.update(removed_zones)
         return results
 
-    @staticmethod
-    def create_zones_with_until_day(zones_map):
+    def create_zones_with_until_day(self, zones_map):
         """Convert zone['untilDay'] from 'lastSun' or 'Sun>=1' to a precise day,
         which is possible because the year and month are already known. For
         example:
             * Asia/Tbilisi 2005 3 lastSun 2:00
             * America/Grand_Turk 2015 Nov Sun>=1 2:00
         """
+        results = {}
+        removed_zones = {}
         for name, zones in zones_map.items():
+            valid = True
             for zone in zones:
                 until_day = zone['untilDay']
                 if not until_day:
                     continue
 
+                # parse the conditional expression in until_day
                 (on_day_of_week, on_day_of_month) = \
                     parse_on_day_string(until_day)
                 if (on_day_of_week, on_day_of_month) == (0, 0):
-                    logging.error(
-                        "Zone %s: could not parse untilDay (%s)",
-                        name, until_day)
+                    valid = False
+                    removed_zones[name] = "invalid untilDay '%s'" % until_day
+                    break
+
                 until_year = zone['untilYear']
                 until_month = zone['untilMonth']
                 until_day = calc_day_of_month(
                     until_year, until_month, on_day_of_week, on_day_of_month)
                 zone['untilDay'] = until_day
-        return zones_map
+            if valid:
+               results[name] = zones
 
-    @staticmethod
-    def create_zones_with_until_hour(zones_map):
+        logging.info("Removed %s zone infos with invalid untilDay",
+            len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        return results
+
+    def create_zones_with_until_hour(self, zones_map):
         """ Create zone['untilHour'] from zone['untilTime']. Set to 9999 if
         any error in the conversion.
         """
+        results = {}
+        removed_zones = {}
         for name, zones in zones_map.items():
+            valid = True
             for zone in zones:
                 until_time = zone['untilTime']
                 if until_time:
                     until_minute = hour_string_to_minute(until_time)
                     if until_minute == 9999 or until_minute % 60 != 0:
-                        logging.error("Zone %s: invalid untilTime (%s)",
-                            name, until_time)
-                        break;
+                        valid = False
+                        removed_zones[name] = ("invalid untilTime '%s'" %
+                            until_time)
+                        break
                     until_hour = until_minute // 60
                 else:
                     until_hour = None
                 zone['untilHour'] = until_hour
-        return zones_map
+            if valid:
+               results[name] = zones
 
-    @staticmethod
-    def create_zones_with_offset_minute(zones_map):
+        logging.info("Removed %s zone infos with invalid untilHour",
+            len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        return results
+
+    def create_zones_with_offset_minute(self, zones_map):
         """ Create zone['offsetMinute'] from zone['offsetHour'].
         """
+        results = {}
+        removed_zones = {}
         for name, zones in zones_map.items():
+            valid = True
             for zone in zones:
                 offset_hour = zone['offsetHour']
                 offset_minute = hour_string_to_minute(offset_hour)
                 if offset_minute == 9999:
-                    logging.error(
-                        "Zone %s: could not parse offsetHour (%s)",
-                        name , offset_hour)
-                    continue
+                    valid = False
+                    removed_zones[name] = ("invalid offsetHour '%s'" %
+                        offset_hour)
+                    break
                 zone['offsetMinute'] = offset_minute
-        return zones_map
+            if valid:
+               results[name] = zones
 
-    @staticmethod
-    def create_zones_with_offset_code(zones_map):
+        logging.info("Removed %s zone infos with invalid offsetHour",
+            len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        return results
+
+    def create_zones_with_offset_code(self, zones_map):
         """ Create zone['offsetCode'] from zone['offsetMinute'].
         """
+        results = {}
+        removed_zones = {}
         for name, zones in zones_map.items():
+            valid = True
             for zone in zones:
                 offset_minute = zone['offsetMinute']
                 if offset_minute % 15 != 0:
-                    logging.error(
-                        "Zone %s: offset minutes not multiple of 15: %s",
-                        name, offset_minute)
-                    continue
+                    valid = False
+                    removed_zones[name] = (
+                        "offsetMinute '%s' not divisible by 15" % offset_minute)
+                    break
                 offset_code = int(offset_minute / 15)
                 zone['offsetCode'] = offset_code
-        return zones_map
+            if valid:
+               results[name] = zones
 
-    @staticmethod
-    def create_zones_with_rules_expansion(zones_map):
+        logging.info("Removed %s zone infos with invalid offsetMinute",
+            len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        return results
+
+    def create_zones_with_rules_expansion(self, zones_map):
         """ Create zone['rulesDeltaMinute'] from zone['rules'].
 
         The RULES field can hold the following:
@@ -311,18 +306,28 @@ class Transformer:
             * a delta offset like "01:00" to be added to the GMTOFF field
                 (see America/Argentina/San_Luis, Europe/Istanbul for example).
         """
+        results = {}
+        removed_zones = {}
         for name, zones in zones_map.items():
+            valid = True
             for zone in zones:
                 rules_string = zone['rules']
                 if rules_string.find(':') >= 0:
                     rules_delta_minute = hour_string_to_minute(rules_string)
                     if rules_delta_minute == 9999:
-                        logging.error(
-                            "Zone %s: could not parse RULES delta string (%s)",
-                            name , rules_string)
-                        continue
+                        valid = False
+                        removed_zones[name] = ("invalid RULES string '%s'" %
+                            rules_string)
+                        break
                     zone['rulesDeltaMinute'] = rules_delta_minute
-        return zones_map
+            if valid:
+               results[name] = zones
+
+        logging.info("Removed %s zone infos with invalid RULES",
+            len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        return results
 
     def remove_zones_without_rules(self, zones_map, rules_map):
         """Remove Zone entries whose RULES field contains a reference to
@@ -369,7 +374,7 @@ class Transformer:
                         valid = False
                         removed_zones[name] = (
                             'non increasing UNTIL: %s %s %s %s' % current_until)
-                        break;
+                        break
                 prev_until = current_until
             if valid and current_until[0] != 9999:
                 valid = False
@@ -403,7 +408,7 @@ class Transformer:
                         removed_zones[name] = (
                             'multiple records for year %s' %
                             current_until_year)
-                        break;
+                        break
                 prev_until_year = current_until_year
             if valid:
                 results[name] = zones
@@ -540,13 +545,14 @@ class Transformer:
                 from_year = rule['fromYear']
                 to_year = rule['toYear']
                 if not is_year_short(from_year) or not is_year_short(from_year):
+                    valid = False
                     removed_policies[name] = (
                         "fromYear (%s) or toYear (%s) out of bounds" %
                         (from_year, to_year))
-                    valid = False
-                    break;
+                    break
             if valid:
                 results[name] = rules
+
         logging.info(
             'Removed %s rule policies with fromYear or toYear out of bounds' %
             len(removed_policies))
@@ -554,69 +560,109 @@ class Transformer:
         self.all_removed_policies.update(removed_policies)
         return results
 
-    @staticmethod
-    def create_rules_with_on_day_expansion(rules_map):
+    def create_rules_with_on_day_expansion(self, rules_map):
         """ Create rule['onDayOfWeek'] and rule['onDayOfMonth']
             from rule['onDay'].
         """
+        results = {}
+        removed_policies = {}
         for name, rules in rules_map.items():
+            valid = True
             for rule in rules:
                 on_day = rule['onDay']
                 (on_day_of_week, on_day_of_month) = parse_on_day_string(on_day)
                 if (on_day_of_week, on_day_of_month) == (0, 0):
-                    logging.error(
-                        "Rule %s: could not parse onDay (%s)", name, on_day)
-                    continue
+                    valid = False
+                    removed_policies[name] = ("invalid onDay '%s'" % on_day)
+                    break
                 rule['onDayOfWeek'] = on_day_of_week
                 rule['onDayOfMonth'] = on_day_of_month
-        return rules_map
+            if valid:
+                results[name] = rules
 
-    @staticmethod
-    def create_rules_with_at_minute(rules_map):
+        logging.info(
+            'Removed %s rule policies with invalid onDay' %
+            len(removed_policies))
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
+        return results
+
+    def create_rules_with_at_minute(self, rules_map):
         """ Create rule['atMinute'] from rule['atHour'].
         """
+        results = {}
+        removed_policies = {}
         for name, rules in rules_map.items():
+            valid = True
             for rule in rules:
                 at_hour = rule['atHour']
                 at_minute = hour_string_to_minute(at_hour)
                 if at_minute == 9999:
-                    logging.error(
-                        "Rule %s: could not parse atHour (%s)", name, at_hour)
-                    continue
+                    valid = False
+                    removed_policies[name] = ("invalid atHour '%s'" % at_hour)
+                    break
                 rule['atMinute'] = at_minute
-        return rules_map
+            if valid:
+                results[name] = rules
 
-    @staticmethod
-    def create_rules_with_delta_minute(rules_map):
+        logging.info(
+            'Removed %s rule policies with invalid onDay' %
+            len(removed_policies))
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
+        return results
+
+    def create_rules_with_delta_minute(self, rules_map):
         """ Create rule['deltaMinute'] from rule['deltaHour'].
         """
+        results = {}
+        removed_policies = {}
         for name, rules in rules_map.items():
+            valid = True
             for rule in rules:
                 delta_hour = rule['deltaHour']
                 delta_minute = hour_string_to_minute(delta_hour)
                 if delta_minute == 9999:
-                    logging.error(
-                        "Rule %s: could not parse deltaHour (%s)",
-                        name, delta_hour)
-                    continue
+                    valid = False
+                    removed_policies[name] = ("invalid deltaHour '%s'" %
+                        delta_hour)
+                    break
                 rule['deltaMinute'] = delta_minute
-        return rules_map
+            if valid:
+                results[name] = rules
 
-    @staticmethod
-    def create_rules_with_delta_code(rules_map):
+        logging.info(
+            'Removed %s rule policies with invalid deltaHour' %
+            len(removed_policies))
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
+        return results
+
+    def create_rules_with_delta_code(self, rules_map):
         """ Create rule['deltaCode'] from rule['deltaMinute'].
         """
+        results = {}
+        removed_policies = {}
         for name, rules in rules_map.items():
+            valid = True
             for rule in rules:
                 delta_minute = rule['deltaMinute']
                 if delta_minute % 15 != 0:
-                    logging.error(
-                        "Rule %s: deltaMinute not multiple of 15: %s"
-                        % (name, delta_minute))
-                    continue
+                    valid = False
+                    removed_policies[name] = (
+                        "deltaMinute '%s' not multiple of 15" % delta_minute)
+                    break
                 delta_code = int(delta_minute / 15)
                 rule['deltaCode'] = delta_code
-        return rules_map
+            if valid:
+                results[name] = rules
+
+        logging.info(
+            'Removed %s rule policies with invalid deltaMinute' %
+            len(removed_policies))
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
+        return results
 
 
 WEEK_TO_WEEK_INDEX = {
