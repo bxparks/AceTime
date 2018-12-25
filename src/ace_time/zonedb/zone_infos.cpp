@@ -5,10 +5,10 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018g
 //
-// Zone info count: 282
-// Zone entry count: 375
-// Memory (8-bit): 10210
-// Memory (32-bit): 12838
+// Zone info count: 284
+// Zone entry count: 381
+// Memory (8-bit): 10320
+// Memory (32-bit): 12980
 //
 // DO NOT EDIT
 
@@ -1866,6 +1866,53 @@ const common::ZoneInfo kZoneGodthab = {
   "America/Godthab" /*name*/,
   kZoneEntryGodthab /*entries*/,
   sizeof(kZoneEntryGodthab)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Grand_Turk
+// Entry count: 3
+// Memory (8-bit): 54
+// Memory (32-bit): 70
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryGrand_Turk[] = {
+  //             -5:00    US    E%sT    2015 Nov Sun>=1 2:00
+  {
+    -20 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "E%T" /*format*/,
+    15 /*untilYearShort*/,
+    11 /*untilMonth*/,
+    1 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             -4:00    -    AST    2018 Mar 11 3:00
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "AST" /*format*/,
+    18 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    11 /*untilDay*/,
+    3 /*untilHour*/,
+  },
+  //             -5:00    US    E%sT
+  {
+    -20 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "E%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneGrand_Turk = {
+  "America/Grand_Turk" /*name*/,
+  kZoneEntryGrand_Turk /*entries*/,
+  sizeof(kZoneEntryGrand_Turk)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5579,6 +5626,53 @@ const common::ZoneInfo kZoneTashkent = {
   "Asia/Tashkent" /*name*/,
   kZoneEntryTashkent /*entries*/,
   sizeof(kZoneEntryTashkent)/sizeof(common::ZoneEntry) /*numEntries*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Asia/Tbilisi
+// Entry count: 3
+// Memory (8-bit): 56
+// Memory (32-bit): 72
+//---------------------------------------------------------------------------
+
+static const common::ZoneEntry kZoneEntryTbilisi[] = {
+  //             4:00 E-EurAsia    +04/+05    2004 Jun 27
+  {
+    16 /*offsetCode*/,
+    &kPolicyE-EurAsia /*zonePolicy*/,
+    "+04/+05" /*format*/,
+    4 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    27 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+  //             3:00 RussiaAsia    +03/+04    2005 Mar lastSun  2:00
+  {
+    12 /*offsetCode*/,
+    &kPolicyRussiaAsia /*zonePolicy*/,
+    "+03/+04" /*format*/,
+    5 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    27 /*untilDay*/,
+    2 /*untilHour*/,
+  },
+  //             4:00    -    +04
+  {
+    16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+04" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneTbilisi = {
+  "Asia/Tbilisi" /*name*/,
+  kZoneEntryTbilisi /*entries*/,
+  sizeof(kZoneEntryTbilisi)/sizeof(common::ZoneEntry) /*numEntries*/,
 };
 
 //---------------------------------------------------------------------------

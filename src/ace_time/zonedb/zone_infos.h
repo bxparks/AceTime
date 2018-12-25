@@ -20,7 +20,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numInfos: 282
+// numInfos: 284
 extern const common::ZoneInfo kZoneAbidjan; // Africa/Abidjan
 extern const common::ZoneInfo kZoneAccra; // Africa/Accra
 extern const common::ZoneInfo kZoneAlgiers; // Africa/Algiers
@@ -78,6 +78,7 @@ extern const common::ZoneInfo kZoneFort_Nelson; // America/Fort_Nelson
 extern const common::ZoneInfo kZoneFortaleza; // America/Fortaleza
 extern const common::ZoneInfo kZoneGlace_Bay; // America/Glace_Bay
 extern const common::ZoneInfo kZoneGodthab; // America/Godthab
+extern const common::ZoneInfo kZoneGrand_Turk; // America/Grand_Turk
 extern const common::ZoneInfo kZoneGuatemala; // America/Guatemala
 extern const common::ZoneInfo kZoneGuayaquil; // America/Guayaquil
 extern const common::ZoneInfo kZoneGuyana; // America/Guyana
@@ -197,6 +198,7 @@ extern const common::ZoneInfo kZoneShanghai; // Asia/Shanghai
 extern const common::ZoneInfo kZoneSingapore; // Asia/Singapore
 extern const common::ZoneInfo kZoneTaipei; // Asia/Taipei
 extern const common::ZoneInfo kZoneTashkent; // Asia/Tashkent
+extern const common::ZoneInfo kZoneTbilisi; // Asia/Tbilisi
 extern const common::ZoneInfo kZoneTehran; // Asia/Tehran
 extern const common::ZoneInfo kZoneThimphu; // Asia/Thimphu
 extern const common::ZoneInfo kZoneTokyo; // Asia/Tokyo
@@ -307,7 +309,7 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 // The following zones are not supported in the current version of AceTime.
 //
-// numInfos: 76
+// numInfos: 74
 //
 // Africa/Windhoek (rule 'Namibia' not found)
 // America/Argentina/Catamarca (multiple records for year 2004)
@@ -320,64 +322,62 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 // America/Argentina/Ushuaia (multiple records for year 2004)
 // America/Belize (rule 'Belize' not found)
 // America/Cambridge_Bay (multiple records for year 2000)
-// America/Caracas (unsupported UNTIL '2016 5 1 2:30')
+// America/Caracas (invalid untilTime '2:30')
 // America/Goose_Bay (rule 'StJohns' not found)
-// America/Grand_Turk (unsupported UNTIL '2015 11 Sun>=1 2:00')
 // America/Moncton (rule 'Moncton' not found)
 // America/Santo_Domingo (multiple records for year 2000)
 // America/St_Johns (rule 'StJohns' not found)
-// Antarctica/Casey (unsupported UNTIL '2012 2 21 17:00u')
-// Antarctica/Davis (unsupported UNTIL '2010 3 10 20:00u')
+// Antarctica/Casey (invalid untilTime '17:00u')
+// Antarctica/Davis (invalid untilTime '20:00u')
 // Antarctica/Troll (rule 'Troll' not found)
-// Asia/Almaty (unsupported UNTIL '2004 10 31 2:00s')
-// Asia/Anadyr (unsupported UNTIL '2010 3 28 2:00s')
-// Asia/Aqtau (unsupported UNTIL '2004 10 31 2:00s')
-// Asia/Aqtobe (unsupported UNTIL '2004 10 31 2:00s')
-// Asia/Atyrau (unsupported UNTIL '2004 10 31 2:00s')
-// Asia/Barnaul (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Almaty (invalid untilTime '2:00s')
+// Asia/Anadyr (invalid untilTime '2:00s')
+// Asia/Aqtau (invalid untilTime '2:00s')
+// Asia/Aqtobe (invalid untilTime '2:00s')
+// Asia/Atyrau (invalid untilTime '2:00s')
+// Asia/Barnaul (invalid untilTime '2:00s')
 // Asia/Bishkek (rule 'Kyrgyz' not found)
-// Asia/Chita (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Colombo (unsupported UNTIL '2006 4 15 0:30')
-// Asia/Famagusta (unsupported UNTIL '2017 10 29 1:00u')
-// Asia/Gaza (unsupported UNTIL '2010 3 27 0:01')
+// Asia/Chita (invalid untilTime '2:00s')
+// Asia/Colombo (invalid untilTime '0:30')
+// Asia/Famagusta (invalid untilTime '1:00u')
+// Asia/Gaza (invalid untilTime '0:01')
 // Asia/Hebron (rule 'Palestine' not found)
 // Asia/Hong_Kong (rule 'HK' not found)
-// Asia/Irkutsk (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Kamchatka (unsupported UNTIL '2010 3 28 2:00s')
-// Asia/Khandyga (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Krasnoyarsk (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Irkutsk (invalid untilTime '2:00s')
+// Asia/Kamchatka (invalid untilTime '2:00s')
+// Asia/Khandyga (invalid untilTime '2:00s')
+// Asia/Krasnoyarsk (invalid untilTime '2:00s')
 // Asia/Macau (rule 'Macau' not found)
-// Asia/Magadan (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Novokuznetsk (unsupported UNTIL '2010 3 28 2:00s')
-// Asia/Novosibirsk (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Omsk (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Oral (unsupported UNTIL '2004 10 31 2:00s')
-// Asia/Pyongyang (unsupported UNTIL '2018 5 4 23:30')
-// Asia/Qyzylorda (unsupported UNTIL '2004 10 31 2:00s')
-// Asia/Sakhalin (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Srednekolymsk (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Tbilisi (unsupported UNTIL '2005 3 lastSun 2:00')
-// Asia/Tomsk (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Ust-Nera (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Vladivostok (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Yakutsk (unsupported UNTIL '2011 3 27 2:00s')
-// Asia/Yekaterinburg (unsupported UNTIL '2011 3 27 2:00s')
+// Asia/Magadan (invalid untilTime '2:00s')
+// Asia/Novokuznetsk (invalid untilTime '2:00s')
+// Asia/Novosibirsk (invalid untilTime '2:00s')
+// Asia/Omsk (invalid untilTime '2:00s')
+// Asia/Oral (invalid untilTime '2:00s')
+// Asia/Pyongyang (invalid untilTime '23:30')
+// Asia/Qyzylorda (invalid untilTime '2:00s')
+// Asia/Sakhalin (invalid untilTime '2:00s')
+// Asia/Srednekolymsk (invalid untilTime '2:00s')
+// Asia/Tomsk (invalid untilTime '2:00s')
+// Asia/Ust-Nera (invalid untilTime '2:00s')
+// Asia/Vladivostok (invalid untilTime '2:00s')
+// Asia/Yakutsk (invalid untilTime '2:00s')
+// Asia/Yekaterinburg (invalid untilTime '2:00s')
 // CET (no '/' in zone name)
 // CST6CDT (no '/' in zone name)
 // EET (no '/' in zone name)
 // EST (no '/' in zone name)
 // EST5EDT (no '/' in zone name)
-// Europe/Astrakhan (unsupported UNTIL '2011 3 27 2:00s')
-// Europe/Istanbul (unsupported UNTIL '2011 3 27 1:00u')
-// Europe/Kaliningrad (unsupported UNTIL '2011 3 27 2:00s')
-// Europe/Kirov (unsupported UNTIL '2011 3 27 2:00s')
-// Europe/Minsk (unsupported UNTIL '2011 3 27 2:00s')
-// Europe/Moscow (unsupported UNTIL '2011 3 27 2:00s')
-// Europe/Samara (unsupported UNTIL '2010 3 28 2:00s')
-// Europe/Saratov (unsupported UNTIL '2011 3 27 2:00s')
-// Europe/Simferopol (unsupported UNTIL '2014 10 26 2:00s')
-// Europe/Ulyanovsk (unsupported UNTIL '2011 3 27 2:00s')
-// Europe/Volgograd (unsupported UNTIL '2011 3 27 2:00s')
+// Europe/Astrakhan (invalid untilTime '2:00s')
+// Europe/Istanbul (invalid untilTime '1:00u')
+// Europe/Kaliningrad (invalid untilTime '2:00s')
+// Europe/Kirov (invalid untilTime '2:00s')
+// Europe/Minsk (invalid untilTime '2:00s')
+// Europe/Moscow (invalid untilTime '2:00s')
+// Europe/Samara (invalid untilTime '2:00s')
+// Europe/Saratov (invalid untilTime '2:00s')
+// Europe/Simferopol (invalid untilTime '2:00s')
+// Europe/Ulyanovsk (invalid untilTime '2:00s')
+// Europe/Volgograd (invalid untilTime '2:00s')
 // HST (no '/' in zone name)
 // MET (no '/' in zone name)
 // MST (no '/' in zone name)

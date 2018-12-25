@@ -18,7 +18,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numPolicies: 68
+// numPolicies: 69
 extern const common::ZonePolicy kPolicyAN;
 extern const common::ZonePolicy kPolicyAQ;
 extern const common::ZonePolicy kPolicyAS;
@@ -38,6 +38,7 @@ extern const common::ZonePolicy kPolicyChile;
 extern const common::ZonePolicy kPolicyCook;
 extern const common::ZonePolicy kPolicyCuba;
 extern const common::ZonePolicy kPolicyDhaka;
+extern const common::ZonePolicy kPolicyE_EurAsia;
 extern const common::ZonePolicy kPolicyEU;
 extern const common::ZonePolicy kPolicyEUAsia;
 extern const common::ZonePolicy kPolicyEcuador;
@@ -92,7 +93,7 @@ extern const common::ZonePolicy kPolicyZion;
 // The following zone policies are not supported in the current version of
 // AceTime.
 //
-// numPolicies: 70
+// numPolicies: 69
 //
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
@@ -112,7 +113,6 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyDenver (unused)
 // kPolicyDetroit (unused)
 // kPolicyE-Eur (unused)
-// kPolicyE-EurAsia (unused)
 // kPolicyEdm (unused)
 // kPolicyEgyptAsia (unused)
 // kPolicyFinland (unused)

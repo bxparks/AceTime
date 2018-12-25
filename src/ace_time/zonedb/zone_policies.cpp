@@ -5,10 +5,10 @@
 // using the TZ Database files from
 //  https://github.com/eggert/tz/releases/tag/2018g
 //
-// Policy count: 68
-// Rule count: 389
-// Memory (8-bit): 4483
-// Memory (32-bit): 4619
+// Policy count: 69
+// Rule count: 392
+// Memory (8-bit): 4519
+// Memory (32-bit): 4657
 //
 // DO NOT EDIT
 
@@ -1627,6 +1627,58 @@ static const common::ZoneRule kZoneRulesDhaka[] = {
 const common::ZonePolicy kPolicyDhaka = {
   sizeof(kZoneRulesDhaka)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesDhaka /*rules*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: E_EurAsia
+// Rule count: 3
+// Memory (8-bit): 36
+// Memory (32-bit): 38
+//---------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesE_EurAsia[] = {
+  // Rule E-EurAsia    1981    max    -    Mar    lastSun     0:00    1:00    -
+  {
+    1981 /*fromYear*/,
+    9999 /*toYear*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    4 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule E-EurAsia    1979    1995    -    Sep    lastSun     0:00    0    -
+  {
+    1979 /*fromYear*/,
+    1995 /*toYear*/,
+    9 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule E-EurAsia    1996    max    -    Oct    lastSun     0:00    0    -
+  {
+    1996 /*fromYear*/,
+    9999 /*toYear*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atHour*/,
+    'w' /*atHourModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+
+};
+
+const common::ZonePolicy kPolicyE_EurAsia = {
+  sizeof(kZoneRulesE_EurAsia)/sizeof(common::ZoneRule) /*numRules*/,
+  kZoneRulesE_EurAsia /*rules*/,
 };
 
 //---------------------------------------------------------------------------
