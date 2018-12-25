@@ -4925,7 +4925,7 @@ ZONE_ENTRIES_Tbilisi = [
     #             4:00 E-EurAsia    +04/+05    2004 Jun 27
     {
       "offsetCode": 16,
-      "zonePolicy": ZONE_POLICY_E-EurAsia,
+      "zonePolicy": ZONE_POLICY_E_EurAsia,
       "format": "+04/+05",
       "untilYearShort": 4,
       "untilMonth": 6,

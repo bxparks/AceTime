@@ -278,7 +278,7 @@ ZONE_INFO_{infoShortName} = {{
         if policy_name == '-':
             zone_policy = 'None'
         else:
-            zone_policy = 'ZONE_POLICY_%s' % policy_name
+            zone_policy = 'ZONE_POLICY_%s' % normalize_name(policy_name)
 
         until_year = entry['untilYear']
         if until_year == self.YEAR_MAX:

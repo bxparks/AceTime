@@ -417,11 +417,11 @@ const common::ZoneInfo kZone{infoShortName} = {{
         return (info_item, string_length)
 
     def generate_entry_item(self, name, entry):
-        rules = entry['rules']
-        if rules == '-':
+        policy_name = entry['rules']
+        if policy_name == '-':
             zonePolicy = 'nullptr'
         else:
-            zonePolicy = '&kPolicy%s' % rules
+            zonePolicy = '&kPolicy%s' % normalize_name(policy_name)
 
         until_year = entry['untilYear']
         if until_year == self.YEAR_MAX:

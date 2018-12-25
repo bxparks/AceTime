@@ -5639,7 +5639,7 @@ static const common::ZoneEntry kZoneEntryTbilisi[] = {
   //             4:00 E-EurAsia    +04/+05    2004 Jun 27
   {
     16 /*offsetCode*/,
-    &kPolicyE-EurAsia /*zonePolicy*/,
+    &kPolicyE_EurAsia /*zonePolicy*/,
     "+04/+05" /*format*/,
     4 /*untilYearShort*/,
     6 /*untilMonth*/,
