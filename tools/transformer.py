@@ -84,6 +84,7 @@ class Transformer:
         logging.info('Found %s zone infos' % len(self.zones_map))
         logging.info('Found %s rule policies' % len(self.rules_map))
 
+        zones_map = self.remove_zones_with_duplicate_short_names(zones_map)
         zones_map = self.remove_zones_without_slash(zones_map)
         zones_map = self.remove_zone_eras_too_old(zones_map)
         zones_map = self.create_zones_with_until_day(zones_map)
@@ -112,9 +113,43 @@ class Transformer:
         self.rules_map = rules_map
         self.zones_map = zones_map
 
+        logging.info('=== Summary ===')
         logging.info('Removed %s zone infos' % len(self.all_removed_zones))
         logging.info('Remaining %s zone infos' % len(self.zones_map))
         logging.info('Remaining %s rule policies' % len(self.rules_map))
+
+    def remove_zones_with_duplicate_short_names(self, zones_map):
+        results = {}
+        removed_zones = {}
+        short_names = {}
+        for name, zones in zones_map.items():
+            short = short_name(name)
+            if short in short_names:
+                removed_zones[name] = "duplicate short name '%s'" % short
+            else:
+                short_names[short] = name
+                results[name] = zones
+
+        logging.info("Removed %s zone infos with duplicate short names" %
+            len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        return results
+
+    def remove_zones_without_slash(self, zones_map):
+        results = {}
+        removed_zones = {}
+        for name, zones in zones_map.items():
+            if name.rfind('/') >= 0:
+                results[name] = zones
+            else:
+                removed_zones[name] = "no '/' in zone name"
+
+        logging.info("Removed %s zone infos without '/' in name" %
+            len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        return results
 
     @staticmethod
     def remove_zone_eras_too_old(zones_map):
@@ -160,21 +195,6 @@ class Transformer:
 
         logging.info("Removed %s zone infos with UTC offset in 'rules' field"
             % len(removed_zones))
-        self.print_removed_map(removed_zones)
-        self.all_removed_zones.update(removed_zones)
-        return results
-
-    def remove_zones_without_slash(self, zones_map):
-        results = {}
-        removed_zones = {}
-        for name, zones in zones_map.items():
-            if name.rfind('/') >= 0:
-               results[name] = zones
-            else:
-                removed_zones[name] = "no '/' in zone name"
-
-        logging.info("Removed %s zone infos without '/' in name" %
-            len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
@@ -665,6 +685,7 @@ class Transformer:
         return results
 
 
+# ISO-8601 specifies Monday=1, Sunday=7
 WEEK_TO_WEEK_INDEX = {
     'Mon': 1,
     'Tue': 2,
