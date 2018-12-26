@@ -50,16 +50,6 @@ def main():
         action="store_true",
         default=False)
     parser.add_argument(
-        '--print_rules_historical',
-        help='Print rules which start and end before year 2000',
-        action="store_true",
-        default=False)
-    parser.add_argument(
-        '--print_rules_long_dst_letter',
-        help='Print rules with long DST letter',
-        action="store_true",
-        default=False)
-    parser.add_argument(
         '--print_zones',
         help='Print list of zones',
         action="store_true",
@@ -67,31 +57,6 @@ def main():
     parser.add_argument(
         '--print_zones_short_name',
         help='Print the short zone names',
-        action="store_true",
-        default=False)
-    parser.add_argument(
-        '--print_zones_with_until_month',
-        help='Print the Zones with "UNTIL" month fields',
-        action="store_true",
-        default=False)
-    parser.add_argument(
-        '--print_zones_with_offset_as_rules',
-        help='Print rules which contains a DST offset in the RULES column',
-        action="store_true",
-        default=False)
-    parser.add_argument(
-        '--print_zones_without_rules',
-        help='Print rules which contain "-" in the RULES column',
-        action="store_true",
-        default=False)
-    parser.add_argument(
-        '--print_zones_with_unknown_rules',
-        help='Print rules which contain a valid RULES that cannot be found',
-        action="store_true",
-        default=False)
-    parser.add_argument(
-        '--print_zones_requiring_historic_rules',
-        help='Print rules which require historic transition rules',
         action="store_true",
         default=False)
     parser.add_argument(
@@ -134,27 +99,11 @@ def main():
     # rules
     if args.print_rules:
         printer.print_rules()
-    if args.print_rules_historical:
-        printer.print_rules_historical()
-    if args.print_rules_long_dst_letter:
-        printer.print_rules_long_dst_letter()
     # zones
     if args.print_zones:
         printer.print_zones()
     if args.print_zones_short_name:
         printer.print_zones_short_name()
-    if args.print_zones_with_until_month:
-        printer.print_zones_with_until_month()
-    if args.print_zones_with_offset_as_rules:
-        printer.print_zones_with_offset_as_rules()
-    if args.print_zones_without_rules:
-        printer.print_zones_without_rules()
-    if args.print_zones_with_unknown_rules:
-        printer.print_zones_with_unknown_rules()
-    if args.print_zones_with_unknown_rules:
-        printer.print_zones_with_unknown_rules()
-    if args.print_zones_requiring_historic_rules:
-        printer.print_zones_requiring_historic_rules()
 
     # Extractor summary
     if args.print_summary:
