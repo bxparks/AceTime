@@ -85,7 +85,7 @@ class Transformer:
         logging.info('Found %s rule policies' % len(self.rules_map))
 
         zones_map = self.remove_zones_without_slash(zones_map)
-        zones_map = self.remove_zone_entries_too_old(zones_map)
+        zones_map = self.remove_zone_eras_too_old(zones_map)
         zones_map = self.create_zones_with_until_day(zones_map)
         zones_map = self.create_zones_with_until_hour(zones_map)
         zones_map = self.create_zones_with_offset_minute(zones_map)
@@ -117,7 +117,7 @@ class Transformer:
         logging.info('Remaining %s rule policies' % len(self.rules_map))
 
     @staticmethod
-    def remove_zone_entries_too_old(zones_map):
+    def remove_zone_eras_too_old(zones_map):
         """Remove zone entries which are too old, i.e. before 2000.
         """
         results = {}
@@ -472,10 +472,10 @@ class Transformer:
         2) The rule is the most recent transition that happened before year
         2000.
         """
-        for name, zone_entries in zones_map.items():
+        for name, eras in zones_map.items():
             begin_year = 2000
-            for zone_entry in zone_entries:
-                rule_name = zone_entry['rules']
+            for era in eras:
+                rule_name = era['rules']
                 if rule_name == '-' or rule_name.isdigit():
                     continue
 
@@ -489,7 +489,7 @@ class Transformer:
                 # until_time. To make sure that we include rules which happen to
                 # match the extra fields, let's collect rules which overlap with
                 # [begin_year, until_year + 1).
-                until_year = zone_entry['untilYear']
+                until_year = era['untilYear']
                 matching_rules = find_matching_rules(
                     rule_entries, begin_year, until_year + 1)
                 for rule in matching_rules:

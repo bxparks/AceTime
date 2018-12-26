@@ -9,10 +9,11 @@ namespace common {
 
 /**
  * An entry in ZoneInfo which describes which ZonePolicy was being followed
- * during a particular time period. The ZonePolicy is determined by the RULES
- * column in the TZ Database file.
+ * during a particular time period. Corresponds to one line of the ZONE record
+ * in the TZ Database file ending with an UNTIL field. The ZonePolicy is
+ * determined by the RULES column in the TZ Database file.
  */
-struct ZoneEntry {
+struct ZoneEra {
 
   /** UTC offset in 15 min increments. Determined by the GMTOFF column. */
   int8_t const offsetCode;
@@ -32,7 +33,7 @@ struct ZoneEntry {
   const char* const format;
 
   /**
-   * Entry is valid until currentTime < untilYear. Stored as (year - 2000)
+   * Era is valid until currentTime < untilYear. Stored as (year - 2000)
    * to save space. Comes from the UNTIL column.
    */
   int8_t const untilYearShort;
@@ -43,18 +44,18 @@ struct ZoneEntry {
 };
 
 /**
- * Representation of a given time zone, implemented as a collection of
- * ZoneEntry objects.
+ * Representation of a given time zone, implemented as an array of ZoneEra
+ * records.
  */
 struct ZoneInfo {
   /** Name of zone. */
   const char* const name; // name of zone
 
-  /** ZoneEntry records in increasing order of untilYear. */
-  const ZoneEntry* const entries;
+  /** ZoneEra entries in increasing order of UNTIL time. */
+  const ZoneEra* const eras;
 
-  /** Number of ZoneEntry records. */
-  uint8_t const numEntries;
+  /** Number of ZoneEra entries. */
+  uint8_t const numEras;
 };
 
 }

@@ -91,10 +91,10 @@ ZONE_POLICY_{policyName} = {{
 #
 # DO NOT EDIT
 
-from zone_policies import *
+from zonedb.zone_policies import *
 
 # numInfos: {numInfos}
-# numEntries: {numEntries}
+# numEras: {numEras}
 
 {infoItems}
 
@@ -112,15 +112,15 @@ ZONE_INFO_MAP = {{
     ZONE_INFO_ITEM = """\
 #---------------------------------------------------------------------------
 # Zone name: {infoFullName}
-# Entry count: {numEntries}
+# Era count: {numEras}
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_{infoShortName} = [
-{entryItems}
+ZONE_ERAS_{infoShortName} = [
+{eraItems}
 ]
 ZONE_INFO_{infoShortName} = {{
     "name": "{infoFullName}",
-    "entries": ZONE_ENTRIES_{infoShortName}
+    "eras": ZONE_ERAS_{infoShortName}
 }}
 
 """
@@ -129,7 +129,7 @@ ZONE_INFO_{infoShortName} = {{
 # {infoFullName} ({infoRemovalReason})
 """
 
-    ZONE_ENTRY_ITEM = """\
+    ZONE_ERA_ITEM = """\
     # {rawLine}
     {{
       "offsetCode": {offsetCode},
@@ -230,7 +230,7 @@ ZONE_INFO_{infoShortName} = {{
         return removed_policy_items
 
     def generate_infos(self):
-        (num_entries, info_items) = self.generate_info_items(self.zones_map)
+        (num_eras, info_items) = self.generate_info_items(self.zones_map)
         removed_info_items = self.generate_removed_info_items(
             self.removed_zones)
         info_map_items = self.generate_info_map_items(self.zones_map)
@@ -240,7 +240,7 @@ ZONE_INFO_{infoShortName} = {{
             tz_version=self.tz_version,
             tz_files=', '.join(self.tz_files),
             numInfos=len(self.zones_map),
-            numEntries=num_entries,
+            numEras=num_eras,
             infoItems=info_items,
             infoMapItems=info_map_items,
             numRemovedInfos=len(self.removed_zones),
@@ -248,11 +248,11 @@ ZONE_INFO_{infoShortName} = {{
 
     def generate_info_items(self, zones_map):
         info_items = ''
-        num_entries = 0
+        num_eras = 0
         for name, zones in sorted(self.zones_map.items()):
             info_items += self.generate_info_item(name, zones)
-            num_entries += len(zones)
-        return (num_entries, info_items)
+            num_eras += len(zones)
+        return (num_eras, info_items)
 
     def generate_removed_info_items(self, removed_zones):
         removed_info_items = ''
@@ -262,47 +262,47 @@ ZONE_INFO_{infoShortName} = {{
                 infoRemovalReason=reason)
         return removed_info_items
 
-    def generate_info_item(self, name, entries):
-        entry_items = ''
-        for entry in entries:
-            entry_items += self.generate_entry_item(entry)
+    def generate_info_item(self, name, eras):
+        era_items = ''
+        for era in eras:
+            era_items += self.generate_era_item(era)
 
         return self.ZONE_INFO_ITEM.format(
             infoFullName=normalize_name(name),
             infoShortName=normalize_name(short_name(name)),
-            numEntries=len(entries),
-            entryItems=entry_items)
+            numEras=len(eras),
+            eraItems=era_items)
 
-    def generate_entry_item(self, entry):
-        policy_name = entry['rules']
+    def generate_era_item(self, era):
+        policy_name = era['rules']
         if policy_name == '-':
             zone_policy = 'None'
         else:
             zone_policy = 'ZONE_POLICY_%s' % normalize_name(policy_name)
 
-        until_year = entry['untilYear']
+        until_year = era['untilYear']
         if until_year == self.YEAR_MAX:
             until_year_short = self.YEAR_SHORT_MAX
         else:
             until_year_short = until_year - self.EPOCH_YEAR
 
-        until_month = entry['untilMonth']
+        until_month = era['untilMonth']
         if not until_month:
             until_month = 1
 
-        until_day = entry['untilDay']
+        until_day = era['untilDay']
         if not until_day:
             until_day = 1
 
-        until_hour = entry['untilHour']
+        until_hour = era['untilHour']
         if not until_hour:
             until_hour = 0
 
-        return self.ZONE_ENTRY_ITEM.format(
-            rawLine=normalize_raw(entry['rawLine']),
-            offsetCode=entry['offsetCode'],
+        return self.ZONE_ERA_ITEM.format(
+            rawLine=normalize_raw(era['rawLine']),
+            offsetCode=era['offsetCode'],
             zonePolicy=zone_policy,
-            format=entry['format'], # preserve the %s
+            format=era['format'], # preserve the %s
             untilYearShort=until_year_short,
             untilMonth=until_month,
             untilDay=until_day,
