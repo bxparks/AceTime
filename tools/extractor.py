@@ -23,19 +23,22 @@ Of these, the following are not relevant:
     backzone - contains zones differing before 1970
     systemv - 'SystemV' zone
 
-Rule entries have the following columns:
+A Zone Policy is composed of a collection of Zone Rules. A Zone Rule record has
+the following columns:
+
 # Rule  NAME    FROM    TO    TYPE IN   ON      AT      SAVE    LETTER
 Rule    US      2007    max   -    Mar  Sun>=8  2:00    1:00    D
 Rule    US      2007    max   -    Nov  Sun>=1  2:00    0       S
 
-Zone entries have the following columns:
+A Zone Info is composed of a collection of Zone Eras. A Zone Era is each line
+of the following and has the following columns:
 # Zone  NAME                GMTOFF      RULES   FORMAT  [UNTIL]
 Zone    America/Chicago     -5:50:36    -       LMT     1883 Nov 18 12:09:24
                             -6:00       US      C%sT    1920
                             ...
                             -6:00       US      C%sT
-The UNTIL column should be monotonically increasing and the last entry
-should be empty.
+The UNTIL column should be monotonically increasing and the last Zone era line
+has an empty UNTIL field.
 """
 
 import argparse
@@ -77,7 +80,7 @@ class Extractor:
         self.zone_lines = {}  # dictionary of zoneName to lines[]
         self.link_lines = {}  # dictionary of linkName to lines[]
         self.rules = {} # map of ruleName to ruleEntry[], RuleEntry = {}
-        self.zones = {} # map fo ruleName to zoneEntry[], ZoneEntry = {}
+        self.zones = {} # map of zoneName to zoneEra[], ZoneEra = {}
         self.ignored_rule_lines = 0
         self.ignored_zone_lines = 0
         self.invalid_rule_lines = 0
@@ -146,9 +149,9 @@ class Extractor:
         for name, lines in self.zone_lines.items():
             for line in lines:
                 try:
-                    zone_entry = process_zone_line(line)
-                    if zone_entry:
-                        add_item(self.zones, name, zone_entry)
+                    zone_era = process_zone_line(line)
+                    if zone_era:
+                        add_item(self.zones, name, zone_era)
                     else:
                         self.ignored_zone_lines += 1
                 except Exception as e:
@@ -303,7 +306,7 @@ def parse_at_hour_string(at_string):
 
 
 def process_zone_line(line):
-    """Normalize an entry from dictionary that represents one line of
+    """Normalize an zone era from dictionary that represents one line of
     a 'Zone' record. The columns are:
     GMTOFF	 RULES	FORMAT	[UNTIL]
     0        1      2       3
@@ -353,7 +356,7 @@ def process_zone_line(line):
     # FORMAT
     format = tokens[2]
 
-    # Return map corresponding to a ZoneEntry instance
+    # Return map corresponding to a ZoneEra instance
     return {
         'offsetHour': offset_hour,
         'rules': rules_string,

@@ -21,8 +21,8 @@ void setup() {
 
   // ace_time primitives
 
-  Serial.print(F("sizeof(ZoneEntry): "));
-  Serial.println(sizeof(ZoneEntry));
+  Serial.print(F("sizeof(ZoneEra): "));
+  Serial.println(sizeof(ZoneEra));
 
   Serial.print(F("sizeof(ZoneInfo): "));
   Serial.println(sizeof(ZoneInfo));

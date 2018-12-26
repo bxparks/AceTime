@@ -6,7 +6,7 @@
 // https://github.com/eggert/tz/releases/tag/2018g
 //
 // Zone info count: 284
-// Zone entry count: 381
+// Zone era count: 381
 // Memory (8-bit): 10320
 // Memory (32-bit): 12980
 //
@@ -21,12 +21,12 @@ namespace zonedb {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Abidjan
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAbidjan[] = {
+static const common::ZoneEra kZoneEraAbidjan[] = {
   //              0:00    -    GMT
   {
     0 /*offsetCode*/,
@@ -42,18 +42,18 @@ static const common::ZoneEntry kZoneEntryAbidjan[] = {
 
 const common::ZoneInfo kZoneAbidjan = {
   "Africa/Abidjan" /*name*/,
-  kZoneEntryAbidjan /*entries*/,
-  sizeof(kZoneEntryAbidjan)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAbidjan /*eras*/,
+  sizeof(kZoneEraAbidjan)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Accra
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAccra[] = {
+static const common::ZoneEra kZoneEraAccra[] = {
   //              0:00    Ghana    GMT/+0020
   {
     0 /*offsetCode*/,
@@ -69,18 +69,18 @@ static const common::ZoneEntry kZoneEntryAccra[] = {
 
 const common::ZoneInfo kZoneAccra = {
   "Africa/Accra" /*name*/,
-  kZoneEntryAccra /*entries*/,
-  sizeof(kZoneEntryAccra)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAccra /*eras*/,
+  sizeof(kZoneEraAccra)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Algiers
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAlgiers[] = {
+static const common::ZoneEra kZoneEraAlgiers[] = {
   //             1:00    -    CET
   {
     4 /*offsetCode*/,
@@ -96,18 +96,18 @@ static const common::ZoneEntry kZoneEntryAlgiers[] = {
 
 const common::ZoneInfo kZoneAlgiers = {
   "Africa/Algiers" /*name*/,
-  kZoneEntryAlgiers /*entries*/,
-  sizeof(kZoneEntryAlgiers)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAlgiers /*eras*/,
+  sizeof(kZoneEraAlgiers)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Bissau
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBissau[] = {
+static const common::ZoneEra kZoneEraBissau[] = {
   //              0:00    -    GMT
   {
     0 /*offsetCode*/,
@@ -123,18 +123,18 @@ static const common::ZoneEntry kZoneEntryBissau[] = {
 
 const common::ZoneInfo kZoneBissau = {
   "Africa/Bissau" /*name*/,
-  kZoneEntryBissau /*entries*/,
-  sizeof(kZoneEntryBissau)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBissau /*eras*/,
+  sizeof(kZoneEraBissau)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Cairo
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCairo[] = {
+static const common::ZoneEra kZoneEraCairo[] = {
   //             2:00    Egypt    EE%sT
   {
     8 /*offsetCode*/,
@@ -150,18 +150,18 @@ static const common::ZoneEntry kZoneEntryCairo[] = {
 
 const common::ZoneInfo kZoneCairo = {
   "Africa/Cairo" /*name*/,
-  kZoneEntryCairo /*entries*/,
-  sizeof(kZoneEntryCairo)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCairo /*eras*/,
+  sizeof(kZoneEraCairo)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Casablanca
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 47
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCasablanca[] = {
+static const common::ZoneEra kZoneEraCasablanca[] = {
   //              0:00    Morocco    +00/+01    2018 Oct 27
   {
     0 /*offsetCode*/,
@@ -187,18 +187,18 @@ static const common::ZoneEntry kZoneEntryCasablanca[] = {
 
 const common::ZoneInfo kZoneCasablanca = {
   "Africa/Casablanca" /*name*/,
-  kZoneEntryCasablanca /*entries*/,
-  sizeof(kZoneEntryCasablanca)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCasablanca /*eras*/,
+  sizeof(kZoneEraCasablanca)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Ceuta
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCeuta[] = {
+static const common::ZoneEra kZoneEraCeuta[] = {
   //              1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -214,18 +214,18 @@ static const common::ZoneEntry kZoneEntryCeuta[] = {
 
 const common::ZoneInfo kZoneCeuta = {
   "Africa/Ceuta" /*name*/,
-  kZoneEntryCeuta /*entries*/,
-  sizeof(kZoneEntryCeuta)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCeuta /*eras*/,
+  sizeof(kZoneEraCeuta)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/El_Aaiun
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 45
 // Memory (32-bit): 57
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryEl_Aaiun[] = {
+static const common::ZoneEra kZoneEraEl_Aaiun[] = {
   //              0:00    Morocco    +00/+01    2018 Oct 27
   {
     0 /*offsetCode*/,
@@ -251,18 +251,18 @@ static const common::ZoneEntry kZoneEntryEl_Aaiun[] = {
 
 const common::ZoneInfo kZoneEl_Aaiun = {
   "Africa/El_Aaiun" /*name*/,
-  kZoneEntryEl_Aaiun /*entries*/,
-  sizeof(kZoneEntryEl_Aaiun)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraEl_Aaiun /*eras*/,
+  sizeof(kZoneEraEl_Aaiun)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Johannesburg
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 36
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryJohannesburg[] = {
+static const common::ZoneEra kZoneEraJohannesburg[] = {
   //             2:00    SA    SAST
   {
     8 /*offsetCode*/,
@@ -278,18 +278,18 @@ static const common::ZoneEntry kZoneEntryJohannesburg[] = {
 
 const common::ZoneInfo kZoneJohannesburg = {
   "Africa/Johannesburg" /*name*/,
-  kZoneEntryJohannesburg /*entries*/,
-  sizeof(kZoneEntryJohannesburg)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraJohannesburg /*eras*/,
+  sizeof(kZoneEraJohannesburg)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Juba
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 38
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryJuba[] = {
+static const common::ZoneEra kZoneEraJuba[] = {
   //             2:00    Sudan    CA%sT    2000 Jan 15 12:00
   {
     8 /*offsetCode*/,
@@ -315,18 +315,18 @@ static const common::ZoneEntry kZoneEntryJuba[] = {
 
 const common::ZoneInfo kZoneJuba = {
   "Africa/Juba" /*name*/,
-  kZoneEntryJuba /*entries*/,
-  sizeof(kZoneEntryJuba)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraJuba /*eras*/,
+  sizeof(kZoneEraJuba)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Khartoum
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 52
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKhartoum[] = {
+static const common::ZoneEra kZoneEraKhartoum[] = {
   //             2:00    Sudan    CA%sT    2000 Jan 15 12:00
   {
     8 /*offsetCode*/,
@@ -362,18 +362,18 @@ static const common::ZoneEntry kZoneEntryKhartoum[] = {
 
 const common::ZoneInfo kZoneKhartoum = {
   "Africa/Khartoum" /*name*/,
-  kZoneEntryKhartoum /*entries*/,
-  sizeof(kZoneEntryKhartoum)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKhartoum /*eras*/,
+  sizeof(kZoneEraKhartoum)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Lagos
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryLagos[] = {
+static const common::ZoneEra kZoneEraLagos[] = {
   //             1:00    -    WAT
   {
     4 /*offsetCode*/,
@@ -389,18 +389,18 @@ static const common::ZoneEntry kZoneEntryLagos[] = {
 
 const common::ZoneInfo kZoneLagos = {
   "Africa/Lagos" /*name*/,
-  kZoneEntryLagos /*entries*/,
-  sizeof(kZoneEntryLagos)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraLagos /*eras*/,
+  sizeof(kZoneEraLagos)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Maputo
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMaputo[] = {
+static const common::ZoneEra kZoneEraMaputo[] = {
   //             2:00    -    CAT
   {
     8 /*offsetCode*/,
@@ -416,18 +416,18 @@ static const common::ZoneEntry kZoneEntryMaputo[] = {
 
 const common::ZoneInfo kZoneMaputo = {
   "Africa/Maputo" /*name*/,
-  kZoneEntryMaputo /*entries*/,
-  sizeof(kZoneEntryMaputo)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMaputo /*eras*/,
+  sizeof(kZoneEraMaputo)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Monrovia
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMonrovia[] = {
+static const common::ZoneEra kZoneEraMonrovia[] = {
   //              0:00    -    GMT
   {
     0 /*offsetCode*/,
@@ -443,18 +443,18 @@ static const common::ZoneEntry kZoneEntryMonrovia[] = {
 
 const common::ZoneInfo kZoneMonrovia = {
   "Africa/Monrovia" /*name*/,
-  kZoneEntryMonrovia /*entries*/,
-  sizeof(kZoneEntryMonrovia)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMonrovia /*eras*/,
+  sizeof(kZoneEraMonrovia)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Nairobi
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNairobi[] = {
+static const common::ZoneEra kZoneEraNairobi[] = {
   //             3:00    -    EAT
   {
     12 /*offsetCode*/,
@@ -470,18 +470,18 @@ static const common::ZoneEntry kZoneEntryNairobi[] = {
 
 const common::ZoneInfo kZoneNairobi = {
   "Africa/Nairobi" /*name*/,
-  kZoneEntryNairobi /*entries*/,
-  sizeof(kZoneEntryNairobi)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNairobi /*eras*/,
+  sizeof(kZoneEraNairobi)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Ndjamena
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNdjamena[] = {
+static const common::ZoneEra kZoneEraNdjamena[] = {
   //             1:00    -    WAT
   {
     4 /*offsetCode*/,
@@ -497,18 +497,18 @@ static const common::ZoneEntry kZoneEntryNdjamena[] = {
 
 const common::ZoneInfo kZoneNdjamena = {
   "Africa/Ndjamena" /*name*/,
-  kZoneEntryNdjamena /*entries*/,
-  sizeof(kZoneEntryNdjamena)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNdjamena /*eras*/,
+  sizeof(kZoneEraNdjamena)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Sao_Tome
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 41
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySao_Tome[] = {
+static const common::ZoneEra kZoneEraSao_Tome[] = {
   //              0:00    -    GMT    2018 Jan  1 01:00
   {
     0 /*offsetCode*/,
@@ -534,18 +534,18 @@ static const common::ZoneEntry kZoneEntrySao_Tome[] = {
 
 const common::ZoneInfo kZoneSao_Tome = {
   "Africa/Sao_Tome" /*name*/,
-  kZoneEntrySao_Tome /*entries*/,
-  sizeof(kZoneEntrySao_Tome)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSao_Tome /*eras*/,
+  sizeof(kZoneEraSao_Tome)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Tripoli
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 51
 // Memory (32-bit): 67
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTripoli[] = {
+static const common::ZoneEra kZoneEraTripoli[] = {
   //             2:00    -    EET    2012 Nov 10  2:00
   {
     8 /*offsetCode*/,
@@ -581,18 +581,18 @@ static const common::ZoneEntry kZoneEntryTripoli[] = {
 
 const common::ZoneInfo kZoneTripoli = {
   "Africa/Tripoli" /*name*/,
-  kZoneEntryTripoli /*entries*/,
-  sizeof(kZoneEntryTripoli)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTripoli /*eras*/,
+  sizeof(kZoneEraTripoli)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Tunis
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTunis[] = {
+static const common::ZoneEra kZoneEraTunis[] = {
   //             1:00    Tunisia    CE%sT
   {
     4 /*offsetCode*/,
@@ -608,18 +608,18 @@ static const common::ZoneEntry kZoneEntryTunis[] = {
 
 const common::ZoneInfo kZoneTunis = {
   "Africa/Tunis" /*name*/,
-  kZoneEntryTunis /*entries*/,
-  sizeof(kZoneEntryTunis)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTunis /*eras*/,
+  sizeof(kZoneEraTunis)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Adak
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAdak[] = {
+static const common::ZoneEra kZoneEraAdak[] = {
   //             -10:00    US    H%sT
   {
     -40 /*offsetCode*/,
@@ -635,18 +635,18 @@ static const common::ZoneEntry kZoneEntryAdak[] = {
 
 const common::ZoneInfo kZoneAdak = {
   "America/Adak" /*name*/,
-  kZoneEntryAdak /*entries*/,
-  sizeof(kZoneEntryAdak)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAdak /*eras*/,
+  sizeof(kZoneEraAdak)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Anchorage
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAnchorage[] = {
+static const common::ZoneEra kZoneEraAnchorage[] = {
   //              -9:00    US    AK%sT
   {
     -36 /*offsetCode*/,
@@ -662,18 +662,18 @@ static const common::ZoneEntry kZoneEntryAnchorage[] = {
 
 const common::ZoneInfo kZoneAnchorage = {
   "America/Anchorage" /*name*/,
-  kZoneEntryAnchorage /*entries*/,
-  sizeof(kZoneEntryAnchorage)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAnchorage /*eras*/,
+  sizeof(kZoneEraAnchorage)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Araguaina
-// Entry count: 4
+// Era count: 4
 // Memory (8-bit): 71
 // Memory (32-bit): 91
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAraguaina[] = {
+static const common::ZoneEra kZoneEraAraguaina[] = {
   //             -3:00    Brazil    -03/-02    2003 Sep 24
   {
     -12 /*offsetCode*/,
@@ -719,18 +719,18 @@ static const common::ZoneEntry kZoneEntryAraguaina[] = {
 
 const common::ZoneInfo kZoneAraguaina = {
   "America/Araguaina" /*name*/,
-  kZoneEntryAraguaina /*entries*/,
-  sizeof(kZoneEntryAraguaina)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAraguaina /*eras*/,
+  sizeof(kZoneEraAraguaina)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Buenos_Aires
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 64
 // Memory (32-bit): 76
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBuenos_Aires[] = {
+static const common::ZoneEra kZoneEraBuenos_Aires[] = {
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
     -16 /*offsetCode*/,
@@ -756,18 +756,18 @@ static const common::ZoneEntry kZoneEntryBuenos_Aires[] = {
 
 const common::ZoneInfo kZoneBuenos_Aires = {
   "America/Argentina/Buenos_Aires" /*name*/,
-  kZoneEntryBuenos_Aires /*entries*/,
-  sizeof(kZoneEntryBuenos_Aires)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBuenos_Aires /*eras*/,
+  sizeof(kZoneEraBuenos_Aires)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Cordoba
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 59
 // Memory (32-bit): 71
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCordoba[] = {
+static const common::ZoneEra kZoneEraCordoba[] = {
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
     -16 /*offsetCode*/,
@@ -793,18 +793,18 @@ static const common::ZoneEntry kZoneEntryCordoba[] = {
 
 const common::ZoneInfo kZoneCordoba = {
   "America/Argentina/Cordoba" /*name*/,
-  kZoneEntryCordoba /*entries*/,
-  sizeof(kZoneEntryCordoba)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCordoba /*eras*/,
+  sizeof(kZoneEraCordoba)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Jujuy
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 67
 // Memory (32-bit): 83
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryJujuy[] = {
+static const common::ZoneEra kZoneEraJujuy[] = {
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
     -16 /*offsetCode*/,
@@ -840,18 +840,18 @@ static const common::ZoneEntry kZoneEntryJujuy[] = {
 
 const common::ZoneInfo kZoneJujuy = {
   "America/Argentina/Jujuy" /*name*/,
-  kZoneEntryJujuy /*entries*/,
-  sizeof(kZoneEntryJujuy)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraJujuy /*eras*/,
+  sizeof(kZoneEraJujuy)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Salta
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 67
 // Memory (32-bit): 83
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySalta[] = {
+static const common::ZoneEra kZoneEraSalta[] = {
   //             -4:00    Arg    -04/-03    2000 Mar  3
   {
     -16 /*offsetCode*/,
@@ -887,18 +887,18 @@ static const common::ZoneEntry kZoneEntrySalta[] = {
 
 const common::ZoneInfo kZoneSalta = {
   "America/Argentina/Salta" /*name*/,
-  kZoneEntrySalta /*entries*/,
-  sizeof(kZoneEntrySalta)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSalta /*eras*/,
+  sizeof(kZoneEraSalta)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Asuncion
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 36
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAsuncion[] = {
+static const common::ZoneEra kZoneEraAsuncion[] = {
   //             -4:00    Para    -04/-03
   {
     -16 /*offsetCode*/,
@@ -914,18 +914,18 @@ static const common::ZoneEntry kZoneEntryAsuncion[] = {
 
 const common::ZoneInfo kZoneAsuncion = {
   "America/Asuncion" /*name*/,
-  kZoneEntryAsuncion /*entries*/,
-  sizeof(kZoneEntryAsuncion)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAsuncion /*eras*/,
+  sizeof(kZoneEraAsuncion)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Atikokan
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAtikokan[] = {
+static const common::ZoneEra kZoneEraAtikokan[] = {
   //             -5:00    -    EST
   {
     -20 /*offsetCode*/,
@@ -941,18 +941,18 @@ static const common::ZoneEntry kZoneEntryAtikokan[] = {
 
 const common::ZoneInfo kZoneAtikokan = {
   "America/Atikokan" /*name*/,
-  kZoneEntryAtikokan /*entries*/,
-  sizeof(kZoneEntryAtikokan)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAtikokan /*eras*/,
+  sizeof(kZoneEraAtikokan)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Bahia
-// Entry count: 4
+// Era count: 4
 // Memory (8-bit): 67
 // Memory (32-bit): 87
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBahia[] = {
+static const common::ZoneEra kZoneEraBahia[] = {
   //             -3:00    Brazil    -03/-02    2003 Sep 24
   {
     -12 /*offsetCode*/,
@@ -998,18 +998,18 @@ static const common::ZoneEntry kZoneEntryBahia[] = {
 
 const common::ZoneInfo kZoneBahia = {
   "America/Bahia" /*name*/,
-  kZoneEntryBahia /*entries*/,
-  sizeof(kZoneEntryBahia)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBahia /*eras*/,
+  sizeof(kZoneEraBahia)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Bahia_Banderas
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 48
 // Memory (32-bit): 60
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBahia_Banderas[] = {
+static const common::ZoneEra kZoneEraBahia_Banderas[] = {
   //             -7:00    Mexico    M%sT    2010 Apr  4  2:00
   {
     -28 /*offsetCode*/,
@@ -1035,18 +1035,18 @@ static const common::ZoneEntry kZoneEntryBahia_Banderas[] = {
 
 const common::ZoneInfo kZoneBahia_Banderas = {
   "America/Bahia_Banderas" /*name*/,
-  kZoneEntryBahia_Banderas /*entries*/,
-  sizeof(kZoneEntryBahia_Banderas)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBahia_Banderas /*eras*/,
+  sizeof(kZoneEraBahia_Banderas)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Barbados
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBarbados[] = {
+static const common::ZoneEra kZoneEraBarbados[] = {
   //             -4:00    Barb    A%sT
   {
     -16 /*offsetCode*/,
@@ -1062,18 +1062,18 @@ static const common::ZoneEntry kZoneEntryBarbados[] = {
 
 const common::ZoneInfo kZoneBarbados = {
   "America/Barbados" /*name*/,
-  kZoneEntryBarbados /*entries*/,
-  sizeof(kZoneEntryBarbados)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBarbados /*eras*/,
+  sizeof(kZoneEraBarbados)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Belem
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBelem[] = {
+static const common::ZoneEra kZoneEraBelem[] = {
   //             -3:00    -    -03
   {
     -12 /*offsetCode*/,
@@ -1089,18 +1089,18 @@ static const common::ZoneEntry kZoneEntryBelem[] = {
 
 const common::ZoneInfo kZoneBelem = {
   "America/Belem" /*name*/,
-  kZoneEntryBelem /*entries*/,
-  sizeof(kZoneEntryBelem)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBelem /*eras*/,
+  sizeof(kZoneEraBelem)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Blanc_Sablon
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 36
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBlanc_Sablon[] = {
+static const common::ZoneEra kZoneEraBlanc_Sablon[] = {
   //             -4:00    -    AST
   {
     -16 /*offsetCode*/,
@@ -1116,18 +1116,18 @@ static const common::ZoneEntry kZoneEntryBlanc_Sablon[] = {
 
 const common::ZoneInfo kZoneBlanc_Sablon = {
   "America/Blanc_Sablon" /*name*/,
-  kZoneEntryBlanc_Sablon /*entries*/,
-  sizeof(kZoneEntryBlanc_Sablon)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBlanc_Sablon /*eras*/,
+  sizeof(kZoneEraBlanc_Sablon)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Boa_Vista
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 47
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBoa_Vista[] = {
+static const common::ZoneEra kZoneEraBoa_Vista[] = {
   //             -4:00    Brazil    -04/-03    2000 Oct 15
   {
     -16 /*offsetCode*/,
@@ -1153,18 +1153,18 @@ static const common::ZoneEntry kZoneEntryBoa_Vista[] = {
 
 const common::ZoneInfo kZoneBoa_Vista = {
   "America/Boa_Vista" /*name*/,
-  kZoneEntryBoa_Vista /*entries*/,
-  sizeof(kZoneEntryBoa_Vista)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBoa_Vista /*eras*/,
+  sizeof(kZoneEraBoa_Vista)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Bogota
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBogota[] = {
+static const common::ZoneEra kZoneEraBogota[] = {
   //             -5:00    CO    -05/-04
   {
     -20 /*offsetCode*/,
@@ -1180,18 +1180,18 @@ static const common::ZoneEntry kZoneEntryBogota[] = {
 
 const common::ZoneInfo kZoneBogota = {
   "America/Bogota" /*name*/,
-  kZoneEntryBogota /*entries*/,
-  sizeof(kZoneEntryBogota)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBogota /*eras*/,
+  sizeof(kZoneEraBogota)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Boise
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBoise[] = {
+static const common::ZoneEra kZoneEraBoise[] = {
   //             -7:00    US    M%sT
   {
     -28 /*offsetCode*/,
@@ -1207,18 +1207,18 @@ static const common::ZoneEntry kZoneEntryBoise[] = {
 
 const common::ZoneInfo kZoneBoise = {
   "America/Boise" /*name*/,
-  kZoneEntryBoise /*entries*/,
-  sizeof(kZoneEntryBoise)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBoise /*eras*/,
+  sizeof(kZoneEraBoise)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Campo_Grande
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 40
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCampo_Grande[] = {
+static const common::ZoneEra kZoneEraCampo_Grande[] = {
   //             -4:00    Brazil    -04/-03
   {
     -16 /*offsetCode*/,
@@ -1234,18 +1234,18 @@ static const common::ZoneEntry kZoneEntryCampo_Grande[] = {
 
 const common::ZoneInfo kZoneCampo_Grande = {
   "America/Campo_Grande" /*name*/,
-  kZoneEntryCampo_Grande /*entries*/,
-  sizeof(kZoneEntryCampo_Grande)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCampo_Grande /*eras*/,
+  sizeof(kZoneEraCampo_Grande)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Cancun
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 40
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCancun[] = {
+static const common::ZoneEra kZoneEraCancun[] = {
   //             -6:00    Mexico    C%sT    2015 Feb  1  2:00
   {
     -24 /*offsetCode*/,
@@ -1271,18 +1271,18 @@ static const common::ZoneEntry kZoneEntryCancun[] = {
 
 const common::ZoneInfo kZoneCancun = {
   "America/Cancun" /*name*/,
-  kZoneEntryCancun /*entries*/,
-  sizeof(kZoneEntryCancun)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCancun /*eras*/,
+  sizeof(kZoneEraCancun)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Cayenne
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCayenne[] = {
+static const common::ZoneEra kZoneEraCayenne[] = {
   //             -3:00    -    -03
   {
     -12 /*offsetCode*/,
@@ -1298,18 +1298,18 @@ static const common::ZoneEntry kZoneEntryCayenne[] = {
 
 const common::ZoneInfo kZoneCayenne = {
   "America/Cayenne" /*name*/,
-  kZoneEntryCayenne /*entries*/,
-  sizeof(kZoneEntryCayenne)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCayenne /*eras*/,
+  sizeof(kZoneEraCayenne)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Chicago
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryChicago[] = {
+static const common::ZoneEra kZoneEraChicago[] = {
   //             -6:00    US    C%sT
   {
     -24 /*offsetCode*/,
@@ -1325,18 +1325,18 @@ static const common::ZoneEntry kZoneEntryChicago[] = {
 
 const common::ZoneInfo kZoneChicago = {
   "America/Chicago" /*name*/,
-  kZoneEntryChicago /*entries*/,
-  sizeof(kZoneEntryChicago)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraChicago /*eras*/,
+  sizeof(kZoneEraChicago)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Chihuahua
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryChihuahua[] = {
+static const common::ZoneEra kZoneEraChihuahua[] = {
   //             -7:00    Mexico    M%sT
   {
     -28 /*offsetCode*/,
@@ -1352,18 +1352,18 @@ static const common::ZoneEntry kZoneEntryChihuahua[] = {
 
 const common::ZoneInfo kZoneChihuahua = {
   "America/Chihuahua" /*name*/,
-  kZoneEntryChihuahua /*entries*/,
-  sizeof(kZoneEntryChihuahua)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraChihuahua /*eras*/,
+  sizeof(kZoneEraChihuahua)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Costa_Rica
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCosta_Rica[] = {
+static const common::ZoneEra kZoneEraCosta_Rica[] = {
   //             -6:00    CR    C%sT
   {
     -24 /*offsetCode*/,
@@ -1379,18 +1379,18 @@ static const common::ZoneEntry kZoneEntryCosta_Rica[] = {
 
 const common::ZoneInfo kZoneCosta_Rica = {
   "America/Costa_Rica" /*name*/,
-  kZoneEntryCosta_Rica /*entries*/,
-  sizeof(kZoneEntryCosta_Rica)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCosta_Rica /*eras*/,
+  sizeof(kZoneEraCosta_Rica)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Creston
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCreston[] = {
+static const common::ZoneEra kZoneEraCreston[] = {
   //             -7:00    -    MST
   {
     -28 /*offsetCode*/,
@@ -1406,18 +1406,18 @@ static const common::ZoneEntry kZoneEntryCreston[] = {
 
 const common::ZoneInfo kZoneCreston = {
   "America/Creston" /*name*/,
-  kZoneEntryCreston /*entries*/,
-  sizeof(kZoneEntryCreston)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCreston /*eras*/,
+  sizeof(kZoneEraCreston)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Cuiaba
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 58
 // Memory (32-bit): 74
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCuiaba[] = {
+static const common::ZoneEra kZoneEraCuiaba[] = {
   //             -4:00    Brazil    -04/-03    2003 Sep 24
   {
     -16 /*offsetCode*/,
@@ -1453,18 +1453,18 @@ static const common::ZoneEntry kZoneEntryCuiaba[] = {
 
 const common::ZoneInfo kZoneCuiaba = {
   "America/Cuiaba" /*name*/,
-  kZoneEntryCuiaba /*entries*/,
-  sizeof(kZoneEntryCuiaba)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCuiaba /*eras*/,
+  sizeof(kZoneEraCuiaba)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Curacao
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCuracao[] = {
+static const common::ZoneEra kZoneEraCuracao[] = {
   //             -4:00    -    AST
   {
     -16 /*offsetCode*/,
@@ -1480,18 +1480,18 @@ static const common::ZoneEntry kZoneEntryCuracao[] = {
 
 const common::ZoneInfo kZoneCuracao = {
   "America/Curacao" /*name*/,
-  kZoneEntryCuracao /*entries*/,
-  sizeof(kZoneEntryCuracao)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCuracao /*eras*/,
+  sizeof(kZoneEraCuracao)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Danmarkshavn
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 36
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDanmarkshavn[] = {
+static const common::ZoneEra kZoneEraDanmarkshavn[] = {
   //             0:00    -    GMT
   {
     0 /*offsetCode*/,
@@ -1507,18 +1507,18 @@ static const common::ZoneEntry kZoneEntryDanmarkshavn[] = {
 
 const common::ZoneInfo kZoneDanmarkshavn = {
   "America/Danmarkshavn" /*name*/,
-  kZoneEntryDanmarkshavn /*entries*/,
-  sizeof(kZoneEntryDanmarkshavn)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDanmarkshavn /*eras*/,
+  sizeof(kZoneEraDanmarkshavn)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Dawson
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDawson[] = {
+static const common::ZoneEra kZoneEraDawson[] = {
   //             -8:00    Canada    P%sT
   {
     -32 /*offsetCode*/,
@@ -1534,18 +1534,18 @@ static const common::ZoneEntry kZoneEntryDawson[] = {
 
 const common::ZoneInfo kZoneDawson = {
   "America/Dawson" /*name*/,
-  kZoneEntryDawson /*entries*/,
-  sizeof(kZoneEntryDawson)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDawson /*eras*/,
+  sizeof(kZoneEraDawson)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Dawson_Creek
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 36
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDawson_Creek[] = {
+static const common::ZoneEra kZoneEraDawson_Creek[] = {
   //             -7:00    -    MST
   {
     -28 /*offsetCode*/,
@@ -1561,18 +1561,18 @@ static const common::ZoneEntry kZoneEntryDawson_Creek[] = {
 
 const common::ZoneInfo kZoneDawson_Creek = {
   "America/Dawson_Creek" /*name*/,
-  kZoneEntryDawson_Creek /*entries*/,
-  sizeof(kZoneEntryDawson_Creek)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDawson_Creek /*eras*/,
+  sizeof(kZoneEraDawson_Creek)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Denver
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDenver[] = {
+static const common::ZoneEra kZoneEraDenver[] = {
   //             -7:00    US    M%sT
   {
     -28 /*offsetCode*/,
@@ -1588,18 +1588,18 @@ static const common::ZoneEntry kZoneEntryDenver[] = {
 
 const common::ZoneInfo kZoneDenver = {
   "America/Denver" /*name*/,
-  kZoneEntryDenver /*entries*/,
-  sizeof(kZoneEntryDenver)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDenver /*eras*/,
+  sizeof(kZoneEraDenver)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Detroit
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDetroit[] = {
+static const common::ZoneEra kZoneEraDetroit[] = {
   //             -5:00    US    E%sT
   {
     -20 /*offsetCode*/,
@@ -1615,18 +1615,18 @@ static const common::ZoneEntry kZoneEntryDetroit[] = {
 
 const common::ZoneInfo kZoneDetroit = {
   "America/Detroit" /*name*/,
-  kZoneEntryDetroit /*entries*/,
-  sizeof(kZoneEntryDetroit)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDetroit /*eras*/,
+  sizeof(kZoneEraDetroit)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Edmonton
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryEdmonton[] = {
+static const common::ZoneEra kZoneEraEdmonton[] = {
   //             -7:00    Canada    M%sT
   {
     -28 /*offsetCode*/,
@@ -1642,18 +1642,18 @@ static const common::ZoneEntry kZoneEntryEdmonton[] = {
 
 const common::ZoneInfo kZoneEdmonton = {
   "America/Edmonton" /*name*/,
-  kZoneEntryEdmonton /*entries*/,
-  sizeof(kZoneEntryEdmonton)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraEdmonton /*eras*/,
+  sizeof(kZoneEraEdmonton)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Eirunepe
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 52
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryEirunepe[] = {
+static const common::ZoneEra kZoneEraEirunepe[] = {
   //             -5:00    -    -05    2008 Jun 24  0:00
   {
     -20 /*offsetCode*/,
@@ -1689,18 +1689,18 @@ static const common::ZoneEntry kZoneEntryEirunepe[] = {
 
 const common::ZoneInfo kZoneEirunepe = {
   "America/Eirunepe" /*name*/,
-  kZoneEntryEirunepe /*entries*/,
-  sizeof(kZoneEntryEirunepe)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraEirunepe /*eras*/,
+  sizeof(kZoneEraEirunepe)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/El_Salvador
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryEl_Salvador[] = {
+static const common::ZoneEra kZoneEraEl_Salvador[] = {
   //             -6:00    Salv    C%sT
   {
     -24 /*offsetCode*/,
@@ -1716,18 +1716,18 @@ static const common::ZoneEntry kZoneEntryEl_Salvador[] = {
 
 const common::ZoneInfo kZoneEl_Salvador = {
   "America/El_Salvador" /*name*/,
-  kZoneEntryEl_Salvador /*entries*/,
-  sizeof(kZoneEntryEl_Salvador)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraEl_Salvador /*eras*/,
+  sizeof(kZoneEraEl_Salvador)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Fort_Nelson
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 45
 // Memory (32-bit): 57
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryFort_Nelson[] = {
+static const common::ZoneEra kZoneEraFort_Nelson[] = {
   //             -8:00    Canada    P%sT    2015 Mar  8  2:00
   {
     -32 /*offsetCode*/,
@@ -1753,18 +1753,18 @@ static const common::ZoneEntry kZoneEntryFort_Nelson[] = {
 
 const common::ZoneInfo kZoneFort_Nelson = {
   "America/Fort_Nelson" /*name*/,
-  kZoneEntryFort_Nelson /*entries*/,
-  sizeof(kZoneEntryFort_Nelson)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraFort_Nelson /*eras*/,
+  sizeof(kZoneEraFort_Nelson)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Fortaleza
-// Entry count: 4
+// Era count: 4
 // Memory (8-bit): 71
 // Memory (32-bit): 91
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryFortaleza[] = {
+static const common::ZoneEra kZoneEraFortaleza[] = {
   //             -3:00    Brazil    -03/-02    2000 Oct 22
   {
     -12 /*offsetCode*/,
@@ -1810,18 +1810,18 @@ static const common::ZoneEntry kZoneEntryFortaleza[] = {
 
 const common::ZoneInfo kZoneFortaleza = {
   "America/Fortaleza" /*name*/,
-  kZoneEntryFortaleza /*entries*/,
-  sizeof(kZoneEntryFortaleza)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraFortaleza /*eras*/,
+  sizeof(kZoneEraFortaleza)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Glace_Bay
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryGlace_Bay[] = {
+static const common::ZoneEra kZoneEraGlace_Bay[] = {
   //             -4:00    Canada    A%sT
   {
     -16 /*offsetCode*/,
@@ -1837,18 +1837,18 @@ static const common::ZoneEntry kZoneEntryGlace_Bay[] = {
 
 const common::ZoneInfo kZoneGlace_Bay = {
   "America/Glace_Bay" /*name*/,
-  kZoneEntryGlace_Bay /*entries*/,
-  sizeof(kZoneEntryGlace_Bay)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraGlace_Bay /*eras*/,
+  sizeof(kZoneEraGlace_Bay)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Godthab
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryGodthab[] = {
+static const common::ZoneEra kZoneEraGodthab[] = {
   //             -3:00    EU    -03/-02
   {
     -12 /*offsetCode*/,
@@ -1864,18 +1864,18 @@ static const common::ZoneEntry kZoneEntryGodthab[] = {
 
 const common::ZoneInfo kZoneGodthab = {
   "America/Godthab" /*name*/,
-  kZoneEntryGodthab /*entries*/,
-  sizeof(kZoneEntryGodthab)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraGodthab /*eras*/,
+  sizeof(kZoneEraGodthab)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Grand_Turk
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 54
 // Memory (32-bit): 70
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryGrand_Turk[] = {
+static const common::ZoneEra kZoneEraGrand_Turk[] = {
   //             -5:00    US    E%sT    2015 Nov Sun>=1 2:00
   {
     -20 /*offsetCode*/,
@@ -1911,18 +1911,18 @@ static const common::ZoneEntry kZoneEntryGrand_Turk[] = {
 
 const common::ZoneInfo kZoneGrand_Turk = {
   "America/Grand_Turk" /*name*/,
-  kZoneEntryGrand_Turk /*entries*/,
-  sizeof(kZoneEntryGrand_Turk)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraGrand_Turk /*eras*/,
+  sizeof(kZoneEraGrand_Turk)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Guatemala
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryGuatemala[] = {
+static const common::ZoneEra kZoneEraGuatemala[] = {
   //             -6:00    Guat    C%sT
   {
     -24 /*offsetCode*/,
@@ -1938,18 +1938,18 @@ static const common::ZoneEntry kZoneEntryGuatemala[] = {
 
 const common::ZoneInfo kZoneGuatemala = {
   "America/Guatemala" /*name*/,
-  kZoneEntryGuatemala /*entries*/,
-  sizeof(kZoneEntryGuatemala)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraGuatemala /*eras*/,
+  sizeof(kZoneEraGuatemala)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Guayaquil
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 37
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryGuayaquil[] = {
+static const common::ZoneEra kZoneEraGuayaquil[] = {
   //             -5:00    Ecuador    -05/-04
   {
     -20 /*offsetCode*/,
@@ -1965,18 +1965,18 @@ static const common::ZoneEntry kZoneEntryGuayaquil[] = {
 
 const common::ZoneInfo kZoneGuayaquil = {
   "America/Guayaquil" /*name*/,
-  kZoneEntryGuayaquil /*entries*/,
-  sizeof(kZoneEntryGuayaquil)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraGuayaquil /*eras*/,
+  sizeof(kZoneEraGuayaquil)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Guyana
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryGuyana[] = {
+static const common::ZoneEra kZoneEraGuyana[] = {
   //             -4:00    -    -04
   {
     -16 /*offsetCode*/,
@@ -1992,18 +1992,18 @@ static const common::ZoneEntry kZoneEntryGuyana[] = {
 
 const common::ZoneInfo kZoneGuyana = {
   "America/Guyana" /*name*/,
-  kZoneEntryGuyana /*entries*/,
-  sizeof(kZoneEntryGuyana)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraGuyana /*eras*/,
+  sizeof(kZoneEraGuyana)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Halifax
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryHalifax[] = {
+static const common::ZoneEra kZoneEraHalifax[] = {
   //             -4:00    Canada    A%sT
   {
     -16 /*offsetCode*/,
@@ -2019,18 +2019,18 @@ static const common::ZoneEntry kZoneEntryHalifax[] = {
 
 const common::ZoneInfo kZoneHalifax = {
   "America/Halifax" /*name*/,
-  kZoneEntryHalifax /*entries*/,
-  sizeof(kZoneEntryHalifax)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraHalifax /*eras*/,
+  sizeof(kZoneEraHalifax)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Havana
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryHavana[] = {
+static const common::ZoneEra kZoneEraHavana[] = {
   //             -5:00    Cuba    C%sT
   {
     -20 /*offsetCode*/,
@@ -2046,18 +2046,18 @@ static const common::ZoneEntry kZoneEntryHavana[] = {
 
 const common::ZoneInfo kZoneHavana = {
   "America/Havana" /*name*/,
-  kZoneEntryHavana /*entries*/,
-  sizeof(kZoneEntryHavana)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraHavana /*eras*/,
+  sizeof(kZoneEraHavana)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Hermosillo
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryHermosillo[] = {
+static const common::ZoneEra kZoneEraHermosillo[] = {
   //             -7:00    -    MST
   {
     -28 /*offsetCode*/,
@@ -2073,18 +2073,18 @@ static const common::ZoneEntry kZoneEntryHermosillo[] = {
 
 const common::ZoneInfo kZoneHermosillo = {
   "America/Hermosillo" /*name*/,
-  kZoneEntryHermosillo /*entries*/,
-  sizeof(kZoneEntryHermosillo)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraHermosillo /*eras*/,
+  sizeof(kZoneEraHermosillo)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Indianapolis
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 54
 // Memory (32-bit): 66
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryIndianapolis[] = {
+static const common::ZoneEra kZoneEraIndianapolis[] = {
   //             -5:00    -    EST    2006
   {
     -20 /*offsetCode*/,
@@ -2110,18 +2110,18 @@ static const common::ZoneEntry kZoneEntryIndianapolis[] = {
 
 const common::ZoneInfo kZoneIndianapolis = {
   "America/Indiana/Indianapolis" /*name*/,
-  kZoneEntryIndianapolis /*entries*/,
-  sizeof(kZoneEntryIndianapolis)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraIndianapolis /*eras*/,
+  sizeof(kZoneEraIndianapolis)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Knox
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 46
 // Memory (32-bit): 58
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKnox[] = {
+static const common::ZoneEra kZoneEraKnox[] = {
   //             -5:00    -    EST    2006 Apr  2  2:00
   {
     -20 /*offsetCode*/,
@@ -2147,18 +2147,18 @@ static const common::ZoneEntry kZoneEntryKnox[] = {
 
 const common::ZoneInfo kZoneKnox = {
   "America/Indiana/Knox" /*name*/,
-  kZoneEntryKnox /*entries*/,
-  sizeof(kZoneEntryKnox)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKnox /*eras*/,
+  sizeof(kZoneEraKnox)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Marengo
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 49
 // Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMarengo[] = {
+static const common::ZoneEra kZoneEraMarengo[] = {
   //             -5:00    -    EST    2006
   {
     -20 /*offsetCode*/,
@@ -2184,18 +2184,18 @@ static const common::ZoneEntry kZoneEntryMarengo[] = {
 
 const common::ZoneInfo kZoneMarengo = {
   "America/Indiana/Marengo" /*name*/,
-  kZoneEntryMarengo /*entries*/,
-  sizeof(kZoneEntryMarengo)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMarengo /*eras*/,
+  sizeof(kZoneEraMarengo)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Petersburg
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 62
 // Memory (32-bit): 78
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPetersburg[] = {
+static const common::ZoneEra kZoneEraPetersburg[] = {
   //             -5:00    -    EST    2006 Apr  2  2:00
   {
     -20 /*offsetCode*/,
@@ -2231,18 +2231,18 @@ static const common::ZoneEntry kZoneEntryPetersburg[] = {
 
 const common::ZoneInfo kZonePetersburg = {
   "America/Indiana/Petersburg" /*name*/,
-  kZoneEntryPetersburg /*entries*/,
-  sizeof(kZoneEntryPetersburg)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPetersburg /*eras*/,
+  sizeof(kZoneEraPetersburg)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Tell_City
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 51
 // Memory (32-bit): 63
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTell_City[] = {
+static const common::ZoneEra kZoneEraTell_City[] = {
   //             -5:00    -    EST    2006 Apr  2  2:00
   {
     -20 /*offsetCode*/,
@@ -2268,18 +2268,18 @@ static const common::ZoneEntry kZoneEntryTell_City[] = {
 
 const common::ZoneInfo kZoneTell_City = {
   "America/Indiana/Tell_City" /*name*/,
-  kZoneEntryTell_City /*entries*/,
-  sizeof(kZoneEntryTell_City)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTell_City /*eras*/,
+  sizeof(kZoneEraTell_City)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Vevay
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 47
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryVevay[] = {
+static const common::ZoneEra kZoneEraVevay[] = {
   //             -5:00    -    EST    2006
   {
     -20 /*offsetCode*/,
@@ -2305,18 +2305,18 @@ static const common::ZoneEntry kZoneEntryVevay[] = {
 
 const common::ZoneInfo kZoneVevay = {
   "America/Indiana/Vevay" /*name*/,
-  kZoneEntryVevay /*entries*/,
-  sizeof(kZoneEntryVevay)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraVevay /*eras*/,
+  sizeof(kZoneEraVevay)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Vincennes
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 61
 // Memory (32-bit): 77
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryVincennes[] = {
+static const common::ZoneEra kZoneEraVincennes[] = {
   //             -5:00    -    EST    2006 Apr  2  2:00
   {
     -20 /*offsetCode*/,
@@ -2352,18 +2352,18 @@ static const common::ZoneEntry kZoneEntryVincennes[] = {
 
 const common::ZoneInfo kZoneVincennes = {
   "America/Indiana/Vincennes" /*name*/,
-  kZoneEntryVincennes /*entries*/,
-  sizeof(kZoneEntryVincennes)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraVincennes /*eras*/,
+  sizeof(kZoneEraVincennes)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Winamac
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 59
 // Memory (32-bit): 75
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryWinamac[] = {
+static const common::ZoneEra kZoneEraWinamac[] = {
   //             -5:00    -    EST    2006 Apr  2  2:00
   {
     -20 /*offsetCode*/,
@@ -2399,18 +2399,18 @@ static const common::ZoneEntry kZoneEntryWinamac[] = {
 
 const common::ZoneInfo kZoneWinamac = {
   "America/Indiana/Winamac" /*name*/,
-  kZoneEntryWinamac /*entries*/,
-  sizeof(kZoneEntryWinamac)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraWinamac /*eras*/,
+  sizeof(kZoneEraWinamac)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Inuvik
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryInuvik[] = {
+static const common::ZoneEra kZoneEraInuvik[] = {
   //             -7:00    Canada    M%sT
   {
     -28 /*offsetCode*/,
@@ -2426,18 +2426,18 @@ static const common::ZoneEntry kZoneEntryInuvik[] = {
 
 const common::ZoneInfo kZoneInuvik = {
   "America/Inuvik" /*name*/,
-  kZoneEntryInuvik /*entries*/,
-  sizeof(kZoneEntryInuvik)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraInuvik /*eras*/,
+  sizeof(kZoneEraInuvik)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Iqaluit
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 41
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryIqaluit[] = {
+static const common::ZoneEra kZoneEraIqaluit[] = {
   //             -6:00    Canada    C%sT    2000 Oct 29  2:00
   {
     -24 /*offsetCode*/,
@@ -2463,18 +2463,18 @@ static const common::ZoneEntry kZoneEntryIqaluit[] = {
 
 const common::ZoneInfo kZoneIqaluit = {
   "America/Iqaluit" /*name*/,
-  kZoneEntryIqaluit /*entries*/,
-  sizeof(kZoneEntryIqaluit)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraIqaluit /*eras*/,
+  sizeof(kZoneEraIqaluit)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Jamaica
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryJamaica[] = {
+static const common::ZoneEra kZoneEraJamaica[] = {
   //             -5:00    -    EST
   {
     -20 /*offsetCode*/,
@@ -2490,18 +2490,18 @@ static const common::ZoneEntry kZoneEntryJamaica[] = {
 
 const common::ZoneInfo kZoneJamaica = {
   "America/Jamaica" /*name*/,
-  kZoneEntryJamaica /*entries*/,
-  sizeof(kZoneEntryJamaica)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraJamaica /*eras*/,
+  sizeof(kZoneEraJamaica)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Juneau
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryJuneau[] = {
+static const common::ZoneEra kZoneEraJuneau[] = {
   //              -9:00    US    AK%sT
   {
     -36 /*offsetCode*/,
@@ -2517,18 +2517,18 @@ static const common::ZoneEntry kZoneEntryJuneau[] = {
 
 const common::ZoneInfo kZoneJuneau = {
   "America/Juneau" /*name*/,
-  kZoneEntryJuneau /*entries*/,
-  sizeof(kZoneEntryJuneau)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraJuneau /*eras*/,
+  sizeof(kZoneEraJuneau)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Kentucky/Louisville
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 43
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryLouisville[] = {
+static const common::ZoneEra kZoneEraLouisville[] = {
   //             -5:00    US    E%sT
   {
     -20 /*offsetCode*/,
@@ -2544,18 +2544,18 @@ static const common::ZoneEntry kZoneEntryLouisville[] = {
 
 const common::ZoneInfo kZoneLouisville = {
   "America/Kentucky/Louisville" /*name*/,
-  kZoneEntryLouisville /*entries*/,
-  sizeof(kZoneEntryLouisville)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraLouisville /*eras*/,
+  sizeof(kZoneEraLouisville)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Kentucky/Monticello
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 53
 // Memory (32-bit): 65
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMonticello[] = {
+static const common::ZoneEra kZoneEraMonticello[] = {
   //             -6:00    US    C%sT    2000 Oct 29  2:00
   {
     -24 /*offsetCode*/,
@@ -2581,18 +2581,18 @@ static const common::ZoneEntry kZoneEntryMonticello[] = {
 
 const common::ZoneInfo kZoneMonticello = {
   "America/Kentucky/Monticello" /*name*/,
-  kZoneEntryMonticello /*entries*/,
-  sizeof(kZoneEntryMonticello)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMonticello /*eras*/,
+  sizeof(kZoneEraMonticello)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/La_Paz
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryLa_Paz[] = {
+static const common::ZoneEra kZoneEraLa_Paz[] = {
   //             -4:00    -    -04
   {
     -16 /*offsetCode*/,
@@ -2608,18 +2608,18 @@ static const common::ZoneEntry kZoneEntryLa_Paz[] = {
 
 const common::ZoneInfo kZoneLa_Paz = {
   "America/La_Paz" /*name*/,
-  kZoneEntryLa_Paz /*entries*/,
-  sizeof(kZoneEntryLa_Paz)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraLa_Paz /*eras*/,
+  sizeof(kZoneEraLa_Paz)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Lima
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryLima[] = {
+static const common::ZoneEra kZoneEraLima[] = {
   //             -5:00    Peru    -05/-04
   {
     -20 /*offsetCode*/,
@@ -2635,18 +2635,18 @@ static const common::ZoneEntry kZoneEntryLima[] = {
 
 const common::ZoneInfo kZoneLima = {
   "America/Lima" /*name*/,
-  kZoneEntryLima /*entries*/,
-  sizeof(kZoneEntryLima)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraLima /*eras*/,
+  sizeof(kZoneEraLima)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Los_Angeles
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryLos_Angeles[] = {
+static const common::ZoneEra kZoneEraLos_Angeles[] = {
   //             -8:00    US    P%sT
   {
     -32 /*offsetCode*/,
@@ -2662,18 +2662,18 @@ static const common::ZoneEntry kZoneEntryLos_Angeles[] = {
 
 const common::ZoneInfo kZoneLos_Angeles = {
   "America/Los_Angeles" /*name*/,
-  kZoneEntryLos_Angeles /*entries*/,
-  sizeof(kZoneEntryLos_Angeles)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraLos_Angeles /*eras*/,
+  sizeof(kZoneEraLos_Angeles)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Maceio
-// Entry count: 4
+// Era count: 4
 // Memory (8-bit): 68
 // Memory (32-bit): 88
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMaceio[] = {
+static const common::ZoneEra kZoneEraMaceio[] = {
   //             -3:00    Brazil    -03/-02    2000 Oct 22
   {
     -12 /*offsetCode*/,
@@ -2719,18 +2719,18 @@ static const common::ZoneEntry kZoneEntryMaceio[] = {
 
 const common::ZoneInfo kZoneMaceio = {
   "America/Maceio" /*name*/,
-  kZoneEntryMaceio /*entries*/,
-  sizeof(kZoneEntryMaceio)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMaceio /*eras*/,
+  sizeof(kZoneEraMaceio)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Managua
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryManagua[] = {
+static const common::ZoneEra kZoneEraManagua[] = {
   //             -6:00    Nic    C%sT
   {
     -24 /*offsetCode*/,
@@ -2746,18 +2746,18 @@ static const common::ZoneEntry kZoneEntryManagua[] = {
 
 const common::ZoneInfo kZoneManagua = {
   "America/Managua" /*name*/,
-  kZoneEntryManagua /*entries*/,
-  sizeof(kZoneEntryManagua)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraManagua /*eras*/,
+  sizeof(kZoneEraManagua)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Manaus
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryManaus[] = {
+static const common::ZoneEra kZoneEraManaus[] = {
   //             -4:00    -    -04
   {
     -16 /*offsetCode*/,
@@ -2773,18 +2773,18 @@ static const common::ZoneEntry kZoneEntryManaus[] = {
 
 const common::ZoneInfo kZoneManaus = {
   "America/Manaus" /*name*/,
-  kZoneEntryManaus /*entries*/,
-  sizeof(kZoneEntryManaus)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraManaus /*eras*/,
+  sizeof(kZoneEraManaus)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Martinique
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMartinique[] = {
+static const common::ZoneEra kZoneEraMartinique[] = {
   //             -4:00    -    AST
   {
     -16 /*offsetCode*/,
@@ -2800,18 +2800,18 @@ static const common::ZoneEntry kZoneEntryMartinique[] = {
 
 const common::ZoneInfo kZoneMartinique = {
   "America/Martinique" /*name*/,
-  kZoneEntryMartinique /*entries*/,
-  sizeof(kZoneEntryMartinique)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMartinique /*eras*/,
+  sizeof(kZoneEraMartinique)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Matamoros
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 43
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMatamoros[] = {
+static const common::ZoneEra kZoneEraMatamoros[] = {
   //             -6:00    Mexico    C%sT    2010
   {
     -24 /*offsetCode*/,
@@ -2837,18 +2837,18 @@ static const common::ZoneEntry kZoneEntryMatamoros[] = {
 
 const common::ZoneInfo kZoneMatamoros = {
   "America/Matamoros" /*name*/,
-  kZoneEntryMatamoros /*entries*/,
-  sizeof(kZoneEntryMatamoros)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMatamoros /*eras*/,
+  sizeof(kZoneEraMatamoros)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Mazatlan
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMazatlan[] = {
+static const common::ZoneEra kZoneEraMazatlan[] = {
   //             -7:00    Mexico    M%sT
   {
     -28 /*offsetCode*/,
@@ -2864,18 +2864,18 @@ static const common::ZoneEntry kZoneEntryMazatlan[] = {
 
 const common::ZoneInfo kZoneMazatlan = {
   "America/Mazatlan" /*name*/,
-  kZoneEntryMazatlan /*entries*/,
-  sizeof(kZoneEntryMazatlan)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMazatlan /*eras*/,
+  sizeof(kZoneEraMazatlan)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Menominee
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMenominee[] = {
+static const common::ZoneEra kZoneEraMenominee[] = {
   //             -6:00    US    C%sT
   {
     -24 /*offsetCode*/,
@@ -2891,18 +2891,18 @@ static const common::ZoneEntry kZoneEntryMenominee[] = {
 
 const common::ZoneInfo kZoneMenominee = {
   "America/Menominee" /*name*/,
-  kZoneEntryMenominee /*entries*/,
-  sizeof(kZoneEntryMenominee)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMenominee /*eras*/,
+  sizeof(kZoneEraMenominee)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Merida
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMerida[] = {
+static const common::ZoneEra kZoneEraMerida[] = {
   //             -6:00    Mexico    C%sT
   {
     -24 /*offsetCode*/,
@@ -2918,18 +2918,18 @@ static const common::ZoneEntry kZoneEntryMerida[] = {
 
 const common::ZoneInfo kZoneMerida = {
   "America/Merida" /*name*/,
-  kZoneEntryMerida /*entries*/,
-  sizeof(kZoneEntryMerida)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMerida /*eras*/,
+  sizeof(kZoneEraMerida)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Metlakatla
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 45
 // Memory (32-bit): 57
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMetlakatla[] = {
+static const common::ZoneEra kZoneEraMetlakatla[] = {
   //              -8:00    -    PST    2015 Nov  1  2:00
   {
     -32 /*offsetCode*/,
@@ -2955,18 +2955,18 @@ static const common::ZoneEntry kZoneEntryMetlakatla[] = {
 
 const common::ZoneInfo kZoneMetlakatla = {
   "America/Metlakatla" /*name*/,
-  kZoneEntryMetlakatla /*entries*/,
-  sizeof(kZoneEntryMetlakatla)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMetlakatla /*eras*/,
+  sizeof(kZoneEraMetlakatla)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Mexico_City
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 55
 // Memory (32-bit): 71
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMexico_City[] = {
+static const common::ZoneEra kZoneEraMexico_City[] = {
   //             -6:00    Mexico    C%sT    2001 Sep 30  2:00
   {
     -24 /*offsetCode*/,
@@ -3002,18 +3002,18 @@ static const common::ZoneEntry kZoneEntryMexico_City[] = {
 
 const common::ZoneInfo kZoneMexico_City = {
   "America/Mexico_City" /*name*/,
-  kZoneEntryMexico_City /*entries*/,
-  sizeof(kZoneEntryMexico_City)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMexico_City /*eras*/,
+  sizeof(kZoneEraMexico_City)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Miquelon
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 36
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMiquelon[] = {
+static const common::ZoneEra kZoneEraMiquelon[] = {
   //             -3:00    Canada    -03/-02
   {
     -12 /*offsetCode*/,
@@ -3029,18 +3029,18 @@ static const common::ZoneEntry kZoneEntryMiquelon[] = {
 
 const common::ZoneInfo kZoneMiquelon = {
   "America/Miquelon" /*name*/,
-  kZoneEntryMiquelon /*entries*/,
-  sizeof(kZoneEntryMiquelon)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMiquelon /*eras*/,
+  sizeof(kZoneEraMiquelon)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Monterrey
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMonterrey[] = {
+static const common::ZoneEra kZoneEraMonterrey[] = {
   //             -6:00    Mexico    C%sT
   {
     -24 /*offsetCode*/,
@@ -3056,18 +3056,18 @@ static const common::ZoneEntry kZoneEntryMonterrey[] = {
 
 const common::ZoneInfo kZoneMonterrey = {
   "America/Monterrey" /*name*/,
-  kZoneEntryMonterrey /*entries*/,
-  sizeof(kZoneEntryMonterrey)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMonterrey /*eras*/,
+  sizeof(kZoneEraMonterrey)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Montevideo
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 38
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMontevideo[] = {
+static const common::ZoneEra kZoneEraMontevideo[] = {
   //             -3:00    Uruguay    -03/-02
   {
     -12 /*offsetCode*/,
@@ -3083,18 +3083,18 @@ static const common::ZoneEntry kZoneEntryMontevideo[] = {
 
 const common::ZoneInfo kZoneMontevideo = {
   "America/Montevideo" /*name*/,
-  kZoneEntryMontevideo /*entries*/,
-  sizeof(kZoneEntryMontevideo)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMontevideo /*eras*/,
+  sizeof(kZoneEraMontevideo)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Nassau
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNassau[] = {
+static const common::ZoneEra kZoneEraNassau[] = {
   //             -5:00    US    E%sT
   {
     -20 /*offsetCode*/,
@@ -3110,18 +3110,18 @@ static const common::ZoneEntry kZoneEntryNassau[] = {
 
 const common::ZoneInfo kZoneNassau = {
   "America/Nassau" /*name*/,
-  kZoneEntryNassau /*entries*/,
-  sizeof(kZoneEntryNassau)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNassau /*eras*/,
+  sizeof(kZoneEraNassau)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/New_York
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNew_York[] = {
+static const common::ZoneEra kZoneEraNew_York[] = {
   //             -5:00    US    E%sT
   {
     -20 /*offsetCode*/,
@@ -3137,18 +3137,18 @@ static const common::ZoneEntry kZoneEntryNew_York[] = {
 
 const common::ZoneInfo kZoneNew_York = {
   "America/New_York" /*name*/,
-  kZoneEntryNew_York /*entries*/,
-  sizeof(kZoneEntryNew_York)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNew_York /*eras*/,
+  sizeof(kZoneEraNew_York)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Nipigon
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNipigon[] = {
+static const common::ZoneEra kZoneEraNipigon[] = {
   //             -5:00    Canada    E%sT
   {
     -20 /*offsetCode*/,
@@ -3164,18 +3164,18 @@ static const common::ZoneEntry kZoneEntryNipigon[] = {
 
 const common::ZoneInfo kZoneNipigon = {
   "America/Nipigon" /*name*/,
-  kZoneEntryNipigon /*entries*/,
-  sizeof(kZoneEntryNipigon)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNipigon /*eras*/,
+  sizeof(kZoneEraNipigon)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Nome
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNome[] = {
+static const common::ZoneEra kZoneEraNome[] = {
   //              -9:00    US    AK%sT
   {
     -36 /*offsetCode*/,
@@ -3191,18 +3191,18 @@ static const common::ZoneEntry kZoneEntryNome[] = {
 
 const common::ZoneInfo kZoneNome = {
   "America/Nome" /*name*/,
-  kZoneEntryNome /*entries*/,
-  sizeof(kZoneEntryNome)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNome /*eras*/,
+  sizeof(kZoneEraNome)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Noronha
-// Entry count: 4
+// Era count: 4
 // Memory (8-bit): 69
 // Memory (32-bit): 89
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNoronha[] = {
+static const common::ZoneEra kZoneEraNoronha[] = {
   //             -2:00    Brazil    -02/-01    2000 Oct 15
   {
     -8 /*offsetCode*/,
@@ -3248,18 +3248,18 @@ static const common::ZoneEntry kZoneEntryNoronha[] = {
 
 const common::ZoneInfo kZoneNoronha = {
   "America/Noronha" /*name*/,
-  kZoneEntryNoronha /*entries*/,
-  sizeof(kZoneEntryNoronha)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNoronha /*eras*/,
+  sizeof(kZoneEraNoronha)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/North_Dakota/Beulah
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 53
 // Memory (32-bit): 65
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBeulah[] = {
+static const common::ZoneEra kZoneEraBeulah[] = {
   //             -7:00    US    M%sT    2010 Nov  7  2:00
   {
     -28 /*offsetCode*/,
@@ -3285,18 +3285,18 @@ static const common::ZoneEntry kZoneEntryBeulah[] = {
 
 const common::ZoneInfo kZoneBeulah = {
   "America/North_Dakota/Beulah" /*name*/,
-  kZoneEntryBeulah /*entries*/,
-  sizeof(kZoneEntryBeulah)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBeulah /*eras*/,
+  sizeof(kZoneEraBeulah)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/North_Dakota/Center
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 43
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCenter[] = {
+static const common::ZoneEra kZoneEraCenter[] = {
   //             -6:00    US    C%sT
   {
     -24 /*offsetCode*/,
@@ -3312,18 +3312,18 @@ static const common::ZoneEntry kZoneEntryCenter[] = {
 
 const common::ZoneInfo kZoneCenter = {
   "America/North_Dakota/Center" /*name*/,
-  kZoneEntryCenter /*entries*/,
-  sizeof(kZoneEntryCenter)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCenter /*eras*/,
+  sizeof(kZoneEraCenter)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/North_Dakota/New_Salem
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 56
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNew_Salem[] = {
+static const common::ZoneEra kZoneEraNew_Salem[] = {
   //             -7:00    US    M%sT    2003 Oct 26  2:00
   {
     -28 /*offsetCode*/,
@@ -3349,18 +3349,18 @@ static const common::ZoneEntry kZoneEntryNew_Salem[] = {
 
 const common::ZoneInfo kZoneNew_Salem = {
   "America/North_Dakota/New_Salem" /*name*/,
-  kZoneEntryNew_Salem /*entries*/,
-  sizeof(kZoneEntryNew_Salem)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNew_Salem /*eras*/,
+  sizeof(kZoneEraNew_Salem)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Ojinaga
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 41
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryOjinaga[] = {
+static const common::ZoneEra kZoneEraOjinaga[] = {
   //             -7:00    Mexico    M%sT    2010
   {
     -28 /*offsetCode*/,
@@ -3386,18 +3386,18 @@ static const common::ZoneEntry kZoneEntryOjinaga[] = {
 
 const common::ZoneInfo kZoneOjinaga = {
   "America/Ojinaga" /*name*/,
-  kZoneEntryOjinaga /*entries*/,
-  sizeof(kZoneEntryOjinaga)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraOjinaga /*eras*/,
+  sizeof(kZoneEraOjinaga)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Panama
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPanama[] = {
+static const common::ZoneEra kZoneEraPanama[] = {
   //             -5:00    -    EST
   {
     -20 /*offsetCode*/,
@@ -3413,18 +3413,18 @@ static const common::ZoneEntry kZoneEntryPanama[] = {
 
 const common::ZoneInfo kZonePanama = {
   "America/Panama" /*name*/,
-  kZoneEntryPanama /*entries*/,
-  sizeof(kZoneEntryPanama)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPanama /*eras*/,
+  sizeof(kZoneEraPanama)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Pangnirtung
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 45
 // Memory (32-bit): 57
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPangnirtung[] = {
+static const common::ZoneEra kZoneEraPangnirtung[] = {
   //             -6:00    Canada    C%sT    2000 Oct 29  2:00
   {
     -24 /*offsetCode*/,
@@ -3450,18 +3450,18 @@ static const common::ZoneEntry kZoneEntryPangnirtung[] = {
 
 const common::ZoneInfo kZonePangnirtung = {
   "America/Pangnirtung" /*name*/,
-  kZoneEntryPangnirtung /*entries*/,
-  sizeof(kZoneEntryPangnirtung)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPangnirtung /*eras*/,
+  sizeof(kZoneEraPangnirtung)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Paramaribo
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryParamaribo[] = {
+static const common::ZoneEra kZoneEraParamaribo[] = {
   //             -3:00    -    -03
   {
     -12 /*offsetCode*/,
@@ -3477,18 +3477,18 @@ static const common::ZoneEntry kZoneEntryParamaribo[] = {
 
 const common::ZoneInfo kZoneParamaribo = {
   "America/Paramaribo" /*name*/,
-  kZoneEntryParamaribo /*entries*/,
-  sizeof(kZoneEntryParamaribo)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraParamaribo /*eras*/,
+  sizeof(kZoneEraParamaribo)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Phoenix
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPhoenix[] = {
+static const common::ZoneEra kZoneEraPhoenix[] = {
   //             -7:00    -    MST
   {
     -28 /*offsetCode*/,
@@ -3504,18 +3504,18 @@ static const common::ZoneEntry kZoneEntryPhoenix[] = {
 
 const common::ZoneInfo kZonePhoenix = {
   "America/Phoenix" /*name*/,
-  kZoneEntryPhoenix /*entries*/,
-  sizeof(kZoneEntryPhoenix)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPhoenix /*eras*/,
+  sizeof(kZoneEraPhoenix)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Port_au_Prince
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 38
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPort_au_Prince[] = {
+static const common::ZoneEra kZoneEraPort_au_Prince[] = {
   //             -5:00    Haiti    E%sT
   {
     -20 /*offsetCode*/,
@@ -3531,18 +3531,18 @@ static const common::ZoneEntry kZoneEntryPort_au_Prince[] = {
 
 const common::ZoneInfo kZonePort_au_Prince = {
   "America/Port_au_Prince" /*name*/,
-  kZoneEntryPort_au_Prince /*entries*/,
-  sizeof(kZoneEntryPort_au_Prince)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPort_au_Prince /*eras*/,
+  sizeof(kZoneEraPort_au_Prince)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Port_of_Spain
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 37
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPort_of_Spain[] = {
+static const common::ZoneEra kZoneEraPort_of_Spain[] = {
   //             -4:00    -    AST
   {
     -16 /*offsetCode*/,
@@ -3558,18 +3558,18 @@ static const common::ZoneEntry kZoneEntryPort_of_Spain[] = {
 
 const common::ZoneInfo kZonePort_of_Spain = {
   "America/Port_of_Spain" /*name*/,
-  kZoneEntryPort_of_Spain /*entries*/,
-  sizeof(kZoneEntryPort_of_Spain)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPort_of_Spain /*eras*/,
+  sizeof(kZoneEraPort_of_Spain)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Porto_Velho
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPorto_Velho[] = {
+static const common::ZoneEra kZoneEraPorto_Velho[] = {
   //             -4:00    -    -04
   {
     -16 /*offsetCode*/,
@@ -3585,18 +3585,18 @@ static const common::ZoneEntry kZoneEntryPorto_Velho[] = {
 
 const common::ZoneInfo kZonePorto_Velho = {
   "America/Porto_Velho" /*name*/,
-  kZoneEntryPorto_Velho /*entries*/,
-  sizeof(kZoneEntryPorto_Velho)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPorto_Velho /*eras*/,
+  sizeof(kZoneEraPorto_Velho)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Puerto_Rico
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPuerto_Rico[] = {
+static const common::ZoneEra kZoneEraPuerto_Rico[] = {
   //             -4:00    -    AST
   {
     -16 /*offsetCode*/,
@@ -3612,18 +3612,18 @@ static const common::ZoneEntry kZoneEntryPuerto_Rico[] = {
 
 const common::ZoneInfo kZonePuerto_Rico = {
   "America/Puerto_Rico" /*name*/,
-  kZoneEntryPuerto_Rico /*entries*/,
-  sizeof(kZoneEntryPuerto_Rico)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPuerto_Rico /*eras*/,
+  sizeof(kZoneEraPuerto_Rico)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Punta_Arenas
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 50
 // Memory (32-bit): 62
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPunta_Arenas[] = {
+static const common::ZoneEra kZoneEraPunta_Arenas[] = {
   //             -4:00    Chile    -04/-03    2016 Dec  4
   {
     -16 /*offsetCode*/,
@@ -3649,18 +3649,18 @@ static const common::ZoneEntry kZoneEntryPunta_Arenas[] = {
 
 const common::ZoneInfo kZonePunta_Arenas = {
   "America/Punta_Arenas" /*name*/,
-  kZoneEntryPunta_Arenas /*entries*/,
-  sizeof(kZoneEntryPunta_Arenas)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPunta_Arenas /*eras*/,
+  sizeof(kZoneEraPunta_Arenas)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Rainy_River
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryRainy_River[] = {
+static const common::ZoneEra kZoneEraRainy_River[] = {
   //             -6:00    Canada    C%sT
   {
     -24 /*offsetCode*/,
@@ -3676,18 +3676,18 @@ static const common::ZoneEntry kZoneEntryRainy_River[] = {
 
 const common::ZoneInfo kZoneRainy_River = {
   "America/Rainy_River" /*name*/,
-  kZoneEntryRainy_River /*entries*/,
-  sizeof(kZoneEntryRainy_River)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraRainy_River /*eras*/,
+  sizeof(kZoneEraRainy_River)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Rankin_Inlet
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 56
 // Memory (32-bit): 72
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryRankin_Inlet[] = {
+static const common::ZoneEra kZoneEraRankin_Inlet[] = {
   //             -6:00    NT_YK    C%sT    2000 Oct 29  2:00
   {
     -24 /*offsetCode*/,
@@ -3723,18 +3723,18 @@ static const common::ZoneEntry kZoneEntryRankin_Inlet[] = {
 
 const common::ZoneInfo kZoneRankin_Inlet = {
   "America/Rankin_Inlet" /*name*/,
-  kZoneEntryRankin_Inlet /*entries*/,
-  sizeof(kZoneEntryRankin_Inlet)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraRankin_Inlet /*eras*/,
+  sizeof(kZoneEraRankin_Inlet)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Recife
-// Entry count: 4
+// Era count: 4
 // Memory (8-bit): 68
 // Memory (32-bit): 88
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryRecife[] = {
+static const common::ZoneEra kZoneEraRecife[] = {
   //             -3:00    Brazil    -03/-02    2000 Oct 15
   {
     -12 /*offsetCode*/,
@@ -3780,18 +3780,18 @@ static const common::ZoneEntry kZoneEntryRecife[] = {
 
 const common::ZoneInfo kZoneRecife = {
   "America/Recife" /*name*/,
-  kZoneEntryRecife /*entries*/,
-  sizeof(kZoneEntryRecife)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraRecife /*eras*/,
+  sizeof(kZoneEraRecife)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Regina
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryRegina[] = {
+static const common::ZoneEra kZoneEraRegina[] = {
   //             -6:00    -    CST
   {
     -24 /*offsetCode*/,
@@ -3807,18 +3807,18 @@ static const common::ZoneEntry kZoneEntryRegina[] = {
 
 const common::ZoneInfo kZoneRegina = {
   "America/Regina" /*name*/,
-  kZoneEntryRegina /*entries*/,
-  sizeof(kZoneEntryRegina)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraRegina /*eras*/,
+  sizeof(kZoneEraRegina)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Resolute
-// Entry count: 5
+// Era count: 5
 // Memory (8-bit): 72
 // Memory (32-bit): 96
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryResolute[] = {
+static const common::ZoneEra kZoneEraResolute[] = {
   //             -6:00    NT_YK    C%sT    2000 Oct 29  2:00
   {
     -24 /*offsetCode*/,
@@ -3874,18 +3874,18 @@ static const common::ZoneEntry kZoneEntryResolute[] = {
 
 const common::ZoneInfo kZoneResolute = {
   "America/Resolute" /*name*/,
-  kZoneEntryResolute /*entries*/,
-  sizeof(kZoneEntryResolute)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraResolute /*eras*/,
+  sizeof(kZoneEraResolute)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Rio_Branco
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 54
 // Memory (32-bit): 70
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryRio_Branco[] = {
+static const common::ZoneEra kZoneEraRio_Branco[] = {
   //             -5:00    -    -05    2008 Jun 24  0:00
   {
     -20 /*offsetCode*/,
@@ -3921,18 +3921,18 @@ static const common::ZoneEntry kZoneEntryRio_Branco[] = {
 
 const common::ZoneInfo kZoneRio_Branco = {
   "America/Rio_Branco" /*name*/,
-  kZoneEntryRio_Branco /*entries*/,
-  sizeof(kZoneEntryRio_Branco)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraRio_Branco /*eras*/,
+  sizeof(kZoneEraRio_Branco)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Santarem
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 42
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySantarem[] = {
+static const common::ZoneEra kZoneEraSantarem[] = {
   //             -4:00    -    -04    2008 Jun 24  0:00
   {
     -16 /*offsetCode*/,
@@ -3958,18 +3958,18 @@ static const common::ZoneEntry kZoneEntrySantarem[] = {
 
 const common::ZoneInfo kZoneSantarem = {
   "America/Santarem" /*name*/,
-  kZoneEntrySantarem /*entries*/,
-  sizeof(kZoneEntrySantarem)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSantarem /*eras*/,
+  sizeof(kZoneEraSantarem)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Santiago
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 36
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySantiago[] = {
+static const common::ZoneEra kZoneEraSantiago[] = {
   //             -4:00    Chile    -04/-03
   {
     -16 /*offsetCode*/,
@@ -3985,18 +3985,18 @@ static const common::ZoneEntry kZoneEntrySantiago[] = {
 
 const common::ZoneInfo kZoneSantiago = {
   "America/Santiago" /*name*/,
-  kZoneEntrySantiago /*entries*/,
-  sizeof(kZoneEntrySantiago)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSantiago /*eras*/,
+  sizeof(kZoneEraSantiago)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Sao_Paulo
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 37
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySao_Paulo[] = {
+static const common::ZoneEra kZoneEraSao_Paulo[] = {
   //             -3:00    Brazil    -03/-02
   {
     -12 /*offsetCode*/,
@@ -4012,18 +4012,18 @@ static const common::ZoneEntry kZoneEntrySao_Paulo[] = {
 
 const common::ZoneInfo kZoneSao_Paulo = {
   "America/Sao_Paulo" /*name*/,
-  kZoneEntrySao_Paulo /*entries*/,
-  sizeof(kZoneEntrySao_Paulo)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSao_Paulo /*eras*/,
+  sizeof(kZoneEraSao_Paulo)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Scoresbysund
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 40
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryScoresbysund[] = {
+static const common::ZoneEra kZoneEraScoresbysund[] = {
   //             -1:00    EU    -01/+00
   {
     -4 /*offsetCode*/,
@@ -4039,18 +4039,18 @@ static const common::ZoneEntry kZoneEntryScoresbysund[] = {
 
 const common::ZoneInfo kZoneScoresbysund = {
   "America/Scoresbysund" /*name*/,
-  kZoneEntryScoresbysund /*entries*/,
-  sizeof(kZoneEntryScoresbysund)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraScoresbysund /*eras*/,
+  sizeof(kZoneEraScoresbysund)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Sitka
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySitka[] = {
+static const common::ZoneEra kZoneEraSitka[] = {
   //              -9:00    US    AK%sT
   {
     -36 /*offsetCode*/,
@@ -4066,18 +4066,18 @@ static const common::ZoneEntry kZoneEntrySitka[] = {
 
 const common::ZoneInfo kZoneSitka = {
   "America/Sitka" /*name*/,
-  kZoneEntrySitka /*entries*/,
-  sizeof(kZoneEntrySitka)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSitka /*eras*/,
+  sizeof(kZoneEraSitka)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Swift_Current
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 37
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySwift_Current[] = {
+static const common::ZoneEra kZoneEraSwift_Current[] = {
   //             -6:00    -    CST
   {
     -24 /*offsetCode*/,
@@ -4093,18 +4093,18 @@ static const common::ZoneEntry kZoneEntrySwift_Current[] = {
 
 const common::ZoneInfo kZoneSwift_Current = {
   "America/Swift_Current" /*name*/,
-  kZoneEntrySwift_Current /*entries*/,
-  sizeof(kZoneEntrySwift_Current)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSwift_Current /*eras*/,
+  sizeof(kZoneEraSwift_Current)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Tegucigalpa
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTegucigalpa[] = {
+static const common::ZoneEra kZoneEraTegucigalpa[] = {
   //             -6:00    Hond    C%sT
   {
     -24 /*offsetCode*/,
@@ -4120,18 +4120,18 @@ static const common::ZoneEntry kZoneEntryTegucigalpa[] = {
 
 const common::ZoneInfo kZoneTegucigalpa = {
   "America/Tegucigalpa" /*name*/,
-  kZoneEntryTegucigalpa /*entries*/,
-  sizeof(kZoneEntryTegucigalpa)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTegucigalpa /*eras*/,
+  sizeof(kZoneEraTegucigalpa)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Thule
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryThule[] = {
+static const common::ZoneEra kZoneEraThule[] = {
   //             -4:00    Thule    A%sT
   {
     -16 /*offsetCode*/,
@@ -4147,18 +4147,18 @@ static const common::ZoneEntry kZoneEntryThule[] = {
 
 const common::ZoneInfo kZoneThule = {
   "America/Thule" /*name*/,
-  kZoneEntryThule /*entries*/,
-  sizeof(kZoneEntryThule)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraThule /*eras*/,
+  sizeof(kZoneEraThule)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Thunder_Bay
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryThunder_Bay[] = {
+static const common::ZoneEra kZoneEraThunder_Bay[] = {
   //             -5:00    Canada    E%sT
   {
     -20 /*offsetCode*/,
@@ -4174,18 +4174,18 @@ static const common::ZoneEntry kZoneEntryThunder_Bay[] = {
 
 const common::ZoneInfo kZoneThunder_Bay = {
   "America/Thunder_Bay" /*name*/,
-  kZoneEntryThunder_Bay /*entries*/,
-  sizeof(kZoneEntryThunder_Bay)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraThunder_Bay /*eras*/,
+  sizeof(kZoneEraThunder_Bay)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Tijuana
-// Entry count: 4
+// Era count: 4
 // Memory (8-bit): 61
 // Memory (32-bit): 81
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTijuana[] = {
+static const common::ZoneEra kZoneEraTijuana[] = {
   //             -8:00    Mexico    P%sT    2001
   {
     -32 /*offsetCode*/,
@@ -4231,18 +4231,18 @@ static const common::ZoneEntry kZoneEntryTijuana[] = {
 
 const common::ZoneInfo kZoneTijuana = {
   "America/Tijuana" /*name*/,
-  kZoneEntryTijuana /*entries*/,
-  sizeof(kZoneEntryTijuana)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTijuana /*eras*/,
+  sizeof(kZoneEraTijuana)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Toronto
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryToronto[] = {
+static const common::ZoneEra kZoneEraToronto[] = {
   //             -5:00    Canada    E%sT
   {
     -20 /*offsetCode*/,
@@ -4258,18 +4258,18 @@ static const common::ZoneEntry kZoneEntryToronto[] = {
 
 const common::ZoneInfo kZoneToronto = {
   "America/Toronto" /*name*/,
-  kZoneEntryToronto /*entries*/,
-  sizeof(kZoneEntryToronto)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraToronto /*eras*/,
+  sizeof(kZoneEraToronto)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Vancouver
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryVancouver[] = {
+static const common::ZoneEra kZoneEraVancouver[] = {
   //             -8:00    Canada    P%sT
   {
     -32 /*offsetCode*/,
@@ -4285,18 +4285,18 @@ static const common::ZoneEntry kZoneEntryVancouver[] = {
 
 const common::ZoneInfo kZoneVancouver = {
   "America/Vancouver" /*name*/,
-  kZoneEntryVancouver /*entries*/,
-  sizeof(kZoneEntryVancouver)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraVancouver /*eras*/,
+  sizeof(kZoneEraVancouver)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Whitehorse
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryWhitehorse[] = {
+static const common::ZoneEra kZoneEraWhitehorse[] = {
   //             -8:00    Canada    P%sT
   {
     -32 /*offsetCode*/,
@@ -4312,18 +4312,18 @@ static const common::ZoneEntry kZoneEntryWhitehorse[] = {
 
 const common::ZoneInfo kZoneWhitehorse = {
   "America/Whitehorse" /*name*/,
-  kZoneEntryWhitehorse /*entries*/,
-  sizeof(kZoneEntryWhitehorse)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraWhitehorse /*eras*/,
+  sizeof(kZoneEraWhitehorse)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Winnipeg
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 42
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryWinnipeg[] = {
+static const common::ZoneEra kZoneEraWinnipeg[] = {
   //             -6:00    Winn    C%sT    2006
   {
     -24 /*offsetCode*/,
@@ -4349,18 +4349,18 @@ static const common::ZoneEntry kZoneEntryWinnipeg[] = {
 
 const common::ZoneInfo kZoneWinnipeg = {
   "America/Winnipeg" /*name*/,
-  kZoneEntryWinnipeg /*entries*/,
-  sizeof(kZoneEntryWinnipeg)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraWinnipeg /*eras*/,
+  sizeof(kZoneEraWinnipeg)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Yakutat
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryYakutat[] = {
+static const common::ZoneEra kZoneEraYakutat[] = {
   //              -9:00    US    AK%sT
   {
     -36 /*offsetCode*/,
@@ -4376,18 +4376,18 @@ static const common::ZoneEntry kZoneEntryYakutat[] = {
 
 const common::ZoneInfo kZoneYakutat = {
   "America/Yakutat" /*name*/,
-  kZoneEntryYakutat /*entries*/,
-  sizeof(kZoneEntryYakutat)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraYakutat /*eras*/,
+  sizeof(kZoneEraYakutat)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: America/Yellowknife
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryYellowknife[] = {
+static const common::ZoneEra kZoneEraYellowknife[] = {
   //             -7:00    Canada    M%sT
   {
     -28 /*offsetCode*/,
@@ -4403,18 +4403,18 @@ static const common::ZoneEntry kZoneEntryYellowknife[] = {
 
 const common::ZoneInfo kZoneYellowknife = {
   "America/Yellowknife" /*name*/,
-  kZoneEntryYellowknife /*entries*/,
-  sizeof(kZoneEntryYellowknife)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraYellowknife /*eras*/,
+  sizeof(kZoneEraYellowknife)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/DumontDUrville
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 41
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDumontDUrville[] = {
+static const common::ZoneEra kZoneEraDumontDUrville[] = {
   //             10:00    -    +10
   {
     40 /*offsetCode*/,
@@ -4430,18 +4430,18 @@ static const common::ZoneEntry kZoneEntryDumontDUrville[] = {
 
 const common::ZoneInfo kZoneDumontDUrville = {
   "Antarctica/DumontDUrville" /*name*/,
-  kZoneEntryDumontDUrville /*entries*/,
-  sizeof(kZoneEntryDumontDUrville)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDumontDUrville /*eras*/,
+  sizeof(kZoneEraDumontDUrville)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Macquarie
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 47
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMacquarie[] = {
+static const common::ZoneEra kZoneEraMacquarie[] = {
   //             10:00    AT    AE%sT    2010 Apr  4  3:00
   {
     40 /*offsetCode*/,
@@ -4467,18 +4467,18 @@ static const common::ZoneEntry kZoneEntryMacquarie[] = {
 
 const common::ZoneInfo kZoneMacquarie = {
   "Antarctica/Macquarie" /*name*/,
-  kZoneEntryMacquarie /*entries*/,
-  sizeof(kZoneEntryMacquarie)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMacquarie /*eras*/,
+  sizeof(kZoneEraMacquarie)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Mawson
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 43
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMawson[] = {
+static const common::ZoneEra kZoneEraMawson[] = {
   //             6:00    -    +06    2009 Oct 18  2:00
   {
     24 /*offsetCode*/,
@@ -4504,18 +4504,18 @@ static const common::ZoneEntry kZoneEntryMawson[] = {
 
 const common::ZoneInfo kZoneMawson = {
   "Antarctica/Mawson" /*name*/,
-  kZoneEntryMawson /*entries*/,
-  sizeof(kZoneEntryMawson)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMawson /*eras*/,
+  sizeof(kZoneEraMawson)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Palmer
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 47
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPalmer[] = {
+static const common::ZoneEra kZoneEraPalmer[] = {
   //             -4:00    Chile    -04/-03    2016 Dec  4
   {
     -16 /*offsetCode*/,
@@ -4541,18 +4541,18 @@ static const common::ZoneEntry kZoneEntryPalmer[] = {
 
 const common::ZoneInfo kZonePalmer = {
   "Antarctica/Palmer" /*name*/,
-  kZoneEntryPalmer /*entries*/,
-  sizeof(kZoneEntryPalmer)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPalmer /*eras*/,
+  sizeof(kZoneEraPalmer)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Rothera
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryRothera[] = {
+static const common::ZoneEra kZoneEraRothera[] = {
   //             -3:00    -    -03
   {
     -12 /*offsetCode*/,
@@ -4568,18 +4568,18 @@ static const common::ZoneEntry kZoneEntryRothera[] = {
 
 const common::ZoneInfo kZoneRothera = {
   "Antarctica/Rothera" /*name*/,
-  kZoneEntryRothera /*entries*/,
-  sizeof(kZoneEntryRothera)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraRothera /*eras*/,
+  sizeof(kZoneEraRothera)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Syowa
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySyowa[] = {
+static const common::ZoneEra kZoneEraSyowa[] = {
   //             3:00    -    +03
   {
     12 /*offsetCode*/,
@@ -4595,18 +4595,18 @@ static const common::ZoneEntry kZoneEntrySyowa[] = {
 
 const common::ZoneInfo kZoneSyowa = {
   "Antarctica/Syowa" /*name*/,
-  kZoneEntrySyowa /*entries*/,
-  sizeof(kZoneEntrySyowa)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSyowa /*eras*/,
+  sizeof(kZoneEraSyowa)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Vostok
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryVostok[] = {
+static const common::ZoneEra kZoneEraVostok[] = {
   //             6:00    -    +06
   {
     24 /*offsetCode*/,
@@ -4622,18 +4622,18 @@ static const common::ZoneEntry kZoneEntryVostok[] = {
 
 const common::ZoneInfo kZoneVostok = {
   "Antarctica/Vostok" /*name*/,
-  kZoneEntryVostok /*entries*/,
-  sizeof(kZoneEntryVostok)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraVostok /*eras*/,
+  sizeof(kZoneEraVostok)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Amman
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 27
 // Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAmman[] = {
+static const common::ZoneEra kZoneEraAmman[] = {
   //             2:00    Jordan    EE%sT
   {
     8 /*offsetCode*/,
@@ -4649,18 +4649,18 @@ static const common::ZoneEntry kZoneEntryAmman[] = {
 
 const common::ZoneInfo kZoneAmman = {
   "Asia/Amman" /*name*/,
-  kZoneEntryAmman /*entries*/,
-  sizeof(kZoneEntryAmman)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAmman /*eras*/,
+  sizeof(kZoneEraAmman)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Ashgabat
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAshgabat[] = {
+static const common::ZoneEra kZoneEraAshgabat[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -4676,18 +4676,18 @@ static const common::ZoneEntry kZoneEntryAshgabat[] = {
 
 const common::ZoneInfo kZoneAshgabat = {
   "Asia/Ashgabat" /*name*/,
-  kZoneEntryAshgabat /*entries*/,
-  sizeof(kZoneEntryAshgabat)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAshgabat /*eras*/,
+  sizeof(kZoneEraAshgabat)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Baghdad
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBaghdad[] = {
+static const common::ZoneEra kZoneEraBaghdad[] = {
   //             3:00    Iraq    +03/+04
   {
     12 /*offsetCode*/,
@@ -4703,18 +4703,18 @@ static const common::ZoneEntry kZoneEntryBaghdad[] = {
 
 const common::ZoneInfo kZoneBaghdad = {
   "Asia/Baghdad" /*name*/,
-  kZoneEntryBaghdad /*entries*/,
-  sizeof(kZoneEntryBaghdad)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBaghdad /*eras*/,
+  sizeof(kZoneEraBaghdad)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Baku
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBaku[] = {
+static const common::ZoneEra kZoneEraBaku[] = {
   //             4:00    Azer    +04/+05
   {
     16 /*offsetCode*/,
@@ -4730,18 +4730,18 @@ static const common::ZoneEntry kZoneEntryBaku[] = {
 
 const common::ZoneInfo kZoneBaku = {
   "Asia/Baku" /*name*/,
-  kZoneEntryBaku /*entries*/,
-  sizeof(kZoneEntryBaku)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBaku /*eras*/,
+  sizeof(kZoneEraBaku)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Bangkok
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBangkok[] = {
+static const common::ZoneEra kZoneEraBangkok[] = {
   //             7:00    -    +07
   {
     28 /*offsetCode*/,
@@ -4757,18 +4757,18 @@ static const common::ZoneEntry kZoneEntryBangkok[] = {
 
 const common::ZoneInfo kZoneBangkok = {
   "Asia/Bangkok" /*name*/,
-  kZoneEntryBangkok /*entries*/,
-  sizeof(kZoneEntryBangkok)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBangkok /*eras*/,
+  sizeof(kZoneEraBangkok)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Beirut
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBeirut[] = {
+static const common::ZoneEra kZoneEraBeirut[] = {
   //             2:00    Lebanon    EE%sT
   {
     8 /*offsetCode*/,
@@ -4784,18 +4784,18 @@ static const common::ZoneEntry kZoneEntryBeirut[] = {
 
 const common::ZoneInfo kZoneBeirut = {
   "Asia/Beirut" /*name*/,
-  kZoneEntryBeirut /*entries*/,
-  sizeof(kZoneEntryBeirut)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBeirut /*eras*/,
+  sizeof(kZoneEraBeirut)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Brunei
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 27
 // Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBrunei[] = {
+static const common::ZoneEra kZoneEraBrunei[] = {
   //             8:00    -    +08
   {
     32 /*offsetCode*/,
@@ -4811,18 +4811,18 @@ static const common::ZoneEntry kZoneEntryBrunei[] = {
 
 const common::ZoneInfo kZoneBrunei = {
   "Asia/Brunei" /*name*/,
-  kZoneEntryBrunei /*entries*/,
-  sizeof(kZoneEntryBrunei)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBrunei /*eras*/,
+  sizeof(kZoneEraBrunei)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Choibalsan
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 49
 // Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryChoibalsan[] = {
+static const common::ZoneEra kZoneEraChoibalsan[] = {
   //             9:00    Mongol    +09/+10    2008 Mar 31
   {
     36 /*offsetCode*/,
@@ -4848,18 +4848,18 @@ static const common::ZoneEntry kZoneEntryChoibalsan[] = {
 
 const common::ZoneInfo kZoneChoibalsan = {
   "Asia/Choibalsan" /*name*/,
-  kZoneEntryChoibalsan /*entries*/,
-  sizeof(kZoneEntryChoibalsan)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraChoibalsan /*eras*/,
+  sizeof(kZoneEraChoibalsan)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Damascus
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDamascus[] = {
+static const common::ZoneEra kZoneEraDamascus[] = {
   //             2:00    Syria    EE%sT
   {
     8 /*offsetCode*/,
@@ -4875,18 +4875,18 @@ static const common::ZoneEntry kZoneEntryDamascus[] = {
 
 const common::ZoneInfo kZoneDamascus = {
   "Asia/Damascus" /*name*/,
-  kZoneEntryDamascus /*entries*/,
-  sizeof(kZoneEntryDamascus)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDamascus /*eras*/,
+  sizeof(kZoneEraDamascus)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Dhaka
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 40
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDhaka[] = {
+static const common::ZoneEra kZoneEraDhaka[] = {
   //             6:00    -    +06    2009
   {
     24 /*offsetCode*/,
@@ -4912,18 +4912,18 @@ static const common::ZoneEntry kZoneEntryDhaka[] = {
 
 const common::ZoneInfo kZoneDhaka = {
   "Asia/Dhaka" /*name*/,
-  kZoneEntryDhaka /*entries*/,
-  sizeof(kZoneEntryDhaka)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDhaka /*eras*/,
+  sizeof(kZoneEraDhaka)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Dili
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 35
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDili[] = {
+static const common::ZoneEra kZoneEraDili[] = {
   //             8:00    -    +08    2000 Sep 17  0:00
   {
     32 /*offsetCode*/,
@@ -4949,18 +4949,18 @@ static const common::ZoneEntry kZoneEntryDili[] = {
 
 const common::ZoneInfo kZoneDili = {
   "Asia/Dili" /*name*/,
-  kZoneEntryDili /*entries*/,
-  sizeof(kZoneEntryDili)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDili /*eras*/,
+  sizeof(kZoneEraDili)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Dubai
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 26
 // Memory (32-bit): 34
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDubai[] = {
+static const common::ZoneEra kZoneEraDubai[] = {
   //             4:00    -    +04
   {
     16 /*offsetCode*/,
@@ -4976,18 +4976,18 @@ static const common::ZoneEntry kZoneEntryDubai[] = {
 
 const common::ZoneInfo kZoneDubai = {
   "Asia/Dubai" /*name*/,
-  kZoneEntryDubai /*entries*/,
-  sizeof(kZoneEntryDubai)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDubai /*eras*/,
+  sizeof(kZoneEraDubai)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Dushanbe
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDushanbe[] = {
+static const common::ZoneEra kZoneEraDushanbe[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -5003,18 +5003,18 @@ static const common::ZoneEntry kZoneEntryDushanbe[] = {
 
 const common::ZoneInfo kZoneDushanbe = {
   "Asia/Dushanbe" /*name*/,
-  kZoneEntryDushanbe /*entries*/,
-  sizeof(kZoneEntryDushanbe)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDushanbe /*eras*/,
+  sizeof(kZoneEraDushanbe)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Ho_Chi_Minh
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryHo_Chi_Minh[] = {
+static const common::ZoneEra kZoneEraHo_Chi_Minh[] = {
   //             7:00    -    +07
   {
     28 /*offsetCode*/,
@@ -5030,18 +5030,18 @@ static const common::ZoneEntry kZoneEntryHo_Chi_Minh[] = {
 
 const common::ZoneInfo kZoneHo_Chi_Minh = {
   "Asia/Ho_Chi_Minh" /*name*/,
-  kZoneEntryHo_Chi_Minh /*entries*/,
-  sizeof(kZoneEntryHo_Chi_Minh)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraHo_Chi_Minh /*eras*/,
+  sizeof(kZoneEraHo_Chi_Minh)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Hovd
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryHovd[] = {
+static const common::ZoneEra kZoneEraHovd[] = {
   //             7:00    Mongol    +07/+08
   {
     28 /*offsetCode*/,
@@ -5057,18 +5057,18 @@ static const common::ZoneEntry kZoneEntryHovd[] = {
 
 const common::ZoneInfo kZoneHovd = {
   "Asia/Hovd" /*name*/,
-  kZoneEntryHovd /*entries*/,
-  sizeof(kZoneEntryHovd)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraHovd /*eras*/,
+  sizeof(kZoneEraHovd)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Jakarta
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryJakarta[] = {
+static const common::ZoneEra kZoneEraJakarta[] = {
   //             7:00    -    WIB
   {
     28 /*offsetCode*/,
@@ -5084,18 +5084,18 @@ static const common::ZoneEntry kZoneEntryJakarta[] = {
 
 const common::ZoneInfo kZoneJakarta = {
   "Asia/Jakarta" /*name*/,
-  kZoneEntryJakarta /*entries*/,
-  sizeof(kZoneEntryJakarta)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraJakarta /*eras*/,
+  sizeof(kZoneEraJakarta)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Jayapura
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryJayapura[] = {
+static const common::ZoneEra kZoneEraJayapura[] = {
   //             9:00    -    WIT
   {
     36 /*offsetCode*/,
@@ -5111,18 +5111,18 @@ static const common::ZoneEntry kZoneEntryJayapura[] = {
 
 const common::ZoneInfo kZoneJayapura = {
   "Asia/Jayapura" /*name*/,
-  kZoneEntryJayapura /*entries*/,
-  sizeof(kZoneEntryJayapura)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraJayapura /*eras*/,
+  sizeof(kZoneEraJayapura)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Jerusalem
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryJerusalem[] = {
+static const common::ZoneEra kZoneEraJerusalem[] = {
   //             2:00    Zion    I%sT
   {
     8 /*offsetCode*/,
@@ -5138,18 +5138,18 @@ static const common::ZoneEntry kZoneEntryJerusalem[] = {
 
 const common::ZoneInfo kZoneJerusalem = {
   "Asia/Jerusalem" /*name*/,
-  kZoneEntryJerusalem /*entries*/,
-  sizeof(kZoneEntryJerusalem)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraJerusalem /*eras*/,
+  sizeof(kZoneEraJerusalem)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Kabul
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKabul[] = {
+static const common::ZoneEra kZoneEraKabul[] = {
   //             4:30    -    +0430
   {
     18 /*offsetCode*/,
@@ -5165,18 +5165,18 @@ static const common::ZoneEntry kZoneEntryKabul[] = {
 
 const common::ZoneInfo kZoneKabul = {
   "Asia/Kabul" /*name*/,
-  kZoneEntryKabul /*entries*/,
-  sizeof(kZoneEntryKabul)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKabul /*eras*/,
+  sizeof(kZoneEraKabul)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Karachi
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKarachi[] = {
+static const common::ZoneEra kZoneEraKarachi[] = {
   //             5:00 Pakistan    PK%sT
   {
     20 /*offsetCode*/,
@@ -5192,18 +5192,18 @@ static const common::ZoneEntry kZoneEntryKarachi[] = {
 
 const common::ZoneInfo kZoneKarachi = {
   "Asia/Karachi" /*name*/,
-  kZoneEntryKarachi /*entries*/,
-  sizeof(kZoneEntryKarachi)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKarachi /*eras*/,
+  sizeof(kZoneEraKarachi)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Kathmandu
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKathmandu[] = {
+static const common::ZoneEra kZoneEraKathmandu[] = {
   //             5:45    -    +0545
   {
     23 /*offsetCode*/,
@@ -5219,18 +5219,18 @@ static const common::ZoneEntry kZoneEntryKathmandu[] = {
 
 const common::ZoneInfo kZoneKathmandu = {
   "Asia/Kathmandu" /*name*/,
-  kZoneEntryKathmandu /*entries*/,
-  sizeof(kZoneEntryKathmandu)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKathmandu /*eras*/,
+  sizeof(kZoneEraKathmandu)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Kolkata
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKolkata[] = {
+static const common::ZoneEra kZoneEraKolkata[] = {
   //             5:30    -    IST
   {
     22 /*offsetCode*/,
@@ -5246,18 +5246,18 @@ static const common::ZoneEntry kZoneEntryKolkata[] = {
 
 const common::ZoneInfo kZoneKolkata = {
   "Asia/Kolkata" /*name*/,
-  kZoneEntryKolkata /*entries*/,
-  sizeof(kZoneEntryKolkata)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKolkata /*eras*/,
+  sizeof(kZoneEraKolkata)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Kuala_Lumpur
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKuala_Lumpur[] = {
+static const common::ZoneEra kZoneEraKuala_Lumpur[] = {
   //             8:00    -    +08
   {
     32 /*offsetCode*/,
@@ -5273,18 +5273,18 @@ static const common::ZoneEntry kZoneEntryKuala_Lumpur[] = {
 
 const common::ZoneInfo kZoneKuala_Lumpur = {
   "Asia/Kuala_Lumpur" /*name*/,
-  kZoneEntryKuala_Lumpur /*entries*/,
-  sizeof(kZoneEntryKuala_Lumpur)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKuala_Lumpur /*eras*/,
+  sizeof(kZoneEraKuala_Lumpur)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Kuching
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKuching[] = {
+static const common::ZoneEra kZoneEraKuching[] = {
   //             8:00    -    +08
   {
     32 /*offsetCode*/,
@@ -5300,18 +5300,18 @@ static const common::ZoneEntry kZoneEntryKuching[] = {
 
 const common::ZoneInfo kZoneKuching = {
   "Asia/Kuching" /*name*/,
-  kZoneEntryKuching /*entries*/,
-  sizeof(kZoneEntryKuching)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKuching /*eras*/,
+  sizeof(kZoneEraKuching)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Makassar
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMakassar[] = {
+static const common::ZoneEra kZoneEraMakassar[] = {
   //             8:00    -    WITA
   {
     32 /*offsetCode*/,
@@ -5327,18 +5327,18 @@ static const common::ZoneEntry kZoneEntryMakassar[] = {
 
 const common::ZoneInfo kZoneMakassar = {
   "Asia/Makassar" /*name*/,
-  kZoneEntryMakassar /*entries*/,
-  sizeof(kZoneEntryMakassar)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMakassar /*eras*/,
+  sizeof(kZoneEraMakassar)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Manila
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 27
 // Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryManila[] = {
+static const common::ZoneEra kZoneEraManila[] = {
   //             8:00    Phil    P%sT
   {
     32 /*offsetCode*/,
@@ -5354,18 +5354,18 @@ static const common::ZoneEntry kZoneEntryManila[] = {
 
 const common::ZoneInfo kZoneManila = {
   "Asia/Manila" /*name*/,
-  kZoneEntryManila /*entries*/,
-  sizeof(kZoneEntryManila)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraManila /*eras*/,
+  sizeof(kZoneEraManila)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Nicosia
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNicosia[] = {
+static const common::ZoneEra kZoneEraNicosia[] = {
   //             2:00    EUAsia    EE%sT
   {
     8 /*offsetCode*/,
@@ -5381,18 +5381,18 @@ static const common::ZoneEntry kZoneEntryNicosia[] = {
 
 const common::ZoneInfo kZoneNicosia = {
   "Asia/Nicosia" /*name*/,
-  kZoneEntryNicosia /*entries*/,
-  sizeof(kZoneEntryNicosia)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNicosia /*eras*/,
+  sizeof(kZoneEraNicosia)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Pontianak
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPontianak[] = {
+static const common::ZoneEra kZoneEraPontianak[] = {
   //             7:00    -    WIB
   {
     28 /*offsetCode*/,
@@ -5408,18 +5408,18 @@ static const common::ZoneEntry kZoneEntryPontianak[] = {
 
 const common::ZoneInfo kZonePontianak = {
   "Asia/Pontianak" /*name*/,
-  kZoneEntryPontianak /*entries*/,
-  sizeof(kZoneEntryPontianak)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPontianak /*eras*/,
+  sizeof(kZoneEraPontianak)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Qatar
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 26
 // Memory (32-bit): 34
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryQatar[] = {
+static const common::ZoneEra kZoneEraQatar[] = {
   //             3:00    -    +03
   {
     12 /*offsetCode*/,
@@ -5435,18 +5435,18 @@ static const common::ZoneEntry kZoneEntryQatar[] = {
 
 const common::ZoneInfo kZoneQatar = {
   "Asia/Qatar" /*name*/,
-  kZoneEntryQatar /*entries*/,
-  sizeof(kZoneEntryQatar)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraQatar /*eras*/,
+  sizeof(kZoneEraQatar)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Riyadh
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 27
 // Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryRiyadh[] = {
+static const common::ZoneEra kZoneEraRiyadh[] = {
   //             3:00    -    +03
   {
     12 /*offsetCode*/,
@@ -5462,18 +5462,18 @@ static const common::ZoneEntry kZoneEntryRiyadh[] = {
 
 const common::ZoneInfo kZoneRiyadh = {
   "Asia/Riyadh" /*name*/,
-  kZoneEntryRiyadh /*entries*/,
-  sizeof(kZoneEntryRiyadh)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraRiyadh /*eras*/,
+  sizeof(kZoneEraRiyadh)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Samarkand
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySamarkand[] = {
+static const common::ZoneEra kZoneEraSamarkand[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -5489,18 +5489,18 @@ static const common::ZoneEntry kZoneEntrySamarkand[] = {
 
 const common::ZoneInfo kZoneSamarkand = {
   "Asia/Samarkand" /*name*/,
-  kZoneEntrySamarkand /*entries*/,
-  sizeof(kZoneEntrySamarkand)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSamarkand /*eras*/,
+  sizeof(kZoneEraSamarkand)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Seoul
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 26
 // Memory (32-bit): 34
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySeoul[] = {
+static const common::ZoneEra kZoneEraSeoul[] = {
   //             9:00    ROK    K%sT
   {
     36 /*offsetCode*/,
@@ -5516,18 +5516,18 @@ static const common::ZoneEntry kZoneEntrySeoul[] = {
 
 const common::ZoneInfo kZoneSeoul = {
   "Asia/Seoul" /*name*/,
-  kZoneEntrySeoul /*entries*/,
-  sizeof(kZoneEntrySeoul)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSeoul /*eras*/,
+  sizeof(kZoneEraSeoul)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Shanghai
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryShanghai[] = {
+static const common::ZoneEra kZoneEraShanghai[] = {
   //             8:00    PRC    C%sT
   {
     32 /*offsetCode*/,
@@ -5543,18 +5543,18 @@ static const common::ZoneEntry kZoneEntryShanghai[] = {
 
 const common::ZoneInfo kZoneShanghai = {
   "Asia/Shanghai" /*name*/,
-  kZoneEntryShanghai /*entries*/,
-  sizeof(kZoneEntryShanghai)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraShanghai /*eras*/,
+  sizeof(kZoneEraShanghai)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Singapore
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySingapore[] = {
+static const common::ZoneEra kZoneEraSingapore[] = {
   //             8:00    -    +08
   {
     32 /*offsetCode*/,
@@ -5570,18 +5570,18 @@ static const common::ZoneEntry kZoneEntrySingapore[] = {
 
 const common::ZoneInfo kZoneSingapore = {
   "Asia/Singapore" /*name*/,
-  kZoneEntrySingapore /*entries*/,
-  sizeof(kZoneEntrySingapore)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSingapore /*eras*/,
+  sizeof(kZoneEraSingapore)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Taipei
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 27
 // Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTaipei[] = {
+static const common::ZoneEra kZoneEraTaipei[] = {
   //             8:00    Taiwan    C%sT
   {
     32 /*offsetCode*/,
@@ -5597,18 +5597,18 @@ static const common::ZoneEntry kZoneEntryTaipei[] = {
 
 const common::ZoneInfo kZoneTaipei = {
   "Asia/Taipei" /*name*/,
-  kZoneEntryTaipei /*entries*/,
-  sizeof(kZoneEntryTaipei)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTaipei /*eras*/,
+  sizeof(kZoneEraTaipei)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Tashkent
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTashkent[] = {
+static const common::ZoneEra kZoneEraTashkent[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -5624,18 +5624,18 @@ static const common::ZoneEntry kZoneEntryTashkent[] = {
 
 const common::ZoneInfo kZoneTashkent = {
   "Asia/Tashkent" /*name*/,
-  kZoneEntryTashkent /*entries*/,
-  sizeof(kZoneEntryTashkent)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTashkent /*eras*/,
+  sizeof(kZoneEraTashkent)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Tbilisi
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 56
 // Memory (32-bit): 72
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTbilisi[] = {
+static const common::ZoneEra kZoneEraTbilisi[] = {
   //             4:00 E-EurAsia    +04/+05    2004 Jun 27
   {
     16 /*offsetCode*/,
@@ -5671,18 +5671,18 @@ static const common::ZoneEntry kZoneEntryTbilisi[] = {
 
 const common::ZoneInfo kZoneTbilisi = {
   "Asia/Tbilisi" /*name*/,
-  kZoneEntryTbilisi /*entries*/,
-  sizeof(kZoneEntryTbilisi)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTbilisi /*eras*/,
+  sizeof(kZoneEraTbilisi)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Tehran
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTehran[] = {
+static const common::ZoneEra kZoneEraTehran[] = {
   //             3:30    Iran    +0330/+0430
   {
     14 /*offsetCode*/,
@@ -5698,18 +5698,18 @@ static const common::ZoneEntry kZoneEntryTehran[] = {
 
 const common::ZoneInfo kZoneTehran = {
   "Asia/Tehran" /*name*/,
-  kZoneEntryTehran /*entries*/,
-  sizeof(kZoneEntryTehran)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTehran /*eras*/,
+  sizeof(kZoneEraTehran)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Thimphu
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryThimphu[] = {
+static const common::ZoneEra kZoneEraThimphu[] = {
   //             6:00    -    +06
   {
     24 /*offsetCode*/,
@@ -5725,18 +5725,18 @@ static const common::ZoneEntry kZoneEntryThimphu[] = {
 
 const common::ZoneInfo kZoneThimphu = {
   "Asia/Thimphu" /*name*/,
-  kZoneEntryThimphu /*entries*/,
-  sizeof(kZoneEntryThimphu)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraThimphu /*eras*/,
+  sizeof(kZoneEraThimphu)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Tokyo
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 26
 // Memory (32-bit): 34
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTokyo[] = {
+static const common::ZoneEra kZoneEraTokyo[] = {
   //             9:00    Japan    J%sT
   {
     36 /*offsetCode*/,
@@ -5752,18 +5752,18 @@ static const common::ZoneEntry kZoneEntryTokyo[] = {
 
 const common::ZoneInfo kZoneTokyo = {
   "Asia/Tokyo" /*name*/,
-  kZoneEntryTokyo /*entries*/,
-  sizeof(kZoneEntryTokyo)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTokyo /*eras*/,
+  sizeof(kZoneEraTokyo)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Ulaanbaatar
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 36
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryUlaanbaatar[] = {
+static const common::ZoneEra kZoneEraUlaanbaatar[] = {
   //             8:00    Mongol    +08/+09
   {
     32 /*offsetCode*/,
@@ -5779,18 +5779,18 @@ static const common::ZoneEntry kZoneEntryUlaanbaatar[] = {
 
 const common::ZoneInfo kZoneUlaanbaatar = {
   "Asia/Ulaanbaatar" /*name*/,
-  kZoneEntryUlaanbaatar /*entries*/,
-  sizeof(kZoneEntryUlaanbaatar)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraUlaanbaatar /*eras*/,
+  sizeof(kZoneEraUlaanbaatar)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Urumqi
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 27
 // Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryUrumqi[] = {
+static const common::ZoneEra kZoneEraUrumqi[] = {
   //             6:00    -    +06
   {
     24 /*offsetCode*/,
@@ -5806,18 +5806,18 @@ static const common::ZoneEntry kZoneEntryUrumqi[] = {
 
 const common::ZoneInfo kZoneUrumqi = {
   "Asia/Urumqi" /*name*/,
-  kZoneEntryUrumqi /*entries*/,
-  sizeof(kZoneEntryUrumqi)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraUrumqi /*eras*/,
+  sizeof(kZoneEraUrumqi)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Yangon
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryYangon[] = {
+static const common::ZoneEra kZoneEraYangon[] = {
   //             6:30    -    +0630
   {
     26 /*offsetCode*/,
@@ -5833,18 +5833,18 @@ static const common::ZoneEntry kZoneEntryYangon[] = {
 
 const common::ZoneInfo kZoneYangon = {
   "Asia/Yangon" /*name*/,
-  kZoneEntryYangon /*entries*/,
-  sizeof(kZoneEntryYangon)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraYangon /*eras*/,
+  sizeof(kZoneEraYangon)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Yerevan
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 46
 // Memory (32-bit): 58
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryYerevan[] = {
+static const common::ZoneEra kZoneEraYerevan[] = {
   //             4:00 RussiaAsia    +04/+05    2011
   {
     16 /*offsetCode*/,
@@ -5870,18 +5870,18 @@ static const common::ZoneEntry kZoneEntryYerevan[] = {
 
 const common::ZoneInfo kZoneYerevan = {
   "Asia/Yerevan" /*name*/,
-  kZoneEntryYerevan /*entries*/,
-  sizeof(kZoneEntryYerevan)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraYerevan /*eras*/,
+  sizeof(kZoneEraYerevan)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Azores
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAzores[] = {
+static const common::ZoneEra kZoneEraAzores[] = {
   //             -1:00    EU    -01/+00
   {
     -4 /*offsetCode*/,
@@ -5897,18 +5897,18 @@ static const common::ZoneEntry kZoneEntryAzores[] = {
 
 const common::ZoneInfo kZoneAzores = {
   "Atlantic/Azores" /*name*/,
-  kZoneEntryAzores /*entries*/,
-  sizeof(kZoneEntryAzores)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAzores /*eras*/,
+  sizeof(kZoneEraAzores)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Bermuda
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBermuda[] = {
+static const common::ZoneEra kZoneEraBermuda[] = {
   //             -4:00    US    A%sT
   {
     -16 /*offsetCode*/,
@@ -5924,18 +5924,18 @@ static const common::ZoneEntry kZoneEntryBermuda[] = {
 
 const common::ZoneInfo kZoneBermuda = {
   "Atlantic/Bermuda" /*name*/,
-  kZoneEntryBermuda /*entries*/,
-  sizeof(kZoneEntryBermuda)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBermuda /*eras*/,
+  sizeof(kZoneEraBermuda)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Canary
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCanary[] = {
+static const common::ZoneEra kZoneEraCanary[] = {
   //              0:00    EU    WE%sT
   {
     0 /*offsetCode*/,
@@ -5951,18 +5951,18 @@ static const common::ZoneEntry kZoneEntryCanary[] = {
 
 const common::ZoneInfo kZoneCanary = {
   "Atlantic/Canary" /*name*/,
-  kZoneEntryCanary /*entries*/,
-  sizeof(kZoneEntryCanary)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCanary /*eras*/,
+  sizeof(kZoneEraCanary)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Cape_Verde
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCape_Verde[] = {
+static const common::ZoneEra kZoneEraCape_Verde[] = {
   //             -1:00    -    -01
   {
     -4 /*offsetCode*/,
@@ -5978,18 +5978,18 @@ static const common::ZoneEntry kZoneEntryCape_Verde[] = {
 
 const common::ZoneInfo kZoneCape_Verde = {
   "Atlantic/Cape_Verde" /*name*/,
-  kZoneEntryCape_Verde /*entries*/,
-  sizeof(kZoneEntryCape_Verde)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCape_Verde /*eras*/,
+  sizeof(kZoneEraCape_Verde)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Faroe
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryFaroe[] = {
+static const common::ZoneEra kZoneEraFaroe[] = {
   //              0:00    EU    WE%sT
   {
     0 /*offsetCode*/,
@@ -6005,18 +6005,18 @@ static const common::ZoneEntry kZoneEntryFaroe[] = {
 
 const common::ZoneInfo kZoneFaroe = {
   "Atlantic/Faroe" /*name*/,
-  kZoneEntryFaroe /*entries*/,
-  sizeof(kZoneEntryFaroe)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraFaroe /*eras*/,
+  sizeof(kZoneEraFaroe)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Madeira
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMadeira[] = {
+static const common::ZoneEra kZoneEraMadeira[] = {
   //              0:00    EU    WE%sT
   {
     0 /*offsetCode*/,
@@ -6032,18 +6032,18 @@ static const common::ZoneEntry kZoneEntryMadeira[] = {
 
 const common::ZoneInfo kZoneMadeira = {
   "Atlantic/Madeira" /*name*/,
-  kZoneEntryMadeira /*entries*/,
-  sizeof(kZoneEntryMadeira)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMadeira /*eras*/,
+  sizeof(kZoneEraMadeira)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Reykjavik
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryReykjavik[] = {
+static const common::ZoneEra kZoneEraReykjavik[] = {
   //              0:00    -    GMT
   {
     0 /*offsetCode*/,
@@ -6059,18 +6059,18 @@ static const common::ZoneEntry kZoneEntryReykjavik[] = {
 
 const common::ZoneInfo kZoneReykjavik = {
   "Atlantic/Reykjavik" /*name*/,
-  kZoneEntryReykjavik /*entries*/,
-  sizeof(kZoneEntryReykjavik)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraReykjavik /*eras*/,
+  sizeof(kZoneEraReykjavik)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/South_Georgia
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 38
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySouth_Georgia[] = {
+static const common::ZoneEra kZoneEraSouth_Georgia[] = {
   //             -2:00    -    -02
   {
     -8 /*offsetCode*/,
@@ -6086,18 +6086,18 @@ static const common::ZoneEntry kZoneEntrySouth_Georgia[] = {
 
 const common::ZoneInfo kZoneSouth_Georgia = {
   "Atlantic/South_Georgia" /*name*/,
-  kZoneEntrySouth_Georgia /*entries*/,
-  sizeof(kZoneEntrySouth_Georgia)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSouth_Georgia /*eras*/,
+  sizeof(kZoneEraSouth_Georgia)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Stanley
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 46
 // Memory (32-bit): 58
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryStanley[] = {
+static const common::ZoneEra kZoneEraStanley[] = {
   //             -4:00    Falk    -04/-03    2010 Sep  5  2:00
   {
     -16 /*offsetCode*/,
@@ -6123,18 +6123,18 @@ static const common::ZoneEntry kZoneEntryStanley[] = {
 
 const common::ZoneInfo kZoneStanley = {
   "Atlantic/Stanley" /*name*/,
-  kZoneEntryStanley /*entries*/,
-  sizeof(kZoneEntryStanley)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraStanley /*eras*/,
+  sizeof(kZoneEraStanley)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Adelaide
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAdelaide[] = {
+static const common::ZoneEra kZoneEraAdelaide[] = {
   //             9:30    AS    AC%sT
   {
     38 /*offsetCode*/,
@@ -6150,18 +6150,18 @@ static const common::ZoneEntry kZoneEntryAdelaide[] = {
 
 const common::ZoneInfo kZoneAdelaide = {
   "Australia/Adelaide" /*name*/,
-  kZoneEntryAdelaide /*entries*/,
-  sizeof(kZoneEntryAdelaide)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAdelaide /*eras*/,
+  sizeof(kZoneEraAdelaide)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Brisbane
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBrisbane[] = {
+static const common::ZoneEra kZoneEraBrisbane[] = {
   //             10:00    AQ    AE%sT
   {
     40 /*offsetCode*/,
@@ -6177,18 +6177,18 @@ static const common::ZoneEntry kZoneEntryBrisbane[] = {
 
 const common::ZoneInfo kZoneBrisbane = {
   "Australia/Brisbane" /*name*/,
-  kZoneEntryBrisbane /*entries*/,
-  sizeof(kZoneEntryBrisbane)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBrisbane /*eras*/,
+  sizeof(kZoneEraBrisbane)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Broken_Hill
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 49
 // Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBroken_Hill[] = {
+static const common::ZoneEra kZoneEraBroken_Hill[] = {
   //             9:30    AN    AC%sT    2000
   {
     38 /*offsetCode*/,
@@ -6214,18 +6214,18 @@ static const common::ZoneEntry kZoneEntryBroken_Hill[] = {
 
 const common::ZoneInfo kZoneBroken_Hill = {
   "Australia/Broken_Hill" /*name*/,
-  kZoneEntryBroken_Hill /*entries*/,
-  sizeof(kZoneEntryBroken_Hill)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBroken_Hill /*eras*/,
+  sizeof(kZoneEraBroken_Hill)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Currie
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCurrie[] = {
+static const common::ZoneEra kZoneEraCurrie[] = {
   //             10:00    AT    AE%sT
   {
     40 /*offsetCode*/,
@@ -6241,18 +6241,18 @@ static const common::ZoneEntry kZoneEntryCurrie[] = {
 
 const common::ZoneInfo kZoneCurrie = {
   "Australia/Currie" /*name*/,
-  kZoneEntryCurrie /*entries*/,
-  sizeof(kZoneEntryCurrie)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCurrie /*eras*/,
+  sizeof(kZoneEraCurrie)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Darwin
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDarwin[] = {
+static const common::ZoneEra kZoneEraDarwin[] = {
   //              9:30    Aus    AC%sT
   {
     38 /*offsetCode*/,
@@ -6268,18 +6268,18 @@ static const common::ZoneEntry kZoneEntryDarwin[] = {
 
 const common::ZoneInfo kZoneDarwin = {
   "Australia/Darwin" /*name*/,
-  kZoneEntryDarwin /*entries*/,
-  sizeof(kZoneEntryDarwin)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDarwin /*eras*/,
+  sizeof(kZoneEraDarwin)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Eucla
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 39
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryEucla[] = {
+static const common::ZoneEra kZoneEraEucla[] = {
   //              8:45    AW  +0845/+0945
   {
     35 /*offsetCode*/,
@@ -6295,18 +6295,18 @@ static const common::ZoneEntry kZoneEntryEucla[] = {
 
 const common::ZoneInfo kZoneEucla = {
   "Australia/Eucla" /*name*/,
-  kZoneEntryEucla /*entries*/,
-  sizeof(kZoneEntryEucla)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraEucla /*eras*/,
+  sizeof(kZoneEraEucla)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Hobart
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryHobart[] = {
+static const common::ZoneEra kZoneEraHobart[] = {
   //             10:00    AT    AE%sT
   {
     40 /*offsetCode*/,
@@ -6322,18 +6322,18 @@ static const common::ZoneEntry kZoneEntryHobart[] = {
 
 const common::ZoneInfo kZoneHobart = {
   "Australia/Hobart" /*name*/,
-  kZoneEntryHobart /*entries*/,
-  sizeof(kZoneEntryHobart)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraHobart /*eras*/,
+  sizeof(kZoneEraHobart)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Lindeman
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryLindeman[] = {
+static const common::ZoneEra kZoneEraLindeman[] = {
   //             10:00    Holiday    AE%sT
   {
     40 /*offsetCode*/,
@@ -6349,18 +6349,18 @@ static const common::ZoneEntry kZoneEntryLindeman[] = {
 
 const common::ZoneInfo kZoneLindeman = {
   "Australia/Lindeman" /*name*/,
-  kZoneEntryLindeman /*entries*/,
-  sizeof(kZoneEntryLindeman)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraLindeman /*eras*/,
+  sizeof(kZoneEraLindeman)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Lord_Howe
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 41
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryLord_Howe[] = {
+static const common::ZoneEra kZoneEraLord_Howe[] = {
   //             10:30    LH    +1030/+11
   {
     42 /*offsetCode*/,
@@ -6376,18 +6376,18 @@ static const common::ZoneEntry kZoneEntryLord_Howe[] = {
 
 const common::ZoneInfo kZoneLord_Howe = {
   "Australia/Lord_Howe" /*name*/,
-  kZoneEntryLord_Howe /*entries*/,
-  sizeof(kZoneEntryLord_Howe)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraLord_Howe /*eras*/,
+  sizeof(kZoneEraLord_Howe)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Melbourne
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 36
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMelbourne[] = {
+static const common::ZoneEra kZoneEraMelbourne[] = {
   //             10:00    AV    AE%sT
   {
     40 /*offsetCode*/,
@@ -6403,18 +6403,18 @@ static const common::ZoneEntry kZoneEntryMelbourne[] = {
 
 const common::ZoneInfo kZoneMelbourne = {
   "Australia/Melbourne" /*name*/,
-  kZoneEntryMelbourne /*entries*/,
-  sizeof(kZoneEntryMelbourne)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMelbourne /*eras*/,
+  sizeof(kZoneEraMelbourne)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Perth
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPerth[] = {
+static const common::ZoneEra kZoneEraPerth[] = {
   //              8:00    AW    AW%sT
   {
     32 /*offsetCode*/,
@@ -6430,18 +6430,18 @@ static const common::ZoneEntry kZoneEntryPerth[] = {
 
 const common::ZoneInfo kZonePerth = {
   "Australia/Perth" /*name*/,
-  kZoneEntryPerth /*entries*/,
-  sizeof(kZoneEntryPerth)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPerth /*eras*/,
+  sizeof(kZoneEraPerth)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Sydney
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySydney[] = {
+static const common::ZoneEra kZoneEraSydney[] = {
   //             10:00    AN    AE%sT
   {
     40 /*offsetCode*/,
@@ -6457,18 +6457,18 @@ static const common::ZoneEntry kZoneEntrySydney[] = {
 
 const common::ZoneInfo kZoneSydney = {
   "Australia/Sydney" /*name*/,
-  kZoneEntrySydney /*entries*/,
-  sizeof(kZoneEntrySydney)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSydney /*eras*/,
+  sizeof(kZoneEraSydney)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Amsterdam
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAmsterdam[] = {
+static const common::ZoneEra kZoneEraAmsterdam[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6484,18 +6484,18 @@ static const common::ZoneEntry kZoneEntryAmsterdam[] = {
 
 const common::ZoneInfo kZoneAmsterdam = {
   "Europe/Amsterdam" /*name*/,
-  kZoneEntryAmsterdam /*entries*/,
-  sizeof(kZoneEntryAmsterdam)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAmsterdam /*eras*/,
+  sizeof(kZoneEraAmsterdam)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Andorra
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAndorra[] = {
+static const common::ZoneEra kZoneEraAndorra[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6511,18 +6511,18 @@ static const common::ZoneEntry kZoneEntryAndorra[] = {
 
 const common::ZoneInfo kZoneAndorra = {
   "Europe/Andorra" /*name*/,
-  kZoneEntryAndorra /*entries*/,
-  sizeof(kZoneEntryAndorra)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAndorra /*eras*/,
+  sizeof(kZoneEraAndorra)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Athens
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAthens[] = {
+static const common::ZoneEra kZoneEraAthens[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -6538,18 +6538,18 @@ static const common::ZoneEntry kZoneEntryAthens[] = {
 
 const common::ZoneInfo kZoneAthens = {
   "Europe/Athens" /*name*/,
-  kZoneEntryAthens /*entries*/,
-  sizeof(kZoneEntryAthens)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAthens /*eras*/,
+  sizeof(kZoneEraAthens)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Belgrade
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBelgrade[] = {
+static const common::ZoneEra kZoneEraBelgrade[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6565,18 +6565,18 @@ static const common::ZoneEntry kZoneEntryBelgrade[] = {
 
 const common::ZoneInfo kZoneBelgrade = {
   "Europe/Belgrade" /*name*/,
-  kZoneEntryBelgrade /*entries*/,
-  sizeof(kZoneEntryBelgrade)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBelgrade /*eras*/,
+  sizeof(kZoneEraBelgrade)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Berlin
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBerlin[] = {
+static const common::ZoneEra kZoneEraBerlin[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6592,18 +6592,18 @@ static const common::ZoneEntry kZoneEntryBerlin[] = {
 
 const common::ZoneInfo kZoneBerlin = {
   "Europe/Berlin" /*name*/,
-  kZoneEntryBerlin /*entries*/,
-  sizeof(kZoneEntryBerlin)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBerlin /*eras*/,
+  sizeof(kZoneEraBerlin)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Brussels
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBrussels[] = {
+static const common::ZoneEra kZoneEraBrussels[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6619,18 +6619,18 @@ static const common::ZoneEntry kZoneEntryBrussels[] = {
 
 const common::ZoneInfo kZoneBrussels = {
   "Europe/Brussels" /*name*/,
-  kZoneEntryBrussels /*entries*/,
-  sizeof(kZoneEntryBrussels)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBrussels /*eras*/,
+  sizeof(kZoneEraBrussels)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Bucharest
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBucharest[] = {
+static const common::ZoneEra kZoneEraBucharest[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -6646,18 +6646,18 @@ static const common::ZoneEntry kZoneEntryBucharest[] = {
 
 const common::ZoneInfo kZoneBucharest = {
   "Europe/Bucharest" /*name*/,
-  kZoneEntryBucharest /*entries*/,
-  sizeof(kZoneEntryBucharest)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBucharest /*eras*/,
+  sizeof(kZoneEraBucharest)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Budapest
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBudapest[] = {
+static const common::ZoneEra kZoneEraBudapest[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6673,18 +6673,18 @@ static const common::ZoneEntry kZoneEntryBudapest[] = {
 
 const common::ZoneInfo kZoneBudapest = {
   "Europe/Budapest" /*name*/,
-  kZoneEntryBudapest /*entries*/,
-  sizeof(kZoneEntryBudapest)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBudapest /*eras*/,
+  sizeof(kZoneEraBudapest)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Chisinau
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryChisinau[] = {
+static const common::ZoneEra kZoneEraChisinau[] = {
   //             2:00    Moldova    EE%sT
   {
     8 /*offsetCode*/,
@@ -6700,18 +6700,18 @@ static const common::ZoneEntry kZoneEntryChisinau[] = {
 
 const common::ZoneInfo kZoneChisinau = {
   "Europe/Chisinau" /*name*/,
-  kZoneEntryChisinau /*entries*/,
-  sizeof(kZoneEntryChisinau)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraChisinau /*eras*/,
+  sizeof(kZoneEraChisinau)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Copenhagen
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCopenhagen[] = {
+static const common::ZoneEra kZoneEraCopenhagen[] = {
   //              1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6727,18 +6727,18 @@ static const common::ZoneEntry kZoneEntryCopenhagen[] = {
 
 const common::ZoneInfo kZoneCopenhagen = {
   "Europe/Copenhagen" /*name*/,
-  kZoneEntryCopenhagen /*entries*/,
-  sizeof(kZoneEntryCopenhagen)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCopenhagen /*eras*/,
+  sizeof(kZoneEraCopenhagen)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Dublin
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryDublin[] = {
+static const common::ZoneEra kZoneEraDublin[] = {
   //              1:00    Eire    IST/GMT
   {
     4 /*offsetCode*/,
@@ -6754,18 +6754,18 @@ static const common::ZoneEntry kZoneEntryDublin[] = {
 
 const common::ZoneInfo kZoneDublin = {
   "Europe/Dublin" /*name*/,
-  kZoneEntryDublin /*entries*/,
-  sizeof(kZoneEntryDublin)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraDublin /*eras*/,
+  sizeof(kZoneEraDublin)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Gibraltar
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryGibraltar[] = {
+static const common::ZoneEra kZoneEraGibraltar[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6781,18 +6781,18 @@ static const common::ZoneEntry kZoneEntryGibraltar[] = {
 
 const common::ZoneInfo kZoneGibraltar = {
   "Europe/Gibraltar" /*name*/,
-  kZoneEntryGibraltar /*entries*/,
-  sizeof(kZoneEntryGibraltar)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraGibraltar /*eras*/,
+  sizeof(kZoneEraGibraltar)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Helsinki
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryHelsinki[] = {
+static const common::ZoneEra kZoneEraHelsinki[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -6808,18 +6808,18 @@ static const common::ZoneEntry kZoneEntryHelsinki[] = {
 
 const common::ZoneInfo kZoneHelsinki = {
   "Europe/Helsinki" /*name*/,
-  kZoneEntryHelsinki /*entries*/,
-  sizeof(kZoneEntryHelsinki)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraHelsinki /*eras*/,
+  sizeof(kZoneEraHelsinki)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Kiev
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKiev[] = {
+static const common::ZoneEra kZoneEraKiev[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -6835,18 +6835,18 @@ static const common::ZoneEntry kZoneEntryKiev[] = {
 
 const common::ZoneInfo kZoneKiev = {
   "Europe/Kiev" /*name*/,
-  kZoneEntryKiev /*entries*/,
-  sizeof(kZoneEntryKiev)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKiev /*eras*/,
+  sizeof(kZoneEraKiev)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Lisbon
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryLisbon[] = {
+static const common::ZoneEra kZoneEraLisbon[] = {
   //              0:00    EU    WE%sT
   {
     0 /*offsetCode*/,
@@ -6862,18 +6862,18 @@ static const common::ZoneEntry kZoneEntryLisbon[] = {
 
 const common::ZoneInfo kZoneLisbon = {
   "Europe/Lisbon" /*name*/,
-  kZoneEntryLisbon /*entries*/,
-  sizeof(kZoneEntryLisbon)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraLisbon /*eras*/,
+  sizeof(kZoneEraLisbon)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/London
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryLondon[] = {
+static const common::ZoneEra kZoneEraLondon[] = {
   //              0:00    EU    GMT/BST
   {
     0 /*offsetCode*/,
@@ -6889,18 +6889,18 @@ static const common::ZoneEntry kZoneEntryLondon[] = {
 
 const common::ZoneInfo kZoneLondon = {
   "Europe/London" /*name*/,
-  kZoneEntryLondon /*entries*/,
-  sizeof(kZoneEntryLondon)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraLondon /*eras*/,
+  sizeof(kZoneEraLondon)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Luxembourg
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryLuxembourg[] = {
+static const common::ZoneEra kZoneEraLuxembourg[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6916,18 +6916,18 @@ static const common::ZoneEntry kZoneEntryLuxembourg[] = {
 
 const common::ZoneInfo kZoneLuxembourg = {
   "Europe/Luxembourg" /*name*/,
-  kZoneEntryLuxembourg /*entries*/,
-  sizeof(kZoneEntryLuxembourg)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraLuxembourg /*eras*/,
+  sizeof(kZoneEraLuxembourg)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Madrid
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMadrid[] = {
+static const common::ZoneEra kZoneEraMadrid[] = {
   //              1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6943,18 +6943,18 @@ static const common::ZoneEntry kZoneEntryMadrid[] = {
 
 const common::ZoneInfo kZoneMadrid = {
   "Europe/Madrid" /*name*/,
-  kZoneEntryMadrid /*entries*/,
-  sizeof(kZoneEntryMadrid)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMadrid /*eras*/,
+  sizeof(kZoneEraMadrid)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Malta
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMalta[] = {
+static const common::ZoneEra kZoneEraMalta[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6970,18 +6970,18 @@ static const common::ZoneEntry kZoneEntryMalta[] = {
 
 const common::ZoneInfo kZoneMalta = {
   "Europe/Malta" /*name*/,
-  kZoneEntryMalta /*entries*/,
-  sizeof(kZoneEntryMalta)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMalta /*eras*/,
+  sizeof(kZoneEraMalta)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Monaco
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMonaco[] = {
+static const common::ZoneEra kZoneEraMonaco[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -6997,18 +6997,18 @@ static const common::ZoneEntry kZoneEntryMonaco[] = {
 
 const common::ZoneInfo kZoneMonaco = {
   "Europe/Monaco" /*name*/,
-  kZoneEntryMonaco /*entries*/,
-  sizeof(kZoneEntryMonaco)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMonaco /*eras*/,
+  sizeof(kZoneEraMonaco)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Oslo
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryOslo[] = {
+static const common::ZoneEra kZoneEraOslo[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -7024,18 +7024,18 @@ static const common::ZoneEntry kZoneEntryOslo[] = {
 
 const common::ZoneInfo kZoneOslo = {
   "Europe/Oslo" /*name*/,
-  kZoneEntryOslo /*entries*/,
-  sizeof(kZoneEntryOslo)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraOslo /*eras*/,
+  sizeof(kZoneEraOslo)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Paris
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryParis[] = {
+static const common::ZoneEra kZoneEraParis[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -7051,18 +7051,18 @@ static const common::ZoneEntry kZoneEntryParis[] = {
 
 const common::ZoneInfo kZoneParis = {
   "Europe/Paris" /*name*/,
-  kZoneEntryParis /*entries*/,
-  sizeof(kZoneEntryParis)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraParis /*eras*/,
+  sizeof(kZoneEraParis)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Prague
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPrague[] = {
+static const common::ZoneEra kZoneEraPrague[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -7078,18 +7078,18 @@ static const common::ZoneEntry kZoneEntryPrague[] = {
 
 const common::ZoneInfo kZonePrague = {
   "Europe/Prague" /*name*/,
-  kZoneEntryPrague /*entries*/,
-  sizeof(kZoneEntryPrague)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPrague /*eras*/,
+  sizeof(kZoneEraPrague)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Riga
-// Entry count: 3
+// Era count: 3
 // Memory (8-bit): 49
 // Memory (32-bit): 65
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryRiga[] = {
+static const common::ZoneEra kZoneEraRiga[] = {
   //             2:00    EU    EE%sT    2000 Feb 29
   {
     8 /*offsetCode*/,
@@ -7125,18 +7125,18 @@ static const common::ZoneEntry kZoneEntryRiga[] = {
 
 const common::ZoneInfo kZoneRiga = {
   "Europe/Riga" /*name*/,
-  kZoneEntryRiga /*entries*/,
-  sizeof(kZoneEntryRiga)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraRiga /*eras*/,
+  sizeof(kZoneEraRiga)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Rome
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryRome[] = {
+static const common::ZoneEra kZoneEraRome[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -7152,18 +7152,18 @@ static const common::ZoneEntry kZoneEntryRome[] = {
 
 const common::ZoneInfo kZoneRome = {
   "Europe/Rome" /*name*/,
-  kZoneEntryRome /*entries*/,
-  sizeof(kZoneEntryRome)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraRome /*eras*/,
+  sizeof(kZoneEraRome)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Sofia
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntrySofia[] = {
+static const common::ZoneEra kZoneEraSofia[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -7179,18 +7179,18 @@ static const common::ZoneEntry kZoneEntrySofia[] = {
 
 const common::ZoneInfo kZoneSofia = {
   "Europe/Sofia" /*name*/,
-  kZoneEntrySofia /*entries*/,
-  sizeof(kZoneEntrySofia)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraSofia /*eras*/,
+  sizeof(kZoneEraSofia)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Stockholm
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryStockholm[] = {
+static const common::ZoneEra kZoneEraStockholm[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -7206,18 +7206,18 @@ static const common::ZoneEntry kZoneEntryStockholm[] = {
 
 const common::ZoneInfo kZoneStockholm = {
   "Europe/Stockholm" /*name*/,
-  kZoneEntryStockholm /*entries*/,
-  sizeof(kZoneEntryStockholm)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraStockholm /*eras*/,
+  sizeof(kZoneEraStockholm)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Tallinn
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 41
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTallinn[] = {
+static const common::ZoneEra kZoneEraTallinn[] = {
   //             2:00    -    EET    2002 Feb 21
   {
     8 /*offsetCode*/,
@@ -7243,18 +7243,18 @@ static const common::ZoneEntry kZoneEntryTallinn[] = {
 
 const common::ZoneInfo kZoneTallinn = {
   "Europe/Tallinn" /*name*/,
-  kZoneEntryTallinn /*entries*/,
-  sizeof(kZoneEntryTallinn)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTallinn /*eras*/,
+  sizeof(kZoneEraTallinn)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Tirane
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTirane[] = {
+static const common::ZoneEra kZoneEraTirane[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -7270,18 +7270,18 @@ static const common::ZoneEntry kZoneEntryTirane[] = {
 
 const common::ZoneInfo kZoneTirane = {
   "Europe/Tirane" /*name*/,
-  kZoneEntryTirane /*entries*/,
-  sizeof(kZoneEntryTirane)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTirane /*eras*/,
+  sizeof(kZoneEraTirane)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Uzhgorod
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryUzhgorod[] = {
+static const common::ZoneEra kZoneEraUzhgorod[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -7297,18 +7297,18 @@ static const common::ZoneEntry kZoneEntryUzhgorod[] = {
 
 const common::ZoneInfo kZoneUzhgorod = {
   "Europe/Uzhgorod" /*name*/,
-  kZoneEntryUzhgorod /*entries*/,
-  sizeof(kZoneEntryUzhgorod)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraUzhgorod /*eras*/,
+  sizeof(kZoneEraUzhgorod)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Vienna
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryVienna[] = {
+static const common::ZoneEra kZoneEraVienna[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -7324,18 +7324,18 @@ static const common::ZoneEntry kZoneEntryVienna[] = {
 
 const common::ZoneInfo kZoneVienna = {
   "Europe/Vienna" /*name*/,
-  kZoneEntryVienna /*entries*/,
-  sizeof(kZoneEntryVienna)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraVienna /*eras*/,
+  sizeof(kZoneEraVienna)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Vilnius
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 41
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryVilnius[] = {
+static const common::ZoneEra kZoneEraVilnius[] = {
   //             2:00    -    EET    2003 Jan  1
   {
     8 /*offsetCode*/,
@@ -7361,18 +7361,18 @@ static const common::ZoneEntry kZoneEntryVilnius[] = {
 
 const common::ZoneInfo kZoneVilnius = {
   "Europe/Vilnius" /*name*/,
-  kZoneEntryVilnius /*entries*/,
-  sizeof(kZoneEntryVilnius)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraVilnius /*eras*/,
+  sizeof(kZoneEraVilnius)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Warsaw
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryWarsaw[] = {
+static const common::ZoneEra kZoneEraWarsaw[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -7388,18 +7388,18 @@ static const common::ZoneEntry kZoneEntryWarsaw[] = {
 
 const common::ZoneInfo kZoneWarsaw = {
   "Europe/Warsaw" /*name*/,
-  kZoneEntryWarsaw /*entries*/,
-  sizeof(kZoneEntryWarsaw)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraWarsaw /*eras*/,
+  sizeof(kZoneEraWarsaw)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Zaporozhye
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryZaporozhye[] = {
+static const common::ZoneEra kZoneEraZaporozhye[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -7415,18 +7415,18 @@ static const common::ZoneEntry kZoneEntryZaporozhye[] = {
 
 const common::ZoneInfo kZoneZaporozhye = {
   "Europe/Zaporozhye" /*name*/,
-  kZoneEntryZaporozhye /*entries*/,
-  sizeof(kZoneEntryZaporozhye)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraZaporozhye /*eras*/,
+  sizeof(kZoneEraZaporozhye)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Zurich
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryZurich[] = {
+static const common::ZoneEra kZoneEraZurich[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -7442,18 +7442,18 @@ static const common::ZoneEntry kZoneEntryZurich[] = {
 
 const common::ZoneInfo kZoneZurich = {
   "Europe/Zurich" /*name*/,
-  kZoneEntryZurich /*entries*/,
-  sizeof(kZoneEntryZurich)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraZurich /*eras*/,
+  sizeof(kZoneEraZurich)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Chagos
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryChagos[] = {
+static const common::ZoneEra kZoneEraChagos[] = {
   //             6:00    -    +06
   {
     24 /*offsetCode*/,
@@ -7469,18 +7469,18 @@ static const common::ZoneEntry kZoneEntryChagos[] = {
 
 const common::ZoneInfo kZoneChagos = {
   "Indian/Chagos" /*name*/,
-  kZoneEntryChagos /*entries*/,
-  sizeof(kZoneEntryChagos)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraChagos /*eras*/,
+  sizeof(kZoneEraChagos)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Christmas
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryChristmas[] = {
+static const common::ZoneEra kZoneEraChristmas[] = {
   //             7:00    -    +07
   {
     28 /*offsetCode*/,
@@ -7496,18 +7496,18 @@ static const common::ZoneEntry kZoneEntryChristmas[] = {
 
 const common::ZoneInfo kZoneChristmas = {
   "Indian/Christmas" /*name*/,
-  kZoneEntryChristmas /*entries*/,
-  sizeof(kZoneEntryChristmas)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraChristmas /*eras*/,
+  sizeof(kZoneEraChristmas)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Cocos
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryCocos[] = {
+static const common::ZoneEra kZoneEraCocos[] = {
   //             6:30    -    +0630
   {
     26 /*offsetCode*/,
@@ -7523,18 +7523,18 @@ static const common::ZoneEntry kZoneEntryCocos[] = {
 
 const common::ZoneInfo kZoneCocos = {
   "Indian/Cocos" /*name*/,
-  kZoneEntryCocos /*entries*/,
-  sizeof(kZoneEntryCocos)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraCocos /*eras*/,
+  sizeof(kZoneEraCocos)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Kerguelen
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKerguelen[] = {
+static const common::ZoneEra kZoneEraKerguelen[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -7550,18 +7550,18 @@ static const common::ZoneEntry kZoneEntryKerguelen[] = {
 
 const common::ZoneInfo kZoneKerguelen = {
   "Indian/Kerguelen" /*name*/,
-  kZoneEntryKerguelen /*entries*/,
-  sizeof(kZoneEntryKerguelen)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKerguelen /*eras*/,
+  sizeof(kZoneEraKerguelen)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Mahe
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 27
 // Memory (32-bit): 35
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMahe[] = {
+static const common::ZoneEra kZoneEraMahe[] = {
   //             4:00    -    +04
   {
     16 /*offsetCode*/,
@@ -7577,18 +7577,18 @@ static const common::ZoneEntry kZoneEntryMahe[] = {
 
 const common::ZoneInfo kZoneMahe = {
   "Indian/Mahe" /*name*/,
-  kZoneEntryMahe /*entries*/,
-  sizeof(kZoneEntryMahe)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMahe /*eras*/,
+  sizeof(kZoneEraMahe)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Maldives
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMaldives[] = {
+static const common::ZoneEra kZoneEraMaldives[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -7604,18 +7604,18 @@ static const common::ZoneEntry kZoneEntryMaldives[] = {
 
 const common::ZoneInfo kZoneMaldives = {
   "Indian/Maldives" /*name*/,
-  kZoneEntryMaldives /*entries*/,
-  sizeof(kZoneEntryMaldives)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMaldives /*eras*/,
+  sizeof(kZoneEraMaldives)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Mauritius
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 36
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMauritius[] = {
+static const common::ZoneEra kZoneEraMauritius[] = {
   //             4:00 Mauritius    +04/+05
   {
     16 /*offsetCode*/,
@@ -7631,18 +7631,18 @@ static const common::ZoneEntry kZoneEntryMauritius[] = {
 
 const common::ZoneInfo kZoneMauritius = {
   "Indian/Mauritius" /*name*/,
-  kZoneEntryMauritius /*entries*/,
-  sizeof(kZoneEntryMauritius)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMauritius /*eras*/,
+  sizeof(kZoneEraMauritius)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Reunion
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryReunion[] = {
+static const common::ZoneEra kZoneEraReunion[] = {
   //             4:00    -    +04
   {
     16 /*offsetCode*/,
@@ -7658,18 +7658,18 @@ static const common::ZoneEntry kZoneEntryReunion[] = {
 
 const common::ZoneInfo kZoneReunion = {
   "Indian/Reunion" /*name*/,
-  kZoneEntryReunion /*entries*/,
-  sizeof(kZoneEntryReunion)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraReunion /*eras*/,
+  sizeof(kZoneEraReunion)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Apia
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 46
 // Memory (32-bit): 58
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryApia[] = {
+static const common::ZoneEra kZoneEraApia[] = {
   //             -11:00    WS    -11/-10    2011 Dec 29 24:00
   {
     -44 /*offsetCode*/,
@@ -7695,18 +7695,18 @@ static const common::ZoneEntry kZoneEntryApia[] = {
 
 const common::ZoneInfo kZoneApia = {
   "Pacific/Apia" /*name*/,
-  kZoneEntryApia /*entries*/,
-  sizeof(kZoneEntryApia)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraApia /*eras*/,
+  sizeof(kZoneEraApia)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Auckland
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryAuckland[] = {
+static const common::ZoneEra kZoneEraAuckland[] = {
   //             12:00    NZ    NZ%sT
   {
     48 /*offsetCode*/,
@@ -7722,18 +7722,18 @@ static const common::ZoneEntry kZoneEntryAuckland[] = {
 
 const common::ZoneInfo kZoneAuckland = {
   "Pacific/Auckland" /*name*/,
-  kZoneEntryAuckland /*entries*/,
-  sizeof(kZoneEntryAuckland)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraAuckland /*eras*/,
+  sizeof(kZoneEraAuckland)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Bougainville
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 46
 // Memory (32-bit): 58
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryBougainville[] = {
+static const common::ZoneEra kZoneEraBougainville[] = {
   //             10:00    -    +10    2014 Dec 28  2:00
   {
     40 /*offsetCode*/,
@@ -7759,18 +7759,18 @@ static const common::ZoneEntry kZoneEntryBougainville[] = {
 
 const common::ZoneInfo kZoneBougainville = {
   "Pacific/Bougainville" /*name*/,
-  kZoneEntryBougainville /*entries*/,
-  sizeof(kZoneEntryBougainville)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraBougainville /*eras*/,
+  sizeof(kZoneEraBougainville)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Chuuk
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryChuuk[] = {
+static const common::ZoneEra kZoneEraChuuk[] = {
   //             10:00    -    +10
   {
     40 /*offsetCode*/,
@@ -7786,18 +7786,18 @@ static const common::ZoneEntry kZoneEntryChuuk[] = {
 
 const common::ZoneInfo kZoneChuuk = {
   "Pacific/Chuuk" /*name*/,
-  kZoneEntryChuuk /*entries*/,
-  sizeof(kZoneEntryChuuk)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraChuuk /*eras*/,
+  sizeof(kZoneEraChuuk)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Easter
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryEaster[] = {
+static const common::ZoneEra kZoneEraEaster[] = {
   //             -6:00    Chile    -06/-05
   {
     -24 /*offsetCode*/,
@@ -7813,18 +7813,18 @@ static const common::ZoneEntry kZoneEntryEaster[] = {
 
 const common::ZoneInfo kZoneEaster = {
   "Pacific/Easter" /*name*/,
-  kZoneEntryEaster /*entries*/,
-  sizeof(kZoneEntryEaster)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraEaster /*eras*/,
+  sizeof(kZoneEraEaster)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Efate
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryEfate[] = {
+static const common::ZoneEra kZoneEraEfate[] = {
   //             11:00    Vanuatu    +11/+12
   {
     44 /*offsetCode*/,
@@ -7840,18 +7840,18 @@ static const common::ZoneEntry kZoneEntryEfate[] = {
 
 const common::ZoneInfo kZoneEfate = {
   "Pacific/Efate" /*name*/,
-  kZoneEntryEfate /*entries*/,
-  sizeof(kZoneEntryEfate)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraEfate /*eras*/,
+  sizeof(kZoneEraEfate)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Enderbury
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryEnderbury[] = {
+static const common::ZoneEra kZoneEraEnderbury[] = {
   //              13:00    -    +13
   {
     52 /*offsetCode*/,
@@ -7867,18 +7867,18 @@ static const common::ZoneEntry kZoneEntryEnderbury[] = {
 
 const common::ZoneInfo kZoneEnderbury = {
   "Pacific/Enderbury" /*name*/,
-  kZoneEntryEnderbury /*entries*/,
-  sizeof(kZoneEntryEnderbury)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraEnderbury /*eras*/,
+  sizeof(kZoneEraEnderbury)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Fakaofo
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 41
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryFakaofo[] = {
+static const common::ZoneEra kZoneEraFakaofo[] = {
   //             -11:00    -    -11    2011 Dec 30
   {
     -44 /*offsetCode*/,
@@ -7904,18 +7904,18 @@ static const common::ZoneEntry kZoneEntryFakaofo[] = {
 
 const common::ZoneInfo kZoneFakaofo = {
   "Pacific/Fakaofo" /*name*/,
-  kZoneEntryFakaofo /*entries*/,
-  sizeof(kZoneEntryFakaofo)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraFakaofo /*eras*/,
+  sizeof(kZoneEraFakaofo)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Fiji
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryFiji[] = {
+static const common::ZoneEra kZoneEraFiji[] = {
   //             12:00    Fiji    +12/+13
   {
     48 /*offsetCode*/,
@@ -7931,18 +7931,18 @@ static const common::ZoneEntry kZoneEntryFiji[] = {
 
 const common::ZoneInfo kZoneFiji = {
   "Pacific/Fiji" /*name*/,
-  kZoneEntryFiji /*entries*/,
-  sizeof(kZoneEntryFiji)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraFiji /*eras*/,
+  sizeof(kZoneEraFiji)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Funafuti
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryFunafuti[] = {
+static const common::ZoneEra kZoneEraFunafuti[] = {
   //             12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -7958,18 +7958,18 @@ static const common::ZoneEntry kZoneEntryFunafuti[] = {
 
 const common::ZoneInfo kZoneFunafuti = {
   "Pacific/Funafuti" /*name*/,
-  kZoneEntryFunafuti /*entries*/,
-  sizeof(kZoneEntryFunafuti)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraFunafuti /*eras*/,
+  sizeof(kZoneEraFunafuti)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Galapagos
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 37
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryGalapagos[] = {
+static const common::ZoneEra kZoneEraGalapagos[] = {
   //             -6:00    Ecuador    -06/-05
   {
     -24 /*offsetCode*/,
@@ -7985,18 +7985,18 @@ static const common::ZoneEntry kZoneEntryGalapagos[] = {
 
 const common::ZoneInfo kZoneGalapagos = {
   "Pacific/Galapagos" /*name*/,
-  kZoneEntryGalapagos /*entries*/,
-  sizeof(kZoneEntryGalapagos)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraGalapagos /*eras*/,
+  sizeof(kZoneEraGalapagos)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Gambier
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryGambier[] = {
+static const common::ZoneEra kZoneEraGambier[] = {
   //              -9:00    -    -09
   {
     -36 /*offsetCode*/,
@@ -8012,18 +8012,18 @@ static const common::ZoneEntry kZoneEntryGambier[] = {
 
 const common::ZoneInfo kZoneGambier = {
   "Pacific/Gambier" /*name*/,
-  kZoneEntryGambier /*entries*/,
-  sizeof(kZoneEntryGambier)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraGambier /*eras*/,
+  sizeof(kZoneEraGambier)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Guadalcanal
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryGuadalcanal[] = {
+static const common::ZoneEra kZoneEraGuadalcanal[] = {
   //             11:00    -    +11
   {
     44 /*offsetCode*/,
@@ -8039,18 +8039,18 @@ static const common::ZoneEntry kZoneEntryGuadalcanal[] = {
 
 const common::ZoneInfo kZoneGuadalcanal = {
   "Pacific/Guadalcanal" /*name*/,
-  kZoneEntryGuadalcanal /*entries*/,
-  sizeof(kZoneEntryGuadalcanal)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraGuadalcanal /*eras*/,
+  sizeof(kZoneEraGuadalcanal)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Guam
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 39
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryGuam[] = {
+static const common::ZoneEra kZoneEraGuam[] = {
   //             10:00    -    GST    2000 Dec 23
   {
     40 /*offsetCode*/,
@@ -8076,18 +8076,18 @@ static const common::ZoneEntry kZoneEntryGuam[] = {
 
 const common::ZoneInfo kZoneGuam = {
   "Pacific/Guam" /*name*/,
-  kZoneEntryGuam /*entries*/,
-  sizeof(kZoneEntryGuam)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraGuam /*eras*/,
+  sizeof(kZoneEraGuam)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Honolulu
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryHonolulu[] = {
+static const common::ZoneEra kZoneEraHonolulu[] = {
   //             -10:00    -    HST
   {
     -40 /*offsetCode*/,
@@ -8103,18 +8103,18 @@ static const common::ZoneEntry kZoneEntryHonolulu[] = {
 
 const common::ZoneInfo kZoneHonolulu = {
   "Pacific/Honolulu" /*name*/,
-  kZoneEntryHonolulu /*entries*/,
-  sizeof(kZoneEntryHonolulu)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraHonolulu /*eras*/,
+  sizeof(kZoneEraHonolulu)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Kiritimati
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKiritimati[] = {
+static const common::ZoneEra kZoneEraKiritimati[] = {
   //              14:00    -    +14
   {
     56 /*offsetCode*/,
@@ -8130,18 +8130,18 @@ static const common::ZoneEntry kZoneEntryKiritimati[] = {
 
 const common::ZoneInfo kZoneKiritimati = {
   "Pacific/Kiritimati" /*name*/,
-  kZoneEntryKiritimati /*entries*/,
-  sizeof(kZoneEntryKiritimati)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKiritimati /*eras*/,
+  sizeof(kZoneEraKiritimati)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Kosrae
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKosrae[] = {
+static const common::ZoneEra kZoneEraKosrae[] = {
   //             11:00    -    +11
   {
     44 /*offsetCode*/,
@@ -8157,18 +8157,18 @@ static const common::ZoneEntry kZoneEntryKosrae[] = {
 
 const common::ZoneInfo kZoneKosrae = {
   "Pacific/Kosrae" /*name*/,
-  kZoneEntryKosrae /*entries*/,
-  sizeof(kZoneEntryKosrae)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKosrae /*eras*/,
+  sizeof(kZoneEraKosrae)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Kwajalein
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryKwajalein[] = {
+static const common::ZoneEra kZoneEraKwajalein[] = {
   //             12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -8184,18 +8184,18 @@ static const common::ZoneEntry kZoneEntryKwajalein[] = {
 
 const common::ZoneInfo kZoneKwajalein = {
   "Pacific/Kwajalein" /*name*/,
-  kZoneEntryKwajalein /*entries*/,
-  sizeof(kZoneEntryKwajalein)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraKwajalein /*eras*/,
+  sizeof(kZoneEraKwajalein)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Majuro
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMajuro[] = {
+static const common::ZoneEra kZoneEraMajuro[] = {
   //             12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -8211,18 +8211,18 @@ static const common::ZoneEntry kZoneEntryMajuro[] = {
 
 const common::ZoneInfo kZoneMajuro = {
   "Pacific/Majuro" /*name*/,
-  kZoneEntryMajuro /*entries*/,
-  sizeof(kZoneEntryMajuro)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMajuro /*eras*/,
+  sizeof(kZoneEraMajuro)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Marquesas
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 35
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryMarquesas[] = {
+static const common::ZoneEra kZoneEraMarquesas[] = {
   //              -9:30    -    -0930
   {
     -38 /*offsetCode*/,
@@ -8238,18 +8238,18 @@ static const common::ZoneEntry kZoneEntryMarquesas[] = {
 
 const common::ZoneInfo kZoneMarquesas = {
   "Pacific/Marquesas" /*name*/,
-  kZoneEntryMarquesas /*entries*/,
-  sizeof(kZoneEntryMarquesas)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraMarquesas /*eras*/,
+  sizeof(kZoneEraMarquesas)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Nauru
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNauru[] = {
+static const common::ZoneEra kZoneEraNauru[] = {
   //             12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -8265,18 +8265,18 @@ static const common::ZoneEntry kZoneEntryNauru[] = {
 
 const common::ZoneInfo kZoneNauru = {
   "Pacific/Nauru" /*name*/,
-  kZoneEntryNauru /*entries*/,
-  sizeof(kZoneEntryNauru)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNauru /*eras*/,
+  sizeof(kZoneEraNauru)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Niue
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNiue[] = {
+static const common::ZoneEra kZoneEraNiue[] = {
   //             -11:00    -    -11
   {
     -44 /*offsetCode*/,
@@ -8292,18 +8292,18 @@ static const common::ZoneEntry kZoneEntryNiue[] = {
 
 const common::ZoneInfo kZoneNiue = {
   "Pacific/Niue" /*name*/,
-  kZoneEntryNiue /*entries*/,
-  sizeof(kZoneEntryNiue)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNiue /*eras*/,
+  sizeof(kZoneEraNiue)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Norfolk
-// Entry count: 2
+// Era count: 2
 // Memory (8-bit): 43
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNorfolk[] = {
+static const common::ZoneEra kZoneEraNorfolk[] = {
   //             11:30    -    +1130    2015 Oct  4 02:00
   {
     46 /*offsetCode*/,
@@ -8329,18 +8329,18 @@ static const common::ZoneEntry kZoneEntryNorfolk[] = {
 
 const common::ZoneInfo kZoneNorfolk = {
   "Pacific/Norfolk" /*name*/,
-  kZoneEntryNorfolk /*entries*/,
-  sizeof(kZoneEntryNorfolk)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNorfolk /*eras*/,
+  sizeof(kZoneEraNorfolk)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Noumea
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 34
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryNoumea[] = {
+static const common::ZoneEra kZoneEraNoumea[] = {
   //             11:00    NC    +11/+12
   {
     44 /*offsetCode*/,
@@ -8356,18 +8356,18 @@ static const common::ZoneEntry kZoneEntryNoumea[] = {
 
 const common::ZoneInfo kZoneNoumea = {
   "Pacific/Noumea" /*name*/,
-  kZoneEntryNoumea /*entries*/,
-  sizeof(kZoneEntryNoumea)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraNoumea /*eras*/,
+  sizeof(kZoneEraNoumea)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Pago_Pago
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 33
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPago_Pago[] = {
+static const common::ZoneEra kZoneEraPago_Pago[] = {
   //             -11:00    -    SST
   {
     -44 /*offsetCode*/,
@@ -8383,18 +8383,18 @@ static const common::ZoneEntry kZoneEntryPago_Pago[] = {
 
 const common::ZoneInfo kZonePago_Pago = {
   "Pacific/Pago_Pago" /*name*/,
-  kZoneEntryPago_Pago /*entries*/,
-  sizeof(kZoneEntryPago_Pago)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPago_Pago /*eras*/,
+  sizeof(kZoneEraPago_Pago)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Palau
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 29
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPalau[] = {
+static const common::ZoneEra kZoneEraPalau[] = {
   //             9:00    -    +09
   {
     36 /*offsetCode*/,
@@ -8410,18 +8410,18 @@ static const common::ZoneEntry kZoneEntryPalau[] = {
 
 const common::ZoneInfo kZonePalau = {
   "Pacific/Palau" /*name*/,
-  kZoneEntryPalau /*entries*/,
-  sizeof(kZoneEntryPalau)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPalau /*eras*/,
+  sizeof(kZoneEraPalau)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Pitcairn
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 32
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPitcairn[] = {
+static const common::ZoneEra kZoneEraPitcairn[] = {
   //             -8:00    -    -08
   {
     -32 /*offsetCode*/,
@@ -8437,18 +8437,18 @@ static const common::ZoneEntry kZoneEntryPitcairn[] = {
 
 const common::ZoneInfo kZonePitcairn = {
   "Pacific/Pitcairn" /*name*/,
-  kZoneEntryPitcairn /*entries*/,
-  sizeof(kZoneEntryPitcairn)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPitcairn /*eras*/,
+  sizeof(kZoneEraPitcairn)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Pohnpei
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 31
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPohnpei[] = {
+static const common::ZoneEra kZoneEraPohnpei[] = {
   //             11:00    -    +11
   {
     44 /*offsetCode*/,
@@ -8464,18 +8464,18 @@ static const common::ZoneEntry kZoneEntryPohnpei[] = {
 
 const common::ZoneInfo kZonePohnpei = {
   "Pacific/Pohnpei" /*name*/,
-  kZoneEntryPohnpei /*entries*/,
-  sizeof(kZoneEntryPohnpei)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPohnpei /*eras*/,
+  sizeof(kZoneEraPohnpei)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Port_Moresby
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 36
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryPort_Moresby[] = {
+static const common::ZoneEra kZoneEraPort_Moresby[] = {
   //             10:00    -    +10
   {
     40 /*offsetCode*/,
@@ -8491,18 +8491,18 @@ static const common::ZoneEntry kZoneEntryPort_Moresby[] = {
 
 const common::ZoneInfo kZonePort_Moresby = {
   "Pacific/Port_Moresby" /*name*/,
-  kZoneEntryPort_Moresby /*entries*/,
-  sizeof(kZoneEntryPort_Moresby)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraPort_Moresby /*eras*/,
+  sizeof(kZoneEraPort_Moresby)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Rarotonga
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 39
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryRarotonga[] = {
+static const common::ZoneEra kZoneEraRarotonga[] = {
   //             -10:00    Cook    -10/-0930
   {
     -40 /*offsetCode*/,
@@ -8518,18 +8518,18 @@ static const common::ZoneEntry kZoneEntryRarotonga[] = {
 
 const common::ZoneInfo kZoneRarotonga = {
   "Pacific/Rarotonga" /*name*/,
-  kZoneEntryRarotonga /*entries*/,
-  sizeof(kZoneEntryRarotonga)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraRarotonga /*eras*/,
+  sizeof(kZoneEraRarotonga)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Tahiti
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTahiti[] = {
+static const common::ZoneEra kZoneEraTahiti[] = {
   //             -10:00    -    -10
   {
     -40 /*offsetCode*/,
@@ -8545,18 +8545,18 @@ static const common::ZoneEntry kZoneEntryTahiti[] = {
 
 const common::ZoneInfo kZoneTahiti = {
   "Pacific/Tahiti" /*name*/,
-  kZoneEntryTahiti /*entries*/,
-  sizeof(kZoneEntryTahiti)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTahiti /*eras*/,
+  sizeof(kZoneEraTahiti)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Tarawa
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTarawa[] = {
+static const common::ZoneEra kZoneEraTarawa[] = {
   //              12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -8572,18 +8572,18 @@ static const common::ZoneEntry kZoneEntryTarawa[] = {
 
 const common::ZoneInfo kZoneTarawa = {
   "Pacific/Tarawa" /*name*/,
-  kZoneEntryTarawa /*entries*/,
-  sizeof(kZoneEntryTarawa)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTarawa /*eras*/,
+  sizeof(kZoneEraTarawa)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Tongatapu
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 37
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryTongatapu[] = {
+static const common::ZoneEra kZoneEraTongatapu[] = {
   //             13:00    Tonga    +13/+14
   {
     52 /*offsetCode*/,
@@ -8599,18 +8599,18 @@ static const common::ZoneEntry kZoneEntryTongatapu[] = {
 
 const common::ZoneInfo kZoneTongatapu = {
   "Pacific/Tongatapu" /*name*/,
-  kZoneEntryTongatapu /*entries*/,
-  sizeof(kZoneEntryTongatapu)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraTongatapu /*eras*/,
+  sizeof(kZoneEraTongatapu)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Wake
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 28
 // Memory (32-bit): 36
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryWake[] = {
+static const common::ZoneEra kZoneEraWake[] = {
   //             12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -8626,18 +8626,18 @@ static const common::ZoneEntry kZoneEntryWake[] = {
 
 const common::ZoneInfo kZoneWake = {
   "Pacific/Wake" /*name*/,
-  kZoneEntryWake /*entries*/,
-  sizeof(kZoneEntryWake)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraWake /*eras*/,
+  sizeof(kZoneEraWake)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Wallis
-// Entry count: 1
+// Era count: 1
 // Memory (8-bit): 30
 // Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntryWallis[] = {
+static const common::ZoneEra kZoneEraWallis[] = {
   //             12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -8653,8 +8653,8 @@ static const common::ZoneEntry kZoneEntryWallis[] = {
 
 const common::ZoneInfo kZoneWallis = {
   "Pacific/Wallis" /*name*/,
-  kZoneEntryWallis /*entries*/,
-  sizeof(kZoneEntryWallis)/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEraWallis /*eras*/,
+  sizeof(kZoneEraWallis)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 

@@ -41,8 +41,8 @@ test(ZoneAgentTest, init_primitives) {
 
   manager.addRulePriorToYear(2001);
   assertEqual(0, manager.mNumMatches);
-  assertEqual(-32, manager.mPreviousMatch.entry->offsetCode);
-  assertEqual("P%T", manager.mPreviousMatch.entry->format);
+  assertEqual(-32, manager.mPreviousMatch.era->offsetCode);
+  assertEqual("P%T", manager.mPreviousMatch.era->format);
   assertEqual((uint16_t) 1967, manager.mPreviousMatch.rule->fromYear);
   assertEqual((uint16_t) 2006, manager.mPreviousMatch.rule->toYear);
   assertEqual(10, manager.mPreviousMatch.rule->inMonth);
@@ -50,14 +50,14 @@ test(ZoneAgentTest, init_primitives) {
   manager.addRulesForYear(2001);
   assertEqual(2, manager.mNumMatches);
 
-  assertEqual(-32, manager.mMatches[0].entry->offsetCode);
-  assertEqual("P%T", manager.mMatches[0].entry->format);
+  assertEqual(-32, manager.mMatches[0].era->offsetCode);
+  assertEqual("P%T", manager.mMatches[0].era->format);
   assertEqual((uint16_t) 1987, manager.mMatches[0].rule->fromYear);
   assertEqual((uint16_t) 2006, manager.mMatches[0].rule->toYear);
   assertEqual(4, manager.mMatches[0].rule->inMonth);
 
-  assertEqual(-32, manager.mMatches[1].entry->offsetCode);
-  assertEqual("P%T", manager.mMatches[1].entry->format);
+  assertEqual(-32, manager.mMatches[1].era->offsetCode);
+  assertEqual("P%T", manager.mMatches[1].era->format);
   assertEqual((uint16_t) 1967, manager.mMatches[1].rule->fromYear);
   assertEqual((uint16_t) 2006, manager.mMatches[1].rule->toYear);
   assertEqual(10, manager.mMatches[1].rule->inMonth);
@@ -82,20 +82,20 @@ test(ZoneAgentTest, init) {
 
   assertEqual(2, manager.mNumMatches);
 
-  assertEqual(-32, manager.mPreviousMatch.entry->offsetCode);
-  assertEqual("P%T", manager.mPreviousMatch.entry->format);
+  assertEqual(-32, manager.mPreviousMatch.era->offsetCode);
+  assertEqual("P%T", manager.mPreviousMatch.era->format);
   assertEqual((uint16_t) 2007, manager.mPreviousMatch.rule->fromYear);
   assertEqual(ZoneRule::kMaxYear, manager.mPreviousMatch.rule->toYear);
   assertEqual(11, manager.mPreviousMatch.rule->inMonth);
 
-  assertEqual(-32, manager.mMatches[0].entry->offsetCode);
-  assertEqual("P%T", manager.mMatches[0].entry->format);
+  assertEqual(-32, manager.mMatches[0].era->offsetCode);
+  assertEqual("P%T", manager.mMatches[0].era->format);
   assertEqual((uint16_t) 2007, manager.mMatches[0].rule->fromYear);
   assertEqual(ZoneRule::kMaxYear, manager.mMatches[0].rule->toYear);
   assertEqual(3, manager.mMatches[0].rule->inMonth);
 
-  assertEqual(-32, manager.mMatches[1].entry->offsetCode);
-  assertEqual("P%T", manager.mMatches[1].entry->format);
+  assertEqual(-32, manager.mMatches[1].era->offsetCode);
+  assertEqual("P%T", manager.mMatches[1].era->format);
   assertEqual((uint16_t) 2007, manager.mMatches[1].rule->fromYear);
   assertEqual(ZoneRule::kMaxYear, manager.mMatches[1].rule->toYear);
   assertEqual(11, manager.mMatches[1].rule->inMonth);

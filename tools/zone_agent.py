@@ -36,13 +36,13 @@ class ZoneAgent:
     # (2000-01-01 00:00:00)
     SECONDS_SINCE_UNIX_EPOCH = 946684800
 
-    # The value of ZONE_INFO['entries']['untilYearShort'] which represents
+    # The value of ZONE_INFO['eras']['untilYearShort'] which represents
     # 'max'. Stored as a int8_t in C++.
     MAX_UNTIL_YEAR_SHORT = 127
 
-    # Sentinel Zone Entry that represents the earliest zone entry, since
+    # Sentinel ZoneEra that represents the earliest zone era, since
     # we kept only those after year 2000.
-    ZONE_ENTRY_ANCHOR = {
+    ZONE_ERA_ANCHOR = {
         'untilYearShort': 0,
         'untilMonth': 1,
         'untilDay': 1,
@@ -56,19 +56,19 @@ class ZoneAgent:
     }
 
     def __init__(self, zone_info):
-        """zone_info is one of the ZONE_INFO_xxx entries from zone_infos.py.
+        """zone_info is one of the ZONE_INFO_xxx constants from zone_infos.py.
         """
         self.year = 0
         self.isFilled = False
         self.numMatches = 0
         self.zone_info = zone_info
 
-        # List of matching zone entries. Map of the form;
+        # List of matching zone eras. Map of the form;
         # {
         #   'startDateTime': (int, int, int, int),
         #   'untilDatetime': (int, int, int, int),
         #   'policyName': string,
-        #   'zoneEntry': ZoneEntry
+        #   'zoneEra': ZoneEra
         # }
         self.matches = []
 
@@ -77,11 +77,11 @@ class ZoneAgent:
         #   'startDateTime': (int, int, int, int),
         #   'untilDatetime': (int, int, int, int),
         #   'policyName': string,
-        #   'zoneEntry': ZoneEntry
+        #   'zoneEra': ZoneEra
         #
         #   # Added for simple Match and named Match.
-        #   'offsetCode': int, # from ZoneEntry
-        #   'format': string, # from ZoneEntry
+        #   'offsetCode': int, # from ZoneEra
+        #   'format': string, # from ZoneEra
         #   'transitionTime': (int, int, int, int), # from Rule or Match
         #
         #   # Added for named Match.
@@ -123,7 +123,7 @@ class ZoneAgent:
 
     def print_match(self, match):
         policy_name = match['policyName']
-        format = match['zoneEntry']['format']
+        format = match['zoneEra']['format']
         print(('start: %s-%s-%s %s:00; until: %s-%s-%s %s:00; policy: %s; '
             + 'format: %s') % (
             match['startDateTime'] + match['untilDateTime'] +
@@ -169,44 +169,44 @@ class ZoneAgent:
                     % params)
 
     def find_matches(self, year):
-        """Find the Zone Entries which overlap the 2 years from
-        'year' through the next year, i.e the interval [year, year+2).
+        """Find the Zone Era which overlap the 2 years from 'year' through the
+        next year, i.e the interval [year, year+2).
         """
         year_short = year - 2000
-        zone_entries = self.zone_info['entries']
-        prev_entry = self.ZONE_ENTRY_ANCHOR
-        for zone_entry in zone_entries:
-            if entry_overlaps_with_year(prev_entry, zone_entry, year_short):
-                zone_policy = zone_entry['zonePolicy']
+        zone_eras = self.zone_info['eras']
+        prev_era = self.ZONE_ERA_ANCHOR
+        for zone_era in zone_eras:
+            if era_overlaps_with_year(prev_era, zone_era, year_short):
+                zone_policy = zone_era['zonePolicy']
                 policy_name = zone_policy['name'] if zone_policy else '-'
                 start_date_time = (
-                    # TODO: The subtlety here is that the prev_entry's 'until
+                    # TODO: The subtlety here is that the prev_era's 'until
                     # datetime' is expressed in the UTC offset of the *previous*
-                    # entry, not the current entry. This is good enough for
+                    # era, not the current era. This is good enough for
                     # sorting (assuming we don't have have 2 DST transitions in
                     # a single day (!). But eventually, we need to fix-up these
                     # 'until' fields so that they expressed in the UTC offset of
-                    # the current entry.
-                    prev_entry['untilYearShort'] + self.EPOCH_YEAR,
-                    prev_entry['untilMonth'],
-                    prev_entry['untilDay'],
-                    prev_entry['untilHour'])
+                    # the current era.
+                    prev_era['untilYearShort'] + self.EPOCH_YEAR,
+                    prev_era['untilMonth'],
+                    prev_era['untilDay'],
+                    prev_era['untilHour'])
                 until_date_time = (
-                    zone_entry['untilYearShort'] + self.EPOCH_YEAR,
-                    zone_entry['untilMonth'],
-                    zone_entry['untilDay'],
-                    zone_entry['untilHour'])
+                    zone_era['untilYearShort'] + self.EPOCH_YEAR,
+                    zone_era['untilMonth'],
+                    zone_era['untilDay'],
+                    zone_era['untilHour'])
                 match = {
                     'startDateTime': start_date_time,
                     'untilDateTime': until_date_time,
                     'policyName': policy_name,
-                    'zoneEntry': zone_entry
+                    'zoneEra': zone_era
                 }
                 self.matches.append(match)
-            prev_entry = zone_entry
+            prev_era = zone_era
 
     def find_transitions(self, year):
-        """Find the relevant transitions from the matching Zone entries, for the
+        """Find the relevant transitions from the matching ZoneEras , for the
         2 years starting with year.
         """
         for match in self.matches:
@@ -215,8 +215,8 @@ class ZoneAgent:
     def find_transitions_from_match(self, year, match):
         """Find all transitions of match in given year.
         """
-        zone_entry = match['zoneEntry']
-        zone_policy = zone_entry['zonePolicy']
+        zone_era = match['zoneEra']
+        zone_policy = zone_era['zonePolicy']
 
         if zone_policy:
             self.find_transitions_from_named_match(year, match)
@@ -224,14 +224,14 @@ class ZoneAgent:
             self.find_transitions_from_simple_match(year, match)
 
     def find_transitions_from_simple_match(self, year, match):
-        """The zonePolicy is '-', then the Zone Entry itself defines the UTC
+        """The zonePolicy is '-', then the Zone Era itself defines the UTC
         offset and the abbreviation.
         """
-        zone_entry = match['zoneEntry']
+        zone_era = match['zoneEra']
         transition = match.copy()
         transition.update({
-            'offsetCode': zone_entry['offsetCode'],
-            'format': zone_entry['format'],
+            'offsetCode': zone_era['offsetCode'],
+            'format': zone_era['format'],
             'transitionTime': match['startDateTime'],
         })
         self.transitions.append(transition)
@@ -282,8 +282,8 @@ class ZoneAgent:
                 * Add to Transitions collection.
         """
         match = calc_effective_match(year, match)
-        zone_entry = match['zoneEntry']
-        zone_policy = zone_entry['zonePolicy']
+        zone_era = match['zoneEra']
+        zone_policy = zone_era['zonePolicy']
         rules = zone_policy['rules']
 
         results = {}
@@ -362,11 +362,11 @@ class ZoneAgent:
             return None
 
         transition_time = get_transition_time(year, rule)
-        zone_entry = match['zoneEntry']
+        zone_era = match['zoneEra']
         transition = match.copy()
         transition.update({
-            'offsetCode': zone_entry['offsetCode'],
-            'format': zone_entry['format'],
+            'offsetCode': zone_era['offsetCode'],
+            'format': zone_era['format'],
             'transitionTime': transition_time,
             'zoneRule': rule,
             'deltaCode': rule['deltaCode'],
@@ -389,11 +389,11 @@ class ZoneAgent:
             prior_year = year - 1
 
         transition_time = get_transition_time(prior_year, rule)
-        zone_entry = match['zoneEntry']
+        zone_era = match['zoneEra']
         transition = match.copy()
         transition.update({
-            'offsetCode': zone_entry['offsetCode'],
-            'format': zone_entry['format'],
+            'offsetCode': zone_era['offsetCode'],
+            'format': zone_era['format'],
             'transitionTime': transition_time,
             'zoneRule': rule,
             'deltaCode': rule['deltaCode'],
@@ -469,31 +469,31 @@ def days_in_month(year, month):
     return days
 
 
-def entry_overlaps_with_year(prev_entry, entry, year_short):
-    """Determines if entry overlaps with 2 years that starts with given year,
-    i.e. [year_short, year_short+2). The start date of the current entry is
-    represented by the prev_entry.UNTIL, so the interval of the current entry is
-    [start, end) = [prev_entry.UNTIL, entry.UNTIL). Overlap happens if (start <
+def era_overlaps_with_year(prev_era, era, year_short):
+    """Determines if era overlaps with 2 years that starts with given year,
+    i.e. [year_short, year_short+2). The start date of the current era is
+    represented by the prev_era.UNTIL, so the interval of the current era is
+    [start, end) = [prev_era.UNTIL, era.UNTIL). Overlap happens if (start <
     year_short+2) and (end > year_short).
     """
-    return (compare_entry_to_year(prev_entry, year_short + 2) < 0 and
-        compare_entry_to_year(entry, year_short) > 0)
+    return (compare_era_to_year(prev_era, year_short + 2) < 0 and
+        compare_era_to_year(era, year_short) > 0)
 
 
-def compare_entry_to_year(entry, year_short):
-    """Compare the zone_entry with year, returning -1, 0 or 1.
+def compare_era_to_year(era, year_short):
+    """Compare the zone_era with year, returning -1, 0 or 1.
     """
-    if not entry:
+    if not era:
         return -1
-    if entry['untilYearShort'] < year_short:
+    if era['untilYearShort'] < year_short:
         return -1
-    if entry['untilYearShort'] > year_short:
+    if era['untilYearShort'] > year_short:
         return 1
-    if entry['untilMonth'] > 1:
+    if era['untilMonth'] > 1:
         return 1
-    if entry['untilDay'] > 1:
+    if era['untilDay'] > 1:
         return 1
-    if entry['untilHour'] > 0:
+    if era['untilHour'] > 0:
         return 1
     return 0
 

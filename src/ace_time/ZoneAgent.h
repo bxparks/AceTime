@@ -20,7 +20,7 @@ namespace ace_time {
 namespace internal {
 
 /**
- * Data structure that captures the matching ZoneEntry and its ZoneRule
+ * Data structure that captures the matching ZoneEra and its ZoneRule
  * transitions for a given year. Can be cached based on the year.
  */
 struct ZoneMatch {
@@ -30,8 +30,8 @@ struct ZoneMatch {
    */
   static const uint8_t kAbbrevSize = 5 + 1;
 
-  /** The Zone entry that matched for the given year. NonNullable. */
-  const common::ZoneEntry* entry;
+  /** The ZoneEra that matched the given year. NonNullable. */
+  const common::ZoneEra* era;
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
@@ -54,7 +54,7 @@ struct ZoneMatch {
 }
 
 /**
- * Manages a given ZoneInfo. The ZoneRule and ZoneEntry records that match the
+ * Manages a given ZoneInfo. The ZoneRule and ZoneEra records that match the
  * year of the given epochSeconds are cached internally for performance. The
  * expectation is that repeated calls to the various methods will have
  * epochSeconds which do not vary too greatly and will occur in the same year.
@@ -71,7 +71,7 @@ struct ZoneMatch {
  * @verbatim
  * Zone NAME              GMTOFF    RULES FORMAT  [UNTIL]
  * @endverbatim
- * Each record is represented by common::ZoneEntry and the entire collection is
+ * Each record is represented by common::ZoneEra and the entire collection is
  * represented by common::ZoneInfo.
  *
  * Not thread-safe.
@@ -174,12 +174,12 @@ class ZoneAgent {
      * the offset at the beginning of the current year.
      */
     void addRulePriorToYear(uint16_t year) {
-      const common::ZoneEntry* const entry = findZoneEntryPriorTo(year);
+      const common::ZoneEra* const era = findZoneEraPriorTo(year);
 
-      const common::ZonePolicy* const zonePolicy = entry->zonePolicy;
+      const common::ZonePolicy* const zonePolicy = era->zonePolicy;
       if (zonePolicy == nullptr) {
         mPreviousMatch = {
-          entry,
+          era,
           nullptr /*rule*/,
           0 /*epochSeconds*/,
           0 /*offsetCode*/,
@@ -188,7 +188,7 @@ class ZoneAgent {
         return;
       }
 
-      // Find the latest rule for the matching Zone entry whose
+      // Find the latest rule for the matching ZoneEra whose
       // ZoneRule::toYear < year. Assume that there are no more than 1 rule
       // per month.
       const common::ZoneRule* latest = nullptr;
@@ -203,7 +203,7 @@ class ZoneAgent {
         }
       }
       mPreviousMatch = {
-        entry,
+        era,
         latest /*rule*/,
         0 /*epochSeconds*/,
         0 /*offsetCode*/,
@@ -233,9 +233,9 @@ class ZoneAgent {
 
     /** Add all matching rules from the current year. */
     void addRulesForYear(uint16_t year) {
-      const common::ZoneEntry* const entry = findZoneEntry(year);
+      const common::ZoneEra* const era = findZoneEra(year);
 
-      const common::ZonePolicy* const zonePolicy = entry->zonePolicy;
+      const common::ZonePolicy* const zonePolicy = era->zonePolicy;
       if (zonePolicy == nullptr) return;
 
       // Find all matching transition rules, and add them to the mMatches list,
@@ -243,13 +243,13 @@ class ZoneAgent {
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const common::ZoneRule* const rule = &zonePolicy->rules[i];
         if ((rule->fromYear <= year) && (year <= rule->toYear)) {
-          addRule(entry, rule);
+          addRule(era, rule);
         }
       }
     }
 
     /**
-     * Add (entry, rule) to the cache, in sorted order according to the
+     * Add (era, rule) to the cache, in sorted order according to the
      * 'ZoneRule::inMonth' field. This assumes that there are no more than one
      * transition per month.
      *
@@ -260,12 +260,12 @@ class ZoneAgent {
      * the ZoneInfoEntries are already sorted, then the loop terminates early
      * and the total sort time is O(N).
      */
-    void addRule(const common::ZoneEntry* entry, const common::ZoneRule* rule)
+    void addRule(const common::ZoneEra* era, const common::ZoneRule* rule)
         const {
       if (mNumMatches >= kMaxCacheEntries) return;
 
       // insert new element at the end of the list
-      mMatches[mNumMatches] = {entry, rule, 0, 0, {0}};
+      mMatches[mNumMatches] = {era, rule, 0, 0, {0}};
       mNumMatches++;
 
       // perform an insertion sort
@@ -282,32 +282,32 @@ class ZoneAgent {
     }
 
     /**
-     * Find the Zone entry which applies to the given year. The entry will
-     * satisfy (year < ZoneEntry.untilYearShort + kEpochYear). Since the
+     * Find the ZoneEra which applies to the given year. The era will
+     * satisfy (year < ZoneEra.untilYearShort + kEpochYear). Since the
      * largest untilYearShort is 127, the largest supported 'year' is 2126.
      */
-    const common::ZoneEntry* findZoneEntry(uint16_t year) const {
-      for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {
-        const common::ZoneEntry* entry = &mZoneInfo->entries[i];
-        if (year < entry->untilYearShort + LocalDate::kEpochYear) return entry;
+    const common::ZoneEra* findZoneEra(uint16_t year) const {
+      for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
+        const common::ZoneEra* era = &mZoneInfo->eras[i];
+        if (year < era->untilYearShort + LocalDate::kEpochYear) return era;
       }
       return nullptr;
     }
 
     /**
-     * Find the most recent zone entry which was in effect just before the
+     * Find the most recent ZoneEra which was in effect just before the
      * beginning of the given year, in other words, just before {year}-01-01
-     * 00:00:00. It will be first entry whose untilYear matches (year <=
+     * 00:00:00. It will be first era whose untilYear matches (year <=
      * untilYear).
      *
      * This should never return nullptr because the code generator for
-     * zone_infos.cpp verified that the final ZoneEntry contains an empty
+     * zone_infos.cpp verified that the final ZoneEra contains an empty
      * untilYear, interpreted as 'max', and set to 255.
      */
-    const common::ZoneEntry* findZoneEntryPriorTo(uint16_t year) const {
-      for (uint8_t i = 0; i < mZoneInfo->numEntries; i++) {
-        const common::ZoneEntry* entry = &mZoneInfo->entries[i];
-        if (year <= entry->untilYearShort + LocalDate::kEpochYear) return entry;
+    const common::ZoneEra* findZoneEraPriorTo(uint16_t year) const {
+      for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
+        const common::ZoneEra* era = &mZoneInfo->eras[i];
+        if (year <= era->untilYearShort + LocalDate::kEpochYear) return era;
       }
       return nullptr;
     }
@@ -315,11 +315,11 @@ class ZoneAgent {
     /** Calculate the transitional epochSeconds of each ZoneMatch rule. */
     void calcTransitions() {
       mPreviousMatch.startEpochSeconds = 0;
-      mPreviousMatch.offsetCode = mPreviousMatch.entry->offsetCode
+      mPreviousMatch.offsetCode = mPreviousMatch.era->offsetCode
           + mPreviousMatch.rule->deltaCode;
       internal::ZoneMatch* previousMatch = &mPreviousMatch;
 
-      // Loop through ZoneMatch entries to calculate 2 things:
+      // Loop through ZoneMatch items to calculate 2 things:
       // 1) ZoneMatch::startEpochSeconds
       // 2) ZoneMatch::offsetCode
       for (uint8_t i = 0; i < mNumMatches; i++) {
@@ -334,7 +334,7 @@ class ZoneAgent {
         // requires the offset of the previous match.
         const int8_t ruleOffsetCode = calcRuleOffsetCode(
             previousMatch->offsetCode,
-            match.entry->offsetCode,
+            match.era->offsetCode,
             match.rule->atHourModifier);
 
         // startDateTime
@@ -345,7 +345,7 @@ class ZoneAgent {
         match.startEpochSeconds = startDateTime.toEpochSeconds();
 
         // Determine the effective offset code
-        match.offsetCode = match.entry->offsetCode + match.rule->deltaCode;
+        match.offsetCode = match.era->offsetCode + match.rule->deltaCode;
 
         previousMatch = &match;
       }
@@ -403,7 +403,7 @@ class ZoneAgent {
       createAbbreviation(
           zoneMatch->abbrev,
           internal::ZoneMatch::kAbbrevSize,
-          zoneMatch->entry->format,
+          zoneMatch->era->format,
           zoneMatch->rule != nullptr ? zoneMatch->rule->deltaCode : 0,
           zoneMatch->rule != nullptr ? zoneMatch->rule->letter : '\0');
     }

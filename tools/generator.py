@@ -174,7 +174,7 @@ extern const common::ZoneInfo kZone{infoShortName}; // {infoFullName}
 // https://github.com/eggert/tz/releases/tag/{tz_version}
 //
 // Zone info count: {numInfos}
-// Zone entry count: {numEntries}
+// Zone era count: {numEras}
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
 //
@@ -196,24 +196,24 @@ namespace zonedb {{
     ZONE_INFOS_CPP_INFO_ITEM = """\
 //---------------------------------------------------------------------------
 // Zone name: {infoFullName}
-// Entry count: {numEntries}
+// Era count: {numEras}
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const common::ZoneEntry kZoneEntry{infoShortName}[] = {{
-{entryItems}
+static const common::ZoneEra kZoneEra{infoShortName}[] = {{
+{eraItems}
 }};
 
 const common::ZoneInfo kZone{infoShortName} = {{
   "{infoFullName}" /*name*/,
-  kZoneEntry{infoShortName} /*entries*/,
-  sizeof(kZoneEntry{infoShortName})/sizeof(common::ZoneEntry) /*numEntries*/,
+  kZoneEra{infoShortName} /*eras*/,
+  sizeof(kZoneEra{infoShortName})/sizeof(common::ZoneEra) /*numEras*/,
 }};
 
 """
 
-    ZONE_INFOS_CPP_ENTRY_ITEM = """\
+    ZONE_INFOS_CPP_ERA_ITEM = """\
   // {rawLine}
   {{
     {offsetCode} /*offsetCode*/,
@@ -235,8 +235,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
     YEAR_SHORT_MAX = 127
     YEAR_MAX = 9999
 
-    SIZEOF_ZONE_ENTRY_8 = 6
-    SIZEOF_ZONE_ENTRY_32 = 10
+    SIZEOF_ZONE_ERA_8 = 6
+    SIZEOF_ZONE_ERA_32 = 10
     SIZEOF_ZONE_INFO_8 = 5
     SIZEOF_ZONE_INFO_32 = 9
     SIZEOF_ZONE_RULE_8 = 11
@@ -369,85 +369,85 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
     def generate_infos_cpp(self):
         info_items = ''
-        num_entries = 0
+        num_eras = 0
         string_length = 0
-        for name, entries in sorted(self.zones_map.items()):
-            (info_item, format_length) = self.generate_info_item(name, entries)
+        for name, eras in sorted(self.zones_map.items()):
+            (info_item, format_length) = self.generate_info_item(name, eras)
             info_items += info_item
             string_length += format_length
-            num_entries += len(entries)
+            num_eras += len(eras)
 
         num_infos = len(self.zones_map)
-        memory8 = (string_length + num_entries * self.SIZEOF_ZONE_ENTRY_8 +
+        memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
             num_infos * self.SIZEOF_ZONE_INFO_8)
-        memory32 = (string_length + num_entries * self.SIZEOF_ZONE_ENTRY_32 +
+        memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
             num_infos *self.SIZEOF_ZONE_INFO_32)
 
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
             numInfos=num_infos,
-            numEntries=num_entries,
+            numEras=num_eras,
             memory8=memory8,
             memory32=memory32,
             infoItems=info_items)
 
-    def generate_info_item(self, name, entries):
-        entry_items = ''
+    def generate_info_item(self, name, eras):
+        era_items = ''
         string_length = 0
-        for entry in entries:
-            (entry_item, length) = self.generate_entry_item(name, entry)
-            entry_items += entry_item
+        for era in eras:
+            (era_item, length) = self.generate_era_item(name, era)
+            era_items += era_item
             string_length += length
 
         string_length += len(name) + 1
-        num_entries = len(entries)
-        memory8 = (string_length + num_entries * self.SIZEOF_ZONE_ENTRY_8 +
+        num_eras = len(eras)
+        memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
             1 * self.SIZEOF_ZONE_INFO_8)
-        memory32 = (string_length + num_entries * self.SIZEOF_ZONE_ENTRY_32 +
+        memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
             1 *self.SIZEOF_ZONE_INFO_32)
 
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
             infoFullName=normalize_name(name),
             infoShortName=normalize_name(short_name(name)),
-            numEntries=num_entries,
+            numEras=num_eras,
             memory8=memory8,
             memory32=memory32,
-            entryItems=entry_items)
+            eraItems=era_items)
         return (info_item, string_length)
 
-    def generate_entry_item(self, name, entry):
-        policy_name = entry['rules']
+    def generate_era_item(self, name, era):
+        policy_name = era['rules']
         if policy_name == '-':
             zonePolicy = 'nullptr'
         else:
             zonePolicy = '&kPolicy%s' % normalize_name(policy_name)
 
-        until_year = entry['untilYear']
+        until_year = era['untilYear']
         if until_year == self.YEAR_MAX:
             until_year_short = self.YEAR_SHORT_MAX
         else:
             until_year_short = until_year - self.EPOCH_YEAR
 
-        until_month = entry['untilMonth']
+        until_month = era['untilMonth']
         if not until_month:
             until_month = 1
 
-        until_day = entry['untilDay']
+        until_day = era['untilDay']
         if not until_day:
             until_day = 1
 
-        until_hour = entry['untilHour']
+        until_hour = era['untilHour']
         if not until_hour:
             until_hour = 0
 
         # Replace %s with just a % for C++
-        format = entry['format'].replace('%s', '%')
+        format = era['format'].replace('%s', '%')
         string_length = len(format) + 1
 
-        entry_item = self.ZONE_INFOS_CPP_ENTRY_ITEM.format(
-            rawLine=normalize_raw(entry['rawLine']),
-            offsetCode=entry['offsetCode'],
+        era_item = self.ZONE_INFOS_CPP_ERA_ITEM.format(
+            rawLine=normalize_raw(era['rawLine']),
+            offsetCode=era['offsetCode'],
             zonePolicy=zonePolicy,
             format=format,
             untilYearShort=until_year_short,
@@ -455,7 +455,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
             untilDay=until_day,
             untilHour=until_hour)
 
-        return (entry_item, string_length)
+        return (era_item, string_length)
 
 
 def normalize_name(name):

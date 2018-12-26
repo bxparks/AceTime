@@ -64,7 +64,7 @@ class Printer:
 
     def print_zones_with_until_month(self):
         """Print the zones which have months in the 'UNTIL' field.
-        Currently NOT supported by the ZoneEntry class which contains only
+        Currently NOT supported by the ZoneEra class which contains only
         a 'untilYear' field.
         """
         for name, zones in self.zones.items():
@@ -78,7 +78,7 @@ class Printer:
 
     def print_zones_without_rules(self):
         """Print zones whose RULES column is "-" which indicates NO rules.
-        Supported by the ZoneEntry class by setting the zonePolicy field
+        Supported by the ZoneEra class by setting the zonePolicy field
         to nullptr.
         """
         for name, zones in self.zones.items():
@@ -95,8 +95,8 @@ class Printer:
         """Print zones which point to a DST offset in its RULES column.
         There seems to be only 2 zones that does this: Europe/Istanbul and
         America/Argentina/San_Luis. Not sure how to support this. Do we need to
-        add another field in ZoneEntry, or can we just clobber the
-        ZoneEntry::offsetCode with this zone offset?
+        add another field in ZoneEra, or can we just clobber the
+        ZoneEra::offsetCode with this zone offset?
         """
         for name, zones in self.zones.items():
             name_printed = False
@@ -129,10 +129,10 @@ class Printer:
         we need to go back to historical records before year 2000 to find the
         most recent prior transition rule.
         """
-        for name, zone_entries in self.zones.items():
+        for name, zone_eras in self.zones.items():
             begin_year = 2000
-            for zone_entry in zone_entries:
-                rule_name = zone_entry['rules']
+            for zone_era in zone_eras:
+                rule_name = zone_era['rules']
                 if rule_name == '-' or rule_name.isdigit():
                     continue
 
@@ -144,7 +144,7 @@ class Printer:
 
                 # Check if there's exists a transition rule during the
                 # [begin_year, until_year) interval.
-                until_year = zone_entry['until_year']
+                until_year = zone_era['until_year']
                 if find_matching_rules(rule_entries, begin_year, until_year):
                     begin_year = until_year
                     continue
@@ -154,12 +154,12 @@ class Printer:
                         rule_entries, begin_year)
                 if prior_match:
                     begin_year = until_year
-                    print('Zone name %s: %s' % (name, zone_entry))
+                    print('Zone name %s: %s' % (name, zone_era))
                     print('    Matching rule: %s' % prior_match)
                     begin_year = until_year
                     continue
 
-                print('Zone name %s: No matching rule: %s' % (name, zone_entry))
+                print('Zone name %s: No matching rule: %s' % (name, zone_era))
 
                 begin_year = until_year
 
