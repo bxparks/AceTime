@@ -10,7 +10,7 @@
 #
 # DO NOT EDIT
 
-from zone_policies import *
+from zonedb.zone_policies import *
 
 # numInfos: 284
 # numEntries: 381

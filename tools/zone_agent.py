@@ -24,8 +24,8 @@ import sys
 import argparse
 import datetime
 import logging
-from zone_policies import *
-from zone_infos import *
+from zonedb.zone_policies import *
+from zonedb.zone_infos import *
 
 class ZoneAgent:
     EPOCH_YEAR = 2000
