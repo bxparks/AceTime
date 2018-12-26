@@ -79,12 +79,15 @@ class ZoneAgent:
         #   'policyName': string,
         #   'zoneEntry': ZoneEntry
         #
-        #   'transitionTime': (int, int, int, int), # named Rule
-        #   'zoneRule': ZoneRule, # named Rule
-        #   'offsetCode': int,
-        #   'deltaCode': int, # named Rule
-        #   'format': string,
-        #   'letter': string # named Rule
+        #   # Added for simple Match and named Match.
+        #   'offsetCode': int, # from ZoneEntry
+        #   'format': string, # from ZoneEntry
+        #   'transitionTime': (int, int, int, int), # from Rule or Match
+        #
+        #   # Added for named Match.
+        #   'zoneRule': ZoneRule, # from Rule
+        #   'deltaCode': int, # from Rule
+        #   'letter': string # from Rule
         # }
         self.transitions = [] # list of transitions
 
@@ -166,14 +169,24 @@ class ZoneAgent:
                     % params)
 
     def find_matches(self, year):
+        """Find the Zone Entries which overlap the 2 years from
+        'year' through the next year, i.e the interval [year, year+2).
+        """
         year_short = year - 2000
         zone_entries = self.zone_info['entries']
         prev_entry = self.ZONE_ENTRY_ANCHOR
         for zone_entry in zone_entries:
-            if overlaps_with_year(prev_entry, zone_entry, year_short):
+            if entry_overlaps_with_year(prev_entry, zone_entry, year_short):
                 zone_policy = zone_entry['zonePolicy']
                 policy_name = zone_policy['name'] if zone_policy else '-'
                 start_date_time = (
+                    # TODO: The subtlety here is that the prev_entry's 'until
+                    # datetime' is expressed in the UTC offset of the *previous*
+                    # entry, not the current entry. This is good enough for
+                    # sorting (assuming we don't have have 2 DST transitions in
+                    # a single day (!). But eventually, we need to fix-up these
+                    # 'until' fields so that they expressed in the UTC offset of
+                    # the current entry.
                     prev_entry['untilYearShort'] + self.EPOCH_YEAR,
                     prev_entry['untilMonth'],
                     prev_entry['untilDay'],
@@ -193,6 +206,9 @@ class ZoneAgent:
             prev_entry = zone_entry
 
     def find_transitions(self, year):
+        """Find the relevant transitions from the matching Zone entries, for the
+        2 years starting with year.
+        """
         for match in self.matches:
             self.find_transitions_from_match(year, match)
 
@@ -214,111 +230,195 @@ class ZoneAgent:
         zone_entry = match['zoneEntry']
         transition = match.copy()
         transition.update({
-            'transitionTime': match['startDateTime'],
             'offsetCode': zone_entry['offsetCode'],
-            'format': zone_entry['format']
+            'format': zone_entry['format'],
+            'transitionTime': match['startDateTime'],
         })
         self.transitions.append(transition)
 
     def find_transitions_from_named_match(self, year, match):
-        """Find all transitions of named policy in the match interval [start,
-        until) and within the given year.
-        Need to check only [year, until), [start, until) or [start, year+1).
+        """Find the relevant transitions of the named policy in the Match
+        interval [start, until) for the 2 years of [year, year+2). We generate 2
+        years worth because we are caught in a Catch-22 situation when trying to
+        determine the UTC offsets needed to convert a epochSecond to the local
+        DateTime.
+
+        If we knew the local year of the epochSeconds when converted to the
+        local DateTime, then we would need only the Transitions of the given
+        local year. However, the epochSeconds could convert to Dec 31 or Jan 1
+        in UTC timezone, which means that the local year could shift to the next
+        or previous year in the local time zone. But we don't know the local
+        time zone offset until we generate the Transitions of the local year,
+        and we don't know the local year until we generate the Transitions.
+
+        To get around this problem, if the UTC month of the converted
+        epochSecond falls from July to December, we generate the Transitions for
+        UTC.year and UTC.year+1. If the UTC month falls in Jan to June, we
+        generate the Transitions for UTC.year-1 and UTC.year. If the start of
+        the 2 year interval also requires the determination of the latest
+        prior Transition for that policy, we do that as well.
+
+        The algorithm is the following:
+
+        * Calculate the effective Match window which overlaps with the two-year
+          interval [year, year+2):
+            * Match.start = max(Match.start, year)
+            * Match.until = min(Match.until, year+2)
+        * Loop for each Rule entry in the Zone policy given by the Match:
+            * Find the Transitions that may occur in (year, year+1, and the
+              largest Rule.year < year), for a maximum 3 Transitions.
+            * For each Transition:
+                * If Transition occurs >= Match.until, ignore it.
+                * If Transition occurs within [Match.start, Match.until):
+                    * Add to the Transitions collection.
+                    * If Transition == Match.start:
+                        * Set startTransitionFound flag.
+                * Else Transition is < Match.start:
+                    * If not startTransitionFound:
+                        * Nominate as latest prior Transition.
+        * If not startTransitionFound:
+            * If latest prior transition exists:
+                * Shift the prior Transition to Match.start
+                * Add to Transitions collection.
         """
         match = calc_effective_match(year, match)
         zone_entry = match['zoneEntry']
         zone_policy = zone_entry['zonePolicy']
         rules = zone_policy['rules']
-        latest_prior_transition = None
-        start_transition_found = False
+
+        results = {}
+        # For each Rule, process the 3 possible Transitions.
         for rule in rules:
-            rule_from_year = rule['fromYear']
-            rule_to_year = rule['toYear']
+            transition = self.create_transition_for_year(year, rule, match)
+            if transition:
+                self.process_transition(year, match, transition, results)
 
-            rule_versus_year = compare_rule_to_year(rule, year)
-            if rule_versus_year > 0:
-                continue
+            transition = self.create_transition_for_year(year+1, rule, match)
+            if transition:
+                self.process_transition(year, match, transition, results)
 
-            candidate_prior_transition = None
-            if rule_versus_year < 0:
-                candidate_prior_transition = self.create_transition_for_year(
-                    rule_to_year, match, rule)
-            else: # rule_versus_year == 0:
-                transition = self.create_transition_for_year(year, match, rule)
-                transition_time = transition['transitionTime']
-                transition_compared_to_match = \
-                    compare_transition_to_match(year, transition_time, match)
-                if transition_compared_to_match == 0:
-                    self.transitions.append(transition)
-                    if transition_time == match['startDateTime']:
-                        start_transition_found = True
-
-                    # Check if the candidate transition occurs in the previous
-                    # year.
-                    if rule_from_year <= year - 1:
-                        candidate_prior_transition = \
-                            self.create_transition_for_year(
-                                year - 1, match, rule)
-                elif transition_compared_to_match < -1:
-                    candidate_prior_transition = transition
-
-            # Find the latest candidate transition.
-            if (not start_transition_found and candidate_prior_transition
-                and (not latest_prior_transition or
-                candidate_prior_transition['transitionTime'] > \
-                latest_prior_transition['transitionTime'])):
-                latest_prior_transition = candidate_prior_transition
+            transition = self.create_transition_prior_to_year(year, rule, match)
+            if transition:
+                self.process_transition(year, match, transition, results)
 
         # Add the latest prior transition
-        if not start_transition_found and latest_prior_transition:
-            original_transition_time = latest_prior_transition['transitionTime']
-            latest_prior_transition['transitionTime'] = match['startDateTime']
-            latest_prior_transition['originalTransitionTime'] = \
-                original_transition_time
-            self.transitions.append(latest_prior_transition)
+        if not results.get('startTransitionFound'):
+            prior_transition = results.get('latestPriorTransition')
+            if not prior_transition:
+                logging.error("No prior transition found!")
+                sys.exit(1)
+            original_time = prior_transition['transitionTime']
+            prior_transition['transitionTime'] = match['startDateTime']
+            prior_transition['originalTransitionTime'] = original_time
+            self.transitions.append(prior_transition)
 
-    def create_transition_for_year(self, year, match, rule):
-        """Create the transition map item from the given rule for the given
-        year. Assume that the rule applies to the given year (i.e. FROM <= year
-        <= TO).
+    def process_transition(self, year, match, transition, results):
+        """Process the given transition. The 'results' is a map that keeps
+        track of the processing:
+            * If transition >= match.until:
+                * do nothing
+            * If transition within match:
+                * add transition to self.transitions
+                * if transition == match.start
+                    * set results['startTransitionFound'] = True
+            * If transition < match:
+                * if not startTransitionFound:
+                    * set results['latestPriorTransition'] = latest
         """
+        transition_time = transition['transitionTime']
+        transition_compared_to_match = compare_transition_to_match(
+            year, transition_time, match)
+        if transition_compared_to_match > 0:
+            return
+        elif transition_compared_to_match == 0:
+            self.transitions.append(transition)
+            if transition_time == match['startDateTime']:
+                results['startTransitionFound'] = True
+        else: # transition_compared_to_match < -1:
+            # Determine the latest prior transition
+            if results.get('startTransitionFound'):
+                return
+
+            latest_prior_transition = results.get('latestPriorTransition')
+            if not latest_prior_transition:
+                results['latestPriorTransition'] = transition
+                return
+
+            latest_prior_time = latest_prior_transition['transitionTime']
+            if transition_time > latest_prior_time:
+                results['latestPriorTransition'] = transition
+
+
+    def create_transition_for_year(self, year, rule, match):
+        """Create the transition from the given rule for the given year, if
+        the rule overlaps with the given year. Return None if it does not
+        overlap. The Transition object is a replica of the underlying Match
+        object, with additional bookkeeping info.
+        """
+        # Check if year overlaps with [Rule.from, Rule.to].
+        from_year = rule['fromYear']
+        to_year = rule['toYear']
+        if year < from_year or to_year < year:
+            return None
+
+        transition_time = get_transition_time(year, rule)
         zone_entry = match['zoneEntry']
-        transition_time = calc_transition_time(year, rule)
         transition = match.copy()
         transition.update({
+            'offsetCode': zone_entry['offsetCode'],
+            'format': zone_entry['format'],
             'transitionTime': transition_time,
             'zoneRule': rule,
-            'offsetCode': zone_entry['offsetCode'],
             'deltaCode': rule['deltaCode'],
-            'format': zone_entry['format'],
             'letter': rule['letter'],
         })
         return transition
 
-def compare_rule_to_year(rule, year):
-    """Determine if rule is < year, overlaps with year, or > year.
-    """
-    to_year = rule['toYear']
-    from_year = rule['fromYear']
-    if to_year < year:
-        return -1
-    if from_year > year:
-        return 1
-    return 0
+    def create_transition_prior_to_year(self, year, rule, match):
+        """Create the transition from the given rule corresponding to
+        the latest rule.year just prior to given year.
+        """
+        # Get the most recent prior year
+        from_year = rule['fromYear']
+        to_year = rule['toYear']
+        if from_year >= year:
+            return None
+        if to_year < year:
+            prior_year = to_year
+        else:
+            prior_year = year - 1
+
+        transition_time = get_transition_time(prior_year, rule)
+        zone_entry = match['zoneEntry']
+        transition = match.copy()
+        transition.update({
+            'offsetCode': zone_entry['offsetCode'],
+            'format': zone_entry['format'],
+            'transitionTime': transition_time,
+            'zoneRule': rule,
+            'deltaCode': rule['deltaCode'],
+            'letter': rule['letter'],
+        })
+        return transition
+
 
 def calc_effective_match(year, match):
+    """Generate a version of match which overlaps the 2 year interval from
+    [year, year+2).
+    """
     start_date_time = match['startDateTime']
     if start_date_time < (year, 1, 1, 0):
         start_date_time = (year, 1, 1, 0)
 
     until_date_time = match['untilDateTime']
-    if until_date_time > (year + 1, 1, 1, 0):
-        until_date_time = (year + 1, 1, 1, 0)
+    if until_date_time > (year + 2, 1, 1, 0):
+        until_date_time = (year + 2, 1, 1, 0)
 
     eff_match = match.copy()
     eff_match['startDateTime'] = start_date_time
     eff_match['untilDateTime'] = until_date_time
     return eff_match
+
 
 def compare_transition_to_match(year, transition_time, match):
     """Determine if transition_time applies to given range of the match,
@@ -332,7 +432,8 @@ def compare_transition_to_match(year, transition_time, match):
         return 1
     return 0
 
-def calc_transition_time(year, rule):
+
+def get_transition_time(year, rule):
     """Return the (year, month, day, hour) of the Rule in given year.
     """
     rule_month = rule['inMonth']
@@ -340,6 +441,7 @@ def calc_transition_time(year, rule):
     rule_day_of_month = calc_day_of_month(year, rule_month,
         rule['onDayOfWeek'], rule['onDayOfMonth'])
     return (year, rule_month, rule_day_of_month, rule_hour)
+
 
 def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
     """Return the actual day of month of expressions such as
@@ -355,6 +457,7 @@ def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
     day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
     return on_day_of_month + day_of_week_shift
 
+
 def days_in_month(year, month):
     """Return the number of days in the given (year, month).
     """
@@ -365,41 +468,16 @@ def days_in_month(year, month):
         days += is_leap
     return days
 
-def compare_zone_rule(year, a, b):
-    """Compare Zone rule a and b, assuming they are valid prior to given year.
-    Return -1, 0, 1 depending on (a < b, == b, or > b).
+
+def entry_overlaps_with_year(prev_entry, entry, year_short):
+    """Determines if entry overlaps with 2 years that starts with given year,
+    i.e. [year_short, year_short+2). The start date of the current entry is
+    represented by the prev_entry.UNTIL, so the interval of the current entry is
+    [start, end) = [prev_entry.UNTIL, entry.UNTIL). Overlap happens if (start <
+    year_short+2) and (end > year_short).
     """
-    a_year = largest_rule_year(year, a)
-    b_year = largest_rule_year(year, b)
-
-    if a_year < b_year: return -1;
-    if a_year > b_year: return 1;
-
-    # Assume that a Zone Policy does not contain a year where more than one
-    # transition occurs in a given month. So we don't need to check
-    # the atHour or atHourModifier fields.
-    if a['inMonth'] < b['inMonth']: return -1;
-    if a['inMonth'] > b['inMonth']: return 1;
-
-    return 0 # should never happen
-
-def largest_rule_year(year, rule):
-    """Return the largest year of the rule *prior* to the given year.
-    Return 0 if the rule is not valid before the given 'year'.
-    """
-    if rule['toYear'] < year:
-        return rule['toYear']
-    if rule['fromYear'] < year:
-        return year - 1
-    return 0
-
-def overlaps_with_year(prev_entry, entry, year_short):
-    """Determines if entry overlaps with the given year, i.e.
-    [year_short, year_short+1). The prev_entry is used to extract the start
-    date of the current entry.
-    """
-    return (compare_entry_to_year(prev_entry, year_short + 1) < 0 and
-        compare_entry_to_year(entry, year_short) >= 0)
+    return (compare_entry_to_year(prev_entry, year_short + 2) < 0 and
+        compare_entry_to_year(entry, year_short) > 0)
 
 
 def compare_entry_to_year(entry, year_short):
