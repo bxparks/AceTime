@@ -10,17 +10,17 @@
 #
 # DO NOT EDIT
 
-from zone_policies import *
+from zonedb.zone_policies import *
 
 # numInfos: 284
-# numEntries: 381
+# numEras: 381
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Abidjan
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Abidjan = [
+ZONE_ERAS_Abidjan = [
     #              0:00    -    GMT
     {
       "offsetCode": 0,
@@ -35,15 +35,15 @@ ZONE_ENTRIES_Abidjan = [
 ]
 ZONE_INFO_Abidjan = {
     "name": "Africa/Abidjan",
-    "entries": ZONE_ENTRIES_Abidjan
+    "eras": ZONE_ERAS_Abidjan
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Accra
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Accra = [
+ZONE_ERAS_Accra = [
     #              0:00    Ghana    GMT/+0020
     {
       "offsetCode": 0,
@@ -58,15 +58,15 @@ ZONE_ENTRIES_Accra = [
 ]
 ZONE_INFO_Accra = {
     "name": "Africa/Accra",
-    "entries": ZONE_ENTRIES_Accra
+    "eras": ZONE_ERAS_Accra
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Algiers
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Algiers = [
+ZONE_ERAS_Algiers = [
     #             1:00    -    CET
     {
       "offsetCode": 4,
@@ -81,15 +81,15 @@ ZONE_ENTRIES_Algiers = [
 ]
 ZONE_INFO_Algiers = {
     "name": "Africa/Algiers",
-    "entries": ZONE_ENTRIES_Algiers
+    "eras": ZONE_ERAS_Algiers
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Bissau
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Bissau = [
+ZONE_ERAS_Bissau = [
     #              0:00    -    GMT
     {
       "offsetCode": 0,
@@ -104,15 +104,15 @@ ZONE_ENTRIES_Bissau = [
 ]
 ZONE_INFO_Bissau = {
     "name": "Africa/Bissau",
-    "entries": ZONE_ENTRIES_Bissau
+    "eras": ZONE_ERAS_Bissau
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Cairo
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Cairo = [
+ZONE_ERAS_Cairo = [
     #             2:00    Egypt    EE%sT
     {
       "offsetCode": 8,
@@ -127,15 +127,15 @@ ZONE_ENTRIES_Cairo = [
 ]
 ZONE_INFO_Cairo = {
     "name": "Africa/Cairo",
-    "entries": ZONE_ENTRIES_Cairo
+    "eras": ZONE_ERAS_Cairo
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Casablanca
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Casablanca = [
+ZONE_ERAS_Casablanca = [
     #              0:00    Morocco    +00/+01    2018 Oct 27
     {
       "offsetCode": 0,
@@ -160,15 +160,15 @@ ZONE_ENTRIES_Casablanca = [
 ]
 ZONE_INFO_Casablanca = {
     "name": "Africa/Casablanca",
-    "entries": ZONE_ENTRIES_Casablanca
+    "eras": ZONE_ERAS_Casablanca
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Ceuta
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Ceuta = [
+ZONE_ERAS_Ceuta = [
     #              1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -183,15 +183,15 @@ ZONE_ENTRIES_Ceuta = [
 ]
 ZONE_INFO_Ceuta = {
     "name": "Africa/Ceuta",
-    "entries": ZONE_ENTRIES_Ceuta
+    "eras": ZONE_ERAS_Ceuta
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/El_Aaiun
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_El_Aaiun = [
+ZONE_ERAS_El_Aaiun = [
     #              0:00    Morocco    +00/+01    2018 Oct 27
     {
       "offsetCode": 0,
@@ -216,15 +216,15 @@ ZONE_ENTRIES_El_Aaiun = [
 ]
 ZONE_INFO_El_Aaiun = {
     "name": "Africa/El_Aaiun",
-    "entries": ZONE_ENTRIES_El_Aaiun
+    "eras": ZONE_ERAS_El_Aaiun
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Johannesburg
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Johannesburg = [
+ZONE_ERAS_Johannesburg = [
     #             2:00    SA    SAST
     {
       "offsetCode": 8,
@@ -239,15 +239,15 @@ ZONE_ENTRIES_Johannesburg = [
 ]
 ZONE_INFO_Johannesburg = {
     "name": "Africa/Johannesburg",
-    "entries": ZONE_ENTRIES_Johannesburg
+    "eras": ZONE_ERAS_Johannesburg
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Juba
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Juba = [
+ZONE_ERAS_Juba = [
     #             2:00    Sudan    CA%sT    2000 Jan 15 12:00
     {
       "offsetCode": 8,
@@ -272,15 +272,15 @@ ZONE_ENTRIES_Juba = [
 ]
 ZONE_INFO_Juba = {
     "name": "Africa/Juba",
-    "entries": ZONE_ENTRIES_Juba
+    "eras": ZONE_ERAS_Juba
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Khartoum
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Khartoum = [
+ZONE_ERAS_Khartoum = [
     #             2:00    Sudan    CA%sT    2000 Jan 15 12:00
     {
       "offsetCode": 8,
@@ -315,15 +315,15 @@ ZONE_ENTRIES_Khartoum = [
 ]
 ZONE_INFO_Khartoum = {
     "name": "Africa/Khartoum",
-    "entries": ZONE_ENTRIES_Khartoum
+    "eras": ZONE_ERAS_Khartoum
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Lagos
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Lagos = [
+ZONE_ERAS_Lagos = [
     #             1:00    -    WAT
     {
       "offsetCode": 4,
@@ -338,15 +338,15 @@ ZONE_ENTRIES_Lagos = [
 ]
 ZONE_INFO_Lagos = {
     "name": "Africa/Lagos",
-    "entries": ZONE_ENTRIES_Lagos
+    "eras": ZONE_ERAS_Lagos
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Maputo
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Maputo = [
+ZONE_ERAS_Maputo = [
     #             2:00    -    CAT
     {
       "offsetCode": 8,
@@ -361,15 +361,15 @@ ZONE_ENTRIES_Maputo = [
 ]
 ZONE_INFO_Maputo = {
     "name": "Africa/Maputo",
-    "entries": ZONE_ENTRIES_Maputo
+    "eras": ZONE_ERAS_Maputo
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Monrovia
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Monrovia = [
+ZONE_ERAS_Monrovia = [
     #              0:00    -    GMT
     {
       "offsetCode": 0,
@@ -384,15 +384,15 @@ ZONE_ENTRIES_Monrovia = [
 ]
 ZONE_INFO_Monrovia = {
     "name": "Africa/Monrovia",
-    "entries": ZONE_ENTRIES_Monrovia
+    "eras": ZONE_ERAS_Monrovia
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Nairobi
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Nairobi = [
+ZONE_ERAS_Nairobi = [
     #             3:00    -    EAT
     {
       "offsetCode": 12,
@@ -407,15 +407,15 @@ ZONE_ENTRIES_Nairobi = [
 ]
 ZONE_INFO_Nairobi = {
     "name": "Africa/Nairobi",
-    "entries": ZONE_ENTRIES_Nairobi
+    "eras": ZONE_ERAS_Nairobi
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Ndjamena
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Ndjamena = [
+ZONE_ERAS_Ndjamena = [
     #             1:00    -    WAT
     {
       "offsetCode": 4,
@@ -430,15 +430,15 @@ ZONE_ENTRIES_Ndjamena = [
 ]
 ZONE_INFO_Ndjamena = {
     "name": "Africa/Ndjamena",
-    "entries": ZONE_ENTRIES_Ndjamena
+    "eras": ZONE_ERAS_Ndjamena
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Sao_Tome
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Sao_Tome = [
+ZONE_ERAS_Sao_Tome = [
     #              0:00    -    GMT    2018 Jan  1 01:00
     {
       "offsetCode": 0,
@@ -463,15 +463,15 @@ ZONE_ENTRIES_Sao_Tome = [
 ]
 ZONE_INFO_Sao_Tome = {
     "name": "Africa/Sao_Tome",
-    "entries": ZONE_ENTRIES_Sao_Tome
+    "eras": ZONE_ERAS_Sao_Tome
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Tripoli
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tripoli = [
+ZONE_ERAS_Tripoli = [
     #             2:00    -    EET    2012 Nov 10  2:00
     {
       "offsetCode": 8,
@@ -506,15 +506,15 @@ ZONE_ENTRIES_Tripoli = [
 ]
 ZONE_INFO_Tripoli = {
     "name": "Africa/Tripoli",
-    "entries": ZONE_ENTRIES_Tripoli
+    "eras": ZONE_ERAS_Tripoli
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Tunis
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tunis = [
+ZONE_ERAS_Tunis = [
     #             1:00    Tunisia    CE%sT
     {
       "offsetCode": 4,
@@ -529,15 +529,15 @@ ZONE_ENTRIES_Tunis = [
 ]
 ZONE_INFO_Tunis = {
     "name": "Africa/Tunis",
-    "entries": ZONE_ENTRIES_Tunis
+    "eras": ZONE_ERAS_Tunis
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Adak
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Adak = [
+ZONE_ERAS_Adak = [
     #             -10:00    US    H%sT
     {
       "offsetCode": -40,
@@ -552,15 +552,15 @@ ZONE_ENTRIES_Adak = [
 ]
 ZONE_INFO_Adak = {
     "name": "America/Adak",
-    "entries": ZONE_ENTRIES_Adak
+    "eras": ZONE_ERAS_Adak
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Anchorage
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Anchorage = [
+ZONE_ERAS_Anchorage = [
     #              -9:00    US    AK%sT
     {
       "offsetCode": -36,
@@ -575,15 +575,15 @@ ZONE_ENTRIES_Anchorage = [
 ]
 ZONE_INFO_Anchorage = {
     "name": "America/Anchorage",
-    "entries": ZONE_ENTRIES_Anchorage
+    "eras": ZONE_ERAS_Anchorage
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Araguaina
-# Entry count: 4
+# Era count: 4
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Araguaina = [
+ZONE_ERAS_Araguaina = [
     #             -3:00    Brazil    -03/-02    2003 Sep 24
     {
       "offsetCode": -12,
@@ -628,15 +628,15 @@ ZONE_ENTRIES_Araguaina = [
 ]
 ZONE_INFO_Araguaina = {
     "name": "America/Araguaina",
-    "entries": ZONE_ENTRIES_Araguaina
+    "eras": ZONE_ERAS_Araguaina
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Buenos_Aires
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Buenos_Aires = [
+ZONE_ERAS_Buenos_Aires = [
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       "offsetCode": -16,
@@ -661,15 +661,15 @@ ZONE_ENTRIES_Buenos_Aires = [
 ]
 ZONE_INFO_Buenos_Aires = {
     "name": "America/Argentina/Buenos_Aires",
-    "entries": ZONE_ENTRIES_Buenos_Aires
+    "eras": ZONE_ERAS_Buenos_Aires
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Cordoba
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Cordoba = [
+ZONE_ERAS_Cordoba = [
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       "offsetCode": -16,
@@ -694,15 +694,15 @@ ZONE_ENTRIES_Cordoba = [
 ]
 ZONE_INFO_Cordoba = {
     "name": "America/Argentina/Cordoba",
-    "entries": ZONE_ENTRIES_Cordoba
+    "eras": ZONE_ERAS_Cordoba
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Jujuy
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Jujuy = [
+ZONE_ERAS_Jujuy = [
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       "offsetCode": -16,
@@ -737,15 +737,15 @@ ZONE_ENTRIES_Jujuy = [
 ]
 ZONE_INFO_Jujuy = {
     "name": "America/Argentina/Jujuy",
-    "entries": ZONE_ENTRIES_Jujuy
+    "eras": ZONE_ERAS_Jujuy
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Salta
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Salta = [
+ZONE_ERAS_Salta = [
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       "offsetCode": -16,
@@ -780,15 +780,15 @@ ZONE_ENTRIES_Salta = [
 ]
 ZONE_INFO_Salta = {
     "name": "America/Argentina/Salta",
-    "entries": ZONE_ENTRIES_Salta
+    "eras": ZONE_ERAS_Salta
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Asuncion
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Asuncion = [
+ZONE_ERAS_Asuncion = [
     #             -4:00    Para    -04/-03
     {
       "offsetCode": -16,
@@ -803,15 +803,15 @@ ZONE_ENTRIES_Asuncion = [
 ]
 ZONE_INFO_Asuncion = {
     "name": "America/Asuncion",
-    "entries": ZONE_ENTRIES_Asuncion
+    "eras": ZONE_ERAS_Asuncion
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Atikokan
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Atikokan = [
+ZONE_ERAS_Atikokan = [
     #             -5:00    -    EST
     {
       "offsetCode": -20,
@@ -826,15 +826,15 @@ ZONE_ENTRIES_Atikokan = [
 ]
 ZONE_INFO_Atikokan = {
     "name": "America/Atikokan",
-    "entries": ZONE_ENTRIES_Atikokan
+    "eras": ZONE_ERAS_Atikokan
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Bahia
-# Entry count: 4
+# Era count: 4
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Bahia = [
+ZONE_ERAS_Bahia = [
     #             -3:00    Brazil    -03/-02    2003 Sep 24
     {
       "offsetCode": -12,
@@ -879,15 +879,15 @@ ZONE_ENTRIES_Bahia = [
 ]
 ZONE_INFO_Bahia = {
     "name": "America/Bahia",
-    "entries": ZONE_ENTRIES_Bahia
+    "eras": ZONE_ERAS_Bahia
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Bahia_Banderas
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Bahia_Banderas = [
+ZONE_ERAS_Bahia_Banderas = [
     #             -7:00    Mexico    M%sT    2010 Apr  4  2:00
     {
       "offsetCode": -28,
@@ -912,15 +912,15 @@ ZONE_ENTRIES_Bahia_Banderas = [
 ]
 ZONE_INFO_Bahia_Banderas = {
     "name": "America/Bahia_Banderas",
-    "entries": ZONE_ENTRIES_Bahia_Banderas
+    "eras": ZONE_ERAS_Bahia_Banderas
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Barbados
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Barbados = [
+ZONE_ERAS_Barbados = [
     #             -4:00    Barb    A%sT
     {
       "offsetCode": -16,
@@ -935,15 +935,15 @@ ZONE_ENTRIES_Barbados = [
 ]
 ZONE_INFO_Barbados = {
     "name": "America/Barbados",
-    "entries": ZONE_ENTRIES_Barbados
+    "eras": ZONE_ERAS_Barbados
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Belem
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Belem = [
+ZONE_ERAS_Belem = [
     #             -3:00    -    -03
     {
       "offsetCode": -12,
@@ -958,15 +958,15 @@ ZONE_ENTRIES_Belem = [
 ]
 ZONE_INFO_Belem = {
     "name": "America/Belem",
-    "entries": ZONE_ENTRIES_Belem
+    "eras": ZONE_ERAS_Belem
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Blanc_Sablon
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Blanc_Sablon = [
+ZONE_ERAS_Blanc_Sablon = [
     #             -4:00    -    AST
     {
       "offsetCode": -16,
@@ -981,15 +981,15 @@ ZONE_ENTRIES_Blanc_Sablon = [
 ]
 ZONE_INFO_Blanc_Sablon = {
     "name": "America/Blanc_Sablon",
-    "entries": ZONE_ENTRIES_Blanc_Sablon
+    "eras": ZONE_ERAS_Blanc_Sablon
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Boa_Vista
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Boa_Vista = [
+ZONE_ERAS_Boa_Vista = [
     #             -4:00    Brazil    -04/-03    2000 Oct 15
     {
       "offsetCode": -16,
@@ -1014,15 +1014,15 @@ ZONE_ENTRIES_Boa_Vista = [
 ]
 ZONE_INFO_Boa_Vista = {
     "name": "America/Boa_Vista",
-    "entries": ZONE_ENTRIES_Boa_Vista
+    "eras": ZONE_ERAS_Boa_Vista
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Bogota
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Bogota = [
+ZONE_ERAS_Bogota = [
     #             -5:00    CO    -05/-04
     {
       "offsetCode": -20,
@@ -1037,15 +1037,15 @@ ZONE_ENTRIES_Bogota = [
 ]
 ZONE_INFO_Bogota = {
     "name": "America/Bogota",
-    "entries": ZONE_ENTRIES_Bogota
+    "eras": ZONE_ERAS_Bogota
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Boise
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Boise = [
+ZONE_ERAS_Boise = [
     #             -7:00    US    M%sT
     {
       "offsetCode": -28,
@@ -1060,15 +1060,15 @@ ZONE_ENTRIES_Boise = [
 ]
 ZONE_INFO_Boise = {
     "name": "America/Boise",
-    "entries": ZONE_ENTRIES_Boise
+    "eras": ZONE_ERAS_Boise
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Campo_Grande
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Campo_Grande = [
+ZONE_ERAS_Campo_Grande = [
     #             -4:00    Brazil    -04/-03
     {
       "offsetCode": -16,
@@ -1083,15 +1083,15 @@ ZONE_ENTRIES_Campo_Grande = [
 ]
 ZONE_INFO_Campo_Grande = {
     "name": "America/Campo_Grande",
-    "entries": ZONE_ENTRIES_Campo_Grande
+    "eras": ZONE_ERAS_Campo_Grande
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Cancun
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Cancun = [
+ZONE_ERAS_Cancun = [
     #             -6:00    Mexico    C%sT    2015 Feb  1  2:00
     {
       "offsetCode": -24,
@@ -1116,15 +1116,15 @@ ZONE_ENTRIES_Cancun = [
 ]
 ZONE_INFO_Cancun = {
     "name": "America/Cancun",
-    "entries": ZONE_ENTRIES_Cancun
+    "eras": ZONE_ERAS_Cancun
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Cayenne
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Cayenne = [
+ZONE_ERAS_Cayenne = [
     #             -3:00    -    -03
     {
       "offsetCode": -12,
@@ -1139,15 +1139,15 @@ ZONE_ENTRIES_Cayenne = [
 ]
 ZONE_INFO_Cayenne = {
     "name": "America/Cayenne",
-    "entries": ZONE_ENTRIES_Cayenne
+    "eras": ZONE_ERAS_Cayenne
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Chicago
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Chicago = [
+ZONE_ERAS_Chicago = [
     #             -6:00    US    C%sT
     {
       "offsetCode": -24,
@@ -1162,15 +1162,15 @@ ZONE_ENTRIES_Chicago = [
 ]
 ZONE_INFO_Chicago = {
     "name": "America/Chicago",
-    "entries": ZONE_ENTRIES_Chicago
+    "eras": ZONE_ERAS_Chicago
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Chihuahua
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Chihuahua = [
+ZONE_ERAS_Chihuahua = [
     #             -7:00    Mexico    M%sT
     {
       "offsetCode": -28,
@@ -1185,15 +1185,15 @@ ZONE_ENTRIES_Chihuahua = [
 ]
 ZONE_INFO_Chihuahua = {
     "name": "America/Chihuahua",
-    "entries": ZONE_ENTRIES_Chihuahua
+    "eras": ZONE_ERAS_Chihuahua
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Costa_Rica
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Costa_Rica = [
+ZONE_ERAS_Costa_Rica = [
     #             -6:00    CR    C%sT
     {
       "offsetCode": -24,
@@ -1208,15 +1208,15 @@ ZONE_ENTRIES_Costa_Rica = [
 ]
 ZONE_INFO_Costa_Rica = {
     "name": "America/Costa_Rica",
-    "entries": ZONE_ENTRIES_Costa_Rica
+    "eras": ZONE_ERAS_Costa_Rica
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Creston
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Creston = [
+ZONE_ERAS_Creston = [
     #             -7:00    -    MST
     {
       "offsetCode": -28,
@@ -1231,15 +1231,15 @@ ZONE_ENTRIES_Creston = [
 ]
 ZONE_INFO_Creston = {
     "name": "America/Creston",
-    "entries": ZONE_ENTRIES_Creston
+    "eras": ZONE_ERAS_Creston
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Cuiaba
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Cuiaba = [
+ZONE_ERAS_Cuiaba = [
     #             -4:00    Brazil    -04/-03    2003 Sep 24
     {
       "offsetCode": -16,
@@ -1274,15 +1274,15 @@ ZONE_ENTRIES_Cuiaba = [
 ]
 ZONE_INFO_Cuiaba = {
     "name": "America/Cuiaba",
-    "entries": ZONE_ENTRIES_Cuiaba
+    "eras": ZONE_ERAS_Cuiaba
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Curacao
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Curacao = [
+ZONE_ERAS_Curacao = [
     #             -4:00    -    AST
     {
       "offsetCode": -16,
@@ -1297,15 +1297,15 @@ ZONE_ENTRIES_Curacao = [
 ]
 ZONE_INFO_Curacao = {
     "name": "America/Curacao",
-    "entries": ZONE_ENTRIES_Curacao
+    "eras": ZONE_ERAS_Curacao
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Danmarkshavn
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Danmarkshavn = [
+ZONE_ERAS_Danmarkshavn = [
     #             0:00    -    GMT
     {
       "offsetCode": 0,
@@ -1320,15 +1320,15 @@ ZONE_ENTRIES_Danmarkshavn = [
 ]
 ZONE_INFO_Danmarkshavn = {
     "name": "America/Danmarkshavn",
-    "entries": ZONE_ENTRIES_Danmarkshavn
+    "eras": ZONE_ERAS_Danmarkshavn
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Dawson
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Dawson = [
+ZONE_ERAS_Dawson = [
     #             -8:00    Canada    P%sT
     {
       "offsetCode": -32,
@@ -1343,15 +1343,15 @@ ZONE_ENTRIES_Dawson = [
 ]
 ZONE_INFO_Dawson = {
     "name": "America/Dawson",
-    "entries": ZONE_ENTRIES_Dawson
+    "eras": ZONE_ERAS_Dawson
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Dawson_Creek
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Dawson_Creek = [
+ZONE_ERAS_Dawson_Creek = [
     #             -7:00    -    MST
     {
       "offsetCode": -28,
@@ -1366,15 +1366,15 @@ ZONE_ENTRIES_Dawson_Creek = [
 ]
 ZONE_INFO_Dawson_Creek = {
     "name": "America/Dawson_Creek",
-    "entries": ZONE_ENTRIES_Dawson_Creek
+    "eras": ZONE_ERAS_Dawson_Creek
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Denver
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Denver = [
+ZONE_ERAS_Denver = [
     #             -7:00    US    M%sT
     {
       "offsetCode": -28,
@@ -1389,15 +1389,15 @@ ZONE_ENTRIES_Denver = [
 ]
 ZONE_INFO_Denver = {
     "name": "America/Denver",
-    "entries": ZONE_ENTRIES_Denver
+    "eras": ZONE_ERAS_Denver
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Detroit
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Detroit = [
+ZONE_ERAS_Detroit = [
     #             -5:00    US    E%sT
     {
       "offsetCode": -20,
@@ -1412,15 +1412,15 @@ ZONE_ENTRIES_Detroit = [
 ]
 ZONE_INFO_Detroit = {
     "name": "America/Detroit",
-    "entries": ZONE_ENTRIES_Detroit
+    "eras": ZONE_ERAS_Detroit
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Edmonton
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Edmonton = [
+ZONE_ERAS_Edmonton = [
     #             -7:00    Canada    M%sT
     {
       "offsetCode": -28,
@@ -1435,15 +1435,15 @@ ZONE_ENTRIES_Edmonton = [
 ]
 ZONE_INFO_Edmonton = {
     "name": "America/Edmonton",
-    "entries": ZONE_ENTRIES_Edmonton
+    "eras": ZONE_ERAS_Edmonton
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Eirunepe
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Eirunepe = [
+ZONE_ERAS_Eirunepe = [
     #             -5:00    -    -05    2008 Jun 24  0:00
     {
       "offsetCode": -20,
@@ -1478,15 +1478,15 @@ ZONE_ENTRIES_Eirunepe = [
 ]
 ZONE_INFO_Eirunepe = {
     "name": "America/Eirunepe",
-    "entries": ZONE_ENTRIES_Eirunepe
+    "eras": ZONE_ERAS_Eirunepe
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/El_Salvador
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_El_Salvador = [
+ZONE_ERAS_El_Salvador = [
     #             -6:00    Salv    C%sT
     {
       "offsetCode": -24,
@@ -1501,15 +1501,15 @@ ZONE_ENTRIES_El_Salvador = [
 ]
 ZONE_INFO_El_Salvador = {
     "name": "America/El_Salvador",
-    "entries": ZONE_ENTRIES_El_Salvador
+    "eras": ZONE_ERAS_El_Salvador
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Fort_Nelson
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Fort_Nelson = [
+ZONE_ERAS_Fort_Nelson = [
     #             -8:00    Canada    P%sT    2015 Mar  8  2:00
     {
       "offsetCode": -32,
@@ -1534,15 +1534,15 @@ ZONE_ENTRIES_Fort_Nelson = [
 ]
 ZONE_INFO_Fort_Nelson = {
     "name": "America/Fort_Nelson",
-    "entries": ZONE_ENTRIES_Fort_Nelson
+    "eras": ZONE_ERAS_Fort_Nelson
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Fortaleza
-# Entry count: 4
+# Era count: 4
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Fortaleza = [
+ZONE_ERAS_Fortaleza = [
     #             -3:00    Brazil    -03/-02    2000 Oct 22
     {
       "offsetCode": -12,
@@ -1587,15 +1587,15 @@ ZONE_ENTRIES_Fortaleza = [
 ]
 ZONE_INFO_Fortaleza = {
     "name": "America/Fortaleza",
-    "entries": ZONE_ENTRIES_Fortaleza
+    "eras": ZONE_ERAS_Fortaleza
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Glace_Bay
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Glace_Bay = [
+ZONE_ERAS_Glace_Bay = [
     #             -4:00    Canada    A%sT
     {
       "offsetCode": -16,
@@ -1610,15 +1610,15 @@ ZONE_ENTRIES_Glace_Bay = [
 ]
 ZONE_INFO_Glace_Bay = {
     "name": "America/Glace_Bay",
-    "entries": ZONE_ENTRIES_Glace_Bay
+    "eras": ZONE_ERAS_Glace_Bay
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Godthab
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Godthab = [
+ZONE_ERAS_Godthab = [
     #             -3:00    EU    -03/-02
     {
       "offsetCode": -12,
@@ -1633,15 +1633,15 @@ ZONE_ENTRIES_Godthab = [
 ]
 ZONE_INFO_Godthab = {
     "name": "America/Godthab",
-    "entries": ZONE_ENTRIES_Godthab
+    "eras": ZONE_ERAS_Godthab
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Grand_Turk
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Grand_Turk = [
+ZONE_ERAS_Grand_Turk = [
     #             -5:00    US    E%sT    2015 Nov Sun>=1 2:00
     {
       "offsetCode": -20,
@@ -1676,15 +1676,15 @@ ZONE_ENTRIES_Grand_Turk = [
 ]
 ZONE_INFO_Grand_Turk = {
     "name": "America/Grand_Turk",
-    "entries": ZONE_ENTRIES_Grand_Turk
+    "eras": ZONE_ERAS_Grand_Turk
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Guatemala
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Guatemala = [
+ZONE_ERAS_Guatemala = [
     #             -6:00    Guat    C%sT
     {
       "offsetCode": -24,
@@ -1699,15 +1699,15 @@ ZONE_ENTRIES_Guatemala = [
 ]
 ZONE_INFO_Guatemala = {
     "name": "America/Guatemala",
-    "entries": ZONE_ENTRIES_Guatemala
+    "eras": ZONE_ERAS_Guatemala
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Guayaquil
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Guayaquil = [
+ZONE_ERAS_Guayaquil = [
     #             -5:00    Ecuador    -05/-04
     {
       "offsetCode": -20,
@@ -1722,15 +1722,15 @@ ZONE_ENTRIES_Guayaquil = [
 ]
 ZONE_INFO_Guayaquil = {
     "name": "America/Guayaquil",
-    "entries": ZONE_ENTRIES_Guayaquil
+    "eras": ZONE_ERAS_Guayaquil
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Guyana
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Guyana = [
+ZONE_ERAS_Guyana = [
     #             -4:00    -    -04
     {
       "offsetCode": -16,
@@ -1745,15 +1745,15 @@ ZONE_ENTRIES_Guyana = [
 ]
 ZONE_INFO_Guyana = {
     "name": "America/Guyana",
-    "entries": ZONE_ENTRIES_Guyana
+    "eras": ZONE_ERAS_Guyana
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Halifax
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Halifax = [
+ZONE_ERAS_Halifax = [
     #             -4:00    Canada    A%sT
     {
       "offsetCode": -16,
@@ -1768,15 +1768,15 @@ ZONE_ENTRIES_Halifax = [
 ]
 ZONE_INFO_Halifax = {
     "name": "America/Halifax",
-    "entries": ZONE_ENTRIES_Halifax
+    "eras": ZONE_ERAS_Halifax
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Havana
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Havana = [
+ZONE_ERAS_Havana = [
     #             -5:00    Cuba    C%sT
     {
       "offsetCode": -20,
@@ -1791,15 +1791,15 @@ ZONE_ENTRIES_Havana = [
 ]
 ZONE_INFO_Havana = {
     "name": "America/Havana",
-    "entries": ZONE_ENTRIES_Havana
+    "eras": ZONE_ERAS_Havana
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Hermosillo
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Hermosillo = [
+ZONE_ERAS_Hermosillo = [
     #             -7:00    -    MST
     {
       "offsetCode": -28,
@@ -1814,15 +1814,15 @@ ZONE_ENTRIES_Hermosillo = [
 ]
 ZONE_INFO_Hermosillo = {
     "name": "America/Hermosillo",
-    "entries": ZONE_ENTRIES_Hermosillo
+    "eras": ZONE_ERAS_Hermosillo
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Indianapolis
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Indianapolis = [
+ZONE_ERAS_Indianapolis = [
     #             -5:00    -    EST    2006
     {
       "offsetCode": -20,
@@ -1847,15 +1847,15 @@ ZONE_ENTRIES_Indianapolis = [
 ]
 ZONE_INFO_Indianapolis = {
     "name": "America/Indiana/Indianapolis",
-    "entries": ZONE_ENTRIES_Indianapolis
+    "eras": ZONE_ERAS_Indianapolis
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Knox
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Knox = [
+ZONE_ERAS_Knox = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       "offsetCode": -20,
@@ -1880,15 +1880,15 @@ ZONE_ENTRIES_Knox = [
 ]
 ZONE_INFO_Knox = {
     "name": "America/Indiana/Knox",
-    "entries": ZONE_ENTRIES_Knox
+    "eras": ZONE_ERAS_Knox
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Marengo
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Marengo = [
+ZONE_ERAS_Marengo = [
     #             -5:00    -    EST    2006
     {
       "offsetCode": -20,
@@ -1913,15 +1913,15 @@ ZONE_ENTRIES_Marengo = [
 ]
 ZONE_INFO_Marengo = {
     "name": "America/Indiana/Marengo",
-    "entries": ZONE_ENTRIES_Marengo
+    "eras": ZONE_ERAS_Marengo
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Petersburg
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Petersburg = [
+ZONE_ERAS_Petersburg = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       "offsetCode": -20,
@@ -1956,15 +1956,15 @@ ZONE_ENTRIES_Petersburg = [
 ]
 ZONE_INFO_Petersburg = {
     "name": "America/Indiana/Petersburg",
-    "entries": ZONE_ENTRIES_Petersburg
+    "eras": ZONE_ERAS_Petersburg
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Tell_City
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tell_City = [
+ZONE_ERAS_Tell_City = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       "offsetCode": -20,
@@ -1989,15 +1989,15 @@ ZONE_ENTRIES_Tell_City = [
 ]
 ZONE_INFO_Tell_City = {
     "name": "America/Indiana/Tell_City",
-    "entries": ZONE_ENTRIES_Tell_City
+    "eras": ZONE_ERAS_Tell_City
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Vevay
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Vevay = [
+ZONE_ERAS_Vevay = [
     #             -5:00    -    EST    2006
     {
       "offsetCode": -20,
@@ -2022,15 +2022,15 @@ ZONE_ENTRIES_Vevay = [
 ]
 ZONE_INFO_Vevay = {
     "name": "America/Indiana/Vevay",
-    "entries": ZONE_ENTRIES_Vevay
+    "eras": ZONE_ERAS_Vevay
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Vincennes
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Vincennes = [
+ZONE_ERAS_Vincennes = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       "offsetCode": -20,
@@ -2065,15 +2065,15 @@ ZONE_ENTRIES_Vincennes = [
 ]
 ZONE_INFO_Vincennes = {
     "name": "America/Indiana/Vincennes",
-    "entries": ZONE_ENTRIES_Vincennes
+    "eras": ZONE_ERAS_Vincennes
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Indiana/Winamac
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Winamac = [
+ZONE_ERAS_Winamac = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       "offsetCode": -20,
@@ -2108,15 +2108,15 @@ ZONE_ENTRIES_Winamac = [
 ]
 ZONE_INFO_Winamac = {
     "name": "America/Indiana/Winamac",
-    "entries": ZONE_ENTRIES_Winamac
+    "eras": ZONE_ERAS_Winamac
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Inuvik
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Inuvik = [
+ZONE_ERAS_Inuvik = [
     #             -7:00    Canada    M%sT
     {
       "offsetCode": -28,
@@ -2131,15 +2131,15 @@ ZONE_ENTRIES_Inuvik = [
 ]
 ZONE_INFO_Inuvik = {
     "name": "America/Inuvik",
-    "entries": ZONE_ENTRIES_Inuvik
+    "eras": ZONE_ERAS_Inuvik
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Iqaluit
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Iqaluit = [
+ZONE_ERAS_Iqaluit = [
     #             -6:00    Canada    C%sT    2000 Oct 29  2:00
     {
       "offsetCode": -24,
@@ -2164,15 +2164,15 @@ ZONE_ENTRIES_Iqaluit = [
 ]
 ZONE_INFO_Iqaluit = {
     "name": "America/Iqaluit",
-    "entries": ZONE_ENTRIES_Iqaluit
+    "eras": ZONE_ERAS_Iqaluit
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Jamaica
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Jamaica = [
+ZONE_ERAS_Jamaica = [
     #             -5:00    -    EST
     {
       "offsetCode": -20,
@@ -2187,15 +2187,15 @@ ZONE_ENTRIES_Jamaica = [
 ]
 ZONE_INFO_Jamaica = {
     "name": "America/Jamaica",
-    "entries": ZONE_ENTRIES_Jamaica
+    "eras": ZONE_ERAS_Jamaica
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Juneau
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Juneau = [
+ZONE_ERAS_Juneau = [
     #              -9:00    US    AK%sT
     {
       "offsetCode": -36,
@@ -2210,15 +2210,15 @@ ZONE_ENTRIES_Juneau = [
 ]
 ZONE_INFO_Juneau = {
     "name": "America/Juneau",
-    "entries": ZONE_ENTRIES_Juneau
+    "eras": ZONE_ERAS_Juneau
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Kentucky/Louisville
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Louisville = [
+ZONE_ERAS_Louisville = [
     #             -5:00    US    E%sT
     {
       "offsetCode": -20,
@@ -2233,15 +2233,15 @@ ZONE_ENTRIES_Louisville = [
 ]
 ZONE_INFO_Louisville = {
     "name": "America/Kentucky/Louisville",
-    "entries": ZONE_ENTRIES_Louisville
+    "eras": ZONE_ERAS_Louisville
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Kentucky/Monticello
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Monticello = [
+ZONE_ERAS_Monticello = [
     #             -6:00    US    C%sT    2000 Oct 29  2:00
     {
       "offsetCode": -24,
@@ -2266,15 +2266,15 @@ ZONE_ENTRIES_Monticello = [
 ]
 ZONE_INFO_Monticello = {
     "name": "America/Kentucky/Monticello",
-    "entries": ZONE_ENTRIES_Monticello
+    "eras": ZONE_ERAS_Monticello
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/La_Paz
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_La_Paz = [
+ZONE_ERAS_La_Paz = [
     #             -4:00    -    -04
     {
       "offsetCode": -16,
@@ -2289,15 +2289,15 @@ ZONE_ENTRIES_La_Paz = [
 ]
 ZONE_INFO_La_Paz = {
     "name": "America/La_Paz",
-    "entries": ZONE_ENTRIES_La_Paz
+    "eras": ZONE_ERAS_La_Paz
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Lima
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Lima = [
+ZONE_ERAS_Lima = [
     #             -5:00    Peru    -05/-04
     {
       "offsetCode": -20,
@@ -2312,15 +2312,15 @@ ZONE_ENTRIES_Lima = [
 ]
 ZONE_INFO_Lima = {
     "name": "America/Lima",
-    "entries": ZONE_ENTRIES_Lima
+    "eras": ZONE_ERAS_Lima
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Los_Angeles
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Los_Angeles = [
+ZONE_ERAS_Los_Angeles = [
     #             -8:00    US    P%sT
     {
       "offsetCode": -32,
@@ -2335,15 +2335,15 @@ ZONE_ENTRIES_Los_Angeles = [
 ]
 ZONE_INFO_Los_Angeles = {
     "name": "America/Los_Angeles",
-    "entries": ZONE_ENTRIES_Los_Angeles
+    "eras": ZONE_ERAS_Los_Angeles
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Maceio
-# Entry count: 4
+# Era count: 4
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Maceio = [
+ZONE_ERAS_Maceio = [
     #             -3:00    Brazil    -03/-02    2000 Oct 22
     {
       "offsetCode": -12,
@@ -2388,15 +2388,15 @@ ZONE_ENTRIES_Maceio = [
 ]
 ZONE_INFO_Maceio = {
     "name": "America/Maceio",
-    "entries": ZONE_ENTRIES_Maceio
+    "eras": ZONE_ERAS_Maceio
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Managua
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Managua = [
+ZONE_ERAS_Managua = [
     #             -6:00    Nic    C%sT
     {
       "offsetCode": -24,
@@ -2411,15 +2411,15 @@ ZONE_ENTRIES_Managua = [
 ]
 ZONE_INFO_Managua = {
     "name": "America/Managua",
-    "entries": ZONE_ENTRIES_Managua
+    "eras": ZONE_ERAS_Managua
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Manaus
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Manaus = [
+ZONE_ERAS_Manaus = [
     #             -4:00    -    -04
     {
       "offsetCode": -16,
@@ -2434,15 +2434,15 @@ ZONE_ENTRIES_Manaus = [
 ]
 ZONE_INFO_Manaus = {
     "name": "America/Manaus",
-    "entries": ZONE_ENTRIES_Manaus
+    "eras": ZONE_ERAS_Manaus
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Martinique
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Martinique = [
+ZONE_ERAS_Martinique = [
     #             -4:00    -    AST
     {
       "offsetCode": -16,
@@ -2457,15 +2457,15 @@ ZONE_ENTRIES_Martinique = [
 ]
 ZONE_INFO_Martinique = {
     "name": "America/Martinique",
-    "entries": ZONE_ENTRIES_Martinique
+    "eras": ZONE_ERAS_Martinique
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Matamoros
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Matamoros = [
+ZONE_ERAS_Matamoros = [
     #             -6:00    Mexico    C%sT    2010
     {
       "offsetCode": -24,
@@ -2490,15 +2490,15 @@ ZONE_ENTRIES_Matamoros = [
 ]
 ZONE_INFO_Matamoros = {
     "name": "America/Matamoros",
-    "entries": ZONE_ENTRIES_Matamoros
+    "eras": ZONE_ERAS_Matamoros
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Mazatlan
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Mazatlan = [
+ZONE_ERAS_Mazatlan = [
     #             -7:00    Mexico    M%sT
     {
       "offsetCode": -28,
@@ -2513,15 +2513,15 @@ ZONE_ENTRIES_Mazatlan = [
 ]
 ZONE_INFO_Mazatlan = {
     "name": "America/Mazatlan",
-    "entries": ZONE_ENTRIES_Mazatlan
+    "eras": ZONE_ERAS_Mazatlan
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Menominee
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Menominee = [
+ZONE_ERAS_Menominee = [
     #             -6:00    US    C%sT
     {
       "offsetCode": -24,
@@ -2536,15 +2536,15 @@ ZONE_ENTRIES_Menominee = [
 ]
 ZONE_INFO_Menominee = {
     "name": "America/Menominee",
-    "entries": ZONE_ENTRIES_Menominee
+    "eras": ZONE_ERAS_Menominee
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Merida
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Merida = [
+ZONE_ERAS_Merida = [
     #             -6:00    Mexico    C%sT
     {
       "offsetCode": -24,
@@ -2559,15 +2559,15 @@ ZONE_ENTRIES_Merida = [
 ]
 ZONE_INFO_Merida = {
     "name": "America/Merida",
-    "entries": ZONE_ENTRIES_Merida
+    "eras": ZONE_ERAS_Merida
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Metlakatla
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Metlakatla = [
+ZONE_ERAS_Metlakatla = [
     #              -8:00    -    PST    2015 Nov  1  2:00
     {
       "offsetCode": -32,
@@ -2592,15 +2592,15 @@ ZONE_ENTRIES_Metlakatla = [
 ]
 ZONE_INFO_Metlakatla = {
     "name": "America/Metlakatla",
-    "entries": ZONE_ENTRIES_Metlakatla
+    "eras": ZONE_ERAS_Metlakatla
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Mexico_City
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Mexico_City = [
+ZONE_ERAS_Mexico_City = [
     #             -6:00    Mexico    C%sT    2001 Sep 30  2:00
     {
       "offsetCode": -24,
@@ -2635,15 +2635,15 @@ ZONE_ENTRIES_Mexico_City = [
 ]
 ZONE_INFO_Mexico_City = {
     "name": "America/Mexico_City",
-    "entries": ZONE_ENTRIES_Mexico_City
+    "eras": ZONE_ERAS_Mexico_City
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Miquelon
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Miquelon = [
+ZONE_ERAS_Miquelon = [
     #             -3:00    Canada    -03/-02
     {
       "offsetCode": -12,
@@ -2658,15 +2658,15 @@ ZONE_ENTRIES_Miquelon = [
 ]
 ZONE_INFO_Miquelon = {
     "name": "America/Miquelon",
-    "entries": ZONE_ENTRIES_Miquelon
+    "eras": ZONE_ERAS_Miquelon
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Monterrey
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Monterrey = [
+ZONE_ERAS_Monterrey = [
     #             -6:00    Mexico    C%sT
     {
       "offsetCode": -24,
@@ -2681,15 +2681,15 @@ ZONE_ENTRIES_Monterrey = [
 ]
 ZONE_INFO_Monterrey = {
     "name": "America/Monterrey",
-    "entries": ZONE_ENTRIES_Monterrey
+    "eras": ZONE_ERAS_Monterrey
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Montevideo
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Montevideo = [
+ZONE_ERAS_Montevideo = [
     #             -3:00    Uruguay    -03/-02
     {
       "offsetCode": -12,
@@ -2704,15 +2704,15 @@ ZONE_ENTRIES_Montevideo = [
 ]
 ZONE_INFO_Montevideo = {
     "name": "America/Montevideo",
-    "entries": ZONE_ENTRIES_Montevideo
+    "eras": ZONE_ERAS_Montevideo
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Nassau
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Nassau = [
+ZONE_ERAS_Nassau = [
     #             -5:00    US    E%sT
     {
       "offsetCode": -20,
@@ -2727,15 +2727,15 @@ ZONE_ENTRIES_Nassau = [
 ]
 ZONE_INFO_Nassau = {
     "name": "America/Nassau",
-    "entries": ZONE_ENTRIES_Nassau
+    "eras": ZONE_ERAS_Nassau
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/New_York
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_New_York = [
+ZONE_ERAS_New_York = [
     #             -5:00    US    E%sT
     {
       "offsetCode": -20,
@@ -2750,15 +2750,15 @@ ZONE_ENTRIES_New_York = [
 ]
 ZONE_INFO_New_York = {
     "name": "America/New_York",
-    "entries": ZONE_ENTRIES_New_York
+    "eras": ZONE_ERAS_New_York
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Nipigon
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Nipigon = [
+ZONE_ERAS_Nipigon = [
     #             -5:00    Canada    E%sT
     {
       "offsetCode": -20,
@@ -2773,15 +2773,15 @@ ZONE_ENTRIES_Nipigon = [
 ]
 ZONE_INFO_Nipigon = {
     "name": "America/Nipigon",
-    "entries": ZONE_ENTRIES_Nipigon
+    "eras": ZONE_ERAS_Nipigon
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Nome
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Nome = [
+ZONE_ERAS_Nome = [
     #              -9:00    US    AK%sT
     {
       "offsetCode": -36,
@@ -2796,15 +2796,15 @@ ZONE_ENTRIES_Nome = [
 ]
 ZONE_INFO_Nome = {
     "name": "America/Nome",
-    "entries": ZONE_ENTRIES_Nome
+    "eras": ZONE_ERAS_Nome
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Noronha
-# Entry count: 4
+# Era count: 4
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Noronha = [
+ZONE_ERAS_Noronha = [
     #             -2:00    Brazil    -02/-01    2000 Oct 15
     {
       "offsetCode": -8,
@@ -2849,15 +2849,15 @@ ZONE_ENTRIES_Noronha = [
 ]
 ZONE_INFO_Noronha = {
     "name": "America/Noronha",
-    "entries": ZONE_ENTRIES_Noronha
+    "eras": ZONE_ERAS_Noronha
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/North_Dakota/Beulah
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Beulah = [
+ZONE_ERAS_Beulah = [
     #             -7:00    US    M%sT    2010 Nov  7  2:00
     {
       "offsetCode": -28,
@@ -2882,15 +2882,15 @@ ZONE_ENTRIES_Beulah = [
 ]
 ZONE_INFO_Beulah = {
     "name": "America/North_Dakota/Beulah",
-    "entries": ZONE_ENTRIES_Beulah
+    "eras": ZONE_ERAS_Beulah
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/North_Dakota/Center
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Center = [
+ZONE_ERAS_Center = [
     #             -6:00    US    C%sT
     {
       "offsetCode": -24,
@@ -2905,15 +2905,15 @@ ZONE_ENTRIES_Center = [
 ]
 ZONE_INFO_Center = {
     "name": "America/North_Dakota/Center",
-    "entries": ZONE_ENTRIES_Center
+    "eras": ZONE_ERAS_Center
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/North_Dakota/New_Salem
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_New_Salem = [
+ZONE_ERAS_New_Salem = [
     #             -7:00    US    M%sT    2003 Oct 26  2:00
     {
       "offsetCode": -28,
@@ -2938,15 +2938,15 @@ ZONE_ENTRIES_New_Salem = [
 ]
 ZONE_INFO_New_Salem = {
     "name": "America/North_Dakota/New_Salem",
-    "entries": ZONE_ENTRIES_New_Salem
+    "eras": ZONE_ERAS_New_Salem
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Ojinaga
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Ojinaga = [
+ZONE_ERAS_Ojinaga = [
     #             -7:00    Mexico    M%sT    2010
     {
       "offsetCode": -28,
@@ -2971,15 +2971,15 @@ ZONE_ENTRIES_Ojinaga = [
 ]
 ZONE_INFO_Ojinaga = {
     "name": "America/Ojinaga",
-    "entries": ZONE_ENTRIES_Ojinaga
+    "eras": ZONE_ERAS_Ojinaga
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Panama
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Panama = [
+ZONE_ERAS_Panama = [
     #             -5:00    -    EST
     {
       "offsetCode": -20,
@@ -2994,15 +2994,15 @@ ZONE_ENTRIES_Panama = [
 ]
 ZONE_INFO_Panama = {
     "name": "America/Panama",
-    "entries": ZONE_ENTRIES_Panama
+    "eras": ZONE_ERAS_Panama
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Pangnirtung
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Pangnirtung = [
+ZONE_ERAS_Pangnirtung = [
     #             -6:00    Canada    C%sT    2000 Oct 29  2:00
     {
       "offsetCode": -24,
@@ -3027,15 +3027,15 @@ ZONE_ENTRIES_Pangnirtung = [
 ]
 ZONE_INFO_Pangnirtung = {
     "name": "America/Pangnirtung",
-    "entries": ZONE_ENTRIES_Pangnirtung
+    "eras": ZONE_ERAS_Pangnirtung
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Paramaribo
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Paramaribo = [
+ZONE_ERAS_Paramaribo = [
     #             -3:00    -    -03
     {
       "offsetCode": -12,
@@ -3050,15 +3050,15 @@ ZONE_ENTRIES_Paramaribo = [
 ]
 ZONE_INFO_Paramaribo = {
     "name": "America/Paramaribo",
-    "entries": ZONE_ENTRIES_Paramaribo
+    "eras": ZONE_ERAS_Paramaribo
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Phoenix
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Phoenix = [
+ZONE_ERAS_Phoenix = [
     #             -7:00    -    MST
     {
       "offsetCode": -28,
@@ -3073,15 +3073,15 @@ ZONE_ENTRIES_Phoenix = [
 ]
 ZONE_INFO_Phoenix = {
     "name": "America/Phoenix",
-    "entries": ZONE_ENTRIES_Phoenix
+    "eras": ZONE_ERAS_Phoenix
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Port_au_Prince
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Port_au_Prince = [
+ZONE_ERAS_Port_au_Prince = [
     #             -5:00    Haiti    E%sT
     {
       "offsetCode": -20,
@@ -3096,15 +3096,15 @@ ZONE_ENTRIES_Port_au_Prince = [
 ]
 ZONE_INFO_Port_au_Prince = {
     "name": "America/Port_au_Prince",
-    "entries": ZONE_ENTRIES_Port_au_Prince
+    "eras": ZONE_ERAS_Port_au_Prince
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Port_of_Spain
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Port_of_Spain = [
+ZONE_ERAS_Port_of_Spain = [
     #             -4:00    -    AST
     {
       "offsetCode": -16,
@@ -3119,15 +3119,15 @@ ZONE_ENTRIES_Port_of_Spain = [
 ]
 ZONE_INFO_Port_of_Spain = {
     "name": "America/Port_of_Spain",
-    "entries": ZONE_ENTRIES_Port_of_Spain
+    "eras": ZONE_ERAS_Port_of_Spain
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Porto_Velho
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Porto_Velho = [
+ZONE_ERAS_Porto_Velho = [
     #             -4:00    -    -04
     {
       "offsetCode": -16,
@@ -3142,15 +3142,15 @@ ZONE_ENTRIES_Porto_Velho = [
 ]
 ZONE_INFO_Porto_Velho = {
     "name": "America/Porto_Velho",
-    "entries": ZONE_ENTRIES_Porto_Velho
+    "eras": ZONE_ERAS_Porto_Velho
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Puerto_Rico
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Puerto_Rico = [
+ZONE_ERAS_Puerto_Rico = [
     #             -4:00    -    AST
     {
       "offsetCode": -16,
@@ -3165,15 +3165,15 @@ ZONE_ENTRIES_Puerto_Rico = [
 ]
 ZONE_INFO_Puerto_Rico = {
     "name": "America/Puerto_Rico",
-    "entries": ZONE_ENTRIES_Puerto_Rico
+    "eras": ZONE_ERAS_Puerto_Rico
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Punta_Arenas
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Punta_Arenas = [
+ZONE_ERAS_Punta_Arenas = [
     #             -4:00    Chile    -04/-03    2016 Dec  4
     {
       "offsetCode": -16,
@@ -3198,15 +3198,15 @@ ZONE_ENTRIES_Punta_Arenas = [
 ]
 ZONE_INFO_Punta_Arenas = {
     "name": "America/Punta_Arenas",
-    "entries": ZONE_ENTRIES_Punta_Arenas
+    "eras": ZONE_ERAS_Punta_Arenas
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Rainy_River
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Rainy_River = [
+ZONE_ERAS_Rainy_River = [
     #             -6:00    Canada    C%sT
     {
       "offsetCode": -24,
@@ -3221,15 +3221,15 @@ ZONE_ENTRIES_Rainy_River = [
 ]
 ZONE_INFO_Rainy_River = {
     "name": "America/Rainy_River",
-    "entries": ZONE_ENTRIES_Rainy_River
+    "eras": ZONE_ERAS_Rainy_River
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Rankin_Inlet
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Rankin_Inlet = [
+ZONE_ERAS_Rankin_Inlet = [
     #             -6:00    NT_YK    C%sT    2000 Oct 29  2:00
     {
       "offsetCode": -24,
@@ -3264,15 +3264,15 @@ ZONE_ENTRIES_Rankin_Inlet = [
 ]
 ZONE_INFO_Rankin_Inlet = {
     "name": "America/Rankin_Inlet",
-    "entries": ZONE_ENTRIES_Rankin_Inlet
+    "eras": ZONE_ERAS_Rankin_Inlet
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Recife
-# Entry count: 4
+# Era count: 4
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Recife = [
+ZONE_ERAS_Recife = [
     #             -3:00    Brazil    -03/-02    2000 Oct 15
     {
       "offsetCode": -12,
@@ -3317,15 +3317,15 @@ ZONE_ENTRIES_Recife = [
 ]
 ZONE_INFO_Recife = {
     "name": "America/Recife",
-    "entries": ZONE_ENTRIES_Recife
+    "eras": ZONE_ERAS_Recife
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Regina
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Regina = [
+ZONE_ERAS_Regina = [
     #             -6:00    -    CST
     {
       "offsetCode": -24,
@@ -3340,15 +3340,15 @@ ZONE_ENTRIES_Regina = [
 ]
 ZONE_INFO_Regina = {
     "name": "America/Regina",
-    "entries": ZONE_ENTRIES_Regina
+    "eras": ZONE_ERAS_Regina
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Resolute
-# Entry count: 5
+# Era count: 5
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Resolute = [
+ZONE_ERAS_Resolute = [
     #             -6:00    NT_YK    C%sT    2000 Oct 29  2:00
     {
       "offsetCode": -24,
@@ -3403,15 +3403,15 @@ ZONE_ENTRIES_Resolute = [
 ]
 ZONE_INFO_Resolute = {
     "name": "America/Resolute",
-    "entries": ZONE_ENTRIES_Resolute
+    "eras": ZONE_ERAS_Resolute
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Rio_Branco
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Rio_Branco = [
+ZONE_ERAS_Rio_Branco = [
     #             -5:00    -    -05    2008 Jun 24  0:00
     {
       "offsetCode": -20,
@@ -3446,15 +3446,15 @@ ZONE_ENTRIES_Rio_Branco = [
 ]
 ZONE_INFO_Rio_Branco = {
     "name": "America/Rio_Branco",
-    "entries": ZONE_ENTRIES_Rio_Branco
+    "eras": ZONE_ERAS_Rio_Branco
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Santarem
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Santarem = [
+ZONE_ERAS_Santarem = [
     #             -4:00    -    -04    2008 Jun 24  0:00
     {
       "offsetCode": -16,
@@ -3479,15 +3479,15 @@ ZONE_ENTRIES_Santarem = [
 ]
 ZONE_INFO_Santarem = {
     "name": "America/Santarem",
-    "entries": ZONE_ENTRIES_Santarem
+    "eras": ZONE_ERAS_Santarem
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Santiago
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Santiago = [
+ZONE_ERAS_Santiago = [
     #             -4:00    Chile    -04/-03
     {
       "offsetCode": -16,
@@ -3502,15 +3502,15 @@ ZONE_ENTRIES_Santiago = [
 ]
 ZONE_INFO_Santiago = {
     "name": "America/Santiago",
-    "entries": ZONE_ENTRIES_Santiago
+    "eras": ZONE_ERAS_Santiago
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Sao_Paulo
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Sao_Paulo = [
+ZONE_ERAS_Sao_Paulo = [
     #             -3:00    Brazil    -03/-02
     {
       "offsetCode": -12,
@@ -3525,15 +3525,15 @@ ZONE_ENTRIES_Sao_Paulo = [
 ]
 ZONE_INFO_Sao_Paulo = {
     "name": "America/Sao_Paulo",
-    "entries": ZONE_ENTRIES_Sao_Paulo
+    "eras": ZONE_ERAS_Sao_Paulo
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Scoresbysund
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Scoresbysund = [
+ZONE_ERAS_Scoresbysund = [
     #             -1:00    EU    -01/+00
     {
       "offsetCode": -4,
@@ -3548,15 +3548,15 @@ ZONE_ENTRIES_Scoresbysund = [
 ]
 ZONE_INFO_Scoresbysund = {
     "name": "America/Scoresbysund",
-    "entries": ZONE_ENTRIES_Scoresbysund
+    "eras": ZONE_ERAS_Scoresbysund
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Sitka
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Sitka = [
+ZONE_ERAS_Sitka = [
     #              -9:00    US    AK%sT
     {
       "offsetCode": -36,
@@ -3571,15 +3571,15 @@ ZONE_ENTRIES_Sitka = [
 ]
 ZONE_INFO_Sitka = {
     "name": "America/Sitka",
-    "entries": ZONE_ENTRIES_Sitka
+    "eras": ZONE_ERAS_Sitka
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Swift_Current
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Swift_Current = [
+ZONE_ERAS_Swift_Current = [
     #             -6:00    -    CST
     {
       "offsetCode": -24,
@@ -3594,15 +3594,15 @@ ZONE_ENTRIES_Swift_Current = [
 ]
 ZONE_INFO_Swift_Current = {
     "name": "America/Swift_Current",
-    "entries": ZONE_ENTRIES_Swift_Current
+    "eras": ZONE_ERAS_Swift_Current
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Tegucigalpa
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tegucigalpa = [
+ZONE_ERAS_Tegucigalpa = [
     #             -6:00    Hond    C%sT
     {
       "offsetCode": -24,
@@ -3617,15 +3617,15 @@ ZONE_ENTRIES_Tegucigalpa = [
 ]
 ZONE_INFO_Tegucigalpa = {
     "name": "America/Tegucigalpa",
-    "entries": ZONE_ENTRIES_Tegucigalpa
+    "eras": ZONE_ERAS_Tegucigalpa
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Thule
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Thule = [
+ZONE_ERAS_Thule = [
     #             -4:00    Thule    A%sT
     {
       "offsetCode": -16,
@@ -3640,15 +3640,15 @@ ZONE_ENTRIES_Thule = [
 ]
 ZONE_INFO_Thule = {
     "name": "America/Thule",
-    "entries": ZONE_ENTRIES_Thule
+    "eras": ZONE_ERAS_Thule
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Thunder_Bay
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Thunder_Bay = [
+ZONE_ERAS_Thunder_Bay = [
     #             -5:00    Canada    E%sT
     {
       "offsetCode": -20,
@@ -3663,15 +3663,15 @@ ZONE_ENTRIES_Thunder_Bay = [
 ]
 ZONE_INFO_Thunder_Bay = {
     "name": "America/Thunder_Bay",
-    "entries": ZONE_ENTRIES_Thunder_Bay
+    "eras": ZONE_ERAS_Thunder_Bay
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Tijuana
-# Entry count: 4
+# Era count: 4
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tijuana = [
+ZONE_ERAS_Tijuana = [
     #             -8:00    Mexico    P%sT    2001
     {
       "offsetCode": -32,
@@ -3716,15 +3716,15 @@ ZONE_ENTRIES_Tijuana = [
 ]
 ZONE_INFO_Tijuana = {
     "name": "America/Tijuana",
-    "entries": ZONE_ENTRIES_Tijuana
+    "eras": ZONE_ERAS_Tijuana
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Toronto
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Toronto = [
+ZONE_ERAS_Toronto = [
     #             -5:00    Canada    E%sT
     {
       "offsetCode": -20,
@@ -3739,15 +3739,15 @@ ZONE_ENTRIES_Toronto = [
 ]
 ZONE_INFO_Toronto = {
     "name": "America/Toronto",
-    "entries": ZONE_ENTRIES_Toronto
+    "eras": ZONE_ERAS_Toronto
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Vancouver
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Vancouver = [
+ZONE_ERAS_Vancouver = [
     #             -8:00    Canada    P%sT
     {
       "offsetCode": -32,
@@ -3762,15 +3762,15 @@ ZONE_ENTRIES_Vancouver = [
 ]
 ZONE_INFO_Vancouver = {
     "name": "America/Vancouver",
-    "entries": ZONE_ENTRIES_Vancouver
+    "eras": ZONE_ERAS_Vancouver
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Whitehorse
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Whitehorse = [
+ZONE_ERAS_Whitehorse = [
     #             -8:00    Canada    P%sT
     {
       "offsetCode": -32,
@@ -3785,15 +3785,15 @@ ZONE_ENTRIES_Whitehorse = [
 ]
 ZONE_INFO_Whitehorse = {
     "name": "America/Whitehorse",
-    "entries": ZONE_ENTRIES_Whitehorse
+    "eras": ZONE_ERAS_Whitehorse
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Winnipeg
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Winnipeg = [
+ZONE_ERAS_Winnipeg = [
     #             -6:00    Winn    C%sT    2006
     {
       "offsetCode": -24,
@@ -3818,15 +3818,15 @@ ZONE_ENTRIES_Winnipeg = [
 ]
 ZONE_INFO_Winnipeg = {
     "name": "America/Winnipeg",
-    "entries": ZONE_ENTRIES_Winnipeg
+    "eras": ZONE_ERAS_Winnipeg
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Yakutat
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Yakutat = [
+ZONE_ERAS_Yakutat = [
     #              -9:00    US    AK%sT
     {
       "offsetCode": -36,
@@ -3841,15 +3841,15 @@ ZONE_ENTRIES_Yakutat = [
 ]
 ZONE_INFO_Yakutat = {
     "name": "America/Yakutat",
-    "entries": ZONE_ENTRIES_Yakutat
+    "eras": ZONE_ERAS_Yakutat
 }
 
 #---------------------------------------------------------------------------
 # Zone name: America/Yellowknife
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Yellowknife = [
+ZONE_ERAS_Yellowknife = [
     #             -7:00    Canada    M%sT
     {
       "offsetCode": -28,
@@ -3864,15 +3864,15 @@ ZONE_ENTRIES_Yellowknife = [
 ]
 ZONE_INFO_Yellowknife = {
     "name": "America/Yellowknife",
-    "entries": ZONE_ENTRIES_Yellowknife
+    "eras": ZONE_ERAS_Yellowknife
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Antarctica/DumontDUrville
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_DumontDUrville = [
+ZONE_ERAS_DumontDUrville = [
     #             10:00    -    +10
     {
       "offsetCode": 40,
@@ -3887,15 +3887,15 @@ ZONE_ENTRIES_DumontDUrville = [
 ]
 ZONE_INFO_DumontDUrville = {
     "name": "Antarctica/DumontDUrville",
-    "entries": ZONE_ENTRIES_DumontDUrville
+    "eras": ZONE_ERAS_DumontDUrville
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Antarctica/Macquarie
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Macquarie = [
+ZONE_ERAS_Macquarie = [
     #             10:00    AT    AE%sT    2010 Apr  4  3:00
     {
       "offsetCode": 40,
@@ -3920,15 +3920,15 @@ ZONE_ENTRIES_Macquarie = [
 ]
 ZONE_INFO_Macquarie = {
     "name": "Antarctica/Macquarie",
-    "entries": ZONE_ENTRIES_Macquarie
+    "eras": ZONE_ERAS_Macquarie
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Antarctica/Mawson
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Mawson = [
+ZONE_ERAS_Mawson = [
     #             6:00    -    +06    2009 Oct 18  2:00
     {
       "offsetCode": 24,
@@ -3953,15 +3953,15 @@ ZONE_ENTRIES_Mawson = [
 ]
 ZONE_INFO_Mawson = {
     "name": "Antarctica/Mawson",
-    "entries": ZONE_ENTRIES_Mawson
+    "eras": ZONE_ERAS_Mawson
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Antarctica/Palmer
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Palmer = [
+ZONE_ERAS_Palmer = [
     #             -4:00    Chile    -04/-03    2016 Dec  4
     {
       "offsetCode": -16,
@@ -3986,15 +3986,15 @@ ZONE_ENTRIES_Palmer = [
 ]
 ZONE_INFO_Palmer = {
     "name": "Antarctica/Palmer",
-    "entries": ZONE_ENTRIES_Palmer
+    "eras": ZONE_ERAS_Palmer
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Antarctica/Rothera
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Rothera = [
+ZONE_ERAS_Rothera = [
     #             -3:00    -    -03
     {
       "offsetCode": -12,
@@ -4009,15 +4009,15 @@ ZONE_ENTRIES_Rothera = [
 ]
 ZONE_INFO_Rothera = {
     "name": "Antarctica/Rothera",
-    "entries": ZONE_ENTRIES_Rothera
+    "eras": ZONE_ERAS_Rothera
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Antarctica/Syowa
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Syowa = [
+ZONE_ERAS_Syowa = [
     #             3:00    -    +03
     {
       "offsetCode": 12,
@@ -4032,15 +4032,15 @@ ZONE_ENTRIES_Syowa = [
 ]
 ZONE_INFO_Syowa = {
     "name": "Antarctica/Syowa",
-    "entries": ZONE_ENTRIES_Syowa
+    "eras": ZONE_ERAS_Syowa
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Antarctica/Vostok
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Vostok = [
+ZONE_ERAS_Vostok = [
     #             6:00    -    +06
     {
       "offsetCode": 24,
@@ -4055,15 +4055,15 @@ ZONE_ENTRIES_Vostok = [
 ]
 ZONE_INFO_Vostok = {
     "name": "Antarctica/Vostok",
-    "entries": ZONE_ENTRIES_Vostok
+    "eras": ZONE_ERAS_Vostok
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Amman
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Amman = [
+ZONE_ERAS_Amman = [
     #             2:00    Jordan    EE%sT
     {
       "offsetCode": 8,
@@ -4078,15 +4078,15 @@ ZONE_ENTRIES_Amman = [
 ]
 ZONE_INFO_Amman = {
     "name": "Asia/Amman",
-    "entries": ZONE_ENTRIES_Amman
+    "eras": ZONE_ERAS_Amman
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Ashgabat
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Ashgabat = [
+ZONE_ERAS_Ashgabat = [
     #             5:00    -    +05
     {
       "offsetCode": 20,
@@ -4101,15 +4101,15 @@ ZONE_ENTRIES_Ashgabat = [
 ]
 ZONE_INFO_Ashgabat = {
     "name": "Asia/Ashgabat",
-    "entries": ZONE_ENTRIES_Ashgabat
+    "eras": ZONE_ERAS_Ashgabat
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Baghdad
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Baghdad = [
+ZONE_ERAS_Baghdad = [
     #             3:00    Iraq    +03/+04
     {
       "offsetCode": 12,
@@ -4124,15 +4124,15 @@ ZONE_ENTRIES_Baghdad = [
 ]
 ZONE_INFO_Baghdad = {
     "name": "Asia/Baghdad",
-    "entries": ZONE_ENTRIES_Baghdad
+    "eras": ZONE_ERAS_Baghdad
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Baku
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Baku = [
+ZONE_ERAS_Baku = [
     #             4:00    Azer    +04/+05
     {
       "offsetCode": 16,
@@ -4147,15 +4147,15 @@ ZONE_ENTRIES_Baku = [
 ]
 ZONE_INFO_Baku = {
     "name": "Asia/Baku",
-    "entries": ZONE_ENTRIES_Baku
+    "eras": ZONE_ERAS_Baku
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Bangkok
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Bangkok = [
+ZONE_ERAS_Bangkok = [
     #             7:00    -    +07
     {
       "offsetCode": 28,
@@ -4170,15 +4170,15 @@ ZONE_ENTRIES_Bangkok = [
 ]
 ZONE_INFO_Bangkok = {
     "name": "Asia/Bangkok",
-    "entries": ZONE_ENTRIES_Bangkok
+    "eras": ZONE_ERAS_Bangkok
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Beirut
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Beirut = [
+ZONE_ERAS_Beirut = [
     #             2:00    Lebanon    EE%sT
     {
       "offsetCode": 8,
@@ -4193,15 +4193,15 @@ ZONE_ENTRIES_Beirut = [
 ]
 ZONE_INFO_Beirut = {
     "name": "Asia/Beirut",
-    "entries": ZONE_ENTRIES_Beirut
+    "eras": ZONE_ERAS_Beirut
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Brunei
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Brunei = [
+ZONE_ERAS_Brunei = [
     #             8:00    -    +08
     {
       "offsetCode": 32,
@@ -4216,15 +4216,15 @@ ZONE_ENTRIES_Brunei = [
 ]
 ZONE_INFO_Brunei = {
     "name": "Asia/Brunei",
-    "entries": ZONE_ENTRIES_Brunei
+    "eras": ZONE_ERAS_Brunei
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Choibalsan
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Choibalsan = [
+ZONE_ERAS_Choibalsan = [
     #             9:00    Mongol    +09/+10    2008 Mar 31
     {
       "offsetCode": 36,
@@ -4249,15 +4249,15 @@ ZONE_ENTRIES_Choibalsan = [
 ]
 ZONE_INFO_Choibalsan = {
     "name": "Asia/Choibalsan",
-    "entries": ZONE_ENTRIES_Choibalsan
+    "eras": ZONE_ERAS_Choibalsan
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Damascus
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Damascus = [
+ZONE_ERAS_Damascus = [
     #             2:00    Syria    EE%sT
     {
       "offsetCode": 8,
@@ -4272,15 +4272,15 @@ ZONE_ENTRIES_Damascus = [
 ]
 ZONE_INFO_Damascus = {
     "name": "Asia/Damascus",
-    "entries": ZONE_ENTRIES_Damascus
+    "eras": ZONE_ERAS_Damascus
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Dhaka
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Dhaka = [
+ZONE_ERAS_Dhaka = [
     #             6:00    -    +06    2009
     {
       "offsetCode": 24,
@@ -4305,15 +4305,15 @@ ZONE_ENTRIES_Dhaka = [
 ]
 ZONE_INFO_Dhaka = {
     "name": "Asia/Dhaka",
-    "entries": ZONE_ENTRIES_Dhaka
+    "eras": ZONE_ERAS_Dhaka
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Dili
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Dili = [
+ZONE_ERAS_Dili = [
     #             8:00    -    +08    2000 Sep 17  0:00
     {
       "offsetCode": 32,
@@ -4338,15 +4338,15 @@ ZONE_ENTRIES_Dili = [
 ]
 ZONE_INFO_Dili = {
     "name": "Asia/Dili",
-    "entries": ZONE_ENTRIES_Dili
+    "eras": ZONE_ERAS_Dili
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Dubai
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Dubai = [
+ZONE_ERAS_Dubai = [
     #             4:00    -    +04
     {
       "offsetCode": 16,
@@ -4361,15 +4361,15 @@ ZONE_ENTRIES_Dubai = [
 ]
 ZONE_INFO_Dubai = {
     "name": "Asia/Dubai",
-    "entries": ZONE_ENTRIES_Dubai
+    "eras": ZONE_ERAS_Dubai
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Dushanbe
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Dushanbe = [
+ZONE_ERAS_Dushanbe = [
     #             5:00    -    +05
     {
       "offsetCode": 20,
@@ -4384,15 +4384,15 @@ ZONE_ENTRIES_Dushanbe = [
 ]
 ZONE_INFO_Dushanbe = {
     "name": "Asia/Dushanbe",
-    "entries": ZONE_ENTRIES_Dushanbe
+    "eras": ZONE_ERAS_Dushanbe
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Ho_Chi_Minh
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Ho_Chi_Minh = [
+ZONE_ERAS_Ho_Chi_Minh = [
     #             7:00    -    +07
     {
       "offsetCode": 28,
@@ -4407,15 +4407,15 @@ ZONE_ENTRIES_Ho_Chi_Minh = [
 ]
 ZONE_INFO_Ho_Chi_Minh = {
     "name": "Asia/Ho_Chi_Minh",
-    "entries": ZONE_ENTRIES_Ho_Chi_Minh
+    "eras": ZONE_ERAS_Ho_Chi_Minh
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Hovd
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Hovd = [
+ZONE_ERAS_Hovd = [
     #             7:00    Mongol    +07/+08
     {
       "offsetCode": 28,
@@ -4430,15 +4430,15 @@ ZONE_ENTRIES_Hovd = [
 ]
 ZONE_INFO_Hovd = {
     "name": "Asia/Hovd",
-    "entries": ZONE_ENTRIES_Hovd
+    "eras": ZONE_ERAS_Hovd
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Jakarta
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Jakarta = [
+ZONE_ERAS_Jakarta = [
     #             7:00    -    WIB
     {
       "offsetCode": 28,
@@ -4453,15 +4453,15 @@ ZONE_ENTRIES_Jakarta = [
 ]
 ZONE_INFO_Jakarta = {
     "name": "Asia/Jakarta",
-    "entries": ZONE_ENTRIES_Jakarta
+    "eras": ZONE_ERAS_Jakarta
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Jayapura
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Jayapura = [
+ZONE_ERAS_Jayapura = [
     #             9:00    -    WIT
     {
       "offsetCode": 36,
@@ -4476,15 +4476,15 @@ ZONE_ENTRIES_Jayapura = [
 ]
 ZONE_INFO_Jayapura = {
     "name": "Asia/Jayapura",
-    "entries": ZONE_ENTRIES_Jayapura
+    "eras": ZONE_ERAS_Jayapura
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Jerusalem
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Jerusalem = [
+ZONE_ERAS_Jerusalem = [
     #             2:00    Zion    I%sT
     {
       "offsetCode": 8,
@@ -4499,15 +4499,15 @@ ZONE_ENTRIES_Jerusalem = [
 ]
 ZONE_INFO_Jerusalem = {
     "name": "Asia/Jerusalem",
-    "entries": ZONE_ENTRIES_Jerusalem
+    "eras": ZONE_ERAS_Jerusalem
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Kabul
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Kabul = [
+ZONE_ERAS_Kabul = [
     #             4:30    -    +0430
     {
       "offsetCode": 18,
@@ -4522,15 +4522,15 @@ ZONE_ENTRIES_Kabul = [
 ]
 ZONE_INFO_Kabul = {
     "name": "Asia/Kabul",
-    "entries": ZONE_ENTRIES_Kabul
+    "eras": ZONE_ERAS_Kabul
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Karachi
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Karachi = [
+ZONE_ERAS_Karachi = [
     #             5:00 Pakistan    PK%sT
     {
       "offsetCode": 20,
@@ -4545,15 +4545,15 @@ ZONE_ENTRIES_Karachi = [
 ]
 ZONE_INFO_Karachi = {
     "name": "Asia/Karachi",
-    "entries": ZONE_ENTRIES_Karachi
+    "eras": ZONE_ERAS_Karachi
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Kathmandu
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Kathmandu = [
+ZONE_ERAS_Kathmandu = [
     #             5:45    -    +0545
     {
       "offsetCode": 23,
@@ -4568,15 +4568,15 @@ ZONE_ENTRIES_Kathmandu = [
 ]
 ZONE_INFO_Kathmandu = {
     "name": "Asia/Kathmandu",
-    "entries": ZONE_ENTRIES_Kathmandu
+    "eras": ZONE_ERAS_Kathmandu
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Kolkata
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Kolkata = [
+ZONE_ERAS_Kolkata = [
     #             5:30    -    IST
     {
       "offsetCode": 22,
@@ -4591,15 +4591,15 @@ ZONE_ENTRIES_Kolkata = [
 ]
 ZONE_INFO_Kolkata = {
     "name": "Asia/Kolkata",
-    "entries": ZONE_ENTRIES_Kolkata
+    "eras": ZONE_ERAS_Kolkata
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Kuala_Lumpur
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Kuala_Lumpur = [
+ZONE_ERAS_Kuala_Lumpur = [
     #             8:00    -    +08
     {
       "offsetCode": 32,
@@ -4614,15 +4614,15 @@ ZONE_ENTRIES_Kuala_Lumpur = [
 ]
 ZONE_INFO_Kuala_Lumpur = {
     "name": "Asia/Kuala_Lumpur",
-    "entries": ZONE_ENTRIES_Kuala_Lumpur
+    "eras": ZONE_ERAS_Kuala_Lumpur
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Kuching
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Kuching = [
+ZONE_ERAS_Kuching = [
     #             8:00    -    +08
     {
       "offsetCode": 32,
@@ -4637,15 +4637,15 @@ ZONE_ENTRIES_Kuching = [
 ]
 ZONE_INFO_Kuching = {
     "name": "Asia/Kuching",
-    "entries": ZONE_ENTRIES_Kuching
+    "eras": ZONE_ERAS_Kuching
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Makassar
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Makassar = [
+ZONE_ERAS_Makassar = [
     #             8:00    -    WITA
     {
       "offsetCode": 32,
@@ -4660,15 +4660,15 @@ ZONE_ENTRIES_Makassar = [
 ]
 ZONE_INFO_Makassar = {
     "name": "Asia/Makassar",
-    "entries": ZONE_ENTRIES_Makassar
+    "eras": ZONE_ERAS_Makassar
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Manila
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Manila = [
+ZONE_ERAS_Manila = [
     #             8:00    Phil    P%sT
     {
       "offsetCode": 32,
@@ -4683,15 +4683,15 @@ ZONE_ENTRIES_Manila = [
 ]
 ZONE_INFO_Manila = {
     "name": "Asia/Manila",
-    "entries": ZONE_ENTRIES_Manila
+    "eras": ZONE_ERAS_Manila
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Nicosia
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Nicosia = [
+ZONE_ERAS_Nicosia = [
     #             2:00    EUAsia    EE%sT
     {
       "offsetCode": 8,
@@ -4706,15 +4706,15 @@ ZONE_ENTRIES_Nicosia = [
 ]
 ZONE_INFO_Nicosia = {
     "name": "Asia/Nicosia",
-    "entries": ZONE_ENTRIES_Nicosia
+    "eras": ZONE_ERAS_Nicosia
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Pontianak
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Pontianak = [
+ZONE_ERAS_Pontianak = [
     #             7:00    -    WIB
     {
       "offsetCode": 28,
@@ -4729,15 +4729,15 @@ ZONE_ENTRIES_Pontianak = [
 ]
 ZONE_INFO_Pontianak = {
     "name": "Asia/Pontianak",
-    "entries": ZONE_ENTRIES_Pontianak
+    "eras": ZONE_ERAS_Pontianak
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Qatar
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Qatar = [
+ZONE_ERAS_Qatar = [
     #             3:00    -    +03
     {
       "offsetCode": 12,
@@ -4752,15 +4752,15 @@ ZONE_ENTRIES_Qatar = [
 ]
 ZONE_INFO_Qatar = {
     "name": "Asia/Qatar",
-    "entries": ZONE_ENTRIES_Qatar
+    "eras": ZONE_ERAS_Qatar
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Riyadh
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Riyadh = [
+ZONE_ERAS_Riyadh = [
     #             3:00    -    +03
     {
       "offsetCode": 12,
@@ -4775,15 +4775,15 @@ ZONE_ENTRIES_Riyadh = [
 ]
 ZONE_INFO_Riyadh = {
     "name": "Asia/Riyadh",
-    "entries": ZONE_ENTRIES_Riyadh
+    "eras": ZONE_ERAS_Riyadh
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Samarkand
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Samarkand = [
+ZONE_ERAS_Samarkand = [
     #             5:00    -    +05
     {
       "offsetCode": 20,
@@ -4798,15 +4798,15 @@ ZONE_ENTRIES_Samarkand = [
 ]
 ZONE_INFO_Samarkand = {
     "name": "Asia/Samarkand",
-    "entries": ZONE_ENTRIES_Samarkand
+    "eras": ZONE_ERAS_Samarkand
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Seoul
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Seoul = [
+ZONE_ERAS_Seoul = [
     #             9:00    ROK    K%sT
     {
       "offsetCode": 36,
@@ -4821,15 +4821,15 @@ ZONE_ENTRIES_Seoul = [
 ]
 ZONE_INFO_Seoul = {
     "name": "Asia/Seoul",
-    "entries": ZONE_ENTRIES_Seoul
+    "eras": ZONE_ERAS_Seoul
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Shanghai
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Shanghai = [
+ZONE_ERAS_Shanghai = [
     #             8:00    PRC    C%sT
     {
       "offsetCode": 32,
@@ -4844,15 +4844,15 @@ ZONE_ENTRIES_Shanghai = [
 ]
 ZONE_INFO_Shanghai = {
     "name": "Asia/Shanghai",
-    "entries": ZONE_ENTRIES_Shanghai
+    "eras": ZONE_ERAS_Shanghai
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Singapore
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Singapore = [
+ZONE_ERAS_Singapore = [
     #             8:00    -    +08
     {
       "offsetCode": 32,
@@ -4867,15 +4867,15 @@ ZONE_ENTRIES_Singapore = [
 ]
 ZONE_INFO_Singapore = {
     "name": "Asia/Singapore",
-    "entries": ZONE_ENTRIES_Singapore
+    "eras": ZONE_ERAS_Singapore
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Taipei
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Taipei = [
+ZONE_ERAS_Taipei = [
     #             8:00    Taiwan    C%sT
     {
       "offsetCode": 32,
@@ -4890,15 +4890,15 @@ ZONE_ENTRIES_Taipei = [
 ]
 ZONE_INFO_Taipei = {
     "name": "Asia/Taipei",
-    "entries": ZONE_ENTRIES_Taipei
+    "eras": ZONE_ERAS_Taipei
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Tashkent
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tashkent = [
+ZONE_ERAS_Tashkent = [
     #             5:00    -    +05
     {
       "offsetCode": 20,
@@ -4913,15 +4913,15 @@ ZONE_ENTRIES_Tashkent = [
 ]
 ZONE_INFO_Tashkent = {
     "name": "Asia/Tashkent",
-    "entries": ZONE_ENTRIES_Tashkent
+    "eras": ZONE_ERAS_Tashkent
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Tbilisi
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tbilisi = [
+ZONE_ERAS_Tbilisi = [
     #             4:00 E-EurAsia    +04/+05    2004 Jun 27
     {
       "offsetCode": 16,
@@ -4956,15 +4956,15 @@ ZONE_ENTRIES_Tbilisi = [
 ]
 ZONE_INFO_Tbilisi = {
     "name": "Asia/Tbilisi",
-    "entries": ZONE_ENTRIES_Tbilisi
+    "eras": ZONE_ERAS_Tbilisi
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Tehran
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tehran = [
+ZONE_ERAS_Tehran = [
     #             3:30    Iran    +0330/+0430
     {
       "offsetCode": 14,
@@ -4979,15 +4979,15 @@ ZONE_ENTRIES_Tehran = [
 ]
 ZONE_INFO_Tehran = {
     "name": "Asia/Tehran",
-    "entries": ZONE_ENTRIES_Tehran
+    "eras": ZONE_ERAS_Tehran
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Thimphu
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Thimphu = [
+ZONE_ERAS_Thimphu = [
     #             6:00    -    +06
     {
       "offsetCode": 24,
@@ -5002,15 +5002,15 @@ ZONE_ENTRIES_Thimphu = [
 ]
 ZONE_INFO_Thimphu = {
     "name": "Asia/Thimphu",
-    "entries": ZONE_ENTRIES_Thimphu
+    "eras": ZONE_ERAS_Thimphu
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Tokyo
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tokyo = [
+ZONE_ERAS_Tokyo = [
     #             9:00    Japan    J%sT
     {
       "offsetCode": 36,
@@ -5025,15 +5025,15 @@ ZONE_ENTRIES_Tokyo = [
 ]
 ZONE_INFO_Tokyo = {
     "name": "Asia/Tokyo",
-    "entries": ZONE_ENTRIES_Tokyo
+    "eras": ZONE_ERAS_Tokyo
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Ulaanbaatar
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Ulaanbaatar = [
+ZONE_ERAS_Ulaanbaatar = [
     #             8:00    Mongol    +08/+09
     {
       "offsetCode": 32,
@@ -5048,15 +5048,15 @@ ZONE_ENTRIES_Ulaanbaatar = [
 ]
 ZONE_INFO_Ulaanbaatar = {
     "name": "Asia/Ulaanbaatar",
-    "entries": ZONE_ENTRIES_Ulaanbaatar
+    "eras": ZONE_ERAS_Ulaanbaatar
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Urumqi
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Urumqi = [
+ZONE_ERAS_Urumqi = [
     #             6:00    -    +06
     {
       "offsetCode": 24,
@@ -5071,15 +5071,15 @@ ZONE_ENTRIES_Urumqi = [
 ]
 ZONE_INFO_Urumqi = {
     "name": "Asia/Urumqi",
-    "entries": ZONE_ENTRIES_Urumqi
+    "eras": ZONE_ERAS_Urumqi
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Yangon
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Yangon = [
+ZONE_ERAS_Yangon = [
     #             6:30    -    +0630
     {
       "offsetCode": 26,
@@ -5094,15 +5094,15 @@ ZONE_ENTRIES_Yangon = [
 ]
 ZONE_INFO_Yangon = {
     "name": "Asia/Yangon",
-    "entries": ZONE_ENTRIES_Yangon
+    "eras": ZONE_ERAS_Yangon
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Yerevan
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Yerevan = [
+ZONE_ERAS_Yerevan = [
     #             4:00 RussiaAsia    +04/+05    2011
     {
       "offsetCode": 16,
@@ -5127,15 +5127,15 @@ ZONE_ENTRIES_Yerevan = [
 ]
 ZONE_INFO_Yerevan = {
     "name": "Asia/Yerevan",
-    "entries": ZONE_ENTRIES_Yerevan
+    "eras": ZONE_ERAS_Yerevan
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Azores
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Azores = [
+ZONE_ERAS_Azores = [
     #             -1:00    EU    -01/+00
     {
       "offsetCode": -4,
@@ -5150,15 +5150,15 @@ ZONE_ENTRIES_Azores = [
 ]
 ZONE_INFO_Azores = {
     "name": "Atlantic/Azores",
-    "entries": ZONE_ENTRIES_Azores
+    "eras": ZONE_ERAS_Azores
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Bermuda
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Bermuda = [
+ZONE_ERAS_Bermuda = [
     #             -4:00    US    A%sT
     {
       "offsetCode": -16,
@@ -5173,15 +5173,15 @@ ZONE_ENTRIES_Bermuda = [
 ]
 ZONE_INFO_Bermuda = {
     "name": "Atlantic/Bermuda",
-    "entries": ZONE_ENTRIES_Bermuda
+    "eras": ZONE_ERAS_Bermuda
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Canary
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Canary = [
+ZONE_ERAS_Canary = [
     #              0:00    EU    WE%sT
     {
       "offsetCode": 0,
@@ -5196,15 +5196,15 @@ ZONE_ENTRIES_Canary = [
 ]
 ZONE_INFO_Canary = {
     "name": "Atlantic/Canary",
-    "entries": ZONE_ENTRIES_Canary
+    "eras": ZONE_ERAS_Canary
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Cape_Verde
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Cape_Verde = [
+ZONE_ERAS_Cape_Verde = [
     #             -1:00    -    -01
     {
       "offsetCode": -4,
@@ -5219,15 +5219,15 @@ ZONE_ENTRIES_Cape_Verde = [
 ]
 ZONE_INFO_Cape_Verde = {
     "name": "Atlantic/Cape_Verde",
-    "entries": ZONE_ENTRIES_Cape_Verde
+    "eras": ZONE_ERAS_Cape_Verde
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Faroe
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Faroe = [
+ZONE_ERAS_Faroe = [
     #              0:00    EU    WE%sT
     {
       "offsetCode": 0,
@@ -5242,15 +5242,15 @@ ZONE_ENTRIES_Faroe = [
 ]
 ZONE_INFO_Faroe = {
     "name": "Atlantic/Faroe",
-    "entries": ZONE_ENTRIES_Faroe
+    "eras": ZONE_ERAS_Faroe
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Madeira
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Madeira = [
+ZONE_ERAS_Madeira = [
     #              0:00    EU    WE%sT
     {
       "offsetCode": 0,
@@ -5265,15 +5265,15 @@ ZONE_ENTRIES_Madeira = [
 ]
 ZONE_INFO_Madeira = {
     "name": "Atlantic/Madeira",
-    "entries": ZONE_ENTRIES_Madeira
+    "eras": ZONE_ERAS_Madeira
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Reykjavik
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Reykjavik = [
+ZONE_ERAS_Reykjavik = [
     #              0:00    -    GMT
     {
       "offsetCode": 0,
@@ -5288,15 +5288,15 @@ ZONE_ENTRIES_Reykjavik = [
 ]
 ZONE_INFO_Reykjavik = {
     "name": "Atlantic/Reykjavik",
-    "entries": ZONE_ENTRIES_Reykjavik
+    "eras": ZONE_ERAS_Reykjavik
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/South_Georgia
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_South_Georgia = [
+ZONE_ERAS_South_Georgia = [
     #             -2:00    -    -02
     {
       "offsetCode": -8,
@@ -5311,15 +5311,15 @@ ZONE_ENTRIES_South_Georgia = [
 ]
 ZONE_INFO_South_Georgia = {
     "name": "Atlantic/South_Georgia",
-    "entries": ZONE_ENTRIES_South_Georgia
+    "eras": ZONE_ERAS_South_Georgia
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Atlantic/Stanley
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Stanley = [
+ZONE_ERAS_Stanley = [
     #             -4:00    Falk    -04/-03    2010 Sep  5  2:00
     {
       "offsetCode": -16,
@@ -5344,15 +5344,15 @@ ZONE_ENTRIES_Stanley = [
 ]
 ZONE_INFO_Stanley = {
     "name": "Atlantic/Stanley",
-    "entries": ZONE_ENTRIES_Stanley
+    "eras": ZONE_ERAS_Stanley
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Adelaide
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Adelaide = [
+ZONE_ERAS_Adelaide = [
     #             9:30    AS    AC%sT
     {
       "offsetCode": 38,
@@ -5367,15 +5367,15 @@ ZONE_ENTRIES_Adelaide = [
 ]
 ZONE_INFO_Adelaide = {
     "name": "Australia/Adelaide",
-    "entries": ZONE_ENTRIES_Adelaide
+    "eras": ZONE_ERAS_Adelaide
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Brisbane
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Brisbane = [
+ZONE_ERAS_Brisbane = [
     #             10:00    AQ    AE%sT
     {
       "offsetCode": 40,
@@ -5390,15 +5390,15 @@ ZONE_ENTRIES_Brisbane = [
 ]
 ZONE_INFO_Brisbane = {
     "name": "Australia/Brisbane",
-    "entries": ZONE_ENTRIES_Brisbane
+    "eras": ZONE_ERAS_Brisbane
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Broken_Hill
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Broken_Hill = [
+ZONE_ERAS_Broken_Hill = [
     #             9:30    AN    AC%sT    2000
     {
       "offsetCode": 38,
@@ -5423,15 +5423,15 @@ ZONE_ENTRIES_Broken_Hill = [
 ]
 ZONE_INFO_Broken_Hill = {
     "name": "Australia/Broken_Hill",
-    "entries": ZONE_ENTRIES_Broken_Hill
+    "eras": ZONE_ERAS_Broken_Hill
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Currie
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Currie = [
+ZONE_ERAS_Currie = [
     #             10:00    AT    AE%sT
     {
       "offsetCode": 40,
@@ -5446,15 +5446,15 @@ ZONE_ENTRIES_Currie = [
 ]
 ZONE_INFO_Currie = {
     "name": "Australia/Currie",
-    "entries": ZONE_ENTRIES_Currie
+    "eras": ZONE_ERAS_Currie
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Darwin
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Darwin = [
+ZONE_ERAS_Darwin = [
     #              9:30    Aus    AC%sT
     {
       "offsetCode": 38,
@@ -5469,15 +5469,15 @@ ZONE_ENTRIES_Darwin = [
 ]
 ZONE_INFO_Darwin = {
     "name": "Australia/Darwin",
-    "entries": ZONE_ENTRIES_Darwin
+    "eras": ZONE_ERAS_Darwin
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Eucla
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Eucla = [
+ZONE_ERAS_Eucla = [
     #              8:45    AW  +0845/+0945
     {
       "offsetCode": 35,
@@ -5492,15 +5492,15 @@ ZONE_ENTRIES_Eucla = [
 ]
 ZONE_INFO_Eucla = {
     "name": "Australia/Eucla",
-    "entries": ZONE_ENTRIES_Eucla
+    "eras": ZONE_ERAS_Eucla
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Hobart
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Hobart = [
+ZONE_ERAS_Hobart = [
     #             10:00    AT    AE%sT
     {
       "offsetCode": 40,
@@ -5515,15 +5515,15 @@ ZONE_ENTRIES_Hobart = [
 ]
 ZONE_INFO_Hobart = {
     "name": "Australia/Hobart",
-    "entries": ZONE_ENTRIES_Hobart
+    "eras": ZONE_ERAS_Hobart
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Lindeman
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Lindeman = [
+ZONE_ERAS_Lindeman = [
     #             10:00    Holiday    AE%sT
     {
       "offsetCode": 40,
@@ -5538,15 +5538,15 @@ ZONE_ENTRIES_Lindeman = [
 ]
 ZONE_INFO_Lindeman = {
     "name": "Australia/Lindeman",
-    "entries": ZONE_ENTRIES_Lindeman
+    "eras": ZONE_ERAS_Lindeman
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Lord_Howe
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Lord_Howe = [
+ZONE_ERAS_Lord_Howe = [
     #             10:30    LH    +1030/+11
     {
       "offsetCode": 42,
@@ -5561,15 +5561,15 @@ ZONE_ENTRIES_Lord_Howe = [
 ]
 ZONE_INFO_Lord_Howe = {
     "name": "Australia/Lord_Howe",
-    "entries": ZONE_ENTRIES_Lord_Howe
+    "eras": ZONE_ERAS_Lord_Howe
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Melbourne
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Melbourne = [
+ZONE_ERAS_Melbourne = [
     #             10:00    AV    AE%sT
     {
       "offsetCode": 40,
@@ -5584,15 +5584,15 @@ ZONE_ENTRIES_Melbourne = [
 ]
 ZONE_INFO_Melbourne = {
     "name": "Australia/Melbourne",
-    "entries": ZONE_ENTRIES_Melbourne
+    "eras": ZONE_ERAS_Melbourne
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Perth
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Perth = [
+ZONE_ERAS_Perth = [
     #              8:00    AW    AW%sT
     {
       "offsetCode": 32,
@@ -5607,15 +5607,15 @@ ZONE_ENTRIES_Perth = [
 ]
 ZONE_INFO_Perth = {
     "name": "Australia/Perth",
-    "entries": ZONE_ENTRIES_Perth
+    "eras": ZONE_ERAS_Perth
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Australia/Sydney
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Sydney = [
+ZONE_ERAS_Sydney = [
     #             10:00    AN    AE%sT
     {
       "offsetCode": 40,
@@ -5630,15 +5630,15 @@ ZONE_ENTRIES_Sydney = [
 ]
 ZONE_INFO_Sydney = {
     "name": "Australia/Sydney",
-    "entries": ZONE_ENTRIES_Sydney
+    "eras": ZONE_ERAS_Sydney
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Amsterdam
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Amsterdam = [
+ZONE_ERAS_Amsterdam = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -5653,15 +5653,15 @@ ZONE_ENTRIES_Amsterdam = [
 ]
 ZONE_INFO_Amsterdam = {
     "name": "Europe/Amsterdam",
-    "entries": ZONE_ENTRIES_Amsterdam
+    "eras": ZONE_ERAS_Amsterdam
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Andorra
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Andorra = [
+ZONE_ERAS_Andorra = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -5676,15 +5676,15 @@ ZONE_ENTRIES_Andorra = [
 ]
 ZONE_INFO_Andorra = {
     "name": "Europe/Andorra",
-    "entries": ZONE_ENTRIES_Andorra
+    "eras": ZONE_ERAS_Andorra
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Athens
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Athens = [
+ZONE_ERAS_Athens = [
     #             2:00    EU    EE%sT
     {
       "offsetCode": 8,
@@ -5699,15 +5699,15 @@ ZONE_ENTRIES_Athens = [
 ]
 ZONE_INFO_Athens = {
     "name": "Europe/Athens",
-    "entries": ZONE_ENTRIES_Athens
+    "eras": ZONE_ERAS_Athens
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Belgrade
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Belgrade = [
+ZONE_ERAS_Belgrade = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -5722,15 +5722,15 @@ ZONE_ENTRIES_Belgrade = [
 ]
 ZONE_INFO_Belgrade = {
     "name": "Europe/Belgrade",
-    "entries": ZONE_ENTRIES_Belgrade
+    "eras": ZONE_ERAS_Belgrade
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Berlin
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Berlin = [
+ZONE_ERAS_Berlin = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -5745,15 +5745,15 @@ ZONE_ENTRIES_Berlin = [
 ]
 ZONE_INFO_Berlin = {
     "name": "Europe/Berlin",
-    "entries": ZONE_ENTRIES_Berlin
+    "eras": ZONE_ERAS_Berlin
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Brussels
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Brussels = [
+ZONE_ERAS_Brussels = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -5768,15 +5768,15 @@ ZONE_ENTRIES_Brussels = [
 ]
 ZONE_INFO_Brussels = {
     "name": "Europe/Brussels",
-    "entries": ZONE_ENTRIES_Brussels
+    "eras": ZONE_ERAS_Brussels
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Bucharest
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Bucharest = [
+ZONE_ERAS_Bucharest = [
     #             2:00    EU    EE%sT
     {
       "offsetCode": 8,
@@ -5791,15 +5791,15 @@ ZONE_ENTRIES_Bucharest = [
 ]
 ZONE_INFO_Bucharest = {
     "name": "Europe/Bucharest",
-    "entries": ZONE_ENTRIES_Bucharest
+    "eras": ZONE_ERAS_Bucharest
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Budapest
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Budapest = [
+ZONE_ERAS_Budapest = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -5814,15 +5814,15 @@ ZONE_ENTRIES_Budapest = [
 ]
 ZONE_INFO_Budapest = {
     "name": "Europe/Budapest",
-    "entries": ZONE_ENTRIES_Budapest
+    "eras": ZONE_ERAS_Budapest
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Chisinau
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Chisinau = [
+ZONE_ERAS_Chisinau = [
     #             2:00    Moldova    EE%sT
     {
       "offsetCode": 8,
@@ -5837,15 +5837,15 @@ ZONE_ENTRIES_Chisinau = [
 ]
 ZONE_INFO_Chisinau = {
     "name": "Europe/Chisinau",
-    "entries": ZONE_ENTRIES_Chisinau
+    "eras": ZONE_ERAS_Chisinau
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Copenhagen
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Copenhagen = [
+ZONE_ERAS_Copenhagen = [
     #              1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -5860,15 +5860,15 @@ ZONE_ENTRIES_Copenhagen = [
 ]
 ZONE_INFO_Copenhagen = {
     "name": "Europe/Copenhagen",
-    "entries": ZONE_ENTRIES_Copenhagen
+    "eras": ZONE_ERAS_Copenhagen
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Dublin
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Dublin = [
+ZONE_ERAS_Dublin = [
     #              1:00    Eire    IST/GMT
     {
       "offsetCode": 4,
@@ -5883,15 +5883,15 @@ ZONE_ENTRIES_Dublin = [
 ]
 ZONE_INFO_Dublin = {
     "name": "Europe/Dublin",
-    "entries": ZONE_ENTRIES_Dublin
+    "eras": ZONE_ERAS_Dublin
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Gibraltar
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Gibraltar = [
+ZONE_ERAS_Gibraltar = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -5906,15 +5906,15 @@ ZONE_ENTRIES_Gibraltar = [
 ]
 ZONE_INFO_Gibraltar = {
     "name": "Europe/Gibraltar",
-    "entries": ZONE_ENTRIES_Gibraltar
+    "eras": ZONE_ERAS_Gibraltar
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Helsinki
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Helsinki = [
+ZONE_ERAS_Helsinki = [
     #             2:00    EU    EE%sT
     {
       "offsetCode": 8,
@@ -5929,15 +5929,15 @@ ZONE_ENTRIES_Helsinki = [
 ]
 ZONE_INFO_Helsinki = {
     "name": "Europe/Helsinki",
-    "entries": ZONE_ENTRIES_Helsinki
+    "eras": ZONE_ERAS_Helsinki
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Kiev
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Kiev = [
+ZONE_ERAS_Kiev = [
     #             2:00    EU    EE%sT
     {
       "offsetCode": 8,
@@ -5952,15 +5952,15 @@ ZONE_ENTRIES_Kiev = [
 ]
 ZONE_INFO_Kiev = {
     "name": "Europe/Kiev",
-    "entries": ZONE_ENTRIES_Kiev
+    "eras": ZONE_ERAS_Kiev
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Lisbon
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Lisbon = [
+ZONE_ERAS_Lisbon = [
     #              0:00    EU    WE%sT
     {
       "offsetCode": 0,
@@ -5975,15 +5975,15 @@ ZONE_ENTRIES_Lisbon = [
 ]
 ZONE_INFO_Lisbon = {
     "name": "Europe/Lisbon",
-    "entries": ZONE_ENTRIES_Lisbon
+    "eras": ZONE_ERAS_Lisbon
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/London
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_London = [
+ZONE_ERAS_London = [
     #              0:00    EU    GMT/BST
     {
       "offsetCode": 0,
@@ -5998,15 +5998,15 @@ ZONE_ENTRIES_London = [
 ]
 ZONE_INFO_London = {
     "name": "Europe/London",
-    "entries": ZONE_ENTRIES_London
+    "eras": ZONE_ERAS_London
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Luxembourg
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Luxembourg = [
+ZONE_ERAS_Luxembourg = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6021,15 +6021,15 @@ ZONE_ENTRIES_Luxembourg = [
 ]
 ZONE_INFO_Luxembourg = {
     "name": "Europe/Luxembourg",
-    "entries": ZONE_ENTRIES_Luxembourg
+    "eras": ZONE_ERAS_Luxembourg
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Madrid
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Madrid = [
+ZONE_ERAS_Madrid = [
     #              1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6044,15 +6044,15 @@ ZONE_ENTRIES_Madrid = [
 ]
 ZONE_INFO_Madrid = {
     "name": "Europe/Madrid",
-    "entries": ZONE_ENTRIES_Madrid
+    "eras": ZONE_ERAS_Madrid
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Malta
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Malta = [
+ZONE_ERAS_Malta = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6067,15 +6067,15 @@ ZONE_ENTRIES_Malta = [
 ]
 ZONE_INFO_Malta = {
     "name": "Europe/Malta",
-    "entries": ZONE_ENTRIES_Malta
+    "eras": ZONE_ERAS_Malta
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Monaco
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Monaco = [
+ZONE_ERAS_Monaco = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6090,15 +6090,15 @@ ZONE_ENTRIES_Monaco = [
 ]
 ZONE_INFO_Monaco = {
     "name": "Europe/Monaco",
-    "entries": ZONE_ENTRIES_Monaco
+    "eras": ZONE_ERAS_Monaco
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Oslo
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Oslo = [
+ZONE_ERAS_Oslo = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6113,15 +6113,15 @@ ZONE_ENTRIES_Oslo = [
 ]
 ZONE_INFO_Oslo = {
     "name": "Europe/Oslo",
-    "entries": ZONE_ENTRIES_Oslo
+    "eras": ZONE_ERAS_Oslo
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Paris
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Paris = [
+ZONE_ERAS_Paris = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6136,15 +6136,15 @@ ZONE_ENTRIES_Paris = [
 ]
 ZONE_INFO_Paris = {
     "name": "Europe/Paris",
-    "entries": ZONE_ENTRIES_Paris
+    "eras": ZONE_ERAS_Paris
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Prague
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Prague = [
+ZONE_ERAS_Prague = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6159,15 +6159,15 @@ ZONE_ENTRIES_Prague = [
 ]
 ZONE_INFO_Prague = {
     "name": "Europe/Prague",
-    "entries": ZONE_ENTRIES_Prague
+    "eras": ZONE_ERAS_Prague
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Riga
-# Entry count: 3
+# Era count: 3
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Riga = [
+ZONE_ERAS_Riga = [
     #             2:00    EU    EE%sT    2000 Feb 29
     {
       "offsetCode": 8,
@@ -6202,15 +6202,15 @@ ZONE_ENTRIES_Riga = [
 ]
 ZONE_INFO_Riga = {
     "name": "Europe/Riga",
-    "entries": ZONE_ENTRIES_Riga
+    "eras": ZONE_ERAS_Riga
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Rome
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Rome = [
+ZONE_ERAS_Rome = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6225,15 +6225,15 @@ ZONE_ENTRIES_Rome = [
 ]
 ZONE_INFO_Rome = {
     "name": "Europe/Rome",
-    "entries": ZONE_ENTRIES_Rome
+    "eras": ZONE_ERAS_Rome
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Sofia
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Sofia = [
+ZONE_ERAS_Sofia = [
     #             2:00    EU    EE%sT
     {
       "offsetCode": 8,
@@ -6248,15 +6248,15 @@ ZONE_ENTRIES_Sofia = [
 ]
 ZONE_INFO_Sofia = {
     "name": "Europe/Sofia",
-    "entries": ZONE_ENTRIES_Sofia
+    "eras": ZONE_ERAS_Sofia
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Stockholm
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Stockholm = [
+ZONE_ERAS_Stockholm = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6271,15 +6271,15 @@ ZONE_ENTRIES_Stockholm = [
 ]
 ZONE_INFO_Stockholm = {
     "name": "Europe/Stockholm",
-    "entries": ZONE_ENTRIES_Stockholm
+    "eras": ZONE_ERAS_Stockholm
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Tallinn
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tallinn = [
+ZONE_ERAS_Tallinn = [
     #             2:00    -    EET    2002 Feb 21
     {
       "offsetCode": 8,
@@ -6304,15 +6304,15 @@ ZONE_ENTRIES_Tallinn = [
 ]
 ZONE_INFO_Tallinn = {
     "name": "Europe/Tallinn",
-    "entries": ZONE_ENTRIES_Tallinn
+    "eras": ZONE_ERAS_Tallinn
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Tirane
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tirane = [
+ZONE_ERAS_Tirane = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6327,15 +6327,15 @@ ZONE_ENTRIES_Tirane = [
 ]
 ZONE_INFO_Tirane = {
     "name": "Europe/Tirane",
-    "entries": ZONE_ENTRIES_Tirane
+    "eras": ZONE_ERAS_Tirane
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Uzhgorod
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Uzhgorod = [
+ZONE_ERAS_Uzhgorod = [
     #             2:00    EU    EE%sT
     {
       "offsetCode": 8,
@@ -6350,15 +6350,15 @@ ZONE_ENTRIES_Uzhgorod = [
 ]
 ZONE_INFO_Uzhgorod = {
     "name": "Europe/Uzhgorod",
-    "entries": ZONE_ENTRIES_Uzhgorod
+    "eras": ZONE_ERAS_Uzhgorod
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Vienna
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Vienna = [
+ZONE_ERAS_Vienna = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6373,15 +6373,15 @@ ZONE_ENTRIES_Vienna = [
 ]
 ZONE_INFO_Vienna = {
     "name": "Europe/Vienna",
-    "entries": ZONE_ENTRIES_Vienna
+    "eras": ZONE_ERAS_Vienna
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Vilnius
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Vilnius = [
+ZONE_ERAS_Vilnius = [
     #             2:00    -    EET    2003 Jan  1
     {
       "offsetCode": 8,
@@ -6406,15 +6406,15 @@ ZONE_ENTRIES_Vilnius = [
 ]
 ZONE_INFO_Vilnius = {
     "name": "Europe/Vilnius",
-    "entries": ZONE_ENTRIES_Vilnius
+    "eras": ZONE_ERAS_Vilnius
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Warsaw
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Warsaw = [
+ZONE_ERAS_Warsaw = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6429,15 +6429,15 @@ ZONE_ENTRIES_Warsaw = [
 ]
 ZONE_INFO_Warsaw = {
     "name": "Europe/Warsaw",
-    "entries": ZONE_ENTRIES_Warsaw
+    "eras": ZONE_ERAS_Warsaw
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Zaporozhye
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Zaporozhye = [
+ZONE_ERAS_Zaporozhye = [
     #             2:00    EU    EE%sT
     {
       "offsetCode": 8,
@@ -6452,15 +6452,15 @@ ZONE_ENTRIES_Zaporozhye = [
 ]
 ZONE_INFO_Zaporozhye = {
     "name": "Europe/Zaporozhye",
-    "entries": ZONE_ENTRIES_Zaporozhye
+    "eras": ZONE_ERAS_Zaporozhye
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Zurich
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Zurich = [
+ZONE_ERAS_Zurich = [
     #             1:00    EU    CE%sT
     {
       "offsetCode": 4,
@@ -6475,15 +6475,15 @@ ZONE_ENTRIES_Zurich = [
 ]
 ZONE_INFO_Zurich = {
     "name": "Europe/Zurich",
-    "entries": ZONE_ENTRIES_Zurich
+    "eras": ZONE_ERAS_Zurich
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Indian/Chagos
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Chagos = [
+ZONE_ERAS_Chagos = [
     #             6:00    -    +06
     {
       "offsetCode": 24,
@@ -6498,15 +6498,15 @@ ZONE_ENTRIES_Chagos = [
 ]
 ZONE_INFO_Chagos = {
     "name": "Indian/Chagos",
-    "entries": ZONE_ENTRIES_Chagos
+    "eras": ZONE_ERAS_Chagos
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Indian/Christmas
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Christmas = [
+ZONE_ERAS_Christmas = [
     #             7:00    -    +07
     {
       "offsetCode": 28,
@@ -6521,15 +6521,15 @@ ZONE_ENTRIES_Christmas = [
 ]
 ZONE_INFO_Christmas = {
     "name": "Indian/Christmas",
-    "entries": ZONE_ENTRIES_Christmas
+    "eras": ZONE_ERAS_Christmas
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Indian/Cocos
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Cocos = [
+ZONE_ERAS_Cocos = [
     #             6:30    -    +0630
     {
       "offsetCode": 26,
@@ -6544,15 +6544,15 @@ ZONE_ENTRIES_Cocos = [
 ]
 ZONE_INFO_Cocos = {
     "name": "Indian/Cocos",
-    "entries": ZONE_ENTRIES_Cocos
+    "eras": ZONE_ERAS_Cocos
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Indian/Kerguelen
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Kerguelen = [
+ZONE_ERAS_Kerguelen = [
     #             5:00    -    +05
     {
       "offsetCode": 20,
@@ -6567,15 +6567,15 @@ ZONE_ENTRIES_Kerguelen = [
 ]
 ZONE_INFO_Kerguelen = {
     "name": "Indian/Kerguelen",
-    "entries": ZONE_ENTRIES_Kerguelen
+    "eras": ZONE_ERAS_Kerguelen
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Indian/Mahe
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Mahe = [
+ZONE_ERAS_Mahe = [
     #             4:00    -    +04
     {
       "offsetCode": 16,
@@ -6590,15 +6590,15 @@ ZONE_ENTRIES_Mahe = [
 ]
 ZONE_INFO_Mahe = {
     "name": "Indian/Mahe",
-    "entries": ZONE_ENTRIES_Mahe
+    "eras": ZONE_ERAS_Mahe
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Indian/Maldives
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Maldives = [
+ZONE_ERAS_Maldives = [
     #             5:00    -    +05
     {
       "offsetCode": 20,
@@ -6613,15 +6613,15 @@ ZONE_ENTRIES_Maldives = [
 ]
 ZONE_INFO_Maldives = {
     "name": "Indian/Maldives",
-    "entries": ZONE_ENTRIES_Maldives
+    "eras": ZONE_ERAS_Maldives
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Indian/Mauritius
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Mauritius = [
+ZONE_ERAS_Mauritius = [
     #             4:00 Mauritius    +04/+05
     {
       "offsetCode": 16,
@@ -6636,15 +6636,15 @@ ZONE_ENTRIES_Mauritius = [
 ]
 ZONE_INFO_Mauritius = {
     "name": "Indian/Mauritius",
-    "entries": ZONE_ENTRIES_Mauritius
+    "eras": ZONE_ERAS_Mauritius
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Indian/Reunion
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Reunion = [
+ZONE_ERAS_Reunion = [
     #             4:00    -    +04
     {
       "offsetCode": 16,
@@ -6659,15 +6659,15 @@ ZONE_ENTRIES_Reunion = [
 ]
 ZONE_INFO_Reunion = {
     "name": "Indian/Reunion",
-    "entries": ZONE_ENTRIES_Reunion
+    "eras": ZONE_ERAS_Reunion
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Apia
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Apia = [
+ZONE_ERAS_Apia = [
     #             -11:00    WS    -11/-10    2011 Dec 29 24:00
     {
       "offsetCode": -44,
@@ -6692,15 +6692,15 @@ ZONE_ENTRIES_Apia = [
 ]
 ZONE_INFO_Apia = {
     "name": "Pacific/Apia",
-    "entries": ZONE_ENTRIES_Apia
+    "eras": ZONE_ERAS_Apia
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Auckland
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Auckland = [
+ZONE_ERAS_Auckland = [
     #             12:00    NZ    NZ%sT
     {
       "offsetCode": 48,
@@ -6715,15 +6715,15 @@ ZONE_ENTRIES_Auckland = [
 ]
 ZONE_INFO_Auckland = {
     "name": "Pacific/Auckland",
-    "entries": ZONE_ENTRIES_Auckland
+    "eras": ZONE_ERAS_Auckland
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Bougainville
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Bougainville = [
+ZONE_ERAS_Bougainville = [
     #             10:00    -    +10    2014 Dec 28  2:00
     {
       "offsetCode": 40,
@@ -6748,15 +6748,15 @@ ZONE_ENTRIES_Bougainville = [
 ]
 ZONE_INFO_Bougainville = {
     "name": "Pacific/Bougainville",
-    "entries": ZONE_ENTRIES_Bougainville
+    "eras": ZONE_ERAS_Bougainville
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Chuuk
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Chuuk = [
+ZONE_ERAS_Chuuk = [
     #             10:00    -    +10
     {
       "offsetCode": 40,
@@ -6771,15 +6771,15 @@ ZONE_ENTRIES_Chuuk = [
 ]
 ZONE_INFO_Chuuk = {
     "name": "Pacific/Chuuk",
-    "entries": ZONE_ENTRIES_Chuuk
+    "eras": ZONE_ERAS_Chuuk
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Easter
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Easter = [
+ZONE_ERAS_Easter = [
     #             -6:00    Chile    -06/-05
     {
       "offsetCode": -24,
@@ -6794,15 +6794,15 @@ ZONE_ENTRIES_Easter = [
 ]
 ZONE_INFO_Easter = {
     "name": "Pacific/Easter",
-    "entries": ZONE_ENTRIES_Easter
+    "eras": ZONE_ERAS_Easter
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Efate
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Efate = [
+ZONE_ERAS_Efate = [
     #             11:00    Vanuatu    +11/+12
     {
       "offsetCode": 44,
@@ -6817,15 +6817,15 @@ ZONE_ENTRIES_Efate = [
 ]
 ZONE_INFO_Efate = {
     "name": "Pacific/Efate",
-    "entries": ZONE_ENTRIES_Efate
+    "eras": ZONE_ERAS_Efate
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Enderbury
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Enderbury = [
+ZONE_ERAS_Enderbury = [
     #              13:00    -    +13
     {
       "offsetCode": 52,
@@ -6840,15 +6840,15 @@ ZONE_ENTRIES_Enderbury = [
 ]
 ZONE_INFO_Enderbury = {
     "name": "Pacific/Enderbury",
-    "entries": ZONE_ENTRIES_Enderbury
+    "eras": ZONE_ERAS_Enderbury
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Fakaofo
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Fakaofo = [
+ZONE_ERAS_Fakaofo = [
     #             -11:00    -    -11    2011 Dec 30
     {
       "offsetCode": -44,
@@ -6873,15 +6873,15 @@ ZONE_ENTRIES_Fakaofo = [
 ]
 ZONE_INFO_Fakaofo = {
     "name": "Pacific/Fakaofo",
-    "entries": ZONE_ENTRIES_Fakaofo
+    "eras": ZONE_ERAS_Fakaofo
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Fiji
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Fiji = [
+ZONE_ERAS_Fiji = [
     #             12:00    Fiji    +12/+13
     {
       "offsetCode": 48,
@@ -6896,15 +6896,15 @@ ZONE_ENTRIES_Fiji = [
 ]
 ZONE_INFO_Fiji = {
     "name": "Pacific/Fiji",
-    "entries": ZONE_ENTRIES_Fiji
+    "eras": ZONE_ERAS_Fiji
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Funafuti
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Funafuti = [
+ZONE_ERAS_Funafuti = [
     #             12:00    -    +12
     {
       "offsetCode": 48,
@@ -6919,15 +6919,15 @@ ZONE_ENTRIES_Funafuti = [
 ]
 ZONE_INFO_Funafuti = {
     "name": "Pacific/Funafuti",
-    "entries": ZONE_ENTRIES_Funafuti
+    "eras": ZONE_ERAS_Funafuti
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Galapagos
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Galapagos = [
+ZONE_ERAS_Galapagos = [
     #             -6:00    Ecuador    -06/-05
     {
       "offsetCode": -24,
@@ -6942,15 +6942,15 @@ ZONE_ENTRIES_Galapagos = [
 ]
 ZONE_INFO_Galapagos = {
     "name": "Pacific/Galapagos",
-    "entries": ZONE_ENTRIES_Galapagos
+    "eras": ZONE_ERAS_Galapagos
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Gambier
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Gambier = [
+ZONE_ERAS_Gambier = [
     #              -9:00    -    -09
     {
       "offsetCode": -36,
@@ -6965,15 +6965,15 @@ ZONE_ENTRIES_Gambier = [
 ]
 ZONE_INFO_Gambier = {
     "name": "Pacific/Gambier",
-    "entries": ZONE_ENTRIES_Gambier
+    "eras": ZONE_ERAS_Gambier
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Guadalcanal
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Guadalcanal = [
+ZONE_ERAS_Guadalcanal = [
     #             11:00    -    +11
     {
       "offsetCode": 44,
@@ -6988,15 +6988,15 @@ ZONE_ENTRIES_Guadalcanal = [
 ]
 ZONE_INFO_Guadalcanal = {
     "name": "Pacific/Guadalcanal",
-    "entries": ZONE_ENTRIES_Guadalcanal
+    "eras": ZONE_ERAS_Guadalcanal
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Guam
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Guam = [
+ZONE_ERAS_Guam = [
     #             10:00    -    GST    2000 Dec 23
     {
       "offsetCode": 40,
@@ -7021,15 +7021,15 @@ ZONE_ENTRIES_Guam = [
 ]
 ZONE_INFO_Guam = {
     "name": "Pacific/Guam",
-    "entries": ZONE_ENTRIES_Guam
+    "eras": ZONE_ERAS_Guam
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Honolulu
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Honolulu = [
+ZONE_ERAS_Honolulu = [
     #             -10:00    -    HST
     {
       "offsetCode": -40,
@@ -7044,15 +7044,15 @@ ZONE_ENTRIES_Honolulu = [
 ]
 ZONE_INFO_Honolulu = {
     "name": "Pacific/Honolulu",
-    "entries": ZONE_ENTRIES_Honolulu
+    "eras": ZONE_ERAS_Honolulu
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Kiritimati
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Kiritimati = [
+ZONE_ERAS_Kiritimati = [
     #              14:00    -    +14
     {
       "offsetCode": 56,
@@ -7067,15 +7067,15 @@ ZONE_ENTRIES_Kiritimati = [
 ]
 ZONE_INFO_Kiritimati = {
     "name": "Pacific/Kiritimati",
-    "entries": ZONE_ENTRIES_Kiritimati
+    "eras": ZONE_ERAS_Kiritimati
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Kosrae
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Kosrae = [
+ZONE_ERAS_Kosrae = [
     #             11:00    -    +11
     {
       "offsetCode": 44,
@@ -7090,15 +7090,15 @@ ZONE_ENTRIES_Kosrae = [
 ]
 ZONE_INFO_Kosrae = {
     "name": "Pacific/Kosrae",
-    "entries": ZONE_ENTRIES_Kosrae
+    "eras": ZONE_ERAS_Kosrae
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Kwajalein
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Kwajalein = [
+ZONE_ERAS_Kwajalein = [
     #             12:00    -    +12
     {
       "offsetCode": 48,
@@ -7113,15 +7113,15 @@ ZONE_ENTRIES_Kwajalein = [
 ]
 ZONE_INFO_Kwajalein = {
     "name": "Pacific/Kwajalein",
-    "entries": ZONE_ENTRIES_Kwajalein
+    "eras": ZONE_ERAS_Kwajalein
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Majuro
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Majuro = [
+ZONE_ERAS_Majuro = [
     #             12:00    -    +12
     {
       "offsetCode": 48,
@@ -7136,15 +7136,15 @@ ZONE_ENTRIES_Majuro = [
 ]
 ZONE_INFO_Majuro = {
     "name": "Pacific/Majuro",
-    "entries": ZONE_ENTRIES_Majuro
+    "eras": ZONE_ERAS_Majuro
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Marquesas
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Marquesas = [
+ZONE_ERAS_Marquesas = [
     #              -9:30    -    -0930
     {
       "offsetCode": -38,
@@ -7159,15 +7159,15 @@ ZONE_ENTRIES_Marquesas = [
 ]
 ZONE_INFO_Marquesas = {
     "name": "Pacific/Marquesas",
-    "entries": ZONE_ENTRIES_Marquesas
+    "eras": ZONE_ERAS_Marquesas
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Nauru
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Nauru = [
+ZONE_ERAS_Nauru = [
     #             12:00    -    +12
     {
       "offsetCode": 48,
@@ -7182,15 +7182,15 @@ ZONE_ENTRIES_Nauru = [
 ]
 ZONE_INFO_Nauru = {
     "name": "Pacific/Nauru",
-    "entries": ZONE_ENTRIES_Nauru
+    "eras": ZONE_ERAS_Nauru
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Niue
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Niue = [
+ZONE_ERAS_Niue = [
     #             -11:00    -    -11
     {
       "offsetCode": -44,
@@ -7205,15 +7205,15 @@ ZONE_ENTRIES_Niue = [
 ]
 ZONE_INFO_Niue = {
     "name": "Pacific/Niue",
-    "entries": ZONE_ENTRIES_Niue
+    "eras": ZONE_ERAS_Niue
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Norfolk
-# Entry count: 2
+# Era count: 2
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Norfolk = [
+ZONE_ERAS_Norfolk = [
     #             11:30    -    +1130    2015 Oct  4 02:00
     {
       "offsetCode": 46,
@@ -7238,15 +7238,15 @@ ZONE_ENTRIES_Norfolk = [
 ]
 ZONE_INFO_Norfolk = {
     "name": "Pacific/Norfolk",
-    "entries": ZONE_ENTRIES_Norfolk
+    "eras": ZONE_ERAS_Norfolk
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Noumea
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Noumea = [
+ZONE_ERAS_Noumea = [
     #             11:00    NC    +11/+12
     {
       "offsetCode": 44,
@@ -7261,15 +7261,15 @@ ZONE_ENTRIES_Noumea = [
 ]
 ZONE_INFO_Noumea = {
     "name": "Pacific/Noumea",
-    "entries": ZONE_ENTRIES_Noumea
+    "eras": ZONE_ERAS_Noumea
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Pago_Pago
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Pago_Pago = [
+ZONE_ERAS_Pago_Pago = [
     #             -11:00    -    SST
     {
       "offsetCode": -44,
@@ -7284,15 +7284,15 @@ ZONE_ENTRIES_Pago_Pago = [
 ]
 ZONE_INFO_Pago_Pago = {
     "name": "Pacific/Pago_Pago",
-    "entries": ZONE_ENTRIES_Pago_Pago
+    "eras": ZONE_ERAS_Pago_Pago
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Palau
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Palau = [
+ZONE_ERAS_Palau = [
     #             9:00    -    +09
     {
       "offsetCode": 36,
@@ -7307,15 +7307,15 @@ ZONE_ENTRIES_Palau = [
 ]
 ZONE_INFO_Palau = {
     "name": "Pacific/Palau",
-    "entries": ZONE_ENTRIES_Palau
+    "eras": ZONE_ERAS_Palau
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Pitcairn
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Pitcairn = [
+ZONE_ERAS_Pitcairn = [
     #             -8:00    -    -08
     {
       "offsetCode": -32,
@@ -7330,15 +7330,15 @@ ZONE_ENTRIES_Pitcairn = [
 ]
 ZONE_INFO_Pitcairn = {
     "name": "Pacific/Pitcairn",
-    "entries": ZONE_ENTRIES_Pitcairn
+    "eras": ZONE_ERAS_Pitcairn
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Pohnpei
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Pohnpei = [
+ZONE_ERAS_Pohnpei = [
     #             11:00    -    +11
     {
       "offsetCode": 44,
@@ -7353,15 +7353,15 @@ ZONE_ENTRIES_Pohnpei = [
 ]
 ZONE_INFO_Pohnpei = {
     "name": "Pacific/Pohnpei",
-    "entries": ZONE_ENTRIES_Pohnpei
+    "eras": ZONE_ERAS_Pohnpei
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Port_Moresby
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Port_Moresby = [
+ZONE_ERAS_Port_Moresby = [
     #             10:00    -    +10
     {
       "offsetCode": 40,
@@ -7376,15 +7376,15 @@ ZONE_ENTRIES_Port_Moresby = [
 ]
 ZONE_INFO_Port_Moresby = {
     "name": "Pacific/Port_Moresby",
-    "entries": ZONE_ENTRIES_Port_Moresby
+    "eras": ZONE_ERAS_Port_Moresby
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Rarotonga
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Rarotonga = [
+ZONE_ERAS_Rarotonga = [
     #             -10:00    Cook    -10/-0930
     {
       "offsetCode": -40,
@@ -7399,15 +7399,15 @@ ZONE_ENTRIES_Rarotonga = [
 ]
 ZONE_INFO_Rarotonga = {
     "name": "Pacific/Rarotonga",
-    "entries": ZONE_ENTRIES_Rarotonga
+    "eras": ZONE_ERAS_Rarotonga
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Tahiti
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tahiti = [
+ZONE_ERAS_Tahiti = [
     #             -10:00    -    -10
     {
       "offsetCode": -40,
@@ -7422,15 +7422,15 @@ ZONE_ENTRIES_Tahiti = [
 ]
 ZONE_INFO_Tahiti = {
     "name": "Pacific/Tahiti",
-    "entries": ZONE_ENTRIES_Tahiti
+    "eras": ZONE_ERAS_Tahiti
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Tarawa
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tarawa = [
+ZONE_ERAS_Tarawa = [
     #              12:00    -    +12
     {
       "offsetCode": 48,
@@ -7445,15 +7445,15 @@ ZONE_ENTRIES_Tarawa = [
 ]
 ZONE_INFO_Tarawa = {
     "name": "Pacific/Tarawa",
-    "entries": ZONE_ENTRIES_Tarawa
+    "eras": ZONE_ERAS_Tarawa
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Tongatapu
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Tongatapu = [
+ZONE_ERAS_Tongatapu = [
     #             13:00    Tonga    +13/+14
     {
       "offsetCode": 52,
@@ -7468,15 +7468,15 @@ ZONE_ENTRIES_Tongatapu = [
 ]
 ZONE_INFO_Tongatapu = {
     "name": "Pacific/Tongatapu",
-    "entries": ZONE_ENTRIES_Tongatapu
+    "eras": ZONE_ERAS_Tongatapu
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Wake
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Wake = [
+ZONE_ERAS_Wake = [
     #             12:00    -    +12
     {
       "offsetCode": 48,
@@ -7491,15 +7491,15 @@ ZONE_ENTRIES_Wake = [
 ]
 ZONE_INFO_Wake = {
     "name": "Pacific/Wake",
-    "entries": ZONE_ENTRIES_Wake
+    "eras": ZONE_ERAS_Wake
 }
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Wallis
-# Entry count: 1
+# Era count: 1
 #---------------------------------------------------------------------------
 
-ZONE_ENTRIES_Wallis = [
+ZONE_ERAS_Wallis = [
     #             12:00    -    +12
     {
       "offsetCode": 48,
@@ -7514,7 +7514,7 @@ ZONE_ENTRIES_Wallis = [
 ]
 ZONE_INFO_Wallis = {
     "name": "Pacific/Wallis",
-    "entries": ZONE_ENTRIES_Wallis
+    "eras": ZONE_ERAS_Wallis
 }
 
 
