@@ -10,8 +10,8 @@
 #
 # DO NOT EDIT
 
-# numPolicies: 70
-# numRules: 395
+# numPolicies: 76
+# numRules: 431
 
 #---------------------------------------------------------------------------
 # Policy name: AN
@@ -26,8 +26,9 @@ ZONE_RULES_AN = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    AN    1996    2005    -    Mar    lastSun    2:00s    0    S
@@ -38,8 +39,9 @@ ZONE_RULES_AN = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AN    2000    only    -    Aug    lastSun    2:00s    1:00    D
@@ -50,8 +52,9 @@ ZONE_RULES_AN = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    AN    2001    2007    -    Oct    lastSun    2:00s    1:00    D
@@ -62,8 +65,9 @@ ZONE_RULES_AN = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    AN    2006    only    -    Apr    Sun>=1    2:00s    0    S
@@ -74,8 +78,9 @@ ZONE_RULES_AN = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AN    2007    only    -    Mar    lastSun    2:00s    0    S
@@ -86,8 +91,9 @@ ZONE_RULES_AN = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AN    2008    max    -    Apr    Sun>=1    2:00s    0    S
@@ -98,8 +104,9 @@ ZONE_RULES_AN = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AN    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
@@ -110,8 +117,9 @@ ZONE_RULES_AN = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
 
@@ -134,8 +142,9 @@ ZONE_RULES_AQ = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -158,8 +167,9 @@ ZONE_RULES_AS = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    AS    1994    only    -    Mar    20    2:00s    0    S
@@ -170,8 +180,9 @@ ZONE_RULES_AS = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 20,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AS    1995    2005    -    Mar    lastSun    2:00s    0    S
@@ -182,8 +193,9 @@ ZONE_RULES_AS = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AS    2006    only    -    Apr    2    2:00s    0    S
@@ -194,8 +206,9 @@ ZONE_RULES_AS = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 2,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AS    2007    only    -    Mar    lastSun    2:00s    0    S
@@ -206,8 +219,9 @@ ZONE_RULES_AS = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AS    2008    max    -    Apr    Sun>=1    2:00s    0    S
@@ -218,8 +232,9 @@ ZONE_RULES_AS = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AS    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
@@ -230,8 +245,9 @@ ZONE_RULES_AS = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
 
@@ -254,8 +270,9 @@ ZONE_RULES_AT = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    AT    1991    2005    -    Mar    lastSun    2:00s    0    S
@@ -266,8 +283,9 @@ ZONE_RULES_AT = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AT    2000    only    -    Aug    lastSun    2:00s    1:00    D
@@ -278,8 +296,9 @@ ZONE_RULES_AT = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    AT    2001    max    -    Oct    Sun>=1    2:00s    1:00    D
@@ -290,8 +309,9 @@ ZONE_RULES_AT = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    AT    2006    only    -    Apr    Sun>=1    2:00s    0    S
@@ -302,8 +322,9 @@ ZONE_RULES_AT = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AT    2007    only    -    Mar    lastSun    2:00s    0    S
@@ -314,8 +335,9 @@ ZONE_RULES_AT = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AT    2008    max    -    Apr    Sun>=1    2:00s    0    S
@@ -326,8 +348,9 @@ ZONE_RULES_AT = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -350,8 +373,9 @@ ZONE_RULES_AV = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    AV    1995    2005    -    Mar    lastSun    2:00s    0    S
@@ -362,8 +386,9 @@ ZONE_RULES_AV = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AV    2000    only    -    Aug    lastSun    2:00s    1:00    D
@@ -374,8 +399,9 @@ ZONE_RULES_AV = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    AV    2001    2007    -    Oct    lastSun    2:00s    1:00    D
@@ -386,8 +412,9 @@ ZONE_RULES_AV = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    AV    2006    only    -    Apr    Sun>=1    2:00s    0    S
@@ -398,8 +425,9 @@ ZONE_RULES_AV = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AV    2007    only    -    Mar    lastSun    2:00s    0    S
@@ -410,8 +438,9 @@ ZONE_RULES_AV = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AV    2008    max    -    Apr    Sun>=1    2:00s    0    S
@@ -422,8 +451,9 @@ ZONE_RULES_AV = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AV    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
@@ -434,8 +464,9 @@ ZONE_RULES_AV = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
 
@@ -458,8 +489,9 @@ ZONE_RULES_AW = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AW    2006    only    -    Dec     3    2:00s    1:00    D
@@ -470,8 +502,9 @@ ZONE_RULES_AW = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 3,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    AW    2007    2009    -    Mar    lastSun    2:00s    0    S
@@ -482,8 +515,9 @@ ZONE_RULES_AW = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    AW    2007    2008    -    Oct    lastSun    2:00s    1:00    D
@@ -494,8 +528,9 @@ ZONE_RULES_AW = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
 
@@ -518,8 +553,9 @@ ZONE_RULES_Arg = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Arg    2000    only    -    Mar    3    0:00    0    -
@@ -530,8 +566,9 @@ ZONE_RULES_Arg = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 3,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Arg    2007    only    -    Dec    30    0:00    1:00    -
@@ -542,8 +579,9 @@ ZONE_RULES_Arg = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 30,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Arg    2008    2009    -    Mar    Sun>=15    0:00    0    -
@@ -554,8 +592,9 @@ ZONE_RULES_Arg = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Arg    2008    only    -    Oct    Sun>=15    0:00    1:00    -
@@ -566,8 +605,9 @@ ZONE_RULES_Arg = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
 
@@ -590,8 +630,9 @@ ZONE_RULES_Armenia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule Armenia    2011    only    -    Oct    lastSun     2:00s    0    -
@@ -602,8 +643,9 @@ ZONE_RULES_Armenia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -626,8 +668,9 @@ ZONE_RULES_Aus = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -650,8 +693,9 @@ ZONE_RULES_Azer = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 4,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Azer    1997    2015    -    Oct    lastSun     5:00    0    -
@@ -662,8 +706,9 @@ ZONE_RULES_Azer = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 5,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -686,8 +731,9 @@ ZONE_RULES_Barb = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 25,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -710,8 +756,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 3,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Brazil    2000    only    -    Feb    27     0:00    0    -
@@ -722,8 +769,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 27,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2000    2001    -    Oct    Sun>=8     0:00    1:00    -
@@ -734,8 +782,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Brazil    2001    2006    -    Feb    Sun>=15     0:00    0    -
@@ -746,8 +795,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2002    only    -    Nov     3     0:00    1:00    -
@@ -758,8 +808,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 3,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Brazil    2003    only    -    Oct    19     0:00    1:00    -
@@ -770,8 +821,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 19,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Brazil    2004    only    -    Nov     2     0:00    1:00    -
@@ -782,8 +834,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 2,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Brazil    2005    only    -    Oct    16     0:00    1:00    -
@@ -794,8 +847,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 16,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Brazil    2006    only    -    Nov     5     0:00    1:00    -
@@ -806,8 +860,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 5,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Brazil    2007    only    -    Feb    25     0:00    0    -
@@ -818,8 +873,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 25,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2007    only    -    Oct    Sun>=8     0:00    1:00    -
@@ -830,8 +886,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Brazil    2008    2017    -    Oct    Sun>=15    0:00    1:00    -
@@ -842,8 +899,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Brazil    2008    2011    -    Feb    Sun>=15    0:00    0    -
@@ -854,8 +912,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2012    only    -    Feb    Sun>=22    0:00    0    -
@@ -866,8 +925,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2013    2014    -    Feb    Sun>=15    0:00    0    -
@@ -878,8 +938,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2015    only    -    Feb    Sun>=22    0:00    0    -
@@ -890,8 +951,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2016    2022    -    Feb    Sun>=15    0:00    0    -
@@ -902,8 +964,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2018    max    -    Nov    Sun>=1    0:00    1:00    -
@@ -914,8 +977,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Brazil    2023    only    -    Feb    Sun>=22    0:00    0    -
@@ -926,8 +990,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2024    2025    -    Feb    Sun>=15    0:00    0    -
@@ -938,8 +1003,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2026    only    -    Feb    Sun>=22    0:00    0    -
@@ -950,8 +1016,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2027    2033    -    Feb    Sun>=15    0:00    0    -
@@ -962,8 +1029,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2034    only    -    Feb    Sun>=22    0:00    0    -
@@ -974,8 +1042,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2035    2036    -    Feb    Sun>=15    0:00    0    -
@@ -986,8 +1055,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2037    only    -    Feb    Sun>=22    0:00    0    -
@@ -998,8 +1068,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Brazil    2038    max    -    Feb    Sun>=15    0:00    0    -
@@ -1010,8 +1081,9 @@ ZONE_RULES_Brazil = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -1034,8 +1106,9 @@ ZONE_RULES_CO = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 4,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -1058,8 +1131,9 @@ ZONE_RULES_CR = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -1082,8 +1156,9 @@ ZONE_RULES_Canada = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Canada    1974    2006    -    Oct    lastSun    2:00    0    S
@@ -1094,8 +1169,9 @@ ZONE_RULES_Canada = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Canada    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
@@ -1106,8 +1182,9 @@ ZONE_RULES_Canada = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Canada    2007    max    -    Mar    Sun>=8    2:00    1:00    D
@@ -1118,8 +1195,9 @@ ZONE_RULES_Canada = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Canada    2007    max    -    Nov    Sun>=1    2:00    0    S
@@ -1130,8 +1208,9 @@ ZONE_RULES_Canada = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -1139,6 +1218,83 @@ ZONE_RULES_Canada = [
 ZONE_POLICY_Canada = {
     "name": "Canada",
     "rules": ZONE_RULES_Canada
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Chatham
+# Rule count: 5
+#---------------------------------------------------------------------------
+ZONE_RULES_Chatham = [
+    # Rule    Chatham    1989    only    -    Oct    Sun>=8    2:45s    1:00    -
+    {
+        'fromYear': 1989,
+        'toYear': 1989,
+        'inMonth': 10,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 8,
+        'atHour': 2,
+        'atMinute': 45,
+        'atTimeModifier': 's',
+        'deltaMinutes': 60,
+        'letter': '-',
+    },
+    # Rule    Chatham    1990    2006    -    Oct    Sun>=1    2:45s    1:00    -
+    {
+        'fromYear': 1990,
+        'toYear': 2006,
+        'inMonth': 10,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 1,
+        'atHour': 2,
+        'atMinute': 45,
+        'atTimeModifier': 's',
+        'deltaMinutes': 60,
+        'letter': '-',
+    },
+    # Rule    Chatham    1990    2007    -    Mar    Sun>=15    2:45s    0    -
+    {
+        'fromYear': 1990,
+        'toYear': 2007,
+        'inMonth': 3,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 15,
+        'atHour': 2,
+        'atMinute': 45,
+        'atTimeModifier': 's',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule    Chatham    2007    max    -    Sep    lastSun    2:45s    1:00    -
+    {
+        'fromYear': 2007,
+        'toYear': 9999,
+        'inMonth': 9,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atHour': 2,
+        'atMinute': 45,
+        'atTimeModifier': 's',
+        'deltaMinutes': 60,
+        'letter': '-',
+    },
+    # Rule    Chatham    2008    max    -    Apr    Sun>=1    2:45s    0    -
+    {
+        'fromYear': 2008,
+        'toYear': 9999,
+        'inMonth': 4,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 1,
+        'atHour': 2,
+        'atMinute': 45,
+        'atTimeModifier': 's',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Chatham = {
+    "name": "Chatham",
+    "rules": ZONE_RULES_Chatham
 }
 
 #---------------------------------------------------------------------------
@@ -1154,8 +1310,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 4,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Chile    1999    2010    -    Oct    Sun>=9    4:00u    1:00    -
@@ -1166,8 +1323,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 9,
         'atHour': 4,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Chile    2000    2007    -    Mar    Sun>=9    3:00u    0    -
@@ -1178,8 +1336,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 9,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Chile    2008    only    -    Mar    30    3:00u    0    -
@@ -1190,8 +1349,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 30,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Chile    2009    only    -    Mar    Sun>=9    3:00u    0    -
@@ -1202,8 +1362,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 9,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Chile    2010    only    -    Apr    Sun>=1    3:00u    0    -
@@ -1214,8 +1375,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Chile    2011    only    -    May    Sun>=2    3:00u    0    -
@@ -1226,8 +1388,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 2,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Chile    2011    only    -    Aug    Sun>=16    4:00u    1:00    -
@@ -1238,8 +1401,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 16,
         'atHour': 4,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Chile    2012    2014    -    Apr    Sun>=23    3:00u    0    -
@@ -1250,8 +1414,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 23,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Chile    2012    2014    -    Sep    Sun>=2    4:00u    1:00    -
@@ -1262,8 +1427,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 2,
         'atHour': 4,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Chile    2016    2018    -    May    Sun>=9    3:00u    0    -
@@ -1274,8 +1440,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 9,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Chile    2016    2018    -    Aug    Sun>=9    4:00u    1:00    -
@@ -1286,8 +1453,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 9,
         'atHour': 4,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Chile    2019    max    -    Apr    Sun>=2    3:00u    0    -
@@ -1298,8 +1466,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 2,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Chile    2019    max    -    Sep    Sun>=2    4:00u    1:00    -
@@ -1310,8 +1479,9 @@ ZONE_RULES_Chile = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 2,
         'atHour': 4,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
 
@@ -1334,8 +1504,9 @@ ZONE_RULES_Cook = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -1358,8 +1529,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Cuba    1998    2003    -    Oct    lastSun    0:00s    0    S
@@ -1370,8 +1542,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Cuba    2000    2003    -    Apr    Sun>=1    0:00s    1:00    D
@@ -1382,8 +1555,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Cuba    2004    only    -    Mar    lastSun    0:00s    1:00    D
@@ -1394,8 +1568,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Cuba    2006    2010    -    Oct    lastSun    0:00s    0    S
@@ -1406,8 +1581,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Cuba    2007    only    -    Mar    Sun>=8    0:00s    1:00    D
@@ -1418,8 +1594,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Cuba    2008    only    -    Mar    Sun>=15    0:00s    1:00    D
@@ -1430,8 +1607,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Cuba    2009    2010    -    Mar    Sun>=8    0:00s    1:00    D
@@ -1442,8 +1620,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Cuba    2011    only    -    Mar    Sun>=15    0:00s    1:00    D
@@ -1454,8 +1633,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Cuba    2011    only    -    Nov    13    0:00s    0    S
@@ -1466,8 +1646,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 13,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Cuba    2012    only    -    Apr    1    0:00s    1:00    D
@@ -1478,8 +1659,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Cuba    2012    max    -    Nov    Sun>=1    0:00s    0    S
@@ -1490,8 +1672,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Cuba    2013    max    -    Mar    Sun>=8    0:00s    1:00    D
@@ -1502,8 +1685,9 @@ ZONE_RULES_Cuba = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
 
@@ -1526,8 +1710,9 @@ ZONE_RULES_Dhaka = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 19,
         'atHour': 23,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Dhaka    2009    only    -    Dec    31    24:00    0    -
@@ -1538,8 +1723,9 @@ ZONE_RULES_Dhaka = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 31,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -1562,8 +1748,9 @@ ZONE_RULES_E_EurAsia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule E-EurAsia    1979    1995    -    Sep    lastSun     0:00    0    -
@@ -1574,8 +1761,9 @@ ZONE_RULES_E_EurAsia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule E-EurAsia    1996    max    -    Oct    lastSun     0:00    0    -
@@ -1586,8 +1774,9 @@ ZONE_RULES_E_EurAsia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -1610,8 +1799,9 @@ ZONE_RULES_EU = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    EU    1981    max    -    Mar    lastSun     1:00u    1:00    S
@@ -1622,8 +1812,9 @@ ZONE_RULES_EU = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    EU    1996    max    -    Oct    lastSun     1:00u    0    -
@@ -1634,8 +1825,9 @@ ZONE_RULES_EU = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -1658,8 +1850,9 @@ ZONE_RULES_EUAsia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    EUAsia    1979    1995    -    Sep    lastSun     1:00u    0    -
@@ -1670,8 +1863,9 @@ ZONE_RULES_EUAsia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    EUAsia    1996    max    -    Oct    lastSun     1:00u    0    -
@@ -1682,8 +1876,9 @@ ZONE_RULES_EUAsia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -1706,8 +1901,9 @@ ZONE_RULES_Ecuador = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 5,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -1730,8 +1926,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Egypt    1995    2010    -    Apr    lastFri     0:00s    1:00    S
@@ -1742,8 +1939,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Egypt    1995    2005    -    Sep    lastThu    24:00    0    -
@@ -1754,8 +1952,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 4,
         'onDayOfMonth': 0,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Egypt    2006    only    -    Sep    21    24:00    0    -
@@ -1766,8 +1965,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Egypt    2007    only    -    Sep    Thu>=1    24:00    0    -
@@ -1778,8 +1978,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 4,
         'onDayOfMonth': 1,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Egypt    2008    only    -    Aug    lastThu    24:00    0    -
@@ -1790,8 +1991,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 4,
         'onDayOfMonth': 0,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Egypt    2009    only    -    Aug    20    24:00    0    -
@@ -1802,8 +2004,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 20,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Egypt    2010    only    -    Aug    10    24:00    0    -
@@ -1814,8 +2017,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 10,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Egypt    2010    only    -    Sep     9    24:00    1:00    S
@@ -1826,8 +2030,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 9,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Egypt    2010    only    -    Sep    lastThu    24:00    0    -
@@ -1838,8 +2043,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 4,
         'onDayOfMonth': 0,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Egypt    2014    only    -    May    15    24:00    1:00    S
@@ -1850,8 +2056,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 15,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Egypt    2014    only    -    Jun    26    24:00    0    -
@@ -1862,8 +2069,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 26,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Egypt    2014    only    -    Jul    31    24:00    1:00    S
@@ -1874,8 +2082,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 31,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Egypt    2014    only    -    Sep    lastThu    24:00    0    -
@@ -1886,8 +2095,9 @@ ZONE_RULES_Egypt = [
         'onDayOfWeek': 4,
         'onDayOfMonth': 0,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -1910,8 +2120,9 @@ ZONE_RULES_Eire = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Eire    1990    1995    -    Oct    Sun>=22     1:00u    -1:00    -
@@ -1922,8 +2133,9 @@ ZONE_RULES_Eire = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 22,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': -4,
+        'deltaMinutes': -60,
         'letter': '-',
     },
     # Rule    Eire    1996    max    -    Oct    lastSun     1:00u    -1:00    -
@@ -1934,8 +2146,9 @@ ZONE_RULES_Eire = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'u',
-        'deltaCode': -4,
+        'deltaMinutes': -60,
         'letter': '-',
     },
 
@@ -1958,8 +2171,9 @@ ZONE_RULES_Falk = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Falk    1985    2000    -    Sep    Sun>=9    0:00    1:00    -
@@ -1970,8 +2184,9 @@ ZONE_RULES_Falk = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 9,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Falk    1986    2000    -    Apr    Sun>=16    0:00    0    -
@@ -1982,8 +2197,9 @@ ZONE_RULES_Falk = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 16,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Falk    2001    2010    -    Apr    Sun>=15    2:00    0    -
@@ -1994,8 +2210,9 @@ ZONE_RULES_Falk = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Falk    2001    2010    -    Sep    Sun>=1    2:00    1:00    -
@@ -2006,8 +2223,9 @@ ZONE_RULES_Falk = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
 
@@ -2030,8 +2248,9 @@ ZONE_RULES_Fiji = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Fiji    1999    2000    -    Feb    lastSun    3:00    0    -
@@ -2042,8 +2261,9 @@ ZONE_RULES_Fiji = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Fiji    2009    only    -    Nov    29    2:00    1:00    -
@@ -2054,8 +2274,9 @@ ZONE_RULES_Fiji = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 29,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Fiji    2010    only    -    Mar    lastSun    3:00    0    -
@@ -2066,8 +2287,9 @@ ZONE_RULES_Fiji = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Fiji    2010    2013    -    Oct    Sun>=21    2:00    1:00    -
@@ -2078,8 +2300,9 @@ ZONE_RULES_Fiji = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 21,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Fiji    2011    only    -    Mar    Sun>=1    3:00    0    -
@@ -2090,8 +2313,9 @@ ZONE_RULES_Fiji = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Fiji    2012    2013    -    Jan    Sun>=18    3:00    0    -
@@ -2102,8 +2326,9 @@ ZONE_RULES_Fiji = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 18,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Fiji    2014    only    -    Jan    Sun>=18    2:00    0    -
@@ -2114,8 +2339,9 @@ ZONE_RULES_Fiji = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 18,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Fiji    2014    max    -    Nov    Sun>=1    2:00    1:00    -
@@ -2126,8 +2352,9 @@ ZONE_RULES_Fiji = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Fiji    2015    max    -    Jan    Sun>=13    3:00    0    -
@@ -2138,8 +2365,9 @@ ZONE_RULES_Fiji = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 13,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -2162,8 +2390,9 @@ ZONE_RULES_Ghana = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 31,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -2186,8 +2415,9 @@ ZONE_RULES_Guat = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 7,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Guat    2006    only    -    Apr    30    0:00    1:00    D
@@ -2198,8 +2428,9 @@ ZONE_RULES_Guat = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 30,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Guat    2006    only    -    Oct     1    0:00    0    S
@@ -2210,8 +2441,9 @@ ZONE_RULES_Guat = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -2219,6 +2451,31 @@ ZONE_RULES_Guat = [
 ZONE_POLICY_Guat = {
     "name": "Guat",
     "rules": ZONE_RULES_Guat
+}
+
+#---------------------------------------------------------------------------
+# Policy name: HK
+# Rule count: 1
+#---------------------------------------------------------------------------
+ZONE_RULES_HK = [
+    # Rule    HK    1979    only    -    Oct    Sun>=16    3:30    0    -
+    {
+        'fromYear': 1979,
+        'toYear': 1979,
+        'inMonth': 10,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 16,
+        'atHour': 3,
+        'atMinute': 30,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_HK = {
+    "name": "HK",
+    "rules": ZONE_RULES_HK
 }
 
 #---------------------------------------------------------------------------
@@ -2234,8 +2491,9 @@ ZONE_RULES_Haiti = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Haiti    2005    2006    -    Apr    Sun>=1    0:00    1:00    D
@@ -2246,8 +2504,9 @@ ZONE_RULES_Haiti = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Haiti    2005    2006    -    Oct    lastSun    0:00    0    S
@@ -2258,8 +2517,9 @@ ZONE_RULES_Haiti = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Haiti    2012    2015    -    Mar    Sun>=8    2:00    1:00    D
@@ -2270,8 +2530,9 @@ ZONE_RULES_Haiti = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Haiti    2012    2015    -    Nov    Sun>=1    2:00    0    S
@@ -2282,8 +2543,9 @@ ZONE_RULES_Haiti = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Haiti    2017    max    -    Mar    Sun>=8    2:00    1:00    D
@@ -2294,8 +2556,9 @@ ZONE_RULES_Haiti = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Haiti    2017    max    -    Nov    Sun>=1    2:00    0    S
@@ -2306,8 +2569,9 @@ ZONE_RULES_Haiti = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -2330,8 +2594,9 @@ ZONE_RULES_Holiday = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -2354,8 +2619,9 @@ ZONE_RULES_Hond = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Hond    2006    only    -    May    Sun>=1    0:00    1:00    D
@@ -2366,8 +2632,9 @@ ZONE_RULES_Hond = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Hond    2006    only    -    Aug    Mon>=1    0:00    0    S
@@ -2378,8 +2645,9 @@ ZONE_RULES_Hond = [
         'onDayOfWeek': 1,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -2402,8 +2670,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2000    only    -    Mar    21    0:00    1:00    -
@@ -2414,8 +2683,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2000    only    -    Sep    21    0:00    0    -
@@ -2426,8 +2696,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2001    2003    -    Mar    22    0:00    1:00    -
@@ -2438,8 +2709,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2001    2003    -    Sep    22    0:00    0    -
@@ -2450,8 +2722,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2004    only    -    Mar    21    0:00    1:00    -
@@ -2462,8 +2735,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2004    only    -    Sep    21    0:00    0    -
@@ -2474,8 +2748,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2005    only    -    Mar    22    0:00    1:00    -
@@ -2486,8 +2761,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2005    only    -    Sep    22    0:00    0    -
@@ -2498,8 +2774,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2008    only    -    Mar    21    0:00    1:00    -
@@ -2510,8 +2787,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2008    only    -    Sep    21    0:00    0    -
@@ -2522,8 +2800,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2009    2011    -    Mar    22    0:00    1:00    -
@@ -2534,8 +2813,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2009    2011    -    Sep    22    0:00    0    -
@@ -2546,8 +2826,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2012    only    -    Mar    21    0:00    1:00    -
@@ -2558,8 +2839,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2012    only    -    Sep    21    0:00    0    -
@@ -2570,8 +2852,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2013    2015    -    Mar    22    0:00    1:00    -
@@ -2582,8 +2865,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2013    2015    -    Sep    22    0:00    0    -
@@ -2594,8 +2878,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2016    only    -    Mar    21    0:00    1:00    -
@@ -2606,8 +2891,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2016    only    -    Sep    21    0:00    0    -
@@ -2618,8 +2904,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2017    2019    -    Mar    22    0:00    1:00    -
@@ -2630,8 +2917,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2017    2019    -    Sep    22    0:00    0    -
@@ -2642,8 +2930,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2020    only    -    Mar    21    0:00    1:00    -
@@ -2654,8 +2943,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2020    only    -    Sep    21    0:00    0    -
@@ -2666,8 +2956,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2021    2023    -    Mar    22    0:00    1:00    -
@@ -2678,8 +2969,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2021    2023    -    Sep    22    0:00    0    -
@@ -2690,8 +2982,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2024    only    -    Mar    21    0:00    1:00    -
@@ -2702,8 +2995,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2024    only    -    Sep    21    0:00    0    -
@@ -2714,8 +3008,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2025    2027    -    Mar    22    0:00    1:00    -
@@ -2726,8 +3021,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2025    2027    -    Sep    22    0:00    0    -
@@ -2738,8 +3034,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2028    2029    -    Mar    21    0:00    1:00    -
@@ -2750,8 +3047,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2028    2029    -    Sep    21    0:00    0    -
@@ -2762,8 +3060,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2030    2031    -    Mar    22    0:00    1:00    -
@@ -2774,8 +3073,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2030    2031    -    Sep    22    0:00    0    -
@@ -2786,8 +3086,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2032    2033    -    Mar    21    0:00    1:00    -
@@ -2798,8 +3099,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2032    2033    -    Sep    21    0:00    0    -
@@ -2810,8 +3112,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2034    2035    -    Mar    22    0:00    1:00    -
@@ -2822,8 +3125,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2034    2035    -    Sep    22    0:00    0    -
@@ -2834,8 +3138,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iran    2036    max    -    Mar    21    0:00    1:00    -
@@ -2846,8 +3151,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iran    2036    max    -    Sep    21    0:00    0    -
@@ -2858,8 +3164,9 @@ ZONE_RULES_Iran = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -2882,8 +3189,9 @@ ZONE_RULES_Iraq = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Iraq    1991    2007    -    Apr     1    3:00s    1:00    -
@@ -2894,8 +3202,9 @@ ZONE_RULES_Iraq = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Iraq    1991    2007    -    Oct     1    3:00s    0    -
@@ -2906,8 +3215,9 @@ ZONE_RULES_Iraq = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -2930,8 +3240,9 @@ ZONE_RULES_Japan = [
         'onDayOfWeek': 6,
         'onDayOfMonth': 8,
         'atHour': 25,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -2954,8 +3265,9 @@ ZONE_RULES_Jordan = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Jordan    1999    2002    -    Sep    lastFri    0:00s    0    -
@@ -2966,8 +3278,9 @@ ZONE_RULES_Jordan = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Jordan    2000    2001    -    Mar    lastThu    0:00s    1:00    S
@@ -2978,8 +3291,9 @@ ZONE_RULES_Jordan = [
         'onDayOfWeek': 4,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Jordan    2002    2012    -    Mar    lastThu    24:00    1:00    S
@@ -2990,8 +3304,9 @@ ZONE_RULES_Jordan = [
         'onDayOfWeek': 4,
         'onDayOfMonth': 0,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Jordan    2003    only    -    Oct    24    0:00s    0    -
@@ -3002,8 +3317,9 @@ ZONE_RULES_Jordan = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 24,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Jordan    2004    only    -    Oct    15    0:00s    0    -
@@ -3014,8 +3330,9 @@ ZONE_RULES_Jordan = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Jordan    2005    only    -    Sep    lastFri    0:00s    0    -
@@ -3026,8 +3343,9 @@ ZONE_RULES_Jordan = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Jordan    2006    2011    -    Oct    lastFri    0:00s    0    -
@@ -3038,8 +3356,9 @@ ZONE_RULES_Jordan = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Jordan    2013    only    -    Dec    20    0:00    0    -
@@ -3050,8 +3369,9 @@ ZONE_RULES_Jordan = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 20,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Jordan    2014    max    -    Mar    lastThu    24:00    1:00    S
@@ -3062,8 +3382,9 @@ ZONE_RULES_Jordan = [
         'onDayOfWeek': 4,
         'onDayOfMonth': 0,
         'atHour': 24,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Jordan    2014    max    -    Oct    lastFri    0:00s    0    -
@@ -3074,8 +3395,9 @@ ZONE_RULES_Jordan = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -3083,6 +3405,57 @@ ZONE_RULES_Jordan = [
 ZONE_POLICY_Jordan = {
     "name": "Jordan",
     "rules": ZONE_RULES_Jordan
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Kyrgyz
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_Kyrgyz = [
+    # Rule    Kyrgyz    1992    1996    -    Sep    lastSun    0:00    0    -
+    {
+        'fromYear': 1992,
+        'toYear': 1996,
+        'inMonth': 9,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule    Kyrgyz    1997    2005    -    Mar    lastSun    2:30    1:00    -
+    {
+        'fromYear': 1997,
+        'toYear': 2005,
+        'inMonth': 3,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atHour': 2,
+        'atMinute': 30,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': '-',
+    },
+    # Rule    Kyrgyz    1997    2004    -    Oct    lastSun    2:30    0    -
+    {
+        'fromYear': 1997,
+        'toYear': 2004,
+        'inMonth': 10,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atHour': 2,
+        'atMinute': 30,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Kyrgyz = {
+    "name": "Kyrgyz",
+    "rules": ZONE_RULES_Kyrgyz
 }
 
 #---------------------------------------------------------------------------
@@ -3098,8 +3471,9 @@ ZONE_RULES_LH = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 2,
+        'deltaMinutes': 30,
         'letter': '-',
     },
     # Rule    LH    1996    2005    -    Mar    lastSun    2:00    0    -
@@ -3110,8 +3484,9 @@ ZONE_RULES_LH = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    LH    2000    only    -    Aug    lastSun    2:00    0:30    -
@@ -3122,8 +3497,9 @@ ZONE_RULES_LH = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 2,
+        'deltaMinutes': 30,
         'letter': '-',
     },
     # Rule    LH    2001    2007    -    Oct    lastSun    2:00    0:30    -
@@ -3134,8 +3510,9 @@ ZONE_RULES_LH = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 2,
+        'deltaMinutes': 30,
         'letter': '-',
     },
     # Rule    LH    2006    only    -    Apr    Sun>=1    2:00    0    -
@@ -3146,8 +3523,9 @@ ZONE_RULES_LH = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    LH    2007    only    -    Mar    lastSun    2:00    0    -
@@ -3158,8 +3536,9 @@ ZONE_RULES_LH = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    LH    2008    max    -    Apr    Sun>=1    2:00    0    -
@@ -3170,8 +3549,9 @@ ZONE_RULES_LH = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    LH    2008    max    -    Oct    Sun>=1    2:00    0:30    -
@@ -3182,8 +3562,9 @@ ZONE_RULES_LH = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 2,
+        'deltaMinutes': 30,
         'letter': '-',
     },
 
@@ -3206,8 +3587,9 @@ ZONE_RULES_Lebanon = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Lebanon    1993    1998    -    Sep    lastSun    0:00    0    -
@@ -3218,8 +3600,9 @@ ZONE_RULES_Lebanon = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Lebanon    1999    max    -    Oct    lastSun    0:00    0    -
@@ -3230,8 +3613,9 @@ ZONE_RULES_Lebanon = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -3254,8 +3638,9 @@ ZONE_RULES_Libya = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 4,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Libya    2013    only    -    Mar    lastFri    1:00    1:00    S
@@ -3266,8 +3651,9 @@ ZONE_RULES_Libya = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 0,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Libya    2013    only    -    Oct    lastFri    2:00    0    -
@@ -3278,8 +3664,9 @@ ZONE_RULES_Libya = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -3287,6 +3674,31 @@ ZONE_RULES_Libya = [
 ZONE_POLICY_Libya = {
     "name": "Libya",
     "rules": ZONE_RULES_Libya
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Macau
+# Rule count: 1
+#---------------------------------------------------------------------------
+ZONE_RULES_Macau = [
+    # Rule    Macau    1979    only    -    Oct    Sun>=16    03:30    0    S
+    {
+        'fromYear': 1979,
+        'toYear': 1979,
+        'inMonth': 10,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 16,
+        'atHour': 3,
+        'atMinute': 30,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_Macau = {
+    "name": "Macau",
+    "rules": ZONE_RULES_Macau
 }
 
 #---------------------------------------------------------------------------
@@ -3302,8 +3714,9 @@ ZONE_RULES_Mauritius = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule Mauritius    2008    only    -    Oct    lastSun    2:00    1:00    -
@@ -3314,8 +3727,9 @@ ZONE_RULES_Mauritius = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule Mauritius    2009    only    -    Mar    lastSun    2:00    0    -
@@ -3326,8 +3740,9 @@ ZONE_RULES_Mauritius = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -3350,8 +3765,9 @@ ZONE_RULES_Mexico = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 30,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Mexico    1996    2000    -    Apr    Sun>=1    2:00    1:00    D
@@ -3362,8 +3778,9 @@ ZONE_RULES_Mexico = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Mexico    1996    2000    -    Oct    lastSun    2:00    0    S
@@ -3374,8 +3791,9 @@ ZONE_RULES_Mexico = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Mexico    2001    only    -    May    Sun>=1    2:00    1:00    D
@@ -3386,8 +3804,9 @@ ZONE_RULES_Mexico = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Mexico    2001    only    -    Sep    lastSun    2:00    0    S
@@ -3398,8 +3817,9 @@ ZONE_RULES_Mexico = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Mexico    2002    max    -    Apr    Sun>=1    2:00    1:00    D
@@ -3410,8 +3830,9 @@ ZONE_RULES_Mexico = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Mexico    2002    max    -    Oct    lastSun    2:00    0    S
@@ -3422,8 +3843,9 @@ ZONE_RULES_Mexico = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -3446,8 +3868,9 @@ ZONE_RULES_Moldova = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Moldova    1997    max    -    Oct    lastSun     3:00    0    -
@@ -3458,8 +3881,9 @@ ZONE_RULES_Moldova = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -3467,6 +3891,57 @@ ZONE_RULES_Moldova = [
 ZONE_POLICY_Moldova = {
     "name": "Moldova",
     "rules": ZONE_RULES_Moldova
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Moncton
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_Moncton = [
+    # Rule    Moncton    1957    1972    -    Oct    lastSun    2:00    0    S
+    {
+        'fromYear': 1957,
+        'toYear': 1972,
+        'inMonth': 10,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atHour': 2,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': 'S',
+    },
+    # Rule    Moncton    1993    2006    -    Apr    Sun>=1    0:01    1:00    D
+    {
+        'fromYear': 1993,
+        'toYear': 2006,
+        'inMonth': 4,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 1,
+        'atHour': 0,
+        'atMinute': 1,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': 'D',
+    },
+    # Rule    Moncton    1993    2006    -    Oct    lastSun    0:01    0    S
+    {
+        'fromYear': 1993,
+        'toYear': 2006,
+        'inMonth': 10,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atHour': 0,
+        'atMinute': 1,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': 'S',
+    },
+
+]
+ZONE_POLICY_Moncton = {
+    "name": "Moncton",
+    "rules": ZONE_RULES_Moncton
 }
 
 #---------------------------------------------------------------------------
@@ -3482,8 +3957,9 @@ ZONE_RULES_Mongol = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Mongol    2001    only    -    Apr    lastSat    2:00    1:00    -
@@ -3494,8 +3970,9 @@ ZONE_RULES_Mongol = [
         'onDayOfWeek': 6,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Mongol    2001    2006    -    Sep    lastSat    2:00    0    -
@@ -3506,8 +3983,9 @@ ZONE_RULES_Mongol = [
         'onDayOfWeek': 6,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Mongol    2002    2006    -    Mar    lastSat    2:00    1:00    -
@@ -3518,8 +3996,9 @@ ZONE_RULES_Mongol = [
         'onDayOfWeek': 6,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Mongol    2015    2016    -    Mar    lastSat    2:00    1:00    -
@@ -3530,8 +4009,9 @@ ZONE_RULES_Mongol = [
         'onDayOfWeek': 6,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Mongol    2015    2016    -    Sep    lastSat    0:00    0    -
@@ -3542,8 +4022,9 @@ ZONE_RULES_Mongol = [
         'onDayOfWeek': 6,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -3566,8 +4047,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 4,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2008    only    -    Jun     1     0:00    1:00    -
@@ -3578,8 +4060,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2008    only    -    Sep     1     0:00    0    -
@@ -3590,8 +4073,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2009    only    -    Jun     1     0:00    1:00    -
@@ -3602,8 +4086,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2009    only    -    Aug    21     0:00    0    -
@@ -3614,8 +4099,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2010    only    -    May     2     0:00    1:00    -
@@ -3626,8 +4112,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 2,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2010    only    -    Aug     8     0:00    0    -
@@ -3638,8 +4125,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 8,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2011    only    -    Apr     3     0:00    1:00    -
@@ -3650,8 +4138,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 3,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2011    only    -    Jul    31     0:00    0    -
@@ -3662,8 +4151,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 31,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2012    2013    -    Apr    lastSun     2:00    1:00    -
@@ -3674,8 +4164,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2012    only    -    Jul    20     3:00    0    -
@@ -3686,8 +4177,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 20,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2012    only    -    Aug    20     2:00    1:00    -
@@ -3698,8 +4190,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 20,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2012    only    -    Sep    30     3:00    0    -
@@ -3710,8 +4203,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 30,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2013    only    -    Jul     7     3:00    0    -
@@ -3722,8 +4216,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 7,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2013    only    -    Aug    10     2:00    1:00    -
@@ -3734,8 +4229,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 10,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2013    2018    -    Oct    lastSun     3:00    0    -
@@ -3746,8 +4242,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2014    2018    -    Mar    lastSun     2:00    1:00    -
@@ -3758,8 +4255,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2014    only    -    Jun    28     3:00    0    -
@@ -3770,8 +4268,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 28,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2014    only    -    Aug     2     2:00    1:00    -
@@ -3782,8 +4281,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 2,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2015    only    -    Jun    14     3:00    0    -
@@ -3794,8 +4294,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 14,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2015    only    -    Jul    19     2:00    1:00    -
@@ -3806,8 +4307,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 19,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2016    only    -    Jun     5     3:00    0    -
@@ -3818,8 +4320,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 5,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2016    only    -    Jul    10     2:00    1:00    -
@@ -3830,8 +4333,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 10,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2017    only    -    May    21     3:00    0    -
@@ -3842,8 +4346,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2017    only    -    Jul     2     2:00    1:00    -
@@ -3854,8 +4359,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 2,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Morocco    2018    only    -    May    13     3:00    0    -
@@ -3866,8 +4372,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 13,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Morocco    2018    only    -    Jun    17     2:00    1:00    -
@@ -3878,8 +4385,9 @@ ZONE_RULES_Morocco = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 17,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
 
@@ -3902,8 +4410,9 @@ ZONE_RULES_NC = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 2,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -3926,8 +4435,9 @@ ZONE_RULES_NT_YK = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    NT_YK    1980    2006    -    Oct    lastSun    2:00    0    S
@@ -3938,8 +4448,9 @@ ZONE_RULES_NT_YK = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    NT_YK    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
@@ -3950,8 +4461,9 @@ ZONE_RULES_NT_YK = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
 
@@ -3974,8 +4486,9 @@ ZONE_RULES_NZ = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    NZ    1990    2006    -    Oct    Sun>=1    2:00s    1:00    D
@@ -3986,8 +4499,9 @@ ZONE_RULES_NZ = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    NZ    1990    2007    -    Mar    Sun>=15    2:00s    0    S
@@ -3998,8 +4512,9 @@ ZONE_RULES_NZ = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    NZ    2007    max    -    Sep    lastSun    2:00s    1:00    D
@@ -4010,8 +4525,9 @@ ZONE_RULES_NZ = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    NZ    2008    max    -    Apr    Sun>=1    2:00s    0    S
@@ -4022,8 +4538,9 @@ ZONE_RULES_NZ = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -4046,8 +4563,9 @@ ZONE_RULES_Nic = [
         'onDayOfWeek': 1,
         'onDayOfMonth': 23,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Nic    2005    only    -    Apr    10    0:00    1:00    D
@@ -4058,8 +4576,9 @@ ZONE_RULES_Nic = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 10,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Nic    2005    only    -    Oct    Sun>=1    0:00    0    S
@@ -4070,8 +4589,9 @@ ZONE_RULES_Nic = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Nic    2006    only    -    Apr    30    2:00    1:00    D
@@ -4082,8 +4602,9 @@ ZONE_RULES_Nic = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 30,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Nic    2006    only    -    Oct    Sun>=1    1:00    0    S
@@ -4094,8 +4615,9 @@ ZONE_RULES_Nic = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -4118,8 +4640,9 @@ ZONE_RULES_PRC = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 11,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -4142,8 +4665,9 @@ ZONE_RULES_Pakistan = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 2,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule Pakistan    2002    only    -    Oct    Sun>=2    0:00    0    -
@@ -4154,8 +4678,9 @@ ZONE_RULES_Pakistan = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 2,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule Pakistan    2008    only    -    Jun    1    0:00    1:00    S
@@ -4166,8 +4691,9 @@ ZONE_RULES_Pakistan = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule Pakistan    2008    2009    -    Nov    1    0:00    0    -
@@ -4178,8 +4704,9 @@ ZONE_RULES_Pakistan = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule Pakistan    2009    only    -    Apr    15    0:00    1:00    S
@@ -4190,8 +4717,9 @@ ZONE_RULES_Pakistan = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
 
@@ -4199,6 +4727,317 @@ ZONE_RULES_Pakistan = [
 ZONE_POLICY_Pakistan = {
     "name": "Pakistan",
     "rules": ZONE_RULES_Pakistan
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Palestine
+# Rule count: 23
+#---------------------------------------------------------------------------
+ZONE_RULES_Palestine = [
+    # Rule Palestine    1999    2005    -    Apr    Fri>=15    0:00    1:00    S
+    {
+        'fromYear': 1999,
+        'toYear': 2005,
+        'inMonth': 4,
+        'onDayOfWeek': 5,
+        'onDayOfMonth': 15,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': 'S',
+    },
+    # Rule Palestine    1999    2003    -    Oct    Fri>=15    0:00    0    -
+    {
+        'fromYear': 1999,
+        'toYear': 2003,
+        'inMonth': 10,
+        'onDayOfWeek': 5,
+        'onDayOfMonth': 15,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2004    only    -    Oct     1    1:00    0    -
+    {
+        'fromYear': 2004,
+        'toYear': 2004,
+        'inMonth': 10,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atHour': 1,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2005    only    -    Oct     4    2:00    0    -
+    {
+        'fromYear': 2005,
+        'toYear': 2005,
+        'inMonth': 10,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 4,
+        'atHour': 2,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2006    2007    -    Apr     1    0:00    1:00    S
+    {
+        'fromYear': 2006,
+        'toYear': 2007,
+        'inMonth': 4,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': 'S',
+    },
+    # Rule Palestine    2006    only    -    Sep    22    0:00    0    -
+    {
+        'fromYear': 2006,
+        'toYear': 2006,
+        'inMonth': 9,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 22,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2007    only    -    Sep    Thu>=8    2:00    0    -
+    {
+        'fromYear': 2007,
+        'toYear': 2007,
+        'inMonth': 9,
+        'onDayOfWeek': 4,
+        'onDayOfMonth': 8,
+        'atHour': 2,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2008    2009    -    Mar    lastFri    0:00    1:00    S
+    {
+        'fromYear': 2008,
+        'toYear': 2009,
+        'inMonth': 3,
+        'onDayOfWeek': 5,
+        'onDayOfMonth': 0,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': 'S',
+    },
+    # Rule Palestine    2008    only    -    Sep     1    0:00    0    -
+    {
+        'fromYear': 2008,
+        'toYear': 2008,
+        'inMonth': 9,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2009    only    -    Sep    Fri>=1    1:00    0    -
+    {
+        'fromYear': 2009,
+        'toYear': 2009,
+        'inMonth': 9,
+        'onDayOfWeek': 5,
+        'onDayOfMonth': 1,
+        'atHour': 1,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2010    only    -    Mar    26    0:00    1:00    S
+    {
+        'fromYear': 2010,
+        'toYear': 2010,
+        'inMonth': 3,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 26,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': 'S',
+    },
+    # Rule Palestine    2010    only    -    Aug    11    0:00    0    -
+    {
+        'fromYear': 2010,
+        'toYear': 2010,
+        'inMonth': 8,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 11,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2011    only    -    Apr     1    0:01    1:00    S
+    {
+        'fromYear': 2011,
+        'toYear': 2011,
+        'inMonth': 4,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atHour': 0,
+        'atMinute': 1,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': 'S',
+    },
+    # Rule Palestine    2011    only    -    Aug     1    0:00    0    -
+    {
+        'fromYear': 2011,
+        'toYear': 2011,
+        'inMonth': 8,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2011    only    -    Aug    30    0:00    1:00    S
+    {
+        'fromYear': 2011,
+        'toYear': 2011,
+        'inMonth': 8,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 30,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': 'S',
+    },
+    # Rule Palestine    2011    only    -    Sep    30    0:00    0    -
+    {
+        'fromYear': 2011,
+        'toYear': 2011,
+        'inMonth': 9,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 30,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2012    2014    -    Mar    lastThu    24:00    1:00    S
+    {
+        'fromYear': 2012,
+        'toYear': 2014,
+        'inMonth': 3,
+        'onDayOfWeek': 4,
+        'onDayOfMonth': 0,
+        'atHour': 24,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': 'S',
+    },
+    # Rule Palestine    2012    only    -    Sep    21    1:00    0    -
+    {
+        'fromYear': 2012,
+        'toYear': 2012,
+        'inMonth': 9,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 21,
+        'atHour': 1,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2013    only    -    Sep    Fri>=21    0:00    0    -
+    {
+        'fromYear': 2013,
+        'toYear': 2013,
+        'inMonth': 9,
+        'onDayOfWeek': 5,
+        'onDayOfMonth': 21,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2014    2015    -    Oct    Fri>=21    0:00    0    -
+    {
+        'fromYear': 2014,
+        'toYear': 2015,
+        'inMonth': 10,
+        'onDayOfWeek': 5,
+        'onDayOfMonth': 21,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule Palestine    2015    only    -    Mar    lastFri    24:00    1:00    S
+    {
+        'fromYear': 2015,
+        'toYear': 2015,
+        'inMonth': 3,
+        'onDayOfWeek': 5,
+        'onDayOfMonth': 0,
+        'atHour': 24,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': 'S',
+    },
+    # Rule Palestine    2016    max    -    Mar    Sat>=22    1:00    1:00    S
+    {
+        'fromYear': 2016,
+        'toYear': 9999,
+        'inMonth': 3,
+        'onDayOfWeek': 6,
+        'onDayOfMonth': 22,
+        'atHour': 1,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': 'S',
+    },
+    # Rule Palestine    2016    max    -    Oct    lastSat    1:00    0    -
+    {
+        'fromYear': 2016,
+        'toYear': 9999,
+        'inMonth': 10,
+        'onDayOfWeek': 6,
+        'onDayOfMonth': 0,
+        'atHour': 1,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Palestine = {
+    "name": "Palestine",
+    "rules": ZONE_RULES_Palestine
 }
 
 #---------------------------------------------------------------------------
@@ -4214,8 +5053,9 @@ ZONE_RULES_Para = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Para    1997    only    -    Feb    lastSun    0:00    0    -
@@ -4226,8 +5066,9 @@ ZONE_RULES_Para = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Para    1998    2001    -    Mar    Sun>=1    0:00    0    -
@@ -4238,8 +5079,9 @@ ZONE_RULES_Para = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Para    2002    2004    -    Apr    Sun>=1    0:00    0    -
@@ -4250,8 +5092,9 @@ ZONE_RULES_Para = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Para    2002    2003    -    Sep    Sun>=1    0:00    1:00    -
@@ -4262,8 +5105,9 @@ ZONE_RULES_Para = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Para    2004    2009    -    Oct    Sun>=15    0:00    1:00    -
@@ -4274,8 +5118,9 @@ ZONE_RULES_Para = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Para    2005    2009    -    Mar    Sun>=8    0:00    0    -
@@ -4286,8 +5131,9 @@ ZONE_RULES_Para = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Para    2010    max    -    Oct    Sun>=1    0:00    1:00    -
@@ -4298,8 +5144,9 @@ ZONE_RULES_Para = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Para    2010    2012    -    Apr    Sun>=8    0:00    0    -
@@ -4310,8 +5157,9 @@ ZONE_RULES_Para = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Para    2013    max    -    Mar    Sun>=22    0:00    0    -
@@ -4322,8 +5170,9 @@ ZONE_RULES_Para = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -4346,8 +5195,9 @@ ZONE_RULES_Peru = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -4370,8 +5220,9 @@ ZONE_RULES_Phil = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 21,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -4394,8 +5245,9 @@ ZONE_RULES_ROK = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -4418,8 +5270,9 @@ ZONE_RULES_Russia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Russia    1985    2010    -    Mar    lastSun     2:00s    1:00    S
@@ -4430,8 +5283,9 @@ ZONE_RULES_Russia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Russia    1996    2010    -    Oct    lastSun     2:00s    0    -
@@ -4442,8 +5296,9 @@ ZONE_RULES_Russia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -4466,8 +5321,9 @@ ZONE_RULES_RussiaAsia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule RussiaAsia    1985    2010    -    Mar    lastSun     2:00s    1:00    -
@@ -4478,8 +5334,9 @@ ZONE_RULES_RussiaAsia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule RussiaAsia    1996    2010    -    Oct    lastSun     2:00s    0    -
@@ -4490,8 +5347,9 @@ ZONE_RULES_RussiaAsia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -4514,8 +5372,9 @@ ZONE_RULES_SA = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -4538,8 +5397,9 @@ ZONE_RULES_Salv = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -4562,8 +5422,9 @@ ZONE_RULES_Sudan = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 15,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -4586,8 +5447,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Syria    1997    1998    -    Mar    lastMon    0:00    1:00    S
@@ -4598,8 +5460,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 1,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Syria    1999    2006    -    Apr     1    0:00    1:00    S
@@ -4610,8 +5473,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Syria    2006    only    -    Sep    22    0:00    0    -
@@ -4622,8 +5486,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Syria    2007    only    -    Mar    lastFri    0:00    1:00    S
@@ -4634,8 +5499,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Syria    2007    only    -    Nov     Fri>=1    0:00    0    -
@@ -4646,8 +5512,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Syria    2008    only    -    Apr    Fri>=1    0:00    1:00    S
@@ -4658,8 +5525,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Syria    2008    only    -    Nov    1    0:00    0    -
@@ -4670,8 +5538,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Syria    2009    only    -    Mar    lastFri    0:00    1:00    S
@@ -4682,8 +5551,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Syria    2010    2011    -    Apr    Fri>=1    0:00    1:00    S
@@ -4694,8 +5564,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Syria    2012    max    -    Mar    lastFri    0:00    1:00    S
@@ -4706,8 +5577,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Syria    2009    max    -    Oct    lastFri    0:00    0    -
@@ -4718,8 +5590,9 @@ ZONE_RULES_Syria = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -4742,8 +5615,9 @@ ZONE_RULES_Taiwan = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -4766,8 +5640,9 @@ ZONE_RULES_Thule = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Thule    1993    2006    -    Apr    Sun>=1    2:00    1:00    D
@@ -4778,8 +5653,9 @@ ZONE_RULES_Thule = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Thule    1993    2006    -    Oct    lastSun    2:00    0    S
@@ -4790,8 +5666,9 @@ ZONE_RULES_Thule = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Thule    2007    max    -    Mar    Sun>=8    2:00    1:00    D
@@ -4802,8 +5679,9 @@ ZONE_RULES_Thule = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Thule    2007    max    -    Nov    Sun>=1    2:00    0    S
@@ -4814,8 +5692,9 @@ ZONE_RULES_Thule = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -4838,8 +5717,9 @@ ZONE_RULES_Tonga = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 7,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Tonga    2000    only    -    Mar    19    2:00s    0    -
@@ -4850,8 +5730,9 @@ ZONE_RULES_Tonga = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 19,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Tonga    2000    2001    -    Nov    Sun>=1    2:00    1:00    -
@@ -4862,8 +5743,9 @@ ZONE_RULES_Tonga = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Tonga    2001    2002    -    Jan    lastSun    2:00    0    -
@@ -4874,8 +5756,9 @@ ZONE_RULES_Tonga = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Tonga    2016    only    -    Nov    Sun>=1    2:00    1:00    -
@@ -4886,8 +5769,9 @@ ZONE_RULES_Tonga = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Tonga    2017    only    -    Jan    Sun>=15    3:00    0    -
@@ -4898,8 +5782,9 @@ ZONE_RULES_Tonga = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 15,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -4922,8 +5807,9 @@ ZONE_RULES_Tunisia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Tunisia    2005    only    -    May     1     0:00s    1:00    S
@@ -4934,8 +5820,9 @@ ZONE_RULES_Tunisia = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Tunisia    2005    only    -    Sep    30     1:00s    0    -
@@ -4946,8 +5833,9 @@ ZONE_RULES_Tunisia = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 30,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Tunisia    2006    2008    -    Mar    lastSun     2:00s    1:00    S
@@ -4958,8 +5846,9 @@ ZONE_RULES_Tunisia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'S',
     },
     # Rule    Tunisia    2006    2008    -    Oct    lastSun     2:00s    0    -
@@ -4970,8 +5859,9 @@ ZONE_RULES_Tunisia = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -4994,8 +5884,9 @@ ZONE_RULES_US = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    US    1976    1986    -    Apr    lastSun    2:00    1:00    D
@@ -5006,8 +5897,9 @@ ZONE_RULES_US = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    US    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
@@ -5018,8 +5910,9 @@ ZONE_RULES_US = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    US    2007    max    -    Mar    Sun>=8    2:00    1:00    D
@@ -5030,8 +5923,9 @@ ZONE_RULES_US = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
@@ -5042,8 +5936,9 @@ ZONE_RULES_US = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -5066,8 +5961,9 @@ ZONE_RULES_Uruguay = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 28,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Uruguay    2004    only    -    Sep    19     0:00    1:00    -
@@ -5078,8 +5974,9 @@ ZONE_RULES_Uruguay = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 19,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Uruguay    2005    only    -    Mar    27     2:00    0    -
@@ -5090,8 +5987,9 @@ ZONE_RULES_Uruguay = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 27,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Uruguay    2005    only    -    Oct     9     2:00    1:00    -
@@ -5102,8 +6000,9 @@ ZONE_RULES_Uruguay = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 9,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    Uruguay    2006    2015    -    Mar    Sun>=8     2:00    0    -
@@ -5114,8 +6013,9 @@ ZONE_RULES_Uruguay = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 8,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    Uruguay    2006    2014    -    Oct    Sun>=1     2:00    1:00    -
@@ -5126,8 +6026,9 @@ ZONE_RULES_Uruguay = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
 
@@ -5150,8 +6051,9 @@ ZONE_RULES_Vanuatu = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 23,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
 
@@ -5174,8 +6076,9 @@ ZONE_RULES_WS = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 0,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
@@ -5186,8 +6089,9 @@ ZONE_RULES_WS = [
         'onDayOfWeek': 6,
         'onDayOfMonth': 1,
         'atHour': 4,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    WS    2011    only    -    Sep    lastSat    3:00    1    -
@@ -5198,8 +6102,9 @@ ZONE_RULES_WS = [
         'onDayOfWeek': 6,
         'onDayOfMonth': 0,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
     # Rule    WS    2012    max    -    Apr    Sun>=1    4:00    0    -
@@ -5210,8 +6115,9 @@ ZONE_RULES_WS = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 4,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': '-',
     },
     # Rule    WS    2012    max    -    Sep    lastSun    3:00    1    -
@@ -5222,8 +6128,9 @@ ZONE_RULES_WS = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 3,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': '-',
     },
 
@@ -5246,8 +6153,9 @@ ZONE_RULES_Winn = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Winn    1966    2005    -    Oct    lastSun    2:00s    0    S
@@ -5258,8 +6166,9 @@ ZONE_RULES_Winn = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Winn    1987    2005    -    Apr    Sun>=1    2:00s    1:00    D
@@ -5270,8 +6179,9 @@ ZONE_RULES_Winn = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 's',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
 
@@ -5294,8 +6204,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 3,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2000    only    -    Apr    14    2:00    1:00    D
@@ -5306,8 +6217,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 14,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Zion    2000    only    -    Oct     6    1:00    0    S
@@ -5318,8 +6230,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 6,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2001    only    -    Apr     9    1:00    1:00    D
@@ -5330,8 +6243,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 9,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Zion    2001    only    -    Sep    24    1:00    0    S
@@ -5342,8 +6256,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 24,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2002    only    -    Mar    29    1:00    1:00    D
@@ -5354,8 +6269,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 29,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Zion    2002    only    -    Oct     7    1:00    0    S
@@ -5366,8 +6282,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 7,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2003    only    -    Mar    28    1:00    1:00    D
@@ -5378,8 +6295,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 28,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Zion    2003    only    -    Oct     3    1:00    0    S
@@ -5390,8 +6308,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 3,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2004    only    -    Apr     7    1:00    1:00    D
@@ -5402,8 +6321,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 7,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Zion    2004    only    -    Sep    22    1:00    0    S
@@ -5414,8 +6334,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 22,
         'atHour': 1,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2005    only    -    Apr     1    2:00    1:00    D
@@ -5426,8 +6347,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Zion    2005    only    -    Oct     9    2:00    0    S
@@ -5438,8 +6360,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 9,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2006    2010    -    Mar    Fri>=26    2:00    1:00    D
@@ -5450,8 +6373,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 26,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Zion    2006    only    -    Oct     1    2:00    0    S
@@ -5462,8 +6386,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2007    only    -    Sep    16    2:00    0    S
@@ -5474,8 +6399,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 16,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2008    only    -    Oct     5    2:00    0    S
@@ -5486,8 +6412,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 5,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2009    only    -    Sep    27    2:00    0    S
@@ -5498,8 +6425,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 27,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2010    only    -    Sep    12    2:00    0    S
@@ -5510,8 +6438,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 12,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2011    only    -    Apr     1    2:00    1:00    D
@@ -5522,8 +6451,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Zion    2011    only    -    Oct     2    2:00    0    S
@@ -5534,8 +6464,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 2,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2012    only    -    Mar    Fri>=26    2:00    1:00    D
@@ -5546,8 +6477,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 26,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Zion    2012    only    -    Sep    23    2:00    0    S
@@ -5558,8 +6490,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 0,
         'onDayOfMonth': 23,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
     # Rule    Zion    2013    max    -    Mar    Fri>=23    2:00    1:00    D
@@ -5570,8 +6503,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 5,
         'onDayOfMonth': 23,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 4,
+        'deltaMinutes': 60,
         'letter': 'D',
     },
     # Rule    Zion    2013    max    -    Oct    lastSun    2:00    0    S
@@ -5582,8 +6516,9 @@ ZONE_RULES_Zion = [
         'onDayOfWeek': 7,
         'onDayOfMonth': 0,
         'atHour': 2,
+        'atMinute': 0,
         'atTimeModifier': 'w',
-        'deltaCode': 0,
+        'deltaMinutes': 0,
         'letter': 'S',
     },
 
@@ -5598,7 +6533,7 @@ ZONE_POLICY_Zion = {
 # The following zone policies are not supported in the current version of
 # AceTime.
 #
-# numPolicies: 68
+# numPolicies: 62
 #
 # Albania (unused)
 # Algeria (unused)
@@ -5609,7 +6544,6 @@ ZONE_POLICY_Zion = {
 # Bulg (unused)
 # C_Eur (unused)
 # CA (unused)
-# Chatham (non-integral AT time '2:45')
 # Chicago (unused)
 # Cyprus (unused)
 # Czech (unused)
@@ -5625,27 +6559,22 @@ ZONE_POLICY_Zion = {
 # GB_Eire (unused)
 # Germany (unused)
 # Greece (unused)
-# HK (non-integral AT time '3:30')
 # Halifax (unused)
 # Hungary (unused)
 # Iceland (unused)
 # Indianapolis (unused)
 # Italy (unused)
-# Kyrgyz (non-integral AT time '2:30')
 # Latvia (unused)
 # Louisville (unused)
 # Lux (unused)
-# Macau (non-integral AT time '03:30')
 # Malta (unused)
 # Marengo (unused)
 # Menominee (unused)
-# Moncton (non-integral AT time '0:01')
 # NBorneo (unused)
 # NYC (unused)
 # Namibia (LETTER 'WAT' too long)
 # Neth (unused)
 # Norway (unused)
-# Palestine (non-integral AT time '0:01')
 # Perry (unused)
 # Pike (unused)
 # Poland (unused)
@@ -5658,7 +6587,7 @@ ZONE_POLICY_Zion = {
 # SovietZone (unused)
 # Spain (unused)
 # SpainAfrica (unused)
-# StJohns (non-integral AT time '0:01')
+# StJohns (LETTER 'DD' too long)
 # Starke (unused)
 # Swift (unused)
 # Swiss (unused)
