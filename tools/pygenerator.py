@@ -139,6 +139,7 @@ ZONE_INFO_{infoShortName} = {{
       "untilMonth": {untilMonth},
       "untilDay": {untilDay},
       "untilHour": {untilHour},
+      "untilTimeModifier": {untilTimeModifier},
     }},
 """
 
@@ -298,6 +299,8 @@ ZONE_INFO_{infoShortName} = {{
         if not until_hour:
             until_hour = 0
 
+        until_time_modifier = era['untilTimeModifier']
+
         return self.ZONE_ERA_ITEM.format(
             rawLine=normalize_raw(era['rawLine']),
             offsetCode=era['offsetCode'],
@@ -306,7 +309,8 @@ ZONE_INFO_{infoShortName} = {{
             untilYearShort=until_year_short,
             untilMonth=until_month,
             untilDay=until_day,
-            untilHour=until_hour)
+            untilHour=until_hour,
+            untilTimeModifier=until_time_modifier)
 
     def generate_info_map_items(self, zones_map):
         info_map_items = ''

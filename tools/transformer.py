@@ -289,6 +289,7 @@ class Transformer:
             for zone in zones:
                 modifier = zone['untilTimeModifier']
                 modifier = modifier if modifier else 'w'
+                zone['untilTimeModifier'] = modifier
                 if modifier not in ['w', 's', 'u']:
                     # 'g' and 'z' is the same as 'u' and does not currently
                     # appear in any TZ file, so let's catch it because it
@@ -511,6 +512,7 @@ class Transformer:
             for rule in rules:
                 modifier = rule['atTimeModifier']
                 modifier = modifier if modifier else 'w'
+                rule['atTimeModifier'] = modifier
                 if modifier not in ['w', 's', 'u']:
                     # 'g' and 'z' is the same as 'u' and does not currently
                     # appear in any TZ file, so let's catch it because it

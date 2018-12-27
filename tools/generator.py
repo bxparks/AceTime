@@ -223,6 +223,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
     {untilMonth} /*untilMonth*/,
     {untilDay} /*untilDay*/,
     {untilHour} /*untilHour*/,
+    '{untilTimeModifier}' /*untilTimeModifier*/,
   }},
 """
 
@@ -441,6 +442,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
         if not until_hour:
             until_hour = 0
 
+        until_time_modifier = era['untilTimeModifier']
+
         # Replace %s with just a % for C++
         format = era['format'].replace('%s', '%')
         string_length = len(format) + 1
@@ -453,7 +456,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
             untilYearShort=until_year_short,
             untilMonth=until_month,
             untilDay=until_day,
-            untilHour=until_hour)
+            untilHour=until_hour,
+            untilTimeModifier=until_time_modifier)
 
         return (era_item, string_length)
 

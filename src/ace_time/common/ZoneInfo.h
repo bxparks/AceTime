@@ -38,9 +38,21 @@ struct ZoneEra {
    */
   int8_t const untilYearShort;
 
-  uint8_t untilMonth;
-  uint8_t untilDay; // no need for untilDayOfWeek, because the day is known
-  uint8_t untilHour; // integral hour (wall clock)
+  /** The month field in UNTIL (1-12). Will never be 0. */
+  uint8_t const untilMonth;
+
+  /**
+   * The day field in UNTIL (1-31). Will never be 0. Also, there's no need for
+   * untilDayOfWeek, because the database generator will resolve the exact day
+   * of month based on the known year and month.
+   */
+  uint8_t const untilDay;
+
+  /** The hour field of the UNTIL field (0-23). */
+  uint8_t const untilHour;
+
+  /** UNTIL time modifier suffix: 'w', 's' or 'u'. */
+  uint8_t const untilTimeModifier;
 };
 
 /**
