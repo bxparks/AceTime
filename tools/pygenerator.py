@@ -135,6 +135,7 @@ ZONE_INFO_{infoShortName} = {{
     {{
       'offsetMinutes': {offsetMinutes},
       'zonePolicy': {zonePolicy},
+      'rulesDeltaMinutes': {rulesDeltaMinutes},
       'format': '{format}',
       'untilYearShort': {untilYearShort},
       'untilMonth': {untilMonth},
@@ -278,10 +279,13 @@ ZONE_INFO_{infoShortName} = {{
 
     def generate_era_item(self, era):
         policy_name = era['rules']
-        if policy_name == '-':
-            zone_policy = 'None'
+        if policy_name in ['-', ':']:
+            zone_policy = "'%s'" % policy_name
         else:
             zone_policy = 'ZONE_POLICY_%s' % normalize_name(policy_name)
+
+        rules_delta_minutes = era['rulesDeltaMinutes']
+        if not rules_delta_minutes: rules_delta_minutes = 0
 
         until_year = era['untilYear']
         if until_year == self.YEAR_MAX:
@@ -311,6 +315,7 @@ ZONE_INFO_{infoShortName} = {{
             rawLine=normalize_raw(era['rawLine']),
             offsetMinutes=era['offsetMinutes'],
             zonePolicy=zone_policy,
+            rulesDeltaMinutes=rules_delta_minutes,
             format=era['format'], # preserve the %s
             untilYearShort=until_year_short,
             untilMonth=until_month,

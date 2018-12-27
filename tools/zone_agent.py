@@ -78,17 +78,17 @@ class ZoneAgent:
         # {
         #   'startDateTime': (y, m, d, h, m, modifier),
         #   'untilDatetime': (y, m, d, h, m, modifier),
-        #   'policyName': string,
+        #   'policyName': string, # '-', ':', or symbolic reference
         #   'zoneEra': ZoneEra
         #
         #   # Added for simple Match and named Match.
         #   'offsetMinutes': int, # from ZoneEra
+        #   'deltaMinutes': int, # from Rule
         #   'format': string, # from ZoneEra
         #   'transitionTime': (y, m, d, h, modifier), # from Rule or Match
         #
         #   # Added for named Match.
         #   'zoneRule': ZoneRule, # from Rule
-        #   'deltaMinutes': int, # from Rule
         #   'letter': string # from Rule
         # }
         self.transitions = [] # list of transitions
@@ -139,13 +139,15 @@ class ZoneAgent:
     def print_transition(self, transition):
         policy_name = transition['policyName']
         offset_minutes = transition['offsetMinutes']
+        delta_minutes = transition['deltaMinutes']
+        delta_minutes = delta_minutes if delta_minutes else 0
         format = transition['format']
 
-        if policy_name == '-':
+        if policy_name in ['-', ':']:
             params = transition['transitionTime'] + (
-                policy_name, offset_minutes, format)
+                policy_name, offset_minutes, delta_minutes, format)
             print(('transition: %4d-%02d-%02d %02d:%02d%s; policy: %s; '
-                + 'offsetMinutes: %s; '
+                + 'offsetMinutes: %s; deltaMinutes: %s; '
                 + 'format: %s') % params)
         else:
             delta_minutes = transition['deltaMinutes']
@@ -186,8 +188,13 @@ class ZoneAgent:
         prev_era = self.ZONE_ERA_ANCHOR
         for zone_era in zone_eras:
             if era_overlaps_with_year(prev_era, zone_era, year_short):
+                # zonePoicy one of 3 states: '-', ':' or a reference
                 zone_policy = zone_era['zonePolicy']
-                policy_name = zone_policy['name'] if zone_policy else '-'
+                if zone_policy in ['-', ':']:
+                    policy_name = zone_policy
+                else:
+                    policy_name = zone_policy['name']
+
                 start_date_time = (
                     # The subtlety here is that the prev_era's 'until datetime'
                     # is expressed using the UTC offset of the *previous* era,
@@ -230,19 +237,20 @@ class ZoneAgent:
         zone_era = match['zoneEra']
         zone_policy = zone_era['zonePolicy']
 
-        if zone_policy:
-            self.find_transitions_from_named_match(year, match)
-        else:
+        if zone_policy in ['-', ':']:
             self.find_transitions_from_simple_match(year, match)
+        else:
+            self.find_transitions_from_named_match(year, match)
 
     def find_transitions_from_simple_match(self, year, match):
-        """The zonePolicy is '-', then the Zone Era itself defines the UTC
+        """The zonePolicy is '-' or ':' then the Zone Era itself defines the UTC
         offset and the abbreviation.
         """
         zone_era = match['zoneEra']
         transition = match.copy()
         transition.update({
             'offsetMinutes': zone_era['offsetMinutes'],
+            'deltaMinutes': zone_era['rulesDeltaMinutes'],
             'format': zone_era['format'],
             'transitionTime': match['startDateTime'],
         })
