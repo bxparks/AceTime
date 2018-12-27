@@ -65,8 +65,8 @@ class ZoneAgent:
 
         # List of matching zone eras. Map of the form;
         # {
-        #   'startDateTime': (int, int, int, int),
-        #   'untilDatetime': (int, int, int, int),
+        #   'startDateTime': (y, m, d, h, modifier),
+        #   'untilDatetime': (y, m, d, h, modifier),
         #   'policyName': string,
         #   'zoneEra': ZoneEra
         # }
@@ -74,15 +74,15 @@ class ZoneAgent:
 
         # List of matching transitions. Map of the form;
         # {
-        #   'startDateTime': (int, int, int, int),
-        #   'untilDatetime': (int, int, int, int),
+        #   'startDateTime': (y, m, d, h, modifier),
+        #   'untilDatetime': (y, m, d, h, modifier),
         #   'policyName': string,
         #   'zoneEra': ZoneEra
         #
         #   # Added for simple Match and named Match.
         #   'offsetCode': int, # from ZoneEra
         #   'format': string, # from ZoneEra
-        #   'transitionTime': (int, int, int, int), # from Rule or Match
+        #   'transitionTime': (y, m, d, h, modifier), # from Rule or Match
         #
         #   # Added for named Match.
         #   'zoneRule': ZoneRule, # from Rule
@@ -111,20 +111,24 @@ class ZoneAgent:
     def init_year(self, year):
         self.find_matches(year)
         self.find_transitions(year)
+        self.transitions = sorted(self.transitions,
+            key=lambda x: x['transitionTime'])
+        self.fix_start_times()
 
     def print_status(self):
         print('Matches:')
         for match in self.matches:
             self.print_match(match)
+
         print('Transitions:')
-        for transition in sorted(self.transitions,
-            key=lambda x: x['transitionTime']):
+        for transition in self.transitions:
             self.print_transition(transition)
+
 
     def print_match(self, match):
         policy_name = match['policyName']
         format = match['zoneEra']['format']
-        print(('start: %s-%s-%s %s:00; until: %s-%s-%s %s:00; policy: %s; '
+        print(('start: %s-%s-%s %s:00%s; until: %s-%s-%s %s:00%s; policy: %s; '
             + 'format: %s') % (
             match['startDateTime'] + match['untilDateTime'] +
             (policy_name, format)))
@@ -137,7 +141,7 @@ class ZoneAgent:
         if policy_name == '-':
             params = transition['transitionTime'] + (
                 policy_name, offset_code, format)
-            print(('transition: %s-%s-%s %s:00; policy: %s; offsetCode: %s; '
+            print(('transition: %s-%s-%s %s:00%s; policy: %s; offsetCode: %s; '
                 + 'format: %s') % params)
         else:
             delta_code = transition['deltaCode']
@@ -154,7 +158,8 @@ class ZoneAgent:
                     + original_transition_time + (
                     policy_name, zone_rule_from, zone_rule_to, offset_code,
                     delta_code, format, letter)
-                print(('transition: %s-%s-%s %s:00; original: %s-%s-%s %s:00; '
+                print(('transition: %s-%s-%s %s:00%s; '
+                    + 'original: %s-%s-%s %s:00%s; '
                     + 'policy: %s; from: %s; '
                     + 'to: %s; offsetCode: %s; deltaCode: %s; format: %s; '
                     + 'letter: %s')
@@ -163,7 +168,7 @@ class ZoneAgent:
                 params = transition['transitionTime'] + (
                     policy_name, zone_rule_from, zone_rule_to, offset_code,
                     delta_code, format, letter)
-                print(('transition: %s-%s-%s %s:00; policy: %s; from: %s; '
+                print(('transition: %s-%s-%s %s:00%s; policy: %s; from: %s; '
                     + 'to: %s; offsetCode: %s; deltaCode: %s; format: %s; '
                     + 'letter: %s')
                     % params)
@@ -190,12 +195,14 @@ class ZoneAgent:
                     prev_era['untilYearShort'] + self.EPOCH_YEAR,
                     prev_era['untilMonth'],
                     prev_era['untilDay'],
-                    prev_era['untilHour'])
+                    prev_era['untilHour'],
+                    'w')
                 until_date_time = (
                     zone_era['untilYearShort'] + self.EPOCH_YEAR,
                     zone_era['untilMonth'],
                     zone_era['untilDay'],
-                    zone_era['untilHour'])
+                    zone_era['untilHour'],
+                    'w')
                 match = {
                     'startDateTime': start_date_time,
                     'untilDateTime': until_date_time,
@@ -401,18 +408,57 @@ class ZoneAgent:
         })
         return transition
 
+    def fix_start_times(self):
+        """The Transition time comes from either:
+            1) The UNTIL field of the previous Zone Era entry, or
+            2) The (inMonth, onDay, atHour) fields of the Zone Rule.
+        In most cases these times are specified as the wall clock 'w' by
+        default, but a few cases use 's' (standard) or 'u' (utc).
+        To convert these into the more common 'wall' time, we need to
+        use the UTC offset of the *previous* Transition.
+        """
+        # Bootstrap the transition with the first transition, effectively
+        # extending the first transition backwards to -infinity. This won't be
+        # 100% correct with respect to the TZ Database because we kept only the
+        # transitions spanning 2 years. But, for the dateTime or epochSecond
+        # that we care about in the ZoneAgent, it will be good enough because we
+        # are guaranteed at the time Instant of interest will always be after
+        # the 2nd half of the first year. If the first transition at the
+        # beginning of the first year is slightly off, it doesn't matter.
+        prev = self.transitions[0].copy()
+
+        for transition in self.transitions:
+            prev_start_time = prev['transitionTime']
+            prev_delta_code = prev.get('deltaCode')
+            prev_delta_code = prev_delta_code if prev_delta_code else 0
+
+            start_time = transition['transitionTime']
+            start_modifier = start_time[4]
+            if start_modifier == 'w':
+                pass
+            elif start_modifier == 's':
+                hour = start_time[3] + prev_delta_code // 4
+                start_time = (start_time[0], start_time[1], start_time[2],
+                    hour, 'w')
+                transition['transitionTime'] = start_time
+            # TODO: add support for 'u'
+            else:
+                logging.error("Unsupported Rule.AT suffix '%s'", start_modifier)
+                sys.exit(1)
+            prev = transition
+
 
 def calc_effective_match(year, match):
     """Generate a version of match which overlaps the 2 year interval from
     [year, year+2).
     """
     start_date_time = match['startDateTime']
-    if start_date_time < (year, 1, 1, 0):
-        start_date_time = (year, 1, 1, 0)
+    if start_date_time < (year, 1, 1, 0, 'w'):
+        start_date_time = (year, 1, 1, 0, 'w')
 
     until_date_time = match['untilDateTime']
-    if until_date_time > (year + 2, 1, 1, 0):
-        until_date_time = (year + 2, 1, 1, 0)
+    if until_date_time > (year + 2, 1, 1, 0, 'w'):
+        until_date_time = (year + 2, 1, 1, 0, 'w')
 
     eff_match = match.copy()
     eff_match['startDateTime'] = start_date_time
@@ -436,11 +482,13 @@ def compare_transition_to_match(year, transition_time, match):
 def get_transition_time(year, rule):
     """Return the (year, month, day, hour) of the Rule in given year.
     """
-    rule_month = rule['inMonth']
-    rule_hour = rule['atHour']
-    rule_day_of_month = calc_day_of_month(year, rule_month,
-        rule['onDayOfWeek'], rule['onDayOfMonth'])
-    return (year, rule_month, rule_day_of_month, rule_hour)
+    month = rule['inMonth']
+    hour = rule['atHour']
+    day_of_month = calc_day_of_month(
+        year, month, rule['onDayOfWeek'], rule['onDayOfMonth'])
+    hour_modifier = rule.get('atHourModifier')
+    hour_modifier = hour_modifier if hour_modifier else 'w'
+    return (year, month, day_of_month, hour, hour_modifier)
 
 
 def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
