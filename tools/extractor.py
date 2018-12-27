@@ -99,26 +99,27 @@ class Extractor:
         Returns 2 dictionaries: zones_map and rules_map.
 
         The zones_map contains:
-            fromYear: (int) from year
-            toYear: (int) to year, 2000 to 9999=max
-            inMonth: (int) month index (1-12)
-            onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
-            atTime: (string) the time when transition to and from DST happens
-            atTimeModifier: (char) 's', 'w', 'g', 'u', 'z'
-            deltaHour: (string) offset from Standard time ('SAVE' field)
-            letter: (char) 'D', 'S', '-'
-            rawLine: (string) the original RULE line from the TZ file
-
-        The rules_map contains:
             offsetHour: (string) offset from UTC/GMT
             rules: (string) name of the Rule in effect, '-', or minute offset
             format: (string) abbreviation with '%s' replaced with '%'
                     (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
             untilYear: (int) 9999 means 'max'
-            untilMonth: (int, optional) 1-12
-            untilDay: (string, optional) e.g. '1', 'lastSun', 'Sun>=3', etc
-            untilTime: (string, optional) e.g. '2:00', '2:00s'
+            untilMonth: (int, or None) 1-12
+            untilDay: (string, or None) e.g. '1', 'lastSun', 'Sun>=3', etc
+            untilTime: (string, or None) e.g. '2:00', '00:01'
+            untilTimeModifier: (char, or None) '', 's', 'w', 'g', 'u', 'z'
             rawLine: (string) original ZONE line in TZ file
+
+        The rules_map contains:
+            fromYear: (int) from year
+            toYear: (int) to year, 2000 to 9999=max
+            inMonth: (int) month index (1-12)
+            onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
+            atTime: (string) the time when transition to and from DST happens
+            atTimeModifier: (char) '', 's', 'w', 'g', 'u', 'z'
+            deltaHour: (string) offset from Standard time ('SAVE' field)
+            letter: (char) 'D', 'S', '-'
+            rawLine: (string) the original RULE line from the TZ file
         """
         return (self.zones, self.rules)
 
@@ -308,15 +309,16 @@ def process_rule_line(line):
 
 
 def parse_at_time_string(at_string):
-    """Parses the '2:00s' string into '2:00' and 's'.
+    """Parses the '2:00s' string into '2:00' and 's'. If there is no suffix,
+    returns a '' as the suffix.
     """
     modifier = at_string[-1:]
     if modifier.isdigit():
-        modifier = 'w'
+        modifier = ''
         at_time = at_string
     else:
         at_time = at_string[:-1]
-    if modifier not in ['w', 's', 'u', 'g', 'z']:
+    if modifier not in ['', 'w', 's', 'u', 'g', 'z']:
         raise Exception('Invalid AT modifier (%s)' % modifier)
     return (at_time, modifier)
 
@@ -353,9 +355,10 @@ def process_zone_line(line):
     else:
         until_day = None
     if len(tokens) >= 7:
-        until_time = tokens[6]
+        (until_time, until_time_modifier) = parse_at_time_string(tokens[6])
     else:
         until_time = None
+        until_time_modifier = None
 
     # FORMAT
     format = tokens[2]
@@ -369,5 +372,6 @@ def process_zone_line(line):
         'untilMonth': until_month,
         'untilDay': until_day,
         'untilTime': until_time,
+        'untilTimeModifier': until_time_modifier,
         'rawLine': line,
     }

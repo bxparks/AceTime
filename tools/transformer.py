@@ -34,15 +34,17 @@ class Transformer:
             format: (string) (FORMAT field) abbreviation with '%s' replaced with
                     '%' (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
             untilYear: (int) 9999 means 'max'
-            untilMonth: (int) 1-12 or None
-            untilDay: (string) 1-31, 'lastSun', 'Sun>=3', or None
-            untilTime: (string) 'hh:mm', or None
+            untilMonth: (int or None) 1-12
+            untilDay: (string or None) 1-31, 'lastSun', 'Sun>=3'
+            untilTime: (string or None) 'hh:mm'
+            untilTimeModifier: (string or None) 'w', 's', 'u'
             rawLine: (string) original ZONE line in TZ file
 
             offsetMinute: (int) offset from UTC/GMT in minutes
             offsetCode: (int) offset from UTC/GMT in 15-minute units
             rulesDeltaMinute: (int) delta offset from UTC in minutes
-            untilHour: (int) untilTime converted into 0-23
+            untilHour: (int or None) untilTime converted into whole hours
+            untilMinute: (int or None) untilTime converted into whole minutes
             used: (boolean) indicates whether or not the rule is used by a zone
 
         'rules_map' is a map of (name -> rules[]), where each element in rules
@@ -89,7 +91,8 @@ class Transformer:
         zones_map = self.remove_zones_without_slash(zones_map)
         zones_map = self.remove_zone_eras_too_old(zones_map)
         zones_map = self.create_zones_with_until_day(zones_map)
-        zones_map = self.create_zones_with_until_hour(zones_map)
+        zones_map = self.create_zones_with_expanded_until_time(zones_map)
+        zones_map = self.remove_zones_invalid_until_time_modifier(zones_map)
         zones_map = self.create_zones_with_offset_minute(zones_map)
         zones_map = self.create_zones_with_offset_code(zones_map)
         zones_map = self.create_zones_with_rules_expansion(zones_map)
@@ -239,9 +242,9 @@ class Transformer:
         self.all_removed_zones.update(removed_zones)
         return results
 
-    def create_zones_with_until_hour(self, zones_map):
-        """ Create zone['untilHour'] from zone['untilTime']. Set to 9999 if
-        any error in the conversion.
+    def create_zones_with_expanded_until_time(self, zones_map):
+        """ Create 'untilHour' and 'untilMinute' from zone['untilTime']. Set to
+        9999 if any error in the conversion.
         """
         results = {}
         removed_zones = {}
@@ -251,14 +254,21 @@ class Transformer:
                 until_time = zone['untilTime']
                 if until_time:
                     until_minute = hour_string_to_minute(until_time)
-                    if until_minute == 9999 or until_minute % 60 != 0:
+                    if until_minute == 9999:
                         valid = False
                         removed_zones[name] = ("invalid untilTime '%s'" %
+                            until_time)
+                        break
+                    if until_minute % 60 != 0:
+                        valid = False
+                        removed_zones[name] = ("non-integral untilTime '%s'" %
                             until_time)
                         break
                     until_hour = until_minute // 60
                 else:
                     until_hour = None
+                    until_minute = None
+                zone['untilMinute'] = until_minute
                 zone['untilHour'] = until_hour
             if valid:
                results[name] = zones
@@ -267,6 +277,34 @@ class Transformer:
             len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
+        return results
+
+    def remove_zones_invalid_until_time_modifier(self, zones_map):
+        """Remove zones whose untilTime contains an unsupported modifier.
+        """
+        results = {}
+        removed_zones = {}
+        for name, zones in zones_map.items():
+            valid = True
+            for zone in zones:
+                modifier = zone['untilTimeModifier']
+                modifier = modifier if modifier else 'w'
+                if modifier not in ['w', 's', 'u']:
+                    # 'g' and 'z' is the same as 'u' and does not currently
+                    # appear in any TZ file, so let's catch it because it
+                    # could indicate a bug
+                    valid = False
+                    removed_zones[name] = (
+                        "unsupported UNTIL time modifier '%s'" % modifier)
+                    break
+            if valid:
+                results[name] = zones
+
+        logging.info(
+            "Removed %s zone infos with unsupported UNTIL time modifier",
+            len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_policies.update(removed_zones)
         return results
 
     def create_zones_with_offset_minute(self, zones_map):
@@ -472,6 +510,7 @@ class Transformer:
             valid = True
             for rule in rules:
                 modifier = rule['atTimeModifier']
+                modifier = modifier if modifier else 'w'
                 if modifier not in ['w', 's', 'u']:
                     # 'g' and 'z' is the same as 'u' and does not currently
                     # appear in any TZ file, so let's catch it because it
@@ -629,7 +668,7 @@ class Transformer:
                 if  at_minute % 60 != 0:
                     valid = False
                     removed_policies[name] = ("non-integral AT time '%s'" %
-                        rule['atTime'])
+                        at_time)
                     break
 
                 rule['atMinute'] = at_minute
