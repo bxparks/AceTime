@@ -110,7 +110,8 @@ class Transformer:
         rules_map = self.create_rules_with_delta_minute(rules_map)
         rules_map = self.create_rules_with_delta_code(rules_map)
         rules_map = self.create_rules_with_on_day_expansion(rules_map)
-        rules_map = self.remove_rules_long_dst_letter(rules_map)
+        if not self.python:
+            rules_map = self.remove_rules_long_dst_letter(rules_map)
 
         zones_map = self.remove_zones_without_rules(zones_map, rules_map)
 

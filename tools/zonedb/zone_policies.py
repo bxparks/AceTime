@@ -10,8 +10,8 @@
 #
 # DO NOT EDIT
 
-# numPolicies: 76
-# numRules: 410
+# numPolicies: 79
+# numRules: 416
 
 #---------------------------------------------------------------------------
 # Policy name: AN
@@ -741,6 +741,31 @@ ZONE_RULES_Barb = [
 ZONE_POLICY_Barb = {
     "name": "Barb",
     "rules": ZONE_RULES_Barb
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Belize
+# Rule count: 1
+#---------------------------------------------------------------------------
+ZONE_RULES_Belize = [
+    # Rule    Belize    1983    only    -    Feb    12    0:00    0    CST
+    {
+        'fromYear': 1983,
+        'toYear': 1983,
+        'inMonth': 2,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 12,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': 'CST',
+    },
+
+]
+ZONE_POLICY_Belize = {
+    "name": "Belize",
+    "rules": ZONE_RULES_Belize
 }
 
 #---------------------------------------------------------------------------
@@ -4500,6 +4525,57 @@ ZONE_POLICY_NZ = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Namibia
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_Namibia = [
+    # Rule    Namibia    1994    only    -    Mar    21    0:00    -1:00    WAT
+    {
+        'fromYear': 1994,
+        'toYear': 1994,
+        'inMonth': 3,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 21,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': -60,
+        'letter': 'WAT',
+    },
+    # Rule    Namibia    1994    2017    -    Sep    Sun>=1    2:00    0    CAT
+    {
+        'fromYear': 1994,
+        'toYear': 2017,
+        'inMonth': 9,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 1,
+        'atHour': 2,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': 'CAT',
+    },
+    # Rule    Namibia    1995    2017    -    Apr    Sun>=1    2:00    -1:00    WAT
+    {
+        'fromYear': 1995,
+        'toYear': 2017,
+        'inMonth': 4,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 1,
+        'atHour': 2,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': -60,
+        'letter': 'WAT',
+    },
+
+]
+ZONE_POLICY_Namibia = {
+    "name": "Namibia",
+    "rules": ZONE_RULES_Namibia
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Nic
 # Rule count: 5
 #---------------------------------------------------------------------------
@@ -5471,6 +5547,44 @@ ZONE_POLICY_Tonga = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Troll
+# Rule count: 2
+#---------------------------------------------------------------------------
+ZONE_RULES_Troll = [
+    # Rule    Troll    2005    max    -    Mar    lastSun    1:00u    2:00    +02
+    {
+        'fromYear': 2005,
+        'toYear': 9999,
+        'inMonth': 3,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atHour': 1,
+        'atMinute': 0,
+        'atTimeModifier': 'u',
+        'deltaMinutes': 120,
+        'letter': '+02',
+    },
+    # Rule    Troll    2004    max    -    Oct    lastSun    1:00u    0:00    +00
+    {
+        'fromYear': 2004,
+        'toYear': 9999,
+        'inMonth': 10,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atHour': 1,
+        'atMinute': 0,
+        'atTimeModifier': 'u',
+        'deltaMinutes': 0,
+        'letter': '+00',
+    },
+
+]
+ZONE_POLICY_Troll = {
+    "name": "Troll",
+    "rules": ZONE_RULES_Troll
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Tunisia
 # Rule count: 5
 #---------------------------------------------------------------------------
@@ -6260,14 +6374,13 @@ ZONE_POLICY_Zion = {
 # The following zone policies are not supported in the current version of
 # AceTime.
 #
-# numPolicies: 62
+# numPolicies: 59
 #
 # Albania (unused)
 # Algeria (unused)
 # Austria (unused)
 # Bahamas (unused)
 # Belgium (unused)
-# Belize (LETTER 'CST' too long)
 # Bulg (unused)
 # C_Eur (unused)
 # CA (unused)
@@ -6300,7 +6413,6 @@ ZONE_POLICY_Zion = {
 # Moncton (non-quarter hour AT time '0:01')
 # NBorneo (unused)
 # NYC (unused)
-# Namibia (LETTER 'WAT' too long)
 # Neth (unused)
 # Norway (unused)
 # Palestine (non-quarter hour AT time '0:01')
@@ -6320,7 +6432,6 @@ ZONE_POLICY_Zion = {
 # Swift (unused)
 # Swiss (unused)
 # Toronto (unused)
-# Troll (LETTER '+02' too long)
 # Vanc (unused)
 # Vincennes (unused)
 # W_Eur (unused)

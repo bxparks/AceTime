@@ -12,8 +12,8 @@
 
 from zonedb.zone_policies import *
 
-# numInfos: 339
-# numEras: 574
+# numInfos: 342
+# numEras: 578
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Abidjan
@@ -611,6 +611,32 @@ ZONE_ERAS_Tunis = [
 ZONE_INFO_Tunis = {
     "name": "Africa/Tunis",
     "eras": ZONE_ERAS_Tunis
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Africa/Windhoek
+# Era count: 1
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Windhoek = [
+    #             2:00    Namibia    %s
+    {
+      'offsetMinutes': 120,
+      'zonePolicy': ZONE_POLICY_Namibia,
+      'rulesDeltaMinutes': 0,
+      'format': '%s',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Windhoek = {
+    "name": "Africa/Windhoek",
+    "eras": ZONE_ERAS_Windhoek
 }
 
 #---------------------------------------------------------------------------
@@ -1742,6 +1768,32 @@ ZONE_ERAS_Belem = [
 ZONE_INFO_Belem = {
     "name": "America/Belem",
     "eras": ZONE_ERAS_Belem
+}
+
+#---------------------------------------------------------------------------
+# Zone name: America/Belize
+# Era count: 1
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Belize = [
+    #             -6:00    Belize    %s
+    {
+      'offsetMinutes': -360,
+      'zonePolicy': ZONE_POLICY_Belize,
+      'rulesDeltaMinutes': 0,
+      'format': '%s',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Belize = {
+    "name": "America/Belize",
+    "eras": ZONE_ERAS_Belize
 }
 
 #---------------------------------------------------------------------------
@@ -5668,6 +5720,45 @@ ZONE_ERAS_Syowa = [
 ZONE_INFO_Syowa = {
     "name": "Antarctica/Syowa",
     "eras": ZONE_ERAS_Syowa
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Antarctica/Troll
+# Era count: 2
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Troll = [
+    # 0 - -00 2005 Feb 12
+    {
+      'offsetMinutes': 0,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
+      'format': '-00',
+      'untilYearShort': 5,
+      'untilMonth': 2,
+      'untilDay': 12,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             0:00    Troll    %s
+    {
+      'offsetMinutes': 0,
+      'zonePolicy': ZONE_POLICY_Troll,
+      'rulesDeltaMinutes': 0,
+      'format': '%s',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Troll = {
+    "name": "Antarctica/Troll",
+    "eras": ZONE_ERAS_Troll
 }
 
 #---------------------------------------------------------------------------
@@ -11901,6 +11992,7 @@ ZONE_INFO_MAP = {
     "Casablanca": ZONE_INFO_Casablanca,
     "El_Aaiun": ZONE_INFO_El_Aaiun,
     "Maputo": ZONE_INFO_Maputo,
+    "Windhoek": ZONE_INFO_Windhoek,
     "Lagos": ZONE_INFO_Lagos,
     "Reunion": ZONE_INFO_Reunion,
     "Sao_Tome": ZONE_INFO_Sao_Tome,
@@ -11915,6 +12007,7 @@ ZONE_INFO_MAP = {
     "Kerguelen": ZONE_INFO_Kerguelen,
     "DumontDUrville": ZONE_INFO_DumontDUrville,
     "Syowa": ZONE_INFO_Syowa,
+    "Troll": ZONE_INFO_Troll,
     "Vostok": ZONE_INFO_Vostok,
     "Rothera": ZONE_INFO_Rothera,
     "Kabul": ZONE_INFO_Kabul,
@@ -12164,6 +12257,7 @@ ZONE_INFO_MAP = {
     "Tijuana": ZONE_INFO_Tijuana,
     "Nassau": ZONE_INFO_Nassau,
     "Barbados": ZONE_INFO_Barbados,
+    "Belize": ZONE_INFO_Belize,
     "Bermuda": ZONE_INFO_Bermuda,
     "Costa_Rica": ZONE_INFO_Costa_Rica,
     "Havana": ZONE_INFO_Havana,
@@ -12231,14 +12325,11 @@ ZONE_INFO_MAP = {
 
 # The following zones are not supported in the current version of AceTime.
 #
-# numInfos: 19
+# numInfos: 16
 #
-# Africa/Windhoek (rule 'Namibia' not found)
-# America/Belize (rule 'Belize' not found)
 # America/Goose_Bay (rule 'StJohns' not found)
 # America/Moncton (rule 'Moncton' not found)
 # America/St_Johns (rule 'StJohns' not found)
-# Antarctica/Troll (rule 'Troll' not found)
 # Asia/Gaza (non-quarter hour UNTIL time '0:01')
 # Asia/Hebron (rule 'Palestine' not found)
 # CET (no '/' in zone name)
