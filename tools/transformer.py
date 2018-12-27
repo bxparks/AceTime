@@ -14,10 +14,10 @@ import datetime
 
 class Transformer:
 
-    def __init__(self, zones_map, rules_map, print_removed):
+    def __init__(self, zones_map, rules_map, python):
         self.zones_map = zones_map
         self.rules_map = rules_map
-        self.print_removed = print_removed
+        self.python = python
         self.all_removed_zones = {} # map of zone name -> reason
         self.all_removed_policies = {} # map of policy name -> reason
 
@@ -178,9 +178,8 @@ class Transformer:
         return results
 
     def print_removed_map(self, removed_map):
-        if self.print_removed:
-            for name, reason in sorted(removed_map.items()):
-                print('  %s (%s)' % (name, reason), file=sys.stderr)
+        for name, reason in sorted(removed_map.items()):
+            print('  %s (%s)' % (name, reason), file=sys.stderr)
 
     def remove_zones_with_offset_as_rules(self, zones_map):
         """
@@ -258,15 +257,15 @@ class Transformer:
                     until_minutes = hour_string_to_minutes(until_time)
                     if until_minutes == 9999:
                         valid = False
-                        removed_zones[name] = ("invalid untilTime '%s'" %
+                        removed_zones[name] = ("invalid UNTIL time '%s'" %
                             until_time)
                         break
 
                     until_hour = until_minutes // 60
                     until_minute = until_minutes % 60
-                    if until_minute != 0:
+                    if not self.python and until_minute != 0:
                         valid = False
-                        removed_zones[name] = ("non-integral untilTime '%s'" %
+                        removed_zones[name] = ("non-integral UNTIL time '%s'" %
                             until_time)
                         break
                 else:
@@ -279,14 +278,14 @@ class Transformer:
             if valid:
                results[name] = zones
 
-        logging.info("Removed %s zone infos with invalid untilTime",
+        logging.info("Removed %s zone infos with invalid UNTIL time",
             len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
     def remove_zones_invalid_until_time_modifier(self, zones_map):
-        """Remove zones whose untilTime contains an unsupported modifier.
+        """Remove zones whose UNTIL time contains an unsupported modifier.
         """
         results = {}
         removed_zones = {}
@@ -678,7 +677,7 @@ class Transformer:
 
                 at_hour = at_minutes // 60
                 at_minute = at_minutes % 60
-                if  at_minute != 0:
+                if not self.python and at_minute != 0:
                     valid = False
                     removed_policies[name] = ("non-integral AT time '%s'" %
                         at_time)

@@ -27,6 +27,13 @@ def main():
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Generate Zone Info.')
 
+    # General
+    parser.add_argument(
+        '--python',
+        help='Generate Python files instead of C++',
+        action="store_true",
+        default=False)
+
     # Extractor
     parser.add_argument(
         '--input_dir', help='Location of the input directory', required=True)
@@ -37,11 +44,6 @@ def main():
         default=False)
 
     # Transformer
-    parser.add_argument(
-        '--print_removed',
-        help='Print names of removed zones and policies',
-        action="store_true",
-        default=True)
 
     # Printer
     parser.add_argument(
@@ -71,11 +73,6 @@ def main():
         default=False)
 
     # Generator
-    parser.add_argument(
-        '--python',
-        help='Generate Python files instead of C++',
-        action="store_true",
-        default=False)
     parser.add_argument(
         '--tz_version', help='Version string of the TZ files', required=True)
     parser.add_argument(
@@ -111,7 +108,7 @@ def main():
         extractor.print_summary()
 
     # Transform the TZ zones and rules
-    transformer = Transformer(zones, rules, args.print_removed)
+    transformer = Transformer(zones, rules, args.python)
     transformer.transform()
     (zones, rules, removed_zones, removed_policies) = transformer.get_data()
 
