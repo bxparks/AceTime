@@ -237,6 +237,11 @@ class Transformer:
 
                     until_hour = until_minutes // 60
                     until_minute = until_minutes % 60
+                    if not self.python and until_minute != 0:
+                        valid = False
+                        removed_zones[name] = (
+                            "non-integral UNTIL time '%s'" % until_time)
+                        break
                     if until_minute % 15 != 0:
                         valid = False
                         removed_zones[name] = (
@@ -358,6 +363,12 @@ class Transformer:
             for zone in zones:
                 rules_string = zone['rules']
                 if rules_string.find(':') >= 0:
+                    if not self.python:
+                        valid = False
+                        removed_zones[name] = (
+                            "offset in RULES '%s'" % rules_string)
+                        break
+
                     rules_delta_minutes = hour_string_to_minutes(
                         rules_string)
                     if rules_delta_minutes == 9999:
@@ -635,6 +646,11 @@ class Transformer:
 
                 at_hour = at_minutes // 60
                 at_minute = at_minutes % 60
+                if not self.python and at_minute != 0:
+                    valid = False
+                    removed_policies[name] = (
+                        "non-integral AT time '%s'" % at_time)
+                    break
                 if at_minute % 15 != 0:
                     valid = False
                     removed_policies[name] = (
