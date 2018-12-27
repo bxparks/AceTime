@@ -76,16 +76,18 @@ class ZoneAgent:
 
         # List of matching transitions. Map of the form;
         # {
+        #   # Copied from ZoneEra
         #   'startDateTime': (y, m, d, h, m, modifier),
         #   'untilDatetime': (y, m, d, h, m, modifier),
         #   'policyName': string, # '-', ':', or symbolic reference
         #   'zoneEra': ZoneEra
         #
         #   # Added for simple Match and named Match.
+        #   'transitionTime': (y, m, d, h, m, modifier), # from Rule or Match
         #   'offsetMinutes': int, # from ZoneEra
-        #   'deltaMinutes': int, # from Rule
+        #   'deltaMinutes': int, # from ZoneRule or ZoneEra
         #   'format': string, # from ZoneEra
-        #   'transitionTime': (y, m, d, h, modifier), # from Rule or Match
+        #   'abbrev': string, # abbreviation
         #
         #   # Added for named Match.
         #   'zoneRule': ZoneRule, # from Rule
@@ -116,6 +118,7 @@ class ZoneAgent:
         self.transitions = sorted(self.transitions,
             key=lambda x: x['transitionTime'])
         self.fix_start_times()
+        self.calc_abbrev()
 
     def print_status(self):
         print('Matches:')
@@ -140,15 +143,19 @@ class ZoneAgent:
         policy_name = transition['policyName']
         offset_minutes = transition['offsetMinutes']
         delta_minutes = transition['deltaMinutes']
-        delta_minutes = delta_minutes if delta_minutes else 0
+        if delta_minutes == None: delta_minutes = 0
         format = transition['format']
+        abbrev = transition['abbrev']
 
         if policy_name in ['-', ':']:
             params = transition['transitionTime'] + (
-                policy_name, offset_minutes, delta_minutes, format)
-            print(('transition: %4d-%02d-%02d %02d:%02d%s; policy: %s; '
-                + 'offsetMinutes: %s; deltaMinutes: %s; '
-                + 'format: %s') % params)
+                policy_name, offset_minutes, delta_minutes, format, abbrev)
+            print(('transition: %4d-%02d-%02d %02d:%02d%s; '
+                +' policy: %s; '
+                + 'offsetMinutes: %s; '
+                + 'deltaMinutes: %s; '
+                + 'format: %s; '
+                + 'abbrev: %s') % params)
         else:
             delta_minutes = transition['deltaMinutes']
             letter = transition['letter']
@@ -163,20 +170,30 @@ class ZoneAgent:
                 params = transition['transitionTime'] \
                     + original_transition_time + (
                     policy_name, zone_rule_from, zone_rule_to, offset_minutes,
-                    delta_minutes, format, letter)
+                    delta_minutes, format, letter, abbrev)
                 print(('transition: %4d-%02d-%02d %02d:%02d%s; '
                     + 'original: %4d-%02d-%02d %02d:%02d%s; '
-                    + 'policy: %s; from: %s; '
-                    + 'to: %s; offsetMinutes: %s; deltaMinutes: %s; '
-                    + 'format: %s; letter: %s')
+                    + 'policy: %s; '
+                    + 'from: %s; '
+                    + 'to: %s; '
+                    + 'offsetMinutes: %s; '
+                    + 'deltaMinutes: %s; '
+                    + 'format: %s; '
+                    + 'letter: %s; '
+                    + 'abbrev: %s')
                     % params)
             else:
                 params = transition['transitionTime'] + (
                     policy_name, zone_rule_from, zone_rule_to, offset_minutes,
-                    delta_minutes, format, letter)
-                print(('transition: %4d-%02d-%02d %02d:%02d%s; policy: %s; '
-                    + 'from: %s; to: %s; offsetMinutes: %s; deltaMinutes: %s; '
-                    + 'format: %s; letter: %s')
+                    delta_minutes, format, letter, abbrev)
+                print(('transition: %4d-%02d-%02d %02d:%02d%s; '
+                    + 'policy: %s; '
+                    + 'from: %s; to: %s; '
+                    + 'offsetMinutes: %s; '
+                    + 'deltaMinutes: %s; '
+                    + 'format: %s; '
+                    + 'letter: %s; '
+                    + 'abbrev: %s')
                     % params)
 
     def find_matches(self, year):
@@ -476,6 +493,33 @@ class ZoneAgent:
                 sys.exit(1)
             prev = transition
 
+    def calc_abbrev(self):
+        """Calculate the time zone abbreviations for each Transition.
+        There are several cases:
+            1) 'format' contains 'A/B', meaning 'A' for standard time, and 'B'
+                for DST time.
+            2) 'format' contains a %s, which substitutes the 'letter'
+                2a) If 'letter' is '-', replace with nothing.
+                2b) The 'format' could be just a '%s'.
+        """
+        for transition in self.transitions:
+            format = transition['format']
+            delta_minutes = transition['deltaMinutes']
+
+            index = format.find('/')
+            if index >= 0:
+                if delta_minutes == 0:
+                    abbrev = format[:index]
+                else:
+                    abbrev = format[index+1:]
+            elif format.find('%s') >= 0:
+                letter = transition['letter']
+                if letter == '-': letter = ''
+                abbrev = format % letter
+            else:
+                abbrev = format
+
+            transition['abbrev'] = abbrev
 
 def calc_effective_match(year, match):
     """Generate a version of match which overlaps the 2 year interval from
