@@ -117,7 +117,7 @@ class Extractor:
             onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
             atTime: (string) the time when transition to and from DST happens
             atTimeModifier: (char) '', 's', 'w', 'g', 'u', 'z'
-            deltaHour: (string) offset from Standard time ('SAVE' field)
+            deltaOffset: (string) offset from Standard time ('SAVE' field)
             letter: (char) 'D', 'S', '-'
             rawLine: (string) the original RULE line from the TZ file
         """
@@ -292,7 +292,7 @@ def process_rule_line(line):
     in_month = MONTH_TO_MONTH_INDEX[tokens[5]]
     on_day = tokens[6]
     (at_time, at_time_modifier) = parse_at_time_string(tokens[7])
-    delta_hour = tokens[8]
+    delta_offset = tokens[8]
 
     # Return map corresponding to a ZoneRule instance
     return {
@@ -302,7 +302,7 @@ def process_rule_line(line):
         'onDay': on_day,
         'atTime': at_time,
         'atTimeModifier': at_time_modifier,
-        'deltaHour': delta_hour,
+        'deltaOffset': delta_offset,
         'letter': tokens[9],
         'rawLine': line,
     }

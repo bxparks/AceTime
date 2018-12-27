@@ -40,11 +40,13 @@ class Transformer:
             untilTimeModifier: (string or None) 'w', 's', 'u'
             rawLine: (string) original ZONE line in TZ file
 
-            offsetMinute: (int) offset from UTC/GMT in minutes
+            offsetMinutes: (int) offset from UTC/GMT in minutes
             offsetCode: (int) offset from UTC/GMT in 15-minute units
-            rulesDeltaMinute: (int) delta offset from UTC in minutes
-            untilHour: (int or None) untilTime converted into whole hours
-            untilMinute: (int or None) untilTime converted into whole minutes
+            rulesDeltaMinutes: (int or None) delta offset from UTC in minutes
+                    if 'rules' is DST offset string
+            untilHour: (int or None) hour part of untilTime
+            untilMinute: (int or None) minute part of untilTime
+            untilMinutes: (int or None) untilTime converted into total minutes
             used: (boolean) indicates whether or not the rule is used by a zone
 
         'rules_map' is a map of (name -> rules[]), where each element in rules
@@ -56,7 +58,7 @@ class Transformer:
             onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
             atTime: (string) hour at which to transition to and from DST
             atTimeModifier: (char) 's', 'w', 'u'
-            deltaHour: (string) offset from Standard time
+            deltaOffset: (string) offset from Standard time
             letter: (char) 'D', 'S', '-'
             rawLine: (string) the original RULE line from the TZ file
 
@@ -64,7 +66,7 @@ class Transformer:
             onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
             atHour: (int) atTime in integer units of hours from 00:00
             atMinute: (int) atTime in units of minutes from 00:00
-            deltaMinute: (int) offset from Standard time in minutes
+            deltaMinutes: (int) offset from Standard time in minutes
             deltaCode: (int) offset code (15 min chunks) from Standard time
             shortName: (string) short name of the zone
 
@@ -93,7 +95,7 @@ class Transformer:
         zones_map = self.create_zones_with_until_day(zones_map)
         zones_map = self.create_zones_with_expanded_until_time(zones_map)
         zones_map = self.remove_zones_invalid_until_time_modifier(zones_map)
-        zones_map = self.create_zones_with_offset_minute(zones_map)
+        zones_map = self.create_zones_with_offset_minutes(zones_map)
         zones_map = self.create_zones_with_offset_code(zones_map)
         zones_map = self.create_zones_with_rules_expansion(zones_map)
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
@@ -184,14 +186,14 @@ class Transformer:
         """
         Remove Zones with an offset in the RULES column. This method must be
         called after create_zones_with_rules_expansion() which creates the
-        zone['rulesDeltaMinute'] entry.
+        zone['rulesDeltaMinutes'] entry.
         """
         results = {}
         removed_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
-                if 'rulesDeltaMinute' in zone:
+                if 'rulesDeltaMinutes' in zone:
                     valid = False
                     removed_zones[name] = "offset in RULES '%s'" % zone['rules']
                     break
@@ -243,8 +245,8 @@ class Transformer:
         return results
 
     def create_zones_with_expanded_until_time(self, zones_map):
-        """ Create 'untilHour' and 'untilMinute' from zone['untilTime']. Set to
-        9999 if any error in the conversion.
+        """ Create 'untilHour', 'untilMinute', and untilMinutes from
+        zone['untilTime']. Set to 9999 if any error in the conversion.
         """
         results = {}
         removed_zones = {}
@@ -253,23 +255,27 @@ class Transformer:
             for zone in zones:
                 until_time = zone['untilTime']
                 if until_time:
-                    until_minute = hour_string_to_minute(until_time)
-                    if until_minute == 9999:
+                    until_minutes = hour_string_to_minutes(until_time)
+                    if until_minutes == 9999:
                         valid = False
                         removed_zones[name] = ("invalid untilTime '%s'" %
                             until_time)
                         break
-                    if until_minute % 60 != 0:
+
+                    until_hour = until_minutes // 60
+                    until_minute = until_minutes % 60
+                    if until_minute != 0:
                         valid = False
                         removed_zones[name] = ("non-integral untilTime '%s'" %
                             until_time)
                         break
-                    until_hour = until_minute // 60
                 else:
+                    until_minutes = None
                     until_hour = None
                     until_minute = None
-                zone['untilMinute'] = until_minute
+                zone['untilMinutes'] = until_minutes
                 zone['untilHour'] = until_hour
+                zone['untilMinute'] = until_minute
             if valid:
                results[name] = zones
 
@@ -308,8 +314,8 @@ class Transformer:
         self.all_removed_policies.update(removed_zones)
         return results
 
-    def create_zones_with_offset_minute(self, zones_map):
-        """ Create zone['offsetMinute'] from zone['offsetString'].
+    def create_zones_with_offset_minutes(self, zones_map):
+        """ Create zone['offsetMinutes'] from zone['offsetString'].
         """
         results = {}
         removed_zones = {}
@@ -317,13 +323,13 @@ class Transformer:
             valid = True
             for zone in zones:
                 offset_string = zone['offsetString']
-                offset_minute = hour_string_to_minute(offset_string)
-                if offset_minute == 9999:
+                offset_minutes = hour_string_to_minutes(offset_string)
+                if offset_minutes == 9999:
                     valid = False
                     removed_zones[name] = ("invalid GMTOFF offset string '%s'" %
                         offset_string)
                     break
-                zone['offsetMinute'] = offset_minute
+                zone['offsetMinutes'] = offset_minutes
             if valid:
                results[name] = zones
 
@@ -334,32 +340,33 @@ class Transformer:
         return results
 
     def create_zones_with_offset_code(self, zones_map):
-        """ Create zone['offsetCode'] from zone['offsetMinute'].
+        """ Create zone['offsetCode'] from zone['offsetMinutes'].
         """
         results = {}
         removed_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
-                offset_minute = zone['offsetMinute']
-                if offset_minute % 15 != 0:
+                offset_minutes = zone['offsetMinutes']
+                if offset_minutes % 15 != 0:
                     valid = False
                     removed_zones[name] = (
-                        "offsetMinute '%s' not divisible by 15" % offset_minute)
+                        "offsetMinutes '%s' not divisible by 15" %
+                        offset_minutes)
                     break
-                offset_code = int(offset_minute / 15)
+                offset_code = int(offset_minutes / 15)
                 zone['offsetCode'] = offset_code
             if valid:
                results[name] = zones
 
-        logging.info("Removed %s zone infos with invalid offsetMinute",
+        logging.info("Removed %s zone infos with invalid offsetMinutes",
             len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
     def create_zones_with_rules_expansion(self, zones_map):
-        """ Create zone['rulesDeltaMinute'] from zone['rules'].
+        """ Create zone['rulesDeltaMinutes'] from zone['rules'].
 
         The RULES field can hold the following:
             * '-' no rules
@@ -374,13 +381,14 @@ class Transformer:
             for zone in zones:
                 rules_string = zone['rules']
                 if rules_string.find(':') >= 0:
-                    rules_delta_minute = hour_string_to_minute(rules_string)
+                    rules_delta_minute = hour_string_to_minutes(
+                        rules_string)
                     if rules_delta_minute == 9999:
                         valid = False
                         removed_zones[name] = ("invalid RULES string '%s'" %
                             rules_string)
                         break
-                    zone['rulesDeltaMinute'] = rules_delta_minute
+                    zone['rulesDeltaMinutes'] = rules_delta_minute
             if valid:
                results[name] = zones
 
@@ -662,19 +670,22 @@ class Transformer:
             valid = True
             for rule in rules:
                 at_time = rule['atTime']
-                at_minute = hour_string_to_minute(at_time)
-                if at_minute == 9999:
+                at_minutes = hour_string_to_minutes(at_time)
+                if at_minutes == 9999:
                     valid = False
                     removed_policies[name] = ("invalid AT time '%s'" % at_time)
                     break
-                if  at_minute % 60 != 0:
+
+                at_hour = at_minutes // 60
+                at_minute = at_minutes % 60
+                if  at_minute != 0:
                     valid = False
                     removed_policies[name] = ("non-integral AT time '%s'" %
                         at_time)
                     break
 
                 rule['atMinute'] = at_minute
-                rule['atHour'] = at_minute // 60
+                rule['atHour'] = at_hour
             if valid:
                 results[name] = rules
 
@@ -686,52 +697,52 @@ class Transformer:
         return results
 
     def create_rules_with_delta_minute(self, rules_map):
-        """ Create rule['deltaMinute'] from rule['deltaHour'].
+        """ Create rule['deltaMinutes'] from rule['deltaOffset'].
         """
         results = {}
         removed_policies = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                delta_hour = rule['deltaHour']
-                delta_minute = hour_string_to_minute(delta_hour)
-                if delta_minute == 9999:
+                delta_offset = rule['deltaOffset']
+                delta_minutes = hour_string_to_minutes(delta_offset)
+                if delta_minutes == 9999:
                     valid = False
-                    removed_policies[name] = ("invalid deltaHour '%s'" %
-                        delta_hour)
+                    removed_policies[name] = ("invalid deltaOffset '%s'" %
+                        delta_offset)
                     break
-                rule['deltaMinute'] = delta_minute
+                rule['deltaMinutes'] = delta_minutes
             if valid:
                 results[name] = rules
 
         logging.info(
-            'Removed %s rule policies with invalid deltaHour' %
+            'Removed %s rule policies with invalid deltaOffset' %
             len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
 
     def create_rules_with_delta_code(self, rules_map):
-        """ Create rule['deltaCode'] from rule['deltaMinute'].
+        """ Create rule['deltaCode'] from rule['deltaMinutes'].
         """
         results = {}
         removed_policies = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                delta_minute = rule['deltaMinute']
-                if delta_minute % 15 != 0:
+                delta_minutes = rule['deltaMinutes']
+                if delta_minutes % 15 != 0:
                     valid = False
                     removed_policies[name] = (
-                        "deltaMinute '%s' not multiple of 15" % delta_minute)
+                        "deltaMinutes '%s' not multiple of 15" % delta_minutes)
                     break
-                delta_code = int(delta_minute / 15)
+                delta_code = int(delta_minutes / 15)
                 rule['deltaCode'] = delta_code
             if valid:
                 results[name] = rules
 
         logging.info(
-            'Removed %s rule policies with invalid deltaMinute' %
+            'Removed %s rule policies with invalid deltaMinutes' %
             len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
@@ -778,8 +789,8 @@ def parse_on_day_string(on_string):
     return (0, 0)
 
 
-def hour_string_to_minute(hs):
-    """Converts the '+/-hh:mm' string into +/- minute offset.
+def hour_string_to_minutes(hs):
+    """Converts the '+/-hh:mm' string into +/- total minutes from 00:00.
     Returns 9999 if there is a parsing error.
     """
     i = 0
