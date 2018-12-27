@@ -66,15 +66,15 @@ ZONE_POLICY_{policyName} = {{
     ZONE_RULE_ITEM = """\
     # {rawLine}
     {{
-        "fromYear": {fromYear},
-        "toYear": {toYear},
-        "inMonth": {inMonth},
-        "onDayOfWeek": {onDayOfWeek},
-        "onDayOfMonth": {onDayOfMonth},
-        "atHour": {atHour},
-        "atTimeModifier": '{atTimeModifier}',
-        "deltaCode": {deltaCode},
-        "letter": '{letter}',
+        'fromYear': {fromYear},
+        'toYear': {toYear},
+        'inMonth': {inMonth},
+        'onDayOfWeek': {onDayOfWeek},
+        'onDayOfMonth': {onDayOfMonth},
+        'atHour': {atHour},
+        'atTimeModifier': '{atTimeModifier}',
+        'deltaCode': {deltaCode},
+        'letter': '{letter}',
     }},
 """
 
@@ -132,14 +132,14 @@ ZONE_INFO_{infoShortName} = {{
     ZONE_ERA_ITEM = """\
     # {rawLine}
     {{
-      "offsetCode": {offsetCode},
-      "zonePolicy": {zonePolicy},
-      "format": "{format}",
-      "untilYearShort": {untilYearShort},
-      "untilMonth": {untilMonth},
-      "untilDay": {untilDay},
-      "untilHour": {untilHour},
-      "untilTimeModifier": {untilTimeModifier},
+      'offsetCode': {offsetCode},
+      'zonePolicy': {zonePolicy},
+      'format': '{format}',
+      'untilYearShort': {untilYearShort},
+      'untilMonth': {untilMonth},
+      'untilDay': {untilDay},
+      'untilHour': {untilHour},
+      'untilTimeModifier': '{untilTimeModifier}',
     }},
 """
 

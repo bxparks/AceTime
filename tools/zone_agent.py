@@ -46,7 +46,8 @@ class ZoneAgent:
         'untilYearShort': 0,
         'untilMonth': 1,
         'untilDay': 1,
-        'untilHour': 0
+        'untilHour': 0,
+        'untilTimeModifier': 'w'
     }
 
     # Sentinel Zone Rule that represents the earliest zone rule.
@@ -185,24 +186,23 @@ class ZoneAgent:
                 zone_policy = zone_era['zonePolicy']
                 policy_name = zone_policy['name'] if zone_policy else '-'
                 start_date_time = (
-                    # TODO: The subtlety here is that the prev_era's 'until
-                    # datetime' is expressed in the UTC offset of the *previous*
-                    # era, not the current era. This is good enough for
-                    # sorting (assuming we don't have have 2 DST transitions in
-                    # a single day (!). But eventually, we need to fix-up these
-                    # 'until' fields so that they expressed in the UTC offset of
-                    # the current era.
+                    # The subtlety here is that the prev_era's 'until datetime'
+                    # is expressed using the UTC offset of the *previous* era,
+                    # not the current era. This is probably good enough for
+                    # sorting, assuming we don't have 2 DST transitions in a
+                    # single day. See fix_start_times() which normalizes these
+                    # start times to the wall time uniformly.
                     prev_era['untilYearShort'] + self.EPOCH_YEAR,
                     prev_era['untilMonth'],
                     prev_era['untilDay'],
                     prev_era['untilHour'],
-                    'w')
+                    prev_era['untilTimeModifier'])
                 until_date_time = (
                     zone_era['untilYearShort'] + self.EPOCH_YEAR,
                     zone_era['untilMonth'],
                     zone_era['untilDay'],
                     zone_era['untilHour'],
-                    'w')
+                    zone_era['untilTimeModifier'])
                 match = {
                     'startDateTime': start_date_time,
                     'untilDateTime': until_date_time,
@@ -499,9 +499,8 @@ def get_transition_time(year, rule):
     hour = rule['atHour']
     day_of_month = calc_day_of_month(
         year, month, rule['onDayOfWeek'], rule['onDayOfMonth'])
-    hour_modifier = rule.get('atHourModifier')
-    hour_modifier = hour_modifier if hour_modifier else 'w'
-    return (year, month, day_of_month, hour, hour_modifier)
+    modifier = rule['atTimeModifier']
+    return (year, month, day_of_month, hour, modifier)
 
 
 def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
@@ -542,7 +541,8 @@ def era_overlaps_with_year(prev_era, era, year_short):
 
 
 def compare_era_to_year(era, year_short):
-    """Compare the zone_era with year, returning -1, 0 or 1.
+    """Compare the zone_era with year, returning -1, 0 or 1. Ignore the
+    untilTimeModifier suffix. Maybe it's not needed in this context?
     """
     if not era:
         return -1
