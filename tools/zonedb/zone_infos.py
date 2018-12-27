@@ -12,8 +12,8 @@
 
 from zonedb.zone_policies import *
 
-# numInfos: 340
-# numEras: 569
+# numInfos: 337
+# numEras: 559
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Abidjan
@@ -3561,43 +3561,6 @@ ZONE_INFO_Miquelon = {
 }
 
 #---------------------------------------------------------------------------
-# Zone name: America/Moncton
-# Era count: 2
-#---------------------------------------------------------------------------
-
-ZONE_ERAS_Moncton = [
-    #             -4:00    Moncton    A%sT    2007
-    {
-      'offsetMinutes': -240,
-      'zonePolicy': ZONE_POLICY_Moncton,
-      'format': 'A%sT',
-      'untilYearShort': 7,
-      'untilMonth': 1,
-      'untilDay': 1,
-      'untilHour': 0,
-      'untilMinute': 0,
-      'untilTimeModifier': 'w',
-    },
-    #             -4:00    Canada    A%sT
-    {
-      'offsetMinutes': -240,
-      'zonePolicy': ZONE_POLICY_Canada,
-      'format': 'A%sT',
-      'untilYearShort': 127,
-      'untilMonth': 1,
-      'untilDay': 1,
-      'untilHour': 0,
-      'untilMinute': 0,
-      'untilTimeModifier': 'w',
-    },
-
-]
-ZONE_INFO_Moncton = {
-    "name": "America/Moncton",
-    "eras": ZONE_ERAS_Moncton
-}
-
-#---------------------------------------------------------------------------
 # Zone name: America/Monterrey
 # Era count: 1
 #---------------------------------------------------------------------------
@@ -6166,128 +6129,6 @@ ZONE_ERAS_Famagusta = [
 ZONE_INFO_Famagusta = {
     "name": "Asia/Famagusta",
     "eras": ZONE_ERAS_Famagusta
-}
-
-#---------------------------------------------------------------------------
-# Zone name: Asia/Gaza
-# Era count: 7
-#---------------------------------------------------------------------------
-
-ZONE_ERAS_Gaza = [
-    #             2:00 Palestine    EE%sT    2008 Aug 29  0:00
-    {
-      'offsetMinutes': 120,
-      'zonePolicy': ZONE_POLICY_Palestine,
-      'format': 'EE%sT',
-      'untilYearShort': 8,
-      'untilMonth': 8,
-      'untilDay': 29,
-      'untilHour': 0,
-      'untilMinute': 0,
-      'untilTimeModifier': 'w',
-    },
-    #             2:00    -    EET    2008 Sep
-    {
-      'offsetMinutes': 120,
-      'zonePolicy': None,
-      'format': 'EET',
-      'untilYearShort': 8,
-      'untilMonth': 9,
-      'untilDay': 1,
-      'untilHour': 0,
-      'untilMinute': 0,
-      'untilTimeModifier': 'w',
-    },
-    #             2:00 Palestine    EE%sT    2010
-    {
-      'offsetMinutes': 120,
-      'zonePolicy': ZONE_POLICY_Palestine,
-      'format': 'EE%sT',
-      'untilYearShort': 10,
-      'untilMonth': 1,
-      'untilDay': 1,
-      'untilHour': 0,
-      'untilMinute': 0,
-      'untilTimeModifier': 'w',
-    },
-    #             2:00    -    EET    2010 Mar 27  0:01
-    {
-      'offsetMinutes': 120,
-      'zonePolicy': None,
-      'format': 'EET',
-      'untilYearShort': 10,
-      'untilMonth': 3,
-      'untilDay': 27,
-      'untilHour': 0,
-      'untilMinute': 1,
-      'untilTimeModifier': 'w',
-    },
-    #             2:00 Palestine    EE%sT    2011 Aug  1
-    {
-      'offsetMinutes': 120,
-      'zonePolicy': ZONE_POLICY_Palestine,
-      'format': 'EE%sT',
-      'untilYearShort': 11,
-      'untilMonth': 8,
-      'untilDay': 1,
-      'untilHour': 0,
-      'untilMinute': 0,
-      'untilTimeModifier': 'w',
-    },
-    #             2:00    -    EET    2012
-    {
-      'offsetMinutes': 120,
-      'zonePolicy': None,
-      'format': 'EET',
-      'untilYearShort': 12,
-      'untilMonth': 1,
-      'untilDay': 1,
-      'untilHour': 0,
-      'untilMinute': 0,
-      'untilTimeModifier': 'w',
-    },
-    #             2:00 Palestine    EE%sT
-    {
-      'offsetMinutes': 120,
-      'zonePolicy': ZONE_POLICY_Palestine,
-      'format': 'EE%sT',
-      'untilYearShort': 127,
-      'untilMonth': 1,
-      'untilDay': 1,
-      'untilHour': 0,
-      'untilMinute': 0,
-      'untilTimeModifier': 'w',
-    },
-
-]
-ZONE_INFO_Gaza = {
-    "name": "Asia/Gaza",
-    "eras": ZONE_ERAS_Gaza
-}
-
-#---------------------------------------------------------------------------
-# Zone name: Asia/Hebron
-# Era count: 1
-#---------------------------------------------------------------------------
-
-ZONE_ERAS_Hebron = [
-    #             2:00 Palestine    EE%sT
-    {
-      'offsetMinutes': 120,
-      'zonePolicy': ZONE_POLICY_Palestine,
-      'format': 'EE%sT',
-      'untilYearShort': 127,
-      'untilMonth': 1,
-      'untilDay': 1,
-      'untilHour': 0,
-      'untilMinute': 0,
-      'untilTimeModifier': 'w',
-    },
-
-]
-ZONE_INFO_Hebron = {
-    "name": "Asia/Hebron",
-    "eras": ZONE_ERAS_Hebron
 }
 
 #---------------------------------------------------------------------------
@@ -11341,8 +11182,6 @@ ZONE_INFO_MAP = {
     "Choibalsan": ZONE_INFO_Choibalsan,
     "Kathmandu": ZONE_INFO_Kathmandu,
     "Karachi": ZONE_INFO_Karachi,
-    "Gaza": ZONE_INFO_Gaza,
-    "Hebron": ZONE_INFO_Hebron,
     "Manila": ZONE_INFO_Manila,
     "Qatar": ZONE_INFO_Qatar,
     "Riyadh": ZONE_INFO_Riyadh,
@@ -11508,7 +11347,6 @@ ZONE_INFO_MAP = {
     "Menominee": ZONE_INFO_Menominee,
     "Halifax": ZONE_INFO_Halifax,
     "Glace_Bay": ZONE_INFO_Glace_Bay,
-    "Moncton": ZONE_INFO_Moncton,
     "Blanc_Sablon": ZONE_INFO_Blanc_Sablon,
     "Toronto": ZONE_INFO_Toronto,
     "Thunder_Bay": ZONE_INFO_Thunder_Bay,
@@ -11611,14 +11449,17 @@ ZONE_INFO_MAP = {
 
 # The following zones are not supported in the current version of AceTime.
 #
-# numInfos: 18
+# numInfos: 21
 #
 # Africa/Windhoek (rule 'Namibia' not found)
 # America/Argentina/San_Luis (offset in RULES '1:00')
 # America/Belize (rule 'Belize' not found)
 # America/Goose_Bay (rule 'StJohns' not found)
+# America/Moncton (rule 'Moncton' not found)
 # America/St_Johns (rule 'StJohns' not found)
 # Antarctica/Troll (rule 'Troll' not found)
+# Asia/Gaza (non-quarter hour UNTIL time '0:01')
+# Asia/Hebron (rule 'Palestine' not found)
 # CET (no '/' in zone name)
 # CST6CDT (no '/' in zone name)
 # EET (no '/' in zone name)

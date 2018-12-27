@@ -263,10 +263,10 @@ class Transformer:
 
                     until_hour = until_minutes // 60
                     until_minute = until_minutes % 60
-                    if not self.python and until_minute != 0:
+                    if until_minute % 15 != 0:
                         valid = False
-                        removed_zones[name] = ("non-integral UNTIL time '%s'" %
-                            until_time)
+                        removed_zones[name] = (
+                            "non-quarter hour UNTIL time '%s'" % until_time)
                         break
                 else:
                     until_minutes = None
@@ -677,10 +677,10 @@ class Transformer:
 
                 at_hour = at_minutes // 60
                 at_minute = at_minutes % 60
-                if not self.python and at_minute != 0:
+                if at_minute % 15 != 0:
                     valid = False
-                    removed_policies[name] = ("non-integral AT time '%s'" %
-                        at_time)
+                    removed_policies[name] = (
+                        "non-quarter hour AT time '%s'" % at_time)
                     break
 
                 rule['atMinute'] = at_minute

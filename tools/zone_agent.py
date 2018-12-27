@@ -495,7 +495,6 @@ def compare_transition_to_match(year, transition_time, match):
     until = match['untilDateTime']
     if transition_time < start:
         return -1
-    print('until: %s; transition_time: %s' % (until, transition_time))
     if until <= transition_time:
         return 1
     return 0
