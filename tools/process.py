@@ -92,6 +92,7 @@ def main():
     # Extract the TZ files
     extractor = Extractor(args.input_dir)
     extractor.parse()
+    extractor.print_summary()
     (zones, rules) = extractor.get_data()
 
     # Print various slices of the data

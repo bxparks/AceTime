@@ -95,6 +95,31 @@ class Extractor:
         self.process_zones()
 
     def get_data(self):
+        """
+        Returns 2 dictionaries: zones_map and rules_map.
+
+        The zones_map contains:
+            fromYear: (int) from year
+            toYear: (int) to year, 2000 to 9999=max
+            inMonth: (int) month index (1-12)
+            onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
+            atTime: (string) the time when transition to and from DST happens
+            atTimeModifier: (char) 's', 'w', 'g', 'u', 'z'
+            deltaHour: (string) offset from Standard time ('SAVE' field)
+            letter: (char) 'D', 'S', '-'
+            rawLine: (string) the original RULE line from the TZ file
+
+        The rules_map contains:
+            offsetHour: (string) offset from UTC/GMT
+            rules: (string) name of the Rule in effect, '-', or minute offset
+            format: (string) abbreviation with '%s' replaced with '%'
+                    (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
+            untilYear: (int) 9999 means 'max'
+            untilMonth: (int, optional) 1-12
+            untilDay: (string, optional) e.g. '1', 'lastSun', 'Sun>=3', etc
+            untilTime: (string, optional) e.g. '2:00', '2:00s'
+            rawLine: (string) original ZONE line in TZ file
+        """
         return (self.zones, self.rules)
 
     def parse_zone_files(self):
@@ -202,17 +227,19 @@ class Extractor:
             for zone in zones:
                 zone_entry_count += 1
 
-        print('Rule lines count: %s' % len(self.rule_lines))
-        print('Zone lines count: %s' % len(self.zone_lines))
-        print('Link lines count: %s' % len(self.link_lines))
-        print('Rules name count: %s' % len(self.rules))
-        print('Zones name count: %s' % len(self.zones))
-        print('Rule entry count: %s' % rule_entry_count)
-        print('Zone entry count: %s' % zone_entry_count)
-        print('Ignored Rule lines: %s' % self.ignored_rule_lines)
-        print('Ignored Zone lines: %s' % self.ignored_zone_lines)
-        print('Invalid Rule lines: %s' % self.invalid_rule_lines)
-        print('Invalid Zone lines: %s' % self.invalid_zone_lines)
+        logging.info('=== Extractor Summary')
+        logging.info('Rule lines count: %s' % len(self.rule_lines))
+        logging.info('Zone lines count: %s' % len(self.zone_lines))
+        logging.info('Link lines count: %s' % len(self.link_lines))
+        logging.info('Rules name count: %s' % len(self.rules))
+        logging.info('Zones name count: %s' % len(self.zones))
+        logging.info('Rule entry count: %s' % rule_entry_count)
+        logging.info('Zone entry count: %s' % zone_entry_count)
+        logging.info('Ignored Rule lines: %s' % self.ignored_rule_lines)
+        logging.info('Ignored Zone lines: %s' % self.ignored_zone_lines)
+        logging.info('Invalid Rule lines: %s' % self.invalid_rule_lines)
+        logging.info('Invalid Zone lines: %s' % self.invalid_zone_lines)
+        logging.info('=== Extractor Summary End')
 
 
 def add_item(table, name, line):
@@ -248,17 +275,6 @@ def process_rule_line(line):
     and 'to' entries are before 2000, then the last transition remains in
     effect, so we need to capture all transitions in the database, even the ones
     before year 2000.
-
-    Returns a dictionary with the following fields:
-        fromYear: (int) from year
-        toYear: (int) to year, 2000 to 9999=max
-        inMonth: (int) month index (1-12)
-        onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
-        atTime: (string) the time when transition to and from DST happens
-        atTimeModifier: (char) 's', 'w', 'g', 'u', 'z'
-        deltaHour: (string) offset from Standard time ('SAVE' field)
-        letter: (char) 'D', 'S', '-'
-        rawLine: (string) the original RULE line from the TZ file
     """
     tokens = line.split()
 
@@ -312,18 +328,6 @@ def process_zone_line(line):
     0        1      2       3
     -5:50:36 -      LMT     1883 Nov 18 12:09:24
     -6:00    US     C%sT    1920
-
-    Return a dictionary with:
-
-        offsetHour: (string) offset from UTC/GMT
-        rules: (string) name of the Rule in effect, '-', or minute offset
-        format: (string) abbreviation with '%s' replaced with '%'
-                (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
-        untilYear: (int) 9999 means 'max'
-        untilMonth: (int, optional) 1-12
-        untilDay: (string, optional) e.g. '1', 'lastSun', 'Sun>=3', etc
-        untilTime: (string, optional) e.g. '2:00', '2:00s'
-        rawLine: (string) original ZONE line in TZ file
     """
     tokens = line.split()
 

@@ -114,10 +114,11 @@ class Transformer:
         self.rules_map = rules_map
         self.zones_map = zones_map
 
-        logging.info('=== Summary ===')
+        logging.info('=== Transformer Summary')
         logging.info('Removed %s zone infos' % len(self.all_removed_zones))
         logging.info('Remaining %s zone infos' % len(self.zones_map))
         logging.info('Remaining %s rule policies' % len(self.rules_map))
+        logging.info('=== Transformer Summary End')
 
     def remove_zones_with_duplicate_short_names(self, zones_map):
         results = {}
