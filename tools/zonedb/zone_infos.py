@@ -12,8 +12,8 @@
 
 from zonedb.zone_policies import *
 
-# numInfos: 318
-# numEras: 493
+# numInfos: 330
+# numEras: 546
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Abidjan
@@ -700,6 +700,74 @@ ZONE_INFO_Buenos_Aires = {
 }
 
 #---------------------------------------------------------------------------
+# Zone name: America/Argentina/Catamarca
+# Era count: 5
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Catamarca = [
+    #             -4:00    Arg    -04/-03    2000 Mar  3
+    {
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03    2004 Jun  1
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 4,
+      'untilMonth': 6,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -4:00    -    -04    2004 Jun 20
+    {
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 4,
+      'untilMonth': 6,
+      'untilDay': 20,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    Arg    -03/-02    2008 Oct 18
+    {
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-03/-02',
+      'untilYearShort': 8,
+      'untilMonth': 10,
+      'untilDay': 18,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Catamarca = {
+    "name": "America/Argentina/Catamarca",
+    "eras": ZONE_ERAS_Catamarca
+}
+
+#---------------------------------------------------------------------------
 # Zone name: America/Argentina/Cordoba
 # Era count: 2
 #---------------------------------------------------------------------------
@@ -781,6 +849,210 @@ ZONE_INFO_Jujuy = {
 }
 
 #---------------------------------------------------------------------------
+# Zone name: America/Argentina/La_Rioja
+# Era count: 5
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_La_Rioja = [
+    #             -4:00    Arg    -04/-03    2000 Mar  3
+    {
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03    2004 Jun  1
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 4,
+      'untilMonth': 6,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -4:00    -    -04    2004 Jun 20
+    {
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 4,
+      'untilMonth': 6,
+      'untilDay': 20,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    Arg    -03/-02    2008 Oct 18
+    {
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-03/-02',
+      'untilYearShort': 8,
+      'untilMonth': 10,
+      'untilDay': 18,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_La_Rioja = {
+    "name": "America/Argentina/La_Rioja",
+    "eras": ZONE_ERAS_La_Rioja
+}
+
+#---------------------------------------------------------------------------
+# Zone name: America/Argentina/Mendoza
+# Era count: 5
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Mendoza = [
+    #             -4:00    Arg    -04/-03    2000 Mar  3
+    {
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03    2004 May 23
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 4,
+      'untilMonth': 5,
+      'untilDay': 23,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -4:00    -    -04    2004 Sep 26
+    {
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 4,
+      'untilMonth': 9,
+      'untilDay': 26,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    Arg    -03/-02    2008 Oct 18
+    {
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-03/-02',
+      'untilYearShort': 8,
+      'untilMonth': 10,
+      'untilDay': 18,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Mendoza = {
+    "name": "America/Argentina/Mendoza",
+    "eras": ZONE_ERAS_Mendoza
+}
+
+#---------------------------------------------------------------------------
+# Zone name: America/Argentina/Rio_Gallegos
+# Era count: 5
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Rio_Gallegos = [
+    #             -4:00    Arg    -04/-03    2000 Mar  3
+    {
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03    2004 Jun  1
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 4,
+      'untilMonth': 6,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -4:00    -    -04    2004 Jun 20
+    {
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 4,
+      'untilMonth': 6,
+      'untilDay': 20,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    Arg    -03/-02    2008 Oct 18
+    {
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-03/-02',
+      'untilYearShort': 8,
+      'untilMonth': 10,
+      'untilDay': 18,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Rio_Gallegos = {
+    "name": "America/Argentina/Rio_Gallegos",
+    "eras": ZONE_ERAS_Rio_Gallegos
+}
+
+#---------------------------------------------------------------------------
 # Zone name: America/Argentina/Salta
 # Era count: 3
 #---------------------------------------------------------------------------
@@ -824,6 +1096,199 @@ ZONE_ERAS_Salta = [
 ZONE_INFO_Salta = {
     "name": "America/Argentina/Salta",
     "eras": ZONE_ERAS_Salta
+}
+
+#---------------------------------------------------------------------------
+# Zone name: America/Argentina/San_Juan
+# Era count: 5
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_San_Juan = [
+    #             -4:00    Arg    -04/-03    2000 Mar  3
+    {
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03    2004 May 31
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 4,
+      'untilMonth': 5,
+      'untilDay': 31,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -4:00    -    -04    2004 Jul 25
+    {
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 4,
+      'untilMonth': 7,
+      'untilDay': 25,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    Arg    -03/-02    2008 Oct 18
+    {
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-03/-02',
+      'untilYearShort': 8,
+      'untilMonth': 10,
+      'untilDay': 18,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_San_Juan = {
+    "name": "America/Argentina/San_Juan",
+    "eras": ZONE_ERAS_San_Juan
+}
+
+#---------------------------------------------------------------------------
+# Zone name: America/Argentina/Tucuman
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Tucuman = [
+    #             -4:00    Arg    -04/-03    2000 Mar  3
+    {
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03    2004 Jun  1
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 4,
+      'untilMonth': 6,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -4:00    -    -04    2004 Jun 13
+    {
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 4,
+      'untilMonth': 6,
+      'untilDay': 13,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    Arg    -03/-02
+    {
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-03/-02',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Tucuman = {
+    "name": "America/Argentina/Tucuman",
+    "eras": ZONE_ERAS_Tucuman
+}
+
+#---------------------------------------------------------------------------
+# Zone name: America/Argentina/Ushuaia
+# Era count: 5
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Ushuaia = [
+    #             -4:00    Arg    -04/-03    2000 Mar  3
+    {
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03    2004 May 30
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 4,
+      'untilMonth': 5,
+      'untilDay': 30,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -4:00    -    -04    2004 Jun 20
+    {
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 4,
+      'untilMonth': 6,
+      'untilDay': 20,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    Arg    -03/-02    2008 Oct 18
+    {
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-03/-02',
+      'untilYearShort': 8,
+      'untilMonth': 10,
+      'untilDay': 18,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03
+    {
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Ushuaia = {
+    "name": "America/Argentina/Ushuaia",
+    "eras": ZONE_ERAS_Ushuaia
 }
 
 #---------------------------------------------------------------------------
@@ -1119,6 +1584,63 @@ ZONE_ERAS_Boise = [
 ZONE_INFO_Boise = {
     "name": "America/Boise",
     "eras": ZONE_ERAS_Boise
+}
+
+#---------------------------------------------------------------------------
+# Zone name: America/Cambridge_Bay
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Cambridge_Bay = [
+    #             -6:00    Canada    C%sT    2000 Oct 29  2:00
+    {
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'C%sT',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 29,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
+    },
+    #             -5:00    -    EST    2000 Nov  5  0:00
+    {
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 0,
+      'untilMonth': 11,
+      'untilDay': 5,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -6:00    -    CST    2001 Apr  1  3:00
+    {
+      'offsetCode': -24,
+      'zonePolicy': None,
+      'format': 'CST',
+      'untilYearShort': 1,
+      'untilMonth': 4,
+      'untilDay': 1,
+      'untilHour': 3,
+      'untilTimeModifier': 'w',
+    },
+    #             -7:00    Canada    M%sT
+    {
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'M%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Cambridge_Bay = {
+    "name": "America/Cambridge_Bay",
+    "eras": ZONE_ERAS_Cambridge_Bay
 }
 
 #---------------------------------------------------------------------------
@@ -3699,6 +4221,52 @@ ZONE_INFO_Santiago = {
 }
 
 #---------------------------------------------------------------------------
+# Zone name: America/Santo_Domingo
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Santo_Domingo = [
+    #             -4:00    -    AST    2000 Oct 29  2:00
+    {
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': 'AST',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 29,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
+    },
+    #             -5:00    US    E%sT    2000 Dec  3  1:00
+    {
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 0,
+      'untilMonth': 12,
+      'untilDay': 3,
+      'untilHour': 1,
+      'untilTimeModifier': 'w',
+    },
+    #             -4:00    -    AST
+    {
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': 'AST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Santo_Domingo = {
+    "name": "America/Santo_Domingo",
+    "eras": ZONE_ERAS_Santo_Domingo
+}
+
+#---------------------------------------------------------------------------
 # Zone name: America/Sao_Paulo
 # Era count: 1
 #---------------------------------------------------------------------------
@@ -5413,6 +5981,74 @@ ZONE_INFO_Kathmandu = {
 }
 
 #---------------------------------------------------------------------------
+# Zone name: Asia/Khandyga
+# Era count: 5
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Khandyga = [
+    #              9:00    Russia    +09/+10    2004
+    {
+      'offsetCode': 36,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+09/+10',
+      'untilYearShort': 4,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             10:00    Russia    +10/+11    2011 Mar 27  2:00s
+    {
+      'offsetCode': 40,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+10/+11',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
+    },
+    #             11:00    -    +11    2011 Sep 13  0:00s
+    {
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 11,
+      'untilMonth': 9,
+      'untilDay': 13,
+      'untilHour': 0,
+      'untilTimeModifier': 's',
+    },
+    #             10:00    -    +10    2014 Oct 26  2:00s
+    {
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': '+10',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
+    },
+    #              9:00    -    +09
+    {
+      'offsetCode': 36,
+      'zonePolicy': None,
+      'format': '+09',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Khandyga = {
+    "name": "Asia/Khandyga",
+    "eras": ZONE_ERAS_Khandyga
+}
+
+#---------------------------------------------------------------------------
 # Zone name: Asia/Kolkata
 # Era count: 1
 #---------------------------------------------------------------------------
@@ -6429,6 +7065,63 @@ ZONE_ERAS_Urumqi = [
 ZONE_INFO_Urumqi = {
     "name": "Asia/Urumqi",
     "eras": ZONE_ERAS_Urumqi
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Ust_Nera
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Ust_Nera = [
+    #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
+    {
+      'offsetCode': 44,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+11/+12',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
+    },
+    #             12:00    -    +12    2011 Sep 13  0:00s
+    {
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 11,
+      'untilMonth': 9,
+      'untilDay': 13,
+      'untilHour': 0,
+      'untilTimeModifier': 's',
+    },
+    #             11:00    -    +11    2014 Oct 26  2:00s
+    {
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
+    },
+    #             10:00    -    +10
+    {
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': '+10',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Ust_Nera = {
+    "name": "Asia/Ust_Nera",
+    "eras": ZONE_ERAS_Ust_Nera
 }
 
 #---------------------------------------------------------------------------
@@ -8110,6 +8803,52 @@ ZONE_INFO_Saratov = {
 }
 
 #---------------------------------------------------------------------------
+# Zone name: Europe/Simferopol
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Simferopol = [
+    #              2:00    EU    EE%sT    2014 Mar 30  2:00
+    {
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 14,
+      'untilMonth': 3,
+      'untilDay': 30,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
+    },
+    #              4:00    -    MSK    2014 Oct 26  2:00s
+    {
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': 'MSK',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
+    },
+    #              3:00    -    MSK
+    {
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': 'MSK',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Simferopol = {
+    "name": "Europe/Simferopol",
+    "eras": ZONE_ERAS_Simferopol
+}
+
+#---------------------------------------------------------------------------
 # Zone name: Europe/Sofia
 # Era count: 1
 #---------------------------------------------------------------------------
@@ -9744,6 +10483,7 @@ ZONE_INFO_MAP = {
     "Bucharest": ZONE_INFO_Bucharest,
     "Kaliningrad": ZONE_INFO_Kaliningrad,
     "Moscow": ZONE_INFO_Moscow,
+    "Simferopol": ZONE_INFO_Simferopol,
     "Astrakhan": ZONE_INFO_Astrakhan,
     "Volgograd": ZONE_INFO_Volgograd,
     "Saratov": ZONE_INFO_Saratov,
@@ -9761,9 +10501,11 @@ ZONE_INFO_MAP = {
     "Chita": ZONE_INFO_Chita,
     "Yakutsk": ZONE_INFO_Yakutsk,
     "Vladivostok": ZONE_INFO_Vladivostok,
+    "Khandyga": ZONE_INFO_Khandyga,
     "Sakhalin": ZONE_INFO_Sakhalin,
     "Magadan": ZONE_INFO_Magadan,
     "Srednekolymsk": ZONE_INFO_Srednekolymsk,
+    "Ust_Nera": ZONE_INFO_Ust_Nera,
     "Kamchatka": ZONE_INFO_Kamchatka,
     "Anadyr": ZONE_INFO_Anadyr,
     "Belgrade": ZONE_INFO_Belgrade,
@@ -9824,6 +10566,7 @@ ZONE_INFO_MAP = {
     "Iqaluit": ZONE_INFO_Iqaluit,
     "Resolute": ZONE_INFO_Resolute,
     "Rankin_Inlet": ZONE_INFO_Rankin_Inlet,
+    "Cambridge_Bay": ZONE_INFO_Cambridge_Bay,
     "Yellowknife": ZONE_INFO_Yellowknife,
     "Inuvik": ZONE_INFO_Inuvik,
     "Whitehorse": ZONE_INFO_Whitehorse,
@@ -9844,6 +10587,7 @@ ZONE_INFO_MAP = {
     "Bermuda": ZONE_INFO_Bermuda,
     "Costa_Rica": ZONE_INFO_Costa_Rica,
     "Havana": ZONE_INFO_Havana,
+    "Santo_Domingo": ZONE_INFO_Santo_Domingo,
     "El_Salvador": ZONE_INFO_El_Salvador,
     "Guatemala": ZONE_INFO_Guatemala,
     "Port_au_Prince": ZONE_INFO_Port_au_Prince,
@@ -9858,7 +10602,14 @@ ZONE_INFO_MAP = {
     "Buenos_Aires": ZONE_INFO_Buenos_Aires,
     "Cordoba": ZONE_INFO_Cordoba,
     "Salta": ZONE_INFO_Salta,
+    "Tucuman": ZONE_INFO_Tucuman,
+    "La_Rioja": ZONE_INFO_La_Rioja,
+    "San_Juan": ZONE_INFO_San_Juan,
     "Jujuy": ZONE_INFO_Jujuy,
+    "Catamarca": ZONE_INFO_Catamarca,
+    "Mendoza": ZONE_INFO_Mendoza,
+    "Rio_Gallegos": ZONE_INFO_Rio_Gallegos,
+    "Ushuaia": ZONE_INFO_Ushuaia,
     "La_Paz": ZONE_INFO_La_Paz,
     "Noronha": ZONE_INFO_Noronha,
     "Belem": ZONE_INFO_Belem,
@@ -9898,23 +10649,14 @@ ZONE_INFO_MAP = {
 
 # The following zones are not supported in the current version of AceTime.
 #
-# numInfos: 40
+# numInfos: 28
 #
 # Africa/Windhoek (rule 'Namibia' not found)
-# America/Argentina/Catamarca (multiple records for year 2004)
-# America/Argentina/La_Rioja (multiple records for year 2004)
-# America/Argentina/Mendoza (multiple records for year 2004)
-# America/Argentina/Rio_Gallegos (multiple records for year 2004)
-# America/Argentina/San_Juan (multiple records for year 2004)
 # America/Argentina/San_Luis (offset in RULES '1:00')
-# America/Argentina/Tucuman (multiple records for year 2004)
-# America/Argentina/Ushuaia (multiple records for year 2004)
 # America/Belize (rule 'Belize' not found)
-# America/Cambridge_Bay (multiple records for year 2000)
 # America/Caracas (non-integral untilTime '2:30')
 # America/Goose_Bay (rule 'StJohns' not found)
 # America/Moncton (rule 'Moncton' not found)
-# America/Santo_Domingo (multiple records for year 2000)
 # America/St_Johns (rule 'StJohns' not found)
 # Antarctica/Troll (rule 'Troll' not found)
 # Asia/Bishkek (rule 'Kyrgyz' not found)
@@ -9922,17 +10664,14 @@ ZONE_INFO_MAP = {
 # Asia/Gaza (non-integral untilTime '0:01')
 # Asia/Hebron (rule 'Palestine' not found)
 # Asia/Hong_Kong (rule 'HK' not found)
-# Asia/Khandyga (multiple records for year 2011)
 # Asia/Macau (rule 'Macau' not found)
 # Asia/Pyongyang (non-integral untilTime '23:30')
-# Asia/Ust-Nera (multiple records for year 2011)
 # CET (no '/' in zone name)
 # CST6CDT (no '/' in zone name)
 # EET (no '/' in zone name)
 # EST (no '/' in zone name)
 # EST5EDT (no '/' in zone name)
 # Europe/Istanbul (offset in RULES '1:00')
-# Europe/Simferopol (multiple records for year 2014)
 # HST (no '/' in zone name)
 # MET (no '/' in zone name)
 # MST (no '/' in zone name)

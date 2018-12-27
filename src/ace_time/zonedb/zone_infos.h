@@ -20,7 +20,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numInfos: 318
+// numInfos: 330
 extern const common::ZoneInfo kZoneAbidjan; // Africa/Abidjan
 extern const common::ZoneInfo kZoneAccra; // Africa/Accra
 extern const common::ZoneInfo kZoneAlgiers; // Africa/Algiers
@@ -44,9 +44,16 @@ extern const common::ZoneInfo kZoneAdak; // America/Adak
 extern const common::ZoneInfo kZoneAnchorage; // America/Anchorage
 extern const common::ZoneInfo kZoneAraguaina; // America/Araguaina
 extern const common::ZoneInfo kZoneBuenos_Aires; // America/Argentina/Buenos_Aires
+extern const common::ZoneInfo kZoneCatamarca; // America/Argentina/Catamarca
 extern const common::ZoneInfo kZoneCordoba; // America/Argentina/Cordoba
 extern const common::ZoneInfo kZoneJujuy; // America/Argentina/Jujuy
+extern const common::ZoneInfo kZoneLa_Rioja; // America/Argentina/La_Rioja
+extern const common::ZoneInfo kZoneMendoza; // America/Argentina/Mendoza
+extern const common::ZoneInfo kZoneRio_Gallegos; // America/Argentina/Rio_Gallegos
 extern const common::ZoneInfo kZoneSalta; // America/Argentina/Salta
+extern const common::ZoneInfo kZoneSan_Juan; // America/Argentina/San_Juan
+extern const common::ZoneInfo kZoneTucuman; // America/Argentina/Tucuman
+extern const common::ZoneInfo kZoneUshuaia; // America/Argentina/Ushuaia
 extern const common::ZoneInfo kZoneAsuncion; // America/Asuncion
 extern const common::ZoneInfo kZoneAtikokan; // America/Atikokan
 extern const common::ZoneInfo kZoneBahia; // America/Bahia
@@ -57,6 +64,7 @@ extern const common::ZoneInfo kZoneBlanc_Sablon; // America/Blanc-Sablon
 extern const common::ZoneInfo kZoneBoa_Vista; // America/Boa_Vista
 extern const common::ZoneInfo kZoneBogota; // America/Bogota
 extern const common::ZoneInfo kZoneBoise; // America/Boise
+extern const common::ZoneInfo kZoneCambridge_Bay; // America/Cambridge_Bay
 extern const common::ZoneInfo kZoneCampo_Grande; // America/Campo_Grande
 extern const common::ZoneInfo kZoneCancun; // America/Cancun
 extern const common::ZoneInfo kZoneCayenne; // America/Cayenne
@@ -141,6 +149,7 @@ extern const common::ZoneInfo kZoneResolute; // America/Resolute
 extern const common::ZoneInfo kZoneRio_Branco; // America/Rio_Branco
 extern const common::ZoneInfo kZoneSantarem; // America/Santarem
 extern const common::ZoneInfo kZoneSantiago; // America/Santiago
+extern const common::ZoneInfo kZoneSanto_Domingo; // America/Santo_Domingo
 extern const common::ZoneInfo kZoneSao_Paulo; // America/Sao_Paulo
 extern const common::ZoneInfo kZoneScoresbysund; // America/Scoresbysund
 extern const common::ZoneInfo kZoneSitka; // America/Sitka
@@ -195,6 +204,7 @@ extern const common::ZoneInfo kZoneKabul; // Asia/Kabul
 extern const common::ZoneInfo kZoneKamchatka; // Asia/Kamchatka
 extern const common::ZoneInfo kZoneKarachi; // Asia/Karachi
 extern const common::ZoneInfo kZoneKathmandu; // Asia/Kathmandu
+extern const common::ZoneInfo kZoneKhandyga; // Asia/Khandyga
 extern const common::ZoneInfo kZoneKolkata; // Asia/Kolkata
 extern const common::ZoneInfo kZoneKrasnoyarsk; // Asia/Krasnoyarsk
 extern const common::ZoneInfo kZoneKuala_Lumpur; // Asia/Kuala_Lumpur
@@ -226,6 +236,7 @@ extern const common::ZoneInfo kZoneTokyo; // Asia/Tokyo
 extern const common::ZoneInfo kZoneTomsk; // Asia/Tomsk
 extern const common::ZoneInfo kZoneUlaanbaatar; // Asia/Ulaanbaatar
 extern const common::ZoneInfo kZoneUrumqi; // Asia/Urumqi
+extern const common::ZoneInfo kZoneUst_Nera; // Asia/Ust-Nera
 extern const common::ZoneInfo kZoneVladivostok; // Asia/Vladivostok
 extern const common::ZoneInfo kZoneYakutsk; // Asia/Yakutsk
 extern const common::ZoneInfo kZoneYangon; // Asia/Yangon
@@ -284,6 +295,7 @@ extern const common::ZoneInfo kZoneRiga; // Europe/Riga
 extern const common::ZoneInfo kZoneRome; // Europe/Rome
 extern const common::ZoneInfo kZoneSamara; // Europe/Samara
 extern const common::ZoneInfo kZoneSaratov; // Europe/Saratov
+extern const common::ZoneInfo kZoneSimferopol; // Europe/Simferopol
 extern const common::ZoneInfo kZoneSofia; // Europe/Sofia
 extern const common::ZoneInfo kZoneStockholm; // Europe/Stockholm
 extern const common::ZoneInfo kZoneTallinn; // Europe/Tallinn
@@ -343,23 +355,14 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 // The following zones are not supported in the current version of AceTime.
 //
-// numInfos: 40
+// numInfos: 28
 //
 // Africa/Windhoek (rule 'Namibia' not found)
-// America/Argentina/Catamarca (multiple records for year 2004)
-// America/Argentina/La_Rioja (multiple records for year 2004)
-// America/Argentina/Mendoza (multiple records for year 2004)
-// America/Argentina/Rio_Gallegos (multiple records for year 2004)
-// America/Argentina/San_Juan (multiple records for year 2004)
 // America/Argentina/San_Luis (offset in RULES '1:00')
-// America/Argentina/Tucuman (multiple records for year 2004)
-// America/Argentina/Ushuaia (multiple records for year 2004)
 // America/Belize (rule 'Belize' not found)
-// America/Cambridge_Bay (multiple records for year 2000)
 // America/Caracas (non-integral untilTime '2:30')
 // America/Goose_Bay (rule 'StJohns' not found)
 // America/Moncton (rule 'Moncton' not found)
-// America/Santo_Domingo (multiple records for year 2000)
 // America/St_Johns (rule 'StJohns' not found)
 // Antarctica/Troll (rule 'Troll' not found)
 // Asia/Bishkek (rule 'Kyrgyz' not found)
@@ -367,17 +370,14 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 // Asia/Gaza (non-integral untilTime '0:01')
 // Asia/Hebron (rule 'Palestine' not found)
 // Asia/Hong_Kong (rule 'HK' not found)
-// Asia/Khandyga (multiple records for year 2011)
 // Asia/Macau (rule 'Macau' not found)
 // Asia/Pyongyang (non-integral untilTime '23:30')
-// Asia/Ust-Nera (multiple records for year 2011)
 // CET (no '/' in zone name)
 // CST6CDT (no '/' in zone name)
 // EET (no '/' in zone name)
 // EST (no '/' in zone name)
 // EST5EDT (no '/' in zone name)
 // Europe/Istanbul (offset in RULES '1:00')
-// Europe/Simferopol (multiple records for year 2014)
 // HST (no '/' in zone name)
 // MET (no '/' in zone name)
 // MST (no '/' in zone name)

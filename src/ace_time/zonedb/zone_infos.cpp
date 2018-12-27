@@ -5,10 +5,10 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018g
 //
-// Zone info count: 318
-// Zone era count: 493
-// Memory (8-bit): 12242
-// Memory (32-bit): 15486
+// Zone info count: 330
+// Zone era count: 546
+// Memory (8-bit): 13182
+// Memory (32-bit): 16686
 //
 // DO NOT EDIT
 
@@ -796,6 +796,78 @@ const common::ZoneInfo kZoneBuenos_Aires = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Argentina/Catamarca
+// Era count: 5
+// Memory (8-bit): 91
+// Memory (32-bit): 115
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraCatamarca[] = {
+  //             -4:00    Arg    -04/-03    2000 Mar  3
+  {
+    -16 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    3 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03    2004 Jun  1
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    4 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -4:00    -    -04    2004 Jun 20
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    4 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    20 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    Arg    -03/-02    2008 Oct 18
+  {
+    -12 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    8 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    18 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneCatamarca = {
+  "America/Argentina/Catamarca" /*name*/,
+  kZoneEraCatamarca /*eras*/,
+  sizeof(kZoneEraCatamarca)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Argentina/Cordoba
 // Era count: 2
 // Memory (8-bit): 59
@@ -885,6 +957,222 @@ const common::ZoneInfo kZoneJujuy = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Argentina/La_Rioja
+// Era count: 5
+// Memory (8-bit): 90
+// Memory (32-bit): 114
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraLa_Rioja[] = {
+  //             -4:00    Arg    -04/-03    2000 Mar  3
+  {
+    -16 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    3 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03    2004 Jun  1
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    4 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -4:00    -    -04    2004 Jun 20
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    4 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    20 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    Arg    -03/-02    2008 Oct 18
+  {
+    -12 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    8 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    18 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneLa_Rioja = {
+  "America/Argentina/La_Rioja" /*name*/,
+  kZoneEraLa_Rioja /*eras*/,
+  sizeof(kZoneEraLa_Rioja)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Argentina/Mendoza
+// Era count: 5
+// Memory (8-bit): 89
+// Memory (32-bit): 113
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraMendoza[] = {
+  //             -4:00    Arg    -04/-03    2000 Mar  3
+  {
+    -16 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    3 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03    2004 May 23
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    4 /*untilYearShort*/,
+    5 /*untilMonth*/,
+    23 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -4:00    -    -04    2004 Sep 26
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    4 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    26 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    Arg    -03/-02    2008 Oct 18
+  {
+    -12 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    8 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    18 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMendoza = {
+  "America/Argentina/Mendoza" /*name*/,
+  kZoneEraMendoza /*eras*/,
+  sizeof(kZoneEraMendoza)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Argentina/Rio_Gallegos
+// Era count: 5
+// Memory (8-bit): 94
+// Memory (32-bit): 118
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraRio_Gallegos[] = {
+  //             -4:00    Arg    -04/-03    2000 Mar  3
+  {
+    -16 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    3 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03    2004 Jun  1
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    4 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -4:00    -    -04    2004 Jun 20
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    4 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    20 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    Arg    -03/-02    2008 Oct 18
+  {
+    -12 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    8 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    18 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneRio_Gallegos = {
+  "America/Argentina/Rio_Gallegos" /*name*/,
+  kZoneEraRio_Gallegos /*eras*/,
+  sizeof(kZoneEraRio_Gallegos)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Argentina/Salta
 // Era count: 3
 // Memory (8-bit): 67
@@ -932,6 +1220,211 @@ const common::ZoneInfo kZoneSalta = {
   "America/Argentina/Salta" /*name*/,
   kZoneEraSalta /*eras*/,
   sizeof(kZoneEraSalta)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Argentina/San_Juan
+// Era count: 5
+// Memory (8-bit): 90
+// Memory (32-bit): 114
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraSan_Juan[] = {
+  //             -4:00    Arg    -04/-03    2000 Mar  3
+  {
+    -16 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    3 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03    2004 May 31
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    4 /*untilYearShort*/,
+    5 /*untilMonth*/,
+    31 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -4:00    -    -04    2004 Jul 25
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    4 /*untilYearShort*/,
+    7 /*untilMonth*/,
+    25 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    Arg    -03/-02    2008 Oct 18
+  {
+    -12 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    8 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    18 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneSan_Juan = {
+  "America/Argentina/San_Juan" /*name*/,
+  kZoneEraSan_Juan /*eras*/,
+  sizeof(kZoneEraSan_Juan)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Argentina/Tucuman
+// Era count: 4
+// Memory (8-bit): 79
+// Memory (32-bit): 99
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraTucuman[] = {
+  //             -4:00    Arg    -04/-03    2000 Mar  3
+  {
+    -16 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    3 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03    2004 Jun  1
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    4 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -4:00    -    -04    2004 Jun 13
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    4 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    13 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    Arg    -03/-02
+  {
+    -12 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneTucuman = {
+  "America/Argentina/Tucuman" /*name*/,
+  kZoneEraTucuman /*eras*/,
+  sizeof(kZoneEraTucuman)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Argentina/Ushuaia
+// Era count: 5
+// Memory (8-bit): 89
+// Memory (32-bit): 113
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraUshuaia[] = {
+  //             -4:00    Arg    -04/-03    2000 Mar  3
+  {
+    -16 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-04/-03" /*format*/,
+    0 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    3 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03    2004 May 30
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    4 /*untilYearShort*/,
+    5 /*untilMonth*/,
+    30 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -4:00    -    -04    2004 Jun 20
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-04" /*format*/,
+    4 /*untilYearShort*/,
+    6 /*untilMonth*/,
+    20 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    Arg    -03/-02    2008 Oct 18
+  {
+    -12 /*offsetCode*/,
+    &kPolicyArg /*zonePolicy*/,
+    "-03/-02" /*format*/,
+    8 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    18 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:00    -    -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "-03" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneUshuaia = {
+  "America/Argentina/Ushuaia" /*name*/,
+  kZoneEraUshuaia /*eras*/,
+  sizeof(kZoneEraUshuaia)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1267,6 +1760,67 @@ const common::ZoneInfo kZoneBoise = {
   "America/Boise" /*name*/,
   kZoneEraBoise /*eras*/,
   sizeof(kZoneEraBoise)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Cambridge_Bay
+// Era count: 4
+// Memory (8-bit): 67
+// Memory (32-bit): 87
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraCambridge_Bay[] = {
+  //             -6:00    Canada    C%sT    2000 Oct 29  2:00
+  {
+    -24 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    "C%T" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    29 /*untilDay*/,
+    2 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -5:00    -    EST    2000 Nov  5  0:00
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EST" /*format*/,
+    0 /*untilYearShort*/,
+    11 /*untilMonth*/,
+    5 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -6:00    -    CST    2001 Apr  1  3:00
+  {
+    -24 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "CST" /*format*/,
+    1 /*untilYearShort*/,
+    4 /*untilMonth*/,
+    1 /*untilDay*/,
+    3 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -7:00    Canada    M%sT
+  {
+    -28 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    "M%T" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneCambridge_Bay = {
+  "America/Cambridge_Bay" /*name*/,
+  kZoneEraCambridge_Bay /*eras*/,
+  sizeof(kZoneEraCambridge_Bay)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4183,6 +4737,56 @@ const common::ZoneInfo kZoneSantiago = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Santo_Domingo
+// Era count: 3
+// Memory (8-bit): 57
+// Memory (32-bit): 73
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraSanto_Domingo[] = {
+  //             -4:00    -    AST    2000 Oct 29  2:00
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "AST" /*format*/,
+    0 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    29 /*untilDay*/,
+    2 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -5:00    US    E%sT    2000 Dec  3  1:00
+  {
+    -20 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    "E%T" /*format*/,
+    0 /*untilYearShort*/,
+    12 /*untilMonth*/,
+    3 /*untilDay*/,
+    1 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -4:00    -    AST
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "AST" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneSanto_Domingo = {
+  "America/Santo_Domingo" /*name*/,
+  kZoneEraSanto_Domingo /*eras*/,
+  sizeof(kZoneEraSanto_Domingo)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Sao_Paulo
 // Era count: 1
 // Memory (8-bit): 37
@@ -6113,6 +6717,78 @@ const common::ZoneInfo kZoneKathmandu = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: Asia/Khandyga
+// Era count: 5
+// Memory (8-bit): 77
+// Memory (32-bit): 101
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraKhandyga[] = {
+  //              9:00    Russia    +09/+10    2004
+  {
+    36 /*offsetCode*/,
+    &kPolicyRussia /*zonePolicy*/,
+    "+09/+10" /*format*/,
+    4 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             10:00    Russia    +10/+11    2011 Mar 27  2:00s
+  {
+    40 /*offsetCode*/,
+    &kPolicyRussia /*zonePolicy*/,
+    "+10/+11" /*format*/,
+    11 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    27 /*untilDay*/,
+    2 /*untilHour*/,
+    's' /*untilTimeModifier*/,
+  },
+  //             11:00    -    +11    2011 Sep 13  0:00s
+  {
+    44 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+11" /*format*/,
+    11 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    13 /*untilDay*/,
+    0 /*untilHour*/,
+    's' /*untilTimeModifier*/,
+  },
+  //             10:00    -    +10    2014 Oct 26  2:00s
+  {
+    40 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+10" /*format*/,
+    14 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    26 /*untilDay*/,
+    2 /*untilHour*/,
+    's' /*untilTimeModifier*/,
+  },
+  //              9:00    -    +09
+  {
+    36 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+09" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneKhandyga = {
+  "Asia/Khandyga" /*name*/,
+  kZoneEraKhandyga /*eras*/,
+  sizeof(kZoneEraKhandyga)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Asia/Kolkata
 // Era count: 1
 // Memory (8-bit): 28
@@ -7253,6 +7929,67 @@ const common::ZoneInfo kZoneUrumqi = {
   "Asia/Urumqi" /*name*/,
   kZoneEraUrumqi /*eras*/,
   sizeof(kZoneEraUrumqi)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Asia/Ust_Nera
+// Era count: 4
+// Memory (8-bit): 63
+// Memory (32-bit): 83
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraUst_Nera[] = {
+  //             11:00    Russia    +11/+12    2011 Mar 27  2:00s
+  {
+    44 /*offsetCode*/,
+    &kPolicyRussia /*zonePolicy*/,
+    "+11/+12" /*format*/,
+    11 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    27 /*untilDay*/,
+    2 /*untilHour*/,
+    's' /*untilTimeModifier*/,
+  },
+  //             12:00    -    +12    2011 Sep 13  0:00s
+  {
+    48 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+12" /*format*/,
+    11 /*untilYearShort*/,
+    9 /*untilMonth*/,
+    13 /*untilDay*/,
+    0 /*untilHour*/,
+    's' /*untilTimeModifier*/,
+  },
+  //             11:00    -    +11    2014 Oct 26  2:00s
+  {
+    44 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+11" /*format*/,
+    14 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    26 /*untilDay*/,
+    2 /*untilHour*/,
+    's' /*untilTimeModifier*/,
+  },
+  //             10:00    -    +10
+  {
+    40 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "+10" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneUst_Nera = {
+  "Asia/Ust_Nera" /*name*/,
+  kZoneEraUst_Nera /*eras*/,
+  sizeof(kZoneEraUst_Nera)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9163,6 +9900,56 @@ const common::ZoneInfo kZoneSaratov = {
   "Europe/Saratov" /*name*/,
   kZoneEraSaratov /*eras*/,
   sizeof(kZoneEraSaratov)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Simferopol
+// Era count: 3
+// Memory (8-bit): 54
+// Memory (32-bit): 70
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraSimferopol[] = {
+  //              2:00    EU    EE%sT    2014 Mar 30  2:00
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    "EE%T" /*format*/,
+    14 /*untilYearShort*/,
+    3 /*untilMonth*/,
+    30 /*untilDay*/,
+    2 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //              4:00    -    MSK    2014 Oct 26  2:00s
+  {
+    16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "MSK" /*format*/,
+    14 /*untilYearShort*/,
+    10 /*untilMonth*/,
+    26 /*untilDay*/,
+    2 /*untilHour*/,
+    's' /*untilTimeModifier*/,
+  },
+  //              3:00    -    MSK
+  {
+    12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "MSK" /*format*/,
+    127 /*untilYearShort*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneSimferopol = {
+  "Europe/Simferopol" /*name*/,
+  kZoneEraSimferopol /*eras*/,
+  sizeof(kZoneEraSimferopol)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
