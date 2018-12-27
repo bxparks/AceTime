@@ -53,7 +53,7 @@ class Transformer:
             inMonth: (int) month index (1-12)
             onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
             atHour: (string) hour at which to transition to and from DST
-            atHourModifier: (char) 's', 'w', 'g', 'u', 'z'
+            atHourModifier: (char) 's', 'w', 'u'
             deltaHour: (string) offset from Standard time
             letter: (char) 'D', 'S', '-'
             rawLine: (string) the original RULE line from the TZ file
@@ -107,6 +107,7 @@ class Transformer:
         rules_map = self.create_rules_with_on_day_expansion(rules_map)
         rules_map = self.remove_rules_long_dst_letter(rules_map)
         rules_map = self.remove_rules_invalid_at_hour(rules_map)
+        rules_map = self.remove_rules_invalid_at_hour_modifier(rules_map)
 
         zones_map = self.remove_zones_without_rules(zones_map, rules_map)
 
@@ -479,6 +480,32 @@ class Transformer:
                 results[name] = rules
 
         logging.info('Removed %s rule policies with non-integral atHour'
+            % len(removed_policies))
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
+        return results
+
+    def remove_rules_invalid_at_hour_modifier(self, rules_map):
+        """Remove rules whose atHour contains an unsupported modifier.
+        """
+        results = {}
+        removed_policies = {}
+        for name, rules in rules_map.items():
+            valid = True
+            for rule in rules:
+                modifier = rule['atHourModifier']
+                if modifier not in ['w', 's', 'u']:
+                    # 'g' and 'z' is the same as 'u' and does not currently
+                    # appear in any TZ file, so let's catch it because it
+                    # could indicate a bug
+                    valid = False
+                    removed_policies[name] = (
+                        "unsupported AT hour modifier '%s'" % modifier)
+                    break
+            if valid:
+                results[name] = rules
+
+        logging.info("Removed %s rule policies with unsupported AT modifier"
             % len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
