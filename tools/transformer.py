@@ -28,7 +28,7 @@ class Transformer:
         'zones_map' is a map of (name -> zones[]), where each element in zones
         is another map with the following fields:
 
-            offsetHour: (string) (GMTOFF field) offset from UTC/GMT
+            offsetString: (string) (GMTOFF field) offset from UTC/GMT
             rules: (string) (RULES field) name of the Rule in effect, '-', or
                     "hh:mm" delta
             format: (string) (FORMAT field) abbreviation with '%s' replaced with
@@ -309,25 +309,25 @@ class Transformer:
         return results
 
     def create_zones_with_offset_minute(self, zones_map):
-        """ Create zone['offsetMinute'] from zone['offsetHour'].
+        """ Create zone['offsetMinute'] from zone['offsetString'].
         """
         results = {}
         removed_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
-                offset_hour = zone['offsetHour']
-                offset_minute = hour_string_to_minute(offset_hour)
+                offset_string = zone['offsetString']
+                offset_minute = hour_string_to_minute(offset_string)
                 if offset_minute == 9999:
                     valid = False
-                    removed_zones[name] = ("invalid offsetHour '%s'" %
-                        offset_hour)
+                    removed_zones[name] = ("invalid GMTOFF offset string '%s'" %
+                        offset_string)
                     break
                 zone['offsetMinute'] = offset_minute
             if valid:
                results[name] = zones
 
-        logging.info("Removed %s zone infos with invalid offsetHour",
+        logging.info("Removed %s zone infos with invalid offsetString",
             len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)

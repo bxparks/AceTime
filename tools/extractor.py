@@ -99,7 +99,7 @@ class Extractor:
         Returns 2 dictionaries: zones_map and rules_map.
 
         The zones_map contains:
-            offsetHour: (string) offset from UTC/GMT
+            offsetString: (string) offset from UTC/GMT
             rules: (string) name of the Rule in effect, '-', or minute offset
             format: (string) abbreviation with '%s' replaced with '%'
                     (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
@@ -334,7 +334,7 @@ def process_zone_line(line):
     tokens = line.split()
 
     # GMTOFF
-    offset_hour = tokens[0]
+    offset_string = tokens[0]
 
     # 'RULES' field can be:
     rules_string = tokens[1]
@@ -365,7 +365,7 @@ def process_zone_line(line):
 
     # Return map corresponding to a ZoneEra instance
     return {
-        'offsetHour': offset_hour,
+        'offsetString': offset_string,
         'rules': rules_string,
         'format': format,
         'untilYear': until_year,
