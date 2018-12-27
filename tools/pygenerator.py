@@ -72,7 +72,7 @@ ZONE_POLICY_{policyName} = {{
         "onDayOfWeek": {onDayOfWeek},
         "onDayOfMonth": {onDayOfMonth},
         "atHour": {atHour},
-        "atHourModifier": '{atHourModifier}',
+        "atTimeModifier": '{atTimeModifier}',
         "deltaCode": {deltaCode},
         "letter": '{letter}',
     }},
@@ -202,7 +202,7 @@ ZONE_INFO_{infoShortName} = {{
     def generate_policy_item(self, name, rules):
         rule_items = ''
         for rule in rules:
-            atHour = rule['atMinute'] // 60
+            atHour = rule['atHour']
             rule_items += self.ZONE_RULE_ITEM.format(
                 policyName=normalize_name(name),
                 rawLine=normalize_raw(rule['rawLine']),
@@ -212,7 +212,7 @@ ZONE_INFO_{infoShortName} = {{
                 onDayOfWeek=rule['onDayOfWeek'],
                 onDayOfMonth=rule['onDayOfMonth'],
                 atHour=atHour,
-                atHourModifier=rule['atHourModifier'],
+                atTimeModifier=rule['atTimeModifier'],
                 deltaCode=rule['deltaCode'],
                 letter=rule['letter'])
         return self.ZONE_POLICY_ITEM.format(

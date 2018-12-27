@@ -49,10 +49,12 @@ struct ZoneRule {
   /** Determined by the AT column. 0-23. */
   uint8_t const atHour;
 
-  /** Determined by the suffix in the AT column.
-   * 'w'=wall; 's'=standard; 'u'=g=z=meridian
+  /**
+   * Determined by the suffix in the AT column:
+   * 'w'=wall; 's'=standard; 'u'=meridian; ('g' and 'z' mean the same as 'u'
+   * and are not supported because no current TZ file uses them)
    */
-  uint8_t const atHourModifier;
+  uint8_t const atTimeModifier;
 
   /**
    * Determined by the SAVE column, containing the offset from UTC, in 15-min

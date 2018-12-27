@@ -330,12 +330,12 @@ class ZoneAgent {
             mYear, match.rule->inMonth, match.rule->onDayOfWeek,
             match.rule->onDayOfMonth);
 
-        // Determine the offset of the 'atHourModifier'. The 'w' modifier
+        // Determine the offset of the 'atTimeModifier'. The 'w' modifier
         // requires the offset of the previous match.
         const int8_t ruleOffsetCode = calcRuleOffsetCode(
             previousMatch->offsetCode,
             match.era->offsetCode,
-            match.rule->atHourModifier);
+            match.rule->atTimeModifier);
 
         // startDateTime
         OffsetDateTime startDateTime = OffsetDateTime::forComponents(
@@ -374,7 +374,7 @@ class ZoneAgent {
     }
 
     /**
-     * Determine the offset of the 'atHourModifier'. If 'w', then we
+     * Determine the offset of the 'atTimeModifier'. If 'w', then we
      * must use the offset of the *previous* zone rule. If 's', use the
      * current base offset. If 'u', 'g', 'z', then use 0 offset.
      */

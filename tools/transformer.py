@@ -52,15 +52,16 @@ class Transformer:
             toYear: (int) to year, 2000 to 9999=max
             inMonth: (int) month index (1-12)
             onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
-            atHour: (string) hour at which to transition to and from DST
-            atHourModifier: (char) 's', 'w', 'u'
+            atTime: (string) hour at which to transition to and from DST
+            atTimeModifier: (char) 's', 'w', 'u'
             deltaHour: (string) offset from Standard time
             letter: (char) 'D', 'S', '-'
             rawLine: (string) the original RULE line from the TZ file
 
             onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
             onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
-            atMinute: (int) atHour in units of minutes from 00:00
+            atHour: (int) atTime in integer units of hours from 00:00
+            atMinute: (int) atTime in units of minutes from 00:00
             deltaMinute: (int) offset from Standard time in minutes
             deltaCode: (int) offset code (15 min chunks) from Standard time
             shortName: (string) short name of the zone
@@ -101,13 +102,12 @@ class Transformer:
         rules_map = self.remove_rules_unused(rules_map)
         rules_map = self.remove_rules_out_of_bounds(rules_map)
 
-        rules_map = self.create_rules_with_at_minute(rules_map)
+        rules_map = self.create_rules_with_expanded_at_time(rules_map)
+        rules_map = self.remove_rules_invalid_at_time_modifier(rules_map)
         rules_map = self.create_rules_with_delta_minute(rules_map)
         rules_map = self.create_rules_with_delta_code(rules_map)
         rules_map = self.create_rules_with_on_day_expansion(rules_map)
         rules_map = self.remove_rules_long_dst_letter(rules_map)
-        rules_map = self.remove_rules_invalid_at_hour(rules_map)
-        rules_map = self.remove_rules_invalid_at_hour_modifier(rules_map)
 
         zones_map = self.remove_zones_without_rules(zones_map, rules_map)
 
@@ -462,45 +462,22 @@ class Transformer:
         self.all_removed_policies.update(removed_policies)
         return results
 
-    def remove_rules_invalid_at_hour(self, rules_map):
-        """Remove rules whose atHour occurs off hour.
+    def remove_rules_invalid_at_time_modifier(self, rules_map):
+        """Remove rules whose atTime contains an unsupported modifier.
         """
         results = {}
         removed_policies = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                at_minute = rule['atMinute']
-                if  at_minute % 60 != 0:
-                    valid = False
-                    removed_policies[name] = ("non-integral AT hour '%s'" %
-                        rule['atHour'])
-                    break
-            if valid:
-                results[name] = rules
-
-        logging.info('Removed %s rule policies with non-integral atHour'
-            % len(removed_policies))
-        self.print_removed_map(removed_policies)
-        self.all_removed_policies.update(removed_policies)
-        return results
-
-    def remove_rules_invalid_at_hour_modifier(self, rules_map):
-        """Remove rules whose atHour contains an unsupported modifier.
-        """
-        results = {}
-        removed_policies = {}
-        for name, rules in rules_map.items():
-            valid = True
-            for rule in rules:
-                modifier = rule['atHourModifier']
+                modifier = rule['atTimeModifier']
                 if modifier not in ['w', 's', 'u']:
                     # 'g' and 'z' is the same as 'u' and does not currently
                     # appear in any TZ file, so let's catch it because it
                     # could indicate a bug
                     valid = False
                     removed_policies[name] = (
-                        "unsupported AT hour modifier '%s'" % modifier)
+                        "unsupported AT time modifier '%s'" % modifier)
                     break
             if valid:
                 results[name] = rules
@@ -634,26 +611,33 @@ class Transformer:
         self.all_removed_policies.update(removed_policies)
         return results
 
-    def create_rules_with_at_minute(self, rules_map):
-        """ Create rule['atMinute'] from rule['atHour'].
+    def create_rules_with_expanded_at_time(self, rules_map):
+        """ Create 'atMinute' and 'atHour' parameters from rule['atTime'].
         """
         results = {}
         removed_policies = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
-                at_hour = rule['atHour']
-                at_minute = hour_string_to_minute(at_hour)
+                at_time = rule['atTime']
+                at_minute = hour_string_to_minute(at_time)
                 if at_minute == 9999:
                     valid = False
-                    removed_policies[name] = ("invalid atHour '%s'" % at_hour)
+                    removed_policies[name] = ("invalid AT time '%s'" % at_time)
                     break
+                if  at_minute % 60 != 0:
+                    valid = False
+                    removed_policies[name] = ("non-integral AT time '%s'" %
+                        rule['atTime'])
+                    break
+
                 rule['atMinute'] = at_minute
+                rule['atHour'] = at_minute // 60
             if valid:
                 results[name] = rules
 
         logging.info(
-            'Removed %s rule policies with invalid onDay' %
+            'Removed %s rule policies with invalid atTime' %
             len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)

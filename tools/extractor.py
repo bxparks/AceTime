@@ -254,8 +254,8 @@ def process_rule_line(line):
         toYear: (int) to year, 2000 to 9999=max
         inMonth: (int) month index (1-12)
         onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
-        atHour: (string) the time when transition to and from DST happens
-        atHourModifier: (char) 's', 'w', 'g', 'u', 'z'
+        atTime: (string) the time when transition to and from DST happens
+        atTimeModifier: (char) 's', 'w', 'g', 'u', 'z'
         deltaHour: (string) offset from Standard time ('SAVE' field)
         letter: (char) 'D', 'S', '-'
         rawLine: (string) the original RULE line from the TZ file
@@ -283,8 +283,8 @@ def process_rule_line(line):
         'toYear': to_year,
         'inMonth': in_month,
         'onDay': on_day,
-        'atHour': at_hour,
-        'atHourModifier': at_hour_modifier,
+        'atTime': at_hour,
+        'atTimeModifier': at_hour_modifier,
         'deltaHour': delta_hour,
         'letter': tokens[9],
         'rawLine': line,
