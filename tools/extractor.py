@@ -290,7 +290,7 @@ def process_rule_line(line):
 
     in_month = MONTH_TO_MONTH_INDEX[tokens[5]]
     on_day = tokens[6]
-    (at_hour, at_hour_modifier) = parse_at_hour_string(tokens[7])
+    (at_time, at_time_modifier) = parse_at_time_string(tokens[7])
     delta_hour = tokens[8]
 
     # Return map corresponding to a ZoneRule instance
@@ -299,26 +299,26 @@ def process_rule_line(line):
         'toYear': to_year,
         'inMonth': in_month,
         'onDay': on_day,
-        'atTime': at_hour,
-        'atTimeModifier': at_hour_modifier,
+        'atTime': at_time,
+        'atTimeModifier': at_time_modifier,
         'deltaHour': delta_hour,
         'letter': tokens[9],
         'rawLine': line,
     }
 
 
-def parse_at_hour_string(at_string):
+def parse_at_time_string(at_string):
     """Parses the '2:00s' string into '2:00' and 's'.
     """
     modifier = at_string[-1:]
     if modifier.isdigit():
         modifier = 'w'
-        at_hour = at_string
+        at_time = at_string
     else:
-        at_hour = at_string[:-1]
+        at_time = at_string[:-1]
     if modifier not in ['w', 's', 'u', 'g', 'z']:
-        raise Exception('Invalid at_hour modifier (%s)' % modifier)
-    return (at_hour, modifier)
+        raise Exception('Invalid AT modifier (%s)' % modifier)
+    return (at_time, modifier)
 
 
 def process_zone_line(line):
