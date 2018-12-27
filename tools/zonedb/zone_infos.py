@@ -23,14 +23,14 @@ from zonedb.zone_policies import *
 ZONE_ERAS_Abidjan = [
     #              0:00    -    GMT
     {
-      "offsetCode": 0,
-      "zonePolicy": None,
-      "format": "GMT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': None,
+      'format': 'GMT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -47,14 +47,14 @@ ZONE_INFO_Abidjan = {
 ZONE_ERAS_Accra = [
     #              0:00    Ghana    GMT/+0020
     {
-      "offsetCode": 0,
-      "zonePolicy": ZONE_POLICY_Ghana,
-      "format": "GMT/+0020",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': ZONE_POLICY_Ghana,
+      'format': 'GMT/+0020',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -71,14 +71,14 @@ ZONE_INFO_Accra = {
 ZONE_ERAS_Algiers = [
     #             1:00    -    CET
     {
-      "offsetCode": 4,
-      "zonePolicy": None,
-      "format": "CET",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': None,
+      'format': 'CET',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -95,14 +95,14 @@ ZONE_INFO_Algiers = {
 ZONE_ERAS_Bissau = [
     #              0:00    -    GMT
     {
-      "offsetCode": 0,
-      "zonePolicy": None,
-      "format": "GMT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': None,
+      'format': 'GMT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -119,14 +119,14 @@ ZONE_INFO_Bissau = {
 ZONE_ERAS_Cairo = [
     #             2:00    Egypt    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_Egypt,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_Egypt,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -143,25 +143,25 @@ ZONE_INFO_Cairo = {
 ZONE_ERAS_Casablanca = [
     #              0:00    Morocco    +00/+01    2018 Oct 27
     {
-      "offsetCode": 0,
-      "zonePolicy": ZONE_POLICY_Morocco,
-      "format": "+00/+01",
-      "untilYearShort": 18,
-      "untilMonth": 10,
-      "untilDay": 27,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': ZONE_POLICY_Morocco,
+      'format': '+00/+01',
+      'untilYearShort': 18,
+      'untilMonth': 10,
+      'untilDay': 27,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #              1:00    -    +01
     {
-      "offsetCode": 4,
-      "zonePolicy": None,
-      "format": "+01",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': None,
+      'format': '+01',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -178,14 +178,14 @@ ZONE_INFO_Casablanca = {
 ZONE_ERAS_Ceuta = [
     #              1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -202,25 +202,25 @@ ZONE_INFO_Ceuta = {
 ZONE_ERAS_El_Aaiun = [
     #              0:00    Morocco    +00/+01    2018 Oct 27
     {
-      "offsetCode": 0,
-      "zonePolicy": ZONE_POLICY_Morocco,
-      "format": "+00/+01",
-      "untilYearShort": 18,
-      "untilMonth": 10,
-      "untilDay": 27,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': ZONE_POLICY_Morocco,
+      'format': '+00/+01',
+      'untilYearShort': 18,
+      'untilMonth': 10,
+      'untilDay': 27,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #              1:00    -    +01
     {
-      "offsetCode": 4,
-      "zonePolicy": None,
-      "format": "+01",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': None,
+      'format': '+01',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -237,14 +237,14 @@ ZONE_INFO_El_Aaiun = {
 ZONE_ERAS_Johannesburg = [
     #             2:00    SA    SAST
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_SA,
-      "format": "SAST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_SA,
+      'format': 'SAST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -261,25 +261,25 @@ ZONE_INFO_Johannesburg = {
 ZONE_ERAS_Juba = [
     #             2:00    Sudan    CA%sT    2000 Jan 15 12:00
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_Sudan,
-      "format": "CA%sT",
-      "untilYearShort": 0,
-      "untilMonth": 1,
-      "untilDay": 15,
-      "untilHour": 12,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_Sudan,
+      'format': 'CA%sT',
+      'untilYearShort': 0,
+      'untilMonth': 1,
+      'untilDay': 15,
+      'untilHour': 12,
+      'untilTimeModifier': 'w',
     },
     #             3:00    -    EAT
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "EAT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': 'EAT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -296,36 +296,36 @@ ZONE_INFO_Juba = {
 ZONE_ERAS_Khartoum = [
     #             2:00    Sudan    CA%sT    2000 Jan 15 12:00
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_Sudan,
-      "format": "CA%sT",
-      "untilYearShort": 0,
-      "untilMonth": 1,
-      "untilDay": 15,
-      "untilHour": 12,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_Sudan,
+      'format': 'CA%sT',
+      'untilYearShort': 0,
+      'untilMonth': 1,
+      'untilDay': 15,
+      'untilHour': 12,
+      'untilTimeModifier': 'w',
     },
     #             3:00    -    EAT    2017 Nov  1
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "EAT",
-      "untilYearShort": 17,
-      "untilMonth": 11,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': 'EAT',
+      'untilYearShort': 17,
+      'untilMonth': 11,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             2:00    -    CAT
     {
-      "offsetCode": 8,
-      "zonePolicy": None,
-      "format": "CAT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': None,
+      'format': 'CAT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -342,14 +342,14 @@ ZONE_INFO_Khartoum = {
 ZONE_ERAS_Lagos = [
     #             1:00    -    WAT
     {
-      "offsetCode": 4,
-      "zonePolicy": None,
-      "format": "WAT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': None,
+      'format': 'WAT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -366,14 +366,14 @@ ZONE_INFO_Lagos = {
 ZONE_ERAS_Maputo = [
     #             2:00    -    CAT
     {
-      "offsetCode": 8,
-      "zonePolicy": None,
-      "format": "CAT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': None,
+      'format': 'CAT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -390,14 +390,14 @@ ZONE_INFO_Maputo = {
 ZONE_ERAS_Monrovia = [
     #              0:00    -    GMT
     {
-      "offsetCode": 0,
-      "zonePolicy": None,
-      "format": "GMT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': None,
+      'format': 'GMT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -414,14 +414,14 @@ ZONE_INFO_Monrovia = {
 ZONE_ERAS_Nairobi = [
     #             3:00    -    EAT
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "EAT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': 'EAT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -438,14 +438,14 @@ ZONE_INFO_Nairobi = {
 ZONE_ERAS_Ndjamena = [
     #             1:00    -    WAT
     {
-      "offsetCode": 4,
-      "zonePolicy": None,
-      "format": "WAT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': None,
+      'format': 'WAT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -462,25 +462,25 @@ ZONE_INFO_Ndjamena = {
 ZONE_ERAS_Sao_Tome = [
     #              0:00    -    GMT    2018 Jan  1 01:00
     {
-      "offsetCode": 0,
-      "zonePolicy": None,
-      "format": "GMT",
-      "untilYearShort": 18,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 1,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': None,
+      'format': 'GMT',
+      'untilYearShort': 18,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 1,
+      'untilTimeModifier': 'w',
     },
     #              1:00    -    WAT
     {
-      "offsetCode": 4,
-      "zonePolicy": None,
-      "format": "WAT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': None,
+      'format': 'WAT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -497,36 +497,36 @@ ZONE_INFO_Sao_Tome = {
 ZONE_ERAS_Tripoli = [
     #             2:00    -    EET    2012 Nov 10  2:00
     {
-      "offsetCode": 8,
-      "zonePolicy": None,
-      "format": "EET",
-      "untilYearShort": 12,
-      "untilMonth": 11,
-      "untilDay": 10,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': None,
+      'format': 'EET',
+      'untilYearShort': 12,
+      'untilMonth': 11,
+      'untilDay': 10,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             1:00    Libya    CE%sT    2013 Oct 25  2:00
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_Libya,
-      "format": "CE%sT",
-      "untilYearShort": 13,
-      "untilMonth": 10,
-      "untilDay": 25,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_Libya,
+      'format': 'CE%sT',
+      'untilYearShort': 13,
+      'untilMonth': 10,
+      'untilDay': 25,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             2:00    -    EET
     {
-      "offsetCode": 8,
-      "zonePolicy": None,
-      "format": "EET",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': None,
+      'format': 'EET',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -543,14 +543,14 @@ ZONE_INFO_Tripoli = {
 ZONE_ERAS_Tunis = [
     #             1:00    Tunisia    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_Tunisia,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_Tunisia,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -567,14 +567,14 @@ ZONE_INFO_Tunis = {
 ZONE_ERAS_Adak = [
     #             -10:00    US    H%sT
     {
-      "offsetCode": -40,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "H%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -40,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'H%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -591,14 +591,14 @@ ZONE_INFO_Adak = {
 ZONE_ERAS_Anchorage = [
     #              -9:00    US    AK%sT
     {
-      "offsetCode": -36,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -36,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'AK%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -615,47 +615,47 @@ ZONE_INFO_Anchorage = {
 ZONE_ERAS_Araguaina = [
     #             -3:00    Brazil    -03/-02    2003 Sep 24
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-03/-02",
-      "untilYearShort": 3,
-      "untilMonth": 9,
-      "untilDay": 24,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-03/-02',
+      'untilYearShort': 3,
+      'untilMonth': 9,
+      'untilDay': 24,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03    2012 Oct 21
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 12,
-      "untilMonth": 10,
-      "untilDay": 21,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 12,
+      'untilMonth': 10,
+      'untilDay': 21,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    Brazil    -03/-02    2013 Sep
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-03/-02",
-      "untilYearShort": 13,
-      "untilMonth": 9,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-03/-02',
+      'untilYearShort': 13,
+      'untilMonth': 9,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -672,25 +672,25 @@ ZONE_INFO_Araguaina = {
 ZONE_ERAS_Buenos_Aires = [
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Arg,
-      "format": "-04/-03",
-      "untilYearShort": 0,
-      "untilMonth": 3,
-      "untilDay": 3,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    Arg    -03/-02
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Arg,
-      "format": "-03/-02",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-03/-02',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -707,25 +707,25 @@ ZONE_INFO_Buenos_Aires = {
 ZONE_ERAS_Cordoba = [
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Arg,
-      "format": "-04/-03",
-      "untilYearShort": 0,
-      "untilMonth": 3,
-      "untilDay": 3,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    Arg    -03/-02
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Arg,
-      "format": "-03/-02",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-03/-02',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -742,36 +742,36 @@ ZONE_INFO_Cordoba = {
 ZONE_ERAS_Jujuy = [
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Arg,
-      "format": "-04/-03",
-      "untilYearShort": 0,
-      "untilMonth": 3,
-      "untilDay": 3,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    Arg    -03/-02    2008 Oct 18
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Arg,
-      "format": "-03/-02",
-      "untilYearShort": 8,
-      "untilMonth": 10,
-      "untilDay": 18,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-03/-02',
+      'untilYearShort': 8,
+      'untilMonth': 10,
+      'untilDay': 18,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -788,36 +788,36 @@ ZONE_INFO_Jujuy = {
 ZONE_ERAS_Salta = [
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Arg,
-      "format": "-04/-03",
-      "untilYearShort": 0,
-      "untilMonth": 3,
-      "untilDay": 3,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    Arg    -03/-02    2008 Oct 18
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Arg,
-      "format": "-03/-02",
-      "untilYearShort": 8,
-      "untilMonth": 10,
-      "untilDay": 18,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'format': '-03/-02',
+      'untilYearShort': 8,
+      'untilMonth': 10,
+      'untilDay': 18,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -834,14 +834,14 @@ ZONE_INFO_Salta = {
 ZONE_ERAS_Asuncion = [
     #             -4:00    Para    -04/-03
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Para,
-      "format": "-04/-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Para,
+      'format': '-04/-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -858,14 +858,14 @@ ZONE_INFO_Asuncion = {
 ZONE_ERAS_Atikokan = [
     #             -5:00    -    EST
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -882,47 +882,47 @@ ZONE_INFO_Atikokan = {
 ZONE_ERAS_Bahia = [
     #             -3:00    Brazil    -03/-02    2003 Sep 24
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-03/-02",
-      "untilYearShort": 3,
-      "untilMonth": 9,
-      "untilDay": 24,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-03/-02',
+      'untilYearShort': 3,
+      'untilMonth': 9,
+      'untilDay': 24,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03    2011 Oct 16
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 11,
-      "untilMonth": 10,
-      "untilDay": 16,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 11,
+      'untilMonth': 10,
+      'untilDay': 16,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    Brazil    -03/-02    2012 Oct 21
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-03/-02",
-      "untilYearShort": 12,
-      "untilMonth": 10,
-      "untilDay": 21,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-03/-02',
+      'untilYearShort': 12,
+      'untilMonth': 10,
+      'untilDay': 21,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -939,25 +939,25 @@ ZONE_INFO_Bahia = {
 ZONE_ERAS_Bahia_Banderas = [
     #             -7:00    Mexico    M%sT    2010 Apr  4  2:00
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "M%sT",
-      "untilYearShort": 10,
-      "untilMonth": 4,
-      "untilDay": 4,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'M%sT',
+      'untilYearShort': 10,
+      'untilMonth': 4,
+      'untilDay': 4,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    Mexico    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -974,14 +974,14 @@ ZONE_INFO_Bahia_Banderas = {
 ZONE_ERAS_Barbados = [
     #             -4:00    Barb    A%sT
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Barb,
-      "format": "A%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Barb,
+      'format': 'A%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -998,14 +998,14 @@ ZONE_INFO_Barbados = {
 ZONE_ERAS_Belem = [
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1022,14 +1022,14 @@ ZONE_INFO_Belem = {
 ZONE_ERAS_Blanc_Sablon = [
     #             -4:00    -    AST
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "AST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': 'AST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1046,25 +1046,25 @@ ZONE_INFO_Blanc_Sablon = {
 ZONE_ERAS_Boa_Vista = [
     #             -4:00    Brazil    -04/-03    2000 Oct 15
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-04/-03",
-      "untilYearShort": 0,
-      "untilMonth": 10,
-      "untilDay": 15,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-04/-03',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 15,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -4:00    -    -04
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "-04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1081,14 +1081,14 @@ ZONE_INFO_Boa_Vista = {
 ZONE_ERAS_Bogota = [
     #             -5:00    CO    -05/-04
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_CO,
-      "format": "-05/-04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_CO,
+      'format': '-05/-04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1105,14 +1105,14 @@ ZONE_INFO_Bogota = {
 ZONE_ERAS_Boise = [
     #             -7:00    US    M%sT
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "M%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'M%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1129,14 +1129,14 @@ ZONE_INFO_Boise = {
 ZONE_ERAS_Campo_Grande = [
     #             -4:00    Brazil    -04/-03
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-04/-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-04/-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1153,25 +1153,25 @@ ZONE_INFO_Campo_Grande = {
 ZONE_ERAS_Cancun = [
     #             -6:00    Mexico    C%sT    2015 Feb  1  2:00
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%sT",
-      "untilYearShort": 15,
-      "untilMonth": 2,
-      "untilDay": 1,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'C%sT',
+      'untilYearShort': 15,
+      'untilMonth': 2,
+      'untilDay': 1,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    -    EST
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1188,14 +1188,14 @@ ZONE_INFO_Cancun = {
 ZONE_ERAS_Cayenne = [
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1212,14 +1212,14 @@ ZONE_INFO_Cayenne = {
 ZONE_ERAS_Chicago = [
     #             -6:00    US    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1236,14 +1236,14 @@ ZONE_INFO_Chicago = {
 ZONE_ERAS_Chihuahua = [
     #             -7:00    Mexico    M%sT
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "M%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'M%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1260,14 +1260,14 @@ ZONE_INFO_Chihuahua = {
 ZONE_ERAS_Costa_Rica = [
     #             -6:00    CR    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_CR,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_CR,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1284,14 +1284,14 @@ ZONE_INFO_Costa_Rica = {
 ZONE_ERAS_Creston = [
     #             -7:00    -    MST
     {
-      "offsetCode": -28,
-      "zonePolicy": None,
-      "format": "MST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': None,
+      'format': 'MST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1308,36 +1308,36 @@ ZONE_INFO_Creston = {
 ZONE_ERAS_Cuiaba = [
     #             -4:00    Brazil    -04/-03    2003 Sep 24
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-04/-03",
-      "untilYearShort": 3,
-      "untilMonth": 9,
-      "untilDay": 24,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-04/-03',
+      'untilYearShort': 3,
+      'untilMonth': 9,
+      'untilDay': 24,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -4:00    -    -04    2004 Oct  1
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "-04",
-      "untilYearShort": 4,
-      "untilMonth": 10,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 4,
+      'untilMonth': 10,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -4:00    Brazil    -04/-03
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-04/-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-04/-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1354,14 +1354,14 @@ ZONE_INFO_Cuiaba = {
 ZONE_ERAS_Curacao = [
     #             -4:00    -    AST
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "AST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': 'AST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1378,14 +1378,14 @@ ZONE_INFO_Curacao = {
 ZONE_ERAS_Danmarkshavn = [
     #             0:00    -    GMT
     {
-      "offsetCode": 0,
-      "zonePolicy": None,
-      "format": "GMT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': None,
+      'format': 'GMT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1402,14 +1402,14 @@ ZONE_INFO_Danmarkshavn = {
 ZONE_ERAS_Dawson = [
     #             -8:00    Canada    P%sT
     {
-      "offsetCode": -32,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "P%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -32,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'P%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1426,14 +1426,14 @@ ZONE_INFO_Dawson = {
 ZONE_ERAS_Dawson_Creek = [
     #             -7:00    -    MST
     {
-      "offsetCode": -28,
-      "zonePolicy": None,
-      "format": "MST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': None,
+      'format': 'MST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1450,14 +1450,14 @@ ZONE_INFO_Dawson_Creek = {
 ZONE_ERAS_Denver = [
     #             -7:00    US    M%sT
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "M%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'M%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1474,14 +1474,14 @@ ZONE_INFO_Denver = {
 ZONE_ERAS_Detroit = [
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1498,14 +1498,14 @@ ZONE_INFO_Detroit = {
 ZONE_ERAS_Edmonton = [
     #             -7:00    Canada    M%sT
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "M%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'M%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1522,36 +1522,36 @@ ZONE_INFO_Edmonton = {
 ZONE_ERAS_Eirunepe = [
     #             -5:00    -    -05    2008 Jun 24  0:00
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "-05",
-      "untilYearShort": 8,
-      "untilMonth": 6,
-      "untilDay": 24,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': '-05',
+      'untilYearShort': 8,
+      'untilMonth': 6,
+      'untilDay': 24,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -4:00    -    -04    2013 Nov 10
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "-04",
-      "untilYearShort": 13,
-      "untilMonth": 11,
-      "untilDay": 10,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 13,
+      'untilMonth': 11,
+      'untilDay': 10,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    -    -05
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "-05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': '-05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1568,14 +1568,14 @@ ZONE_INFO_Eirunepe = {
 ZONE_ERAS_El_Salvador = [
     #             -6:00    Salv    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Salv,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Salv,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1592,25 +1592,25 @@ ZONE_INFO_El_Salvador = {
 ZONE_ERAS_Fort_Nelson = [
     #             -8:00    Canada    P%sT    2015 Mar  8  2:00
     {
-      "offsetCode": -32,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "P%sT",
-      "untilYearShort": 15,
-      "untilMonth": 3,
-      "untilDay": 8,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -32,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'P%sT',
+      'untilYearShort': 15,
+      'untilMonth': 3,
+      'untilDay': 8,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -7:00    -    MST
     {
-      "offsetCode": -28,
-      "zonePolicy": None,
-      "format": "MST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': None,
+      'format': 'MST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1627,47 +1627,47 @@ ZONE_INFO_Fort_Nelson = {
 ZONE_ERAS_Fortaleza = [
     #             -3:00    Brazil    -03/-02    2000 Oct 22
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-03/-02",
-      "untilYearShort": 0,
-      "untilMonth": 10,
-      "untilDay": 22,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-03/-02',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 22,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03    2001 Sep 13
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 1,
-      "untilMonth": 9,
-      "untilDay": 13,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 1,
+      'untilMonth': 9,
+      'untilDay': 13,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    Brazil    -03/-02    2002 Oct  1
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-03/-02",
-      "untilYearShort": 2,
-      "untilMonth": 10,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-03/-02',
+      'untilYearShort': 2,
+      'untilMonth': 10,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1684,14 +1684,14 @@ ZONE_INFO_Fortaleza = {
 ZONE_ERAS_Glace_Bay = [
     #             -4:00    Canada    A%sT
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "A%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'A%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1708,14 +1708,14 @@ ZONE_INFO_Glace_Bay = {
 ZONE_ERAS_Godthab = [
     #             -3:00    EU    -03/-02
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "-03/-02",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': '-03/-02',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1732,36 +1732,36 @@ ZONE_INFO_Godthab = {
 ZONE_ERAS_Grand_Turk = [
     #             -5:00    US    E%sT    2015 Nov Sun>=1 2:00
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 15,
-      "untilMonth": 11,
-      "untilDay": 1,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 15,
+      'untilMonth': 11,
+      'untilDay': 1,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -4:00    -    AST    2018 Mar 11 3:00
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "AST",
-      "untilYearShort": 18,
-      "untilMonth": 3,
-      "untilDay": 11,
-      "untilHour": 3,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': 'AST',
+      'untilYearShort': 18,
+      'untilMonth': 3,
+      'untilDay': 11,
+      'untilHour': 3,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1778,14 +1778,14 @@ ZONE_INFO_Grand_Turk = {
 ZONE_ERAS_Guatemala = [
     #             -6:00    Guat    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Guat,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Guat,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1802,14 +1802,14 @@ ZONE_INFO_Guatemala = {
 ZONE_ERAS_Guayaquil = [
     #             -5:00    Ecuador    -05/-04
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_Ecuador,
-      "format": "-05/-04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_Ecuador,
+      'format': '-05/-04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1826,14 +1826,14 @@ ZONE_INFO_Guayaquil = {
 ZONE_ERAS_Guyana = [
     #             -4:00    -    -04
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "-04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1850,14 +1850,14 @@ ZONE_INFO_Guyana = {
 ZONE_ERAS_Halifax = [
     #             -4:00    Canada    A%sT
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "A%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'A%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1874,14 +1874,14 @@ ZONE_INFO_Halifax = {
 ZONE_ERAS_Havana = [
     #             -5:00    Cuba    C%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_Cuba,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_Cuba,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1898,14 +1898,14 @@ ZONE_INFO_Havana = {
 ZONE_ERAS_Hermosillo = [
     #             -7:00    -    MST
     {
-      "offsetCode": -28,
-      "zonePolicy": None,
-      "format": "MST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': None,
+      'format': 'MST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1922,25 +1922,25 @@ ZONE_INFO_Hermosillo = {
 ZONE_ERAS_Indianapolis = [
     #             -5:00    -    EST    2006
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 6,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 6,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1957,25 +1957,25 @@ ZONE_INFO_Indianapolis = {
 ZONE_ERAS_Knox = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 6,
-      "untilMonth": 4,
-      "untilDay": 2,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 6,
+      'untilMonth': 4,
+      'untilDay': 2,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    US    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -1992,25 +1992,25 @@ ZONE_INFO_Knox = {
 ZONE_ERAS_Marengo = [
     #             -5:00    -    EST    2006
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 6,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 6,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2027,36 +2027,36 @@ ZONE_INFO_Marengo = {
 ZONE_ERAS_Petersburg = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 6,
-      "untilMonth": 4,
-      "untilDay": 2,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 6,
+      'untilMonth': 4,
+      'untilDay': 2,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    US    C%sT    2007 Nov  4  2:00
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 7,
-      "untilMonth": 11,
-      "untilDay": 4,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 7,
+      'untilMonth': 11,
+      'untilDay': 4,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2073,25 +2073,25 @@ ZONE_INFO_Petersburg = {
 ZONE_ERAS_Tell_City = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 6,
-      "untilMonth": 4,
-      "untilDay": 2,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 6,
+      'untilMonth': 4,
+      'untilDay': 2,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    US    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2108,25 +2108,25 @@ ZONE_INFO_Tell_City = {
 ZONE_ERAS_Vevay = [
     #             -5:00    -    EST    2006
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 6,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 6,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2143,36 +2143,36 @@ ZONE_INFO_Vevay = {
 ZONE_ERAS_Vincennes = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 6,
-      "untilMonth": 4,
-      "untilDay": 2,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 6,
+      'untilMonth': 4,
+      'untilDay': 2,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    US    C%sT    2007 Nov  4  2:00
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 7,
-      "untilMonth": 11,
-      "untilDay": 4,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 7,
+      'untilMonth': 11,
+      'untilDay': 4,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2189,36 +2189,36 @@ ZONE_INFO_Vincennes = {
 ZONE_ERAS_Winamac = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 6,
-      "untilMonth": 4,
-      "untilDay": 2,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 6,
+      'untilMonth': 4,
+      'untilDay': 2,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    US    C%sT    2007 Mar 11  2:00
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 7,
-      "untilMonth": 3,
-      "untilDay": 11,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 7,
+      'untilMonth': 3,
+      'untilDay': 11,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2235,14 +2235,14 @@ ZONE_INFO_Winamac = {
 ZONE_ERAS_Inuvik = [
     #             -7:00    Canada    M%sT
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "M%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'M%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2259,25 +2259,25 @@ ZONE_INFO_Inuvik = {
 ZONE_ERAS_Iqaluit = [
     #             -6:00    Canada    C%sT    2000 Oct 29  2:00
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%sT",
-      "untilYearShort": 0,
-      "untilMonth": 10,
-      "untilDay": 29,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'C%sT',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 29,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    Canada    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2294,14 +2294,14 @@ ZONE_INFO_Iqaluit = {
 ZONE_ERAS_Jamaica = [
     #             -5:00    -    EST
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2318,14 +2318,14 @@ ZONE_INFO_Jamaica = {
 ZONE_ERAS_Juneau = [
     #              -9:00    US    AK%sT
     {
-      "offsetCode": -36,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -36,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'AK%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2342,14 +2342,14 @@ ZONE_INFO_Juneau = {
 ZONE_ERAS_Louisville = [
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2366,25 +2366,25 @@ ZONE_INFO_Louisville = {
 ZONE_ERAS_Monticello = [
     #             -6:00    US    C%sT    2000 Oct 29  2:00
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 0,
-      "untilMonth": 10,
-      "untilDay": 29,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 29,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2401,14 +2401,14 @@ ZONE_INFO_Monticello = {
 ZONE_ERAS_La_Paz = [
     #             -4:00    -    -04
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "-04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2425,14 +2425,14 @@ ZONE_INFO_La_Paz = {
 ZONE_ERAS_Lima = [
     #             -5:00    Peru    -05/-04
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_Peru,
-      "format": "-05/-04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_Peru,
+      'format': '-05/-04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2449,14 +2449,14 @@ ZONE_INFO_Lima = {
 ZONE_ERAS_Los_Angeles = [
     #             -8:00    US    P%sT
     {
-      "offsetCode": -32,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "P%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -32,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'P%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2473,47 +2473,47 @@ ZONE_INFO_Los_Angeles = {
 ZONE_ERAS_Maceio = [
     #             -3:00    Brazil    -03/-02    2000 Oct 22
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-03/-02",
-      "untilYearShort": 0,
-      "untilMonth": 10,
-      "untilDay": 22,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-03/-02',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 22,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03    2001 Sep 13
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 1,
-      "untilMonth": 9,
-      "untilDay": 13,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 1,
+      'untilMonth': 9,
+      'untilDay': 13,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    Brazil    -03/-02    2002 Oct  1
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-03/-02",
-      "untilYearShort": 2,
-      "untilMonth": 10,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-03/-02',
+      'untilYearShort': 2,
+      'untilMonth': 10,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2530,14 +2530,14 @@ ZONE_INFO_Maceio = {
 ZONE_ERAS_Managua = [
     #             -6:00    Nic    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Nic,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Nic,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2554,14 +2554,14 @@ ZONE_INFO_Managua = {
 ZONE_ERAS_Manaus = [
     #             -4:00    -    -04
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "-04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2578,14 +2578,14 @@ ZONE_INFO_Manaus = {
 ZONE_ERAS_Martinique = [
     #             -4:00    -    AST
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "AST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': 'AST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2602,25 +2602,25 @@ ZONE_INFO_Martinique = {
 ZONE_ERAS_Matamoros = [
     #             -6:00    Mexico    C%sT    2010
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%sT",
-      "untilYearShort": 10,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'C%sT',
+      'untilYearShort': 10,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    US    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2637,14 +2637,14 @@ ZONE_INFO_Matamoros = {
 ZONE_ERAS_Mazatlan = [
     #             -7:00    Mexico    M%sT
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "M%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'M%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2661,14 +2661,14 @@ ZONE_INFO_Mazatlan = {
 ZONE_ERAS_Menominee = [
     #             -6:00    US    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2685,14 +2685,14 @@ ZONE_INFO_Menominee = {
 ZONE_ERAS_Merida = [
     #             -6:00    Mexico    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2709,25 +2709,25 @@ ZONE_INFO_Merida = {
 ZONE_ERAS_Metlakatla = [
     #              -8:00    -    PST    2015 Nov  1  2:00
     {
-      "offsetCode": -32,
-      "zonePolicy": None,
-      "format": "PST",
-      "untilYearShort": 15,
-      "untilMonth": 11,
-      "untilDay": 1,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -32,
+      'zonePolicy': None,
+      'format': 'PST',
+      'untilYearShort': 15,
+      'untilMonth': 11,
+      'untilDay': 1,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #              -9:00    US    AK%sT
     {
-      "offsetCode": -36,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -36,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'AK%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2744,36 +2744,36 @@ ZONE_INFO_Metlakatla = {
 ZONE_ERAS_Mexico_City = [
     #             -6:00    Mexico    C%sT    2001 Sep 30  2:00
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%sT",
-      "untilYearShort": 1,
-      "untilMonth": 9,
-      "untilDay": 30,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'C%sT',
+      'untilYearShort': 1,
+      'untilMonth': 9,
+      'untilDay': 30,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    -    CST    2002 Feb 20
     {
-      "offsetCode": -24,
-      "zonePolicy": None,
-      "format": "CST",
-      "untilYearShort": 2,
-      "untilMonth": 2,
-      "untilDay": 20,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': None,
+      'format': 'CST',
+      'untilYearShort': 2,
+      'untilMonth': 2,
+      'untilDay': 20,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    Mexico    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2790,14 +2790,14 @@ ZONE_INFO_Mexico_City = {
 ZONE_ERAS_Miquelon = [
     #             -3:00    Canada    -03/-02
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "-03/-02",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': '-03/-02',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2814,14 +2814,14 @@ ZONE_INFO_Miquelon = {
 ZONE_ERAS_Monterrey = [
     #             -6:00    Mexico    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2838,14 +2838,14 @@ ZONE_INFO_Monterrey = {
 ZONE_ERAS_Montevideo = [
     #             -3:00    Uruguay    -03/-02
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Uruguay,
-      "format": "-03/-02",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Uruguay,
+      'format': '-03/-02',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2862,14 +2862,14 @@ ZONE_INFO_Montevideo = {
 ZONE_ERAS_Nassau = [
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2886,14 +2886,14 @@ ZONE_INFO_Nassau = {
 ZONE_ERAS_New_York = [
     #             -5:00    US    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2910,14 +2910,14 @@ ZONE_INFO_New_York = {
 ZONE_ERAS_Nipigon = [
     #             -5:00    Canada    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2934,14 +2934,14 @@ ZONE_INFO_Nipigon = {
 ZONE_ERAS_Nome = [
     #              -9:00    US    AK%sT
     {
-      "offsetCode": -36,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -36,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'AK%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -2958,47 +2958,47 @@ ZONE_INFO_Nome = {
 ZONE_ERAS_Noronha = [
     #             -2:00    Brazil    -02/-01    2000 Oct 15
     {
-      "offsetCode": -8,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-02/-01",
-      "untilYearShort": 0,
-      "untilMonth": 10,
-      "untilDay": 15,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -8,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-02/-01',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 15,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -2:00    -    -02    2001 Sep 13
     {
-      "offsetCode": -8,
-      "zonePolicy": None,
-      "format": "-02",
-      "untilYearShort": 1,
-      "untilMonth": 9,
-      "untilDay": 13,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -8,
+      'zonePolicy': None,
+      'format': '-02',
+      'untilYearShort': 1,
+      'untilMonth': 9,
+      'untilDay': 13,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -2:00    Brazil    -02/-01    2002 Oct  1
     {
-      "offsetCode": -8,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-02/-01",
-      "untilYearShort": 2,
-      "untilMonth": 10,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -8,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-02/-01',
+      'untilYearShort': 2,
+      'untilMonth': 10,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -2:00    -    -02
     {
-      "offsetCode": -8,
-      "zonePolicy": None,
-      "format": "-02",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -8,
+      'zonePolicy': None,
+      'format': '-02',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3015,25 +3015,25 @@ ZONE_INFO_Noronha = {
 ZONE_ERAS_Beulah = [
     #             -7:00    US    M%sT    2010 Nov  7  2:00
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "M%sT",
-      "untilYearShort": 10,
-      "untilMonth": 11,
-      "untilDay": 7,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'M%sT',
+      'untilYearShort': 10,
+      'untilMonth': 11,
+      'untilDay': 7,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    US    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3050,14 +3050,14 @@ ZONE_INFO_Beulah = {
 ZONE_ERAS_Center = [
     #             -6:00    US    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3074,25 +3074,25 @@ ZONE_INFO_Center = {
 ZONE_ERAS_New_Salem = [
     #             -7:00    US    M%sT    2003 Oct 26  2:00
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "M%sT",
-      "untilYearShort": 3,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'M%sT',
+      'untilYearShort': 3,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    US    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3109,25 +3109,25 @@ ZONE_INFO_New_Salem = {
 ZONE_ERAS_Ojinaga = [
     #             -7:00    Mexico    M%sT    2010
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "M%sT",
-      "untilYearShort": 10,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'M%sT',
+      'untilYearShort': 10,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -7:00    US    M%sT
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "M%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'M%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3144,14 +3144,14 @@ ZONE_INFO_Ojinaga = {
 ZONE_ERAS_Panama = [
     #             -5:00    -    EST
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3168,25 +3168,25 @@ ZONE_INFO_Panama = {
 ZONE_ERAS_Pangnirtung = [
     #             -6:00    Canada    C%sT    2000 Oct 29  2:00
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%sT",
-      "untilYearShort": 0,
-      "untilMonth": 10,
-      "untilDay": 29,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'C%sT',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 29,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    Canada    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3203,14 +3203,14 @@ ZONE_INFO_Pangnirtung = {
 ZONE_ERAS_Paramaribo = [
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3227,14 +3227,14 @@ ZONE_INFO_Paramaribo = {
 ZONE_ERAS_Phoenix = [
     #             -7:00    -    MST
     {
-      "offsetCode": -28,
-      "zonePolicy": None,
-      "format": "MST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': None,
+      'format': 'MST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3251,14 +3251,14 @@ ZONE_INFO_Phoenix = {
 ZONE_ERAS_Port_au_Prince = [
     #             -5:00    Haiti    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_Haiti,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_Haiti,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3275,14 +3275,14 @@ ZONE_INFO_Port_au_Prince = {
 ZONE_ERAS_Port_of_Spain = [
     #             -4:00    -    AST
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "AST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': 'AST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3299,14 +3299,14 @@ ZONE_INFO_Port_of_Spain = {
 ZONE_ERAS_Porto_Velho = [
     #             -4:00    -    -04
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "-04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3323,14 +3323,14 @@ ZONE_INFO_Porto_Velho = {
 ZONE_ERAS_Puerto_Rico = [
     #             -4:00    -    AST
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "AST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': 'AST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3347,25 +3347,25 @@ ZONE_INFO_Puerto_Rico = {
 ZONE_ERAS_Punta_Arenas = [
     #             -4:00    Chile    -04/-03    2016 Dec  4
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Chile,
-      "format": "-04/-03",
-      "untilYearShort": 16,
-      "untilMonth": 12,
-      "untilDay": 4,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Chile,
+      'format': '-04/-03',
+      'untilYearShort': 16,
+      'untilMonth': 12,
+      'untilDay': 4,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3382,14 +3382,14 @@ ZONE_INFO_Punta_Arenas = {
 ZONE_ERAS_Rainy_River = [
     #             -6:00    Canada    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3406,36 +3406,36 @@ ZONE_INFO_Rainy_River = {
 ZONE_ERAS_Rankin_Inlet = [
     #             -6:00    NT_YK    C%sT    2000 Oct 29  2:00
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_NT_YK,
-      "format": "C%sT",
-      "untilYearShort": 0,
-      "untilMonth": 10,
-      "untilDay": 29,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_NT_YK,
+      'format': 'C%sT',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 29,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    -    EST    2001 Apr  1  3:00
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 1,
-      "untilMonth": 4,
-      "untilDay": 1,
-      "untilHour": 3,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 1,
+      'untilMonth': 4,
+      'untilDay': 1,
+      'untilHour': 3,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    Canada    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3452,47 +3452,47 @@ ZONE_INFO_Rankin_Inlet = {
 ZONE_ERAS_Recife = [
     #             -3:00    Brazil    -03/-02    2000 Oct 15
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-03/-02",
-      "untilYearShort": 0,
-      "untilMonth": 10,
-      "untilDay": 15,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-03/-02',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 15,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03    2001 Sep 13
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 1,
-      "untilMonth": 9,
-      "untilDay": 13,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 1,
+      'untilMonth': 9,
+      'untilDay': 13,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    Brazil    -03/-02    2002 Oct  1
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-03/-02",
-      "untilYearShort": 2,
-      "untilMonth": 10,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-03/-02',
+      'untilYearShort': 2,
+      'untilMonth': 10,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3509,14 +3509,14 @@ ZONE_INFO_Recife = {
 ZONE_ERAS_Regina = [
     #             -6:00    -    CST
     {
-      "offsetCode": -24,
-      "zonePolicy": None,
-      "format": "CST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': None,
+      'format': 'CST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3533,58 +3533,58 @@ ZONE_INFO_Regina = {
 ZONE_ERAS_Resolute = [
     #             -6:00    NT_YK    C%sT    2000 Oct 29  2:00
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_NT_YK,
-      "format": "C%sT",
-      "untilYearShort": 0,
-      "untilMonth": 10,
-      "untilDay": 29,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_NT_YK,
+      'format': 'C%sT',
+      'untilYearShort': 0,
+      'untilMonth': 10,
+      'untilDay': 29,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    -    EST    2001 Apr  1  3:00
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 1,
-      "untilMonth": 4,
-      "untilDay": 1,
-      "untilHour": 3,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 1,
+      'untilMonth': 4,
+      'untilDay': 1,
+      'untilHour': 3,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    Canada    C%sT    2006 Oct 29  2:00
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%sT",
-      "untilYearShort": 6,
-      "untilMonth": 10,
-      "untilDay": 29,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'C%sT',
+      'untilYearShort': 6,
+      'untilMonth': 10,
+      'untilDay': 29,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    -    EST    2007 Mar 11  3:00
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "EST",
-      "untilYearShort": 7,
-      "untilMonth": 3,
-      "untilDay": 11,
-      "untilHour": 3,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': 'EST',
+      'untilYearShort': 7,
+      'untilMonth': 3,
+      'untilDay': 11,
+      'untilHour': 3,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    Canada    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3601,36 +3601,36 @@ ZONE_INFO_Resolute = {
 ZONE_ERAS_Rio_Branco = [
     #             -5:00    -    -05    2008 Jun 24  0:00
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "-05",
-      "untilYearShort": 8,
-      "untilMonth": 6,
-      "untilDay": 24,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': '-05',
+      'untilYearShort': 8,
+      'untilMonth': 6,
+      'untilDay': 24,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -4:00    -    -04    2013 Nov 10
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "-04",
-      "untilYearShort": 13,
-      "untilMonth": 11,
-      "untilDay": 10,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 13,
+      'untilMonth': 11,
+      'untilDay': 10,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -5:00    -    -05
     {
-      "offsetCode": -20,
-      "zonePolicy": None,
-      "format": "-05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': None,
+      'format': '-05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3647,25 +3647,25 @@ ZONE_INFO_Rio_Branco = {
 ZONE_ERAS_Santarem = [
     #             -4:00    -    -04    2008 Jun 24  0:00
     {
-      "offsetCode": -16,
-      "zonePolicy": None,
-      "format": "-04",
-      "untilYearShort": 8,
-      "untilMonth": 6,
-      "untilDay": 24,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': None,
+      'format': '-04',
+      'untilYearShort': 8,
+      'untilMonth': 6,
+      'untilDay': 24,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3682,14 +3682,14 @@ ZONE_INFO_Santarem = {
 ZONE_ERAS_Santiago = [
     #             -4:00    Chile    -04/-03
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Chile,
-      "format": "-04/-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Chile,
+      'format': '-04/-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3706,14 +3706,14 @@ ZONE_INFO_Santiago = {
 ZONE_ERAS_Sao_Paulo = [
     #             -3:00    Brazil    -03/-02
     {
-      "offsetCode": -12,
-      "zonePolicy": ZONE_POLICY_Brazil,
-      "format": "-03/-02",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': ZONE_POLICY_Brazil,
+      'format': '-03/-02',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3730,14 +3730,14 @@ ZONE_INFO_Sao_Paulo = {
 ZONE_ERAS_Scoresbysund = [
     #             -1:00    EU    -01/+00
     {
-      "offsetCode": -4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "-01/+00",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': '-01/+00',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3754,14 +3754,14 @@ ZONE_INFO_Scoresbysund = {
 ZONE_ERAS_Sitka = [
     #              -9:00    US    AK%sT
     {
-      "offsetCode": -36,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -36,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'AK%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3778,14 +3778,14 @@ ZONE_INFO_Sitka = {
 ZONE_ERAS_Swift_Current = [
     #             -6:00    -    CST
     {
-      "offsetCode": -24,
-      "zonePolicy": None,
-      "format": "CST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': None,
+      'format': 'CST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3802,14 +3802,14 @@ ZONE_INFO_Swift_Current = {
 ZONE_ERAS_Tegucigalpa = [
     #             -6:00    Hond    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Hond,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Hond,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3826,14 +3826,14 @@ ZONE_INFO_Tegucigalpa = {
 ZONE_ERAS_Thule = [
     #             -4:00    Thule    A%sT
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Thule,
-      "format": "A%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Thule,
+      'format': 'A%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3850,14 +3850,14 @@ ZONE_INFO_Thule = {
 ZONE_ERAS_Thunder_Bay = [
     #             -5:00    Canada    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3874,47 +3874,47 @@ ZONE_INFO_Thunder_Bay = {
 ZONE_ERAS_Tijuana = [
     #             -8:00    Mexico    P%sT    2001
     {
-      "offsetCode": -32,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "P%sT",
-      "untilYearShort": 1,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -32,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'P%sT',
+      'untilYearShort': 1,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -8:00    US    P%sT    2002 Feb 20
     {
-      "offsetCode": -32,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "P%sT",
-      "untilYearShort": 2,
-      "untilMonth": 2,
-      "untilDay": 20,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -32,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'P%sT',
+      'untilYearShort': 2,
+      'untilMonth': 2,
+      'untilDay': 20,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -8:00    Mexico    P%sT    2010
     {
-      "offsetCode": -32,
-      "zonePolicy": ZONE_POLICY_Mexico,
-      "format": "P%sT",
-      "untilYearShort": 10,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -32,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'format': 'P%sT',
+      'untilYearShort': 10,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -8:00    US    P%sT
     {
-      "offsetCode": -32,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "P%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -32,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'P%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3931,14 +3931,14 @@ ZONE_INFO_Tijuana = {
 ZONE_ERAS_Toronto = [
     #             -5:00    Canada    E%sT
     {
-      "offsetCode": -20,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "E%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -20,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'E%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3955,14 +3955,14 @@ ZONE_INFO_Toronto = {
 ZONE_ERAS_Vancouver = [
     #             -8:00    Canada    P%sT
     {
-      "offsetCode": -32,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "P%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -32,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'P%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -3979,14 +3979,14 @@ ZONE_INFO_Vancouver = {
 ZONE_ERAS_Whitehorse = [
     #             -8:00    Canada    P%sT
     {
-      "offsetCode": -32,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "P%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -32,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'P%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4003,25 +4003,25 @@ ZONE_INFO_Whitehorse = {
 ZONE_ERAS_Winnipeg = [
     #             -6:00    Winn    C%sT    2006
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Winn,
-      "format": "C%sT",
-      "untilYearShort": 6,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Winn,
+      'format': 'C%sT',
+      'untilYearShort': 6,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -6:00    Canada    C%sT
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4038,14 +4038,14 @@ ZONE_INFO_Winnipeg = {
 ZONE_ERAS_Yakutat = [
     #              -9:00    US    AK%sT
     {
-      "offsetCode": -36,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "AK%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -36,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'AK%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4062,14 +4062,14 @@ ZONE_INFO_Yakutat = {
 ZONE_ERAS_Yellowknife = [
     #             -7:00    Canada    M%sT
     {
-      "offsetCode": -28,
-      "zonePolicy": ZONE_POLICY_Canada,
-      "format": "M%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -28,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'format': 'M%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4086,80 +4086,80 @@ ZONE_INFO_Yellowknife = {
 ZONE_ERAS_Casey = [
     #             8:00    -    +08    2009 Oct 18  2:00
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 9,
-      "untilMonth": 10,
-      "untilDay": 18,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 9,
+      'untilMonth': 10,
+      'untilDay': 18,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             11:00    -    +11    2010 Mar  5  2:00
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 10,
-      "untilMonth": 3,
-      "untilDay": 5,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 10,
+      'untilMonth': 3,
+      'untilDay': 5,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             8:00    -    +08    2011 Oct 28  2:00
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 11,
-      "untilMonth": 10,
-      "untilDay": 28,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 11,
+      'untilMonth': 10,
+      'untilDay': 28,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             11:00    -    +11    2012 Feb 21 17:00u
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 12,
-      "untilMonth": 2,
-      "untilDay": 21,
-      "untilHour": 17,
-      "untilTimeModifier": u,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 12,
+      'untilMonth': 2,
+      'untilDay': 21,
+      'untilHour': 17,
+      'untilTimeModifier': 'u',
     },
     #             8:00    -    +08    2016 Oct 22
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 16,
-      "untilMonth": 10,
-      "untilDay": 22,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 16,
+      'untilMonth': 10,
+      'untilDay': 22,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             11:00    -    +11    2018 Mar 11  4:00
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 18,
-      "untilMonth": 3,
-      "untilDay": 11,
-      "untilHour": 4,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 18,
+      'untilMonth': 3,
+      'untilDay': 11,
+      'untilHour': 4,
+      'untilTimeModifier': 'w',
     },
     #             8:00    -    +08
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4176,58 +4176,58 @@ ZONE_INFO_Casey = {
 ZONE_ERAS_Davis = [
     #             7:00    -    +07    2009 Oct 18  2:00
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 9,
-      "untilMonth": 10,
-      "untilDay": 18,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 9,
+      'untilMonth': 10,
+      'untilDay': 18,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             5:00    -    +05    2010 Mar 10 20:00u
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 10,
-      "untilMonth": 3,
-      "untilDay": 10,
-      "untilHour": 20,
-      "untilTimeModifier": u,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 10,
+      'untilMonth': 3,
+      'untilDay': 10,
+      'untilHour': 20,
+      'untilTimeModifier': 'u',
     },
     #             7:00    -    +07    2011 Oct 28  2:00
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 11,
-      "untilMonth": 10,
-      "untilDay": 28,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 11,
+      'untilMonth': 10,
+      'untilDay': 28,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             5:00    -    +05    2012 Feb 21 20:00u
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 12,
-      "untilMonth": 2,
-      "untilDay": 21,
-      "untilHour": 20,
-      "untilTimeModifier": u,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 12,
+      'untilMonth': 2,
+      'untilDay': 21,
+      'untilHour': 20,
+      'untilTimeModifier': 'u',
     },
     #             7:00    -    +07
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4244,14 +4244,14 @@ ZONE_INFO_Davis = {
 ZONE_ERAS_DumontDUrville = [
     #             10:00    -    +10
     {
-      "offsetCode": 40,
-      "zonePolicy": None,
-      "format": "+10",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': '+10',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4268,25 +4268,25 @@ ZONE_INFO_DumontDUrville = {
 ZONE_ERAS_Macquarie = [
     #             10:00    AT    AE%sT    2010 Apr  4  3:00
     {
-      "offsetCode": 40,
-      "zonePolicy": ZONE_POLICY_AT,
-      "format": "AE%sT",
-      "untilYearShort": 10,
-      "untilMonth": 4,
-      "untilDay": 4,
-      "untilHour": 3,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': ZONE_POLICY_AT,
+      'format': 'AE%sT',
+      'untilYearShort': 10,
+      'untilMonth': 4,
+      'untilDay': 4,
+      'untilHour': 3,
+      'untilTimeModifier': 'w',
     },
     #             11:00    -    +11
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4303,25 +4303,25 @@ ZONE_INFO_Macquarie = {
 ZONE_ERAS_Mawson = [
     #             6:00    -    +06    2009 Oct 18  2:00
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 9,
-      "untilMonth": 10,
-      "untilDay": 18,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 9,
+      'untilMonth': 10,
+      'untilDay': 18,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4338,25 +4338,25 @@ ZONE_INFO_Mawson = {
 ZONE_ERAS_Palmer = [
     #             -4:00    Chile    -04/-03    2016 Dec  4
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Chile,
-      "format": "-04/-03",
-      "untilYearShort": 16,
-      "untilMonth": 12,
-      "untilDay": 4,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Chile,
+      'format': '-04/-03',
+      'untilYearShort': 16,
+      'untilMonth': 12,
+      'untilDay': 4,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4373,14 +4373,14 @@ ZONE_INFO_Palmer = {
 ZONE_ERAS_Rothera = [
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4397,14 +4397,14 @@ ZONE_INFO_Rothera = {
 ZONE_ERAS_Syowa = [
     #             3:00    -    +03
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "+03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': '+03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4421,14 +4421,14 @@ ZONE_INFO_Syowa = {
 ZONE_ERAS_Vostok = [
     #             6:00    -    +06
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4445,25 +4445,25 @@ ZONE_INFO_Vostok = {
 ZONE_ERAS_Almaty = [
     #             6:00 RussiaAsia    +06/+07    2004 Oct 31  2:00s
     {
-      "offsetCode": 24,
-      "zonePolicy": ZONE_POLICY_RussiaAsia,
-      "format": "+06/+07",
-      "untilYearShort": 4,
-      "untilMonth": 10,
-      "untilDay": 31,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 24,
+      'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'format': '+06/+07',
+      'untilYearShort': 4,
+      'untilMonth': 10,
+      'untilDay': 31,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             6:00    -    +06
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4480,14 +4480,14 @@ ZONE_INFO_Almaty = {
 ZONE_ERAS_Amman = [
     #             2:00    Jordan    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_Jordan,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_Jordan,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4504,36 +4504,36 @@ ZONE_INFO_Amman = {
 ZONE_ERAS_Anadyr = [
     #             12:00    Russia    +12/+13    2010 Mar 28  2:00s
     {
-      "offsetCode": 48,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+12/+13",
-      "untilYearShort": 10,
-      "untilMonth": 3,
-      "untilDay": 28,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 48,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+12/+13',
+      'untilYearShort': 10,
+      'untilMonth': 3,
+      'untilDay': 28,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
     {
-      "offsetCode": 44,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+11/+12",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 44,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+11/+12',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             12:00    -    +12
     {
-      "offsetCode": 48,
-      "zonePolicy": None,
-      "format": "+12",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4550,25 +4550,25 @@ ZONE_INFO_Anadyr = {
 ZONE_ERAS_Aqtau = [
     #             4:00 RussiaAsia    +04/+05    2004 Oct 31  2:00s
     {
-      "offsetCode": 16,
-      "zonePolicy": ZONE_POLICY_RussiaAsia,
-      "format": "+04/+05",
-      "untilYearShort": 4,
-      "untilMonth": 10,
-      "untilDay": 31,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 16,
+      'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'format': '+04/+05',
+      'untilYearShort': 4,
+      'untilMonth': 10,
+      'untilDay': 31,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4585,25 +4585,25 @@ ZONE_INFO_Aqtau = {
 ZONE_ERAS_Aqtobe = [
     #             5:00 RussiaAsia    +05/+06    2004 Oct 31  2:00s
     {
-      "offsetCode": 20,
-      "zonePolicy": ZONE_POLICY_RussiaAsia,
-      "format": "+05/+06",
-      "untilYearShort": 4,
-      "untilMonth": 10,
-      "untilDay": 31,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 20,
+      'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'format': '+05/+06',
+      'untilYearShort': 4,
+      'untilMonth': 10,
+      'untilDay': 31,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4620,14 +4620,14 @@ ZONE_INFO_Aqtobe = {
 ZONE_ERAS_Ashgabat = [
     #             5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4644,25 +4644,25 @@ ZONE_INFO_Ashgabat = {
 ZONE_ERAS_Atyrau = [
     #             4:00 RussiaAsia    +04/+05    2004 Oct 31  2:00s
     {
-      "offsetCode": 16,
-      "zonePolicy": ZONE_POLICY_RussiaAsia,
-      "format": "+04/+05",
-      "untilYearShort": 4,
-      "untilMonth": 10,
-      "untilDay": 31,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 16,
+      'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'format': '+04/+05',
+      'untilYearShort': 4,
+      'untilMonth': 10,
+      'untilDay': 31,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4679,14 +4679,14 @@ ZONE_INFO_Atyrau = {
 ZONE_ERAS_Baghdad = [
     #             3:00    Iraq    +03/+04
     {
-      "offsetCode": 12,
-      "zonePolicy": ZONE_POLICY_Iraq,
-      "format": "+03/+04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 12,
+      'zonePolicy': ZONE_POLICY_Iraq,
+      'format': '+03/+04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4703,14 +4703,14 @@ ZONE_INFO_Baghdad = {
 ZONE_ERAS_Baku = [
     #             4:00    Azer    +04/+05
     {
-      "offsetCode": 16,
-      "zonePolicy": ZONE_POLICY_Azer,
-      "format": "+04/+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': ZONE_POLICY_Azer,
+      'format': '+04/+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4727,14 +4727,14 @@ ZONE_INFO_Baku = {
 ZONE_ERAS_Bangkok = [
     #             7:00    -    +07
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4751,47 +4751,47 @@ ZONE_INFO_Bangkok = {
 ZONE_ERAS_Barnaul = [
     #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
     {
-      "offsetCode": 24,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+06/+07",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 24,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+06/+07',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              7:00    -    +07    2014 Oct 26  2:00s
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              6:00    -    +06    2016 Mar 27  2:00s
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 16,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 16,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              7:00    -    +07
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4808,14 +4808,14 @@ ZONE_INFO_Barnaul = {
 ZONE_ERAS_Beirut = [
     #             2:00    Lebanon    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_Lebanon,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_Lebanon,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4832,14 +4832,14 @@ ZONE_INFO_Beirut = {
 ZONE_ERAS_Brunei = [
     #             8:00    -    +08
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4856,47 +4856,47 @@ ZONE_INFO_Brunei = {
 ZONE_ERAS_Chita = [
     #              9:00    Russia    +09/+10    2011 Mar 27  2:00s
     {
-      "offsetCode": 36,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+09/+10",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 36,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+09/+10',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             10:00    -    +10    2014 Oct 26  2:00s
     {
-      "offsetCode": 40,
-      "zonePolicy": None,
-      "format": "+10",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': '+10',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              8:00    -    +08    2016 Mar 27  2:00
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 16,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 16,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #              9:00    -    +09
     {
-      "offsetCode": 36,
-      "zonePolicy": None,
-      "format": "+09",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 36,
+      'zonePolicy': None,
+      'format': '+09',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4913,25 +4913,25 @@ ZONE_INFO_Chita = {
 ZONE_ERAS_Choibalsan = [
     #             9:00    Mongol    +09/+10    2008 Mar 31
     {
-      "offsetCode": 36,
-      "zonePolicy": ZONE_POLICY_Mongol,
-      "format": "+09/+10",
-      "untilYearShort": 8,
-      "untilMonth": 3,
-      "untilDay": 31,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 36,
+      'zonePolicy': ZONE_POLICY_Mongol,
+      'format': '+09/+10',
+      'untilYearShort': 8,
+      'untilMonth': 3,
+      'untilDay': 31,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             8:00    Mongol    +08/+09
     {
-      "offsetCode": 32,
-      "zonePolicy": ZONE_POLICY_Mongol,
-      "format": "+08/+09",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': ZONE_POLICY_Mongol,
+      'format': '+08/+09',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4948,14 +4948,14 @@ ZONE_INFO_Choibalsan = {
 ZONE_ERAS_Damascus = [
     #             2:00    Syria    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_Syria,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_Syria,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -4972,25 +4972,25 @@ ZONE_INFO_Damascus = {
 ZONE_ERAS_Dhaka = [
     #             6:00    -    +06    2009
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 9,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 9,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             6:00    Dhaka    +06/+07
     {
-      "offsetCode": 24,
-      "zonePolicy": ZONE_POLICY_Dhaka,
-      "format": "+06/+07",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 24,
+      'zonePolicy': ZONE_POLICY_Dhaka,
+      'format': '+06/+07',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5007,25 +5007,25 @@ ZONE_INFO_Dhaka = {
 ZONE_ERAS_Dili = [
     #             8:00    -    +08    2000 Sep 17  0:00
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 0,
-      "untilMonth": 9,
-      "untilDay": 17,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 0,
+      'untilMonth': 9,
+      'untilDay': 17,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             9:00    -    +09
     {
-      "offsetCode": 36,
-      "zonePolicy": None,
-      "format": "+09",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 36,
+      'zonePolicy': None,
+      'format': '+09',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5042,14 +5042,14 @@ ZONE_INFO_Dili = {
 ZONE_ERAS_Dubai = [
     #             4:00    -    +04
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5066,14 +5066,14 @@ ZONE_INFO_Dubai = {
 ZONE_ERAS_Dushanbe = [
     #             5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5090,36 +5090,36 @@ ZONE_INFO_Dushanbe = {
 ZONE_ERAS_Famagusta = [
     #             2:00    EUAsia    EE%sT    2016 Sep  8
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EUAsia,
-      "format": "EE%sT",
-      "untilYearShort": 16,
-      "untilMonth": 9,
-      "untilDay": 8,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EUAsia,
+      'format': 'EE%sT',
+      'untilYearShort': 16,
+      'untilMonth': 9,
+      'untilDay': 8,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             3:00    -    +03    2017 Oct 29 1:00u
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "+03",
-      "untilYearShort": 17,
-      "untilMonth": 10,
-      "untilDay": 29,
-      "untilHour": 1,
-      "untilTimeModifier": u,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': '+03',
+      'untilYearShort': 17,
+      'untilMonth': 10,
+      'untilDay': 29,
+      'untilHour': 1,
+      'untilTimeModifier': 'u',
     },
     #             2:00    EUAsia    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EUAsia,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EUAsia,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5136,14 +5136,14 @@ ZONE_INFO_Famagusta = {
 ZONE_ERAS_Ho_Chi_Minh = [
     #             7:00    -    +07
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5160,14 +5160,14 @@ ZONE_INFO_Ho_Chi_Minh = {
 ZONE_ERAS_Hovd = [
     #             7:00    Mongol    +07/+08
     {
-      "offsetCode": 28,
-      "zonePolicy": ZONE_POLICY_Mongol,
-      "format": "+07/+08",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': ZONE_POLICY_Mongol,
+      'format': '+07/+08',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5184,36 +5184,36 @@ ZONE_INFO_Hovd = {
 ZONE_ERAS_Irkutsk = [
     #              8:00    Russia    +08/+09    2011 Mar 27  2:00s
     {
-      "offsetCode": 32,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+08/+09",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 32,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+08/+09',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              9:00    -    +09    2014 Oct 26  2:00s
     {
-      "offsetCode": 36,
-      "zonePolicy": None,
-      "format": "+09",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 36,
+      'zonePolicy': None,
+      'format': '+09',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              8:00    -    +08
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5230,14 +5230,14 @@ ZONE_INFO_Irkutsk = {
 ZONE_ERAS_Jakarta = [
     #             7:00    -    WIB
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "WIB",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': 'WIB',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5254,14 +5254,14 @@ ZONE_INFO_Jakarta = {
 ZONE_ERAS_Jayapura = [
     #             9:00    -    WIT
     {
-      "offsetCode": 36,
-      "zonePolicy": None,
-      "format": "WIT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 36,
+      'zonePolicy': None,
+      'format': 'WIT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5278,14 +5278,14 @@ ZONE_INFO_Jayapura = {
 ZONE_ERAS_Jerusalem = [
     #             2:00    Zion    I%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_Zion,
-      "format": "I%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_Zion,
+      'format': 'I%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5302,14 +5302,14 @@ ZONE_INFO_Jerusalem = {
 ZONE_ERAS_Kabul = [
     #             4:30    -    +0430
     {
-      "offsetCode": 18,
-      "zonePolicy": None,
-      "format": "+0430",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 18,
+      'zonePolicy': None,
+      'format': '+0430',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5326,36 +5326,36 @@ ZONE_INFO_Kabul = {
 ZONE_ERAS_Kamchatka = [
     #             12:00    Russia    +12/+13    2010 Mar 28  2:00s
     {
-      "offsetCode": 48,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+12/+13",
-      "untilYearShort": 10,
-      "untilMonth": 3,
-      "untilDay": 28,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 48,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+12/+13',
+      'untilYearShort': 10,
+      'untilMonth': 3,
+      'untilDay': 28,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
     {
-      "offsetCode": 44,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+11/+12",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 44,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+11/+12',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             12:00    -    +12
     {
-      "offsetCode": 48,
-      "zonePolicy": None,
-      "format": "+12",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5372,14 +5372,14 @@ ZONE_INFO_Kamchatka = {
 ZONE_ERAS_Karachi = [
     #             5:00 Pakistan    PK%sT
     {
-      "offsetCode": 20,
-      "zonePolicy": ZONE_POLICY_Pakistan,
-      "format": "PK%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': ZONE_POLICY_Pakistan,
+      'format': 'PK%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5396,14 +5396,14 @@ ZONE_INFO_Karachi = {
 ZONE_ERAS_Kathmandu = [
     #             5:45    -    +0545
     {
-      "offsetCode": 23,
-      "zonePolicy": None,
-      "format": "+0545",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 23,
+      'zonePolicy': None,
+      'format': '+0545',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5420,14 +5420,14 @@ ZONE_INFO_Kathmandu = {
 ZONE_ERAS_Kolkata = [
     #             5:30    -    IST
     {
-      "offsetCode": 22,
-      "zonePolicy": None,
-      "format": "IST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 22,
+      'zonePolicy': None,
+      'format': 'IST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5444,36 +5444,36 @@ ZONE_INFO_Kolkata = {
 ZONE_ERAS_Krasnoyarsk = [
     #              7:00    Russia    +07/+08    2011 Mar 27  2:00s
     {
-      "offsetCode": 28,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+07/+08",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 28,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+07/+08',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              8:00    -    +08    2014 Oct 26  2:00s
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              7:00    -    +07
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5490,14 +5490,14 @@ ZONE_INFO_Krasnoyarsk = {
 ZONE_ERAS_Kuala_Lumpur = [
     #             8:00    -    +08
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5514,14 +5514,14 @@ ZONE_INFO_Kuala_Lumpur = {
 ZONE_ERAS_Kuching = [
     #             8:00    -    +08
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5538,47 +5538,47 @@ ZONE_INFO_Kuching = {
 ZONE_ERAS_Magadan = [
     #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
     {
-      "offsetCode": 44,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+11/+12",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 44,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+11/+12',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             12:00    -    +12    2014 Oct 26  2:00s
     {
-      "offsetCode": 48,
-      "zonePolicy": None,
-      "format": "+12",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             10:00    -    +10    2016 Apr 24  2:00s
     {
-      "offsetCode": 40,
-      "zonePolicy": None,
-      "format": "+10",
-      "untilYearShort": 16,
-      "untilMonth": 4,
-      "untilDay": 24,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': '+10',
+      'untilYearShort': 16,
+      'untilMonth': 4,
+      'untilDay': 24,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             11:00    -    +11
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5595,14 +5595,14 @@ ZONE_INFO_Magadan = {
 ZONE_ERAS_Makassar = [
     #             8:00    -    WITA
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "WITA",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': 'WITA',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5619,14 +5619,14 @@ ZONE_INFO_Makassar = {
 ZONE_ERAS_Manila = [
     #             8:00    Phil    P%sT
     {
-      "offsetCode": 32,
-      "zonePolicy": ZONE_POLICY_Phil,
-      "format": "P%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': ZONE_POLICY_Phil,
+      'format': 'P%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5643,14 +5643,14 @@ ZONE_INFO_Manila = {
 ZONE_ERAS_Nicosia = [
     #             2:00    EUAsia    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EUAsia,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EUAsia,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5667,36 +5667,36 @@ ZONE_INFO_Nicosia = {
 ZONE_ERAS_Novokuznetsk = [
     #              7:00    Russia    +07/+08    2010 Mar 28  2:00s
     {
-      "offsetCode": 28,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+07/+08",
-      "untilYearShort": 10,
-      "untilMonth": 3,
-      "untilDay": 28,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 28,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+07/+08',
+      'untilYearShort': 10,
+      'untilMonth': 3,
+      'untilDay': 28,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
     {
-      "offsetCode": 24,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+06/+07",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 24,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+06/+07',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              7:00    -    +07
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5713,47 +5713,47 @@ ZONE_INFO_Novokuznetsk = {
 ZONE_ERAS_Novosibirsk = [
     #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
     {
-      "offsetCode": 24,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+06/+07",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 24,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+06/+07',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              7:00    -    +07    2014 Oct 26  2:00s
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              6:00    -    +06    2016 Jul 24  2:00s
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 16,
-      "untilMonth": 7,
-      "untilDay": 24,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 16,
+      'untilMonth': 7,
+      'untilDay': 24,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              7:00    -    +07
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5770,36 +5770,36 @@ ZONE_INFO_Novosibirsk = {
 ZONE_ERAS_Omsk = [
     #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
     {
-      "offsetCode": 24,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+06/+07",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 24,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+06/+07',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              7:00    -    +07    2014 Oct 26  2:00s
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              6:00    -    +06
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5816,25 +5816,25 @@ ZONE_INFO_Omsk = {
 ZONE_ERAS_Oral = [
     #             4:00 RussiaAsia    +04/+05    2004 Oct 31  2:00s
     {
-      "offsetCode": 16,
-      "zonePolicy": ZONE_POLICY_RussiaAsia,
-      "format": "+04/+05",
-      "untilYearShort": 4,
-      "untilMonth": 10,
-      "untilDay": 31,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 16,
+      'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'format': '+04/+05',
+      'untilYearShort': 4,
+      'untilMonth': 10,
+      'untilDay': 31,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5851,14 +5851,14 @@ ZONE_INFO_Oral = {
 ZONE_ERAS_Pontianak = [
     #             7:00    -    WIB
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "WIB",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': 'WIB',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5875,14 +5875,14 @@ ZONE_INFO_Pontianak = {
 ZONE_ERAS_Qatar = [
     #             3:00    -    +03
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "+03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': '+03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5899,25 +5899,25 @@ ZONE_INFO_Qatar = {
 ZONE_ERAS_Qyzylorda = [
     #             5:00 RussiaAsia    +05/+06    2004 Oct 31  2:00s
     {
-      "offsetCode": 20,
-      "zonePolicy": ZONE_POLICY_RussiaAsia,
-      "format": "+05/+06",
-      "untilYearShort": 4,
-      "untilMonth": 10,
-      "untilDay": 31,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 20,
+      'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'format': '+05/+06',
+      'untilYearShort': 4,
+      'untilMonth': 10,
+      'untilDay': 31,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             6:00    -    +06
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5934,14 +5934,14 @@ ZONE_INFO_Qyzylorda = {
 ZONE_ERAS_Riyadh = [
     #             3:00    -    +03
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "+03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': '+03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -5958,47 +5958,47 @@ ZONE_INFO_Riyadh = {
 ZONE_ERAS_Sakhalin = [
     #             10:00    Russia    +10/+11    2011 Mar 27  2:00s
     {
-      "offsetCode": 40,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+10/+11",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 40,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+10/+11',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             11:00    -    +11    2014 Oct 26  2:00s
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             10:00    -    +10    2016 Mar 27  2:00s
     {
-      "offsetCode": 40,
-      "zonePolicy": None,
-      "format": "+10",
-      "untilYearShort": 16,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': '+10',
+      'untilYearShort': 16,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             11:00    -    +11
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6015,14 +6015,14 @@ ZONE_INFO_Sakhalin = {
 ZONE_ERAS_Samarkand = [
     #             5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6039,14 +6039,14 @@ ZONE_INFO_Samarkand = {
 ZONE_ERAS_Seoul = [
     #             9:00    ROK    K%sT
     {
-      "offsetCode": 36,
-      "zonePolicy": ZONE_POLICY_ROK,
-      "format": "K%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 36,
+      'zonePolicy': ZONE_POLICY_ROK,
+      'format': 'K%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6063,14 +6063,14 @@ ZONE_INFO_Seoul = {
 ZONE_ERAS_Shanghai = [
     #             8:00    PRC    C%sT
     {
-      "offsetCode": 32,
-      "zonePolicy": ZONE_POLICY_PRC,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': ZONE_POLICY_PRC,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6087,14 +6087,14 @@ ZONE_INFO_Shanghai = {
 ZONE_ERAS_Singapore = [
     #             8:00    -    +08
     {
-      "offsetCode": 32,
-      "zonePolicy": None,
-      "format": "+08",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': None,
+      'format': '+08',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6111,36 +6111,36 @@ ZONE_INFO_Singapore = {
 ZONE_ERAS_Srednekolymsk = [
     #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
     {
-      "offsetCode": 44,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+11/+12",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 44,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+11/+12',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             12:00    -    +12    2014 Oct 26  2:00s
     {
-      "offsetCode": 48,
-      "zonePolicy": None,
-      "format": "+12",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             11:00    -    +11
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6157,14 +6157,14 @@ ZONE_INFO_Srednekolymsk = {
 ZONE_ERAS_Taipei = [
     #             8:00    Taiwan    C%sT
     {
-      "offsetCode": 32,
-      "zonePolicy": ZONE_POLICY_Taiwan,
-      "format": "C%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': ZONE_POLICY_Taiwan,
+      'format': 'C%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6181,14 +6181,14 @@ ZONE_INFO_Taipei = {
 ZONE_ERAS_Tashkent = [
     #             5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6205,36 +6205,36 @@ ZONE_INFO_Tashkent = {
 ZONE_ERAS_Tbilisi = [
     #             4:00 E-EurAsia    +04/+05    2004 Jun 27
     {
-      "offsetCode": 16,
-      "zonePolicy": ZONE_POLICY_E_EurAsia,
-      "format": "+04/+05",
-      "untilYearShort": 4,
-      "untilMonth": 6,
-      "untilDay": 27,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': ZONE_POLICY_E_EurAsia,
+      'format': '+04/+05',
+      'untilYearShort': 4,
+      'untilMonth': 6,
+      'untilDay': 27,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             3:00 RussiaAsia    +03/+04    2005 Mar lastSun  2:00
     {
-      "offsetCode": 12,
-      "zonePolicy": ZONE_POLICY_RussiaAsia,
-      "format": "+03/+04",
-      "untilYearShort": 5,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 12,
+      'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'format': '+03/+04',
+      'untilYearShort': 5,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             4:00    -    +04
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6251,14 +6251,14 @@ ZONE_INFO_Tbilisi = {
 ZONE_ERAS_Tehran = [
     #             3:30    Iran    +0330/+0430
     {
-      "offsetCode": 14,
-      "zonePolicy": ZONE_POLICY_Iran,
-      "format": "+0330/+0430",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 14,
+      'zonePolicy': ZONE_POLICY_Iran,
+      'format': '+0330/+0430',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6275,14 +6275,14 @@ ZONE_INFO_Tehran = {
 ZONE_ERAS_Thimphu = [
     #             6:00    -    +06
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6299,14 +6299,14 @@ ZONE_INFO_Thimphu = {
 ZONE_ERAS_Tokyo = [
     #             9:00    Japan    J%sT
     {
-      "offsetCode": 36,
-      "zonePolicy": ZONE_POLICY_Japan,
-      "format": "J%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 36,
+      'zonePolicy': ZONE_POLICY_Japan,
+      'format': 'J%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6323,58 +6323,58 @@ ZONE_INFO_Tokyo = {
 ZONE_ERAS_Tomsk = [
     #              7:00    Russia    +07/+08    2002 May  1  3:00
     {
-      "offsetCode": 28,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+07/+08",
-      "untilYearShort": 2,
-      "untilMonth": 5,
-      "untilDay": 1,
-      "untilHour": 3,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+07/+08',
+      'untilYearShort': 2,
+      'untilMonth': 5,
+      'untilDay': 1,
+      'untilHour': 3,
+      'untilTimeModifier': 'w',
     },
     #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
     {
-      "offsetCode": 24,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+06/+07",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 24,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+06/+07',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              7:00    -    +07    2014 Oct 26  2:00s
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              6:00    -    +06    2016 May 29  2:00s
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 16,
-      "untilMonth": 5,
-      "untilDay": 29,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 16,
+      'untilMonth': 5,
+      'untilDay': 29,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              7:00    -    +07
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6391,14 +6391,14 @@ ZONE_INFO_Tomsk = {
 ZONE_ERAS_Ulaanbaatar = [
     #             8:00    Mongol    +08/+09
     {
-      "offsetCode": 32,
-      "zonePolicy": ZONE_POLICY_Mongol,
-      "format": "+08/+09",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': ZONE_POLICY_Mongol,
+      'format': '+08/+09',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6415,14 +6415,14 @@ ZONE_INFO_Ulaanbaatar = {
 ZONE_ERAS_Urumqi = [
     #             6:00    -    +06
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6439,36 +6439,36 @@ ZONE_INFO_Urumqi = {
 ZONE_ERAS_Vladivostok = [
     #             10:00    Russia    +10/+11    2011 Mar 27  2:00s
     {
-      "offsetCode": 40,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+10/+11",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 40,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+10/+11',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             11:00    -    +11    2014 Oct 26  2:00s
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             10:00    -    +10
     {
-      "offsetCode": 40,
-      "zonePolicy": None,
-      "format": "+10",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': '+10',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6485,36 +6485,36 @@ ZONE_INFO_Vladivostok = {
 ZONE_ERAS_Yakutsk = [
     #              9:00    Russia    +09/+10    2011 Mar 27  2:00s
     {
-      "offsetCode": 36,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+09/+10",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 36,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+09/+10',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             10:00    -    +10    2014 Oct 26  2:00s
     {
-      "offsetCode": 40,
-      "zonePolicy": None,
-      "format": "+10",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': '+10',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              9:00    -    +09
     {
-      "offsetCode": 36,
-      "zonePolicy": None,
-      "format": "+09",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 36,
+      'zonePolicy': None,
+      'format': '+09',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6531,14 +6531,14 @@ ZONE_INFO_Yakutsk = {
 ZONE_ERAS_Yangon = [
     #             6:30    -    +0630
     {
-      "offsetCode": 26,
-      "zonePolicy": None,
-      "format": "+0630",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 26,
+      'zonePolicy': None,
+      'format': '+0630',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6555,36 +6555,36 @@ ZONE_INFO_Yangon = {
 ZONE_ERAS_Yekaterinburg = [
     #              5:00    Russia    +05/+06    2011 Mar 27  2:00s
     {
-      "offsetCode": 20,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+05/+06",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 20,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+05/+06',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              6:00    -    +06    2014 Oct 26  2:00s
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6601,25 +6601,25 @@ ZONE_INFO_Yekaterinburg = {
 ZONE_ERAS_Yerevan = [
     #             4:00 RussiaAsia    +04/+05    2011
     {
-      "offsetCode": 16,
-      "zonePolicy": ZONE_POLICY_RussiaAsia,
-      "format": "+04/+05",
-      "untilYearShort": 11,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'format': '+04/+05',
+      'untilYearShort': 11,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             4:00    Armenia    +04/+05
     {
-      "offsetCode": 16,
-      "zonePolicy": ZONE_POLICY_Armenia,
-      "format": "+04/+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': ZONE_POLICY_Armenia,
+      'format': '+04/+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6636,14 +6636,14 @@ ZONE_INFO_Yerevan = {
 ZONE_ERAS_Azores = [
     #             -1:00    EU    -01/+00
     {
-      "offsetCode": -4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "-01/+00",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': '-01/+00',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6660,14 +6660,14 @@ ZONE_INFO_Azores = {
 ZONE_ERAS_Bermuda = [
     #             -4:00    US    A%sT
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_US,
-      "format": "A%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_US,
+      'format': 'A%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6684,14 +6684,14 @@ ZONE_INFO_Bermuda = {
 ZONE_ERAS_Canary = [
     #              0:00    EU    WE%sT
     {
-      "offsetCode": 0,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "WE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'WE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6708,14 +6708,14 @@ ZONE_INFO_Canary = {
 ZONE_ERAS_Cape_Verde = [
     #             -1:00    -    -01
     {
-      "offsetCode": -4,
-      "zonePolicy": None,
-      "format": "-01",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -4,
+      'zonePolicy': None,
+      'format': '-01',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6732,14 +6732,14 @@ ZONE_INFO_Cape_Verde = {
 ZONE_ERAS_Faroe = [
     #              0:00    EU    WE%sT
     {
-      "offsetCode": 0,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "WE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'WE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6756,14 +6756,14 @@ ZONE_INFO_Faroe = {
 ZONE_ERAS_Madeira = [
     #              0:00    EU    WE%sT
     {
-      "offsetCode": 0,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "WE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'WE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6780,14 +6780,14 @@ ZONE_INFO_Madeira = {
 ZONE_ERAS_Reykjavik = [
     #              0:00    -    GMT
     {
-      "offsetCode": 0,
-      "zonePolicy": None,
-      "format": "GMT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': None,
+      'format': 'GMT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6804,14 +6804,14 @@ ZONE_INFO_Reykjavik = {
 ZONE_ERAS_South_Georgia = [
     #             -2:00    -    -02
     {
-      "offsetCode": -8,
-      "zonePolicy": None,
-      "format": "-02",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -8,
+      'zonePolicy': None,
+      'format': '-02',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6828,25 +6828,25 @@ ZONE_INFO_South_Georgia = {
 ZONE_ERAS_Stanley = [
     #             -4:00    Falk    -04/-03    2010 Sep  5  2:00
     {
-      "offsetCode": -16,
-      "zonePolicy": ZONE_POLICY_Falk,
-      "format": "-04/-03",
-      "untilYearShort": 10,
-      "untilMonth": 9,
-      "untilDay": 5,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': -16,
+      'zonePolicy': ZONE_POLICY_Falk,
+      'format': '-04/-03',
+      'untilYearShort': 10,
+      'untilMonth': 9,
+      'untilDay': 5,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             -3:00    -    -03
     {
-      "offsetCode": -12,
-      "zonePolicy": None,
-      "format": "-03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -12,
+      'zonePolicy': None,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6863,14 +6863,14 @@ ZONE_INFO_Stanley = {
 ZONE_ERAS_Adelaide = [
     #             9:30    AS    AC%sT
     {
-      "offsetCode": 38,
-      "zonePolicy": ZONE_POLICY_AS,
-      "format": "AC%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 38,
+      'zonePolicy': ZONE_POLICY_AS,
+      'format': 'AC%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6887,14 +6887,14 @@ ZONE_INFO_Adelaide = {
 ZONE_ERAS_Brisbane = [
     #             10:00    AQ    AE%sT
     {
-      "offsetCode": 40,
-      "zonePolicy": ZONE_POLICY_AQ,
-      "format": "AE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': ZONE_POLICY_AQ,
+      'format': 'AE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6911,25 +6911,25 @@ ZONE_INFO_Brisbane = {
 ZONE_ERAS_Broken_Hill = [
     #             9:30    AN    AC%sT    2000
     {
-      "offsetCode": 38,
-      "zonePolicy": ZONE_POLICY_AN,
-      "format": "AC%sT",
-      "untilYearShort": 0,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 38,
+      'zonePolicy': ZONE_POLICY_AN,
+      'format': 'AC%sT',
+      'untilYearShort': 0,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             9:30    AS    AC%sT
     {
-      "offsetCode": 38,
-      "zonePolicy": ZONE_POLICY_AS,
-      "format": "AC%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 38,
+      'zonePolicy': ZONE_POLICY_AS,
+      'format': 'AC%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6946,14 +6946,14 @@ ZONE_INFO_Broken_Hill = {
 ZONE_ERAS_Currie = [
     #             10:00    AT    AE%sT
     {
-      "offsetCode": 40,
-      "zonePolicy": ZONE_POLICY_AT,
-      "format": "AE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': ZONE_POLICY_AT,
+      'format': 'AE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6970,14 +6970,14 @@ ZONE_INFO_Currie = {
 ZONE_ERAS_Darwin = [
     #              9:30    Aus    AC%sT
     {
-      "offsetCode": 38,
-      "zonePolicy": ZONE_POLICY_Aus,
-      "format": "AC%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 38,
+      'zonePolicy': ZONE_POLICY_Aus,
+      'format': 'AC%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -6994,14 +6994,14 @@ ZONE_INFO_Darwin = {
 ZONE_ERAS_Eucla = [
     #              8:45    AW  +0845/+0945
     {
-      "offsetCode": 35,
-      "zonePolicy": ZONE_POLICY_AW,
-      "format": "+0845/+0945",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 35,
+      'zonePolicy': ZONE_POLICY_AW,
+      'format': '+0845/+0945',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7018,14 +7018,14 @@ ZONE_INFO_Eucla = {
 ZONE_ERAS_Hobart = [
     #             10:00    AT    AE%sT
     {
-      "offsetCode": 40,
-      "zonePolicy": ZONE_POLICY_AT,
-      "format": "AE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': ZONE_POLICY_AT,
+      'format': 'AE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7042,14 +7042,14 @@ ZONE_INFO_Hobart = {
 ZONE_ERAS_Lindeman = [
     #             10:00    Holiday    AE%sT
     {
-      "offsetCode": 40,
-      "zonePolicy": ZONE_POLICY_Holiday,
-      "format": "AE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': ZONE_POLICY_Holiday,
+      'format': 'AE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7066,14 +7066,14 @@ ZONE_INFO_Lindeman = {
 ZONE_ERAS_Lord_Howe = [
     #             10:30    LH    +1030/+11
     {
-      "offsetCode": 42,
-      "zonePolicy": ZONE_POLICY_LH,
-      "format": "+1030/+11",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 42,
+      'zonePolicy': ZONE_POLICY_LH,
+      'format': '+1030/+11',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7090,14 +7090,14 @@ ZONE_INFO_Lord_Howe = {
 ZONE_ERAS_Melbourne = [
     #             10:00    AV    AE%sT
     {
-      "offsetCode": 40,
-      "zonePolicy": ZONE_POLICY_AV,
-      "format": "AE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': ZONE_POLICY_AV,
+      'format': 'AE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7114,14 +7114,14 @@ ZONE_INFO_Melbourne = {
 ZONE_ERAS_Perth = [
     #              8:00    AW    AW%sT
     {
-      "offsetCode": 32,
-      "zonePolicy": ZONE_POLICY_AW,
-      "format": "AW%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 32,
+      'zonePolicy': ZONE_POLICY_AW,
+      'format': 'AW%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7138,14 +7138,14 @@ ZONE_INFO_Perth = {
 ZONE_ERAS_Sydney = [
     #             10:00    AN    AE%sT
     {
-      "offsetCode": 40,
-      "zonePolicy": ZONE_POLICY_AN,
-      "format": "AE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': ZONE_POLICY_AN,
+      'format': 'AE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7162,14 +7162,14 @@ ZONE_INFO_Sydney = {
 ZONE_ERAS_Amsterdam = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7186,14 +7186,14 @@ ZONE_INFO_Amsterdam = {
 ZONE_ERAS_Andorra = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7210,47 +7210,47 @@ ZONE_INFO_Andorra = {
 ZONE_ERAS_Astrakhan = [
     #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+03/+04",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+03/+04',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              4:00    -    +04    2014 Oct 26  2:00s
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              3:00    -    +03    2016 Mar 27  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "+03",
-      "untilYearShort": 16,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': '+03',
+      'untilYearShort': 16,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              4:00    -    +04
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7267,14 +7267,14 @@ ZONE_INFO_Astrakhan = {
 ZONE_ERAS_Athens = [
     #             2:00    EU    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7291,14 +7291,14 @@ ZONE_INFO_Athens = {
 ZONE_ERAS_Belgrade = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7315,14 +7315,14 @@ ZONE_INFO_Belgrade = {
 ZONE_ERAS_Berlin = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7339,14 +7339,14 @@ ZONE_INFO_Berlin = {
 ZONE_ERAS_Brussels = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7363,14 +7363,14 @@ ZONE_INFO_Brussels = {
 ZONE_ERAS_Bucharest = [
     #             2:00    EU    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7387,14 +7387,14 @@ ZONE_INFO_Bucharest = {
 ZONE_ERAS_Budapest = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7411,14 +7411,14 @@ ZONE_INFO_Budapest = {
 ZONE_ERAS_Chisinau = [
     #             2:00    Moldova    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_Moldova,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_Moldova,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7435,14 +7435,14 @@ ZONE_INFO_Chisinau = {
 ZONE_ERAS_Copenhagen = [
     #              1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7459,14 +7459,14 @@ ZONE_INFO_Copenhagen = {
 ZONE_ERAS_Dublin = [
     #              1:00    Eire    IST/GMT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_Eire,
-      "format": "IST/GMT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_Eire,
+      'format': 'IST/GMT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7483,14 +7483,14 @@ ZONE_INFO_Dublin = {
 ZONE_ERAS_Gibraltar = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7507,14 +7507,14 @@ ZONE_INFO_Gibraltar = {
 ZONE_ERAS_Helsinki = [
     #             2:00    EU    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7531,36 +7531,36 @@ ZONE_INFO_Helsinki = {
 ZONE_ERAS_Kaliningrad = [
     #              2:00    Russia    EE%sT    2011 Mar 27  2:00s
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "EE%sT",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': 'EE%sT',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              3:00    -    +03    2014 Oct 26  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "+03",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': '+03',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              2:00    -    EET
     {
-      "offsetCode": 8,
-      "zonePolicy": None,
-      "format": "EET",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': None,
+      'format': 'EET',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7577,14 +7577,14 @@ ZONE_INFO_Kaliningrad = {
 ZONE_ERAS_Kiev = [
     #             2:00    EU    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7601,36 +7601,36 @@ ZONE_INFO_Kiev = {
 ZONE_ERAS_Kirov = [
     #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+03/+04",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+03/+04',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              4:00    -    +04    2014 Oct 26  2:00s
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              3:00    -    +03
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "+03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': '+03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7647,14 +7647,14 @@ ZONE_INFO_Kirov = {
 ZONE_ERAS_Lisbon = [
     #              0:00    EU    WE%sT
     {
-      "offsetCode": 0,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "WE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'WE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7671,14 +7671,14 @@ ZONE_INFO_Lisbon = {
 ZONE_ERAS_London = [
     #              0:00    EU    GMT/BST
     {
-      "offsetCode": 0,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "GMT/BST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 0,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'GMT/BST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7695,14 +7695,14 @@ ZONE_INFO_London = {
 ZONE_ERAS_Luxembourg = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7719,14 +7719,14 @@ ZONE_INFO_Luxembourg = {
 ZONE_ERAS_Madrid = [
     #              1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7743,14 +7743,14 @@ ZONE_INFO_Madrid = {
 ZONE_ERAS_Malta = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7767,25 +7767,25 @@ ZONE_INFO_Malta = {
 ZONE_ERAS_Minsk = [
     #             2:00    Russia    EE%sT    2011 Mar 27  2:00s
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "EE%sT",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': 'EE%sT',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #             3:00    -    +03
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "+03",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': '+03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7802,14 +7802,14 @@ ZONE_INFO_Minsk = {
 ZONE_ERAS_Monaco = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7826,36 +7826,36 @@ ZONE_INFO_Monaco = {
 ZONE_ERAS_Moscow = [
     #              3:00    Russia    MSK/MSD    2011 Mar 27  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "MSK/MSD",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': 'MSK/MSD',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              4:00    -    MSK    2014 Oct 26  2:00s
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "MSK",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': 'MSK',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              3:00    -    MSK
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "MSK",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': 'MSK',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7872,14 +7872,14 @@ ZONE_INFO_Moscow = {
 ZONE_ERAS_Oslo = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7896,14 +7896,14 @@ ZONE_INFO_Oslo = {
 ZONE_ERAS_Paris = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7920,14 +7920,14 @@ ZONE_INFO_Paris = {
 ZONE_ERAS_Prague = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7944,36 +7944,36 @@ ZONE_INFO_Prague = {
 ZONE_ERAS_Riga = [
     #             2:00    EU    EE%sT    2000 Feb 29
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%sT",
-      "untilYearShort": 0,
-      "untilMonth": 2,
-      "untilDay": 29,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 0,
+      'untilMonth': 2,
+      'untilDay': 29,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             2:00    -    EET    2001 Jan  2
     {
-      "offsetCode": 8,
-      "zonePolicy": None,
-      "format": "EET",
-      "untilYearShort": 1,
-      "untilMonth": 1,
-      "untilDay": 2,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': None,
+      'format': 'EET',
+      'untilYearShort': 1,
+      'untilMonth': 1,
+      'untilDay': 2,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             2:00    EU    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -7990,14 +7990,14 @@ ZONE_INFO_Riga = {
 ZONE_ERAS_Rome = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8014,36 +8014,36 @@ ZONE_INFO_Rome = {
 ZONE_ERAS_Samara = [
     #              4:00    Russia    +04/+05    2010 Mar 28  2:00s
     {
-      "offsetCode": 16,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+04/+05",
-      "untilYearShort": 10,
-      "untilMonth": 3,
-      "untilDay": 28,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 16,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+04/+05',
+      'untilYearShort': 10,
+      'untilMonth': 3,
+      'untilDay': 28,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+03/+04",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+03/+04',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              4:00    -    +04
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8060,47 +8060,47 @@ ZONE_INFO_Samara = {
 ZONE_ERAS_Saratov = [
     #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+03/+04",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+03/+04',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              4:00    -    +04    2014 Oct 26  2:00s
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              3:00    -    +03    2016 Dec  4  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "+03",
-      "untilYearShort": 16,
-      "untilMonth": 12,
-      "untilDay": 4,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': '+03',
+      'untilYearShort': 16,
+      'untilMonth': 12,
+      'untilDay': 4,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              4:00    -    +04
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8117,14 +8117,14 @@ ZONE_INFO_Saratov = {
 ZONE_ERAS_Sofia = [
     #             2:00    EU    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8141,14 +8141,14 @@ ZONE_INFO_Sofia = {
 ZONE_ERAS_Stockholm = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8165,25 +8165,25 @@ ZONE_INFO_Stockholm = {
 ZONE_ERAS_Tallinn = [
     #             2:00    -    EET    2002 Feb 21
     {
-      "offsetCode": 8,
-      "zonePolicy": None,
-      "format": "EET",
-      "untilYearShort": 2,
-      "untilMonth": 2,
-      "untilDay": 21,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': None,
+      'format': 'EET',
+      'untilYearShort': 2,
+      'untilMonth': 2,
+      'untilDay': 21,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             2:00    EU    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8200,14 +8200,14 @@ ZONE_INFO_Tallinn = {
 ZONE_ERAS_Tirane = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8224,47 +8224,47 @@ ZONE_INFO_Tirane = {
 ZONE_ERAS_Ulyanovsk = [
     #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+03/+04",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+03/+04',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              4:00    -    +04    2014 Oct 26  2:00s
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              3:00    -    +03    2016 Mar 27  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "+03",
-      "untilYearShort": 16,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': '+03',
+      'untilYearShort': 16,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              4:00    -    +04
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8281,14 +8281,14 @@ ZONE_INFO_Ulyanovsk = {
 ZONE_ERAS_Uzhgorod = [
     #             2:00    EU    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8305,14 +8305,14 @@ ZONE_INFO_Uzhgorod = {
 ZONE_ERAS_Vienna = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8329,25 +8329,25 @@ ZONE_INFO_Vienna = {
 ZONE_ERAS_Vilnius = [
     #             2:00    -    EET    2003 Jan  1
     {
-      "offsetCode": 8,
-      "zonePolicy": None,
-      "format": "EET",
-      "untilYearShort": 3,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': None,
+      'format': 'EET',
+      'untilYearShort': 3,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             2:00    EU    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8364,47 +8364,47 @@ ZONE_INFO_Vilnius = {
 ZONE_ERAS_Volgograd = [
     #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": ZONE_POLICY_Russia,
-      "format": "+03/+04",
-      "untilYearShort": 11,
-      "untilMonth": 3,
-      "untilDay": 27,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': ZONE_POLICY_Russia,
+      'format': '+03/+04',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              4:00    -    +04    2014 Oct 26  2:00s
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 14,
-      "untilMonth": 10,
-      "untilDay": 26,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 14,
+      'untilMonth': 10,
+      'untilDay': 26,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              3:00    -    +03    2018 Oct 28  2:00s
     {
-      "offsetCode": 12,
-      "zonePolicy": None,
-      "format": "+03",
-      "untilYearShort": 18,
-      "untilMonth": 10,
-      "untilDay": 28,
-      "untilHour": 2,
-      "untilTimeModifier": s,
+      'offsetCode': 12,
+      'zonePolicy': None,
+      'format': '+03',
+      'untilYearShort': 18,
+      'untilMonth': 10,
+      'untilDay': 28,
+      'untilHour': 2,
+      'untilTimeModifier': 's',
     },
     #              4:00    -    +04
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8421,14 +8421,14 @@ ZONE_INFO_Volgograd = {
 ZONE_ERAS_Warsaw = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8445,14 +8445,14 @@ ZONE_INFO_Warsaw = {
 ZONE_ERAS_Zaporozhye = [
     #             2:00    EU    EE%sT
     {
-      "offsetCode": 8,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "EE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 8,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'EE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8469,14 +8469,14 @@ ZONE_INFO_Zaporozhye = {
 ZONE_ERAS_Zurich = [
     #             1:00    EU    CE%sT
     {
-      "offsetCode": 4,
-      "zonePolicy": ZONE_POLICY_EU,
-      "format": "CE%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 4,
+      'zonePolicy': ZONE_POLICY_EU,
+      'format': 'CE%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8493,14 +8493,14 @@ ZONE_INFO_Zurich = {
 ZONE_ERAS_Chagos = [
     #             6:00    -    +06
     {
-      "offsetCode": 24,
-      "zonePolicy": None,
-      "format": "+06",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 24,
+      'zonePolicy': None,
+      'format': '+06',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8517,14 +8517,14 @@ ZONE_INFO_Chagos = {
 ZONE_ERAS_Christmas = [
     #             7:00    -    +07
     {
-      "offsetCode": 28,
-      "zonePolicy": None,
-      "format": "+07",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 28,
+      'zonePolicy': None,
+      'format': '+07',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8541,14 +8541,14 @@ ZONE_INFO_Christmas = {
 ZONE_ERAS_Cocos = [
     #             6:30    -    +0630
     {
-      "offsetCode": 26,
-      "zonePolicy": None,
-      "format": "+0630",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 26,
+      'zonePolicy': None,
+      'format': '+0630',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8565,14 +8565,14 @@ ZONE_INFO_Cocos = {
 ZONE_ERAS_Kerguelen = [
     #             5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8589,14 +8589,14 @@ ZONE_INFO_Kerguelen = {
 ZONE_ERAS_Mahe = [
     #             4:00    -    +04
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8613,14 +8613,14 @@ ZONE_INFO_Mahe = {
 ZONE_ERAS_Maldives = [
     #             5:00    -    +05
     {
-      "offsetCode": 20,
-      "zonePolicy": None,
-      "format": "+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 20,
+      'zonePolicy': None,
+      'format': '+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8637,14 +8637,14 @@ ZONE_INFO_Maldives = {
 ZONE_ERAS_Mauritius = [
     #             4:00 Mauritius    +04/+05
     {
-      "offsetCode": 16,
-      "zonePolicy": ZONE_POLICY_Mauritius,
-      "format": "+04/+05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': ZONE_POLICY_Mauritius,
+      'format': '+04/+05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8661,14 +8661,14 @@ ZONE_INFO_Mauritius = {
 ZONE_ERAS_Reunion = [
     #             4:00    -    +04
     {
-      "offsetCode": 16,
-      "zonePolicy": None,
-      "format": "+04",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 16,
+      'zonePolicy': None,
+      'format': '+04',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8685,25 +8685,25 @@ ZONE_INFO_Reunion = {
 ZONE_ERAS_Apia = [
     #             -11:00    WS    -11/-10    2011 Dec 29 24:00
     {
-      "offsetCode": -44,
-      "zonePolicy": ZONE_POLICY_WS,
-      "format": "-11/-10",
-      "untilYearShort": 11,
-      "untilMonth": 12,
-      "untilDay": 29,
-      "untilHour": 24,
-      "untilTimeModifier": w,
+      'offsetCode': -44,
+      'zonePolicy': ZONE_POLICY_WS,
+      'format': '-11/-10',
+      'untilYearShort': 11,
+      'untilMonth': 12,
+      'untilDay': 29,
+      'untilHour': 24,
+      'untilTimeModifier': 'w',
     },
     #              13:00    WS    +13/+14
     {
-      "offsetCode": 52,
-      "zonePolicy": ZONE_POLICY_WS,
-      "format": "+13/+14",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 52,
+      'zonePolicy': ZONE_POLICY_WS,
+      'format': '+13/+14',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8720,14 +8720,14 @@ ZONE_INFO_Apia = {
 ZONE_ERAS_Auckland = [
     #             12:00    NZ    NZ%sT
     {
-      "offsetCode": 48,
-      "zonePolicy": ZONE_POLICY_NZ,
-      "format": "NZ%sT",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 48,
+      'zonePolicy': ZONE_POLICY_NZ,
+      'format': 'NZ%sT',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8744,25 +8744,25 @@ ZONE_INFO_Auckland = {
 ZONE_ERAS_Bougainville = [
     #             10:00    -    +10    2014 Dec 28  2:00
     {
-      "offsetCode": 40,
-      "zonePolicy": None,
-      "format": "+10",
-      "untilYearShort": 14,
-      "untilMonth": 12,
-      "untilDay": 28,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': '+10',
+      'untilYearShort': 14,
+      'untilMonth': 12,
+      'untilDay': 28,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             11:00    -    +11
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8779,14 +8779,14 @@ ZONE_INFO_Bougainville = {
 ZONE_ERAS_Chuuk = [
     #             10:00    -    +10
     {
-      "offsetCode": 40,
-      "zonePolicy": None,
-      "format": "+10",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': '+10',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8803,14 +8803,14 @@ ZONE_INFO_Chuuk = {
 ZONE_ERAS_Easter = [
     #             -6:00    Chile    -06/-05
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Chile,
-      "format": "-06/-05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Chile,
+      'format': '-06/-05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8827,14 +8827,14 @@ ZONE_INFO_Easter = {
 ZONE_ERAS_Efate = [
     #             11:00    Vanuatu    +11/+12
     {
-      "offsetCode": 44,
-      "zonePolicy": ZONE_POLICY_Vanuatu,
-      "format": "+11/+12",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': ZONE_POLICY_Vanuatu,
+      'format': '+11/+12',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8851,14 +8851,14 @@ ZONE_INFO_Efate = {
 ZONE_ERAS_Enderbury = [
     #              13:00    -    +13
     {
-      "offsetCode": 52,
-      "zonePolicy": None,
-      "format": "+13",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 52,
+      'zonePolicy': None,
+      'format': '+13',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8875,25 +8875,25 @@ ZONE_INFO_Enderbury = {
 ZONE_ERAS_Fakaofo = [
     #             -11:00    -    -11    2011 Dec 30
     {
-      "offsetCode": -44,
-      "zonePolicy": None,
-      "format": "-11",
-      "untilYearShort": 11,
-      "untilMonth": 12,
-      "untilDay": 30,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -44,
+      'zonePolicy': None,
+      'format': '-11',
+      'untilYearShort': 11,
+      'untilMonth': 12,
+      'untilDay': 30,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             13:00    -    +13
     {
-      "offsetCode": 52,
-      "zonePolicy": None,
-      "format": "+13",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 52,
+      'zonePolicy': None,
+      'format': '+13',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8910,14 +8910,14 @@ ZONE_INFO_Fakaofo = {
 ZONE_ERAS_Fiji = [
     #             12:00    Fiji    +12/+13
     {
-      "offsetCode": 48,
-      "zonePolicy": ZONE_POLICY_Fiji,
-      "format": "+12/+13",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 48,
+      'zonePolicy': ZONE_POLICY_Fiji,
+      'format': '+12/+13',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8934,14 +8934,14 @@ ZONE_INFO_Fiji = {
 ZONE_ERAS_Funafuti = [
     #             12:00    -    +12
     {
-      "offsetCode": 48,
-      "zonePolicy": None,
-      "format": "+12",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8958,14 +8958,14 @@ ZONE_INFO_Funafuti = {
 ZONE_ERAS_Galapagos = [
     #             -6:00    Ecuador    -06/-05
     {
-      "offsetCode": -24,
-      "zonePolicy": ZONE_POLICY_Ecuador,
-      "format": "-06/-05",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -24,
+      'zonePolicy': ZONE_POLICY_Ecuador,
+      'format': '-06/-05',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -8982,14 +8982,14 @@ ZONE_INFO_Galapagos = {
 ZONE_ERAS_Gambier = [
     #              -9:00    -    -09
     {
-      "offsetCode": -36,
-      "zonePolicy": None,
-      "format": "-09",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -36,
+      'zonePolicy': None,
+      'format': '-09',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9006,14 +9006,14 @@ ZONE_INFO_Gambier = {
 ZONE_ERAS_Guadalcanal = [
     #             11:00    -    +11
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9030,25 +9030,25 @@ ZONE_INFO_Guadalcanal = {
 ZONE_ERAS_Guam = [
     #             10:00    -    GST    2000 Dec 23
     {
-      "offsetCode": 40,
-      "zonePolicy": None,
-      "format": "GST",
-      "untilYearShort": 0,
-      "untilMonth": 12,
-      "untilDay": 23,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': 'GST',
+      'untilYearShort': 0,
+      'untilMonth': 12,
+      'untilDay': 23,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
     #             10:00    -    ChST
     {
-      "offsetCode": 40,
-      "zonePolicy": None,
-      "format": "ChST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': 'ChST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9065,14 +9065,14 @@ ZONE_INFO_Guam = {
 ZONE_ERAS_Honolulu = [
     #             -10:00    -    HST
     {
-      "offsetCode": -40,
-      "zonePolicy": None,
-      "format": "HST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -40,
+      'zonePolicy': None,
+      'format': 'HST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9089,14 +9089,14 @@ ZONE_INFO_Honolulu = {
 ZONE_ERAS_Kiritimati = [
     #              14:00    -    +14
     {
-      "offsetCode": 56,
-      "zonePolicy": None,
-      "format": "+14",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 56,
+      'zonePolicy': None,
+      'format': '+14',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9113,14 +9113,14 @@ ZONE_INFO_Kiritimati = {
 ZONE_ERAS_Kosrae = [
     #             11:00    -    +11
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9137,14 +9137,14 @@ ZONE_INFO_Kosrae = {
 ZONE_ERAS_Kwajalein = [
     #             12:00    -    +12
     {
-      "offsetCode": 48,
-      "zonePolicy": None,
-      "format": "+12",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9161,14 +9161,14 @@ ZONE_INFO_Kwajalein = {
 ZONE_ERAS_Majuro = [
     #             12:00    -    +12
     {
-      "offsetCode": 48,
-      "zonePolicy": None,
-      "format": "+12",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9185,14 +9185,14 @@ ZONE_INFO_Majuro = {
 ZONE_ERAS_Marquesas = [
     #              -9:30    -    -0930
     {
-      "offsetCode": -38,
-      "zonePolicy": None,
-      "format": "-0930",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -38,
+      'zonePolicy': None,
+      'format': '-0930',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9209,14 +9209,14 @@ ZONE_INFO_Marquesas = {
 ZONE_ERAS_Nauru = [
     #             12:00    -    +12
     {
-      "offsetCode": 48,
-      "zonePolicy": None,
-      "format": "+12",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9233,14 +9233,14 @@ ZONE_INFO_Nauru = {
 ZONE_ERAS_Niue = [
     #             -11:00    -    -11
     {
-      "offsetCode": -44,
-      "zonePolicy": None,
-      "format": "-11",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -44,
+      'zonePolicy': None,
+      'format': '-11',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9257,25 +9257,25 @@ ZONE_INFO_Niue = {
 ZONE_ERAS_Norfolk = [
     #             11:30    -    +1130    2015 Oct  4 02:00
     {
-      "offsetCode": 46,
-      "zonePolicy": None,
-      "format": "+1130",
-      "untilYearShort": 15,
-      "untilMonth": 10,
-      "untilDay": 4,
-      "untilHour": 2,
-      "untilTimeModifier": w,
+      'offsetCode': 46,
+      'zonePolicy': None,
+      'format': '+1130',
+      'untilYearShort': 15,
+      'untilMonth': 10,
+      'untilDay': 4,
+      'untilHour': 2,
+      'untilTimeModifier': 'w',
     },
     #             11:00    -    +11
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9292,14 +9292,14 @@ ZONE_INFO_Norfolk = {
 ZONE_ERAS_Noumea = [
     #             11:00    NC    +11/+12
     {
-      "offsetCode": 44,
-      "zonePolicy": ZONE_POLICY_NC,
-      "format": "+11/+12",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': ZONE_POLICY_NC,
+      'format': '+11/+12',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9316,14 +9316,14 @@ ZONE_INFO_Noumea = {
 ZONE_ERAS_Pago_Pago = [
     #             -11:00    -    SST
     {
-      "offsetCode": -44,
-      "zonePolicy": None,
-      "format": "SST",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -44,
+      'zonePolicy': None,
+      'format': 'SST',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9340,14 +9340,14 @@ ZONE_INFO_Pago_Pago = {
 ZONE_ERAS_Palau = [
     #             9:00    -    +09
     {
-      "offsetCode": 36,
-      "zonePolicy": None,
-      "format": "+09",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 36,
+      'zonePolicy': None,
+      'format': '+09',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9364,14 +9364,14 @@ ZONE_INFO_Palau = {
 ZONE_ERAS_Pitcairn = [
     #             -8:00    -    -08
     {
-      "offsetCode": -32,
-      "zonePolicy": None,
-      "format": "-08",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -32,
+      'zonePolicy': None,
+      'format': '-08',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9388,14 +9388,14 @@ ZONE_INFO_Pitcairn = {
 ZONE_ERAS_Pohnpei = [
     #             11:00    -    +11
     {
-      "offsetCode": 44,
-      "zonePolicy": None,
-      "format": "+11",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 44,
+      'zonePolicy': None,
+      'format': '+11',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9412,14 +9412,14 @@ ZONE_INFO_Pohnpei = {
 ZONE_ERAS_Port_Moresby = [
     #             10:00    -    +10
     {
-      "offsetCode": 40,
-      "zonePolicy": None,
-      "format": "+10",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 40,
+      'zonePolicy': None,
+      'format': '+10',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9436,14 +9436,14 @@ ZONE_INFO_Port_Moresby = {
 ZONE_ERAS_Rarotonga = [
     #             -10:00    Cook    -10/-0930
     {
-      "offsetCode": -40,
-      "zonePolicy": ZONE_POLICY_Cook,
-      "format": "-10/-0930",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -40,
+      'zonePolicy': ZONE_POLICY_Cook,
+      'format': '-10/-0930',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9460,14 +9460,14 @@ ZONE_INFO_Rarotonga = {
 ZONE_ERAS_Tahiti = [
     #             -10:00    -    -10
     {
-      "offsetCode": -40,
-      "zonePolicy": None,
-      "format": "-10",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': -40,
+      'zonePolicy': None,
+      'format': '-10',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9484,14 +9484,14 @@ ZONE_INFO_Tahiti = {
 ZONE_ERAS_Tarawa = [
     #              12:00    -    +12
     {
-      "offsetCode": 48,
-      "zonePolicy": None,
-      "format": "+12",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9508,14 +9508,14 @@ ZONE_INFO_Tarawa = {
 ZONE_ERAS_Tongatapu = [
     #             13:00    Tonga    +13/+14
     {
-      "offsetCode": 52,
-      "zonePolicy": ZONE_POLICY_Tonga,
-      "format": "+13/+14",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 52,
+      'zonePolicy': ZONE_POLICY_Tonga,
+      'format': '+13/+14',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9532,14 +9532,14 @@ ZONE_INFO_Tongatapu = {
 ZONE_ERAS_Wake = [
     #             12:00    -    +12
     {
-      "offsetCode": 48,
-      "zonePolicy": None,
-      "format": "+12",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
@@ -9556,14 +9556,14 @@ ZONE_INFO_Wake = {
 ZONE_ERAS_Wallis = [
     #             12:00    -    +12
     {
-      "offsetCode": 48,
-      "zonePolicy": None,
-      "format": "+12",
-      "untilYearShort": 127,
-      "untilMonth": 1,
-      "untilDay": 1,
-      "untilHour": 0,
-      "untilTimeModifier": w,
+      'offsetCode': 48,
+      'zonePolicy': None,
+      'format': '+12',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilTimeModifier': 'w',
     },
 
 ]
