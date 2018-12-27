@@ -412,8 +412,13 @@ class ZoneAgent:
         """The Transition time comes from either:
             1) The UNTIL field of the previous Zone Era entry, or
             2) The (inMonth, onDay, atHour) fields of the Zone Rule.
+
         In most cases these times are specified as the wall clock 'w' by
-        default, but a few cases use 's' (standard) or 'u' (utc).
+        default, but a few cases use 's' (standard) or 'u' (utc). We don't need
+        to support 'g' and 'z' because they mean exactly the same as 'u' and
+        they don't appear anywhere in the current TZ files. The transformer.py
+        will detect and filter those out.
+
         To convert these into the more common 'wall' time, we need to
         use the UTC offset of the *previous* Transition.
         """
@@ -431,6 +436,8 @@ class ZoneAgent:
             prev_start_time = prev['transitionTime']
             prev_delta_code = prev.get('deltaCode')
             prev_delta_code = prev_delta_code if prev_delta_code else 0
+            prev_offset_code = prev.get('offsetCode')
+            prev_offset_code = prev_offset_code if prev_offset_code else 0
 
             start_time = transition['transitionTime']
             start_modifier = start_time[4]
@@ -441,9 +448,15 @@ class ZoneAgent:
                 start_time = (start_time[0], start_time[1], start_time[2],
                     hour, 'w')
                 transition['transitionTime'] = start_time
-            # TODO: add support for 'u'
+            elif start_modifier == 'u':
+                hour = start_time[3] + (prev_delta_code + prev_offset_code) // 4
+                start_time = (start_time[0], start_time[1], start_time[2],
+                    hour, 'w')
+                transition['transitionTime'] = start_time
             else:
-                logging.error("Unsupported Rule.AT suffix '%s'", start_modifier)
+                logging.error(
+                    "Unrecognized Rule.AT suffix '%s'; should not happen",
+                    start_modifier)
                 sys.exit(1)
             prev = transition
 
