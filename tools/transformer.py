@@ -98,7 +98,7 @@ class Transformer:
         zones_map = self.create_zones_with_rules_expansion(zones_map)
         zones_map = self.remove_zones_with_offset_as_rules(zones_map)
         zones_map = self.remove_zones_with_non_monotonic_until(zones_map)
-        zones_map = self.remove_zones_with_multiple_records_per_year(zones_map)
+        #zones_map = self.remove_zones_with_multiple_records_per_year(zones_map)
 
         (zones_map, rules_map) = self.mark_rules_used_by_zones(
             zones_map, rules_map)
@@ -273,7 +273,7 @@ class Transformer:
             if valid:
                results[name] = zones
 
-        logging.info("Removed %s zone infos with invalid untilHour",
+        logging.info("Removed %s zone infos with invalid untilTime",
             len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
