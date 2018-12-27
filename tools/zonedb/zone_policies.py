@@ -10,8 +10,8 @@
 #
 # DO NOT EDIT
 
-# numPolicies: 74
-# numRules: 405
+# numPolicies: 76
+# numRules: 410
 
 #---------------------------------------------------------------------------
 # Policy name: AN
@@ -5048,6 +5048,44 @@ ZONE_POLICY_Salv = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: SanLuis
+# Rule count: 2
+#---------------------------------------------------------------------------
+ZONE_RULES_SanLuis = [
+    # Rule    SanLuis    2008    2009    -    Mar    Sun>=8    0:00    0    -
+    {
+        'fromYear': 2008,
+        'toYear': 2009,
+        'inMonth': 3,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 8,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule    SanLuis    2007    2008    -    Oct    Sun>=8    0:00    1:00    -
+    {
+        'fromYear': 2007,
+        'toYear': 2008,
+        'inMonth': 10,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 8,
+        'atHour': 0,
+        'atMinute': 0,
+        'atTimeModifier': 'w',
+        'deltaMinutes': 60,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_SanLuis = {
+    "name": "SanLuis",
+    "rules": ZONE_RULES_SanLuis
+}
+
+#---------------------------------------------------------------------------
 # Policy name: Sudan
 # Rule count: 1
 #---------------------------------------------------------------------------
@@ -5507,6 +5545,57 @@ ZONE_RULES_Tunisia = [
 ZONE_POLICY_Tunisia = {
     "name": "Tunisia",
     "rules": ZONE_RULES_Tunisia
+}
+
+#---------------------------------------------------------------------------
+# Policy name: Turkey
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_Turkey = [
+    # Rule    Turkey    1986    1995    -    Sep    lastSun    1:00s    0    -
+    {
+        'fromYear': 1986,
+        'toYear': 1995,
+        'inMonth': 9,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atHour': 1,
+        'atMinute': 0,
+        'atTimeModifier': 's',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+    # Rule    Turkey    1995    2006    -    Mar    lastSun    1:00s    1:00    S
+    {
+        'fromYear': 1995,
+        'toYear': 2006,
+        'inMonth': 3,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atHour': 1,
+        'atMinute': 0,
+        'atTimeModifier': 's',
+        'deltaMinutes': 60,
+        'letter': 'S',
+    },
+    # Rule    Turkey    1996    2006    -    Oct    lastSun    1:00s    0    -
+    {
+        'fromYear': 1996,
+        'toYear': 2006,
+        'inMonth': 10,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atHour': 1,
+        'atMinute': 0,
+        'atTimeModifier': 's',
+        'deltaMinutes': 0,
+        'letter': '-',
+    },
+
+]
+ZONE_POLICY_Turkey = {
+    "name": "Turkey",
+    "rules": ZONE_RULES_Turkey
 }
 
 #---------------------------------------------------------------------------
@@ -6171,7 +6260,7 @@ ZONE_POLICY_Zion = {
 # The following zone policies are not supported in the current version of
 # AceTime.
 #
-# numPolicies: 64
+# numPolicies: 62
 #
 # Albania (unused)
 # Algeria (unused)
@@ -6222,7 +6311,6 @@ ZONE_POLICY_Zion = {
 # Pulaski (unused)
 # Regina (unused)
 # Romania (unused)
-# SanLuis (unused)
 # Shang (unused)
 # SovietZone (unused)
 # Spain (unused)
@@ -6233,7 +6321,6 @@ ZONE_POLICY_Zion = {
 # Swiss (unused)
 # Toronto (unused)
 # Troll (LETTER '+02' too long)
-# Turkey (unused)
 # Vanc (unused)
 # Vincennes (unused)
 # W_Eur (unused)

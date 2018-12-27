@@ -12,8 +12,8 @@
 
 from zonedb.zone_policies import *
 
-# numInfos: 337
-# numEras: 559
+# numInfos: 339
+# numEras: 574
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Abidjan
@@ -24,7 +24,8 @@ ZONE_ERAS_Abidjan = [
     #              0:00    -    GMT
     {
       'offsetMinutes': 0,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'GMT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -50,6 +51,7 @@ ZONE_ERAS_Accra = [
     {
       'offsetMinutes': 0,
       'zonePolicy': ZONE_POLICY_Ghana,
+      'rulesDeltaMinutes': 0,
       'format': 'GMT/+0020',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -74,7 +76,8 @@ ZONE_ERAS_Algiers = [
     #             1:00    -    CET
     {
       'offsetMinutes': 60,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'CET',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -99,7 +102,8 @@ ZONE_ERAS_Bissau = [
     #              0:00    -    GMT
     {
       'offsetMinutes': 0,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'GMT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -125,6 +129,7 @@ ZONE_ERAS_Cairo = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_Egypt,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -150,6 +155,7 @@ ZONE_ERAS_Casablanca = [
     {
       'offsetMinutes': 0,
       'zonePolicy': ZONE_POLICY_Morocco,
+      'rulesDeltaMinutes': 0,
       'format': '+00/+01',
       'untilYearShort': 18,
       'untilMonth': 10,
@@ -161,7 +167,8 @@ ZONE_ERAS_Casablanca = [
     #              1:00    -    +01
     {
       'offsetMinutes': 60,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+01',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -187,6 +194,7 @@ ZONE_ERAS_Ceuta = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -212,6 +220,7 @@ ZONE_ERAS_El_Aaiun = [
     {
       'offsetMinutes': 0,
       'zonePolicy': ZONE_POLICY_Morocco,
+      'rulesDeltaMinutes': 0,
       'format': '+00/+01',
       'untilYearShort': 18,
       'untilMonth': 10,
@@ -223,7 +232,8 @@ ZONE_ERAS_El_Aaiun = [
     #              1:00    -    +01
     {
       'offsetMinutes': 60,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+01',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -249,6 +259,7 @@ ZONE_ERAS_Johannesburg = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_SA,
+      'rulesDeltaMinutes': 0,
       'format': 'SAST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -274,6 +285,7 @@ ZONE_ERAS_Juba = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_Sudan,
+      'rulesDeltaMinutes': 0,
       'format': 'CA%sT',
       'untilYearShort': 0,
       'untilMonth': 1,
@@ -285,7 +297,8 @@ ZONE_ERAS_Juba = [
     #             3:00    -    EAT
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EAT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -311,6 +324,7 @@ ZONE_ERAS_Khartoum = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_Sudan,
+      'rulesDeltaMinutes': 0,
       'format': 'CA%sT',
       'untilYearShort': 0,
       'untilMonth': 1,
@@ -322,7 +336,8 @@ ZONE_ERAS_Khartoum = [
     #             3:00    -    EAT    2017 Nov  1
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EAT',
       'untilYearShort': 17,
       'untilMonth': 11,
@@ -334,7 +349,8 @@ ZONE_ERAS_Khartoum = [
     #             2:00    -    CAT
     {
       'offsetMinutes': 120,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'CAT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -359,7 +375,8 @@ ZONE_ERAS_Lagos = [
     #             1:00    -    WAT
     {
       'offsetMinutes': 60,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'WAT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -384,7 +401,8 @@ ZONE_ERAS_Maputo = [
     #             2:00    -    CAT
     {
       'offsetMinutes': 120,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'CAT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -409,7 +427,8 @@ ZONE_ERAS_Monrovia = [
     #              0:00    -    GMT
     {
       'offsetMinutes': 0,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'GMT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -434,7 +453,8 @@ ZONE_ERAS_Nairobi = [
     #             3:00    -    EAT
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EAT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -459,7 +479,8 @@ ZONE_ERAS_Ndjamena = [
     #             1:00    -    WAT
     {
       'offsetMinutes': 60,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'WAT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -484,7 +505,8 @@ ZONE_ERAS_Sao_Tome = [
     #              0:00    -    GMT    2018 Jan  1 01:00
     {
       'offsetMinutes': 0,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'GMT',
       'untilYearShort': 18,
       'untilMonth': 1,
@@ -496,7 +518,8 @@ ZONE_ERAS_Sao_Tome = [
     #              1:00    -    WAT
     {
       'offsetMinutes': 60,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'WAT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -521,7 +544,8 @@ ZONE_ERAS_Tripoli = [
     #             2:00    -    EET    2012 Nov 10  2:00
     {
       'offsetMinutes': 120,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EET',
       'untilYearShort': 12,
       'untilMonth': 11,
@@ -534,6 +558,7 @@ ZONE_ERAS_Tripoli = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_Libya,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 13,
       'untilMonth': 10,
@@ -545,7 +570,8 @@ ZONE_ERAS_Tripoli = [
     #             2:00    -    EET
     {
       'offsetMinutes': 120,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EET',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -571,6 +597,7 @@ ZONE_ERAS_Tunis = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_Tunisia,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -596,6 +623,7 @@ ZONE_ERAS_Adak = [
     {
       'offsetMinutes': -600,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'H%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -621,6 +649,7 @@ ZONE_ERAS_Anchorage = [
     {
       'offsetMinutes': -540,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'AK%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -646,6 +675,7 @@ ZONE_ERAS_Araguaina = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 3,
       'untilMonth': 9,
@@ -657,7 +687,8 @@ ZONE_ERAS_Araguaina = [
     #             -3:00    -    -03    2012 Oct 21
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 12,
       'untilMonth': 10,
@@ -670,6 +701,7 @@ ZONE_ERAS_Araguaina = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 13,
       'untilMonth': 9,
@@ -681,7 +713,8 @@ ZONE_ERAS_Araguaina = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -707,6 +740,7 @@ ZONE_ERAS_Buenos_Aires = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 3,
@@ -719,6 +753,7 @@ ZONE_ERAS_Buenos_Aires = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -744,6 +779,7 @@ ZONE_ERAS_Catamarca = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 3,
@@ -755,7 +791,8 @@ ZONE_ERAS_Catamarca = [
     #             -3:00    -    -03    2004 Jun  1
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 4,
       'untilMonth': 6,
@@ -767,7 +804,8 @@ ZONE_ERAS_Catamarca = [
     #             -4:00    -    -04    2004 Jun 20
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 4,
       'untilMonth': 6,
@@ -780,6 +818,7 @@ ZONE_ERAS_Catamarca = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 8,
       'untilMonth': 10,
@@ -791,7 +830,8 @@ ZONE_ERAS_Catamarca = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -817,6 +857,7 @@ ZONE_ERAS_Cordoba = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 3,
@@ -829,6 +870,7 @@ ZONE_ERAS_Cordoba = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -854,6 +896,7 @@ ZONE_ERAS_Jujuy = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 3,
@@ -866,6 +909,7 @@ ZONE_ERAS_Jujuy = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 8,
       'untilMonth': 10,
@@ -877,7 +921,8 @@ ZONE_ERAS_Jujuy = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -903,6 +948,7 @@ ZONE_ERAS_La_Rioja = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 3,
@@ -914,7 +960,8 @@ ZONE_ERAS_La_Rioja = [
     #             -3:00    -    -03    2004 Jun  1
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 4,
       'untilMonth': 6,
@@ -926,7 +973,8 @@ ZONE_ERAS_La_Rioja = [
     #             -4:00    -    -04    2004 Jun 20
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 4,
       'untilMonth': 6,
@@ -939,6 +987,7 @@ ZONE_ERAS_La_Rioja = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 8,
       'untilMonth': 10,
@@ -950,7 +999,8 @@ ZONE_ERAS_La_Rioja = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -976,6 +1026,7 @@ ZONE_ERAS_Mendoza = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 3,
@@ -987,7 +1038,8 @@ ZONE_ERAS_Mendoza = [
     #             -3:00    -    -03    2004 May 23
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 4,
       'untilMonth': 5,
@@ -999,7 +1051,8 @@ ZONE_ERAS_Mendoza = [
     #             -4:00    -    -04    2004 Sep 26
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 4,
       'untilMonth': 9,
@@ -1012,6 +1065,7 @@ ZONE_ERAS_Mendoza = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 8,
       'untilMonth': 10,
@@ -1023,7 +1077,8 @@ ZONE_ERAS_Mendoza = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1049,6 +1104,7 @@ ZONE_ERAS_Rio_Gallegos = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 3,
@@ -1060,7 +1116,8 @@ ZONE_ERAS_Rio_Gallegos = [
     #             -3:00    -    -03    2004 Jun  1
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 4,
       'untilMonth': 6,
@@ -1072,7 +1129,8 @@ ZONE_ERAS_Rio_Gallegos = [
     #             -4:00    -    -04    2004 Jun 20
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 4,
       'untilMonth': 6,
@@ -1085,6 +1143,7 @@ ZONE_ERAS_Rio_Gallegos = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 8,
       'untilMonth': 10,
@@ -1096,7 +1155,8 @@ ZONE_ERAS_Rio_Gallegos = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1122,6 +1182,7 @@ ZONE_ERAS_Salta = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 3,
@@ -1134,6 +1195,7 @@ ZONE_ERAS_Salta = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 8,
       'untilMonth': 10,
@@ -1145,7 +1207,8 @@ ZONE_ERAS_Salta = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1171,6 +1234,7 @@ ZONE_ERAS_San_Juan = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 3,
@@ -1182,7 +1246,8 @@ ZONE_ERAS_San_Juan = [
     #             -3:00    -    -03    2004 May 31
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 4,
       'untilMonth': 5,
@@ -1194,7 +1259,8 @@ ZONE_ERAS_San_Juan = [
     #             -4:00    -    -04    2004 Jul 25
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 4,
       'untilMonth': 7,
@@ -1207,6 +1273,7 @@ ZONE_ERAS_San_Juan = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 8,
       'untilMonth': 10,
@@ -1218,7 +1285,8 @@ ZONE_ERAS_San_Juan = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1235,6 +1303,97 @@ ZONE_INFO_San_Juan = {
 }
 
 #---------------------------------------------------------------------------
+# Zone name: America/Argentina/San_Luis
+# Era count: 6
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_San_Luis = [
+    #             -4:00    1:00    -03    2000 Mar  3
+    {
+      'offsetMinutes': -240,
+      'zonePolicy': ':',
+      'rulesDeltaMinutes': 60,
+      'format': '-03',
+      'untilYearShort': 0,
+      'untilMonth': 3,
+      'untilDay': 3,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03    2004 May 31
+    {
+      'offsetMinutes': -180,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
+      'format': '-03',
+      'untilYearShort': 4,
+      'untilMonth': 5,
+      'untilDay': 31,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -4:00    -    -04    2004 Jul 25
+    {
+      'offsetMinutes': -240,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
+      'format': '-04',
+      'untilYearShort': 4,
+      'untilMonth': 7,
+      'untilDay': 25,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    Arg    -03/-02    2008 Jan 21
+    {
+      'offsetMinutes': -180,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
+      'format': '-03/-02',
+      'untilYearShort': 8,
+      'untilMonth': 1,
+      'untilDay': 21,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -4:00    SanLuis    -04/-03    2009 Oct 11
+    {
+      'offsetMinutes': -240,
+      'zonePolicy': ZONE_POLICY_SanLuis,
+      'rulesDeltaMinutes': 0,
+      'format': '-04/-03',
+      'untilYearShort': 9,
+      'untilMonth': 10,
+      'untilDay': 11,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             -3:00    -    -03
+    {
+      'offsetMinutes': -180,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
+      'format': '-03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_San_Luis = {
+    "name": "America/Argentina/San_Luis",
+    "eras": ZONE_ERAS_San_Luis
+}
+
+#---------------------------------------------------------------------------
 # Zone name: America/Argentina/Tucuman
 # Era count: 4
 #---------------------------------------------------------------------------
@@ -1244,6 +1403,7 @@ ZONE_ERAS_Tucuman = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 3,
@@ -1255,7 +1415,8 @@ ZONE_ERAS_Tucuman = [
     #             -3:00    -    -03    2004 Jun  1
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 4,
       'untilMonth': 6,
@@ -1267,7 +1428,8 @@ ZONE_ERAS_Tucuman = [
     #             -4:00    -    -04    2004 Jun 13
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 4,
       'untilMonth': 6,
@@ -1280,6 +1442,7 @@ ZONE_ERAS_Tucuman = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1305,6 +1468,7 @@ ZONE_ERAS_Ushuaia = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 3,
@@ -1316,7 +1480,8 @@ ZONE_ERAS_Ushuaia = [
     #             -3:00    -    -03    2004 May 30
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 4,
       'untilMonth': 5,
@@ -1328,7 +1493,8 @@ ZONE_ERAS_Ushuaia = [
     #             -4:00    -    -04    2004 Jun 20
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 4,
       'untilMonth': 6,
@@ -1341,6 +1507,7 @@ ZONE_ERAS_Ushuaia = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 8,
       'untilMonth': 10,
@@ -1352,7 +1519,8 @@ ZONE_ERAS_Ushuaia = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1378,6 +1546,7 @@ ZONE_ERAS_Asuncion = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Para,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1402,7 +1571,8 @@ ZONE_ERAS_Atikokan = [
     #             -5:00    -    EST
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1428,6 +1598,7 @@ ZONE_ERAS_Bahia = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 3,
       'untilMonth': 9,
@@ -1439,7 +1610,8 @@ ZONE_ERAS_Bahia = [
     #             -3:00    -    -03    2011 Oct 16
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 11,
       'untilMonth': 10,
@@ -1452,6 +1624,7 @@ ZONE_ERAS_Bahia = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 12,
       'untilMonth': 10,
@@ -1463,7 +1636,8 @@ ZONE_ERAS_Bahia = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1489,6 +1663,7 @@ ZONE_ERAS_Bahia_Banderas = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 10,
       'untilMonth': 4,
@@ -1501,6 +1676,7 @@ ZONE_ERAS_Bahia_Banderas = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1526,6 +1702,7 @@ ZONE_ERAS_Barbados = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Barb,
+      'rulesDeltaMinutes': 0,
       'format': 'A%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1550,7 +1727,8 @@ ZONE_ERAS_Belem = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1575,7 +1753,8 @@ ZONE_ERAS_Blanc_Sablon = [
     #             -4:00    -    AST
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'AST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1601,6 +1780,7 @@ ZONE_ERAS_Boa_Vista = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -1612,7 +1792,8 @@ ZONE_ERAS_Boa_Vista = [
     #             -4:00    -    -04
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1638,6 +1819,7 @@ ZONE_ERAS_Bogota = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_CO,
+      'rulesDeltaMinutes': 0,
       'format': '-05/-04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1663,6 +1845,7 @@ ZONE_ERAS_Boise = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1688,6 +1871,7 @@ ZONE_ERAS_Cambridge_Bay = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -1699,7 +1883,8 @@ ZONE_ERAS_Cambridge_Bay = [
     #             -5:00    -    EST    2000 Nov  5  0:00
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 0,
       'untilMonth': 11,
@@ -1711,7 +1896,8 @@ ZONE_ERAS_Cambridge_Bay = [
     #             -6:00    -    CST    2001 Apr  1  3:00
     {
       'offsetMinutes': -360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'CST',
       'untilYearShort': 1,
       'untilMonth': 4,
@@ -1724,6 +1910,7 @@ ZONE_ERAS_Cambridge_Bay = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1749,6 +1936,7 @@ ZONE_ERAS_Campo_Grande = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1774,6 +1962,7 @@ ZONE_ERAS_Cancun = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 15,
       'untilMonth': 2,
@@ -1785,7 +1974,8 @@ ZONE_ERAS_Cancun = [
     #             -5:00    -    EST
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1810,7 +2000,8 @@ ZONE_ERAS_Caracas = [
     #             -4:00    -    -04    2007 Dec  9  3:00
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 7,
       'untilMonth': 12,
@@ -1822,7 +2013,8 @@ ZONE_ERAS_Caracas = [
     #             -4:30    -    -0430    2016 May  1  2:30
     {
       'offsetMinutes': -270,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-0430',
       'untilYearShort': 16,
       'untilMonth': 5,
@@ -1834,7 +2026,8 @@ ZONE_ERAS_Caracas = [
     #             -4:00    -    -04
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1859,7 +2052,8 @@ ZONE_ERAS_Cayenne = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1885,6 +2079,7 @@ ZONE_ERAS_Chicago = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1910,6 +2105,7 @@ ZONE_ERAS_Chihuahua = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1935,6 +2131,7 @@ ZONE_ERAS_Costa_Rica = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_CR,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1959,7 +2156,8 @@ ZONE_ERAS_Creston = [
     #             -7:00    -    MST
     {
       'offsetMinutes': -420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'MST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -1985,6 +2183,7 @@ ZONE_ERAS_Cuiaba = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 3,
       'untilMonth': 9,
@@ -1996,7 +2195,8 @@ ZONE_ERAS_Cuiaba = [
     #             -4:00    -    -04    2004 Oct  1
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 4,
       'untilMonth': 10,
@@ -2009,6 +2209,7 @@ ZONE_ERAS_Cuiaba = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2033,7 +2234,8 @@ ZONE_ERAS_Curacao = [
     #             -4:00    -    AST
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'AST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2058,7 +2260,8 @@ ZONE_ERAS_Danmarkshavn = [
     #             0:00    -    GMT
     {
       'offsetMinutes': 0,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'GMT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2084,6 +2287,7 @@ ZONE_ERAS_Dawson = [
     {
       'offsetMinutes': -480,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'P%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2108,7 +2312,8 @@ ZONE_ERAS_Dawson_Creek = [
     #             -7:00    -    MST
     {
       'offsetMinutes': -420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'MST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2134,6 +2339,7 @@ ZONE_ERAS_Denver = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2159,6 +2365,7 @@ ZONE_ERAS_Detroit = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2184,6 +2391,7 @@ ZONE_ERAS_Edmonton = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2208,7 +2416,8 @@ ZONE_ERAS_Eirunepe = [
     #             -5:00    -    -05    2008 Jun 24  0:00
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-05',
       'untilYearShort': 8,
       'untilMonth': 6,
@@ -2220,7 +2429,8 @@ ZONE_ERAS_Eirunepe = [
     #             -4:00    -    -04    2013 Nov 10
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 13,
       'untilMonth': 11,
@@ -2232,7 +2442,8 @@ ZONE_ERAS_Eirunepe = [
     #             -5:00    -    -05
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2258,6 +2469,7 @@ ZONE_ERAS_El_Salvador = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Salv,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2283,6 +2495,7 @@ ZONE_ERAS_Fort_Nelson = [
     {
       'offsetMinutes': -480,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'P%sT',
       'untilYearShort': 15,
       'untilMonth': 3,
@@ -2294,7 +2507,8 @@ ZONE_ERAS_Fort_Nelson = [
     #             -7:00    -    MST
     {
       'offsetMinutes': -420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'MST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2320,6 +2534,7 @@ ZONE_ERAS_Fortaleza = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -2331,7 +2546,8 @@ ZONE_ERAS_Fortaleza = [
     #             -3:00    -    -03    2001 Sep 13
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 1,
       'untilMonth': 9,
@@ -2344,6 +2560,7 @@ ZONE_ERAS_Fortaleza = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 2,
       'untilMonth': 10,
@@ -2355,7 +2572,8 @@ ZONE_ERAS_Fortaleza = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2381,6 +2599,7 @@ ZONE_ERAS_Glace_Bay = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'A%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2406,6 +2625,7 @@ ZONE_ERAS_Godthab = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2431,6 +2651,7 @@ ZONE_ERAS_Grand_Turk = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 15,
       'untilMonth': 11,
@@ -2442,7 +2663,8 @@ ZONE_ERAS_Grand_Turk = [
     #             -4:00    -    AST    2018 Mar 11 3:00
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'AST',
       'untilYearShort': 18,
       'untilMonth': 3,
@@ -2455,6 +2677,7 @@ ZONE_ERAS_Grand_Turk = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2480,6 +2703,7 @@ ZONE_ERAS_Guatemala = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Guat,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2505,6 +2729,7 @@ ZONE_ERAS_Guayaquil = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_Ecuador,
+      'rulesDeltaMinutes': 0,
       'format': '-05/-04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2529,7 +2754,8 @@ ZONE_ERAS_Guyana = [
     #             -4:00    -    -04
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2555,6 +2781,7 @@ ZONE_ERAS_Halifax = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'A%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2580,6 +2807,7 @@ ZONE_ERAS_Havana = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_Cuba,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2604,7 +2832,8 @@ ZONE_ERAS_Hermosillo = [
     #             -7:00    -    MST
     {
       'offsetMinutes': -420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'MST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2629,7 +2858,8 @@ ZONE_ERAS_Indianapolis = [
     #             -5:00    -    EST    2006
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 6,
       'untilMonth': 1,
@@ -2642,6 +2872,7 @@ ZONE_ERAS_Indianapolis = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2666,7 +2897,8 @@ ZONE_ERAS_Knox = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 6,
       'untilMonth': 4,
@@ -2679,6 +2911,7 @@ ZONE_ERAS_Knox = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2703,7 +2936,8 @@ ZONE_ERAS_Marengo = [
     #             -5:00    -    EST    2006
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 6,
       'untilMonth': 1,
@@ -2716,6 +2950,7 @@ ZONE_ERAS_Marengo = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2740,7 +2975,8 @@ ZONE_ERAS_Petersburg = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 6,
       'untilMonth': 4,
@@ -2753,6 +2989,7 @@ ZONE_ERAS_Petersburg = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 7,
       'untilMonth': 11,
@@ -2765,6 +3002,7 @@ ZONE_ERAS_Petersburg = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2789,7 +3027,8 @@ ZONE_ERAS_Tell_City = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 6,
       'untilMonth': 4,
@@ -2802,6 +3041,7 @@ ZONE_ERAS_Tell_City = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2826,7 +3066,8 @@ ZONE_ERAS_Vevay = [
     #             -5:00    -    EST    2006
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 6,
       'untilMonth': 1,
@@ -2839,6 +3080,7 @@ ZONE_ERAS_Vevay = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2863,7 +3105,8 @@ ZONE_ERAS_Vincennes = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 6,
       'untilMonth': 4,
@@ -2876,6 +3119,7 @@ ZONE_ERAS_Vincennes = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 7,
       'untilMonth': 11,
@@ -2888,6 +3132,7 @@ ZONE_ERAS_Vincennes = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2912,7 +3157,8 @@ ZONE_ERAS_Winamac = [
     #             -5:00    -    EST    2006 Apr  2  2:00
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 6,
       'untilMonth': 4,
@@ -2925,6 +3171,7 @@ ZONE_ERAS_Winamac = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 7,
       'untilMonth': 3,
@@ -2937,6 +3184,7 @@ ZONE_ERAS_Winamac = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2962,6 +3210,7 @@ ZONE_ERAS_Inuvik = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -2987,6 +3236,7 @@ ZONE_ERAS_Iqaluit = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -2999,6 +3249,7 @@ ZONE_ERAS_Iqaluit = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3023,7 +3274,8 @@ ZONE_ERAS_Jamaica = [
     #             -5:00    -    EST
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3049,6 +3301,7 @@ ZONE_ERAS_Juneau = [
     {
       'offsetMinutes': -540,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'AK%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3074,6 +3327,7 @@ ZONE_ERAS_Louisville = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3099,6 +3353,7 @@ ZONE_ERAS_Monticello = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -3111,6 +3366,7 @@ ZONE_ERAS_Monticello = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3135,7 +3391,8 @@ ZONE_ERAS_La_Paz = [
     #             -4:00    -    -04
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3161,6 +3418,7 @@ ZONE_ERAS_Lima = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_Peru,
+      'rulesDeltaMinutes': 0,
       'format': '-05/-04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3186,6 +3444,7 @@ ZONE_ERAS_Los_Angeles = [
     {
       'offsetMinutes': -480,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'P%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3211,6 +3470,7 @@ ZONE_ERAS_Maceio = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -3222,7 +3482,8 @@ ZONE_ERAS_Maceio = [
     #             -3:00    -    -03    2001 Sep 13
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 1,
       'untilMonth': 9,
@@ -3235,6 +3496,7 @@ ZONE_ERAS_Maceio = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 2,
       'untilMonth': 10,
@@ -3246,7 +3508,8 @@ ZONE_ERAS_Maceio = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3272,6 +3535,7 @@ ZONE_ERAS_Managua = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Nic,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3296,7 +3560,8 @@ ZONE_ERAS_Manaus = [
     #             -4:00    -    -04
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3321,7 +3586,8 @@ ZONE_ERAS_Martinique = [
     #             -4:00    -    AST
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'AST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3347,6 +3613,7 @@ ZONE_ERAS_Matamoros = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 10,
       'untilMonth': 1,
@@ -3359,6 +3626,7 @@ ZONE_ERAS_Matamoros = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3384,6 +3652,7 @@ ZONE_ERAS_Mazatlan = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3409,6 +3678,7 @@ ZONE_ERAS_Menominee = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3434,6 +3704,7 @@ ZONE_ERAS_Merida = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3458,7 +3729,8 @@ ZONE_ERAS_Metlakatla = [
     #              -8:00    -    PST    2015 Nov  1  2:00
     {
       'offsetMinutes': -480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'PST',
       'untilYearShort': 15,
       'untilMonth': 11,
@@ -3471,6 +3743,7 @@ ZONE_ERAS_Metlakatla = [
     {
       'offsetMinutes': -540,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'AK%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3496,6 +3769,7 @@ ZONE_ERAS_Mexico_City = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 1,
       'untilMonth': 9,
@@ -3507,7 +3781,8 @@ ZONE_ERAS_Mexico_City = [
     #             -6:00    -    CST    2002 Feb 20
     {
       'offsetMinutes': -360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'CST',
       'untilYearShort': 2,
       'untilMonth': 2,
@@ -3520,6 +3795,7 @@ ZONE_ERAS_Mexico_City = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3545,6 +3821,7 @@ ZONE_ERAS_Miquelon = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3570,6 +3847,7 @@ ZONE_ERAS_Monterrey = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3595,6 +3873,7 @@ ZONE_ERAS_Montevideo = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Uruguay,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3620,6 +3899,7 @@ ZONE_ERAS_Nassau = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3645,6 +3925,7 @@ ZONE_ERAS_New_York = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3670,6 +3951,7 @@ ZONE_ERAS_Nipigon = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3695,6 +3977,7 @@ ZONE_ERAS_Nome = [
     {
       'offsetMinutes': -540,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'AK%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3720,6 +4003,7 @@ ZONE_ERAS_Noronha = [
     {
       'offsetMinutes': -120,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-02/-01',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -3731,7 +4015,8 @@ ZONE_ERAS_Noronha = [
     #             -2:00    -    -02    2001 Sep 13
     {
       'offsetMinutes': -120,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-02',
       'untilYearShort': 1,
       'untilMonth': 9,
@@ -3744,6 +4029,7 @@ ZONE_ERAS_Noronha = [
     {
       'offsetMinutes': -120,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-02/-01',
       'untilYearShort': 2,
       'untilMonth': 10,
@@ -3755,7 +4041,8 @@ ZONE_ERAS_Noronha = [
     #             -2:00    -    -02
     {
       'offsetMinutes': -120,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-02',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3781,6 +4068,7 @@ ZONE_ERAS_Beulah = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 10,
       'untilMonth': 11,
@@ -3793,6 +4081,7 @@ ZONE_ERAS_Beulah = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3818,6 +4107,7 @@ ZONE_ERAS_Center = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3843,6 +4133,7 @@ ZONE_ERAS_New_Salem = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 3,
       'untilMonth': 10,
@@ -3855,6 +4146,7 @@ ZONE_ERAS_New_Salem = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3880,6 +4172,7 @@ ZONE_ERAS_Ojinaga = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 10,
       'untilMonth': 1,
@@ -3892,6 +4185,7 @@ ZONE_ERAS_Ojinaga = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3916,7 +4210,8 @@ ZONE_ERAS_Panama = [
     #             -5:00    -    EST
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3942,6 +4237,7 @@ ZONE_ERAS_Pangnirtung = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -3954,6 +4250,7 @@ ZONE_ERAS_Pangnirtung = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -3978,7 +4275,8 @@ ZONE_ERAS_Paramaribo = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4003,7 +4301,8 @@ ZONE_ERAS_Phoenix = [
     #             -7:00    -    MST
     {
       'offsetMinutes': -420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'MST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4029,6 +4328,7 @@ ZONE_ERAS_Port_au_Prince = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_Haiti,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4053,7 +4353,8 @@ ZONE_ERAS_Port_of_Spain = [
     #             -4:00    -    AST
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'AST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4078,7 +4379,8 @@ ZONE_ERAS_Porto_Velho = [
     #             -4:00    -    -04
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4103,7 +4405,8 @@ ZONE_ERAS_Puerto_Rico = [
     #             -4:00    -    AST
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'AST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4129,6 +4432,7 @@ ZONE_ERAS_Punta_Arenas = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Chile,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 16,
       'untilMonth': 12,
@@ -4140,7 +4444,8 @@ ZONE_ERAS_Punta_Arenas = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4166,6 +4471,7 @@ ZONE_ERAS_Rainy_River = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4191,6 +4497,7 @@ ZONE_ERAS_Rankin_Inlet = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_NT_YK,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -4202,7 +4509,8 @@ ZONE_ERAS_Rankin_Inlet = [
     #             -5:00    -    EST    2001 Apr  1  3:00
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 1,
       'untilMonth': 4,
@@ -4215,6 +4523,7 @@ ZONE_ERAS_Rankin_Inlet = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4240,6 +4549,7 @@ ZONE_ERAS_Recife = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -4251,7 +4561,8 @@ ZONE_ERAS_Recife = [
     #             -3:00    -    -03    2001 Sep 13
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 1,
       'untilMonth': 9,
@@ -4264,6 +4575,7 @@ ZONE_ERAS_Recife = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 2,
       'untilMonth': 10,
@@ -4275,7 +4587,8 @@ ZONE_ERAS_Recife = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4300,7 +4613,8 @@ ZONE_ERAS_Regina = [
     #             -6:00    -    CST
     {
       'offsetMinutes': -360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'CST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4326,6 +4640,7 @@ ZONE_ERAS_Resolute = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_NT_YK,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -4337,7 +4652,8 @@ ZONE_ERAS_Resolute = [
     #             -5:00    -    EST    2001 Apr  1  3:00
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 1,
       'untilMonth': 4,
@@ -4350,6 +4666,7 @@ ZONE_ERAS_Resolute = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 6,
       'untilMonth': 10,
@@ -4361,7 +4678,8 @@ ZONE_ERAS_Resolute = [
     #             -5:00    -    EST    2007 Mar 11  3:00
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EST',
       'untilYearShort': 7,
       'untilMonth': 3,
@@ -4374,6 +4692,7 @@ ZONE_ERAS_Resolute = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4398,7 +4717,8 @@ ZONE_ERAS_Rio_Branco = [
     #             -5:00    -    -05    2008 Jun 24  0:00
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-05',
       'untilYearShort': 8,
       'untilMonth': 6,
@@ -4410,7 +4730,8 @@ ZONE_ERAS_Rio_Branco = [
     #             -4:00    -    -04    2013 Nov 10
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 13,
       'untilMonth': 11,
@@ -4422,7 +4743,8 @@ ZONE_ERAS_Rio_Branco = [
     #             -5:00    -    -05
     {
       'offsetMinutes': -300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4447,7 +4769,8 @@ ZONE_ERAS_Santarem = [
     #             -4:00    -    -04    2008 Jun 24  0:00
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-04',
       'untilYearShort': 8,
       'untilMonth': 6,
@@ -4459,7 +4782,8 @@ ZONE_ERAS_Santarem = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4485,6 +4809,7 @@ ZONE_ERAS_Santiago = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Chile,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4509,7 +4834,8 @@ ZONE_ERAS_Santo_Domingo = [
     #             -4:00    -    AST    2000 Oct 29  2:00
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'AST',
       'untilYearShort': 0,
       'untilMonth': 10,
@@ -4522,6 +4848,7 @@ ZONE_ERAS_Santo_Domingo = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 0,
       'untilMonth': 12,
@@ -4533,7 +4860,8 @@ ZONE_ERAS_Santo_Domingo = [
     #             -4:00    -    AST
     {
       'offsetMinutes': -240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'AST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4559,6 +4887,7 @@ ZONE_ERAS_Sao_Paulo = [
     {
       'offsetMinutes': -180,
       'zonePolicy': ZONE_POLICY_Brazil,
+      'rulesDeltaMinutes': 0,
       'format': '-03/-02',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4584,6 +4913,7 @@ ZONE_ERAS_Scoresbysund = [
     {
       'offsetMinutes': -60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': '-01/+00',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4609,6 +4939,7 @@ ZONE_ERAS_Sitka = [
     {
       'offsetMinutes': -540,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'AK%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4633,7 +4964,8 @@ ZONE_ERAS_Swift_Current = [
     #             -6:00    -    CST
     {
       'offsetMinutes': -360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'CST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4659,6 +4991,7 @@ ZONE_ERAS_Tegucigalpa = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Hond,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4684,6 +5017,7 @@ ZONE_ERAS_Thule = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Thule,
+      'rulesDeltaMinutes': 0,
       'format': 'A%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4709,6 +5043,7 @@ ZONE_ERAS_Thunder_Bay = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4734,6 +5069,7 @@ ZONE_ERAS_Tijuana = [
     {
       'offsetMinutes': -480,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'P%sT',
       'untilYearShort': 1,
       'untilMonth': 1,
@@ -4746,6 +5082,7 @@ ZONE_ERAS_Tijuana = [
     {
       'offsetMinutes': -480,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'P%sT',
       'untilYearShort': 2,
       'untilMonth': 2,
@@ -4758,6 +5095,7 @@ ZONE_ERAS_Tijuana = [
     {
       'offsetMinutes': -480,
       'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaMinutes': 0,
       'format': 'P%sT',
       'untilYearShort': 10,
       'untilMonth': 1,
@@ -4770,6 +5108,7 @@ ZONE_ERAS_Tijuana = [
     {
       'offsetMinutes': -480,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'P%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4795,6 +5134,7 @@ ZONE_ERAS_Toronto = [
     {
       'offsetMinutes': -300,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'E%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4820,6 +5160,7 @@ ZONE_ERAS_Vancouver = [
     {
       'offsetMinutes': -480,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'P%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4845,6 +5186,7 @@ ZONE_ERAS_Whitehorse = [
     {
       'offsetMinutes': -480,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'P%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4870,6 +5212,7 @@ ZONE_ERAS_Winnipeg = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Winn,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 6,
       'untilMonth': 1,
@@ -4882,6 +5225,7 @@ ZONE_ERAS_Winnipeg = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4907,6 +5251,7 @@ ZONE_ERAS_Yakutat = [
     {
       'offsetMinutes': -540,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'AK%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4932,6 +5277,7 @@ ZONE_ERAS_Yellowknife = [
     {
       'offsetMinutes': -420,
       'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaMinutes': 0,
       'format': 'M%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -4956,7 +5302,8 @@ ZONE_ERAS_Casey = [
     #             8:00    -    +08    2009 Oct 18  2:00
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 9,
       'untilMonth': 10,
@@ -4968,7 +5315,8 @@ ZONE_ERAS_Casey = [
     #             11:00    -    +11    2010 Mar  5  2:00
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 10,
       'untilMonth': 3,
@@ -4980,7 +5328,8 @@ ZONE_ERAS_Casey = [
     #             8:00    -    +08    2011 Oct 28  2:00
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 11,
       'untilMonth': 10,
@@ -4992,7 +5341,8 @@ ZONE_ERAS_Casey = [
     #             11:00    -    +11    2012 Feb 21 17:00u
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 12,
       'untilMonth': 2,
@@ -5004,7 +5354,8 @@ ZONE_ERAS_Casey = [
     #             8:00    -    +08    2016 Oct 22
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 16,
       'untilMonth': 10,
@@ -5016,7 +5367,8 @@ ZONE_ERAS_Casey = [
     #             11:00    -    +11    2018 Mar 11  4:00
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 18,
       'untilMonth': 3,
@@ -5028,7 +5380,8 @@ ZONE_ERAS_Casey = [
     #             8:00    -    +08
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5053,7 +5406,8 @@ ZONE_ERAS_Davis = [
     #             7:00    -    +07    2009 Oct 18  2:00
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 9,
       'untilMonth': 10,
@@ -5065,7 +5419,8 @@ ZONE_ERAS_Davis = [
     #             5:00    -    +05    2010 Mar 10 20:00u
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 10,
       'untilMonth': 3,
@@ -5077,7 +5432,8 @@ ZONE_ERAS_Davis = [
     #             7:00    -    +07    2011 Oct 28  2:00
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 11,
       'untilMonth': 10,
@@ -5089,7 +5445,8 @@ ZONE_ERAS_Davis = [
     #             5:00    -    +05    2012 Feb 21 20:00u
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 12,
       'untilMonth': 2,
@@ -5101,7 +5458,8 @@ ZONE_ERAS_Davis = [
     #             7:00    -    +07
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5126,7 +5484,8 @@ ZONE_ERAS_DumontDUrville = [
     #             10:00    -    +10
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+10',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5152,6 +5511,7 @@ ZONE_ERAS_Macquarie = [
     {
       'offsetMinutes': 600,
       'zonePolicy': ZONE_POLICY_AT,
+      'rulesDeltaMinutes': 0,
       'format': 'AE%sT',
       'untilYearShort': 10,
       'untilMonth': 4,
@@ -5163,7 +5523,8 @@ ZONE_ERAS_Macquarie = [
     #             11:00    -    +11
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5188,7 +5549,8 @@ ZONE_ERAS_Mawson = [
     #             6:00    -    +06    2009 Oct 18  2:00
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 9,
       'untilMonth': 10,
@@ -5200,7 +5562,8 @@ ZONE_ERAS_Mawson = [
     #             5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5226,6 +5589,7 @@ ZONE_ERAS_Palmer = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Chile,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 16,
       'untilMonth': 12,
@@ -5237,7 +5601,8 @@ ZONE_ERAS_Palmer = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5262,7 +5627,8 @@ ZONE_ERAS_Rothera = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5287,7 +5653,8 @@ ZONE_ERAS_Syowa = [
     #             3:00    -    +03
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5312,7 +5679,8 @@ ZONE_ERAS_Vostok = [
     #             6:00    -    +06
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5338,6 +5706,7 @@ ZONE_ERAS_Almaty = [
     {
       'offsetMinutes': 360,
       'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'rulesDeltaMinutes': 0,
       'format': '+06/+07',
       'untilYearShort': 4,
       'untilMonth': 10,
@@ -5349,7 +5718,8 @@ ZONE_ERAS_Almaty = [
     #             6:00    -    +06
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5375,6 +5745,7 @@ ZONE_ERAS_Amman = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_Jordan,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5400,6 +5771,7 @@ ZONE_ERAS_Anadyr = [
     {
       'offsetMinutes': 720,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+12/+13',
       'untilYearShort': 10,
       'untilMonth': 3,
@@ -5412,6 +5784,7 @@ ZONE_ERAS_Anadyr = [
     {
       'offsetMinutes': 660,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+11/+12',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -5423,7 +5796,8 @@ ZONE_ERAS_Anadyr = [
     #             12:00    -    +12
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5449,6 +5823,7 @@ ZONE_ERAS_Aqtau = [
     {
       'offsetMinutes': 240,
       'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'rulesDeltaMinutes': 0,
       'format': '+04/+05',
       'untilYearShort': 4,
       'untilMonth': 10,
@@ -5460,7 +5835,8 @@ ZONE_ERAS_Aqtau = [
     #             5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5486,6 +5862,7 @@ ZONE_ERAS_Aqtobe = [
     {
       'offsetMinutes': 300,
       'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'rulesDeltaMinutes': 0,
       'format': '+05/+06',
       'untilYearShort': 4,
       'untilMonth': 10,
@@ -5497,7 +5874,8 @@ ZONE_ERAS_Aqtobe = [
     #             5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5522,7 +5900,8 @@ ZONE_ERAS_Ashgabat = [
     #             5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5548,6 +5927,7 @@ ZONE_ERAS_Atyrau = [
     {
       'offsetMinutes': 240,
       'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'rulesDeltaMinutes': 0,
       'format': '+04/+05',
       'untilYearShort': 4,
       'untilMonth': 10,
@@ -5559,7 +5939,8 @@ ZONE_ERAS_Atyrau = [
     #             5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5585,6 +5966,7 @@ ZONE_ERAS_Baghdad = [
     {
       'offsetMinutes': 180,
       'zonePolicy': ZONE_POLICY_Iraq,
+      'rulesDeltaMinutes': 0,
       'format': '+03/+04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5610,6 +5992,7 @@ ZONE_ERAS_Baku = [
     {
       'offsetMinutes': 240,
       'zonePolicy': ZONE_POLICY_Azer,
+      'rulesDeltaMinutes': 0,
       'format': '+04/+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5634,7 +6017,8 @@ ZONE_ERAS_Bangkok = [
     #             7:00    -    +07
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5660,6 +6044,7 @@ ZONE_ERAS_Barnaul = [
     {
       'offsetMinutes': 360,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+06/+07',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -5671,7 +6056,8 @@ ZONE_ERAS_Barnaul = [
     #              7:00    -    +07    2014 Oct 26  2:00s
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -5683,7 +6069,8 @@ ZONE_ERAS_Barnaul = [
     #              6:00    -    +06    2016 Mar 27  2:00s
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 16,
       'untilMonth': 3,
@@ -5695,7 +6082,8 @@ ZONE_ERAS_Barnaul = [
     #              7:00    -    +07
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5721,6 +6109,7 @@ ZONE_ERAS_Beirut = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_Lebanon,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5746,6 +6135,7 @@ ZONE_ERAS_Bishkek = [
     {
       'offsetMinutes': 300,
       'zonePolicy': ZONE_POLICY_Kyrgyz,
+      'rulesDeltaMinutes': 0,
       'format': '+05/+06',
       'untilYearShort': 5,
       'untilMonth': 8,
@@ -5757,7 +6147,8 @@ ZONE_ERAS_Bishkek = [
     #             6:00    -    +06
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5782,7 +6173,8 @@ ZONE_ERAS_Brunei = [
     #             8:00    -    +08
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5808,6 +6200,7 @@ ZONE_ERAS_Chita = [
     {
       'offsetMinutes': 540,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+09/+10',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -5819,7 +6212,8 @@ ZONE_ERAS_Chita = [
     #             10:00    -    +10    2014 Oct 26  2:00s
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+10',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -5831,7 +6225,8 @@ ZONE_ERAS_Chita = [
     #              8:00    -    +08    2016 Mar 27  2:00
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 16,
       'untilMonth': 3,
@@ -5843,7 +6238,8 @@ ZONE_ERAS_Chita = [
     #              9:00    -    +09
     {
       'offsetMinutes': 540,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+09',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5869,6 +6265,7 @@ ZONE_ERAS_Choibalsan = [
     {
       'offsetMinutes': 540,
       'zonePolicy': ZONE_POLICY_Mongol,
+      'rulesDeltaMinutes': 0,
       'format': '+09/+10',
       'untilYearShort': 8,
       'untilMonth': 3,
@@ -5881,6 +6278,7 @@ ZONE_ERAS_Choibalsan = [
     {
       'offsetMinutes': 480,
       'zonePolicy': ZONE_POLICY_Mongol,
+      'rulesDeltaMinutes': 0,
       'format': '+08/+09',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5905,7 +6303,8 @@ ZONE_ERAS_Colombo = [
     #             6:00    -    +06    2006 Apr 15  0:30
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 6,
       'untilMonth': 4,
@@ -5917,7 +6316,8 @@ ZONE_ERAS_Colombo = [
     #             5:30    -    +0530
     {
       'offsetMinutes': 330,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+0530',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5943,6 +6343,7 @@ ZONE_ERAS_Damascus = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_Syria,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -5967,7 +6368,8 @@ ZONE_ERAS_Dhaka = [
     #             6:00    -    +06    2009
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 9,
       'untilMonth': 1,
@@ -5980,6 +6382,7 @@ ZONE_ERAS_Dhaka = [
     {
       'offsetMinutes': 360,
       'zonePolicy': ZONE_POLICY_Dhaka,
+      'rulesDeltaMinutes': 0,
       'format': '+06/+07',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6004,7 +6407,8 @@ ZONE_ERAS_Dili = [
     #             8:00    -    +08    2000 Sep 17  0:00
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 0,
       'untilMonth': 9,
@@ -6016,7 +6420,8 @@ ZONE_ERAS_Dili = [
     #             9:00    -    +09
     {
       'offsetMinutes': 540,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+09',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6041,7 +6446,8 @@ ZONE_ERAS_Dubai = [
     #             4:00    -    +04
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6066,7 +6472,8 @@ ZONE_ERAS_Dushanbe = [
     #             5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6092,6 +6499,7 @@ ZONE_ERAS_Famagusta = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EUAsia,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 16,
       'untilMonth': 9,
@@ -6103,7 +6511,8 @@ ZONE_ERAS_Famagusta = [
     #             3:00    -    +03    2017 Oct 29 1:00u
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+03',
       'untilYearShort': 17,
       'untilMonth': 10,
@@ -6116,6 +6525,7 @@ ZONE_ERAS_Famagusta = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EUAsia,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6140,7 +6550,8 @@ ZONE_ERAS_Ho_Chi_Minh = [
     #             7:00    -    +07
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6166,6 +6577,7 @@ ZONE_ERAS_Hong_Kong = [
     {
       'offsetMinutes': 480,
       'zonePolicy': ZONE_POLICY_HK,
+      'rulesDeltaMinutes': 0,
       'format': 'HK%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6191,6 +6603,7 @@ ZONE_ERAS_Hovd = [
     {
       'offsetMinutes': 420,
       'zonePolicy': ZONE_POLICY_Mongol,
+      'rulesDeltaMinutes': 0,
       'format': '+07/+08',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6216,6 +6629,7 @@ ZONE_ERAS_Irkutsk = [
     {
       'offsetMinutes': 480,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+08/+09',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -6227,7 +6641,8 @@ ZONE_ERAS_Irkutsk = [
     #              9:00    -    +09    2014 Oct 26  2:00s
     {
       'offsetMinutes': 540,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+09',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -6239,7 +6654,8 @@ ZONE_ERAS_Irkutsk = [
     #              8:00    -    +08
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6264,7 +6680,8 @@ ZONE_ERAS_Jakarta = [
     #             7:00    -    WIB
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'WIB',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6289,7 +6706,8 @@ ZONE_ERAS_Jayapura = [
     #             9:00    -    WIT
     {
       'offsetMinutes': 540,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'WIT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6315,6 +6733,7 @@ ZONE_ERAS_Jerusalem = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_Zion,
+      'rulesDeltaMinutes': 0,
       'format': 'I%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6339,7 +6758,8 @@ ZONE_ERAS_Kabul = [
     #             4:30    -    +0430
     {
       'offsetMinutes': 270,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+0430',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6365,6 +6785,7 @@ ZONE_ERAS_Kamchatka = [
     {
       'offsetMinutes': 720,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+12/+13',
       'untilYearShort': 10,
       'untilMonth': 3,
@@ -6377,6 +6798,7 @@ ZONE_ERAS_Kamchatka = [
     {
       'offsetMinutes': 660,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+11/+12',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -6388,7 +6810,8 @@ ZONE_ERAS_Kamchatka = [
     #             12:00    -    +12
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6414,6 +6837,7 @@ ZONE_ERAS_Karachi = [
     {
       'offsetMinutes': 300,
       'zonePolicy': ZONE_POLICY_Pakistan,
+      'rulesDeltaMinutes': 0,
       'format': 'PK%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6438,7 +6862,8 @@ ZONE_ERAS_Kathmandu = [
     #             5:45    -    +0545
     {
       'offsetMinutes': 345,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+0545',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6464,6 +6889,7 @@ ZONE_ERAS_Khandyga = [
     {
       'offsetMinutes': 540,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+09/+10',
       'untilYearShort': 4,
       'untilMonth': 1,
@@ -6476,6 +6902,7 @@ ZONE_ERAS_Khandyga = [
     {
       'offsetMinutes': 600,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+10/+11',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -6487,7 +6914,8 @@ ZONE_ERAS_Khandyga = [
     #             11:00    -    +11    2011 Sep 13  0:00s
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 11,
       'untilMonth': 9,
@@ -6499,7 +6927,8 @@ ZONE_ERAS_Khandyga = [
     #             10:00    -    +10    2014 Oct 26  2:00s
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+10',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -6511,7 +6940,8 @@ ZONE_ERAS_Khandyga = [
     #              9:00    -    +09
     {
       'offsetMinutes': 540,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+09',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6536,7 +6966,8 @@ ZONE_ERAS_Kolkata = [
     #             5:30    -    IST
     {
       'offsetMinutes': 330,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'IST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6562,6 +6993,7 @@ ZONE_ERAS_Krasnoyarsk = [
     {
       'offsetMinutes': 420,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+07/+08',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -6573,7 +7005,8 @@ ZONE_ERAS_Krasnoyarsk = [
     #              8:00    -    +08    2014 Oct 26  2:00s
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -6585,7 +7018,8 @@ ZONE_ERAS_Krasnoyarsk = [
     #              7:00    -    +07
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6610,7 +7044,8 @@ ZONE_ERAS_Kuala_Lumpur = [
     #             8:00    -    +08
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6635,7 +7070,8 @@ ZONE_ERAS_Kuching = [
     #             8:00    -    +08
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6661,6 +7097,7 @@ ZONE_ERAS_Macau = [
     {
       'offsetMinutes': 480,
       'zonePolicy': ZONE_POLICY_Macau,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6686,6 +7123,7 @@ ZONE_ERAS_Magadan = [
     {
       'offsetMinutes': 660,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+11/+12',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -6697,7 +7135,8 @@ ZONE_ERAS_Magadan = [
     #             12:00    -    +12    2014 Oct 26  2:00s
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -6709,7 +7148,8 @@ ZONE_ERAS_Magadan = [
     #             10:00    -    +10    2016 Apr 24  2:00s
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+10',
       'untilYearShort': 16,
       'untilMonth': 4,
@@ -6721,7 +7161,8 @@ ZONE_ERAS_Magadan = [
     #             11:00    -    +11
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6746,7 +7187,8 @@ ZONE_ERAS_Makassar = [
     #             8:00    -    WITA
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'WITA',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6772,6 +7214,7 @@ ZONE_ERAS_Manila = [
     {
       'offsetMinutes': 480,
       'zonePolicy': ZONE_POLICY_Phil,
+      'rulesDeltaMinutes': 0,
       'format': 'P%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6797,6 +7240,7 @@ ZONE_ERAS_Nicosia = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EUAsia,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6822,6 +7266,7 @@ ZONE_ERAS_Novokuznetsk = [
     {
       'offsetMinutes': 420,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+07/+08',
       'untilYearShort': 10,
       'untilMonth': 3,
@@ -6834,6 +7279,7 @@ ZONE_ERAS_Novokuznetsk = [
     {
       'offsetMinutes': 360,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+06/+07',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -6845,7 +7291,8 @@ ZONE_ERAS_Novokuznetsk = [
     #              7:00    -    +07
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6871,6 +7318,7 @@ ZONE_ERAS_Novosibirsk = [
     {
       'offsetMinutes': 360,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+06/+07',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -6882,7 +7330,8 @@ ZONE_ERAS_Novosibirsk = [
     #              7:00    -    +07    2014 Oct 26  2:00s
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -6894,7 +7343,8 @@ ZONE_ERAS_Novosibirsk = [
     #              6:00    -    +06    2016 Jul 24  2:00s
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 16,
       'untilMonth': 7,
@@ -6906,7 +7356,8 @@ ZONE_ERAS_Novosibirsk = [
     #              7:00    -    +07
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6932,6 +7383,7 @@ ZONE_ERAS_Omsk = [
     {
       'offsetMinutes': 360,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+06/+07',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -6943,7 +7395,8 @@ ZONE_ERAS_Omsk = [
     #              7:00    -    +07    2014 Oct 26  2:00s
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -6955,7 +7408,8 @@ ZONE_ERAS_Omsk = [
     #              6:00    -    +06
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -6981,6 +7435,7 @@ ZONE_ERAS_Oral = [
     {
       'offsetMinutes': 240,
       'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'rulesDeltaMinutes': 0,
       'format': '+04/+05',
       'untilYearShort': 4,
       'untilMonth': 10,
@@ -6992,7 +7447,8 @@ ZONE_ERAS_Oral = [
     #             5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7017,7 +7473,8 @@ ZONE_ERAS_Pontianak = [
     #             7:00    -    WIB
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'WIB',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7042,7 +7499,8 @@ ZONE_ERAS_Pyongyang = [
     #             9:00    -    KST    2015 Aug 15 00:00
     {
       'offsetMinutes': 540,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'KST',
       'untilYearShort': 15,
       'untilMonth': 8,
@@ -7054,7 +7512,8 @@ ZONE_ERAS_Pyongyang = [
     #             8:30    -    KST    2018 May  4 23:30
     {
       'offsetMinutes': 510,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'KST',
       'untilYearShort': 18,
       'untilMonth': 5,
@@ -7066,7 +7525,8 @@ ZONE_ERAS_Pyongyang = [
     #             9:00    -    KST
     {
       'offsetMinutes': 540,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'KST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7091,7 +7551,8 @@ ZONE_ERAS_Qatar = [
     #             3:00    -    +03
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7117,6 +7578,7 @@ ZONE_ERAS_Qyzylorda = [
     {
       'offsetMinutes': 300,
       'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'rulesDeltaMinutes': 0,
       'format': '+05/+06',
       'untilYearShort': 4,
       'untilMonth': 10,
@@ -7128,7 +7590,8 @@ ZONE_ERAS_Qyzylorda = [
     #             6:00    -    +06
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7153,7 +7616,8 @@ ZONE_ERAS_Riyadh = [
     #             3:00    -    +03
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7179,6 +7643,7 @@ ZONE_ERAS_Sakhalin = [
     {
       'offsetMinutes': 600,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+10/+11',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -7190,7 +7655,8 @@ ZONE_ERAS_Sakhalin = [
     #             11:00    -    +11    2014 Oct 26  2:00s
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -7202,7 +7668,8 @@ ZONE_ERAS_Sakhalin = [
     #             10:00    -    +10    2016 Mar 27  2:00s
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+10',
       'untilYearShort': 16,
       'untilMonth': 3,
@@ -7214,7 +7681,8 @@ ZONE_ERAS_Sakhalin = [
     #             11:00    -    +11
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7239,7 +7707,8 @@ ZONE_ERAS_Samarkand = [
     #             5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7265,6 +7734,7 @@ ZONE_ERAS_Seoul = [
     {
       'offsetMinutes': 540,
       'zonePolicy': ZONE_POLICY_ROK,
+      'rulesDeltaMinutes': 0,
       'format': 'K%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7290,6 +7760,7 @@ ZONE_ERAS_Shanghai = [
     {
       'offsetMinutes': 480,
       'zonePolicy': ZONE_POLICY_PRC,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7314,7 +7785,8 @@ ZONE_ERAS_Singapore = [
     #             8:00    -    +08
     {
       'offsetMinutes': 480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+08',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7340,6 +7812,7 @@ ZONE_ERAS_Srednekolymsk = [
     {
       'offsetMinutes': 660,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+11/+12',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -7351,7 +7824,8 @@ ZONE_ERAS_Srednekolymsk = [
     #             12:00    -    +12    2014 Oct 26  2:00s
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -7363,7 +7837,8 @@ ZONE_ERAS_Srednekolymsk = [
     #             11:00    -    +11
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7389,6 +7864,7 @@ ZONE_ERAS_Taipei = [
     {
       'offsetMinutes': 480,
       'zonePolicy': ZONE_POLICY_Taiwan,
+      'rulesDeltaMinutes': 0,
       'format': 'C%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7413,7 +7889,8 @@ ZONE_ERAS_Tashkent = [
     #             5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7439,6 +7916,7 @@ ZONE_ERAS_Tbilisi = [
     {
       'offsetMinutes': 240,
       'zonePolicy': ZONE_POLICY_E_EurAsia,
+      'rulesDeltaMinutes': 0,
       'format': '+04/+05',
       'untilYearShort': 4,
       'untilMonth': 6,
@@ -7451,6 +7929,7 @@ ZONE_ERAS_Tbilisi = [
     {
       'offsetMinutes': 180,
       'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'rulesDeltaMinutes': 0,
       'format': '+03/+04',
       'untilYearShort': 5,
       'untilMonth': 3,
@@ -7462,7 +7941,8 @@ ZONE_ERAS_Tbilisi = [
     #             4:00    -    +04
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7488,6 +7968,7 @@ ZONE_ERAS_Tehran = [
     {
       'offsetMinutes': 210,
       'zonePolicy': ZONE_POLICY_Iran,
+      'rulesDeltaMinutes': 0,
       'format': '+0330/+0430',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7512,7 +7993,8 @@ ZONE_ERAS_Thimphu = [
     #             6:00    -    +06
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7538,6 +8020,7 @@ ZONE_ERAS_Tokyo = [
     {
       'offsetMinutes': 540,
       'zonePolicy': ZONE_POLICY_Japan,
+      'rulesDeltaMinutes': 0,
       'format': 'J%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7563,6 +8046,7 @@ ZONE_ERAS_Tomsk = [
     {
       'offsetMinutes': 420,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+07/+08',
       'untilYearShort': 2,
       'untilMonth': 5,
@@ -7575,6 +8059,7 @@ ZONE_ERAS_Tomsk = [
     {
       'offsetMinutes': 360,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+06/+07',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -7586,7 +8071,8 @@ ZONE_ERAS_Tomsk = [
     #              7:00    -    +07    2014 Oct 26  2:00s
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -7598,7 +8084,8 @@ ZONE_ERAS_Tomsk = [
     #              6:00    -    +06    2016 May 29  2:00s
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 16,
       'untilMonth': 5,
@@ -7610,7 +8097,8 @@ ZONE_ERAS_Tomsk = [
     #              7:00    -    +07
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7636,6 +8124,7 @@ ZONE_ERAS_Ulaanbaatar = [
     {
       'offsetMinutes': 480,
       'zonePolicy': ZONE_POLICY_Mongol,
+      'rulesDeltaMinutes': 0,
       'format': '+08/+09',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7660,7 +8149,8 @@ ZONE_ERAS_Urumqi = [
     #             6:00    -    +06
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7686,6 +8176,7 @@ ZONE_ERAS_Ust_Nera = [
     {
       'offsetMinutes': 660,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+11/+12',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -7697,7 +8188,8 @@ ZONE_ERAS_Ust_Nera = [
     #             12:00    -    +12    2011 Sep 13  0:00s
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 11,
       'untilMonth': 9,
@@ -7709,7 +8201,8 @@ ZONE_ERAS_Ust_Nera = [
     #             11:00    -    +11    2014 Oct 26  2:00s
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -7721,7 +8214,8 @@ ZONE_ERAS_Ust_Nera = [
     #             10:00    -    +10
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+10',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7747,6 +8241,7 @@ ZONE_ERAS_Vladivostok = [
     {
       'offsetMinutes': 600,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+10/+11',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -7758,7 +8253,8 @@ ZONE_ERAS_Vladivostok = [
     #             11:00    -    +11    2014 Oct 26  2:00s
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -7770,7 +8266,8 @@ ZONE_ERAS_Vladivostok = [
     #             10:00    -    +10
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+10',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7796,6 +8293,7 @@ ZONE_ERAS_Yakutsk = [
     {
       'offsetMinutes': 540,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+09/+10',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -7807,7 +8305,8 @@ ZONE_ERAS_Yakutsk = [
     #             10:00    -    +10    2014 Oct 26  2:00s
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+10',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -7819,7 +8318,8 @@ ZONE_ERAS_Yakutsk = [
     #              9:00    -    +09
     {
       'offsetMinutes': 540,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+09',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7844,7 +8344,8 @@ ZONE_ERAS_Yangon = [
     #             6:30    -    +0630
     {
       'offsetMinutes': 390,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+0630',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7870,6 +8371,7 @@ ZONE_ERAS_Yekaterinburg = [
     {
       'offsetMinutes': 300,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+05/+06',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -7881,7 +8383,8 @@ ZONE_ERAS_Yekaterinburg = [
     #              6:00    -    +06    2014 Oct 26  2:00s
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -7893,7 +8396,8 @@ ZONE_ERAS_Yekaterinburg = [
     #              5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7919,6 +8423,7 @@ ZONE_ERAS_Yerevan = [
     {
       'offsetMinutes': 240,
       'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'rulesDeltaMinutes': 0,
       'format': '+04/+05',
       'untilYearShort': 11,
       'untilMonth': 1,
@@ -7931,6 +8436,7 @@ ZONE_ERAS_Yerevan = [
     {
       'offsetMinutes': 240,
       'zonePolicy': ZONE_POLICY_Armenia,
+      'rulesDeltaMinutes': 0,
       'format': '+04/+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7956,6 +8462,7 @@ ZONE_ERAS_Azores = [
     {
       'offsetMinutes': -60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': '-01/+00',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -7981,6 +8488,7 @@ ZONE_ERAS_Bermuda = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_US,
+      'rulesDeltaMinutes': 0,
       'format': 'A%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8006,6 +8514,7 @@ ZONE_ERAS_Canary = [
     {
       'offsetMinutes': 0,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'WE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8030,7 +8539,8 @@ ZONE_ERAS_Cape_Verde = [
     #             -1:00    -    -01
     {
       'offsetMinutes': -60,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-01',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8056,6 +8566,7 @@ ZONE_ERAS_Faroe = [
     {
       'offsetMinutes': 0,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'WE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8081,6 +8592,7 @@ ZONE_ERAS_Madeira = [
     {
       'offsetMinutes': 0,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'WE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8105,7 +8617,8 @@ ZONE_ERAS_Reykjavik = [
     #              0:00    -    GMT
     {
       'offsetMinutes': 0,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'GMT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8130,7 +8643,8 @@ ZONE_ERAS_South_Georgia = [
     #             -2:00    -    -02
     {
       'offsetMinutes': -120,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-02',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8156,6 +8670,7 @@ ZONE_ERAS_Stanley = [
     {
       'offsetMinutes': -240,
       'zonePolicy': ZONE_POLICY_Falk,
+      'rulesDeltaMinutes': 0,
       'format': '-04/-03',
       'untilYearShort': 10,
       'untilMonth': 9,
@@ -8167,7 +8682,8 @@ ZONE_ERAS_Stanley = [
     #             -3:00    -    -03
     {
       'offsetMinutes': -180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8193,6 +8709,7 @@ ZONE_ERAS_Adelaide = [
     {
       'offsetMinutes': 570,
       'zonePolicy': ZONE_POLICY_AS,
+      'rulesDeltaMinutes': 0,
       'format': 'AC%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8218,6 +8735,7 @@ ZONE_ERAS_Brisbane = [
     {
       'offsetMinutes': 600,
       'zonePolicy': ZONE_POLICY_AQ,
+      'rulesDeltaMinutes': 0,
       'format': 'AE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8243,6 +8761,7 @@ ZONE_ERAS_Broken_Hill = [
     {
       'offsetMinutes': 570,
       'zonePolicy': ZONE_POLICY_AN,
+      'rulesDeltaMinutes': 0,
       'format': 'AC%sT',
       'untilYearShort': 0,
       'untilMonth': 1,
@@ -8255,6 +8774,7 @@ ZONE_ERAS_Broken_Hill = [
     {
       'offsetMinutes': 570,
       'zonePolicy': ZONE_POLICY_AS,
+      'rulesDeltaMinutes': 0,
       'format': 'AC%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8280,6 +8800,7 @@ ZONE_ERAS_Currie = [
     {
       'offsetMinutes': 600,
       'zonePolicy': ZONE_POLICY_AT,
+      'rulesDeltaMinutes': 0,
       'format': 'AE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8305,6 +8826,7 @@ ZONE_ERAS_Darwin = [
     {
       'offsetMinutes': 570,
       'zonePolicy': ZONE_POLICY_Aus,
+      'rulesDeltaMinutes': 0,
       'format': 'AC%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8330,6 +8852,7 @@ ZONE_ERAS_Eucla = [
     {
       'offsetMinutes': 525,
       'zonePolicy': ZONE_POLICY_AW,
+      'rulesDeltaMinutes': 0,
       'format': '+0845/+0945',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8355,6 +8878,7 @@ ZONE_ERAS_Hobart = [
     {
       'offsetMinutes': 600,
       'zonePolicy': ZONE_POLICY_AT,
+      'rulesDeltaMinutes': 0,
       'format': 'AE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8380,6 +8904,7 @@ ZONE_ERAS_Lindeman = [
     {
       'offsetMinutes': 600,
       'zonePolicy': ZONE_POLICY_Holiday,
+      'rulesDeltaMinutes': 0,
       'format': 'AE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8405,6 +8930,7 @@ ZONE_ERAS_Lord_Howe = [
     {
       'offsetMinutes': 630,
       'zonePolicy': ZONE_POLICY_LH,
+      'rulesDeltaMinutes': 0,
       'format': '+1030/+11',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8430,6 +8956,7 @@ ZONE_ERAS_Melbourne = [
     {
       'offsetMinutes': 600,
       'zonePolicy': ZONE_POLICY_AV,
+      'rulesDeltaMinutes': 0,
       'format': 'AE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8455,6 +8982,7 @@ ZONE_ERAS_Perth = [
     {
       'offsetMinutes': 480,
       'zonePolicy': ZONE_POLICY_AW,
+      'rulesDeltaMinutes': 0,
       'format': 'AW%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8480,6 +9008,7 @@ ZONE_ERAS_Sydney = [
     {
       'offsetMinutes': 600,
       'zonePolicy': ZONE_POLICY_AN,
+      'rulesDeltaMinutes': 0,
       'format': 'AE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8505,6 +9034,7 @@ ZONE_ERAS_Amsterdam = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8530,6 +9060,7 @@ ZONE_ERAS_Andorra = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8555,6 +9086,7 @@ ZONE_ERAS_Astrakhan = [
     {
       'offsetMinutes': 180,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+03/+04',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -8566,7 +9098,8 @@ ZONE_ERAS_Astrakhan = [
     #              4:00    -    +04    2014 Oct 26  2:00s
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -8578,7 +9111,8 @@ ZONE_ERAS_Astrakhan = [
     #              3:00    -    +03    2016 Mar 27  2:00s
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+03',
       'untilYearShort': 16,
       'untilMonth': 3,
@@ -8590,7 +9124,8 @@ ZONE_ERAS_Astrakhan = [
     #              4:00    -    +04
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8616,6 +9151,7 @@ ZONE_ERAS_Athens = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8641,6 +9177,7 @@ ZONE_ERAS_Belgrade = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8666,6 +9203,7 @@ ZONE_ERAS_Berlin = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8691,6 +9229,7 @@ ZONE_ERAS_Brussels = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8716,6 +9255,7 @@ ZONE_ERAS_Bucharest = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8741,6 +9281,7 @@ ZONE_ERAS_Budapest = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8766,6 +9307,7 @@ ZONE_ERAS_Chisinau = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_Moldova,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8791,6 +9333,7 @@ ZONE_ERAS_Copenhagen = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8816,6 +9359,7 @@ ZONE_ERAS_Dublin = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_Eire,
+      'rulesDeltaMinutes': 0,
       'format': 'IST/GMT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8841,6 +9385,7 @@ ZONE_ERAS_Gibraltar = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8866,6 +9411,7 @@ ZONE_ERAS_Helsinki = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8882,6 +9428,136 @@ ZONE_INFO_Helsinki = {
 }
 
 #---------------------------------------------------------------------------
+# Zone name: Europe/Istanbul
+# Era count: 9
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Istanbul = [
+    #             2:00    Turkey    EE%sT    2007
+    {
+      'offsetMinutes': 120,
+      'zonePolicy': ZONE_POLICY_Turkey,
+      'rulesDeltaMinutes': 0,
+      'format': 'EE%sT',
+      'untilYearShort': 7,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             2:00    EU    EE%sT    2011 Mar 27  1:00u
+    {
+      'offsetMinutes': 120,
+      'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
+      'format': 'EE%sT',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 27,
+      'untilHour': 1,
+      'untilMinute': 0,
+      'untilTimeModifier': 'u',
+    },
+    #             2:00    -    EET    2011 Mar 28  1:00u
+    {
+      'offsetMinutes': 120,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
+      'format': 'EET',
+      'untilYearShort': 11,
+      'untilMonth': 3,
+      'untilDay': 28,
+      'untilHour': 1,
+      'untilMinute': 0,
+      'untilTimeModifier': 'u',
+    },
+    #             2:00    EU    EE%sT    2014 Mar 30  1:00u
+    {
+      'offsetMinutes': 120,
+      'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
+      'format': 'EE%sT',
+      'untilYearShort': 14,
+      'untilMonth': 3,
+      'untilDay': 30,
+      'untilHour': 1,
+      'untilMinute': 0,
+      'untilTimeModifier': 'u',
+    },
+    #             2:00    -    EET    2014 Mar 31  1:00u
+    {
+      'offsetMinutes': 120,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
+      'format': 'EET',
+      'untilYearShort': 14,
+      'untilMonth': 3,
+      'untilDay': 31,
+      'untilHour': 1,
+      'untilMinute': 0,
+      'untilTimeModifier': 'u',
+    },
+    #             2:00    EU    EE%sT    2015 Oct 25  1:00u
+    {
+      'offsetMinutes': 120,
+      'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
+      'format': 'EE%sT',
+      'untilYearShort': 15,
+      'untilMonth': 10,
+      'untilDay': 25,
+      'untilHour': 1,
+      'untilMinute': 0,
+      'untilTimeModifier': 'u',
+    },
+    #             2:00    1:00    EEST    2015 Nov  8  1:00u
+    {
+      'offsetMinutes': 120,
+      'zonePolicy': ':',
+      'rulesDeltaMinutes': 60,
+      'format': 'EEST',
+      'untilYearShort': 15,
+      'untilMonth': 11,
+      'untilDay': 8,
+      'untilHour': 1,
+      'untilMinute': 0,
+      'untilTimeModifier': 'u',
+    },
+    #             2:00    EU    EE%sT    2016 Sep  7
+    {
+      'offsetMinutes': 120,
+      'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
+      'format': 'EE%sT',
+      'untilYearShort': 16,
+      'untilMonth': 9,
+      'untilDay': 7,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+    #             3:00    -    +03
+    {
+      'offsetMinutes': 180,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
+      'format': '+03',
+      'untilYearShort': 127,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilHour': 0,
+      'untilMinute': 0,
+      'untilTimeModifier': 'w',
+    },
+
+]
+ZONE_INFO_Istanbul = {
+    "name": "Europe/Istanbul",
+    "eras": ZONE_ERAS_Istanbul
+}
+
+#---------------------------------------------------------------------------
 # Zone name: Europe/Kaliningrad
 # Era count: 3
 #---------------------------------------------------------------------------
@@ -8891,6 +9567,7 @@ ZONE_ERAS_Kaliningrad = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -8902,7 +9579,8 @@ ZONE_ERAS_Kaliningrad = [
     #              3:00    -    +03    2014 Oct 26  2:00s
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+03',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -8914,7 +9592,8 @@ ZONE_ERAS_Kaliningrad = [
     #              2:00    -    EET
     {
       'offsetMinutes': 120,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EET',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8940,6 +9619,7 @@ ZONE_ERAS_Kiev = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -8965,6 +9645,7 @@ ZONE_ERAS_Kirov = [
     {
       'offsetMinutes': 180,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+03/+04',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -8976,7 +9657,8 @@ ZONE_ERAS_Kirov = [
     #              4:00    -    +04    2014 Oct 26  2:00s
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -8988,7 +9670,8 @@ ZONE_ERAS_Kirov = [
     #              3:00    -    +03
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9014,6 +9697,7 @@ ZONE_ERAS_Lisbon = [
     {
       'offsetMinutes': 0,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'WE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9039,6 +9723,7 @@ ZONE_ERAS_London = [
     {
       'offsetMinutes': 0,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'GMT/BST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9064,6 +9749,7 @@ ZONE_ERAS_Luxembourg = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9089,6 +9775,7 @@ ZONE_ERAS_Madrid = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9114,6 +9801,7 @@ ZONE_ERAS_Malta = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9139,6 +9827,7 @@ ZONE_ERAS_Minsk = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -9150,7 +9839,8 @@ ZONE_ERAS_Minsk = [
     #             3:00    -    +03
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+03',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9176,6 +9866,7 @@ ZONE_ERAS_Monaco = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9201,6 +9892,7 @@ ZONE_ERAS_Moscow = [
     {
       'offsetMinutes': 180,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': 'MSK/MSD',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -9212,7 +9904,8 @@ ZONE_ERAS_Moscow = [
     #              4:00    -    MSK    2014 Oct 26  2:00s
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'MSK',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -9224,7 +9917,8 @@ ZONE_ERAS_Moscow = [
     #              3:00    -    MSK
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'MSK',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9250,6 +9944,7 @@ ZONE_ERAS_Oslo = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9275,6 +9970,7 @@ ZONE_ERAS_Paris = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9300,6 +9996,7 @@ ZONE_ERAS_Prague = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9325,6 +10022,7 @@ ZONE_ERAS_Riga = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 0,
       'untilMonth': 2,
@@ -9336,7 +10034,8 @@ ZONE_ERAS_Riga = [
     #             2:00    -    EET    2001 Jan  2
     {
       'offsetMinutes': 120,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EET',
       'untilYearShort': 1,
       'untilMonth': 1,
@@ -9349,6 +10048,7 @@ ZONE_ERAS_Riga = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9374,6 +10074,7 @@ ZONE_ERAS_Rome = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9399,6 +10100,7 @@ ZONE_ERAS_Samara = [
     {
       'offsetMinutes': 240,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+04/+05',
       'untilYearShort': 10,
       'untilMonth': 3,
@@ -9411,6 +10113,7 @@ ZONE_ERAS_Samara = [
     {
       'offsetMinutes': 180,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+03/+04',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -9422,7 +10125,8 @@ ZONE_ERAS_Samara = [
     #              4:00    -    +04
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9448,6 +10152,7 @@ ZONE_ERAS_Saratov = [
     {
       'offsetMinutes': 180,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+03/+04',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -9459,7 +10164,8 @@ ZONE_ERAS_Saratov = [
     #              4:00    -    +04    2014 Oct 26  2:00s
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -9471,7 +10177,8 @@ ZONE_ERAS_Saratov = [
     #              3:00    -    +03    2016 Dec  4  2:00s
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+03',
       'untilYearShort': 16,
       'untilMonth': 12,
@@ -9483,7 +10190,8 @@ ZONE_ERAS_Saratov = [
     #              4:00    -    +04
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9509,6 +10217,7 @@ ZONE_ERAS_Simferopol = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 14,
       'untilMonth': 3,
@@ -9520,7 +10229,8 @@ ZONE_ERAS_Simferopol = [
     #              4:00    -    MSK    2014 Oct 26  2:00s
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'MSK',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -9532,7 +10242,8 @@ ZONE_ERAS_Simferopol = [
     #              3:00    -    MSK
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'MSK',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9558,6 +10269,7 @@ ZONE_ERAS_Sofia = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9583,6 +10295,7 @@ ZONE_ERAS_Stockholm = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9607,7 +10320,8 @@ ZONE_ERAS_Tallinn = [
     #             2:00    -    EET    2002 Feb 21
     {
       'offsetMinutes': 120,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EET',
       'untilYearShort': 2,
       'untilMonth': 2,
@@ -9620,6 +10334,7 @@ ZONE_ERAS_Tallinn = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9645,6 +10360,7 @@ ZONE_ERAS_Tirane = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9670,6 +10386,7 @@ ZONE_ERAS_Ulyanovsk = [
     {
       'offsetMinutes': 180,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+03/+04',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -9681,7 +10398,8 @@ ZONE_ERAS_Ulyanovsk = [
     #              4:00    -    +04    2014 Oct 26  2:00s
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -9693,7 +10411,8 @@ ZONE_ERAS_Ulyanovsk = [
     #              3:00    -    +03    2016 Mar 27  2:00s
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+03',
       'untilYearShort': 16,
       'untilMonth': 3,
@@ -9705,7 +10424,8 @@ ZONE_ERAS_Ulyanovsk = [
     #              4:00    -    +04
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9731,6 +10451,7 @@ ZONE_ERAS_Uzhgorod = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9756,6 +10477,7 @@ ZONE_ERAS_Vienna = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9780,7 +10502,8 @@ ZONE_ERAS_Vilnius = [
     #             2:00    -    EET    2003 Jan  1
     {
       'offsetMinutes': 120,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'EET',
       'untilYearShort': 3,
       'untilMonth': 1,
@@ -9793,6 +10516,7 @@ ZONE_ERAS_Vilnius = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9818,6 +10542,7 @@ ZONE_ERAS_Volgograd = [
     {
       'offsetMinutes': 180,
       'zonePolicy': ZONE_POLICY_Russia,
+      'rulesDeltaMinutes': 0,
       'format': '+03/+04',
       'untilYearShort': 11,
       'untilMonth': 3,
@@ -9829,7 +10554,8 @@ ZONE_ERAS_Volgograd = [
     #              4:00    -    +04    2014 Oct 26  2:00s
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 14,
       'untilMonth': 10,
@@ -9841,7 +10567,8 @@ ZONE_ERAS_Volgograd = [
     #              3:00    -    +03    2018 Oct 28  2:00s
     {
       'offsetMinutes': 180,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+03',
       'untilYearShort': 18,
       'untilMonth': 10,
@@ -9853,7 +10580,8 @@ ZONE_ERAS_Volgograd = [
     #              4:00    -    +04
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9879,6 +10607,7 @@ ZONE_ERAS_Warsaw = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9904,6 +10633,7 @@ ZONE_ERAS_Zaporozhye = [
     {
       'offsetMinutes': 120,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'EE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9929,6 +10659,7 @@ ZONE_ERAS_Zurich = [
     {
       'offsetMinutes': 60,
       'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaMinutes': 0,
       'format': 'CE%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9953,7 +10684,8 @@ ZONE_ERAS_Chagos = [
     #             6:00    -    +06
     {
       'offsetMinutes': 360,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+06',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -9978,7 +10710,8 @@ ZONE_ERAS_Christmas = [
     #             7:00    -    +07
     {
       'offsetMinutes': 420,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+07',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10003,7 +10736,8 @@ ZONE_ERAS_Cocos = [
     #             6:30    -    +0630
     {
       'offsetMinutes': 390,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+0630',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10028,7 +10762,8 @@ ZONE_ERAS_Kerguelen = [
     #             5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10053,7 +10788,8 @@ ZONE_ERAS_Mahe = [
     #             4:00    -    +04
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10078,7 +10814,8 @@ ZONE_ERAS_Maldives = [
     #             5:00    -    +05
     {
       'offsetMinutes': 300,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10104,6 +10841,7 @@ ZONE_ERAS_Mauritius = [
     {
       'offsetMinutes': 240,
       'zonePolicy': ZONE_POLICY_Mauritius,
+      'rulesDeltaMinutes': 0,
       'format': '+04/+05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10128,7 +10866,8 @@ ZONE_ERAS_Reunion = [
     #             4:00    -    +04
     {
       'offsetMinutes': 240,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+04',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10154,6 +10893,7 @@ ZONE_ERAS_Apia = [
     {
       'offsetMinutes': -660,
       'zonePolicy': ZONE_POLICY_WS,
+      'rulesDeltaMinutes': 0,
       'format': '-11/-10',
       'untilYearShort': 11,
       'untilMonth': 12,
@@ -10166,6 +10906,7 @@ ZONE_ERAS_Apia = [
     {
       'offsetMinutes': 780,
       'zonePolicy': ZONE_POLICY_WS,
+      'rulesDeltaMinutes': 0,
       'format': '+13/+14',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10191,6 +10932,7 @@ ZONE_ERAS_Auckland = [
     {
       'offsetMinutes': 720,
       'zonePolicy': ZONE_POLICY_NZ,
+      'rulesDeltaMinutes': 0,
       'format': 'NZ%sT',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10215,7 +10957,8 @@ ZONE_ERAS_Bougainville = [
     #             10:00    -    +10    2014 Dec 28  2:00
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+10',
       'untilYearShort': 14,
       'untilMonth': 12,
@@ -10227,7 +10970,8 @@ ZONE_ERAS_Bougainville = [
     #             11:00    -    +11
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10253,6 +10997,7 @@ ZONE_ERAS_Chatham = [
     {
       'offsetMinutes': 765,
       'zonePolicy': ZONE_POLICY_Chatham,
+      'rulesDeltaMinutes': 0,
       'format': '+1245/+1345',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10277,7 +11022,8 @@ ZONE_ERAS_Chuuk = [
     #             10:00    -    +10
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+10',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10303,6 +11049,7 @@ ZONE_ERAS_Easter = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Chile,
+      'rulesDeltaMinutes': 0,
       'format': '-06/-05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10328,6 +11075,7 @@ ZONE_ERAS_Efate = [
     {
       'offsetMinutes': 660,
       'zonePolicy': ZONE_POLICY_Vanuatu,
+      'rulesDeltaMinutes': 0,
       'format': '+11/+12',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10352,7 +11100,8 @@ ZONE_ERAS_Enderbury = [
     #              13:00    -    +13
     {
       'offsetMinutes': 780,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+13',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10377,7 +11126,8 @@ ZONE_ERAS_Fakaofo = [
     #             -11:00    -    -11    2011 Dec 30
     {
       'offsetMinutes': -660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-11',
       'untilYearShort': 11,
       'untilMonth': 12,
@@ -10389,7 +11139,8 @@ ZONE_ERAS_Fakaofo = [
     #             13:00    -    +13
     {
       'offsetMinutes': 780,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+13',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10415,6 +11166,7 @@ ZONE_ERAS_Fiji = [
     {
       'offsetMinutes': 720,
       'zonePolicy': ZONE_POLICY_Fiji,
+      'rulesDeltaMinutes': 0,
       'format': '+12/+13',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10439,7 +11191,8 @@ ZONE_ERAS_Funafuti = [
     #             12:00    -    +12
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10465,6 +11218,7 @@ ZONE_ERAS_Galapagos = [
     {
       'offsetMinutes': -360,
       'zonePolicy': ZONE_POLICY_Ecuador,
+      'rulesDeltaMinutes': 0,
       'format': '-06/-05',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10489,7 +11243,8 @@ ZONE_ERAS_Gambier = [
     #              -9:00    -    -09
     {
       'offsetMinutes': -540,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-09',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10514,7 +11269,8 @@ ZONE_ERAS_Guadalcanal = [
     #             11:00    -    +11
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10539,7 +11295,8 @@ ZONE_ERAS_Guam = [
     #             10:00    -    GST    2000 Dec 23
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'GST',
       'untilYearShort': 0,
       'untilMonth': 12,
@@ -10551,7 +11308,8 @@ ZONE_ERAS_Guam = [
     #             10:00    -    ChST
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'ChST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10576,7 +11334,8 @@ ZONE_ERAS_Honolulu = [
     #             -10:00    -    HST
     {
       'offsetMinutes': -600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'HST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10601,7 +11360,8 @@ ZONE_ERAS_Kiritimati = [
     #              14:00    -    +14
     {
       'offsetMinutes': 840,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+14',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10626,7 +11386,8 @@ ZONE_ERAS_Kosrae = [
     #             11:00    -    +11
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10651,7 +11412,8 @@ ZONE_ERAS_Kwajalein = [
     #             12:00    -    +12
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10676,7 +11438,8 @@ ZONE_ERAS_Majuro = [
     #             12:00    -    +12
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10701,7 +11464,8 @@ ZONE_ERAS_Marquesas = [
     #              -9:30    -    -0930
     {
       'offsetMinutes': -570,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-0930',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10726,7 +11490,8 @@ ZONE_ERAS_Nauru = [
     #             12:00    -    +12
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10751,7 +11516,8 @@ ZONE_ERAS_Niue = [
     #             -11:00    -    -11
     {
       'offsetMinutes': -660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-11',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10776,7 +11542,8 @@ ZONE_ERAS_Norfolk = [
     #             11:30    -    +1130    2015 Oct  4 02:00
     {
       'offsetMinutes': 690,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+1130',
       'untilYearShort': 15,
       'untilMonth': 10,
@@ -10788,7 +11555,8 @@ ZONE_ERAS_Norfolk = [
     #             11:00    -    +11
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10814,6 +11582,7 @@ ZONE_ERAS_Noumea = [
     {
       'offsetMinutes': 660,
       'zonePolicy': ZONE_POLICY_NC,
+      'rulesDeltaMinutes': 0,
       'format': '+11/+12',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10838,7 +11607,8 @@ ZONE_ERAS_Pago_Pago = [
     #             -11:00    -    SST
     {
       'offsetMinutes': -660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': 'SST',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10863,7 +11633,8 @@ ZONE_ERAS_Palau = [
     #             9:00    -    +09
     {
       'offsetMinutes': 540,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+09',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10888,7 +11659,8 @@ ZONE_ERAS_Pitcairn = [
     #             -8:00    -    -08
     {
       'offsetMinutes': -480,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-08',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10913,7 +11685,8 @@ ZONE_ERAS_Pohnpei = [
     #             11:00    -    +11
     {
       'offsetMinutes': 660,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+11',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10938,7 +11711,8 @@ ZONE_ERAS_Port_Moresby = [
     #             10:00    -    +10
     {
       'offsetMinutes': 600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+10',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10964,6 +11738,7 @@ ZONE_ERAS_Rarotonga = [
     {
       'offsetMinutes': -600,
       'zonePolicy': ZONE_POLICY_Cook,
+      'rulesDeltaMinutes': 0,
       'format': '-10/-0930',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -10988,7 +11763,8 @@ ZONE_ERAS_Tahiti = [
     #             -10:00    -    -10
     {
       'offsetMinutes': -600,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '-10',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -11013,7 +11789,8 @@ ZONE_ERAS_Tarawa = [
     #              12:00    -    +12
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -11039,6 +11816,7 @@ ZONE_ERAS_Tongatapu = [
     {
       'offsetMinutes': 780,
       'zonePolicy': ZONE_POLICY_Tonga,
+      'rulesDeltaMinutes': 0,
       'format': '+13/+14',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -11063,7 +11841,8 @@ ZONE_ERAS_Wake = [
     #             12:00    -    +12
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -11088,7 +11867,8 @@ ZONE_ERAS_Wallis = [
     #             12:00    -    +12
     {
       'offsetMinutes': 720,
-      'zonePolicy': None,
+      'zonePolicy': '-',
+      'rulesDeltaMinutes': 0,
       'format': '+12',
       'untilYearShort': 127,
       'untilMonth': 1,
@@ -11313,6 +12093,7 @@ ZONE_INFO_MAP = {
     "Canary": ZONE_INFO_Canary,
     "Stockholm": ZONE_INFO_Stockholm,
     "Zurich": ZONE_INFO_Zurich,
+    "Istanbul": ZONE_INFO_Istanbul,
     "Kiev": ZONE_INFO_Kiev,
     "Uzhgorod": ZONE_INFO_Uzhgorod,
     "Zaporozhye": ZONE_INFO_Zaporozhye,
@@ -11407,6 +12188,7 @@ ZONE_INFO_MAP = {
     "Jujuy": ZONE_INFO_Jujuy,
     "Catamarca": ZONE_INFO_Catamarca,
     "Mendoza": ZONE_INFO_Mendoza,
+    "San_Luis": ZONE_INFO_San_Luis,
     "Rio_Gallegos": ZONE_INFO_Rio_Gallegos,
     "Ushuaia": ZONE_INFO_Ushuaia,
     "La_Paz": ZONE_INFO_La_Paz,
@@ -11449,10 +12231,9 @@ ZONE_INFO_MAP = {
 
 # The following zones are not supported in the current version of AceTime.
 #
-# numInfos: 21
+# numInfos: 19
 #
 # Africa/Windhoek (rule 'Namibia' not found)
-# America/Argentina/San_Luis (offset in RULES '1:00')
 # America/Belize (rule 'Belize' not found)
 # America/Goose_Bay (rule 'StJohns' not found)
 # America/Moncton (rule 'Moncton' not found)
@@ -11465,7 +12246,6 @@ ZONE_INFO_MAP = {
 # EET (no '/' in zone name)
 # EST (no '/' in zone name)
 # EST5EDT (no '/' in zone name)
-# Europe/Istanbul (offset in RULES '1:00')
 # HST (no '/' in zone name)
 # MET (no '/' in zone name)
 # MST (no '/' in zone name)
