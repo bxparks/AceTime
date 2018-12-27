@@ -12,8 +12,8 @@
 
 from zonedb.zone_policies import *
 
-# numInfos: 284
-# numEras: 381
+# numInfos: 318
+# numEras: 493
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Abidjan
@@ -30,6 +30,7 @@ ZONE_ERAS_Abidjan = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -53,6 +54,7 @@ ZONE_ERAS_Accra = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -76,6 +78,7 @@ ZONE_ERAS_Algiers = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -99,6 +102,7 @@ ZONE_ERAS_Bissau = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -122,6 +126,7 @@ ZONE_ERAS_Cairo = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -145,6 +150,7 @@ ZONE_ERAS_Casablanca = [
       "untilMonth": 10,
       "untilDay": 27,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #              1:00    -    +01
     {
@@ -155,6 +161,7 @@ ZONE_ERAS_Casablanca = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -178,6 +185,7 @@ ZONE_ERAS_Ceuta = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -201,6 +209,7 @@ ZONE_ERAS_El_Aaiun = [
       "untilMonth": 10,
       "untilDay": 27,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #              1:00    -    +01
     {
@@ -211,6 +220,7 @@ ZONE_ERAS_El_Aaiun = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -234,6 +244,7 @@ ZONE_ERAS_Johannesburg = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -257,6 +268,7 @@ ZONE_ERAS_Juba = [
       "untilMonth": 1,
       "untilDay": 15,
       "untilHour": 12,
+      "untilTimeModifier": w,
     },
     #             3:00    -    EAT
     {
@@ -267,6 +279,7 @@ ZONE_ERAS_Juba = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -290,6 +303,7 @@ ZONE_ERAS_Khartoum = [
       "untilMonth": 1,
       "untilDay": 15,
       "untilHour": 12,
+      "untilTimeModifier": w,
     },
     #             3:00    -    EAT    2017 Nov  1
     {
@@ -300,6 +314,7 @@ ZONE_ERAS_Khartoum = [
       "untilMonth": 11,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             2:00    -    CAT
     {
@@ -310,6 +325,7 @@ ZONE_ERAS_Khartoum = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -333,6 +349,7 @@ ZONE_ERAS_Lagos = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -356,6 +373,7 @@ ZONE_ERAS_Maputo = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -379,6 +397,7 @@ ZONE_ERAS_Monrovia = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -402,6 +421,7 @@ ZONE_ERAS_Nairobi = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -425,6 +445,7 @@ ZONE_ERAS_Ndjamena = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -448,6 +469,7 @@ ZONE_ERAS_Sao_Tome = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 1,
+      "untilTimeModifier": w,
     },
     #              1:00    -    WAT
     {
@@ -458,6 +480,7 @@ ZONE_ERAS_Sao_Tome = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -481,6 +504,7 @@ ZONE_ERAS_Tripoli = [
       "untilMonth": 11,
       "untilDay": 10,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             1:00    Libya    CE%sT    2013 Oct 25  2:00
     {
@@ -491,6 +515,7 @@ ZONE_ERAS_Tripoli = [
       "untilMonth": 10,
       "untilDay": 25,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             2:00    -    EET
     {
@@ -501,6 +526,7 @@ ZONE_ERAS_Tripoli = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -524,6 +550,7 @@ ZONE_ERAS_Tunis = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -547,6 +574,7 @@ ZONE_ERAS_Adak = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -570,6 +598,7 @@ ZONE_ERAS_Anchorage = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -593,6 +622,7 @@ ZONE_ERAS_Araguaina = [
       "untilMonth": 9,
       "untilDay": 24,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03    2012 Oct 21
     {
@@ -603,6 +633,7 @@ ZONE_ERAS_Araguaina = [
       "untilMonth": 10,
       "untilDay": 21,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    Brazil    -03/-02    2013 Sep
     {
@@ -613,6 +644,7 @@ ZONE_ERAS_Araguaina = [
       "untilMonth": 9,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03
     {
@@ -623,6 +655,7 @@ ZONE_ERAS_Araguaina = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -646,6 +679,7 @@ ZONE_ERAS_Buenos_Aires = [
       "untilMonth": 3,
       "untilDay": 3,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    Arg    -03/-02
     {
@@ -656,6 +690,7 @@ ZONE_ERAS_Buenos_Aires = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -679,6 +714,7 @@ ZONE_ERAS_Cordoba = [
       "untilMonth": 3,
       "untilDay": 3,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    Arg    -03/-02
     {
@@ -689,6 +725,7 @@ ZONE_ERAS_Cordoba = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -712,6 +749,7 @@ ZONE_ERAS_Jujuy = [
       "untilMonth": 3,
       "untilDay": 3,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    Arg    -03/-02    2008 Oct 18
     {
@@ -722,6 +760,7 @@ ZONE_ERAS_Jujuy = [
       "untilMonth": 10,
       "untilDay": 18,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03
     {
@@ -732,6 +771,7 @@ ZONE_ERAS_Jujuy = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -755,6 +795,7 @@ ZONE_ERAS_Salta = [
       "untilMonth": 3,
       "untilDay": 3,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    Arg    -03/-02    2008 Oct 18
     {
@@ -765,6 +806,7 @@ ZONE_ERAS_Salta = [
       "untilMonth": 10,
       "untilDay": 18,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03
     {
@@ -775,6 +817,7 @@ ZONE_ERAS_Salta = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -798,6 +841,7 @@ ZONE_ERAS_Asuncion = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -821,6 +865,7 @@ ZONE_ERAS_Atikokan = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -844,6 +889,7 @@ ZONE_ERAS_Bahia = [
       "untilMonth": 9,
       "untilDay": 24,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03    2011 Oct 16
     {
@@ -854,6 +900,7 @@ ZONE_ERAS_Bahia = [
       "untilMonth": 10,
       "untilDay": 16,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    Brazil    -03/-02    2012 Oct 21
     {
@@ -864,6 +911,7 @@ ZONE_ERAS_Bahia = [
       "untilMonth": 10,
       "untilDay": 21,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03
     {
@@ -874,6 +922,7 @@ ZONE_ERAS_Bahia = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -897,6 +946,7 @@ ZONE_ERAS_Bahia_Banderas = [
       "untilMonth": 4,
       "untilDay": 4,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -6:00    Mexico    C%sT
     {
@@ -907,6 +957,7 @@ ZONE_ERAS_Bahia_Banderas = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -930,6 +981,7 @@ ZONE_ERAS_Barbados = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -953,6 +1005,7 @@ ZONE_ERAS_Belem = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -976,6 +1029,7 @@ ZONE_ERAS_Blanc_Sablon = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -999,6 +1053,7 @@ ZONE_ERAS_Boa_Vista = [
       "untilMonth": 10,
       "untilDay": 15,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -4:00    -    -04
     {
@@ -1009,6 +1064,7 @@ ZONE_ERAS_Boa_Vista = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1032,6 +1088,7 @@ ZONE_ERAS_Bogota = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1055,6 +1112,7 @@ ZONE_ERAS_Boise = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1078,6 +1136,7 @@ ZONE_ERAS_Campo_Grande = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1101,6 +1160,7 @@ ZONE_ERAS_Cancun = [
       "untilMonth": 2,
       "untilDay": 1,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -5:00    -    EST
     {
@@ -1111,6 +1171,7 @@ ZONE_ERAS_Cancun = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1134,6 +1195,7 @@ ZONE_ERAS_Cayenne = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1157,6 +1219,7 @@ ZONE_ERAS_Chicago = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1180,6 +1243,7 @@ ZONE_ERAS_Chihuahua = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1203,6 +1267,7 @@ ZONE_ERAS_Costa_Rica = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1226,6 +1291,7 @@ ZONE_ERAS_Creston = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1249,6 +1315,7 @@ ZONE_ERAS_Cuiaba = [
       "untilMonth": 9,
       "untilDay": 24,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -4:00    -    -04    2004 Oct  1
     {
@@ -1259,6 +1326,7 @@ ZONE_ERAS_Cuiaba = [
       "untilMonth": 10,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -4:00    Brazil    -04/-03
     {
@@ -1269,6 +1337,7 @@ ZONE_ERAS_Cuiaba = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1292,6 +1361,7 @@ ZONE_ERAS_Curacao = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1315,6 +1385,7 @@ ZONE_ERAS_Danmarkshavn = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1338,6 +1409,7 @@ ZONE_ERAS_Dawson = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1361,6 +1433,7 @@ ZONE_ERAS_Dawson_Creek = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1384,6 +1457,7 @@ ZONE_ERAS_Denver = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1407,6 +1481,7 @@ ZONE_ERAS_Detroit = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1430,6 +1505,7 @@ ZONE_ERAS_Edmonton = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1453,6 +1529,7 @@ ZONE_ERAS_Eirunepe = [
       "untilMonth": 6,
       "untilDay": 24,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -4:00    -    -04    2013 Nov 10
     {
@@ -1463,6 +1540,7 @@ ZONE_ERAS_Eirunepe = [
       "untilMonth": 11,
       "untilDay": 10,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -5:00    -    -05
     {
@@ -1473,6 +1551,7 @@ ZONE_ERAS_Eirunepe = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1496,6 +1575,7 @@ ZONE_ERAS_El_Salvador = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1519,6 +1599,7 @@ ZONE_ERAS_Fort_Nelson = [
       "untilMonth": 3,
       "untilDay": 8,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -7:00    -    MST
     {
@@ -1529,6 +1610,7 @@ ZONE_ERAS_Fort_Nelson = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1552,6 +1634,7 @@ ZONE_ERAS_Fortaleza = [
       "untilMonth": 10,
       "untilDay": 22,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03    2001 Sep 13
     {
@@ -1562,6 +1645,7 @@ ZONE_ERAS_Fortaleza = [
       "untilMonth": 9,
       "untilDay": 13,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    Brazil    -03/-02    2002 Oct  1
     {
@@ -1572,6 +1656,7 @@ ZONE_ERAS_Fortaleza = [
       "untilMonth": 10,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03
     {
@@ -1582,6 +1667,7 @@ ZONE_ERAS_Fortaleza = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1605,6 +1691,7 @@ ZONE_ERAS_Glace_Bay = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1628,6 +1715,7 @@ ZONE_ERAS_Godthab = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1651,6 +1739,7 @@ ZONE_ERAS_Grand_Turk = [
       "untilMonth": 11,
       "untilDay": 1,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -4:00    -    AST    2018 Mar 11 3:00
     {
@@ -1661,6 +1750,7 @@ ZONE_ERAS_Grand_Turk = [
       "untilMonth": 3,
       "untilDay": 11,
       "untilHour": 3,
+      "untilTimeModifier": w,
     },
     #             -5:00    US    E%sT
     {
@@ -1671,6 +1761,7 @@ ZONE_ERAS_Grand_Turk = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1694,6 +1785,7 @@ ZONE_ERAS_Guatemala = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1717,6 +1809,7 @@ ZONE_ERAS_Guayaquil = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1740,6 +1833,7 @@ ZONE_ERAS_Guyana = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1763,6 +1857,7 @@ ZONE_ERAS_Halifax = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1786,6 +1881,7 @@ ZONE_ERAS_Havana = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1809,6 +1905,7 @@ ZONE_ERAS_Hermosillo = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1832,6 +1929,7 @@ ZONE_ERAS_Indianapolis = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -5:00    US    E%sT
     {
@@ -1842,6 +1940,7 @@ ZONE_ERAS_Indianapolis = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1865,6 +1964,7 @@ ZONE_ERAS_Knox = [
       "untilMonth": 4,
       "untilDay": 2,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -6:00    US    C%sT
     {
@@ -1875,6 +1975,7 @@ ZONE_ERAS_Knox = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1898,6 +1999,7 @@ ZONE_ERAS_Marengo = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -5:00    US    E%sT
     {
@@ -1908,6 +2010,7 @@ ZONE_ERAS_Marengo = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1931,6 +2034,7 @@ ZONE_ERAS_Petersburg = [
       "untilMonth": 4,
       "untilDay": 2,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -6:00    US    C%sT    2007 Nov  4  2:00
     {
@@ -1941,6 +2045,7 @@ ZONE_ERAS_Petersburg = [
       "untilMonth": 11,
       "untilDay": 4,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -5:00    US    E%sT
     {
@@ -1951,6 +2056,7 @@ ZONE_ERAS_Petersburg = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -1974,6 +2080,7 @@ ZONE_ERAS_Tell_City = [
       "untilMonth": 4,
       "untilDay": 2,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -6:00    US    C%sT
     {
@@ -1984,6 +2091,7 @@ ZONE_ERAS_Tell_City = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2007,6 +2115,7 @@ ZONE_ERAS_Vevay = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -5:00    US    E%sT
     {
@@ -2017,6 +2126,7 @@ ZONE_ERAS_Vevay = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2040,6 +2150,7 @@ ZONE_ERAS_Vincennes = [
       "untilMonth": 4,
       "untilDay": 2,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -6:00    US    C%sT    2007 Nov  4  2:00
     {
@@ -2050,6 +2161,7 @@ ZONE_ERAS_Vincennes = [
       "untilMonth": 11,
       "untilDay": 4,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -5:00    US    E%sT
     {
@@ -2060,6 +2172,7 @@ ZONE_ERAS_Vincennes = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2083,6 +2196,7 @@ ZONE_ERAS_Winamac = [
       "untilMonth": 4,
       "untilDay": 2,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -6:00    US    C%sT    2007 Mar 11  2:00
     {
@@ -2093,6 +2207,7 @@ ZONE_ERAS_Winamac = [
       "untilMonth": 3,
       "untilDay": 11,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -5:00    US    E%sT
     {
@@ -2103,6 +2218,7 @@ ZONE_ERAS_Winamac = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2126,6 +2242,7 @@ ZONE_ERAS_Inuvik = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2149,6 +2266,7 @@ ZONE_ERAS_Iqaluit = [
       "untilMonth": 10,
       "untilDay": 29,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -5:00    Canada    E%sT
     {
@@ -2159,6 +2277,7 @@ ZONE_ERAS_Iqaluit = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2182,6 +2301,7 @@ ZONE_ERAS_Jamaica = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2205,6 +2325,7 @@ ZONE_ERAS_Juneau = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2228,6 +2349,7 @@ ZONE_ERAS_Louisville = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2251,6 +2373,7 @@ ZONE_ERAS_Monticello = [
       "untilMonth": 10,
       "untilDay": 29,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -5:00    US    E%sT
     {
@@ -2261,6 +2384,7 @@ ZONE_ERAS_Monticello = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2284,6 +2408,7 @@ ZONE_ERAS_La_Paz = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2307,6 +2432,7 @@ ZONE_ERAS_Lima = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2330,6 +2456,7 @@ ZONE_ERAS_Los_Angeles = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2353,6 +2480,7 @@ ZONE_ERAS_Maceio = [
       "untilMonth": 10,
       "untilDay": 22,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03    2001 Sep 13
     {
@@ -2363,6 +2491,7 @@ ZONE_ERAS_Maceio = [
       "untilMonth": 9,
       "untilDay": 13,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    Brazil    -03/-02    2002 Oct  1
     {
@@ -2373,6 +2502,7 @@ ZONE_ERAS_Maceio = [
       "untilMonth": 10,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03
     {
@@ -2383,6 +2513,7 @@ ZONE_ERAS_Maceio = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2406,6 +2537,7 @@ ZONE_ERAS_Managua = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2429,6 +2561,7 @@ ZONE_ERAS_Manaus = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2452,6 +2585,7 @@ ZONE_ERAS_Martinique = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2475,6 +2609,7 @@ ZONE_ERAS_Matamoros = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -6:00    US    C%sT
     {
@@ -2485,6 +2620,7 @@ ZONE_ERAS_Matamoros = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2508,6 +2644,7 @@ ZONE_ERAS_Mazatlan = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2531,6 +2668,7 @@ ZONE_ERAS_Menominee = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2554,6 +2692,7 @@ ZONE_ERAS_Merida = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2577,6 +2716,7 @@ ZONE_ERAS_Metlakatla = [
       "untilMonth": 11,
       "untilDay": 1,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #              -9:00    US    AK%sT
     {
@@ -2587,6 +2727,7 @@ ZONE_ERAS_Metlakatla = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2610,6 +2751,7 @@ ZONE_ERAS_Mexico_City = [
       "untilMonth": 9,
       "untilDay": 30,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -6:00    -    CST    2002 Feb 20
     {
@@ -2620,6 +2762,7 @@ ZONE_ERAS_Mexico_City = [
       "untilMonth": 2,
       "untilDay": 20,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -6:00    Mexico    C%sT
     {
@@ -2630,6 +2773,7 @@ ZONE_ERAS_Mexico_City = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2653,6 +2797,7 @@ ZONE_ERAS_Miquelon = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2676,6 +2821,7 @@ ZONE_ERAS_Monterrey = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2699,6 +2845,7 @@ ZONE_ERAS_Montevideo = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2722,6 +2869,7 @@ ZONE_ERAS_Nassau = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2745,6 +2893,7 @@ ZONE_ERAS_New_York = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2768,6 +2917,7 @@ ZONE_ERAS_Nipigon = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2791,6 +2941,7 @@ ZONE_ERAS_Nome = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2814,6 +2965,7 @@ ZONE_ERAS_Noronha = [
       "untilMonth": 10,
       "untilDay": 15,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -2:00    -    -02    2001 Sep 13
     {
@@ -2824,6 +2976,7 @@ ZONE_ERAS_Noronha = [
       "untilMonth": 9,
       "untilDay": 13,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -2:00    Brazil    -02/-01    2002 Oct  1
     {
@@ -2834,6 +2987,7 @@ ZONE_ERAS_Noronha = [
       "untilMonth": 10,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -2:00    -    -02
     {
@@ -2844,6 +2998,7 @@ ZONE_ERAS_Noronha = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2867,6 +3022,7 @@ ZONE_ERAS_Beulah = [
       "untilMonth": 11,
       "untilDay": 7,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -6:00    US    C%sT
     {
@@ -2877,6 +3033,7 @@ ZONE_ERAS_Beulah = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2900,6 +3057,7 @@ ZONE_ERAS_Center = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2923,6 +3081,7 @@ ZONE_ERAS_New_Salem = [
       "untilMonth": 10,
       "untilDay": 26,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -6:00    US    C%sT
     {
@@ -2933,6 +3092,7 @@ ZONE_ERAS_New_Salem = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2956,6 +3116,7 @@ ZONE_ERAS_Ojinaga = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -7:00    US    M%sT
     {
@@ -2966,6 +3127,7 @@ ZONE_ERAS_Ojinaga = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -2989,6 +3151,7 @@ ZONE_ERAS_Panama = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3012,6 +3175,7 @@ ZONE_ERAS_Pangnirtung = [
       "untilMonth": 10,
       "untilDay": 29,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -5:00    Canada    E%sT
     {
@@ -3022,6 +3186,7 @@ ZONE_ERAS_Pangnirtung = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3045,6 +3210,7 @@ ZONE_ERAS_Paramaribo = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3068,6 +3234,7 @@ ZONE_ERAS_Phoenix = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3091,6 +3258,7 @@ ZONE_ERAS_Port_au_Prince = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3114,6 +3282,7 @@ ZONE_ERAS_Port_of_Spain = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3137,6 +3306,7 @@ ZONE_ERAS_Porto_Velho = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3160,6 +3330,7 @@ ZONE_ERAS_Puerto_Rico = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3183,6 +3354,7 @@ ZONE_ERAS_Punta_Arenas = [
       "untilMonth": 12,
       "untilDay": 4,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03
     {
@@ -3193,6 +3365,7 @@ ZONE_ERAS_Punta_Arenas = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3216,6 +3389,7 @@ ZONE_ERAS_Rainy_River = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3239,6 +3413,7 @@ ZONE_ERAS_Rankin_Inlet = [
       "untilMonth": 10,
       "untilDay": 29,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -5:00    -    EST    2001 Apr  1  3:00
     {
@@ -3249,6 +3424,7 @@ ZONE_ERAS_Rankin_Inlet = [
       "untilMonth": 4,
       "untilDay": 1,
       "untilHour": 3,
+      "untilTimeModifier": w,
     },
     #             -6:00    Canada    C%sT
     {
@@ -3259,6 +3435,7 @@ ZONE_ERAS_Rankin_Inlet = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3282,6 +3459,7 @@ ZONE_ERAS_Recife = [
       "untilMonth": 10,
       "untilDay": 15,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03    2001 Sep 13
     {
@@ -3292,6 +3470,7 @@ ZONE_ERAS_Recife = [
       "untilMonth": 9,
       "untilDay": 13,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    Brazil    -03/-02    2002 Oct  1
     {
@@ -3302,6 +3481,7 @@ ZONE_ERAS_Recife = [
       "untilMonth": 10,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03
     {
@@ -3312,6 +3492,7 @@ ZONE_ERAS_Recife = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3335,6 +3516,7 @@ ZONE_ERAS_Regina = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3358,6 +3540,7 @@ ZONE_ERAS_Resolute = [
       "untilMonth": 10,
       "untilDay": 29,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -5:00    -    EST    2001 Apr  1  3:00
     {
@@ -3368,6 +3551,7 @@ ZONE_ERAS_Resolute = [
       "untilMonth": 4,
       "untilDay": 1,
       "untilHour": 3,
+      "untilTimeModifier": w,
     },
     #             -6:00    Canada    C%sT    2006 Oct 29  2:00
     {
@@ -3378,6 +3562,7 @@ ZONE_ERAS_Resolute = [
       "untilMonth": 10,
       "untilDay": 29,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -5:00    -    EST    2007 Mar 11  3:00
     {
@@ -3388,6 +3573,7 @@ ZONE_ERAS_Resolute = [
       "untilMonth": 3,
       "untilDay": 11,
       "untilHour": 3,
+      "untilTimeModifier": w,
     },
     #             -6:00    Canada    C%sT
     {
@@ -3398,6 +3584,7 @@ ZONE_ERAS_Resolute = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3421,6 +3608,7 @@ ZONE_ERAS_Rio_Branco = [
       "untilMonth": 6,
       "untilDay": 24,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -4:00    -    -04    2013 Nov 10
     {
@@ -3431,6 +3619,7 @@ ZONE_ERAS_Rio_Branco = [
       "untilMonth": 11,
       "untilDay": 10,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -5:00    -    -05
     {
@@ -3441,6 +3630,7 @@ ZONE_ERAS_Rio_Branco = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3464,6 +3654,7 @@ ZONE_ERAS_Santarem = [
       "untilMonth": 6,
       "untilDay": 24,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03
     {
@@ -3474,6 +3665,7 @@ ZONE_ERAS_Santarem = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3497,6 +3689,7 @@ ZONE_ERAS_Santiago = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3520,6 +3713,7 @@ ZONE_ERAS_Sao_Paulo = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3543,6 +3737,7 @@ ZONE_ERAS_Scoresbysund = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3566,6 +3761,7 @@ ZONE_ERAS_Sitka = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3589,6 +3785,7 @@ ZONE_ERAS_Swift_Current = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3612,6 +3809,7 @@ ZONE_ERAS_Tegucigalpa = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3635,6 +3833,7 @@ ZONE_ERAS_Thule = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3658,6 +3857,7 @@ ZONE_ERAS_Thunder_Bay = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3681,6 +3881,7 @@ ZONE_ERAS_Tijuana = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -8:00    US    P%sT    2002 Feb 20
     {
@@ -3691,6 +3892,7 @@ ZONE_ERAS_Tijuana = [
       "untilMonth": 2,
       "untilDay": 20,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -8:00    Mexico    P%sT    2010
     {
@@ -3701,6 +3903,7 @@ ZONE_ERAS_Tijuana = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -8:00    US    P%sT
     {
@@ -3711,6 +3914,7 @@ ZONE_ERAS_Tijuana = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3734,6 +3938,7 @@ ZONE_ERAS_Toronto = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3757,6 +3962,7 @@ ZONE_ERAS_Vancouver = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3780,6 +3986,7 @@ ZONE_ERAS_Whitehorse = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3803,6 +4010,7 @@ ZONE_ERAS_Winnipeg = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -6:00    Canada    C%sT
     {
@@ -3813,6 +4021,7 @@ ZONE_ERAS_Winnipeg = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3836,6 +4045,7 @@ ZONE_ERAS_Yakutat = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3859,12 +4069,171 @@ ZONE_ERAS_Yellowknife = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Yellowknife = {
     "name": "America/Yellowknife",
     "eras": ZONE_ERAS_Yellowknife
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Antarctica/Casey
+# Era count: 7
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Casey = [
+    #             8:00    -    +08    2009 Oct 18  2:00
+    {
+      "offsetCode": 32,
+      "zonePolicy": None,
+      "format": "+08",
+      "untilYearShort": 9,
+      "untilMonth": 10,
+      "untilDay": 18,
+      "untilHour": 2,
+      "untilTimeModifier": w,
+    },
+    #             11:00    -    +11    2010 Mar  5  2:00
+    {
+      "offsetCode": 44,
+      "zonePolicy": None,
+      "format": "+11",
+      "untilYearShort": 10,
+      "untilMonth": 3,
+      "untilDay": 5,
+      "untilHour": 2,
+      "untilTimeModifier": w,
+    },
+    #             8:00    -    +08    2011 Oct 28  2:00
+    {
+      "offsetCode": 32,
+      "zonePolicy": None,
+      "format": "+08",
+      "untilYearShort": 11,
+      "untilMonth": 10,
+      "untilDay": 28,
+      "untilHour": 2,
+      "untilTimeModifier": w,
+    },
+    #             11:00    -    +11    2012 Feb 21 17:00u
+    {
+      "offsetCode": 44,
+      "zonePolicy": None,
+      "format": "+11",
+      "untilYearShort": 12,
+      "untilMonth": 2,
+      "untilDay": 21,
+      "untilHour": 17,
+      "untilTimeModifier": u,
+    },
+    #             8:00    -    +08    2016 Oct 22
+    {
+      "offsetCode": 32,
+      "zonePolicy": None,
+      "format": "+08",
+      "untilYearShort": 16,
+      "untilMonth": 10,
+      "untilDay": 22,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+    #             11:00    -    +11    2018 Mar 11  4:00
+    {
+      "offsetCode": 44,
+      "zonePolicy": None,
+      "format": "+11",
+      "untilYearShort": 18,
+      "untilMonth": 3,
+      "untilDay": 11,
+      "untilHour": 4,
+      "untilTimeModifier": w,
+    },
+    #             8:00    -    +08
+    {
+      "offsetCode": 32,
+      "zonePolicy": None,
+      "format": "+08",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Casey = {
+    "name": "Antarctica/Casey",
+    "eras": ZONE_ERAS_Casey
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Antarctica/Davis
+# Era count: 5
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Davis = [
+    #             7:00    -    +07    2009 Oct 18  2:00
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 9,
+      "untilMonth": 10,
+      "untilDay": 18,
+      "untilHour": 2,
+      "untilTimeModifier": w,
+    },
+    #             5:00    -    +05    2010 Mar 10 20:00u
+    {
+      "offsetCode": 20,
+      "zonePolicy": None,
+      "format": "+05",
+      "untilYearShort": 10,
+      "untilMonth": 3,
+      "untilDay": 10,
+      "untilHour": 20,
+      "untilTimeModifier": u,
+    },
+    #             7:00    -    +07    2011 Oct 28  2:00
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 11,
+      "untilMonth": 10,
+      "untilDay": 28,
+      "untilHour": 2,
+      "untilTimeModifier": w,
+    },
+    #             5:00    -    +05    2012 Feb 21 20:00u
+    {
+      "offsetCode": 20,
+      "zonePolicy": None,
+      "format": "+05",
+      "untilYearShort": 12,
+      "untilMonth": 2,
+      "untilDay": 21,
+      "untilHour": 20,
+      "untilTimeModifier": u,
+    },
+    #             7:00    -    +07
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Davis = {
+    "name": "Antarctica/Davis",
+    "eras": ZONE_ERAS_Davis
 }
 
 #---------------------------------------------------------------------------
@@ -3882,6 +4251,7 @@ ZONE_ERAS_DumontDUrville = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3905,6 +4275,7 @@ ZONE_ERAS_Macquarie = [
       "untilMonth": 4,
       "untilDay": 4,
       "untilHour": 3,
+      "untilTimeModifier": w,
     },
     #             11:00    -    +11
     {
@@ -3915,6 +4286,7 @@ ZONE_ERAS_Macquarie = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3938,6 +4310,7 @@ ZONE_ERAS_Mawson = [
       "untilMonth": 10,
       "untilDay": 18,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             5:00    -    +05
     {
@@ -3948,6 +4321,7 @@ ZONE_ERAS_Mawson = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -3971,6 +4345,7 @@ ZONE_ERAS_Palmer = [
       "untilMonth": 12,
       "untilDay": 4,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03
     {
@@ -3981,6 +4356,7 @@ ZONE_ERAS_Palmer = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4004,6 +4380,7 @@ ZONE_ERAS_Rothera = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4027,6 +4404,7 @@ ZONE_ERAS_Syowa = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4050,12 +4428,48 @@ ZONE_ERAS_Vostok = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Vostok = {
     "name": "Antarctica/Vostok",
     "eras": ZONE_ERAS_Vostok
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Almaty
+# Era count: 2
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Almaty = [
+    #             6:00 RussiaAsia    +06/+07    2004 Oct 31  2:00s
+    {
+      "offsetCode": 24,
+      "zonePolicy": ZONE_POLICY_RussiaAsia,
+      "format": "+06/+07",
+      "untilYearShort": 4,
+      "untilMonth": 10,
+      "untilDay": 31,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             6:00    -    +06
+    {
+      "offsetCode": 24,
+      "zonePolicy": None,
+      "format": "+06",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Almaty = {
+    "name": "Asia/Almaty",
+    "eras": ZONE_ERAS_Almaty
 }
 
 #---------------------------------------------------------------------------
@@ -4073,12 +4487,129 @@ ZONE_ERAS_Amman = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Amman = {
     "name": "Asia/Amman",
     "eras": ZONE_ERAS_Amman
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Anadyr
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Anadyr = [
+    #             12:00    Russia    +12/+13    2010 Mar 28  2:00s
+    {
+      "offsetCode": 48,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+12/+13",
+      "untilYearShort": 10,
+      "untilMonth": 3,
+      "untilDay": 28,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
+    {
+      "offsetCode": 44,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+11/+12",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             12:00    -    +12
+    {
+      "offsetCode": 48,
+      "zonePolicy": None,
+      "format": "+12",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Anadyr = {
+    "name": "Asia/Anadyr",
+    "eras": ZONE_ERAS_Anadyr
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Aqtau
+# Era count: 2
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Aqtau = [
+    #             4:00 RussiaAsia    +04/+05    2004 Oct 31  2:00s
+    {
+      "offsetCode": 16,
+      "zonePolicy": ZONE_POLICY_RussiaAsia,
+      "format": "+04/+05",
+      "untilYearShort": 4,
+      "untilMonth": 10,
+      "untilDay": 31,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             5:00    -    +05
+    {
+      "offsetCode": 20,
+      "zonePolicy": None,
+      "format": "+05",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Aqtau = {
+    "name": "Asia/Aqtau",
+    "eras": ZONE_ERAS_Aqtau
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Aqtobe
+# Era count: 2
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Aqtobe = [
+    #             5:00 RussiaAsia    +05/+06    2004 Oct 31  2:00s
+    {
+      "offsetCode": 20,
+      "zonePolicy": ZONE_POLICY_RussiaAsia,
+      "format": "+05/+06",
+      "untilYearShort": 4,
+      "untilMonth": 10,
+      "untilDay": 31,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             5:00    -    +05
+    {
+      "offsetCode": 20,
+      "zonePolicy": None,
+      "format": "+05",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Aqtobe = {
+    "name": "Asia/Aqtobe",
+    "eras": ZONE_ERAS_Aqtobe
 }
 
 #---------------------------------------------------------------------------
@@ -4096,12 +4627,48 @@ ZONE_ERAS_Ashgabat = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Ashgabat = {
     "name": "Asia/Ashgabat",
     "eras": ZONE_ERAS_Ashgabat
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Atyrau
+# Era count: 2
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Atyrau = [
+    #             4:00 RussiaAsia    +04/+05    2004 Oct 31  2:00s
+    {
+      "offsetCode": 16,
+      "zonePolicy": ZONE_POLICY_RussiaAsia,
+      "format": "+04/+05",
+      "untilYearShort": 4,
+      "untilMonth": 10,
+      "untilDay": 31,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             5:00    -    +05
+    {
+      "offsetCode": 20,
+      "zonePolicy": None,
+      "format": "+05",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Atyrau = {
+    "name": "Asia/Atyrau",
+    "eras": ZONE_ERAS_Atyrau
 }
 
 #---------------------------------------------------------------------------
@@ -4119,6 +4686,7 @@ ZONE_ERAS_Baghdad = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4142,6 +4710,7 @@ ZONE_ERAS_Baku = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4165,12 +4734,70 @@ ZONE_ERAS_Bangkok = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Bangkok = {
     "name": "Asia/Bangkok",
     "eras": ZONE_ERAS_Bangkok
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Barnaul
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Barnaul = [
+    #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
+    {
+      "offsetCode": 24,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+06/+07",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              7:00    -    +07    2014 Oct 26  2:00s
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              6:00    -    +06    2016 Mar 27  2:00s
+    {
+      "offsetCode": 24,
+      "zonePolicy": None,
+      "format": "+06",
+      "untilYearShort": 16,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              7:00    -    +07
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Barnaul = {
+    "name": "Asia/Barnaul",
+    "eras": ZONE_ERAS_Barnaul
 }
 
 #---------------------------------------------------------------------------
@@ -4188,6 +4815,7 @@ ZONE_ERAS_Beirut = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4211,12 +4839,70 @@ ZONE_ERAS_Brunei = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Brunei = {
     "name": "Asia/Brunei",
     "eras": ZONE_ERAS_Brunei
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Chita
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Chita = [
+    #              9:00    Russia    +09/+10    2011 Mar 27  2:00s
+    {
+      "offsetCode": 36,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+09/+10",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             10:00    -    +10    2014 Oct 26  2:00s
+    {
+      "offsetCode": 40,
+      "zonePolicy": None,
+      "format": "+10",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              8:00    -    +08    2016 Mar 27  2:00
+    {
+      "offsetCode": 32,
+      "zonePolicy": None,
+      "format": "+08",
+      "untilYearShort": 16,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": w,
+    },
+    #              9:00    -    +09
+    {
+      "offsetCode": 36,
+      "zonePolicy": None,
+      "format": "+09",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Chita = {
+    "name": "Asia/Chita",
+    "eras": ZONE_ERAS_Chita
 }
 
 #---------------------------------------------------------------------------
@@ -4234,6 +4920,7 @@ ZONE_ERAS_Choibalsan = [
       "untilMonth": 3,
       "untilDay": 31,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             8:00    Mongol    +08/+09
     {
@@ -4244,6 +4931,7 @@ ZONE_ERAS_Choibalsan = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4267,6 +4955,7 @@ ZONE_ERAS_Damascus = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4290,6 +4979,7 @@ ZONE_ERAS_Dhaka = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             6:00    Dhaka    +06/+07
     {
@@ -4300,6 +4990,7 @@ ZONE_ERAS_Dhaka = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4323,6 +5014,7 @@ ZONE_ERAS_Dili = [
       "untilMonth": 9,
       "untilDay": 17,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             9:00    -    +09
     {
@@ -4333,6 +5025,7 @@ ZONE_ERAS_Dili = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4356,6 +5049,7 @@ ZONE_ERAS_Dubai = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4379,12 +5073,59 @@ ZONE_ERAS_Dushanbe = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Dushanbe = {
     "name": "Asia/Dushanbe",
     "eras": ZONE_ERAS_Dushanbe
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Famagusta
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Famagusta = [
+    #             2:00    EUAsia    EE%sT    2016 Sep  8
+    {
+      "offsetCode": 8,
+      "zonePolicy": ZONE_POLICY_EUAsia,
+      "format": "EE%sT",
+      "untilYearShort": 16,
+      "untilMonth": 9,
+      "untilDay": 8,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+    #             3:00    -    +03    2017 Oct 29 1:00u
+    {
+      "offsetCode": 12,
+      "zonePolicy": None,
+      "format": "+03",
+      "untilYearShort": 17,
+      "untilMonth": 10,
+      "untilDay": 29,
+      "untilHour": 1,
+      "untilTimeModifier": u,
+    },
+    #             2:00    EUAsia    EE%sT
+    {
+      "offsetCode": 8,
+      "zonePolicy": ZONE_POLICY_EUAsia,
+      "format": "EE%sT",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Famagusta = {
+    "name": "Asia/Famagusta",
+    "eras": ZONE_ERAS_Famagusta
 }
 
 #---------------------------------------------------------------------------
@@ -4402,6 +5143,7 @@ ZONE_ERAS_Ho_Chi_Minh = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4425,12 +5167,59 @@ ZONE_ERAS_Hovd = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Hovd = {
     "name": "Asia/Hovd",
     "eras": ZONE_ERAS_Hovd
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Irkutsk
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Irkutsk = [
+    #              8:00    Russia    +08/+09    2011 Mar 27  2:00s
+    {
+      "offsetCode": 32,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+08/+09",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              9:00    -    +09    2014 Oct 26  2:00s
+    {
+      "offsetCode": 36,
+      "zonePolicy": None,
+      "format": "+09",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              8:00    -    +08
+    {
+      "offsetCode": 32,
+      "zonePolicy": None,
+      "format": "+08",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Irkutsk = {
+    "name": "Asia/Irkutsk",
+    "eras": ZONE_ERAS_Irkutsk
 }
 
 #---------------------------------------------------------------------------
@@ -4448,6 +5237,7 @@ ZONE_ERAS_Jakarta = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4471,6 +5261,7 @@ ZONE_ERAS_Jayapura = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4494,6 +5285,7 @@ ZONE_ERAS_Jerusalem = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4517,12 +5309,59 @@ ZONE_ERAS_Kabul = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Kabul = {
     "name": "Asia/Kabul",
     "eras": ZONE_ERAS_Kabul
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Kamchatka
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Kamchatka = [
+    #             12:00    Russia    +12/+13    2010 Mar 28  2:00s
+    {
+      "offsetCode": 48,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+12/+13",
+      "untilYearShort": 10,
+      "untilMonth": 3,
+      "untilDay": 28,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
+    {
+      "offsetCode": 44,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+11/+12",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             12:00    -    +12
+    {
+      "offsetCode": 48,
+      "zonePolicy": None,
+      "format": "+12",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Kamchatka = {
+    "name": "Asia/Kamchatka",
+    "eras": ZONE_ERAS_Kamchatka
 }
 
 #---------------------------------------------------------------------------
@@ -4540,6 +5379,7 @@ ZONE_ERAS_Karachi = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4563,6 +5403,7 @@ ZONE_ERAS_Kathmandu = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4586,12 +5427,59 @@ ZONE_ERAS_Kolkata = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Kolkata = {
     "name": "Asia/Kolkata",
     "eras": ZONE_ERAS_Kolkata
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Krasnoyarsk
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Krasnoyarsk = [
+    #              7:00    Russia    +07/+08    2011 Mar 27  2:00s
+    {
+      "offsetCode": 28,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+07/+08",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              8:00    -    +08    2014 Oct 26  2:00s
+    {
+      "offsetCode": 32,
+      "zonePolicy": None,
+      "format": "+08",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              7:00    -    +07
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Krasnoyarsk = {
+    "name": "Asia/Krasnoyarsk",
+    "eras": ZONE_ERAS_Krasnoyarsk
 }
 
 #---------------------------------------------------------------------------
@@ -4609,6 +5497,7 @@ ZONE_ERAS_Kuala_Lumpur = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4632,12 +5521,70 @@ ZONE_ERAS_Kuching = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Kuching = {
     "name": "Asia/Kuching",
     "eras": ZONE_ERAS_Kuching
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Magadan
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Magadan = [
+    #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
+    {
+      "offsetCode": 44,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+11/+12",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             12:00    -    +12    2014 Oct 26  2:00s
+    {
+      "offsetCode": 48,
+      "zonePolicy": None,
+      "format": "+12",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             10:00    -    +10    2016 Apr 24  2:00s
+    {
+      "offsetCode": 40,
+      "zonePolicy": None,
+      "format": "+10",
+      "untilYearShort": 16,
+      "untilMonth": 4,
+      "untilDay": 24,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             11:00    -    +11
+    {
+      "offsetCode": 44,
+      "zonePolicy": None,
+      "format": "+11",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Magadan = {
+    "name": "Asia/Magadan",
+    "eras": ZONE_ERAS_Magadan
 }
 
 #---------------------------------------------------------------------------
@@ -4655,6 +5602,7 @@ ZONE_ERAS_Makassar = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4678,6 +5626,7 @@ ZONE_ERAS_Manila = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4701,12 +5650,197 @@ ZONE_ERAS_Nicosia = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Nicosia = {
     "name": "Asia/Nicosia",
     "eras": ZONE_ERAS_Nicosia
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Novokuznetsk
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Novokuznetsk = [
+    #              7:00    Russia    +07/+08    2010 Mar 28  2:00s
+    {
+      "offsetCode": 28,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+07/+08",
+      "untilYearShort": 10,
+      "untilMonth": 3,
+      "untilDay": 28,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
+    {
+      "offsetCode": 24,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+06/+07",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              7:00    -    +07
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Novokuznetsk = {
+    "name": "Asia/Novokuznetsk",
+    "eras": ZONE_ERAS_Novokuznetsk
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Novosibirsk
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Novosibirsk = [
+    #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
+    {
+      "offsetCode": 24,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+06/+07",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              7:00    -    +07    2014 Oct 26  2:00s
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              6:00    -    +06    2016 Jul 24  2:00s
+    {
+      "offsetCode": 24,
+      "zonePolicy": None,
+      "format": "+06",
+      "untilYearShort": 16,
+      "untilMonth": 7,
+      "untilDay": 24,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              7:00    -    +07
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Novosibirsk = {
+    "name": "Asia/Novosibirsk",
+    "eras": ZONE_ERAS_Novosibirsk
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Omsk
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Omsk = [
+    #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
+    {
+      "offsetCode": 24,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+06/+07",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              7:00    -    +07    2014 Oct 26  2:00s
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              6:00    -    +06
+    {
+      "offsetCode": 24,
+      "zonePolicy": None,
+      "format": "+06",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Omsk = {
+    "name": "Asia/Omsk",
+    "eras": ZONE_ERAS_Omsk
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Oral
+# Era count: 2
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Oral = [
+    #             4:00 RussiaAsia    +04/+05    2004 Oct 31  2:00s
+    {
+      "offsetCode": 16,
+      "zonePolicy": ZONE_POLICY_RussiaAsia,
+      "format": "+04/+05",
+      "untilYearShort": 4,
+      "untilMonth": 10,
+      "untilDay": 31,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             5:00    -    +05
+    {
+      "offsetCode": 20,
+      "zonePolicy": None,
+      "format": "+05",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Oral = {
+    "name": "Asia/Oral",
+    "eras": ZONE_ERAS_Oral
 }
 
 #---------------------------------------------------------------------------
@@ -4724,6 +5858,7 @@ ZONE_ERAS_Pontianak = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4747,12 +5882,48 @@ ZONE_ERAS_Qatar = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Qatar = {
     "name": "Asia/Qatar",
     "eras": ZONE_ERAS_Qatar
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Qyzylorda
+# Era count: 2
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Qyzylorda = [
+    #             5:00 RussiaAsia    +05/+06    2004 Oct 31  2:00s
+    {
+      "offsetCode": 20,
+      "zonePolicy": ZONE_POLICY_RussiaAsia,
+      "format": "+05/+06",
+      "untilYearShort": 4,
+      "untilMonth": 10,
+      "untilDay": 31,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             6:00    -    +06
+    {
+      "offsetCode": 24,
+      "zonePolicy": None,
+      "format": "+06",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Qyzylorda = {
+    "name": "Asia/Qyzylorda",
+    "eras": ZONE_ERAS_Qyzylorda
 }
 
 #---------------------------------------------------------------------------
@@ -4770,12 +5941,70 @@ ZONE_ERAS_Riyadh = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Riyadh = {
     "name": "Asia/Riyadh",
     "eras": ZONE_ERAS_Riyadh
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Sakhalin
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Sakhalin = [
+    #             10:00    Russia    +10/+11    2011 Mar 27  2:00s
+    {
+      "offsetCode": 40,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+10/+11",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             11:00    -    +11    2014 Oct 26  2:00s
+    {
+      "offsetCode": 44,
+      "zonePolicy": None,
+      "format": "+11",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             10:00    -    +10    2016 Mar 27  2:00s
+    {
+      "offsetCode": 40,
+      "zonePolicy": None,
+      "format": "+10",
+      "untilYearShort": 16,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             11:00    -    +11
+    {
+      "offsetCode": 44,
+      "zonePolicy": None,
+      "format": "+11",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Sakhalin = {
+    "name": "Asia/Sakhalin",
+    "eras": ZONE_ERAS_Sakhalin
 }
 
 #---------------------------------------------------------------------------
@@ -4793,6 +6022,7 @@ ZONE_ERAS_Samarkand = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4816,6 +6046,7 @@ ZONE_ERAS_Seoul = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4839,6 +6070,7 @@ ZONE_ERAS_Shanghai = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4862,12 +6094,59 @@ ZONE_ERAS_Singapore = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Singapore = {
     "name": "Asia/Singapore",
     "eras": ZONE_ERAS_Singapore
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Srednekolymsk
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Srednekolymsk = [
+    #             11:00    Russia    +11/+12    2011 Mar 27  2:00s
+    {
+      "offsetCode": 44,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+11/+12",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             12:00    -    +12    2014 Oct 26  2:00s
+    {
+      "offsetCode": 48,
+      "zonePolicy": None,
+      "format": "+12",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             11:00    -    +11
+    {
+      "offsetCode": 44,
+      "zonePolicy": None,
+      "format": "+11",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Srednekolymsk = {
+    "name": "Asia/Srednekolymsk",
+    "eras": ZONE_ERAS_Srednekolymsk
 }
 
 #---------------------------------------------------------------------------
@@ -4885,6 +6164,7 @@ ZONE_ERAS_Taipei = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4908,6 +6188,7 @@ ZONE_ERAS_Tashkent = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4931,6 +6212,7 @@ ZONE_ERAS_Tbilisi = [
       "untilMonth": 6,
       "untilDay": 27,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             3:00 RussiaAsia    +03/+04    2005 Mar lastSun  2:00
     {
@@ -4941,6 +6223,7 @@ ZONE_ERAS_Tbilisi = [
       "untilMonth": 3,
       "untilDay": 27,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             4:00    -    +04
     {
@@ -4951,6 +6234,7 @@ ZONE_ERAS_Tbilisi = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4974,6 +6258,7 @@ ZONE_ERAS_Tehran = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -4997,6 +6282,7 @@ ZONE_ERAS_Thimphu = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5020,12 +6306,81 @@ ZONE_ERAS_Tokyo = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Tokyo = {
     "name": "Asia/Tokyo",
     "eras": ZONE_ERAS_Tokyo
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Tomsk
+# Era count: 5
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Tomsk = [
+    #              7:00    Russia    +07/+08    2002 May  1  3:00
+    {
+      "offsetCode": 28,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+07/+08",
+      "untilYearShort": 2,
+      "untilMonth": 5,
+      "untilDay": 1,
+      "untilHour": 3,
+      "untilTimeModifier": w,
+    },
+    #              6:00    Russia    +06/+07    2011 Mar 27  2:00s
+    {
+      "offsetCode": 24,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+06/+07",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              7:00    -    +07    2014 Oct 26  2:00s
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              6:00    -    +06    2016 May 29  2:00s
+    {
+      "offsetCode": 24,
+      "zonePolicy": None,
+      "format": "+06",
+      "untilYearShort": 16,
+      "untilMonth": 5,
+      "untilDay": 29,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              7:00    -    +07
+    {
+      "offsetCode": 28,
+      "zonePolicy": None,
+      "format": "+07",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Tomsk = {
+    "name": "Asia/Tomsk",
+    "eras": ZONE_ERAS_Tomsk
 }
 
 #---------------------------------------------------------------------------
@@ -5043,6 +6398,7 @@ ZONE_ERAS_Ulaanbaatar = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5066,12 +6422,105 @@ ZONE_ERAS_Urumqi = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Urumqi = {
     "name": "Asia/Urumqi",
     "eras": ZONE_ERAS_Urumqi
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Vladivostok
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Vladivostok = [
+    #             10:00    Russia    +10/+11    2011 Mar 27  2:00s
+    {
+      "offsetCode": 40,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+10/+11",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             11:00    -    +11    2014 Oct 26  2:00s
+    {
+      "offsetCode": 44,
+      "zonePolicy": None,
+      "format": "+11",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             10:00    -    +10
+    {
+      "offsetCode": 40,
+      "zonePolicy": None,
+      "format": "+10",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Vladivostok = {
+    "name": "Asia/Vladivostok",
+    "eras": ZONE_ERAS_Vladivostok
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Yakutsk
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Yakutsk = [
+    #              9:00    Russia    +09/+10    2011 Mar 27  2:00s
+    {
+      "offsetCode": 36,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+09/+10",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             10:00    -    +10    2014 Oct 26  2:00s
+    {
+      "offsetCode": 40,
+      "zonePolicy": None,
+      "format": "+10",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              9:00    -    +09
+    {
+      "offsetCode": 36,
+      "zonePolicy": None,
+      "format": "+09",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Yakutsk = {
+    "name": "Asia/Yakutsk",
+    "eras": ZONE_ERAS_Yakutsk
 }
 
 #---------------------------------------------------------------------------
@@ -5089,12 +6538,59 @@ ZONE_ERAS_Yangon = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Yangon = {
     "name": "Asia/Yangon",
     "eras": ZONE_ERAS_Yangon
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Asia/Yekaterinburg
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Yekaterinburg = [
+    #              5:00    Russia    +05/+06    2011 Mar 27  2:00s
+    {
+      "offsetCode": 20,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+05/+06",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              6:00    -    +06    2014 Oct 26  2:00s
+    {
+      "offsetCode": 24,
+      "zonePolicy": None,
+      "format": "+06",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              5:00    -    +05
+    {
+      "offsetCode": 20,
+      "zonePolicy": None,
+      "format": "+05",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Yekaterinburg = {
+    "name": "Asia/Yekaterinburg",
+    "eras": ZONE_ERAS_Yekaterinburg
 }
 
 #---------------------------------------------------------------------------
@@ -5112,6 +6608,7 @@ ZONE_ERAS_Yerevan = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             4:00    Armenia    +04/+05
     {
@@ -5122,6 +6619,7 @@ ZONE_ERAS_Yerevan = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5145,6 +6643,7 @@ ZONE_ERAS_Azores = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5168,6 +6667,7 @@ ZONE_ERAS_Bermuda = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5191,6 +6691,7 @@ ZONE_ERAS_Canary = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5214,6 +6715,7 @@ ZONE_ERAS_Cape_Verde = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5237,6 +6739,7 @@ ZONE_ERAS_Faroe = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5260,6 +6763,7 @@ ZONE_ERAS_Madeira = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5283,6 +6787,7 @@ ZONE_ERAS_Reykjavik = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5306,6 +6811,7 @@ ZONE_ERAS_South_Georgia = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5329,6 +6835,7 @@ ZONE_ERAS_Stanley = [
       "untilMonth": 9,
       "untilDay": 5,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             -3:00    -    -03
     {
@@ -5339,6 +6846,7 @@ ZONE_ERAS_Stanley = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5362,6 +6870,7 @@ ZONE_ERAS_Adelaide = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5385,6 +6894,7 @@ ZONE_ERAS_Brisbane = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5408,6 +6918,7 @@ ZONE_ERAS_Broken_Hill = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             9:30    AS    AC%sT
     {
@@ -5418,6 +6929,7 @@ ZONE_ERAS_Broken_Hill = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5441,6 +6953,7 @@ ZONE_ERAS_Currie = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5464,6 +6977,7 @@ ZONE_ERAS_Darwin = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5487,6 +7001,7 @@ ZONE_ERAS_Eucla = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5510,6 +7025,7 @@ ZONE_ERAS_Hobart = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5533,6 +7049,7 @@ ZONE_ERAS_Lindeman = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5556,6 +7073,7 @@ ZONE_ERAS_Lord_Howe = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5579,6 +7097,7 @@ ZONE_ERAS_Melbourne = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5602,6 +7121,7 @@ ZONE_ERAS_Perth = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5625,6 +7145,7 @@ ZONE_ERAS_Sydney = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5648,6 +7169,7 @@ ZONE_ERAS_Amsterdam = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5671,12 +7193,70 @@ ZONE_ERAS_Andorra = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Andorra = {
     "name": "Europe/Andorra",
     "eras": ZONE_ERAS_Andorra
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Europe/Astrakhan
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Astrakhan = [
+    #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+03/+04",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              4:00    -    +04    2014 Oct 26  2:00s
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "+04",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              3:00    -    +03    2016 Mar 27  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": None,
+      "format": "+03",
+      "untilYearShort": 16,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              4:00    -    +04
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "+04",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Astrakhan = {
+    "name": "Europe/Astrakhan",
+    "eras": ZONE_ERAS_Astrakhan
 }
 
 #---------------------------------------------------------------------------
@@ -5694,6 +7274,7 @@ ZONE_ERAS_Athens = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5717,6 +7298,7 @@ ZONE_ERAS_Belgrade = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5740,6 +7322,7 @@ ZONE_ERAS_Berlin = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5763,6 +7346,7 @@ ZONE_ERAS_Brussels = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5786,6 +7370,7 @@ ZONE_ERAS_Bucharest = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5809,6 +7394,7 @@ ZONE_ERAS_Budapest = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5832,6 +7418,7 @@ ZONE_ERAS_Chisinau = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5855,6 +7442,7 @@ ZONE_ERAS_Copenhagen = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5878,6 +7466,7 @@ ZONE_ERAS_Dublin = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5901,6 +7490,7 @@ ZONE_ERAS_Gibraltar = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5924,12 +7514,59 @@ ZONE_ERAS_Helsinki = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Helsinki = {
     "name": "Europe/Helsinki",
     "eras": ZONE_ERAS_Helsinki
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Europe/Kaliningrad
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Kaliningrad = [
+    #              2:00    Russia    EE%sT    2011 Mar 27  2:00s
+    {
+      "offsetCode": 8,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "EE%sT",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              3:00    -    +03    2014 Oct 26  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": None,
+      "format": "+03",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              2:00    -    EET
+    {
+      "offsetCode": 8,
+      "zonePolicy": None,
+      "format": "EET",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Kaliningrad = {
+    "name": "Europe/Kaliningrad",
+    "eras": ZONE_ERAS_Kaliningrad
 }
 
 #---------------------------------------------------------------------------
@@ -5947,12 +7584,59 @@ ZONE_ERAS_Kiev = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Kiev = {
     "name": "Europe/Kiev",
     "eras": ZONE_ERAS_Kiev
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Europe/Kirov
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Kirov = [
+    #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+03/+04",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              4:00    -    +04    2014 Oct 26  2:00s
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "+04",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              3:00    -    +03
+    {
+      "offsetCode": 12,
+      "zonePolicy": None,
+      "format": "+03",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Kirov = {
+    "name": "Europe/Kirov",
+    "eras": ZONE_ERAS_Kirov
 }
 
 #---------------------------------------------------------------------------
@@ -5970,6 +7654,7 @@ ZONE_ERAS_Lisbon = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -5993,6 +7678,7 @@ ZONE_ERAS_London = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6016,6 +7702,7 @@ ZONE_ERAS_Luxembourg = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6039,6 +7726,7 @@ ZONE_ERAS_Madrid = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6062,12 +7750,48 @@ ZONE_ERAS_Malta = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Malta = {
     "name": "Europe/Malta",
     "eras": ZONE_ERAS_Malta
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Europe/Minsk
+# Era count: 2
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Minsk = [
+    #             2:00    Russia    EE%sT    2011 Mar 27  2:00s
+    {
+      "offsetCode": 8,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "EE%sT",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #             3:00    -    +03
+    {
+      "offsetCode": 12,
+      "zonePolicy": None,
+      "format": "+03",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Minsk = {
+    "name": "Europe/Minsk",
+    "eras": ZONE_ERAS_Minsk
 }
 
 #---------------------------------------------------------------------------
@@ -6085,12 +7809,59 @@ ZONE_ERAS_Monaco = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Monaco = {
     "name": "Europe/Monaco",
     "eras": ZONE_ERAS_Monaco
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Europe/Moscow
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Moscow = [
+    #              3:00    Russia    MSK/MSD    2011 Mar 27  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "MSK/MSD",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              4:00    -    MSK    2014 Oct 26  2:00s
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "MSK",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              3:00    -    MSK
+    {
+      "offsetCode": 12,
+      "zonePolicy": None,
+      "format": "MSK",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Moscow = {
+    "name": "Europe/Moscow",
+    "eras": ZONE_ERAS_Moscow
 }
 
 #---------------------------------------------------------------------------
@@ -6108,6 +7879,7 @@ ZONE_ERAS_Oslo = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6131,6 +7903,7 @@ ZONE_ERAS_Paris = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6154,6 +7927,7 @@ ZONE_ERAS_Prague = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6177,6 +7951,7 @@ ZONE_ERAS_Riga = [
       "untilMonth": 2,
       "untilDay": 29,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             2:00    -    EET    2001 Jan  2
     {
@@ -6187,6 +7962,7 @@ ZONE_ERAS_Riga = [
       "untilMonth": 1,
       "untilDay": 2,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             2:00    EU    EE%sT
     {
@@ -6197,6 +7973,7 @@ ZONE_ERAS_Riga = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6220,12 +7997,116 @@ ZONE_ERAS_Rome = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Rome = {
     "name": "Europe/Rome",
     "eras": ZONE_ERAS_Rome
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Europe/Samara
+# Era count: 3
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Samara = [
+    #              4:00    Russia    +04/+05    2010 Mar 28  2:00s
+    {
+      "offsetCode": 16,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+04/+05",
+      "untilYearShort": 10,
+      "untilMonth": 3,
+      "untilDay": 28,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+03/+04",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              4:00    -    +04
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "+04",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Samara = {
+    "name": "Europe/Samara",
+    "eras": ZONE_ERAS_Samara
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Europe/Saratov
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Saratov = [
+    #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+03/+04",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              4:00    -    +04    2014 Oct 26  2:00s
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "+04",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              3:00    -    +03    2016 Dec  4  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": None,
+      "format": "+03",
+      "untilYearShort": 16,
+      "untilMonth": 12,
+      "untilDay": 4,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              4:00    -    +04
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "+04",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Saratov = {
+    "name": "Europe/Saratov",
+    "eras": ZONE_ERAS_Saratov
 }
 
 #---------------------------------------------------------------------------
@@ -6243,6 +8124,7 @@ ZONE_ERAS_Sofia = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6266,6 +8148,7 @@ ZONE_ERAS_Stockholm = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6289,6 +8172,7 @@ ZONE_ERAS_Tallinn = [
       "untilMonth": 2,
       "untilDay": 21,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             2:00    EU    EE%sT
     {
@@ -6299,6 +8183,7 @@ ZONE_ERAS_Tallinn = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6322,12 +8207,70 @@ ZONE_ERAS_Tirane = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Tirane = {
     "name": "Europe/Tirane",
     "eras": ZONE_ERAS_Tirane
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Europe/Ulyanovsk
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Ulyanovsk = [
+    #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+03/+04",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              4:00    -    +04    2014 Oct 26  2:00s
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "+04",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              3:00    -    +03    2016 Mar 27  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": None,
+      "format": "+03",
+      "untilYearShort": 16,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              4:00    -    +04
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "+04",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Ulyanovsk = {
+    "name": "Europe/Ulyanovsk",
+    "eras": ZONE_ERAS_Ulyanovsk
 }
 
 #---------------------------------------------------------------------------
@@ -6345,6 +8288,7 @@ ZONE_ERAS_Uzhgorod = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6368,6 +8312,7 @@ ZONE_ERAS_Vienna = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6391,6 +8336,7 @@ ZONE_ERAS_Vilnius = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             2:00    EU    EE%sT
     {
@@ -6401,12 +8347,70 @@ ZONE_ERAS_Vilnius = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
 ZONE_INFO_Vilnius = {
     "name": "Europe/Vilnius",
     "eras": ZONE_ERAS_Vilnius
+}
+
+#---------------------------------------------------------------------------
+# Zone name: Europe/Volgograd
+# Era count: 4
+#---------------------------------------------------------------------------
+
+ZONE_ERAS_Volgograd = [
+    #              3:00    Russia    +03/+04    2011 Mar 27  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": ZONE_POLICY_Russia,
+      "format": "+03/+04",
+      "untilYearShort": 11,
+      "untilMonth": 3,
+      "untilDay": 27,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              4:00    -    +04    2014 Oct 26  2:00s
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "+04",
+      "untilYearShort": 14,
+      "untilMonth": 10,
+      "untilDay": 26,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              3:00    -    +03    2018 Oct 28  2:00s
+    {
+      "offsetCode": 12,
+      "zonePolicy": None,
+      "format": "+03",
+      "untilYearShort": 18,
+      "untilMonth": 10,
+      "untilDay": 28,
+      "untilHour": 2,
+      "untilTimeModifier": s,
+    },
+    #              4:00    -    +04
+    {
+      "offsetCode": 16,
+      "zonePolicy": None,
+      "format": "+04",
+      "untilYearShort": 127,
+      "untilMonth": 1,
+      "untilDay": 1,
+      "untilHour": 0,
+      "untilTimeModifier": w,
+    },
+
+]
+ZONE_INFO_Volgograd = {
+    "name": "Europe/Volgograd",
+    "eras": ZONE_ERAS_Volgograd
 }
 
 #---------------------------------------------------------------------------
@@ -6424,6 +8428,7 @@ ZONE_ERAS_Warsaw = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6447,6 +8452,7 @@ ZONE_ERAS_Zaporozhye = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6470,6 +8476,7 @@ ZONE_ERAS_Zurich = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6493,6 +8500,7 @@ ZONE_ERAS_Chagos = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6516,6 +8524,7 @@ ZONE_ERAS_Christmas = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6539,6 +8548,7 @@ ZONE_ERAS_Cocos = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6562,6 +8572,7 @@ ZONE_ERAS_Kerguelen = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6585,6 +8596,7 @@ ZONE_ERAS_Mahe = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6608,6 +8620,7 @@ ZONE_ERAS_Maldives = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6631,6 +8644,7 @@ ZONE_ERAS_Mauritius = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6654,6 +8668,7 @@ ZONE_ERAS_Reunion = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6677,6 +8692,7 @@ ZONE_ERAS_Apia = [
       "untilMonth": 12,
       "untilDay": 29,
       "untilHour": 24,
+      "untilTimeModifier": w,
     },
     #              13:00    WS    +13/+14
     {
@@ -6687,6 +8703,7 @@ ZONE_ERAS_Apia = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6710,6 +8727,7 @@ ZONE_ERAS_Auckland = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6733,6 +8751,7 @@ ZONE_ERAS_Bougainville = [
       "untilMonth": 12,
       "untilDay": 28,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             11:00    -    +11
     {
@@ -6743,6 +8762,7 @@ ZONE_ERAS_Bougainville = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6766,6 +8786,7 @@ ZONE_ERAS_Chuuk = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6789,6 +8810,7 @@ ZONE_ERAS_Easter = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6812,6 +8834,7 @@ ZONE_ERAS_Efate = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6835,6 +8858,7 @@ ZONE_ERAS_Enderbury = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6858,6 +8882,7 @@ ZONE_ERAS_Fakaofo = [
       "untilMonth": 12,
       "untilDay": 30,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             13:00    -    +13
     {
@@ -6868,6 +8893,7 @@ ZONE_ERAS_Fakaofo = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6891,6 +8917,7 @@ ZONE_ERAS_Fiji = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6914,6 +8941,7 @@ ZONE_ERAS_Funafuti = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6937,6 +8965,7 @@ ZONE_ERAS_Galapagos = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6960,6 +8989,7 @@ ZONE_ERAS_Gambier = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -6983,6 +9013,7 @@ ZONE_ERAS_Guadalcanal = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7006,6 +9037,7 @@ ZONE_ERAS_Guam = [
       "untilMonth": 12,
       "untilDay": 23,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
     #             10:00    -    ChST
     {
@@ -7016,6 +9048,7 @@ ZONE_ERAS_Guam = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7039,6 +9072,7 @@ ZONE_ERAS_Honolulu = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7062,6 +9096,7 @@ ZONE_ERAS_Kiritimati = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7085,6 +9120,7 @@ ZONE_ERAS_Kosrae = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7108,6 +9144,7 @@ ZONE_ERAS_Kwajalein = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7131,6 +9168,7 @@ ZONE_ERAS_Majuro = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7154,6 +9192,7 @@ ZONE_ERAS_Marquesas = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7177,6 +9216,7 @@ ZONE_ERAS_Nauru = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7200,6 +9240,7 @@ ZONE_ERAS_Niue = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7223,6 +9264,7 @@ ZONE_ERAS_Norfolk = [
       "untilMonth": 10,
       "untilDay": 4,
       "untilHour": 2,
+      "untilTimeModifier": w,
     },
     #             11:00    -    +11
     {
@@ -7233,6 +9275,7 @@ ZONE_ERAS_Norfolk = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7256,6 +9299,7 @@ ZONE_ERAS_Noumea = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7279,6 +9323,7 @@ ZONE_ERAS_Pago_Pago = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7302,6 +9347,7 @@ ZONE_ERAS_Palau = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7325,6 +9371,7 @@ ZONE_ERAS_Pitcairn = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7348,6 +9395,7 @@ ZONE_ERAS_Pohnpei = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7371,6 +9419,7 @@ ZONE_ERAS_Port_Moresby = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7394,6 +9443,7 @@ ZONE_ERAS_Rarotonga = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7417,6 +9467,7 @@ ZONE_ERAS_Tahiti = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7440,6 +9491,7 @@ ZONE_ERAS_Tarawa = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7463,6 +9515,7 @@ ZONE_ERAS_Tongatapu = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7486,6 +9539,7 @@ ZONE_ERAS_Wake = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7509,6 +9563,7 @@ ZONE_ERAS_Wallis = [
       "untilMonth": 1,
       "untilDay": 1,
       "untilHour": 0,
+      "untilTimeModifier": w,
     },
 
 ]
@@ -7542,6 +9597,8 @@ ZONE_INFO_MAP = {
     "Khartoum": ZONE_INFO_Khartoum,
     "Juba": ZONE_INFO_Juba,
     "Tunis": ZONE_INFO_Tunis,
+    "Casey": ZONE_INFO_Casey,
+    "Davis": ZONE_INFO_Davis,
     "Mawson": ZONE_INFO_Mawson,
     "Kerguelen": ZONE_INFO_Kerguelen,
     "DumontDUrville": ZONE_INFO_DumontDUrville,
@@ -7560,6 +9617,7 @@ ZONE_INFO_MAP = {
     "Urumqi": ZONE_INFO_Urumqi,
     "Taipei": ZONE_INFO_Taipei,
     "Nicosia": ZONE_INFO_Nicosia,
+    "Famagusta": ZONE_INFO_Famagusta,
     "Tbilisi": ZONE_INFO_Tbilisi,
     "Dili": ZONE_INFO_Dili,
     "Kolkata": ZONE_INFO_Kolkata,
@@ -7572,6 +9630,12 @@ ZONE_INFO_MAP = {
     "Jerusalem": ZONE_INFO_Jerusalem,
     "Tokyo": ZONE_INFO_Tokyo,
     "Amman": ZONE_INFO_Amman,
+    "Almaty": ZONE_INFO_Almaty,
+    "Qyzylorda": ZONE_INFO_Qyzylorda,
+    "Aqtobe": ZONE_INFO_Aqtobe,
+    "Aqtau": ZONE_INFO_Aqtau,
+    "Atyrau": ZONE_INFO_Atyrau,
+    "Oral": ZONE_INFO_Oral,
     "Seoul": ZONE_INFO_Seoul,
     "Beirut": ZONE_INFO_Beirut,
     "Kuala_Lumpur": ZONE_INFO_Kuala_Lumpur,
@@ -7646,6 +9710,7 @@ ZONE_INFO_MAP = {
     "Tirane": ZONE_INFO_Tirane,
     "Andorra": ZONE_INFO_Andorra,
     "Vienna": ZONE_INFO_Vienna,
+    "Minsk": ZONE_INFO_Minsk,
     "Brussels": ZONE_INFO_Brussels,
     "Sofia": ZONE_INFO_Sofia,
     "Prague": ZONE_INFO_Prague,
@@ -7677,6 +9742,30 @@ ZONE_INFO_MAP = {
     "Azores": ZONE_INFO_Azores,
     "Madeira": ZONE_INFO_Madeira,
     "Bucharest": ZONE_INFO_Bucharest,
+    "Kaliningrad": ZONE_INFO_Kaliningrad,
+    "Moscow": ZONE_INFO_Moscow,
+    "Astrakhan": ZONE_INFO_Astrakhan,
+    "Volgograd": ZONE_INFO_Volgograd,
+    "Saratov": ZONE_INFO_Saratov,
+    "Kirov": ZONE_INFO_Kirov,
+    "Samara": ZONE_INFO_Samara,
+    "Ulyanovsk": ZONE_INFO_Ulyanovsk,
+    "Yekaterinburg": ZONE_INFO_Yekaterinburg,
+    "Omsk": ZONE_INFO_Omsk,
+    "Barnaul": ZONE_INFO_Barnaul,
+    "Novosibirsk": ZONE_INFO_Novosibirsk,
+    "Tomsk": ZONE_INFO_Tomsk,
+    "Novokuznetsk": ZONE_INFO_Novokuznetsk,
+    "Krasnoyarsk": ZONE_INFO_Krasnoyarsk,
+    "Irkutsk": ZONE_INFO_Irkutsk,
+    "Chita": ZONE_INFO_Chita,
+    "Yakutsk": ZONE_INFO_Yakutsk,
+    "Vladivostok": ZONE_INFO_Vladivostok,
+    "Sakhalin": ZONE_INFO_Sakhalin,
+    "Magadan": ZONE_INFO_Magadan,
+    "Srednekolymsk": ZONE_INFO_Srednekolymsk,
+    "Kamchatka": ZONE_INFO_Kamchatka,
+    "Anadyr": ZONE_INFO_Anadyr,
     "Belgrade": ZONE_INFO_Belgrade,
     "Madrid": ZONE_INFO_Madrid,
     "Ceuta": ZONE_INFO_Ceuta,
@@ -7809,7 +9898,7 @@ ZONE_INFO_MAP = {
 
 # The following zones are not supported in the current version of AceTime.
 #
-# numInfos: 74
+# numInfos: 40
 #
 # Africa/Windhoek (rule 'Namibia' not found)
 # America/Argentina/Catamarca (multiple records for year 2004)
@@ -7822,62 +9911,28 @@ ZONE_INFO_MAP = {
 # America/Argentina/Ushuaia (multiple records for year 2004)
 # America/Belize (rule 'Belize' not found)
 # America/Cambridge_Bay (multiple records for year 2000)
-# America/Caracas (invalid untilTime '2:30')
+# America/Caracas (non-integral untilTime '2:30')
 # America/Goose_Bay (rule 'StJohns' not found)
 # America/Moncton (rule 'Moncton' not found)
 # America/Santo_Domingo (multiple records for year 2000)
 # America/St_Johns (rule 'StJohns' not found)
-# Antarctica/Casey (invalid untilTime '17:00u')
-# Antarctica/Davis (invalid untilTime '20:00u')
 # Antarctica/Troll (rule 'Troll' not found)
-# Asia/Almaty (invalid untilTime '2:00s')
-# Asia/Anadyr (invalid untilTime '2:00s')
-# Asia/Aqtau (invalid untilTime '2:00s')
-# Asia/Aqtobe (invalid untilTime '2:00s')
-# Asia/Atyrau (invalid untilTime '2:00s')
-# Asia/Barnaul (invalid untilTime '2:00s')
 # Asia/Bishkek (rule 'Kyrgyz' not found)
-# Asia/Chita (invalid untilTime '2:00s')
-# Asia/Colombo (invalid untilTime '0:30')
-# Asia/Famagusta (invalid untilTime '1:00u')
-# Asia/Gaza (invalid untilTime '0:01')
+# Asia/Colombo (non-integral untilTime '0:30')
+# Asia/Gaza (non-integral untilTime '0:01')
 # Asia/Hebron (rule 'Palestine' not found)
 # Asia/Hong_Kong (rule 'HK' not found)
-# Asia/Irkutsk (invalid untilTime '2:00s')
-# Asia/Kamchatka (invalid untilTime '2:00s')
-# Asia/Khandyga (invalid untilTime '2:00s')
-# Asia/Krasnoyarsk (invalid untilTime '2:00s')
+# Asia/Khandyga (multiple records for year 2011)
 # Asia/Macau (rule 'Macau' not found)
-# Asia/Magadan (invalid untilTime '2:00s')
-# Asia/Novokuznetsk (invalid untilTime '2:00s')
-# Asia/Novosibirsk (invalid untilTime '2:00s')
-# Asia/Omsk (invalid untilTime '2:00s')
-# Asia/Oral (invalid untilTime '2:00s')
-# Asia/Pyongyang (invalid untilTime '23:30')
-# Asia/Qyzylorda (invalid untilTime '2:00s')
-# Asia/Sakhalin (invalid untilTime '2:00s')
-# Asia/Srednekolymsk (invalid untilTime '2:00s')
-# Asia/Tomsk (invalid untilTime '2:00s')
-# Asia/Ust-Nera (invalid untilTime '2:00s')
-# Asia/Vladivostok (invalid untilTime '2:00s')
-# Asia/Yakutsk (invalid untilTime '2:00s')
-# Asia/Yekaterinburg (invalid untilTime '2:00s')
+# Asia/Pyongyang (non-integral untilTime '23:30')
+# Asia/Ust-Nera (multiple records for year 2011)
 # CET (no '/' in zone name)
 # CST6CDT (no '/' in zone name)
 # EET (no '/' in zone name)
 # EST (no '/' in zone name)
 # EST5EDT (no '/' in zone name)
-# Europe/Astrakhan (invalid untilTime '2:00s')
-# Europe/Istanbul (invalid untilTime '1:00u')
-# Europe/Kaliningrad (invalid untilTime '2:00s')
-# Europe/Kirov (invalid untilTime '2:00s')
-# Europe/Minsk (invalid untilTime '2:00s')
-# Europe/Moscow (invalid untilTime '2:00s')
-# Europe/Samara (invalid untilTime '2:00s')
-# Europe/Saratov (invalid untilTime '2:00s')
-# Europe/Simferopol (invalid untilTime '2:00s')
-# Europe/Ulyanovsk (invalid untilTime '2:00s')
-# Europe/Volgograd (invalid untilTime '2:00s')
+# Europe/Istanbul (offset in RULES '1:00')
+# Europe/Simferopol (multiple records for year 2014)
 # HST (no '/' in zone name)
 # MET (no '/' in zone name)
 # MST (no '/' in zone name)

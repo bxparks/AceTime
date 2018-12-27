@@ -10,8 +10,8 @@
 #
 # DO NOT EDIT
 
-# numPolicies: 69
-# numRules: 392
+# numPolicies: 70
+# numRules: 395
 
 #---------------------------------------------------------------------------
 # Policy name: AN
@@ -4406,6 +4406,54 @@ ZONE_POLICY_ROK = {
 }
 
 #---------------------------------------------------------------------------
+# Policy name: Russia
+# Rule count: 3
+#---------------------------------------------------------------------------
+ZONE_RULES_Russia = [
+    # Rule    Russia    1984    1995    -    Sep    lastSun     2:00s    0    -
+    {
+        "fromYear": 1984,
+        "toYear": 1995,
+        "inMonth": 9,
+        "onDayOfWeek": 7,
+        "onDayOfMonth": 0,
+        "atHour": 2,
+        "atTimeModifier": 's',
+        "deltaCode": 0,
+        "letter": '-',
+    },
+    # Rule    Russia    1985    2010    -    Mar    lastSun     2:00s    1:00    S
+    {
+        "fromYear": 1985,
+        "toYear": 2010,
+        "inMonth": 3,
+        "onDayOfWeek": 7,
+        "onDayOfMonth": 0,
+        "atHour": 2,
+        "atTimeModifier": 's',
+        "deltaCode": 4,
+        "letter": 'S',
+    },
+    # Rule    Russia    1996    2010    -    Oct    lastSun     2:00s    0    -
+    {
+        "fromYear": 1996,
+        "toYear": 2010,
+        "inMonth": 10,
+        "onDayOfWeek": 7,
+        "onDayOfMonth": 0,
+        "atHour": 2,
+        "atTimeModifier": 's',
+        "deltaCode": 0,
+        "letter": '-',
+    },
+
+]
+ZONE_POLICY_Russia = {
+    "name": "Russia",
+    "rules": ZONE_RULES_Russia
+}
+
+#---------------------------------------------------------------------------
 # Policy name: RussiaAsia
 # Rule count: 3
 #---------------------------------------------------------------------------
@@ -5550,7 +5598,7 @@ ZONE_POLICY_Zion = {
 # The following zone policies are not supported in the current version of
 # AceTime.
 #
-# numPolicies: 69
+# numPolicies: 68
 #
 # Albania (unused)
 # Algeria (unused)
@@ -5605,7 +5653,6 @@ ZONE_POLICY_Zion = {
 # Pulaski (unused)
 # Regina (unused)
 # Romania (unused)
-# Russia (unused)
 # SanLuis (unused)
 # Shang (unused)
 # SovietZone (unused)
