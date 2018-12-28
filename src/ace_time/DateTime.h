@@ -117,15 +117,27 @@ class DateTime {
     static DateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone = TimeZone()) {
       DateTime dt;
-      if (epochSeconds == kInvalidEpochSeconds) {
-        return dt.setError();
-      }
+      if (epochSeconds == kInvalidEpochSeconds) return dt.setError();
 
       UtcOffset utcOffset = timeZone.getUtcOffset(epochSeconds);
       dt.mOffsetDateTime = OffsetDateTime::forEpochSeconds(
           epochSeconds, utcOffset);
       dt.mTimeZone = timeZone;
       return dt;
+    }
+
+    /**
+     * Factory method to create a DateTime using the number of seconds from
+     * Unix epoch.
+     */
+    static DateTime forUnixSeconds(acetime_t unixSeconds,
+        const TimeZone& timeZone = TimeZone()) {
+      if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
+        return forEpochSeconds(unixSeconds, timeZone);
+      } else {
+        return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch,
+            timeZone);
+      }
     }
 
     /**

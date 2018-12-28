@@ -36,21 +36,6 @@ namespace ace_time {
 class OffsetDateTime {
   public:
     /**
-     * An invalid epochSeconds used by toEpochSeconds() and forEpochSeconds()
-     * to indicate an invalid instance.
-     */
-    static const acetime_t kInvalidEpochSeconds = LocalTime::kInvalidSeconds;
-
-    /** Invalid epochDays returned by epochDays() when isError() is true. */
-    static const acetime_t kInvalidEpochDays = LocalDate::kInvalidEpochDays;
-
-    /**
-     * Number of seconds from Unix epoch (1970-01-01 00:00:00Z) to
-     * the AceTime epoch (2000-01-01 00:00:00Z).
-     */
-    static const acetime_t kSecondsSinceUnixEpoch = 946684800;
-
-    /**
      * Factory method using separated date, time, and time zone fields.
      *
      * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
@@ -75,11 +60,6 @@ class OffsetDateTime {
      * Factory method. Create the various components of the OffsetDateTime from
      * the epochSeconds and its UtcOffset.
      *
-     * If UtcOffset.offsetCode() is negative, then (epochSeconds >=
-     * UtcOffset::toSeconds() must be true. Otherwise, the local time will be
-     * in the year 1999, which cannot be represented by the internal year
-     * component which is a uint8_t offset from the year 2000.
-     *
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00). Use kInvalidEpochSeconds to define an
      *    invalid instance whose isError() returns true.
@@ -90,20 +70,40 @@ class OffsetDateTime {
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
           UtcOffset utcOffset = UtcOffset()) {
       OffsetDateTime dt;
-      if (epochSeconds == kInvalidEpochSeconds) {
-        return dt.setError();
-      }
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return dt.setError();
 
+      // Get the real epochSeconds
       dt.mUtcOffset = utcOffset;
-
       epochSeconds += utcOffset.toSeconds();
-      acetime_t epochDays = epochSeconds / 86400;
-      dt.mLocalDate = LocalDate::forEpochDays(epochDays);
 
-      acetime_t seconds = epochSeconds % 86400;
+      // Integer floor-division towards -infinity
+      acetime_t days = (epochSeconds < 0)
+          ? (epochSeconds + 1) / 86400 - 1
+          : epochSeconds / 86400;
+
+      // Avoid % operator, because it's slow on an 8-bit process and because
+      // epochSeconds could be negative.
+      acetime_t seconds = epochSeconds - 86400 * days;
+
+      dt.mLocalDate = LocalDate::forEpochDays(days);
       dt.mLocalTime = LocalTime::forSeconds(seconds);
 
       return dt;
+    }
+
+    /**
+     * Factory method that takes the number of seconds since Unix Epoch of
+     * 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
+     * the partial day are truncated down towards the smallest whole day.
+     */
+    static OffsetDateTime forUnixSeconds(acetime_t unixSeconds,
+          UtcOffset utcOffset = UtcOffset()) {
+      if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
+        return forEpochSeconds(unixSeconds, utcOffset);
+      } else {
+        return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch,
+            utcOffset);
+      }
     }
 
     /**
@@ -262,9 +262,7 @@ class OffsetDateTime {
      * taking into account the offset zone.
      */
     acetime_t toEpochDays() const {
-      if (mLocalDate.isError() || mLocalTime.isError()) {
-        return kInvalidEpochDays;
-      }
+      if (isError()) return LocalDate::kInvalidEpochDays;
 
       acetime_t epochDays = mLocalDate.toEpochDays();
 
@@ -275,14 +273,18 @@ class OffsetDateTime {
       return epochDays;
     }
 
+    /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
+    acetime_t toUnixDays() const {
+      if (isError()) return LocalDate::kInvalidEpochDays;
+      return toEpochDays() + LocalDate::kDaysSinceUnixEpoch;
+    }
+
     /**
      * Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into
      * account the offset zone.
      */
     acetime_t toEpochSeconds() const {
-      if (mLocalDate.isError() || mLocalTime.isError()) {
-        return kInvalidEpochSeconds;
-      }
+      if (isError()) return LocalDate::kInvalidEpochSeconds;
 
       acetime_t epochDays = mLocalDate.toEpochDays();
       acetime_t utcOffset = mLocalTime.toSeconds() - mUtcOffset.toSeconds();
@@ -297,11 +299,8 @@ class OffsetDateTime {
      * print the unix seconds.
      */
     acetime_t toUnixSeconds() const {
-      if (mLocalDate.isError() || mLocalTime.isError()) {
-        return kInvalidEpochSeconds;
-      }
-
-      return toEpochSeconds() + kSecondsSinceUnixEpoch;
+      if (isError()) return LocalDate::kInvalidEpochSeconds;
+      return toEpochSeconds() + LocalDate::kSecondsSinceUnixEpoch;
     }
 
     /**

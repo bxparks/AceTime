@@ -25,6 +25,9 @@ namespace ace_time {
  */
 class LocalDate {
   public:
+    /** Base year of epoch. */
+    static const int16_t kEpochYear = 2000;
+
     /** Sentinel epochDays which indicates an error. */
     // TODO: Change this to INT32_MIN
     static const acetime_t kInvalidEpochDays = INT32_MAX;
@@ -32,8 +35,17 @@ class LocalDate {
     /** Sentinel epochSeconds which indicates an error. */
     static const acetime_t kInvalidEpochSeconds = LocalTime::kInvalidSeconds;
 
-    /** Base year of epoch. */
-    static const int16_t kEpochYear = 2000;
+    /**
+     * Number of seconds from Unix epoch (1970-01-01 00:00:00Z) to
+     * the AceTime epoch (2000-01-01 00:00:00Z).
+     */
+    static const acetime_t kSecondsSinceUnixEpoch = 946684800;
+
+    /**
+     * Number of days from Unix epoch (1970-01-01 00:00:00Z) to
+     * the AceTime epoch (2000-01-01 00:00:00Z).
+     */
+    static const acetime_t kDaysSinceUnixEpoch = 10957;
 
     /**
      * Number of days between the Julian calendar epoch (4713 BC 01-01) and the
@@ -93,6 +105,15 @@ class LocalDate {
       return LocalDate(year, month, day);
     }
 
+    /** Factory method using the number of days since Unix epoch 1970-01-1. */
+    static LocalDate forUnixDays(acetime_t unixDays) {
+      if (unixDays == kInvalidEpochDays) {
+        return forEpochDays(unixDays);
+      } else {
+        return forEpochDays(unixDays - kDaysSinceUnixEpoch);
+      }
+    }
+
     /**
      * Factory method using the number of seconds since AceTime epoch of
      * 2000-01-01. The number of seconds from midnight of the given day is
@@ -107,11 +128,25 @@ class LocalDate {
     static LocalDate forEpochSeconds(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidEpochSeconds) {
         return forEpochDays(kInvalidEpochDays);
-      } else if (epochSeconds < 0) {
-        // integer floor() towards -infinity
-        return forEpochDays((epochSeconds + 1) / 86400 - 1);
       } else {
-        return forEpochDays(epochSeconds / 86400);
+          // integer floor-division towards -infinity
+          acetime_t days = (epochSeconds < 0)
+              ? (epochSeconds + 1) / 86400 - 1
+              : epochSeconds / 86400;
+        return forEpochDays(days);
+      }
+    }
+
+    /**
+     * Factory method that takes the number of seconds since Unix Epoch of
+     * 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
+     * the partial day are truncated down towards the smallest whole day.
+     */
+    static LocalDate forUnixSeconds(acetime_t unixSeconds) {
+      if (unixSeconds == kInvalidEpochSeconds) {
+        return forEpochSeconds(unixSeconds);
+      } else {
+        return forEpochSeconds(unixSeconds - kSecondsSinceUnixEpoch);
       }
     }
 
@@ -227,7 +262,7 @@ class LocalDate {
      *
      * See https://en.wikipedia.org/wiki/Julian_day
      */
-    int32_t toEpochDays() const {
+    acetime_t toEpochDays() const {
       if (isError()) return kInvalidEpochDays;
 
       // From wiki article:
@@ -251,6 +286,12 @@ class LocalDate {
       return jdn - kDaysSinceJulianEpoch;
     }
 
+    /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
+    acetime_t toUnixDays() const {
+      if (isError()) return kInvalidEpochDays;
+      return toEpochDays() + kDaysSinceUnixEpoch;
+    }
+
     /**
      * Return the number of seconds since AceTime epoch (2000-01-01 00:00:00).
      * Returns kInvalidEpochSeconds if isError() is true. This is a convenience
@@ -264,6 +305,14 @@ class LocalDate {
     acetime_t toEpochSeconds() const {
       if (isError()) return kInvalidEpochSeconds;
       return 86400 * toEpochDays();
+    }
+
+    /**
+     * Return the number of seconds since Unix epoch (1970-01-01 00:00:00).
+     */
+    acetime_t toUnixSeconds() const {
+      if (isError()) return kInvalidEpochSeconds;
+      return 86400 * toUnixDays();
     }
 
     /**

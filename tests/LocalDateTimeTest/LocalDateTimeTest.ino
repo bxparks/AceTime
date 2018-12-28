@@ -139,14 +139,16 @@ test(LocalDate, toAndFromEpochDays) {
   assertEqual((acetime_t) -46751, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(-46751));
 
-  ld = LocalDate::forComponents(1931, 12, 14);
-  assertEqual((acetime_t) -24855, ld.toEpochDays());
-  assertTrue(ld == LocalDate::forEpochDays(-24855));
-
   ld = LocalDate::forComponents(1900, 1, 1);
   assertEqual((acetime_t) -36524, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(-36524));
 
+  // Smallest date using int32_t from AceTime epoch
+  ld = LocalDate::forComponents(1931, 12, 14);
+  assertEqual((acetime_t) -24855, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(-24855));
+
+  // AceTime Epoch
   ld = LocalDate::forComponents(2000, 1, 1);
   assertEqual((acetime_t) 0, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(0));
@@ -159,21 +161,61 @@ test(LocalDate, toAndFromEpochDays) {
   assertEqual((acetime_t) 6575, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(6575));
 
-  ld = LocalDate::forComponents(2099, 12, 31);
-  assertEqual((acetime_t) 36524, ld.toEpochDays());
-  assertTrue(ld == LocalDate::forEpochDays(36524));
+  // Largest date using int32_t from AceTimeEpoch
+  ld = LocalDate::forComponents(2068, 1, 19);
+  assertEqual((acetime_t) 24855, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(24855));
 
-  // Smallest LocalDate in an 8-bit implementation
+  // Largest LocalDate in an 8-bit implementation
   ld = LocalDate::forComponents(2127, 12, 31);
   assertEqual((acetime_t) 46750, ld.toEpochDays());
   assertTrue(ld == LocalDate::forEpochDays(46750));
 }
 
+// Same as toAndFromEpochDays, shifted 30 years
+test(LocalDate, toAndFromUnixDays) {
+  LocalDate ld;
+
+  // Smallest LocalDate in an 8-bit implementation
+  ld = LocalDate::forComponents(1872, 1, 1);
+  assertEqual((acetime_t) -35794, ld.toUnixDays());
+  assertTrue(ld == LocalDate::forUnixDays(-35794));
+
+  // Smallest date using int32_t from Unix epoch
+  ld = LocalDate::forComponents(1901, 12, 14);
+  assertEqual((acetime_t) -24855, ld.toUnixDays());
+  assertTrue(ld == LocalDate::forUnixDays(-24855));
+
+  // Unix Epoch
+  ld = LocalDate::forComponents(1970, 1, 1);
+  assertEqual((acetime_t) 0, ld.toUnixDays());
+  assertTrue(ld == LocalDate::forUnixDays(0));
+
+  // 1970 is not a leap year, whereas 2000 is a leap year
+  ld = LocalDate::forComponents(1970, 2, 28);
+  assertEqual((acetime_t) 58, ld.toUnixDays());
+  assertTrue(ld == LocalDate::forUnixDays(58));
+
+  ld = LocalDate::forComponents(1988, 1, 1);
+  assertEqual((acetime_t) 6574, ld.toUnixDays());
+  assertTrue(ld == LocalDate::forUnixDays(6574));
+
+  // Largest date using int32_t from Unix epoch
+  ld = LocalDate::forComponents(2038, 1, 19);
+  assertEqual((acetime_t) 24855, ld.toUnixDays());
+  assertTrue(ld == LocalDate::forUnixDays(24855));
+
+  // Largest LocalDate in an 8-bit implementation
+  ld = LocalDate::forComponents(2127, 12, 31);
+  assertEqual((acetime_t) 57707, ld.toUnixDays());
+  assertTrue(ld == LocalDate::forUnixDays(57707));
+}
+
 test(LocalDate, toAndFromEpochSeconds) {
   LocalDate ld;
 
-  // The smallest whole day that can be represented with an int32_t is
-  // 1931-12-14.
+  // The smallest whole day that can be represented with an int32_t from
+  // AceTime Epoch is 1931-12-14.
   ld = LocalDate::forComponents(1931, 12, 14);
   assertEqual((acetime_t) -24855 * 86400, ld.toEpochSeconds());
   assertTrue(ld == LocalDate::forEpochSeconds((acetime_t) -24855 * 86400 + 60));
@@ -202,6 +244,35 @@ test(LocalDate, toAndFromEpochSeconds) {
   // 2068-01-19 03:14:06 (largest date at INT32_MAX - 1)
   assertTrue(ld == LocalDate::forEpochSeconds(
       (acetime_t) 24855 * 86400 + 11646));
+}
+
+test(LocalDate, toAndFromUnixSeconds) {
+  LocalDate ld;
+
+  // The smallest whole day that can be represented with an int32_t from AceTime
+  // epoch is 1931-12-14, can't do better with unixSeconds since it uses
+  // the Acetime seconds internally.
+  ld = LocalDate::forComponents(1931, 12, 14);
+  assertEqual((acetime_t) -13898 * 86400, ld.toUnixSeconds());
+  assertTrue(ld == LocalDate::forUnixSeconds((acetime_t) -13898 * 86400 + 60));
+
+  ld = LocalDate::forComponents(1970, 1, 1);
+  assertEqual((acetime_t) 0, ld.toUnixSeconds());
+  assertTrue(ld == LocalDate::forUnixSeconds(0));
+
+  ld = LocalDate::forComponents(1970, 2, 28);
+  assertEqual((acetime_t) 58 * 86400, ld.toUnixSeconds());
+  assertTrue(ld == LocalDate::forUnixSeconds((acetime_t) 58 * 86400 + 1));
+
+  ld = LocalDate::forComponents(1988, 1, 1);
+  assertEqual((acetime_t) 6574 * 86400, ld.toUnixSeconds());
+  assertTrue(ld == LocalDate::forUnixSeconds((acetime_t) 6574 * 86400 + 2));
+
+  // Largest date possible using Unix Seconds is 2038-01-19 03:14:07.
+  // Which means 2038-01-19 03:14:06 corresponds to INT32_MAX - 1.
+  ld = LocalDate::forComponents(2038, 1, 19);
+  assertEqual((acetime_t) 24855 * 86400, ld.toUnixSeconds());
+  assertTrue(ld == LocalDate::forUnixSeconds((acetime_t) (INT32_MAX - 1)));
 }
 
 test(LocalDate, compareTo) {
