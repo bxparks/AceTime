@@ -55,9 +55,6 @@ class OffsetDateTime {
      */
     static const uint32_t kSecondsSinceUnixEpoch = 946684800;
 
-    /** Base year of epoch. */
-    static const uint16_t kEpochYear = 2000;
-
     /**
      * Factory method using separated date, time, and time zone fields.
      *
@@ -75,7 +72,7 @@ class OffsetDateTime {
      * in the last component allows us to add an additional constructor that
      * accepts a millisecond component in the future.
      */
-    static OffsetDateTime forComponents(uint16_t year, uint8_t month,
+    static OffsetDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
         UtcOffset utcOffset = UtcOffset()) {
       return OffsetDateTime(year, month, day, hour, minute, second, utcOffset);
@@ -180,10 +177,10 @@ class OffsetDateTime {
     void yearShort(int8_t yearShort) { mLocalDate.yearShort(yearShort); }
 
     /** Return the year. */
-    uint16_t year() const { return mLocalDate.year(); }
+    int16_t year() const { return mLocalDate.year(); }
 
     /** Set the year. */
-    void year(uint16_t year) { mLocalDate.year(year); }
+    void year(int16_t year) { mLocalDate.year(year); }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mLocalDate.month(); }
@@ -377,7 +374,7 @@ class OffsetDateTime {
      * in the last component allows us to add an additional constructor that
      * accepts a millisecond component in the future.
      */
-    explicit OffsetDateTime(uint16_t year, uint8_t month, uint8_t day,
+    explicit OffsetDateTime(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             UtcOffset utcOffset = UtcOffset()):
         mLocalDate(year, month, day),

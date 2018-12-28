@@ -13,7 +13,7 @@ using namespace ace_time::common;
 
 test(LocalDate, accessors) {
   LocalDate ld = LocalDate::forComponents(2001, 2, 3);
-  assertEqual((uint16_t) 2001, ld.year());
+  assertEqual((int16_t) 2001, ld.year());
   assertEqual(2, ld.month());
   assertEqual(3, ld.day());
 }
@@ -247,11 +247,11 @@ test(LocalDate, daysInMonth) {
 test(LocalDate, incrementYear) {
   LocalDate ld = LocalDate::forComponents(2000, 1, 1);
   ld.incrementYear();
-  assertEqual((uint16_t) 2001, ld.year());
+  assertEqual((int16_t) 2001, ld.year());
 
   ld.year(2099);
   ld.incrementYear();
-  assertEqual((uint16_t) 2000, ld.year());
+  assertEqual((int16_t) 2000, ld.year());
 }
 
 test(LocalDate, incrementMonth) {

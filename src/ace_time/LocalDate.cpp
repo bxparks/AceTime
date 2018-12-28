@@ -64,8 +64,8 @@ LocalDate& LocalDate::initFromDateString(const char* ds) {
     return setError();
   }
 
-  // year
-  uint16_t year = (*ds++ - '0');
+  // year (assumes 4 digit year)
+  int16_t year = (*ds++ - '0');
   year = 10 * year + (*ds++ - '0');
   year = 10 * year + (*ds++ - '0');
   year = 10 * year + (*ds++ - '0');
