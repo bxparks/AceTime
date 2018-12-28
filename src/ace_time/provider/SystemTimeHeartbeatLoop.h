@@ -31,11 +31,12 @@ class SystemTimeHeartbeatLoop {
      */
     void loop() {
       unsigned long nowMillis = millis();
-      uint32_t timeSinceLastSync = nowMillis - mLastSyncMillis;
+      uint16_t timeSinceLastSync = nowMillis - mLastSyncMillis;
 
       // Make sure that mEpochSeconds does not fall too far behind.
       if (timeSinceLastSync >= mHeartbeatPeriodMillis) {
         mSystemTimeKeeper.getNow();
+        mLastSyncMillis = nowMillis;
       }
     }
 
