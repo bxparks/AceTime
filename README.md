@@ -726,12 +726,6 @@ Teensy 3.2 96MHz            |   1.980 |   22.570 |
 
 ## Bugs and Limitations
 
-* The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
-  the IP address of the NTP server. Unfortunately, this seems to be blocking
-  call. When the DNS resolver is working properly, this call returns in ~10ms or
-  less. But sometimes, the DNS resolver seems to get into a state where it takes
-  4-5 **seconds** to time out. Even if you use coroutines, the entire program
-  will block for those 4-5 seconds.
 * AceTime uses an epoch of 2000-01-01T00:00:00Z.
   `OffsetDateTime::toEpochSeconds()` returns the number of seconds since the
   epoch as a 32-bit unsigned integer. So it will rollover just after
@@ -742,15 +736,19 @@ Teensy 3.2 96MHz            |   1.980 |   22.570 |
 * It is possible to construct a `DateTime` object with a `year` component
   greater than 136, but such an object may not be very useful because the
   `toSecondsSincEpoch()` method would return an incorrect number.
+* The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
+  the IP address of the NTP server. Unfortunately, this seems to be blocking
+  call. When the DNS resolver is working properly, this call returns in ~10ms or
+  less. But sometimes, the DNS resolver seems to get into a state where it takes
+  4-5 **seconds** to time out. Even if you use coroutines, the entire program
+  will block for those 4-5 seconds.
 * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
   of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds counter.
   It will overflow just after 2036-02-07T06:28:15Z.
 * [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
   1970-01-01T00:00:00Z. On 32-bit Unix systems that use a signed 32-bit integer
   to represent the seconds field, the unix time will rollover just after
-  2038-01-19T03:14:07Z. The AceTime `DateTime::toUnixSeconds()` method returns
-  an *unsigned* 32-bit integer, so it will rollover about 70 later, just after
-  2106-02-07T06:28:15Z.
+  2038-01-19T03:14:07Z.
 
 ## Changelog
 

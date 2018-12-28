@@ -32,7 +32,7 @@ class Presenter {
       }
     }
 
-    void update(uint8_t mode, uint32_t now, bool blinkShowState,
+    void update(uint8_t mode, acetime_t now, bool blinkShowState,
         bool suppressBlink, const ClockInfo& clockInfo) {
       mPrevRenderingInfo = mRenderingInfo;
 
@@ -131,7 +131,7 @@ class Presenter {
 
       // place name
       mOled.println();
-      uint32_t epochSeconds = dateTime.toEpochSeconds();
+      acetime_t epochSeconds = dateTime.toEpochSeconds();
       mOled.print(dateTime.timeZone().getAbbrev(epochSeconds));
       mOled.print(' ');
       mOled.print('(');

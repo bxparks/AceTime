@@ -262,7 +262,7 @@ class Controller {
       switch (mMode) {
         case MODE_DATE_TIME:
         case MODE_CLOCK_INFO: {
-          uint32_t now = mTimeKeeper.getNow();
+          acetime_t now = mTimeKeeper.getNow();
           mPresenter0.update(mMode, now, mBlinkShowState, mSuppressBlink,
               mClockInfo0);
           mPresenter1.update(mMode, now, mBlinkShowState, mSuppressBlink,
@@ -280,7 +280,7 @@ class Controller {
         case MODE_CHANGE_SECOND:
         case MODE_CHANGE_HOUR_MODE:
         case MODE_CHANGE_BLINKING_COLON: {
-          uint32_t now = mChangingDateTime.toEpochSeconds();
+          acetime_t now = mChangingDateTime.toEpochSeconds();
           mPresenter0.update(mMode, now, mBlinkShowState, mSuppressBlink,
               mClockInfo0);
           mPresenter1.update(mMode, now, mBlinkShowState, true, mClockInfo1);
@@ -303,7 +303,7 @@ class Controller {
     }
 
     void updateChangingDst(uint8_t clockId) {
-      uint32_t now = mChangingDateTime.toEpochSeconds();
+      acetime_t now = mChangingDateTime.toEpochSeconds();
       mPresenter0.update(mMode, now, mBlinkShowState, clockId!=0, mClockInfo0);
       mPresenter1.update(mMode, now, mBlinkShowState, clockId!=1, mClockInfo1);
       mPresenter2.update(mMode, now, mBlinkShowState, clockId!=2, mClockInfo2);
@@ -320,7 +320,7 @@ class Controller {
 
     /** Read the UTC DateTime from RTC and convert to current time zone. */
     void readDateTime(DateTime* dateTime) {
-      uint32_t now = mTimeKeeper.getNow();
+      acetime_t now = mTimeKeeper.getNow();
       *dateTime = DateTime::forEpochSeconds(now, mClockInfo0.timeZone);
     }
 

@@ -2,7 +2,9 @@
 #define ACE_TIME_LOCAL_DATE_H
 
 #include <stdint.h>
+#include "common/common.h"
 #include "common/Util.h"
+#include "LocalTime.h"
 
 namespace ace_time {
 
@@ -24,10 +26,11 @@ namespace ace_time {
 class LocalDate {
   public:
     /** Sentinel epochDays which indicates an error. */
-    static const uint32_t kInvalidEpochDays = UINT32_MAX;
+    // TODO: Change this to INT32_MIN
+    static const acetime_t kInvalidEpochDays = INT32_MAX;
 
     /** Sentinel epochSeconds which indicates an error. */
-    static const uint32_t kInvalidEpochSeconds = UINT32_MAX;
+    static const acetime_t kInvalidEpochSeconds = LocalTime::kInvalidSeconds;
 
     /** Base year of epoch. */
     static const int16_t kEpochYear = 2000;
@@ -36,7 +39,7 @@ class LocalDate {
      * Number of days between the Julian calendar epoch (4713 BC 01-01) and the
      * AceTime epoch (2000-01-01).
      */
-    static const uint32_t kDaysSinceJulianEpoch = 2451545;
+    static const acetime_t kDaysSinceJulianEpoch = 2451545;
 
     /** Monday ISO 8601 number. */
     static const uint8_t kMonday = 1;
@@ -62,7 +65,8 @@ class LocalDate {
     /**
      * Factory method using separated year, month and day fields.
      *
-     * @param year year (1872 - 2127, i.e. [-128, 127] + 2000)
+     * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
+     *    16-bit implementation
      * @param month month with January=1, December=12
      * @param day day of month (1-31)
      */
@@ -75,13 +79,9 @@ class LocalDate {
      * 2000-01-01. If epochDays is kInvalidEpochDays, isError() will return
      * true.
      *
-     * If epochDays is greater than 46751 (i.e. 2127-12-31), the year is
-     * greater than 127 and cannot be represented by the internal int8_t field.
-     * The behavior of this method is undefined.
-     *
      * @param epochDays number of days since AceTime epoch (2000-01-01)
      */
-    static LocalDate forEpochDays(uint32_t epochDays) {
+    static LocalDate forEpochDays(acetime_t epochDays) {
       int16_t year;
       uint8_t month;
       uint8_t day;
@@ -96,18 +96,20 @@ class LocalDate {
     /**
      * Factory method using the number of seconds since AceTime epoch of
      * 2000-01-01. The number of seconds from midnight of the given day is
-     * thrown away. If epochSeconds is kInvalidEpochSeconds, isError() will
-     * return true.
+     * thrown away. For negative values of epochSeconds, the method performs
+     * a floor operation when rounding to the nearest day, in other words
+     * towards negative infinity.
      *
-     * The largest date supported by this method is 2136-02-07, corresponding
-     * to 4,294,944,000 seconds. (Actually, up to 4,294,967,294 will also
-     * return 2136-02-07 because the partial day is thrown away.)
+     * If epochSeconds is kInvalidEpochSeconds, isError() will return true.
      *
      * @param epochSeconds number of seconds since AceTime epoch (2000-01-01)
      */
-    static LocalDate forEpochSeconds(uint32_t epochSeconds) {
+    static LocalDate forEpochSeconds(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidEpochSeconds) {
         return forEpochDays(kInvalidEpochDays);
+      } else if (epochSeconds < 0) {
+        // integer floor() towards -infinity
+        return forEpochDays((epochSeconds + 1) / 86400 - 1);
       } else {
         return forEpochDays(epochSeconds / 86400);
       }
@@ -215,13 +217,17 @@ class LocalDate {
      * conversions of forEpochDays() and toEpochDays() even when isError() is
      * true.
      *
+     * In an 8-bit implementation:
+     *    * the largest date 2127-12-31 returns 46751
+     *    * the smallest date 1872-01-01 returns -46751
+     *
      * Uses Julian days which normally start at 12:00:00. But this method
      * returns the delta number of days since 00:00:00, so we can interpret the
      * Gregorian calendar day to start at 00:00:00.
      *
      * See https://en.wikipedia.org/wiki/Julian_day
      */
-    uint32_t toEpochDays() const {
+    int32_t toEpochDays() const {
       if (isError()) return kInvalidEpochDays;
 
       // From wiki article:
@@ -247,12 +253,15 @@ class LocalDate {
 
     /**
      * Return the number of seconds since AceTime epoch (2000-01-01 00:00:00).
-     * Returns kInvalidEpochSeconds if isError() is true.
+     * Returns kInvalidEpochSeconds if isError() is true. This is a convenience
+     * method that returns (86400 * toEpochDays()). Since acetime_t is a
+     * 32-bit signed integer, the limits are different:
      *
-     * The result is undefined if the date is greater than 2136-02-07 because
-     * the epoch seconds will overflow the uint32_t.
+     *    * the smallest date corresponding to INT32_MIN is 1931-12-13 20:45:52
+     *      so this method supports dates as small as 1931-12-14.
+     *    * the largest date corresponding to INT32_MAX is 2068-01-19 03:14:07.
      */
-    uint32_t toEpochSeconds() const {
+    acetime_t toEpochSeconds() const {
       if (isError()) return kInvalidEpochSeconds;
       return 86400 * toEpochDays();
     }
@@ -282,7 +291,6 @@ class LocalDate {
   private:
     friend class OffsetDateTime;
     friend bool operator==(const LocalDate& a, const LocalDate& b);
-    friend bool operator!=(const LocalDate& a, const LocalDate& b);
 
     /** Minimum length of the date string. yyyy-mm-dd. */
     static const uint8_t kDateStringLength = 10;
@@ -314,7 +322,7 @@ class LocalDate {
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
-    static void extractYearMonthDay(uint32_t epochDays, int16_t& year,
+    static void extractYearMonthDay(acetime_t epochDays, int16_t& year,
         uint8_t& month, uint8_t& day) {
       uint32_t J = epochDays + kDaysSinceJulianEpoch;
       uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;

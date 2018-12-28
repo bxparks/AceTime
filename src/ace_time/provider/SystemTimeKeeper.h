@@ -64,7 +64,7 @@ class SystemTimeKeeper: public TimeKeeper {
       }
     }
 
-    uint32_t getNow() const override {
+    acetime_t getNow() const override {
       if (!mIsInit) return kInvalidSeconds;
 
       while ((uint16_t) ((uint16_t) millis() - mPrevMillis) >= 1000) {
@@ -74,7 +74,7 @@ class SystemTimeKeeper: public TimeKeeper {
       return mEpochSeconds;
     }
 
-    void setNow(uint32_t epochSeconds) override {
+    void setNow(acetime_t epochSeconds) override {
       if (epochSeconds == kInvalidSeconds) return;
 
       mEpochSeconds = epochSeconds;
@@ -93,7 +93,7 @@ class SystemTimeKeeper: public TimeKeeper {
      * milliseconds per iteration, and which guarantees that the clock never
      * goes backwards in time.
      */
-    void sync(uint32_t epochSeconds) {
+    void sync(acetime_t epochSeconds) {
       if (epochSeconds == kInvalidSeconds) return;
       if (mEpochSeconds == epochSeconds) return;
 
@@ -111,7 +111,7 @@ class SystemTimeKeeper: public TimeKeeper {
      * Return the time (seconds since Epoch) of the last valid sync() call.
      * Returns 0 if never synced.
      */
-    uint32_t getLastSyncTime() const {
+    acetime_t getLastSyncTime() const {
       return mLastSyncTime;
     }
 
@@ -131,7 +131,7 @@ class SystemTimeKeeper: public TimeKeeper {
      * has non-volatile memory, or simply flash memory which emulates a backup
      * TimeKeeper.
      */
-    void backupNow(uint32_t nowSeconds) {
+    void backupNow(acetime_t nowSeconds) {
       if (mBackupTimeKeeper != nullptr) {
         mBackupTimeKeeper->setNow(nowSeconds);
       }
@@ -140,10 +140,10 @@ class SystemTimeKeeper: public TimeKeeper {
     const TimeProvider* const mSyncTimeProvider;
     TimeKeeper* const mBackupTimeKeeper;
 
-    mutable uint32_t mEpochSeconds = 0; // time presented to the user
+    mutable acetime_t mEpochSeconds = 0; // time presented to the user
     mutable uint16_t mPrevMillis = 0;  // lower 16-bits of millis()
     bool mIsInit = false; // true if setNow() or sync() was successful
-    uint32_t mLastSyncTime = 0; // time when last synced
+    acetime_t mLastSyncTime = 0; // time when last synced
 };
 
 }

@@ -18,7 +18,7 @@ class TimeKeeper: public TimeProvider {
      * kInvalidSeconds indicates an error condition, so the method should do
      * nothing.
      */
-    virtual void setNow(uint32_t epochSeconds) = 0;
+    virtual void setNow(acetime_t epochSeconds) = 0;
 };
 
 }

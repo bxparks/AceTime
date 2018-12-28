@@ -77,7 +77,7 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
 
         // Process the response
         if (mRequestStatus == kStatusOk) {
-          uint32_t nowSeconds =
+          acetime_t nowSeconds =
               mSystemTimeKeeper.mSyncTimeProvider->readResponse();
           uint16_t elapsedTime = millis() - mRequestStartTime;
           if (mTimingStats != nullptr) {

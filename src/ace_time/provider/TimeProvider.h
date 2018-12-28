@@ -2,6 +2,7 @@
 #define ACE_TIME_TIME_PROVIDER_H
 
 #include <stdint.h>
+#include "../common/common.h"
 
 namespace ace_time {
 namespace provider {
@@ -12,7 +13,7 @@ namespace provider {
  */
 class TimeProvider {
   public:
-    static const uint32_t kInvalidSeconds = UINT32_MAX;
+    static const acetime_t kInvalidSeconds = INT32_MAX;
 
     /** Virtual destructor. Unused except in unit tests. */
     virtual ~TimeProvider() {}
@@ -21,7 +22,7 @@ class TimeProvider {
      * Return the number of seconds since the DateTime epoch
      * (2000-01-01T00:00:00Z). Returns kInvalidSeconds if an error has occured.
      */
-    virtual uint32_t getNow() const = 0;
+    virtual acetime_t getNow() const = 0;
 
     /** Send a time request asynchronously. Used by SystemTimeSyncCoroutine. */
     virtual void sendRequest() const {}
@@ -34,7 +35,7 @@ class TimeProvider {
      * kInvalidSeconds if there is an error. Valid only if isResponseReady()
      * returns true. Used by SystemTimeSyncCoroutine.
      */
-    virtual uint32_t readResponse() const { return getNow(); }
+    virtual acetime_t readResponse() const { return getNow(); }
 };
 
 }

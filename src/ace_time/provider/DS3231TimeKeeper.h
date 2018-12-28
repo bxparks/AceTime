@@ -19,15 +19,16 @@ class DS3231TimeKeeper: public TimeKeeper {
 
     void setup() {}
 
-    uint32_t getNow() const override {
+    acetime_t getNow() const override {
       hw::HardwareDateTime hardwareDateTime;
       mDS3231.readDateTime(&hardwareDateTime);
       return toDateTime(hardwareDateTime).toEpochSeconds();
     }
 
-    void setNow(uint32_t epochSeconds) override {
+    void setNow(acetime_t epochSeconds) override {
       if (epochSeconds == kInvalidSeconds) return;
 
+      // TODO: Replace with LocalDateTime
       OffsetDateTime now = OffsetDateTime::forEpochSeconds(epochSeconds);
       mDS3231.setDateTime(toHardwareDateTime(now));
     }

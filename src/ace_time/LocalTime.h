@@ -2,6 +2,7 @@
 #define ACE_TIME_LOCAL_TIME_H
 
 #include <stdint.h>
+#include "common/common.h"
 #include "common/Util.h"
 
 namespace ace_time {
@@ -18,7 +19,7 @@ namespace ace_time {
 class LocalTime {
   public:
     /** An invalid seconds marker that indicates isError() true. */
-    static const uint32_t kInvalidSeconds = UINT32_MAX;
+    static const acetime_t kInvalidSeconds = INT32_MAX;
 
     /**
      * Factory method using separated date, time, and time zone fields. The
@@ -43,7 +44,7 @@ class LocalTime {
      *
      * @param seconds number of seconds from midnight, (0-86399)
      */
-    static LocalTime forSeconds(uint32_t seconds)  {
+    static LocalTime forSeconds(acetime_t seconds)  {
       uint8_t second, minute, hour;
 
       if (seconds == kInvalidSeconds) {
@@ -113,12 +114,12 @@ class LocalTime {
      * Return the number of seconds since midnight.
      * Return kInvalidSeconds if isError() is true.
      */
-    uint32_t toSeconds() const {
+    acetime_t toSeconds() const {
       if (isError()) {
         return kInvalidSeconds;
       } else {
-        return ((mHour * (uint16_t) 60) + mMinute)
-            * (uint32_t) 60 + mSecond;
+        return ((mHour * (int16_t) 60) + mMinute)
+            * (int32_t) 60 + mSecond;
       }
     }
 

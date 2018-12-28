@@ -153,7 +153,7 @@ static unsigned long runLocalDateToEpochDaysMillis(
     // LocalDate::forEpochDays(seconds) takes seconds, but use millis for
     // testing purposes.
     LocalDate localDate = LocalDate::forEpochDays(tickMillis);
-    uint32_t epochDays = localDate.toEpochDays();
+    acetime_t epochDays = localDate.toEpochDays();
     disableOptimization(localDate);
     disableOptimization(epochDays);
   });
@@ -172,7 +172,7 @@ static unsigned long runLocalDateDaysOfWeekMillis(
     // LocalDate::forEpochDays(seconds) takes seconds, but use millis for
     // testing purposes.
     LocalDate localDate = LocalDate::forEpochDays(tickMillis);
-    uint32_t dayOfWeek = localDate.dayOfWeek();
+    uint8_t dayOfWeek = localDate.dayOfWeek();
     disableOptimization(localDate);
     disableOptimization(dayOfWeek);
   });
@@ -208,7 +208,7 @@ static unsigned long runDateTimeToEpochDays(
     // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
     DateTime dateTime = DateTime::forEpochSeconds(tickMillis);
-    uint32_t epochDays = dateTime.toEpochDays();
+    acetime_t epochDays = dateTime.toEpochDays();
     disableOptimization(dateTime);
     disableOptimization(epochDays);
   });
@@ -227,7 +227,7 @@ static unsigned long runDateTimeToEpochSeconds(
     // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
     DateTime dateTime = DateTime::forEpochSeconds(tickMillis);
-    uint32_t epochSeconds = dateTime.toEpochSeconds();
+    acetime_t epochSeconds = dateTime.toEpochSeconds();
     disableOptimization(dateTime);
     disableOptimization(epochSeconds);
   });

@@ -37,16 +37,16 @@ class SystemTimeKeeperTest: public TestOnce {
 };
 
 testF(SystemTimeKeeperTest, setup) {
-  assertEqual((uint32_t) 0, systemTimeKeeper->getNow());
+  assertEqual((acetime_t) 0, systemTimeKeeper->getNow());
 
   backupAndSyncTimeKeeper->setNow(100);
   systemTimeKeeper->setup();
-  assertEqual((uint32_t) 100, systemTimeKeeper->getNow());
+  assertEqual((acetime_t) 100, systemTimeKeeper->getNow());
 }
 
 testF(SystemTimeKeeperTest, backupNow) {
-  assertEqual((uint32_t) 0, systemTimeKeeper->getNow());
-  assertEqual((uint32_t) 0, backupAndSyncTimeKeeper->getNow());
+  assertEqual((acetime_t) 0, systemTimeKeeper->getNow());
+  assertEqual((acetime_t) 0, backupAndSyncTimeKeeper->getNow());
 
   unsigned long nowMillis = 1;
   fakeMillis->millis(nowMillis);
@@ -54,14 +54,14 @@ testF(SystemTimeKeeperTest, backupNow) {
 
   // setNow() caused a save to the backupTimeKeeper which happens to be the
   // same backupAndSyncTimeKeeper
-  assertEqual((uint32_t) 100, systemTimeKeeper->getNow());
-  assertEqual((uint32_t) 100, backupAndSyncTimeKeeper->getNow());
+  assertEqual((acetime_t) 100, systemTimeKeeper->getNow());
+  assertEqual((acetime_t) 100, backupAndSyncTimeKeeper->getNow());
 }
 
 testF(SystemTimeKeeperTest, sync) {
-  assertEqual((uint32_t) 0, systemTimeKeeper->getNow());
-  assertEqual((uint32_t) 0, systemTimeKeeper->getLastSyncTime());
-  assertEqual((uint32_t) 0, backupAndSyncTimeKeeper->getNow());
+  assertEqual((acetime_t) 0, systemTimeKeeper->getNow());
+  assertEqual((acetime_t) 0, systemTimeKeeper->getLastSyncTime());
+  assertEqual((acetime_t) 0, backupAndSyncTimeKeeper->getNow());
 
   unsigned long nowMillis = 1;
   fakeMillis->millis(nowMillis);
@@ -70,9 +70,9 @@ testF(SystemTimeKeeperTest, sync) {
   // sync() does NOT write to backupTimeKeeper because the sync and backup
   // sources are identical, so it does not try to write the time back into
   // itself.
-  assertEqual((uint32_t) 100, systemTimeKeeper->getNow());
-  assertEqual((uint32_t) 100, systemTimeKeeper->getLastSyncTime());
-  assertEqual((uint32_t) 0, backupAndSyncTimeKeeper->getNow());
+  assertEqual((acetime_t) 100, systemTimeKeeper->getNow());
+  assertEqual((acetime_t) 100, systemTimeKeeper->getLastSyncTime());
+  assertEqual((acetime_t) 0, backupAndSyncTimeKeeper->getNow());
 }
 
 testF(SystemTimeKeeperTest, getNow) {
@@ -80,28 +80,28 @@ testF(SystemTimeKeeperTest, getNow) {
 
   fakeMillis->millis(nowMillis);
   systemTimeKeeper->setNow(100);
-  assertEqual((uint32_t) 100, systemTimeKeeper->getNow());
+  assertEqual((acetime_t) 100, systemTimeKeeper->getNow());
 
   // +900ms, no change to getNow()
   nowMillis += 900;
   fakeMillis->millis(nowMillis);
-  assertEqual((uint32_t) 100, systemTimeKeeper->getNow());
+  assertEqual((acetime_t) 100, systemTimeKeeper->getNow());
 
   // +100ms, getNow() should increase by 1
   nowMillis += 100;
   fakeMillis->millis(nowMillis);
-  assertEqual((uint32_t) 101, systemTimeKeeper->getNow());
+  assertEqual((acetime_t) 101, systemTimeKeeper->getNow());
 
   // +30000ms, getNow() should increase by 30
   nowMillis += 30000;
   fakeMillis->millis(nowMillis);
-  assertEqual((uint32_t) 131, systemTimeKeeper->getNow());
+  assertEqual((acetime_t) 131, systemTimeKeeper->getNow());
 
   // +40000ms, causing rollover of internal uint16_t version of millis, but
   // getNow() should still increase by another 40
   nowMillis += 40000;
   fakeMillis->millis(nowMillis);
-  assertEqual((uint32_t) 171, systemTimeKeeper->getNow());
+  assertEqual((acetime_t) 171, systemTimeKeeper->getNow());
 }
 
 //---------------------------------------------------------------------------
@@ -180,8 +180,8 @@ class SystemTimeSyncCoroutineTest: public TestOnce {
       assertTrue(systemTimeSyncCoroutine->isDelaying());
       assertEqual(systemTimeSyncCoroutine->mRequestStatus,
           SystemTimeSyncCoroutine::kStatusOk);
-      assertEqual((uint32_t) 42, systemTimeKeeper->getNow());
-      assertEqual((uint32_t) 42, systemTimeKeeper->getLastSyncTime());
+      assertEqual((acetime_t) 42, systemTimeKeeper->getNow());
+      assertEqual((acetime_t) 42, systemTimeKeeper->getLastSyncTime());
       assertTrue(systemTimeKeeper->isInit());
     }
 

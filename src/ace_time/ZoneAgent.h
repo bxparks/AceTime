@@ -42,7 +42,7 @@ struct ZoneMatch {
   const common::ZoneRule* rule;
 
   /** The calculated transition time of the given rule. */
-  uint32_t startEpochSeconds;
+  acetime_t startEpochSeconds;
 
   /** The calculated effective UTC offsetCode at the start of transition. */
   int8_t offsetCode;
@@ -102,21 +102,21 @@ class ZoneAgent {
     const common::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
     /** Return if the time zone is observing DST. */
-    bool isDst(uint32_t epochSeconds) {
+    bool isDst(acetime_t epochSeconds) {
       if (mZoneInfo == nullptr) return false;
       const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return zoneMatch->rule != nullptr && zoneMatch->rule->deltaCode != 0;
     }
 
     /** Return the current offset. */
-    UtcOffset getUtcOffset(uint32_t epochSeconds) {
+    UtcOffset getUtcOffset(acetime_t epochSeconds) {
       if (mZoneInfo == nullptr) return UtcOffset();
       const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return UtcOffset::forOffsetCode(zoneMatch->offsetCode);
     }
 
     /** Return the time zone abbreviation. */
-    const char* getAbbrev(uint32_t epochSeconds) {
+    const char* getAbbrev(acetime_t epochSeconds) {
       if (mZoneInfo == nullptr) return "UTC";
       const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return zoneMatch->abbrev;
@@ -132,7 +132,7 @@ class ZoneAgent {
     static const uint8_t kMaxCacheEntries = 4;
 
     /** Return the ZoneMatch at the given epochSeconds. */
-    const internal::ZoneMatch* getZoneMatch(uint32_t epochSeconds) {
+    const internal::ZoneMatch* getZoneMatch(acetime_t epochSeconds) {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
       init(ld);
       return findMatch(epochSeconds);
@@ -475,7 +475,7 @@ class ZoneAgent {
     }
 
     /** Search the cache and find closest ZoneMatch. */
-    const internal::ZoneMatch* findMatch(uint32_t epochSeconds) const {
+    const internal::ZoneMatch* findMatch(acetime_t epochSeconds) const {
       const internal::ZoneMatch* closestMatch = &mPreviousMatch;
       for (uint8_t i = 0; i < mNumMatches; i++) {
         const internal::ZoneMatch* m = &mMatches[i];

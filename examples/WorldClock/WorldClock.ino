@@ -30,7 +30,7 @@ using namespace ace_time;
 
 // Needed by ESP32 chips. Has no effect on other chips.
 // Should be bigger than (sizeof(crc32) + sizeof(StoredInfo)).
-static const uint16_t EEPROM_SIZE = sizeof(StoredInfo) + sizeof(uint32_t);
+static const uint16_t EEPROM_SIZE = sizeof(StoredInfo) + sizeof(acetime_t);
 
 hw::CrcEeprom crcEeprom;
 
