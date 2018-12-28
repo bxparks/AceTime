@@ -77,8 +77,8 @@ class ZoneAgent:
         # List of matching transitions. Map of the form;
         # {
         #   # Copied from ZoneEra
-        #   'startDateTime': (y, m, d, h, m, modifier),
-        #   'untilDatetime': (y, m, d, h, m, modifier),
+        #   'startDateTime': (y, m, d, h, m, modifier), # replaced later
+        #   'untilDatetime': (y, m, d, h, m, modifier), # replaced later
         #   'policyName': string, # '-', ':', or symbolic reference
         #   'zoneEra': ZoneEra
         #
@@ -119,6 +119,7 @@ class ZoneAgent:
             key=lambda x: x['transitionTime'])
         self.fix_start_times()
         self.calc_abbrev()
+        self.generate_start_until_times()
 
     def print_status(self):
         print('Matches:')
@@ -140,6 +141,9 @@ class ZoneAgent:
             (policy_name, format)))
 
     def print_transition(self, transition):
+        tt = transition['transitionTime']
+        sdt = transition['startDateTime']
+        udt = transition['untilDateTime']
         policy_name = transition['policyName']
         offset_minutes = transition['offsetMinutes']
         delta_minutes = transition['deltaMinutes']
@@ -148,51 +152,48 @@ class ZoneAgent:
         abbrev = transition['abbrev']
 
         if policy_name in ['-', ':']:
-            params = transition['transitionTime'] + (
+            params = tt + sdt + udt + (
                 policy_name, offset_minutes, delta_minutes, format, abbrev)
             print(('transition: %4d-%02d-%02d %02d:%02d%s; '
-                +' policy: %s; '
-                + 'offsetMinutes: %s; '
-                + 'deltaMinutes: %s; '
+                + 'start: %4d-%02d-%02d %02d:%02d%s; '
+                + 'until: %4d-%02d-%02d %02d:%02d%s; '
+                + 'policy: %s; '
+                + 'UTC%+d%+d; '
                 + 'format: %s; '
-                + 'abbrev: %s') % params)
+                + 'abbrev: %s')
+                % params)
         else:
             delta_minutes = transition['deltaMinutes']
             letter = transition['letter']
             zone_rule = transition['zoneRule']
             zone_rule_from = zone_rule['fromYear']
             zone_rule_to = zone_rule['toYear']
-            original_transition_time = transition['originalTransitionTime'] \
-                if 'originalTransitionTime' in transition \
-                else None
+            ott = transition['originalTransitionTime'] \
+                if 'originalTransitionTime' in transition else None
 
-            if original_transition_time:
-                params = transition['transitionTime'] \
-                    + original_transition_time + (
+            if ott:
+                params = tt + sdt + udt + ott + (
                     policy_name, zone_rule_from, zone_rule_to, offset_minutes,
                     delta_minutes, format, letter, abbrev)
                 print(('transition: %4d-%02d-%02d %02d:%02d%s; '
+                    + 'start: %4d-%02d-%02d %02d:%02d%s; '
+                    + 'until: %4d-%02d-%02d %02d:%02d%s; '
                     + 'original: %4d-%02d-%02d %02d:%02d%s; '
-                    + 'policy: %s; '
-                    + 'from: %s; '
-                    + 'to: %s; '
-                    + 'offsetMinutes: %s; '
-                    + 'deltaMinutes: %s; '
-                    + 'format: %s; '
-                    + 'letter: %s; '
+                    + 'policy: %s[%d,%d]; '
+                    + 'UTC%+d%+d; '
+                    + 'format: %s(%s); '
                     + 'abbrev: %s')
                     % params)
             else:
-                params = transition['transitionTime'] + (
-                    policy_name, zone_rule_from, zone_rule_to, offset_minutes,
-                    delta_minutes, format, letter, abbrev)
+                params = tt + sdt + udt + (
+                    policy_name, zone_rule_from, zone_rule_to,
+                    offset_minutes, delta_minutes, format, letter, abbrev)
                 print(('transition: %4d-%02d-%02d %02d:%02d%s; '
-                    + 'policy: %s; '
-                    + 'from: %s; to: %s; '
-                    + 'offsetMinutes: %s; '
-                    + 'deltaMinutes: %s; '
-                    + 'format: %s; '
-                    + 'letter: %s; '
+                    + 'start: %4d-%02d-%02d %02d:%02d%s; '
+                    + 'until: %4d-%02d-%02d %02d:%02d%s; '
+                    + 'policy: %s[%d,%d]; '
+                    + 'UTC%+d%+d; '
+                    + 'format: %s(%s); '
                     + 'abbrev: %s')
                     % params)
 
@@ -461,7 +462,6 @@ class ZoneAgent:
         # the 2nd half of the first year. If the first transition at the
         # beginning of the first year is slightly off, it doesn't matter.
         prev = self.transitions[0].copy()
-
         for transition in self.transitions:
             prev_start_time = prev['transitionTime']
             prev_delta_minutes = prev.get('deltaMinutes')
@@ -520,6 +520,51 @@ class ZoneAgent:
                 abbrev = format
 
             transition['abbrev'] = abbrev
+
+    def generate_start_until_times(self):
+        """Calculate the various start and until times of the Transitions in the
+        following way:
+            1) The 'untilDateTime' of the previous Transition is the
+            'transitionTime' of the current Transition with no adjustments.
+            2) The local 'startDateTime' of the current Transition is
+            the current 'transitionTime' - (prevOffset + prevDelta) +
+            (currentOffset + currentDelta).
+            3) The startEpochSecond of the current Transition is the
+            'transitionTime' using the UTC offset of the *previous* Transition.
+        Got all that?
+        """
+        # As before, bootstrap the prev transition with the first transition
+        # so that we have a UTC offset to work with.
+        prev = self.transitions[0]
+        is_after_first = False
+        for transition in self.transitions:
+            tt = transition['transitionTime']
+
+            # 1) Update the 'untilDateTime' of the previous Transition.
+            if is_after_first:
+                prev['untilDateTime'] = tt
+
+            # 2) Calculate the current startDateTime by shifting the time
+            # into the current UTC offset.
+            mins = hour_minute_to_minutes(tt[3], tt[4])
+            mins += (-(prev['offsetMinutes'] + prev['deltaMinutes']) +
+                (transition['offsetMinutes'] + transition['deltaMinutes']))
+            (h, m) = minutes_to_hour_minute(mins)
+            transition['startDateTime'] = (tt[0], tt[1], tt[2], h, m, tt[5])
+
+            # 3) The epochSecond of the 'startDateTime' is determined by the
+            # UTC offset of the *previous* Transition.
+            utc_offset_minutes = prev['offsetMinutes'] + prev['deltaMinutes']
+            z = datetime.timezone(
+                datetime.timedelta(minutes=utc_offset_minutes))
+            t = datetime.datetime(
+                tt[0], tt[1], tt[2], tt[3], tt[4], 0, 0, z)
+            epoch_second = int(t.timestamp())
+            transition['transitionEpochSecond'] = epoch_second
+
+            prev = transition
+            is_after_first = True
+
 
 def calc_effective_match(year, match):
     """Generate a version of match which overlaps the 2 year interval from
