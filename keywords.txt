@@ -6,6 +6,7 @@
 # Datatypes (KEYWORD1)
 #######################################
 
+acetime_t	KEYWORD1
 DateStrings	KEYWORD1
 DateTime	KEYWORD1
 OffsetDateTime	KEYWORD1
