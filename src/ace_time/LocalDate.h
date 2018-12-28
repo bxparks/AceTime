@@ -30,7 +30,7 @@ class LocalDate {
     static const uint32_t kInvalidEpochSeconds = UINT32_MAX;
 
     /** Base year of epoch. */
-    static const uint16_t kEpochYear = 2000;
+    static const int16_t kEpochYear = 2000;
 
     /**
      * Number of days between the Julian calendar epoch (4713 BC 01-01) and the
@@ -66,7 +66,7 @@ class LocalDate {
      * @param month month with January=1, December=12
      * @param day day of month (1-31)
      */
-    static LocalDate forComponents(uint16_t year, uint8_t month, uint8_t day) {
+    static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day) {
       return LocalDate(year, month, day);
     }
 
@@ -82,7 +82,7 @@ class LocalDate {
      * @param epochDays number of days since AceTime epoch (2000-01-01)
      */
     static LocalDate forEpochDays(uint32_t epochDays) {
-      uint16_t year;
+      int16_t year;
       uint8_t month;
       uint8_t day;
       if (epochDays == kInvalidEpochDays) {
@@ -126,12 +126,12 @@ class LocalDate {
     }
 
     /** True if year is a leap year. */
-    static bool isLeapYear(uint16_t year) {
+    static bool isLeapYear(int16_t year) {
       return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
     }
 
     /** Return the number of days in the current month. */
-    static uint8_t daysInMonth(uint16_t year, uint8_t month) {
+    static uint8_t daysInMonth(int16_t year, uint8_t month) {
       uint8_t days = sDaysInMonth[month - 1];
       return (month == 2 && isLeapYear(year)) ? days + 1 : days;
     }
@@ -150,10 +150,10 @@ class LocalDate {
     }
 
     /** Return the full year instead of just the last 2 digits. */
-    uint16_t year() const { return mYearShort + kEpochYear; }
+    int16_t year() const { return mYearShort + kEpochYear; }
 
     /** Set the year given the full year. */
-    void year(uint16_t year) { mYearShort = year - kEpochYear; }
+    void year(int16_t year) { mYearShort = year - kEpochYear; }
 
     /** Return the 2 digit year offset from year 2000. */
     int8_t yearShort() const { return mYearShort; }
@@ -196,10 +196,11 @@ class LocalDate {
      */
     uint8_t dayOfWeek() const {
       // The "year" starts in March to shift leap year calculation to end.
-      uint16_t y = year() - (mMonth < 3);
-      uint16_t d = y + y/4 - y/100 + y/400 + sDayOfWeek[mMonth-1] + mDay;
+      int16_t y = year() - (mMonth < 3);
+      int16_t d = y + y/4 - y/100 + y/400 + sDayOfWeek[mMonth-1] + mDay;
       // 2000-1-1 was a Saturday=6
-      return (d + 1) % 7 + 1;
+      // TODO: double check for negative year()
+      return (d < -1) ? (d + 1) % 7 + 8 : (d + 1) % 7 + 1;
     }
 
     /** Return true if any component indicates an error condition. */
@@ -297,7 +298,7 @@ class LocalDate {
     static const uint8_t sDaysInMonth[12];
 
     /** Constructor. */
-    explicit LocalDate(uint16_t year, uint8_t month, uint8_t day):
+    explicit LocalDate(int16_t year, uint8_t month, uint8_t day):
         mYearShort(year - kEpochYear),
         mMonth(month),
         mDay(day) {}
@@ -313,7 +314,7 @@ class LocalDate {
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
-    static void extractYearMonthDay(uint32_t epochDays, uint16_t& year,
+    static void extractYearMonthDay(uint32_t epochDays, int16_t& year,
         uint8_t& month, uint8_t& day) {
       uint32_t J = epochDays + kDaysSinceJulianEpoch;
       uint32_t f = J + 1401 + (((4 * J + 274277 ) / 146097) * 3) / 4 - 38;
@@ -333,7 +334,7 @@ class LocalDate {
 
     /**
      * Store year as a int8_t offset from year 2000. This saves memory, but may
-     * cause other problems later, so this may change to uint16_t later.
+     * cause other problems later, so this may change to int16_t later.
      */
     int8_t mYearShort; // [-128, 127], year offset from 2000
 

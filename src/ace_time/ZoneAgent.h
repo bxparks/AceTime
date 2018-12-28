@@ -147,7 +147,7 @@ class ZoneAgent {
      * upon that year.
      */
     void init(const LocalDate& ld) {
-      uint16_t year = ld.year();
+      int16_t year = ld.year();
       if (ld.month() == 12 && ld.day() == 31) {
         year++;
       }
@@ -165,7 +165,7 @@ class ZoneAgent {
     }
 
     /** Check if the ZoneRule cache is filled for the given year. */
-    bool isFilled(uint16_t year) const {
+    bool isFilled(int16_t year) const {
       return mIsFilled && (year == mYear);
     }
 
@@ -173,7 +173,7 @@ class ZoneAgent {
      * Add the last matching rule just prior to the given year. This determines
      * the offset at the beginning of the current year.
      */
-    void addRulePriorToYear(uint16_t year) {
+    void addRulePriorToYear(int16_t year) {
       const common::ZoneEra* const era = findZoneEraPriorTo(year);
 
       const common::ZonePolicy* const zonePolicy = era->zonePolicy;
@@ -212,10 +212,10 @@ class ZoneAgent {
     }
 
     /** Compare two ZoneRules which are valid prior to the given year. */
-    static int8_t compareZoneRule(uint16_t year,
+    static int8_t compareZoneRule(int16_t year,
         const common::ZoneRule* a, const common::ZoneRule* b) {
-      uint16_t aYear = effectiveRuleYear(year, a);
-      uint16_t bYear = effectiveRuleYear(year, b);
+      int16_t aYear = effectiveRuleYear(year, a);
+      int16_t bYear = effectiveRuleYear(year, b);
       if (aYear < bYear) return -1;
       if (aYear > bYear) return 1;
       if (a->inMonth < b->inMonth) return -1;
@@ -224,7 +224,7 @@ class ZoneAgent {
     }
 
     /** Return the largest effective year of the rule, prior to given year. */
-    static uint16_t effectiveRuleYear(uint16_t year,
+    static int16_t effectiveRuleYear(int16_t year,
         const common::ZoneRule* rule) {
       if (rule->toYear < year) return rule->toYear;
       if (rule->fromYear < year) return year - 1;
@@ -232,7 +232,7 @@ class ZoneAgent {
     }
 
     /** Add all matching rules from the current year. */
-    void addRulesForYear(uint16_t year) {
+    void addRulesForYear(int16_t year) {
       const common::ZoneEra* const era = findZoneEra(year);
 
       const common::ZonePolicy* const zonePolicy = era->zonePolicy;
@@ -286,7 +286,7 @@ class ZoneAgent {
      * satisfy (year < ZoneEra.untilYearShort + kEpochYear). Since the
      * largest untilYearShort is 127, the largest supported 'year' is 2126.
      */
-    const common::ZoneEra* findZoneEra(uint16_t year) const {
+    const common::ZoneEra* findZoneEra(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
         const common::ZoneEra* era = &mZoneInfo->eras[i];
         if (year < era->untilYearShort + LocalDate::kEpochYear) return era;
@@ -304,7 +304,7 @@ class ZoneAgent {
      * zone_infos.cpp verified that the final ZoneEra contains an empty
      * untilYear, interpreted as 'max', and set to 255.
      */
-    const common::ZoneEra* findZoneEraPriorTo(uint16_t year) const {
+    const common::ZoneEra* findZoneEraPriorTo(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
         const common::ZoneEra* era = &mZoneInfo->eras[i];
         if (year <= era->untilYearShort + LocalDate::kEpochYear) return era;
@@ -357,7 +357,7 @@ class ZoneAgent {
      * expressed by onDayOfMonth being 0. An exact match on dayOfMonth is
      * expressed by setting onDayOfWeek to 0.
      */
-    static uint8_t calcStartDayOfMonth(uint16_t year, uint8_t month,
+    static uint8_t calcStartDayOfMonth(int16_t year, uint8_t month,
         uint8_t onDayOfWeek, uint8_t onDayOfMonth) {
       if (onDayOfWeek == 0) return onDayOfMonth;
 
@@ -488,7 +488,7 @@ class ZoneAgent {
 
     const common::ZoneInfo* mZoneInfo;
 
-    mutable uint16_t mYear = 0;
+    mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
     mutable uint8_t mNumMatches = 0;
     mutable internal::ZoneMatch mMatches[kMaxCacheEntries];

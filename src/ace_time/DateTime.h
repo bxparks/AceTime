@@ -71,7 +71,7 @@ class DateTime {
      * @param timeZone pointer to an existing TimeZone instance. Optional,
      *        not nullable. Default is UTC TimeZone.
      */
-    static DateTime forComponents(uint16_t year, uint8_t month, uint8_t day,
+    static DateTime forComponents(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             const TimeZone& timeZone = TimeZone()) {
       if (timeZone.getType() == TimeZone::kTypeManual) {
@@ -178,10 +178,10 @@ class DateTime {
     void yearShort(int8_t yearShort) { mOffsetDateTime.yearShort(yearShort); }
 
     /** Return the year. */
-    uint16_t year() const { return mOffsetDateTime.year(); }
+    int16_t year() const { return mOffsetDateTime.year(); }
 
     /** Set the year given the full year. */
-    void year(uint16_t year) { mOffsetDateTime.year(year); }
+    void year(int16_t year) { mOffsetDateTime.year(year); }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mOffsetDateTime.month(); }
