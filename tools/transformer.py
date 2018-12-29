@@ -610,13 +610,18 @@ class Transformer:
                     rule['used'] = True
 
                 # Find latest Rule(s) just prior to the begin_year.
-                # TODO: Instead of finding just one, find multiple ones that
-                # occur in the same month since we cannot easily determine which
-                # rule is the most recent given the information we have during
-                # this phase.
-                prior_match = find_most_recent_prior_rule(rules, begin_year)
-                if prior_match:
-                    prior_match['used'] = True
+                prior_rules = find_most_recent_prior_rules(rules, begin_year)
+                for rule in prior_rules:
+                    rule['used'] = True
+                if len(prior_rules) > 1:
+                    # Of the handful that contains multiple Rules in the same
+                    # month, none of them seem to be actually used as the
+                    # 'latest prior Rule', so len(prior_rules) always seems to
+                    # be 0 or 1.
+                    logging.info(
+                        "Zone '%s' uses Policy '%s' which generates "
+                        + "%d latest prior Rules in the same month",
+                        zone_name, policy_name, len(prior_rules))
 
                 begin_year = until_year
 
@@ -895,25 +900,33 @@ def find_matching_rules(rules, era_from, era_until):
     return matches
 
 
-def find_most_recent_prior_rule(rules, year):
-    """Find the most recent prior rule before the given year. For simplicity,
-    assume that no Zone Policy has a set of rules which cause more than one
-    Transition to occur within the same month. TODO: We should probably check
-    for this.
+def find_most_recent_prior_rules(rules, year):
+    """Find the most recent prior rules before the given year. The RULE.atTime
+    field can be a conditional expression such as 'lastSun' or 'Mon>=8', so it's
+    easiest to just compare the (year, month) only. Unfortunately, a handful of
+    Zone Policies have multiple Rules in the same month. From
+    remove_rules_multiple_transitions_in_month():
+        * Egypt (Found '2' transitions in year/month '2010-09')
+        * Palestine (Found '2' transitions in year/month '2011-08')
+        * Spain (Found '2' transitions in year/month '1938-04')
+        * Tunisia (Found '2' transitions in year/month '1943-04')
+
+    So, instead of finding the single latest prior Rule, this method returns
+    all candidate Rules which may be the "latest" prior.
     """
-    candidate = None
+    candidates = []
+    candidate_date = (0, 0) # sentinel date earlier than all real Rules
     for rule in rules:
-        if rule['toYear'] < year:
-            if not candidate:
-                candidate = rule
-                continue
-            if rule['toYear'] > candidate['toYear']:
-                candidate = rule
-                continue
-            if rule['toYear'] == candidate['toYear'] and \
-                    rule['inMonth'] > candidate['inMonth']:
-                candidate = rule
-    return candidate
+        rule_year = rule['toYear']
+        rule_month = rule['inMonth']
+        if rule_year < year:
+            rule_date = (rule_year, rule_month)
+            if rule_date > candidate_date:
+                candidate_date = rule_date
+                candidates = [rule]
+            elif rule_date == candidate_date:
+                candidates.append(rule)
+    return candidates
 
 
 def is_year_short(year):

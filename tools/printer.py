@@ -8,8 +8,6 @@ Cleanses and transforms the 'zones' and 'rules' data so that it can be used to
 generate the code for the static instances ZoneInfo and ZonePolicy classes.
 """
 
-from transformer import find_matching_rules
-from transformer import find_most_recent_prior_rule
 from transformer import short_name
 
 class Printer:
