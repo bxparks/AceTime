@@ -122,6 +122,7 @@ class Transformer:
         rules_map = self.create_rules_with_delta_minute(rules_map)
         rules_map = self.create_rules_with_delta_code(rules_map)
         rules_map = self.create_rules_with_on_day_expansion(rules_map)
+        #rules_map = self.remove_rules_with_border_transitions(rules_map)
         if not self.python:
             rules_map = self.remove_rules_long_dst_letter(rules_map)
 
@@ -709,6 +710,51 @@ class Transformer:
         logging.info(
             'Removed %s rule policies with invalid onDay' %
             len(removed_policies))
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
+        return results
+
+    def remove_rules_with_border_transitions(self, rules_map):
+        """Remove rules where the transition occurs near the border of a year
+        boundary. In other words, in the last 2 or the first 2 days of a year.
+
+        This routine determines if I can optimize zone_agent.py to consider only
+        a one-year interval (instead of a 2-year interval) with just the latest
+        prior Rule of the previous year, and the earliest subsequent Rule of the
+        next year.
+
+        There are 3 such Rules:
+            * Arg (Transition in late year (2007-12-30))
+            * Dhaka (Transition in late year (2009-12-31))
+            * Ghana (Transition in late year (1920-12-31))
+        """
+        results = {}
+        removed_policies = {}
+        for name, rules in rules_map.items():
+            valid = True
+            for rule in rules:
+                from_year = rule['fromYear']
+                to_year = rule['toYear']
+                month = rule['inMonth']
+                on_day_of_week = rule['onDayOfWeek']
+                on_day_of_month = rule['onDayOfMonth']
+                if month == 1 and on_day_of_month in [1, 2]:
+                    valid = False
+                    removed_policies[name] = (
+                        "Transition in early year (%04d-%02d-%02d)" %
+                        (from_year, month, on_day_of_month))
+                    break
+                elif month == 12 and on_day_of_month in [0, 30, 31]:
+                    valid = False
+                    removed_policies[name] = (
+                        "Transition in late year (%04d-%02d-%02d)" %
+                        (from_year, month, on_day_of_month))
+                    break
+            if valid:
+                results[name] = rules
+
+        logging.info("Removed %s rule policies with border Transitions"
+            % len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
