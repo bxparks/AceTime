@@ -159,7 +159,7 @@ class Transformer:
 
     @staticmethod
     def remove_zone_eras_too_old(zones_map):
-        """Remove zone entries which are too old, i.e. before 2000.
+        """Remove zone eras which are too old, i.e. before 2000.
         """
         results = {}
         count = 0
@@ -173,7 +173,7 @@ class Transformer:
             if keep_zones:
                 results[name] = keep_zones
 
-        logging.info("Removed %s zone entries before year 2000" % count)
+        logging.info("Removed %s zone eras before year 2000" % count)
         return results
 
     def print_removed_map(self, removed_map):
@@ -353,9 +353,9 @@ class Transformer:
             * a delta offset like "01:00" to be added to the GMTOFF field
                 (see America/Argentina/San_Luis, Europe/Istanbul for example).
         After this method, the zone['rules'] contains 3 possible values:
-            * '-' no rules
+            * '-' no rules, or
+            * ':' which indicates that 'rulesDeltaMinutes' is defined, or
             * a string reference
-            * ':' which indicates that 'rulesDeltaMinutes' is defined
         """
         results = {}
         removed_zones = {}
@@ -397,7 +397,7 @@ class Transformer:
         return results
 
     def remove_zones_without_rules(self, zones_map, rules_map):
-        """Remove Zone entries whose RULES field contains a reference to
+        """Remove zone eras whose RULES field contains a reference to
         a set of Rules, which cannot be found.
         """
         results = {}
@@ -510,37 +510,37 @@ class Transformer:
     @staticmethod
     def mark_rules_used_by_zones(zones_map, rules_map):
         """Mark all rules which are required by various zones. There are 2 ways
-        that a rule can be used by a zone entry:
-        1) The rule's fromYear and toYear are >= 2000, or
+        that a rule can be used by a zone era:
+        1) The rule's fromYear or toYear are >= 2000, or
         2) The rule is the most recent transition that happened before year
         2000.
         """
-        for name, eras in zones_map.items():
+        for zone_name, eras in zones_map.items():
             begin_year = 2000
             for era in eras:
-                rule_name = era['rules']
-                if rule_name == '-' or rule_name.isdigit():
+                policy_name = era['rules']
+                if policy_name in ['-', ':']:
                     continue
 
-                rule_entries = rules_map.get(rule_name)
-                if not rule_entries:
-                    logging.error(
-                        'Zone name %s: Missing rule: should not happen', name)
-                    continue
+                rules = rules_map.get(policy_name)
+                if not rules:
+                    logging.error("Zone '%s': Could not find policy '%s': "
+                        + "should not happen",
+                        zone_name, policy_name)
+                    sys.exit(1)
 
-                # Some Zone entries have an until_month, until_day and
-                # until_time. To make sure that we include rules which happen to
-                # match the extra fields, let's collect rules which overlap with
-                # [begin_year, until_year + 1).
+                # Some zone eras have an until_month, until_day and until_time.
+                # To make sure that we include rules which happen to match the
+                # extra fields, let's be conservative and collect rules which
+                # overlap with the entire interval [begin_year, until_year + 1).
                 until_year = era['untilYear']
                 matching_rules = find_matching_rules(
-                    rule_entries, begin_year, until_year + 1)
+                    rules, begin_year, until_year + 1)
                 for rule in matching_rules:
                     rule['used'] = True
 
-                # Check if there's a transition rule prior to the first year.
-                prior_match = find_most_recent_prior_rule(
-                        rule_entries, begin_year)
+                # Check if there's a rule prior to the first year.
+                prior_match = find_most_recent_prior_rule(rules, begin_year)
                 if prior_match:
                     prior_match['used'] = True
 
@@ -807,33 +807,34 @@ def short_name(name):
     return short_name
 
 
-def find_matching_rules(rule_entries, from_year, until_year):
-    """Return the entries in rule_entries which overlap with the interval
-    [from_year, until_year) inclusive to exclusive.
+def find_matching_rules(rules, from_year, until_year):
+    """Return the rules which overlap with the interval [from_year, until_year).
     """
-    rules = []
-    for rule_entry in rule_entries:
-        if rule_entry['fromYear'] <= until_year - 1 and \
-                from_year <= rule_entry['toYear']:
-            rules.append(rule_entry)
-    return rules
+    matches = []
+    for rule in rules:
+        if rule['fromYear'] < until_year and from_year <= rule['toYear']:
+            matches.append(rule)
+    return matches
 
 
-def find_most_recent_prior_rule(rule_entries, year):
-    """Find the most recent prior rule before the given year.
+def find_most_recent_prior_rule(rules, year):
+    """Find the most recent prior rule before the given year. For simplicity,
+    assume that no Zone Policy has a set of rules which cause more than one
+    Transition to occur within the same month. TODO: We should probably check
+    for this.
     """
     candidate = None
-    for rule_entry in rule_entries:
-        if rule_entry['toYear'] < year:
+    for rule in rules:
+        if rule['toYear'] < year:
             if not candidate:
-                candidate = rule_entry
+                candidate = rule
                 continue
-            if rule_entry['toYear'] > candidate['toYear']:
-                candidate = rule_entry
+            if rule['toYear'] > candidate['toYear']:
+                candidate = rule
                 continue
-            if rule_entry['toYear'] == candidate['toYear'] and \
-                    rule_entry['inMonth'] > candidate['inMonth']:
-                candidate = rule_entry
+            if rule['toYear'] == candidate['toYear'] and \
+                    rule['inMonth'] > candidate['inMonth']:
+                candidate = rule
     return candidate
 
 
