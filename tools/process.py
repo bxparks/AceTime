@@ -44,6 +44,11 @@ def main():
         default=False)
 
     # Transformer
+    parser.add_argument(
+        '--start_year',
+        help='Print list of rules',
+        type=int,
+        default=2000)
 
     # Printer
     parser.add_argument(
@@ -108,7 +113,7 @@ def main():
         extractor.print_summary()
 
     # Transform the TZ zones and rules
-    transformer = Transformer(zones, rules, args.python)
+    transformer = Transformer(zones, rules, args.python, args.start_year)
     transformer.transform()
     (zones, rules, removed_zones, removed_policies) = transformer.get_data()
 

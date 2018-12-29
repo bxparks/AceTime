@@ -14,10 +14,18 @@ import datetime
 
 class Transformer:
 
-    def __init__(self, zones_map, rules_map, python):
+    def __init__(self, zones_map, rules_map, python, start_year):
+        """
+        Arguments:
+            zones_map: map of Zone names to Eras
+            rules_map: map of Policy names to Rules
+            python: generate zonedb for Python
+            start_year: include only years on or after start_year
+        """
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.python = python
+        self.start_year = start_year
         self.all_removed_zones = {} # map of zone name -> reason
         self.all_removed_policies = {} # map of policy name -> reason
 
@@ -53,7 +61,7 @@ class Transformer:
         is another map with the following fields:
 
             fromYear: (int) from year
-            toYear: (int) to year, 2000 to 9999=max
+            toYear: (int) to year, 1 to 9999=max
             inMonth: (int) month index (1-12)
             onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
             atTime: (string) hour at which to transition to and from DST
@@ -162,23 +170,23 @@ class Transformer:
         self.all_removed_zones.update(removed_zones)
         return results
 
-    @staticmethod
-    def remove_zone_eras_too_old(zones_map):
-        """Remove zone eras which are too old, i.e. before 2000.
+    def remove_zone_eras_too_old(self, zones_map):
+        """Remove zone eras which are too old, i.e. before self.start_year.
         """
         results = {}
         count = 0
         for name, zones in zones_map.items():
             keep_zones = []
             for zone in zones:
-                if zone['untilYear'] >= 2000:
+                if zone['untilYear'] >= self.start_year:
                     keep_zones.append(zone)
                 else:
                     count += 1
             if keep_zones:
                 results[name] = keep_zones
 
-        logging.info("Removed %s zone eras before year 2000" % count)
+        logging.info("Removed %s zone eras before year %04d",
+            count, self.start_year)
         return results
 
     def print_removed_map(self, removed_map):
@@ -566,16 +574,15 @@ class Transformer:
         self.all_removed_policies.update(removed_policies)
         return results
 
-    @staticmethod
-    def mark_rules_used_by_zones(zones_map, rules_map):
+    def mark_rules_used_by_zones(self, zones_map, rules_map):
         """Mark all rules which are required by various zones. There are 2 ways
         that a rule can be used by a zone era:
-        1) The rule's fromYear or toYear are >= 2000, or
-        2) The rule is the most recent transition that happened before year
-        2000.
+            1) The rule's fromYear or toYear are >= self.start_year, or
+            2) The rule is the most recent transition that happened before
+            self.start_year.
         """
         for zone_name, eras in zones_map.items():
-            begin_year = 2000
+            begin_year = self.start_year
             for era in eras:
                 policy_name = era['rules']
                 if policy_name in ['-', ':']:
@@ -617,7 +624,7 @@ class Transformer:
         mark_rules_used_by_zones() method. It is expected that all remaining
         RULE entries have FROM and TO fields which is greater than 1872 (the
         earliest year which can be represented by an int8_t toYearShort field,
-        2000 - 128).
+        2000-128=1872). See also remove_rules_out_of_bounds().
         """
         results = {}
         removed_rule_count = 0
