@@ -11,7 +11,7 @@ using namespace ace_time::common;
 // LocalDate
 // --------------------------------------------------------------------------
 
-test(LocalDate, accessors) {
+test(LocalDateTest, accessors) {
   LocalDate ld = LocalDate::forComponents(2001, 2, 3);
   assertEqual((int16_t) 2001, ld.year());
   assertEqual(2, ld.month());
@@ -21,7 +21,7 @@ test(LocalDate, accessors) {
 // Verify that toEpochDays()/forEpochDays() and
 // toEpochSeconds()/forEpochSeconds() support round trip conversions when when
 // isError()==true.
-test(LocalDate, setError) {
+test(LocalDateTest, setError) {
   LocalDate ld;
 
   ld = LocalDate().setError();
@@ -36,7 +36,7 @@ test(LocalDate, setError) {
   assertTrue(ld.isError());
 }
 
-test(LocalDate, dayOfWeek) {
+test(LocalDateTest, dayOfWeek) {
   // year 1900 (not leap year due to every 100 rule)
   assertEqual(LocalDate::kWednesday,
       LocalDate::forComponents(1900, 2, 28).dayOfWeek());
@@ -131,7 +131,7 @@ test(LocalDate, dayOfWeek) {
       LocalDate::forComponents(2100, 3, 1).dayOfWeek());
 }
 
-test(LocalDate, toAndFromEpochDays) {
+test(LocalDateTest, toAndFromEpochDays) {
   LocalDate ld;
 
   // Smallest LocalDate in an 8-bit implementation
@@ -173,7 +173,7 @@ test(LocalDate, toAndFromEpochDays) {
 }
 
 // Same as toAndFromEpochDays, shifted 30 years
-test(LocalDate, toAndFromUnixDays) {
+test(LocalDateTest, toAndFromUnixDays) {
   LocalDate ld;
 
   // Smallest LocalDate in an 8-bit implementation
@@ -211,7 +211,7 @@ test(LocalDate, toAndFromUnixDays) {
   assertTrue(ld == LocalDate::forUnixDays(57707));
 }
 
-test(LocalDate, toAndFromEpochSeconds) {
+test(LocalDateTest, toAndFromEpochSeconds) {
   LocalDate ld;
 
   // The smallest whole day that can be represented with an int32_t from
@@ -246,7 +246,7 @@ test(LocalDate, toAndFromEpochSeconds) {
       (acetime_t) 24855 * 86400 + 11646));
 }
 
-test(LocalDate, toAndFromUnixSeconds) {
+test(LocalDateTest, toAndFromUnixSeconds) {
   LocalDate ld;
 
   // The smallest whole day that can be represented with an int32_t from AceTime
@@ -275,7 +275,7 @@ test(LocalDate, toAndFromUnixSeconds) {
   assertTrue(ld == LocalDate::forUnixSeconds((acetime_t) (INT32_MAX - 1)));
 }
 
-test(LocalDate, compareTo) {
+test(LocalDateTest, compareTo) {
   LocalDate a, b;
 
   a = LocalDate::forComponents(2000, 1, 1);
@@ -303,7 +303,7 @@ test(LocalDate, compareTo) {
   assertTrue(a != b);
 }
 
-test(LocalDate, forDateString) {
+test(LocalDateTest, forDateString) {
   LocalDate ld;
   ld = LocalDate::forDateString("2000-01-01");
   assertTrue(ld == LocalDate::forComponents(2000, 1, 1));
@@ -315,12 +315,12 @@ test(LocalDate, forDateString) {
   assertTrue(ld == LocalDate::forComponents(2127, 12, 31));
 }
 
-test(LocalDate, forDateString_invalid) {
+test(LocalDateTest, forDateString_invalid) {
   LocalDate ld = LocalDate::forDateString("2000-01");
   assertTrue(ld.isError());
 }
 
-test(LocalDate, isLeapYear) {
+test(LocalDateTest, isLeapYear) {
   assertFalse(LocalDate::isLeapYear(1900));
   assertTrue(LocalDate::isLeapYear(2000));
   assertFalse(LocalDate::isLeapYear(2001));
@@ -328,7 +328,7 @@ test(LocalDate, isLeapYear) {
   assertFalse(LocalDate::isLeapYear(2100));
 }
 
-test(LocalDate, daysInMonth) {
+test(LocalDateTest, daysInMonth) {
   assertEqual(31, LocalDate::daysInMonth(2000, 1));
   assertEqual(29, LocalDate::daysInMonth(2000, 2));
   assertEqual(31, LocalDate::daysInMonth(2000, 3));
@@ -347,7 +347,7 @@ test(LocalDate, daysInMonth) {
   assertEqual(28, LocalDate::daysInMonth(2100, 2));
 }
 
-test(LocalDate, incrementYear) {
+test(LocalDateTest, incrementYear) {
   LocalDate ld = LocalDate::forComponents(2000, 1, 1);
   ld.incrementYear();
   assertEqual((int16_t) 2001, ld.year());
@@ -357,7 +357,7 @@ test(LocalDate, incrementYear) {
   assertEqual((int16_t) 2000, ld.year());
 }
 
-test(LocalDate, incrementMonth) {
+test(LocalDateTest, incrementMonth) {
   LocalDate ld = LocalDate::forComponents(2000, 1, 1);
   ld.incrementMonth();
   assertEqual(2, ld.month());
@@ -367,7 +367,7 @@ test(LocalDate, incrementMonth) {
   assertEqual(1, ld.month());
 }
 
-test(LocalDate, incrementDay) {
+test(LocalDateTest, incrementDay) {
   LocalDate ld = LocalDate::forComponents(2000, 1, 1);
   ld.incrementDay();
   assertEqual(2, ld.day());
@@ -381,14 +381,14 @@ test(LocalDate, incrementDay) {
 // LocalTime
 // --------------------------------------------------------------------------
 
-test(LocalTime, accessors) {
+test(LocalTimeTest, accessors) {
   LocalTime lt = LocalTime::forComponents(1, 2, 3);
   assertEqual(1, lt.hour());
   assertEqual(2, lt.minute());
   assertEqual(3, lt.second());
 }
 
-test(LocalTime, setError) {
+test(LocalTimeTest, setError) {
   LocalTime lt = LocalTime().setError();
   assertTrue(lt.isError());
   assertEqual(LocalTime::kInvalidSeconds, lt.toSeconds());
@@ -397,7 +397,7 @@ test(LocalTime, setError) {
   assertTrue(lt.isError());
 }
 
-test(LocalTime, toAndFromSeconds) {
+test(LocalTimeTest, toAndFromSeconds) {
   LocalTime lt;
 
   lt = LocalTime::forSeconds(0);
@@ -413,7 +413,7 @@ test(LocalTime, toAndFromSeconds) {
   assertEqual((acetime_t) 86399, lt.toSeconds());
 }
 
-test(LocalTime, compareTo) {
+test(LocalTimeTest, compareTo) {
   LocalTime a, b;
 
   a = LocalTime::forComponents(0, 1, 1);
@@ -441,7 +441,7 @@ test(LocalTime, compareTo) {
   assertTrue(a != b);
 }
 
-test(LocalTime, forTimeString) {
+test(LocalTimeTest, forTimeString) {
   LocalTime lt;
   lt = LocalTime::forTimeString("00:00:00");
   assertTrue(lt == LocalTime::forComponents(0, 0, 0));
@@ -450,12 +450,12 @@ test(LocalTime, forTimeString) {
   assertTrue(lt == LocalTime::forComponents(1, 2, 3));
 }
 
-test(LocalTime, fortimeString_invalid) {
+test(LocalTimeTest, fortimeString_invalid) {
   LocalTime lt = LocalTime::forTimeString("01:02");
   assertTrue(lt.isError());
 }
 
-test(LocalTime, incrementHour) {
+test(LocalTimeTest, incrementHour) {
   LocalTime lt = LocalTime::forComponents(0, 0, 0);
   lt.incrementHour();
   assertEqual(1, lt.hour());
@@ -465,7 +465,7 @@ test(LocalTime, incrementHour) {
   assertEqual(0, lt.hour());
 }
 
-test(LocalTime, incrementMinute) {
+test(LocalTimeTest, incrementMinute) {
   LocalTime lt = LocalTime::forComponents(0, 0, 0);
   lt.incrementMinute();
   assertEqual(1, lt.minute());
