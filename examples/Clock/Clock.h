@@ -53,7 +53,7 @@ class Clock {
       }
 
       // Retrieve current time from TimeKeeper.
-      uint32_t nowSeconds = mTimeKeeper.getNow();
+      acetime_t nowSeconds = mTimeKeeper.getNow();
 
       // Set the current date time using the mTimeZone.
       mCurrentDateTime = DateTime::forEpochSeconds(

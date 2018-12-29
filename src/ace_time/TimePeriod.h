@@ -95,7 +95,7 @@ class TimePeriod {
      * minute=255, second=255).
      */
     int32_t toSeconds() const {
-      int32_t seconds = ((mHour * (uint16_t) 60) + mMinute) * (uint32_t) 60
+      int32_t seconds = ((mHour * (int16_t) 60) + mMinute) * (int32_t) 60
           + mSecond;
       return (mSign >= 0) ? seconds : -seconds;
     }

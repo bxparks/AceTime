@@ -26,8 +26,8 @@ const uint32_t COUNT = 100000;
 // years, from 2018 to 2023.
 uint32_t const DELTA_SECONDS = (uint32_t) 15 * 365.25 * 86400 / COUNT;
 
-uint32_t const START_SECONDS = 568080000; // 2018-01-01
-uint32_t const START_SECONDS_UNIX = 1514764800; // 2018-01-01
+acetime_t const START_SECONDS = 568080000; // 2018-01-01
+acetime_t const START_SECONDS_UNIX = 1514764800; // 2018-01-01
   
 const char TOP[] = 
   "----------------------------+---------+";
@@ -49,7 +49,7 @@ const char ENDING[] = " |";
 // variable is used to ensure user-visible side-effects, preventing the compiler
 // optimization.
 uint8_t guard;
-void disableOptimization(uint32_t seconds) {
+void disableOptimization(acetime_t seconds) {
   guard ^= (seconds >> 24) & 0xff;
   guard ^= (seconds >> 16) & 0xff;
   guard ^= (seconds >> 8) & 0xff;
@@ -59,12 +59,12 @@ void disableOptimization(uint32_t seconds) {
 // A small helper that runs the given lamba expression in a loop
 // and returns how long it took.
 template <typename F>
-unsigned long runBenchmark(uint32_t startSeconds, F&& lambda) {
+unsigned long runBenchmark(acetime_t startSeconds, F&& lambda) {
   unsigned long startMillis = millis();
   uint32_t count = COUNT;
   yield();
   while (count-- > 0) {
-    uint32_t unixSeconds = lambda(startSeconds);
+    acetime_t unixSeconds = lambda(startSeconds);
     disableOptimization(unixSeconds);
     startSeconds += DELTA_SECONDS;
   }
@@ -102,7 +102,7 @@ void runBenchmarks() {
   unsigned long elapsedMillis;
 
   // empty loop
-  unsigned long baseMillis = runBenchmark(START_SECONDS, [](uint32_t seconds) {
+  unsigned long baseMillis = runBenchmark(START_SECONDS, [](acetime_t seconds) {
     return seconds;
   });
   Serial.print(EMPTY_LOOP_LABEL);
@@ -110,9 +110,9 @@ void runBenchmarks() {
   Serial.println(ENDING);
 
   // AceTime library
-  elapsedMillis = runBenchmark(START_SECONDS, [](uint32_t seconds) {
+  elapsedMillis = runBenchmark(START_SECONDS, [](acetime_t seconds) {
     DateTime dt = DateTime::forEpochSeconds(seconds);
-    uint32_t roundTripSeconds = dt.toEpochSeconds();
+    acetime_t roundTripSeconds = dt.toEpochSeconds();
     return roundTripSeconds;
   });
   Serial.print(ACE_TIME_LABEL);
@@ -120,7 +120,7 @@ void runBenchmarks() {
   Serial.println(ENDING);
 
   // Time library
-  elapsedMillis = runBenchmark(START_SECONDS_UNIX, [](uint32_t seconds) {
+  elapsedMillis = runBenchmark(START_SECONDS_UNIX, [](acetime_t seconds) {
     tmElements_t tm;
     breakTime((time_t) seconds, tm);
     return makeTime(tm);

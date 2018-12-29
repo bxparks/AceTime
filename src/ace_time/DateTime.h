@@ -13,13 +13,16 @@ namespace ace_time {
 
 /**
  * The date (year, month, day) and time (hour, minute, second) fields
- * representing an instant in time. The year field is internally represented as
- * a int8_t number from -128 to 127 representing the year 1872 to 2127. The
- * "epoch" for this library is 2000-01-01 00:00:00Z. If the year is restricted
- * to 0 to 99, the DateTime components map directly to the fields supported by
- * the DS3231 RTC chip. The dayOfWeek (1=Sunday, 7=Saturday) is calculated
- * internally from the date components. Changing the timeZone does not affect
- * the dayOfWeek.
+ * representing an instant in time. In an 8-bit implementation, the year field
+ * is internally represented as a int8_t number from -128 to 127 representing
+ * the year 1872 to 2127 inclusive. In a 16-bit implementation, the year field
+ * is an int16_t, so can represent years from 0000-9999 inclusive.
+ *
+ * The "epoch" for this library is 2000-01-01 00:00:00Z. If the year is
+ * restricted to 0 to 99, the DateTime components map directly to the fields
+ * supported by the DS3231 RTC chip. The dayOfWeek (1=Sunday, 7=Saturday) is
+ * calculated internally from the date components. Changing the timeZone does
+ * not affect the dayOfWeek.
  *
  * The incrementXxx() methods are convenience methods to allow the user to
  * change the date and time using just two buttons. The user is expected to
@@ -31,8 +34,7 @@ namespace ace_time {
  */
 class DateTime {
   public:
-    static const uint32_t kInvalidEpochSeconds =
-        OffsetDateTime::kInvalidEpochSeconds;
+    static const acetime_t kInvalidEpochSeconds = LocalTime::kInvalidSeconds;
 
     /**
      * Factory method using separated date, time, and time zone fields.
@@ -62,7 +64,8 @@ class DateTime {
      * method will interpret the 02:01 as if it was measured using the Standard
      * time offset.
      *
-     * @param year
+     * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
+     *    16-bit implementation
      * @param month month with January=1, December=12
      * @param day day of month (1-31)
      * @param hour hour (0-23)
@@ -81,7 +84,7 @@ class DateTime {
         return DateTime(odt, timeZone);
       } else {
         // First guess at the UtcOffset using Jan 1 of the given year.
-        uint32_t initialEpochSeconds =
+        acetime_t initialEpochSeconds =
             LocalDate::forComponents(year, 1, 1).toEpochSeconds();
         UtcOffset initialUtcOffset =
             timeZone.getUtcOffset(initialEpochSeconds);
@@ -89,7 +92,7 @@ class DateTime {
         // Second guess at the UtcOffset using the first UtcOffset.
         OffsetDateTime odt = OffsetDateTime::forComponents(
             year, month, day, hour, minute, second, initialUtcOffset);
-        uint32_t epochSeconds = odt.toEpochSeconds();
+        acetime_t epochSeconds = odt.toEpochSeconds();
         UtcOffset actualUtcOffset = timeZone.getUtcOffset(epochSeconds);
 
         odt = OffsetDateTime::forComponents(
@@ -111,18 +114,30 @@ class DateTime {
      *    is considered to be an error and causes isError() to return true.
      * @param timeZone Optional, not nullable. Default is UTC TimeZone.
      */
-    static DateTime forEpochSeconds(uint32_t epochSeconds,
+    static DateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone = TimeZone()) {
       DateTime dt;
-      if (epochSeconds == kInvalidEpochSeconds) {
-        return dt.setError();
-      }
+      if (epochSeconds == kInvalidEpochSeconds) return dt.setError();
 
       UtcOffset utcOffset = timeZone.getUtcOffset(epochSeconds);
       dt.mOffsetDateTime = OffsetDateTime::forEpochSeconds(
           epochSeconds, utcOffset);
       dt.mTimeZone = timeZone;
       return dt;
+    }
+
+    /**
+     * Factory method to create a DateTime using the number of seconds from
+     * Unix epoch.
+     */
+    static DateTime forUnixSeconds(acetime_t unixSeconds,
+        const TimeZone& timeZone = TimeZone()) {
+      if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
+        return forEpochSeconds(unixSeconds, timeZone);
+      } else {
+        return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch,
+            timeZone);
+      }
     }
 
     /**
@@ -232,7 +247,7 @@ class DateTime {
      * Create a DateTime in a different time zone (with the same epochSeconds).
      */
     DateTime convertToTimeZone(const TimeZone& timeZone) const {
-      uint32_t epochSeconds = toEpochSeconds();
+      acetime_t epochSeconds = toEpochSeconds();
       return DateTime::forEpochSeconds(epochSeconds, timeZone);
     }
 
@@ -261,36 +276,36 @@ class DateTime {
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
      * taking into account the time zone.
      */
-    uint32_t toEpochDays() const {
+    acetime_t toEpochDays() const {
       return mOffsetDateTime.toEpochDays();
+    }
+
+    /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
+    acetime_t toUnixDays() const {
+      if (isError()) return LocalDate::kInvalidEpochDays;
+      return toEpochDays() + LocalDate::kDaysSinceUnixEpoch;
     }
 
     /**
      * Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into
-     * account the time zone. The return type is an unsigned 32-bit integer,
-     * which can represent a range of 136 years. Since the year is stored as a 2
-     * digit offset from the year 2000, the return type will be valid for all
-     * DateTime values which can be stored in this class.
+     * account the time zone.
      *
      * Normally, Julian day starts at 12:00:00. We modify the formula given in
      * wiki page to start the Gregorian day at 00:00:00.
-     *
      * See https://en.wikipedia.org/wiki/Julian_day
      */
-    uint32_t toEpochSeconds() const {
+    acetime_t toEpochSeconds() const {
       return mOffsetDateTime.toEpochSeconds();
     }
 
     /**
      * Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z. The
-     * return type is a uint32_t which can represent a range of 136 years. Since
-     * the year is stored as a 2 digit year (from 2000), this method will return
-     * a valid result for all dates which can be stored by this class.
+     * return type is a acetime_t which can represent a range of 136 years.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * print the unix seconds.
      */
-    uint32_t toUnixSeconds() const {
+    acetime_t toUnixSeconds() const {
       return mOffsetDateTime.toUnixSeconds();
     }
 

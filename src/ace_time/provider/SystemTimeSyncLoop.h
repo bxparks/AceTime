@@ -42,11 +42,11 @@ class SystemTimeSyncLoop {
       if (mSystemTimeKeeper.mSyncTimeProvider == nullptr) return;
 
       unsigned long nowMillis = millis();
-      uint32_t timeSinceLastSync = nowMillis - mLastSyncMillis;
+      unsigned long timeSinceLastSync = nowMillis - mLastSyncMillis;
 
-      if (timeSinceLastSync >= mCurrentSyncPeriodSeconds * (uint32_t) 1000
+      if (timeSinceLastSync >= mCurrentSyncPeriodSeconds * 1000UL
           || mSystemTimeKeeper.getNow() == 0) {
-        uint32_t nowSeconds = mSystemTimeKeeper.mSyncTimeProvider->getNow();
+        acetime_t nowSeconds = mSystemTimeKeeper.mSyncTimeProvider->getNow();
 
         if (nowSeconds == 0) {
           // retry with exponential backoff

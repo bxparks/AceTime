@@ -63,16 +63,16 @@ test(ZoneAgentTest, init_primitives) {
   assertEqual(10, manager.mMatches[1].rule->inMonth);
 
   manager.calcTransitions();
-  assertEqual((uint32_t) 0, manager.mPreviousMatch.startEpochSeconds);
+  assertEqual((acetime_t) 0, manager.mPreviousMatch.startEpochSeconds);
   assertEqual(-32, manager.mPreviousMatch.offsetCode);
 
   // t >= 2001-04-01 02:00 UTC-08:00 Sunday goes to PDT
   assertEqual(-28, manager.mMatches[0].offsetCode);
-  assertEqual((uint32_t) 39434400, manager.mMatches[0].startEpochSeconds);
+  assertEqual((acetime_t) 39434400, manager.mMatches[0].startEpochSeconds);
 
   // t >= 2001-10-28 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-32, manager.mMatches[1].offsetCode);
-  assertEqual((uint32_t) 57574800, manager.mMatches[1].startEpochSeconds);
+  assertEqual((acetime_t) 57574800, manager.mMatches[1].startEpochSeconds);
 }
 
 test(ZoneAgentTest, init) {
@@ -100,16 +100,16 @@ test(ZoneAgentTest, init) {
   assertEqual(ZoneRule::kMaxYear, manager.mMatches[1].rule->toYear);
   assertEqual(11, manager.mMatches[1].rule->inMonth);
 
-  assertEqual((uint32_t) 0, manager.mPreviousMatch.startEpochSeconds);
+  assertEqual((acetime_t) 0, manager.mPreviousMatch.startEpochSeconds);
   assertEqual(-32, manager.mPreviousMatch.offsetCode);
 
   // t >= 2018-03-11 02:00 UTC-08:00 Sunday goes to PDT
   assertEqual(-28, manager.mMatches[0].offsetCode);
-  assertEqual((uint32_t) 574077600, manager.mMatches[0].startEpochSeconds);
+  assertEqual((acetime_t) 574077600, manager.mMatches[0].startEpochSeconds);
 
   // t >= 2018-11-04 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-32, manager.mMatches[1].offsetCode);
-  assertEqual((uint32_t) 594637200, manager.mMatches[1].startEpochSeconds);
+  assertEqual((acetime_t) 594637200, manager.mMatches[1].startEpochSeconds);
 }
 
 // zoneInfo == nullptr means UTC
@@ -123,7 +123,7 @@ test(ZoneAgentTest, nullptr) {
 test(ZoneAgentTest, copyConstructorAssignmentOperator) {
   OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       UtcOffset::forHour(-8));
-  uint32_t epochSeconds = dt.toEpochSeconds();
+  acetime_t epochSeconds = dt.toEpochSeconds();
 
   ZoneAgent m1(nullptr);
   assertEqual(0, m1.getUtcOffset(0).toOffsetCode());
@@ -142,7 +142,7 @@ test(ZoneAgentTest, copyConstructorAssignmentOperator) {
 test(ZoneAgentTest, kZoneLos_Angeles) {
   ZoneAgent manager(&zonedb::kZoneLos_Angeles);
   OffsetDateTime dt;
-  uint32_t epochSeconds;
+  acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       UtcOffset::forHour(-8));
@@ -184,7 +184,7 @@ test(ZoneAgentTest, kZoneLos_Angeles) {
 test(ZoneAgentTest, kZoneSydney) {
   ZoneAgent manager(&zonedb::kZoneSydney);
   OffsetDateTime dt;
-  uint32_t epochSeconds;
+  acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2007, 3, 25, 2, 59, 59,
       UtcOffset::forHour(11));
@@ -220,7 +220,7 @@ test(ZoneAgentTest, kZoneSydney) {
 test(ZoneAgentTest, kZoneJohannesburg) {
   ZoneAgent manager(&zonedb::kZoneJohannesburg);
   OffsetDateTime dt;
-  uint32_t epochSeconds;
+  acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
       UtcOffset::forHour(2));
@@ -236,7 +236,7 @@ test(ZoneAgentTest, kZoneJohannesburg) {
 test(ZoneAgentTest, kZoneDarwin) {
   ZoneAgent manager(&zonedb::kZoneDarwin);
   OffsetDateTime dt;
-  uint32_t epochSeconds;
+  acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
       UtcOffset::forHourMinute(1, 9, 30));
@@ -276,7 +276,7 @@ test(ZoneAgentTest, createAbbreviation) {
 // TimeZone
 // --------------------------------------------------------------------------
 
-test(TimeZone, assignmentOperator) {
+test(TimeZoneTest, assignmentOperator) {
   ZoneAgent agent(&zonedb::kZoneLos_Angeles);
   TimeZone a = TimeZone::forUtcOffset(
       UtcOffset::forHour(-8), false, "PST", "PDT");
@@ -290,7 +290,7 @@ test(TimeZone, assignmentOperator) {
 // Manual TimeZone
 // --------------------------------------------------------------------------
 
-test(TimeZone_Manual, operatorEqualEqual) {
+test(TimeZoneTest_Manual, operatorEqualEqual) {
   TimeZone a = TimeZone::forUtcOffset(
       UtcOffset::forHour(-8), false, "PST", "PDT");
   TimeZone b = TimeZone::forUtcOffset(
@@ -310,14 +310,14 @@ test(TimeZone_Manual, operatorEqualEqual) {
   assertTrue(a != b);
 }
 
-test(TimeZone_Manual, copyConstructor) {
+test(TimeZoneTest_Manual, copyConstructor) {
   TimeZone a = TimeZone::forUtcOffset(
       UtcOffset::forHour(-8), false, "PST", "PDT");
   TimeZone b(a);
   assertTrue(a == b);
 }
 
-test(TimeZone_Manual, default) {
+test(TimeZoneTest_Manual, default) {
   const TimeZone tz;
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(0, tz.utcOffset().toOffsetCode());
@@ -329,7 +329,7 @@ test(TimeZone_Manual, default) {
   assertFalse(tz.getDst(0));
 }
 
-test(TimeZone_Manual, forUtcOffset) {
+test(TimeZoneTest_Manual, forUtcOffset) {
   TimeZone tz = TimeZone::forUtcOffset(
       UtcOffset::forHour(-8), false, "PST", "PDT");
   assertEqual(TimeZone::kTypeManual, tz.getType());
@@ -352,7 +352,7 @@ test(TimeZone_Manual, forUtcOffset) {
 // Auto TimeZone
 // --------------------------------------------------------------------------
 
-test(TimeZone_Auto, operatorEqualEqual) {
+test(TimeZoneTest_Auto, operatorEqualEqual) {
   ZoneAgent agentLA(&zonedb::kZoneLos_Angeles);
   ZoneAgent agentNY(&zonedb::kZoneNew_York);
   TimeZone a = TimeZone::forZone(&agentLA);
@@ -361,14 +361,14 @@ test(TimeZone_Auto, operatorEqualEqual) {
   assertTrue(a != b);
 }
 
-test(TimeZone_Auto, copyConstructor) {
+test(TimeZoneTest_Auto, copyConstructor) {
   ZoneAgent zoneAgent(&zonedb::kZoneLos_Angeles);
   TimeZone a = TimeZone::forZone(&zoneAgent);
   TimeZone b(a);
   assertTrue(a == b);
 }
 
-test(TimeZone_Auto, nullptr) {
+test(TimeZoneTest_Auto, nullptr) {
   TimeZone tz = TimeZone::forZone(nullptr);
   assertEqual(TimeZone::kTypeAuto, tz.getType());
   assertEqual(0, tz.getUtcOffset(0).toOffsetCode());
@@ -376,11 +376,11 @@ test(TimeZone_Auto, nullptr) {
   assertFalse(tz.getDst(0));
 }
 
-test(TimeZone_Auto, LosAngeles) {
+test(TimeZoneTest_Auto, LosAngeles) {
   ZoneAgent agent(&zonedb::kZoneLos_Angeles);
 
   OffsetDateTime dt;
-  uint32_t epochSeconds;
+  acetime_t epochSeconds;
 
   TimeZone tz = TimeZone::forZone(&agent);
   assertEqual(TimeZone::kTypeAuto, tz.getType());

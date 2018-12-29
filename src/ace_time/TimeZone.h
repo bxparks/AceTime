@@ -102,7 +102,7 @@ class TimeZone {
     uint8_t getType() const { return mType; }
 
     /** Return the effective zone offset. */
-    UtcOffset getUtcOffset(uint32_t epochSeconds) const {
+    UtcOffset getUtcOffset(acetime_t epochSeconds) const {
       if (mType == kTypeAuto) {
         return mAuto.zoneAgent == nullptr
             ? UtcOffset()
@@ -114,7 +114,7 @@ class TimeZone {
     }
 
     /** Return true if the time zone observes DST at epochSeconds. */
-    bool getDst(uint32_t epochSeconds) const {
+    bool getDst(acetime_t epochSeconds) const {
       if (mType == kTypeAuto) {
         return mAuto.zoneAgent == nullptr
             ? false
@@ -125,7 +125,7 @@ class TimeZone {
     }
 
     /** Return the abbreviation of the time zone. */
-    const char* getAbbrev(uint32_t epochSeconds) const {
+    const char* getAbbrev(acetime_t epochSeconds) const {
       if (mType == kTypeAuto) {
         return mAuto.zoneAgent == nullptr
             ? "" // TODO: Should this be "UTC"?

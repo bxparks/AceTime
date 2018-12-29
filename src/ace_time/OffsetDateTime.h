@@ -20,11 +20,9 @@ namespace ace_time {
  * 2000, so in theory it is valid from [1872, 2127]. If the year is restricted
  * to the range 00-99, these fields map directly to the fields supported by the
  * DS3231 RTC chip. The "epoch" for this library is 2000-01-01T00:00:00Z and
- * toEpochSeconds() returns a uint32_t number of seconds offset from that
- * epoch. The largest possible uint32_t value is UINT32_MAX which corresponds
- * to 2136-02-07T06:28:15Z. However, this value is used by kInvalidEpochSeconds
- * to indicate an invalid value. Therefore, the largest fully representable
- * value of this class is one second before that, i.e. 2136-02-07T06:28:14Z.
+ * toEpochSeconds() returns a int32_t number of seconds offset from that
+ * epoch. The largest possible int32_t value is INT32_MAX, but this value is
+ * used by kInvalidEpochSeconds to indicate an invalid value.
  *
  * The incrementXxx() methods are convenience methods to allow the user to
  * change the date and time using just two buttons. The user is expected to
@@ -38,30 +36,10 @@ namespace ace_time {
 class OffsetDateTime {
   public:
     /**
-     * An invalid epochSeconds used by toEpochSeconds() and forEpochSeconds()
-     * to indicate an invalid instance. This means that the largest possible
-     * value that can be fully represented by this class is
-     * 2136-02-07T06:28:14Z, not the theorectical maximum of
-     * 2136-02-07T06:28:15Z.
-     */
-    static const uint32_t kInvalidEpochSeconds = UINT32_MAX;
-
-    /** Invalid epochDays returned by epochDays() when isError() is true. */
-    static const uint32_t kInvalidEpochDays = UINT32_MAX;
-
-    /**
-     * Number of seconds from Unix epoch (1970-01-01 00:00:00Z) to
-     * the AceTime epoch (2000-01-01 00:00:00Z).
-     */
-    static const uint32_t kSecondsSinceUnixEpoch = 946684800;
-
-    /**
      * Factory method using separated date, time, and time zone fields.
      *
-     * The largest date that can be fully supported by this class is
-     * 2136-02-07T06:28:14Z (one second before the uint32_t overflow).
-     *
-     * @param year year
+     * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
+     *    16-bit implementation
      * @param month month with January=1, December=12
      * @param day day of month (1-31)
      * @param hour hour (0-23)
@@ -82,14 +60,6 @@ class OffsetDateTime {
      * Factory method. Create the various components of the OffsetDateTime from
      * the epochSeconds and its UtcOffset.
      *
-     * The largest date that can be fully supported by this class is
-     * 2136-02-07T06:28:14Z (one second before the uint32_t overflow).
-     *
-     * If UtcOffset.offsetCode() is negative, then (epochSeconds >=
-     * UtcOffset::toSeconds() must be true. Otherwise, the local time will be
-     * in the year 1999, which cannot be represented by the internal year
-     * component which is a uint8_t offset from the year 2000.
-     *
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00). Use kInvalidEpochSeconds to define an
      *    invalid instance whose isError() returns true.
@@ -97,23 +67,43 @@ class OffsetDateTime {
      *
      * See https://en.wikipedia.org/wiki/Julian_day.
      */
-    static OffsetDateTime forEpochSeconds(uint32_t epochSeconds,
+    static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
           UtcOffset utcOffset = UtcOffset()) {
       OffsetDateTime dt;
-      if (epochSeconds == kInvalidEpochSeconds) {
-        return dt.setError();
-      }
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return dt.setError();
 
+      // Get the real epochSeconds
       dt.mUtcOffset = utcOffset;
-
       epochSeconds += utcOffset.toSeconds();
-      uint32_t epochDays = epochSeconds / 86400;
-      dt.mLocalDate = LocalDate::forEpochDays(epochDays);
 
-      uint32_t seconds = epochSeconds % 86400;
+      // Integer floor-division towards -infinity
+      acetime_t days = (epochSeconds < 0)
+          ? (epochSeconds + 1) / 86400 - 1
+          : epochSeconds / 86400;
+
+      // Avoid % operator, because it's slow on an 8-bit process and because
+      // epochSeconds could be negative.
+      acetime_t seconds = epochSeconds - 86400 * days;
+
+      dt.mLocalDate = LocalDate::forEpochDays(days);
       dt.mLocalTime = LocalTime::forSeconds(seconds);
 
       return dt;
+    }
+
+    /**
+     * Factory method that takes the number of seconds since Unix Epoch of
+     * 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
+     * the partial day are truncated down towards the smallest whole day.
+     */
+    static OffsetDateTime forUnixSeconds(acetime_t unixSeconds,
+          UtcOffset utcOffset = UtcOffset()) {
+      if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
+        return forEpochSeconds(unixSeconds, utcOffset);
+      } else {
+        return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch,
+            utcOffset);
+      }
     }
 
     /**
@@ -128,9 +118,6 @@ class OffsetDateTime {
      * ':'. For example, both of the following will parse to the exactly same
      * OffsetDateTime object: "2018-08-31T13:48:01-07:00" "2018/08/31
      * 13#48#01-07#00"
-     *
-     * The largest date that can be fully supported by this class is
-     * 2136-02-07T06:28:14Z (one second before the uint32_t overflow).
      *
      * The parsing validation is so weak that the behavior is undefined for
      * most invalid date/time strings. The range of valid dates is roughly from
@@ -235,7 +222,7 @@ class OffsetDateTime {
      * epochSeconds).
      */
     OffsetDateTime convertToUtcOffset(const UtcOffset& utcOffset) const {
-      uint32_t epochSeconds = toEpochSeconds();
+      acetime_t epochSeconds = toEpochSeconds();
       return OffsetDateTime::forEpochSeconds(epochSeconds, utcOffset);
     }
 
@@ -274,58 +261,46 @@ class OffsetDateTime {
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
      * taking into account the offset zone.
      */
-    uint32_t toEpochDays() const {
-      if (mLocalDate.isError() || mLocalTime.isError()) {
-        return kInvalidEpochDays;
-      }
+    acetime_t toEpochDays() const {
+      if (isError()) return LocalDate::kInvalidEpochDays;
 
-      uint32_t epochDays = mLocalDate.toEpochDays();
+      acetime_t epochDays = mLocalDate.toEpochDays();
 
       // Increment or decrement the day count depending on the offset zone.
-      int32_t utcOffset = mLocalTime.toSeconds() - mUtcOffset.toSeconds();
+      acetime_t utcOffset = mLocalTime.toSeconds() - mUtcOffset.toSeconds();
       if (utcOffset >= 86400) return epochDays + 1;
       if (utcOffset < 0) return epochDays - 1;
       return epochDays;
     }
 
-    /**
-     * Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into
-     * account the offset zone. The return type is an unsigned 32-bit integer,
-     * which can represent a range of 136 years.
-     *
-     * The largest possible uint32_t value is UINT32_MAX corresponds to
-     * 2136-02-07T06:28:15Z but that is used to indicate an error condition. So
-     * the largest valid value returned by this method is (UINT32_MAX-1) which
-     * corresponds to 2136-02-07T06:28:14Z.
-     */
-    uint32_t toEpochSeconds() const {
-      if (mLocalDate.isError() || mLocalTime.isError()) {
-        return kInvalidEpochSeconds;
-      }
-
-      uint32_t epochDays = mLocalDate.toEpochDays();
-      int32_t utcOffset = mLocalTime.toSeconds() - mUtcOffset.toSeconds();
-      return epochDays * (uint32_t) 86400 + utcOffset;
+    /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
+    acetime_t toUnixDays() const {
+      if (isError()) return LocalDate::kInvalidEpochDays;
+      return toEpochDays() + LocalDate::kDaysSinceUnixEpoch;
     }
 
     /**
-     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z. The
-     * return type is a uint32_t which can represent a range of 136 years. It
-     * returns kInvalidEpochSeconds if isError() is true.
-     *
-     * The largest date that this method will support is 2106-02-07T06:28:14Z
-     * (one second before the uint32_t overflow). The behavior is undefined for
-     * dates larger than this.
+     * Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into
+     * account the offset zone.
+     */
+    acetime_t toEpochSeconds() const {
+      if (isError()) return LocalDate::kInvalidEpochSeconds;
+
+      acetime_t epochDays = mLocalDate.toEpochDays();
+      acetime_t utcOffset = mLocalTime.toSeconds() - mUtcOffset.toSeconds();
+      return epochDays * (acetime_t) 86400 + utcOffset;
+    }
+
+    /**
+     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z.
+     * It returns kInvalidEpochSeconds if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
      * print the unix seconds.
      */
-    uint32_t toUnixSeconds() const {
-      if (mLocalDate.isError() || mLocalTime.isError()) {
-        return kInvalidEpochSeconds;
-      }
-
-      return toEpochSeconds() + kSecondsSinceUnixEpoch;
+    acetime_t toUnixSeconds() const {
+      if (isError()) return LocalDate::kInvalidEpochSeconds;
+      return toEpochSeconds() + LocalDate::kSecondsSinceUnixEpoch;
     }
 
     /**
@@ -335,8 +310,8 @@ class OffsetDateTime {
      * the two OffsetDateTime objects are in different offset zones.
      */
     int8_t compareTo(const OffsetDateTime& that) const {
-      uint32_t thisSeconds = toEpochSeconds();
-      uint32_t thatSeconds = that.toEpochSeconds();
+      acetime_t thisSeconds = toEpochSeconds();
+      acetime_t thatSeconds = that.toEpochSeconds();
       if (thisSeconds < thatSeconds) return -1;
       if (thisSeconds > thatSeconds) return 1;
       return 0;

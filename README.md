@@ -12,9 +12,9 @@ Compared to the Arduino Time Library, here are the main differences:
    instances of the system clock if you need to.
 1. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z, where as
    Arduino Time Library uses the Unix epoch of 1970-01-01T00:00:00Z.
-    * Using an `uint32_t` to track the number of seconds since the Epoch, the
-      AceTime library can handle all dates from **2000** to the **end of 2099**.
-    * This date range corresponds to the range of the DS3231 RTC chip.
+    * Using an `int32_t` (typedefed as `acetime_t`) to track the number of
+      seconds since the Epoch, the AceTime library can handle all dates from
+      approximately *1931* to the **2068**.
 1. AceTime is **2-3X** faster on an ATmega328P, **4X** faster on the ESP8266,
    and **10-20X** faster on the ARM (Teensy) and ESP32 processors.
 1. AceTime begins the week on a Monday, assigning 1=Monday and 7=Sunday, per ISO
@@ -153,18 +153,25 @@ using namespace ace_time;
 using namespace ace_time::provider;
 using namespace ace_time::common;
 ```
-
 ### Date Time Primitives
 
 The `DateTime` class holds the components of a date, time and its associated
 time zone. This includes the `year`, `month`, `day`, `hour`, `minute`, `second`,
-and the UTC offset. Each of these components are stored internally as an
-unsigned `uint8_t` integer, except for the `TimeZone` which is stored as a
-signed `int8_t` integer. The year is represented by the last 2 digits of the
-years between 2000 and 2099.
+and the UTC offset. Each of these components is an unsigned `uint8_t` integer,
+except for the `year` (`int16_t`) and `TimeZone` (`int8_t`).
 
 The following is the basic usage guide. More details can be found in the Doxygen
 docs.
+
+#### Typedef
+
+One of the basic fundamental type in AceTime is the `acetime_t` defined as:
+```C++
+typedef int32_t acetime_t;
+```
+This represents the number of seconds since the Epoch. In AceTime, the Epoch is
+defined to be 2000-01-01 00:00:00 UTC time. In contrast, Unix Epoch is defined
+to be 1970-01-01 00:00:00 UTC.
 
 #### TimeZone
 
@@ -221,21 +228,21 @@ takes the (year, month, day, hour, minute, second, timeZone) parameters:
 DateTime dt;
 
 // 2001-01-01 00:00:00Z
-dt = DateTime::forComponents(1, 1, 1, 0, 0, 0, TimeZone());
+dt = DateTime::forComponents(2001, 1, 1, 0, 0, 0, TimeZone());
 
 // 2018-08-30T06:45:01-08:00
-dt = DateTime::forComponents(18, 8, 30, 6, 45, 1, TimeZone::forHour(-8));
+dt = DateTime::forComponents(2018, 8, 30, 6, 45, 1, TimeZone::forHour(-8));
 
 // 2099-12-31 23:59:59+06:00
-dt = DateTime::forComponents(99, 12, 31, 23, 59, 59, TimeZone::forHour(6));
+dt = DateTime::forComponents(2099, 12, 31, 23, 59, 59, TimeZone::forHour(6));
 ```
 
 Once a `DateTime` object is created you can access the individual date/time
 components using the accessor methods:
 ```C++
-dt = DateTime::forComponents(18, 8, 30, 6, 45, 1, TimeZone::forHour(-8));
+dt = DateTime::forComponents(2018, 8, 30, 6, 45, 1, TimeZone::forHour(-8));
 
-uint8_t year = dt.year(); // 0 - 99 (actually 0 - 136)
+int16_t year = dt.year(); // 1872 - 2127 (in theory, in practice 1931 - 2068)
 uint8_t month = dt.month(); // 1 - 12
 uint8_t day = dt.day(); // 1 - 31
 uint8_t hour = dt.hour(); // 0 - 23
@@ -294,10 +301,10 @@ The `DateTime` object can calculate the number of seconds since the AceTime
 Epoch which is **2000-01-01T00:00:00Z** at the UTC time zone. For example:
 ```C++
 // 2018-01-01 00:00:00+00:15
-DateTime dt = DateTime::forComponents(18, 1, 1, 0, 0, 0,
+DateTime dt = DateTime::forComponents(2018, 1, 1, 0, 0, 0,
     TimeZone::forOffsetCode(1));
-uint32_t epochDays = dt.toEpochDays();
-uint32_t epochSeconds = dt.toEpochSeconds();
+acetime_t epochDays = dt.toEpochDays();
+acetime_t epochSeconds = dt.toEpochSeconds();
 
 Serial.println(epochDays);
 Serial.println(epochSeconds);
@@ -312,7 +319,7 @@ Epoch:
 DateTime dt = DateTime::forEpochSeconds(568079100, TimeZone::forOffsetCode(1));
 ```
 This will produce the same object as
-`DateTime::forComponents(18, 1, 1, 0, 0, 0, TimeZone::forOffsetCode(1))`.
+`DateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeZone::forOffsetCode(1))`.
 
 #### Invalid DateTime Objects
 
@@ -342,7 +349,7 @@ time zone using the `DateTime::convertToTimeZone()` method:
 // Central European Time
 // 2018-01-01T09:20:00+01:00
 DateTime cetTime = DateTime::forComponents(
-    18, 1, 1, 9, 20, 0, TimeZone::forHour(1));
+    2018, 1, 1, 9, 20, 0, TimeZone::forHour(1));
 
 // Convert to Pacific Daylight Time.
 // 2018-01-01T01:20:00-07:00
@@ -378,7 +385,7 @@ diff.printTo(Serial)
 ### TimeProviders and TimeKeepers
 
 The `TimeProvider` class and its subclasses implement the `getNow()` method
-which returns a `uint32_t` that represents the number of seconds since the
+which returns an `acetime_t` that represents the number of seconds since the
 AceTime Epoch (2000-01-01T00:00:00Z). The relevant part of the `TimeProvider`
 class is:
 
@@ -386,7 +393,7 @@ class is:
 class TimeProvider {
   public:
     ...
-    virtual uint32_t getNow() const = 0;
+    virtual acetime_t getNow() const = 0;
     ...
 };
 ```
@@ -396,7 +403,7 @@ To obtain the human-readable version of the current time, create a
 ```C++
 TimeProvider* timeProvider = ...;
 
-uint32_t nowSeconds = timeProvider->getNow();
+acetime_t nowSeconds = timeProvider->getNow();
 DateTime now(nowSeconds);
 ```
 
@@ -406,7 +413,7 @@ be set.
 ```C++
 class TimeKeeper: public TimeProvider {
   public:
-    virtual void setNow(uint32_t epochSeconds) = 0;
+    virtual void setNow(acetime_t epochSeconds) = 0;
 };
 ```
 
@@ -726,31 +733,29 @@ Teensy 3.2 96MHz            |   1.980 |   22.570 |
 
 ## Bugs and Limitations
 
-* The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
-  the IP address of the NTP server. Unfortunately, this seems to be blocking
-  call. When the DNS resolver is working properly, this call returns in ~10ms or
-  less. But sometimes, the DNS resolver seems to get into a state where it takes
-  4-5 **seconds** to time out. Even if you use coroutines, the entire program
-  will block for those 4-5 seconds.
 * AceTime uses an epoch of 2000-01-01T00:00:00Z.
   `OffsetDateTime::toEpochSeconds()` returns the number of seconds since the
   epoch as a 32-bit unsigned integer. So it will rollover just after
-  2136-02-07T06:28:15Z. However, the largest `uint32_t` value of `UINT32_MAX` is
+  2136-02-07T06:28:15Z. However, the largest `int32_t` value of `INT32_MAX` is
   used by `OffsetDateTime::kInvalidEpochSeconds` to indicate an invalid value.
   Therefore, the actual largest possible dateTime is one second before that,
   i.e. 2136-02-07T06:28:14Z.
 * It is possible to construct a `DateTime` object with a `year` component
   greater than 136, but such an object may not be very useful because the
   `toSecondsSincEpoch()` method would return an incorrect number.
+* The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
+  the IP address of the NTP server. Unfortunately, this seems to be blocking
+  call. When the DNS resolver is working properly, this call returns in ~10ms or
+  less. But sometimes, the DNS resolver seems to get into a state where it takes
+  4-5 **seconds** to time out. Even if you use coroutines, the entire program
+  will block for those 4-5 seconds.
 * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
   of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds counter.
   It will overflow just after 2036-02-07T06:28:15Z.
 * [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
   1970-01-01T00:00:00Z. On 32-bit Unix systems that use a signed 32-bit integer
   to represent the seconds field, the unix time will rollover just after
-  2038-01-19T03:14:07Z. The AceTime `DateTime::toUnixSeconds()` method returns
-  an *unsigned* 32-bit integer, so it will rollover about 70 later, just after
-  2106-02-07T06:28:15Z.
+  2038-01-19T03:14:07Z.
 
 ## Changelog
 

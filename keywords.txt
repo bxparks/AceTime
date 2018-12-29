@@ -6,6 +6,7 @@
 # Datatypes (KEYWORD1)
 #######################################
 
+acetime_t	KEYWORD1
 DateStrings	KEYWORD1
 DateTime	KEYWORD1
 OffsetDateTime	KEYWORD1
@@ -35,6 +36,7 @@ weekDayShortString	KEYWORD2
 # OffsetDateTime.h
 forComponents	KEYWORD2
 forEpochSeconds	KEYWORD2
+forUnixSeconds	KEYWORD2
 forDateString	KEYWORD2
 isError	KEYWORD2
 setError	KEYWORD2
@@ -55,6 +57,7 @@ incrementDay	KEYWORD2
 incrementHour	KEYWORD2
 incrementMinute	KEYWORD2
 toEpochDays	KEYWORD2
+toUnixDays	KEYWORD2
 toEpochSeconds	KEYWORD2
 toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
@@ -62,6 +65,7 @@ compareTo	KEYWORD2
 # DateTime.h
 forComponents	KEYWORD2
 forEpochSeconds	KEYWORD2
+forUnixSeconds	KEYWORD2
 forDateString	KEYWORD2
 isError	KEYWORD2
 setError	KEYWORD2
@@ -82,6 +86,7 @@ incrementDay	KEYWORD2
 incrementHour	KEYWORD2
 incrementMinute	KEYWORD2
 toEpochDays	KEYWORD2
+toUnixDays	KEYWORD2
 toEpochSeconds	KEYWORD2
 toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
@@ -151,10 +156,16 @@ getLastSyncTime	KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
-# OffsetDateTime.h
-kSecondsSinceUnixEpoch	LITERAL1
-kDaysSinceJulianEpoch	LITERAL1
+# LocalDate.h
 kEpochYear	LITERAL1
+kInvalidEpochDays	LITERAL1
+kInvalidEpochSeconds	LITERAL1
+kSecondsSinceUnixEpoch	LITERAL1
+kDaysSinceUnixEpoch	LITERAL1
+kDaysSinceJulianEpoch	LITERAL1
+
+# LocalTime.h
+kInvalidSeconds	LITERAL1
 
 # NtpTimeProvider.h
 kNtpServerName	LITERAL1

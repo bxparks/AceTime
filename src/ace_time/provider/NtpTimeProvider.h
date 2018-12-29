@@ -67,7 +67,7 @@ class NtpTimeProvider: public TimeProvider {
 
     bool isSetup() const { return mIsSetUp; }
 
-    uint32_t getNow() const override {
+    acetime_t getNow() const override {
       if (!mIsSetUp) return kInvalidSeconds;
 
       sendRequest();
@@ -104,7 +104,7 @@ class NtpTimeProvider: public TimeProvider {
       return mUdp.parsePacket() >= kNtpPacketSize;
     }
 
-    uint32_t readResponse() const override {
+    acetime_t readResponse() const override {
       if (!mIsSetUp) return kInvalidSeconds;
 
       // read packet into the buffer

@@ -13,7 +13,7 @@ using namespace ace_time;
  */ 
 struct RenderingInfo {
   uint8_t mode = MODE_UNKNOWN; // display mode
-  uint32_t now; // seconds from AceTime epoch
+  acetime_t now; // seconds from AceTime epoch
   bool suppressBlink = false; // true if blinking should be suppressed
   bool blinkShowState = true; // true if blinking info should be shown
 
