@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <Print.h> // Print
-#include "../common/Util.h"
+#include "../common/util.h"
 
 namespace ace_time {
 namespace hw {

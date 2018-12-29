@@ -1,6 +1,6 @@
 #include <Wire.h>
 #include <Print.h> // Print
-#include "../common/Util.h" // bcdToDec(), decToBcd()
+#include "../common/util.h" // bcdToDec(), decToBcd()
 #include "HardwareDateTime.h"
 #include "HardwareTemperature.h"
 #include "DS3231.h"

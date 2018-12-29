@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <AceTime.h>
 #include "Benchmark.h"
-#include "ace_time/common/Util.h"
+#include "ace_time/common/util.h"
 
 using namespace ace_time;
 using ace_time::common::printPad3;

@@ -2,8 +2,8 @@
 #define ACE_TIME_DATE_TIME_H
 
 #include <stdint.h>
-#include "common/Flash.h"
-#include "common/Util.h"
+#include "common/flash.h"
+#include "common/util.h"
 #include "OffsetDateTime.h"
 #include "TimeZone.h"
 

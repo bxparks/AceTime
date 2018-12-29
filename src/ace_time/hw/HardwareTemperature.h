@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <Print.h> // Print
-#include "../common/Util.h" // printPad2
+#include "../common/util.h" // printPad2
 
 namespace ace_time {
 namespace hw {

@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <string.h>
-#include "Flash.h"
+#include "flash.h"
 
 namespace ace_time {
 namespace common {

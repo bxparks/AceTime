@@ -1,5 +1,5 @@
 #include "HardwareDateTime.h"
-#include "../common/Util.h"
+#include "../common/util.h"
 #include "../common/DateStrings.h"
 
 namespace ace_time {

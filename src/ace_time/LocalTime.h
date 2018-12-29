@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include "common/common.h"
-#include "common/Util.h"
+#include "common/util.h"
 
 namespace ace_time {
 
