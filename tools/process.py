@@ -7,21 +7,23 @@
 Main driver for the Extractor, Printer, Transformer, and Generator.
 The data processing pipeline looks like this:
 
-        Files
-          |
-          v
-      Extractor --> Printer
-          |
-          v
-     Transformer --> Printer
-       /  |  \
-      v   |   v
-Generator |  PythonGenerator
-          v
-     DataGenerator
-          |
-          v
-      AgentVerifier
+          TZDB files
+              |
+              v
+          Extractor --> Printer
+              |
+              v
+         Transformer --> Printer
+           /      \
+          v        v
+    Generator    PythonGenerator
+        /               \
+       v                 v
+zone_infos.{h,cpp}      zone_infos.py
+zone_policies.{h,cpp}   zone_policies.py
+                             |
+                             v
+                        zone_agent.py
 """
 
 import argparse
