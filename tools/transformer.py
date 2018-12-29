@@ -100,6 +100,7 @@ class Transformer:
         zones_map = self.create_zones_with_rules_expansion(zones_map)
         zones_map = self.remove_zones_with_non_monotonic_until(zones_map)
 
+        #rules_map = self.remove_rules_multiple_transitions_in_month(rules_map)
         (zones_map, rules_map) = self.mark_rules_used_by_zones(
             zones_map, rules_map)
         rules_map = self.remove_rules_unused(rules_map)
@@ -123,6 +124,10 @@ class Transformer:
         logging.info('Remaining %s zone infos' % len(self.zones_map))
         logging.info('Remaining %s rule policies' % len(self.rules_map))
         logging.info('=== Transformer Summary End')
+
+    # --------------------------------------------------------------------
+    # Methods related to Zones.
+    # --------------------------------------------------------------------
 
     def remove_zones_with_duplicate_short_names(self, zones_map):
         results = {}
@@ -457,6 +462,60 @@ class Transformer:
         self.all_removed_zones.update(removed_zones)
         return results
 
+    # --------------------------------------------------------------------
+    # Methods related to Rules
+    # --------------------------------------------------------------------
+
+    def remove_rules_multiple_transitions_in_month(self, rules_map):
+        """Some Zone policies have Rules which specify multiple DST transitions
+        within in the same month:
+            * Egypt (Found '2' transitions in year/month '2010-09')
+            * Palestine (Found '2' transitions in year/month '2011-08')
+            * Spain (Found '2' transitions in year/month '1938-04')
+            * Tunisia (Found '2' transitions in year/month '1943-04')
+        """
+        # First pass: collect number of transitions for each (year, month) pair.
+        counts = {}
+        for name, rules in rules_map.items():
+            for rule in rules:
+                from_year = rule['fromYear']
+                to_year = rule['toYear']
+                month = rule['inMonth']
+                for year in range(from_year, to_year + 1):
+                    key = (name, year, month)
+                    count = counts.get(key)
+                    count = count + 1 if count else 1
+                    counts[key] = count
+
+        # Second pass: Collect rule policies which have multiple transitions
+        # in one month.
+        removals = {}
+        for key, count in counts.items():
+            if count > 1:
+                policy_name = key[0]
+                year = key[1]
+                month = key[2]
+                removals[policy_name] = (count, year, month)
+
+        # Third pass: Remove rule policies with multiple counts.
+        results = {}
+        removed_policies = {}
+        for name, rules in rules_map.items():
+            removal = removals.get(name)
+            if removal:
+                removed_policies[name] = (
+                    "Found '%s' transitions in year/month '%04d-%02d'" %
+                    removals[name])
+            else:
+                results[name] = rules
+
+        logging.info(
+            'Removed %s rule policies with multiple transitions in one month' %
+            len(removed_policies))
+        self.print_removed_map(removed_policies)
+        self.all_removed_policies.update(removed_policies)
+        return results
+
     def remove_rules_long_dst_letter(self, rules_map):
         """Return a new map which filters out rules with long DST letter.
         """
@@ -529,17 +588,22 @@ class Transformer:
                         zone_name, policy_name)
                     sys.exit(1)
 
-                # Some zone eras have an until_month, until_day and until_time.
-                # To make sure that we include rules which happen to match the
-                # extra fields, let's be conservative and collect rules which
-                # overlap with the entire interval [begin_year, until_year + 1).
+                # Make all Rules which overlap with the current Zone Era.
+                # Some Zone Era have an until_month, until_day and until_time
+                # components. To be conservative, we need to expand the
+                # until_year to the following year, so the zone era interval
+                # becomes [begin_year, until_year+1).
                 until_year = era['untilYear']
                 matching_rules = find_matching_rules(
                     rules, begin_year, until_year + 1)
                 for rule in matching_rules:
                     rule['used'] = True
 
-                # Check if there's a rule prior to the first year.
+                # Find latest Rule(s) just prior to the begin_year.
+                # TODO: Instead of finding just one, find multiple ones that
+                # occur in the same month since we cannot easily determine which
+                # rule is the most recent given the information we have during
+                # this phase.
                 prior_match = find_most_recent_prior_rule(rules, begin_year)
                 if prior_match:
                     prior_match['used'] = True
@@ -807,12 +871,16 @@ def short_name(name):
     return short_name
 
 
-def find_matching_rules(rules, from_year, until_year):
-    """Return the rules which overlap with the interval [from_year, until_year).
+def find_matching_rules(rules, era_from, era_until):
+    """Return the rules which overlap with the Zone Era interval [eraFrom,
+    eraUntil). The Rule interval is [ruleFrom, ruleTo + 1). Overlap happens
+    (ruleFrom < eraUntil) && (eraFrom < ruleTo+1). The expression (eraFrom <
+    ruleTo+1) can be written as (eraFrom <= ruleTo) since these values are
+    integers.
     """
     matches = []
     for rule in rules:
-        if rule['fromYear'] < until_year and from_year <= rule['toYear']:
+        if rule['fromYear'] < era_until and era_from <= rule['toYear']:
             matches.append(rule)
     return matches
 
