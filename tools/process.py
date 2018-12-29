@@ -46,9 +46,14 @@ def main():
     # Transformer
     parser.add_argument(
         '--start_year',
-        help='Print list of rules',
+        help='Starting year of Zone Eras (default: 2000)',
         type=int,
         default=2000)
+    parser.add_argument(
+        '--granularity',
+        help='Retained UNTIL and AT fields in minutes (default: 15)',
+        type=int,
+        default=15)
 
     # Printer
     parser.add_argument(
@@ -113,7 +118,8 @@ def main():
         extractor.print_summary()
 
     # Transform the TZ zones and rules
-    transformer = Transformer(zones, rules, args.python, args.start_year)
+    transformer = Transformer(zones, rules, args.python, args.start_year,
+        args.granularity)
     transformer.transform()
     (zones, rules, removed_zones, removed_policies) = transformer.get_data()
 

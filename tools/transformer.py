@@ -14,18 +14,21 @@ import datetime
 
 class Transformer:
 
-    def __init__(self, zones_map, rules_map, python, start_year):
+    def __init__(self, zones_map, rules_map, python, start_year, granularity):
         """
         Arguments:
             zones_map: map of Zone names to Eras
             rules_map: map of Policy names to Rules
             python: generate zonedb for Python
             start_year: include only years on or after start_year
+            granularity: retained AT or UNTIL fields in minutes
         """
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.python = python
         self.start_year = start_year
+        self.granularity = granularity
+
         self.all_removed_zones = {} # map of zone name -> reason
         self.all_removed_policies = {} # map of policy name -> reason
 
@@ -259,10 +262,11 @@ class Transformer:
                         removed_zones[name] = (
                             "non-integral UNTIL time '%s'" % until_time)
                         break
-                    if until_minute % 15 != 0:
+                    if until_minute % self.granularity != 0:
                         valid = False
                         removed_zones[name] = (
-                            "non-quarter hour UNTIL time '%s'" % until_time)
+                            "UNTIL time '%s' must be multiples of '%s'"
+                            % (until_time, self.granularity))
                         break
                 else:
                     until_minutes = None
@@ -393,11 +397,11 @@ class Transformer:
                         removed_zones[name] = ("invalid RULES string '%s'" %
                             rules_string)
                         break
-                    if rules_delta_minutes % 15 != 0:
+                    if rules_delta_minutes % self.granularity != 0:
                         valid = False
                         removed_zones[name] = (
-                            "non-quarter-hour RULES delta offset '%s'" %
-                            rules_string)
+                            "RULES delta offset '%s' must be multiples of '%s'"
+                            % (rules_string, self.granularity))
                         break
                     zone['rules'] = ':'
                     zone['rulesDeltaMinutes'] = rules_delta_minutes
@@ -731,10 +735,11 @@ class Transformer:
                     removed_policies[name] = (
                         "non-integral AT time '%s'" % at_time)
                     break
-                if at_minute % 15 != 0:
+                if at_minute % self.granularity != 0:
                     valid = False
                     removed_policies[name] = (
-                        "non-quarter hour AT time '%s'" % at_time)
+                        "AT time '%s' must be multiples of '%s'" %
+                        (at_time, self.granularity))
                     break
 
                 rule['atMinute'] = at_minute
