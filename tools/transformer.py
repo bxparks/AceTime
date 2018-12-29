@@ -133,6 +133,13 @@ class Transformer:
         logging.info('Remaining %s rule policies' % len(self.rules_map))
         logging.info('=== Transformer Summary End')
 
+    def print_removed_map(self, removed_map):
+        """Helper routine that prints the removed Zone rules or Zone eras along
+        with the reason why it was removed.
+        """
+        for name, reason in sorted(removed_map.items()):
+            print('  %s (%s)' % (name, reason), file=sys.stderr)
+
     # --------------------------------------------------------------------
     # Methods related to Zones.
     # --------------------------------------------------------------------
@@ -188,10 +195,6 @@ class Transformer:
         logging.info("Removed %s zone eras before year %04d",
             count, self.start_year)
         return results
-
-    def print_removed_map(self, removed_map):
-        for name, reason in sorted(removed_map.items()):
-            print('  %s (%s)' % (name, reason), file=sys.stderr)
 
     def create_zones_with_until_day(self, zones_map):
         """Convert zone['untilDay'] from 'lastSun' or 'Sun>=1' to a precise day,
