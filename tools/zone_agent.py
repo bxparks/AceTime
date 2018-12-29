@@ -28,22 +28,23 @@ from zonedb.zone_policies import *
 from zonedb.zone_infos import *
 
 class ZoneAgent:
+    # AceTime Epoch is 2000-01-01 00:00:00
     EPOCH_YEAR = 2000
-
-    MAX_CACHE_ENTRIES = 4
 
     # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
     # (2000-01-01 00:00:00)
     SECONDS_SINCE_UNIX_EPOCH = 946684800
 
-    # The value of ZONE_INFO['eras']['untilYearShort'] which represents
-    # 'max'. Stored as a int8_t in C++.
+    # The biggest 'untilYearShort' when represented by as a int8_t in C++.
     MAX_UNTIL_YEAR_SHORT = 127
+
+    # The smallest 'untilYearShort' when represented by as a int8_t in C++.
+    MIN_UNTIL_YEAR_SHORT = -128
 
     # Sentinel ZoneEra that represents the earliest zone era, since
     # we kept only those after year 2000.
     ZONE_ERA_ANCHOR = {
-        'untilYearShort': 0,
+        'untilYearShort': MIN_UNTIL_YEAR_SHORT,
         'untilMonth': 1,
         'untilDay': 1,
         'untilHour': 0,
