@@ -280,6 +280,12 @@ class DateTime {
       return mOffsetDateTime.toEpochDays();
     }
 
+    /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
+    acetime_t toUnixDays() const {
+      if (isError()) return LocalDate::kInvalidEpochDays;
+      return toEpochDays() + LocalDate::kDaysSinceUnixEpoch;
+    }
+
     /**
      * Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into
      * account the time zone.

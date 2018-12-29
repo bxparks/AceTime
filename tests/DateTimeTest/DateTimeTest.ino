@@ -69,30 +69,35 @@ test(OffsetDateTimeTest, forComponents) {
   // Let's use +1 of that since INT_MIN will be used to indicate an error.
   dt = OffsetDateTime::forComponents(1931, 12, 13, 20, 45, 53);
   assertEqual((acetime_t) -24856, dt.toEpochDays());
+  assertEqual((acetime_t) -13899, dt.toUnixDays());
   assertEqual((acetime_t) (INT32_MIN + 1), dt.toEpochSeconds());
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 
   // 2000-01-01 00:00:00Z Saturday
   dt = OffsetDateTime::forComponents(2000, 1, 1, 0, 0, 0);
   assertEqual((acetime_t) 0, dt.toEpochDays());
+  assertEqual((acetime_t) 10957, dt.toUnixDays());
   assertEqual((acetime_t) 0, dt.toEpochSeconds());
   assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
-
-  // 2000-02-29 00:00:00Z Tuesday
-  dt = OffsetDateTime::forComponents(2000, 2, 29, 0, 0, 0);
-  assertEqual((acetime_t) 59, dt.toEpochDays());
-  assertEqual((acetime_t) 86400 * 59, dt.toEpochSeconds());
-  assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 
   // 2000-01-02 00:00:00Z Sunday
   dt = OffsetDateTime::forComponents(2000, 1, 2, 0, 0, 0);
   assertEqual((acetime_t) 1, dt.toEpochDays());
+  assertEqual((acetime_t) 10958, dt.toUnixDays());
   assertEqual((acetime_t) 86400, dt.toEpochSeconds());
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
+
+  // 2000-02-29 00:00:00Z Tuesday
+  dt = OffsetDateTime::forComponents(2000, 2, 29, 0, 0, 0);
+  assertEqual((acetime_t) 59, dt.toEpochDays());
+  assertEqual((acetime_t) 11016, dt.toUnixDays());
+  assertEqual((acetime_t) 86400 * 59, dt.toEpochSeconds());
+  assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 
   // 2018-01-01 00:00:00Z Monday
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0);
   assertEqual((acetime_t) 6575, dt.toEpochDays());
+  assertEqual((acetime_t) 17532, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400, dt.toEpochSeconds());
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
@@ -100,12 +105,14 @@ test(OffsetDateTimeTest, forComponents) {
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
       UtcOffset::forOffsetCode(1));
   assertEqual((acetime_t) 6574, dt.toEpochDays());
+  assertEqual((acetime_t) 17531, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400 - 15*60, dt.toEpochSeconds());
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2038-01-19 03:14:07Z (largest value using Unix Epoch)
   dt = OffsetDateTime::forComponents(2038, 1, 19, 3, 14, 7);
   assertEqual((acetime_t) 13898, dt.toEpochDays());
+  assertEqual((acetime_t) 24855, dt.toUnixDays());
   assertEqual((acetime_t) 1200798847, dt.toEpochSeconds());
   assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 
@@ -114,6 +121,7 @@ test(OffsetDateTimeTest, forComponents) {
   // TODO: Change this to INT32_MIN.
   dt = OffsetDateTime::forComponents(2068, 1, 19, 3, 14, 6);
   assertEqual((acetime_t) 24855, dt.toEpochDays());
+  assertEqual((acetime_t) 35812, dt.toUnixDays());
   assertEqual((acetime_t) (INT32_MAX - 1), dt.toEpochSeconds());
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
@@ -411,30 +419,35 @@ test(DateTimeTest, forComponents) {
   // Let's use +1 of that since INT_MIN will be used to indicate an error.
   dt = DateTime::forComponents(1931, 12, 13, 20, 45, 53);
   assertEqual((acetime_t) -24856, dt.toEpochDays());
+  assertEqual((acetime_t) -13899, dt.toUnixDays());
   assertEqual((acetime_t) (INT32_MIN + 1), dt.toEpochSeconds());
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 
   // 2000-01-01 00:00:00Z Saturday
   dt = DateTime::forComponents(2000, 1, 1, 0, 0, 0);
   assertEqual((acetime_t) 0, dt.toEpochDays());
+  assertEqual((acetime_t) 10957, dt.toUnixDays());
   assertEqual((acetime_t) 0, dt.toEpochSeconds());
   assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
-
-  // 2000-02-29 00:00:00Z Tuesday
-  dt = DateTime::forComponents(2000, 2, 29, 0, 0, 0);
-  assertEqual((acetime_t) 59, dt.toEpochDays());
-  assertEqual((acetime_t) 86400 * 59, dt.toEpochSeconds());
-  assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 
   // 2000-01-02 00:00:00Z Sunday
   dt = DateTime::forComponents(2000, 1, 2, 0, 0, 0);
   assertEqual((acetime_t) 1, dt.toEpochDays());
+  assertEqual((acetime_t) 10958, dt.toUnixDays());
   assertEqual((acetime_t) 86400, dt.toEpochSeconds());
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
+
+  // 2000-02-29 00:00:00Z Tuesday
+  dt = DateTime::forComponents(2000, 2, 29, 0, 0, 0);
+  assertEqual((acetime_t) 59, dt.toEpochDays());
+  assertEqual((acetime_t) 11016, dt.toUnixDays());
+  assertEqual((acetime_t) 86400 * 59, dt.toEpochSeconds());
+  assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 
   // 2018-01-01 00:00:00Z Monday
   dt = DateTime::forComponents(2018, 1, 1, 0, 0, 0);
   assertEqual((acetime_t) 6575, dt.toEpochDays());
+  assertEqual((acetime_t) 17532, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400, dt.toEpochSeconds());
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
@@ -442,12 +455,14 @@ test(DateTimeTest, forComponents) {
   dt = DateTime::forComponents(2018, 1, 1, 0, 0, 0,
       TimeZone::forUtcOffset(UtcOffset::forOffsetCode(1)));
   assertEqual((acetime_t) 6574, dt.toEpochDays());
+  assertEqual((acetime_t) 17531, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400 - 15*60, dt.toEpochSeconds());
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2038-01-19 03:14:07Z (largest value using Unix Epoch)
   dt = DateTime::forComponents(2038, 1, 19, 3, 14, 7);
   assertEqual((acetime_t) 13898, dt.toEpochDays());
+  assertEqual((acetime_t) 24855, dt.toUnixDays());
   assertEqual((acetime_t) 1200798847, dt.toEpochSeconds());
   assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 
@@ -456,6 +471,7 @@ test(DateTimeTest, forComponents) {
   // TODO: Change this to INT32_MIN.
   dt = DateTime::forComponents(2068, 1, 19, 3, 14, 6);
   assertEqual((acetime_t) 24855, dt.toEpochDays());
+  assertEqual((acetime_t) 35812, dt.toUnixDays());
   assertEqual((acetime_t) (INT32_MAX - 1), dt.toEpochSeconds());
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
