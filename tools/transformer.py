@@ -606,27 +606,28 @@ class Transformer:
                 # Make all Rules which overlap with the current Zone Era.
                 # Some Zone Era have an until_month, until_day and until_time
                 # components. To be conservative, we need to expand the
-                # until_year to the following year, so the zone era interval
-                # becomes [begin_year, until_year+1).
+                # until_year to the following year, so the effective zone era
+                # interval becomes [begin_year, until_year+1).
                 until_year = era['untilYear']
                 matching_rules = find_matching_rules(
                     rules, begin_year, until_year + 1)
                 for rule in matching_rules:
                     rule['used'] = True
 
-                # Find latest Rule(s) just prior to the begin_year.
-                prior_rules = find_most_recent_prior_rules(rules, begin_year)
+                # Find latest Rules just prior to the begin_year.
+                # Result: It looks like all of these prior rules are
+                # already picked up by previous calls to find_matching_rules().
+                prior_rules = find_latest_prior_rules(rules, begin_year)
                 for rule in prior_rules:
                     rule['used'] = True
-                if len(prior_rules) > 1:
-                    # Of the handful that contains multiple Rules in the same
-                    # month, none of them seem to be actually used as the
-                    # 'latest prior Rule', so len(prior_rules) always seems to
-                    # be 0 or 1.
-                    logging.info(
-                        "Zone '%s' uses Policy '%s' which generates "
-                        + "%d latest prior Rules in the same month",
-                        zone_name, policy_name, len(prior_rules))
+
+                # Find earliest Rules subsequent to the until_year mark.
+                # Result: It looks like all of these prior rules are
+                # already picked up by previous calls to find_matching_rules().
+                subsequent_rules = find_earliest_subsequent_rules(
+                    rules, until_year + 1)
+                for rule in subsequent_rules:
+                    rule['used'] = True
 
                 begin_year = until_year
 
@@ -951,19 +952,30 @@ def find_matching_rules(rules, era_from, era_until):
     return matches
 
 
-def find_most_recent_prior_rules(rules, year):
+def find_latest_prior_rules(rules, year):
     """Find the most recent prior rules before the given year. The RULE.atTime
     field can be a conditional expression such as 'lastSun' or 'Mon>=8', so it's
-    easiest to just compare the (year, month) only. Unfortunately, a handful of
-    Zone Policies have multiple Rules in the same month. From
+    easiest to just compare the (year, month) only. Also, instead of looking for
+    the single Rule that is the most recent, we grab all Rules that fit into the
+    month bucket. There are 2 reasons:
+
+    1) A handful of Zone Policies have multiple Rules in the same month. From
     remove_rules_multiple_transitions_in_month():
+
         * Egypt (Found '2' transitions in year/month '2010-09')
         * Palestine (Found '2' transitions in year/month '2011-08')
         * Spain (Found '2' transitions in year/month '1938-04')
         * Tunisia (Found '2' transitions in year/month '1943-04')
 
-    So, instead of finding the single latest prior Rule, this method returns
-    all candidate Rules which may be the "latest" prior.
+    2) A handful of Zone Policies have Rules which specify transitions in the
+    last 2 days of the year. From remove_rules_with_border_transitions(), we
+    find:
+        * Arg (Transition in late year (2007-12-30))
+        * Dhaka (Transition in late year (2009-12-31))
+        * Ghana (Transition in late year (1920-12-31))
+
+    By grabbing all Rules in the last month, we avoid the risk of accidentally
+    leaving some Rules out.
     """
     candidates = []
     candidate_date = (0, 0) # sentinel date earlier than all real Rules
@@ -973,6 +985,40 @@ def find_most_recent_prior_rules(rules, year):
         if rule_year < year:
             rule_date = (rule_year, rule_month)
             if rule_date > candidate_date:
+                candidate_date = rule_date
+                candidates = [rule]
+            elif rule_date == candidate_date:
+                candidates.append(rule)
+    return candidates
+
+
+def find_earliest_subsequent_rules(rules, year):
+    """Find the ealiest subsequent rules on or after the given year. This deals
+    with the case where the following (admittedly unlikely) set of conditions
+    happen:
+
+    1) an epochSeconds is converted to a UTC dateTime,
+    2) we look for Transitions in the current UTC year, but the actual
+    year in the local timezone is actually in the following year,
+    3) there exists a Rule that specifies a Transition in the first day of the
+    new year, which does not get picked up without this scan.
+
+    It's likely that any such Rule would get picked up by the normal
+    find_matching_rules() of a Zone Era that stretched to YEAR_MAX, but I'm not
+    100% sure that that's true, and there might be a weird edge case. This
+    method helps prevent that edge case.
+
+    Similar to find_latest_prior_rules(), we match all Rules in a given month,
+    instead of looking single earliest Rule.
+    """
+    candidates = []
+    candidate_date = (9999, 13) # sentinel date later than all real Rules
+    for rule in rules:
+        rule_year = rule['toYear']
+        rule_month = rule['inMonth']
+        if rule_year >= year:
+            rule_date = (rule_year, rule_month)
+            if rule_date < candidate_date:
                 candidate_date = rule_date
                 candidates = [rule]
             elif rule_date == candidate_date:
