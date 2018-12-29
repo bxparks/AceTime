@@ -529,7 +529,7 @@ class ZoneAgent:
             2) The local 'startDateTime' of the current Transition is
             the current 'transitionTime' - (prevOffset + prevDelta) +
             (currentOffset + currentDelta).
-            3) The startEpochSecond of the current Transition is the
+            3) The 'startEpochSecond' of the current Transition is the
             'transitionTime' using the UTC offset of the *previous* Transition.
         Got all that?
         """
@@ -549,18 +549,27 @@ class ZoneAgent:
             mins = hour_minute_to_minutes(tt[3], tt[4])
             mins += (-(prev['offsetMinutes'] + prev['deltaMinutes']) +
                 (transition['offsetMinutes'] + transition['deltaMinutes']))
+            if mins < 0 or mins >= 24 * 60:
+                logging.info(
+                    "Transition startDateTime shifted into a different day: "
+                    + "(%02d:%02d)", h, m)
             (h, m) = minutes_to_hour_minute(mins)
-            transition['startDateTime'] = (tt[0], tt[1], tt[2], h, m, tt[5])
+            st = datetime.datetime(tt[0], tt[1], tt[2], 0, 0, 0)
+            st += datetime.timedelta(minutes = mins)
+            transition['startDateTime'] = (st.year, st.month, st.day, st.hour,
+                st.minute, tt[5])
 
-            # 3) The epochSecond of the 'startDateTime' is determined by the
-            # UTC offset of the *previous* Transition.
+            # 3) The epochSecond of the 'transitionTime' is determined by the
+            # UTC offset of the *previous* Transition. However, the
+            # transitionTime represent by an illegal date (e.g. 24:00). So, it
+            # is better to use the properly normalized startDateTime with the
+            # *current* UTC offset.
             utc_offset_minutes = prev['offsetMinutes'] + prev['deltaMinutes']
             z = datetime.timezone(
                 datetime.timedelta(minutes=utc_offset_minutes))
-            t = datetime.datetime(
-                tt[0], tt[1], tt[2], tt[3], tt[4], 0, 0, z)
+            t = st.replace(tzinfo=z)
             epoch_second = int(t.timestamp())
-            transition['transitionEpochSecond'] = epoch_second
+            transition['startEpochSecond'] = epoch_second
 
             prev = transition
             is_after_first = True
@@ -668,8 +677,8 @@ def compare_era_to_year(era, year_short):
 
 
 def add_hour_minute(a, b):
-    am = hour_minute_to_minuates(a[0], a[1])
-    bm = hour_minute_to_minuates(b[0], b[1])
+    am = hour_minute_to_minutes(a[0], a[1])
+    bm = hour_minute_to_minutes(b[0], b[1])
     cm = am + bm
     return minutes_to_hour_minute(cm)
 
