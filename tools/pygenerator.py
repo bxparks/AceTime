@@ -34,6 +34,8 @@ class PythonGenerator:
 
 {policyItems}
 
+#---------------------------------------------------------------------------
+
 # The following zone policies are not supported in the current version of
 # AceTime.
 #
@@ -99,9 +101,13 @@ from zonedb.zone_policies import *
 
 {infoItems}
 
+#---------------------------------------------------------------------------
+
 ZONE_INFO_MAP = {{
 {infoMapItems}
 }}
+
+#---------------------------------------------------------------------------
 
 # The following zones are not supported in the current version of AceTime.
 #
@@ -147,7 +153,7 @@ ZONE_INFO_{infoShortName} = {{
 """
 
     ZONE_INFO_MAP_ITEM = """\
-    "{infoShortName}": ZONE_INFO_{infoShortName},
+    "{infoShortName}": ZONE_INFO_{infoShortName}, # {infoFullName}
 """
 
     ZONE_INFOS_FILE_NAME = 'zone_infos.py'
@@ -325,8 +331,12 @@ ZONE_INFO_{infoShortName} = {{
             untilTimeModifier=until_time_modifier)
 
     def generate_info_map_items(self, zones_map):
+        """Generate a map of (shortName -> zoneInfo), shorted by shortName.
+        """
         info_map_items = ''
-        for name, zones in zones_map.items():
+        for name, zones in sorted(zones_map.items(),
+            key=lambda x: normalize_name(short_name(x[0]))):
             info_map_items += self.ZONE_INFO_MAP_ITEM.format(
-                infoShortName=normalize_name(short_name(name)))
+                infoShortName=normalize_name(short_name(name)),
+                infoFullName=name)
         return info_map_items

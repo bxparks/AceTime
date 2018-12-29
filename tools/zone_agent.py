@@ -199,7 +199,7 @@ class ZoneAgent:
                     % params)
 
     def find_matches(self, year):
-        """Find the Zone Era which overlap the 2 years from 'year' through the
+        """Find the Zone Eras which overlap the 2 years from 'year' through the
         next year, i.e the interval [year, year+2).
         """
         year_short = year - 2000
@@ -389,12 +389,13 @@ class ZoneAgent:
 
 
     def create_transition_for_year(self, year, rule, match):
-        """Create the transition from the given rule for the given year, if
-        the rule overlaps with the given year. Return None if it does not
-        overlap. The Transition object is a replica of the underlying Match
-        object, with additional bookkeeping info.
+        """Create the transition from the given 'rule' for the given 'year'.
+        (Don't need to check if it overlaps with the given 'match' since that is
+        done in process_transition()). Return None if it does not overlap. The
+        Transition object is a replica of the underlying Match object, with
+        additional bookkeeping info.
         """
-        # Check if year overlaps with [Rule.from, Rule.to].
+        # Check if [Rule.from, Rule.to] overlaps with year.
         from_year = rule['fromYear']
         to_year = rule['toYear']
         if year < from_year or to_year < year:

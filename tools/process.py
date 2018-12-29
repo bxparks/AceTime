@@ -5,6 +5,23 @@
 # MIT License.
 """
 Main driver for the Extractor, Printer, Transformer, and Generator.
+The data processing pipeline looks like this:
+
+        Files
+          |
+          v
+      Extractor --> Printer
+          |
+          v
+     Transformer --> Printer
+       /  |  \
+      v   |   v
+Generator |  PythonGenerator
+          v
+     DataGenerator
+          |
+          v
+      AgentVerifier
 """
 
 import argparse
