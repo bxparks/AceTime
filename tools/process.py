@@ -4,7 +4,7 @@
 #
 # MIT License.
 """
-Main driver for the Extractor, Printer, Transformer, and Generator.
+Main driver for the Extractor, Printer, Transformer, and the Generators.
 The data processing pipeline looks like this:
 
           TZDB files
@@ -14,9 +14,9 @@ The data processing pipeline looks like this:
               |
               v
          Transformer --> Printer
-           /      \
-          v        v
-    Generator    PythonGenerator
+           /       \
+          v         v
+ArduinoGenerator    PythonGenerator
         /               \
        v                 v
 zone_infos.{h,cpp}      zone_infos.py
@@ -33,7 +33,7 @@ import sys
 from printer import Printer
 from extractor import Extractor
 from transformer import Transformer
-from generator import Generator
+from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
 
 def main():
@@ -101,7 +101,7 @@ def main():
         action="store_true",
         default=False)
 
-    # Generator
+    # Generators
     parser.add_argument(
         '--tz_version', help='Version string of the TZ files', required=True)
     parser.add_argument(
@@ -156,7 +156,7 @@ def main():
         generator = PythonGenerator(invocation, args.tz_version,
             Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies)
     else:
-        generator = Generator(invocation, args.tz_version,
+        generator = ArduinoGenerator(invocation, args.tz_version,
             Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies)
 
     # generate files

@@ -9,8 +9,8 @@ import logging
 import os
 
 from transformer import short_name
-from generator import normalize_name
-from generator import normalize_raw
+from argenerator import normalize_name
+from argenerator import normalize_raw
 
 class PythonGenerator:
     """Generate Python files for zone infos and policies.

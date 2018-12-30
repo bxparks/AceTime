@@ -10,7 +10,7 @@ import os
 
 from transformer import short_name
 
-class Generator:
+class ArduinoGenerator:
     """Generate Arduino/C++ files for zone infos and policies.
     """
 
