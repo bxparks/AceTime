@@ -224,7 +224,7 @@ class ZoneAgent:
         zone_eras = self.zone_info['eras']
         prev_era = self.ZONE_ERA_ANCHOR
         for zone_era in zone_eras:
-            if era_overlaps_with_year(prev_era, zone_era, start_ym, until_ym):
+            if era_overlaps_interval(prev_era, zone_era, start_ym, until_ym):
                 zone_policy = zone_era['zonePolicy']
                 match = self.create_match(zone_policy, prev_era, zone_era)
                 self.matches.append(match)
@@ -709,15 +709,15 @@ def days_in_month(year, month):
     return days
 
 
-def era_overlaps_with_year(prev_era, era, start_ym, until_ym):
-    """Determines if era overlaps with 3 years that starts with given year,
-    i.e. [year-1, year+2). The start date of the current era is
-    represented by the prev_era.UNTIL, so the interval of the current era is
-    [start, end) = [prev_era.UNTIL, era.UNTIL). Overlap happens if (start <
-    year+2) and (end > year).
+def era_overlaps_interval(prev_era, era, start_ym, until_ym):
+    """Determines if era overlaps the interval [start_ym, until_ym). The start
+    date of the current era is represented by the prev_era.UNTIL, so the
+    interval of the current era is [start_era, until_era) = [prev_era.UNTIL,
+    era.UNTIL). Overlap happens if (start_era < until_ym) and (until_era >
+    start_ym).
     """
     return (compare_era_to_year_month(prev_era, until_ym[0], until_ym[1]) < 0
-        and compare_era_to_year_month(era, start_ym[0], until_ym[1]) > 0)
+        and compare_era_to_year_month(era, start_ym[0], start_ym[1]) > 0)
 
 
 def compare_era_to_year_month(era, year, month):
