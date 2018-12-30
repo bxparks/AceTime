@@ -216,44 +216,49 @@ class ZoneAgent:
         prev_era = self.ZONE_ERA_ANCHOR
         for zone_era in zone_eras:
             if era_overlaps_with_year(prev_era, zone_era, year_short):
-                # zonePoicy one of 3 states: '-', ':' or a reference
                 zone_policy = zone_era['zonePolicy']
-                if zone_policy in ['-', ':']:
-                    policy_name = zone_policy
-                else:
-                    policy_name = zone_policy['name']
-
-                start_date_time = (
-                    # The subtlety here is that the prev_era's 'until datetime'
-                    # is expressed using the UTC offset of the *previous* era,
-                    # not the current era. This is probably good enough for
-                    # sorting, assuming we don't have 2 DST transitions in a
-                    # single day. See fix_start_times() which normalizes these
-                    # start times to the wall time uniformly.
-                    prev_era['untilYearShort'] + self.EPOCH_YEAR,
-                    prev_era['untilMonth'],
-                    prev_era['untilDay'],
-                    prev_era['untilHour'],
-                    prev_era['untilMinute'],
-                    prev_era['untilTimeModifier'])
-                until_date_time = (
-                    zone_era['untilYearShort'] + self.EPOCH_YEAR,
-                    zone_era['untilMonth'],
-                    zone_era['untilDay'],
-                    zone_era['untilHour'],
-                    zone_era['untilMinute'],
-                    zone_era['untilTimeModifier'])
-                match = {
-                    'startDateTime': start_date_time,
-                    'untilDateTime': until_date_time,
-                    'policyName': policy_name,
-                    'zoneEra': zone_era
-                }
+                match = self.create_match(year, zone_policy, prev_era, zone_era)
                 self.matches.append(match)
             prev_era = zone_era
 
+    def create_match(self, year, zone_policy, prev_era, zone_era):
+        """Create the Zone Match object for the given Zone Era.
+        """
+        # zonePolicy one of 3 states: '-', ':' or a reference
+        if zone_policy in ['-', ':']:
+            policy_name = zone_policy
+        else:
+            policy_name = zone_policy['name']
+
+        start_date_time = (
+            # The subtlety here is that the prev_era's 'until datetime'
+            # is expressed using the UTC offset of the *previous* era,
+            # not the current era. This is probably good enough for
+            # sorting, assuming we don't have 2 DST transitions in a
+            # single day. See fix_start_times() which normalizes these
+            # start times to the wall time uniformly.
+            prev_era['untilYearShort'] + self.EPOCH_YEAR,
+            prev_era['untilMonth'],
+            prev_era['untilDay'],
+            prev_era['untilHour'],
+            prev_era['untilMinute'],
+            prev_era['untilTimeModifier'])
+        until_date_time = (
+            zone_era['untilYearShort'] + self.EPOCH_YEAR,
+            zone_era['untilMonth'],
+            zone_era['untilDay'],
+            zone_era['untilHour'],
+            zone_era['untilMinute'],
+            zone_era['untilTimeModifier'])
+        return {
+            'startDateTime': start_date_time,
+            'untilDateTime': until_date_time,
+            'policyName': policy_name,
+            'zoneEra': zone_era
+        }
+
     def find_transitions(self, year):
-        """Find the relevant transitions from the matching ZoneEras , for the
+        """Find the relevant transitions from the matching ZoneEras, for the
         2 years starting with year.
         """
         for match in self.matches:
@@ -410,7 +415,6 @@ class ZoneAgent:
             latest_prior_time = latest_prior_transition['transitionTime']
             if transition_time > latest_prior_time:
                 results['latestPriorTransition'] = transition
-
 
     def create_transition_for_year(self, year, rule, match):
         """Create the transition from the given 'rule' for the given 'year'.
