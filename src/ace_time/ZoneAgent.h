@@ -189,15 +189,15 @@ class ZoneAgent {
       }
 
       // Find the latest rule for the matching ZoneEra whose
-      // ZoneRule::toYear < year. Assume that there are no more than 1 rule
-      // per month.
+      // ZoneRule::toYearShort < yearShort. Assume that there are no more than
+      // 1 rule per month.
+      int8_t yearShort = year - LocalDate::kEpochYear;
       const common::ZoneRule* latest = nullptr;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const common::ZoneRule* const rule = &zonePolicy->rules[i];
         // Check if rule is effective prior to the given year
-        if (rule->fromYear < year) {
-          if ((latest == nullptr)
-              || compareZoneRule(year, rule, latest) > 0) {
+        if (rule->fromYearShort < yearShort) {
+          if ((latest == nullptr) || compareZoneRule(year, rule, latest) > 0) {
             latest = rule;
           }
         }
@@ -223,11 +223,19 @@ class ZoneAgent {
       return 0;
     }
 
-    /** Return the largest effective year of the rule, prior to given year. */
+    /**
+     * Return the largest effective year of the rule, prior to given year.
+     * Return 0 if rule is greater than the given year.
+     */
     static int16_t effectiveRuleYear(int16_t year,
         const common::ZoneRule* rule) {
-      if (rule->toYear < year) return rule->toYear;
-      if (rule->fromYear < year) return year - 1;
+      int8_t yearShort = year - LocalDate::kEpochYear;
+      if (rule->toYearShort < yearShort) {
+        return rule->toYearShort + LocalDate::kEpochYear;
+      }
+      if (rule->fromYearShort < yearShort) {
+        return year - 1;
+      }
       return 0;
     }
 
@@ -240,9 +248,11 @@ class ZoneAgent {
 
       // Find all matching transition rules, and add them to the mMatches list,
       // in sorted order according to the ZoneRule::inMonth field.
+      int8_t yearShort = year - LocalDate::kEpochYear;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const common::ZoneRule* const rule = &zonePolicy->rules[i];
-        if ((rule->fromYear <= year) && (year <= rule->toYear)) {
+        if ((rule->fromYearShort <= yearShort) &&
+            (yearShort <= rule->toYearShort)) {
           addRule(era, rule);
         }
       }

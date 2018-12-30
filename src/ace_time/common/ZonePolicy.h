@@ -12,16 +12,14 @@ namespace common {
  * interval [fromYear, toYear] inclusive.
  */
 struct ZoneRule {
-  static const int16_t kMaxYear = 9999;
+  /** The maximum value of fromYearShort and toYearShort. */
+  static const int8_t kMaxYear = 127;
 
-  /** Determined by the FROM column. Supports years before 2000. */
-  int16_t const fromYear;
+  /** FROM year as an offset from year 2000 stored as a single byte. */
+  int8_t const fromYearShort;
 
-  /**
-   * Determined by the TO column. Supports years before 2000. "max" is
-   * represented by 9999.
-   */
-  int16_t const toYear;
+  /** TO year as an offset from year 2000 stored as a single byte. */
+  int8_t const toYearShort;
 
   /** Determined by the IN column. 1=Jan, 12=Dec. */
   uint8_t const inMonth;

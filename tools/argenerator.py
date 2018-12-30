@@ -107,8 +107,8 @@ const common::ZonePolicy kPolicy{policyName} = {{
     ZONE_POLICIES_CPP_RULE_ITEM = """\
   // {rawLine}
   {{
-    {fromYear} /*fromYear*/,
-    {toYear} /*toYear*/,
+    {fromYearShort} /*fromYearShort*/,
+    {toYearShort} /*toYearShort*/,
     {inMonth} /*inMonth*/,
     {onDayOfWeek} /*onDayOfWeek*/,
     {onDayOfMonth} /*onDayOfMonth*/,
@@ -233,15 +233,15 @@ const common::ZoneInfo kZone{infoShortName} = {{
     ZONE_POLICIES_CPP_FILE_NAME = 'zone_policies.cpp'
 
     EPOCH_YEAR = 2000
-    MAX_SHORT_YEAR = 127
+    MAX_YEAR_SHORT = 127
     MAX_YEAR = 9999
 
     SIZEOF_ZONE_ERA_8 = 6
     SIZEOF_ZONE_ERA_32 = 10
     SIZEOF_ZONE_INFO_8 = 5
     SIZEOF_ZONE_INFO_32 = 9
-    SIZEOF_ZONE_RULE_8 = 11
-    SIZEOF_ZONE_RULE_32 = 11
+    SIZEOF_ZONE_RULE_8 = 9
+    SIZEOF_ZONE_RULE_32 = 9
     SIZEOF_ZONE_POLICY_8 = 3
     SIZEOF_ZONE_POLICY_32 = 5
 
@@ -321,10 +321,21 @@ const common::ZoneInfo kZone{infoShortName} = {{
         rule_items = ''
         for rule in rules:
             atHour = rule['atHour']
+
+            from_year = rule['fromYear']
+            from_year_short = (from_year - self.EPOCH_YEAR
+                if from_year != self.MAX_YEAR
+                else self.MAX_YEAR_SHORT)
+
+            to_year = rule['toYear']
+            to_year_short = (to_year - self.EPOCH_YEAR
+                if to_year != self.MAX_YEAR
+                else self.MAX_YEAR_SHORT)
+
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
                 rawLine=normalize_raw(rule['rawLine']),
-                fromYear=rule['fromYear'],
-                toYear=rule['toYear'],
+                fromYearShort=from_year_short,
+                toYearShort=to_year_short,
                 inMonth=rule['inMonth'],
                 onDayOfWeek=rule['onDayOfWeek'],
                 onDayOfMonth=rule['onDayOfMonth'],
@@ -426,7 +437,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
         until_year = era['untilYear']
         if until_year == self.MAX_YEAR:
-            until_year_short = self.MAX_SHORT_YEAR
+            until_year_short = self.MAX_YEAR_SHORT
         else:
             until_year_short = until_year - self.EPOCH_YEAR
 
