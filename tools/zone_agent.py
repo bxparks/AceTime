@@ -34,20 +34,20 @@ class ZoneAgent:
     # AceTime Epoch is 2000-01-01 00:00:00
     EPOCH_YEAR = 2000
 
+    # Sentinel value for minimum year
+    MIN_YEAR = 1
+
+    # Sentinel for 'max'
+    MAX_YEAR = 9999
+
     # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
     # (2000-01-01 00:00:00)
     SECONDS_SINCE_UNIX_EPOCH = 946684800
 
-    # The biggest 'untilYearShort' when represented by as a int8_t in C++.
-    MAX_UNTIL_YEAR_SHORT = 127
-
-    # The smallest 'untilYearShort' when represented by as a int8_t in C++.
-    MIN_UNTIL_YEAR_SHORT = -128
-
     # Sentinel ZoneEra that represents the earliest zone era, since
     # we kept only those after year 2000.
     ZONE_ERA_ANCHOR = {
-        'untilYearShort': MIN_UNTIL_YEAR_SHORT,
+        'untilYear': MIN_YEAR,
         'untilMonth': 1,
         'untilDay': 1,
         'untilHour': 0,
@@ -211,11 +211,10 @@ class ZoneAgent:
         """Find the Zone Eras which overlap the 2 years from 'year' through the
         next year, i.e the interval [year, year+2).
         """
-        year_short = year - 2000
         zone_eras = self.zone_info['eras']
         prev_era = self.ZONE_ERA_ANCHOR
         for zone_era in zone_eras:
-            if era_overlaps_with_year(prev_era, zone_era, year_short):
+            if era_overlaps_with_year(prev_era, zone_era, year):
                 zone_policy = zone_era['zonePolicy']
                 match = self.create_match(year, zone_policy, prev_era, zone_era)
                 self.matches.append(match)
@@ -237,14 +236,14 @@ class ZoneAgent:
             # sorting, assuming we don't have 2 DST transitions in a
             # single day. See fix_start_times() which normalizes these
             # start times to the wall time uniformly.
-            prev_era['untilYearShort'] + self.EPOCH_YEAR,
+            prev_era['untilYear'],
             prev_era['untilMonth'],
             prev_era['untilDay'],
             prev_era['untilHour'],
             prev_era['untilMinute'],
             prev_era['untilTimeModifier'])
         until_date_time = (
-            zone_era['untilYearShort'] + self.EPOCH_YEAR,
+            zone_era['untilYear'],
             zone_era['untilMonth'],
             zone_era['untilDay'],
             zone_era['untilHour'],
@@ -415,6 +414,12 @@ class ZoneAgent:
             latest_prior_time = latest_prior_transition['transitionTime']
             if transition_time > latest_prior_time:
                 results['latestPriorTransition'] = transition
+
+    def find_transitions_from_named_match_optimized(year, math):
+        """Similar to find_transitions_from_named_match() but optimized to
+        use a smaller interval than 2 years. This version looks at the one
+        month prior to year-01-01 and one month after year-12-31.
+        """
 
     def create_transition_for_year(self, year, rule, match):
         """Create the transition from the given 'rule' for the given 'year'.
@@ -693,26 +698,26 @@ def days_in_month(year, month):
     return days
 
 
-def era_overlaps_with_year(prev_era, era, year_short):
+def era_overlaps_with_year(prev_era, era, year):
     """Determines if era overlaps with 2 years that starts with given year,
-    i.e. [year_short, year_short+2). The start date of the current era is
+    i.e. [year, year+2). The start date of the current era is
     represented by the prev_era.UNTIL, so the interval of the current era is
     [start, end) = [prev_era.UNTIL, era.UNTIL). Overlap happens if (start <
-    year_short+2) and (end > year_short).
+    year+2) and (end > year).
     """
-    return (compare_era_to_year(prev_era, year_short + 2) < 0 and
-        compare_era_to_year(era, year_short) > 0)
+    return (compare_era_to_year(prev_era, year + 2) < 0 and
+        compare_era_to_year(era, year) > 0)
 
 
-def compare_era_to_year(era, year_short):
+def compare_era_to_year(era, year):
     """Compare the zone_era with year, returning -1, 0 or 1. Ignore the
     untilTimeModifier suffix. Maybe it's not needed in this context?
     """
     if not era:
         return -1
-    if era['untilYearShort'] < year_short:
+    if era['untilYear'] < year:
         return -1
-    if era['untilYearShort'] > year_short:
+    if era['untilYear'] > year:
         return 1
     if era['untilMonth'] > 1:
         return 1

@@ -1004,7 +1004,7 @@ def find_earliest_subsequent_rules(rules, year):
     new year, which does not get picked up without this scan.
 
     It's likely that any such Rule would get picked up by the normal
-    find_matching_rules() of a Zone Era that stretched to YEAR_MAX, but I'm not
+    find_matching_rules() of a Zone Era that stretched to MAX_YEAR, but I'm not
     100% sure that that's true, and there might be a weird edge case. This
     method helps prevent that edge case.
 

@@ -233,8 +233,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
     ZONE_POLICIES_CPP_FILE_NAME = 'zone_policies.cpp'
 
     EPOCH_YEAR = 2000
-    YEAR_SHORT_MAX = 127
-    YEAR_MAX = 9999
+    MAX_SHORT_YEAR = 127
+    MAX_YEAR = 9999
 
     SIZEOF_ZONE_ERA_8 = 6
     SIZEOF_ZONE_ERA_32 = 10
@@ -425,8 +425,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
             zonePolicy = '&kPolicy%s' % normalize_name(policy_name)
 
         until_year = era['untilYear']
-        if until_year == self.YEAR_MAX:
-            until_year_short = self.YEAR_SHORT_MAX
+        if until_year == self.MAX_YEAR:
+            until_year_short = self.MAX_SHORT_YEAR
         else:
             until_year_short = until_year - self.EPOCH_YEAR
 

@@ -143,7 +143,7 @@ ZONE_INFO_{infoShortName} = {{
       'zonePolicy': {zonePolicy},
       'rulesDeltaMinutes': {rulesDeltaMinutes},
       'format': '{format}',
-      'untilYearShort': {untilYearShort},
+      'untilYear': {untilYear},
       'untilMonth': {untilMonth},
       'untilDay': {untilDay},
       'untilHour': {untilHour},
@@ -158,10 +158,6 @@ ZONE_INFO_{infoShortName} = {{
 
     ZONE_INFOS_FILE_NAME = 'zone_infos.py'
     ZONE_POLICIES_FILE_NAME = 'zone_policies.py'
-
-    EPOCH_YEAR = 2000
-    YEAR_SHORT_MAX = 127
-    YEAR_MAX = 9999
 
     def __init__(self, invocation, tz_version, tz_files,
                  zones_map, rules_map, removed_zones, removed_policies):
@@ -294,10 +290,6 @@ ZONE_INFO_{infoShortName} = {{
         if not rules_delta_minutes: rules_delta_minutes = 0
 
         until_year = era['untilYear']
-        if until_year == self.YEAR_MAX:
-            until_year_short = self.YEAR_SHORT_MAX
-        else:
-            until_year_short = until_year - self.EPOCH_YEAR
 
         until_month = era['untilMonth']
         if not until_month:
@@ -323,7 +315,7 @@ ZONE_INFO_{infoShortName} = {{
             zonePolicy=zone_policy,
             rulesDeltaMinutes=rules_delta_minutes,
             format=era['format'], # preserve the %s
-            untilYearShort=until_year_short,
+            untilYear=until_year,
             untilMonth=until_month,
             untilDay=until_day,
             untilHour=until_hour,
