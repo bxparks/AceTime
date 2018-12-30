@@ -61,11 +61,14 @@ class ZoneAgent:
         'toYear': 0
     }
 
-    def __init__(self, zone_info):
+    def __init__(self, zone_info, optimized=False):
         """zone_info is one of the ZONE_INFO_xxx constants from zone_infos.py.
         """
-        self.year = 0
         self.zone_info = zone_info
+        self.optimized = optimized
+
+        # Used by init_*() to indicate the current year of interest.
+        self.year = 0
 
         # List of matching zone eras. Map of the form;
         # {
@@ -123,8 +126,12 @@ class ZoneAgent:
         self.transitions = []
         self.year = year
 
-        self.find_matches(year)
-        self.find_transitions(year)
+        if self.optimized:
+            self.find_matches_optimized(year)
+            self.find_transitions_optimized(year)
+        else:
+            self.find_matches(year)
+            self.find_transitions(year)
         self.transitions = sorted(self.transitions,
             key=lambda x: x['transitionTime'])
         self.fix_start_times()
@@ -139,7 +146,6 @@ class ZoneAgent:
         print('Transitions:')
         for transition in self.transitions:
             self.print_transition(transition)
-
 
     def print_match(self, match):
         policy_name = match['policyName']
@@ -208,13 +214,27 @@ class ZoneAgent:
                     % params)
 
     def find_matches(self, year):
-        """Find the Zone Eras which overlap the 2 years from 'year' through the
-        next year, i.e the interval [year, year+2).
+        """Find the Zone Eras which overlap the 3 years from 'year' through the
+        next year, i.e the interval [year-1, year+2).
         """
         zone_eras = self.zone_info['eras']
         prev_era = self.ZONE_ERA_ANCHOR
         for zone_era in zone_eras:
             if era_overlaps_with_year(prev_era, zone_era, year):
+                zone_policy = zone_era['zonePolicy']
+                match = self.create_match(year, zone_policy, prev_era, zone_era)
+                self.matches.append(match)
+            prev_era = zone_era
+
+    def find_matches_optimized(self, year):
+        """Similar to find_matches() but optimized to use a smaller interval
+        than 2 years. This version looks at the one month prior to year-01-01
+        and one month after year-12-31.
+        """
+        zone_eras = self.zone_info['eras']
+        prev_era = self.ZONE_ERA_ANCHOR
+        for zone_era in zone_eras:
+            if era_overlaps_with_year_optimized(prev_era, zone_era, year):
                 zone_policy = zone_era['zonePolicy']
                 match = self.create_match(year, zone_policy, prev_era, zone_era)
                 self.matches.append(match)
@@ -258,7 +278,7 @@ class ZoneAgent:
 
     def find_transitions(self, year):
         """Find the relevant transitions from the matching ZoneEras, for the
-        2 years starting with year.
+        3 years starting with year.
         """
         for match in self.matches:
             self.find_transitions_from_match(year, match)
@@ -289,11 +309,12 @@ class ZoneAgent:
         self.transitions.append(transition)
 
     def find_transitions_from_named_match(self, year, match):
-        """Find the relevant transitions of the named policy in the Match
-        interval [start, until) for the 2 years of [year, year+2). We generate 2
-        years worth because we are caught in a Catch-22 situation when trying to
-        determine the UTC offsets needed to convert a epochSecond to the local
-        DateTime.
+        """
+        Find the relevant transitions of the named policy in the Match
+        interval [start, until) for the 3 years of [year-1, year+2). We generate
+        3 years worth because we are caught in a Catch-22 situation when trying
+        to determine the UTC offsets needed to convert a epochSecond to the
+        local DateTime.
 
         If we knew the local year of the epochSeconds when converted to the
         local DateTime, then we would need only the Transitions of the given
@@ -345,8 +366,12 @@ class ZoneAgent:
         rules = zone_policy['rules']
 
         results = {}
-        # For each Rule, process the 3 possible Transitions.
+        # For each Rule, process the 4 possible Transitions.
         for rule in rules:
+            transition = self.create_transition_for_year(year-1, rule, match)
+            if transition:
+                self.process_transition(year, match, transition, results)
+
             transition = self.create_transition_for_year(year, rule, match)
             if transition:
                 self.process_transition(year, match, transition, results)
@@ -355,6 +380,8 @@ class ZoneAgent:
             if transition:
                 self.process_transition(year, match, transition, results)
 
+            # Must be called after the other "interior" transitions are
+            # processed.
             transition = self.create_transition_prior_to_year(year, rule, match)
             if transition:
                 self.process_transition(year, match, transition, results)
@@ -380,7 +407,8 @@ class ZoneAgent:
             self.transitions.append(prior_transition)
 
     def process_transition(self, year, match, transition, results):
-        """Process the given transition. The 'results' is a map that keeps
+        """Process the given transition, making sure that it overlaps within
+        the range defined by 'match'. The 'results' is a map that keeps
         track of the processing:
             * If transition >= match.until:
                 * do nothing
@@ -414,12 +442,6 @@ class ZoneAgent:
             latest_prior_time = latest_prior_transition['transitionTime']
             if transition_time > latest_prior_time:
                 results['latestPriorTransition'] = transition
-
-    def find_transitions_from_named_match_optimized(year, math):
-        """Similar to find_transitions_from_named_match() but optimized to
-        use a smaller interval than 2 years. This version looks at the one
-        month prior to year-01-01 and one month after year-12-31.
-        """
 
     def create_transition_for_year(self, year, rule, match):
         """Create the transition from the given 'rule' for the given 'year'.
@@ -509,7 +531,7 @@ class ZoneAgent:
         # Bootstrap the transition with the first transition, effectively
         # extending the first transition backwards to -infinity. This won't be
         # 100% correct with respect to the TZ Database because we kept only the
-        # transitions spanning 2 years. But, for the dateTime or epochSecond
+        # transitions spanning 3 years. But, for the dateTime or epochSecond
         # that we care about in the ZoneAgent, it will be good enough because we
         # are guaranteed at the time Instant of interest will always be after
         # the 2nd half of the first year. If the first transition at the
@@ -699,17 +721,29 @@ def days_in_month(year, month):
 
 
 def era_overlaps_with_year(prev_era, era, year):
-    """Determines if era overlaps with 2 years that starts with given year,
-    i.e. [year, year+2). The start date of the current era is
+    """Determines if era overlaps with 3 years that starts with given year,
+    i.e. [year-1, year+2). The start date of the current era is
     represented by the prev_era.UNTIL, so the interval of the current era is
     [start, end) = [prev_era.UNTIL, era.UNTIL). Overlap happens if (start <
     year+2) and (end > year).
     """
-    return (compare_era_to_year(prev_era, year + 2) < 0 and
-        compare_era_to_year(era, year) > 0)
+    return (compare_era_to_year_month(prev_era, year+2, 1) < 0 and
+        compare_era_to_year_month(era, year-1, 1) > 0)
 
 
-def compare_era_to_year(era, year):
+def era_overlaps_with_year_optimized(prev_era, era, year):
+    """Similar to era_overlaps_with_year() but checks only the one
+    month before and after the given year. So the interval to check is
+    [ya, yb) = [year-1m, year+1+1m). The start date of the current era is
+    represented by the prev_era.UNTIL, so the interval of the current era is
+    [start, end) = [prev_era.UNTIL, era.UNTIL). Overlap happens if (start < yb)
+    and (end > ya).
+    """
+    return (compare_era_to_year_month(prev_era, year+1, 2) < 0 and
+        compare_era_to_year_month(era, year-1, 12) > 0)
+
+
+def compare_era_to_year_month(era, year, month):
     """Compare the zone_era with year, returning -1, 0 or 1. Ignore the
     untilTimeModifier suffix. Maybe it's not needed in this context?
     """
@@ -719,9 +753,9 @@ def compare_era_to_year(era, year):
         return -1
     if era['untilYear'] > year:
         return 1
-    if era['untilMonth'] > 1:
-        return 1
-    if era['untilDay'] > 1:
+    if era['untilMonth'] < month:
+        return -1
+    if era['untilMonth'] > month:
         return 1
     if era['untilHour'] > 0:
         return 1
