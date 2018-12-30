@@ -65,8 +65,6 @@ class ZoneAgent:
         """zone_info is one of the ZONE_INFO_xxx constants from zone_infos.py.
         """
         self.year = 0
-        self.isFilled = False
-        self.numMatches = 0
         self.zone_info = zone_info
 
         # List of matching zone eras. Map of the form;
@@ -121,6 +119,8 @@ class ZoneAgent:
     def init_year(self, year):
         """Initialize the Transitions of the given zone and year.
         """
+        self.matches = []
+        self.transitions = []
         self.year = year
 
         self.find_matches(year)
@@ -306,6 +306,12 @@ class ZoneAgent:
         the 2 year interval also requires the determination of the latest
         prior Transition for that policy, we do that as well.
 
+        If a Zone Era use a named Match before any transition is defined then we
+        must follow the special instructions given in
+        https://data.iana.org/time-zones/tz-how-to.html, where we use the
+        earliest transition and shift it back in time to the starting point of
+        the named Match, but clobber the SAVE to be 0 while keeping the LETTER.
+
         The algorithm is the following:
 
         * Calculate the effective Match window which overlaps with the two-year
@@ -352,6 +358,12 @@ class ZoneAgent:
         # Add the latest prior transition
         if not results.get('startTransitionFound'):
             prior_transition = results.get('latestPriorTransition')
+            if not prior_transition:
+                logging.info(
+                    "Zone '%s'; year '%04d': Using earliest transition",
+                    self.zone_info['name'], self.year)
+                prior_transition = self.create_transition_earliest(rule, match)
+                prior_transition['deltaMinutes'] = 0
             if not prior_transition:
                 self.print_status()
                 logging.error("Zone '%s'; year '%04d': "
@@ -441,6 +453,24 @@ class ZoneAgent:
             prior_year = year - 1
 
         transition_time = get_transition_time(prior_year, rule)
+        zone_era = match['zoneEra']
+        transition = match.copy()
+        transition.update({
+            'offsetMinutes': zone_era['offsetMinutes'],
+            'format': zone_era['format'],
+            'transitionTime': transition_time,
+            'zoneRule': rule,
+            'deltaMinutes': rule['deltaMinutes'],
+            'letter': rule['letter'],
+        })
+        return transition
+
+    def create_transition_earliest(self, rule, match):
+        """Create the earliest transition from the given rule.
+        """
+        # Get the earliest transition
+        from_year = rule['fromYear']
+        transition_time = get_transition_time(from_year, rule)
         zone_era = match['zoneEra']
         transition = match.copy()
         transition.update({
@@ -710,13 +740,14 @@ def validate():
     for zone_name, zone_info in ZONE_INFO_MAP.items():
         zone_agent = ZoneAgent(zone_info)
         transition_count = 0
+        logging.info("Processing Zone %s...", zone_name)
         for year in range(2000, 2038):
             zone_agent.init_year(year)
             count = len(zone_agent.transitions)
             if count > transition_count: transition_count = count
         transition_stat[zone_name] = transition_count
     for zone_name, count in sorted(
-        transition_stat.items, key=lambda x: x[1], reverse=True):
+        transition_stat.items(), key=lambda x: x[1], reverse=True):
         print("%s: %d" % (zone_name, count))
 
 def print_transitions(zone_name, year):
