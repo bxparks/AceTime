@@ -10,6 +10,9 @@ C++ code in the Arduino environment.
 
 Examples:
 
+    # Calculate and print the Transition buffer stats
+    $ ./zone_agent.py --validate
+
     # America/Indiana/Petersburg for the year 2006.
     $ ./zone_agent.py --zone Petersburg --year 2006
 
@@ -109,11 +112,17 @@ class ZoneAgent:
         """
 
     def init_second(self, epoch_seconds):
+        """Initialize the Transitions from the given epoch_seconds.
+        """
         ldt = datetime.datetime.utcfromtimestamp(
             epoch_seconds + self.SECONDS_SINCE_UNIX_EPOCH)
         init_year(ldt.year)
 
     def init_year(self, year):
+        """Initialize the Transitions of the given zone and year.
+        """
+        self.year = year
+
         self.find_matches(year)
         self.find_transitions(year)
         self.transitions = sorted(self.transitions,
@@ -344,7 +353,10 @@ class ZoneAgent:
         if not results.get('startTransitionFound'):
             prior_transition = results.get('latestPriorTransition')
             if not prior_transition:
-                logging.error("No prior transition found!")
+                self.print_status()
+                logging.error("Zone '%s'; year '%04d': "
+                    + "No prior transition found!",
+                    self.zone_info['name'], self.year)
                 sys.exit(1)
             original_time = prior_transition['transitionTime']
             prior_transition['transitionTime'] = match['startDateTime']
@@ -551,10 +563,11 @@ class ZoneAgent:
             mins = hour_minute_to_minutes(tt[3], tt[4])
             mins += (-(prev['offsetMinutes'] + prev['deltaMinutes']) +
                 (transition['offsetMinutes'] + transition['deltaMinutes']))
-            if mins < 0 or mins >= 24 * 60:
-                logging.info(
-                    "Transition startDateTime shifted into a different day: "
-                    + "(%02d:%02d)", h, m)
+            #if mins < 0 or mins >= 24 * 60:
+            #    logging.info(
+            #        "Zone '%s': Transition startDateTime shifted into "
+            #        + "a different day: (%02d:%02d)",
+            #        self.zone_info['name'], h, m)
             (h, m) = minutes_to_hour_minute(mins)
             st = datetime.datetime(tt[0], tt[1], tt[2], 0, 0, 0)
             st += datetime.timedelta(minutes = mins)
@@ -678,13 +691,6 @@ def compare_era_to_year(era, year_short):
     return 0
 
 
-def add_hour_minute(a, b):
-    am = hour_minute_to_minutes(a[0], a[1])
-    bm = hour_minute_to_minutes(b[0], b[1])
-    cm = am + bm
-    return minutes_to_hour_minute(cm)
-
-
 def minutes_to_hour_minute(m):
     return (m // 60, m % 60)
 
@@ -693,28 +699,56 @@ def hour_minute_to_minutes(h, m):
     return 60 * h + m
 
 
+def validate():
+    """Validate the data in the zone_infos.py and zone_policies.py files.
+    """
+    # map of {zoneName -> numTransitions}
+    transition_stat = {}
+
+    # Calculate the number of Transitions necessary for every Zone
+    # in ZONE_INFO_MAP, for the years 2000 to 2038.
+    for zone_name, zone_info in ZONE_INFO_MAP.items():
+        zone_agent = ZoneAgent(zone_info)
+        transition_count = 0
+        for year in range(2000, 2038):
+            zone_agent.init_year(year)
+            count = len(zone_agent.transitions)
+            if count > transition_count: transition_count = count
+        transition_stat[zone_name] = transition_count
+    for zone_name, count in sorted(
+        transition_stat.items, key=lambda x: x[1], reverse=True):
+        print("%s: %d" % (zone_name, count))
+
+def print_transitions(zone_name, year):
+    zone_info = ZONE_INFO_MAP.get(zone_name)
+    if not zone_info:
+        logging.error("Zone '%s' not found", zone_name)
+        sys.exit(1)
+
+    logging.info("Loading Zone info for '%s'", zone_name)
+    zone_agent = ZoneAgent(zone_info)
+    zone_agent.init_year(year)
+    zone_agent.print_status()
+
 def main():
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Zone Agent.')
-    parser.add_argument('--year', help='Year of interest', type=int,
-        required=True)
-    parser.add_argument('--zone', help='Name of time zone',
-        required=True)
+    parser.add_argument('--validate', help='Validate infos and policies',
+        action="store_true")
+    parser.add_argument('--zone', help='Name of time zone')
+    parser.add_argument('--year', help='Year of interest', type=int)
     args = parser.parse_args()
 
     # Configure logging
     logging.basicConfig(level=logging.INFO)
 
-    zone_info = ZONE_INFO_MAP.get(args.zone)
-    if not zone_info:
-        logging.error("Zone '%s' not found", args.zone)
+    if args.validate:
+        validate()
+    elif args.zone and args.year:
+        print_transitions(args.zone, args.year)
+    else:
+        print("Either --validate or --zone/--year must be provided")
         sys.exit(1)
-
-    logging.info("Loading Zone info for '%s'", args.zone)
-    zone_agent = ZoneAgent(zone_info)
-    zone_agent.init_year(args.year)
-    zone_agent.print_status()
-
 
 if __name__ == '__main__':
     main()
