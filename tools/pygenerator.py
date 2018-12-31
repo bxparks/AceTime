@@ -44,6 +44,15 @@ class PythonGenerator:
 #
 {removedPolicyItems}
 
+#---------------------------------------------------------------------------
+
+# The following zone policies may have inaccuracies due to the following
+# reasons:
+#
+# numPolicies: {numNotablePolicies}
+#
+{notablePolicyItems}
+
 """
 
     ZONE_POLICY_ITEM = """\
@@ -62,7 +71,11 @@ ZONE_POLICY_{policyName} = {{
 """
 
     ZONE_REMOVED_POLICY_ITEM = """\
-# {policyName} ({policyRemovalReason})
+# {policyName} ({policyReason})
+"""
+
+    ZONE_NOTABLE_POLICY_ITEM = """\
+# {policyName} ({policyReason})
 """
 
 
@@ -116,6 +129,14 @@ ZONE_INFO_MAP = {{
 # numInfos: {numRemovedInfos}
 #
 {removedInfoItems}
+
+#---------------------------------------------------------------------------
+
+# The following zones may have inaccuracies due to the following reasons:
+#
+# numInfos: {numNotableInfos}
+#
+{notableInfoItems}
 """
 
     ZONE_INFO_ITEM = """\
@@ -135,7 +156,11 @@ ZONE_INFO_{infoShortName} = {{
 """
 
     ZONE_REMOVED_INFO_ITEM = """\
-# {infoFullName} ({infoRemovalReason})
+# {infoFullName} ({infoReason})
+"""
+
+    ZONE_NOTABLE_INFO_ITEM = """\
+# {infoFullName} ({infoReason})
 """
 
     ZONE_ERA_ITEM = """\
@@ -163,7 +188,8 @@ ZONE_INFO_{infoShortName} = {{
     ZONE_POLICIES_FILE_NAME = 'zone_policies.py'
 
     def __init__(self, invocation, tz_version, tz_files,
-                 zones_map, rules_map, removed_zones, removed_policies):
+                 zones_map, rules_map, removed_zones, removed_policies,
+                 notable_zones, notable_policies):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -171,6 +197,8 @@ ZONE_INFO_{infoShortName} = {{
         self.rules_map = rules_map
         self.removed_zones = removed_zones
         self.removed_policies = removed_policies
+        self.notable_zones = notable_zones
+        self.notable_policies = notable_policies
 
     def generate_files(self, output_dir):
         self.write_file(output_dir,
@@ -188,7 +216,9 @@ ZONE_INFO_{infoShortName} = {{
     def generate_policies(self):
         (num_rules, policy_items) = self.generate_policy_items(self.rules_map)
         removed_policy_items = self.generate_removed_policy_items(
-            self.rules_map)
+            self.removed_policies)
+        notable_policy_items = self.generate_notable_policy_items(
+            self.notable_policies)
 
         return self.ZONE_POLICIES_FILE.format(
             invocation=self.invocation,
@@ -198,7 +228,9 @@ ZONE_INFO_{infoShortName} = {{
             numRules=num_rules,
             policyItems=policy_items,
             numRemovedPolicies=len(self.removed_policies),
-            removedPolicyItems=removed_policy_items)
+            removedPolicyItems=removed_policy_items,
+            numNotablePolicies=len(self.notable_policies),
+            notablePolicyItems=notable_policy_items)
 
     def generate_policy_items(self, rules_map):
         num_rules = 0
@@ -232,19 +264,30 @@ ZONE_INFO_{infoShortName} = {{
             numRules=len(rules),
             ruleItems=rule_items);
 
-    def generate_removed_policy_items(self, rules_map):
+    def generate_removed_policy_items(self, removed_policies):
         removed_policy_items = ''
-        for name, reason in sorted(self.removed_policies.items()):
+        for name, reason in sorted(removed_policies.items()):
             removed_policy_items += \
                 self.ZONE_REMOVED_POLICY_ITEM.format(
                     policyName=normalize_name(name),
-                    policyRemovalReason=reason)
+                    policyReason=reason)
         return removed_policy_items
+
+    def generate_notable_policy_items(self, notable_policies):
+        notable_policy_items = ''
+        for name, reason in sorted(notable_policies.items()):
+            notable_policy_items += \
+                self.ZONE_NOTABLE_POLICY_ITEM.format(
+                    policyName=normalize_name(name),
+                    policyReason=reason)
+        return notable_policy_items
 
     def generate_infos(self):
         (num_eras, info_items) = self.generate_info_items(self.zones_map)
         removed_info_items = self.generate_removed_info_items(
             self.removed_zones)
+        notable_info_items = self.generate_notable_info_items(
+            self.notable_zones)
         info_map_items = self.generate_info_map_items(self.zones_map)
 
         return self.ZONE_INFOS_FILE.format(
@@ -256,7 +299,9 @@ ZONE_INFO_{infoShortName} = {{
             infoItems=info_items,
             infoMapItems=info_map_items,
             numRemovedInfos=len(self.removed_zones),
-            removedInfoItems=removed_info_items)
+            removedInfoItems=removed_info_items,
+            numNotableInfos=len(self.notable_zones),
+            notableInfoItems=notable_info_items)
 
     def generate_info_items(self, zones_map):
         info_items = ''
@@ -268,11 +313,19 @@ ZONE_INFO_{infoShortName} = {{
 
     def generate_removed_info_items(self, removed_zones):
         removed_info_items = ''
-        for name, reason in sorted(self.removed_zones.items()):
+        for name, reason in sorted(removed_zones.items()):
             removed_info_items += self.ZONE_REMOVED_INFO_ITEM.format(
                 infoFullName=name,
-                infoRemovalReason=reason)
+                infoReason=reason)
         return removed_info_items
+
+    def generate_notable_info_items(self, notable_zones):
+        notable_info_items = ''
+        for name, reason in sorted(notable_zones.items()):
+            notable_info_items += self.ZONE_NOTABLE_INFO_ITEM.format(
+                infoFullName=name,
+                infoReason=reason)
+        return notable_info_items
 
     def generate_info_item(self, name, eras):
         era_items = ''

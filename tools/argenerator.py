@@ -53,6 +53,13 @@ namespace zonedb {{
 //
 {removedPolicyItems}
 
+// The following zone policies may have inaccuracies  due to the following
+// reasons:
+//
+// numPolicies: {numNotablePolicies}
+//
+{notablePolicyItems}
+
 }}
 }}
 
@@ -64,7 +71,11 @@ extern const common::ZonePolicy kPolicy{policyName};
 """
 
     ZONE_POLICIES_H_REMOVED_POLICY_ITEM = """\
-// kPolicy{policyName} ({policyRemovalReason})
+// kPolicy{policyName} ({policyReason})
+"""
+
+    ZONE_POLICIES_H_NOTABLE_POLICY_ITEM = """\
+// kPolicy{policyName} ({policyReason})
 """
 
     ZONE_POLICIES_CPP_FILE = """\
@@ -159,6 +170,12 @@ namespace zonedb {{
 //
 {removedInfoItems}
 
+// The following zones may have inaccuracies due to the following reasons:
+//
+// numInfos: {numNotableInfos}
+//
+{notableInfoItems}
+
 }}
 }}
 
@@ -170,7 +187,11 @@ extern const common::ZoneInfo kZone{infoShortName}; // {infoFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
-// {infoFullName} ({infoRemovalReason})
+// {infoFullName} ({infoReason})
+"""
+
+    ZONE_INFOS_H_NOTABLE_INFO_ITEM = """\
+// {infoFullName} ({infoReason})
 """
 
     ZONE_INFOS_CPP_FILE = """\
@@ -252,7 +273,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
     SIZEOF_ZONE_POLICY_32 = 5
 
     def __init__(self, invocation, tz_version, tz_files,
-                 zones_map, rules_map, removed_zones, removed_policies):
+                 zones_map, rules_map, removed_zones, removed_policies,
+                 notable_zones, notable_policies):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -260,6 +282,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
         self.rules_map = rules_map
         self.removed_zones = removed_zones
         self.removed_policies = removed_policies
+        self.notable_zones = notable_zones
+        self.notable_policies = notable_policies
 
     def generate_files(self, output_dir):
         self.write_file(output_dir,
@@ -289,7 +313,14 @@ const common::ZoneInfo kZone{infoShortName} = {{
             removed_policy_items += \
                 self.ZONE_POLICIES_H_REMOVED_POLICY_ITEM.format(
                     policyName=name,
-                    policyRemovalReason=reason)
+                    policyReason=reason)
+
+        notable_policy_items = ''
+        for name, reason in sorted(self.notable_policies.items()):
+            notable_policy_items += \
+                self.ZONE_POLICIES_H_NOTABLE_POLICY_ITEM.format(
+                    policyName=name,
+                    policyReason=reason)
 
         return self.ZONE_POLICIES_H_FILE.format(
             invocation=self.invocation,
@@ -298,7 +329,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
             numPolicies=len(self.rules_map),
             policyItems=policy_items,
             numRemovedPolicies=len(self.removed_policies),
-            removedPolicyItems=removed_policy_items)
+            removedPolicyItems=removed_policy_items,
+            numNotablePolicies=len(self.notable_policies),
+            notablePolicyItems=notable_policy_items)
 
     def generate_policies_cpp(self):
         policy_items = ''
@@ -373,7 +406,13 @@ const common::ZoneInfo kZone{infoShortName} = {{
         for name, reason in sorted(self.removed_zones.items()):
             removed_info_items += self.ZONE_INFOS_H_REMOVED_INFO_ITEM.format(
                 infoFullName=name,
-                infoRemovalReason=reason)
+                infoReason=reason)
+
+        notable_info_items = ''
+        for name, reason in sorted(self.notable_zones.items()):
+            notable_info_items += self.ZONE_INFOS_H_NOTABLE_INFO_ITEM.format(
+                infoFullName=name,
+                infoReason=reason)
 
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
@@ -382,7 +421,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
             numInfos=len(self.zones_map),
             infoItems=info_items,
             numRemovedInfos=len(self.removed_zones),
-            removedInfoItems=removed_info_items)
+            removedInfoItems=removed_info_items,
+            numNotableInfos=len(self.notable_zones),
+            notableInfoItems=notable_info_items)
 
     def generate_infos_cpp(self):
         info_items = ''

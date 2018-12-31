@@ -146,7 +146,8 @@ def main():
     transformer = Transformer(zones, rules, args.python, args.start_year,
         args.granularity, args.strict)
     transformer.transform()
-    (zones, rules, removed_zones, removed_policies) = transformer.get_data()
+    (zones, rules, removed_zones, removed_policies, notable_zones,
+        notable_policies) = transformer.get_data()
 
     # printer for the transformer
     printer = Printer(zones, rules)
@@ -160,10 +161,12 @@ def main():
     # create the generator (Python or C++
     if args.python:
         generator = PythonGenerator(invocation, args.tz_version,
-            Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies)
+            Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies,
+            notable_zones, notable_policies)
     else:
         generator = ArduinoGenerator(invocation, args.tz_version,
-            Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies)
+            Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies,
+            notable_zones, notable_policies)
 
     # generate files
     if args.output_dir:

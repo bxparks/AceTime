@@ -38,9 +38,12 @@ class Transformer:
         self.all_removed_zones = {} # map of zone name -> reason
         self.all_removed_policies = {} # map of policy name -> reason
 
+        self.all_notable_zones = {} # map of zone name -> reason
+        self.all_notable_policies = {} # map of policy name -> reason
+
     def get_data(self):
         """
-        Returns a tuple of 4 data structures:
+        Returns a tuple of 6 data structures:
 
         'zones_map' is a map of (name -> zones[]), where each element in zones
         is another map with the following fields:
@@ -95,18 +98,26 @@ class Transformer:
             shortName: (string) short name of the zone
 
         'all_removed_zones' is a map of the zones which were removed:
-
             name: name of zone removed
             reason: human readable reason
 
         'all_removed_policies' is a map of the policies (entire set of RULEs)
         which were removed:
-
             name: name of policy removed
             reason: human readable reason
+
+        'all_notable_zones' is a map of the zones which come with caveats:
+            name: name of zone
+            reason: human readable reason
+
+        'all_notable_policies' is a map of the policies come with caveats:
+            name: name of policy
+            reason: human readable reason
+
         """
-        return (self.zones_map, self.rules_map, self.all_removed_zones,
-            self.all_removed_policies)
+        return (self.zones_map, self.rules_map,
+            self.all_removed_zones, self.all_removed_policies,
+            self.all_notable_zones, self.all_notable_policies)
 
     def transform(self):
         zones_map = self.zones_map
@@ -257,6 +268,7 @@ class Transformer:
         """
         results = {}
         removed_zones = {}
+        notable_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
@@ -275,12 +287,17 @@ class Transformer:
 
                 until_seconds_truncated = truncate_to_granularity(
                     until_seconds, self.granularity)
-                if self.strict and until_seconds != until_seconds_truncated:
-                    valid = False
-                    removed_zones[name] = (
-                        "UNTIL time '%s' must be multiples of '%s' seconds"
-                        % (until_time, self.granularity))
-                    break
+                if until_seconds != until_seconds_truncated:
+                    if self.strict:
+                        valid = False
+                        removed_zones[name] = (
+                            "UNTIL time '%s' must be multiples of '%s' seconds"
+                            % (until_time, self.granularity))
+                        break
+                    else:
+                        notable_zones[name] = (
+                            "UNTIL time '%s' truncated to '%s' seconds"
+                            % (until_time, self.granularity))
 
                 zone['untilSeconds'] = until_seconds
                 zone['untilSecondsTruncated'] = until_seconds_truncated
@@ -293,6 +310,7 @@ class Transformer:
             len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
+        self.all_notable_zones.update(notable_zones)
         return results
 
     def remove_zones_invalid_until_time_modifier(self, zones_map):
@@ -329,6 +347,7 @@ class Transformer:
         """
         results = {}
         removed_zones = {}
+        notable_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
@@ -342,11 +361,17 @@ class Transformer:
 
                 offset_seconds_truncated = truncate_to_granularity(
                     offset_seconds, self.granularity)
-                if self.strict and offset_seconds != offset_seconds_truncated:
-                    valid = False
-                    removed_zones[name] = (
-                        "GMTOFF '%s' must be multiples of '%s' seconds" %
-                        (offset_string, self.granularity))
+                if offset_seconds != offset_seconds_truncated:
+                    if self.strict:
+                        valid = False
+                        removed_zones[name] = (
+                            "GMTOFF '%s' must be multiples of '%s' seconds" %
+                            (offset_string, self.granularity))
+                        break
+                    else:
+                        notable_zones[name] = (
+                            "GMTOFF '%s' truncated '%s' seconds" %
+                            (offset_string, self.granularity))
 
                 zone['offsetSeconds'] = offset_seconds
                 zone['offsetSecondsTruncated'] = offset_seconds_truncated
@@ -358,6 +383,7 @@ class Transformer:
             len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
+        self.all_notable_zones.update(notable_zones)
         return results
 
     def create_zones_with_rules_expansion(self, zones_map):
@@ -375,6 +401,7 @@ class Transformer:
         """
         results = {}
         removed_zones = {}
+        notable_zones = {}
         for name, zones in zones_map.items():
             valid = True
             for zone in zones:
@@ -396,14 +423,19 @@ class Transformer:
 
                     rules_delta_seconds_truncated = truncate_to_granularity(
                         rules_delta_seconds, self.granularity)
-                    if self.strict and \
-                        rules_delta_seconds != rules_delta_seconds_truncated:
-                        valid = False
-                        removed_zones[name] = (
-                            "RULES delta offset '%s' must be multiples of "
-                            + "'%s' seconds"
-                            % (rules_string, self.granularity))
-                        break
+                    if rules_delta_seconds != rules_delta_seconds_truncated:
+                        if self.strict:
+                            valid = False
+                            removed_zones[name] = (
+                                "RULES delta offset '%s' must be multiples of "
+                                + "'%s' seconds"
+                                % (rules_string, self.granularity))
+                            break
+                        else:
+                            notable_zones[name] = (
+                                "RULES delta offset '%s' truncated to"
+                                + "'%s' seconds"
+                                % (rules_string, self.granularity))
 
                     zone['rules'] = ':'
                     zone['rulesDeltaSeconds'] = rules_delta_seconds
@@ -419,6 +451,7 @@ class Transformer:
             len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
+        self.all_notable_zones.update(notable_zones)
         return results
 
     def remove_zones_without_rules(self, zones_map, rules_map):
@@ -769,6 +802,7 @@ class Transformer:
         """
         results = {}
         removed_policies = {}
+        notable_policies = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
@@ -785,12 +819,17 @@ class Transformer:
 
                 at_seconds_truncated = truncate_to_granularity(
                     at_seconds, self.granularity)
-                if self.strict and at_seconds != at_seconds_truncated:
-                    valid = False
-                    removed_policies[name] = (
-                        "AT time '%s' must be multiples of '%s' seconds" %
-                        (at_time, self.granularity))
-                    break
+                if at_seconds != at_seconds_truncated:
+                    if self.strict:
+                        valid = False
+                        removed_policies[name] = (
+                            "AT time '%s' must be multiples of '%s' seconds" %
+                            (at_time, self.granularity))
+                        break
+                    else:
+                        notable_policies[name] = (
+                            "AT time '%s' truncated to '%s' seconds" %
+                            (at_time, self.granularity))
 
                 rule['atSeconds'] = at_seconds
                 rule['atSecondsTruncated'] = at_seconds_truncated
@@ -802,6 +841,7 @@ class Transformer:
             len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
+        self.all_notable_policies.update(notable_policies)
         return results
 
     def create_rules_with_expanded_delta_offset(self, rules_map):
@@ -809,6 +849,7 @@ class Transformer:
         """
         results = {}
         removed_policies = {}
+        notable_policies = {}
         for name, rules in rules_map.items():
             valid = True
             for rule in rules:
@@ -822,12 +863,19 @@ class Transformer:
 
                 delta_seconds_truncated = truncate_to_granularity(
                     delta_seconds, self.granularity)
-                if self.strict and delta_seconds != delta_seconds_truncated:
-                    valid = False
-                    removed_policies[name] = (
-                        "deltaOffset '%s' must be a multiple of '%s' seconds" %
-                        delta_offset, self.granularity)
-                    break
+                if delta_seconds != delta_seconds_truncated:
+                    if self.strict:
+                        valid = False
+                        removed_policies[name] = (
+                            "deltaOffset '%s' must be a multiple of "
+                            + "'%s' seconds" %
+                            delta_offset, self.granularity)
+                        break
+                    else:
+                        notable_policies[name] = (
+                            "deltaOffset '%s' must be a multiple of "
+                            + "'%s' seconds" %
+                            delta_offset, self.granularity)
 
                 rule['deltaSeconds'] = delta_seconds
                 rule['deltaSecondsTruncated'] = delta_seconds_truncated
@@ -839,6 +887,7 @@ class Transformer:
             len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
+        self.all_notable_policies.update(notable_policies)
         return results
 
 # ISO-8601 specifies Monday=1, Sunday=7
