@@ -51,7 +51,7 @@ class DS3231TimeKeeper: public TimeKeeper {
      * DS3231 so the year is assumed to be between 2000 and 2099.
      */
     static hw::HardwareDateTime toHardwareDateTime(const OffsetDateTime& dt) {
-      return hw::HardwareDateTime{(uint8_t) dt.yearShort(), dt.month(),
+      return hw::HardwareDateTime{(uint8_t) dt.yearTiny(), dt.month(),
           dt.day(), dt.hour(), dt.minute(), dt.second(), dt.dayOfWeek()};
     }
 

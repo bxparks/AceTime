@@ -9,7 +9,7 @@ using namespace ace_time;
 test(OffsetDateTimeTest, accessors) {
   OffsetDateTime dt = OffsetDateTime::forComponents(2001, 2, 3, 4, 5, 6);
   assertEqual((int16_t) 2001, dt.year());
-  assertEqual(1, dt.yearShort());
+  assertEqual(1, dt.yearTiny());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
   assertEqual(4, dt.hour());
@@ -172,7 +172,7 @@ test(OffsetDateTimeTest, forEpochSeconds) {
       10958 * (acetime_t) 86400 - 1);
 
   assertEqual((int16_t) 2029, dt.year());
-  assertEqual(29, dt.yearShort());
+  assertEqual(29, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
   assertEqual(23, dt.hour());
@@ -184,7 +184,7 @@ test(OffsetDateTimeTest, forEpochSeconds) {
   UtcOffset offset = UtcOffset::forOffsetCode(-32); // UTC-08:00
   dt = OffsetDateTime::forEpochSeconds(10958 * (acetime_t) 86400 - 1, offset);
   assertEqual((int16_t) 2029, dt.year());
-  assertEqual(29, dt.yearShort());
+  assertEqual(29, dt.yearTiny());
   assertEqual(12, dt.month());
   assertEqual(31, dt.day());
   assertEqual(15, dt.hour());
@@ -198,7 +198,7 @@ test(OffsetDateTimeTest, convertToUtcOffset) {
   OffsetDateTime b = a.convertToUtcOffset(UtcOffset::forHour(-7));
 
   assertEqual((int16_t) 2018, b.year());
-  assertEqual(18, b.yearShort());
+  assertEqual(18, b.yearTiny());
   assertEqual(1, b.month());
   assertEqual(1, b.day());
   assertEqual(5, b.hour());
@@ -286,7 +286,7 @@ test(OffsetDateTimeTest, dayOfWeek) {
   dt.month(2); // 2018-02-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 
-  dt.yearShort(19); // 2019-02-02 23:40:03+00:45, changes dayOfWeek
+  dt.yearTiny(19); // 2019-02-02 23:40:03+00:45, changes dayOfWeek
   assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
 
   dt.year(2020); // 2020-02-02 23:40:03+00:45, changes dayOfWeek
@@ -325,7 +325,7 @@ test(OffsetDateTimeTest, forDateString) {
       F("2018-08-31T13:48:01-07:00"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearShort());
+  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());
@@ -338,7 +338,7 @@ test(OffsetDateTimeTest, forDateString) {
   dt = OffsetDateTime::forDateString(F("2018/08/31 13#48#01+07#00"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
-  assertEqual(18, dt.yearShort());
+  assertEqual(18, dt.yearTiny());
   assertEqual(8, dt.month());
   assertEqual(31, dt.day());
   assertEqual(13, dt.hour());

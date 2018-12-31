@@ -13,16 +13,16 @@ namespace common {
  */
 struct ZoneRule {
   /**
-   * The maximum value of fromYearShort and toYearShort. Must be <
+   * The maximum value of fromYearTiny and toYearTiny. Must be <
    * ZoneEra::kMaxUntilYear.
    */
-  static const int8_t kMaxYearShort = 126;
+  static const int8_t kMaxYearTiny = 126;
 
   /** FROM year as an offset from year 2000 stored as a single byte. */
-  int8_t const fromYearShort;
+  int8_t const fromYearTiny;
 
   /** TO year as an offset from year 2000 stored as a single byte. */
-  int8_t const toYearShort;
+  int8_t const toYearTiny;
 
   /** Determined by the IN column. 1=Jan, 12=Dec. */
   uint8_t const inMonth;

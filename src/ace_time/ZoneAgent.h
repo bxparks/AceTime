@@ -189,14 +189,14 @@ class ZoneAgent {
       }
 
       // Find the latest rule for the matching ZoneEra whose
-      // ZoneRule::toYearShort < yearShort. Assume that there are no more than
+      // ZoneRule::toYearTiny < yearTiny. Assume that there are no more than
       // 1 rule per month.
-      int8_t yearShort = year - LocalDate::kEpochYear;
+      int8_t yearTiny = year - LocalDate::kEpochYear;
       const common::ZoneRule* latest = nullptr;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const common::ZoneRule* const rule = &zonePolicy->rules[i];
         // Check if rule is effective prior to the given year
-        if (rule->fromYearShort < yearShort) {
+        if (rule->fromYearTiny < yearTiny) {
           if ((latest == nullptr) || compareZoneRule(year, rule, latest) > 0) {
             latest = rule;
           }
@@ -229,11 +229,11 @@ class ZoneAgent {
      */
     static int16_t effectiveRuleYear(int16_t year,
         const common::ZoneRule* rule) {
-      int8_t yearShort = year - LocalDate::kEpochYear;
-      if (rule->toYearShort < yearShort) {
-        return rule->toYearShort + LocalDate::kEpochYear;
+      int8_t yearTiny = year - LocalDate::kEpochYear;
+      if (rule->toYearTiny < yearTiny) {
+        return rule->toYearTiny + LocalDate::kEpochYear;
       }
-      if (rule->fromYearShort < yearShort) {
+      if (rule->fromYearTiny < yearTiny) {
         return year - 1;
       }
       return 0;
@@ -248,11 +248,11 @@ class ZoneAgent {
 
       // Find all matching transition rules, and add them to the mMatches list,
       // in sorted order according to the ZoneRule::inMonth field.
-      int8_t yearShort = year - LocalDate::kEpochYear;
+      int8_t yearTiny = year - LocalDate::kEpochYear;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const common::ZoneRule* const rule = &zonePolicy->rules[i];
-        if ((rule->fromYearShort <= yearShort) &&
-            (yearShort <= rule->toYearShort)) {
+        if ((rule->fromYearTiny <= yearTiny) &&
+            (yearTiny <= rule->toYearTiny)) {
           addRule(era, rule);
         }
       }
@@ -293,13 +293,13 @@ class ZoneAgent {
 
     /**
      * Find the ZoneEra which applies to the given year. The era will
-     * satisfy (year < ZoneEra.untilYearShort + kEpochYear). Since the
-     * largest untilYearShort is 127, the largest supported 'year' is 2126.
+     * satisfy (year < ZoneEra.untilYearTiny + kEpochYear). Since the
+     * largest untilYearTiny is 127, the largest supported 'year' is 2126.
      */
     const common::ZoneEra* findZoneEra(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
         const common::ZoneEra* era = &mZoneInfo->eras[i];
-        if (year < era->untilYearShort + LocalDate::kEpochYear) return era;
+        if (year < era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
       return nullptr;
     }
@@ -317,7 +317,7 @@ class ZoneAgent {
     const common::ZoneEra* findZoneEraPriorTo(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
         const common::ZoneEra* era = &mZoneInfo->eras[i];
-        if (year <= era->untilYearShort + LocalDate::kEpochYear) return era;
+        if (year <= era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
       return nullptr;
     }

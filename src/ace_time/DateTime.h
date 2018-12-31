@@ -186,17 +186,17 @@ class DateTime {
       return *this;
     }
 
-    /** Return the 2 digit year from year 2000. */
-    int8_t yearShort() const { return mOffsetDateTime.yearShort(); }
-
-    /** Set the 2 digit year from year 2000. */
-    void yearShort(int8_t yearShort) { mOffsetDateTime.yearShort(yearShort); }
-
     /** Return the year. */
     int16_t year() const { return mOffsetDateTime.year(); }
 
     /** Set the year given the full year. */
     void year(int16_t year) { mOffsetDateTime.year(year); }
+
+    /** Return the single-byte year offset from year 2000. */
+    int8_t yearTiny() const { return mOffsetDateTime.yearTiny(); }
+
+    /** Set the single-byte year offset from year 2000. */
+    void yearTiny(int8_t yearTiny) { mOffsetDateTime.yearTiny(yearTiny); }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mOffsetDateTime.month(); }

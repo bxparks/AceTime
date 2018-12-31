@@ -27,8 +27,8 @@ namespace zonedb {
 static const common::ZoneRule kZoneRulesAN[] = {
   // Rule    AN    1987    1999    -    Oct    lastSun    2:00s    1:00    D
   {
-    -13 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -13 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -39,8 +39,8 @@ static const common::ZoneRule kZoneRulesAN[] = {
   },
   // Rule    AN    1996    2005    -    Mar    lastSun    2:00s    0    S
   {
-    -4 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    -4 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -51,8 +51,8 @@ static const common::ZoneRule kZoneRulesAN[] = {
   },
   // Rule    AN    2000    only    -    Aug    lastSun    2:00s    1:00    D
   {
-    0 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     8 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -63,8 +63,8 @@ static const common::ZoneRule kZoneRulesAN[] = {
   },
   // Rule    AN    2001    2007    -    Oct    lastSun    2:00s    1:00    D
   {
-    1 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -75,8 +75,8 @@ static const common::ZoneRule kZoneRulesAN[] = {
   },
   // Rule    AN    2006    only    -    Apr    Sun>=1    2:00s    0    S
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -87,8 +87,8 @@ static const common::ZoneRule kZoneRulesAN[] = {
   },
   // Rule    AN    2007    only    -    Mar    lastSun    2:00s    0    S
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -99,8 +99,8 @@ static const common::ZoneRule kZoneRulesAN[] = {
   },
   // Rule    AN    2008    max    -    Apr    Sun>=1    2:00s    0    S
   {
-    8 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -111,8 +111,8 @@ static const common::ZoneRule kZoneRulesAN[] = {
   },
   // Rule    AN    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
   {
-    8 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -139,8 +139,8 @@ const common::ZonePolicy kPolicyAN = {
 static const common::ZoneRule kZoneRulesAQ[] = {
   // Rule    AQ    1990    1992    -    Mar    Sun>=1    2:00s    0    S
   {
-    -10 /*fromYearShort*/,
-    -8 /*toYearShort*/,
+    -10 /*fromYearTiny*/,
+    -8 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -167,8 +167,8 @@ const common::ZonePolicy kPolicyAQ = {
 static const common::ZoneRule kZoneRulesAS[] = {
   // Rule    AS    1987    2007    -    Oct    lastSun    2:00s    1:00    D
   {
-    -13 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    -13 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -179,8 +179,8 @@ static const common::ZoneRule kZoneRulesAS[] = {
   },
   // Rule    AS    1994    only    -    Mar    20    2:00s    0    S
   {
-    -6 /*fromYearShort*/,
-    -6 /*toYearShort*/,
+    -6 /*fromYearTiny*/,
+    -6 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -191,8 +191,8 @@ static const common::ZoneRule kZoneRulesAS[] = {
   },
   // Rule    AS    1995    2005    -    Mar    lastSun    2:00s    0    S
   {
-    -5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    -5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -203,8 +203,8 @@ static const common::ZoneRule kZoneRulesAS[] = {
   },
   // Rule    AS    2006    only    -    Apr    2    2:00s    0    S
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -215,8 +215,8 @@ static const common::ZoneRule kZoneRulesAS[] = {
   },
   // Rule    AS    2007    only    -    Mar    lastSun    2:00s    0    S
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -227,8 +227,8 @@ static const common::ZoneRule kZoneRulesAS[] = {
   },
   // Rule    AS    2008    max    -    Apr    Sun>=1    2:00s    0    S
   {
-    8 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -239,8 +239,8 @@ static const common::ZoneRule kZoneRulesAS[] = {
   },
   // Rule    AS    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
   {
-    8 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -267,8 +267,8 @@ const common::ZonePolicy kPolicyAS = {
 static const common::ZoneRule kZoneRulesAT[] = {
   // Rule    AT    1991    1999    -    Oct    Sun>=1    2:00s    1:00    D
   {
-    -9 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -9 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -279,8 +279,8 @@ static const common::ZoneRule kZoneRulesAT[] = {
   },
   // Rule    AT    1991    2005    -    Mar    lastSun    2:00s    0    S
   {
-    -9 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    -9 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -291,8 +291,8 @@ static const common::ZoneRule kZoneRulesAT[] = {
   },
   // Rule    AT    2000    only    -    Aug    lastSun    2:00s    1:00    D
   {
-    0 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     8 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -303,8 +303,8 @@ static const common::ZoneRule kZoneRulesAT[] = {
   },
   // Rule    AT    2001    max    -    Oct    Sun>=1    2:00s    1:00    D
   {
-    1 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -315,8 +315,8 @@ static const common::ZoneRule kZoneRulesAT[] = {
   },
   // Rule    AT    2006    only    -    Apr    Sun>=1    2:00s    0    S
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -327,8 +327,8 @@ static const common::ZoneRule kZoneRulesAT[] = {
   },
   // Rule    AT    2007    only    -    Mar    lastSun    2:00s    0    S
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -339,8 +339,8 @@ static const common::ZoneRule kZoneRulesAT[] = {
   },
   // Rule    AT    2008    max    -    Apr    Sun>=1    2:00s    0    S
   {
-    8 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -367,8 +367,8 @@ const common::ZonePolicy kPolicyAT = {
 static const common::ZoneRule kZoneRulesAV[] = {
   // Rule    AV    1988    1999    -    Oct    lastSun    2:00s    1:00    D
   {
-    -12 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -12 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -379,8 +379,8 @@ static const common::ZoneRule kZoneRulesAV[] = {
   },
   // Rule    AV    1995    2005    -    Mar    lastSun    2:00s    0    S
   {
-    -5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    -5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -391,8 +391,8 @@ static const common::ZoneRule kZoneRulesAV[] = {
   },
   // Rule    AV    2000    only    -    Aug    lastSun    2:00s    1:00    D
   {
-    0 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     8 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -403,8 +403,8 @@ static const common::ZoneRule kZoneRulesAV[] = {
   },
   // Rule    AV    2001    2007    -    Oct    lastSun    2:00s    1:00    D
   {
-    1 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -415,8 +415,8 @@ static const common::ZoneRule kZoneRulesAV[] = {
   },
   // Rule    AV    2006    only    -    Apr    Sun>=1    2:00s    0    S
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -427,8 +427,8 @@ static const common::ZoneRule kZoneRulesAV[] = {
   },
   // Rule    AV    2007    only    -    Mar    lastSun    2:00s    0    S
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -439,8 +439,8 @@ static const common::ZoneRule kZoneRulesAV[] = {
   },
   // Rule    AV    2008    max    -    Apr    Sun>=1    2:00s    0    S
   {
-    8 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -451,8 +451,8 @@ static const common::ZoneRule kZoneRulesAV[] = {
   },
   // Rule    AV    2008    max    -    Oct    Sun>=1    2:00s    1:00    D
   {
-    8 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -479,8 +479,8 @@ const common::ZonePolicy kPolicyAV = {
 static const common::ZoneRule kZoneRulesAW[] = {
   // Rule    AW    1992    only    -    Mar    Sun>=1    2:00s    0    S
   {
-    -8 /*fromYearShort*/,
-    -8 /*toYearShort*/,
+    -8 /*fromYearTiny*/,
+    -8 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -491,8 +491,8 @@ static const common::ZoneRule kZoneRulesAW[] = {
   },
   // Rule    AW    2006    only    -    Dec     3    2:00s    1:00    D
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     3 /*onDayOfMonth*/,
@@ -503,8 +503,8 @@ static const common::ZoneRule kZoneRulesAW[] = {
   },
   // Rule    AW    2007    2009    -    Mar    lastSun    2:00s    0    S
   {
-    7 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -515,8 +515,8 @@ static const common::ZoneRule kZoneRulesAW[] = {
   },
   // Rule    AW    2007    2008    -    Oct    lastSun    2:00s    1:00    D
   {
-    7 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -543,8 +543,8 @@ const common::ZonePolicy kPolicyAW = {
 static const common::ZoneRule kZoneRulesArg[] = {
   // Rule    Arg    1999    only    -    Oct    Sun>=1    0:00    1:00    -
   {
-    -1 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -1 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -555,8 +555,8 @@ static const common::ZoneRule kZoneRulesArg[] = {
   },
   // Rule    Arg    2000    only    -    Mar    3    0:00    0    -
   {
-    0 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     3 /*onDayOfMonth*/,
@@ -567,8 +567,8 @@ static const common::ZoneRule kZoneRulesArg[] = {
   },
   // Rule    Arg    2007    only    -    Dec    30    0:00    1:00    -
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -579,8 +579,8 @@ static const common::ZoneRule kZoneRulesArg[] = {
   },
   // Rule    Arg    2008    2009    -    Mar    Sun>=15    0:00    0    -
   {
-    8 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -591,8 +591,8 @@ static const common::ZoneRule kZoneRulesArg[] = {
   },
   // Rule    Arg    2008    only    -    Oct    Sun>=15    0:00    1:00    -
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -619,8 +619,8 @@ const common::ZonePolicy kPolicyArg = {
 static const common::ZoneRule kZoneRulesArmenia[] = {
   // Rule Armenia    2011    only    -    Mar    lastSun     2:00s    1:00    -
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -631,8 +631,8 @@ static const common::ZoneRule kZoneRulesArmenia[] = {
   },
   // Rule Armenia    2011    only    -    Oct    lastSun     2:00s    0    -
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -659,8 +659,8 @@ const common::ZonePolicy kPolicyArmenia = {
 static const common::ZoneRule kZoneRulesAus[] = {
   // Rule    Aus    1943    1944    -    Mar    lastSun    2:00    0    S
   {
-    -57 /*fromYearShort*/,
-    -56 /*toYearShort*/,
+    -57 /*fromYearTiny*/,
+    -56 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -687,8 +687,8 @@ const common::ZonePolicy kPolicyAus = {
 static const common::ZoneRule kZoneRulesAzer[] = {
   // Rule    Azer    1997    2015    -    Mar    lastSun     4:00    1:00    -
   {
-    -3 /*fromYearShort*/,
-    15 /*toYearShort*/,
+    -3 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -699,8 +699,8 @@ static const common::ZoneRule kZoneRulesAzer[] = {
   },
   // Rule    Azer    1997    2015    -    Oct    lastSun     5:00    0    -
   {
-    -3 /*fromYearShort*/,
-    15 /*toYearShort*/,
+    -3 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -727,8 +727,8 @@ const common::ZonePolicy kPolicyAzer = {
 static const common::ZoneRule kZoneRulesBarb[] = {
   // Rule    Barb    1980    only    -    Sep    25    2:00    0    S
   {
-    -20 /*fromYearShort*/,
-    -20 /*toYearShort*/,
+    -20 /*fromYearTiny*/,
+    -20 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     25 /*onDayOfMonth*/,
@@ -755,8 +755,8 @@ const common::ZonePolicy kPolicyBarb = {
 static const common::ZoneRule kZoneRulesBrazil[] = {
   // Rule    Brazil    1999    only    -    Oct     3     0:00    1:00    -
   {
-    -1 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -1 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     3 /*onDayOfMonth*/,
@@ -767,8 +767,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2000    only    -    Feb    27     0:00    0    -
   {
-    0 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     27 /*onDayOfMonth*/,
@@ -779,8 +779,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2000    2001    -    Oct    Sun>=8     0:00    1:00    -
   {
-    0 /*fromYearShort*/,
-    1 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    1 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -791,8 +791,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2001    2006    -    Feb    Sun>=15     0:00    0    -
   {
-    1 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -803,8 +803,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2002    only    -    Nov     3     0:00    1:00    -
   {
-    2 /*fromYearShort*/,
-    2 /*toYearShort*/,
+    2 /*fromYearTiny*/,
+    2 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     3 /*onDayOfMonth*/,
@@ -815,8 +815,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2003    only    -    Oct    19     0:00    1:00    -
   {
-    3 /*fromYearShort*/,
-    3 /*toYearShort*/,
+    3 /*fromYearTiny*/,
+    3 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -827,8 +827,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2004    only    -    Nov     2     0:00    1:00    -
   {
-    4 /*fromYearShort*/,
-    4 /*toYearShort*/,
+    4 /*fromYearTiny*/,
+    4 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -839,8 +839,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2005    only    -    Oct    16     0:00    1:00    -
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -851,8 +851,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2006    only    -    Nov     5     0:00    1:00    -
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -863,8 +863,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2007    only    -    Feb    25     0:00    0    -
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     25 /*onDayOfMonth*/,
@@ -875,8 +875,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2007    only    -    Oct    Sun>=8     0:00    1:00    -
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -887,8 +887,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2008    2017    -    Oct    Sun>=15    0:00    1:00    -
   {
-    8 /*fromYearShort*/,
-    17 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    17 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -899,8 +899,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2008    2011    -    Feb    Sun>=15    0:00    0    -
   {
-    8 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -911,8 +911,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2012    only    -    Feb    Sun>=22    0:00    0    -
   {
-    12 /*fromYearShort*/,
-    12 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -923,8 +923,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2013    2014    -    Feb    Sun>=15    0:00    0    -
   {
-    13 /*fromYearShort*/,
-    14 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -935,8 +935,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2015    only    -    Feb    Sun>=22    0:00    0    -
   {
-    15 /*fromYearShort*/,
-    15 /*toYearShort*/,
+    15 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -947,8 +947,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2016    2022    -    Feb    Sun>=15    0:00    0    -
   {
-    16 /*fromYearShort*/,
-    22 /*toYearShort*/,
+    16 /*fromYearTiny*/,
+    22 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -959,8 +959,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2018    max    -    Nov    Sun>=1    0:00    1:00    -
   {
-    18 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    18 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -971,8 +971,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2023    only    -    Feb    Sun>=22    0:00    0    -
   {
-    23 /*fromYearShort*/,
-    23 /*toYearShort*/,
+    23 /*fromYearTiny*/,
+    23 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -983,8 +983,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2024    2025    -    Feb    Sun>=15    0:00    0    -
   {
-    24 /*fromYearShort*/,
-    25 /*toYearShort*/,
+    24 /*fromYearTiny*/,
+    25 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -995,8 +995,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2026    only    -    Feb    Sun>=22    0:00    0    -
   {
-    26 /*fromYearShort*/,
-    26 /*toYearShort*/,
+    26 /*fromYearTiny*/,
+    26 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -1007,8 +1007,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2027    2033    -    Feb    Sun>=15    0:00    0    -
   {
-    27 /*fromYearShort*/,
-    33 /*toYearShort*/,
+    27 /*fromYearTiny*/,
+    33 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -1019,8 +1019,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2034    only    -    Feb    Sun>=22    0:00    0    -
   {
-    34 /*fromYearShort*/,
-    34 /*toYearShort*/,
+    34 /*fromYearTiny*/,
+    34 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -1031,8 +1031,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2035    2036    -    Feb    Sun>=15    0:00    0    -
   {
-    35 /*fromYearShort*/,
-    36 /*toYearShort*/,
+    35 /*fromYearTiny*/,
+    36 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -1043,8 +1043,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2037    only    -    Feb    Sun>=22    0:00    0    -
   {
-    37 /*fromYearShort*/,
-    37 /*toYearShort*/,
+    37 /*fromYearTiny*/,
+    37 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -1055,8 +1055,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
   },
   // Rule    Brazil    2038    max    -    Feb    Sun>=15    0:00    0    -
   {
-    38 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    38 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -1083,8 +1083,8 @@ const common::ZonePolicy kPolicyBrazil = {
 static const common::ZoneRule kZoneRulesCO[] = {
   // Rule    CO    1993    only    -    Apr     4    0:00    0    -
   {
-    -7 /*fromYearShort*/,
-    -7 /*toYearShort*/,
+    -7 /*fromYearTiny*/,
+    -7 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     4 /*onDayOfMonth*/,
@@ -1111,8 +1111,8 @@ const common::ZonePolicy kPolicyCO = {
 static const common::ZoneRule kZoneRulesCR[] = {
   // Rule    CR    1992    only    -    Mar    15    0:00    0    S
   {
-    -8 /*fromYearShort*/,
-    -8 /*toYearShort*/,
+    -8 /*fromYearTiny*/,
+    -8 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -1139,8 +1139,8 @@ const common::ZonePolicy kPolicyCR = {
 static const common::ZoneRule kZoneRulesCanada[] = {
   // Rule    Canada    1974    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    -26 /*fromYearShort*/,
-    -14 /*toYearShort*/,
+    -26 /*fromYearTiny*/,
+    -14 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1151,8 +1151,8 @@ static const common::ZoneRule kZoneRulesCanada[] = {
   },
   // Rule    Canada    1974    2006    -    Oct    lastSun    2:00    0    S
   {
-    -26 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    -26 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1163,8 +1163,8 @@ static const common::ZoneRule kZoneRulesCanada[] = {
   },
   // Rule    Canada    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
   {
-    -13 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    -13 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1175,8 +1175,8 @@ static const common::ZoneRule kZoneRulesCanada[] = {
   },
   // Rule    Canada    2007    max    -    Mar    Sun>=8    2:00    1:00    D
   {
-    7 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -1187,8 +1187,8 @@ static const common::ZoneRule kZoneRulesCanada[] = {
   },
   // Rule    Canada    2007    max    -    Nov    Sun>=1    2:00    0    S
   {
-    7 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1215,8 +1215,8 @@ const common::ZonePolicy kPolicyCanada = {
 static const common::ZoneRule kZoneRulesChatham[] = {
   // Rule    Chatham    1989    only    -    Oct    Sun>=8    2:45s    1:00    -
   {
-    -11 /*fromYearShort*/,
-    -11 /*toYearShort*/,
+    -11 /*fromYearTiny*/,
+    -11 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -1227,8 +1227,8 @@ static const common::ZoneRule kZoneRulesChatham[] = {
   },
   // Rule    Chatham    1990    2006    -    Oct    Sun>=1    2:45s    1:00    -
   {
-    -10 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    -10 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1239,8 +1239,8 @@ static const common::ZoneRule kZoneRulesChatham[] = {
   },
   // Rule    Chatham    1990    2007    -    Mar    Sun>=15    2:45s    0    -
   {
-    -10 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    -10 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -1251,8 +1251,8 @@ static const common::ZoneRule kZoneRulesChatham[] = {
   },
   // Rule    Chatham    2007    max    -    Sep    lastSun    2:45s    1:00    -
   {
-    7 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1263,8 +1263,8 @@ static const common::ZoneRule kZoneRulesChatham[] = {
   },
   // Rule    Chatham    2008    max    -    Apr    Sun>=1    2:45s    0    -
   {
-    8 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1291,8 +1291,8 @@ const common::ZonePolicy kPolicyChatham = {
 static const common::ZoneRule kZoneRulesChile[] = {
   // Rule    Chile    1999    only    -    Apr     4    3:00u    0    -
   {
-    -1 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -1 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     4 /*onDayOfMonth*/,
@@ -1303,8 +1303,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    1999    2010    -    Oct    Sun>=9    4:00u    1:00    -
   {
-    -1 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    -1 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -1315,8 +1315,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2000    2007    -    Mar    Sun>=9    3:00u    0    -
   {
-    0 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -1327,8 +1327,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2008    only    -    Mar    30    3:00u    0    -
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -1339,8 +1339,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2009    only    -    Mar    Sun>=9    3:00u    0    -
   {
-    9 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -1351,8 +1351,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2010    only    -    Apr    Sun>=1    3:00u    0    -
   {
-    10 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1363,8 +1363,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2011    only    -    May    Sun>=2    3:00u    0    -
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     5 /*inMonth*/,
     7 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -1375,8 +1375,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2011    only    -    Aug    Sun>=16    4:00u    1:00    -
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     8 /*inMonth*/,
     7 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -1387,8 +1387,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2012    2014    -    Apr    Sun>=23    3:00u    0    -
   {
-    12 /*fromYearShort*/,
-    14 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -1399,8 +1399,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2012    2014    -    Sep    Sun>=2    4:00u    1:00    -
   {
-    12 /*fromYearShort*/,
-    14 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -1411,8 +1411,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2016    2018    -    May    Sun>=9    3:00u    0    -
   {
-    16 /*fromYearShort*/,
-    18 /*toYearShort*/,
+    16 /*fromYearTiny*/,
+    18 /*toYearTiny*/,
     5 /*inMonth*/,
     7 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -1423,8 +1423,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2016    2018    -    Aug    Sun>=9    4:00u    1:00    -
   {
-    16 /*fromYearShort*/,
-    18 /*toYearShort*/,
+    16 /*fromYearTiny*/,
+    18 /*toYearTiny*/,
     8 /*inMonth*/,
     7 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -1435,8 +1435,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2019    max    -    Apr    Sun>=2    3:00u    0    -
   {
-    19 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    19 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -1447,8 +1447,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
   },
   // Rule    Chile    2019    max    -    Sep    Sun>=2    4:00u    1:00    -
   {
-    19 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    19 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -1475,8 +1475,8 @@ const common::ZonePolicy kPolicyChile = {
 static const common::ZoneRule kZoneRulesCook[] = {
   // Rule    Cook    1979    1991    -    Mar    Sun>=1    0:00    0    -
   {
-    -21 /*fromYearShort*/,
-    -9 /*toYearShort*/,
+    -21 /*fromYearTiny*/,
+    -9 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1503,8 +1503,8 @@ const common::ZonePolicy kPolicyCook = {
 static const common::ZoneRule kZoneRulesCuba[] = {
   // Rule    Cuba    1998    1999    -    Mar    lastSun    0:00s    1:00    D
   {
-    -2 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -2 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1515,8 +1515,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    1998    2003    -    Oct    lastSun    0:00s    0    S
   {
-    -2 /*fromYearShort*/,
-    3 /*toYearShort*/,
+    -2 /*fromYearTiny*/,
+    3 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1527,8 +1527,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    2000    2003    -    Apr    Sun>=1    0:00s    1:00    D
   {
-    0 /*fromYearShort*/,
-    3 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    3 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1539,8 +1539,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    2004    only    -    Mar    lastSun    0:00s    1:00    D
   {
-    4 /*fromYearShort*/,
-    4 /*toYearShort*/,
+    4 /*fromYearTiny*/,
+    4 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1551,8 +1551,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    2006    2010    -    Oct    lastSun    0:00s    0    S
   {
-    6 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1563,8 +1563,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    2007    only    -    Mar    Sun>=8    0:00s    1:00    D
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -1575,8 +1575,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    2008    only    -    Mar    Sun>=15    0:00s    1:00    D
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -1587,8 +1587,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    2009    2010    -    Mar    Sun>=8    0:00s    1:00    D
   {
-    9 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -1599,8 +1599,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    2011    only    -    Mar    Sun>=15    0:00s    1:00    D
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -1611,8 +1611,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    2011    only    -    Nov    13    0:00s    0    S
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     13 /*onDayOfMonth*/,
@@ -1623,8 +1623,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    2012    only    -    Apr    1    0:00s    1:00    D
   {
-    12 /*fromYearShort*/,
-    12 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1635,8 +1635,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    2012    max    -    Nov    Sun>=1    0:00s    0    S
   {
-    12 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1647,8 +1647,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
   },
   // Rule    Cuba    2013    max    -    Mar    Sun>=8    0:00s    1:00    D
   {
-    13 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -1675,8 +1675,8 @@ const common::ZonePolicy kPolicyCuba = {
 static const common::ZoneRule kZoneRulesDhaka[] = {
   // Rule    Dhaka    2009    only    -    Jun    19    23:00    1:00    -
   {
-    9 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -1687,8 +1687,8 @@ static const common::ZoneRule kZoneRulesDhaka[] = {
   },
   // Rule    Dhaka    2009    only    -    Dec    31    24:00    0    -
   {
-    9 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     31 /*onDayOfMonth*/,
@@ -1715,8 +1715,8 @@ const common::ZonePolicy kPolicyDhaka = {
 static const common::ZoneRule kZoneRulesE_EurAsia[] = {
   // Rule E-EurAsia    1981    max    -    Mar    lastSun     0:00    1:00    -
   {
-    -19 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -19 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1727,8 +1727,8 @@ static const common::ZoneRule kZoneRulesE_EurAsia[] = {
   },
   // Rule E-EurAsia    1979    1995    -    Sep    lastSun     0:00    0    -
   {
-    -21 /*fromYearShort*/,
-    -5 /*toYearShort*/,
+    -21 /*fromYearTiny*/,
+    -5 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1739,8 +1739,8 @@ static const common::ZoneRule kZoneRulesE_EurAsia[] = {
   },
   // Rule E-EurAsia    1996    max    -    Oct    lastSun     0:00    0    -
   {
-    -4 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -4 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1767,8 +1767,8 @@ const common::ZonePolicy kPolicyE_EurAsia = {
 static const common::ZoneRule kZoneRulesEU[] = {
   // Rule    EU    1979    1995    -    Sep    lastSun     1:00u    0    -
   {
-    -21 /*fromYearShort*/,
-    -5 /*toYearShort*/,
+    -21 /*fromYearTiny*/,
+    -5 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1779,8 +1779,8 @@ static const common::ZoneRule kZoneRulesEU[] = {
   },
   // Rule    EU    1981    max    -    Mar    lastSun     1:00u    1:00    S
   {
-    -19 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -19 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1791,8 +1791,8 @@ static const common::ZoneRule kZoneRulesEU[] = {
   },
   // Rule    EU    1996    max    -    Oct    lastSun     1:00u    0    -
   {
-    -4 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -4 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1819,8 +1819,8 @@ const common::ZonePolicy kPolicyEU = {
 static const common::ZoneRule kZoneRulesEUAsia[] = {
   // Rule    EUAsia    1981    max    -    Mar    lastSun     1:00u    1:00    S
   {
-    -19 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -19 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1831,8 +1831,8 @@ static const common::ZoneRule kZoneRulesEUAsia[] = {
   },
   // Rule    EUAsia    1979    1995    -    Sep    lastSun     1:00u    0    -
   {
-    -21 /*fromYearShort*/,
-    -5 /*toYearShort*/,
+    -21 /*fromYearTiny*/,
+    -5 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1843,8 +1843,8 @@ static const common::ZoneRule kZoneRulesEUAsia[] = {
   },
   // Rule    EUAsia    1996    max    -    Oct    lastSun     1:00u    0    -
   {
-    -4 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -4 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1871,8 +1871,8 @@ const common::ZonePolicy kPolicyEUAsia = {
 static const common::ZoneRule kZoneRulesEcuador[] = {
   // Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
   {
-    -7 /*fromYearShort*/,
-    -7 /*toYearShort*/,
+    -7 /*fromYearTiny*/,
+    -7 /*toYearTiny*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -1899,8 +1899,8 @@ const common::ZonePolicy kPolicyEcuador = {
 static const common::ZoneRule kZoneRulesEgypt[] = {
   // Rule    Egypt    1966    1994    -    Oct     1    3:00    0    -
   {
-    -34 /*fromYearShort*/,
-    -6 /*toYearShort*/,
+    -34 /*fromYearTiny*/,
+    -6 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1911,8 +1911,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    1995    2010    -    Apr    lastFri     0:00s    1:00    S
   {
-    -5 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    -5 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     4 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1923,8 +1923,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    1995    2005    -    Sep    lastThu    24:00    0    -
   {
-    -5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    -5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     9 /*inMonth*/,
     4 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1935,8 +1935,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    2006    only    -    Sep    21    24:00    0    -
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -1947,8 +1947,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    2007    only    -    Sep    Thu>=1    24:00    0    -
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     9 /*inMonth*/,
     4 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1959,8 +1959,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    2008    only    -    Aug    lastThu    24:00    0    -
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     8 /*inMonth*/,
     4 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -1971,8 +1971,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    2009    only    -    Aug    20    24:00    0    -
   {
-    9 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -1983,8 +1983,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    2010    only    -    Aug    10    24:00    0    -
   {
-    10 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -1995,8 +1995,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    2010    only    -    Sep     9    24:00    1:00    S
   {
-    10 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -2007,8 +2007,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    2010    only    -    Sep    lastThu    24:00    0    -
   {
-    10 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     9 /*inMonth*/,
     4 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2019,8 +2019,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    2014    only    -    May    15    24:00    1:00    S
   {
-    14 /*fromYearShort*/,
-    14 /*toYearShort*/,
+    14 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -2031,8 +2031,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    2014    only    -    Jun    26    24:00    0    -
   {
-    14 /*fromYearShort*/,
-    14 /*toYearShort*/,
+    14 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     26 /*onDayOfMonth*/,
@@ -2043,8 +2043,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    2014    only    -    Jul    31    24:00    1:00    S
   {
-    14 /*fromYearShort*/,
-    14 /*toYearShort*/,
+    14 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     31 /*onDayOfMonth*/,
@@ -2055,8 +2055,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
   },
   // Rule    Egypt    2014    only    -    Sep    lastThu    24:00    0    -
   {
-    14 /*fromYearShort*/,
-    14 /*toYearShort*/,
+    14 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
     9 /*inMonth*/,
     4 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2083,8 +2083,8 @@ const common::ZonePolicy kPolicyEgypt = {
 static const common::ZoneRule kZoneRulesEire[] = {
   // Rule    Eire    1981    max    -    Mar    lastSun     1:00u    0    -
   {
-    -19 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -19 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2095,8 +2095,8 @@ static const common::ZoneRule kZoneRulesEire[] = {
   },
   // Rule    Eire    1990    1995    -    Oct    Sun>=22     1:00u    -1:00    -
   {
-    -10 /*fromYearShort*/,
-    -5 /*toYearShort*/,
+    -10 /*fromYearTiny*/,
+    -5 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -2107,8 +2107,8 @@ static const common::ZoneRule kZoneRulesEire[] = {
   },
   // Rule    Eire    1996    max    -    Oct    lastSun     1:00u    -1:00    -
   {
-    -4 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -4 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2135,8 +2135,8 @@ const common::ZonePolicy kPolicyEire = {
 static const common::ZoneRule kZoneRulesFalk[] = {
   // Rule    Falk    1984    1985    -    Apr    lastSun    0:00    0    -
   {
-    -16 /*fromYearShort*/,
-    -15 /*toYearShort*/,
+    -16 /*fromYearTiny*/,
+    -15 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2147,8 +2147,8 @@ static const common::ZoneRule kZoneRulesFalk[] = {
   },
   // Rule    Falk    1985    2000    -    Sep    Sun>=9    0:00    1:00    -
   {
-    -15 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    -15 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -2159,8 +2159,8 @@ static const common::ZoneRule kZoneRulesFalk[] = {
   },
   // Rule    Falk    1986    2000    -    Apr    Sun>=16    0:00    0    -
   {
-    -14 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    -14 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -2171,8 +2171,8 @@ static const common::ZoneRule kZoneRulesFalk[] = {
   },
   // Rule    Falk    2001    2010    -    Apr    Sun>=15    2:00    0    -
   {
-    1 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -2183,8 +2183,8 @@ static const common::ZoneRule kZoneRulesFalk[] = {
   },
   // Rule    Falk    2001    2010    -    Sep    Sun>=1    2:00    1:00    -
   {
-    1 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2211,8 +2211,8 @@ const common::ZonePolicy kPolicyFalk = {
 static const common::ZoneRule kZoneRulesFiji[] = {
   // Rule    Fiji    1998    1999    -    Nov    Sun>=1    2:00    1:00    -
   {
-    -2 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -2 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2223,8 +2223,8 @@ static const common::ZoneRule kZoneRulesFiji[] = {
   },
   // Rule    Fiji    1999    2000    -    Feb    lastSun    3:00    0    -
   {
-    -1 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    -1 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2235,8 +2235,8 @@ static const common::ZoneRule kZoneRulesFiji[] = {
   },
   // Rule    Fiji    2009    only    -    Nov    29    2:00    1:00    -
   {
-    9 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     29 /*onDayOfMonth*/,
@@ -2247,8 +2247,8 @@ static const common::ZoneRule kZoneRulesFiji[] = {
   },
   // Rule    Fiji    2010    only    -    Mar    lastSun    3:00    0    -
   {
-    10 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2259,8 +2259,8 @@ static const common::ZoneRule kZoneRulesFiji[] = {
   },
   // Rule    Fiji    2010    2013    -    Oct    Sun>=21    2:00    1:00    -
   {
-    10 /*fromYearShort*/,
-    13 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    13 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2271,8 +2271,8 @@ static const common::ZoneRule kZoneRulesFiji[] = {
   },
   // Rule    Fiji    2011    only    -    Mar    Sun>=1    3:00    0    -
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2283,8 +2283,8 @@ static const common::ZoneRule kZoneRulesFiji[] = {
   },
   // Rule    Fiji    2012    2013    -    Jan    Sun>=18    3:00    0    -
   {
-    12 /*fromYearShort*/,
-    13 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    13 /*toYearTiny*/,
     1 /*inMonth*/,
     7 /*onDayOfWeek*/,
     18 /*onDayOfMonth*/,
@@ -2295,8 +2295,8 @@ static const common::ZoneRule kZoneRulesFiji[] = {
   },
   // Rule    Fiji    2014    only    -    Jan    Sun>=18    2:00    0    -
   {
-    14 /*fromYearShort*/,
-    14 /*toYearShort*/,
+    14 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
     1 /*inMonth*/,
     7 /*onDayOfWeek*/,
     18 /*onDayOfMonth*/,
@@ -2307,8 +2307,8 @@ static const common::ZoneRule kZoneRulesFiji[] = {
   },
   // Rule    Fiji    2014    max    -    Nov    Sun>=1    2:00    1:00    -
   {
-    14 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    14 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2319,8 +2319,8 @@ static const common::ZoneRule kZoneRulesFiji[] = {
   },
   // Rule    Fiji    2015    max    -    Jan    Sun>=13    3:00    0    -
   {
-    15 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    15 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     1 /*inMonth*/,
     7 /*onDayOfWeek*/,
     13 /*onDayOfMonth*/,
@@ -2347,8 +2347,8 @@ const common::ZonePolicy kPolicyFiji = {
 static const common::ZoneRule kZoneRulesGhana[] = {
   // Rule    Ghana    1920    1942    -    Dec    31    0:00    0    -
   {
-    -80 /*fromYearShort*/,
-    -58 /*toYearShort*/,
+    -80 /*fromYearTiny*/,
+    -58 /*toYearTiny*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     31 /*onDayOfMonth*/,
@@ -2375,8 +2375,8 @@ const common::ZonePolicy kPolicyGhana = {
 static const common::ZoneRule kZoneRulesGuam[] = {
   // Rule    Guam    1977    only    -    Aug    28    2:00    0    S
   {
-    -23 /*fromYearShort*/,
-    -23 /*toYearShort*/,
+    -23 /*fromYearTiny*/,
+    -23 /*toYearTiny*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -2403,8 +2403,8 @@ const common::ZonePolicy kPolicyGuam = {
 static const common::ZoneRule kZoneRulesGuat[] = {
   // Rule    Guat    1991    only    -    Sep     7    0:00    0    S
   {
-    -9 /*fromYearShort*/,
-    -9 /*toYearShort*/,
+    -9 /*fromYearTiny*/,
+    -9 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -2415,8 +2415,8 @@ static const common::ZoneRule kZoneRulesGuat[] = {
   },
   // Rule    Guat    2006    only    -    Apr    30    0:00    1:00    D
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -2427,8 +2427,8 @@ static const common::ZoneRule kZoneRulesGuat[] = {
   },
   // Rule    Guat    2006    only    -    Oct     1    0:00    0    S
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2455,8 +2455,8 @@ const common::ZonePolicy kPolicyGuat = {
 static const common::ZoneRule kZoneRulesHK[] = {
   // Rule    HK    1979    only    -    Oct    Sun>=16    3:30    0    -
   {
-    -21 /*fromYearShort*/,
-    -21 /*toYearShort*/,
+    -21 /*fromYearTiny*/,
+    -21 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -2483,8 +2483,8 @@ const common::ZonePolicy kPolicyHK = {
 static const common::ZoneRule kZoneRulesHaiti[] = {
   // Rule    Haiti    1988    1997    -    Oct    lastSun    1:00s    0    S
   {
-    -12 /*fromYearShort*/,
-    -3 /*toYearShort*/,
+    -12 /*fromYearTiny*/,
+    -3 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2495,8 +2495,8 @@ static const common::ZoneRule kZoneRulesHaiti[] = {
   },
   // Rule    Haiti    2005    2006    -    Apr    Sun>=1    0:00    1:00    D
   {
-    5 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2507,8 +2507,8 @@ static const common::ZoneRule kZoneRulesHaiti[] = {
   },
   // Rule    Haiti    2005    2006    -    Oct    lastSun    0:00    0    S
   {
-    5 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2519,8 +2519,8 @@ static const common::ZoneRule kZoneRulesHaiti[] = {
   },
   // Rule    Haiti    2012    2015    -    Mar    Sun>=8    2:00    1:00    D
   {
-    12 /*fromYearShort*/,
-    15 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -2531,8 +2531,8 @@ static const common::ZoneRule kZoneRulesHaiti[] = {
   },
   // Rule    Haiti    2012    2015    -    Nov    Sun>=1    2:00    0    S
   {
-    12 /*fromYearShort*/,
-    15 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2543,8 +2543,8 @@ static const common::ZoneRule kZoneRulesHaiti[] = {
   },
   // Rule    Haiti    2017    max    -    Mar    Sun>=8    2:00    1:00    D
   {
-    17 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    17 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -2555,8 +2555,8 @@ static const common::ZoneRule kZoneRulesHaiti[] = {
   },
   // Rule    Haiti    2017    max    -    Nov    Sun>=1    2:00    0    S
   {
-    17 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    17 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2583,8 +2583,8 @@ const common::ZonePolicy kPolicyHaiti = {
 static const common::ZoneRule kZoneRulesHoliday[] = {
   // Rule    Holiday    1993    1994    -    Mar    Sun>=1    2:00s    0    S
   {
-    -7 /*fromYearShort*/,
-    -6 /*toYearShort*/,
+    -7 /*fromYearTiny*/,
+    -6 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2611,8 +2611,8 @@ const common::ZonePolicy kPolicyHoliday = {
 static const common::ZoneRule kZoneRulesHond[] = {
   // Rule    Hond    1987    1988    -    Sep    lastSun    0:00    0    S
   {
-    -13 /*fromYearShort*/,
-    -12 /*toYearShort*/,
+    -13 /*fromYearTiny*/,
+    -12 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -2623,8 +2623,8 @@ static const common::ZoneRule kZoneRulesHond[] = {
   },
   // Rule    Hond    2006    only    -    May    Sun>=1    0:00    1:00    D
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     5 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2635,8 +2635,8 @@ static const common::ZoneRule kZoneRulesHond[] = {
   },
   // Rule    Hond    2006    only    -    Aug    Mon>=1    0:00    0    S
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     8 /*inMonth*/,
     1 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -2663,8 +2663,8 @@ const common::ZonePolicy kPolicyHond = {
 static const common::ZoneRule kZoneRulesIran[] = {
   // Rule    Iran    1997    1999    -    Sep    21    24:00    0    -
   {
-    -3 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -3 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2675,8 +2675,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2000    only    -    Mar    20    24:00    1:00    -
   {
-    0 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2687,8 +2687,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2000    only    -    Sep    20    24:00    0    -
   {
-    0 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2699,8 +2699,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2001    2003    -    Mar    21    24:00    1:00    -
   {
-    1 /*fromYearShort*/,
-    3 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    3 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2711,8 +2711,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2001    2003    -    Sep    21    24:00    0    -
   {
-    1 /*fromYearShort*/,
-    3 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    3 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2723,8 +2723,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2004    only    -    Mar    20    24:00    1:00    -
   {
-    4 /*fromYearShort*/,
-    4 /*toYearShort*/,
+    4 /*fromYearTiny*/,
+    4 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2735,8 +2735,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2004    only    -    Sep    20    24:00    0    -
   {
-    4 /*fromYearShort*/,
-    4 /*toYearShort*/,
+    4 /*fromYearTiny*/,
+    4 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2747,8 +2747,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2005    only    -    Mar    21    24:00    1:00    -
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2759,8 +2759,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2005    only    -    Sep    21    24:00    0    -
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2771,8 +2771,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2008    only    -    Mar    20    24:00    1:00    -
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2783,8 +2783,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2008    only    -    Sep    20    24:00    0    -
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2795,8 +2795,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2009    2011    -    Mar    21    24:00    1:00    -
   {
-    9 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2807,8 +2807,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2009    2011    -    Sep    21    24:00    0    -
   {
-    9 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2819,8 +2819,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2012    only    -    Mar    20    24:00    1:00    -
   {
-    12 /*fromYearShort*/,
-    12 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2831,8 +2831,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2012    only    -    Sep    20    24:00    0    -
   {
-    12 /*fromYearShort*/,
-    12 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2843,8 +2843,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2013    2015    -    Mar    21    24:00    1:00    -
   {
-    13 /*fromYearShort*/,
-    15 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2855,8 +2855,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2013    2015    -    Sep    21    24:00    0    -
   {
-    13 /*fromYearShort*/,
-    15 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2867,8 +2867,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2016    only    -    Mar    20    24:00    1:00    -
   {
-    16 /*fromYearShort*/,
-    16 /*toYearShort*/,
+    16 /*fromYearTiny*/,
+    16 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2879,8 +2879,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2016    only    -    Sep    20    24:00    0    -
   {
-    16 /*fromYearShort*/,
-    16 /*toYearShort*/,
+    16 /*fromYearTiny*/,
+    16 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2891,8 +2891,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2017    2019    -    Mar    21    24:00    1:00    -
   {
-    17 /*fromYearShort*/,
-    19 /*toYearShort*/,
+    17 /*fromYearTiny*/,
+    19 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2903,8 +2903,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2017    2019    -    Sep    21    24:00    0    -
   {
-    17 /*fromYearShort*/,
-    19 /*toYearShort*/,
+    17 /*fromYearTiny*/,
+    19 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2915,8 +2915,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2020    only    -    Mar    20    24:00    1:00    -
   {
-    20 /*fromYearShort*/,
-    20 /*toYearShort*/,
+    20 /*fromYearTiny*/,
+    20 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2927,8 +2927,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2020    only    -    Sep    20    24:00    0    -
   {
-    20 /*fromYearShort*/,
-    20 /*toYearShort*/,
+    20 /*fromYearTiny*/,
+    20 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2939,8 +2939,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2021    2023    -    Mar    21    24:00    1:00    -
   {
-    21 /*fromYearShort*/,
-    23 /*toYearShort*/,
+    21 /*fromYearTiny*/,
+    23 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2951,8 +2951,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2021    2023    -    Sep    21    24:00    0    -
   {
-    21 /*fromYearShort*/,
-    23 /*toYearShort*/,
+    21 /*fromYearTiny*/,
+    23 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2963,8 +2963,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2024    only    -    Mar    20    24:00    1:00    -
   {
-    24 /*fromYearShort*/,
-    24 /*toYearShort*/,
+    24 /*fromYearTiny*/,
+    24 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2975,8 +2975,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2024    only    -    Sep    20    24:00    0    -
   {
-    24 /*fromYearShort*/,
-    24 /*toYearShort*/,
+    24 /*fromYearTiny*/,
+    24 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -2987,8 +2987,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2025    2027    -    Mar    21    24:00    1:00    -
   {
-    25 /*fromYearShort*/,
-    27 /*toYearShort*/,
+    25 /*fromYearTiny*/,
+    27 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -2999,8 +2999,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2025    2027    -    Sep    21    24:00    0    -
   {
-    25 /*fromYearShort*/,
-    27 /*toYearShort*/,
+    25 /*fromYearTiny*/,
+    27 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3011,8 +3011,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2028    2029    -    Mar    20    24:00    1:00    -
   {
-    28 /*fromYearShort*/,
-    29 /*toYearShort*/,
+    28 /*fromYearTiny*/,
+    29 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3023,8 +3023,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2028    2029    -    Sep    20    24:00    0    -
   {
-    28 /*fromYearShort*/,
-    29 /*toYearShort*/,
+    28 /*fromYearTiny*/,
+    29 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3035,8 +3035,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2030    2031    -    Mar    21    24:00    1:00    -
   {
-    30 /*fromYearShort*/,
-    31 /*toYearShort*/,
+    30 /*fromYearTiny*/,
+    31 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3047,8 +3047,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2030    2031    -    Sep    21    24:00    0    -
   {
-    30 /*fromYearShort*/,
-    31 /*toYearShort*/,
+    30 /*fromYearTiny*/,
+    31 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3059,8 +3059,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2032    2033    -    Mar    20    24:00    1:00    -
   {
-    32 /*fromYearShort*/,
-    33 /*toYearShort*/,
+    32 /*fromYearTiny*/,
+    33 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3071,8 +3071,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2032    2033    -    Sep    20    24:00    0    -
   {
-    32 /*fromYearShort*/,
-    33 /*toYearShort*/,
+    32 /*fromYearTiny*/,
+    33 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3083,8 +3083,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2034    2035    -    Mar    21    24:00    1:00    -
   {
-    34 /*fromYearShort*/,
-    35 /*toYearShort*/,
+    34 /*fromYearTiny*/,
+    35 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3095,8 +3095,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2034    2035    -    Sep    21    24:00    0    -
   {
-    34 /*fromYearShort*/,
-    35 /*toYearShort*/,
+    34 /*fromYearTiny*/,
+    35 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3107,8 +3107,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2036    2037    -    Mar    20    24:00    1:00    -
   {
-    36 /*fromYearShort*/,
-    37 /*toYearShort*/,
+    36 /*fromYearTiny*/,
+    37 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3119,8 +3119,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2036    2037    -    Sep    20    24:00    0    -
   {
-    36 /*fromYearShort*/,
-    37 /*toYearShort*/,
+    36 /*fromYearTiny*/,
+    37 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3131,8 +3131,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2038    2039    -    Mar    21    24:00    1:00    -
   {
-    38 /*fromYearShort*/,
-    39 /*toYearShort*/,
+    38 /*fromYearTiny*/,
+    39 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3143,8 +3143,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2038    2039    -    Sep    21    24:00    0    -
   {
-    38 /*fromYearShort*/,
-    39 /*toYearShort*/,
+    38 /*fromYearTiny*/,
+    39 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3155,8 +3155,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2040    2041    -    Mar    20    24:00    1:00    -
   {
-    40 /*fromYearShort*/,
-    41 /*toYearShort*/,
+    40 /*fromYearTiny*/,
+    41 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3167,8 +3167,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2040    2041    -    Sep    20    24:00    0    -
   {
-    40 /*fromYearShort*/,
-    41 /*toYearShort*/,
+    40 /*fromYearTiny*/,
+    41 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3179,8 +3179,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2042    2043    -    Mar    21    24:00    1:00    -
   {
-    42 /*fromYearShort*/,
-    43 /*toYearShort*/,
+    42 /*fromYearTiny*/,
+    43 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3191,8 +3191,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2042    2043    -    Sep    21    24:00    0    -
   {
-    42 /*fromYearShort*/,
-    43 /*toYearShort*/,
+    42 /*fromYearTiny*/,
+    43 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3203,8 +3203,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2044    2045    -    Mar    20    24:00    1:00    -
   {
-    44 /*fromYearShort*/,
-    45 /*toYearShort*/,
+    44 /*fromYearTiny*/,
+    45 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3215,8 +3215,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2044    2045    -    Sep    20    24:00    0    -
   {
-    44 /*fromYearShort*/,
-    45 /*toYearShort*/,
+    44 /*fromYearTiny*/,
+    45 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3227,8 +3227,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2046    2047    -    Mar    21    24:00    1:00    -
   {
-    46 /*fromYearShort*/,
-    47 /*toYearShort*/,
+    46 /*fromYearTiny*/,
+    47 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3239,8 +3239,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2046    2047    -    Sep    21    24:00    0    -
   {
-    46 /*fromYearShort*/,
-    47 /*toYearShort*/,
+    46 /*fromYearTiny*/,
+    47 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3251,8 +3251,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2048    2049    -    Mar    20    24:00    1:00    -
   {
-    48 /*fromYearShort*/,
-    49 /*toYearShort*/,
+    48 /*fromYearTiny*/,
+    49 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3263,8 +3263,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2048    2049    -    Sep    20    24:00    0    -
   {
-    48 /*fromYearShort*/,
-    49 /*toYearShort*/,
+    48 /*fromYearTiny*/,
+    49 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3275,8 +3275,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2050    2051    -    Mar    21    24:00    1:00    -
   {
-    50 /*fromYearShort*/,
-    51 /*toYearShort*/,
+    50 /*fromYearTiny*/,
+    51 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3287,8 +3287,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2050    2051    -    Sep    21    24:00    0    -
   {
-    50 /*fromYearShort*/,
-    51 /*toYearShort*/,
+    50 /*fromYearTiny*/,
+    51 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3299,8 +3299,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2052    2053    -    Mar    20    24:00    1:00    -
   {
-    52 /*fromYearShort*/,
-    53 /*toYearShort*/,
+    52 /*fromYearTiny*/,
+    53 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3311,8 +3311,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2052    2053    -    Sep    20    24:00    0    -
   {
-    52 /*fromYearShort*/,
-    53 /*toYearShort*/,
+    52 /*fromYearTiny*/,
+    53 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3323,8 +3323,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2054    2055    -    Mar    21    24:00    1:00    -
   {
-    54 /*fromYearShort*/,
-    55 /*toYearShort*/,
+    54 /*fromYearTiny*/,
+    55 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3335,8 +3335,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2054    2055    -    Sep    21    24:00    0    -
   {
-    54 /*fromYearShort*/,
-    55 /*toYearShort*/,
+    54 /*fromYearTiny*/,
+    55 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3347,8 +3347,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2056    2057    -    Mar    20    24:00    1:00    -
   {
-    56 /*fromYearShort*/,
-    57 /*toYearShort*/,
+    56 /*fromYearTiny*/,
+    57 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3359,8 +3359,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2056    2057    -    Sep    20    24:00    0    -
   {
-    56 /*fromYearShort*/,
-    57 /*toYearShort*/,
+    56 /*fromYearTiny*/,
+    57 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3371,8 +3371,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2058    2059    -    Mar    21    24:00    1:00    -
   {
-    58 /*fromYearShort*/,
-    59 /*toYearShort*/,
+    58 /*fromYearTiny*/,
+    59 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3383,8 +3383,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2058    2059    -    Sep    21    24:00    0    -
   {
-    58 /*fromYearShort*/,
-    59 /*toYearShort*/,
+    58 /*fromYearTiny*/,
+    59 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3395,8 +3395,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2060    2062    -    Mar    20    24:00    1:00    -
   {
-    60 /*fromYearShort*/,
-    62 /*toYearShort*/,
+    60 /*fromYearTiny*/,
+    62 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3407,8 +3407,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2060    2062    -    Sep    20    24:00    0    -
   {
-    60 /*fromYearShort*/,
-    62 /*toYearShort*/,
+    60 /*fromYearTiny*/,
+    62 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3419,8 +3419,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2063    only    -    Mar    21    24:00    1:00    -
   {
-    63 /*fromYearShort*/,
-    63 /*toYearShort*/,
+    63 /*fromYearTiny*/,
+    63 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3431,8 +3431,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2063    only    -    Sep    21    24:00    0    -
   {
-    63 /*fromYearShort*/,
-    63 /*toYearShort*/,
+    63 /*fromYearTiny*/,
+    63 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3443,8 +3443,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2064    2066    -    Mar    20    24:00    1:00    -
   {
-    64 /*fromYearShort*/,
-    66 /*toYearShort*/,
+    64 /*fromYearTiny*/,
+    66 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3455,8 +3455,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2064    2066    -    Sep    20    24:00    0    -
   {
-    64 /*fromYearShort*/,
-    66 /*toYearShort*/,
+    64 /*fromYearTiny*/,
+    66 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3467,8 +3467,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2067    only    -    Mar    21    24:00    1:00    -
   {
-    67 /*fromYearShort*/,
-    67 /*toYearShort*/,
+    67 /*fromYearTiny*/,
+    67 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3479,8 +3479,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2067    only    -    Sep    21    24:00    0    -
   {
-    67 /*fromYearShort*/,
-    67 /*toYearShort*/,
+    67 /*fromYearTiny*/,
+    67 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3491,8 +3491,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2068    2070    -    Mar    20    24:00    1:00    -
   {
-    68 /*fromYearShort*/,
-    70 /*toYearShort*/,
+    68 /*fromYearTiny*/,
+    70 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3503,8 +3503,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2068    2070    -    Sep    20    24:00    0    -
   {
-    68 /*fromYearShort*/,
-    70 /*toYearShort*/,
+    68 /*fromYearTiny*/,
+    70 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3515,8 +3515,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2071    only    -    Mar    21    24:00    1:00    -
   {
-    71 /*fromYearShort*/,
-    71 /*toYearShort*/,
+    71 /*fromYearTiny*/,
+    71 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3527,8 +3527,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2071    only    -    Sep    21    24:00    0    -
   {
-    71 /*fromYearShort*/,
-    71 /*toYearShort*/,
+    71 /*fromYearTiny*/,
+    71 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3539,8 +3539,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2072    2074    -    Mar    20    24:00    1:00    -
   {
-    72 /*fromYearShort*/,
-    74 /*toYearShort*/,
+    72 /*fromYearTiny*/,
+    74 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3551,8 +3551,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2072    2074    -    Sep    20    24:00    0    -
   {
-    72 /*fromYearShort*/,
-    74 /*toYearShort*/,
+    72 /*fromYearTiny*/,
+    74 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3563,8 +3563,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2075    only    -    Mar    21    24:00    1:00    -
   {
-    75 /*fromYearShort*/,
-    75 /*toYearShort*/,
+    75 /*fromYearTiny*/,
+    75 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3575,8 +3575,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2075    only    -    Sep    21    24:00    0    -
   {
-    75 /*fromYearShort*/,
-    75 /*toYearShort*/,
+    75 /*fromYearTiny*/,
+    75 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3587,8 +3587,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2076    2078    -    Mar    20    24:00    1:00    -
   {
-    76 /*fromYearShort*/,
-    78 /*toYearShort*/,
+    76 /*fromYearTiny*/,
+    78 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3599,8 +3599,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2076    2078    -    Sep    20    24:00    0    -
   {
-    76 /*fromYearShort*/,
-    78 /*toYearShort*/,
+    76 /*fromYearTiny*/,
+    78 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3611,8 +3611,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2079    only    -    Mar    21    24:00    1:00    -
   {
-    79 /*fromYearShort*/,
-    79 /*toYearShort*/,
+    79 /*fromYearTiny*/,
+    79 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3623,8 +3623,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2079    only    -    Sep    21    24:00    0    -
   {
-    79 /*fromYearShort*/,
-    79 /*toYearShort*/,
+    79 /*fromYearTiny*/,
+    79 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3635,8 +3635,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2080    2082    -    Mar    20    24:00    1:00    -
   {
-    80 /*fromYearShort*/,
-    82 /*toYearShort*/,
+    80 /*fromYearTiny*/,
+    82 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3647,8 +3647,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2080    2082    -    Sep    20    24:00    0    -
   {
-    80 /*fromYearShort*/,
-    82 /*toYearShort*/,
+    80 /*fromYearTiny*/,
+    82 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3659,8 +3659,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2083    only    -    Mar    21    24:00    1:00    -
   {
-    83 /*fromYearShort*/,
-    83 /*toYearShort*/,
+    83 /*fromYearTiny*/,
+    83 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3671,8 +3671,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2083    only    -    Sep    21    24:00    0    -
   {
-    83 /*fromYearShort*/,
-    83 /*toYearShort*/,
+    83 /*fromYearTiny*/,
+    83 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3683,8 +3683,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2084    2086    -    Mar    20    24:00    1:00    -
   {
-    84 /*fromYearShort*/,
-    86 /*toYearShort*/,
+    84 /*fromYearTiny*/,
+    86 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3695,8 +3695,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2084    2086    -    Sep    20    24:00    0    -
   {
-    84 /*fromYearShort*/,
-    86 /*toYearShort*/,
+    84 /*fromYearTiny*/,
+    86 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3707,8 +3707,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2087    only    -    Mar    21    24:00    1:00    -
   {
-    87 /*fromYearShort*/,
-    87 /*toYearShort*/,
+    87 /*fromYearTiny*/,
+    87 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3719,8 +3719,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2087    only    -    Sep    21    24:00    0    -
   {
-    87 /*fromYearShort*/,
-    87 /*toYearShort*/,
+    87 /*fromYearTiny*/,
+    87 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -3731,8 +3731,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2088    max    -    Mar    20    24:00    1:00    -
   {
-    88 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    88 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3743,8 +3743,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
   },
   // Rule    Iran    2088    max    -    Sep    20    24:00    0    -
   {
-    88 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    88 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3771,8 +3771,8 @@ const common::ZonePolicy kPolicyIran = {
 static const common::ZoneRule kZoneRulesIraq[] = {
   // Rule    Iraq    1985    1990    -    Sep    lastSun    1:00s    0    -
   {
-    -15 /*fromYearShort*/,
-    -10 /*toYearShort*/,
+    -15 /*fromYearTiny*/,
+    -10 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3783,8 +3783,8 @@ static const common::ZoneRule kZoneRulesIraq[] = {
   },
   // Rule    Iraq    1991    2007    -    Apr     1    3:00s    1:00    -
   {
-    -9 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    -9 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -3795,8 +3795,8 @@ static const common::ZoneRule kZoneRulesIraq[] = {
   },
   // Rule    Iraq    1991    2007    -    Oct     1    3:00s    0    -
   {
-    -9 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    -9 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -3823,8 +3823,8 @@ const common::ZonePolicy kPolicyIraq = {
 static const common::ZoneRule kZoneRulesJapan[] = {
   // Rule    Japan    1948    1951    -    Sep    Sat>=8    25:00    0    S
   {
-    -52 /*fromYearShort*/,
-    -49 /*toYearShort*/,
+    -52 /*fromYearTiny*/,
+    -49 /*toYearTiny*/,
     9 /*inMonth*/,
     6 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -3851,8 +3851,8 @@ const common::ZonePolicy kPolicyJapan = {
 static const common::ZoneRule kZoneRulesJordan[] = {
   // Rule    Jordan    1999    only    -    Jul     1    0:00s    1:00    S
   {
-    -1 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -1 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -3863,8 +3863,8 @@ static const common::ZoneRule kZoneRulesJordan[] = {
   },
   // Rule    Jordan    1999    2002    -    Sep    lastFri    0:00s    0    -
   {
-    -1 /*fromYearShort*/,
-    2 /*toYearShort*/,
+    -1 /*fromYearTiny*/,
+    2 /*toYearTiny*/,
     9 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3875,8 +3875,8 @@ static const common::ZoneRule kZoneRulesJordan[] = {
   },
   // Rule    Jordan    2000    2001    -    Mar    lastThu    0:00s    1:00    S
   {
-    0 /*fromYearShort*/,
-    1 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    1 /*toYearTiny*/,
     3 /*inMonth*/,
     4 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3887,8 +3887,8 @@ static const common::ZoneRule kZoneRulesJordan[] = {
   },
   // Rule    Jordan    2002    2012    -    Mar    lastThu    24:00    1:00    S
   {
-    2 /*fromYearShort*/,
-    12 /*toYearShort*/,
+    2 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
     3 /*inMonth*/,
     4 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3899,8 +3899,8 @@ static const common::ZoneRule kZoneRulesJordan[] = {
   },
   // Rule    Jordan    2003    only    -    Oct    24    0:00s    0    -
   {
-    3 /*fromYearShort*/,
-    3 /*toYearShort*/,
+    3 /*fromYearTiny*/,
+    3 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     24 /*onDayOfMonth*/,
@@ -3911,8 +3911,8 @@ static const common::ZoneRule kZoneRulesJordan[] = {
   },
   // Rule    Jordan    2004    only    -    Oct    15    0:00s    0    -
   {
-    4 /*fromYearShort*/,
-    4 /*toYearShort*/,
+    4 /*fromYearTiny*/,
+    4 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -3923,8 +3923,8 @@ static const common::ZoneRule kZoneRulesJordan[] = {
   },
   // Rule    Jordan    2005    only    -    Sep    lastFri    0:00s    0    -
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     9 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3935,8 +3935,8 @@ static const common::ZoneRule kZoneRulesJordan[] = {
   },
   // Rule    Jordan    2006    2011    -    Oct    lastFri    0:00s    0    -
   {
-    6 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     10 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3947,8 +3947,8 @@ static const common::ZoneRule kZoneRulesJordan[] = {
   },
   // Rule    Jordan    2013    only    -    Dec    20    0:00    0    -
   {
-    13 /*fromYearShort*/,
-    13 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    13 /*toYearTiny*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -3959,8 +3959,8 @@ static const common::ZoneRule kZoneRulesJordan[] = {
   },
   // Rule    Jordan    2014    max    -    Mar    lastThu    24:00    1:00    S
   {
-    14 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    14 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     4 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3971,8 +3971,8 @@ static const common::ZoneRule kZoneRulesJordan[] = {
   },
   // Rule    Jordan    2014    max    -    Oct    lastFri    0:00s    0    -
   {
-    14 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    14 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -3999,8 +3999,8 @@ const common::ZonePolicy kPolicyJordan = {
 static const common::ZoneRule kZoneRulesKyrgyz[] = {
   // Rule    Kyrgyz    1992    1996    -    Sep    lastSun    0:00    0    -
   {
-    -8 /*fromYearShort*/,
-    -4 /*toYearShort*/,
+    -8 /*fromYearTiny*/,
+    -4 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4011,8 +4011,8 @@ static const common::ZoneRule kZoneRulesKyrgyz[] = {
   },
   // Rule    Kyrgyz    1997    2005    -    Mar    lastSun    2:30    1:00    -
   {
-    -3 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    -3 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4023,8 +4023,8 @@ static const common::ZoneRule kZoneRulesKyrgyz[] = {
   },
   // Rule    Kyrgyz    1997    2004    -    Oct    lastSun    2:30    0    -
   {
-    -3 /*fromYearShort*/,
-    4 /*toYearShort*/,
+    -3 /*fromYearTiny*/,
+    4 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4051,8 +4051,8 @@ const common::ZonePolicy kPolicyKyrgyz = {
 static const common::ZoneRule kZoneRulesLH[] = {
   // Rule    LH    1987    1999    -    Oct    lastSun    2:00    0:30    -
   {
-    -13 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -13 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4063,8 +4063,8 @@ static const common::ZoneRule kZoneRulesLH[] = {
   },
   // Rule    LH    1996    2005    -    Mar    lastSun    2:00    0    -
   {
-    -4 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    -4 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4075,8 +4075,8 @@ static const common::ZoneRule kZoneRulesLH[] = {
   },
   // Rule    LH    2000    only    -    Aug    lastSun    2:00    0:30    -
   {
-    0 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     8 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4087,8 +4087,8 @@ static const common::ZoneRule kZoneRulesLH[] = {
   },
   // Rule    LH    2001    2007    -    Oct    lastSun    2:00    0:30    -
   {
-    1 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4099,8 +4099,8 @@ static const common::ZoneRule kZoneRulesLH[] = {
   },
   // Rule    LH    2006    only    -    Apr    Sun>=1    2:00    0    -
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -4111,8 +4111,8 @@ static const common::ZoneRule kZoneRulesLH[] = {
   },
   // Rule    LH    2007    only    -    Mar    lastSun    2:00    0    -
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4123,8 +4123,8 @@ static const common::ZoneRule kZoneRulesLH[] = {
   },
   // Rule    LH    2008    max    -    Apr    Sun>=1    2:00    0    -
   {
-    8 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -4135,8 +4135,8 @@ static const common::ZoneRule kZoneRulesLH[] = {
   },
   // Rule    LH    2008    max    -    Oct    Sun>=1    2:00    0:30    -
   {
-    8 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -4163,8 +4163,8 @@ const common::ZonePolicy kPolicyLH = {
 static const common::ZoneRule kZoneRulesLebanon[] = {
   // Rule    Lebanon    1993    max    -    Mar    lastSun    0:00    1:00    S
   {
-    -7 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -7 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4175,8 +4175,8 @@ static const common::ZoneRule kZoneRulesLebanon[] = {
   },
   // Rule    Lebanon    1993    1998    -    Sep    lastSun    0:00    0    -
   {
-    -7 /*fromYearShort*/,
-    -2 /*toYearShort*/,
+    -7 /*fromYearTiny*/,
+    -2 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4187,8 +4187,8 @@ static const common::ZoneRule kZoneRulesLebanon[] = {
   },
   // Rule    Lebanon    1999    max    -    Oct    lastSun    0:00    0    -
   {
-    -1 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -1 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4215,8 +4215,8 @@ const common::ZonePolicy kPolicyLebanon = {
 static const common::ZoneRule kZoneRulesLibya[] = {
   // Rule    Libya    1997    only    -    Oct     4    0:00    0    -
   {
-    -3 /*fromYearShort*/,
-    -3 /*toYearShort*/,
+    -3 /*fromYearTiny*/,
+    -3 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     4 /*onDayOfMonth*/,
@@ -4227,8 +4227,8 @@ static const common::ZoneRule kZoneRulesLibya[] = {
   },
   // Rule    Libya    2013    only    -    Mar    lastFri    1:00    1:00    S
   {
-    13 /*fromYearShort*/,
-    13 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    13 /*toYearTiny*/,
     3 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4239,8 +4239,8 @@ static const common::ZoneRule kZoneRulesLibya[] = {
   },
   // Rule    Libya    2013    only    -    Oct    lastFri    2:00    0    -
   {
-    13 /*fromYearShort*/,
-    13 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    13 /*toYearTiny*/,
     10 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4267,8 +4267,8 @@ const common::ZonePolicy kPolicyLibya = {
 static const common::ZoneRule kZoneRulesMacau[] = {
   // Rule    Macau    1979    only    -    Oct    Sun>=16    03:30    0    S
   {
-    -21 /*fromYearShort*/,
-    -21 /*toYearShort*/,
+    -21 /*fromYearTiny*/,
+    -21 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -4295,8 +4295,8 @@ const common::ZonePolicy kPolicyMacau = {
 static const common::ZoneRule kZoneRulesMauritius[] = {
   // Rule Mauritius    1983    only    -    Mar    21    0:00    0    -
   {
-    -17 /*fromYearShort*/,
-    -17 /*toYearShort*/,
+    -17 /*fromYearTiny*/,
+    -17 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -4307,8 +4307,8 @@ static const common::ZoneRule kZoneRulesMauritius[] = {
   },
   // Rule Mauritius    2008    only    -    Oct    lastSun    2:00    1:00    -
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4319,8 +4319,8 @@ static const common::ZoneRule kZoneRulesMauritius[] = {
   },
   // Rule Mauritius    2009    only    -    Mar    lastSun    2:00    0    -
   {
-    9 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4347,8 +4347,8 @@ const common::ZonePolicy kPolicyMauritius = {
 static const common::ZoneRule kZoneRulesMexico[] = {
   // Rule    Mexico    1950    only    -    Jul    30    0:00    0    S
   {
-    -50 /*fromYearShort*/,
-    -50 /*toYearShort*/,
+    -50 /*fromYearTiny*/,
+    -50 /*toYearTiny*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -4359,8 +4359,8 @@ static const common::ZoneRule kZoneRulesMexico[] = {
   },
   // Rule    Mexico    1996    2000    -    Apr    Sun>=1    2:00    1:00    D
   {
-    -4 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    -4 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -4371,8 +4371,8 @@ static const common::ZoneRule kZoneRulesMexico[] = {
   },
   // Rule    Mexico    1996    2000    -    Oct    lastSun    2:00    0    S
   {
-    -4 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    -4 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4383,8 +4383,8 @@ static const common::ZoneRule kZoneRulesMexico[] = {
   },
   // Rule    Mexico    2001    only    -    May    Sun>=1    2:00    1:00    D
   {
-    1 /*fromYearShort*/,
-    1 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    1 /*toYearTiny*/,
     5 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -4395,8 +4395,8 @@ static const common::ZoneRule kZoneRulesMexico[] = {
   },
   // Rule    Mexico    2001    only    -    Sep    lastSun    2:00    0    S
   {
-    1 /*fromYearShort*/,
-    1 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    1 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4407,8 +4407,8 @@ static const common::ZoneRule kZoneRulesMexico[] = {
   },
   // Rule    Mexico    2002    max    -    Apr    Sun>=1    2:00    1:00    D
   {
-    2 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    2 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -4419,8 +4419,8 @@ static const common::ZoneRule kZoneRulesMexico[] = {
   },
   // Rule    Mexico    2002    max    -    Oct    lastSun    2:00    0    S
   {
-    2 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    2 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4447,8 +4447,8 @@ const common::ZonePolicy kPolicyMexico = {
 static const common::ZoneRule kZoneRulesMoldova[] = {
   // Rule    Moldova    1997    max    -    Mar    lastSun     2:00    1:00    S
   {
-    -3 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -3 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4459,8 +4459,8 @@ static const common::ZoneRule kZoneRulesMoldova[] = {
   },
   // Rule    Moldova    1997    max    -    Oct    lastSun     3:00    0    -
   {
-    -3 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    -3 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4487,8 +4487,8 @@ const common::ZonePolicy kPolicyMoldova = {
 static const common::ZoneRule kZoneRulesMongol[] = {
   // Rule    Mongol    1984    1998    -    Sep    lastSun    0:00    0    -
   {
-    -16 /*fromYearShort*/,
-    -2 /*toYearShort*/,
+    -16 /*fromYearTiny*/,
+    -2 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4499,8 +4499,8 @@ static const common::ZoneRule kZoneRulesMongol[] = {
   },
   // Rule    Mongol    2001    only    -    Apr    lastSat    2:00    1:00    -
   {
-    1 /*fromYearShort*/,
-    1 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    1 /*toYearTiny*/,
     4 /*inMonth*/,
     6 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4511,8 +4511,8 @@ static const common::ZoneRule kZoneRulesMongol[] = {
   },
   // Rule    Mongol    2001    2006    -    Sep    lastSat    2:00    0    -
   {
-    1 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     9 /*inMonth*/,
     6 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4523,8 +4523,8 @@ static const common::ZoneRule kZoneRulesMongol[] = {
   },
   // Rule    Mongol    2002    2006    -    Mar    lastSat    2:00    1:00    -
   {
-    2 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    2 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     3 /*inMonth*/,
     6 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4535,8 +4535,8 @@ static const common::ZoneRule kZoneRulesMongol[] = {
   },
   // Rule    Mongol    2015    2016    -    Mar    lastSat    2:00    1:00    -
   {
-    15 /*fromYearShort*/,
-    16 /*toYearShort*/,
+    15 /*fromYearTiny*/,
+    16 /*toYearTiny*/,
     3 /*inMonth*/,
     6 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4547,8 +4547,8 @@ static const common::ZoneRule kZoneRulesMongol[] = {
   },
   // Rule    Mongol    2015    2016    -    Sep    lastSat    0:00    0    -
   {
-    15 /*fromYearShort*/,
-    16 /*toYearShort*/,
+    15 /*fromYearTiny*/,
+    16 /*toYearTiny*/,
     9 /*inMonth*/,
     6 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4575,8 +4575,8 @@ const common::ZonePolicy kPolicyMongol = {
 static const common::ZoneRule kZoneRulesMorocco[] = {
   // Rule    Morocco    1978    only    -    Aug     4     0:00    0    -
   {
-    -22 /*fromYearShort*/,
-    -22 /*toYearShort*/,
+    -22 /*fromYearTiny*/,
+    -22 /*toYearTiny*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     4 /*onDayOfMonth*/,
@@ -4587,8 +4587,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2008    only    -    Jun     1     0:00    1:00    -
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -4599,8 +4599,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2008    only    -    Sep     1     0:00    0    -
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -4611,8 +4611,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2009    only    -    Jun     1     0:00    1:00    -
   {
-    9 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -4623,8 +4623,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2009    only    -    Aug    21     0:00    0    -
   {
-    9 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -4635,8 +4635,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2010    only    -    May     2     0:00    1:00    -
   {
-    10 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -4647,8 +4647,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2010    only    -    Aug     8     0:00    0    -
   {
-    10 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -4659,8 +4659,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2011    only    -    Apr     3     0:00    1:00    -
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     3 /*onDayOfMonth*/,
@@ -4671,8 +4671,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2011    only    -    Jul    31     0:00    0    -
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     31 /*onDayOfMonth*/,
@@ -4683,8 +4683,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2012    2013    -    Apr    lastSun     2:00    1:00    -
   {
-    12 /*fromYearShort*/,
-    13 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    13 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4695,8 +4695,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2012    only    -    Jul    20     3:00    0    -
   {
-    12 /*fromYearShort*/,
-    12 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -4707,8 +4707,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2012    only    -    Aug    20     2:00    1:00    -
   {
-    12 /*fromYearShort*/,
-    12 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -4719,8 +4719,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2012    only    -    Sep    30     3:00    0    -
   {
-    12 /*fromYearShort*/,
-    12 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -4731,8 +4731,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2013    only    -    Jul     7     3:00    0    -
   {
-    13 /*fromYearShort*/,
-    13 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    13 /*toYearTiny*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -4743,8 +4743,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2013    only    -    Aug    10     2:00    1:00    -
   {
-    13 /*fromYearShort*/,
-    13 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    13 /*toYearTiny*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -4755,8 +4755,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2013    2018    -    Oct    lastSun     3:00    0    -
   {
-    13 /*fromYearShort*/,
-    18 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    18 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4767,8 +4767,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2014    2018    -    Mar    lastSun     2:00    1:00    -
   {
-    14 /*fromYearShort*/,
-    18 /*toYearShort*/,
+    14 /*fromYearTiny*/,
+    18 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -4779,8 +4779,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2014    only    -    Jun    28     3:00    0    -
   {
-    14 /*fromYearShort*/,
-    14 /*toYearShort*/,
+    14 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -4791,8 +4791,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2014    only    -    Aug     2     2:00    1:00    -
   {
-    14 /*fromYearShort*/,
-    14 /*toYearShort*/,
+    14 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
     8 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -4803,8 +4803,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2015    only    -    Jun    14     3:00    0    -
   {
-    15 /*fromYearShort*/,
-    15 /*toYearShort*/,
+    15 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -4815,8 +4815,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2015    only    -    Jul    19     2:00    1:00    -
   {
-    15 /*fromYearShort*/,
-    15 /*toYearShort*/,
+    15 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -4827,8 +4827,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2016    only    -    Jun     5     3:00    0    -
   {
-    16 /*fromYearShort*/,
-    16 /*toYearShort*/,
+    16 /*fromYearTiny*/,
+    16 /*toYearTiny*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -4839,8 +4839,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2016    only    -    Jul    10     2:00    1:00    -
   {
-    16 /*fromYearShort*/,
-    16 /*toYearShort*/,
+    16 /*fromYearTiny*/,
+    16 /*toYearTiny*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -4851,8 +4851,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2017    only    -    May    21     3:00    0    -
   {
-    17 /*fromYearShort*/,
-    17 /*toYearShort*/,
+    17 /*fromYearTiny*/,
+    17 /*toYearTiny*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -4863,8 +4863,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2017    only    -    Jul     2     2:00    1:00    -
   {
-    17 /*fromYearShort*/,
-    17 /*toYearShort*/,
+    17 /*fromYearTiny*/,
+    17 /*toYearTiny*/,
     7 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -4875,8 +4875,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2018    only    -    May    13     3:00    0    -
   {
-    18 /*fromYearShort*/,
-    18 /*toYearShort*/,
+    18 /*fromYearTiny*/,
+    18 /*toYearTiny*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     13 /*onDayOfMonth*/,
@@ -4887,8 +4887,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2018    only    -    Jun    17     2:00    1:00    -
   {
-    18 /*fromYearShort*/,
-    18 /*toYearShort*/,
+    18 /*fromYearTiny*/,
+    18 /*toYearTiny*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     17 /*onDayOfMonth*/,
@@ -4899,8 +4899,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2019    only    -    May     5     3:00    -1:00    -
   {
-    19 /*fromYearShort*/,
-    19 /*toYearShort*/,
+    19 /*fromYearTiny*/,
+    19 /*toYearTiny*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -4911,8 +4911,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2019    only    -    Jun     9     2:00    0    -
   {
-    19 /*fromYearShort*/,
-    19 /*toYearShort*/,
+    19 /*fromYearTiny*/,
+    19 /*toYearTiny*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -4923,8 +4923,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2020    only    -    Apr    19     3:00    -1:00    -
   {
-    20 /*fromYearShort*/,
-    20 /*toYearShort*/,
+    20 /*fromYearTiny*/,
+    20 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -4935,8 +4935,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2020    only    -    May    24     2:00    0    -
   {
-    20 /*fromYearShort*/,
-    20 /*toYearShort*/,
+    20 /*fromYearTiny*/,
+    20 /*toYearTiny*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     24 /*onDayOfMonth*/,
@@ -4947,8 +4947,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2021    only    -    Apr    11     3:00    -1:00    -
   {
-    21 /*fromYearShort*/,
-    21 /*toYearShort*/,
+    21 /*fromYearTiny*/,
+    21 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     11 /*onDayOfMonth*/,
@@ -4959,8 +4959,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2021    only    -    May    16     2:00    0    -
   {
-    21 /*fromYearShort*/,
-    21 /*toYearShort*/,
+    21 /*fromYearTiny*/,
+    21 /*toYearTiny*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -4971,8 +4971,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2022    only    -    Mar    27     3:00    -1:00    -
   {
-    22 /*fromYearShort*/,
-    22 /*toYearShort*/,
+    22 /*fromYearTiny*/,
+    22 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     27 /*onDayOfMonth*/,
@@ -4983,8 +4983,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2022    only    -    May     8     2:00    0    -
   {
-    22 /*fromYearShort*/,
-    22 /*toYearShort*/,
+    22 /*fromYearTiny*/,
+    22 /*toYearTiny*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -4995,8 +4995,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2023    only    -    Mar    19     3:00    -1:00    -
   {
-    23 /*fromYearShort*/,
-    23 /*toYearShort*/,
+    23 /*fromYearTiny*/,
+    23 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -5007,8 +5007,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2023    only    -    Apr    23     2:00    0    -
   {
-    23 /*fromYearShort*/,
-    23 /*toYearShort*/,
+    23 /*fromYearTiny*/,
+    23 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -5019,8 +5019,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2024    only    -    Mar    10     3:00    -1:00    -
   {
-    24 /*fromYearShort*/,
-    24 /*toYearShort*/,
+    24 /*fromYearTiny*/,
+    24 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -5031,8 +5031,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2024    only    -    Apr    14     2:00    0    -
   {
-    24 /*fromYearShort*/,
-    24 /*toYearShort*/,
+    24 /*fromYearTiny*/,
+    24 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -5043,8 +5043,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2025    only    -    Feb    23     3:00    -1:00    -
   {
-    25 /*fromYearShort*/,
-    25 /*toYearShort*/,
+    25 /*fromYearTiny*/,
+    25 /*toYearTiny*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -5055,8 +5055,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2025    only    -    Apr     6     2:00    0    -
   {
-    25 /*fromYearShort*/,
-    25 /*toYearShort*/,
+    25 /*fromYearTiny*/,
+    25 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     6 /*onDayOfMonth*/,
@@ -5067,8 +5067,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2026    only    -    Feb    15     3:00    -1:00    -
   {
-    26 /*fromYearShort*/,
-    26 /*toYearShort*/,
+    26 /*fromYearTiny*/,
+    26 /*toYearTiny*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -5079,8 +5079,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2026    only    -    Mar    22     2:00    0    -
   {
-    26 /*fromYearShort*/,
-    26 /*toYearShort*/,
+    26 /*fromYearTiny*/,
+    26 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -5091,8 +5091,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2027    only    -    Feb     7     3:00    -1:00    -
   {
-    27 /*fromYearShort*/,
-    27 /*toYearShort*/,
+    27 /*fromYearTiny*/,
+    27 /*toYearTiny*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -5103,8 +5103,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2027    only    -    Mar    14     2:00    0    -
   {
-    27 /*fromYearShort*/,
-    27 /*toYearShort*/,
+    27 /*fromYearTiny*/,
+    27 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -5115,8 +5115,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2028    only    -    Jan    23     3:00    -1:00    -
   {
-    28 /*fromYearShort*/,
-    28 /*toYearShort*/,
+    28 /*fromYearTiny*/,
+    28 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -5127,8 +5127,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2028    only    -    Feb    27     2:00    0    -
   {
-    28 /*fromYearShort*/,
-    28 /*toYearShort*/,
+    28 /*fromYearTiny*/,
+    28 /*toYearTiny*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     27 /*onDayOfMonth*/,
@@ -5139,8 +5139,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2029    only    -    Jan    14     3:00    -1:00    -
   {
-    29 /*fromYearShort*/,
-    29 /*toYearShort*/,
+    29 /*fromYearTiny*/,
+    29 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -5151,8 +5151,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2029    only    -    Feb    18     2:00    0    -
   {
-    29 /*fromYearShort*/,
-    29 /*toYearShort*/,
+    29 /*fromYearTiny*/,
+    29 /*toYearTiny*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     18 /*onDayOfMonth*/,
@@ -5163,8 +5163,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2029    only    -    Dec    30     3:00    -1:00    -
   {
-    29 /*fromYearShort*/,
-    29 /*toYearShort*/,
+    29 /*fromYearTiny*/,
+    29 /*toYearTiny*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -5175,8 +5175,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2030    only    -    Feb    10     2:00    0    -
   {
-    30 /*fromYearShort*/,
-    30 /*toYearShort*/,
+    30 /*fromYearTiny*/,
+    30 /*toYearTiny*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -5187,8 +5187,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2030    only    -    Dec    22     3:00    -1:00    -
   {
-    30 /*fromYearShort*/,
-    30 /*toYearShort*/,
+    30 /*fromYearTiny*/,
+    30 /*toYearTiny*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -5199,8 +5199,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2031    only    -    Jan    26     2:00    0    -
   {
-    31 /*fromYearShort*/,
-    31 /*toYearShort*/,
+    31 /*fromYearTiny*/,
+    31 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     26 /*onDayOfMonth*/,
@@ -5211,8 +5211,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2031    only    -    Dec    14     3:00    -1:00    -
   {
-    31 /*fromYearShort*/,
-    31 /*toYearShort*/,
+    31 /*fromYearTiny*/,
+    31 /*toYearTiny*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -5223,8 +5223,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2032    only    -    Jan    18     2:00    0    -
   {
-    32 /*fromYearShort*/,
-    32 /*toYearShort*/,
+    32 /*fromYearTiny*/,
+    32 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     18 /*onDayOfMonth*/,
@@ -5235,8 +5235,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2032    only    -    Nov    28     3:00    -1:00    -
   {
-    32 /*fromYearShort*/,
-    32 /*toYearShort*/,
+    32 /*fromYearTiny*/,
+    32 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -5247,8 +5247,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2033    only    -    Jan     9     2:00    0    -
   {
-    33 /*fromYearShort*/,
-    33 /*toYearShort*/,
+    33 /*fromYearTiny*/,
+    33 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -5259,8 +5259,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2033    only    -    Nov    20     3:00    -1:00    -
   {
-    33 /*fromYearShort*/,
-    33 /*toYearShort*/,
+    33 /*fromYearTiny*/,
+    33 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     20 /*onDayOfMonth*/,
@@ -5271,8 +5271,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2033    only    -    Dec    25     2:00    0    -
   {
-    33 /*fromYearShort*/,
-    33 /*toYearShort*/,
+    33 /*fromYearTiny*/,
+    33 /*toYearTiny*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     25 /*onDayOfMonth*/,
@@ -5283,8 +5283,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2034    only    -    Nov     5     3:00    -1:00    -
   {
-    34 /*fromYearShort*/,
-    34 /*toYearShort*/,
+    34 /*fromYearTiny*/,
+    34 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -5295,8 +5295,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2034    only    -    Dec    17     2:00    0    -
   {
-    34 /*fromYearShort*/,
-    34 /*toYearShort*/,
+    34 /*fromYearTiny*/,
+    34 /*toYearTiny*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     17 /*onDayOfMonth*/,
@@ -5307,8 +5307,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2035    only    -    Oct    28     3:00    -1:00    -
   {
-    35 /*fromYearShort*/,
-    35 /*toYearShort*/,
+    35 /*fromYearTiny*/,
+    35 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -5319,8 +5319,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2035    only    -    Dec     2     2:00    0    -
   {
-    35 /*fromYearShort*/,
-    35 /*toYearShort*/,
+    35 /*fromYearTiny*/,
+    35 /*toYearTiny*/,
     12 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -5331,8 +5331,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2036    only    -    Oct    19     3:00    -1:00    -
   {
-    36 /*fromYearShort*/,
-    36 /*toYearShort*/,
+    36 /*fromYearTiny*/,
+    36 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -5343,8 +5343,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2036    only    -    Nov    23     2:00    0    -
   {
-    36 /*fromYearShort*/,
-    36 /*toYearShort*/,
+    36 /*fromYearTiny*/,
+    36 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -5355,8 +5355,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2037    only    -    Oct     4     3:00    -1:00    -
   {
-    37 /*fromYearShort*/,
-    37 /*toYearShort*/,
+    37 /*fromYearTiny*/,
+    37 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     4 /*onDayOfMonth*/,
@@ -5367,8 +5367,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
   },
   // Rule    Morocco    2037    only    -    Nov    15     2:00    0    -
   {
-    37 /*fromYearShort*/,
-    37 /*toYearShort*/,
+    37 /*fromYearTiny*/,
+    37 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -5395,8 +5395,8 @@ const common::ZonePolicy kPolicyMorocco = {
 static const common::ZoneRule kZoneRulesNC[] = {
   // Rule    NC    1997    only    -    Mar     2    2:00s    0    -
   {
-    -3 /*fromYearShort*/,
-    -3 /*toYearShort*/,
+    -3 /*fromYearTiny*/,
+    -3 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -5423,8 +5423,8 @@ const common::ZonePolicy kPolicyNC = {
 static const common::ZoneRule kZoneRulesNT_YK[] = {
   // Rule    NT_YK    1980    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    -20 /*fromYearShort*/,
-    -14 /*toYearShort*/,
+    -20 /*fromYearTiny*/,
+    -14 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -5435,8 +5435,8 @@ static const common::ZoneRule kZoneRulesNT_YK[] = {
   },
   // Rule    NT_YK    1980    2006    -    Oct    lastSun    2:00    0    S
   {
-    -20 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    -20 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -5447,8 +5447,8 @@ static const common::ZoneRule kZoneRulesNT_YK[] = {
   },
   // Rule    NT_YK    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
   {
-    -13 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    -13 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5475,8 +5475,8 @@ const common::ZonePolicy kPolicyNT_YK = {
 static const common::ZoneRule kZoneRulesNZ[] = {
   // Rule    NZ    1989    only    -    Oct    Sun>=8    2:00s    1:00    D
   {
-    -11 /*fromYearShort*/,
-    -11 /*toYearShort*/,
+    -11 /*fromYearTiny*/,
+    -11 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -5487,8 +5487,8 @@ static const common::ZoneRule kZoneRulesNZ[] = {
   },
   // Rule    NZ    1990    2006    -    Oct    Sun>=1    2:00s    1:00    D
   {
-    -10 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    -10 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5499,8 +5499,8 @@ static const common::ZoneRule kZoneRulesNZ[] = {
   },
   // Rule    NZ    1990    2007    -    Mar    Sun>=15    2:00s    0    S
   {
-    -10 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    -10 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -5511,8 +5511,8 @@ static const common::ZoneRule kZoneRulesNZ[] = {
   },
   // Rule    NZ    2007    max    -    Sep    lastSun    2:00s    1:00    D
   {
-    7 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -5523,8 +5523,8 @@ static const common::ZoneRule kZoneRulesNZ[] = {
   },
   // Rule    NZ    2008    max    -    Apr    Sun>=1    2:00s    0    S
   {
-    8 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5551,8 +5551,8 @@ const common::ZonePolicy kPolicyNZ = {
 static const common::ZoneRule kZoneRulesNic[] = {
   // Rule    Nic    1979    1980    -    Jun    Mon>=23    0:00    0    S
   {
-    -21 /*fromYearShort*/,
-    -20 /*toYearShort*/,
+    -21 /*fromYearTiny*/,
+    -20 /*toYearTiny*/,
     6 /*inMonth*/,
     1 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -5563,8 +5563,8 @@ static const common::ZoneRule kZoneRulesNic[] = {
   },
   // Rule    Nic    2005    only    -    Apr    10    0:00    1:00    D
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     10 /*onDayOfMonth*/,
@@ -5575,8 +5575,8 @@ static const common::ZoneRule kZoneRulesNic[] = {
   },
   // Rule    Nic    2005    only    -    Oct    Sun>=1    0:00    0    S
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5587,8 +5587,8 @@ static const common::ZoneRule kZoneRulesNic[] = {
   },
   // Rule    Nic    2006    only    -    Apr    30    2:00    1:00    D
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -5599,8 +5599,8 @@ static const common::ZoneRule kZoneRulesNic[] = {
   },
   // Rule    Nic    2006    only    -    Oct    Sun>=1    1:00    0    S
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5627,8 +5627,8 @@ const common::ZonePolicy kPolicyNic = {
 static const common::ZoneRule kZoneRulesPRC[] = {
   // Rule    PRC    1986    1991    -    Sep    Sun>=11     2:00    0    S
   {
-    -14 /*fromYearShort*/,
-    -9 /*toYearShort*/,
+    -14 /*fromYearTiny*/,
+    -9 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     11 /*onDayOfMonth*/,
@@ -5655,8 +5655,8 @@ const common::ZonePolicy kPolicyPRC = {
 static const common::ZoneRule kZoneRulesPakistan[] = {
   // Rule Pakistan    2002    only    -    Apr    Sun>=2    0:00    1:00    S
   {
-    2 /*fromYearShort*/,
-    2 /*toYearShort*/,
+    2 /*fromYearTiny*/,
+    2 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -5667,8 +5667,8 @@ static const common::ZoneRule kZoneRulesPakistan[] = {
   },
   // Rule Pakistan    2002    only    -    Oct    Sun>=2    0:00    0    -
   {
-    2 /*fromYearShort*/,
-    2 /*toYearShort*/,
+    2 /*fromYearTiny*/,
+    2 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -5679,8 +5679,8 @@ static const common::ZoneRule kZoneRulesPakistan[] = {
   },
   // Rule Pakistan    2008    only    -    Jun    1    0:00    1:00    S
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     6 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5691,8 +5691,8 @@ static const common::ZoneRule kZoneRulesPakistan[] = {
   },
   // Rule Pakistan    2008    2009    -    Nov    1    0:00    0    -
   {
-    8 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5703,8 +5703,8 @@ static const common::ZoneRule kZoneRulesPakistan[] = {
   },
   // Rule Pakistan    2009    only    -    Apr    15    0:00    1:00    S
   {
-    9 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -5731,8 +5731,8 @@ const common::ZonePolicy kPolicyPakistan = {
 static const common::ZoneRule kZoneRulesPara[] = {
   // Rule    Para    1996    2001    -    Oct    Sun>=1    0:00    1:00    -
   {
-    -4 /*fromYearShort*/,
-    1 /*toYearShort*/,
+    -4 /*fromYearTiny*/,
+    1 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5743,8 +5743,8 @@ static const common::ZoneRule kZoneRulesPara[] = {
   },
   // Rule    Para    1997    only    -    Feb    lastSun    0:00    0    -
   {
-    -3 /*fromYearShort*/,
-    -3 /*toYearShort*/,
+    -3 /*fromYearTiny*/,
+    -3 /*toYearTiny*/,
     2 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -5755,8 +5755,8 @@ static const common::ZoneRule kZoneRulesPara[] = {
   },
   // Rule    Para    1998    2001    -    Mar    Sun>=1    0:00    0    -
   {
-    -2 /*fromYearShort*/,
-    1 /*toYearShort*/,
+    -2 /*fromYearTiny*/,
+    1 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5767,8 +5767,8 @@ static const common::ZoneRule kZoneRulesPara[] = {
   },
   // Rule    Para    2002    2004    -    Apr    Sun>=1    0:00    0    -
   {
-    2 /*fromYearShort*/,
-    4 /*toYearShort*/,
+    2 /*fromYearTiny*/,
+    4 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5779,8 +5779,8 @@ static const common::ZoneRule kZoneRulesPara[] = {
   },
   // Rule    Para    2002    2003    -    Sep    Sun>=1    0:00    1:00    -
   {
-    2 /*fromYearShort*/,
-    3 /*toYearShort*/,
+    2 /*fromYearTiny*/,
+    3 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5791,8 +5791,8 @@ static const common::ZoneRule kZoneRulesPara[] = {
   },
   // Rule    Para    2004    2009    -    Oct    Sun>=15    0:00    1:00    -
   {
-    4 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    4 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -5803,8 +5803,8 @@ static const common::ZoneRule kZoneRulesPara[] = {
   },
   // Rule    Para    2005    2009    -    Mar    Sun>=8    0:00    0    -
   {
-    5 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -5815,8 +5815,8 @@ static const common::ZoneRule kZoneRulesPara[] = {
   },
   // Rule    Para    2010    max    -    Oct    Sun>=1    0:00    1:00    -
   {
-    10 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5827,8 +5827,8 @@ static const common::ZoneRule kZoneRulesPara[] = {
   },
   // Rule    Para    2010    2012    -    Apr    Sun>=8    0:00    0    -
   {
-    10 /*fromYearShort*/,
-    12 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -5839,8 +5839,8 @@ static const common::ZoneRule kZoneRulesPara[] = {
   },
   // Rule    Para    2013    max    -    Mar    Sun>=22    0:00    0    -
   {
-    13 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -5867,8 +5867,8 @@ const common::ZonePolicy kPolicyPara = {
 static const common::ZoneRule kZoneRulesPeru[] = {
   // Rule    Peru    1994    only    -    Apr     1    0:00    0    -
   {
-    -6 /*fromYearShort*/,
-    -6 /*toYearShort*/,
+    -6 /*fromYearTiny*/,
+    -6 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5895,8 +5895,8 @@ const common::ZonePolicy kPolicyPeru = {
 static const common::ZoneRule kZoneRulesPhil[] = {
   // Rule    Phil    1978    only    -    Sep    21    0:00    0    S
   {
-    -22 /*fromYearShort*/,
-    -22 /*toYearShort*/,
+    -22 /*fromYearTiny*/,
+    -22 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     21 /*onDayOfMonth*/,
@@ -5923,8 +5923,8 @@ const common::ZonePolicy kPolicyPhil = {
 static const common::ZoneRule kZoneRulesROK[] = {
   // Rule    ROK    1987    1988    -    Oct    Sun>=8     3:00    0    S
   {
-    -13 /*fromYearShort*/,
-    -12 /*toYearShort*/,
+    -13 /*fromYearTiny*/,
+    -12 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -5951,8 +5951,8 @@ const common::ZonePolicy kPolicyROK = {
 static const common::ZoneRule kZoneRulesRussia[] = {
   // Rule    Russia    1984    1995    -    Sep    lastSun     2:00s    0    -
   {
-    -16 /*fromYearShort*/,
-    -5 /*toYearShort*/,
+    -16 /*fromYearTiny*/,
+    -5 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -5963,8 +5963,8 @@ static const common::ZoneRule kZoneRulesRussia[] = {
   },
   // Rule    Russia    1985    2010    -    Mar    lastSun     2:00s    1:00    S
   {
-    -15 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    -15 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -5975,8 +5975,8 @@ static const common::ZoneRule kZoneRulesRussia[] = {
   },
   // Rule    Russia    1996    2010    -    Oct    lastSun     2:00s    0    -
   {
-    -4 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    -4 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6003,8 +6003,8 @@ const common::ZonePolicy kPolicyRussia = {
 static const common::ZoneRule kZoneRulesRussiaAsia[] = {
   // Rule RussiaAsia    1984    1995    -    Sep    lastSun     2:00s    0    -
   {
-    -16 /*fromYearShort*/,
-    -5 /*toYearShort*/,
+    -16 /*fromYearTiny*/,
+    -5 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6015,8 +6015,8 @@ static const common::ZoneRule kZoneRulesRussiaAsia[] = {
   },
   // Rule RussiaAsia    1985    2010    -    Mar    lastSun     2:00s    1:00    -
   {
-    -15 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    -15 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6027,8 +6027,8 @@ static const common::ZoneRule kZoneRulesRussiaAsia[] = {
   },
   // Rule RussiaAsia    1996    2010    -    Oct    lastSun     2:00s    0    -
   {
-    -4 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    -4 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6055,8 +6055,8 @@ const common::ZonePolicy kPolicyRussiaAsia = {
 static const common::ZoneRule kZoneRulesSA[] = {
   // Rule    SA    1943    1944    -    Mar    Sun>=15    2:00    0    -
   {
-    -57 /*fromYearShort*/,
-    -56 /*toYearShort*/,
+    -57 /*fromYearTiny*/,
+    -56 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -6083,8 +6083,8 @@ const common::ZonePolicy kPolicySA = {
 static const common::ZoneRule kZoneRulesSalv[] = {
   // Rule    Salv    1987    1988    -    Sep    lastSun    0:00    0    S
   {
-    -13 /*fromYearShort*/,
-    -12 /*toYearShort*/,
+    -13 /*fromYearTiny*/,
+    -12 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6111,8 +6111,8 @@ const common::ZonePolicy kPolicySalv = {
 static const common::ZoneRule kZoneRulesSudan[] = {
   // Rule    Sudan    1970    1985    -    Oct    15    0:00    0    -
   {
-    -30 /*fromYearShort*/,
-    -15 /*toYearShort*/,
+    -30 /*fromYearTiny*/,
+    -15 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -6139,8 +6139,8 @@ const common::ZonePolicy kPolicySudan = {
 static const common::ZoneRule kZoneRulesSyria[] = {
   // Rule    Syria    1994    2005    -    Oct     1    0:00    0    -
   {
-    -6 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    -6 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6151,8 +6151,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
   },
   // Rule    Syria    1997    1998    -    Mar    lastMon    0:00    1:00    S
   {
-    -3 /*fromYearShort*/,
-    -2 /*toYearShort*/,
+    -3 /*fromYearTiny*/,
+    -2 /*toYearTiny*/,
     3 /*inMonth*/,
     1 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6163,8 +6163,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
   },
   // Rule    Syria    1999    2006    -    Apr     1    0:00    1:00    S
   {
-    -1 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    -1 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6175,8 +6175,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
   },
   // Rule    Syria    2006    only    -    Sep    22    0:00    0    -
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -6187,8 +6187,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
   },
   // Rule    Syria    2007    only    -    Mar    lastFri    0:00    1:00    S
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     3 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6199,8 +6199,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
   },
   // Rule    Syria    2007    only    -    Nov     Fri>=1    0:00    0    -
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     11 /*inMonth*/,
     5 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6211,8 +6211,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
   },
   // Rule    Syria    2008    only    -    Apr    Fri>=1    0:00    1:00    S
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     4 /*inMonth*/,
     5 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6223,8 +6223,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
   },
   // Rule    Syria    2008    only    -    Nov    1    0:00    0    -
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     11 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6235,8 +6235,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
   },
   // Rule    Syria    2009    only    -    Mar    lastFri    0:00    1:00    S
   {
-    9 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     3 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6247,8 +6247,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
   },
   // Rule    Syria    2010    2011    -    Apr    Fri>=1    0:00    1:00    S
   {
-    10 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     4 /*inMonth*/,
     5 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6259,8 +6259,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
   },
   // Rule    Syria    2012    max    -    Mar    lastFri    0:00    1:00    S
   {
-    12 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6271,8 +6271,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
   },
   // Rule    Syria    2009    max    -    Oct    lastFri    0:00    0    -
   {
-    9 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     5 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6299,8 +6299,8 @@ const common::ZonePolicy kPolicySyria = {
 static const common::ZoneRule kZoneRulesTaiwan[] = {
   // Rule    Taiwan    1979    only    -    Oct    1    0:00    0    S
   {
-    -21 /*fromYearShort*/,
-    -21 /*toYearShort*/,
+    -21 /*fromYearTiny*/,
+    -21 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6327,8 +6327,8 @@ const common::ZonePolicy kPolicyTaiwan = {
 static const common::ZoneRule kZoneRulesThule[] = {
   // Rule    Thule    1991    1992    -    Sep    lastSun    2:00    0    S
   {
-    -9 /*fromYearShort*/,
-    -8 /*toYearShort*/,
+    -9 /*fromYearTiny*/,
+    -8 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6339,8 +6339,8 @@ static const common::ZoneRule kZoneRulesThule[] = {
   },
   // Rule    Thule    1993    2006    -    Apr    Sun>=1    2:00    1:00    D
   {
-    -7 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    -7 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6351,8 +6351,8 @@ static const common::ZoneRule kZoneRulesThule[] = {
   },
   // Rule    Thule    1993    2006    -    Oct    lastSun    2:00    0    S
   {
-    -7 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    -7 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6363,8 +6363,8 @@ static const common::ZoneRule kZoneRulesThule[] = {
   },
   // Rule    Thule    2007    max    -    Mar    Sun>=8    2:00    1:00    D
   {
-    7 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -6375,8 +6375,8 @@ static const common::ZoneRule kZoneRulesThule[] = {
   },
   // Rule    Thule    2007    max    -    Nov    Sun>=1    2:00    0    S
   {
-    7 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6403,8 +6403,8 @@ const common::ZonePolicy kPolicyThule = {
 static const common::ZoneRule kZoneRulesTonga[] = {
   // Rule    Tonga    1999    only    -    Oct     7    2:00s    1:00    -
   {
-    -1 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -1 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -6415,8 +6415,8 @@ static const common::ZoneRule kZoneRulesTonga[] = {
   },
   // Rule    Tonga    2000    only    -    Mar    19    2:00s    0    -
   {
-    0 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -6427,8 +6427,8 @@ static const common::ZoneRule kZoneRulesTonga[] = {
   },
   // Rule    Tonga    2000    2001    -    Nov    Sun>=1    2:00    1:00    -
   {
-    0 /*fromYearShort*/,
-    1 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    1 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6439,8 +6439,8 @@ static const common::ZoneRule kZoneRulesTonga[] = {
   },
   // Rule    Tonga    2001    2002    -    Jan    lastSun    2:00    0    -
   {
-    1 /*fromYearShort*/,
-    2 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    2 /*toYearTiny*/,
     1 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6451,8 +6451,8 @@ static const common::ZoneRule kZoneRulesTonga[] = {
   },
   // Rule    Tonga    2016    only    -    Nov    Sun>=1    2:00    1:00    -
   {
-    16 /*fromYearShort*/,
-    16 /*toYearShort*/,
+    16 /*fromYearTiny*/,
+    16 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6463,8 +6463,8 @@ static const common::ZoneRule kZoneRulesTonga[] = {
   },
   // Rule    Tonga    2017    only    -    Jan    Sun>=15    3:00    0    -
   {
-    17 /*fromYearShort*/,
-    17 /*toYearShort*/,
+    17 /*fromYearTiny*/,
+    17 /*toYearTiny*/,
     1 /*inMonth*/,
     7 /*onDayOfWeek*/,
     15 /*onDayOfMonth*/,
@@ -6491,8 +6491,8 @@ const common::ZonePolicy kPolicyTonga = {
 static const common::ZoneRule kZoneRulesTunisia[] = {
   // Rule    Tunisia    1988    1990    -    Sep    lastSun     0:00s    0    -
   {
-    -12 /*fromYearShort*/,
-    -10 /*toYearShort*/,
+    -12 /*fromYearTiny*/,
+    -10 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6503,8 +6503,8 @@ static const common::ZoneRule kZoneRulesTunisia[] = {
   },
   // Rule    Tunisia    2005    only    -    May     1     0:00s    1:00    S
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     5 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6515,8 +6515,8 @@ static const common::ZoneRule kZoneRulesTunisia[] = {
   },
   // Rule    Tunisia    2005    only    -    Sep    30     1:00s    0    -
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     30 /*onDayOfMonth*/,
@@ -6527,8 +6527,8 @@ static const common::ZoneRule kZoneRulesTunisia[] = {
   },
   // Rule    Tunisia    2006    2008    -    Mar    lastSun     2:00s    1:00    S
   {
-    6 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6539,8 +6539,8 @@ static const common::ZoneRule kZoneRulesTunisia[] = {
   },
   // Rule    Tunisia    2006    2008    -    Oct    lastSun     2:00s    0    -
   {
-    6 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6567,8 +6567,8 @@ const common::ZonePolicy kPolicyTunisia = {
 static const common::ZoneRule kZoneRulesUS[] = {
   // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
   {
-    -33 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    -33 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6579,8 +6579,8 @@ static const common::ZoneRule kZoneRulesUS[] = {
   },
   // Rule    US    1976    1986    -    Apr    lastSun    2:00    1:00    D
   {
-    -24 /*fromYearShort*/,
-    -14 /*toYearShort*/,
+    -24 /*fromYearTiny*/,
+    -14 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6591,8 +6591,8 @@ static const common::ZoneRule kZoneRulesUS[] = {
   },
   // Rule    US    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
   {
-    -13 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    -13 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6603,8 +6603,8 @@ static const common::ZoneRule kZoneRulesUS[] = {
   },
   // Rule    US    2007    max    -    Mar    Sun>=8    2:00    1:00    D
   {
-    7 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -6615,8 +6615,8 @@ static const common::ZoneRule kZoneRulesUS[] = {
   },
   // Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
   {
-    7 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     11 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6643,8 +6643,8 @@ const common::ZonePolicy kPolicyUS = {
 static const common::ZoneRule kZoneRulesUruguay[] = {
   // Rule    Uruguay    1993    only    -    Feb    28     0:00    0    -
   {
-    -7 /*fromYearShort*/,
-    -7 /*toYearShort*/,
+    -7 /*fromYearTiny*/,
+    -7 /*toYearTiny*/,
     2 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -6655,8 +6655,8 @@ static const common::ZoneRule kZoneRulesUruguay[] = {
   },
   // Rule    Uruguay    2004    only    -    Sep    19     0:00    1:00    -
   {
-    4 /*fromYearShort*/,
-    4 /*toYearShort*/,
+    4 /*fromYearTiny*/,
+    4 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     19 /*onDayOfMonth*/,
@@ -6667,8 +6667,8 @@ static const common::ZoneRule kZoneRulesUruguay[] = {
   },
   // Rule    Uruguay    2005    only    -    Mar    27     2:00    0    -
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     27 /*onDayOfMonth*/,
@@ -6679,8 +6679,8 @@ static const common::ZoneRule kZoneRulesUruguay[] = {
   },
   // Rule    Uruguay    2005    only    -    Oct     9     2:00    1:00    -
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -6691,8 +6691,8 @@ static const common::ZoneRule kZoneRulesUruguay[] = {
   },
   // Rule    Uruguay    2006    2015    -    Mar    Sun>=8     2:00    0    -
   {
-    6 /*fromYearShort*/,
-    15 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
     3 /*inMonth*/,
     7 /*onDayOfWeek*/,
     8 /*onDayOfMonth*/,
@@ -6703,8 +6703,8 @@ static const common::ZoneRule kZoneRulesUruguay[] = {
   },
   // Rule    Uruguay    2006    2014    -    Oct    Sun>=1     2:00    1:00    -
   {
-    6 /*fromYearShort*/,
-    14 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6731,8 +6731,8 @@ const common::ZonePolicy kPolicyUruguay = {
 static const common::ZoneRule kZoneRulesVanuatu[] = {
   // Rule    Vanuatu    1992    1993    -    Jan    Sun>=23    0:00    0    -
   {
-    -8 /*fromYearShort*/,
-    -7 /*toYearShort*/,
+    -8 /*fromYearTiny*/,
+    -7 /*toYearTiny*/,
     1 /*inMonth*/,
     7 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -6759,8 +6759,8 @@ const common::ZonePolicy kPolicyVanuatu = {
 static const common::ZoneRule kZoneRulesWS[] = {
   // Rule    WS    2010    only    -    Sep    lastSun    0:00    1    -
   {
-    10 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6771,8 +6771,8 @@ static const common::ZoneRule kZoneRulesWS[] = {
   },
   // Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     4 /*inMonth*/,
     6 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6783,8 +6783,8 @@ static const common::ZoneRule kZoneRulesWS[] = {
   },
   // Rule    WS    2011    only    -    Sep    lastSat    3:00    1    -
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     9 /*inMonth*/,
     6 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6795,8 +6795,8 @@ static const common::ZoneRule kZoneRulesWS[] = {
   },
   // Rule    WS    2012    max    -    Apr    Sun>=1    4:00    0    -
   {
-    12 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6807,8 +6807,8 @@ static const common::ZoneRule kZoneRulesWS[] = {
   },
   // Rule    WS    2012    max    -    Sep    lastSun    3:00    1    -
   {
-    12 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     9 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6835,8 +6835,8 @@ const common::ZonePolicy kPolicyWS = {
 static const common::ZoneRule kZoneRulesWinn[] = {
   // Rule    Winn    1966    1986    -    Apr    lastSun    2:00s    1:00    D
   {
-    -34 /*fromYearShort*/,
-    -14 /*toYearShort*/,
+    -34 /*fromYearTiny*/,
+    -14 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6847,8 +6847,8 @@ static const common::ZoneRule kZoneRulesWinn[] = {
   },
   // Rule    Winn    1966    2005    -    Oct    lastSun    2:00s    0    S
   {
-    -34 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    -34 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,
@@ -6859,8 +6859,8 @@ static const common::ZoneRule kZoneRulesWinn[] = {
   },
   // Rule    Winn    1987    2005    -    Apr    Sun>=1    2:00s    1:00    D
   {
-    -13 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    -13 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     4 /*inMonth*/,
     7 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6887,8 +6887,8 @@ const common::ZonePolicy kPolicyWinn = {
 static const common::ZoneRule kZoneRulesZion[] = {
   // Rule    Zion    1999    only    -    Sep     3    2:00    0    S
   {
-    -1 /*fromYearShort*/,
-    -1 /*toYearShort*/,
+    -1 /*fromYearTiny*/,
+    -1 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     3 /*onDayOfMonth*/,
@@ -6899,8 +6899,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2000    only    -    Apr    14    2:00    1:00    D
   {
-    0 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     14 /*onDayOfMonth*/,
@@ -6911,8 +6911,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2000    only    -    Oct     6    1:00    0    S
   {
-    0 /*fromYearShort*/,
-    0 /*toYearShort*/,
+    0 /*fromYearTiny*/,
+    0 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     6 /*onDayOfMonth*/,
@@ -6923,8 +6923,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2001    only    -    Apr     9    1:00    1:00    D
   {
-    1 /*fromYearShort*/,
-    1 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    1 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -6935,8 +6935,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2001    only    -    Sep    24    1:00    0    S
   {
-    1 /*fromYearShort*/,
-    1 /*toYearShort*/,
+    1 /*fromYearTiny*/,
+    1 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     24 /*onDayOfMonth*/,
@@ -6947,8 +6947,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2002    only    -    Mar    29    1:00    1:00    D
   {
-    2 /*fromYearShort*/,
-    2 /*toYearShort*/,
+    2 /*fromYearTiny*/,
+    2 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     29 /*onDayOfMonth*/,
@@ -6959,8 +6959,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2002    only    -    Oct     7    1:00    0    S
   {
-    2 /*fromYearShort*/,
-    2 /*toYearShort*/,
+    2 /*fromYearTiny*/,
+    2 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -6971,8 +6971,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2003    only    -    Mar    28    1:00    1:00    D
   {
-    3 /*fromYearShort*/,
-    3 /*toYearShort*/,
+    3 /*fromYearTiny*/,
+    3 /*toYearTiny*/,
     3 /*inMonth*/,
     0 /*onDayOfWeek*/,
     28 /*onDayOfMonth*/,
@@ -6983,8 +6983,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2003    only    -    Oct     3    1:00    0    S
   {
-    3 /*fromYearShort*/,
-    3 /*toYearShort*/,
+    3 /*fromYearTiny*/,
+    3 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     3 /*onDayOfMonth*/,
@@ -6995,8 +6995,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2004    only    -    Apr     7    1:00    1:00    D
   {
-    4 /*fromYearShort*/,
-    4 /*toYearShort*/,
+    4 /*fromYearTiny*/,
+    4 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     7 /*onDayOfMonth*/,
@@ -7007,8 +7007,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2004    only    -    Sep    22    1:00    0    S
   {
-    4 /*fromYearShort*/,
-    4 /*toYearShort*/,
+    4 /*fromYearTiny*/,
+    4 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     22 /*onDayOfMonth*/,
@@ -7019,8 +7019,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2005    only    -    Apr     1    2:00    1:00    D
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -7031,8 +7031,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2005    only    -    Oct     9    2:00    0    S
   {
-    5 /*fromYearShort*/,
-    5 /*toYearShort*/,
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     9 /*onDayOfMonth*/,
@@ -7043,8 +7043,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2006    2010    -    Mar    Fri>=26    2:00    1:00    D
   {
-    6 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     3 /*inMonth*/,
     5 /*onDayOfWeek*/,
     26 /*onDayOfMonth*/,
@@ -7055,8 +7055,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2006    only    -    Oct     1    2:00    0    S
   {
-    6 /*fromYearShort*/,
-    6 /*toYearShort*/,
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -7067,8 +7067,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2007    only    -    Sep    16    2:00    0    S
   {
-    7 /*fromYearShort*/,
-    7 /*toYearShort*/,
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     16 /*onDayOfMonth*/,
@@ -7079,8 +7079,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2008    only    -    Oct     5    2:00    0    S
   {
-    8 /*fromYearShort*/,
-    8 /*toYearShort*/,
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     5 /*onDayOfMonth*/,
@@ -7091,8 +7091,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2009    only    -    Sep    27    2:00    0    S
   {
-    9 /*fromYearShort*/,
-    9 /*toYearShort*/,
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     27 /*onDayOfMonth*/,
@@ -7103,8 +7103,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2010    only    -    Sep    12    2:00    0    S
   {
-    10 /*fromYearShort*/,
-    10 /*toYearShort*/,
+    10 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     12 /*onDayOfMonth*/,
@@ -7115,8 +7115,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2011    only    -    Apr     1    2:00    1:00    D
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     4 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -7127,8 +7127,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2011    only    -    Oct     2    2:00    0    S
   {
-    11 /*fromYearShort*/,
-    11 /*toYearShort*/,
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
     10 /*inMonth*/,
     0 /*onDayOfWeek*/,
     2 /*onDayOfMonth*/,
@@ -7139,8 +7139,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2012    only    -    Mar    Fri>=26    2:00    1:00    D
   {
-    12 /*fromYearShort*/,
-    12 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
     3 /*inMonth*/,
     5 /*onDayOfWeek*/,
     26 /*onDayOfMonth*/,
@@ -7151,8 +7151,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2012    only    -    Sep    23    2:00    0    S
   {
-    12 /*fromYearShort*/,
-    12 /*toYearShort*/,
+    12 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
     9 /*inMonth*/,
     0 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -7163,8 +7163,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2013    max    -    Mar    Fri>=23    2:00    1:00    D
   {
-    13 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     3 /*inMonth*/,
     5 /*onDayOfWeek*/,
     23 /*onDayOfMonth*/,
@@ -7175,8 +7175,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
   },
   // Rule    Zion    2013    max    -    Oct    lastSun    2:00    0    S
   {
-    13 /*fromYearShort*/,
-    126 /*toYearShort*/,
+    13 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
     10 /*inMonth*/,
     7 /*onDayOfWeek*/,
     0 /*onDayOfMonth*/,

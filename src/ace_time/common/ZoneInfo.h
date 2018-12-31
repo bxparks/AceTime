@@ -14,8 +14,8 @@ namespace common {
  * determined by the RULES column in the TZ Database file.
  */
 struct ZoneEra {
-  /** The maximum value of untilYearShort. */
-  static const int8_t kMaxUntilYearShort = ZoneRule::kMaxYearShort + 1;
+  /** The maximum value of untilYearTiny. */
+  static const int8_t kMaxUntilYearTiny = ZoneRule::kMaxYearTiny + 1;
 
   /** UTC offset in 15 min increments. Determined by the GMTOFF column. */
   int8_t const offsetCode;
@@ -35,10 +35,10 @@ struct ZoneEra {
   const char* const format;
 
   /**
-   * Era is valid until currentTime < untilYear. Stored as (year - 2000)
-   * to save space. Comes from the UNTIL column.
+   * Era is valid until currentTime < untilYear. Stored as (year - 2000) in a
+   * single byte to save space. Comes from the UNTIL column.
    */
-  int8_t const untilYearShort;
+  int8_t const untilYearTiny;
 
   /** The month field in UNTIL (1-12). Will never be 0. */
   uint8_t const untilMonth;

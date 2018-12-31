@@ -157,17 +157,17 @@ class OffsetDateTime {
       return mLocalDate.isError() || mLocalTime.isError();
     }
 
-    /** Return the 2 digit year from year 2000. */
-    int8_t yearShort() const { return mLocalDate.yearShort(); }
-
-    /** Set the 2 digit year from year 2000. */
-    void yearShort(int8_t yearShort) { mLocalDate.yearShort(yearShort); }
-
     /** Return the year. */
     int16_t year() const { return mLocalDate.year(); }
 
     /** Set the year. */
     void year(int16_t year) { mLocalDate.year(year); }
+
+    /** Return the single-byte year offset from year 2000. */
+    int8_t yearTiny() const { return mLocalDate.yearTiny(); }
+
+    /** Set the single-byte year offset from year 2000. */
+    void yearTiny(int8_t yearTiny) { mLocalDate.yearTiny(yearTiny); }
 
     /** Return the month with January=1, December=12. */
     uint8_t month() const { return mLocalDate.month(); }
