@@ -56,10 +56,10 @@ class Transformer:
             offsetSeconds: (int) offset from UTC/GMT in seconds
             rulesDeltaSeconds: (int or None) delta offset from UTC in seconds
                 if RULES is DST offset string of the form hh:mm[:ss]
-            untilHour: (int or None) hour part of untilTime
-            untilMinute: (int or None) minute part of untilTime
-            untilSecond: (int or None) second part of untilTime
-            untilSeconds: (int or None) untilTime converted into total minutes
+            untilHour: (int) hour part of untilTime
+            untilMinute: (int) minute part of untilTime
+            untilSecond: (int) second part of untilTime
+            untilSeconds: (int) untilTime converted into total seconds
             used: (boolean) indicates whether or not the rule is used by a zone
 
         'rules_map' is a map of (name -> rules[]), where each element in rules

@@ -9,6 +9,9 @@ import logging
 import os
 
 from transformer import short_name
+from transformer import seconds_to_hms
+from transformer import hms_to_seconds
+from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
 from extractor import MAX_YEAR_SHORT
 from extractor import MAX_UNTIL_YEAR
@@ -236,8 +239,6 @@ const common::ZoneInfo kZone{infoShortName} = {{
     ZONE_POLICIES_H_FILE_NAME = 'zone_policies.h'
     ZONE_POLICIES_CPP_FILE_NAME = 'zone_policies.cpp'
 
-    EPOCH_YEAR = 2000
-
     SIZEOF_ZONE_ERA_8 = 6
     SIZEOF_ZONE_ERA_32 = 10
     SIZEOF_ZONE_INFO_8 = 5
@@ -322,17 +323,19 @@ const common::ZoneInfo kZone{infoShortName} = {{
     def generate_policy_item(self, name, rules):
         rule_items = ''
         for rule in rules:
-            atHour = rule['atHour']
+            at_hms = seconds_to_hms(rule['atSeconds'])
+            at_hour = at_hms[0]
+
+            # TODO: Update seconds_to_hms() to truncate towards 0, not -infinity
+            delta_code = rule['deltaSeconds'] // (15 * 60)
 
             from_year = rule['fromYear']
-            from_year_short = (from_year - self.EPOCH_YEAR
-                if from_year != self.MAX_YEAR
-                else self.MAX_YEAR_SHORT)
+            from_year_short = (from_year - EPOCH_YEAR
+                if from_year != MAX_YEAR else MAX_YEAR_SHORT)
 
             to_year = rule['toYear']
-            to_year_short = (to_year - self.EPOCH_YEAR
-                if to_year != self.MAX_YEAR
-                else self.MAX_YEAR_SHORT)
+            to_year_short = (to_year - EPOCH_YEAR
+                if to_year != MAX_YEAR else MAX_YEAR_SHORT)
 
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
                 rawLine=normalize_raw(rule['rawLine']),
@@ -341,9 +344,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
                 inMonth=rule['inMonth'],
                 onDayOfWeek=rule['onDayOfWeek'],
                 onDayOfMonth=rule['onDayOfMonth'],
-                atHour=atHour,
+                atHour=at_hour,
                 atTimeModifier=rule['atTimeModifier'],
-                deltaCode=rule['deltaCode'],
+                deltaCode=delta_code,
                 letter=rule['letter'])
 
         num_rules = len(rules)
@@ -438,10 +441,10 @@ const common::ZoneInfo kZone{infoShortName} = {{
             zonePolicy = '&kPolicy%s' % normalize_name(policy_name)
 
         until_year = era['untilYear']
-        if until_year == self.MAX_UNTIL_YEAR:
-            until_year_short = self.MAX_UNTIL_YEAR_SHORT
+        if until_year == MAX_UNTIL_YEAR:
+            until_year_short = MAX_UNTIL_YEAR_SHORT
         else:
-            until_year_short = until_year - self.EPOCH_YEAR
+            until_year_short = until_year - EPOCH_YEAR
 
         until_month = era['untilMonth']
         if not until_month:
@@ -457,13 +460,16 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
         until_time_modifier = era['untilTimeModifier']
 
+        # TODO: Fix seconds_to_hms() to truncate towards 0 not -infinity
+        offset_code = era['offsetSeconds'] // (15 * 60)
+
         # Replace %s with just a % for C++
         format = era['format'].replace('%s', '%')
         string_length = len(format) + 1
 
         era_item = self.ZONE_INFOS_CPP_ERA_ITEM.format(
             rawLine=normalize_raw(era['rawLine']),
-            offsetCode=era['offsetCode'],
+            offsetCode=offset_code,
             zonePolicy=zonePolicy,
             format=format,
             untilYearShort=until_year_short,

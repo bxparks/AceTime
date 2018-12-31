@@ -27,18 +27,13 @@ import sys
 import argparse
 import datetime
 import logging
+from extractor import MIN_YEAR
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
 from zonedb.zone_policies import *
 from zonedb.zone_infos import *
 
 class ZoneAgent:
-    # AceTime Epoch is 2000-01-01 00:00:00
-    EPOCH_YEAR = 2000
-
-    # Sentinel value for minimum year
-    MIN_YEAR = 0
-
     # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
     # (2000-01-01 00:00:00)
     SECONDS_SINCE_UNIX_EPOCH = 946684800

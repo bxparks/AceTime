@@ -47,6 +47,9 @@ import sys
 import os
 
 
+# AceTime Epoch is 2000-01-01 00:00:00
+EPOCH_YEAR = 2000
+
 # Indicate max UNTIL year (represented by empty field).
 MAX_UNTIL_YEAR = 10000
 
