@@ -320,13 +320,14 @@ class Transformer:
                     removed_zones[name] = ("invalid GMTOFF offset string '%s'" %
                         offset_string)
                     break
-                zone['offsetSeconds'] = offset_seconds
-
-                if offset_seconds % (15 * 60) != 0:
+                if offset_seconds % self.granularity != 0:
                     valid = False
                     removed_zones[name] = (
-                        "GMTOFF '%s' not divisible by 15 minutes" %
-                        offset_string)
+                        "GMTOFF '%s' must be multiples of '%s' seconds" %
+                        (offset_string, self.granularity))
+
+                zone['offsetSeconds'] = offset_seconds
+
             if valid:
                results[name] = zones
 
@@ -375,6 +376,7 @@ class Transformer:
                             + "'%s' seconds"
                             % (rules_string, self.granularity))
                         break
+
                     zone['rules'] = ':'
                     zone['rulesDeltaSeconds'] = rules_delta_seconds
                 else:
