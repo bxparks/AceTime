@@ -610,8 +610,8 @@ class Transformer:
         """Remove RULE entries which have not been marked as used by the
         mark_rules_used_by_zones() method. It is expected that all remaining
         RULE entries have FROM and TO fields which is greater than 1872 (the
-        earliest year which can be represented by an int8_t toYearShort field,
-        2000-128=1872). See also remove_rules_out_of_bounds().
+        earliest year which can be represented by an int8_t toYearTiny field,
+        (2000-128)==1872). See also remove_rules_out_of_bounds().
         """
         results = {}
         removed_rule_count = 0
@@ -645,7 +645,7 @@ class Transformer:
             for rule in rules:
                 from_year = rule['fromYear']
                 to_year = rule['toYear']
-                if not is_year_short(from_year) or not is_year_short(from_year):
+                if not is_year_tiny(from_year) or not is_year_tiny(from_year):
                     valid = False
                     removed_policies[name] = (
                         "fromYear (%s) or toYear (%s) out of bounds" %
@@ -974,9 +974,9 @@ def find_earliest_subsequent_rules(rules, year):
     return candidates
 
 
-def is_year_short(year):
-    """Determine if year fits in an int8_t field (i.e. a 'short' year).
-    MAX_YEAR(9999) is a marker for 'max'.
+def is_year_tiny(year):
+    """Determine if year fits in an int8_t field. MAX_YEAR(9999) is a marker for
+    'max'.
     """
     return year >= 1872 and (year == extractor.MAX_YEAR or year <= 2127)
 

@@ -14,9 +14,9 @@ from transformer import hms_to_seconds
 from transformer import div_to_zero
 from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
-from extractor import MAX_YEAR_SHORT
+from extractor import MAX_YEAR_TINY
 from extractor import MAX_UNTIL_YEAR
-from extractor import MAX_UNTIL_YEAR_SHORT
+from extractor import MAX_UNTIL_YEAR_TINY
 
 class ArduinoGenerator:
     """Generate Arduino/C++ files for zone infos and policies.
@@ -115,8 +115,8 @@ const common::ZonePolicy kPolicy{policyName} = {{
     ZONE_POLICIES_CPP_RULE_ITEM = """\
   // {rawLine}
   {{
-    {fromYearShort} /*fromYearShort*/,
-    {toYearShort} /*toYearShort*/,
+    {fromYearTiny} /*fromYearTiny*/,
+    {toYearTiny} /*toYearTiny*/,
     {inMonth} /*inMonth*/,
     {onDayOfWeek} /*onDayOfWeek*/,
     {onDayOfMonth} /*onDayOfMonth*/,
@@ -229,7 +229,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
     {offsetCode} /*offsetCode*/,
     {zonePolicy} /*zonePolicy*/,
     "{format}" /*format*/,
-    {untilYearShort} /*untilYearShort*/,
+    {untilYearTiny} /*untilYearTiny*/,
     {untilMonth} /*untilMonth*/,
     {untilDay} /*untilDay*/,
     {untilHour} /*untilHour*/,
@@ -331,17 +331,17 @@ const common::ZoneInfo kZone{infoShortName} = {{
             delta_code = div_to_zero(rule['deltaSeconds'], 15 * 60)
 
             from_year = rule['fromYear']
-            from_year_short = (from_year - EPOCH_YEAR
-                if from_year != MAX_YEAR else MAX_YEAR_SHORT)
+            from_year_tiny = (from_year - EPOCH_YEAR
+                if from_year != MAX_YEAR else MAX_YEAR_TINY)
 
             to_year = rule['toYear']
-            to_year_short = (to_year - EPOCH_YEAR
-                if to_year != MAX_YEAR else MAX_YEAR_SHORT)
+            to_year_tiny = (to_year - EPOCH_YEAR
+                if to_year != MAX_YEAR else MAX_YEAR_TINY)
 
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
                 rawLine=normalize_raw(rule['rawLine']),
-                fromYearShort=from_year_short,
-                toYearShort=to_year_short,
+                fromYearTiny=from_year_tiny,
+                toYearTiny=to_year_tiny,
                 inMonth=rule['inMonth'],
                 onDayOfWeek=rule['onDayOfWeek'],
                 onDayOfMonth=rule['onDayOfMonth'],
@@ -446,9 +446,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
         until_year = era['untilYear']
         if until_year == MAX_UNTIL_YEAR:
-            until_year_short = MAX_UNTIL_YEAR_SHORT
+            until_year_tiny = MAX_UNTIL_YEAR_TINY
         else:
-            until_year_short = until_year - EPOCH_YEAR
+            until_year_tiny = until_year - EPOCH_YEAR
 
         until_month = era['untilMonth']
         if not until_month:
@@ -475,7 +475,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
             offsetCode=offset_code,
             zonePolicy=zonePolicy,
             format=format,
-            untilYearShort=until_year_short,
+            untilYearTiny=until_year_tiny,
             untilMonth=until_month,
             untilDay=until_day,
             untilHour=until_hour,

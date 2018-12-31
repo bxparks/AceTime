@@ -53,20 +53,20 @@ EPOCH_YEAR = 2000
 # Indicate max UNTIL year (represented by empty field).
 MAX_UNTIL_YEAR = 10000
 
+# Tiny (int8_t) version of MAX_UNTIL_YEAR_TINY.
+MAX_UNTIL_YEAR_TINY = 127
+
 # Indicate max TO or FROM year.
 MAX_YEAR = MAX_UNTIL_YEAR - 1
 
-# Short (int8_t) version of MAX_UNTIL_YEAR_SHORT.
-MAX_UNTIL_YEAR_SHORT = 127
-
-# Short (int8_t) version of MAX_YEAR.
-MAX_YEAR_SHORT = MAX_UNTIL_YEAR_SHORT - 1
+# Tiny (int8_t) version of MAX_YEAR.
+MAX_YEAR_TINY = MAX_UNTIL_YEAR_TINY - 1
 
 # Minimum valid TO or FROM year.
 MIN_YEAR = 1
 
-# Short (int8_t) version of MIN_YEAR.
-MIN_YEAR_SHORT = -128
+# Tiny (int8_t) version of MIN_YEAR.
+MIN_YEAR_TINY = -128
 
 class Extractor:
     """Reads each test data section from the given file-like object (e.g.
