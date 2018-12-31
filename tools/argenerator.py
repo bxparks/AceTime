@@ -183,6 +183,7 @@ extern const common::ZoneInfo kZone{infoShortName}; // {infoFullName}
 //
 // Zone info count: {numInfos}
 // Zone era count: {numEras}
+// Strings: {stringLength}
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
 //
@@ -205,6 +206,7 @@ namespace zonedb {{
 //---------------------------------------------------------------------------
 // Zone name: {infoFullName}
 // Era count: {numEras}
+// Strings: {stringLength}
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
@@ -388,9 +390,10 @@ const common::ZoneInfo kZone{infoShortName} = {{
         num_eras = 0
         string_length = 0
         for name, eras in sorted(self.zones_map.items()):
-            (info_item, format_length) = self.generate_info_item(name, eras)
+            (info_item, info_string_length) = self.generate_info_item(
+                name, eras)
             info_items += info_item
-            string_length += format_length
+            string_length += info_string_length
             num_eras += len(eras)
 
         num_infos = len(self.zones_map)
@@ -404,6 +407,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
             tz_version=self.tz_version,
             numInfos=num_infos,
             numEras=num_eras,
+            stringLength=string_length,
             memory8=memory8,
             memory32=memory32,
             infoItems=info_items)
@@ -427,6 +431,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
             infoFullName=normalize_name(name),
             infoShortName=normalize_name(short_name(name)),
             numEras=num_eras,
+            stringLength=string_length,
             memory8=memory8,
             memory32=memory32,
             eraItems=era_items)
