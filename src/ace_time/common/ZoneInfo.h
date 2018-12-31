@@ -14,6 +14,8 @@ namespace common {
  * determined by the RULES column in the TZ Database file.
  */
 struct ZoneEra {
+  /** The maximum value of untilYearShort. */
+  static const int8_t kMaxUntilYearShort = ZoneRule::kMaxYearShort + 1;
 
   /** UTC offset in 15 min increments. Determined by the GMTOFF column. */
   int8_t const offsetCode;

@@ -12,8 +12,11 @@ namespace common {
  * interval [fromYear, toYear] inclusive.
  */
 struct ZoneRule {
-  /** The maximum value of fromYearShort and toYearShort. */
-  static const int8_t kMaxYear = 127;
+  /**
+   * The maximum value of fromYearShort and toYearShort. Must be <
+   * ZoneEra::kMaxUntilYear.
+   */
+  static const int8_t kMaxYearShort = 126;
 
   /** FROM year as an offset from year 2000 stored as a single byte. */
   int8_t const fromYearShort;
@@ -44,13 +47,16 @@ struct ZoneRule {
    */
   uint8_t const onDayOfMonth;
 
-  /** Determined by the AT column. 0-23. */
-  uint8_t const atHour;
+  /**
+   * Determined by the AT column in units of 15-minutes from 00:00. The range
+   * is (0 - 100) corresponding to 00:00 to 25:00.
+   */
+  uint8_t const atTimeCode;
 
   /**
-   * Determined by the suffix in the AT column:
-   * 'w'=wall; 's'=standard; 'u'=meridian; ('g' and 'z' mean the same as 'u'
-   * and are not supported because no current TZ file uses them)
+   * Determined by the suffix in the AT column: 'w'=wall; 's'=standard;
+   * 'u'=meridian ('g' and 'z' mean the same as 'u' and are not supported
+   * because no current TZ file uses them).
    */
   uint8_t const atTimeModifier;
 

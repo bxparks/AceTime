@@ -120,7 +120,7 @@ const common::ZonePolicy kPolicy{policyName} = {{
     {inMonth} /*inMonth*/,
     {onDayOfWeek} /*onDayOfWeek*/,
     {onDayOfMonth} /*onDayOfMonth*/,
-    {atHour} /*atHour*/,
+    {atTimeCode} /*atTimeCode*/,
     '{atTimeModifier}' /*atTimeModifier*/,
     {deltaCode} /*deltaCode*/,
     '{letter}' /*letter*/,
@@ -324,8 +324,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
     def generate_policy_item(self, name, rules):
         rule_items = ''
         for rule in rules:
-            at_hms = seconds_to_hms(rule['atSeconds'])
-            at_hour = at_hms[0]
+            at_time_code = rule['atSeconds'] // (15 * 60)
 
             delta_code = div_to_zero(rule['deltaSeconds'], 15 * 60)
 
@@ -344,7 +343,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
                 inMonth=rule['inMonth'],
                 onDayOfWeek=rule['onDayOfWeek'],
                 onDayOfMonth=rule['onDayOfMonth'],
-                atHour=at_hour,
+                atTimeCode=at_time_code,
                 atTimeModifier=rule['atTimeModifier'],
                 deltaCode=delta_code,
                 letter=rule['letter'])

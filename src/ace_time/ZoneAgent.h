@@ -348,9 +348,11 @@ class ZoneAgent {
             match.rule->atTimeModifier);
 
         // startDateTime
+        uint8_t atHour = match.rule->atTimeCode / 4;
+        uint8_t atMinute = (match.rule->atTimeCode % 4) * 15;
         OffsetDateTime startDateTime = OffsetDateTime::forComponents(
             mYear, match.rule->inMonth, startDayOfMonth,
-            match.rule->atHour, 0 /*minute*/, 0 /*second*/,
+            atHour, atMinute, 0 /*second*/,
             UtcOffset::forOffsetCode(ruleOffsetCode));
         match.startEpochSeconds = startDateTime.toEpochSeconds();
 
