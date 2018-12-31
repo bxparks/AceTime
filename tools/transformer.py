@@ -354,7 +354,7 @@ class Transformer:
                         "offsetMinutes '%s' not divisible by 15" %
                         offset_minutes)
                     break
-                offset_code = int(offset_minutes / 15)
+                offset_code = offset_minutes // 15
                 zone['offsetCode'] = offset_code
             if valid:
                results[name] = zones
@@ -841,7 +841,7 @@ class Transformer:
                     removed_policies[name] = (
                         "deltaMinutes '%s' not multiple of 15" % delta_minutes)
                     break
-                delta_code = int(delta_minutes / 15)
+                delta_code = delta_minutes // 15
                 rule['deltaCode'] = delta_code
             if valid:
                 results[name] = rules
