@@ -44,8 +44,8 @@ class Transformer:
             offsetString: (string) (GMTOFF field) offset from UTC/GMT
             rules: (string) (RULES field) '-', ':' or the name of the Rule
                 policy (if ':', then 'rulesDeltaSeconds' will be defined)
-            format: (string) (FORMAT field) abbreviation with '%s' replaced with
-                '%' (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
+            format: (string) FORMAT field for time zone abbreviation
+                (e.g. P%sT, E%sT, GMT/BST)
             untilYear: (int) MAX_UNTIL_YEAR (1000) means 'max'
             untilMonth: (int or None) 1-12
             untilDay: (string or None) 1-31, 'lastSun', 'Sun>=3'
@@ -415,7 +415,7 @@ class Transformer:
     def remove_zones_with_non_monotonic_until(self, zones_map):
         """Remove Zone infos whose UNTIL fields are:
             1) not monotonically increasing, or
-            2) does not end in year=9999
+            2) does not end in year=MAX_UNTIL_YEAR
         """
         results = {}
         removed_zones = {}
@@ -976,7 +976,7 @@ def find_earliest_subsequent_rules(rules, year):
 
 def is_year_short(year):
     """Determine if year fits in an int8_t field (i.e. a 'short' year).
-    9999 is a marker for 'max'.
+    MAX_YEAR(9999) is a marker for 'max'.
     """
     return year >= 1872 and (year == extractor.MAX_YEAR or year <= 2127)
 

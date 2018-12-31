@@ -9,6 +9,10 @@ import logging
 import os
 
 from transformer import short_name
+from extractor import MAX_YEAR
+from extractor import MAX_YEAR_SHORT
+from extractor import MAX_UNTIL_YEAR
+from extractor import MAX_UNTIL_YEAR_SHORT
 
 class ArduinoGenerator:
     """Generate Arduino/C++ files for zone infos and policies.
@@ -233,8 +237,6 @@ const common::ZoneInfo kZone{infoShortName} = {{
     ZONE_POLICIES_CPP_FILE_NAME = 'zone_policies.cpp'
 
     EPOCH_YEAR = 2000
-    MAX_YEAR_SHORT = 127
-    MAX_YEAR = 9999
 
     SIZEOF_ZONE_ERA_8 = 6
     SIZEOF_ZONE_ERA_32 = 10
@@ -436,8 +438,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
             zonePolicy = '&kPolicy%s' % normalize_name(policy_name)
 
         until_year = era['untilYear']
-        if until_year == self.MAX_YEAR:
-            until_year_short = self.MAX_YEAR_SHORT
+        if until_year == self.MAX_UNTIL_YEAR:
+            until_year_short = self.MAX_UNTIL_YEAR_SHORT
         else:
             until_year_short = until_year - self.EPOCH_YEAR
 
