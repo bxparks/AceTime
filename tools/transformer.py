@@ -1010,3 +1010,8 @@ def seconds_to_hms(seconds):
     m = minutes % 60
     h = minutes // 60
     return (h, m, s)
+
+def hms_to_seconds(h, m, s):
+    """Convert h:m:s to seconds.
+    """
+    return (h * 60 + m) * 60 + s

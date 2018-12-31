@@ -9,6 +9,7 @@ from transformer import parse_on_day_string
 from transformer import time_string_to_seconds
 from transformer import time_string_to_seconds
 from transformer import seconds_to_hms
+from transformer import hms_to_seconds
 from transformer import INVALID_SECONDS
 
 
@@ -53,6 +54,12 @@ class TestSecondsToHms(unittest.TestCase):
         self.assertEqual((0, 0, 1), seconds_to_hms(1))
         self.assertEqual((0, 1, 1), seconds_to_hms(61))
         self.assertEqual((1, 1, 1), seconds_to_hms(3661))
+
+    def test_hms_to_seconds(self):
+        self.assertEqual(0, hms_to_seconds(0, 0, 0))
+        self.assertEqual(1, hms_to_seconds(0, 0, 1))
+        self.assertEqual(61, hms_to_seconds(0, 1, 1))
+        self.assertEqual(3661, hms_to_seconds(1, 1, 1))
 
 if __name__ == '__main__':
     unittest.main()

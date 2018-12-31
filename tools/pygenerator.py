@@ -76,6 +76,7 @@ ZONE_POLICY_{policyName} = {{
         'onDayOfMonth': {onDayOfMonth},
         'atHour': {atHour},
         'atMinute': {atMinute},
+        'atSecond': {atSecond},
         'atTimeModifier': '{atTimeModifier}',
         'deltaSeconds': {deltaSeconds},
         'letter': '{letter}',
@@ -221,6 +222,7 @@ ZONE_INFO_{infoShortName} = {{
                 onDayOfMonth=rule['onDayOfMonth'],
                 atHour=at_hour,
                 atMinute=at_minute,
+                atSecond=at_second,
                 atTimeModifier=rule['atTimeModifier'],
                 deltaSeconds=rule['deltaSeconds'],
                 letter=rule['letter'])
