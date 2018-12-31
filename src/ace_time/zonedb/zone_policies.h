@@ -18,7 +18,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numPolicies: 75
+// numPolicies: 77
 extern const common::ZonePolicy kPolicyAN;
 extern const common::ZonePolicy kPolicyAQ;
 extern const common::ZonePolicy kPolicyAS;
@@ -66,6 +66,7 @@ extern const common::ZonePolicy kPolicyMacau;
 extern const common::ZonePolicy kPolicyMauritius;
 extern const common::ZonePolicy kPolicyMexico;
 extern const common::ZonePolicy kPolicyMoldova;
+extern const common::ZonePolicy kPolicyMoncton;
 extern const common::ZonePolicy kPolicyMongol;
 extern const common::ZonePolicy kPolicyMorocco;
 extern const common::ZonePolicy kPolicyNC;
@@ -74,6 +75,7 @@ extern const common::ZonePolicy kPolicyNZ;
 extern const common::ZonePolicy kPolicyNic;
 extern const common::ZonePolicy kPolicyPRC;
 extern const common::ZonePolicy kPolicyPakistan;
+extern const common::ZonePolicy kPolicyPalestine;
 extern const common::ZonePolicy kPolicyPara;
 extern const common::ZonePolicy kPolicyPeru;
 extern const common::ZonePolicy kPolicyPhil;
@@ -99,7 +101,7 @@ extern const common::ZonePolicy kPolicyZion;
 // The following zone policies are not supported in the current version of
 // AceTime.
 //
-// numPolicies: 64
+// numPolicies: 62
 //
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
@@ -136,13 +138,11 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyMalta (unused)
 // kPolicyMarengo (unused)
 // kPolicyMenominee (unused)
-// kPolicyMoncton (AT time '0:01' must be multiples of '900' seconds)
 // kPolicyNBorneo (unused)
 // kPolicyNYC (unused)
 // kPolicyNamibia (LETTER 'WAT' too long)
 // kPolicyNeth (unused)
 // kPolicyNorway (unused)
-// kPolicyPalestine (AT time '0:01' must be multiples of '900' seconds)
 // kPolicyPerry (unused)
 // kPolicyPike (unused)
 // kPolicyPoland (unused)
@@ -155,7 +155,7 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicySovietZone (unused)
 // kPolicySpain (unused)
 // kPolicySpainAfrica (unused)
-// kPolicyStJohns (AT time '0:01' must be multiples of '900' seconds)
+// kPolicyStJohns (LETTER 'DD' too long)
 // kPolicyStarke (unused)
 // kPolicySwift (unused)
 // kPolicySwiss (unused)

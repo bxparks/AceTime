@@ -5,11 +5,11 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018h
 //
-// Zone info count: 338
-// Zone era count: 564
-// Strings: 8471
-// Memory (8-bit): 13545
-// Memory (32-bit): 17153
+// Zone info count: 341
+// Zone era count: 574
+// Strings: 8554
+// Memory (8-bit): 13703
+// Memory (32-bit): 17363
 //
 // DO NOT EDIT
 
@@ -3907,6 +3907,46 @@ const common::ZoneInfo kZoneMiquelon = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Moncton
+// Era count: 2
+// Strings: 24
+// Memory (8-bit): 41
+// Memory (32-bit): 53
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraMoncton[] = {
+  //             -4:00    Moncton    A%sT    2007
+  {
+    -16 /*offsetCode*/,
+    &kPolicyMoncton /*zonePolicy*/,
+    "A%T" /*format*/,
+    7 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -4:00    Canada    A%sT
+  {
+    -16 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    "A%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMoncton = {
+  "America/Moncton" /*name*/,
+  kZoneEraMoncton /*eras*/,
+  sizeof(kZoneEraMoncton)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Monterrey
 // Era count: 1
 // Strings: 22
@@ -6717,6 +6757,130 @@ const common::ZoneInfo kZoneFamagusta = {
   "Asia/Famagusta" /*name*/,
   kZoneEraFamagusta /*eras*/,
   sizeof(kZoneEraFamagusta)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Asia/Gaza
+// Era count: 7
+// Strings: 42
+// Memory (8-bit): 89
+// Memory (32-bit): 121
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraGaza[] = {
+  //             2:00 Palestine    EE%sT    2008 Aug 29  0:00
+  {
+    8 /*offsetCode*/,
+    &kPolicyPalestine /*zonePolicy*/,
+    "EE%T" /*format*/,
+    8 /*untilYearTiny*/,
+    8 /*untilMonth*/,
+    29 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             2:00    -    EET    2008 Sep
+  {
+    8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EET" /*format*/,
+    8 /*untilYearTiny*/,
+    9 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             2:00 Palestine    EE%sT    2010
+  {
+    8 /*offsetCode*/,
+    &kPolicyPalestine /*zonePolicy*/,
+    "EE%T" /*format*/,
+    10 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             2:00    -    EET    2010 Mar 27  0:01
+  {
+    8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EET" /*format*/,
+    10 /*untilYearTiny*/,
+    3 /*untilMonth*/,
+    27 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             2:00 Palestine    EE%sT    2011 Aug  1
+  {
+    8 /*offsetCode*/,
+    &kPolicyPalestine /*zonePolicy*/,
+    "EE%T" /*format*/,
+    11 /*untilYearTiny*/,
+    8 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             2:00    -    EET    2012
+  {
+    8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    "EET" /*format*/,
+    12 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             2:00 Palestine    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyPalestine /*zonePolicy*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneGaza = {
+  "Asia/Gaza" /*name*/,
+  kZoneEraGaza /*eras*/,
+  sizeof(kZoneEraGaza)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Asia/Hebron
+// Era count: 1
+// Strings: 17
+// Memory (8-bit): 28
+// Memory (32-bit): 36
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraHebron[] = {
+  //             2:00 Palestine    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyPalestine /*zonePolicy*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilHour*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneHebron = {
+  "Asia/Hebron" /*name*/,
+  kZoneEraHebron /*eras*/,
+  sizeof(kZoneEraHebron)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------

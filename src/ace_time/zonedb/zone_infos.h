@@ -20,7 +20,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numInfos: 338
+// numInfos: 341
 extern const common::ZoneInfo kZoneAbidjan; // Africa/Abidjan
 extern const common::ZoneInfo kZoneAccra; // Africa/Accra
 extern const common::ZoneInfo kZoneAlgiers; // Africa/Algiers
@@ -122,6 +122,7 @@ extern const common::ZoneInfo kZoneMerida; // America/Merida
 extern const common::ZoneInfo kZoneMetlakatla; // America/Metlakatla
 extern const common::ZoneInfo kZoneMexico_City; // America/Mexico_City
 extern const common::ZoneInfo kZoneMiquelon; // America/Miquelon
+extern const common::ZoneInfo kZoneMoncton; // America/Moncton
 extern const common::ZoneInfo kZoneMonterrey; // America/Monterrey
 extern const common::ZoneInfo kZoneMontevideo; // America/Montevideo
 extern const common::ZoneInfo kZoneNassau; // America/Nassau
@@ -197,6 +198,8 @@ extern const common::ZoneInfo kZoneDili; // Asia/Dili
 extern const common::ZoneInfo kZoneDubai; // Asia/Dubai
 extern const common::ZoneInfo kZoneDushanbe; // Asia/Dushanbe
 extern const common::ZoneInfo kZoneFamagusta; // Asia/Famagusta
+extern const common::ZoneInfo kZoneGaza; // Asia/Gaza
+extern const common::ZoneInfo kZoneHebron; // Asia/Hebron
 extern const common::ZoneInfo kZoneHo_Chi_Minh; // Asia/Ho_Chi_Minh
 extern const common::ZoneInfo kZoneHong_Kong; // Asia/Hong_Kong
 extern const common::ZoneInfo kZoneHovd; // Asia/Hovd
@@ -363,17 +366,14 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 // The following zones are not supported in the current version of AceTime.
 //
-// numInfos: 21
+// numInfos: 18
 //
 // Africa/Windhoek (rule 'Namibia' not found)
 // America/Argentina/San_Luis (offset in RULES '1:00')
 // America/Belize (rule 'Belize' not found)
 // America/Goose_Bay (rule 'StJohns' not found)
-// America/Moncton (rule 'Moncton' not found)
 // America/St_Johns (rule 'StJohns' not found)
 // Antarctica/Troll (rule 'Troll' not found)
-// Asia/Gaza (UNTIL time '0:01' must be multiples of '900' seconds)
-// Asia/Hebron (rule 'Palestine' not found)
 // CET (no '/' in zone name)
 // CST6CDT (no '/' in zone name)
 // EET (no '/' in zone name)

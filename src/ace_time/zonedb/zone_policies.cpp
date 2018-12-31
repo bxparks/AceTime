@@ -5,10 +5,10 @@
 // using the TZ Database files from
 //  https://github.com/eggert/tz/releases/tag/2018h
 //
-// Policy count: 75
-// Rule count: 498
-// Memory (8-bit): 4707
-// Memory (32-bit): 4857
+// Policy count: 77
+// Rule count: 524
+// Memory (8-bit): 4947
+// Memory (32-bit): 5101
 //
 // DO NOT EDIT
 
@@ -4478,6 +4478,58 @@ const common::ZonePolicy kPolicyMoldova = {
 };
 
 //---------------------------------------------------------------------------
+// Policy name: Moncton
+// Rule count: 3
+// Memory (8-bit): 30
+// Memory (32-bit): 32
+//---------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesMoncton[] = {
+  // Rule    Moncton    1957    1972    -    Oct    lastSun    2:00    0    S
+  {
+    -43 /*fromYearTiny*/,
+    -28 /*toYearTiny*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule    Moncton    1993    2006    -    Apr    Sun>=1    0:01    1:00    D
+  {
+    -7 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'D' /*letter*/,
+  },
+  // Rule    Moncton    1993    2006    -    Oct    lastSun    0:01    0    S
+  {
+    -7 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+
+};
+
+const common::ZonePolicy kPolicyMoncton = {
+  sizeof(kZoneRulesMoncton)/sizeof(common::ZoneRule) /*numRules*/,
+  kZoneRulesMoncton /*rules*/,
+};
+
+//---------------------------------------------------------------------------
 // Policy name: Mongol
 // Rule count: 6
 // Memory (8-bit): 57
@@ -5719,6 +5771,298 @@ static const common::ZoneRule kZoneRulesPakistan[] = {
 const common::ZonePolicy kPolicyPakistan = {
   sizeof(kZoneRulesPakistan)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesPakistan /*rules*/,
+};
+
+//---------------------------------------------------------------------------
+// Policy name: Palestine
+// Rule count: 23
+// Memory (8-bit): 210
+// Memory (32-bit): 212
+//---------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesPalestine[] = {
+  // Rule Palestine    1999    2005    -    Apr    Fri>=15    0:00    1:00    S
+  {
+    -1 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
+    4 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    15 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule Palestine    1999    2003    -    Oct    Fri>=15    0:00    0    -
+  {
+    -1 /*fromYearTiny*/,
+    3 /*toYearTiny*/,
+    10 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    15 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2004    only    -    Oct     1    1:00    0    -
+  {
+    4 /*fromYearTiny*/,
+    4 /*toYearTiny*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2005    only    -    Oct     4    2:00    0    -
+  {
+    5 /*fromYearTiny*/,
+    5 /*toYearTiny*/,
+    10 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    4 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2006    2007    -    Apr     1    0:00    1:00    S
+  {
+    6 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule Palestine    2006    only    -    Sep    22    0:00    0    -
+  {
+    6 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    22 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2007    only    -    Sep    Thu>=8    2:00    0    -
+  {
+    7 /*fromYearTiny*/,
+    7 /*toYearTiny*/,
+    9 /*inMonth*/,
+    4 /*onDayOfWeek*/,
+    8 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2008    2009    -    Mar    lastFri    0:00    1:00    S
+  {
+    8 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
+    3 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule Palestine    2008    only    -    Sep     1    0:00    0    -
+  {
+    8 /*fromYearTiny*/,
+    8 /*toYearTiny*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2009    only    -    Sep    Fri>=1    1:00    0    -
+  {
+    9 /*fromYearTiny*/,
+    9 /*toYearTiny*/,
+    9 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2010    only    -    Mar    26    0:00    1:00    S
+  {
+    10 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
+    3 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    26 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule Palestine    2010    only    -    Aug    11    0:00    0    -
+  {
+    10 /*fromYearTiny*/,
+    10 /*toYearTiny*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    11 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2011    only    -    Apr     1    0:01    1:00    S
+  {
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
+    4 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule Palestine    2011    only    -    Aug     1    0:00    0    -
+  {
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2011    only    -    Aug    30    0:00    1:00    S
+  {
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
+    8 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    30 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule Palestine    2011    only    -    Sep    30    0:00    0    -
+  {
+    11 /*fromYearTiny*/,
+    11 /*toYearTiny*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    30 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2012    2014    -    Mar    lastThu    24:00    1:00    S
+  {
+    12 /*fromYearTiny*/,
+    14 /*toYearTiny*/,
+    3 /*inMonth*/,
+    4 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    96 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule Palestine    2012    only    -    Sep    21    1:00    0    -
+  {
+    12 /*fromYearTiny*/,
+    12 /*toYearTiny*/,
+    9 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    21 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2013    only    -    Sep    Fri>=21    0:00    0    -
+  {
+    13 /*fromYearTiny*/,
+    13 /*toYearTiny*/,
+    9 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    21 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2014    2015    -    Oct    Fri>=21    0:00    0    -
+  {
+    14 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
+    10 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    21 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+  // Rule Palestine    2015    only    -    Mar    lastFri    24:00    1:00    S
+  {
+    15 /*fromYearTiny*/,
+    15 /*toYearTiny*/,
+    3 /*inMonth*/,
+    5 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    96 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule Palestine    2016    max    -    Mar    Sat>=22    1:00    1:00    S
+  {
+    16 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
+    3 /*inMonth*/,
+    6 /*onDayOfWeek*/,
+    22 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule Palestine    2016    max    -    Oct    lastSat    1:00    0    -
+  {
+    16 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
+    10 /*inMonth*/,
+    6 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    4 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
+
+};
+
+const common::ZonePolicy kPolicyPalestine = {
+  sizeof(kZoneRulesPalestine)/sizeof(common::ZoneRule) /*numRules*/,
+  kZoneRulesPalestine /*rules*/,
 };
 
 //---------------------------------------------------------------------------
