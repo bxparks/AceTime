@@ -47,6 +47,10 @@ import sys
 import os
 
 
+MAX_UNTIL_YEAR = 10000
+MAX_YEAR = 9999
+
+
 class Extractor:
     """Reads each test data section from the given file-like object (e.g.
     sys.stdin).
@@ -101,18 +105,17 @@ class Extractor:
         The zones_map contains:
             offsetString: (string) offset from UTC/GMT
             rules: (string) name of the Rule in effect, '-', or minute offset
-            format: (string) abbreviation with '%s' replaced with '%'
-                    (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
-            untilYear: (int) 9999 means 'max'
-            untilMonth: (int, or None) 1-12
-            untilDay: (string, or None) e.g. '1', 'lastSun', 'Sun>=3', etc
-            untilTime: (string, or None) e.g. '2:00', '00:01'
-            untilTimeModifier: (char, or None) '', 's', 'w', 'g', 'u', 'z'
+            format: (string) abbreviation format (e.g. P%sT, E%ST, GMT/BST)
+            untilYear: (int) MAX_UNTIL_YEAR means 'max'
+            untilMonth: (int) 1-12
+            untilDay: (string) e.g. '1', 'lastSun', 'Sun>=3', etc
+            untilTime: (string) e.g. '2:00', '00:01'
+            untilTimeModifier: (char) '', 's', 'w', 'g', 'u', 'z'
             rawLine: (string) original ZONE line in TZ file
 
         The rules_map contains:
             fromYear: (int) from year
-            toYear: (int) to year, 2000 to 9999=max
+            toYear: (int) to year, 0000 to MAX_YEAR=max
             inMonth: (int) month index (1-12)
             onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
             atTime: (string) the time when transition to and from DST happens
@@ -272,10 +275,7 @@ def process_rule_line(line):
     Rule NAME FROM TO TYPE IN ON AT SAVE LETTER
     0    1    2    3  4    5  6  7  8    9
 
-    These represent transitions from Daylight to/from Standard. If the 'from'
-    and 'to' entries are before 2000, then the last transition remains in
-    effect, so we need to capture all transitions in the database, even the ones
-    before year 2000.
+    These represent transitions from Daylight to/from Standard.
     """
     tokens = line.split()
 
@@ -285,7 +285,7 @@ def process_rule_line(line):
     if to_year_string == 'only':
         to_year = from_year
     elif to_year_string == 'max':
-        to_year = 9999
+        to_year = MAX_YEAR
     else:
         to_year = int(to_year_string)
 
@@ -343,22 +343,24 @@ def process_zone_line(line):
     if len(tokens) >= 4:
         until_year = int(tokens[3])
     else:
-        until_year = 9999
+        until_year = MAX_UNTIL_YEAR
 
     # check for additional components of 'UNTIL' field
     if len(tokens) >= 5:
         until_month = MONTH_TO_MONTH_INDEX[tokens[4]]
     else:
-        until_month = None
+        until_month = 1
+
     if len(tokens) >= 6:
         until_day = tokens[5]
     else:
-        until_day = None
+        until_day = '1'
+
     if len(tokens) >= 7:
         (until_time, until_time_modifier) = parse_at_time_string(tokens[6])
     else:
-        until_time = None
-        until_time_modifier = None
+        until_time = '00:00'
+        until_time_modifier = 'w'
 
     # FORMAT
     format = tokens[2]

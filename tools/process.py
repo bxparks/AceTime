@@ -70,9 +70,10 @@ def main():
         default=2000)
     parser.add_argument(
         '--granularity',
-        help='Retained UNTIL and AT fields in minutes (default: 15)',
+        help='Retained time values (UNTIL, AT, SAVE, RULES) fields '
+            + 'in seconds (default: 900)',
         type=int,
-        default=15)
+        default=900)
 
     # Printer
     parser.add_argument(

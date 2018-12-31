@@ -6,7 +6,11 @@
 
 import unittest
 from transformer import parse_on_day_string
-from transformer import hour_string_to_minutes
+from transformer import time_string_to_seconds
+from transformer import time_string_to_seconds
+from transformer import seconds_to_hms
+from transformer import hms_to_seconds
+from transformer import INVALID_SECONDS
 
 
 class TestParseOnDayString(unittest.TestCase):
@@ -21,26 +25,41 @@ class TestParseOnDayString(unittest.TestCase):
         self.assertEqual((0, 0), parse_on_day_string('lastFriday'))
 
 
-class TestHourStringToOffsetCode(unittest.TestCase):
-    def test_hour_string_to_offset_minutes(self):
-        self.assertEqual(0, hour_string_to_minutes('0'))
-        self.assertEqual(0, hour_string_to_minutes('0:00'))
-        self.assertEqual(0, hour_string_to_minutes('00:00'))
-        self.assertEqual(60, hour_string_to_minutes('1:00'))
-        self.assertEqual(60, hour_string_to_minutes('01:00'))
-        self.assertEqual(-60, hour_string_to_minutes('-1:00'))
-        self.assertEqual(-60, hour_string_to_minutes('-01:00'))
-        self.assertEqual(75, hour_string_to_minutes('1:15'))
-        self.assertEqual(90, hour_string_to_minutes('1:30'))
-        self.assertEqual(105, hour_string_to_minutes('1:45'))
-        self.assertEqual(106, hour_string_to_minutes('1:46'))
-        self.assertEqual(1500, hour_string_to_minutes('25:00'))
+class TestTimeStringToSeconds(unittest.TestCase):
+    def test_time_string_to_seconds(self):
+        self.assertEqual(0, time_string_to_seconds('0'))
+        self.assertEqual(0, time_string_to_seconds('0:00'))
+        self.assertEqual(0, time_string_to_seconds('00:00'))
+        self.assertEqual(0, time_string_to_seconds('00:00:00'))
+
+        self.assertEqual(3600, time_string_to_seconds('1'))
+        self.assertEqual(3720, time_string_to_seconds('1:02'))
+        self.assertEqual(3723, time_string_to_seconds('1:02:03'))
+
+        self.assertEqual(-3600, time_string_to_seconds('-1'))
+        self.assertEqual(-3720, time_string_to_seconds('-1:02'))
+        self.assertEqual(-3723, time_string_to_seconds('-1:02:03'))
 
     def test_hour_string_to_offset_code_fails(self):
-        self.assertEqual(9999, hour_string_to_minutes('26:00'))
-        self.assertEqual(9999, hour_string_to_minutes('1:60'))
-        self.assertEqual(9999, hour_string_to_minutes('abc'))
+        self.assertEqual(INVALID_SECONDS, time_string_to_seconds('26:00'))
+        self.assertEqual(INVALID_SECONDS, time_string_to_seconds('+26:00'))
+        self.assertEqual(INVALID_SECONDS, time_string_to_seconds('1:60'))
+        self.assertEqual(INVALID_SECONDS, time_string_to_seconds('1:02:60'))
+        self.assertEqual(INVALID_SECONDS, time_string_to_seconds('1:02:03:04'))
+        self.assertEqual(INVALID_SECONDS, time_string_to_seconds('abc'))
 
+class TestSecondsToHms(unittest.TestCase):
+    def test_seconds_to_hms(self):
+        self.assertEqual((0, 0, 0), seconds_to_hms(0))
+        self.assertEqual((0, 0, 1), seconds_to_hms(1))
+        self.assertEqual((0, 1, 1), seconds_to_hms(61))
+        self.assertEqual((1, 1, 1), seconds_to_hms(3661))
+
+    def test_hms_to_seconds(self):
+        self.assertEqual(0, hms_to_seconds(0, 0, 0))
+        self.assertEqual(1, hms_to_seconds(0, 0, 1))
+        self.assertEqual(61, hms_to_seconds(0, 1, 1))
+        self.assertEqual(3661, hms_to_seconds(1, 1, 1))
 
 if __name__ == '__main__':
     unittest.main()

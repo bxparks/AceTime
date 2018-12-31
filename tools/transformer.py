@@ -11,6 +11,7 @@ generate the code for the static instances ZoneInfo and ZonePolicy classes.
 import logging
 import sys
 import datetime
+import extractor
 
 class Transformer:
 
@@ -21,7 +22,8 @@ class Transformer:
             rules_map: map of Policy names to Rules
             python: generate zonedb for Python
             start_year: include only years on or after start_year
-            granularity: retained AT or UNTIL fields in minutes
+            granularity: retained AT, SAVE, UNTIL, or RULES(offset) fields in
+                seconds
         """
         self.zones_map = zones_map
         self.rules_map = rules_map
@@ -41,30 +43,30 @@ class Transformer:
 
             offsetString: (string) (GMTOFF field) offset from UTC/GMT
             rules: (string) (RULES field) '-', ':' or the name of the Rule
-                policy (if ':', then 'rulesDeltaMinutes' will be defined)
+                policy (if ':', then 'rulesDeltaSeconds' will be defined)
             format: (string) (FORMAT field) abbreviation with '%s' replaced with
                 '%' (e.g. P%sT -> P%T, E%ST -> E%T, GMT/BST, SAST)
-            untilYear: (int) 9999 means 'max'
+            untilYear: (int) MAX_UNTIL_YEAR (1000) means 'max'
             untilMonth: (int or None) 1-12
             untilDay: (string or None) 1-31, 'lastSun', 'Sun>=3'
             untilTime: (string or None) 'hh:mm'
             untilTimeModifier: (string or None) 'w', 's', 'u'
             rawLine: (string) original ZONE line in TZ file
 
-            offsetMinutes: (int) offset from UTC/GMT in minutes
-            offsetCode: (int) offset from UTC/GMT in 15-minute units
-            rulesDeltaMinutes: (int or None) delta offset from UTC in minutes
-                if RULES is DST offset string of the form hh:mm
+            offsetSeconds: (int) offset from UTC/GMT in seconds
+            rulesDeltaSeconds: (int or None) delta offset from UTC in seconds
+                if RULES is DST offset string of the form hh:mm[:ss]
             untilHour: (int or None) hour part of untilTime
             untilMinute: (int or None) minute part of untilTime
-            untilMinutes: (int or None) untilTime converted into total minutes
+            untilSecond: (int or None) second part of untilTime
+            untilSeconds: (int or None) untilTime converted into total minutes
             used: (boolean) indicates whether or not the rule is used by a zone
 
         'rules_map' is a map of (name -> rules[]), where each element in rules
         is another map with the following fields:
 
             fromYear: (int) from year
-            toYear: (int) to year, 1 to 9999=max
+            toYear: (int) to year, 1 to MAX_YEAR (9999) means 'max'
             inMonth: (int) month index (1-12)
             onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
             atTime: (string) hour at which to transition to and from DST
@@ -75,10 +77,8 @@ class Transformer:
 
             onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
             onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
-            atHour: (int) atTime in integer units of hours from 00:00
-            atMinute: (int) atTime in units of minutes from 00:00
-            deltaMinutes: (int) offset from Standard time in minutes
-            deltaCode: (int) offset code (15 min chunks) from Standard time
+            atSeconds: (int) atTime in seconds since 00:00:00
+            deltaSeconds: (int) offset from Standard time in seconds
             shortName: (string) short name of the zone
 
         'all_removed_zones' is a map of the zones which were removed:
@@ -106,8 +106,7 @@ class Transformer:
         zones_map = self.create_zones_with_until_day(zones_map)
         zones_map = self.create_zones_with_expanded_until_time(zones_map)
         zones_map = self.remove_zones_invalid_until_time_modifier(zones_map)
-        zones_map = self.create_zones_with_offset_minutes(zones_map)
-        zones_map = self.create_zones_with_offset_code(zones_map)
+        zones_map = self.create_zones_with_expanded_offset_string(zones_map)
         zones_map = self.create_zones_with_rules_expansion(zones_map)
         zones_map = self.remove_zones_with_non_monotonic_until(zones_map)
 
@@ -119,8 +118,7 @@ class Transformer:
 
         rules_map = self.create_rules_with_expanded_at_time(rules_map)
         rules_map = self.remove_rules_invalid_at_time_modifier(rules_map)
-        rules_map = self.create_rules_with_delta_minute(rules_map)
-        rules_map = self.create_rules_with_delta_code(rules_map)
+        rules_map = self.create_rules_with_expanded_delta_offset(rules_map)
         rules_map = self.create_rules_with_on_day_expansion(rules_map)
         #rules_map = self.remove_rules_with_border_transitions(rules_map)
         if not self.python:
@@ -239,8 +237,8 @@ class Transformer:
         return results
 
     def create_zones_with_expanded_until_time(self, zones_map):
-        """ Create 'untilHour', 'untilMinute', and untilMinutes from
-        zone['untilTime']. Set to 9999 if any error in the conversion.
+        """ Create 'untilHour', 'untilMinute', 'untilSecond' and 'untilSeconds'
+        from zone['untilTime'].
         """
         results = {}
         removed_zones = {}
@@ -248,34 +246,27 @@ class Transformer:
             valid = True
             for zone in zones:
                 until_time = zone['untilTime']
-                if until_time:
-                    until_minutes = hour_string_to_minutes(until_time)
-                    if until_minutes == 9999:
-                        valid = False
-                        removed_zones[name] = ("invalid UNTIL time '%s'" %
-                            until_time)
-                        break
+                until_seconds = time_string_to_seconds(until_time)
+                if until_seconds == INVALID_SECONDS:
+                    valid = False
+                    removed_zones[name] = ("invalid UNTIL time '%s'" %
+                        until_time)
+                    break
+                if until_seconds < 0:
+                    valid = False
+                    removed_zones[name] = ("negative UNTIL time '%s'" %
+                        until_time)
+                    break
+                if until_seconds % self.granularity != 0:
+                    valid = False
+                    removed_zones[name] = (
+                        "UNTIL time '%s' must be multiples of '%s' seconds"
+                        % (until_time, self.granularity))
+                    break
 
-                    until_hour = until_minutes // 60
-                    until_minute = until_minutes % 60
-                    if not self.python and until_minute != 0:
-                        valid = False
-                        removed_zones[name] = (
-                            "non-integral UNTIL time '%s'" % until_time)
-                        break
-                    if until_minute % self.granularity != 0:
-                        valid = False
-                        removed_zones[name] = (
-                            "UNTIL time '%s' must be multiples of '%s'"
-                            % (until_time, self.granularity))
-                        break
-                else:
-                    until_minutes = None
-                    until_hour = None
-                    until_minute = None
-                zone['untilMinutes'] = until_minutes
-                zone['untilHour'] = until_hour
-                zone['untilMinute'] = until_minute
+                zone['untilSeconds'] = until_seconds
+                (zone['untilHour'], zone['untilMinute'], zone['untilSecond']) =\
+                    seconds_to_hms(until_seconds)
             if valid:
                results[name] = zones
 
@@ -314,8 +305,8 @@ class Transformer:
         self.all_removed_policies.update(removed_zones)
         return results
 
-    def create_zones_with_offset_minutes(self, zones_map):
-        """ Create zone['offsetMinutes'] from zone['offsetString'].
+    def create_zones_with_expanded_offset_string(self, zones_map):
+        """ Create expanded offset 'offsetSeconds' from zone['offsetString'].
         """
         results = {}
         removed_zones = {}
@@ -323,13 +314,20 @@ class Transformer:
             valid = True
             for zone in zones:
                 offset_string = zone['offsetString']
-                offset_minutes = hour_string_to_minutes(offset_string)
-                if offset_minutes == 9999:
+                offset_seconds = time_string_to_seconds(offset_string)
+                if offset_seconds == INVALID_SECONDS:
                     valid = False
                     removed_zones[name] = ("invalid GMTOFF offset string '%s'" %
                         offset_string)
                     break
-                zone['offsetMinutes'] = offset_minutes
+                if offset_seconds % self.granularity != 0:
+                    valid = False
+                    removed_zones[name] = (
+                        "GMTOFF '%s' must be multiples of '%s' seconds" %
+                        (offset_string, self.granularity))
+
+                zone['offsetSeconds'] = offset_seconds
+
             if valid:
                results[name] = zones
 
@@ -339,34 +337,8 @@ class Transformer:
         self.all_removed_zones.update(removed_zones)
         return results
 
-    def create_zones_with_offset_code(self, zones_map):
-        """ Create zone['offsetCode'] from zone['offsetMinutes'].
-        """
-        results = {}
-        removed_zones = {}
-        for name, zones in zones_map.items():
-            valid = True
-            for zone in zones:
-                offset_minutes = zone['offsetMinutes']
-                if offset_minutes % 15 != 0:
-                    valid = False
-                    removed_zones[name] = (
-                        "offsetMinutes '%s' not divisible by 15" %
-                        offset_minutes)
-                    break
-                offset_code = offset_minutes // 15
-                zone['offsetCode'] = offset_code
-            if valid:
-               results[name] = zones
-
-        logging.info("Removed %s zone infos with invalid offsetMinutes",
-            len(removed_zones))
-        self.print_removed_map(removed_zones)
-        self.all_removed_zones.update(removed_zones)
-        return results
-
     def create_zones_with_rules_expansion(self, zones_map):
-        """ Create zone['rulesDeltaMinutes'] from zone['rules'].
+        """ Create zone['rulesDeltaSeconds'] from zone['rules'].
 
         The RULES field can hold the following:
             * '-' no rules
@@ -375,7 +347,7 @@ class Transformer:
                 (see America/Argentina/San_Luis, Europe/Istanbul for example).
         After this method, the zone['rules'] contains 3 possible values:
             * '-' no rules, or
-            * ':' which indicates that 'rulesDeltaMinutes' is defined, or
+            * ':' which indicates that 'rulesDeltaSeconds' is defined, or
             * a string reference
         """
         results = {}
@@ -391,23 +363,24 @@ class Transformer:
                             "offset in RULES '%s'" % rules_string)
                         break
 
-                    rules_delta_minutes = hour_string_to_minutes(
-                        rules_string)
-                    if rules_delta_minutes == 9999:
+                    rules_delta_seconds = time_string_to_seconds(rules_string)
+                    if rules_delta_seconds == INVALID_SECONDS:
                         valid = False
                         removed_zones[name] = ("invalid RULES string '%s'" %
                             rules_string)
                         break
-                    if rules_delta_minutes % self.granularity != 0:
+                    if rules_delta_seconds % self.granularity != 0:
                         valid = False
                         removed_zones[name] = (
-                            "RULES delta offset '%s' must be multiples of '%s'"
+                            "RULES delta offset '%s' must be multiples of "
+                            + "'%s' seconds"
                             % (rules_string, self.granularity))
                         break
+
                     zone['rules'] = ':'
-                    zone['rulesDeltaMinutes'] = rules_delta_minutes
+                    zone['rulesDeltaSeconds'] = rules_delta_seconds
                 else:
-                    zone['rulesDeltaMinutes'] = None
+                    zone['rulesDeltaSeconds'] = None
             if valid:
                results[name] = zones
 
@@ -464,7 +437,7 @@ class Transformer:
                             'non increasing UNTIL: %s %s %s %s' % current_until)
                         break
                 prev_until = current_until
-            if valid and current_until[0] != 9999:
+            if valid and current_until[0] != extractor.MAX_UNTIL_YEAR:
                 valid = False
                 removed_zones[name] = ('invalid final UNTIL: %s %s %s %s' %
                     current_until)
@@ -761,7 +734,7 @@ class Transformer:
         return results
 
     def create_rules_with_expanded_at_time(self, rules_map):
-        """ Create 'atMinute' and 'atHour' parameters from rule['atTime'].
+        """ Create 'atSeconds' parameter from rule['atTime'].
         """
         results = {}
         removed_policies = {}
@@ -769,28 +742,23 @@ class Transformer:
             valid = True
             for rule in rules:
                 at_time = rule['atTime']
-                at_minutes = hour_string_to_minutes(at_time)
-                if at_minutes == 9999:
+                at_seconds = time_string_to_seconds(at_time)
+                if at_seconds == INVALID_SECONDS:
                     valid = False
                     removed_policies[name] = ("invalid AT time '%s'" % at_time)
                     break
-
-                at_hour = at_minutes // 60
-                at_minute = at_minutes % 60
-                if not self.python and at_minute != 0:
+                if at_seconds < 0:
                     valid = False
-                    removed_policies[name] = (
-                        "non-integral AT time '%s'" % at_time)
+                    removed_policies[name] = ("negative AT time '%s'" % at_time)
                     break
-                if at_minute % self.granularity != 0:
+                if at_seconds % self.granularity != 0:
                     valid = False
                     removed_policies[name] = (
-                        "AT time '%s' must be multiples of '%s'" %
+                        "AT time '%s' must be multiples of '%s' seconds" %
                         (at_time, self.granularity))
                     break
 
-                rule['atMinute'] = at_minute
-                rule['atHour'] = at_hour
+                rule['atSeconds'] = at_seconds
             if valid:
                 results[name] = rules
 
@@ -801,8 +769,8 @@ class Transformer:
         self.all_removed_policies.update(removed_policies)
         return results
 
-    def create_rules_with_delta_minute(self, rules_map):
-        """ Create rule['deltaMinutes'] from rule['deltaOffset'].
+    def create_rules_with_expanded_delta_offset(self, rules_map):
+        """ Create 'deltaSeconds' from rule['deltaOffset'].
         """
         results = {}
         removed_policies = {}
@@ -810,13 +778,21 @@ class Transformer:
             valid = True
             for rule in rules:
                 delta_offset = rule['deltaOffset']
-                delta_minutes = hour_string_to_minutes(delta_offset)
-                if delta_minutes == 9999:
+                delta_seconds = time_string_to_seconds(delta_offset)
+                if delta_seconds == INVALID_SECONDS:
                     valid = False
                     removed_policies[name] = ("invalid deltaOffset '%s'" %
                         delta_offset)
                     break
-                rule['deltaMinutes'] = delta_minutes
+
+                if delta_seconds % self.granularity != 0:
+                    valid = False
+                    removed_policies[name] = (
+                        "deltaOffset '%s' must be a multiple of '%s' seconds" %
+                        delta_offset, self.granularity)
+                    break
+
+                rule['deltaSeconds'] = delta_seconds
             if valid:
                 results[name] = rules
 
@@ -826,33 +802,6 @@ class Transformer:
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
-
-    def create_rules_with_delta_code(self, rules_map):
-        """ Create rule['deltaCode'] from rule['deltaMinutes'].
-        """
-        results = {}
-        removed_policies = {}
-        for name, rules in rules_map.items():
-            valid = True
-            for rule in rules:
-                delta_minutes = rule['deltaMinutes']
-                if delta_minutes % 15 != 0:
-                    valid = False
-                    removed_policies[name] = (
-                        "deltaMinutes '%s' not multiple of 15" % delta_minutes)
-                    break
-                delta_code = delta_minutes // 15
-                rule['deltaCode'] = delta_code
-            if valid:
-                results[name] = rules
-
-        logging.info(
-            'Removed %s rule policies with invalid deltaMinutes' %
-            len(removed_policies))
-        self.print_removed_map(removed_policies)
-        self.all_removed_policies.update(removed_policies)
-        return results
-
 
 # ISO-8601 specifies Monday=1, Sunday=7
 WEEK_TO_WEEK_INDEX = {
@@ -893,40 +842,38 @@ def parse_on_day_string(on_string):
 
     return (0, 0)
 
+INVALID_SECONDS = 999999 # 277h46m69s
 
-def hour_string_to_minutes(hs):
-    """Converts the '+/-hh:mm' string into +/- total minutes from 00:00.
-    Returns 9999 if there is a parsing error.
+def time_string_to_seconds(time_string):
+    """Converts the '[-]hh:mm:ss' string into +/- total seconds from 00:00.
+    Returns INVALID_SECONDS if there is a parsing error.
     """
-    i = 0
     sign = 1
-    if hs[i] == '-':
+    if time_string[0] == '-':
         sign = -1
-        i += 1
+        time_string = time_string[1:]
 
-    colon_index = hs.find(':')
-    if colon_index < 0:
-        hour_string = hs[i:]
-        minute_string = '0'
-    else:
-        hour_string = hs[i:colon_index]
-        minute_string = hs[colon_index + 1:]
     try:
-        hour = int(hour_string)
-        # Japan uses 24:00 and 25:00:
-        # Rule  NAME    FROM    TO    TYPE  IN  ON      AT  	SAVE    LETTER/S
-        # Rule  Japan   1948    only  -     May Sat>=1  24:00   1:00    D
-        # Rule  Japan   1948    1951  -     Sep Sat>=8  25:00   0   	S
-        # Rule  Japan   1949    only  -     Apr Sat>=1  24:00   1:00    D
-        # Rule  Japan   1950    1951  -     May Sat>=1  24:00   1:00    D
-        if hour > 25:
-            return 9999
-        minute = int(minute_string)
-        if minute > 59:
-            return 9999
-        return sign * (hour * 60 + minute)
-    except Exception as e:
-        return 9999
+        elems = time_string.split(':')
+        if len(elems) == 0:
+            return INVALID_SECONDS
+        hour = int(elems[0])
+        minute = int(elems[1]) if len(elems) > 1 else 0
+        second = int(elems[2]) if len(elems) > 2 else 0
+        if len(elems) > 3:
+            return INVALID_SECONDS
+    except Exception:
+        return INVALID_SECONDS
+
+    # A number of countries use 24:00, and Japan uses 25:00(!).
+    # Rule  Japan   1948    1951  -     Sep Sat>=8  25:00   0   	S
+    if hour > 25:
+        return INVALID_SECONDS
+    if minute > 59:
+        return INVALID_SECONDS
+    if second > 59:
+        return INVALID_SECONDS
+    return sign * ((hour * 60 + minute) * 60 + second)
 
 
 def short_name(name):
@@ -1012,7 +959,8 @@ def find_earliest_subsequent_rules(rules, year):
     instead of looking single earliest Rule.
     """
     candidates = []
-    candidate_date = (9999, 13) # sentinel date later than all real Rules
+    # sentinel date later than all real Rules
+    candidate_date = (extractor.MAX_YEAR, 13)
     for rule in rules:
         rule_year = rule['toYear']
         rule_month = rule['inMonth']
@@ -1030,7 +978,7 @@ def is_year_short(year):
     """Determine if year fits in an int8_t field (i.e. a 'short' year).
     9999 is a marker for 'max'.
     """
-    return year >= 1872 and (year == 9999 or year <= 2127)
+    return year >= 1872 and (year == extractor.MAX_YEAR or year <= 2127)
 
 def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
     """Return the actual day of month of expressions such as
@@ -1055,3 +1003,17 @@ def days_in_month(year, month):
     if month == 2:
         days += is_leap
     return days
+
+def seconds_to_hms(seconds):
+    """Convert seconds to (h,m,s). Works only for positive seconds.
+    """
+    s = seconds % 60
+    minutes = seconds // 60
+    m = minutes % 60
+    h = minutes // 60
+    return (h, m, s)
+
+def hms_to_seconds(h, m, s):
+    """Convert h:m:s to seconds.
+    """
+    return (h * 60 + m) * 60 + s
