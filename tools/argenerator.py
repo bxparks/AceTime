@@ -326,9 +326,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
     def generate_policy_item(self, name, rules):
         rule_items = ''
         for rule in rules:
-            at_time_code = rule['atSeconds'] // (15 * 60)
-
-            delta_code = div_to_zero(rule['deltaSeconds'], 15 * 60)
+            at_time_code = div_to_zero(rule['atSecondsTruncated'], 15 * 60)
+            delta_code = div_to_zero(rule['deltaSecondsTruncated'], 15 * 60)
 
             from_year = rule['fromYear']
             from_year_tiny = (from_year - EPOCH_YEAR
@@ -464,7 +463,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
         until_time_modifier = era['untilTimeModifier']
 
-        offset_code = div_to_zero(era['offsetSeconds'], 15 * 60)
+        offset_code = div_to_zero(era['offsetSecondsTruncated'], 15 * 60)
 
         # Replace %s with just a % for C++
         format = era['format'].replace('%s', '%')

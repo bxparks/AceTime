@@ -15,21 +15,25 @@ import extractor
 
 class Transformer:
 
-    def __init__(self, zones_map, rules_map, python, start_year, granularity):
+    def __init__(self, zones_map, rules_map, python, start_year, granularity,
+        strict):
         """
         Arguments:
             zones_map: map of Zone names to Eras
             rules_map: map of Policy names to Rules
-            python: generate zonedb for Python
-            start_year: include only years on or after start_year
-            granularity: retained AT, SAVE, UNTIL, or RULES(offset) fields in
-                seconds
+            python: (bool) generate zonedb for Python
+            start_year: (int) include only years on or after start_year
+            granularity: (int) retained AT, SAVE, UNTIL, or RULES(offset)
+                fields in seconds
+            strict: (bool) throw out Zones or Rules which are not exactly
+                on the time boundary defined by granularity
         """
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.python = python
         self.start_year = start_year
         self.granularity = granularity
+        self.strict = strict
 
         self.all_removed_zones = {} # map of zone name -> reason
         self.all_removed_policies = {} # map of policy name -> reason
@@ -46,7 +50,7 @@ class Transformer:
                 policy (if ':', then 'rulesDeltaSeconds' will be defined)
             format: (string) FORMAT field for time zone abbreviation
                 (e.g. P%sT, E%sT, GMT/BST)
-            untilYear: (int) MAX_UNTIL_YEAR (1000) means 'max'
+            untilYear: (int) MAX_UNTIL_YEAR (10000) means 'max'
             untilMonth: (int or None) 1-12
             untilDay: (string or None) 1-31, 'lastSun', 'Sun>=3'
             untilTime: (string or None) 'hh:mm'
@@ -54,12 +58,18 @@ class Transformer:
             rawLine: (string) original ZONE line in TZ file
 
             offsetSeconds: (int) offset from UTC/GMT in seconds
+            offsetSecondsTruncated: (int) offsetSeconds after truncated to
+                granularity
             rulesDeltaSeconds: (int or None) delta offset from UTC in seconds
                 if RULES is DST offset string of the form hh:mm[:ss]
+            rulesDeltaSecondsTruncated: (int or None) rulesDeltaSeconds
+                truncated to granularity
             untilHour: (int) hour part of untilTime
             untilMinute: (int) minute part of untilTime
             untilSecond: (int) second part of untilTime
             untilSeconds: (int) untilTime converted into total seconds
+            untilSecondsTruncated: (int) untilSeconds after truncated to
+                granularity
             used: (boolean) indicates whether or not the rule is used by a zone
 
         'rules_map' is a map of (name -> rules[]), where each element in rules
@@ -78,15 +88,20 @@ class Transformer:
             onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
             onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
             atSeconds: (int) atTime in seconds since 00:00:00
+            atSecondsTruncated: (int) atSeconds after truncated to granularity
             deltaSeconds: (int) offset from Standard time in seconds
+            deltaSecondsTruncated: (int) deltaSeconds after truncated to
+                granularity
             shortName: (string) short name of the zone
 
         'all_removed_zones' is a map of the zones which were removed:
+
             name: name of zone removed
             reason: human readable reason
 
         'all_removed_policies' is a map of the policies (entire set of RULEs)
         which were removed:
+
             name: name of policy removed
             reason: human readable reason
         """
@@ -257,7 +272,10 @@ class Transformer:
                     removed_zones[name] = ("negative UNTIL time '%s'" %
                         until_time)
                     break
-                if until_seconds % self.granularity != 0:
+
+                until_seconds_truncated = truncate_to_granularity(
+                    until_seconds, self.granularity)
+                if self.strict and until_seconds != until_seconds_truncated:
                     valid = False
                     removed_zones[name] = (
                         "UNTIL time '%s' must be multiples of '%s' seconds"
@@ -265,6 +283,7 @@ class Transformer:
                     break
 
                 zone['untilSeconds'] = until_seconds
+                zone['untilSecondsTruncated'] = until_seconds_truncated
                 (zone['untilHour'], zone['untilMinute'], zone['untilSecond']) =\
                     seconds_to_hms(until_seconds)
             if valid:
@@ -320,13 +339,17 @@ class Transformer:
                     removed_zones[name] = ("invalid GMTOFF offset string '%s'" %
                         offset_string)
                     break
-                if offset_seconds % self.granularity != 0:
+
+                offset_seconds_truncated = truncate_to_granularity(
+                    offset_seconds, self.granularity)
+                if self.strict and offset_seconds != offset_seconds_truncated:
                     valid = False
                     removed_zones[name] = (
                         "GMTOFF '%s' must be multiples of '%s' seconds" %
                         (offset_string, self.granularity))
 
                 zone['offsetSeconds'] = offset_seconds
+                zone['offsetSecondsTruncated'] = offset_seconds_truncated
 
             if valid:
                results[name] = zones
@@ -369,7 +392,12 @@ class Transformer:
                         removed_zones[name] = ("invalid RULES string '%s'" %
                             rules_string)
                         break
-                    if rules_delta_seconds % self.granularity != 0:
+
+
+                    rules_delta_seconds_truncated = truncate_to_granularity(
+                        rules_delta_seconds, self.granularity)
+                    if self.strict and \
+                        rules_delta_seconds != rules_delta_seconds_truncated:
                         valid = False
                         removed_zones[name] = (
                             "RULES delta offset '%s' must be multiples of "
@@ -379,8 +407,11 @@ class Transformer:
 
                     zone['rules'] = ':'
                     zone['rulesDeltaSeconds'] = rules_delta_seconds
+                    zone['rulesDeltaSecondsTruncated'] = \
+                        rules_delta_seconds_truncated
                 else:
                     zone['rulesDeltaSeconds'] = None
+                    zone['rulesDeltaSecondsTruncated'] = None
             if valid:
                results[name] = zones
 
@@ -751,7 +782,10 @@ class Transformer:
                     valid = False
                     removed_policies[name] = ("negative AT time '%s'" % at_time)
                     break
-                if at_seconds % self.granularity != 0:
+
+                at_seconds_truncated = truncate_to_granularity(
+                    at_seconds, self.granularity)
+                if self.strict and at_seconds != at_seconds_truncated:
                     valid = False
                     removed_policies[name] = (
                         "AT time '%s' must be multiples of '%s' seconds" %
@@ -759,6 +793,7 @@ class Transformer:
                     break
 
                 rule['atSeconds'] = at_seconds
+                rule['atSecondsTruncated'] = at_seconds_truncated
             if valid:
                 results[name] = rules
 
@@ -785,7 +820,9 @@ class Transformer:
                         delta_offset)
                     break
 
-                if delta_seconds % self.granularity != 0:
+                delta_seconds_truncated = truncate_to_granularity(
+                    delta_seconds, self.granularity)
+                if self.strict and delta_seconds != delta_seconds_truncated:
                     valid = False
                     removed_policies[name] = (
                         "deltaOffset '%s' must be a multiple of '%s' seconds" %
@@ -793,6 +830,7 @@ class Transformer:
                     break
 
                 rule['deltaSeconds'] = delta_seconds
+                rule['deltaSecondsTruncated'] = delta_seconds_truncated
             if valid:
                 results[name] = rules
 
@@ -1024,3 +1062,8 @@ def div_to_zero(a, b):
     positive.
     """
     return a // b if a >= 0 else (a - 1) // b + 1
+
+def truncate_to_granularity(a, b):
+    """Truncate a to the granularity of b.
+    """
+    return b * div_to_zero(a, b)

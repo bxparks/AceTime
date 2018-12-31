@@ -74,6 +74,11 @@ def main():
             + 'in seconds (default: 900)',
         type=int,
         default=900)
+    parser.add_argument(
+        '--strict',
+        help='Remove zones and rules not aligned at granularity time boundary',
+        action="store_true",
+        default=False)
 
     # Printer
     parser.add_argument(
@@ -139,7 +144,7 @@ def main():
 
     # Transform the TZ zones and rules
     transformer = Transformer(zones, rules, args.python, args.start_year,
-        args.granularity)
+        args.granularity, args.strict)
     transformer.transform()
     (zones, rules, removed_zones, removed_policies) = transformer.get_data()
 

@@ -11,6 +11,7 @@ from transformer import time_string_to_seconds
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
 from transformer import div_to_zero
+from transformer import truncate_to_granularity
 from transformer import INVALID_SECONDS
 
 
@@ -74,6 +75,17 @@ class TestIntegerDivision(unittest.TestCase):
         self.assertEqual(-1, div_to_zero(-4, 3))
         self.assertEqual(-1, div_to_zero(-5, 3))
         self.assertEqual(-2, div_to_zero(-6, 3))
+
+    def test_truncate_to_granularity(self):
+        self.assertEqual(0, truncate_to_granularity(0, 15))
+        self.assertEqual(0, truncate_to_granularity(14, 15))
+        self.assertEqual(15, truncate_to_granularity(15, 15))
+        self.assertEqual(15, truncate_to_granularity(16, 15))
+        self.assertEqual(0, truncate_to_granularity(-1, 15))
+        self.assertEqual(-15, truncate_to_granularity(-15, 15))
+        self.assertEqual(-15, truncate_to_granularity(-29, 15))
+        self.assertEqual(-30, truncate_to_granularity(-31, 15))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -211,7 +211,8 @@ ZONE_INFO_{infoShortName} = {{
     def generate_policy_item(self, name, rules):
         rule_items = ''
         for rule in rules:
-            (at_hour, at_minute, at_second) = seconds_to_hms(rule['atSeconds'])
+            (at_hour, at_minute, at_second) = seconds_to_hms(
+                rule['atSecondsTruncated'])
             rule_items += self.ZONE_RULE_ITEM.format(
                 policyName=normalize_name(name),
                 rawLine=normalize_raw(rule['rawLine']),
@@ -224,7 +225,7 @@ ZONE_INFO_{infoShortName} = {{
                 atMinute=at_minute,
                 atSecond=at_second,
                 atTimeModifier=rule['atTimeModifier'],
-                deltaSeconds=rule['deltaSeconds'],
+                deltaSeconds=rule['deltaSecondsTruncated'],
                 letter=rule['letter'])
         return self.ZONE_POLICY_ITEM.format(
             policyName=normalize_name(name),
@@ -291,7 +292,7 @@ ZONE_INFO_{infoShortName} = {{
         else:
             zone_policy = 'ZONE_POLICY_%s' % normalize_name(policy_name)
 
-        rules_delta_seconds = era['rulesDeltaSeconds']
+        rules_delta_seconds = era['rulesDeltaSecondsTruncated']
         if not rules_delta_seconds: rules_delta_seconds = 0
 
         until_year = era['untilYear']
@@ -303,7 +304,7 @@ ZONE_INFO_{infoShortName} = {{
 
         return self.ZONE_ERA_ITEM.format(
             rawLine=normalize_raw(era['rawLine']),
-            offsetSeconds=era['offsetSeconds'],
+            offsetSeconds=era['offsetSecondsTruncated'],
             zonePolicy=zone_policy,
             rulesDeltaSeconds=rules_delta_seconds,
             format=era['format'], # preserve the %s
