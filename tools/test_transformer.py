@@ -10,6 +10,7 @@ from transformer import time_string_to_seconds
 from transformer import time_string_to_seconds
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
+from transformer import div_to_zero
 from transformer import INVALID_SECONDS
 
 
@@ -60,6 +61,19 @@ class TestSecondsToHms(unittest.TestCase):
         self.assertEqual(1, hms_to_seconds(0, 0, 1))
         self.assertEqual(61, hms_to_seconds(0, 1, 1))
         self.assertEqual(3661, hms_to_seconds(1, 1, 1))
+
+class TestIntegerDivision(unittest.TestCase):
+    def test_div_to_zero(self):
+        self.assertEqual(1, div_to_zero(3, 3))
+        self.assertEqual(0, div_to_zero(2, 3))
+        self.assertEqual(0, div_to_zero(1, 3))
+        self.assertEqual(0, div_to_zero(0, 3))
+        self.assertEqual(0, div_to_zero(-1, 3))
+        self.assertEqual(0, div_to_zero(-2, 3))
+        self.assertEqual(-1, div_to_zero(-3, 3))
+        self.assertEqual(-1, div_to_zero(-4, 3))
+        self.assertEqual(-1, div_to_zero(-5, 3))
+        self.assertEqual(-2, div_to_zero(-6, 3))
 
 if __name__ == '__main__':
     unittest.main()

@@ -1017,3 +1017,10 @@ def hms_to_seconds(h, m, s):
     """Convert h:m:s to seconds.
     """
     return (h * 60 + m) * 60 + s
+
+def div_to_zero(a, b):
+    """Integer division (a/b) that truncates towards 0, instead of -infinity as
+    is default for Python. Assumes b is positive, but a can be negative or
+    positive.
+    """
+    return a // b if a >= 0 else (a - 1) // b + 1

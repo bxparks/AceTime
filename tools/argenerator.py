@@ -11,6 +11,7 @@ import os
 from transformer import short_name
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
+from transformer import div_to_zero
 from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
 from extractor import MAX_YEAR_SHORT
@@ -326,8 +327,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
             at_hms = seconds_to_hms(rule['atSeconds'])
             at_hour = at_hms[0]
 
-            # TODO: Update seconds_to_hms() to truncate towards 0, not -infinity
-            delta_code = rule['deltaSeconds'] // (15 * 60)
+            delta_code = div_to_zero(rule['deltaSeconds'], 15 * 60)
 
             from_year = rule['fromYear']
             from_year_short = (from_year - EPOCH_YEAR
@@ -460,8 +460,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
         until_time_modifier = era['untilTimeModifier']
 
-        # TODO: Fix seconds_to_hms() to truncate towards 0 not -infinity
-        offset_code = era['offsetSeconds'] // (15 * 60)
+        offset_code = div_to_zero(era['offsetSeconds'], 15 * 60)
 
         # Replace %s with just a % for C++
         format = era['format'].replace('%s', '%')
