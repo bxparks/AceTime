@@ -167,6 +167,16 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyW-Eur (unused)
 
 
+// The following zone policies may have inaccuracies  due to the following
+// reasons:
+//
+// numPolicies: 3
+//
+// kPolicyMoncton (AT time '0:01' truncated to '900' seconds)
+// kPolicyPalestine (AT time '0:01' truncated to '900' seconds)
+// kPolicyStJohns (AT time '0:01' truncated to '900' seconds)
+
+
 }
 }
 

@@ -388,6 +388,13 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 // WET (no '/' in zone name)
 
 
+// The following zones may have inaccuracies due to the following reasons:
+//
+// numInfos: 1
+//
+// Asia/Gaza (UNTIL time '0:01' truncated to '900' seconds)
+
+
 }
 }
 

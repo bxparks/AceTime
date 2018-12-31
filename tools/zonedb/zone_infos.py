@@ -13271,3 +13271,11 @@ ZONE_INFO_MAP = {
 # PST8PDT (no '/' in zone name)
 # WET (no '/' in zone name)
 
+
+#---------------------------------------------------------------------------
+
+# The following zones may have inaccuracies due to the following reasons:
+#
+# numInfos: 0
+#
+
