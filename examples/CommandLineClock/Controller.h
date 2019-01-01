@@ -62,14 +62,14 @@ class Controller {
 #endif
 
     /** Set the current time of the system time keeper. */
-    void setNow(const DateTime& newDateTime) {
+    void setNow(const ZonedDateTime& newDateTime) {
       acetime_t seconds = newDateTime.toEpochSeconds();
       mSystemTimeKeeper.setNow(seconds);
     }
 
     /** Return the current time from the system time keeper. */
-    DateTime getNow() const {
-      return DateTime::forEpochSeconds(
+    ZonedDateTime getNow() const {
+      return ZonedDateTime::forEpochSeconds(
           mSystemTimeKeeper.getNow(), mTimeZone);
     }
 
@@ -89,11 +89,11 @@ class Controller {
     }
 
     /**
-     * Implement the 'modify' command, which copies the current DateTime to
+     * Implement the 'modify' command, which copies the current dateTime to
      * mChangingDateTime.
      */
     void modifyDateTime() {
-      DateTime dt = getNow();
+      ZonedDateTime dt = getNow();
       mChangingDateTime = dt;
       mInModifyMode = true;
     }
@@ -101,7 +101,7 @@ class Controller {
     bool inModifyMode() const { return mInModifyMode; }
 
     /** Return reference to mChangingDateTime. */
-    DateTime& getChangingDateTime() { return mChangingDateTime; }
+    ZonedDateTime& getChangingDateTime() { return mChangingDateTime; }
 
     /** Save the current mChangingDateTime to system time. */
     void saveDateTime() {
@@ -120,7 +120,7 @@ class Controller {
 
     PersistentStore& mPersistentStore;
     TimeKeeper& mSystemTimeKeeper;
-    DateTime mChangingDateTime;
+    ZonedDateTime mChangingDateTime;
     TimeZone mTimeZone;
     ZoneAgent mZoneAgent;
 

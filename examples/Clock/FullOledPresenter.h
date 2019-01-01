@@ -47,7 +47,7 @@ class FullOledPresenter: public Presenter {
     }
 
     void displayDateTime() const {
-      const DateTime& dateTime = mRenderingInfo.dateTime;
+      const ZonedDateTime& dateTime = mRenderingInfo.dateTime;
 
       // date
       if (shouldShowFor(MODE_CHANGE_YEAR)) {

@@ -52,8 +52,8 @@ struct AutoZone {
  * An alternative implementation would make TimeZone a base class of an
  * inheritance hierarchy with 2 subclasses (ManualTimeZone and AutoTimeZone).
  * However this means that the TimeZone object can no longer be passed around
- * by value, and the DateTime is forced to hold on to the TimeZone object using
- * a pointer. It then becomes very difficult to change the offset and DST
+ * by value, and the ZonedDateTime is forced to hold on to the TimeZone object
+ * using a pointer. It then becomes very difficult to change the offset and DST
  * fields of the ManualTimeZone. Using a single TimeZone class and implementing
  * it as a value type simplifies a lot of code.
  *

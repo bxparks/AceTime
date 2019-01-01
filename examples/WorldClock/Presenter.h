@@ -85,7 +85,7 @@ class Presenter {
     }
 
     void displayDateTime() const {
-      const DateTime dateTime = DateTime::forEpochSeconds(
+      const ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
           mRenderingInfo.now, mRenderingInfo.timeZone);
 
       mOled.setFont(fixed_bold10x15);
@@ -141,7 +141,7 @@ class Presenter {
     }
 
     void displayChangeableDateTime() const {
-      const DateTime dateTime = DateTime::forEpochSeconds(
+      const ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
           mRenderingInfo.now, mRenderingInfo.timeZone);
 
       mOled.setFont(fixed_bold10x15);

@@ -50,7 +50,7 @@ class OledPresenter: public Presenter {
     }
 
     void displayDateTime() const {
-      const DateTime& dateTime = mRenderingInfo.dateTime;
+      const ZonedDateTime& dateTime = mRenderingInfo.dateTime;
 
       // date
       if (shouldShowFor(MODE_CHANGE_YEAR)) {
@@ -96,7 +96,7 @@ class OledPresenter: public Presenter {
     }
 
     void displayWeekDay() const {
-      const DateTime& dateTime = mRenderingInfo.dateTime;
+      const ZonedDateTime& dateTime = mRenderingInfo.dateTime;
       mOled.print(DateStrings().weekDayLongString(dateTime.dayOfWeek()));
       mOled.clearToEOL();
     }

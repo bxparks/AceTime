@@ -107,7 +107,7 @@ class Controller {
     void modeButtonLongPress() {
       switch (mMode) {
         case MODE_DATE_TIME:
-          mChangingDateTime = DateTime::forEpochSeconds(
+          mChangingDateTime = ZonedDateTime::forEpochSeconds(
               mTimeKeeper.getNow(), mClockInfo0.timeZone);
           mSecondFieldCleared = false;
           mMode = MODE_CHANGE_YEAR;
@@ -238,7 +238,8 @@ class Controller {
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
           if (!mSecondFieldCleared) {
-            DateTime dt = DateTime::forEpochSeconds(mTimeKeeper.getNow());
+            ZonedDateTime dt = ZonedDateTime::forEpochSeconds(
+                mTimeKeeper.getNow());
             mChangingDateTime.second(dt.second());
           }
           break;
@@ -309,7 +310,7 @@ class Controller {
       mPresenter2.update(mMode, now, mBlinkShowState, clockId!=2, mClockInfo2);
     }
 
-    /** Save the current UTC DateTime to the RTC. */
+    /** Save the current UTC ZonedDateTime to the RTC. */
     void saveDateTime() {
       mTimeKeeper.setNow(mChangingDateTime.toEpochSeconds());
     }
@@ -318,10 +319,10 @@ class Controller {
       preserveInfo();
     }
 
-    /** Read the UTC DateTime from RTC and convert to current time zone. */
-    void readDateTime(DateTime* dateTime) {
+    /** Read the UTC ZonedDateTime from RTC and convert to current time zone. */
+    void readDateTime(ZonedDateTime* dateTime) {
       acetime_t now = mTimeKeeper.getNow();
-      *dateTime = DateTime::forEpochSeconds(now, mClockInfo0.timeZone);
+      *dateTime = ZonedDateTime::forEpochSeconds(now, mClockInfo0.timeZone);
     }
 
     void preserveInfo() {
@@ -357,7 +358,7 @@ class Controller {
     ClockInfo mClockInfo2;
 
     uint8_t mMode; // current mode
-    DateTime mChangingDateTime; // source of now() in "Change" modes
+    ZonedDateTime mChangingDateTime; // source of now() in "Change" modes
 
     bool mSecondFieldCleared;
     bool mSuppressBlink; // true if blinking should be suppressed

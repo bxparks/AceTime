@@ -10,8 +10,8 @@ namespace ace_time {
 
 /**
  * Represents a period of time relative to some known point in time, potentially
- * represented by DateTime. Each component (hour, minute, second) is stored as
- * an unsigned byte (uint8_t). The sign bit allows forward and backward time
+ * represented by a DateTime. Each component (hour, minute, second) is stored
+ * as an unsigned byte (uint8_t). The sign bit allows forward and backward time
  * periods to be represented.
  */
 class TimePeriod {

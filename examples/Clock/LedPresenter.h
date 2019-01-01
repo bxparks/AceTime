@@ -33,7 +33,7 @@ class LedPresenter: public Presenter {
     void displayData() override {
       setBlinkStyle();
 
-      const DateTime& dateTime = mRenderingInfo.dateTime;
+      const ZonedDateTime& dateTime = mRenderingInfo.dateTime;
       switch (mRenderingInfo.mode) {
         case MODE_HOUR_MINUTE:
         case MODE_CHANGE_HOUR:

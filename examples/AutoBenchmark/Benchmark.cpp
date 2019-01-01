@@ -10,7 +10,7 @@ using ace_time::common::printPad3;
 #if defined(AVR)
 const uint32_t COUNT = 5000;
 #elif defined(ESP8266)
-const uint32_t COUNT = 50000;
+const uint32_t COUNT = 25000;
 #else
 const uint32_t COUNT = 200000;
 #endif
@@ -18,40 +18,40 @@ const uint32_t COUNT = 200000;
 const uint32_t MILLIS_TO_NANO_PER_ITERATION = (1000000 / COUNT);
 
 const char TOP[] =
-  "----------------------------------------+----------+";
+  "---------------------------------------------+----------+";
 const char HEADER[] =
-  "Method                                  |   micros |";
+  "Method                                       |   micros |";
 const char DIVIDER[] =
-  "----------------------------------------|----------|";
+  "---------------------------------------------|----------|";
 const char BOTTOM[] =
-  "----------------------------------------+----------+";
+  "---------------------------------------------+----------+";
 const char ENDING[] = " |";
 const char EMPTY_LOOP_LABEL[] =
-  "Empty loop                              | ";
+  "Empty loop                                   | ";
 const char LOCAL_DATE_FOR_EPOCH_DAYS_LABEL[] =
-  "LocalDate::forEpochDays()               | ";
+  "LocalDate::forEpochDays()                    | ";
 const char LOCAL_DATE_TO_EPOCH_DAYS_LABEL[] =
-  "LocalDate::toEpochDays()                | ";
+  "LocalDate::toEpochDays()                     | ";
 const char LOCAL_DATE_DAY_OF_WEEK_LABEL[] =
-  "LocalDate::dayOfWeek()                  | ";
+  "LocalDate::dayOfWeek()                       | ";
 
 const char DATE_TIME_FOR_EPOCH_SECONDS_LABEL[] =
-  "DateTime::forEpochSeconds(UTC)          | ";
+  "ZonedDateTime::forEpochSeconds(UTC)          | ";
 const char DATE_TIME_FOR_EPOCH_SECONDS_LOS_ANGELES_LABEL[] =
-  "DateTime::forEpochSeconds(Los_Angeles)  | ";
+  "ZonedDateTime::forEpochSeconds(Los_Angeles)  | ";
 const char DATE_TIME_FOR_EPOCH_SECONDS_CACHED_LABEL[] =
-  "DateTime::forEpochSeconds(Cached)       | ";
+  "ZonedDateTime::forEpochSeconds(Cached)       | ";
 const char DATE_TIME_TO_EPOCH_DAYS_LABEL[] =
-  "DateTime::toEpochDays()                 | ";
+  "ZonedDateTime::toEpochDays()                 | ";
 const char DATE_TIME_TO_EPOCH_SECONDS_LABEL[] =
-  "DateTime::toEpochSeconds()              | ";
+  "ZonedDateTime::toEpochSeconds()              | ";
 
 // The compiler is extremelly good about removing code that does nothing. This
 // variable is used to ensure user-visible side-effects, preventing the compiler
 // optimization.
 uint8_t guard;
 
-void disableOptimization(const DateTime& dt) {
+void disableOptimization(const ZonedDateTime& dt) {
   guard ^= dt.year();
   guard ^= dt.month();
   guard ^= dt.day();
@@ -183,13 +183,13 @@ static unsigned long runLocalDateDaysOfWeekMillis(
   return elapsedMillis;
 }
 
-// DateTime::forEpochSeconds(seconds)
+// ZonedDateTime::forEpochSeconds(seconds)
 static unsigned long runDateTimeForEpochSeconds(unsigned long emptyLoopMillis) {
   unsigned long forEpochSecondsMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
-    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
+    // ZonedDateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
-    DateTime dateTime = DateTime::forEpochSeconds(tickMillis);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(tickMillis);
     disableOptimization(dateTime);
     disableOptimization(tickMillis);
   });
@@ -200,14 +200,14 @@ static unsigned long runDateTimeForEpochSeconds(unsigned long emptyLoopMillis) {
   return elapsedMillis;
 }
 
-// DateTime::toEpochDays()
+// ZonedDateTime::toEpochDays()
 static unsigned long runDateTimeToEpochDays(
     unsigned long forEpochSecondsMillis) {
   unsigned long toEpochDaysMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
-    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
+    // ZonedDateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
-    DateTime dateTime = DateTime::forEpochSeconds(tickMillis);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(tickMillis);
     acetime_t epochDays = dateTime.toEpochDays();
     disableOptimization(dateTime);
     disableOptimization(epochDays);
@@ -219,14 +219,14 @@ static unsigned long runDateTimeToEpochDays(
   return elapsedMillis;
 }
 
-// DateTime::toEpochSeconds()
+// ZonedDateTime::toEpochSeconds()
 static unsigned long runDateTimeToEpochSeconds(
     unsigned long forEpochSecondsMillis) {
   unsigned long toEpochSecondsMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
-    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
+    // ZonedDateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
-    DateTime dateTime = DateTime::forEpochSeconds(tickMillis);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(tickMillis);
     acetime_t epochSeconds = dateTime.toEpochSeconds();
     disableOptimization(dateTime);
     disableOptimization(epochSeconds);
@@ -238,16 +238,16 @@ static unsigned long runDateTimeToEpochSeconds(
   return elapsedMillis;
 }
 
-// DateTime::forEpochSeconds(seconds, kZoneLos_Angeles)
+// ZonedDateTime::forEpochSeconds(seconds, kZoneLos_Angeles)
 static unsigned long runDateTimeForEpochSecondsLosAngeles(
     unsigned long emptyLoopMillis) {
   unsigned long forEpochSecondsMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
-    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
+    // ZonedDateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
     ZoneAgent agent(&zonedb::kZoneLos_Angeles);
     TimeZone tz = TimeZone::forZone(&agent);
-    DateTime dateTime = DateTime::forEpochSeconds(tickMillis, tz);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(tickMillis, tz);
     disableOptimization(dateTime);
     disableOptimization(tickMillis);
   });
@@ -260,15 +260,16 @@ static unsigned long runDateTimeForEpochSecondsLosAngeles(
 
 static ZoneAgent agent(&zonedb::kZoneLos_Angeles);
 
-// DateTime::forEpochSeconds(seconds, kZoneLos_Angeles) w/ cached TimeZone
+// ZonedDateTime::forEpochSeconds(seconds, kZoneLos_Angeles) w/ cached TimeZone
 static unsigned long runDateTimeForEpochSecondsLosAngelesCached(
     unsigned long emptyLoopMillis) {
   unsigned long forEpochSecondsMillis = runLambda(COUNT, []() mutable {
     unsigned long tickMillis = millis();
-    // DateTime::forEpochSeconds(seconds) takes seconds, but use millis for
+    // ZonedDateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
     TimeZone tzLosAngeles = TimeZone::forZone(&agent);
-    DateTime dateTime = DateTime::forEpochSeconds(tickMillis, tzLosAngeles);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
+        tickMillis, tzLosAngeles);
     disableOptimization(dateTime);
     disableOptimization(tickMillis);
   });

@@ -8,7 +8,7 @@
 
 acetime_t	KEYWORD1
 DateStrings	KEYWORD1
-DateTime	KEYWORD1
+ZonedDateTime	KEYWORD1
 OffsetDateTime	KEYWORD1
 TimeZone	KEYWORD1
 UtcOffset	KEYWORD1
@@ -62,7 +62,7 @@ toEpochSeconds	KEYWORD2
 toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
 
-# DateTime.h
+# ZonedDateTime.h
 forComponents	KEYWORD2
 forEpochSeconds	KEYWORD2
 forUnixSeconds	KEYWORD2
@@ -92,11 +92,9 @@ toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
 
 # UtcOffset.h
-forOffsetCode	KEYWORD2
 forHour	KEYWORD2
 forHourMinute	KEYWORD2
 forOffsetString	KEYWORD2
-offsetCode	KEYWORD2
 asMinutes	KEYWORD2
 asSeconds	KEYWORD2
 asHourMinute	KEYWORD2
@@ -107,16 +105,12 @@ isError	KEYWORD2
 printTo	KEYWORD2
 
 # TimeZone.h
+forZone	KEYWORD2
+forUtcOffset	KEYWORD2
 getUtcOffset	KEYWORD2
 getAbbrev	KEYWORD2
 getDst	KEYWORD2
 printTo	KEYWORD2
-
-# AutoTimeZone.h
-forZone	KEYWORD2
-
-# ManualTimeZone.h
-forUtcOffset	KEYWORD2
 forOffsetString	KEYWORD2
 utcOffset	KEYWORD2
 isDst	KEYWORD2

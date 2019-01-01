@@ -107,14 +107,14 @@ class DateCommand: public CommandHandler {
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
-        DateTime now = (controller.inModifyMode())
+        ZonedDateTime now = (controller.inModifyMode())
             ? controller.getChangingDateTime()
             : controller.getNow();
         now.printTo(printer);
         printer.println();
       } else {
         SHIFT;
-        DateTime newDate = DateTime::forDateString(argv[0]);
+        ZonedDateTime newDate = ZonedDateTime::forDateString(argv[0]);
         if (newDate.isError()) {
           printer.println(FF("Invalid date"));
           return;
@@ -164,7 +164,7 @@ class IncrementCommand: public CommandHandler {
         return;
       }
       SHIFT;
-      DateTime& dt = controller.getChangingDateTime();
+      ZonedDateTime& dt = controller.getChangingDateTime();
       if (strcmp(argv[0], "year") == 0) {
         dt.incrementYear();
       } else if (strcmp(argv[0], "month") == 0) {

@@ -19,7 +19,7 @@ class TimeProvider {
     virtual ~TimeProvider() {}
 
     /**
-     * Return the number of seconds since the DateTime epoch
+     * Return the number of seconds since the AceTime epoch
      * (2000-01-01T00:00:00Z). Returns kInvalidSeconds if an error has occured.
      */
     virtual acetime_t getNow() const = 0;

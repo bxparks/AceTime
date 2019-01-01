@@ -21,7 +21,7 @@ class Presenter {
       mRenderingInfo.mode = mode;
     }
 
-    void setDateTime(const DateTime& dateTime) {
+    void setDateTime(const ZonedDateTime& dateTime) {
       mRenderingInfo.dateTime = dateTime;
     }
 

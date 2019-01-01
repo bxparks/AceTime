@@ -56,7 +56,7 @@ class Clock {
       acetime_t nowSeconds = mTimeKeeper.getNow();
 
       // Set the current date time using the mTimeZone.
-      mCurrentDateTime = DateTime::forEpochSeconds(
+      mCurrentDateTime = ZonedDateTime::forEpochSeconds(
           nowSeconds, mCurrentTimeZone);
     }
 
@@ -85,7 +85,7 @@ class Clock {
 
   protected:
     void updateDateTime() {
-      mCurrentDateTime = DateTime::forEpochSeconds(
+      mCurrentDateTime = ZonedDateTime::forEpochSeconds(
           mTimeKeeper.getNow(), mCurrentTimeZone);
 
       // If in CHANGE mode, and the 'second' field has not been cleared,
@@ -155,7 +155,7 @@ class Clock {
       }
     }
 
-    /** Save the current UTC DateTime to the RTC. */
+    /** Save the current UTC dateTime to the RTC. */
     void saveDateTime() {
       mTimeKeeper.setNow(mChangingDateTime.toEpochSeconds());
     }
@@ -184,9 +184,9 @@ class Clock {
 
     uint8_t mMode = MODE_UNKNOWN; // current mode
     TimeZone mCurrentTimeZone; // current time zone of clock
-    DateTime mCurrentDateTime; // DateTime from the TimeKeeper
+    ZonedDateTime mCurrentDateTime; // DateTime from the TimeKeeper
     TimeZone mChangingTimeZone; // time zone set by user in "Change" modes
-    DateTime mChangingDateTime; // DateTime set by user in "Change" modes
+    ZonedDateTime mChangingDateTime; // DateTime set by user in "Change" modes
     bool mSecondFieldCleared;
     bool mSuppressBlink; // true if blinking should be suppressed
     uint8_t mHourMode = 0; // 12/24 mode

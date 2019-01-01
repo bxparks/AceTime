@@ -18,21 +18,19 @@ namespace ace_time {
  * the year 1872 to 2127 inclusive. In a 16-bit implementation, the year field
  * is an int16_t, so can represent years from 0000-9999 inclusive.
  *
- * The "epoch" for this library is 2000-01-01 00:00:00Z. If the year is
- * restricted to 0 to 99, the DateTime components map directly to the fields
- * supported by the DS3231 RTC chip. The dayOfWeek (1=Sunday, 7=Saturday) is
- * calculated internally from the date components. Changing the timeZone does
- * not affect the dayOfWeek.
+ * The "epoch" for this library is 2000-01-01 00:00:00Z. The dayOfWeek
+ * (1=Sunday, 7=Saturday) is calculated internally from the date components.
+ * Changing the timeZone does not affect the dayOfWeek.
  *
  * The incrementXxx() methods are convenience methods to allow the user to
  * change the date and time using just two buttons. The user is expected to
- * select a specific DateTime component using one of the buttons, then press the
- * other button to increment it.
+ * select a specific ZonedDateTime component using one of the buttons, then
+ * press the other button to increment it.
  *
- * Some parts of this class was inspired by the DateTime class of
- * http://www.joda.org.
+ * Some parts of this class was inspired by the org.joda.DateTime of
+ * http://www.joda.org and java.time.ZonedDateTime of JDK8.
  */
-class DateTime {
+class ZonedDateTime {
   public:
     static const acetime_t kInvalidEpochSeconds = LocalTime::kInvalidSeconds;
 
@@ -74,14 +72,14 @@ class DateTime {
      * @param timeZone pointer to an existing TimeZone instance. Optional,
      *        not nullable. Default is UTC TimeZone.
      */
-    static DateTime forComponents(int16_t year, uint8_t month, uint8_t day,
+    static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             const TimeZone& timeZone = TimeZone()) {
       if (timeZone.getType() == TimeZone::kTypeManual) {
         UtcOffset utcOffset = timeZone.getUtcOffset(0);
         OffsetDateTime odt = OffsetDateTime::forComponents(
             year, month, day, hour, minute, second, utcOffset);
-        return DateTime(odt, timeZone);
+        return ZonedDateTime(odt, timeZone);
       } else {
         // First guess at the UtcOffset using Jan 1 of the given year.
         acetime_t initialEpochSeconds =
@@ -97,12 +95,12 @@ class DateTime {
 
         odt = OffsetDateTime::forComponents(
             year, month, day, hour, minute, second, actualUtcOffset);
-        return DateTime(odt, timeZone);
+        return ZonedDateTime(odt, timeZone);
       }
     }
 
     /**
-     * Factory method. Create the DateTime from epochSeconds as seen from
+     * Factory method. Create the ZonedDateTime from epochSeconds as seen from
      * the given time zone. If the time zone's offset is negative, then
      * (epochSeconds >= TimeZone::effectiveOffsetSeconds().toEpochSeconds())
      * must be true. Otherwise, the local time will be in the year 1999, which
@@ -114,9 +112,9 @@ class DateTime {
      *    is considered to be an error and causes isError() to return true.
      * @param timeZone Optional, not nullable. Default is UTC TimeZone.
      */
-    static DateTime forEpochSeconds(acetime_t epochSeconds,
+    static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone = TimeZone()) {
-      DateTime dt;
+      ZonedDateTime dt;
       if (epochSeconds == kInvalidEpochSeconds) return dt.setError();
 
       UtcOffset utcOffset = timeZone.getUtcOffset(epochSeconds);
@@ -127,10 +125,10 @@ class DateTime {
     }
 
     /**
-     * Factory method to create a DateTime using the number of seconds from
+     * Factory method to create a ZonedDateTime using the number of seconds from
      * Unix epoch.
      */
-    static DateTime forUnixSeconds(acetime_t unixSeconds,
+    static ZonedDateTime forUnixSeconds(acetime_t unixSeconds,
         const TimeZone& timeZone = TimeZone()) {
       if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
         return forEpochSeconds(unixSeconds, timeZone);
@@ -141,8 +139,8 @@ class DateTime {
     }
 
     /**
-     * Factory method. Create a DateTime from the ISO 8601 date string. If the
-     * string cannot be parsed, then isError() on the constructed object
+     * Factory method. Create a ZonedDateTime from the ISO 8601 date string. If
+     * the string cannot be parsed, then isError() on the constructed object
      * returns true.
      *
      * The dateString is expected to be in ISO 8601 format
@@ -150,38 +148,38 @@ class DateTime {
      * and does not detect most errors. It cares mostly about the positional
      * placement of the various components. It does not validate the separation
      * characters like '-' or ':'. For example, both of the following will parse
-     * to the exactly same DateTime object:
+     * to the exactly same ZonedDateTime object:
      * "2018-08-31T13:48:01-07:00"
      * "2018/08/31 13#48#01-07#00"
      */
-    static DateTime forDateString(const char* dateString) {
+    static ZonedDateTime forDateString(const char* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
       // TODO: fix time zone
-      return DateTime(dt, TimeZone());
+      return ZonedDateTime(dt, TimeZone());
     }
 
     /**
-     * Factory method. Create a DateTime from date string in flash memory F()
-     * strings. Mostly for unit testing.
+     * Factory method. Create a ZonedDateTime from date string in flash memory
+     * F() strings. Mostly for unit testing.
      */
-    static DateTime forDateString(const __FlashStringHelper* dateString) {
+    static ZonedDateTime forDateString(const __FlashStringHelper* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
       // TODO: fix time zone
-      return DateTime(dt, TimeZone());
+      return ZonedDateTime(dt, TimeZone());
     }
 
     /** Default constructor. */
-    explicit DateTime() {}
+    explicit ZonedDateTime() {}
 
     /** Return true if any component indicates an error condition. */
     bool isError() const { return mOffsetDateTime.isError(); }
 
     /**
-     * Mark the DateTime so that isError() returns true. Returns a reference to
-     * (*this) so that an invalid DateTime can be returned in a single
-     * statement like this: 'return DateTime().setError()'.
+     * Mark the ZonedDateTime so that isError() returns true. Returns a
+     * reference to (*this) so that an invalid ZonedDateTime can be returned in
+     * a single statement like this: 'return ZonedDateTime().setError()'.
      */
-    DateTime& setError() {
+    ZonedDateTime& setError() {
       mOffsetDateTime.setError();
       return *this;
     }
@@ -234,25 +232,26 @@ class DateTime {
      */
     uint8_t dayOfWeek() const { return mOffsetDateTime.dayOfWeek(); }
 
-    /** Return the time zone of the DateTime. */
+    /** Return the time zone of the ZonedDateTime. */
     const TimeZone& timeZone() const { return mTimeZone; }
 
     /**
-     * Set the time zone. Note that this does not convert a given DateTime
+     * Set the time zone. Note that this does not convert a given ZonedDateTime
      * into a different TimeZone. Use converToTimeZone() instead.
      */
     void timeZone(const TimeZone& timeZone) { mTimeZone = timeZone; }
 
     /**
-     * Create a DateTime in a different time zone (with the same epochSeconds).
+     * Create a ZonedDateTime in a different time zone (with the same
+     * epochSeconds).
      */
-    DateTime convertToTimeZone(const TimeZone& timeZone) const {
+    ZonedDateTime convertToTimeZone(const TimeZone& timeZone) const {
       acetime_t epochSeconds = toEpochSeconds();
-      return DateTime::forEpochSeconds(epochSeconds, timeZone);
+      return ZonedDateTime::forEpochSeconds(epochSeconds, timeZone);
     }
 
     /**
-     * Print DateTime to 'printer'. Does not implement Printable to avoid
+     * Print ZonedDateTime to 'printer'. Does not implement Printable to avoid
      * memory cost of vtable pointer.
      */
     void printTo(Print& printer) const;
@@ -310,13 +309,13 @@ class DateTime {
     }
 
     /**
-     * Compare this DateTime with another DateTime, and return (<0, 0, >0)
-     * according to whether the epochSeconds is (a<b, a==b, a>b). The
-     * dayOfWeek field is ignored but the time zone is used.  This method
-     * can return 0 (equal) even if the operator==() returns false if the
-     * two DateTime objects are in different time zones.
+     * Compare this ZonedDateTime with another ZonedDateTime, and return (<0,
+     * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b). The
+     * dayOfWeek field is ignored but the time zone is used.  This method can
+     * return 0 (equal) even if the operator==() returns false if the two
+     * ZonedDateTime objects are in different time zones.
      */
-    int8_t compareTo(const DateTime& that) const {
+    int8_t compareTo(const ZonedDateTime& that) const {
       return mOffsetDateTime.compareTo(that.mOffsetDateTime);
     }
 
@@ -324,14 +323,14 @@ class DateTime {
     /** Expected length of an ISO 8601 date string. */
     static const uint8_t kDateStringLength = 25;
 
-    friend bool operator==(const DateTime& a, const DateTime& b);
-    friend bool operator!=(const DateTime& a, const DateTime& b);
+    friend bool operator==(const ZonedDateTime& a, const ZonedDateTime& b);
+    friend bool operator!=(const ZonedDateTime& a, const ZonedDateTime& b);
 
     /** Extract the date time components from the given dateString. */
-    DateTime& initFromDateString(const char* dateString);
+    ZonedDateTime& initFromDateString(const char* dateString);
 
     /** Constructor. From OffsetDateTime and TimeZone. */
-    DateTime(const OffsetDateTime& offsetDateTime, TimeZone tz):
+    ZonedDateTime(const OffsetDateTime& offsetDateTime, TimeZone tz):
       mOffsetDateTime(offsetDateTime),
       mTimeZone(tz) {}
 
@@ -340,19 +339,19 @@ class DateTime {
 };
 
 /**
- * Return true if two DateTime objects are equal in all components. Optimized
- * for small changes in the less signficant fields, such as 'second' or
- * 'minute'. The dayOfWeek is a derived field so it is not explicitly used to
- * test equality, but it follows that if all the other fields are identical,
+ * Return true if two ZonedDateTime objects are equal in all components.
+ * Optimized for small changes in the less signficant fields, such as 'second'
+ * or 'minute'. The dayOfWeek is a derived field so it is not explicitly used
+ * to test equality, but it follows that if all the other fields are identical,
  * thenthe dayOfWeek must also be equal.
  */
-inline bool operator==(const DateTime& a, const DateTime& b) {
+inline bool operator==(const ZonedDateTime& a, const ZonedDateTime& b) {
   return a.mOffsetDateTime == b.mOffsetDateTime
       && a.mTimeZone == b.mTimeZone;
 }
 
-/** Return true if two DateTime objects are not equal. */
-inline bool operator!=(const DateTime& a, const DateTime& b) {
+/** Return true if two ZonedDateTime objects are not equal. */
+inline bool operator!=(const ZonedDateTime& a, const ZonedDateTime& b) {
   return ! (a == b);
 }
 

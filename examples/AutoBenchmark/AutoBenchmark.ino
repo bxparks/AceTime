@@ -1,6 +1,6 @@
 /*
  * A program to determine how long it takes to execute some of the more complex
- * methods of DateTime and LocalDate.
+ * methods of ZonedDateTime and LocalDate.
  *
  * This should compile on all microcontrollers supported by the Arduino IDE.
  */
@@ -21,6 +21,15 @@ void setup() {
 
   // ace_time primitives
 
+  Serial.print(F("sizeof(LocalDate): "));
+  Serial.println(sizeof(LocalDate));
+
+  Serial.print(F("sizeof(LocalTime): "));
+  Serial.println(sizeof(LocalTime));
+
+  Serial.print(F("sizeof(UtcOffset): "));
+  Serial.println(sizeof(UtcOffset));
+
   Serial.print(F("sizeof(ZoneEra): "));
   Serial.println(sizeof(ZoneEra));
 
@@ -32,15 +41,6 @@ void setup() {
 
   Serial.print(F("sizeof(ZonePolicy): "));
   Serial.println(sizeof(ZonePolicy));
-
-  Serial.print(F("sizeof(LocalDate): "));
-  Serial.println(sizeof(LocalDate));
-
-  Serial.print(F("sizeof(LocalTime): "));
-  Serial.println(sizeof(LocalTime));
-
-  Serial.print(F("sizeof(UtcOffset): "));
-  Serial.println(sizeof(UtcOffset));
 
   Serial.print(F("sizeof(internal::ZoneMatch): "));
   Serial.println(sizeof(internal::ZoneMatch));
@@ -54,8 +54,8 @@ void setup() {
   Serial.print(F("sizeof(OffsetDateTime): "));
   Serial.println(sizeof(OffsetDateTime));
 
-  Serial.print(F("sizeof(DateTime): "));
-  Serial.println(sizeof(DateTime));
+  Serial.print(F("sizeof(ZonedDateTime): "));
+  Serial.println(sizeof(ZonedDateTime));
 
   Serial.print(F("sizeof(TimePeriod): "));
   Serial.println(sizeof(TimePeriod));
