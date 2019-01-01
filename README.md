@@ -5,7 +5,8 @@ from UTC. It also supports an enhanced "system clock" that can be synchronized
 from an external time source, such as an
 [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server
 or a DS3231 RTC chip. This library is meant to be an alternative to the
-venerable [Arduino Time Library](https://github.com/PaulStoffregen/Time).
+[Arduino Time](https://github.com/PaulStoffregen/Time) and
+[Arduino Timezone](https://github.com/JChristensen/Timezone) libraries.
 
 Compared to the Arduino Time Library, here are the main differences:
 1. AceTime is more object-oriented. For example, you can create multiple
@@ -41,21 +42,26 @@ There are roughly 2 categories of classes provided by the AceTime library:
 * date and time primitives
     * e.g. `DateTime`, `TimeZone`, `TimePeriod`
     * uses `namespace ace_time`
-    * Borrowing some concepts from the
-      [Joda-Time](http://www.joda.org/joda-time/quickstart.html) Java library.
 * system clock classes
     * e.g. `SystemTimeKeeper`, `NtpTimeProvider`, `DS3231TimeKeeper`
     * uses `namespace ace_time::provider`
     * Implements the system clock syncing feature of the Arduino Time library.
 
-Time zones are internally represented as offsets from UTC in 15-minute
-increments which supports every time zone offset currently used today. This
-allows the time zone to be stored as a single `int8_t` integer. The AceTime
-library currently does **not** support the [tz
-database](https://en.wikipedia.org/wiki/Tz_database).
-This means that Daylight Saving time must be handled manually.
+The AceTime library is inspired by and borrows from:
+    * [Joda-Time](https://www.joda.org/joda-time/) Java library
+    * [Java Time package](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+    * [Noda Time](https://nodatime.org/)
+    * [Python datetime](https://docs.python.org/3/library/datetime.html)
+    * [Micro Time Zone](https://github.com/evq/utz)
+    * [Arduino Timezone](https://github.com/JChristensen/Timezone)
+    * [Arduino Time](https://github.com/PaulStoffregen/Time)
 
-Version: 0.1 (2018-09-25)
+Support for the [tz database](https://en.wikipedia.org/wiki/Tz_database) is
+currently being implemented. UTC offsets are internally represented as a single
+byte representing 15-minute increments which supports every time zone offset
+currently used today.
+
+Version: In-progress (2019-01-01)
 
 ## Installation
 
@@ -76,6 +82,8 @@ The source files are organized as follows:
 * `src/ace_time/common/` - internal shared files
 * `src/ace_time/hw/` - very thin hardware abstraction layer
 * `src/ace_time/testing/` - files used in unit tests
+* `src/ace_time/tools/` - scripts to parse the TZ Database files
+* `src/ace_time/zonedb/` - TZ Database code-generated files
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `examples/` - example programs
 
