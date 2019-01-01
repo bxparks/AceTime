@@ -152,11 +152,17 @@ class Transformer:
         self.rules_map = rules_map
         self.zones_map = zones_map
 
-        logging.info('=== Transformer Summary')
-        logging.info('Removed %s zone infos' % len(self.all_removed_zones))
-        logging.info('Remaining %s zone infos' % len(self.zones_map))
-        logging.info('Remaining %s rule policies' % len(self.rules_map))
-        logging.info('=== Transformer Summary End')
+        logging.info('======== Transformer Summary')
+        logging.info('==== Zones')
+        logging.info('Removed %s infos' % len(self.all_removed_zones))
+        logging.info('Noted %s infos' % len(self.all_notable_zones))
+        logging.info('Generated %s infos' % len(self.zones_map))
+
+        logging.info('==== Rules')
+        logging.info('Removed %s policies' % len(self.all_removed_policies))
+        logging.info('Noted %s policies' % len(self.all_notable_policies))
+        logging.info('Generated %s policies' % len(self.rules_map))
+        logging.info('======== Transformer Summary End')
 
     def print_removed_map(self, removed_map):
         """Helper routine that prints the removed Zone rules or Zone eras along
@@ -364,7 +370,7 @@ class Transformer:
                         break
                     else:
                         notable_zones[name] = (
-                            "GMTOFF '%s' truncated '%s' seconds" %
+                            "GMTOFF '%s' truncated to '%s' seconds" %
                             (offset_string, self.granularity))
 
                 zone['offsetSeconds'] = offset_seconds
