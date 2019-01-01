@@ -87,9 +87,7 @@ ZONE_POLICY_{policyName} = {{
         'inMonth': {inMonth},
         'onDayOfWeek': {onDayOfWeek},
         'onDayOfMonth': {onDayOfMonth},
-        'atHour': {atHour},
-        'atMinute': {atMinute},
-        'atSecond': {atSecond},
+        'atSeconds': {atSeconds},
         'atTimeModifier': '{atTimeModifier}',
         'deltaSeconds': {deltaSeconds},
         'letter': '{letter}',
@@ -173,9 +171,7 @@ ZONE_INFO_{infoShortName} = {{
       'untilYear': {untilYear},
       'untilMonth': {untilMonth},
       'untilDay': {untilDay},
-      'untilHour': {untilHour},
-      'untilMinute': {untilMinute},
-      'untilSecond': {untilSecond},
+      'untilSeconds': {untilSeconds},
       'untilTimeModifier': '{untilTimeModifier}',
     }},
 """
@@ -243,8 +239,6 @@ ZONE_INFO_{infoShortName} = {{
     def generate_policy_item(self, name, rules):
         rule_items = ''
         for rule in rules:
-            (at_hour, at_minute, at_second) = seconds_to_hms(
-                rule['atSecondsTruncated'])
             rule_items += self.ZONE_RULE_ITEM.format(
                 policyName=normalize_name(name),
                 rawLine=normalize_raw(rule['rawLine']),
@@ -253,9 +247,7 @@ ZONE_INFO_{infoShortName} = {{
                 inMonth=rule['inMonth'],
                 onDayOfWeek=rule['onDayOfWeek'],
                 onDayOfMonth=rule['onDayOfMonth'],
-                atHour=at_hour,
-                atMinute=at_minute,
-                atSecond=at_second,
+                atSeconds=rule['atSecondsTruncated'],
                 atTimeModifier=rule['atTimeModifier'],
                 deltaSeconds=rule['deltaSecondsTruncated'],
                 letter=rule['letter'])
@@ -348,13 +340,6 @@ ZONE_INFO_{infoShortName} = {{
         rules_delta_seconds = era['rulesDeltaSecondsTruncated']
         if not rules_delta_seconds: rules_delta_seconds = 0
 
-        until_year = era['untilYear']
-        until_month = era['untilMonth']
-        until_day = era['untilDay']
-        until_hour = era['untilHour']
-        until_minute = era['untilMinute']
-        until_time_modifier = era['untilTimeModifier']
-
         return self.ZONE_ERA_ITEM.format(
             rawLine=normalize_raw(era['rawLine']),
             offsetSeconds=era['offsetSecondsTruncated'],
@@ -364,10 +349,8 @@ ZONE_INFO_{infoShortName} = {{
             untilYear=era['untilYear'],
             untilMonth=era['untilMonth'],
             untilDay=era['untilDay'],
-            untilHour=era['untilHour'],
-            untilMinute=era['untilMinute'],
-            untilSecond=era['untilSecond'],
-            untilTimeModifier=until_time_modifier)
+            untilSeconds=era['untilSecondsTruncated'],
+            untilTimeModifier=era['untilTimeModifier'])
 
     def generate_info_map_items(self, zones_map):
         """Generate a map of (shortName -> zoneInfo), shorted by shortName.

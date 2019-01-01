@@ -25,8 +25,11 @@ Examples:
 
 import sys
 import argparse
-import datetime
 import logging
+from datetime import datetime
+from datetime import timedelta
+from datetime import timezone
+from datetime import date
 from extractor import MIN_YEAR
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
@@ -43,9 +46,7 @@ class ZoneAgent:
         'untilYear': MIN_YEAR,
         'untilMonth': 1,
         'untilDay': 1,
-        'untilHour': 0,
-        'untilMinute': 0,
-        'untilSecond': 0,
+        'untilSeconds': 0,
         'untilTimeModifier': 'w'
     }
 
@@ -70,13 +71,13 @@ class ZoneAgent:
         # List of matching transitions. Map of the form;
         # {
         #   # Copied from ZoneEra
-        #   'startDateTime': (y, m, d, h, m, s, modifier), # replaced later
-        #   'untilDatetime': (y, m, d, h, m, s, modifier), # replaced later
+        #   'startDateTime': (y, m, d, ss, modifier), # replaced later
+        #   'untilDatetime': (y, m, d, ss, modifier), # replaced later
         #   'policyName': string, # '-', ':', or symbolic reference
         #   'zoneEra': ZoneEra
         #
         #   # Added for simple Match and named Match.
-        #   'transitionTime': (y, m, d, h, m, s, modifier), # from Rule or Match
+        #   'transitionTime': (y, m, d, ss, modifier), # from Rule or Match
         #   'offsetSeconds': int, # from ZoneEra
         #   'deltaSeconds': int, # from ZoneRule or ZoneEra
         #   'format': string, # from ZoneEra
@@ -103,7 +104,7 @@ class ZoneAgent:
     def init_second(self, epoch_seconds):
         """Initialize the Transitions from the given epoch_seconds.
         """
-        ldt = datetime.datetime.utcfromtimestamp(
+        ldt = datetime.utcfromtimestamp(
             epoch_seconds + self.SECONDS_SINCE_UNIX_EPOCH)
         init_year(ldt.year)
 
@@ -141,11 +142,10 @@ class ZoneAgent:
     def print_match(self, match):
         policy_name = match['policyName']
         format = match['zoneEra']['format']
-        print(('start: %04d-%02d-%02d %02d:%02d:%02d%s; '
-            + 'until: %04d-%02d-%02d %02d:%02d:%02d%s; '
-            + 'policy: %s; format: %s') % (
-            match['startDateTime'] + match['untilDateTime'] +
-            (policy_name, format)))
+        print(('start: %s; until: %s; policy: %s; format: %s') % (
+            date_tuple_to_string(match['startDateTime']),
+            date_tuple_to_string(match['untilDateTime']),
+            policy_name, format))
 
     def print_transition(self, transition):
         tt = transition['transitionTime']
@@ -159,16 +159,21 @@ class ZoneAgent:
         abbrev = transition['abbrev']
 
         if policy_name in ['-', ':']:
-            params = tt + sdt + udt + (policy_name, offset_seconds,
-                delta_seconds, format, abbrev)
-            print(('transition: %04d-%02d-%02d %02d:%02d:%02d%s; '
-                + 'start: %04d-%02d-%02d %02d:%02d:%02d%s; '
-                + 'until: %04d-%02d-%02d %02d:%02d:%02d%s; '
+            print(('transition: %s; '
+                + 'start: %s; '
+                + 'until: %s; '
                 + 'policy: %s; '
                 + 'UTC+%d+%d; '
                 + 'format: %s; '
                 + 'abbrev: %s')
-                % params)
+                % (
+                date_tuple_to_string(tt),
+                date_tuple_to_string(sdt),
+                date_tuple_to_string(udt),
+                policy_name,
+                offset_seconds, delta_seconds,
+                format,
+                abbrev))
         else:
             delta_seconds = transition['deltaSeconds']
             letter = transition['letter']
@@ -179,30 +184,39 @@ class ZoneAgent:
                 if 'originalTransitionTime' in transition else None
 
             if ott:
-                params = tt + sdt + udt + ott + (
-                    policy_name, zone_rule_from, zone_rule_to, offset_seconds,
-                    delta_seconds, format, letter, abbrev)
-                print(('transition: %04d-%02d-%02d %02d:%02d:%02d%s; '
-                    + 'start: %04d-%02d-%02d %02d:%02d:%02d%s; '
-                    + 'until: %04d-%02d-%02d %02d:%02d:%02d%s; '
-                    + 'original: %04d-%02d-%02d %02d:%02d:%02d%s; '
+                print(('transition: %s; '
+                    + 'start: %s; '
+                    + 'until: %s; '
+                    + 'orig: %s; '
                     + 'policy: %s[%d,%d]; '
                     + 'UTC+%d+%d; '
                     + 'format: %s(%s); '
                     + 'abbrev: %s')
-                    % params)
-            else:
-                params = tt + sdt + udt + (
+                    % (
+                    date_tuple_to_string(tt),
+                    date_tuple_to_string(sdt),
+                    date_tuple_to_string(udt),
+                    date_tuple_to_string(ott),
                     policy_name, zone_rule_from, zone_rule_to,
-                    offset_seconds, delta_seconds, format, letter, abbrev)
-                print(('transition: %04d-%02d-%02d %02d:%02d:%02d%s; '
-                    + 'start: %04d-%02d-%02d %02d:%02d:%02d%s; '
-                    + 'until: %04d-%02d-%02d %02d:%02d:%02d%s; '
+                    offset_seconds, delta_seconds,
+                    format, letter,
+                    abbrev))
+            else:
+                print(('transition: %s; '
+                    + 'start: %s; '
+                    + 'until: %s; '
                     + 'policy: %s[%d,%d]; '
                     + 'UTC+%d+%d; '
                     + 'format: %s(%s); '
                     + 'abbrev: %s')
-                    % params)
+                    % (
+                    date_tuple_to_string(tt),
+                    date_tuple_to_string(sdt),
+                    date_tuple_to_string(udt),
+                    policy_name, zone_rule_from, zone_rule_to,
+                    offset_seconds, delta_seconds,
+                    format, letter,
+                    abbrev))
 
     def find_matches(self, start_ym, until_ym):
         """Find the Zone Eras which overlap [start_ym, until_ym). This will
@@ -237,17 +251,13 @@ class ZoneAgent:
             prev_era['untilYear'],
             prev_era['untilMonth'],
             prev_era['untilDay'],
-            prev_era['untilHour'],
-            prev_era['untilMinute'],
-            prev_era['untilSecond'],
+            prev_era['untilSeconds'],
             prev_era['untilTimeModifier'])
         until_date_time = (
             zone_era['untilYear'],
             zone_era['untilMonth'],
             zone_era['untilDay'],
-            zone_era['untilHour'],
-            zone_era['untilMinute'],
-            zone_era['untilSecond'],
+            zone_era['untilSeconds'],
             zone_era['untilTimeModifier'])
         return {
             'startDateTime': start_date_time,
@@ -494,7 +504,7 @@ class ZoneAgent:
     def fix_start_times(self):
         """The Transition time comes from either:
             1) The UNTIL field of the previous Zone Era entry, or
-            2) The (inMonth, onDay, atHour) fields of the Zone Rule.
+            2) The (inMonth, onDay, atSeconds) fields of the Zone Rule.
 
         In most cases these times are specified as the wall clock 'w' by
         default, but a few cases use 's' (standard) or 'u' (utc). We don't need
@@ -520,26 +530,20 @@ class ZoneAgent:
             prev_delta_seconds = prev_delta_seconds if prev_delta_seconds else 0
 
             start_time = transition['transitionTime']
-            start_modifier = start_time[6]
+            start_modifier = start_time[4]
             if start_modifier == 'w':
                 pass
             elif start_modifier == 's':
-                secs = hms_to_seconds(
-                    start_time[3], start_time[4], start_time[5])
-                secs += prev_delta_seconds
-                hms = seconds_to_hms(secs)
+                secs = start_time[3] + prev_delta_seconds
                 transition['transitionTime'] = (start_time[0], start_time[1],
-                    start_time[2], hms[0], hms[1], hms[2], 'w')
+                    start_time[2], secs, 'w')
             elif start_modifier == 'u':
                 prev_offset_seconds = prev.get('offsetSeconds')
                 prev_offset_seconds = prev_offset_seconds \
                     if prev_offset_seconds else 0
-                secs = hms_to_seconds(
-                    start_time[3], start_time[4], start_time[5])
-                secs += prev_delta_seconds + prev_offset_seconds
-                hms = seconds_to_hms(secs)
+                secs = start_time[3] + prev_delta_seconds + prev_offset_seconds
                 transition['transitionTime'] = (start_time[0], start_time[1],
-                    start_time[2], hms[0], hms[1], hms[2], 'w')
+                    start_time[2], secs, 'w')
             else:
                 logging.error(
                     "Unrecognized Rule.AT suffix '%s'; start_time=%s",
@@ -600,8 +604,7 @@ class ZoneAgent:
 
             # 2) Calculate the current startDateTime by shifting the time
             # into the current UTC offset.
-            secs = hms_to_seconds(tt[3], tt[4], tt[5])
-            secs += (-prev['offsetSeconds'] - prev['deltaSeconds']
+            secs = (tt[3] - prev['offsetSeconds'] - prev['deltaSeconds']
                 + transition['offsetSeconds'] + transition['deltaSeconds'])
             #if secs < 0 or secs >= 24 * 60 * 60:
             #   (h, m, s) = seconds_to_hms(secs)
@@ -609,10 +612,11 @@ class ZoneAgent:
             #        "Zone '%s': Transition startDateTime shifted into "
             #        + "a different day: (%02d:%02d:%02d)",
             #        self.zone_info['name'], h, m, s)
-            st = datetime.datetime(tt[0], tt[1], tt[2], 0, 0, 0)
-            st += datetime.timedelta(seconds=secs)
-            transition['startDateTime'] = (st.year, st.month, st.day, st.hour,
-                st.minute, st.second, tt[6])
+            st = datetime(tt[0], tt[1], tt[2], 0, 0, 0)
+            st += timedelta(seconds=secs)
+            secs = hms_to_seconds(st.hour, st.minute, st.second)
+            transition['startDateTime'] = (
+                st.year, st.month, st.day, secs, tt[4])
 
             # 3) The epochSecond of the 'transitionTime' is determined by the
             # UTC offset of the *previous* Transition. However, the
@@ -620,10 +624,10 @@ class ZoneAgent:
             # is better to use the properly normalized startDateTime with the
             # *current* UTC offset.
             utc_offset_seconds = prev['offsetSeconds'] + prev['deltaSeconds']
-            z = datetime.timezone(
-                datetime.timedelta(seconds=utc_offset_seconds))
-            t = st.replace(tzinfo=z)
-            epoch_second = int(t.timestamp())
+            z = timezone(timedelta(seconds=utc_offset_seconds))
+            dt = st.replace(tzinfo=z)
+            epoch_dt = datetime(2000, 1, 1, tzinfo=timezone.utc)
+            epoch_second = (dt - epoch_dt).total_seconds()
             transition['startEpochSecond'] = epoch_second
 
             prev = transition
@@ -637,12 +641,12 @@ def calc_effective_match(start_ym, until_ym, match):
     interval [(year-1, 12), (year+1, 2)).
     """
     start_date_time = match['startDateTime']
-    if start_date_time < (start_ym[0], start_ym[1], 1, 0, 0, 0, 'w'):
-        start_date_time = (start_ym[0], start_ym[1], 1, 0, 0, 0, 'w')
+    if start_date_time < (start_ym[0], start_ym[1], 1, 0, 'w'):
+        start_date_time = (start_ym[0], start_ym[1], 1, 0, 'w')
 
     until_date_time = match['untilDateTime']
-    if until_date_time > (until_ym[0], until_ym[1], 1, 0, 0, 0, 'w'):
-        until_date_time = (until_ym[0], until_ym[1], 1, 0, 0, 0, 'w')
+    if until_date_time > (until_ym[0], until_ym[1], 1, 0, 'w'):
+        until_date_time = (until_ym[0], until_ym[1], 1, 0, 'w')
 
     eff_match = match.copy()
     eff_match['startDateTime'] = start_date_time
@@ -664,16 +668,15 @@ def compare_transition_to_match(year, transition_time, match):
 
 
 def get_transition_time(year, rule):
-    """Return the (year, month, day, hour) of the Rule in given year.
+    """Return the (year, month, day, seconds, modifier) of the Rule in given
+    year.
     """
     month = rule['inMonth']
-    hour = rule['atHour']
-    minute = rule['atMinute']
-    second = rule['atSecond']
     day_of_month = calc_day_of_month(
         year, month, rule['onDayOfWeek'], rule['onDayOfMonth'])
+    seconds = rule['atSeconds']
     modifier = rule['atTimeModifier']
-    return (year, month, day_of_month, hour, minute, second, modifier)
+    return (year, month, day_of_month, seconds, modifier)
 
 
 def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
@@ -686,7 +689,7 @@ def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
     if on_day_of_month == 0:
         # lastXxx == (Xxx >= (daysInMonth - 6))
         on_day_of_month = days_in_month(year, month) - 6
-    limit_date = datetime.date(year, month, on_day_of_month)
+    limit_date = date(year, month, on_day_of_month)
     day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
     return on_day_of_month + day_of_week_shift
 
@@ -727,11 +730,7 @@ def compare_era_to_year_month(era, year, month):
         return -1
     if era['untilMonth'] > month:
         return 1
-    if era['untilHour'] > 0:
-        return 1
-    if era['untilMinute'] > 0:
-        return 1
-    if era['untilSecond'] > 0:
+    if era['untilSeconds'] > 0:
         return 1
     return 0
 
@@ -768,6 +767,13 @@ def print_transitions(optimized, zone_name, year):
     zone_agent = ZoneAgent(zone_info, optimized)
     zone_agent.init_year(year)
     zone_agent.print_status()
+
+
+def date_tuple_to_string(dt):
+    (h, m, s) = seconds_to_hms(dt[3])
+    return '%04d-%02d-%02d %02d:%02d:%02d%s' % (
+        dt[0], dt[1], dt[2], h, m, s, dt[4])
+
 
 def main():
     # Configure command line flags.
