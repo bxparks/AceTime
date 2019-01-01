@@ -9,7 +9,7 @@ struct StoredInfo {
 
   /** Time zone of the displayed time */
   uint8_t timeZoneType;
-  int8_t offsetCode;
+  int16_t offsetMinutes;
   bool isDst;
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP

@@ -116,7 +116,7 @@ test(ZoneAgentTest, init) {
 // zoneInfo == nullptr means UTC
 test(ZoneAgentTest, nullptr) {
   ZoneAgent manager(nullptr);
-  assertEqual(0, manager.getUtcOffset(0).toOffsetCode());
+  assertEqual(0, manager.getUtcOffset(0).toMinutes());
   assertEqual("UTC", manager.getAbbrev(0));
   assertFalse(manager.isDst(0));
 }
@@ -127,16 +127,16 @@ test(ZoneAgentTest, copyConstructorAssignmentOperator) {
   acetime_t epochSeconds = dt.toEpochSeconds();
 
   ZoneAgent m1(nullptr);
-  assertEqual(0, m1.getUtcOffset(0).toOffsetCode());
+  assertEqual(0, m1.getUtcOffset(0).toMinutes());
 
   ZoneAgent m2(&zonedb::kZoneLos_Angeles);
-  assertEqual(-32, m2.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(-8*60, m2.getUtcOffset(epochSeconds).toMinutes());
 
   m1 = m2;
-  assertEqual(-32, m1.getUtcOffset(0).toOffsetCode());
+  assertEqual(-8*60, m1.getUtcOffset(0).toMinutes());
 
   ZoneAgent m3(m2);
-  assertEqual(-32, m1.getUtcOffset(0).toOffsetCode());
+  assertEqual(-8*60, m1.getUtcOffset(0).toMinutes());
 }
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
@@ -148,35 +148,35 @@ test(ZoneAgentTest, kZoneLos_Angeles) {
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-32, manager.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(-8*60, manager.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PST", manager.getAbbrev(epochSeconds));
   assertFalse(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-28, manager.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(-7*60, manager.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", manager.getAbbrev(epochSeconds));
   assertTrue(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 0, 0,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-28, manager.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(-7*60, manager.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", manager.getAbbrev(epochSeconds));
   assertTrue(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 59,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-28, manager.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(-7*60, manager.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", manager.getAbbrev(epochSeconds));
   assertTrue(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 0,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-32, manager.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(-8*60, manager.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PST", manager.getAbbrev(epochSeconds));
   assertFalse(manager.isDst(epochSeconds));
 }
@@ -190,28 +190,28 @@ test(ZoneAgentTest, kZoneSydney) {
   dt = OffsetDateTime::forComponents(2007, 3, 25, 2, 59, 59,
       UtcOffset::forHour(11));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(44, manager.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(11*60, manager.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("AEDT", manager.getAbbrev(epochSeconds));
   assertTrue(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2007, 3, 25, 3, 0, 0,
       UtcOffset::forHour(11));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(40, manager.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(10*60, manager.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("AEST", manager.getAbbrev(epochSeconds));
   assertFalse(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2007, 10, 28, 1, 59, 59,
       UtcOffset::forHour(10));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(40, manager.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(10*60, manager.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("AEST", manager.getAbbrev(epochSeconds));
   assertFalse(manager.isDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2007, 10, 28, 2, 0, 0,
       UtcOffset::forHour(10));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(44, manager.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(11*60, manager.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("AEDT", manager.getAbbrev(epochSeconds));
   assertTrue(manager.isDst(epochSeconds));
 }
@@ -226,7 +226,7 @@ test(ZoneAgentTest, kZoneJohannesburg) {
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
       UtcOffset::forHour(2));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(8, manager.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(2*60, manager.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("SAST", manager.getAbbrev(epochSeconds));
   assertFalse(manager.isDst(epochSeconds));
 }
@@ -242,7 +242,7 @@ test(ZoneAgentTest, kZoneDarwin) {
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
       UtcOffset::forHourMinute(1, 9, 30));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(38, manager.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(9*60+30, manager.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("ACST", manager.getAbbrev(epochSeconds));
   assertFalse(manager.isDst(epochSeconds));
 }
@@ -321,11 +321,11 @@ test(TimeZoneTest_Manual, copyConstructor) {
 test(TimeZoneTest_Manual, default) {
   const TimeZone tz;
   assertEqual(TimeZone::kTypeManual, tz.getType());
-  assertEqual(0, tz.utcOffset().toOffsetCode());
+  assertEqual(0, tz.utcOffset().toMinutes());
   assertEqual("UTC", tz.stdAbbrev());
   assertEqual("UTC", tz.dstAbbrev());
 
-  assertEqual(0, tz.getUtcOffset(0).toOffsetCode());
+  assertEqual(0, tz.getUtcOffset(0).toMinutes());
   assertEqual("UTC", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));
 }
@@ -334,17 +334,17 @@ test(TimeZoneTest_Manual, forUtcOffset) {
   TimeZone tz = TimeZone::forUtcOffset(
       UtcOffset::forHour(-8), false, "PST", "PDT");
   assertEqual(TimeZone::kTypeManual, tz.getType());
-  assertEqual(-32, tz.utcOffset().toOffsetCode());
+  assertEqual(-8*60, tz.utcOffset().toMinutes());
   assertEqual("PST", (uintptr_t) tz.stdAbbrev());
   assertEqual("PDT", (uintptr_t) tz.dstAbbrev());
   assertFalse(tz.isDst());
 
-  assertEqual(-32, tz.getUtcOffset(0).toOffsetCode());
+  assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
   assertEqual("PST", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));
 
   tz.isDst(true);
-  assertEqual(-28, tz.getUtcOffset(0).toOffsetCode());
+  assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
   assertEqual("PDT", tz.getAbbrev(0));
   assertTrue(tz.getDst(0));
 }
@@ -372,7 +372,7 @@ test(TimeZoneTest_Auto, copyConstructor) {
 test(TimeZoneTest_Auto, nullptr) {
   TimeZone tz = TimeZone::forZone(nullptr);
   assertEqual(TimeZone::kTypeAuto, tz.getType());
-  assertEqual(0, tz.getUtcOffset(0).toOffsetCode());
+  assertEqual(0, tz.getUtcOffset(0).toMinutes());
   assertEqual("", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));
 }
@@ -389,14 +389,14 @@ test(TimeZoneTest_Auto, LosAngeles) {
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-32, tz.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PST", tz.getAbbrev(epochSeconds));
   assertFalse(tz.getDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-28, tz.getUtcOffset(epochSeconds).toOffsetCode());
+  assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", tz.getAbbrev(epochSeconds));
   assertTrue(tz.getDst(epochSeconds));
 }

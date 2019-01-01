@@ -12,7 +12,7 @@ struct StoredInfo {
   static uint8_t const kTwentyFour = 1;
 
   uint8_t timeZoneType;
-  int8_t offsetCode;
+  int16_t offsetMinutes;
   bool isDst;
   uint8_t hourMode = kTwentyFour;
 };

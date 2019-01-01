@@ -13,7 +13,6 @@ namespace ace_time {
  * UTC-08:00 can be created using one of the following:
  *
  * @code
- * UtcOffset tz = UtcOffset::forOffsetCode(-32);
  * UtcOffset tz = UtcOffset::forHour(-8);
  * UtcOffset tz = UtcOffset::forHourMinute(-1, -8, 0);
  * UtcOffset tz = UtcOffset::forOffsetString("-08:00");
@@ -39,18 +38,6 @@ namespace ace_time {
  */
 class UtcOffset {
   public:
-    /** Sentinel value that represents an error. */
-    static const int8_t kErrorCode = -128;
-
-    /**
-     * Create UtcOffset from the offset code.
-     *
-     * @param offsetCode the number of 15-minute offset from UTC. 0 means UTC.
-     */
-    static UtcOffset forOffsetCode(int8_t offsetCode) {
-      return UtcOffset(offsetCode);
-    }
-
     /**
      * Create UtcOffset from integer hour offset from UTC. For example,
      * UTC-08:00 is 'forHour(-8)'.
@@ -70,6 +57,14 @@ class UtcOffset {
     }
 
     /**
+     * Create UtcOffset from minutes from 00:00. In the currente implementation,
+     * the minutes is truncated to the 15-minute boundary towards 0.
+     */
+    static UtcOffset forMinutes(int16_t minutes) {
+      return UtcOffset(minutes / 15);
+    }
+
+    /**
      * Create from UTC offset string ("-07:00" or "+01:00"). Intended mostly
      * for testing purposes.
      */
@@ -79,12 +74,6 @@ class UtcOffset {
 
     /** Constructor. Create a time zone corresponding to UTC with no offset. */
     explicit UtcOffset() {}
-
-    /**
-     * Return the UTC offset as the number of 15 minute increments, excluding
-     * DST shift.
-     */
-    int8_t toOffsetCode() const { return mOffsetCode; }
 
     /** Return the number of minutes offset from UTC. */
     int16_t toMinutes() const {
@@ -111,14 +100,14 @@ class UtcOffset {
     }
 
     /**
-     * Increment the time zone by one hour (+4 in offsetCode). For usability,
-     * incrementing a time zone code of +63 (UTC+15:45) by one wraps to -64
-     * (UTC-16:00).
+     * Increment the time zone by one hour, keeping the minute component
+		 * unchanged. For usability, limit the hour to [-15, -15].
+     * In other words, (UTC+15:45) by one hour wraps to (UTC-15:45).
      */
     void incrementHour() {
       mOffsetCode += 4;
       if (mOffsetCode >= 64) {
-        mOffsetCode = mOffsetCode - 128;
+        mOffsetCode = -mOffsetCode + 4; 	// preserve the minute component
       }
     }
 
@@ -156,11 +145,26 @@ class UtcOffset {
     void printTo(Print& printer) const;
 
   private:
+		friend class ZoneAgent;
+		friend class TimeZone;
+    friend bool operator==(const UtcOffset& a, const UtcOffset& b);
+    friend bool operator!=(const UtcOffset& a, const UtcOffset& b);
+
+    /** Sentinel value that represents an error. */
+    static const int8_t kErrorCode = -128;
+
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
     static const uint8_t kUtcOffsetStringLength = 6;
 
-    friend bool operator==(const UtcOffset& a, const UtcOffset& b);
-    friend bool operator!=(const UtcOffset& a, const UtcOffset& b);
+    /**
+     * Create UtcOffset from the offset code.
+     *
+     * @param offsetCode the number of 15-minute offset from UTC. 0 means UTC.
+     */
+    static UtcOffset forOffsetCode(int8_t offsetCode) {
+      return UtcOffset(offsetCode);
+    }
+
 
     /** Constructor. Create a time zone from the offset code. */
     explicit UtcOffset(int8_t offsetCode):
@@ -168,6 +172,12 @@ class UtcOffset {
 
     /** Set time zone from the given UTC offset string. */
     UtcOffset& initFromOffsetString(const char* offsetString);
+
+    /**
+     * Return the UTC offset as the number of 15 minute increments, excluding
+     * DST shift.
+     */
+    int8_t toOffsetCode() const { return mOffsetCode; }
 
     /**
      * Time zone code, offset from UTC in 15 minute increments from UTC. In

@@ -47,7 +47,7 @@ test(DateTimeTest, forComponents) {
 
   // 2018-01-01 00:00:00+00:15 Monday
   dt = DateTime::forComponents(2018, 1, 1, 0, 0, 0,
-      TimeZone::forUtcOffset(UtcOffset::forOffsetCode(1)));
+      TimeZone::forUtcOffset(UtcOffset::forMinutes(15)));
   assertEqual((acetime_t) 6574, dt.toEpochDays());
   assertEqual((acetime_t) 17531, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400 - 15*60, dt.toEpochSeconds());

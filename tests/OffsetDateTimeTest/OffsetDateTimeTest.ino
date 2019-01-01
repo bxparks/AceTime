@@ -15,7 +15,7 @@ test(OffsetDateTimeTest, accessors) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toOffsetCode());
+  assertEqual(0, dt.utcOffset().toMinutes());
 }
 
 test(OffsetDateTimeTest, invalidSeconds) {
@@ -99,7 +99,7 @@ test(OffsetDateTimeTest, forComponents) {
 
   // 2018-01-01 00:00:00+00:15 Monday
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
-      UtcOffset::forOffsetCode(1));
+      UtcOffset::forMinutes(15));
   assertEqual((acetime_t) 6574, dt.toEpochDays());
   assertEqual((acetime_t) 17531, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400 - 15*60, dt.toEpochSeconds());
@@ -181,7 +181,7 @@ test(OffsetDateTimeTest, forEpochSeconds) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2029-12-31 15:59:59-08:00 Monday
-  UtcOffset offset = UtcOffset::forOffsetCode(-32); // UTC-08:00
+  UtcOffset offset = UtcOffset::forHour(-8); // UTC-08:00
   dt = OffsetDateTime::forEpochSeconds(10958 * (acetime_t) 86400 - 1, offset);
   assertEqual((int16_t) 2029, dt.year());
   assertEqual(29, dt.yearTiny());
@@ -204,7 +204,7 @@ test(OffsetDateTimeTest, convertToUtcOffset) {
   assertEqual(5, b.hour());
   assertEqual(0, b.minute());
   assertEqual(0, b.second());
-  assertEqual(-28, b.utcOffset().toOffsetCode());
+  assertEqual(-7*60, b.utcOffset().toMinutes());
 }
 
 test(OffsetDateTimeTest, compareTo) {
@@ -228,7 +228,7 @@ test(OffsetDateTimeTest, compareTo) {
 
   a = OffsetDateTime::forComponents(2018, 1, 1, 11, 0, 0);
   b = OffsetDateTime::forComponents(2018, 1, 1, 12, 0, 0,
-      UtcOffset::forOffsetCode(1));
+      UtcOffset::forMinutes(15));
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
@@ -277,7 +277,7 @@ test(OffsetDateTimeTest, dayOfWeek) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2018-01-01 23:40:03+00:45, no change to dayOfWeek
-  dt.utcOffset(UtcOffset::forOffsetCode(3));
+  dt.utcOffset(UtcOffset::forMinutes(45));
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   dt.day(2); // 2018-01-02 23:40:03+00:45, changes dayOfWeek
@@ -331,7 +331,7 @@ test(OffsetDateTimeTest, forDateString) {
   assertEqual(13, dt.hour());
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
-  assertEqual(-28, dt.utcOffset().toOffsetCode());
+  assertEqual(-7*60, dt.utcOffset().toMinutes());
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 
   // parser does not care about most separators, this may change in the future
@@ -344,7 +344,7 @@ test(OffsetDateTimeTest, forDateString) {
   assertEqual(13, dt.hour());
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
-  assertEqual(28, dt.utcOffset().toOffsetCode());
+  assertEqual(7*60, dt.utcOffset().toMinutes());
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 }
 
@@ -356,7 +356,7 @@ test(OffsetDateTimeTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toOffsetCode());
+  assertEqual(0, dt.utcOffset().toMinutes());
 
   dt.incrementYear();
   assertEqual((int16_t) 2002, dt.year());
@@ -365,7 +365,7 @@ test(OffsetDateTimeTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toOffsetCode());
+  assertEqual(0, dt.utcOffset().toMinutes());
 
   dt.incrementMonth();
   assertEqual((int16_t) 2002, dt.year());
@@ -374,7 +374,7 @@ test(OffsetDateTimeTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toOffsetCode());
+  assertEqual(0, dt.utcOffset().toMinutes());
 
   dt.incrementDay();
   assertEqual((int16_t) 2002, dt.year());
@@ -383,7 +383,7 @@ test(OffsetDateTimeTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toOffsetCode());
+  assertEqual(0, dt.utcOffset().toMinutes());
 
   dt.incrementHour();
   assertEqual((int16_t) 2002, dt.year());
@@ -392,7 +392,7 @@ test(OffsetDateTimeTest, increment) {
   assertEqual(5, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toOffsetCode());
+  assertEqual(0, dt.utcOffset().toMinutes());
 
   dt.incrementMinute();
   assertEqual((int16_t) 2002, dt.year());
@@ -401,7 +401,7 @@ test(OffsetDateTimeTest, increment) {
   assertEqual(5, dt.hour());
   assertEqual(6, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toOffsetCode());
+  assertEqual(0, dt.utcOffset().toMinutes());
 }
 
 // --------------------------------------------------------------------------

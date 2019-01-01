@@ -24,7 +24,7 @@ class Controller {
           setTimeZone(TimeZone::forZone(&mZoneAgent));
         } else {
           setTimeZone(TimeZone::forUtcOffset(
-              UtcOffset::forOffsetCode(mStoredInfo.offsetCode),
+              UtcOffset::forMinutes(mStoredInfo.offsetMinutes),
               mStoredInfo.isDst));
         }
       } else {
@@ -113,7 +113,7 @@ class Controller {
     uint16_t preserveInfo() {
       mIsStoredInfoValid = true;
       mStoredInfo.timeZoneType = mTimeZone.getType();
-      mStoredInfo.offsetCode = mTimeZone.utcOffset().toOffsetCode();
+      mStoredInfo.offsetMinutes = mTimeZone.utcOffset().toMinutes();
       mStoredInfo.isDst = mTimeZone.isDst();
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }

@@ -23,7 +23,7 @@ class Clock {
   public:
     static const uint16_t kStoredInfoEepromAddress = 0;
 
-    static const int8_t kDefaultOffsetCode = -32; // UTC-08:00
+    static const int16_t kDefaultOffsetMinutes = -8*60; // UTC-08:00
 
     /**
      * Constructor.
@@ -44,11 +44,11 @@ class Clock {
           &storedInfo, sizeof(StoredInfo));
       if (isValid) {
         mCurrentTimeZone = TimeZone::forUtcOffset(
-            UtcOffset::forOffsetCode(storedInfo.offsetCode), storedInfo.isDst);
+            UtcOffset::forMinutes(storedInfo.offsetMinutes), storedInfo.isDst);
         mHourMode = storedInfo.hourMode;
       } else {
         mCurrentTimeZone = TimeZone::forUtcOffset(
-            UtcOffset::forOffsetCode(kDefaultOffsetCode));
+            UtcOffset::forMinutes(kDefaultOffsetMinutes));
         mHourMode = StoredInfo::kTwentyFour;
       }
 
@@ -169,7 +169,7 @@ class Clock {
     void preserveInfo() {
       StoredInfo storedInfo;
       storedInfo.timeZoneType = mCurrentTimeZone.getType();
-      storedInfo.offsetCode = mCurrentTimeZone.utcOffset().toOffsetCode();
+      storedInfo.offsetMinutes = mCurrentTimeZone.utcOffset().toMinutes();
       storedInfo.isDst = mCurrentTimeZone.isDst();
       storedInfo.hourMode = mHourMode;
 
