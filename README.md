@@ -48,13 +48,13 @@ There are roughly 2 categories of classes provided by the AceTime library:
     * Implements the system clock syncing feature of the Arduino Time library.
 
 The AceTime library is inspired by and borrows from:
-    * [Joda-Time](https://www.joda.org/joda-time/) Java library
-    * [Java Time package](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
-    * [Noda Time](https://nodatime.org/)
-    * [Python datetime](https://docs.python.org/3/library/datetime.html)
-    * [Micro Time Zone](https://github.com/evq/utz)
-    * [Arduino Timezone](https://github.com/JChristensen/Timezone)
-    * [Arduino Time](https://github.com/PaulStoffregen/Time)
+* [Joda-Time](https://www.joda.org/joda-time/) Java library
+* [Java Time package](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+* [Noda Time](https://nodatime.org/)
+* [Python datetime](https://docs.python.org/3/library/datetime.html)
+* [Micro Time Zone](https://github.com/evq/utz)
+* [Arduino Timezone](https://github.com/JChristensen/Timezone)
+* [Arduino Time](https://github.com/PaulStoffregen/Time)
 
 Support for the [tz database](https://en.wikipedia.org/wiki/Tz_database) is
 currently being implemented. UTC offsets are internally represented as a single
