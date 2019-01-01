@@ -37,7 +37,7 @@ static const common::ZoneEra kZoneEraAbidjan[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -66,7 +66,7 @@ static const common::ZoneEra kZoneEraAccra[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -95,7 +95,7 @@ static const common::ZoneEra kZoneEraAlgiers[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -124,7 +124,7 @@ static const common::ZoneEra kZoneEraBissau[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -153,7 +153,7 @@ static const common::ZoneEra kZoneEraCairo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -182,7 +182,7 @@ static const common::ZoneEra kZoneEraCasablanca[] = {
     18 /*untilYearTiny*/,
     10 /*untilMonth*/,
     28 /*untilDay*/,
-    3 /*untilHour*/,
+    12 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //              1:00    Morocco    +01/+00
@@ -193,7 +193,7 @@ static const common::ZoneEra kZoneEraCasablanca[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -222,7 +222,7 @@ static const common::ZoneEra kZoneEraCeuta[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -251,7 +251,7 @@ static const common::ZoneEra kZoneEraEl_Aaiun[] = {
     18 /*untilYearTiny*/,
     10 /*untilMonth*/,
     28 /*untilDay*/,
-    3 /*untilHour*/,
+    12 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //              1:00    Morocco    +01/+00
@@ -262,7 +262,7 @@ static const common::ZoneEra kZoneEraEl_Aaiun[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -291,7 +291,7 @@ static const common::ZoneEra kZoneEraJohannesburg[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -320,7 +320,7 @@ static const common::ZoneEra kZoneEraJuba[] = {
     0 /*untilYearTiny*/,
     1 /*untilMonth*/,
     15 /*untilDay*/,
-    12 /*untilHour*/,
+    48 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             3:00    -    EAT
@@ -331,7 +331,7 @@ static const common::ZoneEra kZoneEraJuba[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -360,7 +360,7 @@ static const common::ZoneEra kZoneEraKhartoum[] = {
     0 /*untilYearTiny*/,
     1 /*untilMonth*/,
     15 /*untilDay*/,
-    12 /*untilHour*/,
+    48 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             3:00    -    EAT    2017 Nov  1
@@ -371,7 +371,7 @@ static const common::ZoneEra kZoneEraKhartoum[] = {
     17 /*untilYearTiny*/,
     11 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00    -    CAT
@@ -382,7 +382,7 @@ static const common::ZoneEra kZoneEraKhartoum[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -411,7 +411,7 @@ static const common::ZoneEra kZoneEraLagos[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -440,7 +440,7 @@ static const common::ZoneEra kZoneEraMaputo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -469,7 +469,7 @@ static const common::ZoneEra kZoneEraMonrovia[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -498,7 +498,7 @@ static const common::ZoneEra kZoneEraNairobi[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -527,7 +527,7 @@ static const common::ZoneEra kZoneEraNdjamena[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -556,7 +556,7 @@ static const common::ZoneEra kZoneEraSao_Tome[] = {
     18 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    1 /*untilHour*/,
+    4 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //              1:00    -    WAT
@@ -567,7 +567,7 @@ static const common::ZoneEra kZoneEraSao_Tome[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -596,7 +596,7 @@ static const common::ZoneEra kZoneEraTripoli[] = {
     12 /*untilYearTiny*/,
     11 /*untilMonth*/,
     10 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             1:00    Libya    CE%sT    2013 Oct 25  2:00
@@ -607,7 +607,7 @@ static const common::ZoneEra kZoneEraTripoli[] = {
     13 /*untilYearTiny*/,
     10 /*untilMonth*/,
     25 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00    -    EET
@@ -618,7 +618,7 @@ static const common::ZoneEra kZoneEraTripoli[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -647,7 +647,7 @@ static const common::ZoneEra kZoneEraTunis[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -676,7 +676,7 @@ static const common::ZoneEra kZoneEraAdak[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -705,7 +705,7 @@ static const common::ZoneEra kZoneEraAnchorage[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -734,7 +734,7 @@ static const common::ZoneEra kZoneEraAraguaina[] = {
     3 /*untilYearTiny*/,
     9 /*untilMonth*/,
     24 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2012 Oct 21
@@ -745,7 +745,7 @@ static const common::ZoneEra kZoneEraAraguaina[] = {
     12 /*untilYearTiny*/,
     10 /*untilMonth*/,
     21 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2013 Sep
@@ -756,7 +756,7 @@ static const common::ZoneEra kZoneEraAraguaina[] = {
     13 /*untilYearTiny*/,
     9 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -767,7 +767,7 @@ static const common::ZoneEra kZoneEraAraguaina[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -796,7 +796,7 @@ static const common::ZoneEra kZoneEraBuenos_Aires[] = {
     0 /*untilYearTiny*/,
     3 /*untilMonth*/,
     3 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02
@@ -807,7 +807,7 @@ static const common::ZoneEra kZoneEraBuenos_Aires[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -836,7 +836,7 @@ static const common::ZoneEra kZoneEraCatamarca[] = {
     0 /*untilYearTiny*/,
     3 /*untilMonth*/,
     3 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 Jun  1
@@ -847,7 +847,7 @@ static const common::ZoneEra kZoneEraCatamarca[] = {
     4 /*untilYearTiny*/,
     6 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jun 20
@@ -858,7 +858,7 @@ static const common::ZoneEra kZoneEraCatamarca[] = {
     4 /*untilYearTiny*/,
     6 /*untilMonth*/,
     20 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
@@ -869,7 +869,7 @@ static const common::ZoneEra kZoneEraCatamarca[] = {
     8 /*untilYearTiny*/,
     10 /*untilMonth*/,
     18 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -880,7 +880,7 @@ static const common::ZoneEra kZoneEraCatamarca[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -909,7 +909,7 @@ static const common::ZoneEra kZoneEraCordoba[] = {
     0 /*untilYearTiny*/,
     3 /*untilMonth*/,
     3 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02
@@ -920,7 +920,7 @@ static const common::ZoneEra kZoneEraCordoba[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -949,7 +949,7 @@ static const common::ZoneEra kZoneEraJujuy[] = {
     0 /*untilYearTiny*/,
     3 /*untilMonth*/,
     3 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
@@ -960,7 +960,7 @@ static const common::ZoneEra kZoneEraJujuy[] = {
     8 /*untilYearTiny*/,
     10 /*untilMonth*/,
     18 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -971,7 +971,7 @@ static const common::ZoneEra kZoneEraJujuy[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1000,7 +1000,7 @@ static const common::ZoneEra kZoneEraLa_Rioja[] = {
     0 /*untilYearTiny*/,
     3 /*untilMonth*/,
     3 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 Jun  1
@@ -1011,7 +1011,7 @@ static const common::ZoneEra kZoneEraLa_Rioja[] = {
     4 /*untilYearTiny*/,
     6 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jun 20
@@ -1022,7 +1022,7 @@ static const common::ZoneEra kZoneEraLa_Rioja[] = {
     4 /*untilYearTiny*/,
     6 /*untilMonth*/,
     20 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
@@ -1033,7 +1033,7 @@ static const common::ZoneEra kZoneEraLa_Rioja[] = {
     8 /*untilYearTiny*/,
     10 /*untilMonth*/,
     18 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -1044,7 +1044,7 @@ static const common::ZoneEra kZoneEraLa_Rioja[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1073,7 +1073,7 @@ static const common::ZoneEra kZoneEraMendoza[] = {
     0 /*untilYearTiny*/,
     3 /*untilMonth*/,
     3 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 May 23
@@ -1084,7 +1084,7 @@ static const common::ZoneEra kZoneEraMendoza[] = {
     4 /*untilYearTiny*/,
     5 /*untilMonth*/,
     23 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Sep 26
@@ -1095,7 +1095,7 @@ static const common::ZoneEra kZoneEraMendoza[] = {
     4 /*untilYearTiny*/,
     9 /*untilMonth*/,
     26 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
@@ -1106,7 +1106,7 @@ static const common::ZoneEra kZoneEraMendoza[] = {
     8 /*untilYearTiny*/,
     10 /*untilMonth*/,
     18 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -1117,7 +1117,7 @@ static const common::ZoneEra kZoneEraMendoza[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1146,7 +1146,7 @@ static const common::ZoneEra kZoneEraRio_Gallegos[] = {
     0 /*untilYearTiny*/,
     3 /*untilMonth*/,
     3 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 Jun  1
@@ -1157,7 +1157,7 @@ static const common::ZoneEra kZoneEraRio_Gallegos[] = {
     4 /*untilYearTiny*/,
     6 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jun 20
@@ -1168,7 +1168,7 @@ static const common::ZoneEra kZoneEraRio_Gallegos[] = {
     4 /*untilYearTiny*/,
     6 /*untilMonth*/,
     20 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
@@ -1179,7 +1179,7 @@ static const common::ZoneEra kZoneEraRio_Gallegos[] = {
     8 /*untilYearTiny*/,
     10 /*untilMonth*/,
     18 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -1190,7 +1190,7 @@ static const common::ZoneEra kZoneEraRio_Gallegos[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1219,7 +1219,7 @@ static const common::ZoneEra kZoneEraSalta[] = {
     0 /*untilYearTiny*/,
     3 /*untilMonth*/,
     3 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
@@ -1230,7 +1230,7 @@ static const common::ZoneEra kZoneEraSalta[] = {
     8 /*untilYearTiny*/,
     10 /*untilMonth*/,
     18 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -1241,7 +1241,7 @@ static const common::ZoneEra kZoneEraSalta[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1270,7 +1270,7 @@ static const common::ZoneEra kZoneEraSan_Juan[] = {
     0 /*untilYearTiny*/,
     3 /*untilMonth*/,
     3 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 May 31
@@ -1281,7 +1281,7 @@ static const common::ZoneEra kZoneEraSan_Juan[] = {
     4 /*untilYearTiny*/,
     5 /*untilMonth*/,
     31 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jul 25
@@ -1292,7 +1292,7 @@ static const common::ZoneEra kZoneEraSan_Juan[] = {
     4 /*untilYearTiny*/,
     7 /*untilMonth*/,
     25 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
@@ -1303,7 +1303,7 @@ static const common::ZoneEra kZoneEraSan_Juan[] = {
     8 /*untilYearTiny*/,
     10 /*untilMonth*/,
     18 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -1314,7 +1314,7 @@ static const common::ZoneEra kZoneEraSan_Juan[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1343,7 +1343,7 @@ static const common::ZoneEra kZoneEraTucuman[] = {
     0 /*untilYearTiny*/,
     3 /*untilMonth*/,
     3 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 Jun  1
@@ -1354,7 +1354,7 @@ static const common::ZoneEra kZoneEraTucuman[] = {
     4 /*untilYearTiny*/,
     6 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jun 13
@@ -1365,7 +1365,7 @@ static const common::ZoneEra kZoneEraTucuman[] = {
     4 /*untilYearTiny*/,
     6 /*untilMonth*/,
     13 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02
@@ -1376,7 +1376,7 @@ static const common::ZoneEra kZoneEraTucuman[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1405,7 +1405,7 @@ static const common::ZoneEra kZoneEraUshuaia[] = {
     0 /*untilYearTiny*/,
     3 /*untilMonth*/,
     3 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2004 May 30
@@ -1416,7 +1416,7 @@ static const common::ZoneEra kZoneEraUshuaia[] = {
     4 /*untilYearTiny*/,
     5 /*untilMonth*/,
     30 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Jun 20
@@ -1427,7 +1427,7 @@ static const common::ZoneEra kZoneEraUshuaia[] = {
     4 /*untilYearTiny*/,
     6 /*untilMonth*/,
     20 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Arg    -03/-02    2008 Oct 18
@@ -1438,7 +1438,7 @@ static const common::ZoneEra kZoneEraUshuaia[] = {
     8 /*untilYearTiny*/,
     10 /*untilMonth*/,
     18 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -1449,7 +1449,7 @@ static const common::ZoneEra kZoneEraUshuaia[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1478,7 +1478,7 @@ static const common::ZoneEra kZoneEraAsuncion[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1507,7 +1507,7 @@ static const common::ZoneEra kZoneEraAtikokan[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1536,7 +1536,7 @@ static const common::ZoneEra kZoneEraBahia[] = {
     3 /*untilYearTiny*/,
     9 /*untilMonth*/,
     24 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2011 Oct 16
@@ -1547,7 +1547,7 @@ static const common::ZoneEra kZoneEraBahia[] = {
     11 /*untilYearTiny*/,
     10 /*untilMonth*/,
     16 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2012 Oct 21
@@ -1558,7 +1558,7 @@ static const common::ZoneEra kZoneEraBahia[] = {
     12 /*untilYearTiny*/,
     10 /*untilMonth*/,
     21 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -1569,7 +1569,7 @@ static const common::ZoneEra kZoneEraBahia[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1598,7 +1598,7 @@ static const common::ZoneEra kZoneEraBahia_Banderas[] = {
     10 /*untilYearTiny*/,
     4 /*untilMonth*/,
     4 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    Mexico    C%sT
@@ -1609,7 +1609,7 @@ static const common::ZoneEra kZoneEraBahia_Banderas[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1638,7 +1638,7 @@ static const common::ZoneEra kZoneEraBarbados[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1667,7 +1667,7 @@ static const common::ZoneEra kZoneEraBelem[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1696,7 +1696,7 @@ static const common::ZoneEra kZoneEraBlanc_Sablon[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1725,7 +1725,7 @@ static const common::ZoneEra kZoneEraBoa_Vista[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     15 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04
@@ -1736,7 +1736,7 @@ static const common::ZoneEra kZoneEraBoa_Vista[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1765,7 +1765,7 @@ static const common::ZoneEra kZoneEraBogota[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1794,7 +1794,7 @@ static const common::ZoneEra kZoneEraBoise[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1823,7 +1823,7 @@ static const common::ZoneEra kZoneEraCambridge_Bay[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     29 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    -    EST    2000 Nov  5  0:00
@@ -1834,7 +1834,7 @@ static const common::ZoneEra kZoneEraCambridge_Bay[] = {
     0 /*untilYearTiny*/,
     11 /*untilMonth*/,
     5 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    -    CST    2001 Apr  1  3:00
@@ -1845,7 +1845,7 @@ static const common::ZoneEra kZoneEraCambridge_Bay[] = {
     1 /*untilYearTiny*/,
     4 /*untilMonth*/,
     1 /*untilDay*/,
-    3 /*untilHour*/,
+    12 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -7:00    Canada    M%sT
@@ -1856,7 +1856,7 @@ static const common::ZoneEra kZoneEraCambridge_Bay[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1885,7 +1885,7 @@ static const common::ZoneEra kZoneEraCampo_Grande[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1914,7 +1914,7 @@ static const common::ZoneEra kZoneEraCancun[] = {
     15 /*untilYearTiny*/,
     2 /*untilMonth*/,
     1 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    -    EST
@@ -1925,7 +1925,7 @@ static const common::ZoneEra kZoneEraCancun[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -1954,7 +1954,7 @@ static const common::ZoneEra kZoneEraCaracas[] = {
     7 /*untilYearTiny*/,
     12 /*untilMonth*/,
     9 /*untilDay*/,
-    3 /*untilHour*/,
+    12 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:30    -    -0430    2016 May  1  2:30
@@ -1965,7 +1965,7 @@ static const common::ZoneEra kZoneEraCaracas[] = {
     16 /*untilYearTiny*/,
     5 /*untilMonth*/,
     1 /*untilDay*/,
-    2 /*untilHour*/,
+    10 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04
@@ -1976,7 +1976,7 @@ static const common::ZoneEra kZoneEraCaracas[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2005,7 +2005,7 @@ static const common::ZoneEra kZoneEraCayenne[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2034,7 +2034,7 @@ static const common::ZoneEra kZoneEraChicago[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2063,7 +2063,7 @@ static const common::ZoneEra kZoneEraChihuahua[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2092,7 +2092,7 @@ static const common::ZoneEra kZoneEraCosta_Rica[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2121,7 +2121,7 @@ static const common::ZoneEra kZoneEraCreston[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2150,7 +2150,7 @@ static const common::ZoneEra kZoneEraCuiaba[] = {
     3 /*untilYearTiny*/,
     9 /*untilMonth*/,
     24 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2004 Oct  1
@@ -2161,7 +2161,7 @@ static const common::ZoneEra kZoneEraCuiaba[] = {
     4 /*untilYearTiny*/,
     10 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    Brazil    -04/-03
@@ -2172,7 +2172,7 @@ static const common::ZoneEra kZoneEraCuiaba[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2201,7 +2201,7 @@ static const common::ZoneEra kZoneEraCuracao[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2230,7 +2230,7 @@ static const common::ZoneEra kZoneEraDanmarkshavn[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2259,7 +2259,7 @@ static const common::ZoneEra kZoneEraDawson[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2288,7 +2288,7 @@ static const common::ZoneEra kZoneEraDawson_Creek[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2317,7 +2317,7 @@ static const common::ZoneEra kZoneEraDenver[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2346,7 +2346,7 @@ static const common::ZoneEra kZoneEraDetroit[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2375,7 +2375,7 @@ static const common::ZoneEra kZoneEraEdmonton[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2404,7 +2404,7 @@ static const common::ZoneEra kZoneEraEirunepe[] = {
     8 /*untilYearTiny*/,
     6 /*untilMonth*/,
     24 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2013 Nov 10
@@ -2415,7 +2415,7 @@ static const common::ZoneEra kZoneEraEirunepe[] = {
     13 /*untilYearTiny*/,
     11 /*untilMonth*/,
     10 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    -    -05
@@ -2426,7 +2426,7 @@ static const common::ZoneEra kZoneEraEirunepe[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2455,7 +2455,7 @@ static const common::ZoneEra kZoneEraEl_Salvador[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2484,7 +2484,7 @@ static const common::ZoneEra kZoneEraFort_Nelson[] = {
     15 /*untilYearTiny*/,
     3 /*untilMonth*/,
     8 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -7:00    -    MST
@@ -2495,7 +2495,7 @@ static const common::ZoneEra kZoneEraFort_Nelson[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2524,7 +2524,7 @@ static const common::ZoneEra kZoneEraFortaleza[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     22 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2001 Sep 13
@@ -2535,7 +2535,7 @@ static const common::ZoneEra kZoneEraFortaleza[] = {
     1 /*untilYearTiny*/,
     9 /*untilMonth*/,
     13 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2002 Oct  1
@@ -2546,7 +2546,7 @@ static const common::ZoneEra kZoneEraFortaleza[] = {
     2 /*untilYearTiny*/,
     10 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -2557,7 +2557,7 @@ static const common::ZoneEra kZoneEraFortaleza[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2586,7 +2586,7 @@ static const common::ZoneEra kZoneEraGlace_Bay[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2615,7 +2615,7 @@ static const common::ZoneEra kZoneEraGodthab[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2644,7 +2644,7 @@ static const common::ZoneEra kZoneEraGrand_Turk[] = {
     15 /*untilYearTiny*/,
     11 /*untilMonth*/,
     1 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    AST    2018 Mar 11 3:00
@@ -2655,7 +2655,7 @@ static const common::ZoneEra kZoneEraGrand_Turk[] = {
     18 /*untilYearTiny*/,
     3 /*untilMonth*/,
     11 /*untilDay*/,
-    3 /*untilHour*/,
+    12 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
@@ -2666,7 +2666,7 @@ static const common::ZoneEra kZoneEraGrand_Turk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2695,7 +2695,7 @@ static const common::ZoneEra kZoneEraGuatemala[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2724,7 +2724,7 @@ static const common::ZoneEra kZoneEraGuayaquil[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2753,7 +2753,7 @@ static const common::ZoneEra kZoneEraGuyana[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2782,7 +2782,7 @@ static const common::ZoneEra kZoneEraHalifax[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2811,7 +2811,7 @@ static const common::ZoneEra kZoneEraHavana[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2840,7 +2840,7 @@ static const common::ZoneEra kZoneEraHermosillo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2869,7 +2869,7 @@ static const common::ZoneEra kZoneEraIndianapolis[] = {
     6 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
@@ -2880,7 +2880,7 @@ static const common::ZoneEra kZoneEraIndianapolis[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2909,7 +2909,7 @@ static const common::ZoneEra kZoneEraKnox[] = {
     6 /*untilYearTiny*/,
     4 /*untilMonth*/,
     2 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT
@@ -2920,7 +2920,7 @@ static const common::ZoneEra kZoneEraKnox[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2949,7 +2949,7 @@ static const common::ZoneEra kZoneEraMarengo[] = {
     6 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
@@ -2960,7 +2960,7 @@ static const common::ZoneEra kZoneEraMarengo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -2989,7 +2989,7 @@ static const common::ZoneEra kZoneEraPetersburg[] = {
     6 /*untilYearTiny*/,
     4 /*untilMonth*/,
     2 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT    2007 Nov  4  2:00
@@ -3000,7 +3000,7 @@ static const common::ZoneEra kZoneEraPetersburg[] = {
     7 /*untilYearTiny*/,
     11 /*untilMonth*/,
     4 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
@@ -3011,7 +3011,7 @@ static const common::ZoneEra kZoneEraPetersburg[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3040,7 +3040,7 @@ static const common::ZoneEra kZoneEraTell_City[] = {
     6 /*untilYearTiny*/,
     4 /*untilMonth*/,
     2 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT
@@ -3051,7 +3051,7 @@ static const common::ZoneEra kZoneEraTell_City[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3080,7 +3080,7 @@ static const common::ZoneEra kZoneEraVevay[] = {
     6 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
@@ -3091,7 +3091,7 @@ static const common::ZoneEra kZoneEraVevay[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3120,7 +3120,7 @@ static const common::ZoneEra kZoneEraVincennes[] = {
     6 /*untilYearTiny*/,
     4 /*untilMonth*/,
     2 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT    2007 Nov  4  2:00
@@ -3131,7 +3131,7 @@ static const common::ZoneEra kZoneEraVincennes[] = {
     7 /*untilYearTiny*/,
     11 /*untilMonth*/,
     4 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
@@ -3142,7 +3142,7 @@ static const common::ZoneEra kZoneEraVincennes[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3171,7 +3171,7 @@ static const common::ZoneEra kZoneEraWinamac[] = {
     6 /*untilYearTiny*/,
     4 /*untilMonth*/,
     2 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT    2007 Mar 11  2:00
@@ -3182,7 +3182,7 @@ static const common::ZoneEra kZoneEraWinamac[] = {
     7 /*untilYearTiny*/,
     3 /*untilMonth*/,
     11 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
@@ -3193,7 +3193,7 @@ static const common::ZoneEra kZoneEraWinamac[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3222,7 +3222,7 @@ static const common::ZoneEra kZoneEraInuvik[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3251,7 +3251,7 @@ static const common::ZoneEra kZoneEraIqaluit[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     29 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    Canada    E%sT
@@ -3262,7 +3262,7 @@ static const common::ZoneEra kZoneEraIqaluit[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3291,7 +3291,7 @@ static const common::ZoneEra kZoneEraJamaica[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3320,7 +3320,7 @@ static const common::ZoneEra kZoneEraJuneau[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3349,7 +3349,7 @@ static const common::ZoneEra kZoneEraLouisville[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3378,7 +3378,7 @@ static const common::ZoneEra kZoneEraMonticello[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     29 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT
@@ -3389,7 +3389,7 @@ static const common::ZoneEra kZoneEraMonticello[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3418,7 +3418,7 @@ static const common::ZoneEra kZoneEraLa_Paz[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3447,7 +3447,7 @@ static const common::ZoneEra kZoneEraLima[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3476,7 +3476,7 @@ static const common::ZoneEra kZoneEraLos_Angeles[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3505,7 +3505,7 @@ static const common::ZoneEra kZoneEraMaceio[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     22 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2001 Sep 13
@@ -3516,7 +3516,7 @@ static const common::ZoneEra kZoneEraMaceio[] = {
     1 /*untilYearTiny*/,
     9 /*untilMonth*/,
     13 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2002 Oct  1
@@ -3527,7 +3527,7 @@ static const common::ZoneEra kZoneEraMaceio[] = {
     2 /*untilYearTiny*/,
     10 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -3538,7 +3538,7 @@ static const common::ZoneEra kZoneEraMaceio[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3567,7 +3567,7 @@ static const common::ZoneEra kZoneEraManagua[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3596,7 +3596,7 @@ static const common::ZoneEra kZoneEraManaus[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3625,7 +3625,7 @@ static const common::ZoneEra kZoneEraMartinique[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3654,7 +3654,7 @@ static const common::ZoneEra kZoneEraMatamoros[] = {
     10 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT
@@ -3665,7 +3665,7 @@ static const common::ZoneEra kZoneEraMatamoros[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3694,7 +3694,7 @@ static const common::ZoneEra kZoneEraMazatlan[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3723,7 +3723,7 @@ static const common::ZoneEra kZoneEraMenominee[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3752,7 +3752,7 @@ static const common::ZoneEra kZoneEraMerida[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3781,7 +3781,7 @@ static const common::ZoneEra kZoneEraMetlakatla[] = {
     15 /*untilYearTiny*/,
     11 /*untilMonth*/,
     1 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //              -9:00    US    AK%sT    2018 Nov  4  2:00
@@ -3792,7 +3792,7 @@ static const common::ZoneEra kZoneEraMetlakatla[] = {
     18 /*untilYearTiny*/,
     11 /*untilMonth*/,
     4 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //              -8:00    -    PST    2019 Mar Sun>=8 3:00
@@ -3803,7 +3803,7 @@ static const common::ZoneEra kZoneEraMetlakatla[] = {
     19 /*untilYearTiny*/,
     3 /*untilMonth*/,
     10 /*untilDay*/,
-    3 /*untilHour*/,
+    12 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //              -9:00    US    AK%sT
@@ -3814,7 +3814,7 @@ static const common::ZoneEra kZoneEraMetlakatla[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3843,7 +3843,7 @@ static const common::ZoneEra kZoneEraMexico_City[] = {
     1 /*untilYearTiny*/,
     9 /*untilMonth*/,
     30 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    -    CST    2002 Feb 20
@@ -3854,7 +3854,7 @@ static const common::ZoneEra kZoneEraMexico_City[] = {
     2 /*untilYearTiny*/,
     2 /*untilMonth*/,
     20 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    Mexico    C%sT
@@ -3865,7 +3865,7 @@ static const common::ZoneEra kZoneEraMexico_City[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3894,7 +3894,7 @@ static const common::ZoneEra kZoneEraMiquelon[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3923,7 +3923,7 @@ static const common::ZoneEra kZoneEraMoncton[] = {
     7 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    Canada    A%sT
@@ -3934,7 +3934,7 @@ static const common::ZoneEra kZoneEraMoncton[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3963,7 +3963,7 @@ static const common::ZoneEra kZoneEraMonterrey[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -3992,7 +3992,7 @@ static const common::ZoneEra kZoneEraMontevideo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4021,7 +4021,7 @@ static const common::ZoneEra kZoneEraNassau[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4050,7 +4050,7 @@ static const common::ZoneEra kZoneEraNew_York[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4079,7 +4079,7 @@ static const common::ZoneEra kZoneEraNipigon[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4108,7 +4108,7 @@ static const common::ZoneEra kZoneEraNome[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4137,7 +4137,7 @@ static const common::ZoneEra kZoneEraNoronha[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     15 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -2:00    -    -02    2001 Sep 13
@@ -4148,7 +4148,7 @@ static const common::ZoneEra kZoneEraNoronha[] = {
     1 /*untilYearTiny*/,
     9 /*untilMonth*/,
     13 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -2:00    Brazil    -02/-01    2002 Oct  1
@@ -4159,7 +4159,7 @@ static const common::ZoneEra kZoneEraNoronha[] = {
     2 /*untilYearTiny*/,
     10 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -2:00    -    -02
@@ -4170,7 +4170,7 @@ static const common::ZoneEra kZoneEraNoronha[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4199,7 +4199,7 @@ static const common::ZoneEra kZoneEraBeulah[] = {
     10 /*untilYearTiny*/,
     11 /*untilMonth*/,
     7 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT
@@ -4210,7 +4210,7 @@ static const common::ZoneEra kZoneEraBeulah[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4239,7 +4239,7 @@ static const common::ZoneEra kZoneEraCenter[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4268,7 +4268,7 @@ static const common::ZoneEra kZoneEraNew_Salem[] = {
     3 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    US    C%sT
@@ -4279,7 +4279,7 @@ static const common::ZoneEra kZoneEraNew_Salem[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4308,7 +4308,7 @@ static const common::ZoneEra kZoneEraOjinaga[] = {
     10 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -7:00    US    M%sT
@@ -4319,7 +4319,7 @@ static const common::ZoneEra kZoneEraOjinaga[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4348,7 +4348,7 @@ static const common::ZoneEra kZoneEraPanama[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4377,7 +4377,7 @@ static const common::ZoneEra kZoneEraPangnirtung[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     29 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    Canada    E%sT
@@ -4388,7 +4388,7 @@ static const common::ZoneEra kZoneEraPangnirtung[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4417,7 +4417,7 @@ static const common::ZoneEra kZoneEraParamaribo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4446,7 +4446,7 @@ static const common::ZoneEra kZoneEraPhoenix[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4475,7 +4475,7 @@ static const common::ZoneEra kZoneEraPort_au_Prince[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4504,7 +4504,7 @@ static const common::ZoneEra kZoneEraPort_of_Spain[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4533,7 +4533,7 @@ static const common::ZoneEra kZoneEraPorto_Velho[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4562,7 +4562,7 @@ static const common::ZoneEra kZoneEraPuerto_Rico[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4591,7 +4591,7 @@ static const common::ZoneEra kZoneEraPunta_Arenas[] = {
     16 /*untilYearTiny*/,
     12 /*untilMonth*/,
     4 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -4602,7 +4602,7 @@ static const common::ZoneEra kZoneEraPunta_Arenas[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4631,7 +4631,7 @@ static const common::ZoneEra kZoneEraRainy_River[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4660,7 +4660,7 @@ static const common::ZoneEra kZoneEraRankin_Inlet[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     29 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    -    EST    2001 Apr  1  3:00
@@ -4671,7 +4671,7 @@ static const common::ZoneEra kZoneEraRankin_Inlet[] = {
     1 /*untilYearTiny*/,
     4 /*untilMonth*/,
     1 /*untilDay*/,
-    3 /*untilHour*/,
+    12 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    Canada    C%sT
@@ -4682,7 +4682,7 @@ static const common::ZoneEra kZoneEraRankin_Inlet[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4711,7 +4711,7 @@ static const common::ZoneEra kZoneEraRecife[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     15 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03    2001 Sep 13
@@ -4722,7 +4722,7 @@ static const common::ZoneEra kZoneEraRecife[] = {
     1 /*untilYearTiny*/,
     9 /*untilMonth*/,
     13 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    Brazil    -03/-02    2002 Oct  1
@@ -4733,7 +4733,7 @@ static const common::ZoneEra kZoneEraRecife[] = {
     2 /*untilYearTiny*/,
     10 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -4744,7 +4744,7 @@ static const common::ZoneEra kZoneEraRecife[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4773,7 +4773,7 @@ static const common::ZoneEra kZoneEraRegina[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4802,7 +4802,7 @@ static const common::ZoneEra kZoneEraResolute[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     29 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    -    EST    2001 Apr  1  3:00
@@ -4813,7 +4813,7 @@ static const common::ZoneEra kZoneEraResolute[] = {
     1 /*untilYearTiny*/,
     4 /*untilMonth*/,
     1 /*untilDay*/,
-    3 /*untilHour*/,
+    12 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    Canada    C%sT    2006 Oct 29  2:00
@@ -4824,7 +4824,7 @@ static const common::ZoneEra kZoneEraResolute[] = {
     6 /*untilYearTiny*/,
     10 /*untilMonth*/,
     29 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    -    EST    2007 Mar 11  3:00
@@ -4835,7 +4835,7 @@ static const common::ZoneEra kZoneEraResolute[] = {
     7 /*untilYearTiny*/,
     3 /*untilMonth*/,
     11 /*untilDay*/,
-    3 /*untilHour*/,
+    12 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    Canada    C%sT
@@ -4846,7 +4846,7 @@ static const common::ZoneEra kZoneEraResolute[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4875,7 +4875,7 @@ static const common::ZoneEra kZoneEraRio_Branco[] = {
     8 /*untilYearTiny*/,
     6 /*untilMonth*/,
     24 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    -04    2013 Nov 10
@@ -4886,7 +4886,7 @@ static const common::ZoneEra kZoneEraRio_Branco[] = {
     13 /*untilYearTiny*/,
     11 /*untilMonth*/,
     10 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    -    -05
@@ -4897,7 +4897,7 @@ static const common::ZoneEra kZoneEraRio_Branco[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4926,7 +4926,7 @@ static const common::ZoneEra kZoneEraSantarem[] = {
     8 /*untilYearTiny*/,
     6 /*untilMonth*/,
     24 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -4937,7 +4937,7 @@ static const common::ZoneEra kZoneEraSantarem[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4966,7 +4966,7 @@ static const common::ZoneEra kZoneEraSantiago[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -4995,7 +4995,7 @@ static const common::ZoneEra kZoneEraSanto_Domingo[] = {
     0 /*untilYearTiny*/,
     10 /*untilMonth*/,
     29 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -5:00    US    E%sT    2000 Dec  3  1:00
@@ -5006,7 +5006,7 @@ static const common::ZoneEra kZoneEraSanto_Domingo[] = {
     0 /*untilYearTiny*/,
     12 /*untilMonth*/,
     3 /*untilDay*/,
-    1 /*untilHour*/,
+    4 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -4:00    -    AST
@@ -5017,7 +5017,7 @@ static const common::ZoneEra kZoneEraSanto_Domingo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5046,7 +5046,7 @@ static const common::ZoneEra kZoneEraSao_Paulo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5075,7 +5075,7 @@ static const common::ZoneEra kZoneEraScoresbysund[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5104,7 +5104,7 @@ static const common::ZoneEra kZoneEraSitka[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5133,7 +5133,7 @@ static const common::ZoneEra kZoneEraSwift_Current[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5162,7 +5162,7 @@ static const common::ZoneEra kZoneEraTegucigalpa[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5191,7 +5191,7 @@ static const common::ZoneEra kZoneEraThule[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5220,7 +5220,7 @@ static const common::ZoneEra kZoneEraThunder_Bay[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5249,7 +5249,7 @@ static const common::ZoneEra kZoneEraTijuana[] = {
     1 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -8:00    US    P%sT    2002 Feb 20
@@ -5260,7 +5260,7 @@ static const common::ZoneEra kZoneEraTijuana[] = {
     2 /*untilYearTiny*/,
     2 /*untilMonth*/,
     20 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -8:00    Mexico    P%sT    2010
@@ -5271,7 +5271,7 @@ static const common::ZoneEra kZoneEraTijuana[] = {
     10 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -8:00    US    P%sT
@@ -5282,7 +5282,7 @@ static const common::ZoneEra kZoneEraTijuana[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5311,7 +5311,7 @@ static const common::ZoneEra kZoneEraToronto[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5340,7 +5340,7 @@ static const common::ZoneEra kZoneEraVancouver[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5369,7 +5369,7 @@ static const common::ZoneEra kZoneEraWhitehorse[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5398,7 +5398,7 @@ static const common::ZoneEra kZoneEraWinnipeg[] = {
     6 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -6:00    Canada    C%sT
@@ -5409,7 +5409,7 @@ static const common::ZoneEra kZoneEraWinnipeg[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5438,7 +5438,7 @@ static const common::ZoneEra kZoneEraYakutat[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5467,7 +5467,7 @@ static const common::ZoneEra kZoneEraYellowknife[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5496,7 +5496,7 @@ static const common::ZoneEra kZoneEraCasey[] = {
     9 /*untilYearTiny*/,
     10 /*untilMonth*/,
     18 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2010 Mar  5  2:00
@@ -5507,7 +5507,7 @@ static const common::ZoneEra kZoneEraCasey[] = {
     10 /*untilYearTiny*/,
     3 /*untilMonth*/,
     5 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             8:00    -    +08    2011 Oct 28  2:00
@@ -5518,7 +5518,7 @@ static const common::ZoneEra kZoneEraCasey[] = {
     11 /*untilYearTiny*/,
     10 /*untilMonth*/,
     28 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2012 Feb 21 17:00u
@@ -5529,7 +5529,7 @@ static const common::ZoneEra kZoneEraCasey[] = {
     12 /*untilYearTiny*/,
     2 /*untilMonth*/,
     21 /*untilDay*/,
-    17 /*untilHour*/,
+    68 /*untilTimeCode*/,
     'u' /*untilTimeModifier*/,
   },
   //             8:00    -    +08    2016 Oct 22
@@ -5540,7 +5540,7 @@ static const common::ZoneEra kZoneEraCasey[] = {
     16 /*untilYearTiny*/,
     10 /*untilMonth*/,
     22 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2018 Mar 11  4:00
@@ -5551,7 +5551,7 @@ static const common::ZoneEra kZoneEraCasey[] = {
     18 /*untilYearTiny*/,
     3 /*untilMonth*/,
     11 /*untilDay*/,
-    4 /*untilHour*/,
+    16 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             8:00    -    +08
@@ -5562,7 +5562,7 @@ static const common::ZoneEra kZoneEraCasey[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5591,7 +5591,7 @@ static const common::ZoneEra kZoneEraDavis[] = {
     9 /*untilYearTiny*/,
     10 /*untilMonth*/,
     18 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             5:00    -    +05    2010 Mar 10 20:00u
@@ -5602,7 +5602,7 @@ static const common::ZoneEra kZoneEraDavis[] = {
     10 /*untilYearTiny*/,
     3 /*untilMonth*/,
     10 /*untilDay*/,
-    20 /*untilHour*/,
+    80 /*untilTimeCode*/,
     'u' /*untilTimeModifier*/,
   },
   //             7:00    -    +07    2011 Oct 28  2:00
@@ -5613,7 +5613,7 @@ static const common::ZoneEra kZoneEraDavis[] = {
     11 /*untilYearTiny*/,
     10 /*untilMonth*/,
     28 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             5:00    -    +05    2012 Feb 21 20:00u
@@ -5624,7 +5624,7 @@ static const common::ZoneEra kZoneEraDavis[] = {
     12 /*untilYearTiny*/,
     2 /*untilMonth*/,
     21 /*untilDay*/,
-    20 /*untilHour*/,
+    80 /*untilTimeCode*/,
     'u' /*untilTimeModifier*/,
   },
   //             7:00    -    +07
@@ -5635,7 +5635,7 @@ static const common::ZoneEra kZoneEraDavis[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5664,7 +5664,7 @@ static const common::ZoneEra kZoneEraDumontDUrville[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5693,7 +5693,7 @@ static const common::ZoneEra kZoneEraMacquarie[] = {
     10 /*untilYearTiny*/,
     4 /*untilMonth*/,
     4 /*untilDay*/,
-    3 /*untilHour*/,
+    12 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             11:00    -    +11
@@ -5704,7 +5704,7 @@ static const common::ZoneEra kZoneEraMacquarie[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5733,7 +5733,7 @@ static const common::ZoneEra kZoneEraMawson[] = {
     9 /*untilYearTiny*/,
     10 /*untilMonth*/,
     18 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             5:00    -    +05
@@ -5744,7 +5744,7 @@ static const common::ZoneEra kZoneEraMawson[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5773,7 +5773,7 @@ static const common::ZoneEra kZoneEraPalmer[] = {
     16 /*untilYearTiny*/,
     12 /*untilMonth*/,
     4 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -5784,7 +5784,7 @@ static const common::ZoneEra kZoneEraPalmer[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5813,7 +5813,7 @@ static const common::ZoneEra kZoneEraRothera[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5842,7 +5842,7 @@ static const common::ZoneEra kZoneEraSyowa[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5871,7 +5871,7 @@ static const common::ZoneEra kZoneEraVostok[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5900,7 +5900,7 @@ static const common::ZoneEra kZoneEraAlmaty[] = {
     4 /*untilYearTiny*/,
     10 /*untilMonth*/,
     31 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             6:00    -    +06
@@ -5911,7 +5911,7 @@ static const common::ZoneEra kZoneEraAlmaty[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5940,7 +5940,7 @@ static const common::ZoneEra kZoneEraAmman[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -5969,7 +5969,7 @@ static const common::ZoneEra kZoneEraAnadyr[] = {
     10 /*untilYearTiny*/,
     3 /*untilMonth*/,
     28 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             11:00    Russia    +11/+12    2011 Mar 27  2:00s
@@ -5980,7 +5980,7 @@ static const common::ZoneEra kZoneEraAnadyr[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             12:00    -    +12
@@ -5991,7 +5991,7 @@ static const common::ZoneEra kZoneEraAnadyr[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6020,7 +6020,7 @@ static const common::ZoneEra kZoneEraAqtau[] = {
     4 /*untilYearTiny*/,
     10 /*untilMonth*/,
     31 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             5:00    -    +05
@@ -6031,7 +6031,7 @@ static const common::ZoneEra kZoneEraAqtau[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6060,7 +6060,7 @@ static const common::ZoneEra kZoneEraAqtobe[] = {
     4 /*untilYearTiny*/,
     10 /*untilMonth*/,
     31 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             5:00    -    +05
@@ -6071,7 +6071,7 @@ static const common::ZoneEra kZoneEraAqtobe[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6100,7 +6100,7 @@ static const common::ZoneEra kZoneEraAshgabat[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6129,7 +6129,7 @@ static const common::ZoneEra kZoneEraAtyrau[] = {
     4 /*untilYearTiny*/,
     10 /*untilMonth*/,
     31 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             5:00    -    +05
@@ -6140,7 +6140,7 @@ static const common::ZoneEra kZoneEraAtyrau[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6169,7 +6169,7 @@ static const common::ZoneEra kZoneEraBaghdad[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6198,7 +6198,7 @@ static const common::ZoneEra kZoneEraBaku[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6227,7 +6227,7 @@ static const common::ZoneEra kZoneEraBangkok[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6256,7 +6256,7 @@ static const common::ZoneEra kZoneEraBarnaul[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              7:00    -    +07    2014 Oct 26  2:00s
@@ -6267,7 +6267,7 @@ static const common::ZoneEra kZoneEraBarnaul[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              6:00    -    +06    2016 Mar 27  2:00s
@@ -6278,7 +6278,7 @@ static const common::ZoneEra kZoneEraBarnaul[] = {
     16 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              7:00    -    +07
@@ -6289,7 +6289,7 @@ static const common::ZoneEra kZoneEraBarnaul[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6318,7 +6318,7 @@ static const common::ZoneEra kZoneEraBeirut[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6347,7 +6347,7 @@ static const common::ZoneEra kZoneEraBishkek[] = {
     5 /*untilYearTiny*/,
     8 /*untilMonth*/,
     12 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             6:00    -    +06
@@ -6358,7 +6358,7 @@ static const common::ZoneEra kZoneEraBishkek[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6387,7 +6387,7 @@ static const common::ZoneEra kZoneEraBrunei[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6416,7 +6416,7 @@ static const common::ZoneEra kZoneEraChita[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             10:00    -    +10    2014 Oct 26  2:00s
@@ -6427,7 +6427,7 @@ static const common::ZoneEra kZoneEraChita[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              8:00    -    +08    2016 Mar 27  2:00
@@ -6438,7 +6438,7 @@ static const common::ZoneEra kZoneEraChita[] = {
     16 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //              9:00    -    +09
@@ -6449,7 +6449,7 @@ static const common::ZoneEra kZoneEraChita[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6478,7 +6478,7 @@ static const common::ZoneEra kZoneEraChoibalsan[] = {
     8 /*untilYearTiny*/,
     3 /*untilMonth*/,
     31 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             8:00    Mongol    +08/+09
@@ -6489,7 +6489,7 @@ static const common::ZoneEra kZoneEraChoibalsan[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6518,7 +6518,7 @@ static const common::ZoneEra kZoneEraColombo[] = {
     6 /*untilYearTiny*/,
     4 /*untilMonth*/,
     15 /*untilDay*/,
-    0 /*untilHour*/,
+    2 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             5:30    -    +0530
@@ -6529,7 +6529,7 @@ static const common::ZoneEra kZoneEraColombo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6558,7 +6558,7 @@ static const common::ZoneEra kZoneEraDamascus[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6587,7 +6587,7 @@ static const common::ZoneEra kZoneEraDhaka[] = {
     9 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             6:00    Dhaka    +06/+07
@@ -6598,7 +6598,7 @@ static const common::ZoneEra kZoneEraDhaka[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6627,7 +6627,7 @@ static const common::ZoneEra kZoneEraDili[] = {
     0 /*untilYearTiny*/,
     9 /*untilMonth*/,
     17 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             9:00    -    +09
@@ -6638,7 +6638,7 @@ static const common::ZoneEra kZoneEraDili[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6667,7 +6667,7 @@ static const common::ZoneEra kZoneEraDubai[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6696,7 +6696,7 @@ static const common::ZoneEra kZoneEraDushanbe[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6725,7 +6725,7 @@ static const common::ZoneEra kZoneEraFamagusta[] = {
     16 /*untilYearTiny*/,
     9 /*untilMonth*/,
     8 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             3:00    -    +03    2017 Oct 29 1:00u
@@ -6736,7 +6736,7 @@ static const common::ZoneEra kZoneEraFamagusta[] = {
     17 /*untilYearTiny*/,
     10 /*untilMonth*/,
     29 /*untilDay*/,
-    1 /*untilHour*/,
+    4 /*untilTimeCode*/,
     'u' /*untilTimeModifier*/,
   },
   //             2:00    EUAsia    EE%sT
@@ -6747,7 +6747,7 @@ static const common::ZoneEra kZoneEraFamagusta[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6776,7 +6776,7 @@ static const common::ZoneEra kZoneEraGaza[] = {
     8 /*untilYearTiny*/,
     8 /*untilMonth*/,
     29 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2008 Sep
@@ -6787,7 +6787,7 @@ static const common::ZoneEra kZoneEraGaza[] = {
     8 /*untilYearTiny*/,
     9 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00 Palestine    EE%sT    2010
@@ -6798,7 +6798,7 @@ static const common::ZoneEra kZoneEraGaza[] = {
     10 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2010 Mar 27  0:01
@@ -6809,7 +6809,7 @@ static const common::ZoneEra kZoneEraGaza[] = {
     10 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00 Palestine    EE%sT    2011 Aug  1
@@ -6820,7 +6820,7 @@ static const common::ZoneEra kZoneEraGaza[] = {
     11 /*untilYearTiny*/,
     8 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2012
@@ -6831,7 +6831,7 @@ static const common::ZoneEra kZoneEraGaza[] = {
     12 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00 Palestine    EE%sT
@@ -6842,7 +6842,7 @@ static const common::ZoneEra kZoneEraGaza[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6871,7 +6871,7 @@ static const common::ZoneEra kZoneEraHebron[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6900,7 +6900,7 @@ static const common::ZoneEra kZoneEraHo_Chi_Minh[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6929,7 +6929,7 @@ static const common::ZoneEra kZoneEraHong_Kong[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6958,7 +6958,7 @@ static const common::ZoneEra kZoneEraHovd[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -6987,7 +6987,7 @@ static const common::ZoneEra kZoneEraIrkutsk[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              9:00    -    +09    2014 Oct 26  2:00s
@@ -6998,7 +6998,7 @@ static const common::ZoneEra kZoneEraIrkutsk[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              8:00    -    +08
@@ -7009,7 +7009,7 @@ static const common::ZoneEra kZoneEraIrkutsk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7038,7 +7038,7 @@ static const common::ZoneEra kZoneEraJakarta[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7067,7 +7067,7 @@ static const common::ZoneEra kZoneEraJayapura[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7096,7 +7096,7 @@ static const common::ZoneEra kZoneEraJerusalem[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7125,7 +7125,7 @@ static const common::ZoneEra kZoneEraKabul[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7154,7 +7154,7 @@ static const common::ZoneEra kZoneEraKamchatka[] = {
     10 /*untilYearTiny*/,
     3 /*untilMonth*/,
     28 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             11:00    Russia    +11/+12    2011 Mar 27  2:00s
@@ -7165,7 +7165,7 @@ static const common::ZoneEra kZoneEraKamchatka[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             12:00    -    +12
@@ -7176,7 +7176,7 @@ static const common::ZoneEra kZoneEraKamchatka[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7205,7 +7205,7 @@ static const common::ZoneEra kZoneEraKarachi[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7234,7 +7234,7 @@ static const common::ZoneEra kZoneEraKathmandu[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7263,7 +7263,7 @@ static const common::ZoneEra kZoneEraKhandyga[] = {
     4 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             10:00    Russia    +10/+11    2011 Mar 27  2:00s
@@ -7274,7 +7274,7 @@ static const common::ZoneEra kZoneEraKhandyga[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2011 Sep 13  0:00s
@@ -7285,7 +7285,7 @@ static const common::ZoneEra kZoneEraKhandyga[] = {
     11 /*untilYearTiny*/,
     9 /*untilMonth*/,
     13 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             10:00    -    +10    2014 Oct 26  2:00s
@@ -7296,7 +7296,7 @@ static const common::ZoneEra kZoneEraKhandyga[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              9:00    -    +09
@@ -7307,7 +7307,7 @@ static const common::ZoneEra kZoneEraKhandyga[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7336,7 +7336,7 @@ static const common::ZoneEra kZoneEraKolkata[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7365,7 +7365,7 @@ static const common::ZoneEra kZoneEraKrasnoyarsk[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              8:00    -    +08    2014 Oct 26  2:00s
@@ -7376,7 +7376,7 @@ static const common::ZoneEra kZoneEraKrasnoyarsk[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              7:00    -    +07
@@ -7387,7 +7387,7 @@ static const common::ZoneEra kZoneEraKrasnoyarsk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7416,7 +7416,7 @@ static const common::ZoneEra kZoneEraKuala_Lumpur[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7445,7 +7445,7 @@ static const common::ZoneEra kZoneEraKuching[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7474,7 +7474,7 @@ static const common::ZoneEra kZoneEraMacau[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7503,7 +7503,7 @@ static const common::ZoneEra kZoneEraMagadan[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             12:00    -    +12    2014 Oct 26  2:00s
@@ -7514,7 +7514,7 @@ static const common::ZoneEra kZoneEraMagadan[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             10:00    -    +10    2016 Apr 24  2:00s
@@ -7525,7 +7525,7 @@ static const common::ZoneEra kZoneEraMagadan[] = {
     16 /*untilYearTiny*/,
     4 /*untilMonth*/,
     24 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             11:00    -    +11
@@ -7536,7 +7536,7 @@ static const common::ZoneEra kZoneEraMagadan[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7565,7 +7565,7 @@ static const common::ZoneEra kZoneEraMakassar[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7594,7 +7594,7 @@ static const common::ZoneEra kZoneEraManila[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7623,7 +7623,7 @@ static const common::ZoneEra kZoneEraNicosia[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7652,7 +7652,7 @@ static const common::ZoneEra kZoneEraNovokuznetsk[] = {
     10 /*untilYearTiny*/,
     3 /*untilMonth*/,
     28 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              6:00    Russia    +06/+07    2011 Mar 27  2:00s
@@ -7663,7 +7663,7 @@ static const common::ZoneEra kZoneEraNovokuznetsk[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              7:00    -    +07
@@ -7674,7 +7674,7 @@ static const common::ZoneEra kZoneEraNovokuznetsk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7703,7 +7703,7 @@ static const common::ZoneEra kZoneEraNovosibirsk[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              7:00    -    +07    2014 Oct 26  2:00s
@@ -7714,7 +7714,7 @@ static const common::ZoneEra kZoneEraNovosibirsk[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              6:00    -    +06    2016 Jul 24  2:00s
@@ -7725,7 +7725,7 @@ static const common::ZoneEra kZoneEraNovosibirsk[] = {
     16 /*untilYearTiny*/,
     7 /*untilMonth*/,
     24 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              7:00    -    +07
@@ -7736,7 +7736,7 @@ static const common::ZoneEra kZoneEraNovosibirsk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7765,7 +7765,7 @@ static const common::ZoneEra kZoneEraOmsk[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              7:00    -    +07    2014 Oct 26  2:00s
@@ -7776,7 +7776,7 @@ static const common::ZoneEra kZoneEraOmsk[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              6:00    -    +06
@@ -7787,7 +7787,7 @@ static const common::ZoneEra kZoneEraOmsk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7816,7 +7816,7 @@ static const common::ZoneEra kZoneEraOral[] = {
     4 /*untilYearTiny*/,
     10 /*untilMonth*/,
     31 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             5:00    -    +05
@@ -7827,7 +7827,7 @@ static const common::ZoneEra kZoneEraOral[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7856,7 +7856,7 @@ static const common::ZoneEra kZoneEraPontianak[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7885,7 +7885,7 @@ static const common::ZoneEra kZoneEraPyongyang[] = {
     15 /*untilYearTiny*/,
     8 /*untilMonth*/,
     15 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             8:30    -    KST    2018 May  4 23:30
@@ -7896,7 +7896,7 @@ static const common::ZoneEra kZoneEraPyongyang[] = {
     18 /*untilYearTiny*/,
     5 /*untilMonth*/,
     4 /*untilDay*/,
-    23 /*untilHour*/,
+    94 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             9:00    -    KST
@@ -7907,7 +7907,7 @@ static const common::ZoneEra kZoneEraPyongyang[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7936,7 +7936,7 @@ static const common::ZoneEra kZoneEraQatar[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -7965,7 +7965,7 @@ static const common::ZoneEra kZoneEraQostanay[] = {
     4 /*untilYearTiny*/,
     10 /*untilMonth*/,
     31 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             6:00    -    +06
@@ -7976,7 +7976,7 @@ static const common::ZoneEra kZoneEraQostanay[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8005,7 +8005,7 @@ static const common::ZoneEra kZoneEraQyzylorda[] = {
     4 /*untilYearTiny*/,
     10 /*untilMonth*/,
     31 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             6:00    -    +06    2018 Dec 21  0:00
@@ -8016,7 +8016,7 @@ static const common::ZoneEra kZoneEraQyzylorda[] = {
     18 /*untilYearTiny*/,
     12 /*untilMonth*/,
     21 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             5:00    -    +05
@@ -8027,7 +8027,7 @@ static const common::ZoneEra kZoneEraQyzylorda[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8056,7 +8056,7 @@ static const common::ZoneEra kZoneEraRiyadh[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8085,7 +8085,7 @@ static const common::ZoneEra kZoneEraSakhalin[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2014 Oct 26  2:00s
@@ -8096,7 +8096,7 @@ static const common::ZoneEra kZoneEraSakhalin[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             10:00    -    +10    2016 Mar 27  2:00s
@@ -8107,7 +8107,7 @@ static const common::ZoneEra kZoneEraSakhalin[] = {
     16 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             11:00    -    +11
@@ -8118,7 +8118,7 @@ static const common::ZoneEra kZoneEraSakhalin[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8147,7 +8147,7 @@ static const common::ZoneEra kZoneEraSamarkand[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8176,7 +8176,7 @@ static const common::ZoneEra kZoneEraSeoul[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8205,7 +8205,7 @@ static const common::ZoneEra kZoneEraShanghai[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8234,7 +8234,7 @@ static const common::ZoneEra kZoneEraSingapore[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8263,7 +8263,7 @@ static const common::ZoneEra kZoneEraSrednekolymsk[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             12:00    -    +12    2014 Oct 26  2:00s
@@ -8274,7 +8274,7 @@ static const common::ZoneEra kZoneEraSrednekolymsk[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             11:00    -    +11
@@ -8285,7 +8285,7 @@ static const common::ZoneEra kZoneEraSrednekolymsk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8314,7 +8314,7 @@ static const common::ZoneEra kZoneEraTaipei[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8343,7 +8343,7 @@ static const common::ZoneEra kZoneEraTashkent[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8372,7 +8372,7 @@ static const common::ZoneEra kZoneEraTbilisi[] = {
     4 /*untilYearTiny*/,
     6 /*untilMonth*/,
     27 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             3:00 RussiaAsia    +03/+04    2005 Mar lastSun  2:00
@@ -8383,7 +8383,7 @@ static const common::ZoneEra kZoneEraTbilisi[] = {
     5 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             4:00    -    +04
@@ -8394,7 +8394,7 @@ static const common::ZoneEra kZoneEraTbilisi[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8423,7 +8423,7 @@ static const common::ZoneEra kZoneEraTehran[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8452,7 +8452,7 @@ static const common::ZoneEra kZoneEraThimphu[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8481,7 +8481,7 @@ static const common::ZoneEra kZoneEraTokyo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8510,7 +8510,7 @@ static const common::ZoneEra kZoneEraTomsk[] = {
     2 /*untilYearTiny*/,
     5 /*untilMonth*/,
     1 /*untilDay*/,
-    3 /*untilHour*/,
+    12 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //              6:00    Russia    +06/+07    2011 Mar 27  2:00s
@@ -8521,7 +8521,7 @@ static const common::ZoneEra kZoneEraTomsk[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              7:00    -    +07    2014 Oct 26  2:00s
@@ -8532,7 +8532,7 @@ static const common::ZoneEra kZoneEraTomsk[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              6:00    -    +06    2016 May 29  2:00s
@@ -8543,7 +8543,7 @@ static const common::ZoneEra kZoneEraTomsk[] = {
     16 /*untilYearTiny*/,
     5 /*untilMonth*/,
     29 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              7:00    -    +07
@@ -8554,7 +8554,7 @@ static const common::ZoneEra kZoneEraTomsk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8583,7 +8583,7 @@ static const common::ZoneEra kZoneEraUlaanbaatar[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8612,7 +8612,7 @@ static const common::ZoneEra kZoneEraUrumqi[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8641,7 +8641,7 @@ static const common::ZoneEra kZoneEraUst_Nera[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             12:00    -    +12    2011 Sep 13  0:00s
@@ -8652,7 +8652,7 @@ static const common::ZoneEra kZoneEraUst_Nera[] = {
     11 /*untilYearTiny*/,
     9 /*untilMonth*/,
     13 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2014 Oct 26  2:00s
@@ -8663,7 +8663,7 @@ static const common::ZoneEra kZoneEraUst_Nera[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             10:00    -    +10
@@ -8674,7 +8674,7 @@ static const common::ZoneEra kZoneEraUst_Nera[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8703,7 +8703,7 @@ static const common::ZoneEra kZoneEraVladivostok[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             11:00    -    +11    2014 Oct 26  2:00s
@@ -8714,7 +8714,7 @@ static const common::ZoneEra kZoneEraVladivostok[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             10:00    -    +10
@@ -8725,7 +8725,7 @@ static const common::ZoneEra kZoneEraVladivostok[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8754,7 +8754,7 @@ static const common::ZoneEra kZoneEraYakutsk[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             10:00    -    +10    2014 Oct 26  2:00s
@@ -8765,7 +8765,7 @@ static const common::ZoneEra kZoneEraYakutsk[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              9:00    -    +09
@@ -8776,7 +8776,7 @@ static const common::ZoneEra kZoneEraYakutsk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8805,7 +8805,7 @@ static const common::ZoneEra kZoneEraYangon[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8834,7 +8834,7 @@ static const common::ZoneEra kZoneEraYekaterinburg[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              6:00    -    +06    2014 Oct 26  2:00s
@@ -8845,7 +8845,7 @@ static const common::ZoneEra kZoneEraYekaterinburg[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              5:00    -    +05
@@ -8856,7 +8856,7 @@ static const common::ZoneEra kZoneEraYekaterinburg[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8885,7 +8885,7 @@ static const common::ZoneEra kZoneEraYerevan[] = {
     11 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             4:00    Armenia    +04/+05
@@ -8896,7 +8896,7 @@ static const common::ZoneEra kZoneEraYerevan[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8925,7 +8925,7 @@ static const common::ZoneEra kZoneEraAzores[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8954,7 +8954,7 @@ static const common::ZoneEra kZoneEraBermuda[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -8983,7 +8983,7 @@ static const common::ZoneEra kZoneEraCanary[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9012,7 +9012,7 @@ static const common::ZoneEra kZoneEraCape_Verde[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9041,7 +9041,7 @@ static const common::ZoneEra kZoneEraFaroe[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9070,7 +9070,7 @@ static const common::ZoneEra kZoneEraMadeira[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9099,7 +9099,7 @@ static const common::ZoneEra kZoneEraReykjavik[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9128,7 +9128,7 @@ static const common::ZoneEra kZoneEraSouth_Georgia[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9157,7 +9157,7 @@ static const common::ZoneEra kZoneEraStanley[] = {
     10 /*untilYearTiny*/,
     9 /*untilMonth*/,
     5 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             -3:00    -    -03
@@ -9168,7 +9168,7 @@ static const common::ZoneEra kZoneEraStanley[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9197,7 +9197,7 @@ static const common::ZoneEra kZoneEraAdelaide[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9226,7 +9226,7 @@ static const common::ZoneEra kZoneEraBrisbane[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9255,7 +9255,7 @@ static const common::ZoneEra kZoneEraBroken_Hill[] = {
     0 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             9:30    AS    AC%sT
@@ -9266,7 +9266,7 @@ static const common::ZoneEra kZoneEraBroken_Hill[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9295,7 +9295,7 @@ static const common::ZoneEra kZoneEraCurrie[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9324,7 +9324,7 @@ static const common::ZoneEra kZoneEraDarwin[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9353,7 +9353,7 @@ static const common::ZoneEra kZoneEraEucla[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9382,7 +9382,7 @@ static const common::ZoneEra kZoneEraHobart[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9411,7 +9411,7 @@ static const common::ZoneEra kZoneEraLindeman[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9440,7 +9440,7 @@ static const common::ZoneEra kZoneEraLord_Howe[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9469,7 +9469,7 @@ static const common::ZoneEra kZoneEraMelbourne[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9498,7 +9498,7 @@ static const common::ZoneEra kZoneEraPerth[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9527,7 +9527,7 @@ static const common::ZoneEra kZoneEraSydney[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9556,7 +9556,7 @@ static const common::ZoneEra kZoneEraAmsterdam[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9585,7 +9585,7 @@ static const common::ZoneEra kZoneEraAndorra[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9614,7 +9614,7 @@ static const common::ZoneEra kZoneEraAstrakhan[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              4:00    -    +04    2014 Oct 26  2:00s
@@ -9625,7 +9625,7 @@ static const common::ZoneEra kZoneEraAstrakhan[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              3:00    -    +03    2016 Mar 27  2:00s
@@ -9636,7 +9636,7 @@ static const common::ZoneEra kZoneEraAstrakhan[] = {
     16 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              4:00    -    +04
@@ -9647,7 +9647,7 @@ static const common::ZoneEra kZoneEraAstrakhan[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9676,7 +9676,7 @@ static const common::ZoneEra kZoneEraAthens[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9705,7 +9705,7 @@ static const common::ZoneEra kZoneEraBelgrade[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9734,7 +9734,7 @@ static const common::ZoneEra kZoneEraBerlin[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9763,7 +9763,7 @@ static const common::ZoneEra kZoneEraBrussels[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9792,7 +9792,7 @@ static const common::ZoneEra kZoneEraBucharest[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9821,7 +9821,7 @@ static const common::ZoneEra kZoneEraBudapest[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9850,7 +9850,7 @@ static const common::ZoneEra kZoneEraChisinau[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9879,7 +9879,7 @@ static const common::ZoneEra kZoneEraCopenhagen[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9908,7 +9908,7 @@ static const common::ZoneEra kZoneEraDublin[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9937,7 +9937,7 @@ static const common::ZoneEra kZoneEraGibraltar[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9966,7 +9966,7 @@ static const common::ZoneEra kZoneEraHelsinki[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -9995,7 +9995,7 @@ static const common::ZoneEra kZoneEraKaliningrad[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              3:00    -    +03    2014 Oct 26  2:00s
@@ -10006,7 +10006,7 @@ static const common::ZoneEra kZoneEraKaliningrad[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              2:00    -    EET
@@ -10017,7 +10017,7 @@ static const common::ZoneEra kZoneEraKaliningrad[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10046,7 +10046,7 @@ static const common::ZoneEra kZoneEraKiev[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10075,7 +10075,7 @@ static const common::ZoneEra kZoneEraKirov[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              4:00    -    +04    2014 Oct 26  2:00s
@@ -10086,7 +10086,7 @@ static const common::ZoneEra kZoneEraKirov[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              3:00    -    +03
@@ -10097,7 +10097,7 @@ static const common::ZoneEra kZoneEraKirov[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10126,7 +10126,7 @@ static const common::ZoneEra kZoneEraLisbon[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10155,7 +10155,7 @@ static const common::ZoneEra kZoneEraLondon[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10184,7 +10184,7 @@ static const common::ZoneEra kZoneEraLuxembourg[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10213,7 +10213,7 @@ static const common::ZoneEra kZoneEraMadrid[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10242,7 +10242,7 @@ static const common::ZoneEra kZoneEraMalta[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10271,7 +10271,7 @@ static const common::ZoneEra kZoneEraMinsk[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //             3:00    -    +03
@@ -10282,7 +10282,7 @@ static const common::ZoneEra kZoneEraMinsk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10311,7 +10311,7 @@ static const common::ZoneEra kZoneEraMonaco[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10340,7 +10340,7 @@ static const common::ZoneEra kZoneEraMoscow[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              4:00    -    MSK    2014 Oct 26  2:00s
@@ -10351,7 +10351,7 @@ static const common::ZoneEra kZoneEraMoscow[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              3:00    -    MSK
@@ -10362,7 +10362,7 @@ static const common::ZoneEra kZoneEraMoscow[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10391,7 +10391,7 @@ static const common::ZoneEra kZoneEraOslo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10420,7 +10420,7 @@ static const common::ZoneEra kZoneEraParis[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10449,7 +10449,7 @@ static const common::ZoneEra kZoneEraPrague[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10478,7 +10478,7 @@ static const common::ZoneEra kZoneEraRiga[] = {
     0 /*untilYearTiny*/,
     2 /*untilMonth*/,
     29 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00    -    EET    2001 Jan  2
@@ -10489,7 +10489,7 @@ static const common::ZoneEra kZoneEraRiga[] = {
     1 /*untilYearTiny*/,
     1 /*untilMonth*/,
     2 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00    EU    EE%sT
@@ -10500,7 +10500,7 @@ static const common::ZoneEra kZoneEraRiga[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10529,7 +10529,7 @@ static const common::ZoneEra kZoneEraRome[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10558,7 +10558,7 @@ static const common::ZoneEra kZoneEraSamara[] = {
     10 /*untilYearTiny*/,
     3 /*untilMonth*/,
     28 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              3:00    Russia    +03/+04    2011 Mar 27  2:00s
@@ -10569,7 +10569,7 @@ static const common::ZoneEra kZoneEraSamara[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              4:00    -    +04
@@ -10580,7 +10580,7 @@ static const common::ZoneEra kZoneEraSamara[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10609,7 +10609,7 @@ static const common::ZoneEra kZoneEraSaratov[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              4:00    -    +04    2014 Oct 26  2:00s
@@ -10620,7 +10620,7 @@ static const common::ZoneEra kZoneEraSaratov[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              3:00    -    +03    2016 Dec  4  2:00s
@@ -10631,7 +10631,7 @@ static const common::ZoneEra kZoneEraSaratov[] = {
     16 /*untilYearTiny*/,
     12 /*untilMonth*/,
     4 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              4:00    -    +04
@@ -10642,7 +10642,7 @@ static const common::ZoneEra kZoneEraSaratov[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10671,7 +10671,7 @@ static const common::ZoneEra kZoneEraSimferopol[] = {
     14 /*untilYearTiny*/,
     3 /*untilMonth*/,
     30 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //              4:00    -    MSK    2014 Oct 26  2:00s
@@ -10682,7 +10682,7 @@ static const common::ZoneEra kZoneEraSimferopol[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              3:00    -    MSK
@@ -10693,7 +10693,7 @@ static const common::ZoneEra kZoneEraSimferopol[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10722,7 +10722,7 @@ static const common::ZoneEra kZoneEraSofia[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10751,7 +10751,7 @@ static const common::ZoneEra kZoneEraStockholm[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10780,7 +10780,7 @@ static const common::ZoneEra kZoneEraTallinn[] = {
     2 /*untilYearTiny*/,
     2 /*untilMonth*/,
     21 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00    EU    EE%sT
@@ -10791,7 +10791,7 @@ static const common::ZoneEra kZoneEraTallinn[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10820,7 +10820,7 @@ static const common::ZoneEra kZoneEraTirane[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10849,7 +10849,7 @@ static const common::ZoneEra kZoneEraUlyanovsk[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              4:00    -    +04    2014 Oct 26  2:00s
@@ -10860,7 +10860,7 @@ static const common::ZoneEra kZoneEraUlyanovsk[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              3:00    -    +03    2016 Mar 27  2:00s
@@ -10871,7 +10871,7 @@ static const common::ZoneEra kZoneEraUlyanovsk[] = {
     16 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              4:00    -    +04
@@ -10882,7 +10882,7 @@ static const common::ZoneEra kZoneEraUlyanovsk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10911,7 +10911,7 @@ static const common::ZoneEra kZoneEraUzhgorod[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10940,7 +10940,7 @@ static const common::ZoneEra kZoneEraVienna[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -10969,7 +10969,7 @@ static const common::ZoneEra kZoneEraVilnius[] = {
     3 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             2:00    EU    EE%sT
@@ -10980,7 +10980,7 @@ static const common::ZoneEra kZoneEraVilnius[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11009,7 +11009,7 @@ static const common::ZoneEra kZoneEraVolgograd[] = {
     11 /*untilYearTiny*/,
     3 /*untilMonth*/,
     27 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              4:00    -    +04    2014 Oct 26  2:00s
@@ -11020,7 +11020,7 @@ static const common::ZoneEra kZoneEraVolgograd[] = {
     14 /*untilYearTiny*/,
     10 /*untilMonth*/,
     26 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              3:00    -    +03    2018 Oct 28  2:00s
@@ -11031,7 +11031,7 @@ static const common::ZoneEra kZoneEraVolgograd[] = {
     18 /*untilYearTiny*/,
     10 /*untilMonth*/,
     28 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     's' /*untilTimeModifier*/,
   },
   //              4:00    -    +04
@@ -11042,7 +11042,7 @@ static const common::ZoneEra kZoneEraVolgograd[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11071,7 +11071,7 @@ static const common::ZoneEra kZoneEraWarsaw[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11100,7 +11100,7 @@ static const common::ZoneEra kZoneEraZaporozhye[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11129,7 +11129,7 @@ static const common::ZoneEra kZoneEraZurich[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11158,7 +11158,7 @@ static const common::ZoneEra kZoneEraChagos[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11187,7 +11187,7 @@ static const common::ZoneEra kZoneEraChristmas[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11216,7 +11216,7 @@ static const common::ZoneEra kZoneEraCocos[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11245,7 +11245,7 @@ static const common::ZoneEra kZoneEraKerguelen[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11274,7 +11274,7 @@ static const common::ZoneEra kZoneEraMahe[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11303,7 +11303,7 @@ static const common::ZoneEra kZoneEraMaldives[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11332,7 +11332,7 @@ static const common::ZoneEra kZoneEraMauritius[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11361,7 +11361,7 @@ static const common::ZoneEra kZoneEraReunion[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11390,7 +11390,7 @@ static const common::ZoneEra kZoneEraApia[] = {
     11 /*untilYearTiny*/,
     12 /*untilMonth*/,
     29 /*untilDay*/,
-    24 /*untilHour*/,
+    96 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //              13:00    WS    +13/+14
@@ -11401,7 +11401,7 @@ static const common::ZoneEra kZoneEraApia[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11430,7 +11430,7 @@ static const common::ZoneEra kZoneEraAuckland[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11459,7 +11459,7 @@ static const common::ZoneEra kZoneEraBougainville[] = {
     14 /*untilYearTiny*/,
     12 /*untilMonth*/,
     28 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             11:00    -    +11
@@ -11470,7 +11470,7 @@ static const common::ZoneEra kZoneEraBougainville[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11499,7 +11499,7 @@ static const common::ZoneEra kZoneEraChatham[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11528,7 +11528,7 @@ static const common::ZoneEra kZoneEraChuuk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11557,7 +11557,7 @@ static const common::ZoneEra kZoneEraEaster[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11586,7 +11586,7 @@ static const common::ZoneEra kZoneEraEfate[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11615,7 +11615,7 @@ static const common::ZoneEra kZoneEraEnderbury[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11644,7 +11644,7 @@ static const common::ZoneEra kZoneEraFakaofo[] = {
     11 /*untilYearTiny*/,
     12 /*untilMonth*/,
     30 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             13:00    -    +13
@@ -11655,7 +11655,7 @@ static const common::ZoneEra kZoneEraFakaofo[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11684,7 +11684,7 @@ static const common::ZoneEra kZoneEraFiji[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11713,7 +11713,7 @@ static const common::ZoneEra kZoneEraFunafuti[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11742,7 +11742,7 @@ static const common::ZoneEra kZoneEraGalapagos[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11771,7 +11771,7 @@ static const common::ZoneEra kZoneEraGambier[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11800,7 +11800,7 @@ static const common::ZoneEra kZoneEraGuadalcanal[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11829,7 +11829,7 @@ static const common::ZoneEra kZoneEraGuam[] = {
     0 /*untilYearTiny*/,
     12 /*untilMonth*/,
     23 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             10:00    -    ChST
@@ -11840,7 +11840,7 @@ static const common::ZoneEra kZoneEraGuam[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11869,7 +11869,7 @@ static const common::ZoneEra kZoneEraHonolulu[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11898,7 +11898,7 @@ static const common::ZoneEra kZoneEraKiritimati[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11927,7 +11927,7 @@ static const common::ZoneEra kZoneEraKosrae[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11956,7 +11956,7 @@ static const common::ZoneEra kZoneEraKwajalein[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -11985,7 +11985,7 @@ static const common::ZoneEra kZoneEraMajuro[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12014,7 +12014,7 @@ static const common::ZoneEra kZoneEraMarquesas[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12043,7 +12043,7 @@ static const common::ZoneEra kZoneEraNauru[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12072,7 +12072,7 @@ static const common::ZoneEra kZoneEraNiue[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12101,7 +12101,7 @@ static const common::ZoneEra kZoneEraNorfolk[] = {
     15 /*untilYearTiny*/,
     10 /*untilMonth*/,
     4 /*untilDay*/,
-    2 /*untilHour*/,
+    8 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
   //             11:00    -    +11
@@ -12112,7 +12112,7 @@ static const common::ZoneEra kZoneEraNorfolk[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12141,7 +12141,7 @@ static const common::ZoneEra kZoneEraNoumea[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12170,7 +12170,7 @@ static const common::ZoneEra kZoneEraPago_Pago[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12199,7 +12199,7 @@ static const common::ZoneEra kZoneEraPalau[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12228,7 +12228,7 @@ static const common::ZoneEra kZoneEraPitcairn[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12257,7 +12257,7 @@ static const common::ZoneEra kZoneEraPohnpei[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12286,7 +12286,7 @@ static const common::ZoneEra kZoneEraPort_Moresby[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12315,7 +12315,7 @@ static const common::ZoneEra kZoneEraRarotonga[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12344,7 +12344,7 @@ static const common::ZoneEra kZoneEraTahiti[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12373,7 +12373,7 @@ static const common::ZoneEra kZoneEraTarawa[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12402,7 +12402,7 @@ static const common::ZoneEra kZoneEraTongatapu[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12431,7 +12431,7 @@ static const common::ZoneEra kZoneEraWake[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 
@@ -12460,7 +12460,7 @@ static const common::ZoneEra kZoneEraWallis[] = {
     127 /*untilYearTiny*/,
     1 /*untilMonth*/,
     1 /*untilDay*/,
-    0 /*untilHour*/,
+    0 /*untilTimeCode*/,
     'w' /*untilTimeModifier*/,
   },
 

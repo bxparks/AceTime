@@ -50,8 +50,11 @@ struct ZoneEra {
    */
   uint8_t const untilDay;
 
-  /** The hour field of the UNTIL field (0-23). */
-  uint8_t const untilHour;
+  /**
+   * The time field of UNTIL field in 15-minute increments. A range of 00:00 to
+   * 25:00 corresponds to 0-100.
+   */
+  uint8_t const untilTimeCode;
 
   /** UNTIL time modifier suffix: 'w', 's' or 'u'. */
   uint8_t const untilTimeModifier;

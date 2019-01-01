@@ -253,7 +253,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
     {untilYearTiny} /*untilYearTiny*/,
     {untilMonth} /*untilMonth*/,
     {untilDay} /*untilDay*/,
-    {untilHour} /*untilHour*/,
+    {untilTimeCode} /*untilTimeCode*/,
     '{untilTimeModifier}' /*untilTimeModifier*/,
   }},
 """
@@ -498,10 +498,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
         if not until_day:
             until_day = 1
 
-        (until_hour, _, _) = seconds_to_hms(era['untilSecondsTruncated'])
-
+        until_time_code = div_to_zero(era['untilSecondsTruncated'], 15 * 60)
         until_time_modifier = era['untilTimeModifier']
-
         offset_code = div_to_zero(era['offsetSecondsTruncated'], 15 * 60)
 
         # Replace %s with just a % for C++
@@ -516,8 +514,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
             untilYearTiny=until_year_tiny,
             untilMonth=until_month,
             untilDay=until_day,
-            # TODO: Replace untilHour with untilTimeCode
-            untilHour=until_hour,
+            untilTimeCode=until_time_code,
             untilTimeModifier=until_time_modifier)
 
         return (era_item, string_length)
