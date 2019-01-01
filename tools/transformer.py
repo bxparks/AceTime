@@ -67,9 +67,6 @@ class Transformer:
                 if RULES is DST offset string of the form hh:mm[:ss]
             rulesDeltaSecondsTruncated: (int or None) rulesDeltaSeconds
                 truncated to granularity
-            untilHour: (int) hour part of untilTime
-            untilMinute: (int) minute part of untilTime
-            untilSecond: (int) second part of untilTime
             untilSeconds: (int) untilTime converted into total seconds
             untilSecondsTruncated: (int) untilSeconds after truncated to
                 granularity
@@ -263,8 +260,7 @@ class Transformer:
         return results
 
     def create_zones_with_expanded_until_time(self, zones_map):
-        """ Create 'untilHour', 'untilMinute', 'untilSecond' and 'untilSeconds'
-        from zone['untilTime'].
+        """ Create 'untilSeconds' and 'untilSecondsTruncated' from 'untilTime'.
         """
         results = {}
         removed_zones = {}
@@ -301,8 +297,6 @@ class Transformer:
 
                 zone['untilSeconds'] = until_seconds
                 zone['untilSecondsTruncated'] = until_seconds_truncated
-                (zone['untilHour'], zone['untilMinute'], zone['untilSecond']) =\
-                    seconds_to_hms(until_seconds)
             if valid:
                results[name] = zones
 
@@ -486,24 +480,25 @@ class Transformer:
         for name, zones in zones_map.items():
             valid = True
             prev_until = None
-            current_until = None
             for zone in zones:
                 current_until = (
                     zone['untilYear'],
                     zone['untilMonth'] if zone['untilMonth'] else 0,
                     zone['untilDay'] if zone['untilDay'] else 0,
-                    zone['untilHour'] if zone['untilHour'] else 0
+                    zone['untilSeconds'] if zone['untilSeconds'] else 0
                 )
                 if prev_until:
                     if current_until <= prev_until:
                         valid = False
                         removed_zones[name] = (
-                            'non increasing UNTIL: %s %s %s %s' % current_until)
+                            'non increasing UNTIL: %04d-%02d-%02d %ds'
+                            % current_until)
                         break
                 prev_until = current_until
             if valid and current_until[0] != extractor.MAX_UNTIL_YEAR:
                 valid = False
-                removed_zones[name] = ('invalid final UNTIL: %s %s %s %s' %
+                removed_zones[name] = (
+                    'invalid final UNTIL: %04d-%02d-%02d %ds' %
                     current_until)
 
             if valid:

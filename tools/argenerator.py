@@ -498,9 +498,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
         if not until_day:
             until_day = 1
 
-        until_hour = era['untilHour']
-        if not until_hour:
-            until_hour = 0
+        (until_hour, _, _) = seconds_to_hms(era['untilSecondsTruncated'])
 
         until_time_modifier = era['untilTimeModifier']
 
@@ -518,6 +516,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
             untilYearTiny=until_year_tiny,
             untilMonth=until_month,
             untilDay=until_day,
+            # TODO: Replace untilHour with untilTimeCode
             untilHour=until_hour,
             untilTimeModifier=until_time_modifier)
 
