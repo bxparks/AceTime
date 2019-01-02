@@ -10,9 +10,6 @@ C++ code in the Arduino environment.
 
 Examples:
 
-    # Calculate and print the Transition buffer stats
-    $ ./zone_agent.py --validate
-
     # America/Indiana/Petersburg for the year 2006.
     $ ./zone_agent.py --zone Petersburg --year 2006
 
@@ -735,28 +732,6 @@ def compare_era_to_year_month(era, year, month):
     return 0
 
 
-def validate(optimized):
-    """Validate the data in the zone_infos.py and zone_policies.py files.
-    """
-    # map of {zoneName -> (numTransitions, year)}
-    transition_stats = {}
-
-    # Calculate the number of Transitions necessary for every Zone
-    # in ZONE_INFO_MAP, for the years 2000 to 2038.
-    for zone_name, zone_info in ZONE_INFO_MAP.items():
-        zone_agent = ZoneAgent(zone_info, optimized)
-        count_record = (0, 0) # (count, year)
-        logging.info("Processing Zone %s...", zone_name)
-        for year in range(2000, 2038):
-            zone_agent.init_year(year)
-            count = len(zone_agent.transitions)
-            if count > count_record[0]:
-                count_record = (count, year)
-        transition_stats[zone_name] = count_record
-    for zone_name, count_record in sorted(
-        transition_stats.items(), key=lambda x: x[1], reverse=True):
-        print("%s: %d (%04d)" % ((zone_name,) + count_record))
-
 def print_transitions(optimized, zone_name, year):
     zone_info = ZONE_INFO_MAP.get(zone_name)
     if not zone_info:
@@ -778,8 +753,6 @@ def date_tuple_to_string(dt):
 def main():
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Zone Agent.')
-    parser.add_argument('--validate', help='Validate infos and policies',
-        action="store_true")
     parser.add_argument('--optimized', help='Optimize the year interval',
         action="store_true")
     parser.add_argument('--zone', help='Name of time zone')
@@ -789,12 +762,10 @@ def main():
     # Configure logging
     logging.basicConfig(level=logging.INFO)
 
-    if args.validate:
-        validate(args.optimized)
-    elif args.zone and args.year:
+    if args.zone and args.year:
         print_transitions(args.optimized, args.zone, args.year)
     else:
-        print("Either --validate or --zone/--year must be provided")
+        print("--zone and --year must be provided")
         sys.exit(1)
 
 if __name__ == '__main__':

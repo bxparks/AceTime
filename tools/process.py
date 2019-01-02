@@ -42,6 +42,7 @@ from transformer import Transformer
 from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
+from validator import Validator
 
 def main():
     """Read the test data chunks from the STDIN and print them out. The ability
@@ -104,15 +105,13 @@ def main():
 
     # File generators
     parser.add_argument(
-        '--python', help='Generate Python files', action='store_true',
-        required=False)
+        '--python', help='Generate Python files', action='store_true')
     parser.add_argument(
-        '--arduino', help='Generate Arduino files', action='store_true',
-        required=False)
+        '--arduino', help='Generate Arduino files', action='store_true')
     parser.add_argument(
         '--tz_version', help='Version string of the TZ files', required=True)
     parser.add_argument(
-        '--output_dir', help='Location of the output directory', required=False)
+        '--output_dir', help='Location of the output directory')
 
     # Validator
     parser.add_argument(
@@ -120,6 +119,8 @@ def main():
         help='Validate the zone_infos and zone_policies maps',
         action='store_true',
         default=False)
+    parser.add_argument('--optimized', help='Optimize the year interval',
+        action="store_true")
 
     # Parse the command line arguments
     args = parser.parse_args()
@@ -189,10 +190,13 @@ def main():
     # Validate the zone_infos and zone_policies if requested
     if args.validate:
         logging.info('======== Validating zone_infos and zone_policies...')
-        inline_generator = InlineGenerator(zones, rules,
-            removed_zones, removed_policies,
-            notable_zones, notable_policies)
+        inline_generator = InlineGenerator(zones, rules)
         (zone_infos, zone_policies) = inline_generator.generate_maps()
+        logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
+            len(zone_policies))
+
+        validator = Validator(zone_infos, zone_policies, args.optimized)
+        validator.validate()
 
     logging.info('======== Finished processing TZ Data files.')
 
