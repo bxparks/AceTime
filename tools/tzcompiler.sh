@@ -16,7 +16,7 @@ INPUT_DIR=$HOME/dev/tz
 OUTPUT_DIR=$PWD
 
 function usage() {
-    echo 'Usage: process.sh --tag tag [--python] [--arduino] [--validate]'
+    echo 'Usage: tzcompiler.sh --tag tag [--python] [--arduino] [--validate]'
     echo '       [python_flags...]'
     exit 1
 }
@@ -45,12 +45,12 @@ git co $tag
 echo '$ popd'
 popd
 
-echo \$ $DIRNAME/process.py \
+echo \$ $DIRNAME/tzcompiler.py \
     --input_dir $INPUT_DIR \
     --output_dir $OUTPUT_DIR \
     --tz_version $tag \
     $@
-$DIRNAME/process.py \
+$DIRNAME/tzcompiler.py \
     --input_dir $INPUT_DIR \
     --output_dir $OUTPUT_DIR \
     --tz_version $tag \

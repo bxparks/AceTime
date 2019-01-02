@@ -4,8 +4,8 @@
 #
 # MIT License.
 """
-Main driver for the Extractor, Printer, Transformer, and the Generators.
-The data processing pipeline looks like this:
+Main driver for TZ Database compiler. The data processing pipeline looks like
+this:
 
                   TZDB files
                       |
@@ -49,7 +49,7 @@ def main():
     to run this from the command line is intended mostly for testing purposes.
 
     Usage:
-        process.py [flags...]
+        tzcompiler.py [flags...]
     """
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Generate Zone Info.')
