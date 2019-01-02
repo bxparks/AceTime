@@ -9,7 +9,6 @@ import logging
 import os
 
 from transformer import short_name
-from transformer import seconds_to_hms
 from argenerator import normalize_name
 from argenerator import normalize_raw
 
@@ -64,8 +63,8 @@ ZONE_RULES_{policyName} = [
 {ruleItems}
 ]
 ZONE_POLICY_{policyName} = {{
-    "name": "{policyName}",
-    "rules": ZONE_RULES_{policyName}
+    'name': '{policyName}',
+    'rules': ZONE_RULES_{policyName}
 }}
 
 """
@@ -147,8 +146,8 @@ ZONE_ERAS_{infoShortName} = [
 {eraItems}
 ]
 ZONE_INFO_{infoShortName} = {{
-    "name": "{infoFullName}",
-    "eras": ZONE_ERAS_{infoShortName}
+    'name': '{infoFullName}',
+    'eras': ZONE_ERAS_{infoShortName}
 }}
 
 """
@@ -298,9 +297,9 @@ ZONE_INFO_{infoShortName} = {{
     def generate_info_items(self, zones_map):
         info_items = ''
         num_eras = 0
-        for name, zones in sorted(self.zones_map.items()):
-            info_items += self.generate_info_item(name, zones)
-            num_eras += len(zones)
+        for name, eras in sorted(self.zones_map.items()):
+            info_items += self.generate_info_item(name, eras)
+            num_eras += len(eras)
         return (num_eras, info_items)
 
     def generate_removed_info_items(self, removed_zones):

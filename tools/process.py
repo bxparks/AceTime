@@ -7,23 +7,29 @@
 Main driver for the Extractor, Printer, Transformer, and the Generators.
 The data processing pipeline looks like this:
 
-          TZDB files
-              |
-              v
-          Extractor --> Printer
-              |
-              v
-         Transformer --> Printer
-           /       \
-          v         v
-ArduinoGenerator    PythonGenerator
-        /               \
-       v                 v
-zone_infos.{h,cpp}      zone_infos.py
-zone_policies.{h,cpp}   zone_policies.py
-                             |
-                             v
-                        zone_agent.py
+                  TZDB files
+                      |
+                      v
+                  Extractor --> Printer
+                      |
+                      v
+                 Transformer --> Printer
+                 /    |   \
+                v     |    v
+ArduinoGenerator      |   PythonGenerator
+        /             |        \
+       v              |         v
+zone_infos.{h,cpp}    |        zone_infos.py
+zone_policies.{h,cpp} |        zone_policies.py
+                      |            |
+                      |            v
+                      |        zone_agent.py
+                      v
+               InlineGenerator
+                      |
+                      |
+                      v
+                  Validator
 """
 
 import argparse
@@ -35,6 +41,7 @@ from extractor import Extractor
 from transformer import Transformer
 from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
+from ingenerator import InlineGenerator
 
 def main():
     """Read the test data chunks from the STDIN and print them out. The ability
@@ -46,20 +53,13 @@ def main():
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Generate Zone Info.')
 
-    # General
-    parser.add_argument(
-        '--python',
-        help='Generate Python files instead of C++',
-        action="store_true",
-        default=False)
-
     # Extractor
     parser.add_argument(
         '--input_dir', help='Location of the input directory', required=True)
     parser.add_argument(
         '--print_summary',
         help='Print summary of rules and zones',
-        action="store_true",
+        action='store_true',
         default=False)
 
     # Transformer
@@ -77,42 +77,56 @@ def main():
     parser.add_argument(
         '--strict',
         help='Remove zones and rules not aligned at granularity time boundary',
-        action="store_true",
+        action='store_true',
         default=False)
 
     # Printer
     parser.add_argument(
         '--print_rules',
         help='Print list of rules',
-        action="store_true",
+        action='store_true',
         default=False)
     parser.add_argument(
         '--print_zones',
         help='Print list of zones',
-        action="store_true",
+        action='store_true',
         default=False)
     parser.add_argument(
         '--print_zones_short_name',
         help='Print the short zone names',
-        action="store_true",
+        action='store_true',
         default=False)
     parser.add_argument(
         '--print_transformed_zones',
         help='Print transformed zones',
-        action="store_true",
+        action='store_true',
         default=False)
     parser.add_argument(
         '--print_transformed_rules',
         help='Print transformed rules',
-        action="store_true",
+        action='store_true',
         default=False)
 
-    # Generators
+    # File generators
+    parser.add_argument(
+        '--python', help='Generate Python files', action='store_true',
+        required=False)
+    parser.add_argument(
+        '--arduino', help='Generate Arduino files', action='store_true',
+        required=False)
     parser.add_argument(
         '--tz_version', help='Version string of the TZ files', required=True)
     parser.add_argument(
         '--output_dir', help='Location of the output directory', required=False)
 
+    # Validator
+    parser.add_argument(
+        '--validate',
+        help='Validate the zone_infos and zone_policies maps',
+        action='store_true',
+        default=False)
+
+    # Parse the command line arguments
     args = parser.parse_args()
 
     # Configure logging
@@ -149,28 +163,40 @@ def main():
     (zones, rules, removed_zones, removed_policies, notable_zones,
         notable_policies) = transformer.get_data()
 
-    # printer for the transformer
+    # Printer for the transformer
     printer = Printer(zones, rules)
 
-    # print the transformed data
+    # Print the transformed data
     if args.print_transformed_zones:
         printer.print_zones()
     if args.print_transformed_rules:
         printer.print_rules()
 
-    # create the generator (Python or C++
+    # Create the Python or Arduino files if requested
     if args.python:
         generator = PythonGenerator(invocation, args.tz_version,
             Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies,
             notable_zones, notable_policies)
-    else:
+        if not args.output_dir:
+            logging.error('Must provide --output_dir to generate Python files')
+            sys.exit(1)
+        generator.generate_files(args.output_dir)
+    if args.arduino:
         generator = ArduinoGenerator(invocation, args.tz_version,
             Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies,
             notable_zones, notable_policies)
-
-    # generate files
-    if args.output_dir:
+        if not args.output_dir:
+            logging.error('Must provide --output_dir to generate Arduino files')
+            sys.exit(1)
         generator.generate_files(args.output_dir)
+
+    # Validate the zone_infos and zone_policies if requested
+    if args.validate:
+        inline_generator = InlineGenerator(zones, rules,
+            removed_zones, removed_policies,
+            notable_zones, notable_policies)
+        (zone_infos, zone_policies) = inline_generator.generate_maps()
+
 
 if __name__ == '__main__':
     main()
