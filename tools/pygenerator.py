@@ -36,6 +36,12 @@ class PythonGenerator:
 
 #---------------------------------------------------------------------------
 
+ZONE_POLICY_MAP = {{
+{policyMapItems}
+}}
+
+#---------------------------------------------------------------------------
+
 # The following zone policies are not supported in the current version of
 # AceTime.
 #
@@ -67,6 +73,10 @@ ZONE_POLICY_{policyName} = {{
     'rules': ZONE_RULES_{policyName}
 }}
 
+"""
+
+    ZONE_POLICY_MAP_ITEM = """\
+    '{policyName}': ZONE_POLICY_{policyName},
 """
 
     ZONE_REMOVED_POLICY_ITEM = """\
@@ -176,7 +186,7 @@ ZONE_INFO_{infoShortName} = {{
 """
 
     ZONE_INFO_MAP_ITEM = """\
-    "{infoShortName}": ZONE_INFO_{infoShortName}, # {infoFullName}
+    '{infoShortName}': ZONE_INFO_{infoShortName}, # {infoFullName}
 """
 
     ZONE_INFOS_FILE_NAME = 'zone_infos.py'
@@ -210,6 +220,7 @@ ZONE_INFO_{infoShortName} = {{
 
     def generate_policies(self):
         (num_rules, policy_items) = self.generate_policy_items(self.rules_map)
+        policy_map_items = self.generate_policy_map_items(self.rules_map)
         removed_policy_items = self.generate_removed_policy_items(
             self.removed_policies)
         notable_policy_items = self.generate_notable_policy_items(
@@ -222,6 +233,7 @@ ZONE_INFO_{infoShortName} = {{
             numPolicies=len(self.rules_map),
             numRules=num_rules,
             policyItems=policy_items,
+            policyMapItems=policy_map_items,
             numRemovedPolicies=len(self.removed_policies),
             removedPolicyItems=removed_policy_items,
             numNotablePolicies=len(self.notable_policies),
@@ -234,6 +246,15 @@ ZONE_INFO_{infoShortName} = {{
             policy_items += self.generate_policy_item(name, rules)
             num_rules += len(rules)
         return (num_rules, policy_items)
+
+    def generate_policy_map_items(self, rules_map):
+        policy_map_items = ''
+        for name, rules in sorted(rules_map.items(),
+            key=lambda x: normalize_name(x[0])):
+            policy_map_items += self.ZONE_POLICY_MAP_ITEM.format(
+                policyName=normalize_name(name))
+        return policy_map_items
+
 
     def generate_policy_item(self, name, rules):
         rule_items = ''
@@ -275,11 +296,11 @@ ZONE_INFO_{infoShortName} = {{
 
     def generate_infos(self):
         (num_eras, info_items) = self.generate_info_items(self.zones_map)
+        info_map_items = self.generate_info_map_items(self.zones_map)
         removed_info_items = self.generate_removed_info_items(
             self.removed_zones)
         notable_info_items = self.generate_notable_info_items(
             self.notable_zones)
-        info_map_items = self.generate_info_map_items(self.zones_map)
 
         return self.ZONE_INFOS_FILE.format(
             invocation=self.invocation,
@@ -301,6 +322,17 @@ ZONE_INFO_{infoShortName} = {{
             info_items += self.generate_info_item(name, eras)
             num_eras += len(eras)
         return (num_eras, info_items)
+
+    def generate_info_map_items(self, zones_map):
+        """Generate a map of (shortName -> zoneInfo), shorted by shortName.
+        """
+        info_map_items = ''
+        for name, zones in sorted(zones_map.items(),
+            key=lambda x: normalize_name(short_name(x[0]))):
+            info_map_items += self.ZONE_INFO_MAP_ITEM.format(
+                infoShortName=normalize_name(short_name(name)),
+                infoFullName=name)
+        return info_map_items
 
     def generate_removed_info_items(self, removed_zones):
         removed_info_items = ''
@@ -350,14 +382,3 @@ ZONE_INFO_{infoShortName} = {{
             untilDay=era['untilDay'],
             untilSeconds=era['untilSecondsTruncated'],
             untilTimeModifier=era['untilTimeModifier'])
-
-    def generate_info_map_items(self, zones_map):
-        """Generate a map of (shortName -> zoneInfo), shorted by shortName.
-        """
-        info_map_items = ''
-        for name, zones in sorted(zones_map.items(),
-            key=lambda x: normalize_name(short_name(x[0]))):
-            info_map_items += self.ZONE_INFO_MAP_ITEM.format(
-                infoShortName=normalize_name(short_name(name)),
-                infoFullName=name)
-        return info_map_items
