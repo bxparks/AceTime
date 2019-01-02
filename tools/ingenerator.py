@@ -31,10 +31,10 @@ class InlineGenerator:
         """
         self.generate_policies()
         self.generate_infos()
-        return (zone_infos, zone_policies)
+        return (self.zone_infos, self.zone_policies)
 
     def generate_policies(self):
-        for name, rules in rules_map.items():
+        for name, rules in self.rules_map.items():
             policy_rules = []
             for rule in rules:
                 policy_rules.append({
@@ -56,13 +56,14 @@ class InlineGenerator:
             }
 
     def generate_infos(self):
-        for name, zones in self.zones_map.items():
+        for name, eras in self.zones_map.items():
             zone_eras = []
             for era in eras:
                 policy_name = era['rules']
                 if policy_name in ['-', ':']:
                     zone_policy = policy_name
                 else:
+                    policy_name = normalize_name(policy_name)
                     zone_policy = self.zone_policies[policy_name]
 
                 rules_delta_seconds = era['rulesDeltaSecondsTruncated']
@@ -70,7 +71,7 @@ class InlineGenerator:
 
                 zone_eras.append({
                   'offsetSeconds': era['offsetSecondsTruncated'],
-                  'zonePolicy': zonePolicy,
+                  'zonePolicy': zone_policy,
                   'rulesDeltaSeconds': rules_delta_seconds,
                   'format': era['format'],
                   'untilYear': era['untilYear'],

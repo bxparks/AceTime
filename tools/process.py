@@ -56,11 +56,6 @@ def main():
     # Extractor
     parser.add_argument(
         '--input_dir', help='Location of the input directory', required=True)
-    parser.add_argument(
-        '--print_summary',
-        help='Print summary of rules and zones',
-        action='store_true',
-        default=False)
 
     # Transformer
     parser.add_argument(
@@ -136,6 +131,7 @@ def main():
     invocation = ' '.join(sys.argv)
 
     # Extract the TZ files
+    logging.info('======== Extracting TZ Data files...')
     extractor = Extractor(args.input_dir)
     extractor.parse()
     extractor.print_summary()
@@ -152,14 +148,12 @@ def main():
     if args.print_zones_short_name:
         printer.print_zones_short_name()
 
-    # Extractor summary
-    if args.print_summary:
-        extractor.print_summary()
-
     # Transform the TZ zones and rules
+    logging.info('======== Transforming Zones and Rules...')
     transformer = Transformer(zones, rules, args.python, args.start_year,
         args.granularity, args.strict)
     transformer.transform()
+    transformer.print_summary()
     (zones, rules, removed_zones, removed_policies, notable_zones,
         notable_policies) = transformer.get_data()
 
@@ -174,6 +168,7 @@ def main():
 
     # Create the Python or Arduino files if requested
     if args.python:
+        logging.info('======== Creating Python zonedb files...')
         generator = PythonGenerator(invocation, args.tz_version,
             Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies,
             notable_zones, notable_policies)
@@ -182,6 +177,7 @@ def main():
             sys.exit(1)
         generator.generate_files(args.output_dir)
     if args.arduino:
+        logging.info('======== Creating Arduino zonedb files...')
         generator = ArduinoGenerator(invocation, args.tz_version,
             Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies,
             notable_zones, notable_policies)
@@ -192,11 +188,13 @@ def main():
 
     # Validate the zone_infos and zone_policies if requested
     if args.validate:
+        logging.info('======== Validating zone_infos and zone_policies...')
         inline_generator = InlineGenerator(zones, rules,
             removed_zones, removed_policies,
             notable_zones, notable_policies)
         (zone_infos, zone_policies) = inline_generator.generate_maps()
 
+    logging.info('======== Finished processing TZ Data files.')
 
 if __name__ == '__main__':
     main()

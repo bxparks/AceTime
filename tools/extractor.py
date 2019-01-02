@@ -248,7 +248,7 @@ class Extractor:
             for zone in zones:
                 zone_entry_count += 1
 
-        logging.info('======== Extractor Summary')
+        logging.info('-------- Extractor Summary')
         logging.info('Rule lines count: %s' % len(self.rule_lines))
         logging.info('Zone lines count: %s' % len(self.zone_lines))
         logging.info('Link lines count: %s' % len(self.link_lines))
@@ -260,7 +260,7 @@ class Extractor:
         logging.info('Ignored Zone lines: %s' % self.ignored_zone_lines)
         logging.info('Invalid Rule lines: %s' % self.invalid_rule_lines)
         logging.info('Invalid Zone lines: %s' % self.invalid_zone_lines)
-        logging.info('======== Extractor Summary End')
+        logging.info('-------- Extractor Summary End')
 
 
 def add_item(table, name, line):
