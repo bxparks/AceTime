@@ -10,6 +10,9 @@ C++ code in the Arduino environment.
 
 Examples:
 
+    # America/Los_Angeles for 2018-03-10T02:00:00
+    $ ./zone_agent.py --zone Petersburg --date 2018-03-10T02:00:00
+
     # America/Indiana/Petersburg for the year 2006.
     $ ./zone_agent.py --zone Petersburg --year 2006
 
@@ -33,11 +36,11 @@ from transformer import hms_to_seconds
 from zonedb.zone_policies import *
 from zonedb.zone_infos import *
 
-class ZoneAgent:
-    # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
-    # (2000-01-01 00:00:00)
-    SECONDS_SINCE_UNIX_EPOCH = 946684800
+# Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
+# (2000-01-01 00:00:00)
+SECONDS_SINCE_UNIX_EPOCH = 946684800
 
+class ZoneAgent:
     # Sentinel ZoneEra that represents the earliest zone era.
     ZONE_ERA_ANCHOR = {
         'untilYear': MIN_YEAR,
@@ -79,6 +82,7 @@ class ZoneAgent:
         #   'deltaSeconds': int, # from ZoneRule or ZoneEra
         #   'format': string, # from ZoneEra
         #   'abbrev': string, # abbreviation
+        #   'startEpochSecond': int, # the starting time in epoch seconds
         #
         #   # Added for named Match.
         #   'zoneRule': ZoneRule, # from Rule
@@ -86,28 +90,20 @@ class ZoneAgent:
         # }
         self.transitions = [] # list of transitions
 
-    def is_dst(self, epoch_seconds):
-        return False
-
-    def get_utc_offset(self, epoch_seconds):
-        """Return UTC offset in minutes.
-        """
-        return 0
-
-    def get_abbrev(self, epoch_seconds):
-        """Return the timezone abbreviation at epoch_seconds.
-        """
-
-    def init_second(self, epoch_seconds):
+    def init_for_second(self, epoch_seconds):
         """Initialize the Transitions from the given epoch_seconds.
         """
         ldt = datetime.utcfromtimestamp(
-            epoch_seconds + self.SECONDS_SINCE_UNIX_EPOCH)
-        init_year(ldt.year)
+            epoch_seconds + SECONDS_SINCE_UNIX_EPOCH)
+        self.init_for_year(ldt.year)
 
-    def init_year(self, year):
-        """Initialize the Transitions of the given zone and year.
+    def init_for_year(self, year):
+        """Initialize the Transitions for the year.
         """
+        # Check if cache filled
+        if self.year == year:
+            return
+
         self.matches = []
         self.transitions = []
         self.year = year
@@ -127,93 +123,58 @@ class ZoneAgent:
         self.calc_abbrev()
         self.generate_start_until_times()
 
-    def print_status(self):
-        print('Matches:')
-        for match in self.matches:
-            self.print_match(match)
+    def get_matches_and_transitions(self, year):
+        """Returns a tuple of (matches, transitions).
+        """
+        self.init_for_year(year)
+        return (self.matches, self.transitions)
 
-        print('Transitions:')
-        for transition in self.transitions:
-            self.print_transition(transition)
+    def get_transition_from_seconds(self, epoch_seconds):
+        self.init_for_second(epoch_seconds)
+        return self.find_transition_from_seconds(epoch_seconds)
 
-    def print_match(self, match):
-        policy_name = match['policyName']
-        format = match['zoneEra']['format']
-        print(('start: %s; until: %s; policy: %s; format: %s') % (
-            date_tuple_to_string(match['startDateTime']),
-            date_tuple_to_string(match['untilDateTime']),
-            policy_name, format))
+    def get_transition_from_datetime(self, dt):
+        self.init_for_year(dt.year)
+        return self.find_transition_from_datetime(dt)
 
-    def print_transition(self, transition):
-        tt = transition['transitionTime']
-        sdt = transition['startDateTime']
-        udt = transition['untilDateTime']
-        policy_name = transition['policyName']
+    def get_timezone_info_from_seconds(self, epoch_seconds):
+        """Return a tuple of (utc_offset_seconds, dst_seconds, abbrev).
+        """
+        self.init_for_second(epoch_seconds)
+        transition = self.find_transition_from_seconds(epoch_seconds)
+        return self.timezone_info_from_transition(transition)
+
+    def timezone_info_from_transition(self, transition):
         offset_seconds = transition['offsetSeconds']
         delta_seconds = transition['deltaSeconds']
-        if delta_seconds == None: delta_seconds = 0
-        format = transition['format']
+        utc_offset_seconds = offset_seconds + delta_seconds
         abbrev = transition['abbrev']
+        return (utc_offset_seconds, delta_seconds, abbrev)
 
-        if policy_name in ['-', ':']:
-            print(('transition: %s; '
-                + 'start: %s; '
-                + 'until: %s; '
-                + 'policy: %s; '
-                + 'UTC+%d+%d; '
-                + 'format: %s; '
-                + 'abbrev: %s')
-                % (
-                date_tuple_to_string(tt),
-                date_tuple_to_string(sdt),
-                date_tuple_to_string(udt),
-                policy_name,
-                offset_seconds, delta_seconds,
-                format,
-                abbrev))
-        else:
-            delta_seconds = transition['deltaSeconds']
-            letter = transition['letter']
-            zone_rule = transition['zoneRule']
-            zone_rule_from = zone_rule['fromYear']
-            zone_rule_to = zone_rule['toYear']
-            ott = transition['originalTransitionTime'] \
-                if 'originalTransitionTime' in transition else None
+    def find_transition_from_seconds(self, epoch_seconds):
+        """Return the matching transition, or None if not found.
+        """
+        matching_transition = None
+        for transition in self.transitions:
+            if transition['startEpochSecond'] <= epoch_seconds:
+                matching_transition = transition
+            elif transition['startEpochSecond'] > epoch_seconds:
+                break;
+        return matching_transition
 
-            if ott:
-                print(('transition: %s; '
-                    + 'start: %s; '
-                    + 'until: %s; '
-                    + 'orig: %s; '
-                    + 'policy: %s[%d,%d]; '
-                    + 'UTC+%d+%d; '
-                    + 'format: %s(%s); '
-                    + 'abbrev: %s')
-                    % (
-                    date_tuple_to_string(tt),
-                    date_tuple_to_string(sdt),
-                    date_tuple_to_string(udt),
-                    date_tuple_to_string(ott),
-                    policy_name, zone_rule_from, zone_rule_to,
-                    offset_seconds, delta_seconds,
-                    format, letter,
-                    abbrev))
-            else:
-                print(('transition: %s; '
-                    + 'start: %s; '
-                    + 'until: %s; '
-                    + 'policy: %s[%d,%d]; '
-                    + 'UTC+%d+%d; '
-                    + 'format: %s(%s); '
-                    + 'abbrev: %s')
-                    % (
-                    date_tuple_to_string(tt),
-                    date_tuple_to_string(sdt),
-                    date_tuple_to_string(udt),
-                    policy_name, zone_rule_from, zone_rule_to,
-                    offset_seconds, delta_seconds,
-                    format, letter,
-                    abbrev))
+    def find_transition_from_datetime(self, dt):
+        """Return the matching transition matching the local datetime 'dt',
+        or None if not found.
+        """
+        matching_transition = None
+        secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
+        dt_time = (dt.year, dt.month, dt.day, secs, 'w')
+        for transition in self.transitions:
+            start_time = transition['startDateTime']
+            until_time = transition['untilDateTime']
+            if start_time <= dt_time and dt_time < until_time:
+                return transition
+        return None
 
     def find_matches(self, start_ym, until_ym):
         """Find the Zone Eras which overlap [start_ym, until_ym). This will
@@ -380,7 +341,6 @@ class ZoneAgent:
                 prior_transition = self.create_transition_earliest(rule, match)
                 prior_transition['deltaSeconds'] = 0
             if not prior_transition:
-                self.print_status()
                 logging.error("Zone '%s'; year '%04d': "
                     + "No prior transition found!",
                     self.zone_info['name'], self.year)
@@ -588,6 +548,8 @@ class ZoneAgent:
             'transitionTime' using the UTC offset of the *previous* Transition.
         Got all that?
         """
+        epoch_dt = datetime(2000, 1, 1, tzinfo=timezone.utc)
+
         # As before, bootstrap the prev transition with the first transition
         # so that we have a UTC offset to work with.
         prev = self.transitions[0]
@@ -623,13 +585,11 @@ class ZoneAgent:
             utc_offset_seconds = prev['offsetSeconds'] + prev['deltaSeconds']
             z = timezone(timedelta(seconds=utc_offset_seconds))
             dt = st.replace(tzinfo=z)
-            epoch_dt = datetime(2000, 1, 1, tzinfo=timezone.utc)
-            epoch_second = (dt - epoch_dt).total_seconds()
+            epoch_second = int((dt - epoch_dt).total_seconds())
             transition['startEpochSecond'] = epoch_second
 
             prev = transition
             is_after_first = True
-
 
 def calc_effective_match(start_ym, until_ym, match):
     """Generate a version of match which overlaps the interval
@@ -732,40 +692,145 @@ def compare_era_to_year_month(era, year, month):
     return 0
 
 
-def print_transitions(optimized, zone_name, year):
-    zone_info = ZONE_INFO_MAP.get(zone_name)
-    if not zone_info:
-        logging.error("Zone '%s' not found", zone_name)
-        sys.exit(1)
-
-    logging.info("Loading Zone info for '%s'", zone_name)
-    zone_agent = ZoneAgent(zone_info, optimized)
-    zone_agent.init_year(year)
-    zone_agent.print_status()
-
-
 def date_tuple_to_string(dt):
     (h, m, s) = seconds_to_hms(dt[3])
     return '%04d-%02d-%02d %02d:%02d:%02d%s' % (
         dt[0], dt[1], dt[2], h, m, s, dt[4])
 
+def seconds_to_hms_string(secs):
+    if secs < 0:
+        hms = seconds_to_hms(-secs)
+        return '-%02d:%02d:%02d' % hms
+    else:
+        hms = seconds_to_hms(secs)
+        return '+%02d:%02d:%02d' % hms
+
+EPOCH_DATETIME = datetime(2000, 1, 1, 0, 0, 0)
+
+def print_matches_and_transitions(matches, transitions):
+    print('Matches:')
+    for match in matches:
+        print_match(match)
+
+    print('Transitions:')
+    for transition in transitions:
+        print_transition(transition)
+
+def print_match(match):
+    policy_name = match['policyName']
+    format = match['zoneEra']['format']
+    print(('start: %s; until: %s; policy: %s; format: %s') % (
+        date_tuple_to_string(match['startDateTime']),
+        date_tuple_to_string(match['untilDateTime']),
+        policy_name, format))
+
+def print_transition(transition):
+    tt = transition['transitionTime']
+    sdt = transition['startDateTime']
+    udt = transition['untilDateTime']
+    policy_name = transition['policyName']
+    offset_seconds = transition['offsetSeconds']
+    delta_seconds = transition['deltaSeconds']
+    if delta_seconds == None: delta_seconds = 0
+    format = transition['format']
+    abbrev = transition['abbrev']
+
+    if policy_name in ['-', ':']:
+        print(('transition: %s; '
+            + 'start: %s; '
+            + 'until: %s; '
+            + 'policy: %s; '
+            + 'UTC%+d%+d; '
+            + 'format: %s; '
+            + 'abbrev: %s')
+            % (
+            date_tuple_to_string(tt),
+            date_tuple_to_string(sdt),
+            date_tuple_to_string(udt),
+            policy_name,
+            offset_seconds, delta_seconds,
+            format,
+            abbrev))
+    else:
+        delta_seconds = transition['deltaSeconds']
+        letter = transition['letter']
+        zone_rule = transition['zoneRule']
+        zone_rule_from = zone_rule['fromYear']
+        zone_rule_to = zone_rule['toYear']
+        ott = transition['originalTransitionTime'] \
+            if 'originalTransitionTime' in transition else None
+
+        if ott:
+            print(('transition: %s; '
+                + 'start: %s; '
+                + 'until: %s; '
+                + 'orig: %s; '
+                + 'policy: %s[%d,%d]; '
+                + 'UTC%+d%+d; '
+                + 'format: %s(%s); '
+                + 'abbrev: %s')
+                % (
+                date_tuple_to_string(tt),
+                date_tuple_to_string(sdt),
+                date_tuple_to_string(udt),
+                date_tuple_to_string(ott),
+                policy_name, zone_rule_from, zone_rule_to,
+                offset_seconds, delta_seconds,
+                format, letter,
+                abbrev))
+        else:
+            print(('transition: %s; '
+                + 'start: %s; '
+                + 'until: %s; '
+                + 'policy: %s[%d,%d]; '
+                + 'UTC%+d%+d; '
+                + 'format: %s(%s); '
+                + 'abbrev: %s')
+                % (
+                date_tuple_to_string(tt),
+                date_tuple_to_string(sdt),
+                date_tuple_to_string(udt),
+                policy_name, zone_rule_from, zone_rule_to,
+                offset_seconds, delta_seconds,
+                format, letter,
+                abbrev))
 
 def main():
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Zone Agent.')
     parser.add_argument('--optimized', help='Optimize the year interval',
         action="store_true")
-    parser.add_argument('--zone', help='Name of time zone')
+    parser.add_argument('--zone', help='Name of time zone', required=True)
     parser.add_argument('--year', help='Year of interest', type=int)
+    parser.add_argument('--date', help='DateTime of interest')
     args = parser.parse_args()
 
     # Configure logging
     logging.basicConfig(level=logging.INFO)
 
-    if args.zone and args.year:
-        print_transitions(args.optimized, args.zone, args.year)
+    # Find the zone.
+    zone_info = ZONE_INFO_MAP.get(args.zone)
+    if not zone_info:
+        logging.error("Zone '%s' not found", zone_name)
+        sys.exit(1)
+
+    # Create the ZoneAgent for zone
+    zone_agent = ZoneAgent(zone_info, args.optimized)
+
+    if args.year:
+        (matches, transitions) = zone_agent.get_matches_and_transitions(
+            args.year)
+        print_matches_and_transitions(matches, transitions)
+
+    elif args.date:
+        dt = datetime.strptime(args.date, "%Y-%m-%dT%H:%M")
+        transition = zone_agent.get_transition_from_datetime(dt)
+        if transition:
+            print_transition(transition)
+        else:
+            logging.error('Transition not found')
     else:
-        print("--zone and --year must be provided")
+        print("One of --year or --date must be provided")
         sys.exit(1)
 
 if __name__ == '__main__':

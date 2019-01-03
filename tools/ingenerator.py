@@ -47,9 +47,9 @@ class InlineGenerator:
                     'letter': rule['letter']
                 })
 
-            policy_name = normalize_name(name)
-            self.zone_policies[policy_name] = {
-                'name': policy_name,
+            normalized_name = normalize_name(name)
+            self.zone_policies[normalized_name] = {
+                'name': name,
                 'rules': policy_rules
             }
 
@@ -78,9 +78,9 @@ class InlineGenerator:
                   'untilSeconds': era['untilSecondsTruncated'],
                   'untilTimeModifier': era['untilTimeModifier'],
                 })
-            zone_name = normalize_name(short_name(name))
-            self.zone_infos[zone_name] = {
-                'name': zone_name,
+            sname = normalize_name(short_name(name))
+            self.zone_infos[sname] = {
+                'name': name,
                 'eras': zone_eras
             }
 
