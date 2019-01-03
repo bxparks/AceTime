@@ -698,14 +698,6 @@ def date_tuple_to_string(dt):
     return '%04d-%02d-%02d %02d:%02d:%02d%s' % (
         dt[0], dt[1], dt[2], h, m, s, dt[4])
 
-def seconds_to_hms_string(secs):
-    if secs < 0:
-        hms = seconds_to_hms(-secs)
-        return '-%02d:%02d:%02d' % hms
-    else:
-        hms = seconds_to_hms(secs)
-        return '+%02d:%02d:%02d' % hms
-
 EPOCH_DATETIME = datetime(2000, 1, 1, 0, 0, 0)
 
 def print_matches_and_transitions(matches, transitions):

@@ -13,9 +13,9 @@ zone_policies.py files.
 import logging
 import datetime
 import pytz
+from transformer import seconds_to_hms
 from zone_agent import ZoneAgent
 from zone_agent import date_tuple_to_string
-from zone_agent import seconds_to_hms_string
 from zone_agent import SECONDS_SINCE_UNIX_EPOCH
 
 class Validator:
@@ -108,17 +108,30 @@ def is_acetime_python_equal(zone_agent, epoch_seconds, tz):
     py_dst = int(py_dt.dst().total_seconds())
 
     if utc_offset_seconds != py_utcoffset:
-        msg = 'AT(offset): %s; PY(offset): %s; PY(date): %s %s' % (
-            seconds_to_hms_string(utc_offset_seconds),
-            seconds_to_hms_string(py_utcoffset),
+        msg = 'offset mismatch: AceTime(%s); PY(%s); PY(date): %s %s' % (
+            to_utc_string(utc_offset_seconds, dst_seconds),
+            to_utc_string(py_utcoffset, py_dst),
             unix_seconds,
             py_dt)
         return (False, msg)
     if dst_seconds != py_dst:
-        msg = 'AT(dst): %s; PY(dst): %s: PY(date): %s %s' % (
-            seconds_to_hms_string(dst_seconds),
-            seconds_to_hms_string(py_dst),
+        msg = 'dst mismatch: AceTime(%s); PY(%s): PY(date): %s %s' % (
+            to_utc_string(utc_offset_seconds, dst_seconds),
+            to_utc_string(py_utcoffset, py_dst),
             unix_seconds,
             py_dt)
         return (False, msg)
     return (True, None)
+
+def to_utc_string(utcoffset, dstoffset):
+    return 'UTC%s%s' % (
+        seconds_to_hm_string(utcoffset),
+        seconds_to_hm_string(dstoffset))
+
+def seconds_to_hm_string(secs):
+    if secs < 0:
+        hms = seconds_to_hms(-secs)
+        return '-%02d:%02d' % (hms[0], hms[1])
+    else:
+        hms = seconds_to_hms(secs)
+        return '+%02d:%02d' % (hms[0], hms[1])
