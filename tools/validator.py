@@ -17,6 +17,7 @@ from transformer import seconds_to_hms
 from zone_agent import ZoneAgent
 from zone_agent import date_tuple_to_string
 from zone_agent import to_utc_string
+from zone_agent import print_matches_and_transitions
 from zone_agent import SECONDS_SINCE_UNIX_EPOCH
 
 class Validator:
@@ -70,20 +71,21 @@ class Validator:
             for year in range(2000, 2038):
                 (matches, transitions) = zone_agent.get_matches_and_transitions(
                     year)
+                result = True
                 for transition in transitions:
                     start = transition['startDateTime']
                     transition_year = start[0]
                     if transition_year != year: continue
 
                     epoch_seconds = transition['startEpochSecond']
-                    result = is_acetime_python_equal(
+                    result &= is_acetime_python_equal(
                         zone_full_name, zone_agent, start,
                         '+0s', epoch_seconds, tz)
-
-                    if result:
-                        result = is_acetime_python_equal(
-                            zone_full_name, zone_agent, start,
-                            '-1s', epoch_seconds-1, tz)
+                    result &= is_acetime_python_equal(
+                        zone_full_name, zone_agent, start,
+                        '-1s', epoch_seconds-1, tz)
+                if not result:
+                    print_matches_and_transitions(matches, transitions)
 
 
 def is_acetime_python_equal(zone_name, zone_agent, start, label,
@@ -91,8 +93,9 @@ def is_acetime_python_equal(zone_name, zone_agent, start, label,
     """Returns True or False whether AceTime and Python match.
     """
     # AceTime version
-    (utc_offset_seconds, dst_seconds, abbrev) = \
+    (offset_seconds, dst_seconds, abbrev) = \
         zone_agent.get_timezone_info_from_seconds(epoch_seconds)
+    utc_offset_seconds = offset_seconds + dst_seconds
 
     # Python version
     unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
@@ -109,8 +112,8 @@ def is_acetime_python_equal(zone_name, zone_agent, start, label,
             label,
             py_dt,
             unix_seconds,
-            to_utc_string(utc_offset_seconds, dst_seconds),
-            to_utc_string(py_utcoffset, py_dst))
+            to_utc_string(offset_seconds, dst_seconds),
+            to_utc_string(py_utcoffset-py_dst, py_dst))
         return False
     if dst_seconds != py_dst:
         logging.error( "%s: dst mismatch; start: '%s'%s; "
@@ -121,7 +124,7 @@ def is_acetime_python_equal(zone_name, zone_agent, start, label,
             label,
             py_dt,
             unix_seconds,
-            to_utc_string(utc_offset_seconds, dst_seconds),
-            to_utc_string(py_utcoffset, py_dst))
+            to_utc_string(offset_seconds, dst_seconds),
+            to_utc_string(py_utcoffset-py_dst, py_dst))
         return False
     return True

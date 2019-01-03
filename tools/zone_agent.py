@@ -138,7 +138,8 @@ class ZoneAgent:
         return self.find_transition_from_datetime(dt)
 
     def get_timezone_info_from_seconds(self, epoch_seconds):
-        """Return a tuple of (utc_offset_seconds, dst_seconds, abbrev).
+        """Return a tuple of (offset_seconds, dst_seconds, abbrev).
+        The total UTC offset is (offset_seconds + dst_seconds).
         """
         self.init_for_second(epoch_seconds)
         transition = self.find_transition_from_seconds(epoch_seconds)
@@ -147,9 +148,8 @@ class ZoneAgent:
     def timezone_info_from_transition(self, transition):
         offset_seconds = transition['offsetSeconds']
         delta_seconds = transition['deltaSeconds']
-        utc_offset_seconds = offset_seconds + delta_seconds
         abbrev = transition['abbrev']
-        return (utc_offset_seconds, delta_seconds, abbrev)
+        return (offset_seconds, delta_seconds, abbrev)
 
     def find_transition_from_seconds(self, epoch_seconds):
         """Return the matching transition, or None if not found.
@@ -717,18 +717,18 @@ def seconds_to_hm_string(secs):
 EPOCH_DATETIME = datetime(2000, 1, 1, 0, 0, 0)
 
 def print_matches_and_transitions(matches, transitions):
-    print('Matches:')
+    logging.info('Matches:')
     for match in matches:
         print_match(match)
 
-    print('Transitions:')
+    logging.info('Transitions:')
     for transition in transitions:
         print_transition(transition)
 
 def print_match(match):
     policy_name = match['policyName']
     format = match['zoneEra']['format']
-    print(('start: %s; until: %s; policy: %s; format: %s') % (
+    logging.info(('start: %s; until: %s; policy: %s; format: %s') % (
         date_tuple_to_string(match['startDateTime']),
         date_tuple_to_string(match['untilDateTime']),
         policy_name, format))
@@ -746,7 +746,7 @@ def print_transition(transition):
     abbrev = transition['abbrev']
 
     if policy_name in ['-', ':']:
-        print(('transition: %s; '
+        logging.info(('transition: %s; '
             + 'start: %s; '
             + 'until: %s; '
             + 'sepoch: %d; '
@@ -773,7 +773,7 @@ def print_transition(transition):
             if 'originalTransitionTime' in transition else None
 
         if ott:
-            print(('transition: %s; '
+            logging.info(('transition: %s; '
                 + 'start: %s; '
                 + 'until: %s; '
                 + 'orig: %s; '
@@ -793,7 +793,7 @@ def print_transition(transition):
                 format, letter,
                 abbrev))
         else:
-            print(('transition: %s; '
+            logging.info(('transition: %s; '
                 + 'start: %s; '
                 + 'until: %s; '
                 + 'sepoch: %d; '
