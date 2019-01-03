@@ -16,6 +16,7 @@ import pytz
 from transformer import seconds_to_hms
 from zone_agent import ZoneAgent
 from zone_agent import date_tuple_to_string
+from zone_agent import to_utc_string
 from zone_agent import SECONDS_SINCE_UNIX_EPOCH
 
 class Validator:
@@ -76,26 +77,18 @@ class Validator:
 
                     epoch_seconds = transition['startEpochSecond']
                     result = is_acetime_python_equal(
-                        zone_agent, epoch_seconds, tz)
-                    if not result[0]:
-                        logging.error(
-                            "%s(%04s): at '%s'+0: %s",
-                            zone_short_name, year,
-                            date_tuple_to_string(start),
-                            result[1])
+                        zone_full_name, zone_agent, start,
+                        '+0s', epoch_seconds, tz)
 
-                    result = is_acetime_python_equal(
-                        zone_agent, epoch_seconds-1, tz)
-                    if not result[0]:
-                        logging.error(
-                            "%s(%04s): at '%s'-1: %s",
-                            zone_short_name, year,
-                            date_tuple_to_string(start),
-                            result[1])
+                    if result:
+                        result = is_acetime_python_equal(
+                            zone_full_name, zone_agent, start,
+                            '-1s', epoch_seconds-1, tz)
 
 
-def is_acetime_python_equal(zone_agent, epoch_seconds, tz):
-    """Returns (equals, message, message).
+def is_acetime_python_equal(zone_name, zone_agent, start, label,
+    epoch_seconds, tz):
+    """Returns True or False whether AceTime and Python match.
     """
     # AceTime version
     (utc_offset_seconds, dst_seconds, abbrev) = \
@@ -108,30 +101,27 @@ def is_acetime_python_equal(zone_agent, epoch_seconds, tz):
     py_dst = int(py_dt.dst().total_seconds())
 
     if utc_offset_seconds != py_utcoffset:
-        msg = 'offset mismatch: AceTime(%s); PY(%s); PY(date): %s %s' % (
-            to_utc_string(utc_offset_seconds, dst_seconds),
-            to_utc_string(py_utcoffset, py_dst),
+        logging.error( "%s: offset mismatch; start: '%s'%s; "
+            + "python: %s; unix: %s; "
+            + "AceTime(%s); Python(%s)",
+            zone_name,
+            date_tuple_to_string(start),
+            label,
+            py_dt,
             unix_seconds,
-            py_dt)
-        return (False, msg)
+            to_utc_string(utc_offset_seconds, dst_seconds),
+            to_utc_string(py_utcoffset, py_dst))
+        return False
     if dst_seconds != py_dst:
-        msg = 'dst mismatch: AceTime(%s); PY(%s): PY(date): %s %s' % (
-            to_utc_string(utc_offset_seconds, dst_seconds),
-            to_utc_string(py_utcoffset, py_dst),
+        logging.error( "%s: dst mismatch; start: '%s'%s; "
+            + "python: %s; unix: %s; "
+            + "AceTime(%s); Python(%s)",
+            zone_name,
+            date_tuple_to_string(start),
+            label,
+            py_dt,
             unix_seconds,
-            py_dt)
-        return (False, msg)
-    return (True, None)
-
-def to_utc_string(utcoffset, dstoffset):
-    return 'UTC%s%s' % (
-        seconds_to_hm_string(utcoffset),
-        seconds_to_hm_string(dstoffset))
-
-def seconds_to_hm_string(secs):
-    if secs < 0:
-        hms = seconds_to_hms(-secs)
-        return '-%02d:%02d' % (hms[0], hms[1])
-    else:
-        hms = seconds_to_hms(secs)
-        return '+%02d:%02d' % (hms[0], hms[1])
+            to_utc_string(utc_offset_seconds, dst_seconds),
+            to_utc_string(py_utcoffset, py_dst))
+        return False
+    return True

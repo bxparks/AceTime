@@ -698,6 +698,22 @@ def date_tuple_to_string(dt):
     return '%04d-%02d-%02d %02d:%02d:%02d%s' % (
         dt[0], dt[1], dt[2], h, m, s, dt[4])
 
+
+def to_utc_string(utcoffset, dstoffset):
+    return 'UTC%s%s' % (
+        seconds_to_hm_string(utcoffset),
+        seconds_to_hm_string(dstoffset))
+
+
+def seconds_to_hm_string(secs):
+    if secs < 0:
+        hms = seconds_to_hms(-secs)
+        return '-%02d:%02d' % (hms[0], hms[1])
+    else:
+        hms = seconds_to_hms(secs)
+        return '+%02d:%02d' % (hms[0], hms[1])
+
+
 EPOCH_DATETIME = datetime(2000, 1, 1, 0, 0, 0)
 
 def print_matches_and_transitions(matches, transitions):
@@ -735,7 +751,7 @@ def print_transition(transition):
             + 'until: %s; '
             + 'sepoch: %d; '
             + 'policy: %s; '
-            + 'UTC%+d%+d; '
+            + '%s; '
             + 'format: %s; '
             + 'abbrev: %s')
             % (
@@ -744,7 +760,7 @@ def print_transition(transition):
             date_tuple_to_string(udt),
             sepoch,
             policy_name,
-            offset_seconds, delta_seconds,
+            to_utc_string(offset_seconds, delta_seconds),
             format,
             abbrev))
     else:
@@ -763,7 +779,7 @@ def print_transition(transition):
                 + 'orig: %s; '
                 + 'sepoch: %d; '
                 + 'policy: %s[%d,%d]; '
-                + 'UTC%+d%+d; '
+                + '%s; '
                 + 'format: %s(%s); '
                 + 'abbrev: %s')
                 % (
@@ -773,7 +789,7 @@ def print_transition(transition):
                 date_tuple_to_string(ott),
                 sepoch,
                 policy_name, zone_rule_from, zone_rule_to,
-                offset_seconds, delta_seconds,
+                to_utc_string(offset_seconds, delta_seconds),
                 format, letter,
                 abbrev))
         else:
@@ -782,7 +798,7 @@ def print_transition(transition):
                 + 'until: %s; '
                 + 'sepoch: %d; '
                 + 'policy: %s[%d,%d]; '
-                + 'UTC%+d%+d; '
+                + '%s; '
                 + 'format: %s(%s); '
                 + 'abbrev: %s')
                 % (
@@ -791,7 +807,7 @@ def print_transition(transition):
                 date_tuple_to_string(udt),
                 sepoch,
                 policy_name, zone_rule_from, zone_rule_to,
-                offset_seconds, delta_seconds,
+                to_utc_string(offset_seconds, delta_seconds),
                 format, letter,
                 abbrev))
 
@@ -811,7 +827,7 @@ def main():
     # Find the zone.
     zone_info = ZONE_INFO_MAP.get(args.zone)
     if not zone_info:
-        logging.error("Zone '%s' not found", zone_name)
+        logging.error("Zone '%s' not found", args.zone)
         sys.exit(1)
 
     # Create the ZoneAgent for zone
