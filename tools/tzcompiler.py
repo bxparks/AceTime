@@ -189,14 +189,20 @@ def main():
 
     # Validate the zone_infos and zone_policies if requested
     if args.validate:
-        logging.info('======== Validating zone_infos and zone_policies...')
+        logging.info(
+            '======== Generating inlined zone_infos and zone_policies...')
         inline_generator = InlineGenerator(zones, rules)
         (zone_infos, zone_policies) = inline_generator.generate_maps()
         logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
             len(zone_policies))
 
         validator = Validator(zone_infos, zone_policies, args.optimized)
-        validator.validate()
+
+        logging.info('======== Validating transition buffer sizes...')
+        validator.validate_transition_buffer_size()
+
+        logging.info('======== Validating DST transitions...')
+        validator.validate_dst_transitions()
 
     logging.info('======== Finished processing TZ Data files.')
 

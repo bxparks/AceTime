@@ -25,12 +25,6 @@ class Validator:
         self.zone_policies = zone_policies
         self.optimized = optimized
 
-    def validate(self):
-        """Validate the data in the zone_infos and zone_policies.
-        """
-        self.validate_transition_buffer_size()
-        self.validate_dst_transitions()
-
     def validate_transition_buffer_size(self):
         """Determine the size of transition buffer required for each zone.
         """
@@ -39,7 +33,7 @@ class Validator:
 
         # Calculate the number of Transitions necessary for every Zone
         # in zone_infos, for the years 2000 to 2038.
-        logging.info('Calculating transitions')
+        logging.info('Calculating transitions between 2000 and 2038')
         for zone_short_name, zone_info in self.zone_infos.items():
             zone_agent = ZoneAgent(zone_info, self.optimized)
             count_record = (0, 0) # (count, year)
@@ -51,7 +45,7 @@ class Validator:
                     count_record = (count, year)
             transition_stats[zone_short_name] = count_record
 
-        logging.info('Count(transitions)')
+        logging.info('Count(transitions) group by zone order by count desc')
         for zone_short_name, count_record in sorted(
             transition_stats.items(), key=lambda x: x[1], reverse=True):
             logging.info('%s: %d (%04d)' % ((zone_short_name,) + count_record))

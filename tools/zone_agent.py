@@ -11,7 +11,7 @@ C++ code in the Arduino environment.
 Examples:
 
     # America/Los_Angeles for 2018-03-10T02:00:00
-    $ ./zone_agent.py --zone Petersburg --date 2018-03-10T02:00:00
+    $ ./zone_agent.py --zone Los_Angeles --date 2018-03-10T02:00:00
 
     # America/Indiana/Petersburg for the year 2006.
     $ ./zone_agent.py --zone Petersburg --year 2006
@@ -582,7 +582,8 @@ class ZoneAgent:
             # transitionTime represent by an illegal date (e.g. 24:00). So, it
             # is better to use the properly normalized startDateTime with the
             # *current* UTC offset.
-            utc_offset_seconds = prev['offsetSeconds'] + prev['deltaSeconds']
+            utc_offset_seconds = transition['offsetSeconds'] \
+                + transition['deltaSeconds']
             z = timezone(timedelta(seconds=utc_offset_seconds))
             dt = st.replace(tzinfo=z)
             epoch_second = int((dt - epoch_dt).total_seconds())
@@ -728,6 +729,7 @@ def print_transition(transition):
     tt = transition['transitionTime']
     sdt = transition['startDateTime']
     udt = transition['untilDateTime']
+    sepoch = transition['startEpochSecond']
     policy_name = transition['policyName']
     offset_seconds = transition['offsetSeconds']
     delta_seconds = transition['deltaSeconds']
@@ -739,6 +741,7 @@ def print_transition(transition):
         print(('transition: %s; '
             + 'start: %s; '
             + 'until: %s; '
+            + 'sepoch: %d; '
             + 'policy: %s; '
             + 'UTC%+d%+d; '
             + 'format: %s; '
@@ -747,6 +750,7 @@ def print_transition(transition):
             date_tuple_to_string(tt),
             date_tuple_to_string(sdt),
             date_tuple_to_string(udt),
+            sepoch,
             policy_name,
             offset_seconds, delta_seconds,
             format,
@@ -765,6 +769,7 @@ def print_transition(transition):
                 + 'start: %s; '
                 + 'until: %s; '
                 + 'orig: %s; '
+                + 'sepoch: %d; '
                 + 'policy: %s[%d,%d]; '
                 + 'UTC%+d%+d; '
                 + 'format: %s(%s); '
@@ -774,6 +779,7 @@ def print_transition(transition):
                 date_tuple_to_string(sdt),
                 date_tuple_to_string(udt),
                 date_tuple_to_string(ott),
+                sepoch,
                 policy_name, zone_rule_from, zone_rule_to,
                 offset_seconds, delta_seconds,
                 format, letter,
@@ -782,6 +788,7 @@ def print_transition(transition):
             print(('transition: %s; '
                 + 'start: %s; '
                 + 'until: %s; '
+                + 'sepoch: %d; '
                 + 'policy: %s[%d,%d]; '
                 + 'UTC%+d%+d; '
                 + 'format: %s(%s); '
@@ -790,6 +797,7 @@ def print_transition(transition):
                 date_tuple_to_string(tt),
                 date_tuple_to_string(sdt),
                 date_tuple_to_string(udt),
+                sepoch,
                 policy_name, zone_rule_from, zone_rule_to,
                 offset_seconds, delta_seconds,
                 format, letter,
