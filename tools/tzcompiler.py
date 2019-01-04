@@ -22,16 +22,15 @@ ArduinoGenerator      |   PythonGenerator
 zone_infos.{h,cpp}    |        zone_infos.py
 zone_policies.{h,cpp} |        zone_policies.py
                       |            |
-                      |            v
-                      |        zone_agent.py
-                      v
-               InlineGenerator
-                      |
-                      |
-                      v
-                  Validator
+                      v            |
+               InlineGenerator     |
+                      |            |
+                      v            |
+                  Validator        |
+                          \        |
+                           v       v
+                           ZoneAgent
 """
-
 import argparse
 import logging
 import sys
