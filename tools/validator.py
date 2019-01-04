@@ -97,9 +97,12 @@ def is_acetime_python_equal(zone_name, zone_agent, start, label,
         zone_agent.get_timezone_info_from_seconds(epoch_seconds)
     utc_offset_seconds = offset_seconds + dst_seconds
 
-    # Python version
+    # Python version. See https://stackoverflow.com/questions/6410971
+    # regarding the trickiness regarding Python datetime and pytz.
     unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
-    py_dt = datetime.datetime.fromtimestamp(unix_seconds, tz)
+    utc_dt = datetime.datetime.fromtimestamp(
+        unix_seconds, tz=datetime.timezone.utc)
+    py_dt = utc_dt.astimezone(tz)
     py_utcoffset = int(py_dt.utcoffset().total_seconds())
     py_dst = int(py_dt.dst().total_seconds())
 

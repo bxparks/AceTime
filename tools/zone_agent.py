@@ -117,6 +117,7 @@ class ZoneAgent:
         self.find_matches(start_ym, until_ym)
         self.find_transitions(start_ym, until_ym)
 
+        #print_transitions(self.transitions)
         self.transitions = sorted(self.transitions,
             key=lambda x: x['transitionTime'])
         self.fix_start_times()
@@ -323,13 +324,13 @@ class ZoneAgent:
             for year in range(start_y, end_y+1):
                 transition = self.create_transition_for_year(year, rule, match)
                 if transition:
-                    self.process_transition(year, match, transition, results)
+                    self.process_transition(match, transition, results)
 
             # Must be called after the "interior" transitions are processed.
-            year = start_y - 1
-            transition = self.create_transition_prior_to_year(year, rule, match)
+            transition = self.create_transition_prior_to_year(
+                start_y, rule, match)
             if transition:
-                self.process_transition(year, match, transition, results)
+                self.process_transition(match, transition, results)
 
         # Add the latest prior transition
         if not results.get('startTransitionFound'):
@@ -350,7 +351,7 @@ class ZoneAgent:
             prior_transition['originalTransitionTime'] = original_time
             self.transitions.append(prior_transition)
 
-    def process_transition(self, year, match, transition, results):
+    def process_transition(self, match, transition, results):
         """Process the given transition, making sure that it overlaps within
         the range defined by 'match'. The 'results' is a map that keeps
         track of the processing:
@@ -366,7 +367,7 @@ class ZoneAgent:
         """
         transition_time = transition['transitionTime']
         transition_compared_to_match = compare_transition_to_match(
-            year, transition_time, match)
+            transition_time, match)
         if transition_compared_to_match > 0:
             return
         elif transition_compared_to_match == 0:
@@ -612,7 +613,7 @@ def calc_effective_match(start_ym, until_ym, match):
     return eff_match
 
 
-def compare_transition_to_match(year, transition_time, match):
+def compare_transition_to_match(transition_time, match):
     """Determine if transition_time applies to given range of the match,
     returning -1 if less than match, 0 within match, +1 more than match.
     """
@@ -717,11 +718,16 @@ def seconds_to_hm_string(secs):
 EPOCH_DATETIME = datetime(2000, 1, 1, 0, 0, 0)
 
 def print_matches_and_transitions(matches, transitions):
-    logging.info('Matches:')
+    print_matches(matches)
+    print_transitions(transitions)
+
+def print_matches(matches):
+    logging.info('---- Matches:')
     for match in matches:
         print_match(match)
 
-    logging.info('Transitions:')
+def print_transitions(transitions):
+    logging.info('---- Transitions:')
     for transition in transitions:
         print_transition(transition)
 
@@ -737,13 +743,14 @@ def print_transition(transition):
     tt = transition['transitionTime']
     sdt = transition['startDateTime']
     udt = transition['untilDateTime']
-    sepoch = transition['startEpochSecond']
+    sepoch = transition['startEpochSecond'] \
+        if 'startEpochSecond' in transition else 0
     policy_name = transition['policyName']
     offset_seconds = transition['offsetSeconds']
     delta_seconds = transition['deltaSeconds']
     if delta_seconds == None: delta_seconds = 0
     format = transition['format']
-    abbrev = transition['abbrev']
+    abbrev = transition['abbrev'] if 'abbrev' in transition else ''
 
     if policy_name in ['-', ':']:
         logging.info(('transition: %s; '
