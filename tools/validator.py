@@ -52,13 +52,30 @@ class Validator:
             transition_stats.items(), key=lambda x: x[1], reverse=True):
             logging.info('%s: %d (%04d)' % ((zone_short_name,) + count_record))
 
+    TIME_ZONES_BLACKLIST = {
+        'Macquarie',
+        'Simferopol',
+        'Buenos_Aires',
+        'Cordoba',
+        'Jujuy',
+        'Salta',
+        'Qostanay',
+        'Bahia_Banderas',
+        'Winamac',
+    }
+
     def validate_dst_transitions(self):
         """Check the DST transitions for all zones, for the years 2000-2038,
         against the internal Python datetime implementation.
         """
         logging.info('Checking DST transitions against Python')
         for zone_short_name, zone_info in sorted(self.zone_infos.items()):
-            logging.info('  Checking %s', zone_short_name)
+            if zone_short_name in self.TIME_ZONES_BLACKLIST:
+                logging.info('...Skipping %s', zone_short_name)
+                continue
+            else:
+                logging.info('...Checking %s', zone_short_name)
+
             zone_agent = ZoneAgent(zone_info, self.optimized)
             zone_full_name = zone_info['name']
             try:
@@ -68,24 +85,48 @@ class Validator:
                     zone_full_name)
                 continue
 
-            for year in range(2000, 2038):
-                (matches, transitions) = zone_agent.get_matches_and_transitions(
-                    year)
-                result = True
-                for transition in transitions:
-                    start = transition['startDateTime']
-                    transition_year = start[0]
-                    if transition_year != year: continue
+            self.check_transitions(zone_full_name, zone_agent, tz)
+            self.check_selected_samples(zone_full_name, zone_agent, tz)
 
-                    epoch_seconds = transition['startEpochSecond']
-                    result &= is_acetime_python_equal(
+    def check_transitions(self, zone_full_name, zone_agent, tz):
+        for year in range(2000, 2038):
+            (matches, transitions) = zone_agent.get_matches_and_transitions(
+                year)
+            result = True
+            for transition in transitions:
+                start = transition['startDateTime']
+                transition_year = start[0]
+                if transition_year != year: continue
+
+                epoch_seconds = transition['startEpochSecond']
+                result &= is_acetime_python_equal(
+                    zone_full_name, zone_agent, start,
+                    '-1s', epoch_seconds-1, tz)
+                result &= is_acetime_python_equal(
+                    zone_full_name, zone_agent, start,
+                    '+0s', epoch_seconds, tz)
+            if not result:
+                print_matches_and_transitions(matches, transitions)
+
+    def check_selected_samples(self, zone_full_name, zone_agent, tz):
+        for year in range(2000, 2038):
+            for month in range(1, 13):
+                for day in range(1, 29):
+                    #for hour in range(0, 24):
+                    hour = month - 1 # try different hours
+                    start = (year, month, day, hour, 0, 'w')
+                    ldt = datetime.datetime(year, month, day, month,
+                        tzinfo=datetime.timezone.utc)
+                    dt = ldt.astimezone(tz)
+                    epoch_seconds = \
+                        int(dt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
+                    result = is_acetime_python_equal(
                         zone_full_name, zone_agent, start,
-                        '+0s', epoch_seconds, tz)
-                    result &= is_acetime_python_equal(
-                        zone_full_name, zone_agent, start,
-                        '-1s', epoch_seconds-1, tz)
-                if not result:
-                    print_matches_and_transitions(matches, transitions)
+                        '', epoch_seconds, tz)
+                    if not result:
+                        (matches, transitions) = \
+                            zone_agent.get_matches_and_transitions(year)
+                        print_matches_and_transitions(matches, transitions)
 
 
 def is_acetime_python_equal(zone_name, zone_agent, start, label,
@@ -107,7 +148,7 @@ def is_acetime_python_equal(zone_name, zone_agent, start, label,
     py_dst = int(py_dt.dst().total_seconds())
 
     if utc_offset_seconds != py_utcoffset:
-        logging.error( "%s: offset mismatch; start: '%s'%s; "
+        logging.error( "%s: offset mismatch; at: '%s'%s; "
             + "python: %s; unix: %s; "
             + "AceTime(%s); Python(%s)",
             zone_name,
@@ -119,7 +160,7 @@ def is_acetime_python_equal(zone_name, zone_agent, start, label,
             to_utc_string(py_utcoffset-py_dst, py_dst))
         return False
     if dst_seconds != py_dst:
-        logging.error( "%s: dst mismatch; start: '%s'%s; "
+        logging.error( "%s: dst mismatch; at: '%s'%s; "
             + "python: %s; unix: %s; "
             + "AceTime(%s); Python(%s)",
             zone_name,
