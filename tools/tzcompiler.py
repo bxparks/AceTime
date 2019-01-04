@@ -121,6 +121,9 @@ def main():
         default=False)
     parser.add_argument('--optimized', help='Optimize the year interval',
         action="store_true")
+    parser.add_argument('--validate_dst_offset',
+        help='Validate the DST offset as well as the total UTC offset',
+        action="store_true")
 
     # Parse the command line arguments
     args = parser.parse_args()
@@ -196,7 +199,8 @@ def main():
         logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
             len(zone_policies))
 
-        validator = Validator(zone_infos, zone_policies, args.optimized)
+        validator = Validator(zone_infos, zone_policies, args.optimized,
+            args.validate_dst_offset)
 
         logging.info('======== Validating transition buffer sizes...')
         validator.validate_transition_buffer_size()

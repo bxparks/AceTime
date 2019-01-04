@@ -22,10 +22,19 @@ from zone_agent import SECONDS_SINCE_UNIX_EPOCH
 
 class Validator:
 
-    def __init__(self, zone_infos, zone_policies, optimized):
+    def __init__(self, zone_infos, zone_policies, optimized, validate_dst_offset):
+        """
+        Args:
+            zone_infos = map of {name -> zone_info{} }
+            zone_policies = map of {name ->zone_policy{} }
+            optimized = use a 14-month windows instead of a 3-year window
+            validate_dst_offset = validate DST offset against Python in addition to
+                total UTC offset
+        """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
         self.optimized = optimized
+        self.validate_dst_offset = validate_dst_offset
 
     def validate_transition_buffer_size(self):
         """Determine the size of transition buffer required for each zone.
@@ -52,29 +61,13 @@ class Validator:
             transition_stats.items(), key=lambda x: x[1], reverse=True):
             logging.info('%s: %d (%04d)' % ((zone_short_name,) + count_record))
 
-    TIME_ZONES_BLACKLIST = {
-        'Macquarie',
-        'Simferopol',
-        'Buenos_Aires',
-        'Cordoba',
-        'Jujuy',
-        'Salta',
-        'Qostanay',
-        'Bahia_Banderas',
-        'Winamac',
-    }
-
     def validate_dst_transitions(self):
         """Check the DST transitions for all zones, for the years 2000-2038,
         against the internal Python datetime implementation.
         """
         logging.info('Checking DST transitions against Python')
         for zone_short_name, zone_info in sorted(self.zone_infos.items()):
-            if zone_short_name in self.TIME_ZONES_BLACKLIST:
-                logging.info('...Skipping %s', zone_short_name)
-                continue
-            else:
-                logging.info('...Checking %s', zone_short_name)
+            logging.info('...Checking %s', zone_short_name)
 
             zone_agent = ZoneAgent(zone_info, self.optimized)
             zone_full_name = zone_info['name']
@@ -100,11 +93,11 @@ class Validator:
 
                 epoch_seconds = transition['startEpochSecond']
                 result &= is_acetime_python_equal(
-                    zone_full_name, zone_agent, start,
-                    '-1s', epoch_seconds-1, tz)
+                    zone_full_name, zone_agent, tz, self.validate_dst_offset,
+                        start, '-1s', epoch_seconds-1)
                 result &= is_acetime_python_equal(
-                    zone_full_name, zone_agent, start,
-                    '+0s', epoch_seconds, tz)
+                    zone_full_name, zone_agent, tz, self.validate_dst_offset,
+                        start, '+0s', epoch_seconds)
             if not result:
                 print_matches_and_transitions(matches, transitions)
 
@@ -121,16 +114,27 @@ class Validator:
                     epoch_seconds = \
                         int(dt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
                     result = is_acetime_python_equal(
-                        zone_full_name, zone_agent, start,
-                        '', epoch_seconds, tz)
+                        zone_full_name, zone_agent, tz, self.validate_dst_offset,
+                            start, '', epoch_seconds)
                     if not result:
                         (matches, transitions) = \
                             zone_agent.get_matches_and_transitions(year)
                         print_matches_and_transitions(matches, transitions)
 
+TIME_ZONES_BLACKLIST = {
+    'Antarctica/Macquarie', # AceTime bug
+    'Europe/Simferopol', # AceTime bug
+    'America/Argentina/Buenos_Aires', # Python is wrong
+    'America/Argentina/Cordoba', # Python is wrong
+    'America/Argentina/Jujuy', # Python is wrong
+    'America/Argentina/Salta', # Python is wrong
+    'America/Bahia_Banderas', # Python is wrong
+    'America/Indiana/Winamac', # Python is wrong
+}
 
-def is_acetime_python_equal(zone_name, zone_agent, start, label,
-    epoch_seconds, tz):
+
+def is_acetime_python_equal(zone_full_name, zone_agent, tz, validate_dst_offset,
+    start, label, epoch_seconds):
     """Returns True or False whether AceTime and Python match.
     """
     # AceTime version
@@ -151,7 +155,7 @@ def is_acetime_python_equal(zone_name, zone_agent, start, label,
         logging.error( "%s: offset mismatch; at: '%s'%s; "
             + "python: %s; unix: %s; "
             + "AceTime(%s); Python(%s)",
-            zone_name,
+            zone_full_name,
             date_tuple_to_string(start),
             label,
             py_dt,
@@ -159,16 +163,21 @@ def is_acetime_python_equal(zone_name, zone_agent, start, label,
             to_utc_string(offset_seconds, dst_seconds),
             to_utc_string(py_utcoffset-py_dst, py_dst))
         return False
-    if dst_seconds != py_dst:
-        logging.error( "%s: dst mismatch; at: '%s'%s; "
-            + "python: %s; unix: %s; "
-            + "AceTime(%s); Python(%s)",
-            zone_name,
-            date_tuple_to_string(start),
-            label,
-            py_dt,
-            unix_seconds,
-            to_utc_string(offset_seconds, dst_seconds),
-            to_utc_string(py_utcoffset-py_dst, py_dst))
-        return False
+
+    if validate_dst_offset:
+        if zone_full_name in TIME_ZONES_BLACKLIST:
+            return True
+
+        if dst_seconds != py_dst:
+            logging.error( "%s: dst mismatch; at: '%s'%s; "
+                + "python: %s; unix: %s; "
+                + "AceTime(%s); Python(%s)",
+                zone_full_name,
+                date_tuple_to_string(start),
+                label,
+                py_dt,
+                unix_seconds,
+                to_utc_string(offset_seconds, dst_seconds),
+                to_utc_string(py_utcoffset-py_dst, py_dst))
+            return False
     return True
