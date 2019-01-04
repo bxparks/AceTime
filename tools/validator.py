@@ -13,6 +13,7 @@ zone_policies.py files.
 import logging
 import datetime
 import pytz
+from transformer import days_in_month
 from transformer import seconds_to_hms
 from zone_agent import ZoneAgent
 from zone_agent import date_tuple_to_string
@@ -22,19 +23,23 @@ from zone_agent import SECONDS_SINCE_UNIX_EPOCH
 
 class Validator:
 
-    def __init__(self, zone_infos, zone_policies, optimized, validate_dst_offset):
+    def __init__(self, zone_infos, zone_policies, optimized,
+        validate_dst_offset, validate_hours):
         """
         Args:
-            zone_infos = map of {name -> zone_info{} }
-            zone_policies = map of {name ->zone_policy{} }
-            optimized = use a 14-month windows instead of a 3-year window
-            validate_dst_offset = validate DST offset against Python in addition to
-                total UTC offset
+            zone_infos: map of {name -> zone_info{} }
+            zone_policies: map of {name ->zone_policy{} }
+            optimized: use a 14-month windows instead of a 3-year window
+            validate_dst_offset: validate DST offset against Python in
+                addition to total UTC offset
+            validate_hours: validate all 24 hours of a day, instead of a single
+                selected sample hour
         """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
         self.optimized = optimized
         self.validate_dst_offset = validate_dst_offset
+        self.validate_hours = validate_hours
 
     def validate_transition_buffer_size(self):
         """Determine the size of transition buffer required for each zone.
@@ -104,22 +109,33 @@ class Validator:
     def check_selected_samples(self, zone_full_name, zone_agent, tz):
         for year in range(2000, 2038):
             for month in range(1, 13):
-                for day in range(1, 29):
-                    #for hour in range(0, 24):
-                    hour = month - 1 # try different hours
-                    start = (year, month, day, hour, 0, 'w')
-                    ldt = datetime.datetime(year, month, day, month,
-                        tzinfo=datetime.timezone.utc)
-                    dt = ldt.astimezone(tz)
-                    epoch_seconds = \
-                        int(dt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
-                    result = is_acetime_python_equal(
-                        zone_full_name, zone_agent, tz, self.validate_dst_offset,
-                            start, '', epoch_seconds)
-                    if not result:
-                        (matches, transitions) = \
-                            zone_agent.get_matches_and_transitions(year)
-                        print_matches_and_transitions(matches, transitions)
+                days = days_in_month(year, month)
+                for day in range(1, days+1):
+                    if self.validate_hours:
+                        for hour in range(0, 24):
+                            self.check_sample(zone_full_name, zone_agent, tz,
+                                year, month, day, hour)
+                    else:
+                        hour = month - 1 # try different hours
+                        self.check_sample(zone_full_name, zone_agent, tz,
+                            year, month, day, hour)
+
+
+    def check_sample(self, zone_full_name, zone_agent, tz, year, month,
+        day, hour):
+        start = (year, month, day, hour, 0, 'w')
+        ldt = datetime.datetime(year, month, day, month,
+            tzinfo=datetime.timezone.utc)
+        dt = ldt.astimezone(tz)
+        epoch_seconds = int(dt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
+        result = is_acetime_python_equal(
+            zone_full_name, zone_agent, tz, self.validate_dst_offset,
+                start, '', epoch_seconds)
+        if not result:
+            (matches, transitions) = zone_agent.get_matches_and_transitions(
+                year)
+            print_matches_and_transitions(matches, transitions)
+
 
 TIME_ZONES_BLACKLIST = {
     'Antarctica/Macquarie', # AceTime bug

@@ -124,6 +124,9 @@ def main():
     parser.add_argument('--validate_dst_offset',
         help='Validate the DST offset as well as the total UTC offset',
         action="store_true")
+    parser.add_argument('--validate_hours',
+        help='Validate all 24 hours of a day instead of a single sample hour',
+        action="store_true")
 
     # Parse the command line arguments
     args = parser.parse_args()
@@ -200,7 +203,7 @@ def main():
             len(zone_policies))
 
         validator = Validator(zone_infos, zone_policies, args.optimized,
-            args.validate_dst_offset)
+            args.validate_dst_offset, args.validate_hours)
 
         logging.info('======== Validating transition buffer sizes...')
         validator.validate_transition_buffer_size()
