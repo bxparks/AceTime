@@ -101,7 +101,7 @@ class Validator:
             unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
             utc_offset_seconds = offset_seconds + dst_seconds
             if utc_offset_seconds != item.utc_offset:
-                logging.error( "%s: offset mismatch; at: '%s'; "
+                logging.error( "==== %s: offset mismatch; at: '%s'; "
                     + "unix: %s; "
                     + "AceTime(%s); Expected(%s)",
                     zone_short_name,
@@ -110,6 +110,9 @@ class Validator:
                     to_utc_string(offset_seconds, dst_seconds),
                     to_utc_string(item.utc_offset-item.dst_offset,
                         item.dst_offset))
+                (matches, transitions) = zone_agent.get_matches_and_transitions(
+                    item.y)
+                print_matches_and_transitions(matches, transitions)
 
     def create_test_data(self):
         """Create a map of {
