@@ -12,9 +12,12 @@ zone_policies.py files.
 
 import logging
 import datetime
+import collections
 import pytz
+from argenerator import normalize_name
 from transformer import days_in_month
 from transformer import seconds_to_hms
+from transformer import short_name
 from zone_agent import ZoneAgent
 from zone_agent import date_tuple_to_string
 from zone_agent import to_utc_string
@@ -23,8 +26,11 @@ from zone_agent import SECONDS_SINCE_UNIX_EPOCH
 from zone_agent import DateTuple
 from zone_agent import YearMonthTuple
 
-class Validator:
+# An entry in the test data set.
+TestItem = collections.namedtuple(
+    "TestItem", "epoch utc_offset dst_offset y M d h m s type")
 
+class Validator:
     def __init__(self, zone_infos, zone_policies, optimized,
         validate_dst_offset, validate_hours):
         """
@@ -68,81 +74,165 @@ class Validator:
             transition_stats.items(), key=lambda x: x[1], reverse=True):
             logging.info('%s: %d (%04d)' % ((zone_short_name,) + count_record))
 
-    def validate_dst_transitions(self):
-        """Check the DST transitions for all zones, for the years 2000-2038,
-        against the internal Python datetime implementation.
+    def validate_sequentially(self):
+        """Compare Python and AceTime offsets by generating the Python
+        test data first. This allows the test data to be exported, for example,
+        as a C++ test data set.
         """
-        logging.info('Checking DST transitions against Python')
+        logging.info('Creating test data')
+        (test_data, num_items) = self.create_test_data()
+
+        logging.info('Validating %s test items', num_items)
+        self.validate_test_data(test_data)
+
+    def validate_test_data(self, test_data):
+        for zone_short_name, items in test_data.items():
+            if self.validate_hours:
+                # Debugging output when generating 'hours' takes a long time
+                logging.info('  Validating test data for %s', zone_short_name)
+            self.validate_test_data_for_zone(zone_short_name, items)
+
+    def validate_test_data_for_zone(self, zone_short_name, items):
+        zone_info = self.zone_infos[zone_short_name]
+        zone_agent = ZoneAgent(zone_info, self.optimized)
+        for item in items:
+            (offset_seconds, dst_seconds, abbrev) = \
+                zone_agent.get_timezone_info_from_seconds(item.epoch)
+            unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
+            utc_offset_seconds = offset_seconds + dst_seconds
+            if utc_offset_seconds != item.utc_offset:
+                logging.error( "%s: offset mismatch; at: '%s'; "
+                    + "unix: %s; "
+                    + "AceTime(%s); Expected(%s)",
+                    zone_short_name,
+                    test_item_to_string(item),
+                    unix_seconds,
+                    to_utc_string(offset_seconds, dst_seconds),
+                    to_utc_string(item.utc_offset-item.dst_offset,
+                        item.dst_offset))
+
+    def create_test_data(self):
+        """Create a map of {
+            zone_short_name: [ TestItem() ]
+        }
+        Return (test_data, num_items).
+        """
+        test_data = {}
+        num_items = 0
         for zone_short_name, zone_info in sorted(self.zone_infos.items()):
-            logging.info('...Checking %s', zone_short_name)
+            test_items = self.create_test_data_for_zone(
+                zone_short_name, zone_info)
+            if test_items:
+                test_data[zone_short_name] = test_items
+                num_items += len(test_items)
+        return (test_data, num_items)
 
-            zone_agent = ZoneAgent(zone_info, self.optimized)
-            zone_full_name = zone_info['name']
-            try:
-                tz = pytz.timezone(zone_full_name)
-            except:
-                logging.error("Zone '%s' not found in Python pytz package",
-                    zone_full_name)
-                continue
+    def create_test_data_for_zone(self, zone_short_name, zone_info):
+        """Create the TestItems for a specific zone.
+        """
+        zone_agent = ZoneAgent(zone_info, self.optimized)
+        zone_full_name = zone_info['name']
+        try:
+            tz = pytz.timezone(zone_full_name)
+        except:
+            logging.error("Zone '%s' not found in Python pytz package",
+                zone_full_name)
+            return None
 
-            self.check_transitions(zone_full_name, zone_agent, tz)
-            self.check_selected_samples(zone_full_name, zone_agent, tz)
+        if self.validate_hours:
+            # Debugging output when generating 'hours' takes a long time
+            logging.info('  Creating test data for %s', zone_short_name)
+        test_items = self.create_transition_test_items(tz, zone_agent)
+        if self.validate_hours:
+            test_items.extend(self.create_hourly_test_items(tz, zone_agent))
+        return test_items
 
-    def check_transitions(self, zone_full_name, zone_agent, tz):
-        for year in range(2000, 2038):
+    def create_transition_test_items(self, tz, zone_agent):
+        """Create a TestItem for tz at the DST transitions for each year.
+        Some zones do not use DST, so will have no test samples here.
+        """
+        items = []
+        for year in range(2000, 2018):
             (matches, transitions) = zone_agent.get_matches_and_transitions(
                 year)
-            result = True
+            transition_found = False
+
+            # Add the before and after samples surrounding a DST transition.
             for transition in transitions:
                 start = transition['startDateTime']
                 transition_year = start.y
                 if transition_year != year: continue
 
                 epoch_seconds = transition['startEpochSecond']
-                result &= is_acetime_python_equal(
-                    zone_full_name, zone_agent, tz, self.validate_dst_offset,
-                        start, '-1s', epoch_seconds-1)
-                result &= is_acetime_python_equal(
-                    zone_full_name, zone_agent, tz, self.validate_dst_offset,
-                        start, '+0s', epoch_seconds)
-            if not result:
-                print_matches_and_transitions(matches, transitions)
+                items.append(self.create_test_item_from_epoch_seconds(
+                    tz, epoch_seconds-1, 'A'))
+                items.append(self.create_test_item_from_epoch_seconds(
+                    tz, epoch_seconds, 'B'))
+                transition_found = True
 
-    def check_selected_samples(self, zone_full_name, zone_agent, tz):
-        for year in range(2000, 2038):
+            # If no transition found within the year, add a test sample
+            # so that there's at least one sample per year.
+            if not transition_found:
+                items.append(self.create_test_item_from_datetime(tz,
+                    year, month=3, day=10, hour=2, type='S'))
+
+        return items
+
+    def create_hourly_test_items(self, tz, zone_agent):
+        items = []
+        for year in range(2000, 2018):
             for month in range(1, 13):
                 days = days_in_month(year, month)
                 for day in range(1, days+1):
                     if self.validate_hours:
                         for hour in range(0, 24):
-                            self.check_sample(zone_full_name, zone_agent, tz,
-                                year, month, day, hour)
+                            test_item = self.create_test_item_from_datetime(
+                                tz, year, month, day, hour, 'S')
                     else:
                         hour = month - 1 # try different hours
-                        self.check_sample(zone_full_name, zone_agent, tz,
-                            year, month, day, hour)
+                        test_item = self.create_test_item_from_datetime(
+                            tz, year, month, day, hour, 'S')
+                    items.append(test_item)
+        return items
 
-
-    def check_sample(self, zone_full_name, zone_agent, tz, year, month,
-        day, hour):
-        secs = hour * 3600
-        start = DateTuple(y=year, m=month, d=day, ss=secs, f='w')
-        ldt = datetime.datetime(year, month, day, month,
+    def create_test_item_from_datetime(self, tz, year, month, day, hour,
+        type):
+        ldt = datetime.datetime(year, month, day, month, hour,
             tzinfo=datetime.timezone.utc)
         dt = ldt.astimezone(tz)
         epoch_seconds = int(dt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
-        result = is_acetime_python_equal(
-            zone_full_name, zone_agent, tz, self.validate_dst_offset,
-                start, '', epoch_seconds)
-        if not result:
-            (matches, transitions) = zone_agent.get_matches_and_transitions(
-                year)
-            print_matches_and_transitions(matches, transitions)
+        return self.create_test_item_from_epoch_seconds(tz, epoch_seconds, type)
 
+    def create_test_item_from_epoch_seconds(self, tz, epoch_seconds, type):
+        """Return the TestItem fro the epoch_seconds.
+            utc_offset: the total UTC offset
+            dst_offset: the DST offset
+        The base offset is (utc_offset - dst_offset).
+        """
+        unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
+        utc_dt = datetime.datetime.fromtimestamp(
+            unix_seconds, tz=datetime.timezone.utc)
+        dt = utc_dt.astimezone(tz)
+        utc_offset = int(dt.utcoffset().total_seconds())
+        dst_offset = int(dt.dst().total_seconds())
 
+        return TestItem(
+            epoch=epoch_seconds,
+            utc_offset=utc_offset,
+            dst_offset=dst_offset,
+            y=dt.year,
+            M=dt.month,
+            d=dt.day,
+            h=dt.hour,
+            m=dt.minute,
+            s=dt.second,
+            type=type)
+
+def test_item_to_string(i):
+    return '%04d-%02d-%02dT%02d:%02d:%02d' % (i.y, i.M, i.d, i.h, i.m, i.s)
+
+# List of zones where the Python DST offset is incorrect.
 TIME_ZONES_BLACKLIST = {
-    'Antarctica/Macquarie', # AceTime bug
-    'Europe/Simferopol', # AceTime bug
     'America/Argentina/Buenos_Aires', # Python is wrong
     'America/Argentina/Cordoba', # Python is wrong
     'America/Argentina/Jujuy', # Python is wrong
@@ -150,53 +240,3 @@ TIME_ZONES_BLACKLIST = {
     'America/Bahia_Banderas', # Python is wrong
     'America/Indiana/Winamac', # Python is wrong
 }
-
-
-def is_acetime_python_equal(zone_full_name, zone_agent, tz, validate_dst_offset,
-    start, label, epoch_seconds):
-    """Returns True or False whether AceTime and Python match.
-    """
-    # AceTime version
-    (offset_seconds, dst_seconds, abbrev) = \
-        zone_agent.get_timezone_info_from_seconds(epoch_seconds)
-    utc_offset_seconds = offset_seconds + dst_seconds
-
-    # Python version. See https://stackoverflow.com/questions/6410971
-    # regarding the trickiness regarding Python datetime and pytz.
-    unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
-    utc_dt = datetime.datetime.fromtimestamp(
-        unix_seconds, tz=datetime.timezone.utc)
-    py_dt = utc_dt.astimezone(tz)
-    py_utcoffset = int(py_dt.utcoffset().total_seconds())
-    py_dst = int(py_dt.dst().total_seconds())
-
-    if utc_offset_seconds != py_utcoffset:
-        logging.error( "%s: offset mismatch; at: '%s'%s; "
-            + "python: %s; unix: %s; "
-            + "AceTime(%s); Python(%s)",
-            zone_full_name,
-            date_tuple_to_string(start),
-            label,
-            py_dt,
-            unix_seconds,
-            to_utc_string(offset_seconds, dst_seconds),
-            to_utc_string(py_utcoffset-py_dst, py_dst))
-        return False
-
-    if validate_dst_offset:
-        if zone_full_name in TIME_ZONES_BLACKLIST:
-            return True
-
-        if dst_seconds != py_dst:
-            logging.error( "%s: dst mismatch; at: '%s'%s; "
-                + "python: %s; unix: %s; "
-                + "AceTime(%s); Python(%s)",
-                zone_full_name,
-                date_tuple_to_string(start),
-                label,
-                py_dt,
-                unix_seconds,
-                to_utc_string(offset_seconds, dst_seconds),
-                to_utc_string(py_utcoffset-py_dst, py_dst))
-            return False
-    return True

@@ -207,8 +207,8 @@ def main():
         logging.info('======== Validating transition buffer sizes...')
         validator.validate_transition_buffer_size()
 
-        logging.info('======== Validating DST transitions...')
-        validator.validate_dst_transitions()
+        logging.info('======== Validating test data...')
+        validator.validate_sequentially()
 
     logging.info('======== Finished processing TZ Data files.')
 
