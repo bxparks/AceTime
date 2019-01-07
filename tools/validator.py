@@ -20,6 +20,8 @@ from zone_agent import date_tuple_to_string
 from zone_agent import to_utc_string
 from zone_agent import print_matches_and_transitions
 from zone_agent import SECONDS_SINCE_UNIX_EPOCH
+from zone_agent import DateTuple
+from zone_agent import YearMonthTuple
 
 class Validator:
 
@@ -93,7 +95,7 @@ class Validator:
             result = True
             for transition in transitions:
                 start = transition['startDateTime']
-                transition_year = start[0]
+                transition_year = start.y
                 if transition_year != year: continue
 
                 epoch_seconds = transition['startEpochSecond']
@@ -123,7 +125,8 @@ class Validator:
 
     def check_sample(self, zone_full_name, zone_agent, tz, year, month,
         day, hour):
-        start = (year, month, day, hour, 0, 'w')
+        secs = hour * 3600
+        start = DateTuple(y=year, m=month, d=day, ss=secs, f='w')
         ldt = datetime.datetime(year, month, day, month,
             tzinfo=datetime.timezone.utc)
         dt = ldt.astimezone(tz)
