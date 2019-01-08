@@ -12,6 +12,9 @@ import logging
 import sys
 import datetime
 import extractor
+from extractor import MAX_UNTIL_YEAR
+
+MIN_FROM_YEAR = 0
 
 class Transformer:
 
@@ -93,6 +96,7 @@ class Transformer:
             deltaSecondsTruncated: (int) deltaSeconds after truncated to
                 granularity
             shortName: (string) short name of the zone
+            earliestDate: (y, m, d) tuple of the earliest instance of rule
 
         'all_removed_zones' is a map of the zones which were removed:
             name: name of zone removed
@@ -143,6 +147,7 @@ class Transformer:
         rules_map = self.remove_rules_invalid_at_time_modifier(rules_map)
         rules_map = self.create_rules_with_expanded_delta_offset(rules_map)
         rules_map = self.create_rules_with_on_day_expansion(rules_map)
+        rules_map = self.create_rules_with_anchor_transition(rules_map)
         #rules_map = self.remove_rules_with_border_transitions(rules_map)
         if not self.python:
             rules_map = self.remove_rules_long_dst_letter(rules_map)
@@ -728,8 +733,8 @@ class Transformer:
         return results
 
     def create_rules_with_on_day_expansion(self, rules_map):
-        """ Create rule['onDayOfWeek'] and rule['onDayOfMonth']
-            from rule['onDay'].
+        """Create rule['onDayOfWeek'] and rule['onDayOfMonth'] from
+        rule['onDay'].
         """
         results = {}
         removed_policies = {}
@@ -753,6 +758,67 @@ class Transformer:
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
+
+    def create_rules_with_anchor_transition(self, rules_map):
+        """Create the earliest transition with SAVE == 0.
+        """
+        anchored_policies = []
+        for name, rules in rules_map.items():
+            if not self.has_prior_rule(rules):
+                anchor_rule = self.get_anchor_rule(rules)
+                rules.insert(0, anchor_rule)
+                anchored_policies.append(name)
+
+        logging.info('Added anchor rule to %s rule policies: %s',
+            len(anchored_policies), anchored_policies)
+        return rules_map
+
+    def has_prior_rule(self, rules):
+        """Return True if rules has a rule prior to self.start_year.
+        """
+        for rule in rules:
+            from_year = rule['fromYear']
+            to_year = rule['toYear']
+            if from_year < self.start_year:
+                return True
+        return False
+
+    def get_anchor_rule(self, rules):
+        """Return the anchor rule that will act as the earliest rule with SAVE
+        == 0.
+        """
+        earliest_rule = {
+            'earliestDate': (MAX_UNTIL_YEAR, 12, 31),
+        }
+        anchor_rule = {
+            'earliestDate': (MAX_UNTIL_YEAR, 12, 31),
+        }
+        for rule in rules:
+            from_year = rule['fromYear']
+            in_month = rule['inMonth']
+            on_day_of_week = rule['onDayOfWeek']
+            on_day_of_month = rule['onDayOfMonth']
+            on_day = calc_day_of_month(from_year, in_month, on_day_of_week,
+                on_day_of_month)
+            rule_date = (from_year, in_month, on_day)
+            rule['earliestDate'] = rule_date
+
+            if rule_date < earliest_rule['earliestDate']:
+                earliest_rule = rule
+            if rule['deltaSeconds'] == 0 and \
+                rule_date < anchor_rule['earliestDate']:
+                anchor_rule = rule
+
+        anchor_rule = anchor_rule.copy()
+        anchor_rule['fromYear'] = MIN_FROM_YEAR
+        anchor_rule['toYear'] = MIN_FROM_YEAR
+        anchor_rule['inMonth'] = 1
+        anchor_rule['onDayOfWeek'] = 0
+        anchor_rule['onDayOfMonth'] = 1
+        anchor_rule['deltaSeconds'] = 0
+        anchor_rule['deltaSecondsTruncated'] = 0
+        anchor_rule['rawLine'] = 'Anchor: ' + anchor_rule['rawLine']
+        return anchor_rule
 
     def remove_rules_with_border_transitions(self, rules_map):
         """Remove rules where the transition occurs near the border of a year
@@ -847,7 +913,8 @@ class Transformer:
         return results
 
     def create_rules_with_expanded_delta_offset(self, rules_map):
-        """ Create 'deltaSeconds' from rule['deltaOffset'].
+        """ Create 'deltaSeconds' and 'deltaSecondsTruncated' from
+        rule['deltaOffset'].
         """
         results = {}
         removed_policies = {}
