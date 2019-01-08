@@ -344,18 +344,10 @@ class ZoneAgent:
         if not results.get('startTransitionFound'):
             prior_transition = results.get('latestPriorTransition')
             if not prior_transition:
-                # TODO: This is not correct. We need to find the earliest
-                # transition with a SAVE == 0, not the strict earliest
-                # transition.
-                prior_transition = results.get('earliestTransition')
-                if not prior_transition:
-                    logging.error(
-                        "Zone '%s'; year '%04d': No earliest transition found!",
-                        self.zone_info['name'], self.year)
-                    sys.exit(1)
-                logging.info(
-                    "Zone '%s'; year '%04d': Using earliest transition",
+                logging.error(
+                    "Zone '%s'; year '%04d': No prior transition found!",
                     self.zone_info['name'], self.year)
+                sys.exit(1)
 
             prior_transition = prior_transition.copy()
             original_time = prior_transition['transitionTime']
@@ -534,14 +526,11 @@ def process_transition(match, transition, results):
     The 'results' is a map that keeps track of the processing, and contains:
         {
             'startTransitionFound': bool,
-            'earliestTransition': transition,
             'latestPriorTransition': transition,
             'transitions': {}
         }
 
     where:
-        * If transition is the earliest transition:
-            * results['earliestTransition'] = transition
         * If transition >= match.until:
             * do nothing
         * If transition within match:
@@ -553,15 +542,6 @@ def process_transition(match, transition, results):
                 * set results['latestPriorTransition'] = latest
     """
     transition_time = transition['transitionTime']
-
-    # Keep track of the earliest transition
-    earliest_transition = results.get('earliestTransition')
-    if not earliest_transition:
-        results['earliestTransition'] = transition
-    else:
-        # TODO: Check of 's' and 'u' time
-        if transition_time < earliest_transition['transitionTime']:
-            results['earliestTransition'] = transition
 
     # Determine if the transition falls within the effective match range.
     transition_compared_to_match = compare_transition_to_match(

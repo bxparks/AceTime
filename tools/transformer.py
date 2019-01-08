@@ -760,7 +760,11 @@ class Transformer:
         return results
 
     def create_rules_with_anchor_transition(self, rules_map):
-        """Create the earliest transition with SAVE == 0.
+        """Create the earliest transition with SAVE == 0. As of 2018i, 6 zone
+        policies are affected:
+            ['Troll', 'Armenia', 'Dhaka', 'Pakistan', 'WS', 'SanLuis']
+        corresponding to 4 zones:
+            Pacific/Apia, Asia/Dhaka, Asia/Karachi, Asia/Yerevan
         """
         anchored_policies = []
         for name, rules in rules_map.items():
