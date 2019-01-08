@@ -325,7 +325,9 @@ class ZoneAgent:
 
         # For each Rule, process the Transition for each whole year within
         # the given 'match'.
-        results = {}
+        results = {
+            'transitions': []
+        }
         for rule in rules:
             from_year = rule['fromYear']
             to_year = rule['toYear']
@@ -333,81 +335,33 @@ class ZoneAgent:
             for year in years:
                 transition = self.create_transition_for_year(year, rule, match)
                 if transition:
-                    self.process_transition(match, transition, results)
+                    process_transition(match, transition, results)
+
+        # Add the resulting transitions that overlap with the match.
+        self.transitions.extend(results['transitions'])
 
         # Add the latest prior transition
         if not results.get('startTransitionFound'):
             prior_transition = results.get('latestPriorTransition')
             if not prior_transition:
+                # TODO: This is not correct. We need to find the earliest
+                # transition with a SAVE == 0, not the strict earliest
+                # transition.
+                prior_transition = results.get('earliestTransition')
+                if not prior_transition:
+                    logging.error(
+                        "Zone '%s'; year '%04d': No earliest transition found!",
+                        self.zone_info['name'], self.year)
+                    sys.exit(1)
                 logging.info(
                     "Zone '%s'; year '%04d': Using earliest transition",
                     self.zone_info['name'], self.year)
-                prior_transition = results.get('earliestTransition')
-                if not prior_transition:
-                    logging.error("Zone '%s'; year '%04d': "
-                        + "No prior transition found!",
-                        self.zone_info['name'], self.year)
-                    sys.exit(1)
-                prior_transition['deltaSeconds'] = 0
+
+            prior_transition = prior_transition.copy()
             original_time = prior_transition['transitionTime']
             prior_transition['transitionTime'] = match['startDateTime']
             prior_transition['originalTransitionTime'] = original_time
             self.transitions.append(prior_transition)
-
-    def process_transition(self, match, transition, results):
-        """Process the given transition, making sure that it overlaps within
-        the range defined by 'match'. The 'results' is a map that keeps
-        track of the processing, and contains:
-            {
-                'earliestTransition': transition,
-                'startTransitionFound': bool,
-                'latestPriorTransition': transition,
-            }
-        where:
-            * If transition is the earliest transition:
-                * results['earliestTransition'] = transition
-            * If transition >= match.until:
-                * do nothing
-            * If transition within match:
-                * add transition to self.transitions
-                * if transition == match.start
-                    * set results['startTransitionFound'] = True
-            * If transition < match:
-                * if not startTransitionFound:
-                    * set results['latestPriorTransition'] = latest
-        """
-        transition_time = transition['transitionTime']
-
-        # Keep track of the earliest transition
-        earliest_transition = results.get('earliestTransition')
-        if not earliest_transition:
-            results['earliestTransition'] = transition
-        else:
-            # TODO: Check of 's' and 'u' time
-            if transition_time < earliest_transition['transitionTime']:
-                results['earliestTransition'] = transition
-
-        # Determine if the transition falls within the effective match range.
-        transition_compared_to_match = compare_transition_to_match(
-            transition_time, match)
-        if transition_compared_to_match > 0:
-            return
-        elif transition_compared_to_match == 0:
-            self.transitions.append(transition)
-            if transition_time == match['startDateTime']:
-                results['startTransitionFound'] = True
-        else: # transition_compared_to_match < -1:
-            # Determine the latest prior transition
-            if results.get('startTransitionFound'):
-                return
-
-            latest_prior_transition = results.get('latestPriorTransition')
-            if not latest_prior_transition:
-                results['latestPriorTransition'] = transition
-            else:
-                # TODO: Check of 's' and 'u' time
-                if transition_time > latest_prior_transition['transitionTime']:
-                    results['latestPriorTransition'] = transition
 
     def create_transition_for_year(self, year, rule, match):
         """Create the transition from the given 'rule' for the given 'year'.
@@ -572,16 +526,77 @@ class ZoneAgent:
             is_after_first = True
 
 
+def process_transition(match, transition, results):
+    """Process the given transition, making sure that it overlaps within
+    the range defined by 'match'. If the Transition is within the matching
+    ZoneEra, it is added to the map at results['transitions'].
+
+    The 'results' is a map that keeps track of the processing, and contains:
+        {
+            'startTransitionFound': bool,
+            'earliestTransition': transition,
+            'latestPriorTransition': transition,
+            'transitions': {}
+        }
+
+    where:
+        * If transition is the earliest transition:
+            * results['earliestTransition'] = transition
+        * If transition >= match.until:
+            * do nothing
+        * If transition within match:
+            * add transition to results['transitions']
+            * if transition == match.start
+                * set results['startTransitionFound'] = True
+        * If transition < match:
+            * if not startTransitionFound:
+                * set results['latestPriorTransition'] = latest
+    """
+    transition_time = transition['transitionTime']
+
+    # Keep track of the earliest transition
+    earliest_transition = results.get('earliestTransition')
+    if not earliest_transition:
+        results['earliestTransition'] = transition
+    else:
+        # TODO: Check of 's' and 'u' time
+        if transition_time < earliest_transition['transitionTime']:
+            results['earliestTransition'] = transition
+
+    # Determine if the transition falls within the effective match range.
+    transition_compared_to_match = compare_transition_to_match(
+        transition_time, match)
+    if transition_compared_to_match > 0:
+        return
+    elif transition_compared_to_match == 0:
+        results['transitions'].append(transition)
+        if transition_time == match['startDateTime']:
+            results['startTransitionFound'] = True
+    else: # transition_compared_to_match < -1:
+        # Determine the latest prior transition
+        if results.get('startTransitionFound'):
+            return
+
+        latest_prior_transition = results.get('latestPriorTransition')
+        if not latest_prior_transition:
+            results['latestPriorTransition'] = transition
+        else:
+            # TODO: Check of 's' and 'u' time
+            if transition_time > latest_prior_transition['transitionTime']:
+                results['latestPriorTransition'] = transition
+
 def get_candidate_years(from_year, to_year, start_year, end_year):
     """Return the array of years within the Rule's [from_year, to_year] range
     which should be evaluated to obtain the transitions necessary for the
     matched ZoneEra that spans [start_year, end_year].
         1) Include all years which overlap [start_year, end_year].
         2) Add the latest year prior to [start_year].
-        3) Add the earliest rule year (i.e. 'rule_from'), needed if the zone
-        switched to a named ZoneEra before the earliest transition.
+        3) If the latest prior year is not available, include the the earliest
+        rule year (i.e. 'rule_from').
+    If [start_year, end_year] spans a 3-year interval (which will always
+    be the case), then the maximum number of elements in 'years' will be 4.
     """
-    years = {from_year}
+    years = set()
     for year in range(start_year, end_year+1):
         if from_year <= year and year <= to_year:
             years.add(year)
@@ -591,6 +606,8 @@ def get_candidate_years(from_year, to_year, start_year, end_year):
             years.add(to_year)
         else:
             years.add(start_year - 1)
+    else:
+        years.add(from_year)
     return years
 
 
