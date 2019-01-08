@@ -68,8 +68,8 @@ class ZoneAgent:
 
         # List of matching zone eras. Map of the form;
         # {
-        #   'startDateTime': (y, m, d, ss, modifier),
-        #   'untilDatetime': (y, m, d, ss, modifier),
+        #   'startDateTime': DateTuple
+        #   'untilDatetime': DateTuple
         #   'policyName': string,
         #   'zoneEra': ZoneEra
         # }
@@ -78,13 +78,13 @@ class ZoneAgent:
         # List of matching transitions. Map of the form;
         # {
         #   # Copied from ZoneEra
-        #   'startDateTime': (y, m, d, ss, modifier), # replaced later
-        #   'untilDatetime': (y, m, d, ss, modifier), # replaced later
+        #   'startDateTime': DateTuple, # replaced later
+        #   'untilDatetime': DateTuple, # replaced later
         #   'policyName': string, # '-', ':', or symbolic reference
         #   'zoneEra': ZoneEra
         #
         #   # Added for simple Match and named Match.
-        #   'transitionTime': (y, m, d, ss, modifier), # from Rule or Match
+        #   'transitionTime': DateTuple, # from Rule or Match
         #   'offsetSeconds': int, # from ZoneEra
         #   'deltaSeconds': int, # from ZoneRule or ZoneEra
         #   'format': string, # from ZoneEra
@@ -333,7 +333,15 @@ class ZoneAgent:
                 if transition:
                     self.process_transition(match, transition, results)
 
-            # Must be called after the "interior" transitions are processed.
+            # Must be called after the "interior" transitions are processed
+            # because we can skip this step if 'startTransitionFound' is set.
+
+            # Process the earliest transition of the rule in case we need it.
+            transition = self.create_transition_earliest(rule, match)
+            self.process_transition(match, transition, results)
+
+            # Process the latest prior transition of the rule, in case we need
+            # it.
             transition = self.create_transition_prior_to_year(
                 start_y, rule, match)
             if transition:
@@ -346,13 +354,13 @@ class ZoneAgent:
                 logging.info(
                     "Zone '%s'; year '%04d': Using earliest transition",
                     self.zone_info['name'], self.year)
-                prior_transition = self.create_transition_earliest(rule, match)
+                prior_transition = results.get('earliestTransition')
+                if not prior_transition:
+                    logging.error("Zone '%s'; year '%04d': "
+                        + "No prior transition found!",
+                        self.zone_info['name'], self.year)
+                    sys.exit(1)
                 prior_transition['deltaSeconds'] = 0
-            if not prior_transition:
-                logging.error("Zone '%s'; year '%04d': "
-                    + "No prior transition found!",
-                    self.zone_info['name'], self.year)
-                sys.exit(1)
             original_time = prior_transition['transitionTime']
             prior_transition['transitionTime'] = match['startDateTime']
             prior_transition['originalTransitionTime'] = original_time
@@ -361,7 +369,15 @@ class ZoneAgent:
     def process_transition(self, match, transition, results):
         """Process the given transition, making sure that it overlaps within
         the range defined by 'match'. The 'results' is a map that keeps
-        track of the processing:
+        track of the processing, and contains:
+            {
+                'earliestTransition': transition,
+                'startTransitionFound': bool,
+                'latestPriorTransition': transition,
+            }
+        where:
+            * If transition is the earliest transition:
+                * results['earliestTransition'] = transition
             * If transition >= match.until:
                 * do nothing
             * If transition within match:
@@ -373,6 +389,17 @@ class ZoneAgent:
                     * set results['latestPriorTransition'] = latest
         """
         transition_time = transition['transitionTime']
+
+        # Keep track of the earliest transition
+        earliest_transition = results.get('earliestTransition')
+        if not earliest_transition:
+            results['earliestTransition'] = transition
+        else:
+            # TODO: Check of 's' and 'u' time
+            if transition_time < earliest_transition['transitionTime']:
+                results['earliestTransition'] = transition
+
+        # Determine if the transition falls within the effective match range.
         transition_compared_to_match = compare_transition_to_match(
             transition_time, match)
         if transition_compared_to_match > 0:
@@ -389,18 +416,17 @@ class ZoneAgent:
             latest_prior_transition = results.get('latestPriorTransition')
             if not latest_prior_transition:
                 results['latestPriorTransition'] = transition
-                return
-
-            latest_prior_time = latest_prior_transition['transitionTime']
-            if transition_time > latest_prior_time:
-                results['latestPriorTransition'] = transition
+            else:
+                # TODO: Check of 's' and 'u' time
+                if transition_time > latest_prior_transition['transitionTime']:
+                    results['latestPriorTransition'] = transition
 
     def create_transition_for_year(self, year, rule, match):
         """Create the transition from the given 'rule' for the given 'year'.
         (Don't need to check if it overlaps with the given 'match' since that is
-        done in process_transition()). Return None if it does not overlap. The
-        Transition object is a replica of the underlying Match object, with
-        additional bookkeeping info.
+        done in process_transition()). Return None if 'year' does not overlap
+        with the [from, to] of the rule. The Transition object is a replica of
+        the underlying Match object, with additional bookkeeping info.
         """
         # Check if [Rule.from, Rule.to] overlaps with year.
         from_year = rule['fromYear']
