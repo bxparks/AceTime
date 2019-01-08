@@ -58,7 +58,7 @@ class Validator:
         # Calculate the number of Transitions necessary for every Zone
         # in zone_infos, for the years 2000 to 2038.
         logging.info('Calculating transitions between 2000 and 2038')
-        for zone_short_name, zone_info in self.zone_infos.items():
+        for zone_short_name, zone_info in sorted(self.zone_infos.items()):
             zone_agent = ZoneAgent(zone_info, self.optimized)
             count_record = (0, 0) # (count, year)
             for year in range(2000, 2038):

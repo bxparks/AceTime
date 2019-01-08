@@ -292,11 +292,7 @@ class ZoneAgent:
         The algorithm is the following:
 
         * Loop for each Rule entry in the Zone policy given by the Match:
-            * Generate possible Transitions:
-                * Create a Transition for each whole year between
-                  [Match.startYear, Match.untilYear).
-                * Create a Transition for the latest whole year <
-                  Match.startYear.
+            * Obtain the candidate years and the corresponding Transitiosn
             * For each Transition:
                 * If Transition occurs >= Match.until, ignore it.
                 * If Transition occurs within [Match.start, Match.until):
@@ -317,35 +313,27 @@ class ZoneAgent:
         start_dt = match['startDateTime']
         start_y = start_dt.y
 
-        # If the until datetime is exactly Jan 1 00:00, then we don't
-        # need to consider a Transition in untilYear. But we don't know for
-        # sure, so let's check the entire untilYear. It will get properly
-        # filtered out in process_transition().
+        # If the until datetime is exactly Jan 1 00:00, then we don't need to
+        # consider a Transition in untilYear. To be sure, we would have to
+        # verify that all smaller components (hour, minute, second) are also
+        # exactly zero. We can be a little lazy and just assume that these
+        # smaller components are non-zero, so we check the entire untilYear. If
+        # the Transition falls outside of the matched ZoneEra, then it will get
+        # properly filtered out in process_transition().
         until_dt = match['untilDateTime']
         end_y = until_dt.y
 
-        results = {}
         # For each Rule, process the Transition for each whole year within
         # the given 'match'.
+        results = {}
         for rule in rules:
-            for year in range(start_y, end_y+1):
+            from_year = rule['fromYear']
+            to_year = rule['toYear']
+            years = get_candidate_years(from_year, to_year, start_y, end_y)
+            for year in years:
                 transition = self.create_transition_for_year(year, rule, match)
                 if transition:
                     self.process_transition(match, transition, results)
-
-            # Must be called after the "interior" transitions are processed
-            # because we can skip this step if 'startTransitionFound' is set.
-
-            # Process the earliest transition of the rule in case we need it.
-            transition = self.create_transition_earliest(rule, match)
-            self.process_transition(match, transition, results)
-
-            # Process the latest prior transition of the rule, in case we need
-            # it.
-            transition = self.create_transition_prior_to_year(
-                start_y, rule, match)
-            if transition:
-                self.process_transition(match, transition, results)
 
         # Add the latest prior transition
         if not results.get('startTransitionFound'):
@@ -435,51 +423,6 @@ class ZoneAgent:
             return None
 
         transition_time = get_transition_time(year, rule)
-        zone_era = match['zoneEra']
-        transition = match.copy()
-        transition.update({
-            'offsetSeconds': zone_era['offsetSeconds'],
-            'format': zone_era['format'],
-            'transitionTime': transition_time,
-            'zoneRule': rule,
-            'deltaSeconds': rule['deltaSeconds'],
-            'letter': rule['letter'],
-        })
-        return transition
-
-    def create_transition_prior_to_year(self, year, rule, match):
-        """Create the transition from the given rule corresponding to
-        the latest rule.year just prior to given year.
-        """
-        # Get the most recent prior year
-        from_year = rule['fromYear']
-        to_year = rule['toYear']
-        if from_year >= year:
-            return None
-        if to_year < year:
-            prior_year = to_year
-        else:
-            prior_year = year - 1
-
-        transition_time = get_transition_time(prior_year, rule)
-        zone_era = match['zoneEra']
-        transition = match.copy()
-        transition.update({
-            'offsetSeconds': zone_era['offsetSeconds'],
-            'format': zone_era['format'],
-            'transitionTime': transition_time,
-            'zoneRule': rule,
-            'deltaSeconds': rule['deltaSeconds'],
-            'letter': rule['letter'],
-        })
-        return transition
-
-    def create_transition_earliest(self, rule, match):
-        """Create the earliest transition from the given rule.
-        """
-        # Get the earliest transition
-        from_year = rule['fromYear']
-        transition_time = get_transition_time(from_year, rule)
         zone_era = match['zoneEra']
         transition = match.copy()
         transition.update({
@@ -627,6 +570,29 @@ class ZoneAgent:
 
             prev = transition
             is_after_first = True
+
+
+def get_candidate_years(from_year, to_year, start_year, end_year):
+    """Return the array of years within the Rule's [from_year, to_year] range
+    which should be evaluated to obtain the transitions necessary for the
+    matched ZoneEra that spans [start_year, end_year].
+        1) Include all years which overlap [start_year, end_year].
+        2) Add the latest year prior to [start_year].
+        3) Add the earliest rule year (i.e. 'rule_from'), needed if the zone
+        switched to a named ZoneEra before the earliest transition.
+    """
+    years = {from_year}
+    for year in range(start_year, end_year+1):
+        if from_year <= year and year <= to_year:
+            years.add(year)
+
+    if from_year < start_year:
+        if to_year < start_year:
+            years.add(to_year)
+        else:
+            years.add(start_year - 1)
+    return years
+
 
 def calc_effective_match(start_ym, until_ym, match):
     """Generate a version of match which overlaps the interval
