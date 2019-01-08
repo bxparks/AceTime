@@ -819,6 +819,11 @@ class Transformer:
         anchor_rule['inMonth'] = 1
         anchor_rule['onDayOfWeek'] = 0
         anchor_rule['onDayOfMonth'] = 1
+        anchor_rule['atTime'] = '0'
+        anchor_rule['atTimeModifier'] = 'w'
+        anchor_rule['deltaOffset'] = '0'
+        anchor_rule['atSeconds'] = 0
+        anchor_rule['atSecondsTruncated'] = 0
         anchor_rule['deltaSeconds'] = 0
         anchor_rule['deltaSecondsTruncated'] = 0
         anchor_rule['rawLine'] = 'Anchor: ' + anchor_rule['rawLine']
