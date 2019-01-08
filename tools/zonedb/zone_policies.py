@@ -11,7 +11,7 @@
 # DO NOT EDIT
 
 # numPolicies: 83
-# numRules: 540
+# numRules: 546
 
 #---------------------------------------------------------------------------
 # Policy name: AN
@@ -579,9 +579,21 @@ ZONE_POLICY_Arg = {
 
 #---------------------------------------------------------------------------
 # Policy name: Armenia
-# Rule count: 2
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_Armenia = [
+    # Anchor: Rule Armenia    2011    only    -    Oct    lastSun     2:00s    0    -
+    {
+        'fromYear': 0,
+        'toYear': 0,
+        'inMonth': 1,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atSeconds': 7200,
+        'atTimeModifier': 's',
+        'deltaSeconds': 0,
+        'letter': '-',
+    },
     # Rule Armenia    2011    only    -    Mar    lastSun     2:00s    1:00    -
     {
         'fromYear': 2011,
@@ -1611,9 +1623,21 @@ ZONE_POLICY_Cuba = {
 
 #---------------------------------------------------------------------------
 # Policy name: Dhaka
-# Rule count: 2
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_Dhaka = [
+    # Anchor: Rule    Dhaka    2009    only    -    Dec    31    24:00    0    -
+    {
+        'fromYear': 0,
+        'toYear': 0,
+        'inMonth': 1,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atSeconds': 86400,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 0,
+        'letter': '-',
+    },
     # Rule    Dhaka    2009    only    -    Jun    19    23:00    1:00    -
     {
         'fromYear': 2009,
@@ -5547,9 +5571,21 @@ ZONE_POLICY_PRC = {
 
 #---------------------------------------------------------------------------
 # Policy name: Pakistan
-# Rule count: 5
+# Rule count: 6
 #---------------------------------------------------------------------------
 ZONE_RULES_Pakistan = [
+    # Anchor: Rule Pakistan    2002    only    -    Oct    Sun>=2    0:00    0    -
+    {
+        'fromYear': 0,
+        'toYear': 0,
+        'inMonth': 1,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atSeconds': 0,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 0,
+        'letter': '-',
+    },
     # Rule Pakistan    2002    only    -    Apr    Sun>=2    0:00    1:00    S
     {
         'fromYear': 2002,
@@ -6255,9 +6291,21 @@ ZONE_POLICY_Salv = {
 
 #---------------------------------------------------------------------------
 # Policy name: SanLuis
-# Rule count: 2
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_SanLuis = [
+    # Anchor: Rule    SanLuis    2008    2009    -    Mar    Sun>=8    0:00    0    -
+    {
+        'fromYear': 0,
+        'toYear': 0,
+        'inMonth': 1,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atSeconds': 0,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 0,
+        'letter': '-',
+    },
     # Rule    SanLuis    2008    2009    -    Mar    Sun>=8    0:00    0    -
     {
         'fromYear': 2008,
@@ -6723,9 +6771,21 @@ ZONE_POLICY_Tonga = {
 
 #---------------------------------------------------------------------------
 # Policy name: Troll
-# Rule count: 2
+# Rule count: 3
 #---------------------------------------------------------------------------
 ZONE_RULES_Troll = [
+    # Anchor: Rule    Troll    2004    max    -    Oct    lastSun    1:00u    0:00    +00
+    {
+        'fromYear': 0,
+        'toYear': 0,
+        'inMonth': 1,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atSeconds': 3600,
+        'atTimeModifier': 'u',
+        'deltaSeconds': 0,
+        'letter': '+00',
+    },
     # Rule    Troll    2005    max    -    Mar    lastSun    1:00u    2:00    +02
     {
         'fromYear': 2005,
@@ -7059,9 +7119,21 @@ ZONE_POLICY_Vanuatu = {
 
 #---------------------------------------------------------------------------
 # Policy name: WS
-# Rule count: 5
+# Rule count: 6
 #---------------------------------------------------------------------------
 ZONE_RULES_WS = [
+    # Anchor: Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
+    {
+        'fromYear': 0,
+        'toYear': 0,
+        'inMonth': 1,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atSeconds': 14400,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 0,
+        'letter': '-',
+    },
     # Rule    WS    2010    only    -    Sep    lastSun    0:00    1    -
     {
         'fromYear': 2010,
