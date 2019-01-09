@@ -31,7 +31,7 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 from datetime import date
-from extractor import MIN_YEAR
+from extractor import MIN_FROM_YEAR
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
 from zonedb.zone_policies import *
@@ -47,10 +47,12 @@ YearMonthTuple = collections.namedtuple("YearMonthTuple", "y m")
 # (2000-01-01 00:00:00)
 SECONDS_SINCE_UNIX_EPOCH = 946684800
 
+ACETIME_EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
+
 class ZoneAgent:
     # Sentinel ZoneEra that represents the earliest zone era.
     ZONE_ERA_ANCHOR = {
-        'untilYear': MIN_YEAR,
+        'untilYear': MIN_FROM_YEAR,
         'untilMonth': 1,
         'untilDay': 1,
         'untilSeconds': 0,
@@ -84,7 +86,9 @@ class ZoneAgent:
         #   'zoneEra': ZoneEra
         #
         #   # Added for simple Match and named Match.
-        #   'transitionTime': DateTuple, # from Rule or Match
+        #   'transitionTime': DateTuple, # wall time
+        #   'transitionTimeS': DateTuple, # standard time
+        #   'transitionTimeU': DateTuple, # UTC time
         #   'offsetSeconds': int, # from ZoneEra
         #   'deltaSeconds': int, # from ZoneRule or ZoneEra
         #   'format': string, # from ZoneEra
@@ -111,8 +115,6 @@ class ZoneAgent:
         if self.year == year:
             return
 
-        self.matches = []
-        self.transitions = []
         self.year = year
 
         if self.optimized:
@@ -121,15 +123,11 @@ class ZoneAgent:
         else:
             start_ym = YearMonthTuple(year-1, 1)
             until_ym = YearMonthTuple(year+2, 1)
-        self.find_matches(start_ym, until_ym)
-        self.find_transitions(start_ym, until_ym)
 
-        #print_transitions(self.transitions)
-        self.transitions = sorted(self.transitions,
-            key=lambda x: x['transitionTime'])
-        self.fix_start_times()
-        self.calc_abbrev()
-        self.generate_start_until_times()
+        self.matches = self.find_matches(start_ym, until_ym)
+        self.transitions = self.find_transitions(start_ym, until_ym)
+        generate_start_until_times(self.transitions)
+        calc_abbrev(self.transitions)
 
     def get_matches_and_transitions(self, year):
         """Returns a tuple of (matches, transitions).
@@ -191,53 +189,28 @@ class ZoneAgent:
         """
         zone_eras = self.zone_info['eras']
         prev_era = self.ZONE_ERA_ANCHOR
+        matches = []
         for zone_era in zone_eras:
             if era_overlaps_interval(prev_era, zone_era, start_ym, until_ym):
                 zone_policy = zone_era['zonePolicy']
-                match = self.create_match(zone_policy, prev_era, zone_era)
-                self.matches.append(match)
+                match = create_match(zone_policy, prev_era, zone_era)
+                matches.append(match)
             prev_era = zone_era
-
-    def create_match(self, zone_policy, prev_era, zone_era):
-        """Create the Zone Match object for the given Zone Era.
-        """
-        # zonePolicy one of 3 states: '-', ':' or a reference
-        if zone_policy in ['-', ':']:
-            policy_name = zone_policy
-        else:
-            policy_name = zone_policy['name']
-
-        # The subtlety here is that the prev_era's 'until datetime'
-        # is expressed using the UTC offset of the *previous* era,
-        # not the current era. This is probably good enough for
-        # sorting, assuming we don't have 2 DST transitions in a
-        # single day. See fix_start_times() which normalizes these
-        # start times to the wall time uniformly.
-        start_date_time = DateTuple(
-            y=prev_era['untilYear'],
-            m=prev_era['untilMonth'],
-            d=prev_era['untilDay'],
-            ss=prev_era['untilSeconds'],
-            f=prev_era['untilTimeModifier'])
-        until_date_time = DateTuple(
-            y=zone_era['untilYear'],
-            m=zone_era['untilMonth'],
-            d=zone_era['untilDay'],
-            ss=zone_era['untilSeconds'],
-            f=zone_era['untilTimeModifier'])
-        return {
-            'startDateTime': start_date_time,
-            'untilDateTime': until_date_time,
-            'policyName': policy_name,
-            'zoneEra': zone_era
-        }
+        return matches
 
     def find_transitions(self, start_ym, until_ym):
         """Find the relevant transitions from the matching ZoneEras, for the
         interval [start_ym, until_ym).
         """
+        transitions = []
         for match in self.matches:
-            self.find_transitions_from_match(start_ym, until_ym, match)
+            transitions.extend(
+                self.find_transitions_from_match(start_ym, until_ym, match))
+
+        # Some transitions from simple match may be in 's' or 'u', so convert
+        # to 'w'.
+        fix_transition_times(transitions)
+        return transitions
 
     def find_transitions_from_match(self, start_ym, until_ym, match):
         """Find all transitions of match for the 3 year interval [year-1,
@@ -260,9 +233,9 @@ class ZoneAgent:
 
         match = calc_effective_match(start_ym, until_ym, match)
         if zone_policy in ['-', ':']:
-            self.find_transitions_from_simple_match(match)
+            return self.find_transitions_from_simple_match(match)
         else:
-            self.find_transitions_from_named_match(match)
+            return self.find_transitions_from_named_match(match)
 
     def find_transitions_from_simple_match(self, match):
         """The zonePolicy is '-' or ':' then the Zone Era itself defines the UTC
@@ -276,247 +249,392 @@ class ZoneAgent:
             'format': zone_era['format'],
             'transitionTime': match['startDateTime'],
         })
-        self.transitions.append(transition)
+        return [transition]
+
+#    def find_transitions_from_named_match_old(self, match):
+#        """
+#        Find the relevant transitions of the named policy in the Match interval
+#        [startDateTime, untilDateTime).
+#
+#        If a Zone Era use a named Match before any transition is defined then we
+#        must follow the special instructions given in
+#        https://data.iana.org/time-zones/tz-how-to.html, where we use the
+#        earliest transition and shift it back in time to the starting point of
+#        the named Match, but clobber the SAVE to be 0 while keeping the LETTER.
+#
+#        The algorithm is the following:
+#
+#        * Loop for each Rule entry in the Zone policy given by the Match:
+#            * Obtain the candidate years and the corresponding Transitiosn
+#            * For each Transition:
+#                * If Transition occurs >= Match.until, ignore it.
+#                * If Transition occurs within [Match.start, Match.until):
+#                    * Add to the Transitions collection.
+#                    * If Transition == Match.start:
+#                        * Set startTransitionFound flag.
+#                * Else Transition is < Match.start:
+#                    * If not startTransitionFound:
+#                        * Nominate as latest prior Transition.
+#        * If not startTransitionFound:
+#            * If latest prior transition exists:
+#                * Shift the prior Transition to Match.start
+#                * Add to Transitions collection.
+#        """
+#        zone_era = match['zoneEra']
+#        zone_policy = zone_era['zonePolicy']
+#        rules = zone_policy['rules']
+#        start_dt = match['startDateTime']
+#        start_y = start_dt.y
+#
+#        # If the until datetime is exactly Jan 1 00:00, then we don't need to
+#        # consider a Transition in untilYear. To be sure, we would have to
+#        # verify that all smaller components (hour, minute, second) are also
+#        # exactly zero. We can be a little lazy and just assume that these
+#        # smaller components are non-zero, so we check the entire untilYear. If
+#        # the Transition falls outside of the matched ZoneEra, then it will get
+#        # properly filtered out in process_transition().
+#        until_dt = match['untilDateTime']
+#        end_y = until_dt.y
+#
+#        # For each Rule, process the Transition for each whole year within
+#        # the given 'match'.
+#        results = {
+#            'transitions': []
+#        }
+#        for rule in rules:
+#            from_year = rule['fromYear']
+#            to_year = rule['toYear']
+#            years = get_candidate_years(from_year, to_year, start_y, end_y)
+#            for year in years:
+#                transition = create_transition_for_year(year, rule, match)
+#                if transition:
+#                    process_transition(match, transition, results)
+#
+#        # Add the resulting transitions that overlap with the match.
+#        self.transitions.extend(results['transitions'])
+#
+#        # Add the latest prior transition
+#        if not results.get('startTransitionFound'):
+#            prior_transition = results.get('latestPriorTransition')
+#            if not prior_transition:
+#                logging.error(
+#                    "Zone '%s'; year '%04d': No prior transition found!",
+#                    self.zone_info['name'], self.year)
+#                sys.exit(1)
+#
+#            prior_transition = prior_transition.copy()
+#            original_time = prior_transition['transitionTime']
+#            prior_transition['transitionTime'] = match['startDateTime']
+#            prior_transition['originalTransitionTime'] = original_time
+#            self.transitions.append(prior_transition)
 
     def find_transitions_from_named_match(self, match):
-        """
-        Find the relevant transitions of the named policy in the Match interval
-        [startDateTime, untilDateTime).
-
-        If a Zone Era use a named Match before any transition is defined then we
-        must follow the special instructions given in
-        https://data.iana.org/time-zones/tz-how-to.html, where we use the
-        earliest transition and shift it back in time to the starting point of
-        the named Match, but clobber the SAVE to be 0 while keeping the LETTER.
-
-        The algorithm is the following:
-
-        * Loop for each Rule entry in the Zone policy given by the Match:
-            * Obtain the candidate years and the corresponding Transitiosn
-            * For each Transition:
-                * If Transition occurs >= Match.until, ignore it.
-                * If Transition occurs within [Match.start, Match.until):
-                    * Add to the Transitions collection.
-                    * If Transition == Match.start:
-                        * Set startTransitionFound flag.
-                * Else Transition is < Match.start:
-                    * If not startTransitionFound:
-                        * Nominate as latest prior Transition.
-        * If not startTransitionFound:
-            * If latest prior transition exists:
-                * Shift the prior Transition to Match.start
-                * Add to Transitions collection.
-        """
         zone_era = match['zoneEra']
         zone_policy = zone_era['zonePolicy']
         rules = zone_policy['rules']
         start_dt = match['startDateTime']
         start_y = start_dt.y
-
-        # If the until datetime is exactly Jan 1 00:00, then we don't need to
-        # consider a Transition in untilYear. To be sure, we would have to
-        # verify that all smaller components (hour, minute, second) are also
-        # exactly zero. We can be a little lazy and just assume that these
-        # smaller components are non-zero, so we check the entire untilYear. If
-        # the Transition falls outside of the matched ZoneEra, then it will get
-        # properly filtered out in process_transition().
         until_dt = match['untilDateTime']
         end_y = until_dt.y
 
-        # For each Rule, process the Transition for each whole year within
-        # the given 'match'.
-        results = {
-            'transitions': []
-        }
-        for rule in rules:
-            from_year = rule['fromYear']
-            to_year = rule['toYear']
-            years = get_candidate_years(from_year, to_year, start_y, end_y)
-            for year in years:
-                transition = self.create_transition_for_year(year, rule, match)
-                if transition:
-                    process_transition(match, transition, results)
+        transitions = get_candidate_transitions(match, rules, start_y, end_y)
+        transitions = sort_transitions(transitions)
+        fix_transition_times(transitions)
+        transitions = select_active_transitions(transitions, match)
+        if transitions == None:
+            logging.error(
+                "Zone '%s'; year '%04d': No prior transition found!",
+                self.zone_info['name'], self.year)
+            sys.exit(1)
+        transitions = sort_transitions(transitions)
 
-        # Add the resulting transitions that overlap with the match.
-        self.transitions.extend(results['transitions'])
+        return transitions
 
-        # Add the latest prior transition
-        if not results.get('startTransitionFound'):
-            prior_transition = results.get('latestPriorTransition')
-            if not prior_transition:
-                logging.error(
-                    "Zone '%s'; year '%04d': No prior transition found!",
-                    self.zone_info['name'], self.year)
-                sys.exit(1)
+def create_match(zone_policy, prev_era, zone_era):
+    """Create the Zone Match object for the given Zone Era.
+    """
+    # zonePolicy one of 3 states: '-', ':' or a reference
+    if zone_policy in ['-', ':']:
+        policy_name = zone_policy
+    else:
+        policy_name = zone_policy['name']
 
-            prior_transition = prior_transition.copy()
-            original_time = prior_transition['transitionTime']
-            prior_transition['transitionTime'] = match['startDateTime']
-            prior_transition['originalTransitionTime'] = original_time
-            self.transitions.append(prior_transition)
+    # The subtlety here is that the prev_era's 'until datetime' is expressed
+    # using the UTC offset of the *previous* era, not the current era. This is
+    # probably good enough for sorting, assuming we don't have 2 DST transitions
+    # in a single day. See fix_transition_times() which normalizes these start
+    # times to the wall time uniformly.
+    start_date_time = DateTuple(
+        y=prev_era['untilYear'],
+        m=prev_era['untilMonth'],
+        d=prev_era['untilDay'],
+        ss=prev_era['untilSeconds'],
+        f=prev_era['untilTimeModifier'])
+    until_date_time = DateTuple(
+        y=zone_era['untilYear'],
+        m=zone_era['untilMonth'],
+        d=zone_era['untilDay'],
+        ss=zone_era['untilSeconds'],
+        f=zone_era['untilTimeModifier'])
+    return {
+        'startDateTime': start_date_time,
+        'untilDateTime': until_date_time,
+        'policyName': policy_name,
+        'zoneEra': zone_era
+    }
 
-    def create_transition_for_year(self, year, rule, match):
-        """Create the transition from the given 'rule' for the given 'year'.
-        (Don't need to check if it overlaps with the given 'match' since that is
-        done in process_transition()). Return None if 'year' does not overlap
-        with the [from, to] of the rule. The Transition object is a replica of
-        the underlying Match object, with additional bookkeeping info.
-        """
-        # Check if [Rule.from, Rule.to] overlaps with year.
-        from_year = rule['fromYear']
-        to_year = rule['toYear']
-        if year < from_year or to_year < year:
+def select_active_transitions(transitions, match):
+    # Categorize each transition
+    results = {
+        'startTransitionFound': None,
+        'latestPriorTransition': None,
+        'transitions': []
+    }
+    for transition in transitions:
+        process_transition(match, transition, results)
+
+    transitions = results['transitions']
+    # Add the latest prior transition
+    if not results.get('startTransitionFound'):
+        prior_transition = results.get('latestPriorTransition')
+        if not prior_transition:
             return None
 
-        transition_time = get_transition_time(year, rule)
-        zone_era = match['zoneEra']
-        transition = match.copy()
-        transition.update({
-            'offsetSeconds': zone_era['offsetSeconds'],
-            'format': zone_era['format'],
-            'transitionTime': transition_time,
-            'zoneRule': rule,
-            'deltaSeconds': rule['deltaSeconds'],
-            'letter': rule['letter'],
-        })
-        return transition
+        prior_transition = prior_transition.copy()
+        original_time = prior_transition['transitionTime']
+        prior_transition['transitionTime'] = match['startDateTime']
+        prior_transition['originalTransitionTime'] = original_time
+        transitions.append(prior_transition)
 
-    def fix_start_times(self):
-        """The Transition time comes from either:
-            1) The UNTIL field of the previous Zone Era entry, or
-            2) The (inMonth, onDay, atSeconds) fields of the Zone Rule.
+    return transitions
 
-        In most cases these times are specified as the wall clock 'w' by
-        default, but a few cases use 's' (standard) or 'u' (utc). We don't need
-        to support 'g' and 'z' because they mean exactly the same as 'u' and
-        they don't appear anywhere in the current TZ files. The transformer.py
-        will detect and filter those out.
+def generate_start_until_times(transitions):
+    """Calculate the various start and until times of the Transitions in the
+    following way:
+        1) The 'untilDateTime' of the previous Transition is the
+        'transitionTime' of the current Transition with no adjustments.
+        2) The local 'startDateTime' of the current Transition is
+        the current 'transitionTime' - (prevOffset + prevDelta) +
+        (currentOffset + currentDelta).
+        3) The 'startEpochSecond' of the current Transition is the
+        'transitionTime' using the UTC offset of the *previous* Transition.
 
-        To convert these into the more common 'wall' time, we need to
-        use the UTC offset of the *previous* Transition.
-        """
-        # Bootstrap the transition with the first transition, effectively
-        # extending the first transition backwards to -infinity. This won't be
-        # 100% correct with respect to the TZ Database because we kept only the
-        # transitions spanning 3 years. But, for the dateTime or epochSecond
-        # that we care about in the ZoneAgent, it will be good enough because we
-        # are guaranteed at the time Instant of interest will always be after
-        # the 2nd half of the first year. If the first transition at the
-        # beginning of the first year is slightly off, it doesn't matter.
-        prev = self.transitions[0].copy()
-        for transition in self.transitions:
-            prev_start_time = prev['transitionTime']
-            prev_delta_seconds = prev.get('deltaSeconds')
-            prev_delta_seconds = prev_delta_seconds if prev_delta_seconds else 0
+    Got all that?
 
-            start_time = transition['transitionTime']
-            start_modifier = start_time.f
-            if start_modifier == 'w':
-                pass
-            elif start_modifier == 's':
-                secs = start_time.ss + prev_delta_seconds
-                transition['transitionTime'] = DateTuple(
-                    y=start_time.y, m=start_time.m, d=start_time.d, ss=secs,
-                    f='w')
-            elif start_modifier == 'u':
-                prev_offset_seconds = prev.get('offsetSeconds')
-                prev_offset_seconds = prev_offset_seconds \
-                    if prev_offset_seconds else 0
-                secs = start_time.ss + prev_delta_seconds + prev_offset_seconds
-                transition['transitionTime'] = DateTuple(
-                    y=start_time.y, m=start_time.m,
-                    d=start_time.d, ss=secs, f='w')
+    All transitionTimes ought to be in 'w' mode by the time this is called.
+    """
+
+    # As before, bootstrap the prev transition with the first transition
+    # so that we have a UTC offset to work with.
+    prev = transitions[0]
+    is_after_first = False
+    for transition in transitions:
+        tt = transition['transitionTime']
+
+        # 1) Update the 'untilDateTime' of the previous Transition.
+        if is_after_first:
+            prev['untilDateTime'] = tt
+
+        # 2) Calculate the current startDateTime by shifting the transition time
+        # into the current UTC offset. This algorithm should be able to handle
+        # transition time of 24:00 (or even 25:00) of the previous day.
+        secs = (tt.ss - prev['offsetSeconds'] - prev['deltaSeconds']
+            + transition['offsetSeconds'] + transition['deltaSeconds'])
+        #if secs < 0 or secs >= 24 * 60 * 60:
+        #   (h, m, s) = seconds_to_hms(secs)
+        #    logging.info(
+        #        "Zone '%s': Transition startDateTime shifted into "
+        #        + "a different day: (%02d:%02d:%02d)",
+        #        self.zone_info['name'], h, m, s)
+        st = datetime(tt.y, tt.m, tt.d, 0, 0, 0)
+        st += timedelta(seconds=secs)
+        secs = hms_to_seconds(st.hour, st.minute, st.second)
+        transition['startDateTime'] = DateTuple(
+            y=st.year, m=st.month, d=st.day, ss=secs, f=tt.f)
+
+        # 3) The epochSecond of the 'transitionTime' is determined by the
+        # UTC offset of the *previous* Transition. However, the
+        # transitionTime represent by an illegal date (e.g. 24:00). So, it
+        # is better to use the properly normalized startDateTime (calculated
+        # above) with the *current* UTC offset.
+        utc_offset_seconds = transition['offsetSeconds'] \
+            + transition['deltaSeconds']
+        z = timezone(timedelta(seconds=utc_offset_seconds))
+        dt = st.replace(tzinfo=z)
+        epoch_second = int((dt - ACETIME_EPOCH).total_seconds())
+        transition['startEpochSecond'] = epoch_second
+
+        prev = transition
+        is_after_first = True
+
+    # Finally, fix the last transition's until time
+    (udt, udts, udtu) = expand_date_tuple(
+        transition['untilDateTime'], transition['offsetSeconds'],
+        transition['deltaSeconds'])
+    transition['untilDateTime'] = udt
+
+def get_candidate_transitions(match, rules, start_y, end_y):
+    """Get the list of candidate transitions from the matching ZoneEra.
+    """
+    transitions = []
+    for rule in rules:
+        from_year = rule['fromYear']
+        to_year = rule['toYear']
+        years = get_candidate_years(from_year, to_year, start_y, end_y)
+        for year in years:
+            transitions.append(
+                create_transition_for_year(year, rule, match))
+    return transitions
+
+def sort_transitions(transitions):
+    """Sort the transitions according to (y, m, d), ignoring ss and
+    modifier. This assumes that only one Rule in a single day.
+    """
+    def date_tuple_to_sort_key(t):
+        return (t.y, t.m, t.d)
+    try:
+        ts = sorted(transitions,
+            key=lambda x: date_tuple_to_sort_key(x['transitionTime']))
+    except:
+        print_transitions(transitions)
+        sys.exit(1)
+    return ts
+
+
+def create_transition_for_year(year, rule, match):
+    """Create the transition from the given 'rule' for the given 'year'.
+    (Don't need to check if it overlaps with the given 'match' since that is
+    done in process_transition()). Return None if 'year' does not overlap
+    with the [from, to] of the rule. The Transition object is a replica of
+    the underlying Match object, with additional bookkeeping info.
+    """
+    # Check if [Rule.from, Rule.to] overlaps with year.
+    from_year = rule['fromYear']
+    to_year = rule['toYear']
+    if year < from_year or to_year < year:
+        return None
+
+    transition_time = get_transition_time(year, rule)
+    zone_era = match['zoneEra']
+    transition = match.copy()
+    transition.update({
+        'offsetSeconds': zone_era['offsetSeconds'],
+        'format': zone_era['format'],
+        'transitionTime': transition_time,
+        'zoneRule': rule,
+        'deltaSeconds': rule['deltaSeconds'],
+        'letter': rule['letter'],
+    })
+    return transition
+
+def fix_transition_times(transitions):
+    """Convert the transtion['transitionTime'] to the wall time ('w') of
+    the previous rule's time offset. The Transition time comes from either:
+        1) The UNTIL field of the previous Zone Era entry, or
+        2) The (inMonth, onDay, atSeconds) fields of the Zone Rule.
+
+    In most cases these times are specified as the wall clock 'w' by
+    default, but a few cases use 's' (standard) or 'u' (utc). We don't need
+    to support 'g' and 'z' because they mean exactly the same as 'u' and
+    they don't appear anywhere in the current TZ files. The transformer.py
+    will detect and filter those out.
+
+    To convert these into the more common 'wall' time, we need to
+    use the UTC offset of the *previous* Transition.
+    """
+    # Bootstrap the transition with the first transition, effectively
+    # extending the first transition backwards to -infinity. This won't be
+    # 100% correct with respect to the TZ Database but it will be good
+    # enough for the first transition that we care about (either at (year-1)
+    # Jan 1, or at (year-1) Dec 1 in optimized mode).
+    prev = transitions[0].copy()
+    for transition in transitions:
+        prev_delta_seconds = prev.get('deltaSeconds')
+        prev_offset_seconds = prev.get('offsetSeconds')
+
+        (transition['transitionTime'], transition['transitionTimeS'],
+            transition['transitionTimeU']) = \
+            expand_date_tuple(transition['transitionTime'],
+                prev_offset_seconds, prev_delta_seconds)
+        prev = transition
+
+
+def expand_date_tuple(dt, offset_seconds, delta_seconds):
+    """Convert 's', 'u', or 'w' time into the other 2 versions using the given
+    base UTC offset and the delta DST offset. Return a tuple of
+    (wall, standard, utc) date tuples.
+    """
+    delta_seconds = delta_seconds if delta_seconds else 0
+    offset_seconds = offset_seconds if offset_seconds else 0
+
+    if dt.f == 'w':
+        dtw = dt
+        dts = DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=dtw.ss-delta_seconds , f='s')
+        dtu = DateTuple(y=dt.y, m=dt.m, d=dt.d,
+            ss=dtw.ss-delta_seconds-offset_seconds , f='u')
+    elif dt.f == 's':
+        dts = dt
+        dtw = DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=dts.ss+delta_seconds, f='w')
+        dtu = DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=dts.ss-offset_seconds, f='u')
+    elif dt.f == 'u':
+        dtu = dt
+        dtw = DateTuple(y=dtu.y, m=dtu.m, d=dtu.d,
+            ss=dtu.ss+delta_seconds+offset_seconds, f='w')
+        dts = DateTuple(y=dtu.y, m=dtu.m, d=dtu.d, ss=dtu.ss+offset_seconds,
+            f='s')
+    else:
+        logging.error("Unrecognized Rule.AT suffix '%s'; date=%s", dt.f, dt)
+        sys.exit(1)
+
+    dtw = normalize_date_tuple(dtw)
+    dts = normalize_date_tuple(dts)
+    dtu = normalize_date_tuple(dtu)
+
+    return (dtw, dts, dtu)
+
+
+def normalize_date_tuple(tt):
+    """Return the normalized DateTuple where the dt.ss could be negative or
+    greater than 24h.
+    """
+    try:
+        st = datetime(tt.y, tt.m, tt.d, 0, 0, 0)
+        delta = timedelta(seconds=tt.ss)
+        st += delta
+        secs = hms_to_seconds(st.hour, st.minute, st.second)
+        return DateTuple(y=st.year, m=st.month, d=st.day, ss=secs, f=tt.f)
+    except:
+        logging.error('Invalid datetime: %s + %s', st, delta)
+        sys.exit(1)
+
+
+def calc_abbrev(transitions):
+    """Calculate the time zone abbreviations for each Transition.
+    There are several cases:
+        1) 'format' contains 'A/B', meaning 'A' for standard time, and 'B'
+            for DST time.
+        2) 'format' contains a %s, which substitutes the 'letter'
+            2a) If 'letter' is '-', replace with nothing.
+            2b) The 'format' could be just a '%s'.
+    """
+    for transition in transitions:
+        format = transition['format']
+        delta_seconds = transition['deltaSeconds']
+
+        index = format.find('/')
+        if index >= 0:
+            if delta_seconds == 0:
+                abbrev = format[:index]
             else:
-                logging.error(
-                    "Unrecognized Rule.AT suffix '%s'; start_time=%s",
-                    start_modifier, start_time)
-                sys.exit(1)
-            prev = transition
+                abbrev = format[index+1:]
+        elif format.find('%s') >= 0:
+            letter = transition['letter']
+            if letter == '-': letter = ''
+            abbrev = format % letter
+        else:
+            abbrev = format
 
-    def calc_abbrev(self):
-        """Calculate the time zone abbreviations for each Transition.
-        There are several cases:
-            1) 'format' contains 'A/B', meaning 'A' for standard time, and 'B'
-                for DST time.
-            2) 'format' contains a %s, which substitutes the 'letter'
-                2a) If 'letter' is '-', replace with nothing.
-                2b) The 'format' could be just a '%s'.
-        """
-        for transition in self.transitions:
-            format = transition['format']
-            delta_seconds = transition['deltaSeconds']
-
-            index = format.find('/')
-            if index >= 0:
-                if delta_seconds == 0:
-                    abbrev = format[:index]
-                else:
-                    abbrev = format[index+1:]
-            elif format.find('%s') >= 0:
-                letter = transition['letter']
-                if letter == '-': letter = ''
-                abbrev = format % letter
-            else:
-                abbrev = format
-
-            transition['abbrev'] = abbrev
-
-    def generate_start_until_times(self):
-        """Calculate the various start and until times of the Transitions in the
-        following way:
-            1) The 'untilDateTime' of the previous Transition is the
-            'transitionTime' of the current Transition with no adjustments.
-            2) The local 'startDateTime' of the current Transition is
-            the current 'transitionTime' - (prevOffset + prevDelta) +
-            (currentOffset + currentDelta).
-            3) The 'startEpochSecond' of the current Transition is the
-            'transitionTime' using the UTC offset of the *previous* Transition.
-        Got all that?
-        """
-        epoch_dt = datetime(2000, 1, 1, tzinfo=timezone.utc)
-
-        # As before, bootstrap the prev transition with the first transition
-        # so that we have a UTC offset to work with.
-        prev = self.transitions[0]
-        is_after_first = False
-        for transition in self.transitions:
-            tt = transition['transitionTime']
-
-            # 1) Update the 'untilDateTime' of the previous Transition.
-            if is_after_first:
-                prev['untilDateTime'] = tt
-
-            # 2) Calculate the current startDateTime by shifting the time
-            # into the current UTC offset.
-            secs = (tt.ss - prev['offsetSeconds'] - prev['deltaSeconds']
-                + transition['offsetSeconds'] + transition['deltaSeconds'])
-            #if secs < 0 or secs >= 24 * 60 * 60:
-            #   (h, m, s) = seconds_to_hms(secs)
-            #    logging.info(
-            #        "Zone '%s': Transition startDateTime shifted into "
-            #        + "a different day: (%02d:%02d:%02d)",
-            #        self.zone_info['name'], h, m, s)
-            st = datetime(tt.y, tt.m, tt.d, 0, 0, 0)
-            st += timedelta(seconds=secs)
-            secs = hms_to_seconds(st.hour, st.minute, st.second)
-            transition['startDateTime'] = DateTuple(
-                y=st.year, m=st.month, d=st.day, ss=secs, f=tt.f)
-
-            # 3) The epochSecond of the 'transitionTime' is determined by the
-            # UTC offset of the *previous* Transition. However, the
-            # transitionTime represent by an illegal date (e.g. 24:00). So, it
-            # is better to use the properly normalized startDateTime with the
-            # *current* UTC offset.
-            utc_offset_seconds = transition['offsetSeconds'] \
-                + transition['deltaSeconds']
-            z = timezone(timedelta(seconds=utc_offset_seconds))
-            dt = st.replace(tzinfo=z)
-            epoch_second = int((dt - epoch_dt).total_seconds())
-            transition['startEpochSecond'] = epoch_second
-
-            prev = transition
-            is_after_first = True
-
+        transition['abbrev'] = abbrev
 
 def process_transition(match, transition, results):
     """Process the given transition, making sure that it overlaps within
@@ -541,16 +659,14 @@ def process_transition(match, transition, results):
             * if not startTransitionFound:
                 * set results['latestPriorTransition'] = latest
     """
-    transition_time = transition['transitionTime']
-
     # Determine if the transition falls within the effective match range.
     transition_compared_to_match = compare_transition_to_match(
-        transition_time, match)
-    if transition_compared_to_match > 0:
+        transition, match)
+    if transition_compared_to_match == 2:
         return
-    elif transition_compared_to_match == 0:
+    elif transition_compared_to_match in [0, 1]:
         results['transitions'].append(transition)
-        if transition_time == match['startDateTime']:
+        if transition_compared_to_match == 0:
             results['startTransitionFound'] = True
     else: # transition_compared_to_match < -1:
         # Determine the latest prior transition
@@ -561,7 +677,7 @@ def process_transition(match, transition, results):
         if not latest_prior_transition:
             results['latestPriorTransition'] = transition
         else:
-            # TODO: Check of 's' and 'u' time
+            transition_time = transition['transitionTime']
             if transition_time > latest_prior_transition['transitionTime']:
                 results['latestPriorTransition'] = transition
 
@@ -570,9 +686,9 @@ def get_candidate_years(from_year, to_year, start_year, end_year):
     which should be evaluated to obtain the transitions necessary for the
     matched ZoneEra that spans [start_year, end_year].
         1) Include all years which overlap [start_year, end_year].
-        2) Add the latest year prior to [start_year].
-        3) If the latest prior year is not available, include the the earliest
-        rule year (i.e. 'rule_from').
+        2) Add the latest year prior to [start_year]. This is guaranteed to
+        exists because we added an anchor rule at year 0 for those zone policies
+        that need it.
     If [start_year, end_year] spans a 3-year interval (which will always
     be the case), then the maximum number of elements in 'years' will be 4.
     """
@@ -586,8 +702,6 @@ def get_candidate_years(from_year, to_year, start_year, end_year):
             years.add(to_year)
         else:
             years.add(start_year - 1)
-    else:
-        years.add(from_year)
     return years
 
 
@@ -615,17 +729,41 @@ def calc_effective_match(start_ym, until_ym, match):
     return eff_match
 
 
-def compare_transition_to_match(transition_time, match):
-    """Determine if transition_time applies to given range of the match,
-    returning -1 if less than match, 0 within match, +1 more than match.
+def compare_transition_to_match(transition, match):
+    """Determine if transition_time applies to given range of the match.
+    Return:
+        * -1 if less than match
+        * 0 if equal to match_start
+        * 1 if within match,
+        * 2 if greater than match
     """
-    start = match['startDateTime']
-    until = match['untilDateTime']
-    if transition_time < start:
+    match_start = match['startDateTime']
+    if match_start.f == 'w':
+        transition_time = transition['transitionTime']
+    elif match_start.f == 's':
+        transition_time = transition['transitionTimeS']
+    elif match_start.f == 'u':
+        transition_time = transition['transitionTimeU']
+    else:
+        raise Exception("Unknown modifier: %s" % match_start)
+    if transition_time < match_start:
         return -1
-    if until <= transition_time:
-        return 1
-    return 0
+    if transition_time == match_start:
+        return 0
+
+    match_until = match['untilDateTime']
+    if match_until.f == 'w':
+        transition_time = transition['transitionTime']
+    elif match_until.f == 's':
+        transition_time = transition['transitionTimeS']
+    elif match_until.f == 'u':
+        transition_time = transition['transitionTimeU']
+    else:
+        raise Exception("Unknown modifier: %s" % match_until)
+    if match_until <= transition_time:
+        return 2
+
+    return 1
 
 
 def get_transition_time(year, rule):

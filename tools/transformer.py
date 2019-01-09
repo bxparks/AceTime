@@ -13,8 +13,7 @@ import sys
 import datetime
 import extractor
 from extractor import MAX_UNTIL_YEAR
-
-MIN_FROM_YEAR = 0
+from extractor import MIN_FROM_YEAR
 
 class Transformer:
 
