@@ -31,7 +31,7 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 from datetime import date
-from extractor import MIN_YEAR
+from extractor import MIN_FROM_YEAR
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
 from zonedb.zone_policies import *
@@ -52,7 +52,7 @@ ACETIME_EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
 class ZoneAgent:
     # Sentinel ZoneEra that represents the earliest zone era.
     ZONE_ERA_ANCHOR = {
-        'untilYear': MIN_YEAR,
+        'untilYear': MIN_FROM_YEAR,
         'untilMonth': 1,
         'untilDay': 1,
         'untilSeconds': 0,
@@ -86,7 +86,9 @@ class ZoneAgent:
         #   'zoneEra': ZoneEra
         #
         #   # Added for simple Match and named Match.
-        #   'transitionTime': DateTuple, # from Rule or Match
+        #   'transitionTime': DateTuple, # wall time
+        #   'transitionTimeS': DateTuple, # standard time
+        #   'transitionTimeU': DateTuple, # UTC time
         #   'offsetSeconds': int, # from ZoneEra
         #   'deltaSeconds': int, # from ZoneRule or ZoneEra
         #   'format': string, # from ZoneEra
@@ -466,10 +468,10 @@ def generate_start_until_times(transitions):
         is_after_first = True
 
     # Finally, fix the last transition's until time
-    transition['untilDateTime'] = normalize_date_tuple(
+    (udt, udts, udtu) = expand_date_tuple(
         transition['untilDateTime'], transition['offsetSeconds'],
         transition['deltaSeconds'])
-
+    transition['untilDateTime'] = udt
 
 def get_candidate_transitions(match, rules, start_y, end_y):
     """Get the list of candidate transitions from the matching ZoneEra.
@@ -550,29 +552,61 @@ def fix_transition_times(transitions):
         prev_delta_seconds = prev.get('deltaSeconds')
         prev_offset_seconds = prev.get('offsetSeconds')
 
-        transition['transitionTime'] = \
-            normalize_date_tuple(transition['transitionTime'],
+        (transition['transitionTime'], transition['transitionTimeS'],
+            transition['transitionTimeU']) = \
+            expand_date_tuple(transition['transitionTime'],
                 prev_offset_seconds, prev_delta_seconds)
         prev = transition
 
-def normalize_date_tuple(dt, offset_seconds, delta_seconds):
-    """Convert 's' or 'u' time into a 'w' time, using the current base UTC
-    offset and the DST delta offset.
-    """
-    if dt.f == 'w':
-        return dt
 
+def expand_date_tuple(dt, offset_seconds, delta_seconds):
+    """Convert 's', 'u', or 'w' time into the other 2 versions using the given
+    base UTC offset and the delta DST offset. Return a tuple of
+    (wall, standard, utc) date tuples.
+    """
     delta_seconds = delta_seconds if delta_seconds else 0
-    if dt.f == 's':
-        secs = dt.ss + delta_seconds
-        return DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=secs, f='w')
+    offset_seconds = offset_seconds if offset_seconds else 0
+
+    if dt.f == 'w':
+        dtw = dt
+        dts = DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=dtw.ss-delta_seconds , f='s')
+        dtu = DateTuple(y=dt.y, m=dt.m, d=dt.d,
+            ss=dtw.ss-delta_seconds-offset_seconds , f='u')
+    elif dt.f == 's':
+        dts = dt
+        dtw = DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=dts.ss+delta_seconds, f='w')
+        dtu = DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=dts.ss-offset_seconds, f='u')
     elif dt.f == 'u':
-        offset_seconds = offset_seconds if offset_seconds else 0
-        secs = dt.ss + delta_seconds + offset_seconds
-        return DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=secs, f='w')
+        dtu = dt
+        dtw = DateTuple(y=dtu.y, m=dtu.m, d=dtu.d,
+            ss=dtu.ss+delta_seconds+offset_seconds, f='w')
+        dts = DateTuple(y=dtu.y, m=dtu.m, d=dtu.d, ss=dtu.ss+offset_seconds,
+            f='s')
     else:
         logging.error("Unrecognized Rule.AT suffix '%s'; date=%s", dt.f, dt)
         sys.exit(1)
+
+    dtw = normalize_date_tuple(dtw)
+    dts = normalize_date_tuple(dts)
+    dtu = normalize_date_tuple(dtu)
+
+    return (dtw, dts, dtu)
+
+
+def normalize_date_tuple(tt):
+    """Return the normalized DateTuple where the dt.ss could be negative or
+    greater than 24h.
+    """
+    try:
+        st = datetime(tt.y, tt.m, tt.d, 0, 0, 0)
+        delta = timedelta(seconds=tt.ss)
+        st += delta
+        secs = hms_to_seconds(st.hour, st.minute, st.second)
+        return DateTuple(y=st.year, m=st.month, d=st.day, ss=secs, f=tt.f)
+    except:
+        logging.error('Invalid datetime: %s + %s', st, delta)
+        sys.exit(1)
+
 
 def calc_abbrev(transitions):
     """Calculate the time zone abbreviations for each Transition.
@@ -625,17 +659,14 @@ def process_transition(match, transition, results):
             * if not startTransitionFound:
                 * set results['latestPriorTransition'] = latest
     """
-    transition_time = transition['transitionTime']
-
     # Determine if the transition falls within the effective match range.
     transition_compared_to_match = compare_transition_to_match(
-        transition_time, match)
-    if transition_compared_to_match > 0:
+        transition, match)
+    if transition_compared_to_match == 2:
         return
-    elif transition_compared_to_match == 0:
+    elif transition_compared_to_match in [0, 1]:
         results['transitions'].append(transition)
-        # TODO: match['startDateTime'] needs to be normalized into 'w'
-        if transition_time == match['startDateTime']:
+        if transition_compared_to_match == 0:
             results['startTransitionFound'] = True
     else: # transition_compared_to_match < -1:
         # Determine the latest prior transition
@@ -646,6 +677,7 @@ def process_transition(match, transition, results):
         if not latest_prior_transition:
             results['latestPriorTransition'] = transition
         else:
+            transition_time = transition['transitionTime']
             if transition_time > latest_prior_transition['transitionTime']:
                 results['latestPriorTransition'] = transition
 
@@ -697,17 +729,41 @@ def calc_effective_match(start_ym, until_ym, match):
     return eff_match
 
 
-def compare_transition_to_match(transition_time, match):
-    """Determine if transition_time applies to given range of the match,
-    returning -1 if less than match, 0 within match, +1 more than match.
+def compare_transition_to_match(transition, match):
+    """Determine if transition_time applies to given range of the match.
+    Return:
+        * -1 if less than match
+        * 0 if equal to match_start
+        * 1 if within match,
+        * 2 if greater than match
     """
-    start = match['startDateTime']
-    until = match['untilDateTime']
-    if transition_time < start:
+    match_start = match['startDateTime']
+    if match_start.f == 'w':
+        transition_time = transition['transitionTime']
+    elif match_start.f == 's':
+        transition_time = transition['transitionTimeS']
+    elif match_start.f == 'u':
+        transition_time = transition['transitionTimeU']
+    else:
+        raise Exception("Unknown modifier: %s" % match_start)
+    if transition_time < match_start:
         return -1
-    if until <= transition_time:
-        return 1
-    return 0
+    if transition_time == match_start:
+        return 0
+
+    match_until = match['untilDateTime']
+    if match_until.f == 'w':
+        transition_time = transition['transitionTime']
+    elif match_until.f == 's':
+        transition_time = transition['transitionTimeS']
+    elif match_until.f == 'u':
+        transition_time = transition['transitionTimeU']
+    else:
+        raise Exception("Unknown modifier: %s" % match_until)
+    if match_until <= transition_time:
+        return 2
+
+    return 1
 
 
 def get_transition_time(year, rule):
