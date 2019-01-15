@@ -5,6 +5,8 @@
   #include <avr/pgmspace.h>
 #elif defined(ESP8266) || defined(ESP32)
   #include <pgmspace.h>
+#elif defined(__linux__) or defined(__APPLE__)
+  #include <pgmspace.h>
 #else
   #error Unsupported platform
 #endif

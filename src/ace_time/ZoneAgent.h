@@ -443,7 +443,7 @@ class ZoneAgent {
       if (strchr(format, '%') != nullptr) {
         copyAndReplace(dest, destSize, format, '%', letter);
       } else {
-        char* slashPos = strchr(format, '/');
+        const char* slashPos = strchr(format, '/');
         if (slashPos != nullptr) {
           if (deltaCode == 0) {
             copyAndReplace(dest, destSize, format, '/', '\0');
