@@ -1,6 +1,8 @@
 #ifndef ACE_TIME_DS3231_TIME_KEEPER_H
 #define ACE_TIME_DS3231_TIME_KEEPER_H
 
+#if !defined(__linux__) && !defined(__APPLE__)
+
 #include <stdint.h>
 #include "../hw/DS3231.h"
 #include "../hw/HardwareDateTime.h"
@@ -60,5 +62,7 @@ class DS3231TimeKeeper: public TimeKeeper {
 
 }
 }
+
+#endif
 
 #endif

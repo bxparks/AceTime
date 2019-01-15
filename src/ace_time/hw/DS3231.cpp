@@ -1,3 +1,5 @@
+#if !defined(__linux__) && !defined(__APPLE__)
+
 #include <Wire.h>
 #include <Print.h> // Print
 #include "../common/util.h" // bcdToDec(), decToBcd()
@@ -53,3 +55,5 @@ void DS3231::setDateTime(const HardwareDateTime& dateTime) const {
 
 }
 }
+
+#endif

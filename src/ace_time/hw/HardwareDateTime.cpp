@@ -1,3 +1,5 @@
+#if !defined(__linux__) && !defined(__APPLE__)
+
 #include "HardwareDateTime.h"
 #include "../common/util.h"
 #include "../common/DateStrings.h"
@@ -34,3 +36,5 @@ void HardwareDateTime::printTo(Print& printer) const {
 
 }
 }
+
+#endif
