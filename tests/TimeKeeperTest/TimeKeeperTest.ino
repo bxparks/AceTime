@@ -1,7 +1,9 @@
 #line 2 "TimeKeeperTest.ino"
 
 #include <AUnitVerbose.h>
+#if !defined(__APPLE__)
 #include <AceRoutine.h> // enable SystemTimeSyncCoroutine
+#endif
 #include <AceTime.h>
 #include <ace_time/testing/FakeMillis.h>
 #include <ace_time/testing/FakeTimeKeeper.h>
@@ -106,6 +108,8 @@ testF(SystemTimeKeeperTest, getNow) {
 
 //---------------------------------------------------------------------------
 
+#if !defined(__APPLE__)
+
 // Create dedicated test class to allow friend access to private members of
 // SystemTimeSyncCoroutine for testing purposes.
 class SystemTimeSyncCoroutineTest: public TestOnce {
@@ -194,6 +198,8 @@ class SystemTimeSyncCoroutineTest: public TestOnce {
 testF(SystemTimeSyncCoroutineTest, sync) {
   assertRunCoroutine();
 }
+
+#endif
 
 //---------------------------------------------------------------------------
 
