@@ -70,6 +70,79 @@ MIN_FROM_YEAR = 2
 # Tiny (int8_t) version of MIN_YEAR.
 MIN_FROM_YEAR_TINY = -128
 
+class ZoneEra:
+    """Represents both the input records corresponding to the 'ZONE' lines in a
+    tz database file, and the output records in the zone_infos.py file.
+    """
+    __slots__ = [
+        'offsetString',  # (string) offset from UTC/GMT
+        'rules',  # (string) name of the Rule in effect, '-', or minute offset
+        'format',  # (string) abbreviation format (e.g. P%sT, E%ST, GMT/BST)
+        'untilYear',  # (int) MAX_UNTIL_YEAR means 'max'
+        'untilMonth',  # (int) 1-12
+        'untilDay',  # (string) e.g. '1', 'lastSun', 'Sun>=3', etc
+        'untilTime',  # (string) e.g. '2:00', '00:01'
+        'untilTimeModifier',  # (char) '', 's', 'w', 'g', 'u', 'z'
+        'rawLine',  # (string) original ZONE line in TZ file
+
+        'zonePolicy', # (ZonePolicy or str) ZonePolicy if 'rules' is
+                      # a named policy, otherwise '-' or ':'
+        'offsetSeconds', # (int) offset from UTC/GMT in seconds
+        'offsetSecondsTruncated', # (int) offsetSeconds truncation granularity
+        'rulesDeltaSeconds',  # (int or None) delta offset from UTC in seconds
+                              # if RULES is DST offset string of the form
+                              # hh:mm[:ss]
+        'rulesDeltaSecondsTruncated', # (int or None) rulesDeltaSeconds
+                                      # truncated to granularity
+        'untilSeconds', # (int) untilTime converted into total seconds
+        'untilSecondsTruncated', # (int) untilSeconds after truncation
+    ]
+
+    def __init__(self, args):
+        for key, value in args.items():
+            setattr(self, key, value)
+
+
+class ZoneRule:
+    """Represents both the input records corresponding to the 'RULE' lines in a
+    tz database file, and the output records of the zone_policies.py file.
+    """
+    __slots__ = [
+        'fromYear', # (int) from year
+        'toYear', # (int) to year, 1 to MAX_YEAR (9999) means 'max'
+        'inMonth', # (int) month index (1-12)
+        'onDay', # (string) 'lastSun' or 'Sun>=2', or 'DD'
+        'atTime', # (string) hour at which to transition to and from DST
+        'atTimeModifier', # (char) 's', 'w', 'u'
+        'deltaOffset', # (string) offset from Standard time
+        'letter', # (char) 'D', 'S', '-'
+        'rawLine', # (string) the original RULE line from the TZ file
+
+        'onDayOfWeek', # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+        'onDayOfMonth', # (int) (1-31), 0={last dayOfWeek match}
+        'atSeconds', # (int) atTime in seconds since 00:00:00
+        'atSecondsTruncated', # (int) atSeconds after truncation
+        'deltaSeconds', # (int) offset from Standard time in seconds
+        'deltaSecondsTruncated', # (int) deltaSeconds after truncation
+        'shortName', # (string) short name of the zone
+        'earliestDate', # (y, m, d) tuple of the earliest instance of rule
+        'used', # (boolean) indicates whether or not the rule is used by a zone
+    ]
+
+    def __init__(self, args):
+        self.used = False
+        for s in self.__slots__:
+            setattr(self, s, None)
+        for key, value in args.items():
+            setattr(self, key, value)
+
+    def copy(self):
+        result = self.__class__.__new__(self.__class__)
+        for s in self.__slots__:
+            setattr(result, s, getattr(self, s))
+        return result
+
+
 class Extractor:
     """Reads each test data section from the given file-like object (e.g.
     sys.stdin).
@@ -95,7 +168,7 @@ class Extractor:
         'southamerica',
     ]
 
-    def __init__(self, input_dir, **kwargs):
+    def __init__(self, input_dir):
         self.input_dir = input_dir
 
         self.next_line = None
@@ -314,7 +387,7 @@ def process_rule_line(line):
     delta_offset = tokens[8]
 
     # Return map corresponding to a ZoneRule instance
-    return {
+    return ZoneRule({
         'fromYear': from_year,
         'toYear': to_year,
         'inMonth': in_month,
@@ -324,7 +397,7 @@ def process_rule_line(line):
         'deltaOffset': delta_offset,
         'letter': tokens[9],
         'rawLine': line,
-    }
+    })
 
 
 def parse_at_time_string(at_string):
@@ -385,7 +458,7 @@ def process_zone_line(line):
     format = tokens[2]
 
     # Return map corresponding to a ZoneEra instance
-    return {
+    return ZoneEra({
         'offsetString': offset_string,
         'rules': rules_string,
         'format': format,
@@ -395,4 +468,4 @@ def process_zone_line(line):
         'untilTime': until_time,
         'untilTimeModifier': until_time_modifier,
         'rawLine': line,
-    }
+    })

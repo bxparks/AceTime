@@ -261,16 +261,16 @@ ZONE_INFO_{infoShortName} = {{
         for rule in rules:
             rule_items += self.ZONE_RULE_ITEM.format(
                 policyName=normalize_name(name),
-                rawLine=normalize_raw(rule['rawLine']),
-                fromYear=rule['fromYear'],
-                toYear=rule['toYear'],
-                inMonth=rule['inMonth'],
-                onDayOfWeek=rule['onDayOfWeek'],
-                onDayOfMonth=rule['onDayOfMonth'],
-                atSeconds=rule['atSecondsTruncated'],
-                atTimeModifier=rule['atTimeModifier'],
-                deltaSeconds=rule['deltaSecondsTruncated'],
-                letter=rule['letter'])
+                rawLine=normalize_raw(rule.rawLine),
+                fromYear=rule.fromYear,
+                toYear=rule.toYear,
+                inMonth=rule.inMonth,
+                onDayOfWeek=rule.onDayOfWeek,
+                onDayOfMonth=rule.onDayOfMonth,
+                atSeconds=rule.atSecondsTruncated,
+                atTimeModifier=rule.atTimeModifier,
+                deltaSeconds=rule.deltaSecondsTruncated,
+                letter=rule.letter)
         return self.ZONE_POLICY_ITEM.format(
             policyName=normalize_name(name),
             numRules=len(rules),
@@ -362,23 +362,23 @@ ZONE_INFO_{infoShortName} = {{
             eraItems=era_items)
 
     def generate_era_item(self, era):
-        policy_name = era['rules']
+        policy_name = era.rules
         if policy_name in ['-', ':']:
             zone_policy = "'%s'" % policy_name
         else:
             zone_policy = 'ZONE_POLICY_%s' % normalize_name(policy_name)
 
-        rules_delta_seconds = era['rulesDeltaSecondsTruncated']
+        rules_delta_seconds = era.rulesDeltaSecondsTruncated
         if not rules_delta_seconds: rules_delta_seconds = 0
 
         return self.ZONE_ERA_ITEM.format(
-            rawLine=normalize_raw(era['rawLine']),
-            offsetSeconds=era['offsetSecondsTruncated'],
+            rawLine=normalize_raw(era.rawLine),
+            offsetSeconds=era.offsetSecondsTruncated,
             zonePolicy=zone_policy,
             rulesDeltaSeconds=rules_delta_seconds,
-            format=era['format'], # preserve the %s
-            untilYear=era['untilYear'],
-            untilMonth=era['untilMonth'],
-            untilDay=era['untilDay'],
-            untilSeconds=era['untilSecondsTruncated'],
-            untilTimeModifier=era['untilTimeModifier'])
+            format=era.format, # preserve the %s
+            untilYear=era.untilYear,
+            untilMonth=era.untilMonth,
+            untilDay=era.untilDay,
+            untilSeconds=era.untilSecondsTruncated,
+            untilTimeModifier=era.untilTimeModifier)

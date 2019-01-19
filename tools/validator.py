@@ -59,9 +59,11 @@ class Validator:
         # in zone_infos, for the years 2000 to 2038.
         logging.info('Calculating transitions between 2000 and 2038')
         for zone_short_name, zone_info in sorted(self.zone_infos.items()):
+            #logging.info('Validating zone %s' % zone_short_name)
             zone_agent = ZoneAgent(zone_info, self.optimized)
             count_record = (0, 0) # (count, year)
             for year in range(2000, 2038):
+                #logging.info('Validating year %s' % year)
                 (matches, transitions) = \
                     zone_agent.get_matches_and_transitions(year)
                 count = len(transitions)
@@ -162,11 +164,11 @@ class Validator:
 
             # Add the before and after samples surrounding a DST transition.
             for transition in transitions:
-                start = transition['startDateTime']
+                start = transition.startDateTime
                 transition_year = start.y
                 if transition_year != year: continue
 
-                epoch_seconds = transition['startEpochSecond']
+                epoch_seconds = transition.startEpochSecond
                 items.append(self.create_test_item_from_epoch_seconds(
                     tz, epoch_seconds-1, 'A'))
                 items.append(self.create_test_item_from_epoch_seconds(
