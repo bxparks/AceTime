@@ -41,7 +41,7 @@ from transformer import Transformer
 from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
-#from validator import Validator
+from validator import Validator
 
 def main():
     """Read the test data chunks from the STDIN and print them out. The ability
@@ -201,14 +201,14 @@ def main():
         logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
             len(zone_policies))
 
-    #    validator = Validator(zone_infos, zone_policies, args.optimized,
-    #        args.validate_dst_offset, args.validate_hours)
+        validator = Validator(zone_infos, zone_policies, args.optimized,
+            args.validate_dst_offset, args.validate_hours)
 
-    #    logging.info('======== Validating transition buffer sizes...')
-    #    validator.validate_transition_buffer_size()
+        logging.info('======== Validating transition buffer sizes...')
+        validator.validate_transition_buffer_size()
 
-    #    logging.info('======== Validating test data...')
-    #    validator.validate_sequentially()
+        logging.info('======== Validating test data...')
+        validator.validate_sequentially()
 
     logging.info('======== Finished processing TZ Data files.')
 

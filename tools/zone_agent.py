@@ -49,8 +49,9 @@ SECONDS_SINCE_UNIX_EPOCH = 946684800
 
 ACETIME_EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
 
-class ZoneInfo:
-    """Represents the collection of ZoneEras.
+class ZoneInfoCooked:
+    """Internal representation of a single ZoneInfo dictionary stored in the
+    zone_infos.py file.
     """
     __slots__ = ['name', 'eras']
 
@@ -58,13 +59,14 @@ class ZoneInfo:
         if not isinstance(arg, dict):
             raise Exception('Expected a dict')
 
-        eras = [ZoneEra(i) for i in arg['eras']]
+        eras = [ZoneEraCooked(i) for i in arg['eras']]
         self.name = arg['name']
         self.eras = eras
 
 
 class ZoneEraCooked:
-    """Represents the version of ZoneEra stored in the zone_infos.py file.
+    """Internal representation of the ZoneEra dictionary stored in the
+    zone_infos.py file.
     """
     __slots__ = [
         'offsetSeconds', # (int) offset from UTC/GMT in seconds
@@ -83,8 +85,8 @@ class ZoneEraCooked:
 
     def __init__(self, arg):
         """Create a ZoneEraCooked from a dict in zone_infos.py. The 'zonePolicy'
-        will be another 'dict', which needs to be converted to a ZonePolicy
-        object.
+        will be another 'dict', which needs to be converted to a
+        ZonePolicyCooked object.
         """
         if not isinstance(arg, dict):
             raise Exception('Expected a dict')
@@ -93,12 +95,34 @@ class ZoneEraCooked:
             setattr(self, s, None)
 
         for key, value in arg.items():
-            setattr(self, key, value)
+            if key == 'zonePolicy':
+                if isinstance(value, str):
+                    setattr(self, key, value)
+                elif isinstance(value, dict):
+                    setattr(self, key, ZonePolicyCooked(value))
+                else:
+                    raise Exception('zonePolicy value must be str or dict')
+            else:
+                setattr(self, key, value)
 
+
+class ZonePolicyCooked:
+    """Internal representation of a ZonePolicy dictionary in the
+    zone_policies.py output file.
+    """
+    __slots__ = ['name', 'rules']
+
+    def __init__(self, arg):
+        if not isinstance(arg, dict):
+            raise Exception('Expected a dict')
+
+        rules = [ZoneRuleCooked(i) for i in arg['rules']]
+        self.name = arg['name']
+        self.rules = rules
 
 class ZoneRuleCooked:
-    """Represents the input records corresponding to the 'RULE' lines in a
-    tz database file.
+    """Internal representation of a ZoneRule dictionary in the zone_policies.py
+    output file.
     """
     __slots__ = [
         'fromYear', # (int) from year
@@ -310,9 +334,9 @@ class ZoneAgent:
     def __init__(self, zone_info_data, optimized=False):
         """zone_info_data map is one of the ZONE_INFO_xxx constants from
         zone_infos.py. It can contain a reference to a zone_policy_data map. We
-        need to convert these into ZoneEra and ZoneRule classes.
+        need to convert these into ZoneEraCooked and ZoneRuleCooked classes.
         """
-        self.zone_info = zone_info
+        self.zone_info = ZoneInfoCooked(zone_info_data)
         self.optimized = optimized
 
         # Used by init_*() to indicate the current year of interest.
@@ -410,7 +434,7 @@ class ZoneAgent:
         be the 3 years before and after the current year in non-optimized mode,
         and the 14-month interval in optimized mode.
         """
-        zone_eras = self.zone_info['eras']
+        zone_eras = self.zone_info.eras
         prev_era = self.ZONE_ERA_ANCHOR
         matches = []
         for zone_era in zone_eras:
@@ -554,7 +578,7 @@ class ZoneAgent:
     def find_transitions_from_named_match(self, match):
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
-        rules = zone_policy['rules']
+        rules = zone_policy.rules
         start_dt = match.startDateTime
         start_y = start_dt.y
         until_dt = match.untilDateTime
@@ -587,7 +611,7 @@ def create_match(zone_policy, prev_era, zone_era):
     if zone_policy in ['-', ':']:
         policy_name = zone_policy
     else:
-        policy_name = zone_policy['name']
+        policy_name = zone_policy.name
 
     # The subtlety here is that the prev_era's 'until datetime' is expressed
     # using the UTC offset of the *previous* era, not the current era. This is
