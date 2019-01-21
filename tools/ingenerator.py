@@ -7,8 +7,8 @@ instead of creating files. These maps can be used for further processing.
 """
 
 import logging
-from extractor import ZoneEra
-from extractor import ZoneRule
+from extractor import ZoneEraRaw
+from extractor import ZoneRuleRaw
 from transformer import short_name
 from argenerator import normalize_name
 from argenerator import normalize_raw

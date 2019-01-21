@@ -4,8 +4,8 @@
 #
 # MIT License.
 """
-Cleanses and transforms the 'zones' and 'rules' data so that it can be used to
-generate the code for the static instances ZoneInfo and ZonePolicy classes.
+Cleanses and transforms the 'zones' and 'rules' data so that it can be used for
+code generation in the ArduinoGenerator, PythonGenerator or the InlineGenerator.
 """
 
 import logging
@@ -14,8 +14,8 @@ import datetime
 import extractor
 from extractor import MAX_UNTIL_YEAR
 from extractor import MIN_FROM_YEAR
-from extractor import ZoneRule
-from extractor import ZoneEra
+from extractor import ZoneRuleRaw
+from extractor import ZoneEraRaw
 
 class Transformer:
 
@@ -49,70 +49,24 @@ class Transformer:
         """
         Returns a tuple of 6 data structures:
 
-        'zones_map' is a map of (name -> zones[]), where each element in zones
-        is another map with the following fields:
+        * 'zones_map' is a map of (name -> ZoneEraRaw[]).
 
-            offsetString: (string) (GMTOFF field) offset from UTC/GMT
-            rules: (string) (RULES field) '-', ':' or the name of the Rule
-                policy (if ':', then 'rulesDeltaSeconds' will be defined)
-            format: (string) FORMAT field for time zone abbreviation
-                (e.g. P%sT, E%sT, GMT/BST)
-            untilYear: (int) MAX_UNTIL_YEAR (10000) means 'max'
-            untilMonth: (int or None) 1-12
-            untilDay: (string or None) 1-31, 'lastSun', 'Sun>=3'
-            untilTime: (string or None) 'hh:mm'
-            untilTimeModifier: (string or None) 'w', 's', 'u'
-            rawLine: (string) original ZONE line in TZ file
+        * 'rules_map' is a map of (name -> ZoneRuleRaw[]).
 
-            offsetSeconds: (int) offset from UTC/GMT in seconds
-            offsetSecondsTruncated: (int) offsetSeconds after truncated to
-                granularity
-            rulesDeltaSeconds: (int or None) delta offset from UTC in seconds
-                if RULES is DST offset string of the form hh:mm[:ss]
-            rulesDeltaSecondsTruncated: (int or None) rulesDeltaSeconds
-                truncated to granularity
-            untilSeconds: (int) untilTime converted into total seconds
-            untilSecondsTruncated: (int) untilSeconds after truncated to
-                granularity
-
-        'rules_map' is a map of (name -> rules[]), where each element in rules
-        is another map with the following fields:
-
-            fromYear: (int) from year
-            toYear: (int) to year, 1 to MAX_YEAR (9999) means 'max'
-            inMonth: (int) month index (1-12)
-            onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
-            atTime: (string) hour at which to transition to and from DST
-            atTimeModifier: (char) 's', 'w', 'u'
-            deltaOffset: (string) offset from Standard time
-            letter: (char) 'D', 'S', '-'
-            rawLine: (string) the original RULE line from the TZ file
-
-            onDayOfWeek: (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-            onDayOfMonth: (int) (1-31), 0={last dayOfWeek match}
-            atSeconds: (int) atTime in seconds since 00:00:00
-            atSecondsTruncated: (int) atSeconds after truncated to granularity
-            deltaSeconds: (int) offset from Standard time in seconds
-            deltaSecondsTruncated: (int) deltaSeconds after truncated to
-                granularity
-            shortName: (string) short name of the zone
-            earliestDate: (y, m, d) tuple of the earliest instance of rule
-            used: (boolean) indicates whether or not the rule is used by a zone
-
-        'all_removed_zones' is a map of the zones which were removed:
+        * 'all_removed_zones' is a map of the zones which were removed:
             name: name of zone removed
             reason: human readable reason
 
-        'all_removed_policies' is a map of the policies (entire set of RULEs)
+        * 'all_removed_policies' is a map of the policies (entire set of RULEs)
         which were removed:
             name: name of policy removed
             reason: human readable reason
 
-        'all_notable_zones' is a map of the zones which come with caveats:
+        * 'all_notable_zones' is a map of the zones which come with caveats:
             name: name of zone
             reason: human readable reason
 
-        'all_notable_policies' is a map of the policies come with caveats:
+        * 'all_notable_policies' is a map of the policies come with caveats:
             name: name of policy
             reason: human readable reason
 
@@ -792,10 +746,10 @@ class Transformer:
         """Return the anchor rule that will act as the earliest rule with SAVE
         == 0.
         """
-        earliest_rule = ZoneRule({
+        earliest_rule = ZoneRuleRaw({
             'earliestDate': (MAX_UNTIL_YEAR, 12, 31),
         })
-        anchor_rule = ZoneRule({
+        anchor_rule = ZoneRuleRaw({
             'earliestDate': (MAX_UNTIL_YEAR, 12, 31),
         })
         for rule in rules:

@@ -70,11 +70,12 @@ MIN_FROM_YEAR = 2
 # Tiny (int8_t) version of MIN_YEAR.
 MIN_FROM_YEAR_TINY = -128
 
-class ZoneEra:
-    """Represents both the input records corresponding to the 'ZONE' lines in a
-    tz database file, and the output records in the zone_infos.py file.
+class ZoneEraRaw:
+    """Represents the input records corresponding to the 'ZONE' lines in a
+    tz database file.
     """
     __slots__ = [
+        # From 'ZONE' records in tz file
         'offsetString',  # (string) offset from UTC/GMT
         'rules',  # (string) name of the Rule in effect, '-', or minute offset
         'format',  # (string) abbreviation format (e.g. P%sT, E%ST, GMT/BST)
@@ -85,8 +86,7 @@ class ZoneEra:
         'untilTimeModifier',  # (char) '', 's', 'w', 'g', 'u', 'z'
         'rawLine',  # (string) original ZONE line in TZ file
 
-        'zonePolicy', # (ZonePolicy or str) ZonePolicy if 'rules' is
-                      # a named policy, otherwise '-' or ':'
+        # Derived from above
         'offsetSeconds', # (int) offset from UTC/GMT in seconds
         'offsetSecondsTruncated', # (int) offsetSeconds truncation granularity
         'rulesDeltaSeconds',  # (int or None) delta offset from UTC in seconds
@@ -98,26 +98,35 @@ class ZoneEra:
         'untilSecondsTruncated', # (int) untilSeconds after truncation
     ]
 
-    def __init__(self, args):
-        for key, value in args.items():
+    def __init__(self, arg):
+        """Create a ZoneEraRaw from a dict.
+        """
+        if not isinstance(arg, dict):
+            raise Exception('Expected a dict')
+
+        for s in self.__slots__:
+            setattr(self, s, None)
+
+        for key, value in arg.items():
             setattr(self, key, value)
 
-
-class ZoneRule:
-    """Represents both the input records corresponding to the 'RULE' lines in a
-    tz database file, and the output records of the zone_policies.py file.
+class ZoneRuleRaw:
+    """Represents the input records corresponding to the 'RULE' lines in a
+    tz database file.
     """
     __slots__ = [
+        # From 'Rule' records in tz file
         'fromYear', # (int) from year
         'toYear', # (int) to year, 1 to MAX_YEAR (9999) means 'max'
         'inMonth', # (int) month index (1-12)
         'onDay', # (string) 'lastSun' or 'Sun>=2', or 'DD'
         'atTime', # (string) hour at which to transition to and from DST
         'atTimeModifier', # (char) 's', 'w', 'u'
-        'deltaOffset', # (string) offset from Standard time
+        'deltaOffset', # (string) offset from Standard time ('SAVE' field)
         'letter', # (char) 'D', 'S', '-'
         'rawLine', # (string) the original RULE line from the TZ file
 
+        # Derived from above
         'onDayOfWeek', # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
         'onDayOfMonth', # (int) (1-31), 0={last dayOfWeek match}
         'atSeconds', # (int) atTime in seconds since 00:00:00
@@ -129,11 +138,14 @@ class ZoneRule:
         'used', # (boolean) indicates whether or not the rule is used by a zone
     ]
 
-    def __init__(self, args):
-        self.used = False
+    def __init__(self, arg):
+        if not isinstance(arg, dict):
+            raise Exception('Expected a dict')
+
         for s in self.__slots__:
             setattr(self, s, None)
-        for key, value in args.items():
+
+        for key, value in arg.items():
             setattr(self, key, value)
 
     def copy(self):
@@ -175,8 +187,8 @@ class Extractor:
         self.rule_lines = {}  # dictionary of ruleName to lines[]
         self.zone_lines = {}  # dictionary of zoneName to lines[]
         self.link_lines = {}  # dictionary of linkName to lines[]
-        self.rules = {} # map of ruleName to ruleEntry[], RuleEntry = {}
-        self.zones = {} # map of zoneName to zoneEra[], ZoneEra = {}
+        self.rules = {} # map of ruleName to ZoneRuleRaw[]
+        self.zones = {} # map of zoneName to ZoneEraRaw[]
         self.ignored_rule_lines = 0
         self.ignored_zone_lines = 0
         self.invalid_rule_lines = 0
@@ -193,28 +205,8 @@ class Extractor:
     def get_data(self):
         """
         Returns 2 dictionaries: zones_map and rules_map.
-
-        The zones_map contains:
-            offsetString: (string) offset from UTC/GMT
-            rules: (string) name of the Rule in effect, '-', or minute offset
-            format: (string) abbreviation format (e.g. P%sT, E%ST, GMT/BST)
-            untilYear: (int) MAX_UNTIL_YEAR means 'max'
-            untilMonth: (int) 1-12
-            untilDay: (string) e.g. '1', 'lastSun', 'Sun>=3', etc
-            untilTime: (string) e.g. '2:00', '00:01'
-            untilTimeModifier: (char) '', 's', 'w', 'g', 'u', 'z'
-            rawLine: (string) original ZONE line in TZ file
-
-        The rules_map contains:
-            fromYear: (int) from year
-            toYear: (int) to year, 0000 to MAX_YEAR=max
-            inMonth: (int) month index (1-12)
-            onDay: (string) 'lastSun' or 'Sun>=2', or 'DD'
-            atTime: (string) the time when transition to and from DST happens
-            atTimeModifier: (char) '', 's', 'w', 'g', 'u', 'z'
-            deltaOffset: (string) offset from Standard time ('SAVE' field)
-            letter: (char) 'D', 'S', '-'
-            rawLine: (string) the original RULE line from the TZ file
+            * The zones_map contains a map of (zone_name -> ZoneEraRaw[]).
+            * The rules_map contains a map of (policy_name -> ZoneRuleRaw[]).
         """
         return (self.zones, self.rules)
 
@@ -387,7 +379,7 @@ def process_rule_line(line):
     delta_offset = tokens[8]
 
     # Return map corresponding to a ZoneRule instance
-    return ZoneRule({
+    return ZoneRuleRaw({
         'fromYear': from_year,
         'toYear': to_year,
         'inMonth': in_month,
@@ -458,7 +450,7 @@ def process_zone_line(line):
     format = tokens[2]
 
     # Return map corresponding to a ZoneEra instance
-    return ZoneEra({
+    return ZoneEraRaw({
         'offsetString': offset_string,
         'rules': rules_string,
         'format': format,

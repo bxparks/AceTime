@@ -32,8 +32,6 @@ from datetime import timedelta
 from datetime import timezone
 from datetime import date
 from extractor import MIN_FROM_YEAR
-from extractor import ZoneEra
-from extractor import ZoneRule
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
 from zonedb.zone_policies import *
@@ -50,6 +48,66 @@ YearMonthTuple = collections.namedtuple("YearMonthTuple", "y m")
 SECONDS_SINCE_UNIX_EPOCH = 946684800
 
 ACETIME_EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
+
+class ZoneInfo:
+    """Represents the collection of ZoneEras.
+    """
+    __slots__ = ['name', 'eras']
+
+    def __init__(self, arg):
+        if not isinstance(arg, dict):
+            raise Exception('Expected a dict')
+
+        eras = [ZoneEra(i) for i in arg['eras']]
+        self.name = arg['name']
+        self.eras = eras
+
+class ZoneEraCooked:
+    """Represents the version of ZoneEra stored in the zone_infos.py file.
+    """
+    __slots__ = [
+        'zonePolicy', # (ZonePolicy or str) ZonePolicy if 'rules' is
+                      # a named policy, otherwise '-' or ':'
+        'offsetSeconds', # (int) offset from UTC/GMT in seconds
+        'rulesDeltaSeconds',  # (int or None) delta offset from UTC in seconds
+                              # if RULES is DST offset string of the form
+                              # hh:mm[:ss]
+        'untilSeconds', # (int) untilTime converted into total seconds
+    ]
+
+    def __init__(self, arg):
+        """Create a ZoneEraCooked from a dict in zone_infos.py. The 'zonePolicy'
+        will be another 'dict', which needs to be converted to a ZonePolicy
+        object.
+        """
+        if not isinstance(arg, dict):
+            raise Exception('Expected a dict')
+
+        for s in self.__slots__:
+            setattr(self, s, None)
+
+        for key, value in arg.items():
+            if key == 'zonePolicy':
+                if isinstance(value, dict):
+                    setattr(self, key, ZonePolicy(value))
+                else:
+                    raise Exception('Expected a dict')
+            else:
+                setattr(self, key, value)
+
+class ZoneRuleRaw:
+    """Represents the input records corresponding to the 'RULE' lines in a
+    tz database file.
+    """
+    __slots__ = [
+    ]
+
+    def copy(self):
+        result = self.__class__.__new__(self.__class__)
+        for s in self.__slots__:
+            setattr(result, s, getattr(self, s))
+        return result
+
 
 class ZoneMatch:
     """A version of ZoneEra that overlaps with the [start, end) interval of
@@ -102,23 +160,27 @@ class Transition:
         3) A ZoneRule that has been shifted to the boundary of a ZoneEra.
     """
     __slots__ = [
-        'startDateTime', # (DateTuple)
-        'untilDateTime', # (DateTuple)
+        # Copied from ZoneEra
+        'startDateTime', # (DateTuple), replaced with actual start time
+        'untilDateTime', # (DateTuple), replaced with actual until time
         'policyName', # (str) # '-', ':', or symbolic reference
         'zoneEra', # (ZoneEra)
 
-        'offsetSeconds', # (int)
-        'format', # (str)
-        'letter', # (str)
+        # Added for simple Match and named Match.
+        'offsetSeconds', # (int) from ZoneErar
+        'format', # (str) from ZoneEra
         'originalTransitionTime', # (DateTuple) transition time before shifting
         'transitionTime', # (DateTuple) 'w' time
         'transitionTimeS', # (DateTuple) 's' time
         'transitionTimeU', # (DateTuple) 'u' time
-        'zoneRule', # (ZoneRule)
         'offsetSeconds', # (int) from ZoneEra
-        'deltaSeconds', # (int)
+        'deltaSeconds', # (int) from ZoneRule or ZoneEra
         'abbrev', # (str) abbreviation
         'startEpochSecond', # (int) the starting time in epoch seconds
+
+        # Added for named Match.
+        'zoneRule', # (ZoneRule)
+        'letter', # (str)
     ]
 
     def __init__(self, args):
@@ -218,7 +280,7 @@ class ZoneAgent:
     """
 
     # Sentinel ZoneEra that represents the earliest zone era.
-    ZONE_ERA_ANCHOR = ZoneEra({
+    ZONE_ERA_ANCHOR = ZoneEraCooked({
         'untilYear': MIN_FROM_YEAR,
         'untilMonth': 1,
         'untilDay': 1,
@@ -226,8 +288,10 @@ class ZoneAgent:
         'untilTimeModifier': 'w'
     })
 
-    def __init__(self, zone_info, optimized=False):
-        """zone_info is one of the ZONE_INFO_xxx constants from zone_infos.py.
+    def __init__(self, zone_info_data, optimized=False):
+        """zone_info_data map is one of the ZONE_INFO_xxx constants from
+        zone_infos.py. It can contain a reference to a zone_policy_data map. We
+        need to convert these into ZoneEra and ZoneRule classes.
         """
         self.zone_info = zone_info
         self.optimized = optimized
@@ -235,38 +299,11 @@ class ZoneAgent:
         # Used by init_*() to indicate the current year of interest.
         self.year = 0
 
-        # List of matching zone eras. Map of the form;
-        # {
-        #   'startDateTime': DateTuple
-        #   'untilDateTime': DateTuple
-        #   'policyName': string,
-        #   'zoneEra': ZoneEra
-        # }
+        # List of ZoneMatch, i.e. ZoneEra which match the interval of interest.
         self.matches = []
 
-        # List of matching transitions. Map of the form;
-        # {
-        #   # Copied from ZoneEra
-        #   'startDateTime': DateTuple, # replaced later
-        #   'untilDateTime': DateTuple, # replaced later
-        #   'policyName': string, # '-', ':', or symbolic reference
-        #   'zoneEra': ZoneEra
-        #
-        #   # Added for simple Match and named Match.
-        #   'transitionTime': DateTuple, # wall time
-        #   'transitionTimeS': DateTuple, # standard time
-        #   'transitionTimeU': DateTuple, # UTC time
-        #   'offsetSeconds': int, # from ZoneEra
-        #   'deltaSeconds': int, # from ZoneRule or ZoneEra
-        #   'format': string, # from ZoneEra
-        #   'abbrev': string, # abbreviation
-        #   'startEpochSecond': int, # the starting time in epoch seconds
-        #
-        #   # Added for named Match.
-        #   'zoneRule': ZoneRule, # from Rule
-        #   'letter': string # from Rule
-        # }
-        self.transitions = [] # list of transitions
+        # List of matching Transition objects.
+        self.transitions = []
 
     def init_for_second(self, epoch_seconds):
         """Initialize the Transitions from the given epoch_seconds.
@@ -516,6 +553,11 @@ class ZoneAgent:
         transitions = sort_transitions(transitions)
 
         return transitions
+
+def convert_data_to_objects(zi):
+    """Convert the dictionary of zone info, zone era, zone policy and zone rule
+    information into ZoneInfo, ZoneEra, ZonePolicy and ZoneRule objects.
+    """
 
 def create_match(zone_policy, prev_era, zone_era):
     """Create the Zone Match object for the given Zone Era.
