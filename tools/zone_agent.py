@@ -62,17 +62,23 @@ class ZoneInfo:
         self.name = arg['name']
         self.eras = eras
 
+
 class ZoneEraCooked:
     """Represents the version of ZoneEra stored in the zone_infos.py file.
     """
     __slots__ = [
-        'zonePolicy', # (ZonePolicy or str) ZonePolicy if 'rules' is
-                      # a named policy, otherwise '-' or ':'
         'offsetSeconds', # (int) offset from UTC/GMT in seconds
+        'zonePolicy', # (ZonePolicyCooked or str) ZonePolicyCooked if 'RULES'
+                      # field is a named policy, otherwise '-' or ':'
         'rulesDeltaSeconds',  # (int or None) delta offset from UTC in seconds
-                              # if RULES is DST offset string of the form
-                              # hh:mm[:ss]
+                              # if RULES field is a DST offset string of the
+                              # form hh:mm[:ss]
+        'format',  # (string) abbreviation format (e.g. P%sT, E%ST, GMT/BST)
+        'untilYear',  # (int) MAX_UNTIL_YEAR means 'max'
+        'untilMonth',  # (int) 1-12
+        'untilDay',  # (string) e.g. '1', 'lastSun', 'Sun>=3', etc
         'untilSeconds', # (int) untilTime converted into total seconds
+        'untilTimeModifier',  # (char) '', 's', 'w', 'g', 'u', 'z'
     ]
 
     def __init__(self, arg):
@@ -87,26 +93,39 @@ class ZoneEraCooked:
             setattr(self, s, None)
 
         for key, value in arg.items():
-            if key == 'zonePolicy':
-                if isinstance(value, dict):
-                    setattr(self, key, ZonePolicy(value))
-                else:
-                    raise Exception('Expected a dict')
-            else:
-                setattr(self, key, value)
+            setattr(self, key, value)
 
-class ZoneRuleRaw:
+
+class ZoneRuleCooked:
     """Represents the input records corresponding to the 'RULE' lines in a
     tz database file.
     """
     __slots__ = [
+        'fromYear', # (int) from year
+        'toYear', # (int) to year, 1 to MAX_YEAR (9999) means 'max'
+        'inMonth', # (int) month index (1-12)
+        'onDayOfWeek', # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+        'onDayOfMonth', # (int) (1-31), 0={last dayOfWeek match}
+        'atSeconds', # (int) atTime in seconds since 00:00:00
+        'atTimeModifier', # (char) 's', 'w', 'u'
+        'deltaSeconds', # (int) offset from Standard time in seconds
+        'letter', # (char) 'D', 'S', '-'
     ]
 
-    def copy(self):
-        result = self.__class__.__new__(self.__class__)
+    def __init__(self, arg):
+        """Create a ZoneRuleCooked from a dict in zone_infos.py.
+        """
+        if not isinstance(arg, dict):
+            raise Exception('Expected a dict')
+
         for s in self.__slots__:
-            setattr(result, s, getattr(self, s))
-        return result
+            setattr(self, s, None)
+
+    #def copy(self):
+    #    result = self.__class__.__new__(self.__class__)
+    #    for s in self.__slots__:
+    #        setattr(result, s, getattr(self, s))
+    #    return result
 
 
 class ZoneMatch:

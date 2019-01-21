@@ -37,7 +37,7 @@ class InlineGenerator:
         for name, rules in self.rules_map.items():
             policy_rules = []
             for rule in rules:
-                policy_rules.append(ZoneRule({
+                policy_rules.append({
                     'fromYear': rule.fromYear,
                     'toYear': rule.toYear,
                     'inMonth': rule.inMonth,
@@ -47,7 +47,7 @@ class InlineGenerator:
                     'atTimeModifier': rule.atTimeModifier,
                     'deltaSeconds': rule.deltaSecondsTruncated,
                     'letter': rule.letter
-                }))
+                })
 
             normalized_name = normalize_name(name)
             self.zone_policies[normalized_name] = {
@@ -69,7 +69,7 @@ class InlineGenerator:
                 rules_delta_seconds = era.rulesDeltaSecondsTruncated
                 if not rules_delta_seconds: rules_delta_seconds = 0
 
-                zone_eras.append(ZoneEra({
+                zone_eras.append({
                   'offsetSeconds': era.offsetSecondsTruncated,
                   'zonePolicy': zone_policy,
                   'rulesDeltaSeconds': rules_delta_seconds,
@@ -79,7 +79,7 @@ class InlineGenerator:
                   'untilDay': era.untilDay,
                   'untilSeconds': era.untilSecondsTruncated,
                   'untilTimeModifier': era.untilTimeModifier,
-                }))
+                })
             sname = normalize_name(short_name(name))
             self.zone_infos[sname] = {
                 'name': name,
