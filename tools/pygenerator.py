@@ -12,6 +12,7 @@ from transformer import short_name
 from argenerator import normalize_name
 from argenerator import normalize_raw
 
+
 class PythonGenerator:
     """Generate Python files for zone infos and policies.
     """
@@ -86,7 +87,6 @@ ZONE_POLICY_{policyName} = {{
     ZONE_NOTABLE_POLICY_ITEM = """\
 # {policyName} ({policyReason})
 """
-
 
     ZONE_RULE_ITEM = """\
     # {rawLine}
@@ -192,9 +192,9 @@ ZONE_INFO_{infoShortName} = {{
     ZONE_INFOS_FILE_NAME = 'zone_infos.py'
     ZONE_POLICIES_FILE_NAME = 'zone_policies.py'
 
-    def __init__(self, invocation, tz_version, tz_files,
-                 zones_map, rules_map, removed_zones, removed_policies,
-                 notable_zones, notable_policies):
+    def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
+                 removed_zones, removed_policies, notable_zones,
+                 notable_policies):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -206,11 +206,11 @@ ZONE_INFO_{infoShortName} = {{
         self.notable_policies = notable_policies
 
     def generate_files(self, output_dir):
-        self.write_file(output_dir,
-            self.ZONE_POLICIES_FILE_NAME, self.generate_policies())
+        self.write_file(output_dir, self.ZONE_POLICIES_FILE_NAME,
+                        self.generate_policies())
 
-        self.write_file(output_dir,
-            self.ZONE_INFOS_FILE_NAME, self.generate_infos())
+        self.write_file(output_dir, self.ZONE_INFOS_FILE_NAME,
+                        self.generate_infos())
 
     def write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)
@@ -249,12 +249,11 @@ ZONE_INFO_{infoShortName} = {{
 
     def generate_policy_map_items(self, rules_map):
         policy_map_items = ''
-        for name, rules in sorted(rules_map.items(),
-            key=lambda x: normalize_name(x[0])):
+        for name, rules in sorted(
+                rules_map.items(), key=lambda x: normalize_name(x[0])):
             policy_map_items += self.ZONE_POLICY_MAP_ITEM.format(
                 policyName=normalize_name(name))
         return policy_map_items
-
 
     def generate_policy_item(self, name, rules):
         rule_items = ''
@@ -274,7 +273,7 @@ ZONE_INFO_{infoShortName} = {{
         return self.ZONE_POLICY_ITEM.format(
             policyName=normalize_name(name),
             numRules=len(rules),
-            ruleItems=rule_items);
+            ruleItems=rule_items)
 
     def generate_removed_policy_items(self, removed_policies):
         removed_policy_items = ''
@@ -327,8 +326,9 @@ ZONE_INFO_{infoShortName} = {{
         """Generate a map of (shortName -> zoneInfo), shorted by shortName.
         """
         info_map_items = ''
-        for name, zones in sorted(zones_map.items(),
-            key=lambda x: normalize_name(short_name(x[0]))):
+        for name, zones in sorted(
+                zones_map.items(),
+                key=lambda x: normalize_name(short_name(x[0]))):
             info_map_items += self.ZONE_INFO_MAP_ITEM.format(
                 infoShortName=normalize_name(short_name(name)),
                 infoFullName=name)
@@ -338,16 +338,14 @@ ZONE_INFO_{infoShortName} = {{
         removed_info_items = ''
         for name, reason in sorted(removed_zones.items()):
             removed_info_items += self.ZONE_REMOVED_INFO_ITEM.format(
-                infoFullName=name,
-                infoReason=reason)
+                infoFullName=name, infoReason=reason)
         return removed_info_items
 
     def generate_notable_info_items(self, notable_zones):
         notable_info_items = ''
         for name, reason in sorted(notable_zones.items()):
             notable_info_items += self.ZONE_NOTABLE_INFO_ITEM.format(
-                infoFullName=name,
-                infoReason=reason)
+                infoFullName=name, infoReason=reason)
         return notable_info_items
 
     def generate_info_item(self, name, eras):
@@ -376,7 +374,7 @@ ZONE_INFO_{infoShortName} = {{
             offsetSeconds=era.offsetSecondsTruncated,
             zonePolicy=zone_policy,
             rulesDeltaSeconds=rules_delta_seconds,
-            format=era.format, # preserve the %s
+            format=era.format,  # preserve the %s
             untilYear=era.untilYear,
             untilMonth=era.untilMonth,
             untilDay=era.untilDay,

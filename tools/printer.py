@@ -10,8 +10,8 @@ generate the code for the static instances ZoneInfo and ZonePolicy classes.
 
 from transformer import short_name
 
-class Printer:
 
+class Printer:
     def __init__(self, zones, rules):
         self.zones = zones
         self.rules = rules

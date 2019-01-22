@@ -22,35 +22,41 @@ class TestZoneAgent(unittest.TestCase):
         self.assertEqual({1, 2, 3, 4}, get_candidate_years(0, 4, 2, 4))
 
     def test_expand_date_tuple(self):
-        self.assertEqual((
-            DateTuple(2000, 1, 30, 10800, 'w'),
-            DateTuple(2000, 1, 30, 7200, 's'),
-            DateTuple(2000, 1, 30, 0, 'u')),
-            expand_date_tuple(DateTuple(2000, 1, 30, 10800, 'w'),
-            offset_seconds=7200, delta_seconds=3600))
+        self.assertEqual((DateTuple(2000, 1, 30, 10800, 'w'),
+                          DateTuple(2000, 1, 30, 7200, 's'),
+                          DateTuple(2000, 1, 30, 0, 'u')),
+                         expand_date_tuple(
+                             DateTuple(2000, 1, 30, 10800, 'w'),
+                             offset_seconds=7200,
+                             delta_seconds=3600))
 
-        self.assertEqual((
-            DateTuple(2000, 1, 30, 10800, 'w'),
-            DateTuple(2000, 1, 30, 7200, 's'),
-            DateTuple(2000, 1, 30, 0, 'u')),
-            expand_date_tuple(DateTuple(2000, 1, 30, 7200, 's'),
-            offset_seconds=7200, delta_seconds=3600))
+        self.assertEqual((DateTuple(2000, 1, 30, 10800, 'w'),
+                          DateTuple(2000, 1, 30, 7200, 's'),
+                          DateTuple(2000, 1, 30, 0, 'u')),
+                         expand_date_tuple(
+                             DateTuple(2000, 1, 30, 7200, 's'),
+                             offset_seconds=7200,
+                             delta_seconds=3600))
 
-        self.assertEqual((
-            DateTuple(2000, 1, 30, 10800, 'w'),
-            DateTuple(2000, 1, 30, 7200, 's'),
-            DateTuple(2000, 1, 30, 0, 'u')),
-            expand_date_tuple(DateTuple(2000, 1, 30, 0, 'u'),
-            offset_seconds=7200, delta_seconds=3600))
+        self.assertEqual((DateTuple(2000, 1, 30, 10800, 'w'),
+                          DateTuple(2000, 1, 30, 7200, 's'),
+                          DateTuple(2000, 1, 30, 0, 'u')),
+                         expand_date_tuple(
+                             DateTuple(2000, 1, 30, 0, 'u'),
+                             offset_seconds=7200,
+                             delta_seconds=3600))
 
     def test_normalize_date_tuple(self):
-        self.assertEqual(DateTuple(2000, 2, 1, 0, 'w'),
+        self.assertEqual(
+            DateTuple(2000, 2, 1, 0, 'w'),
             normalize_date_tuple(DateTuple(2000, 2, 1, 0, 'w')))
 
-        self.assertEqual(DateTuple(2000, 2, 1, 0, 's'),
-            normalize_date_tuple(DateTuple(2000, 1, 31, 24*3600, 's')))
+        self.assertEqual(
+            DateTuple(2000, 2, 1, 0, 's'),
+            normalize_date_tuple(DateTuple(2000, 1, 31, 24 * 3600, 's')))
 
-        self.assertEqual(DateTuple(2000, 2, 29, 23*3600, 'u'),
+        self.assertEqual(
+            DateTuple(2000, 2, 29, 23 * 3600, 'u'),
             normalize_date_tuple(DateTuple(2000, 3, 1, -3600, 'u')))
 
 

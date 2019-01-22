@@ -18,6 +18,7 @@ from extractor import MAX_YEAR_TINY
 from extractor import MAX_UNTIL_YEAR
 from extractor import MAX_UNTIL_YEAR_TINY
 
+
 class ArduinoGenerator:
     """Generate Arduino/C++ files for zone infos and policies.
     """
@@ -272,9 +273,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
     SIZEOF_ZONE_POLICY_8 = 3
     SIZEOF_ZONE_POLICY_32 = 5
 
-    def __init__(self, invocation, tz_version, tz_files,
-                 zones_map, rules_map, removed_zones, removed_policies,
-                 notable_zones, notable_policies):
+    def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
+                 removed_zones, removed_policies, notable_zones,
+                 notable_policies):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -286,15 +287,15 @@ const common::ZoneInfo kZone{infoShortName} = {{
         self.notable_policies = notable_policies
 
     def generate_files(self, output_dir):
-        self.write_file(output_dir,
-            self.ZONE_POLICIES_H_FILE_NAME, self.generate_policies_h())
-        self.write_file(output_dir,
-            self.ZONE_POLICIES_CPP_FILE_NAME, self.generate_policies_cpp())
+        self.write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
+                        self.generate_policies_h())
+        self.write_file(output_dir, self.ZONE_POLICIES_CPP_FILE_NAME,
+                        self.generate_policies_cpp())
 
-        self.write_file(output_dir,
-            self.ZONE_INFOS_H_FILE_NAME, self.generate_infos_h())
-        self.write_file(output_dir,
-            self.ZONE_INFOS_CPP_FILE_NAME, self.generate_infos_cpp())
+        self.write_file(output_dir, self.ZONE_INFOS_H_FILE_NAME,
+                        self.generate_infos_h())
+        self.write_file(output_dir, self.ZONE_INFOS_CPP_FILE_NAME,
+                        self.generate_infos_cpp())
 
     def write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)
@@ -342,9 +343,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
         num_policies = len(self.rules_map)
         memory8 = (num_policies * self.SIZEOF_ZONE_POLICY_8 +
-            num_rules * self.SIZEOF_ZONE_RULE_8)
+                   num_rules * self.SIZEOF_ZONE_RULE_8)
         memory32 = (num_policies * self.SIZEOF_ZONE_POLICY_32 +
-            num_rules * self.SIZEOF_ZONE_RULE_32)
+                    num_rules * self.SIZEOF_ZONE_RULE_32)
 
         return self.ZONE_POLICIES_CPP_FILE.format(
             invocation=self.invocation,
@@ -353,8 +354,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
             numRules=num_rules,
             memory8=memory8,
             memory32=memory32,
-            policyItems=policy_items
-        )
+            policyItems=policy_items)
 
     def generate_policy_item(self, name, rules):
         rule_items = ''
@@ -364,11 +364,11 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
             from_year = rule.fromYear
             from_year_tiny = (from_year - EPOCH_YEAR
-                if from_year != MAX_YEAR else MAX_YEAR_TINY)
+                              if from_year != MAX_YEAR else MAX_YEAR_TINY)
 
             to_year = rule.toYear
             to_year_tiny = (to_year - EPOCH_YEAR
-                if to_year != MAX_YEAR else MAX_YEAR_TINY)
+                            if to_year != MAX_YEAR else MAX_YEAR_TINY)
 
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
                 rawLine=normalize_raw(rule.rawLine),
@@ -384,9 +384,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
         num_rules = len(rules)
         memory8 = (1 * self.SIZEOF_ZONE_POLICY_8 +
-            num_rules * self.SIZEOF_ZONE_RULE_8)
+                   num_rules * self.SIZEOF_ZONE_RULE_8)
         memory32 = (1 * self.SIZEOF_ZONE_POLICY_32 +
-            num_rules * self.SIZEOF_ZONE_RULE_32)
+                    num_rules * self.SIZEOF_ZONE_RULE_32)
 
         return self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
             policyName=normalize_name(name),
@@ -405,14 +405,12 @@ const common::ZoneInfo kZone{infoShortName} = {{
         removed_info_items = ''
         for name, reason in sorted(self.removed_zones.items()):
             removed_info_items += self.ZONE_INFOS_H_REMOVED_INFO_ITEM.format(
-                infoFullName=name,
-                infoReason=reason)
+                infoFullName=name, infoReason=reason)
 
         notable_info_items = ''
         for name, reason in sorted(self.notable_zones.items()):
             notable_info_items += self.ZONE_INFOS_H_NOTABLE_INFO_ITEM.format(
-                infoFullName=name,
-                infoReason=reason)
+                infoFullName=name, infoReason=reason)
 
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
@@ -438,9 +436,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
         num_infos = len(self.zones_map)
         memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
-            num_infos * self.SIZEOF_ZONE_INFO_8)
+                   num_infos * self.SIZEOF_ZONE_INFO_8)
         memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
-            num_infos *self.SIZEOF_ZONE_INFO_32)
+                    num_infos * self.SIZEOF_ZONE_INFO_32)
 
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
@@ -463,9 +461,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
         string_length += len(name) + 1
         num_eras = len(eras)
         memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
-            1 * self.SIZEOF_ZONE_INFO_8)
+                   1 * self.SIZEOF_ZONE_INFO_8)
         memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
-            1 *self.SIZEOF_ZONE_INFO_32)
+                    1 * self.SIZEOF_ZONE_INFO_32)
 
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
             infoFullName=normalize_name(name),
@@ -524,6 +522,7 @@ def normalize_name(name):
     """Replace hyphen with underscore so that the C++ symbol can compile.
     """
     return name.replace('-', '_')
+
 
 def normalize_raw(raw_line):
     """Replace hard tabs with 4 spaces.

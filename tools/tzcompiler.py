@@ -43,6 +43,7 @@ from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
 from validator import Validator
 
+
 def main():
     """Read the test data chunks from the STDIN and print them out. The ability
     to run this from the command line is intended mostly for testing purposes.
@@ -65,8 +66,8 @@ def main():
         default=2000)
     parser.add_argument(
         '--granularity',
-        help='Retained time values (UNTIL, AT, SAVE, RULES) fields '
-            + 'in seconds (default: 900)',
+        help='Retained time values (UNTIL, AT, SAVE, RULES) fields ' +
+        'in seconds (default: 900)',
         type=int,
         default=900)
     parser.add_argument(
@@ -118,12 +119,14 @@ def main():
         help='Validate the zone_infos and zone_policies maps',
         action='store_true',
         default=False)
-    parser.add_argument('--optimized', help='Optimize the year interval',
-        action="store_true")
-    parser.add_argument('--validate_dst_offset',
+    parser.add_argument(
+        '--optimized', help='Optimize the year interval', action="store_true")
+    parser.add_argument(
+        '--validate_dst_offset',
         help='Validate the DST offset as well as the total UTC offset',
         action="store_true")
-    parser.add_argument('--validate_hours',
+    parser.add_argument(
+        '--validate_hours',
         help='Validate all 24 hours of a day instead of a single sample hour',
         action="store_true")
 
@@ -157,11 +160,11 @@ def main():
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules...')
     transformer = Transformer(zones, rules, args.python, args.start_year,
-        args.granularity, args.strict)
+                              args.granularity, args.strict)
     transformer.transform()
     transformer.print_summary()
     (zones, rules, removed_zones, removed_policies, notable_zones,
-        notable_policies) = transformer.get_data()
+     notable_policies) = transformer.get_data()
 
     # Printer for the transformer
     printer = Printer(zones, rules)
@@ -175,20 +178,21 @@ def main():
     # Create the Python or Arduino files if requested
     if args.python:
         logging.info('======== Creating Python zonedb files...')
-        generator = PythonGenerator(invocation, args.tz_version,
-            Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies,
-            notable_zones, notable_policies)
+        generator = PythonGenerator(
+            invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
+            removed_zones, removed_policies, notable_zones, notable_policies)
         if not args.output_dir:
             logging.error('Must provide --output_dir to generate Python files')
             sys.exit(1)
         generator.generate_files(args.output_dir)
     if args.arduino:
         logging.info('======== Creating Arduino zonedb files...')
-        generator = ArduinoGenerator(invocation, args.tz_version,
-            Extractor.ZONE_FILES, zones, rules, removed_zones, removed_policies,
-            notable_zones, notable_policies)
+        generator = ArduinoGenerator(
+            invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
+            removed_zones, removed_policies, notable_zones, notable_policies)
         if not args.output_dir:
-            logging.error('Must provide --output_dir to generate Arduino files')
+            logging.error(
+                'Must provide --output_dir to generate Arduino files')
             sys.exit(1)
         generator.generate_files(args.output_dir)
 
@@ -199,10 +203,10 @@ def main():
         inline_generator = InlineGenerator(zones, rules)
         (zone_infos, zone_policies) = inline_generator.generate_maps()
         logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
-            len(zone_policies))
+                     len(zone_policies))
 
         validator = Validator(zone_infos, zone_policies, args.optimized,
-            args.validate_dst_offset, args.validate_hours)
+                              args.validate_dst_offset, args.validate_hours)
 
         logging.info('======== Validating transition buffer sizes...')
         validator.validate_transition_buffer_size()
@@ -211,6 +215,7 @@ def main():
         validator.validate_sequentially()
 
     logging.info('======== Finished processing TZ Data files.')
+
 
 if __name__ == '__main__':
     main()

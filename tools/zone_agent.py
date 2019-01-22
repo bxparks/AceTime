@@ -49,6 +49,7 @@ SECONDS_SINCE_UNIX_EPOCH = 946684800
 
 ACETIME_EPOCH = datetime(2000, 1, 1, tzinfo=timezone.utc)
 
+
 class ZoneInfoCooked:
     """Internal representation of a single ZoneInfo dictionary stored in the
     zone_infos.py file.
@@ -68,10 +69,11 @@ class ZoneEraCooked:
     """Internal representation of the ZoneEra dictionary stored in the
     zone_infos.py file.
     """
+    # yapf: disable
     __slots__ = [
-        'offsetSeconds', # (int) offset from UTC/GMT in seconds
-        'zonePolicy', # (ZonePolicyCooked or str) ZonePolicyCooked if 'RULES'
-                      # field is a named policy, otherwise '-' or ':'
+        'offsetSeconds',  # (int) offset from UTC/GMT in seconds
+        'zonePolicy',  # (ZonePolicyCooked or str) ZonePolicyCooked if 'RULES'
+                       # field is a named policy, otherwise '-' or ':'
         'rulesDeltaSeconds',  # (int or None) delta offset from UTC in seconds
                               # if RULES field is a DST offset string of the
                               # form hh:mm[:ss]
@@ -79,9 +81,10 @@ class ZoneEraCooked:
         'untilYear',  # (int) MAX_UNTIL_YEAR means 'max'
         'untilMonth',  # (int) 1-12
         'untilDay',  # (string) e.g. '1', 'lastSun', 'Sun>=3', etc
-        'untilSeconds', # (int) untilTime converted into total seconds
+        'untilSeconds',  # (int) untilTime converted into total seconds
         'untilTimeModifier',  # (char) '', 's', 'w', 'g', 'u', 'z'
     ]
+    # yapf: enable
 
     def __init__(self, arg):
         """Create a ZoneEraCooked from a dict in zone_infos.py. The 'zonePolicy'
@@ -120,20 +123,21 @@ class ZonePolicyCooked:
         self.name = arg['name']
         self.rules = rules
 
+
 class ZoneRuleCooked:
     """Internal representation of a ZoneRule dictionary in the zone_policies.py
     output file.
     """
     __slots__ = [
-        'fromYear', # (int) from year
-        'toYear', # (int) to year, 1 to MAX_YEAR (9999) means 'max'
-        'inMonth', # (int) month index (1-12)
-        'onDayOfWeek', # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-        'onDayOfMonth', # (int) (1-31), 0={last dayOfWeek match}
-        'atSeconds', # (int) atTime in seconds since 00:00:00
-        'atTimeModifier', # (char) 's', 'w', 'u'
-        'deltaSeconds', # (int) offset from Standard time in seconds
-        'letter', # (char) 'D', 'S', '-'
+        'fromYear',  # (int) from year
+        'toYear',  # (int) to year, 1 to MAX_YEAR (9999) means 'max'
+        'inMonth',  # (int) month index (1-12)
+        'onDayOfWeek',  # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+        'onDayOfMonth',  # (int) (1-31), 0={last dayOfWeek match}
+        'atSeconds',  # (int) atTime in seconds since 00:00:00
+        'atTimeModifier',  # (char) 's', 'w', 'u'
+        'deltaSeconds',  # (int) offset from Standard time in seconds
+        'letter',  # (char) 'D', 'S', '-'
     ]
 
     def __init__(self, arg):
@@ -155,10 +159,10 @@ class ZoneMatch:
     before the year of interest, and extends a month after the year of interest.
     """
     __slots__ = [
-        'startDateTime', # (DateTuple) the untilTime of the previous ZoneEra
-        'untilDateTime', # (DateTuple) the untilTime of the current ZoneEra
-        'policyName', # (str) '-', ':', or string name of ZonePolicy
-        'zoneEra', # (ZoneEra) the ZoneEra corresponding to this match
+        'startDateTime',  # (DateTuple) the untilTime of the previous ZoneEra
+        'untilDateTime',  # (DateTuple) the untilTime of the current ZoneEra
+        'policyName',  # (str) '-', ':', or string name of ZonePolicy
+        'zoneEra',  # (ZoneEra) the ZoneEra corresponding to this match
     ]
 
     def __init__(self, args):
@@ -182,13 +186,10 @@ class ZoneMatch:
             setattr(self, key, value)
 
     def __repr__(self):
-        return ('ZoneMatch('
-            + 'start: %s; '
-            + 'until: %s; '
-            + 'policyName: %s)') % (
-            date_tuple_to_string(self.startDateTime),
-            date_tuple_to_string(self.untilDateTime),
-            self.policyName)
+        return (
+            'ZoneMatch(' + 'start: %s; ' + 'until: %s; ' + 'policyName: %s)'
+        ) % (date_tuple_to_string(self.startDateTime),
+             date_tuple_to_string(self.untilDateTime), self.policyName)
 
 
 class Transition:
@@ -201,26 +202,26 @@ class Transition:
     """
     __slots__ = [
         # Copied from ZoneEra
-        'startDateTime', # (DateTuple), replaced with actual start time
-        'untilDateTime', # (DateTuple), replaced with actual until time
-        'policyName', # (str) # '-', ':', or symbolic reference
-        'zoneEra', # (ZoneEra)
+        'startDateTime',  # (DateTuple), replaced with actual start time
+        'untilDateTime',  # (DateTuple), replaced with actual until time
+        'policyName',  # (str) # '-', ':', or symbolic reference
+        'zoneEra',  # (ZoneEra)
 
         # Added for simple Match and named Match.
-        'offsetSeconds', # (int) from ZoneErar
-        'format', # (str) from ZoneEra
-        'originalTransitionTime', # (DateTuple) transition time before shifting
-        'transitionTime', # (DateTuple) 'w' time
-        'transitionTimeS', # (DateTuple) 's' time
-        'transitionTimeU', # (DateTuple) 'u' time
-        'offsetSeconds', # (int) from ZoneEra
-        'deltaSeconds', # (int) from ZoneRule or ZoneEra
-        'abbrev', # (str) abbreviation
-        'startEpochSecond', # (int) the starting time in epoch seconds
+        'offsetSeconds',  # (int) from ZoneErar
+        'format',  # (str) from ZoneEra
+        'originalTransitionTime',  # (DateTuple) transition time before shifting
+        'transitionTime',  # (DateTuple) 'w' time
+        'transitionTimeS',  # (DateTuple) 's' time
+        'transitionTimeU',  # (DateTuple) 'u' time
+        'offsetSeconds',  # (int) from ZoneEra
+        'deltaSeconds',  # (int) from ZoneRule or ZoneEra
+        'abbrev',  # (str) abbreviation
+        'startEpochSecond',  # (int) the starting time in epoch seconds
 
         # Added for named Match.
-        'zoneRule', # (ZoneRule)
-        'letter', # (str)
+        'zoneRule',  # (ZoneRule)
+        'letter',  # (str)
     ]
 
     def __init__(self, args):
@@ -251,6 +252,7 @@ class Transition:
         format = self.format
         abbrev = self.abbrev if self.abbrev else ''
 
+        # yapf: disable
         if policy_name in ['-', ':']:
             return ('Transition('
                 + 'transition: %s; '
@@ -275,22 +277,22 @@ class Transition:
             zone_rule_to = zone_rule.toYear
 
             if self.originalTransitionTime:
-               return ('Transition(transition: %s; '
-                    + 'start: %s; '
-                    + 'until: %s; '
-                    + 'orig: %s; '
-                    + 'sepoch: %d; '
-                    + 'policy: %s[%d,%d]; '
-                    + '%s; '
-                    + 'format: %s(%s); '
-                    + 'abbrev: %s)') % (
-                    date_tuple_to_string(self.transitionTime),
-                    date_tuple_to_string(self.startDateTime),
-                    date_tuple_to_string(self.untilDateTime),
-                    date_tuple_to_string(self.originalTransitionTime),
-                    sepoch, policy_name, zone_rule_from, zone_rule_to,
-                    to_utc_string(offset_seconds, delta_seconds),
-                    format, letter, abbrev)
+                return ('Transition(transition: %s; '
+                     + 'start: %s; '
+                     + 'until: %s; '
+                     + 'orig: %s; '
+                     + 'sepoch: %d; '
+                     + 'policy: %s[%d,%d]; '
+                     + '%s; '
+                     + 'format: %s(%s); '
+                     + 'abbrev: %s)') % (
+                     date_tuple_to_string(self.transitionTime),
+                     date_tuple_to_string(self.startDateTime),
+                     date_tuple_to_string(self.untilDateTime),
+                     date_tuple_to_string(self.originalTransitionTime),
+                     sepoch, policy_name, zone_rule_from, zone_rule_to,
+                     to_utc_string(offset_seconds, delta_seconds),
+                     format, letter, abbrev)
             else:
                 return ('Transition(transition: %s; '
                     + 'start: %s; '
@@ -306,6 +308,7 @@ class Transition:
                     sepoch, policy_name, zone_rule_from, zone_rule_to,
                     to_utc_string(offset_seconds, delta_seconds),
                     format, letter, abbrev)
+            # yapf: enable
 
 
 class ZoneAgent:
@@ -362,11 +365,11 @@ class ZoneAgent:
         self.year = year
 
         if self.optimized:
-            start_ym = YearMonthTuple(year-1, 12)
-            until_ym = YearMonthTuple(year+1, 2)
+            start_ym = YearMonthTuple(year - 1, 12)
+            until_ym = YearMonthTuple(year + 1, 2)
         else:
-            start_ym = YearMonthTuple(year-1, 1)
-            until_ym = YearMonthTuple(year+2, 1)
+            start_ym = YearMonthTuple(year - 1, 1)
+            until_ym = YearMonthTuple(year + 2, 1)
 
         self.matches = self.find_matches(start_ym, until_ym)
         self.transitions = self.find_transitions(start_ym, until_ym)
@@ -409,7 +412,7 @@ class ZoneAgent:
             if transition.startEpochSecond <= epoch_seconds:
                 matching_transition = transition
             elif transition.startEpochSecond > epoch_seconds:
-                break;
+                break
         return matching_transition
 
     def find_transition_from_datetime(self, dt):
@@ -494,6 +497,7 @@ class ZoneAgent:
             'transitionTime': match.startDateTime,
         })
         return [transition]
+
 
 #    def find_transitions_from_named_match_old(self, match):
 #        """
@@ -586,18 +590,19 @@ class ZoneAgent:
         fix_transition_times(transitions)
         transitions = select_active_transitions(transitions, match)
         if transitions == None:
-            logging.error(
-                "Zone '%s'; year '%04d': No prior transition found!",
-                self.zone_info['name'], self.year)
+            logging.error("Zone '%s'; year '%04d': No prior transition found!",
+                          self.zone_info['name'], self.year)
             sys.exit(1)
         transitions = sort_transitions(transitions)
 
         return transitions
 
+
 def convert_data_to_objects(zi):
     """Convert the dictionary of zone info, zone era, zone policy and zone rule
     information into ZoneInfo, ZoneEra, ZonePolicy and ZoneRule objects.
     """
+
 
 def create_match(zone_policy, prev_era, zone_era):
     """Create the Zone Match object for the given Zone Era.
@@ -634,6 +639,7 @@ def create_match(zone_policy, prev_era, zone_era):
         'zoneEra': zone_era
     })
 
+
 def select_active_transitions(transitions, match):
     # Categorize each transition
     results = {
@@ -658,6 +664,7 @@ def select_active_transitions(transitions, match):
         transitions.append(prior_transition)
 
     return transitions
+
 
 def generate_start_until_times(transitions):
     """Calculate the various start and until times of the Transitions in the
@@ -689,8 +696,8 @@ def generate_start_until_times(transitions):
         # 2) Calculate the current startDateTime by shifting the transition time
         # into the current UTC offset. This algorithm should be able to handle
         # transition time of 24:00 (or even 25:00) of the previous day.
-        secs = (tt.ss - prev.offsetSeconds - prev.deltaSeconds
-            + transition.offsetSeconds + transition.deltaSeconds)
+        secs = (tt.ss - prev.offsetSeconds - prev.deltaSeconds +
+                transition.offsetSeconds + transition.deltaSeconds)
         #if secs < 0 or secs >= 24 * 60 * 60:
         #   (h, m, s) = seconds_to_hms(secs)
         #    logging.info(
@@ -719,10 +726,11 @@ def generate_start_until_times(transitions):
         is_after_first = True
 
     # Finally, fix the last transition's until time
-    (udt, udts, udtu) = expand_date_tuple(
-        transition.untilDateTime, transition.offsetSeconds,
-        transition.deltaSeconds)
+    (udt, udts, udtu) = expand_date_tuple(transition.untilDateTime,
+                                          transition.offsetSeconds,
+                                          transition.deltaSeconds)
     transition.untilDateTime = udt
+
 
 def get_candidate_transitions(match, rules, start_y, end_y):
     """Get the list of candidate transitions from the matching ZoneEra.
@@ -733,18 +741,21 @@ def get_candidate_transitions(match, rules, start_y, end_y):
         to_year = rule.toYear
         years = get_candidate_years(from_year, to_year, start_y, end_y)
         for year in years:
-            transitions.append(
-                create_transition_for_year(year, rule, match))
+            transitions.append(create_transition_for_year(year, rule, match))
     return transitions
+
 
 def sort_transitions(transitions):
     """Sort the transitions according to (y, m, d), ignoring ss and
     modifier. This assumes that only one Rule in a single day.
     """
+
     def date_tuple_to_sort_key(t):
         return (t.y, t.m, t.d)
+
     try:
-        ts = sorted(transitions,
+        ts = sorted(
+            transitions,
             key=lambda x: date_tuple_to_sort_key(x.transitionTime))
     except:
         print_transitions(transitions)
@@ -777,6 +788,7 @@ def create_transition_for_year(year, rule, match):
         'letter': rule.letter,
     })
     return transition
+
 
 def fix_transition_times(transitions):
     """Convert the transtion['transitionTime'] to the wall time ('w') of
@@ -820,19 +832,30 @@ def expand_date_tuple(dt, offset_seconds, delta_seconds):
 
     if dt.f == 'w':
         dtw = dt
-        dts = DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=dtw.ss-delta_seconds , f='s')
-        dtu = DateTuple(y=dt.y, m=dt.m, d=dt.d,
-            ss=dtw.ss-delta_seconds-offset_seconds , f='u')
+        dts = DateTuple(
+            y=dt.y, m=dt.m, d=dt.d, ss=dtw.ss - delta_seconds, f='s')
+        dtu = DateTuple(
+            y=dt.y,
+            m=dt.m,
+            d=dt.d,
+            ss=dtw.ss - delta_seconds - offset_seconds,
+            f='u')
     elif dt.f == 's':
         dts = dt
-        dtw = DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=dts.ss+delta_seconds, f='w')
-        dtu = DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=dts.ss-offset_seconds, f='u')
+        dtw = DateTuple(
+            y=dt.y, m=dt.m, d=dt.d, ss=dts.ss + delta_seconds, f='w')
+        dtu = DateTuple(
+            y=dt.y, m=dt.m, d=dt.d, ss=dts.ss - offset_seconds, f='u')
     elif dt.f == 'u':
         dtu = dt
-        dtw = DateTuple(y=dtu.y, m=dtu.m, d=dtu.d,
-            ss=dtu.ss+delta_seconds+offset_seconds, f='w')
-        dts = DateTuple(y=dtu.y, m=dtu.m, d=dtu.d, ss=dtu.ss+offset_seconds,
-            f='s')
+        dtw = DateTuple(
+            y=dtu.y,
+            m=dtu.m,
+            d=dtu.d,
+            ss=dtu.ss + delta_seconds + offset_seconds,
+            f='w')
+        dts = DateTuple(
+            y=dtu.y, m=dtu.m, d=dtu.d, ss=dtu.ss + offset_seconds, f='s')
     else:
         logging.error("Unrecognized Rule.AT suffix '%s'; date=%s", dt.f, dt)
         sys.exit(1)
@@ -877,7 +900,7 @@ def calc_abbrev(transitions):
             if delta_seconds == 0:
                 abbrev = format[:index]
             else:
-                abbrev = format[index+1:]
+                abbrev = format[index + 1:]
         elif format.find('%s') >= 0:
             letter = transition.letter
             if letter == '-': letter = ''
@@ -886,6 +909,7 @@ def calc_abbrev(transitions):
             abbrev = format
 
         transition.abbrev = abbrev
+
 
 def process_transition(match, transition, results):
     """Process the given transition, making sure that it overlaps within
@@ -919,7 +943,7 @@ def process_transition(match, transition, results):
         results['transitions'].append(transition)
         if transition_compared_to_match == 0:
             results['startTransitionFound'] = True
-    else: # transition_compared_to_match < -1:
+    else:  # transition_compared_to_match < -1:
         # Determine the latest prior transition
         if results.get('startTransitionFound'):
             return
@@ -931,6 +955,7 @@ def process_transition(match, transition, results):
             transition_time = transition.transitionTime
             if transition_time > latest_prior_transition.transitionTime:
                 results['latestPriorTransition'] = transition
+
 
 def get_candidate_years(from_year, to_year, start_year, end_year):
     """Return the array of years within the Rule's [from_year, to_year] range
@@ -944,7 +969,7 @@ def get_candidate_years(from_year, to_year, start_year, end_year):
     be the case), then the maximum number of elements in 'years' will be 4.
     """
     years = set()
-    for year in range(start_year, end_year+1):
+    for year in range(start_year, end_year + 1):
         if from_year <= year and year <= to_year:
             years.add(year)
 
@@ -964,13 +989,13 @@ def calc_effective_match(start_ym, until_ym, match):
     """
     start_date_time = match.startDateTime
     if start_date_time < DateTuple(
-        y=start_ym.y, m=start_ym.m, d=1, ss=0, f='w'):
+            y=start_ym.y, m=start_ym.m, d=1, ss=0, f='w'):
         start_date_time = DateTuple(
             y=start_ym.y, m=start_ym.m, d=1, ss=0, f='w')
 
     until_date_time = match.untilDateTime
     if until_date_time > DateTuple(
-        y=until_ym.y, m=until_ym.m, d=1, ss=0, f='w'):
+            y=until_ym.y, m=until_ym.m, d=1, ss=0, f='w'):
         until_date_time = DateTuple(
             y=until_ym.y, m=until_ym.m, d=1, ss=0, f='w')
 
@@ -1022,8 +1047,8 @@ def get_transition_time(year, rule):
     year.
     """
     month = rule.inMonth
-    day_of_month = calc_day_of_month(
-        year, month, rule.onDayOfWeek, rule.onDayOfMonth)
+    day_of_month = calc_day_of_month(year, month, rule.onDayOfWeek,
+                                     rule.onDayOfMonth)
     seconds = rule.atSeconds
     modifier = rule.atTimeModifier
     return DateTuple(y=year, m=month, d=day_of_month, ss=seconds, f=modifier)
@@ -1063,7 +1088,7 @@ def era_overlaps_interval(prev_era, era, start_ym, until_ym):
     start_ym).
     """
     return (compare_era_to_year_month(prev_era, until_ym.y, until_ym.m) < 0
-        and compare_era_to_year_month(era, start_ym.y, start_ym.m) > 0)
+            and compare_era_to_year_month(era, start_ym.y, start_ym.m) > 0)
 
 
 def compare_era_to_year_month(era, year, month):
@@ -1087,14 +1112,13 @@ def compare_era_to_year_month(era, year, month):
 
 def date_tuple_to_string(dt):
     (h, m, s) = seconds_to_hms(dt.ss)
-    return '%04d-%02d-%02d %02d:%02d:%02d%s' % (
-        dt.y, dt.m, dt.d, h, m, s, dt.f)
+    return '%04d-%02d-%02d %02d:%02d:%02d%s' % (dt.y, dt.m, dt.d, h, m, s,
+                                                dt.f)
 
 
 def to_utc_string(utcoffset, dstoffset):
-    return 'UTC%s%s' % (
-        seconds_to_hm_string(utcoffset),
-        seconds_to_hm_string(dstoffset))
+    return 'UTC%s%s' % (seconds_to_hm_string(utcoffset),
+                        seconds_to_hm_string(dstoffset))
 
 
 def seconds_to_hm_string(secs):
@@ -1108,6 +1132,7 @@ def seconds_to_hm_string(secs):
 
 EPOCH_DATETIME = datetime(2000, 1, 1, 0, 0, 0)
 
+
 def print_matches_and_transitions(matches, transitions):
     logging.info('---- Matches:')
     for m in matches:
@@ -1116,11 +1141,12 @@ def print_matches_and_transitions(matches, transitions):
     for t in transitions:
         logging.info(t)
 
+
 def main():
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Zone Agent.')
-    parser.add_argument('--optimized', help='Optimize the year interval',
-        action="store_true")
+    parser.add_argument(
+        '--optimized', help='Optimize the year interval', action="store_true")
     parser.add_argument('--zone', help='Name of time zone', required=True)
     parser.add_argument('--year', help='Year of interest', type=int)
     parser.add_argument('--date', help='DateTime of interest')
@@ -1153,6 +1179,7 @@ def main():
     else:
         print("One of --year or --date must be provided")
         sys.exit(1)
+
 
 if __name__ == '__main__':
     main()

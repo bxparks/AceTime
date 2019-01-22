@@ -46,7 +46,6 @@ import logging
 import sys
 import os
 
-
 # AceTime Epoch is 2000-01-01 00:00:00
 EPOCH_YEAR = 2000
 
@@ -70,10 +69,12 @@ MIN_FROM_YEAR = 2
 # Tiny (int8_t) version of MIN_YEAR.
 MIN_FROM_YEAR_TINY = -128
 
+
 class ZoneEraRaw:
     """Represents the input records corresponding to the 'ZONE' lines in a
     tz database file.
     """
+    # yapf: disable
     __slots__ = [
         # From 'ZONE' records in tz file
         'offsetString',  # (string) offset from UTC/GMT
@@ -97,6 +98,7 @@ class ZoneEraRaw:
         'untilSeconds', # (int) untilTime converted into total seconds
         'untilSecondsTruncated', # (int) untilSeconds after truncation
     ]
+    # yapf: enable
 
     def __init__(self, arg):
         """Create a ZoneEraRaw from a dict.
@@ -110,32 +112,33 @@ class ZoneEraRaw:
         for key, value in arg.items():
             setattr(self, key, value)
 
+
 class ZoneRuleRaw:
     """Represents the input records corresponding to the 'RULE' lines in a
     tz database file.
     """
     __slots__ = [
         # From 'Rule' records in tz file
-        'fromYear', # (int) from year
-        'toYear', # (int) to year, 1 to MAX_YEAR (9999) means 'max'
-        'inMonth', # (int) month index (1-12)
-        'onDay', # (string) 'lastSun' or 'Sun>=2', or 'DD'
-        'atTime', # (string) hour at which to transition to and from DST
-        'atTimeModifier', # (char) 's', 'w', 'u'
-        'deltaOffset', # (string) offset from Standard time ('SAVE' field)
-        'letter', # (char) 'D', 'S', '-'
-        'rawLine', # (string) the original RULE line from the TZ file
+        'fromYear',  # (int) from year
+        'toYear',  # (int) to year, 1 to MAX_YEAR (9999) means 'max'
+        'inMonth',  # (int) month index (1-12)
+        'onDay',  # (string) 'lastSun' or 'Sun>=2', or 'DD'
+        'atTime',  # (string) hour at which to transition to and from DST
+        'atTimeModifier',  # (char) 's', 'w', 'u'
+        'deltaOffset',  # (string) offset from Standard time ('SAVE' field)
+        'letter',  # (char) 'D', 'S', '-'
+        'rawLine',  # (string) the original RULE line from the TZ file
 
         # Derived from above
-        'onDayOfWeek', # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
-        'onDayOfMonth', # (int) (1-31), 0={last dayOfWeek match}
-        'atSeconds', # (int) atTime in seconds since 00:00:00
-        'atSecondsTruncated', # (int) atSeconds after truncation
-        'deltaSeconds', # (int) offset from Standard time in seconds
-        'deltaSecondsTruncated', # (int) deltaSeconds after truncation
-        'shortName', # (string) short name of the zone
-        'earliestDate', # (y, m, d) tuple of the earliest instance of rule
-        'used', # (boolean) indicates whether or not the rule is used by a zone
+        'onDayOfWeek',  # (int) 1=Monday, 7=Sunday, 0={exact dayOfMonth match}
+        'onDayOfMonth',  # (int) (1-31), 0={last dayOfWeek match}
+        'atSeconds',  # (int) atTime in seconds since 00:00:00
+        'atSecondsTruncated',  # (int) atSeconds after truncation
+        'deltaSeconds',  # (int) offset from Standard time in seconds
+        'deltaSecondsTruncated',  # (int) deltaSeconds after truncation
+        'shortName',  # (string) short name of the zone
+        'earliestDate',  # (y, m, d) tuple of the earliest instance of rule
+        'used',  # (boolean) indicates whether or not the rule is used by a zone
     ]
 
     def __init__(self, arg):
@@ -187,8 +190,8 @@ class Extractor:
         self.rule_lines = {}  # dictionary of ruleName to lines[]
         self.zone_lines = {}  # dictionary of zoneName to lines[]
         self.link_lines = {}  # dictionary of linkName to lines[]
-        self.rules = {} # map of ruleName to ZoneRuleRaw[]
-        self.zones = {} # map of zoneName to ZoneEraRaw[]
+        self.rules = {}  # map of ruleName to ZoneRuleRaw[]
+        self.zones = {}  # map of zoneName to ZoneEraRaw[]
         self.ignored_rule_lines = 0
         self.ignored_zone_lines = 0
         self.invalid_rule_lines = 0
@@ -352,6 +355,7 @@ MONTH_TO_MONTH_INDEX = {
     'Nov': 11,
     'Dec': 12
 }
+
 
 def process_rule_line(line):
     """Normalize a dictionary that represents a 'Rule' line from the TZ

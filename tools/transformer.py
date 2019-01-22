@@ -17,10 +17,10 @@ from extractor import MIN_FROM_YEAR
 from extractor import ZoneRuleRaw
 from extractor import ZoneEraRaw
 
-class Transformer:
 
+class Transformer:
     def __init__(self, zones_map, rules_map, python, start_year, granularity,
-        strict):
+                 strict):
         """
         Arguments:
             zones_map: map of Zone names to Eras
@@ -39,11 +39,11 @@ class Transformer:
         self.granularity = granularity
         self.strict = strict
 
-        self.all_removed_zones = {} # map of zone name -> reason
-        self.all_removed_policies = {} # map of policy name -> reason
+        self.all_removed_zones = {}  # map of zone name -> reason
+        self.all_removed_policies = {}  # map of policy name -> reason
 
-        self.all_notable_zones = {} # map of zone name -> reason
-        self.all_notable_policies = {} # map of policy name -> reason
+        self.all_notable_zones = {}  # map of zone name -> reason
+        self.all_notable_policies = {}  # map of policy name -> reason
 
     def get_data(self):
         """
@@ -71,9 +71,9 @@ class Transformer:
             reason: human readable reason
 
         """
-        return (self.zones_map, self.rules_map,
-            self.all_removed_zones, self.all_removed_policies,
-            self.all_notable_zones, self.all_notable_policies)
+        return (self.zones_map, self.rules_map, self.all_removed_zones,
+                self.all_removed_policies, self.all_notable_zones,
+                self.all_notable_policies)
 
     def transform(self):
         zones_map = self.zones_map
@@ -149,7 +149,7 @@ class Transformer:
                 results[name] = zones
 
         logging.info("Removed %s zone infos with duplicate short names" %
-            len(removed_zones))
+                     len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
@@ -163,8 +163,8 @@ class Transformer:
             else:
                 removed_zones[name] = "no '/' in zone name"
 
-        logging.info("Removed %s zone infos without '/' in name" %
-            len(removed_zones))
+        logging.info(
+            "Removed %s zone infos without '/' in name" % len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
@@ -184,8 +184,8 @@ class Transformer:
             if keep_zones:
                 results[name] = keep_zones
 
-        logging.info("Removed %s zone eras before year %04d",
-            count, self.start_year)
+        logging.info("Removed %s zone eras before year %04d", count,
+                     self.start_year)
         return results
 
     def create_zones_with_until_day(self, zones_map):
@@ -214,14 +214,14 @@ class Transformer:
 
                 until_year = zone.untilYear
                 until_month = zone.untilMonth
-                until_day = calc_day_of_month(
-                    until_year, until_month, on_day_of_week, on_day_of_month)
+                until_day = calc_day_of_month(until_year, until_month,
+                                              on_day_of_week, on_day_of_month)
                 zone.untilDay = until_day
             if valid:
-               results[name] = zones
+                results[name] = zones
 
         logging.info("Removed %s zone infos with invalid untilDay",
-            len(removed_zones))
+                     len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
@@ -239,13 +239,13 @@ class Transformer:
                 until_seconds = time_string_to_seconds(until_time)
                 if until_seconds == INVALID_SECONDS:
                     valid = False
-                    removed_zones[name] = ("invalid UNTIL time '%s'" %
-                        until_time)
+                    removed_zones[name] = (
+                        "invalid UNTIL time '%s'" % until_time)
                     break
                 if until_seconds < 0:
                     valid = False
-                    removed_zones[name] = ("negative UNTIL time '%s'" %
-                        until_time)
+                    removed_zones[name] = (
+                        "negative UNTIL time '%s'" % until_time)
                     break
 
                 until_seconds_truncated = truncate_to_granularity(
@@ -259,16 +259,16 @@ class Transformer:
                         break
                     else:
                         notable_zones[name] = (
-                            "UNTIL time '%s' truncated to '%s' seconds"
-                            % (until_time, self.granularity))
+                            "UNTIL time '%s' truncated to '%s' seconds" %
+                            (until_time, self.granularity))
 
                 zone.untilSeconds = until_seconds
                 zone.untilSecondsTruncated = until_seconds_truncated
             if valid:
-               results[name] = zones
+                results[name] = zones
 
         logging.info("Removed %s zone infos with invalid UNTIL time",
-            len(removed_zones))
+                     len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         self.all_notable_zones.update(notable_zones)
@@ -316,8 +316,8 @@ class Transformer:
                 offset_seconds = time_string_to_seconds(offset_string)
                 if offset_seconds == INVALID_SECONDS:
                     valid = False
-                    removed_zones[name] = ("invalid GMTOFF offset string '%s'" %
-                        offset_string)
+                    removed_zones[name] = (
+                        "invalid GMTOFF offset string '%s'" % offset_string)
                     break
 
                 offset_seconds_truncated = truncate_to_granularity(
@@ -338,10 +338,10 @@ class Transformer:
                 zone.offsetSecondsTruncated = offset_seconds_truncated
 
             if valid:
-               results[name] = zones
+                results[name] = zones
 
         logging.info("Removed %s zone infos with invalid offsetString",
-            len(removed_zones))
+                     len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         self.all_notable_zones.update(notable_zones)
@@ -377,10 +377,9 @@ class Transformer:
                     rules_delta_seconds = time_string_to_seconds(rules_string)
                     if rules_delta_seconds == INVALID_SECONDS:
                         valid = False
-                        removed_zones[name] = ("invalid RULES string '%s'" %
-                            rules_string)
+                        removed_zones[name] = (
+                            "invalid RULES string '%s'" % rules_string)
                         break
-
 
                     rules_delta_seconds_truncated = truncate_to_granularity(
                         rules_delta_seconds, self.granularity)
@@ -389,14 +388,14 @@ class Transformer:
                             valid = False
                             removed_zones[name] = (
                                 "RULES delta offset '%s' must be multiples of "
-                                + "'%s' seconds"
-                                % (rules_string, self.granularity))
+                                + "'%s' seconds" %
+                                (rules_string, self.granularity))
                             break
                         else:
                             notable_zones[name] = (
-                                "RULES delta offset '%s' truncated to"
-                                + "'%s' seconds"
-                                % (rules_string, self.granularity))
+                                "RULES delta offset '%s' truncated to" +
+                                "'%s' seconds" %
+                                (rules_string, self.granularity))
 
                     zone.rules = ':'
                     zone.rulesDeltaSeconds = rules_delta_seconds
@@ -406,10 +405,10 @@ class Transformer:
                     zone.rulesDeltaSeconds = None
                     zone.rulesDeltaSecondsTruncated = None
             if valid:
-               results[name] = zones
+                results[name] = zones
 
         logging.info("Removed %s zone infos with invalid RULES",
-            len(removed_zones))
+                     len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         self.all_notable_zones.update(notable_zones)
@@ -432,7 +431,8 @@ class Transformer:
             if valid:
                 results[name] = zones
 
-        logging.info("Removed %s zone infos without rules" % len(removed_zones))
+        logging.info(
+            "Removed %s zone infos without rules" % len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
@@ -448,31 +448,32 @@ class Transformer:
             valid = True
             prev_until = None
             for zone in zones:
+                # yapf: disable
                 current_until = (
                     zone.untilYear,
                     zone.untilMonth if zone.untilMonth else 0,
                     zone.untilDay if zone.untilDay else 0,
                     zone.untilSeconds if zone.untilSeconds else 0
                 )
+                # yapf: enable
                 if prev_until:
                     if current_until <= prev_until:
                         valid = False
                         removed_zones[name] = (
-                            'non increasing UNTIL: %04d-%02d-%02d %ds'
-                            % current_until)
+                            'non increasing UNTIL: %04d-%02d-%02d %ds' %
+                            current_until)
                         break
                 prev_until = current_until
             if valid and current_until[0] != extractor.MAX_UNTIL_YEAR:
                 valid = False
                 removed_zones[name] = (
-                    'invalid final UNTIL: %04d-%02d-%02d %ds' %
-                    current_until)
+                    'invalid final UNTIL: %04d-%02d-%02d %ds' % current_until)
 
             if valid:
                 results[name] = zones
 
         logging.info("Removed %s zone infos with invalid UNTIL fields",
-            len(removed_zones))
+                     len(removed_zones))
         self.print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
@@ -548,7 +549,7 @@ class Transformer:
                 results[name] = rules
 
         logging.info('Removed %s rule policies with long DST letter' %
-            len(removed_policies))
+                     len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
@@ -575,8 +576,8 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info("Removed %s rule policies with unsupported AT modifier"
-            % len(removed_policies))
+        logging.info("Removed %s rule policies with unsupported AT modifier" %
+                     len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
@@ -597,9 +598,8 @@ class Transformer:
 
                 rules = rules_map.get(policy_name)
                 if not rules:
-                    logging.error("Zone '%s': Could not find policy '%s': "
-                        + "should not happen",
-                        zone_name, policy_name)
+                    logging.error("Zone '%s': Could not find policy '%s': " +
+                                  "should not happen", zone_name, policy_name)
                     sys.exit(1)
 
                 # Make all Rules which overlap with the current Zone Era.
@@ -608,8 +608,8 @@ class Transformer:
                 # until_year to the following year, so the effective zone era
                 # interval becomes [begin_year, until_year+1).
                 until_year = era.untilYear
-                matching_rules = find_matching_rules(
-                    rules, begin_year, until_year + 1)
+                matching_rules = find_matching_rules(rules, begin_year,
+                                                     until_year + 1)
                 for rule in matching_rules:
                     rule.used = True
 
@@ -655,7 +655,7 @@ class Transformer:
                 removed_policies[name] = 'unused'
 
         logging.info('Removed %s rule policies (%s rules) not used' %
-                (len(removed_policies), removed_rule_count))
+                     (len(removed_policies), removed_rule_count))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
@@ -707,9 +707,8 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info(
-            'Removed %s rule policies with invalid onDay' %
-            len(removed_policies))
+        logging.info('Removed %s rule policies with invalid onDay' %
+                     len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
@@ -729,7 +728,7 @@ class Transformer:
                 anchored_policies.append(name)
 
         logging.info('Added anchor rule to %s rule policies: %s',
-            len(anchored_policies), anchored_policies)
+                     len(anchored_policies), anchored_policies)
         return rules_map
 
     def has_prior_rule(self, rules):
@@ -758,7 +757,7 @@ class Transformer:
             on_day_of_week = rule.onDayOfWeek
             on_day_of_month = rule.onDayOfMonth
             on_day = calc_day_of_month(from_year, in_month, on_day_of_week,
-                on_day_of_month)
+                                       on_day_of_month)
             rule_date = (from_year, in_month, on_day)
             rule.earliestDate = rule_date
 
@@ -823,8 +822,8 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info("Removed %s rule policies with border Transitions"
-            % len(removed_policies))
+        logging.info("Removed %s rule policies with border Transitions" %
+                     len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
@@ -846,7 +845,8 @@ class Transformer:
                     break
                 if at_seconds < 0:
                     valid = False
-                    removed_policies[name] = ("negative AT time '%s'" % at_time)
+                    removed_policies[name] = (
+                        "negative AT time '%s'" % at_time)
                     break
 
                 at_seconds_truncated = truncate_to_granularity(
@@ -868,9 +868,8 @@ class Transformer:
             if valid:
                 results[name] = rules
 
-        logging.info(
-            'Removed %s rule policies with invalid atTime' %
-            len(removed_policies))
+        logging.info('Removed %s rule policies with invalid atTime' %
+                     len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         self.all_notable_policies.update(notable_policies)
@@ -890,8 +889,8 @@ class Transformer:
                 delta_seconds = time_string_to_seconds(delta_offset)
                 if delta_seconds == INVALID_SECONDS:
                     valid = False
-                    removed_policies[name] = ("invalid deltaOffset '%s'" %
-                        delta_offset)
+                    removed_policies[name] = (
+                        "invalid deltaOffset '%s'" % delta_offset)
                     break
 
                 delta_seconds_truncated = truncate_to_granularity(
@@ -900,28 +899,26 @@ class Transformer:
                     if self.strict:
                         valid = False
                         removed_policies[name] = (
-                            "deltaOffset '%s' must be a multiple of "
-                            + "'%s' seconds" %
-                            delta_offset, self.granularity)
+                            "deltaOffset '%s' must be a multiple of " +
+                            "'%s' seconds" % delta_offset, self.granularity)
                         break
                     else:
                         notable_policies[name] = (
-                            "deltaOffset '%s' must be a multiple of "
-                            + "'%s' seconds" %
-                            delta_offset, self.granularity)
+                            "deltaOffset '%s' must be a multiple of " +
+                            "'%s' seconds" % delta_offset, self.granularity)
 
                 rule.deltaSeconds = delta_seconds
                 rule.deltaSecondsTruncated = delta_seconds_truncated
             if valid:
                 results[name] = rules
 
-        logging.info(
-            'Removed %s rule policies with invalid deltaOffset' %
-            len(removed_policies))
+        logging.info('Removed %s rule policies with invalid deltaOffset' %
+                     len(removed_policies))
         self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         self.all_notable_policies.update(notable_policies)
         return results
+
 
 # ISO-8601 specifies Monday=1, Sunday=7
 WEEK_TO_WEEK_INDEX = {
@@ -962,7 +959,9 @@ def parse_on_day_string(on_string):
 
     return (0, 0)
 
-INVALID_SECONDS = 999999 # 277h46m69s
+
+INVALID_SECONDS = 999999  # 277h46m69s
+
 
 def time_string_to_seconds(time_string):
     """Converts the '[-]hh:mm:ss' string into +/- total seconds from 00:00.
@@ -1045,7 +1044,7 @@ def find_latest_prior_rules(rules, year):
     leaving some Rules out.
     """
     candidates = []
-    candidate_date = (0, 0) # sentinel date earlier than all real Rules
+    candidate_date = (0, 0)  # sentinel date earlier than all real Rules
     for rule in rules:
         rule_year = rule.toYear
         rule_month = rule.inMonth
@@ -1100,6 +1099,7 @@ def is_year_tiny(year):
     """
     return year >= 1872 and (year == extractor.MAX_YEAR or year <= 2127)
 
+
 def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
     """Return the actual day of month of expressions such as
     (onDayOfWeek >= onDayOfMonth) or (lastMon).
@@ -1114,6 +1114,7 @@ def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
     day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
     return on_day_of_month + day_of_week_shift
 
+
 def days_in_month(year, month):
     """Return the number of days in the given (year, month).
     """
@@ -1124,6 +1125,7 @@ def days_in_month(year, month):
         days += is_leap
     return days
 
+
 def seconds_to_hms(seconds):
     """Convert seconds to (h,m,s). Works only for positive seconds.
     """
@@ -1133,10 +1135,12 @@ def seconds_to_hms(seconds):
     h = minutes // 60
     return (h, m, s)
 
+
 def hms_to_seconds(h, m, s):
     """Convert h:m:s to seconds.
     """
     return (h * 60 + m) * 60 + s
+
 
 def div_to_zero(a, b):
     """Integer division (a/b) that truncates towards 0, instead of -infinity as
@@ -1144,6 +1148,7 @@ def div_to_zero(a, b):
     positive.
     """
     return a // b if a >= 0 else (a - 1) // b + 1
+
 
 def truncate_to_granularity(a, b):
     """Truncate a to the granularity of b.

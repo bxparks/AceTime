@@ -13,6 +13,7 @@ from transformer import short_name
 from argenerator import normalize_name
 from argenerator import normalize_raw
 
+
 class InlineGenerator:
     """Generate Python zone infos and policies maps inlined (instead of files).
     """
@@ -37,6 +38,7 @@ class InlineGenerator:
         for name, rules in self.rules_map.items():
             policy_rules = []
             for rule in rules:
+                # yapf: disable
                 policy_rules.append({
                     'fromYear': rule.fromYear,
                     'toYear': rule.toYear,
@@ -48,6 +50,7 @@ class InlineGenerator:
                     'deltaSeconds': rule.deltaSecondsTruncated,
                     'letter': rule.letter
                 })
+                # yapf: enable
 
             normalized_name = normalize_name(name)
             self.zone_policies[normalized_name] = {
@@ -69,20 +72,18 @@ class InlineGenerator:
                 rules_delta_seconds = era.rulesDeltaSecondsTruncated
                 if not rules_delta_seconds: rules_delta_seconds = 0
 
+                # yapf: disable
                 zone_eras.append({
-                  'offsetSeconds': era.offsetSecondsTruncated,
-                  'zonePolicy': zone_policy,
-                  'rulesDeltaSeconds': rules_delta_seconds,
-                  'format': era.format,
-                  'untilYear': era.untilYear,
-                  'untilMonth': era.untilMonth,
-                  'untilDay': era.untilDay,
-                  'untilSeconds': era.untilSecondsTruncated,
-                  'untilTimeModifier': era.untilTimeModifier,
+                    'offsetSeconds': era.offsetSecondsTruncated,
+                    'zonePolicy': zone_policy,
+                    'rulesDeltaSeconds': rules_delta_seconds,
+                    'format': era.format,
+                    'untilYear': era.untilYear,
+                    'untilMonth': era.untilMonth,
+                    'untilDay': era.untilDay,
+                    'untilSeconds': era.untilSecondsTruncated,
+                    'untilTimeModifier': era.untilTimeModifier,
                 })
+                # yapf: enable
             sname = normalize_name(short_name(name))
-            self.zone_infos[sname] = {
-                'name': name,
-                'eras': zone_eras
-            }
-
+            self.zone_infos[sname] = {'name': name, 'eras': zone_eras}

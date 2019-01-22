@@ -30,9 +30,10 @@ from zone_agent import YearMonthTuple
 TestItem = collections.namedtuple(
     "TestItem", "epoch utc_offset dst_offset y M d h m s type")
 
+
 class Validator:
     def __init__(self, zone_infos, zone_policies, optimized,
-        validate_dst_offset, validate_hours):
+                 validate_dst_offset, validate_hours):
         """
         Args:
             zone_infos: map of {name -> zone_info{} }
@@ -61,7 +62,7 @@ class Validator:
         for zone_short_name, zone_info in sorted(self.zone_infos.items()):
             #logging.info('Validating zone %s' % zone_short_name)
             zone_agent = ZoneAgent(zone_info, self.optimized)
-            count_record = (0, 0) # (count, year)
+            count_record = (0, 0)  # (count, year)
             for year in range(2000, 2038):
                 #logging.info('Validating year %s' % year)
                 (matches, transitions) = \
@@ -73,8 +74,9 @@ class Validator:
 
         logging.info('Count(transitions) group by zone order by count desc')
         for zone_short_name, count_record in sorted(
-            transition_stats.items(), key=lambda x: x[1], reverse=True):
-            logging.info('%s: %d (%04d)' % ((zone_short_name,) + count_record))
+                transition_stats.items(), key=lambda x: x[1], reverse=True):
+            logging.info('%s: %d (%04d)' %
+                         ((zone_short_name, ) + count_record))
 
     def validate_sequentially(self):
         """Compare Python and AceTime offsets by generating the Python
@@ -103,17 +105,15 @@ class Validator:
             unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
             utc_offset_seconds = offset_seconds + dst_seconds
             if utc_offset_seconds != item.utc_offset:
-                logging.error( "==== %s: offset mismatch; at: '%s'; "
-                    + "unix: %s; "
-                    + "AceTime(%s); Expected(%s)",
-                    zone_short_name,
-                    test_item_to_string(item),
-                    unix_seconds,
+                logging.error(
+                    "==== %s: offset mismatch; at: '%s'; unix: %s; " +
+                    "AceTime(%s); Expected(%s)", zone_short_name,
+                    test_item_to_string(item), unix_seconds,
                     to_utc_string(offset_seconds, dst_seconds),
-                    to_utc_string(item.utc_offset-item.dst_offset,
-                        item.dst_offset))
-                (matches, transitions) = zone_agent.get_matches_and_transitions(
-                    item.y)
+                    to_utc_string(item.utc_offset - item.dst_offset,
+                                  item.dst_offset))
+                (matches,
+                 transitions) = zone_agent.get_matches_and_transitions(item.y)
                 print_matches_and_transitions(matches, transitions)
 
     def create_test_data(self):
@@ -141,7 +141,7 @@ class Validator:
             tz = pytz.timezone(zone_full_name)
         except:
             logging.error("Zone '%s' not found in Python pytz package",
-                zone_full_name)
+                          zone_full_name)
             return None
 
         if self.validate_hours:
@@ -158,8 +158,8 @@ class Validator:
         """
         items = []
         for year in range(2000, 2018):
-            (matches, transitions) = zone_agent.get_matches_and_transitions(
-                year)
+            (matches,
+             transitions) = zone_agent.get_matches_and_transitions(year)
             transition_found = False
 
             # Add the before and after samples surrounding a DST transition.
@@ -169,17 +169,20 @@ class Validator:
                 if transition_year != year: continue
 
                 epoch_seconds = transition.startEpochSecond
-                items.append(self.create_test_item_from_epoch_seconds(
-                    tz, epoch_seconds-1, 'A'))
-                items.append(self.create_test_item_from_epoch_seconds(
-                    tz, epoch_seconds, 'B'))
+                items.append(
+                    self.create_test_item_from_epoch_seconds(
+                        tz, epoch_seconds - 1, 'A'))
+                items.append(
+                    self.create_test_item_from_epoch_seconds(
+                        tz, epoch_seconds, 'B'))
                 transition_found = True
 
             # If no transition found within the year, add a test sample
             # so that there's at least one sample per year.
             if not transition_found:
-                items.append(self.create_test_item_from_datetime(tz,
-                    year, month=3, day=10, hour=2, type='S'))
+                items.append(
+                    self.create_test_item_from_datetime(
+                        tz, year, month=3, day=10, hour=2, type='S'))
 
         return items
 
@@ -188,25 +191,25 @@ class Validator:
         for year in range(2000, 2018):
             for month in range(1, 13):
                 days = days_in_month(year, month)
-                for day in range(1, days+1):
+                for day in range(1, days + 1):
                     if self.validate_hours:
                         for hour in range(0, 24):
                             test_item = self.create_test_item_from_datetime(
                                 tz, year, month, day, hour, 'S')
                     else:
-                        hour = month - 1 # try different hours
+                        hour = month - 1  # try different hours
                         test_item = self.create_test_item_from_datetime(
                             tz, year, month, day, hour, 'S')
                     items.append(test_item)
         return items
 
-    def create_test_item_from_datetime(self, tz, year, month, day, hour,
-        type):
-        ldt = datetime.datetime(year, month, day, month, hour,
-            tzinfo=datetime.timezone.utc)
+    def create_test_item_from_datetime(self, tz, year, month, day, hour, type):
+        ldt = datetime.datetime(
+            year, month, day, month, hour, tzinfo=datetime.timezone.utc)
         dt = ldt.astimezone(tz)
         epoch_seconds = int(dt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
-        return self.create_test_item_from_epoch_seconds(tz, epoch_seconds, type)
+        return self.create_test_item_from_epoch_seconds(
+            tz, epoch_seconds, type)
 
     def create_test_item_from_epoch_seconds(self, tz, epoch_seconds, type):
         """Return the TestItem fro the epoch_seconds.
@@ -233,15 +236,17 @@ class Validator:
             s=dt.second,
             type=type)
 
+
 def test_item_to_string(i):
     return '%04d-%02d-%02dT%02d:%02d:%02d' % (i.y, i.M, i.d, i.h, i.m, i.s)
 
+
 # List of zones where the Python DST offset is incorrect.
 TIME_ZONES_BLACKLIST = {
-    'America/Argentina/Buenos_Aires', # Python is wrong
-    'America/Argentina/Cordoba', # Python is wrong
-    'America/Argentina/Jujuy', # Python is wrong
-    'America/Argentina/Salta', # Python is wrong
-    'America/Bahia_Banderas', # Python is wrong
-    'America/Indiana/Winamac', # Python is wrong
+    'America/Argentina/Buenos_Aires',  # Python is wrong
+    'America/Argentina/Cordoba',  # Python is wrong
+    'America/Argentina/Jujuy',  # Python is wrong
+    'America/Argentina/Salta',  # Python is wrong
+    'America/Bahia_Banderas',  # Python is wrong
+    'America/Indiana/Winamac',  # Python is wrong
 }
