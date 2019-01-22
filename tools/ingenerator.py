@@ -22,8 +22,8 @@ class InlineGenerator:
         self.zones_map = zones_map
         self.rules_map = rules_map
 
-        self.zone_infos = {}
-        self.zone_policies = {}
+        self.zone_infos = {}  # internal representation of zone_infos.py
+        self.zone_policies = {}  # internal representation of zone_policies.py
 
     def generate_maps(self):
         """Return the zone_infos and zone_policies maps which look identical

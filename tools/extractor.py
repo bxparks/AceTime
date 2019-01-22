@@ -82,7 +82,7 @@ class ZoneEraRaw:
         'format',  # (string) abbreviation format (e.g. P%sT, E%ST, GMT/BST)
         'untilYear',  # (int) MAX_UNTIL_YEAR means 'max'
         'untilMonth',  # (int) 1-12
-        'untilDay',  # (string) e.g. '1', 'lastSun', 'Sun>=3', etc
+        'untilDay',  # (string or int) e.g. 'lastSun', 'Sun>=3', or 1-31
         'untilTime',  # (string) e.g. '2:00', '00:01'
         'untilTimeModifier',  # (char) '', 's', 'w', 'g', 'u', 'z'
         'rawLine',  # (string) original ZONE line in TZ file

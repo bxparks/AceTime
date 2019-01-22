@@ -23,8 +23,8 @@ class Transformer:
                  strict):
         """
         Arguments:
-            zones_map: map of Zone names to Eras
-            rules_map: map of Policy names to Rules
+            zones_map: map of Zone names to ZoneEras
+            rules_map: map of Policy names to ZoneRules
             python: (bool) generate zonedb for Python
             start_year: (int) include only years on or after start_year
             granularity: (int) retained AT, SAVE, UNTIL, or RULES(offset)
@@ -62,7 +62,8 @@ class Transformer:
             name: name of policy removed
             reason: human readable reason
 
-        * 'all_notable_zones' is a map of the zones which come with caveats:
+        * 'all_notable_zones' is a map of the zones which come with caveats,
+          e.g., truncation of '00:01' to '00:00'.
             name: name of zone
             reason: human readable reason
 
@@ -204,7 +205,9 @@ class Transformer:
                 if not until_day:
                     continue
 
-                # parse the conditional expression in until_day
+                # Parse the conditional expression in until_day. We can resolve
+                # the 'lastSun' and 'Sun>=X' to a specific day of month because
+                # we know the year.
                 (on_day_of_week, on_day_of_month) = \
                     parse_on_day_string(until_day)
                 if (on_day_of_week, on_day_of_month) == (0, 0):
@@ -212,9 +215,7 @@ class Transformer:
                     removed_zones[name] = "invalid untilDay '%s'" % until_day
                     break
 
-                until_year = zone.untilYear
-                until_month = zone.untilMonth
-                until_day = calc_day_of_month(until_year, until_month,
+                until_day = calc_day_of_month(zone.untilYear, zone.untilMonth,
                                               on_day_of_week, on_day_of_month)
                 zone.untilDay = until_day
             if valid:
@@ -714,8 +715,13 @@ class Transformer:
         return results
 
     def create_rules_with_anchor_transition(self, rules_map):
-        """Create the earliest transition with SAVE == 0. As of 2018i, 6 zone
-        policies are affected:
+        """Create a synthetic transition with SAVE == 0 which is earlier than
+        the self.start_year of interest. Some zone policies have zone rules
+        whose earliest entry starts after the self.start_year. According to
+        https://data.iana.org/time-zones/tz-how-to.html, the initial LETTER
+        should be deduced from the first RULE whose SAVE == 0.
+
+        As of 2018i, 6 zone policies are affected:
             ['Troll', 'Armenia', 'Dhaka', 'Pakistan', 'WS', 'SanLuis']
         corresponding to 4 zones:
             Pacific/Apia, Asia/Dhaka, Asia/Karachi, Asia/Yerevan
@@ -745,9 +751,6 @@ class Transformer:
         """Return the anchor rule that will act as the earliest rule with SAVE
         == 0.
         """
-        earliest_rule = ZoneRuleRaw({
-            'earliestDate': (MAX_UNTIL_YEAR, 12, 31),
-        })
         anchor_rule = ZoneRuleRaw({
             'earliestDate': (MAX_UNTIL_YEAR, 12, 31),
         })
@@ -761,10 +764,7 @@ class Transformer:
             rule_date = (from_year, in_month, on_day)
             rule.earliestDate = rule_date
 
-            if rule_date < earliest_rule.earliestDate:
-                earliest_rule = rule
-            if rule.deltaSeconds == 0 and \
-                rule_date < anchor_rule.earliestDate:
+            if rule.deltaSeconds == 0 and rule_date < anchor_rule.earliestDate:
                 anchor_rule = rule
 
         anchor_rule = anchor_rule.copy()

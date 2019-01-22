@@ -77,12 +77,12 @@ class ZoneEraCooked:
         'rulesDeltaSeconds',  # (int or None) delta offset from UTC in seconds
                               # if RULES field is a DST offset string of the
                               # form hh:mm[:ss]
-        'format',  # (string) abbreviation format (e.g. P%sT, E%ST, GMT/BST)
+        'format',  # (string) abbreviation format (e.g. P%sT, E%sT, GMT/BST)
         'untilYear',  # (int) MAX_UNTIL_YEAR means 'max'
         'untilMonth',  # (int) 1-12
-        'untilDay',  # (string) e.g. '1', 'lastSun', 'Sun>=3', etc
+        'untilDay',  # (int) 1-31
         'untilSeconds',  # (int) untilTime converted into total seconds
-        'untilTimeModifier',  # (char) '', 's', 'w', 'g', 'u', 'z'
+        'untilTimeModifier',  # (char) '', 's', 'w', 'u'
     ]
     # yapf: enable
 
@@ -165,15 +165,15 @@ class ZoneMatch:
         'zoneEra',  # (ZoneEra) the ZoneEra corresponding to this match
     ]
 
-    def __init__(self, args):
+    def __init__(self, arg):
         for s in self.__slots__:
             setattr(self, s, None)
-        if isinstance(args, dict):
-            for key, value in args.items():
+        if isinstance(arg, dict):
+            for key, value in arg.items():
                 setattr(self, key, value)
-        elif isinstance(args, ZoneMatch):
+        elif isinstance(arg, ZoneMatch):
             for s in ZoneMatch.__slots__:
-                setattr(self, s, getattr(args, s))
+                setattr(self, s, getattr(arg, s))
 
     def copy(self):
         result = self.__class__.__new__(self.__class__)
@@ -181,8 +181,8 @@ class ZoneMatch:
             setattr(result, s, getattr(self, s))
         return result
 
-    def update(self, args):
-        for key, value in args.items():
+    def update(self, arg):
+        for key, value in arg.items():
             setattr(self, key, value)
 
     def __repr__(self):
@@ -224,15 +224,15 @@ class Transition:
         'letter',  # (str)
     ]
 
-    def __init__(self, args):
+    def __init__(self, arg):
         for s in self.__slots__:
             setattr(self, s, None)
-        if isinstance(args, dict):
-            for key, value in args.items():
+        if isinstance(arg, dict):
+            for key, value in arg.items():
                 setattr(self, key, value)
-        elif isinstance(args, ZoneMatch):
+        elif isinstance(arg, ZoneMatch):
             for s in ZoneMatch.__slots__:
-                setattr(self, s, getattr(args, s))
+                setattr(self, s, getattr(arg, s))
 
     def copy(self):
         result = self.__class__.__new__(self.__class__)
@@ -240,8 +240,8 @@ class Transition:
             setattr(result, s, getattr(self, s))
         return result
 
-    def update(self, args):
-        for key, value in args.items():
+    def update(self, arg):
+        for key, value in arg.items():
             setattr(self, key, value)
 
     def __repr__(self):

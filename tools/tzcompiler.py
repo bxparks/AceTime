@@ -24,12 +24,12 @@ zone_policies.{h,cpp} |        zone_policies.py
                       |            |
                       v            |
                InlineGenerator     |
-                      |            |
-                      v            |
-                  Validator        |
                           \        |
                            v       v
                            ZoneAgent
+                          /
+                         v
+                  Validator
 """
 import argparse
 import logging
