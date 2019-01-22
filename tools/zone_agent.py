@@ -834,12 +834,8 @@ def expand_date_tuple(dt, offset_seconds, delta_seconds):
         dtw = dt
         dts = DateTuple(
             y=dt.y, m=dt.m, d=dt.d, ss=dtw.ss - delta_seconds, f='s')
-        dtu = DateTuple(
-            y=dt.y,
-            m=dt.m,
-            d=dt.d,
-            ss=dtw.ss - delta_seconds - offset_seconds,
-            f='u')
+        ss = dtw.ss - delta_seconds - offset_seconds
+        dtu = DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=ss, f='u')
     elif dt.f == 's':
         dts = dt
         dtw = DateTuple(
@@ -848,12 +844,8 @@ def expand_date_tuple(dt, offset_seconds, delta_seconds):
             y=dt.y, m=dt.m, d=dt.d, ss=dts.ss - offset_seconds, f='u')
     elif dt.f == 'u':
         dtu = dt
-        dtw = DateTuple(
-            y=dtu.y,
-            m=dtu.m,
-            d=dtu.d,
-            ss=dtu.ss + delta_seconds + offset_seconds,
-            f='w')
+        ss = dtu.ss + delta_seconds + offset_seconds
+        dtw = DateTuple(y=dtu.y, m=dtu.m, d=dtu.d, ss=ss, f='w')
         dts = DateTuple(
             y=dtu.y, m=dtu.m, d=dtu.d, ss=dtu.ss + offset_seconds, f='s')
     else:
