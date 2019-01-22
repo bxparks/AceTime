@@ -145,11 +145,8 @@ class ZoneRuleCooked:
         for s in self.__slots__:
             setattr(self, s, None)
 
-    #def copy(self):
-    #    result = self.__class__.__new__(self.__class__)
-    #    for s in self.__slots__:
-    #        setattr(result, s, getattr(self, s))
-    #    return result
+        for key, value in arg.items():
+            setattr(self, key, value)
 
 
 class ZoneMatch:
@@ -278,7 +275,7 @@ class Transition:
             zone_rule_to = zone_rule.toYear
 
             if self.originalTransitionTime:
-               return ('transition: %s; '
+               return ('Transition(transition: %s; '
                     + 'start: %s; '
                     + 'until: %s; '
                     + 'orig: %s; '
@@ -286,7 +283,7 @@ class Transition:
                     + 'policy: %s[%d,%d]; '
                     + '%s; '
                     + 'format: %s(%s); '
-                    + 'abbrev: %s') % (
+                    + 'abbrev: %s)') % (
                     date_tuple_to_string(self.transitionTime),
                     date_tuple_to_string(self.startDateTime),
                     date_tuple_to_string(self.untilDateTime),
@@ -295,14 +292,14 @@ class Transition:
                     to_utc_string(offset_seconds, delta_seconds),
                     format, letter, abbrev)
             else:
-                return ('transition: %s; '
+                return ('Transition(transition: %s; '
                     + 'start: %s; '
                     + 'until: %s; '
                     + 'sepoch: %d; '
                     + 'policy: %s[%d,%d]; '
                     + '%s; '
                     + 'format: %s(%s); '
-                    + 'abbrev: %s') % (
+                    + 'abbrev: %s)') % (
                     date_tuple_to_string(self.transitionTime),
                     date_tuple_to_string(self.startDateTime),
                     date_tuple_to_string(self.untilDateTime),
@@ -1113,9 +1110,11 @@ EPOCH_DATETIME = datetime(2000, 1, 1, 0, 0, 0)
 
 def print_matches_and_transitions(matches, transitions):
     logging.info('---- Matches:')
-    logging.info(matches)
+    for m in matches:
+        logging.info(m)
     logging.info('---- Transitions:')
-    logging.info(transitions)
+    for t in transitions:
+        logging.info(t)
 
 def main():
     # Configure command line flags.
