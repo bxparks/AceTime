@@ -2,11 +2,13 @@
 #
 # MIT License
 """
-Generate the Python zone_info and zone_policies maps directly instead
-of creating files. These maps can be used for further processing.
+Generate the internal versions of zone_infos.py and zone_policies.py directly
+instead of creating files. These maps can be used for further processing.
 """
 
 import logging
+from extractor import ZoneEraRaw
+from extractor import ZoneRuleRaw
 from transformer import short_name
 from argenerator import normalize_name
 from argenerator import normalize_raw
@@ -36,15 +38,15 @@ class InlineGenerator:
             policy_rules = []
             for rule in rules:
                 policy_rules.append({
-                    'fromYear': rule['fromYear'],
-                    'toYear': rule['toYear'],
-                    'inMonth': rule['inMonth'],
-                    'onDayOfWeek': rule['onDayOfWeek'],
-                    'onDayOfMonth': rule['onDayOfMonth'],
-                    'atSeconds': rule['atSecondsTruncated'],
-                    'atTimeModifier': rule['atTimeModifier'],
-                    'deltaSeconds': rule['deltaSecondsTruncated'],
-                    'letter': rule['letter']
+                    'fromYear': rule.fromYear,
+                    'toYear': rule.toYear,
+                    'inMonth': rule.inMonth,
+                    'onDayOfWeek': rule.onDayOfWeek,
+                    'onDayOfMonth': rule.onDayOfMonth,
+                    'atSeconds': rule.atSecondsTruncated,
+                    'atTimeModifier': rule.atTimeModifier,
+                    'deltaSeconds': rule.deltaSecondsTruncated,
+                    'letter': rule.letter
                 })
 
             normalized_name = normalize_name(name)
@@ -57,26 +59,26 @@ class InlineGenerator:
         for name, eras in self.zones_map.items():
             zone_eras = []
             for era in eras:
-                policy_name = era['rules']
+                policy_name = era.rules
                 if policy_name in ['-', ':']:
                     zone_policy = policy_name
                 else:
                     policy_name = normalize_name(policy_name)
                     zone_policy = self.zone_policies[policy_name]
 
-                rules_delta_seconds = era['rulesDeltaSecondsTruncated']
+                rules_delta_seconds = era.rulesDeltaSecondsTruncated
                 if not rules_delta_seconds: rules_delta_seconds = 0
 
                 zone_eras.append({
-                  'offsetSeconds': era['offsetSecondsTruncated'],
+                  'offsetSeconds': era.offsetSecondsTruncated,
                   'zonePolicy': zone_policy,
                   'rulesDeltaSeconds': rules_delta_seconds,
-                  'format': era['format'],
-                  'untilYear': era['untilYear'],
-                  'untilMonth': era['untilMonth'],
-                  'untilDay': era['untilDay'],
-                  'untilSeconds': era['untilSecondsTruncated'],
-                  'untilTimeModifier': era['untilTimeModifier'],
+                  'format': era.format,
+                  'untilYear': era.untilYear,
+                  'untilMonth': era.untilMonth,
+                  'untilDay': era.untilDay,
+                  'untilSeconds': era.untilSecondsTruncated,
+                  'untilTimeModifier': era.untilTimeModifier,
                 })
             sname = normalize_name(short_name(name))
             self.zone_infos[sname] = {

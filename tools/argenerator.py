@@ -359,28 +359,28 @@ const common::ZoneInfo kZone{infoShortName} = {{
     def generate_policy_item(self, name, rules):
         rule_items = ''
         for rule in rules:
-            at_time_code = div_to_zero(rule['atSecondsTruncated'], 15 * 60)
-            delta_code = div_to_zero(rule['deltaSecondsTruncated'], 15 * 60)
+            at_time_code = div_to_zero(rule.atSecondsTruncated, 15 * 60)
+            delta_code = div_to_zero(rule.deltaSecondsTruncated, 15 * 60)
 
-            from_year = rule['fromYear']
+            from_year = rule.fromYear
             from_year_tiny = (from_year - EPOCH_YEAR
                 if from_year != MAX_YEAR else MAX_YEAR_TINY)
 
-            to_year = rule['toYear']
+            to_year = rule.toYear
             to_year_tiny = (to_year - EPOCH_YEAR
                 if to_year != MAX_YEAR else MAX_YEAR_TINY)
 
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
-                rawLine=normalize_raw(rule['rawLine']),
+                rawLine=normalize_raw(rule.rawLine),
                 fromYearTiny=from_year_tiny,
                 toYearTiny=to_year_tiny,
-                inMonth=rule['inMonth'],
-                onDayOfWeek=rule['onDayOfWeek'],
-                onDayOfMonth=rule['onDayOfMonth'],
+                inMonth=rule.inMonth,
+                onDayOfWeek=rule.onDayOfWeek,
+                onDayOfMonth=rule.onDayOfMonth,
                 atTimeCode=at_time_code,
-                atTimeModifier=rule['atTimeModifier'],
+                atTimeModifier=rule.atTimeModifier,
                 deltaCode=delta_code,
-                letter=rule['letter'])
+                letter=rule.letter)
 
         num_rules = len(rules)
         memory8 = (1 * self.SIZEOF_ZONE_POLICY_8 +
@@ -478,36 +478,36 @@ const common::ZoneInfo kZone{infoShortName} = {{
         return (info_item, string_length)
 
     def generate_era_item(self, name, era):
-        policy_name = era['rules']
+        policy_name = era.rules
         if policy_name == '-':
             zonePolicy = 'nullptr'
         else:
             zonePolicy = '&kPolicy%s' % normalize_name(policy_name)
 
-        until_year = era['untilYear']
+        until_year = era.untilYear
         if until_year == MAX_UNTIL_YEAR:
             until_year_tiny = MAX_UNTIL_YEAR_TINY
         else:
             until_year_tiny = until_year - EPOCH_YEAR
 
-        until_month = era['untilMonth']
+        until_month = era.untilMonth
         if not until_month:
             until_month = 1
 
-        until_day = era['untilDay']
+        until_day = era.untilDay
         if not until_day:
             until_day = 1
 
-        until_time_code = div_to_zero(era['untilSecondsTruncated'], 15 * 60)
-        until_time_modifier = era['untilTimeModifier']
-        offset_code = div_to_zero(era['offsetSecondsTruncated'], 15 * 60)
+        until_time_code = div_to_zero(era.untilSecondsTruncated, 15 * 60)
+        until_time_modifier = era.untilTimeModifier
+        offset_code = div_to_zero(era.offsetSecondsTruncated, 15 * 60)
 
         # Replace %s with just a % for C++
-        format = era['format'].replace('%s', '%')
+        format = era.format.replace('%s', '%')
         string_length = len(format) + 1
 
         era_item = self.ZONE_INFOS_CPP_ERA_ITEM.format(
-            rawLine=normalize_raw(era['rawLine']),
+            rawLine=normalize_raw(era.rawLine),
             offsetCode=offset_code,
             zonePolicy=zonePolicy,
             format=format,
