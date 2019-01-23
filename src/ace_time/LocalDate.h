@@ -338,6 +338,7 @@ class LocalDate {
     void printTo(Print& printer) const;
 
   private:
+    friend class LocalDateTime;
     friend class OffsetDateTime;
     friend bool operator==(const LocalDate& a, const LocalDate& b);
 

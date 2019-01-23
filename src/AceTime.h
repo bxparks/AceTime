@@ -13,6 +13,7 @@
 #include "ace_time/common/DateStrings.h"
 #include "ace_time/LocalDate.h"
 #include "ace_time/LocalTime.h"
+#include "ace_time/LocalDateTime.h"
 #include "ace_time/UtcOffset.h"
 #include "ace_time/OffsetDateTime.h"
 #include "ace_time/ZoneAgent.h"

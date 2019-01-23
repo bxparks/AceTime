@@ -293,32 +293,6 @@ test(OffsetDateTimeTest, dayOfWeek) {
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 }
 
-test(OffsetDateTimeTest, forDateString_errors) {
-  // empty string, too short
-  OffsetDateTime dt = OffsetDateTime::forDateString("");
-  assertTrue(dt.isError());
-
-  // not enough components
-  dt = OffsetDateTime::forDateString(F("2018-08-31"));
-  assertTrue(dt.isError());
-
-  // too long
-  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01-07:00X"));
-  assertTrue(dt.isError());
-
-  // too short
-  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01-07:0"));
-  assertTrue(dt.isError());
-
-  // missing UTC
-  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01"));
-  assertTrue(dt.isError());
-
-  // parser cares about UTC+/- offset
-  dt = OffsetDateTime::forDateString(F("2018-08-31 13:48:01&07:00"));
-  assertTrue(dt.isError());
-}
-
 test(OffsetDateTimeTest, forDateString) {
   // exact ISO8601 format
   OffsetDateTime dt = OffsetDateTime::forDateString(
@@ -346,6 +320,32 @@ test(OffsetDateTimeTest, forDateString) {
   assertEqual(1, dt.second());
   assertEqual(7*60, dt.utcOffset().toMinutes());
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
+}
+
+test(OffsetDateTimeTest, forDateString_errors) {
+  // empty string, too short
+  OffsetDateTime dt = OffsetDateTime::forDateString("");
+  assertTrue(dt.isError());
+
+  // not enough components
+  dt = OffsetDateTime::forDateString(F("2018-08-31"));
+  assertTrue(dt.isError());
+
+  // too long
+  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01-07:00X"));
+  assertTrue(dt.isError());
+
+  // too short
+  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01-07:0"));
+  assertTrue(dt.isError());
+
+  // missing UTC
+  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01"));
+  assertTrue(dt.isError());
+
+  // parser cares about UTC+/- offset
+  dt = OffsetDateTime::forDateString(F("2018-08-31 13:48:01&07:00"));
+  assertTrue(dt.isError());
 }
 
 test(OffsetDateTimeTest, increment) {

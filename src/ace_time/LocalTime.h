@@ -156,9 +156,9 @@ class LocalTime {
 
 
   private:
+    friend class LocalDateTime;
     friend class OffsetDateTime;
     friend bool operator==(const LocalTime& a, const LocalTime& b);
-    friend bool operator!=(const LocalTime& a, const LocalTime& b);
 
     /** Expected length of an ISO 8601 time string "hh:mm:ss" */
     static const uint8_t kTimeStringLength = 8;

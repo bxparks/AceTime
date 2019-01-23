@@ -36,7 +36,7 @@ namespace ace_time {
 class OffsetDateTime {
   public:
     /**
-     * Factory method using separated date, time, and time zone fields.
+     * Factory method using separated date, time, and UTC offset fields.
      *
      * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
      *    16-bit implementation
@@ -45,10 +45,10 @@ class OffsetDateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param utcOffset Optional, default is UTC time zone. The time zone
-     * offset in 15-minute increments from UTC. Using a UtcOffset object here
-     * in the last component allows us to add an additional constructor that
-     * accepts a millisecond component in the future.
+     * @param utcOffset Optional. Default UTC time zone. Using the UtcOffset
+     * object in the last component allows us to add an additional constructor
+     * that accepts a millisecond component in the future. It also hides the
+     * internal implementation details of UtcOffset.
      */
     static OffsetDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
@@ -61,11 +61,9 @@ class OffsetDateTime {
      * the epochSeconds and its UtcOffset.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00). Use kInvalidEpochSeconds to define an
-     *    invalid instance whose isError() returns true.
+     *    (2000-01-01 00:00:00). Use LocalDate::kInvalidEpochSeconds to define
+     *    an invalid instance whose isError() returns true.
      * @param utcOffset Optional. Default is UTC time zone.
-     *
-     * See https://en.wikipedia.org/wiki/Julian_day.
      */
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
           UtcOffset utcOffset = UtcOffset()) {
@@ -288,7 +286,7 @@ class OffsetDateTime {
 
       acetime_t epochDays = mLocalDate.toEpochDays();
       acetime_t utcOffset = mLocalTime.toSeconds() - mUtcOffset.toSeconds();
-      return epochDays * (acetime_t) 86400 + utcOffset;
+      return epochDays * 86400 + utcOffset;
     }
 
     /**
@@ -329,11 +327,10 @@ class OffsetDateTime {
     }
 
   private:
-    /** Expected length of an ISO 8601 date string. */
-    static const uint8_t kDateStringLength = 25;
-
     friend bool operator==(const OffsetDateTime& a, const OffsetDateTime& b);
-    friend bool operator!=(const OffsetDateTime& a, const OffsetDateTime& b);
+
+    /** Expected length of an ISO 8601 date string, including UTC offset. */
+    static const uint8_t kDateStringLength = 25;
 
     /**
      * Constructor using separated date, time, and time zone fields.
@@ -344,10 +341,10 @@ class OffsetDateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param utcOffset Optional, default is UTC time zone. The time zone
-     * offset in 15-minute increments from UTC. Using a UtcOffset object here
-     * in the last component allows us to add an additional constructor that
-     * accepts a millisecond component in the future.
+     * @param utcOffset Optional. Default UTC time zone. Using the UtcOffset
+     * object in the last component allows us to add an additional constructor
+     * that accepts a millisecond component in the future. It also hides the
+     * internal implementation details of UtcOffset.
      */
     explicit OffsetDateTime(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
