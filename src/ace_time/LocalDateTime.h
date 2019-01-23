@@ -95,13 +95,13 @@ class LocalDateTime {
     static LocalDateTime forDateString(const __FlashStringHelper* dateString) {
       // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
       // ESP8266 do not have strlcpy_P().
-      char buffer[kDateStringLength + 2];
+      char buffer[kDateTimeStringLength + 2];
       strncpy_P(buffer, (const char*) dateString, sizeof(buffer));
-      buffer[kDateStringLength + 1] = 0;
+      buffer[kDateTimeStringLength + 1] = 0;
 
       // check if the original F() was too long
       size_t len = strlen(buffer);
-      if (len > kDateStringLength) {
+      if (len > kDateTimeStringLength) {
         return LocalDateTime().setError();
       }
 
@@ -173,9 +173,33 @@ class LocalDateTime {
      */
     void printTo(Print& printer) const;
 
+    /** Increment the year by one, wrapping from 99 to 0. */
+    void incrementYear() {
+      mLocalDate.incrementYear();
+    }
+
+    /** Increment the year by one, wrapping from 12 to 1. */
+    void incrementMonth() {
+      mLocalDate.incrementMonth();
+    }
+
+    /** Increment the day by one, wrapping from 31 to 1. */
+    void incrementDay() {
+      mLocalDate.incrementDay();
+    }
+
+    /** Increment the hour by one, wrapping from 23 to 0. */
+    void incrementHour() {
+      mLocalTime.incrementHour();
+    }
+
+    /** Increment the minute by one, wrapping from 59 to 0. */
+    void incrementMinute() {
+      mLocalTime.incrementMinute();
+    }
+
     /**
-     * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
-     * taking into account the offset zone.
+     * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z).
      */
     acetime_t toEpochDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
@@ -189,8 +213,7 @@ class LocalDateTime {
     }
 
     /**
-     * Return seconds since AceTime epoch (2000-01-01 00:00:00Z), taking into
-     * account the offset zone.
+     * Return seconds since AceTime epoch (2000-01-01 00:00:00Z).
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
@@ -236,10 +259,11 @@ class LocalDateTime {
     }
 
   private:
+    friend class OffsetDateTime;
     friend bool operator==(const LocalDateTime& a, const LocalDateTime& b);
 
     /** Expected length of an ISO 8601 date string. */
-    static const uint8_t kDateStringLength = 19;
+    static const uint8_t kDateTimeStringLength = 19;
 
     /**
      * Constructor using separated date, time, and time zone fields.

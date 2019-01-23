@@ -14,21 +14,21 @@ void OffsetDateTime::printTo(Print& printer) const {
   }
 
   // Date
-  printer.print(mLocalDate.year());
+  printer.print(mLocalDateTime.year());
   printer.print('-');
-  printPad2(printer, mLocalDate.month());
+  printPad2(printer, mLocalDateTime.month());
   printer.print('-');
-  printPad2(printer, mLocalDate.day());
+  printPad2(printer, mLocalDateTime.day());
 
   // 'T' separator
   printer.print('T');
 
   // Time
-  printPad2(printer, mLocalTime.hour());
+  printPad2(printer, mLocalDateTime.hour());
   printer.print(':');
-  printPad2(printer, mLocalTime.minute());
+  printPad2(printer, mLocalDateTime.minute());
   printer.print(':');
-  printPad2(printer, mLocalTime.second());
+  printPad2(printer, mLocalDateTime.second());
 
   // UtcOffset
   mUtcOffset.printTo(printer);
@@ -45,15 +45,8 @@ OffsetDateTime& OffsetDateTime::initFromDateString(const char* ds) {
   }
 
   // date
-  mLocalDate.initFromDateString(ds);
-  ds += LocalDate::kDateStringLength;
-
-  // 'T'
-  ds++;
-
-  // time
-  mLocalTime.initFromTimeString(ds);
-  ds += LocalTime::kTimeStringLength;
+  mLocalDateTime.initFromDateString(ds);
+  ds += LocalDateTime::kDateTimeStringLength;
 
   // '+' or '-'
   char utcSign = *ds++;

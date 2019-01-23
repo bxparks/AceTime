@@ -746,6 +746,56 @@ test(LocalDateTimeTest, forDateString_errors) {
   assertTrue(dt.isError());
 }
 
+test(LocalDateTimeTest, increment) {
+  LocalDateTime dt = LocalDateTime::forComponents(2001, 2, 3, 4, 5, 6);
+  assertEqual((int16_t) 2001, dt.year());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+
+  dt.incrementYear();
+  assertEqual((int16_t) 2002, dt.year());
+  assertEqual(2, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+
+  dt.incrementMonth();
+  assertEqual((int16_t) 2002, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(3, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+
+  dt.incrementDay();
+  assertEqual((int16_t) 2002, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(4, dt.day());
+  assertEqual(4, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+
+  dt.incrementHour();
+  assertEqual((int16_t) 2002, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(4, dt.day());
+  assertEqual(5, dt.hour());
+  assertEqual(5, dt.minute());
+  assertEqual(6, dt.second());
+
+  dt.incrementMinute();
+  assertEqual((int16_t) 2002, dt.year());
+  assertEqual(3, dt.month());
+  assertEqual(4, dt.day());
+  assertEqual(5, dt.hour());
+  assertEqual(6, dt.minute());
+  assertEqual(6, dt.second());
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {

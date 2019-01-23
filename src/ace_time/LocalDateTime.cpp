@@ -36,7 +36,7 @@ void LocalDateTime::printTo(Print& printer) const {
 }
 
 LocalDateTime& LocalDateTime::initFromDateString(const char* ds) {
-  if (strlen(ds) < kDateStringLength) {
+  if (strlen(ds) < kDateTimeStringLength) {
     return setError();
   }
 
