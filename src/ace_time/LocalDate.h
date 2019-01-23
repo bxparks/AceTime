@@ -3,8 +3,9 @@
 
 #include <stdint.h>
 #include "common/common.h"
-#include "common/util.h"
 #include "LocalTime.h"
+
+class Print;
 
 namespace ace_time {
 
@@ -209,21 +210,6 @@ class LocalDate {
 
     /** Set the day of the month. */
     void day(uint8_t day) { mDay = day; }
-
-    /** Increment the year by one, wrapping from 99 to 0. */
-    void incrementYear() {
-      common::incrementMod(mYearTiny, (int8_t) 100);
-    }
-
-    /** Increment the month by one, wrapping from 12 to 1. */
-    void incrementMonth() {
-      common::incrementMod(mMonth, (uint8_t) 12, (uint8_t) 1);
-    }
-
-    /** Increment the day by one, wrapping from 31 to 1. */
-    void incrementDay() {
-      common::incrementMod(mDay, (uint8_t) 31, (uint8_t) 1);
-    }
 
     /**
      * Calculate the day of week given the (year, month, day). Idea borrowed

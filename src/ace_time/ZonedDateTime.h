@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include "common/flash.h"
-#include "common/util.h"
 #include "OffsetDateTime.h"
 #include "TimeZone.h"
 
@@ -21,11 +20,6 @@ namespace ace_time {
  * The "epoch" for this library is 2000-01-01 00:00:00Z. The dayOfWeek
  * (1=Sunday, 7=Saturday) is calculated internally from the date components.
  * Changing the timeZone does not affect the dayOfWeek.
- *
- * The incrementXxx() methods are convenience methods to allow the user to
- * change the date and time using just two buttons. The user is expected to
- * select a specific ZonedDateTime component using one of the buttons, then
- * press the other button to increment it.
  *
  * Some parts of this class was inspired by the org.joda.DateTime of
  * http://www.joda.org and java.time.ZonedDateTime of JDK8.
@@ -255,21 +249,6 @@ class ZonedDateTime {
      * memory cost of vtable pointer.
      */
     void printTo(Print& printer) const;
-
-    /** Increment the year by one, wrapping from 99 to 0. */
-    void incrementYear() { mOffsetDateTime.incrementYear(); }
-
-    /** Increment the year by one, wrapping from 12 to 1. */
-    void incrementMonth() { mOffsetDateTime.incrementMonth(); }
-
-    /** Increment the day by one, wrapping from 31 to 1. */
-    void incrementDay() { mOffsetDateTime.incrementDay(); }
-
-    /** Increment the hour by one, wrapping from 23 to 0. */
-    void incrementHour() { mOffsetDateTime.incrementHour(); }
-
-    /** Increment the minute by one, wrapping from 59 to 0. */
-    void incrementMinute() { mOffsetDateTime.incrementMinute(); }
 
     /**
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),

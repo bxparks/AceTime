@@ -47,7 +47,7 @@ void TimeZone::parseFromOffsetString(const char* ts, uint8_t* offsetCode) {
   uint8_t minute = (*ts++ - '0');
   minute = 10 * minute + (*ts++ - '0');
 
-  *offsetCode = UtcOffset::forHourMinute(sign, hour, minute).toOffsetCode();
+  *offsetCode = UtcOffset::forHourMinute(sign, hour, minute).code();
 }
 
 }

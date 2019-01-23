@@ -101,23 +101,23 @@ class FullOledClock: public Clock {
       switch (mMode) {
         case MODE_CHANGE_YEAR:
           mSuppressBlink = true;
-          mChangingDateTime.incrementYear();
+          DateTimeMutator(mChangingDateTime).incrementYear();
           break;
         case MODE_CHANGE_MONTH:
           mSuppressBlink = true;
-          mChangingDateTime.incrementMonth();
+          DateTimeMutator(mChangingDateTime).incrementMonth();
           break;
         case MODE_CHANGE_DAY:
           mSuppressBlink = true;
-          mChangingDateTime.incrementDay();
+          DateTimeMutator(mChangingDateTime).incrementDay();
           break;
         case MODE_CHANGE_HOUR:
           mSuppressBlink = true;
-          mChangingDateTime.incrementHour();
+          DateTimeMutator(mChangingDateTime).incrementHour();
           break;
         case MODE_CHANGE_MINUTE:
           mSuppressBlink = true;
-          mChangingDateTime.incrementMinute();
+          DateTimeMutator(mChangingDateTime).incrementMinute();
           break;
         case MODE_CHANGE_SECOND:
           mSuppressBlink = true;
@@ -127,11 +127,11 @@ class FullOledClock: public Clock {
 
         case MODE_CHANGE_TIME_ZONE_HOUR:
           mSuppressBlink = true;
-          mChangingTimeZone.utcOffset().incrementHour();
+          UtcOffsetMutator(mChangingTimeZone.utcOffset()).incrementHour();
           break;
         case MODE_CHANGE_TIME_ZONE_MINUTE:
           mSuppressBlink = true;
-          mChangingTimeZone.utcOffset().increment15Minutes();
+          UtcOffsetMutator(mChangingTimeZone.utcOffset()).increment15Minutes();
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;

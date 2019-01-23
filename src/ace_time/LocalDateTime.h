@@ -6,6 +6,7 @@
 #include "LocalTime.h"
 
 class Print;
+class __FlashStringHelper;
 
 namespace ace_time {
 
@@ -172,31 +173,6 @@ class LocalDateTime {
      * Printable to avoid memory cost of a vtable pointer.
      */
     void printTo(Print& printer) const;
-
-    /** Increment the year by one, wrapping from 99 to 0. */
-    void incrementYear() {
-      mLocalDate.incrementYear();
-    }
-
-    /** Increment the year by one, wrapping from 12 to 1. */
-    void incrementMonth() {
-      mLocalDate.incrementMonth();
-    }
-
-    /** Increment the day by one, wrapping from 31 to 1. */
-    void incrementDay() {
-      mLocalDate.incrementDay();
-    }
-
-    /** Increment the hour by one, wrapping from 23 to 0. */
-    void incrementHour() {
-      mLocalTime.incrementHour();
-    }
-
-    /** Increment the minute by one, wrapping from 59 to 0. */
-    void incrementMinute() {
-      mLocalTime.incrementMinute();
-    }
 
     /**
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z).

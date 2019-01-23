@@ -348,62 +348,6 @@ test(OffsetDateTimeTest, forDateString_errors) {
   assertTrue(dt.isError());
 }
 
-test(OffsetDateTimeTest, increment) {
-  OffsetDateTime dt = OffsetDateTime::forComponents(2001, 2, 3, 4, 5, 6);
-  assertEqual((int16_t) 2001, dt.year());
-  assertEqual(2, dt.month());
-  assertEqual(3, dt.day());
-  assertEqual(4, dt.hour());
-  assertEqual(5, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
-
-  dt.incrementYear();
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(2, dt.month());
-  assertEqual(3, dt.day());
-  assertEqual(4, dt.hour());
-  assertEqual(5, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
-
-  dt.incrementMonth();
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(3, dt.month());
-  assertEqual(3, dt.day());
-  assertEqual(4, dt.hour());
-  assertEqual(5, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
-
-  dt.incrementDay();
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(3, dt.month());
-  assertEqual(4, dt.day());
-  assertEqual(4, dt.hour());
-  assertEqual(5, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
-
-  dt.incrementHour();
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(3, dt.month());
-  assertEqual(4, dt.day());
-  assertEqual(5, dt.hour());
-  assertEqual(5, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
-
-  dt.incrementMinute();
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(3, dt.month());
-  assertEqual(4, dt.day());
-  assertEqual(5, dt.hour());
-  assertEqual(6, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
-}
-
 // --------------------------------------------------------------------------
 
 void setup() {

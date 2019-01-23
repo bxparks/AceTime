@@ -149,17 +149,17 @@ test(UtcOffsetTest, error) {
   assertTrue(offset.isError());
 }
 
-test(UtcOffsetTest, incrementHour) {
+test(UtcOffsetMutatorTest, incrementHour) {
   int8_t sign;
   uint8_t hour;
   uint8_t minute;
 
   UtcOffset offset = UtcOffset::forMinutes(0);
-  offset.incrementHour();
+  UtcOffsetMutator(offset).incrementHour();
   assertEqual((int16_t) 60, offset.toMinutes());
 
   offset = UtcOffset::forHourMinute(1, 1, 45);
-  offset.incrementHour();
+  UtcOffsetMutator(offset).incrementHour();
   offset.toHourMinute(sign, hour, minute);
   assertEqual(1, sign);
   assertEqual(2, hour);
@@ -167,13 +167,13 @@ test(UtcOffsetTest, incrementHour) {
 
   // Wrap around at 16h to -16h, but keep the minutes the same.
   offset = UtcOffset::forHourMinute(1, 15, 45);
-  offset.incrementHour();
+  UtcOffsetMutator(offset).incrementHour();
   offset.toHourMinute(sign, hour, minute);
   assertEqual(-1, sign);
   assertEqual(15, hour);
   assertEqual(45, minute);
 
-  offset.incrementHour();
+  UtcOffsetMutator(offset).incrementHour();
   offset.toHourMinute(sign, hour, minute);
   assertEqual(-1, sign);
   assertEqual(14, hour);
@@ -187,51 +187,51 @@ test(UtcOffsetTest, increment15Minutes) {
 
   UtcOffset offset = UtcOffset::forHourMinute(1, 0, 0);
 
-  offset.increment15Minutes();
+  UtcOffsetMutator(offset).increment15Minutes();
   offset.toHourMinute(sign, hour, minute);
   assertEqual(1, sign);
   assertEqual(0, hour);
   assertEqual(15, minute);
 
-  offset.increment15Minutes();
+  UtcOffsetMutator(offset).increment15Minutes();
   offset.toHourMinute(sign, hour, minute);
   assertEqual(1, sign);
   assertEqual(0, hour);
   assertEqual(30, minute);
 
-  offset.increment15Minutes();
+  UtcOffsetMutator(offset).increment15Minutes();
   offset.toHourMinute(sign, hour, minute);
   assertEqual(1, sign);
   assertEqual(0, hour);
   assertEqual(45, minute);
 
   // Wrap the minute.
-  offset.increment15Minutes();
+  UtcOffsetMutator(offset).increment15Minutes();
   offset.toHourMinute(sign, hour, minute);
   assertEqual(1, sign);
   assertEqual(0, hour);
   assertEqual(0, minute);
 
   offset = UtcOffset::forHourMinute(-1, 1, 0);
-  offset.increment15Minutes();
+  UtcOffsetMutator(offset).increment15Minutes();
   offset.toHourMinute(sign, hour, minute);
   assertEqual(-1, sign);
   assertEqual(1, hour);
   assertEqual(15, minute);
 
-  offset.increment15Minutes();
+  UtcOffsetMutator(offset).increment15Minutes();
   offset.toHourMinute(sign, hour, minute);
   assertEqual(-1, sign);
   assertEqual(1, hour);
   assertEqual(30, minute);
 
-  offset.increment15Minutes();
+  UtcOffsetMutator(offset).increment15Minutes();
   offset.toHourMinute(sign, hour, minute);
   assertEqual(-1, sign);
   assertEqual(1, hour);
   assertEqual(45, minute);
 
-  offset.increment15Minutes();
+  UtcOffsetMutator(offset).increment15Minutes();
   offset.toHourMinute(sign, hour, minute);
   assertEqual(-1, sign);
   assertEqual(1, hour);

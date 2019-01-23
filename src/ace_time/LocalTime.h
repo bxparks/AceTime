@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 #include "common/common.h"
-#include "common/util.h"
+
+class Print;
 
 namespace ace_time {
 
@@ -121,16 +122,6 @@ class LocalTime {
         return ((mHour * (int16_t) 60) + mMinute)
             * (int32_t) 60 + mSecond;
       }
-    }
-
-    /** Increment the hour by one, wrapping from 23 to 0. */
-    void incrementHour() {
-      common::incrementMod(mHour, (uint8_t) 24);
-    }
-
-    /** Increment the minute by one, wrapping from 59 to 0. */
-    void incrementMinute() {
-      common::incrementMod(mMinute, (uint8_t) 60);
     }
 
     /**

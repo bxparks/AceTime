@@ -23,11 +23,6 @@ namespace ace_time {
  * epoch. The largest possible int32_t value is INT32_MAX, but this value is
  * used by kInvalidEpochSeconds to indicate an invalid value.
  *
- * The incrementXxx() methods are convenience methods to allow the user to
- * change the date and time using just two buttons. The user is expected to
- * select a specific OffsetDateTime component using one of the buttons, then
- * press the other button to increment it.
- *
  * Parts of this class were inspired by the java.time.OffsetDateTime class of
  * Java 8
  * (https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html).
@@ -217,31 +212,6 @@ class OffsetDateTime {
      * Printable to avoid memory cost of a vtable pointer.
      */
     void printTo(Print& printer) const;
-
-    /** Increment the year by one, wrapping from 99 to 0. */
-    void incrementYear() {
-      mLocalDateTime.incrementYear();
-    }
-
-    /** Increment the year by one, wrapping from 12 to 1. */
-    void incrementMonth() {
-      mLocalDateTime.incrementMonth();
-    }
-
-    /** Increment the day by one, wrapping from 31 to 1. */
-    void incrementDay() {
-      mLocalDateTime.incrementDay();
-    }
-
-    /** Increment the hour by one, wrapping from 23 to 0. */
-    void incrementHour() {
-      mLocalDateTime.incrementHour();
-    }
-
-    /** Increment the minute by one, wrapping from 59 to 0. */
-    void incrementMinute() {
-      mLocalDateTime.incrementMinute();
-    }
 
     /**
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
