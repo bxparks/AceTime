@@ -3,22 +3,21 @@
 void Controller::setup() {
   // Create the timezones
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-  mClockInfo0.timeZone = TimeZone::forUtcOffset(
-      UtcOffset::forHour(-8), false /*isDst*/, "PST", "PDT");
-  mClockInfo1.timeZone = TimeZone::forUtcOffset(
-      UtcOffset::forHour(-5), false /*isDst*/, "EST", "EDT");
-  mClockInfo2.timeZone = TimeZone::forUtcOffset(
-      UtcOffset::forHour(0), false /*isDst*/, "GMT", "BST");
+  mClockInfo0.zoneAgent = ManualZoneAgent(
+      UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
+  mClockInfo1.zoneAgent = ManualZoneAgent(
+      UtcOffset::forHour(-5), "EST", UtcOffset::forHour(1), "EDT");
+  mClockInfo2.zoneAgent = ManualZoneAgent(
+      UtcOffset::forHour(0), "GMT", UtcOffset::forHour(1), "BST");
 #else
-  mClockInfo0.zoneAgent = ZoneAgent(&zonedb::kZoneLos_Angeles);
-  mClockInfo0.timeZone = TimeZone::forZone(&mClockInfo0.zoneAgent);
-
-  mClockInfo1.zoneAgent = ZoneAgent(&zonedb::kZoneNew_York);
-  mClockInfo1.timeZone = TimeZone::forZone(&mClockInfo1.zoneAgent);
-
-  mClockInfo2.zoneAgent = ZoneAgent(&zonedb::kZoneLondon);
-  mClockInfo2.timeZone = TimeZone::forZone(&mClockInfo2.zoneAgent);
+  mClockInfo0.zoneAgent = AutoZoneAgent(&zonedb::kZoneLos_Angeles);
+  mClockInfo1.zoneAgent = AutoZoneAgent(&zonedb::kZoneNew_York);
+  mClockInfo2.zoneAgent = AutoZoneAgent(&zonedb::kZoneLondon);
 #endif
+
+  mClockInfo0.timeZone = TimeZone(&mClockInfo0.zoneAgent);
+  mClockInfo1.timeZone = TimeZone(&mClockInfo1.zoneAgent);
+  mClockInfo2.timeZone = TimeZone(&mClockInfo2.zoneAgent);
 
   // Name the 3 clocks using the airport codes.
   mClockInfo0.name = "SFO";

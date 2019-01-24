@@ -27,8 +27,14 @@ void setup() {
   Serial.print(F("sizeof(LocalTime): "));
   Serial.println(sizeof(LocalTime));
 
+  Serial.print(F("sizeof(LocalDateTime): "));
+  Serial.println(sizeof(LocalDateTime));
+
   Serial.print(F("sizeof(UtcOffset): "));
   Serial.println(sizeof(UtcOffset));
+
+  Serial.print(F("sizeof(OffsetDateTime): "));
+  Serial.println(sizeof(OffsetDateTime));
 
   Serial.print(F("sizeof(ZoneEra): "));
   Serial.println(sizeof(ZoneEra));
@@ -48,11 +54,14 @@ void setup() {
   Serial.print(F("sizeof(ZoneAgent): "));
   Serial.println(sizeof(ZoneAgent));
 
+  Serial.print(F("sizeof(AutoZoneAgent): "));
+  Serial.println(sizeof(AutoZoneAgent));
+
+  Serial.print(F("sizeof(ManualZoneAgent): "));
+  Serial.println(sizeof(ManualZoneAgent));
+
   Serial.print(F("sizeof(TimeZone): "));
   Serial.println(sizeof(TimeZone));
-
-  Serial.print(F("sizeof(OffsetDateTime): "));
-  Serial.println(sizeof(OffsetDateTime));
 
   Serial.print(F("sizeof(ZonedDateTime): "));
   Serial.println(sizeof(ZonedDateTime));

@@ -8,8 +8,59 @@ using namespace ace_time;
 using namespace ace_time::common;
 
 // --------------------------------------------------------------------------
-// DefaultZoneAgent
+// ManualZoneAgent
 // --------------------------------------------------------------------------
+
+test(ManualZoneAgent, accessors) {
+  ManualZoneAgent pstAgent(
+      UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
+
+  assertEqual(UtcOffset::forHour(-8).toMinutes(),
+      pstAgent.getUtcOffset(false).toMinutes());
+  assertEqual(UtcOffset::forHour(-7).toMinutes(),
+      pstAgent.getUtcOffset(true).toMinutes());
+
+  assertEqual("PST", pstAgent.getAbbrev(false));
+  assertEqual("PDT", pstAgent.getAbbrev(true));
+
+  assertEqual(UtcOffset::forHour(0).toMinutes(),
+      pstAgent.getDeltaOffset(false).toMinutes());
+  assertEqual(UtcOffset::forHour(1).toMinutes(),
+      pstAgent.getDeltaOffset(true).toMinutes());
+}
+
+test(ManualZoneAgent, operatorEqualEqual) {
+  ManualZoneAgent pstAgent(
+      UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
+
+  // Two time zones with same agent should be equal.
+  TimeZone a(&pstAgent);
+  TimeZone b(&pstAgent);
+  assertTrue(a == b);
+
+  // One of them goes to DST. Should be different.
+  b.isDst(true);
+  assertTrue(a != b);
+
+  // Should be different from EST.
+  ManualZoneAgent estAgent(
+      UtcOffset::forHour(-5), "EST", UtcOffset::forHour(1), "EDT");
+  TimeZone c(&estAgent);
+  assertTrue(a != c);
+
+  ManualZoneAgent pstAgent2(
+      UtcOffset::forHour(-8), "PPP", UtcOffset::forHour(1), "QQQ");
+  TimeZone d(&pstAgent2);
+  assertTrue(a != d);
+}
+
+test(ManualZoneAgent, copyConstructor) {
+  ManualZoneAgent agent(
+      UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
+  TimeZone a(&agent);
+  TimeZone b = a;
+  assertTrue(a == b);
+}
 
 // --------------------------------------------------------------------------
 // AutoZoneAgent
@@ -281,56 +332,10 @@ test(AutoZoneAgentTest, createAbbreviation) {
 // Default TimeZone
 // --------------------------------------------------------------------------
 
-test(TimeZoneTest, default) {
-  TimeZone a;
-  TimeZone b;
-
-  assertTrue(a == b);
-  assertFalse(a.isDst());
-  assertEqual(TimeZone::kTypeDefault, a.getType());
-}
-
-// --------------------------------------------------------------------------
-// Manual TimeZone
-// --------------------------------------------------------------------------
-
-test(TimeZoneTest_Manual, operatorEqualEqual) {
-  ManualZoneAgent pstAgent(
-      UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
-
-  // Two time zones with same agent should be equal.
-  TimeZone a(&pstAgent);
-  TimeZone b(&pstAgent);
-  assertTrue(a == b);
-
-  // One of them goes to DST. Should be different.
-  b.isDst(true);
-  assertTrue(a != b);
-
-  // Should be different from EST.
-  ManualZoneAgent estAgent(
-      UtcOffset::forHour(-5), "EST", UtcOffset::forHour(1), "EDT");
-  TimeZone c(&estAgent);
-  assertTrue(a != c);
-
-  ManualZoneAgent pstAgent2(
-      UtcOffset::forHour(-8), "PPP", UtcOffset::forHour(1), "QQQ");
-  TimeZone d(&pstAgent2);
-  assertTrue(a != d);
-}
-
-test(TimeZoneTest_Manual, copyConstructor) {
-  ManualZoneAgent agent(
-      UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
-  TimeZone a(&agent);
-  TimeZone b = a;
-  assertTrue(a == b);
-}
-
 test(TimeZoneTest_Manual, default) {
   TimeZone tz;
 
-  assertEqual(TimeZone::kTypeDefault, tz.getType());
+  assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(0, tz.getUtcOffset(0).toMinutes());
   assertEqual("UTC", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));
@@ -340,6 +345,10 @@ test(TimeZoneTest_Manual, default) {
   assertEqual("UTC", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));
 }
+
+// --------------------------------------------------------------------------
+// Manual TimeZone
+// --------------------------------------------------------------------------
 
 test(TimeZoneTest_Manual, forUtcOffset) {
   ManualZoneAgent agent(
@@ -379,7 +388,7 @@ test(TimeZoneTest_Auto, copyConstructor) {
 
 test(TimeZoneTest_Auto, default) {
   TimeZone tz;
-  assertEqual(TimeZone::kTypeDefault, tz.getType());
+  assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(0, tz.getUtcOffset(0).toMinutes());
   assertEqual("UTC", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));

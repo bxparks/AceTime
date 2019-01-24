@@ -245,8 +245,8 @@ static unsigned long runDateTimeForEpochSecondsLosAngeles(
     unsigned long tickMillis = millis();
     // ZonedDateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
-    ZoneAgent agent(&zonedb::kZoneLos_Angeles);
-    TimeZone tz = TimeZone::forZone(&agent);
+    AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
+    TimeZone tz(&agent);
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(tickMillis, tz);
     disableOptimization(dateTime);
     disableOptimization(tickMillis);
@@ -258,7 +258,7 @@ static unsigned long runDateTimeForEpochSecondsLosAngeles(
   return elapsedMillis;
 }
 
-static ZoneAgent agent(&zonedb::kZoneLos_Angeles);
+static AutoZoneAgent AGENT(&zonedb::kZoneLos_Angeles);
 
 // ZonedDateTime::forEpochSeconds(seconds, kZoneLos_Angeles) w/ cached TimeZone
 static unsigned long runDateTimeForEpochSecondsLosAngelesCached(
@@ -267,7 +267,7 @@ static unsigned long runDateTimeForEpochSecondsLosAngelesCached(
     unsigned long tickMillis = millis();
     // ZonedDateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
-    TimeZone tzLosAngeles = TimeZone::forZone(&agent);
+    TimeZone tzLosAngeles(&AGENT);
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
         tickMillis, tzLosAngeles);
     disableOptimization(dateTime);

@@ -16,33 +16,37 @@ class Controller {
         mSystemTimeKeeper(systemTimeKeeper) {}
 
     void setup() {
-      mZoneAgent = ZoneAgent(&zonedb::kZoneLos_Angeles);
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
 
       if (mIsStoredInfoValid) {
         if (mStoredInfo.timeZoneType == TimeZone::kTypeAuto) {
-          setTimeZone(TimeZone::forZone(&mZoneAgent));
+          setTimeZone(&zonedb::kZoneLos_Angeles);
         } else {
-          setTimeZone(TimeZone::forUtcOffset(
-              UtcOffset::forMinutes(mStoredInfo.offsetMinutes),
-              mStoredInfo.isDst));
+          setTimeZone(UtcOffset::forMinutes(mStoredInfo.offsetMinutes),
+              mStoredInfo.isDst);
         }
       } else {
-        setTimeZone(TimeZone::forZone(&mZoneAgent));
+        setTimeZone(&zonedb::kZoneLos_Angeles);
       }
 
       // TODO: Set the ssid and password to some initial blank state, so that
       // the user can be notified that they need to be provided.
     }
 
-    /** Set the time zone of the clock and preserve it. */
-    void setTimeZone(const TimeZone& timeZone) {
-      mTimeZone = timeZone;
+    /** Set the time zone using the given offset. */
+    void setTimeZone(UtcOffset utcOffset, bool isDst) {
+      mManualZoneAgent = ManualZoneAgent(utcOffset);
+      mTimeZone = TimeZone(&mManualZoneAgent);
+      mTimeZone.isDst(isDst);
       preserveInfo();
     }
 
-    /** Return the Zone agent. */
-    ZoneAgent* getZoneAgent() { return &mZoneAgent; }
+    /** Set the time zone using the given Zone Info. */
+    void setTimeZone(const common::ZoneInfo* zoneInfo) {
+      mAutoZoneAgent = AutoZoneAgent(zoneInfo);
+      mTimeZone = TimeZone(&mAutoZoneAgent);
+      preserveInfo();
+    }
 
     /** Return the current time zone. */
     const TimeZone& getTimeZone() const { return mTimeZone; }
@@ -113,7 +117,7 @@ class Controller {
     uint16_t preserveInfo() {
       mIsStoredInfoValid = true;
       mStoredInfo.timeZoneType = mTimeZone.getType();
-      mStoredInfo.offsetMinutes = mTimeZone.utcOffset().toMinutes();
+      mStoredInfo.offsetMinutes = mManualZoneAgent.stdOffset().toMinutes();
       mStoredInfo.isDst = mTimeZone.isDst();
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
@@ -122,7 +126,8 @@ class Controller {
     TimeKeeper& mSystemTimeKeeper;
     ZonedDateTime mChangingDateTime;
     TimeZone mTimeZone;
-    ZoneAgent mZoneAgent;
+    AutoZoneAgent mAutoZoneAgent;
+    ManualZoneAgent mManualZoneAgent;
 
     StoredInfo mStoredInfo;
     bool mIsStoredInfoValid = false;

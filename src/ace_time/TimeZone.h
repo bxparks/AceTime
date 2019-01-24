@@ -14,13 +14,12 @@ namespace ace_time {
 /**
  * Class that describes a time zone. There are 2 types:
  *
- *    - kTypeManual represents an offset from UTC with a
- *    DST flag, both of which can be adjusted by the user. This type is
- *    mutable.
+ *    - kTypeManual represents an offset from UTC with a DST flag, both of
+ *    which can be adjusted by the user. This type is mutable.
  *
- *    - kTypeAuto represents a time zone described by the
- *    TZ Database which contains rules about when the transition occurs from
- *    standard to DST modes. This type is immutable.
+ *    - kTypeAuto represents a time zone described by the TZ Database which
+ *    contains rules about when the transition occurs from standard to DST
+ *    modes. This type is immutable.
  *
  * This class should be treated as a value type and passed around by value or
  * by const reference. If the user wants to change the offset and DST of a
@@ -41,12 +40,11 @@ namespace ace_time {
  */
 class TimeZone {
   public:
-    static const uint8_t kTypeDefault = ZoneAgent::kTypeDefault;
     static const uint8_t kTypeManual = ZoneAgent::kTypeManual;
     static const uint8_t kTypeAuto = ZoneAgent::kTypeAuto;
 
     /** Constructor. */
-    explicit TimeZone(ZoneAgent* zoneAgent = &ZoneAgent::sDefaultZoneAgent):
+    explicit TimeZone(ZoneAgent* zoneAgent = &ManualZoneAgent::sUtcZoneAgent):
         mZoneAgent(zoneAgent) {}
 
     /** Return the type of TimeZone. */
@@ -57,26 +55,26 @@ class TimeZone {
     /** Return the effective zone offset. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) const {
       if (getType() == kTypeAuto) {
-        return mZoneAgent->getUtcOffset(epochSeconds);
+        return ((AutoZoneAgent*)mZoneAgent)->getUtcOffset(epochSeconds);
       } else {
-        return mZoneAgent->getUtcOffset(mIsDst);
+        return ((ManualZoneAgent*)mZoneAgent)->getUtcOffset(mIsDst);
       }
     }
 
     /** Return true if the time zone observes DST at epochSeconds. */
     bool getDst(acetime_t epochSeconds) const {
       UtcOffset offset = (getType() == kTypeAuto)
-        ? mZoneAgent->getDeltaOffset(epochSeconds)
-        : mZoneAgent->getDeltaOffset(mIsDst);
+        ? ((AutoZoneAgent*)mZoneAgent)->getDeltaOffset(epochSeconds)
+        : ((ManualZoneAgent*)mZoneAgent)->getDeltaOffset(mIsDst);
       return offset.isDst();
     }
 
     /** Return the abbreviation of the time zone. */
     const char* getAbbrev(acetime_t epochSeconds) const {
       if (getType() == kTypeAuto) {
-        return mZoneAgent->getAbbrev(epochSeconds);
+        return ((AutoZoneAgent*)mZoneAgent)->getAbbrev(epochSeconds);
       } else {
-        return mZoneAgent->getAbbrev(mIsDst);
+        return ((ManualZoneAgent*)mZoneAgent)->getAbbrev(mIsDst);
       }
     }
 
@@ -109,20 +107,18 @@ class TimeZone {
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
   if (a.getType() != b.getType()) return false;
 
-  if (a.getType() == TimeZone::kTypeDefault) {
-    return true;
-  } else if (a.getType() == TimeZone::kTypeAuto) {
-    AutoZoneAgent* aAgent = static_cast<AutoZoneAgent*>(a.mZoneAgent);
-    AutoZoneAgent* bAgent = static_cast<AutoZoneAgent*>(b.mZoneAgent);
-    return aAgent->getZoneInfo() == bAgent->getZoneInfo();
+  if (a.getType() == TimeZone::kTypeAuto) {
+    AutoZoneAgent* aa = static_cast<AutoZoneAgent*>(a.mZoneAgent);
+    AutoZoneAgent* bb = static_cast<AutoZoneAgent*>(b.mZoneAgent);
+    return aa->getZoneInfo() == bb->getZoneInfo();
   } else {
-    ManualZoneAgent* aAgent = static_cast<ManualZoneAgent*>(a.mZoneAgent);
-    ManualZoneAgent* bAgent = static_cast<ManualZoneAgent*>(b.mZoneAgent);
+    ManualZoneAgent* aa = static_cast<ManualZoneAgent*>(a.mZoneAgent);
+    ManualZoneAgent* bb = static_cast<ManualZoneAgent*>(b.mZoneAgent);
     return a.mIsDst == b.mIsDst
-        && aAgent->stdOffset() == bAgent->stdOffset()
-        && aAgent->deltaOffset() == bAgent->deltaOffset()
-        && aAgent->stdAbbrev() == bAgent->stdAbbrev()
-        && aAgent->dstAbbrev() == bAgent->dstAbbrev();
+        && aa->stdOffset() == bb->stdOffset()
+        && aa->deltaOffset() == bb->deltaOffset()
+        && aa->stdAbbrev() == bb->stdAbbrev()
+        && aa->dstAbbrev() == bb->dstAbbrev();
   }
 }
 

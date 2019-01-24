@@ -43,12 +43,15 @@ class Clock {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
       if (isValid) {
-        mCurrentTimeZone = TimeZone::forUtcOffset(
-            UtcOffset::forMinutes(storedInfo.offsetMinutes), storedInfo.isDst);
+        mCurrentZoneAgent = ManualZoneAgent(
+            UtcOffset::forMinutes(storedInfo.offsetMinutes));
+        mCurrentTimeZone = TimeZone(&mCurrentZoneAgent);
+        mCurrentTimeZone.isDst(storedInfo.isDst);
         mHourMode = storedInfo.hourMode;
       } else {
-        mCurrentTimeZone = TimeZone::forUtcOffset(
+        mCurrentZoneAgent = ManualZoneAgent(
             UtcOffset::forMinutes(kDefaultOffsetMinutes));
+        mCurrentTimeZone = TimeZone(&mCurrentZoneAgent);
         mHourMode = StoredInfo::kTwentyFour;
       }
 
@@ -169,7 +172,7 @@ class Clock {
     void preserveInfo() {
       StoredInfo storedInfo;
       storedInfo.timeZoneType = mCurrentTimeZone.getType();
-      storedInfo.offsetMinutes = mCurrentTimeZone.utcOffset().toMinutes();
+      storedInfo.offsetMinutes = mCurrentZoneAgent.stdOffset().toMinutes();
       storedInfo.isDst = mCurrentTimeZone.isDst();
       storedInfo.hourMode = mHourMode;
 
@@ -183,8 +186,10 @@ class Clock {
     Presenter& mPresenter;
 
     uint8_t mMode = MODE_UNKNOWN; // current mode
+    ManualZoneAgent mCurrentZoneAgent;
     TimeZone mCurrentTimeZone; // current time zone of clock
     ZonedDateTime mCurrentDateTime; // DateTime from the TimeKeeper
+    ManualZoneAgent mChangingZoneAgent;;
     TimeZone mChangingTimeZone; // time zone set by user in "Change" modes
     ZonedDateTime mChangingDateTime; // DateTime set by user in "Change" modes
     bool mSecondFieldCleared;

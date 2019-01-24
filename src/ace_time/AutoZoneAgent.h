@@ -97,20 +97,23 @@ class AutoZoneAgent: public ZoneAgent {
 
     uint8_t getType() const override { return kTypeAuto; }
 
-    UtcOffset getDeltaOffset(acetime_t epochSeconds) override {
+    /** Return the UTC offset at epochSeconds. */
+    UtcOffset getUtcOffset(acetime_t epochSeconds) {
+      if (mZoneInfo == nullptr) return UtcOffset();
+      const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
+      return UtcOffset::forOffsetCode(zoneMatch->offsetCode);
+    }
+
+    /** Return the DST delta offset at epochSeconds. */
+    UtcOffset getDeltaOffset(acetime_t epochSeconds) {
       if (mZoneInfo == nullptr) return UtcOffset();
       const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       if (zoneMatch->rule == nullptr) return UtcOffset();
       return UtcOffset::forOffsetCode(zoneMatch->rule->deltaCode);
     }
 
-    UtcOffset getUtcOffset(acetime_t epochSeconds) override {
-      if (mZoneInfo == nullptr) return UtcOffset();
-      const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
-      return UtcOffset::forOffsetCode(zoneMatch->offsetCode);
-    }
-
-    const char* getAbbrev(acetime_t epochSeconds) override {
+    /** Return the time zone abbreviation. */
+    const char* getAbbrev(acetime_t epochSeconds) {
       if (mZoneInfo == nullptr) return "UTC";
       const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return zoneMatch->abbrev;
