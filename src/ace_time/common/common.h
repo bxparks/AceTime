@@ -1,6 +1,8 @@
 #ifndef ACE_TIME_COMMON_COMMON_H
 #define ACE_TIME_COMMON_COMMON_H
 
+#include <stdint.h>
+
 namespace ace_time {
 
 /**

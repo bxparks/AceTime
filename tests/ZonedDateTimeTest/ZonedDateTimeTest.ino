@@ -46,8 +46,8 @@ test(ZonedDateTimeTest, forComponents) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2018-01-01 00:00:00+00:15 Monday
-  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0,
-      TimeZone::forUtcOffset(UtcOffset::forMinutes(15)));
+  ManualZoneAgent agent(UtcOffset::forMinutes(15));
+  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeZone(&agent));
   assertEqual((acetime_t) 6574, dt.toEpochDays());
   assertEqual((acetime_t) 17531, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400 - 15*60, dt.toEpochSeconds());
@@ -93,6 +93,7 @@ test(ZonedDateTimeTest, toAndForUnixSeconds) {
   udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds());
   assertTrue(dt == udt);
 
+
   // 2018-01-01 00:00:00Z
   dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0);
   assertEqual((acetime_t) 1514764800, dt.toUnixSeconds());
@@ -100,7 +101,8 @@ test(ZonedDateTimeTest, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 
   // 2018-08-30T06:45:01-07:00
-  TimeZone tz = TimeZone::forUtcOffset(UtcOffset::forHour(-7));
+  ManualZoneAgent agent(UtcOffset::forHour(-7));
+  TimeZone tz(&agent);
   dt = ZonedDateTime::forComponents(2018, 8, 30, 6, 45, 1, tz);
   assertEqual((acetime_t) 1535636701, dt.toUnixSeconds());
   udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), tz);
@@ -114,19 +116,19 @@ test(ZonedDateTimeTest, toAndForUnixSeconds) {
 }
 
 test(ZonedDateTimeTest, TimeZone_Manual) {
-  TimeZone tz = TimeZone::forUtcOffset(UtcOffset::forHour(-8));
+  ManualZoneAgent agent(UtcOffset::forHour(-8));
+  TimeZone tz(&agent);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
-  UtcOffset pst = UtcOffset::forHour(-8);
   OffsetDateTime otz = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      pst);
+      UtcOffset::forHour(-8));
 
   assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
 }
 
 test(ZonedDateTimeTest, forComponents_beforeDst) {
-  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz = TimeZone::forZone(&agent);
+  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&agent);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
   UtcOffset pst = UtcOffset::forHour(-8);
@@ -137,8 +139,8 @@ test(ZonedDateTimeTest, forComponents_beforeDst) {
 }
 
 test(ZonedDateTimeTest, forComponents_inDstGap) {
-  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz = TimeZone::forZone(&agent);
+  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&agent);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 0, 1, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
@@ -148,8 +150,8 @@ test(ZonedDateTimeTest, forComponents_inDstGap) {
 }
 
 test(ZonedDateTimeTest, forComponents_inDst) {
-  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz = TimeZone::forZone(&agent);
+  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&agent);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 0, 1, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
@@ -159,8 +161,8 @@ test(ZonedDateTimeTest, forComponents_inDst) {
 }
 
 test(ZonedDateTimeTest, forComponents_beforeStd) {
-  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz = TimeZone::forZone(&agent);
+  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&agent);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 59, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
@@ -171,8 +173,8 @@ test(ZonedDateTimeTest, forComponents_beforeStd) {
 }
 
 test(ZonedDateTimeTest, forComponents_inOverlap) {
-  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz = TimeZone::forZone(&agent);
+  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&agent);
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2018, 11, 4, 1, 0, 1, tz); // ambiguous
 
@@ -184,8 +186,8 @@ test(ZonedDateTimeTest, forComponents_inOverlap) {
 
 
 test(ZonedDateTimeTest, forComponents_afterOverlap) {
-  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz = TimeZone::forZone(&agent);
+  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&agent);
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2018, 11, 4, 2, 0, 1, tz); // ambiguous
 
@@ -203,7 +205,7 @@ test(ZonedDateTimeTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().utcOffset().toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
   DateTimeMutator(dt).incrementYear();
   assertEqual((int16_t) 2002, dt.year());
@@ -212,7 +214,7 @@ test(ZonedDateTimeTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().utcOffset().toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
   DateTimeMutator(dt).incrementMonth();
   assertEqual((int16_t) 2002, dt.year());
@@ -221,7 +223,7 @@ test(ZonedDateTimeTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().utcOffset().toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
   DateTimeMutator(dt).incrementDay();
   assertEqual((int16_t) 2002, dt.year());
@@ -230,7 +232,7 @@ test(ZonedDateTimeTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().utcOffset().toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
   DateTimeMutator(dt).incrementHour();
   assertEqual((int16_t) 2002, dt.year());
@@ -239,7 +241,7 @@ test(ZonedDateTimeTest, increment) {
   assertEqual(5, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().utcOffset().toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
   DateTimeMutator(dt).incrementMinute();
   assertEqual((int16_t) 2002, dt.year());
@@ -248,7 +250,7 @@ test(ZonedDateTimeTest, increment) {
   assertEqual(5, dt.hour());
   assertEqual(6, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().utcOffset().toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 }
 
 // --------------------------------------------------------------------------

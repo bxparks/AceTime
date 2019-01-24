@@ -75,6 +75,18 @@ class UtcOffset {
     /** Constructor. Create a time zone corresponding to UTC with no offset. */
     explicit UtcOffset() {}
 
+    /**
+     * Return the UTC offset as the number of 15 minute increments, excluding
+     * DST shift.
+     */
+    int8_t code() const { return mOffsetCode; }
+
+    /** Returns true if offset is not 0. */
+    bool isDst() const { return mOffsetCode != 0; }
+
+    /** Set the offset code. */
+    void code(int8_t offsetCode) { mOffsetCode = offsetCode; }
+
     /** Return the number of minutes offset from UTC. */
     int16_t toMinutes() const {
       return (int16_t) 15 * mOffsetCode;
@@ -122,7 +134,8 @@ class UtcOffset {
     void printTo(Print& printer) const;
 
   private:
-		friend class ZoneAgent;
+		friend class AutoZoneAgent;
+		friend class ManualZoneAgent;
 		friend class TimeZone;
     friend class UtcOffsetMutator;
     friend bool operator==(const UtcOffset& a, const UtcOffset& b);
@@ -148,15 +161,6 @@ class UtcOffset {
 
     /** Set time zone from the given UTC offset string. */
     UtcOffset& initFromOffsetString(const char* offsetString);
-
-    /**
-     * Return the UTC offset as the number of 15 minute increments, excluding
-     * DST shift.
-     */
-    int8_t code() const { return mOffsetCode; }
-
-    /** Set the offset code. */
-    void code(int8_t offsetCode) { mOffsetCode = offsetCode; }
 
     /**
      * Time zone code, offset from UTC in 15 minute increments from UTC. In

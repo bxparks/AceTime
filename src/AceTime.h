@@ -18,6 +18,8 @@
 #include "ace_time/UtcOffsetMutator.h"
 #include "ace_time/OffsetDateTime.h"
 #include "ace_time/ZoneAgent.h"
+#include "ace_time/ManualZoneAgent.h"
+#include "ace_time/AutoZoneAgent.h"
 #include "ace_time/TimeZone.h"
 #include "ace_time/ZonedDateTime.h"
 #include "ace_time/DateTimeMutator.h"

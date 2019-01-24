@@ -102,6 +102,15 @@ test(TimePeriodTest, negate) {
 // UtcOffset
 // --------------------------------------------------------------------------
 
+test(UtcOffsetTest, code) {
+  assertEqual(UtcOffset::forHour(-8).code(), -8*4);
+}
+
+test(UtcOffsetTest, isDst) {
+  assertFalse(UtcOffset::forHour(0).isDst());
+  assertFalse(UtcOffset().isDst());
+}
+
 test(UtcOffsetTest, forMinutes) {
   UtcOffset offset = UtcOffset::forMinutes(-15);
   assertEqual((int16_t) -15, offset.toMinutes());
