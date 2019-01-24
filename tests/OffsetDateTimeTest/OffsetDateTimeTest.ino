@@ -293,32 +293,6 @@ test(OffsetDateTimeTest, dayOfWeek) {
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 }
 
-test(OffsetDateTimeTest, forDateString_errors) {
-  // empty string, too short
-  OffsetDateTime dt = OffsetDateTime::forDateString("");
-  assertTrue(dt.isError());
-
-  // not enough components
-  dt = OffsetDateTime::forDateString(F("2018-08-31"));
-  assertTrue(dt.isError());
-
-  // too long
-  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01-07:00X"));
-  assertTrue(dt.isError());
-
-  // too short
-  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01-07:0"));
-  assertTrue(dt.isError());
-
-  // missing UTC
-  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01"));
-  assertTrue(dt.isError());
-
-  // parser cares about UTC+/- offset
-  dt = OffsetDateTime::forDateString(F("2018-08-31 13:48:01&07:00"));
-  assertTrue(dt.isError());
-}
-
 test(OffsetDateTimeTest, forDateString) {
   // exact ISO8601 format
   OffsetDateTime dt = OffsetDateTime::forDateString(
@@ -348,60 +322,30 @@ test(OffsetDateTimeTest, forDateString) {
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 }
 
-test(OffsetDateTimeTest, increment) {
-  OffsetDateTime dt = OffsetDateTime::forComponents(2001, 2, 3, 4, 5, 6);
-  assertEqual((int16_t) 2001, dt.year());
-  assertEqual(2, dt.month());
-  assertEqual(3, dt.day());
-  assertEqual(4, dt.hour());
-  assertEqual(5, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
+test(OffsetDateTimeTest, forDateString_errors) {
+  // empty string, too short
+  OffsetDateTime dt = OffsetDateTime::forDateString("");
+  assertTrue(dt.isError());
 
-  dt.incrementYear();
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(2, dt.month());
-  assertEqual(3, dt.day());
-  assertEqual(4, dt.hour());
-  assertEqual(5, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
+  // not enough components
+  dt = OffsetDateTime::forDateString(F("2018-08-31"));
+  assertTrue(dt.isError());
 
-  dt.incrementMonth();
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(3, dt.month());
-  assertEqual(3, dt.day());
-  assertEqual(4, dt.hour());
-  assertEqual(5, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
+  // too long
+  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01-07:00X"));
+  assertTrue(dt.isError());
 
-  dt.incrementDay();
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(3, dt.month());
-  assertEqual(4, dt.day());
-  assertEqual(4, dt.hour());
-  assertEqual(5, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
+  // too short
+  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01-07:0"));
+  assertTrue(dt.isError());
 
-  dt.incrementHour();
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(3, dt.month());
-  assertEqual(4, dt.day());
-  assertEqual(5, dt.hour());
-  assertEqual(5, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
+  // missing UTC
+  dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01"));
+  assertTrue(dt.isError());
 
-  dt.incrementMinute();
-  assertEqual((int16_t) 2002, dt.year());
-  assertEqual(3, dt.month());
-  assertEqual(4, dt.day());
-  assertEqual(5, dt.hour());
-  assertEqual(6, dt.minute());
-  assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
+  // parser cares about UTC+/- offset
+  dt = OffsetDateTime::forDateString(F("2018-08-31 13:48:01&07:00"));
+  assertTrue(dt.isError());
 }
 
 // --------------------------------------------------------------------------

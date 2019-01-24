@@ -166,15 +166,15 @@ class IncrementCommand: public CommandHandler {
       SHIFT;
       ZonedDateTime& dt = controller.getChangingDateTime();
       if (strcmp(argv[0], "year") == 0) {
-        dt.incrementYear();
+        DateTimeMutator(dt).incrementYear();
       } else if (strcmp(argv[0], "month") == 0) {
-        dt.incrementMonth();
+        DateTimeMutator(dt).incrementMonth();
       } else if (strcmp(argv[0], "day") == 0) {
-        dt.incrementDay();
+        DateTimeMutator(dt).incrementDay();
       } else if (strcmp(argv[0], "hour") == 0) {
-        dt.incrementHour();
+        DateTimeMutator(dt).incrementHour();
       } else if (strcmp(argv[0], "minute") == 0) {
-        dt.incrementMinute();
+        DateTimeMutator(dt).incrementMinute();
       } else {
         printer.println(FF("Ivalid 'inc' argument"));
         return;

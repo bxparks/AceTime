@@ -1,0 +1,283 @@
+#ifndef ACE_TIME_LOCAL_DATE_TIME_H
+#define ACE_TIME_LOCAL_DATE_TIME_H
+
+#include <stdint.h>
+#include "LocalDate.h"
+#include "LocalTime.h"
+
+class Print;
+class __FlashStringHelper;
+
+namespace ace_time {
+
+class LocalDateTime {
+  public:
+    /**
+     * Factory method using separated date, time.
+     *
+     * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
+     *    16-bit implementation
+     * @param month month with January=1, December=12
+     * @param day day of month (1-31)
+     * @param hour hour (0-23)
+     * @param minute minute (0-59)
+     * @param second second (0-59), does not support leap seconds
+     */
+    static LocalDateTime forComponents(int16_t year, uint8_t month,
+        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second) {
+      return LocalDateTime(year, month, day, hour, minute, second);
+    }
+
+    /**
+     * Factory method. Create the various components of the LocalDateTime from
+     * the epochSeconds.
+     *
+     * @param epochSeconds Number of seconds from AceTime epoch
+     *    (2000-01-01 00:00:00). Use LocalDate::kInvalidEpochSeconds to define
+     *    an invalid instance whose isError() returns true.
+     */
+    static LocalDateTime forEpochSeconds(acetime_t epochSeconds) {
+      LocalDateTime dt;
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return dt.setError();
+
+      // Integer floor-division towards -infinity
+      acetime_t days = (epochSeconds < 0)
+          ? (epochSeconds + 1) / 86400 - 1
+          : epochSeconds / 86400;
+
+      // Avoid % operator, because it's slow on an 8-bit process and because
+      // epochSeconds could be negative.
+      acetime_t seconds = epochSeconds - 86400 * days;
+
+      dt.mLocalDate = LocalDate::forEpochDays(days);
+      dt.mLocalTime = LocalTime::forSeconds(seconds);
+
+      return dt;
+    }
+
+    /**
+     * Factory method that takes the number of seconds since Unix Epoch of
+     * 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
+     * the partial day are truncated down towards the smallest whole day.
+     */
+    static LocalDateTime forUnixSeconds(acetime_t unixSeconds) {
+      if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
+        return forEpochSeconds(unixSeconds);
+      } else {
+        return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch);
+      }
+    }
+
+    /**
+     * Factory method. Create a LocalDateTime from the ISO 8601 date string. If
+     * the string cannot be parsed, then isError() on the constructed object
+     * returns true.
+     *
+     * The dateString is expected to be in ISO 8601 format
+     * "YYYY-MM-DDThh:mm:ss", but currently, the parser is very lenient.
+     * It cares mostly about the positional placement of the various
+     * components. It does not validate the separation characters like '-' or
+     * ':'. For example, both of the following will parse to the exactly same
+     * LocalDateTime object: "2018-08-31T13:48:01-07:00" "2018/08/31
+     * 13#48#01-07#00"
+     *
+     * The parsing validation is so weak that the behavior is undefined for
+     * most invalid date/time strings. The range of valid dates is roughly from
+     * 1872-01-01T00:00:00 to 2127-12-31T23:59:59.
+     */
+    static LocalDateTime forDateString(const char* dateString) {
+      return LocalDateTime().initFromDateString(dateString);
+    }
+
+    /**
+     * Factory method. Create a LocalDateTime from date string in flash memory
+     * F() strings. Mostly for unit testing.
+     */
+    static LocalDateTime forDateString(const __FlashStringHelper* dateString) {
+      // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
+      // ESP8266 do not have strlcpy_P().
+      char buffer[kDateTimeStringLength + 2];
+      strncpy_P(buffer, (const char*) dateString, sizeof(buffer));
+      buffer[kDateTimeStringLength + 1] = 0;
+
+      // check if the original F() was too long
+      size_t len = strlen(buffer);
+      if (len > kDateTimeStringLength) {
+        return LocalDateTime().setError();
+      }
+
+      return forDateString(buffer);
+    }
+
+    /** Constructor. All internal fields are left in an undefined state. */
+    explicit LocalDateTime() {}
+
+    /** Return true if any component indicates an error condition. */
+    bool isError() const {
+      return mLocalDate.isError() || mLocalTime.isError();
+    }
+
+    /** Return the year. */
+    int16_t year() const { return mLocalDate.year(); }
+
+    /** Set the year. */
+    void year(int16_t year) { mLocalDate.year(year); }
+
+    /** Return the single-byte year offset from year 2000. */
+    int8_t yearTiny() const { return mLocalDate.yearTiny(); }
+
+    /** Set the single-byte year offset from year 2000. */
+    void yearTiny(int8_t yearTiny) { mLocalDate.yearTiny(yearTiny); }
+
+    /** Return the month with January=1, December=12. */
+    uint8_t month() const { return mLocalDate.month(); }
+
+    /** Set the month. */
+    void month(uint8_t month) { mLocalDate.month(month); }
+
+    /** Return the day of the month. */
+    uint8_t day() const { return mLocalDate.day(); }
+
+    /** Set the day of the month. */
+    void day(uint8_t day) { mLocalDate.day(day); }
+
+    /** Return the hour. */
+    uint8_t hour() const { return mLocalTime.hour(); }
+
+    /** Set the hour. */
+    void hour(uint8_t hour) { mLocalTime.hour(hour); }
+
+    /** Return the minute. */
+    uint8_t minute() const { return mLocalTime.minute(); }
+
+    /** Set the minute. */
+    void minute(uint8_t minute) { mLocalTime.minute(minute); }
+
+    /** Return the second. */
+    uint8_t second() const { return mLocalTime.second(); }
+
+    /** Set the second. */
+    void second(uint8_t second) { mLocalTime.second(second); }
+
+    /** Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). */
+    uint8_t dayOfWeek() const { return mLocalDate.dayOfWeek(); }
+
+    /** Return the LocalDate. */
+    const LocalDate& localDate() const { return mLocalDate; }
+
+    /** Return the LocalTime. */
+    const LocalTime& localTime() const { return mLocalTime; }
+
+    /**
+     * Print LocalDateTime to 'printer' in ISO 8601 format. Does not implement
+     * Printable to avoid memory cost of a vtable pointer.
+     */
+    void printTo(Print& printer) const;
+
+    /**
+     * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z).
+     */
+    acetime_t toEpochDays() const {
+      if (isError()) return LocalDate::kInvalidEpochDays;
+      return mLocalDate.toEpochDays();
+    }
+
+    /** Return the number of days since Unix epoch (1970-01-01 00:00:00). */
+    acetime_t toUnixDays() const {
+      if (isError()) return LocalDate::kInvalidEpochDays;
+      return toEpochDays() + LocalDate::kDaysSinceUnixEpoch;
+    }
+
+    /**
+     * Return seconds since AceTime epoch (2000-01-01 00:00:00Z).
+     */
+    acetime_t toEpochSeconds() const {
+      if (isError()) return LocalDate::kInvalidEpochSeconds;
+
+      acetime_t days = mLocalDate.toEpochDays();
+      acetime_t seconds = mLocalTime.toSeconds();
+      return days * 86400 + seconds;
+    }
+
+    /**
+     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z.
+     * It returns kInvalidEpochSeconds if isError() is true.
+     *
+     * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
+     * print the unix seconds.
+     */
+    acetime_t toUnixSeconds() const {
+      if (isError()) return LocalDate::kInvalidEpochSeconds;
+      return toEpochSeconds() + LocalDate::kSecondsSinceUnixEpoch;
+    }
+
+    /**
+     * Compare this LocalDateTime with another LocalDateTime, and return (<0,
+     * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b).
+     */
+    int8_t compareTo(const LocalDateTime& that) const {
+      acetime_t thisSeconds = toEpochSeconds();
+      acetime_t thatSeconds = that.toEpochSeconds();
+      if (thisSeconds < thatSeconds) return -1;
+      if (thisSeconds > thatSeconds) return 1;
+      return 0;
+    }
+
+    /**
+     * Mark the LocalDateTime so that isError() returns true. Returns a
+     * reference to (*this) so that an invalid LocalDateTime can be returned in
+     * a single statement like this: 'return LocalDateTime().setError()'.
+     */
+    LocalDateTime& setError() {
+      mLocalDate.setError();
+      mLocalTime.setError();
+      return *this;
+    }
+
+  private:
+    friend class OffsetDateTime;
+    friend bool operator==(const LocalDateTime& a, const LocalDateTime& b);
+
+    /** Expected length of an ISO 8601 date string. */
+    static const uint8_t kDateTimeStringLength = 19;
+
+    /**
+     * Constructor using separated date, time, and time zone fields.
+     *
+     * @param year
+     * @param month month with January=1, December=12
+     * @param day day of month (1-31)
+     * @param hour hour (0-23)
+     * @param minute minute (0-59)
+     * @param second second (0-59), does not support leap seconds
+     */
+    explicit LocalDateTime(int16_t year, uint8_t month, uint8_t day,
+            uint8_t hour, uint8_t minute, uint8_t second):
+        mLocalDate(year, month, day),
+        mLocalTime(hour, minute, second) {}
+
+    /** Extract the date time components from the given dateString. */
+    LocalDateTime& initFromDateString(const char* dateString);
+
+    LocalDate mLocalDate;
+    LocalTime mLocalTime;
+};
+
+/**
+ * Return true if two LocalDateTime objects are equal in all components.
+ * Optimized for small changes in the less signficant fields, such as 'second'
+ * or 'minute'.
+ */
+inline bool operator==(const LocalDateTime& a, const LocalDateTime& b) {
+  return a.mLocalDate == b.mLocalDate
+      && a.mLocalTime == b.mLocalTime;
+}
+
+/** Return true if two LocalDateTime objects are not equal. */
+inline bool operator!=(const LocalDateTime& a, const LocalDateTime& b) {
+  return ! (a == b);
+}
+
+}
+
+#endif

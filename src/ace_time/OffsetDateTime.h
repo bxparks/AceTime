@@ -3,8 +3,7 @@
 
 #include <stdint.h>
 #include "UtcOffset.h"
-#include "LocalDate.h"
-#include "LocalTime.h"
+#include "LocalDateTime.h"
 
 class Print;
 
@@ -24,11 +23,6 @@ namespace ace_time {
  * epoch. The largest possible int32_t value is INT32_MAX, but this value is
  * used by kInvalidEpochSeconds to indicate an invalid value.
  *
- * The incrementXxx() methods are convenience methods to allow the user to
- * change the date and time using just two buttons. The user is expected to
- * select a specific OffsetDateTime component using one of the buttons, then
- * press the other button to increment it.
- *
  * Parts of this class were inspired by the java.time.OffsetDateTime class of
  * Java 8
  * (https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html).
@@ -36,7 +30,7 @@ namespace ace_time {
 class OffsetDateTime {
   public:
     /**
-     * Factory method using separated date, time, and time zone fields.
+     * Factory method using separated date, time, and UTC offset fields.
      *
      * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
      *    16-bit implementation
@@ -45,10 +39,10 @@ class OffsetDateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param utcOffset Optional, default is UTC time zone. The time zone
-     * offset in 15-minute increments from UTC. Using a UtcOffset object here
-     * in the last component allows us to add an additional constructor that
-     * accepts a millisecond component in the future.
+     * @param utcOffset Optional. Default UTC time zone. Using the UtcOffset
+     * object in the last component allows us to add an additional constructor
+     * that accepts a millisecond component in the future. It also hides the
+     * internal implementation details of UtcOffset.
      */
     static OffsetDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
@@ -61,11 +55,9 @@ class OffsetDateTime {
      * the epochSeconds and its UtcOffset.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00). Use kInvalidEpochSeconds to define an
-     *    invalid instance whose isError() returns true.
+     *    (2000-01-01 00:00:00). Use LocalDate::kInvalidEpochSeconds to define
+     *    an invalid instance whose isError() returns true.
      * @param utcOffset Optional. Default is UTC time zone.
-     *
-     * See https://en.wikipedia.org/wiki/Julian_day.
      */
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
           UtcOffset utcOffset = UtcOffset()) {
@@ -76,18 +68,7 @@ class OffsetDateTime {
       dt.mUtcOffset = utcOffset;
       epochSeconds += utcOffset.toSeconds();
 
-      // Integer floor-division towards -infinity
-      acetime_t days = (epochSeconds < 0)
-          ? (epochSeconds + 1) / 86400 - 1
-          : epochSeconds / 86400;
-
-      // Avoid % operator, because it's slow on an 8-bit process and because
-      // epochSeconds could be negative.
-      acetime_t seconds = epochSeconds - 86400 * days;
-
-      dt.mLocalDate = LocalDate::forEpochDays(days);
-      dt.mLocalTime = LocalTime::forSeconds(seconds);
-
+      dt.mLocalDateTime = LocalDateTime::forEpochSeconds(epochSeconds);
       return dt;
     }
 
@@ -154,59 +135,59 @@ class OffsetDateTime {
 
     /** Return true if any component indicates an error condition. */
     bool isError() const {
-      return mLocalDate.isError() || mLocalTime.isError();
+      return mLocalDateTime.isError();
     }
 
     /** Return the year. */
-    int16_t year() const { return mLocalDate.year(); }
+    int16_t year() const { return mLocalDateTime.year(); }
 
     /** Set the year. */
-    void year(int16_t year) { mLocalDate.year(year); }
+    void year(int16_t year) { mLocalDateTime.year(year); }
 
     /** Return the single-byte year offset from year 2000. */
-    int8_t yearTiny() const { return mLocalDate.yearTiny(); }
+    int8_t yearTiny() const { return mLocalDateTime.yearTiny(); }
 
     /** Set the single-byte year offset from year 2000. */
-    void yearTiny(int8_t yearTiny) { mLocalDate.yearTiny(yearTiny); }
+    void yearTiny(int8_t yearTiny) { mLocalDateTime.yearTiny(yearTiny); }
 
     /** Return the month with January=1, December=12. */
-    uint8_t month() const { return mLocalDate.month(); }
+    uint8_t month() const { return mLocalDateTime.month(); }
 
     /** Set the month. */
-    void month(uint8_t month) { mLocalDate.month(month); }
+    void month(uint8_t month) { mLocalDateTime.month(month); }
 
     /** Return the day of the month. */
-    uint8_t day() const { return mLocalDate.day(); }
+    uint8_t day() const { return mLocalDateTime.day(); }
 
     /** Set the day of the month. */
-    void day(uint8_t day) { mLocalDate.day(day); }
+    void day(uint8_t day) { mLocalDateTime.day(day); }
 
     /** Return the hour. */
-    uint8_t hour() const { return mLocalTime.hour(); }
+    uint8_t hour() const { return mLocalDateTime.hour(); }
 
     /** Set the hour. */
-    void hour(uint8_t hour) { mLocalTime.hour(hour); }
+    void hour(uint8_t hour) { mLocalDateTime.hour(hour); }
 
     /** Return the minute. */
-    uint8_t minute() const { return mLocalTime.minute(); }
+    uint8_t minute() const { return mLocalDateTime.minute(); }
 
     /** Set the minute. */
-    void minute(uint8_t minute) { mLocalTime.minute(minute); }
+    void minute(uint8_t minute) { mLocalDateTime.minute(minute); }
 
     /** Return the second. */
-    uint8_t second() const { return mLocalTime.second(); }
+    uint8_t second() const { return mLocalDateTime.second(); }
 
     /** Set the second. */
-    void second(uint8_t second) { mLocalTime.second(second); }
+    void second(uint8_t second) { mLocalDateTime.second(second); }
 
     /** Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). */
-    uint8_t dayOfWeek() const { return mLocalDate.dayOfWeek(); }
+    uint8_t dayOfWeek() const { return mLocalDateTime.dayOfWeek(); }
 
     /** Return the LocalDate. */
-    const LocalDate& localDate() const { return mLocalDate; }
+    const LocalDate& localDate() const { return mLocalDateTime.localDate(); }
 
     /** Return the LocalTime. */
-    const LocalTime& localTime() const { return mLocalTime; }
+    const LocalTime& localTime() const { return mLocalDateTime.localTime(); }
 
     /** Return the offset zone of the OffsetDateTime. */
     const UtcOffset& utcOffset() const { return mUtcOffset; }
@@ -232,31 +213,6 @@ class OffsetDateTime {
      */
     void printTo(Print& printer) const;
 
-    /** Increment the year by one, wrapping from 99 to 0. */
-    void incrementYear() {
-      mLocalDate.incrementYear();
-    }
-
-    /** Increment the year by one, wrapping from 12 to 1. */
-    void incrementMonth() {
-      mLocalDate.incrementMonth();
-    }
-
-    /** Increment the day by one, wrapping from 31 to 1. */
-    void incrementDay() {
-      mLocalDate.incrementDay();
-    }
-
-    /** Increment the hour by one, wrapping from 23 to 0. */
-    void incrementHour() {
-      mLocalTime.incrementHour();
-    }
-
-    /** Increment the minute by one, wrapping from 59 to 0. */
-    void incrementMinute() {
-      mLocalTime.incrementMinute();
-    }
-
     /**
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
      * taking into account the offset zone.
@@ -264,10 +220,11 @@ class OffsetDateTime {
     acetime_t toEpochDays() const {
       if (isError()) return LocalDate::kInvalidEpochDays;
 
-      acetime_t epochDays = mLocalDate.toEpochDays();
+      acetime_t epochDays = mLocalDateTime.localDate().toEpochDays();
 
       // Increment or decrement the day count depending on the offset zone.
-      acetime_t utcOffset = mLocalTime.toSeconds() - mUtcOffset.toSeconds();
+      acetime_t utcOffset = mLocalDateTime.localTime().toSeconds()
+          - mUtcOffset.toSeconds();
       if (utcOffset >= 86400) return epochDays + 1;
       if (utcOffset < 0) return epochDays - 1;
       return epochDays;
@@ -285,10 +242,7 @@ class OffsetDateTime {
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
-
-      acetime_t epochDays = mLocalDate.toEpochDays();
-      acetime_t utcOffset = mLocalTime.toSeconds() - mUtcOffset.toSeconds();
-      return epochDays * (acetime_t) 86400 + utcOffset;
+      return mLocalDateTime.toEpochSeconds() - mUtcOffset.toSeconds();
     }
 
     /**
@@ -323,17 +277,15 @@ class OffsetDateTime {
      * a single statement like this: 'return OffsetDateTime().setError()'.
      */
     OffsetDateTime& setError() {
-      mLocalDate.setError();
-      mLocalTime.setError();
+      mLocalDateTime.setError();
       return *this;
     }
 
   private:
-    /** Expected length of an ISO 8601 date string. */
-    static const uint8_t kDateStringLength = 25;
-
     friend bool operator==(const OffsetDateTime& a, const OffsetDateTime& b);
-    friend bool operator!=(const OffsetDateTime& a, const OffsetDateTime& b);
+
+    /** Expected length of an ISO 8601 date string, including UTC offset. */
+    static const uint8_t kDateStringLength = 25;
 
     /**
      * Constructor using separated date, time, and time zone fields.
@@ -344,23 +296,21 @@ class OffsetDateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param utcOffset Optional, default is UTC time zone. The time zone
-     * offset in 15-minute increments from UTC. Using a UtcOffset object here
-     * in the last component allows us to add an additional constructor that
-     * accepts a millisecond component in the future.
+     * @param utcOffset Optional. Default UTC time zone. Using the UtcOffset
+     * object in the last component allows us to add an additional constructor
+     * that accepts a millisecond component in the future. It also hides the
+     * internal implementation details of UtcOffset.
      */
     explicit OffsetDateTime(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             UtcOffset utcOffset = UtcOffset()):
-        mLocalDate(year, month, day),
-        mLocalTime(hour, minute, second),
+        mLocalDateTime(year, month, day, hour, minute, second),
         mUtcOffset(utcOffset) {}
 
     /** Extract the date time components from the given dateString. */
     OffsetDateTime& initFromDateString(const char* dateString);
 
-    LocalDate mLocalDate;
-    LocalTime mLocalTime;
+    LocalDateTime mLocalDateTime;
     UtcOffset mUtcOffset; // offset from UTC
 };
 
@@ -370,8 +320,7 @@ class OffsetDateTime {
  * or 'minute'.
  */
 inline bool operator==(const OffsetDateTime& a, const OffsetDateTime& b) {
-  return a.mLocalDate == b.mLocalDate
-      && a.mLocalTime == b.mLocalTime
+  return a.mLocalDateTime == b.mLocalDateTime
       && a.mUtcOffset == b.mUtcOffset;
 }
 

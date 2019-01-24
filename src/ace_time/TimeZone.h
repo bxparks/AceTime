@@ -109,7 +109,7 @@ class TimeZone {
             : mAuto.zoneAgent->getUtcOffset(epochSeconds);
       } else {
         return UtcOffset::forOffsetCode(
-            mManual.utcOffset.toOffsetCode() + (mManual.isDst ? 4 : 0));
+            mManual.utcOffset.code() + (mManual.isDst ? 4 : 0));
       }
     }
 

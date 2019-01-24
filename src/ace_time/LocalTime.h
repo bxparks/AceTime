@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 #include "common/common.h"
-#include "common/util.h"
+
+class Print;
 
 namespace ace_time {
 
@@ -123,16 +124,6 @@ class LocalTime {
       }
     }
 
-    /** Increment the hour by one, wrapping from 23 to 0. */
-    void incrementHour() {
-      common::incrementMod(mHour, (uint8_t) 24);
-    }
-
-    /** Increment the minute by one, wrapping from 59 to 0. */
-    void incrementMinute() {
-      common::incrementMod(mMinute, (uint8_t) 60);
-    }
-
     /**
      * Compare this LocalTime with that LocalTime, and return (<0, 0, >0)
      * according to whether (this<that, this==that, this>that). The behavior
@@ -156,9 +147,9 @@ class LocalTime {
 
 
   private:
+    friend class LocalDateTime;
     friend class OffsetDateTime;
     friend bool operator==(const LocalTime& a, const LocalTime& b);
-    friend bool operator!=(const LocalTime& a, const LocalTime& b);
 
     /** Expected length of an ISO 8601 time string "hh:mm:ss" */
     static const uint8_t kTimeStringLength = 8;
