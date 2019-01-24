@@ -125,6 +125,7 @@ class AutoZoneSpec: public ZoneSpec {
     friend class ::AutoZoneSpecTest_createAbbreviation;
     friend class ::AutoZoneSpecTest_calcStartDayOfMonth;
     friend class ::AutoZoneSpecTest_calcRuleOffsetCode;
+    friend bool operator==(const AutoZoneSpec& a, const AutoZoneSpec& b);
 
     static const uint8_t kMaxCacheEntries = 4;
 
@@ -503,6 +504,14 @@ class AutoZoneSpec: public ZoneSpec {
     mutable internal::ZoneMatch mMatches[kMaxCacheEntries];
     mutable internal::ZoneMatch mPreviousMatch; // previous year's match
 };
+
+inline bool operator==(const AutoZoneSpec& a, const AutoZoneSpec& b) {
+  return a.getZoneInfo() == b.getZoneInfo();
+}
+
+inline bool operator!=(const AutoZoneSpec& a, const AutoZoneSpec& b) {
+  return ! (a == b);
+}
 
 }
 

@@ -1,6 +1,7 @@
 #ifndef ACE_TIME_MANUAL_ZONE_SPEC_H
 #define ACE_TIME_MANUAL_ZONE_SPEC_H
 
+#include <string.h> // strcmp()
 #include "UtcOffset.h"
 #include "ZoneSpec.h"
 
@@ -47,26 +48,34 @@ class ManualZoneSpec: public ZoneSpec {
 
     const char* dstAbbrev() const { return mDstAbbrev; }
 
+    /** Return the base isDst flag. Valid only for AutoZoneSpec. */
+    bool isDst() const { return mIsDst; }
+
+    /** Set the base isDst flag. Valid only for ManualZoneSpec. */
+    void isDst(bool isDst) { mIsDst = isDst; }
+
     uint8_t getType() const override { return kTypeManual; }
 
-    /** Return the UTC offset after accounting for isDst flag. */
-    UtcOffset getUtcOffset(bool isDst) {
-      return isDst
+    /** Return the UTC offset after accounting for mIsDst flag. */
+    UtcOffset getUtcOffset() {
+      return mIsDst
         ? UtcOffset::forOffsetCode(mStdOffset.code() + mDeltaOffset.code())
         : mStdOffset;
     }
 
-    /** Return the DST delta offset after accounting for isDst flag. */
-    UtcOffset getDeltaOffset(bool isDst) {
-      return isDst ? mDeltaOffset : UtcOffset();
+    /** Return the DST delta offset after accounting for mIsDst flag. */
+    UtcOffset getDeltaOffset() {
+      return mIsDst ? mDeltaOffset : UtcOffset();
     }
 
-    /** Return the time zone abbreviation after accounting for isDst flag. */
-    const char* getAbbrev(bool isDst) {
-      return isDst ? mDstAbbrev : mStdAbbrev;
+    /** Return the time zone abbreviation after accounting for mIsDst flag. */
+    const char* getAbbrev() {
+      return mIsDst ? mDstAbbrev : mStdAbbrev;
     }
 
   private:
+    friend bool operator==(const ManualZoneSpec& a, const ManualZoneSpec& b);
+
     /** Offset from UTC. */
     UtcOffset mStdOffset;
 
@@ -78,7 +87,22 @@ class ManualZoneSpec: public ZoneSpec {
 
     /** Time zone abbreviation for daylight time, e.g. "PDT". Not Nullable. */
     const char* mDstAbbrev;
+
+    /** Set to true if DST is enabled, when using ManualZoneSpec. */
+    bool mIsDst = false;
 };
+
+inline bool operator==(const ManualZoneSpec& a, const ManualZoneSpec& b) {
+  return a.isDst() == b.isDst()
+      && a.stdOffset() == b.stdOffset()
+      && a.deltaOffset() == b.deltaOffset()
+      && strcmp(a.stdAbbrev(), b.stdAbbrev()) == 0
+      && strcmp(a.dstAbbrev(), b.dstAbbrev()) == 0;
+}
+
+inline bool operator!=(const ManualZoneSpec& a, const ManualZoneSpec& b) {
+  return ! (a == b);
+}
 
 }
 

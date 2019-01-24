@@ -21,10 +21,24 @@ namespace ace_time {
  *    contains rules about when the transition occurs from standard to DST
  *    modes. This type is immutable.
  *
- * This class should be treated as a value type and passed around by value or
- * by const reference. If the user wants to change the offset and DST of a
- * Manual TimeZone, copy the TimeZone by value and call one of the mutators
- * which are valid for kTypeManual.
+ * The TimeZone class really really wants to be a reference type. In other
+ * words, it would be far more convenient for the client code to create this on
+ * the heap, and passed around using a pointer (or smart pointer) to the
+ * ZonedDateTime class. This would allow new TimeZones to be created, while
+ * older instances of ZonedDateTime would continued to hold on to the previous
+ * versions of TimeZone.
+ *
+ * However, in a small memory embedded environment (like Arduino Nano or Micro
+ * with only 2kB of RAM), I want to avoid any use of the heap (new operator or
+ * malloc()) inside the AceTime library. So, I separated out the memory
+ * intensive or mutable features of the TimeZone class into the separate
+ * ZoneSpec class. The ZoneSpec object should be created once at initialization
+ * time of the application (either statically allocated or potentially on the
+ * heap early in the application start up).
+ *
+ * The TimeZone class then becomes a thin wrapper around a ZoneSpec object
+ * (essentially acting like a smart pointer in some sense). It should be
+ * treated as a value type and passed around by value or by const reference.
  *
  * An alternative implementation would make TimeZone a base class of an
  * inheritance hierarchy with 2 subclasses (ManualTimeZone and AutoTimeZone).
@@ -33,10 +47,6 @@ namespace ace_time {
  * using a pointer. It then becomes very difficult to change the offset and DST
  * fields of the ManualTimeZone. Using a single TimeZone class and implementing
  * it as a value type simplifies a lot of code.
- *
- * The disadvantage of merging the Manual and Auto types is that for the Auto
- * type, the ZoneSpec needed to be split off as an external dependency to the
- * TimeZone.
  */
 class TimeZone {
   public:
@@ -57,15 +67,16 @@ class TimeZone {
       if (getType() == kTypeAuto) {
         return ((AutoZoneSpec*)mZoneSpec)->getUtcOffset(epochSeconds);
       } else {
-        return ((ManualZoneSpec*)mZoneSpec)->getUtcOffset(mIsDst);
+        return ((ManualZoneSpec*)mZoneSpec)->getUtcOffset();
       }
     }
 
     /** Return true if the time zone observes DST at epochSeconds. */
+    // TODO: Replace this with getDeltaOffset().
     bool getDst(acetime_t epochSeconds) const {
       UtcOffset offset = (getType() == kTypeAuto)
         ? ((AutoZoneSpec*)mZoneSpec)->getDeltaOffset(epochSeconds)
-        : ((ManualZoneSpec*)mZoneSpec)->getDeltaOffset(mIsDst);
+        : ((ManualZoneSpec*)mZoneSpec)->getDeltaOffset();
       return offset.isDst();
     }
 
@@ -74,15 +85,9 @@ class TimeZone {
       if (getType() == kTypeAuto) {
         return ((AutoZoneSpec*)mZoneSpec)->getAbbrev(epochSeconds);
       } else {
-        return ((ManualZoneSpec*)mZoneSpec)->getAbbrev(mIsDst);
+        return ((ManualZoneSpec*)mZoneSpec)->getAbbrev();
       }
     }
-
-    /** Return the base isDst flag. Valid only for AutoZoneSpec. */
-    bool isDst() const { return mIsDst; }
-
-    /** Set the base isDst flag. Valid only for ManualZoneSpec. */
-    void isDst(bool isDst) { mIsDst = isDst; }
 
     /** Print the human readable representation of the time zone. */
     void printTo(Print& printer) const;
@@ -99,26 +104,20 @@ class TimeZone {
 
     /** Instance of ZoneSpec. */
     ZoneSpec* mZoneSpec;
-
-    /** Set to true if DST is enabled, when using ManualZoneSpec. */
-    bool mIsDst = false;
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
   if (a.getType() != b.getType()) return false;
+  if (a.mZoneSpec == b.mZoneSpec) return true;
 
   if (a.getType() == TimeZone::kTypeAuto) {
     AutoZoneSpec* aa = static_cast<AutoZoneSpec*>(a.mZoneSpec);
     AutoZoneSpec* bb = static_cast<AutoZoneSpec*>(b.mZoneSpec);
-    return aa->getZoneInfo() == bb->getZoneInfo();
+    return *aa == *bb;
   } else {
     ManualZoneSpec* aa = static_cast<ManualZoneSpec*>(a.mZoneSpec);
     ManualZoneSpec* bb = static_cast<ManualZoneSpec*>(b.mZoneSpec);
-    return a.mIsDst == b.mIsDst
-        && aa->stdOffset() == bb->stdOffset()
-        && aa->deltaOffset() == bb->deltaOffset()
-        && aa->stdAbbrev() == bb->stdAbbrev()
-        && aa->dstAbbrev() == bb->dstAbbrev();
+    return *aa == *bb;
   }
 }
 

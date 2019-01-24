@@ -11,60 +11,69 @@ using namespace ace_time::common;
 // ManualZoneSpec
 // --------------------------------------------------------------------------
 
-test(ManualZoneSpec, accessors) {
+test(ManualZoneSpecTest, accessors) {
   ManualZoneSpec pstSpec(
       UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
 
   assertEqual(UtcOffset::forHour(-8).toMinutes(),
-      pstSpec.getUtcOffset(false).toMinutes());
-  assertEqual(UtcOffset::forHour(-7).toMinutes(),
-      pstSpec.getUtcOffset(true).toMinutes());
-
-  assertEqual("PST", pstSpec.getAbbrev(false));
-  assertEqual("PDT", pstSpec.getAbbrev(true));
-
+      pstSpec.getUtcOffset().toMinutes());
+  assertEqual("PST", pstSpec.getAbbrev());
   assertEqual(UtcOffset::forHour(0).toMinutes(),
-      pstSpec.getDeltaOffset(false).toMinutes());
+      pstSpec.getDeltaOffset().toMinutes());
+
+  pstSpec.isDst(true);
+
+  assertEqual(UtcOffset::forHour(-7).toMinutes(),
+      pstSpec.getUtcOffset().toMinutes());
+  assertEqual("PDT", pstSpec.getAbbrev());
   assertEqual(UtcOffset::forHour(1).toMinutes(),
-      pstSpec.getDeltaOffset(true).toMinutes());
+      pstSpec.getDeltaOffset().toMinutes());
 }
 
-test(ManualZoneSpec, operatorEqualEqual) {
-  ManualZoneSpec pstSpec(
+test(ManualZoneSpecTest, copyConstructor) {
+  ManualZoneSpec a(
       UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
+  ManualZoneSpec b(a);
+  assertEqual(a.isDst(), b.isDst());
+  assertEqual(a.stdOffset().toMinutes(), b.stdOffset().toMinutes());
+  assertEqual(a.stdAbbrev(), b.stdAbbrev());
+  assertEqual(a.deltaOffset().toMinutes(), b.deltaOffset().toMinutes());
+  assertEqual(a.dstAbbrev(), b.dstAbbrev());
+}
 
-  // Two time zones with same zoneSpec should be equal.
-  TimeZone a(&pstSpec);
-  TimeZone b(&pstSpec);
-  assertTrue(a == b);
+test(ManualZoneSpecTest, operatorEqualEqual) {
+  ManualZoneSpec a(
+      UtcOffset::forHour(1), "a", UtcOffset::forHour(1), "b");
+  ManualZoneSpec b(
+      UtcOffset::forHour(2), "a", UtcOffset::forHour(1), "b");
+  ManualZoneSpec c(
+      UtcOffset::forHour(1), "A", UtcOffset::forHour(1), "b");
+  ManualZoneSpec d(
+      UtcOffset::forHour(1), "a", UtcOffset::forHour(2), "b");
+  ManualZoneSpec e(
+      UtcOffset::forHour(1), "a", UtcOffset::forHour(1), "B");
 
-  // One of them goes to DST. Should be different.
-  b.isDst(true);
   assertTrue(a != b);
-
-  // Should be different from EST.
-  ManualZoneSpec estSpec(
-      UtcOffset::forHour(-5), "EST", UtcOffset::forHour(1), "EDT");
-  TimeZone c(&estSpec);
   assertTrue(a != c);
-
-  ManualZoneSpec pstSpec2(
-      UtcOffset::forHour(-8), "PPP", UtcOffset::forHour(1), "QQQ");
-  TimeZone d(&pstSpec2);
   assertTrue(a != d);
-}
+  assertTrue(a != e);
 
-test(ManualZoneSpec, copyConstructor) {
-  ManualZoneSpec zoneSpec(
-      UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
-  TimeZone a(&zoneSpec);
-  TimeZone b = a;
-  assertTrue(a == b);
+  ManualZoneSpec aa(a);
+  assertTrue(a == aa);
+
+  aa.isDst(true);
+  assertTrue(a != aa);
 }
 
 // --------------------------------------------------------------------------
 // AutoZoneSpec
 // --------------------------------------------------------------------------
+
+test(AutoZoneSpecTest, operatorEqualEqual) {
+  AutoZoneSpec a(&zonedb::kZoneLos_Angeles);
+  AutoZoneSpec b(&zonedb::kZoneDarwin);
+  assertTrue(a != b);
+}
 
 test(AutoZoneSpecTest, calcStartDayOfMonth) {
   // 2018-11, Sun>=1
@@ -339,16 +348,34 @@ test(TimeZoneTest_Manual, default) {
   assertEqual(0, tz.getUtcOffset(0).toMinutes());
   assertEqual("UTC", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));
-
-  tz.isDst(true);
-  assertEqual(0, tz.getUtcOffset(0).toMinutes());
-  assertEqual("UTC", tz.getAbbrev(0));
-  assertFalse(tz.getDst(0));
 }
 
 // --------------------------------------------------------------------------
 // Manual TimeZone
 // --------------------------------------------------------------------------
+
+test(TimeZoneTest_Manual, operatorEqualEqual) {
+  // PST
+  ManualZoneSpec spa(
+      UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
+  ManualZoneSpec spb(
+      UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
+
+  // Two time zones with same zoneSpec should be equal.
+  TimeZone a(&spa);
+  TimeZone b(&spb);
+  assertTrue(a == b);
+
+  // One of them goes to DST. Should be different.
+  spb.isDst(true);
+  assertTrue(a != b);
+
+  // Should be different from EST.
+  ManualZoneSpec spc(
+      UtcOffset::forHour(-5), "EST", UtcOffset::forHour(1), "EDT");
+  TimeZone c(&spc);
+  assertTrue(a != c);
+}
 
 test(TimeZoneTest_Manual, forUtcOffset) {
   ManualZoneSpec zoneSpec(
@@ -360,7 +387,7 @@ test(TimeZoneTest_Manual, forUtcOffset) {
   assertEqual("PST", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));
 
-  tz.isDst(true);
+  zoneSpec.isDst(true);
   assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
   assertEqual("PDT", tz.getAbbrev(0));
   assertTrue(tz.getDst(0));

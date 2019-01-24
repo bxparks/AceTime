@@ -16,7 +16,7 @@ void TimeZone::printTo(Print& printer) const {
     ManualZoneSpec* spec = static_cast<ManualZoneSpec*>(mZoneSpec);
     printer.print(F("UTC"));
     spec->stdOffset().printTo(printer);
-    printer.print(mIsDst ? F(" (DST)") : F(" (STD)"));
+    printer.print(spec->isDst() ? F(" (DST)") : F(" (STD)"));
   }
 }
 
