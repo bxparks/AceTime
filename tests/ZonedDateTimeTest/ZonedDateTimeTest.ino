@@ -46,8 +46,8 @@ test(ZonedDateTimeTest, forComponents) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2018-01-01 00:00:00+00:15 Monday
-  ManualZoneAgent agent(UtcOffset::forMinutes(15));
-  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeZone(&agent));
+  ManualZoneSpec zoneSpec(UtcOffset::forMinutes(15));
+  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeZone(&zoneSpec));
   assertEqual((acetime_t) 6574, dt.toEpochDays());
   assertEqual((acetime_t) 17531, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400 - 15*60, dt.toEpochSeconds());
@@ -101,8 +101,8 @@ test(ZonedDateTimeTest, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 
   // 2018-08-30T06:45:01-07:00
-  ManualZoneAgent agent(UtcOffset::forHour(-7));
-  TimeZone tz(&agent);
+  ManualZoneSpec zoneSpec(UtcOffset::forHour(-7));
+  TimeZone tz(&zoneSpec);
   dt = ZonedDateTime::forComponents(2018, 8, 30, 6, 45, 1, tz);
   assertEqual((acetime_t) 1535636701, dt.toUnixSeconds());
   udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), tz);
@@ -116,8 +116,8 @@ test(ZonedDateTimeTest, toAndForUnixSeconds) {
 }
 
 test(ZonedDateTimeTest, TimeZone_Manual) {
-  ManualZoneAgent agent(UtcOffset::forHour(-8));
-  TimeZone tz(&agent);
+  ManualZoneSpec zoneSpec(UtcOffset::forHour(-8));
+  TimeZone tz(&zoneSpec);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
   OffsetDateTime otz = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
@@ -127,8 +127,8 @@ test(ZonedDateTimeTest, TimeZone_Manual) {
 }
 
 test(ZonedDateTimeTest, forComponents_beforeDst) {
-  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&agent);
+  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpec);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
   UtcOffset pst = UtcOffset::forHour(-8);
@@ -139,8 +139,8 @@ test(ZonedDateTimeTest, forComponents_beforeDst) {
 }
 
 test(ZonedDateTimeTest, forComponents_inDstGap) {
-  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&agent);
+  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpec);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 0, 1, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
@@ -150,8 +150,8 @@ test(ZonedDateTimeTest, forComponents_inDstGap) {
 }
 
 test(ZonedDateTimeTest, forComponents_inDst) {
-  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&agent);
+  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpec);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 0, 1, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
@@ -161,8 +161,8 @@ test(ZonedDateTimeTest, forComponents_inDst) {
 }
 
 test(ZonedDateTimeTest, forComponents_beforeStd) {
-  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&agent);
+  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpec);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 59, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
@@ -173,8 +173,8 @@ test(ZonedDateTimeTest, forComponents_beforeStd) {
 }
 
 test(ZonedDateTimeTest, forComponents_inOverlap) {
-  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&agent);
+  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpec);
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2018, 11, 4, 1, 0, 1, tz); // ambiguous
 
@@ -186,8 +186,8 @@ test(ZonedDateTimeTest, forComponents_inOverlap) {
 
 
 test(ZonedDateTimeTest, forComponents_afterOverlap) {
-  AutoZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&agent);
+  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpec);
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2018, 11, 4, 2, 0, 1, tz); // ambiguous
 

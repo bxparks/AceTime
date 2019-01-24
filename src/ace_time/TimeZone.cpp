@@ -8,14 +8,14 @@ using common::printPad2;
 
 void TimeZone::printTo(Print& printer) const {
   if (getType() == kTypeAuto) {
-    AutoZoneAgent* agent = static_cast<AutoZoneAgent*>(mZoneAgent);
+    AutoZoneSpec* spec = static_cast<AutoZoneSpec*>(mZoneSpec);
     printer.print('[');
-    printer.print(agent->getZoneInfo()->name);
+    printer.print(spec->getZoneInfo()->name);
     printer.print(']');
   } else {
-    ManualZoneAgent* agent = static_cast<ManualZoneAgent*>(mZoneAgent);
+    ManualZoneSpec* spec = static_cast<ManualZoneSpec*>(mZoneSpec);
     printer.print(F("UTC"));
-    agent->stdOffset().printTo(printer);
+    spec->stdOffset().printTo(printer);
     printer.print(mIsDst ? F(" (DST)") : F(" (STD)"));
   }
 }

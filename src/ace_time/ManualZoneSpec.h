@@ -1,18 +1,18 @@
-#ifndef ACE_TIME_MANUAL_ZONE_AGENT_H
-#define ACE_TIME_MANUAL_ZONE_AGENT_H
+#ifndef ACE_TIME_MANUAL_ZONE_SPEC_H
+#define ACE_TIME_MANUAL_ZONE_SPEC_H
 
 #include "UtcOffset.h"
-#include "ZoneAgent.h"
+#include "ZoneSpec.h"
 
 namespace ace_time {
 
-class ManualZoneAgent: public ZoneAgent {
+class ManualZoneSpec: public ZoneSpec {
   public:
     /**
      * Default constructor describes the UTC+00:00 time zone with no DST.
      * The abbreviations are set to "UTC".
      */
-    explicit ManualZoneAgent():
+    explicit ManualZoneSpec():
       mStdOffset(),
       mStdAbbrev("UTC"),
       mDeltaOffset(),
@@ -27,7 +27,7 @@ class ManualZoneAgent: public ZoneAgent {
      * @param deltaOffset additional UTC offset during DST time (default 0)
      * @param dstAbbrev time zone abbreviation during DST time (default "")
      */
-    explicit ManualZoneAgent(UtcOffset stdOffset,
+    explicit ManualZoneSpec(UtcOffset stdOffset,
         const char* stdAbbrev = "",
         UtcOffset deltaOffset = UtcOffset(),
         const char* dstAbbrev = ""):
@@ -36,8 +36,8 @@ class ManualZoneAgent: public ZoneAgent {
       mDeltaOffset(deltaOffset),
       mDstAbbrev(dstAbbrev) {}
 
-    /** Singleton instance of a UTC ZoneAgent. */
-    static ManualZoneAgent sUtcZoneAgent;
+    /** Singleton instance of a UTC ZoneSpec. */
+    static ManualZoneSpec sUtcZoneSpec;
 
     UtcOffset stdOffset() const { return mStdOffset; }
 

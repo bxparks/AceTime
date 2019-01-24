@@ -1,5 +1,5 @@
-#ifndef ACE_TIME_AUTO_ZONE_AGENT_H
-#define ACE_TIME_AUTO_ZONE_AGENT_H
+#ifndef ACE_TIME_AUTO_ZONE_SPEC_H
+#define ACE_TIME_AUTO_ZONE_SPEC_H
 
 #include <string.h> // strchr()
 #include <stdint.h>
@@ -8,13 +8,13 @@
 #include "UtcOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
-#include "ZoneAgent.h"
+#include "ZoneSpec.h"
 
-class AutoZoneAgentTest_init_primitives;
-class AutoZoneAgentTest_init;
-class AutoZoneAgentTest_createAbbreviation;
-class AutoZoneAgentTest_calcStartDayOfMonth;
-class AutoZoneAgentTest_calcRuleOffsetCode;
+class AutoZoneSpecTest_init_primitives;
+class AutoZoneSpecTest_init;
+class AutoZoneSpecTest_createAbbreviation;
+class AutoZoneSpecTest_calcStartDayOfMonth;
+class AutoZoneSpecTest_calcRuleOffsetCode;
 
 namespace ace_time {
 
@@ -77,18 +77,18 @@ struct ZoneMatch {
  *
  * Not thread-safe.
  */
-class AutoZoneAgent: public ZoneAgent {
+class AutoZoneSpec: public ZoneSpec {
   public:
     /**
      * Constructor.
      * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
      * interpreted as UTC.
      */
-    explicit AutoZoneAgent(const common::ZoneInfo* zoneInfo = nullptr):
+    explicit AutoZoneSpec(const common::ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     /** Copy constructor. */
-    explicit AutoZoneAgent(const AutoZoneAgent& that):
+    explicit AutoZoneSpec(const AutoZoneSpec& that):
       mZoneInfo(that.mZoneInfo),
       mIsFilled(false) {}
 
@@ -120,11 +120,11 @@ class AutoZoneAgent: public ZoneAgent {
     }
 
   private:
-    friend class ::AutoZoneAgentTest_init_primitives;
-    friend class ::AutoZoneAgentTest_init;
-    friend class ::AutoZoneAgentTest_createAbbreviation;
-    friend class ::AutoZoneAgentTest_calcStartDayOfMonth;
-    friend class ::AutoZoneAgentTest_calcRuleOffsetCode;
+    friend class ::AutoZoneSpecTest_init_primitives;
+    friend class ::AutoZoneSpecTest_init;
+    friend class ::AutoZoneSpecTest_createAbbreviation;
+    friend class ::AutoZoneSpecTest_calcStartDayOfMonth;
+    friend class ::AutoZoneSpecTest_calcRuleOffsetCode;
 
     static const uint8_t kMaxCacheEntries = 4;
 

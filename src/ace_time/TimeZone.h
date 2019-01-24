@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 #include "UtcOffset.h"
-#include "ZoneAgent.h"
-#include "AutoZoneAgent.h"
-#include "ManualZoneAgent.h"
+#include "ZoneSpec.h"
+#include "AutoZoneSpec.h"
+#include "ManualZoneSpec.h"
 
 class Print;
 
@@ -35,53 +35,53 @@ namespace ace_time {
  * it as a value type simplifies a lot of code.
  *
  * The disadvantage of merging the Manual and Auto types is that for the Auto
- * type, the ZoneAgent needed to be split off as an external dependency to the
+ * type, the ZoneSpec needed to be split off as an external dependency to the
  * TimeZone.
  */
 class TimeZone {
   public:
-    static const uint8_t kTypeManual = ZoneAgent::kTypeManual;
-    static const uint8_t kTypeAuto = ZoneAgent::kTypeAuto;
+    static const uint8_t kTypeManual = ZoneSpec::kTypeManual;
+    static const uint8_t kTypeAuto = ZoneSpec::kTypeAuto;
 
     /** Constructor. */
-    explicit TimeZone(ZoneAgent* zoneAgent = &ManualZoneAgent::sUtcZoneAgent):
-        mZoneAgent(zoneAgent) {}
+    explicit TimeZone(ZoneSpec* zoneSpec = &ManualZoneSpec::sUtcZoneSpec):
+        mZoneSpec(zoneSpec) {}
 
     /** Return the type of TimeZone. */
     uint8_t getType() const {
-      return mZoneAgent->getType();
+      return mZoneSpec->getType();
     }
 
     /** Return the effective zone offset. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) const {
       if (getType() == kTypeAuto) {
-        return ((AutoZoneAgent*)mZoneAgent)->getUtcOffset(epochSeconds);
+        return ((AutoZoneSpec*)mZoneSpec)->getUtcOffset(epochSeconds);
       } else {
-        return ((ManualZoneAgent*)mZoneAgent)->getUtcOffset(mIsDst);
+        return ((ManualZoneSpec*)mZoneSpec)->getUtcOffset(mIsDst);
       }
     }
 
     /** Return true if the time zone observes DST at epochSeconds. */
     bool getDst(acetime_t epochSeconds) const {
       UtcOffset offset = (getType() == kTypeAuto)
-        ? ((AutoZoneAgent*)mZoneAgent)->getDeltaOffset(epochSeconds)
-        : ((ManualZoneAgent*)mZoneAgent)->getDeltaOffset(mIsDst);
+        ? ((AutoZoneSpec*)mZoneSpec)->getDeltaOffset(epochSeconds)
+        : ((ManualZoneSpec*)mZoneSpec)->getDeltaOffset(mIsDst);
       return offset.isDst();
     }
 
     /** Return the abbreviation of the time zone. */
     const char* getAbbrev(acetime_t epochSeconds) const {
       if (getType() == kTypeAuto) {
-        return ((AutoZoneAgent*)mZoneAgent)->getAbbrev(epochSeconds);
+        return ((AutoZoneSpec*)mZoneSpec)->getAbbrev(epochSeconds);
       } else {
-        return ((ManualZoneAgent*)mZoneAgent)->getAbbrev(mIsDst);
+        return ((ManualZoneSpec*)mZoneSpec)->getAbbrev(mIsDst);
       }
     }
 
-    /** Return the base isDst flag. Valid only for AutoZoneAgent. */
+    /** Return the base isDst flag. Valid only for AutoZoneSpec. */
     bool isDst() const { return mIsDst; }
 
-    /** Set the base isDst flag. Valid only for ManualZoneAgent. */
+    /** Set the base isDst flag. Valid only for ManualZoneSpec. */
     void isDst(bool isDst) { mIsDst = isDst; }
 
     /** Print the human readable representation of the time zone. */
@@ -97,10 +97,10 @@ class TimeZone {
     static void parseFromOffsetString(const char* offsetString,
         uint8_t* offsetCode);
 
-    /** Instance of ZoneAgent. */
-    ZoneAgent* mZoneAgent;
+    /** Instance of ZoneSpec. */
+    ZoneSpec* mZoneSpec;
 
-    /** Set to true if DST is enabled, when using ManualZoneAgent. */
+    /** Set to true if DST is enabled, when using ManualZoneSpec. */
     bool mIsDst = false;
 };
 
@@ -108,12 +108,12 @@ inline bool operator==(const TimeZone& a, const TimeZone& b) {
   if (a.getType() != b.getType()) return false;
 
   if (a.getType() == TimeZone::kTypeAuto) {
-    AutoZoneAgent* aa = static_cast<AutoZoneAgent*>(a.mZoneAgent);
-    AutoZoneAgent* bb = static_cast<AutoZoneAgent*>(b.mZoneAgent);
+    AutoZoneSpec* aa = static_cast<AutoZoneSpec*>(a.mZoneSpec);
+    AutoZoneSpec* bb = static_cast<AutoZoneSpec*>(b.mZoneSpec);
     return aa->getZoneInfo() == bb->getZoneInfo();
   } else {
-    ManualZoneAgent* aa = static_cast<ManualZoneAgent*>(a.mZoneAgent);
-    ManualZoneAgent* bb = static_cast<ManualZoneAgent*>(b.mZoneAgent);
+    ManualZoneSpec* aa = static_cast<ManualZoneSpec*>(a.mZoneSpec);
+    ManualZoneSpec* bb = static_cast<ManualZoneSpec*>(b.mZoneSpec);
     return a.mIsDst == b.mIsDst
         && aa->stdOffset() == bb->stdOffset()
         && aa->deltaOffset() == bb->deltaOffset()
