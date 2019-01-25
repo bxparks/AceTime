@@ -11,7 +11,18 @@ C++ code in the Arduino environment.
 Examples:
 
     # America/Los_Angeles for 2018-03-10T02:00:00
-    $ ./zone_agent.py --zone Los_Angeles --date 2018-03-10T02:00:00
+    $ ./zone_agent.py --zone Los_Angeles --date 2019-03-10T01:59
+    UTC-08:00+00:00 (PST)
+    $ ./zone_agent.py --zone Los_Angeles --date 2019-03-10T02:00
+    Invalid time
+    $ ./zone_agent.py --zone Los_Angeles --date 2019-03-10T03:00
+    UTC-08:00+01:00 (PDT)
+    $ ./zone_agent.py --zone Los_Angeles --date 2019-11-03T01:00
+    UTC-08:00+01:00 (PDT)
+    $ ./zone_agent.py --zone Los_Angeles --date 2019-11-03T01:59
+    UTC-08:00+01:00 (PDT)
+    $ ./zone_agent.py --zone Los_Angeles --date 2019-11-03T02:00
+    UTC-08:00+00:00 (PST)
 
     # America/Indiana/Petersburg for the year 2006.
     $ ./zone_agent.py --zone Petersburg --year 2006
@@ -316,10 +327,26 @@ class ZoneAgent:
 
     Usage:
         zone_agent = ZoneAgent(zone_info, args.optimized)
-        zone_agent.init_for_year(year)
+
+        # Validate matches and transitions
         (matches, transitions) = zone_agent.get_matches_and_transitions(
             args.year)
         print_matches_and_transitions(matches, transitions)
+
+        # Get (offset_seconds, dst_seconds, abbrev) for an epoch_seconds.
+        (offset_seconds, dst_seconds, abbrev) = \
+                zone_agent.get_timezone_info_from_seconds(epoch_seconds)
+
+        # Get (offset_seconds, dst_seconds, abbrev) for a datetime.
+        (offset_seconds, dst_seconds, abbrev) = \
+                zone_agent.get_timezone_info_from_datetime(dt)
+
+    Note:
+        The optimized mode is hardwired to True because there's a bug when it is
+        set to False. Namely, when the start_ym and end_ym occur exactly at a
+        year boundary, one (or more) of the interval calculations is incorrect.
+        I haven't had the energy to fix it because I will always use the
+        optimized mode.
     """
 
     # Sentinel ZoneEra that represents the earliest zone era.
@@ -331,7 +358,7 @@ class ZoneAgent:
         'untilTimeModifier': 'w'
     })
 
-    def __init__(self, zone_info_data, optimized=False):
+    def __init__(self, zone_info_data, optimized=True):
         """zone_info_data map is one of the ZONE_INFO_xxx constants from
         zone_infos.py. It can contain a reference to a zone_policy_data map. We
         need to convert these into ZoneEraCooked and ZoneRuleCooked classes.
@@ -347,6 +374,45 @@ class ZoneAgent:
 
         # List of matching Transition objects.
         self.transitions = []
+
+    def get_matches_and_transitions(self, year):
+        """Returns a tuple of (matches, transitions). Used by validator.py
+        for validation.
+        """
+        self.init_for_year(year)
+        return (self.matches, self.transitions)
+
+    def get_transition_from_seconds(self, epoch_seconds):
+        """Return Transition for the given epoch_seconds.
+        """
+        self.init_for_second(epoch_seconds)
+        return self.find_transition_from_seconds(epoch_seconds)
+
+    def get_transition_from_datetime(self, dt):
+        """Return Transition for the given datetime.
+        """
+        self.init_for_year(dt.year)
+        return self.find_transition_from_datetime(dt)
+
+    def get_timezone_info_from_seconds(self, epoch_seconds):
+        """Return a tuple of (offset_seconds, dst_seconds, abbrev).
+        The total UTC offset is (offset_seconds + dst_seconds).
+        """
+        self.init_for_second(epoch_seconds)
+        transition = self.find_transition_from_seconds(epoch_seconds)
+        return self.timezone_info_from_transition(transition)
+
+    def get_timezone_info_from_datetime(self, dt):
+        """Return a tuple of (offset_seconds, dst_seconds, abbrev) for datetime.
+        """
+        self.init_for_year(dt.year)
+        transition = self.find_transition_from_datetime(dt)
+        if not transition:
+            return (None, None, None)
+        else:
+            return self.timezone_info_from_transition(transition)
+
+    # The following methods are internal methods.
 
     def init_for_second(self, epoch_seconds):
         """Initialize the Transitions from the given epoch_seconds.
@@ -375,28 +441,6 @@ class ZoneAgent:
         self.transitions = self.find_transitions(start_ym, until_ym)
         generate_start_until_times(self.transitions)
         calc_abbrev(self.transitions)
-
-    def get_matches_and_transitions(self, year):
-        """Returns a tuple of (matches, transitions).
-        """
-        self.init_for_year(year)
-        return (self.matches, self.transitions)
-
-    def get_transition_from_seconds(self, epoch_seconds):
-        self.init_for_second(epoch_seconds)
-        return self.find_transition_from_seconds(epoch_seconds)
-
-    def get_transition_from_datetime(self, dt):
-        self.init_for_year(dt.year)
-        return self.find_transition_from_datetime(dt)
-
-    def get_timezone_info_from_seconds(self, epoch_seconds):
-        """Return a tuple of (offset_seconds, dst_seconds, abbrev).
-        The total UTC offset is (offset_seconds + dst_seconds).
-        """
-        self.init_for_second(epoch_seconds)
-        transition = self.find_transition_from_seconds(epoch_seconds)
-        return self.timezone_info_from_transition(transition)
 
     def timezone_info_from_transition(self, transition):
         offset_seconds = transition.offsetSeconds
@@ -1138,7 +1182,11 @@ def main():
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Zone Agent.')
     parser.add_argument(
-        '--optimized', help='Optimize the year interval', action="store_true")
+        '--optimized', help='Optimize the year interval', action="store_true",
+        default=True)
+    parser.add_argument(
+        '--transition', help='Print the transition instead of timezone info',
+        action="store_true")
     parser.add_argument('--zone', help='Name of time zone', required=True)
     parser.add_argument('--year', help='Year of interest', type=int)
     parser.add_argument('--date', help='DateTime of interest')
@@ -1163,11 +1211,21 @@ def main():
 
     elif args.date:
         dt = datetime.strptime(args.date, "%Y-%m-%dT%H:%M")
-        transition = zone_agent.get_transition_from_datetime(dt)
-        if transition:
-            logging.info(transition)
+        if args.transition:
+            transition = zone_agent.get_transition_from_datetime(dt)
+            if transition:
+                logging.info(transition)
+            else:
+                logging.error('Transition not found')
         else:
-            logging.error('Transition not found')
+            (offset_seconds, dst_seconds, abbrev) = \
+                    zone_agent.get_timezone_info_from_datetime(dt)
+            if not offset_seconds:
+                logging.info('Invalid time');
+            else:
+                logging.info('%s (%s)',
+                    to_utc_string(offset_seconds, dst_seconds),
+                    abbrev)
     else:
         print("One of --year or --date must be provided")
         sys.exit(1)

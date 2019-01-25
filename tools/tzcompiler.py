@@ -120,7 +120,9 @@ def main():
         action='store_true',
         default=False)
     parser.add_argument(
-        '--optimized', help='Optimize the year interval', action="store_true")
+        '--optimized', help='Optimize the year interval',
+        action="store_true",
+        default=True)
     parser.add_argument(
         '--validate_dst_offset',
         help='Validate the DST offset as well as the total UTC offset',
