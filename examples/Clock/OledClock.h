@@ -98,23 +98,23 @@ class OledClock: public Clock {
       switch (mMode) {
         case MODE_CHANGE_YEAR:
           mSuppressBlink = true;
-          DateTimeMutator(mChangingDateTime).incrementYear();
+          date_time_mutation::incrementYear(mChangingDateTime);
           break;
         case MODE_CHANGE_MONTH:
           mSuppressBlink = true;
-          DateTimeMutator(mChangingDateTime).incrementMonth();
+          date_time_mutation::incrementMonth(mChangingDateTime);
           break;
         case MODE_CHANGE_DAY:
           mSuppressBlink = true;
-          DateTimeMutator(mChangingDateTime).incrementDay();
+          date_time_mutation::incrementDay(mChangingDateTime);
           break;
         case MODE_CHANGE_HOUR:
           mSuppressBlink = true;
-          DateTimeMutator(mChangingDateTime).incrementHour();
+          date_time_mutation::incrementHour(mChangingDateTime);
           break;
         case MODE_CHANGE_MINUTE:
           mSuppressBlink = true;
-          DateTimeMutator(mChangingDateTime).incrementMinute();
+          date_time_mutation::incrementMinute(mChangingDateTime);
           break;
         case MODE_CHANGE_SECOND:
           mSuppressBlink = true;
