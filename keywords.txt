@@ -8,10 +8,16 @@
 
 acetime_t	KEYWORD1
 DateStrings	KEYWORD1
-ZonedDateTime	KEYWORD1
-OffsetDateTime	KEYWORD1
-TimeZone	KEYWORD1
+LocalDate	KEYWORD1
+LocalTime	KEYWORD1
+LocalDateTime	KEYWORD1
 UtcOffset	KEYWORD1
+OffsetDateTime	KEYWORD1
+ZoneSpec	KEYWORD1
+AutoZoneSpec	KEYWORD1
+ManualZoneSpec	KEYWORD1
+TimeZone	KEYWORD1
+ZonedDateTime	KEYWORD1
 TimePeriod	KEYWORD1
 TimeProvider	KEYWORD1
 TimeKeeper	KEYWORD1
@@ -33,6 +39,24 @@ monthShortString	KEYWORD2
 weekDayLongString	KEYWORD2
 weekDayShortString	KEYWORD2
 
+# LocalDateTime.h
+forComponents	KEYWORD2
+forEpochSeconds	KEYWORD2
+forUnixSeconds	KEYWORD2
+forDateString	KEYWORD2
+isError	KEYWORD2
+setError	KEYWORD2
+year	KEYWORD2
+yearShort	KEYWORD2
+month	KEYWORD2
+day	KEYWORD2
+hour	KEYWORD2
+minute	KEYWORD2
+second	KEYWORD2
+dayOfWeek	KEYWORD2
+utcOffset	KEYWORD2
+printTo	KEYWORD2
+
 # OffsetDateTime.h
 forComponents	KEYWORD2
 forEpochSeconds	KEYWORD2
@@ -51,11 +75,6 @@ dayOfWeek	KEYWORD2
 utcOffset	KEYWORD2
 convertToUtcOffset	KEYWORD2
 printTo	KEYWORD2
-incrementYear	KEYWORD2
-incrementMonth	KEYWORD2
-incrementDay	KEYWORD2
-incrementHour	KEYWORD2
-incrementMinute	KEYWORD2
 toEpochDays	KEYWORD2
 toUnixDays	KEYWORD2
 toEpochSeconds	KEYWORD2
@@ -80,42 +99,62 @@ dayOfWeek	KEYWORD2
 utcOffset	KEYWORD2
 convertToTimeZone	KEYWORD2
 printTo	KEYWORD2
-incrementYear	KEYWORD2
-incrementMonth	KEYWORD2
-incrementDay	KEYWORD2
-incrementHour	KEYWORD2
-incrementMinute	KEYWORD2
 toEpochDays	KEYWORD2
 toUnixDays	KEYWORD2
 toEpochSeconds	KEYWORD2
 toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
 
+# DateTimeMutator
+incrementYear	KEYWORD2
+incrementMonth	KEYWORD2
+incrementDay	KEYWORD2
+incrementHour	KEYWORD2
+incrementMinute	KEYWORD2
+
 # UtcOffset.h
 forHour	KEYWORD2
 forHourMinute	KEYWORD2
+forMinutes	KEYWORD2
 forOffsetString	KEYWORD2
-asMinutes	KEYWORD2
-asSeconds	KEYWORD2
-asHourMinute	KEYWORD2
-incrementHour	KEYWORD2
-increment15Minutes	KEYWORD2
+code	KEYWORD2
+toSeconds	KEYWORD2
+toMinutes	KEYWORD2
+toHourMinute	KEYWORD2
 setError	KEYWORD2
 isError	KEYWORD2
+isDst	KEYWORD2
 printTo	KEYWORD2
 
-# TimeZone.h
-forZone	KEYWORD2
-forUtcOffset	KEYWORD2
-getUtcOffset	KEYWORD2
-getAbbrev	KEYWORD2
-getDst	KEYWORD2
-printTo	KEYWORD2
-forOffsetString	KEYWORD2
-utcOffset	KEYWORD2
+# UtcOffsetMutator.h
+incrementHour	KEYWORD2
+increment15Minutes	KEYWORD2
+
+# ZoneSpec
+getType	KEYWORD2
+
+# ManualZoneSpec
+getType	KEYWORD2
+stdOffset	KEYWORD2
+deltaOffset	KEYWORD2
 isDst	KEYWORD2
 dstAbbrev	KEYWORD2
 stdAbbrev	KEYWORD2
+getUtcOffset	KEYWORD2
+getDeltaOffset	KEYWORD2
+getAbbrev	KEYWORD2
+
+# ManualZoneSpec
+getType	KEYWORD2
+getUtcOffset	KEYWORD2
+getDeltaOffset	KEYWORD2
+getAbbrev	KEYWORD2
+
+# TimeZone.h
+getType	KEYWORD2
+getUtcOffset	KEYWORD2
+getAbbrev	KEYWORD2
+printTo	KEYWORD2
 
 # TimePeriod.h
 hour	KEYWORD2
@@ -149,6 +188,10 @@ getLastSyncTime	KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
+
+# ZoneSpec.h
+kTypeManual	LITERAL1
+kTypeAuto	LITERAL1
 
 # LocalDate.h
 kEpochYear	LITERAL1
