@@ -30,8 +30,7 @@ class LocalDate {
     static const int16_t kEpochYear = 2000;
 
     /** Sentinel epochDays which indicates an error. */
-    // TODO: Change this to INT32_MIN
-    static const acetime_t kInvalidEpochDays = INT32_MAX;
+    static const acetime_t kInvalidEpochDays = INT32_MIN;
 
     /** Sentinel epochSeconds which indicates an error. */
     static const acetime_t kInvalidEpochSeconds = LocalTime::kInvalidSeconds;
