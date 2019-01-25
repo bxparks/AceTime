@@ -65,7 +65,7 @@ class TimeZone {
       return mZoneSpec->getType();
     }
 
-    /** Return the effective zone offset. */
+    /** Return the UTC offset at epochSeconds. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) const {
       if (getType() == kTypeAuto) {
         return ((AutoZoneSpec*)mZoneSpec)->getUtcOffset(epochSeconds);
@@ -74,16 +74,7 @@ class TimeZone {
       }
     }
 
-    /** Return true if the time zone observes DST at epochSeconds. */
-    // TODO: Replace this with getDeltaOffset().
-    bool getDst(acetime_t epochSeconds) const {
-      UtcOffset offset = (getType() == kTypeAuto)
-        ? ((AutoZoneSpec*)mZoneSpec)->getDeltaOffset(epochSeconds)
-        : ((ManualZoneSpec*)mZoneSpec)->getDeltaOffset();
-      return offset.isDst();
-    }
-
-    /** Return the abbreviation of the time zone. */
+    /** Return the abbreviation at epochSeconds. */
     const char* getAbbrev(acetime_t epochSeconds) const {
       if (getType() == kTypeAuto) {
         return ((AutoZoneSpec*)mZoneSpec)->getAbbrev(epochSeconds);

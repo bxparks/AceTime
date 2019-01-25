@@ -347,7 +347,6 @@ test(TimeZoneTest_Manual, default) {
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(0, tz.getUtcOffset(0).toMinutes());
   assertEqual("UTC", tz.getAbbrev(0));
-  assertFalse(tz.getDst(0));
 }
 
 // --------------------------------------------------------------------------
@@ -385,12 +384,10 @@ test(TimeZoneTest_Manual, forUtcOffset) {
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
   assertEqual("PST", tz.getAbbrev(0));
-  assertFalse(tz.getDst(0));
 
   zoneSpec.isDst(true);
   assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
   assertEqual("PDT", tz.getAbbrev(0));
-  assertTrue(tz.getDst(0));
 }
 
 // --------------------------------------------------------------------------
@@ -418,7 +415,6 @@ test(TimeZoneTest_Auto, default) {
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(0, tz.getUtcOffset(0).toMinutes());
   assertEqual("UTC", tz.getAbbrev(0));
-  assertFalse(tz.getDst(0));
 }
 
 test(TimeZoneTest_Auto, LosAngeles) {
@@ -435,14 +431,12 @@ test(TimeZoneTest_Auto, LosAngeles) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PST", tz.getAbbrev(epochSeconds));
-  assertFalse(tz.getDst(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", tz.getAbbrev(epochSeconds));
-  assertTrue(tz.getDst(epochSeconds));
 }
 
 // --------------------------------------------------------------------------
