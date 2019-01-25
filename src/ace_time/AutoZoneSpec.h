@@ -1,5 +1,5 @@
-#ifndef ACE_TIME_ZONE_MANAGER_H
-#define ACE_TIME_ZONE_MANAGER_H
+#ifndef ACE_TIME_AUTO_ZONE_SPEC_H
+#define ACE_TIME_AUTO_ZONE_SPEC_H
 
 #include <string.h> // strchr()
 #include <stdint.h>
@@ -8,12 +8,13 @@
 #include "UtcOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
+#include "ZoneSpec.h"
 
-class ZoneAgentTest_init_primitives;
-class ZoneAgentTest_init;
-class ZoneAgentTest_createAbbreviation;
-class ZoneAgentTest_calcStartDayOfMonth;
-class ZoneAgentTest_calcRuleOffsetCode;
+class AutoZoneSpecTest_init_primitives;
+class AutoZoneSpecTest_init;
+class AutoZoneSpecTest_createAbbreviation;
+class AutoZoneSpecTest_calcStartDayOfMonth;
+class AutoZoneSpecTest_calcRuleOffsetCode;
 
 namespace ace_time {
 
@@ -76,43 +77,39 @@ struct ZoneMatch {
  *
  * Not thread-safe.
  */
-class ZoneAgent {
+class AutoZoneSpec: public ZoneSpec {
   public:
     /**
      * Constructor.
      * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
      * interpreted as UTC.
      */
-    explicit ZoneAgent(const common::ZoneInfo* zoneInfo = nullptr):
+    explicit AutoZoneSpec(const common::ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     /** Copy constructor. */
-    explicit ZoneAgent(const ZoneAgent& that):
+    explicit AutoZoneSpec(const AutoZoneSpec& that):
       mZoneInfo(that.mZoneInfo),
       mIsFilled(false) {}
-
-    /** Assignment operator. */
-    ZoneAgent& operator=(const ZoneAgent& that) {
-      mZoneInfo = that.mZoneInfo;
-      mIsFilled = false;
-      return *this;
-    }
 
     /** Return the underlying ZoneInfo. */
     const common::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
-    /** Return if the time zone is observing DST. */
-    bool isDst(acetime_t epochSeconds) {
-      if (mZoneInfo == nullptr) return false;
-      const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
-      return zoneMatch->rule != nullptr && zoneMatch->rule->deltaCode != 0;
-    }
+    uint8_t getType() const override { return kTypeAuto; }
 
-    /** Return the current offset. */
+    /** Return the UTC offset at epochSeconds. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) {
       if (mZoneInfo == nullptr) return UtcOffset();
       const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return UtcOffset::forOffsetCode(zoneMatch->offsetCode);
+    }
+
+    /** Return the DST delta offset at epochSeconds. */
+    UtcOffset getDeltaOffset(acetime_t epochSeconds) {
+      if (mZoneInfo == nullptr) return UtcOffset();
+      const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
+      if (zoneMatch->rule == nullptr) return UtcOffset();
+      return UtcOffset::forOffsetCode(zoneMatch->rule->deltaCode);
     }
 
     /** Return the time zone abbreviation. */
@@ -123,11 +120,12 @@ class ZoneAgent {
     }
 
   private:
-    friend class ::ZoneAgentTest_init_primitives;
-    friend class ::ZoneAgentTest_init;
-    friend class ::ZoneAgentTest_createAbbreviation;
-    friend class ::ZoneAgentTest_calcStartDayOfMonth;
-    friend class ::ZoneAgentTest_calcRuleOffsetCode;
+    friend class ::AutoZoneSpecTest_init_primitives;
+    friend class ::AutoZoneSpecTest_init;
+    friend class ::AutoZoneSpecTest_createAbbreviation;
+    friend class ::AutoZoneSpecTest_calcStartDayOfMonth;
+    friend class ::AutoZoneSpecTest_calcRuleOffsetCode;
+    friend bool operator==(const AutoZoneSpec& a, const AutoZoneSpec& b);
 
     static const uint8_t kMaxCacheEntries = 4;
 
@@ -506,6 +504,14 @@ class ZoneAgent {
     mutable internal::ZoneMatch mMatches[kMaxCacheEntries];
     mutable internal::ZoneMatch mPreviousMatch; // previous year's match
 };
+
+inline bool operator==(const AutoZoneSpec& a, const AutoZoneSpec& b) {
+  return a.getZoneInfo() == b.getZoneInfo();
+}
+
+inline bool operator!=(const AutoZoneSpec& a, const AutoZoneSpec& b) {
+  return ! (a == b);
+}
 
 }
 

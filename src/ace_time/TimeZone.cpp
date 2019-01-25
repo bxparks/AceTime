@@ -1,3 +1,4 @@
+#include <Print.h>
 #include "common/util.h"
 #include "TimeZone.h"
 
@@ -6,14 +7,16 @@ namespace ace_time {
 using common::printPad2;
 
 void TimeZone::printTo(Print& printer) const {
-  if (mType == kTypeAuto) {
+  if (getType() == kTypeAuto) {
+    AutoZoneSpec* spec = static_cast<AutoZoneSpec*>(mZoneSpec);
     printer.print('[');
-    printer.print(mAuto.zoneAgent->getZoneInfo()->name);
+    printer.print(spec->getZoneInfo()->name);
     printer.print(']');
   } else {
+    ManualZoneSpec* spec = static_cast<ManualZoneSpec*>(mZoneSpec);
     printer.print(F("UTC"));
-    mManual.utcOffset.printTo(printer);
-    printer.print(mManual.isDst ? F(" (DST)") : F(" (STD)"));
+    spec->stdOffset().printTo(printer);
+    printer.print(spec->isDst() ? F(" (DST)") : F(" (STD)"));
   }
 }
 

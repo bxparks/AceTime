@@ -69,12 +69,7 @@ class ZonedDateTime {
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             const TimeZone& timeZone = TimeZone()) {
-      if (timeZone.getType() == TimeZone::kTypeManual) {
-        UtcOffset utcOffset = timeZone.getUtcOffset(0);
-        OffsetDateTime odt = OffsetDateTime::forComponents(
-            year, month, day, hour, minute, second, utcOffset);
-        return ZonedDateTime(odt, timeZone);
-      } else {
+      if (timeZone.getType() == TimeZone::kTypeAuto) {
         // First guess at the UtcOffset using Jan 1 of the given year.
         acetime_t initialEpochSeconds =
             LocalDate::forComponents(year, 1, 1).toEpochSeconds();
@@ -89,6 +84,11 @@ class ZonedDateTime {
 
         odt = OffsetDateTime::forComponents(
             year, month, day, hour, minute, second, actualUtcOffset);
+        return ZonedDateTime(odt, timeZone);
+      } else {
+        UtcOffset utcOffset = timeZone.getUtcOffset(0);
+        OffsetDateTime odt = OffsetDateTime::forComponents(
+            year, month, day, hour, minute, second, utcOffset);
         return ZonedDateTime(odt, timeZone);
       }
     }

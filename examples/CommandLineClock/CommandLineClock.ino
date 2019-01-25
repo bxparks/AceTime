@@ -201,12 +201,9 @@ class TimezoneCommand: public CommandHandler {
       } else {
         SHIFT;
         if (strcmp(argv[0], "Los_Angeles") == 0) {
-          // Maybe replace the controller.getZoneAgent() with a
-          // ZoneManager::getAgent(zoneId).
-          TimeZone tz = TimeZone::forZone(controller.getZoneAgent());
-          controller.setTimeZone(tz);
+          controller.setTimeZone(&zonedb::kZoneLos_Angeles);
           printer.print(FF("Time zone set to: "));
-          tz.printTo(printer);
+          controller.getTimeZone().printTo(printer);
           printer.println();
         } else {
           UtcOffset offset = UtcOffset::forOffsetString(argv[0]);
@@ -214,10 +211,9 @@ class TimezoneCommand: public CommandHandler {
             printer.println(FF("Invalid time zone offset"));
             return;
           }
-          TimeZone tz = TimeZone::forUtcOffset(offset);
-          controller.setTimeZone(tz);
+          controller.setTimeZone(offset, false /*isDst*/);
           printer.print(FF("Time zone set to: "));
-          tz.printTo(printer);
+          controller.getTimeZone().printTo(printer);
           printer.println();
         }
       }

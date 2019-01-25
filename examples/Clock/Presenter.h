@@ -25,8 +25,8 @@ class Presenter {
       mRenderingInfo.dateTime = dateTime;
     }
 
-    void setTimeZone(const TimeZone& timeZone) {
-      mRenderingInfo.timeZone = timeZone;
+    void setTimeZone(const ManualZoneSpec& zoneSpec) {
+      mRenderingInfo.zoneSpec = zoneSpec;
     }
 
     void setHourMode(uint8_t hourMode) {
@@ -69,7 +69,7 @@ class Presenter {
               && (mRenderingInfo.blinkShowState
                   != mPrevRenderingInfo.blinkShowState))
           || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime
-          || mRenderingInfo.timeZone != mPrevRenderingInfo.timeZone
+          || mRenderingInfo.zoneSpec != mPrevRenderingInfo.zoneSpec
           || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode;
     }
 

@@ -3,51 +3,42 @@
 
 #include <stdint.h>
 #include "UtcOffset.h"
-#include "ZoneAgent.h"
+#include "ZoneSpec.h"
+#include "AutoZoneSpec.h"
+#include "ManualZoneSpec.h"
 
 class Print;
 
 namespace ace_time {
 
-namespace internal {
-
-/** Fields needed by TimeZone::kTypeManual. */
-struct ManualZone {
-  /** Offset from UTC. */
-  UtcOffset utcOffset;
-
-  /** Indicate whether Daylight Saving Time is in effect. */
-  bool isDst;
-
-  /** Time zone abbreviation for standard time, e.g. "PST". Nullable. */
-  const char* stdAbbrev;
-
-  /** Time zone abbreviation for daylight time, e.g. "PDT". Nullable. */
-  const char* dstAbbrev;
-};
-
-/** Fields needed by TimeZone::kTypeAuto. */
-struct AutoZone {
-  /** Manager of the time zone rules for the given ZoneInfo. */
-  mutable ZoneAgent* zoneAgent;
-};
-
-}
-
 /**
  * Class that describes a time zone. There are 2 types:
  *
  *    - kTypeManual represents an offset from UTC with a DST flag, both of
- *      which can be adjusted by the user. This type is mutable.
+ *    which can be adjusted by the user. This type is mutable.
  *
  *    - kTypeAuto represents a time zone described by the TZ Database which
- *      contains rules about when the transition occurs from standard to DST
- *      modes. This type is immutable.
+ *    contains rules about when the transition occurs from standard to DST
+ *    modes. This type is immutable.
  *
- * This class should be treated as a value type and passed around by value or
- * by const reference. If the user wants to change the offset and DST of a
- * Manual TimeZone, copy the TimeZone by value and call one of the mutators
- * which are valid for kTypeManual.
+ * The TimeZone class really really wants to be a reference type. In other
+ * words, it would be far more convenient for the client code to create this on
+ * the heap, and passed around using a pointer (or smart pointer) to the
+ * ZonedDateTime class. This would allow new TimeZones to be created, while
+ * older instances of ZonedDateTime would continued to hold on to the previous
+ * versions of TimeZone.
+ *
+ * However, in a small memory embedded environment (like Arduino Nano or Micro
+ * with only 2kB of RAM), I want to avoid any use of the heap (new operator or
+ * malloc()) inside the AceTime library. So, I separated out the memory
+ * intensive or mutable features of the TimeZone class into the separate
+ * ZoneSpec class. The ZoneSpec object should be created once at initialization
+ * time of the application (either statically allocated or potentially on the
+ * heap early in the application start up).
+ *
+ * The TimeZone class then becomes a thin wrapper around a ZoneSpec object
+ * (essentially acting like a smart pointer in some sense). It should be
+ * treated as a value type and passed around by value or by const reference.
  *
  * An alternative implementation would make TimeZone a base class of an
  * inheritance hierarchy with 2 subclasses (ManualTimeZone and AutoTimeZone).
@@ -56,118 +47,53 @@ struct AutoZone {
  * using a pointer. It then becomes very difficult to change the offset and DST
  * fields of the ManualTimeZone. Using a single TimeZone class and implementing
  * it as a value type simplifies a lot of code.
- *
- * The disadvantage of merging the Manual and Auto types is that for the Auto
- * type, the ZoneAgent needed to be split off as an external dependency to the
- * TimeZone.
  */
 class TimeZone {
   public:
-    static const uint8_t kTypeManual = 0;
-    static const uint8_t kTypeAuto = 1;
+    static const uint8_t kTypeManual = ZoneSpec::kTypeManual;
+    static const uint8_t kTypeAuto = ZoneSpec::kTypeAuto;
 
-    /** Factory method. Craete an auto TimeZone using the given ZoneAgent. */
-    static TimeZone forZone(ZoneAgent* zoneAgent) {
-      return TimeZone(zoneAgent);
-    }
+    /** Constructor. */
+    explicit TimeZone(ZoneSpec* zoneSpec = &ManualZoneSpec::sUtcZoneSpec):
+        mZoneSpec(zoneSpec) {}
 
-    /**
-     * Factory method. Create from UtcOffset.
-     *
-     * @param utcOffset offset from UTC
-     * @param isDst true if DST is in effect
-     * @param stdAbbrev abbreviation during standard time (e.g. "PST")
-     * @param dstAbbrev abbreviation during DST time (e.g. "PDT")
-     */
-    static TimeZone forUtcOffset(UtcOffset utcOffset,
-        bool isDst = false, const char* stdAbbrev = nullptr,
-        const char* dstAbbrev = nullptr) {
-      return TimeZone(utcOffset, isDst, stdAbbrev, dstAbbrev);
-    }
-
-    /** Factory method. Create from time zone string. */
-    static TimeZone forOffsetString(const char* ts) {
-      uint8_t offsetCode;
-      // TODO: write better time zone parser
-      parseFromOffsetString(ts, &offsetCode);
-      return TimeZone::forUtcOffset(UtcOffset::forOffsetCode(offsetCode));
-    }
-
-    /** Default constructor creates the UTC time zone. */
-    explicit TimeZone():
-        mType(kTypeManual),
-        mManual{UtcOffset(), false, "UTC", "UTC"} {}
+    /** Return the ZoneSpec. */
+    ZoneSpec* getZoneSpec() const { return mZoneSpec; }
 
     /** Return the type of TimeZone. */
-    uint8_t getType() const { return mType; }
+    uint8_t getType() const {
+      return mZoneSpec->getType();
+    }
 
     /** Return the effective zone offset. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) const {
-      if (mType == kTypeAuto) {
-        return mAuto.zoneAgent == nullptr
-            ? UtcOffset()
-            : mAuto.zoneAgent->getUtcOffset(epochSeconds);
+      if (getType() == kTypeAuto) {
+        return ((AutoZoneSpec*)mZoneSpec)->getUtcOffset(epochSeconds);
       } else {
-        return UtcOffset::forOffsetCode(
-            mManual.utcOffset.code() + (mManual.isDst ? 4 : 0));
+        return ((ManualZoneSpec*)mZoneSpec)->getUtcOffset();
       }
     }
 
     /** Return true if the time zone observes DST at epochSeconds. */
+    // TODO: Replace this with getDeltaOffset().
     bool getDst(acetime_t epochSeconds) const {
-      if (mType == kTypeAuto) {
-        return mAuto.zoneAgent == nullptr
-            ? false
-            : mAuto.zoneAgent->isDst(epochSeconds);
-      } else {
-        return mManual.isDst;
-      }
+      UtcOffset offset = (getType() == kTypeAuto)
+        ? ((AutoZoneSpec*)mZoneSpec)->getDeltaOffset(epochSeconds)
+        : ((ManualZoneSpec*)mZoneSpec)->getDeltaOffset();
+      return offset.isDst();
     }
 
     /** Return the abbreviation of the time zone. */
     const char* getAbbrev(acetime_t epochSeconds) const {
-      if (mType == kTypeAuto) {
-        return mAuto.zoneAgent == nullptr
-            ? "" // TODO: Should this be "UTC"?
-            : mAuto.zoneAgent->getAbbrev(epochSeconds);
+      if (getType() == kTypeAuto) {
+        return ((AutoZoneSpec*)mZoneSpec)->getAbbrev(epochSeconds);
       } else {
-        const char* abbrev = mManual.isDst
-            ? mManual.dstAbbrev
-            : mManual.stdAbbrev;
-        return (abbrev == nullptr) ? "" : abbrev;
+        return ((ManualZoneSpec*)mZoneSpec)->getAbbrev();
       }
     }
 
     /** Print the human readable representation of the time zone. */
     void printTo(Print& printer) const;
-
-    /** Return the base UTC offset. Valid only for kTypeManual. */
-    UtcOffset utcOffset() const { return mManual.utcOffset; }
-
-    /** Return a mutable base UTC offset. Valid only for kTypeManual. */
-    UtcOffset& utcOffset() { return mManual.utcOffset; }
-
-    /**
-     * Set the base offset without regards to the DST setting. Valid only for
-     * kTypeManual.
-     */
-    void utcOffset(UtcOffset utcOffset) {
-      mManual.utcOffset = utcOffset;
-    }
-
-    /** Return the base isDst flag. Valid only for kTypeManual. */
-    bool isDst() const { return mManual.isDst; }
-
-    /** Set the base isDst flag. Valid only for kTypeManual. */
-    void isDst(bool isDst) { mManual.isDst = isDst; }
-
-    /**
-     * Return the standard abbreviation. Nullable. Valid only for kTypeManual.
-     */
-    const char* stdAbbrev() const { return mManual.stdAbbrev; }
-
-    /** Return the DST abbreviation. Nullable. Valid only for kTypeManual. */
-    const char* dstAbbrev() const { return mManual.dstAbbrev; }
 
   private:
     friend bool operator==(const TimeZone& a, const TimeZone& b);
@@ -179,36 +105,22 @@ class TimeZone {
     static void parseFromOffsetString(const char* offsetString,
         uint8_t* offsetCode);
 
-    /** Constructor for kTypeAuto */
-    explicit TimeZone(ZoneAgent* zoneAgent):
-        mType(kTypeAuto),
-        mAuto{zoneAgent} {}
-
-    /** Constructor for kTypeManual. */
-    explicit TimeZone(UtcOffset utcOffset, bool isDst,
-            const char* stdAbbrev, const char* dstAbbrev):
-        mType(kTypeManual),
-        mManual{utcOffset, isDst, stdAbbrev, dstAbbrev} {}
-
-    /** Type of time zone. */
-    uint8_t mType;
-
-    /** Union of Auto and Manual time zone fields. */
-    union {
-      internal::ManualZone mManual;
-      internal::AutoZone mAuto;
-    };
+    /** Instance of ZoneSpec. */
+    ZoneSpec* mZoneSpec;
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
-  if (a.mType != b.mType) return false;
-  if (a.mType == TimeZone::kTypeAuto) {
-    return a.mAuto.zoneAgent->getZoneInfo() == b.mAuto.zoneAgent->getZoneInfo();
+  if (a.getType() != b.getType()) return false;
+  if (a.mZoneSpec == b.mZoneSpec) return true;
+
+  if (a.getType() == TimeZone::kTypeAuto) {
+    AutoZoneSpec* aa = static_cast<AutoZoneSpec*>(a.mZoneSpec);
+    AutoZoneSpec* bb = static_cast<AutoZoneSpec*>(b.mZoneSpec);
+    return *aa == *bb;
   } else {
-    return a.mManual.utcOffset == b.mManual.utcOffset
-        && a.mManual.isDst == b.mManual.isDst
-        && a.mManual.stdAbbrev == b.mManual.stdAbbrev
-        && a.mManual.dstAbbrev == b.mManual.dstAbbrev;
+    ManualZoneSpec* aa = static_cast<ManualZoneSpec*>(a.mZoneSpec);
+    ManualZoneSpec* bb = static_cast<ManualZoneSpec*>(b.mZoneSpec);
+    return *aa == *bb;
   }
 }
 

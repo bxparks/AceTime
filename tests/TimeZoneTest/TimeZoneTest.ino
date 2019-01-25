@@ -8,283 +8,346 @@ using namespace ace_time;
 using namespace ace_time::common;
 
 // --------------------------------------------------------------------------
-// ZoneAgent
+// ManualZoneSpec
 // --------------------------------------------------------------------------
 
-test(ZoneAgentTest, calcStartDayOfMonth) {
+test(ManualZoneSpecTest, accessors) {
+  ManualZoneSpec pstSpec(
+      UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
+
+  assertEqual(-8*60, pstSpec.getUtcOffset().toMinutes());
+  assertEqual("PST", pstSpec.getAbbrev());
+  assertEqual(0, pstSpec.getDeltaOffset().toMinutes());
+
+  pstSpec.isDst(true);
+
+  assertEqual(-7*60, pstSpec.getUtcOffset().toMinutes());
+  assertEqual("PDT", pstSpec.getAbbrev());
+  assertEqual(1*60, pstSpec.getDeltaOffset().toMinutes());
+}
+
+test(ManualZoneSpecTest, copyConstructor) {
+  ManualZoneSpec a(
+      UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
+  ManualZoneSpec b(a);
+
+  assertEqual(a.isDst(), b.isDst());
+  assertEqual(a.stdOffset().toMinutes(), b.stdOffset().toMinutes());
+  assertEqual(a.stdAbbrev(), b.stdAbbrev());
+  assertEqual(a.deltaOffset().toMinutes(), b.deltaOffset().toMinutes());
+  assertEqual(a.dstAbbrev(), b.dstAbbrev());
+
+  b.isDst(true);
+  assertNotEqual(a.isDst(), b.isDst());
+}
+
+test(ManualZoneSpecTest, operatorEqualEqual) {
+  ManualZoneSpec a(
+      UtcOffset::forHour(1), UtcOffset::forHour(1), "a", "b");
+  ManualZoneSpec b(
+      UtcOffset::forHour(2), UtcOffset::forHour(1), "a", "b");
+  ManualZoneSpec c(
+      UtcOffset::forHour(1), UtcOffset::forHour(1), "A", "b");
+  ManualZoneSpec d(
+      UtcOffset::forHour(1), UtcOffset::forHour(2), "a", "b");
+  ManualZoneSpec e(
+      UtcOffset::forHour(1), UtcOffset::forHour(1), "a", "B");
+
+  assertTrue(a != b);
+  assertTrue(a != c);
+  assertTrue(a != d);
+  assertTrue(a != e);
+
+  ManualZoneSpec aa(a);
+  assertTrue(a == aa);
+
+  aa.isDst(true);
+  assertTrue(a != aa);
+}
+
+// --------------------------------------------------------------------------
+// AutoZoneSpec
+// --------------------------------------------------------------------------
+
+test(AutoZoneSpecTest, operatorEqualEqual) {
+  AutoZoneSpec a(&zonedb::kZoneLos_Angeles);
+  AutoZoneSpec b(&zonedb::kZoneDarwin);
+  assertTrue(a != b);
+}
+
+test(AutoZoneSpecTest, calcStartDayOfMonth) {
   // 2018-11, Sun>=1
-  assertEqual(4, ZoneAgent::calcStartDayOfMonth(
+  assertEqual(4, AutoZoneSpec::calcStartDayOfMonth(
       2018, 11, LocalDate::kSunday, 1));
 
   // 2018-11, lastSun
-  assertEqual(25, ZoneAgent::calcStartDayOfMonth(
+  assertEqual(25, AutoZoneSpec::calcStartDayOfMonth(
       2018, 11, LocalDate::kSunday, 0));
 
   // 2018-03, Thu>=9
-  assertEqual(15, ZoneAgent::calcStartDayOfMonth(
+  assertEqual(15, AutoZoneSpec::calcStartDayOfMonth(
       2018, 3, LocalDate::kThursday, 9));
 
   // 2018-03-30
-  assertEqual(30, ZoneAgent::calcStartDayOfMonth(2018, 3, 0, 30));
+  assertEqual(30, AutoZoneSpec::calcStartDayOfMonth(2018, 3, 0, 30));
 }
 
-test(ZoneAgentTest, calcRuleOffsetCode) {
-  assertEqual(0, ZoneAgent::calcRuleOffsetCode(1, 2, 'u'));
-  assertEqual(1, ZoneAgent::calcRuleOffsetCode(1, 2, 'w'));
-  assertEqual(2, ZoneAgent::calcRuleOffsetCode(1, 2, 's'));
+test(AutoZoneSpecTest, calcRuleOffsetCode) {
+  assertEqual(0, AutoZoneSpec::calcRuleOffsetCode(1, 2, 'u'));
+  assertEqual(1, AutoZoneSpec::calcRuleOffsetCode(1, 2, 'w'));
+  assertEqual(2, AutoZoneSpec::calcRuleOffsetCode(1, 2, 's'));
 }
 
-test(ZoneAgentTest, init_primitives) {
-  ZoneAgent manager(&zonedb::kZoneLos_Angeles);
-  manager.mYear = 2001;
-  manager.mNumMatches = 0;
+test(AutoZoneSpecTest, init_primitives) {
+  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
+  zoneSpec.mYear = 2001;
+  zoneSpec.mNumMatches = 0;
 
-  manager.addRulePriorToYear(2001);
-  assertEqual(0, manager.mNumMatches);
-  assertEqual(-32, manager.mPreviousMatch.era->offsetCode);
-  assertEqual("P%T", manager.mPreviousMatch.era->format);
-  assertEqual(1967-2000, manager.mPreviousMatch.rule->fromYearTiny);
-  assertEqual(2006-2000, manager.mPreviousMatch.rule->toYearTiny);
-  assertEqual(10, manager.mPreviousMatch.rule->inMonth);
+  zoneSpec.addRulePriorToYear(2001);
+  assertEqual(0, zoneSpec.mNumMatches);
+  assertEqual(-32, zoneSpec.mPreviousMatch.era->offsetCode);
+  assertEqual("P%T", zoneSpec.mPreviousMatch.era->format);
+  assertEqual(1967-2000, zoneSpec.mPreviousMatch.rule->fromYearTiny);
+  assertEqual(2006-2000, zoneSpec.mPreviousMatch.rule->toYearTiny);
+  assertEqual(10, zoneSpec.mPreviousMatch.rule->inMonth);
 
-  manager.addRulesForYear(2001);
-  assertEqual(2, manager.mNumMatches);
+  zoneSpec.addRulesForYear(2001);
+  assertEqual(2, zoneSpec.mNumMatches);
 
-  assertEqual(-32, manager.mMatches[0].era->offsetCode);
-  assertEqual("P%T", manager.mMatches[0].era->format);
-  assertEqual(1987-2000, manager.mMatches[0].rule->fromYearTiny);
-  assertEqual(2006-2000, manager.mMatches[0].rule->toYearTiny);
-  assertEqual(4, manager.mMatches[0].rule->inMonth);
+  assertEqual(-32, zoneSpec.mMatches[0].era->offsetCode);
+  assertEqual("P%T", zoneSpec.mMatches[0].era->format);
+  assertEqual(1987-2000, zoneSpec.mMatches[0].rule->fromYearTiny);
+  assertEqual(2006-2000, zoneSpec.mMatches[0].rule->toYearTiny);
+  assertEqual(4, zoneSpec.mMatches[0].rule->inMonth);
 
-  assertEqual(-32, manager.mMatches[1].era->offsetCode);
-  assertEqual("P%T", manager.mMatches[1].era->format);
-  assertEqual(1967-2000, manager.mMatches[1].rule->fromYearTiny);
-  assertEqual(2006-2000, manager.mMatches[1].rule->toYearTiny);
-  assertEqual(10, manager.mMatches[1].rule->inMonth);
+  assertEqual(-32, zoneSpec.mMatches[1].era->offsetCode);
+  assertEqual("P%T", zoneSpec.mMatches[1].era->format);
+  assertEqual(1967-2000, zoneSpec.mMatches[1].rule->fromYearTiny);
+  assertEqual(2006-2000, zoneSpec.mMatches[1].rule->toYearTiny);
+  assertEqual(10, zoneSpec.mMatches[1].rule->inMonth);
 
-  manager.calcTransitions();
-  assertEqual((acetime_t) 0, manager.mPreviousMatch.startEpochSeconds);
-  assertEqual(-32, manager.mPreviousMatch.offsetCode);
+  zoneSpec.calcTransitions();
+  assertEqual((acetime_t) 0, zoneSpec.mPreviousMatch.startEpochSeconds);
+  assertEqual(-32, zoneSpec.mPreviousMatch.offsetCode);
 
   // t >= 2001-04-01 02:00 UTC-08:00 Sunday goes to PDT
-  assertEqual(-28, manager.mMatches[0].offsetCode);
-  assertEqual((acetime_t) 39434400, manager.mMatches[0].startEpochSeconds);
+  assertEqual(-28, zoneSpec.mMatches[0].offsetCode);
+  assertEqual((acetime_t) 39434400, zoneSpec.mMatches[0].startEpochSeconds);
 
   // t >= 2001-10-28 02:00 UTC-07:00 Sunday goes to PST
-  assertEqual(-32, manager.mMatches[1].offsetCode);
-  assertEqual((acetime_t) 57574800, manager.mMatches[1].startEpochSeconds);
+  assertEqual(-32, zoneSpec.mMatches[1].offsetCode);
+  assertEqual((acetime_t) 57574800, zoneSpec.mMatches[1].startEpochSeconds);
 }
 
-test(ZoneAgentTest, init) {
-  ZoneAgent manager(&zonedb::kZoneLos_Angeles);
+test(AutoZoneSpecTest, init) {
+  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
   LocalDate ld = LocalDate::forComponents(2018, 1, 1); // 2018-01-01
-  manager.init(ld);
+  zoneSpec.init(ld);
 
-  assertEqual(2, manager.mNumMatches);
+  assertEqual(2, zoneSpec.mNumMatches);
 
-  assertEqual(-32, manager.mPreviousMatch.era->offsetCode);
-  assertEqual("P%T", manager.mPreviousMatch.era->format);
-  assertEqual(2007-2000, manager.mPreviousMatch.rule->fromYearTiny);
+  assertEqual(-32, zoneSpec.mPreviousMatch.era->offsetCode);
+  assertEqual("P%T", zoneSpec.mPreviousMatch.era->format);
+  assertEqual(2007-2000, zoneSpec.mPreviousMatch.rule->fromYearTiny);
   assertEqual(ZoneRule::kMaxYearTiny,
-      manager.mPreviousMatch.rule->toYearTiny);
-  assertEqual(11, manager.mPreviousMatch.rule->inMonth);
+      zoneSpec.mPreviousMatch.rule->toYearTiny);
+  assertEqual(11, zoneSpec.mPreviousMatch.rule->inMonth);
 
-  assertEqual(-32, manager.mMatches[0].era->offsetCode);
-  assertEqual("P%T", manager.mMatches[0].era->format);
-  assertEqual(2007-2000, manager.mMatches[0].rule->fromYearTiny);
-  assertEqual(ZoneRule::kMaxYearTiny, manager.mMatches[0].rule->toYearTiny);
-  assertEqual(3, manager.mMatches[0].rule->inMonth);
+  assertEqual(-32, zoneSpec.mMatches[0].era->offsetCode);
+  assertEqual("P%T", zoneSpec.mMatches[0].era->format);
+  assertEqual(2007-2000, zoneSpec.mMatches[0].rule->fromYearTiny);
+  assertEqual(ZoneRule::kMaxYearTiny, zoneSpec.mMatches[0].rule->toYearTiny);
+  assertEqual(3, zoneSpec.mMatches[0].rule->inMonth);
 
-  assertEqual(-32, manager.mMatches[1].era->offsetCode);
-  assertEqual("P%T", manager.mMatches[1].era->format);
-  assertEqual(2007-2000, manager.mMatches[1].rule->fromYearTiny);
-  assertEqual(ZoneRule::kMaxYearTiny, manager.mMatches[1].rule->toYearTiny);
-  assertEqual(11, manager.mMatches[1].rule->inMonth);
+  assertEqual(-32, zoneSpec.mMatches[1].era->offsetCode);
+  assertEqual("P%T", zoneSpec.mMatches[1].era->format);
+  assertEqual(2007-2000, zoneSpec.mMatches[1].rule->fromYearTiny);
+  assertEqual(ZoneRule::kMaxYearTiny, zoneSpec.mMatches[1].rule->toYearTiny);
+  assertEqual(11, zoneSpec.mMatches[1].rule->inMonth);
 
-  assertEqual((acetime_t) 0, manager.mPreviousMatch.startEpochSeconds);
-  assertEqual(-32, manager.mPreviousMatch.offsetCode);
+  assertEqual((acetime_t) 0, zoneSpec.mPreviousMatch.startEpochSeconds);
+  assertEqual(-32, zoneSpec.mPreviousMatch.offsetCode);
 
   // t >= 2018-03-11 02:00 UTC-08:00 Sunday goes to PDT
-  assertEqual(-28, manager.mMatches[0].offsetCode);
-  assertEqual((acetime_t) 574077600, manager.mMatches[0].startEpochSeconds);
+  assertEqual(-28, zoneSpec.mMatches[0].offsetCode);
+  assertEqual((acetime_t) 574077600, zoneSpec.mMatches[0].startEpochSeconds);
 
   // t >= 2018-11-04 02:00 UTC-07:00 Sunday goes to PST
-  assertEqual(-32, manager.mMatches[1].offsetCode);
-  assertEqual((acetime_t) 594637200, manager.mMatches[1].startEpochSeconds);
+  assertEqual(-32, zoneSpec.mMatches[1].offsetCode);
+  assertEqual((acetime_t) 594637200, zoneSpec.mMatches[1].startEpochSeconds);
 }
 
 // zoneInfo == nullptr means UTC
-test(ZoneAgentTest, nullptr) {
-  ZoneAgent manager(nullptr);
-  assertEqual(0, manager.getUtcOffset(0).toMinutes());
-  assertEqual("UTC", manager.getAbbrev(0));
-  assertFalse(manager.isDst(0));
+test(AutoZoneSpecTest, nullptr) {
+  AutoZoneSpec zoneSpec(nullptr);
+  assertEqual(0, zoneSpec.getUtcOffset(0).toMinutes());
+  assertEqual("UTC", zoneSpec.getAbbrev(0));
+  assertFalse(zoneSpec.getDeltaOffset(0).isDst());
 }
 
-test(ZoneAgentTest, copyConstructorAssignmentOperator) {
+test(AutoZoneSpecTest, copyConstructorAssignmentOperator) {
   OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       UtcOffset::forHour(-8));
   acetime_t epochSeconds = dt.toEpochSeconds();
 
-  ZoneAgent m1(nullptr);
+  AutoZoneSpec m1(nullptr);
   assertEqual(0, m1.getUtcOffset(0).toMinutes());
 
-  ZoneAgent m2(&zonedb::kZoneLos_Angeles);
+  AutoZoneSpec m2(&zonedb::kZoneLos_Angeles);
   assertEqual(-8*60, m2.getUtcOffset(epochSeconds).toMinutes());
 
   m1 = m2;
   assertEqual(-8*60, m1.getUtcOffset(0).toMinutes());
 
-  ZoneAgent m3(m2);
+  AutoZoneSpec m3(m2);
   assertEqual(-8*60, m1.getUtcOffset(0).toMinutes());
 }
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
-test(ZoneAgentTest, kZoneLos_Angeles) {
-  ZoneAgent manager(&zonedb::kZoneLos_Angeles);
+test(AutoZoneSpecTest, kZoneLos_Angeles) {
+  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, manager.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PST", manager.getAbbrev(epochSeconds));
-  assertFalse(manager.isDst(epochSeconds));
+  assertEqual(-8*60, zoneSpec.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PST", zoneSpec.getAbbrev(epochSeconds));
+  assertFalse(zoneSpec.getDeltaOffset(epochSeconds).isDst());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, manager.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PDT", manager.getAbbrev(epochSeconds));
-  assertTrue(manager.isDst(epochSeconds));
+  assertEqual(-7*60, zoneSpec.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PDT", zoneSpec.getAbbrev(epochSeconds));
+  assertTrue(zoneSpec.getDeltaOffset(epochSeconds).isDst());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 0, 0,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, manager.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PDT", manager.getAbbrev(epochSeconds));
-  assertTrue(manager.isDst(epochSeconds));
+  assertEqual(-7*60, zoneSpec.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PDT", zoneSpec.getAbbrev(epochSeconds));
+  assertTrue(zoneSpec.getDeltaOffset(epochSeconds).isDst());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 59,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, manager.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PDT", manager.getAbbrev(epochSeconds));
-  assertTrue(manager.isDst(epochSeconds));
+  assertEqual(-7*60, zoneSpec.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PDT", zoneSpec.getAbbrev(epochSeconds));
+  assertTrue(zoneSpec.getDeltaOffset(epochSeconds).isDst());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 0,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, manager.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PST", manager.getAbbrev(epochSeconds));
-  assertFalse(manager.isDst(epochSeconds));
+  assertEqual(-8*60, zoneSpec.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PST", zoneSpec.getAbbrev(epochSeconds));
+  assertFalse(zoneSpec.getDeltaOffset(epochSeconds).isDst());
 }
 
 // https://www.timeanddate.com/time/zone/australia/sydney
-test(ZoneAgentTest, kZoneSydney) {
-  ZoneAgent manager(&zonedb::kZoneSydney);
+test(AutoZoneSpecTest, kZoneSydney) {
+  AutoZoneSpec zoneSpec(&zonedb::kZoneSydney);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2007, 3, 25, 2, 59, 59,
       UtcOffset::forHour(11));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(11*60, manager.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("AEDT", manager.getAbbrev(epochSeconds));
-  assertTrue(manager.isDst(epochSeconds));
+  assertEqual(11*60, zoneSpec.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("AEDT", zoneSpec.getAbbrev(epochSeconds));
+  assertTrue(zoneSpec.getDeltaOffset(epochSeconds).isDst());
 
   dt = OffsetDateTime::forComponents(2007, 3, 25, 3, 0, 0,
       UtcOffset::forHour(11));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(10*60, manager.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("AEST", manager.getAbbrev(epochSeconds));
-  assertFalse(manager.isDst(epochSeconds));
+  assertEqual(10*60, zoneSpec.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("AEST", zoneSpec.getAbbrev(epochSeconds));
+  assertFalse(zoneSpec.getDeltaOffset(epochSeconds).isDst());
 
   dt = OffsetDateTime::forComponents(2007, 10, 28, 1, 59, 59,
       UtcOffset::forHour(10));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(10*60, manager.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("AEST", manager.getAbbrev(epochSeconds));
-  assertFalse(manager.isDst(epochSeconds));
+  assertEqual(10*60, zoneSpec.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("AEST", zoneSpec.getAbbrev(epochSeconds));
+  assertFalse(zoneSpec.getDeltaOffset(epochSeconds).isDst());
 
   dt = OffsetDateTime::forComponents(2007, 10, 28, 2, 0, 0,
       UtcOffset::forHour(10));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(11*60, manager.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("AEDT", manager.getAbbrev(epochSeconds));
-  assertTrue(manager.isDst(epochSeconds));
+  assertEqual(11*60, zoneSpec.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("AEDT", zoneSpec.getAbbrev(epochSeconds));
+  assertTrue(zoneSpec.getDeltaOffset(epochSeconds).isDst());
 }
 
 // https://www.timeanddate.com/time/zone/south-africa/johannesburg
 // No DST changes at all.
-test(ZoneAgentTest, kZoneJohannesburg) {
-  ZoneAgent manager(&zonedb::kZoneJohannesburg);
+test(AutoZoneSpecTest, kZoneJohannesburg) {
+  AutoZoneSpec zoneSpec(&zonedb::kZoneJohannesburg);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
       UtcOffset::forHour(2));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(2*60, manager.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("SAST", manager.getAbbrev(epochSeconds));
-  assertFalse(manager.isDst(epochSeconds));
+  assertEqual(2*60, zoneSpec.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("SAST", zoneSpec.getAbbrev(epochSeconds));
+  assertFalse(zoneSpec.getDeltaOffset(epochSeconds).isDst());
 }
 
 // https://www.timeanddate.com/time/zone/australia/darwin
 // No DST changes since 1944. Uses the last transition which occurred in March
 // 1944.
-test(ZoneAgentTest, kZoneDarwin) {
-  ZoneAgent manager(&zonedb::kZoneDarwin);
+test(AutoZoneSpecTest, kZoneDarwin) {
+  AutoZoneSpec zoneSpec(&zonedb::kZoneDarwin);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
       UtcOffset::forHourMinute(1, 9, 30));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(9*60+30, manager.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("ACST", manager.getAbbrev(epochSeconds));
-  assertFalse(manager.isDst(epochSeconds));
+  assertEqual(9*60+30, zoneSpec.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("ACST", zoneSpec.getAbbrev(epochSeconds));
+  assertFalse(zoneSpec.getDeltaOffset(epochSeconds).isDst());
 }
 
-test(ZoneAgentTest, createAbbreviation) {
+test(AutoZoneSpecTest, createAbbreviation) {
   const uint8_t kDstSize = 6;
   char dst[kDstSize];
 
-  ZoneAgent::createAbbreviation(dst, kDstSize, "SAST", 0, '\0');
+  AutoZoneSpec::createAbbreviation(dst, kDstSize, "SAST", 0, '\0');
   assertEqual("SAST", dst);
 
-  ZoneAgent::createAbbreviation(dst, kDstSize, "P%T", 4, 'D');
+  AutoZoneSpec::createAbbreviation(dst, kDstSize, "P%T", 4, 'D');
   assertEqual("PDT", dst);
 
-  ZoneAgent::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
+  AutoZoneSpec::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
   assertEqual("PST", dst);
 
-  ZoneAgent::createAbbreviation(dst, kDstSize, "P%T", 0, '-');
+  AutoZoneSpec::createAbbreviation(dst, kDstSize, "P%T", 0, '-');
   assertEqual("PT", dst);
 
-  ZoneAgent::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '-');
+  AutoZoneSpec::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '-');
   assertEqual("GMT", dst);
 
-  ZoneAgent::createAbbreviation(dst, kDstSize, "GMT/BST", 4, '-');
+  AutoZoneSpec::createAbbreviation(dst, kDstSize, "GMT/BST", 4, '-');
   assertEqual("BST", dst);
 
-  ZoneAgent::createAbbreviation(dst, kDstSize, "P%T3456", 4, 'D');
+  AutoZoneSpec::createAbbreviation(dst, kDstSize, "P%T3456", 4, 'D');
   assertEqual("PDT34", dst);
 }
 
 // --------------------------------------------------------------------------
-// TimeZone
+// Default TimeZone
 // --------------------------------------------------------------------------
 
-test(TimeZoneTest, assignmentOperator) {
-  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
-  TimeZone a = TimeZone::forUtcOffset(
-      UtcOffset::forHour(-8), false, "PST", "PDT");
+test(TimeZoneTest_Manual, default) {
+  TimeZone tz;
 
-  TimeZone b;
-  b = a;
-  assertTrue(a == b);
+  assertEqual(TimeZone::kTypeManual, tz.getType());
+  assertEqual(0, tz.getUtcOffset(0).toMinutes());
+  assertEqual("UTC", tz.getAbbrev(0));
+  assertFalse(tz.getDst(0));
 }
 
 // --------------------------------------------------------------------------
@@ -292,58 +355,39 @@ test(TimeZoneTest, assignmentOperator) {
 // --------------------------------------------------------------------------
 
 test(TimeZoneTest_Manual, operatorEqualEqual) {
-  TimeZone a = TimeZone::forUtcOffset(
-      UtcOffset::forHour(-8), false, "PST", "PDT");
-  TimeZone b = TimeZone::forUtcOffset(
-      UtcOffset::forHour(-8), false, "PST", "PDT");
+  // PST
+  ManualZoneSpec spa(
+      UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
+  ManualZoneSpec spb(
+      UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
+
+  // Two time zones with same zoneSpec should be equal.
+  TimeZone a(&spa);
+  TimeZone b(&spb);
   assertTrue(a == b);
 
-  b = TimeZone::forUtcOffset(UtcOffset::forHour(-7), false, "PST", "PDT");
+  // One of them goes to DST. Should be different.
+  spb.isDst(true);
   assertTrue(a != b);
 
-  b = TimeZone::forUtcOffset(UtcOffset::forHour(-8), true, "PST", "PDT");
-  assertTrue(a != b);
-
-  b = TimeZone::forUtcOffset(UtcOffset::forHour(-8), false, "xxx", "PDT");
-  assertTrue(a != b);
-
-  b = TimeZone::forUtcOffset(UtcOffset::forHour(-8), false, "PST", "xxx");
-  assertTrue(a != b);
-}
-
-test(TimeZoneTest_Manual, copyConstructor) {
-  TimeZone a = TimeZone::forUtcOffset(
-      UtcOffset::forHour(-8), false, "PST", "PDT");
-  TimeZone b(a);
-  assertTrue(a == b);
-}
-
-test(TimeZoneTest_Manual, default) {
-  const TimeZone tz;
-  assertEqual(TimeZone::kTypeManual, tz.getType());
-  assertEqual(0, tz.utcOffset().toMinutes());
-  assertEqual("UTC", tz.stdAbbrev());
-  assertEqual("UTC", tz.dstAbbrev());
-
-  assertEqual(0, tz.getUtcOffset(0).toMinutes());
-  assertEqual("UTC", tz.getAbbrev(0));
-  assertFalse(tz.getDst(0));
+  // Should be different from EST.
+  ManualZoneSpec spc(
+      UtcOffset::forHour(-5), UtcOffset::forHour(1), "EST", "EDT");
+  TimeZone c(&spc);
+  assertTrue(a != c);
 }
 
 test(TimeZoneTest_Manual, forUtcOffset) {
-  TimeZone tz = TimeZone::forUtcOffset(
-      UtcOffset::forHour(-8), false, "PST", "PDT");
-  assertEqual(TimeZone::kTypeManual, tz.getType());
-  assertEqual(-8*60, tz.utcOffset().toMinutes());
-  assertEqual("PST", (uintptr_t) tz.stdAbbrev());
-  assertEqual("PDT", (uintptr_t) tz.dstAbbrev());
-  assertFalse(tz.isDst());
+  ManualZoneSpec zoneSpec(
+      UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
+  TimeZone tz(&zoneSpec);
 
+  assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
   assertEqual("PST", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));
 
-  tz.isDst(true);
+  zoneSpec.isDst(true);
   assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
   assertEqual("PDT", tz.getAbbrev(0));
   assertTrue(tz.getDst(0));
@@ -354,36 +398,36 @@ test(TimeZoneTest_Manual, forUtcOffset) {
 // --------------------------------------------------------------------------
 
 test(TimeZoneTest_Auto, operatorEqualEqual) {
-  ZoneAgent agentLA(&zonedb::kZoneLos_Angeles);
-  ZoneAgent agentNY(&zonedb::kZoneNew_York);
-  TimeZone a = TimeZone::forZone(&agentLA);
-  TimeZone b = TimeZone::forZone(&agentNY);
+  AutoZoneSpec zoneSpecLA(&zonedb::kZoneLos_Angeles);
+  AutoZoneSpec zoneSpecNY(&zonedb::kZoneNew_York);
+  TimeZone a(&zoneSpecLA);
+  TimeZone b(&zoneSpecNY);
 
   assertTrue(a != b);
 }
 
 test(TimeZoneTest_Auto, copyConstructor) {
-  ZoneAgent zoneAgent(&zonedb::kZoneLos_Angeles);
-  TimeZone a = TimeZone::forZone(&zoneAgent);
+  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
+  TimeZone a(&zoneSpec);
   TimeZone b(a);
   assertTrue(a == b);
 }
 
-test(TimeZoneTest_Auto, nullptr) {
-  TimeZone tz = TimeZone::forZone(nullptr);
-  assertEqual(TimeZone::kTypeAuto, tz.getType());
+test(TimeZoneTest_Auto, default) {
+  TimeZone tz;
+  assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(0, tz.getUtcOffset(0).toMinutes());
-  assertEqual("", tz.getAbbrev(0));
+  assertEqual("UTC", tz.getAbbrev(0));
   assertFalse(tz.getDst(0));
 }
 
 test(TimeZoneTest_Auto, LosAngeles) {
-  ZoneAgent agent(&zonedb::kZoneLos_Angeles);
+  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
 
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
-  TimeZone tz = TimeZone::forZone(&agent);
+  TimeZone tz(&zoneSpec);
   assertEqual(TimeZone::kTypeAuto, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
