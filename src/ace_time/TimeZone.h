@@ -57,6 +57,9 @@ class TimeZone {
     explicit TimeZone(ZoneSpec* zoneSpec = &ManualZoneSpec::sUtcZoneSpec):
         mZoneSpec(zoneSpec) {}
 
+    /** Return the ZoneSpec. */
+    ZoneSpec* getZoneSpec() const { return mZoneSpec; }
+
     /** Return the type of TimeZone. */
     uint8_t getType() const {
       return mZoneSpec->getType();

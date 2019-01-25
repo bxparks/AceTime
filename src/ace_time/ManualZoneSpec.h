@@ -15,8 +15,8 @@ class ManualZoneSpec: public ZoneSpec {
      */
     explicit ManualZoneSpec():
       mStdOffset(),
-      mStdAbbrev("UTC"),
       mDeltaOffset(),
+      mStdAbbrev("UTC"),
       mDstAbbrev("UTC") {}
 
     /**
@@ -24,23 +24,25 @@ class ManualZoneSpec: public ZoneSpec {
      * with epochSeconds. The offset can change when the isDst flag is set.
      *
      * @param stdOffset base offset of the zone (required)
+     * @param deltaOffset additional UTC offset during DST time
      * @param stdAbbrev time zone abbreviation during normal time (default "")
-     * @param deltaOffset additional UTC offset during DST time (default 0)
      * @param dstAbbrev time zone abbreviation during DST time (default "")
      */
     explicit ManualZoneSpec(UtcOffset stdOffset,
+        UtcOffset deltaOffset,
         const char* stdAbbrev = "",
-        UtcOffset deltaOffset = UtcOffset(),
         const char* dstAbbrev = ""):
       mStdOffset(stdOffset),
-      mStdAbbrev(stdAbbrev),
       mDeltaOffset(deltaOffset),
+      mStdAbbrev(stdAbbrev),
       mDstAbbrev(dstAbbrev) {}
 
     /** Singleton instance of a UTC ZoneSpec. */
     static ManualZoneSpec sUtcZoneSpec;
 
     UtcOffset stdOffset() const { return mStdOffset; }
+
+    UtcOffset& stdOffset() { return mStdOffset; }
 
     const char* stdAbbrev() const { return mStdAbbrev; }
 
@@ -79,11 +81,11 @@ class ManualZoneSpec: public ZoneSpec {
     /** Offset from UTC. */
     UtcOffset mStdOffset;
 
-    /** Time zone abbreviation for standard time, e.g. "PST". Not Nullable. */
-    const char* mStdAbbrev;
-
     /** Additional offset to add to mStdOffset when observing DST. */
     UtcOffset mDeltaOffset;
+
+    /** Time zone abbreviation for standard time, e.g. "PST". Not Nullable. */
+    const char* mStdAbbrev;
 
     /** Time zone abbreviation for daylight time, e.g. "PDT". Not Nullable. */
     const char* mDstAbbrev;

@@ -46,7 +46,7 @@ test(ZonedDateTimeTest, forComponents) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2018-01-01 00:00:00+00:15 Monday
-  ManualZoneSpec zoneSpec(UtcOffset::forMinutes(15));
+  ManualZoneSpec zoneSpec(UtcOffset::forMinutes(15), UtcOffset::forHour(1));
   dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeZone(&zoneSpec));
   assertEqual((acetime_t) 6574, dt.toEpochDays());
   assertEqual((acetime_t) 17531, dt.toUnixDays());
@@ -101,7 +101,7 @@ test(ZonedDateTimeTest, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 
   // 2018-08-30T06:45:01-07:00
-  ManualZoneSpec zoneSpec(UtcOffset::forHour(-7));
+  ManualZoneSpec zoneSpec(UtcOffset::forHour(-7), UtcOffset::forHour(1));
   TimeZone tz(&zoneSpec);
   dt = ZonedDateTime::forComponents(2018, 8, 30, 6, 45, 1, tz);
   assertEqual((acetime_t) 1535636701, dt.toUnixSeconds());
@@ -115,8 +115,8 @@ test(ZonedDateTimeTest, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 }
 
-test(ZonedDateTimeTest, TimeZone_Manual) {
-  ManualZoneSpec zoneSpec(UtcOffset::forHour(-8));
+test(ZonedDateTimeTest, ManualZoneSpec) {
+  ManualZoneSpec zoneSpec(UtcOffset::forHour(-8), UtcOffset::forHour(1));
   TimeZone tz(&zoneSpec);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
@@ -124,6 +124,30 @@ test(ZonedDateTimeTest, TimeZone_Manual) {
       UtcOffset::forHour(-8));
 
   assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
+}
+
+test(ZonedDateTimeTest, convertToTimeZone) {
+  ManualZoneSpec stdSpec(UtcOffset::forHour(-8), UtcOffset::forHour(1));
+  TimeZone stdTz(&stdSpec);
+  ZonedDateTime std = ZonedDateTime::forComponents(
+      2018, 3, 11, 1, 59, 59, stdTz);
+  acetime_t stdEpochSeconds = std.toEpochSeconds();
+
+  ManualZoneSpec dstSpec(stdSpec);
+  dstSpec.isDst(true);
+  TimeZone dstTz(&dstSpec);
+  ZonedDateTime dst = std.convertToTimeZone(dstTz);
+  acetime_t dstEpochSeconds = dst.toEpochSeconds();
+
+  assertEqual(stdEpochSeconds, dstEpochSeconds);
+
+  assertEqual((int16_t) 2018, dst.year());
+  assertEqual(3, dst.month());
+  assertEqual(11, dst.day());
+  assertEqual(2, dst.hour());
+  assertEqual(59, dst.minute());
+  assertEqual(59, dst.second());
+  assertEqual(-7*60, dst.timeZone().getUtcOffset(stdEpochSeconds).toMinutes());
 }
 
 test(ZonedDateTimeTest, forComponents_beforeDst) {
@@ -183,7 +207,6 @@ test(ZonedDateTimeTest, forComponents_inOverlap) {
 
   assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
 }
-
 
 test(ZonedDateTimeTest, forComponents_afterOverlap) {
   AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
