@@ -96,10 +96,10 @@ COROUTINE(updateController) {
 // Configure AceButton.
 //------------------------------------------------------------------
 
-AdjustableButtonConfig modeButtonConfig;
+ButtonConfig modeButtonConfig;
 AceButton modeButton(&modeButtonConfig);
 
-AdjustableButtonConfig changeButtonConfig;
+ButtonConfig changeButtonConfig;
 AceButton changeButton(&changeButtonConfig);
 
 void handleModeButton(AceButton* /* button */, uint8_t eventType,
