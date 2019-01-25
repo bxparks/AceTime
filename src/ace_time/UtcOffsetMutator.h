@@ -18,7 +18,7 @@ namespace ace_time {
  * complexity of the API provided by the various UtcOffset classes. 2) It
  * collects mutation operations in a single place which can be updated or
  * modified as needed.
- * 
+ *
  * Example:
  *
  * @code{.cpp}

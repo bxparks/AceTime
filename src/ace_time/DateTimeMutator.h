@@ -18,11 +18,6 @@ namespace ace_time {
  * collects mutation operations in a single place which can be updated or
  * modified as needed.
  *
- * The incrementXxx() methods are convenience methods to allow the user to
- * change the date and time using just two buttons. The user is expected to
- * select a specific DateTime component using one of the buttons, then press
- * the other button to increment it.
- * 
  * Example:
  *
  * @code{.cpp}
