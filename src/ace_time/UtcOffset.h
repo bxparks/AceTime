@@ -134,8 +134,8 @@ class UtcOffset {
     void printTo(Print& printer) const;
 
   private:
-		friend class AutoZoneSpec;
-		friend class ManualZoneSpec;
+		friend class AutoZoneSpecifier;
+		friend class ManualZoneSpecifier;
 		friend class TimeZone;
     friend class UtcOffsetMutator;
     friend bool operator==(const UtcOffset& a, const UtcOffset& b);

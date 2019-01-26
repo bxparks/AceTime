@@ -35,16 +35,16 @@ class Controller {
 
     /** Set the time zone using the given offset. */
     void setTimeZone(UtcOffset utcOffset, bool isDst) {
-      mManualZoneSpec = ManualZoneSpec(utcOffset);
-      mTimeZone = TimeZone(&mManualZoneSpec);
+      mManualZoneSpecifier = ManualZoneSpecifier(utcOffset);
+      mTimeZone = TimeZone(&mManualZoneSpecifier);
       mTimeZone.isDst(isDst);
       preserveInfo();
     }
 
     /** Set the time zone using the given Zone Info. */
     void setTimeZone(const common::ZoneInfo* zoneInfo) {
-      mAutoZoneSpec = AutoZoneSpec(zoneInfo);
-      mTimeZone = TimeZone(&mAutoZoneSpec);
+      mAutoZoneSpecifier = AutoZoneSpecifier(zoneInfo);
+      mTimeZone = TimeZone(&mAutoZoneSpecifier);
       preserveInfo();
     }
 
@@ -117,7 +117,7 @@ class Controller {
     uint16_t preserveInfo() {
       mIsStoredInfoValid = true;
       mStoredInfo.timeZoneType = mTimeZone.getType();
-      mStoredInfo.offsetMinutes = mManualZoneSpec.stdOffset().toMinutes();
+      mStoredInfo.offsetMinutes = mManualZoneSpecifier.stdOffset().toMinutes();
       mStoredInfo.isDst = mTimeZone.isDst();
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
@@ -126,8 +126,8 @@ class Controller {
     TimeKeeper& mSystemTimeKeeper;
     ZonedDateTime mChangingDateTime;
     TimeZone mTimeZone;
-    AutoZoneSpec mAutoZoneSpec;
-    ManualZoneSpec mManualZoneSpec;
+    AutoZoneSpecifier mAutoZoneSpecifier;
+    ManualZoneSpecifier mManualZoneSpecifier;
 
     StoredInfo mStoredInfo;
     bool mIsStoredInfoValid = false;

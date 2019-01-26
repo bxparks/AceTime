@@ -8,13 +8,13 @@
 #include "UtcOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
-#include "ZoneSpec.h"
+#include "ZoneSpecifier.h"
 
-class AutoZoneSpecTest_init_primitives;
-class AutoZoneSpecTest_init;
-class AutoZoneSpecTest_createAbbreviation;
-class AutoZoneSpecTest_calcStartDayOfMonth;
-class AutoZoneSpecTest_calcRuleOffsetCode;
+class AutoZoneSpecifierTest_init_primitives;
+class AutoZoneSpecifierTest_init;
+class AutoZoneSpecifierTest_createAbbreviation;
+class AutoZoneSpecifierTest_calcStartDayOfMonth;
+class AutoZoneSpecifierTest_calcRuleOffsetCode;
 
 namespace ace_time {
 
@@ -77,18 +77,18 @@ struct ZoneMatch {
  *
  * Not thread-safe.
  */
-class AutoZoneSpec: public ZoneSpec {
+class AutoZoneSpecifier: public ZoneSpecifier {
   public:
     /**
      * Constructor.
      * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
      * interpreted as UTC.
      */
-    explicit AutoZoneSpec(const common::ZoneInfo* zoneInfo = nullptr):
+    explicit AutoZoneSpecifier(const common::ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     /** Copy constructor. */
-    explicit AutoZoneSpec(const AutoZoneSpec& that):
+    explicit AutoZoneSpecifier(const AutoZoneSpecifier& that):
       mZoneInfo(that.mZoneInfo),
       mIsFilled(false) {}
 
@@ -120,12 +120,13 @@ class AutoZoneSpec: public ZoneSpec {
     }
 
   private:
-    friend class ::AutoZoneSpecTest_init_primitives;
-    friend class ::AutoZoneSpecTest_init;
-    friend class ::AutoZoneSpecTest_createAbbreviation;
-    friend class ::AutoZoneSpecTest_calcStartDayOfMonth;
-    friend class ::AutoZoneSpecTest_calcRuleOffsetCode;
-    friend bool operator==(const AutoZoneSpec& a, const AutoZoneSpec& b);
+    friend class ::AutoZoneSpecifierTest_init_primitives;
+    friend class ::AutoZoneSpecifierTest_init;
+    friend class ::AutoZoneSpecifierTest_createAbbreviation;
+    friend class ::AutoZoneSpecifierTest_calcStartDayOfMonth;
+    friend class ::AutoZoneSpecifierTest_calcRuleOffsetCode;
+    friend bool operator==(const AutoZoneSpecifier& a,
+        const AutoZoneSpecifier& b);
 
     static const uint8_t kMaxCacheEntries = 4;
 
@@ -505,11 +506,11 @@ class AutoZoneSpec: public ZoneSpec {
     mutable internal::ZoneMatch mPreviousMatch; // previous year's match
 };
 
-inline bool operator==(const AutoZoneSpec& a, const AutoZoneSpec& b) {
+inline bool operator==(const AutoZoneSpecifier& a, const AutoZoneSpecifier& b) {
   return a.getZoneInfo() == b.getZoneInfo();
 }
 
-inline bool operator!=(const AutoZoneSpec& a, const AutoZoneSpec& b) {
+inline bool operator!=(const AutoZoneSpecifier& a, const AutoZoneSpecifier& b) {
   return ! (a == b);
 }
 

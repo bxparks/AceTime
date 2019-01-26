@@ -43,13 +43,13 @@ class Clock {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
       if (isValid) {
-        mCurrentZoneSpec = ManualZoneSpec(
+        mCurrentZoneSpecifier = ManualZoneSpecifier(
             UtcOffset::forMinutes(storedInfo.offsetMinutes),
             UtcOffset::forHour(1));
-        mCurrentZoneSpec.isDst(storedInfo.isDst);
+        mCurrentZoneSpecifier.isDst(storedInfo.isDst);
         mHourMode = storedInfo.hourMode;
       } else {
-        mCurrentZoneSpec = ManualZoneSpec(
+        mCurrentZoneSpecifier = ManualZoneSpecifier(
             UtcOffset::forMinutes(kDefaultOffsetMinutes),
             UtcOffset::forHour(1));
         mHourMode = StoredInfo::kTwentyFour;
@@ -60,7 +60,7 @@ class Clock {
 
       // Set the current date time using the mTimeZone.
       mCurrentDateTime = ZonedDateTime::forEpochSeconds(
-          nowSeconds, TimeZone(&mCurrentZoneSpec));
+          nowSeconds, TimeZone(&mCurrentZoneSpecifier));
     }
 
     /**
@@ -89,7 +89,7 @@ class Clock {
   protected:
     void updateDateTime() {
       mCurrentDateTime = ZonedDateTime::forEpochSeconds(
-          mTimeKeeper.getNow(), TimeZone(&mCurrentZoneSpec));
+          mTimeKeeper.getNow(), TimeZone(&mCurrentZoneSpecifier));
 
       // If in CHANGE mode, and the 'second' field has not been cleared,
       // update the mChangingDateTime.second field with the current second.
@@ -137,7 +137,7 @@ class Clock {
         case MODE_WEEKDAY:
         case MODE_TIME_ZONE:
           mPresenter.setDateTime(mCurrentDateTime);
-          mPresenter.setTimeZone(mCurrentZoneSpec);
+          mPresenter.setTimeZone(mCurrentZoneSpecifier);
           mPresenter.setHourMode(mHourMode);
           break;
 
@@ -152,7 +152,7 @@ class Clock {
         case MODE_CHANGE_TIME_ZONE_DST:
         case MODE_CHANGE_HOUR_MODE:
           mPresenter.setDateTime(mChangingDateTime);
-          mPresenter.setTimeZone(mChangingZoneSpec);
+          mPresenter.setTimeZone(mChangingZoneSpecifier);
           mPresenter.setHourMode(mHourMode);
           break;
       }
@@ -164,17 +164,17 @@ class Clock {
     }
 
     void saveTimeZone() {
-      mCurrentZoneSpec = mChangingZoneSpec;
+      mCurrentZoneSpecifier = mChangingZoneSpecifier;
       mCurrentDateTime = mCurrentDateTime.convertToTimeZone(
-          TimeZone(&mCurrentZoneSpec));
+          TimeZone(&mCurrentZoneSpecifier));
       preserveInfo();
     }
 
     void preserveInfo() {
       StoredInfo storedInfo;
-      storedInfo.timeZoneType = mCurrentZoneSpec.getType();
-      storedInfo.offsetMinutes = mCurrentZoneSpec.stdOffset().toMinutes();
-      storedInfo.isDst = mCurrentZoneSpec.isDst();
+      storedInfo.timeZoneType = mCurrentZoneSpecifier.getType();
+      storedInfo.offsetMinutes = mCurrentZoneSpecifier.stdOffset().toMinutes();
+      storedInfo.isDst = mCurrentZoneSpecifier.isDst();
       storedInfo.hourMode = mHourMode;
 
       mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
@@ -188,10 +188,10 @@ class Clock {
 
     uint8_t mMode = MODE_UNKNOWN; // current mode
 
-    ManualZoneSpec mCurrentZoneSpec;
+    ManualZoneSpecifier mCurrentZoneSpecifier;
     ZonedDateTime mCurrentDateTime; // DateTime from the TimeKeeper
 
-    ManualZoneSpec mChangingZoneSpec;;
+    ManualZoneSpecifier mChangingZoneSpecifier;;
     ZonedDateTime mChangingDateTime; // DateTime set by user in "Change" modes
 
     bool mSecondFieldCleared;

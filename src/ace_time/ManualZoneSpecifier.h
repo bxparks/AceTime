@@ -3,17 +3,17 @@
 
 #include <string.h> // strcmp()
 #include "UtcOffset.h"
-#include "ZoneSpec.h"
+#include "ZoneSpecifier.h"
 
 namespace ace_time {
 
-class ManualZoneSpec: public ZoneSpec {
+class ManualZoneSpecifier: public ZoneSpecifier {
   public:
     /**
      * Default constructor describes the UTC+00:00 time zone with no DST.
      * The abbreviations are set to "UTC".
      */
-    explicit ManualZoneSpec():
+    explicit ManualZoneSpecifier():
       mStdOffset(),
       mDeltaOffset(),
       mStdAbbrev("UTC"),
@@ -28,7 +28,7 @@ class ManualZoneSpec: public ZoneSpec {
      * @param stdAbbrev time zone abbreviation during normal time (default "")
      * @param dstAbbrev time zone abbreviation during DST time (default "")
      */
-    explicit ManualZoneSpec(UtcOffset stdOffset,
+    explicit ManualZoneSpecifier(UtcOffset stdOffset,
         UtcOffset deltaOffset,
         const char* stdAbbrev = "",
         const char* dstAbbrev = ""):
@@ -37,8 +37,8 @@ class ManualZoneSpec: public ZoneSpec {
       mStdAbbrev(stdAbbrev),
       mDstAbbrev(dstAbbrev) {}
 
-    /** Singleton instance of a UTC ZoneSpec. */
-    static ManualZoneSpec sUtcZoneSpec;
+    /** Singleton instance of a UTC ZoneSpecifier. */
+    static ManualZoneSpecifier sUtcZoneSpecifier;
 
     UtcOffset stdOffset() const { return mStdOffset; }
 
@@ -50,10 +50,10 @@ class ManualZoneSpec: public ZoneSpec {
 
     const char* dstAbbrev() const { return mDstAbbrev; }
 
-    /** Return the base isDst flag. Valid only for AutoZoneSpec. */
+    /** Return the base isDst flag. Valid only for AutoZoneSpecifier. */
     bool isDst() const { return mIsDst; }
 
-    /** Set the base isDst flag. Valid only for ManualZoneSpec. */
+    /** Set the base isDst flag. Valid only for ManualZoneSpecifier. */
     void isDst(bool isDst) { mIsDst = isDst; }
 
     uint8_t getType() const override { return kTypeManual; }
@@ -76,7 +76,8 @@ class ManualZoneSpec: public ZoneSpec {
     }
 
   private:
-    friend bool operator==(const ManualZoneSpec& a, const ManualZoneSpec& b);
+    friend bool operator==(const ManualZoneSpecifier& a,
+        const ManualZoneSpecifier& b);
 
     /** Offset from UTC. */
     UtcOffset mStdOffset;
@@ -90,11 +91,12 @@ class ManualZoneSpec: public ZoneSpec {
     /** Time zone abbreviation for daylight time, e.g. "PDT". Not Nullable. */
     const char* mDstAbbrev;
 
-    /** Set to true if DST is enabled, when using ManualZoneSpec. */
+    /** Set to true if DST is enabled, when using ManualZoneSpecifier. */
     bool mIsDst = false;
 };
 
-inline bool operator==(const ManualZoneSpec& a, const ManualZoneSpec& b) {
+inline bool operator==(const ManualZoneSpecifier& a,
+    const ManualZoneSpecifier& b) {
   return a.isDst() == b.isDst()
       && a.stdOffset() == b.stdOffset()
       && a.deltaOffset() == b.deltaOffset()
@@ -102,7 +104,8 @@ inline bool operator==(const ManualZoneSpec& a, const ManualZoneSpec& b) {
       && strcmp(a.dstAbbrev(), b.dstAbbrev()) == 0;
 }
 
-inline bool operator!=(const ManualZoneSpec& a, const ManualZoneSpec& b) {
+inline bool operator!=(const ManualZoneSpecifier& a,
+    const ManualZoneSpecifier& b) {
   return ! (a == b);
 }
 

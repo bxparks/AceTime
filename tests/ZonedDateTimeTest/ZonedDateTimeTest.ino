@@ -46,8 +46,8 @@ test(ZonedDateTimeTest, forComponents) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2018-01-01 00:00:00+00:15 Monday
-  ManualZoneSpec zoneSpec(UtcOffset::forMinutes(15), UtcOffset::forHour(1));
-  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeZone(&zoneSpec));
+  ManualZoneSpecifier zoneSpecifier(UtcOffset::forMinutes(15), UtcOffset::forHour(1));
+  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeZone(&zoneSpecifier));
   assertEqual((acetime_t) 6574, dt.toEpochDays());
   assertEqual((acetime_t) 17531, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400 - 15*60, dt.toEpochSeconds());
@@ -101,8 +101,8 @@ test(ZonedDateTimeTest, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 
   // 2018-08-30T06:45:01-07:00
-  ManualZoneSpec zoneSpec(UtcOffset::forHour(-7), UtcOffset::forHour(1));
-  TimeZone tz(&zoneSpec);
+  ManualZoneSpecifier zoneSpecifier(UtcOffset::forHour(-7), UtcOffset::forHour(1));
+  TimeZone tz(&zoneSpecifier);
   dt = ZonedDateTime::forComponents(2018, 8, 30, 6, 45, 1, tz);
   assertEqual((acetime_t) 1535636701, dt.toUnixSeconds());
   udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), tz);
@@ -115,9 +115,9 @@ test(ZonedDateTimeTest, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 }
 
-test(ZonedDateTimeTest, ManualZoneSpec) {
-  ManualZoneSpec zoneSpec(UtcOffset::forHour(-8), UtcOffset::forHour(1));
-  TimeZone tz(&zoneSpec);
+test(ZonedDateTimeTest, ManualZoneSpecifier) {
+  ManualZoneSpecifier zoneSpecifier(UtcOffset::forHour(-8), UtcOffset::forHour(1));
+  TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
   OffsetDateTime otz = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
@@ -127,13 +127,13 @@ test(ZonedDateTimeTest, ManualZoneSpec) {
 }
 
 test(ZonedDateTimeTest, convertToTimeZone) {
-  ManualZoneSpec stdSpec(UtcOffset::forHour(-8), UtcOffset::forHour(1));
+  ManualZoneSpecifier stdSpec(UtcOffset::forHour(-8), UtcOffset::forHour(1));
   TimeZone stdTz(&stdSpec);
   ZonedDateTime std = ZonedDateTime::forComponents(
       2018, 3, 11, 1, 59, 59, stdTz);
   acetime_t stdEpochSeconds = std.toEpochSeconds();
 
-  ManualZoneSpec dstSpec(stdSpec);
+  ManualZoneSpecifier dstSpec(stdSpec);
   dstSpec.isDst(true);
   TimeZone dstTz(&dstSpec);
   ZonedDateTime dst = std.convertToTimeZone(dstTz);
@@ -151,8 +151,8 @@ test(ZonedDateTimeTest, convertToTimeZone) {
 }
 
 test(ZonedDateTimeTest, forComponents_beforeDst) {
-  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&zoneSpec);
+  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
   UtcOffset pst = UtcOffset::forHour(-8);
@@ -163,8 +163,8 @@ test(ZonedDateTimeTest, forComponents_beforeDst) {
 }
 
 test(ZonedDateTimeTest, forComponents_inDstGap) {
-  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&zoneSpec);
+  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 0, 1, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
@@ -174,8 +174,8 @@ test(ZonedDateTimeTest, forComponents_inDstGap) {
 }
 
 test(ZonedDateTimeTest, forComponents_inDst) {
-  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&zoneSpec);
+  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 0, 1, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
@@ -185,8 +185,8 @@ test(ZonedDateTimeTest, forComponents_inDst) {
 }
 
 test(ZonedDateTimeTest, forComponents_beforeStd) {
-  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&zoneSpec);
+  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 59, tz);
 
   UtcOffset pdt = UtcOffset::forHour(-7);
@@ -197,8 +197,8 @@ test(ZonedDateTimeTest, forComponents_beforeStd) {
 }
 
 test(ZonedDateTimeTest, forComponents_inOverlap) {
-  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&zoneSpec);
+  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2018, 11, 4, 1, 0, 1, tz); // ambiguous
 
@@ -209,8 +209,8 @@ test(ZonedDateTimeTest, forComponents_inOverlap) {
 }
 
 test(ZonedDateTimeTest, forComponents_afterOverlap) {
-  AutoZoneSpec zoneSpec(&zonedb::kZoneLos_Angeles);
-  TimeZone tz(&zoneSpec);
+  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2018, 11, 4, 2, 0, 1, tz); // ambiguous
 

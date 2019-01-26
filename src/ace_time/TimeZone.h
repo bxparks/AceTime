@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 #include "UtcOffset.h"
-#include "ZoneSpec.h"
-#include "AutoZoneSpec.h"
-#include "ManualZoneSpec.h"
+#include "ZoneSpecifier.h"
+#include "AutoZoneSpecifier.h"
+#include "ManualZoneSpecifier.h"
 
 class Print;
 
@@ -32,11 +32,11 @@ namespace ace_time {
  * with only 2kB of RAM), I want to avoid any use of the heap (new operator or
  * malloc()) inside the AceTime library. So, I separated out the memory
  * intensive or mutable features of the TimeZone class into the separate
- * ZoneSpec class. The ZoneSpec object should be created once at initialization
- * time of the application (either statically allocated or potentially on the
- * heap early in the application start up).
+ * ZoneSpecifier class. The ZoneSpecifier object should be created once at
+ * initialization time of the application (either statically allocated or
+ * potentially on the heap early in the application start up).
  *
- * The TimeZone class then becomes a thin wrapper around a ZoneSpec object
+ * The TimeZone class then becomes a thin wrapper around a ZoneSpecifier object
  * (essentially acting like a smart pointer in some sense). It should be
  * treated as a value type and passed around by value or by const reference.
  *
@@ -50,36 +50,37 @@ namespace ace_time {
  */
 class TimeZone {
   public:
-    static const uint8_t kTypeManual = ZoneSpec::kTypeManual;
-    static const uint8_t kTypeAuto = ZoneSpec::kTypeAuto;
+    static const uint8_t kTypeManual = ZoneSpecifier::kTypeManual;
+    static const uint8_t kTypeAuto = ZoneSpecifier::kTypeAuto;
 
     /** Constructor. */
-    explicit TimeZone(ZoneSpec* zoneSpec = &ManualZoneSpec::sUtcZoneSpec):
-        mZoneSpec(zoneSpec) {}
+    explicit TimeZone(
+        ZoneSpecifier* zoneSpecifier = &ManualZoneSpecifier::sUtcZoneSpecifier):
+        mZoneSpecifier(zoneSpecifier) {}
 
-    /** Return the ZoneSpec. */
-    ZoneSpec* getZoneSpec() const { return mZoneSpec; }
+    /** Return the ZoneSpecifier. */
+    ZoneSpecifier* getZoneSpecifier() const { return mZoneSpecifier; }
 
     /** Return the type of TimeZone. */
     uint8_t getType() const {
-      return mZoneSpec->getType();
+      return mZoneSpecifier->getType();
     }
 
     /** Return the UTC offset at epochSeconds. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) const {
       if (getType() == kTypeAuto) {
-        return ((AutoZoneSpec*)mZoneSpec)->getUtcOffset(epochSeconds);
+        return ((AutoZoneSpecifier*)mZoneSpecifier)->getUtcOffset(epochSeconds);
       } else {
-        return ((ManualZoneSpec*)mZoneSpec)->getUtcOffset();
+        return ((ManualZoneSpecifier*)mZoneSpecifier)->getUtcOffset();
       }
     }
 
     /** Return the abbreviation at epochSeconds. */
     const char* getAbbrev(acetime_t epochSeconds) const {
       if (getType() == kTypeAuto) {
-        return ((AutoZoneSpec*)mZoneSpec)->getAbbrev(epochSeconds);
+        return ((AutoZoneSpecifier*)mZoneSpecifier)->getAbbrev(epochSeconds);
       } else {
-        return ((ManualZoneSpec*)mZoneSpec)->getAbbrev();
+        return ((ManualZoneSpecifier*)mZoneSpecifier)->getAbbrev();
       }
     }
 
@@ -96,21 +97,21 @@ class TimeZone {
     static void parseFromOffsetString(const char* offsetString,
         uint8_t* offsetCode);
 
-    /** Instance of ZoneSpec. */
-    ZoneSpec* mZoneSpec;
+    /** Instance of ZoneSpecifier. */
+    ZoneSpecifier* mZoneSpecifier;
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
   if (a.getType() != b.getType()) return false;
-  if (a.mZoneSpec == b.mZoneSpec) return true;
+  if (a.mZoneSpecifier == b.mZoneSpecifier) return true;
 
   if (a.getType() == TimeZone::kTypeAuto) {
-    AutoZoneSpec* aa = static_cast<AutoZoneSpec*>(a.mZoneSpec);
-    AutoZoneSpec* bb = static_cast<AutoZoneSpec*>(b.mZoneSpec);
+    auto* aa = static_cast<AutoZoneSpecifier*>(a.mZoneSpecifier);
+    auto* bb = static_cast<AutoZoneSpecifier*>(b.mZoneSpecifier);
     return *aa == *bb;
   } else {
-    ManualZoneSpec* aa = static_cast<ManualZoneSpec*>(a.mZoneSpec);
-    ManualZoneSpec* bb = static_cast<ManualZoneSpec*>(b.mZoneSpec);
+    auto* aa = static_cast<ManualZoneSpecifier*>(a.mZoneSpecifier);
+    auto* bb = static_cast<ManualZoneSpecifier*>(b.mZoneSpecifier);
     return *aa == *bb;
   }
 }

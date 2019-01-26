@@ -66,7 +66,7 @@ class FullOledClock: public Clock {
       switch (mMode) {
         case MODE_DATE_TIME:
           mChangingDateTime = mCurrentDateTime;
-          mChangingZoneSpec = mCurrentZoneSpec;
+          mChangingZoneSpecifier = mCurrentZoneSpecifier;
           mSecondFieldCleared = false;
           mMode = MODE_CHANGE_YEAR;
           break;
@@ -83,7 +83,7 @@ class FullOledClock: public Clock {
 
         case MODE_TIME_ZONE:
           mChangingDateTime = mCurrentDateTime;
-          mChangingZoneSpec = mCurrentZoneSpec;
+          mChangingZoneSpecifier = mCurrentZoneSpecifier;
           mMode = MODE_CHANGE_TIME_ZONE_HOUR;
           break;
 
@@ -127,16 +127,16 @@ class FullOledClock: public Clock {
 
         case MODE_CHANGE_TIME_ZONE_HOUR:
           mSuppressBlink = true;
-          utc_offset_mutation::incrementHour(mChangingZoneSpec.stdOffset());
+          utc_offset_mutation::incrementHour(mChangingZoneSpecifier.stdOffset());
           break;
         case MODE_CHANGE_TIME_ZONE_MINUTE:
           mSuppressBlink = true;
           utc_offset_mutation::increment15Minutes(
-              mChangingZoneSpec.stdOffset());
+              mChangingZoneSpecifier.stdOffset());
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
-          mChangingZoneSpec.isDst(!mChangingZoneSpec.isDst());
+          mChangingZoneSpecifier.isDst(!mChangingZoneSpecifier.isDst());
           break;
         case MODE_CHANGE_HOUR_MODE:
           mSuppressBlink = true;

@@ -8,12 +8,12 @@ using common::printPad2;
 
 void TimeZone::printTo(Print& printer) const {
   if (getType() == kTypeAuto) {
-    AutoZoneSpec* spec = static_cast<AutoZoneSpec*>(mZoneSpec);
+    auto* spec = static_cast<AutoZoneSpecifier*>(mZoneSpecifier);
     printer.print('[');
     printer.print(spec->getZoneInfo()->name);
     printer.print(']');
   } else {
-    ManualZoneSpec* spec = static_cast<ManualZoneSpec*>(mZoneSpec);
+    auto* spec = static_cast<ManualZoneSpecifier*>(mZoneSpecifier);
     printer.print(F("UTC"));
     spec->stdOffset().printTo(printer);
     printer.print(spec->isDst() ? F(" (DST)") : F(" (STD)"));

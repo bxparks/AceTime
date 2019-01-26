@@ -13,9 +13,9 @@ LocalTime	KEYWORD1
 LocalDateTime	KEYWORD1
 UtcOffset	KEYWORD1
 OffsetDateTime	KEYWORD1
-ZoneSpec	KEYWORD1
-AutoZoneSpec	KEYWORD1
-ManualZoneSpec	KEYWORD1
+ZoneSpecifier	KEYWORD1
+AutoZoneSpecifier	KEYWORD1
+ManualZoneSpecifier	KEYWORD1
 TimeZone	KEYWORD1
 ZonedDateTime	KEYWORD1
 TimePeriod	KEYWORD1
@@ -130,10 +130,10 @@ printTo	KEYWORD2
 incrementHour	KEYWORD2
 increment15Minutes	KEYWORD2
 
-# ZoneSpec
+# ZoneSpecifier
 getType	KEYWORD2
 
-# ManualZoneSpec
+# ManualZoneSpecifier
 getType	KEYWORD2
 stdOffset	KEYWORD2
 deltaOffset	KEYWORD2
@@ -144,7 +144,7 @@ getUtcOffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
 
-# ManualZoneSpec
+# ManualZoneSpecifier
 getType	KEYWORD2
 getUtcOffset	KEYWORD2
 getDeltaOffset	KEYWORD2
@@ -189,7 +189,7 @@ getLastSyncTime	KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
-# ZoneSpec.h
+# ZoneSpecifier.h
 kTypeManual	LITERAL1
 kTypeAuto	LITERAL1
 

@@ -51,14 +51,14 @@ void setup() {
   Serial.print(F("sizeof(internal::ZoneMatch): "));
   Serial.println(sizeof(internal::ZoneMatch));
 
-  Serial.print(F("sizeof(ZoneSpec): "));
-  Serial.println(sizeof(ZoneSpec));
+  Serial.print(F("sizeof(ZoneSpecifier): "));
+  Serial.println(sizeof(ZoneSpecifier));
 
-  Serial.print(F("sizeof(AutoZoneSpec): "));
-  Serial.println(sizeof(AutoZoneSpec));
+  Serial.print(F("sizeof(AutoZoneSpecifier): "));
+  Serial.println(sizeof(AutoZoneSpecifier));
 
-  Serial.print(F("sizeof(ManualZoneSpec): "));
-  Serial.println(sizeof(ManualZoneSpec));
+  Serial.print(F("sizeof(ManualZoneSpecifier): "));
+  Serial.println(sizeof(ManualZoneSpecifier));
 
   Serial.print(F("sizeof(TimeZone): "));
   Serial.println(sizeof(TimeZone));
