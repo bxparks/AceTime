@@ -42,7 +42,7 @@ from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
 from datetime import date
-from extractor import MIN_FROM_YEAR
+from extractor import MIN_YEAR
 from transformer import seconds_to_hms
 from transformer import hms_to_seconds
 from zonedb.zone_policies import *
@@ -351,7 +351,7 @@ class ZoneAgent:
 
     # Sentinel ZoneEra that represents the earliest zone era.
     ZONE_ERA_ANCHOR = ZoneEraCooked({
-        'untilYear': MIN_FROM_YEAR,
+        'untilYear': MIN_YEAR,
         'untilMonth': 1,
         'untilDay': 1,
         'untilSeconds': 0,

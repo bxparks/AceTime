@@ -15,6 +15,8 @@ from transformer import div_to_zero
 from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
 from extractor import MAX_YEAR_TINY
+from extractor import MIN_YEAR
+from extractor import MIN_YEAR_TINY
 from extractor import MAX_UNTIL_YEAR
 from extractor import MAX_UNTIL_YEAR_TINY
 
@@ -363,12 +365,9 @@ const common::ZoneInfo kZone{infoShortName} = {{
             delta_code = div_to_zero(rule.deltaSecondsTruncated, 15 * 60)
 
             from_year = rule.fromYear
-            from_year_tiny = (from_year - EPOCH_YEAR
-                              if from_year != MAX_YEAR else MAX_YEAR_TINY)
-
+            from_year_tiny = to_tiny_year(from_year)
             to_year = rule.toYear
-            to_year_tiny = (to_year - EPOCH_YEAR
-                            if to_year != MAX_YEAR else MAX_YEAR_TINY)
+            to_year_tiny = to_tiny_year(to_year)
 
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
                 rawLine=normalize_raw(rule.rawLine),
@@ -516,6 +515,15 @@ const common::ZoneInfo kZone{infoShortName} = {{
             untilTimeModifier=until_time_modifier)
 
         return (era_item, string_length)
+
+
+def to_tiny_year(year):
+    if year == MAX_YEAR:
+        return MAX_YEAR_TINY
+    elif year == MIN_YEAR:
+        return MIN_YEAR_TINY
+    else:
+        return year - EPOCH_YEAR
 
 
 def normalize_name(name):

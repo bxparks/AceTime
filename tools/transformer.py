@@ -13,7 +13,7 @@ import sys
 import datetime
 import extractor
 from extractor import MAX_UNTIL_YEAR
-from extractor import MIN_FROM_YEAR
+from extractor import MIN_YEAR
 from extractor import ZoneRuleRaw
 from extractor import ZoneEraRaw
 
@@ -768,8 +768,8 @@ class Transformer:
                 anchor_rule = rule
 
         anchor_rule = anchor_rule.copy()
-        anchor_rule.fromYear = MIN_FROM_YEAR
-        anchor_rule.toYear = MIN_FROM_YEAR
+        anchor_rule.fromYear = MIN_YEAR
+        anchor_rule.toYear = MIN_YEAR
         anchor_rule.inMonth = 1
         anchor_rule.onDayOfWeek = 0
         anchor_rule.onDayOfMonth = 1

@@ -64,10 +64,10 @@ MAX_YEAR_TINY = MAX_UNTIL_YEAR_TINY - 1
 # Minimum valid TO or FROM year. Python datetime supports a minimum of 1. We
 # sometimes subtract a few hours from 0001-01-01 to get to 'u' or 's' time so we
 # need to use year 0002-01-01 as the minimum.
-MIN_FROM_YEAR = 2
+MIN_YEAR = 2
 
 # Tiny (int8_t) version of MIN_YEAR.
-MIN_FROM_YEAR_TINY = -128
+MIN_YEAR_TINY = -128
 
 
 class ZoneEraRaw:
