@@ -6,9 +6,9 @@
 //  https://github.com/eggert/tz/releases/tag/2018i
 //
 // Policy count: 77
-// Rule count: 524
-// Memory (8-bit): 4947
-// Memory (32-bit): 5101
+// Rule count: 528
+// Memory (8-bit): 4983
+// Memory (32-bit): 5137
 //
 // DO NOT EDIT
 
@@ -611,12 +611,24 @@ const common::ZonePolicy kPolicyArg = {
 
 //---------------------------------------------------------------------------
 // Policy name: Armenia
-// Rule count: 2
-// Memory (8-bit): 21
-// Memory (32-bit): 23
+// Rule count: 3
+// Memory (8-bit): 30
+// Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesArmenia[] = {
+  // Anchor: Rule Armenia    2011    only    -    Oct    lastSun     2:00s    0    -
+  {
+    -128 /*fromYearTiny*/,
+    -128 /*toYearTiny*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
   // Rule Armenia    2011    only    -    Mar    lastSun     2:00s    1:00    -
   {
     11 /*fromYearTiny*/,
@@ -1667,12 +1679,24 @@ const common::ZonePolicy kPolicyCuba = {
 
 //---------------------------------------------------------------------------
 // Policy name: Dhaka
-// Rule count: 2
-// Memory (8-bit): 21
-// Memory (32-bit): 23
+// Rule count: 3
+// Memory (8-bit): 30
+// Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesDhaka[] = {
+  // Anchor: Rule    Dhaka    2009    only    -    Dec    31    24:00    0    -
+  {
+    -128 /*fromYearTiny*/,
+    -128 /*toYearTiny*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
   // Rule    Dhaka    2009    only    -    Jun    19    23:00    1:00    -
   {
     9 /*fromYearTiny*/,
@@ -5699,12 +5723,24 @@ const common::ZonePolicy kPolicyPRC = {
 
 //---------------------------------------------------------------------------
 // Policy name: Pakistan
-// Rule count: 5
-// Memory (8-bit): 48
-// Memory (32-bit): 50
+// Rule count: 6
+// Memory (8-bit): 57
+// Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesPakistan[] = {
+  // Anchor: Rule Pakistan    2002    only    -    Oct    Sun>=2    0:00    0    -
+  {
+    -128 /*fromYearTiny*/,
+    -128 /*toYearTiny*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
   // Rule Pakistan    2002    only    -    Apr    Sun>=2    0:00    1:00    S
   {
     2 /*fromYearTiny*/,
@@ -7095,12 +7131,24 @@ const common::ZonePolicy kPolicyVanuatu = {
 
 //---------------------------------------------------------------------------
 // Policy name: WS
-// Rule count: 5
-// Memory (8-bit): 48
-// Memory (32-bit): 50
+// Rule count: 6
+// Memory (8-bit): 57
+// Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesWS[] = {
+  // Anchor: Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
+  {
+    -128 /*fromYearTiny*/,
+    -128 /*toYearTiny*/,
+    1 /*inMonth*/,
+    0 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    0 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    '-' /*letter*/,
+  },
   // Rule    WS    2010    only    -    Sep    lastSun    0:00    1    -
   {
     10 /*fromYearTiny*/,

@@ -160,7 +160,7 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicySwift (unused)
 // kPolicySwiss (unused)
 // kPolicyToronto (unused)
-// kPolicyTroll (LETTER '+02' too long)
+// kPolicyTroll (LETTER '+00' too long)
 // kPolicyTurkey (unused)
 // kPolicyVanc (unused)
 // kPolicyVincennes (unused)
