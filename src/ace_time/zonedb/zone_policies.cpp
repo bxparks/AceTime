@@ -24,7 +24,7 @@ namespace zonedb {
 // Memory (32-bit): 77
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesAN[] = {
+static const ZoneRule kZoneRulesAN[] = {
   // Rule    AN    1987    1999    -    Oct    lastSun    2:00s    1:00    D
   {
     -13 /*fromYearTiny*/,
@@ -124,8 +124,8 @@ static const common::ZoneRule kZoneRulesAN[] = {
 
 };
 
-const common::ZonePolicy kPolicyAN = {
-  sizeof(kZoneRulesAN)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyAN = {
+  sizeof(kZoneRulesAN)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesAN /*rules*/,
 };
 
@@ -136,7 +136,7 @@ const common::ZonePolicy kPolicyAN = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesAQ[] = {
+static const ZoneRule kZoneRulesAQ[] = {
   // Rule    AQ    1990    1992    -    Mar    Sun>=1    2:00s    0    S
   {
     -10 /*fromYearTiny*/,
@@ -152,8 +152,8 @@ static const common::ZoneRule kZoneRulesAQ[] = {
 
 };
 
-const common::ZonePolicy kPolicyAQ = {
-  sizeof(kZoneRulesAQ)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyAQ = {
+  sizeof(kZoneRulesAQ)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesAQ /*rules*/,
 };
 
@@ -164,7 +164,7 @@ const common::ZonePolicy kPolicyAQ = {
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesAS[] = {
+static const ZoneRule kZoneRulesAS[] = {
   // Rule    AS    1987    2007    -    Oct    lastSun    2:00s    1:00    D
   {
     -13 /*fromYearTiny*/,
@@ -252,8 +252,8 @@ static const common::ZoneRule kZoneRulesAS[] = {
 
 };
 
-const common::ZonePolicy kPolicyAS = {
-  sizeof(kZoneRulesAS)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyAS = {
+  sizeof(kZoneRulesAS)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesAS /*rules*/,
 };
 
@@ -264,7 +264,7 @@ const common::ZonePolicy kPolicyAS = {
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesAT[] = {
+static const ZoneRule kZoneRulesAT[] = {
   // Rule    AT    1991    1999    -    Oct    Sun>=1    2:00s    1:00    D
   {
     -9 /*fromYearTiny*/,
@@ -352,8 +352,8 @@ static const common::ZoneRule kZoneRulesAT[] = {
 
 };
 
-const common::ZonePolicy kPolicyAT = {
-  sizeof(kZoneRulesAT)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyAT = {
+  sizeof(kZoneRulesAT)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesAT /*rules*/,
 };
 
@@ -364,7 +364,7 @@ const common::ZonePolicy kPolicyAT = {
 // Memory (32-bit): 77
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesAV[] = {
+static const ZoneRule kZoneRulesAV[] = {
   // Rule    AV    1988    1999    -    Oct    lastSun    2:00s    1:00    D
   {
     -12 /*fromYearTiny*/,
@@ -464,8 +464,8 @@ static const common::ZoneRule kZoneRulesAV[] = {
 
 };
 
-const common::ZonePolicy kPolicyAV = {
-  sizeof(kZoneRulesAV)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyAV = {
+  sizeof(kZoneRulesAV)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesAV /*rules*/,
 };
 
@@ -476,7 +476,7 @@ const common::ZonePolicy kPolicyAV = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesAW[] = {
+static const ZoneRule kZoneRulesAW[] = {
   // Rule    AW    1992    only    -    Mar    Sun>=1    2:00s    0    S
   {
     -8 /*fromYearTiny*/,
@@ -528,8 +528,8 @@ static const common::ZoneRule kZoneRulesAW[] = {
 
 };
 
-const common::ZonePolicy kPolicyAW = {
-  sizeof(kZoneRulesAW)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyAW = {
+  sizeof(kZoneRulesAW)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesAW /*rules*/,
 };
 
@@ -540,7 +540,7 @@ const common::ZonePolicy kPolicyAW = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesArg[] = {
+static const ZoneRule kZoneRulesArg[] = {
   // Rule    Arg    1999    only    -    Oct    Sun>=1    0:00    1:00    -
   {
     -1 /*fromYearTiny*/,
@@ -604,8 +604,8 @@ static const common::ZoneRule kZoneRulesArg[] = {
 
 };
 
-const common::ZonePolicy kPolicyArg = {
-  sizeof(kZoneRulesArg)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyArg = {
+  sizeof(kZoneRulesArg)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesArg /*rules*/,
 };
 
@@ -616,7 +616,7 @@ const common::ZonePolicy kPolicyArg = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesArmenia[] = {
+static const ZoneRule kZoneRulesArmenia[] = {
   // Anchor: Rule Armenia    2011    only    -    Oct    lastSun     2:00s    0    -
   {
     -128 /*fromYearTiny*/,
@@ -656,8 +656,8 @@ static const common::ZoneRule kZoneRulesArmenia[] = {
 
 };
 
-const common::ZonePolicy kPolicyArmenia = {
-  sizeof(kZoneRulesArmenia)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyArmenia = {
+  sizeof(kZoneRulesArmenia)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesArmenia /*rules*/,
 };
 
@@ -668,7 +668,7 @@ const common::ZonePolicy kPolicyArmenia = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesAus[] = {
+static const ZoneRule kZoneRulesAus[] = {
   // Rule    Aus    1943    1944    -    Mar    lastSun    2:00    0    S
   {
     -57 /*fromYearTiny*/,
@@ -684,8 +684,8 @@ static const common::ZoneRule kZoneRulesAus[] = {
 
 };
 
-const common::ZonePolicy kPolicyAus = {
-  sizeof(kZoneRulesAus)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyAus = {
+  sizeof(kZoneRulesAus)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesAus /*rules*/,
 };
 
@@ -696,7 +696,7 @@ const common::ZonePolicy kPolicyAus = {
 // Memory (32-bit): 23
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesAzer[] = {
+static const ZoneRule kZoneRulesAzer[] = {
   // Rule    Azer    1997    2015    -    Mar    lastSun     4:00    1:00    -
   {
     -3 /*fromYearTiny*/,
@@ -724,8 +724,8 @@ static const common::ZoneRule kZoneRulesAzer[] = {
 
 };
 
-const common::ZonePolicy kPolicyAzer = {
-  sizeof(kZoneRulesAzer)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyAzer = {
+  sizeof(kZoneRulesAzer)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesAzer /*rules*/,
 };
 
@@ -736,7 +736,7 @@ const common::ZonePolicy kPolicyAzer = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesBarb[] = {
+static const ZoneRule kZoneRulesBarb[] = {
   // Rule    Barb    1980    only    -    Sep    25    2:00    0    S
   {
     -20 /*fromYearTiny*/,
@@ -752,8 +752,8 @@ static const common::ZoneRule kZoneRulesBarb[] = {
 
 };
 
-const common::ZonePolicy kPolicyBarb = {
-  sizeof(kZoneRulesBarb)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyBarb = {
+  sizeof(kZoneRulesBarb)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesBarb /*rules*/,
 };
 
@@ -764,7 +764,7 @@ const common::ZonePolicy kPolicyBarb = {
 // Memory (32-bit): 239
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesBrazil[] = {
+static const ZoneRule kZoneRulesBrazil[] = {
   // Rule    Brazil    1999    only    -    Oct     3     0:00    1:00    -
   {
     -1 /*fromYearTiny*/,
@@ -1080,8 +1080,8 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
 
 };
 
-const common::ZonePolicy kPolicyBrazil = {
-  sizeof(kZoneRulesBrazil)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyBrazil = {
+  sizeof(kZoneRulesBrazil)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesBrazil /*rules*/,
 };
 
@@ -1092,7 +1092,7 @@ const common::ZonePolicy kPolicyBrazil = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesCO[] = {
+static const ZoneRule kZoneRulesCO[] = {
   // Rule    CO    1993    only    -    Apr     4    0:00    0    -
   {
     -7 /*fromYearTiny*/,
@@ -1108,8 +1108,8 @@ static const common::ZoneRule kZoneRulesCO[] = {
 
 };
 
-const common::ZonePolicy kPolicyCO = {
-  sizeof(kZoneRulesCO)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyCO = {
+  sizeof(kZoneRulesCO)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesCO /*rules*/,
 };
 
@@ -1120,7 +1120,7 @@ const common::ZonePolicy kPolicyCO = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesCR[] = {
+static const ZoneRule kZoneRulesCR[] = {
   // Rule    CR    1992    only    -    Mar    15    0:00    0    S
   {
     -8 /*fromYearTiny*/,
@@ -1136,8 +1136,8 @@ static const common::ZoneRule kZoneRulesCR[] = {
 
 };
 
-const common::ZonePolicy kPolicyCR = {
-  sizeof(kZoneRulesCR)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyCR = {
+  sizeof(kZoneRulesCR)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesCR /*rules*/,
 };
 
@@ -1148,7 +1148,7 @@ const common::ZonePolicy kPolicyCR = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesCanada[] = {
+static const ZoneRule kZoneRulesCanada[] = {
   // Rule    Canada    1974    1986    -    Apr    lastSun    2:00    1:00    D
   {
     -26 /*fromYearTiny*/,
@@ -1212,8 +1212,8 @@ static const common::ZoneRule kZoneRulesCanada[] = {
 
 };
 
-const common::ZonePolicy kPolicyCanada = {
-  sizeof(kZoneRulesCanada)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyCanada = {
+  sizeof(kZoneRulesCanada)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesCanada /*rules*/,
 };
 
@@ -1224,7 +1224,7 @@ const common::ZonePolicy kPolicyCanada = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesChatham[] = {
+static const ZoneRule kZoneRulesChatham[] = {
   // Rule    Chatham    1989    only    -    Oct    Sun>=8    2:45s    1:00    -
   {
     -11 /*fromYearTiny*/,
@@ -1288,8 +1288,8 @@ static const common::ZoneRule kZoneRulesChatham[] = {
 
 };
 
-const common::ZonePolicy kPolicyChatham = {
-  sizeof(kZoneRulesChatham)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyChatham = {
+  sizeof(kZoneRulesChatham)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesChatham /*rules*/,
 };
 
@@ -1300,7 +1300,7 @@ const common::ZonePolicy kPolicyChatham = {
 // Memory (32-bit): 131
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesChile[] = {
+static const ZoneRule kZoneRulesChile[] = {
   // Rule    Chile    1999    only    -    Apr     4    3:00u    0    -
   {
     -1 /*fromYearTiny*/,
@@ -1472,8 +1472,8 @@ static const common::ZoneRule kZoneRulesChile[] = {
 
 };
 
-const common::ZonePolicy kPolicyChile = {
-  sizeof(kZoneRulesChile)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyChile = {
+  sizeof(kZoneRulesChile)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesChile /*rules*/,
 };
 
@@ -1484,7 +1484,7 @@ const common::ZonePolicy kPolicyChile = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesCook[] = {
+static const ZoneRule kZoneRulesCook[] = {
   // Rule    Cook    1979    1991    -    Mar    Sun>=1    0:00    0    -
   {
     -21 /*fromYearTiny*/,
@@ -1500,8 +1500,8 @@ static const common::ZoneRule kZoneRulesCook[] = {
 
 };
 
-const common::ZonePolicy kPolicyCook = {
-  sizeof(kZoneRulesCook)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyCook = {
+  sizeof(kZoneRulesCook)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesCook /*rules*/,
 };
 
@@ -1512,7 +1512,7 @@ const common::ZonePolicy kPolicyCook = {
 // Memory (32-bit): 122
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesCuba[] = {
+static const ZoneRule kZoneRulesCuba[] = {
   // Rule    Cuba    1998    1999    -    Mar    lastSun    0:00s    1:00    D
   {
     -2 /*fromYearTiny*/,
@@ -1672,8 +1672,8 @@ static const common::ZoneRule kZoneRulesCuba[] = {
 
 };
 
-const common::ZonePolicy kPolicyCuba = {
-  sizeof(kZoneRulesCuba)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyCuba = {
+  sizeof(kZoneRulesCuba)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesCuba /*rules*/,
 };
 
@@ -1684,7 +1684,7 @@ const common::ZonePolicy kPolicyCuba = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesDhaka[] = {
+static const ZoneRule kZoneRulesDhaka[] = {
   // Anchor: Rule    Dhaka    2009    only    -    Dec    31    24:00    0    -
   {
     -128 /*fromYearTiny*/,
@@ -1724,8 +1724,8 @@ static const common::ZoneRule kZoneRulesDhaka[] = {
 
 };
 
-const common::ZonePolicy kPolicyDhaka = {
-  sizeof(kZoneRulesDhaka)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyDhaka = {
+  sizeof(kZoneRulesDhaka)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesDhaka /*rules*/,
 };
 
@@ -1736,7 +1736,7 @@ const common::ZonePolicy kPolicyDhaka = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesE_EurAsia[] = {
+static const ZoneRule kZoneRulesE_EurAsia[] = {
   // Rule E-EurAsia    1981    max    -    Mar    lastSun     0:00    1:00    -
   {
     -19 /*fromYearTiny*/,
@@ -1776,8 +1776,8 @@ static const common::ZoneRule kZoneRulesE_EurAsia[] = {
 
 };
 
-const common::ZonePolicy kPolicyE_EurAsia = {
-  sizeof(kZoneRulesE_EurAsia)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyE_EurAsia = {
+  sizeof(kZoneRulesE_EurAsia)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesE_EurAsia /*rules*/,
 };
 
@@ -1788,7 +1788,7 @@ const common::ZonePolicy kPolicyE_EurAsia = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesEU[] = {
+static const ZoneRule kZoneRulesEU[] = {
   // Rule    EU    1979    1995    -    Sep    lastSun     1:00u    0    -
   {
     -21 /*fromYearTiny*/,
@@ -1828,8 +1828,8 @@ static const common::ZoneRule kZoneRulesEU[] = {
 
 };
 
-const common::ZonePolicy kPolicyEU = {
-  sizeof(kZoneRulesEU)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyEU = {
+  sizeof(kZoneRulesEU)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesEU /*rules*/,
 };
 
@@ -1840,7 +1840,7 @@ const common::ZonePolicy kPolicyEU = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesEUAsia[] = {
+static const ZoneRule kZoneRulesEUAsia[] = {
   // Rule    EUAsia    1981    max    -    Mar    lastSun     1:00u    1:00    S
   {
     -19 /*fromYearTiny*/,
@@ -1880,8 +1880,8 @@ static const common::ZoneRule kZoneRulesEUAsia[] = {
 
 };
 
-const common::ZonePolicy kPolicyEUAsia = {
-  sizeof(kZoneRulesEUAsia)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyEUAsia = {
+  sizeof(kZoneRulesEUAsia)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesEUAsia /*rules*/,
 };
 
@@ -1892,7 +1892,7 @@ const common::ZonePolicy kPolicyEUAsia = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesEcuador[] = {
+static const ZoneRule kZoneRulesEcuador[] = {
   // Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
   {
     -7 /*fromYearTiny*/,
@@ -1908,8 +1908,8 @@ static const common::ZoneRule kZoneRulesEcuador[] = {
 
 };
 
-const common::ZonePolicy kPolicyEcuador = {
-  sizeof(kZoneRulesEcuador)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyEcuador = {
+  sizeof(kZoneRulesEcuador)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesEcuador /*rules*/,
 };
 
@@ -1920,7 +1920,7 @@ const common::ZonePolicy kPolicyEcuador = {
 // Memory (32-bit): 131
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesEgypt[] = {
+static const ZoneRule kZoneRulesEgypt[] = {
   // Rule    Egypt    1966    1994    -    Oct     1    3:00    0    -
   {
     -34 /*fromYearTiny*/,
@@ -2092,8 +2092,8 @@ static const common::ZoneRule kZoneRulesEgypt[] = {
 
 };
 
-const common::ZonePolicy kPolicyEgypt = {
-  sizeof(kZoneRulesEgypt)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyEgypt = {
+  sizeof(kZoneRulesEgypt)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesEgypt /*rules*/,
 };
 
@@ -2104,7 +2104,7 @@ const common::ZonePolicy kPolicyEgypt = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesEire[] = {
+static const ZoneRule kZoneRulesEire[] = {
   // Rule    Eire    1981    max    -    Mar    lastSun     1:00u    0    -
   {
     -19 /*fromYearTiny*/,
@@ -2144,8 +2144,8 @@ static const common::ZoneRule kZoneRulesEire[] = {
 
 };
 
-const common::ZonePolicy kPolicyEire = {
-  sizeof(kZoneRulesEire)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyEire = {
+  sizeof(kZoneRulesEire)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesEire /*rules*/,
 };
 
@@ -2156,7 +2156,7 @@ const common::ZonePolicy kPolicyEire = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesFalk[] = {
+static const ZoneRule kZoneRulesFalk[] = {
   // Rule    Falk    1984    1985    -    Apr    lastSun    0:00    0    -
   {
     -16 /*fromYearTiny*/,
@@ -2220,8 +2220,8 @@ static const common::ZoneRule kZoneRulesFalk[] = {
 
 };
 
-const common::ZonePolicy kPolicyFalk = {
-  sizeof(kZoneRulesFalk)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyFalk = {
+  sizeof(kZoneRulesFalk)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesFalk /*rules*/,
 };
 
@@ -2232,7 +2232,7 @@ const common::ZonePolicy kPolicyFalk = {
 // Memory (32-bit): 95
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesFiji[] = {
+static const ZoneRule kZoneRulesFiji[] = {
   // Rule    Fiji    1998    1999    -    Nov    Sun>=1    2:00    1:00    -
   {
     -2 /*fromYearTiny*/,
@@ -2356,8 +2356,8 @@ static const common::ZoneRule kZoneRulesFiji[] = {
 
 };
 
-const common::ZonePolicy kPolicyFiji = {
-  sizeof(kZoneRulesFiji)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyFiji = {
+  sizeof(kZoneRulesFiji)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesFiji /*rules*/,
 };
 
@@ -2368,7 +2368,7 @@ const common::ZonePolicy kPolicyFiji = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesGhana[] = {
+static const ZoneRule kZoneRulesGhana[] = {
   // Rule    Ghana    1920    1942    -    Dec    31    0:00    0    -
   {
     -80 /*fromYearTiny*/,
@@ -2384,8 +2384,8 @@ static const common::ZoneRule kZoneRulesGhana[] = {
 
 };
 
-const common::ZonePolicy kPolicyGhana = {
-  sizeof(kZoneRulesGhana)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyGhana = {
+  sizeof(kZoneRulesGhana)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesGhana /*rules*/,
 };
 
@@ -2396,7 +2396,7 @@ const common::ZonePolicy kPolicyGhana = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesGuam[] = {
+static const ZoneRule kZoneRulesGuam[] = {
   // Rule    Guam    1977    only    -    Aug    28    2:00    0    S
   {
     -23 /*fromYearTiny*/,
@@ -2412,8 +2412,8 @@ static const common::ZoneRule kZoneRulesGuam[] = {
 
 };
 
-const common::ZonePolicy kPolicyGuam = {
-  sizeof(kZoneRulesGuam)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyGuam = {
+  sizeof(kZoneRulesGuam)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesGuam /*rules*/,
 };
 
@@ -2424,7 +2424,7 @@ const common::ZonePolicy kPolicyGuam = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesGuat[] = {
+static const ZoneRule kZoneRulesGuat[] = {
   // Rule    Guat    1991    only    -    Sep     7    0:00    0    S
   {
     -9 /*fromYearTiny*/,
@@ -2464,8 +2464,8 @@ static const common::ZoneRule kZoneRulesGuat[] = {
 
 };
 
-const common::ZonePolicy kPolicyGuat = {
-  sizeof(kZoneRulesGuat)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyGuat = {
+  sizeof(kZoneRulesGuat)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesGuat /*rules*/,
 };
 
@@ -2476,7 +2476,7 @@ const common::ZonePolicy kPolicyGuat = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesHK[] = {
+static const ZoneRule kZoneRulesHK[] = {
   // Rule    HK    1979    only    -    Oct    Sun>=16    3:30    0    -
   {
     -21 /*fromYearTiny*/,
@@ -2492,8 +2492,8 @@ static const common::ZoneRule kZoneRulesHK[] = {
 
 };
 
-const common::ZonePolicy kPolicyHK = {
-  sizeof(kZoneRulesHK)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyHK = {
+  sizeof(kZoneRulesHK)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesHK /*rules*/,
 };
 
@@ -2504,7 +2504,7 @@ const common::ZonePolicy kPolicyHK = {
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesHaiti[] = {
+static const ZoneRule kZoneRulesHaiti[] = {
   // Rule    Haiti    1988    1997    -    Oct    lastSun    1:00s    0    S
   {
     -12 /*fromYearTiny*/,
@@ -2592,8 +2592,8 @@ static const common::ZoneRule kZoneRulesHaiti[] = {
 
 };
 
-const common::ZonePolicy kPolicyHaiti = {
-  sizeof(kZoneRulesHaiti)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyHaiti = {
+  sizeof(kZoneRulesHaiti)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesHaiti /*rules*/,
 };
 
@@ -2604,7 +2604,7 @@ const common::ZonePolicy kPolicyHaiti = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesHoliday[] = {
+static const ZoneRule kZoneRulesHoliday[] = {
   // Rule    Holiday    1993    1994    -    Mar    Sun>=1    2:00s    0    S
   {
     -7 /*fromYearTiny*/,
@@ -2620,8 +2620,8 @@ static const common::ZoneRule kZoneRulesHoliday[] = {
 
 };
 
-const common::ZonePolicy kPolicyHoliday = {
-  sizeof(kZoneRulesHoliday)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyHoliday = {
+  sizeof(kZoneRulesHoliday)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesHoliday /*rules*/,
 };
 
@@ -2632,7 +2632,7 @@ const common::ZonePolicy kPolicyHoliday = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesHond[] = {
+static const ZoneRule kZoneRulesHond[] = {
   // Rule    Hond    1987    1988    -    Sep    lastSun    0:00    0    S
   {
     -13 /*fromYearTiny*/,
@@ -2672,8 +2672,8 @@ static const common::ZoneRule kZoneRulesHond[] = {
 
 };
 
-const common::ZonePolicy kPolicyHond = {
-  sizeof(kZoneRulesHond)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyHond = {
+  sizeof(kZoneRulesHond)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesHond /*rules*/,
 };
 
@@ -2684,7 +2684,7 @@ const common::ZonePolicy kPolicyHond = {
 // Memory (32-bit): 824
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesIran[] = {
+static const ZoneRule kZoneRulesIran[] = {
   // Rule    Iran    1997    1999    -    Sep    21    24:00    0    -
   {
     -3 /*fromYearTiny*/,
@@ -3780,8 +3780,8 @@ static const common::ZoneRule kZoneRulesIran[] = {
 
 };
 
-const common::ZonePolicy kPolicyIran = {
-  sizeof(kZoneRulesIran)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyIran = {
+  sizeof(kZoneRulesIran)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesIran /*rules*/,
 };
 
@@ -3792,7 +3792,7 @@ const common::ZonePolicy kPolicyIran = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesIraq[] = {
+static const ZoneRule kZoneRulesIraq[] = {
   // Rule    Iraq    1985    1990    -    Sep    lastSun    1:00s    0    -
   {
     -15 /*fromYearTiny*/,
@@ -3832,8 +3832,8 @@ static const common::ZoneRule kZoneRulesIraq[] = {
 
 };
 
-const common::ZonePolicy kPolicyIraq = {
-  sizeof(kZoneRulesIraq)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyIraq = {
+  sizeof(kZoneRulesIraq)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesIraq /*rules*/,
 };
 
@@ -3844,7 +3844,7 @@ const common::ZonePolicy kPolicyIraq = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesJapan[] = {
+static const ZoneRule kZoneRulesJapan[] = {
   // Rule    Japan    1948    1951    -    Sep    Sat>=8    25:00    0    S
   {
     -52 /*fromYearTiny*/,
@@ -3860,8 +3860,8 @@ static const common::ZoneRule kZoneRulesJapan[] = {
 
 };
 
-const common::ZonePolicy kPolicyJapan = {
-  sizeof(kZoneRulesJapan)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyJapan = {
+  sizeof(kZoneRulesJapan)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesJapan /*rules*/,
 };
 
@@ -3872,7 +3872,7 @@ const common::ZonePolicy kPolicyJapan = {
 // Memory (32-bit): 104
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesJordan[] = {
+static const ZoneRule kZoneRulesJordan[] = {
   // Rule    Jordan    1999    only    -    Jul     1    0:00s    1:00    S
   {
     -1 /*fromYearTiny*/,
@@ -4008,8 +4008,8 @@ static const common::ZoneRule kZoneRulesJordan[] = {
 
 };
 
-const common::ZonePolicy kPolicyJordan = {
-  sizeof(kZoneRulesJordan)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyJordan = {
+  sizeof(kZoneRulesJordan)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesJordan /*rules*/,
 };
 
@@ -4020,7 +4020,7 @@ const common::ZonePolicy kPolicyJordan = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesKyrgyz[] = {
+static const ZoneRule kZoneRulesKyrgyz[] = {
   // Rule    Kyrgyz    1992    1996    -    Sep    lastSun    0:00    0    -
   {
     -8 /*fromYearTiny*/,
@@ -4060,8 +4060,8 @@ static const common::ZoneRule kZoneRulesKyrgyz[] = {
 
 };
 
-const common::ZonePolicy kPolicyKyrgyz = {
-  sizeof(kZoneRulesKyrgyz)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyKyrgyz = {
+  sizeof(kZoneRulesKyrgyz)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesKyrgyz /*rules*/,
 };
 
@@ -4072,7 +4072,7 @@ const common::ZonePolicy kPolicyKyrgyz = {
 // Memory (32-bit): 77
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesLH[] = {
+static const ZoneRule kZoneRulesLH[] = {
   // Rule    LH    1987    1999    -    Oct    lastSun    2:00    0:30    -
   {
     -13 /*fromYearTiny*/,
@@ -4172,8 +4172,8 @@ static const common::ZoneRule kZoneRulesLH[] = {
 
 };
 
-const common::ZonePolicy kPolicyLH = {
-  sizeof(kZoneRulesLH)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyLH = {
+  sizeof(kZoneRulesLH)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesLH /*rules*/,
 };
 
@@ -4184,7 +4184,7 @@ const common::ZonePolicy kPolicyLH = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesLebanon[] = {
+static const ZoneRule kZoneRulesLebanon[] = {
   // Rule    Lebanon    1993    max    -    Mar    lastSun    0:00    1:00    S
   {
     -7 /*fromYearTiny*/,
@@ -4224,8 +4224,8 @@ static const common::ZoneRule kZoneRulesLebanon[] = {
 
 };
 
-const common::ZonePolicy kPolicyLebanon = {
-  sizeof(kZoneRulesLebanon)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyLebanon = {
+  sizeof(kZoneRulesLebanon)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesLebanon /*rules*/,
 };
 
@@ -4236,7 +4236,7 @@ const common::ZonePolicy kPolicyLebanon = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesLibya[] = {
+static const ZoneRule kZoneRulesLibya[] = {
   // Rule    Libya    1997    only    -    Oct     4    0:00    0    -
   {
     -3 /*fromYearTiny*/,
@@ -4276,8 +4276,8 @@ static const common::ZoneRule kZoneRulesLibya[] = {
 
 };
 
-const common::ZonePolicy kPolicyLibya = {
-  sizeof(kZoneRulesLibya)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyLibya = {
+  sizeof(kZoneRulesLibya)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesLibya /*rules*/,
 };
 
@@ -4288,7 +4288,7 @@ const common::ZonePolicy kPolicyLibya = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesMacau[] = {
+static const ZoneRule kZoneRulesMacau[] = {
   // Rule    Macau    1979    only    -    Oct    Sun>=16    03:30    0    S
   {
     -21 /*fromYearTiny*/,
@@ -4304,8 +4304,8 @@ static const common::ZoneRule kZoneRulesMacau[] = {
 
 };
 
-const common::ZonePolicy kPolicyMacau = {
-  sizeof(kZoneRulesMacau)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyMacau = {
+  sizeof(kZoneRulesMacau)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesMacau /*rules*/,
 };
 
@@ -4316,7 +4316,7 @@ const common::ZonePolicy kPolicyMacau = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesMauritius[] = {
+static const ZoneRule kZoneRulesMauritius[] = {
   // Rule Mauritius    1983    only    -    Mar    21    0:00    0    -
   {
     -17 /*fromYearTiny*/,
@@ -4356,8 +4356,8 @@ static const common::ZoneRule kZoneRulesMauritius[] = {
 
 };
 
-const common::ZonePolicy kPolicyMauritius = {
-  sizeof(kZoneRulesMauritius)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyMauritius = {
+  sizeof(kZoneRulesMauritius)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesMauritius /*rules*/,
 };
 
@@ -4368,7 +4368,7 @@ const common::ZonePolicy kPolicyMauritius = {
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesMexico[] = {
+static const ZoneRule kZoneRulesMexico[] = {
   // Rule    Mexico    1950    only    -    Jul    30    0:00    0    S
   {
     -50 /*fromYearTiny*/,
@@ -4456,8 +4456,8 @@ static const common::ZoneRule kZoneRulesMexico[] = {
 
 };
 
-const common::ZonePolicy kPolicyMexico = {
-  sizeof(kZoneRulesMexico)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyMexico = {
+  sizeof(kZoneRulesMexico)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesMexico /*rules*/,
 };
 
@@ -4468,7 +4468,7 @@ const common::ZonePolicy kPolicyMexico = {
 // Memory (32-bit): 23
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesMoldova[] = {
+static const ZoneRule kZoneRulesMoldova[] = {
   // Rule    Moldova    1997    max    -    Mar    lastSun     2:00    1:00    S
   {
     -3 /*fromYearTiny*/,
@@ -4496,8 +4496,8 @@ static const common::ZoneRule kZoneRulesMoldova[] = {
 
 };
 
-const common::ZonePolicy kPolicyMoldova = {
-  sizeof(kZoneRulesMoldova)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyMoldova = {
+  sizeof(kZoneRulesMoldova)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesMoldova /*rules*/,
 };
 
@@ -4508,7 +4508,7 @@ const common::ZonePolicy kPolicyMoldova = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesMoncton[] = {
+static const ZoneRule kZoneRulesMoncton[] = {
   // Rule    Moncton    1957    1972    -    Oct    lastSun    2:00    0    S
   {
     -43 /*fromYearTiny*/,
@@ -4548,8 +4548,8 @@ static const common::ZoneRule kZoneRulesMoncton[] = {
 
 };
 
-const common::ZonePolicy kPolicyMoncton = {
-  sizeof(kZoneRulesMoncton)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyMoncton = {
+  sizeof(kZoneRulesMoncton)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesMoncton /*rules*/,
 };
 
@@ -4560,7 +4560,7 @@ const common::ZonePolicy kPolicyMoncton = {
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesMongol[] = {
+static const ZoneRule kZoneRulesMongol[] = {
   // Rule    Mongol    1984    1998    -    Sep    lastSun    0:00    0    -
   {
     -16 /*fromYearTiny*/,
@@ -4636,8 +4636,8 @@ static const common::ZoneRule kZoneRulesMongol[] = {
 
 };
 
-const common::ZonePolicy kPolicyMongol = {
-  sizeof(kZoneRulesMongol)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyMongol = {
+  sizeof(kZoneRulesMongol)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesMongol /*rules*/,
 };
 
@@ -4648,7 +4648,7 @@ const common::ZonePolicy kPolicyMongol = {
 // Memory (32-bit): 608
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesMorocco[] = {
+static const ZoneRule kZoneRulesMorocco[] = {
   // Rule    Morocco    1978    only    -    Aug     4     0:00    0    -
   {
     -22 /*fromYearTiny*/,
@@ -5456,8 +5456,8 @@ static const common::ZoneRule kZoneRulesMorocco[] = {
 
 };
 
-const common::ZonePolicy kPolicyMorocco = {
-  sizeof(kZoneRulesMorocco)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyMorocco = {
+  sizeof(kZoneRulesMorocco)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesMorocco /*rules*/,
 };
 
@@ -5468,7 +5468,7 @@ const common::ZonePolicy kPolicyMorocco = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesNC[] = {
+static const ZoneRule kZoneRulesNC[] = {
   // Rule    NC    1997    only    -    Mar     2    2:00s    0    -
   {
     -3 /*fromYearTiny*/,
@@ -5484,8 +5484,8 @@ static const common::ZoneRule kZoneRulesNC[] = {
 
 };
 
-const common::ZonePolicy kPolicyNC = {
-  sizeof(kZoneRulesNC)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyNC = {
+  sizeof(kZoneRulesNC)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesNC /*rules*/,
 };
 
@@ -5496,7 +5496,7 @@ const common::ZonePolicy kPolicyNC = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesNT_YK[] = {
+static const ZoneRule kZoneRulesNT_YK[] = {
   // Rule    NT_YK    1980    1986    -    Apr    lastSun    2:00    1:00    D
   {
     -20 /*fromYearTiny*/,
@@ -5536,8 +5536,8 @@ static const common::ZoneRule kZoneRulesNT_YK[] = {
 
 };
 
-const common::ZonePolicy kPolicyNT_YK = {
-  sizeof(kZoneRulesNT_YK)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyNT_YK = {
+  sizeof(kZoneRulesNT_YK)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesNT_YK /*rules*/,
 };
 
@@ -5548,7 +5548,7 @@ const common::ZonePolicy kPolicyNT_YK = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesNZ[] = {
+static const ZoneRule kZoneRulesNZ[] = {
   // Rule    NZ    1989    only    -    Oct    Sun>=8    2:00s    1:00    D
   {
     -11 /*fromYearTiny*/,
@@ -5612,8 +5612,8 @@ static const common::ZoneRule kZoneRulesNZ[] = {
 
 };
 
-const common::ZonePolicy kPolicyNZ = {
-  sizeof(kZoneRulesNZ)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyNZ = {
+  sizeof(kZoneRulesNZ)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesNZ /*rules*/,
 };
 
@@ -5624,7 +5624,7 @@ const common::ZonePolicy kPolicyNZ = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesNic[] = {
+static const ZoneRule kZoneRulesNic[] = {
   // Rule    Nic    1979    1980    -    Jun    Mon>=23    0:00    0    S
   {
     -21 /*fromYearTiny*/,
@@ -5688,8 +5688,8 @@ static const common::ZoneRule kZoneRulesNic[] = {
 
 };
 
-const common::ZonePolicy kPolicyNic = {
-  sizeof(kZoneRulesNic)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyNic = {
+  sizeof(kZoneRulesNic)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesNic /*rules*/,
 };
 
@@ -5700,7 +5700,7 @@ const common::ZonePolicy kPolicyNic = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesPRC[] = {
+static const ZoneRule kZoneRulesPRC[] = {
   // Rule    PRC    1986    1991    -    Sep    Sun>=11     2:00    0    S
   {
     -14 /*fromYearTiny*/,
@@ -5716,8 +5716,8 @@ static const common::ZoneRule kZoneRulesPRC[] = {
 
 };
 
-const common::ZonePolicy kPolicyPRC = {
-  sizeof(kZoneRulesPRC)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyPRC = {
+  sizeof(kZoneRulesPRC)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesPRC /*rules*/,
 };
 
@@ -5728,7 +5728,7 @@ const common::ZonePolicy kPolicyPRC = {
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesPakistan[] = {
+static const ZoneRule kZoneRulesPakistan[] = {
   // Anchor: Rule Pakistan    2002    only    -    Oct    Sun>=2    0:00    0    -
   {
     -128 /*fromYearTiny*/,
@@ -5804,8 +5804,8 @@ static const common::ZoneRule kZoneRulesPakistan[] = {
 
 };
 
-const common::ZonePolicy kPolicyPakistan = {
-  sizeof(kZoneRulesPakistan)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyPakistan = {
+  sizeof(kZoneRulesPakistan)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesPakistan /*rules*/,
 };
 
@@ -5816,7 +5816,7 @@ const common::ZonePolicy kPolicyPakistan = {
 // Memory (32-bit): 212
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesPalestine[] = {
+static const ZoneRule kZoneRulesPalestine[] = {
   // Rule Palestine    1999    2005    -    Apr    Fri>=15    0:00    1:00    S
   {
     -1 /*fromYearTiny*/,
@@ -6096,8 +6096,8 @@ static const common::ZoneRule kZoneRulesPalestine[] = {
 
 };
 
-const common::ZonePolicy kPolicyPalestine = {
-  sizeof(kZoneRulesPalestine)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyPalestine = {
+  sizeof(kZoneRulesPalestine)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesPalestine /*rules*/,
 };
 
@@ -6108,7 +6108,7 @@ const common::ZonePolicy kPolicyPalestine = {
 // Memory (32-bit): 95
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesPara[] = {
+static const ZoneRule kZoneRulesPara[] = {
   // Rule    Para    1996    2001    -    Oct    Sun>=1    0:00    1:00    -
   {
     -4 /*fromYearTiny*/,
@@ -6232,8 +6232,8 @@ static const common::ZoneRule kZoneRulesPara[] = {
 
 };
 
-const common::ZonePolicy kPolicyPara = {
-  sizeof(kZoneRulesPara)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyPara = {
+  sizeof(kZoneRulesPara)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesPara /*rules*/,
 };
 
@@ -6244,7 +6244,7 @@ const common::ZonePolicy kPolicyPara = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesPeru[] = {
+static const ZoneRule kZoneRulesPeru[] = {
   // Rule    Peru    1994    only    -    Apr     1    0:00    0    -
   {
     -6 /*fromYearTiny*/,
@@ -6260,8 +6260,8 @@ static const common::ZoneRule kZoneRulesPeru[] = {
 
 };
 
-const common::ZonePolicy kPolicyPeru = {
-  sizeof(kZoneRulesPeru)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyPeru = {
+  sizeof(kZoneRulesPeru)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesPeru /*rules*/,
 };
 
@@ -6272,7 +6272,7 @@ const common::ZonePolicy kPolicyPeru = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesPhil[] = {
+static const ZoneRule kZoneRulesPhil[] = {
   // Rule    Phil    1978    only    -    Sep    21    0:00    0    S
   {
     -22 /*fromYearTiny*/,
@@ -6288,8 +6288,8 @@ static const common::ZoneRule kZoneRulesPhil[] = {
 
 };
 
-const common::ZonePolicy kPolicyPhil = {
-  sizeof(kZoneRulesPhil)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyPhil = {
+  sizeof(kZoneRulesPhil)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesPhil /*rules*/,
 };
 
@@ -6300,7 +6300,7 @@ const common::ZonePolicy kPolicyPhil = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesROK[] = {
+static const ZoneRule kZoneRulesROK[] = {
   // Rule    ROK    1987    1988    -    Oct    Sun>=8     3:00    0    S
   {
     -13 /*fromYearTiny*/,
@@ -6316,8 +6316,8 @@ static const common::ZoneRule kZoneRulesROK[] = {
 
 };
 
-const common::ZonePolicy kPolicyROK = {
-  sizeof(kZoneRulesROK)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyROK = {
+  sizeof(kZoneRulesROK)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesROK /*rules*/,
 };
 
@@ -6328,7 +6328,7 @@ const common::ZonePolicy kPolicyROK = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesRussia[] = {
+static const ZoneRule kZoneRulesRussia[] = {
   // Rule    Russia    1984    1995    -    Sep    lastSun     2:00s    0    -
   {
     -16 /*fromYearTiny*/,
@@ -6368,8 +6368,8 @@ static const common::ZoneRule kZoneRulesRussia[] = {
 
 };
 
-const common::ZonePolicy kPolicyRussia = {
-  sizeof(kZoneRulesRussia)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyRussia = {
+  sizeof(kZoneRulesRussia)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesRussia /*rules*/,
 };
 
@@ -6380,7 +6380,7 @@ const common::ZonePolicy kPolicyRussia = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesRussiaAsia[] = {
+static const ZoneRule kZoneRulesRussiaAsia[] = {
   // Rule RussiaAsia    1984    1995    -    Sep    lastSun     2:00s    0    -
   {
     -16 /*fromYearTiny*/,
@@ -6420,8 +6420,8 @@ static const common::ZoneRule kZoneRulesRussiaAsia[] = {
 
 };
 
-const common::ZonePolicy kPolicyRussiaAsia = {
-  sizeof(kZoneRulesRussiaAsia)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyRussiaAsia = {
+  sizeof(kZoneRulesRussiaAsia)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesRussiaAsia /*rules*/,
 };
 
@@ -6432,7 +6432,7 @@ const common::ZonePolicy kPolicyRussiaAsia = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesSA[] = {
+static const ZoneRule kZoneRulesSA[] = {
   // Rule    SA    1943    1944    -    Mar    Sun>=15    2:00    0    -
   {
     -57 /*fromYearTiny*/,
@@ -6448,8 +6448,8 @@ static const common::ZoneRule kZoneRulesSA[] = {
 
 };
 
-const common::ZonePolicy kPolicySA = {
-  sizeof(kZoneRulesSA)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicySA = {
+  sizeof(kZoneRulesSA)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesSA /*rules*/,
 };
 
@@ -6460,7 +6460,7 @@ const common::ZonePolicy kPolicySA = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesSalv[] = {
+static const ZoneRule kZoneRulesSalv[] = {
   // Rule    Salv    1987    1988    -    Sep    lastSun    0:00    0    S
   {
     -13 /*fromYearTiny*/,
@@ -6476,8 +6476,8 @@ static const common::ZoneRule kZoneRulesSalv[] = {
 
 };
 
-const common::ZonePolicy kPolicySalv = {
-  sizeof(kZoneRulesSalv)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicySalv = {
+  sizeof(kZoneRulesSalv)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesSalv /*rules*/,
 };
 
@@ -6488,7 +6488,7 @@ const common::ZonePolicy kPolicySalv = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesSudan[] = {
+static const ZoneRule kZoneRulesSudan[] = {
   // Rule    Sudan    1970    1985    -    Oct    15    0:00    0    -
   {
     -30 /*fromYearTiny*/,
@@ -6504,8 +6504,8 @@ static const common::ZoneRule kZoneRulesSudan[] = {
 
 };
 
-const common::ZonePolicy kPolicySudan = {
-  sizeof(kZoneRulesSudan)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicySudan = {
+  sizeof(kZoneRulesSudan)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesSudan /*rules*/,
 };
 
@@ -6516,7 +6516,7 @@ const common::ZonePolicy kPolicySudan = {
 // Memory (32-bit): 113
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesSyria[] = {
+static const ZoneRule kZoneRulesSyria[] = {
   // Rule    Syria    1994    2005    -    Oct     1    0:00    0    -
   {
     -6 /*fromYearTiny*/,
@@ -6664,8 +6664,8 @@ static const common::ZoneRule kZoneRulesSyria[] = {
 
 };
 
-const common::ZonePolicy kPolicySyria = {
-  sizeof(kZoneRulesSyria)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicySyria = {
+  sizeof(kZoneRulesSyria)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesSyria /*rules*/,
 };
 
@@ -6676,7 +6676,7 @@ const common::ZonePolicy kPolicySyria = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesTaiwan[] = {
+static const ZoneRule kZoneRulesTaiwan[] = {
   // Rule    Taiwan    1979    only    -    Oct    1    0:00    0    S
   {
     -21 /*fromYearTiny*/,
@@ -6692,8 +6692,8 @@ static const common::ZoneRule kZoneRulesTaiwan[] = {
 
 };
 
-const common::ZonePolicy kPolicyTaiwan = {
-  sizeof(kZoneRulesTaiwan)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyTaiwan = {
+  sizeof(kZoneRulesTaiwan)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesTaiwan /*rules*/,
 };
 
@@ -6704,7 +6704,7 @@ const common::ZonePolicy kPolicyTaiwan = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesThule[] = {
+static const ZoneRule kZoneRulesThule[] = {
   // Rule    Thule    1991    1992    -    Sep    lastSun    2:00    0    S
   {
     -9 /*fromYearTiny*/,
@@ -6768,8 +6768,8 @@ static const common::ZoneRule kZoneRulesThule[] = {
 
 };
 
-const common::ZonePolicy kPolicyThule = {
-  sizeof(kZoneRulesThule)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyThule = {
+  sizeof(kZoneRulesThule)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesThule /*rules*/,
 };
 
@@ -6780,7 +6780,7 @@ const common::ZonePolicy kPolicyThule = {
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesTonga[] = {
+static const ZoneRule kZoneRulesTonga[] = {
   // Rule    Tonga    1999    only    -    Oct     7    2:00s    1:00    -
   {
     -1 /*fromYearTiny*/,
@@ -6856,8 +6856,8 @@ static const common::ZoneRule kZoneRulesTonga[] = {
 
 };
 
-const common::ZonePolicy kPolicyTonga = {
-  sizeof(kZoneRulesTonga)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyTonga = {
+  sizeof(kZoneRulesTonga)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesTonga /*rules*/,
 };
 
@@ -6868,7 +6868,7 @@ const common::ZonePolicy kPolicyTonga = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesTunisia[] = {
+static const ZoneRule kZoneRulesTunisia[] = {
   // Rule    Tunisia    1988    1990    -    Sep    lastSun     0:00s    0    -
   {
     -12 /*fromYearTiny*/,
@@ -6932,8 +6932,8 @@ static const common::ZoneRule kZoneRulesTunisia[] = {
 
 };
 
-const common::ZonePolicy kPolicyTunisia = {
-  sizeof(kZoneRulesTunisia)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyTunisia = {
+  sizeof(kZoneRulesTunisia)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesTunisia /*rules*/,
 };
 
@@ -6944,7 +6944,7 @@ const common::ZonePolicy kPolicyTunisia = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesUS[] = {
+static const ZoneRule kZoneRulesUS[] = {
   // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
   {
     -33 /*fromYearTiny*/,
@@ -7008,8 +7008,8 @@ static const common::ZoneRule kZoneRulesUS[] = {
 
 };
 
-const common::ZonePolicy kPolicyUS = {
-  sizeof(kZoneRulesUS)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyUS = {
+  sizeof(kZoneRulesUS)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesUS /*rules*/,
 };
 
@@ -7020,7 +7020,7 @@ const common::ZonePolicy kPolicyUS = {
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesUruguay[] = {
+static const ZoneRule kZoneRulesUruguay[] = {
   // Rule    Uruguay    1993    only    -    Feb    28     0:00    0    -
   {
     -7 /*fromYearTiny*/,
@@ -7096,8 +7096,8 @@ static const common::ZoneRule kZoneRulesUruguay[] = {
 
 };
 
-const common::ZonePolicy kPolicyUruguay = {
-  sizeof(kZoneRulesUruguay)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyUruguay = {
+  sizeof(kZoneRulesUruguay)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesUruguay /*rules*/,
 };
 
@@ -7108,7 +7108,7 @@ const common::ZonePolicy kPolicyUruguay = {
 // Memory (32-bit): 14
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesVanuatu[] = {
+static const ZoneRule kZoneRulesVanuatu[] = {
   // Rule    Vanuatu    1992    1993    -    Jan    Sun>=23    0:00    0    -
   {
     -8 /*fromYearTiny*/,
@@ -7124,8 +7124,8 @@ static const common::ZoneRule kZoneRulesVanuatu[] = {
 
 };
 
-const common::ZonePolicy kPolicyVanuatu = {
-  sizeof(kZoneRulesVanuatu)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyVanuatu = {
+  sizeof(kZoneRulesVanuatu)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesVanuatu /*rules*/,
 };
 
@@ -7136,7 +7136,7 @@ const common::ZonePolicy kPolicyVanuatu = {
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesWS[] = {
+static const ZoneRule kZoneRulesWS[] = {
   // Anchor: Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
   {
     -128 /*fromYearTiny*/,
@@ -7212,8 +7212,8 @@ static const common::ZoneRule kZoneRulesWS[] = {
 
 };
 
-const common::ZonePolicy kPolicyWS = {
-  sizeof(kZoneRulesWS)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyWS = {
+  sizeof(kZoneRulesWS)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesWS /*rules*/,
 };
 
@@ -7224,7 +7224,7 @@ const common::ZonePolicy kPolicyWS = {
 // Memory (32-bit): 32
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesWinn[] = {
+static const ZoneRule kZoneRulesWinn[] = {
   // Rule    Winn    1966    1986    -    Apr    lastSun    2:00s    1:00    D
   {
     -34 /*fromYearTiny*/,
@@ -7264,8 +7264,8 @@ static const common::ZoneRule kZoneRulesWinn[] = {
 
 };
 
-const common::ZonePolicy kPolicyWinn = {
-  sizeof(kZoneRulesWinn)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyWinn = {
+  sizeof(kZoneRulesWinn)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesWinn /*rules*/,
 };
 
@@ -7276,7 +7276,7 @@ const common::ZonePolicy kPolicyWinn = {
 // Memory (32-bit): 230
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesZion[] = {
+static const ZoneRule kZoneRulesZion[] = {
   // Rule    Zion    1999    only    -    Sep     3    2:00    0    S
   {
     -1 /*fromYearTiny*/,
@@ -7580,8 +7580,8 @@ static const common::ZoneRule kZoneRulesZion[] = {
 
 };
 
-const common::ZonePolicy kPolicyZion = {
-  sizeof(kZoneRulesZion)/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicyZion = {
+  sizeof(kZoneRulesZion)/sizeof(ZoneRule) /*numRules*/,
   kZoneRulesZion /*rules*/,
 };
 

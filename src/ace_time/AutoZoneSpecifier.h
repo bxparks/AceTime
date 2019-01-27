@@ -3,8 +3,8 @@
 
 #include <string.h> // strchr()
 #include <stdint.h>
-#include "common/ZonePolicy.h"
-#include "common/ZoneInfo.h"
+#include "zonedb/ZonePolicy.h"
+#include "zonedb/ZoneInfo.h"
 #include "UtcOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
@@ -32,7 +32,7 @@ struct ZoneMatch {
   static const uint8_t kAbbrevSize = 5 + 1;
 
   /** The ZoneEra that matched the given year. NonNullable. */
-  const common::ZoneEra* era;
+  const zonedb::ZoneEra* era;
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
@@ -40,7 +40,7 @@ struct ZoneMatch {
    * contains a UTC offset. There are only 2 time zones that has this property
    * as of version 2018g: Europe/Istanbul and America/Argentina/San_Luis.
    */
-  const common::ZoneRule* rule;
+  const zonedb::ZoneRule* rule;
 
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
@@ -64,16 +64,16 @@ struct ZoneMatch {
  * @verbatim
  * Rule  NAME  FROM    TO  TYPE    IN     ON        AT      SAVE    LETTER/S
  * @endverbatim
- * Each record is represented by common::ZoneRule and the entire
- * collection is represented by common::ZonePolicy.
+ * Each record is represented by zonedb::ZoneRule and the entire
+ * collection is represented by zonedb::ZonePolicy.
  *
  * The Zone records define the region which follows a specific set of Rules
  * for certain time periods (given by UNTIL below):
  * @verbatim
  * Zone NAME              GMTOFF    RULES FORMAT  [UNTIL]
  * @endverbatim
- * Each record is represented by common::ZoneEra and the entire collection is
- * represented by common::ZoneInfo.
+ * Each record is represented by zonedb::ZoneEra and the entire collection is
+ * represented by zonedb::ZoneInfo.
  *
  * Not thread-safe.
  */
@@ -84,7 +84,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
      * interpreted as UTC.
      */
-    explicit AutoZoneSpecifier(const common::ZoneInfo* zoneInfo = nullptr):
+    explicit AutoZoneSpecifier(const zonedb::ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     /** Copy constructor. */
@@ -93,7 +93,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
       mIsFilled(false) {}
 
     /** Return the underlying ZoneInfo. */
-    const common::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
+    const zonedb::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
     uint8_t getType() const override { return kTypeAuto; }
 
@@ -173,9 +173,9 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * the offset at the beginning of the current year.
      */
     void addRulePriorToYear(int16_t year) {
-      const common::ZoneEra* const era = findZoneEraPriorTo(year);
+      const zonedb::ZoneEra* const era = findZoneEraPriorTo(year);
 
-      const common::ZonePolicy* const zonePolicy = era->zonePolicy;
+      const zonedb::ZonePolicy* const zonePolicy = era->zonePolicy;
       if (zonePolicy == nullptr) {
         mPreviousMatch = {
           era,
@@ -191,9 +191,9 @@ class AutoZoneSpecifier: public ZoneSpecifier {
       // ZoneRule::toYearTiny < yearTiny. Assume that there are no more than
       // 1 rule per month.
       int8_t yearTiny = year - LocalDate::kEpochYear;
-      const common::ZoneRule* latest = nullptr;
+      const zonedb::ZoneRule* latest = nullptr;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
-        const common::ZoneRule* const rule = &zonePolicy->rules[i];
+        const zonedb::ZoneRule* const rule = &zonePolicy->rules[i];
         // Check if rule is effective prior to the given year
         if (rule->fromYearTiny < yearTiny) {
           if ((latest == nullptr) || compareZoneRule(year, rule, latest) > 0) {
@@ -212,7 +212,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
 
     /** Compare two ZoneRules which are valid prior to the given year. */
     static int8_t compareZoneRule(int16_t year,
-        const common::ZoneRule* a, const common::ZoneRule* b) {
+        const zonedb::ZoneRule* a, const zonedb::ZoneRule* b) {
       int16_t aYear = effectiveRuleYear(year, a);
       int16_t bYear = effectiveRuleYear(year, b);
       if (aYear < bYear) return -1;
@@ -227,7 +227,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * Return 0 if rule is greater than the given year.
      */
     static int16_t effectiveRuleYear(int16_t year,
-        const common::ZoneRule* rule) {
+        const zonedb::ZoneRule* rule) {
       int8_t yearTiny = year - LocalDate::kEpochYear;
       if (rule->toYearTiny < yearTiny) {
         return rule->toYearTiny + LocalDate::kEpochYear;
@@ -240,16 +240,16 @@ class AutoZoneSpecifier: public ZoneSpecifier {
 
     /** Add all matching rules from the current year. */
     void addRulesForYear(int16_t year) {
-      const common::ZoneEra* const era = findZoneEra(year);
+      const zonedb::ZoneEra* const era = findZoneEra(year);
 
-      const common::ZonePolicy* const zonePolicy = era->zonePolicy;
+      const zonedb::ZonePolicy* const zonePolicy = era->zonePolicy;
       if (zonePolicy == nullptr) return;
 
       // Find all matching transition rules, and add them to the mMatches list,
       // in sorted order according to the ZoneRule::inMonth field.
       int8_t yearTiny = year - LocalDate::kEpochYear;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
-        const common::ZoneRule* const rule = &zonePolicy->rules[i];
+        const zonedb::ZoneRule* const rule = &zonePolicy->rules[i];
         if ((rule->fromYearTiny <= yearTiny) &&
             (yearTiny <= rule->toYearTiny)) {
           addRule(era, rule);
@@ -269,7 +269,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * the ZoneInfoEntries are already sorted, then the loop terminates early
      * and the total sort time is O(N).
      */
-    void addRule(const common::ZoneEra* era, const common::ZoneRule* rule)
+    void addRule(const zonedb::ZoneEra* era, const zonedb::ZoneRule* rule)
         const {
       if (mNumMatches >= kMaxCacheEntries) return;
 
@@ -295,9 +295,9 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * satisfy (year < ZoneEra.untilYearTiny + kEpochYear). Since the
      * largest untilYearTiny is 127, the largest supported 'year' is 2126.
      */
-    const common::ZoneEra* findZoneEra(int16_t year) const {
+    const zonedb::ZoneEra* findZoneEra(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
-        const common::ZoneEra* era = &mZoneInfo->eras[i];
+        const zonedb::ZoneEra* era = &mZoneInfo->eras[i];
         if (year < era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
       return nullptr;
@@ -313,9 +313,9 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * zone_infos.cpp verified that the final ZoneEra contains an empty
      * untilYear, interpreted as 'max', and set to 255.
      */
-    const common::ZoneEra* findZoneEraPriorTo(int16_t year) const {
+    const zonedb::ZoneEra* findZoneEraPriorTo(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
-        const common::ZoneEra* era = &mZoneInfo->eras[i];
+        const zonedb::ZoneEra* era = &mZoneInfo->eras[i];
         if (year <= era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
       return nullptr;
@@ -497,7 +497,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
       return closestMatch;
     }
 
-    const common::ZoneInfo* mZoneInfo;
+    const zonedb::ZoneInfo* mZoneInfo;
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;

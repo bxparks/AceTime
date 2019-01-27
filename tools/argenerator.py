@@ -41,7 +41,7 @@ class ArduinoGenerator:
 #ifndef ACE_TIME_ZONE_POLICIES_H
 #define ACE_TIME_ZONE_POLICIES_H
 
-#include "../common/ZonePolicy.h"
+#include "ZonePolicy.h"
 
 namespace ace_time {{
 namespace zonedb {{
@@ -70,7 +70,7 @@ namespace zonedb {{
 """
 
     ZONE_POLICIES_H_POLICY_ITEM = """\
-extern const common::ZonePolicy kPolicy{policyName};
+extern const ZonePolicy kPolicy{policyName};
 """
 
     ZONE_POLICIES_H_REMOVED_POLICY_ITEM = """\
@@ -115,12 +115,12 @@ namespace zonedb {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRules{policyName}[] = {{
+static const ZoneRule kZoneRules{policyName}[] = {{
 {ruleItems}
 }};
 
-const common::ZonePolicy kPolicy{policyName} = {{
-  sizeof(kZoneRules{policyName})/sizeof(common::ZoneRule) /*numRules*/,
+const ZonePolicy kPolicy{policyName} = {{
+  sizeof(kZoneRules{policyName})/sizeof(ZoneRule) /*numRules*/,
   kZoneRules{policyName} /*rules*/,
 }};
 
@@ -157,7 +157,7 @@ const common::ZonePolicy kPolicy{policyName} = {{
 #ifndef ACE_TIME_ZONE_INFOS_H
 #define ACE_TIME_ZONE_INFOS_H
 
-#include "../common/ZoneInfo.h"
+#include "ZoneInfo.h"
 
 #define ACE_TIME_TZ_DATABASE_VERSION "{tz_version}"
 
@@ -186,7 +186,7 @@ namespace zonedb {{
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-extern const common::ZoneInfo kZone{infoShortName}; // {infoFullName}
+extern const ZoneInfo kZone{infoShortName}; // {infoFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
@@ -213,7 +213,7 @@ extern const common::ZoneInfo kZone{infoShortName}; // {infoFullName}
 //
 // DO NOT EDIT
 
-#include "../common/ZoneInfo.h"
+#include "ZoneInfo.h"
 #include "zone_policies.h"
 #include "zone_infos.h"
 
@@ -235,14 +235,14 @@ namespace zonedb {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEra{infoShortName}[] = {{
+static const ZoneEra kZoneEra{infoShortName}[] = {{
 {eraItems}
 }};
 
-const common::ZoneInfo kZone{infoShortName} = {{
+const ZoneInfo kZone{infoShortName} = {{
   "{infoFullName}" /*name*/,
   kZoneEra{infoShortName} /*eras*/,
-  sizeof(kZoneEra{infoShortName})/sizeof(common::ZoneEra) /*numEras*/,
+  sizeof(kZoneEra{infoShortName})/sizeof(ZoneEra) /*numEras*/,
 }};
 
 """
