@@ -35,9 +35,10 @@ class Controller {
 
     /** Set the time zone using the given offset. */
     void setTimeZone(UtcOffset utcOffset, bool isDst) {
-      mManualZoneSpecifier = ManualZoneSpecifier(utcOffset);
+      mManualZoneSpecifier = ManualZoneSpecifier(
+          utcOffset, UtcOffset::forHour(1));
+      mManualZoneSpecifier.isDst(isDst);
       mTimeZone = TimeZone(&mManualZoneSpecifier);
-      mTimeZone.isDst(isDst);
       preserveInfo();
     }
 
@@ -84,11 +85,11 @@ class Controller {
     const StoredInfo& getStoredInfo() const { return mStoredInfo; }
 
     /** Return DST mode. */
-    bool isDst() const { return mTimeZone.isDst(); }
+    bool isDst() const { return mManualZoneSpecifier.isDst(); }
 
     /** Set DST on or off */
     void setDst(bool status) {
-      mTimeZone.isDst(status);
+      mManualZoneSpecifier.isDst(status);
       preserveInfo();
     }
 
@@ -118,7 +119,7 @@ class Controller {
       mIsStoredInfoValid = true;
       mStoredInfo.timeZoneType = mTimeZone.getType();
       mStoredInfo.offsetMinutes = mManualZoneSpecifier.stdOffset().toMinutes();
-      mStoredInfo.isDst = mTimeZone.isDst();
+      mStoredInfo.isDst = mManualZoneSpecifier.isDst();
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
 
