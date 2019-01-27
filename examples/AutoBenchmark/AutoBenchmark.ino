@@ -11,7 +11,6 @@
 
 using namespace ace_time;
 using namespace ace_time::provider;
-using namespace ace_time::common;
 
 void setup() {
   delay(1000);
@@ -36,17 +35,17 @@ void setup() {
   Serial.print(F("sizeof(OffsetDateTime): "));
   Serial.println(sizeof(OffsetDateTime));
 
-  Serial.print(F("sizeof(ZoneEra): "));
-  Serial.println(sizeof(ZoneEra));
+  Serial.print(F("sizeof(zonedb::ZoneEra): "));
+  Serial.println(sizeof(zonedb::ZoneEra));
 
-  Serial.print(F("sizeof(ZoneInfo): "));
-  Serial.println(sizeof(ZoneInfo));
+  Serial.print(F("sizeof(zonedb::ZoneInfo): "));
+  Serial.println(sizeof(zonedb::ZoneInfo));
 
-  Serial.print(F("sizeof(ZoneRule): "));
-  Serial.println(sizeof(ZoneRule));
+  Serial.print(F("sizeof(zonedb::ZoneRule): "));
+  Serial.println(sizeof(zonedb::ZoneRule));
 
-  Serial.print(F("sizeof(ZonePolicy): "));
-  Serial.println(sizeof(ZonePolicy));
+  Serial.print(F("sizeof(zonedb::ZonePolicy): "));
+  Serial.println(sizeof(zonedb::ZonePolicy));
 
   Serial.print(F("sizeof(internal::ZoneMatch): "));
   Serial.println(sizeof(internal::ZoneMatch));
