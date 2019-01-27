@@ -1,5 +1,5 @@
-#ifndef ACE_TIME_ZONE_SPEC_H
-#define ACE_TIME_ZONE_SPEC_H
+#ifndef ACE_TIME_ZONE_SPECIFIER_H
+#define ACE_TIME_ZONE_SPECIFIER_H
 
 #include "common/common.h"
 #include "UtcOffset.h"
