@@ -85,9 +85,9 @@ class ZoneEraCooked:
         'offsetSeconds',  # (int) offset from UTC/GMT in seconds
         'zonePolicy',  # (ZonePolicyCooked or str) ZonePolicyCooked if 'RULES'
                        # field is a named policy, otherwise '-' or ':'
-        'rulesDeltaSeconds',  # (int or None) delta offset from UTC in seconds
-                              # if RULES field is a DST offset string of the
-                              # form hh:mm[:ss]
+        'rulesDeltaSeconds',  # (int) delta offset from UTC in seconds
+                              # if zonePolicy == ':'. Always 0 if zonePolicy is
+                              # '-'.
         'format',  # (string) abbreviation format (e.g. P%sT, E%sT, GMT/BST)
         'untilYear',  # (int) MAX_UNTIL_YEAR means 'max'
         'untilMonth',  # (int) 1-12
@@ -148,7 +148,8 @@ class ZoneRuleCooked:
         'atSeconds',  # (int) atTime in seconds since 00:00:00
         'atTimeModifier',  # (char) 's', 'w', 'u'
         'deltaSeconds',  # (int) offset from Standard time in seconds
-        'letter',  # (char) 'D', 'S', '-'
+        'letter',  # (str) Usually ('D', 'S', '-'), but sometimes longer
+                   # (e.g. WAT, CAT, DD, +00, +02, CST).
     ]
 
     def __init__(self, arg):

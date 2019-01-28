@@ -69,14 +69,11 @@ class InlineGenerator:
                     policy_name = normalize_name(policy_name)
                     zone_policy = self.zone_policies[policy_name]
 
-                rules_delta_seconds = era.rulesDeltaSecondsTruncated
-                if not rules_delta_seconds: rules_delta_seconds = 0
-
                 # yapf: disable
                 zone_eras.append({
                     'offsetSeconds': era.offsetSecondsTruncated,
                     'zonePolicy': zone_policy,
-                    'rulesDeltaSeconds': rules_delta_seconds,
+                    'rulesDeltaSeconds': era.rulesDeltaSecondsTruncated,
                     'format': era.format,
                     'untilYear': era.untilYear,
                     'untilMonth': era.untilMonth,

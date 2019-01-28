@@ -366,14 +366,11 @@ ZONE_INFO_{infoShortName} = {{
         else:
             zone_policy = 'ZONE_POLICY_%s' % normalize_name(policy_name)
 
-        rules_delta_seconds = era.rulesDeltaSecondsTruncated
-        if not rules_delta_seconds: rules_delta_seconds = 0
-
         return self.ZONE_ERA_ITEM.format(
             rawLine=normalize_raw(era.rawLine),
             offsetSeconds=era.offsetSecondsTruncated,
             zonePolicy=zone_policy,
-            rulesDeltaSeconds=rules_delta_seconds,
+            rulesDeltaSeconds=era.rulesDeltaSecondsTruncated,
             format=era.format,  # preserve the %s
             untilYear=era.untilYear,
             untilMonth=era.untilMonth,

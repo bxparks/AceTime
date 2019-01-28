@@ -381,6 +381,11 @@ class Transformer:
                         removed_zones[name] = (
                             "invalid RULES string '%s'" % rules_string)
                         break
+                    if rules_delta_seconds == 0:
+                        valid = False
+                        removed_zones[name] = (
+                            "unexpected 0:00 RULES string '%s'" % rules_string)
+                        break
 
                     rules_delta_seconds_truncated = truncate_to_granularity(
                         rules_delta_seconds, self.granularity)
@@ -403,8 +408,9 @@ class Transformer:
                     zone.rulesDeltaSecondsTruncated = \
                         rules_delta_seconds_truncated
                 else:
-                    zone.rulesDeltaSeconds = None
-                    zone.rulesDeltaSecondsTruncated = None
+                    # If '-' or named policy, set to 0.
+                    zone.rulesDeltaSeconds = 0
+                    zone.rulesDeltaSecondsTruncated = 0
             if valid:
                 results[name] = zones
 
