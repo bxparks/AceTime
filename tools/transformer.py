@@ -19,13 +19,13 @@ from extractor import ZoneEraRaw
 
 
 class Transformer:
-    def __init__(self, zones_map, rules_map, python, start_year, granularity,
+    def __init__(self, zones_map, rules_map, language, start_year, granularity,
                  strict):
         """
         Arguments:
             zones_map: map of Zone names to ZoneEras
             rules_map: map of Policy names to ZoneRules
-            python: (bool) generate zonedb for Python
+            language: (str) target language ('python', 'arduino', 'arduinox')
             start_year: (int) include only years on or after start_year
             granularity: (int) retained AT, SAVE, UNTIL, or RULES(offset)
                 fields in seconds
@@ -34,7 +34,7 @@ class Transformer:
         """
         self.zones_map = zones_map
         self.rules_map = rules_map
-        self.python = python
+        self.language = language
         self.start_year = start_year
         self.granularity = granularity
         self.strict = strict
@@ -105,7 +105,7 @@ class Transformer:
         rules_map = self.create_rules_with_on_day_expansion(rules_map)
         rules_map = self.create_rules_with_anchor_transition(rules_map)
         #rules_map = self.remove_rules_with_border_transitions(rules_map)
-        if not self.python:
+        if self.language == 'arduino' or self.language == 'arduinox':
             rules_map = self.remove_rules_long_dst_letter(rules_map)
 
         zones_map = self.remove_zones_without_rules(zones_map, rules_map)
@@ -369,7 +369,7 @@ class Transformer:
             for zone in zones:
                 rules_string = zone.rules
                 if rules_string.find(':') >= 0:
-                    if not self.python:
+                    if self.language == 'arduino':
                         valid = False
                         removed_zones[name] = (
                             "offset in RULES '%s'" % rules_string)
@@ -433,7 +433,7 @@ class Transformer:
                 rule_name = zone.rules
                 if rule_name not in ['-', ':'] and rule_name not in rules_map:
                     valid = False
-                    removed_zones[name] = "rule '%s' not found" % rule_name
+                    removed_zones[name] = "policy '%s' not found" % rule_name
                     break
             if valid:
                 results[name] = zones
