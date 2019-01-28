@@ -4,34 +4,34 @@
 #
 # MIT License
 """
-A Python version of the C++ ZoneAgent class to allow easier and faster iteration
-of its algorithms. It is too cumbersome and tedious to experiment and debug the
-C++ code in the Arduino environment.
+A Python version of the C++ ZoneSpecifier class to allow easier and faster
+iteration of its algorithms. It is too cumbersome and tedious to experiment and
+debug the C++ code in the Arduino environment.
 
 Examples:
 
     # America/Los_Angeles for 2018-03-10T02:00:00
-    $ ./zone_agent.py --zone Los_Angeles --date 2019-03-10T01:59
+    $ ./zone_specifier.py --zone Los_Angeles --date 2019-03-10T01:59
     UTC-08:00+00:00 (PST)
-    $ ./zone_agent.py --zone Los_Angeles --date 2019-03-10T02:00
+    $ ./zone_specifier.py --zone Los_Angeles --date 2019-03-10T02:00
     Invalid time
-    $ ./zone_agent.py --zone Los_Angeles --date 2019-03-10T03:00
+    $ ./zone_specifier.py --zone Los_Angeles --date 2019-03-10T03:00
     UTC-08:00+01:00 (PDT)
-    $ ./zone_agent.py --zone Los_Angeles --date 2019-11-03T01:00
+    $ ./zone_specifier.py --zone Los_Angeles --date 2019-11-03T01:00
     UTC-08:00+01:00 (PDT)
-    $ ./zone_agent.py --zone Los_Angeles --date 2019-11-03T01:59
+    $ ./zone_specifier.py --zone Los_Angeles --date 2019-11-03T01:59
     UTC-08:00+01:00 (PDT)
-    $ ./zone_agent.py --zone Los_Angeles --date 2019-11-03T02:00
+    $ ./zone_specifier.py --zone Los_Angeles --date 2019-11-03T02:00
     UTC-08:00+00:00 (PST)
 
     # America/Indiana/Petersburg for the year 2006.
-    $ ./zone_agent.py --zone Petersburg --year 2006
+    $ ./zone_specifier.py --zone Petersburg --year 2006
 
     # America/Indiana/Indianapolis for the year 2006.
-    $ ./zone_agent.py --zone Indianapolis --year 2006
+    $ ./zone_specifier.py --zone Indianapolis --year 2006
 
     # Australia/Darwin for the year 2006.
-    $ ./zone_agent.py --zone Darwin --year 2006
+    $ ./zone_specifier.py --zone Darwin --year 2006
 """
 
 import sys
@@ -322,24 +322,24 @@ class Transition:
             # yapf: enable
 
 
-class ZoneAgent:
+class ZoneSpecifier:
     """Extract DST transition information for a given ZoneInfo.
 
     Usage:
-        zone_agent = ZoneAgent(zone_info, args.optimized)
+        zone_specifier = ZoneSpecifier(zone_info, args.optimized)
 
         # Validate matches and transitions
-        (matches, transitions) = zone_agent.get_matches_and_transitions(
+        (matches, transitions) = zone_specifier.get_matches_and_transitions(
             args.year)
         print_matches_and_transitions(matches, transitions)
 
         # Get (offset_seconds, dst_seconds, abbrev) for an epoch_seconds.
         (offset_seconds, dst_seconds, abbrev) = \
-                zone_agent.get_timezone_info_from_seconds(epoch_seconds)
+                zone_specifier.get_timezone_info_from_seconds(epoch_seconds)
 
         # Get (offset_seconds, dst_seconds, abbrev) for a datetime.
         (offset_seconds, dst_seconds, abbrev) = \
-                zone_agent.get_timezone_info_from_datetime(dt)
+                zone_specifier.get_timezone_info_from_datetime(dt)
 
     Note:
         The optimized mode is hardwired to True because there's a bug when it is
@@ -548,8 +548,8 @@ class ZoneAgent:
 #        Find the relevant transitions of the named policy in the Match interval
 #        [startDateTime, untilDateTime).
 #
-#        If a Zone Era use a named Match before any transition is defined then we
-#        must follow the special instructions given in
+#        If a Zone Era use a named Match before any transition is defined then
+#        we must follow the special instructions given in
 #        https://data.iana.org/time-zones/tz-how-to.html, where we use the
 #        earliest transition and shift it back in time to the starting point of
 #        the named Match, but clobber the SAVE to be 0 while keeping the LETTER.
@@ -1201,25 +1201,25 @@ def main():
         logging.error("Zone '%s' not found", args.zone)
         sys.exit(1)
 
-    # Create the ZoneAgent for zone
-    zone_agent = ZoneAgent(zone_info, args.optimized)
+    # Create the ZoneSpecifier for zone
+    zone_specifier = ZoneSpecifier(zone_info, args.optimized)
 
     if args.year:
-        (matches, transitions) = zone_agent.get_matches_and_transitions(
+        (matches, transitions) = zone_specifier.get_matches_and_transitions(
             args.year)
         print_matches_and_transitions(matches, transitions)
 
     elif args.date:
         dt = datetime.strptime(args.date, "%Y-%m-%dT%H:%M")
         if args.transition:
-            transition = zone_agent.get_transition_from_datetime(dt)
+            transition = zone_specifier.get_transition_from_datetime(dt)
             if transition:
                 logging.info(transition)
             else:
                 logging.error('Transition not found')
         else:
             (offset_seconds, dst_seconds, abbrev) = \
-                    zone_agent.get_timezone_info_from_datetime(dt)
+                    zone_specifier.get_timezone_info_from_datetime(dt)
             if not offset_seconds:
                 logging.info('Invalid time');
             else:

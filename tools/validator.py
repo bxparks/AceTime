@@ -18,13 +18,13 @@ from argenerator import normalize_name
 from transformer import days_in_month
 from transformer import seconds_to_hms
 from transformer import short_name
-from zone_agent import ZoneAgent
-from zone_agent import date_tuple_to_string
-from zone_agent import to_utc_string
-from zone_agent import print_matches_and_transitions
-from zone_agent import SECONDS_SINCE_UNIX_EPOCH
-from zone_agent import DateTuple
-from zone_agent import YearMonthTuple
+from zone_specifier import ZoneSpecifier
+from zone_specifier import date_tuple_to_string
+from zone_specifier import to_utc_string
+from zone_specifier import print_matches_and_transitions
+from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
+from zone_specifier import DateTuple
+from zone_specifier import YearMonthTuple
 
 # An entry in the test data set.
 TestItem = collections.namedtuple(
@@ -61,12 +61,12 @@ class Validator:
         logging.info('Calculating transitions between 2000 and 2038')
         for zone_short_name, zone_info in sorted(self.zone_infos.items()):
             #logging.info('Validating zone %s' % zone_short_name)
-            zone_agent = ZoneAgent(zone_info, self.optimized)
+            zone_specifier = ZoneSpecifier(zone_info, self.optimized)
             count_record = (0, 0)  # (count, year)
             for year in range(2000, 2038):
                 #logging.info('Validating year %s' % year)
                 (matches, transitions) = \
-                    zone_agent.get_matches_and_transitions(year)
+                    zone_specifier.get_matches_and_transitions(year)
                 count = len(transitions)
                 if count > count_record[0]:
                     count_record = (count, year)
@@ -98,10 +98,10 @@ class Validator:
 
     def validate_test_data_for_zone(self, zone_short_name, items):
         zone_info = self.zone_infos[zone_short_name]
-        zone_agent = ZoneAgent(zone_info, self.optimized)
+        zone_specifier = ZoneSpecifier(zone_info, self.optimized)
         for item in items:
             (offset_seconds, dst_seconds, abbrev) = \
-                zone_agent.get_timezone_info_from_seconds(item.epoch)
+                zone_specifier.get_timezone_info_from_seconds(item.epoch)
             unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
             utc_offset_seconds = offset_seconds + dst_seconds
             if utc_offset_seconds != item.utc_offset:
@@ -113,7 +113,8 @@ class Validator:
                     to_utc_string(item.utc_offset - item.dst_offset,
                                   item.dst_offset))
                 (matches,
-                 transitions) = zone_agent.get_matches_and_transitions(item.y)
+                 transitions) = zone_specifier.get_matches_and_transitions(
+                    item.y)
                 print_matches_and_transitions(matches, transitions)
 
     def create_test_data(self):
@@ -135,7 +136,7 @@ class Validator:
     def create_test_data_for_zone(self, zone_short_name, zone_info):
         """Create the TestItems for a specific zone.
         """
-        zone_agent = ZoneAgent(zone_info, self.optimized)
+        zone_specifier = ZoneSpecifier(zone_info, self.optimized)
         zone_full_name = zone_info['name']
         try:
             tz = pytz.timezone(zone_full_name)
@@ -147,19 +148,19 @@ class Validator:
         if self.validate_hours:
             # Debugging output when generating 'hours' takes a long time
             logging.info('  Creating test data for %s', zone_short_name)
-        test_items = self.create_transition_test_items(tz, zone_agent)
+        test_items = self.create_transition_test_items(tz, zone_specifier)
         if self.validate_hours:
-            test_items.extend(self.create_hourly_test_items(tz, zone_agent))
+            test_items.extend(self.create_hourly_test_items(tz, zone_specifier))
         return test_items
 
-    def create_transition_test_items(self, tz, zone_agent):
+    def create_transition_test_items(self, tz, zone_specifier):
         """Create a TestItem for tz at the DST transitions for each year.
         Some zones do not use DST, so will have no test samples here.
         """
         items = []
         for year in range(2000, 2018):
             (matches,
-             transitions) = zone_agent.get_matches_and_transitions(year)
+             transitions) = zone_specifier.get_matches_and_transitions(year)
             transition_found = False
 
             # Add the before and after samples surrounding a DST transition.
@@ -186,7 +187,7 @@ class Validator:
 
         return items
 
-    def create_hourly_test_items(self, tz, zone_agent):
+    def create_hourly_test_items(self, tz, zone_specifier):
         items = []
         for year in range(2000, 2018):
             for month in range(1, 13):

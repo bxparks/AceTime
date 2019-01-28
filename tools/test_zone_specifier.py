@@ -5,13 +5,13 @@
 # MIT License
 
 import unittest
-from zone_agent import get_candidate_years
-from zone_agent import DateTuple
-from zone_agent import expand_date_tuple
-from zone_agent import normalize_date_tuple
+from zone_specifier import get_candidate_years
+from zone_specifier import DateTuple
+from zone_specifier import expand_date_tuple
+from zone_specifier import normalize_date_tuple
 
 
-class TestZoneAgent(unittest.TestCase):
+class TestZoneSpecifier(unittest.TestCase):
     def test_get_candidate_years(self):
         self.assertEqual({1, 2, 3}, get_candidate_years(1, 4, 2, 3))
         self.assertEqual({1, 2, 3}, get_candidate_years(0, 4, 2, 3))

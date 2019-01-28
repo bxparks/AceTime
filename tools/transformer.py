@@ -787,10 +787,10 @@ class Transformer:
         """Remove rules where the transition occurs near the border of a year
         boundary. In other words, in the last 2 or the first 2 days of a year.
 
-        This routine determines if I can optimize zone_agent.py to consider only
-        a one-year interval (instead of a 2-year interval) with just the latest
-        prior Rule of the previous year, and the earliest subsequent Rule of the
-        next year.
+        This routine determines if I can optimize zone_specifier.py to consider
+        only a one-year interval (instead of a 2-year interval) with just the
+        latest prior Rule of the previous year, and the earliest subsequent Rule
+        of the next year.
 
         There are 3 such Rules:
             * Arg (Transition in late year (2007-12-30))
