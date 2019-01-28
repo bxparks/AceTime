@@ -35,17 +35,17 @@ void setup() {
   Serial.print(F("sizeof(OffsetDateTime): "));
   Serial.println(sizeof(OffsetDateTime));
 
-  Serial.print(F("sizeof(zonedb::ZoneEra): "));
-  Serial.println(sizeof(zonedb::ZoneEra));
+  Serial.print(F("sizeof(common::ZoneEra): "));
+  Serial.println(sizeof(common::ZoneEra));
 
-  Serial.print(F("sizeof(zonedb::ZoneInfo): "));
-  Serial.println(sizeof(zonedb::ZoneInfo));
+  Serial.print(F("sizeof(common::ZoneInfo): "));
+  Serial.println(sizeof(common::ZoneInfo));
 
-  Serial.print(F("sizeof(zonedb::ZoneRule): "));
-  Serial.println(sizeof(zonedb::ZoneRule));
+  Serial.print(F("sizeof(common::ZoneRule): "));
+  Serial.println(sizeof(common::ZoneRule));
 
-  Serial.print(F("sizeof(zonedb::ZonePolicy): "));
-  Serial.println(sizeof(zonedb::ZonePolicy));
+  Serial.print(F("sizeof(common::ZonePolicy): "));
+  Serial.println(sizeof(common::ZonePolicy));
 
   Serial.print(F("sizeof(internal::ZoneMatch): "));
   Serial.println(sizeof(internal::ZoneMatch));

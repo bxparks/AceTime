@@ -1,10 +1,10 @@
-#ifndef ACE_TIME_ZONEDB_ZONE_POLICY_H
-#define ACE_TIME_ZONEDB_ZONE_POLICY_H
+#ifndef ACE_TIME_ZONE_POLICY_H
+#define ACE_TIME_ZONE_POLICY_H
 
 #include <stdint.h>
 
 namespace ace_time {
-namespace zonedb {
+namespace common {
 
 /**
  * A time zone transition rule. It is useful to think of this as a transition

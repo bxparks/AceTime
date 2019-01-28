@@ -1,11 +1,11 @@
-#ifndef ACE_TIME_ZONEDB_ZONE_INFO_H
-#define ACE_TIME_ZONEDB_ZONE_INFO_H
+#ifndef ACE_TIME_ZONE_INFO_H
+#define ACE_TIME_ZONE_INFO_H
 
 #include <stdint.h>
 #include "ZonePolicy.h"
 
 namespace ace_time {
-namespace zonedb {
+namespace common {
 
 /**
  * An entry in ZoneInfo which describes which ZonePolicy was being followed

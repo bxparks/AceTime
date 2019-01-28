@@ -38,10 +38,10 @@ class ArduinoGenerator:
 //
 // DO NOT EDIT
 
-#ifndef ACE_TIME_ZONE_POLICIES_H
-#define ACE_TIME_ZONE_POLICIES_H
+#ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
+#define ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
 
-#include "ZonePolicy.h"
+#include "../common/ZonePolicy.h"
 
 namespace ace_time {{
 namespace {dbNamespace} {{
@@ -70,7 +70,7 @@ namespace {dbNamespace} {{
 """
 
     ZONE_POLICIES_H_POLICY_ITEM = """\
-extern const ZonePolicy kPolicy{policyName};
+extern const common::ZonePolicy kPolicy{policyName};
 """
 
     ZONE_POLICIES_H_REMOVED_POLICY_ITEM = """\
@@ -115,12 +115,12 @@ namespace {dbNamespace} {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const ZoneRule kZoneRules{policyName}[] = {{
+static const common::ZoneRule kZoneRules{policyName}[] = {{
 {ruleItems}
 }};
 
-const ZonePolicy kPolicy{policyName} = {{
-  sizeof(kZoneRules{policyName})/sizeof(ZoneRule) /*numRules*/,
+const common::ZonePolicy kPolicy{policyName} = {{
+  sizeof(kZoneRules{policyName})/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRules{policyName} /*rules*/,
 }};
 
@@ -154,10 +154,10 @@ const ZonePolicy kPolicy{policyName} = {{
 //
 // DO NOT EDIT
 
-#ifndef ACE_TIME_ZONE_INFOS_H
-#define ACE_TIME_ZONE_INFOS_H
+#ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
+#define ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
 
-#include "ZoneInfo.h"
+#include "../common/ZoneInfo.h"
 
 #define ACE_TIME_TZ_DATABASE_VERSION "{tz_version}"
 
@@ -186,7 +186,7 @@ namespace {dbNamespace} {{
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-extern const ZoneInfo kZone{infoShortName}; // {infoFullName}
+extern const common::ZoneInfo kZone{infoShortName}; // {infoFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
@@ -213,7 +213,6 @@ extern const ZoneInfo kZone{infoShortName}; // {infoFullName}
 //
 // DO NOT EDIT
 
-#include "ZoneInfo.h"
 #include "zone_policies.h"
 #include "zone_infos.h"
 
@@ -235,14 +234,14 @@ namespace {dbNamespace} {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const ZoneEra kZoneEra{infoShortName}[] = {{
+static const common::ZoneEra kZoneEra{infoShortName}[] = {{
 {eraItems}
 }};
 
-const ZoneInfo kZone{infoShortName} = {{
+const common::ZoneInfo kZone{infoShortName} = {{
   "{infoFullName}" /*name*/,
   kZoneEra{infoShortName} /*eras*/,
-  sizeof(kZoneEra{infoShortName})/sizeof(ZoneEra) /*numEras*/,
+  sizeof(kZoneEra{infoShortName})/sizeof(common::ZoneEra) /*numEras*/,
 }};
 
 """
@@ -307,6 +306,7 @@ const ZoneInfo kZone{infoShortName} = {{
         self.notable_policies = notable_policies
         self.extended = extended # extended Arduino/C++ database
         self.db_namespace = 'zonedbx' if extended else 'zonedb'
+        self.db_header_namespace = 'ZONEDBZ' if extended else 'ZONEDB'
 
     def generate_files(self, output_dir):
         self.write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
@@ -349,6 +349,7 @@ const ZoneInfo kZone{infoShortName} = {{
             invocation=self.invocation,
             tz_version=self.tz_version,
             dbNamespace=self.db_namespace,
+            dbHeaderNamespace=self.db_header_namespace,
             tz_files=', '.join(self.tz_files),
             numPolicies=len(self.rules_map),
             policyItems=policy_items,
@@ -374,6 +375,7 @@ const ZoneInfo kZone{infoShortName} = {{
             invocation=self.invocation,
             tz_version=self.tz_version,
             dbNamespace=self.db_namespace,
+            dbHeaderNamespace=self.db_header_namespace,
             numPolicies=num_policies,
             numRules=num_rules,
             memory8=memory8,
@@ -437,6 +439,7 @@ const ZoneInfo kZone{infoShortName} = {{
             invocation=self.invocation,
             tz_version=self.tz_version,
             dbNamespace=self.db_namespace,
+            dbHeaderNamespace=self.db_header_namespace,
             tz_files=', '.join(self.tz_files),
             numInfos=len(self.zones_map),
             infoItems=info_items,
@@ -472,6 +475,7 @@ const ZoneInfo kZone{infoShortName} = {{
             invocation=self.invocation,
             tz_version=self.tz_version,
             dbNamespace=self.db_namespace,
+            dbHeaderNamespace=self.db_header_namespace,
             numInfos=num_infos,
             numEras=num_eras,
             stringLength=string_length,
