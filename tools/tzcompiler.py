@@ -103,22 +103,30 @@ def main():
         action='store_true',
         default=False)
 
+    # Data pipeline selectors
+    parser.add_argument(
+        '--zonedb', help='Generate ZoneDB files', action='store_true')
+    parser.add_argument(
+        '--validate',
+        help='Validate the zone_infos and zone_policies maps',
+        action='store_true')
+    parser.add_argument(
+        '--unittest', help='Generate Unit Test files', action='store_true')
+
     # File generators
     parser.add_argument(
         '--python', help='Generate Python files', action='store_true')
     parser.add_argument(
         '--arduino', help='Generate Arduino files', action='store_true')
     parser.add_argument(
+        '--arduinox', help='Generate Extended Arduino files',
+        action='store_true')
+    parser.add_argument(
         '--tz_version', help='Version string of the TZ files', required=True)
     parser.add_argument(
         '--output_dir', help='Location of the output directory')
 
     # Validator
-    parser.add_argument(
-        '--validate',
-        help='Validate the zone_infos and zone_policies maps',
-        action='store_true',
-        default=False)
     parser.add_argument(
         '--optimized', help='Optimize the year interval',
         action="store_true",
@@ -177,29 +185,35 @@ def main():
     if args.print_transformed_rules:
         printer.print_rules()
 
-    # Create the Python or Arduino files if requested
-    if args.python:
-        logging.info('======== Creating Python zonedb files...')
-        generator = PythonGenerator(
-            invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
-            removed_zones, removed_policies, notable_zones, notable_policies)
-        if not args.output_dir:
-            logging.error('Must provide --output_dir to generate Python files')
-            sys.exit(1)
-        generator.generate_files(args.output_dir)
-    if args.arduino:
-        logging.info('======== Creating Arduino zonedb files...')
-        generator = ArduinoGenerator(
-            invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
-            removed_zones, removed_policies, notable_zones, notable_policies)
+    if args.zonedb:
+        # Create the Python or Arduino files if requested
         if not args.output_dir:
             logging.error(
-                'Must provide --output_dir to generate Arduino files')
+                'Must provide --output_dir to generate Python files')
             sys.exit(1)
-        generator.generate_files(args.output_dir)
-
-    # Validate the zone_infos and zone_policies if requested
-    if args.validate:
+        if args.python:
+            logging.info('======== Creating Python zonedb files...')
+            generator = PythonGenerator(
+                invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
+                removed_zones, removed_policies, notable_zones,
+                notable_policies)
+            generator.generate_files(args.output_dir)
+        if args.arduino:
+            logging.info('======== Creating Arduino zonedb files...')
+            generator = ArduinoGenerator(
+                invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
+                removed_zones, removed_policies, notable_zones,
+                notable_policies)
+            generator.generate_files(args.output_dir)
+        if args.arduinox:
+            logging.info('======== Creating Extended Arduino zonedb files...')
+            generator = ExtendedArduinoGenerator(
+                invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
+                removed_zones, removed_policies, notable_zones,
+                notable_policies)
+            generator.generate_files(args.output_dir)
+    elif args.validate:
+        # Validate the zone_infos and zone_policies if requested
         logging.info(
             '======== Generating inlined zone_infos and zone_policies...')
         inline_generator = InlineGenerator(zones, rules)
@@ -215,6 +229,9 @@ def main():
 
         logging.info('======== Validating test data...')
         validator.validate_sequentially()
+    else:
+        logging.error('One of --zonedb or --validate must be given')
+        sys.exit(1)
 
     logging.info('======== Finished processing TZ Data files.')
 

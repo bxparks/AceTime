@@ -6,17 +6,26 @@
 #
 # Usage:
 #
-#   $ tzcompiler.sh --tag 2018i --python --granularity 60
+#   $ tzcompiler.sh --tag {tag} (--zonedb | --validate | --unittest)
+#       [--python | --arduino | --arduinox] [other flags...]
+#
+# Examples:
+#
+#   $ tzcompiler.sh --tag 2018i --zonedb --python
 #       - generates zone*.py files in the current directory
 #
-#   $ tzcompiler.sh --tag 2018i --arduino --granularity 900
+#   $ tzcompiler.sh --tag 2018i --zonedb --arduino
 #       - generates zone*.{h,cpp} files in the current directory
 #
-#   $ tzcompiler.sh --tag 2018i --validate --granularity 60
+#   $ tzcompiler.sh --tag 2018i --zonedb --arduinox
+#       - generates extended zone*.{h,cpp} files in the current directory
+#
+#   $ tzcompiler.sh --tag 2018i --validate --python
 #       - validate the internal zone_info and zone_policies data
 #
-#   $ tzcompiler.sh --tag 2018i --validate --granularity 60 --optimized
+#   $ tzcompiler.sh --tag 2018i --validate --arduino
 #       - validate the internal zone_info and zone_policies data
+#
 # Flags
 #
 #   Transformer flags:
@@ -31,8 +40,6 @@
 #   Validator:
 #       --validate
 #           Validate the zone_infos and zone_policies
-#       --optimized
-#           Use a 14-month window, instead of a 3 year window.
 #       --validate_dst_offset
 #           Validate DST offsets as well (many false positives due to pytz).
 #       --validate_hours
@@ -51,8 +58,8 @@ INPUT_DIR=$HOME/dev/tz
 OUTPUT_DIR=$PWD
 
 function usage() {
-    echo 'Usage: tzcompiler.sh --tag tag [--python] [--arduino] [--validate]'
-    echo '       [python_flags...]'
+    echo 'Usage: tzcompiler.sh --tag tag [--python | --arduino | --arduinox ]'
+    echo '      (--validate | --zonedb) [...other python_flags...]'
     exit 1
 }
 
