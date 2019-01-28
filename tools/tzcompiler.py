@@ -113,7 +113,7 @@ def main():
     parser.add_argument(
         '--unittest', help='Generate Unit Test files', action='store_true')
 
-    # File generators
+    # Target language selectors
     parser.add_argument(
         '--python', help='Generate Python files', action='store_true')
     parser.add_argument(
@@ -121,6 +121,8 @@ def main():
     parser.add_argument(
         '--arduinox', help='Generate Extended Arduino files',
         action='store_true')
+
+    # File generators
     parser.add_argument(
         '--tz_version', help='Version string of the TZ files', required=True)
     parser.add_argument(
@@ -149,6 +151,14 @@ def main():
     # How the script was invoked
     invocation = ' '.join(sys.argv)
 
+    # Select target language
+    if args.arduino:
+        language = 'arduino'
+    elif args.arduinox:
+        language = 'arduinox'
+    else:
+        language = 'python'
+
     # Extract the TZ files
     logging.info('======== Extracting TZ Data files...')
     extractor = Extractor(args.input_dir)
@@ -169,7 +179,7 @@ def main():
 
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules...')
-    transformer = Transformer(zones, rules, args.python, args.start_year,
+    transformer = Transformer(zones, rules, language, args.start_year,
                               args.granularity, args.strict)
     transformer.transform()
     transformer.print_summary()
@@ -191,26 +201,20 @@ def main():
             logging.error(
                 'Must provide --output_dir to generate Python files')
             sys.exit(1)
-        if args.python:
+        if language == 'python':
             logging.info('======== Creating Python zonedb files...')
             generator = PythonGenerator(
                 invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
                 removed_zones, removed_policies, notable_zones,
                 notable_policies)
             generator.generate_files(args.output_dir)
-        if args.arduino:
+        if language == 'arduino' or language == 'arduinox':
+            extended = (language == 'arduinox')
             logging.info('======== Creating Arduino zonedb files...')
             generator = ArduinoGenerator(
                 invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
                 removed_zones, removed_policies, notable_zones,
-                notable_policies)
-            generator.generate_files(args.output_dir)
-        if args.arduinox:
-            logging.info('======== Creating Extended Arduino zonedb files...')
-            generator = ExtendedArduinoGenerator(
-                invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
-                removed_zones, removed_policies, notable_zones,
-                notable_policies)
+                notable_policies, extended)
             generator.generate_files(args.output_dir)
     elif args.validate:
         # Validate the zone_infos and zone_policies if requested

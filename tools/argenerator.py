@@ -56,7 +56,7 @@ namespace zonedb {{
 //
 {removedPolicyItems}
 
-// The following zone policies may have inaccuracies  due to the following
+// The following zone policies may have inaccuracies due to the following
 // reasons:
 //
 // numPolicies: {numNotablePolicies}
@@ -261,13 +261,31 @@ const ZoneInfo kZone{infoShortName} = {{
   }},
 """
 
+    # Extended version of above
+    ZONE_INFOS_CPP_ERA_ITEM_X = """\
+  // {rawLine}
+  {{
+    {offsetCode} /*offsetCode*/,
+    {zonePolicy} /*zonePolicy*/,
+    {deltaCode} /*deltaCode*/,
+    "{format}" /*format*/,
+    {untilYearTiny} /*untilYearTiny*/,
+    {untilMonth} /*untilMonth*/,
+    {untilDay} /*untilDay*/,
+    {untilTimeCode} /*untilTimeCode*/,
+    '{untilTimeModifier}' /*untilTimeModifier*/,
+  }},
+"""
+
     ZONE_INFOS_H_FILE_NAME = 'zone_infos.h'
     ZONE_INFOS_CPP_FILE_NAME = 'zone_infos.cpp'
     ZONE_POLICIES_H_FILE_NAME = 'zone_policies.h'
     ZONE_POLICIES_CPP_FILE_NAME = 'zone_policies.cpp'
 
-    SIZEOF_ZONE_ERA_8 = 6
-    SIZEOF_ZONE_ERA_32 = 10
+    SIZEOF_ZONE_ERA_8 = 10
+    SIZEOF_ZONE_ERA_32 = 14
+    SIZEOF_ZONE_ERA_X_8 = SIZEOF_ZONE_ERA_8 + 1
+    SIZEOF_ZONE_ERA_X_32 = SIZEOF_ZONE_ERA_32 + 1
     SIZEOF_ZONE_INFO_8 = 5
     SIZEOF_ZONE_INFO_32 = 9
     SIZEOF_ZONE_RULE_8 = 9
@@ -277,7 +295,7 @@ const ZoneInfo kZone{infoShortName} = {{
 
     def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
-                 notable_policies):
+                 notable_policies, extended):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -287,6 +305,7 @@ const ZoneInfo kZone{infoShortName} = {{
         self.removed_policies = removed_policies
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
+        self.extended = extended # extended Arduino/C++ database
 
     def generate_files(self, output_dir):
         self.write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
@@ -434,10 +453,16 @@ const ZoneInfo kZone{infoShortName} = {{
             num_eras += len(eras)
 
         num_infos = len(self.zones_map)
-        memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
-                   num_infos * self.SIZEOF_ZONE_INFO_8)
-        memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
-                    num_infos * self.SIZEOF_ZONE_INFO_32)
+        if self.extended:
+            memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_X_8 +
+                       num_infos * self.SIZEOF_ZONE_INFO_8)
+            memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_X_32 +
+                        num_infos * self.SIZEOF_ZONE_INFO_32)
+        else:
+            memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
+                       num_infos * self.SIZEOF_ZONE_INFO_8)
+            memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
+                        num_infos * self.SIZEOF_ZONE_INFO_32)
 
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
@@ -459,10 +484,16 @@ const ZoneInfo kZone{infoShortName} = {{
 
         string_length += len(name) + 1
         num_eras = len(eras)
-        memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
-                   1 * self.SIZEOF_ZONE_INFO_8)
-        memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
-                    1 * self.SIZEOF_ZONE_INFO_32)
+        if self.extended:
+            memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_X_8 +
+                       1 * self.SIZEOF_ZONE_INFO_8)
+            memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_X_32 +
+                        1 * self.SIZEOF_ZONE_INFO_32)
+        else:
+            memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
+                       1 * self.SIZEOF_ZONE_INFO_8)
+            memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
+                        1 * self.SIZEOF_ZONE_INFO_32)
 
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
             infoFullName=normalize_name(name),
@@ -476,10 +507,12 @@ const ZoneInfo kZone{infoShortName} = {{
 
     def generate_era_item(self, name, era):
         policy_name = era.rules
-        if policy_name == '-':
-            zonePolicy = 'nullptr'
+        if policy_name == '-' or policy_name == ':':
+            zone_policy = 'nullptr'
+            delta_code = div_to_zero(era.rulesDeltaSecondsTruncated, 15 * 60)
         else:
-            zonePolicy = '&kPolicy%s' % normalize_name(policy_name)
+            zone_policy = '&kPolicy%s' % normalize_name(policy_name)
+            delta_code = 0
 
         until_year = era.untilYear
         if until_year == MAX_UNTIL_YEAR:
@@ -503,10 +536,15 @@ const ZoneInfo kZone{infoShortName} = {{
         format = era.format.replace('%s', '%')
         string_length = len(format) + 1
 
-        era_item = self.ZONE_INFOS_CPP_ERA_ITEM.format(
+        if self.extended:
+            template = self.ZONE_INFOS_CPP_ERA_ITEM_X
+        else:
+            template = self.ZONE_INFOS_CPP_ERA_ITEM
+        era_item = template.format(
             rawLine=normalize_raw(era.rawLine),
             offsetCode=offset_code,
-            zonePolicy=zonePolicy,
+            deltaCode=delta_code,
+            zonePolicy=zone_policy,
             format=format,
             untilYearTiny=until_year_tiny,
             untilMonth=until_month,
