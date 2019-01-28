@@ -16,7 +16,7 @@
 #include "ZonePolicy.h"
 
 namespace ace_time {
-namespace zonedb {
+namespace zonedbx {
 
 // numPolicies: 79
 extern const ZonePolicy kPolicyAN;

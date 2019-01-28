@@ -15,7 +15,7 @@
 #include "zone_policies.h"
 
 namespace ace_time {
-namespace zonedb {
+namespace zonedbx {
 
 //---------------------------------------------------------------------------
 // Policy name: AN

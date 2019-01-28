@@ -18,7 +18,7 @@
 #define ACE_TIME_TZ_DATABASE_VERSION "2018i"
 
 namespace ace_time {
-namespace zonedb {
+namespace zonedbx {
 
 // numInfos: 343
 extern const ZoneInfo kZoneAbidjan; // Africa/Abidjan

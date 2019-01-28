@@ -18,7 +18,7 @@
 #include "zone_infos.h"
 
 namespace ace_time {
-namespace zonedb {
+namespace zonedbx {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Abidjan

@@ -44,7 +44,7 @@ class ArduinoGenerator:
 #include "ZonePolicy.h"
 
 namespace ace_time {{
-namespace zonedb {{
+namespace {dbNamespace} {{
 
 // numPolicies: {numPolicies}
 {policyItems}
@@ -99,7 +99,7 @@ extern const ZonePolicy kPolicy{policyName};
 #include "zone_policies.h"
 
 namespace ace_time {{
-namespace zonedb {{
+namespace {dbNamespace} {{
 
 {policyItems}
 
@@ -162,7 +162,7 @@ const ZonePolicy kPolicy{policyName} = {{
 #define ACE_TIME_TZ_DATABASE_VERSION "{tz_version}"
 
 namespace ace_time {{
-namespace zonedb {{
+namespace {dbNamespace} {{
 
 // numInfos: {numInfos}
 {infoItems}
@@ -218,7 +218,7 @@ extern const ZoneInfo kZone{infoShortName}; // {infoFullName}
 #include "zone_infos.h"
 
 namespace ace_time {{
-namespace zonedb {{
+namespace {dbNamespace} {{
 
 {infoItems}
 
@@ -306,6 +306,7 @@ const ZoneInfo kZone{infoShortName} = {{
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
         self.extended = extended # extended Arduino/C++ database
+        self.db_namespace = 'zonedbx' if extended else 'zonedb'
 
     def generate_files(self, output_dir):
         self.write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
@@ -347,6 +348,7 @@ const ZoneInfo kZone{infoShortName} = {{
         return self.ZONE_POLICIES_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            dbNamespace=self.db_namespace,
             tz_files=', '.join(self.tz_files),
             numPolicies=len(self.rules_map),
             policyItems=policy_items,
@@ -371,6 +373,7 @@ const ZoneInfo kZone{infoShortName} = {{
         return self.ZONE_POLICIES_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            dbNamespace=self.db_namespace,
             numPolicies=num_policies,
             numRules=num_rules,
             memory8=memory8,
@@ -433,6 +436,7 @@ const ZoneInfo kZone{infoShortName} = {{
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            dbNamespace=self.db_namespace,
             tz_files=', '.join(self.tz_files),
             numInfos=len(self.zones_map),
             infoItems=info_items,
@@ -467,6 +471,7 @@ const ZoneInfo kZone{infoShortName} = {{
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            dbNamespace=self.db_namespace,
             numInfos=num_infos,
             numEras=num_eras,
             stringLength=string_length,

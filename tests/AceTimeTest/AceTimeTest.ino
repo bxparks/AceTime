@@ -5,7 +5,6 @@
 
 using namespace aunit;
 using namespace ace_time;
-using namespace ace_time::common;
 
 // --------------------------------------------------------------------------
 // TimePeriod
@@ -256,7 +255,7 @@ test(UtcOffsetMutationTest, increment15Minutes) {
 // --------------------------------------------------------------------------
 
 test(DateStringsTest, monthString) {
-  DateStrings ds;
+  common::DateStrings ds;
 
   assertEqual(F("Error"), ds.monthLongString(0));
   assertEqual(F("January"), ds.monthLongString(1));
@@ -290,18 +289,18 @@ test(DateStringsTest, monthString) {
 }
 
 test(DateStringsTest, monthStringsFitInBuffer) {
-  DateStrings ds;
+  common::DateStrings ds;
   uint8_t maxLength = 0;
   for (uint8_t month = 0; month <= 12; month++) {
     const char* monthString = ds.monthLongString(month);
     uint8_t length = strlen(monthString);
     if (length > maxLength) { maxLength = length; }
   }
-  assertLessOrEqual(maxLength, DateStrings::kBufferSize - 1);
+  assertLessOrEqual(maxLength, common::DateStrings::kBufferSize - 1);
 }
 
 test(DateStringsTest, weekDayStrings) {
-  DateStrings ds;
+  common::DateStrings ds;
 
   assertEqual(F("Error"), ds.weekDayLongString(0));
   assertEqual(F("Monday"), ds.weekDayLongString(1));
@@ -325,14 +324,14 @@ test(DateStringsTest, weekDayStrings) {
 }
 
 test(DateStringsTest, weekDayStringsFitInBuffer) {
-  DateStrings ds;
+  common::DateStrings ds;
   uint8_t maxLength = 0;
   for (uint8_t weekDay = 0; weekDay <= 7; weekDay++) {
     const char* weekDayString = ds.weekDayLongString(weekDay);
     uint8_t length = strlen(weekDayString);
     if (length > maxLength) { maxLength = length; }
   }
-  assertLessOrEqual(maxLength, DateStrings::kBufferSize - 1);
+  assertLessOrEqual(maxLength, common::DateStrings::kBufferSize - 1);
 }
 
 // --------------------------------------------------------------------------
