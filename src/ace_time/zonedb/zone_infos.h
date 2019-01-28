@@ -368,12 +368,12 @@ extern const ZoneInfo kZoneWallis; // Pacific/Wallis
 //
 // numInfos: 18
 //
-// Africa/Windhoek (rule 'Namibia' not found)
+// Africa/Windhoek (policy 'Namibia' not found)
 // America/Argentina/San_Luis (offset in RULES '1:00')
-// America/Belize (rule 'Belize' not found)
-// America/Goose_Bay (rule 'StJohns' not found)
-// America/St_Johns (rule 'StJohns' not found)
-// Antarctica/Troll (rule 'Troll' not found)
+// America/Belize (policy 'Belize' not found)
+// America/Goose_Bay (policy 'StJohns' not found)
+// America/St_Johns (policy 'StJohns' not found)
+// Antarctica/Troll (policy 'Troll' not found)
 // CET (no '/' in zone name)
 // CST6CDT (no '/' in zone name)
 // EET (no '/' in zone name)

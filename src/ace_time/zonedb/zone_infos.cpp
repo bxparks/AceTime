@@ -8,8 +8,8 @@
 // Zone info count: 341
 // Zone era count: 575
 // Strings: 8558
-// Memory (8-bit): 13713
-// Memory (32-bit): 17377
+// Memory (8-bit): 16013
+// Memory (32-bit): 19677
 //
 // DO NOT EDIT
 
@@ -24,8 +24,8 @@ namespace zonedb {
 // Zone name: Africa/Abidjan
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAbidjan[] = {
@@ -53,8 +53,8 @@ const ZoneInfo kZoneAbidjan = {
 // Zone name: Africa/Accra
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAccra[] = {
@@ -82,8 +82,8 @@ const ZoneInfo kZoneAccra = {
 // Zone name: Africa/Algiers
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAlgiers[] = {
@@ -111,8 +111,8 @@ const ZoneInfo kZoneAlgiers = {
 // Zone name: Africa/Bissau
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBissau[] = {
@@ -140,8 +140,8 @@ const ZoneInfo kZoneBissau = {
 // Zone name: Africa/Cairo
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCairo[] = {
@@ -169,8 +169,8 @@ const ZoneInfo kZoneCairo = {
 // Zone name: Africa/Casablanca
 // Era count: 2
 // Strings: 34
-// Memory (8-bit): 51
-// Memory (32-bit): 63
+// Memory (8-bit): 59
+// Memory (32-bit): 71
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCasablanca[] = {
@@ -209,8 +209,8 @@ const ZoneInfo kZoneCasablanca = {
 // Zone name: Africa/Ceuta
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCeuta[] = {
@@ -238,8 +238,8 @@ const ZoneInfo kZoneCeuta = {
 // Zone name: Africa/El_Aaiun
 // Era count: 2
 // Strings: 32
-// Memory (8-bit): 49
-// Memory (32-bit): 61
+// Memory (8-bit): 57
+// Memory (32-bit): 69
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraEl_Aaiun[] = {
@@ -278,8 +278,8 @@ const ZoneInfo kZoneEl_Aaiun = {
 // Zone name: Africa/Johannesburg
 // Era count: 1
 // Strings: 25
-// Memory (8-bit): 36
-// Memory (32-bit): 44
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraJohannesburg[] = {
@@ -307,8 +307,8 @@ const ZoneInfo kZoneJohannesburg = {
 // Zone name: Africa/Juba
 // Era count: 2
 // Strings: 21
-// Memory (8-bit): 38
-// Memory (32-bit): 50
+// Memory (8-bit): 46
+// Memory (32-bit): 58
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraJuba[] = {
@@ -347,8 +347,8 @@ const ZoneInfo kZoneJuba = {
 // Zone name: Africa/Khartoum
 // Era count: 3
 // Strings: 29
-// Memory (8-bit): 52
-// Memory (32-bit): 68
+// Memory (8-bit): 64
+// Memory (32-bit): 80
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKhartoum[] = {
@@ -398,8 +398,8 @@ const ZoneInfo kZoneKhartoum = {
 // Zone name: Africa/Lagos
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraLagos[] = {
@@ -427,8 +427,8 @@ const ZoneInfo kZoneLagos = {
 // Zone name: Africa/Maputo
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMaputo[] = {
@@ -456,8 +456,8 @@ const ZoneInfo kZoneMaputo = {
 // Zone name: Africa/Monrovia
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMonrovia[] = {
@@ -485,8 +485,8 @@ const ZoneInfo kZoneMonrovia = {
 // Zone name: Africa/Nairobi
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNairobi[] = {
@@ -514,8 +514,8 @@ const ZoneInfo kZoneNairobi = {
 // Zone name: Africa/Ndjamena
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNdjamena[] = {
@@ -543,8 +543,8 @@ const ZoneInfo kZoneNdjamena = {
 // Zone name: Africa/Sao_Tome
 // Era count: 3
 // Strings: 28
-// Memory (8-bit): 51
-// Memory (32-bit): 67
+// Memory (8-bit): 63
+// Memory (32-bit): 79
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSao_Tome[] = {
@@ -594,8 +594,8 @@ const ZoneInfo kZoneSao_Tome = {
 // Zone name: Africa/Tripoli
 // Era count: 3
 // Strings: 28
-// Memory (8-bit): 51
-// Memory (32-bit): 67
+// Memory (8-bit): 63
+// Memory (32-bit): 79
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTripoli[] = {
@@ -645,8 +645,8 @@ const ZoneInfo kZoneTripoli = {
 // Zone name: Africa/Tunis
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTunis[] = {
@@ -674,8 +674,8 @@ const ZoneInfo kZoneTunis = {
 // Zone name: America/Adak
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAdak[] = {
@@ -703,8 +703,8 @@ const ZoneInfo kZoneAdak = {
 // Zone name: America/Anchorage
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAnchorage[] = {
@@ -732,8 +732,8 @@ const ZoneInfo kZoneAnchorage = {
 // Zone name: America/Araguaina
 // Era count: 4
 // Strings: 42
-// Memory (8-bit): 71
-// Memory (32-bit): 91
+// Memory (8-bit): 87
+// Memory (32-bit): 107
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAraguaina[] = {
@@ -794,8 +794,8 @@ const ZoneInfo kZoneAraguaina = {
 // Zone name: America/Argentina/Buenos_Aires
 // Era count: 2
 // Strings: 47
-// Memory (8-bit): 64
-// Memory (32-bit): 76
+// Memory (8-bit): 72
+// Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBuenos_Aires[] = {
@@ -834,8 +834,8 @@ const ZoneInfo kZoneBuenos_Aires = {
 // Zone name: America/Argentina/Catamarca
 // Era count: 5
 // Strings: 56
-// Memory (8-bit): 91
-// Memory (32-bit): 115
+// Memory (8-bit): 111
+// Memory (32-bit): 135
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCatamarca[] = {
@@ -907,8 +907,8 @@ const ZoneInfo kZoneCatamarca = {
 // Zone name: America/Argentina/Cordoba
 // Era count: 2
 // Strings: 42
-// Memory (8-bit): 59
-// Memory (32-bit): 71
+// Memory (8-bit): 67
+// Memory (32-bit): 79
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCordoba[] = {
@@ -947,8 +947,8 @@ const ZoneInfo kZoneCordoba = {
 // Zone name: America/Argentina/Jujuy
 // Era count: 3
 // Strings: 44
-// Memory (8-bit): 67
-// Memory (32-bit): 83
+// Memory (8-bit): 79
+// Memory (32-bit): 95
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraJujuy[] = {
@@ -998,8 +998,8 @@ const ZoneInfo kZoneJujuy = {
 // Zone name: America/Argentina/La_Rioja
 // Era count: 5
 // Strings: 55
-// Memory (8-bit): 90
-// Memory (32-bit): 114
+// Memory (8-bit): 110
+// Memory (32-bit): 134
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraLa_Rioja[] = {
@@ -1071,8 +1071,8 @@ const ZoneInfo kZoneLa_Rioja = {
 // Zone name: America/Argentina/Mendoza
 // Era count: 5
 // Strings: 54
-// Memory (8-bit): 89
-// Memory (32-bit): 113
+// Memory (8-bit): 109
+// Memory (32-bit): 133
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMendoza[] = {
@@ -1144,8 +1144,8 @@ const ZoneInfo kZoneMendoza = {
 // Zone name: America/Argentina/Rio_Gallegos
 // Era count: 5
 // Strings: 59
-// Memory (8-bit): 94
-// Memory (32-bit): 118
+// Memory (8-bit): 114
+// Memory (32-bit): 138
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraRio_Gallegos[] = {
@@ -1217,8 +1217,8 @@ const ZoneInfo kZoneRio_Gallegos = {
 // Zone name: America/Argentina/Salta
 // Era count: 3
 // Strings: 44
-// Memory (8-bit): 67
-// Memory (32-bit): 83
+// Memory (8-bit): 79
+// Memory (32-bit): 95
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSalta[] = {
@@ -1268,8 +1268,8 @@ const ZoneInfo kZoneSalta = {
 // Zone name: America/Argentina/San_Juan
 // Era count: 5
 // Strings: 55
-// Memory (8-bit): 90
-// Memory (32-bit): 114
+// Memory (8-bit): 110
+// Memory (32-bit): 134
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSan_Juan[] = {
@@ -1341,8 +1341,8 @@ const ZoneInfo kZoneSan_Juan = {
 // Zone name: America/Argentina/Tucuman
 // Era count: 4
 // Strings: 50
-// Memory (8-bit): 79
-// Memory (32-bit): 99
+// Memory (8-bit): 95
+// Memory (32-bit): 115
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTucuman[] = {
@@ -1403,8 +1403,8 @@ const ZoneInfo kZoneTucuman = {
 // Zone name: America/Argentina/Ushuaia
 // Era count: 5
 // Strings: 54
-// Memory (8-bit): 89
-// Memory (32-bit): 113
+// Memory (8-bit): 109
+// Memory (32-bit): 133
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraUshuaia[] = {
@@ -1476,8 +1476,8 @@ const ZoneInfo kZoneUshuaia = {
 // Zone name: America/Asuncion
 // Era count: 1
 // Strings: 25
-// Memory (8-bit): 36
-// Memory (32-bit): 44
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAsuncion[] = {
@@ -1505,8 +1505,8 @@ const ZoneInfo kZoneAsuncion = {
 // Zone name: America/Atikokan
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAtikokan[] = {
@@ -1534,8 +1534,8 @@ const ZoneInfo kZoneAtikokan = {
 // Zone name: America/Bahia
 // Era count: 4
 // Strings: 38
-// Memory (8-bit): 67
-// Memory (32-bit): 87
+// Memory (8-bit): 83
+// Memory (32-bit): 103
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBahia[] = {
@@ -1596,8 +1596,8 @@ const ZoneInfo kZoneBahia = {
 // Zone name: America/Bahia_Banderas
 // Era count: 2
 // Strings: 31
-// Memory (8-bit): 48
-// Memory (32-bit): 60
+// Memory (8-bit): 56
+// Memory (32-bit): 68
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBahia_Banderas[] = {
@@ -1636,8 +1636,8 @@ const ZoneInfo kZoneBahia_Banderas = {
 // Zone name: America/Barbados
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBarbados[] = {
@@ -1665,8 +1665,8 @@ const ZoneInfo kZoneBarbados = {
 // Zone name: America/Belem
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBelem[] = {
@@ -1694,8 +1694,8 @@ const ZoneInfo kZoneBelem = {
 // Zone name: America/Blanc_Sablon
 // Era count: 1
 // Strings: 25
-// Memory (8-bit): 36
-// Memory (32-bit): 44
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBlanc_Sablon[] = {
@@ -1723,8 +1723,8 @@ const ZoneInfo kZoneBlanc_Sablon = {
 // Zone name: America/Boa_Vista
 // Era count: 2
 // Strings: 30
-// Memory (8-bit): 47
-// Memory (32-bit): 59
+// Memory (8-bit): 55
+// Memory (32-bit): 67
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBoa_Vista[] = {
@@ -1763,8 +1763,8 @@ const ZoneInfo kZoneBoa_Vista = {
 // Zone name: America/Bogota
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBogota[] = {
@@ -1792,8 +1792,8 @@ const ZoneInfo kZoneBogota = {
 // Zone name: America/Boise
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBoise[] = {
@@ -1821,8 +1821,8 @@ const ZoneInfo kZoneBoise = {
 // Zone name: America/Cambridge_Bay
 // Era count: 4
 // Strings: 38
-// Memory (8-bit): 67
-// Memory (32-bit): 87
+// Memory (8-bit): 83
+// Memory (32-bit): 103
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCambridge_Bay[] = {
@@ -1883,8 +1883,8 @@ const ZoneInfo kZoneCambridge_Bay = {
 // Zone name: America/Campo_Grande
 // Era count: 1
 // Strings: 29
-// Memory (8-bit): 40
-// Memory (32-bit): 48
+// Memory (8-bit): 44
+// Memory (32-bit): 52
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCampo_Grande[] = {
@@ -1912,8 +1912,8 @@ const ZoneInfo kZoneCampo_Grande = {
 // Zone name: America/Cancun
 // Era count: 2
 // Strings: 23
-// Memory (8-bit): 40
-// Memory (32-bit): 52
+// Memory (8-bit): 48
+// Memory (32-bit): 60
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCancun[] = {
@@ -1952,8 +1952,8 @@ const ZoneInfo kZoneCancun = {
 // Zone name: America/Caracas
 // Era count: 3
 // Strings: 30
-// Memory (8-bit): 53
-// Memory (32-bit): 69
+// Memory (8-bit): 65
+// Memory (32-bit): 81
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCaracas[] = {
@@ -2003,8 +2003,8 @@ const ZoneInfo kZoneCaracas = {
 // Zone name: America/Cayenne
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCayenne[] = {
@@ -2032,8 +2032,8 @@ const ZoneInfo kZoneCayenne = {
 // Zone name: America/Chicago
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraChicago[] = {
@@ -2061,8 +2061,8 @@ const ZoneInfo kZoneChicago = {
 // Zone name: America/Chihuahua
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraChihuahua[] = {
@@ -2090,8 +2090,8 @@ const ZoneInfo kZoneChihuahua = {
 // Zone name: America/Costa_Rica
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCosta_Rica[] = {
@@ -2119,8 +2119,8 @@ const ZoneInfo kZoneCosta_Rica = {
 // Zone name: America/Creston
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCreston[] = {
@@ -2148,8 +2148,8 @@ const ZoneInfo kZoneCreston = {
 // Zone name: America/Cuiaba
 // Era count: 3
 // Strings: 35
-// Memory (8-bit): 58
-// Memory (32-bit): 74
+// Memory (8-bit): 70
+// Memory (32-bit): 86
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCuiaba[] = {
@@ -2199,8 +2199,8 @@ const ZoneInfo kZoneCuiaba = {
 // Zone name: America/Curacao
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCuracao[] = {
@@ -2228,8 +2228,8 @@ const ZoneInfo kZoneCuracao = {
 // Zone name: America/Danmarkshavn
 // Era count: 1
 // Strings: 25
-// Memory (8-bit): 36
-// Memory (32-bit): 44
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDanmarkshavn[] = {
@@ -2257,8 +2257,8 @@ const ZoneInfo kZoneDanmarkshavn = {
 // Zone name: America/Dawson
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDawson[] = {
@@ -2286,8 +2286,8 @@ const ZoneInfo kZoneDawson = {
 // Zone name: America/Dawson_Creek
 // Era count: 1
 // Strings: 25
-// Memory (8-bit): 36
-// Memory (32-bit): 44
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDawson_Creek[] = {
@@ -2315,8 +2315,8 @@ const ZoneInfo kZoneDawson_Creek = {
 // Zone name: America/Denver
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDenver[] = {
@@ -2344,8 +2344,8 @@ const ZoneInfo kZoneDenver = {
 // Zone name: America/Detroit
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDetroit[] = {
@@ -2373,8 +2373,8 @@ const ZoneInfo kZoneDetroit = {
 // Zone name: America/Edmonton
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraEdmonton[] = {
@@ -2402,8 +2402,8 @@ const ZoneInfo kZoneEdmonton = {
 // Zone name: America/Eirunepe
 // Era count: 3
 // Strings: 29
-// Memory (8-bit): 52
-// Memory (32-bit): 68
+// Memory (8-bit): 64
+// Memory (32-bit): 80
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraEirunepe[] = {
@@ -2453,8 +2453,8 @@ const ZoneInfo kZoneEirunepe = {
 // Zone name: America/El_Salvador
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraEl_Salvador[] = {
@@ -2482,8 +2482,8 @@ const ZoneInfo kZoneEl_Salvador = {
 // Zone name: America/Fort_Nelson
 // Era count: 2
 // Strings: 28
-// Memory (8-bit): 45
-// Memory (32-bit): 57
+// Memory (8-bit): 53
+// Memory (32-bit): 65
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraFort_Nelson[] = {
@@ -2522,8 +2522,8 @@ const ZoneInfo kZoneFort_Nelson = {
 // Zone name: America/Fortaleza
 // Era count: 4
 // Strings: 42
-// Memory (8-bit): 71
-// Memory (32-bit): 91
+// Memory (8-bit): 87
+// Memory (32-bit): 107
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraFortaleza[] = {
@@ -2584,8 +2584,8 @@ const ZoneInfo kZoneFortaleza = {
 // Zone name: America/Glace_Bay
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGlace_Bay[] = {
@@ -2613,8 +2613,8 @@ const ZoneInfo kZoneGlace_Bay = {
 // Zone name: America/Godthab
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGodthab[] = {
@@ -2642,8 +2642,8 @@ const ZoneInfo kZoneGodthab = {
 // Zone name: America/Grand_Turk
 // Era count: 3
 // Strings: 31
-// Memory (8-bit): 54
-// Memory (32-bit): 70
+// Memory (8-bit): 66
+// Memory (32-bit): 82
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGrand_Turk[] = {
@@ -2693,8 +2693,8 @@ const ZoneInfo kZoneGrand_Turk = {
 // Zone name: America/Guatemala
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGuatemala[] = {
@@ -2722,8 +2722,8 @@ const ZoneInfo kZoneGuatemala = {
 // Zone name: America/Guayaquil
 // Era count: 1
 // Strings: 26
-// Memory (8-bit): 37
-// Memory (32-bit): 45
+// Memory (8-bit): 41
+// Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGuayaquil[] = {
@@ -2751,8 +2751,8 @@ const ZoneInfo kZoneGuayaquil = {
 // Zone name: America/Guyana
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGuyana[] = {
@@ -2780,8 +2780,8 @@ const ZoneInfo kZoneGuyana = {
 // Zone name: America/Halifax
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraHalifax[] = {
@@ -2809,8 +2809,8 @@ const ZoneInfo kZoneHalifax = {
 // Zone name: America/Havana
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraHavana[] = {
@@ -2838,8 +2838,8 @@ const ZoneInfo kZoneHavana = {
 // Zone name: America/Hermosillo
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraHermosillo[] = {
@@ -2867,8 +2867,8 @@ const ZoneInfo kZoneHermosillo = {
 // Zone name: America/Indiana/Indianapolis
 // Era count: 2
 // Strings: 37
-// Memory (8-bit): 54
-// Memory (32-bit): 66
+// Memory (8-bit): 62
+// Memory (32-bit): 74
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraIndianapolis[] = {
@@ -2907,8 +2907,8 @@ const ZoneInfo kZoneIndianapolis = {
 // Zone name: America/Indiana/Knox
 // Era count: 2
 // Strings: 29
-// Memory (8-bit): 46
-// Memory (32-bit): 58
+// Memory (8-bit): 54
+// Memory (32-bit): 66
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKnox[] = {
@@ -2947,8 +2947,8 @@ const ZoneInfo kZoneKnox = {
 // Zone name: America/Indiana/Marengo
 // Era count: 2
 // Strings: 32
-// Memory (8-bit): 49
-// Memory (32-bit): 61
+// Memory (8-bit): 57
+// Memory (32-bit): 69
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMarengo[] = {
@@ -2987,8 +2987,8 @@ const ZoneInfo kZoneMarengo = {
 // Zone name: America/Indiana/Petersburg
 // Era count: 3
 // Strings: 39
-// Memory (8-bit): 62
-// Memory (32-bit): 78
+// Memory (8-bit): 74
+// Memory (32-bit): 90
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPetersburg[] = {
@@ -3038,8 +3038,8 @@ const ZoneInfo kZonePetersburg = {
 // Zone name: America/Indiana/Tell_City
 // Era count: 2
 // Strings: 34
-// Memory (8-bit): 51
-// Memory (32-bit): 63
+// Memory (8-bit): 59
+// Memory (32-bit): 71
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTell_City[] = {
@@ -3078,8 +3078,8 @@ const ZoneInfo kZoneTell_City = {
 // Zone name: America/Indiana/Vevay
 // Era count: 2
 // Strings: 30
-// Memory (8-bit): 47
-// Memory (32-bit): 59
+// Memory (8-bit): 55
+// Memory (32-bit): 67
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraVevay[] = {
@@ -3118,8 +3118,8 @@ const ZoneInfo kZoneVevay = {
 // Zone name: America/Indiana/Vincennes
 // Era count: 3
 // Strings: 38
-// Memory (8-bit): 61
-// Memory (32-bit): 77
+// Memory (8-bit): 73
+// Memory (32-bit): 89
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraVincennes[] = {
@@ -3169,8 +3169,8 @@ const ZoneInfo kZoneVincennes = {
 // Zone name: America/Indiana/Winamac
 // Era count: 3
 // Strings: 36
-// Memory (8-bit): 59
-// Memory (32-bit): 75
+// Memory (8-bit): 71
+// Memory (32-bit): 87
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraWinamac[] = {
@@ -3220,8 +3220,8 @@ const ZoneInfo kZoneWinamac = {
 // Zone name: America/Inuvik
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraInuvik[] = {
@@ -3249,8 +3249,8 @@ const ZoneInfo kZoneInuvik = {
 // Zone name: America/Iqaluit
 // Era count: 2
 // Strings: 24
-// Memory (8-bit): 41
-// Memory (32-bit): 53
+// Memory (8-bit): 49
+// Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraIqaluit[] = {
@@ -3289,8 +3289,8 @@ const ZoneInfo kZoneIqaluit = {
 // Zone name: America/Jamaica
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraJamaica[] = {
@@ -3318,8 +3318,8 @@ const ZoneInfo kZoneJamaica = {
 // Zone name: America/Juneau
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraJuneau[] = {
@@ -3347,8 +3347,8 @@ const ZoneInfo kZoneJuneau = {
 // Zone name: America/Kentucky/Louisville
 // Era count: 1
 // Strings: 32
-// Memory (8-bit): 43
-// Memory (32-bit): 51
+// Memory (8-bit): 47
+// Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraLouisville[] = {
@@ -3376,8 +3376,8 @@ const ZoneInfo kZoneLouisville = {
 // Zone name: America/Kentucky/Monticello
 // Era count: 2
 // Strings: 36
-// Memory (8-bit): 53
-// Memory (32-bit): 65
+// Memory (8-bit): 61
+// Memory (32-bit): 73
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMonticello[] = {
@@ -3416,8 +3416,8 @@ const ZoneInfo kZoneMonticello = {
 // Zone name: America/La_Paz
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraLa_Paz[] = {
@@ -3445,8 +3445,8 @@ const ZoneInfo kZoneLa_Paz = {
 // Zone name: America/Lima
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraLima[] = {
@@ -3474,8 +3474,8 @@ const ZoneInfo kZoneLima = {
 // Zone name: America/Los_Angeles
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraLos_Angeles[] = {
@@ -3503,8 +3503,8 @@ const ZoneInfo kZoneLos_Angeles = {
 // Zone name: America/Maceio
 // Era count: 4
 // Strings: 39
-// Memory (8-bit): 68
-// Memory (32-bit): 88
+// Memory (8-bit): 84
+// Memory (32-bit): 104
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMaceio[] = {
@@ -3565,8 +3565,8 @@ const ZoneInfo kZoneMaceio = {
 // Zone name: America/Managua
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraManagua[] = {
@@ -3594,8 +3594,8 @@ const ZoneInfo kZoneManagua = {
 // Zone name: America/Manaus
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraManaus[] = {
@@ -3623,8 +3623,8 @@ const ZoneInfo kZoneManaus = {
 // Zone name: America/Martinique
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMartinique[] = {
@@ -3652,8 +3652,8 @@ const ZoneInfo kZoneMartinique = {
 // Zone name: America/Matamoros
 // Era count: 2
 // Strings: 26
-// Memory (8-bit): 43
-// Memory (32-bit): 55
+// Memory (8-bit): 51
+// Memory (32-bit): 63
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMatamoros[] = {
@@ -3692,8 +3692,8 @@ const ZoneInfo kZoneMatamoros = {
 // Zone name: America/Mazatlan
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMazatlan[] = {
@@ -3721,8 +3721,8 @@ const ZoneInfo kZoneMazatlan = {
 // Zone name: America/Menominee
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMenominee[] = {
@@ -3750,8 +3750,8 @@ const ZoneInfo kZoneMenominee = {
 // Zone name: America/Merida
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMerida[] = {
@@ -3779,8 +3779,8 @@ const ZoneInfo kZoneMerida = {
 // Zone name: America/Metlakatla
 // Era count: 4
 // Strings: 37
-// Memory (8-bit): 66
-// Memory (32-bit): 86
+// Memory (8-bit): 82
+// Memory (32-bit): 102
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMetlakatla[] = {
@@ -3841,8 +3841,8 @@ const ZoneInfo kZoneMetlakatla = {
 // Zone name: America/Mexico_City
 // Era count: 3
 // Strings: 32
-// Memory (8-bit): 55
-// Memory (32-bit): 71
+// Memory (8-bit): 67
+// Memory (32-bit): 83
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMexico_City[] = {
@@ -3892,8 +3892,8 @@ const ZoneInfo kZoneMexico_City = {
 // Zone name: America/Miquelon
 // Era count: 1
 // Strings: 25
-// Memory (8-bit): 36
-// Memory (32-bit): 44
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMiquelon[] = {
@@ -3921,8 +3921,8 @@ const ZoneInfo kZoneMiquelon = {
 // Zone name: America/Moncton
 // Era count: 2
 // Strings: 24
-// Memory (8-bit): 41
-// Memory (32-bit): 53
+// Memory (8-bit): 49
+// Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMoncton[] = {
@@ -3961,8 +3961,8 @@ const ZoneInfo kZoneMoncton = {
 // Zone name: America/Monterrey
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMonterrey[] = {
@@ -3990,8 +3990,8 @@ const ZoneInfo kZoneMonterrey = {
 // Zone name: America/Montevideo
 // Era count: 1
 // Strings: 27
-// Memory (8-bit): 38
-// Memory (32-bit): 46
+// Memory (8-bit): 42
+// Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMontevideo[] = {
@@ -4019,8 +4019,8 @@ const ZoneInfo kZoneMontevideo = {
 // Zone name: America/Nassau
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNassau[] = {
@@ -4048,8 +4048,8 @@ const ZoneInfo kZoneNassau = {
 // Zone name: America/New_York
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNew_York[] = {
@@ -4077,8 +4077,8 @@ const ZoneInfo kZoneNew_York = {
 // Zone name: America/Nipigon
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNipigon[] = {
@@ -4106,8 +4106,8 @@ const ZoneInfo kZoneNipigon = {
 // Zone name: America/Nome
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNome[] = {
@@ -4135,8 +4135,8 @@ const ZoneInfo kZoneNome = {
 // Zone name: America/Noronha
 // Era count: 4
 // Strings: 40
-// Memory (8-bit): 69
-// Memory (32-bit): 89
+// Memory (8-bit): 85
+// Memory (32-bit): 105
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNoronha[] = {
@@ -4197,8 +4197,8 @@ const ZoneInfo kZoneNoronha = {
 // Zone name: America/North_Dakota/Beulah
 // Era count: 2
 // Strings: 36
-// Memory (8-bit): 53
-// Memory (32-bit): 65
+// Memory (8-bit): 61
+// Memory (32-bit): 73
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBeulah[] = {
@@ -4237,8 +4237,8 @@ const ZoneInfo kZoneBeulah = {
 // Zone name: America/North_Dakota/Center
 // Era count: 1
 // Strings: 32
-// Memory (8-bit): 43
-// Memory (32-bit): 51
+// Memory (8-bit): 47
+// Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCenter[] = {
@@ -4266,8 +4266,8 @@ const ZoneInfo kZoneCenter = {
 // Zone name: America/North_Dakota/New_Salem
 // Era count: 2
 // Strings: 39
-// Memory (8-bit): 56
-// Memory (32-bit): 68
+// Memory (8-bit): 64
+// Memory (32-bit): 76
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNew_Salem[] = {
@@ -4306,8 +4306,8 @@ const ZoneInfo kZoneNew_Salem = {
 // Zone name: America/Ojinaga
 // Era count: 2
 // Strings: 24
-// Memory (8-bit): 41
-// Memory (32-bit): 53
+// Memory (8-bit): 49
+// Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraOjinaga[] = {
@@ -4346,8 +4346,8 @@ const ZoneInfo kZoneOjinaga = {
 // Zone name: America/Panama
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPanama[] = {
@@ -4375,8 +4375,8 @@ const ZoneInfo kZonePanama = {
 // Zone name: America/Pangnirtung
 // Era count: 2
 // Strings: 28
-// Memory (8-bit): 45
-// Memory (32-bit): 57
+// Memory (8-bit): 53
+// Memory (32-bit): 65
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPangnirtung[] = {
@@ -4415,8 +4415,8 @@ const ZoneInfo kZonePangnirtung = {
 // Zone name: America/Paramaribo
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraParamaribo[] = {
@@ -4444,8 +4444,8 @@ const ZoneInfo kZoneParamaribo = {
 // Zone name: America/Phoenix
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPhoenix[] = {
@@ -4473,8 +4473,8 @@ const ZoneInfo kZonePhoenix = {
 // Zone name: America/Port_au_Prince
 // Era count: 1
 // Strings: 27
-// Memory (8-bit): 38
-// Memory (32-bit): 46
+// Memory (8-bit): 42
+// Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPort_au_Prince[] = {
@@ -4502,8 +4502,8 @@ const ZoneInfo kZonePort_au_Prince = {
 // Zone name: America/Port_of_Spain
 // Era count: 1
 // Strings: 26
-// Memory (8-bit): 37
-// Memory (32-bit): 45
+// Memory (8-bit): 41
+// Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPort_of_Spain[] = {
@@ -4531,8 +4531,8 @@ const ZoneInfo kZonePort_of_Spain = {
 // Zone name: America/Porto_Velho
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPorto_Velho[] = {
@@ -4560,8 +4560,8 @@ const ZoneInfo kZonePorto_Velho = {
 // Zone name: America/Puerto_Rico
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPuerto_Rico[] = {
@@ -4589,8 +4589,8 @@ const ZoneInfo kZonePuerto_Rico = {
 // Zone name: America/Punta_Arenas
 // Era count: 2
 // Strings: 33
-// Memory (8-bit): 50
-// Memory (32-bit): 62
+// Memory (8-bit): 58
+// Memory (32-bit): 70
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPunta_Arenas[] = {
@@ -4629,8 +4629,8 @@ const ZoneInfo kZonePunta_Arenas = {
 // Zone name: America/Rainy_River
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraRainy_River[] = {
@@ -4658,8 +4658,8 @@ const ZoneInfo kZoneRainy_River = {
 // Zone name: America/Rankin_Inlet
 // Era count: 3
 // Strings: 33
-// Memory (8-bit): 56
-// Memory (32-bit): 72
+// Memory (8-bit): 68
+// Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraRankin_Inlet[] = {
@@ -4709,8 +4709,8 @@ const ZoneInfo kZoneRankin_Inlet = {
 // Zone name: America/Recife
 // Era count: 4
 // Strings: 39
-// Memory (8-bit): 68
-// Memory (32-bit): 88
+// Memory (8-bit): 84
+// Memory (32-bit): 104
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraRecife[] = {
@@ -4771,8 +4771,8 @@ const ZoneInfo kZoneRecife = {
 // Zone name: America/Regina
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraRegina[] = {
@@ -4800,8 +4800,8 @@ const ZoneInfo kZoneRegina = {
 // Zone name: America/Resolute
 // Era count: 5
 // Strings: 37
-// Memory (8-bit): 72
-// Memory (32-bit): 96
+// Memory (8-bit): 92
+// Memory (32-bit): 116
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraResolute[] = {
@@ -4873,8 +4873,8 @@ const ZoneInfo kZoneResolute = {
 // Zone name: America/Rio_Branco
 // Era count: 3
 // Strings: 31
-// Memory (8-bit): 54
-// Memory (32-bit): 70
+// Memory (8-bit): 66
+// Memory (32-bit): 82
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraRio_Branco[] = {
@@ -4924,8 +4924,8 @@ const ZoneInfo kZoneRio_Branco = {
 // Zone name: America/Santarem
 // Era count: 2
 // Strings: 25
-// Memory (8-bit): 42
-// Memory (32-bit): 54
+// Memory (8-bit): 50
+// Memory (32-bit): 62
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSantarem[] = {
@@ -4964,8 +4964,8 @@ const ZoneInfo kZoneSantarem = {
 // Zone name: America/Santiago
 // Era count: 1
 // Strings: 25
-// Memory (8-bit): 36
-// Memory (32-bit): 44
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSantiago[] = {
@@ -4993,8 +4993,8 @@ const ZoneInfo kZoneSantiago = {
 // Zone name: America/Santo_Domingo
 // Era count: 3
 // Strings: 34
-// Memory (8-bit): 57
-// Memory (32-bit): 73
+// Memory (8-bit): 69
+// Memory (32-bit): 85
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSanto_Domingo[] = {
@@ -5044,8 +5044,8 @@ const ZoneInfo kZoneSanto_Domingo = {
 // Zone name: America/Sao_Paulo
 // Era count: 1
 // Strings: 26
-// Memory (8-bit): 37
-// Memory (32-bit): 45
+// Memory (8-bit): 41
+// Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSao_Paulo[] = {
@@ -5073,8 +5073,8 @@ const ZoneInfo kZoneSao_Paulo = {
 // Zone name: America/Scoresbysund
 // Era count: 1
 // Strings: 29
-// Memory (8-bit): 40
-// Memory (32-bit): 48
+// Memory (8-bit): 44
+// Memory (32-bit): 52
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraScoresbysund[] = {
@@ -5102,8 +5102,8 @@ const ZoneInfo kZoneScoresbysund = {
 // Zone name: America/Sitka
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSitka[] = {
@@ -5131,8 +5131,8 @@ const ZoneInfo kZoneSitka = {
 // Zone name: America/Swift_Current
 // Era count: 1
 // Strings: 26
-// Memory (8-bit): 37
-// Memory (32-bit): 45
+// Memory (8-bit): 41
+// Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSwift_Current[] = {
@@ -5160,8 +5160,8 @@ const ZoneInfo kZoneSwift_Current = {
 // Zone name: America/Tegucigalpa
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTegucigalpa[] = {
@@ -5189,8 +5189,8 @@ const ZoneInfo kZoneTegucigalpa = {
 // Zone name: America/Thule
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraThule[] = {
@@ -5218,8 +5218,8 @@ const ZoneInfo kZoneThule = {
 // Zone name: America/Thunder_Bay
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraThunder_Bay[] = {
@@ -5247,8 +5247,8 @@ const ZoneInfo kZoneThunder_Bay = {
 // Zone name: America/Tijuana
 // Era count: 4
 // Strings: 32
-// Memory (8-bit): 61
-// Memory (32-bit): 81
+// Memory (8-bit): 77
+// Memory (32-bit): 97
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTijuana[] = {
@@ -5309,8 +5309,8 @@ const ZoneInfo kZoneTijuana = {
 // Zone name: America/Toronto
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraToronto[] = {
@@ -5338,8 +5338,8 @@ const ZoneInfo kZoneToronto = {
 // Zone name: America/Vancouver
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraVancouver[] = {
@@ -5367,8 +5367,8 @@ const ZoneInfo kZoneVancouver = {
 // Zone name: America/Whitehorse
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraWhitehorse[] = {
@@ -5396,8 +5396,8 @@ const ZoneInfo kZoneWhitehorse = {
 // Zone name: America/Winnipeg
 // Era count: 2
 // Strings: 25
-// Memory (8-bit): 42
-// Memory (32-bit): 54
+// Memory (8-bit): 50
+// Memory (32-bit): 62
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraWinnipeg[] = {
@@ -5436,8 +5436,8 @@ const ZoneInfo kZoneWinnipeg = {
 // Zone name: America/Yakutat
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraYakutat[] = {
@@ -5465,8 +5465,8 @@ const ZoneInfo kZoneYakutat = {
 // Zone name: America/Yellowknife
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraYellowknife[] = {
@@ -5494,8 +5494,8 @@ const ZoneInfo kZoneYellowknife = {
 // Zone name: Antarctica/Casey
 // Era count: 7
 // Strings: 45
-// Memory (8-bit): 92
-// Memory (32-bit): 124
+// Memory (8-bit): 120
+// Memory (32-bit): 152
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCasey[] = {
@@ -5589,8 +5589,8 @@ const ZoneInfo kZoneCasey = {
 // Zone name: Antarctica/Davis
 // Era count: 5
 // Strings: 37
-// Memory (8-bit): 72
-// Memory (32-bit): 96
+// Memory (8-bit): 92
+// Memory (32-bit): 116
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDavis[] = {
@@ -5662,8 +5662,8 @@ const ZoneInfo kZoneDavis = {
 // Zone name: Antarctica/DumontDUrville
 // Era count: 1
 // Strings: 30
-// Memory (8-bit): 41
-// Memory (32-bit): 49
+// Memory (8-bit): 45
+// Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDumontDUrville[] = {
@@ -5691,8 +5691,8 @@ const ZoneInfo kZoneDumontDUrville = {
 // Zone name: Antarctica/Macquarie
 // Era count: 2
 // Strings: 30
-// Memory (8-bit): 47
-// Memory (32-bit): 59
+// Memory (8-bit): 55
+// Memory (32-bit): 67
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMacquarie[] = {
@@ -5731,8 +5731,8 @@ const ZoneInfo kZoneMacquarie = {
 // Zone name: Antarctica/Mawson
 // Era count: 2
 // Strings: 26
-// Memory (8-bit): 43
-// Memory (32-bit): 55
+// Memory (8-bit): 51
+// Memory (32-bit): 63
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMawson[] = {
@@ -5771,8 +5771,8 @@ const ZoneInfo kZoneMawson = {
 // Zone name: Antarctica/Palmer
 // Era count: 2
 // Strings: 30
-// Memory (8-bit): 47
-// Memory (32-bit): 59
+// Memory (8-bit): 55
+// Memory (32-bit): 67
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPalmer[] = {
@@ -5811,8 +5811,8 @@ const ZoneInfo kZonePalmer = {
 // Zone name: Antarctica/Rothera
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraRothera[] = {
@@ -5840,8 +5840,8 @@ const ZoneInfo kZoneRothera = {
 // Zone name: Antarctica/Syowa
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSyowa[] = {
@@ -5869,8 +5869,8 @@ const ZoneInfo kZoneSyowa = {
 // Zone name: Antarctica/Vostok
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraVostok[] = {
@@ -5898,8 +5898,8 @@ const ZoneInfo kZoneVostok = {
 // Zone name: Asia/Almaty
 // Era count: 2
 // Strings: 24
-// Memory (8-bit): 41
-// Memory (32-bit): 53
+// Memory (8-bit): 49
+// Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAlmaty[] = {
@@ -5938,8 +5938,8 @@ const ZoneInfo kZoneAlmaty = {
 // Zone name: Asia/Amman
 // Era count: 1
 // Strings: 16
-// Memory (8-bit): 27
-// Memory (32-bit): 35
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAmman[] = {
@@ -5967,8 +5967,8 @@ const ZoneInfo kZoneAmman = {
 // Zone name: Asia/Anadyr
 // Era count: 3
 // Strings: 32
-// Memory (8-bit): 55
-// Memory (32-bit): 71
+// Memory (8-bit): 67
+// Memory (32-bit): 83
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAnadyr[] = {
@@ -6018,8 +6018,8 @@ const ZoneInfo kZoneAnadyr = {
 // Zone name: Asia/Aqtau
 // Era count: 2
 // Strings: 23
-// Memory (8-bit): 40
-// Memory (32-bit): 52
+// Memory (8-bit): 48
+// Memory (32-bit): 60
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAqtau[] = {
@@ -6058,8 +6058,8 @@ const ZoneInfo kZoneAqtau = {
 // Zone name: Asia/Aqtobe
 // Era count: 2
 // Strings: 24
-// Memory (8-bit): 41
-// Memory (32-bit): 53
+// Memory (8-bit): 49
+// Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAqtobe[] = {
@@ -6098,8 +6098,8 @@ const ZoneInfo kZoneAqtobe = {
 // Zone name: Asia/Ashgabat
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAshgabat[] = {
@@ -6127,8 +6127,8 @@ const ZoneInfo kZoneAshgabat = {
 // Zone name: Asia/Atyrau
 // Era count: 2
 // Strings: 24
-// Memory (8-bit): 41
-// Memory (32-bit): 53
+// Memory (8-bit): 49
+// Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAtyrau[] = {
@@ -6167,8 +6167,8 @@ const ZoneInfo kZoneAtyrau = {
 // Zone name: Asia/Baghdad
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBaghdad[] = {
@@ -6196,8 +6196,8 @@ const ZoneInfo kZoneBaghdad = {
 // Zone name: Asia/Baku
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBaku[] = {
@@ -6225,8 +6225,8 @@ const ZoneInfo kZoneBaku = {
 // Zone name: Asia/Bangkok
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBangkok[] = {
@@ -6254,8 +6254,8 @@ const ZoneInfo kZoneBangkok = {
 // Zone name: Asia/Barnaul
 // Era count: 4
 // Strings: 33
-// Memory (8-bit): 62
-// Memory (32-bit): 82
+// Memory (8-bit): 78
+// Memory (32-bit): 98
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBarnaul[] = {
@@ -6316,8 +6316,8 @@ const ZoneInfo kZoneBarnaul = {
 // Zone name: Asia/Beirut
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBeirut[] = {
@@ -6345,8 +6345,8 @@ const ZoneInfo kZoneBeirut = {
 // Zone name: Asia/Bishkek
 // Era count: 2
 // Strings: 25
-// Memory (8-bit): 42
-// Memory (32-bit): 54
+// Memory (8-bit): 50
+// Memory (32-bit): 62
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBishkek[] = {
@@ -6385,8 +6385,8 @@ const ZoneInfo kZoneBishkek = {
 // Zone name: Asia/Brunei
 // Era count: 1
 // Strings: 16
-// Memory (8-bit): 27
-// Memory (32-bit): 35
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBrunei[] = {
@@ -6414,8 +6414,8 @@ const ZoneInfo kZoneBrunei = {
 // Zone name: Asia/Chita
 // Era count: 4
 // Strings: 31
-// Memory (8-bit): 60
-// Memory (32-bit): 80
+// Memory (8-bit): 76
+// Memory (32-bit): 96
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraChita[] = {
@@ -6476,8 +6476,8 @@ const ZoneInfo kZoneChita = {
 // Zone name: Asia/Choibalsan
 // Era count: 2
 // Strings: 32
-// Memory (8-bit): 49
-// Memory (32-bit): 61
+// Memory (8-bit): 57
+// Memory (32-bit): 69
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraChoibalsan[] = {
@@ -6516,8 +6516,8 @@ const ZoneInfo kZoneChoibalsan = {
 // Zone name: Asia/Colombo
 // Era count: 2
 // Strings: 23
-// Memory (8-bit): 40
-// Memory (32-bit): 52
+// Memory (8-bit): 48
+// Memory (32-bit): 60
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraColombo[] = {
@@ -6556,8 +6556,8 @@ const ZoneInfo kZoneColombo = {
 // Zone name: Asia/Damascus
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDamascus[] = {
@@ -6585,8 +6585,8 @@ const ZoneInfo kZoneDamascus = {
 // Zone name: Asia/Dhaka
 // Era count: 2
 // Strings: 23
-// Memory (8-bit): 40
-// Memory (32-bit): 52
+// Memory (8-bit): 48
+// Memory (32-bit): 60
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDhaka[] = {
@@ -6625,8 +6625,8 @@ const ZoneInfo kZoneDhaka = {
 // Zone name: Asia/Dili
 // Era count: 2
 // Strings: 18
-// Memory (8-bit): 35
-// Memory (32-bit): 47
+// Memory (8-bit): 43
+// Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDili[] = {
@@ -6665,8 +6665,8 @@ const ZoneInfo kZoneDili = {
 // Zone name: Asia/Dubai
 // Era count: 1
 // Strings: 15
-// Memory (8-bit): 26
-// Memory (32-bit): 34
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDubai[] = {
@@ -6694,8 +6694,8 @@ const ZoneInfo kZoneDubai = {
 // Zone name: Asia/Dushanbe
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDushanbe[] = {
@@ -6723,8 +6723,8 @@ const ZoneInfo kZoneDushanbe = {
 // Zone name: Asia/Famagusta
 // Era count: 3
 // Strings: 29
-// Memory (8-bit): 52
-// Memory (32-bit): 68
+// Memory (8-bit): 64
+// Memory (32-bit): 80
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraFamagusta[] = {
@@ -6774,8 +6774,8 @@ const ZoneInfo kZoneFamagusta = {
 // Zone name: Asia/Gaza
 // Era count: 7
 // Strings: 42
-// Memory (8-bit): 89
-// Memory (32-bit): 121
+// Memory (8-bit): 117
+// Memory (32-bit): 149
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGaza[] = {
@@ -6869,8 +6869,8 @@ const ZoneInfo kZoneGaza = {
 // Zone name: Asia/Hebron
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraHebron[] = {
@@ -6898,8 +6898,8 @@ const ZoneInfo kZoneHebron = {
 // Zone name: Asia/Ho_Chi_Minh
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraHo_Chi_Minh[] = {
@@ -6927,8 +6927,8 @@ const ZoneInfo kZoneHo_Chi_Minh = {
 // Zone name: Asia/Hong_Kong
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraHong_Kong[] = {
@@ -6956,8 +6956,8 @@ const ZoneInfo kZoneHong_Kong = {
 // Zone name: Asia/Hovd
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraHovd[] = {
@@ -6985,8 +6985,8 @@ const ZoneInfo kZoneHovd = {
 // Zone name: Asia/Irkutsk
 // Era count: 3
 // Strings: 29
-// Memory (8-bit): 52
-// Memory (32-bit): 68
+// Memory (8-bit): 64
+// Memory (32-bit): 80
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraIrkutsk[] = {
@@ -7036,8 +7036,8 @@ const ZoneInfo kZoneIrkutsk = {
 // Zone name: Asia/Jakarta
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraJakarta[] = {
@@ -7065,8 +7065,8 @@ const ZoneInfo kZoneJakarta = {
 // Zone name: Asia/Jayapura
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraJayapura[] = {
@@ -7094,8 +7094,8 @@ const ZoneInfo kZoneJayapura = {
 // Zone name: Asia/Jerusalem
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraJerusalem[] = {
@@ -7123,8 +7123,8 @@ const ZoneInfo kZoneJerusalem = {
 // Zone name: Asia/Kabul
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKabul[] = {
@@ -7152,8 +7152,8 @@ const ZoneInfo kZoneKabul = {
 // Zone name: Asia/Kamchatka
 // Era count: 3
 // Strings: 35
-// Memory (8-bit): 58
-// Memory (32-bit): 74
+// Memory (8-bit): 70
+// Memory (32-bit): 86
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKamchatka[] = {
@@ -7203,8 +7203,8 @@ const ZoneInfo kZoneKamchatka = {
 // Zone name: Asia/Karachi
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKarachi[] = {
@@ -7232,8 +7232,8 @@ const ZoneInfo kZoneKarachi = {
 // Zone name: Asia/Kathmandu
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKathmandu[] = {
@@ -7261,8 +7261,8 @@ const ZoneInfo kZoneKathmandu = {
 // Zone name: Asia/Khandyga
 // Era count: 5
 // Strings: 42
-// Memory (8-bit): 77
-// Memory (32-bit): 101
+// Memory (8-bit): 97
+// Memory (32-bit): 121
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKhandyga[] = {
@@ -7334,8 +7334,8 @@ const ZoneInfo kZoneKhandyga = {
 // Zone name: Asia/Kolkata
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKolkata[] = {
@@ -7363,8 +7363,8 @@ const ZoneInfo kZoneKolkata = {
 // Zone name: Asia/Krasnoyarsk
 // Era count: 3
 // Strings: 33
-// Memory (8-bit): 56
-// Memory (32-bit): 72
+// Memory (8-bit): 68
+// Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKrasnoyarsk[] = {
@@ -7414,8 +7414,8 @@ const ZoneInfo kZoneKrasnoyarsk = {
 // Zone name: Asia/Kuala_Lumpur
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKuala_Lumpur[] = {
@@ -7443,8 +7443,8 @@ const ZoneInfo kZoneKuala_Lumpur = {
 // Zone name: Asia/Kuching
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKuching[] = {
@@ -7472,8 +7472,8 @@ const ZoneInfo kZoneKuching = {
 // Zone name: Asia/Macau
 // Era count: 1
 // Strings: 15
-// Memory (8-bit): 26
-// Memory (32-bit): 34
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMacau[] = {
@@ -7501,8 +7501,8 @@ const ZoneInfo kZoneMacau = {
 // Zone name: Asia/Magadan
 // Era count: 4
 // Strings: 33
-// Memory (8-bit): 62
-// Memory (32-bit): 82
+// Memory (8-bit): 78
+// Memory (32-bit): 98
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMagadan[] = {
@@ -7563,8 +7563,8 @@ const ZoneInfo kZoneMagadan = {
 // Zone name: Asia/Makassar
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMakassar[] = {
@@ -7592,8 +7592,8 @@ const ZoneInfo kZoneMakassar = {
 // Zone name: Asia/Manila
 // Era count: 1
 // Strings: 16
-// Memory (8-bit): 27
-// Memory (32-bit): 35
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraManila[] = {
@@ -7621,8 +7621,8 @@ const ZoneInfo kZoneManila = {
 // Zone name: Asia/Nicosia
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNicosia[] = {
@@ -7650,8 +7650,8 @@ const ZoneInfo kZoneNicosia = {
 // Zone name: Asia/Novokuznetsk
 // Era count: 3
 // Strings: 38
-// Memory (8-bit): 61
-// Memory (32-bit): 77
+// Memory (8-bit): 73
+// Memory (32-bit): 89
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNovokuznetsk[] = {
@@ -7701,8 +7701,8 @@ const ZoneInfo kZoneNovokuznetsk = {
 // Zone name: Asia/Novosibirsk
 // Era count: 4
 // Strings: 37
-// Memory (8-bit): 66
-// Memory (32-bit): 86
+// Memory (8-bit): 82
+// Memory (32-bit): 102
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNovosibirsk[] = {
@@ -7763,8 +7763,8 @@ const ZoneInfo kZoneNovosibirsk = {
 // Zone name: Asia/Omsk
 // Era count: 3
 // Strings: 26
-// Memory (8-bit): 49
-// Memory (32-bit): 65
+// Memory (8-bit): 61
+// Memory (32-bit): 77
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraOmsk[] = {
@@ -7814,8 +7814,8 @@ const ZoneInfo kZoneOmsk = {
 // Zone name: Asia/Oral
 // Era count: 2
 // Strings: 22
-// Memory (8-bit): 39
-// Memory (32-bit): 51
+// Memory (8-bit): 47
+// Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraOral[] = {
@@ -7854,8 +7854,8 @@ const ZoneInfo kZoneOral = {
 // Zone name: Asia/Pontianak
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPontianak[] = {
@@ -7883,8 +7883,8 @@ const ZoneInfo kZonePontianak = {
 // Zone name: Asia/Pyongyang
 // Era count: 3
 // Strings: 27
-// Memory (8-bit): 50
-// Memory (32-bit): 66
+// Memory (8-bit): 62
+// Memory (32-bit): 78
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPyongyang[] = {
@@ -7934,8 +7934,8 @@ const ZoneInfo kZonePyongyang = {
 // Zone name: Asia/Qatar
 // Era count: 1
 // Strings: 15
-// Memory (8-bit): 26
-// Memory (32-bit): 34
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraQatar[] = {
@@ -7963,8 +7963,8 @@ const ZoneInfo kZoneQatar = {
 // Zone name: Asia/Qostanay
 // Era count: 2
 // Strings: 26
-// Memory (8-bit): 43
-// Memory (32-bit): 55
+// Memory (8-bit): 51
+// Memory (32-bit): 63
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraQostanay[] = {
@@ -8003,8 +8003,8 @@ const ZoneInfo kZoneQostanay = {
 // Zone name: Asia/Qyzylorda
 // Era count: 3
 // Strings: 31
-// Memory (8-bit): 54
-// Memory (32-bit): 70
+// Memory (8-bit): 66
+// Memory (32-bit): 82
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraQyzylorda[] = {
@@ -8054,8 +8054,8 @@ const ZoneInfo kZoneQyzylorda = {
 // Zone name: Asia/Riyadh
 // Era count: 1
 // Strings: 16
-// Memory (8-bit): 27
-// Memory (32-bit): 35
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraRiyadh[] = {
@@ -8083,8 +8083,8 @@ const ZoneInfo kZoneRiyadh = {
 // Zone name: Asia/Sakhalin
 // Era count: 4
 // Strings: 34
-// Memory (8-bit): 63
-// Memory (32-bit): 83
+// Memory (8-bit): 79
+// Memory (32-bit): 99
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSakhalin[] = {
@@ -8145,8 +8145,8 @@ const ZoneInfo kZoneSakhalin = {
 // Zone name: Asia/Samarkand
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSamarkand[] = {
@@ -8174,8 +8174,8 @@ const ZoneInfo kZoneSamarkand = {
 // Zone name: Asia/Seoul
 // Era count: 1
 // Strings: 15
-// Memory (8-bit): 26
-// Memory (32-bit): 34
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSeoul[] = {
@@ -8203,8 +8203,8 @@ const ZoneInfo kZoneSeoul = {
 // Zone name: Asia/Shanghai
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraShanghai[] = {
@@ -8232,8 +8232,8 @@ const ZoneInfo kZoneShanghai = {
 // Zone name: Asia/Singapore
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSingapore[] = {
@@ -8261,8 +8261,8 @@ const ZoneInfo kZoneSingapore = {
 // Zone name: Asia/Srednekolymsk
 // Era count: 3
 // Strings: 35
-// Memory (8-bit): 58
-// Memory (32-bit): 74
+// Memory (8-bit): 70
+// Memory (32-bit): 86
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSrednekolymsk[] = {
@@ -8312,8 +8312,8 @@ const ZoneInfo kZoneSrednekolymsk = {
 // Zone name: Asia/Taipei
 // Era count: 1
 // Strings: 16
-// Memory (8-bit): 27
-// Memory (32-bit): 35
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTaipei[] = {
@@ -8341,8 +8341,8 @@ const ZoneInfo kZoneTaipei = {
 // Zone name: Asia/Tashkent
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTashkent[] = {
@@ -8370,8 +8370,8 @@ const ZoneInfo kZoneTashkent = {
 // Zone name: Asia/Tbilisi
 // Era count: 3
 // Strings: 33
-// Memory (8-bit): 56
-// Memory (32-bit): 72
+// Memory (8-bit): 68
+// Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTbilisi[] = {
@@ -8421,8 +8421,8 @@ const ZoneInfo kZoneTbilisi = {
 // Zone name: Asia/Tehran
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTehran[] = {
@@ -8450,8 +8450,8 @@ const ZoneInfo kZoneTehran = {
 // Zone name: Asia/Thimphu
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraThimphu[] = {
@@ -8479,8 +8479,8 @@ const ZoneInfo kZoneThimphu = {
 // Zone name: Asia/Tokyo
 // Era count: 1
 // Strings: 15
-// Memory (8-bit): 26
-// Memory (32-bit): 34
+// Memory (8-bit): 30
+// Memory (32-bit): 38
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTokyo[] = {
@@ -8508,8 +8508,8 @@ const ZoneInfo kZoneTokyo = {
 // Zone name: Asia/Tomsk
 // Era count: 5
 // Strings: 39
-// Memory (8-bit): 74
-// Memory (32-bit): 98
+// Memory (8-bit): 94
+// Memory (32-bit): 118
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTomsk[] = {
@@ -8581,8 +8581,8 @@ const ZoneInfo kZoneTomsk = {
 // Zone name: Asia/Ulaanbaatar
 // Era count: 1
 // Strings: 25
-// Memory (8-bit): 36
-// Memory (32-bit): 44
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraUlaanbaatar[] = {
@@ -8610,8 +8610,8 @@ const ZoneInfo kZoneUlaanbaatar = {
 // Zone name: Asia/Urumqi
 // Era count: 1
 // Strings: 16
-// Memory (8-bit): 27
-// Memory (32-bit): 35
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraUrumqi[] = {
@@ -8639,8 +8639,8 @@ const ZoneInfo kZoneUrumqi = {
 // Zone name: Asia/Ust_Nera
 // Era count: 4
 // Strings: 34
-// Memory (8-bit): 63
-// Memory (32-bit): 83
+// Memory (8-bit): 79
+// Memory (32-bit): 99
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraUst_Nera[] = {
@@ -8701,8 +8701,8 @@ const ZoneInfo kZoneUst_Nera = {
 // Zone name: Asia/Vladivostok
 // Era count: 3
 // Strings: 33
-// Memory (8-bit): 56
-// Memory (32-bit): 72
+// Memory (8-bit): 68
+// Memory (32-bit): 84
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraVladivostok[] = {
@@ -8752,8 +8752,8 @@ const ZoneInfo kZoneVladivostok = {
 // Zone name: Asia/Yakutsk
 // Era count: 3
 // Strings: 29
-// Memory (8-bit): 52
-// Memory (32-bit): 68
+// Memory (8-bit): 64
+// Memory (32-bit): 80
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraYakutsk[] = {
@@ -8803,8 +8803,8 @@ const ZoneInfo kZoneYakutsk = {
 // Zone name: Asia/Yangon
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraYangon[] = {
@@ -8832,8 +8832,8 @@ const ZoneInfo kZoneYangon = {
 // Zone name: Asia/Yekaterinburg
 // Era count: 3
 // Strings: 35
-// Memory (8-bit): 58
-// Memory (32-bit): 74
+// Memory (8-bit): 70
+// Memory (32-bit): 86
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraYekaterinburg[] = {
@@ -8883,8 +8883,8 @@ const ZoneInfo kZoneYekaterinburg = {
 // Zone name: Asia/Yerevan
 // Era count: 2
 // Strings: 29
-// Memory (8-bit): 46
-// Memory (32-bit): 58
+// Memory (8-bit): 54
+// Memory (32-bit): 66
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraYerevan[] = {
@@ -8923,8 +8923,8 @@ const ZoneInfo kZoneYerevan = {
 // Zone name: Atlantic/Azores
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAzores[] = {
@@ -8952,8 +8952,8 @@ const ZoneInfo kZoneAzores = {
 // Zone name: Atlantic/Bermuda
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBermuda[] = {
@@ -8981,8 +8981,8 @@ const ZoneInfo kZoneBermuda = {
 // Zone name: Atlantic/Canary
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCanary[] = {
@@ -9010,8 +9010,8 @@ const ZoneInfo kZoneCanary = {
 // Zone name: Atlantic/Cape_Verde
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCape_Verde[] = {
@@ -9039,8 +9039,8 @@ const ZoneInfo kZoneCape_Verde = {
 // Zone name: Atlantic/Faroe
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraFaroe[] = {
@@ -9068,8 +9068,8 @@ const ZoneInfo kZoneFaroe = {
 // Zone name: Atlantic/Madeira
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMadeira[] = {
@@ -9097,8 +9097,8 @@ const ZoneInfo kZoneMadeira = {
 // Zone name: Atlantic/Reykjavik
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraReykjavik[] = {
@@ -9126,8 +9126,8 @@ const ZoneInfo kZoneReykjavik = {
 // Zone name: Atlantic/South_Georgia
 // Era count: 1
 // Strings: 27
-// Memory (8-bit): 38
-// Memory (32-bit): 46
+// Memory (8-bit): 42
+// Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSouth_Georgia[] = {
@@ -9155,8 +9155,8 @@ const ZoneInfo kZoneSouth_Georgia = {
 // Zone name: Atlantic/Stanley
 // Era count: 2
 // Strings: 29
-// Memory (8-bit): 46
-// Memory (32-bit): 58
+// Memory (8-bit): 54
+// Memory (32-bit): 66
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraStanley[] = {
@@ -9195,8 +9195,8 @@ const ZoneInfo kZoneStanley = {
 // Zone name: Australia/Adelaide
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAdelaide[] = {
@@ -9224,8 +9224,8 @@ const ZoneInfo kZoneAdelaide = {
 // Zone name: Australia/Brisbane
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBrisbane[] = {
@@ -9253,8 +9253,8 @@ const ZoneInfo kZoneBrisbane = {
 // Zone name: Australia/Broken_Hill
 // Era count: 2
 // Strings: 32
-// Memory (8-bit): 49
-// Memory (32-bit): 61
+// Memory (8-bit): 57
+// Memory (32-bit): 69
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBroken_Hill[] = {
@@ -9293,8 +9293,8 @@ const ZoneInfo kZoneBroken_Hill = {
 // Zone name: Australia/Currie
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCurrie[] = {
@@ -9322,8 +9322,8 @@ const ZoneInfo kZoneCurrie = {
 // Zone name: Australia/Darwin
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDarwin[] = {
@@ -9351,8 +9351,8 @@ const ZoneInfo kZoneDarwin = {
 // Zone name: Australia/Eucla
 // Era count: 1
 // Strings: 28
-// Memory (8-bit): 39
-// Memory (32-bit): 47
+// Memory (8-bit): 43
+// Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraEucla[] = {
@@ -9380,8 +9380,8 @@ const ZoneInfo kZoneEucla = {
 // Zone name: Australia/Hobart
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraHobart[] = {
@@ -9409,8 +9409,8 @@ const ZoneInfo kZoneHobart = {
 // Zone name: Australia/Lindeman
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraLindeman[] = {
@@ -9438,8 +9438,8 @@ const ZoneInfo kZoneLindeman = {
 // Zone name: Australia/Lord_Howe
 // Era count: 1
 // Strings: 30
-// Memory (8-bit): 41
-// Memory (32-bit): 49
+// Memory (8-bit): 45
+// Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraLord_Howe[] = {
@@ -9467,8 +9467,8 @@ const ZoneInfo kZoneLord_Howe = {
 // Zone name: Australia/Melbourne
 // Era count: 1
 // Strings: 25
-// Memory (8-bit): 36
-// Memory (32-bit): 44
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMelbourne[] = {
@@ -9496,8 +9496,8 @@ const ZoneInfo kZoneMelbourne = {
 // Zone name: Australia/Perth
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPerth[] = {
@@ -9525,8 +9525,8 @@ const ZoneInfo kZonePerth = {
 // Zone name: Australia/Sydney
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSydney[] = {
@@ -9554,8 +9554,8 @@ const ZoneInfo kZoneSydney = {
 // Zone name: Europe/Amsterdam
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAmsterdam[] = {
@@ -9583,8 +9583,8 @@ const ZoneInfo kZoneAmsterdam = {
 // Zone name: Europe/Andorra
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAndorra[] = {
@@ -9612,8 +9612,8 @@ const ZoneInfo kZoneAndorra = {
 // Zone name: Europe/Astrakhan
 // Era count: 4
 // Strings: 37
-// Memory (8-bit): 66
-// Memory (32-bit): 86
+// Memory (8-bit): 82
+// Memory (32-bit): 102
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAstrakhan[] = {
@@ -9674,8 +9674,8 @@ const ZoneInfo kZoneAstrakhan = {
 // Zone name: Europe/Athens
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAthens[] = {
@@ -9703,8 +9703,8 @@ const ZoneInfo kZoneAthens = {
 // Zone name: Europe/Belgrade
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBelgrade[] = {
@@ -9732,8 +9732,8 @@ const ZoneInfo kZoneBelgrade = {
 // Zone name: Europe/Berlin
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBerlin[] = {
@@ -9761,8 +9761,8 @@ const ZoneInfo kZoneBerlin = {
 // Zone name: Europe/Brussels
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBrussels[] = {
@@ -9790,8 +9790,8 @@ const ZoneInfo kZoneBrussels = {
 // Zone name: Europe/Bucharest
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBucharest[] = {
@@ -9819,8 +9819,8 @@ const ZoneInfo kZoneBucharest = {
 // Zone name: Europe/Budapest
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBudapest[] = {
@@ -9848,8 +9848,8 @@ const ZoneInfo kZoneBudapest = {
 // Zone name: Europe/Chisinau
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraChisinau[] = {
@@ -9877,8 +9877,8 @@ const ZoneInfo kZoneChisinau = {
 // Zone name: Europe/Copenhagen
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCopenhagen[] = {
@@ -9906,8 +9906,8 @@ const ZoneInfo kZoneCopenhagen = {
 // Zone name: Europe/Dublin
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraDublin[] = {
@@ -9935,8 +9935,8 @@ const ZoneInfo kZoneDublin = {
 // Zone name: Europe/Gibraltar
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGibraltar[] = {
@@ -9964,8 +9964,8 @@ const ZoneInfo kZoneGibraltar = {
 // Zone name: Europe/Helsinki
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraHelsinki[] = {
@@ -9993,8 +9993,8 @@ const ZoneInfo kZoneHelsinki = {
 // Zone name: Europe/Kaliningrad
 // Era count: 3
 // Strings: 32
-// Memory (8-bit): 55
-// Memory (32-bit): 71
+// Memory (8-bit): 67
+// Memory (32-bit): 83
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKaliningrad[] = {
@@ -10044,8 +10044,8 @@ const ZoneInfo kZoneKaliningrad = {
 // Zone name: Europe/Kiev
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKiev[] = {
@@ -10073,8 +10073,8 @@ const ZoneInfo kZoneKiev = {
 // Zone name: Europe/Kirov
 // Era count: 3
 // Strings: 29
-// Memory (8-bit): 52
-// Memory (32-bit): 68
+// Memory (8-bit): 64
+// Memory (32-bit): 80
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKirov[] = {
@@ -10124,8 +10124,8 @@ const ZoneInfo kZoneKirov = {
 // Zone name: Europe/Lisbon
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraLisbon[] = {
@@ -10153,8 +10153,8 @@ const ZoneInfo kZoneLisbon = {
 // Zone name: Europe/London
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraLondon[] = {
@@ -10182,8 +10182,8 @@ const ZoneInfo kZoneLondon = {
 // Zone name: Europe/Luxembourg
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraLuxembourg[] = {
@@ -10211,8 +10211,8 @@ const ZoneInfo kZoneLuxembourg = {
 // Zone name: Europe/Madrid
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMadrid[] = {
@@ -10240,8 +10240,8 @@ const ZoneInfo kZoneMadrid = {
 // Zone name: Europe/Malta
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMalta[] = {
@@ -10269,8 +10269,8 @@ const ZoneInfo kZoneMalta = {
 // Zone name: Europe/Minsk
 // Era count: 2
 // Strings: 22
-// Memory (8-bit): 39
-// Memory (32-bit): 51
+// Memory (8-bit): 47
+// Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMinsk[] = {
@@ -10309,8 +10309,8 @@ const ZoneInfo kZoneMinsk = {
 // Zone name: Europe/Monaco
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMonaco[] = {
@@ -10338,8 +10338,8 @@ const ZoneInfo kZoneMonaco = {
 // Zone name: Europe/Moscow
 // Era count: 3
 // Strings: 30
-// Memory (8-bit): 53
-// Memory (32-bit): 69
+// Memory (8-bit): 65
+// Memory (32-bit): 81
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMoscow[] = {
@@ -10389,8 +10389,8 @@ const ZoneInfo kZoneMoscow = {
 // Zone name: Europe/Oslo
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraOslo[] = {
@@ -10418,8 +10418,8 @@ const ZoneInfo kZoneOslo = {
 // Zone name: Europe/Paris
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraParis[] = {
@@ -10447,8 +10447,8 @@ const ZoneInfo kZoneParis = {
 // Zone name: Europe/Prague
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPrague[] = {
@@ -10476,8 +10476,8 @@ const ZoneInfo kZonePrague = {
 // Zone name: Europe/Riga
 // Era count: 3
 // Strings: 26
-// Memory (8-bit): 49
-// Memory (32-bit): 65
+// Memory (8-bit): 61
+// Memory (32-bit): 77
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraRiga[] = {
@@ -10527,8 +10527,8 @@ const ZoneInfo kZoneRiga = {
 // Zone name: Europe/Rome
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraRome[] = {
@@ -10556,8 +10556,8 @@ const ZoneInfo kZoneRome = {
 // Zone name: Europe/Samara
 // Era count: 3
 // Strings: 34
-// Memory (8-bit): 57
-// Memory (32-bit): 73
+// Memory (8-bit): 69
+// Memory (32-bit): 85
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSamara[] = {
@@ -10607,8 +10607,8 @@ const ZoneInfo kZoneSamara = {
 // Zone name: Europe/Saratov
 // Era count: 4
 // Strings: 35
-// Memory (8-bit): 64
-// Memory (32-bit): 84
+// Memory (8-bit): 80
+// Memory (32-bit): 100
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSaratov[] = {
@@ -10669,8 +10669,8 @@ const ZoneInfo kZoneSaratov = {
 // Zone name: Europe/Simferopol
 // Era count: 3
 // Strings: 31
-// Memory (8-bit): 54
-// Memory (32-bit): 70
+// Memory (8-bit): 66
+// Memory (32-bit): 82
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSimferopol[] = {
@@ -10720,8 +10720,8 @@ const ZoneInfo kZoneSimferopol = {
 // Zone name: Europe/Sofia
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraSofia[] = {
@@ -10749,8 +10749,8 @@ const ZoneInfo kZoneSofia = {
 // Zone name: Europe/Stockholm
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraStockholm[] = {
@@ -10778,8 +10778,8 @@ const ZoneInfo kZoneStockholm = {
 // Zone name: Europe/Tallinn
 // Era count: 2
 // Strings: 24
-// Memory (8-bit): 41
-// Memory (32-bit): 53
+// Memory (8-bit): 49
+// Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTallinn[] = {
@@ -10818,8 +10818,8 @@ const ZoneInfo kZoneTallinn = {
 // Zone name: Europe/Tirane
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTirane[] = {
@@ -10847,8 +10847,8 @@ const ZoneInfo kZoneTirane = {
 // Zone name: Europe/Ulyanovsk
 // Era count: 4
 // Strings: 37
-// Memory (8-bit): 66
-// Memory (32-bit): 86
+// Memory (8-bit): 82
+// Memory (32-bit): 102
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraUlyanovsk[] = {
@@ -10909,8 +10909,8 @@ const ZoneInfo kZoneUlyanovsk = {
 // Zone name: Europe/Uzhgorod
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraUzhgorod[] = {
@@ -10938,8 +10938,8 @@ const ZoneInfo kZoneUzhgorod = {
 // Zone name: Europe/Vienna
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraVienna[] = {
@@ -10967,8 +10967,8 @@ const ZoneInfo kZoneVienna = {
 // Zone name: Europe/Vilnius
 // Era count: 2
 // Strings: 24
-// Memory (8-bit): 41
-// Memory (32-bit): 53
+// Memory (8-bit): 49
+// Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraVilnius[] = {
@@ -11007,8 +11007,8 @@ const ZoneInfo kZoneVilnius = {
 // Zone name: Europe/Volgograd
 // Era count: 4
 // Strings: 37
-// Memory (8-bit): 66
-// Memory (32-bit): 86
+// Memory (8-bit): 82
+// Memory (32-bit): 102
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraVolgograd[] = {
@@ -11069,8 +11069,8 @@ const ZoneInfo kZoneVolgograd = {
 // Zone name: Europe/Warsaw
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraWarsaw[] = {
@@ -11098,8 +11098,8 @@ const ZoneInfo kZoneWarsaw = {
 // Zone name: Europe/Zaporozhye
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraZaporozhye[] = {
@@ -11127,8 +11127,8 @@ const ZoneInfo kZoneZaporozhye = {
 // Zone name: Europe/Zurich
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraZurich[] = {
@@ -11156,8 +11156,8 @@ const ZoneInfo kZoneZurich = {
 // Zone name: Indian/Chagos
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraChagos[] = {
@@ -11185,8 +11185,8 @@ const ZoneInfo kZoneChagos = {
 // Zone name: Indian/Christmas
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraChristmas[] = {
@@ -11214,8 +11214,8 @@ const ZoneInfo kZoneChristmas = {
 // Zone name: Indian/Cocos
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraCocos[] = {
@@ -11243,8 +11243,8 @@ const ZoneInfo kZoneCocos = {
 // Zone name: Indian/Kerguelen
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKerguelen[] = {
@@ -11272,8 +11272,8 @@ const ZoneInfo kZoneKerguelen = {
 // Zone name: Indian/Mahe
 // Era count: 1
 // Strings: 16
-// Memory (8-bit): 27
-// Memory (32-bit): 35
+// Memory (8-bit): 31
+// Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMahe[] = {
@@ -11301,8 +11301,8 @@ const ZoneInfo kZoneMahe = {
 // Zone name: Indian/Maldives
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMaldives[] = {
@@ -11330,8 +11330,8 @@ const ZoneInfo kZoneMaldives = {
 // Zone name: Indian/Mauritius
 // Era count: 1
 // Strings: 25
-// Memory (8-bit): 36
-// Memory (32-bit): 44
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMauritius[] = {
@@ -11359,8 +11359,8 @@ const ZoneInfo kZoneMauritius = {
 // Zone name: Indian/Reunion
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraReunion[] = {
@@ -11388,8 +11388,8 @@ const ZoneInfo kZoneReunion = {
 // Zone name: Pacific/Apia
 // Era count: 2
 // Strings: 29
-// Memory (8-bit): 46
-// Memory (32-bit): 58
+// Memory (8-bit): 54
+// Memory (32-bit): 66
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraApia[] = {
@@ -11428,8 +11428,8 @@ const ZoneInfo kZoneApia = {
 // Zone name: Pacific/Auckland
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraAuckland[] = {
@@ -11457,8 +11457,8 @@ const ZoneInfo kZoneAuckland = {
 // Zone name: Pacific/Bougainville
 // Era count: 2
 // Strings: 29
-// Memory (8-bit): 46
-// Memory (32-bit): 58
+// Memory (8-bit): 54
+// Memory (32-bit): 66
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraBougainville[] = {
@@ -11497,8 +11497,8 @@ const ZoneInfo kZoneBougainville = {
 // Zone name: Pacific/Chatham
 // Era count: 1
 // Strings: 28
-// Memory (8-bit): 39
-// Memory (32-bit): 47
+// Memory (8-bit): 43
+// Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraChatham[] = {
@@ -11526,8 +11526,8 @@ const ZoneInfo kZoneChatham = {
 // Zone name: Pacific/Chuuk
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraChuuk[] = {
@@ -11555,8 +11555,8 @@ const ZoneInfo kZoneChuuk = {
 // Zone name: Pacific/Easter
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraEaster[] = {
@@ -11584,8 +11584,8 @@ const ZoneInfo kZoneEaster = {
 // Zone name: Pacific/Efate
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraEfate[] = {
@@ -11613,8 +11613,8 @@ const ZoneInfo kZoneEfate = {
 // Zone name: Pacific/Enderbury
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraEnderbury[] = {
@@ -11642,8 +11642,8 @@ const ZoneInfo kZoneEnderbury = {
 // Zone name: Pacific/Fakaofo
 // Era count: 2
 // Strings: 24
-// Memory (8-bit): 41
-// Memory (32-bit): 53
+// Memory (8-bit): 49
+// Memory (32-bit): 61
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraFakaofo[] = {
@@ -11682,8 +11682,8 @@ const ZoneInfo kZoneFakaofo = {
 // Zone name: Pacific/Fiji
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraFiji[] = {
@@ -11711,8 +11711,8 @@ const ZoneInfo kZoneFiji = {
 // Zone name: Pacific/Funafuti
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraFunafuti[] = {
@@ -11740,8 +11740,8 @@ const ZoneInfo kZoneFunafuti = {
 // Zone name: Pacific/Galapagos
 // Era count: 1
 // Strings: 26
-// Memory (8-bit): 37
-// Memory (32-bit): 45
+// Memory (8-bit): 41
+// Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGalapagos[] = {
@@ -11769,8 +11769,8 @@ const ZoneInfo kZoneGalapagos = {
 // Zone name: Pacific/Gambier
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGambier[] = {
@@ -11798,8 +11798,8 @@ const ZoneInfo kZoneGambier = {
 // Zone name: Pacific/Guadalcanal
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGuadalcanal[] = {
@@ -11827,8 +11827,8 @@ const ZoneInfo kZoneGuadalcanal = {
 // Zone name: Pacific/Guam
 // Era count: 2
 // Strings: 22
-// Memory (8-bit): 39
-// Memory (32-bit): 51
+// Memory (8-bit): 47
+// Memory (32-bit): 59
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraGuam[] = {
@@ -11867,8 +11867,8 @@ const ZoneInfo kZoneGuam = {
 // Zone name: Pacific/Honolulu
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraHonolulu[] = {
@@ -11896,8 +11896,8 @@ const ZoneInfo kZoneHonolulu = {
 // Zone name: Pacific/Kiritimati
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKiritimati[] = {
@@ -11925,8 +11925,8 @@ const ZoneInfo kZoneKiritimati = {
 // Zone name: Pacific/Kosrae
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKosrae[] = {
@@ -11954,8 +11954,8 @@ const ZoneInfo kZoneKosrae = {
 // Zone name: Pacific/Kwajalein
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraKwajalein[] = {
@@ -11983,8 +11983,8 @@ const ZoneInfo kZoneKwajalein = {
 // Zone name: Pacific/Majuro
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMajuro[] = {
@@ -12012,8 +12012,8 @@ const ZoneInfo kZoneMajuro = {
 // Zone name: Pacific/Marquesas
 // Era count: 1
 // Strings: 24
-// Memory (8-bit): 35
-// Memory (32-bit): 43
+// Memory (8-bit): 39
+// Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraMarquesas[] = {
@@ -12041,8 +12041,8 @@ const ZoneInfo kZoneMarquesas = {
 // Zone name: Pacific/Nauru
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNauru[] = {
@@ -12070,8 +12070,8 @@ const ZoneInfo kZoneNauru = {
 // Zone name: Pacific/Niue
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNiue[] = {
@@ -12099,8 +12099,8 @@ const ZoneInfo kZoneNiue = {
 // Zone name: Pacific/Norfolk
 // Era count: 2
 // Strings: 26
-// Memory (8-bit): 43
-// Memory (32-bit): 55
+// Memory (8-bit): 51
+// Memory (32-bit): 63
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNorfolk[] = {
@@ -12139,8 +12139,8 @@ const ZoneInfo kZoneNorfolk = {
 // Zone name: Pacific/Noumea
 // Era count: 1
 // Strings: 23
-// Memory (8-bit): 34
-// Memory (32-bit): 42
+// Memory (8-bit): 38
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraNoumea[] = {
@@ -12168,8 +12168,8 @@ const ZoneInfo kZoneNoumea = {
 // Zone name: Pacific/Pago_Pago
 // Era count: 1
 // Strings: 22
-// Memory (8-bit): 33
-// Memory (32-bit): 41
+// Memory (8-bit): 37
+// Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPago_Pago[] = {
@@ -12197,8 +12197,8 @@ const ZoneInfo kZonePago_Pago = {
 // Zone name: Pacific/Palau
 // Era count: 1
 // Strings: 18
-// Memory (8-bit): 29
-// Memory (32-bit): 37
+// Memory (8-bit): 33
+// Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPalau[] = {
@@ -12226,8 +12226,8 @@ const ZoneInfo kZonePalau = {
 // Zone name: Pacific/Pitcairn
 // Era count: 1
 // Strings: 21
-// Memory (8-bit): 32
-// Memory (32-bit): 40
+// Memory (8-bit): 36
+// Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPitcairn[] = {
@@ -12255,8 +12255,8 @@ const ZoneInfo kZonePitcairn = {
 // Zone name: Pacific/Pohnpei
 // Era count: 1
 // Strings: 20
-// Memory (8-bit): 31
-// Memory (32-bit): 39
+// Memory (8-bit): 35
+// Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPohnpei[] = {
@@ -12284,8 +12284,8 @@ const ZoneInfo kZonePohnpei = {
 // Zone name: Pacific/Port_Moresby
 // Era count: 1
 // Strings: 25
-// Memory (8-bit): 36
-// Memory (32-bit): 44
+// Memory (8-bit): 40
+// Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraPort_Moresby[] = {
@@ -12313,8 +12313,8 @@ const ZoneInfo kZonePort_Moresby = {
 // Zone name: Pacific/Rarotonga
 // Era count: 1
 // Strings: 28
-// Memory (8-bit): 39
-// Memory (32-bit): 47
+// Memory (8-bit): 43
+// Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraRarotonga[] = {
@@ -12342,8 +12342,8 @@ const ZoneInfo kZoneRarotonga = {
 // Zone name: Pacific/Tahiti
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTahiti[] = {
@@ -12371,8 +12371,8 @@ const ZoneInfo kZoneTahiti = {
 // Zone name: Pacific/Tarawa
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTarawa[] = {
@@ -12400,8 +12400,8 @@ const ZoneInfo kZoneTarawa = {
 // Zone name: Pacific/Tongatapu
 // Era count: 1
 // Strings: 26
-// Memory (8-bit): 37
-// Memory (32-bit): 45
+// Memory (8-bit): 41
+// Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraTongatapu[] = {
@@ -12429,8 +12429,8 @@ const ZoneInfo kZoneTongatapu = {
 // Zone name: Pacific/Wake
 // Era count: 1
 // Strings: 17
-// Memory (8-bit): 28
-// Memory (32-bit): 36
+// Memory (8-bit): 32
+// Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraWake[] = {
@@ -12458,8 +12458,8 @@ const ZoneInfo kZoneWake = {
 // Zone name: Pacific/Wallis
 // Era count: 1
 // Strings: 19
-// Memory (8-bit): 30
-// Memory (32-bit): 38
+// Memory (8-bit): 34
+// Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
 static const ZoneEra kZoneEraWallis[] = {

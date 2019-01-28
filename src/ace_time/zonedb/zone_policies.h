@@ -167,7 +167,7 @@ extern const ZonePolicy kPolicyZion;
 // kPolicyW-Eur (unused)
 
 
-// The following zone policies may have inaccuracies  due to the following
+// The following zone policies may have inaccuracies due to the following
 // reasons:
 //
 // numPolicies: 3
