@@ -158,7 +158,7 @@ class Validator:
         Some zones do not use DST, so will have no test samples here.
         """
         items = []
-        for year in range(2000, 2018):
+        for year in range(2000, 2019):
             (matches,
              transitions) = zone_specifier.get_matches_and_transitions(year)
             transition_found = False

@@ -24,12 +24,16 @@ zone_policies.{h,cpp} |        zone_policies.py
                       |            |
                       v            |
                InlineGenerator     |
-                          \        |
-                           v       v
-                           ZoneAgent
-                          /
-                         v
+                      |            v
+                      |        ZoneSpecifier
+                      v
                   Validator
+                      |
+                      v
+               TestDataGenerator
+                      |
+                      v
+            validation_data.{h,cpp}
 """
 import argparse
 import logging
@@ -41,6 +45,7 @@ from transformer import Transformer
 from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
+from tdgenerator import TestDataGenerator
 from validator import Validator
 
 
@@ -233,8 +238,22 @@ def main():
 
         logging.info('======== Validating test data...')
         validator.validate_sequentially()
+    elif args.unittest:
+        # Generate test data for ValidationTest unit test.
+        logging.info('======== Generating unit test data files...')
+        inline_generator = InlineGenerator(zones, rules)
+        (zone_infos, zone_policies) = inline_generator.generate_maps()
+        logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
+                     len(zone_policies))
+        validator = Validator(zone_infos, zone_policies, args.optimized,
+                              args.validate_dst_offset, args.validate_hours)
+        (test_data, num_items) = validator.create_test_data()
+        logging.info('test_data=%d', len(test_data))
+        test_data_generator = TestDataGenerator(invocation, args.tz_version,
+            test_data, num_items)
+        test_data_generator.generate_files(args.output_dir)
     else:
-        logging.error('One of --zonedb or --validate must be given')
+        logging.error('One of (--zonedb, --validate, --unittest) must be given')
         sys.exit(1)
 
     logging.info('======== Finished processing TZ Data files.')

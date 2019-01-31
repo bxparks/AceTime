@@ -6,8 +6,8 @@
 #
 # Usage:
 #
-#   $ tzcompiler.sh --tag {tag} (--zonedb | --validate | --unittest)
-#       [--python | --arduino | --arduinox] [other flags...]
+#   $ tzcompiler.sh --tag {tag} (--zonedb|--validate|--unittest)
+#       [--python|--arduino | --arduinox] [other flags...]
 #
 # Examples:
 #
@@ -19,6 +19,9 @@
 #
 #   $ tzcompiler.sh --tag 2018i --zonedb --arduinox
 #       - generates extended zone*.{h,cpp} files in the current directory
+#
+#   $ tzcompiler.sh --tag 2018i --unittest --arduino
+#       - generates test data for ValidationTest unit test
 #
 #   $ tzcompiler.sh --tag 2018i --validate --python
 #       - validate the internal zone_info and zone_policies data
@@ -59,7 +62,7 @@ OUTPUT_DIR=$PWD
 
 function usage() {
     echo 'Usage: tzcompiler.sh --tag tag [--python | --arduino | --arduinox ]'
-    echo '      (--validate | --zonedb) [...other python_flags...]'
+    echo '      (--zonedb|--validate|--unittest) [...other python_flags...]'
     exit 1
 }
 
