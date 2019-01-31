@@ -93,7 +93,8 @@ const ValidationData kValidationData{zoneShortName} = {{
 
     TEST_ITEM = """\
   {{ {epochSeconds:9}, {utcOffsetMinutes:4}, {deltaOffsetMinutes:4}, \
-{yearTiny:3}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2} }},
+{yearTiny:3}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2} }}, \
+// type={type}
 """
 
     TESTS_CPP = """\
@@ -198,7 +199,8 @@ testF(TransitionTest, validateData) {{
                 day=test_item.d,
                 hour=test_item.h,
                 minute=test_item.m,
-                second=test_item.s)
+                second=test_item.s,
+                type=test_item.type)
         return s
 
     def generate_tests_cpp(self):

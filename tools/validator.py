@@ -206,9 +206,10 @@ class Validator:
 
     def create_test_item_from_datetime(self, tz, year, month, day, hour, type):
         ldt = datetime.datetime(
-            year, month, day, month, hour, tzinfo=datetime.timezone.utc)
+            year, month, day, hour, tzinfo=datetime.timezone.utc)
         dt = ldt.astimezone(tz)
-        epoch_seconds = int(dt.timestamp()) - SECONDS_SINCE_UNIX_EPOCH
+        unix_seconds = int(dt.timestamp())
+        epoch_seconds = unix_seconds - SECONDS_SINCE_UNIX_EPOCH
         return self.create_test_item_from_epoch_seconds(
             tz, epoch_seconds, type)
 
