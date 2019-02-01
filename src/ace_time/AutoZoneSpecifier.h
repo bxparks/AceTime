@@ -10,6 +10,7 @@
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneSpecifier.h"
+#include "common/logger.h"
 
 class AutoZoneSpecifierTest_init_primitives;
 class AutoZoneSpecifierTest_init;
@@ -51,6 +52,13 @@ struct ZoneMatch {
 
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[kAbbrevSize];
+
+  /** Used only for debugging. */
+  void log() const {
+    common::logger("startEpochSeconds: %ld", startEpochSeconds);
+    common::logger("offsetCode: %d", offsetCode);
+    common::logger("abbrev: %s", abbrev);
+  }
 };
 
 }
@@ -65,6 +73,7 @@ struct ZoneMatch {
  * @verbatim
  * Rule  NAME  FROM    TO  TYPE    IN     ON        AT      SAVE    LETTER/S
  * @endverbatim
+ *
  * Each record is represented by common::ZoneRule and the entire
  * collection is represented by common::ZonePolicy.
  *
@@ -73,11 +82,13 @@ struct ZoneMatch {
  * @verbatim
  * Zone NAME              GMTOFF    RULES FORMAT  [UNTIL]
  * @endverbatim
+ *
  * Each record is represented by common::ZoneEra and the entire collection is
  * represented by common::ZoneInfo.
  *
  * Limitations
  *  - does not work when untilTimeModifier is not 'w' (e.g. 's' or 'u')
+ *  - does not work if UNTIL field contains month, day, or time
  *  - does not work when RULES column is an offset (hh:mm)
  *
  * Not thread-safe.
@@ -122,6 +133,18 @@ class AutoZoneSpecifier: public ZoneSpecifier {
       if (mZoneInfo == nullptr) return "UTC";
       const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
       return zoneMatch->abbrev;
+    }
+
+    /** Used only for debugging. */
+    void log() const {
+      common::logger("mYear: %d", mYear);
+      common::logger("mNumMatches: %d", mNumMatches);
+      common::logger("=== mPrevMatch");
+      mPreviousMatch.log();
+      for (int i = 0; i < mNumMatches; i++) {
+        common::logger("=== Match: %d", i);
+        mMatches[i].log();
+      }
     }
 
   private:

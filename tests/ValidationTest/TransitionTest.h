@@ -3,12 +3,16 @@
 
 #include <AUnit.h>
 #include "ValidationDataType.h"
-//#include "ace_time/common/logger.h"
+#include "ace_time/common/logger.h"
+
+#define DEBUG 0
 
 class TransitionTest: public aunit::TestOnce {
   protected:
     void assertValid(const ValidationData* testData) {
-      //enableVerbosity(aunit::Verbosity::kAssertionPassed);
+      if (DEBUG) {
+        enableVerbosity(aunit::Verbosity::kAssertionPassed);
+      }
       assertTrue(true);
 
       const common::ZoneInfo* zoneInfo = testData->zoneInfo;
@@ -17,9 +21,10 @@ class TransitionTest: public aunit::TestOnce {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
         UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);
-        //using ace_time::common::logger;
-        //logger("epochSeconds: %ld", epochSeconds);
-        //zoneSpecifier.log();
+        if (DEBUG) {
+          ace_time::common::logger("epochSeconds: %ld", epochSeconds);
+          zoneSpecifier.log();
+        }
         assertEqual(item.utcOffsetMinutes, utcOffset.toMinutes());
       }
     }
