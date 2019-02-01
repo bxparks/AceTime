@@ -112,13 +112,13 @@ const ValidationData kValidationData{zoneShortName} = {{
 #include "validation_data.h"
 
 // numZones: {numZones}
-testF(TransitionTest, validateData) {{
-{assertionItems}
-}}   
+{testCases}
 """
 
-    ASSERTION_ITEM = """\
-  assertValid(&kValidationData{zoneShortName});
+    TEST_CASE = """\
+{comment}testF(TransitionTest, {zoneShortName}) {{
+{comment}  assertValid(&kValidationData{zoneShortName});
+{comment}}}
 """
 
     VALIDATION_DATA_H_FILE_NAME = 'validation_data.h'
@@ -212,21 +212,20 @@ testF(TransitionTest, validateData) {{
         return s
 
     def generate_tests_cpp(self):
-        assertion_items = self.generate_assertion_items(self.test_data)
+        test_cases = self.generate_test_cases(self.test_data)
 
         return self.TESTS_CPP.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
             numZones=len(self.test_data),
-            assertionItems=assertion_items)
+            testCases=test_cases)
 
-    def generate_assertion_items(self, test_data):
-        assertion_items = ''
-        for short_name, test_items in sorted(test_data.items()):
-            assertion_item = self.ASSERTION_ITEM.format(
-                zoneShortName=short_name)
-            if short_name in self.BROKEN_ZONE_BLACK_LIST:
-                assertion_item = '//' + assertion_item
-            assertion_items += assertion_item
-        return assertion_items
+    def generate_test_cases(self, test_data):
+        test_cases = ''
+        for short_name, _ in sorted(test_data.items()):
+            comment = '//' if short_name in self.BROKEN_ZONE_BLACK_LIST else ''
+            test_case = self.TEST_CASE.format(zoneShortName=short_name,
+                comment=comment)
+            test_cases += test_case
+        return test_cases
 
