@@ -11,240 +11,515 @@
 #include "TransitionTest.h"
 #include "validation_data.h"
 
-// numZones: 233
-testF(TransitionTest, validateData) {
+// numZones: 170
+testF(TransitionTest, Abidjan) {
   assertValid(&kValidationDataAbidjan);
+}
+testF(TransitionTest, Accra) {
   assertValid(&kValidationDataAccra);
+}
+testF(TransitionTest, Adak) {
   assertValid(&kValidationDataAdak);
+}
+testF(TransitionTest, Algiers) {
   assertValid(&kValidationDataAlgiers);
+}
+testF(TransitionTest, Anchorage) {
   assertValid(&kValidationDataAnchorage);
-//  assertValid(&kValidationDataApia);
-//  assertValid(&kValidationDataAraguaina);
+}
+testF(TransitionTest, Ashgabat) {
   assertValid(&kValidationDataAshgabat);
+}
+testF(TransitionTest, Asuncion) {
   assertValid(&kValidationDataAsuncion);
+}
+testF(TransitionTest, Atikokan) {
   assertValid(&kValidationDataAtikokan);
-//  assertValid(&kValidationDataBahia);
-  assertValid(&kValidationDataBahia_Banderas);
+}
+testF(TransitionTest, Baku) {
   assertValid(&kValidationDataBaku);
+}
+testF(TransitionTest, Bangkok) {
   assertValid(&kValidationDataBangkok);
+}
+testF(TransitionTest, Barbados) {
   assertValid(&kValidationDataBarbados);
+}
+testF(TransitionTest, Beirut) {
   assertValid(&kValidationDataBeirut);
+}
+testF(TransitionTest, Belem) {
   assertValid(&kValidationDataBelem);
+}
+testF(TransitionTest, Bermuda) {
   assertValid(&kValidationDataBermuda);
-//  assertValid(&kValidationDataBeulah);
-//  assertValid(&kValidationDataBishkek);
+}
+testF(TransitionTest, Bissau) {
   assertValid(&kValidationDataBissau);
+}
+testF(TransitionTest, Blanc_Sablon) {
   assertValid(&kValidationDataBlanc_Sablon);
-//  assertValid(&kValidationDataBoa_Vista);
+}
+testF(TransitionTest, Bogota) {
   assertValid(&kValidationDataBogota);
+}
+testF(TransitionTest, Boise) {
   assertValid(&kValidationDataBoise);
-//  assertValid(&kValidationDataBougainville);
+}
+testF(TransitionTest, Brunei) {
   assertValid(&kValidationDataBrunei);
-  assertValid(&kValidationDataBuenos_Aires);
-//  assertValid(&kValidationDataCambridge_Bay);
+}
+testF(TransitionTest, Campo_Grande) {
   assertValid(&kValidationDataCampo_Grande);
-//  assertValid(&kValidationDataCancun);
+}
+testF(TransitionTest, Cape_Verde) {
   assertValid(&kValidationDataCape_Verde);
-//  assertValid(&kValidationDataCaracas);
-//  assertValid(&kValidationDataCasablanca);
-  assertValid(&kValidationDataCatamarca);
+}
+testF(TransitionTest, Cayenne) {
   assertValid(&kValidationDataCayenne);
+}
+testF(TransitionTest, Center) {
   assertValid(&kValidationDataCenter);
+}
+testF(TransitionTest, Chagos) {
   assertValid(&kValidationDataChagos);
+}
+testF(TransitionTest, Chicago) {
   assertValid(&kValidationDataChicago);
+}
+testF(TransitionTest, Chihuahua) {
   assertValid(&kValidationDataChihuahua);
+}
+testF(TransitionTest, Chisinau) {
   assertValid(&kValidationDataChisinau);
-  assertValid(&kValidationDataChoibalsan);
+}
+testF(TransitionTest, Christmas) {
   assertValid(&kValidationDataChristmas);
+}
+testF(TransitionTest, Chuuk) {
   assertValid(&kValidationDataChuuk);
+}
+testF(TransitionTest, Cocos) {
   assertValid(&kValidationDataCocos);
-  assertValid(&kValidationDataColombo);
-  assertValid(&kValidationDataCordoba);
+}
+testF(TransitionTest, Costa_Rica) {
   assertValid(&kValidationDataCosta_Rica);
+}
+testF(TransitionTest, Creston) {
   assertValid(&kValidationDataCreston);
-  assertValid(&kValidationDataCuiaba);
+}
+testF(TransitionTest, Curacao) {
   assertValid(&kValidationDataCuracao);
+}
+testF(TransitionTest, Damascus) {
   assertValid(&kValidationDataDamascus);
+}
+testF(TransitionTest, Danmarkshavn) {
   assertValid(&kValidationDataDanmarkshavn);
+}
+testF(TransitionTest, Darwin) {
   assertValid(&kValidationDataDarwin);
+}
+testF(TransitionTest, Dawson) {
   assertValid(&kValidationDataDawson);
+}
+testF(TransitionTest, Dawson_Creek) {
   assertValid(&kValidationDataDawson_Creek);
+}
+testF(TransitionTest, Denver) {
   assertValid(&kValidationDataDenver);
+}
+testF(TransitionTest, Detroit) {
   assertValid(&kValidationDataDetroit);
-  assertValid(&kValidationDataDhaka);
-  assertValid(&kValidationDataDili);
+}
+//testF(TransitionTest, Dhaka) {
+//  assertValid(&kValidationDataDhaka);
+//}
+testF(TransitionTest, Dubai) {
   assertValid(&kValidationDataDubai);
+}
+testF(TransitionTest, DumontDUrville) {
   assertValid(&kValidationDataDumontDUrville);
+}
+testF(TransitionTest, Dushanbe) {
   assertValid(&kValidationDataDushanbe);
+}
+testF(TransitionTest, Edmonton) {
   assertValid(&kValidationDataEdmonton);
+}
+testF(TransitionTest, Efate) {
   assertValid(&kValidationDataEfate);
-  assertValid(&kValidationDataEirunepe);
-  assertValid(&kValidationDataEl_Aaiun);
+}
+testF(TransitionTest, El_Salvador) {
   assertValid(&kValidationDataEl_Salvador);
+}
+testF(TransitionTest, Enderbury) {
   assertValid(&kValidationDataEnderbury);
-  assertValid(&kValidationDataFakaofo);
+}
+testF(TransitionTest, Fiji) {
   assertValid(&kValidationDataFiji);
-  assertValid(&kValidationDataFort_Nelson);
-  assertValid(&kValidationDataFortaleza);
+}
+testF(TransitionTest, Funafuti) {
   assertValid(&kValidationDataFunafuti);
+}
+testF(TransitionTest, Galapagos) {
   assertValid(&kValidationDataGalapagos);
+}
+testF(TransitionTest, Gambier) {
   assertValid(&kValidationDataGambier);
-  assertValid(&kValidationDataGaza);
+}
+testF(TransitionTest, Glace_Bay) {
   assertValid(&kValidationDataGlace_Bay);
-  assertValid(&kValidationDataGrand_Turk);
+}
+testF(TransitionTest, Guadalcanal) {
   assertValid(&kValidationDataGuadalcanal);
-  assertValid(&kValidationDataGuam);
+}
+testF(TransitionTest, Guatemala) {
   assertValid(&kValidationDataGuatemala);
+}
+testF(TransitionTest, Guayaquil) {
   assertValid(&kValidationDataGuayaquil);
+}
+testF(TransitionTest, Guyana) {
   assertValid(&kValidationDataGuyana);
+}
+testF(TransitionTest, Halifax) {
   assertValid(&kValidationDataHalifax);
-  assertValid(&kValidationDataHebron);
+}
+//testF(TransitionTest, Hebron) {
+//  assertValid(&kValidationDataHebron);
+//}
+testF(TransitionTest, Hermosillo) {
   assertValid(&kValidationDataHermosillo);
+}
+testF(TransitionTest, Ho_Chi_Minh) {
   assertValid(&kValidationDataHo_Chi_Minh);
+}
+testF(TransitionTest, Hong_Kong) {
   assertValid(&kValidationDataHong_Kong);
+}
+testF(TransitionTest, Honolulu) {
   assertValid(&kValidationDataHonolulu);
+}
+testF(TransitionTest, Hovd) {
   assertValid(&kValidationDataHovd);
+}
+testF(TransitionTest, Indianapolis) {
   assertValid(&kValidationDataIndianapolis);
+}
+testF(TransitionTest, Inuvik) {
   assertValid(&kValidationDataInuvik);
-  assertValid(&kValidationDataIqaluit);
+}
+testF(TransitionTest, Jakarta) {
   assertValid(&kValidationDataJakarta);
+}
+testF(TransitionTest, Jamaica) {
   assertValid(&kValidationDataJamaica);
+}
+testF(TransitionTest, Jayapura) {
   assertValid(&kValidationDataJayapura);
+}
+testF(TransitionTest, Jerusalem) {
   assertValid(&kValidationDataJerusalem);
+}
+testF(TransitionTest, Johannesburg) {
   assertValid(&kValidationDataJohannesburg);
-  assertValid(&kValidationDataJuba);
-  assertValid(&kValidationDataJujuy);
+}
+testF(TransitionTest, Juneau) {
   assertValid(&kValidationDataJuneau);
+}
+testF(TransitionTest, Kabul) {
   assertValid(&kValidationDataKabul);
+}
+testF(TransitionTest, Karachi) {
   assertValid(&kValidationDataKarachi);
+}
+testF(TransitionTest, Kathmandu) {
   assertValid(&kValidationDataKathmandu);
+}
+testF(TransitionTest, Kerguelen) {
   assertValid(&kValidationDataKerguelen);
-  assertValid(&kValidationDataKhartoum);
+}
+testF(TransitionTest, Kiritimati) {
   assertValid(&kValidationDataKiritimati);
-  assertValid(&kValidationDataKnox);
+}
+testF(TransitionTest, Kolkata) {
   assertValid(&kValidationDataKolkata);
+}
+testF(TransitionTest, Kosrae) {
   assertValid(&kValidationDataKosrae);
+}
+testF(TransitionTest, Kuala_Lumpur) {
   assertValid(&kValidationDataKuala_Lumpur);
+}
+testF(TransitionTest, Kuching) {
   assertValid(&kValidationDataKuching);
+}
+testF(TransitionTest, Kwajalein) {
   assertValid(&kValidationDataKwajalein);
+}
+testF(TransitionTest, La_Paz) {
   assertValid(&kValidationDataLa_Paz);
-  assertValid(&kValidationDataLa_Rioja);
+}
+testF(TransitionTest, Lagos) {
   assertValid(&kValidationDataLagos);
+}
+testF(TransitionTest, Lima) {
   assertValid(&kValidationDataLima);
+}
+testF(TransitionTest, Lord_Howe) {
   assertValid(&kValidationDataLord_Howe);
+}
+testF(TransitionTest, Los_Angeles) {
   assertValid(&kValidationDataLos_Angeles);
+}
+testF(TransitionTest, Louisville) {
   assertValid(&kValidationDataLouisville);
+}
+testF(TransitionTest, Macau) {
   assertValid(&kValidationDataMacau);
-  assertValid(&kValidationDataMaceio);
+}
+testF(TransitionTest, Mahe) {
   assertValid(&kValidationDataMahe);
+}
+testF(TransitionTest, Majuro) {
   assertValid(&kValidationDataMajuro);
+}
+testF(TransitionTest, Makassar) {
   assertValid(&kValidationDataMakassar);
+}
+testF(TransitionTest, Maldives) {
   assertValid(&kValidationDataMaldives);
+}
+testF(TransitionTest, Managua) {
   assertValid(&kValidationDataManagua);
+}
+testF(TransitionTest, Manaus) {
   assertValid(&kValidationDataManaus);
+}
+testF(TransitionTest, Manila) {
   assertValid(&kValidationDataManila);
+}
+testF(TransitionTest, Maputo) {
   assertValid(&kValidationDataMaputo);
+}
+testF(TransitionTest, Marengo) {
   assertValid(&kValidationDataMarengo);
+}
+testF(TransitionTest, Marquesas) {
   assertValid(&kValidationDataMarquesas);
+}
+testF(TransitionTest, Martinique) {
   assertValid(&kValidationDataMartinique);
+}
+testF(TransitionTest, Matamoros) {
   assertValid(&kValidationDataMatamoros);
+}
+testF(TransitionTest, Mauritius) {
   assertValid(&kValidationDataMauritius);
-  assertValid(&kValidationDataMawson);
+}
+testF(TransitionTest, Mazatlan) {
   assertValid(&kValidationDataMazatlan);
-  assertValid(&kValidationDataMendoza);
+}
+testF(TransitionTest, Menominee) {
   assertValid(&kValidationDataMenominee);
+}
+testF(TransitionTest, Merida) {
   assertValid(&kValidationDataMerida);
-  assertValid(&kValidationDataMetlakatla);
-  assertValid(&kValidationDataMexico_City);
+}
+testF(TransitionTest, Miquelon) {
   assertValid(&kValidationDataMiquelon);
-  assertValid(&kValidationDataMoncton);
+}
+//testF(TransitionTest, Moncton) {
+//  assertValid(&kValidationDataMoncton);
+//}
+testF(TransitionTest, Monrovia) {
   assertValid(&kValidationDataMonrovia);
+}
+testF(TransitionTest, Monterrey) {
   assertValid(&kValidationDataMonterrey);
+}
+testF(TransitionTest, Montevideo) {
   assertValid(&kValidationDataMontevideo);
-  assertValid(&kValidationDataMonticello);
+}
+testF(TransitionTest, Nairobi) {
   assertValid(&kValidationDataNairobi);
+}
+testF(TransitionTest, Nassau) {
   assertValid(&kValidationDataNassau);
+}
+testF(TransitionTest, Nauru) {
   assertValid(&kValidationDataNauru);
+}
+testF(TransitionTest, Ndjamena) {
   assertValid(&kValidationDataNdjamena);
-  assertValid(&kValidationDataNew_Salem);
+}
+testF(TransitionTest, New_York) {
   assertValid(&kValidationDataNew_York);
+}
+testF(TransitionTest, Nipigon) {
   assertValid(&kValidationDataNipigon);
+}
+testF(TransitionTest, Niue) {
   assertValid(&kValidationDataNiue);
+}
+testF(TransitionTest, Nome) {
   assertValid(&kValidationDataNome);
-  assertValid(&kValidationDataNorfolk);
-  assertValid(&kValidationDataNoronha);
+}
+testF(TransitionTest, Ojinaga) {
   assertValid(&kValidationDataOjinaga);
+}
+testF(TransitionTest, Pago_Pago) {
   assertValid(&kValidationDataPago_Pago);
+}
+testF(TransitionTest, Palau) {
   assertValid(&kValidationDataPalau);
+}
+testF(TransitionTest, Panama) {
   assertValid(&kValidationDataPanama);
-  assertValid(&kValidationDataPangnirtung);
+}
+testF(TransitionTest, Paramaribo) {
   assertValid(&kValidationDataParamaribo);
-  assertValid(&kValidationDataPetersburg);
+}
+testF(TransitionTest, Phoenix) {
   assertValid(&kValidationDataPhoenix);
+}
+testF(TransitionTest, Pitcairn) {
   assertValid(&kValidationDataPitcairn);
+}
+testF(TransitionTest, Pohnpei) {
   assertValid(&kValidationDataPohnpei);
+}
+testF(TransitionTest, Pontianak) {
   assertValid(&kValidationDataPontianak);
+}
+testF(TransitionTest, Port_Moresby) {
   assertValid(&kValidationDataPort_Moresby);
+}
+testF(TransitionTest, Port_of_Spain) {
   assertValid(&kValidationDataPort_of_Spain);
+}
+testF(TransitionTest, Porto_Velho) {
   assertValid(&kValidationDataPorto_Velho);
+}
+testF(TransitionTest, Puerto_Rico) {
   assertValid(&kValidationDataPuerto_Rico);
-  assertValid(&kValidationDataPyongyang);
+}
+testF(TransitionTest, Qatar) {
   assertValid(&kValidationDataQatar);
+}
+testF(TransitionTest, Rainy_River) {
   assertValid(&kValidationDataRainy_River);
-  assertValid(&kValidationDataRankin_Inlet);
+}
+testF(TransitionTest, Rarotonga) {
   assertValid(&kValidationDataRarotonga);
-  assertValid(&kValidationDataRecife);
+}
+testF(TransitionTest, Regina) {
   assertValid(&kValidationDataRegina);
-  assertValid(&kValidationDataResolute);
+}
+testF(TransitionTest, Reunion) {
   assertValid(&kValidationDataReunion);
+}
+testF(TransitionTest, Reykjavik) {
   assertValid(&kValidationDataReykjavik);
-  assertValid(&kValidationDataRio_Branco);
-  assertValid(&kValidationDataRio_Gallegos);
+}
+testF(TransitionTest, Riyadh) {
   assertValid(&kValidationDataRiyadh);
+}
+testF(TransitionTest, Rothera) {
   assertValid(&kValidationDataRothera);
-  assertValid(&kValidationDataSalta);
+}
+testF(TransitionTest, Samarkand) {
   assertValid(&kValidationDataSamarkand);
-  assertValid(&kValidationDataSan_Juan);
-  assertValid(&kValidationDataSantarem);
-  assertValid(&kValidationDataSanto_Domingo);
+}
+testF(TransitionTest, Sao_Paulo) {
   assertValid(&kValidationDataSao_Paulo);
-  assertValid(&kValidationDataSao_Tome);
+}
+testF(TransitionTest, Seoul) {
   assertValid(&kValidationDataSeoul);
+}
+testF(TransitionTest, Shanghai) {
   assertValid(&kValidationDataShanghai);
+}
+testF(TransitionTest, Singapore) {
   assertValid(&kValidationDataSingapore);
+}
+testF(TransitionTest, Sitka) {
   assertValid(&kValidationDataSitka);
+}
+testF(TransitionTest, South_Georgia) {
   assertValid(&kValidationDataSouth_Georgia);
-  assertValid(&kValidationDataStanley);
+}
+testF(TransitionTest, Swift_Current) {
   assertValid(&kValidationDataSwift_Current);
+}
+testF(TransitionTest, Syowa) {
   assertValid(&kValidationDataSyowa);
+}
+testF(TransitionTest, Tahiti) {
   assertValid(&kValidationDataTahiti);
+}
+testF(TransitionTest, Taipei) {
   assertValid(&kValidationDataTaipei);
+}
+testF(TransitionTest, Tarawa) {
   assertValid(&kValidationDataTarawa);
+}
+testF(TransitionTest, Tashkent) {
   assertValid(&kValidationDataTashkent);
+}
+testF(TransitionTest, Tegucigalpa) {
   assertValid(&kValidationDataTegucigalpa);
-  assertValid(&kValidationDataTehran);
-  assertValid(&kValidationDataTell_City);
+}
+//testF(TransitionTest, Tehran) {
+//  assertValid(&kValidationDataTehran);
+//}
+testF(TransitionTest, Thimphu) {
   assertValid(&kValidationDataThimphu);
+}
+testF(TransitionTest, Thule) {
   assertValid(&kValidationDataThule);
+}
+testF(TransitionTest, Thunder_Bay) {
   assertValid(&kValidationDataThunder_Bay);
-  assertValid(&kValidationDataTijuana);
+}
+testF(TransitionTest, Tokyo) {
   assertValid(&kValidationDataTokyo);
+}
+testF(TransitionTest, Toronto) {
   assertValid(&kValidationDataToronto);
-  assertValid(&kValidationDataTripoli);
-  assertValid(&kValidationDataTucuman);
+}
+testF(TransitionTest, Ulaanbaatar) {
   assertValid(&kValidationDataUlaanbaatar);
+}
+testF(TransitionTest, Urumqi) {
   assertValid(&kValidationDataUrumqi);
-  assertValid(&kValidationDataUshuaia);
+}
+testF(TransitionTest, Vancouver) {
   assertValid(&kValidationDataVancouver);
+}
+testF(TransitionTest, Vevay) {
   assertValid(&kValidationDataVevay);
-  assertValid(&kValidationDataVincennes);
+}
+testF(TransitionTest, Vostok) {
   assertValid(&kValidationDataVostok);
+}
+testF(TransitionTest, Wake) {
   assertValid(&kValidationDataWake);
+}
+testF(TransitionTest, Wallis) {
   assertValid(&kValidationDataWallis);
+}
+testF(TransitionTest, Whitehorse) {
   assertValid(&kValidationDataWhitehorse);
-  assertValid(&kValidationDataWinamac);
+}
+testF(TransitionTest, Yakutat) {
   assertValid(&kValidationDataYakutat);
+}
+testF(TransitionTest, Yangon) {
   assertValid(&kValidationDataYangon);
+}
+testF(TransitionTest, Yellowknife) {
   assertValid(&kValidationDataYellowknife);
+}
 
-}   

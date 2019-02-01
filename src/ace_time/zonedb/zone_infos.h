@@ -20,57 +20,32 @@
 namespace ace_time {
 namespace zonedb {
 
-// numInfos: 233
+// numInfos: 170
 extern const common::ZoneInfo kZoneAbidjan; // Africa/Abidjan
 extern const common::ZoneInfo kZoneAccra; // Africa/Accra
 extern const common::ZoneInfo kZoneAlgiers; // Africa/Algiers
 extern const common::ZoneInfo kZoneBissau; // Africa/Bissau
-extern const common::ZoneInfo kZoneCasablanca; // Africa/Casablanca
-extern const common::ZoneInfo kZoneEl_Aaiun; // Africa/El_Aaiun
 extern const common::ZoneInfo kZoneJohannesburg; // Africa/Johannesburg
-extern const common::ZoneInfo kZoneJuba; // Africa/Juba
-extern const common::ZoneInfo kZoneKhartoum; // Africa/Khartoum
 extern const common::ZoneInfo kZoneLagos; // Africa/Lagos
 extern const common::ZoneInfo kZoneMaputo; // Africa/Maputo
 extern const common::ZoneInfo kZoneMonrovia; // Africa/Monrovia
 extern const common::ZoneInfo kZoneNairobi; // Africa/Nairobi
 extern const common::ZoneInfo kZoneNdjamena; // Africa/Ndjamena
-extern const common::ZoneInfo kZoneSao_Tome; // Africa/Sao_Tome
-extern const common::ZoneInfo kZoneTripoli; // Africa/Tripoli
 extern const common::ZoneInfo kZoneAdak; // America/Adak
 extern const common::ZoneInfo kZoneAnchorage; // America/Anchorage
-extern const common::ZoneInfo kZoneAraguaina; // America/Araguaina
-extern const common::ZoneInfo kZoneBuenos_Aires; // America/Argentina/Buenos_Aires
-extern const common::ZoneInfo kZoneCatamarca; // America/Argentina/Catamarca
-extern const common::ZoneInfo kZoneCordoba; // America/Argentina/Cordoba
-extern const common::ZoneInfo kZoneJujuy; // America/Argentina/Jujuy
-extern const common::ZoneInfo kZoneLa_Rioja; // America/Argentina/La_Rioja
-extern const common::ZoneInfo kZoneMendoza; // America/Argentina/Mendoza
-extern const common::ZoneInfo kZoneRio_Gallegos; // America/Argentina/Rio_Gallegos
-extern const common::ZoneInfo kZoneSalta; // America/Argentina/Salta
-extern const common::ZoneInfo kZoneSan_Juan; // America/Argentina/San_Juan
-extern const common::ZoneInfo kZoneTucuman; // America/Argentina/Tucuman
-extern const common::ZoneInfo kZoneUshuaia; // America/Argentina/Ushuaia
 extern const common::ZoneInfo kZoneAsuncion; // America/Asuncion
 extern const common::ZoneInfo kZoneAtikokan; // America/Atikokan
-extern const common::ZoneInfo kZoneBahia; // America/Bahia
-extern const common::ZoneInfo kZoneBahia_Banderas; // America/Bahia_Banderas
 extern const common::ZoneInfo kZoneBarbados; // America/Barbados
 extern const common::ZoneInfo kZoneBelem; // America/Belem
 extern const common::ZoneInfo kZoneBlanc_Sablon; // America/Blanc-Sablon
-extern const common::ZoneInfo kZoneBoa_Vista; // America/Boa_Vista
 extern const common::ZoneInfo kZoneBogota; // America/Bogota
 extern const common::ZoneInfo kZoneBoise; // America/Boise
-extern const common::ZoneInfo kZoneCambridge_Bay; // America/Cambridge_Bay
 extern const common::ZoneInfo kZoneCampo_Grande; // America/Campo_Grande
-extern const common::ZoneInfo kZoneCancun; // America/Cancun
-extern const common::ZoneInfo kZoneCaracas; // America/Caracas
 extern const common::ZoneInfo kZoneCayenne; // America/Cayenne
 extern const common::ZoneInfo kZoneChicago; // America/Chicago
 extern const common::ZoneInfo kZoneChihuahua; // America/Chihuahua
 extern const common::ZoneInfo kZoneCosta_Rica; // America/Costa_Rica
 extern const common::ZoneInfo kZoneCreston; // America/Creston
-extern const common::ZoneInfo kZoneCuiaba; // America/Cuiaba
 extern const common::ZoneInfo kZoneCuracao; // America/Curacao
 extern const common::ZoneInfo kZoneDanmarkshavn; // America/Danmarkshavn
 extern const common::ZoneInfo kZoneDawson; // America/Dawson
@@ -78,35 +53,23 @@ extern const common::ZoneInfo kZoneDawson_Creek; // America/Dawson_Creek
 extern const common::ZoneInfo kZoneDenver; // America/Denver
 extern const common::ZoneInfo kZoneDetroit; // America/Detroit
 extern const common::ZoneInfo kZoneEdmonton; // America/Edmonton
-extern const common::ZoneInfo kZoneEirunepe; // America/Eirunepe
 extern const common::ZoneInfo kZoneEl_Salvador; // America/El_Salvador
-extern const common::ZoneInfo kZoneFort_Nelson; // America/Fort_Nelson
-extern const common::ZoneInfo kZoneFortaleza; // America/Fortaleza
 extern const common::ZoneInfo kZoneGlace_Bay; // America/Glace_Bay
-extern const common::ZoneInfo kZoneGrand_Turk; // America/Grand_Turk
 extern const common::ZoneInfo kZoneGuatemala; // America/Guatemala
 extern const common::ZoneInfo kZoneGuayaquil; // America/Guayaquil
 extern const common::ZoneInfo kZoneGuyana; // America/Guyana
 extern const common::ZoneInfo kZoneHalifax; // America/Halifax
 extern const common::ZoneInfo kZoneHermosillo; // America/Hermosillo
 extern const common::ZoneInfo kZoneIndianapolis; // America/Indiana/Indianapolis
-extern const common::ZoneInfo kZoneKnox; // America/Indiana/Knox
 extern const common::ZoneInfo kZoneMarengo; // America/Indiana/Marengo
-extern const common::ZoneInfo kZonePetersburg; // America/Indiana/Petersburg
-extern const common::ZoneInfo kZoneTell_City; // America/Indiana/Tell_City
 extern const common::ZoneInfo kZoneVevay; // America/Indiana/Vevay
-extern const common::ZoneInfo kZoneVincennes; // America/Indiana/Vincennes
-extern const common::ZoneInfo kZoneWinamac; // America/Indiana/Winamac
 extern const common::ZoneInfo kZoneInuvik; // America/Inuvik
-extern const common::ZoneInfo kZoneIqaluit; // America/Iqaluit
 extern const common::ZoneInfo kZoneJamaica; // America/Jamaica
 extern const common::ZoneInfo kZoneJuneau; // America/Juneau
 extern const common::ZoneInfo kZoneLouisville; // America/Kentucky/Louisville
-extern const common::ZoneInfo kZoneMonticello; // America/Kentucky/Monticello
 extern const common::ZoneInfo kZoneLa_Paz; // America/La_Paz
 extern const common::ZoneInfo kZoneLima; // America/Lima
 extern const common::ZoneInfo kZoneLos_Angeles; // America/Los_Angeles
-extern const common::ZoneInfo kZoneMaceio; // America/Maceio
 extern const common::ZoneInfo kZoneManagua; // America/Managua
 extern const common::ZoneInfo kZoneManaus; // America/Manaus
 extern const common::ZoneInfo kZoneMartinique; // America/Martinique
@@ -114,8 +77,6 @@ extern const common::ZoneInfo kZoneMatamoros; // America/Matamoros
 extern const common::ZoneInfo kZoneMazatlan; // America/Mazatlan
 extern const common::ZoneInfo kZoneMenominee; // America/Menominee
 extern const common::ZoneInfo kZoneMerida; // America/Merida
-extern const common::ZoneInfo kZoneMetlakatla; // America/Metlakatla
-extern const common::ZoneInfo kZoneMexico_City; // America/Mexico_City
 extern const common::ZoneInfo kZoneMiquelon; // America/Miquelon
 extern const common::ZoneInfo kZoneMoncton; // America/Moncton
 extern const common::ZoneInfo kZoneMonterrey; // America/Monterrey
@@ -124,40 +85,28 @@ extern const common::ZoneInfo kZoneNassau; // America/Nassau
 extern const common::ZoneInfo kZoneNew_York; // America/New_York
 extern const common::ZoneInfo kZoneNipigon; // America/Nipigon
 extern const common::ZoneInfo kZoneNome; // America/Nome
-extern const common::ZoneInfo kZoneNoronha; // America/Noronha
-extern const common::ZoneInfo kZoneBeulah; // America/North_Dakota/Beulah
 extern const common::ZoneInfo kZoneCenter; // America/North_Dakota/Center
-extern const common::ZoneInfo kZoneNew_Salem; // America/North_Dakota/New_Salem
 extern const common::ZoneInfo kZoneOjinaga; // America/Ojinaga
 extern const common::ZoneInfo kZonePanama; // America/Panama
-extern const common::ZoneInfo kZonePangnirtung; // America/Pangnirtung
 extern const common::ZoneInfo kZoneParamaribo; // America/Paramaribo
 extern const common::ZoneInfo kZonePhoenix; // America/Phoenix
 extern const common::ZoneInfo kZonePort_of_Spain; // America/Port_of_Spain
 extern const common::ZoneInfo kZonePorto_Velho; // America/Porto_Velho
 extern const common::ZoneInfo kZonePuerto_Rico; // America/Puerto_Rico
 extern const common::ZoneInfo kZoneRainy_River; // America/Rainy_River
-extern const common::ZoneInfo kZoneRankin_Inlet; // America/Rankin_Inlet
-extern const common::ZoneInfo kZoneRecife; // America/Recife
 extern const common::ZoneInfo kZoneRegina; // America/Regina
-extern const common::ZoneInfo kZoneResolute; // America/Resolute
-extern const common::ZoneInfo kZoneRio_Branco; // America/Rio_Branco
-extern const common::ZoneInfo kZoneSantarem; // America/Santarem
-extern const common::ZoneInfo kZoneSanto_Domingo; // America/Santo_Domingo
 extern const common::ZoneInfo kZoneSao_Paulo; // America/Sao_Paulo
 extern const common::ZoneInfo kZoneSitka; // America/Sitka
 extern const common::ZoneInfo kZoneSwift_Current; // America/Swift_Current
 extern const common::ZoneInfo kZoneTegucigalpa; // America/Tegucigalpa
 extern const common::ZoneInfo kZoneThule; // America/Thule
 extern const common::ZoneInfo kZoneThunder_Bay; // America/Thunder_Bay
-extern const common::ZoneInfo kZoneTijuana; // America/Tijuana
 extern const common::ZoneInfo kZoneToronto; // America/Toronto
 extern const common::ZoneInfo kZoneVancouver; // America/Vancouver
 extern const common::ZoneInfo kZoneWhitehorse; // America/Whitehorse
 extern const common::ZoneInfo kZoneYakutat; // America/Yakutat
 extern const common::ZoneInfo kZoneYellowknife; // America/Yellowknife
 extern const common::ZoneInfo kZoneDumontDUrville; // Antarctica/DumontDUrville
-extern const common::ZoneInfo kZoneMawson; // Antarctica/Mawson
 extern const common::ZoneInfo kZoneRothera; // Antarctica/Rothera
 extern const common::ZoneInfo kZoneSyowa; // Antarctica/Syowa
 extern const common::ZoneInfo kZoneVostok; // Antarctica/Vostok
@@ -165,16 +114,11 @@ extern const common::ZoneInfo kZoneAshgabat; // Asia/Ashgabat
 extern const common::ZoneInfo kZoneBaku; // Asia/Baku
 extern const common::ZoneInfo kZoneBangkok; // Asia/Bangkok
 extern const common::ZoneInfo kZoneBeirut; // Asia/Beirut
-extern const common::ZoneInfo kZoneBishkek; // Asia/Bishkek
 extern const common::ZoneInfo kZoneBrunei; // Asia/Brunei
-extern const common::ZoneInfo kZoneChoibalsan; // Asia/Choibalsan
-extern const common::ZoneInfo kZoneColombo; // Asia/Colombo
 extern const common::ZoneInfo kZoneDamascus; // Asia/Damascus
 extern const common::ZoneInfo kZoneDhaka; // Asia/Dhaka
-extern const common::ZoneInfo kZoneDili; // Asia/Dili
 extern const common::ZoneInfo kZoneDubai; // Asia/Dubai
 extern const common::ZoneInfo kZoneDushanbe; // Asia/Dushanbe
-extern const common::ZoneInfo kZoneGaza; // Asia/Gaza
 extern const common::ZoneInfo kZoneHebron; // Asia/Hebron
 extern const common::ZoneInfo kZoneHo_Chi_Minh; // Asia/Ho_Chi_Minh
 extern const common::ZoneInfo kZoneHong_Kong; // Asia/Hong_Kong
@@ -192,7 +136,6 @@ extern const common::ZoneInfo kZoneMacau; // Asia/Macau
 extern const common::ZoneInfo kZoneMakassar; // Asia/Makassar
 extern const common::ZoneInfo kZoneManila; // Asia/Manila
 extern const common::ZoneInfo kZonePontianak; // Asia/Pontianak
-extern const common::ZoneInfo kZonePyongyang; // Asia/Pyongyang
 extern const common::ZoneInfo kZoneQatar; // Asia/Qatar
 extern const common::ZoneInfo kZoneRiyadh; // Asia/Riyadh
 extern const common::ZoneInfo kZoneSamarkand; // Asia/Samarkand
@@ -211,7 +154,6 @@ extern const common::ZoneInfo kZoneBermuda; // Atlantic/Bermuda
 extern const common::ZoneInfo kZoneCape_Verde; // Atlantic/Cape_Verde
 extern const common::ZoneInfo kZoneReykjavik; // Atlantic/Reykjavik
 extern const common::ZoneInfo kZoneSouth_Georgia; // Atlantic/South_Georgia
-extern const common::ZoneInfo kZoneStanley; // Atlantic/Stanley
 extern const common::ZoneInfo kZoneDarwin; // Australia/Darwin
 extern const common::ZoneInfo kZoneLord_Howe; // Australia/Lord_Howe
 extern const common::ZoneInfo kZoneChisinau; // Europe/Chisinau
@@ -223,18 +165,14 @@ extern const common::ZoneInfo kZoneMahe; // Indian/Mahe
 extern const common::ZoneInfo kZoneMaldives; // Indian/Maldives
 extern const common::ZoneInfo kZoneMauritius; // Indian/Mauritius
 extern const common::ZoneInfo kZoneReunion; // Indian/Reunion
-extern const common::ZoneInfo kZoneApia; // Pacific/Apia
-extern const common::ZoneInfo kZoneBougainville; // Pacific/Bougainville
 extern const common::ZoneInfo kZoneChuuk; // Pacific/Chuuk
 extern const common::ZoneInfo kZoneEfate; // Pacific/Efate
 extern const common::ZoneInfo kZoneEnderbury; // Pacific/Enderbury
-extern const common::ZoneInfo kZoneFakaofo; // Pacific/Fakaofo
 extern const common::ZoneInfo kZoneFiji; // Pacific/Fiji
 extern const common::ZoneInfo kZoneFunafuti; // Pacific/Funafuti
 extern const common::ZoneInfo kZoneGalapagos; // Pacific/Galapagos
 extern const common::ZoneInfo kZoneGambier; // Pacific/Gambier
 extern const common::ZoneInfo kZoneGuadalcanal; // Pacific/Guadalcanal
-extern const common::ZoneInfo kZoneGuam; // Pacific/Guam
 extern const common::ZoneInfo kZoneHonolulu; // Pacific/Honolulu
 extern const common::ZoneInfo kZoneKiritimati; // Pacific/Kiritimati
 extern const common::ZoneInfo kZoneKosrae; // Pacific/Kosrae
@@ -243,7 +181,6 @@ extern const common::ZoneInfo kZoneMajuro; // Pacific/Majuro
 extern const common::ZoneInfo kZoneMarquesas; // Pacific/Marquesas
 extern const common::ZoneInfo kZoneNauru; // Pacific/Nauru
 extern const common::ZoneInfo kZoneNiue; // Pacific/Niue
-extern const common::ZoneInfo kZoneNorfolk; // Pacific/Norfolk
 extern const common::ZoneInfo kZonePago_Pago; // Pacific/Pago_Pago
 extern const common::ZoneInfo kZonePalau; // Pacific/Palau
 extern const common::ZoneInfo kZonePitcairn; // Pacific/Pitcairn
@@ -258,35 +195,121 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 // The following zones are not supported in the current version of AceTime.
 //
-// numInfos: 87
+// numInfos: 189
 //
 // Africa/Cairo (policy 'Egypt' not found)
+// Africa/Casablanca (UNTIL contains month/day/time)
 // Africa/Ceuta (policy 'EU' not found)
+// Africa/El_Aaiun (UNTIL contains month/day/time)
+// Africa/Juba (UNTIL contains month/day/time)
+// Africa/Khartoum (UNTIL contains month/day/time)
+// Africa/Sao_Tome (UNTIL contains month/day/time)
+// Africa/Tripoli (UNTIL contains month/day/time)
 // Africa/Tunis (policy 'Tunisia' not found)
 // Africa/Windhoek (policy 'Namibia' not found)
-// America/Argentina/San_Luis (offset in RULES '1:00')
+// America/Araguaina (UNTIL contains month/day/time)
+// America/Argentina/Buenos_Aires (UNTIL contains month/day/time)
+// America/Argentina/Catamarca (UNTIL contains month/day/time)
+// America/Argentina/Cordoba (UNTIL contains month/day/time)
+// America/Argentina/Jujuy (UNTIL contains month/day/time)
+// America/Argentina/La_Rioja (UNTIL contains month/day/time)
+// America/Argentina/Mendoza (UNTIL contains month/day/time)
+// America/Argentina/Rio_Gallegos (UNTIL contains month/day/time)
+// America/Argentina/Salta (UNTIL contains month/day/time)
+// America/Argentina/San_Juan (UNTIL contains month/day/time)
+// America/Argentina/San_Luis (UNTIL contains month/day/time)
+// America/Argentina/Tucuman (UNTIL contains month/day/time)
+// America/Argentina/Ushuaia (UNTIL contains month/day/time)
+// America/Bahia (UNTIL contains month/day/time)
+// America/Bahia_Banderas (UNTIL contains month/day/time)
 // America/Belize (policy 'Belize' not found)
+// America/Boa_Vista (UNTIL contains month/day/time)
+// America/Cambridge_Bay (UNTIL contains month/day/time)
+// America/Cancun (UNTIL contains month/day/time)
+// America/Caracas (UNTIL contains month/day/time)
+// America/Cuiaba (UNTIL contains month/day/time)
+// America/Eirunepe (UNTIL contains month/day/time)
+// America/Fort_Nelson (UNTIL contains month/day/time)
+// America/Fortaleza (UNTIL contains month/day/time)
 // America/Godthab (policy 'EU' not found)
-// America/Goose_Bay (policy 'StJohns' not found)
+// America/Goose_Bay (UNTIL contains month/day/time)
+// America/Grand_Turk (UNTIL contains month/day/time)
 // America/Havana (policy 'Cuba' not found)
+// America/Indiana/Knox (UNTIL contains month/day/time)
+// America/Indiana/Petersburg (UNTIL contains month/day/time)
+// America/Indiana/Tell_City (UNTIL contains month/day/time)
+// America/Indiana/Vincennes (UNTIL contains month/day/time)
+// America/Indiana/Winamac (UNTIL contains month/day/time)
+// America/Iqaluit (UNTIL contains month/day/time)
+// America/Kentucky/Monticello (UNTIL contains month/day/time)
+// America/Maceio (UNTIL contains month/day/time)
+// America/Metlakatla (UNTIL contains month/day/time)
+// America/Mexico_City (UNTIL contains month/day/time)
+// America/Noronha (UNTIL contains month/day/time)
+// America/North_Dakota/Beulah (UNTIL contains month/day/time)
+// America/North_Dakota/New_Salem (UNTIL contains month/day/time)
+// America/Pangnirtung (UNTIL contains month/day/time)
 // America/Port-au-Prince (policy 'Haiti' not found)
-// America/Punta_Arenas (policy 'Chile' not found)
+// America/Punta_Arenas (UNTIL contains month/day/time)
+// America/Rankin_Inlet (UNTIL contains month/day/time)
+// America/Recife (UNTIL contains month/day/time)
+// America/Resolute (UNTIL contains month/day/time)
+// America/Rio_Branco (UNTIL contains month/day/time)
+// America/Santarem (UNTIL contains month/day/time)
 // America/Santiago (policy 'Chile' not found)
+// America/Santo_Domingo (UNTIL contains month/day/time)
 // America/Scoresbysund (policy 'EU' not found)
-// America/St_Johns (policy 'StJohns' not found)
+// America/St_Johns (UNTIL contains month/day/time)
+// America/Tijuana (UNTIL contains month/day/time)
 // America/Winnipeg (policy 'Winn' not found)
-// Antarctica/Macquarie (policy 'AT' not found)
-// Antarctica/Palmer (policy 'Chile' not found)
-// Antarctica/Troll (policy 'Troll' not found)
+// Antarctica/Casey (UNTIL contains month/day/time)
+// Antarctica/Davis (UNTIL contains month/day/time)
+// Antarctica/Macquarie (UNTIL contains month/day/time)
+// Antarctica/Mawson (UNTIL contains month/day/time)
+// Antarctica/Palmer (UNTIL contains month/day/time)
+// Antarctica/Troll (UNTIL contains month/day/time)
+// Asia/Almaty (UNTIL contains month/day/time)
 // Asia/Amman (policy 'Jordan' not found)
+// Asia/Anadyr (UNTIL contains month/day/time)
+// Asia/Aqtau (UNTIL contains month/day/time)
+// Asia/Aqtobe (UNTIL contains month/day/time)
+// Asia/Atyrau (UNTIL contains month/day/time)
 // Asia/Baghdad (policy 'Iraq' not found)
+// Asia/Barnaul (UNTIL contains month/day/time)
+// Asia/Bishkek (UNTIL contains month/day/time)
+// Asia/Chita (UNTIL contains month/day/time)
+// Asia/Choibalsan (UNTIL contains month/day/time)
+// Asia/Colombo (UNTIL contains month/day/time)
+// Asia/Dili (UNTIL contains month/day/time)
+// Asia/Famagusta (UNTIL contains month/day/time)
+// Asia/Gaza (UNTIL contains month/day/time)
+// Asia/Irkutsk (UNTIL contains month/day/time)
+// Asia/Kamchatka (UNTIL contains month/day/time)
+// Asia/Khandyga (UNTIL contains month/day/time)
+// Asia/Krasnoyarsk (UNTIL contains month/day/time)
+// Asia/Magadan (UNTIL contains month/day/time)
 // Asia/Nicosia (policy 'EUAsia' not found)
-// Asia/Tbilisi (policy 'RussiaAsia' not found)
+// Asia/Novokuznetsk (UNTIL contains month/day/time)
+// Asia/Novosibirsk (UNTIL contains month/day/time)
+// Asia/Omsk (UNTIL contains month/day/time)
+// Asia/Oral (UNTIL contains month/day/time)
+// Asia/Pyongyang (UNTIL contains month/day/time)
+// Asia/Qostanay (UNTIL contains month/day/time)
+// Asia/Qyzylorda (UNTIL contains month/day/time)
+// Asia/Sakhalin (UNTIL contains month/day/time)
+// Asia/Srednekolymsk (UNTIL contains month/day/time)
+// Asia/Tbilisi (UNTIL contains month/day/time)
+// Asia/Tomsk (UNTIL contains month/day/time)
+// Asia/Ust-Nera (UNTIL contains month/day/time)
+// Asia/Vladivostok (UNTIL contains month/day/time)
+// Asia/Yakutsk (UNTIL contains month/day/time)
+// Asia/Yekaterinburg (UNTIL contains month/day/time)
 // Asia/Yerevan (policy 'RussiaAsia' not found)
 // Atlantic/Azores (policy 'EU' not found)
 // Atlantic/Canary (policy 'EU' not found)
 // Atlantic/Faroe (policy 'EU' not found)
 // Atlantic/Madeira (policy 'EU' not found)
+// Atlantic/Stanley (UNTIL contains month/day/time)
 // Australia/Adelaide (policy 'AS' not found)
 // Australia/Brisbane (policy 'AQ' not found)
 // Australia/Broken_Hill (policy 'AN' not found)
@@ -304,6 +327,7 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 // EST5EDT (no '/' in zone name)
 // Europe/Amsterdam (policy 'EU' not found)
 // Europe/Andorra (policy 'EU' not found)
+// Europe/Astrakhan (UNTIL contains month/day/time)
 // Europe/Athens (policy 'EU' not found)
 // Europe/Belgrade (policy 'EU' not found)
 // Europe/Berlin (policy 'EU' not found)
@@ -314,25 +338,35 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 // Europe/Dublin (policy 'Eire' not found)
 // Europe/Gibraltar (policy 'EU' not found)
 // Europe/Helsinki (policy 'EU' not found)
+// Europe/Istanbul (UNTIL contains month/day/time)
+// Europe/Kaliningrad (UNTIL contains month/day/time)
 // Europe/Kiev (policy 'EU' not found)
+// Europe/Kirov (UNTIL contains month/day/time)
 // Europe/Lisbon (policy 'EU' not found)
 // Europe/London (policy 'EU' not found)
 // Europe/Luxembourg (policy 'EU' not found)
 // Europe/Madrid (policy 'EU' not found)
 // Europe/Malta (policy 'EU' not found)
+// Europe/Minsk (UNTIL contains month/day/time)
 // Europe/Monaco (policy 'EU' not found)
+// Europe/Moscow (UNTIL contains month/day/time)
 // Europe/Oslo (policy 'EU' not found)
 // Europe/Paris (policy 'EU' not found)
 // Europe/Prague (policy 'EU' not found)
-// Europe/Riga (policy 'EU' not found)
+// Europe/Riga (UNTIL contains month/day/time)
 // Europe/Rome (policy 'EU' not found)
+// Europe/Samara (UNTIL contains month/day/time)
+// Europe/Saratov (UNTIL contains month/day/time)
+// Europe/Simferopol (UNTIL contains month/day/time)
 // Europe/Sofia (policy 'EU' not found)
 // Europe/Stockholm (policy 'EU' not found)
-// Europe/Tallinn (policy 'EU' not found)
+// Europe/Tallinn (UNTIL contains month/day/time)
 // Europe/Tirane (policy 'EU' not found)
+// Europe/Ulyanovsk (UNTIL contains month/day/time)
 // Europe/Uzhgorod (policy 'EU' not found)
 // Europe/Vienna (policy 'EU' not found)
-// Europe/Vilnius (policy 'EU' not found)
+// Europe/Vilnius (UNTIL contains month/day/time)
+// Europe/Volgograd (UNTIL contains month/day/time)
 // Europe/Warsaw (policy 'EU' not found)
 // Europe/Zaporozhye (policy 'EU' not found)
 // Europe/Zurich (policy 'EU' not found)
@@ -341,9 +375,14 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 // MST (no '/' in zone name)
 // MST7MDT (no '/' in zone name)
 // PST8PDT (no '/' in zone name)
+// Pacific/Apia (UNTIL contains month/day/time)
 // Pacific/Auckland (policy 'NZ' not found)
+// Pacific/Bougainville (UNTIL contains month/day/time)
 // Pacific/Chatham (policy 'Chatham' not found)
 // Pacific/Easter (policy 'Chile' not found)
+// Pacific/Fakaofo (UNTIL contains month/day/time)
+// Pacific/Guam (UNTIL contains month/day/time)
+// Pacific/Norfolk (UNTIL contains month/day/time)
 // Pacific/Noumea (policy 'NC' not found)
 // Pacific/Tongatapu (policy 'Tonga' not found)
 // WET (no '/' in zone name)
@@ -351,9 +390,8 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 // The following zones may have inaccuracies due to the following reasons:
 //
-// numInfos: 1
+// numInfos: 0
 //
-// Asia/Gaza (UNTIL time '0:01' truncated to '900' seconds)
 
 
 }
