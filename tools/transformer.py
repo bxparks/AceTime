@@ -278,6 +278,9 @@ class Transformer:
     def remove_zones_invalid_until_time_modifier(self, zones_map):
         """Remove zones whose UNTIL time contains an unsupported modifier.
         """
+        # Determine which suffices are supported. The 'g' and 'z' is the same as
+        # 'u' and does not currently appear in any TZ file, so let's catch it
+        # because it could indicate a bug
         if self.language == 'arduino':
             supported_suffices = ['w']
         elif self.language == 'arduinox' or self.langugage == 'python':
@@ -294,9 +297,6 @@ class Transformer:
                 modifier = modifier if modifier else 'w'
                 zone.untilTimeModifier = modifier
                 if modifier not in supported_suffices:
-                    # 'g' and 'z' is the same as 'u' and does not currently
-                    # appear in any TZ file, so let's catch it because it
-                    # could indicate a bug
                     valid = False
                     removed_zones[name] = (
                         "unsupported UNTIL time modifier '%s'" % modifier)
@@ -571,6 +571,16 @@ class Transformer:
     def remove_rules_invalid_at_time_modifier(self, rules_map):
         """Remove rules whose atTime contains an unsupported modifier.
         """
+        # Determine which suffices are supported. The 'g' and 'z' is the same as
+        # 'u' and does not currently appear in any TZ file, so let's catch it
+        # because it could indicate a bug
+        if self.language == 'arduino':
+            supported_suffices = ['w']
+        elif self.language == 'arduinox' or self.langugage == 'python':
+            supported_suffices = ['w', 's', 'u']
+        else:
+            raise Exception('Unknown laguage: %s' % self.language)
+
         results = {}
         removed_policies = {}
         for name, rules in rules_map.items():
@@ -579,10 +589,7 @@ class Transformer:
                 modifier = rule.atTimeModifier
                 modifier = modifier if modifier else 'w'
                 rule.atTimeModifier = modifier
-                if modifier not in ['w', 's', 'u']:
-                    # 'g' and 'z' is the same as 'u' and does not currently
-                    # appear in any TZ file, so let's catch it because it
-                    # could indicate a bug
+                if modifier not in supported_suffices:
                     valid = False
                     removed_policies[name] = (
                         "unsupported AT time modifier '%s'" % modifier)
