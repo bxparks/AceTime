@@ -81,6 +81,7 @@ class ZoneEraRaw:
         'rules',  # (string) name of the Rule in effect, '-', or minute offset
         'format',  # (string) abbreviation format (e.g. P%sT, E%ST, GMT/BST)
         'untilYear',  # (int) MAX_UNTIL_YEAR means 'max'
+        'untilYearOnly',  # (bool) true if only the year is given
         'untilMonth',  # (int) 1-12
         'untilDay',  # (string or int) e.g. 'lastSun', 'Sun>=3', or 1-31
         'untilTime',  # (string) e.g. '2:00', '00:01'
@@ -435,8 +436,10 @@ def process_zone_line(line):
 
     # check for additional components of 'UNTIL' field
     if len(tokens) >= 5:
+        until_year_only = False
         until_month = MONTH_TO_MONTH_INDEX[tokens[4]]
     else:
+        until_year_only = True
         until_month = 1
 
     if len(tokens) >= 6:
@@ -459,6 +462,7 @@ def process_zone_line(line):
         'rules': rules_string,
         'format': format,
         'untilYear': until_year,
+        'untilYearOnly': until_year_only,
         'untilMonth': until_month,
         'untilDay': until_day,
         'untilTime': until_time,

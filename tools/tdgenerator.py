@@ -126,18 +126,11 @@ testF(TransitionTest, validateData) {{
     TESTS_CPP_FILE_NAME = 'tests.cpp'
 
     # List of zones whose tests are broken
-    BROKEN_ZONE_LIST = [
-        'Apia',
-        'Araguaina',
-        'Bahia',
-        'Beulah',
-        'Bishkek',
-        'Boa_Vista',
-        'Bougainville',
-        'Cambridge_Bay',
-        'Cancun',
-        'Caracas',
-        'Casablanca',
+    BROKEN_ZONE_BLACK_LIST = [
+        'Dhaka',
+        'Hebron',
+        'Moncton',
+        'Tehran'
     ]
 
     def __init__(self, invocation, tz_version, test_data, num_items):
@@ -232,7 +225,7 @@ testF(TransitionTest, validateData) {{
         for short_name, test_items in sorted(test_data.items()):
             assertion_item = self.ASSERTION_ITEM.format(
                 zoneShortName=short_name)
-            if short_name in self.BROKEN_ZONE_LIST:
+            if short_name in self.BROKEN_ZONE_BLACK_LIST:
                 assertion_item = '//' + assertion_item
             assertion_items += assertion_item
         return assertion_items

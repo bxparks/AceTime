@@ -86,6 +86,8 @@ class Transformer:
         zones_map = self.remove_zones_with_duplicate_short_names(zones_map)
         zones_map = self.remove_zones_without_slash(zones_map)
         zones_map = self.remove_zone_eras_too_old(zones_map)
+        if self.language == 'arduino':
+            zones_map = self.remove_zone_until_year_only_false(zones_map)
         zones_map = self.create_zones_with_until_day(zones_map)
         zones_map = self.create_zones_with_expanded_until_time(zones_map)
         zones_map = self.remove_zones_invalid_until_time_modifier(zones_map)
@@ -189,6 +191,28 @@ class Transformer:
                      self.start_year)
         return results
 
+    def remove_zone_until_year_only_false(self, zones_map):
+        """Remove zones which have month, day or time in the UNTIL field.
+        These are not supported by the early version of AutoZoneSpecifier.
+        """
+        results = {}
+        removed_zones = {}
+        for name, zones in zones_map.items():
+            valid = True
+            for zone in zones:
+                if not zone.untilYearOnly:
+                    valid = False
+                    removed_zones[name] = "UNTIL contains month/day/time"
+                    break
+            if valid:
+                results[name] = zones
+
+        logging.info("Removed %s zone infos with UNTIL month/day/time",
+                     len(removed_zones))
+        self.print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        return results
+
     def create_zones_with_until_day(self, zones_map):
         """Convert zone.untilDay from 'lastSun' or 'Sun>=1' to a precise day,
         which is possible because the year and month are already known. For
@@ -202,8 +226,6 @@ class Transformer:
             valid = True
             for zone in zones:
                 until_day = zone.untilDay
-                if not until_day:
-                    continue
 
                 # Parse the conditional expression in until_day. We can resolve
                 # the 'lastSun' and 'Sun>=X' to a specific day of month because
@@ -215,9 +237,8 @@ class Transformer:
                     removed_zones[name] = "invalid untilDay '%s'" % until_day
                     break
 
-                until_day = calc_day_of_month(zone.untilYear, zone.untilMonth,
-                                              on_day_of_week, on_day_of_month)
-                zone.untilDay = until_day
+                zone.untilDay = calc_day_of_month(zone.untilYear,
+                    zone.untilMonth, on_day_of_week, on_day_of_month)
             if valid:
                 results[name] = zones
 
