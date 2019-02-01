@@ -278,6 +278,13 @@ class Transformer:
     def remove_zones_invalid_until_time_modifier(self, zones_map):
         """Remove zones whose UNTIL time contains an unsupported modifier.
         """
+        if self.language == 'arduino':
+            supported_suffices = ['w']
+        elif self.language == 'arduinox' or self.langugage == 'python':
+            supported_suffices = ['w', 's', 'u']
+        else:
+            raise Exception('Unknown laguage: %s' % self.language)
+
         results = {}
         removed_zones = {}
         for name, zones in zones_map.items():
@@ -286,7 +293,7 @@ class Transformer:
                 modifier = zone.untilTimeModifier
                 modifier = modifier if modifier else 'w'
                 zone.untilTimeModifier = modifier
-                if modifier not in ['w', 's', 'u']:
+                if modifier not in supported_suffices:
                     # 'g' and 'z' is the same as 'u' and does not currently
                     # appear in any TZ file, so let's catch it because it
                     # could indicate a bug
