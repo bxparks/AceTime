@@ -22,9 +22,15 @@ struct ZoneEra {
 
   /**
    * Zone policy, determined by the RULES column. Set to nullptr if the RULES
-   * column is '-'
+   * column is '-' or an explicit DST shift in the form of 'hh:mm'.
    */
   const ZonePolicy* const zonePolicy;
+
+  /**
+   * If zonePolicy is nullptr, then this indicates the DST offset in 15 minute
+   * increments. It could be 0, which means that the 'RULES' column was '-'.
+   */
+  int8_t const deltaCode;
 
   /**
    * Zone abbreviations (e.g. PST, EST) determined by the FORMAT column. Only a

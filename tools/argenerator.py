@@ -251,21 +251,6 @@ const common::ZoneInfo kZone{infoShortName} = {{
   {{
     {offsetCode} /*offsetCode*/,
     {zonePolicy} /*zonePolicy*/,
-    "{format}" /*format*/,
-    {untilYearTiny} /*untilYearTiny*/,
-    {untilMonth} /*untilMonth*/,
-    {untilDay} /*untilDay*/,
-    {untilTimeCode} /*untilTimeCode*/,
-    '{untilTimeModifier}' /*untilTimeModifier*/,
-  }},
-"""
-
-    # Extended version of above
-    ZONE_INFOS_CPP_ERA_ITEM_X = """\
-  // {rawLine}
-  {{
-    {offsetCode} /*offsetCode*/,
-    {zonePolicy} /*zonePolicy*/,
     {deltaCode} /*deltaCode*/,
     "{format}" /*format*/,
     {untilYearTiny} /*untilYearTiny*/,
@@ -281,10 +266,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
     ZONE_POLICIES_H_FILE_NAME = 'zone_policies.h'
     ZONE_POLICIES_CPP_FILE_NAME = 'zone_policies.cpp'
 
-    SIZEOF_ZONE_ERA_8 = 10
-    SIZEOF_ZONE_ERA_32 = 14
-    SIZEOF_ZONE_ERA_X_8 = SIZEOF_ZONE_ERA_8 + 1
-    SIZEOF_ZONE_ERA_X_32 = SIZEOF_ZONE_ERA_32 + 1
+    SIZEOF_ZONE_ERA_8 = 11
+    SIZEOF_ZONE_ERA_32 = 15
     SIZEOF_ZONE_INFO_8 = 5
     SIZEOF_ZONE_INFO_32 = 9
     SIZEOF_ZONE_RULE_8 = 9
@@ -306,7 +289,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
         self.notable_policies = notable_policies
         self.extended = extended # extended Arduino/C++ database
         self.db_namespace = 'zonedbx' if extended else 'zonedb'
-        self.db_header_namespace = 'ZONEDBZ' if extended else 'ZONEDB'
+        self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
 
     def generate_files(self, output_dir):
         self.write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
@@ -460,16 +443,10 @@ const common::ZoneInfo kZone{infoShortName} = {{
             num_eras += len(eras)
 
         num_infos = len(self.zones_map)
-        if self.extended:
-            memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_X_8 +
-                       num_infos * self.SIZEOF_ZONE_INFO_8)
-            memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_X_32 +
-                        num_infos * self.SIZEOF_ZONE_INFO_32)
-        else:
-            memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
-                       num_infos * self.SIZEOF_ZONE_INFO_8)
-            memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
-                        num_infos * self.SIZEOF_ZONE_INFO_32)
+        memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
+                   num_infos * self.SIZEOF_ZONE_INFO_8)
+        memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
+                    num_infos * self.SIZEOF_ZONE_INFO_32)
 
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
@@ -493,16 +470,10 @@ const common::ZoneInfo kZone{infoShortName} = {{
 
         string_length += len(name) + 1
         num_eras = len(eras)
-        if self.extended:
-            memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_X_8 +
-                       1 * self.SIZEOF_ZONE_INFO_8)
-            memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_X_32 +
-                        1 * self.SIZEOF_ZONE_INFO_32)
-        else:
-            memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
-                       1 * self.SIZEOF_ZONE_INFO_8)
-            memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
-                        1 * self.SIZEOF_ZONE_INFO_32)
+        memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
+                   1 * self.SIZEOF_ZONE_INFO_8)
+        memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
+                    1 * self.SIZEOF_ZONE_INFO_32)
 
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
             infoFullName=normalize_name(name),
@@ -545,11 +516,7 @@ const common::ZoneInfo kZone{infoShortName} = {{
         format = era.format.replace('%s', '%')
         string_length = len(format) + 1
 
-        if self.extended:
-            template = self.ZONE_INFOS_CPP_ERA_ITEM_X
-        else:
-            template = self.ZONE_INFOS_CPP_ERA_ITEM
-        era_item = template.format(
+        era_item = self.ZONE_INFOS_CPP_ERA_ITEM.format(
             rawLine=normalize_raw(era.rawLine),
             offsetCode=offset_code,
             deltaCode=delta_code,
