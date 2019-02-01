@@ -132,9 +132,9 @@ testF(TransitionTest, Denver) {
 testF(TransitionTest, Detroit) {
   assertValid(&kValidationDataDetroit);
 }
-//testF(TransitionTest, Dhaka) {
-//  assertValid(&kValidationDataDhaka);
-//}
+testF(TransitionTest, Dhaka) {
+  assertValid(&kValidationDataDhaka);
+}
 testF(TransitionTest, Dubai) {
   assertValid(&kValidationDataDubai);
 }

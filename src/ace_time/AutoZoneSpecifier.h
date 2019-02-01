@@ -58,6 +58,12 @@ struct ZoneMatch {
     common::logger("startEpochSeconds: %ld", startEpochSeconds);
     common::logger("offsetCode: %d", offsetCode);
     common::logger("abbrev: %s", abbrev);
+    if (rule != nullptr) {
+      common::logger("Rule.fromYear: %d", rule->fromYearTiny);
+      common::logger("Rule.toYear: %d", rule->toYearTiny);
+      common::logger("Rule.inMonth: %d", rule->inMonth);
+      common::logger("Rule.onDayOfMonth: %d", rule->onDayOfMonth);
+    }
   }
 };
 
@@ -139,10 +145,10 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     void log() const {
       common::logger("mYear: %d", mYear);
       common::logger("mNumMatches: %d", mNumMatches);
-      common::logger("=== mPrevMatch");
+      common::logger("---- mPrevMatch");
       mPreviousMatch.log();
       for (int i = 0; i < mNumMatches; i++) {
-        common::logger("=== Match: %d", i);
+        common::logger("---- Match: %d", i);
         mMatches[i].log();
       }
     }
@@ -168,15 +174,17 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     /**
      * Initialize the zone rules cache, keyed by the "current" year.
      *
-     * If the UTC date is 12/31, the local date could be the next year. If we
-     * assume that no DST transitions happen on 12/31, then we can pretend that
-     * the current year is (UTC year + 1) and extract the various rules based
-     * upon that year.
+     * If the UTC date is 1/1, the local date could be the previous year.
+     * Unfortunately, there are some countries that decided to make a time
+     * change on 12/31, e.g. Dhaka). So, let's assume that there are no DST
+     * transitions on 1/1, consider the "current year" to be the previous year,
+     * extract the various rules based upon that year, and determine the DST
+     * offset using the matching rules of the previous year.
      */
     void init(const LocalDate& ld) {
       int16_t year = ld.year();
-      if (ld.month() == 12 && ld.day() == 31) {
-        year++;
+      if (ld.month() == 1 && ld.day() == 1) {
+        year--;
       }
 
       if (!isFilled(year)) {

@@ -18,6 +18,19 @@ test(LocalDateTest, accessors) {
   assertEqual(3, ld.day());
 }
 
+test(LocalDateTest, isError) {
+  assertFalse(LocalDate::forComponents(0, 1, 1).isError());
+  assertFalse(LocalDate::forComponents(0, 1, 31).isError());
+  assertFalse(LocalDate::forComponents(0, 2, 30).isError());
+  assertFalse(LocalDate::forComponents(0, 2, 31).isError());
+  assertFalse(LocalDate::forComponents(0, 12, 31).isError());
+
+  assertTrue(LocalDate::forComponents(0, 0, 1).isError());
+  assertTrue(LocalDate::forComponents(0, 1, 0).isError());
+  assertTrue(LocalDate::forComponents(0, 1, 32).isError());
+  assertTrue(LocalDate::forComponents(0, 13, 1).isError());
+}
+
 // Verify that toEpochDays()/forEpochDays() and
 // toEpochSeconds()/forEpochSeconds() support round trip conversions when when
 // isError()==true.
@@ -356,6 +369,19 @@ test(LocalTimeTest, accessors) {
   assertEqual(1, lt.hour());
   assertEqual(2, lt.minute());
   assertEqual(3, lt.second());
+}
+
+test(LocalTimeTest, isError) {
+  assertFalse(LocalTime::forComponents(0, 0, 0).isError());
+  assertFalse(LocalTime::forComponents(0, 59, 0).isError());
+  assertFalse(LocalTime::forComponents(0, 59, 59).isError());
+  assertFalse(LocalTime::forComponents(23, 59, 59).isError());
+  assertFalse(LocalTime::forComponents(24, 0, 0).isError());
+
+  assertTrue(LocalTime::forComponents(24, 0, 1).isError());
+  assertTrue(LocalTime::forComponents(25, 0, 0).isError());
+  assertTrue(LocalTime::forComponents(0, 60, 0).isError());
+  assertTrue(LocalTime::forComponents(0, 0, 60).isError());
 }
 
 test(LocalTimeTest, setError) {

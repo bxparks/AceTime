@@ -22,6 +22,7 @@ class TransitionTest: public aunit::TestOnce {
         acetime_t epochSeconds = item.epochSeconds;
         UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);
         if (DEBUG) {
+          ace_time::common::logger("==== test index: %d", i);
           ace_time::common::logger("epochSeconds: %ld", epochSeconds);
           zoneSpecifier.log();
         }

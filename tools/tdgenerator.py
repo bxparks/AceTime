@@ -127,7 +127,6 @@ const ValidationData kValidationData{zoneShortName} = {{
 
     # List of zones whose tests are broken
     BROKEN_ZONE_BLACK_LIST = [
-        'Dhaka',
         'Hebron',
         'Moncton',
         'Tehran'

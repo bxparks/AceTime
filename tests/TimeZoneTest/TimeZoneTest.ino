@@ -142,8 +142,10 @@ test(AutoZoneSpecifierTest, init_primitives) {
 }
 
 test(AutoZoneSpecifierTest, init) {
+  // Test using 2018-01-02. If we use 2018-01-01, the code will populate the
+  // cache with transitions from 2017.
   AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
-  LocalDate ld = LocalDate::forComponents(2018, 1, 1); // 2018-01-01
+  LocalDate ld = LocalDate::forComponents(2018, 1, 2);
   zoneSpecifier.init(ld);
 
   assertEqual(2, zoneSpecifier.mNumMatches);
@@ -158,13 +160,15 @@ test(AutoZoneSpecifierTest, init) {
   assertEqual(-32, zoneSpecifier.mMatches[0].era->offsetCode);
   assertEqual("P%T", zoneSpecifier.mMatches[0].era->format);
   assertEqual(2007-2000, zoneSpecifier.mMatches[0].rule->fromYearTiny);
-  assertEqual(common::ZoneRule::kMaxYearTiny, zoneSpecifier.mMatches[0].rule->toYearTiny);
+  assertEqual(common::ZoneRule::kMaxYearTiny,
+      zoneSpecifier.mMatches[0].rule->toYearTiny);
   assertEqual(3, zoneSpecifier.mMatches[0].rule->inMonth);
 
   assertEqual(-32, zoneSpecifier.mMatches[1].era->offsetCode);
   assertEqual("P%T", zoneSpecifier.mMatches[1].era->format);
   assertEqual(2007-2000, zoneSpecifier.mMatches[1].rule->fromYearTiny);
-  assertEqual(common::ZoneRule::kMaxYearTiny, zoneSpecifier.mMatches[1].rule->toYearTiny);
+  assertEqual(common::ZoneRule::kMaxYearTiny,
+      zoneSpecifier.mMatches[1].rule->toYearTiny);
   assertEqual(11, zoneSpecifier.mMatches[1].rule->inMonth);
 
   assertEqual((acetime_t) 0, zoneSpecifier.mPreviousMatch.startEpochSeconds);
@@ -172,7 +176,8 @@ test(AutoZoneSpecifierTest, init) {
 
   // t >= 2018-03-11 02:00 UTC-08:00 Sunday goes to PDT
   assertEqual(-28, zoneSpecifier.mMatches[0].offsetCode);
-  assertEqual((acetime_t) 574077600, zoneSpecifier.mMatches[0].startEpochSeconds);
+  assertEqual((acetime_t) 574077600,
+      zoneSpecifier.mMatches[0].startEpochSeconds);
 
   // t >= 2018-11-04 02:00 UTC-07:00 Sunday goes to PST
   assertEqual(-32, zoneSpecifier.mMatches[1].offsetCode);

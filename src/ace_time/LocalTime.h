@@ -74,13 +74,19 @@ class LocalTime {
     /** Default constructor does nothing. */
     explicit LocalTime() {}
 
-    /** Return true if any component indicates an error condition. */
+    /**
+     * Return true if any component is outside the normal time range of
+     * 00:00:00 to 23:59:59. We add the exception that 24:00:00 is also
+     * considered valid to allow AutoZoneSpecififier to support midnight
+     * transitions from the TZ Database.
+     */
     bool isError() const {
-      // Warning: Don't change the order of the following boolean conditionals
-      // without changing setError().
-      return mSecond >= 60
-          || mMinute >= 60
-          || mHour >= 24;
+      if (mSecond >= 60) return true;
+      if (mMinute >= 60) return true;
+      if (mHour == 24) {
+        return mSecond != 0 || mMinute != 0;
+      }
+      return mHour > 24;
     }
 
     /**
@@ -154,6 +160,7 @@ class LocalTime {
     /** Expected length of an ISO 8601 time string "hh:mm:ss" */
     static const uint8_t kTimeStringLength = 8;
 
+    /** A value that is invalid for all components. */
     static const uint8_t kInvalidValue = UINT8_MAX;
 
     explicit LocalTime(uint8_t hour, uint8_t minute, uint8_t second):
