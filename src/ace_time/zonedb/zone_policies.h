@@ -18,15 +18,8 @@
 namespace ace_time {
 namespace zonedb {
 
-// numPolicies: 76
-extern const common::ZonePolicy kPolicyAN;
-extern const common::ZonePolicy kPolicyAQ;
-extern const common::ZonePolicy kPolicyAS;
-extern const common::ZonePolicy kPolicyAT;
-extern const common::ZonePolicy kPolicyAV;
-extern const common::ZonePolicy kPolicyAW;
+// numPolicies: 52
 extern const common::ZonePolicy kPolicyArg;
-extern const common::ZonePolicy kPolicyArmenia;
 extern const common::ZonePolicy kPolicyAus;
 extern const common::ZonePolicy kPolicyAzer;
 extern const common::ZonePolicy kPolicyBarb;
@@ -34,30 +27,19 @@ extern const common::ZonePolicy kPolicyBrazil;
 extern const common::ZonePolicy kPolicyCO;
 extern const common::ZonePolicy kPolicyCR;
 extern const common::ZonePolicy kPolicyCanada;
-extern const common::ZonePolicy kPolicyChatham;
-extern const common::ZonePolicy kPolicyChile;
 extern const common::ZonePolicy kPolicyCook;
-extern const common::ZonePolicy kPolicyCuba;
 extern const common::ZonePolicy kPolicyDhaka;
 extern const common::ZonePolicy kPolicyE_EurAsia;
-extern const common::ZonePolicy kPolicyEU;
-extern const common::ZonePolicy kPolicyEUAsia;
 extern const common::ZonePolicy kPolicyEcuador;
-extern const common::ZonePolicy kPolicyEgypt;
-extern const common::ZonePolicy kPolicyEire;
 extern const common::ZonePolicy kPolicyFalk;
 extern const common::ZonePolicy kPolicyFiji;
 extern const common::ZonePolicy kPolicyGhana;
 extern const common::ZonePolicy kPolicyGuam;
 extern const common::ZonePolicy kPolicyGuat;
 extern const common::ZonePolicy kPolicyHK;
-extern const common::ZonePolicy kPolicyHaiti;
-extern const common::ZonePolicy kPolicyHoliday;
 extern const common::ZonePolicy kPolicyHond;
 extern const common::ZonePolicy kPolicyIran;
-extern const common::ZonePolicy kPolicyIraq;
 extern const common::ZonePolicy kPolicyJapan;
-extern const common::ZonePolicy kPolicyJordan;
 extern const common::ZonePolicy kPolicyKyrgyz;
 extern const common::ZonePolicy kPolicyLH;
 extern const common::ZonePolicy kPolicyLebanon;
@@ -69,9 +51,7 @@ extern const common::ZonePolicy kPolicyMoldova;
 extern const common::ZonePolicy kPolicyMoncton;
 extern const common::ZonePolicy kPolicyMongol;
 extern const common::ZonePolicy kPolicyMorocco;
-extern const common::ZonePolicy kPolicyNC;
 extern const common::ZonePolicy kPolicyNT_YK;
-extern const common::ZonePolicy kPolicyNZ;
 extern const common::ZonePolicy kPolicyNic;
 extern const common::ZonePolicy kPolicyPRC;
 extern const common::ZonePolicy kPolicyPakistan;
@@ -80,32 +60,35 @@ extern const common::ZonePolicy kPolicyPara;
 extern const common::ZonePolicy kPolicyPeru;
 extern const common::ZonePolicy kPolicyPhil;
 extern const common::ZonePolicy kPolicyROK;
-extern const common::ZonePolicy kPolicyRussiaAsia;
 extern const common::ZonePolicy kPolicySA;
 extern const common::ZonePolicy kPolicySalv;
 extern const common::ZonePolicy kPolicySudan;
 extern const common::ZonePolicy kPolicySyria;
 extern const common::ZonePolicy kPolicyTaiwan;
 extern const common::ZonePolicy kPolicyThule;
-extern const common::ZonePolicy kPolicyTonga;
-extern const common::ZonePolicy kPolicyTunisia;
 extern const common::ZonePolicy kPolicyUS;
 extern const common::ZonePolicy kPolicyUruguay;
 extern const common::ZonePolicy kPolicyVanuatu;
 extern const common::ZonePolicy kPolicyWS;
-extern const common::ZonePolicy kPolicyWinn;
 extern const common::ZonePolicy kPolicyZion;
 
 
 // The following zone policies are not supported in the current version of
 // AceTime.
 //
-// numPolicies: 102
+// numPolicies: 126
 //
+// kPolicyAN (unsupported AT time modifier 's')
+// kPolicyAQ (unsupported AT time modifier 's')
+// kPolicyAS (unsupported AT time modifier 's')
+// kPolicyAT (unsupported AT time modifier 's')
+// kPolicyAV (unsupported AT time modifier 's')
+// kPolicyAW (unsupported AT time modifier 's')
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
 // kPolicyAntarctica/Casey (unsupported UNTIL time modifier 'u')
 // kPolicyAntarctica/Davis (unsupported UNTIL time modifier 'u')
+// kPolicyArmenia (unsupported AT time modifier 's')
 // kPolicyAsia/Almaty (unsupported UNTIL time modifier 's')
 // kPolicyAsia/Anadyr (unsupported UNTIL time modifier 's')
 // kPolicyAsia/Aqtau (unsupported UNTIL time modifier 's')
@@ -139,7 +122,10 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyBulg (unused)
 // kPolicyC-Eur (unused)
 // kPolicyCA (unused)
+// kPolicyChatham (unsupported AT time modifier 's')
 // kPolicyChicago (unused)
+// kPolicyChile (unsupported AT time modifier 'u')
+// kPolicyCuba (unsupported AT time modifier 's')
 // kPolicyCyprus (unused)
 // kPolicyCzech (unused)
 // kPolicyDR (unused)
@@ -147,8 +133,12 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyDenver (unused)
 // kPolicyDetroit (unused)
 // kPolicyE-Eur (unused)
+// kPolicyEU (unsupported AT time modifier 'u')
+// kPolicyEUAsia (unsupported AT time modifier 'u')
 // kPolicyEdm (unused)
+// kPolicyEgypt (unsupported AT time modifier 's')
 // kPolicyEgyptAsia (unused)
+// kPolicyEire (unsupported AT time modifier 'u')
 // kPolicyEurope/Astrakhan (unsupported UNTIL time modifier 's')
 // kPolicyEurope/Istanbul (unsupported UNTIL time modifier 'u')
 // kPolicyEurope/Kaliningrad (unsupported UNTIL time modifier 's')
@@ -165,11 +155,15 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyGB-Eire (unused)
 // kPolicyGermany (unused)
 // kPolicyGreece (unused)
+// kPolicyHaiti (unsupported AT time modifier 's')
 // kPolicyHalifax (unused)
+// kPolicyHoliday (unsupported AT time modifier 's')
 // kPolicyHungary (unused)
 // kPolicyIceland (unused)
 // kPolicyIndianapolis (unused)
+// kPolicyIraq (unsupported AT time modifier 's')
 // kPolicyItaly (unused)
+// kPolicyJordan (unsupported AT time modifier 's')
 // kPolicyLatvia (unused)
 // kPolicyLouisville (unused)
 // kPolicyLux (unused)
@@ -177,7 +171,9 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyMarengo (unused)
 // kPolicyMenominee (unused)
 // kPolicyNBorneo (unused)
+// kPolicyNC (unsupported AT time modifier 's')
 // kPolicyNYC (unused)
+// kPolicyNZ (unsupported AT time modifier 's')
 // kPolicyNamibia (LETTER 'WAT' too long)
 // kPolicyNeth (unused)
 // kPolicyNorway (unused)
@@ -189,6 +185,7 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyRegina (unused)
 // kPolicyRomania (unused)
 // kPolicyRussia (unused)
+// kPolicyRussiaAsia (unsupported AT time modifier 's')
 // kPolicySanLuis (unused)
 // kPolicyShang (unused)
 // kPolicySovietZone (unused)
@@ -198,12 +195,15 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyStarke (unused)
 // kPolicySwift (unused)
 // kPolicySwiss (unused)
+// kPolicyTonga (unsupported AT time modifier 's')
 // kPolicyToronto (unused)
-// kPolicyTroll (LETTER '+00' too long)
+// kPolicyTroll (unsupported AT time modifier 'u')
+// kPolicyTunisia (unsupported AT time modifier 's')
 // kPolicyTurkey (unused)
 // kPolicyVanc (unused)
 // kPolicyVincennes (unused)
 // kPolicyW-Eur (unused)
+// kPolicyWinn (unsupported AT time modifier 's')
 
 
 // The following zone policies may have inaccuracies due to the following
