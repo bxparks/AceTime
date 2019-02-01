@@ -3,8 +3,8 @@
  * very tired of writing multiple lines of Serial.print() for debugging.
  */
 
-#ifndef ACE_TIME_COMMON_LOGGERF
-#define ACE_TIME_COMMON_LOGGERF
+#ifndef ACE_TIME_COMMON_LOGGER_H
+#define ACE_TIME_COMMON_LOGGER_H
 
 namespace ace_time {
 namespace common {
