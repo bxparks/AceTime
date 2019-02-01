@@ -18,7 +18,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numPolicies: 77
+// numPolicies: 76
 extern const common::ZonePolicy kPolicyAN;
 extern const common::ZonePolicy kPolicyAQ;
 extern const common::ZonePolicy kPolicyAS;
@@ -80,7 +80,6 @@ extern const common::ZonePolicy kPolicyPara;
 extern const common::ZonePolicy kPolicyPeru;
 extern const common::ZonePolicy kPolicyPhil;
 extern const common::ZonePolicy kPolicyROK;
-extern const common::ZonePolicy kPolicyRussia;
 extern const common::ZonePolicy kPolicyRussiaAsia;
 extern const common::ZonePolicy kPolicySA;
 extern const common::ZonePolicy kPolicySalv;
@@ -101,10 +100,38 @@ extern const common::ZonePolicy kPolicyZion;
 // The following zone policies are not supported in the current version of
 // AceTime.
 //
-// numPolicies: 62
+// numPolicies: 102
 //
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
+// kPolicyAntarctica/Casey (unsupported UNTIL time modifier 'u')
+// kPolicyAntarctica/Davis (unsupported UNTIL time modifier 'u')
+// kPolicyAsia/Almaty (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Anadyr (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Aqtau (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Aqtobe (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Atyrau (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Barnaul (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Chita (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Famagusta (unsupported UNTIL time modifier 'u')
+// kPolicyAsia/Irkutsk (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Kamchatka (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Khandyga (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Krasnoyarsk (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Magadan (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Novokuznetsk (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Novosibirsk (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Omsk (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Oral (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Qostanay (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Qyzylorda (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Sakhalin (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Srednekolymsk (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Tomsk (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Ust-Nera (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Vladivostok (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Yakutsk (unsupported UNTIL time modifier 's')
+// kPolicyAsia/Yekaterinburg (unsupported UNTIL time modifier 's')
 // kPolicyAustria (unused)
 // kPolicyBahamas (unused)
 // kPolicyBelgium (unused)
@@ -122,6 +149,17 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyE-Eur (unused)
 // kPolicyEdm (unused)
 // kPolicyEgyptAsia (unused)
+// kPolicyEurope/Astrakhan (unsupported UNTIL time modifier 's')
+// kPolicyEurope/Istanbul (unsupported UNTIL time modifier 'u')
+// kPolicyEurope/Kaliningrad (unsupported UNTIL time modifier 's')
+// kPolicyEurope/Kirov (unsupported UNTIL time modifier 's')
+// kPolicyEurope/Minsk (unsupported UNTIL time modifier 's')
+// kPolicyEurope/Moscow (unsupported UNTIL time modifier 's')
+// kPolicyEurope/Samara (unsupported UNTIL time modifier 's')
+// kPolicyEurope/Saratov (unsupported UNTIL time modifier 's')
+// kPolicyEurope/Simferopol (unsupported UNTIL time modifier 's')
+// kPolicyEurope/Ulyanovsk (unsupported UNTIL time modifier 's')
+// kPolicyEurope/Volgograd (unsupported UNTIL time modifier 's')
 // kPolicyFinland (unused)
 // kPolicyFrance (unused)
 // kPolicyGB-Eire (unused)
@@ -150,6 +188,7 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyPulaski (unused)
 // kPolicyRegina (unused)
 // kPolicyRomania (unused)
+// kPolicyRussia (unused)
 // kPolicySanLuis (unused)
 // kPolicyShang (unused)
 // kPolicySovietZone (unused)

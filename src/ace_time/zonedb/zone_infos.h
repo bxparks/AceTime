@@ -20,7 +20,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numInfos: 341
+// numInfos: 303
 extern const common::ZoneInfo kZoneAbidjan; // Africa/Abidjan
 extern const common::ZoneInfo kZoneAccra; // Africa/Accra
 extern const common::ZoneInfo kZoneAlgiers; // Africa/Algiers
@@ -166,8 +166,6 @@ extern const common::ZoneInfo kZoneWhitehorse; // America/Whitehorse
 extern const common::ZoneInfo kZoneWinnipeg; // America/Winnipeg
 extern const common::ZoneInfo kZoneYakutat; // America/Yakutat
 extern const common::ZoneInfo kZoneYellowknife; // America/Yellowknife
-extern const common::ZoneInfo kZoneCasey; // Antarctica/Casey
-extern const common::ZoneInfo kZoneDavis; // Antarctica/Davis
 extern const common::ZoneInfo kZoneDumontDUrville; // Antarctica/DumontDUrville
 extern const common::ZoneInfo kZoneMacquarie; // Antarctica/Macquarie
 extern const common::ZoneInfo kZoneMawson; // Antarctica/Mawson
@@ -175,21 +173,14 @@ extern const common::ZoneInfo kZonePalmer; // Antarctica/Palmer
 extern const common::ZoneInfo kZoneRothera; // Antarctica/Rothera
 extern const common::ZoneInfo kZoneSyowa; // Antarctica/Syowa
 extern const common::ZoneInfo kZoneVostok; // Antarctica/Vostok
-extern const common::ZoneInfo kZoneAlmaty; // Asia/Almaty
 extern const common::ZoneInfo kZoneAmman; // Asia/Amman
-extern const common::ZoneInfo kZoneAnadyr; // Asia/Anadyr
-extern const common::ZoneInfo kZoneAqtau; // Asia/Aqtau
-extern const common::ZoneInfo kZoneAqtobe; // Asia/Aqtobe
 extern const common::ZoneInfo kZoneAshgabat; // Asia/Ashgabat
-extern const common::ZoneInfo kZoneAtyrau; // Asia/Atyrau
 extern const common::ZoneInfo kZoneBaghdad; // Asia/Baghdad
 extern const common::ZoneInfo kZoneBaku; // Asia/Baku
 extern const common::ZoneInfo kZoneBangkok; // Asia/Bangkok
-extern const common::ZoneInfo kZoneBarnaul; // Asia/Barnaul
 extern const common::ZoneInfo kZoneBeirut; // Asia/Beirut
 extern const common::ZoneInfo kZoneBishkek; // Asia/Bishkek
 extern const common::ZoneInfo kZoneBrunei; // Asia/Brunei
-extern const common::ZoneInfo kZoneChita; // Asia/Chita
 extern const common::ZoneInfo kZoneChoibalsan; // Asia/Choibalsan
 extern const common::ZoneInfo kZoneColombo; // Asia/Colombo
 extern const common::ZoneInfo kZoneDamascus; // Asia/Damascus
@@ -197,60 +188,41 @@ extern const common::ZoneInfo kZoneDhaka; // Asia/Dhaka
 extern const common::ZoneInfo kZoneDili; // Asia/Dili
 extern const common::ZoneInfo kZoneDubai; // Asia/Dubai
 extern const common::ZoneInfo kZoneDushanbe; // Asia/Dushanbe
-extern const common::ZoneInfo kZoneFamagusta; // Asia/Famagusta
 extern const common::ZoneInfo kZoneGaza; // Asia/Gaza
 extern const common::ZoneInfo kZoneHebron; // Asia/Hebron
 extern const common::ZoneInfo kZoneHo_Chi_Minh; // Asia/Ho_Chi_Minh
 extern const common::ZoneInfo kZoneHong_Kong; // Asia/Hong_Kong
 extern const common::ZoneInfo kZoneHovd; // Asia/Hovd
-extern const common::ZoneInfo kZoneIrkutsk; // Asia/Irkutsk
 extern const common::ZoneInfo kZoneJakarta; // Asia/Jakarta
 extern const common::ZoneInfo kZoneJayapura; // Asia/Jayapura
 extern const common::ZoneInfo kZoneJerusalem; // Asia/Jerusalem
 extern const common::ZoneInfo kZoneKabul; // Asia/Kabul
-extern const common::ZoneInfo kZoneKamchatka; // Asia/Kamchatka
 extern const common::ZoneInfo kZoneKarachi; // Asia/Karachi
 extern const common::ZoneInfo kZoneKathmandu; // Asia/Kathmandu
-extern const common::ZoneInfo kZoneKhandyga; // Asia/Khandyga
 extern const common::ZoneInfo kZoneKolkata; // Asia/Kolkata
-extern const common::ZoneInfo kZoneKrasnoyarsk; // Asia/Krasnoyarsk
 extern const common::ZoneInfo kZoneKuala_Lumpur; // Asia/Kuala_Lumpur
 extern const common::ZoneInfo kZoneKuching; // Asia/Kuching
 extern const common::ZoneInfo kZoneMacau; // Asia/Macau
-extern const common::ZoneInfo kZoneMagadan; // Asia/Magadan
 extern const common::ZoneInfo kZoneMakassar; // Asia/Makassar
 extern const common::ZoneInfo kZoneManila; // Asia/Manila
 extern const common::ZoneInfo kZoneNicosia; // Asia/Nicosia
-extern const common::ZoneInfo kZoneNovokuznetsk; // Asia/Novokuznetsk
-extern const common::ZoneInfo kZoneNovosibirsk; // Asia/Novosibirsk
-extern const common::ZoneInfo kZoneOmsk; // Asia/Omsk
-extern const common::ZoneInfo kZoneOral; // Asia/Oral
 extern const common::ZoneInfo kZonePontianak; // Asia/Pontianak
 extern const common::ZoneInfo kZonePyongyang; // Asia/Pyongyang
 extern const common::ZoneInfo kZoneQatar; // Asia/Qatar
-extern const common::ZoneInfo kZoneQostanay; // Asia/Qostanay
-extern const common::ZoneInfo kZoneQyzylorda; // Asia/Qyzylorda
 extern const common::ZoneInfo kZoneRiyadh; // Asia/Riyadh
-extern const common::ZoneInfo kZoneSakhalin; // Asia/Sakhalin
 extern const common::ZoneInfo kZoneSamarkand; // Asia/Samarkand
 extern const common::ZoneInfo kZoneSeoul; // Asia/Seoul
 extern const common::ZoneInfo kZoneShanghai; // Asia/Shanghai
 extern const common::ZoneInfo kZoneSingapore; // Asia/Singapore
-extern const common::ZoneInfo kZoneSrednekolymsk; // Asia/Srednekolymsk
 extern const common::ZoneInfo kZoneTaipei; // Asia/Taipei
 extern const common::ZoneInfo kZoneTashkent; // Asia/Tashkent
 extern const common::ZoneInfo kZoneTbilisi; // Asia/Tbilisi
 extern const common::ZoneInfo kZoneTehran; // Asia/Tehran
 extern const common::ZoneInfo kZoneThimphu; // Asia/Thimphu
 extern const common::ZoneInfo kZoneTokyo; // Asia/Tokyo
-extern const common::ZoneInfo kZoneTomsk; // Asia/Tomsk
 extern const common::ZoneInfo kZoneUlaanbaatar; // Asia/Ulaanbaatar
 extern const common::ZoneInfo kZoneUrumqi; // Asia/Urumqi
-extern const common::ZoneInfo kZoneUst_Nera; // Asia/Ust-Nera
-extern const common::ZoneInfo kZoneVladivostok; // Asia/Vladivostok
-extern const common::ZoneInfo kZoneYakutsk; // Asia/Yakutsk
 extern const common::ZoneInfo kZoneYangon; // Asia/Yangon
-extern const common::ZoneInfo kZoneYekaterinburg; // Asia/Yekaterinburg
 extern const common::ZoneInfo kZoneYerevan; // Asia/Yerevan
 extern const common::ZoneInfo kZoneAzores; // Atlantic/Azores
 extern const common::ZoneInfo kZoneBermuda; // Atlantic/Bermuda
@@ -275,7 +247,6 @@ extern const common::ZoneInfo kZonePerth; // Australia/Perth
 extern const common::ZoneInfo kZoneSydney; // Australia/Sydney
 extern const common::ZoneInfo kZoneAmsterdam; // Europe/Amsterdam
 extern const common::ZoneInfo kZoneAndorra; // Europe/Andorra
-extern const common::ZoneInfo kZoneAstrakhan; // Europe/Astrakhan
 extern const common::ZoneInfo kZoneAthens; // Europe/Athens
 extern const common::ZoneInfo kZoneBelgrade; // Europe/Belgrade
 extern const common::ZoneInfo kZoneBerlin; // Europe/Berlin
@@ -287,34 +258,25 @@ extern const common::ZoneInfo kZoneCopenhagen; // Europe/Copenhagen
 extern const common::ZoneInfo kZoneDublin; // Europe/Dublin
 extern const common::ZoneInfo kZoneGibraltar; // Europe/Gibraltar
 extern const common::ZoneInfo kZoneHelsinki; // Europe/Helsinki
-extern const common::ZoneInfo kZoneKaliningrad; // Europe/Kaliningrad
 extern const common::ZoneInfo kZoneKiev; // Europe/Kiev
-extern const common::ZoneInfo kZoneKirov; // Europe/Kirov
 extern const common::ZoneInfo kZoneLisbon; // Europe/Lisbon
 extern const common::ZoneInfo kZoneLondon; // Europe/London
 extern const common::ZoneInfo kZoneLuxembourg; // Europe/Luxembourg
 extern const common::ZoneInfo kZoneMadrid; // Europe/Madrid
 extern const common::ZoneInfo kZoneMalta; // Europe/Malta
-extern const common::ZoneInfo kZoneMinsk; // Europe/Minsk
 extern const common::ZoneInfo kZoneMonaco; // Europe/Monaco
-extern const common::ZoneInfo kZoneMoscow; // Europe/Moscow
 extern const common::ZoneInfo kZoneOslo; // Europe/Oslo
 extern const common::ZoneInfo kZoneParis; // Europe/Paris
 extern const common::ZoneInfo kZonePrague; // Europe/Prague
 extern const common::ZoneInfo kZoneRiga; // Europe/Riga
 extern const common::ZoneInfo kZoneRome; // Europe/Rome
-extern const common::ZoneInfo kZoneSamara; // Europe/Samara
-extern const common::ZoneInfo kZoneSaratov; // Europe/Saratov
-extern const common::ZoneInfo kZoneSimferopol; // Europe/Simferopol
 extern const common::ZoneInfo kZoneSofia; // Europe/Sofia
 extern const common::ZoneInfo kZoneStockholm; // Europe/Stockholm
 extern const common::ZoneInfo kZoneTallinn; // Europe/Tallinn
 extern const common::ZoneInfo kZoneTirane; // Europe/Tirane
-extern const common::ZoneInfo kZoneUlyanovsk; // Europe/Ulyanovsk
 extern const common::ZoneInfo kZoneUzhgorod; // Europe/Uzhgorod
 extern const common::ZoneInfo kZoneVienna; // Europe/Vienna
 extern const common::ZoneInfo kZoneVilnius; // Europe/Vilnius
-extern const common::ZoneInfo kZoneVolgograd; // Europe/Volgograd
 extern const common::ZoneInfo kZoneWarsaw; // Europe/Warsaw
 extern const common::ZoneInfo kZoneZaporozhye; // Europe/Zaporozhye
 extern const common::ZoneInfo kZoneZurich; // Europe/Zurich
@@ -366,7 +328,7 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 // The following zones are not supported in the current version of AceTime.
 //
-// numInfos: 18
+// numInfos: 17
 //
 // Africa/Windhoek (policy 'Namibia' not found)
 // America/Argentina/San_Luis (offset in RULES '1:00')
@@ -379,7 +341,6 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 // EET (no '/' in zone name)
 // EST (no '/' in zone name)
 // EST5EDT (no '/' in zone name)
-// Europe/Istanbul (offset in RULES '1:00')
 // HST (no '/' in zone name)
 // MET (no '/' in zone name)
 // MST (no '/' in zone name)

@@ -11,29 +11,23 @@
 #include "TransitionTest.h"
 #include "validation_data.h"
 
-// numZones: 340
+// numZones: 303
 testF(TransitionTest, validateData) {
   assertValid(&kValidationDataAbidjan);
   assertValid(&kValidationDataAccra);
   assertValid(&kValidationDataAdak);
   assertValid(&kValidationDataAdelaide);
   assertValid(&kValidationDataAlgiers);
-  assertValid(&kValidationDataAlmaty);
   assertValid(&kValidationDataAmman);
   assertValid(&kValidationDataAmsterdam);
-  assertValid(&kValidationDataAnadyr);
   assertValid(&kValidationDataAnchorage);
   assertValid(&kValidationDataAndorra);
   assertValid(&kValidationDataApia);
-  assertValid(&kValidationDataAqtau);
-  assertValid(&kValidationDataAqtobe);
   assertValid(&kValidationDataAraguaina);
   assertValid(&kValidationDataAshgabat);
-  assertValid(&kValidationDataAstrakhan);
   assertValid(&kValidationDataAsuncion);
   assertValid(&kValidationDataAthens);
   assertValid(&kValidationDataAtikokan);
-  assertValid(&kValidationDataAtyrau);
   assertValid(&kValidationDataAuckland);
   assertValid(&kValidationDataAzores);
   assertValid(&kValidationDataBaghdad);
@@ -42,7 +36,6 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataBaku);
   assertValid(&kValidationDataBangkok);
   assertValid(&kValidationDataBarbados);
-  assertValid(&kValidationDataBarnaul);
   assertValid(&kValidationDataBeirut);
   assertValid(&kValidationDataBelem);
   assertValid(&kValidationDataBelgrade);
@@ -71,7 +64,6 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataCape_Verde);
   assertValid(&kValidationDataCaracas);
   assertValid(&kValidationDataCasablanca);
-  assertValid(&kValidationDataCasey);
   assertValid(&kValidationDataCatamarca);
   assertValid(&kValidationDataCayenne);
   assertValid(&kValidationDataCenter);
@@ -81,7 +73,6 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataChicago);
   assertValid(&kValidationDataChihuahua);
   assertValid(&kValidationDataChisinau);
-  assertValid(&kValidationDataChita);
   assertValid(&kValidationDataChoibalsan);
   assertValid(&kValidationDataChristmas);
   assertValid(&kValidationDataChuuk);
@@ -97,7 +88,6 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataDamascus);
   assertValid(&kValidationDataDanmarkshavn);
   assertValid(&kValidationDataDarwin);
-  assertValid(&kValidationDataDavis);
   assertValid(&kValidationDataDawson);
   assertValid(&kValidationDataDawson_Creek);
   assertValid(&kValidationDataDenver);
@@ -117,7 +107,6 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataEnderbury);
   assertValid(&kValidationDataEucla);
   assertValid(&kValidationDataFakaofo);
-  assertValid(&kValidationDataFamagusta);
   assertValid(&kValidationDataFaroe);
   assertValid(&kValidationDataFiji);
   assertValid(&kValidationDataFort_Nelson);
@@ -148,7 +137,6 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataIndianapolis);
   assertValid(&kValidationDataInuvik);
   assertValid(&kValidationDataIqaluit);
-  assertValid(&kValidationDataIrkutsk);
   assertValid(&kValidationDataJakarta);
   assertValid(&kValidationDataJamaica);
   assertValid(&kValidationDataJayapura);
@@ -158,20 +146,15 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataJujuy);
   assertValid(&kValidationDataJuneau);
   assertValid(&kValidationDataKabul);
-  assertValid(&kValidationDataKaliningrad);
-  assertValid(&kValidationDataKamchatka);
   assertValid(&kValidationDataKarachi);
   assertValid(&kValidationDataKathmandu);
   assertValid(&kValidationDataKerguelen);
-  assertValid(&kValidationDataKhandyga);
   assertValid(&kValidationDataKhartoum);
   assertValid(&kValidationDataKiev);
   assertValid(&kValidationDataKiritimati);
-  assertValid(&kValidationDataKirov);
   assertValid(&kValidationDataKnox);
   assertValid(&kValidationDataKolkata);
   assertValid(&kValidationDataKosrae);
-  assertValid(&kValidationDataKrasnoyarsk);
   assertValid(&kValidationDataKuala_Lumpur);
   assertValid(&kValidationDataKuching);
   assertValid(&kValidationDataKwajalein);
@@ -191,7 +174,6 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataMacquarie);
   assertValid(&kValidationDataMadeira);
   assertValid(&kValidationDataMadrid);
-  assertValid(&kValidationDataMagadan);
   assertValid(&kValidationDataMahe);
   assertValid(&kValidationDataMajuro);
   assertValid(&kValidationDataMakassar);
@@ -214,7 +196,6 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataMerida);
   assertValid(&kValidationDataMetlakatla);
   assertValid(&kValidationDataMexico_City);
-  assertValid(&kValidationDataMinsk);
   assertValid(&kValidationDataMiquelon);
   assertValid(&kValidationDataMonaco);
   assertValid(&kValidationDataMoncton);
@@ -222,7 +203,6 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataMonterrey);
   assertValid(&kValidationDataMontevideo);
   assertValid(&kValidationDataMonticello);
-  assertValid(&kValidationDataMoscow);
   assertValid(&kValidationDataNairobi);
   assertValid(&kValidationDataNassau);
   assertValid(&kValidationDataNauru);
@@ -236,11 +216,7 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataNorfolk);
   assertValid(&kValidationDataNoronha);
   assertValid(&kValidationDataNoumea);
-  assertValid(&kValidationDataNovokuznetsk);
-  assertValid(&kValidationDataNovosibirsk);
   assertValid(&kValidationDataOjinaga);
-  assertValid(&kValidationDataOmsk);
-  assertValid(&kValidationDataOral);
   assertValid(&kValidationDataOslo);
   assertValid(&kValidationDataPago_Pago);
   assertValid(&kValidationDataPalau);
@@ -264,7 +240,6 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataPunta_Arenas);
   assertValid(&kValidationDataPyongyang);
   assertValid(&kValidationDataQatar);
-  assertValid(&kValidationDataQyzylorda);
   assertValid(&kValidationDataRainy_River);
   assertValid(&kValidationDataRankin_Inlet);
   assertValid(&kValidationDataRarotonga);
@@ -279,9 +254,7 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataRiyadh);
   assertValid(&kValidationDataRome);
   assertValid(&kValidationDataRothera);
-  assertValid(&kValidationDataSakhalin);
   assertValid(&kValidationDataSalta);
-  assertValid(&kValidationDataSamara);
   assertValid(&kValidationDataSamarkand);
   assertValid(&kValidationDataSan_Juan);
   assertValid(&kValidationDataSantarem);
@@ -289,16 +262,13 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataSanto_Domingo);
   assertValid(&kValidationDataSao_Paulo);
   assertValid(&kValidationDataSao_Tome);
-  assertValid(&kValidationDataSaratov);
   assertValid(&kValidationDataScoresbysund);
   assertValid(&kValidationDataSeoul);
   assertValid(&kValidationDataShanghai);
-  assertValid(&kValidationDataSimferopol);
   assertValid(&kValidationDataSingapore);
   assertValid(&kValidationDataSitka);
   assertValid(&kValidationDataSofia);
   assertValid(&kValidationDataSouth_Georgia);
-  assertValid(&kValidationDataSrednekolymsk);
   assertValid(&kValidationDataStanley);
   assertValid(&kValidationDataStockholm);
   assertValid(&kValidationDataSwift_Current);
@@ -319,25 +289,20 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataTijuana);
   assertValid(&kValidationDataTirane);
   assertValid(&kValidationDataTokyo);
-  assertValid(&kValidationDataTomsk);
   assertValid(&kValidationDataTongatapu);
   assertValid(&kValidationDataToronto);
   assertValid(&kValidationDataTripoli);
   assertValid(&kValidationDataTucuman);
   assertValid(&kValidationDataTunis);
   assertValid(&kValidationDataUlaanbaatar);
-  assertValid(&kValidationDataUlyanovsk);
   assertValid(&kValidationDataUrumqi);
   assertValid(&kValidationDataUshuaia);
-  assertValid(&kValidationDataUst_Nera);
   assertValid(&kValidationDataUzhgorod);
   assertValid(&kValidationDataVancouver);
   assertValid(&kValidationDataVevay);
   assertValid(&kValidationDataVienna);
   assertValid(&kValidationDataVilnius);
   assertValid(&kValidationDataVincennes);
-  assertValid(&kValidationDataVladivostok);
-  assertValid(&kValidationDataVolgograd);
   assertValid(&kValidationDataVostok);
   assertValid(&kValidationDataWake);
   assertValid(&kValidationDataWallis);
@@ -346,9 +311,7 @@ testF(TransitionTest, validateData) {
   assertValid(&kValidationDataWinamac);
   assertValid(&kValidationDataWinnipeg);
   assertValid(&kValidationDataYakutat);
-  assertValid(&kValidationDataYakutsk);
   assertValid(&kValidationDataYangon);
-  assertValid(&kValidationDataYekaterinburg);
   assertValid(&kValidationDataYellowknife);
   assertValid(&kValidationDataYerevan);
   assertValid(&kValidationDataZaporozhye);

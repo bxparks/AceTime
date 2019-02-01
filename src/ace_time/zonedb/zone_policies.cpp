@@ -5,10 +5,10 @@
 // using the TZ Database files from
 //  https://github.com/eggert/tz/releases/tag/2018i
 //
-// Policy count: 77
-// Rule count: 528
-// Memory (8-bit): 4983
-// Memory (32-bit): 5137
+// Policy count: 76
+// Rule count: 525
+// Memory (8-bit): 4953
+// Memory (32-bit): 5105
 //
 // DO NOT EDIT
 
@@ -6319,58 +6319,6 @@ static const common::ZoneRule kZoneRulesROK[] = {
 const common::ZonePolicy kPolicyROK = {
   sizeof(kZoneRulesROK)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesROK /*rules*/,
-};
-
-//---------------------------------------------------------------------------
-// Policy name: Russia
-// Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
-//---------------------------------------------------------------------------
-
-static const common::ZoneRule kZoneRulesRussia[] = {
-  // Rule    Russia    1984    1995    -    Sep    lastSun     2:00s    0    -
-  {
-    -16 /*fromYearTiny*/,
-    -5 /*toYearTiny*/,
-    9 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    's' /*atTimeModifier*/,
-    0 /*deltaCode*/,
-    '-' /*letter*/,
-  },
-  // Rule    Russia    1985    2010    -    Mar    lastSun     2:00s    1:00    S
-  {
-    -15 /*fromYearTiny*/,
-    10 /*toYearTiny*/,
-    3 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    's' /*atTimeModifier*/,
-    4 /*deltaCode*/,
-    'S' /*letter*/,
-  },
-  // Rule    Russia    1996    2010    -    Oct    lastSun     2:00s    0    -
-  {
-    -4 /*fromYearTiny*/,
-    10 /*toYearTiny*/,
-    10 /*inMonth*/,
-    7 /*onDayOfWeek*/,
-    0 /*onDayOfMonth*/,
-    8 /*atTimeCode*/,
-    's' /*atTimeModifier*/,
-    0 /*deltaCode*/,
-    '-' /*letter*/,
-  },
-
-};
-
-const common::ZonePolicy kPolicyRussia = {
-  sizeof(kZoneRulesRussia)/sizeof(common::ZoneRule) /*numRules*/,
-  kZoneRulesRussia /*rules*/,
 };
 
 //---------------------------------------------------------------------------
