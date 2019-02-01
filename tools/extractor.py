@@ -123,7 +123,7 @@ class ZoneRuleRaw:
         'fromYear',  # (int) from year
         'toYear',  # (int) to year, 1 to MAX_YEAR (9999) means 'max'
         'inMonth',  # (int) month index (1-12)
-        'onDay',  # (string) 'lastSun' or 'Sun>=2', or 'DD'
+        'onDay',  # (string) 'lastSun' or 'Sun>=2', or 'dayOfMonth'
         'atTime',  # (string) hour at which to transition to and from DST
         'atTimeModifier',  # (char) 's', 'w', 'u'
         'deltaOffset',  # (string) offset from Standard time ('SAVE' field)
