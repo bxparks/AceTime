@@ -253,41 +253,6 @@ test(AutoZoneSpecifierTest, kZoneLos_Angeles) {
   assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
 }
 
-// https://www.timeanddate.com/time/zone/australia/sydney
-test(AutoZoneSpecifierTest, kZoneSydney) {
-  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneSydney);
-  OffsetDateTime dt;
-  acetime_t epochSeconds;
-
-  dt = OffsetDateTime::forComponents(2007, 3, 25, 2, 59, 59,
-      UtcOffset::forHour(11));
-  epochSeconds = dt.toEpochSeconds();
-  assertEqual(11*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("AEDT", zoneSpecifier.getAbbrev(epochSeconds));
-  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
-
-  dt = OffsetDateTime::forComponents(2007, 3, 25, 3, 0, 0,
-      UtcOffset::forHour(11));
-  epochSeconds = dt.toEpochSeconds();
-  assertEqual(10*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("AEST", zoneSpecifier.getAbbrev(epochSeconds));
-  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
-
-  dt = OffsetDateTime::forComponents(2007, 10, 28, 1, 59, 59,
-      UtcOffset::forHour(10));
-  epochSeconds = dt.toEpochSeconds();
-  assertEqual(10*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("AEST", zoneSpecifier.getAbbrev(epochSeconds));
-  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
-
-  dt = OffsetDateTime::forComponents(2007, 10, 28, 2, 0, 0,
-      UtcOffset::forHour(10));
-  epochSeconds = dt.toEpochSeconds();
-  assertEqual(11*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("AEDT", zoneSpecifier.getAbbrev(epochSeconds));
-  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
-}
-
 // https://www.timeanddate.com/time/zone/south-africa/johannesburg
 // No DST changes at all.
 test(AutoZoneSpecifierTest, kZoneJohannesburg) {

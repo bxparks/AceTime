@@ -12,7 +12,7 @@
 
 #include "ValidationDataType.h"
 
-// numZones: 170
+// numZones: 169
 extern const ValidationData kValidationDataAbidjan;
 extern const ValidationData kValidationDataAccra;
 extern const ValidationData kValidationDataAdak;
@@ -71,7 +71,6 @@ extern const ValidationData kValidationDataGuatemala;
 extern const ValidationData kValidationDataGuayaquil;
 extern const ValidationData kValidationDataGuyana;
 extern const ValidationData kValidationDataHalifax;
-extern const ValidationData kValidationDataHebron;
 extern const ValidationData kValidationDataHermosillo;
 extern const ValidationData kValidationDataHo_Chi_Minh;
 extern const ValidationData kValidationDataHong_Kong;

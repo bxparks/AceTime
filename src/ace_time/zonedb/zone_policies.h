@@ -18,7 +18,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numPolicies: 42
+// numPolicies: 41
 extern const common::ZonePolicy kPolicyAus;
 extern const common::ZonePolicy kPolicyAzer;
 extern const common::ZonePolicy kPolicyBarb;
@@ -47,7 +47,6 @@ extern const common::ZonePolicy kPolicyMongol;
 extern const common::ZonePolicy kPolicyNic;
 extern const common::ZonePolicy kPolicyPRC;
 extern const common::ZonePolicy kPolicyPakistan;
-extern const common::ZonePolicy kPolicyPalestine;
 extern const common::ZonePolicy kPolicyPara;
 extern const common::ZonePolicy kPolicyPeru;
 extern const common::ZonePolicy kPolicyPhil;
@@ -66,7 +65,7 @@ extern const common::ZonePolicy kPolicyZion;
 // The following zone policies are not supported in the current version of
 // AceTime.
 //
-// numPolicies: 97
+// numPolicies: 98
 //
 // kPolicyAN (unsupported AT time modifier 's')
 // kPolicyAQ (unsupported AT time modifier 's')
@@ -100,7 +99,7 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyEU (unsupported AT time modifier 'u')
 // kPolicyEUAsia (unsupported AT time modifier 'u')
 // kPolicyEdm (unused)
-// kPolicyEgypt (unsupported AT time modifier 's')
+// kPolicyEgypt (Found 2 transitions in year/month '2010-09')
 // kPolicyEgyptAsia (unused)
 // kPolicyEire (unsupported AT time modifier 'u')
 // kPolicyFalk (unused)
@@ -136,6 +135,7 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyNamibia (LETTER 'WAT' too long)
 // kPolicyNeth (unused)
 // kPolicyNorway (unused)
+// kPolicyPalestine (Found 2 transitions in year/month '2011-08')
 // kPolicyPerry (unused)
 // kPolicyPike (unused)
 // kPolicyPoland (unused)
@@ -170,10 +170,9 @@ extern const common::ZonePolicy kPolicyZion;
 // The following zone policies may have inaccuracies due to the following
 // reasons:
 //
-// numPolicies: 2
+// numPolicies: 1
 //
 // kPolicyMoncton (AT time '0:01' truncated to '900' seconds)
-// kPolicyPalestine (AT time '0:01' truncated to '900' seconds)
 
 
 }

@@ -20,7 +20,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numInfos: 170
+// numInfos: 169
 extern const common::ZoneInfo kZoneAbidjan; // Africa/Abidjan
 extern const common::ZoneInfo kZoneAccra; // Africa/Accra
 extern const common::ZoneInfo kZoneAlgiers; // Africa/Algiers
@@ -119,7 +119,6 @@ extern const common::ZoneInfo kZoneDamascus; // Asia/Damascus
 extern const common::ZoneInfo kZoneDhaka; // Asia/Dhaka
 extern const common::ZoneInfo kZoneDubai; // Asia/Dubai
 extern const common::ZoneInfo kZoneDushanbe; // Asia/Dushanbe
-extern const common::ZoneInfo kZoneHebron; // Asia/Hebron
 extern const common::ZoneInfo kZoneHo_Chi_Minh; // Asia/Ho_Chi_Minh
 extern const common::ZoneInfo kZoneHong_Kong; // Asia/Hong_Kong
 extern const common::ZoneInfo kZoneHovd; // Asia/Hovd
@@ -195,7 +194,7 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 // The following zones are not supported in the current version of AceTime.
 //
-// numInfos: 189
+// numInfos: 190
 //
 // Africa/Cairo (policy 'Egypt' not found)
 // Africa/Casablanca (UNTIL contains month/day/time)
@@ -283,6 +282,7 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 // Asia/Dili (UNTIL contains month/day/time)
 // Asia/Famagusta (UNTIL contains month/day/time)
 // Asia/Gaza (UNTIL contains month/day/time)
+// Asia/Hebron (policy 'Palestine' not found)
 // Asia/Irkutsk (UNTIL contains month/day/time)
 // Asia/Kamchatka (UNTIL contains month/day/time)
 // Asia/Khandyga (UNTIL contains month/day/time)

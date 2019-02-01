@@ -5,11 +5,11 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018i
 //
-// Zone info count: 170
-// Zone era count: 177
-// Strings: 3581
-// Memory (8-bit): 6378
-// Memory (32-bit): 7766
+// Zone info count: 169
+// Zone era count: 176
+// Strings: 3564
+// Memory (8-bit): 6345
+// Memory (32-bit): 7725
 //
 // DO NOT EDIT
 
@@ -3041,36 +3041,6 @@ const common::ZoneInfo kZoneDushanbe = {
   "Asia/Dushanbe" /*name*/,
   kZoneEraDushanbe /*eras*/,
   sizeof(kZoneEraDushanbe)/sizeof(common::ZoneEra) /*numEras*/,
-};
-
-//---------------------------------------------------------------------------
-// Zone name: Asia/Hebron
-// Era count: 1
-// Strings: 17
-// Memory (8-bit): 33
-// Memory (32-bit): 41
-//---------------------------------------------------------------------------
-
-static const common::ZoneEra kZoneEraHebron[] = {
-  //             2:00 Palestine    EE%sT
-  {
-    8 /*offsetCode*/,
-    &kPolicyPalestine /*zonePolicy*/,
-    0 /*deltaCode*/,
-    "EE%T" /*format*/,
-    127 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/,
-  },
-
-};
-
-const common::ZoneInfo kZoneHebron = {
-  "Asia/Hebron" /*name*/,
-  kZoneEraHebron /*eras*/,
-  sizeof(kZoneEraHebron)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------

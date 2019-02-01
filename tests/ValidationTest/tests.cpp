@@ -11,7 +11,7 @@
 #include "TransitionTest.h"
 #include "validation_data.h"
 
-// numZones: 170
+// numZones: 169
 testF(TransitionTest, Abidjan) {
   assertValid(&kValidationDataAbidjan);
 }
@@ -186,9 +186,6 @@ testF(TransitionTest, Guyana) {
 testF(TransitionTest, Halifax) {
   assertValid(&kValidationDataHalifax);
 }
-//testF(TransitionTest, Hebron) {
-//  assertValid(&kValidationDataHebron);
-//}
 testF(TransitionTest, Hermosillo) {
   assertValid(&kValidationDataHermosillo);
 }

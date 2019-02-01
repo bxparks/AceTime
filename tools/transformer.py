@@ -95,11 +95,13 @@ class Transformer:
         zones_map = self.create_zones_with_rules_expansion(zones_map)
         zones_map = self.remove_zones_with_non_monotonic_until(zones_map)
 
-        #rules_map = self.remove_rules_multiple_transitions_in_month(rules_map)
         (zones_map, rules_map) = self.mark_rules_used_by_zones(
             zones_map, rules_map)
         rules_map = self.remove_rules_unused(rules_map)
         rules_map = self.remove_rules_out_of_bounds(rules_map)
+        if self.language == 'arduino':
+            rules_map = self.remove_rules_multiple_transitions_in_month(
+                rules_map)
 
         rules_map = self.create_rules_with_expanded_at_time(rules_map)
         rules_map = self.remove_rules_invalid_at_time_modifier(rules_map)
@@ -555,7 +557,7 @@ class Transformer:
             removal = removals.get(name)
             if removal:
                 removed_policies[name] = (
-                    "Found '%s' transitions in year/month '%04d-%02d'" %
+                    "Found %d transitions in year/month '%04d-%02d'" %
                     removals[name])
             else:
                 results[name] = rules
@@ -1069,10 +1071,10 @@ def find_latest_prior_rules(rules, year):
     1) A handful of Zone Policies have multiple Rules in the same month. From
     remove_rules_multiple_transitions_in_month():
 
-        * Egypt (Found '2' transitions in year/month '2010-09')
-        * Palestine (Found '2' transitions in year/month '2011-08')
-        * Spain (Found '2' transitions in year/month '1938-04')
-        * Tunisia (Found '2' transitions in year/month '1943-04')
+        * Egypt (Found 2 transitions in year/month '2010-09')
+        * Palestine (Found 2 transitions in year/month '2011-08')
+        * Spain (Found 2 transitions in year/month '1938-04')
+        * Tunisia (Found 2 transitions in year/month '1943-04')
 
     2) A handful of Zone Policies have Rules which specify transitions in the
     last 2 days of the year. From remove_rules_with_border_transitions(), we
