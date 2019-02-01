@@ -1,6 +1,7 @@
 #ifndef ACE_TIME_AUTO_ZONE_SPECIFIER_H
 #define ACE_TIME_AUTO_ZONE_SPECIFIER_H
 
+#include <Arduino.h>
 #include <string.h> // strchr()
 #include <stdint.h>
 #include "common/ZonePolicy.h"
@@ -74,6 +75,10 @@ struct ZoneMatch {
  * @endverbatim
  * Each record is represented by common::ZoneEra and the entire collection is
  * represented by common::ZoneInfo.
+ *
+ * Limitations
+ *  - does not work when untilTimeModifier is not 'w' (e.g. 's' or 'u')
+ *  - does not work when RULES column is an offset (hh:mm)
  *
  * Not thread-safe.
  */
@@ -324,8 +329,9 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     /** Calculate the transitional epochSeconds of each ZoneMatch rule. */
     void calcTransitions() {
       mPreviousMatch.startEpochSeconds = 0;
-      mPreviousMatch.offsetCode = mPreviousMatch.era->offsetCode
-          + mPreviousMatch.rule->deltaCode;
+      mPreviousMatch.offsetCode = mPreviousMatch.era->offsetCode;
+      mPreviousMatch.offsetCode += (mPreviousMatch.rule == nullptr)
+            ? 0 : mPreviousMatch.rule->deltaCode;
       internal::ZoneMatch* previousMatch = &mPreviousMatch;
 
       // Loop through ZoneMatch items to calculate 2 things:

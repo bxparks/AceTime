@@ -7,12 +7,15 @@
 class TransitionTest: public aunit::TestOnce {
   protected:
     void assertValid(const ValidationData* testData) {
+      enableVerbosity(aunit::Verbosity::kAssertionPassed);
+
       assertTrue(true);
       Serial.print(testData->zoneInfo->name);
       Serial.print(F(" ("));
       Serial.print(testData->numItems);
       Serial.print(F(")"));
       Serial.println();
+
       const common::ZoneInfo* zoneInfo = testData->zoneInfo;
       AutoZoneSpecifier zoneSpecifier(zoneInfo);
       for (uint16_t i = 0; i < testData->numItems; i++) {
