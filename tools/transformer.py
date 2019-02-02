@@ -307,7 +307,7 @@ class Transformer:
         # because it could indicate a bug
         if self.language == 'arduino':
             supported_suffices = ['w']
-        elif self.language == 'arduinox' or self.langugage == 'python':
+        elif self.language == 'arduinox' or self.language == 'python':
             supported_suffices = ['w', 's', 'u']
         else:
             raise Exception('Unknown laguage: %s' % self.language)
@@ -600,7 +600,7 @@ class Transformer:
         # because it could indicate a bug
         if self.language == 'arduino':
             supported_suffices = ['w']
-        elif self.language == 'arduinox' or self.langugage == 'python':
+        elif self.language == 'arduinox' or self.language == 'python':
             supported_suffices = ['w', 's', 'u']
         else:
             raise Exception('Unknown laguage: %s' % self.language)

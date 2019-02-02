@@ -186,15 +186,15 @@ namespace {dbNamespace} {{
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-extern const common::ZoneInfo kZone{infoShortName}; // {infoFullName}
+extern const common::ZoneInfo kZone{zoneShortName}; // {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
-// {infoFullName} ({infoReason})
+// {zoneFullName} ({infoReason})
 """
 
     ZONE_INFOS_H_NOTABLE_INFO_ITEM = """\
-// {infoFullName} ({infoReason})
+// {zoneFullName} ({infoReason})
 """
 
     ZONE_INFOS_CPP_FILE = """\
@@ -227,21 +227,21 @@ namespace {dbNamespace} {{
 
     ZONE_INFOS_CPP_INFO_ITEM = """\
 //---------------------------------------------------------------------------
-// Zone name: {infoFullName}
+// Zone name: {zoneFullName}
 // Era count: {numEras}
 // Strings: {stringLength}
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEra{infoShortName}[] = {{
+static const common::ZoneEra kZoneEra{zoneShortName}[] = {{
 {eraItems}
 }};
 
-const common::ZoneInfo kZone{infoShortName} = {{
-  "{infoFullName}" /*name*/,
-  kZoneEra{infoShortName} /*eras*/,
-  sizeof(kZoneEra{infoShortName})/sizeof(common::ZoneEra) /*numEras*/,
+const common::ZoneInfo kZone{zoneShortName} = {{
+  "{zoneFullName}" /*name*/,
+  kZoneEra{zoneShortName} /*eras*/,
+  sizeof(kZoneEra{zoneShortName})/sizeof(common::ZoneEra) /*numEras*/,
 }};
 
 """
@@ -405,18 +405,18 @@ const common::ZoneInfo kZone{infoShortName} = {{
         info_items = ''
         for name, zones in sorted(self.zones_map.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
-                infoShortName=normalize_name(short_name(name)),
-                infoFullName=name)
+                zoneShortName=normalize_name(short_name(name)),
+                zoneFullName=name)
 
         removed_info_items = ''
         for name, reason in sorted(self.removed_zones.items()):
             removed_info_items += self.ZONE_INFOS_H_REMOVED_INFO_ITEM.format(
-                infoFullName=name, infoReason=reason)
+                zoneFullName=name, infoReason=reason)
 
         notable_info_items = ''
         for name, reason in sorted(self.notable_zones.items()):
             notable_info_items += self.ZONE_INFOS_H_NOTABLE_INFO_ITEM.format(
-                infoFullName=name, infoReason=reason)
+                zoneFullName=name, infoReason=reason)
 
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
@@ -476,8 +476,8 @@ const common::ZoneInfo kZone{infoShortName} = {{
                     1 * self.SIZEOF_ZONE_INFO_32)
 
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
-            infoFullName=normalize_name(name),
-            infoShortName=normalize_name(short_name(name)),
+            zoneFullName=normalize_name(name),
+            zoneShortName=normalize_name(short_name(name)),
             numEras=num_eras,
             stringLength=string_length,
             memory8=memory8,

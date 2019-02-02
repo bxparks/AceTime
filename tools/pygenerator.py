@@ -148,26 +148,26 @@ ZONE_INFO_MAP = {{
 
     ZONE_INFO_ITEM = """\
 #---------------------------------------------------------------------------
-# Zone name: {infoFullName}
+# Zone name: {zoneFullName}
 # Era count: {numEras}
 #---------------------------------------------------------------------------
 
-ZONE_ERAS_{infoShortName} = [
+ZONE_ERAS_{zoneShortName} = [
 {eraItems}
 ]
-ZONE_INFO_{infoShortName} = {{
-    'name': '{infoFullName}',
-    'eras': ZONE_ERAS_{infoShortName}
+ZONE_INFO_{zoneShortName} = {{
+    'name': '{zoneFullName}',
+    'eras': ZONE_ERAS_{zoneShortName}
 }}
 
 """
 
     ZONE_REMOVED_INFO_ITEM = """\
-# {infoFullName} ({infoReason})
+# {zoneFullName} ({infoReason})
 """
 
     ZONE_NOTABLE_INFO_ITEM = """\
-# {infoFullName} ({infoReason})
+# {zoneFullName} ({infoReason})
 """
 
     ZONE_ERA_ITEM = """\
@@ -186,7 +186,7 @@ ZONE_INFO_{infoShortName} = {{
 """
 
     ZONE_INFO_MAP_ITEM = """\
-    '{infoShortName}': ZONE_INFO_{infoShortName}, # {infoFullName}
+    '{zoneShortName}': ZONE_INFO_{zoneShortName}, # {zoneFullName}
 """
 
     ZONE_INFOS_FILE_NAME = 'zone_infos.py'
@@ -330,22 +330,22 @@ ZONE_INFO_{infoShortName} = {{
                 zones_map.items(),
                 key=lambda x: normalize_name(short_name(x[0]))):
             info_map_items += self.ZONE_INFO_MAP_ITEM.format(
-                infoShortName=normalize_name(short_name(name)),
-                infoFullName=name)
+                zoneShortName=normalize_name(short_name(name)),
+                zoneFullName=name)
         return info_map_items
 
     def generate_removed_info_items(self, removed_zones):
         removed_info_items = ''
         for name, reason in sorted(removed_zones.items()):
             removed_info_items += self.ZONE_REMOVED_INFO_ITEM.format(
-                infoFullName=name, infoReason=reason)
+                zoneFullName=name, infoReason=reason)
         return removed_info_items
 
     def generate_notable_info_items(self, notable_zones):
         notable_info_items = ''
         for name, reason in sorted(notable_zones.items()):
             notable_info_items += self.ZONE_NOTABLE_INFO_ITEM.format(
-                infoFullName=name, infoReason=reason)
+                zoneFullName=name, infoReason=reason)
         return notable_info_items
 
     def generate_info_item(self, name, eras):
@@ -354,8 +354,8 @@ ZONE_INFO_{infoShortName} = {{
             era_items += self.generate_era_item(era)
 
         return self.ZONE_INFO_ITEM.format(
-            infoFullName=normalize_name(name),
-            infoShortName=normalize_name(short_name(name)),
+            zoneFullName=normalize_name(name),
+            zoneShortName=normalize_name(short_name(name)),
             numEras=len(eras),
             eraItems=era_items)
 
