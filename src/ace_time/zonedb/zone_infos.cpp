@@ -5,11 +5,11 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018i
 //
-// Zone info count: 169
-// Zone era count: 176
-// Strings: 3564
-// Memory (8-bit): 6345
-// Memory (32-bit): 7725
+// Zone info count: 231
+// Zone era count: 241
+// Strings: 4907
+// Memory (8-bit): 8713
+// Memory (32-bit): 10601
 //
 // DO NOT EDIT
 
@@ -137,6 +137,36 @@ const common::ZoneInfo kZoneBissau = {
   "Africa/Bissau" /*name*/,
   kZoneEraBissau /*eras*/,
   sizeof(kZoneEraBissau)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Africa/Ceuta
+// Era count: 1
+// Strings: 18
+// Memory (8-bit): 34
+// Memory (32-bit): 42
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraCeuta[] = {
+  //              1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneCeuta = {
+  "Africa/Ceuta" /*name*/,
+  kZoneEraCeuta /*eras*/,
+  sizeof(kZoneEraCeuta)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -317,6 +347,36 @@ const common::ZoneInfo kZoneNdjamena = {
   "Africa/Ndjamena" /*name*/,
   kZoneEraNdjamena /*eras*/,
   sizeof(kZoneEraNdjamena)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Africa/Tunis
+// Era count: 1
+// Strings: 18
+// Memory (8-bit): 34
+// Memory (32-bit): 42
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraTunis[] = {
+  //             1:00    Tunisia    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyTunisia /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneTunis = {
+  "Africa/Tunis" /*name*/,
+  kZoneEraTunis /*eras*/,
+  sizeof(kZoneEraTunis)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1040,6 +1100,36 @@ const common::ZoneInfo kZoneGlace_Bay = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Godthab
+// Era count: 1
+// Strings: 24
+// Memory (8-bit): 40
+// Memory (32-bit): 48
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraGodthab[] = {
+  //             -3:00    EU    -03/-02
+  {
+    -12 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-03/-02" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneGodthab = {
+  "America/Godthab" /*name*/,
+  kZoneEraGodthab /*eras*/,
+  sizeof(kZoneEraGodthab)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Guatemala
 // Era count: 1
 // Strings: 22
@@ -1157,6 +1247,36 @@ const common::ZoneInfo kZoneHalifax = {
   "America/Halifax" /*name*/,
   kZoneEraHalifax /*eras*/,
   sizeof(kZoneEraHalifax)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Havana
+// Era count: 1
+// Strings: 19
+// Memory (8-bit): 35
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraHavana[] = {
+  //             -5:00    Cuba    C%sT
+  {
+    -20 /*offsetCode*/,
+    &kPolicyCuba /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "C%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneHavana = {
+  "America/Havana" /*name*/,
+  kZoneEraHavana /*eras*/,
+  sizeof(kZoneEraHavana)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2162,6 +2282,36 @@ const common::ZoneInfo kZonePhoenix = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Port_au_Prince
+// Era count: 1
+// Strings: 27
+// Memory (8-bit): 43
+// Memory (32-bit): 51
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraPort_au_Prince[] = {
+  //             -5:00    Haiti    E%sT
+  {
+    -20 /*offsetCode*/,
+    &kPolicyHaiti /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "E%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZonePort_au_Prince = {
+  "America/Port_au_Prince" /*name*/,
+  kZoneEraPort_au_Prince /*eras*/,
+  sizeof(kZoneEraPort_au_Prince)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Port_of_Spain
 // Era count: 1
 // Strings: 26
@@ -2312,6 +2462,36 @@ const common::ZoneInfo kZoneRegina = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Santiago
+// Era count: 1
+// Strings: 25
+// Memory (8-bit): 41
+// Memory (32-bit): 49
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraSantiago[] = {
+  //             -4:00    Chile    -04/-03
+  {
+    -16 /*offsetCode*/,
+    &kPolicyChile /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-04/-03" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneSantiago = {
+  "America/Santiago" /*name*/,
+  kZoneEraSantiago /*eras*/,
+  sizeof(kZoneEraSantiago)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Sao_Paulo
 // Era count: 1
 // Strings: 26
@@ -2339,6 +2519,36 @@ const common::ZoneInfo kZoneSao_Paulo = {
   "America/Sao_Paulo" /*name*/,
   kZoneEraSao_Paulo /*eras*/,
   sizeof(kZoneEraSao_Paulo)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Scoresbysund
+// Era count: 1
+// Strings: 29
+// Memory (8-bit): 45
+// Memory (32-bit): 53
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraScoresbysund[] = {
+  //             -1:00    EU    -01/+00
+  {
+    -4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-01/+00" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneScoresbysund = {
+  "America/Scoresbysund" /*name*/,
+  kZoneEraScoresbysund /*eras*/,
+  sizeof(kZoneEraScoresbysund)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2582,6 +2792,48 @@ const common::ZoneInfo kZoneWhitehorse = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Winnipeg
+// Era count: 2
+// Strings: 25
+// Memory (8-bit): 52
+// Memory (32-bit): 64
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraWinnipeg[] = {
+  //             -6:00    Winn    C%sT    2006
+  {
+    -24 /*offsetCode*/,
+    &kPolicyWinn /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "C%T" /*format*/,
+    6 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -6:00    Canada    C%sT
+  {
+    -24 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "C%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneWinnipeg = {
+  "America/Winnipeg" /*name*/,
+  kZoneEraWinnipeg /*eras*/,
+  sizeof(kZoneEraWinnipeg)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Yakutat
 // Era count: 1
 // Strings: 21
@@ -2762,6 +3014,36 @@ const common::ZoneInfo kZoneVostok = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: Asia/Amman
+// Era count: 1
+// Strings: 16
+// Memory (8-bit): 32
+// Memory (32-bit): 40
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraAmman[] = {
+  //             2:00    Jordan    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyJordan /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneAmman = {
+  "Asia/Amman" /*name*/,
+  kZoneEraAmman /*eras*/,
+  sizeof(kZoneEraAmman)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Asia/Ashgabat
 // Era count: 1
 // Strings: 18
@@ -2789,6 +3071,36 @@ const common::ZoneInfo kZoneAshgabat = {
   "Asia/Ashgabat" /*name*/,
   kZoneEraAshgabat /*eras*/,
   sizeof(kZoneEraAshgabat)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Asia/Baghdad
+// Era count: 1
+// Strings: 21
+// Memory (8-bit): 37
+// Memory (32-bit): 45
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraBaghdad[] = {
+  //             3:00    Iraq    +03/+04
+  {
+    12 /*offsetCode*/,
+    &kPolicyIraq /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+03/+04" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBaghdad = {
+  "Asia/Baghdad" /*name*/,
+  kZoneEraBaghdad /*eras*/,
+  sizeof(kZoneEraBaghdad)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3494,6 +3806,36 @@ const common::ZoneInfo kZoneManila = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: Asia/Nicosia
+// Era count: 1
+// Strings: 18
+// Memory (8-bit): 34
+// Memory (32-bit): 42
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraNicosia[] = {
+  //             2:00    EUAsia    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEUAsia /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneNicosia = {
+  "Asia/Nicosia" /*name*/,
+  kZoneEraNicosia /*eras*/,
+  sizeof(kZoneEraNicosia)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Asia/Pontianak
 // Era count: 1
 // Strings: 19
@@ -3944,6 +4286,78 @@ const common::ZoneInfo kZoneYangon = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: Asia/Yerevan
+// Era count: 2
+// Strings: 29
+// Memory (8-bit): 56
+// Memory (32-bit): 68
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraYerevan[] = {
+  //             4:00 RussiaAsia    +04/+05    2011
+  {
+    16 /*offsetCode*/,
+    &kPolicyRussiaAsia /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+04/+05" /*format*/,
+    11 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             4:00    Armenia    +04/+05
+  {
+    16 /*offsetCode*/,
+    &kPolicyArmenia /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+04/+05" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneYerevan = {
+  "Asia/Yerevan" /*name*/,
+  kZoneEraYerevan /*eras*/,
+  sizeof(kZoneEraYerevan)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Atlantic/Azores
+// Era count: 1
+// Strings: 24
+// Memory (8-bit): 40
+// Memory (32-bit): 48
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraAzores[] = {
+  //             -1:00    EU    -01/+00
+  {
+    -4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-01/+00" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneAzores = {
+  "Atlantic/Azores" /*name*/,
+  kZoneEraAzores /*eras*/,
+  sizeof(kZoneEraAzores)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Atlantic/Bermuda
 // Era count: 1
 // Strings: 21
@@ -3974,6 +4388,36 @@ const common::ZoneInfo kZoneBermuda = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: Atlantic/Canary
+// Era count: 1
+// Strings: 21
+// Memory (8-bit): 37
+// Memory (32-bit): 45
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraCanary[] = {
+  //              0:00    EU    WE%sT
+  {
+    0 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "WE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneCanary = {
+  "Atlantic/Canary" /*name*/,
+  kZoneEraCanary /*eras*/,
+  sizeof(kZoneEraCanary)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Atlantic/Cape_Verde
 // Era count: 1
 // Strings: 24
@@ -4001,6 +4445,66 @@ const common::ZoneInfo kZoneCape_Verde = {
   "Atlantic/Cape_Verde" /*name*/,
   kZoneEraCape_Verde /*eras*/,
   sizeof(kZoneEraCape_Verde)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Atlantic/Faroe
+// Era count: 1
+// Strings: 20
+// Memory (8-bit): 36
+// Memory (32-bit): 44
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraFaroe[] = {
+  //              0:00    EU    WE%sT
+  {
+    0 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "WE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneFaroe = {
+  "Atlantic/Faroe" /*name*/,
+  kZoneEraFaroe /*eras*/,
+  sizeof(kZoneEraFaroe)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Atlantic/Madeira
+// Era count: 1
+// Strings: 22
+// Memory (8-bit): 38
+// Memory (32-bit): 46
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraMadeira[] = {
+  //              0:00    EU    WE%sT
+  {
+    0 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "WE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMadeira = {
+  "Atlantic/Madeira" /*name*/,
+  kZoneEraMadeira /*eras*/,
+  sizeof(kZoneEraMadeira)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4064,6 +4568,138 @@ const common::ZoneInfo kZoneSouth_Georgia = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: Australia/Adelaide
+// Era count: 1
+// Strings: 24
+// Memory (8-bit): 40
+// Memory (32-bit): 48
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraAdelaide[] = {
+  //             9:30    AS    AC%sT
+  {
+    38 /*offsetCode*/,
+    &kPolicyAS /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "AC%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneAdelaide = {
+  "Australia/Adelaide" /*name*/,
+  kZoneEraAdelaide /*eras*/,
+  sizeof(kZoneEraAdelaide)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Australia/Brisbane
+// Era count: 1
+// Strings: 24
+// Memory (8-bit): 40
+// Memory (32-bit): 48
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraBrisbane[] = {
+  //             10:00    AQ    AE%sT
+  {
+    40 /*offsetCode*/,
+    &kPolicyAQ /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "AE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBrisbane = {
+  "Australia/Brisbane" /*name*/,
+  kZoneEraBrisbane /*eras*/,
+  sizeof(kZoneEraBrisbane)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Australia/Broken_Hill
+// Era count: 2
+// Strings: 32
+// Memory (8-bit): 59
+// Memory (32-bit): 71
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraBroken_Hill[] = {
+  //             9:30    AN    AC%sT    2000
+  {
+    38 /*offsetCode*/,
+    &kPolicyAN /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "AC%T" /*format*/,
+    0 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             9:30    AS    AC%sT
+  {
+    38 /*offsetCode*/,
+    &kPolicyAS /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "AC%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBroken_Hill = {
+  "Australia/Broken_Hill" /*name*/,
+  kZoneEraBroken_Hill /*eras*/,
+  sizeof(kZoneEraBroken_Hill)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Australia/Currie
+// Era count: 1
+// Strings: 22
+// Memory (8-bit): 38
+// Memory (32-bit): 46
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraCurrie[] = {
+  //             10:00    AT    AE%sT
+  {
+    40 /*offsetCode*/,
+    &kPolicyAT /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "AE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneCurrie = {
+  "Australia/Currie" /*name*/,
+  kZoneEraCurrie /*eras*/,
+  sizeof(kZoneEraCurrie)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Australia/Darwin
 // Era count: 1
 // Strings: 22
@@ -4091,6 +4727,96 @@ const common::ZoneInfo kZoneDarwin = {
   "Australia/Darwin" /*name*/,
   kZoneEraDarwin /*eras*/,
   sizeof(kZoneEraDarwin)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Australia/Eucla
+// Era count: 1
+// Strings: 28
+// Memory (8-bit): 44
+// Memory (32-bit): 52
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraEucla[] = {
+  //              8:45    AW  +0845/+0945
+  {
+    35 /*offsetCode*/,
+    &kPolicyAW /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+0845/+0945" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneEucla = {
+  "Australia/Eucla" /*name*/,
+  kZoneEraEucla /*eras*/,
+  sizeof(kZoneEraEucla)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Australia/Hobart
+// Era count: 1
+// Strings: 22
+// Memory (8-bit): 38
+// Memory (32-bit): 46
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraHobart[] = {
+  //             10:00    AT    AE%sT
+  {
+    40 /*offsetCode*/,
+    &kPolicyAT /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "AE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneHobart = {
+  "Australia/Hobart" /*name*/,
+  kZoneEraHobart /*eras*/,
+  sizeof(kZoneEraHobart)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Australia/Lindeman
+// Era count: 1
+// Strings: 24
+// Memory (8-bit): 40
+// Memory (32-bit): 48
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraLindeman[] = {
+  //             10:00    Holiday    AE%sT
+  {
+    40 /*offsetCode*/,
+    &kPolicyHoliday /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "AE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneLindeman = {
+  "Australia/Lindeman" /*name*/,
+  kZoneEraLindeman /*eras*/,
+  sizeof(kZoneEraLindeman)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4124,6 +4850,336 @@ const common::ZoneInfo kZoneLord_Howe = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: Australia/Melbourne
+// Era count: 1
+// Strings: 25
+// Memory (8-bit): 41
+// Memory (32-bit): 49
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraMelbourne[] = {
+  //             10:00    AV    AE%sT
+  {
+    40 /*offsetCode*/,
+    &kPolicyAV /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "AE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMelbourne = {
+  "Australia/Melbourne" /*name*/,
+  kZoneEraMelbourne /*eras*/,
+  sizeof(kZoneEraMelbourne)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Australia/Perth
+// Era count: 1
+// Strings: 21
+// Memory (8-bit): 37
+// Memory (32-bit): 45
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraPerth[] = {
+  //              8:00    AW    AW%sT
+  {
+    32 /*offsetCode*/,
+    &kPolicyAW /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "AW%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZonePerth = {
+  "Australia/Perth" /*name*/,
+  kZoneEraPerth /*eras*/,
+  sizeof(kZoneEraPerth)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Australia/Sydney
+// Era count: 1
+// Strings: 22
+// Memory (8-bit): 38
+// Memory (32-bit): 46
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraSydney[] = {
+  //             10:00    AN    AE%sT
+  {
+    40 /*offsetCode*/,
+    &kPolicyAN /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "AE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneSydney = {
+  "Australia/Sydney" /*name*/,
+  kZoneEraSydney /*eras*/,
+  sizeof(kZoneEraSydney)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Amsterdam
+// Era count: 1
+// Strings: 22
+// Memory (8-bit): 38
+// Memory (32-bit): 46
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraAmsterdam[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneAmsterdam = {
+  "Europe/Amsterdam" /*name*/,
+  kZoneEraAmsterdam /*eras*/,
+  sizeof(kZoneEraAmsterdam)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Andorra
+// Era count: 1
+// Strings: 20
+// Memory (8-bit): 36
+// Memory (32-bit): 44
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraAndorra[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneAndorra = {
+  "Europe/Andorra" /*name*/,
+  kZoneEraAndorra /*eras*/,
+  sizeof(kZoneEraAndorra)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Athens
+// Era count: 1
+// Strings: 19
+// Memory (8-bit): 35
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraAthens[] = {
+  //             2:00    EU    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneAthens = {
+  "Europe/Athens" /*name*/,
+  kZoneEraAthens /*eras*/,
+  sizeof(kZoneEraAthens)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Belgrade
+// Era count: 1
+// Strings: 21
+// Memory (8-bit): 37
+// Memory (32-bit): 45
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraBelgrade[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBelgrade = {
+  "Europe/Belgrade" /*name*/,
+  kZoneEraBelgrade /*eras*/,
+  sizeof(kZoneEraBelgrade)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Berlin
+// Era count: 1
+// Strings: 19
+// Memory (8-bit): 35
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraBerlin[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBerlin = {
+  "Europe/Berlin" /*name*/,
+  kZoneEraBerlin /*eras*/,
+  sizeof(kZoneEraBerlin)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Brussels
+// Era count: 1
+// Strings: 21
+// Memory (8-bit): 37
+// Memory (32-bit): 45
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraBrussels[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBrussels = {
+  "Europe/Brussels" /*name*/,
+  kZoneEraBrussels /*eras*/,
+  sizeof(kZoneEraBrussels)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Bucharest
+// Era count: 1
+// Strings: 22
+// Memory (8-bit): 38
+// Memory (32-bit): 46
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraBucharest[] = {
+  //             2:00    EU    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBucharest = {
+  "Europe/Bucharest" /*name*/,
+  kZoneEraBucharest /*eras*/,
+  sizeof(kZoneEraBucharest)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Budapest
+// Era count: 1
+// Strings: 21
+// Memory (8-bit): 37
+// Memory (32-bit): 45
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraBudapest[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBudapest = {
+  "Europe/Budapest" /*name*/,
+  kZoneEraBudapest /*eras*/,
+  sizeof(kZoneEraBudapest)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Europe/Chisinau
 // Era count: 1
 // Strings: 21
@@ -4151,6 +5207,696 @@ const common::ZoneInfo kZoneChisinau = {
   "Europe/Chisinau" /*name*/,
   kZoneEraChisinau /*eras*/,
   sizeof(kZoneEraChisinau)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Copenhagen
+// Era count: 1
+// Strings: 23
+// Memory (8-bit): 39
+// Memory (32-bit): 47
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraCopenhagen[] = {
+  //              1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneCopenhagen = {
+  "Europe/Copenhagen" /*name*/,
+  kZoneEraCopenhagen /*eras*/,
+  sizeof(kZoneEraCopenhagen)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Dublin
+// Era count: 1
+// Strings: 22
+// Memory (8-bit): 38
+// Memory (32-bit): 46
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraDublin[] = {
+  //              1:00    Eire    IST/GMT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEire /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "IST/GMT" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneDublin = {
+  "Europe/Dublin" /*name*/,
+  kZoneEraDublin /*eras*/,
+  sizeof(kZoneEraDublin)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Gibraltar
+// Era count: 1
+// Strings: 22
+// Memory (8-bit): 38
+// Memory (32-bit): 46
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraGibraltar[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneGibraltar = {
+  "Europe/Gibraltar" /*name*/,
+  kZoneEraGibraltar /*eras*/,
+  sizeof(kZoneEraGibraltar)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Helsinki
+// Era count: 1
+// Strings: 21
+// Memory (8-bit): 37
+// Memory (32-bit): 45
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraHelsinki[] = {
+  //             2:00    EU    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneHelsinki = {
+  "Europe/Helsinki" /*name*/,
+  kZoneEraHelsinki /*eras*/,
+  sizeof(kZoneEraHelsinki)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Kiev
+// Era count: 1
+// Strings: 17
+// Memory (8-bit): 33
+// Memory (32-bit): 41
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraKiev[] = {
+  //             2:00    EU    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneKiev = {
+  "Europe/Kiev" /*name*/,
+  kZoneEraKiev /*eras*/,
+  sizeof(kZoneEraKiev)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Lisbon
+// Era count: 1
+// Strings: 19
+// Memory (8-bit): 35
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraLisbon[] = {
+  //              0:00    EU    WE%sT
+  {
+    0 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "WE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneLisbon = {
+  "Europe/Lisbon" /*name*/,
+  kZoneEraLisbon /*eras*/,
+  sizeof(kZoneEraLisbon)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/London
+// Era count: 1
+// Strings: 22
+// Memory (8-bit): 38
+// Memory (32-bit): 46
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraLondon[] = {
+  //              0:00    EU    GMT/BST
+  {
+    0 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "GMT/BST" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneLondon = {
+  "Europe/London" /*name*/,
+  kZoneEraLondon /*eras*/,
+  sizeof(kZoneEraLondon)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Luxembourg
+// Era count: 1
+// Strings: 23
+// Memory (8-bit): 39
+// Memory (32-bit): 47
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraLuxembourg[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneLuxembourg = {
+  "Europe/Luxembourg" /*name*/,
+  kZoneEraLuxembourg /*eras*/,
+  sizeof(kZoneEraLuxembourg)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Madrid
+// Era count: 1
+// Strings: 19
+// Memory (8-bit): 35
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraMadrid[] = {
+  //              1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMadrid = {
+  "Europe/Madrid" /*name*/,
+  kZoneEraMadrid /*eras*/,
+  sizeof(kZoneEraMadrid)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Malta
+// Era count: 1
+// Strings: 18
+// Memory (8-bit): 34
+// Memory (32-bit): 42
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraMalta[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMalta = {
+  "Europe/Malta" /*name*/,
+  kZoneEraMalta /*eras*/,
+  sizeof(kZoneEraMalta)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Monaco
+// Era count: 1
+// Strings: 19
+// Memory (8-bit): 35
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraMonaco[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneMonaco = {
+  "Europe/Monaco" /*name*/,
+  kZoneEraMonaco /*eras*/,
+  sizeof(kZoneEraMonaco)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Oslo
+// Era count: 1
+// Strings: 17
+// Memory (8-bit): 33
+// Memory (32-bit): 41
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraOslo[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneOslo = {
+  "Europe/Oslo" /*name*/,
+  kZoneEraOslo /*eras*/,
+  sizeof(kZoneEraOslo)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Paris
+// Era count: 1
+// Strings: 18
+// Memory (8-bit): 34
+// Memory (32-bit): 42
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraParis[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneParis = {
+  "Europe/Paris" /*name*/,
+  kZoneEraParis /*eras*/,
+  sizeof(kZoneEraParis)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Prague
+// Era count: 1
+// Strings: 19
+// Memory (8-bit): 35
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraPrague[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZonePrague = {
+  "Europe/Prague" /*name*/,
+  kZoneEraPrague /*eras*/,
+  sizeof(kZoneEraPrague)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Rome
+// Era count: 1
+// Strings: 17
+// Memory (8-bit): 33
+// Memory (32-bit): 41
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraRome[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneRome = {
+  "Europe/Rome" /*name*/,
+  kZoneEraRome /*eras*/,
+  sizeof(kZoneEraRome)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Sofia
+// Era count: 1
+// Strings: 18
+// Memory (8-bit): 34
+// Memory (32-bit): 42
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraSofia[] = {
+  //             2:00    EU    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneSofia = {
+  "Europe/Sofia" /*name*/,
+  kZoneEraSofia /*eras*/,
+  sizeof(kZoneEraSofia)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Stockholm
+// Era count: 1
+// Strings: 22
+// Memory (8-bit): 38
+// Memory (32-bit): 46
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraStockholm[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneStockholm = {
+  "Europe/Stockholm" /*name*/,
+  kZoneEraStockholm /*eras*/,
+  sizeof(kZoneEraStockholm)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Tirane
+// Era count: 1
+// Strings: 19
+// Memory (8-bit): 35
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraTirane[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneTirane = {
+  "Europe/Tirane" /*name*/,
+  kZoneEraTirane /*eras*/,
+  sizeof(kZoneEraTirane)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Uzhgorod
+// Era count: 1
+// Strings: 21
+// Memory (8-bit): 37
+// Memory (32-bit): 45
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraUzhgorod[] = {
+  //             2:00    EU    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneUzhgorod = {
+  "Europe/Uzhgorod" /*name*/,
+  kZoneEraUzhgorod /*eras*/,
+  sizeof(kZoneEraUzhgorod)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Vienna
+// Era count: 1
+// Strings: 19
+// Memory (8-bit): 35
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraVienna[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneVienna = {
+  "Europe/Vienna" /*name*/,
+  kZoneEraVienna /*eras*/,
+  sizeof(kZoneEraVienna)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Warsaw
+// Era count: 1
+// Strings: 19
+// Memory (8-bit): 35
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraWarsaw[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneWarsaw = {
+  "Europe/Warsaw" /*name*/,
+  kZoneEraWarsaw /*eras*/,
+  sizeof(kZoneEraWarsaw)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Zaporozhye
+// Era count: 1
+// Strings: 23
+// Memory (8-bit): 39
+// Memory (32-bit): 47
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraZaporozhye[] = {
+  //             2:00    EU    EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneZaporozhye = {
+  "Europe/Zaporozhye" /*name*/,
+  kZoneEraZaporozhye /*eras*/,
+  sizeof(kZoneEraZaporozhye)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Europe/Zurich
+// Era count: 1
+// Strings: 19
+// Memory (8-bit): 35
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraZurich[] = {
+  //             1:00    EU    CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneZurich = {
+  "Europe/Zurich" /*name*/,
+  kZoneEraZurich /*eras*/,
+  sizeof(kZoneEraZurich)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4394,6 +6140,66 @@ const common::ZoneInfo kZoneReunion = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: Pacific/Auckland
+// Era count: 1
+// Strings: 22
+// Memory (8-bit): 38
+// Memory (32-bit): 46
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraAuckland[] = {
+  //             12:00    NZ    NZ%sT
+  {
+    48 /*offsetCode*/,
+    &kPolicyNZ /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "NZ%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneAuckland = {
+  "Pacific/Auckland" /*name*/,
+  kZoneEraAuckland /*eras*/,
+  sizeof(kZoneEraAuckland)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Chatham
+// Era count: 1
+// Strings: 28
+// Memory (8-bit): 44
+// Memory (32-bit): 52
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraChatham[] = {
+  //             12:45    Chatham    +1245/+1345
+  {
+    51 /*offsetCode*/,
+    &kPolicyChatham /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+1245/+1345" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneChatham = {
+  "Pacific/Chatham" /*name*/,
+  kZoneEraChatham /*eras*/,
+  sizeof(kZoneEraChatham)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Pacific/Chuuk
 // Era count: 1
 // Strings: 18
@@ -4421,6 +6227,36 @@ const common::ZoneInfo kZoneChuuk = {
   "Pacific/Chuuk" /*name*/,
   kZoneEraChuuk /*eras*/,
   sizeof(kZoneEraChuuk)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Easter
+// Era count: 1
+// Strings: 23
+// Memory (8-bit): 39
+// Memory (32-bit): 47
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraEaster[] = {
+  //             -6:00    Chile    -06/-05
+  {
+    -24 /*offsetCode*/,
+    &kPolicyChile /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-06/-05" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneEaster = {
+  "Pacific/Easter" /*name*/,
+  kZoneEraEaster /*eras*/,
+  sizeof(kZoneEraEaster)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4874,6 +6710,36 @@ const common::ZoneInfo kZoneNiue = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: Pacific/Noumea
+// Era count: 1
+// Strings: 23
+// Memory (8-bit): 39
+// Memory (32-bit): 47
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraNoumea[] = {
+  //             11:00    NC    +11/+12
+  {
+    44 /*offsetCode*/,
+    &kPolicyNC /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+11/+12" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneNoumea = {
+  "Pacific/Noumea" /*name*/,
+  kZoneEraNoumea /*eras*/,
+  sizeof(kZoneEraNoumea)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Pacific/Pago_Pago
 // Era count: 1
 // Strings: 22
@@ -5111,6 +6977,36 @@ const common::ZoneInfo kZoneTarawa = {
   "Pacific/Tarawa" /*name*/,
   kZoneEraTarawa /*eras*/,
   sizeof(kZoneEraTarawa)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Pacific/Tongatapu
+// Era count: 1
+// Strings: 26
+// Memory (8-bit): 42
+// Memory (32-bit): 50
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraTongatapu[] = {
+  //             13:00    Tonga    +13/+14
+  {
+    52 /*offsetCode*/,
+    &kPolicyTonga /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+13/+14" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneTongatapu = {
+  "Pacific/Tongatapu" /*name*/,
+  kZoneEraTongatapu /*eras*/,
+  sizeof(kZoneEraTongatapu)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
