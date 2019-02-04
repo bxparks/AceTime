@@ -593,18 +593,13 @@ class Transformer:
         return results
 
     def remove_rules_invalid_at_time_modifier(self, rules_map):
-        """Remove rules whose atTime contains an unsupported modifier.
+        """Remove rules whose atTime contains an unsupported modifier. Current
+        supported modifier is 'w', 's' and 'u'. The 'g' and 'z' are identifical
+        to 'u' and they do not currently appear in any TZ file, so let's catch
+        them because it could indicate a bug somewhere in our parser or
+        somewhere else.
         """
-        # Determine which suffices are supported. The 'g' and 'z' is the same as
-        # 'u' and does not currently appear in any TZ file, so let's catch it
-        # because it could indicate a bug
-        if self.language == 'arduino':
-            supported_suffices = ['w']
-        elif self.language == 'arduinox' or self.language == 'python':
-            supported_suffices = ['w', 's', 'u']
-        else:
-            raise Exception('Unknown laguage: %s' % self.language)
-
+        supported_suffices = ['w', 's', 'u']
         results = {}
         removed_policies = {}
         for name, rules in rules_map.items():

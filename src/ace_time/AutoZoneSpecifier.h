@@ -92,10 +92,12 @@ struct ZoneMatch {
  * Each record is represented by common::ZoneEra and the entire collection is
  * represented by common::ZoneInfo.
  *
- * Limitations
- *  - does not work when untilTimeModifier is not 'w' (e.g. 's' or 'u')
- *  - does not work if UNTIL field contains month, day, or time
- *  - does not work when RULES column is an offset (hh:mm)
+ * Limitations:
+ *
+ *  - Zone untilTimeModifier works only for 'w' (not 's' or 'u')
+ *  - but Rule atTimeModifier supports all three ('w', 's', and 'u')
+ *  - Zone UNTIL field supports only year component, not month, day, or time
+ *  - RULES column supports only a named Rule reference, not an offset (hh:mm)
  *
  * Not thread-safe.
  */
