@@ -119,6 +119,16 @@ class ZoneEraCooked:
             else:
                 setattr(self, key, value)
 
+    def get_policy_name(self):
+        """Return the human-readable name of the zone policy used by
+        this zoneEra (i.e. value of RULES column). Will be in one of 3 states:
+        '-', ':' or a reference
+        """
+        if self.zonePolicy in ['-', ':']:
+            return self.zonePolicy
+        else:
+            return self.zonePolicy.name
+
 
 class ZonePolicyCooked:
     """Internal representation of a ZonePolicy dictionary in the
@@ -173,7 +183,6 @@ class ZoneMatch:
     __slots__ = [
         'startDateTime',  # (DateTuple) the untilTime of the previous ZoneEra
         'untilDateTime',  # (DateTuple) the untilTime of the current ZoneEra
-        'policyName',  # (str) '-', ':', or string name of ZonePolicy
         'zoneEra',  # (ZoneEra) the ZoneEra corresponding to this match
     ]
 
@@ -201,26 +210,26 @@ class ZoneMatch:
         return (
             'ZoneMatch(' + 'start: %s; ' + 'until: %s; ' + 'policyName: %s)'
         ) % (date_tuple_to_string(self.startDateTime),
-             date_tuple_to_string(self.untilDateTime), self.policyName)
+             date_tuple_to_string(self.untilDateTime),
+             self.zoneEra.get_policy_name())
 
 
 class Transition:
     """A description of a potential change in DST offset. It can come from
     a number of sources:
-        1) An instance of a ZoneRule that was referenced by the policyName for a
-        given year, which determines the start date and until date.
+        1) An instance of a ZoneRule that was referenced by the RULES column,
+        instantiated for the given year, which then determines the start date
+        and until date.
         2) A boundary between one ZoneEra and the next ZoneEra.
         3) A ZoneRule that has been shifted to the boundary of a ZoneEra.
     """
     __slots__ = [
-        # Copied from ZoneEra
+        # Copied from ZoneMatch
         'startDateTime',  # (DateTuple), replaced with actual start time
         'untilDateTime',  # (DateTuple), replaced with actual until time
-        'policyName',  # (str) # '-', ':', or symbolic reference
         'zoneEra',  # (ZoneEra)
 
         # Added for simple Match and named Match.
-        'offsetSeconds',  # (int) from ZoneErar
         'format',  # (str) from ZoneEra
         'originalTransitionTime',  # (DateTuple) transition time before shifting
         'transitionTime',  # (DateTuple) 'w' time
@@ -258,7 +267,7 @@ class Transition:
 
     def __repr__(self):
         sepoch = self.startEpochSecond if self.startEpochSecond else 0
-        policy_name = self.policyName
+        policy_name = self.zoneEra.get_policy_name()
         offset_seconds = self.offsetSeconds
         delta_seconds = self.deltaSeconds if self.deltaSeconds else 0
         format = self.format
@@ -484,8 +493,7 @@ class ZoneSpecifier:
         matches = []
         for zone_era in zone_eras:
             if era_overlaps_interval(prev_era, zone_era, start_ym, until_ym):
-                zone_policy = zone_era.zonePolicy
-                match = create_match(zone_policy, prev_era, zone_era)
+                match = create_match(prev_era, zone_era)
                 matches.append(match)
             prev_era = zone_era
         return matches
@@ -649,17 +657,11 @@ def convert_data_to_objects(zi):
     """
 
 
-def create_match(zone_policy, prev_era, zone_era):
+def create_match(prev_era, zone_era):
     """Create the Zone Match object for the given Zone Era.
         * ZoneMatch.startTime is prev_era.untilTime
         * ZoneMatch.policy_name is '-', ':' or the string name of ZonePolicy
     """
-    # zonePolicy one of 3 states: '-', ':' or a reference
-    if zone_policy in ['-', ':']:
-        policy_name = zone_policy
-    else:
-        policy_name = zone_policy.name
-
     # The subtlety here is that the prev_era's 'until datetime' is expressed
     # using the UTC offset of the *previous* era, not the current era. This is
     # probably good enough for sorting, assuming we don't have 2 DST transitions
@@ -680,7 +682,6 @@ def create_match(zone_policy, prev_era, zone_era):
     return ZoneMatch({
         'startDateTime': start_date_time,
         'untilDateTime': until_date_time,
-        'policyName': policy_name,
         'zoneEra': zone_era
     })
 
