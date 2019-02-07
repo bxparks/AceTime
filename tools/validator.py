@@ -32,23 +32,31 @@ TestItem = collections.namedtuple(
 
 
 class Validator:
-    def __init__(self, zone_infos, zone_policies, optimized,
-                 validate_dst_offset, validate_hours):
+    def __init__(self, zone_infos, zone_policies, viewing_months,
+                 validate_dst_offset, validate_hours, debug_validator,
+                 debug_specifier, zone_name):
         """
         Args:
             zone_infos: map of {name -> zone_info{} }
             zone_policies: map of {name ->zone_policy{} }
-            optimized: use a 14-month windows instead of a 3-year window
+            viewing_months: number of months in the calculation window
+                (13, 14, 36)
             validate_dst_offset: validate DST offset against Python in
                 addition to total UTC offset
             validate_hours: validate all 24 hours of a day, instead of a single
                 selected sample hour
+            debug_validator: enable debugging output for Validator
+            debug_specifier: enable debugging output for ZoneSpecifier
+            zone_name: validate only this zone
         """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
-        self.optimized = optimized
+        self.viewing_months = viewing_months
         self.validate_dst_offset = validate_dst_offset
         self.validate_hours = validate_hours
+        self.debug_validator = debug_validator
+        self.debug_specifier = debug_specifier
+        self.zone_name = zone_name
 
     def validate_transition_buffer_size(self):
         """Determine the size of transition buffer required for each zone.
@@ -60,8 +68,13 @@ class Validator:
         # in zone_infos, for the years 2000 to 2038.
         logging.info('Calculating transitions between 2000 and 2038')
         for zone_short_name, zone_info in sorted(self.zone_infos.items()):
-            #logging.info('Validating zone %s' % zone_short_name)
-            zone_specifier = ZoneSpecifier(zone_info, self.optimized)
+            if self.zone_name != '' and zone_short_name != self.zone_name:
+                continue
+            if self.debug_validator:
+                logging.info('Validating zone %s' % zone_short_name)
+
+            zone_specifier = ZoneSpecifier(zone_info, self.viewing_months,
+                self.debug_specifier)
             count_record = (0, 0)  # (count, year)
             for year in range(2000, 2038):
                 #logging.info('Validating year %s' % year)
@@ -91,6 +104,8 @@ class Validator:
 
     def validate_test_data(self, test_data):
         for zone_short_name, items in test_data.items():
+            if self.debug_validator:
+                logging.info('  Validating zone %s' % zone_short_name)
             if self.validate_hours:
                 # Debugging output when generating 'hours' takes a long time
                 logging.info('  Validating test data for %s', zone_short_name)
@@ -98,8 +113,12 @@ class Validator:
 
     def validate_test_data_for_zone(self, zone_short_name, items):
         zone_info = self.zone_infos[zone_short_name]
-        zone_specifier = ZoneSpecifier(zone_info, self.optimized)
+        zone_specifier = ZoneSpecifier(zone_info, self.viewing_months,
+            self.debug_specifier)
         for item in items:
+            if self.debug_validator:
+                logging.info('    %04d-%02d-%02d %02d:%02d epoch:%d' %
+                    (item.y, item.M, item.d, item.h, item.m, item.epoch))
             (offset_seconds, dst_seconds, abbrev) = \
                 zone_specifier.get_timezone_info_from_seconds(item.epoch)
             unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
@@ -126,6 +145,8 @@ class Validator:
         test_data = {}
         num_items = 0
         for zone_short_name, zone_info in sorted(self.zone_infos.items()):
+            if self.zone_name != '' and zone_short_name != self.zone_name:
+                continue
             test_items = self.create_test_data_for_zone(
                 zone_short_name, zone_info)
             if test_items:
@@ -136,7 +157,8 @@ class Validator:
     def create_test_data_for_zone(self, zone_short_name, zone_info):
         """Create the TestItems for a specific zone.
         """
-        zone_specifier = ZoneSpecifier(zone_info, self.optimized)
+        zone_specifier = ZoneSpecifier(zone_info, self.viewing_months,
+            self.debug_specifier)
         zone_full_name = zone_info['name']
         try:
             tz = pytz.timezone(zone_full_name)

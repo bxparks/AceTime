@@ -135,9 +135,9 @@ def main():
 
     # Validator
     parser.add_argument(
-        '--optimized', help='Optimize the year interval',
-        action="store_true",
-        default=True)
+        '--viewing_months',
+        help='Number of months to use for calculations (13, 14, 36)',
+        type=int, default=14)
     parser.add_argument(
         '--validate_dst_offset',
         help='Validate the DST offset as well as the total UTC offset',
@@ -146,6 +146,16 @@ def main():
         '--validate_hours',
         help='Validate all 24 hours of a day instead of a single sample hour',
         action="store_true")
+    parser.add_argument(
+        '--debug_validator',
+        help='Enable debug output from Validator',
+        action="store_true")
+    parser.add_argument(
+        '--debug_specifier',
+        help='Enable debug output from ZoneSpecifier',
+        action="store_true")
+    parser.add_argument('--zone', help='Name of time zone to validate',
+        default='')
 
     # Parse the command line arguments
     args = parser.parse_args()
@@ -230,8 +240,10 @@ def main():
         logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
                      len(zone_policies))
 
-        validator = Validator(zone_infos, zone_policies, args.optimized,
-                              args.validate_dst_offset, args.validate_hours)
+        validator = Validator(zone_infos, zone_policies, args.viewing_months,
+                              args.validate_dst_offset, args.validate_hours,
+                              args.debug_validator, args.debug_specifier,
+                              args.zone)
 
         logging.info('======== Validating transition buffer sizes...')
         validator.validate_transition_buffer_size()
@@ -245,8 +257,10 @@ def main():
         (zone_infos, zone_policies) = inline_generator.generate_maps()
         logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
                      len(zone_policies))
-        validator = Validator(zone_infos, zone_policies, args.optimized,
-                              args.validate_dst_offset, args.validate_hours)
+        validator = Validator(zone_infos, zone_policies, args.viewing_months,
+                              args.validate_dst_offset, args.validate_hours,
+                              args.debug_validator, args.debug_specifier,
+                              args.zone)
         (test_data, num_items) = validator.create_test_data()
         logging.info('test_data=%d', len(test_data))
         test_data_generator = TestDataGenerator(invocation, args.tz_version,

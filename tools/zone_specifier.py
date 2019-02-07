@@ -13,14 +13,19 @@ Examples:
     # America/Los_Angeles for 2018-03-10T02:00:00
     $ ./zone_specifier.py --zone Los_Angeles --date 2019-03-10T01:59
     UTC-08:00+00:00 (PST)
+
     $ ./zone_specifier.py --zone Los_Angeles --date 2019-03-10T02:00
     Invalid time
+
     $ ./zone_specifier.py --zone Los_Angeles --date 2019-03-10T03:00
     UTC-08:00+01:00 (PDT)
+
     $ ./zone_specifier.py --zone Los_Angeles --date 2019-11-03T01:00
     UTC-08:00+01:00 (PDT)
+
     $ ./zone_specifier.py --zone Los_Angeles --date 2019-11-03T01:59
     UTC-08:00+01:00 (PDT)
+
     $ ./zone_specifier.py --zone Los_Angeles --date 2019-11-03T02:00
     UTC-08:00+00:00 (PST)
 
@@ -32,6 +37,8 @@ Examples:
 
     # Australia/Darwin for the year 2006.
     $ ./zone_specifier.py --zone Darwin --year 2006
+
+    $ ./zone_specifier.py --zone Adak --year 2000 --viewing_months 13 --debug
 """
 
 import sys
@@ -336,7 +343,7 @@ class ZoneSpecifier:
     """Extract DST transition information for a given ZoneInfo.
 
     Usage:
-        zone_specifier = ZoneSpecifier(zone_info, args.optimized)
+        zone_specifier = ZoneSpecifier(zone_info [, viewing_months, debug])
 
         # Validate matches and transitions
         (matches, transitions) = zone_specifier.get_matches_and_transitions(
@@ -352,11 +359,11 @@ class ZoneSpecifier:
                 zone_specifier.get_timezone_info_from_datetime(dt)
 
     Note:
-        The optimized mode is hardwired to True because there's a bug when it is
-        set to False. Namely, when the start_ym and end_ym occur exactly at a
-        year boundary, one (or more) of the interval calculations is incorrect.
-        I haven't had the energy to fix it because I will always use the
-        optimized mode.
+        The viewing_months determines the month interval to use to calculate
+        the transitions.
+        * 13 = [year-Jan, (year+1)-Feb) (buggy)
+        * 14 = [(year-1)-Dec, (year+1)-Feb) (works)
+        * 36 = [(year-1)-Jan, (year+2)-Jan) (buggy)
     """
 
     # Sentinel ZoneEra that represents the earliest zone era.
@@ -368,13 +375,13 @@ class ZoneSpecifier:
         'untilTimeModifier': 'w'
     })
 
-    def __init__(self, zone_info_data, optimized=True):
+    def __init__(self, zone_info_data, viewing_months=14, debug=False):
         """zone_info_data map is one of the ZONE_INFO_xxx constants from
         zone_infos.py. It can contain a reference to a zone_policy_data map. We
         need to convert these into ZoneEraCooked and ZoneRuleCooked classes.
         """
         self.zone_info = ZoneInfoCooked(zone_info_data)
-        self.optimized = optimized
+        self.viewing_months = viewing_months
 
         # Used by init_*() to indicate the current year of interest.
         self.year = 0
@@ -384,6 +391,8 @@ class ZoneSpecifier:
 
         # List of matching Transition objects.
         self.transitions = []
+
+        self.debug = debug
 
     def get_matches_and_transitions(self, year):
         """Returns a tuple of (matches, transitions). Used by validator.py
@@ -438,17 +447,27 @@ class ZoneSpecifier:
         if self.year == year:
             return
 
+        if self.debug:
+            logging.info('init_for_year(): year: %d' % year)
         self.year = year
 
-        if self.optimized:
+        if self.viewing_months == 13:
+            start_ym = YearMonthTuple(year, 1)
+            until_ym = YearMonthTuple(year + 1, 2)
+        elif self.viewing_months == 14:
             start_ym = YearMonthTuple(year - 1, 12)
             until_ym = YearMonthTuple(year + 1, 2)
-        else:
+        elif self.viewing_months == 36:
             start_ym = YearMonthTuple(year - 1, 1)
             until_ym = YearMonthTuple(year + 2, 1)
+        else:
+            raise Exception('Unsupported viewing_months: %d' %
+                self.viewing_months)
 
         self.matches = self.find_matches(start_ym, until_ym)
         self.transitions = self.find_transitions(start_ym, until_ym)
+        if self.debug:
+            print_matches_and_transitions(self.matches, self.transitions)
         generate_start_until_times(self.transitions)
         calc_abbrev(self.transitions)
 
@@ -484,9 +503,11 @@ class ZoneSpecifier:
         return None
 
     def find_matches(self, start_ym, until_ym):
-        """Find the Zone Eras which overlap [start_ym, until_ym). This will
-        be the 3 years before and after the current year in non-optimized mode,
-        and the 14-month interval in optimized mode.
+        """Find the Zone Eras which overlap [start_ym, until_ym).
+        Experimentation shows that [start_ym, until_ym) must include the Dec
+        before the target year, and Jan following the target year. Otherwise, we
+        miss transitions that happens in the previous year that affects the
+        transition properties on Jan 1 of the target year.
         """
         zone_eras = self.zone_info.eras
         prev_era = self.ZONE_ERA_ANCHOR
@@ -494,6 +515,8 @@ class ZoneSpecifier:
         for zone_era in zone_eras:
             if era_overlaps_interval(prev_era, zone_era, start_ym, until_ym):
                 match = create_match(prev_era, zone_era)
+                if self.debug:
+                    logging.info('find_matches(): %s' % match)
                 matches.append(match)
             prev_era = zone_era
         return matches
@@ -532,6 +555,9 @@ class ZoneSpecifier:
         zone_policy = zone_era.zonePolicy
 
         match = calc_effective_match(start_ym, until_ym, match)
+        if self.debug:
+            logging.info('find_transitions_from_match(): effective match: %s' %
+                match)
         if zone_policy in ['-', ':']:
             return self.find_transitions_from_simple_match(match)
         else:
@@ -630,15 +656,16 @@ class ZoneSpecifier:
 #            self.transitions.append(prior_transition)
 
     def find_transitions_from_named_match(self, match):
+        """Find the transitions of the named effective ZoneMatch. Only the year
+        component of the match.startDateTime and match.untilDateTime are used,
+        and the month component is ignored. This causes --viewing_months=13 to
+        break because the boundary is at the year transition.
+        """
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
         rules = zone_policy.rules
-        start_dt = match.startDateTime
-        start_y = start_dt.y
-        until_dt = match.untilDateTime
-        end_y = until_dt.y
 
-        transitions = get_candidate_transitions(match, rules, start_y, end_y)
+        transitions = get_candidate_transitions(match, rules)
         transitions = sort_transitions(transitions)
         fix_transition_times(transitions)
         transitions = select_active_transitions(transitions, match)
@@ -646,6 +673,8 @@ class ZoneSpecifier:
             logging.error("Zone '%s'; year '%04d': No prior transition found!",
                           self.zone_info['name'], self.year)
             sys.exit(1)
+
+        # Not sure sure that this sorting is necessary but doesn't hurt.
         transitions = sort_transitions(transitions)
 
         return transitions
@@ -687,22 +716,31 @@ def create_match(prev_era, zone_era):
 
 
 def select_active_transitions(transitions, match):
-    # Categorize each transition
+    """Select those Transitions which overlap with the effective ZoneMatch
+    interval which may not be at year boundary. Also select the latest prior
+    transition before the given ZoneMatch, shifting the transition time to the
+    start of the ZoneMatch.
+    """
+
+    # Commulative results of process_transition()
     results = {
         'startTransitionFound': None,
         'latestPriorTransition': None,
         'transitions': []
     }
+
+    # Categorize each transition
     for transition in transitions:
         process_transition(match, transition, results)
-
     transitions = results['transitions']
+
     # Add the latest prior transition
     if not results.get('startTransitionFound'):
         prior_transition = results.get('latestPriorTransition')
         if not prior_transition:
-            return None
+            return None # should not happen, indicate an error
 
+        # Adjust the transition time to be the start of the ZoneMatch.
         prior_transition = prior_transition.copy()
         original_time = prior_transition.transitionTime
         prior_transition.transitionTime = match.startDateTime
@@ -778,9 +816,16 @@ def generate_start_until_times(transitions):
     transition.untilDateTime = udt
 
 
-def get_candidate_transitions(match, rules, start_y, end_y):
-    """Get the list of candidate transitions from the matching ZoneEra.
+def get_candidate_transitions(match, rules):
+    """Get the list of candidate transitions from the list of 'rules' which
+    overlap the whole years [start_y, end_y] (inclusive)) defined by the given
+    'match' ZoneEra.
     """
+    # Use whole years because 'rules' define repetitive transitions
+    # using whole years.
+    start_y = match.startDateTime.y
+    end_y = match.untilDateTime.y
+
     transitions = []
     for rule in rules:
         from_year = rule.fromYear
@@ -854,8 +899,7 @@ def fix_transition_times(transitions):
     # Bootstrap the transition with the first transition, effectively
     # extending the first transition backwards to -infinity. This won't be
     # 100% correct with respect to the TZ Database but it will be good
-    # enough for the first transition that we care about (either at (year-1)
-    # Jan 1, or at (year-1) Dec 1 in optimized mode).
+    # enough for the first transition that we care about.
     prev = transitions[0].copy()
     for transition in transitions:
         prev_delta_seconds = prev.deltaSeconds
@@ -950,9 +994,15 @@ def calc_abbrev(transitions):
 
 
 def process_transition(match, transition, results):
-    """Process the given transition, making sure that it overlaps within
-    the range defined by 'match'. If the Transition is within the matching
-    ZoneEra, it is added to the map at results['transitions'].
+    """Process the given transition, checking the following situations:
+    1) If the Transition is outside the time range of the effective ZoneEra,
+    ignore the transition.
+    2) If the Transition is within the matching effective ZoneEra, it is added
+    to the map at results['transitions'].
+    2a) If the Transition occurs at the very start of the ZoneEra, then
+    set the flag "startTransitionFound" to true.
+    3) If the Transition is earlier than the effective ZoneEra, then add
+    it to the 'latestPriorTransition' if it is the largest prior transition.
 
     The 'results' is a map that keeps track of the processing, and contains:
         {
@@ -982,10 +1032,12 @@ def process_transition(match, transition, results):
         if transition_compared_to_match == 0:
             results['startTransitionFound'] = True
     else:  # transition_compared_to_match < -1:
-        # Determine the latest prior transition
+        # If a Transition exists on the start bounary of the ZoneMatch,
+        # then we don't need to search for the latest prior.
         if results.get('startTransitionFound'):
             return
 
+        # Determine the latest prior transition
         latest_prior_transition = results.get('latestPriorTransition')
         if not latest_prior_transition:
             results['latestPriorTransition'] = transition
@@ -1021,9 +1073,7 @@ def get_candidate_years(from_year, to_year, start_year, end_year):
 
 def calc_effective_match(start_ym, until_ym, match):
     """Generate a version of match which overlaps the interval
-    [start_ym, until_ym). In an unoptimized mode, this will be the 3-year
-    interval [year-1, year+2). In optimized mode, this will be the 14 month
-    interval [(year-1, 12), (year+1, 2)).
+    [start_ym, until_ym).
     """
     start_date_time = match.startDateTime
     if start_date_time < DateTuple(
@@ -1184,11 +1234,14 @@ def main():
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Zone Agent.')
     parser.add_argument(
-        '--optimized', help='Optimize the year interval', action="store_true",
-        default=True)
+        '--viewing_months',
+        help='Number of months to use for calculations (13, 14, 36)',
+        type=int, default=14)
     parser.add_argument(
         '--transition', help='Print the transition instead of timezone info',
         action="store_true")
+    parser.add_argument(
+        '--debug', help='Print debugging info', action="store_true")
     parser.add_argument('--zone', help='Name of time zone', required=True)
     parser.add_argument('--year', help='Year of interest', type=int)
     parser.add_argument('--date', help='DateTime of interest')
@@ -1204,7 +1257,7 @@ def main():
         sys.exit(1)
 
     # Create the ZoneSpecifier for zone
-    zone_specifier = ZoneSpecifier(zone_info, args.optimized)
+    zone_specifier = ZoneSpecifier(zone_info, args.viewing_months, args.debug)
 
     if args.year:
         (matches, transitions) = zone_specifier.get_matches_and_transitions(
