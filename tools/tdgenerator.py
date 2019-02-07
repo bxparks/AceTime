@@ -10,20 +10,8 @@ import logging
 import os
 
 from transformer import short_name
-from transformer import seconds_to_hms
-from transformer import hms_to_seconds
 from transformer import div_to_zero
 from extractor import EPOCH_YEAR
-from extractor import MAX_YEAR
-from extractor import MAX_YEAR_TINY
-from extractor import MIN_YEAR
-from extractor import MIN_YEAR_TINY
-from extractor import MAX_UNTIL_YEAR
-from extractor import MAX_UNTIL_YEAR_TINY
-from argenerator import to_tiny_year
-from argenerator import normalize_name
-from argenerator import normalize_raw
-from validator import TestItem
 
 
 class TestDataGenerator:

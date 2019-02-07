@@ -61,10 +61,8 @@ MAX_YEAR = MAX_UNTIL_YEAR - 1
 # Tiny (int8_t) version of MAX_YEAR.
 MAX_YEAR_TINY = MAX_UNTIL_YEAR_TINY - 1
 
-# Minimum valid TO or FROM year. Python datetime supports a minimum of 1. We
-# sometimes subtract a few hours from 0001-01-01 to get to 'u' or 's' time so we
-# need to use year 0002-01-01 as the minimum.
-MIN_YEAR = 2
+# Marker year to indicate -Infinity year.
+MIN_YEAR = 0
 
 # Tiny (int8_t) version of MIN_YEAR.
 MIN_YEAR_TINY = -128

@@ -953,6 +953,9 @@ def normalize_date_tuple(tt):
     """Return the normalized DateTuple where the dt.ss could be negative or
     greater than 24h.
     """
+    if tt.y == MIN_YEAR:
+        return DateTuple(y=MIN_YEAR, m=1, d=1, ss=0, f=tt.f)
+
     try:
         st = datetime(tt.y, tt.m, tt.d, 0, 0, 0)
         delta = timedelta(seconds=tt.ss)
