@@ -181,6 +181,11 @@ class Validator:
         """
         items = []
         for year in range(2000, 2019):
+            # Add beginning of the year
+            items.append(
+                self.create_test_item_from_datetime(
+                    tz, year, month=1, day=1, hour=0, type='Y'))
+
             (matches,
              transitions) = zone_specifier.get_matches_and_transitions(year)
             transition_found = False
