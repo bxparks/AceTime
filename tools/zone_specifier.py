@@ -126,7 +126,8 @@ class ZoneEraCooked:
             else:
                 setattr(self, key, value)
 
-    def get_policy_name(self):
+    @property
+    def policyName(self):
         """Return the human-readable name of the zone policy used by
         this zoneEra (i.e. value of RULES column). Will be in one of 3 states:
         '-', ':' or a reference
@@ -218,7 +219,7 @@ class ZoneMatch:
             'ZoneMatch(' + 'start: %s; ' + 'until: %s; ' + 'policyName: %s)'
         ) % (date_tuple_to_string(self.startDateTime),
              date_tuple_to_string(self.untilDateTime),
-             self.zoneEra.get_policy_name())
+             self.zoneEra.policyName)
 
 
 class Transition:
@@ -237,19 +238,15 @@ class Transition:
         'zoneEra',  # (ZoneEra)
 
         # Added for simple Match and named Match.
-        'format',  # (str) from ZoneEra
         'originalTransitionTime',  # (DateTuple) transition time before shifting
         'transitionTime',  # (DateTuple) 'w' time
         'transitionTimeS',  # (DateTuple) 's' time
         'transitionTimeU',  # (DateTuple) 'u' time
-        'offsetSeconds',  # (int) from ZoneEra
-        'deltaSeconds',  # (int) from ZoneRule or ZoneEra
         'abbrev',  # (str) abbreviation
         'startEpochSecond',  # (int) the starting time in epoch seconds
 
         # Added for named Match.
-        'zoneRule',  # (ZoneRule)
-        'letter',  # (str)
+        'zoneRule',  # (ZoneRule or None) Defined for named Match.
     ]
 
     def __init__(self, arg):
@@ -261,6 +258,23 @@ class Transition:
         elif isinstance(arg, ZoneMatch):
             for s in ZoneMatch.__slots__:
                 setattr(self, s, getattr(arg, s))
+
+    @property
+    def format(self):
+        return self.zoneEra.format  # (str)
+
+    @property
+    def offsetSeconds(self):
+        return self.zoneEra.offsetSeconds  # (int)
+
+    @property
+    def letter(self):
+        return self.zoneRule.letter if self.zoneRule else ''
+
+    @property
+    def deltaSeconds(self):
+        return self.zoneRule.deltaSeconds if self.zoneRule \
+            else self.zoneEra.rulesDeltaSeconds
 
     def copy(self):
         result = self.__class__.__new__(self.__class__)
@@ -274,9 +288,9 @@ class Transition:
 
     def __repr__(self):
         sepoch = self.startEpochSecond if self.startEpochSecond else 0
-        policy_name = self.zoneEra.get_policy_name()
+        policy_name = self.zoneEra.policyName
         offset_seconds = self.offsetSeconds
-        delta_seconds = self.deltaSeconds if self.deltaSeconds else 0
+        delta_seconds = self.deltaSeconds
         format = self.format
         abbrev = self.abbrev if self.abbrev else ''
 
@@ -472,10 +486,8 @@ class ZoneSpecifier:
         calc_abbrev(self.transitions)
 
     def timezone_info_from_transition(self, transition):
-        offset_seconds = transition.offsetSeconds
-        delta_seconds = transition.deltaSeconds
-        abbrev = transition.abbrev
-        return (offset_seconds, delta_seconds, abbrev)
+        return (transition.offsetSeconds, transition.deltaSeconds,
+            transition.abbrev)
 
     def find_transition_from_seconds(self, epoch_seconds):
         """Return the matching transition, or None if not found.
@@ -570,9 +582,6 @@ class ZoneSpecifier:
         zone_era = match.zoneEra
         transition = Transition(match)
         transition.update({
-            'offsetSeconds': zone_era.offsetSeconds,
-            'deltaSeconds': zone_era.rulesDeltaSeconds,
-            'format': zone_era.format,
             'transitionTime': match.startDateTime,
         })
         return [transition]
@@ -871,12 +880,8 @@ def create_transition_for_year(year, rule, match):
     zone_era = match.zoneEra
     transition = Transition(match)
     transition.update({
-        'offsetSeconds': zone_era.offsetSeconds,
-        'format': zone_era.format,
         'transitionTime': transition_time,
         'zoneRule': rule,
-        'deltaSeconds': rule.deltaSeconds,
-        'letter': rule.letter,
     })
     return transition
 
@@ -902,13 +907,10 @@ def fix_transition_times(transitions):
     # enough for the first transition that we care about.
     prev = transitions[0].copy()
     for transition in transitions:
-        prev_delta_seconds = prev.deltaSeconds
-        prev_offset_seconds = prev.offsetSeconds
-
         (transition.transitionTime, transition.transitionTimeS,
             transition.transitionTimeU) = \
             expand_date_tuple(transition.transitionTime,
-                prev_offset_seconds, prev_delta_seconds)
+                prev.offsetSeconds, prev.deltaSeconds)
         prev = transition
 
 
