@@ -17,16 +17,28 @@ class TransitionTest: public aunit::TestOnce {
 
       const common::ZoneInfo* zoneInfo = testData->zoneInfo;
       AutoZoneSpecifier zoneSpecifier(zoneInfo);
+      TimeZone tz(&zoneSpecifier);
       for (uint16_t i = 0; i < testData->numItems; i++) {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
-        UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);
         if (DEBUG) {
           ace_time::common::logger("==== test index: %d", i);
           ace_time::common::logger("epochSeconds: %ld", epochSeconds);
           zoneSpecifier.log();
         }
+
+        // Verify utcOffset
+        UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);
         assertEqual(item.utcOffsetMinutes, utcOffset.toMinutes());
+
+        // Verify date components
+        ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
+        assertEqual(item.yearTiny, dt.yearTiny());
+        assertEqual(item.month, dt.month());
+        assertEqual(item.day, dt.day());
+        assertEqual(item.hour, dt.hour());
+        assertEqual(item.minute, dt.minute());
+        assertEqual(item.second, dt.second());
       }
     }
 };
