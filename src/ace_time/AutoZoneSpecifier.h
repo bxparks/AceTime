@@ -111,7 +111,14 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     explicit AutoZoneSpecifier(const common::ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
-    /** Copy constructor. */
+    /**
+     * Copy constructor. This is needed because some applications (e.g.
+     * WorldClock) find it convenient to initialize the various ZoneSpecifiers
+     * in a setup() method, after the ZoneSpecifier variables have been already
+     * allocated. To reset the specifiers, we need a copy constructor. If
+     * deferred initialization is removed, then this copy constructor can be
+     * removed as well.
+     */
     explicit AutoZoneSpecifier(const AutoZoneSpecifier& that):
       mZoneInfo(that.mZoneInfo),
       mIsFilled(false) {}
