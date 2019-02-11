@@ -27,6 +27,7 @@ class ZoneSpecifier {
   public:
     static const uint8_t kTypeManual = 0;
     static const uint8_t kTypeAuto = 1;
+    static const uint8_t kTypeExtended = 2;
 
     /** Return the type of the zone spec. */
     virtual uint8_t getType() const = 0;
