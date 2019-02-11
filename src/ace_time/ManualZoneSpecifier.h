@@ -59,7 +59,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     uint8_t getType() const override { return kTypeManual; }
 
     /** Return the UTC offset after accounting for mIsDst flag. */
-    UtcOffset getUtcOffset() {
+    UtcOffset getUtcOffset(acetime_t /*epochSeconds*/) override {
       return mIsDst
         ? UtcOffset::forOffsetCode(mStdOffset.code() + mDeltaOffset.code())
         : mStdOffset;
@@ -71,8 +71,13 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Return the time zone abbreviation after accounting for mIsDst flag. */
-    const char* getAbbrev() {
+    const char* getAbbrev(acetime_t /*epochSeconds*/) override {
       return mIsDst ? mDstAbbrev : mStdAbbrev;
+    }
+
+    bool equals(const ZoneSpecifier& that) const override {
+      const auto& other = (const ManualZoneSpecifier&) that;
+      return *this == other;
     }
 
   private:

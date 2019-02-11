@@ -28,6 +28,15 @@ class ZoneSpecifier {
 
     /** Return the type of the zone spec. */
     virtual uint8_t getType() const = 0;
+
+    /** Return the UTC offset at epochSeconds. */
+    virtual UtcOffset getUtcOffset(acetime_t epochSeconds) = 0;
+
+    /** Return the time zone abbreviation at epochSeconds. */
+    virtual const char* getAbbrev(acetime_t epochSeconds) = 0;
+
+    /** Return true if equal. */
+    virtual bool equals(const ZoneSpecifier& that) const = 0;
 };
 
 }

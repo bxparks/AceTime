@@ -68,20 +68,12 @@ class TimeZone {
 
     /** Return the UTC offset at epochSeconds. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) const {
-      if (getType() == kTypeAuto) {
-        return ((AutoZoneSpecifier*)mZoneSpecifier)->getUtcOffset(epochSeconds);
-      } else {
-        return ((ManualZoneSpecifier*)mZoneSpecifier)->getUtcOffset();
-      }
+      return mZoneSpecifier->getUtcOffset(epochSeconds);
     }
 
     /** Return the abbreviation at epochSeconds. */
     const char* getAbbrev(acetime_t epochSeconds) const {
-      if (getType() == kTypeAuto) {
-        return ((AutoZoneSpecifier*)mZoneSpecifier)->getAbbrev(epochSeconds);
-      } else {
-        return ((ManualZoneSpecifier*)mZoneSpecifier)->getAbbrev();
-      }
+      return mZoneSpecifier->getAbbrev(epochSeconds);
     }
 
     /** Print the human readable representation of the time zone. */
@@ -102,18 +94,9 @@ class TimeZone {
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
-  if (a.getType() != b.getType()) return false;
   if (a.mZoneSpecifier == b.mZoneSpecifier) return true;
-
-  if (a.getType() == TimeZone::kTypeAuto) {
-    auto* aa = static_cast<AutoZoneSpecifier*>(a.mZoneSpecifier);
-    auto* bb = static_cast<AutoZoneSpecifier*>(b.mZoneSpecifier);
-    return *aa == *bb;
-  } else {
-    auto* aa = static_cast<ManualZoneSpecifier*>(a.mZoneSpecifier);
-    auto* bb = static_cast<ManualZoneSpecifier*>(b.mZoneSpecifier);
-    return *aa == *bb;
-  }
+  if (a.getType() != b.getType()) return false;
+  return a.mZoneSpecifier->equals(*b.mZoneSpecifier);
 }
 
 inline bool operator!=(const TimeZone& a, const TimeZone& b) {

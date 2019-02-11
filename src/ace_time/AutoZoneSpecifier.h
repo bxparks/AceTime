@@ -138,7 +138,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     uint8_t getType() const override { return kTypeAuto; }
 
     /** Return the UTC offset at epochSeconds. */
-    UtcOffset getUtcOffset(acetime_t epochSeconds) {
+    UtcOffset getUtcOffset(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return UtcOffset();
       const internal::Transition* transition = getTransition(epochSeconds);
       return UtcOffset::forOffsetCode(transition->offsetCode);
@@ -153,10 +153,15 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Return the time zone abbreviation. */
-    const char* getAbbrev(acetime_t epochSeconds) {
+    const char* getAbbrev(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return "UTC";
       const internal::Transition* transition = getTransition(epochSeconds);
       return transition->abbrev;
+    }
+
+    bool equals(const ZoneSpecifier& that) const override {
+      const auto& other = (const AutoZoneSpecifier&) that;
+      return *this == other;
     }
 
     /** Used only for debugging. */
