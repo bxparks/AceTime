@@ -17,13 +17,13 @@ test(ManualZoneSpecifierTest, accessors) {
 
   assertEqual(-8*60, pstSpec.getUtcOffset(0).toMinutes());
   assertEqual("PST", pstSpec.getAbbrev(0));
-  assertEqual(0, pstSpec.getDeltaOffset().toMinutes());
+  assertEqual(0, pstSpec.getDeltaOffset(0).toMinutes());
 
   pstSpec.isDst(true);
 
   assertEqual(-7*60, pstSpec.getUtcOffset(0).toMinutes());
   assertEqual("PDT", pstSpec.getAbbrev(0));
-  assertEqual(1*60, pstSpec.getDeltaOffset().toMinutes());
+  assertEqual(1*60, pstSpec.getDeltaOffset(0).toMinutes());
 }
 
 test(ManualZoneSpecifierTest, copyConstructor) {

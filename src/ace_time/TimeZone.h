@@ -4,7 +4,6 @@
 #include <stdint.h>
 #include "UtcOffset.h"
 #include "ZoneSpecifier.h"
-#include "AutoZoneSpecifier.h"
 #include "ManualZoneSpecifier.h"
 
 class Print;

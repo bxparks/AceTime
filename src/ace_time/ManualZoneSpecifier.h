@@ -66,7 +66,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Return the DST delta offset after accounting for mIsDst flag. */
-    UtcOffset getDeltaOffset() {
+    UtcOffset getDeltaOffset(acetime_t /*epochSeconds*/) {
       return mIsDst ? mDeltaOffset : UtcOffset();
     }
 
@@ -79,6 +79,8 @@ class ManualZoneSpecifier: public ZoneSpecifier {
       const auto& other = (const ManualZoneSpecifier&) that;
       return *this == other;
     }
+
+    void printTo(Print& printer) const override;
 
   private:
     friend bool operator==(const ManualZoneSpecifier& a,

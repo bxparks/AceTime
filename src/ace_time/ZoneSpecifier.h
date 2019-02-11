@@ -4,6 +4,8 @@
 #include "common/common.h"
 #include "UtcOffset.h"
 
+class Print;
+
 namespace ace_time {
 
 /**
@@ -37,6 +39,9 @@ class ZoneSpecifier {
 
     /** Return true if equal. */
     virtual bool equals(const ZoneSpecifier& that) const = 0;
+
+    /** Print a human-readable identifier. */
+    virtual void printTo(Print& printer) const = 0;
 };
 
 }

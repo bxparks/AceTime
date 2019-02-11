@@ -164,6 +164,8 @@ class AutoZoneSpecifier: public ZoneSpecifier {
       return *this == other;
     }
 
+    void printTo(Print& printer) const override;
+
     /** Used only for debugging. */
     void log() const {
       if (!mIsFilled) {
