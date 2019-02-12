@@ -45,6 +45,7 @@ import sys
 import argparse
 import logging
 import collections
+import traceback
 from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
@@ -674,17 +675,36 @@ class ZoneSpecifier:
         zone_policy = zone_era.zonePolicy
         rules = zone_policy.rules
 
+        if self.debug:
+            logging.info('Get candidate transitions')
         transitions = get_candidate_transitions(match, rules)
         transitions = sort_transitions(transitions)
+        check_transitions_sorted(transitions)
+        if self.debug:
+            print_transitions(transitions)
+
+        if self.debug:
+            logging.info('Fix transition times')
         fix_transition_times(transitions)
+        check_transitions_sorted(transitions)
+        if self.debug:
+            print_transitions(transitions)
+
+        if self.debug:
+            logging.info('Select active transitions')
         transitions = select_active_transitions(transitions, match)
         if transitions == None:
             logging.error("Zone '%s'; year '%04d': No prior transition found!",
                           self.zone_info['name'], self.year)
             sys.exit(1)
+        if self.debug:
+            print_transitions(transitions)
 
         # Not sure sure that this sorting is necessary but doesn't hurt.
+        if self.debug:
+            logging.info('Final check for sorted transitions')
         transitions = sort_transitions(transitions)
+        check_transitions_sorted(transitions)
 
         return transitions
 
@@ -728,7 +748,8 @@ def select_active_transitions(transitions, match):
     """Select those Transitions which overlap with the effective ZoneMatch
     interval which may not be at year boundary. Also select the latest prior
     transition before the given ZoneMatch, shifting the transition time to the
-    start of the ZoneMatch.
+    start of the ZoneMatch. The returned array of transitions is likely to be
+    unsorted again, since the latest prior transition is added to the end.
     """
 
     # Commulative results of process_transition()
@@ -743,7 +764,9 @@ def select_active_transitions(transitions, match):
         process_transition(match, transition, results)
     transitions = results['transitions']
 
-    # Add the latest prior transition
+    # Add the latest prior transition. Adding this at the end of the array
+    # will likely cause the transitions to become unsorted, requiring another
+    # sorting pass.
     if not results.get('startTransitionFound'):
         prior_transition = results.get('latestPriorTransition')
         if not prior_transition:
@@ -857,10 +880,23 @@ def sort_transitions(transitions):
         ts = sorted(
             transitions,
             key=lambda x: date_tuple_to_sort_key(x.transitionTime))
-    except:
+    except e as Exception:
+        logging.exception('Exception caught: %s' % e)
         print_transitions(transitions)
         sys.exit(1)
     return ts
+
+def check_transitions_sorted(transitions):
+    """Check transitions are sorted.
+    """
+    prev = None
+    for transition in transitions:
+        if not prev:
+            prev = transition
+            continue
+        if prev.transitionTime > transition.transitionTime:
+            print_transitions(transitions)
+            raise Exception('Transitions not sorted')
 
 
 def create_transition_for_year(year, rule, match):
@@ -1234,6 +1270,11 @@ def print_matches_and_transitions(matches, transitions):
     for m in matches:
         logging.info(m)
     logging.info('---- Transitions:')
+    for t in transitions:
+        logging.info(t)
+
+
+def print_transitions(transitions):
     for t in transitions:
         logging.info(t)
 
