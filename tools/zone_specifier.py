@@ -1185,11 +1185,10 @@ def era_overlaps_interval(prev_era, era, start_ym, until_ym):
 
 
 def compare_era_to_year_month(era, year, month):
-    """Compare the zone_era with year, returning -1, 0 or 1. Ignore the
-    untilTimeModifier suffix. Maybe it's not needed in this context?
+    """Compare the zone_era with year, returning -1, 0 or 1. The day of month is
+    implicitly 1. Ignore the untilTimeModifier suffix. Maybe it's not needed in
+    this context?
     """
-    if not era:
-        return -1
     if era.untilYear < year:
         return -1
     if era.untilYear > year:
@@ -1198,6 +1197,10 @@ def compare_era_to_year_month(era, year, month):
         return -1
     if era.untilMonth > month:
         return 1
+    if era.untilDay > 1:
+        return 1
+    if era.untilSeconds < 0:
+        return -1
     if era.untilSeconds > 0:
         return 1
     return 0
