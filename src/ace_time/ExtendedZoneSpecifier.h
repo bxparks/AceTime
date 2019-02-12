@@ -12,20 +12,22 @@
 #include "ZoneSpecifier.h"
 #include "common/logger.h"
 
+class ExtendedZoneSpecifierTest_compareEraToYearMonth;
+
 namespace ace_time {
 
 namespace internal {
 
 struct DateTuple {
-  int8_t year;
+  int8_t yearTiny;
   uint8_t month;
   uint8_t day;
-  uint16_t minutes;
+  int8_t timeCode; // 15-min intervals
   uint8_t modifier; // 's', 'w', 'u'
 };
 
 struct YearMonthTuple {
-  int8_t year;
+  int8_t yearTiny;
   uint8_t month;
 };
 
@@ -163,7 +165,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return transition->abbrev;
     }
 
-    virtual bool equals(const ZoneSpecifier& that) const {
+    bool equals(const ZoneSpecifier& that) const override {
       const auto& other = (const ExtendedZoneSpecifier&) that;
       return *this == other;
     }
@@ -183,6 +185,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
   private:
     friend bool operator==(const ExtendedZoneSpecifier& a,
         const ExtendedZoneSpecifier& b);
+
+    friend class ::ExtendedZoneSpecifierTest_compareEraToYearMonth;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -230,12 +234,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       mNumTransitions = 0; // clear cache
 
       internal::YearMonthTuple startYm = {
-          (int8_t) (year - LocalDate::kEpochYear - 1), 12 };
+        (int8_t) (year - LocalDate::kEpochYear - 1), 12 };
       internal::YearMonthTuple untilYm =  {
-          (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
+        (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
 
-      createMatches(startYm, untilYm);
-      createTransitions(startYm, untilYm);
+      findMatches(startYm, untilYm);
+      findTransitions(startYm, untilYm);
       generateStartUntilTimes();
       calcAbbreviations();
 
@@ -247,7 +251,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return mIsFilled && (year == mYear);
     }
 
-    void createMatches(const internal::YearMonthTuple& startYm,
+    void findMatches(const internal::YearMonthTuple& startYm,
         const internal::YearMonthTuple& untilYm) {
       uint8_t iMatch = 0;
       const common::ZoneEra* prev = &kAnchorEra;
@@ -263,12 +267,25 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
-    bool eraOverlapsInterval(const common::ZoneEra* prev,
+    static bool eraOverlapsInterval(
+        const common::ZoneEra* prev,
         const common::ZoneEra* era,
         const internal::YearMonthTuple& startYm,
-        const internal::YearMonthTuple& untilYm) const {
-      // TODO: implement this
-      return true;
+        const internal::YearMonthTuple& untilYm) {
+      return compareEraToYearMonth(prev, untilYm.yearTiny, untilYm.month) < 0
+          && compareEraToYearMonth(era, startYm.yearTiny, startYm.month) > 0;
+    }
+
+    static int8_t compareEraToYearMonth(const common::ZoneEra* era,
+        int8_t yearTiny, uint8_t month) {
+      if (era->untilYearTiny < yearTiny) return -1;
+      if (era->untilYearTiny > yearTiny) return 1;
+      if (era->untilMonth < month) return -1;
+      if (era->untilMonth > month) return 1;
+      if (era->untilDay > 1) return 1;
+      if (era->untilTimeCode < 0) return -1;
+      if (era->untilTimeCode > 0) return 1;
+      return 0;
     }
 
     internal::ExtendedZoneMatch createMatch(
@@ -277,20 +294,20 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         prev->untilYearTiny,
         prev->untilMonth,
         prev->untilDay,
-        (uint16_t) (prev->untilTimeCode * 15),
+        prev->untilTimeCode,
         prev->untilTimeModifier
       };
       internal::DateTuple untilDate = {
         era->untilYearTiny,
         era->untilMonth,
         era->untilDay,
-        (uint16_t) (era->untilTimeCode * 15),
+        era->untilTimeCode,
         era->untilTimeModifier
       };
       return internal::ExtendedZoneMatch{startDate, untilDate, era};
     }
 
-    void createTransitions(const internal::YearMonthTuple& startYm,
+    void findTransitions(const internal::YearMonthTuple& startYm,
         const internal::YearMonthTuple& untilYm) {
       mNumTransitions = 0;
       for (uint8_t iMatch = 0; iMatch < mNumMatches; iMatch++) {
@@ -310,7 +327,62 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         const internal::ExtendedZoneMatch* match) {
       const common::ZoneEra* era = match->era;
       const common::ZonePolicy* policy = era->zonePolicy;
-      // TODO: finish
+      internal::ExtendedZoneMatch effMatch = calcEffectiveMatch(
+          startYm, untilYm, match);
+      if (policy == nullptr) {
+        addTransitionsFromSimpleMatch(match);
+      } else {
+        addTransitionsFromNamedMatch(match);
+      }
+    }
+
+    void addTransitionsFromSimpleMatch(
+        const internal::ExtendedZoneMatch* match) {
+      internal::Transition transition = {
+        *match,
+        internal::DateTuple(),
+        match->startDateTime
+      };
+      if (mNumTransitions < kMaxTransitions) {
+        mTransitions[mNumTransitions] = transition;
+        mNumTransitions++;
+      }
+    }
+
+    void addTransitionsFromNamedMatch(
+        const internal::ExtendedZoneMatch* match) {
+      // TODO: implement this
+    }
+
+    static internal::ExtendedZoneMatch calcEffectiveMatch(
+        const internal::YearMonthTuple& startYm,
+        const internal::YearMonthTuple& untilYm,
+        const internal::ExtendedZoneMatch* match) {
+      internal::DateTuple startDateTime = match->startDateTime;
+      if (compareDateTupleToYearMonth(
+          startDateTime, startYm.yearTiny, startYm.month) < 0) {
+        startDateTime = {startYm.yearTiny, startYm.month, 1, 0, 'w'};
+      }
+      internal::DateTuple untilDateTime = match->untilDateTime;
+      if (compareDateTupleToYearMonth(
+          untilDateTime, untilYm.yearTiny, untilYm.month) > 0) {
+        untilDateTime = {untilYm.yearTiny, untilYm.month, 1, 0, 'w'};
+      }
+
+      return internal::ExtendedZoneMatch{startDateTime, untilDateTime,
+          match->era};
+    }
+
+    static int8_t compareDateTupleToYearMonth(const internal::DateTuple& date,
+        int8_t yearTiny, uint8_t month) {
+      if (date.yearTiny < yearTiny) return -1;
+      if (date.yearTiny > yearTiny) return 1;
+      if (date.month < month) return -1;
+      if (date.month > month) return 1;
+      if (date.day > 1) return 1;
+      if (date.timeCode < 0) return -1;
+      if (date.timeCode > 0) return 1;
+      return 0;
     }
 
     void generateStartUntilTimes() {
