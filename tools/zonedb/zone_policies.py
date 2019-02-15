@@ -11,11 +11,11 @@
 # DO NOT EDIT
 
 # numPolicies: 83
-# numRules: 546
+# numRules: 562
 
 #---------------------------------------------------------------------------
 # Policy name: AN
-# Rule count: 8
+# Rule count: 9
 #---------------------------------------------------------------------------
 ZONE_RULES_AN = [
     # Rule    AN    1987    1999    -    Oct    lastSun    2:00s    1:00    D
@@ -29,6 +29,18 @@ ZONE_RULES_AN = [
         'atTimeModifier': 's',
         'deltaSeconds': 3600,
         'letter': 'D',
+    },
+    # Rule    AN    1990    1995    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'fromYear': 1990,
+        'toYear': 1995,
+        'inMonth': 3,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 1,
+        'atSeconds': 7200,
+        'atTimeModifier': 's',
+        'deltaSeconds': 0,
+        'letter': 'S',
     },
     # Rule    AN    1996    2005    -    Mar    lastSun    2:00s    0    S
     {
@@ -243,9 +255,21 @@ ZONE_POLICY_AS = {
 
 #---------------------------------------------------------------------------
 # Policy name: AT
-# Rule count: 7
+# Rule count: 8
 #---------------------------------------------------------------------------
 ZONE_RULES_AT = [
+    # Rule    AT    1988    1990    -    Oct    lastSun    2:00s    1:00    D
+    {
+        'fromYear': 1988,
+        'toYear': 1990,
+        'inMonth': 10,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 0,
+        'atSeconds': 7200,
+        'atTimeModifier': 's',
+        'deltaSeconds': 3600,
+        'letter': 'D',
+    },
     # Rule    AT    1991    1999    -    Oct    Sun>=1    2:00s    1:00    D
     {
         'fromYear': 1991,
@@ -339,7 +363,7 @@ ZONE_POLICY_AT = {
 
 #---------------------------------------------------------------------------
 # Policy name: AV
-# Rule count: 8
+# Rule count: 9
 #---------------------------------------------------------------------------
 ZONE_RULES_AV = [
     # Rule    AV    1988    1999    -    Oct    lastSun    2:00s    1:00    D
@@ -353,6 +377,18 @@ ZONE_RULES_AV = [
         'atTimeModifier': 's',
         'deltaSeconds': 3600,
         'letter': 'D',
+    },
+    # Rule    AV    1991    1994    -    Mar    Sun>=1    2:00s    0    S
+    {
+        'fromYear': 1991,
+        'toYear': 1994,
+        'inMonth': 3,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 1,
+        'atSeconds': 7200,
+        'atTimeModifier': 's',
+        'deltaSeconds': 0,
+        'letter': 'S',
     },
     # Rule    AV    1995    2005    -    Mar    lastSun    2:00s    0    S
     {
@@ -507,9 +543,21 @@ ZONE_POLICY_AW = {
 
 #---------------------------------------------------------------------------
 # Policy name: Arg
-# Rule count: 5
+# Rule count: 6
 #---------------------------------------------------------------------------
 ZONE_RULES_Arg = [
+    # Rule    Arg    1989    1993    -    Mar    Sun>=1    0:00    0    -
+    {
+        'fromYear': 1989,
+        'toYear': 1993,
+        'inMonth': 3,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 1,
+        'atSeconds': 0,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 0,
+        'letter': '-',
+    },
     # Rule    Arg    1999    only    -    Oct    Sun>=1    0:00    1:00    -
     {
         'fromYear': 1999,
@@ -584,8 +632,8 @@ ZONE_POLICY_Arg = {
 ZONE_RULES_Armenia = [
     # Anchor: Rule Armenia    2011    only    -    Oct    lastSun     2:00s    0    -
     {
-        'fromYear': 2,
-        'toYear': 2,
+        'fromYear': 0,
+        'toYear': 0,
         'inMonth': 1,
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
@@ -735,9 +783,33 @@ ZONE_POLICY_Belize = {
 
 #---------------------------------------------------------------------------
 # Policy name: Brazil
-# Rule count: 26
+# Rule count: 28
 #---------------------------------------------------------------------------
 ZONE_RULES_Brazil = [
+    # Rule    Brazil    1998    only    -    Oct    11     0:00    1:00    -
+    {
+        'fromYear': 1998,
+        'toYear': 1998,
+        'inMonth': 10,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 11,
+        'atSeconds': 0,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 3600,
+        'letter': '-',
+    },
+    # Rule    Brazil    1999    only    -    Feb    21     0:00    0    -
+    {
+        'fromYear': 1999,
+        'toYear': 1999,
+        'inMonth': 2,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 21,
+        'atSeconds': 0,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 0,
+        'letter': '-',
+    },
     # Rule    Brazil    1999    only    -    Oct     3     0:00    1:00    -
     {
         'fromYear': 1999,
@@ -1251,9 +1323,21 @@ ZONE_POLICY_Chatham = {
 
 #---------------------------------------------------------------------------
 # Policy name: Chile
-# Rule count: 14
+# Rule count: 15
 #---------------------------------------------------------------------------
 ZONE_RULES_Chile = [
+    # Rule    Chile    1998    only    -    Sep    27    4:00u    1:00    -
+    {
+        'fromYear': 1998,
+        'toYear': 1998,
+        'inMonth': 9,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 27,
+        'atSeconds': 14400,
+        'atTimeModifier': 'u',
+        'deltaSeconds': 3600,
+        'letter': '-',
+    },
     # Rule    Chile    1999    only    -    Apr     4    3:00u    0    -
     {
         'fromYear': 1999,
@@ -1455,9 +1539,21 @@ ZONE_POLICY_Cook = {
 
 #---------------------------------------------------------------------------
 # Policy name: Cuba
-# Rule count: 13
+# Rule count: 14
 #---------------------------------------------------------------------------
 ZONE_RULES_Cuba = [
+    # Rule    Cuba    1997    only    -    Oct    12    0:00s    0    S
+    {
+        'fromYear': 1997,
+        'toYear': 1997,
+        'inMonth': 10,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 12,
+        'atSeconds': 0,
+        'atTimeModifier': 's',
+        'deltaSeconds': 0,
+        'letter': 'S',
+    },
     # Rule    Cuba    1998    1999    -    Mar    lastSun    0:00s    1:00    D
     {
         'fromYear': 1998,
@@ -1628,8 +1724,8 @@ ZONE_POLICY_Cuba = {
 ZONE_RULES_Dhaka = [
     # Anchor: Rule    Dhaka    2009    only    -    Dec    31    24:00    0    -
     {
-        'fromYear': 2,
-        'toYear': 2,
+        'fromYear': 0,
+        'toYear': 0,
         'inMonth': 1,
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
@@ -2559,9 +2655,33 @@ ZONE_POLICY_Hond = {
 
 #---------------------------------------------------------------------------
 # Policy name: Iran
-# Rule count: 91
+# Rule count: 93
 #---------------------------------------------------------------------------
 ZONE_RULES_Iran = [
+    # Rule    Iran    1996    only    -    Sep    20    24:00    0    -
+    {
+        'fromYear': 1996,
+        'toYear': 1996,
+        'inMonth': 9,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 20,
+        'atSeconds': 86400,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 0,
+        'letter': '-',
+    },
+    # Rule    Iran    1997    1999    -    Mar    21    24:00    1:00    -
+    {
+        'fromYear': 1997,
+        'toYear': 1999,
+        'inMonth': 3,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 21,
+        'atSeconds': 86400,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 3600,
+        'letter': '-',
+    },
     # Rule    Iran    1997    1999    -    Sep    21    24:00    0    -
     {
         'fromYear': 1997,
@@ -3735,9 +3855,21 @@ ZONE_POLICY_Japan = {
 
 #---------------------------------------------------------------------------
 # Policy name: Jordan
-# Rule count: 11
+# Rule count: 12
 #---------------------------------------------------------------------------
 ZONE_RULES_Jordan = [
+    # Rule    Jordan    1995    1998    -    Sep    Fri>=15    0:00s    0    -
+    {
+        'fromYear': 1995,
+        'toYear': 1998,
+        'inMonth': 9,
+        'onDayOfWeek': 5,
+        'onDayOfMonth': 15,
+        'atSeconds': 0,
+        'atTimeModifier': 's',
+        'deltaSeconds': 0,
+        'letter': '-',
+    },
     # Rule    Jordan    1999    only    -    Jul     1    0:00s    1:00    S
     {
         'fromYear': 1999,
@@ -3927,7 +4059,7 @@ ZONE_POLICY_Kyrgyz = {
 
 #---------------------------------------------------------------------------
 # Policy name: LH
-# Rule count: 8
+# Rule count: 9
 #---------------------------------------------------------------------------
 ZONE_RULES_LH = [
     # Rule    LH    1987    1999    -    Oct    lastSun    2:00    0:30    -
@@ -3940,6 +4072,18 @@ ZONE_RULES_LH = [
         'atSeconds': 7200,
         'atTimeModifier': 'w',
         'deltaSeconds': 1800,
+        'letter': '-',
+    },
+    # Rule    LH    1990    1995    -    Mar    Sun>=1    2:00    0    -
+    {
+        'fromYear': 1990,
+        'toYear': 1995,
+        'inMonth': 3,
+        'onDayOfWeek': 7,
+        'onDayOfMonth': 1,
+        'atSeconds': 7200,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 0,
         'letter': '-',
     },
     # Rule    LH    1996    2005    -    Mar    lastSun    2:00    0    -
@@ -5576,8 +5720,8 @@ ZONE_POLICY_PRC = {
 ZONE_RULES_Pakistan = [
     # Anchor: Rule Pakistan    2002    only    -    Oct    Sun>=2    0:00    0    -
     {
-        'fromYear': 2,
-        'toYear': 2,
+        'fromYear': 0,
+        'toYear': 0,
         'inMonth': 1,
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
@@ -5655,9 +5799,21 @@ ZONE_POLICY_Pakistan = {
 
 #---------------------------------------------------------------------------
 # Policy name: Palestine
-# Rule count: 23
+# Rule count: 24
 #---------------------------------------------------------------------------
 ZONE_RULES_Palestine = [
+    # Anchor: Rule Palestine    1999    2003    -    Oct    Fri>=15    0:00    0    -
+    {
+        'fromYear': 0,
+        'toYear': 0,
+        'inMonth': 1,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atSeconds': 0,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 0,
+        'letter': '-',
+    },
     # Rule Palestine    1999    2005    -    Apr    Fri>=15    0:00    1:00    S
     {
         'fromYear': 1999,
@@ -6296,8 +6452,8 @@ ZONE_POLICY_Salv = {
 ZONE_RULES_SanLuis = [
     # Anchor: Rule    SanLuis    2008    2009    -    Mar    Sun>=8    0:00    0    -
     {
-        'fromYear': 2,
-        'toYear': 2,
+        'fromYear': 0,
+        'toYear': 0,
         'inMonth': 1,
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
@@ -6687,9 +6843,21 @@ ZONE_POLICY_Thule = {
 
 #---------------------------------------------------------------------------
 # Policy name: Tonga
-# Rule count: 6
+# Rule count: 7
 #---------------------------------------------------------------------------
 ZONE_RULES_Tonga = [
+    # Anchor: Rule    Tonga    2000    only    -    Mar    19    2:00s    0    -
+    {
+        'fromYear': 0,
+        'toYear': 0,
+        'inMonth': 1,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 1,
+        'atSeconds': 0,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 0,
+        'letter': '-',
+    },
     # Rule    Tonga    1999    only    -    Oct     7    2:00s    1:00    -
     {
         'fromYear': 1999,
@@ -6776,8 +6944,8 @@ ZONE_POLICY_Tonga = {
 ZONE_RULES_Troll = [
     # Anchor: Rule    Troll    2004    max    -    Oct    lastSun    1:00u    0:00    +00
     {
-        'fromYear': 2,
-        'toYear': 2,
+        'fromYear': 0,
+        'toYear': 0,
         'inMonth': 1,
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
@@ -7124,8 +7292,8 @@ ZONE_POLICY_Vanuatu = {
 ZONE_RULES_WS = [
     # Anchor: Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
     {
-        'fromYear': 2,
-        'toYear': 2,
+        'fromYear': 0,
+        'toYear': 0,
         'inMonth': 1,
         'onDayOfWeek': 0,
         'onDayOfMonth': 1,
@@ -7251,9 +7419,33 @@ ZONE_POLICY_Winn = {
 
 #---------------------------------------------------------------------------
 # Policy name: Zion
-# Rule count: 25
+# Rule count: 27
 #---------------------------------------------------------------------------
 ZONE_RULES_Zion = [
+    # Rule    Zion    1998    only    -    Sep     6    0:00    0    S
+    {
+        'fromYear': 1998,
+        'toYear': 1998,
+        'inMonth': 9,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 6,
+        'atSeconds': 0,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 0,
+        'letter': 'S',
+    },
+    # Rule    Zion    1999    only    -    Apr     2    2:00    1:00    D
+    {
+        'fromYear': 1999,
+        'toYear': 1999,
+        'inMonth': 4,
+        'onDayOfWeek': 0,
+        'onDayOfMonth': 2,
+        'atSeconds': 7200,
+        'atTimeModifier': 'w',
+        'deltaSeconds': 3600,
+        'letter': 'D',
+    },
     # Rule    Zion    1999    only    -    Sep     3    2:00    0    S
     {
         'fromYear': 1999,

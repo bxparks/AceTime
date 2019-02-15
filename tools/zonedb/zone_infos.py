@@ -13,7 +13,7 @@
 from zonedb.zone_policies import *
 
 # numInfos: 348
-# numEras: 598
+# numEras: 626
 
 #---------------------------------------------------------------------------
 # Zone name: Africa/Abidjan
@@ -736,10 +736,22 @@ ZONE_INFO_Araguaina = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Buenos_Aires
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Buenos_Aires = [
+    #             -3:00    Arg    -03/-02    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaSeconds': 0,
+      'format': '-03/-02',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -773,10 +785,22 @@ ZONE_INFO_Buenos_Aires = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Catamarca
-# Era count: 5
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Catamarca = [
+    #             -3:00    Arg    -03/-02    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaSeconds': 0,
+      'format': '-03/-02',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -846,10 +870,22 @@ ZONE_INFO_Catamarca = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Cordoba
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Cordoba = [
+    #             -3:00    Arg    -03/-02    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaSeconds': 0,
+      'format': '-03/-02',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -883,10 +919,22 @@ ZONE_INFO_Cordoba = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Jujuy
-# Era count: 3
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Jujuy = [
+    #             -3:00    Arg    -03/-02    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaSeconds': 0,
+      'format': '-03/-02',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -932,10 +980,22 @@ ZONE_INFO_Jujuy = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/La_Rioja
-# Era count: 5
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_La_Rioja = [
+    #             -3:00    Arg    -03/-02    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaSeconds': 0,
+      'format': '-03/-02',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -1005,10 +1065,22 @@ ZONE_INFO_La_Rioja = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Mendoza
-# Era count: 5
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Mendoza = [
+    #             -3:00    Arg    -03/-02    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaSeconds': 0,
+      'format': '-03/-02',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -1078,10 +1150,22 @@ ZONE_INFO_Mendoza = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Rio_Gallegos
-# Era count: 5
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Rio_Gallegos = [
+    #             -3:00    Arg    -03/-02    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaSeconds': 0,
+      'format': '-03/-02',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -1151,10 +1235,22 @@ ZONE_INFO_Rio_Gallegos = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Salta
-# Era count: 3
+# Era count: 4
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Salta = [
+    #             -3:00    Arg    -03/-02    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaSeconds': 0,
+      'format': '-03/-02',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -1200,10 +1296,22 @@ ZONE_INFO_Salta = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/San_Juan
-# Era count: 5
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_San_Juan = [
+    #             -3:00    Arg    -03/-02    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaSeconds': 0,
+      'format': '-03/-02',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -1273,10 +1381,22 @@ ZONE_INFO_San_Juan = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/San_Luis
-# Era count: 6
+# Era count: 7
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_San_Luis = [
+    #             -3:00    -    -03    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': '-',
+      'rulesDeltaSeconds': 0,
+      'format': '-03',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    1:00    -03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -1358,10 +1478,22 @@ ZONE_INFO_San_Luis = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Tucuman
-# Era count: 4
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Tucuman = [
+    #             -3:00    Arg    -03/-02    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaSeconds': 0,
+      'format': '-03/-02',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -1419,10 +1551,22 @@ ZONE_INFO_Tucuman = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Argentina/Ushuaia
-# Era count: 5
+# Era count: 6
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Ushuaia = [
+    #             -3:00    Arg    -03/-02    1999 Oct  3
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': ZONE_POLICY_Arg,
+      'rulesDeltaSeconds': 0,
+      'format': '-03/-02',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 3,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Arg    -04/-03    2000 Mar  3
     {
       'offsetSeconds': -14400,
@@ -1740,10 +1884,22 @@ ZONE_INFO_Blanc_Sablon = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Boa_Vista
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Boa_Vista = [
+    #             -4:00    -    -04    1999 Sep 30
+    {
+      'offsetSeconds': -14400,
+      'zonePolicy': '-',
+      'rulesDeltaSeconds': 0,
+      'format': '-04',
+      'untilYear': 1999,
+      'untilMonth': 9,
+      'untilDay': 30,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -4:00    Brazil    -04/-03    2000 Oct 15
     {
       'offsetSeconds': -14400,
@@ -1827,10 +1983,22 @@ ZONE_INFO_Boise = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Cambridge_Bay
-# Era count: 4
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Cambridge_Bay = [
+    #             -7:00    NT_YK    M%sT    1999 Oct 31  2:00
+    {
+      'offsetSeconds': -25200,
+      'zonePolicy': ZONE_POLICY_NT_YK,
+      'rulesDeltaSeconds': 0,
+      'format': 'M%sT',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 31,
+      'untilSeconds': 7200,
+      'untilTimeModifier': 'w',
+    },
     #             -6:00    Canada    C%sT    2000 Oct 29  2:00
     {
       'offsetSeconds': -21600,
@@ -2459,10 +2627,22 @@ ZONE_INFO_Fort_Nelson = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Fortaleza
-# Era count: 4
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Fortaleza = [
+    #             -3:00    -    -03    1999 Sep 30
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': '-',
+      'rulesDeltaSeconds': 0,
+      'format': '-03',
+      'untilYear': 1999,
+      'untilMonth': 9,
+      'untilDay': 30,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -3:00    Brazil    -03/-02    2000 Oct 22
     {
       'offsetSeconds': -10800,
@@ -2781,10 +2961,22 @@ ZONE_INFO_Havana = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Hermosillo
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Hermosillo = [
+    #             -7:00    Mexico    M%sT    1999
+    {
+      'offsetSeconds': -25200,
+      'zonePolicy': ZONE_POLICY_Mexico,
+      'rulesDeltaSeconds': 0,
+      'format': 'M%sT',
+      'untilYear': 1999,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -7:00    -    MST
     {
       'offsetSeconds': -25200,
@@ -3163,10 +3355,22 @@ ZONE_INFO_Inuvik = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Iqaluit
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Iqaluit = [
+    #             -5:00    NT_YK    E%sT    1999 Oct 31  2:00
+    {
+      'offsetSeconds': -18000,
+      'zonePolicy': ZONE_POLICY_NT_YK,
+      'rulesDeltaSeconds': 0,
+      'format': 'E%sT',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 31,
+      'untilSeconds': 7200,
+      'untilTimeModifier': 'w',
+    },
     #             -6:00    Canada    C%sT    2000 Oct 29  2:00
     {
       'offsetSeconds': -21600,
@@ -3387,10 +3591,22 @@ ZONE_INFO_Los_Angeles = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Maceio
-# Era count: 4
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Maceio = [
+    #             -3:00    -    -03    1999 Sep 30
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': '-',
+      'rulesDeltaSeconds': 0,
+      'format': '-03',
+      'untilYear': 1999,
+      'untilMonth': 9,
+      'untilDay': 30,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -3:00    Brazil    -03/-02    2000 Oct 22
     {
       'offsetSeconds': -10800,
@@ -3957,10 +4173,22 @@ ZONE_INFO_Nome = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Noronha
-# Era count: 4
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Noronha = [
+    #             -2:00    -    -02    1999 Sep 30
+    {
+      'offsetSeconds': -7200,
+      'zonePolicy': '-',
+      'rulesDeltaSeconds': 0,
+      'format': '-02',
+      'untilYear': 1999,
+      'untilMonth': 9,
+      'untilDay': 30,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -2:00    Brazil    -02/-01    2000 Oct 15
     {
       'offsetSeconds': -7200,
@@ -4179,10 +4407,22 @@ ZONE_INFO_Panama = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Pangnirtung
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Pangnirtung = [
+    #             -5:00    Canada    E%sT    1999 Oct 31  2:00
+    {
+      'offsetSeconds': -18000,
+      'zonePolicy': ZONE_POLICY_Canada,
+      'rulesDeltaSeconds': 0,
+      'format': 'E%sT',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 31,
+      'untilSeconds': 7200,
+      'untilTimeModifier': 'w',
+    },
     #             -6:00    Canada    C%sT    2000 Oct 29  2:00
     {
       'offsetSeconds': -21600,
@@ -4477,10 +4717,22 @@ ZONE_INFO_Rankin_Inlet = {
 
 #---------------------------------------------------------------------------
 # Zone name: America/Recife
-# Era count: 4
+# Era count: 5
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Recife = [
+    #             -3:00    -    -03    1999 Sep 30
+    {
+      'offsetSeconds': -10800,
+      'zonePolicy': '-',
+      'rulesDeltaSeconds': 0,
+      'format': '-03',
+      'untilYear': 1999,
+      'untilMonth': 9,
+      'untilDay': 30,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             -3:00    Brazil    -03/-02    2000 Oct 15
     {
       'offsetSeconds': -10800,
@@ -5859,10 +6111,22 @@ ZONE_INFO_Ashgabat = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Atyrau
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Atyrau = [
+    #             5:00 RussiaAsia    +05/+06    1999 Mar 28  2:00s
+    {
+      'offsetSeconds': 18000,
+      'zonePolicy': ZONE_POLICY_RussiaAsia,
+      'rulesDeltaSeconds': 0,
+      'format': '+05/+06',
+      'untilYear': 1999,
+      'untilMonth': 3,
+      'untilDay': 28,
+      'untilSeconds': 7200,
+      'untilTimeModifier': 's',
+    },
     #             4:00 RussiaAsia    +04/+05    2004 Oct 31  2:00s
     {
       'offsetSeconds': 14400,
@@ -6452,10 +6716,22 @@ ZONE_INFO_Famagusta = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Gaza
-# Era count: 7
+# Era count: 8
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Gaza = [
+    #             2:00    Jordan    EE%sT    1999
+    {
+      'offsetSeconds': 7200,
+      'zonePolicy': ZONE_POLICY_Jordan,
+      'rulesDeltaSeconds': 0,
+      'format': 'EE%sT',
+      'untilYear': 1999,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             2:00 Palestine    EE%sT    2008 Aug 29  0:00
     {
       'offsetSeconds': 7200,
@@ -6549,10 +6825,22 @@ ZONE_INFO_Gaza = {
 
 #---------------------------------------------------------------------------
 # Zone name: Asia/Hebron
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Hebron = [
+    #             2:00    Jordan    EE%sT    1999
+    {
+      'offsetSeconds': 7200,
+      'zonePolicy': ZONE_POLICY_Jordan,
+      'rulesDeltaSeconds': 0,
+      'format': 'EE%sT',
+      'untilYear': 1999,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             2:00 Palestine    EE%sT
     {
       'offsetSeconds': 7200,
@@ -10211,10 +10499,22 @@ ZONE_INFO_Stockholm = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Tallinn
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Tallinn = [
+    #             2:00    EU    EE%sT    1999 Oct 31  4:00
+    {
+      'offsetSeconds': 7200,
+      'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaSeconds': 0,
+      'format': 'EE%sT',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 31,
+      'untilSeconds': 14400,
+      'untilTimeModifier': 'w',
+    },
     #             2:00    -    EET    2002 Feb 21
     {
       'offsetSeconds': 7200,
@@ -10384,10 +10684,22 @@ ZONE_INFO_Vienna = {
 
 #---------------------------------------------------------------------------
 # Zone name: Europe/Vilnius
-# Era count: 2
+# Era count: 3
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Vilnius = [
+    #             1:00    EU    CE%sT    1999 Oct 31  1:00u
+    {
+      'offsetSeconds': 3600,
+      'zonePolicy': ZONE_POLICY_EU,
+      'rulesDeltaSeconds': 0,
+      'format': 'CE%sT',
+      'untilYear': 1999,
+      'untilMonth': 10,
+      'untilDay': 31,
+      'untilSeconds': 3600,
+      'untilTimeModifier': 'u',
+    },
     #             2:00    -    EET    2003 Jan  1
     {
       'offsetSeconds': 7200,
@@ -11230,10 +11542,22 @@ ZONE_INFO_Kiritimati = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Kosrae
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Kosrae = [
+    #              12:00    -    +12    1999
+    {
+      'offsetSeconds': 43200,
+      'zonePolicy': '-',
+      'rulesDeltaSeconds': 0,
+      'format': '+12',
+      'untilYear': 1999,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #              11:00    -    +11
     {
       'offsetSeconds': 39600,
@@ -11642,10 +11966,22 @@ ZONE_INFO_Tarawa = {
 
 #---------------------------------------------------------------------------
 # Zone name: Pacific/Tongatapu
-# Era count: 1
+# Era count: 2
 #---------------------------------------------------------------------------
 
 ZONE_ERAS_Tongatapu = [
+    #             13:00    -    +13    1999
+    {
+      'offsetSeconds': 46800,
+      'zonePolicy': '-',
+      'rulesDeltaSeconds': 0,
+      'format': '+13',
+      'untilYear': 1999,
+      'untilMonth': 1,
+      'untilDay': 1,
+      'untilSeconds': 0,
+      'untilTimeModifier': 'w',
+    },
     #             13:00    Tonga    +13/+14
     {
       'offsetSeconds': 46800,
