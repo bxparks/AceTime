@@ -367,11 +367,11 @@ class ZoneSpecifier:
 
         # Get (offset_seconds, dst_seconds, abbrev) for an epoch_seconds.
         (offset_seconds, dst_seconds, abbrev) = \
-                zone_specifier.get_timezone_info_from_seconds(epoch_seconds)
+                zone_specifier.get_timezone_info_for_seconds(epoch_seconds)
 
         # Get (offset_seconds, dst_seconds, abbrev) for a datetime.
         (offset_seconds, dst_seconds, abbrev) = \
-                zone_specifier.get_timezone_info_from_datetime(dt)
+                zone_specifier.get_timezone_info_for_datetime(dt)
 
     Note:
         The viewing_months determines the month interval to use to calculate
@@ -416,31 +416,31 @@ class ZoneSpecifier:
         self.init_for_year(year)
         return (self.matches, self.transitions)
 
-    def get_transition_from_seconds(self, epoch_seconds):
+    def get_transition_for_seconds(self, epoch_seconds):
         """Return Transition for the given epoch_seconds.
         """
         self.init_for_second(epoch_seconds)
-        return self.find_transition_from_seconds(epoch_seconds)
+        return self.find_transition_for_seconds(epoch_seconds)
 
-    def get_transition_from_datetime(self, dt):
+    def get_transition_for_datetime(self, dt):
         """Return Transition for the given datetime.
         """
         self.init_for_year(dt.year)
-        return self.find_transition_from_datetime(dt)
+        return self.find_transition_for_datetime(dt)
 
-    def get_timezone_info_from_seconds(self, epoch_seconds):
+    def get_timezone_info_for_seconds(self, epoch_seconds):
         """Return a tuple of (offset_seconds, dst_seconds, abbrev).
         The total UTC offset is (offset_seconds + dst_seconds).
         """
         self.init_for_second(epoch_seconds)
-        transition = self.find_transition_from_seconds(epoch_seconds)
+        transition = self.find_transition_for_seconds(epoch_seconds)
         return self.timezone_info_from_transition(transition)
 
-    def get_timezone_info_from_datetime(self, dt):
+    def get_timezone_info_for_datetime(self, dt):
         """Return a tuple of (offset_seconds, dst_seconds, abbrev) for datetime.
         """
         self.init_for_year(dt.year)
-        transition = self.find_transition_from_datetime(dt)
+        transition = self.find_transition_for_datetime(dt)
         if not transition:
             return (None, None, None)
         else:
@@ -514,7 +514,7 @@ class ZoneSpecifier:
         return (transition.offsetSeconds, transition.deltaSeconds,
             transition.abbrev)
 
-    def find_transition_from_seconds(self, epoch_seconds):
+    def find_transition_for_seconds(self, epoch_seconds):
         """Return the matching transition, or None if not found.
         """
         matching_transition = None
@@ -525,7 +525,7 @@ class ZoneSpecifier:
                 break
         return matching_transition
 
-    def find_transition_from_datetime(self, dt):
+    def find_transition_for_datetime(self, dt):
         """Return the matching transition matching the local datetime 'dt',
         or None if not found.
         """
@@ -565,10 +565,10 @@ class ZoneSpecifier:
         transitions = []
         for match in matches:
             transitions.extend(
-                self.find_transitions_from_match(start_ym, until_ym, match))
+                self.find_transitions_for_match(match, start_ym, until_ym))
         return transitions
 
-    def find_transitions_from_match(self, start_ym, until_ym, match):
+    def find_transitions_for_match(self, match, start_ym, until_ym):
         """Find all transitions of match from [start_ym, until_ym).
 
         We generate slightly over one year's worth because we are caught in a
@@ -608,84 +608,6 @@ class ZoneSpecifier:
         })
         return [transition]
 
-
-#    def find_transitions_from_named_match_old(self, match):
-#        """
-#        Find the relevant transitions of the named policy in the Match interval
-#        [startDateTime, untilDateTime).
-#
-#        If a Zone Era use a named Match before any transition is defined then
-#        we must follow the special instructions given in
-#        https://data.iana.org/time-zones/tz-how-to.html, where we use the
-#        earliest transition and shift it back in time to the starting point of
-#        the named Match, but clobber the SAVE to be 0 while keeping the LETTER.
-#
-#        The algorithm is the following:
-#
-#        * Loop for each Rule entry in the Zone policy given by the Match:
-#            * Obtain the candidate years and the corresponding Transitiosn
-#            * For each Transition:
-#                * If Transition occurs >= Match.until, ignore it.
-#                * If Transition occurs within [Match.start, Match.until):
-#                    * Add to the Transitions collection.
-#                    * If Transition == Match.start:
-#                        * Set startTransitionFound flag.
-#                * Else Transition is < Match.start:
-#                    * If not startTransitionFound:
-#                        * Nominate as latest prior Transition.
-#        * If not startTransitionFound:
-#            * If latest prior transition exists:
-#                * Shift the prior Transition to Match.start
-#                * Add to Transitions collection.
-#        """
-#        zone_era = match.zoneEra
-#        zone_policy = zone_era.zonePolicy
-#        rules = zone_policy.rules
-#        start_dt = match.startDateTime
-#        start_y = start_dt.y
-#
-#        # If the until datetime is exactly Jan 1 00:00, then we don't need to
-#        # consider a Transition in untilYear. To be sure, we would have to
-#        # verify that all smaller components (hour, minute, second) are also
-#        # exactly zero. We can be a little lazy and just assume that these
-#        # smaller components are non-zero, so we check the entire untilYear. If
-#        # the Transition falls outside of the matched ZoneEra, then it will get
-#        # properly filtered out in process_transition().
-#        until_dt = match.untilDateTime
-#        end_y = until_dt.y
-#
-#        # For each Rule, process the Transition for each whole year within
-#        # the given 'match'.
-#        results = {
-#            'transitions': []
-#        }
-#        for rule in rules:
-#            from_year = rule.fromYear
-#            to_year = rule.toYear
-#            years = get_candidate_years(from_year, to_year, start_y, end_y)
-#            for year in years:
-#                transition = create_transition_for_year(year, rule, match)
-#                if transition:
-#                    process_transition(match, transition, results)
-#
-#        # Add the resulting transitions that overlap with the match.
-#        self.transitions.extend(results['transitions'])
-#
-#        # Add the latest prior transition
-#        if not results.get('startTransitionFound'):
-#            prior_transition = results.get('latestPriorTransition')
-#            if not prior_transition:
-#                logging.error(
-#                    "Zone '%s'; year '%04d': No prior transition found!",
-#                    self.zone_info['name'], self.year)
-#                sys.exit(1)
-#
-#            prior_transition = prior_transition.copy()
-#            original_time = prior_transition.transitionTime
-#            prior_transition.transitionTime = match.startDateTime
-#            prior_transition.originalTransitionTime = original_time
-#            self.transitions.append(prior_transition)
-
     def find_transitions_from_named_match(self, match):
         """Find the transitions of the named effective ZoneMatch. Only the year
         component of the match.startDateTime and match.untilDateTime are used,
@@ -721,8 +643,8 @@ class ZoneSpecifier:
         if self.debug:
             print_transitions(transitions)
 
-        # Second sorting necessary because the "most recent prior" is placed at
-        # the end of the list.
+        # Second sorting necessary because the "most recent prior" Transition
+        # is placed at the end of the list.
         if self.debug:
             logging.info('==== Final check for sorted transitions')
         transitions = sort_transitions(transitions)
@@ -1338,14 +1260,14 @@ def main():
     elif args.date:
         dt = datetime.strptime(args.date, "%Y-%m-%dT%H:%M")
         if args.transition:
-            transition = zone_specifier.get_transition_from_datetime(dt)
+            transition = zone_specifier.get_transition_for_datetime(dt)
             if transition:
                 logging.info(transition)
             else:
                 logging.error('Transition not found')
         else:
             (offset_seconds, dst_seconds, abbrev) = \
-                    zone_specifier.get_timezone_info_from_datetime(dt)
+                    zone_specifier.get_timezone_info_for_datetime(dt)
             if not offset_seconds:
                 logging.info('Invalid time');
             else:

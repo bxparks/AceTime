@@ -120,7 +120,7 @@ class Validator:
                 logging.info('    %04d-%02d-%02d %02d:%02d epoch:%d' %
                     (item.y, item.M, item.d, item.h, item.m, item.epoch))
             (offset_seconds, dst_seconds, abbrev) = \
-                zone_specifier.get_timezone_info_from_seconds(item.epoch)
+                zone_specifier.get_timezone_info_for_seconds(item.epoch)
             unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
             utc_offset_seconds = offset_seconds + dst_seconds
             if utc_offset_seconds != item.utc_offset:
