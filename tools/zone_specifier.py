@@ -57,10 +57,10 @@ from zonedb.zone_policies import *
 from zonedb.zone_infos import *
 
 # A datetime representation using seconds instead of h:m:s
-DateTuple = collections.namedtuple("DateTuple", "y m d ss f")
+DateTuple = collections.namedtuple("DateTuple", "y M d ss f")
 
 # A tuple of (year, month)
-YearMonthTuple = collections.namedtuple("YearMonthTuple", "y m")
+YearMonthTuple = collections.namedtuple("YearMonthTuple", "y M")
 
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
@@ -545,7 +545,7 @@ class ZoneSpecifier:
         """
         matching_transition = None
         secs = hms_to_seconds(dt.hour, dt.minute, dt.second)
-        dt_time = DateTuple(y=dt.year, m=dt.month, d=dt.day, ss=secs, f='w')
+        dt_time = DateTuple(y=dt.year, M=dt.month, d=dt.day, ss=secs, f='w')
         for transition in self.transitions:
             start_time = transition.startDateTime
             until_time = transition.untilDateTime
@@ -686,13 +686,13 @@ def create_match(prev_era, zone_era):
     # times to the wall time uniformly.
     start_date_time = DateTuple(
         y=prev_era.untilYear,
-        m=prev_era.untilMonth,
+        M=prev_era.untilMonth,
         d=prev_era.untilDay,
         ss=prev_era.untilSeconds,
         f=prev_era.untilTimeModifier)
     until_date_time = DateTuple(
         y=zone_era.untilYear,
-        m=zone_era.untilMonth,
+        M=zone_era.untilMonth,
         d=zone_era.untilDay,
         ss=zone_era.untilSeconds,
         f=zone_era.untilTimeModifier)
@@ -779,11 +779,11 @@ def generate_start_until_times(transitions):
         #        "Zone '%s': Transition startDateTime shifted into "
         #        + "a different day: (%02d:%02d:%02d)",
         #        self.zone_info['name'], h, m, s)
-        st = datetime(tt.y, tt.m, tt.d, 0, 0, 0)
+        st = datetime(tt.y, tt.M, tt.d, 0, 0, 0)
         st += timedelta(seconds=secs)
         secs = hms_to_seconds(st.hour, st.minute, st.second)
         transition.startDateTime = DateTuple(
-            y=st.year, m=st.month, d=st.day, ss=secs, f=tt.f)
+            y=st.year, M=st.month, d=st.day, ss=secs, f=tt.f)
 
         # 3) The epochSecond of the 'transitionTime' is determined by the
         # UTC offset of the *previous* Transition. However, the
@@ -833,7 +833,7 @@ def sort_transitions(transitions):
     """
 
     def date_tuple_to_sort_key(t):
-        return (t.y, t.m, t.d)
+        return (t.y, t.M, t.d)
 
     try:
         ts = sorted(
@@ -920,21 +920,21 @@ def expand_date_tuple(dt, offset_seconds, delta_seconds):
     if dt.f == 'w':
         dtw = dt
         dts = DateTuple(
-            y=dt.y, m=dt.m, d=dt.d, ss=dtw.ss - delta_seconds, f='s')
+            y=dt.y, M=dt.M, d=dt.d, ss=dtw.ss - delta_seconds, f='s')
         ss = dtw.ss - delta_seconds - offset_seconds
-        dtu = DateTuple(y=dt.y, m=dt.m, d=dt.d, ss=ss, f='u')
+        dtu = DateTuple(y=dt.y, M=dt.M, d=dt.d, ss=ss, f='u')
     elif dt.f == 's':
         dts = dt
         dtw = DateTuple(
-            y=dt.y, m=dt.m, d=dt.d, ss=dts.ss + delta_seconds, f='w')
+            y=dt.y, M=dt.M, d=dt.d, ss=dts.ss + delta_seconds, f='w')
         dtu = DateTuple(
-            y=dt.y, m=dt.m, d=dt.d, ss=dts.ss - offset_seconds, f='u')
+            y=dt.y, M=dt.M, d=dt.d, ss=dts.ss - offset_seconds, f='u')
     elif dt.f == 'u':
         dtu = dt
         ss = dtu.ss + delta_seconds + offset_seconds
-        dtw = DateTuple(y=dtu.y, m=dtu.m, d=dtu.d, ss=ss, f='w')
+        dtw = DateTuple(y=dtu.y, M=dtu.M, d=dtu.d, ss=ss, f='w')
         dts = DateTuple(
-            y=dtu.y, m=dtu.m, d=dtu.d, ss=dtu.ss + offset_seconds, f='s')
+            y=dtu.y, M=dtu.M, d=dtu.d, ss=dtu.ss + offset_seconds, f='s')
     else:
         logging.error("Unrecognized Rule.AT suffix '%s'; date=%s", dt.f, dt)
         sys.exit(1)
@@ -951,14 +951,14 @@ def normalize_date_tuple(tt):
     greater than 24h.
     """
     if tt.y == MIN_YEAR:
-        return DateTuple(y=MIN_YEAR, m=1, d=1, ss=0, f=tt.f)
+        return DateTuple(y=MIN_YEAR, M=1, d=1, ss=0, f=tt.f)
 
     try:
-        st = datetime(tt.y, tt.m, tt.d, 0, 0, 0)
+        st = datetime(tt.y, tt.M, tt.d, 0, 0, 0)
         delta = timedelta(seconds=tt.ss)
         st += delta
         secs = hms_to_seconds(st.hour, st.minute, st.second)
-        return DateTuple(y=st.year, m=st.month, d=st.day, ss=secs, f=tt.f)
+        return DateTuple(y=st.year, M=st.month, d=st.day, ss=secs, f=tt.f)
     except:
         logging.error('Invalid datetime: %s + %s', st, delta)
         sys.exit(1)
@@ -1077,15 +1077,15 @@ def calc_effective_match(start_ym, until_ym, match):
     """
     start_date_time = match.startDateTime
     if start_date_time < DateTuple(
-            y=start_ym.y, m=start_ym.m, d=1, ss=0, f='w'):
+            y=start_ym.y, M=start_ym.M, d=1, ss=0, f='w'):
         start_date_time = DateTuple(
-            y=start_ym.y, m=start_ym.m, d=1, ss=0, f='w')
+            y=start_ym.y, M=start_ym.M, d=1, ss=0, f='w')
 
     until_date_time = match.untilDateTime
     if until_date_time > DateTuple(
-            y=until_ym.y, m=until_ym.m, d=1, ss=0, f='w'):
+            y=until_ym.y, M=until_ym.M, d=1, ss=0, f='w'):
         until_date_time = DateTuple(
-            y=until_ym.y, m=until_ym.m, d=1, ss=0, f='w')
+            y=until_ym.y, M=until_ym.M, d=1, ss=0, f='w')
 
     eff_match = match.copy()
     eff_match.startDateTime = start_date_time
@@ -1139,7 +1139,7 @@ def get_transition_time(year, rule):
                                      rule.onDayOfMonth)
     seconds = rule.atSeconds
     modifier = rule.atTimeModifier
-    return DateTuple(y=year, m=month, d=day_of_month, ss=seconds, f=modifier)
+    return DateTuple(y=year, M=month, d=day_of_month, ss=seconds, f=modifier)
 
 
 def calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
@@ -1175,8 +1175,8 @@ def era_overlaps_interval(prev_era, era, start_ym, until_ym):
     era.UNTIL). Overlap happens if (start_era < until_ym) and (until_era >
     start_ym).
     """
-    return (compare_era_to_year_month(prev_era, until_ym.y, until_ym.m) < 0
-            and compare_era_to_year_month(era, start_ym.y, start_ym.m) > 0)
+    return (compare_era_to_year_month(prev_era, until_ym.y, until_ym.M) < 0
+            and compare_era_to_year_month(era, start_ym.y, start_ym.M) > 0)
 
 
 def compare_era_to_year_month(era, year, month):
@@ -1203,7 +1203,7 @@ def compare_era_to_year_month(era, year, month):
 
 def date_tuple_to_string(dt):
     (h, m, s) = seconds_to_hms(dt.ss)
-    return '%04d-%02d-%02d %02d:%02d:%02d%s' % (dt.y, dt.m, dt.d, h, m, s,
+    return '%04d-%02d-%02d %02d:%02d:%02d%s' % (dt.y, dt.M, dt.d, h, m, s,
                                                 dt.f)
 
 

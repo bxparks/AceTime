@@ -226,7 +226,7 @@ class Validator:
                 # If viewing_months== (13 or 36), don't look at Transitions at
                 # the beginning of the year since those have been already added.
                 if self.viewing_months in [13, 36]:
-                    if start.m == 1 and start.d == 1 and start.ss == 0:
+                    if start.M == 1 and start.d == 1 and start.ss == 0:
                         continue
 
                 epoch_seconds = transition.startEpochSecond
