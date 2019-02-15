@@ -176,14 +176,16 @@ class Transformer:
         return results
 
     def remove_zone_eras_too_old(self, zones_map):
-        """Remove zone eras which are too old, i.e. before self.start_year.
+        """Remove zone eras which are too old, i.e. before (self.start_year-1).
+        For start_year 2000, and viewing_months>13,
+        ZoneSpecifier.init_for_year() could be called with 1999.
         """
         results = {}
         count = 0
         for name, zones in zones_map.items():
             keep_zones = []
             for zone in zones:
-                if zone.untilYear >= self.start_year:
+                if zone.untilYear >= self.start_year - 1:
                     keep_zones.append(zone)
                 else:
                     count += 1
@@ -625,12 +627,21 @@ class Transformer:
     def mark_rules_used_by_zones(self, zones_map, rules_map):
         """Mark all rules which are required by various zones. There are 2 ways
         that a rule can be used by a zone era:
-            1) The rule's fromYear or toYear are >= self.start_year, or
+            1) The rule's fromYear or toYear are >= (self.start_year - 1), or
             2) The rule is the most recent transition that happened before
             self.start_year.
+
+        If start_year == 2000, this will pick up rules for 1998. This is because
+        if viewing_months == 13, then ZoneSpecifier.init_for_year() could be
+        called with 1999, which then needs rules for 1998 to extract the "most
+        recent prior" Transition before Jan 1, 1999.
+
+        For viewing_months==14, init_for_year() will always be called with 2000
+        or higher, so we just need 1999 data to get the most recent prior
+        Transition before Jan 1, 2000.
         """
         for zone_name, eras in zones_map.items():
-            begin_year = self.start_year
+            begin_year = self.start_year - 1
             for era in eras:
                 policy_name = era.rules
                 if policy_name in ['-', ':']:
@@ -777,12 +788,12 @@ class Transformer:
         return rules_map
 
     def has_prior_rule(self, rules):
-        """Return True if rules has a rule prior to self.start_year.
+        """Return True if rules has a rule prior to (self.start_year-1).
         """
         for rule in rules:
             from_year = rule.fromYear
             to_year = rule.toYear
-            if from_year < self.start_year:
+            if from_year < self.start_year - 1:
                 return True
         return False
 

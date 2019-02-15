@@ -376,9 +376,9 @@ class ZoneSpecifier:
     Note:
         The viewing_months determines the month interval to use to calculate
         the transitions.
-        * 13 = [year-Jan, (year+1)-Feb) (buggy)
+        * 13 = [year-Jan, (year+1)-Feb) (works)
         * 14 = [(year-1)-Dec, (year+1)-Feb) (works)
-        * 36 = [(year-1)-Jan, (year+2)-Jan) (buggy)
+        * 36 = [(year-1)-Jan, (year+2)-Jan) (works except for 2000)
     """
 
     # Sentinel ZoneEra that represents the earliest zone era.
@@ -453,7 +453,21 @@ class ZoneSpecifier:
         """
         ldt = datetime.utcfromtimestamp(
             epoch_seconds + SECONDS_SINCE_UNIX_EPOCH)
-        self.init_for_year(ldt.year)
+
+        if self.viewing_months == 13:
+            if ldt.month == 1 and ldt.day == 1:
+                year = ldt.year - 1
+            else:
+                year = ldt.year
+        else:
+            if ldt.month == 12 and ldt.day == 31:
+                year = ldt.year + 1
+            elif ldt.month == 1 and ldt.day == 1:
+                year = ldt.year - 1
+            else:
+                year = ldt.year
+
+        self.init_for_year(year)
 
     def init_for_year(self, year):
         """Initialize the Transitions for the year.
@@ -637,9 +651,10 @@ class ZoneSpecifier:
             logging.info('==== Select active transitions')
         transitions = select_active_transitions(transitions, match)
         if transitions == None:
-            logging.error("Zone '%s'; year '%04d': No prior transition found!",
-                          self.zone_info['name'], self.year)
-            sys.exit(1)
+            raise Exception(
+                ("Zone '%s'; year '%04d': No prior transition found! "
+                + "Should not happen") %
+                (self.zone_info.name, self.year))
         if self.debug:
             print_transitions(transitions)
 
@@ -824,7 +839,7 @@ def sort_transitions(transitions):
         ts = sorted(
             transitions,
             key=lambda x: date_tuple_to_sort_key(x.transitionTime))
-    except e as Exception:
+    except Exception as e:
         logging.exception('Exception caught: %s' % e)
         print_transitions(transitions)
         sys.exit(1)

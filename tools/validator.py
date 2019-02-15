@@ -119,10 +119,15 @@ class Validator:
             if self.debug_validator:
                 logging.info('    %04d-%02d-%02d %02d:%02d epoch:%d' %
                     (item.y, item.M, item.d, item.h, item.m, item.epoch))
-            (offset_seconds, dst_seconds, abbrev) = \
-                zone_specifier.get_timezone_info_for_seconds(item.epoch)
-            unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
-            utc_offset_seconds = offset_seconds + dst_seconds
+            try:
+                (offset_seconds, dst_seconds, abbrev) = \
+                    zone_specifier.get_timezone_info_for_seconds(item.epoch)
+                unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
+                utc_offset_seconds = offset_seconds + dst_seconds
+            except Exception:
+                logging.exception('Exception with test data %s', item)
+                raise
+
             if utc_offset_seconds != item.utc_offset:
                 logging.error(
                     "==== %s: offset mismatch; at: '%s'; unix: %s; " +
@@ -176,15 +181,35 @@ class Validator:
         return test_items
 
     def create_transition_test_items(self, tz, zone_specifier):
-        """Create a TestItem for tz at the DST transitions for each year.
+        """Create a TestItem for the tz for each Transition instance found by
+        the ZoneSpecifier, for each year from 2000 to 2019.
+
+        If the ZoneSpecifier is created with viewing_months=13, the first
+        Transition occurs at the year boundary. The ZoneSpecifier has no prior
+        Transition for 'epoch_seconds - 1', so a call to ZoneSpecifier for
+        this will probably fail.
+
+        If the ZoneSpecifier is created with viewing_months=14, then a
+        Transition is created for Dec 1 of the prior year, so all of the test
+        data points below will probably work.
+
         Some zones do not use DST, so will have no test samples here.
         """
         items = []
         for year in range(2000, 2019):
-            # Add beginning of the year
-            items.append(
-                self.create_test_item_from_datetime(
-                    tz, year, month=1, day=1, hour=0, type='Y'))
+            # Skip year 2000 when viewing months is 36, because it needs
+            # data for 1997, and we don't generate those. Only 1998.
+            if self.viewing_months == 36 and year == 2000: continue
+
+            # Check the transition at the beginning of year.
+            test_item = self.create_test_item_from_datetime(
+                tz, year, month=1, day=1, hour=0, type='Y')
+            items.append(test_item)
+
+            # Check the transition at the end of the year.
+            test_item = self.create_test_item_from_datetime(
+                tz, year, month=12, day=31, hour=23, type='Y')
+            items.append(test_item)
 
             (matches,
              transitions) = zone_specifier.get_matches_and_transitions(year)
@@ -192,9 +217,17 @@ class Validator:
 
             # Add the before and after samples surrounding a DST transition.
             for transition in transitions:
+                # Some Transitions from ZoneSpecifier are in previous or post
+                # years (e.g. viewing_months = [14, 36]), so skip those.
                 start = transition.startDateTime
                 transition_year = start.y
                 if transition_year != year: continue
+
+                # If viewing_months== (13 or 36), don't look at Transitions at
+                # the beginning of the year since those have been already added.
+                if self.viewing_months in [13, 36]:
+                    if start.m == 1 and start.d == 1 and start.ss == 0:
+                        continue
 
                 epoch_seconds = transition.startEpochSecond
                 items.append(
@@ -232,9 +265,12 @@ class Validator:
         return items
 
     def create_test_item_from_datetime(self, tz, year, month, day, hour, type):
-        ldt = datetime.datetime(
-            year, month, day, hour, tzinfo=datetime.timezone.utc)
-        dt = ldt.astimezone(tz)
+        """Create a TestItem for the given year, month, day, hour in local
+        time zone.
+        """
+        # Can't use the normal datetime constructor for pytz. Must use
+        # timezone.localize(). See https://stackoverflow.com/questions/18541051
+        dt = tz.localize(datetime.datetime(year, month, day, hour))
         unix_seconds = int(dt.timestamp())
         epoch_seconds = unix_seconds - SECONDS_SINCE_UNIX_EPOCH
         return self.create_test_item_from_epoch_seconds(
