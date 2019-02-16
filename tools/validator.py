@@ -32,6 +32,22 @@ TestItem = collections.namedtuple(
 
 
 class Validator:
+    """Validate the zone_infos and zone_policies data from the TZ Database,
+    as extracted and transformed by Extractor and Transformer.
+
+    Usage:
+        # For validation against pytz golden test data
+        validator = Validator(zone_infos, zone_policies, ...)
+        validator.validate_transition_buffer_size()
+        validator.validate_sequentially()
+
+        # For generating C++ unittest code
+        validator = Validator(zone_infos, zone_policies, ...)
+        (test_data, num_items) = validator.create_test_data()
+        test_data_generator = TestDataGenerator(...)
+        test_data_generator.generate_files(args.output_dir)
+    """
+
     def __init__(self, zone_infos, zone_policies, viewing_months,
                  validate_dst_offset, validate_hours, debug_validator,
                  debug_specifier, zone_name):
@@ -78,9 +94,8 @@ class Validator:
             count_record = (0, 0)  # (count, year)
             for year in range(2000, 2038):
                 #logging.info('Validating year %s' % year)
-                (matches, transitions) = \
-                    zone_specifier.get_matches_and_transitions(year)
-                count = len(transitions)
+                zone_specifier.init_for_year(year)
+                count = len(zone_specifier.transitions)
                 if count > count_record[0]:
                     count_record = (count, year)
             transition_stats[zone_short_name] = count_record
@@ -136,10 +151,10 @@ class Validator:
                     to_utc_string(offset_seconds, dst_seconds),
                     to_utc_string(item.utc_offset - item.dst_offset,
                                   item.dst_offset))
-                (matches,
-                 transitions) = zone_specifier.get_matches_and_transitions(
-                    item.y)
-                print_matches_and_transitions(matches, transitions)
+                zone_specifier.init_for_year(item.y)
+                print_matches_and_transitions(
+                    zone_specifier.matches,
+                    zone_specifier.transitions)
 
     def create_test_data(self):
         """Create a map of {
@@ -211,12 +226,10 @@ class Validator:
                 tz, year, month=12, day=31, hour=23, type='Y')
             items.append(test_item)
 
-            (matches,
-             transitions) = zone_specifier.get_matches_and_transitions(year)
-            transition_found = False
-
             # Add the before and after samples surrounding a DST transition.
-            for transition in transitions:
+            zone_specifier.init_for_year(year)
+            transition_found = False
+            for transition in zone_specifier.transitions:
                 # Some Transitions from ZoneSpecifier are in previous or post
                 # years (e.g. viewing_months = [14, 36]), so skip those.
                 start = transition.startDateTime

@@ -364,17 +364,17 @@ class ZoneSpecifier:
         zone_specifier = ZoneSpecifier(zone_info [, viewing_months, debug])
 
         # Validate matches and transitions
-        (matches, transitions) = zone_specifier.get_matches_and_transitions(
-            args.year)
-        print_matches_and_transitions(matches, transitions)
+        zone_specifier.init_for_year(args.year)
+        print_matches_and_transitions(
+            zone_specifier.matches, zone_specifier.transitions)
 
         # Get (offset_seconds, dst_seconds, abbrev) for an epoch_seconds.
         (offset_seconds, dst_seconds, abbrev) = \
-                zone_specifier.get_timezone_info_for_seconds(epoch_seconds)
+            zone_specifier.get_timezone_info_for_seconds(epoch_seconds)
 
         # Get (offset_seconds, dst_seconds, abbrev) for a datetime.
         (offset_seconds, dst_seconds, abbrev) = \
-                zone_specifier.get_timezone_info_for_datetime(dt)
+            zone_specifier.get_timezone_info_for_datetime(dt)
 
     Note:
         The viewing_months parameter determines the month interval to use to
@@ -420,13 +420,6 @@ class ZoneSpecifier:
 
         self.debug = debug
 
-    def get_matches_and_transitions(self, year):
-        """Returns a tuple of (matches, transitions). Used by validator.py
-        for validation.
-        """
-        self.init_for_year(year)
-        return (self.matches, self.transitions)
-
     def get_transition_for_seconds(self, epoch_seconds):
         """Return Transition for the given epoch_seconds.
         """
@@ -457,31 +450,10 @@ class ZoneSpecifier:
         else:
             return self.timezone_info_from_transition(transition)
 
-    # The following methods are internal methods.
-
-    def init_for_second(self, epoch_seconds):
-        """Initialize the Transitions from the given epoch_seconds.
-        """
-        ldt = datetime.utcfromtimestamp(
-            epoch_seconds + SECONDS_SINCE_UNIX_EPOCH)
-
-        if self.viewing_months == 13:
-            if ldt.month == 1 and ldt.day == 1:
-                year = ldt.year - 1
-            else:
-                year = ldt.year
-        else:
-            if ldt.month == 12 and ldt.day == 31:
-                year = ldt.year + 1
-            elif ldt.month == 1 and ldt.day == 1:
-                year = ldt.year - 1
-            else:
-                year = ldt.year
-
-        self.init_for_year(year)
-
     def init_for_year(self, year):
-        """Initialize the Transitions for the year.
+        """Initialize the Matches and Transitions for the year. Call this
+        explicitly before accessing self.matches, self.transitions, and
+        self.candidate_transitions.
         """
         # Check if cache filled
         if self.year == year:
@@ -534,6 +506,29 @@ class ZoneSpecifier:
         calc_abbrev(self.transitions)
         if self.debug:
             print_matches_and_transitions(self.matches, self.transitions)
+
+    # The following methods are designed to be used internally.
+
+    def init_for_second(self, epoch_seconds):
+        """Initialize the Transitions from the given epoch_seconds.
+        """
+        ldt = datetime.utcfromtimestamp(
+            epoch_seconds + SECONDS_SINCE_UNIX_EPOCH)
+
+        if self.viewing_months == 13:
+            if ldt.month == 1 and ldt.day == 1:
+                year = ldt.year - 1
+            else:
+                year = ldt.year
+        else:
+            if ldt.month == 12 and ldt.day == 31:
+                year = ldt.year + 1
+            elif ldt.month == 1 and ldt.day == 1:
+                year = ldt.year - 1
+            else:
+                year = ldt.year
+
+        self.init_for_year(year)
 
     def timezone_info_from_transition(self, transition):
         return (transition.offsetSeconds, transition.deltaSeconds,
@@ -1348,9 +1343,9 @@ def main():
         args.in_place_transitions)
 
     if args.year:
-        (matches, transitions) = zone_specifier.get_matches_and_transitions(
-            args.year)
-        print_matches_and_transitions(matches, transitions)
+        zone_specifier.init_for_year(args.year)
+        print_matches_and_transitions(
+            zone_specifier.matches, zone_specifier.transitions)
 
     elif args.date:
         dt = datetime.strptime(args.date, "%Y-%m-%dT%H:%M")
