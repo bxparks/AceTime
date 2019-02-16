@@ -554,11 +554,32 @@ class ZoneSpecifier:
         return None
 
     def find_matches(self, start_ym, until_ym):
-        """Find the Zone Eras which overlap [start_ym, until_ym).
-        Experimentation shows that [start_ym, until_ym) must include the Dec
-        before the target year, and Jan following the target year. Otherwise, we
-        miss transitions that happens in the previous year that affects the
-        transition properties on Jan 1 of the target year.
+        """Find the Zone Eras which overlap [start_ym, until_ym), ignoring
+        day, time and timeModifier. The resulting ZoneMatch objects will
+        inherit the day, time and timeModifiers of the underlying ZoneEra.
+        The start and until fields are *not* truncated by using start_ym
+        and until_ym. (Maybe it should be? Potentially makes debugging slightly
+        harder since the resulting ZoneMatch has been processed more.)
+
+        We generate slightly over one year's worth because we are caught in a
+        Catch-22 situation. We need to convert a epochSecond to the local
+        DateTime. If we knew the local year of the epochSeconds when converted
+        to the local DateTime, then we would need only the Transitions of the
+        given local year. However, the epochSeconds could convert to Dec 31 or
+        Jan 1 in the UTC time zone, which means that the local year could shift
+        to the next or previous year in the local time zone. But we don't know
+        the local time zone offset until we generate the Transitions of the
+        local year, and we don't know the local year until we generate the
+        Transitions. To get around this problem, we collect ZoneMatches for
+        [start_ym, until_ym) interval that's slightly larger than the current
+        year of interest.
+
+        If viewing_months==14, we include the prior December and subsequent
+        January.
+
+        If viewing_months==13, we include only the subsequent January, which
+        works because if the epoch_seconds is on Dec 31, we push the year of
+        interest to the next year.
         """
         zone_eras = self.zone_info.eras
         prev_era = self.ZONE_ERA_ANCHOR
@@ -578,25 +599,15 @@ class ZoneSpecifier:
         """
         transitions = []
         for match in matches:
-            transitions.extend(
-                self.find_transitions_for_match(match, start_ym, until_ym))
+            transitions_for_match = self.find_transitions_for_match(
+                match, start_ym, until_ym)
+            transitions.extend(transitions_for_match)
         return transitions
 
     def find_transitions_for_match(self, match, start_ym, until_ym):
-        """Find all transitions of match from [start_ym, until_ym).
-
-        We generate slightly over one year's worth because we are caught in a
-        Catch-22 situation. When trying to determine the UTC offsets, we need to
-        convert a epochSecond to the local DateTime. If we knew the local year
-        of the epochSeconds when converted to the local DateTime, then we would
-        need only the Transitions of the given local year. However, the
-        epochSeconds could convert to Dec 31 or Jan 1 in UTC timezone, which
-        means that the local year could shift to the next or previous year in
-        the local time zone. But we don't know the local time zone offset until
-        we generate the Transitions of the local year, and we don't know the
-        local year until we generate the Transitions. To get around this
-        problem, we generate the transitions for the year prior and the year
-        after the UTC year.
+        """Find all transitions of the given match, restricted from [start_ym,
+        until_ym). It uses an internal "effective" ZoneMatch which is truncated
+        to the [start, until) interval.
         """
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
@@ -606,6 +617,7 @@ class ZoneSpecifier:
             logging.info(
                 '==== find_transitions_from_match(): effective match: %s' %
                 match)
+
         if zone_policy in ['-', ':']:
             return self.find_transitions_from_simple_match(match)
         else:
@@ -623,23 +635,22 @@ class ZoneSpecifier:
         return [transition]
 
     def find_transitions_from_named_match(self, match):
-        """Find the transitions of the named effective ZoneMatch. Only the year
-        component of the match.startDateTime and match.untilDateTime are used,
-        and the month component is ignored. This causes --viewing_months=13 to
-        break because the boundary is at the year transition.
+        """Find the transitions of the named effective ZoneMatch.
         """
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
         rules = zone_policy.rules
 
+        # Find candidate transitions using whole years.
         if self.debug:
             logging.info('==== Get candidate transitions')
-        transitions = get_candidate_transitions(match, rules)
-        transitions = sort_transitions(transitions)
+        transitions = []
+        find_candidate_transitions(transitions, match, rules)
         check_transitions_sorted(transitions)
         if self.debug:
             print_transitions(transitions)
 
+        # Fix the transitions times, converting 's' and 'u' into 'w' uniformly.
         if self.debug:
             logging.info('==== Fix transition times')
         fix_transition_times(transitions)
@@ -647,6 +658,8 @@ class ZoneSpecifier:
         if self.debug:
             print_transitions(transitions)
 
+        # Select only those Transitions which overlap with the actual start and
+        # until times of the ZoneMatch.
         if self.debug:
             logging.info('==== Select active transitions')
         transitions = select_active_transitions(transitions, match)
@@ -658,11 +671,9 @@ class ZoneSpecifier:
         if self.debug:
             print_transitions(transitions)
 
-        # Second sorting necessary because the "most recent prior" Transition
-        # is placed at the end of the list.
+        # Verify that the "most recent prior" Transition is properly sorted.
         if self.debug:
             logging.info('==== Final check for sorted transitions')
-        transitions = sort_transitions(transitions)
         check_transitions_sorted(transitions)
 
         return transitions
@@ -676,14 +687,22 @@ def convert_data_to_objects(zi):
 
 def create_match(prev_era, zone_era):
     """Create the Zone Match object for the given Zone Era.
-        * ZoneMatch.startTime is prev_era.untilTime
+        * ZoneMatch.startDateTime is prev_era.untilTime
+        * ZoneMatch.untilDateTime is zone_era.untilTime
         * ZoneMatch.policy_name is '-', ':' or the string name of ZonePolicy
+
+    The startDateTime of the current ZoneMatch is determined by the UNTIL
+    datetime of the prev_era, which uses the UTC offset of the *previous* era,
+    not the current era.
+
+    Therefore, the startDateTime and untilDateTime is accurate to a resolution
+    of one day. This is good enough to generate Transitions, which also will
+    have dateTime fields accurate to within a day or so, assuming we don't have
+    2 DST transitions in a single day.
+
+    See fix_transition_times() which normalizes these start times to the wall
+    time uniformly.
     """
-    # The subtlety here is that the prev_era's 'until datetime' is expressed
-    # using the UTC offset of the *previous* era, not the current era. This is
-    # probably good enough for sorting, assuming we don't have 2 DST transitions
-    # in a single day. See fix_transition_times() which normalizes these start
-    # times to the wall time uniformly.
     start_date_time = DateTuple(
         y=prev_era.untilYear,
         M=prev_era.untilMonth,
@@ -736,7 +755,7 @@ def select_active_transitions(transitions, match):
         original_time = prior_transition.transitionTime
         prior_transition.transitionTime = match.startDateTime
         prior_transition.originalTransitionTime = original_time
-        transitions.append(prior_transition)
+        add_transition_sorted(transitions, prior_transition)
 
     return transitions
 
@@ -807,43 +826,50 @@ def generate_start_until_times(transitions):
     transition.untilDateTime = udt
 
 
-def get_candidate_transitions(match, rules):
+def find_candidate_transitions(transitions, match, rules):
     """Get the list of candidate transitions from the list of 'rules' which
     overlap the whole years [start_y, end_y] (inclusive)) defined by the given
-    'match' ZoneEra.
+    'match' ZoneEra. This list includes transitions that may become the "most
+    recent prior" transition.
+
+    We use whole years because 'rules' define repetitive transitions using whole
+    years.
     """
-    # Use whole years because 'rules' define repetitive transitions
-    # using whole years.
     start_y = match.startDateTime.y
     end_y = match.untilDateTime.y
 
-    transitions = []
     for rule in rules:
         from_year = rule.fromYear
         to_year = rule.toYear
         years = get_candidate_years(from_year, to_year, start_y, end_y)
         for year in years:
-            transitions.append(create_transition_for_year(year, rule, match))
-    return transitions
+            add_transition_sorted(transitions,
+                create_transition_for_year(year, rule, match))
 
-
-def sort_transitions(transitions):
-    """Sort the transitions according to (y, m, d), ignoring ss and
-    modifier. This assumes that only one Rule in a single day.
+def add_transition_sorted(transitions, transition):
+    """Add the transition to the transitions array so that it is sorted by
+    transitionTime. This is not normally how this would be done in Python. This
+    is emulating the code that would be written in an Arduino C++ environment,
+    without dynamic arrays and a sort() function. This will allow this class to
+    be more easily ported to C++. The O(N^2) insertion sort algorithm should be
+    fast enough since N<=5.
     """
+    transitions.append(transition)
+    for i in range(len(transitions) - 1, 0, -1):
+        curr = transitions[i]
+        prev = transitions[i-1]
+        if compare_date_tuple(curr.transitionTime, prev.transitionTime) < 0:
+            transitions[i-1] = curr
+            transitions[i] = prev
 
-    def date_tuple_to_sort_key(t):
-        return (t.y, t.M, t.d)
-
-    try:
-        ts = sorted(
-            transitions,
-            key=lambda x: date_tuple_to_sort_key(x.transitionTime))
-    except Exception as e:
-        logging.exception('Exception caught: %s' % e)
-        print_transitions(transitions)
-        sys.exit(1)
-    return ts
+def compare_date_tuple(a, b):
+    if a.y < b.y: return -1
+    if a.y > b.y: return 1
+    if a.M < b.M: return -1
+    if a.M > b.M: return 1
+    if a.d < b.d: return -1
+    if a.d > b.d: return 1
+    return 0
 
 def check_transitions_sorted(transitions):
     """Check transitions are sorted.
@@ -1028,7 +1054,8 @@ def process_transition(match, transition, results):
     if transition_compared_to_match == 2:
         return
     elif transition_compared_to_match in [0, 1]:
-        results['transitions'].append(transition)
+        #results['transitions'].append(transition)
+        add_transition_sorted(results['transitions'], transition)
         if transition_compared_to_match == 0:
             results['startTransitionFound'] = True
     else:  # transition_compared_to_match < -1:
@@ -1055,8 +1082,9 @@ def get_candidate_years(from_year, to_year, start_year, end_year):
         2) Add the latest year prior to [start_year]. This is guaranteed to
         exists because we added an anchor rule at year 0 for those zone policies
         that need it.
-    If [start_year, end_year] spans a 3-year interval (which will always
-    be the case), then the maximum number of elements in 'years' will be 4.
+    If [start_year, end_year] spans a 3-year interval (which will be the case
+    for all supported values of 'viewing_months'), then the maximum number of
+    elements in 'years' will be 4.
     """
     years = set()
     for year in range(start_year, end_year + 1):
@@ -1169,11 +1197,11 @@ def days_in_month(year, month):
 
 
 def era_overlaps_interval(prev_era, era, start_ym, until_ym):
-    """Determines if era overlaps the interval [start_ym, until_ym). The start
-    date of the current era is represented by the prev_era.UNTIL, so the
-    interval of the current era is [start_era, until_era) = [prev_era.UNTIL,
-    era.UNTIL). Overlap happens if (start_era < until_ym) and (until_era >
-    start_ym).
+    """Determines if era overlaps the interval [start_ym, until_ym), ignoring
+    the day, time and timeModifier. The start date of the current era is
+    represented by the prev_era.UNTIL, so the interval of the current era is
+    [start_era, until_era) = [prev_era.UNTIL, era.UNTIL). Overlap happens if
+    (start_era < until_ym) and (until_era > start_ym).
     """
     return (compare_era_to_year_month(prev_era, until_ym.y, until_ym.M) < 0
             and compare_era_to_year_month(era, start_ym.y, start_ym.M) > 0)
