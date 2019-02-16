@@ -248,6 +248,9 @@ class Transition:
 
         # Added for named Match.
         'zoneRule',  # (ZoneRule or None) Defined for named Match.
+
+        # Flag to indicate if Transition is active or not
+        'isActive',  # Transition is inside ZoneMatch and is active
     ]
 
     def __init__(self, arg):
@@ -392,19 +395,25 @@ class ZoneSpecifier:
         'untilTimeModifier': 'w'
     })
 
-    def __init__(self, zone_info_data, viewing_months=14, debug=False):
+    def __init__(self, zone_info_data, viewing_months=14, debug=False,
+        in_place_transitions=False):
         """zone_info_data map is one of the ZONE_INFO_xxx constants from
         zone_infos.py. It can contain a reference to a zone_policy_data map. We
         need to convert these into ZoneEraCooked and ZoneRuleCooked classes.
         """
         self.zone_info = ZoneInfoCooked(zone_info_data)
         self.viewing_months = viewing_months
+        self.in_place_transitions = in_place_transitions
 
         # Used by init_*() to indicate the current year of interest.
         self.year = 0
 
         # List of ZoneMatch, i.e. ZoneEra which match the interval of interest.
         self.matches = []
+
+        # List of candidation Transition objects, which is a better indicator
+        # of the static allocated array needed in the C++ code.
+        self.candidate_transitions = []
 
         # List of matching Transition objects.
         self.transitions = []
@@ -501,7 +510,7 @@ class ZoneSpecifier:
 
         if self.debug:
             logging.info('==== Finding (raw) transitions')
-        self.transitions = self.find_transitions(
+        (self.candidate_transitions, self.transitions) = self.find_transitions(
             self.matches, start_ym, until_ym)
         if self.debug:
             print_matches_and_transitions(self.matches, self.transitions)
@@ -598,24 +607,25 @@ class ZoneSpecifier:
         """Find the relevant transitions from the matching ZoneEras, for the
         interval [start_ym, until_ym).
         """
+        candidate_transitions = []
         transitions = []
         for match in matches:
-            transitions_for_match = self.find_transitions_for_match(
-                match, start_ym, until_ym)
+            (candidate_transitions_for_match, transitions_for_match) = \
+                self.find_transitions_for_match(match, start_ym, until_ym)
+            candidate_transitions.extend(candidate_transitions_for_match)
             transitions.extend(transitions_for_match)
-        return transitions
+        return (candidate_transitions, transitions)
 
     def find_transitions_for_match(self, match, start_ym, until_ym):
         """Find all transitions of the given match, restricted from [start_ym,
         until_ym).
         """
-        zone_era = match.zoneEra
-        zone_policy = zone_era.zonePolicy
-
         if self.debug:
             logging.info(
                 '==== find_transitions_from_match(): match: %s' % match)
 
+        zone_era = match.zoneEra
+        zone_policy = zone_era.zonePolicy
         if zone_policy in ['-', ':']:
             return self.find_transitions_from_simple_match(match)
         else:
@@ -630,10 +640,12 @@ class ZoneSpecifier:
         transition.update({
             'transitionTime': match.startDateTime,
         })
-        return [transition]
+        return ([transition], [transition])
 
     def find_transitions_from_named_match(self, match):
-        """Find the transitions of the named ZoneMatch.
+        """Find the transitions of the named ZoneMatch. Return
+        (candidate_transitions, transitions) pair, to allow tracking of the
+        static memory requirements of the C++ implementation.
         """
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
@@ -642,30 +654,39 @@ class ZoneSpecifier:
         # Find candidate transitions using whole years.
         if self.debug:
             logging.info('==== Get candidate transitions')
-        transitions = []
-        find_candidate_transitions(transitions, match, rules)
-        check_transitions_sorted(transitions)
+        candidate_transitions = []
+        find_candidate_transitions(candidate_transitions, match, rules)
+        check_transitions_sorted(candidate_transitions)
         if self.debug:
-            print_transitions(transitions)
+            print_transitions(candidate_transitions)
 
         # Fix the transitions times, converting 's' and 'u' into 'w' uniformly.
         if self.debug:
             logging.info('==== Fix transition times')
-        fix_transition_times(transitions)
-        check_transitions_sorted(transitions)
+        fix_transition_times(candidate_transitions)
+        check_transitions_sorted(candidate_transitions)
         if self.debug:
-            print_transitions(transitions)
+            print_transitions(candidate_transitions)
 
         # Select only those Transitions which overlap with the actual start and
         # until times of the ZoneMatch.
         if self.debug:
             logging.info('==== Select active transitions')
-        transitions = select_active_transitions(transitions, match)
-        if transitions == None:
-            raise Exception(
-                ("Zone '%s'; year '%04d': No prior transition found! "
-                + "Should not happen") %
+        try:
+            if self.in_place_transitions:
+                if self.debug:
+                    logging.info('select_active_transitions2()')
+                transitions = select_active_transitions2(
+                    candidate_transitions, match)
+            else:
+                if self.debug:
+                    logging.info('select_active_transitions()')
+                transitions = select_active_transitions(
+                    candidate_transitions, match)
+        except:
+            logging.exception("Zone '%s'; year '%04d'",
                 (self.zone_info.name, self.year))
+            raise
         if self.debug:
             print_transitions(transitions)
 
@@ -674,7 +695,7 @@ class ZoneSpecifier:
             logging.info('==== Final check for sorted transitions')
         check_transitions_sorted(transitions)
 
-        return transitions
+        return (candidate_transitions, transitions)
 
 
 def convert_data_to_objects(zi):
@@ -730,6 +751,51 @@ def create_match(prev_era, zone_era, start_ym, until_ym):
     })
 
 
+def select_active_transitions2(transitions, match):
+    """Similar to select_active_transitions() except that it does not use
+    any additional dynamically allocated array of Transitions. It uses
+    the Transition.isActive flag to mark if a Transition is active or not.
+    """
+    prior_transition = None
+    for transition in transitions:
+        prior_transition = process_transition2(
+            match, transition, prior_transition)
+    if prior_transition.transitionTime < match.startDateTime:
+        prior_transition.originalTransitionTime = \
+            prior_transition.transitionTime
+        prior_transition.transitionTime = match.startDateTime
+
+    active_transitions = []
+    for transition in transitions:
+        if transition.isActive:
+            active_transitions.append(transition)
+    return active_transitions
+
+
+def process_transition2(match, transition, prior_transition):
+    transition_compared_to_match = compare_transition_to_match(
+        transition, match)
+    if transition_compared_to_match == 2:
+        transition.isActive = False
+    elif transition_compared_to_match == 1:
+        transition.isActive = True
+    elif transition_compared_to_match == 0:
+        transition.isActive = True
+        if prior_transition:
+            prior_transition.isActive = False
+        prior_transition = transition
+    else:  # transition_compared_to_match < 0:
+        if prior_transition:
+            if transition.transitionTime > prior_transition.transitionTime:
+                prior_transition.isActive = False
+                transition.isActive = True
+                prior_transition = transition
+        else:
+            transition.isActive = True
+            prior_transition = transition
+    return prior_transition
+
+
 def select_active_transitions(transitions, match):
     """Select those Transitions which overlap with the ZoneMatch
     interval which may not be at year boundary. Also select the latest prior
@@ -737,7 +803,6 @@ def select_active_transitions(transitions, match):
     start of the ZoneMatch. The returned array of transitions is likely to be
     unsorted again, since the latest prior transition is added to the end.
     """
-
     # Commulative results of process_transition()
     results = {
         'startTransitionFound': None,
@@ -756,13 +821,13 @@ def select_active_transitions(transitions, match):
     if not results.get('startTransitionFound'):
         prior_transition = results.get('latestPriorTransition')
         if not prior_transition:
-            return None # should not happen, indicate an error
+            raise Exception('Prior transition not found; should not happen')
 
         # Adjust the transition time to be the start of the ZoneMatch.
         prior_transition = prior_transition.copy()
-        original_time = prior_transition.transitionTime
+        prior_transition.originalTransitionTime = \
+            prior_transition.transitionTime
         prior_transition.transitionTime = match.startDateTime
-        prior_transition.originalTransitionTime = original_time
         add_transition_sorted(transitions, prior_transition)
 
     return transitions
@@ -803,11 +868,10 @@ def process_transition(match, transition, results):
     if transition_compared_to_match == 2:
         return
     elif transition_compared_to_match in [0, 1]:
-        #results['transitions'].append(transition)
         add_transition_sorted(results['transitions'], transition)
         if transition_compared_to_match == 0:
             results['startTransitionFound'] = True
-    else:  # transition_compared_to_match < -1:
+    else:  # transition_compared_to_match < 0:
         # If a Transition exists on the start bounary of the ZoneMatch,
         # then we don't need to search for the latest prior.
         if results.get('startTransitionFound'):
@@ -1259,9 +1323,12 @@ def main():
         type=int, default=14)
     parser.add_argument(
         '--transition', help='Print the transition instead of timezone info',
-        action="store_true")
+        action='store_true')
     parser.add_argument(
-        '--debug', help='Print debugging info', action="store_true")
+        '--debug', help='Print debugging info', action='store_true')
+    parser.add_argument(
+        '--in_place_transitions', help='Create Transitions in-place',
+        action='store_true', default=True)
     parser.add_argument('--zone', help='Name of time zone', required=True)
     parser.add_argument('--year', help='Year of interest', type=int)
     parser.add_argument('--date', help='DateTime of interest')
@@ -1277,7 +1344,8 @@ def main():
         sys.exit(1)
 
     # Create the ZoneSpecifier for zone
-    zone_specifier = ZoneSpecifier(zone_info, args.viewing_months, args.debug)
+    zone_specifier = ZoneSpecifier(zone_info, args.viewing_months, args.debug,
+        args.in_place_transitions)
 
     if args.year:
         (matches, transitions) = zone_specifier.get_matches_and_transitions(
