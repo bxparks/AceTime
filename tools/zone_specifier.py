@@ -768,6 +768,61 @@ def select_active_transitions(transitions, match):
     return transitions
 
 
+def process_transition(match, transition, results):
+    """Process the given transition, checking the following situations:
+    1) If the Transition is outside the time range of the ZoneMatch,
+    ignore the transition.
+    2) If the Transition is within the matching ZoneMatch, it is added
+    to the map at results['transitions'].
+    2a) If the Transition occurs at the very start of the ZoneMatch, then
+    set the flag "startTransitionFound" to true.
+    3) If the Transition is earlier than the ZoneMatch, then add it to the
+    'latestPriorTransition' if it is the largest prior transition.
+
+    The 'results' is a map that keeps track of the processing, and contains:
+        {
+            'startTransitionFound': bool,
+            'latestPriorTransition': transition,
+            'transitions': {}
+        }
+
+    where:
+        * If transition >= match.until:
+            * do nothing
+        * If transition within match:
+            * add transition to results['transitions']
+            * if transition == match.start
+                * set results['startTransitionFound'] = True
+        * If transition < match:
+            * if not startTransitionFound:
+                * set results['latestPriorTransition'] = latest
+    """
+    # Determine if the transition falls within the match range.
+    transition_compared_to_match = compare_transition_to_match(
+        transition, match)
+    if transition_compared_to_match == 2:
+        return
+    elif transition_compared_to_match in [0, 1]:
+        #results['transitions'].append(transition)
+        add_transition_sorted(results['transitions'], transition)
+        if transition_compared_to_match == 0:
+            results['startTransitionFound'] = True
+    else:  # transition_compared_to_match < -1:
+        # If a Transition exists on the start bounary of the ZoneMatch,
+        # then we don't need to search for the latest prior.
+        if results.get('startTransitionFound'):
+            return
+
+        # Determine the latest prior transition
+        latest_prior_transition = results.get('latestPriorTransition')
+        if not latest_prior_transition:
+            results['latestPriorTransition'] = transition
+        else:
+            transition_time = transition.transitionTime
+            if transition_time > latest_prior_transition.transitionTime:
+                results['latestPriorTransition'] = transition
+
+
 def generate_start_until_times(transitions):
     """Calculate the various start and until times of the Transitions in the
     following way:
@@ -835,13 +890,11 @@ def generate_start_until_times(transitions):
 
 
 def find_candidate_transitions(transitions, match, rules):
-    """Get the list of candidate transitions from the list of 'rules' which
-    overlap the whole years [start_y, end_y] (inclusive)) defined by the given
-    'match' ZoneEra. This list includes transitions that may become the "most
-    recent prior" transition.
-
-    We use whole years because 'rules' define repetitive transitions using whole
-    years.
+    """Get the list of candidate transitions from the 'rules' which overlap the
+    whole years [start_y, end_y] (inclusive)) defined by the given ZoneMatch.
+    This list includes transitions that may become the "most recent prior"
+    transition. We use whole years because 'rules' define repetitive transitions
+    using whole years.
     """
     start_y = match.startDateTime.y
     end_y = match.untilDateTime.y
@@ -1025,61 +1078,6 @@ def calc_abbrev(transitions):
             abbrev = format
 
         transition.abbrev = abbrev
-
-
-def process_transition(match, transition, results):
-    """Process the given transition, checking the following situations:
-    1) If the Transition is outside the time range of the ZoneMatch,
-    ignore the transition.
-    2) If the Transition is within the matching ZoneMatch, it is added
-    to the map at results['transitions'].
-    2a) If the Transition occurs at the very start of the ZoneMatch, then
-    set the flag "startTransitionFound" to true.
-    3) If the Transition is earlier than the ZoneMatch, then add it to the
-    'latestPriorTransition' if it is the largest prior transition.
-
-    The 'results' is a map that keeps track of the processing, and contains:
-        {
-            'startTransitionFound': bool,
-            'latestPriorTransition': transition,
-            'transitions': {}
-        }
-
-    where:
-        * If transition >= match.until:
-            * do nothing
-        * If transition within match:
-            * add transition to results['transitions']
-            * if transition == match.start
-                * set results['startTransitionFound'] = True
-        * If transition < match:
-            * if not startTransitionFound:
-                * set results['latestPriorTransition'] = latest
-    """
-    # Determine if the transition falls within the match range.
-    transition_compared_to_match = compare_transition_to_match(
-        transition, match)
-    if transition_compared_to_match == 2:
-        return
-    elif transition_compared_to_match in [0, 1]:
-        #results['transitions'].append(transition)
-        add_transition_sorted(results['transitions'], transition)
-        if transition_compared_to_match == 0:
-            results['startTransitionFound'] = True
-    else:  # transition_compared_to_match < -1:
-        # If a Transition exists on the start bounary of the ZoneMatch,
-        # then we don't need to search for the latest prior.
-        if results.get('startTransitionFound'):
-            return
-
-        # Determine the latest prior transition
-        latest_prior_transition = results.get('latestPriorTransition')
-        if not latest_prior_transition:
-            results['latestPriorTransition'] = transition
-        else:
-            transition_time = transition.transitionTime
-            if transition_time > latest_prior_transition.transitionTime:
-                results['latestPriorTransition'] = transition
 
 
 def get_candidate_years(from_year, to_year, start_year, end_year):
