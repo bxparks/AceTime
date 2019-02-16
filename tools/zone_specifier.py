@@ -374,11 +374,13 @@ class ZoneSpecifier:
                 zone_specifier.get_timezone_info_for_datetime(dt)
 
     Note:
-        The viewing_months determines the month interval to use to calculate
-        the transitions.
+        The viewing_months parameter determines the month interval to use to
+        calculate the transitions:
+
         * 13 = [year-Jan, (year+1)-Feb) (works)
         * 14 = [(year-1)-Dec, (year+1)-Feb) (works)
-        * 36 = [(year-1)-Jan, (year+2)-Jan) (works except for 2000)
+        * 36 = [(year-1)-Jan, (year+2)-Jan) (not well tested, but
+               probably mostly works except for 2000)
     """
 
     # Sentinel ZoneEra that represents the earliest zone era.
@@ -556,10 +558,9 @@ class ZoneSpecifier:
     def find_matches(self, start_ym, until_ym):
         """Find the Zone Eras which overlap [start_ym, until_ym), ignoring
         day, time and timeModifier. The resulting ZoneMatch objects will
-        inherit the day, time and timeModifiers of the underlying ZoneEra.
-        The start and until fields are *not* truncated by using start_ym
-        and until_ym. (Maybe it should be? Potentially makes debugging slightly
-        harder since the resulting ZoneMatch has been processed more.)
+        inherit the day, time and timeModifiers of the underlying ZoneEra. The
+        start and until fields are truncated at the low and high end
+        by start_ym and until_ym,, respectively.
 
         We generate slightly over one year's worth because we are caught in a
         Catch-22 situation. We need to convert a epochSecond to the local
@@ -586,7 +587,7 @@ class ZoneSpecifier:
         matches = []
         for zone_era in zone_eras:
             if era_overlaps_interval(prev_era, zone_era, start_ym, until_ym):
-                match = create_match(prev_era, zone_era)
+                match = create_match(prev_era, zone_era, start_ym, until_ym)
                 if self.debug:
                     logging.info('==== find_matches(): %s' % match)
                 matches.append(match)
@@ -606,17 +607,14 @@ class ZoneSpecifier:
 
     def find_transitions_for_match(self, match, start_ym, until_ym):
         """Find all transitions of the given match, restricted from [start_ym,
-        until_ym). It uses an internal "effective" ZoneMatch which is truncated
-        to the [start, until) interval.
+        until_ym).
         """
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
 
-        match = calc_effective_match(start_ym, until_ym, match)
         if self.debug:
             logging.info(
-                '==== find_transitions_from_match(): effective match: %s' %
-                match)
+                '==== find_transitions_from_match(): match: %s' % match)
 
         if zone_policy in ['-', ':']:
             return self.find_transitions_from_simple_match(match)
@@ -635,7 +633,7 @@ class ZoneSpecifier:
         return [transition]
 
     def find_transitions_from_named_match(self, match):
-        """Find the transitions of the named effective ZoneMatch.
+        """Find the transitions of the named ZoneMatch.
         """
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
@@ -685,20 +683,20 @@ def convert_data_to_objects(zi):
     """
 
 
-def create_match(prev_era, zone_era):
-    """Create the Zone Match object for the given Zone Era.
+def create_match(prev_era, zone_era, start_ym, until_ym):
+    """Create the Zone Match object for the given Zone Era, truncated at
+    the low and high end by start_ym and until_ym:
+
         * ZoneMatch.startDateTime is prev_era.untilTime
         * ZoneMatch.untilDateTime is zone_era.untilTime
         * ZoneMatch.policy_name is '-', ':' or the string name of ZonePolicy
 
     The startDateTime of the current ZoneMatch is determined by the UNTIL
     datetime of the prev_era, which uses the UTC offset of the *previous* era,
-    not the current era.
-
-    Therefore, the startDateTime and untilDateTime is accurate to a resolution
-    of one day. This is good enough to generate Transitions, which also will
-    have dateTime fields accurate to within a day or so, assuming we don't have
-    2 DST transitions in a single day.
+    not the current era. Therefore, the startDateTime and untilDateTime is
+    accurate to a resolution of one day. This is good enough to generate
+    Transitions, which also will have dateTime fields accurate to within a day
+    or so, assuming we don't have 2 DST transitions in a single day.
 
     See fix_transition_times() which normalizes these start times to the wall
     time uniformly.
@@ -709,12 +707,22 @@ def create_match(prev_era, zone_era):
         d=prev_era.untilDay,
         ss=prev_era.untilSeconds,
         f=prev_era.untilTimeModifier)
+    if start_date_time < DateTuple(
+            y=start_ym.y, M=start_ym.M, d=1, ss=0, f='w'):
+        start_date_time = DateTuple(
+            y=start_ym.y, M=start_ym.M, d=1, ss=0, f='w')
+
     until_date_time = DateTuple(
         y=zone_era.untilYear,
         M=zone_era.untilMonth,
         d=zone_era.untilDay,
         ss=zone_era.untilSeconds,
         f=zone_era.untilTimeModifier)
+    if until_date_time > DateTuple(
+            y=until_ym.y, M=until_ym.M, d=1, ss=0, f='w'):
+        until_date_time = DateTuple(
+            y=until_ym.y, M=until_ym.M, d=1, ss=0, f='w')
+
     return ZoneMatch({
         'startDateTime': start_date_time,
         'untilDateTime': until_date_time,
@@ -723,7 +731,7 @@ def create_match(prev_era, zone_era):
 
 
 def select_active_transitions(transitions, match):
-    """Select those Transitions which overlap with the effective ZoneMatch
+    """Select those Transitions which overlap with the ZoneMatch
     interval which may not be at year boundary. Also select the latest prior
     transition before the given ZoneMatch, shifting the transition time to the
     start of the ZoneMatch. The returned array of transitions is likely to be
@@ -1021,14 +1029,14 @@ def calc_abbrev(transitions):
 
 def process_transition(match, transition, results):
     """Process the given transition, checking the following situations:
-    1) If the Transition is outside the time range of the effective ZoneEra,
+    1) If the Transition is outside the time range of the ZoneMatch,
     ignore the transition.
-    2) If the Transition is within the matching effective ZoneEra, it is added
+    2) If the Transition is within the matching ZoneMatch, it is added
     to the map at results['transitions'].
-    2a) If the Transition occurs at the very start of the ZoneEra, then
+    2a) If the Transition occurs at the very start of the ZoneMatch, then
     set the flag "startTransitionFound" to true.
-    3) If the Transition is earlier than the effective ZoneEra, then add
-    it to the 'latestPriorTransition' if it is the largest prior transition.
+    3) If the Transition is earlier than the ZoneMatch, then add it to the
+    'latestPriorTransition' if it is the largest prior transition.
 
     The 'results' is a map that keeps track of the processing, and contains:
         {
@@ -1048,7 +1056,7 @@ def process_transition(match, transition, results):
             * if not startTransitionFound:
                 * set results['latestPriorTransition'] = latest
     """
-    # Determine if the transition falls within the effective match range.
+    # Determine if the transition falls within the match range.
     transition_compared_to_match = compare_transition_to_match(
         transition, match)
     if transition_compared_to_match == 2:
@@ -1097,28 +1105,6 @@ def get_candidate_years(from_year, to_year, start_year, end_year):
         else:
             years.add(start_year - 1)
     return years
-
-
-def calc_effective_match(start_ym, until_ym, match):
-    """Generate a version of match which overlaps the interval
-    [start_ym, until_ym).
-    """
-    start_date_time = match.startDateTime
-    if start_date_time < DateTuple(
-            y=start_ym.y, M=start_ym.M, d=1, ss=0, f='w'):
-        start_date_time = DateTuple(
-            y=start_ym.y, M=start_ym.M, d=1, ss=0, f='w')
-
-    until_date_time = match.untilDateTime
-    if until_date_time > DateTuple(
-            y=until_ym.y, M=until_ym.M, d=1, ss=0, f='w'):
-        until_date_time = DateTuple(
-            y=until_ym.y, M=until_ym.M, d=1, ss=0, f='w')
-
-    eff_match = match.copy()
-    eff_match.startDateTime = start_date_time
-    eff_match.untilDateTime = until_date_time
-    return eff_match
 
 
 def compare_transition_to_match(transition, match):
