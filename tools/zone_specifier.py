@@ -233,12 +233,20 @@ class Transition:
         3) A ZoneRule that has been shifted to the boundary of a ZoneEra.
     """
     __slots__ = [
-        # Copied from ZoneMatch
+        # The start and until times are initially copied from ZoneMatch, then
+        # updated later by generate_start_until_times().
+        #   * The untilDateTime comes from transitionTime of the *next*
+        #   Transition.
+        #   * The startDateTime is the current transitionTime converted into the
+        #   UTC offset of the current Transition.
         'startDateTime',  # (DateTuple), replaced with actual start time
         'untilDateTime',  # (DateTuple), replaced with actual until time
         'zoneEra',  # (ZoneEra)
 
-        # Added for simple Match and named Match.
+        # These are added for simple Match and named Match.
+        # For a simple Transition, the transitionTime is the startTime of the
+        # ZoneEra. For a named Transition, the transitionTime is the AT field of
+        # the corresponding ZoneRule (see create_transition_for_year()).
         'originalTransitionTime',  # (DateTuple) transition time before shifting
         'transitionTime',  # (DateTuple) 'w' time
         'transitionTimeS',  # (DateTuple) 's' time
@@ -301,6 +309,7 @@ class Transition:
         # yapf: disable
         if policy_name in ['-', ':']:
             return ('Transition('
+                + 'active: %s; '
                 + 'transition: %s; '
                 + 'start: %s; '
                 + 'until: %s; '
@@ -309,6 +318,7 @@ class Transition:
                 + '%s; '
                 + 'format: %s; '
                 + 'abbrev: %s)') % (
+                self.isActive,
                 date_tuple_to_string(self.transitionTime),
                 date_tuple_to_string(self.startDateTime),
                 date_tuple_to_string(self.untilDateTime),
@@ -322,39 +332,27 @@ class Transition:
             zone_rule_from = zone_rule.fromYear
             zone_rule_to = zone_rule.toYear
 
-            if self.originalTransitionTime:
-                return ('Transition(transition: %s; '
-                     + 'start: %s; '
-                     + 'until: %s; '
-                     + 'orig: %s; '
-                     + 'sepoch: %d; '
-                     + 'policy: %s[%d,%d]; '
-                     + '%s; '
-                     + 'format: %s(%s); '
-                     + 'abbrev: %s)') % (
-                     date_tuple_to_string(self.transitionTime),
-                     date_tuple_to_string(self.startDateTime),
-                     date_tuple_to_string(self.untilDateTime),
-                     date_tuple_to_string(self.originalTransitionTime),
-                     sepoch, policy_name, zone_rule_from, zone_rule_to,
-                     to_utc_string(offset_seconds, delta_seconds),
-                     format, letter, abbrev)
-            else:
-                return ('Transition(transition: %s; '
-                    + 'start: %s; '
-                    + 'until: %s; '
-                    + 'sepoch: %d; '
-                    + 'policy: %s[%d,%d]; '
-                    + '%s; '
-                    + 'format: %s(%s); '
-                    + 'abbrev: %s)') % (
-                    date_tuple_to_string(self.transitionTime),
-                    date_tuple_to_string(self.startDateTime),
-                    date_tuple_to_string(self.untilDateTime),
-                    sepoch, policy_name, zone_rule_from, zone_rule_to,
-                    to_utc_string(offset_seconds, delta_seconds),
-                    format, letter, abbrev)
-            # yapf: enable
+            return ('Transition('
+                + 'active: %s; '
+                + 'transition: %s; '
+                + 'start: %s; '
+                + 'until: %s; '
+                + 'orig: %s; '
+                + 'sepoch: %d; '
+                + 'policy: %s[%d,%d]; '
+                + '%s; '
+                + 'format: %s(%s); '
+                + 'abbrev: %s)') % (
+                self.isActive,
+                date_tuple_to_string(self.transitionTime),
+                date_tuple_to_string(self.startDateTime),
+                date_tuple_to_string(self.untilDateTime),
+                date_tuple_to_string(self.originalTransitionTime) \
+                    if self.originalTransitionTime else '',
+                sepoch, policy_name, zone_rule_from, zone_rule_to,
+                to_utc_string(offset_seconds, delta_seconds),
+                format, letter, abbrev)
+        # yapf: enable
 
 
 class ZoneSpecifier:
@@ -395,7 +393,7 @@ class ZoneSpecifier:
     })
 
     def __init__(self, zone_info_data, viewing_months=14, debug=False,
-        in_place_transitions=False):
+        in_place_transitions=False, optimize_candidates=False):
         """zone_info_data map is one of the ZONE_INFO_xxx constants from
         zone_infos.py. It can contain a reference to a zone_policy_data map. We
         need to convert these into ZoneEraCooked and ZoneRuleCooked classes.
@@ -403,6 +401,7 @@ class ZoneSpecifier:
         self.zone_info = ZoneInfoCooked(zone_info_data)
         self.viewing_months = viewing_months
         self.in_place_transitions = in_place_transitions
+        self.optimize_candidates = optimize_candidates
 
         # Used by init_*() to indicate the current year of interest.
         self.year = 0
@@ -483,8 +482,6 @@ class ZoneSpecifier:
             logging.info('==== Finding (raw) transitions')
         (self.candidate_transitions, self.transitions) = self.find_transitions(
             self.matches, start_ym, until_ym)
-        if self.debug:
-            self.print_matches_and_transitions()
 
         # Some transitions from simple match may be in 's' or 'u', so convert
         # to 'w'.
@@ -492,19 +489,19 @@ class ZoneSpecifier:
             logging.info('==== Fixing transitions times')
         fix_transition_times(self.transitions)
         if self.debug:
-            self.print_matches_and_transitions()
+            print_transitions(self.transitions)
 
         if self.debug:
             logging.info('==== Generating start and until times')
         generate_start_until_times(self.transitions)
         if self.debug:
-            self.print_matches_and_transitions()
+            print_transitions(self.transitions)
 
         if self.debug:
             logging.info('==== Calculating abbreviations')
         calc_abbrev(self.transitions)
         if self.debug:
-            self.print_matches_and_transitions()
+            print_transitions(self.transitions)
 
     # The following methods are designed to be used internally.
 
@@ -616,7 +613,7 @@ class ZoneSpecifier:
         """
         if self.debug:
             logging.info(
-                '==== find_transitions_from_match(): match: %s' % match)
+                '==== find_transitions_for_match(): match: %s' % match)
 
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
@@ -649,15 +646,27 @@ class ZoneSpecifier:
         if self.debug:
             logging.info('==== Get candidate transitions')
         candidate_transitions = []
-        find_candidate_transitions(candidate_transitions, match, rules)
+        if self.optimize_candidates:
+            if self.debug:
+                logging.info('find_candidate_transitions_optimized()')
+            find_candidate_transitions_optimized(
+                candidate_transitions, match, rules)
+        else:
+            if self.debug:
+                logging.info('find_candidate_transitions()')
+            find_candidate_transitions(candidate_transitions, match, rules)
         if self.debug:
             logging.info('Num candidates: %d' % len(candidate_transitions))
+            print_transitions(candidate_transitions)
         check_transitions_sorted(candidate_transitions)
 
         # Fix the transitions times, converting 's' and 'u' into 'w' uniformly.
         if self.debug:
             logging.info('==== Fix transition times')
         fix_transition_times(candidate_transitions)
+        if self.debug:
+            logging.info('Num candidates: %d' % len(candidate_transitions))
+            print_transitions(candidate_transitions)
         check_transitions_sorted(candidate_transitions)
 
         # Select only those Transitions which overlap with the actual start and
@@ -680,12 +689,14 @@ class ZoneSpecifier:
                 (self.zone_info.name, self.year))
             raise
         if self.debug:
-            logging.info('Num transitions: %d' % len(transitions))
+            print_transitions(transitions)
 
         # Verify that the "most recent prior" Transition is properly sorted.
         if self.debug:
             logging.info('==== Final check for sorted transitions')
         check_transitions_sorted(transitions)
+        if self.debug:
+            print_transitions(transitions)
 
         return (candidate_transitions, transitions)
 
@@ -700,15 +711,10 @@ class ZoneSpecifier:
         for t in self.candidate_transitions:
             logging.info(t)
 
-    def print_transitions(self):
-        for t in self.transitions:
-            logging.info(t)
 
-
-def convert_data_to_objects(zi):
-    """Convert the dictionary of zone info, zone era, zone policy and zone rule
-    information into ZoneInfo, ZoneEra, ZonePolicy and ZoneRule objects.
-    """
+def print_transitions(transitions):
+    for t in transitions:
+        logging.info(t)
 
 
 def create_match(prev_era, zone_era, start_ym, until_ym):
@@ -988,6 +994,35 @@ def find_candidate_transitions(transitions, match, rules):
             add_transition_sorted(transitions,
                 create_transition_for_year(year, rule, match))
 
+def find_candidate_transitions_optimized(transitions, match, rules):
+    """Similar to find_candidate_transitions() except that prior Transitions
+    which are obviously non-candidates are filtered out early. This reduces the
+    size of the statically allocated Transitions array in the C++
+    implementation.
+    """
+    start_y = match.startDateTime.y
+    end_y = match.untilDateTime.y
+    prior_transition = None
+    for rule in rules:
+        from_year = rule.fromYear
+        to_year = rule.toYear
+        years = get_interior_years(from_year, to_year, start_y, end_y)
+        for year in years:
+            add_transition_sorted(transitions,
+                create_transition_for_year(year, rule, match))
+
+        prior_year = get_most_recent_prior_year(
+            from_year, to_year, start_y, end_y)
+        if prior_year >= 0:
+            transition = create_transition_for_year(prior_year, rule, match)
+            if prior_transition:
+                if transition.startDateTime > prior_transition.startDateTime:
+                    prior_transition = transition
+            else:
+                prior_transition = transition
+    if prior_transition:
+        add_transition_sorted(transitions, prior_transition)
+
 def add_transition_sorted(transitions, transition):
     """Add the transition to the transitions array so that it is sorted by
     transitionTime. This is not normally how this would be done in Python. This
@@ -1022,7 +1057,7 @@ def check_transitions_sorted(transitions):
             prev = transition
             continue
         if prev.transitionTime > transition.transitionTime:
-            self.print_transitions()
+            print_transitions(transitions)
             raise Exception('Transitions not sorted')
 
 
@@ -1323,8 +1358,7 @@ def compare_era_to_year_month(era, year, month):
 
 def date_tuple_to_string(dt):
     (h, m, s) = seconds_to_hms(dt.ss)
-    return '%04d-%02d-%02d %02d:%02d:%02d%s' % (dt.y, dt.M, dt.d, h, m, s,
-                                                dt.f)
+    return '%04d-%02d-%02d %02d:%02d%s' % (dt.y, dt.M, dt.d, h, m, dt.f)
 
 
 def to_utc_string(utcoffset, dstoffset):
@@ -1357,8 +1391,12 @@ def main():
     parser.add_argument(
         '--debug', help='Print debugging info', action='store_true')
     parser.add_argument(
-        '--in_place_transitions', help='Create Transitions in-place',
-        action='store_true', default=True)
+        '--in_place_transitions',
+        help='Use in-place Transition array to determine Active Transitions',
+        action="store_true")
+    parser.add_argument(
+        '--optimize_candidates', help='Optimize the candidate transitions',
+        action='store_true')
     parser.add_argument('--zone', help='Name of time zone', required=True)
     parser.add_argument('--year', help='Year of interest', type=int)
     parser.add_argument('--date', help='DateTime of interest')
@@ -1374,11 +1412,17 @@ def main():
         sys.exit(1)
 
     # Create the ZoneSpecifier for zone
-    zone_specifier = ZoneSpecifier(zone_info, args.viewing_months, args.debug,
-        args.in_place_transitions)
+    zone_specifier = ZoneSpecifier(
+        zone_info_data=zone_info,
+        viewing_months=args.viewing_months,
+        debug=args.debug,
+        in_place_transitions=args.in_place_transitions,
+        optimize_candidates=args.optimize_candidates)
 
     if args.year:
         zone_specifier.init_for_year(args.year)
+        if args.debug:
+            logging.info('==== Final matches and transitions')
         zone_specifier.print_matches_and_transitions()
     elif args.date:
         dt = datetime.strptime(args.date, "%Y-%m-%dT%H:%M")

@@ -49,7 +49,8 @@ class Validator:
 
     def __init__(self, zone_infos, zone_policies, viewing_months,
                  validate_dst_offset, validate_hours, debug_validator,
-                 debug_specifier, zone_name, in_place_transitions):
+                 debug_specifier, zone_name, in_place_transitions,
+                 optimize_candidates):
         """
         Args:
             zone_infos: (dict) of {name -> zone_info{} }
@@ -64,6 +65,7 @@ class Validator:
             debug_specifier: (bool) enable debugging output for ZoneSpecifier
             zone_name: (str) validate only this zone
             in_place_transitions: (bool)
+            optimize_candidates: (bool)
         """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
@@ -74,6 +76,7 @@ class Validator:
         self.debug_specifier = debug_specifier
         self.zone_name = zone_name
         self.in_place_transitions = in_place_transitions
+        self.optimize_candidates = optimize_candidates
 
     def validate_transition_buffer_size(self):
         """Determine the size of transition buffer required for each zone.
@@ -90,8 +93,12 @@ class Validator:
             if self.debug_validator:
                 logging.info('Validating zone %s' % zone_short_name)
 
-            zone_specifier = ZoneSpecifier(zone_info, self.viewing_months,
-                self.debug_specifier, self.in_place_transitions)
+            zone_specifier = ZoneSpecifier(
+                zone_info_data=zone_info,
+                viewing_months=self.viewing_months,
+                debug=self.debug_specifier,
+                in_place_transitions=self.in_place_transitions,
+                optimize_candidates=self.optimize_candidates)
             # pair of tuple(count, year), transition count, and candidate count
             count_record = ((0, 0), (0, 0))
             for year in range(2000, 2038):
