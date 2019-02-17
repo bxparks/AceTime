@@ -49,20 +49,21 @@ class Validator:
 
     def __init__(self, zone_infos, zone_policies, viewing_months,
                  validate_dst_offset, validate_hours, debug_validator,
-                 debug_specifier, zone_name):
+                 debug_specifier, zone_name, in_place_transitions):
         """
         Args:
-            zone_infos: map of {name -> zone_info{} }
-            zone_policies: map of {name ->zone_policy{} }
-            viewing_months: number of months in the calculation window
+            zone_infos: (dict) of {name -> zone_info{} }
+            zone_policies: (dict) of {name ->zone_policy{} }
+            viewing_months: (int) number of months in the calculation window
                 (13, 14, 36)
-            validate_dst_offset: validate DST offset against Python in
+            validate_dst_offset: (bool) validate DST offset against Python in
                 addition to total UTC offset
-            validate_hours: validate all 24 hours of a day, instead of a single
-                selected sample hour
-            debug_validator: enable debugging output for Validator
-            debug_specifier: enable debugging output for ZoneSpecifier
-            zone_name: validate only this zone
+            validate_hours: (bool) validate all 24 hours of a day, instead of a
+                single selected sample hour
+            debug_validator: (bool) enable debugging output for Validator
+            debug_specifier: (bool) enable debugging output for ZoneSpecifier
+            zone_name: (str) validate only this zone
+            in_place_transitions: (bool)
         """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
@@ -72,6 +73,7 @@ class Validator:
         self.debug_validator = debug_validator
         self.debug_specifier = debug_specifier
         self.zone_name = zone_name
+        self.in_place_transitions = in_place_transitions
 
     def validate_transition_buffer_size(self):
         """Determine the size of transition buffer required for each zone.
@@ -89,21 +91,25 @@ class Validator:
                 logging.info('Validating zone %s' % zone_short_name)
 
             zone_specifier = ZoneSpecifier(zone_info, self.viewing_months,
-                self.debug_specifier)
-            count_record = (0, 0)  # (count, year)
+                self.debug_specifier, self.in_place_transitions)
+            # pair of tuple(count, year), transition count, and candidate count
+            count_record = ((0, 0), (0, 0))
             for year in range(2000, 2038):
                 #logging.info('Validating year %s' % year)
                 zone_specifier.init_for_year(year)
-                count = len(zone_specifier.transitions)
-                if count > count_record[0]:
-                    count_record = (count, year)
+                transition_count = len(zone_specifier.transitions)
+                candidate_count = len(zone_specifier.candidate_transitions)
+                if transition_count > count_record[0][0]:
+                    count_record = ((transition_count, year), count_record[1])
+                if candidate_count > count_record[1][0]:
+                    count_record = (count_record[0], (candidate_count, year))
             transition_stats[zone_short_name] = count_record
 
         logging.info('Count(transitions) group by zone order by count desc')
         for zone_short_name, count_record in sorted(
                 transition_stats.items(), key=lambda x: x[1], reverse=True):
-            logging.info('%s: %d (%04d)' %
-                         ((zone_short_name, ) + count_record))
+            logging.info('%s: %d (%04d); %d (%04d)' %
+                 ((zone_short_name, ) + count_record[0] + count_record[1]))
 
     def validate_sequentially(self):
         """Compare Python and AceTime offsets by generating the Python
@@ -128,7 +134,7 @@ class Validator:
     def validate_test_data_for_zone(self, zone_short_name, items):
         zone_info = self.zone_infos[zone_short_name]
         zone_specifier = ZoneSpecifier(zone_info, self.viewing_months,
-            self.debug_specifier)
+            self.debug_specifier, self.in_place_transitions)
         for item in items:
             if self.debug_validator:
                 logging.info('    %04d-%02d-%02d %02d:%02d epoch:%d' %
@@ -175,7 +181,7 @@ class Validator:
         """Create the TestItems for a specific zone.
         """
         zone_specifier = ZoneSpecifier(zone_info, self.viewing_months,
-            self.debug_specifier)
+            self.debug_specifier, self.in_place_transitions)
         zone_full_name = zone_info['name']
         try:
             tz = pytz.timezone(zone_full_name)

@@ -134,6 +134,8 @@ def main():
         '--output_dir', help='Location of the output directory')
 
     # Validator
+    parser.add_argument('--zone', help='Name of time zone to validate',
+        default='')
     parser.add_argument(
         '--viewing_months',
         help='Number of months to use for calculations (13, 14, 36)',
@@ -154,8 +156,10 @@ def main():
         '--debug_specifier',
         help='Enable debug output from ZoneSpecifier',
         action="store_true")
-    parser.add_argument('--zone', help='Name of time zone to validate',
-        default='')
+    parser.add_argument(
+        '--in_place_transitions',
+        help='Use in-place Transition array to determine Active Transitions',
+        action="store_true")
 
     # Parse the command line arguments
     args = parser.parse_args()
@@ -243,7 +247,7 @@ def main():
         validator = Validator(zone_infos, zone_policies, args.viewing_months,
                               args.validate_dst_offset, args.validate_hours,
                               args.debug_validator, args.debug_specifier,
-                              args.zone)
+                              args.zone, args.in_place_transitions)
 
         logging.info('======== Validating transition buffer sizes...')
         validator.validate_transition_buffer_size()
@@ -260,7 +264,7 @@ def main():
         validator = Validator(zone_infos, zone_policies, args.viewing_months,
                               args.validate_dst_offset, args.validate_hours,
                               args.debug_validator, args.debug_specifier,
-                              args.zone)
+                              args.zone, args.in_place_transitions)
         (test_data, num_items) = validator.create_test_data()
         logging.info('test_data=%d', len(test_data))
         test_data_generator = TestDataGenerator(invocation, args.tz_version,

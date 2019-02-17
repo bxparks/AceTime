@@ -692,6 +692,9 @@ class ZoneSpecifier:
         logging.info('---- Transitions:')
         for t in self.transitions:
             logging.info(t)
+        logging.info('---- Candidates:')
+        for t in self.candidate_transitions:
+            logging.info(t)
 
     def print_transitions(self):
         for t in self.transitions:
