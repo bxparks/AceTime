@@ -365,8 +365,7 @@ class ZoneSpecifier:
 
         # Validate matches and transitions
         zone_specifier.init_for_year(args.year)
-        print_matches_and_transitions(
-            zone_specifier.matches, zone_specifier.transitions)
+        self.print_matches_and_transitions()
 
         # Get (offset_seconds, dst_seconds, abbrev) for an epoch_seconds.
         (offset_seconds, dst_seconds, abbrev) = \
@@ -382,8 +381,8 @@ class ZoneSpecifier:
 
         * 13 = [year-Jan, (year+1)-Feb) (works)
         * 14 = [(year-1)-Dec, (year+1)-Feb) (works)
-        * 36 = [(year-1)-Jan, (year+2)-Jan) (not well tested, but
-               probably mostly works except for 2000)
+        * 36 = [(year-1)-Jan, (year+2)-Jan) (not well tested,
+               seems to mostly work except for 2000)
     """
 
     # Sentinel ZoneEra that represents the earliest zone era.
@@ -485,7 +484,7 @@ class ZoneSpecifier:
         (self.candidate_transitions, self.transitions) = self.find_transitions(
             self.matches, start_ym, until_ym)
         if self.debug:
-            print_matches_and_transitions(self.matches, self.transitions)
+            self.print_matches_and_transitions()
 
         # Some transitions from simple match may be in 's' or 'u', so convert
         # to 'w'.
@@ -493,19 +492,19 @@ class ZoneSpecifier:
             logging.info('==== Fixing transitions times')
         fix_transition_times(self.transitions)
         if self.debug:
-            print_matches_and_transitions(self.matches, self.transitions)
+            self.print_matches_and_transitions()
 
         if self.debug:
             logging.info('==== Generating start and until times')
         generate_start_until_times(self.transitions)
         if self.debug:
-            print_matches_and_transitions(self.matches, self.transitions)
+            self.print_matches_and_transitions()
 
         if self.debug:
             logging.info('==== Calculating abbreviations')
         calc_abbrev(self.transitions)
         if self.debug:
-            print_matches_and_transitions(self.matches, self.transitions)
+            self.print_matches_and_transitions()
 
     # The following methods are designed to be used internally.
 
@@ -652,16 +651,12 @@ class ZoneSpecifier:
         candidate_transitions = []
         find_candidate_transitions(candidate_transitions, match, rules)
         check_transitions_sorted(candidate_transitions)
-        if self.debug:
-            print_transitions(candidate_transitions)
 
         # Fix the transitions times, converting 's' and 'u' into 'w' uniformly.
         if self.debug:
             logging.info('==== Fix transition times')
         fix_transition_times(candidate_transitions)
         check_transitions_sorted(candidate_transitions)
-        if self.debug:
-            print_transitions(candidate_transitions)
 
         # Select only those Transitions which overlap with the actual start and
         # until times of the ZoneMatch.
@@ -682,8 +677,6 @@ class ZoneSpecifier:
             logging.exception("Zone '%s'; year '%04d'",
                 (self.zone_info.name, self.year))
             raise
-        if self.debug:
-            print_transitions(transitions)
 
         # Verify that the "most recent prior" Transition is properly sorted.
         if self.debug:
@@ -691,6 +684,18 @@ class ZoneSpecifier:
         check_transitions_sorted(transitions)
 
         return (candidate_transitions, transitions)
+
+    def print_matches_and_transitions(self):
+        logging.info('---- Matches:')
+        for m in self.matches:
+            logging.info(m)
+        logging.info('---- Transitions:')
+        for t in self.transitions:
+            logging.info(t)
+
+    def print_transitions(self):
+        for t in self.transitions:
+            logging.info(t)
 
 
 def convert_data_to_objects(zi):
@@ -1000,7 +1005,7 @@ def check_transitions_sorted(transitions):
             prev = transition
             continue
         if prev.transitionTime > transition.transitionTime:
-            print_transitions(transitions)
+            self.print_transitions()
             raise Exception('Transitions not sorted')
 
 
@@ -1295,20 +1300,6 @@ def seconds_to_hm_string(secs):
 EPOCH_DATETIME = datetime(2000, 1, 1, 0, 0, 0)
 
 
-def print_matches_and_transitions(matches, transitions):
-    logging.info('---- Matches:')
-    for m in matches:
-        logging.info(m)
-    logging.info('---- Transitions:')
-    for t in transitions:
-        logging.info(t)
-
-
-def print_transitions(transitions):
-    for t in transitions:
-        logging.info(t)
-
-
 def main():
     # Configure command line flags.
     parser = argparse.ArgumentParser(description='Zone Agent.')
@@ -1344,9 +1335,7 @@ def main():
 
     if args.year:
         zone_specifier.init_for_year(args.year)
-        print_matches_and_transitions(
-            zone_specifier.matches, zone_specifier.transitions)
-
+        zone_specifier.print_matches_and_transitions()
     elif args.date:
         dt = datetime.strptime(args.date, "%Y-%m-%dT%H:%M")
         if args.transition:

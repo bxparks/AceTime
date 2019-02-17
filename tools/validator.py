@@ -21,7 +21,6 @@ from transformer import short_name
 from zone_specifier import ZoneSpecifier
 from zone_specifier import date_tuple_to_string
 from zone_specifier import to_utc_string
-from zone_specifier import print_matches_and_transitions
 from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from zone_specifier import DateTuple
 from zone_specifier import YearMonthTuple
@@ -152,9 +151,7 @@ class Validator:
                     to_utc_string(item.utc_offset - item.dst_offset,
                                   item.dst_offset))
                 zone_specifier.init_for_year(item.y)
-                print_matches_and_transitions(
-                    zone_specifier.matches,
-                    zone_specifier.transitions)
+                zone_specifier.print_matches_and_transitions()
 
     def create_test_data(self):
         """Create a map of {
