@@ -780,6 +780,10 @@ def select_active_transitions2(transitions, match):
 
 
 def process_transition2(match, transition, prior_transition):
+    """A version of process_transition() that works for
+    select_active_transition2(). This assumes that all Transitions have been
+    fixed using fix_transition_times().
+    """
     transition_compared_to_match = compare_transition_to_match(
         transition, match)
     if transition_compared_to_match == 2:
@@ -841,7 +845,9 @@ def select_active_transitions(transitions, match):
 
 
 def process_transition(match, transition, results):
-    """Process the given transition, checking the following situations:
+    """Compare the given transition to the given match, checking the following
+    situations:
+
     1) If the Transition is outside the time range of the ZoneMatch,
     ignore the transition.
     2) If the Transition is within the matching ZoneMatch, it is added
@@ -850,6 +856,10 @@ def process_transition(match, transition, results):
     set the flag "startTransitionFound" to true.
     3) If the Transition is earlier than the ZoneMatch, then add it to the
     'latestPriorTransition' if it is the largest prior transition.
+
+    This method assumes that the transition time of the Transition has been
+    fixed using the fix_transition_times() method, so that the comparison with
+    the ZoneMatch can occur accurately.
 
     The 'results' is a map that keeps track of the processing, and contains:
         {
@@ -1178,6 +1188,12 @@ def get_candidate_years(from_year, to_year, start_year, end_year):
 
 def compare_transition_to_match(transition, match):
     """Determine if transition_time applies to given range of the match.
+    To compare the Transition time to the ZoneMatch time properly, the
+    transition time of the Transition should be expanded to include all 3
+    versions ('w', 's', and 'u') of the time stamp. When comparing against the
+    ZoneMatch.startDateTime and ZoneMatch.untilDateTime, the version will be
+    determined by the modifier of those parameters.
+
     Return:
         * -1 if less than match
         * 0 if equal to match_start
