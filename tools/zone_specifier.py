@@ -650,6 +650,8 @@ class ZoneSpecifier:
             logging.info('==== Get candidate transitions')
         candidate_transitions = []
         find_candidate_transitions(candidate_transitions, match, rules)
+        if self.debug:
+            logging.info('Num candidates: %d' % len(candidate_transitions))
         check_transitions_sorted(candidate_transitions)
 
         # Fix the transitions times, converting 's' and 'u' into 'w' uniformly.
@@ -677,6 +679,8 @@ class ZoneSpecifier:
             logging.exception("Zone '%s'; year '%04d'",
                 (self.zone_info.name, self.year))
             raise
+        if self.debug:
+            logging.info('Num transitions: %d' % len(transitions))
 
         # Verify that the "most recent prior" Transition is properly sorted.
         if self.debug:
