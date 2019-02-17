@@ -17,13 +17,13 @@ from zone_specifier import normalize_date_tuple
 
 class TestZoneSpecifierHelperMethods(unittest.TestCase):
     def test_get_candidate_years(self):
-        self.assertEqual({1, 2, 3}, get_candidate_years(1, 4, 2, 3))
-        self.assertEqual({1, 2, 3}, get_candidate_years(0, 4, 2, 3))
-        self.assertEqual(set(), get_candidate_years(4, 5, 2, 3))
-        self.assertEqual({2}, get_candidate_years(0, 2, 5, 6))
-        self.assertEqual({4, 5}, get_candidate_years(0, 5, 5, 6))
-        self.assertEqual({0, 1, 2}, get_candidate_years(0, 2, 0, 2))
-        self.assertEqual({1, 2, 3, 4}, get_candidate_years(0, 4, 2, 4))
+        self.assertEqual([1, 2, 3], sorted(get_candidate_years(1, 4, 2, 3)))
+        self.assertEqual([1, 2, 3], sorted(get_candidate_years(0, 4, 2, 3)))
+        self.assertEqual([], sorted(get_candidate_years(4, 5, 2, 3)))
+        self.assertEqual([2], sorted(get_candidate_years(0, 2, 5, 6)))
+        self.assertEqual([4, 5], sorted(get_candidate_years(0, 5, 5, 6)))
+        self.assertEqual([0, 1, 2], sorted(get_candidate_years(0, 2, 0, 2)))
+        self.assertEqual([1, 2, 3, 4], sorted(get_candidate_years(0, 4, 2, 4)))
 
     def test_expand_date_tuple(self):
         self.assertEqual((DateTuple(2000, 1, 30, 10800, 'w'),

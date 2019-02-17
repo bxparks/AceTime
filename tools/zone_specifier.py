@@ -1173,17 +1173,38 @@ def get_candidate_years(from_year, to_year, start_year, end_year):
     for all supported values of 'viewing_months'), then the maximum number of
     elements in 'years' will be 4.
     """
-    years = set()
+    years = get_interior_years(from_year, to_year, start_year, end_year)
+
+    # Add most recent Rule year prior to Match years.
+    prior_year = get_most_recent_prior_year(
+        from_year, to_year, start_year, end_year)
+    if prior_year >= 0:
+        years.append(prior_year)
+
+    return years
+
+
+def get_interior_years(from_year, to_year, start_year, end_year):
+    """Return the Rule years that overlap with the Match[start_year, end_year].
+    """
+    years = []
     for year in range(start_year, end_year + 1):
         if from_year <= year and year <= to_year:
-            years.add(year)
+            years.append(year)
+    return years
 
+def get_most_recent_prior_year(from_year, to_year, start_year, end_year):
+    """Return the most recent prior year of the rule[from_year, to_year].
+    Return -1 if the rule[from_year, to_year] has no prior year to the
+    match[start_year, end_year].
+    """
     if from_year < start_year:
         if to_year < start_year:
-            years.add(to_year)
+            return to_year
         else:
-            years.add(start_year - 1)
-    return years
+            return start_year - 1
+    else:
+        return -1
 
 
 def compare_transition_to_match(transition, match):
