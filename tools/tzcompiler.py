@@ -228,7 +228,7 @@ def main():
         logging.info('test_data=%d', len(test_data))
 
         # Generate validation data files
-        if language == 'arduino' or language == 'arduinox':
+        if language == 'arduino':
             extended = (language == 'arduinox')
             logging.info('Generating test validation files')
             arval_generator = ArduinoValidationGenerator(
