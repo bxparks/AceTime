@@ -2,8 +2,9 @@
 #
 #  $ ../tzcompiler.py --input_dir /home/brian/dev/tz --output_dir /home/brian/dev/AceTime/tools/zonedb --tz_version 2018g --unittest --python
 #
-# using the TZ Database files
-# from https://github.com/eggert/tz/releases/tag/2018g
+# using the TZ Database
+# (https://github.com/eggert/tz/releases/tag/2018g) and
+# the pytz library (version 2018.7).
 
 # DO NOT EDIT
 
@@ -12,7 +13,11 @@ from tdgenerator import TestItem
 #---------------------------------------------------------------------------
 # numZones: 347
 #
-# The 'utc' and 'dst' columns are in minutes, not seconds.
+# The 'utc' and 'dst' columns are in minutes, not seconds. The transition
+# 'epoch' was determined by ZoneSpecifier using the TZ Data (version
+# 2018g). The expected 'utc' and 'dst' come from TestDataGenerator which
+# uses the data from pytz (version 2018.7) that was installed when the
+# generating script was run.
 
 VALIDATION_ITEM_Abidjan = [
     #            epoch   utc   dst     y   M   d   h   m   s type

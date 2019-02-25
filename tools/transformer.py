@@ -707,7 +707,6 @@ class Transformer:
 
         logging.info('Removed %s rule policies (%s rules) not used' %
                      (len(removed_policies), removed_rule_count))
-        self.print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
 

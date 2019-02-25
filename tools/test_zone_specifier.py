@@ -4,6 +4,7 @@
 #
 # MIT License
 
+import logging
 import unittest
 import zonedb.zone_infos
 import zonedb.zone_policies
@@ -20,8 +21,17 @@ from zone_specifier import normalize_date_tuple
 class TestValidationData(unittest.TestCase):
     def test_validation_data(self):
         test_data = zonedb.validation_data.VALIDATION_DATA['Los_Angeles']
-        self.assertEqual(114, len(test_data))
         self.assertTrue(isinstance(test_data[0], TestItem))
+
+    def test_zone_specifier_using_validation_data(self):
+        for name, items in zonedb.validation_data.VALIDATION_DATA.items():
+            zone_info = zonedb.zone_infos.ZONE_INFO_MAP[name]
+            zone_specifier = ZoneSpecifier(zone_info, viewing_months=14)
+            for test_item in items:
+                tz_info = zone_specifier.get_timezone_info_for_seconds(
+                    test_item.epoch)
+                self.assertEqual(test_item.utc_offset * 60, tz_info[0],
+                    ('Zone %s, epoch %s' % (name, test_item.epoch)))
 
 class TestZoneSpecifierHelperMethods(unittest.TestCase):
     def test_get_candidate_years(self):

@@ -15,9 +15,9 @@ TestItem = collections.namedtuple(
 
 
 class TestDataGenerator:
-    """Generate the validation test data using the default parameters of
-    ZoneSpecifier. This gives us stability which we can use to test other
-    versions of ZoneSpecifier.
+    """Generate the validation test data using the Transitions determined by
+    ZoneSpecifier and the UTC offsets determined by pytz. This gives us
+    stability which we can use to test other versions of ZoneSpecifier.
     """
 
     def __init__(self, zone_infos, zone_policies):

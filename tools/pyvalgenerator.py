@@ -7,6 +7,7 @@ Generate the validation_data.py file that contains test validation data.
 
 import logging
 import os
+import pytz
 from transformer import div_to_zero
 
 class PythonValidationGenerator:
@@ -18,8 +19,9 @@ class PythonValidationGenerator:
 #
 #  $ {invocation}
 #
-# using the TZ Database files
-# from https://github.com/eggert/tz/releases/tag/{tz_version}
+# using the TZ Database
+# (https://github.com/eggert/tz/releases/tag/{tz_version}) and
+# the pytz library (version {pytz_version}).
 
 # DO NOT EDIT
 
@@ -28,7 +30,11 @@ from tdgenerator import TestItem
 #---------------------------------------------------------------------------
 # numZones: {numZones}
 #
-# The 'utc' and 'dst' columns are in minutes, not seconds.
+# The 'utc' and 'dst' columns are in minutes, not seconds. The transition
+# 'epoch' was determined by ZoneSpecifier using the TZ Data (version
+# {tz_version}). The expected 'utc' and 'dst' come from TestDataGenerator which
+# uses the data from pytz (version {pytz_version}) that was installed when the
+# generating script was run.
 
 {validationItems}
 #---------------------------------------------------------------------------
@@ -78,6 +84,7 @@ VALIDATION_ITEM_{zoneShortName} = [
         return self.VALIDATION_DATA_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            pytz_version=pytz.__version__,
             numZones=len(self.test_data),
             validationItems=validation_items_str,
             validationMapItems=validation_map_items_str)
