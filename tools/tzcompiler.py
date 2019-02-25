@@ -22,19 +22,19 @@ this:
      zone_infos.{h,cpp}      |        zone_infos.py
      zone_policies.{h,cpp}   |        zone_policies.py
                              v                    |
-                      InlineGenerator             |
-                             |                    |
-                             |         ------     |
-                             v        /      v    v
-                      TestDataGenerator    ZoneSpecifier
-                        /        \    ^______/
+                        InlineGenerator           |
+                             |         \          |
+                             |          \         |
+                             v           v        v
+                  TestDataGenerator <--- ZoneSpecifier
+                        /        \
                        /          \
                       /            \
                      v              v
-ArduinoValidationGenerator          PythonValidationGenerator
-            |                                   |
-            v                                   v
-   validation_data.{h,cpp}             validation_data.py
+ArduinoValidationGenerator        PythonValidationGenerator
+            |                                 |
+            v                                 v
+   validation_data.{h,cpp}           validation_data.py
    validation_tests.cpp
 """
 import argparse

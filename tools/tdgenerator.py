@@ -83,7 +83,7 @@ class TestDataGenerator:
         something.
         """
         items = []
-        for year in range(self.start_year, self.end_year):
+        for year in range(self.start_year, self.end_year + 1):
             # Skip start_year when viewing months is 36, because it needs data
             # for (start_year - 3), but ZoneSpecifier won't generate data for
             # years that old.

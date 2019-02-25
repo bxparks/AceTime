@@ -7,6 +7,8 @@
 import unittest
 import zonedb.zone_infos
 import zonedb.zone_policies
+import zonedb.validation_data
+from tdgenerator import TestItem
 from zone_specifier import DateTuple
 from zone_specifier import YearMonthTuple
 from zone_specifier import ZoneSpecifier
@@ -14,6 +16,12 @@ from zone_specifier import get_candidate_years
 from zone_specifier import expand_date_tuple
 from zone_specifier import normalize_date_tuple
 
+
+class TestValidationData(unittest.TestCase):
+    def test_validation_data(self):
+        test_data = zonedb.validation_data.VALIDATION_DATA['Los_Angeles']
+        self.assertEqual(114, len(test_data))
+        self.assertTrue(isinstance(test_data[0], TestItem))
 
 class TestZoneSpecifierHelperMethods(unittest.TestCase):
     def test_get_candidate_years(self):

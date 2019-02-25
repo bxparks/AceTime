@@ -1,4 +1,4 @@
-# Copyright 2018 Brian T. Park
+# Copyright 2019 Brian T. Park
 #
 # MIT License
 """
@@ -20,22 +20,27 @@ class PythonValidationGenerator:
 #
 # using the TZ Database files
 # from https://github.com/eggert/tz/releases/tag/{tz_version}
-#
+
 # DO NOT EDIT
 
-# numZones: {numZones}
-
-{validationItems}
+from tdgenerator import TestItem
 
 #---------------------------------------------------------------------------
+# numZones: {numZones}
+#
+# The 'utc' and 'dst' columns are in minutes, not seconds.
+
+{validationItems}
+#---------------------------------------------------------------------------
+# numZones: {numZones}
 
 VALIDATION_DATA = {{
 {validationMapItems}
 }}
-
 """
     VALIDATION_ITEM = """\
 VALIDATION_ITEM_{zoneShortName} = [
+    #            epoch   utc   dst     y   M   d   h   m   s type
 {testItems}
 ]
 
@@ -78,19 +83,19 @@ VALIDATION_ITEM_{zoneShortName} = [
             validationMapItems=validation_map_items_str)
 
     def get_validation_items(self, test_data):
-        validation_items_str = ''
+        s = ''
         for short_name, test_items in sorted(test_data.items()):
             test_items_str = self.get_test_items(test_items)
-            validation_items_str += self.VALIDATION_ITEM.format(
+            s += self.VALIDATION_ITEM.format(
                 zoneShortName=short_name,
                 testItems=test_items_str)
-        return validation_items_str
+        return s
 
     def get_test_items(self, test_items):
-        test_items_str = ''
+        s = ''
         for test_item in test_items:
-            test_items_str += self.get_test_item(test_item)
-        return test_items_str
+            s += self.get_test_item(test_item)
+        return s
 
     def get_test_item(self, test_item):
         return self.TEST_ITEM.format(
@@ -106,8 +111,8 @@ VALIDATION_ITEM_{zoneShortName} = [
             type=test_item.type)
             
     def get_validation_map_items(self, test_data):
-        str = ''
+        s = ''
         for short_name, test_items in sorted(test_data.items()):
-            str += self.VALIDATION_MAP_ITEM.format(
+            s += self.VALIDATION_MAP_ITEM.format(
                 zoneShortName=short_name)
-        return str
+        return s
