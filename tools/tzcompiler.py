@@ -30,7 +30,7 @@ zone_policies.{h,cpp} |        zone_policies.py
                   Validator
                       |
                       v
-               TestDataGenerator
+            ArduinoValidationGenerator
                       |
                       v
             validation_data.{h,cpp}
@@ -45,7 +45,7 @@ from transformer import Transformer
 from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
-from tdgenerator import TestDataGenerator
+from arvalgenerator import ArduinoValidationGenerator
 from validator import Validator
 
 
@@ -240,14 +240,21 @@ def main():
         (zone_infos, zone_policies) = inline_generator.generate_maps()
         logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
                      len(zone_policies))
-        validator = Validator(zone_infos, zone_policies, args.viewing_months,
-                              args.validate_dst_offset, args.validate_hours,
-                              args.debug_validator, args.debug_specifier,
-                              args.zone, args.in_place_transitions)
+        validator = Validator(
+            zone_infos=zone_infos,
+            zone_policies=zone_policies,
+            viewing_months=args.viewing_months,
+            validate_dst_offset=args.validate_dst_offset,
+            validate_hours=args.validate_hours,
+            debug_validator=args.debug_validator,
+            debug_specifier=args.debug_specifier,
+            zone_name=args.zone,
+            in_place_transitions=args.in_place_transitions,
+            optimize_candidates=args.optimize_candidates)
         (test_data, num_items) = validator.create_test_data()
         logging.info('test_data=%d', len(test_data))
-        test_data_generator = TestDataGenerator(invocation, args.tz_version,
-            test_data, num_items)
+        test_data_generator = ArduinoValidationGenerator(
+            invocation, args.tz_version, test_data, num_items)
         test_data_generator.generate_files(args.output_dir)
     else:
         logging.error('One of (--zonedb, --validate, --unittest) must be given')

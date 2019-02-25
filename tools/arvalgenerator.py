@@ -2,8 +2,8 @@
 #
 # MIT License
 """
-Generate the validation_data.h and validation_data.cpp files for the
-ValidationTest unit test.
+Generate the Arduino validation data (validation_data.h and validation_data.cpp)
+files for unit tests.
 """
 
 import logging
@@ -14,7 +14,7 @@ from transformer import div_to_zero
 from extractor import EPOCH_YEAR
 
 
-class TestDataGenerator:
+class ArduinoValidationGenerator:
     """Generate Arduino data files for ValidationTest.ino.
     """
 
