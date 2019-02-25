@@ -24,17 +24,23 @@ class ArduinoValidationGenerator:
 //  $ {invocation}
 //
 // using the TZ Database files from
-// from https://github.com/eggert/tz/releases/tag/{tz_version}
+// https://github.com/eggert/tz/releases/tag/{tz_version}
 //
 // DO NOT EDIT
 
-#ifndef ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H
-#define ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H
+#ifndef ACE_TIME_VALIDATION_TEST_{dbHeaderNamespace}_DATA_H
+#define ACE_TIME_VALIDATION_TEST_{dbHeaderNamespace}_DATA_H
 
 #include "ValidationDataType.h"
 
+namespace ace_time {{
+namespace {dbNamespace} {{
+
 // numZones: {numZones}
 {validationItems}
+
+}}
+}}
 
 #endif
 """
@@ -54,11 +60,15 @@ extern const ValidationData kValidationData{zoneShortName};
 // DO NOT EDIT
 
 #include <AceTime.h>
-#include "validation_data.h"
+#include "{fileBase}_data.h"
 
-using namespace ace_time::zonedb;
+namespace ace_time {{
+namespace {dbNamespace} {{
 
 {validationItems}
+
+}}
+}}
 """
 
     VALIDATION_DATA_CPP_ITEM = """\
@@ -97,7 +107,7 @@ const ValidationData kValidationData{zoneShortName} = {{
 
 #include <AUnit.h>
 #include "TransitionTest.h"
-#include "validation_data.h"
+#include "{fileBase}_data.h"
 
 // numZones: {numZones}
 {testCases}
@@ -105,13 +115,9 @@ const ValidationData kValidationData{zoneShortName} = {{
 
     TEST_CASE = """\
 {comment}testF(TransitionTest, {zoneShortName}) {{
-{comment}  assertValid(&kValidationData{zoneShortName});
+{comment}  assertValid(&ace_time::{dbNamespace}::kValidationData{zoneShortName});
 {comment}}}
 """
-
-    VALIDATION_DATA_H_FILE_NAME = 'validation_data.h'
-    VALIDATION_DATA_CPP_FILE_NAME = 'validation_data.cpp'
-    TESTS_CPP_FILE_NAME = 'tests.cpp'
 
     # List of zones whose tests are broken
     BROKEN_ZONE_BLACK_LIST = [
@@ -120,18 +126,34 @@ const ValidationData kValidationData{zoneShortName} = {{
         'Tehran'
     ]
 
-    def __init__(self, invocation, tz_version, test_data, num_items):
+    def __init__(self, invocation, tz_version, test_data, num_items,
+                 extended):
         self.invocation = invocation
         self.tz_version = tz_version
         self.test_data = test_data
         self.num_items = num_items
+        self.extended = extended # extended Arduino/C++ database
+        self.extended_suffix = 'x' if extended else ''
+        if extended:
+            self.file_base = 'extended_validation'
+            self.db_header_namespace = 'EXTENDED_VALIDATION'
+            self.db_namespace = 'zonedbx'
+            self.var_prefix = 'Extended'
+        else:
+            self.file_base = 'validation'
+            self.db_header_namespace = 'VALIDATION'
+            self.db_namespace = 'zonedb'
+            self.var_prefix = ''
+        self.validation_data_h_file_name = (self.file_base + '_data.h')
+        self.validation_data_cpp_file_name = (self.file_base + '_data.cpp')
+        self.validation_tests_file_name = (self.file_base + '_tests.cpp')
 
     def generate_files(self, output_dir):
-        self.write_file(output_dir, self.VALIDATION_DATA_H_FILE_NAME,
+        self.write_file(output_dir, self.validation_data_h_file_name,
                         self.generate_validation_data_h())
-        self.write_file(output_dir, self.VALIDATION_DATA_CPP_FILE_NAME,
+        self.write_file(output_dir, self.validation_data_cpp_file_name,
                         self.generate_validation_data_cpp())
-        self.write_file(output_dir, self.TESTS_CPP_FILE_NAME,
+        self.write_file(output_dir, self.validation_tests_file_name,
                         self.generate_tests_cpp())
 
     def write_file(self, output_dir, filename, content):
@@ -147,6 +169,8 @@ const ValidationData kValidationData{zoneShortName} = {{
         return self.VALIDATION_DATA_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            dbHeaderNamespace=self.db_header_namespace,
+            dbNamespace=self.db_namespace,
             numZones=len(self.test_data),
             validationItems=validation_items)
 
@@ -164,7 +188,8 @@ const ValidationData kValidationData{zoneShortName} = {{
         return self.VALIDATION_DATA_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            numZones=len(self.test_data),
+            fileBase=self.file_base,
+            dbNamespace=self.db_namespace,
             validationItems=validation_items)
 
     def generate_validation_data_cpp_items(self, test_data):
@@ -204,6 +229,7 @@ const ValidationData kValidationData{zoneShortName} = {{
         return self.TESTS_CPP.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            fileBase=self.file_base,
             numZones=len(self.test_data),
             testCases=test_cases)
 
@@ -211,7 +237,9 @@ const ValidationData kValidationData{zoneShortName} = {{
         test_cases = ''
         for short_name, _ in sorted(test_data.items()):
             comment = '//' if short_name in self.BROKEN_ZONE_BLACK_LIST else ''
-            test_case = self.TEST_CASE.format(zoneShortName=short_name,
+            test_case = self.TEST_CASE.format(
+                dbNamespace=self.db_namespace,
+                zoneShortName=short_name,
                 comment=comment)
             test_cases += test_case
         return test_cases

@@ -187,8 +187,13 @@ def main():
     (zones, rules, removed_zones, removed_policies, notable_zones,
      notable_policies) = transformer.get_data()
 
-    # Printer for the transformer
-    printer = Printer(zones, rules)
+    # Validate the zone_infos and zone_policies if requested
+    logging.info(
+        '======== Generating inlined zone_infos and zone_policies...')
+    inline_generator = InlineGenerator(zones, rules)
+    (zone_infos, zone_policies) = inline_generator.generate_maps()
+    logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
+                 len(zone_policies))
 
     if args.zonedb:
         # Create the Python or Arduino files if requested
@@ -203,7 +208,7 @@ def main():
                 removed_zones, removed_policies, notable_zones,
                 notable_policies)
             generator.generate_files(args.output_dir)
-        if language == 'arduino' or language == 'arduinox':
+        elif language == 'arduino' or language == 'arduinox':
             extended = (language == 'arduinox')
             logging.info('======== Creating Arduino zonedb files...')
             generator = ArduinoGenerator(
@@ -211,15 +216,28 @@ def main():
                 removed_zones, removed_policies, notable_zones,
                 notable_policies, extended)
             generator.generate_files(args.output_dir)
-    elif args.validate:
-        # Validate the zone_infos and zone_policies if requested
-        logging.info(
-            '======== Generating inlined zone_infos and zone_policies...')
-        inline_generator = InlineGenerator(zones, rules)
-        (zone_infos, zone_policies) = inline_generator.generate_maps()
-        logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
-                     len(zone_policies))
+        else:
+            raise Exception("Unrecognized language '%s'" % language)
+    elif args.unittest:
+        logging.info('======== Generating unit test files...')
 
+        # Generate test data for unit test.
+        logging.info('Generating test data')
+        data_generator = TestDataGenerator(zone_infos, zone_policies)
+        (test_data, num_items) = data_generator.create_test_data()
+        logging.info('test_data=%d', len(test_data))
+
+        # Generate validation data files
+        if language == 'arduino' or language == 'arduinox':
+            extended = (language == 'arduinox')
+            logging.info('Generating test validation files')
+            arval_generator = ArduinoValidationGenerator(
+                invocation, args.tz_version, test_data, num_items,
+                extended)
+            arval_generator.generate_files(args.output_dir)
+        else:
+            raise Exception("Unrecognized language '%s'" % language)
+    elif args.validate:
         validator = Validator(
             zone_infos=zone_infos,
             zone_policies=zone_policies,
@@ -237,19 +255,6 @@ def main():
 
         logging.info('======== Validating test data...')
         validator.validate_sequentially()
-    elif args.unittest:
-        # Generate test data for unit test.
-        logging.info('======== Generating unit test data files...')
-        inline_generator = InlineGenerator(zones, rules)
-        (zone_infos, zone_policies) = inline_generator.generate_maps()
-        logging.info('zone_infos=%d; zone_policies=%d',
-                     len(zone_infos), len(zone_policies))
-        data_generator = TestDataGenerator(zone_infos, zone_policies)
-        (test_data, num_items) = data_generator.create_test_data()
-        logging.info('test_data=%d', len(test_data))
-        arval_generator = ArduinoValidationGenerator(
-            invocation, args.tz_version, test_data, num_items)
-        arval_generator.generate_files(args.output_dir)
     else:
         logging.error('One of (--zonedb, --validate, --unittest) must be given')
         sys.exit(1)
