@@ -16,17 +16,6 @@ class Printer:
         self.zones = zones
         self.rules = rules
 
-    def print_rules_historical(self):
-        """Print rules whose fromYear and toYear occur before 2000.
-        Some of these are required for zones whose most recent DST transition
-        happened a long time ago.
-        """
-        for name, rules in self.rules.items():
-            print('Rule name %s' % name)
-            for rule in rules:
-                if rule['from'] < 2000 and rule['to'] < 2000:
-                    print(rule)
-
     def print_zones_short_name(self):
         """Print the last component in the "a/b/c" zone names. Used to determine
         if the last component is unique. Currently, it seems to be.
