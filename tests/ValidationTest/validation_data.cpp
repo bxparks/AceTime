@@ -10,7 +10,8 @@
 #include <AceTime.h>
 #include "validation_data.h"
 
-using namespace ace_time::zonedb;
+namespace ace_time {
+namespace zonedb {
 
 //---------------------------------------------------------------------------
 // Zone name: Abidjan
@@ -22706,3 +22707,6 @@ const ValidationData kValidationDataZurich = {
 };
 
 
+
+}
+}

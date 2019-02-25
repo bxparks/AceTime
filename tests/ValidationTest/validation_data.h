@@ -3,7 +3,7 @@
 //  $ ../../tools/tzcompiler.py --input_dir /home/brian/dev/tz --output_dir /home/brian/dev/AceTime/tests/ValidationTest --tz_version 2018i --unittest --arduino
 //
 // using the TZ Database files from
-// from https://github.com/eggert/tz/releases/tag/2018i
+// https://github.com/eggert/tz/releases/tag/2018i
 //
 // DO NOT EDIT
 
@@ -11,6 +11,9 @@
 #define ACE_TIME_VALIDATION_TEST_VALIDATION_DATA_H
 
 #include "ValidationDataType.h"
+
+namespace ace_time {
+namespace zonedb {
 
 // numZones: 231
 extern const ValidationData kValidationDataAbidjan;
@@ -245,5 +248,8 @@ extern const ValidationData kValidationDataYerevan;
 extern const ValidationData kValidationDataZaporozhye;
 extern const ValidationData kValidationDataZurich;
 
+
+}
+}
 
 #endif
