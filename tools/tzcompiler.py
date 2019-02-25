@@ -13,7 +13,7 @@ this:
                   Extractor --> Printer
                       |
                       v
-                 Transformer --> Printer
+                 Transformer
                  /    |   \
                 v     |    v
 ArduinoGenerator      |   PythonGenerator
@@ -83,28 +83,8 @@ def main():
 
     # Printer
     parser.add_argument(
-        '--print_rules',
-        help='Print list of rules',
-        action='store_true',
-        default=False)
-    parser.add_argument(
-        '--print_zones',
-        help='Print list of zones',
-        action='store_true',
-        default=False)
-    parser.add_argument(
         '--print_zones_short_name',
         help='Print the short zone names',
-        action='store_true',
-        default=False)
-    parser.add_argument(
-        '--print_transformed_zones',
-        help='Print transformed zones',
-        action='store_true',
-        default=False)
-    parser.add_argument(
-        '--print_transformed_rules',
-        help='Print transformed rules',
         action='store_true',
         default=False)
 
@@ -190,12 +170,7 @@ def main():
 
     # Print various slices of the data
     printer = Printer(zones, rules)
-    # rules
-    if args.print_rules:
-        printer.print_rules()
     # zones
-    if args.print_zones:
-        printer.print_zones()
     if args.print_zones_short_name:
         printer.print_zones_short_name()
 
@@ -210,12 +185,6 @@ def main():
 
     # Printer for the transformer
     printer = Printer(zones, rules)
-
-    # Print the transformed data
-    if args.print_transformed_zones:
-        printer.print_zones()
-    if args.print_transformed_rules:
-        printer.print_rules()
 
     if args.zonedb:
         # Create the Python or Arduino files if requested
