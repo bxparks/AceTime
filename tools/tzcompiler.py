@@ -7,36 +7,35 @@
 Main driver for TZ Database compiler. The data processing pipeline looks like
 this:
 
-                  TZDB files
-                      |
-                      v
-                  Extractor --> Printer
-                      |
-                      v
-                 Transformer
-                 /    |   \
-                v     |    v
-ArduinoGenerator      |   PythonGenerator
-        /             |        \
-       v              |         v
-zone_infos.{h,cpp}    |        zone_infos.py
-zone_policies.{h,cpp} |        zone_policies.py
-                      |            |
-                      v            |
-               InlineGenerator     |
-                      |      \     |
-                      |       v    v
-                      |        ZoneSpecifier
-                      |       /
-                      v      v
-              TestDataGenerator
-                      |
-                      v
-          ArduinoValidationGenerator
-                      |
-                      v
-             validation_data.{h,cpp}
-             tests.cpp
+                         TZDB files
+                             |
+                             v
+                         Extractor --> Printer
+                             |
+                             v
+                        Transformer
+                        /    |   \
+                       v     |    v
+       ArduinoGenerator      |   PythonGenerator
+               /             |        \
+              v              |         v
+     zone_infos.{h,cpp}      |        zone_infos.py
+     zone_policies.{h,cpp}   |        zone_policies.py
+                             v                    |
+                      InlineGenerator             |
+                             |                    |
+                             |         ------     |
+                             v        /      v    v
+                      TestDataGenerator    ZoneSpecifier
+                        /        \    ^______/
+                       /          \
+                      /            \
+                     v              v
+ArduinoValidationGenerator          PythonValidationGenerator
+            |                                   |
+            v                                   v
+   validation_data.{h,cpp}             validation_data.py
+   validation_tests.cpp
 """
 import argparse
 import logging
@@ -50,6 +49,7 @@ from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
 from tdgenerator import TestDataGenerator
 from arvalgenerator import ArduinoValidationGenerator
+from pyvalgenerator import PythonValidationGenerator
 from validator import Validator
 
 
@@ -228,13 +228,17 @@ def main():
         logging.info('test_data=%d', len(test_data))
 
         # Generate validation data files
+        logging.info('Generating test validation files')
         if language == 'arduino':
             extended = (language == 'arduinox')
-            logging.info('Generating test validation files')
             arval_generator = ArduinoValidationGenerator(
                 invocation, args.tz_version, test_data, num_items,
                 extended)
             arval_generator.generate_files(args.output_dir)
+        elif language == 'python':
+            pyval_generator = PythonValidationGenerator(
+                invocation, args.tz_version, test_data, num_items)
+            pyval_generator.generate_files(args.output_dir)
         else:
             raise Exception("Unrecognized language '%s'" % language)
     elif args.validate:

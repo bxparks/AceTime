@@ -126,8 +126,7 @@ const ValidationData kValidationData{zoneShortName} = {{
         'Tehran'
     ]
 
-    def __init__(self, invocation, tz_version, test_data, num_items,
-                 extended):
+    def __init__(self, invocation, tz_version, test_data, num_items, extended):
         self.invocation = invocation
         self.tz_version = tz_version
         self.test_data = test_data
