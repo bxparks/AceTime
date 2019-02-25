@@ -24,16 +24,19 @@ zone_policies.{h,cpp} |        zone_policies.py
                       |            |
                       v            |
                InlineGenerator     |
-                      |            v
+                      |      \     |
+                      |       v    v
                       |        ZoneSpecifier
-                      v
-                  Validator
+                      |       /
+                      v      v
+              TestDataGenerator
                       |
                       v
-            ArduinoValidationGenerator
+          ArduinoValidationGenerator
                       |
                       v
-            validation_data.{h,cpp}
+             validation_data.{h,cpp}
+             tests.cpp
 """
 import argparse
 import logging
@@ -45,6 +48,7 @@ from transformer import Transformer
 from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
+from tdgenerator import TestDataGenerator
 from arvalgenerator import ArduinoValidationGenerator
 from validator import Validator
 
@@ -234,28 +238,18 @@ def main():
         logging.info('======== Validating test data...')
         validator.validate_sequentially()
     elif args.unittest:
-        # Generate test data for ValidationTest unit test.
+        # Generate test data for unit test.
         logging.info('======== Generating unit test data files...')
         inline_generator = InlineGenerator(zones, rules)
         (zone_infos, zone_policies) = inline_generator.generate_maps()
-        logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
-                     len(zone_policies))
-        validator = Validator(
-            zone_infos=zone_infos,
-            zone_policies=zone_policies,
-            viewing_months=args.viewing_months,
-            validate_dst_offset=args.validate_dst_offset,
-            validate_hours=args.validate_hours,
-            debug_validator=args.debug_validator,
-            debug_specifier=args.debug_specifier,
-            zone_name=args.zone,
-            in_place_transitions=args.in_place_transitions,
-            optimize_candidates=args.optimize_candidates)
-        (test_data, num_items) = validator.create_test_data()
+        logging.info('zone_infos=%d; zone_policies=%d',
+                     len(zone_infos), len(zone_policies))
+        data_generator = TestDataGenerator(zone_infos, zone_policies)
+        (test_data, num_items) = data_generator.create_test_data()
         logging.info('test_data=%d', len(test_data))
-        test_data_generator = ArduinoValidationGenerator(
+        arval_generator = ArduinoValidationGenerator(
             invocation, args.tz_version, test_data, num_items)
-        test_data_generator.generate_files(args.output_dir)
+        arval_generator.generate_files(args.output_dir)
     else:
         logging.error('One of (--zonedb, --validate, --unittest) must be given')
         sys.exit(1)

@@ -25,11 +25,6 @@ from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from zone_specifier import DateTuple
 from zone_specifier import YearMonthTuple
 
-# An entry in the test data set.
-TestItem = collections.namedtuple(
-    "TestItem", "epoch utc_offset dst_offset y M d h m s type")
-
-
 class Validator:
     """Validate the zone_infos and zone_policies data from the TZ Database,
     as extracted and transformed by Extractor and Transformer.
