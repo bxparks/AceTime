@@ -15,6 +15,7 @@ import datetime
 import collections
 import pytz
 from argenerator import normalize_name
+from tdgenerator import TestItem
 from transformer import days_in_month
 from transformer import seconds_to_hms
 from transformer import short_name
@@ -23,6 +24,7 @@ from zone_specifier import date_tuple_to_string
 from zone_specifier import to_utc_string
 from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from zone_specifier import DateTuple
+from zone_specifier import OffsetInfo
 from zone_specifier import YearMonthTuple
 
 class Validator:
@@ -142,21 +144,21 @@ class Validator:
                 logging.info('    %04d-%02d-%02d %02d:%02d epoch:%d' %
                     (item.y, item.M, item.d, item.h, item.m, item.epoch))
             try:
-                (offset_seconds, dst_seconds, abbrev) = \
-                    zone_specifier.get_timezone_info_for_seconds(item.epoch)
-                unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
-                utc_offset_seconds = offset_seconds + dst_seconds
+                info = zone_specifier.get_timezone_info_for_seconds(item.epoch)
             except Exception:
                 logging.exception('Exception with test data %s', item)
                 raise
 
-            if utc_offset_seconds != item.utc_offset:
+            # Print out diagnostics if mismatch detected
+            if info.total_offset != item.total_offset:
+                unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
                 logging.error(
                     "==== %s: offset mismatch; at: '%s'; unix: %s; " +
                     "AceTime(%s); Expected(%s)", zone_short_name,
-                    test_item_to_string(item), unix_seconds,
-                    to_utc_string(offset_seconds, dst_seconds),
-                    to_utc_string(item.utc_offset - item.dst_offset,
+                    test_item_to_string(item),
+                    unix_seconds,
+                    to_utc_string(info.utc_offset, info.dst_offset),
+                    to_utc_string(item.total_offset - item.dst_offset,
                                   item.dst_offset))
                 zone_specifier.init_for_year(item.y)
                 zone_specifier.print_matches_and_transitions()
@@ -296,20 +298,20 @@ class Validator:
 
     def create_test_item_from_epoch_seconds(self, tz, epoch_seconds, type):
         """Return the TestItem fro the epoch_seconds.
-            utc_offset: the total UTC offset
+            total_offset: the total UTC offset
             dst_offset: the DST offset
-        The base offset is (utc_offset - dst_offset).
+        The base offset is (total_offset - dst_offset).
         """
         unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
         utc_dt = datetime.datetime.fromtimestamp(
             unix_seconds, tz=datetime.timezone.utc)
         dt = utc_dt.astimezone(tz)
-        utc_offset = int(dt.utcoffset().total_seconds())
+        total_offset = int(dt.utcoffset().total_seconds())
         dst_offset = int(dt.dst().total_seconds())
 
         return TestItem(
             epoch=epoch_seconds,
-            utc_offset=utc_offset,
+            total_offset=total_offset,
             dst_offset=dst_offset,
             y=dt.year,
             M=dt.month,

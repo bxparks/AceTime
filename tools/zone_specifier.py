@@ -57,10 +57,18 @@ from zonedb.zone_policies import *
 from zonedb.zone_infos import *
 
 # A datetime representation using seconds instead of h:m:s
-DateTuple = collections.namedtuple("DateTuple", "y M d ss f")
+DateTuple = collections.namedtuple('DateTuple', 'y M d ss f')
 
 # A tuple of (year, month)
-YearMonthTuple = collections.namedtuple("YearMonthTuple", "y M")
+YearMonthTuple = collections.namedtuple('YearMonthTuple', 'y M')
+
+# UTC offset at the current time:
+#   * total_offset = utc_offset + dst_offset
+#   * utc_offset: seconds
+#   * dst_offset: seconds
+#   * abbrev
+OffsetInfo = collections.namedtuple('OffsetInfo',
+    'total_offset utc_offset dst_offset abbrev')
 
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
@@ -298,6 +306,12 @@ class Transition:
         for key, value in arg.items():
             setattr(self, key, value)
 
+    def to_timezone_tuple(self):
+        """Convert a Transition into a OffsetInfo.
+        """
+        return OffsetInfo(self.offsetSeconds + self.deltaSeconds,
+            self.offsetSeconds, self.deltaSeconds, self.abbrev)
+
     def __repr__(self):
         sepoch = self.startEpochSecond if self.startEpochSecond else 0
         policy_name = self.zoneEra.policyName
@@ -431,22 +445,21 @@ class ZoneSpecifier:
         return self.find_transition_for_datetime(dt)
 
     def get_timezone_info_for_seconds(self, epoch_seconds):
-        """Return a tuple of (offset_seconds, dst_seconds, abbrev).
-        The total UTC offset is (offset_seconds + dst_seconds).
+        """Return a tuple of (total_offset, dst_seconds, abbrev).
         """
         self.init_for_second(epoch_seconds)
         transition = self.find_transition_for_seconds(epoch_seconds)
-        return self.timezone_info_from_transition(transition)
+        return transition.to_timezone_tuple()
 
     def get_timezone_info_for_datetime(self, dt):
-        """Return a tuple of (offset_seconds, dst_seconds, abbrev) for datetime.
+        """Return a tuple of (total_offset, dst_seconds, abbrev) for datetime.
         """
         self.init_for_year(dt.year)
         transition = self.find_transition_for_datetime(dt)
-        if not transition:
-            return (None, None, None)
+        if transition:
+            return transition.to_timezone_tuple()
         else:
-            return self.timezone_info_from_transition(transition)
+            return OffsetInfo(None, None, None, None)
 
     def init_for_year(self, year):
         """Initialize the Matches and Transitions for the year. Call this
@@ -525,10 +538,6 @@ class ZoneSpecifier:
                 year = ldt.year
 
         self.init_for_year(year)
-
-    def timezone_info_from_transition(self, transition):
-        return (transition.offsetSeconds, transition.deltaSeconds,
-            transition.abbrev)
 
     def find_transition_for_seconds(self, epoch_seconds):
         """Return the matching transition, or None if not found.

@@ -11,7 +11,7 @@ from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 
 # An entry in the test data set.
 TestItem = collections.namedtuple(
-    "TestItem", "epoch utc_offset dst_offset y M d h m s type")
+    "TestItem", "epoch total_offset dst_offset y M d h m s type")
 
 
 class TestDataGenerator:
@@ -147,20 +147,20 @@ class TestDataGenerator:
 
     def create_test_item_from_epoch_seconds(self, tz, epoch_seconds, type):
         """Return the TestItem fro the epoch_seconds.
-            utc_offset: the total UTC offset
+            total_offset: the total UTC offset
             dst_offset: the DST offset
-        The base offset is (utc_offset - dst_offset).
+        The base offset is (total_offset - dst_offset).
         """
         unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
         utc_dt = datetime.datetime.fromtimestamp(
             unix_seconds, tz=datetime.timezone.utc)
         dt = utc_dt.astimezone(tz)
-        utc_offset = int(dt.utcoffset().total_seconds())
+        total_offset = int(dt.utcoffset().total_seconds())
         dst_offset = int(dt.dst().total_seconds())
 
         return TestItem(
             epoch=epoch_seconds,
-            utc_offset=utc_offset,
+            total_offset=total_offset,
             dst_offset=dst_offset,
             y=dt.year,
             M=dt.month,

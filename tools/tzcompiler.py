@@ -76,9 +76,8 @@ def main():
     parser.add_argument(
         '--granularity',
         help='Retained time values (UNTIL, AT, SAVE, RULES) fields ' +
-        'in seconds (default: 900)',
-        type=int,
-        default=900)
+        'in seconds (default: 60 or 900)',
+        type=int)
     parser.add_argument(
         '--strict',
         help='Remove zones and rules not aligned at granularity time boundary',
@@ -162,8 +161,21 @@ def main():
         language = 'arduino'
     elif args.arduinox:
         language = 'arduinox'
-    else:
+    elif args.python:
         language = 'python'
+    else:
+        raise Exception(
+            'Must provide a language (--arduino, --arduinox, --python)')
+
+    # Define language dependent granularity if not overridden by flag
+    if args.granularity:
+        granularity = args.granularity
+    else:
+        if language in ['arduino', 'arduinox']:
+            granularity = 900
+        else:
+            granularity = 60
+    logging.info('Using granularity: %d' % granularity)
 
     # Extract the TZ files
     logging.info('======== Extracting TZ Data files...')
@@ -181,7 +193,7 @@ def main():
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules...')
     transformer = Transformer(zones, rules, language, args.start_year,
-                              args.granularity, args.strict)
+                              granularity, args.strict)
     transformer.transform()
     transformer.print_summary()
     (zones, rules, removed_zones, removed_policies, notable_zones,

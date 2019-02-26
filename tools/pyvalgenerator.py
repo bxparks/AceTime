@@ -30,11 +30,11 @@ from tdgenerator import TestItem
 #---------------------------------------------------------------------------
 # numZones: {numZones}
 #
-# The 'utc' and 'dst' columns are in minutes, not seconds. The transition
-# 'epoch' was determined by ZoneSpecifier using the TZ Data (version
-# {tz_version}). The expected 'utc' and 'dst' come from TestDataGenerator which
-# uses the data from pytz (version {pytz_version}) that was installed when the
-# generating script was run.
+# The 'total' and 'dst' offset columns are in minutes, not seconds. The
+# transition 'epoch' was determined by ZoneSpecifier using the TZ Data (version
+# {tz_version}). The expected 'total' and 'dst' offsets come from
+# TestDataGenerator which uses the data from pytz (version {pytz_version}) that
+# was installed when the generating script was run.
 
 {validationItems}
 #---------------------------------------------------------------------------
@@ -46,14 +46,14 @@ VALIDATION_DATA = {{
 """
     VALIDATION_ITEM = """\
 VALIDATION_ITEM_{zoneShortName} = [
-    #            epoch   utc   dst     y   M   d   h   m   s type
+    #            epoch total   dst     y   M   d   h   m   s type
 {testItems}
 ]
 
 """
 
     TEST_ITEM = """\
-    TestItem({epochSeconds:9}, {utc:4}, {dst:4}, {y:4}, {M:2}, {d:2}, {h:2}, {m:2}, {s:2}, '{type}'),
+    TestItem({epochSeconds:9}, {total:4}, {dst:4}, {y:4}, {M:2}, {d:2}, {h:2}, {m:2}, {s:2}, '{type}'),
 """
 
     VALIDATION_MAP_ITEM = """\
@@ -107,7 +107,7 @@ VALIDATION_ITEM_{zoneShortName} = [
     def get_test_item(self, test_item):
         return self.TEST_ITEM.format(
             epochSeconds=test_item.epoch,
-            utc=div_to_zero(test_item.utc_offset, 60),
+            total=div_to_zero(test_item.total_offset, 60),
             dst=div_to_zero(test_item.dst_offset, 60),
             y=test_item.y,
             M=test_item.M,
