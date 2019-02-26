@@ -128,10 +128,6 @@ def main():
         help='Validate the DST offset as well as the total UTC offset',
         action="store_true")
     parser.add_argument(
-        '--validate_hours',
-        help='Validate all 24 hours of a day instead of a single sample hour',
-        action="store_true")
-    parser.add_argument(
         '--debug_validator',
         help='Enable debug output from Validator',
         action="store_true")
@@ -259,7 +255,6 @@ def main():
             zone_policies=zone_policies,
             viewing_months=args.viewing_months,
             validate_dst_offset=args.validate_dst_offset,
-            validate_hours=args.validate_hours,
             debug_validator=args.debug_validator,
             debug_specifier=args.debug_specifier,
             zone_name=args.zone,

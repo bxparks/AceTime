@@ -45,7 +45,7 @@ class Validator:
     """
 
     def __init__(self, zone_infos, zone_policies, viewing_months,
-                 validate_dst_offset, validate_hours, debug_validator,
+                 validate_dst_offset, debug_validator,
                  debug_specifier, zone_name, in_place_transitions,
                  optimize_candidates):
         """
@@ -56,8 +56,6 @@ class Validator:
                 (13, 14, 36)
             validate_dst_offset: (bool) validate DST offset against Python in
                 addition to total UTC offset
-            validate_hours: (bool) validate all 24 hours of a day, instead of a
-                single selected sample hour
             debug_validator: (bool) enable debugging output for Validator
             debug_specifier: (bool) enable debugging output for ZoneSpecifier
             zone_name: (str) validate only this zone
@@ -68,7 +66,6 @@ class Validator:
         self.zone_policies = zone_policies
         self.viewing_months = viewing_months
         self.validate_dst_offset = validate_dst_offset
-        self.validate_hours = validate_hours
         self.debug_validator = debug_validator
         self.debug_specifier = debug_specifier
         self.zone_name = zone_name
@@ -130,9 +127,6 @@ class Validator:
         for zone_short_name, items in test_data.items():
             if self.debug_validator:
                 logging.info('  Validating zone %s' % zone_short_name)
-            if self.validate_hours:
-                # Debugging output when generating 'hours' takes a long time
-                logging.info('  Validating test data for %s', zone_short_name)
             self.validate_test_data_for_zone(zone_short_name, items)
 
     def validate_test_data_for_zone(self, zone_short_name, items):
@@ -194,13 +188,7 @@ class Validator:
                           zone_full_name)
             return None
 
-        if self.validate_hours:
-            # Debugging output when generating 'hours' takes a long time
-            logging.info('  Creating test data for %s', zone_short_name)
-        test_items = self.create_transition_test_items(tz, zone_specifier)
-        if self.validate_hours:
-            test_items.extend(self.create_hourly_test_items(tz, zone_specifier))
-        return test_items
+        return self.create_transition_test_items(tz, zone_specifier)
 
     def create_transition_test_items(self, tz, zone_specifier):
         """Create a TestItem for the tz for each Transition instance found by
@@ -265,23 +253,6 @@ class Validator:
                     self.create_test_item_from_datetime(
                         tz, year, month=3, day=10, hour=2, type='S'))
 
-        return items
-
-    def create_hourly_test_items(self, tz, zone_specifier):
-        items = []
-        for year in range(2000, 2018):
-            for month in range(1, 13):
-                days = days_in_month(year, month)
-                for day in range(1, days + 1):
-                    if self.validate_hours:
-                        for hour in range(0, 24):
-                            test_item = self.create_test_item_from_datetime(
-                                tz, year, month, day, hour, 'S')
-                    else:
-                        hour = month - 1  # try different hours
-                        test_item = self.create_test_item_from_datetime(
-                            tz, year, month, day, hour, 'S')
-                    items.append(test_item)
         return items
 
     def create_test_item_from_datetime(self, tz, year, month, day, hour, type):
