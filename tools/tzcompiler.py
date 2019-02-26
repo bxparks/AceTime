@@ -6,7 +6,6 @@
 """
 Main driver for TZ Database compiler. The data processing pipeline looks like
 this:
-
                          TZDB files
                              |
                              v
@@ -17,25 +16,27 @@ this:
                         /    |   \
                        v     |    v
        ArduinoGenerator      |   PythonGenerator
-               /             |        \
-              v              |         v
-     zone_infos.{h,cpp}      |        zone_infos.py
-     zone_policies.{h,cpp}   |        zone_policies.py
+               /             |          \
+              v              |           v
+     zone_infos.{h,cpp}      |           zone_infos.py
+     zone_policies.{h,cpp}   |           zone_policies.py
                              v                    |
-                        InlineGenerator           |
-                             |         \          |
-                             |          \         |
-                             v           v        v
-                  TestDataGenerator <--- ZoneSpecifier
-                        /        \
-                       /          \
-                      /            \
-                     v              v
-ArduinoValidationGenerator        PythonValidationGenerator
-            |                                 |
-            v                                 v
-   validation_data.{h,cpp}           validation_data.py
-   validation_tests.cpp
+                          InlineGenerator         |
+                             |    \     \         |
+                             |     \     \        |
+                             v      \     v       v
+                TestDataGenerator <--+--- ZoneSpecifier
+                        /    |        \         ^
+                       /     |         \        |
+                      /      |          \       |
+                     /       |           \      |
+                    v        v            v     |
+    ArduinoValidation   PythonValidation  Validator
+     Generator           Generator
+         |                 |
+         v                 v
+validation_data.{h,cpp} validation_data.py
+validation_tests.cpp
 """
 import argparse
 import logging
