@@ -86,12 +86,14 @@ class Validator:
             for year in range(2000, 2038):
                 #logging.info('Validating year %s' % year)
                 zone_specifier.init_for_year(year)
+
                 transition_count = len(zone_specifier.transitions)
-                candidate_count = len(zone_specifier.candidate_transitions)
                 if transition_count > count_record[0][0]:
                     count_record = ((transition_count, year), count_record[1])
-                if candidate_count > count_record[1][0]:
-                    count_record = (count_record[0], (candidate_count, year))
+
+                total_count = zone_specifier.max_num_transitions
+                if total_count > count_record[1][0]:
+                    count_record = (count_record[0], (total_count, year))
             transition_stats[zone_short_name] = count_record
 
         logging.info('Count(transitions) group by zone order by count desc')

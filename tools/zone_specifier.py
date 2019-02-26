@@ -430,6 +430,10 @@ class ZoneSpecifier:
         # List of matching Transition objects.
         self.transitions = []
 
+        # Number of active transitions used during the most recent
+        # init_for_year().
+        self.max_num_transitions = 0
+
         self.debug = debug
 
     def get_transition_for_seconds(self, epoch_seconds):
@@ -473,6 +477,7 @@ class ZoneSpecifier:
         if self.debug:
             logging.info('init_for_year(): year: %d' % year)
         self.year = year
+        self.max_num_transitions = 0
 
         if self.viewing_months == 13:
             start_ym = YearMonthTuple(year, 1)
@@ -493,7 +498,7 @@ class ZoneSpecifier:
 
         if self.debug:
             logging.info('==== Finding (raw) transitions')
-        (self.candidate_transitions, self.transitions) = self.find_transitions(
+        self.transitions = self.find_transitions(
             self.matches, start_ym, until_ym)
 
         # Some transitions from simple match may be in 's' or 'u', so convert
@@ -517,6 +522,11 @@ class ZoneSpecifier:
             print_transitions(self.transitions)
 
     # The following methods are designed to be used internally.
+
+    def update_num_transitions(self, num):
+        total = num + len(self.transitions)
+        if total > self.max_num_transitions:
+            self.max_num_transitions = total
 
     def init_for_second(self, epoch_seconds):
         """Initialize the Transitions from the given epoch_seconds.
@@ -607,14 +617,12 @@ class ZoneSpecifier:
         """Find the relevant transitions from the matching ZoneEras, for the
         interval [start_ym, until_ym).
         """
-        candidate_transitions = []
         transitions = []
         for match in matches:
-            (candidate_transitions_for_match, transitions_for_match) = \
+            transitions_for_match = \
                 self.find_transitions_for_match(match, start_ym, until_ym)
-            candidate_transitions.extend(candidate_transitions_for_match)
             transitions.extend(transitions_for_match)
-        return (candidate_transitions, transitions)
+        return transitions
 
     def find_transitions_for_match(self, match, start_ym, until_ym):
         """Find all transitions of the given match, restricted from [start_ym,
@@ -640,7 +648,7 @@ class ZoneSpecifier:
         transition.update({
             'transitionTime': match.startDateTime,
         })
-        return ([transition], [transition])
+        return [transition]
 
     def find_transitions_from_named_match(self, match):
         """Find the transitions of the named ZoneMatch. Return
@@ -668,6 +676,9 @@ class ZoneSpecifier:
             logging.info('Num candidates: %d' % len(candidate_transitions))
             print_transitions(candidate_transitions)
         check_transitions_sorted(candidate_transitions)
+
+        # Update statistics on active transitions
+        self.update_num_transitions(len(candidate_transitions))
 
         # Fix the transitions times, converting 's' and 'u' into 'w' uniformly.
         if self.debug:
@@ -705,9 +716,10 @@ class ZoneSpecifier:
             logging.info('==== Final check for sorted transitions')
         check_transitions_sorted(transitions)
         if self.debug:
+            logging.info('Num transitions: %d' % len(transitions))
             print_transitions(transitions)
 
-        return (candidate_transitions, transitions)
+        return transitions
 
     def print_matches_and_transitions(self):
         logging.info('---- Matches:')
@@ -715,9 +727,6 @@ class ZoneSpecifier:
             logging.info(m)
         logging.info('---- Transitions:')
         for t in self.transitions:
-            logging.info(t)
-        logging.info('---- Candidates:')
-        for t in self.candidate_transitions:
             logging.info(t)
 
 
