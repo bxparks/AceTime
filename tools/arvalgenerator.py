@@ -90,7 +90,7 @@ const ValidationData kValidationData{zoneShortName} = {{
 """
 
     TEST_ITEM = """\
-  {{ {epochSeconds:9}, {utcOffsetMinutes:4}, {deltaOffsetMinutes:4}, \
+  {{ {epochSeconds:9}, {totalOffsetMinutes:4}, {deltaOffsetMinutes:4}, \
 {yearTiny:3}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2} }}, \
 // type={type}
 """
@@ -207,11 +207,11 @@ const ValidationData kValidationData{zoneShortName} = {{
         """
         s = ''
         for test_item in test_items:
-            utc_offset_minutes = div_to_zero(test_item.utc_offset, 60)
+            total_offset_minutes = div_to_zero(test_item.total_offset, 60)
             delta_offset_minutes = div_to_zero(test_item.dst_offset, 60)
             s += self.TEST_ITEM.format(
                 epochSeconds=test_item.epoch,
-                utcOffsetMinutes=utc_offset_minutes,
+                totalOffsetMinutes=total_offset_minutes,
                 deltaOffsetMinutes=delta_offset_minutes,
                 yearTiny=test_item.y - EPOCH_YEAR,
                 month=test_item.M,
