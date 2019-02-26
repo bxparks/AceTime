@@ -498,8 +498,7 @@ class ZoneSpecifier:
 
         if self.debug:
             logging.info('==== Finding (raw) transitions')
-        self.transitions = self.find_transitions(
-            self.matches, start_ym, until_ym)
+        self.transitions = self.find_transitions(self.matches)
 
         # Some transitions from simple match may be in 's' or 'u', so convert
         # to 'w'.
@@ -613,20 +612,17 @@ class ZoneSpecifier:
             prev_era = zone_era
         return matches
 
-    def find_transitions(self, matches, start_ym, until_ym):
-        """Find the relevant transitions from the matching ZoneEras, for the
-        interval [start_ym, until_ym).
+    def find_transitions(self, matches):
+        """Find the relevant transitions from the matching ZoneEras.
         """
         transitions = []
         for match in matches:
-            transitions_for_match = \
-                self.find_transitions_for_match(match, start_ym, until_ym)
+            transitions_for_match = self.find_transitions_for_match(match)
             transitions.extend(transitions_for_match)
         return transitions
 
-    def find_transitions_for_match(self, match, start_ym, until_ym):
-        """Find all transitions of the given match, restricted from [start_ym,
-        until_ym).
+    def find_transitions_for_match(self, match):
+        """Find all transitions of the given match.
         """
         if self.debug:
             logging.info(
