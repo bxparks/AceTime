@@ -27,11 +27,12 @@ class TestValidationData(unittest.TestCase):
         for name, items in zonedb.validation_data.VALIDATION_DATA.items():
             zone_info = zonedb.zone_infos.ZONE_INFO_MAP[name]
             zone_specifier = ZoneSpecifier(zone_info, viewing_months=14)
-            for test_item in items:
-                info = zone_specifier.get_timezone_info_for_seconds(
-                    test_item.epoch)
-                self.assertEqual(test_item.total_offset * 60, info.total_offset,
-                    ('Zone %s, epoch %s' % (name, test_item.epoch)))
+            for item in items:
+                info = zone_specifier.get_timezone_info_for_seconds(item.epoch)
+                self.assertEqual(item.total_offset * 60, info.total_offset,
+                    ('Zone %s; epoch:%s; %04d-%02d-%02d %02d:%02d:%02d' % (
+                    name, item.epoch, item.y, item.M, item.d, item.h, item.m,
+                    item.s)))
 
 
 class TestZoneSpecifierHelperMethods(unittest.TestCase):
