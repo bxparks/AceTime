@@ -695,7 +695,7 @@ class ZoneSpecifier:
                     candidate_transitions, match)
         except:
             logging.exception("Zone '%s'; year '%04d'",
-                (self.zone_info.name, self.year))
+                self.zone_info.name, self.year)
             raise
         if self.debug:
             print_transitions(transitions)
