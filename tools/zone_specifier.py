@@ -479,6 +479,9 @@ class ZoneSpecifier:
             logging.info('init_for_year(): year: %d' % year)
         self.year = year
         self.max_num_transitions = 0
+        self.matches = []
+        self.transitions = []
+        self.candidate_transitions = []
 
         if self.viewing_months == 12:
             start_ym = YearMonthTuple(year, 1)
@@ -526,10 +529,11 @@ class ZoneSpecifier:
 
     # The following methods are designed to be used internally.
 
-    def update_num_transitions(self, num):
-        total = num + len(self.transitions)
+    def update_candidate_transitions(self, candidate_transitions):
+        total = len(candidate_transitions) + len(self.transitions)
         if total > self.max_num_transitions:
             self.max_num_transitions = total
+        self.candidate_transitions.extend(candidate_transitions)
 
     def init_for_second(self, epoch_seconds):
         """Initialize the Transitions from the given epoch_seconds.
@@ -682,9 +686,6 @@ class ZoneSpecifier:
             print_transitions(candidate_transitions)
         check_transitions_sorted(candidate_transitions)
 
-        # Update statistics on active transitions
-        self.update_num_transitions(len(candidate_transitions))
-
         # Fix the transitions times, converting 's' and 'u' into 'w' uniformly.
         if self.debug:
             logging.info('==== Fix transition times')
@@ -693,6 +694,9 @@ class ZoneSpecifier:
             logging.info('Num candidates: %d' % len(candidate_transitions))
             print_transitions(candidate_transitions)
         check_transitions_sorted(candidate_transitions)
+
+        # Update statistics on active transitions
+        self.update_candidate_transitions(candidate_transitions)
 
         # Select only those Transitions which overlap with the actual start and
         # until times of the ZoneMatch.
@@ -732,6 +736,9 @@ class ZoneSpecifier:
             logging.info(m)
         logging.info('---- Transitions:')
         for t in self.transitions:
+            logging.info(t)
+        logging.info('---- Candidate Transitions:')
+        for t in self.candidate_transitions:
             logging.info(t)
 
 
