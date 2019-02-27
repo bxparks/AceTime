@@ -118,8 +118,8 @@ def main():
         '--output_dir', help='Location of the output directory')
 
     # Validator
-    parser.add_argument('--zone', help='Name of time zone to validate',
-        default='')
+    parser.add_argument('--zone', help='Name of time zone to validate')
+    parser.add_argument('--year', help='Year to validate', type=int)
     parser.add_argument(
         '--viewing_months',
         help='Number of months to use for calculations (13, 14, 36)',
@@ -259,6 +259,7 @@ def main():
             debug_validator=args.debug_validator,
             debug_specifier=args.debug_specifier,
             zone_name=args.zone,
+            year=args.year,
             in_place_transitions=args.in_place_transitions,
             optimize_candidates=args.optimize_candidates)
 

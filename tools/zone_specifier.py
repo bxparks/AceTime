@@ -391,6 +391,7 @@ class ZoneSpecifier:
         The viewing_months parameter determines the month interval to use to
         calculate the transitions:
 
+        * 12 = [year-Jan, (year+1)-Jan) (experimental)
         * 13 = [year-Jan, (year+1)-Feb) (works)
         * 14 = [(year-1)-Dec, (year+1)-Feb) (works)
         * 36 = [(year-1)-Jan, (year+2)-Jan) (not well tested,
@@ -479,7 +480,10 @@ class ZoneSpecifier:
         self.year = year
         self.max_num_transitions = 0
 
-        if self.viewing_months == 13:
+        if self.viewing_months == 12:
+            start_ym = YearMonthTuple(year, 1)
+            until_ym = YearMonthTuple(year + 1, 1)
+        elif self.viewing_months == 13:
             start_ym = YearMonthTuple(year, 1)
             until_ym = YearMonthTuple(year + 1, 2)
         elif self.viewing_months == 14:
@@ -533,7 +537,7 @@ class ZoneSpecifier:
         ldt = datetime.utcfromtimestamp(
             epoch_seconds + SECONDS_SINCE_UNIX_EPOCH)
 
-        if self.viewing_months == 13:
+        if self.viewing_months < 14:
             if ldt.month == 1 and ldt.day == 1:
                 year = ldt.year - 1
             else:
@@ -594,11 +598,16 @@ class ZoneSpecifier:
         year of interest.
 
         If viewing_months==14, we include the prior December and subsequent
-        January.
+        January. This works well but often produces too many candidate
+        Transitions because it spans 3 whole years, potentially 4 years for the
+        'most recent prior year'.
 
         If viewing_months==13, we include only the subsequent January, which
-        works because if the epoch_seconds is on Dec 31, we push the year of
-        interest to the next year.
+        works because we push the year of interest to the next year if the
+        epoch_seconds is on Dec 31.
+
+        If viewing_months==12, this is an experimental option to see if we can
+        reduce the number of candidate transitions.
         """
         zone_eras = self.zone_info.eras
         prev_era = self.ZONE_ERA_ANCHOR
@@ -998,7 +1007,11 @@ def find_candidate_transitions(transitions, match, rules):
     using whole years.
     """
     start_y = match.startDateTime.y
-    end_y = match.untilDateTime.y
+    until = match.untilDateTime
+    if until.M == 1 and until.d == 1 and until.ss == 0:
+        end_y = until.y - 1
+    else:
+        end_y = until.y
 
     for rule in rules:
         from_year = rule.fromYear
@@ -1016,11 +1029,18 @@ def find_candidate_transitions_optimized(transitions, match, rules):
     """
     start_y = match.startDateTime.y
     end_y = match.untilDateTime.y
+    until = match.untilDateTime
+    if until.M == 1 and until.d == 1 and until.ss == 0:
+        end_y = until.y - 1
+    else:
+        end_y = until.y
+
     prior_transition = None
     for rule in rules:
         from_year = rule.fromYear
         to_year = rule.toYear
         years = get_interior_years(from_year, to_year, start_y, end_y)
+        #logging.info('interior years: %s' % years)
         for year in years:
             add_transition_sorted(transitions,
                 create_transition_for_year(year, rule, match))
@@ -1397,7 +1417,7 @@ def main():
     parser = argparse.ArgumentParser(description='Zone Agent.')
     parser.add_argument(
         '--viewing_months',
-        help='Number of months to use for calculations (13, 14, 36)',
+        help='Number of months to use for calculations (12, 13, 14, 36)',
         type=int, default=14)
     parser.add_argument(
         '--transition', help='Print the transition instead of timezone info',

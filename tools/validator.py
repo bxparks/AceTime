@@ -32,7 +32,7 @@ class Validator:
 
     def __init__(self, zone_infos, zone_policies, viewing_months,
                  validate_dst_offset, debug_validator,
-                 debug_specifier, zone_name, in_place_transitions,
+                 debug_specifier, zone_name, year, in_place_transitions,
                  optimize_candidates):
         """
         Args:
@@ -45,6 +45,7 @@ class Validator:
             debug_validator: (bool) enable debugging output for Validator
             debug_specifier: (bool) enable debugging output for ZoneSpecifier
             zone_name: (str) validate only this zone
+            year: (int | None) validate only this year
             in_place_transitions: (bool)
             optimize_candidates: (bool)
         """
@@ -55,6 +56,7 @@ class Validator:
         self.debug_validator = debug_validator
         self.debug_specifier = debug_specifier
         self.zone_name = zone_name
+        self.year = year
         self.in_place_transitions = in_place_transitions
         self.optimize_candidates = optimize_candidates
 
@@ -70,7 +72,7 @@ class Validator:
         # in zone_infos, for the years 2000 to 2038.
         logging.info('Calculating transitions between 2000 and 2038')
         for zone_short_name, zone_info in sorted(self.zone_infos.items()):
-            if self.zone_name != '' and zone_short_name != self.zone_name:
+            if self.zone_name and zone_short_name != self.zone_name:
                 continue
             if self.debug_validator:
                 logging.info('Validating zone %s' % zone_short_name)
@@ -84,6 +86,8 @@ class Validator:
             # pair of tuple(count, year), transition count, and candidate count
             count_record = ((0, 0), (0, 0))
             for year in range(2000, 2038):
+                if self.year and self.year != year:
+                    continue
                 #logging.info('Validating year %s' % year)
                 zone_specifier.init_for_year(year)
 
@@ -119,15 +123,23 @@ class Validator:
 
     def validate_test_data(self, test_data):
         for zone_short_name, items in test_data.items():
+            if self.zone_name and zone_short_name != self.zone_name:
+                continue
             if self.debug_validator:
                 logging.info('  Validating zone %s' % zone_short_name)
             self.validate_test_data_for_zone(zone_short_name, items)
 
     def validate_test_data_for_zone(self, zone_short_name, items):
         zone_info = self.zone_infos[zone_short_name]
-        zone_specifier = ZoneSpecifier(zone_info, self.viewing_months,
-            self.debug_specifier, self.in_place_transitions)
+        zone_specifier = ZoneSpecifier(
+            zone_info_data=zone_info,
+            viewing_months=self.viewing_months,
+            debug=self.debug_specifier,
+            in_place_transitions=self.in_place_transitions,
+            optimize_candidates=self.optimize_candidates)
         for item in items:
+            if self.year and self.year != item.y:
+                continue
             if self.debug_validator:
                 logging.info('    %04d-%02d-%02d %02d:%02d epoch:%d' %
                     (item.y, item.M, item.d, item.h, item.m, item.epoch))
@@ -141,9 +153,10 @@ class Validator:
             if info.total_offset != item.total_offset:
                 unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
                 logging.error(
-                    "==== %s: offset mismatch; at: '%s'; unix: %s; " +
-                    "AceTime(%s); Expected(%s)", zone_short_name,
+                    "==== %s: offset mismatch; at: '%s'; epoch %s; unix %s; " +
+                    "AceTime(%s); Exp(%s)", zone_short_name,
                     test_item_to_string(item),
+                    item.epoch,
                     unix_seconds,
                     to_utc_string(info.utc_offset, info.dst_offset),
                     to_utc_string(item.total_offset - item.dst_offset,
