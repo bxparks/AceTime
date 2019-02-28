@@ -292,23 +292,23 @@ const common::ZoneInfo kZone{zoneShortName} = {{
         self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
 
     def generate_files(self, output_dir):
-        self.write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
-                        self.generate_policies_h())
-        self.write_file(output_dir, self.ZONE_POLICIES_CPP_FILE_NAME,
-                        self.generate_policies_cpp())
+        self._write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
+                        self._generate_policies_h())
+        self._write_file(output_dir, self.ZONE_POLICIES_CPP_FILE_NAME,
+                        self._generate_policies_cpp())
 
-        self.write_file(output_dir, self.ZONE_INFOS_H_FILE_NAME,
-                        self.generate_infos_h())
-        self.write_file(output_dir, self.ZONE_INFOS_CPP_FILE_NAME,
-                        self.generate_infos_cpp())
+        self._write_file(output_dir, self.ZONE_INFOS_H_FILE_NAME,
+                        self._generate_infos_h())
+        self._write_file(output_dir, self.ZONE_INFOS_CPP_FILE_NAME,
+                        self._generate_infos_cpp())
 
-    def write_file(self, output_dir, filename, content):
+    def _write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)
         logging.info("Created %s", full_filename)
 
-    def generate_policies_h(self):
+    def _generate_policies_h(self):
         policy_items = ''
         for name, rules in sorted(self.rules_map.items()):
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
@@ -341,11 +341,11 @@ const common::ZoneInfo kZone{zoneShortName} = {{
             numNotablePolicies=len(self.notable_policies),
             notablePolicyItems=notable_policy_items)
 
-    def generate_policies_cpp(self):
+    def _generate_policies_cpp(self):
         policy_items = ''
         num_rules = 0
         for name, rules in sorted(self.rules_map.items()):
-            policy_items += self.generate_policy_item(name, rules)
+            policy_items += self._generate_policy_item(name, rules)
             num_rules += len(rules)
 
         num_policies = len(self.rules_map)
@@ -365,7 +365,7 @@ const common::ZoneInfo kZone{zoneShortName} = {{
             memory32=memory32,
             policyItems=policy_items)
 
-    def generate_policy_item(self, name, rules):
+    def _generate_policy_item(self, name, rules):
         rule_items = ''
         for rule in rules:
             at_time_code = div_to_zero(rule.atSecondsTruncated, 15 * 60)
@@ -401,7 +401,7 @@ const common::ZoneInfo kZone{zoneShortName} = {{
             memory32=memory32,
             ruleItems=rule_items)
 
-    def generate_infos_h(self):
+    def _generate_infos_h(self):
         info_items = ''
         for name, zones in sorted(self.zones_map.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
@@ -431,12 +431,12 @@ const common::ZoneInfo kZone{zoneShortName} = {{
             numNotableInfos=len(self.notable_zones),
             notableInfoItems=notable_info_items)
 
-    def generate_infos_cpp(self):
+    def _generate_infos_cpp(self):
         info_items = ''
         num_eras = 0
         string_length = 0
         for name, eras in sorted(self.zones_map.items()):
-            (info_item, info_string_length) = self.generate_info_item(
+            (info_item, info_string_length) = self._generate_info_item(
                 name, eras)
             info_items += info_item
             string_length += info_string_length
@@ -460,11 +460,11 @@ const common::ZoneInfo kZone{zoneShortName} = {{
             memory32=memory32,
             infoItems=info_items)
 
-    def generate_info_item(self, name, eras):
+    def _generate_info_item(self, name, eras):
         era_items = ''
         string_length = 0
         for era in eras:
-            (era_item, length) = self.generate_era_item(name, era)
+            (era_item, length) = self._generate_era_item(name, era)
             era_items += era_item
             string_length += length
 
@@ -485,7 +485,7 @@ const common::ZoneInfo kZone{zoneShortName} = {{
             eraItems=era_items)
         return (info_item, string_length)
 
-    def generate_era_item(self, name, era):
+    def _generate_era_item(self, name, era):
         policy_name = era.rules
         if policy_name == '-' or policy_name == ':':
             zone_policy = 'nullptr'

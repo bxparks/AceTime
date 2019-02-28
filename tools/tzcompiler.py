@@ -267,7 +267,7 @@ def main():
         validator.validate_transition_buffer_size()
 
         logging.info('======== Validating test data...')
-        validator.validate_sequentially()
+        validator.validate_test_data()
     else:
         logging.error('One of (--zonedb, --validate, --unittest) must be given')
         sys.exit(1)

@@ -27,7 +27,7 @@ class Validator:
         # For validation against pytz golden test data
         validator = Validator(zone_infos, zone_policies, ...)
         validator.validate_transition_buffer_size()
-        validator.validate_sequentially()
+        validator.validate_test_data()
     """
 
     def __init__(self, zone_infos, zone_policies, viewing_months,
@@ -106,10 +106,8 @@ class Validator:
             logging.info('%s: %d (%04d); %d (%04d)' %
                  ((zone_short_name, ) + count_record[0] + count_record[1]))
 
-    def validate_sequentially(self):
-        """Compare Python and AceTime offsets by generating the Python
-        test data first. This allows the test data to be exported, for example,
-        as a C++ test data set.
+    def validate_test_data(self):
+        """Compare Python and AceTime offsets by generating TestDataGenerator.
         """
         logging.info('Creating test data')
         data_generator = TestDataGenerator(self.zone_infos, self.zone_policies)
@@ -117,19 +115,19 @@ class Validator:
         logging.info('test_data=%d', len(test_data))
 
         logging.info('Validating %s test items', num_items)
-        self.validate_test_data(test_data)
+        self._validate_test_data(test_data)
 
     # The following are internal methods.
 
-    def validate_test_data(self, test_data):
+    def _validate_test_data(self, test_data):
         for zone_short_name, items in test_data.items():
             if self.zone_name and zone_short_name != self.zone_name:
                 continue
             if self.debug_validator:
                 logging.info('  Validating zone %s' % zone_short_name)
-            self.validate_test_data_for_zone(zone_short_name, items)
+            self._validate_test_data_for_zone(zone_short_name, items)
 
-    def validate_test_data_for_zone(self, zone_short_name, items):
+    def _validate_test_data_for_zone(self, zone_short_name, items):
         zone_info = self.zone_infos[zone_short_name]
         zone_specifier = ZoneSpecifier(
             zone_info_data=zone_info,
@@ -155,7 +153,7 @@ class Validator:
                 logging.error(
                     "==== %s: offset mismatch; at: '%s'; epoch %s; unix %s; " +
                     "AceTime(%s); Exp(%s)", zone_short_name,
-                    test_item_to_string(item),
+                    _test_item_to_string(item),
                     item.epoch,
                     unix_seconds,
                     to_utc_string(info.utc_offset, info.dst_offset),
@@ -164,7 +162,7 @@ class Validator:
                 zone_specifier.init_for_year(item.y)
                 zone_specifier.print_matches_and_transitions()
 
-def test_item_to_string(i):
+def _test_item_to_string(i):
     return '%04d-%02d-%02dT%02d:%02d:%02d' % (i.y, i.M, i.d, i.h, i.m, i.s)
 
 

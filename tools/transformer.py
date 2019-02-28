@@ -83,37 +83,37 @@ class Transformer:
         logging.info('Found %s zone infos' % len(self.zones_map))
         logging.info('Found %s rule policies' % len(self.rules_map))
 
-        zones_map = self.remove_zones_with_duplicate_short_names(zones_map)
-        zones_map = self.remove_zones_without_slash(zones_map)
-        zones_map = self.remove_zone_eras_too_old(zones_map)
+        zones_map = self._remove_zones_with_duplicate_short_names(zones_map)
+        zones_map = self._remove_zones_without_slash(zones_map)
+        zones_map = self._remove_zone_eras_too_old(zones_map)
         if self.language == 'arduino':
-            zones_map = self.remove_zone_until_year_only_false(zones_map)
-        zones_map = self.create_zones_with_until_day(zones_map)
-        zones_map = self.create_zones_with_expanded_until_time(zones_map)
-        zones_map = self.remove_zones_invalid_until_time_modifier(zones_map)
-        zones_map = self.create_zones_with_expanded_offset_string(zones_map)
-        zones_map = self.create_zones_with_rules_expansion(zones_map)
-        zones_map = self.remove_zones_with_non_monotonic_until(zones_map)
+            zones_map = self._remove_zone_until_year_only_false(zones_map)
+        zones_map = self._create_zones_with_until_day(zones_map)
+        zones_map = self._create_zones_with_expanded_until_time(zones_map)
+        zones_map = self._remove_zones_invalid_until_time_modifier(zones_map)
+        zones_map = self._create_zones_with_expanded_offset_string(zones_map)
+        zones_map = self._create_zones_with_rules_expansion(zones_map)
+        zones_map = self._remove_zones_with_non_monotonic_until(zones_map)
 
-        (zones_map, rules_map) = self.mark_rules_used_by_zones(
+        (zones_map, rules_map) = self._mark_rules_used_by_zones(
             zones_map, rules_map)
-        rules_map = self.remove_rules_unused(rules_map)
-        rules_map = self.remove_rules_out_of_bounds(rules_map)
+        rules_map = self._remove_rules_unused(rules_map)
+        rules_map = self._remove_rules_out_of_bounds(rules_map)
         if self.language == 'arduino':
-            rules_map = self.remove_rules_multiple_transitions_in_month(
+            rules_map = self._remove_rules_multiple_transitions_in_month(
                 rules_map)
 
-        rules_map = self.create_rules_with_expanded_at_time(rules_map)
-        rules_map = self.remove_rules_invalid_at_time_modifier(rules_map)
-        rules_map = self.create_rules_with_expanded_delta_offset(rules_map)
-        rules_map = self.create_rules_with_on_day_expansion(rules_map)
-        rules_map = self.create_rules_with_anchor_transition(rules_map)
+        rules_map = self._create_rules_with_expanded_at_time(rules_map)
+        rules_map = self._remove_rules_invalid_at_time_modifier(rules_map)
+        rules_map = self._create_rules_with_expanded_delta_offset(rules_map)
+        rules_map = self._create_rules_with_on_day_expansion(rules_map)
+        rules_map = self._create_rules_with_anchor_transition(rules_map)
         if self.language == 'arduino':
-            rules_map = self.remove_rules_with_border_transitions(rules_map)
+            rules_map = self._remove_rules_with_border_transitions(rules_map)
         if self.language == 'arduino' or self.language == 'arduinox':
-            rules_map = self.remove_rules_long_dst_letter(rules_map)
+            rules_map = self._remove_rules_long_dst_letter(rules_map)
 
-        zones_map = self.remove_zones_without_rules(zones_map, rules_map)
+        zones_map = self._remove_zones_without_rules(zones_map, rules_map)
 
         self.rules_map = rules_map
         self.zones_map = zones_map
@@ -131,7 +131,7 @@ class Transformer:
         logging.info('Generated %s policies' % len(self.rules_map))
         logging.info('-------- Transformer Summary End')
 
-    def print_removed_map(self, removed_map):
+    def _print_removed_map(self, removed_map):
         """Helper routine that prints the removed Zone rules or Zone eras along
         with the reason why it was removed.
         """
@@ -142,7 +142,7 @@ class Transformer:
     # Methods related to Zones.
     # --------------------------------------------------------------------
 
-    def remove_zones_with_duplicate_short_names(self, zones_map):
+    def _remove_zones_with_duplicate_short_names(self, zones_map):
         results = {}
         removed_zones = {}
         short_names = {}
@@ -156,11 +156,11 @@ class Transformer:
 
         logging.info("Removed %s zone infos with duplicate short names" %
                      len(removed_zones))
-        self.print_removed_map(removed_zones)
+        self._print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
-    def remove_zones_without_slash(self, zones_map):
+    def _remove_zones_without_slash(self, zones_map):
         results = {}
         removed_zones = {}
         for name, zones in zones_map.items():
@@ -171,11 +171,11 @@ class Transformer:
 
         logging.info(
             "Removed %s zone infos without '/' in name" % len(removed_zones))
-        self.print_removed_map(removed_zones)
+        self._print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
-    def remove_zone_eras_too_old(self, zones_map):
+    def _remove_zone_eras_too_old(self, zones_map):
         """Remove zone eras which are too old, i.e. before (self.start_year-1).
         For start_year 2000, and viewing_months>13,
         ZoneSpecifier.init_for_year() could be called with 1999.
@@ -196,7 +196,7 @@ class Transformer:
                      self.start_year)
         return results
 
-    def remove_zone_until_year_only_false(self, zones_map):
+    def _remove_zone_until_year_only_false(self, zones_map):
         """Remove zones which have month, day or time in the UNTIL field.
         These are not supported by the early version of AutoZoneSpecifier.
         """
@@ -214,11 +214,11 @@ class Transformer:
 
         logging.info("Removed %s zone infos with UNTIL month/day/time",
                      len(removed_zones))
-        self.print_removed_map(removed_zones)
+        self._print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
-    def create_zones_with_until_day(self, zones_map):
+    def _create_zones_with_until_day(self, zones_map):
         """Convert zone.untilDay from 'lastSun' or 'Sun>=1' to a precise day,
         which is possible because the year and month are already known. For
         example:
@@ -249,11 +249,11 @@ class Transformer:
 
         logging.info("Removed %s zone infos with invalid untilDay",
                      len(removed_zones))
-        self.print_removed_map(removed_zones)
+        self._print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
-    def create_zones_with_expanded_until_time(self, zones_map):
+    def _create_zones_with_expanded_until_time(self, zones_map):
         """ Create 'untilSeconds' and 'untilSecondsTruncated' from 'untilTime'.
         """
         results = {}
@@ -296,12 +296,12 @@ class Transformer:
 
         logging.info("Removed %s zone infos with invalid UNTIL time",
                      len(removed_zones))
-        self.print_removed_map(removed_zones)
+        self._print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         self.all_notable_zones.update(notable_zones)
         return results
 
-    def remove_zones_invalid_until_time_modifier(self, zones_map):
+    def _remove_zones_invalid_until_time_modifier(self, zones_map):
         """Remove zones whose UNTIL time contains an unsupported modifier.
         """
         # Determine which suffices are supported. The 'g' and 'z' is the same as
@@ -333,11 +333,11 @@ class Transformer:
         logging.info(
             "Removed %s zone infos with unsupported UNTIL time modifier",
             len(removed_zones))
-        self.print_removed_map(removed_zones)
+        self._print_removed_map(removed_zones)
         self.all_removed_policies.update(removed_zones)
         return results
 
-    def create_zones_with_expanded_offset_string(self, zones_map):
+    def _create_zones_with_expanded_offset_string(self, zones_map):
         """ Create expanded offset 'offsetSeconds' from zone.offsetString.
         """
         results = {}
@@ -376,12 +376,12 @@ class Transformer:
 
         logging.info("Removed %s zone infos with invalid offsetString",
                      len(removed_zones))
-        self.print_removed_map(removed_zones)
+        self._print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         self.all_notable_zones.update(notable_zones)
         return results
 
-    def create_zones_with_rules_expansion(self, zones_map):
+    def _create_zones_with_rules_expansion(self, zones_map):
         """ Create zone.rulesDeltaSeconds from zone.rules.
 
         The RULES field can hold the following:
@@ -449,12 +449,12 @@ class Transformer:
 
         logging.info("Removed %s zone infos with invalid RULES",
                      len(removed_zones))
-        self.print_removed_map(removed_zones)
+        self._print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         self.all_notable_zones.update(notable_zones)
         return results
 
-    def remove_zones_without_rules(self, zones_map, rules_map):
+    def _remove_zones_without_rules(self, zones_map, rules_map):
         """Remove zone eras whose RULES field contains a reference to
         a set of Rules, which cannot be found.
         """
@@ -473,11 +473,11 @@ class Transformer:
 
         logging.info(
             "Removed %s zone infos without rules" % len(removed_zones))
-        self.print_removed_map(removed_zones)
+        self._print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
-    def remove_zones_with_non_monotonic_until(self, zones_map):
+    def _remove_zones_with_non_monotonic_until(self, zones_map):
         """Remove Zone infos whose UNTIL fields are:
             1) not monotonically increasing, or
             2) does not end in year=MAX_UNTIL_YEAR
@@ -514,7 +514,7 @@ class Transformer:
 
         logging.info("Removed %s zone infos with invalid UNTIL fields",
                      len(removed_zones))
-        self.print_removed_map(removed_zones)
+        self._print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
@@ -522,7 +522,7 @@ class Transformer:
     # Methods related to Rules
     # --------------------------------------------------------------------
 
-    def remove_rules_multiple_transitions_in_month(self, rules_map):
+    def _remove_rules_multiple_transitions_in_month(self, rules_map):
         """Some Zone policies have Rules which specify multiple DST transitions
         within in the same month:
             * Egypt (Found '2' transitions in year/month '2010-09')
@@ -568,11 +568,11 @@ class Transformer:
         logging.info(
             'Removed %s rule policies with multiple transitions in one month' %
             len(removed_policies))
-        self.print_removed_map(removed_policies)
+        self._print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
 
-    def remove_rules_long_dst_letter(self, rules_map):
+    def _remove_rules_long_dst_letter(self, rules_map):
         """Return a new map which filters out rules with long DST letter.
         """
         results = {}
@@ -590,11 +590,11 @@ class Transformer:
 
         logging.info('Removed %s rule policies with long DST letter' %
                      len(removed_policies))
-        self.print_removed_map(removed_policies)
+        self._print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
 
-    def remove_rules_invalid_at_time_modifier(self, rules_map):
+    def _remove_rules_invalid_at_time_modifier(self, rules_map):
         """Remove rules whose atTime contains an unsupported modifier. Current
         supported modifier is 'w', 's' and 'u'. The 'g' and 'z' are identifical
         to 'u' and they do not currently appear in any TZ file, so let's catch
@@ -620,11 +620,11 @@ class Transformer:
 
         logging.info("Removed %s rule policies with unsupported AT modifier" %
                      len(removed_policies))
-        self.print_removed_map(removed_policies)
+        self._print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
 
-    def mark_rules_used_by_zones(self, zones_map, rules_map):
+    def _mark_rules_used_by_zones(self, zones_map, rules_map):
         """Mark all rules which are required by various zones. There are 2 ways
         that a rule can be used by a zone era:
             1) The rule's fromYear or toYear are >= (self.start_year - 1), or
@@ -683,12 +683,12 @@ class Transformer:
 
         return (zones_map, rules_map)
 
-    def remove_rules_unused(self, rules_map):
+    def _remove_rules_unused(self, rules_map):
         """Remove RULE entries which have not been marked as used by the
-        mark_rules_used_by_zones() method. It is expected that all remaining
+        _mark_rules_used_by_zones() method. It is expected that all remaining
         RULE entries have FROM and TO fields which is greater than 1872 (the
         earliest year which can be represented by an int8_t toYearTiny field,
-        (2000-128)==1872). See also remove_rules_out_of_bounds().
+        (2000-128)==1872). See also _remove_rules_out_of_bounds().
         """
         results = {}
         removed_rule_count = 0
@@ -710,7 +710,7 @@ class Transformer:
         self.all_removed_policies.update(removed_policies)
         return results
 
-    def remove_rules_out_of_bounds(self, rules_map):
+    def _remove_rules_out_of_bounds(self, rules_map):
         """Remove policies which have FROM and TO fields do not fit in an
         int8_t. In other words, y < 1872 or (y > 2127 and y != 9999).
         """
@@ -733,11 +733,11 @@ class Transformer:
         logging.info(
             'Removed %s rule policies with fromYear or toYear out of bounds' %
             len(removed_policies))
-        self.print_removed_map(removed_policies)
+        self._print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
 
-    def create_rules_with_on_day_expansion(self, rules_map):
+    def _create_rules_with_on_day_expansion(self, rules_map):
         """Create rule.onDayOfWeek and rule.onDayOfMonth from
         rule.onDay.
         """
@@ -759,11 +759,11 @@ class Transformer:
 
         logging.info('Removed %s rule policies with invalid onDay' %
                      len(removed_policies))
-        self.print_removed_map(removed_policies)
+        self._print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
 
-    def create_rules_with_anchor_transition(self, rules_map):
+    def _create_rules_with_anchor_transition(self, rules_map):
         """Create a synthetic transition with SAVE == 0 which is earlier than
         the self.start_year of interest. Some zone policies have zone rules
         whose earliest entry starts after the self.start_year. According to
@@ -777,8 +777,8 @@ class Transformer:
         """
         anchored_policies = []
         for name, rules in rules_map.items():
-            if not self.has_prior_rule(rules):
-                anchor_rule = self.get_anchor_rule(rules)
+            if not self._has_prior_rule(rules):
+                anchor_rule = self._get_anchor_rule(rules)
                 rules.insert(0, anchor_rule)
                 anchored_policies.append(name)
 
@@ -786,7 +786,7 @@ class Transformer:
                      len(anchored_policies), anchored_policies)
         return rules_map
 
-    def has_prior_rule(self, rules):
+    def _has_prior_rule(self, rules):
         """Return True if rules has a rule prior to (self.start_year-1).
         """
         for rule in rules:
@@ -796,7 +796,7 @@ class Transformer:
                 return True
         return False
 
-    def get_anchor_rule(self, rules):
+    def _get_anchor_rule(self, rules):
         """Return the anchor rule that will act as the earliest rule with SAVE
         == 0.
         """
@@ -832,7 +832,7 @@ class Transformer:
         anchor_rule.rawLine = 'Anchor: ' + anchor_rule.rawLine
         return anchor_rule
 
-    def remove_rules_with_border_transitions(self, rules_map):
+    def _remove_rules_with_border_transitions(self, rules_map):
         """Remove rules where the transition occurs on the first day of the
         year. That situation is not supported by AutoZoneSpecifier. On the other
         hand, a transition at the end of the year (12/31) is supported.
@@ -859,11 +859,11 @@ class Transformer:
 
         logging.info("Removed %s rule policies with border Transitions" %
                      len(removed_policies))
-        self.print_removed_map(removed_policies)
+        self._print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         return results
 
-    def create_rules_with_expanded_at_time(self, rules_map):
+    def _create_rules_with_expanded_at_time(self, rules_map):
         """ Create 'atSeconds' parameter from rule.atTime.
         """
         results = {}
@@ -905,12 +905,12 @@ class Transformer:
 
         logging.info('Removed %s rule policies with invalid atTime' %
                      len(removed_policies))
-        self.print_removed_map(removed_policies)
+        self._print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         self.all_notable_policies.update(notable_policies)
         return results
 
-    def create_rules_with_expanded_delta_offset(self, rules_map):
+    def _create_rules_with_expanded_delta_offset(self, rules_map):
         """ Create 'deltaSeconds' and 'deltaSecondsTruncated' from
         rule.deltaOffset.
         """
@@ -949,7 +949,7 @@ class Transformer:
 
         logging.info('Removed %s rule policies with invalid deltaOffset' %
                      len(removed_policies))
-        self.print_removed_map(removed_policies)
+        self._print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         self.all_notable_policies.update(notable_policies)
         return results
@@ -1061,7 +1061,7 @@ def find_latest_prior_rules(rules, year):
     month bucket. There are 2 reasons:
 
     1) A handful of Zone Policies have multiple Rules in the same month. From
-    remove_rules_multiple_transitions_in_month():
+    _remove_rules_multiple_transitions_in_month():
 
         * Egypt (Found 2 transitions in year/month '2010-09')
         * Palestine (Found 2 transitions in year/month '2011-08')
@@ -1069,7 +1069,7 @@ def find_latest_prior_rules(rules, year):
         * Tunisia (Found 2 transitions in year/month '1943-04')
 
     2) A handful of Zone Policies have Rules which specify transitions in the
-    last 2 days of the year. From remove_rules_with_border_transitions(), we
+    last 2 days of the year. From _remove_rules_with_border_transitions(), we
     find:
         * Arg (Transition in late year (2007-12-30))
         * Dhaka (Transition in late year (2009-12-31))

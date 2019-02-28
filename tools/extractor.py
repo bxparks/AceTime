@@ -164,9 +164,7 @@ class Extractor:
     Usage:
 
         extractor = Extractor(input_dir)
-        extractor.parse_zone_files()
-        extractor.process_rules()
-        extractor.process_zones()
+        extractor.parse()
         extractor.print_summary()
 		(zones, rules) = extractor.get_data()
         ...
@@ -200,9 +198,9 @@ class Extractor:
         """Read the zoneinfo files from TZ Database and create the 'zones' and
         'rules' maps which can be retrieved by get_data().
         """
-        self.parse_zone_files()
-        self.process_rules()
-        self.process_zones()
+        self._parse_zone_files()
+        self._process_rules()
+        self._process_zones()
 
     def get_data(self):
         """
@@ -212,20 +210,20 @@ class Extractor:
         """
         return (self.zones, self.rules)
 
-    def parse_zone_files(self):
+    def _parse_zone_files(self):
         logging.basicConfig(level=logging.INFO)
         for file_name in self.ZONE_FILES:
             full_filename = os.path.join(self.input_dir, file_name)
             logging.info('Processing %s' % full_filename)
             with open(full_filename, 'r', encoding='utf-8') as f:
-                self.parse_zone_file(f)
+                self._parse_zone_file(f)
 
-    def parse_zone_file(self, input):
+    def _parse_zone_file(self, input):
         in_zone_mode = False
         prev_tag = ''
         prev_name = ''
         while True:
-            line = self.read_line(input)
+            line = self._read_line(input)
             if line is None:
                 break
 
@@ -247,7 +245,7 @@ class Extractor:
             elif tag[0] == '\t' and in_zone_mode:
                 add_item(self.zone_lines, prev_name, line)
 
-    def process_rules(self):
+    def _process_rules(self):
         for name, lines in self.rule_lines.items():
             for line in lines:
                 try:
@@ -260,7 +258,7 @@ class Extractor:
                     logging.exception('Exception %s: %s', e, line)
                     self.invalid_rule_lines += 1
 
-    def process_zones(self):
+    def _process_zones(self):
         for name, lines in self.zone_lines.items():
             for line in lines:
                 try:
@@ -273,7 +271,7 @@ class Extractor:
                     logging.exception('Exception %s: %s', e, line)
                     self.invalid_zone_lines += 1
 
-    def read_line(self, input):
+    def _read_line(self, input):
         """Return the next line, while supporting a one-line push_back().
         Comment lines begin with a '#' character and are skipped.
         Blank lines are skipped.

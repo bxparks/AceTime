@@ -69,18 +69,19 @@ VALIDATION_ITEM_{zoneShortName} = [
         self.num_items = num_items
 
     def generate_files(self, output_dir):
-        self.write_file(output_dir, self.VALIDATION_FILE_NAME,
-                        self.generate_validation_data())
+        self._write_file(output_dir, self.VALIDATION_FILE_NAME,
+                        self._generate_validation_data())
 
-    def write_file(self, output_dir, filename, content):
+    def _write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)
         logging.info("Created %s", full_filename)
 
-    def generate_validation_data(self):
-        validation_items_str = self.get_validation_items(self.test_data)
-        validation_map_items_str = self.get_validation_map_items(self.test_data)
+    def _generate_validation_data(self):
+        validation_items_str = self._get_validation_items(self.test_data)
+        validation_map_items_str = self._get_validation_map_items(
+            self.test_data)
         return self.VALIDATION_DATA_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
@@ -89,22 +90,22 @@ VALIDATION_ITEM_{zoneShortName} = [
             validationItems=validation_items_str,
             validationMapItems=validation_map_items_str)
 
-    def get_validation_items(self, test_data):
+    def _get_validation_items(self, test_data):
         s = ''
         for short_name, test_items in sorted(test_data.items()):
-            test_items_str = self.get_test_items(test_items)
+            test_items_str = self._get_test_items(test_items)
             s += self.VALIDATION_ITEM.format(
                 zoneShortName=short_name,
                 testItems=test_items_str)
         return s
 
-    def get_test_items(self, test_items):
+    def _get_test_items(self, test_items):
         s = ''
         for test_item in test_items:
-            s += self.get_test_item(test_item)
+            s += self._get_test_item(test_item)
         return s
 
-    def get_test_item(self, test_item):
+    def _get_test_item(self, test_item):
         return self.TEST_ITEM.format(
             epochSeconds=test_item.epoch,
             total=div_to_zero(test_item.total_offset, 60),
@@ -117,7 +118,7 @@ VALIDATION_ITEM_{zoneShortName} = [
             s=test_item.s,
             type=test_item.type)
             
-    def get_validation_map_items(self, test_data):
+    def _get_validation_map_items(self, test_data):
         s = ''
         for short_name, test_items in sorted(test_data.items()):
             s += self.VALIDATION_MAP_ITEM.format(

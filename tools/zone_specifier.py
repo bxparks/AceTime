@@ -440,27 +440,27 @@ class ZoneSpecifier:
     def get_transition_for_seconds(self, epoch_seconds):
         """Return Transition for the given epoch_seconds.
         """
-        self.init_for_second(epoch_seconds)
-        return self.find_transition_for_seconds(epoch_seconds)
+        self._init_for_second(epoch_seconds)
+        return self._find_transition_for_seconds(epoch_seconds)
 
     def get_transition_for_datetime(self, dt):
         """Return Transition for the given datetime.
         """
         self.init_for_year(dt.year)
-        return self.find_transition_for_datetime(dt)
+        return self._find_transition_for_datetime(dt)
 
     def get_timezone_info_for_seconds(self, epoch_seconds):
         """Return a tuple of (total_offset, dst_seconds, abbrev).
         """
-        self.init_for_second(epoch_seconds)
-        transition = self.find_transition_for_seconds(epoch_seconds)
+        self._init_for_second(epoch_seconds)
+        transition = self._find_transition_for_seconds(epoch_seconds)
         return transition.to_timezone_tuple()
 
     def get_timezone_info_for_datetime(self, dt):
         """Return a tuple of (total_offset, dst_seconds, abbrev) for datetime.
         """
         self.init_for_year(dt.year)
-        transition = self.find_transition_for_datetime(dt)
+        transition = self._find_transition_for_datetime(dt)
         if transition:
             return transition.to_timezone_tuple()
         else:
@@ -501,11 +501,11 @@ class ZoneSpecifier:
 
         if self.debug:
             logging.info('==== Finding matches')
-        self.matches = self.find_matches(start_ym, until_ym)
+        self.matches = self._find_matches(start_ym, until_ym)
 
         if self.debug:
             logging.info('==== Finding (raw) transitions')
-        self.transitions = self.find_transitions(self.matches)
+        self.transitions = self._find_transitions(self.matches)
 
         # Some transitions from simple match may be in 's' or 'u', so convert
         # to 'w'.
@@ -529,13 +529,13 @@ class ZoneSpecifier:
 
     # The following methods are designed to be used internally.
 
-    def update_candidate_transitions(self, candidate_transitions):
+    def _update_candidate_transitions(self, candidate_transitions):
         total = len(candidate_transitions) + len(self.transitions)
         if total > self.max_num_transitions:
             self.max_num_transitions = total
         self.candidate_transitions.extend(candidate_transitions)
 
-    def init_for_second(self, epoch_seconds):
+    def _init_for_second(self, epoch_seconds):
         """Initialize the Transitions from the given epoch_seconds.
         """
         ldt = datetime.utcfromtimestamp(
@@ -556,7 +556,7 @@ class ZoneSpecifier:
 
         self.init_for_year(year)
 
-    def find_transition_for_seconds(self, epoch_seconds):
+    def _find_transition_for_seconds(self, epoch_seconds):
         """Return the matching transition, or None if not found.
         """
         matching_transition = None
@@ -567,7 +567,7 @@ class ZoneSpecifier:
                 break
         return matching_transition
 
-    def find_transition_for_datetime(self, dt):
+    def _find_transition_for_datetime(self, dt):
         """Return the matching transition matching the local datetime 'dt',
         or None if not found.
         """
@@ -581,7 +581,7 @@ class ZoneSpecifier:
                 return transition
         return None
 
-    def find_matches(self, start_ym, until_ym):
+    def _find_matches(self, start_ym, until_ym):
         """Find the Zone Eras which overlap [start_ym, until_ym), ignoring
         day, time and timeModifier. The resulting ZoneMatch objects will
         inherit the day, time and timeModifiers of the underlying ZoneEra. The
@@ -620,35 +620,35 @@ class ZoneSpecifier:
             if era_overlaps_interval(prev_era, zone_era, start_ym, until_ym):
                 match = create_match(prev_era, zone_era, start_ym, until_ym)
                 if self.debug:
-                    logging.info('==== find_matches(): %s' % match)
+                    logging.info('==== _find_matches(): %s' % match)
                 matches.append(match)
             prev_era = zone_era
         return matches
 
-    def find_transitions(self, matches):
+    def _find_transitions(self, matches):
         """Find the relevant transitions from the matching ZoneEras.
         """
         transitions = []
         for match in matches:
-            transitions_for_match = self.find_transitions_for_match(match)
+            transitions_for_match = self._find_transitions_for_match(match)
             transitions.extend(transitions_for_match)
         return transitions
 
-    def find_transitions_for_match(self, match):
+    def _find_transitions_for_match(self, match):
         """Find all transitions of the given match.
         """
         if self.debug:
             logging.info(
-                '==== find_transitions_for_match(): match: %s' % match)
+                '==== _find_transitions_for_match(): match: %s' % match)
 
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
         if zone_policy in ['-', ':']:
-            return self.find_transitions_from_simple_match(match)
+            return self._find_transitions_from_simple_match(match)
         else:
-            return self.find_transitions_from_named_match(match)
+            return self._find_transitions_from_named_match(match)
 
-    def find_transitions_from_simple_match(self, match):
+    def _find_transitions_from_simple_match(self, match):
         """The zonePolicy is '-' or ':' then the Zone Era itself defines the UTC
         offset and the abbreviation.
         """
@@ -659,7 +659,7 @@ class ZoneSpecifier:
         })
         return [transition]
 
-    def find_transitions_from_named_match(self, match):
+    def _find_transitions_from_named_match(self, match):
         """Find the transitions of the named ZoneMatch. Return
         (candidate_transitions, transitions) pair, to allow tracking of the
         static memory requirements of the C++ implementation.
@@ -696,7 +696,7 @@ class ZoneSpecifier:
         check_transitions_sorted(candidate_transitions)
 
         # Update statistics on active transitions
-        self.update_candidate_transitions(candidate_transitions)
+        self._update_candidate_transitions(candidate_transitions)
 
         # Select only those Transitions which overlap with the actual start and
         # until times of the ZoneMatch.
@@ -1465,7 +1465,7 @@ def main():
         zone_specifier.init_for_year(args.year)
         if args.debug:
             logging.info('==== Final matches and transitions')
-        zone_specifier.print_matches_and_transitions()
+        zone_specifier._print_matches_and_transitions()
     elif args.date:
         dt = datetime.strptime(args.date, "%Y-%m-%dT%H:%M")
         if args.transition:

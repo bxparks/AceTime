@@ -206,24 +206,24 @@ ZONE_INFO_{zoneShortName} = {{
         self.notable_policies = notable_policies
 
     def generate_files(self, output_dir):
-        self.write_file(output_dir, self.ZONE_POLICIES_FILE_NAME,
-                        self.generate_policies())
+        self._write_file(output_dir, self.ZONE_POLICIES_FILE_NAME,
+                        self._generate_policies())
 
-        self.write_file(output_dir, self.ZONE_INFOS_FILE_NAME,
-                        self.generate_infos())
+        self._write_file(output_dir, self.ZONE_INFOS_FILE_NAME,
+                        self._generate_infos())
 
-    def write_file(self, output_dir, filename, content):
+    def _write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)
         logging.info("Created %s", full_filename)
 
-    def generate_policies(self):
-        (num_rules, policy_items) = self.generate_policy_items(self.rules_map)
-        policy_map_items = self.generate_policy_map_items(self.rules_map)
-        removed_policy_items = self.generate_removed_policy_items(
+    def _generate_policies(self):
+        (num_rules, policy_items) = self._generate_policy_items(self.rules_map)
+        policy_map_items = self._generate_policy_map_items(self.rules_map)
+        removed_policy_items = self._generate_removed_policy_items(
             self.removed_policies)
-        notable_policy_items = self.generate_notable_policy_items(
+        notable_policy_items = self._generate_notable_policy_items(
             self.notable_policies)
 
         return self.ZONE_POLICIES_FILE.format(
@@ -239,15 +239,15 @@ ZONE_INFO_{zoneShortName} = {{
             numNotablePolicies=len(self.notable_policies),
             notablePolicyItems=notable_policy_items)
 
-    def generate_policy_items(self, rules_map):
+    def _generate_policy_items(self, rules_map):
         num_rules = 0
         policy_items = ''
         for name, rules in sorted(rules_map.items()):
-            policy_items += self.generate_policy_item(name, rules)
+            policy_items += self._generate_policy_item(name, rules)
             num_rules += len(rules)
         return (num_rules, policy_items)
 
-    def generate_policy_map_items(self, rules_map):
+    def _generate_policy_map_items(self, rules_map):
         policy_map_items = ''
         for name, rules in sorted(
                 rules_map.items(), key=lambda x: normalize_name(x[0])):
@@ -255,7 +255,7 @@ ZONE_INFO_{zoneShortName} = {{
                 policyName=normalize_name(name))
         return policy_map_items
 
-    def generate_policy_item(self, name, rules):
+    def _generate_policy_item(self, name, rules):
         rule_items = ''
         for rule in rules:
             rule_items += self.ZONE_RULE_ITEM.format(
@@ -275,7 +275,7 @@ ZONE_INFO_{zoneShortName} = {{
             numRules=len(rules),
             ruleItems=rule_items)
 
-    def generate_removed_policy_items(self, removed_policies):
+    def _generate_removed_policy_items(self, removed_policies):
         removed_policy_items = ''
         for name, reason in sorted(removed_policies.items()):
             removed_policy_items += \
@@ -284,7 +284,7 @@ ZONE_INFO_{zoneShortName} = {{
                     policyReason=reason)
         return removed_policy_items
 
-    def generate_notable_policy_items(self, notable_policies):
+    def _generate_notable_policy_items(self, notable_policies):
         notable_policy_items = ''
         for name, reason in sorted(notable_policies.items()):
             notable_policy_items += \
@@ -293,12 +293,12 @@ ZONE_INFO_{zoneShortName} = {{
                     policyReason=reason)
         return notable_policy_items
 
-    def generate_infos(self):
-        (num_eras, info_items) = self.generate_info_items(self.zones_map)
-        info_map_items = self.generate_info_map_items(self.zones_map)
-        removed_info_items = self.generate_removed_info_items(
+    def _generate_infos(self):
+        (num_eras, info_items) = self._generate_info_items(self.zones_map)
+        info_map_items = self._generate_info_map_items(self.zones_map)
+        removed_info_items = self._generate_removed_info_items(
             self.removed_zones)
-        notable_info_items = self.generate_notable_info_items(
+        notable_info_items = self._generate_notable_info_items(
             self.notable_zones)
 
         return self.ZONE_INFOS_FILE.format(
@@ -314,15 +314,15 @@ ZONE_INFO_{zoneShortName} = {{
             numNotableInfos=len(self.notable_zones),
             notableInfoItems=notable_info_items)
 
-    def generate_info_items(self, zones_map):
+    def _generate_info_items(self, zones_map):
         info_items = ''
         num_eras = 0
         for name, eras in sorted(self.zones_map.items()):
-            info_items += self.generate_info_item(name, eras)
+            info_items += self._generate_info_item(name, eras)
             num_eras += len(eras)
         return (num_eras, info_items)
 
-    def generate_info_map_items(self, zones_map):
+    def _generate_info_map_items(self, zones_map):
         """Generate a map of (shortName -> zoneInfo), shorted by shortName.
         """
         info_map_items = ''
@@ -334,24 +334,24 @@ ZONE_INFO_{zoneShortName} = {{
                 zoneFullName=name)
         return info_map_items
 
-    def generate_removed_info_items(self, removed_zones):
+    def _generate_removed_info_items(self, removed_zones):
         removed_info_items = ''
         for name, reason in sorted(removed_zones.items()):
             removed_info_items += self.ZONE_REMOVED_INFO_ITEM.format(
                 zoneFullName=name, infoReason=reason)
         return removed_info_items
 
-    def generate_notable_info_items(self, notable_zones):
+    def _generate_notable_info_items(self, notable_zones):
         notable_info_items = ''
         for name, reason in sorted(notable_zones.items()):
             notable_info_items += self.ZONE_NOTABLE_INFO_ITEM.format(
                 zoneFullName=name, infoReason=reason)
         return notable_info_items
 
-    def generate_info_item(self, name, eras):
+    def _generate_info_item(self, name, eras):
         era_items = ''
         for era in eras:
-            era_items += self.generate_era_item(era)
+            era_items += self._generate_era_item(era)
 
         return self.ZONE_INFO_ITEM.format(
             zoneFullName=normalize_name(name),
@@ -359,7 +359,7 @@ ZONE_INFO_{zoneShortName} = {{
             numEras=len(eras),
             eraItems=era_items)
 
-    def generate_era_item(self, era):
+    def _generate_era_item(self, era):
         policy_name = era.rules
         if policy_name in ['-', ':']:
             zone_policy = "'%s'" % policy_name

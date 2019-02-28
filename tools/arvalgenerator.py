@@ -148,21 +148,21 @@ const ValidationData kValidationData{zoneShortName} = {{
         self.validation_tests_file_name = (self.file_base + '_tests.cpp')
 
     def generate_files(self, output_dir):
-        self.write_file(output_dir, self.validation_data_h_file_name,
-                        self.generate_validation_data_h())
-        self.write_file(output_dir, self.validation_data_cpp_file_name,
-                        self.generate_validation_data_cpp())
-        self.write_file(output_dir, self.validation_tests_file_name,
-                        self.generate_tests_cpp())
+        self._write_file(output_dir, self.validation_data_h_file_name,
+                        self._generate_validation_data_h())
+        self._write_file(output_dir, self.validation_data_cpp_file_name,
+                        self._generate_validation_data_cpp())
+        self._write_file(output_dir, self.validation_tests_file_name,
+                        self._generate_tests_cpp())
 
-    def write_file(self, output_dir, filename, content):
+    def _write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)
         with open(full_filename, 'w', encoding='utf-8') as output_file:
             print(content, end='', file=output_file)
         logging.info("Created %s", full_filename)
 
-    def generate_validation_data_h(self):
-        validation_items = self.generate_validation_data_h_items(
+    def _generate_validation_data_h(self):
+        validation_items = self._generate_validation_data_h_items(
             self.test_data)
 
         return self.VALIDATION_DATA_H_FILE.format(
@@ -173,15 +173,15 @@ const ValidationData kValidationData{zoneShortName} = {{
             numZones=len(self.test_data),
             validationItems=validation_items)
 
-    def generate_validation_data_h_items(self, test_data):
+    def _generate_validation_data_h_items(self, test_data):
         validation_items = ''
         for short_name, test_items in sorted(test_data.items()):
             validation_items += self.VALIDATION_DATA_H_ITEM.format(
                 zoneShortName=short_name)
         return validation_items
 
-    def generate_validation_data_cpp(self):
-        validation_items = self.generate_validation_data_cpp_items(
+    def _generate_validation_data_cpp(self):
+        validation_items = self._generate_validation_data_cpp_items(
             self.test_data)
 
         return self.VALIDATION_DATA_CPP_FILE.format(
@@ -191,10 +191,10 @@ const ValidationData kValidationData{zoneShortName} = {{
             dbNamespace=self.db_namespace,
             validationItems=validation_items)
 
-    def generate_validation_data_cpp_items(self, test_data):
+    def _generate_validation_data_cpp_items(self, test_data):
         validation_items = ''
         for short_name, test_items in sorted(test_data.items()):
-            test_items_string = self.generate_validation_data_cpp_test_items(
+            test_items_string = self._generate_validation_data_cpp_test_items(
                 short_name, test_items)
             validation_item = self.VALIDATION_DATA_CPP_ITEM.format(
                 zoneShortName=short_name,
@@ -202,7 +202,7 @@ const ValidationData kValidationData{zoneShortName} = {{
             validation_items += validation_item
         return validation_items
 
-    def generate_validation_data_cpp_test_items(self, short_name, test_items):
+    def _generate_validation_data_cpp_test_items(self, short_name, test_items):
         """Generate the {testItems} value.
         """
         s = ''
@@ -222,8 +222,8 @@ const ValidationData kValidationData{zoneShortName} = {{
                 type=test_item.type)
         return s
 
-    def generate_tests_cpp(self):
-        test_cases = self.generate_test_cases(self.test_data)
+    def _generate_tests_cpp(self):
+        test_cases = self._generate_test_cases(self.test_data)
 
         return self.TESTS_CPP.format(
             invocation=self.invocation,
@@ -232,7 +232,7 @@ const ValidationData kValidationData{zoneShortName} = {{
             numZones=len(self.test_data),
             testCases=test_cases)
 
-    def generate_test_cases(self, test_data):
+    def _generate_test_cases(self, test_data):
         test_cases = ''
         for short_name, _ in sorted(test_data.items()):
             comment = '//' if short_name in self.BROKEN_ZONE_BLACK_LIST else ''
