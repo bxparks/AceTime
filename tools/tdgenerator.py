@@ -44,14 +44,14 @@ class TestDataGenerator:
         for zone_short_name, zone_info in sorted(self.zone_infos.items()):
             if self.zone_name != '' and zone_short_name != self.zone_name:
                 continue
-            test_items = self.create_test_data_for_zone(
+            test_items = self._create_test_data_for_zone(
                 zone_short_name, zone_info)
             if test_items:
                 test_data[zone_short_name] = test_items
                 num_items += len(test_items)
         return (test_data, num_items)
 
-    def create_test_data_for_zone(self, zone_short_name, zone_info):
+    def _create_test_data_for_zone(self, zone_short_name, zone_info):
         """Create the TestItems for a specific zone.
         """
         zone_specifier = ZoneSpecifier(zone_info)
@@ -63,9 +63,9 @@ class TestDataGenerator:
                           zone_full_name)
             return None
 
-        return self.create_transition_test_items(tz, zone_specifier)
+        return self._create_transition_test_items(tz, zone_specifier)
 
-    def create_transition_test_items(self, tz, zone_specifier):
+    def _create_transition_test_items(self, tz, zone_specifier):
         """Create a TestItem for the tz for each Transition instance found by
         the ZoneSpecifier, for each year from start_year to end_year, inclusive.
 
@@ -90,12 +90,12 @@ class TestDataGenerator:
             if self.viewing_months == 36 and year == self_start_year: continue
 
             # Check the transition at the beginning of year.
-            test_item = self.create_test_item_from_datetime(
+            test_item = self._create_test_item_from_datetime(
                 tz, year, month=1, day=1, hour=0, type='Y')
             items.append(test_item)
 
             # Check the transition at the end of the year.
-            test_item = self.create_test_item_from_datetime(
+            test_item = self._create_test_item_from_datetime(
                 tz, year, month=12, day=31, hour=23, type='Y')
             items.append(test_item)
 
@@ -117,10 +117,10 @@ class TestDataGenerator:
 
                 epoch_seconds = transition.startEpochSecond
                 items.append(
-                    self.create_test_item_from_epoch_seconds(
+                    self._create_test_item_from_epoch_seconds(
                         tz, epoch_seconds - 1, 'A'))
                 items.append(
-                    self.create_test_item_from_epoch_seconds(
+                    self._create_test_item_from_epoch_seconds(
                         tz, epoch_seconds, 'B'))
                 transition_found = True
 
@@ -128,12 +128,12 @@ class TestDataGenerator:
             # so that there's at least one sample per year.
             if not transition_found:
                 items.append(
-                    self.create_test_item_from_datetime(
+                    self._create_test_item_from_datetime(
                         tz, year, month=3, day=10, hour=2, type='S'))
 
         return items
 
-    def create_test_item_from_datetime(self, tz, year, month, day, hour, type):
+    def _create_test_item_from_datetime(self, tz, year, month, day, hour, type):
         """Create a TestItem for the given year, month, day, hour in local
         time zone.
         """
@@ -142,10 +142,10 @@ class TestDataGenerator:
         dt = tz.localize(datetime.datetime(year, month, day, hour))
         unix_seconds = int(dt.timestamp())
         epoch_seconds = unix_seconds - SECONDS_SINCE_UNIX_EPOCH
-        return self.create_test_item_from_epoch_seconds(
+        return self._create_test_item_from_epoch_seconds(
             tz, epoch_seconds, type)
 
-    def create_test_item_from_epoch_seconds(self, tz, epoch_seconds, type):
+    def _create_test_item_from_epoch_seconds(self, tz, epoch_seconds, type):
         """Return the TestItem fro the epoch_seconds.
             total_offset: the total UTC offset
             dst_offset: the DST offset

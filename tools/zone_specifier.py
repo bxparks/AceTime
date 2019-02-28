@@ -1155,8 +1155,9 @@ def fix_transition_times(transitions):
 
 def expand_date_tuple(dt, offset_seconds, delta_seconds):
     """Convert 's', 'u', or 'w' time into the other 2 versions using the given
-    base UTC offset and the delta DST offset. Return a tuple of
-    (wall, standard, utc) date tuples.
+    base UTC offset and the delta DST offset. Return a tuple of *normalized*
+    (wall, standard, utc) date tuples. The dates are normalized so that
+    transitions occurring at 24:00:00 is moved to the next day.
     """
     delta_seconds = delta_seconds if delta_seconds else 0
     offset_seconds = offset_seconds if offset_seconds else 0
