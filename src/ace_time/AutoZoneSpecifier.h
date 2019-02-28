@@ -152,6 +152,10 @@ class AutoZoneSpecifier: public ZoneSpecifier {
 
     /** Used only for debugging. */
     void log() const {
+      if (!mIsFilled) {
+        common::logger("*not initialized*");
+        return;
+      }
       common::logger("mYear: %d", mYear);
       common::logger("mNumMatches: %d", mNumMatches);
       common::logger("---- mPrevMatch");

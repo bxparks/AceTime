@@ -5,7 +5,7 @@
 #include "ValidationDataType.h"
 #include "ace_time/common/logger.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 class TransitionTest: public aunit::TestOnce {
   protected:
@@ -21,6 +21,8 @@ class TransitionTest: public aunit::TestOnce {
       for (uint16_t i = 0; i < testData->numItems; i++) {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
+
+        UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);
         if (DEBUG) {
           ace_time::common::logger("==== test index: %d", i);
           ace_time::common::logger("epochSeconds: %ld", epochSeconds);
@@ -28,7 +30,6 @@ class TransitionTest: public aunit::TestOnce {
         }
 
         // Verify utcOffset
-        UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);
         assertEqual(item.utcOffsetMinutes, utcOffset.toMinutes());
 
         // Verify date components
