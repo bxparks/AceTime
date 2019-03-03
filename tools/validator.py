@@ -11,9 +11,9 @@ zone_policies.py files.
 """
 
 import logging
-import datetime
 import collections
 import pytz
+from datetime import datetime
 from tdgenerator import TestDataGenerator
 from zone_specifier import ZoneSpecifier
 from zone_specifier import to_utc_string
@@ -150,10 +150,13 @@ class Validator:
             # Print out diagnostics if mismatch detected
             if info.total_offset != item.total_offset:
                 unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
+                ldt = datetime.utcfromtimestamp(unix_seconds)
                 logging.error(
-                    "==== %s: offset mismatch; at: '%s'; epoch %s; unix %s; " +
-                    "AceTime(%s); Exp(%s)", zone_short_name,
+                    "==== %s: offset mismatch; at %sw; utc %s; epoch %s; unix %s; " +
+                    "AceTime(%s); Exp(%s)",
+                    zone_short_name,
                     _test_item_to_string(item),
+                    ldt,
                     item.epoch,
                     unix_seconds,
                     to_utc_string(info.utc_offset, info.dst_offset),

@@ -322,17 +322,17 @@ class Transition:
 
         # yapf: disable
         if policy_name in ['-', ':']:
-            return ('Transition('
-                + 'active: %s; '
-                + 'transition: %s; '
-                + 'start: %s; '
-                + 'until: %s; '
-                + 'sepoch: %d; '
-                + 'policy: %s; '
+            return ('Trans('
+                + 'act: %s; '
+                + 'tt: %s; '
+                + 'st: %s; '
+                + 'ut: %s; '
+                + 'epch: %d; '
+                + 'pol: %s; '
                 + '%s; '
-                + 'format: %s; '
-                + 'abbrev: %s)') % (
-                self.isActive,
+                + 'fmt: %s; '
+                + 'ab: %s)') % (
+                'y' if self.isActive else '-',
                 date_tuple_to_string(self.transitionTime),
                 date_tuple_to_string(self.startDateTime),
                 date_tuple_to_string(self.untilDateTime),
@@ -346,18 +346,18 @@ class Transition:
             zone_rule_from = zone_rule.fromYear
             zone_rule_to = zone_rule.toYear
 
-            return ('Transition('
-                + 'active: %s; '
-                + 'transition: %s; '
-                + 'start: %s; '
-                + 'until: %s; '
-                + 'orig: %s; '
-                + 'sepoch: %d; '
-                + 'policy: %s[%d,%d]; '
+            return ('Trans('
+                + 'act: %s; '
+                + 'tt: %s; '
+                + 'st: %s; '
+                + 'ut: %s; '
+                + 'ot: %s; '
+                + 'epch: %d; '
+                + 'pol: %s[%d,%d]; '
                 + '%s; '
-                + 'format: %s(%s); '
-                + 'abbrev: %s)') % (
-                self.isActive,
+                + 'fmt: %s(%s); '
+                + 'ab: %s)') % (
+                'y' if self.isActive else '-',
                 date_tuple_to_string(self.transitionTime),
                 date_tuple_to_string(self.startDateTime),
                 date_tuple_to_string(self.untilDateTime),
