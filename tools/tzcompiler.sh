@@ -43,11 +43,10 @@
 #   Validator:
 #       --validate
 #           Validate the zone_infos and zone_policies
+#       --validate_buffer_size
+#       --validate_test_data
 #       --validate_dst_offset
 #           Validate DST offsets as well (many false positives due to pytz).
-#       --validate_hours
-#           Validate 0h to 23h of each day from 2000 to 2038, instead of
-#           just the transition days. (Takes long time).
 
 set -eu
 

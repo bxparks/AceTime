@@ -62,7 +62,7 @@ class Validator:
 
     # The following are public methods.
 
-    def validate_transition_buffer_size(self):
+    def validate_buffer_size(self):
         """Determine the size of transition buffer required for each zone.
         """
         # map of {zoneName -> (numTransitions, year)}
@@ -138,32 +138,39 @@ class Validator:
         for item in items:
             if self.year and self.year != item.y:
                 continue
-            if self.debug_validator:
-                logging.info('    %04d-%02d-%02d %02d:%02d epoch:%d' %
-                    (item.y, item.M, item.d, item.h, item.m, item.epoch))
             try:
                 info = zone_specifier.get_timezone_info_for_seconds(item.epoch)
             except Exception:
                 logging.exception('Exception with test data %s', item)
                 raise
 
-            # Print out diagnostics if mismatch detected
+            # Print out diagnostics if mismatch detected or if debug flag given
+            unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
+            ldt = datetime.utcfromtimestamp(unix_seconds)
+            format_string = (
+                "==== %s: %s; at %sw; utc %s; epoch %s; unix %s; " +
+                "AceTime(%s); Exp(%s)")
             if info.total_offset != item.total_offset:
-                unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
-                ldt = datetime.utcfromtimestamp(unix_seconds)
-                logging.error(
-                    "==== %s: offset mismatch; at %sw; utc %s; epoch %s; unix %s; " +
-                    "AceTime(%s); Exp(%s)",
-                    zone_short_name,
-                    _test_item_to_string(item),
-                    ldt,
-                    item.epoch,
-                    unix_seconds,
-                    to_utc_string(info.utc_offset, info.dst_offset),
-                    to_utc_string(item.total_offset - item.dst_offset,
-                                  item.dst_offset))
-                zone_specifier.init_for_year(item.y)
+                status = 'Mismatch'
+            else:
+                status = 'Matched'
+            params = (
+                zone_short_name,
+                status,
+                _test_item_to_string(item),
+                ldt,
+                item.epoch,
+                unix_seconds,
+                to_utc_string(info.utc_offset, info.dst_offset),
+                to_utc_string(item.total_offset - item.dst_offset,
+                              item.dst_offset))
+            if info.total_offset != item.total_offset:
+                logging.error(format_string % params)
                 zone_specifier.print_matches_and_transitions()
+            elif self.debug_validator:
+                logging.info(format_string % params)
+                zone_specifier.print_matches_and_transitions()
+
 
 def _test_item_to_string(i):
     return '%04d-%02d-%02dT%02d:%02d:%02d' % (i.y, i.M, i.d, i.h, i.m, i.s)

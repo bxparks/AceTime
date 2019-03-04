@@ -97,7 +97,15 @@ def main():
         '--zonedb', help='Generate ZoneDB files', action='store_true')
     parser.add_argument(
         '--validate',
-        help='Validate the zone_infos and zone_policies maps',
+        help='Validate both buffer size and test data',
+        action='store_true')
+    parser.add_argument(
+        '--validate_buffer_size',
+        help='Determine the maximum size of internal buffers ',
+        action='store_true')
+    parser.add_argument(
+        '--validate_test_data',
+        help='Validate the test data',
         action='store_true')
     parser.add_argument(
         '--unittest', help='Generate Unit Test files', action='store_true')
@@ -204,6 +212,16 @@ def main():
     logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
                  len(zone_policies))
 
+    validate_buffer_size = False
+    validate_test_data = False
+    if args.validate:
+        validate_buffer_size = True
+        validate_test_data = True
+    if args.validate_buffer_size:
+        validate_buffer_size = True
+    if args.validate_test_data:
+        validate_test_data = True
+
     if args.zonedb:
         # Create the Python or Arduino files if requested
         if not args.output_dir:
@@ -250,7 +268,7 @@ def main():
             pyval_generator.generate_files(args.output_dir)
         else:
             raise Exception("Unrecognized language '%s'" % language)
-    elif args.validate:
+    elif validate_buffer_size or validate_test_data:
         validator = Validator(
             zone_infos=zone_infos,
             zone_policies=zone_policies,
@@ -263,11 +281,13 @@ def main():
             in_place_transitions=args.in_place_transitions,
             optimize_candidates=args.optimize_candidates)
 
-        logging.info('======== Validating transition buffer sizes...')
-        validator.validate_transition_buffer_size()
+        if validate_buffer_size:
+            logging.info('======== Validating transition buffer sizes...')
+            validator.validate_buffer_size()
 
-        logging.info('======== Validating test data...')
-        validator.validate_test_data()
+        if validate_test_data:
+            logging.info('======== Validating test data...')
+            validator.validate_test_data()
     else:
         logging.error('One of (--zonedb, --validate, --unittest) must be given')
         sys.exit(1)
