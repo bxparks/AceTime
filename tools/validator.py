@@ -19,6 +19,7 @@ from zone_specifier import ZoneSpecifier
 from zone_specifier import to_utc_string
 from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 
+
 class Validator:
     """Validate the zone_infos and zone_policies data from the TZ Database,
     as extracted and transformed by Extractor and Transformer.
@@ -31,9 +32,8 @@ class Validator:
     """
 
     def __init__(self, zone_infos, zone_policies, viewing_months,
-                 validate_dst_offset, debug_validator,
-                 debug_specifier, zone_name, year, in_place_transitions,
-                 optimize_candidates):
+                 validate_dst_offset, debug_validator, debug_specifier,
+                 zone_name, year, in_place_transitions, optimize_candidates):
         """
         Args:
             zone_infos: (dict) of {name -> zone_info{} }
@@ -103,8 +103,9 @@ class Validator:
         logging.info('Count(transitions) group by zone order by count desc')
         for zone_short_name, count_record in sorted(
                 transition_stats.items(), key=lambda x: x[1], reverse=True):
-            logging.info('%s: %d (%04d); %d (%04d)' %
-                 ((zone_short_name, ) + count_record[0] + count_record[1]))
+            logging.info(
+                '%s: %d (%04d); %d (%04d)' %
+                ((zone_short_name, ) + count_record[0] + count_record[1]))
 
     def validate_test_data(self):
         """Compare Python and AceTime offsets by generating TestDataGenerator.
@@ -138,37 +139,37 @@ class Validator:
         for item in items:
             if self.year and self.year != item.y:
                 continue
+
+            # Print out diagnostics if mismatch detected or if debug flag given
+            unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
+            ldt = datetime.utcfromtimestamp(unix_seconds)
+            header = (
+                "======== Testing %s; at %sw; utc %s; epoch %s; unix %s" %
+                (zone_short_name, _test_item_to_string(item), ldt, item.epoch,
+                 unix_seconds))
+
+            if self.debug_specifier:
+                logging.info(header)
+
             try:
                 info = zone_specifier.get_timezone_info_for_seconds(item.epoch)
             except Exception:
                 logging.exception('Exception with test data %s', item)
                 raise
-
-            # Print out diagnostics if mismatch detected or if debug flag given
-            unix_seconds = item.epoch + SECONDS_SINCE_UNIX_EPOCH
-            ldt = datetime.utcfromtimestamp(unix_seconds)
-            format_string = (
-                "==== %s: %s; at %sw; utc %s; epoch %s; unix %s; " +
-                "AceTime(%s); Exp(%s)")
-            if info.total_offset != item.total_offset:
-                status = 'Mismatch'
+            is_matched = info.total_offset == item.total_offset
+            status = '**Matched**' if is_matched else '**Mismatched**'
+            body = ('%s: AceTime(%s); Expected(%s)' %
+                    (status, to_utc_string(info.utc_offset, info.dst_offset),
+                     to_utc_string(item.total_offset - item.dst_offset,
+                                   item.dst_offset)))
+            if is_matched:
+                if self.debug_specifier:
+                    logging.info(body)
+                    zone_specifier.print_matches_and_transitions()
             else:
-                status = 'Matched'
-            params = (
-                zone_short_name,
-                status,
-                _test_item_to_string(item),
-                ldt,
-                item.epoch,
-                unix_seconds,
-                to_utc_string(info.utc_offset, info.dst_offset),
-                to_utc_string(item.total_offset - item.dst_offset,
-                              item.dst_offset))
-            if info.total_offset != item.total_offset:
-                logging.error(format_string % params)
-                zone_specifier.print_matches_and_transitions()
-            elif self.debug_validator:
-                logging.info(format_string % params)
+                if not self.debug_specifier:
+                    logging.error(header)
+                logging.error(body)
                 zone_specifier.print_matches_and_transitions()
 
 

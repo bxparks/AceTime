@@ -620,7 +620,7 @@ class ZoneSpecifier:
             if era_overlaps_interval(prev_era, zone_era, start_ym, until_ym):
                 match = create_match(prev_era, zone_era, start_ym, until_ym)
                 if self.debug:
-                    logging.info('==== _find_matches(): %s' % match)
+                    logging.info('_find_matches(): %s' % match)
                 matches.append(match)
             prev_era = zone_era
         return matches
@@ -639,7 +639,7 @@ class ZoneSpecifier:
         """
         if self.debug:
             logging.info(
-                '==== _find_transitions_for_match(): match: %s' % match)
+                '_find_transitions_for_match(): %s' % match)
 
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
@@ -670,7 +670,7 @@ class ZoneSpecifier:
 
         # Find candidate transitions using whole years.
         if self.debug:
-            logging.info('==== Get candidate transitions')
+            logging.info('==== Get candidate transitions for named ZoneMatch')
         candidate_transitions = []
         if self.optimize_candidates:
             if self.debug:
@@ -688,7 +688,7 @@ class ZoneSpecifier:
 
         # Fix the transitions times, converting 's' and 'u' into 'w' uniformly.
         if self.debug:
-            logging.info('==== Fix transition times')
+            logging.info('fix_transition_times()')
         fix_transition_times(candidate_transitions)
         if self.debug:
             logging.info('Num candidates: %d' % len(candidate_transitions))
