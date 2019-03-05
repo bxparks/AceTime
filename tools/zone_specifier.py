@@ -408,7 +408,7 @@ class ZoneSpecifier:
     })
 
     def __init__(self, zone_info_data, viewing_months=14, debug=False,
-        in_place_transitions=False, optimize_candidates=False):
+        in_place_transitions=True, optimize_candidates=True):
         """zone_info_data map is one of the ZONE_INFO_xxx constants from
         zone_infos.py. It can contain a reference to a zone_policy_data map. We
         need to convert these into ZoneEraCooked and ZoneRuleCooked classes.
@@ -1049,9 +1049,15 @@ def find_candidate_transitions_optimized(transitions, match, rules, debug):
             logging.info(
                 'find_candidate_transitions_optimized(): interior years: %s',
                 years)
+
         for year in years:
-            add_transition_sorted(transitions,
-                create_transition_for_year(year, rule, match))
+            transition = create_transition_for_year(year, rule, match)
+            comp = compare_transition_to_match_fuzzy(transition, match)
+            if comp < 0:
+                prior_transition = calc_prior_transition(
+                    prior_transition, transition)
+            elif comp == 1:
+                add_transition_sorted(transitions, transition)
 
         prior_year = get_most_recent_prior_year(
             from_year, to_year, start_y, end_y)
@@ -1061,13 +1067,22 @@ def find_candidate_transitions_optimized(transitions, match, rules, debug):
                 prior_year)
         if prior_year >= 0:
             transition = create_transition_for_year(prior_year, rule, match)
-            if prior_transition:
-                if transition.transitionTime > prior_transition.transitionTime:
-                    prior_transition = transition
-            else:
-                prior_transition = transition
+            prior_transition = calc_prior_transition(
+                prior_transition, transition)
     if prior_transition:
         add_transition_sorted(transitions, prior_transition)
+
+def calc_prior_transition(prior_transition, transition):
+    """Return the latest prior transition.
+    """
+    if prior_transition:
+        if transition.transitionTime > prior_transition.transitionTime:
+            return transition
+        else:
+            return prior_transition
+    else:
+        return transition
+
 
 def add_transition_sorted(transitions, transition):
     """Add the transition to the transitions array so that it is sorted by
@@ -1327,6 +1342,34 @@ def compare_transition_to_match(transition, match):
     else:
         raise Exception("Unknown modifier: %s" % match_until)
     if match_until <= transition_time:
+        return 2
+
+    return 1
+
+
+def compare_transition_to_match_fuzzy(transition, match):
+    """Like compare_transition_to_match() except perform a fuzzy match within at
+    least one-month of the match.start or match.until.
+
+    A value of 0 is never returned since we cannot make a direct comparison
+    to match_start.
+
+    Return:
+        * -1 if less than match
+        * 1 if within match,
+        * 2 if greater than match
+    """
+    tt = transition.transitionTime
+    transition_time = 12 * tt.y + tt.M
+
+    ms = match.startDateTime
+    match_start = 12 * ms.y + ms.M
+    if transition_time < match_start - 1:
+        return -1
+
+    mu = match.untilDateTime
+    match_until = 12 * mu.y + mu.M
+    if match_until + 2 <= transition_time:
         return 2
 
     return 1
