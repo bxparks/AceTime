@@ -11,11 +11,14 @@ import zonedb.zone_policies
 import zonedb.validation_data
 from tdgenerator import TestItem
 from zone_specifier import DateTuple
+from zone_specifier import Transition
+from zone_specifier import ZoneMatch
 from zone_specifier import YearMonthTuple
 from zone_specifier import ZoneSpecifier
 from zone_specifier import get_candidate_years
 from zone_specifier import expand_date_tuple
 from zone_specifier import normalize_date_tuple
+from zone_specifier import compare_transition_to_match
 
 
 class TestValidationData(unittest.TestCase):
@@ -83,6 +86,33 @@ class TestZoneSpecifierHelperMethods(unittest.TestCase):
             DateTuple(2000, 2, 29, 23 * 3600, 'u'),
             normalize_date_tuple(DateTuple(2000, 3, 1, -3600, 'u')))
 
+
+class TestCompareTransitionToMatch(unittest.TestCase):
+    def test_transitions(self):
+        match = ZoneMatch({
+            'startDateTime': DateTuple(2000, 1, 2, 0, 'w'),
+            'untilDateTime': DateTuple(2001, 1, 1, 0, 'w')
+        })
+
+        transition = Transition({
+            'transitionTime': DateTuple(2000, 1, 1, 0, 'w')
+        })
+        self.assertEqual(-1, compare_transition_to_match(transition, match))
+
+        transition = Transition({
+            'transitionTime': DateTuple(2000, 1, 2, 0, 'w')
+        })
+        self.assertEqual(0, compare_transition_to_match(transition, match))
+
+        transition = Transition({
+            'transitionTime': DateTuple(2000, 1, 3, 0, 'w')
+        })
+        self.assertEqual(1, compare_transition_to_match(transition, match))
+
+        transition = Transition({
+            'transitionTime': DateTuple(2001, 1, 2, 0, 'w')
+        })
+        self.assertEqual(2, compare_transition_to_match(transition, match))
 
 class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
     def test_Los_Angeles(self):
