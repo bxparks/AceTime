@@ -471,12 +471,14 @@ class ZoneSpecifier:
         explicitly before accessing self.matches, self.transitions, and
         self.candidate_transitions.
         """
-        # Check if cache filled
-        if self.year == year:
-            return
-
         if self.debug:
             logging.info('init_for_year(): year: %d' % year)
+        # Check if cache filled
+        if self.year == year:
+            if self.debug:
+                logging.info('init_for_year(): cached')
+            return
+
         self.year = year
         self.max_num_transitions = 0
         self.matches = []
@@ -628,6 +630,8 @@ class ZoneSpecifier:
     def _find_transitions(self, matches):
         """Find the relevant transitions from the matching ZoneEras.
         """
+        if self.debug:
+            logging.info('_find_transitions()')
         transitions = []
         for match in matches:
             transitions_for_match = self._find_transitions_for_match(match)
@@ -638,8 +642,7 @@ class ZoneSpecifier:
         """Find all transitions of the given match.
         """
         if self.debug:
-            logging.info(
-                '_find_transitions_for_match(): %s' % match)
+            logging.info('_find_transitions_for_match(): %s' % match)
 
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
@@ -652,6 +655,8 @@ class ZoneSpecifier:
         """The zonePolicy is '-' or ':' then the Zone Era itself defines the UTC
         offset and the abbreviation.
         """
+        if self.debug:
+            logging.info('_find_transitions_from_simple_match(): %s' % match)
         zone_era = match.zoneEra
         transition = Transition(match)
         transition.update({
