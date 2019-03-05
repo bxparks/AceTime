@@ -673,10 +673,8 @@ class ZoneSpecifier:
             logging.info('==== Get candidate transitions for named ZoneMatch')
         candidate_transitions = []
         if self.optimize_candidates:
-            if self.debug:
-                logging.info('find_candidate_transitions_optimized()')
             find_candidate_transitions_optimized(
-                candidate_transitions, match, rules)
+                candidate_transitions, match, rules, self.debug)
         else:
             if self.debug:
                 logging.info('find_candidate_transitions()')
@@ -1028,7 +1026,7 @@ def find_candidate_transitions(transitions, match, rules):
             add_transition_sorted(transitions,
                 create_transition_for_year(year, rule, match))
 
-def find_candidate_transitions_optimized(transitions, match, rules):
+def find_candidate_transitions_optimized(transitions, match, rules, debug):
     """Similar to find_candidate_transitions() except that prior Transitions
     which are obviously non-candidates are filtered out early. This reduces the
     size of the statically allocated Transitions array in the C++
@@ -1047,17 +1045,24 @@ def find_candidate_transitions_optimized(transitions, match, rules):
         from_year = rule.fromYear
         to_year = rule.toYear
         years = get_interior_years(from_year, to_year, start_y, end_y)
-        #logging.info('interior years: %s' % years)
+        if debug:
+            logging.info(
+                'find_candidate_transitions_optimized(): interior years: %s',
+                years)
         for year in years:
             add_transition_sorted(transitions,
                 create_transition_for_year(year, rule, match))
 
         prior_year = get_most_recent_prior_year(
             from_year, to_year, start_y, end_y)
+        if debug:
+            logging.info(
+                'find_candidate_transitions_optimized(): prior year: %s',
+                prior_year)
         if prior_year >= 0:
             transition = create_transition_for_year(prior_year, rule, match)
             if prior_transition:
-                if transition.startDateTime > prior_transition.startDateTime:
+                if transition.transitionTime > prior_transition.transitionTime:
                     prior_transition = transition
             else:
                 prior_transition = transition
