@@ -6,7 +6,7 @@
 using namespace ace_time;
 
 struct ValidationItem {
-  acetime_t epochSeconds;
+  acetime_t const epochSeconds;
   int16_t const utcOffsetMinutes;
   int16_t const deltaOffsetMinutes;
   int8_t const yearTiny;

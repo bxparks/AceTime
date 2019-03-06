@@ -55,7 +55,11 @@ struct ZoneMatch {
 
   /** Used only for debugging. */
   void log() const {
-    common::logger("startEpochSeconds: %ld", startEpochSeconds);
+    if (sizeof(acetime_t) == sizeof(int)) {
+      common::logger("startEpochSeconds: %d", startEpochSeconds);
+    } else {
+      common::logger("startEpochSeconds: %ld", startEpochSeconds);
+    }
     common::logger("offsetCode: %d", offsetCode);
     common::logger("abbrev: %s", abbrev);
     if (rule != nullptr) {
@@ -177,6 +181,13 @@ class AutoZoneSpecifier: public ZoneSpecifier {
 
     static const uint8_t kMaxCacheEntries = 4;
 
+    /**
+     * The smallest ZoneMatch.startEpochSeconds which represents -Infinity.
+     * Can't use INT32_MIN because that is used internally to indicate
+     * "invalid".
+     */
+    static const acetime_t kMinEpochSeconds = INT32_MIN + 1;
+
     /** Return the ZoneMatch at the given epochSeconds. */
     const internal::ZoneMatch* getZoneMatch(acetime_t epochSeconds) {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
@@ -291,6 +302,9 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     void addRulesForYear(int16_t year) {
       const common::ZoneEra* const era = findZoneEra(year);
 
+      // FIXME: This is not correct. Of the ZonePolicy has no rules, then we
+      // need to add a Transition which takes effect at the start time of the
+      // ZonePolicy.
       const common::ZonePolicy* const zonePolicy = era->zonePolicy;
       if (zonePolicy == nullptr) return;
 
@@ -372,7 +386,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
 
     /** Calculate the transitional epochSeconds of each ZoneMatch rule. */
     void calcTransitions() {
-      mPreviousMatch.startEpochSeconds = 0;
+      mPreviousMatch.startEpochSeconds = kMinEpochSeconds;
       mPreviousMatch.offsetCode = mPreviousMatch.era->offsetCode;
       mPreviousMatch.offsetCode += (mPreviousMatch.rule == nullptr)
             ? 0 : mPreviousMatch.rule->deltaCode;
