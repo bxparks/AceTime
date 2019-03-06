@@ -23,10 +23,12 @@ namespace ace_time {
 namespace internal {
 
 /**
- * Data structure that captures the matching ZoneEra and its ZoneRule
- * transitions for a given year. Can be cached based on the year.
+ * Data structure that defines the start of a specific UTC offset as described
+ * by the matching ZoneEra and its ZoneRule for a given year. If the ZoneEra
+ * does not have a ZoneRule, then the Transition is defined by the start date
+ * of the ZoneEra.
  */
-struct ZoneMatch {
+struct Transition {
   /**
    * Longest abbreviation seems to be 5 characters.
    * https://www.timeanddate.com/time/zones/
@@ -138,23 +140,23 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     /** Return the UTC offset at epochSeconds. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) {
       if (mZoneInfo == nullptr) return UtcOffset();
-      const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
-      return UtcOffset::forOffsetCode(zoneMatch->offsetCode);
+      const internal::Transition* transition = getTransition(epochSeconds);
+      return UtcOffset::forOffsetCode(transition->offsetCode);
     }
 
     /** Return the DST delta offset at epochSeconds. */
     UtcOffset getDeltaOffset(acetime_t epochSeconds) {
       if (mZoneInfo == nullptr) return UtcOffset();
-      const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
-      if (zoneMatch->rule == nullptr) return UtcOffset();
-      return UtcOffset::forOffsetCode(zoneMatch->rule->deltaCode);
+      const internal::Transition* transition = getTransition(epochSeconds);
+      if (transition->rule == nullptr) return UtcOffset();
+      return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
 
     /** Return the time zone abbreviation. */
     const char* getAbbrev(acetime_t epochSeconds) {
       if (mZoneInfo == nullptr) return "UTC";
-      const internal::ZoneMatch* zoneMatch = getZoneMatch(epochSeconds);
-      return zoneMatch->abbrev;
+      const internal::Transition* transition = getTransition(epochSeconds);
+      return transition->abbrev;
     }
 
     /** Used only for debugging. */
@@ -164,12 +166,12 @@ class AutoZoneSpecifier: public ZoneSpecifier {
         return;
       }
       common::logger("mYear: %d", mYear);
-      common::logger("mNumMatches: %d", mNumMatches);
-      common::logger("---- mPrevMatch");
-      mPreviousMatch.log();
-      for (int i = 0; i < mNumMatches; i++) {
-        common::logger("---- Match: %d", i);
-        mMatches[i].log();
+      common::logger("mNumTransitions: %d", mNumTransitions);
+      common::logger("---- PrevTransition");
+      mPrevTransition.log();
+      for (int i = 0; i < mNumTransitions; i++) {
+        common::logger("---- Transition: %d", i);
+        mTransitions[i].log();
       }
     }
 
@@ -185,14 +187,14 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     static const uint8_t kMaxCacheEntries = 4;
 
     /**
-     * The smallest ZoneMatch.startEpochSeconds which represents -Infinity.
+     * The smallest Transition.startEpochSeconds which represents -Infinity.
      * Can't use INT32_MIN because that is used internally to indicate
      * "invalid".
      */
     static const acetime_t kMinEpochSeconds = INT32_MIN + 1;
 
-    /** Return the ZoneMatch at the given epochSeconds. */
-    const internal::ZoneMatch* getZoneMatch(acetime_t epochSeconds) {
+    /** Return the Transition at the given epochSeconds. */
+    const internal::Transition* getTransition(acetime_t epochSeconds) {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
       init(ld);
       return findMatch(epochSeconds);
@@ -216,7 +218,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
 
       if (!isFilled(year)) {
         mYear = year;
-        mNumMatches = 0; // clear cache
+        mNumTransitions = 0; // clear cache
 
         addRulePriorToYear(year);
         addRulesForYear(year);
@@ -243,7 +245,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
       const common::ZoneEra* const era = findZoneEraPriorTo(year);
 
       // If the prior ZoneEra is a simple Era (no zone policy), then create a
-      // ZoneMatch using a rule==nullptr. Otherwise, find the latest rule
+      // Transition using a rule==nullptr. Otherwise, find the latest rule
       // within the ZoneEra.
       const common::ZonePolicy* const zonePolicy = era->zonePolicy;
       const common::ZoneRule* latest = nullptr;
@@ -262,7 +264,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
           }
         }
       }
-      mPreviousMatch = {
+      mPrevTransition = {
         era,
         latest /*rule*/,
         priorYearTiny /*yearTiny*/,
@@ -312,8 +314,8 @@ class AutoZoneSpecifier: public ZoneSpecifier {
         return;
       }
 
-      // Find all matching transition rules, and add them to the mMatches list,
-      // in sorted order according to the ZoneRule::inMonth field.
+      // Find all matching transitions, and add them to mTransitions, in sorted
+      // order according to the ZoneRule::inMonth field.
       int8_t yearTiny = year - LocalDate::kEpochYear;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const common::ZoneRule* const rule = &zonePolicy->rules[i];
@@ -329,8 +331,8 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * 'ZoneRule::inMonth' field. This assumes that there are no more than one
      * transition per month.
      *
-     * Essentially, this is doing an Insertion Sort of the ZoneMatch elements.
-     * Even through it is O(N^2), for small number of ZoneMatch elements, this
+     * Essentially, this is doing an Insertion Sort of the Transition elements.
+     * Even through it is O(N^2), for small number of Transition elements, this
      * is faster than than the O(N log(N)) algorithms such as Merge Sort, Heap
      * Sort, Quick Sort. The nice property of this Insertion Sort is that if
      * the ZoneInfoEntries are already sorted, then the loop terminates early
@@ -338,11 +340,11 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      */
     void addRule(int16_t year, const common::ZoneEra* era,
           const common::ZoneRule* rule) const {
-      if (mNumMatches >= kMaxCacheEntries) return;
+      if (mNumTransitions >= kMaxCacheEntries) return;
 
       // insert new element at the end of the list
       int8_t yearTiny = year - LocalDate::kEpochYear;
-      mMatches[mNumMatches] = {
+      mTransitions[mNumTransitions] = {
         era,
         rule,
         yearTiny,
@@ -350,17 +352,17 @@ class AutoZoneSpecifier: public ZoneSpecifier {
         0 /*offsetCode*/,
         {0} /*abbrev*/
       };
-      mNumMatches++;
+      mNumTransitions++;
 
       // perform an insertion sort
-      for (uint8_t i = mNumMatches - 1; i > 0; i--) {
-        internal::ZoneMatch& left = mMatches[i - 1];
-        internal::ZoneMatch& right = mMatches[i];
+      for (uint8_t i = mNumTransitions - 1; i > 0; i--) {
+        internal::Transition& left = mTransitions[i - 1];
+        internal::Transition& right = mTransitions[i];
         // assume only 1 rule per month
         if ((left.rule != nullptr && right.rule != nullptr &&
               left.rule->inMonth > right.rule->inMonth)
             || (left.rule != nullptr && right.rule == nullptr)) {
-          internal::ZoneMatch tmp = left;
+          internal::Transition tmp = left;
           left = right;
           right = tmp;
         }
@@ -399,58 +401,57 @@ class AutoZoneSpecifier: public ZoneSpecifier {
       return nullptr;
     }
 
-    /** Calculate the transitional epochSeconds of each ZoneMatch rule. */
+    /** Calculate the epochSeconds and offsetCode of each Transition. */
     void calcTransitions() {
-      mPreviousMatch.startEpochSeconds = kMinEpochSeconds;
-      mPreviousMatch.offsetCode = mPreviousMatch.era->offsetCode;
-      mPreviousMatch.offsetCode += (mPreviousMatch.rule == nullptr)
-            ? 0 : mPreviousMatch.rule->deltaCode;
-      const internal::ZoneMatch* previousMatch = &mPreviousMatch;
+      mPrevTransition.startEpochSeconds = kMinEpochSeconds;
+      int8_t deltaCode = (mPrevTransition.rule == nullptr)
+            ? 0 : mPrevTransition.rule->deltaCode;
+      mPrevTransition.offsetCode = mPrevTransition.era->offsetCode + deltaCode;
+      const internal::Transition* prevTransition = &mPrevTransition;
 
-      // Loop through ZoneMatch items to calculate 2 things:
-      // 1) ZoneMatch::startEpochSeconds
-      // 2) ZoneMatch::offsetCode
-      for (uint8_t i = 0; i < mNumMatches; i++) {
-        internal::ZoneMatch& match = mMatches[i];
-        const int16_t year = match.yearTiny + LocalDate::kEpochYear;
+      // Loop through Transition items to calculate:
+      // 1) Transition::startEpochSeconds
+      // 2) Transition::offsetCode
+      for (uint8_t i = 0; i < mNumTransitions; i++) {
+        internal::Transition& transition = mTransitions[i];
+        const int16_t year = transition.yearTiny + LocalDate::kEpochYear;
 
-        if (match.rule == nullptr) {
+        if (transition.rule == nullptr) {
           const int8_t offsetCode = calcRuleOffsetCode(
-              previousMatch->offsetCode,
-              match.era->offsetCode,
-              'w' /*modifier*/);
+              prevTransition->offsetCode, transition.era->offsetCode, 'w');
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, 1, 1, 0, 0, 0,
               UtcOffset::forOffsetCode(offsetCode));
-          match.startEpochSeconds = startDateTime.toEpochSeconds();
-          match.offsetCode = match.era->offsetCode;
+          transition.startEpochSeconds = startDateTime.toEpochSeconds();
+          transition.offsetCode = transition.era->offsetCode;
         } else {
           // Determine the start date of the rule.
           const uint8_t startDayOfMonth = calcStartDayOfMonth(
-              year, match.rule->inMonth, match.rule->onDayOfWeek,
-              match.rule->onDayOfMonth);
+              year, transition.rule->inMonth, transition.rule->onDayOfWeek,
+              transition.rule->onDayOfMonth);
 
           // Determine the offset of the 'atTimeModifier'. The 'w' modifier
-          // requires the offset of the previous match.
+          // requires the offset of the previous transition.
           const int8_t offsetCode = calcRuleOffsetCode(
-              previousMatch->offsetCode,
-              match.era->offsetCode,
-              match.rule->atTimeModifier);
+              prevTransition->offsetCode,
+              transition.era->offsetCode,
+              transition.rule->atTimeModifier);
 
           // startDateTime
-          const uint8_t atHour = match.rule->atTimeCode / 4;
-          const uint8_t atMinute = (match.rule->atTimeCode % 4) * 15;
+          const uint8_t atHour = transition.rule->atTimeCode / 4;
+          const uint8_t atMinute = (transition.rule->atTimeCode % 4) * 15;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
-              year, match.rule->inMonth, startDayOfMonth,
+              year, transition.rule->inMonth, startDayOfMonth,
               atHour, atMinute, 0 /*second*/,
               UtcOffset::forOffsetCode(offsetCode));
-          match.startEpochSeconds = startDateTime.toEpochSeconds();
+          transition.startEpochSeconds = startDateTime.toEpochSeconds();
 
           // Determine the effective offset code
-          match.offsetCode = match.era->offsetCode + match.rule->deltaCode;
+          transition.offsetCode =
+              transition.era->offsetCode + transition.rule->deltaCode;
         }
 
-        previousMatch = &match;
+        prevTransition = &transition;
       }
     }
 
@@ -495,20 +496,20 @@ class AutoZoneSpecifier: public ZoneSpecifier {
 
     /** Determine the time zone abbreviations. */
     void calcAbbreviations() {
-      calcAbbreviation(&mPreviousMatch);
-      for (uint8_t i = 0; i < mNumMatches; i++) {
-        calcAbbreviation(&mMatches[i]);
+      calcAbbreviation(&mPrevTransition);
+      for (uint8_t i = 0; i < mNumTransitions; i++) {
+        calcAbbreviation(&mTransitions[i]);
       }
     }
 
-    /** Calculate the time zone abbreviation of the current zoneMatch. */
-    static void calcAbbreviation(internal::ZoneMatch* zoneMatch) {
+    /** Calculate the time zone abbreviation of the current transition. */
+    static void calcAbbreviation(internal::Transition* transition) {
       createAbbreviation(
-          zoneMatch->abbrev,
-          internal::ZoneMatch::kAbbrevSize,
-          zoneMatch->era->format,
-          zoneMatch->rule != nullptr ? zoneMatch->rule->deltaCode : 0,
-          zoneMatch->rule != nullptr ? zoneMatch->rule->letter : '\0');
+          transition->abbrev,
+          internal::Transition::kAbbrevSize,
+          transition->era->format,
+          transition->rule != nullptr ? transition->rule->deltaCode : 0,
+          transition->rule != nullptr ? transition->rule->letter : '\0');
     }
 
     /**
@@ -521,7 +522,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * @param format encoded abbreviation, '%' is a character substitution
      * @param deltaCode the offsetCode (0 for standard, != 0 for DST)
      * @param letter during standard or DST time ('S', 'D', '-' for no
-     *        substitution, or '\0' when zoneMatch.rule == nullptr)
+     *        substitution, or '\0' when transition.rule == nullptr)
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
         const char* format, uint8_t deltaCode, char letter) {
@@ -577,11 +578,11 @@ class AutoZoneSpecifier: public ZoneSpecifier {
       *dst = '\0';
     }
 
-    /** Search the cache and find closest ZoneMatch. */
-    const internal::ZoneMatch* findMatch(acetime_t epochSeconds) const {
-      const internal::ZoneMatch* closestMatch = &mPreviousMatch;
-      for (uint8_t i = 0; i < mNumMatches; i++) {
-        const internal::ZoneMatch* m = &mMatches[i];
+    /** Search the cache and find closest Transition. */
+    const internal::Transition* findMatch(acetime_t epochSeconds) const {
+      const internal::Transition* closestMatch = &mPrevTransition;
+      for (uint8_t i = 0; i < mNumTransitions; i++) {
+        const internal::Transition* m = &mTransitions[i];
         if (m->startEpochSeconds <= epochSeconds) {
           closestMatch = m;
         }
@@ -593,9 +594,9 @@ class AutoZoneSpecifier: public ZoneSpecifier {
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
-    mutable uint8_t mNumMatches = 0;
-    mutable internal::ZoneMatch mMatches[kMaxCacheEntries];
-    mutable internal::ZoneMatch mPreviousMatch; // previous year's match
+    mutable uint8_t mNumTransitions = 0;
+    mutable internal::Transition mTransitions[kMaxCacheEntries];
+    mutable internal::Transition mPrevTransition; // previous year's transition
 };
 
 inline bool operator==(const AutoZoneSpecifier& a, const AutoZoneSpecifier& b) {

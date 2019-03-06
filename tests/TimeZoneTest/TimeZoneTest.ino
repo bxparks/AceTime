@@ -101,44 +101,45 @@ test(AutoZoneSpecifierTest, calcRuleOffsetCode) {
 test(AutoZoneSpecifierTest, init_primitives) {
   AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   zoneSpecifier.mYear = 2001;
-  zoneSpecifier.mNumMatches = 0;
+  zoneSpecifier.mNumTransitions = 0;
 
   zoneSpecifier.addRulePriorToYear(2001);
-  assertEqual(0, zoneSpecifier.mNumMatches);
-  assertEqual(-32, zoneSpecifier.mPreviousMatch.era->offsetCode);
-  assertEqual("P%T", zoneSpecifier.mPreviousMatch.era->format);
-  assertEqual(1967-2000, zoneSpecifier.mPreviousMatch.rule->fromYearTiny);
-  assertEqual(2006-2000, zoneSpecifier.mPreviousMatch.rule->toYearTiny);
-  assertEqual(10, zoneSpecifier.mPreviousMatch.rule->inMonth);
+  assertEqual(0, zoneSpecifier.mNumTransitions);
+  assertEqual(-32, zoneSpecifier.mPrevTransition.era->offsetCode);
+  assertEqual("P%T", zoneSpecifier.mPrevTransition.era->format);
+  assertEqual(1967-2000, zoneSpecifier.mPrevTransition.rule->fromYearTiny);
+  assertEqual(2006-2000, zoneSpecifier.mPrevTransition.rule->toYearTiny);
+  assertEqual(10, zoneSpecifier.mPrevTransition.rule->inMonth);
 
   zoneSpecifier.addRulesForYear(2001);
-  assertEqual(2, zoneSpecifier.mNumMatches);
+  assertEqual(2, zoneSpecifier.mNumTransitions);
 
-  assertEqual(-32, zoneSpecifier.mMatches[0].era->offsetCode);
-  assertEqual("P%T", zoneSpecifier.mMatches[0].era->format);
-  assertEqual(1987-2000, zoneSpecifier.mMatches[0].rule->fromYearTiny);
-  assertEqual(2006-2000, zoneSpecifier.mMatches[0].rule->toYearTiny);
-  assertEqual(4, zoneSpecifier.mMatches[0].rule->inMonth);
+  assertEqual(-32, zoneSpecifier.mTransitions[0].era->offsetCode);
+  assertEqual("P%T", zoneSpecifier.mTransitions[0].era->format);
+  assertEqual(1987-2000, zoneSpecifier.mTransitions[0].rule->fromYearTiny);
+  assertEqual(2006-2000, zoneSpecifier.mTransitions[0].rule->toYearTiny);
+  assertEqual(4, zoneSpecifier.mTransitions[0].rule->inMonth);
 
-  assertEqual(-32, zoneSpecifier.mMatches[1].era->offsetCode);
-  assertEqual("P%T", zoneSpecifier.mMatches[1].era->format);
-  assertEqual(1967-2000, zoneSpecifier.mMatches[1].rule->fromYearTiny);
-  assertEqual(2006-2000, zoneSpecifier.mMatches[1].rule->toYearTiny);
-  assertEqual(10, zoneSpecifier.mMatches[1].rule->inMonth);
+  assertEqual(-32, zoneSpecifier.mTransitions[1].era->offsetCode);
+  assertEqual("P%T", zoneSpecifier.mTransitions[1].era->format);
+  assertEqual(1967-2000, zoneSpecifier.mTransitions[1].rule->fromYearTiny);
+  assertEqual(2006-2000, zoneSpecifier.mTransitions[1].rule->toYearTiny);
+  assertEqual(10, zoneSpecifier.mTransitions[1].rule->inMonth);
 
   zoneSpecifier.calcTransitions();
-  assertEqual((acetime_t) 0, zoneSpecifier.mPreviousMatch.startEpochSeconds);
-  assertEqual(-32, zoneSpecifier.mPreviousMatch.offsetCode);
+  assertEqual((acetime_t) AutoZoneSpecifier::kMinEpochSeconds,
+      zoneSpecifier.mPrevTransition.startEpochSeconds);
+  assertEqual(-32, zoneSpecifier.mPrevTransition.offsetCode);
 
   // t >= 2001-04-01 02:00 UTC-08:00 Sunday goes to PDT
-  assertEqual(-28, zoneSpecifier.mMatches[0].offsetCode);
+  assertEqual(-28, zoneSpecifier.mTransitions[0].offsetCode);
   assertEqual((acetime_t) 39434400,
-      zoneSpecifier.mMatches[0].startEpochSeconds);
+      zoneSpecifier.mTransitions[0].startEpochSeconds);
 
   // t >= 2001-10-28 02:00 UTC-07:00 Sunday goes to PST
-  assertEqual(-32, zoneSpecifier.mMatches[1].offsetCode);
+  assertEqual(-32, zoneSpecifier.mTransitions[1].offsetCode);
   assertEqual((acetime_t) 57574800,
-      zoneSpecifier.mMatches[1].startEpochSeconds);
+      zoneSpecifier.mTransitions[1].startEpochSeconds);
 }
 
 test(AutoZoneSpecifierTest, init) {
@@ -148,41 +149,42 @@ test(AutoZoneSpecifierTest, init) {
   LocalDate ld = LocalDate::forComponents(2018, 1, 2);
   zoneSpecifier.init(ld);
 
-  assertEqual(2, zoneSpecifier.mNumMatches);
+  assertEqual(2, zoneSpecifier.mNumTransitions);
 
-  assertEqual(-32, zoneSpecifier.mPreviousMatch.era->offsetCode);
-  assertEqual("P%T", zoneSpecifier.mPreviousMatch.era->format);
-  assertEqual(2007-2000, zoneSpecifier.mPreviousMatch.rule->fromYearTiny);
+  assertEqual(-32, zoneSpecifier.mPrevTransition.era->offsetCode);
+  assertEqual("P%T", zoneSpecifier.mPrevTransition.era->format);
+  assertEqual(2007-2000, zoneSpecifier.mPrevTransition.rule->fromYearTiny);
   assertEqual(common::ZoneRule::kMaxYearTiny,
-      zoneSpecifier.mPreviousMatch.rule->toYearTiny);
-  assertEqual(11, zoneSpecifier.mPreviousMatch.rule->inMonth);
+      zoneSpecifier.mPrevTransition.rule->toYearTiny);
+  assertEqual(11, zoneSpecifier.mPrevTransition.rule->inMonth);
 
-  assertEqual(-32, zoneSpecifier.mMatches[0].era->offsetCode);
-  assertEqual("P%T", zoneSpecifier.mMatches[0].era->format);
-  assertEqual(2007-2000, zoneSpecifier.mMatches[0].rule->fromYearTiny);
+  assertEqual(-32, zoneSpecifier.mTransitions[0].era->offsetCode);
+  assertEqual("P%T", zoneSpecifier.mTransitions[0].era->format);
+  assertEqual(2007-2000, zoneSpecifier.mTransitions[0].rule->fromYearTiny);
   assertEqual(common::ZoneRule::kMaxYearTiny,
-      zoneSpecifier.mMatches[0].rule->toYearTiny);
-  assertEqual(3, zoneSpecifier.mMatches[0].rule->inMonth);
+      zoneSpecifier.mTransitions[0].rule->toYearTiny);
+  assertEqual(3, zoneSpecifier.mTransitions[0].rule->inMonth);
 
-  assertEqual(-32, zoneSpecifier.mMatches[1].era->offsetCode);
-  assertEqual("P%T", zoneSpecifier.mMatches[1].era->format);
-  assertEqual(2007-2000, zoneSpecifier.mMatches[1].rule->fromYearTiny);
+  assertEqual(-32, zoneSpecifier.mTransitions[1].era->offsetCode);
+  assertEqual("P%T", zoneSpecifier.mTransitions[1].era->format);
+  assertEqual(2007-2000, zoneSpecifier.mTransitions[1].rule->fromYearTiny);
   assertEqual(common::ZoneRule::kMaxYearTiny,
-      zoneSpecifier.mMatches[1].rule->toYearTiny);
-  assertEqual(11, zoneSpecifier.mMatches[1].rule->inMonth);
+      zoneSpecifier.mTransitions[1].rule->toYearTiny);
+  assertEqual(11, zoneSpecifier.mTransitions[1].rule->inMonth);
 
-  assertEqual((acetime_t) 0, zoneSpecifier.mPreviousMatch.startEpochSeconds);
-  assertEqual(-32, zoneSpecifier.mPreviousMatch.offsetCode);
+  assertEqual((acetime_t) AutoZoneSpecifier::kMinEpochSeconds,
+      zoneSpecifier.mPrevTransition.startEpochSeconds);
+  assertEqual(-32, zoneSpecifier.mPrevTransition.offsetCode);
 
   // t >= 2018-03-11 02:00 UTC-08:00 Sunday goes to PDT
-  assertEqual(-28, zoneSpecifier.mMatches[0].offsetCode);
+  assertEqual(-28, zoneSpecifier.mTransitions[0].offsetCode);
   assertEqual((acetime_t) 574077600,
-      zoneSpecifier.mMatches[0].startEpochSeconds);
+      zoneSpecifier.mTransitions[0].startEpochSeconds);
 
   // t >= 2018-11-04 02:00 UTC-07:00 Sunday goes to PST
-  assertEqual(-32, zoneSpecifier.mMatches[1].offsetCode);
+  assertEqual(-32, zoneSpecifier.mTransitions[1].offsetCode);
   assertEqual((acetime_t) 594637200,
-      zoneSpecifier.mMatches[1].startEpochSeconds);
+      zoneSpecifier.mTransitions[1].startEpochSeconds);
 }
 
 // zoneInfo == nullptr means UTC

@@ -47,8 +47,8 @@ void setup() {
   Serial.print(F("sizeof(common::ZonePolicy): "));
   Serial.println(sizeof(common::ZonePolicy));
 
-  Serial.print(F("sizeof(internal::ZoneMatch): "));
-  Serial.println(sizeof(internal::ZoneMatch));
+  Serial.print(F("sizeof(internal::Transition): "));
+  Serial.println(sizeof(internal::Transition));
 
   Serial.print(F("sizeof(ZoneSpecifier): "));
   Serial.println(sizeof(ZoneSpecifier));

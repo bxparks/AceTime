@@ -18,7 +18,7 @@ sizeof(ZoneEra): 10
 sizeof(ZoneInfo): 5
 sizeof(ZoneRule): 9
 sizeof(ZonePolicy): 3
-sizeof(internal::ZoneMatch): 15
+sizeof(internal::Transition): 15
 sizeof(ZoneSpecifier): 81
 sizeof(TimeZone): 7
 sizeof(OffsetDateTime): 7
@@ -65,7 +65,7 @@ sizeof(ZoneEra): 20
 sizeof(ZoneInfo): 12
 sizeof(ZoneRule): 9
 sizeof(ZonePolicy): 8
-sizeof(internal::ZoneMatch): 20
+sizeof(internal::Transition): 20
 sizeof(ZoneSpecifier): 108
 sizeof(TimeZone): 16
 sizeof(OffsetDateTime): 7
@@ -114,7 +114,7 @@ sizeof(ZoneEra): 20
 sizeof(ZoneInfo): 12
 sizeof(ZoneRule): 9
 sizeof(ZonePolicy): 8
-sizeof(internal::ZoneMatch): 20
+sizeof(internal::Transition): 20
 sizeof(ZoneSpecifier): 108
 sizeof(TimeZone): 16
 sizeof(OffsetDateTime): 7
