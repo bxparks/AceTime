@@ -44,6 +44,9 @@ struct ZoneMatch {
    */
   const common::ZoneRule* rule;
 
+  /** Year which applies to the ZoneEra or ZoneRule. */
+  int8_t yearTiny;
+
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
 
@@ -233,37 +236,36 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * the offset at the beginning of the current year.
      */
     void addRulePriorToYear(int16_t year) {
+      int8_t yearTiny = year - LocalDate::kEpochYear;
+      int8_t priorYearTiny = yearTiny - 1;
+
+      // Find the prior Era.
       const common::ZoneEra* const era = findZoneEraPriorTo(year);
 
+      // If the prior ZoneEra is a simple Era (no zone policy), then create a
+      // ZoneMatch using a rule==nullptr. Otherwise, find the latest rule
+      // within the ZoneEra.
       const common::ZonePolicy* const zonePolicy = era->zonePolicy;
-      if (zonePolicy == nullptr) {
-        mPreviousMatch = {
-          era,
-          nullptr /*rule*/,
-          0 /*epochSeconds*/,
-          0 /*offsetCode*/,
-          {0} /*abbrev*/
-        };
-        return;
-      }
-
-      // Find the latest rule for the matching ZoneEra whose
-      // ZoneRule::toYearTiny < yearTiny. Assume that there are no more than
-      // 1 rule per month.
-      int8_t yearTiny = year - LocalDate::kEpochYear;
       const common::ZoneRule* latest = nullptr;
-      for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
-        const common::ZoneRule* const rule = &zonePolicy->rules[i];
-        // Check if rule is effective prior to the given year
-        if (rule->fromYearTiny < yearTiny) {
-          if ((latest == nullptr) || compareZoneRule(year, rule, latest) > 0) {
-            latest = rule;
+      if (zonePolicy != nullptr) {
+        // Find the latest rule for the matching ZoneEra whose
+        // ZoneRule::toYearTiny < yearTiny. Assume that there are no more than
+        // 1 rule per month.
+        for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
+          const common::ZoneRule* const rule = &zonePolicy->rules[i];
+          // Check if rule is effective prior to the given year
+          if (rule->fromYearTiny < yearTiny) {
+            if ((latest == nullptr)
+                || compareZoneRule(year, rule, latest) > 0) {
+              latest = rule;
+            }
           }
         }
       }
       mPreviousMatch = {
         era,
         latest /*rule*/,
+        priorYearTiny /*yearTiny*/,
         0 /*epochSeconds*/,
         0 /*offsetCode*/,
         {0} /*abbrev*/
@@ -302,11 +304,13 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     void addRulesForYear(int16_t year) {
       const common::ZoneEra* const era = findZoneEra(year);
 
-      // FIXME: This is not correct. Of the ZonePolicy has no rules, then we
-      // need to add a Transition which takes effect at the start time of the
-      // ZonePolicy.
+      // If the ZonePolicy has no rules, then we need to add a Transition which
+      // takes effect at the start time of the current year.
       const common::ZonePolicy* const zonePolicy = era->zonePolicy;
-      if (zonePolicy == nullptr) return;
+      if (zonePolicy == nullptr) {
+        addRule(year, era, nullptr);
+        return;
+      }
 
       // Find all matching transition rules, and add them to the mMatches list,
       // in sorted order according to the ZoneRule::inMonth field.
@@ -315,7 +319,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
         const common::ZoneRule* const rule = &zonePolicy->rules[i];
         if ((rule->fromYearTiny <= yearTiny) &&
             (yearTiny <= rule->toYearTiny)) {
-          addRule(era, rule);
+          addRule(year, era, rule);
         }
       }
     }
@@ -332,12 +336,20 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * the ZoneInfoEntries are already sorted, then the loop terminates early
      * and the total sort time is O(N).
      */
-    void addRule(const common::ZoneEra* era, const common::ZoneRule* rule)
-        const {
+    void addRule(int16_t year, const common::ZoneEra* era,
+          const common::ZoneRule* rule) const {
       if (mNumMatches >= kMaxCacheEntries) return;
 
       // insert new element at the end of the list
-      mMatches[mNumMatches] = {era, rule, 0, 0, {0}};
+      int8_t yearTiny = year - LocalDate::kEpochYear;
+      mMatches[mNumMatches] = {
+        era,
+        rule,
+        yearTiny,
+        0 /*epochSeconds*/,
+        0 /*offsetCode*/,
+        {0} /*abbrev*/
+      };
       mNumMatches++;
 
       // perform an insertion sort
@@ -345,7 +357,9 @@ class AutoZoneSpecifier: public ZoneSpecifier {
         internal::ZoneMatch& left = mMatches[i - 1];
         internal::ZoneMatch& right = mMatches[i];
         // assume only 1 rule per month
-        if (left.rule->inMonth > right.rule->inMonth) {
+        if ((left.rule != nullptr && right.rule != nullptr &&
+              left.rule->inMonth > right.rule->inMonth)
+            || (left.rule != nullptr && right.rule == nullptr)) {
           internal::ZoneMatch tmp = left;
           left = right;
           right = tmp;
@@ -369,12 +383,13 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     /**
      * Find the most recent ZoneEra which was in effect just before the
      * beginning of the given year, in other words, just before {year}-01-01
-     * 00:00:00. It will be first era whose untilYear matches (year <=
-     * untilYear).
+     * 00:00:00. It will be first era just after the latest era whose untilYear
+     * < year. Since the ZoneEras are in increasing order of untilYear, this is
+     * the same as matching the first ZoneEra whose untilYear >= year.
      *
      * This should never return nullptr because the code generator for
      * zone_infos.cpp verified that the final ZoneEra contains an empty
-     * untilYear, interpreted as 'max', and set to 255.
+     * untilYear, interpreted as 'max', and set to 127.
      */
     const common::ZoneEra* findZoneEraPriorTo(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
@@ -390,37 +405,50 @@ class AutoZoneSpecifier: public ZoneSpecifier {
       mPreviousMatch.offsetCode = mPreviousMatch.era->offsetCode;
       mPreviousMatch.offsetCode += (mPreviousMatch.rule == nullptr)
             ? 0 : mPreviousMatch.rule->deltaCode;
-      internal::ZoneMatch* previousMatch = &mPreviousMatch;
+      const internal::ZoneMatch* previousMatch = &mPreviousMatch;
 
       // Loop through ZoneMatch items to calculate 2 things:
       // 1) ZoneMatch::startEpochSeconds
       // 2) ZoneMatch::offsetCode
       for (uint8_t i = 0; i < mNumMatches; i++) {
         internal::ZoneMatch& match = mMatches[i];
+        const int16_t year = match.yearTiny + LocalDate::kEpochYear;
 
-        // Determine the start date of the rule.
-        const uint8_t startDayOfMonth = calcStartDayOfMonth(
-            mYear, match.rule->inMonth, match.rule->onDayOfWeek,
-            match.rule->onDayOfMonth);
+        if (match.rule == nullptr) {
+          const int8_t offsetCode = calcRuleOffsetCode(
+              previousMatch->offsetCode,
+              match.era->offsetCode,
+              'w' /*modifier*/);
+          OffsetDateTime startDateTime = OffsetDateTime::forComponents(
+              year, 1, 1, 0, 0, 0,
+              UtcOffset::forOffsetCode(offsetCode));
+          match.startEpochSeconds = startDateTime.toEpochSeconds();
+          match.offsetCode = match.era->offsetCode;
+        } else {
+          // Determine the start date of the rule.
+          const uint8_t startDayOfMonth = calcStartDayOfMonth(
+              year, match.rule->inMonth, match.rule->onDayOfWeek,
+              match.rule->onDayOfMonth);
 
-        // Determine the offset of the 'atTimeModifier'. The 'w' modifier
-        // requires the offset of the previous match.
-        const int8_t ruleOffsetCode = calcRuleOffsetCode(
-            previousMatch->offsetCode,
-            match.era->offsetCode,
-            match.rule->atTimeModifier);
+          // Determine the offset of the 'atTimeModifier'. The 'w' modifier
+          // requires the offset of the previous match.
+          const int8_t offsetCode = calcRuleOffsetCode(
+              previousMatch->offsetCode,
+              match.era->offsetCode,
+              match.rule->atTimeModifier);
 
-        // startDateTime
-        uint8_t atHour = match.rule->atTimeCode / 4;
-        uint8_t atMinute = (match.rule->atTimeCode % 4) * 15;
-        OffsetDateTime startDateTime = OffsetDateTime::forComponents(
-            mYear, match.rule->inMonth, startDayOfMonth,
-            atHour, atMinute, 0 /*second*/,
-            UtcOffset::forOffsetCode(ruleOffsetCode));
-        match.startEpochSeconds = startDateTime.toEpochSeconds();
+          // startDateTime
+          const uint8_t atHour = match.rule->atTimeCode / 4;
+          const uint8_t atMinute = (match.rule->atTimeCode % 4) * 15;
+          OffsetDateTime startDateTime = OffsetDateTime::forComponents(
+              year, match.rule->inMonth, startDayOfMonth,
+              atHour, atMinute, 0 /*second*/,
+              UtcOffset::forOffsetCode(offsetCode));
+          match.startEpochSeconds = startDateTime.toEpochSeconds();
 
-        // Determine the effective offset code
-        match.offsetCode = match.era->offsetCode + match.rule->deltaCode;
+          // Determine the effective offset code
+          match.offsetCode = match.era->offsetCode + match.rule->deltaCode;
+        }
 
         previousMatch = &match;
       }
