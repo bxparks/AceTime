@@ -671,18 +671,17 @@ class ZoneSpecifier:
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
         rules = zone_policy.rules
+        if self.optimize_candidates:
+            finder = CandidateFinderOptimized(self.debug)
+        else:
+            finder = CandidateFinderBasic(self.debug)
 
         # Find candidate transitions using whole years.
         if self.debug:
             logging.info('==== Get candidate transitions for named ZoneMatch')
         candidate_transitions = []
-        if self.optimize_candidates:
-            find_candidate_transitions_optimized(
-                candidate_transitions, match, rules, self.debug)
-        else:
-            if self.debug:
-                logging.info('find_candidate_transitions()')
-            find_candidate_transitions(candidate_transitions, match, rules)
+        finder.find_candidate_transitions(
+            candidate_transitions, match, rules)
         if self.debug:
             logging.info('Num candidates: %d' % len(candidate_transitions))
             print_transitions(candidate_transitions)
@@ -742,6 +741,89 @@ class ZoneSpecifier:
         logging.info('---- Candidate Transitions:')
         for t in self.candidate_transitions:
             logging.info(t)
+
+
+class CandidateFinderBasic:
+    def __init__(self, debug):
+        self.debug = debug
+
+    def find_candidate_transitions(self, transitions, match, rules):
+        """Get the list of candidate transitions from the 'rules' which overlap
+        the whole years [start_y, end_y] (inclusive)) defined by the given
+        ZoneMatch. This list includes transitions that may become the "most
+        recent prior" transition. We use whole years because 'rules' define
+        repetitive transitions using whole years.
+        """
+        if self.debug:
+            logging.info('Basic.find_candidate_transitions()')
+
+        start_y = match.startDateTime.y
+        until = match.untilDateTime
+        if until.M == 1 and until.d == 1 and until.ss == 0:
+            end_y = until.y - 1
+        else:
+            end_y = until.y
+
+        for rule in rules:
+            from_year = rule.fromYear
+            to_year = rule.toYear
+            years = get_candidate_years(from_year, to_year, start_y, end_y)
+            for year in years:
+                add_transition_sorted(transitions,
+                    create_transition_for_year(year, rule, match))
+
+
+class CandidateFinderOptimized:
+    def __init__(self, debug):
+        self.debug = debug
+
+    def find_candidate_transitions(self, transitions, match, rules):
+        """Similar to find_candidate_transitions() except that prior Transitions
+        which are obviously non-candidates are filtered out early. This reduces
+        the size of the statically allocated Transitions array in the C++
+        implementation.
+        """
+        if self.debug:
+            logging.info('Optimized.find_candidate_transitions()')
+
+        start_y = match.startDateTime.y
+        end_y = match.untilDateTime.y
+        until = match.untilDateTime
+        if until.M == 1 and until.d == 1 and until.ss == 0:
+            end_y = until.y - 1
+        else:
+            end_y = until.y
+
+        prior_transition = None
+        for rule in rules:
+            from_year = rule.fromYear
+            to_year = rule.toYear
+            years = get_interior_years(from_year, to_year, start_y, end_y)
+            if self.debug:
+                logging.info(
+                    'find_candidate_transitions(): interior years: %s', years)
+
+            for year in years:
+                transition = create_transition_for_year(year, rule, match)
+                comp = compare_transition_to_match_fuzzy(transition, match)
+                if comp < 0:
+                    prior_transition = calc_prior_transition(
+                        prior_transition, transition)
+                elif comp == 1:
+                    add_transition_sorted(transitions, transition)
+
+            prior_year = get_most_recent_prior_year(
+                from_year, to_year, start_y, end_y)
+            if self.debug:
+                logging.info(
+                    'find_candidate_transitions(): prior year: %s',
+                    prior_year)
+            if prior_year >= 0:
+                transition = create_transition_for_year(prior_year, rule, match)
+                prior_transition = calc_prior_transition(
+                    prior_transition, transition)
+        if prior_transition:
+            add_transition_sorted(transitions, prior_transition)
 
 
 def print_transitions(transitions):
@@ -1007,74 +1089,6 @@ def generate_start_until_times(transitions):
                                           transition.deltaSeconds)
     transition.untilDateTime = udt
 
-
-def find_candidate_transitions(transitions, match, rules):
-    """Get the list of candidate transitions from the 'rules' which overlap the
-    whole years [start_y, end_y] (inclusive)) defined by the given ZoneMatch.
-    This list includes transitions that may become the "most recent prior"
-    transition. We use whole years because 'rules' define repetitive transitions
-    using whole years.
-    """
-    start_y = match.startDateTime.y
-    until = match.untilDateTime
-    if until.M == 1 and until.d == 1 and until.ss == 0:
-        end_y = until.y - 1
-    else:
-        end_y = until.y
-
-    for rule in rules:
-        from_year = rule.fromYear
-        to_year = rule.toYear
-        years = get_candidate_years(from_year, to_year, start_y, end_y)
-        for year in years:
-            add_transition_sorted(transitions,
-                create_transition_for_year(year, rule, match))
-
-def find_candidate_transitions_optimized(transitions, match, rules, debug):
-    """Similar to find_candidate_transitions() except that prior Transitions
-    which are obviously non-candidates are filtered out early. This reduces the
-    size of the statically allocated Transitions array in the C++
-    implementation.
-    """
-    start_y = match.startDateTime.y
-    end_y = match.untilDateTime.y
-    until = match.untilDateTime
-    if until.M == 1 and until.d == 1 and until.ss == 0:
-        end_y = until.y - 1
-    else:
-        end_y = until.y
-
-    prior_transition = None
-    for rule in rules:
-        from_year = rule.fromYear
-        to_year = rule.toYear
-        years = get_interior_years(from_year, to_year, start_y, end_y)
-        if debug:
-            logging.info(
-                'find_candidate_transitions_optimized(): interior years: %s',
-                years)
-
-        for year in years:
-            transition = create_transition_for_year(year, rule, match)
-            comp = compare_transition_to_match_fuzzy(transition, match)
-            if comp < 0:
-                prior_transition = calc_prior_transition(
-                    prior_transition, transition)
-            elif comp == 1:
-                add_transition_sorted(transitions, transition)
-
-        prior_year = get_most_recent_prior_year(
-            from_year, to_year, start_y, end_y)
-        if debug:
-            logging.info(
-                'find_candidate_transitions_optimized(): prior year: %s',
-                prior_year)
-        if prior_year >= 0:
-            transition = create_transition_for_year(prior_year, rule, match)
-            prior_transition = calc_prior_transition(
-                prior_transition, transition)
-    if prior_transition:
-        add_transition_sorted(transitions, prior_transition)
 
 def calc_prior_transition(prior_transition, transition):
     """Return the latest prior transition.
