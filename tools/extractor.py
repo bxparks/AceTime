@@ -166,7 +166,8 @@ class Extractor:
         extractor = Extractor(input_dir)
         extractor.parse()
         extractor.print_summary()
-		(zones, rules) = extractor.get_data()
+		extractor.zones_map
+		extractor.rules_map
         ...
     """
 
@@ -187,28 +188,22 @@ class Extractor:
         self.rule_lines = {}  # dictionary of ruleName to lines[]
         self.zone_lines = {}  # dictionary of zoneName to lines[]
         self.link_lines = {}  # dictionary of linkName to lines[]
-        self.rules = {}  # map of ruleName to ZoneRuleRaw[]
-        self.zones = {}  # map of zoneName to ZoneEraRaw[]
+        self.rules_map = {}  # map of ruleName to ZoneRuleRaw[]
+        self.zones_map = {}  # map of zoneName to ZoneEraRaw[]
         self.ignored_rule_lines = 0
         self.ignored_zone_lines = 0
         self.invalid_rule_lines = 0
         self.invalid_zone_lines = 0
 
     def parse(self):
-        """Read the zoneinfo files from TZ Database and create the 'zones' and
-        'rules' maps which can be retrieved by get_data().
+        """Read the zoneinfo files from TZ Database and create the 'zones_map'
+        and 'rules_map'.
+        * zones_map contains a map of (zone_name -> ZoneEraRaw[]).
+        * rules contains a map of (policy_name -> ZoneRuleRaw[]).
         """
         self._parse_zone_files()
         self._process_rules()
         self._process_zones()
-
-    def get_data(self):
-        """
-        Returns 2 dictionaries: zones_map and rules_map.
-            * The zones_map contains a map of (zone_name -> ZoneEraRaw[]).
-            * The rules_map contains a map of (policy_name -> ZoneRuleRaw[]).
-        """
-        return (self.zones, self.rules)
 
     def _parse_zone_files(self):
         logging.basicConfig(level=logging.INFO)
@@ -251,7 +246,7 @@ class Extractor:
                 try:
                     rule_entry = process_rule_line(line)
                     if rule_entry:
-                        add_item(self.rules, name, rule_entry)
+                        add_item(self.rules_map, name, rule_entry)
                     else:
                         self.ignored_rule_lines += 1
                 except Exception as e:
@@ -264,7 +259,7 @@ class Extractor:
                 try:
                     zone_era = process_zone_line(line)
                     if zone_era:
-                        add_item(self.zones, name, zone_era)
+                        add_item(self.zones_map, name, zone_era)
                     else:
                         self.ignored_zone_lines += 1
                 except Exception as e:
@@ -306,12 +301,12 @@ class Extractor:
 
     def print_summary(self):
         rule_entry_count = 0
-        for name, rules in self.rules.items():
+        for name, rules in self.rules_map.items():
             for rule in rules:
                 rule_entry_count += 1
 
         zone_entry_count = 0
-        for name, zones in self.zones.items():
+        for name, zones in self.zones_map.items():
             for zone in zones:
                 zone_entry_count += 1
 
@@ -319,8 +314,8 @@ class Extractor:
         logging.info('Rule lines count: %s' % len(self.rule_lines))
         logging.info('Zone lines count: %s' % len(self.zone_lines))
         logging.info('Link lines count: %s' % len(self.link_lines))
-        logging.info('Rules name count: %s' % len(self.rules))
-        logging.info('Zones name count: %s' % len(self.zones))
+        logging.info('Rules name count: %s' % len(self.rules_map))
+        logging.info('Zones name count: %s' % len(self.zones_map))
         logging.info('Rule entry count: %s' % rule_entry_count)
         logging.info('Zone entry count: %s' % zone_entry_count)
         logging.info('Ignored Rule lines: %s' % self.ignored_rule_lines)

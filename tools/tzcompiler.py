@@ -190,18 +190,17 @@ def main():
     extractor = Extractor(args.input_dir)
     extractor.parse()
     extractor.print_summary()
-    (zones, rules) = extractor.get_data()
 
     # Print various slices of the data
-    printer = Printer(zones, rules)
+    printer = Printer(extractor.zones_map, extractor.rules_map)
     # zones
     if args.print_zones_short_name:
         printer.print_zones_short_name()
 
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules...')
-    transformer = Transformer(zones, rules, language, args.start_year,
-                              granularity, args.strict)
+    transformer = Transformer(extractor.zones_map, extractor.rules_map,
+        language, args.start_year, granularity, args.strict)
     transformer.transform()
     transformer.print_summary()
 
