@@ -5,6 +5,8 @@
 # MIT License
 
 import unittest
+import transformer
+from collections import OrderedDict
 from transformer import parse_on_day_string
 from transformer import time_string_to_seconds
 from transformer import time_string_to_seconds
@@ -87,6 +89,17 @@ class TestIntegerDivision(unittest.TestCase):
         self.assertEqual(-15, truncate_to_granularity(-15, 15))
         self.assertEqual(-15, truncate_to_granularity(-29, 15))
         self.assertEqual(-30, truncate_to_granularity(-31, 15))
+
+
+class TestAddString(unittest.TestCase):
+    def test_add_string(self):
+        strings = OrderedDict()
+        self.assertEqual(0, transformer.add_string(strings, 'a'))
+        self.assertEqual(0, transformer.add_string(strings, 'a'))
+        self.assertEqual(1, transformer.add_string(strings, 'b'))
+        self.assertEqual(2, transformer.add_string(strings, 'd'))
+        self.assertEqual(3, transformer.add_string(strings, 'c'))
+        self.assertEqual(2, transformer.add_string(strings, 'd'))
 
 
 if __name__ == '__main__':

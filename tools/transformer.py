@@ -12,6 +12,7 @@ import logging
 import sys
 import datetime
 import extractor
+from collections import OrderedDict
 from extractor import MAX_UNTIL_YEAR
 from extractor import MIN_YEAR
 from extractor import ZoneRuleRaw
@@ -1182,3 +1183,17 @@ def truncate_to_granularity(a, b):
     """Truncate a to the granularity of b.
     """
     return b * div_to_zero(a, b)
+
+
+def add_string(strings, name):
+    """Add the 'name' to the strings (must be an OrderedDict), and return its
+    index into the array of strings. If the 'name' already exists, then return
+    the previous index. Otherwise, create a new index, and return that.
+    """
+    if not isinstance(strings, OrderedDict):
+        raise Exception('strings must be an OrderedDict')
+    index = strings.get(name)
+    if index == None:
+        index = len(strings)
+        strings[name] = index
+    return index
