@@ -1101,7 +1101,7 @@ class CandidateFinderOptimized:
 
             for year in years:
                 transition = _create_transition_for_year(year, rule, match)
-                comp = self._compare_transition_to_match_fuzzy(
+                comp = _compare_transition_to_match_fuzzy(
                     transition, match)
                 if comp < 0:
                     prior_transition = self._calc_prior_transition(
@@ -1134,34 +1134,6 @@ class CandidateFinderOptimized:
                 return prior_transition
         else:
             return transition
-
-    @staticmethod
-    def _compare_transition_to_match_fuzzy(transition, match):
-        """Like _compare_transition_to_match() except perform a fuzzy match
-        within at least one-month of the match.start or match.until.
-
-        A value of 0 is never returned since we cannot make a direct comparison
-        to match_start.
-
-        Return:
-            * -1 if less than match
-            * 1 if within match,
-            * 2 if greater than match
-        """
-        tt = transition.transitionTime
-        transition_time = 12 * tt.y + tt.M
-
-        ms = match.startDateTime
-        match_start = 12 * ms.y + ms.M
-        if transition_time < match_start - 1:
-            return -1
-
-        mu = match.untilDateTime
-        match_until = 12 * mu.y + mu.M
-        if match_until + 2 <= transition_time:
-            return 2
-
-        return 1
 
 
 class ActiveSelectorBasic:
@@ -1441,6 +1413,34 @@ def _compare_transition_to_match(transition, match):
     else:
         raise Exception("Unknown modifier: %s" % match_until)
     if match_until <= transition_time:
+        return 2
+
+    return 1
+
+
+def _compare_transition_to_match_fuzzy(transition, match):
+    """Like _compare_transition_to_match() except perform a fuzzy match
+    within at least one-month of the match.start or match.until.
+
+    A value of 0 is never returned since we cannot make a direct comparison
+    to match_start.
+
+    Return:
+        * -1 if less than match
+        * 1 if within match,
+        * 2 if greater than match
+    """
+    tt = transition.transitionTime
+    transition_time = 12 * tt.y + tt.M
+
+    ms = match.startDateTime
+    match_start = 12 * ms.y + ms.M
+    if transition_time < match_start - 1:
+        return -1
+
+    mu = match.untilDateTime
+    match_until = 12 * mu.y + mu.M
+    if match_until + 2 <= transition_time:
         return 2
 
     return 1
