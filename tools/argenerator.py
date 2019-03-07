@@ -287,20 +287,20 @@ const common::ZoneInfo kZone{zoneShortName} = {{
         self.removed_policies = removed_policies
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
-        self.extended = extended # extended Arduino/C++ database
+        self.extended = extended  # extended Arduino/C++ database
         self.db_namespace = 'zonedbx' if extended else 'zonedb'
         self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
 
     def generate_files(self, output_dir):
         self._write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
-                        self._generate_policies_h())
+                         self._generate_policies_h())
         self._write_file(output_dir, self.ZONE_POLICIES_CPP_FILE_NAME,
-                        self._generate_policies_cpp())
+                         self._generate_policies_cpp())
 
         self._write_file(output_dir, self.ZONE_INFOS_H_FILE_NAME,
-                        self._generate_infos_h())
+                         self._generate_infos_h())
         self._write_file(output_dir, self.ZONE_INFOS_CPP_FILE_NAME,
-                        self._generate_infos_cpp())
+                         self._generate_infos_cpp())
 
     def _write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)

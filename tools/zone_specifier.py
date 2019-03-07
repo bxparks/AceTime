@@ -66,8 +66,8 @@ YearMonthTuple = collections.namedtuple('YearMonthTuple', 'y M')
 #   * utc_offset: seconds
 #   * dst_offset: seconds
 #   * abbrev
-OffsetInfo = collections.namedtuple('OffsetInfo',
-    'total_offset utc_offset dst_offset abbrev')
+OffsetInfo = collections.namedtuple(
+    'OffsetInfo', 'total_offset utc_offset dst_offset abbrev')
 
 # Number of seconds from Unix Epoch (1970-01-01 00:00:00) to AceTime Epoch
 # (2000-01-01 00:00:00)
@@ -165,6 +165,7 @@ class ZoneRuleCooked:
     """Internal representation of a ZoneRule dictionary in the zone_policies.py
     output file.
     """
+    # yapf: disable
     __slots__ = [
         'fromYear',  # (int) from year
         'toYear',  # (int) to year, 1 to MAX_YEAR (9999) means 'max'
@@ -177,6 +178,7 @@ class ZoneRuleCooked:
         'letter',  # (str) Usually ('D', 'S', '-'), but sometimes longer
                    # (e.g. WAT, CAT, DD, +00, +02, CST).
     ]
+    # yapf: enable
 
     def __init__(self, arg):
         """Create a ZoneRuleCooked from a dict in zone_infos.py.
@@ -226,8 +228,7 @@ class ZoneMatch:
         return (
             'ZoneMatch(' + 'start: %s; ' + 'until: %s; ' + 'policyName: %s)'
         ) % (date_tuple_to_string(self.startDateTime),
-             date_tuple_to_string(self.untilDateTime),
-             self.zoneEra.policyName)
+             date_tuple_to_string(self.untilDateTime), self.zoneEra.policyName)
 
 
 class Transition:
@@ -309,7 +310,7 @@ class Transition:
         """Convert a Transition into a OffsetInfo.
         """
         return OffsetInfo(self.offsetSeconds + self.deltaSeconds,
-            self.offsetSeconds, self.deltaSeconds, self.abbrev)
+                          self.offsetSeconds, self.deltaSeconds, self.abbrev)
 
     def __repr__(self):
         sepoch = self.startEpochSecond if self.startEpochSecond else 0
@@ -406,8 +407,12 @@ class ZoneSpecifier:
         'untilTimeModifier': 'w'
     })
 
-    def __init__(self, zone_info_data, viewing_months=14, debug=False,
-        in_place_transitions=True, optimize_candidates=True):
+    def __init__(self,
+                 zone_info_data,
+                 viewing_months=14,
+                 debug=False,
+                 in_place_transitions=True,
+                 optimize_candidates=True):
         """zone_info_data map is one of the ZONE_INFO_xxx constants from
         zone_infos.py. It can contain a reference to a zone_policy_data map. We
         need to convert these into ZoneEraCooked and ZoneRuleCooked classes.
@@ -497,8 +502,8 @@ class ZoneSpecifier:
             start_ym = YearMonthTuple(year - 1, 1)
             until_ym = YearMonthTuple(year + 2, 1)
         else:
-            raise Exception('Unsupported viewing_months: %d' %
-                self.viewing_months)
+            raise Exception(
+                'Unsupported viewing_months: %d' % self.viewing_months)
 
         if self.debug:
             logging.info('==== Finding matches')
@@ -618,10 +623,10 @@ class ZoneSpecifier:
         prev_era = self.ZONE_ERA_ANCHOR
         matches = []
         for zone_era in zone_eras:
-            if self._era_overlaps_interval(
-                    prev_era, zone_era, start_ym, until_ym):
-                match = self._create_match(
-                    prev_era, zone_era, start_ym, until_ym)
+            if self._era_overlaps_interval(prev_era, zone_era, start_ym,
+                                           until_ym):
+                match = self._create_match(prev_era, zone_era, start_ym,
+                                           until_ym)
                 if self.debug:
                     logging.info('_find_matches(): %s' % match)
                 matches.append(match)
@@ -682,8 +687,7 @@ class ZoneSpecifier:
         if self.debug:
             logging.info('==== Get candidate transitions for named ZoneMatch')
         candidate_transitions = []
-        finder.find_candidate_transitions(
-            candidate_transitions, match, rules)
+        finder.find_candidate_transitions(candidate_transitions, match, rules)
         if self.debug:
             print_transitions(candidate_transitions)
         self._check_transitions_sorted(candidate_transitions)
@@ -711,8 +715,8 @@ class ZoneSpecifier:
             transitions = selector.select_active_transitions(
                 candidate_transitions, match)
         except:
-            logging.exception("Zone '%s'; year '%04d'",
-                self.zone_info.name, self.year)
+            logging.exception("Zone '%s'; year '%04d'", self.zone_info.name,
+                              self.year)
             raise
         if self.debug:
             print_transitions(transitions)
@@ -921,7 +925,8 @@ class ZoneSpecifier:
             dts = DateTuple(
                 y=dtu.y, M=dtu.M, d=dtu.d, ss=dtu.ss + offset_seconds, f='s')
         else:
-            logging.error("Unrecognized Rule.AT suffix '%s'; date=%s", dt.f, dt)
+            logging.error("Unrecognized Rule.AT suffix '%s'; date=%s", dt.f,
+                          dt)
             sys.exit(1)
 
         dtw = ZoneSpecifier._normalize_date_tuple(dtw)
@@ -986,9 +991,9 @@ class ZoneSpecifier:
         happens if (start_era < until_ym) and (until_era > start_ym).
         """
         return (ZoneSpecifier._compare_era_to_year_month(
-                prev_era, until_ym.y, until_ym.M) < 0
-            and ZoneSpecifier._compare_era_to_year_month(
-                era, start_ym.y, start_ym.M) > 0)
+            prev_era, until_ym.y, until_ym.M) < 0
+                and ZoneSpecifier._compare_era_to_year_month(
+                    era, start_ym.y, start_ym.M) > 0)
 
     @staticmethod
     def _compare_era_to_year_month(era, year, month):
@@ -1037,10 +1042,12 @@ class CandidateFinderBasic:
         for rule in rules:
             from_year = rule.fromYear
             to_year = rule.toYear
-            years = self.get_candidate_years(from_year, to_year, start_y, end_y)
+            years = self.get_candidate_years(from_year, to_year, start_y,
+                                             end_y)
             for year in years:
                 _add_transition_sorted(transitions,
-                    _create_transition_for_year(year, rule, match))
+                                       _create_transition_for_year(
+                                           year, rule, match))
 
     @staticmethod
     def get_candidate_years(from_year, to_year, start_year, end_year):
@@ -1058,8 +1065,8 @@ class CandidateFinderBasic:
         years = _get_interior_years(from_year, to_year, start_year, end_year)
 
         # Add most recent Rule year prior to Match years.
-        prior_year = _get_most_recent_prior_year(
-            from_year, to_year, start_year, end_year)
+        prior_year = _get_most_recent_prior_year(from_year, to_year,
+                                                 start_year, end_year)
         if prior_year >= 0:
             years.append(prior_year)
 
@@ -1098,20 +1105,18 @@ class CandidateFinderOptimized:
 
             for year in years:
                 transition = _create_transition_for_year(year, rule, match)
-                comp = _compare_transition_to_match_fuzzy(
-                    transition, match)
+                comp = _compare_transition_to_match_fuzzy(transition, match)
                 if comp < 0:
                     prior_transition = self._calc_prior_transition(
                         prior_transition, transition)
                 elif comp == 1:
                     _add_transition_sorted(transitions, transition)
 
-            prior_year = _get_most_recent_prior_year(
-                from_year, to_year, start_y, end_y)
+            prior_year = _get_most_recent_prior_year(from_year, to_year,
+                                                     start_y, end_y)
             if self.debug:
-                logging.info(
-                    'find_candidate_transitions(): prior year: %s',
-                    prior_year)
+                logging.info('find_candidate_transitions(): prior year: %s',
+                             prior_year)
             if prior_year >= 0:
                 transition = _create_transition_for_year(
                     prior_year, rule, match)
@@ -1166,7 +1171,8 @@ class ActiveSelectorBasic:
         if not results.get('startTransitionFound'):
             prior_transition = results.get('latestPriorTransition')
             if not prior_transition:
-                raise Exception('Prior transition not found; should not happen')
+                raise Exception(
+                    'Prior transition not found; should not happen')
 
             # Adjust the transition time to be the start of the ZoneMatch.
             prior_transition = prior_transition.copy()
@@ -1311,9 +1317,9 @@ def _add_transition_sorted(transitions, transition):
     transitions.append(transition)
     for i in range(len(transitions) - 1, 0, -1):
         curr = transitions[i]
-        prev = transitions[i-1]
+        prev = transitions[i - 1]
         if _compare_date_tuple(curr.transitionTime, prev.transitionTime) < 0:
-            transitions[i-1] = curr
+            transitions[i - 1] = curr
             transitions[i] = prev
 
 
@@ -1358,6 +1364,7 @@ def _get_interior_years(from_year, to_year, start_year, end_year):
         if from_year <= year and year <= to_year:
             years.append(year)
     return years
+
 
 def _get_most_recent_prior_year(from_year, to_year, start_year, end_year):
     """Return the most recent prior year of the rule[from_year, to_year].
@@ -1450,7 +1457,7 @@ def _get_transition_time(year, rule):
     """
     month = rule.inMonth
     day_of_month = _calc_day_of_month(year, month, rule.onDayOfWeek,
-                                     rule.onDayOfMonth)
+                                      rule.onDayOfMonth)
     seconds = rule.atSeconds
     modifier = rule.atTimeModifier
     return DateTuple(y=year, M=month, d=day_of_month, ss=seconds, f=modifier)
@@ -1507,9 +1514,11 @@ def main():
     parser.add_argument(
         '--viewing_months',
         help='Number of months to use for calculations (12, 13, 14, 36)',
-        type=int, default=14)
+        type=int,
+        default=14)
     parser.add_argument(
-        '--transition', help='Print the transition instead of timezone info',
+        '--transition',
+        help='Print the transition instead of timezone info',
         action='store_true')
     parser.add_argument(
         '--debug', help='Print debugging info', action='store_true')
@@ -1518,7 +1527,8 @@ def main():
         help='Use in-place Transition array to determine Active Transitions',
         action="store_true")
     parser.add_argument(
-        '--optimize_candidates', help='Optimize the candidate transitions',
+        '--optimize_candidates',
+        help='Optimize the candidate transitions',
         action='store_true')
     parser.add_argument('--zone', help='Name of time zone', required=True)
     parser.add_argument('--year', help='Year of interest', type=int)
@@ -1562,11 +1572,11 @@ def main():
             (offset_seconds, dst_seconds, abbrev) = \
                     zone_specifier.get_timezone_info_for_datetime(dt)
             if not offset_seconds:
-                logging.info('Invalid time');
+                logging.info('Invalid time')
             else:
                 logging.info('%s (%s)',
-                    to_utc_string(offset_seconds, dst_seconds),
-                    abbrev)
+                             to_utc_string(offset_seconds, dst_seconds),
+                             abbrev)
     else:
         print("One of --year or --date must be provided")
         sys.exit(1)

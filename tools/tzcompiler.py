@@ -116,7 +116,8 @@ def main():
     parser.add_argument(
         '--arduino', help='Generate Arduino files', action='store_true')
     parser.add_argument(
-        '--arduinox', help='Generate Extended Arduino files',
+        '--arduinox',
+        help='Generate Extended Arduino files',
         action='store_true')
 
     # File generators
@@ -131,7 +132,8 @@ def main():
     parser.add_argument(
         '--viewing_months',
         help='Number of months to use for calculations (13, 14, 36)',
-        type=int, default=14)
+        type=int,
+        default=14)
     parser.add_argument(
         '--validate_dst_offset',
         help='Validate the DST offset as well as the total UTC offset',
@@ -149,7 +151,8 @@ def main():
         help='Use in-place Transition array to determine Active Transitions',
         action="store_true")
     parser.add_argument(
-        '--optimize_candidates', help='Optimize the candidate transitions',
+        '--optimize_candidates',
+        help='Optimize the candidate transitions',
         action='store_true')
 
     # Parse the command line arguments
@@ -205,8 +208,7 @@ def main():
      notable_policies) = transformer.get_data()
 
     # Validate the zone_infos and zone_policies if requested
-    logging.info(
-        '======== Generating inlined zone_infos and zone_policies...')
+    logging.info('======== Generating inlined zone_infos and zone_policies...')
     inline_generator = InlineGenerator(zones, rules)
     (zone_infos, zone_policies) = inline_generator.generate_maps()
     logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
@@ -225,22 +227,21 @@ def main():
     if args.zonedb:
         # Create the Python or Arduino files if requested
         if not args.output_dir:
-            logging.error(
-                'Must provide --output_dir to generate Python files')
+            logging.error('Must provide --output_dir to generate Python files')
             sys.exit(1)
         if language == 'python':
             logging.info('======== Creating Python zonedb files...')
-            generator = PythonGenerator(
-                invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
-                removed_zones, removed_policies, notable_zones,
-                notable_policies)
+            generator = PythonGenerator(invocation, args.tz_version,
+                                        Extractor.ZONE_FILES, zones, rules,
+                                        removed_zones, removed_policies,
+                                        notable_zones, notable_policies)
             generator.generate_files(args.output_dir)
         elif language == 'arduino' or language == 'arduinox':
             extended = (language == 'arduinox')
             logging.info('======== Creating Arduino zonedb files...')
             generator = ArduinoGenerator(
-                invocation, args.tz_version, Extractor.ZONE_FILES, zones, rules,
-                removed_zones, removed_policies, notable_zones,
+                invocation, args.tz_version, Extractor.ZONE_FILES, zones,
+                rules, removed_zones, removed_policies, notable_zones,
                 notable_policies, extended)
             generator.generate_files(args.output_dir)
         else:
@@ -259,8 +260,7 @@ def main():
         if language == 'arduino':
             extended = (language == 'arduinox')
             arval_generator = ArduinoValidationGenerator(
-                invocation, args.tz_version, test_data, num_items,
-                extended)
+                invocation, args.tz_version, test_data, num_items, extended)
             arval_generator.generate_files(args.output_dir)
         elif language == 'python':
             pyval_generator = PythonValidationGenerator(
@@ -289,7 +289,8 @@ def main():
             logging.info('======== Validating test data...')
             validator.validate_test_data()
     else:
-        logging.error('One of (--zonedb, --validate, --unittest) must be given')
+        logging.error(
+            'One of (--zonedb, --validate, --unittest) must be given')
         sys.exit(1)
 
     logging.info('======== Finished processing TZ Data files.')

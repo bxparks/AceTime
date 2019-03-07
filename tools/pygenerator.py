@@ -207,10 +207,10 @@ ZONE_INFO_{zoneShortName} = {{
 
     def generate_files(self, output_dir):
         self._write_file(output_dir, self.ZONE_POLICIES_FILE_NAME,
-                        self._generate_policies())
+                         self._generate_policies())
 
         self._write_file(output_dir, self.ZONE_INFOS_FILE_NAME,
-                        self._generate_infos())
+                         self._generate_infos())
 
     def _write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)

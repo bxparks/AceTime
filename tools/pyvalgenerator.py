@@ -10,6 +10,7 @@ import os
 import pytz
 from transformer import div_to_zero
 
+
 class PythonValidationGenerator:
     """Generate Python validation_data.py file.
     """
@@ -70,7 +71,7 @@ VALIDATION_ITEM_{zoneShortName} = [
 
     def generate_files(self, output_dir):
         self._write_file(output_dir, self.VALIDATION_FILE_NAME,
-                        self._generate_validation_data())
+                         self._generate_validation_data())
 
     def _write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)
@@ -95,8 +96,7 @@ VALIDATION_ITEM_{zoneShortName} = [
         for short_name, test_items in sorted(test_data.items()):
             test_items_str = self._get_test_items(test_items)
             s += self.VALIDATION_ITEM.format(
-                zoneShortName=short_name,
-                testItems=test_items_str)
+                zoneShortName=short_name, testItems=test_items_str)
         return s
 
     def _get_test_items(self, test_items):
@@ -117,10 +117,9 @@ VALIDATION_ITEM_{zoneShortName} = [
             m=test_item.m,
             s=test_item.s,
             type=test_item.type)
-            
+
     def _get_validation_map_items(self, test_data):
         s = ''
         for short_name, test_items in sorted(test_data.items()):
-            s += self.VALIDATION_MAP_ITEM.format(
-                zoneShortName=short_name)
+            s += self.VALIDATION_MAP_ITEM.format(zoneShortName=short_name)
         return s

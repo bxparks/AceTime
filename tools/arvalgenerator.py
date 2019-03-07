@@ -120,18 +120,14 @@ const ValidationData kValidationData{zoneShortName} = {{
 """
 
     # List of zones whose tests are broken
-    BROKEN_ZONE_BLACK_LIST = [
-        'Hebron',
-        'Moncton',
-        'Tehran'
-    ]
+    BROKEN_ZONE_BLACK_LIST = ['Hebron', 'Moncton', 'Tehran']
 
     def __init__(self, invocation, tz_version, test_data, num_items, extended):
         self.invocation = invocation
         self.tz_version = tz_version
         self.test_data = test_data
         self.num_items = num_items
-        self.extended = extended # extended Arduino/C++ database
+        self.extended = extended  # extended Arduino/C++ database
         self.extended_suffix = 'x' if extended else ''
         if extended:
             self.file_base = 'extended_validation'
@@ -149,11 +145,11 @@ const ValidationData kValidationData{zoneShortName} = {{
 
     def generate_files(self, output_dir):
         self._write_file(output_dir, self.validation_data_h_file_name,
-                        self._generate_validation_data_h())
+                         self._generate_validation_data_h())
         self._write_file(output_dir, self.validation_data_cpp_file_name,
-                        self._generate_validation_data_cpp())
+                         self._generate_validation_data_cpp())
         self._write_file(output_dir, self.validation_tests_file_name,
-                        self._generate_tests_cpp())
+                         self._generate_tests_cpp())
 
     def _write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)
@@ -197,8 +193,7 @@ const ValidationData kValidationData{zoneShortName} = {{
             test_items_string = self._generate_validation_data_cpp_test_items(
                 short_name, test_items)
             validation_item = self.VALIDATION_DATA_CPP_ITEM.format(
-                zoneShortName=short_name,
-                testItems=test_items_string)
+                zoneShortName=short_name, testItems=test_items_string)
             validation_items += validation_item
         return validation_items
 
@@ -242,4 +237,3 @@ const ValidationData kValidationData{zoneShortName} = {{
                 comment=comment)
             test_cases += test_case
         return test_cases
-

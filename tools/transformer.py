@@ -242,8 +242,9 @@ class Transformer:
                     removed_zones[name] = "invalid untilDay '%s'" % until_day
                     break
 
-                zone.untilDay = calc_day_of_month(zone.untilYear,
-                    zone.untilMonth, on_day_of_week, on_day_of_month)
+                zone.untilDay = calc_day_of_month(
+                    zone.untilYear, zone.untilMonth, on_day_of_week,
+                    on_day_of_month)
             if valid:
                 results[name] = zones
 
