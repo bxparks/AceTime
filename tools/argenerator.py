@@ -120,11 +120,20 @@ static const common::ZoneRule kZoneRules{policyName}[] = {{
 {ruleItems}
 }};
 
+{letterArray}
+
 const common::ZonePolicy kPolicy{policyName} = {{
   sizeof(kZoneRules{policyName})/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRules{policyName} /*rules*/,
+  {numLetters} /* numLetters */,
+  {letterArrayRef} /* letters */,
 }};
+"""
 
+    ZONE_POLICIES_LETTER_ARRAY = """\
+static const char* const kLetters{policyName}[] = {{
+{letterItems}
+}};
 """
 
     ZONE_POLICIES_CPP_RULE_ITEM = """\
@@ -138,7 +147,7 @@ const common::ZonePolicy kPolicy{policyName} = {{
     {atTimeCode} /*atTimeCode*/,
     '{atTimeModifier}' /*atTimeModifier*/,
     {deltaCode} /*deltaCode*/,
-    '{letter}' /*letter*/,
+    {letter} /*letter{letterComment}*/,
   }},
 """
 
@@ -335,6 +344,7 @@ extern const char* const kStrings[];
         self.tz_files = tz_files
         self.zones_map = zones_map
         self.rules_map = rules_map
+        self.letters_map = {}  # map{policy_name: map{letter: index}}
         self.removed_zones = removed_zones
         self.removed_policies = removed_policies
         self.notable_zones = notable_zones
@@ -346,7 +356,34 @@ extern const char* const kStrings[];
         self.strings_size = 0
         self.strings_original_size = 0
 
-    def collect_strings(self):
+    def generate_files(self, output_dir):
+        if self.extended:
+            self._collect_letter_strings()
+
+        self._write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
+                         self._generate_policies_h())
+        self._write_file(output_dir, self.ZONE_POLICIES_CPP_FILE_NAME,
+                         self._generate_policies_cpp())
+
+        self._write_file(output_dir, self.ZONE_INFOS_H_FILE_NAME,
+                         self._generate_infos_h())
+        self._write_file(output_dir, self.ZONE_INFOS_CPP_FILE_NAME,
+                         self._generate_infos_cpp())
+
+        if self.extended:
+            self._collect_strings()
+            self._write_file(output_dir, self.ZONE_STRINGS_H_FILE_NAME,
+                             self._generate_strings_h())
+            self._write_file(output_dir, self.ZONE_STRINGS_CPP_FILE_NAME,
+                             self._generate_strings_cpp())
+
+    def _collect_strings(self):
+        """Collect all ZoneRule.letter and ZoneEra.format strings into a single
+        array, for deduplication. However, bringing all strings into a single
+        array means that this gets loaded even if the application uses only a
+        few zones. See _collect_letter_strings() for code that collects only the
+        ZoneRule.letter strings.
+        """
         strings_count = {}
         for name, eras in self.zones_map.items():
             for era in eras:
@@ -372,23 +409,19 @@ extern const char* const kStrings[];
         self.strings_size = size
         self.strings_original_size = original_size
 
-    def generate_files(self, output_dir):
-        self._write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
-                         self._generate_policies_h())
-        self._write_file(output_dir, self.ZONE_POLICIES_CPP_FILE_NAME,
-                         self._generate_policies_cpp())
-
-        self._write_file(output_dir, self.ZONE_INFOS_H_FILE_NAME,
-                         self._generate_infos_h())
-        self._write_file(output_dir, self.ZONE_INFOS_CPP_FILE_NAME,
-                         self._generate_infos_cpp())
-
-        if self.extended:
-            self.collect_strings()
-            self._write_file(output_dir, self.ZONE_STRINGS_H_FILE_NAME,
-                             self._generate_strings_h())
-            self._write_file(output_dir, self.ZONE_STRINGS_CPP_FILE_NAME,
-                             self._generate_strings_cpp())
+    def _collect_letter_strings(self):
+        letters_map = {}
+        for policy, rules in self.rules_map.items():
+            letters = set()
+            for rule in rules:
+                if len(rule.letter) > 1:
+                    letters.add(rule.letter)
+            indexed_letters_map = OrderedDict()
+            if letters:
+                for letter in sorted(letters):
+                    transformer.add_string(indexed_letters_map, letter)
+                letters_map[policy] = indexed_letters_map
+        self.letters_map = letters_map
 
     def _write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)
@@ -433,7 +466,9 @@ extern const char* const kStrings[];
         policy_items = ''
         num_rules = 0
         for name, rules in sorted(self.rules_map.items()):
-            policy_items += self._generate_policy_item(name, rules)
+            indexed_letters = self.letters_map.get(name)
+            policy_items += self._generate_policy_item(name, rules,
+                indexed_letters)
             num_rules += len(rules)
 
         num_policies = len(self.rules_map)
@@ -453,7 +488,7 @@ extern const char* const kStrings[];
             memory32=memory32,
             policyItems=policy_items)
 
-    def _generate_policy_item(self, name, rules):
+    def _generate_policy_item(self, name, rules, indexed_letters):
         rule_items = ''
         for rule in rules:
             at_time_code = div_to_zero(rule.atSecondsTruncated, 15 * 60)
@@ -463,6 +498,21 @@ extern const char* const kStrings[];
             from_year_tiny = to_tiny_year(from_year)
             to_year = rule.toYear
             to_year_tiny = to_tiny_year(to_year)
+
+            if len(rule.letter) == 1:
+                letter = "'%s'" % rule.letter
+                letterComment = ''
+            elif len(rule.letter) > 1:
+                index = indexed_letters.get(rule.letter)
+                if index == None:
+                    raise Exception('Could not find index for letter (%s)'
+                                    % rule.letter)
+                if index >= 32:
+                    raise Exception('Number of indexed letters >= 32')
+                letter = index
+                letterComment = ('; "%s"' % rule.letter)
+            else:
+                raise Exception('len(%s) == 0; should not happen' % rule.letter)
 
             rule_items += self.ZONE_POLICIES_CPP_RULE_ITEM.format(
                 rawLine=normalize_raw(rule.rawLine),
@@ -474,7 +524,8 @@ extern const char* const kStrings[];
                 atTimeCode=at_time_code,
                 atTimeModifier=rule.atTimeModifier,
                 deltaCode=delta_code,
-                letter=rule.letter)
+                letter=letter,
+                letterComment=letterComment)
 
         num_rules = len(rules)
         memory8 = (1 * self.SIZEOF_ZONE_POLICY_8 +
@@ -482,12 +533,29 @@ extern const char* const kStrings[];
         memory32 = (1 * self.SIZEOF_ZONE_POLICY_32 +
                     num_rules * self.SIZEOF_ZONE_RULE_32)
 
+        policyName = normalize_name(name)
+        numLetters = len(indexed_letters) if indexed_letters else 0
+        if numLetters:
+            letterArrayRef = 'kLetters%s' % policyName
+            letterItems = ''
+            for name, index in indexed_letters.items():
+                letterItems += ('  /*%d*/ "%s",\n' % (index, name))
+            letterArray = self.ZONE_POLICIES_LETTER_ARRAY.format(
+                policyName=policyName,
+                letterItems=letterItems)
+        else:
+            letterArrayRef = 'nullptr'
+            letterArray = ''
+
         return self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
-            policyName=normalize_name(name),
+            policyName=policyName,
             numRules=num_rules,
             memory8=memory8,
             memory32=memory32,
-            ruleItems=rule_items)
+            ruleItems=rule_items,
+            numLetters=numLetters,
+            letterArrayRef=letterArrayRef,
+            letterArray=letterArray)
 
     def _generate_infos_h(self):
         info_items = ''

@@ -103,7 +103,7 @@ class Transformer:
         rules_map = self._create_rules_with_anchor_transition(rules_map)
         if self.language == 'arduino':
             rules_map = self._remove_rules_with_border_transitions(rules_map)
-        if self.language == 'arduino' or self.language == 'arduinox':
+        if self.language == 'arduino':
             rules_map = self._remove_rules_long_dst_letter(rules_map)
 
         zones_map = self._remove_zones_without_rules(zones_map, rules_map)

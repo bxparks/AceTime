@@ -69,10 +69,18 @@ struct ZoneRule {
   /**
    * Determined by the LETTER column. Determines the substitution into the '%s'
    * field (implemented here by just a '%') of the ZoneInfo::format field.
-   * Possible values are 'S', 'D', '-'. There are only 2 Rule entries which
-   * have LETTER fields longer than 1 characters as of TZ Database version
-   * 2018g: Rule Namibia (used by Africa/Windhoek) and Rule Troll (used by
-   * Antarctica/Troll).
+   * Possible values are 'S', 'D', '-', or a number < 32 (i.e. a non-printable
+   * character). If the value is < 32, then this number is an index offset into
+   * the ZonePolicy.letters[] array which contains a (const char*) of the
+   * actual multi-character letter.
+   *
+   * As of TZ DB version 2018i, there are 4 ZonePolicies which have ZoneRules
+   * with a LETTER field longer than 1 character:
+   *
+   *  - Belize ('CST'; used by America/Belize)
+   *  - Namibia ('WAT', 'CAT'; used by Africa/Windhoek)
+   *  - StJohns ('DD'; used by America/St_Johns and America/Goose_Bay)
+   *  - Troll ('+00' '+02'; used by Antarctica/Troll)
    */
   uint8_t const letter;
 };
@@ -82,10 +90,16 @@ struct ZoneRule {
  * administrative region. A given time zone (ZoneInfo) can follow a different
  * ZonePolicy at different times. Conversely, multiple time zones (ZoneInfo)
  * can choose to follow the same ZonePolicy at different times.
+ *
+ * If numLetters is non-zero, then 'letters' will be a pointer to an array of
+ * (const char*) pointers. Any ZoneRule.letter < 32 (i.e. non-printable) will
+ * be an offset into this array of pointers.
  */
 struct ZonePolicy {
   uint8_t const numRules;
   const ZoneRule* const rules;
+  uint8_t const numLetters;
+  const char* const* const letters;
 };
 
 }
