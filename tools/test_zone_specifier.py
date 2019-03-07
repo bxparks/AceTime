@@ -15,11 +15,9 @@ from zone_specifier import Transition
 from zone_specifier import ZoneMatch
 from zone_specifier import YearMonthTuple
 from zone_specifier import ZoneSpecifier
-from zone_specifier import get_candidate_years
-from zone_specifier import expand_date_tuple
-from zone_specifier import normalize_date_tuple
-from zone_specifier import compare_transition_to_match
-from zone_specifier import compare_transition_to_match_fuzzy
+from zone_specifier import CandidateFinderBasic
+from zone_specifier import _compare_transition_to_match
+from zone_specifier import _compare_transition_to_match_fuzzy
 
 class TestValidationData(unittest.TestCase):
     def test_validation_data(self):
@@ -40,19 +38,26 @@ class TestValidationData(unittest.TestCase):
 
 class TestZoneSpecifierHelperMethods(unittest.TestCase):
     def test_get_candidate_years(self):
-        self.assertEqual([1, 2, 3], sorted(get_candidate_years(1, 4, 2, 3)))
-        self.assertEqual([1, 2, 3], sorted(get_candidate_years(0, 4, 2, 3)))
-        self.assertEqual([], sorted(get_candidate_years(4, 5, 2, 3)))
-        self.assertEqual([2], sorted(get_candidate_years(0, 2, 5, 6)))
-        self.assertEqual([4, 5], sorted(get_candidate_years(0, 5, 5, 6)))
-        self.assertEqual([0, 1, 2], sorted(get_candidate_years(0, 2, 0, 2)))
-        self.assertEqual([1, 2, 3, 4], sorted(get_candidate_years(0, 4, 2, 4)))
+        self.assertEqual([1, 2, 3],
+            sorted(CandidateFinderBasic.get_candidate_years(1, 4, 2, 3)))
+        self.assertEqual([1, 2, 3],
+            sorted(CandidateFinderBasic.get_candidate_years(0, 4, 2, 3)))
+        self.assertEqual([],
+            sorted(CandidateFinderBasic.get_candidate_years(4, 5, 2, 3)))
+        self.assertEqual([2],
+            sorted(CandidateFinderBasic.get_candidate_years(0, 2, 5, 6)))
+        self.assertEqual([4, 5],
+            sorted(CandidateFinderBasic.get_candidate_years(0, 5, 5, 6)))
+        self.assertEqual([0, 1, 2],
+            sorted(CandidateFinderBasic.get_candidate_years(0, 2, 0, 2)))
+        self.assertEqual([1, 2, 3, 4],
+            sorted(CandidateFinderBasic.get_candidate_years(0, 4, 2, 4)))
 
     def test_expand_date_tuple(self):
         self.assertEqual((DateTuple(2000, 1, 30, 10800, 'w'),
                           DateTuple(2000, 1, 30, 7200, 's'),
                           DateTuple(2000, 1, 30, 0, 'u')),
-                         expand_date_tuple(
+                         ZoneSpecifier._expand_date_tuple(
                              DateTuple(2000, 1, 30, 10800, 'w'),
                              offset_seconds=7200,
                              delta_seconds=3600))
@@ -60,7 +65,7 @@ class TestZoneSpecifierHelperMethods(unittest.TestCase):
         self.assertEqual((DateTuple(2000, 1, 30, 10800, 'w'),
                           DateTuple(2000, 1, 30, 7200, 's'),
                           DateTuple(2000, 1, 30, 0, 'u')),
-                         expand_date_tuple(
+                         ZoneSpecifier._expand_date_tuple(
                              DateTuple(2000, 1, 30, 7200, 's'),
                              offset_seconds=7200,
                              delta_seconds=3600))
@@ -68,7 +73,7 @@ class TestZoneSpecifierHelperMethods(unittest.TestCase):
         self.assertEqual((DateTuple(2000, 1, 30, 10800, 'w'),
                           DateTuple(2000, 1, 30, 7200, 's'),
                           DateTuple(2000, 1, 30, 0, 'u')),
-                         expand_date_tuple(
+                         ZoneSpecifier._expand_date_tuple(
                              DateTuple(2000, 1, 30, 0, 'u'),
                              offset_seconds=7200,
                              delta_seconds=3600))
@@ -76,15 +81,18 @@ class TestZoneSpecifierHelperMethods(unittest.TestCase):
     def test_normalize_date_tuple(self):
         self.assertEqual(
             DateTuple(2000, 2, 1, 0, 'w'),
-            normalize_date_tuple(DateTuple(2000, 2, 1, 0, 'w')))
+            ZoneSpecifier._normalize_date_tuple(
+                DateTuple(2000, 2, 1, 0, 'w')))
 
         self.assertEqual(
             DateTuple(2000, 2, 1, 0, 's'),
-            normalize_date_tuple(DateTuple(2000, 1, 31, 24 * 3600, 's')))
+            ZoneSpecifier._normalize_date_tuple(
+                DateTuple(2000, 1, 31, 24 * 3600, 's')))
 
         self.assertEqual(
             DateTuple(2000, 2, 29, 23 * 3600, 'u'),
-            normalize_date_tuple(DateTuple(2000, 3, 1, -3600, 'u')))
+            ZoneSpecifier._normalize_date_tuple(
+                DateTuple(2000, 3, 1, -3600, 'u')))
 
 
 class TestCompareTransitionToMatch(unittest.TestCase):
@@ -97,22 +105,22 @@ class TestCompareTransitionToMatch(unittest.TestCase):
         transition = Transition({
             'transitionTime': DateTuple(1999, 12, 31, 0, 'w')
         })
-        self.assertEqual(-1, compare_transition_to_match(transition, match))
+        self.assertEqual(-1, _compare_transition_to_match(transition, match))
 
         transition = Transition({
             'transitionTime': DateTuple(2000, 1, 1, 0, 'w')
         })
-        self.assertEqual(0, compare_transition_to_match(transition, match))
+        self.assertEqual(0, _compare_transition_to_match(transition, match))
 
         transition = Transition({
             'transitionTime': DateTuple(2000, 1, 2, 0, 'w')
         })
-        self.assertEqual(1, compare_transition_to_match(transition, match))
+        self.assertEqual(1, _compare_transition_to_match(transition, match))
 
         transition = Transition({
             'transitionTime': DateTuple(2001, 1, 2, 0, 'w')
         })
-        self.assertEqual(2, compare_transition_to_match(transition, match))
+        self.assertEqual(2, _compare_transition_to_match(transition, match))
 
     def test_compare_fuzzy(self):
         match = ZoneMatch({
@@ -124,37 +132,37 @@ class TestCompareTransitionToMatch(unittest.TestCase):
             'transitionTime': DateTuple(1999, 11, 1, 0, 'w')
         })
         self.assertEqual(-1,
-            compare_transition_to_match_fuzzy(transition, match))
+            _compare_transition_to_match_fuzzy(transition, match))
 
         transition = Transition({
             'transitionTime': DateTuple(1999, 12, 1, 0, 'w')
         })
         self.assertEqual(1,
-            compare_transition_to_match_fuzzy(transition, match))
+            _compare_transition_to_match_fuzzy(transition, match))
 
         transition = Transition({
             'transitionTime': DateTuple(2000, 1, 1, 0, 'w')
         })
         self.assertEqual(1,
-            compare_transition_to_match_fuzzy(transition, match))
+            _compare_transition_to_match_fuzzy(transition, match))
 
         transition = Transition({
             'transitionTime': DateTuple(2001, 1, 1, 0, 'w')
         })
         self.assertEqual(1,
-            compare_transition_to_match_fuzzy(transition, match))
+            _compare_transition_to_match_fuzzy(transition, match))
 
         transition = Transition({
             'transitionTime': DateTuple(2001, 2, 1, 0, 'w')
         })
         self.assertEqual(1,
-            compare_transition_to_match_fuzzy(transition, match))
+            _compare_transition_to_match_fuzzy(transition, match))
 
         transition = Transition({
             'transitionTime': DateTuple(2001, 3, 1, 0, 'w')
         })
         self.assertEqual(2,
-            compare_transition_to_match_fuzzy(transition, match))
+            _compare_transition_to_match_fuzzy(transition, match))
 
 
 class TestZoneSpecifierMatchesAndTransitions(unittest.TestCase):
