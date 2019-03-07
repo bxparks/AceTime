@@ -204,12 +204,11 @@ def main():
                               granularity, args.strict)
     transformer.transform()
     transformer.print_summary()
-    (zones, rules, removed_zones, removed_policies, notable_zones,
-     notable_policies) = transformer.get_data()
 
     # Validate the zone_infos and zone_policies if requested
     logging.info('======== Generating inlined zone_infos and zone_policies...')
-    inline_generator = InlineGenerator(zones, rules)
+    inline_generator = InlineGenerator(
+        transformer.zones_map, transformer.rules_map)
     (zone_infos, zone_policies) = inline_generator.generate_maps()
     logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
                  len(zone_policies))
@@ -232,17 +231,25 @@ def main():
         if language == 'python':
             logging.info('======== Creating Python zonedb files...')
             generator = PythonGenerator(invocation, args.tz_version,
-                                        Extractor.ZONE_FILES, zones, rules,
-                                        removed_zones, removed_policies,
-                                        notable_zones, notable_policies)
+                                        Extractor.ZONE_FILES,
+                                        transformer.zones_map,
+                                        transformer.rules_map,
+                                        transformer.removed_zones,
+                                        transformer.removed_policies,
+                                        transformer.notable_zones,
+                                        transformer.notable_policies)
             generator.generate_files(args.output_dir)
         elif language == 'arduino' or language == 'arduinox':
             extended = (language == 'arduinox')
             logging.info('======== Creating Arduino zonedb files...')
             generator = ArduinoGenerator(
-                invocation, args.tz_version, Extractor.ZONE_FILES, zones,
-                rules, removed_zones, removed_policies, notable_zones,
-                notable_policies, extended)
+                invocation, args.tz_version, Extractor.ZONE_FILES,
+                transformer.zones_map, transformer.rules_map,
+                transformer.all_removed_zones,
+                transformer.all_removed_policies,
+                transformer.all_notable_zones,
+                transformer.all_notable_policies,
+                extended)
             generator.generate_files(args.output_dir)
         else:
             raise Exception("Unrecognized language '%s'" % language)

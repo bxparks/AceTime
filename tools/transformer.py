@@ -45,38 +45,30 @@ class Transformer:
         self.all_notable_zones = {}  # map of zone name -> reason
         self.all_notable_policies = {}  # map of policy name -> reason
 
-    def get_data(self):
+    def transform(self):
         """
-        Returns a tuple of 6 data structures:
+        Transforms the zones_map and rules_map given in the constructor
+        through a series of filters, and produces the following results:
 
-        * 'zones_map' is a map of (name -> ZoneEraRaw[]).
-
-        * 'rules_map' is a map of (name -> ZoneRuleRaw[]).
-
-        * 'all_removed_zones' is a map of the zones which were removed:
+        * 'self.zones_map' is a map of (name -> ZoneEraRaw[]).
+        * 'self.rules_map' is a map of (name -> ZoneRuleRaw[]).
+        * 'self.all_removed_zones' is a map of the zones which were removed:
             name: name of zone removed
             reason: human readable reason
-
-        * 'all_removed_policies' is a map of the policies (entire set of RULEs)
-        which were removed:
+        * 'self.all_removed_policies' is a map of the policies (entire set of
+          RULEs) which were removed:
             name: name of policy removed
             reason: human readable reason
-
-        * 'all_notable_zones' is a map of the zones which come with caveats,
-          e.g., truncation of '00:01' to '00:00'.
+        * 'self.all_notable_zones' is a map of the zones which come with
+          caveats, e.g., truncation of '00:01' to '00:00'.
             name: name of zone
             reason: human readable reason
-
-        * 'all_notable_policies' is a map of the policies come with caveats:
+        * 'self.all_notable_policies' is a map of the policies come with
+          caveats:
             name: name of policy
             reason: human readable reason
-
         """
-        return (self.zones_map, self.rules_map, self.all_removed_zones,
-                self.all_removed_policies, self.all_notable_zones,
-                self.all_notable_policies)
 
-    def transform(self):
         zones_map = self.zones_map
         rules_map = self.rules_map
 
