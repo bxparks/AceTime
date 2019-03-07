@@ -685,7 +685,6 @@ class ZoneSpecifier:
         finder.find_candidate_transitions(
             candidate_transitions, match, rules)
         if self.debug:
-            logging.info('Num candidates: %d' % len(candidate_transitions))
             print_transitions(candidate_transitions)
         self._check_transitions_sorted(candidate_transitions)
 
@@ -694,7 +693,6 @@ class ZoneSpecifier:
             logging.info('_fix_transition_times()')
         self._fix_transition_times(candidate_transitions)
         if self.debug:
-            logging.info('Num candidates: %d' % len(candidate_transitions))
             print_transitions(candidate_transitions)
         self._check_transitions_sorted(candidate_transitions)
 
@@ -724,7 +722,6 @@ class ZoneSpecifier:
             logging.info('==== Final check for sorted transitions')
         self._check_transitions_sorted(transitions)
         if self.debug:
-            logging.info('Num transitions: %d' % len(transitions))
             print_transitions(transitions)
 
         return transitions
@@ -1298,6 +1295,7 @@ class ActiveSelectorInPlace:
 
 
 def print_transitions(transitions):
+    logging.info('Num transitions: %d' % len(transitions))
     for t in transitions:
         logging.info(t)
 
