@@ -5,11 +5,11 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018i
 //
-// Zone info count: 343
-// Zone era count: 618
-// Strings: 8839
-// Memory (8-bit): 17352
-// Memory (32-bit): 21196
+// Zone info count: 348
+// Zone era count: 626
+// Strings: 8948
+// Memory (8-bit): 17574
+// Memory (32-bit): 21470
 //
 // DO NOT EDIT
 
@@ -695,6 +695,36 @@ const common::ZoneInfo kZoneTunis = {
   "Africa/Tunis" /*name*/,
   kZoneEraTunis /*eras*/,
   sizeof(kZoneEraTunis)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Africa/Windhoek
+// Era count: 1
+// Strings: 18
+// Memory (8-bit): 34
+// Memory (32-bit): 42
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraWindhoek[] = {
+  //             2:00    Namibia    %s
+  {
+    8 /*offsetCode*/,
+    &kPolicyNamibia /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "%" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneWindhoek = {
+  "Africa/Windhoek" /*name*/,
+  kZoneEraWindhoek /*eras*/,
+  sizeof(kZoneEraWindhoek)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2012,6 +2042,36 @@ const common::ZoneInfo kZoneBelem = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/Belize
+// Era count: 1
+// Strings: 17
+// Memory (8-bit): 33
+// Memory (32-bit): 41
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraBelize[] = {
+  //             -6:00    Belize    %s
+  {
+    -24 /*offsetCode*/,
+    &kPolicyBelize /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "%" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneBelize = {
+  "America/Belize" /*name*/,
+  kZoneEraBelize /*eras*/,
+  sizeof(kZoneEraBelize)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Blanc_Sablon
 // Era count: 1
 // Strings: 25
@@ -3035,6 +3095,48 @@ const common::ZoneInfo kZoneGodthab = {
   "America/Godthab" /*name*/,
   kZoneEraGodthab /*eras*/,
   sizeof(kZoneEraGodthab)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: America/Goose_Bay
+// Era count: 2
+// Strings: 26
+// Memory (8-bit): 53
+// Memory (32-bit): 65
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraGoose_Bay[] = {
+  //             -4:00    StJohns    A%sT    2011 Nov
+  {
+    -16 /*offsetCode*/,
+    &kPolicyStJohns /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "A%T" /*format*/,
+    11 /*untilYearTiny*/,
+    11 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -4:00    Canada    A%sT
+  {
+    -16 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "A%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneGoose_Bay = {
+  "America/Goose_Bay" /*name*/,
+  kZoneEraGoose_Bay /*eras*/,
+  sizeof(kZoneEraGoose_Bay)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5714,6 +5816,48 @@ const common::ZoneInfo kZoneSitka = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: America/St_Johns
+// Era count: 2
+// Strings: 25
+// Memory (8-bit): 52
+// Memory (32-bit): 64
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraSt_Johns[] = {
+  //             -3:30    StJohns    N%sT    2011 Nov
+  {
+    -14 /*offsetCode*/,
+    &kPolicyStJohns /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "N%T" /*format*/,
+    11 /*untilYearTiny*/,
+    11 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             -3:30    Canada    N%sT
+  {
+    -14 /*offsetCode*/,
+    &kPolicyCanada /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "N%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneSt_Johns = {
+  "America/St_Johns" /*name*/,
+  kZoneEraSt_Johns /*eras*/,
+  sizeof(kZoneEraSt_Johns)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: America/Swift_Current
 // Era count: 1
 // Strings: 26
@@ -6485,6 +6629,48 @@ const common::ZoneInfo kZoneSyowa = {
   "Antarctica/Syowa" /*name*/,
   kZoneEraSyowa /*eras*/,
   sizeof(kZoneEraSyowa)/sizeof(common::ZoneEra) /*numEras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Antarctica/Troll
+// Era count: 2
+// Strings: 23
+// Memory (8-bit): 50
+// Memory (32-bit): 62
+//---------------------------------------------------------------------------
+
+static const common::ZoneEra kZoneEraTroll[] = {
+  // 0 - -00 2005 Feb 12
+  {
+    0 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-00" /*format*/,
+    5 /*untilYearTiny*/,
+    2 /*untilMonth*/,
+    12 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+  //             0:00    Troll    %s
+  {
+    0 /*offsetCode*/,
+    &kPolicyTroll /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "%" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const common::ZoneInfo kZoneTroll = {
+  "Antarctica/Troll" /*name*/,
+  kZoneEraTroll /*eras*/,
+  sizeof(kZoneEraTroll)/sizeof(common::ZoneEra) /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
