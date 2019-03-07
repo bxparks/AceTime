@@ -276,6 +276,7 @@ namespace {dbNamespace} {{
 
 // numStrings: {numStrings}
 // memory: {sizeStrings}
+// memory original: {originalSizeStrings}
 const char* const kStrings[] = {{
 {stringItems}
 }};
@@ -343,22 +344,33 @@ extern const char* const kStrings[];
         self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
         self.strings = OrderedDict()
         self.strings_size = 0
+        self.strings_original_size = 0
 
     def collect_strings(self):
-        strings = set()
-        for name, eras in sorted(self.zones_map.items()):
+        strings_count = {}
+        for name, eras in self.zones_map.items():
             for era in eras:
                 format = era.format.replace('%s', '%')
-                strings.add(format)
-        for name, rules in sorted(self.rules_map.items()):
+                count = strings_count.get(format)
+                if count == None:
+                    count = 1
+                strings_count[format] = count + 1
+        for name, rules in self.rules_map.items():
             for rule in rules:
-                strings.add(rule.letter)
+                count = strings_count.get(rule.letter)
+                if count == None:
+                    count = 1
+                strings_count[rule.letter] = count + 1
 
-        length = 0
-        for name in sorted(strings):
+        size = 0
+        original_size = 0
+        for name in sorted(strings_count):
             transformer.add_string(self.strings, name)
-            length += len(name) + 1 # including NUL char in C String
-        self.strings_size = length
+            csize = len(name) + 1  # including NUL char in C String
+            size += csize
+            original_size += strings_count[name] * csize
+        self.strings_size = size
+        self.strings_original_size = original_size
 
     def generate_files(self, output_dir):
         self._write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
@@ -620,6 +632,7 @@ extern const char* const kStrings[];
             dbHeaderNamespace=self.db_header_namespace,
             numStrings=len(self.strings),
             sizeStrings=self.strings_size,
+            originalSizeStrings=self.strings_original_size,
             stringItems=string_items)
 
     def _generate_strings_h(self):
