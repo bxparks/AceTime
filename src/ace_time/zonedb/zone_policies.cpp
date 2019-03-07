@@ -136,11 +136,14 @@ static const common::ZoneRule kZoneRulesAN[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAN = {
   sizeof(kZoneRulesAN)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesAN /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: AQ
 // Rule count: 1
@@ -164,11 +167,14 @@ static const common::ZoneRule kZoneRulesAQ[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAQ = {
   sizeof(kZoneRulesAQ)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesAQ /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: AS
 // Rule count: 7
@@ -264,11 +270,14 @@ static const common::ZoneRule kZoneRulesAS[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAS = {
   sizeof(kZoneRulesAS)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesAS /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: AT
 // Rule count: 8
@@ -376,11 +385,14 @@ static const common::ZoneRule kZoneRulesAT[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAT = {
   sizeof(kZoneRulesAT)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesAT /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: AV
 // Rule count: 9
@@ -500,11 +512,14 @@ static const common::ZoneRule kZoneRulesAV[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAV = {
   sizeof(kZoneRulesAV)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesAV /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: AW
 // Rule count: 4
@@ -564,11 +579,14 @@ static const common::ZoneRule kZoneRulesAW[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAW = {
   sizeof(kZoneRulesAW)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesAW /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Armenia
 // Rule count: 3
@@ -616,11 +634,14 @@ static const common::ZoneRule kZoneRulesArmenia[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyArmenia = {
   sizeof(kZoneRulesArmenia)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesArmenia /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Aus
 // Rule count: 1
@@ -644,11 +665,14 @@ static const common::ZoneRule kZoneRulesAus[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAus = {
   sizeof(kZoneRulesAus)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesAus /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Azer
 // Rule count: 2
@@ -684,11 +708,14 @@ static const common::ZoneRule kZoneRulesAzer[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAzer = {
   sizeof(kZoneRulesAzer)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesAzer /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Barb
 // Rule count: 1
@@ -712,11 +739,14 @@ static const common::ZoneRule kZoneRulesBarb[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyBarb = {
   sizeof(kZoneRulesBarb)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesBarb /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Brazil
 // Rule count: 28
@@ -1064,11 +1094,14 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyBrazil = {
   sizeof(kZoneRulesBrazil)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesBrazil /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: CO
 // Rule count: 1
@@ -1092,11 +1125,14 @@ static const common::ZoneRule kZoneRulesCO[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyCO = {
   sizeof(kZoneRulesCO)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesCO /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: CR
 // Rule count: 1
@@ -1120,11 +1156,14 @@ static const common::ZoneRule kZoneRulesCR[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyCR = {
   sizeof(kZoneRulesCR)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesCR /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Canada
 // Rule count: 5
@@ -1196,11 +1235,14 @@ static const common::ZoneRule kZoneRulesCanada[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyCanada = {
   sizeof(kZoneRulesCanada)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesCanada /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Chatham
 // Rule count: 5
@@ -1272,11 +1314,14 @@ static const common::ZoneRule kZoneRulesChatham[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyChatham = {
   sizeof(kZoneRulesChatham)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesChatham /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Chile
 // Rule count: 15
@@ -1468,11 +1513,14 @@ static const common::ZoneRule kZoneRulesChile[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyChile = {
   sizeof(kZoneRulesChile)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesChile /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Cook
 // Rule count: 1
@@ -1496,11 +1544,14 @@ static const common::ZoneRule kZoneRulesCook[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyCook = {
   sizeof(kZoneRulesCook)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesCook /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Cuba
 // Rule count: 14
@@ -1680,11 +1731,14 @@ static const common::ZoneRule kZoneRulesCuba[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyCuba = {
   sizeof(kZoneRulesCuba)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesCuba /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Dhaka
 // Rule count: 3
@@ -1732,11 +1786,14 @@ static const common::ZoneRule kZoneRulesDhaka[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyDhaka = {
   sizeof(kZoneRulesDhaka)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesDhaka /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: EU
 // Rule count: 3
@@ -1784,11 +1841,14 @@ static const common::ZoneRule kZoneRulesEU[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyEU = {
   sizeof(kZoneRulesEU)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesEU /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: EUAsia
 // Rule count: 3
@@ -1836,11 +1896,14 @@ static const common::ZoneRule kZoneRulesEUAsia[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyEUAsia = {
   sizeof(kZoneRulesEUAsia)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesEUAsia /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Ecuador
 // Rule count: 1
@@ -1864,11 +1927,14 @@ static const common::ZoneRule kZoneRulesEcuador[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyEcuador = {
   sizeof(kZoneRulesEcuador)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesEcuador /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Eire
 // Rule count: 3
@@ -1916,11 +1982,14 @@ static const common::ZoneRule kZoneRulesEire[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyEire = {
   sizeof(kZoneRulesEire)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesEire /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Fiji
 // Rule count: 10
@@ -2052,11 +2121,14 @@ static const common::ZoneRule kZoneRulesFiji[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyFiji = {
   sizeof(kZoneRulesFiji)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesFiji /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Ghana
 // Rule count: 1
@@ -2080,11 +2152,14 @@ static const common::ZoneRule kZoneRulesGhana[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyGhana = {
   sizeof(kZoneRulesGhana)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesGhana /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Guat
 // Rule count: 3
@@ -2132,11 +2207,14 @@ static const common::ZoneRule kZoneRulesGuat[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyGuat = {
   sizeof(kZoneRulesGuat)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesGuat /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: HK
 // Rule count: 1
@@ -2160,11 +2238,14 @@ static const common::ZoneRule kZoneRulesHK[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyHK = {
   sizeof(kZoneRulesHK)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesHK /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Haiti
 // Rule count: 7
@@ -2260,11 +2341,14 @@ static const common::ZoneRule kZoneRulesHaiti[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyHaiti = {
   sizeof(kZoneRulesHaiti)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesHaiti /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Holiday
 // Rule count: 1
@@ -2288,11 +2372,14 @@ static const common::ZoneRule kZoneRulesHoliday[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyHoliday = {
   sizeof(kZoneRulesHoliday)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesHoliday /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Hond
 // Rule count: 3
@@ -2340,11 +2427,14 @@ static const common::ZoneRule kZoneRulesHond[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyHond = {
   sizeof(kZoneRulesHond)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesHond /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Iran
 // Rule count: 93
@@ -3472,11 +3562,14 @@ static const common::ZoneRule kZoneRulesIran[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyIran = {
   sizeof(kZoneRulesIran)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesIran /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Iraq
 // Rule count: 3
@@ -3524,11 +3617,14 @@ static const common::ZoneRule kZoneRulesIraq[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyIraq = {
   sizeof(kZoneRulesIraq)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesIraq /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Japan
 // Rule count: 1
@@ -3552,11 +3648,14 @@ static const common::ZoneRule kZoneRulesJapan[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyJapan = {
   sizeof(kZoneRulesJapan)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesJapan /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Jordan
 // Rule count: 12
@@ -3712,11 +3811,14 @@ static const common::ZoneRule kZoneRulesJordan[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyJordan = {
   sizeof(kZoneRulesJordan)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesJordan /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: LH
 // Rule count: 9
@@ -3836,11 +3938,14 @@ static const common::ZoneRule kZoneRulesLH[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyLH = {
   sizeof(kZoneRulesLH)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesLH /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Lebanon
 // Rule count: 3
@@ -3888,11 +3993,14 @@ static const common::ZoneRule kZoneRulesLebanon[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyLebanon = {
   sizeof(kZoneRulesLebanon)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesLebanon /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Macau
 // Rule count: 1
@@ -3916,11 +4024,14 @@ static const common::ZoneRule kZoneRulesMacau[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMacau = {
   sizeof(kZoneRulesMacau)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesMacau /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Mauritius
 // Rule count: 3
@@ -3968,11 +4079,14 @@ static const common::ZoneRule kZoneRulesMauritius[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMauritius = {
   sizeof(kZoneRulesMauritius)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesMauritius /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Mexico
 // Rule count: 7
@@ -4068,11 +4182,14 @@ static const common::ZoneRule kZoneRulesMexico[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMexico = {
   sizeof(kZoneRulesMexico)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesMexico /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Moldova
 // Rule count: 2
@@ -4108,11 +4225,14 @@ static const common::ZoneRule kZoneRulesMoldova[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMoldova = {
   sizeof(kZoneRulesMoldova)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesMoldova /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Moncton
 // Rule count: 3
@@ -4160,11 +4280,14 @@ static const common::ZoneRule kZoneRulesMoncton[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMoncton = {
   sizeof(kZoneRulesMoncton)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesMoncton /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Mongol
 // Rule count: 6
@@ -4248,11 +4371,14 @@ static const common::ZoneRule kZoneRulesMongol[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMongol = {
   sizeof(kZoneRulesMongol)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesMongol /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: NC
 // Rule count: 1
@@ -4276,11 +4402,14 @@ static const common::ZoneRule kZoneRulesNC[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyNC = {
   sizeof(kZoneRulesNC)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesNC /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: NZ
 // Rule count: 5
@@ -4352,11 +4481,14 @@ static const common::ZoneRule kZoneRulesNZ[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyNZ = {
   sizeof(kZoneRulesNZ)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesNZ /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Nic
 // Rule count: 5
@@ -4428,11 +4560,14 @@ static const common::ZoneRule kZoneRulesNic[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyNic = {
   sizeof(kZoneRulesNic)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesNic /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: PRC
 // Rule count: 1
@@ -4456,11 +4591,14 @@ static const common::ZoneRule kZoneRulesPRC[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyPRC = {
   sizeof(kZoneRulesPRC)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesPRC /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Pakistan
 // Rule count: 6
@@ -4544,11 +4682,14 @@ static const common::ZoneRule kZoneRulesPakistan[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyPakistan = {
   sizeof(kZoneRulesPakistan)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesPakistan /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Para
 // Rule count: 10
@@ -4680,11 +4821,14 @@ static const common::ZoneRule kZoneRulesPara[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyPara = {
   sizeof(kZoneRulesPara)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesPara /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Peru
 // Rule count: 1
@@ -4708,11 +4852,14 @@ static const common::ZoneRule kZoneRulesPeru[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyPeru = {
   sizeof(kZoneRulesPeru)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesPeru /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Phil
 // Rule count: 1
@@ -4736,11 +4883,14 @@ static const common::ZoneRule kZoneRulesPhil[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyPhil = {
   sizeof(kZoneRulesPhil)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesPhil /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: ROK
 // Rule count: 1
@@ -4764,11 +4914,14 @@ static const common::ZoneRule kZoneRulesROK[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyROK = {
   sizeof(kZoneRulesROK)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesROK /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: RussiaAsia
 // Rule count: 3
@@ -4816,11 +4969,14 @@ static const common::ZoneRule kZoneRulesRussiaAsia[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyRussiaAsia = {
   sizeof(kZoneRulesRussiaAsia)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesRussiaAsia /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: SA
 // Rule count: 1
@@ -4844,11 +5000,14 @@ static const common::ZoneRule kZoneRulesSA[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicySA = {
   sizeof(kZoneRulesSA)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesSA /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Salv
 // Rule count: 1
@@ -4872,11 +5031,14 @@ static const common::ZoneRule kZoneRulesSalv[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicySalv = {
   sizeof(kZoneRulesSalv)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesSalv /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Syria
 // Rule count: 12
@@ -5032,11 +5194,14 @@ static const common::ZoneRule kZoneRulesSyria[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicySyria = {
   sizeof(kZoneRulesSyria)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesSyria /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Taiwan
 // Rule count: 1
@@ -5060,11 +5225,14 @@ static const common::ZoneRule kZoneRulesTaiwan[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyTaiwan = {
   sizeof(kZoneRulesTaiwan)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesTaiwan /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Thule
 // Rule count: 5
@@ -5136,11 +5304,14 @@ static const common::ZoneRule kZoneRulesThule[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyThule = {
   sizeof(kZoneRulesThule)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesThule /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Tonga
 // Rule count: 7
@@ -5236,11 +5407,14 @@ static const common::ZoneRule kZoneRulesTonga[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyTonga = {
   sizeof(kZoneRulesTonga)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesTonga /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Tunisia
 // Rule count: 5
@@ -5312,11 +5486,14 @@ static const common::ZoneRule kZoneRulesTunisia[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyTunisia = {
   sizeof(kZoneRulesTunisia)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesTunisia /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: US
 // Rule count: 5
@@ -5388,11 +5565,14 @@ static const common::ZoneRule kZoneRulesUS[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyUS = {
   sizeof(kZoneRulesUS)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesUS /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Uruguay
 // Rule count: 6
@@ -5476,11 +5656,14 @@ static const common::ZoneRule kZoneRulesUruguay[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyUruguay = {
   sizeof(kZoneRulesUruguay)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesUruguay /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Vanuatu
 // Rule count: 1
@@ -5504,11 +5687,14 @@ static const common::ZoneRule kZoneRulesVanuatu[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyVanuatu = {
   sizeof(kZoneRulesVanuatu)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesVanuatu /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Winn
 // Rule count: 3
@@ -5556,11 +5742,14 @@ static const common::ZoneRule kZoneRulesWinn[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyWinn = {
   sizeof(kZoneRulesWinn)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesWinn /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 //---------------------------------------------------------------------------
 // Policy name: Zion
 // Rule count: 27
@@ -5896,11 +6085,14 @@ static const common::ZoneRule kZoneRulesZion[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyZion = {
   sizeof(kZoneRulesZion)/sizeof(common::ZoneRule) /*numRules*/,
   kZoneRulesZion /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
-
 
 
 }
