@@ -233,10 +233,10 @@ def main():
                                         Extractor.ZONE_FILES,
                                         transformer.zones_map,
                                         transformer.rules_map,
-                                        transformer.removed_zones,
-                                        transformer.removed_policies,
-                                        transformer.notable_zones,
-                                        transformer.notable_policies)
+                                        transformer.all_removed_zones,
+                                        transformer.all_removed_policies,
+                                        transformer.all_notable_zones,
+                                        transformer.all_notable_policies)
             generator.generate_files(args.output_dir)
         elif language == 'arduino' or language == 'arduinox':
             extended = (language == 'arduinox')
