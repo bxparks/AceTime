@@ -58,7 +58,6 @@ class ManualZoneSpecifier: public ZoneSpecifier {
 
     uint8_t getType() const override { return kTypeManual; }
 
-    /** Return the UTC offset after accounting for mIsDst flag. */
     UtcOffset getUtcOffset(acetime_t /*epochSeconds*/) override {
       return mIsDst
         ? UtcOffset::forOffsetCode(mStdOffset.code() + mDeltaOffset.code())
@@ -70,21 +69,21 @@ class ManualZoneSpecifier: public ZoneSpecifier {
       return mIsDst ? mDeltaOffset : UtcOffset();
     }
 
-    /** Return the time zone abbreviation after accounting for mIsDst flag. */
     const char* getAbbrev(acetime_t /*epochSeconds*/) override {
       return mIsDst ? mDstAbbrev : mStdAbbrev;
-    }
-
-    bool equals(const ZoneSpecifier& that) const override {
-      const auto& other = (const ManualZoneSpecifier&) that;
-      return *this == other;
     }
 
     void printTo(Print& printer) const override;
 
   private:
-    friend bool operator==(const ManualZoneSpecifier& a,
-        const ManualZoneSpecifier& b);
+    bool equals(const ZoneSpecifier& other) const override {
+      const auto& that = (const ManualZoneSpecifier&) other;
+      return isDst() == that.isDst()
+          && stdOffset() == that.stdOffset()
+          && deltaOffset() == that.deltaOffset()
+          && strcmp(stdAbbrev(), that.stdAbbrev()) == 0
+          && strcmp(dstAbbrev(), that.dstAbbrev()) == 0;
+    }
 
     /** Offset from UTC. */
     UtcOffset mStdOffset;
@@ -101,20 +100,6 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     /** Set to true if DST is enabled, when using ManualZoneSpecifier. */
     bool mIsDst = false;
 };
-
-inline bool operator==(const ManualZoneSpecifier& a,
-    const ManualZoneSpecifier& b) {
-  return a.isDst() == b.isDst()
-      && a.stdOffset() == b.stdOffset()
-      && a.deltaOffset() == b.deltaOffset()
-      && strcmp(a.stdAbbrev(), b.stdAbbrev()) == 0
-      && strcmp(a.dstAbbrev(), b.dstAbbrev()) == 0;
-}
-
-inline bool operator!=(const ManualZoneSpecifier& a,
-    const ManualZoneSpecifier& b) {
-  return ! (a == b);
-}
 
 }
 

@@ -95,7 +95,7 @@ class TimeZone {
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
   if (a.mZoneSpecifier == b.mZoneSpecifier) return true;
   if (a.getType() != b.getType()) return false;
-  return a.mZoneSpecifier->equals(*b.mZoneSpecifier);
+  return *a.mZoneSpecifier == *b.mZoneSpecifier;
 }
 
 inline bool operator!=(const TimeZone& a, const TimeZone& b) {

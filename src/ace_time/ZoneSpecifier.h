@@ -37,12 +37,24 @@ class ZoneSpecifier {
     /** Return the time zone abbreviation at epochSeconds. */
     virtual const char* getAbbrev(acetime_t epochSeconds) = 0;
 
-    /** Return true if equal. */
-    virtual bool equals(const ZoneSpecifier& that) const = 0;
-
     /** Print a human-readable identifier. */
     virtual void printTo(Print& printer) const = 0;
+
+  protected:
+    friend bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b);
+
+    /** Return true if equal. */
+    virtual bool equals(const ZoneSpecifier& other) const = 0;
 };
+
+inline bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b) {
+  if (a.getType() != b.getType()) return false;
+  return a.equals(b);
+}
+
+inline bool operator!=(const ZoneSpecifier& a, const ZoneSpecifier& b) {
+  return ! (a == b);
+}
 
 }
 
