@@ -22,7 +22,7 @@ struct DateTuple {
   int8_t yearTiny;
   uint8_t month;
   uint8_t day;
-  int8_t timeCode; // 15-min intervals
+  int8_t timeCode; // 15-min intervals; TODO: Change to uint8_t?
   uint8_t modifier; // 's', 'w', 'u'
 };
 
@@ -46,14 +46,14 @@ struct ExtendedZoneMatch {
   const common::ZoneEra* era;
 };
 
-struct Transition {
+struct ExtendedTransition {
   /**
    * Longest abbreviation seems to be 5 characters.
    * https://www.timeanddate.com/time/zones/
    */
   static const uint8_t kAbbrevSize = 5 + 1;
 
-  /** The match which generated this Transition. */
+  /** The match which generated this ExtendedTransition. */
   ExtendedZoneMatch zoneMatch;
 
   DateTuple originalTransitionTime;
@@ -144,7 +144,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     UtcOffset getUtcOffset(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return UtcOffset();
       init(epochSeconds);
-      const internal::Transition* transition = findTransition(epochSeconds);
+      const internal::ExtendedTransition* transition =
+          findTransition(epochSeconds);
       return UtcOffset::forOffsetCode(transition->offsetCode());
     }
 
@@ -152,7 +153,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     UtcOffset getDeltaOffset(acetime_t epochSeconds) {
       if (mZoneInfo == nullptr) return UtcOffset();
       init(epochSeconds);
-      const internal::Transition* transition = findTransition(epochSeconds);
+      const internal::ExtendedTransition* transition =
+          findTransition(epochSeconds);
       if (transition->rule == nullptr) return UtcOffset();
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
@@ -161,13 +163,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     const char* getAbbrev(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return "UTC";
       init(epochSeconds);
-      const internal::Transition* transition = findTransition(epochSeconds);
+      const internal::ExtendedTransition* transition =
+          findTransition(epochSeconds);
       return transition->abbrev;
-    }
-
-    bool equals(const ZoneSpecifier& that) const override {
-      const auto& other = (const ExtendedZoneSpecifier&) that;
-      return *this == other;
     }
 
     /** Used only for debugging. */
@@ -183,9 +181,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
   private:
-    friend bool operator==(const ExtendedZoneSpecifier& a,
-        const ExtendedZoneSpecifier& b);
-
     friend class ::ExtendedZoneSpecifierTest_compareEraToYearMonth;
 
     /**
@@ -204,11 +199,16 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     /** A sentinel ZoneEra which has the smallest year. */
     static const common::ZoneEra kAnchorEra;
 
-    /** Return the Transition matching the given epochSeconds. */
-    const internal::Transition* findTransition(acetime_t epochSeconds) {
-      const internal::Transition* match = nullptr;
+    bool equals(const ZoneSpecifier& other) const override {
+      const auto& that = (const ExtendedZoneSpecifier&) other;
+      return getZoneInfo() == that.getZoneInfo();
+    }
+
+    /** Return the ExtendedTransition matching the given epochSeconds. */
+    const internal::ExtendedTransition* findTransition(acetime_t epochSeconds) {
+      const internal::ExtendedTransition* match = nullptr;
       for (uint8_t i = 0; i < mNumTransitions; i++) {
-        const internal::Transition* candidate = &mTransitions[i];
+        const internal::ExtendedTransition* candidate = &mTransitions[i];
         if (candidate->startEpochSeconds <= epochSeconds) {
           match = candidate;
         } else if (candidate->startEpochSeconds > epochSeconds) {
@@ -294,14 +294,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         prev->untilYearTiny,
         prev->untilMonth,
         prev->untilDay,
-        prev->untilTimeCode,
+        (int8_t) prev->untilTimeCode,
         prev->untilTimeModifier
       };
       internal::DateTuple untilDate = {
         era->untilYearTiny,
         era->untilMonth,
         era->untilDay,
-        era->untilTimeCode,
+        (int8_t) era->untilTimeCode,
         era->untilTimeModifier
       };
       return internal::ExtendedZoneMatch{startDate, untilDate, era};
@@ -338,7 +338,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     void addTransitionsFromSimpleMatch(
         const internal::ExtendedZoneMatch* match) {
-      internal::Transition transition = {
+      internal::ExtendedTransition transition = {
         *match,
         internal::DateTuple(),
         match->startDateTime
@@ -399,18 +399,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     uint8_t mNumMatches = 0; // actual number of matches
     internal::ExtendedZoneMatch mMatches[kMaxMatches];
     uint8_t mNumTransitions = 0;; // actual number of transitions
-    internal::Transition mTransitions[kMaxTransitions];
+    internal::ExtendedTransition mTransitions[kMaxTransitions];
 };
-
-inline bool operator==(const ExtendedZoneSpecifier& a,
-    const ExtendedZoneSpecifier& b) {
-  return a.getZoneInfo() == b.getZoneInfo();
-}
-
-inline bool operator!=(const ExtendedZoneSpecifier& a,
-    const ExtendedZoneSpecifier& b) {
-  return ! (a == b);
-}
 
 }
 
