@@ -281,18 +281,19 @@ static const char* const kLetters{policyName}[] = {{
 
     def generate_policies_cpp(self):
         policy_items = ''
+        memory8 = 0
+        memory32 = 32
         num_rules = 0
         for name, rules in sorted(self.rules_map.items()):
             indexed_letters = self.letters_map.get(name)
-            policy_items += self._generate_policy_item(name, rules,
-                indexed_letters)
             num_rules += len(rules)
+            policy_item, policy_memory8, policy_memory32 = \
+                self._generate_policy_item(name, rules, indexed_letters)
+            policy_items += policy_item
+            memory8 += policy_memory8
+            memory32 += policy_memory32
 
         num_policies = len(self.rules_map)
-        memory8 = (num_policies * self.SIZEOF_ZONE_POLICY_8 +
-                   num_rules * self.SIZEOF_ZONE_RULE_8)
-        memory32 = (num_policies * self.SIZEOF_ZONE_POLICY_32 +
-                    num_rules * self.SIZEOF_ZONE_RULE_32)
 
         return self.ZONE_POLICIES_CPP_FILE.format(
             invocation=self.invocation,
@@ -373,7 +374,7 @@ static const char* const kLetters{policyName}[] = {{
                     num_rules * self.SIZEOF_ZONE_RULE_32 +
                     memoryLetters32)
 
-        return self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
+        policy_item = self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
             policyName=policyName,
             numRules=num_rules,
             memory8=memory8,
@@ -382,6 +383,8 @@ static const char* const kLetters{policyName}[] = {{
             numLetters=numLetters,
             letterArrayRef=letterArrayRef,
             letterArray=letterArray)
+
+        return (policy_item, memory8, memory32)
 
 
 class ZoneInfosGenerator:

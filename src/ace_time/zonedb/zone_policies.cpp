@@ -8,7 +8,7 @@
 // Policy count: 64
 // Rule count: 405
 // Memory (8-bit): 4029
-// Memory (32-bit): 4285
+// Memory (32-bit): 4317
 //
 // DO NOT EDIT
 
