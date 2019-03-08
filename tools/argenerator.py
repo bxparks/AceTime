@@ -177,7 +177,7 @@ static const common::ZoneRule kZoneRules{policyName}[] = {{
 {letterArray}
 
 const common::ZonePolicy kPolicy{policyName} = {{
-  sizeof(kZoneRules{policyName})/sizeof(common::ZoneRule) /*numRules*/,
+  {numRules} /*numRules*/,
   kZoneRules{policyName} /*rules*/,
   {numLetters} /* numLetters */,
   {letterArrayRef} /* letters */,
@@ -476,7 +476,7 @@ static const common::ZoneEra kZoneEra{zoneShortName}[] = {{
 const common::ZoneInfo kZone{zoneShortName} = {{
   "{zoneFullName}" /*name*/,
   kZoneEra{zoneShortName} /*eras*/,
-  sizeof(kZoneEra{zoneShortName})/sizeof(common::ZoneEra) /*numEras*/,
+  {numEras} /*numEras*/,
 }};
 
 """
