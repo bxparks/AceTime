@@ -705,3 +705,4 @@ testF(TransitionTest, Zaporozhye) {
 testF(TransitionTest, Zurich) {
   assertValid(&ace_time::zonedb::kValidationDataZurich);
 }
+
