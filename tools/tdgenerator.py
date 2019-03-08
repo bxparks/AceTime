@@ -78,28 +78,29 @@ class TestDataGenerator:
                     or current.m != item.m or current.s != item.s):
                 raise Exception('Item %s does not match item %s' % (current,
                                                                     item))
-            # 'A' and 'B' takes precedence over 'Y' and 'S'
+            # 'A' and 'B' takes precedence over 'S' or 'Y'
             if item.type in ['A', 'B']:
                 items_map[item.epoch] = item
         else:
             items_map[item.epoch] = item
 
     def _create_transition_test_items(self, tz, zone_specifier):
-        """Create a TestItem for the tz for each Transition instance found by
-        the ZoneSpecifier, for each year from start_year to end_year, inclusive.
+        """Create a TestItem for the tz for each zone, for each year from
+        start_year to end_year, inclusive. The following test samples are
+        created:
 
-        If the ZoneSpecifier is created with viewing_months=13, the first
-        Transition occurs at the year boundary. The ZoneSpecifier has no prior
-        Transition for 'epoch_seconds - 1', so a call to ZoneSpecifier for
-        this will probably fail.
+        * One test point for each month, on the first of the month.
+        * One test point for Dec 31, 23:00 for each year.
+        * A test point at the transition from DST to Standard, or vise versa.
+        * A test point one second before the transition.
 
-        If the ZoneSpecifier is created with viewing_months=14, then a
-        Transition is created for Dec 1 of the prior year, so all of the test
-        data points below will probably work.
+        Each TestData is annotated as:
+        * 'A': pre-transition
+        * 'B': post-transition
+        * 'S': a monthly test sample
+        * 'Y': end of year test sample
 
-        Some zones do not use DST, so we generate a test data point for
-        Jan 1 and Dec 31 of every year to make sure that every year has
-        something.
+        For [2000, 2038], this generates about 100,000 data points.
         """
         items_map = {}
         for year in range(self.start_year, self.end_year + 1):
@@ -108,19 +109,8 @@ class TestDataGenerator:
             # years that old.
             if self.viewing_months == 36 and year == self_start_year: continue
 
-            # Check the transition at the beginning of year.
-            test_item = self._create_test_item_from_datetime(
-                tz, year, month=1, day=1, hour=0, type='Y')
-            self._add_test_item(items_map, test_item)
-
-            # Check the transition at the end of the year.
-            test_item = self._create_test_item_from_datetime(
-                tz, year, month=12, day=31, hour=23, type='Y')
-            self._add_test_item(items_map, test_item)
-
             # Add samples just before and just after the DST transition.
             zone_specifier.init_for_year(year)
-            transition_found = False
             for transition in zone_specifier.transitions:
                 # Some Transitions from ZoneSpecifier are in previous or post
                 # years (e.g. viewing_months = [14, 36]), so skip those.
@@ -143,14 +133,16 @@ class TestDataGenerator:
                     tz, epoch_seconds, 'B')
                 self._add_test_item(items_map, test_item)
 
-                transition_found = True
-
-            # If no transition found within the year, add a test sample
-            # so that there's at least one sample per year.
-            if not transition_found:
+            # Add one sample test point on the first of each month
+            for month in range(1, 13):
                 test_item = self._create_test_item_from_datetime(
-                    tz, year, month=3, day=10, hour=2, type='S')
+                    tz, year, month=month, day=1, hour=0, type='S')
                 self._add_test_item(items_map, test_item)
+
+            # Add a sample test point at the end of the year.
+            test_item = self._create_test_item_from_datetime(
+                tz, year, month=12, day=31, hour=23, type='Y')
+            self._add_test_item(items_map, test_item)
 
         # Return the TestItems ordered by epoch
         return [items_map[x] for x in sorted(items_map)]
