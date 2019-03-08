@@ -852,8 +852,8 @@ const common::ZonePolicy kPolicyBarb = {
 //---------------------------------------------------------------------------
 // Policy name: Belize
 // Rule count: 1
-// Memory (8-bit): 15
-// Memory (32-bit): 19
+// Memory (8-bit): 21
+// Memory (32-bit): 27
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesBelize[] = {
@@ -6012,8 +6012,8 @@ const common::ZonePolicy kPolicyNZ = {
 //---------------------------------------------------------------------------
 // Policy name: Namibia
 // Rule count: 3
-// Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (8-bit): 45
+// Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesNamibia[] = {
@@ -7053,8 +7053,8 @@ const common::ZonePolicy kPolicySanLuis = {
 //---------------------------------------------------------------------------
 // Policy name: StJohns
 // Rule count: 5
-// Memory (8-bit): 51
-// Memory (32-bit): 55
+// Memory (8-bit): 56
+// Memory (32-bit): 62
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesStJohns[] = {
@@ -7549,8 +7549,8 @@ const common::ZonePolicy kPolicyTonga = {
 //---------------------------------------------------------------------------
 // Policy name: Troll
 // Rule count: 3
-// Memory (8-bit): 33
-// Memory (32-bit): 37
+// Memory (8-bit): 45
+// Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesTroll[] = {

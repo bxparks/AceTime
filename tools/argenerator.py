@@ -306,6 +306,7 @@ static const char* const kLetters{policyName}[] = {{
             policyItems=policy_items)
 
     def _generate_policy_item(self, name, rules, indexed_letters):
+        # Generate kZoneRules*[]
         rule_items = ''
         for rule in rules:
             at_time_code = div_to_zero(rule.atSecondsTruncated, 15 * 60)
@@ -344,25 +345,33 @@ static const char* const kLetters{policyName}[] = {{
                 letter=letter,
                 letterComment=letterComment)
 
-        num_rules = len(rules)
-        memory8 = (1 * self.SIZEOF_ZONE_POLICY_8 +
-                   num_rules * self.SIZEOF_ZONE_RULE_8)
-        memory32 = (1 * self.SIZEOF_ZONE_POLICY_32 +
-                    num_rules * self.SIZEOF_ZONE_RULE_32)
-
+        # Generate kLetters*[]
         policyName = normalize_name(name)
         numLetters = len(indexed_letters) if indexed_letters else 0
+        memoryLetters8 = 0
+        memoryLetters32 = 0
         if numLetters:
             letterArrayRef = 'kLetters%s' % policyName
             letterItems = ''
             for name, index in indexed_letters.items():
                 letterItems += ('  /*%d*/ "%s",\n' % (index, name))
+                memoryLetters8 += len(name) + 1 + 2  # NUL terminated
+                memoryLetters32 += len(name) + 1 + 4  # NUL terminated
             letterArray = self.ZONE_POLICIES_LETTER_ARRAY.format(
                 policyName=policyName,
                 letterItems=letterItems)
         else:
             letterArrayRef = 'nullptr'
             letterArray = ''
+
+        # Calculate the memory consumed by structs and arrays
+        num_rules = len(rules)
+        memory8 = (1 * self.SIZEOF_ZONE_POLICY_8 +
+                   num_rules * self.SIZEOF_ZONE_RULE_8 +
+                   memoryLetters8)
+        memory32 = (1 * self.SIZEOF_ZONE_POLICY_32 +
+                    num_rules * self.SIZEOF_ZONE_RULE_32 +
+                    memoryLetters32)
 
         return self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
             policyName=policyName,
