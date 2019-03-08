@@ -182,6 +182,7 @@ const common::ZonePolicy kPolicy{policyName} = {{
   {numLetters} /* numLetters */,
   {letterArrayRef} /* letters */,
 }};
+
 """
 
     ZONE_POLICIES_LETTER_ARRAY = """\
@@ -207,8 +208,8 @@ static const char* const kLetters{policyName}[] = {{
 
     SIZEOF_ZONE_RULE_8 = 9
     SIZEOF_ZONE_RULE_32 = 9
-    SIZEOF_ZONE_POLICY_8 = 3
-    SIZEOF_ZONE_POLICY_32 = 5
+    SIZEOF_ZONE_POLICY_8 = 6
+    SIZEOF_ZONE_POLICY_32 = 10
 
     def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
