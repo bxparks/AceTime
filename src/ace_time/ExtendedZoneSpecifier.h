@@ -26,6 +26,18 @@ struct DateTuple {
   uint8_t modifier; // 's', 'w', 'u'
 };
 
+inline bool operator<(const DateTuple& a, const DateTuple& b) {
+  if (a.yearTiny < b.yearTiny) return true;
+  if (a.yearTiny > b.yearTiny) return false;
+  if (a.month < b.month) return true;
+  if (a.month > b.month) return false;
+  if (a.day < b.day) return true;
+  if (a.day > b.day) return false;
+  if (a.timeCode < b.timeCode) return true;
+  if (a.timeCode > b.timeCode) return false;
+  return false;
+}
+
 struct YearMonthTuple {
   int8_t yearTiny;
   uint8_t month;
@@ -239,7 +251,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
 
       findMatches(startYm, untilYm);
-      findTransitions(startYm, untilYm);
+      findTransitions();
+      fixTransitions();
       generateStartUntilTimes();
       calcAbbreviations();
 
@@ -251,7 +264,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return mIsFilled && (year == mYear);
     }
 
-    void findMatches(const internal::YearMonthTuple& startYm,
+    void findMatches(
+        const internal::YearMonthTuple& startYm,
         const internal::YearMonthTuple& untilYm) {
       uint8_t iMatch = 0;
       const common::ZoneEra* prev = &kAnchorEra;
@@ -259,12 +273,13 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         const common::ZoneEra* era = &mZoneInfo->eras[iEra];
         if (eraOverlapsInterval(prev, era, startYm, untilYm)) {
           if (iMatch < kMaxMatches) {
-            mMatches[iMatch] = createMatch(prev, era);
+            mMatches[iMatch] = createMatch(prev, era, startYm, untilYm);
             iMatch++;
           }
         }
         prev = era;
       }
+      mNumMatches = iMatch;
     }
 
     static bool eraOverlapsInterval(
@@ -289,7 +304,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     internal::ExtendedZoneMatch createMatch(
-        const common::ZoneEra* prev, const common::ZoneEra* era) {
+        const common::ZoneEra* prev,
+        const common::ZoneEra* era,
+        const internal::YearMonthTuple& startYm,
+        const internal::YearMonthTuple& untilYm) {
       internal::DateTuple startDate = {
         prev->untilYearTiny,
         prev->untilMonth,
@@ -297,6 +315,13 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         (int8_t) prev->untilTimeCode,
         prev->untilTimeModifier
       };
+      internal::DateTuple lowerBound = {
+        startYm.yearTiny, startYm.month, 1, 0, 'w'
+      };
+      if (startDate < lowerBound) {
+        startDate = lowerBound;
+      }
+
       internal::DateTuple untilDate = {
         era->untilYearTiny,
         era->untilMonth,
@@ -304,31 +329,29 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         (int8_t) era->untilTimeCode,
         era->untilTimeModifier
       };
+      internal::DateTuple upperBound = {
+        untilYm.yearTiny, untilYm.month, 1, 0, 'w'
+      };
+      if (upperBound < untilDate) {
+        untilDate = upperBound;
+      }
+
       return internal::ExtendedZoneMatch{startDate, untilDate, era};
     }
 
-    void findTransitions(const internal::YearMonthTuple& startYm,
-        const internal::YearMonthTuple& untilYm) {
+    void findTransitions() {
       mNumTransitions = 0;
       for (uint8_t iMatch = 0; iMatch < mNumMatches; iMatch++) {
-        addTransitionsFromMatch(startYm, untilYm, &mMatches[iMatch]);
+        addTransitionsForMatch(&mMatches[iMatch]);
       }
-
-      fixTransitions();
     }
 
     void fixTransitions() {
-      // TODO: implement this
     }
 
-    void addTransitionsFromMatch(
-        const internal::YearMonthTuple& startYm,
-        const internal::YearMonthTuple& untilYm,
-        const internal::ExtendedZoneMatch* match) {
+    void addTransitionsForMatch(const internal::ExtendedZoneMatch* match) {
       const common::ZoneEra* era = match->era;
       const common::ZonePolicy* policy = era->zonePolicy;
-      internal::ExtendedZoneMatch effMatch = calcEffectiveMatch(
-          startYm, untilYm, match);
       if (policy == nullptr) {
         addTransitionsFromSimpleMatch(match);
       } else {
