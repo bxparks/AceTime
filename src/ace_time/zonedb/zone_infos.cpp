@@ -46,7 +46,7 @@ static const common::ZoneEra kZoneEraAbidjan[] = {
 const common::ZoneInfo kZoneAbidjan = {
   "Africa/Abidjan" /*name*/,
   kZoneEraAbidjan /*eras*/,
-  sizeof(kZoneEraAbidjan)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -76,7 +76,7 @@ static const common::ZoneEra kZoneEraAccra[] = {
 const common::ZoneInfo kZoneAccra = {
   "Africa/Accra" /*name*/,
   kZoneEraAccra /*eras*/,
-  sizeof(kZoneEraAccra)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -106,7 +106,7 @@ static const common::ZoneEra kZoneEraAlgiers[] = {
 const common::ZoneInfo kZoneAlgiers = {
   "Africa/Algiers" /*name*/,
   kZoneEraAlgiers /*eras*/,
-  sizeof(kZoneEraAlgiers)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -136,7 +136,7 @@ static const common::ZoneEra kZoneEraBissau[] = {
 const common::ZoneInfo kZoneBissau = {
   "Africa/Bissau" /*name*/,
   kZoneEraBissau /*eras*/,
-  sizeof(kZoneEraBissau)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -166,7 +166,7 @@ static const common::ZoneEra kZoneEraCeuta[] = {
 const common::ZoneInfo kZoneCeuta = {
   "Africa/Ceuta" /*name*/,
   kZoneEraCeuta /*eras*/,
-  sizeof(kZoneEraCeuta)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -196,7 +196,7 @@ static const common::ZoneEra kZoneEraJohannesburg[] = {
 const common::ZoneInfo kZoneJohannesburg = {
   "Africa/Johannesburg" /*name*/,
   kZoneEraJohannesburg /*eras*/,
-  sizeof(kZoneEraJohannesburg)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -226,7 +226,7 @@ static const common::ZoneEra kZoneEraLagos[] = {
 const common::ZoneInfo kZoneLagos = {
   "Africa/Lagos" /*name*/,
   kZoneEraLagos /*eras*/,
-  sizeof(kZoneEraLagos)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -256,7 +256,7 @@ static const common::ZoneEra kZoneEraMaputo[] = {
 const common::ZoneInfo kZoneMaputo = {
   "Africa/Maputo" /*name*/,
   kZoneEraMaputo /*eras*/,
-  sizeof(kZoneEraMaputo)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -286,7 +286,7 @@ static const common::ZoneEra kZoneEraMonrovia[] = {
 const common::ZoneInfo kZoneMonrovia = {
   "Africa/Monrovia" /*name*/,
   kZoneEraMonrovia /*eras*/,
-  sizeof(kZoneEraMonrovia)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -316,7 +316,7 @@ static const common::ZoneEra kZoneEraNairobi[] = {
 const common::ZoneInfo kZoneNairobi = {
   "Africa/Nairobi" /*name*/,
   kZoneEraNairobi /*eras*/,
-  sizeof(kZoneEraNairobi)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -346,7 +346,7 @@ static const common::ZoneEra kZoneEraNdjamena[] = {
 const common::ZoneInfo kZoneNdjamena = {
   "Africa/Ndjamena" /*name*/,
   kZoneEraNdjamena /*eras*/,
-  sizeof(kZoneEraNdjamena)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -376,7 +376,7 @@ static const common::ZoneEra kZoneEraTunis[] = {
 const common::ZoneInfo kZoneTunis = {
   "Africa/Tunis" /*name*/,
   kZoneEraTunis /*eras*/,
-  sizeof(kZoneEraTunis)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -406,7 +406,7 @@ static const common::ZoneEra kZoneEraAdak[] = {
 const common::ZoneInfo kZoneAdak = {
   "America/Adak" /*name*/,
   kZoneEraAdak /*eras*/,
-  sizeof(kZoneEraAdak)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -436,7 +436,7 @@ static const common::ZoneEra kZoneEraAnchorage[] = {
 const common::ZoneInfo kZoneAnchorage = {
   "America/Anchorage" /*name*/,
   kZoneEraAnchorage /*eras*/,
-  sizeof(kZoneEraAnchorage)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -466,7 +466,7 @@ static const common::ZoneEra kZoneEraAsuncion[] = {
 const common::ZoneInfo kZoneAsuncion = {
   "America/Asuncion" /*name*/,
   kZoneEraAsuncion /*eras*/,
-  sizeof(kZoneEraAsuncion)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -496,7 +496,7 @@ static const common::ZoneEra kZoneEraAtikokan[] = {
 const common::ZoneInfo kZoneAtikokan = {
   "America/Atikokan" /*name*/,
   kZoneEraAtikokan /*eras*/,
-  sizeof(kZoneEraAtikokan)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -526,7 +526,7 @@ static const common::ZoneEra kZoneEraBarbados[] = {
 const common::ZoneInfo kZoneBarbados = {
   "America/Barbados" /*name*/,
   kZoneEraBarbados /*eras*/,
-  sizeof(kZoneEraBarbados)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -556,7 +556,7 @@ static const common::ZoneEra kZoneEraBelem[] = {
 const common::ZoneInfo kZoneBelem = {
   "America/Belem" /*name*/,
   kZoneEraBelem /*eras*/,
-  sizeof(kZoneEraBelem)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -586,7 +586,7 @@ static const common::ZoneEra kZoneEraBlanc_Sablon[] = {
 const common::ZoneInfo kZoneBlanc_Sablon = {
   "America/Blanc_Sablon" /*name*/,
   kZoneEraBlanc_Sablon /*eras*/,
-  sizeof(kZoneEraBlanc_Sablon)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -616,7 +616,7 @@ static const common::ZoneEra kZoneEraBogota[] = {
 const common::ZoneInfo kZoneBogota = {
   "America/Bogota" /*name*/,
   kZoneEraBogota /*eras*/,
-  sizeof(kZoneEraBogota)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -646,7 +646,7 @@ static const common::ZoneEra kZoneEraBoise[] = {
 const common::ZoneInfo kZoneBoise = {
   "America/Boise" /*name*/,
   kZoneEraBoise /*eras*/,
-  sizeof(kZoneEraBoise)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -676,7 +676,7 @@ static const common::ZoneEra kZoneEraCampo_Grande[] = {
 const common::ZoneInfo kZoneCampo_Grande = {
   "America/Campo_Grande" /*name*/,
   kZoneEraCampo_Grande /*eras*/,
-  sizeof(kZoneEraCampo_Grande)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -706,7 +706,7 @@ static const common::ZoneEra kZoneEraCayenne[] = {
 const common::ZoneInfo kZoneCayenne = {
   "America/Cayenne" /*name*/,
   kZoneEraCayenne /*eras*/,
-  sizeof(kZoneEraCayenne)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -736,7 +736,7 @@ static const common::ZoneEra kZoneEraChicago[] = {
 const common::ZoneInfo kZoneChicago = {
   "America/Chicago" /*name*/,
   kZoneEraChicago /*eras*/,
-  sizeof(kZoneEraChicago)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -766,7 +766,7 @@ static const common::ZoneEra kZoneEraChihuahua[] = {
 const common::ZoneInfo kZoneChihuahua = {
   "America/Chihuahua" /*name*/,
   kZoneEraChihuahua /*eras*/,
-  sizeof(kZoneEraChihuahua)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -796,7 +796,7 @@ static const common::ZoneEra kZoneEraCosta_Rica[] = {
 const common::ZoneInfo kZoneCosta_Rica = {
   "America/Costa_Rica" /*name*/,
   kZoneEraCosta_Rica /*eras*/,
-  sizeof(kZoneEraCosta_Rica)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -826,7 +826,7 @@ static const common::ZoneEra kZoneEraCreston[] = {
 const common::ZoneInfo kZoneCreston = {
   "America/Creston" /*name*/,
   kZoneEraCreston /*eras*/,
-  sizeof(kZoneEraCreston)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -856,7 +856,7 @@ static const common::ZoneEra kZoneEraCuracao[] = {
 const common::ZoneInfo kZoneCuracao = {
   "America/Curacao" /*name*/,
   kZoneEraCuracao /*eras*/,
-  sizeof(kZoneEraCuracao)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -886,7 +886,7 @@ static const common::ZoneEra kZoneEraDanmarkshavn[] = {
 const common::ZoneInfo kZoneDanmarkshavn = {
   "America/Danmarkshavn" /*name*/,
   kZoneEraDanmarkshavn /*eras*/,
-  sizeof(kZoneEraDanmarkshavn)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -916,7 +916,7 @@ static const common::ZoneEra kZoneEraDawson[] = {
 const common::ZoneInfo kZoneDawson = {
   "America/Dawson" /*name*/,
   kZoneEraDawson /*eras*/,
-  sizeof(kZoneEraDawson)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -946,7 +946,7 @@ static const common::ZoneEra kZoneEraDawson_Creek[] = {
 const common::ZoneInfo kZoneDawson_Creek = {
   "America/Dawson_Creek" /*name*/,
   kZoneEraDawson_Creek /*eras*/,
-  sizeof(kZoneEraDawson_Creek)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -976,7 +976,7 @@ static const common::ZoneEra kZoneEraDenver[] = {
 const common::ZoneInfo kZoneDenver = {
   "America/Denver" /*name*/,
   kZoneEraDenver /*eras*/,
-  sizeof(kZoneEraDenver)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1006,7 +1006,7 @@ static const common::ZoneEra kZoneEraDetroit[] = {
 const common::ZoneInfo kZoneDetroit = {
   "America/Detroit" /*name*/,
   kZoneEraDetroit /*eras*/,
-  sizeof(kZoneEraDetroit)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1036,7 +1036,7 @@ static const common::ZoneEra kZoneEraEdmonton[] = {
 const common::ZoneInfo kZoneEdmonton = {
   "America/Edmonton" /*name*/,
   kZoneEraEdmonton /*eras*/,
-  sizeof(kZoneEraEdmonton)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1066,7 +1066,7 @@ static const common::ZoneEra kZoneEraEl_Salvador[] = {
 const common::ZoneInfo kZoneEl_Salvador = {
   "America/El_Salvador" /*name*/,
   kZoneEraEl_Salvador /*eras*/,
-  sizeof(kZoneEraEl_Salvador)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1096,7 +1096,7 @@ static const common::ZoneEra kZoneEraGlace_Bay[] = {
 const common::ZoneInfo kZoneGlace_Bay = {
   "America/Glace_Bay" /*name*/,
   kZoneEraGlace_Bay /*eras*/,
-  sizeof(kZoneEraGlace_Bay)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1126,7 +1126,7 @@ static const common::ZoneEra kZoneEraGodthab[] = {
 const common::ZoneInfo kZoneGodthab = {
   "America/Godthab" /*name*/,
   kZoneEraGodthab /*eras*/,
-  sizeof(kZoneEraGodthab)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1156,7 +1156,7 @@ static const common::ZoneEra kZoneEraGuatemala[] = {
 const common::ZoneInfo kZoneGuatemala = {
   "America/Guatemala" /*name*/,
   kZoneEraGuatemala /*eras*/,
-  sizeof(kZoneEraGuatemala)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1186,7 +1186,7 @@ static const common::ZoneEra kZoneEraGuayaquil[] = {
 const common::ZoneInfo kZoneGuayaquil = {
   "America/Guayaquil" /*name*/,
   kZoneEraGuayaquil /*eras*/,
-  sizeof(kZoneEraGuayaquil)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1216,7 +1216,7 @@ static const common::ZoneEra kZoneEraGuyana[] = {
 const common::ZoneInfo kZoneGuyana = {
   "America/Guyana" /*name*/,
   kZoneEraGuyana /*eras*/,
-  sizeof(kZoneEraGuyana)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1246,7 +1246,7 @@ static const common::ZoneEra kZoneEraHalifax[] = {
 const common::ZoneInfo kZoneHalifax = {
   "America/Halifax" /*name*/,
   kZoneEraHalifax /*eras*/,
-  sizeof(kZoneEraHalifax)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1276,7 +1276,7 @@ static const common::ZoneEra kZoneEraHavana[] = {
 const common::ZoneInfo kZoneHavana = {
   "America/Havana" /*name*/,
   kZoneEraHavana /*eras*/,
-  sizeof(kZoneEraHavana)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1318,7 +1318,7 @@ static const common::ZoneEra kZoneEraHermosillo[] = {
 const common::ZoneInfo kZoneHermosillo = {
   "America/Hermosillo" /*name*/,
   kZoneEraHermosillo /*eras*/,
-  sizeof(kZoneEraHermosillo)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1360,7 +1360,7 @@ static const common::ZoneEra kZoneEraIndianapolis[] = {
 const common::ZoneInfo kZoneIndianapolis = {
   "America/Indiana/Indianapolis" /*name*/,
   kZoneEraIndianapolis /*eras*/,
-  sizeof(kZoneEraIndianapolis)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1402,7 +1402,7 @@ static const common::ZoneEra kZoneEraMarengo[] = {
 const common::ZoneInfo kZoneMarengo = {
   "America/Indiana/Marengo" /*name*/,
   kZoneEraMarengo /*eras*/,
-  sizeof(kZoneEraMarengo)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1444,7 +1444,7 @@ static const common::ZoneEra kZoneEraVevay[] = {
 const common::ZoneInfo kZoneVevay = {
   "America/Indiana/Vevay" /*name*/,
   kZoneEraVevay /*eras*/,
-  sizeof(kZoneEraVevay)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1474,7 +1474,7 @@ static const common::ZoneEra kZoneEraInuvik[] = {
 const common::ZoneInfo kZoneInuvik = {
   "America/Inuvik" /*name*/,
   kZoneEraInuvik /*eras*/,
-  sizeof(kZoneEraInuvik)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1504,7 +1504,7 @@ static const common::ZoneEra kZoneEraJamaica[] = {
 const common::ZoneInfo kZoneJamaica = {
   "America/Jamaica" /*name*/,
   kZoneEraJamaica /*eras*/,
-  sizeof(kZoneEraJamaica)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1534,7 +1534,7 @@ static const common::ZoneEra kZoneEraJuneau[] = {
 const common::ZoneInfo kZoneJuneau = {
   "America/Juneau" /*name*/,
   kZoneEraJuneau /*eras*/,
-  sizeof(kZoneEraJuneau)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1564,7 +1564,7 @@ static const common::ZoneEra kZoneEraLouisville[] = {
 const common::ZoneInfo kZoneLouisville = {
   "America/Kentucky/Louisville" /*name*/,
   kZoneEraLouisville /*eras*/,
-  sizeof(kZoneEraLouisville)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1594,7 +1594,7 @@ static const common::ZoneEra kZoneEraLa_Paz[] = {
 const common::ZoneInfo kZoneLa_Paz = {
   "America/La_Paz" /*name*/,
   kZoneEraLa_Paz /*eras*/,
-  sizeof(kZoneEraLa_Paz)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1624,7 +1624,7 @@ static const common::ZoneEra kZoneEraLima[] = {
 const common::ZoneInfo kZoneLima = {
   "America/Lima" /*name*/,
   kZoneEraLima /*eras*/,
-  sizeof(kZoneEraLima)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1654,7 +1654,7 @@ static const common::ZoneEra kZoneEraLos_Angeles[] = {
 const common::ZoneInfo kZoneLos_Angeles = {
   "America/Los_Angeles" /*name*/,
   kZoneEraLos_Angeles /*eras*/,
-  sizeof(kZoneEraLos_Angeles)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1684,7 +1684,7 @@ static const common::ZoneEra kZoneEraManagua[] = {
 const common::ZoneInfo kZoneManagua = {
   "America/Managua" /*name*/,
   kZoneEraManagua /*eras*/,
-  sizeof(kZoneEraManagua)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1714,7 +1714,7 @@ static const common::ZoneEra kZoneEraManaus[] = {
 const common::ZoneInfo kZoneManaus = {
   "America/Manaus" /*name*/,
   kZoneEraManaus /*eras*/,
-  sizeof(kZoneEraManaus)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1744,7 +1744,7 @@ static const common::ZoneEra kZoneEraMartinique[] = {
 const common::ZoneInfo kZoneMartinique = {
   "America/Martinique" /*name*/,
   kZoneEraMartinique /*eras*/,
-  sizeof(kZoneEraMartinique)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1786,7 +1786,7 @@ static const common::ZoneEra kZoneEraMatamoros[] = {
 const common::ZoneInfo kZoneMatamoros = {
   "America/Matamoros" /*name*/,
   kZoneEraMatamoros /*eras*/,
-  sizeof(kZoneEraMatamoros)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1816,7 +1816,7 @@ static const common::ZoneEra kZoneEraMazatlan[] = {
 const common::ZoneInfo kZoneMazatlan = {
   "America/Mazatlan" /*name*/,
   kZoneEraMazatlan /*eras*/,
-  sizeof(kZoneEraMazatlan)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1846,7 +1846,7 @@ static const common::ZoneEra kZoneEraMenominee[] = {
 const common::ZoneInfo kZoneMenominee = {
   "America/Menominee" /*name*/,
   kZoneEraMenominee /*eras*/,
-  sizeof(kZoneEraMenominee)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1876,7 +1876,7 @@ static const common::ZoneEra kZoneEraMerida[] = {
 const common::ZoneInfo kZoneMerida = {
   "America/Merida" /*name*/,
   kZoneEraMerida /*eras*/,
-  sizeof(kZoneEraMerida)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1906,7 +1906,7 @@ static const common::ZoneEra kZoneEraMiquelon[] = {
 const common::ZoneInfo kZoneMiquelon = {
   "America/Miquelon" /*name*/,
   kZoneEraMiquelon /*eras*/,
-  sizeof(kZoneEraMiquelon)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1948,7 +1948,7 @@ static const common::ZoneEra kZoneEraMoncton[] = {
 const common::ZoneInfo kZoneMoncton = {
   "America/Moncton" /*name*/,
   kZoneEraMoncton /*eras*/,
-  sizeof(kZoneEraMoncton)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1978,7 +1978,7 @@ static const common::ZoneEra kZoneEraMonterrey[] = {
 const common::ZoneInfo kZoneMonterrey = {
   "America/Monterrey" /*name*/,
   kZoneEraMonterrey /*eras*/,
-  sizeof(kZoneEraMonterrey)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2008,7 +2008,7 @@ static const common::ZoneEra kZoneEraMontevideo[] = {
 const common::ZoneInfo kZoneMontevideo = {
   "America/Montevideo" /*name*/,
   kZoneEraMontevideo /*eras*/,
-  sizeof(kZoneEraMontevideo)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2038,7 +2038,7 @@ static const common::ZoneEra kZoneEraNassau[] = {
 const common::ZoneInfo kZoneNassau = {
   "America/Nassau" /*name*/,
   kZoneEraNassau /*eras*/,
-  sizeof(kZoneEraNassau)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2068,7 +2068,7 @@ static const common::ZoneEra kZoneEraNew_York[] = {
 const common::ZoneInfo kZoneNew_York = {
   "America/New_York" /*name*/,
   kZoneEraNew_York /*eras*/,
-  sizeof(kZoneEraNew_York)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2098,7 +2098,7 @@ static const common::ZoneEra kZoneEraNipigon[] = {
 const common::ZoneInfo kZoneNipigon = {
   "America/Nipigon" /*name*/,
   kZoneEraNipigon /*eras*/,
-  sizeof(kZoneEraNipigon)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2128,7 +2128,7 @@ static const common::ZoneEra kZoneEraNome[] = {
 const common::ZoneInfo kZoneNome = {
   "America/Nome" /*name*/,
   kZoneEraNome /*eras*/,
-  sizeof(kZoneEraNome)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2158,7 +2158,7 @@ static const common::ZoneEra kZoneEraCenter[] = {
 const common::ZoneInfo kZoneCenter = {
   "America/North_Dakota/Center" /*name*/,
   kZoneEraCenter /*eras*/,
-  sizeof(kZoneEraCenter)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2200,7 +2200,7 @@ static const common::ZoneEra kZoneEraOjinaga[] = {
 const common::ZoneInfo kZoneOjinaga = {
   "America/Ojinaga" /*name*/,
   kZoneEraOjinaga /*eras*/,
-  sizeof(kZoneEraOjinaga)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2230,7 +2230,7 @@ static const common::ZoneEra kZoneEraPanama[] = {
 const common::ZoneInfo kZonePanama = {
   "America/Panama" /*name*/,
   kZoneEraPanama /*eras*/,
-  sizeof(kZoneEraPanama)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2260,7 +2260,7 @@ static const common::ZoneEra kZoneEraParamaribo[] = {
 const common::ZoneInfo kZoneParamaribo = {
   "America/Paramaribo" /*name*/,
   kZoneEraParamaribo /*eras*/,
-  sizeof(kZoneEraParamaribo)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2290,7 +2290,7 @@ static const common::ZoneEra kZoneEraPhoenix[] = {
 const common::ZoneInfo kZonePhoenix = {
   "America/Phoenix" /*name*/,
   kZoneEraPhoenix /*eras*/,
-  sizeof(kZoneEraPhoenix)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2320,7 +2320,7 @@ static const common::ZoneEra kZoneEraPort_au_Prince[] = {
 const common::ZoneInfo kZonePort_au_Prince = {
   "America/Port_au_Prince" /*name*/,
   kZoneEraPort_au_Prince /*eras*/,
-  sizeof(kZoneEraPort_au_Prince)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2350,7 +2350,7 @@ static const common::ZoneEra kZoneEraPort_of_Spain[] = {
 const common::ZoneInfo kZonePort_of_Spain = {
   "America/Port_of_Spain" /*name*/,
   kZoneEraPort_of_Spain /*eras*/,
-  sizeof(kZoneEraPort_of_Spain)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2380,7 +2380,7 @@ static const common::ZoneEra kZoneEraPorto_Velho[] = {
 const common::ZoneInfo kZonePorto_Velho = {
   "America/Porto_Velho" /*name*/,
   kZoneEraPorto_Velho /*eras*/,
-  sizeof(kZoneEraPorto_Velho)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2410,7 +2410,7 @@ static const common::ZoneEra kZoneEraPuerto_Rico[] = {
 const common::ZoneInfo kZonePuerto_Rico = {
   "America/Puerto_Rico" /*name*/,
   kZoneEraPuerto_Rico /*eras*/,
-  sizeof(kZoneEraPuerto_Rico)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2440,7 +2440,7 @@ static const common::ZoneEra kZoneEraRainy_River[] = {
 const common::ZoneInfo kZoneRainy_River = {
   "America/Rainy_River" /*name*/,
   kZoneEraRainy_River /*eras*/,
-  sizeof(kZoneEraRainy_River)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2470,7 +2470,7 @@ static const common::ZoneEra kZoneEraRegina[] = {
 const common::ZoneInfo kZoneRegina = {
   "America/Regina" /*name*/,
   kZoneEraRegina /*eras*/,
-  sizeof(kZoneEraRegina)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2500,7 +2500,7 @@ static const common::ZoneEra kZoneEraSantiago[] = {
 const common::ZoneInfo kZoneSantiago = {
   "America/Santiago" /*name*/,
   kZoneEraSantiago /*eras*/,
-  sizeof(kZoneEraSantiago)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2530,7 +2530,7 @@ static const common::ZoneEra kZoneEraSao_Paulo[] = {
 const common::ZoneInfo kZoneSao_Paulo = {
   "America/Sao_Paulo" /*name*/,
   kZoneEraSao_Paulo /*eras*/,
-  sizeof(kZoneEraSao_Paulo)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2560,7 +2560,7 @@ static const common::ZoneEra kZoneEraScoresbysund[] = {
 const common::ZoneInfo kZoneScoresbysund = {
   "America/Scoresbysund" /*name*/,
   kZoneEraScoresbysund /*eras*/,
-  sizeof(kZoneEraScoresbysund)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2590,7 +2590,7 @@ static const common::ZoneEra kZoneEraSitka[] = {
 const common::ZoneInfo kZoneSitka = {
   "America/Sitka" /*name*/,
   kZoneEraSitka /*eras*/,
-  sizeof(kZoneEraSitka)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2620,7 +2620,7 @@ static const common::ZoneEra kZoneEraSwift_Current[] = {
 const common::ZoneInfo kZoneSwift_Current = {
   "America/Swift_Current" /*name*/,
   kZoneEraSwift_Current /*eras*/,
-  sizeof(kZoneEraSwift_Current)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2650,7 +2650,7 @@ static const common::ZoneEra kZoneEraTegucigalpa[] = {
 const common::ZoneInfo kZoneTegucigalpa = {
   "America/Tegucigalpa" /*name*/,
   kZoneEraTegucigalpa /*eras*/,
-  sizeof(kZoneEraTegucigalpa)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2680,7 +2680,7 @@ static const common::ZoneEra kZoneEraThule[] = {
 const common::ZoneInfo kZoneThule = {
   "America/Thule" /*name*/,
   kZoneEraThule /*eras*/,
-  sizeof(kZoneEraThule)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2710,7 +2710,7 @@ static const common::ZoneEra kZoneEraThunder_Bay[] = {
 const common::ZoneInfo kZoneThunder_Bay = {
   "America/Thunder_Bay" /*name*/,
   kZoneEraThunder_Bay /*eras*/,
-  sizeof(kZoneEraThunder_Bay)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2740,7 +2740,7 @@ static const common::ZoneEra kZoneEraToronto[] = {
 const common::ZoneInfo kZoneToronto = {
   "America/Toronto" /*name*/,
   kZoneEraToronto /*eras*/,
-  sizeof(kZoneEraToronto)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2770,7 +2770,7 @@ static const common::ZoneEra kZoneEraVancouver[] = {
 const common::ZoneInfo kZoneVancouver = {
   "America/Vancouver" /*name*/,
   kZoneEraVancouver /*eras*/,
-  sizeof(kZoneEraVancouver)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2800,7 +2800,7 @@ static const common::ZoneEra kZoneEraWhitehorse[] = {
 const common::ZoneInfo kZoneWhitehorse = {
   "America/Whitehorse" /*name*/,
   kZoneEraWhitehorse /*eras*/,
-  sizeof(kZoneEraWhitehorse)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2842,7 +2842,7 @@ static const common::ZoneEra kZoneEraWinnipeg[] = {
 const common::ZoneInfo kZoneWinnipeg = {
   "America/Winnipeg" /*name*/,
   kZoneEraWinnipeg /*eras*/,
-  sizeof(kZoneEraWinnipeg)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2872,7 +2872,7 @@ static const common::ZoneEra kZoneEraYakutat[] = {
 const common::ZoneInfo kZoneYakutat = {
   "America/Yakutat" /*name*/,
   kZoneEraYakutat /*eras*/,
-  sizeof(kZoneEraYakutat)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2902,7 +2902,7 @@ static const common::ZoneEra kZoneEraYellowknife[] = {
 const common::ZoneInfo kZoneYellowknife = {
   "America/Yellowknife" /*name*/,
   kZoneEraYellowknife /*eras*/,
-  sizeof(kZoneEraYellowknife)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2932,7 +2932,7 @@ static const common::ZoneEra kZoneEraDumontDUrville[] = {
 const common::ZoneInfo kZoneDumontDUrville = {
   "Antarctica/DumontDUrville" /*name*/,
   kZoneEraDumontDUrville /*eras*/,
-  sizeof(kZoneEraDumontDUrville)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2962,7 +2962,7 @@ static const common::ZoneEra kZoneEraRothera[] = {
 const common::ZoneInfo kZoneRothera = {
   "Antarctica/Rothera" /*name*/,
   kZoneEraRothera /*eras*/,
-  sizeof(kZoneEraRothera)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2992,7 +2992,7 @@ static const common::ZoneEra kZoneEraSyowa[] = {
 const common::ZoneInfo kZoneSyowa = {
   "Antarctica/Syowa" /*name*/,
   kZoneEraSyowa /*eras*/,
-  sizeof(kZoneEraSyowa)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3022,7 +3022,7 @@ static const common::ZoneEra kZoneEraVostok[] = {
 const common::ZoneInfo kZoneVostok = {
   "Antarctica/Vostok" /*name*/,
   kZoneEraVostok /*eras*/,
-  sizeof(kZoneEraVostok)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3052,7 +3052,7 @@ static const common::ZoneEra kZoneEraAmman[] = {
 const common::ZoneInfo kZoneAmman = {
   "Asia/Amman" /*name*/,
   kZoneEraAmman /*eras*/,
-  sizeof(kZoneEraAmman)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3082,7 +3082,7 @@ static const common::ZoneEra kZoneEraAshgabat[] = {
 const common::ZoneInfo kZoneAshgabat = {
   "Asia/Ashgabat" /*name*/,
   kZoneEraAshgabat /*eras*/,
-  sizeof(kZoneEraAshgabat)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3112,7 +3112,7 @@ static const common::ZoneEra kZoneEraBaghdad[] = {
 const common::ZoneInfo kZoneBaghdad = {
   "Asia/Baghdad" /*name*/,
   kZoneEraBaghdad /*eras*/,
-  sizeof(kZoneEraBaghdad)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3142,7 +3142,7 @@ static const common::ZoneEra kZoneEraBaku[] = {
 const common::ZoneInfo kZoneBaku = {
   "Asia/Baku" /*name*/,
   kZoneEraBaku /*eras*/,
-  sizeof(kZoneEraBaku)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3172,7 +3172,7 @@ static const common::ZoneEra kZoneEraBangkok[] = {
 const common::ZoneInfo kZoneBangkok = {
   "Asia/Bangkok" /*name*/,
   kZoneEraBangkok /*eras*/,
-  sizeof(kZoneEraBangkok)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3202,7 +3202,7 @@ static const common::ZoneEra kZoneEraBeirut[] = {
 const common::ZoneInfo kZoneBeirut = {
   "Asia/Beirut" /*name*/,
   kZoneEraBeirut /*eras*/,
-  sizeof(kZoneEraBeirut)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3232,7 +3232,7 @@ static const common::ZoneEra kZoneEraBrunei[] = {
 const common::ZoneInfo kZoneBrunei = {
   "Asia/Brunei" /*name*/,
   kZoneEraBrunei /*eras*/,
-  sizeof(kZoneEraBrunei)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3262,7 +3262,7 @@ static const common::ZoneEra kZoneEraDamascus[] = {
 const common::ZoneInfo kZoneDamascus = {
   "Asia/Damascus" /*name*/,
   kZoneEraDamascus /*eras*/,
-  sizeof(kZoneEraDamascus)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3304,7 +3304,7 @@ static const common::ZoneEra kZoneEraDhaka[] = {
 const common::ZoneInfo kZoneDhaka = {
   "Asia/Dhaka" /*name*/,
   kZoneEraDhaka /*eras*/,
-  sizeof(kZoneEraDhaka)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3334,7 +3334,7 @@ static const common::ZoneEra kZoneEraDubai[] = {
 const common::ZoneInfo kZoneDubai = {
   "Asia/Dubai" /*name*/,
   kZoneEraDubai /*eras*/,
-  sizeof(kZoneEraDubai)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3364,7 +3364,7 @@ static const common::ZoneEra kZoneEraDushanbe[] = {
 const common::ZoneInfo kZoneDushanbe = {
   "Asia/Dushanbe" /*name*/,
   kZoneEraDushanbe /*eras*/,
-  sizeof(kZoneEraDushanbe)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3394,7 +3394,7 @@ static const common::ZoneEra kZoneEraHo_Chi_Minh[] = {
 const common::ZoneInfo kZoneHo_Chi_Minh = {
   "Asia/Ho_Chi_Minh" /*name*/,
   kZoneEraHo_Chi_Minh /*eras*/,
-  sizeof(kZoneEraHo_Chi_Minh)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3424,7 +3424,7 @@ static const common::ZoneEra kZoneEraHong_Kong[] = {
 const common::ZoneInfo kZoneHong_Kong = {
   "Asia/Hong_Kong" /*name*/,
   kZoneEraHong_Kong /*eras*/,
-  sizeof(kZoneEraHong_Kong)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3454,7 +3454,7 @@ static const common::ZoneEra kZoneEraHovd[] = {
 const common::ZoneInfo kZoneHovd = {
   "Asia/Hovd" /*name*/,
   kZoneEraHovd /*eras*/,
-  sizeof(kZoneEraHovd)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3484,7 +3484,7 @@ static const common::ZoneEra kZoneEraJakarta[] = {
 const common::ZoneInfo kZoneJakarta = {
   "Asia/Jakarta" /*name*/,
   kZoneEraJakarta /*eras*/,
-  sizeof(kZoneEraJakarta)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3514,7 +3514,7 @@ static const common::ZoneEra kZoneEraJayapura[] = {
 const common::ZoneInfo kZoneJayapura = {
   "Asia/Jayapura" /*name*/,
   kZoneEraJayapura /*eras*/,
-  sizeof(kZoneEraJayapura)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3544,7 +3544,7 @@ static const common::ZoneEra kZoneEraJerusalem[] = {
 const common::ZoneInfo kZoneJerusalem = {
   "Asia/Jerusalem" /*name*/,
   kZoneEraJerusalem /*eras*/,
-  sizeof(kZoneEraJerusalem)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3574,7 +3574,7 @@ static const common::ZoneEra kZoneEraKabul[] = {
 const common::ZoneInfo kZoneKabul = {
   "Asia/Kabul" /*name*/,
   kZoneEraKabul /*eras*/,
-  sizeof(kZoneEraKabul)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3604,7 +3604,7 @@ static const common::ZoneEra kZoneEraKarachi[] = {
 const common::ZoneInfo kZoneKarachi = {
   "Asia/Karachi" /*name*/,
   kZoneEraKarachi /*eras*/,
-  sizeof(kZoneEraKarachi)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3634,7 +3634,7 @@ static const common::ZoneEra kZoneEraKathmandu[] = {
 const common::ZoneInfo kZoneKathmandu = {
   "Asia/Kathmandu" /*name*/,
   kZoneEraKathmandu /*eras*/,
-  sizeof(kZoneEraKathmandu)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3664,7 +3664,7 @@ static const common::ZoneEra kZoneEraKolkata[] = {
 const common::ZoneInfo kZoneKolkata = {
   "Asia/Kolkata" /*name*/,
   kZoneEraKolkata /*eras*/,
-  sizeof(kZoneEraKolkata)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3694,7 +3694,7 @@ static const common::ZoneEra kZoneEraKuala_Lumpur[] = {
 const common::ZoneInfo kZoneKuala_Lumpur = {
   "Asia/Kuala_Lumpur" /*name*/,
   kZoneEraKuala_Lumpur /*eras*/,
-  sizeof(kZoneEraKuala_Lumpur)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3724,7 +3724,7 @@ static const common::ZoneEra kZoneEraKuching[] = {
 const common::ZoneInfo kZoneKuching = {
   "Asia/Kuching" /*name*/,
   kZoneEraKuching /*eras*/,
-  sizeof(kZoneEraKuching)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3754,7 +3754,7 @@ static const common::ZoneEra kZoneEraMacau[] = {
 const common::ZoneInfo kZoneMacau = {
   "Asia/Macau" /*name*/,
   kZoneEraMacau /*eras*/,
-  sizeof(kZoneEraMacau)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3784,7 +3784,7 @@ static const common::ZoneEra kZoneEraMakassar[] = {
 const common::ZoneInfo kZoneMakassar = {
   "Asia/Makassar" /*name*/,
   kZoneEraMakassar /*eras*/,
-  sizeof(kZoneEraMakassar)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3814,7 +3814,7 @@ static const common::ZoneEra kZoneEraManila[] = {
 const common::ZoneInfo kZoneManila = {
   "Asia/Manila" /*name*/,
   kZoneEraManila /*eras*/,
-  sizeof(kZoneEraManila)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3844,7 +3844,7 @@ static const common::ZoneEra kZoneEraNicosia[] = {
 const common::ZoneInfo kZoneNicosia = {
   "Asia/Nicosia" /*name*/,
   kZoneEraNicosia /*eras*/,
-  sizeof(kZoneEraNicosia)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3874,7 +3874,7 @@ static const common::ZoneEra kZoneEraPontianak[] = {
 const common::ZoneInfo kZonePontianak = {
   "Asia/Pontianak" /*name*/,
   kZoneEraPontianak /*eras*/,
-  sizeof(kZoneEraPontianak)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3904,7 +3904,7 @@ static const common::ZoneEra kZoneEraQatar[] = {
 const common::ZoneInfo kZoneQatar = {
   "Asia/Qatar" /*name*/,
   kZoneEraQatar /*eras*/,
-  sizeof(kZoneEraQatar)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3934,7 +3934,7 @@ static const common::ZoneEra kZoneEraRiyadh[] = {
 const common::ZoneInfo kZoneRiyadh = {
   "Asia/Riyadh" /*name*/,
   kZoneEraRiyadh /*eras*/,
-  sizeof(kZoneEraRiyadh)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3964,7 +3964,7 @@ static const common::ZoneEra kZoneEraSamarkand[] = {
 const common::ZoneInfo kZoneSamarkand = {
   "Asia/Samarkand" /*name*/,
   kZoneEraSamarkand /*eras*/,
-  sizeof(kZoneEraSamarkand)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3994,7 +3994,7 @@ static const common::ZoneEra kZoneEraSeoul[] = {
 const common::ZoneInfo kZoneSeoul = {
   "Asia/Seoul" /*name*/,
   kZoneEraSeoul /*eras*/,
-  sizeof(kZoneEraSeoul)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4024,7 +4024,7 @@ static const common::ZoneEra kZoneEraShanghai[] = {
 const common::ZoneInfo kZoneShanghai = {
   "Asia/Shanghai" /*name*/,
   kZoneEraShanghai /*eras*/,
-  sizeof(kZoneEraShanghai)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4054,7 +4054,7 @@ static const common::ZoneEra kZoneEraSingapore[] = {
 const common::ZoneInfo kZoneSingapore = {
   "Asia/Singapore" /*name*/,
   kZoneEraSingapore /*eras*/,
-  sizeof(kZoneEraSingapore)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4084,7 +4084,7 @@ static const common::ZoneEra kZoneEraTaipei[] = {
 const common::ZoneInfo kZoneTaipei = {
   "Asia/Taipei" /*name*/,
   kZoneEraTaipei /*eras*/,
-  sizeof(kZoneEraTaipei)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4114,7 +4114,7 @@ static const common::ZoneEra kZoneEraTashkent[] = {
 const common::ZoneInfo kZoneTashkent = {
   "Asia/Tashkent" /*name*/,
   kZoneEraTashkent /*eras*/,
-  sizeof(kZoneEraTashkent)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4144,7 +4144,7 @@ static const common::ZoneEra kZoneEraTehran[] = {
 const common::ZoneInfo kZoneTehran = {
   "Asia/Tehran" /*name*/,
   kZoneEraTehran /*eras*/,
-  sizeof(kZoneEraTehran)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4174,7 +4174,7 @@ static const common::ZoneEra kZoneEraThimphu[] = {
 const common::ZoneInfo kZoneThimphu = {
   "Asia/Thimphu" /*name*/,
   kZoneEraThimphu /*eras*/,
-  sizeof(kZoneEraThimphu)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4204,7 +4204,7 @@ static const common::ZoneEra kZoneEraTokyo[] = {
 const common::ZoneInfo kZoneTokyo = {
   "Asia/Tokyo" /*name*/,
   kZoneEraTokyo /*eras*/,
-  sizeof(kZoneEraTokyo)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4234,7 +4234,7 @@ static const common::ZoneEra kZoneEraUlaanbaatar[] = {
 const common::ZoneInfo kZoneUlaanbaatar = {
   "Asia/Ulaanbaatar" /*name*/,
   kZoneEraUlaanbaatar /*eras*/,
-  sizeof(kZoneEraUlaanbaatar)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4264,7 +4264,7 @@ static const common::ZoneEra kZoneEraUrumqi[] = {
 const common::ZoneInfo kZoneUrumqi = {
   "Asia/Urumqi" /*name*/,
   kZoneEraUrumqi /*eras*/,
-  sizeof(kZoneEraUrumqi)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4294,7 +4294,7 @@ static const common::ZoneEra kZoneEraYangon[] = {
 const common::ZoneInfo kZoneYangon = {
   "Asia/Yangon" /*name*/,
   kZoneEraYangon /*eras*/,
-  sizeof(kZoneEraYangon)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4336,7 +4336,7 @@ static const common::ZoneEra kZoneEraYerevan[] = {
 const common::ZoneInfo kZoneYerevan = {
   "Asia/Yerevan" /*name*/,
   kZoneEraYerevan /*eras*/,
-  sizeof(kZoneEraYerevan)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4366,7 +4366,7 @@ static const common::ZoneEra kZoneEraAzores[] = {
 const common::ZoneInfo kZoneAzores = {
   "Atlantic/Azores" /*name*/,
   kZoneEraAzores /*eras*/,
-  sizeof(kZoneEraAzores)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4396,7 +4396,7 @@ static const common::ZoneEra kZoneEraBermuda[] = {
 const common::ZoneInfo kZoneBermuda = {
   "Atlantic/Bermuda" /*name*/,
   kZoneEraBermuda /*eras*/,
-  sizeof(kZoneEraBermuda)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4426,7 +4426,7 @@ static const common::ZoneEra kZoneEraCanary[] = {
 const common::ZoneInfo kZoneCanary = {
   "Atlantic/Canary" /*name*/,
   kZoneEraCanary /*eras*/,
-  sizeof(kZoneEraCanary)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4456,7 +4456,7 @@ static const common::ZoneEra kZoneEraCape_Verde[] = {
 const common::ZoneInfo kZoneCape_Verde = {
   "Atlantic/Cape_Verde" /*name*/,
   kZoneEraCape_Verde /*eras*/,
-  sizeof(kZoneEraCape_Verde)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4486,7 +4486,7 @@ static const common::ZoneEra kZoneEraFaroe[] = {
 const common::ZoneInfo kZoneFaroe = {
   "Atlantic/Faroe" /*name*/,
   kZoneEraFaroe /*eras*/,
-  sizeof(kZoneEraFaroe)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4516,7 +4516,7 @@ static const common::ZoneEra kZoneEraMadeira[] = {
 const common::ZoneInfo kZoneMadeira = {
   "Atlantic/Madeira" /*name*/,
   kZoneEraMadeira /*eras*/,
-  sizeof(kZoneEraMadeira)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4546,7 +4546,7 @@ static const common::ZoneEra kZoneEraReykjavik[] = {
 const common::ZoneInfo kZoneReykjavik = {
   "Atlantic/Reykjavik" /*name*/,
   kZoneEraReykjavik /*eras*/,
-  sizeof(kZoneEraReykjavik)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4576,7 +4576,7 @@ static const common::ZoneEra kZoneEraSouth_Georgia[] = {
 const common::ZoneInfo kZoneSouth_Georgia = {
   "Atlantic/South_Georgia" /*name*/,
   kZoneEraSouth_Georgia /*eras*/,
-  sizeof(kZoneEraSouth_Georgia)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4606,7 +4606,7 @@ static const common::ZoneEra kZoneEraAdelaide[] = {
 const common::ZoneInfo kZoneAdelaide = {
   "Australia/Adelaide" /*name*/,
   kZoneEraAdelaide /*eras*/,
-  sizeof(kZoneEraAdelaide)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4636,7 +4636,7 @@ static const common::ZoneEra kZoneEraBrisbane[] = {
 const common::ZoneInfo kZoneBrisbane = {
   "Australia/Brisbane" /*name*/,
   kZoneEraBrisbane /*eras*/,
-  sizeof(kZoneEraBrisbane)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4678,7 +4678,7 @@ static const common::ZoneEra kZoneEraBroken_Hill[] = {
 const common::ZoneInfo kZoneBroken_Hill = {
   "Australia/Broken_Hill" /*name*/,
   kZoneEraBroken_Hill /*eras*/,
-  sizeof(kZoneEraBroken_Hill)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4708,7 +4708,7 @@ static const common::ZoneEra kZoneEraCurrie[] = {
 const common::ZoneInfo kZoneCurrie = {
   "Australia/Currie" /*name*/,
   kZoneEraCurrie /*eras*/,
-  sizeof(kZoneEraCurrie)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4738,7 +4738,7 @@ static const common::ZoneEra kZoneEraDarwin[] = {
 const common::ZoneInfo kZoneDarwin = {
   "Australia/Darwin" /*name*/,
   kZoneEraDarwin /*eras*/,
-  sizeof(kZoneEraDarwin)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4768,7 +4768,7 @@ static const common::ZoneEra kZoneEraEucla[] = {
 const common::ZoneInfo kZoneEucla = {
   "Australia/Eucla" /*name*/,
   kZoneEraEucla /*eras*/,
-  sizeof(kZoneEraEucla)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4798,7 +4798,7 @@ static const common::ZoneEra kZoneEraHobart[] = {
 const common::ZoneInfo kZoneHobart = {
   "Australia/Hobart" /*name*/,
   kZoneEraHobart /*eras*/,
-  sizeof(kZoneEraHobart)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4828,7 +4828,7 @@ static const common::ZoneEra kZoneEraLindeman[] = {
 const common::ZoneInfo kZoneLindeman = {
   "Australia/Lindeman" /*name*/,
   kZoneEraLindeman /*eras*/,
-  sizeof(kZoneEraLindeman)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4858,7 +4858,7 @@ static const common::ZoneEra kZoneEraLord_Howe[] = {
 const common::ZoneInfo kZoneLord_Howe = {
   "Australia/Lord_Howe" /*name*/,
   kZoneEraLord_Howe /*eras*/,
-  sizeof(kZoneEraLord_Howe)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4888,7 +4888,7 @@ static const common::ZoneEra kZoneEraMelbourne[] = {
 const common::ZoneInfo kZoneMelbourne = {
   "Australia/Melbourne" /*name*/,
   kZoneEraMelbourne /*eras*/,
-  sizeof(kZoneEraMelbourne)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4918,7 +4918,7 @@ static const common::ZoneEra kZoneEraPerth[] = {
 const common::ZoneInfo kZonePerth = {
   "Australia/Perth" /*name*/,
   kZoneEraPerth /*eras*/,
-  sizeof(kZoneEraPerth)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4948,7 +4948,7 @@ static const common::ZoneEra kZoneEraSydney[] = {
 const common::ZoneInfo kZoneSydney = {
   "Australia/Sydney" /*name*/,
   kZoneEraSydney /*eras*/,
-  sizeof(kZoneEraSydney)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4978,7 +4978,7 @@ static const common::ZoneEra kZoneEraAmsterdam[] = {
 const common::ZoneInfo kZoneAmsterdam = {
   "Europe/Amsterdam" /*name*/,
   kZoneEraAmsterdam /*eras*/,
-  sizeof(kZoneEraAmsterdam)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5008,7 +5008,7 @@ static const common::ZoneEra kZoneEraAndorra[] = {
 const common::ZoneInfo kZoneAndorra = {
   "Europe/Andorra" /*name*/,
   kZoneEraAndorra /*eras*/,
-  sizeof(kZoneEraAndorra)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5038,7 +5038,7 @@ static const common::ZoneEra kZoneEraAthens[] = {
 const common::ZoneInfo kZoneAthens = {
   "Europe/Athens" /*name*/,
   kZoneEraAthens /*eras*/,
-  sizeof(kZoneEraAthens)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5068,7 +5068,7 @@ static const common::ZoneEra kZoneEraBelgrade[] = {
 const common::ZoneInfo kZoneBelgrade = {
   "Europe/Belgrade" /*name*/,
   kZoneEraBelgrade /*eras*/,
-  sizeof(kZoneEraBelgrade)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5098,7 +5098,7 @@ static const common::ZoneEra kZoneEraBerlin[] = {
 const common::ZoneInfo kZoneBerlin = {
   "Europe/Berlin" /*name*/,
   kZoneEraBerlin /*eras*/,
-  sizeof(kZoneEraBerlin)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5128,7 +5128,7 @@ static const common::ZoneEra kZoneEraBrussels[] = {
 const common::ZoneInfo kZoneBrussels = {
   "Europe/Brussels" /*name*/,
   kZoneEraBrussels /*eras*/,
-  sizeof(kZoneEraBrussels)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5158,7 +5158,7 @@ static const common::ZoneEra kZoneEraBucharest[] = {
 const common::ZoneInfo kZoneBucharest = {
   "Europe/Bucharest" /*name*/,
   kZoneEraBucharest /*eras*/,
-  sizeof(kZoneEraBucharest)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5188,7 +5188,7 @@ static const common::ZoneEra kZoneEraBudapest[] = {
 const common::ZoneInfo kZoneBudapest = {
   "Europe/Budapest" /*name*/,
   kZoneEraBudapest /*eras*/,
-  sizeof(kZoneEraBudapest)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5218,7 +5218,7 @@ static const common::ZoneEra kZoneEraChisinau[] = {
 const common::ZoneInfo kZoneChisinau = {
   "Europe/Chisinau" /*name*/,
   kZoneEraChisinau /*eras*/,
-  sizeof(kZoneEraChisinau)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5248,7 +5248,7 @@ static const common::ZoneEra kZoneEraCopenhagen[] = {
 const common::ZoneInfo kZoneCopenhagen = {
   "Europe/Copenhagen" /*name*/,
   kZoneEraCopenhagen /*eras*/,
-  sizeof(kZoneEraCopenhagen)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5278,7 +5278,7 @@ static const common::ZoneEra kZoneEraDublin[] = {
 const common::ZoneInfo kZoneDublin = {
   "Europe/Dublin" /*name*/,
   kZoneEraDublin /*eras*/,
-  sizeof(kZoneEraDublin)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5308,7 +5308,7 @@ static const common::ZoneEra kZoneEraGibraltar[] = {
 const common::ZoneInfo kZoneGibraltar = {
   "Europe/Gibraltar" /*name*/,
   kZoneEraGibraltar /*eras*/,
-  sizeof(kZoneEraGibraltar)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5338,7 +5338,7 @@ static const common::ZoneEra kZoneEraHelsinki[] = {
 const common::ZoneInfo kZoneHelsinki = {
   "Europe/Helsinki" /*name*/,
   kZoneEraHelsinki /*eras*/,
-  sizeof(kZoneEraHelsinki)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5368,7 +5368,7 @@ static const common::ZoneEra kZoneEraKiev[] = {
 const common::ZoneInfo kZoneKiev = {
   "Europe/Kiev" /*name*/,
   kZoneEraKiev /*eras*/,
-  sizeof(kZoneEraKiev)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5398,7 +5398,7 @@ static const common::ZoneEra kZoneEraLisbon[] = {
 const common::ZoneInfo kZoneLisbon = {
   "Europe/Lisbon" /*name*/,
   kZoneEraLisbon /*eras*/,
-  sizeof(kZoneEraLisbon)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5428,7 +5428,7 @@ static const common::ZoneEra kZoneEraLondon[] = {
 const common::ZoneInfo kZoneLondon = {
   "Europe/London" /*name*/,
   kZoneEraLondon /*eras*/,
-  sizeof(kZoneEraLondon)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5458,7 +5458,7 @@ static const common::ZoneEra kZoneEraLuxembourg[] = {
 const common::ZoneInfo kZoneLuxembourg = {
   "Europe/Luxembourg" /*name*/,
   kZoneEraLuxembourg /*eras*/,
-  sizeof(kZoneEraLuxembourg)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5488,7 +5488,7 @@ static const common::ZoneEra kZoneEraMadrid[] = {
 const common::ZoneInfo kZoneMadrid = {
   "Europe/Madrid" /*name*/,
   kZoneEraMadrid /*eras*/,
-  sizeof(kZoneEraMadrid)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5518,7 +5518,7 @@ static const common::ZoneEra kZoneEraMalta[] = {
 const common::ZoneInfo kZoneMalta = {
   "Europe/Malta" /*name*/,
   kZoneEraMalta /*eras*/,
-  sizeof(kZoneEraMalta)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5548,7 +5548,7 @@ static const common::ZoneEra kZoneEraMonaco[] = {
 const common::ZoneInfo kZoneMonaco = {
   "Europe/Monaco" /*name*/,
   kZoneEraMonaco /*eras*/,
-  sizeof(kZoneEraMonaco)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5578,7 +5578,7 @@ static const common::ZoneEra kZoneEraOslo[] = {
 const common::ZoneInfo kZoneOslo = {
   "Europe/Oslo" /*name*/,
   kZoneEraOslo /*eras*/,
-  sizeof(kZoneEraOslo)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5608,7 +5608,7 @@ static const common::ZoneEra kZoneEraParis[] = {
 const common::ZoneInfo kZoneParis = {
   "Europe/Paris" /*name*/,
   kZoneEraParis /*eras*/,
-  sizeof(kZoneEraParis)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5638,7 +5638,7 @@ static const common::ZoneEra kZoneEraPrague[] = {
 const common::ZoneInfo kZonePrague = {
   "Europe/Prague" /*name*/,
   kZoneEraPrague /*eras*/,
-  sizeof(kZoneEraPrague)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5668,7 +5668,7 @@ static const common::ZoneEra kZoneEraRome[] = {
 const common::ZoneInfo kZoneRome = {
   "Europe/Rome" /*name*/,
   kZoneEraRome /*eras*/,
-  sizeof(kZoneEraRome)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5698,7 +5698,7 @@ static const common::ZoneEra kZoneEraSofia[] = {
 const common::ZoneInfo kZoneSofia = {
   "Europe/Sofia" /*name*/,
   kZoneEraSofia /*eras*/,
-  sizeof(kZoneEraSofia)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5728,7 +5728,7 @@ static const common::ZoneEra kZoneEraStockholm[] = {
 const common::ZoneInfo kZoneStockholm = {
   "Europe/Stockholm" /*name*/,
   kZoneEraStockholm /*eras*/,
-  sizeof(kZoneEraStockholm)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5758,7 +5758,7 @@ static const common::ZoneEra kZoneEraTirane[] = {
 const common::ZoneInfo kZoneTirane = {
   "Europe/Tirane" /*name*/,
   kZoneEraTirane /*eras*/,
-  sizeof(kZoneEraTirane)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5788,7 +5788,7 @@ static const common::ZoneEra kZoneEraUzhgorod[] = {
 const common::ZoneInfo kZoneUzhgorod = {
   "Europe/Uzhgorod" /*name*/,
   kZoneEraUzhgorod /*eras*/,
-  sizeof(kZoneEraUzhgorod)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5818,7 +5818,7 @@ static const common::ZoneEra kZoneEraVienna[] = {
 const common::ZoneInfo kZoneVienna = {
   "Europe/Vienna" /*name*/,
   kZoneEraVienna /*eras*/,
-  sizeof(kZoneEraVienna)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5848,7 +5848,7 @@ static const common::ZoneEra kZoneEraWarsaw[] = {
 const common::ZoneInfo kZoneWarsaw = {
   "Europe/Warsaw" /*name*/,
   kZoneEraWarsaw /*eras*/,
-  sizeof(kZoneEraWarsaw)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5878,7 +5878,7 @@ static const common::ZoneEra kZoneEraZaporozhye[] = {
 const common::ZoneInfo kZoneZaporozhye = {
   "Europe/Zaporozhye" /*name*/,
   kZoneEraZaporozhye /*eras*/,
-  sizeof(kZoneEraZaporozhye)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5908,7 +5908,7 @@ static const common::ZoneEra kZoneEraZurich[] = {
 const common::ZoneInfo kZoneZurich = {
   "Europe/Zurich" /*name*/,
   kZoneEraZurich /*eras*/,
-  sizeof(kZoneEraZurich)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5938,7 +5938,7 @@ static const common::ZoneEra kZoneEraChagos[] = {
 const common::ZoneInfo kZoneChagos = {
   "Indian/Chagos" /*name*/,
   kZoneEraChagos /*eras*/,
-  sizeof(kZoneEraChagos)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5968,7 +5968,7 @@ static const common::ZoneEra kZoneEraChristmas[] = {
 const common::ZoneInfo kZoneChristmas = {
   "Indian/Christmas" /*name*/,
   kZoneEraChristmas /*eras*/,
-  sizeof(kZoneEraChristmas)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5998,7 +5998,7 @@ static const common::ZoneEra kZoneEraCocos[] = {
 const common::ZoneInfo kZoneCocos = {
   "Indian/Cocos" /*name*/,
   kZoneEraCocos /*eras*/,
-  sizeof(kZoneEraCocos)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6028,7 +6028,7 @@ static const common::ZoneEra kZoneEraKerguelen[] = {
 const common::ZoneInfo kZoneKerguelen = {
   "Indian/Kerguelen" /*name*/,
   kZoneEraKerguelen /*eras*/,
-  sizeof(kZoneEraKerguelen)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6058,7 +6058,7 @@ static const common::ZoneEra kZoneEraMahe[] = {
 const common::ZoneInfo kZoneMahe = {
   "Indian/Mahe" /*name*/,
   kZoneEraMahe /*eras*/,
-  sizeof(kZoneEraMahe)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6088,7 +6088,7 @@ static const common::ZoneEra kZoneEraMaldives[] = {
 const common::ZoneInfo kZoneMaldives = {
   "Indian/Maldives" /*name*/,
   kZoneEraMaldives /*eras*/,
-  sizeof(kZoneEraMaldives)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6118,7 +6118,7 @@ static const common::ZoneEra kZoneEraMauritius[] = {
 const common::ZoneInfo kZoneMauritius = {
   "Indian/Mauritius" /*name*/,
   kZoneEraMauritius /*eras*/,
-  sizeof(kZoneEraMauritius)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6148,7 +6148,7 @@ static const common::ZoneEra kZoneEraReunion[] = {
 const common::ZoneInfo kZoneReunion = {
   "Indian/Reunion" /*name*/,
   kZoneEraReunion /*eras*/,
-  sizeof(kZoneEraReunion)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6178,7 +6178,7 @@ static const common::ZoneEra kZoneEraAuckland[] = {
 const common::ZoneInfo kZoneAuckland = {
   "Pacific/Auckland" /*name*/,
   kZoneEraAuckland /*eras*/,
-  sizeof(kZoneEraAuckland)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6208,7 +6208,7 @@ static const common::ZoneEra kZoneEraChatham[] = {
 const common::ZoneInfo kZoneChatham = {
   "Pacific/Chatham" /*name*/,
   kZoneEraChatham /*eras*/,
-  sizeof(kZoneEraChatham)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6238,7 +6238,7 @@ static const common::ZoneEra kZoneEraChuuk[] = {
 const common::ZoneInfo kZoneChuuk = {
   "Pacific/Chuuk" /*name*/,
   kZoneEraChuuk /*eras*/,
-  sizeof(kZoneEraChuuk)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6268,7 +6268,7 @@ static const common::ZoneEra kZoneEraEaster[] = {
 const common::ZoneInfo kZoneEaster = {
   "Pacific/Easter" /*name*/,
   kZoneEraEaster /*eras*/,
-  sizeof(kZoneEraEaster)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6298,7 +6298,7 @@ static const common::ZoneEra kZoneEraEfate[] = {
 const common::ZoneInfo kZoneEfate = {
   "Pacific/Efate" /*name*/,
   kZoneEraEfate /*eras*/,
-  sizeof(kZoneEraEfate)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6328,7 +6328,7 @@ static const common::ZoneEra kZoneEraEnderbury[] = {
 const common::ZoneInfo kZoneEnderbury = {
   "Pacific/Enderbury" /*name*/,
   kZoneEraEnderbury /*eras*/,
-  sizeof(kZoneEraEnderbury)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6358,7 +6358,7 @@ static const common::ZoneEra kZoneEraFiji[] = {
 const common::ZoneInfo kZoneFiji = {
   "Pacific/Fiji" /*name*/,
   kZoneEraFiji /*eras*/,
-  sizeof(kZoneEraFiji)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6388,7 +6388,7 @@ static const common::ZoneEra kZoneEraFunafuti[] = {
 const common::ZoneInfo kZoneFunafuti = {
   "Pacific/Funafuti" /*name*/,
   kZoneEraFunafuti /*eras*/,
-  sizeof(kZoneEraFunafuti)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6418,7 +6418,7 @@ static const common::ZoneEra kZoneEraGalapagos[] = {
 const common::ZoneInfo kZoneGalapagos = {
   "Pacific/Galapagos" /*name*/,
   kZoneEraGalapagos /*eras*/,
-  sizeof(kZoneEraGalapagos)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6448,7 +6448,7 @@ static const common::ZoneEra kZoneEraGambier[] = {
 const common::ZoneInfo kZoneGambier = {
   "Pacific/Gambier" /*name*/,
   kZoneEraGambier /*eras*/,
-  sizeof(kZoneEraGambier)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6478,7 +6478,7 @@ static const common::ZoneEra kZoneEraGuadalcanal[] = {
 const common::ZoneInfo kZoneGuadalcanal = {
   "Pacific/Guadalcanal" /*name*/,
   kZoneEraGuadalcanal /*eras*/,
-  sizeof(kZoneEraGuadalcanal)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6508,7 +6508,7 @@ static const common::ZoneEra kZoneEraHonolulu[] = {
 const common::ZoneInfo kZoneHonolulu = {
   "Pacific/Honolulu" /*name*/,
   kZoneEraHonolulu /*eras*/,
-  sizeof(kZoneEraHonolulu)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6538,7 +6538,7 @@ static const common::ZoneEra kZoneEraKiritimati[] = {
 const common::ZoneInfo kZoneKiritimati = {
   "Pacific/Kiritimati" /*name*/,
   kZoneEraKiritimati /*eras*/,
-  sizeof(kZoneEraKiritimati)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6580,7 +6580,7 @@ static const common::ZoneEra kZoneEraKosrae[] = {
 const common::ZoneInfo kZoneKosrae = {
   "Pacific/Kosrae" /*name*/,
   kZoneEraKosrae /*eras*/,
-  sizeof(kZoneEraKosrae)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6610,7 +6610,7 @@ static const common::ZoneEra kZoneEraKwajalein[] = {
 const common::ZoneInfo kZoneKwajalein = {
   "Pacific/Kwajalein" /*name*/,
   kZoneEraKwajalein /*eras*/,
-  sizeof(kZoneEraKwajalein)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6640,7 +6640,7 @@ static const common::ZoneEra kZoneEraMajuro[] = {
 const common::ZoneInfo kZoneMajuro = {
   "Pacific/Majuro" /*name*/,
   kZoneEraMajuro /*eras*/,
-  sizeof(kZoneEraMajuro)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6670,7 +6670,7 @@ static const common::ZoneEra kZoneEraMarquesas[] = {
 const common::ZoneInfo kZoneMarquesas = {
   "Pacific/Marquesas" /*name*/,
   kZoneEraMarquesas /*eras*/,
-  sizeof(kZoneEraMarquesas)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6700,7 +6700,7 @@ static const common::ZoneEra kZoneEraNauru[] = {
 const common::ZoneInfo kZoneNauru = {
   "Pacific/Nauru" /*name*/,
   kZoneEraNauru /*eras*/,
-  sizeof(kZoneEraNauru)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6730,7 +6730,7 @@ static const common::ZoneEra kZoneEraNiue[] = {
 const common::ZoneInfo kZoneNiue = {
   "Pacific/Niue" /*name*/,
   kZoneEraNiue /*eras*/,
-  sizeof(kZoneEraNiue)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6760,7 +6760,7 @@ static const common::ZoneEra kZoneEraNoumea[] = {
 const common::ZoneInfo kZoneNoumea = {
   "Pacific/Noumea" /*name*/,
   kZoneEraNoumea /*eras*/,
-  sizeof(kZoneEraNoumea)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6790,7 +6790,7 @@ static const common::ZoneEra kZoneEraPago_Pago[] = {
 const common::ZoneInfo kZonePago_Pago = {
   "Pacific/Pago_Pago" /*name*/,
   kZoneEraPago_Pago /*eras*/,
-  sizeof(kZoneEraPago_Pago)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6820,7 +6820,7 @@ static const common::ZoneEra kZoneEraPalau[] = {
 const common::ZoneInfo kZonePalau = {
   "Pacific/Palau" /*name*/,
   kZoneEraPalau /*eras*/,
-  sizeof(kZoneEraPalau)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6850,7 +6850,7 @@ static const common::ZoneEra kZoneEraPitcairn[] = {
 const common::ZoneInfo kZonePitcairn = {
   "Pacific/Pitcairn" /*name*/,
   kZoneEraPitcairn /*eras*/,
-  sizeof(kZoneEraPitcairn)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6880,7 +6880,7 @@ static const common::ZoneEra kZoneEraPohnpei[] = {
 const common::ZoneInfo kZonePohnpei = {
   "Pacific/Pohnpei" /*name*/,
   kZoneEraPohnpei /*eras*/,
-  sizeof(kZoneEraPohnpei)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6910,7 +6910,7 @@ static const common::ZoneEra kZoneEraPort_Moresby[] = {
 const common::ZoneInfo kZonePort_Moresby = {
   "Pacific/Port_Moresby" /*name*/,
   kZoneEraPort_Moresby /*eras*/,
-  sizeof(kZoneEraPort_Moresby)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6940,7 +6940,7 @@ static const common::ZoneEra kZoneEraRarotonga[] = {
 const common::ZoneInfo kZoneRarotonga = {
   "Pacific/Rarotonga" /*name*/,
   kZoneEraRarotonga /*eras*/,
-  sizeof(kZoneEraRarotonga)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6970,7 +6970,7 @@ static const common::ZoneEra kZoneEraTahiti[] = {
 const common::ZoneInfo kZoneTahiti = {
   "Pacific/Tahiti" /*name*/,
   kZoneEraTahiti /*eras*/,
-  sizeof(kZoneEraTahiti)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7000,7 +7000,7 @@ static const common::ZoneEra kZoneEraTarawa[] = {
 const common::ZoneInfo kZoneTarawa = {
   "Pacific/Tarawa" /*name*/,
   kZoneEraTarawa /*eras*/,
-  sizeof(kZoneEraTarawa)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7042,7 +7042,7 @@ static const common::ZoneEra kZoneEraTongatapu[] = {
 const common::ZoneInfo kZoneTongatapu = {
   "Pacific/Tongatapu" /*name*/,
   kZoneEraTongatapu /*eras*/,
-  sizeof(kZoneEraTongatapu)/sizeof(common::ZoneEra) /*numEras*/,
+  2 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7072,7 +7072,7 @@ static const common::ZoneEra kZoneEraWake[] = {
 const common::ZoneInfo kZoneWake = {
   "Pacific/Wake" /*name*/,
   kZoneEraWake /*eras*/,
-  sizeof(kZoneEraWake)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7102,7 +7102,7 @@ static const common::ZoneEra kZoneEraWallis[] = {
 const common::ZoneInfo kZoneWallis = {
   "Pacific/Wallis" /*name*/,
   kZoneEraWallis /*eras*/,
-  sizeof(kZoneEraWallis)/sizeof(common::ZoneEra) /*numEras*/,
+  1 /*numEras*/,
 };
 
 

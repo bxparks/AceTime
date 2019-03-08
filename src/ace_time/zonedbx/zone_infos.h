@@ -20,7 +20,7 @@
 namespace ace_time {
 namespace zonedbx {
 
-// numInfos: 343
+// numInfos: 348
 extern const common::ZoneInfo kZoneAbidjan; // Africa/Abidjan
 extern const common::ZoneInfo kZoneAccra; // Africa/Accra
 extern const common::ZoneInfo kZoneAlgiers; // Africa/Algiers
@@ -40,6 +40,7 @@ extern const common::ZoneInfo kZoneNdjamena; // Africa/Ndjamena
 extern const common::ZoneInfo kZoneSao_Tome; // Africa/Sao_Tome
 extern const common::ZoneInfo kZoneTripoli; // Africa/Tripoli
 extern const common::ZoneInfo kZoneTunis; // Africa/Tunis
+extern const common::ZoneInfo kZoneWindhoek; // Africa/Windhoek
 extern const common::ZoneInfo kZoneAdak; // America/Adak
 extern const common::ZoneInfo kZoneAnchorage; // America/Anchorage
 extern const common::ZoneInfo kZoneAraguaina; // America/Araguaina
@@ -61,6 +62,7 @@ extern const common::ZoneInfo kZoneBahia; // America/Bahia
 extern const common::ZoneInfo kZoneBahia_Banderas; // America/Bahia_Banderas
 extern const common::ZoneInfo kZoneBarbados; // America/Barbados
 extern const common::ZoneInfo kZoneBelem; // America/Belem
+extern const common::ZoneInfo kZoneBelize; // America/Belize
 extern const common::ZoneInfo kZoneBlanc_Sablon; // America/Blanc-Sablon
 extern const common::ZoneInfo kZoneBoa_Vista; // America/Boa_Vista
 extern const common::ZoneInfo kZoneBogota; // America/Bogota
@@ -88,6 +90,7 @@ extern const common::ZoneInfo kZoneFort_Nelson; // America/Fort_Nelson
 extern const common::ZoneInfo kZoneFortaleza; // America/Fortaleza
 extern const common::ZoneInfo kZoneGlace_Bay; // America/Glace_Bay
 extern const common::ZoneInfo kZoneGodthab; // America/Godthab
+extern const common::ZoneInfo kZoneGoose_Bay; // America/Goose_Bay
 extern const common::ZoneInfo kZoneGrand_Turk; // America/Grand_Turk
 extern const common::ZoneInfo kZoneGuatemala; // America/Guatemala
 extern const common::ZoneInfo kZoneGuayaquil; // America/Guayaquil
@@ -156,6 +159,7 @@ extern const common::ZoneInfo kZoneSanto_Domingo; // America/Santo_Domingo
 extern const common::ZoneInfo kZoneSao_Paulo; // America/Sao_Paulo
 extern const common::ZoneInfo kZoneScoresbysund; // America/Scoresbysund
 extern const common::ZoneInfo kZoneSitka; // America/Sitka
+extern const common::ZoneInfo kZoneSt_Johns; // America/St_Johns
 extern const common::ZoneInfo kZoneSwift_Current; // America/Swift_Current
 extern const common::ZoneInfo kZoneTegucigalpa; // America/Tegucigalpa
 extern const common::ZoneInfo kZoneThule; // America/Thule
@@ -175,6 +179,7 @@ extern const common::ZoneInfo kZoneMawson; // Antarctica/Mawson
 extern const common::ZoneInfo kZonePalmer; // Antarctica/Palmer
 extern const common::ZoneInfo kZoneRothera; // Antarctica/Rothera
 extern const common::ZoneInfo kZoneSyowa; // Antarctica/Syowa
+extern const common::ZoneInfo kZoneTroll; // Antarctica/Troll
 extern const common::ZoneInfo kZoneVostok; // Antarctica/Vostok
 extern const common::ZoneInfo kZoneAlmaty; // Asia/Almaty
 extern const common::ZoneInfo kZoneAmman; // Asia/Amman
@@ -368,13 +373,8 @@ extern const common::ZoneInfo kZoneWallis; // Pacific/Wallis
 
 // The following zones are not supported in the current version of AceTime.
 //
-// numInfos: 16
+// numInfos: 11
 //
-// Africa/Windhoek (policy 'Namibia' not found)
-// America/Belize (policy 'Belize' not found)
-// America/Goose_Bay (policy 'StJohns' not found)
-// America/St_Johns (policy 'StJohns' not found)
-// Antarctica/Troll (policy 'Troll' not found)
 // CET (no '/' in zone name)
 // CST6CDT (no '/' in zone name)
 // EET (no '/' in zone name)

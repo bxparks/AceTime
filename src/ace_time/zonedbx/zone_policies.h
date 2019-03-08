@@ -18,7 +18,7 @@
 namespace ace_time {
 namespace zonedbx {
 
-// numPolicies: 79
+// numPolicies: 83
 extern const common::ZonePolicy kPolicyAN;
 extern const common::ZonePolicy kPolicyAQ;
 extern const common::ZonePolicy kPolicyAS;
@@ -30,6 +30,7 @@ extern const common::ZonePolicy kPolicyArmenia;
 extern const common::ZonePolicy kPolicyAus;
 extern const common::ZonePolicy kPolicyAzer;
 extern const common::ZonePolicy kPolicyBarb;
+extern const common::ZonePolicy kPolicyBelize;
 extern const common::ZonePolicy kPolicyBrazil;
 extern const common::ZonePolicy kPolicyCO;
 extern const common::ZonePolicy kPolicyCR;
@@ -72,6 +73,7 @@ extern const common::ZonePolicy kPolicyMorocco;
 extern const common::ZonePolicy kPolicyNC;
 extern const common::ZonePolicy kPolicyNT_YK;
 extern const common::ZonePolicy kPolicyNZ;
+extern const common::ZonePolicy kPolicyNamibia;
 extern const common::ZonePolicy kPolicyNic;
 extern const common::ZonePolicy kPolicyPRC;
 extern const common::ZonePolicy kPolicyPakistan;
@@ -85,11 +87,13 @@ extern const common::ZonePolicy kPolicyRussiaAsia;
 extern const common::ZonePolicy kPolicySA;
 extern const common::ZonePolicy kPolicySalv;
 extern const common::ZonePolicy kPolicySanLuis;
+extern const common::ZonePolicy kPolicyStJohns;
 extern const common::ZonePolicy kPolicySudan;
 extern const common::ZonePolicy kPolicySyria;
 extern const common::ZonePolicy kPolicyTaiwan;
 extern const common::ZonePolicy kPolicyThule;
 extern const common::ZonePolicy kPolicyTonga;
+extern const common::ZonePolicy kPolicyTroll;
 extern const common::ZonePolicy kPolicyTunisia;
 extern const common::ZonePolicy kPolicyTurkey;
 extern const common::ZonePolicy kPolicyUS;
@@ -103,14 +107,13 @@ extern const common::ZonePolicy kPolicyZion;
 // The following zone policies are not supported in the current version of
 // AceTime.
 //
-// numPolicies: 60
+// numPolicies: 56
 //
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
 // kPolicyAustria (unused)
 // kPolicyBahamas (unused)
 // kPolicyBelgium (unused)
-// kPolicyBelize (LETTER 'CST' too long)
 // kPolicyBulg (unused)
 // kPolicyC-Eur (unused)
 // kPolicyCA (unused)
@@ -142,7 +145,6 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicyMenominee (unused)
 // kPolicyNBorneo (unused)
 // kPolicyNYC (unused)
-// kPolicyNamibia (LETTER 'WAT' too long)
 // kPolicyNeth (unused)
 // kPolicyNorway (unused)
 // kPolicyPerry (unused)
@@ -156,12 +158,10 @@ extern const common::ZonePolicy kPolicyZion;
 // kPolicySovietZone (unused)
 // kPolicySpain (unused)
 // kPolicySpainAfrica (unused)
-// kPolicyStJohns (LETTER 'DD' too long)
 // kPolicyStarke (unused)
 // kPolicySwift (unused)
 // kPolicySwiss (unused)
 // kPolicyToronto (unused)
-// kPolicyTroll (LETTER '+00' too long)
 // kPolicyVanc (unused)
 // kPolicyVincennes (unused)
 // kPolicyW-Eur (unused)

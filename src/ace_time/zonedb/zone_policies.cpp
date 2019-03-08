@@ -7,8 +7,8 @@
 //
 // Policy count: 64
 // Rule count: 405
-// Memory (8-bit): 3837
-// Memory (32-bit): 3965
+// Memory (8-bit): 4029
+// Memory (32-bit): 4317
 //
 // DO NOT EDIT
 
@@ -20,8 +20,8 @@ namespace zonedb {
 //---------------------------------------------------------------------------
 // Policy name: AN
 // Rule count: 9
-// Memory (8-bit): 84
-// Memory (32-bit): 86
+// Memory (8-bit): 87
+// Memory (32-bit): 91
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAN[] = {
@@ -136,16 +136,20 @@ static const common::ZoneRule kZoneRulesAN[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAN = {
-  sizeof(kZoneRulesAN)/sizeof(common::ZoneRule) /*numRules*/,
+  9 /*numRules*/,
   kZoneRulesAN /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: AQ
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAQ[] = {
@@ -164,16 +168,20 @@ static const common::ZoneRule kZoneRulesAQ[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAQ = {
-  sizeof(kZoneRulesAQ)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesAQ /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: AS
 // Rule count: 7
-// Memory (8-bit): 66
-// Memory (32-bit): 68
+// Memory (8-bit): 69
+// Memory (32-bit): 73
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAS[] = {
@@ -264,16 +272,20 @@ static const common::ZoneRule kZoneRulesAS[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAS = {
-  sizeof(kZoneRulesAS)/sizeof(common::ZoneRule) /*numRules*/,
+  7 /*numRules*/,
   kZoneRulesAS /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: AT
 // Rule count: 8
-// Memory (8-bit): 75
-// Memory (32-bit): 77
+// Memory (8-bit): 78
+// Memory (32-bit): 82
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAT[] = {
@@ -376,16 +388,20 @@ static const common::ZoneRule kZoneRulesAT[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAT = {
-  sizeof(kZoneRulesAT)/sizeof(common::ZoneRule) /*numRules*/,
+  8 /*numRules*/,
   kZoneRulesAT /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: AV
 // Rule count: 9
-// Memory (8-bit): 84
-// Memory (32-bit): 86
+// Memory (8-bit): 87
+// Memory (32-bit): 91
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAV[] = {
@@ -500,16 +516,20 @@ static const common::ZoneRule kZoneRulesAV[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAV = {
-  sizeof(kZoneRulesAV)/sizeof(common::ZoneRule) /*numRules*/,
+  9 /*numRules*/,
   kZoneRulesAV /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: AW
 // Rule count: 4
-// Memory (8-bit): 39
-// Memory (32-bit): 41
+// Memory (8-bit): 42
+// Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAW[] = {
@@ -564,16 +584,20 @@ static const common::ZoneRule kZoneRulesAW[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAW = {
-  sizeof(kZoneRulesAW)/sizeof(common::ZoneRule) /*numRules*/,
+  4 /*numRules*/,
   kZoneRulesAW /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Armenia
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesArmenia[] = {
@@ -616,16 +640,20 @@ static const common::ZoneRule kZoneRulesArmenia[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyArmenia = {
-  sizeof(kZoneRulesArmenia)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesArmenia /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Aus
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAus[] = {
@@ -644,16 +672,20 @@ static const common::ZoneRule kZoneRulesAus[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAus = {
-  sizeof(kZoneRulesAus)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesAus /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Azer
 // Rule count: 2
-// Memory (8-bit): 21
-// Memory (32-bit): 23
+// Memory (8-bit): 24
+// Memory (32-bit): 28
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesAzer[] = {
@@ -684,16 +716,20 @@ static const common::ZoneRule kZoneRulesAzer[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyAzer = {
-  sizeof(kZoneRulesAzer)/sizeof(common::ZoneRule) /*numRules*/,
+  2 /*numRules*/,
   kZoneRulesAzer /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Barb
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesBarb[] = {
@@ -712,16 +748,20 @@ static const common::ZoneRule kZoneRulesBarb[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyBarb = {
-  sizeof(kZoneRulesBarb)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesBarb /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Brazil
 // Rule count: 28
-// Memory (8-bit): 255
-// Memory (32-bit): 257
+// Memory (8-bit): 258
+// Memory (32-bit): 262
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesBrazil[] = {
@@ -1064,16 +1104,20 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyBrazil = {
-  sizeof(kZoneRulesBrazil)/sizeof(common::ZoneRule) /*numRules*/,
+  28 /*numRules*/,
   kZoneRulesBrazil /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: CO
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesCO[] = {
@@ -1092,16 +1136,20 @@ static const common::ZoneRule kZoneRulesCO[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyCO = {
-  sizeof(kZoneRulesCO)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesCO /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: CR
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesCR[] = {
@@ -1120,16 +1168,20 @@ static const common::ZoneRule kZoneRulesCR[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyCR = {
-  sizeof(kZoneRulesCR)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesCR /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Canada
 // Rule count: 5
-// Memory (8-bit): 48
-// Memory (32-bit): 50
+// Memory (8-bit): 51
+// Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesCanada[] = {
@@ -1196,16 +1248,20 @@ static const common::ZoneRule kZoneRulesCanada[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyCanada = {
-  sizeof(kZoneRulesCanada)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesCanada /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Chatham
 // Rule count: 5
-// Memory (8-bit): 48
-// Memory (32-bit): 50
+// Memory (8-bit): 51
+// Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesChatham[] = {
@@ -1272,16 +1328,20 @@ static const common::ZoneRule kZoneRulesChatham[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyChatham = {
-  sizeof(kZoneRulesChatham)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesChatham /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Chile
 // Rule count: 15
-// Memory (8-bit): 138
-// Memory (32-bit): 140
+// Memory (8-bit): 141
+// Memory (32-bit): 145
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesChile[] = {
@@ -1468,16 +1528,20 @@ static const common::ZoneRule kZoneRulesChile[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyChile = {
-  sizeof(kZoneRulesChile)/sizeof(common::ZoneRule) /*numRules*/,
+  15 /*numRules*/,
   kZoneRulesChile /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Cook
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesCook[] = {
@@ -1496,16 +1560,20 @@ static const common::ZoneRule kZoneRulesCook[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyCook = {
-  sizeof(kZoneRulesCook)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesCook /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Cuba
 // Rule count: 14
-// Memory (8-bit): 129
-// Memory (32-bit): 131
+// Memory (8-bit): 132
+// Memory (32-bit): 136
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesCuba[] = {
@@ -1680,16 +1748,20 @@ static const common::ZoneRule kZoneRulesCuba[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyCuba = {
-  sizeof(kZoneRulesCuba)/sizeof(common::ZoneRule) /*numRules*/,
+  14 /*numRules*/,
   kZoneRulesCuba /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Dhaka
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesDhaka[] = {
@@ -1732,16 +1804,20 @@ static const common::ZoneRule kZoneRulesDhaka[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyDhaka = {
-  sizeof(kZoneRulesDhaka)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesDhaka /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: EU
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesEU[] = {
@@ -1784,16 +1860,20 @@ static const common::ZoneRule kZoneRulesEU[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyEU = {
-  sizeof(kZoneRulesEU)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesEU /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: EUAsia
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesEUAsia[] = {
@@ -1836,16 +1916,20 @@ static const common::ZoneRule kZoneRulesEUAsia[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyEUAsia = {
-  sizeof(kZoneRulesEUAsia)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesEUAsia /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Ecuador
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesEcuador[] = {
@@ -1864,16 +1948,20 @@ static const common::ZoneRule kZoneRulesEcuador[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyEcuador = {
-  sizeof(kZoneRulesEcuador)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesEcuador /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Eire
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesEire[] = {
@@ -1916,16 +2004,20 @@ static const common::ZoneRule kZoneRulesEire[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyEire = {
-  sizeof(kZoneRulesEire)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesEire /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Fiji
 // Rule count: 10
-// Memory (8-bit): 93
-// Memory (32-bit): 95
+// Memory (8-bit): 96
+// Memory (32-bit): 100
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesFiji[] = {
@@ -2052,16 +2144,20 @@ static const common::ZoneRule kZoneRulesFiji[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyFiji = {
-  sizeof(kZoneRulesFiji)/sizeof(common::ZoneRule) /*numRules*/,
+  10 /*numRules*/,
   kZoneRulesFiji /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Ghana
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesGhana[] = {
@@ -2080,16 +2176,20 @@ static const common::ZoneRule kZoneRulesGhana[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyGhana = {
-  sizeof(kZoneRulesGhana)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesGhana /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Guat
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesGuat[] = {
@@ -2132,16 +2232,20 @@ static const common::ZoneRule kZoneRulesGuat[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyGuat = {
-  sizeof(kZoneRulesGuat)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesGuat /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: HK
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesHK[] = {
@@ -2160,16 +2264,20 @@ static const common::ZoneRule kZoneRulesHK[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyHK = {
-  sizeof(kZoneRulesHK)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesHK /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Haiti
 // Rule count: 7
-// Memory (8-bit): 66
-// Memory (32-bit): 68
+// Memory (8-bit): 69
+// Memory (32-bit): 73
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesHaiti[] = {
@@ -2260,16 +2368,20 @@ static const common::ZoneRule kZoneRulesHaiti[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyHaiti = {
-  sizeof(kZoneRulesHaiti)/sizeof(common::ZoneRule) /*numRules*/,
+  7 /*numRules*/,
   kZoneRulesHaiti /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Holiday
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesHoliday[] = {
@@ -2288,16 +2400,20 @@ static const common::ZoneRule kZoneRulesHoliday[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyHoliday = {
-  sizeof(kZoneRulesHoliday)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesHoliday /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Hond
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesHond[] = {
@@ -2340,16 +2456,20 @@ static const common::ZoneRule kZoneRulesHond[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyHond = {
-  sizeof(kZoneRulesHond)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesHond /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Iran
 // Rule count: 93
-// Memory (8-bit): 840
-// Memory (32-bit): 842
+// Memory (8-bit): 843
+// Memory (32-bit): 847
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesIran[] = {
@@ -3472,16 +3592,20 @@ static const common::ZoneRule kZoneRulesIran[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyIran = {
-  sizeof(kZoneRulesIran)/sizeof(common::ZoneRule) /*numRules*/,
+  93 /*numRules*/,
   kZoneRulesIran /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Iraq
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesIraq[] = {
@@ -3524,16 +3648,20 @@ static const common::ZoneRule kZoneRulesIraq[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyIraq = {
-  sizeof(kZoneRulesIraq)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesIraq /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Japan
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesJapan[] = {
@@ -3552,16 +3680,20 @@ static const common::ZoneRule kZoneRulesJapan[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyJapan = {
-  sizeof(kZoneRulesJapan)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesJapan /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Jordan
 // Rule count: 12
-// Memory (8-bit): 111
-// Memory (32-bit): 113
+// Memory (8-bit): 114
+// Memory (32-bit): 118
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesJordan[] = {
@@ -3712,16 +3844,20 @@ static const common::ZoneRule kZoneRulesJordan[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyJordan = {
-  sizeof(kZoneRulesJordan)/sizeof(common::ZoneRule) /*numRules*/,
+  12 /*numRules*/,
   kZoneRulesJordan /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: LH
 // Rule count: 9
-// Memory (8-bit): 84
-// Memory (32-bit): 86
+// Memory (8-bit): 87
+// Memory (32-bit): 91
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesLH[] = {
@@ -3836,16 +3972,20 @@ static const common::ZoneRule kZoneRulesLH[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyLH = {
-  sizeof(kZoneRulesLH)/sizeof(common::ZoneRule) /*numRules*/,
+  9 /*numRules*/,
   kZoneRulesLH /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Lebanon
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesLebanon[] = {
@@ -3888,16 +4028,20 @@ static const common::ZoneRule kZoneRulesLebanon[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyLebanon = {
-  sizeof(kZoneRulesLebanon)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesLebanon /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Macau
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesMacau[] = {
@@ -3916,16 +4060,20 @@ static const common::ZoneRule kZoneRulesMacau[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMacau = {
-  sizeof(kZoneRulesMacau)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesMacau /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Mauritius
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesMauritius[] = {
@@ -3968,16 +4116,20 @@ static const common::ZoneRule kZoneRulesMauritius[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMauritius = {
-  sizeof(kZoneRulesMauritius)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesMauritius /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Mexico
 // Rule count: 7
-// Memory (8-bit): 66
-// Memory (32-bit): 68
+// Memory (8-bit): 69
+// Memory (32-bit): 73
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesMexico[] = {
@@ -4068,16 +4220,20 @@ static const common::ZoneRule kZoneRulesMexico[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMexico = {
-  sizeof(kZoneRulesMexico)/sizeof(common::ZoneRule) /*numRules*/,
+  7 /*numRules*/,
   kZoneRulesMexico /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Moldova
 // Rule count: 2
-// Memory (8-bit): 21
-// Memory (32-bit): 23
+// Memory (8-bit): 24
+// Memory (32-bit): 28
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesMoldova[] = {
@@ -4108,16 +4264,20 @@ static const common::ZoneRule kZoneRulesMoldova[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMoldova = {
-  sizeof(kZoneRulesMoldova)/sizeof(common::ZoneRule) /*numRules*/,
+  2 /*numRules*/,
   kZoneRulesMoldova /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Moncton
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesMoncton[] = {
@@ -4160,16 +4320,20 @@ static const common::ZoneRule kZoneRulesMoncton[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMoncton = {
-  sizeof(kZoneRulesMoncton)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesMoncton /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Mongol
 // Rule count: 6
-// Memory (8-bit): 57
-// Memory (32-bit): 59
+// Memory (8-bit): 60
+// Memory (32-bit): 64
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesMongol[] = {
@@ -4248,16 +4412,20 @@ static const common::ZoneRule kZoneRulesMongol[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyMongol = {
-  sizeof(kZoneRulesMongol)/sizeof(common::ZoneRule) /*numRules*/,
+  6 /*numRules*/,
   kZoneRulesMongol /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: NC
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesNC[] = {
@@ -4276,16 +4444,20 @@ static const common::ZoneRule kZoneRulesNC[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyNC = {
-  sizeof(kZoneRulesNC)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesNC /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: NZ
 // Rule count: 5
-// Memory (8-bit): 48
-// Memory (32-bit): 50
+// Memory (8-bit): 51
+// Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesNZ[] = {
@@ -4352,16 +4524,20 @@ static const common::ZoneRule kZoneRulesNZ[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyNZ = {
-  sizeof(kZoneRulesNZ)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesNZ /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Nic
 // Rule count: 5
-// Memory (8-bit): 48
-// Memory (32-bit): 50
+// Memory (8-bit): 51
+// Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesNic[] = {
@@ -4428,16 +4604,20 @@ static const common::ZoneRule kZoneRulesNic[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyNic = {
-  sizeof(kZoneRulesNic)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesNic /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: PRC
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesPRC[] = {
@@ -4456,16 +4636,20 @@ static const common::ZoneRule kZoneRulesPRC[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyPRC = {
-  sizeof(kZoneRulesPRC)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesPRC /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Pakistan
 // Rule count: 6
-// Memory (8-bit): 57
-// Memory (32-bit): 59
+// Memory (8-bit): 60
+// Memory (32-bit): 64
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesPakistan[] = {
@@ -4544,16 +4728,20 @@ static const common::ZoneRule kZoneRulesPakistan[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyPakistan = {
-  sizeof(kZoneRulesPakistan)/sizeof(common::ZoneRule) /*numRules*/,
+  6 /*numRules*/,
   kZoneRulesPakistan /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Para
 // Rule count: 10
-// Memory (8-bit): 93
-// Memory (32-bit): 95
+// Memory (8-bit): 96
+// Memory (32-bit): 100
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesPara[] = {
@@ -4680,16 +4868,20 @@ static const common::ZoneRule kZoneRulesPara[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyPara = {
-  sizeof(kZoneRulesPara)/sizeof(common::ZoneRule) /*numRules*/,
+  10 /*numRules*/,
   kZoneRulesPara /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Peru
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesPeru[] = {
@@ -4708,16 +4900,20 @@ static const common::ZoneRule kZoneRulesPeru[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyPeru = {
-  sizeof(kZoneRulesPeru)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesPeru /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Phil
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesPhil[] = {
@@ -4736,16 +4932,20 @@ static const common::ZoneRule kZoneRulesPhil[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyPhil = {
-  sizeof(kZoneRulesPhil)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesPhil /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: ROK
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesROK[] = {
@@ -4764,16 +4964,20 @@ static const common::ZoneRule kZoneRulesROK[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyROK = {
-  sizeof(kZoneRulesROK)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesROK /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: RussiaAsia
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesRussiaAsia[] = {
@@ -4816,16 +5020,20 @@ static const common::ZoneRule kZoneRulesRussiaAsia[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyRussiaAsia = {
-  sizeof(kZoneRulesRussiaAsia)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesRussiaAsia /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: SA
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesSA[] = {
@@ -4844,16 +5052,20 @@ static const common::ZoneRule kZoneRulesSA[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicySA = {
-  sizeof(kZoneRulesSA)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesSA /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Salv
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesSalv[] = {
@@ -4872,16 +5084,20 @@ static const common::ZoneRule kZoneRulesSalv[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicySalv = {
-  sizeof(kZoneRulesSalv)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesSalv /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Syria
 // Rule count: 12
-// Memory (8-bit): 111
-// Memory (32-bit): 113
+// Memory (8-bit): 114
+// Memory (32-bit): 118
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesSyria[] = {
@@ -5032,16 +5248,20 @@ static const common::ZoneRule kZoneRulesSyria[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicySyria = {
-  sizeof(kZoneRulesSyria)/sizeof(common::ZoneRule) /*numRules*/,
+  12 /*numRules*/,
   kZoneRulesSyria /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Taiwan
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesTaiwan[] = {
@@ -5060,16 +5280,20 @@ static const common::ZoneRule kZoneRulesTaiwan[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyTaiwan = {
-  sizeof(kZoneRulesTaiwan)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesTaiwan /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Thule
 // Rule count: 5
-// Memory (8-bit): 48
-// Memory (32-bit): 50
+// Memory (8-bit): 51
+// Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesThule[] = {
@@ -5136,16 +5360,20 @@ static const common::ZoneRule kZoneRulesThule[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyThule = {
-  sizeof(kZoneRulesThule)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesThule /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Tonga
 // Rule count: 7
-// Memory (8-bit): 66
-// Memory (32-bit): 68
+// Memory (8-bit): 69
+// Memory (32-bit): 73
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesTonga[] = {
@@ -5236,16 +5464,20 @@ static const common::ZoneRule kZoneRulesTonga[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyTonga = {
-  sizeof(kZoneRulesTonga)/sizeof(common::ZoneRule) /*numRules*/,
+  7 /*numRules*/,
   kZoneRulesTonga /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Tunisia
 // Rule count: 5
-// Memory (8-bit): 48
-// Memory (32-bit): 50
+// Memory (8-bit): 51
+// Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesTunisia[] = {
@@ -5312,16 +5544,20 @@ static const common::ZoneRule kZoneRulesTunisia[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyTunisia = {
-  sizeof(kZoneRulesTunisia)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesTunisia /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: US
 // Rule count: 5
-// Memory (8-bit): 48
-// Memory (32-bit): 50
+// Memory (8-bit): 51
+// Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesUS[] = {
@@ -5388,16 +5624,20 @@ static const common::ZoneRule kZoneRulesUS[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyUS = {
-  sizeof(kZoneRulesUS)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesUS /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Uruguay
 // Rule count: 6
-// Memory (8-bit): 57
-// Memory (32-bit): 59
+// Memory (8-bit): 60
+// Memory (32-bit): 64
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesUruguay[] = {
@@ -5476,16 +5716,20 @@ static const common::ZoneRule kZoneRulesUruguay[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyUruguay = {
-  sizeof(kZoneRulesUruguay)/sizeof(common::ZoneRule) /*numRules*/,
+  6 /*numRules*/,
   kZoneRulesUruguay /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Vanuatu
 // Rule count: 1
-// Memory (8-bit): 12
-// Memory (32-bit): 14
+// Memory (8-bit): 15
+// Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesVanuatu[] = {
@@ -5504,16 +5748,20 @@ static const common::ZoneRule kZoneRulesVanuatu[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyVanuatu = {
-  sizeof(kZoneRulesVanuatu)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesVanuatu /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Winn
 // Rule count: 3
-// Memory (8-bit): 30
-// Memory (32-bit): 32
+// Memory (8-bit): 33
+// Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesWinn[] = {
@@ -5556,16 +5804,20 @@ static const common::ZoneRule kZoneRulesWinn[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyWinn = {
-  sizeof(kZoneRulesWinn)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesWinn /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 //---------------------------------------------------------------------------
 // Policy name: Zion
 // Rule count: 27
-// Memory (8-bit): 246
-// Memory (32-bit): 248
+// Memory (8-bit): 249
+// Memory (32-bit): 253
 //---------------------------------------------------------------------------
 
 static const common::ZoneRule kZoneRulesZion[] = {
@@ -5896,9 +6148,13 @@ static const common::ZoneRule kZoneRulesZion[] = {
 
 };
 
+
+
 const common::ZonePolicy kPolicyZion = {
-  sizeof(kZoneRulesZion)/sizeof(common::ZoneRule) /*numRules*/,
+  27 /*numRules*/,
   kZoneRulesZion /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
 };
 
 
