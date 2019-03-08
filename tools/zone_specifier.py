@@ -553,12 +553,18 @@ class ZoneSpecifier:
             else:
                 year = ldt.year
         else:
-            if ldt.month == 12 and ldt.day == 31:
-                year = ldt.year + 1
-            elif ldt.month == 1 and ldt.day == 1:
-                year = ldt.year - 1
-            else:
-                year = ldt.year
+            # If viewing_months >= 14, then this shift to the nearest whole
+            # year on Jan 1 or Dec 31 does not seem necessary since the unit
+            # tests all pass without this.
+            #
+            #if ldt.month == 12 and ldt.day == 31:
+            #    year = ldt.year + 1
+            #elif ldt.month == 1 and ldt.day == 1:
+            #    year = ldt.year - 1
+            #else:
+            #    year = ldt.year
+
+            year = ldt.year
 
         self.init_for_year(year)
 
