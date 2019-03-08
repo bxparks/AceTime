@@ -7,17 +7,7 @@ namespace ace_time {
 using common::printPad2;
 
 void TimeZone::printTo(Print& printer) const {
-  if (getType() == kTypeAuto) {
-    auto* spec = static_cast<AutoZoneSpecifier*>(mZoneSpecifier);
-    printer.print('[');
-    printer.print(spec->getZoneInfo()->name);
-    printer.print(']');
-  } else {
-    auto* spec = static_cast<ManualZoneSpecifier*>(mZoneSpecifier);
-    printer.print(F("UTC"));
-    spec->stdOffset().printTo(printer);
-    printer.print(spec->isDst() ? F(" (DST)") : F(" (STD)"));
-  }
+  mZoneSpecifier->printTo(printer);
 }
 
 void TimeZone::parseFromOffsetString(const char* ts, uint8_t* offsetCode) {

@@ -137,8 +137,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
 
     uint8_t getType() const override { return kTypeAuto; }
 
-    /** Return the UTC offset at epochSeconds. */
-    UtcOffset getUtcOffset(acetime_t epochSeconds) {
+    UtcOffset getUtcOffset(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return UtcOffset();
       const internal::Transition* transition = getTransition(epochSeconds);
       return UtcOffset::forOffsetCode(transition->offsetCode);
@@ -152,12 +151,13 @@ class AutoZoneSpecifier: public ZoneSpecifier {
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
 
-    /** Return the time zone abbreviation. */
-    const char* getAbbrev(acetime_t epochSeconds) {
+    const char* getAbbrev(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return "UTC";
       const internal::Transition* transition = getTransition(epochSeconds);
       return transition->abbrev;
     }
+
+    void printTo(Print& printer) const override;
 
     /** Used only for debugging. */
     void log() const {
@@ -181,8 +181,6 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     friend class ::AutoZoneSpecifierTest_createAbbreviation;
     friend class ::AutoZoneSpecifierTest_calcStartDayOfMonth;
     friend class ::AutoZoneSpecifierTest_calcRuleOffsetCode;
-    friend bool operator==(const AutoZoneSpecifier& a,
-        const AutoZoneSpecifier& b);
 
     static const uint8_t kMaxCacheEntries = 4;
 
@@ -192,6 +190,11 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * "invalid".
      */
     static const acetime_t kMinEpochSeconds = INT32_MIN + 1;
+
+    bool equals(const ZoneSpecifier& other) const override {
+      const auto& that = (const AutoZoneSpecifier&) other;
+      return getZoneInfo() == that.getZoneInfo();
+    }
 
     /** Return the Transition at the given epochSeconds. */
     const internal::Transition* getTransition(acetime_t epochSeconds) {
@@ -598,14 +601,6 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     mutable internal::Transition mTransitions[kMaxCacheEntries];
     mutable internal::Transition mPrevTransition; // previous year's transition
 };
-
-inline bool operator==(const AutoZoneSpecifier& a, const AutoZoneSpecifier& b) {
-  return a.getZoneInfo() == b.getZoneInfo();
-}
-
-inline bool operator!=(const AutoZoneSpecifier& a, const AutoZoneSpecifier& b) {
-  return ! (a == b);
-}
 
 }
 

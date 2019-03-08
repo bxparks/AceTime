@@ -15,15 +15,15 @@ test(ManualZoneSpecifierTest, accessors) {
   ManualZoneSpecifier pstSpec(
       UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
 
-  assertEqual(-8*60, pstSpec.getUtcOffset().toMinutes());
-  assertEqual("PST", pstSpec.getAbbrev());
-  assertEqual(0, pstSpec.getDeltaOffset().toMinutes());
+  assertEqual(-8*60, pstSpec.getUtcOffset(0).toMinutes());
+  assertEqual("PST", pstSpec.getAbbrev(0));
+  assertEqual(0, pstSpec.getDeltaOffset(0).toMinutes());
 
   pstSpec.isDst(true);
 
-  assertEqual(-7*60, pstSpec.getUtcOffset().toMinutes());
-  assertEqual("PDT", pstSpec.getAbbrev());
-  assertEqual(1*60, pstSpec.getDeltaOffset().toMinutes());
+  assertEqual(-7*60, pstSpec.getUtcOffset(0).toMinutes());
+  assertEqual("PDT", pstSpec.getAbbrev(0));
+  assertEqual(1*60, pstSpec.getDeltaOffset(0).toMinutes());
 }
 
 test(ManualZoneSpecifierTest, copyConstructor) {
