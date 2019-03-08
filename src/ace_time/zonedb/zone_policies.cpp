@@ -139,7 +139,7 @@ static const common::ZoneRule kZoneRulesAN[] = {
 
 
 const common::ZonePolicy kPolicyAN = {
-  sizeof(kZoneRulesAN)/sizeof(common::ZoneRule) /*numRules*/,
+  9 /*numRules*/,
   kZoneRulesAN /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -171,7 +171,7 @@ static const common::ZoneRule kZoneRulesAQ[] = {
 
 
 const common::ZonePolicy kPolicyAQ = {
-  sizeof(kZoneRulesAQ)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesAQ /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -275,7 +275,7 @@ static const common::ZoneRule kZoneRulesAS[] = {
 
 
 const common::ZonePolicy kPolicyAS = {
-  sizeof(kZoneRulesAS)/sizeof(common::ZoneRule) /*numRules*/,
+  7 /*numRules*/,
   kZoneRulesAS /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -391,7 +391,7 @@ static const common::ZoneRule kZoneRulesAT[] = {
 
 
 const common::ZonePolicy kPolicyAT = {
-  sizeof(kZoneRulesAT)/sizeof(common::ZoneRule) /*numRules*/,
+  8 /*numRules*/,
   kZoneRulesAT /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -519,7 +519,7 @@ static const common::ZoneRule kZoneRulesAV[] = {
 
 
 const common::ZonePolicy kPolicyAV = {
-  sizeof(kZoneRulesAV)/sizeof(common::ZoneRule) /*numRules*/,
+  9 /*numRules*/,
   kZoneRulesAV /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -587,7 +587,7 @@ static const common::ZoneRule kZoneRulesAW[] = {
 
 
 const common::ZonePolicy kPolicyAW = {
-  sizeof(kZoneRulesAW)/sizeof(common::ZoneRule) /*numRules*/,
+  4 /*numRules*/,
   kZoneRulesAW /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -643,7 +643,7 @@ static const common::ZoneRule kZoneRulesArmenia[] = {
 
 
 const common::ZonePolicy kPolicyArmenia = {
-  sizeof(kZoneRulesArmenia)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesArmenia /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -675,7 +675,7 @@ static const common::ZoneRule kZoneRulesAus[] = {
 
 
 const common::ZonePolicy kPolicyAus = {
-  sizeof(kZoneRulesAus)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesAus /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -719,7 +719,7 @@ static const common::ZoneRule kZoneRulesAzer[] = {
 
 
 const common::ZonePolicy kPolicyAzer = {
-  sizeof(kZoneRulesAzer)/sizeof(common::ZoneRule) /*numRules*/,
+  2 /*numRules*/,
   kZoneRulesAzer /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -751,7 +751,7 @@ static const common::ZoneRule kZoneRulesBarb[] = {
 
 
 const common::ZonePolicy kPolicyBarb = {
-  sizeof(kZoneRulesBarb)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesBarb /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1107,7 +1107,7 @@ static const common::ZoneRule kZoneRulesBrazil[] = {
 
 
 const common::ZonePolicy kPolicyBrazil = {
-  sizeof(kZoneRulesBrazil)/sizeof(common::ZoneRule) /*numRules*/,
+  28 /*numRules*/,
   kZoneRulesBrazil /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1139,7 +1139,7 @@ static const common::ZoneRule kZoneRulesCO[] = {
 
 
 const common::ZonePolicy kPolicyCO = {
-  sizeof(kZoneRulesCO)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesCO /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1171,7 +1171,7 @@ static const common::ZoneRule kZoneRulesCR[] = {
 
 
 const common::ZonePolicy kPolicyCR = {
-  sizeof(kZoneRulesCR)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesCR /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1251,7 +1251,7 @@ static const common::ZoneRule kZoneRulesCanada[] = {
 
 
 const common::ZonePolicy kPolicyCanada = {
-  sizeof(kZoneRulesCanada)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesCanada /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1331,7 +1331,7 @@ static const common::ZoneRule kZoneRulesChatham[] = {
 
 
 const common::ZonePolicy kPolicyChatham = {
-  sizeof(kZoneRulesChatham)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesChatham /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1531,7 +1531,7 @@ static const common::ZoneRule kZoneRulesChile[] = {
 
 
 const common::ZonePolicy kPolicyChile = {
-  sizeof(kZoneRulesChile)/sizeof(common::ZoneRule) /*numRules*/,
+  15 /*numRules*/,
   kZoneRulesChile /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1563,7 +1563,7 @@ static const common::ZoneRule kZoneRulesCook[] = {
 
 
 const common::ZonePolicy kPolicyCook = {
-  sizeof(kZoneRulesCook)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesCook /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1751,7 +1751,7 @@ static const common::ZoneRule kZoneRulesCuba[] = {
 
 
 const common::ZonePolicy kPolicyCuba = {
-  sizeof(kZoneRulesCuba)/sizeof(common::ZoneRule) /*numRules*/,
+  14 /*numRules*/,
   kZoneRulesCuba /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1807,7 +1807,7 @@ static const common::ZoneRule kZoneRulesDhaka[] = {
 
 
 const common::ZonePolicy kPolicyDhaka = {
-  sizeof(kZoneRulesDhaka)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesDhaka /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1863,7 +1863,7 @@ static const common::ZoneRule kZoneRulesEU[] = {
 
 
 const common::ZonePolicy kPolicyEU = {
-  sizeof(kZoneRulesEU)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesEU /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1919,7 +1919,7 @@ static const common::ZoneRule kZoneRulesEUAsia[] = {
 
 
 const common::ZonePolicy kPolicyEUAsia = {
-  sizeof(kZoneRulesEUAsia)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesEUAsia /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -1951,7 +1951,7 @@ static const common::ZoneRule kZoneRulesEcuador[] = {
 
 
 const common::ZonePolicy kPolicyEcuador = {
-  sizeof(kZoneRulesEcuador)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesEcuador /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -2007,7 +2007,7 @@ static const common::ZoneRule kZoneRulesEire[] = {
 
 
 const common::ZonePolicy kPolicyEire = {
-  sizeof(kZoneRulesEire)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesEire /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -2147,7 +2147,7 @@ static const common::ZoneRule kZoneRulesFiji[] = {
 
 
 const common::ZonePolicy kPolicyFiji = {
-  sizeof(kZoneRulesFiji)/sizeof(common::ZoneRule) /*numRules*/,
+  10 /*numRules*/,
   kZoneRulesFiji /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -2179,7 +2179,7 @@ static const common::ZoneRule kZoneRulesGhana[] = {
 
 
 const common::ZonePolicy kPolicyGhana = {
-  sizeof(kZoneRulesGhana)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesGhana /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -2235,7 +2235,7 @@ static const common::ZoneRule kZoneRulesGuat[] = {
 
 
 const common::ZonePolicy kPolicyGuat = {
-  sizeof(kZoneRulesGuat)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesGuat /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -2267,7 +2267,7 @@ static const common::ZoneRule kZoneRulesHK[] = {
 
 
 const common::ZonePolicy kPolicyHK = {
-  sizeof(kZoneRulesHK)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesHK /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -2371,7 +2371,7 @@ static const common::ZoneRule kZoneRulesHaiti[] = {
 
 
 const common::ZonePolicy kPolicyHaiti = {
-  sizeof(kZoneRulesHaiti)/sizeof(common::ZoneRule) /*numRules*/,
+  7 /*numRules*/,
   kZoneRulesHaiti /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -2403,7 +2403,7 @@ static const common::ZoneRule kZoneRulesHoliday[] = {
 
 
 const common::ZonePolicy kPolicyHoliday = {
-  sizeof(kZoneRulesHoliday)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesHoliday /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -2459,7 +2459,7 @@ static const common::ZoneRule kZoneRulesHond[] = {
 
 
 const common::ZonePolicy kPolicyHond = {
-  sizeof(kZoneRulesHond)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesHond /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -3595,7 +3595,7 @@ static const common::ZoneRule kZoneRulesIran[] = {
 
 
 const common::ZonePolicy kPolicyIran = {
-  sizeof(kZoneRulesIran)/sizeof(common::ZoneRule) /*numRules*/,
+  93 /*numRules*/,
   kZoneRulesIran /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -3651,7 +3651,7 @@ static const common::ZoneRule kZoneRulesIraq[] = {
 
 
 const common::ZonePolicy kPolicyIraq = {
-  sizeof(kZoneRulesIraq)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesIraq /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -3683,7 +3683,7 @@ static const common::ZoneRule kZoneRulesJapan[] = {
 
 
 const common::ZonePolicy kPolicyJapan = {
-  sizeof(kZoneRulesJapan)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesJapan /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -3847,7 +3847,7 @@ static const common::ZoneRule kZoneRulesJordan[] = {
 
 
 const common::ZonePolicy kPolicyJordan = {
-  sizeof(kZoneRulesJordan)/sizeof(common::ZoneRule) /*numRules*/,
+  12 /*numRules*/,
   kZoneRulesJordan /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -3975,7 +3975,7 @@ static const common::ZoneRule kZoneRulesLH[] = {
 
 
 const common::ZonePolicy kPolicyLH = {
-  sizeof(kZoneRulesLH)/sizeof(common::ZoneRule) /*numRules*/,
+  9 /*numRules*/,
   kZoneRulesLH /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4031,7 +4031,7 @@ static const common::ZoneRule kZoneRulesLebanon[] = {
 
 
 const common::ZonePolicy kPolicyLebanon = {
-  sizeof(kZoneRulesLebanon)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesLebanon /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4063,7 +4063,7 @@ static const common::ZoneRule kZoneRulesMacau[] = {
 
 
 const common::ZonePolicy kPolicyMacau = {
-  sizeof(kZoneRulesMacau)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesMacau /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4119,7 +4119,7 @@ static const common::ZoneRule kZoneRulesMauritius[] = {
 
 
 const common::ZonePolicy kPolicyMauritius = {
-  sizeof(kZoneRulesMauritius)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesMauritius /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4223,7 +4223,7 @@ static const common::ZoneRule kZoneRulesMexico[] = {
 
 
 const common::ZonePolicy kPolicyMexico = {
-  sizeof(kZoneRulesMexico)/sizeof(common::ZoneRule) /*numRules*/,
+  7 /*numRules*/,
   kZoneRulesMexico /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4267,7 +4267,7 @@ static const common::ZoneRule kZoneRulesMoldova[] = {
 
 
 const common::ZonePolicy kPolicyMoldova = {
-  sizeof(kZoneRulesMoldova)/sizeof(common::ZoneRule) /*numRules*/,
+  2 /*numRules*/,
   kZoneRulesMoldova /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4323,7 +4323,7 @@ static const common::ZoneRule kZoneRulesMoncton[] = {
 
 
 const common::ZonePolicy kPolicyMoncton = {
-  sizeof(kZoneRulesMoncton)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesMoncton /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4415,7 +4415,7 @@ static const common::ZoneRule kZoneRulesMongol[] = {
 
 
 const common::ZonePolicy kPolicyMongol = {
-  sizeof(kZoneRulesMongol)/sizeof(common::ZoneRule) /*numRules*/,
+  6 /*numRules*/,
   kZoneRulesMongol /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4447,7 +4447,7 @@ static const common::ZoneRule kZoneRulesNC[] = {
 
 
 const common::ZonePolicy kPolicyNC = {
-  sizeof(kZoneRulesNC)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesNC /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4527,7 +4527,7 @@ static const common::ZoneRule kZoneRulesNZ[] = {
 
 
 const common::ZonePolicy kPolicyNZ = {
-  sizeof(kZoneRulesNZ)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesNZ /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4607,7 +4607,7 @@ static const common::ZoneRule kZoneRulesNic[] = {
 
 
 const common::ZonePolicy kPolicyNic = {
-  sizeof(kZoneRulesNic)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesNic /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4639,7 +4639,7 @@ static const common::ZoneRule kZoneRulesPRC[] = {
 
 
 const common::ZonePolicy kPolicyPRC = {
-  sizeof(kZoneRulesPRC)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesPRC /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4731,7 +4731,7 @@ static const common::ZoneRule kZoneRulesPakistan[] = {
 
 
 const common::ZonePolicy kPolicyPakistan = {
-  sizeof(kZoneRulesPakistan)/sizeof(common::ZoneRule) /*numRules*/,
+  6 /*numRules*/,
   kZoneRulesPakistan /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4871,7 +4871,7 @@ static const common::ZoneRule kZoneRulesPara[] = {
 
 
 const common::ZonePolicy kPolicyPara = {
-  sizeof(kZoneRulesPara)/sizeof(common::ZoneRule) /*numRules*/,
+  10 /*numRules*/,
   kZoneRulesPara /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4903,7 +4903,7 @@ static const common::ZoneRule kZoneRulesPeru[] = {
 
 
 const common::ZonePolicy kPolicyPeru = {
-  sizeof(kZoneRulesPeru)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesPeru /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4935,7 +4935,7 @@ static const common::ZoneRule kZoneRulesPhil[] = {
 
 
 const common::ZonePolicy kPolicyPhil = {
-  sizeof(kZoneRulesPhil)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesPhil /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -4967,7 +4967,7 @@ static const common::ZoneRule kZoneRulesROK[] = {
 
 
 const common::ZonePolicy kPolicyROK = {
-  sizeof(kZoneRulesROK)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesROK /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5023,7 +5023,7 @@ static const common::ZoneRule kZoneRulesRussiaAsia[] = {
 
 
 const common::ZonePolicy kPolicyRussiaAsia = {
-  sizeof(kZoneRulesRussiaAsia)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesRussiaAsia /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5055,7 +5055,7 @@ static const common::ZoneRule kZoneRulesSA[] = {
 
 
 const common::ZonePolicy kPolicySA = {
-  sizeof(kZoneRulesSA)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesSA /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5087,7 +5087,7 @@ static const common::ZoneRule kZoneRulesSalv[] = {
 
 
 const common::ZonePolicy kPolicySalv = {
-  sizeof(kZoneRulesSalv)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesSalv /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5251,7 +5251,7 @@ static const common::ZoneRule kZoneRulesSyria[] = {
 
 
 const common::ZonePolicy kPolicySyria = {
-  sizeof(kZoneRulesSyria)/sizeof(common::ZoneRule) /*numRules*/,
+  12 /*numRules*/,
   kZoneRulesSyria /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5283,7 +5283,7 @@ static const common::ZoneRule kZoneRulesTaiwan[] = {
 
 
 const common::ZonePolicy kPolicyTaiwan = {
-  sizeof(kZoneRulesTaiwan)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesTaiwan /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5363,7 +5363,7 @@ static const common::ZoneRule kZoneRulesThule[] = {
 
 
 const common::ZonePolicy kPolicyThule = {
-  sizeof(kZoneRulesThule)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesThule /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5467,7 +5467,7 @@ static const common::ZoneRule kZoneRulesTonga[] = {
 
 
 const common::ZonePolicy kPolicyTonga = {
-  sizeof(kZoneRulesTonga)/sizeof(common::ZoneRule) /*numRules*/,
+  7 /*numRules*/,
   kZoneRulesTonga /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5547,7 +5547,7 @@ static const common::ZoneRule kZoneRulesTunisia[] = {
 
 
 const common::ZonePolicy kPolicyTunisia = {
-  sizeof(kZoneRulesTunisia)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesTunisia /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5627,7 +5627,7 @@ static const common::ZoneRule kZoneRulesUS[] = {
 
 
 const common::ZonePolicy kPolicyUS = {
-  sizeof(kZoneRulesUS)/sizeof(common::ZoneRule) /*numRules*/,
+  5 /*numRules*/,
   kZoneRulesUS /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5719,7 +5719,7 @@ static const common::ZoneRule kZoneRulesUruguay[] = {
 
 
 const common::ZonePolicy kPolicyUruguay = {
-  sizeof(kZoneRulesUruguay)/sizeof(common::ZoneRule) /*numRules*/,
+  6 /*numRules*/,
   kZoneRulesUruguay /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5751,7 +5751,7 @@ static const common::ZoneRule kZoneRulesVanuatu[] = {
 
 
 const common::ZonePolicy kPolicyVanuatu = {
-  sizeof(kZoneRulesVanuatu)/sizeof(common::ZoneRule) /*numRules*/,
+  1 /*numRules*/,
   kZoneRulesVanuatu /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -5807,7 +5807,7 @@ static const common::ZoneRule kZoneRulesWinn[] = {
 
 
 const common::ZonePolicy kPolicyWinn = {
-  sizeof(kZoneRulesWinn)/sizeof(common::ZoneRule) /*numRules*/,
+  3 /*numRules*/,
   kZoneRulesWinn /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
@@ -6151,7 +6151,7 @@ static const common::ZoneRule kZoneRulesZion[] = {
 
 
 const common::ZonePolicy kPolicyZion = {
-  sizeof(kZoneRulesZion)/sizeof(common::ZoneRule) /*numRules*/,
+  27 /*numRules*/,
   kZoneRulesZion /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
