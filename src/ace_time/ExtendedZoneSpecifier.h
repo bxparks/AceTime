@@ -66,7 +66,15 @@ struct ExtendedTransition {
   static const uint8_t kAbbrevSize = 5 + 1;
 
   /** The match which generated this ExtendedTransition. */
-  ExtendedZoneMatch zoneMatch;
+  const ExtendedZoneMatch* zoneMatch;
+
+  /**
+   * The Zone transition rule that matched for the the given year. Set to
+   * nullptr if the RULES column is '-'. We do not support a RULES column that
+   * contains a UTC offset. There are only 2 time zones that has this property
+   * as of version 2018g: Europe/Istanbul and America/Argentina/San_Luis.
+   */
+  const common::ZoneRule* rule;
 
   DateTuple originalTransitionTime;
 
@@ -82,20 +90,17 @@ struct ExtendedTransition {
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
 
-  /**
-   * The Zone transition rule that matched for the the given year. Set to
-   * nullptr if the RULES column is '-'. We do not support a RULES column that
-   * contains a UTC offset. There are only 2 time zones that has this property
-   * as of version 2018g: Europe/Istanbul and America/Argentina/San_Luis.
-   */
-  const common::ZoneRule* rule;
+  /** Determines if this transition is valid. */
+  bool active;
+
+  //-------------------------------------------------------------------------
 
   const char* format() const {
-    return zoneMatch.era->format;
+    return zoneMatch->era->format;
   }
 
   int8_t offsetCode() const {
-    return zoneMatch.era->offsetCode;
+    return zoneMatch->era->offsetCode;
   }
 
   char letter() const {
@@ -108,6 +113,7 @@ struct ExtendedTransition {
 
   /** Used only for debugging. */
   void log() const {
+    // FIXME: Check sizeof(acetime_t) == sizeof(int)
     common::logger("startEpochSeconds: %ld", startEpochSeconds);
     common::logger("offsetCode: %d", offsetCode());
     common::logger("abbrev: %s", abbrev);
@@ -118,6 +124,101 @@ struct ExtendedTransition {
       common::logger("Rule.onDayOfMonth: %d", rule->onDayOfMonth);
     }
   }
+};
+
+/**
+ * Manages a collection of ExtendedTransitions, keeping track of unused, used,
+ * and active states, using a fixed array of ExtendedTransitions. This class
+ * was create to avoid dynamic allocation of memory. We create a fixed sized
+ * array, then manage the pool through this class. There are 3 regions in
+ * the mPool space:
+ * 1) Actives (mNumActive): always starts at 0
+ * 2) Prior (1): at index mNumActive
+ * 3) Candidates (mNumCandidates): starts at mNumActive + 1
+ * 4) Free: starts at mNumActive + mNumCandidates + 1
+ *          num = SIZE - mNumActive - mNumCandidates - 1
+ */
+template<uint8_t SIZE>
+class TransitionStorage {
+  public:
+    /** Constructor. */
+    TransitionStorage() {
+    }
+
+    void init() {
+      for (uint8_t i = 0; i < SIZE; i++) {
+        mTransitions[i] = &mPool[i];
+      }
+      mIndexPrior = 0;
+      mIndexCandidates = 0;
+      mIndexFree = 0;
+    }
+
+    ExtendedTransition* getTransition(uint8_t i) { return mTransitions[i]; }
+
+    ExtendedTransition* getFree() { return mTransitions[mIndexFree]; }
+
+    ExtendedTransition* getPrior() {
+      ExtendedTransition* prior = mTransitions[mIndexPrior];
+      mIndexCandidates++;
+      mIndexFree++;
+      return prior;
+    }
+
+    /** Empty the Candidates pool. */
+    void resetCandidates() {
+      mIndexPrior = mIndexFree;
+      mIndexCandidates = mIndexFree;
+    }
+
+    /**
+     * Add the first free Transition at index mIndexFree to the pool of
+     * Candidates, sorted by transitionTime. Then increment mIndexFree by one
+     * to remove the no-longer free Transition from the Free pool.
+     */
+    void addFreeToCandidates() {
+      for (uint8_t i = mIndexFree; i > mIndexCandidates; i--) {
+        ExtendedTransition* curr = mTransitions[i];
+        ExtendedTransition* prev = mTransitions[i - 1];
+        if (curr->transitionTime < prev->transitionTime) {
+          mTransitions[i] = prev;
+          mTransitions[i - 1] = curr;
+        }
+      }
+      mIndexFree++;
+    }
+
+    /**
+     * Immediately add the first free Transition at index mIndexFree to the
+     * list of Actives. Then increment mIndexFree to remove the no-longer free
+     * Transition from the Free pool. This assumes that the Pending and
+     * Candidates pool are empty, which makes the Active pool come immediately
+     * before the Free pool.
+     */
+    void addFreeToActive() {
+      mIndexFree++;
+    }
+
+    /** Return the ExtendedTransition matching the given epochSeconds. */
+    const ExtendedTransition* findTransition(acetime_t epochSeconds) {
+      const ExtendedTransition* match = nullptr;
+      for (uint8_t i = 0; i < mIndexFree; i++) {
+        const ExtendedTransition* candidate = mTransitions[i];
+        if (candidate->startEpochSeconds <= epochSeconds) {
+          match = candidate;
+        } else if (candidate->startEpochSeconds > epochSeconds) {
+          break;
+        }
+      }
+      return match;
+    }
+
+  private:
+    ExtendedTransition mPool[SIZE];
+    ExtendedTransition* mTransitions[SIZE];
+    uint8_t mIndexPrior;
+    uint8_t mIndexCandidates;
+    uint8_t mIndexFree;
 };
 
 }
@@ -202,11 +303,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     static const uint8_t kMaxMatches = 4;
 
     /**
-     * Max number of Transitions required for a given Zone. The validator.py
-     * script shows that it's 5. TODO: Maybe include that as a preprocessor
-     * macro in a file in the generated zonedb/ files.
+     * Max number of Transitions required for a given Zone, including the most
+     * recent prior Transition. The validator.py script shows that it's 7 or 8.
+     * TODO: Include this in the generated zonedb* files.
      */
-    static const uint8_t kMaxTransitions = 5;
+    static const uint8_t kMaxTransitions = 8;
 
     /** A sentinel ZoneEra which has the smallest year. */
     static const common::ZoneEra kAnchorEra;
@@ -218,16 +319,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /** Return the ExtendedTransition matching the given epochSeconds. */
     const internal::ExtendedTransition* findTransition(acetime_t epochSeconds) {
-      const internal::ExtendedTransition* match = nullptr;
-      for (uint8_t i = 0; i < mNumTransitions; i++) {
-        const internal::ExtendedTransition* candidate = &mTransitions[i];
-        if (candidate->startEpochSeconds <= epochSeconds) {
-          match = candidate;
-        } else if (candidate->startEpochSeconds > epochSeconds) {
-          break;
-        }
-      }
-      return match;
+      return mTransitionStorage.findTransition(epochSeconds);
     }
 
     /** Initialize using the epochSeconds. */
@@ -243,7 +335,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
       mYear = year;
       mNumMatches = 0; // clear cache
-      mNumTransitions = 0; // clear cache
+      mTransitionStorage.init();
 
       internal::YearMonthTuple startYm = {
         (int8_t) (year - LocalDate::kEpochYear - 1), 12 };
@@ -340,41 +432,57 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     void findTransitions() {
-      mNumTransitions = 0;
       for (uint8_t iMatch = 0; iMatch < mNumMatches; iMatch++) {
-        addTransitionsForMatch(&mMatches[iMatch]);
+        findTransitionsForMatch(&mMatches[iMatch]);
       }
     }
 
     void fixTransitions() {
     }
 
-    void addTransitionsForMatch(const internal::ExtendedZoneMatch* match) {
-      const common::ZoneEra* era = match->era;
-      const common::ZonePolicy* policy = era->zonePolicy;
+    void findTransitionsForMatch(const internal::ExtendedZoneMatch* match) {
+      const common::ZonePolicy* policy = match->era->zonePolicy;
       if (policy == nullptr) {
-        addTransitionsFromSimpleMatch(match);
+        findTransitionsFromSimpleMatch(match);
       } else {
-        addTransitionsFromNamedMatch(match);
+        findTransitionsFromNamedMatch(match);
       }
     }
 
-    void addTransitionsFromSimpleMatch(
+    void findTransitionsFromSimpleMatch(
         const internal::ExtendedZoneMatch* match) {
-      internal::ExtendedTransition transition = {
-        *match,
-        internal::DateTuple(),
-        match->startDateTime
-      };
-      if (mNumTransitions < kMaxTransitions) {
-        mTransitions[mNumTransitions] = transition;
-        mNumTransitions++;
+      internal::ExtendedTransition* freeTransition =
+          mTransitionStorage.getFree();
+      freeTransition->zoneMatch = match;
+      freeTransition->transitionTime = match->startDateTime;
+
+      mTransitionStorage.addFreeToActive();
+    }
+
+    void findTransitionsFromNamedMatch(
+        const internal::ExtendedZoneMatch* match) {
+      findCandidateTransitions(match);
+    }
+
+    void findCandidateTransitions(const internal::ExtendedZoneMatch* match) {
+      const common::ZonePolicy* policy = match->era->zonePolicy;
+      uint8_t numRules = policy->numRules;
+      const common::ZoneRule* rules = policy->rules;
+      int8_t startY = match->startDateTime.yearTiny;
+      int8_t endY = match->untilDateTime.yearTiny;
+
+      mTransitionStorage.resetCandidates();
+      internal::ExtendedTransition* prior = mTransitionStorage.getPrior();
+      prior->active = false;
+      for (uint8_t i = 0; i < numRules; i++) {
+        const common::ZoneRule* const rule = &rules[i];
+        calcInteriorYears(rule->fromYearTiny, rule->toYearTiny, startY, endY);
       }
     }
 
-    void addTransitionsFromNamedMatch(
-        const internal::ExtendedZoneMatch* match) {
-      // TODO: implement this
+    /** Calculate interior years. Up to 3 years. */
+    void calcInteriorYears(int8_t fromYear, int8_t toYear, int8_t startYear,
+        int8_t endYear) {
     }
 
     static internal::ExtendedZoneMatch calcEffectiveMatch(
@@ -421,8 +529,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     bool mIsFilled = false;
     uint8_t mNumMatches = 0; // actual number of matches
     internal::ExtendedZoneMatch mMatches[kMaxMatches];
-    uint8_t mNumTransitions = 0;; // actual number of transitions
-    internal::ExtendedTransition mTransitions[kMaxTransitions];
+    internal::TransitionStorage<kMaxTransitions> mTransitionStorage;
 };
 
 }
