@@ -5,7 +5,9 @@
  * This should compile on all microcontrollers supported by the Arduino IDE.
  */
 
+#ifdef ARDUINO
 #include <AceRoutine.h> // activate SystemTime coroutines
+#endif
 #include <AceTime.h>
 #include "Benchmark.h"
 
@@ -73,6 +75,7 @@ void setup() {
   Serial.print(F("sizeof(SystemTimeKeeper): "));
   Serial.println(sizeof(SystemTimeKeeper));
 
+#ifdef ARDUINO
   Serial.print(F("sizeof(DS3231TimeKeeper): "));
   Serial.println(sizeof(DS3231TimeKeeper));
 
@@ -92,8 +95,12 @@ void setup() {
 
   Serial.print(F("sizeof(SystemTimeHeartbeatCoroutine): "));
   Serial.println(sizeof(SystemTimeHeartbeatCoroutine));
+#endif
 
   runBenchmarks();
+#ifndef ARDUINO
+  exit(0);
+#endif
 }
 
 void loop() {
