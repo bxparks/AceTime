@@ -2,15 +2,16 @@
 #define ACE_TIME_EXTENDED_ZONE_SPECIFIER_H
 
 #include <Arduino.h>
-#include <string.h> // strchr()
+#include <string.h> // memset()
 #include <stdint.h>
 #include "common/ZonePolicy.h"
 #include "common/ZoneInfo.h"
+#include "common/logger.h"
 #include "UtcOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneSpecifier.h"
-#include "common/logger.h"
+#include "AutoZoneSpecifier.h"
 
 class ExtendedZoneSpecifierTest_compareEraToYearMonth;
 
@@ -22,7 +23,7 @@ struct DateTuple {
   int8_t yearTiny;
   uint8_t month;
   uint8_t day;
-  int8_t timeCode; // 15-min intervals; TODO: Change to uint8_t?
+  uint8_t timeCode; // 15-min intervals
   uint8_t modifier; // 's', 'w', 'u'
 };
 
@@ -66,7 +67,7 @@ struct ExtendedTransition {
   static const uint8_t kAbbrevSize = 5 + 1;
 
   /** The match which generated this ExtendedTransition. */
-  const ExtendedZoneMatch* zoneMatch;
+  const ExtendedZoneMatch* zoneMatch; // TODO: Rename to just 'match'?
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
@@ -199,6 +200,14 @@ class TransitionStorage {
       mIndexFree++;
     }
 
+    void setFreeAsPrior() {
+      // TODO: Implement this
+    }
+
+    void addPriorToCandidates() {
+      // TODO: Implement this
+    }
+
     /** Return the ExtendedTransition matching the given epochSeconds. */
     const ExtendedTransition* findTransition(acetime_t epochSeconds) {
       const ExtendedTransition* match = nullptr;
@@ -309,6 +318,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      */
     static const uint8_t kMaxTransitions = 8;
 
+    /**
+     * Maximum number of interior years. For a viewing window of 14 months,
+     * this will be 4.
+     */
+    static const uint8_t kMaxInteriorYears = 4;
+
     /** A sentinel ZoneEra which has the smallest year. */
     static const common::ZoneEra kAnchorEra;
 
@@ -404,7 +419,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         prev->untilYearTiny,
         prev->untilMonth,
         prev->untilDay,
-        (int8_t) prev->untilTimeCode,
+        prev->untilTimeCode,
         prev->untilTimeModifier
       };
       internal::DateTuple lowerBound = {
@@ -418,7 +433,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         era->untilYearTiny,
         era->untilMonth,
         era->untilDay,
-        (int8_t) era->untilTimeCode,
+        era->untilTimeCode,
         era->untilTimeModifier
       };
       internal::DateTuple upperBound = {
@@ -474,15 +489,124 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       mTransitionStorage.resetCandidates();
       internal::ExtendedTransition* prior = mTransitionStorage.getPrior();
       prior->active = false;
-      for (uint8_t i = 0; i < numRules; i++) {
-        const common::ZoneRule* const rule = &rules[i];
+      for (uint8_t r = 0; r < numRules; r++) {
+        const common::ZoneRule* const rule = &rules[r];
+
+        // Add Transitions for interior years
         calcInteriorYears(rule->fromYearTiny, rule->toYearTiny, startY, endY);
+        for (uint8_t y = 0; y < kMaxInteriorYears; y++) {
+          int8_t year = mInteriorYears[y];
+          if (year == 0) continue;
+
+          internal::ExtendedTransition* t = mTransitionStorage.getFree();
+          createTransitionForYear(t, year, rule, match);
+          int8_t status = compareTransitionToMatchFuzzy(t, match);
+          if (status < 0) {
+            calcPriorTransition(prior, t);
+          } else if (status == 1) {
+            mTransitionStorage.addFreeToCandidates();
+          }
+        }
+
+        // Add Transition for prior year
+        int8_t priorYear = getMostRecentPriorYear(
+            rule->fromYearTiny, rule->toYearTiny, startY, endY);
+        if (priorYear >= 0) {
+          internal::ExtendedTransition* t = mTransitionStorage.getFree();
+          createTransitionForYear(t, priorYear, rule, match);
+          calcPriorTransition(prior, t);
+        }
       }
+      if (prior->active) {
+        mTransitionStorage.addPriorToCandidates();
+      }
+    }
+
+    /** Return true if Transition 't' was created. */
+    void createTransitionForYear(internal::ExtendedTransition* t, int8_t year,
+        const common::ZoneRule* rule,
+        const internal::ExtendedZoneMatch* match) {
+      t->zoneMatch = match;
+      t->transitionTime = getTransitionTime(year, rule);
+      t->rule = rule;
     }
 
     /** Calculate interior years. Up to 3 years. */
     void calcInteriorYears(int8_t fromYear, int8_t toYear, int8_t startYear,
         int8_t endYear) {
+      memset(mInteriorYears, 0, kMaxInteriorYears);
+      uint8_t i = 0;
+      for (int8_t year = startYear; year <= endYear; year++) {
+        if (fromYear <= year && year <= toYear) {
+          mInteriorYears[i] = year;
+          i++;
+        }
+      }
+    }
+
+    /**
+     * Return the most recent prior year of the rule[from_year, to_year].
+     * Return -1 if the rule[from_year, to_year] has no prior year to the
+     * match[start_year, end_year].
+     */
+    static int8_t getMostRecentPriorYear(int8_t fromYear, int8_t toYear,
+        int8_t startYear, int8_t endYear) {
+      if (fromYear < startYear) {
+        if (toYear < startYear) {
+          return toYear;
+        } else {
+          return startYear - 1;
+        }
+      } else {
+        return -1;
+      }
+    }
+
+    static internal::DateTuple getTransitionTime(
+        int8_t year, const common::ZoneRule* rule) {
+      uint8_t dayOfMonth = AutoZoneSpecifier::calcStartDayOfMonth(
+          year, rule->inMonth, rule->onDayOfWeek, rule->onDayOfMonth);
+      return internal::DateTuple{year, rule->inMonth, dayOfMonth,
+          rule->atTimeCode, rule->atTimeModifier};
+    }
+
+    /**
+     * Like compareTransitionToMatch() except perform a fuzzy match within at
+     * least one-month of the match.start or match.until.
+     *
+     * Return:
+     *     * -1 if t less than match by at least one month
+     *     * 1 if t within match,
+     *     * 2 if t greater than match by at least one month
+     *     * 0 is never returned since we cannot know that t == match.start
+     */
+    static int8_t compareTransitionToMatchFuzzy(
+        const internal::ExtendedTransition* t,
+        const internal::ExtendedZoneMatch* match) {
+      int16_t ttMonths = t->transitionTime.yearTiny * 12
+          + t->transitionTime.month;
+
+      int16_t matchStartMonths = match->startDateTime.yearTiny * 12
+          + match->startDateTime.month;
+      if (ttMonths < matchStartMonths - 1) return -1;
+
+      int16_t matchUntilMonths = match->untilDateTime.yearTiny * 12
+          + match->untilDateTime.month;
+      if (matchUntilMonths + 2 <= ttMonths) return 2;
+
+      return 1;
+    }
+
+    void calcPriorTransition(
+        const internal::ExtendedTransition* prior,
+        const internal::ExtendedTransition* t) {
+      if (prior->active) {
+        if (prior->transitionTime < t->transitionTime) {
+          mTransitionStorage.setFreeAsPrior();
+        }
+      } else {
+        mTransitionStorage.setFreeAsPrior();
+      }
     }
 
     static internal::ExtendedZoneMatch calcEffectiveMatch(
@@ -530,6 +654,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     uint8_t mNumMatches = 0; // actual number of matches
     internal::ExtendedZoneMatch mMatches[kMaxMatches];
     internal::TransitionStorage<kMaxTransitions> mTransitionStorage;
+    int8_t mInteriorYears[kMaxInteriorYears];
 };
 
 }
