@@ -675,6 +675,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       } else {
         // Should never happen, but we can't do anything about it.
       }
+
+      normalizeDateTuple(ttw);
+      normalizeDateTuple(tts);
+      normalizeDateTuple(ttu);
+    }
+
+    static void normalizeDateTuple(extended::DateTuple* dt) {
+      // TODO: implement this
     }
 
     void selectActiveTransitions() {
