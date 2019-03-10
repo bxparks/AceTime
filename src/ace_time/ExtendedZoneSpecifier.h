@@ -205,12 +205,18 @@ class TransitionStorage {
      */
     void addFreeToActive() { mIndexFree++; }
 
+    /** Set the first transition in the Free pool to be the current Prior. */
     void setFreeAsPrior() {
-      // TODO: Implement this
+      mTransitions[mIndexPrior] = mTransitions[mIndexFree];
     }
 
+    /**
+     * Add the current prior into the Candidates pool. Prior is always just
+     * before the start of the Candidate pool, so we just need to shift back
+     * the start index of the Candidate pool.
+     */
     void addPriorToCandidates() {
-      // TODO: Implement this
+      mIndexCandidates--;
     }
 
     /** Add active candidates into the Active pool. */
