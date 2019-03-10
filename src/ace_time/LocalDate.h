@@ -377,7 +377,7 @@ class LocalDate {
 
     /**
      * Store year as a int8_t offset from year 2000. This saves memory, but may
-     * cause other problems later, so this may change to int16_t later.
+     * cause other problems later. Consider changing to int16_t if necessary.
      */
     int8_t mYearTiny; // [-128, 127], year offset from 2000
 

@@ -360,6 +360,62 @@ test(LocalDateTest, daysInMonth) {
   assertEqual(28, LocalDate::daysInMonth(2100, 2));
 }
 
+test(LocalDateTest, incrementOneDay) {
+  LocalDate ld;
+
+  ld = LocalDate::forComponents(2000, 2, 28);
+  local_date_mutation::incrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2000, 2, 29));
+
+  ld = LocalDate::forComponents(2000, 2, 29);
+  local_date_mutation::incrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2000, 3, 1));
+
+  ld = LocalDate::forComponents(2000, 3, 31);
+  local_date_mutation::incrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2000, 4, 1));
+
+  ld = LocalDate::forComponents(2000, 12, 31);
+  local_date_mutation::incrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2001, 1, 1));
+
+  ld = LocalDate::forComponents(2001, 2, 28);
+  local_date_mutation::incrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2001, 3, 1));
+
+  ld = LocalDate::forComponents(2004, 2, 28);
+  local_date_mutation::incrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2004, 2, 29));
+}
+
+test(LocalDateTest, decrementOneDay) {
+  LocalDate ld;
+
+  ld = LocalDate::forComponents(2004, 2, 29);
+  local_date_mutation::decrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2004, 2, 28));
+
+  ld = LocalDate::forComponents(2001, 3, 1);
+  local_date_mutation::decrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2001, 2, 28));
+
+  ld = LocalDate::forComponents(2001, 1, 1);
+  local_date_mutation::decrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2000, 12, 31));
+
+  ld = LocalDate::forComponents(2000, 4, 1);
+  local_date_mutation::decrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2000, 3, 31));
+
+  ld = LocalDate::forComponents(2000, 3, 1);
+  local_date_mutation::decrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2000, 2, 29));
+
+  ld = LocalDate::forComponents(2000, 2, 29);
+  local_date_mutation::decrementOneDay(ld);
+  assertTrue(ld == LocalDate::forComponents(2000, 2, 28));
+}
+
 // --------------------------------------------------------------------------
 // LocalTime
 // --------------------------------------------------------------------------
