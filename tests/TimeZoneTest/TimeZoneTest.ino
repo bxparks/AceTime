@@ -313,6 +313,57 @@ test(AutoZoneSpecifierTest, createAbbreviation) {
 }
 
 // --------------------------------------------------------------------------
+// ExtendedZoneSpecifier
+// --------------------------------------------------------------------------
+
+test(ExtendedZoneSpecifierTest, compareEraToYearMonth) {
+  // 2000-01-30T00:15
+  common::ZoneEra era = {
+    0 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "%s" /*format*/,
+    0 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    30 /*untilDay*/,
+    1 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/
+  };
+
+  // 2000-01
+  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 1), 1);
+
+  // 2000-02
+  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 2), -1);
+
+  // 2001-01
+  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era, 1, 1), -1);
+
+  // 2000-12-01
+  common::ZoneEra era2 = {
+    0 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "%s" /*format*/,
+    0 /*untilYearTiny*/,
+    12 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/
+  };
+
+  // 2000-01
+  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era2, 0, 1), 1);
+
+  // 2000-12
+  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era2, 0, 12), 0);
+
+  // 2001-01
+  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era2, 1, 1), -1);
+}
+
+
+// --------------------------------------------------------------------------
 // Default TimeZone
 // --------------------------------------------------------------------------
 

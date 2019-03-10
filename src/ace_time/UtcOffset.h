@@ -72,6 +72,15 @@ class UtcOffset {
       return UtcOffset().initFromOffsetString(offsetString);
     }
 
+    /**
+     * Create UtcOffset from the offset code.
+     *
+     * @param offsetCode the number of 15-minute offset from UTC. 0 means UTC.
+     */
+    static UtcOffset forOffsetCode(int8_t offsetCode) {
+      return UtcOffset(offsetCode);
+    }
+
     /** Constructor. Create a time zone corresponding to UTC with no offset. */
     explicit UtcOffset() {}
 
@@ -145,15 +154,6 @@ class UtcOffset {
 
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
     static const uint8_t kUtcOffsetStringLength = 6;
-
-    /**
-     * Create UtcOffset from the offset code.
-     *
-     * @param offsetCode the number of 15-minute offset from UTC. 0 means UTC.
-     */
-    static UtcOffset forOffsetCode(int8_t offsetCode) {
-      return UtcOffset(offsetCode);
-    }
 
     /** Constructor. Create a time zone from the offset code. */
     explicit UtcOffset(int8_t offsetCode):
