@@ -1341,17 +1341,10 @@ def _compare_date_tuple(a, b):
 
 def _create_transition_for_year(year, rule, match):
     """Create the transition from the given 'rule' for the given 'year'.
-    (Don't need to check if it overlaps with the given 'match' since that is
-    done in _process_transition()). Return None if 'year' does not overlap
-    with the [from, to] of the rule. The Transition object is a replica of
-    the underlying Match object, with additional bookkeeping info.
+    Return None if 'year' does not overlap with the [from, to] of the rule. The
+    Transition object is a replica of the underlying Match object, with
+    additional bookkeeping info.
     """
-    # Check if [Rule.from, Rule.to] overlaps with year.
-    from_year = rule.fromYear
-    to_year = rule.toYear
-    if year < from_year or to_year < year:
-        return None
-
     transition_time = _get_transition_time(year, rule)
     zone_era = match.zoneEra
     transition = Transition(match)
