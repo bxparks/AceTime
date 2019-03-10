@@ -157,6 +157,12 @@ class TransitionStorage {
 
     ExtendedTransition* getTransition(uint8_t i) { return mTransitions[i]; }
 
+    uint8_t getCandidatesIndexStart() const { return mIndexCandidates; }
+    uint8_t getCandidatesIndexUntil() const { return mIndexFree; }
+
+    uint8_t getActiveIndexStart() const { return 0; }
+    uint8_t getActiveIndexUntil() const { return mIndexFree; }
+
     ExtendedTransition* getFree() { return mTransitions[mIndexFree]; }
 
     ExtendedTransition* getPrior() {
@@ -170,6 +176,7 @@ class TransitionStorage {
     void resetCandidates() {
       mIndexPrior = mIndexFree;
       mIndexCandidates = mIndexFree;
+      // TODO: Loop to set active=false?
     }
 
     /**
@@ -208,6 +215,19 @@ class TransitionStorage {
       // TODO: Implement this
     }
 
+    /** Add active candidates into the Active pool. */
+    void addCandidatesToActive() {
+      uint8_t iActive = mIndexCandidates;
+      uint8_t iCandidate = mIndexCandidates;
+      for (; iCandidate < mIndexFree; iCandidate++) {
+        if (mTransitions[iCandidate]->active) {
+          mTransitions[iActive] = mTransitions[iCandidate];
+          ++iActive;
+        }
+      }
+      mIndexFree = iActive;
+    }
+
     /** Return the ExtendedTransition matching the given epochSeconds. */
     const ExtendedTransition* findTransition(acetime_t epochSeconds) {
       const ExtendedTransition* match = nullptr;
@@ -230,7 +250,7 @@ class TransitionStorage {
     uint8_t mIndexFree;
 };
 
-}
+} // namespace internal
 
 /**
  * Version of AutoZoneSpecifier that works for more obscure zones
@@ -359,7 +379,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
       findMatches(startYm, untilYm);
       findTransitions();
-      fixTransitions();
+      fixTransitionTimes(
+          mTransitionStorage.getActiveIndexStart(),
+          mTransitionStorage.getActiveIndexUntil());
       generateStartUntilTimes();
       calcAbbreviations();
 
@@ -452,9 +474,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
-    void fixTransitions() {
-    }
-
     void findTransitionsForMatch(const internal::ExtendedZoneMatch* match) {
       const common::ZonePolicy* policy = match->era->zonePolicy;
       if (policy == nullptr) {
@@ -477,6 +496,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     void findTransitionsFromNamedMatch(
         const internal::ExtendedZoneMatch* match) {
       findCandidateTransitions(match);
+      fixTransitionTimes(
+          mTransitionStorage.getCandidatesIndexStart(),
+          mTransitionStorage.getCandidatesIndexUntil());
+      selectActiveTransitions();
+
+      mTransitionStorage.addCandidatesToActive();
     }
 
     void findCandidateTransitions(const internal::ExtendedZoneMatch* match) {
@@ -609,6 +634,20 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
+    void fixTransitionTimes(uint8_t start, uint8_t until) {
+    }
+
+    void selectActiveTransitions() {
+    }
+
+    void generateStartUntilTimes() {
+      // TODO: implement this
+    }
+
+    void calcAbbreviations() {
+      // TODO: implement this
+    }
+
     static internal::ExtendedZoneMatch calcEffectiveMatch(
         const internal::YearMonthTuple& startYm,
         const internal::YearMonthTuple& untilYm,
@@ -640,14 +679,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return 0;
     }
 
-    void generateStartUntilTimes() {
-      // TODO: implement this
-    }
-
-    void calcAbbreviations() {
-      // TODO: implement this
-    }
-
     const common::ZoneInfo* mZoneInfo;
     int16_t mYear = 0;
     bool mIsFilled = false;
@@ -657,6 +688,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     int8_t mInteriorYears[kMaxInteriorYears];
 };
 
-}
+} // namespace ace_time
 
 #endif
