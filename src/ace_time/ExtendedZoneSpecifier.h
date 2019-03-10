@@ -19,11 +19,12 @@ namespace ace_time {
 
 namespace extended {
 
+// TODO: Consider compressing 'modifier' into 'month' field
 struct DateTuple {
-  int8_t yearTiny;
-  uint8_t month;
-  uint8_t day;
-  uint8_t timeCode; // 15-min intervals
+  int8_t yearTiny; // [-127, 126], 127 will cause bugs
+  uint8_t month; // [1-12]
+  uint8_t day; // [1-31]
+  int8_t timeCode; // 15-min intervals, negative values allowed
   uint8_t modifier; // 's', 'w', 'u'
 };
 
@@ -77,9 +78,9 @@ struct Transition {
    */
   const common::ZoneRule* rule;
 
-  DateTuple originalTransitionTime;
+  DateTuple transitionTime; // originalTransitionTime
 
-  DateTuple transitionTime;
+  DateTuple transitionTimeW;
 
   DateTuple transitionTimeS;
 
@@ -442,7 +443,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         prev->untilYearTiny,
         prev->untilMonth,
         prev->untilDay,
-        prev->untilTimeCode,
+        (int8_t) prev->untilTimeCode,
         prev->untilTimeModifier
       };
       extended::DateTuple lowerBound = {
@@ -456,7 +457,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         era->untilYearTiny,
         era->untilMonth,
         era->untilDay,
-        era->untilTimeCode,
+        (int8_t) era->untilTimeCode,
         era->untilTimeModifier
       };
       extended::DateTuple upperBound = {
@@ -592,8 +593,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         int8_t year, const common::ZoneRule* rule) {
       uint8_t dayOfMonth = AutoZoneSpecifier::calcStartDayOfMonth(
           year, rule->inMonth, rule->onDayOfWeek, rule->onDayOfMonth);
-      return extended::DateTuple{year, rule->inMonth, dayOfMonth,
-          rule->atTimeCode, rule->atTimeModifier};
+      return {year, rule->inMonth, dayOfMonth,
+          (int8_t) rule->atTimeCode, rule->atTimeModifier};
     }
 
     /**
@@ -635,6 +636,45 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     void fixTransitionTimes(uint8_t start, uint8_t until) {
+      extended::Transition* prev = mTransitionStorage.getTransition(start);
+      for (uint8_t i = start; i < until; i++) {
+        extended::Transition* curr = mTransitionStorage.getTransition(i);
+        expandDateTuple(
+            &curr->transitionTimeW,
+            &curr->transitionTimeS,
+            &curr->transitionTimeU,
+            curr->transitionTime,
+            prev->offsetCode(),
+            prev->deltaCode());
+        prev = curr;
+      }
+    }
+
+    static void expandDateTuple(extended::DateTuple* ttw,
+        extended::DateTuple* tts, extended::DateTuple* ttu,
+        const extended::DateTuple& tt,
+        int8_t offsetCode, int8_t deltaCode) {
+      if (tt.modifier == 'w') {
+        *ttw = tt;
+        *tts = {tt.yearTiny, tt.month, tt.day,
+            (int8_t) (tt.timeCode - deltaCode), 's'};
+        *ttu = {tt.yearTiny, tt.month, tt.day,
+            (int8_t) (tt.timeCode - deltaCode - offsetCode), 'u'};
+      } else if (tt.modifier == 's') {
+        *tts = tt;
+        *ttw = {tt.yearTiny, tt.month, tt.day,
+            (int8_t) (tt.timeCode + deltaCode), 'w'};
+        *ttu = {tt.yearTiny, tt.month, tt.day,
+            (int8_t) (tt.timeCode - offsetCode), 'u'};
+      } else if (tt.modifier == 'u') {
+        *ttu = tt;
+        *ttw = {tt.yearTiny, tt.month, tt.day,
+            (int8_t) (tt.timeCode + offsetCode + deltaCode), 'w'};
+        *tts = {tt.yearTiny, tt.month, tt.day,
+            (int8_t) (tt.timeCode + offsetCode), 's'};
+      } else {
+        // Should never happen, but we can't do anything about it.
+      }
     }
 
     void selectActiveTransitions() {
