@@ -16,6 +16,7 @@
 
 class ExtendedZoneSpecifierTest_normalizeDateTuple;
 class ExtendedZoneSpecifierTest_expandDateTuple;
+class ExtendedZoneSpecifierTest_calcInteriorYears;
 
 namespace ace_time {
 
@@ -337,6 +338,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
   private:
     friend class ::ExtendedZoneSpecifierTest_normalizeDateTuple;
     friend class ::ExtendedZoneSpecifierTest_expandDateTuple;
+    friend class ::ExtendedZoneSpecifierTest_calcInteriorYears;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -531,8 +533,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         const common::ZoneRule* const rule = &rules[r];
 
         // Add Transitions for interior years
-        calcInteriorYears(rule->fromYearTiny, rule->toYearTiny, startY, endY);
-        for (uint8_t y = 0; y < kMaxInteriorYears; y++) {
+        uint8_t numYears = calcInteriorYears(mInteriorYears, kMaxInteriorYears,
+            rule->fromYearTiny, rule->toYearTiny, startY, endY);
+        for (uint8_t y = 0; y < numYears; y++) {
           int8_t year = mInteriorYears[y];
           if (year == 0) continue;
 
@@ -569,17 +572,22 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       t->rule = rule;
     }
 
-    /** Calculate interior years. Up to 3 years. */
-    void calcInteriorYears(int8_t fromYear, int8_t toYear, int8_t startYear,
-        int8_t endYear) {
-      memset(mInteriorYears, 0, kMaxInteriorYears);
+    /**
+     * Calculate interior years. Up to maxInteriorYears, usually 3 or 4.
+     * Returns the number of interior years.
+     */
+    static uint8_t calcInteriorYears(int8_t* interiorYears,
+        uint8_t maxInteriorYears, int8_t fromYear, int8_t toYear,
+        int8_t startYear, int8_t endYear) {
       uint8_t i = 0;
       for (int8_t year = startYear; year <= endYear; year++) {
         if (fromYear <= year && year <= toYear) {
-          mInteriorYears[i] = year;
+          interiorYears[i] = year;
           i++;
+          if (i >= maxInteriorYears) break;
         }
       }
+      return i;
     }
 
     /**

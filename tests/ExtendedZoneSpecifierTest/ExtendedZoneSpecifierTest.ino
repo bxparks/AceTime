@@ -75,6 +75,41 @@ test(ExtendedZoneSpecifierTest, expandDateTuple) {
   assertTrue((ttu == DateTuple{0, 1, 30, 0, 'u'}));
 }
 
+test(ExtendedZoneSpecifierTest, calcInteriorYears) {
+  const uint8_t kMaxInteriorYears = 4;
+  int8_t interiorYears[kMaxInteriorYears];
+
+  uint8_t num = ExtendedZoneSpecifier::calcInteriorYears(
+      interiorYears, kMaxInteriorYears, 0, 1, 2, 4);
+  assertEqual(0, num);
+
+  num = ExtendedZoneSpecifier::calcInteriorYears(
+      interiorYears, kMaxInteriorYears, 5, 7, 2, 4);
+  assertEqual(0, num);
+
+  num = ExtendedZoneSpecifier::calcInteriorYears(
+      interiorYears, kMaxInteriorYears, 0, 2, 2, 4);
+  assertEqual(1, num);
+  assertEqual(2, interiorYears[0]);
+
+  num = ExtendedZoneSpecifier::calcInteriorYears(
+      interiorYears, kMaxInteriorYears, 4, 6, 2, 4);
+  assertEqual(1, num);
+  assertEqual(4, interiorYears[0]);
+
+  num = ExtendedZoneSpecifier::calcInteriorYears(
+      interiorYears, kMaxInteriorYears, 3, 3, 2, 4);
+  assertEqual(1, num);
+  assertEqual(3, interiorYears[0]);
+
+  num = ExtendedZoneSpecifier::calcInteriorYears(
+      interiorYears, kMaxInteriorYears, 1, 5, 2, 4);
+  assertEqual(3, num);
+  assertEqual(2, interiorYears[0]);
+  assertEqual(3, interiorYears[1]);
+  assertEqual(4, interiorYears[2]);
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {
