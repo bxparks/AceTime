@@ -323,7 +323,8 @@ class LocalDate {
     void printTo(Print& printer) const;
 
   private:
-    friend class LocalDateTime;
+    friend class LocalDateTime; // for access to constructor
+    friend class ExtendedZoneSpecifier; // for access to constructor
     friend bool operator==(const LocalDate& a, const LocalDate& b);
 
     /** Minimum length of the date string. yyyy-mm-dd. */

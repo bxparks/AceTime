@@ -12,8 +12,9 @@
 #include "OffsetDateTime.h"
 #include "ZoneSpecifier.h"
 #include "AutoZoneSpecifier.h"
+#include "local_date_mutation.h"
 
-class ExtendedZoneSpecifierTest_compareEraToYearMonth;
+class ExtendedZoneSpecifierTest_normalizeDateTuple;
 
 namespace ace_time {
 
@@ -38,6 +39,13 @@ inline bool operator<(const DateTuple& a, const DateTuple& b) {
   if (a.timeCode < b.timeCode) return true;
   if (a.timeCode > b.timeCode) return false;
   return false;
+}
+
+inline bool operator==(const DateTuple& a, const DateTuple& b) {
+  return a.yearTiny == b.yearTiny
+      && a.month == b.month
+      && a.day == b.day
+      && a.timeCode == b.timeCode;
 }
 
 struct YearMonthTuple {
@@ -255,7 +263,7 @@ class TransitionStorage {
     uint8_t mIndexFree;
 };
 
-} // namespace internal
+} // namespace extended
 
 /**
  * Version of AutoZoneSpecifier that works for more obscure zones
@@ -325,7 +333,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
   private:
-    friend class ::ExtendedZoneSpecifierTest_compareEraToYearMonth;
+    friend class ::ExtendedZoneSpecifierTest_normalizeDateTuple;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -673,7 +681,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         *tts = {tt.yearTiny, tt.month, tt.day,
             (int8_t) (tt.timeCode + offsetCode), 's'};
       } else {
-        // Should never happen, but we can't do anything about it.
+        // Should never happen, but we can't do anything about it in an
+        // embedded environment without exceptions.
+        // TODO: Assume 'w' if this condition is detected.
       }
 
       normalizeDateTuple(ttw);
@@ -682,7 +692,24 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     static void normalizeDateTuple(extended::DateTuple* dt) {
-      // TODO: implement this
+      const int8_t kOneDayInCode = 4 * 24;
+      if (dt->timeCode <= -kOneDayInCode) {
+        LocalDate ld(dt->yearTiny, dt->month, dt->day);
+        local_date_mutation::decrementOneDay(ld);
+        dt->yearTiny = ld.yearTiny();
+        dt->month = ld.month();
+        dt->day = ld.day();
+        dt->timeCode += kOneDayInCode;
+      } else if (kOneDayInCode <= dt->timeCode) {
+        LocalDate ld(dt->yearTiny, dt->month, dt->day);
+        local_date_mutation::incrementOneDay(ld);
+        dt->yearTiny = ld.yearTiny();
+        dt->month = ld.month();
+        dt->day = ld.day();
+        dt->timeCode -= kOneDayInCode;
+      } else {
+        return;
+      }
     }
 
     void selectActiveTransitions() {
