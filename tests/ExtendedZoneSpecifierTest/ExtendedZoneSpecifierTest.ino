@@ -110,6 +110,28 @@ test(ExtendedZoneSpecifierTest, calcInteriorYears) {
   assertEqual(4, interiorYears[2]);
 }
 
+test(ExtendedZoneSpecifierTest, getMostRecentPriorYear) {
+  int8_t yearTiny;
+
+  yearTiny = ExtendedZoneSpecifier::getMostRecentPriorYear(0, 1, 2, 4);
+  assertEqual(1, yearTiny);
+
+  yearTiny = ExtendedZoneSpecifier::getMostRecentPriorYear(5, 7, 2, 4);
+  assertEqual(LocalDate::kInvalidYearTiny, yearTiny);
+
+  yearTiny = ExtendedZoneSpecifier::getMostRecentPriorYear(0, 2, 2, 4);
+  assertEqual(1, yearTiny);
+
+  yearTiny = ExtendedZoneSpecifier::getMostRecentPriorYear(4, 6, 2, 4);
+  assertEqual(LocalDate::kInvalidYearTiny, yearTiny);
+
+  yearTiny = ExtendedZoneSpecifier::getMostRecentPriorYear(3, 3, 2, 4);
+  assertEqual(LocalDate::kInvalidYearTiny, yearTiny);
+
+  yearTiny = ExtendedZoneSpecifier::getMostRecentPriorYear(1, 5, 2, 4);
+  assertEqual(1, yearTiny);
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {

@@ -17,6 +17,7 @@
 class ExtendedZoneSpecifierTest_normalizeDateTuple;
 class ExtendedZoneSpecifierTest_expandDateTuple;
 class ExtendedZoneSpecifierTest_calcInteriorYears;
+class ExtendedZoneSpecifierTest_getMostRecentPriorYear;
 
 namespace ace_time {
 
@@ -339,6 +340,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_normalizeDateTuple;
     friend class ::ExtendedZoneSpecifierTest_expandDateTuple;
     friend class ::ExtendedZoneSpecifierTest_calcInteriorYears;
+    friend class ::ExtendedZoneSpecifierTest_getMostRecentPriorYear;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -537,8 +539,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
         for (uint8_t y = 0; y < numYears; y++) {
           int8_t year = mInteriorYears[y];
-          if (year == 0) continue;
-
           extended::Transition* t = mTransitionStorage.getFree();
           createTransitionForYear(t, year, rule, match);
           int8_t status = compareTransitionToMatchFuzzy(t, match);
@@ -552,7 +552,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         // Add Transition for prior year
         int8_t priorYear = getMostRecentPriorYear(
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
-        if (priorYear >= 0) {
+        if (priorYear != LocalDate::kInvalidYearTiny) {
           extended::Transition* t = mTransitionStorage.getFree();
           createTransitionForYear(t, priorYear, rule, match);
           calcPriorTransition(prior, t);
@@ -592,8 +592,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /**
      * Return the most recent prior year of the rule[from_year, to_year].
-     * Return -1 if the rule[from_year, to_year] has no prior year to the
-     * match[start_year, end_year].
+     * Return LocalDate::kInvalidYearTiny (-128) if the rule[from_year,
+     * to_year] has no prior year to the match[start_year, end_year].
      */
     static int8_t getMostRecentPriorYear(int8_t fromYear, int8_t toYear,
         int8_t startYear, int8_t endYear) {
@@ -604,7 +604,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           return startYear - 1;
         }
       } else {
-        return -1;
+        return LocalDate::kInvalidYearTiny;
       }
     }
 
