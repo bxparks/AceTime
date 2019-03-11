@@ -7,45 +7,6 @@ using namespace aunit;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// ExtendedZoneSpecifier
-// --------------------------------------------------------------------------
-
-test(ExtendedZoneSpecifierTest, normalizeDateTuple) {
-  extended::DateTuple dtp;
-  extended::DateTuple expected;
-
-  dtp = {0, 1, 1, 0, 'w'};
-  ExtendedZoneSpecifier::normalizeDateTuple(&dtp);
-  expected = {0, 1, 1, 0, 'w'};
-  assertTrue(dtp == expected);
-
-  dtp = {0, 1, 1, 95, 'w'};
-  ExtendedZoneSpecifier::normalizeDateTuple(&dtp);
-  expected = {0, 1, 1, 95, 'w'};
-  assertTrue(dtp == expected);
-
-  dtp = {0, 1, 1, 96, 'w'};
-  ExtendedZoneSpecifier::normalizeDateTuple(&dtp);
-  expected = {0, 1, 2, 0, 'w'};
-  assertTrue(dtp == expected);
-
-  dtp = {0, 1, 1, 97, 'w'};
-  ExtendedZoneSpecifier::normalizeDateTuple(&dtp);
-  expected = {0, 1, 2, 1, 'w'};
-  assertTrue(dtp == expected);
-
-  dtp = {0, 1, 1, -96, 'w'};
-  ExtendedZoneSpecifier::normalizeDateTuple(&dtp);
-  expected = {-01, 12, 31, 0, 'w'};
-  assertTrue(dtp == expected);
-
-  dtp = {0, 1, 1, -97, 'w'};
-  ExtendedZoneSpecifier::normalizeDateTuple(&dtp);
-  expected = {-01, 12, 31, -1, 'w'};
-  assertTrue(dtp == expected);
-}
-
-// --------------------------------------------------------------------------
 // ZonedDateTime
 // --------------------------------------------------------------------------
 

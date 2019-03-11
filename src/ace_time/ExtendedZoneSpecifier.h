@@ -15,6 +15,7 @@
 #include "local_date_mutation.h"
 
 class ExtendedZoneSpecifierTest_normalizeDateTuple;
+class ExtendedZoneSpecifierTest_expandDateTuple;
 
 namespace ace_time {
 
@@ -45,7 +46,8 @@ inline bool operator==(const DateTuple& a, const DateTuple& b) {
   return a.yearTiny == b.yearTiny
       && a.month == b.month
       && a.day == b.day
-      && a.timeCode == b.timeCode;
+      && a.timeCode == b.timeCode
+      && a.modifier == b.modifier;
 }
 
 struct YearMonthTuple {
@@ -334,6 +336,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
   private:
     friend class ::ExtendedZoneSpecifierTest_normalizeDateTuple;
+    friend class ::ExtendedZoneSpecifierTest_expandDateTuple;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -437,7 +440,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       if (era->untilMonth < month) return -1;
       if (era->untilMonth > month) return 1;
       if (era->untilDay > 1) return 1;
-      if (era->untilTimeCode < 0) return -1;
+      //if (era->untilTimeCode < 0) return -1; // never possible
       if (era->untilTimeCode > 0) return 1;
       return 0;
     }
@@ -658,17 +661,15 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
+    /**
+     * Convert the given 'tt', offsetCode, and deltaCode into the 'w', 's' and
+     * 'u' versions of the DateTuple.
+     */
     static void expandDateTuple(extended::DateTuple* ttw,
         extended::DateTuple* tts, extended::DateTuple* ttu,
         const extended::DateTuple& tt,
         int8_t offsetCode, int8_t deltaCode) {
-      if (tt.modifier == 'w') {
-        *ttw = tt;
-        *tts = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode - deltaCode), 's'};
-        *ttu = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode - deltaCode - offsetCode), 'u'};
-      } else if (tt.modifier == 's') {
+      if (tt.modifier == 's') {
         *tts = tt;
         *ttw = {tt.yearTiny, tt.month, tt.day,
             (int8_t) (tt.timeCode + deltaCode), 'w'};
@@ -681,9 +682,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         *tts = {tt.yearTiny, tt.month, tt.day,
             (int8_t) (tt.timeCode + offsetCode), 's'};
       } else {
-        // Should never happen, but we can't do anything about it in an
-        // embedded environment without exceptions.
-        // TODO: Assume 'w' if this condition is detected.
+        // Assume tt.modifier == 'w'. There's nothing we can do if it isn't.
+        *ttw = tt;
+        *tts = {tt.yearTiny, tt.month, tt.day,
+            (int8_t) (tt.timeCode - deltaCode), 's'};
+        *ttu = {tt.yearTiny, tt.month, tt.day,
+            (int8_t) (tt.timeCode - deltaCode - offsetCode), 'u'};
       }
 
       normalizeDateTuple(ttw);
