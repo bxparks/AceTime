@@ -83,7 +83,7 @@ class LocalDate {
      * @param day day of month (1-31)
      */
     static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day) {
-      return LocalDate(year, month, day);
+      return LocalDate(year - kEpochYear, month, day);
     }
 
     /**
@@ -102,7 +102,7 @@ class LocalDate {
       } else {
         extractYearMonthDay(epochDays, year, month, day);
       }
-      return LocalDate(year, month, day);
+      return forComponents(year, month, day);
     }
 
     /** Factory method using the number of days since Unix epoch 1970-01-1. */
@@ -324,7 +324,6 @@ class LocalDate {
 
   private:
     friend class LocalDateTime;
-    friend class OffsetDateTime;
     friend bool operator==(const LocalDate& a, const LocalDate& b);
 
     /** Minimum length of the date string. yyyy-mm-dd. */
@@ -339,12 +338,6 @@ class LocalDate {
 
     /** Number of days in each month in a non-leap year. 0=Jan, 11=Dec. */
     static const uint8_t sDaysInMonth[12];
-
-    /** Constructor. */
-    explicit LocalDate(int16_t year, uint8_t month, uint8_t day):
-        mYearTiny(year - kEpochYear),
-        mMonth(month),
-        mDay(day) {}
 
     /** Constructor. */
     explicit LocalDate(int8_t yearTiny, uint8_t month, uint8_t day):

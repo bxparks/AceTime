@@ -253,7 +253,7 @@ class LocalDateTime {
      */
     explicit LocalDateTime(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second):
-        mLocalDate(year, month, day),
+        mLocalDate(year - LocalDate::kEpochYear, month, day),
         mLocalTime(hour, minute, second) {}
 
     /** Extract the date time components from the given dateString. */
