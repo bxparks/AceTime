@@ -712,6 +712,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       normalizeDateTuple(ttu);
     }
 
+    /** Normalize DateTuple::timeCode if its magnitude is more than 24 hours. */
     static void normalizeDateTuple(extended::DateTuple* dt) {
       const int8_t kOneDayAsCode = 4 * 24;
       if (dt->timeCode <= -kOneDayAsCode) {
