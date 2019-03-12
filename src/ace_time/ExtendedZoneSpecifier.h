@@ -92,13 +92,21 @@ struct Transition {
    */
   const common::ZoneRule* rule;
 
-  DateTuple transitionTime; // originalTransitionTime
-
-  DateTuple transitionTimeW;
+  /**
+   * The original transition time, usually 'w' but sometimes 's' or 'u'.
+   * After normalizeDateTuple() is called, this will definitely be a 'w'.
+   */
+  DateTuple transitionTime;
 
   DateTuple transitionTimeS;
 
   DateTuple transitionTimeU;
+
+  /**
+   * If the transition is shifted to the beginning of a ZoneMatch, this is set
+   * to the transitionTime for debugging. May be removed in the future.
+   */
+  DateTuple originalTransitionTime;
 
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[kAbbrevSize];
@@ -662,10 +670,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       for (uint8_t i = start; i < until; i++) {
         extended::Transition* curr = mTransitionStorage.getTransition(i);
         expandDateTuple(
-            &curr->transitionTimeW,
+            &curr->transitionTime,
             &curr->transitionTimeS,
             &curr->transitionTimeU,
-            curr->transitionTime,
             prev->offsetCode(),
             prev->deltaCode());
         prev = curr;
@@ -674,34 +681,33 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /**
      * Convert the given 'tt', offsetCode, and deltaCode into the 'w', 's' and
-     * 'u' versions of the DateTuple.
+     * 'u' versions of the DateTuple. The 'tt' may become a 'w' if it was
+     * originally 's' or 'u'.
      */
-    static void expandDateTuple(extended::DateTuple* ttw,
+    static void expandDateTuple(extended::DateTuple* tt,
         extended::DateTuple* tts, extended::DateTuple* ttu,
-        const extended::DateTuple& tt,
         int8_t offsetCode, int8_t deltaCode) {
-      if (tt.modifier == 's') {
-        *tts = tt;
-        *ttw = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode + deltaCode), 'w'};
-        *ttu = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode - offsetCode), 'u'};
-      } else if (tt.modifier == 'u') {
-        *ttu = tt;
-        *ttw = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode + offsetCode + deltaCode), 'w'};
-        *tts = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode + offsetCode), 's'};
+      if (tt->modifier == 's') {
+        *tts = *tt;
+        *ttu = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode - offsetCode), 'u'};
+        *tt = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode + deltaCode), 'w'};
+      } else if (tt->modifier == 'u') {
+        *ttu = *tt;
+        *tts = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode + offsetCode), 's'};
+        *tt = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode + offsetCode + deltaCode), 'w'};
       } else {
-        // Assume tt.modifier == 'w'. There's nothing we can do if it isn't.
-        *ttw = tt;
-        *tts = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode - deltaCode), 's'};
-        *ttu = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode - deltaCode - offsetCode), 'u'};
+        // Assume tt->modifier == 'w'. There's nothing we can do if it isn't.
+        *tts = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode - deltaCode), 's'};
+        *ttu = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode - deltaCode - offsetCode), 'u'};
       }
 
-      normalizeDateTuple(ttw);
+      normalizeDateTuple(tt);
       normalizeDateTuple(tts);
       normalizeDateTuple(ttu);
     }
@@ -795,7 +801,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       } else if (matchStart.modifier == 'u') {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
-        transitionTime = &transition->transitionTimeW;
+        transitionTime = &transition->transitionTime;
       }
       if (*transitionTime < matchStart) return -1;
       if (*transitionTime == matchStart) return 0;
@@ -806,7 +812,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       } else if (matchUntil.modifier == 'u') {
         transitionTime = &transition->transitionTimeU;
       } else { // assume 'w'
-        transitionTime = &transition->transitionTimeW;
+        transitionTime = &transition->transitionTime;
       }
       if (*transitionTime < matchUntil) return 1;
       return 2;

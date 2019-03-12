@@ -40,37 +40,30 @@ test(ExtendedZoneSpecifierTest, normalizeDateTuple) {
 }
 
 test(ExtendedZoneSpecifierTest, expandDateTuple) {
-  DateTuple ttw;
+  DateTuple tt;
   DateTuple tts;
   DateTuple ttu;
-  DateTuple tt;
-  int8_t offsetCode;
-  int8_t deltaCode;
+  int8_t offsetCode = 8;
+  int8_t deltaCode = 4;
 
   tt = {0, 1, 30, 12, 'w'};
-  offsetCode = 8;
-  deltaCode = 4;
-  ExtendedZoneSpecifier::expandDateTuple(&ttw, &tts, &ttu,
-      tt, offsetCode, deltaCode);
-  assertTrue((ttw == DateTuple{0, 1, 30, 12, 'w'}));
+  ExtendedZoneSpecifier::expandDateTuple(&tt, &tts, &ttu,
+      offsetCode, deltaCode);
+  assertTrue((tt == DateTuple{0, 1, 30, 12, 'w'}));
   assertTrue((tts == DateTuple{0, 1, 30, 8, 's'}));
   assertTrue((ttu == DateTuple{0, 1, 30, 0, 'u'}));
 
   tt = {0, 1, 30, 8, 's'};
-  offsetCode = 8;
-  deltaCode = 4;
-  ExtendedZoneSpecifier::expandDateTuple(&ttw, &tts, &ttu,
-      tt, offsetCode, deltaCode);
-  assertTrue((ttw == DateTuple{0, 1, 30, 12, 'w'}));
+  ExtendedZoneSpecifier::expandDateTuple(&tt, &tts, &ttu,
+      offsetCode, deltaCode);
+  assertTrue((tt == DateTuple{0, 1, 30, 12, 'w'}));
   assertTrue((tts == DateTuple{0, 1, 30, 8, 's'}));
   assertTrue((ttu == DateTuple{0, 1, 30, 0, 'u'}));
 
   tt = {0, 1, 30, 0, 'u'};
-  offsetCode = 8;
-  deltaCode = 4;
-  ExtendedZoneSpecifier::expandDateTuple(&ttw, &tts, &ttu,
-      tt, offsetCode, deltaCode);
-  assertTrue((ttw == DateTuple{0, 1, 30, 12, 'w'}));
+  ExtendedZoneSpecifier::expandDateTuple(&tt, &tts, &ttu,
+      offsetCode, deltaCode);
+  assertTrue((tt == DateTuple{0, 1, 30, 12, 'w'}));
   assertTrue((tts == DateTuple{0, 1, 30, 8, 's'}));
   assertTrue((ttu == DateTuple{0, 1, 30, 0, 'u'}));
 }
