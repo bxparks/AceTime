@@ -855,9 +855,9 @@ class ZoneSpecifier:
 
             # 3) The epochSecond of the 'transitionTime' is determined by the
             # UTC offset of the *previous* Transition. However, the
-            # transitionTime represent by an illegal date (e.g. 24:00). So, it
-            # is better to use the properly normalized startDateTime (calculated
-            # above) with the *current* UTC offset.
+            # transitionTime can be represented by an illegal time (e.g. 24:00).
+            # So, it is better to use the properly normalized startDateTime
+            # (calculated above) with the *current* UTC offset.
             utc_offset_seconds = transition.offsetSeconds \
                 + transition.deltaSeconds
             z = timezone(timedelta(seconds=utc_offset_seconds))

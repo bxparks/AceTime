@@ -111,6 +111,12 @@ struct Transition {
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[kAbbrevSize];
 
+  /** Start date time expressed in the offset zone of the current Transition. */
+  DateTuple startDateTime;
+
+  /** Until date time expressed in the offset zone of the current Transition. */
+  DateTuple untilDateTime;
+
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
 
@@ -820,7 +826,46 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     void generateStartUntilTimes() {
-      // TODO: implement this
+      const uint8_t activeStart = mTransitionStorage.getActiveIndexStart();
+      const uint8_t activeUntil = mTransitionStorage.getActiveIndexUntil();
+      extended::Transition* prev = mTransitionStorage.getTransition(0);
+      bool isAfterFirst = false;
+      for (uint8_t i = activeStart; i < activeUntil; i++) {
+        extended::Transition* transition = mTransitionStorage.getTransition(i);
+        const extended::DateTuple& tt = transition->transitionTime;
+
+        // 1) Update the untilDateTime of the previous Transition
+        if (isAfterFirst) {
+          prev->untilDateTime = tt;
+        }
+
+        // 2) Calculate the current startDateTime by shifting the current
+        // transitionTime into the UTC offset zone defined by the previous
+        // Transition.
+        int8_t code = tt.timeCode - prev->offsetCode() - prev->deltaCode()
+            + transition->offsetCode() + transition->deltaCode();
+        transition->startDateTime = {
+            tt.yearTiny, tt.month, tt.day, code, tt.modifier};
+        normalizeDateTuple(&transition->startDateTime);
+
+        // 3) The epochSecond of the 'transitionTime' is determined by the
+        // UTC offset of the *previous* Transition. However, the
+        // transitionTime can be represented by an illegal time (e.g. 24:00).
+        // So, it is better to use the properly normalized startDateTime
+        // (calculated above) with the *current* UTC offset.
+        const extended::DateTuple& st = transition->startDateTime;
+        LocalDate ld(st.yearTiny, st.month, st.day);
+        transition->startEpochSeconds = ld.toEpochSeconds()
+            + (acetime_t) 900
+                * (st.timeCode + transition->offsetCode()
+                    + transition->deltaCode());
+
+        prev = transition;
+        isAfterFirst = true;
+      }
+
+      // Fix the last Transition's until time.
+      // TODO: Finish implementing this.
     }
 
     void calcAbbreviations() {
