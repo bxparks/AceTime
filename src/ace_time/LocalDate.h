@@ -14,9 +14,14 @@ namespace ace_time {
  * zone. The "epoch" for this library is 2000-01-01.
  *
  * The year field is internally represented as int8_t offset from the year
- * 2000, so in theory it is valid from [1872, 2127]. If the year is restricted
- * to 2000-2099 (2 digit years), these fields correspond to the range supported
- * by the DS3231 RTC chip.
+ * 2000, so in theory it is valid from [1872, 2127]. However, the internal year
+ * value of -128 is often used to indicate an error condition. Secondly, the
+ * value of 127 will sometimes cause for-loops to misbehave due to integer
+ * overflow. Therefore, it's safer to restrict the valid interval to [1873,
+ * 2126].
+ *
+ * If the year is restricted to 2000-2099 (2 digit years), these fields
+ * correspond to the range supported by the DS3231 RTC chip.
  *
  * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated from the date
  * fields.
@@ -28,6 +33,12 @@ class LocalDate {
   public:
     /** Base year of epoch. */
     static const int16_t kEpochYear = 2000;
+
+    /**
+     * Sentinel yearTiny which indicates an error condition or sometimes a year
+     * that 'does not exist'.
+     */
+    static const int8_t kInvalidYearTiny = INT8_MIN;
 
     /** Sentinel epochDays which indicates an error. */
     static const acetime_t kInvalidEpochDays = INT32_MIN;
@@ -323,7 +334,8 @@ class LocalDate {
     void printTo(Print& printer) const;
 
   private:
-    friend class LocalDateTime;
+    friend class LocalDateTime; // for access to constructor
+    friend class ExtendedZoneSpecifier; // for access to constructor
     friend bool operator==(const LocalDate& a, const LocalDate& b);
 
     /** Minimum length of the date string. yyyy-mm-dd. */
