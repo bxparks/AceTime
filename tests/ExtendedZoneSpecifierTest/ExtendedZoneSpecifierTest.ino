@@ -133,6 +133,10 @@ test(ExtendedZoneSpecifierTest, getMostRecentPriorYear) {
   assertEqual(-1, yearTiny);
 }
 
+test(ExtendedZoneSpecifierTest, compareTransitionToMatchFuzzy) {
+  // TODO: implement
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {

@@ -704,21 +704,21 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     static void normalizeDateTuple(extended::DateTuple* dt) {
-      const int8_t kOneDayInCode = 4 * 24;
-      if (dt->timeCode <= -kOneDayInCode) {
+      const int8_t kOneDayAsCode = 4 * 24;
+      if (dt->timeCode <= -kOneDayAsCode) {
         LocalDate ld(dt->yearTiny, dt->month, dt->day);
         local_date_mutation::decrementOneDay(ld);
         dt->yearTiny = ld.yearTiny();
         dt->month = ld.month();
         dt->day = ld.day();
-        dt->timeCode += kOneDayInCode;
-      } else if (kOneDayInCode <= dt->timeCode) {
+        dt->timeCode += kOneDayAsCode;
+      } else if (kOneDayAsCode <= dt->timeCode) {
         LocalDate ld(dt->yearTiny, dt->month, dt->day);
         local_date_mutation::incrementOneDay(ld);
         dt->yearTiny = ld.yearTiny();
         dt->month = ld.month();
         dt->day = ld.day();
-        dt->timeCode -= kOneDayInCode;
+        dt->timeCode -= kOneDayAsCode;
       } else {
         return;
       }
