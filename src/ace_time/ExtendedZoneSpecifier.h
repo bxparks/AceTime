@@ -18,6 +18,8 @@ class ExtendedZoneSpecifierTest_normalizeDateTuple;
 class ExtendedZoneSpecifierTest_expandDateTuple;
 class ExtendedZoneSpecifierTest_calcInteriorYears;
 class ExtendedZoneSpecifierTest_getMostRecentPriorYear;
+class ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
+class ExtendedZoneSpecifierTest_compareTransitionToMatch;
 
 namespace ace_time {
 
@@ -233,7 +235,7 @@ class TransitionStorage {
     }
 
     /** Add active candidates into the Active pool. */
-    void addCandidatesToActive() {
+    void addActiveCandidatesToActivePool() {
       uint8_t iActive = mIndexCandidates;
       uint8_t iCandidate = mIndexCandidates;
       for (; iCandidate < mIndexFree; iCandidate++) {
@@ -341,6 +343,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_expandDateTuple;
     friend class ::ExtendedZoneSpecifierTest_calcInteriorYears;
     friend class ::ExtendedZoneSpecifierTest_getMostRecentPriorYear;
+    friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
+    friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatch;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -516,9 +520,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       fixTransitionTimes(
           mTransitionStorage.getCandidatesIndexStart(),
           mTransitionStorage.getCandidatesIndexUntil());
-      selectActiveTransitions();
-
-      mTransitionStorage.addCandidatesToActive();
+      selectActiveTransitions(match);
+      mTransitionStorage.addActiveCandidatesToActivePool();
     }
 
     void findCandidateTransitions(const extended::ZoneMatch* match) {
@@ -724,7 +727,89 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
-    void selectActiveTransitions() {
+    /**
+     * Scan through the Candidate transitions, and mark the ones which are
+     * active.
+     */
+    void selectActiveTransitions(const extended::ZoneMatch* match) {
+      uint8_t start = mTransitionStorage.getCandidatesIndexStart();
+      uint8_t until = mTransitionStorage.getCandidatesIndexUntil();
+      extended::Transition* prior = nullptr;
+      for (uint8_t i = start; i < until; i++) {
+        extended::Transition* transition = mTransitionStorage.getTransition(i);
+        processActiveTransition(match, transition, &prior);
+      }
+    }
+
+    static void processActiveTransition(
+        const extended::ZoneMatch* match,
+        extended::Transition* transition,
+        extended::Transition** prior) {
+      int8_t status = compareTransitionToMatch(transition, match);
+      if (status == 2) {
+        transition->active = false;
+      } else if (status == 1) {
+        transition->active = true;
+      } else if (status == 0) {
+        if (*prior) {
+          (*prior)->active = false;
+        }
+        transition->active = true;
+        (*prior) = transition;
+      } else { // (status < 0)
+        if (*prior) {
+          if ((*prior)->transitionTime < transition->transitionTime) {
+            (*prior)->active = false;
+            transition->active = true;
+            (*prior) = transition;
+          }
+        } else {
+          transition->active = true;
+          (*prior) = transition;
+        }
+      }
+    }
+
+    /**
+     * Compare the temporal location of transition compared to the interval
+     * defined by  the match. The transition time of the Transition is expanded
+     * to include all 3 versions ('w', 's', and 'u') of the time stamp. When
+     * comparing against the ZoneMatch.startDateTime and
+     * ZoneMatch.untilDateTime, the version will be determined by the modifier
+     * of those parameters.
+     *
+     * Returns:
+     *     * -1 if less than match
+     *     * 0 if equal to match_start
+     *     * 1 if within match,
+     *     * 2 if greater than match
+     */
+    static int8_t compareTransitionToMatch(
+        const extended::Transition* transition,
+        const extended::ZoneMatch* match) {
+      const extended::DateTuple* transitionTime;
+
+      const extended::DateTuple& matchStart = match->startDateTime;
+      if (matchStart.modifier == 's') {
+        transitionTime = &transition->transitionTimeS;
+      } else if (matchStart.modifier == 'u') {
+        transitionTime = &transition->transitionTimeU;
+      } else { // assume 'w'
+        transitionTime = &transition->transitionTimeW;
+      }
+      if (*transitionTime < matchStart) return -1;
+      if (*transitionTime == matchStart) return 0;
+
+      const extended::DateTuple& matchUntil = match->untilDateTime;
+      if (matchUntil.modifier == 's') {
+        transitionTime = &transition->transitionTimeS;
+      } else if (matchUntil.modifier == 'u') {
+        transitionTime = &transition->transitionTimeU;
+      } else { // assume 'w'
+        transitionTime = &transition->transitionTimeW;
+      }
+      if (*transitionTime < matchUntil) return 1;
+      return 2;
     }
 
     void generateStartUntilTimes() {

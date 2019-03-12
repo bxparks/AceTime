@@ -134,7 +134,82 @@ test(ExtendedZoneSpecifierTest, getMostRecentPriorYear) {
 }
 
 test(ExtendedZoneSpecifierTest, compareTransitionToMatchFuzzy) {
-  // TODO: implement
+  const ZoneMatch match = {
+    {0, 1, 1, 0, 'w'} /* startDateTime */,
+    {1, 1, 1, 0, 'w'} /* untilDateTime */,
+    nullptr
+  };
+
+  extended::Transition transition = {
+    &match /*match*/, nullptr /*rule*/, {-1, 11, 1, 0, 'w'} /*transitionTime*/
+  };
+  assertEqual(-1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
+      &transition, &match));
+
+  transition = {
+    &match /*match*/, nullptr /*rule*/, {-1, 12, 1, 0, 'w'} /*transitionTime*/
+  };
+  assertEqual(1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
+      &transition, &match));
+
+  transition = {
+    &match /*match*/, nullptr /*rule*/, {0, 1, 1, 0, 'w'} /*transitionTime*/
+  };
+  assertEqual(1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
+      &transition, &match));
+
+  transition = {
+    &match /*match*/, nullptr /*rule*/, {1, 1, 1, 0, 'w'} /*transitionTime*/
+  };
+  assertEqual(1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
+      &transition, &match));
+
+  transition = {
+    &match /*match*/, nullptr /*rule*/, {1, 2, 1, 0, 'w'} /*transitionTime*/
+  };
+  assertEqual(1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
+      &transition, &match));
+
+  transition = {
+    &match /*match*/, nullptr /*rule*/, {1, 3, 1, 0, 'w'} /*transitionTime*/
+  };
+  assertEqual(2, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
+      &transition, &match));
+}
+
+
+// FIXME: Does not work. Need to figure out whether to use
+// Transition::transitionTime or Transition::transitionTimeW.
+test(ExtendedZoneSpecifierTest, compareTransitionToMatch) {
+  const ZoneMatch match = {
+    {0, 1, 1, 0, 'w'} /* startDateTime */,
+    {1, 1, 1, 0, 'w'} /* untilDateTime */,
+    nullptr
+  };
+
+  extended::Transition transition = {
+    &match /*match*/, nullptr /*rule*/, {-1, 12, 31, 0, 'w'} /*transitionTime*/
+  };
+  assertEqual(1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
+      &transition, &match));
+
+  transition = {
+    &match /*match*/, nullptr /*rule*/, {0, 1, 1, 0, 'w'} /*transitionTime*/
+  };
+  assertEqual(0, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
+      &transition, &match));
+
+  transition = {
+    &match /*match*/, nullptr /*rule*/, {0, 1, 2, 0, 'w'} /*transitionTime*/
+  };
+  assertEqual(1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
+      &transition, &match));
+
+  transition = {
+    &match /*match*/, nullptr /*rule*/, {1, 1, 2, 0, 'w'} /*transitionTime*/
+  };
+  assertEqual(2, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
+      &transition, &match));
 }
 
 // --------------------------------------------------------------------------
