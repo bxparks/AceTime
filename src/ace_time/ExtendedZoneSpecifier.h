@@ -86,21 +86,34 @@ struct Transition {
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
-   * nullptr if the RULES column is '-'. We do not support a RULES column that
-   * contains a UTC offset. There are only 2 time zones that has this property
-   * as of version 2018g: Europe/Istanbul and America/Argentina/San_Luis.
+   * nullptr if the RULES column is '-', indicating that the ZoneMatch was
+   * a "simple" ZoneEra.
    */
   const common::ZoneRule* rule;
 
   /**
-   * The original transition time, usually 'w' but sometimes 's' or 'u'.
-   * After normalizeDateTuple() is called, this will definitely be a 'w'.
+   * The original transition time, usually 'w' but sometimes 's' or 'u'. After
+   * expandDateTuple() is called, this field will definitely be a 'w'. We must
+   * remember that the transitionTime* fields are expressed using the UTC
+   * offset of the *previous* Transition.
    */
   DateTuple transitionTime;
 
-  DateTuple transitionTimeS;
+  union {
+    /** Version of transitionTime in 's' mode. */
+    DateTuple transitionTimeS;
 
-  DateTuple transitionTimeU;
+    /** Start time expressed using the zone shift of the current Transition. */
+    DateTuple startDateTime;
+  };
+
+  union {
+    /** Version of transitionTime in 'u' mode. */
+    DateTuple transitionTimeU;
+
+    /** Until time expressed using the zone shift of the current Transition. */
+    DateTuple untilDateTime;
+  };
 
   /**
    * If the transition is shifted to the beginning of a ZoneMatch, this is set
@@ -111,11 +124,6 @@ struct Transition {
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[kAbbrevSize];
 
-  /** Start date time expressed in the offset zone of the current Transition. */
-  DateTuple startDateTime;
-
-  /** Until date time expressed in the offset zone of the current Transition. */
-  DateTuple untilDateTime;
 
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
@@ -520,9 +528,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     void findTransitionsFromSimpleMatch(
         const extended::ZoneMatch* match) {
-      extended::Transition* freeTransition =
-          mTransitionStorage.getFree();
+      extended::Transition* freeTransition = mTransitionStorage.getFree();
       freeTransition->zoneMatch = match;
+      freeTransition->rule = nullptr;
       freeTransition->transitionTime = match->startDateTime;
 
       mTransitionStorage.addFreeToActive();
@@ -535,6 +543,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           mTransitionStorage.getCandidatesIndexStart(),
           mTransitionStorage.getCandidatesIndexUntil());
       selectActiveTransitions(match);
+
       mTransitionStorage.addActiveCandidatesToActivePool();
     }
 
