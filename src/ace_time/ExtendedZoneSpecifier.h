@@ -730,8 +730,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         *tt = {tt->yearTiny, tt->month, tt->day,
             (int8_t) (tt->timeCode + offsetCode + deltaCode), 'w'};
       } else {
-        // Assume tt->modifier == 'w'. There's nothing we can do if it isn't.
-        // TODO: Maybe explicitly set tt->modifier to 'w'?
+        // Explicit set the modifier to 'w' in case it was something else.
+        tt->modifier = 'w';
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int8_t) (tt->timeCode - deltaCode), 's'};
         *ttu = {tt->yearTiny, tt->month, tt->day,
