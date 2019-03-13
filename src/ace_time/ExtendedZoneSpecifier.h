@@ -923,37 +923,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
-    static extended::ZoneMatch calcEffectiveMatch(
-        const extended::YearMonthTuple& startYm,
-        const extended::YearMonthTuple& untilYm,
-        const extended::ZoneMatch* match) {
-      extended::DateTuple startDateTime = match->startDateTime;
-      if (compareDateTupleToYearMonth(
-          startDateTime, startYm.yearTiny, startYm.month) < 0) {
-        startDateTime = {startYm.yearTiny, startYm.month, 1, 0, 'w'};
-      }
-      extended::DateTuple untilDateTime = match->untilDateTime;
-      if (compareDateTupleToYearMonth(
-          untilDateTime, untilYm.yearTiny, untilYm.month) > 0) {
-        untilDateTime = {untilYm.yearTiny, untilYm.month, 1, 0, 'w'};
-      }
-
-      return extended::ZoneMatch{startDateTime, untilDateTime,
-          match->era};
-    }
-
-    static int8_t compareDateTupleToYearMonth(const extended::DateTuple& date,
-        int8_t yearTiny, uint8_t month) {
-      if (date.yearTiny < yearTiny) return -1;
-      if (date.yearTiny > yearTiny) return 1;
-      if (date.month < month) return -1;
-      if (date.month > month) return 1;
-      if (date.day > 1) return 1;
-      if (date.timeCode < 0) return -1;
-      if (date.timeCode > 0) return 1;
-      return 0;
-    }
-
     const common::ZoneInfo* mZoneInfo;
     int16_t mYear = 0;
     bool mIsFilled = false;
