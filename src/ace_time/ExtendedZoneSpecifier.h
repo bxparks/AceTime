@@ -14,6 +14,7 @@
 #include "AutoZoneSpecifier.h"
 #include "local_date_mutation.h"
 
+class ExtendedZoneSpecifierTest_compareEraToYearMonth;
 class ExtendedZoneSpecifierTest_normalizeDateTuple;
 class ExtendedZoneSpecifierTest_expandDateTuple;
 class ExtendedZoneSpecifierTest_calcInteriorYears;
@@ -378,6 +379,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
   private:
+    friend class ::ExtendedZoneSpecifierTest_compareEraToYearMonth;
     friend class ::ExtendedZoneSpecifierTest_normalizeDateTuple;
     friend class ::ExtendedZoneSpecifierTest_expandDateTuple;
     friend class ::ExtendedZoneSpecifierTest_calcInteriorYears;
@@ -471,6 +473,16 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       mNumMatches = iMatch;
     }
 
+    /**
+     * Determines if era overlaps the interval [startYm, untilYm). This does
+     * not need to be exact since the startYm and untilYm are created to have
+     * some slop of about one month at the low and high end, so we can ignore
+     * the day, time and timeModifier fields of the era. The start date of the
+     * current era is represented by the UNTIL fields of the previous era, so
+     * the interval of the current era is [era.start=prev.UNTIL,
+     * era.until=era.UNTIL). Overlap happens if (era.start < untilYm) and
+     * (era.until > startYm).
+     */
     static bool eraOverlapsInterval(
         const common::ZoneEra* prev,
         const common::ZoneEra* era,
@@ -480,6 +492,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           && compareEraToYearMonth(era, startYm.yearTiny, startYm.month) > 0;
     }
 
+    /** Return (1, 0, -1) depending on how era compares to (yearTiny, month). */
     static int8_t compareEraToYearMonth(const common::ZoneEra* era,
         int8_t yearTiny, uint8_t month) {
       if (era->untilYearTiny < yearTiny) return -1;

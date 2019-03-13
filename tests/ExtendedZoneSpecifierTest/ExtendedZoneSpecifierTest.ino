@@ -11,6 +11,17 @@ using namespace ace_time::extended;
 // ExtendedZoneSpecifier
 // --------------------------------------------------------------------------
 
+test(ExtendedZoneSpecifierTest, compareEraToYearMonth) {
+  common::ZoneEra era = {0, nullptr, 0, "", 0, 1, 2, 12, 'w'};
+  assertEqual(1, ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 1));
+  assertEqual(1, ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 1));
+  assertEqual(-1, ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 2));
+  assertEqual(-1, ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 3));
+
+  common::ZoneEra era2 = {0, nullptr, 0, "", 0, 1, 0, 0, 'w'};
+  assertEqual(0, ExtendedZoneSpecifier::compareEraToYearMonth(&era2, 0, 1));
+}
+
 test(ExtendedZoneSpecifierTest, getTransitionTime) {
   // TODO: Implement
 }
