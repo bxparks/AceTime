@@ -212,9 +212,8 @@ class TransitionStorage {
       mIndexFree = 0;
     }
 
-    Transition* getTransition(uint8_t i) {
-      return mTransitions[i];
-    }
+    /** Return the current prior transition. */
+    Transition* getPrior() { return mTransitions[mIndexPrior]; }
 
     /** Empty the Candidate pool. */
     void resetCandidatePool() {
@@ -331,6 +330,9 @@ class TransitionStorage {
     friend class ::TransitionStorageTest_addFreeAgentToActivePool;
     friend class ::TransitionStorageTest_reservePrior;
     friend class ::TransitionStorageTest_addFreeAgentToCandidatePool;
+
+    /** Return the transition at position i. */
+    Transition* getTransition(uint8_t i) { return mTransitions[i]; }
 
     Transition mPool[SIZE];
     Transition* mTransitions[SIZE];
@@ -619,7 +621,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       int8_t endY = match->untilDateTime.yearTiny;
 
       extended::Transition* prior = mTransitionStorage.reservePrior();
-      prior->active = false;
+      prior->active = false; // indicates "no prior transition"
       for (uint8_t r = 0; r < numRules; r++) {
         const common::ZoneRule* const rule = &rules[r];
 
@@ -632,7 +634,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           createTransitionForYear(t, year, rule, match);
           int8_t status = compareTransitionToMatchFuzzy(t, match);
           if (status < 0) {
-            determinePriorTransition(prior, t);
+            setAsPriorTransition(t);
           } else if (status == 1) {
             mTransitionStorage.addFreeAgentToCandidatePool();
           }
@@ -644,12 +646,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         if (priorYear != LocalDate::kInvalidYearTiny) {
           extended::Transition* t = mTransitionStorage.getFreeAgent();
           createTransitionForYear(t, priorYear, rule, match);
-          determinePriorTransition(prior, t);
+          setAsPriorTransition(t);
         }
       }
-      if (prior->active) {
-        mTransitionStorage.addPriorToCandidatePool();
-      }
+
+      // Add the reserved prior into the Candidate pool, whether or not
+      // 'active' is true. The 'active' flag will be recalculated in
+      // selectActiveTransitions().
+      mTransitionStorage.addPriorToCandidatePool();
     }
 
     /** Return true if Transition 't' was created. */
@@ -731,11 +735,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return 1;
     }
 
-    void determinePriorTransition(
-        const extended::Transition* prior,
-        const extended::Transition* t) {
+    /** Set the current transition as the most recent prior if it fits. */
+    void setAsPriorTransition(extended::Transition* t) {
+      extended::Transition* prior = mTransitionStorage.getPrior();
       if (prior->active) {
         if (prior->transitionTime < t->transitionTime) {
+          t->active = true;
           mTransitionStorage.setFreeAsPrior();
         }
       } else {
