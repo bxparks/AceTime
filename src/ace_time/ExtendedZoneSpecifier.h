@@ -439,7 +439,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       extended::YearMonthTuple untilYm =  {
         (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
 
-      findMatches(startYm, untilYm);
+      findMatches(mZoneInfo, startYm, untilYm, mMatches, kMaxMatches,
+          &mNumMatches);
       findTransitions();
       extended::Transition** begin = mTransitionStorage.getActivePoolBegin();
       extended::Transition** end = mTransitionStorage.getActivePoolEnd();
@@ -459,26 +460,27 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * Find the ZoneEras which overlap [startYm, untilYm), ignoring day, time
      * and timeModifier. The start and until fields of the ZoneEra are
      * truncated at the low and high end by startYm and untilYm, respectively.
-     * Each matching ZoneEra is wrapped inside a ZoneMatch objecd, and placed
-     * in the mMatches array. The number of ZoneMatches is given by
-     * mNumMatches.
+     * Each matching ZoneEra is wrapped inside a ZoneMatch object, placed in
+     * the 'matches' array, and the number of matches is returned in
+     * numMatches.
      */
-    void findMatches(
+    static void findMatches(const common::ZoneInfo* zoneInfo,
         const extended::YearMonthTuple& startYm,
-        const extended::YearMonthTuple& untilYm) {
+        const extended::YearMonthTuple& untilYm,
+        extended::ZoneMatch* matches, uint8_t maxMatches, uint8_t* numMatches) {
       uint8_t iMatch = 0;
       const common::ZoneEra* prev = &kAnchorEra;
-      for (uint8_t iEra = 0; iEra < mZoneInfo->numEras; iEra++) {
-        const common::ZoneEra* era = &mZoneInfo->eras[iEra];
+      for (uint8_t iEra = 0; iEra < zoneInfo->numEras; iEra++) {
+        const common::ZoneEra* era = &zoneInfo->eras[iEra];
         if (eraOverlapsInterval(prev, era, startYm, untilYm)) {
-          if (iMatch < kMaxMatches) {
-            mMatches[iMatch] = createMatch(prev, era, startYm, untilYm);
+          if (iMatch < maxMatches) {
+            matches[iMatch] = createMatch(prev, era, startYm, untilYm);
             iMatch++;
           }
         }
         prev = era;
       }
-      mNumMatches = iMatch;
+      *numMatches = iMatch;
     }
 
     /**

@@ -26,6 +26,10 @@ test(ExtendedZoneSpecifierTest, createMatch) {
   // TODO: Implement
 }
 
+test(ExtendedZoneSpecifierTest, findMatches) {
+  // TODO: Implement
+}
+
 test(ExtendedZoneSpecifierTest, getTransitionTime) {
   // TODO: Implement
 }
