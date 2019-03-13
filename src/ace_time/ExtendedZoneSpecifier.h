@@ -207,13 +207,15 @@ class TransitionStorage {
       mIndexFree = 0;
     }
 
-    Transition* getTransition(uint8_t i) { return mTransitions[i]; }
+    Transition** getCandidatePoolBegin() {
+      return &mTransitions[mIndexCandidates];
+    }
+    Transition** getCandidatePoolEnd() {
+      return &mTransitions[mIndexFree];
+    }
 
-    uint8_t getCandidatesIndexStart() const { return mIndexCandidates; }
-    uint8_t getCandidatesIndexUntil() const { return mIndexFree; }
-
-    uint8_t getActiveIndexStart() const { return 0; }
-    uint8_t getActiveIndexUntil() const { return mIndexFree; }
+    Transition** getActivePoolBegin() { return &mTransitions[0]; }
+    Transition** getActivePoolEnd() { return &mTransitions[mIndexFree]; }
 
     Transition* getFree() { return mTransitions[mIndexFree]; }
 
@@ -437,11 +439,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
       findMatches(startYm, untilYm);
       findTransitions();
-      fixTransitionTimes(
-          mTransitionStorage.getActiveIndexStart(),
-          mTransitionStorage.getActiveIndexUntil());
-      generateStartUntilTimes();
-      calcAbbreviations();
+      extended::Transition** begin = mTransitionStorage.getActivePoolBegin();
+      extended::Transition** end = mTransitionStorage.getActivePoolEnd();
+      fixTransitionTimes(begin, end);
+      generateStartUntilTimes(begin, end);
+      calcAbbreviations(begin, end);
 
       mIsFilled = true;
     }
@@ -555,8 +557,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         const extended::ZoneMatch* match) {
       findCandidateTransitions(match);
       fixTransitionTimes(
-          mTransitionStorage.getCandidatesIndexStart(),
-          mTransitionStorage.getCandidatesIndexUntil());
+          mTransitionStorage.getCandidatePoolBegin(),
+          mTransitionStorage.getCandidatePoolEnd());
       selectActiveTransitions(match);
 
       mTransitionStorage.addActiveCandidatesToActivePool();
@@ -695,16 +697,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
-    void fixTransitionTimes(uint8_t start, uint8_t until) {
-      extended::Transition* prev = mTransitionStorage.getTransition(start);
-      for (uint8_t i = start; i < until; i++) {
-        extended::Transition* curr = mTransitionStorage.getTransition(i);
-        expandDateTuple(
-            &curr->transitionTime,
-            &curr->transitionTimeS,
-            &curr->transitionTimeU,
-            prev->offsetCode(),
-            prev->deltaCode());
+    static void fixTransitionTimes(
+        extended::Transition** begin, extended::Transition** end) {
+      extended::Transition* prev = *begin;
+      for (extended::Transition** iter = begin; iter != end; ++iter) {
+        extended::Transition* curr = *iter;
+        expandDateTuple(&curr->transitionTime,
+            &curr->transitionTimeS, &curr->transitionTimeU,
+            prev->offsetCode(), prev->deltaCode());
         prev = curr;
       }
     }
@@ -770,11 +770,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * active.
      */
     void selectActiveTransitions(const extended::ZoneMatch* match) {
-      uint8_t start = mTransitionStorage.getCandidatesIndexStart();
-      uint8_t until = mTransitionStorage.getCandidatesIndexUntil();
+      extended::Transition** begin = mTransitionStorage.getCandidatePoolBegin();
+      extended::Transition** end = mTransitionStorage.getCandidatePoolEnd();
       extended::Transition* prior = nullptr;
-      for (uint8_t i = start; i < until; i++) {
-        extended::Transition* transition = mTransitionStorage.getTransition(i);
+      for (extended::Transition** iter = begin; iter != end; ++iter) {
+        extended::Transition* transition = *iter;
         processActiveTransition(match, transition, &prior);
       }
     }
@@ -851,19 +851,16 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     /**
-     * Generate startDateTime and untilDateTime. The Transition::transitionTime
-     * should all be in 'w' mode by the time this method is called.
+     * Generate startDateTime and untilDateTime of the transitions defined by
+     * the [start, end) iterators. The Transition::transitionTime should all be
+     * in 'w' mode by the time this method is called.
      */
-    void generateStartUntilTimes() {
-      // TODO: Convert these indexes into pointers, so that they can act as
-      // iterators, which will allow this method to be static, hence more
-      // easily testable.
-      const uint8_t activeStart = mTransitionStorage.getActiveIndexStart();
-      const uint8_t activeUntil = mTransitionStorage.getActiveIndexUntil();
-      extended::Transition* prev = mTransitionStorage.getTransition(0);
+    static void generateStartUntilTimes(
+        extended::Transition** begin, extended::Transition** end) {
+      extended::Transition* prev = *begin;
       bool isAfterFirst = false;
-      for (uint8_t i = activeStart; i < activeUntil; i++) {
-        extended::Transition* t = mTransitionStorage.getTransition(i);
+      for (extended::Transition** iter = begin; iter != end; ++iter) {
+        extended::Transition* const t = *iter;
         const extended::DateTuple& tt = t->transitionTime;
 
         // 1) Update the untilDateTime of the previous Transition
@@ -898,8 +895,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       extended::DateTuple untilTime = prev->match->untilDateTime;
       extended::DateTuple untilTimeS; // needed only for expandDateTuple
       extended::DateTuple untilTimeU; // needed only for expandDateTuple
-      expandDateTuple(
-          &untilTime, &untilTimeS, &untilTimeU,
+      expandDateTuple(&untilTime, &untilTimeS, &untilTimeU,
           prev->offsetCode(), prev->deltaCode());
       prev->untilDateTime = untilTime;
     }
@@ -913,14 +909,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      *         2a) If 'letter' is '-', replace with nothing.
      *         2b) The 'format' could be just a '%s'.
      */
-    void calcAbbreviations() {
-      // TODO: Convert these indexes into pointers, so that they can act as
-      // iterators, which will allow this method to be static, hence more
-      // easily testable.
-      const uint8_t activeStart = mTransitionStorage.getActiveIndexStart();
-      const uint8_t activeUntil = mTransitionStorage.getActiveIndexUntil();
-      for (uint8_t i = activeStart; i < activeUntil; ++i) {
-        extended::Transition* t = mTransitionStorage.getTransition(i);
+    static void calcAbbreviations(
+        extended::Transition** begin, extended::Transition** end) {
+      for (extended::Transition** iter = begin; iter != end; ++iter) {
+        extended::Transition* const t = *iter;
         const char* format = t->format();
         int8_t deltaCode = t->deltaCode();
         uint8_t letter = t->letter();
