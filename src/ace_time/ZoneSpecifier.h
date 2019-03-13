@@ -29,6 +29,8 @@ class ZoneSpecifier {
     static const uint8_t kTypeAuto = 1;
     static const uint8_t kTypeExtended = 2;
 
+    // TODO: Consider moving this into ZoneSpecifier::mType member variable
+    // to eliminate this virtual method.
     /** Return the type of the zone spec. */
     virtual uint8_t getType() const = 0;
 

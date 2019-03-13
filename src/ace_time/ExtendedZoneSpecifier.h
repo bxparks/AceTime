@@ -18,6 +18,8 @@ class ExtendedZoneSpecifierTest_normalizeDateTuple;
 class ExtendedZoneSpecifierTest_expandDateTuple;
 class ExtendedZoneSpecifierTest_calcInteriorYears;
 class ExtendedZoneSpecifierTest_getMostRecentPriorYear;
+class ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
+class ExtendedZoneSpecifierTest_compareTransitionToMatch;
 
 namespace ace_time {
 
@@ -72,6 +74,21 @@ struct ZoneMatch {
   const common::ZoneEra* era;
 };
 
+/**
+ * Represents an interval of time where the time zone obeyed a certain UTC
+ * offset and DST delta. The start of the interval is given by 'transitionTime'
+ * which comes from the TZ Database file. The actual start and until time of
+ * the interval (in the local time zone) is given by 'startDateTime' and
+ * 'untilDateTime'.
+ *
+ * There are 2 types of Transition instances:
+ *  1) Simple, indicated by 'rule' == nullptr. The base UTC offsetCode is given
+ *  by ZoneMatch::offsetCode. The additional DST delta is given by
+ *  match->deltaCode.
+ *  2) Named, indicated by 'rule' != nullptr. The base UTC offsetCode is given
+ *  by ZoneMatch::offsetCode. The additional DST delta is given by
+ *  rule->deltaCode.
+ */
 struct Transition {
   /**
    * Longest abbreviation seems to be 5 characters.
@@ -80,26 +97,48 @@ struct Transition {
   static const uint8_t kAbbrevSize = 5 + 1;
 
   /** The match which generated this Transition. */
-  const ZoneMatch* zoneMatch; // TODO: Rename to just 'match'?
+  const ZoneMatch* match;
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
-   * nullptr if the RULES column is '-'. We do not support a RULES column that
-   * contains a UTC offset. There are only 2 time zones that has this property
-   * as of version 2018g: Europe/Istanbul and America/Argentina/San_Luis.
+   * nullptr if the RULES column is '-', indicating that the ZoneMatch was
+   * a "simple" ZoneEra.
    */
   const common::ZoneRule* rule;
 
-  DateTuple transitionTime; // originalTransitionTime
+  /**
+   * The original transition time, usually 'w' but sometimes 's' or 'u'. After
+   * expandDateTuple() is called, this field will definitely be a 'w'. We must
+   * remember that the transitionTime* fields are expressed using the UTC
+   * offset of the *previous* Transition.
+   */
+  DateTuple transitionTime;
 
-  DateTuple transitionTimeW;
+  union {
+    /** Version of transitionTime in 's' mode. */
+    DateTuple transitionTimeS;
 
-  DateTuple transitionTimeS;
+    /** Start time expressed using the zone shift of the current Transition. */
+    DateTuple startDateTime;
+  };
 
-  DateTuple transitionTimeU;
+  union {
+    /** Version of transitionTime in 'u' mode. */
+    DateTuple transitionTimeU;
+
+    /** Until time expressed using the zone shift of the current Transition. */
+    DateTuple untilDateTime;
+  };
+
+  /**
+   * If the transition is shifted to the beginning of a ZoneMatch, this is set
+   * to the transitionTime for debugging. May be removed in the future.
+   */
+  DateTuple originalTransitionTime;
 
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[kAbbrevSize];
+
 
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
@@ -110,19 +149,19 @@ struct Transition {
   //-------------------------------------------------------------------------
 
   const char* format() const {
-    return zoneMatch->era->format;
+    return match->era->format;
   }
 
   int8_t offsetCode() const {
-    return zoneMatch->era->offsetCode;
+    return match->era->offsetCode;
   }
 
   char letter() const {
-    return rule->letter;
+    return (rule) ? rule->letter : '\0';
   }
 
   int8_t deltaCode() const {
-    return 0; // TODO: implement
+    return (rule) ? rule->deltaCode : match->era->deltaCode;
   }
 
   /** Used only for debugging. */
@@ -233,7 +272,7 @@ class TransitionStorage {
     }
 
     /** Add active candidates into the Active pool. */
-    void addCandidatesToActive() {
+    void addActiveCandidatesToActivePool() {
       uint8_t iActive = mIndexCandidates;
       uint8_t iCandidate = mIndexCandidates;
       for (; iCandidate < mIndexFree; iCandidate++) {
@@ -341,6 +380,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_expandDateTuple;
     friend class ::ExtendedZoneSpecifierTest_calcInteriorYears;
     friend class ::ExtendedZoneSpecifierTest_getMostRecentPriorYear;
+    friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
+    friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatch;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -502,9 +543,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     void findTransitionsFromSimpleMatch(
         const extended::ZoneMatch* match) {
-      extended::Transition* freeTransition =
-          mTransitionStorage.getFree();
-      freeTransition->zoneMatch = match;
+      extended::Transition* freeTransition = mTransitionStorage.getFree();
+      freeTransition->match = match;
+      freeTransition->rule = nullptr;
       freeTransition->transitionTime = match->startDateTime;
 
       mTransitionStorage.addFreeToActive();
@@ -516,9 +557,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       fixTransitionTimes(
           mTransitionStorage.getCandidatesIndexStart(),
           mTransitionStorage.getCandidatesIndexUntil());
-      selectActiveTransitions();
+      selectActiveTransitions(match);
 
-      mTransitionStorage.addCandidatesToActive();
+      mTransitionStorage.addActiveCandidatesToActivePool();
     }
 
     void findCandidateTransitions(const extended::ZoneMatch* match) {
@@ -564,10 +605,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Return true if Transition 't' was created. */
-    void createTransitionForYear(extended::Transition* t, int8_t year,
+    static void createTransitionForYear(extended::Transition* t, int8_t year,
         const common::ZoneRule* rule,
         const extended::ZoneMatch* match) {
-      t->zoneMatch = match;
+      t->match = match;
       t->transitionTime = getTransitionTime(year, rule);
       t->rule = rule;
     }
@@ -659,10 +700,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       for (uint8_t i = start; i < until; i++) {
         extended::Transition* curr = mTransitionStorage.getTransition(i);
         expandDateTuple(
-            &curr->transitionTimeW,
+            &curr->transitionTime,
             &curr->transitionTimeS,
             &curr->transitionTimeU,
-            curr->transitionTime,
             prev->offsetCode(),
             prev->deltaCode());
         prev = curr;
@@ -671,68 +711,224 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /**
      * Convert the given 'tt', offsetCode, and deltaCode into the 'w', 's' and
-     * 'u' versions of the DateTuple.
+     * 'u' versions of the DateTuple. The 'tt' may become a 'w' if it was
+     * originally 's' or 'u'. On return, tt, tts and ttu are all modified.
      */
-    static void expandDateTuple(extended::DateTuple* ttw,
+    static void expandDateTuple(extended::DateTuple* tt,
         extended::DateTuple* tts, extended::DateTuple* ttu,
-        const extended::DateTuple& tt,
         int8_t offsetCode, int8_t deltaCode) {
-      if (tt.modifier == 's') {
-        *tts = tt;
-        *ttw = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode + deltaCode), 'w'};
-        *ttu = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode - offsetCode), 'u'};
-      } else if (tt.modifier == 'u') {
-        *ttu = tt;
-        *ttw = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode + offsetCode + deltaCode), 'w'};
-        *tts = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode + offsetCode), 's'};
+      if (tt->modifier == 's') {
+        *tts = *tt;
+        *ttu = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode - offsetCode), 'u'};
+        *tt = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode + deltaCode), 'w'};
+      } else if (tt->modifier == 'u') {
+        *ttu = *tt;
+        *tts = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode + offsetCode), 's'};
+        *tt = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode + offsetCode + deltaCode), 'w'};
       } else {
-        // Assume tt.modifier == 'w'. There's nothing we can do if it isn't.
-        *ttw = tt;
-        *tts = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode - deltaCode), 's'};
-        *ttu = {tt.yearTiny, tt.month, tt.day,
-            (int8_t) (tt.timeCode - deltaCode - offsetCode), 'u'};
+        // Explicit set the modifier to 'w' in case it was something else.
+        tt->modifier = 'w';
+        *tts = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode - deltaCode), 's'};
+        *ttu = {tt->yearTiny, tt->month, tt->day,
+            (int8_t) (tt->timeCode - deltaCode - offsetCode), 'u'};
       }
 
-      normalizeDateTuple(ttw);
+      normalizeDateTuple(tt);
       normalizeDateTuple(tts);
       normalizeDateTuple(ttu);
     }
 
+    /** Normalize DateTuple::timeCode if its magnitude is more than 24 hours. */
     static void normalizeDateTuple(extended::DateTuple* dt) {
-      const int8_t kOneDayInCode = 4 * 24;
-      if (dt->timeCode <= -kOneDayInCode) {
+      const int8_t kOneDayAsCode = 4 * 24;
+      if (dt->timeCode <= -kOneDayAsCode) {
         LocalDate ld(dt->yearTiny, dt->month, dt->day);
         local_date_mutation::decrementOneDay(ld);
         dt->yearTiny = ld.yearTiny();
         dt->month = ld.month();
         dt->day = ld.day();
-        dt->timeCode += kOneDayInCode;
-      } else if (kOneDayInCode <= dt->timeCode) {
+        dt->timeCode += kOneDayAsCode;
+      } else if (kOneDayAsCode <= dt->timeCode) {
         LocalDate ld(dt->yearTiny, dt->month, dt->day);
         local_date_mutation::incrementOneDay(ld);
         dt->yearTiny = ld.yearTiny();
         dt->month = ld.month();
         dt->day = ld.day();
-        dt->timeCode -= kOneDayInCode;
+        dt->timeCode -= kOneDayAsCode;
       } else {
-        return;
+        // do nothing
       }
     }
 
-    void selectActiveTransitions() {
+    /**
+     * Scan through the Candidate transitions, and mark the ones which are
+     * active.
+     */
+    void selectActiveTransitions(const extended::ZoneMatch* match) {
+      uint8_t start = mTransitionStorage.getCandidatesIndexStart();
+      uint8_t until = mTransitionStorage.getCandidatesIndexUntil();
+      extended::Transition* prior = nullptr;
+      for (uint8_t i = start; i < until; i++) {
+        extended::Transition* transition = mTransitionStorage.getTransition(i);
+        processActiveTransition(match, transition, &prior);
+      }
     }
 
+    static void processActiveTransition(
+        const extended::ZoneMatch* match,
+        extended::Transition* transition,
+        extended::Transition** prior) {
+      int8_t status = compareTransitionToMatch(transition, match);
+      if (status == 2) {
+        transition->active = false;
+      } else if (status == 1) {
+        transition->active = true;
+      } else if (status == 0) {
+        if (*prior) {
+          (*prior)->active = false;
+        }
+        transition->active = true;
+        (*prior) = transition;
+      } else { // (status < 0)
+        if (*prior) {
+          if ((*prior)->transitionTime < transition->transitionTime) {
+            (*prior)->active = false;
+            transition->active = true;
+            (*prior) = transition;
+          }
+        } else {
+          transition->active = true;
+          (*prior) = transition;
+        }
+      }
+    }
+
+    /**
+     * Compare the temporal location of transition compared to the interval
+     * defined by  the match. The transition time of the Transition is expanded
+     * to include all 3 versions ('w', 's', and 'u') of the time stamp. When
+     * comparing against the ZoneMatch.startDateTime and
+     * ZoneMatch.untilDateTime, the version will be determined by the modifier
+     * of those parameters.
+     *
+     * Returns:
+     *     * -1 if less than match
+     *     * 0 if equal to match_start
+     *     * 1 if within match,
+     *     * 2 if greater than match
+     */
+    static int8_t compareTransitionToMatch(
+        const extended::Transition* transition,
+        const extended::ZoneMatch* match) {
+      const extended::DateTuple* transitionTime;
+
+      const extended::DateTuple& matchStart = match->startDateTime;
+      if (matchStart.modifier == 's') {
+        transitionTime = &transition->transitionTimeS;
+      } else if (matchStart.modifier == 'u') {
+        transitionTime = &transition->transitionTimeU;
+      } else { // assume 'w'
+        transitionTime = &transition->transitionTime;
+      }
+      if (*transitionTime < matchStart) return -1;
+      if (*transitionTime == matchStart) return 0;
+
+      const extended::DateTuple& matchUntil = match->untilDateTime;
+      if (matchUntil.modifier == 's') {
+        transitionTime = &transition->transitionTimeS;
+      } else if (matchUntil.modifier == 'u') {
+        transitionTime = &transition->transitionTimeU;
+      } else { // assume 'w'
+        transitionTime = &transition->transitionTime;
+      }
+      if (*transitionTime < matchUntil) return 1;
+      return 2;
+    }
+
+    /**
+     * Generate startDateTime and untilDateTime. The Transition::transitionTime
+     * should all be in 'w' mode by the time this method is called.
+     */
     void generateStartUntilTimes() {
-      // TODO: implement this
+      // TODO: Convert these indexes into pointers, so that they can act as
+      // iterators, which will allow this method to be static, hence more
+      // easily testable.
+      const uint8_t activeStart = mTransitionStorage.getActiveIndexStart();
+      const uint8_t activeUntil = mTransitionStorage.getActiveIndexUntil();
+      extended::Transition* prev = mTransitionStorage.getTransition(0);
+      bool isAfterFirst = false;
+      for (uint8_t i = activeStart; i < activeUntil; i++) {
+        extended::Transition* t = mTransitionStorage.getTransition(i);
+        const extended::DateTuple& tt = t->transitionTime;
+
+        // 1) Update the untilDateTime of the previous Transition
+        if (isAfterFirst) {
+          prev->untilDateTime = tt;
+        }
+
+        // 2) Calculate the current startDateTime by shifting the current
+        // transitionTime into the UTC offset zone defined by the previous
+        // Transition.
+        int8_t code = tt.timeCode - prev->offsetCode() - prev->deltaCode()
+            + t->offsetCode() + t->deltaCode();
+        t->startDateTime = {tt.yearTiny, tt.month, tt.day, code, tt.modifier};
+        normalizeDateTuple(&t->startDateTime);
+
+        // 3) The epochSecond of the 'transitionTime' is determined by the
+        // UTC offset of the *previous* Transition. However, the
+        // transitionTime can be represented by an illegal time (e.g. 24:00).
+        // So, it is better to use the properly normalized startDateTime
+        // (calculated above) with the *current* UTC offset.
+        const extended::DateTuple& st = t->startDateTime;
+        const acetime_t offsetSeconds = (acetime_t) 900
+            * (st.timeCode + t->offsetCode() + t->deltaCode());
+        LocalDate ld(st.yearTiny, st.month, st.day);
+        t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;
+
+        prev = t;
+        isAfterFirst = true;
+      }
+
+      // The last Transition's until time is the until time of the ZoneMatch.
+      extended::DateTuple untilTime = prev->match->untilDateTime;
+      extended::DateTuple untilTimeS; // needed only for expandDateTuple
+      extended::DateTuple untilTimeU; // needed only for expandDateTuple
+      expandDateTuple(
+          &untilTime, &untilTimeS, &untilTimeU,
+          prev->offsetCode(), prev->deltaCode());
+      prev->untilDateTime = untilTime;
     }
 
+    /**
+     * Calculate the time zone abbreviations for each Transition.
+     * There are several cases:
+     *     1) 'format' contains 'A/B', meaning 'A' for standard time, and 'B'
+     *         for DST time.
+     *     2) 'format' contains a %s, which substitutes the 'letter'
+     *         2a) If 'letter' is '-', replace with nothing.
+     *         2b) The 'format' could be just a '%s'.
+     */
     void calcAbbreviations() {
-      // TODO: implement this
+      // TODO: Convert these indexes into pointers, so that they can act as
+      // iterators, which will allow this method to be static, hence more
+      // easily testable.
+      const uint8_t activeStart = mTransitionStorage.getActiveIndexStart();
+      const uint8_t activeUntil = mTransitionStorage.getActiveIndexUntil();
+      for (uint8_t i = activeStart; i < activeUntil; ++i) {
+        extended::Transition* t = mTransitionStorage.getTransition(i);
+        const char* format = t->format();
+        int8_t deltaCode = t->deltaCode();
+        uint8_t letter = t->letter();
+        // TODO: Incoporate 'letter' that's more than 1-character.
+        AutoZoneSpecifier::createAbbreviation(
+            t->abbrev, extended::Transition::kAbbrevSize,
+            format, deltaCode, letter);
+      }
     }
 
     static extended::ZoneMatch calcEffectiveMatch(
