@@ -455,6 +455,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return mIsFilled && (year == mYear);
     }
 
+    /**
+     * Find the ZoneEras which overlap [startYm, untilYm), ignoring day, time
+     * and timeModifier. The start and until fields of the ZoneEra are
+     * truncated at the low and high end by startYm and untilYm, respectively.
+     * Each matching ZoneEra is wrapped inside a ZoneMatch objecd, and placed
+     * in the mMatches array. The number of ZoneMatches is given by
+     * mNumMatches.
+     */
     void findMatches(
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
@@ -505,17 +513,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return 0;
     }
 
-    extended::ZoneMatch createMatch(
+    static extended::ZoneMatch createMatch(
         const common::ZoneEra* prev,
         const common::ZoneEra* era,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm) {
       extended::DateTuple startDate = {
-        prev->untilYearTiny,
-        prev->untilMonth,
-        prev->untilDay,
-        (int8_t) prev->untilTimeCode,
-        prev->untilTimeModifier
+        prev->untilYearTiny, prev->untilMonth, prev->untilDay,
+        (int8_t) prev->untilTimeCode, prev->untilTimeModifier
       };
       extended::DateTuple lowerBound = {
         startYm.yearTiny, startYm.month, 1, 0, 'w'
@@ -525,11 +530,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
 
       extended::DateTuple untilDate = {
-        era->untilYearTiny,
-        era->untilMonth,
-        era->untilDay,
-        (int8_t) era->untilTimeCode,
-        era->untilTimeModifier
+        era->untilYearTiny, era->untilMonth, era->untilDay,
+        (int8_t) era->untilTimeCode, era->untilTimeModifier
       };
       extended::DateTuple upperBound = {
         untilYm.yearTiny, untilYm.month, 1, 0, 'w'
@@ -538,7 +540,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         untilDate = upperBound;
       }
 
-      return extended::ZoneMatch{startDate, untilDate, era};
+      return {startDate, untilDate, era};
     }
 
     void findTransitions() {

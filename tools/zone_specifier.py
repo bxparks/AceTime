@@ -595,23 +595,21 @@ class ZoneSpecifier:
 
     def _find_matches(self, start_ym, until_ym):
         """Find the Zone Eras which overlap [start_ym, until_ym), ignoring
-        day, time and timeModifier. The resulting ZoneMatch objects will
-        inherit the day, time and timeModifiers of the underlying ZoneEra. The
-        start and until fields are truncated at the low and high end
-        by start_ym and until_ym,, respectively.
+        day, time and timeModifier. The start and until fields are truncated at
+        the low and high end by start_ym and until_ym, respectively.
 
-        We generate slightly over one year's worth because we are caught in a
-        Catch-22 situation. We need to convert a epochSecond to the local
-        DateTime. If we knew the local year of the epochSeconds when converted
-        to the local DateTime, then we would need only the Transitions of the
-        given local year. However, the epochSeconds could convert to Dec 31 or
-        Jan 1 in the UTC time zone, which means that the local year could shift
-        to the next or previous year in the local time zone. But we don't know
-        the local time zone offset until we generate the Transitions of the
-        local year, and we don't know the local year until we generate the
-        Transitions. To get around this problem, we collect ZoneMatches for
-        [start_ym, until_ym) interval that's slightly larger than the current
-        year of interest.
+        The size of the [start_ym, until_ym) is determined by the viewing_months
+        flag. Normally, viewing_months will be greater than one years, to
+        compensate for our inability to precisely determine which local 'year'
+        is associated with a given epochSecond.
+
+        When the epochSeconds is converted to a year using the UTC timezone, the
+        actual local DateTime could be Dec 31 of the previous year, or Jan 1 of
+        the following year. Unfortunately, we don't know the local time zone
+        offset until we generate the Transitions of the local year, and we don't
+        know the local year until we generate the Transitions. To get around
+        this problem, we create a [start_ym, until_ym) interval that's slightly
+        larger than the current year of interest.
 
         If viewing_months==14, we include the prior December and subsequent
         January. This works well but often produces too many candidate

@@ -22,6 +22,10 @@ test(ExtendedZoneSpecifierTest, compareEraToYearMonth) {
   assertEqual(0, ExtendedZoneSpecifier::compareEraToYearMonth(&era2, 0, 1));
 }
 
+test(ExtendedZoneSpecifierTest, createMatch) {
+  // TODO: Implement
+}
+
 test(ExtendedZoneSpecifierTest, getTransitionTime) {
   // TODO: Implement
 }
