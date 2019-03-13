@@ -11,6 +11,14 @@ using namespace ace_time::extended;
 // ExtendedZoneSpecifier
 // --------------------------------------------------------------------------
 
+test(ExtendedZoneSpecifierTest, getTransitionTime) {
+  // TODO: Implement
+}
+
+test(ExtendedZoneSpecifierTest, createTransitionForYear) {
+  // TODO: Implement
+}
+
 test(ExtendedZoneSpecifierTest, normalizeDateTuple) {
   DateTuple dtp;
 

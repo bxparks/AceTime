@@ -605,7 +605,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Return true if Transition 't' was created. */
-    void createTransitionForYear(extended::Transition* t, int8_t year,
+    static void createTransitionForYear(extended::Transition* t, int8_t year,
         const common::ZoneRule* rule,
         const extended::ZoneMatch* match) {
       t->zoneMatch = match;
@@ -849,14 +849,18 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return 2;
     }
 
+    /**
+     * Generate startDateTime and untilDateTime. The Transition::transitionTime
+     * should all be in 'w' mode by the time this method is called.
+     */
     void generateStartUntilTimes() {
       const uint8_t activeStart = mTransitionStorage.getActiveIndexStart();
       const uint8_t activeUntil = mTransitionStorage.getActiveIndexUntil();
       extended::Transition* prev = mTransitionStorage.getTransition(0);
       bool isAfterFirst = false;
       for (uint8_t i = activeStart; i < activeUntil; i++) {
-        extended::Transition* transition = mTransitionStorage.getTransition(i);
-        const extended::DateTuple& tt = transition->transitionTime;
+        extended::Transition* t = mTransitionStorage.getTransition(i);
+        const extended::DateTuple& tt = t->transitionTime;
 
         // 1) Update the untilDateTime of the previous Transition
         if (isAfterFirst) {
@@ -867,29 +871,33 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         // transitionTime into the UTC offset zone defined by the previous
         // Transition.
         int8_t code = tt.timeCode - prev->offsetCode() - prev->deltaCode()
-            + transition->offsetCode() + transition->deltaCode();
-        transition->startDateTime = {
-            tt.yearTiny, tt.month, tt.day, code, tt.modifier};
-        normalizeDateTuple(&transition->startDateTime);
+            + t->offsetCode() + t->deltaCode();
+        t->startDateTime = {tt.yearTiny, tt.month, tt.day, code, tt.modifier};
+        normalizeDateTuple(&t->startDateTime);
 
         // 3) The epochSecond of the 'transitionTime' is determined by the
         // UTC offset of the *previous* Transition. However, the
         // transitionTime can be represented by an illegal time (e.g. 24:00).
         // So, it is better to use the properly normalized startDateTime
         // (calculated above) with the *current* UTC offset.
-        const extended::DateTuple& st = transition->startDateTime;
+        const extended::DateTuple& st = t->startDateTime;
+        const acetime_t offsetSeconds = (acetime_t) 900
+            * (st.timeCode + t->offsetCode() + t->deltaCode());
         LocalDate ld(st.yearTiny, st.month, st.day);
-        transition->startEpochSeconds = ld.toEpochSeconds()
-            + (acetime_t) 900
-                * (st.timeCode + transition->offsetCode()
-                    + transition->deltaCode());
+        t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;
 
-        prev = transition;
+        prev = t;
         isAfterFirst = true;
       }
 
-      // Fix the last Transition's until time.
-      // TODO: Finish implementing this.
+      // The last Transition's until time is the until time of the ZoneMatch.
+      extended::DateTuple untilTime = prev->zoneMatch->untilDateTime;
+      extended::DateTuple untilTimeS; // needed only for expandDateTuple
+      extended::DateTuple untilTimeU; // needed only for expandDateTuple
+      expandDateTuple(
+          &untilTime, &untilTimeS, &untilTimeU,
+          prev->offsetCode(), prev->deltaCode());
+      prev->untilDateTime = untilTime;
     }
 
     void calcAbbreviations() {
