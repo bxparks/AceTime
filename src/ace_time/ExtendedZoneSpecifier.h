@@ -26,6 +26,7 @@ class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_addFreeAgentToActivePool;
 class TransitionStorageTest_reservePrior;
 class TransitionStorageTest_addFreeAgentToCandidatePool;
+class TransitionStorageTest_setFreeAgentAsPrior;
 
 namespace ace_time {
 
@@ -282,8 +283,8 @@ class TransitionStorage {
       mIndexFree++;
     }
 
-    /** Set the first transition in the Free pool to be the current Prior. */
-    void setFreeAsPrior() {
+    /** Swap the Free agrent transition with the current Prior transition. */
+    void setFreeAgentAsPrior() {
       Transition* prevPrior = mTransitions[mIndexPrior];
       mTransitions[mIndexPrior] = mTransitions[mIndexFree];
       mTransitions[mIndexFree] = prevPrior;
@@ -330,6 +331,7 @@ class TransitionStorage {
     friend class ::TransitionStorageTest_addFreeAgentToActivePool;
     friend class ::TransitionStorageTest_reservePrior;
     friend class ::TransitionStorageTest_addFreeAgentToCandidatePool;
+    friend class ::TransitionStorageTest_setFreeAgentAsPrior;
 
     /** Return the transition at position i. */
     Transition* getTransition(uint8_t i) { return mTransitions[i]; }
@@ -741,10 +743,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       if (prior->active) {
         if (prior->transitionTime < t->transitionTime) {
           t->active = true;
-          mTransitionStorage.setFreeAsPrior();
+          mTransitionStorage.setFreeAgentAsPrior();
         }
       } else {
-        mTransitionStorage.setFreeAsPrior();
+        mTransitionStorage.setFreeAgentAsPrior();
       }
     }
 

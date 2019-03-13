@@ -314,6 +314,23 @@ test(TransitionStorageTest, reservePrior) {
   assertEqual(1, storage.mIndexFree);
 }
 
+test(TransitionStorageTest, setFreeAgentAsPrior) {
+  TransitionStorage<4> storage;
+  storage.init();
+
+  Transition* prior = storage.reservePrior();
+  prior->active = false;
+  Transition* freeAgent = storage.getFreeAgent();
+  freeAgent->active = true;
+  storage.setFreeAgentAsPrior();
+
+  // Verify that the two have been swapped.
+  prior = storage.getPrior();
+  freeAgent = storage.getFreeAgent();
+  assertTrue(prior->active);
+  assertFalse(freeAgent->active);
+}
+
 test(TransitionStorageTest, addFreeAgentToCandidatePool) {
   TransitionStorage<4> storage;
   storage.init();
