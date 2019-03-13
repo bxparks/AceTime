@@ -22,6 +22,10 @@ class ExtendedZoneSpecifierTest_calcInteriorYears;
 class ExtendedZoneSpecifierTest_getMostRecentPriorYear;
 class ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneSpecifierTest_compareTransitionToMatch;
+class TransitionStorageTest_getFreeAgent;
+class TransitionStorageTest_addFreeAgentToActivePool;
+class TransitionStorageTest_reservePrior;
+class TransitionStorageTest_addFreeAgentToCandidatePool;
 
 namespace ace_time {
 
@@ -187,19 +191,18 @@ struct Transition {
  * was create to avoid dynamic allocation of memory. We create a fixed sized
  * array, then manage the pool through this class. There are 3 regions in
  * the mPool space:
- * 1) Actives (mNumActive): always starts at 0
- * 2) Prior (1): at index mNumActive
- * 3) Candidates (mNumCandidates): starts at mNumActive + 1
- * 4) Free: starts at mNumActive + mNumCandidates + 1
- *          num = SIZE - mNumActive - mNumCandidates - 1
+ * 1) Active pool: starts at index 0
+ * 2) Prior pool (0, 1): at mIndexPrior
+ * 3) Candidate pool: at mIndexCandidates
+ * 4) Free pool: at mIndexFree until index SIZE
  */
 template<uint8_t SIZE>
 class TransitionStorage {
   public:
     /** Constructor. */
-    TransitionStorage() {
-    }
+    TransitionStorage() {}
 
+    /** Initialize all pools. */
     void init() {
       for (uint8_t i = 0; i < SIZE; i++) {
         mTransitions[i] = &mPool[i];
@@ -207,6 +210,17 @@ class TransitionStorage {
       mIndexPrior = 0;
       mIndexCandidates = 0;
       mIndexFree = 0;
+    }
+
+    Transition* getTransition(uint8_t i) {
+      return mTransitions[i];
+    }
+
+    /** Empty the Candidate pool. */
+    void resetCandidatePool() {
+      mIndexCandidates = mIndexPrior;
+      mIndexFree = mIndexPrior;
+      // TODO: Loop to set active=false?
     }
 
     Transition** getCandidatePoolBegin() {
@@ -219,51 +233,61 @@ class TransitionStorage {
     Transition** getActivePoolBegin() { return &mTransitions[0]; }
     Transition** getActivePoolEnd() { return &mTransitions[mIndexFree]; }
 
-    Transition* getFree() { return mTransitions[mIndexFree]; }
+    /**
+     * Return a pointer to the first Transition in the free pool. If this
+     * transition is not used, then it's ok to just drop it. The next time
+     * getFreeAgent() is call, the same Transition will be returned.
+     */
+    Transition* getFreeAgent() { return mTransitions[mIndexFree]; }
 
-    Transition* getPrior() {
+    /**
+     * Immediately add the free agent Transition at index mIndexFree to the
+     * Active pool. Then increment mIndexFree to remove the free agent
+     * from the Free pool. This assumes that the Pending and Candidate pool are
+     * empty, which makes the Active pool come immediately before the Free
+     * pool.
+     */
+    void addFreeAgentToActivePool() {
+      mIndexPrior++;
+      mIndexCandidates++;
+      mIndexFree++;
+    }
+
+    /**
+     * Allocate one Transition just after the Active pool, but before the
+     * Candidate pool, to keep the most recent prior Transition.
+     */
+    Transition* reservePrior() {
       Transition* prior = mTransitions[mIndexPrior];
       mIndexCandidates++;
       mIndexFree++;
       return prior;
     }
 
-    /** Empty the Candidates pool. */
-    void resetCandidates() {
-      mIndexPrior = mIndexFree;
-      mIndexCandidates = mIndexFree;
-      // TODO: Loop to set active=false?
-    }
-
     /**
-     * Add the first free Transition at index mIndexFree to the pool of
-     * Candidates, sorted by transitionTime. Then increment mIndexFree by one
-     * to remove the no-longer free Transition from the Free pool.
+     * Add the free agent Transition at index mIndexFree to the Candidate pool,
+     * sorted by transitionTime. Then increment mIndexFree by one to remove the
+     * free agent from the Free pool.
      */
-    void addFreeToCandidates() {
+    void addFreeAgentToCandidatePool() {
       for (uint8_t i = mIndexFree; i > mIndexCandidates; i--) {
         Transition* curr = mTransitions[i];
         Transition* prev = mTransitions[i - 1];
         if (curr->transitionTime < prev->transitionTime) {
           mTransitions[i] = prev;
           mTransitions[i - 1] = curr;
+        } else {
+          break;
         }
       }
       mIndexFree++;
     }
 
-    /**
-     * Immediately add the first free Transition at index mIndexFree to the
-     * list of Actives. Then increment mIndexFree to remove the no-longer free
-     * Transition from the Free pool. This assumes that the Pending and
-     * Candidates pool are empty, which makes the Active pool come immediately
-     * before the Free pool.
-     */
-    void addFreeToActive() { mIndexFree++; }
-
     /** Set the first transition in the Free pool to be the current Prior. */
     void setFreeAsPrior() {
+      Transition* prevPrior = mTransitions[mIndexPrior];
       mTransitions[mIndexPrior] = mTransitions[mIndexFree];
+      mTransitions[mIndexFree] = prevPrior;
     }
 
     /**
@@ -271,7 +295,7 @@ class TransitionStorage {
      * before the start of the Candidate pool, so we just need to shift back
      * the start index of the Candidate pool.
      */
-    void addPriorToCandidates() {
+    void addPriorToCandidatePool() {
       mIndexCandidates--;
     }
 
@@ -303,6 +327,11 @@ class TransitionStorage {
     }
 
   private:
+    friend class ::TransitionStorageTest_getFreeAgent;
+    friend class ::TransitionStorageTest_addFreeAgentToActivePool;
+    friend class ::TransitionStorageTest_reservePrior;
+    friend class ::TransitionStorageTest_addFreeAgentToCandidatePool;
+
     Transition mPool[SIZE];
     Transition* mTransitions[SIZE];
     uint8_t mIndexPrior;
@@ -562,18 +591,17 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
-    void findTransitionsFromSimpleMatch(
-        const extended::ZoneMatch* match) {
-      extended::Transition* freeTransition = mTransitionStorage.getFree();
+    void findTransitionsFromSimpleMatch(const extended::ZoneMatch* match) {
+      extended::Transition* freeTransition = mTransitionStorage.getFreeAgent();
       freeTransition->match = match;
       freeTransition->rule = nullptr;
       freeTransition->transitionTime = match->startDateTime;
 
-      mTransitionStorage.addFreeToActive();
+      mTransitionStorage.addFreeAgentToActivePool();
     }
 
-    void findTransitionsFromNamedMatch(
-        const extended::ZoneMatch* match) {
+    void findTransitionsFromNamedMatch(const extended::ZoneMatch* match) {
+      mTransitionStorage.resetCandidatePool();
       findCandidateTransitions(match);
       fixTransitionTimes(
           mTransitionStorage.getCandidatePoolBegin(),
@@ -590,8 +618,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       int8_t startY = match->startDateTime.yearTiny;
       int8_t endY = match->untilDateTime.yearTiny;
 
-      mTransitionStorage.resetCandidates();
-      extended::Transition* prior = mTransitionStorage.getPrior();
+      extended::Transition* prior = mTransitionStorage.reservePrior();
       prior->active = false;
       for (uint8_t r = 0; r < numRules; r++) {
         const common::ZoneRule* const rule = &rules[r];
@@ -601,13 +628,13 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
         for (uint8_t y = 0; y < numYears; y++) {
           int8_t year = mInteriorYears[y];
-          extended::Transition* t = mTransitionStorage.getFree();
+          extended::Transition* t = mTransitionStorage.getFreeAgent();
           createTransitionForYear(t, year, rule, match);
           int8_t status = compareTransitionToMatchFuzzy(t, match);
           if (status < 0) {
-            calcPriorTransition(prior, t);
+            determinePriorTransition(prior, t);
           } else if (status == 1) {
-            mTransitionStorage.addFreeToCandidates();
+            mTransitionStorage.addFreeAgentToCandidatePool();
           }
         }
 
@@ -615,13 +642,13 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         int8_t priorYear = getMostRecentPriorYear(
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
         if (priorYear != LocalDate::kInvalidYearTiny) {
-          extended::Transition* t = mTransitionStorage.getFree();
+          extended::Transition* t = mTransitionStorage.getFreeAgent();
           createTransitionForYear(t, priorYear, rule, match);
-          calcPriorTransition(prior, t);
+          determinePriorTransition(prior, t);
         }
       }
       if (prior->active) {
-        mTransitionStorage.addPriorToCandidates();
+        mTransitionStorage.addPriorToCandidatePool();
       }
     }
 
@@ -704,7 +731,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return 1;
     }
 
-    void calcPriorTransition(
+    void determinePriorTransition(
         const extended::Transition* prior,
         const extended::Transition* t) {
       if (prior->active) {

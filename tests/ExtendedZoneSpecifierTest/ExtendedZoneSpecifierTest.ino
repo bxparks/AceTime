@@ -275,6 +275,80 @@ test(ExtendedZoneSpecifierTest, fixTransitionTimes) {
 }
 
 // --------------------------------------------------------------------------
+// TransitionStorage
+// --------------------------------------------------------------------------
+
+test(TransitionStorageTest, getFreeAgent) {
+  TransitionStorage<4> storage;
+  storage.init();
+
+  Transition* freeAgent = storage.getFreeAgent();
+  assertTrue(freeAgent == &storage.mPool[0]);
+}
+
+test(TransitionStorageTest, addFreeAgentToActivePool) {
+  TransitionStorage<4> storage;
+  storage.init();
+
+  Transition* freeAgent = storage.getFreeAgent();
+  assertTrue(freeAgent == &storage.mPool[0]);
+
+  storage.addFreeAgentToActivePool();
+  assertEqual(1, storage.mIndexPrior);
+  assertEqual(1, storage.mIndexCandidates);
+  assertEqual(1, storage.mIndexFree);
+}
+
+test(TransitionStorageTest, reservePrior) {
+  TransitionStorage<4> storage;
+  storage.init();
+  Transition* prior = storage.reservePrior();
+  assertTrue(prior == &storage.mPool[0]);
+  assertEqual(0, storage.mIndexPrior);
+  assertEqual(1, storage.mIndexCandidates);
+  assertEqual(1, storage.mIndexFree);
+
+  storage.addPriorToCandidatePool();
+  assertEqual(0, storage.mIndexPrior);
+  assertEqual(0, storage.mIndexCandidates);
+  assertEqual(1, storage.mIndexFree);
+}
+
+test(TransitionStorageTest, addFreeAgentToCandidatePool) {
+  TransitionStorage<4> storage;
+  storage.init();
+
+  // create Prior to make it interesting
+  /*Transition* prior =*/ storage.reservePrior();
+
+  Transition* freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {0, 1, 2, 3, 'w'};
+  storage.addFreeAgentToCandidatePool();
+  assertEqual(0, storage.mIndexPrior);
+  assertEqual(1, storage.mIndexCandidates);
+  assertEqual(2, storage.mIndexFree);
+
+  freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {2, 3, 4, 5, 'w'};
+  storage.addFreeAgentToCandidatePool();
+  assertEqual(0, storage.mIndexPrior);
+  assertEqual(1, storage.mIndexCandidates);
+  assertEqual(3, storage.mIndexFree);
+
+  freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {1, 2, 3, 4, 'w'};
+  storage.addFreeAgentToCandidatePool();
+  assertEqual(0, storage.mIndexPrior);
+  assertEqual(1, storage.mIndexCandidates);
+  assertEqual(4, storage.mIndexFree);
+
+  // Assert that the transitions are sorted
+  assertEqual(0, storage.getTransition(1)->transitionTime.yearTiny);
+  assertEqual(1, storage.getTransition(2)->transitionTime.yearTiny);
+  assertEqual(2, storage.getTransition(3)->transitionTime.yearTiny);
+}
+
+// --------------------------------------------------------------------------
 
 void setup() {
 #if defined(ARDUINO)
