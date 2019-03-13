@@ -84,7 +84,7 @@ struct ZoneMatch {
  * There are 2 types of Transition instances:
  *  1) Simple, indicated by 'rule' == nullptr. The base UTC offsetCode is given
  *  by ZoneMatch::offsetCode. The additional DST delta is given by
- *  zoneMatch->deltaCode.
+ *  match->deltaCode.
  *  2) Named, indicated by 'rule' != nullptr. The base UTC offsetCode is given
  *  by ZoneMatch::offsetCode. The additional DST delta is given by
  *  rule->deltaCode.
@@ -97,7 +97,7 @@ struct Transition {
   static const uint8_t kAbbrevSize = 5 + 1;
 
   /** The match which generated this Transition. */
-  const ZoneMatch* zoneMatch; // TODO: Rename to just 'match'?
+  const ZoneMatch* match;
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
@@ -149,11 +149,11 @@ struct Transition {
   //-------------------------------------------------------------------------
 
   const char* format() const {
-    return zoneMatch->era->format;
+    return match->era->format;
   }
 
   int8_t offsetCode() const {
-    return zoneMatch->era->offsetCode;
+    return match->era->offsetCode;
   }
 
   char letter() const {
@@ -161,7 +161,7 @@ struct Transition {
   }
 
   int8_t deltaCode() const {
-    return (rule) ? rule->deltaCode : zoneMatch->era->deltaCode;
+    return (rule) ? rule->deltaCode : match->era->deltaCode;
   }
 
   /** Used only for debugging. */
@@ -544,7 +544,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     void findTransitionsFromSimpleMatch(
         const extended::ZoneMatch* match) {
       extended::Transition* freeTransition = mTransitionStorage.getFree();
-      freeTransition->zoneMatch = match;
+      freeTransition->match = match;
       freeTransition->rule = nullptr;
       freeTransition->transitionTime = match->startDateTime;
 
@@ -608,7 +608,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     static void createTransitionForYear(extended::Transition* t, int8_t year,
         const common::ZoneRule* rule,
         const extended::ZoneMatch* match) {
-      t->zoneMatch = match;
+      t->match = match;
       t->transitionTime = getTransitionTime(year, rule);
       t->rule = rule;
     }
@@ -895,7 +895,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
 
       // The last Transition's until time is the until time of the ZoneMatch.
-      extended::DateTuple untilTime = prev->zoneMatch->untilDateTime;
+      extended::DateTuple untilTime = prev->match->untilDateTime;
       extended::DateTuple untilTimeS; // needed only for expandDateTuple
       extended::DateTuple untilTimeU; // needed only for expandDateTuple
       expandDateTuple(
