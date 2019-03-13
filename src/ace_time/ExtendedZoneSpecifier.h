@@ -712,7 +712,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     /**
      * Convert the given 'tt', offsetCode, and deltaCode into the 'w', 's' and
      * 'u' versions of the DateTuple. The 'tt' may become a 'w' if it was
-     * originally 's' or 'u'.
+     * originally 's' or 'u'. On return, tt, tts and ttu are all modified.
      */
     static void expandDateTuple(extended::DateTuple* tt,
         extended::DateTuple* tts, extended::DateTuple* ttu,
@@ -731,6 +731,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
             (int8_t) (tt->timeCode + offsetCode + deltaCode), 'w'};
       } else {
         // Assume tt->modifier == 'w'. There's nothing we can do if it isn't.
+        // TODO: Maybe explicitly set tt->modifier to 'w'?
         *tts = {tt->yearTiny, tt->month, tt->day,
             (int8_t) (tt->timeCode - deltaCode), 's'};
         *ttu = {tt->yearTiny, tt->month, tt->day,
@@ -760,7 +761,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         dt->day = ld.day();
         dt->timeCode -= kOneDayAsCode;
       } else {
-        return;
+        // do nothing
       }
     }
 
@@ -854,6 +855,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * should all be in 'w' mode by the time this method is called.
      */
     void generateStartUntilTimes() {
+      // TODO: Convert these indexes into pointers, so that they can act as
+      // iterators, which will allow this method to be static, hence more
+      // easily testable.
       const uint8_t activeStart = mTransitionStorage.getActiveIndexStart();
       const uint8_t activeUntil = mTransitionStorage.getActiveIndexUntil();
       extended::Transition* prev = mTransitionStorage.getTransition(0);
@@ -900,8 +904,31 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       prev->untilDateTime = untilTime;
     }
 
+    /**
+     * Calculate the time zone abbreviations for each Transition.
+     * There are several cases:
+     *     1) 'format' contains 'A/B', meaning 'A' for standard time, and 'B'
+     *         for DST time.
+     *     2) 'format' contains a %s, which substitutes the 'letter'
+     *         2a) If 'letter' is '-', replace with nothing.
+     *         2b) The 'format' could be just a '%s'.
+     */
     void calcAbbreviations() {
-      // TODO: implement this
+      // TODO: Convert these indexes into pointers, so that they can act as
+      // iterators, which will allow this method to be static, hence more
+      // easily testable.
+      const uint8_t activeStart = mTransitionStorage.getActiveIndexStart();
+      const uint8_t activeUntil = mTransitionStorage.getActiveIndexUntil();
+      for (uint8_t i = activeStart; i < activeUntil; ++i) {
+        extended::Transition* t = mTransitionStorage.getTransition(i);
+        const char* format = t->format();
+        int8_t deltaCode = t->deltaCode();
+        uint8_t letter = t->letter();
+        // TODO: Incoporate 'letter' that's more than 1-character.
+        AutoZoneSpecifier::createAbbreviation(
+            t->abbrev, extended::Transition::kAbbrevSize,
+            format, deltaCode, letter);
+      }
     }
 
     static extended::ZoneMatch calcEffectiveMatch(
