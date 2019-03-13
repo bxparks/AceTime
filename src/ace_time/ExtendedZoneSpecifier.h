@@ -74,6 +74,21 @@ struct ZoneMatch {
   const common::ZoneEra* era;
 };
 
+/**
+ * Represents an interval of time where the time zone obeyed a certain UTC
+ * offset and DST delta. The start of the interval is given by 'transitionTime'
+ * which comes from the TZ Database file. The actual start and until time of
+ * the interval (in the local time zone) is given by 'startDateTime' and
+ * 'untilDateTime'.
+ *
+ * There are 2 types of Transition instances:
+ *  1) Simple, indicated by 'rule' == nullptr. The base UTC offsetCode is given
+ *  by ZoneMatch::offsetCode. The additional DST delta is given by
+ *  zoneMatch->deltaCode.
+ *  2) Named, indicated by 'rule' != nullptr. The base UTC offsetCode is given
+ *  by ZoneMatch::offsetCode. The additional DST delta is given by
+ *  rule->deltaCode.
+ */
 struct Transition {
   /**
    * Longest abbreviation seems to be 5 characters.
@@ -142,11 +157,11 @@ struct Transition {
   }
 
   char letter() const {
-    return rule->letter;
+    return (rule) ? rule->letter : '\0';
   }
 
   int8_t deltaCode() const {
-    return 0; // TODO: implement
+    return (rule) ? rule->deltaCode : zoneMatch->era->deltaCode;
   }
 
   /** Used only for debugging. */

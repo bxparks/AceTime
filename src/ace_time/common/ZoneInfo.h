@@ -12,6 +12,13 @@ namespace common {
  * during a particular time period. Corresponds to one line of the ZONE record
  * in the TZ Database file ending with an UNTIL field. The ZonePolicy is
  * determined by the RULES column in the TZ Database file.
+ *
+ * There are 2 types of ZoneEra:
+ *    1) zonePolicy == nullptr. Then deltaCode determines the additional offset
+ *    from offsetCode. A value of '-' in the TZ Database file is stored as 0.
+ *    2) zonePolicy != nullptr. Then the deltaCode offset is given by the
+ *    ZoneRule.deltaCode of the ZoneRule which matches the time instant of
+ *    interest.
  */
 struct ZoneEra {
   /** The maximum value of untilYearTiny. */
