@@ -29,6 +29,7 @@ class TransitionStorageTest_reservePrior;
 class TransitionStorageTest_addFreeAgentToCandidatePool;
 class TransitionStorageTest_setFreeAgentAsPrior;
 class TransitionStorageTest_addActiveCandidatesToActivePool;
+class TransitionStorageTest_resetCandidatePool;
 
 namespace ace_time {
 
@@ -218,11 +219,17 @@ class TransitionStorage {
     /** Return the current prior transition. */
     Transition* getPrior() { return mTransitions[mIndexPrior]; }
 
-    /** Empty the Candidate pool. */
+    /**
+     * Empty the Candidate pool by resetting the various indexes.
+     *
+     * If every iteration of findTransitionsForMatch() finishes with
+     * addFreeAgentToActivePool() or addActiveCandidatesToActivePool(), it may
+     * be possible to remove this. But it's safer to reset the indexes upon
+     * each iteration.
+     */
     void resetCandidatePool() {
       mIndexCandidates = mIndexPrior;
       mIndexFree = mIndexPrior;
-      // TODO: Loop to set active=false?
     }
 
     Transition** getCandidatePoolBegin() {
@@ -352,6 +359,7 @@ class TransitionStorage {
     friend class ::TransitionStorageTest_addFreeAgentToCandidatePool;
     friend class ::TransitionStorageTest_setFreeAgentAsPrior;
     friend class ::TransitionStorageTest_addActiveCandidatesToActivePool;
+    friend class ::TransitionStorageTest_resetCandidatePool;
 
     /** Return the transition at position i. */
     Transition* getTransition(uint8_t i) { return mTransitions[i]; }
