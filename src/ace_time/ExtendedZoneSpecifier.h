@@ -22,6 +22,7 @@ class ExtendedZoneSpecifierTest_calcInteriorYears;
 class ExtendedZoneSpecifierTest_getMostRecentPriorYear;
 class ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneSpecifierTest_compareTransitionToMatch;
+class ExtendedZoneSpecifierTest_processActiveTransition;
 class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
@@ -167,7 +168,13 @@ struct Transition {
   }
 
   char letter() const {
-    return (rule) ? rule->letter : '\0';
+    if (!rule) return '\0';
+
+    // TODO: Handle this condition properly using
+    // match->era->zonePolicy->letters[rule->letter]
+    if (rule->letter < 32) return '\0';
+
+    return rule->letter;
   }
 
   int8_t deltaCode() const {
@@ -449,6 +456,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_getMostRecentPriorYear;
     friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
     friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatch;
+    friend class ::ExtendedZoneSpecifierTest_processActiveTransition;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -774,12 +782,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           mTransitionStorage.setFreeAgentAsPrior();
         }
       } else {
+        t->active = true;
         mTransitionStorage.setFreeAgentAsPrior();
       }
     }
 
     static void fixTransitionTimes(
         extended::Transition** begin, extended::Transition** end) {
+      // extend first Transition to -infinity
       extended::Transition* prev = *begin;
       for (extended::Transition** iter = begin; iter != end; ++iter) {
         extended::Transition* curr = *iter;
@@ -858,8 +868,22 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         extended::Transition* transition = *iter;
         processActiveTransition(match, transition, &prior);
       }
+
+      // If the latest prior transition is found, shift it to start at the
+      // startDateTime of the current match.
+      if (prior) {
+        prior->originalTransitionTime = prior->transitionTime;
+        prior->transitionTime = match->startDateTime;
+      }
     }
 
+    /**
+     * Determine the active status of a transition depending on the temporal
+     * relationship to the given match. If the transition is outside of the
+     * interval defined by match, then it is inactive. Otherwise active. Also
+     * determine the latest prior transition before match, and mark that as
+     * active.
+     */
     static void processActiveTransition(
         const extended::ZoneMatch* match,
         extended::Transition* transition,

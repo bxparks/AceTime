@@ -1260,14 +1260,13 @@ class ActiveSelectorInPlace:
         if self.debug:
             logging.info('ActiveSelectorInPlace.select_active_transitions()')
 
-        prior_transition = None
+        prior = None
         for transition in transitions:
-            prior_transition = self._process_transition(
-                match, transition, prior_transition)
-        if prior_transition.transitionTime < match.startDateTime:
-            prior_transition.originalTransitionTime = \
-                prior_transition.transitionTime
-            prior_transition.transitionTime = match.startDateTime
+            prior = self._process_transition(match, transition, prior)
+
+        if prior and prior.transitionTime < match.startDateTime:
+            prior.originalTransitionTime = prior.transitionTime
+            prior.transitionTime = match.startDateTime
 
         active_transitions = []
         for transition in transitions:
@@ -1276,7 +1275,7 @@ class ActiveSelectorInPlace:
         return active_transitions
 
     @staticmethod
-    def _process_transition(match, transition, prior_transition):
+    def _process_transition(match, transition, prior):
         """A version of ActiveSelectorBasic. _process_transition() that works
         for select_active_transition(). This assumes that all Transitions have
         been fixed using _fix_transition_times().
@@ -1289,19 +1288,19 @@ class ActiveSelectorInPlace:
             transition.isActive = True
         elif transition_compared_to_match == 0:
             transition.isActive = True
-            if prior_transition:
-                prior_transition.isActive = False
-            prior_transition = transition
+            if prior:
+                prior.isActive = False
+            prior = transition
         else:  # transition_compared_to_match < 0:
-            if prior_transition:
-                if transition.transitionTime > prior_transition.transitionTime:
-                    prior_transition.isActive = False
+            if prior:
+                if transition.transitionTime > prior.transitionTime:
+                    prior.isActive = False
                     transition.isActive = True
-                    prior_transition = transition
+                    prior = transition
             else:
                 transition.isActive = True
-                prior_transition = transition
-        return prior_transition
+                prior = transition
+        return prior
 
 
 def print_transitions(transitions):

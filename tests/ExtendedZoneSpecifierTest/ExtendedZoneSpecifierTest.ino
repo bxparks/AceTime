@@ -259,6 +259,50 @@ test(ExtendedZoneSpecifierTest, compareTransitionToMatch) {
 }
 
 test(ExtendedZoneSpecifierTest, processActiveTransition) {
+  extended::Transition* prior = nullptr;
+  const ZoneMatch match = {
+    {0, 1, 1, 0, 'w'} /*startDateTime*/,
+    {1, 1, 1, 0, 'w'} /*untilDateTime*/,
+    nullptr /*era*/
+  };
+
+  // This transition occurs before the match, so prior should be filled.
+  extended::Transition transition0 = {
+    &match /*match*/, nullptr /*rule*/, {-1, 12, 31, 0, 'w'} /*transitionTime*/,
+    {}, {}, {}, {0}, 0, false /* active */
+  };
+  ExtendedZoneSpecifier::processActiveTransition(&match, &transition0, &prior);
+  assertTrue(transition0.active);
+  assertTrue(prior == &transition0);
+
+  // This occurs at exactly match.startDateTime, so should replace
+  extended::Transition transition1 = {
+    &match /*match*/, nullptr /*rule*/, {0, 1, 1, 0, 'w'} /*transitionTime*/,
+    {}, {}, {}, {0}, 0, false
+  };
+  ExtendedZoneSpecifier::processActiveTransition(&match, &transition1, &prior);
+  assertTrue(transition1.active);
+  assertTrue(prior == &transition1);
+
+  // An interior transition. Prior should not change.
+  extended::Transition transition2 = {
+    &match /*match*/, nullptr /*rule*/, {0, 1, 2, 0, 'w'} /*transitionTime*/,
+    {}, {}, {}, {0}, 0, false
+  };
+  ExtendedZoneSpecifier::processActiveTransition(&match, &transition2, &prior);
+  assertTrue(transition2.active);
+  assertTrue(prior == &transition1);
+  
+  // Occurs after match.untilDateTime, so should be rejected.
+  extended::Transition transition3 = {
+    &match /*match*/, nullptr /*rule*/, {1, 1, 2, 0, 'w'} /*transitionTime*/,
+    {}, {}, {}, {0}, 0, false
+  };
+  assertFalse(transition3.active);
+  assertTrue(prior == &transition1);
+}
+
+test(ExtendedZoneSpecifierTest, fixTransitionTimes) {
   // TODO: Implement
 }
 
@@ -267,10 +311,6 @@ test(ExtendedZoneSpecifierTest, generateStartUntilTimes) {
 }
 
 test(ExtendedZoneSpecifierTest, calcAbbreviations) {
-  // TODO: Implement
-}
-
-test(ExtendedZoneSpecifierTest, fixTransitionTimes) {
   // TODO: Implement
 }
 
