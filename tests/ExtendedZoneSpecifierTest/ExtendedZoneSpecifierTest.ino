@@ -442,6 +442,47 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
   assertEqual(2, storage.getTransition(1)->transitionTime.yearTiny);
 }
 
+test(TransitionStorageTest, findTransition) {
+  TransitionStorage<4> storage;
+  storage.init();
+
+  // Add 3 transitions to Candidate pool, 2 active, 1 inactive.
+  Transition* freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {0, 1, 2, 3, 'w'};
+  freeAgent->active = true;
+  freeAgent->startEpochSeconds = 0;
+  storage.addFreeAgentToCandidatePool();
+
+  freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {1, 2, 3, 4, 'w'};
+  freeAgent->active = true;
+  freeAgent->startEpochSeconds = 10;
+  storage.addFreeAgentToCandidatePool();
+
+  freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {2, 3, 4, 5, 'w'};
+  freeAgent->active = true;
+  freeAgent->startEpochSeconds = 20;
+  storage.addFreeAgentToCandidatePool();
+
+  // Add the actives to the Active pool.
+  storage.addActiveCandidatesToActivePool();
+
+  // Check that we can find the transitions using the startEpochSeconds.
+
+  const Transition* t = storage.findTransition(1);
+  assertEqual(0, t->transitionTime.yearTiny);
+
+  t = storage.findTransition(9);
+  assertEqual(0, t->transitionTime.yearTiny);
+
+  t = storage.findTransition(10);
+  assertEqual(1, t->transitionTime.yearTiny);
+
+  t = storage.findTransition(21);
+  assertEqual(2, t->transitionTime.yearTiny);
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {
