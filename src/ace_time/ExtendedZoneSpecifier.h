@@ -23,6 +23,7 @@ class ExtendedZoneSpecifierTest_getMostRecentPriorYear;
 class ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneSpecifierTest_compareTransitionToMatch;
 class ExtendedZoneSpecifierTest_processActiveTransition;
+class ExtendedZoneSpecifierTest_generateStartUntilTimes;
 class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
@@ -126,7 +127,10 @@ struct Transition {
   DateTuple transitionTime;
 
   union {
-    /** Version of transitionTime in 's' mode. */
+    /**
+     * Version of transitionTime in 's' mode, using the UTC offset of the
+     * *previous* Transition.
+     */
     DateTuple transitionTimeS;
 
     /** Start time expressed using the zone shift of the current Transition. */
@@ -134,7 +138,10 @@ struct Transition {
   };
 
   union {
-    /** Version of transitionTime in 'u' mode. */
+    /**
+     * Version of transitionTime in 'u' mode, using the UTC offset of the
+     * *previous* transition.
+     */
     DateTuple transitionTimeU;
 
     /** Until time expressed using the zone shift of the current Transition. */
@@ -457,6 +464,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
     friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatch;
     friend class ::ExtendedZoneSpecifierTest_processActiveTransition;
+    friend class ::ExtendedZoneSpecifierTest_generateStartUntilTimes;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -787,6 +795,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
+    /**
+     * Normalize the transitionTime* fields of the array of Transition objects.
+     * Most Transition.transitionTime is given in 'w' mode. However, if it is
+     * given in 's' or 'u' mode, we convert these into the 'w' mode for
+     * consistency. To convert an 's' or 'u' into 'w', we need the UTC offset
+     * of the current Transition, which happens to be given by the *previous*
+     * Transition.
+     */
     static void fixTransitionTimes(
         extended::Transition** begin, extended::Transition** end) {
       // extend first Transition to -infinity

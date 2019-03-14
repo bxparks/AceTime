@@ -307,7 +307,115 @@ test(ExtendedZoneSpecifierTest, fixTransitionTimes) {
 }
 
 test(ExtendedZoneSpecifierTest, generateStartUntilTimes) {
-  // TODO: Implement
+  // Create simplified ZoneEras which approximate America/Los_Angeles
+  static common::ZoneEra kEra1 = {
+    -32 /*offsetCode*/,
+    nullptr,
+    0 /*deltaCode*/,
+    "PST" /*format*/,
+    19 /*untilYearTiny*/,
+    3 /*untilMonth*/,
+    10 /*untilDay*/,
+    2*4 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/
+  };
+  static common::ZoneEra kEra2 = {
+    -32 /*offsetCode*/,
+    nullptr,
+    4 /*deltaCode*/,
+    "PDT" /*format*/,
+    19 /*untilYearTiny*/,
+    11 /*untilMonth*/,
+    3 /*untilDay*/,
+    2*4 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/
+  };
+  static common::ZoneEra kEra3 = {
+    -32 /*offsetCode*/,
+    nullptr,
+    0 /*deltaCode*/,
+    "PST" /*format*/,
+    20 /*untilYearTiny*/,
+    3 /*untilMonth*/,
+    8 /*untilDay*/,
+    2*4 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/
+  };
+  extended::YearMonthTuple startYm = {18, 12};
+  extended::YearMonthTuple untilYm = {20, 2};
+
+  // Create 3 ZoneMatches that follow from the ZoneEras
+  extended::ZoneMatch match1 = ExtendedZoneSpecifier::createMatch(
+      &ExtendedZoneSpecifier::kAnchorEra, &kEra1, startYm, untilYm);
+  assertTrue((match1.startDateTime == extended::DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue((match1.untilDateTime == extended::DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue(&kEra1 == match1.era);
+
+  extended::ZoneMatch match2 = ExtendedZoneSpecifier::createMatch(
+      &kEra1, &kEra2, startYm, untilYm);
+  assertTrue((match2.startDateTime == extended::DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue((match2.untilDateTime == extended::DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue(&kEra2 == match2.era);
+
+  extended::ZoneMatch match3 = ExtendedZoneSpecifier::createMatch(
+      &kEra2, &kEra3, startYm, untilYm);
+  assertTrue((match3.startDateTime == extended::DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue((match3.untilDateTime == extended::DateTuple{20, 2, 1, 0, 'w'}));
+  assertTrue(&kEra3 == match3.era);
+
+  TransitionStorage<4> storage;
+  storage.init();
+
+  // Create 3 Transitions corresponding to the matches.
+  // Implements ExtendedZoneSpecifier::findTransitionsFromSimpleMatch().
+  extended::Transition* transition1 = storage.getFreeAgent();
+  transition1->match = &match1;
+  transition1->rule = nullptr;
+  transition1->transitionTime = match1.startDateTime;
+  transition1->active = true;
+  storage.addFreeAgentToCandidatePool();
+
+  extended::Transition* transition2 = storage.getFreeAgent();
+  transition2->match = &match2;
+  transition2->rule = nullptr;
+  transition2->transitionTime = match2.startDateTime;
+  transition2->active = true;
+  storage.addFreeAgentToCandidatePool();
+
+  extended::Transition* transition3 = storage.getFreeAgent();
+  transition3->match = &match3;
+  transition3->rule = nullptr;
+  transition3->transitionTime = match3.startDateTime;
+  transition3->active = true;
+  storage.addFreeAgentToCandidatePool();
+
+  // Move actives to Active pool.
+  storage.addActiveCandidatesToActivePool();
+  extended::Transition** begin = storage.getActivePoolBegin();
+  extended::Transition** end = storage.getActivePoolEnd();
+  assertEqual(3, (int) (end - begin));
+  assertTrue(begin[0] == transition1);
+  assertTrue(begin[1] == transition2);
+  assertTrue(begin[2] == transition3);
+
+  // Fix the transition times, expanding to 's' and 'u'
+  ExtendedZoneSpecifier::fixTransitionTimes(begin, end);
+
+  // Verify. The first Transition is extended to -infinity.
+  assertTrue((transition1->transitionTime
+      == extended::DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue((transition1->transitionTimeS
+      == extended::DateTuple{18, 12, 1, 0, 's'}));
+  assertTrue((transition1->transitionTimeU
+      == extended::DateTuple{18, 12, 1, 32, 'u'}));
+
+  // Second transition uses the UTC offset of the first.
+  assertTrue((transition2->transitionTime
+      == extended::DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue((transition2->transitionTimeS
+      == extended::DateTuple{19, 3, 10, 8, 's'}));
+  assertTrue((transition2->transitionTimeU
+      == extended::DateTuple{19, 3, 10, 40, 'u'}));
 }
 
 test(ExtendedZoneSpecifierTest, calcAbbreviations) {
