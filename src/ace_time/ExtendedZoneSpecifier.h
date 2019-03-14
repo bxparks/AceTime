@@ -168,7 +168,13 @@ struct Transition {
   }
 
   char letter() const {
-    return (rule) ? rule->letter : '\0';
+    if (!rule) return '\0';
+
+    // TODO: Handle this condition properly using
+    // match->era->zonePolicy->letters[rule->letter]
+    if (rule->letter < 32) return '\0';
+
+    return rule->letter;
   }
 
   int8_t deltaCode() const {
