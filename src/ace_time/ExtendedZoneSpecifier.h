@@ -22,6 +22,7 @@ class ExtendedZoneSpecifierTest_calcInteriorYears;
 class ExtendedZoneSpecifierTest_getMostRecentPriorYear;
 class ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneSpecifierTest_compareTransitionToMatch;
+class ExtendedZoneSpecifierTest_processActiveTransition;
 class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
@@ -449,6 +450,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_getMostRecentPriorYear;
     friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
     friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatch;
+    friend class ::ExtendedZoneSpecifierTest_processActiveTransition;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
