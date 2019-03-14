@@ -23,7 +23,7 @@ class ExtendedZoneSpecifierTest_getMostRecentPriorYear;
 class ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneSpecifierTest_compareTransitionToMatch;
 class ExtendedZoneSpecifierTest_processActiveTransition;
-class ExtendedZoneSpecifierTest_generateStartUntilTimes;
+class ExtendedZoneSpecifierTest_fixTransitionTimes_generateStartUntilTimes;
 class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
@@ -133,7 +133,7 @@ struct Transition {
      */
     DateTuple transitionTimeS;
 
-    /** Start time expressed using the zone shift of the current Transition. */
+    /** Start time expressed using the UTC offset of the current Transition. */
     DateTuple startDateTime;
   };
 
@@ -144,7 +144,7 @@ struct Transition {
      */
     DateTuple transitionTimeU;
 
-    /** Until time expressed using the zone shift of the current Transition. */
+    /** Until time expressed using the UTC offset of the current Transition. */
     DateTuple untilDateTime;
   };
 
@@ -464,7 +464,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
     friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatch;
     friend class ::ExtendedZoneSpecifierTest_processActiveTransition;
-    friend class ::ExtendedZoneSpecifierTest_generateStartUntilTimes;
+    friend class ::ExtendedZoneSpecifierTest_fixTransitionTimes_generateStartUntilTimes;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -989,9 +989,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           prev->untilDateTime = tt;
         }
 
-        // 2) Calculate the current startDateTime by shifting the current
-        // transitionTime into the UTC offset zone defined by the previous
-        // Transition.
+        // 2) Calculate the current startDateTime by shifting the
+        // transitionTime (represented in the UTC offset of the previous
+        // transition) into the UTC offset of the *current* transition.
         int8_t code = tt.timeCode - prev->offsetCode() - prev->deltaCode()
             + t->offsetCode() + t->deltaCode();
         t->startDateTime = {tt.yearTiny, tt.month, tt.day, code, tt.modifier};
@@ -1002,9 +1002,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         // transitionTime can be represented by an illegal time (e.g. 24:00).
         // So, it is better to use the properly normalized startDateTime
         // (calculated above) with the *current* UTC offset.
+        //
+        // TODO: We should also be able to  calculate this directly from
+        // 'transitionTimeU' which should still be a valid field, because it
+        // hasn't been clobbered by 'untilDateTime' yet. Not sure if this saves
+        // any CPU time though, since we still need to mutiply by 900.
         const extended::DateTuple& st = t->startDateTime;
         const acetime_t offsetSeconds = (acetime_t) 900
-            * (st.timeCode + t->offsetCode() + t->deltaCode());
+            * (st.timeCode - t->offsetCode() - t->deltaCode());
         LocalDate ld(st.yearTiny, st.month, st.day);
         t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;
 

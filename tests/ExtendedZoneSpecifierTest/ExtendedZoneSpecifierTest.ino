@@ -302,11 +302,7 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   assertTrue(prior == &transition1);
 }
 
-test(ExtendedZoneSpecifierTest, fixTransitionTimes) {
-  // TODO: Implement
-}
-
-test(ExtendedZoneSpecifierTest, generateStartUntilTimes) {
+test(ExtendedZoneSpecifierTest, fixTransitionTimes_generateStartUntilTimes) {
   // Create simplified ZoneEras which approximate America/Los_Angeles
   static common::ZoneEra kEra1 = {
     -32 /*offsetCode*/,
@@ -415,6 +411,34 @@ test(ExtendedZoneSpecifierTest, generateStartUntilTimes) {
   assertTrue((transition3->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
   assertTrue((transition3->transitionTimeS == DateTuple{19, 11, 3, 4, 's'}));
   assertTrue((transition3->transitionTimeU == DateTuple{19, 11, 3, 36, 'u'}));
+
+  // Generate the startDateTime and untilDateTime of the transitions.
+  ExtendedZoneSpecifier::generateStartUntilTimes(begin, end);
+
+  // Verify. The first transition startTime should be the same as its
+  // transitionTime.
+  assertTrue((transition1->transitionTime == DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue((transition1->startDateTime == DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue((transition1->untilDateTime == DateTuple{19, 3, 10, 8, 'w'}));
+  acetime_t epochSecs = OffsetDateTime::forComponents(
+      2018, 12, 1, 0, 0, 0, UtcOffset::forOffsetCode(-32)).toEpochSeconds();
+  assertEqual(epochSecs, transition1->startEpochSeconds);
+
+  // Second transition startTime is shifted forward one hour into PDT.
+  assertTrue((transition2->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue((transition2->startDateTime == DateTuple{19, 3, 10, 12, 'w'}));
+  assertTrue((transition2->untilDateTime == DateTuple{19, 11, 3, 8, 'w'}));
+  epochSecs = OffsetDateTime::forComponents(
+      2019, 3, 10, 3, 0, 0, UtcOffset::forOffsetCode(-28)).toEpochSeconds();
+  assertEqual(epochSecs, transition2->startEpochSeconds);
+
+  // Third transition startTime is shifted back one hour into PST.
+  assertTrue((transition3->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue((transition3->startDateTime == DateTuple{19, 11, 3, 4, 'w'}));
+  assertTrue((transition3->untilDateTime == DateTuple{20, 2, 1, 0, 'w'}));
+  epochSecs = OffsetDateTime::forComponents(
+      2019, 11, 3, 1, 0, 0, UtcOffset::forOffsetCode(-32)).toEpochSeconds();
+  assertEqual(epochSecs, transition3->startEpochSeconds);
 }
 
 test(ExtendedZoneSpecifierTest, calcAbbreviations) {

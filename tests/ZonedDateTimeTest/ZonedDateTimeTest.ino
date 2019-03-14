@@ -262,7 +262,7 @@ test(ZonedDateTimeTest_Extended, forComponents_inDstGap) {
 }
 
 test(ZonedDateTimeTest_Extended, forComponents_inDst) {
-  ExtendedZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 0, 1, tz);
 
