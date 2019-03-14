@@ -262,15 +262,15 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   // TODO: Implement
 }
 
+test(ExtendedZoneSpecifierTest, fixTransitionTimes) {
+  // TODO: Implement
+}
+
 test(ExtendedZoneSpecifierTest, generateStartUntilTimes) {
   // TODO: Implement
 }
 
 test(ExtendedZoneSpecifierTest, calcAbbreviations) {
-  // TODO: Implement
-}
-
-test(ExtendedZoneSpecifierTest, fixTransitionTimes) {
   // TODO: Implement
 }
 

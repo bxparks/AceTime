@@ -774,12 +774,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           mTransitionStorage.setFreeAgentAsPrior();
         }
       } else {
+        t->active = true;
         mTransitionStorage.setFreeAgentAsPrior();
       }
     }
 
     static void fixTransitionTimes(
         extended::Transition** begin, extended::Transition** end) {
+      // extend first Transition to -infinity
       extended::Transition* prev = *begin;
       for (extended::Transition** iter = begin; iter != end; ++iter) {
         extended::Transition* curr = *iter;
@@ -858,8 +860,22 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         extended::Transition* transition = *iter;
         processActiveTransition(match, transition, &prior);
       }
+
+      // If the latest prior transition is found, shift it to start at the
+      // startDateTime of the current match.
+      if (prior) {
+        prior->originalTransitionTime = prior->transitionTime;
+        prior->transitionTime = match->startDateTime;
+      }
     }
 
+    /**
+     * Determine the active status of a transition depending on the temporal
+     * relationship to the given match. If the transition is outside of the
+     * interval defined by match, then it is inactive. Otherwise active. Also
+     * determine the latest prior transition before match, and mark that as
+     * active.
+     */
     static void processActiveTransition(
         const extended::ZoneMatch* match,
         extended::Transition* transition,
