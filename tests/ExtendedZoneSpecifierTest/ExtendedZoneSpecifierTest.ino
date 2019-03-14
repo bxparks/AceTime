@@ -384,6 +384,7 @@ test(TransitionStorageTest, addFreeAgentToCandidatePool) {
   // create Prior to make it interesting
   /*Transition* prior =*/ storage.reservePrior();
 
+  // Verify that addFreeAgentToCandidatePool() does not touch prior transition
   Transition* freeAgent = storage.getFreeAgent();
   freeAgent->transitionTime = {0, 1, 2, 3, 'w'};
   storage.addFreeAgentToCandidatePool();
@@ -415,6 +416,11 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
   TransitionStorage<4> storage;
   storage.init();
 
+  // create Prior to make it interesting
+  Transition* prior = storage.reservePrior();
+  prior->transitionTime = {-1, 0, 1, 2, 'w'};
+  prior->active = true;
+
   // Add 3 transitions to Candidate pool, 2 active, 1 inactive.
   Transition* freeAgent = storage.getFreeAgent();
   freeAgent->transitionTime = {0, 1, 2, 3, 'w'};
@@ -431,15 +437,19 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
   freeAgent->active = false;
   storage.addFreeAgentToCandidatePool();
 
+  // Add prior into the Candidate pool.
+  storage.addPriorToCandidatePool();
+
   // Add the actives to the Active pool.
   storage.addActiveCandidatesToActivePool();
 
-  // Verify that there are only 2 transitions in the Active pool.
-  assertEqual(2, storage.mIndexPrior);
-  assertEqual(2, storage.mIndexCandidates);
-  assertEqual(2, storage.mIndexFree);
-  assertEqual(0, storage.getTransition(0)->transitionTime.yearTiny);
-  assertEqual(2, storage.getTransition(1)->transitionTime.yearTiny);
+  // Verify that there are 3 transitions in the Active pool.
+  assertEqual(3, storage.mIndexPrior);
+  assertEqual(3, storage.mIndexCandidates);
+  assertEqual(3, storage.mIndexFree);
+  assertEqual(-1, storage.getTransition(0)->transitionTime.yearTiny);
+  assertEqual(0, storage.getTransition(1)->transitionTime.yearTiny);
+  assertEqual(2, storage.getTransition(2)->transitionTime.yearTiny);
 }
 
 test(TransitionStorageTest, findTransition) {
