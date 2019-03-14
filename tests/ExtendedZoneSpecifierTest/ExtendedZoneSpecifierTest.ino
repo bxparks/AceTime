@@ -284,6 +284,52 @@ test(TransitionStorageTest, getFreeAgent) {
 
   Transition* freeAgent = storage.getFreeAgent();
   assertTrue(freeAgent == &storage.mPool[0]);
+  storage.addFreeAgentToActivePool();
+
+  freeAgent = storage.getFreeAgent();
+  assertTrue(freeAgent == &storage.mPool[1]);
+  storage.addFreeAgentToActivePool();
+
+  freeAgent = storage.getFreeAgent();
+  assertTrue(freeAgent == &storage.mPool[2]);
+  storage.addFreeAgentToActivePool();
+
+  freeAgent = storage.getFreeAgent();
+  assertTrue(freeAgent == &storage.mPool[3]);
+  storage.addFreeAgentToActivePool();
+
+  // Verify overflow checking.
+  freeAgent = storage.getFreeAgent();
+  assertTrue(freeAgent == &storage.mPool[3]);
+}
+
+test(TransitionStorageTest, getFreeAgent2) {
+  TransitionStorage<4> storage;
+  storage.init();
+
+  Transition* freeAgent = storage.getFreeAgent();
+  assertTrue(freeAgent == storage.mTransitions[0]);
+  storage.addFreeAgentToCandidatePool();
+  assertEqual(1, storage.mIndexFree);
+
+  freeAgent = storage.getFreeAgent();
+  assertTrue(freeAgent == storage.mTransitions[1]);
+  storage.addFreeAgentToCandidatePool();
+  assertEqual(2, storage.mIndexFree);
+
+  freeAgent = storage.getFreeAgent();
+  assertTrue(freeAgent == storage.mTransitions[2]);
+  storage.addFreeAgentToCandidatePool();
+  assertEqual(3, storage.mIndexFree);
+
+  freeAgent = storage.getFreeAgent();
+  assertTrue(freeAgent == storage.mTransitions[3]);
+  storage.addFreeAgentToCandidatePool();
+  assertEqual(4, storage.mIndexFree);
+
+  // Verify overflow checking.
+  freeAgent = storage.getFreeAgent();
+  assertTrue(freeAgent == storage.mTransitions[3]);
 }
 
 test(TransitionStorageTest, addFreeAgentToActivePool) {

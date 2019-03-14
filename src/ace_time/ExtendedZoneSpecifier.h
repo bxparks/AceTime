@@ -23,6 +23,7 @@ class ExtendedZoneSpecifierTest_getMostRecentPriorYear;
 class ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneSpecifierTest_compareTransitionToMatch;
 class TransitionStorageTest_getFreeAgent;
+class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
 class TransitionStorageTest_reservePrior;
 class TransitionStorageTest_addFreeAgentToCandidatePool;
@@ -237,9 +238,15 @@ class TransitionStorage {
     /**
      * Return a pointer to the first Transition in the free pool. If this
      * transition is not used, then it's ok to just drop it. The next time
-     * getFreeAgent() is call, the same Transition will be returned.
+     * getFreeAgent() is called, the same Transition will be returned.
      */
-    Transition* getFreeAgent() { return mTransitions[mIndexFree]; }
+    Transition* getFreeAgent() {
+      if (mIndexFree < SIZE) {
+        return mTransitions[mIndexFree];
+      } else {
+        return mTransitions[SIZE - 1];
+      }
+    }
 
     /**
      * Immediately add the free agent Transition at index mIndexFree to the
@@ -249,6 +256,7 @@ class TransitionStorage {
      * pool.
      */
     void addFreeAgentToActivePool() {
+      if (mIndexFree >= SIZE) return;
       mIndexPrior++;
       mIndexCandidates++;
       mIndexFree++;
@@ -287,6 +295,7 @@ class TransitionStorage {
      * free agent from the Free pool.
      */
     void addFreeAgentToCandidatePool() {
+      if (mIndexFree >= SIZE) return;
       for (uint8_t i = mIndexFree; i > mIndexCandidates; i--) {
         Transition* curr = mTransitions[i];
         Transition* prev = mTransitions[i - 1];
@@ -318,7 +327,10 @@ class TransitionStorage {
       mIndexFree = iActive;
     }
 
-    /** Return the Transition matching the given epochSeconds. */
+    /**
+     * Return the Transition matching the given epochSeconds. Return nullptr if
+     * no matching Transition found.
+     */
     const Transition* findTransition(acetime_t epochSeconds) {
       const Transition* match = nullptr;
       for (uint8_t i = 0; i < mIndexFree; i++) {
@@ -334,6 +346,7 @@ class TransitionStorage {
 
   private:
     friend class ::TransitionStorageTest_getFreeAgent;
+    friend class ::TransitionStorageTest_getFreeAgent2;
     friend class ::TransitionStorageTest_addFreeAgentToActivePool;
     friend class ::TransitionStorageTest_reservePrior;
     friend class ::TransitionStorageTest_addFreeAgentToCandidatePool;
