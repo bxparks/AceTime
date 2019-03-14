@@ -27,6 +27,7 @@ class TransitionStorageTest_addFreeAgentToActivePool;
 class TransitionStorageTest_reservePrior;
 class TransitionStorageTest_addFreeAgentToCandidatePool;
 class TransitionStorageTest_setFreeAgentAsPrior;
+class TransitionStorageTest_addActiveCandidatesToActivePool;
 
 namespace ace_time {
 
@@ -264,6 +265,22 @@ class TransitionStorage {
       return prior;
     }
 
+    /** Swap the Free agrent transition with the current Prior transition. */
+    void setFreeAgentAsPrior() {
+      Transition* prevPrior = mTransitions[mIndexPrior];
+      mTransitions[mIndexPrior] = mTransitions[mIndexFree];
+      mTransitions[mIndexFree] = prevPrior;
+    }
+
+    /**
+     * Add the current prior into the Candidates pool. Prior is always just
+     * before the start of the Candidate pool, so we just need to shift back
+     * the start index of the Candidate pool.
+     */
+    void addPriorToCandidatePool() {
+      mIndexCandidates--;
+    }
+
     /**
      * Add the free agent Transition at index mIndexFree to the Candidate pool,
      * sorted by transitionTime. Then increment mIndexFree by one to remove the
@@ -283,23 +300,10 @@ class TransitionStorage {
       mIndexFree++;
     }
 
-    /** Swap the Free agrent transition with the current Prior transition. */
-    void setFreeAgentAsPrior() {
-      Transition* prevPrior = mTransitions[mIndexPrior];
-      mTransitions[mIndexPrior] = mTransitions[mIndexFree];
-      mTransitions[mIndexFree] = prevPrior;
-    }
-
     /**
-     * Add the current prior into the Candidates pool. Prior is always just
-     * before the start of the Candidate pool, so we just need to shift back
-     * the start index of the Candidate pool.
+     * Add active candidates into the Active pool, and collapse the Candidate
+     * pool.
      */
-    void addPriorToCandidatePool() {
-      mIndexCandidates--;
-    }
-
-    /** Add active candidates into the Active pool. */
     void addActiveCandidatesToActivePool() {
       uint8_t iActive = mIndexCandidates;
       uint8_t iCandidate = mIndexCandidates;
@@ -309,6 +313,8 @@ class TransitionStorage {
           ++iActive;
         }
       }
+      mIndexPrior = iActive;
+      mIndexCandidates = iActive;
       mIndexFree = iActive;
     }
 
@@ -332,6 +338,7 @@ class TransitionStorage {
     friend class ::TransitionStorageTest_reservePrior;
     friend class ::TransitionStorageTest_addFreeAgentToCandidatePool;
     friend class ::TransitionStorageTest_setFreeAgentAsPrior;
+    friend class ::TransitionStorageTest_addActiveCandidatesToActivePool;
 
     /** Return the transition at position i. */
     Transition* getTransition(uint8_t i) { return mTransitions[i]; }

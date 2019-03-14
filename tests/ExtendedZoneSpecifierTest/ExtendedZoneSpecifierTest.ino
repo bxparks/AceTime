@@ -365,6 +365,37 @@ test(TransitionStorageTest, addFreeAgentToCandidatePool) {
   assertEqual(2, storage.getTransition(3)->transitionTime.yearTiny);
 }
 
+test(TransitionStorageTest, addActiveCandidatesToActivePool) {
+  TransitionStorage<4> storage;
+  storage.init();
+
+  // Add 3 transitions to Candidate pool, 2 active, 1 inactive.
+  Transition* freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {0, 1, 2, 3, 'w'};
+  freeAgent->active = true;
+  storage.addFreeAgentToCandidatePool();
+
+  freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {2, 3, 4, 5, 'w'};
+  freeAgent->active = true;
+  storage.addFreeAgentToCandidatePool();
+
+  freeAgent = storage.getFreeAgent();
+  freeAgent->transitionTime = {1, 2, 3, 4, 'w'};
+  freeAgent->active = false;
+  storage.addFreeAgentToCandidatePool();
+
+  // Add the actives to the Active pool.
+  storage.addActiveCandidatesToActivePool();
+
+  // Verify that there are only 2 transitions in the Active pool.
+  assertEqual(2, storage.mIndexPrior);
+  assertEqual(2, storage.mIndexCandidates);
+  assertEqual(2, storage.mIndexFree);
+  assertEqual(0, storage.getTransition(0)->transitionTime.yearTiny);
+  assertEqual(2, storage.getTransition(1)->transitionTime.yearTiny);
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {
