@@ -14,8 +14,8 @@ LocalDateTime	KEYWORD1
 UtcOffset	KEYWORD1
 OffsetDateTime	KEYWORD1
 ZoneSpecifier	KEYWORD1
-AutoZoneSpecifier	KEYWORD1
 ManualZoneSpecifier	KEYWORD1
+BasicZoneSpecifier	KEYWORD1
 TimeZone	KEYWORD1
 ZonedDateTime	KEYWORD1
 TimePeriod	KEYWORD1

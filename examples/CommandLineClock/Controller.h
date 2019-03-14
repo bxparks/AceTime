@@ -44,8 +44,8 @@ class Controller {
 
     /** Set the time zone using the given Zone Info. */
     void setTimeZone(const common::ZoneInfo* zoneInfo) {
-      mAutoZoneSpecifier = AutoZoneSpecifier(zoneInfo);
-      mTimeZone = TimeZone(&mAutoZoneSpecifier);
+      mBasicZoneSpecifier = BasicZoneSpecifier(zoneInfo);
+      mTimeZone = TimeZone(&mBasicZoneSpecifier);
       preserveInfo();
     }
 
@@ -127,7 +127,7 @@ class Controller {
     TimeKeeper& mSystemTimeKeeper;
     ZonedDateTime mChangingDateTime;
     TimeZone mTimeZone;
-    AutoZoneSpecifier mAutoZoneSpecifier;
+    BasicZoneSpecifier mBasicZoneSpecifier;
     ManualZoneSpecifier mManualZoneSpecifier;
 
     StoredInfo mStoredInfo;

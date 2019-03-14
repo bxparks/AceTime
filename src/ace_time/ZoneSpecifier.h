@@ -9,19 +9,27 @@ class Print;
 namespace ace_time {
 
 /**
- * Base interface for ZoneSpecifier classes. This contains just the getType()
- * discriminator distinguish between the 2 implementation classes
- * (ManualZoneSpecifier and AutoZoneSpecifier). The TimeZone class will use the
- * discriminator to determine which of the 2 subclasses to use at runtime.
+ * Base interface for ZoneSpecifier classes. There were 2 options for
+ * implmenting the differing ZoneSpecifiers:
  *
- * An alternative design was to lift various common methods (getUtcOffset(),
- * getDeltaOffset(), getAbbrev()) into this interface as virtual methods, then
- * add a virtual equals() method to implement the operator==(). I thought that
- * if the application used only AutoZoneSpecifier or ManualZoneSpecifier (but
- * not both), the compiler might be able to reduce the program code size by
- * removing the code for the unused class. However, in reality, this
- * alternative design caused the program size to *increase* by 200-300 bytes.
- * I'm not exactly sure why but that was the reality.
+ * 1) Implement only a single getType() virtual method. Then use this type
+ * information in the TimeZone class to downcast the ZoneSpecifier pointer to
+ * the correct subclass, and call the correct methods.
+ * 2) Fully implement a polymorphic class hierarchy, lifting various common
+ * methods (getUtcOffset(), getDeltaOffset(), getAbbrev()) into this interface
+ * as virtual methods, then add a virtual equals() method to implement the
+ * operator==().
+ *
+ * When I had only 2 ZoneSpecifier implementations (BasicZoneSpecifier and
+ * ManualZoneSpecifier), Option 1 (using a single virtual getType() and
+ * downcasting) seemed to smaller program sizes, by 200-300 bytes. The problem
+ * with this design is that the code for both subclasses would be compiled into
+ * the program, even if the runtime used only one of the subclasses. When a 3rd
+ * ZoneSpecifier subclass was added (ExtendedZoneSpecifier), the overhead
+ * became untenable. So I switched to Option 2, using a fully polymorphic class
+ * hierarchy, adding 3-4 virtual methods. When a program uses only a single
+ * subclass, we pay for the code of only that subclass, at the cost of a
+ * virtual dispatch for some of the often-used methods.
  */
 class ZoneSpecifier {
   public:

@@ -143,7 +143,7 @@ class UtcOffset {
     void printTo(Print& printer) const;
 
   private:
-		friend class AutoZoneSpecifier;
+		friend class BasicZoneSpecifier;
 		friend class ManualZoneSpecifier;
 		friend class TimeZone;
     friend class UtcOffsetMutator;

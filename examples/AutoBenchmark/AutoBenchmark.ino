@@ -52,14 +52,20 @@ void setup() {
   Serial.print(F("sizeof(internal::Transition): "));
   Serial.println(sizeof(internal::Transition));
 
+  Serial.print(F("sizeof(extended::Transition): "));
+  Serial.println(sizeof(extended::Transition));
+
   Serial.print(F("sizeof(ZoneSpecifier): "));
   Serial.println(sizeof(ZoneSpecifier));
 
-  Serial.print(F("sizeof(AutoZoneSpecifier): "));
-  Serial.println(sizeof(AutoZoneSpecifier));
-
   Serial.print(F("sizeof(ManualZoneSpecifier): "));
   Serial.println(sizeof(ManualZoneSpecifier));
+
+  Serial.print(F("sizeof(BasicZoneSpecifier): "));
+  Serial.println(sizeof(BasicZoneSpecifier));
+
+  Serial.print(F("sizeof(ExtendedZoneSpecifier): "));
+  Serial.println(sizeof(ExtendedZoneSpecifier));
 
   Serial.print(F("sizeof(TimeZone): "));
   Serial.println(sizeof(TimeZone));

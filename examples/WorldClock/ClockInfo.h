@@ -27,7 +27,7 @@ struct ClockInfo {
   ace_time::TimeZone timeZone;
 
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_AUTO
-  ace_time::AutoZoneSpecifier zoneSpecifier;
+  ace_time::BasicZoneSpecifier zoneSpecifier;
 #else
   ace_time::ManualZoneSpecifier zoneSpecifier;
 #endif

@@ -11,7 +11,7 @@
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneSpecifier.h"
-#include "AutoZoneSpecifier.h"
+#include "BasicZoneSpecifier.h"
 #include "local_date_mutation.h"
 
 class ExtendedZoneSpecifierTest_compareEraToYearMonth;
@@ -381,7 +381,7 @@ class TransitionStorage {
 } // namespace extended
 
 /**
- * Version of AutoZoneSpecifier that works for more obscure zones
+ * Version of BasicZoneSpecifier that works for more obscure zones
  * which obscure rules.
  *
  *  - Zone untilTimeModifier works for 's' or 'u' in addition to 'w'
@@ -741,7 +741,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     static extended::DateTuple getTransitionTime(
         int8_t year, const common::ZoneRule* rule) {
-      uint8_t dayOfMonth = AutoZoneSpecifier::calcStartDayOfMonth(
+      uint8_t dayOfMonth = BasicZoneSpecifier::calcStartDayOfMonth(
           year, rule->inMonth, rule->onDayOfWeek, rule->onDayOfMonth);
       return {year, rule->inMonth, dayOfMonth,
           (int8_t) rule->atTimeCode, rule->atTimeModifier};
@@ -1022,7 +1022,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         int8_t deltaCode = t->deltaCode();
         uint8_t letter = t->letter();
         // TODO: Incoporate 'letter' that's more than 1-character.
-        AutoZoneSpecifier::createAbbreviation(
+        BasicZoneSpecifier::createAbbreviation(
             t->abbrev, extended::Transition::kAbbrevSize,
             format, deltaCode, letter);
       }

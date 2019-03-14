@@ -159,7 +159,7 @@ test(ZonedDateTimeTest, convertToTimeZone) {
 }
 
 test(ZonedDateTimeTest, forComponents_beforeDst) {
-  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
@@ -171,7 +171,7 @@ test(ZonedDateTimeTest, forComponents_beforeDst) {
 }
 
 test(ZonedDateTimeTest, forComponents_inDstGap) {
-  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 0, 1, tz);
 
@@ -182,7 +182,7 @@ test(ZonedDateTimeTest, forComponents_inDstGap) {
 }
 
 test(ZonedDateTimeTest, forComponents_inDst) {
-  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 0, 1, tz);
 
@@ -193,7 +193,7 @@ test(ZonedDateTimeTest, forComponents_inDst) {
 }
 
 test(ZonedDateTimeTest, forComponents_beforeStd) {
-  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 59, tz);
 
@@ -205,7 +205,7 @@ test(ZonedDateTimeTest, forComponents_beforeStd) {
 }
 
 test(ZonedDateTimeTest, forComponents_inOverlap) {
-  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2018, 11, 4, 1, 0, 1, tz); // ambiguous
@@ -217,7 +217,7 @@ test(ZonedDateTimeTest, forComponents_inOverlap) {
 }
 
 test(ZonedDateTimeTest, forComponents_afterOverlap) {
-  AutoZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2018, 11, 4, 2, 0, 1, tz); // ambiguous

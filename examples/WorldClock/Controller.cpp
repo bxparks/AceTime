@@ -10,9 +10,9 @@ void Controller::setup() {
   mClockInfo2.zoneSpecifier = ManualZoneSpecifier(
       UtcOffset::forHour(0), "GMT", UtcOffset::forHour(1), "BST");
 #else
-  mClockInfo0.zoneSpecifier = AutoZoneSpecifier(&zonedb::kZoneLos_Angeles);
-  mClockInfo1.zoneSpecifier = AutoZoneSpecifier(&zonedb::kZoneNew_York);
-  mClockInfo2.zoneSpecifier = AutoZoneSpecifier(&zonedb::kZoneLondon);
+  mClockInfo0.zoneSpecifier = BasicZoneSpecifier(&zonedb::kZoneLos_Angeles);
+  mClockInfo1.zoneSpecifier = BasicZoneSpecifier(&zonedb::kZoneNew_York);
+  mClockInfo2.zoneSpecifier = BasicZoneSpecifier(&zonedb::kZoneLondon);
 #endif
 
   mClockInfo0.timeZone = TimeZone(&mClockInfo0.zoneSpecifier);

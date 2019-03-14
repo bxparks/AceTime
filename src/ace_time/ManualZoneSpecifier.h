@@ -50,7 +50,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
 
     const char* dstAbbrev() const { return mDstAbbrev; }
 
-    /** Return the base isDst flag. Valid only for AutoZoneSpecifier. */
+    /** Return the base isDst flag. Valid only for ManualZoneSpecifier. */
     bool isDst() const { return mIsDst; }
 
     /** Set the base isDst flag. Valid only for ManualZoneSpecifier. */

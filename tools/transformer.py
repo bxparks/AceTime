@@ -191,7 +191,7 @@ class Transformer:
 
     def _remove_zone_until_year_only_false(self, zones_map):
         """Remove zones which have month, day or time in the UNTIL field.
-        These are not supported by the early version of AutoZoneSpecifier.
+        These are not supported by the early version of BasicZoneSpecifier.
         """
         results = {}
         removed_zones = {}
@@ -828,8 +828,9 @@ class Transformer:
 
     def _remove_rules_with_border_transitions(self, rules_map):
         """Remove rules where the transition occurs on the first day of the
-        year. That situation is not supported by AutoZoneSpecifier. On the other
-        hand, a transition at the end of the year (12/31) is supported.
+        year. That situation is not supported by BasicZoneSpecifier. (TODO:
+        Verify if ths is still true with BasicZoneSpecifier). On the other hand,
+        a transition at the end of the year (12/31) is supported.
         """
         results = {}
         removed_policies = {}

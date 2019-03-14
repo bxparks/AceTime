@@ -1,5 +1,5 @@
-#ifndef ACE_TIME_AUTO_ZONE_SPECIFIER_H
-#define ACE_TIME_AUTO_ZONE_SPECIFIER_H
+#ifndef ACE_TIME_BASIC_ZONE_SPECIFIER_H
+#define ACE_TIME_BASIC_ZONE_SPECIFIER_H
 
 #include <Arduino.h>
 #include <string.h> // strchr()
@@ -12,11 +12,11 @@
 #include "ZoneSpecifier.h"
 #include "common/logger.h"
 
-class AutoZoneSpecifierTest_init_primitives;
-class AutoZoneSpecifierTest_init;
-class AutoZoneSpecifierTest_createAbbreviation;
-class AutoZoneSpecifierTest_calcStartDayOfMonth;
-class AutoZoneSpecifierTest_calcRuleOffsetCode;
+class BasicZoneSpecifierTest_init_primitives;
+class BasicZoneSpecifierTest_init;
+class BasicZoneSpecifierTest_createAbbreviation;
+class BasicZoneSpecifierTest_calcStartDayOfMonth;
+class BasicZoneSpecifierTest_calcRuleOffsetCode;
 
 namespace ace_time {
 
@@ -110,14 +110,14 @@ struct Transition {
  *
  * Not thread-safe.
  */
-class AutoZoneSpecifier: public ZoneSpecifier {
+class BasicZoneSpecifier: public ZoneSpecifier {
   public:
     /**
      * Constructor.
      * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
      * interpreted as UTC.
      */
-    explicit AutoZoneSpecifier(const common::ZoneInfo* zoneInfo = nullptr):
+    explicit BasicZoneSpecifier(const common::ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     /**
@@ -128,7 +128,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
      * deferred initialization is removed, then this copy constructor can be
      * removed as well.
      */
-    explicit AutoZoneSpecifier(const AutoZoneSpecifier& that):
+    explicit BasicZoneSpecifier(const BasicZoneSpecifier& that):
       mZoneInfo(that.mZoneInfo),
       mIsFilled(false) {}
 
@@ -176,11 +176,11 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     }
 
   private:
-    friend class ::AutoZoneSpecifierTest_init_primitives;
-    friend class ::AutoZoneSpecifierTest_init;
-    friend class ::AutoZoneSpecifierTest_createAbbreviation;
-    friend class ::AutoZoneSpecifierTest_calcStartDayOfMonth;
-    friend class ::AutoZoneSpecifierTest_calcRuleOffsetCode;
+    friend class ::BasicZoneSpecifierTest_init_primitives;
+    friend class ::BasicZoneSpecifierTest_init;
+    friend class ::BasicZoneSpecifierTest_createAbbreviation;
+    friend class ::BasicZoneSpecifierTest_calcStartDayOfMonth;
+    friend class ::BasicZoneSpecifierTest_calcRuleOffsetCode;
     friend class ExtendedZoneSpecifier; // calcStartDayOfMonth()
 
     static const uint8_t kMaxCacheEntries = 4;
@@ -193,7 +193,7 @@ class AutoZoneSpecifier: public ZoneSpecifier {
     static const acetime_t kMinEpochSeconds = INT32_MIN + 1;
 
     bool equals(const ZoneSpecifier& other) const override {
-      const auto& that = (const AutoZoneSpecifier&) other;
+      const auto& that = (const BasicZoneSpecifier&) other;
       return getZoneInfo() == that.getZoneInfo();
     }
 
