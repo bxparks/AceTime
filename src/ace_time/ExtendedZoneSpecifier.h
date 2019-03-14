@@ -410,7 +410,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     uint8_t getType() const override { return kTypeExtended; }
 
-    /** Return the UTC offset at epochSeconds. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return UtcOffset();
       init(epochSeconds);
@@ -427,13 +426,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
 
-    /** Return the time zone abbreviation. */
     const char* getAbbrev(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return "UTC";
       init(epochSeconds);
       const extended::Transition* transition = findTransition(epochSeconds);
       return transition->abbrev;
     }
+
+    void printTo(Print& printer) const override;
 
     /** Used only for debugging. */
     void log() const {
@@ -1028,7 +1028,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
-    const common::ZoneInfo* mZoneInfo;
+    const common::ZoneInfo* const mZoneInfo;
     int16_t mYear = 0;
     bool mIsFilled = false;
     uint8_t mNumMatches = 0; // actual number of matches
