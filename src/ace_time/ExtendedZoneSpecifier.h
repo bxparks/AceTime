@@ -520,7 +520,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
       findMatches(mZoneInfo, startYm, untilYm, mMatches, kMaxMatches,
           &mNumMatches);
-      findTransitions();
+      findTransitions(mMatches, mNumMatches);
       extended::Transition** begin = mTransitionStorage.getActivePoolBegin();
       extended::Transition** end = mTransitionStorage.getActivePoolEnd();
       fixTransitionTimes(begin, end);
@@ -624,9 +624,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return {startDate, untilDate, era};
     }
 
-    void findTransitions() {
-      for (uint8_t iMatch = 0; iMatch < mNumMatches; iMatch++) {
-        findTransitionsForMatch(&mMatches[iMatch]);
+    void findTransitions(extended::ZoneMatch* matches,
+        uint8_t numMatches) {
+      for (uint8_t i = 0; i < numMatches; i++) {
+        findTransitionsForMatch(&matches[i]);
       }
     }
 
@@ -672,10 +673,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         const common::ZoneRule* const rule = &rules[r];
 
         // Add Transitions for interior years
-        uint8_t numYears = calcInteriorYears(mInteriorYears, kMaxInteriorYears,
+        int8_t interiorYears[kMaxInteriorYears];
+        uint8_t numYears = calcInteriorYears(interiorYears, kMaxInteriorYears,
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
         for (uint8_t y = 0; y < numYears; y++) {
-          int8_t year = mInteriorYears[y];
+          int8_t year = interiorYears[y];
           extended::Transition* t = mTransitionStorage.getFreeAgent();
           createTransitionForYear(t, year, rule, match);
           int8_t status = compareTransitionToMatchFuzzy(t, match);
@@ -1055,7 +1057,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     uint8_t mNumMatches = 0; // actual number of matches
     extended::ZoneMatch mMatches[kMaxMatches];
     extended::TransitionStorage<kMaxTransitions> mTransitionStorage;
-    int8_t mInteriorYears[kMaxInteriorYears];
 };
 
 } // namespace ace_time
