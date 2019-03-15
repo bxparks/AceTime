@@ -125,7 +125,7 @@ namespace {dbNamespace} {{
 """
 
     ZONE_POLICIES_H_POLICY_ITEM = """\
-extern const common::ZonePolicy kPolicy{policyName};
+extern const ZonePolicy kPolicy{policyName};
 """
 
     ZONE_POLICIES_H_REMOVED_POLICY_ITEM = """\
@@ -170,13 +170,13 @@ namespace {dbNamespace} {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRules{policyName}[] = {{
+static const ZoneRule kZoneRules{policyName}[] = {{
 {ruleItems}
 }};
 
 {letterArray}
 
-const common::ZonePolicy kPolicy{policyName} = {{
+const ZonePolicy kPolicy{policyName} = {{
   {numRules} /*numRules*/,
   kZoneRules{policyName} /*rules*/,
   {numLetters} /* numLetters */,
@@ -433,7 +433,7 @@ namespace {dbNamespace} {{
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-extern const common::ZoneInfo kZone{zoneShortName}; // {zoneFullName}
+extern const ZoneInfo kZone{zoneShortName}; // {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
@@ -481,11 +481,11 @@ namespace {dbNamespace} {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEra{zoneShortName}[] = {{
+static const ZoneEra kZoneEra{zoneShortName}[] = {{
 {eraItems}
 }};
 
-const common::ZoneInfo kZone{zoneShortName} = {{
+const ZoneInfo kZone{zoneShortName} = {{
   "{zoneFullName}" /*name*/,
   kZoneEra{zoneShortName} /*eras*/,
   {numEras} /*numEras*/,

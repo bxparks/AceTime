@@ -2,7 +2,7 @@
 
 namespace ace_time {
 
-const common::ZoneEra ExtendedZoneSpecifier::kAnchorEra = {
+const zonedbx::ZoneEra ExtendedZoneSpecifier::kAnchorEra = {
   0 /*offsetCode*/,
   nullptr /*zonePolicy*/,
   0 /*deltaCode*/,

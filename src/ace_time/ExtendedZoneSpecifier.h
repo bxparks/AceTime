@@ -37,7 +37,7 @@ class TransitionStorageTest_resetCandidatePool;
 
 namespace ace_time {
 
-namespace extended {
+namespace zonedbx {
 
 // TODO: Consider compressing 'modifier' into 'month' field
 struct DateTuple {
@@ -85,7 +85,7 @@ struct ZoneMatch {
   DateTuple untilDateTime;
 
   /** The ZoneEra that matched the given year. NonNullable. */
-  const common::ZoneEra* era;
+  const zonedbx::ZoneEra* era;
 };
 
 /**
@@ -118,7 +118,7 @@ struct Transition {
    * nullptr if the RULES column is '-', indicating that the ZoneMatch was
    * a "simple" ZoneEra.
    */
-  const common::ZoneRule* rule;
+  const zonedbx::ZoneRule* rule;
 
   /**
    * The original transition time, usually 'w' but sometimes 's' or 'u'. After
@@ -406,7 +406,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
      * interpreted as UTC.
      */
-    explicit ExtendedZoneSpecifier(const common::ZoneInfo* zoneInfo = nullptr):
+    explicit ExtendedZoneSpecifier(const zonedbx::ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 
     /** Copy constructor. */
@@ -415,14 +415,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       mIsFilled(false) {}
 
     /** Return the underlying ZoneInfo. */
-    const common::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
+    const zonedbx::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
     uint8_t getType() const override { return kTypeExtended; }
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return UtcOffset();
       init(epochSeconds);
-      const extended::Transition* transition = findTransition(epochSeconds);
+      const zonedbx::Transition* transition = findTransition(epochSeconds);
       return UtcOffset::forOffsetCode(transition->offsetCode());
     }
 
@@ -430,7 +430,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     UtcOffset getDeltaOffset(acetime_t epochSeconds) {
       if (mZoneInfo == nullptr) return UtcOffset();
       init(epochSeconds);
-      const extended::Transition* transition = findTransition(epochSeconds);
+      const zonedbx::Transition* transition = findTransition(epochSeconds);
       if (transition->rule == nullptr) return UtcOffset();
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
@@ -438,7 +438,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     const char* getAbbrev(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return "UTC";
       init(epochSeconds);
-      const extended::Transition* transition = findTransition(epochSeconds);
+      const zonedbx::Transition* transition = findTransition(epochSeconds);
       return transition->abbrev;
     }
 
@@ -490,7 +490,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     static const uint8_t kMaxInteriorYears = 4;
 
     /** A sentinel ZoneEra which has the smallest year. */
-    static const common::ZoneEra kAnchorEra;
+    static const zonedbx::ZoneEra kAnchorEra;
 
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const ExtendedZoneSpecifier&) other;
@@ -498,7 +498,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Return the Transition matching the given epochSeconds. */
-    const extended::Transition* findTransition(acetime_t epochSeconds) {
+    const zonedbx::Transition* findTransition(acetime_t epochSeconds) {
       return mTransitionStorage.findTransition(epochSeconds);
     }
 
@@ -517,16 +517,16 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       mNumMatches = 0; // clear cache
       mTransitionStorage.init();
 
-      extended::YearMonthTuple startYm = {
+      zonedbx::YearMonthTuple startYm = {
         (int8_t) (year - LocalDate::kEpochYear - 1), 12 };
-      extended::YearMonthTuple untilYm =  {
+      zonedbx::YearMonthTuple untilYm =  {
         (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
 
       mNumMatches = findMatches(mZoneInfo, startYm, untilYm, mMatches,
           kMaxMatches);
       findTransitions(mTransitionStorage, mMatches, mNumMatches);
-      extended::Transition** begin = mTransitionStorage.getActivePoolBegin();
-      extended::Transition** end = mTransitionStorage.getActivePoolEnd();
+      zonedbx::Transition** begin = mTransitionStorage.getActivePoolBegin();
+      zonedbx::Transition** end = mTransitionStorage.getActivePoolEnd();
       fixTransitionTimes(begin, end);
       generateStartUntilTimes(begin, end);
       calcAbbreviations(begin, end);
@@ -546,14 +546,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * Each matching ZoneEra is wrapped inside a ZoneMatch object, placed in
      * the 'matches' array, and the number of matches is returned.
      */
-    static uint8_t findMatches(const common::ZoneInfo* zoneInfo,
-        const extended::YearMonthTuple& startYm,
-        const extended::YearMonthTuple& untilYm,
-        extended::ZoneMatch* matches, uint8_t maxMatches) {
+    static uint8_t findMatches(const zonedbx::ZoneInfo* zoneInfo,
+        const zonedbx::YearMonthTuple& startYm,
+        const zonedbx::YearMonthTuple& untilYm,
+        zonedbx::ZoneMatch* matches, uint8_t maxMatches) {
       uint8_t iMatch = 0;
-      const common::ZoneEra* prev = &kAnchorEra;
+      const zonedbx::ZoneEra* prev = &kAnchorEra;
       for (uint8_t iEra = 0; iEra < zoneInfo->numEras; iEra++) {
-        const common::ZoneEra* era = &zoneInfo->eras[iEra];
+        const zonedbx::ZoneEra* era = &zoneInfo->eras[iEra];
         if (eraOverlapsInterval(prev, era, startYm, untilYm)) {
           if (iMatch < maxMatches) {
             matches[iMatch] = createMatch(prev, era, startYm, untilYm);
@@ -576,16 +576,16 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * (era.until > startYm).
      */
     static bool eraOverlapsInterval(
-        const common::ZoneEra* prev,
-        const common::ZoneEra* era,
-        const extended::YearMonthTuple& startYm,
-        const extended::YearMonthTuple& untilYm) {
+        const zonedbx::ZoneEra* prev,
+        const zonedbx::ZoneEra* era,
+        const zonedbx::YearMonthTuple& startYm,
+        const zonedbx::YearMonthTuple& untilYm) {
       return compareEraToYearMonth(prev, untilYm.yearTiny, untilYm.month) < 0
           && compareEraToYearMonth(era, startYm.yearTiny, startYm.month) > 0;
     }
 
     /** Return (1, 0, -1) depending on how era compares to (yearTiny, month). */
-    static int8_t compareEraToYearMonth(const common::ZoneEra* era,
+    static int8_t compareEraToYearMonth(const zonedbx::ZoneEra* era,
         int8_t yearTiny, uint8_t month) {
       if (era->untilYearTiny < yearTiny) return -1;
       if (era->untilYearTiny > yearTiny) return 1;
@@ -603,27 +603,27 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * ZoneEra using the eraOverlapsInterval() method. The 'prev' ZoneEra is
      * needed to define the startDateTime of the current era.
      */
-    static extended::ZoneMatch createMatch(
-        const common::ZoneEra* prev,
-        const common::ZoneEra* era,
-        const extended::YearMonthTuple& startYm,
-        const extended::YearMonthTuple& untilYm) {
-      extended::DateTuple startDate = {
+    static zonedbx::ZoneMatch createMatch(
+        const zonedbx::ZoneEra* prev,
+        const zonedbx::ZoneEra* era,
+        const zonedbx::YearMonthTuple& startYm,
+        const zonedbx::YearMonthTuple& untilYm) {
+      zonedbx::DateTuple startDate = {
         prev->untilYearTiny, prev->untilMonth, prev->untilDay,
         (int8_t) prev->untilTimeCode, prev->untilTimeModifier
       };
-      extended::DateTuple lowerBound = {
+      zonedbx::DateTuple lowerBound = {
         startYm.yearTiny, startYm.month, 1, 0, 'w'
       };
       if (startDate < lowerBound) {
         startDate = lowerBound;
       }
 
-      extended::DateTuple untilDate = {
+      zonedbx::DateTuple untilDate = {
         era->untilYearTiny, era->untilMonth, era->untilDay,
         (int8_t) era->untilTimeCode, era->untilTimeModifier
       };
-      extended::DateTuple upperBound = {
+      zonedbx::DateTuple upperBound = {
         untilYm.yearTiny, untilYm.month, 1, 0, 'w'
       };
       if (upperBound < untilDate) {
@@ -638,8 +638,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * and store them in the transitionStorage container.
      */
     static void findTransitions(
-        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
-        extended::ZoneMatch* matches,
+        zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
+        zonedbx::ZoneMatch* matches,
         uint8_t numMatches) {
       for (uint8_t i = 0; i < numMatches; i++) {
         findTransitionsForMatch(transitionStorage, &matches[i]);
@@ -648,9 +648,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /** Create the Transitions defined by the given match. */
     static void findTransitionsForMatch(
-        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
-        const extended::ZoneMatch* match) {
-      const common::ZonePolicy* policy = match->era->zonePolicy;
+        zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const zonedbx::ZoneMatch* match) {
+      const zonedbx::ZonePolicy* policy = match->era->zonePolicy;
       if (policy == nullptr) {
         findTransitionsFromSimpleMatch(transitionStorage, match);
       } else {
@@ -659,9 +659,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     static void findTransitionsFromSimpleMatch(
-        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
-        const extended::ZoneMatch* match) {
-      extended::Transition* freeTransition = transitionStorage.getFreeAgent();
+        zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const zonedbx::ZoneMatch* match) {
+      zonedbx::Transition* freeTransition = transitionStorage.getFreeAgent();
       freeTransition->match = match;
       freeTransition->rule = nullptr;
       freeTransition->transitionTime = match->startDateTime;
@@ -670,8 +670,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     static void findTransitionsFromNamedMatch(
-        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
-        const extended::ZoneMatch* match) {
+        zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const zonedbx::ZoneMatch* match) {
       transitionStorage.resetCandidatePool();
       findCandidateTransitions(transitionStorage, match);
       fixTransitionTimes(
@@ -683,18 +683,18 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     static void findCandidateTransitions(
-        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
-        const extended::ZoneMatch* match) {
-      const common::ZonePolicy* policy = match->era->zonePolicy;
+        zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const zonedbx::ZoneMatch* match) {
+      const zonedbx::ZonePolicy* policy = match->era->zonePolicy;
       uint8_t numRules = policy->numRules;
-      const common::ZoneRule* rules = policy->rules;
+      const zonedbx::ZoneRule* rules = policy->rules;
       int8_t startY = match->startDateTime.yearTiny;
       int8_t endY = match->untilDateTime.yearTiny;
 
-      extended::Transition* prior = transitionStorage.reservePrior();
+      zonedbx::Transition* prior = transitionStorage.reservePrior();
       prior->active = false; // indicates "no prior transition"
       for (uint8_t r = 0; r < numRules; r++) {
-        const common::ZoneRule* const rule = &rules[r];
+        const zonedbx::ZoneRule* const rule = &rules[r];
 
         // Add Transitions for interior years
         int8_t interiorYears[kMaxInteriorYears];
@@ -702,7 +702,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
         for (uint8_t y = 0; y < numYears; y++) {
           int8_t year = interiorYears[y];
-          extended::Transition* t = transitionStorage.getFreeAgent();
+          zonedbx::Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, year, rule, match);
           int8_t status = compareTransitionToMatchFuzzy(t, match);
           if (status < 0) {
@@ -716,7 +716,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         int8_t priorYear = getMostRecentPriorYear(
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
         if (priorYear != LocalDate::kInvalidYearTiny) {
-          extended::Transition* t = transitionStorage.getFreeAgent();
+          zonedbx::Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, priorYear, rule, match);
           setAsPriorTransition(transitionStorage, t);
         }
@@ -729,9 +729,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Return true if Transition 't' was created. */
-    static void createTransitionForYear(extended::Transition* t, int8_t year,
-        const common::ZoneRule* rule,
-        const extended::ZoneMatch* match) {
+    static void createTransitionForYear(zonedbx::Transition* t, int8_t year,
+        const zonedbx::ZoneRule* rule,
+        const zonedbx::ZoneMatch* match) {
       t->match = match;
       t->transitionTime = getTransitionTime(year, rule);
       t->rule = rule;
@@ -773,8 +773,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
-    static extended::DateTuple getTransitionTime(
-        int8_t year, const common::ZoneRule* rule) {
+    static zonedbx::DateTuple getTransitionTime(
+        int8_t year, const zonedbx::ZoneRule* rule) {
       uint8_t dayOfMonth = BasicZoneSpecifier::calcStartDayOfMonth(
           year, rule->inMonth, rule->onDayOfWeek, rule->onDayOfMonth);
       return {year, rule->inMonth, dayOfMonth,
@@ -792,7 +792,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      *     * 0 is never returned since we cannot know that t == match.start
      */
     static int8_t compareTransitionToMatchFuzzy(
-        const extended::Transition* t, const extended::ZoneMatch* match) {
+        const zonedbx::Transition* t, const zonedbx::ZoneMatch* match) {
       int16_t ttMonths = t->transitionTime.yearTiny * 12
           + t->transitionTime.month;
 
@@ -809,9 +809,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /** Set the current transition as the most recent prior if it fits. */
     static void setAsPriorTransition(
-        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
-        extended::Transition* t) {
-      extended::Transition* prior = transitionStorage.getPrior();
+        zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
+        zonedbx::Transition* t) {
+      zonedbx::Transition* prior = transitionStorage.getPrior();
       if (prior->active) {
         if (prior->transitionTime < t->transitionTime) {
           t->active = true;
@@ -832,11 +832,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * Transition.
      */
     static void fixTransitionTimes(
-        extended::Transition** begin, extended::Transition** end) {
+        zonedbx::Transition** begin, zonedbx::Transition** end) {
       // extend first Transition to -infinity
-      extended::Transition* prev = *begin;
-      for (extended::Transition** iter = begin; iter != end; ++iter) {
-        extended::Transition* curr = *iter;
+      zonedbx::Transition* prev = *begin;
+      for (zonedbx::Transition** iter = begin; iter != end; ++iter) {
+        zonedbx::Transition* curr = *iter;
         expandDateTuple(&curr->transitionTime,
             &curr->transitionTimeS, &curr->transitionTimeU,
             prev->offsetCode(), prev->deltaCode());
@@ -849,8 +849,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * 'u' versions of the DateTuple. The 'tt' may become a 'w' if it was
      * originally 's' or 'u'. On return, tt, tts and ttu are all modified.
      */
-    static void expandDateTuple(extended::DateTuple* tt,
-        extended::DateTuple* tts, extended::DateTuple* ttu,
+    static void expandDateTuple(zonedbx::DateTuple* tt,
+        zonedbx::DateTuple* tts, zonedbx::DateTuple* ttu,
         int8_t offsetCode, int8_t deltaCode) {
       if (tt->modifier == 's') {
         *tts = *tt;
@@ -879,7 +879,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Normalize DateTuple::timeCode if its magnitude is more than 24 hours. */
-    static void normalizeDateTuple(extended::DateTuple* dt) {
+    static void normalizeDateTuple(zonedbx::DateTuple* dt) {
       const int8_t kOneDayAsCode = 4 * 24;
       if (dt->timeCode <= -kOneDayAsCode) {
         LocalDate ld(dt->yearTiny, dt->month, dt->day);
@@ -905,13 +905,13 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * active.
      */
     static void selectActiveTransitions(
-        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
-        const extended::ZoneMatch* match) {
-      extended::Transition** begin = transitionStorage.getCandidatePoolBegin();
-      extended::Transition** end = transitionStorage.getCandidatePoolEnd();
-      extended::Transition* prior = nullptr;
-      for (extended::Transition** iter = begin; iter != end; ++iter) {
-        extended::Transition* transition = *iter;
+        zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const zonedbx::ZoneMatch* match) {
+      zonedbx::Transition** begin = transitionStorage.getCandidatePoolBegin();
+      zonedbx::Transition** end = transitionStorage.getCandidatePoolEnd();
+      zonedbx::Transition* prior = nullptr;
+      for (zonedbx::Transition** iter = begin; iter != end; ++iter) {
+        zonedbx::Transition* transition = *iter;
         processActiveTransition(match, transition, &prior);
       }
 
@@ -931,9 +931,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * active.
      */
     static void processActiveTransition(
-        const extended::ZoneMatch* match,
-        extended::Transition* transition,
-        extended::Transition** prior) {
+        const zonedbx::ZoneMatch* match,
+        zonedbx::Transition* transition,
+        zonedbx::Transition** prior) {
       int8_t status = compareTransitionToMatch(transition, match);
       if (status == 2) {
         transition->active = false;
@@ -974,11 +974,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      *     * 2 if greater than match
      */
     static int8_t compareTransitionToMatch(
-        const extended::Transition* transition,
-        const extended::ZoneMatch* match) {
-      const extended::DateTuple* transitionTime;
+        const zonedbx::Transition* transition,
+        const zonedbx::ZoneMatch* match) {
+      const zonedbx::DateTuple* transitionTime;
 
-      const extended::DateTuple& matchStart = match->startDateTime;
+      const zonedbx::DateTuple& matchStart = match->startDateTime;
       if (matchStart.modifier == 's') {
         transitionTime = &transition->transitionTimeS;
       } else if (matchStart.modifier == 'u') {
@@ -989,7 +989,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       if (*transitionTime < matchStart) return -1;
       if (*transitionTime == matchStart) return 0;
 
-      const extended::DateTuple& matchUntil = match->untilDateTime;
+      const zonedbx::DateTuple& matchUntil = match->untilDateTime;
       if (matchUntil.modifier == 's') {
         transitionTime = &transition->transitionTimeS;
       } else if (matchUntil.modifier == 'u') {
@@ -1007,12 +1007,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * in 'w' mode by the time this method is called.
      */
     static void generateStartUntilTimes(
-        extended::Transition** begin, extended::Transition** end) {
-      extended::Transition* prev = *begin;
+        zonedbx::Transition** begin, zonedbx::Transition** end) {
+      zonedbx::Transition* prev = *begin;
       bool isAfterFirst = false;
-      for (extended::Transition** iter = begin; iter != end; ++iter) {
-        extended::Transition* const t = *iter;
-        const extended::DateTuple& tt = t->transitionTime;
+      for (zonedbx::Transition** iter = begin; iter != end; ++iter) {
+        zonedbx::Transition* const t = *iter;
+        const zonedbx::DateTuple& tt = t->transitionTime;
 
         // 1) Update the untilDateTime of the previous Transition
         if (isAfterFirst) {
@@ -1037,7 +1037,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         // 'transitionTimeU' which should still be a valid field, because it
         // hasn't been clobbered by 'untilDateTime' yet. Not sure if this saves
         // any CPU time though, since we still need to mutiply by 900.
-        const extended::DateTuple& st = t->startDateTime;
+        const zonedbx::DateTuple& st = t->startDateTime;
         const acetime_t offsetSeconds = (acetime_t) 900
             * (st.timeCode - t->offsetCode() - t->deltaCode());
         LocalDate ld(st.yearTiny, st.month, st.day);
@@ -1048,9 +1048,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
 
       // The last Transition's until time is the until time of the ZoneMatch.
-      extended::DateTuple untilTime = prev->match->untilDateTime;
-      extended::DateTuple untilTimeS; // needed only for expandDateTuple
-      extended::DateTuple untilTimeU; // needed only for expandDateTuple
+      zonedbx::DateTuple untilTime = prev->match->untilDateTime;
+      zonedbx::DateTuple untilTimeS; // needed only for expandDateTuple
+      zonedbx::DateTuple untilTimeU; // needed only for expandDateTuple
       expandDateTuple(&untilTime, &untilTimeS, &untilTimeU,
           prev->offsetCode(), prev->deltaCode());
       prev->untilDateTime = untilTime;
@@ -1066,25 +1066,25 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      *         2b) The 'format' could be just a '%s'.
      */
     static void calcAbbreviations(
-        extended::Transition** begin, extended::Transition** end) {
-      for (extended::Transition** iter = begin; iter != end; ++iter) {
-        extended::Transition* const t = *iter;
+        zonedbx::Transition** begin, zonedbx::Transition** end) {
+      for (zonedbx::Transition** iter = begin; iter != end; ++iter) {
+        zonedbx::Transition* const t = *iter;
         const char* format = t->format();
         int8_t deltaCode = t->deltaCode();
         uint8_t letter = t->letter();
         // TODO: Incoporate 'letter' that's more than 1-character.
         BasicZoneSpecifier::createAbbreviation(
-            t->abbrev, extended::Transition::kAbbrevSize,
+            t->abbrev, zonedbx::Transition::kAbbrevSize,
             format, deltaCode, letter);
       }
     }
 
-    const common::ZoneInfo* const mZoneInfo;
+    const zonedbx::ZoneInfo* const mZoneInfo;
     int16_t mYear = 0;
     bool mIsFilled = false;
     uint8_t mNumMatches = 0; // actual number of matches
-    extended::ZoneMatch mMatches[kMaxMatches];
-    extended::TransitionStorage<kMaxTransitions> mTransitionStorage;
+    zonedbx::ZoneMatch mMatches[kMaxMatches];
+    zonedbx::TransitionStorage<kMaxTransitions> mTransitionStorage;
 };
 
 } // namespace ace_time

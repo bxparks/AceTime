@@ -5,7 +5,6 @@
 
 using namespace aunit;
 using namespace ace_time;
-using namespace ace_time::zonedb;
 
 // --------------------------------------------------------------------------
 // ManualZoneSpecifier
@@ -67,6 +66,7 @@ test(ManualZoneSpecifierTest, operatorEqualEqual) {
 
 // --------------------------------------------------------------------------
 // BasicZoneSpecifier
+// TODO: Move this into BasicZoneSpecifierTest.ino.
 // --------------------------------------------------------------------------
 
 test(BasicZoneSpecifierTest, operatorEqualEqual) {
@@ -154,21 +154,21 @@ test(BasicZoneSpecifierTest, init) {
   assertEqual(-32, zoneSpecifier.mPrevTransition.era->offsetCode);
   assertEqual("P%T", zoneSpecifier.mPrevTransition.era->format);
   assertEqual(2007-2000, zoneSpecifier.mPrevTransition.rule->fromYearTiny);
-  assertEqual(common::ZoneRule::kMaxYearTiny,
+  assertEqual(zonedb::ZoneRule::kMaxYearTiny,
       zoneSpecifier.mPrevTransition.rule->toYearTiny);
   assertEqual(11, zoneSpecifier.mPrevTransition.rule->inMonth);
 
   assertEqual(-32, zoneSpecifier.mTransitions[0].era->offsetCode);
   assertEqual("P%T", zoneSpecifier.mTransitions[0].era->format);
   assertEqual(2007-2000, zoneSpecifier.mTransitions[0].rule->fromYearTiny);
-  assertEqual(common::ZoneRule::kMaxYearTiny,
+  assertEqual(zonedb::ZoneRule::kMaxYearTiny,
       zoneSpecifier.mTransitions[0].rule->toYearTiny);
   assertEqual(3, zoneSpecifier.mTransitions[0].rule->inMonth);
 
   assertEqual(-32, zoneSpecifier.mTransitions[1].era->offsetCode);
   assertEqual("P%T", zoneSpecifier.mTransitions[1].era->format);
   assertEqual(2007-2000, zoneSpecifier.mTransitions[1].rule->fromYearTiny);
-  assertEqual(common::ZoneRule::kMaxYearTiny,
+  assertEqual(zonedb::ZoneRule::kMaxYearTiny,
       zoneSpecifier.mTransitions[1].rule->toYearTiny);
   assertEqual(11, zoneSpecifier.mTransitions[1].rule->inMonth);
 
@@ -311,57 +311,6 @@ test(BasicZoneSpecifierTest, createAbbreviation) {
   BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T3456", 4, 'D');
   assertEqual("PDT34", dst);
 }
-
-// --------------------------------------------------------------------------
-// ExtendedZoneSpecifier
-// --------------------------------------------------------------------------
-
-test(ExtendedZoneSpecifierTest, compareEraToYearMonth) {
-  // 2000-01-30T00:15
-  common::ZoneEra era = {
-    0 /*offsetCode*/,
-    nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
-    "%s" /*format*/,
-    0 /*untilYearTiny*/,
-    1 /*untilMonth*/,
-    30 /*untilDay*/,
-    1 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/
-  };
-
-  // 2000-01
-  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 1), 1);
-
-  // 2000-02
-  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 2), -1);
-
-  // 2001-01
-  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era, 1, 1), -1);
-
-  // 2000-12-01
-  common::ZoneEra era2 = {
-    0 /*offsetCode*/,
-    nullptr /*zonePolicy*/,
-    0 /*deltaCode*/,
-    "%s" /*format*/,
-    0 /*untilYearTiny*/,
-    12 /*untilMonth*/,
-    1 /*untilDay*/,
-    0 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/
-  };
-
-  // 2000-01
-  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era2, 0, 1), 1);
-
-  // 2000-12
-  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era2, 0, 12), 0);
-
-  // 2001-01
-  assertEqual(ExtendedZoneSpecifier::compareEraToYearMonth(&era2, 1, 1), -1);
-}
-
 
 // --------------------------------------------------------------------------
 // Default TimeZone
