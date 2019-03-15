@@ -10,6 +10,8 @@
 
 #include "ace_time/zonedb/zone_policies.h"
 #include "ace_time/zonedb/zone_infos.h"
+#include "ace_time/zonedbx/zone_policies.h"
+#include "ace_time/zonedbx/zone_infos.h"
 #include "ace_time/common/DateStrings.h"
 #include "ace_time/LocalDate.h"
 #include "ace_time/local_date_mutation.h"

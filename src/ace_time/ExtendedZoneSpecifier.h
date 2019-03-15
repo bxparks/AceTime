@@ -23,6 +23,7 @@ class ExtendedZoneSpecifierTest_getMostRecentPriorYear;
 class ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneSpecifierTest_compareTransitionToMatch;
 class ExtendedZoneSpecifierTest_processActiveTransition;
+class ExtendedZoneSpecifierTest_fixTransitionTimes_generateStartUntilTimes;
 class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
@@ -126,18 +127,24 @@ struct Transition {
   DateTuple transitionTime;
 
   union {
-    /** Version of transitionTime in 's' mode. */
+    /**
+     * Version of transitionTime in 's' mode, using the UTC offset of the
+     * *previous* Transition.
+     */
     DateTuple transitionTimeS;
 
-    /** Start time expressed using the zone shift of the current Transition. */
+    /** Start time expressed using the UTC offset of the current Transition. */
     DateTuple startDateTime;
   };
 
   union {
-    /** Version of transitionTime in 'u' mode. */
+    /**
+     * Version of transitionTime in 'u' mode, using the UTC offset of the
+     * *previous* transition.
+     */
     DateTuple transitionTimeU;
 
-    /** Until time expressed using the zone shift of the current Transition. */
+    /** Until time expressed using the UTC offset of the current Transition. */
     DateTuple untilDateTime;
   };
 
@@ -410,7 +417,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     uint8_t getType() const override { return kTypeExtended; }
 
-    /** Return the UTC offset at epochSeconds. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return UtcOffset();
       init(epochSeconds);
@@ -427,13 +433,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
 
-    /** Return the time zone abbreviation. */
     const char* getAbbrev(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return "UTC";
       init(epochSeconds);
       const extended::Transition* transition = findTransition(epochSeconds);
       return transition->abbrev;
     }
+
+    void printTo(Print& printer) const override;
 
     /** Used only for debugging. */
     void log() const {
@@ -457,6 +464,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
     friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatch;
     friend class ::ExtendedZoneSpecifierTest_processActiveTransition;
+    friend class ::ExtendedZoneSpecifierTest_fixTransitionTimes_generateStartUntilTimes;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -512,7 +520,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
       findMatches(mZoneInfo, startYm, untilYm, mMatches, kMaxMatches,
           &mNumMatches);
-      findTransitions();
+      findTransitions(mTransitionStorage, mMatches, mNumMatches);
       extended::Transition** begin = mTransitionStorage.getActivePoolBegin();
       extended::Transition** end = mTransitionStorage.getActivePoolEnd();
       fixTransitionTimes(begin, end);
@@ -616,65 +624,77 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return {startDate, untilDate, era};
     }
 
-    void findTransitions() {
-      for (uint8_t iMatch = 0; iMatch < mNumMatches; iMatch++) {
-        findTransitionsForMatch(&mMatches[iMatch]);
+    static void findTransitions(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        extended::ZoneMatch* matches,
+        uint8_t numMatches) {
+      for (uint8_t i = 0; i < numMatches; i++) {
+        findTransitionsForMatch(transitionStorage, &matches[i]);
       }
     }
 
-    void findTransitionsForMatch(const extended::ZoneMatch* match) {
+    static void findTransitionsForMatch(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const extended::ZoneMatch* match) {
       const common::ZonePolicy* policy = match->era->zonePolicy;
       if (policy == nullptr) {
-        findTransitionsFromSimpleMatch(match);
+        findTransitionsFromSimpleMatch(transitionStorage, match);
       } else {
-        findTransitionsFromNamedMatch(match);
+        findTransitionsFromNamedMatch(transitionStorage, match);
       }
     }
 
-    void findTransitionsFromSimpleMatch(const extended::ZoneMatch* match) {
-      extended::Transition* freeTransition = mTransitionStorage.getFreeAgent();
+    static void findTransitionsFromSimpleMatch(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const extended::ZoneMatch* match) {
+      extended::Transition* freeTransition = transitionStorage.getFreeAgent();
       freeTransition->match = match;
       freeTransition->rule = nullptr;
       freeTransition->transitionTime = match->startDateTime;
 
-      mTransitionStorage.addFreeAgentToActivePool();
+      transitionStorage.addFreeAgentToActivePool();
     }
 
-    void findTransitionsFromNamedMatch(const extended::ZoneMatch* match) {
-      mTransitionStorage.resetCandidatePool();
-      findCandidateTransitions(match);
+    static void findTransitionsFromNamedMatch(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const extended::ZoneMatch* match) {
+      transitionStorage.resetCandidatePool();
+      findCandidateTransitions(transitionStorage, match);
       fixTransitionTimes(
-          mTransitionStorage.getCandidatePoolBegin(),
-          mTransitionStorage.getCandidatePoolEnd());
-      selectActiveTransitions(match);
+          transitionStorage.getCandidatePoolBegin(),
+          transitionStorage.getCandidatePoolEnd());
+      selectActiveTransitions(transitionStorage, match);
 
-      mTransitionStorage.addActiveCandidatesToActivePool();
+      transitionStorage.addActiveCandidatesToActivePool();
     }
 
-    void findCandidateTransitions(const extended::ZoneMatch* match) {
+    static void findCandidateTransitions(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const extended::ZoneMatch* match) {
       const common::ZonePolicy* policy = match->era->zonePolicy;
       uint8_t numRules = policy->numRules;
       const common::ZoneRule* rules = policy->rules;
       int8_t startY = match->startDateTime.yearTiny;
       int8_t endY = match->untilDateTime.yearTiny;
 
-      extended::Transition* prior = mTransitionStorage.reservePrior();
+      extended::Transition* prior = transitionStorage.reservePrior();
       prior->active = false; // indicates "no prior transition"
       for (uint8_t r = 0; r < numRules; r++) {
         const common::ZoneRule* const rule = &rules[r];
 
         // Add Transitions for interior years
-        uint8_t numYears = calcInteriorYears(mInteriorYears, kMaxInteriorYears,
+        int8_t interiorYears[kMaxInteriorYears];
+        uint8_t numYears = calcInteriorYears(interiorYears, kMaxInteriorYears,
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
         for (uint8_t y = 0; y < numYears; y++) {
-          int8_t year = mInteriorYears[y];
-          extended::Transition* t = mTransitionStorage.getFreeAgent();
+          int8_t year = interiorYears[y];
+          extended::Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, year, rule, match);
           int8_t status = compareTransitionToMatchFuzzy(t, match);
           if (status < 0) {
-            setAsPriorTransition(t);
+            setAsPriorTransition(transitionStorage, t);
           } else if (status == 1) {
-            mTransitionStorage.addFreeAgentToCandidatePool();
+            transitionStorage.addFreeAgentToCandidatePool();
           }
         }
 
@@ -682,16 +702,16 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         int8_t priorYear = getMostRecentPriorYear(
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
         if (priorYear != LocalDate::kInvalidYearTiny) {
-          extended::Transition* t = mTransitionStorage.getFreeAgent();
+          extended::Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, priorYear, rule, match);
-          setAsPriorTransition(t);
+          setAsPriorTransition(transitionStorage, t);
         }
       }
 
       // Add the reserved prior into the Candidate pool, whether or not
       // 'active' is true. The 'active' flag will be recalculated in
       // selectActiveTransitions().
-      mTransitionStorage.addPriorToCandidatePool();
+      transitionStorage.addPriorToCandidatePool();
     }
 
     /** Return true if Transition 't' was created. */
@@ -774,19 +794,29 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Set the current transition as the most recent prior if it fits. */
-    void setAsPriorTransition(extended::Transition* t) {
-      extended::Transition* prior = mTransitionStorage.getPrior();
+    static void setAsPriorTransition(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        extended::Transition* t) {
+      extended::Transition* prior = transitionStorage.getPrior();
       if (prior->active) {
         if (prior->transitionTime < t->transitionTime) {
           t->active = true;
-          mTransitionStorage.setFreeAgentAsPrior();
+          transitionStorage.setFreeAgentAsPrior();
         }
       } else {
         t->active = true;
-        mTransitionStorage.setFreeAgentAsPrior();
+        transitionStorage.setFreeAgentAsPrior();
       }
     }
 
+    /**
+     * Normalize the transitionTime* fields of the array of Transition objects.
+     * Most Transition.transitionTime is given in 'w' mode. However, if it is
+     * given in 's' or 'u' mode, we convert these into the 'w' mode for
+     * consistency. To convert an 's' or 'u' into 'w', we need the UTC offset
+     * of the current Transition, which happens to be given by the *previous*
+     * Transition.
+     */
     static void fixTransitionTimes(
         extended::Transition** begin, extended::Transition** end) {
       // extend first Transition to -infinity
@@ -860,9 +890,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * Scan through the Candidate transitions, and mark the ones which are
      * active.
      */
-    void selectActiveTransitions(const extended::ZoneMatch* match) {
-      extended::Transition** begin = mTransitionStorage.getCandidatePoolBegin();
-      extended::Transition** end = mTransitionStorage.getCandidatePoolEnd();
+    static void selectActiveTransitions(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const extended::ZoneMatch* match) {
+      extended::Transition** begin = transitionStorage.getCandidatePoolBegin();
+      extended::Transition** end = transitionStorage.getCandidatePoolEnd();
       extended::Transition* prior = nullptr;
       for (extended::Transition** iter = begin; iter != end; ++iter) {
         extended::Transition* transition = *iter;
@@ -973,9 +1005,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           prev->untilDateTime = tt;
         }
 
-        // 2) Calculate the current startDateTime by shifting the current
-        // transitionTime into the UTC offset zone defined by the previous
-        // Transition.
+        // 2) Calculate the current startDateTime by shifting the
+        // transitionTime (represented in the UTC offset of the previous
+        // transition) into the UTC offset of the *current* transition.
         int8_t code = tt.timeCode - prev->offsetCode() - prev->deltaCode()
             + t->offsetCode() + t->deltaCode();
         t->startDateTime = {tt.yearTiny, tt.month, tt.day, code, tt.modifier};
@@ -986,9 +1018,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         // transitionTime can be represented by an illegal time (e.g. 24:00).
         // So, it is better to use the properly normalized startDateTime
         // (calculated above) with the *current* UTC offset.
+        //
+        // TODO: We should also be able to  calculate this directly from
+        // 'transitionTimeU' which should still be a valid field, because it
+        // hasn't been clobbered by 'untilDateTime' yet. Not sure if this saves
+        // any CPU time though, since we still need to mutiply by 900.
         const extended::DateTuple& st = t->startDateTime;
         const acetime_t offsetSeconds = (acetime_t) 900
-            * (st.timeCode + t->offsetCode() + t->deltaCode());
+            * (st.timeCode - t->offsetCode() - t->deltaCode());
         LocalDate ld(st.yearTiny, st.month, st.day);
         t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;
 
@@ -1028,13 +1065,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
-    const common::ZoneInfo* mZoneInfo;
+    const common::ZoneInfo* const mZoneInfo;
     int16_t mYear = 0;
     bool mIsFilled = false;
     uint8_t mNumMatches = 0; // actual number of matches
     extended::ZoneMatch mMatches[kMaxMatches];
     extended::TransitionStorage<kMaxTransitions> mTransitionStorage;
-    int8_t mInteriorYears[kMaxInteriorYears];
 };
 
 } // namespace ace_time

@@ -28,19 +28,19 @@ test(ExtendedZoneSpecifierTest, createMatch) {
   // UNTIL = 2002-03-04 5:00
   common::ZoneEra era = {0, nullptr, 0, "", 2, 3, 4, 5, 'w'};
 
-  extended::YearMonthTuple startYm = {0, 12};
-  extended::YearMonthTuple untilYm = {1, 2};
-  extended::ZoneMatch match = ExtendedZoneSpecifier::createMatch(
+  YearMonthTuple startYm = {0, 12};
+  YearMonthTuple untilYm = {1, 2};
+  ZoneMatch match = ExtendedZoneSpecifier::createMatch(
       &prev, &era, startYm, untilYm);
-  assertTrue((match.startDateTime == extended::DateTuple{0, 12, 1, 0, 'w'}));
-  assertTrue((match.untilDateTime == extended::DateTuple{1, 2, 1, 0, 'w'}));
+  assertTrue((match.startDateTime == DateTuple{0, 12, 1, 0, 'w'}));
+  assertTrue((match.untilDateTime == DateTuple{1, 2, 1, 0, 'w'}));
   assertTrue(&era == match.era);
 
   startYm = {-1, 12};
   untilYm = {3, 2};
   match = ExtendedZoneSpecifier::createMatch(&prev, &era, startYm, untilYm);
-  assertTrue((match.startDateTime == extended::DateTuple{0, 1, 2, 3, 'w'}));
-  assertTrue((match.untilDateTime == extended::DateTuple{2, 3, 4, 5, 'w'}));
+  assertTrue((match.startDateTime == DateTuple{0, 1, 2, 3, 'w'}));
+  assertTrue((match.untilDateTime == DateTuple{2, 3, 4, 5, 'w'}));
   assertTrue(&era == match.era);
 }
 
@@ -178,7 +178,7 @@ test(ExtendedZoneSpecifierTest, compareTransitionToMatchFuzzy) {
     nullptr
   };
 
-  extended::Transition transition = {
+  Transition transition = {
     &match /*match*/, nullptr /*rule*/, {-1, 11, 1, 0, 'w'} /*transitionTime*/,
     {}, {}, {}, {0}, 0, false
   };
@@ -229,7 +229,7 @@ test(ExtendedZoneSpecifierTest, compareTransitionToMatch) {
     nullptr /*era*/
   };
 
-  extended::Transition transition = {
+  Transition transition = {
     &match /*match*/, nullptr /*rule*/, {-1, 12, 31, 0, 'w'} /*transitionTime*/,
     {}, {}, {}, {0}, 0, false
   };
@@ -259,7 +259,7 @@ test(ExtendedZoneSpecifierTest, compareTransitionToMatch) {
 }
 
 test(ExtendedZoneSpecifierTest, processActiveTransition) {
-  extended::Transition* prior = nullptr;
+  Transition* prior = nullptr;
   const ZoneMatch match = {
     {0, 1, 1, 0, 'w'} /*startDateTime*/,
     {1, 1, 1, 0, 'w'} /*untilDateTime*/,
@@ -267,7 +267,7 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   };
 
   // This transition occurs before the match, so prior should be filled.
-  extended::Transition transition0 = {
+  Transition transition0 = {
     &match /*match*/, nullptr /*rule*/, {-1, 12, 31, 0, 'w'} /*transitionTime*/,
     {}, {}, {}, {0}, 0, false /* active */
   };
@@ -276,7 +276,7 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   assertTrue(prior == &transition0);
 
   // This occurs at exactly match.startDateTime, so should replace
-  extended::Transition transition1 = {
+  Transition transition1 = {
     &match /*match*/, nullptr /*rule*/, {0, 1, 1, 0, 'w'} /*transitionTime*/,
     {}, {}, {}, {0}, 0, false
   };
@@ -285,7 +285,7 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   assertTrue(prior == &transition1);
 
   // An interior transition. Prior should not change.
-  extended::Transition transition2 = {
+  Transition transition2 = {
     &match /*match*/, nullptr /*rule*/, {0, 1, 2, 0, 'w'} /*transitionTime*/,
     {}, {}, {}, {0}, 0, false
   };
@@ -294,7 +294,7 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   assertTrue(prior == &transition1);
   
   // Occurs after match.untilDateTime, so should be rejected.
-  extended::Transition transition3 = {
+  Transition transition3 = {
     &match /*match*/, nullptr /*rule*/, {1, 1, 2, 0, 'w'} /*transitionTime*/,
     {}, {}, {}, {0}, 0, false
   };
@@ -302,12 +302,143 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   assertTrue(prior == &transition1);
 }
 
-test(ExtendedZoneSpecifierTest, fixTransitionTimes) {
-  // TODO: Implement
-}
+test(ExtendedZoneSpecifierTest, fixTransitionTimes_generateStartUntilTimes) {
+  // Create simplified ZoneEras which approximate America/Los_Angeles
+  static common::ZoneEra kEra1 = {
+    -32 /*offsetCode*/,
+    nullptr,
+    0 /*deltaCode*/,
+    "PST" /*format*/,
+    19 /*untilYearTiny*/,
+    3 /*untilMonth*/,
+    10 /*untilDay*/,
+    2*4 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/
+  };
+  static common::ZoneEra kEra2 = {
+    -32 /*offsetCode*/,
+    nullptr,
+    4 /*deltaCode*/,
+    "PDT" /*format*/,
+    19 /*untilYearTiny*/,
+    11 /*untilMonth*/,
+    3 /*untilDay*/,
+    2*4 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/
+  };
+  static common::ZoneEra kEra3 = {
+    -32 /*offsetCode*/,
+    nullptr,
+    0 /*deltaCode*/,
+    "PST" /*format*/,
+    20 /*untilYearTiny*/,
+    3 /*untilMonth*/,
+    8 /*untilDay*/,
+    2*4 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/
+  };
+  YearMonthTuple startYm = {18, 12};
+  YearMonthTuple untilYm = {20, 2};
 
-test(ExtendedZoneSpecifierTest, generateStartUntilTimes) {
-  // TODO: Implement
+  // Create 3 ZoneMatches that follow from the ZoneEras
+  ZoneMatch match1 = ExtendedZoneSpecifier::createMatch(
+      &ExtendedZoneSpecifier::kAnchorEra, &kEra1, startYm, untilYm);
+  assertTrue((match1.startDateTime == DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue((match1.untilDateTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue(&kEra1 == match1.era);
+
+  ZoneMatch match2 = ExtendedZoneSpecifier::createMatch(
+      &kEra1, &kEra2, startYm, untilYm);
+  assertTrue((match2.startDateTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue((match2.untilDateTime == DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue(&kEra2 == match2.era);
+
+  ZoneMatch match3 = ExtendedZoneSpecifier::createMatch(
+      &kEra2, &kEra3, startYm, untilYm);
+  assertTrue((match3.startDateTime == DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue((match3.untilDateTime == DateTuple{20, 2, 1, 0, 'w'}));
+  assertTrue(&kEra3 == match3.era);
+
+  TransitionStorage<4> storage;
+  storage.init();
+
+  // Create 3 Transitions corresponding to the matches.
+  // Implements ExtendedZoneSpecifier::findTransitionsFromSimpleMatch().
+  Transition* transition1 = storage.getFreeAgent();
+  transition1->match = &match1;
+  transition1->rule = nullptr;
+  transition1->transitionTime = match1.startDateTime;
+  transition1->active = true;
+  storage.addFreeAgentToCandidatePool();
+
+  Transition* transition2 = storage.getFreeAgent();
+  transition2->match = &match2;
+  transition2->rule = nullptr;
+  transition2->transitionTime = match2.startDateTime;
+  transition2->active = true;
+  storage.addFreeAgentToCandidatePool();
+
+  Transition* transition3 = storage.getFreeAgent();
+  transition3->match = &match3;
+  transition3->rule = nullptr;
+  transition3->transitionTime = match3.startDateTime;
+  transition3->active = true;
+  storage.addFreeAgentToCandidatePool();
+
+  // Move actives to Active pool.
+  storage.addActiveCandidatesToActivePool();
+  Transition** begin = storage.getActivePoolBegin();
+  Transition** end = storage.getActivePoolEnd();
+  assertEqual(3, (int) (end - begin));
+  assertTrue(begin[0] == transition1);
+  assertTrue(begin[1] == transition2);
+  assertTrue(begin[2] == transition3);
+
+  // Fix the transition times, expanding to 's' and 'u'
+  ExtendedZoneSpecifier::fixTransitionTimes(begin, end);
+
+  // Verify. The first Transition is extended to -infinity.
+  assertTrue((transition1->transitionTime == DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue((transition1->transitionTimeS == DateTuple{18, 12, 1, 0, 's'}));
+  assertTrue((transition1->transitionTimeU == DateTuple{18, 12, 1, 32, 'u'}));
+
+  // Second transition uses the UTC offset of the first.
+  assertTrue((transition2->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue((transition2->transitionTimeS == DateTuple{19, 3, 10, 8, 's'}));
+  assertTrue((transition2->transitionTimeU == DateTuple{19, 3, 10, 40, 'u'}));
+
+  // Third transition uses the UTC offset of the second.
+  assertTrue((transition3->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue((transition3->transitionTimeS == DateTuple{19, 11, 3, 4, 's'}));
+  assertTrue((transition3->transitionTimeU == DateTuple{19, 11, 3, 36, 'u'}));
+
+  // Generate the startDateTime and untilDateTime of the transitions.
+  ExtendedZoneSpecifier::generateStartUntilTimes(begin, end);
+
+  // Verify. The first transition startTime should be the same as its
+  // transitionTime.
+  assertTrue((transition1->transitionTime == DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue((transition1->startDateTime == DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue((transition1->untilDateTime == DateTuple{19, 3, 10, 8, 'w'}));
+  acetime_t epochSecs = OffsetDateTime::forComponents(
+      2018, 12, 1, 0, 0, 0, UtcOffset::forOffsetCode(-32)).toEpochSeconds();
+  assertEqual(epochSecs, transition1->startEpochSeconds);
+
+  // Second transition startTime is shifted forward one hour into PDT.
+  assertTrue((transition2->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue((transition2->startDateTime == DateTuple{19, 3, 10, 12, 'w'}));
+  assertTrue((transition2->untilDateTime == DateTuple{19, 11, 3, 8, 'w'}));
+  epochSecs = OffsetDateTime::forComponents(
+      2019, 3, 10, 3, 0, 0, UtcOffset::forOffsetCode(-28)).toEpochSeconds();
+  assertEqual(epochSecs, transition2->startEpochSeconds);
+
+  // Third transition startTime is shifted back one hour into PST.
+  assertTrue((transition3->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue((transition3->startDateTime == DateTuple{19, 11, 3, 4, 'w'}));
+  assertTrue((transition3->untilDateTime == DateTuple{20, 2, 1, 0, 'w'}));
+  epochSecs = OffsetDateTime::forComponents(
+      2019, 11, 3, 1, 0, 0, UtcOffset::forOffsetCode(-32)).toEpochSeconds();
+  assertEqual(epochSecs, transition3->startEpochSeconds);
 }
 
 test(ExtendedZoneSpecifierTest, calcAbbreviations) {

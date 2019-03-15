@@ -7,10 +7,24 @@ using namespace aunit;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// ZonedDateTime
+// ZonedDateTime + ManualZoneSpecifier
 // --------------------------------------------------------------------------
 
-test(ZonedDateTimeTest, forComponents) {
+// Check that ZonedDateTime with ManualZoneSpecifier agrees with simpler
+// OffsetDateTime.
+test(ZonedDateTime_Manual, agreesWithOffsetDateTime) {
+  ManualZoneSpecifier zoneSpecifier(UtcOffset::forHour(-8),
+      UtcOffset::forHour(1));
+  TimeZone tz(&zoneSpecifier);
+  ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
+
+  OffsetDateTime otz = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
+      UtcOffset::forHour(-8));
+
+  assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
+}
+
+test(ZonedDateTime_Manual, forComponents) {
   ZonedDateTime dt;
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
@@ -74,7 +88,7 @@ test(ZonedDateTimeTest, forComponents) {
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 
-test(ZonedDateTimeTest, toAndForUnixSeconds) {
+test(ZonedDateTime_Manual, toAndForUnixSeconds) {
   ZonedDateTime dt;
   ZonedDateTime udt;
 
@@ -120,19 +134,7 @@ test(ZonedDateTimeTest, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 }
 
-test(ZonedDateTimeTest, ManualZoneSpecifier) {
-  ManualZoneSpecifier zoneSpecifier(UtcOffset::forHour(-8),
-      UtcOffset::forHour(1));
-  TimeZone tz(&zoneSpecifier);
-  ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
-
-  OffsetDateTime otz = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      UtcOffset::forHour(-8));
-
-  assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
-}
-
-test(ZonedDateTimeTest, convertToTimeZone) {
+test(ZonedDateTime_Manual, convertToTimeZone) {
   ManualZoneSpecifier stdSpec(UtcOffset::forHour(-8), UtcOffset::forHour(1));
   TimeZone stdTz(&stdSpec);
   ZonedDateTime std = ZonedDateTime::forComponents(
@@ -156,7 +158,11 @@ test(ZonedDateTimeTest, convertToTimeZone) {
   assertEqual(-7*60, dst.timeZone().getUtcOffset(stdEpochSeconds).toMinutes());
 }
 
-test(ZonedDateTimeTest, forComponents_beforeDst) {
+// --------------------------------------------------------------------------
+// ZonedDateTime + BasicZoneSpecifier
+// --------------------------------------------------------------------------
+
+test(ZonedDateTimeTest_Basic, forComponents_beforeDst) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
@@ -168,7 +174,7 @@ test(ZonedDateTimeTest, forComponents_beforeDst) {
   assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
 }
 
-test(ZonedDateTimeTest, forComponents_inDstGap) {
+test(ZonedDateTimeTest_Basic, forComponents_inDstGap) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 0, 1, tz);
@@ -179,7 +185,7 @@ test(ZonedDateTimeTest, forComponents_inDstGap) {
   assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
 }
 
-test(ZonedDateTimeTest, forComponents_inDst) {
+test(ZonedDateTimeTest_Basic, forComponents_inDst) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 0, 1, tz);
@@ -190,7 +196,7 @@ test(ZonedDateTimeTest, forComponents_inDst) {
   assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
 }
 
-test(ZonedDateTimeTest, forComponents_beforeStd) {
+test(ZonedDateTimeTest_Basic, forComponents_beforeStd) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 59, tz);
@@ -202,7 +208,7 @@ test(ZonedDateTimeTest, forComponents_beforeStd) {
   assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
 }
 
-test(ZonedDateTimeTest, forComponents_inOverlap) {
+test(ZonedDateTimeTest_Basic, forComponents_inOverlap) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(
@@ -214,7 +220,7 @@ test(ZonedDateTimeTest, forComponents_inOverlap) {
   assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
 }
 
-test(ZonedDateTimeTest, forComponents_afterOverlap) {
+test(ZonedDateTimeTest_Basic, forComponents_afterOverlap) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(
@@ -225,6 +231,47 @@ test(ZonedDateTimeTest, forComponents_afterOverlap) {
 
   assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
 }
+
+// --------------------------------------------------------------------------
+// ZonedDateTime + ExtendedZoneSpecifier
+// --------------------------------------------------------------------------
+
+test(ZonedDateTimeTest_Extended, forComponents_beforeDst) {
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpecifier);
+  ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
+
+  UtcOffset pst = UtcOffset::forHour(-8);
+  OffsetDateTime otz = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
+    pst);
+
+  assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
+}
+
+// FIXME
+/*
+test(ZonedDateTimeTest_Extended, forComponents_inDstGap) {
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpecifier);
+  ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 0, 1, tz);
+
+  UtcOffset pdt = UtcOffset::forHour(-7);
+  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 1, pdt);
+
+  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+}
+
+test(ZonedDateTimeTest_Extended, forComponents_inDst) {
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpecifier);
+  ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 0, 1, tz);
+
+  UtcOffset pdt = UtcOffset::forHour(-7);
+  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 3, 11, 3, 0, 1, pdt);
+
+  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+}
+*/
 
 // --------------------------------------------------------------------------
 // data_time_mutation
