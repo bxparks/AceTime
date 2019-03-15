@@ -43,7 +43,7 @@ class Controller {
     }
 
     /** Set the time zone using the given Zone Info. */
-    void setTimeZone(const common::ZoneInfo* zoneInfo) {
+    void setTimeZone(const zonedb::ZoneInfo* zoneInfo) {
       mBasicZoneSpecifier = BasicZoneSpecifier(zoneInfo);
       mTimeZone = TimeZone(&mBasicZoneSpecifier);
       preserveInfo();
