@@ -16,6 +16,8 @@
 
 class ExtendedZoneSpecifierTest_compareEraToYearMonth;
 class ExtendedZoneSpecifierTest_createMatch;
+class ExtendedZoneSpecifierTest_findMatches_simple;
+class ExtendedZoneSpecifierTest_findMatches_named;
 class ExtendedZoneSpecifierTest_normalizeDateTuple;
 class ExtendedZoneSpecifierTest_expandDateTuple;
 class ExtendedZoneSpecifierTest_calcInteriorYears;
@@ -457,6 +459,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
   private:
     friend class ::ExtendedZoneSpecifierTest_compareEraToYearMonth;
     friend class ::ExtendedZoneSpecifierTest_createMatch;
+    friend class ::ExtendedZoneSpecifierTest_findMatches_simple;
+    friend class ::ExtendedZoneSpecifierTest_findMatches_named;
     friend class ::ExtendedZoneSpecifierTest_normalizeDateTuple;
     friend class ::ExtendedZoneSpecifierTest_expandDateTuple;
     friend class ::ExtendedZoneSpecifierTest_calcInteriorYears;
@@ -518,8 +522,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       extended::YearMonthTuple untilYm =  {
         (int8_t) (year - LocalDate::kEpochYear + 1), 2 };
 
-      findMatches(mZoneInfo, startYm, untilYm, mMatches, kMaxMatches,
-          &mNumMatches);
+      mNumMatches = findMatches(mZoneInfo, startYm, untilYm, mMatches,
+          kMaxMatches);
       findTransitions(mTransitionStorage, mMatches, mNumMatches);
       extended::Transition** begin = mTransitionStorage.getActivePoolBegin();
       extended::Transition** end = mTransitionStorage.getActivePoolEnd();
@@ -540,13 +544,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * and timeModifier. The start and until fields of the ZoneEra are
      * truncated at the low and high end by startYm and untilYm, respectively.
      * Each matching ZoneEra is wrapped inside a ZoneMatch object, placed in
-     * the 'matches' array, and the number of matches is returned in
-     * numMatches.
+     * the 'matches' array, and the number of matches is returned.
      */
-    static void findMatches(const common::ZoneInfo* zoneInfo,
+    static uint8_t findMatches(const common::ZoneInfo* zoneInfo,
         const extended::YearMonthTuple& startYm,
         const extended::YearMonthTuple& untilYm,
-        extended::ZoneMatch* matches, uint8_t maxMatches, uint8_t* numMatches) {
+        extended::ZoneMatch* matches, uint8_t maxMatches) {
       uint8_t iMatch = 0;
       const common::ZoneEra* prev = &kAnchorEra;
       for (uint8_t iEra = 0; iEra < zoneInfo->numEras; iEra++) {
@@ -559,7 +562,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         }
         prev = era;
       }
-      *numMatches = iMatch;
+      return iMatch;
     }
 
     /**
@@ -594,6 +597,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return 0;
     }
 
+    /**
+     * Create a ZoneMatch object around the 'era' which intersects the half-open
+     * [startYm, untilYm) interval. The interval is assumed to overlap the
+     * ZoneEra using the eraOverlapsInterval() method. The 'prev' ZoneEra is
+     * needed to define the startDateTime of the current era.
+     */
     static extended::ZoneMatch createMatch(
         const common::ZoneEra* prev,
         const common::ZoneEra* era,
@@ -624,6 +633,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return {startDate, untilDate, era};
     }
 
+    /**
+     * Create the Transition objects which are defined by the list of matches
+     * and store them in the transitionStorage container.
+     */
     static void findTransitions(
         extended::TransitionStorage<kMaxTransitions>& transitionStorage,
         extended::ZoneMatch* matches,
@@ -633,6 +646,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
+    /** Create the Transitions defined by the given match. */
     static void findTransitionsForMatch(
         extended::TransitionStorage<kMaxTransitions>& transitionStorage,
         const extended::ZoneMatch* match) {
