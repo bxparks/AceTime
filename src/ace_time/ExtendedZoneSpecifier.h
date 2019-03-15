@@ -597,6 +597,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return 0;
     }
 
+    /**
+     * Create a ZoneMatch object around the 'era' which intersects the half-open
+     * [startYm, untilYm) interval. The interval is assumed to overlap the
+     * ZoneEra using the eraOverlapsInterval() method. The 'prev' ZoneEra is
+     * needed to define the startDateTime of the current era.
+     */
     static extended::ZoneMatch createMatch(
         const common::ZoneEra* prev,
         const common::ZoneEra* era,
@@ -627,6 +633,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return {startDate, untilDate, era};
     }
 
+    /**
+     * Create the Transition objects which are defined by the list of matches
+     * and store them in the transitionStorage container.
+     */
     static void findTransitions(
         extended::TransitionStorage<kMaxTransitions>& transitionStorage,
         extended::ZoneMatch* matches,
@@ -636,6 +646,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       }
     }
 
+    /** Create the Transitions defined by the given match. */
     static void findTransitionsForMatch(
         extended::TransitionStorage<kMaxTransitions>& transitionStorage,
         const extended::ZoneMatch* match) {
