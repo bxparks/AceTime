@@ -520,7 +520,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
       findMatches(mZoneInfo, startYm, untilYm, mMatches, kMaxMatches,
           &mNumMatches);
-      findTransitions(mMatches, mNumMatches);
+      findTransitions(mTransitionStorage, mMatches, mNumMatches);
       extended::Transition** begin = mTransitionStorage.getActivePoolBegin();
       extended::Transition** end = mTransitionStorage.getActivePoolEnd();
       fixTransitionTimes(begin, end);
@@ -624,50 +624,60 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return {startDate, untilDate, era};
     }
 
-    void findTransitions(extended::ZoneMatch* matches,
+    static void findTransitions(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        extended::ZoneMatch* matches,
         uint8_t numMatches) {
       for (uint8_t i = 0; i < numMatches; i++) {
-        findTransitionsForMatch(&matches[i]);
+        findTransitionsForMatch(transitionStorage, &matches[i]);
       }
     }
 
-    void findTransitionsForMatch(const extended::ZoneMatch* match) {
+    static void findTransitionsForMatch(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const extended::ZoneMatch* match) {
       const common::ZonePolicy* policy = match->era->zonePolicy;
       if (policy == nullptr) {
-        findTransitionsFromSimpleMatch(match);
+        findTransitionsFromSimpleMatch(transitionStorage, match);
       } else {
-        findTransitionsFromNamedMatch(match);
+        findTransitionsFromNamedMatch(transitionStorage, match);
       }
     }
 
-    void findTransitionsFromSimpleMatch(const extended::ZoneMatch* match) {
-      extended::Transition* freeTransition = mTransitionStorage.getFreeAgent();
+    static void findTransitionsFromSimpleMatch(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const extended::ZoneMatch* match) {
+      extended::Transition* freeTransition = transitionStorage.getFreeAgent();
       freeTransition->match = match;
       freeTransition->rule = nullptr;
       freeTransition->transitionTime = match->startDateTime;
 
-      mTransitionStorage.addFreeAgentToActivePool();
+      transitionStorage.addFreeAgentToActivePool();
     }
 
-    void findTransitionsFromNamedMatch(const extended::ZoneMatch* match) {
-      mTransitionStorage.resetCandidatePool();
-      findCandidateTransitions(match);
+    static void findTransitionsFromNamedMatch(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const extended::ZoneMatch* match) {
+      transitionStorage.resetCandidatePool();
+      findCandidateTransitions(transitionStorage, match);
       fixTransitionTimes(
-          mTransitionStorage.getCandidatePoolBegin(),
-          mTransitionStorage.getCandidatePoolEnd());
-      selectActiveTransitions(match);
+          transitionStorage.getCandidatePoolBegin(),
+          transitionStorage.getCandidatePoolEnd());
+      selectActiveTransitions(transitionStorage, match);
 
-      mTransitionStorage.addActiveCandidatesToActivePool();
+      transitionStorage.addActiveCandidatesToActivePool();
     }
 
-    void findCandidateTransitions(const extended::ZoneMatch* match) {
+    static void findCandidateTransitions(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const extended::ZoneMatch* match) {
       const common::ZonePolicy* policy = match->era->zonePolicy;
       uint8_t numRules = policy->numRules;
       const common::ZoneRule* rules = policy->rules;
       int8_t startY = match->startDateTime.yearTiny;
       int8_t endY = match->untilDateTime.yearTiny;
 
-      extended::Transition* prior = mTransitionStorage.reservePrior();
+      extended::Transition* prior = transitionStorage.reservePrior();
       prior->active = false; // indicates "no prior transition"
       for (uint8_t r = 0; r < numRules; r++) {
         const common::ZoneRule* const rule = &rules[r];
@@ -678,13 +688,13 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
         for (uint8_t y = 0; y < numYears; y++) {
           int8_t year = interiorYears[y];
-          extended::Transition* t = mTransitionStorage.getFreeAgent();
+          extended::Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, year, rule, match);
           int8_t status = compareTransitionToMatchFuzzy(t, match);
           if (status < 0) {
-            setAsPriorTransition(t);
+            setAsPriorTransition(transitionStorage, t);
           } else if (status == 1) {
-            mTransitionStorage.addFreeAgentToCandidatePool();
+            transitionStorage.addFreeAgentToCandidatePool();
           }
         }
 
@@ -692,16 +702,16 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         int8_t priorYear = getMostRecentPriorYear(
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
         if (priorYear != LocalDate::kInvalidYearTiny) {
-          extended::Transition* t = mTransitionStorage.getFreeAgent();
+          extended::Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, priorYear, rule, match);
-          setAsPriorTransition(t);
+          setAsPriorTransition(transitionStorage, t);
         }
       }
 
       // Add the reserved prior into the Candidate pool, whether or not
       // 'active' is true. The 'active' flag will be recalculated in
       // selectActiveTransitions().
-      mTransitionStorage.addPriorToCandidatePool();
+      transitionStorage.addPriorToCandidatePool();
     }
 
     /** Return true if Transition 't' was created. */
@@ -784,16 +794,18 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Set the current transition as the most recent prior if it fits. */
-    void setAsPriorTransition(extended::Transition* t) {
-      extended::Transition* prior = mTransitionStorage.getPrior();
+    static void setAsPriorTransition(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        extended::Transition* t) {
+      extended::Transition* prior = transitionStorage.getPrior();
       if (prior->active) {
         if (prior->transitionTime < t->transitionTime) {
           t->active = true;
-          mTransitionStorage.setFreeAgentAsPrior();
+          transitionStorage.setFreeAgentAsPrior();
         }
       } else {
         t->active = true;
-        mTransitionStorage.setFreeAgentAsPrior();
+        transitionStorage.setFreeAgentAsPrior();
       }
     }
 
@@ -878,9 +890,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * Scan through the Candidate transitions, and mark the ones which are
      * active.
      */
-    void selectActiveTransitions(const extended::ZoneMatch* match) {
-      extended::Transition** begin = mTransitionStorage.getCandidatePoolBegin();
-      extended::Transition** end = mTransitionStorage.getCandidatePoolEnd();
+    static void selectActiveTransitions(
+        extended::TransitionStorage<kMaxTransitions>& transitionStorage,
+        const extended::ZoneMatch* match) {
+      extended::Transition** begin = transitionStorage.getCandidatePoolBegin();
+      extended::Transition** end = transitionStorage.getCandidatePoolEnd();
       extended::Transition* prior = nullptr;
       for (extended::Transition** iter = begin; iter != end; ++iter) {
         extended::Transition* transition = *iter;
