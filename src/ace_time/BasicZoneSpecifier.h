@@ -117,6 +117,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
      * interpreted as UTC.
      */
+    // TODO: Check if nullptr is needed. If not, change to const reference.
     explicit BasicZoneSpecifier(const common::ZoneInfo* zoneInfo = nullptr):
         mZoneInfo(zoneInfo) {}
 

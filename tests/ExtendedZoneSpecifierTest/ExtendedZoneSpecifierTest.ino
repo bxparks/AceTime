@@ -91,10 +91,10 @@ test(ExtendedZoneSpecifierTest, createMatch) {
 test(ExtendedZoneSpecifierTest, findMatches) {
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
-  extended::ZoneMatch matches[4];
-  uint8_t numMatches;
-  ExtendedZoneSpecifier::findMatches(
-      &kZoneAlmostLosAngeles, startYm, untilYm, matches, 4, &numMatches);
+  const uint8_t kMaxMaches = 4;
+  extended::ZoneMatch matches[kMaxMaches];
+  uint8_t numMatches = ExtendedZoneSpecifier::findMatches(
+      &kZoneAlmostLosAngeles, startYm, untilYm, matches, kMaxMaches);
   assertEqual(3, numMatches);
 
   assertTrue((matches[0].startDateTime == DateTuple{18, 12, 1, 0, 'w'}));
@@ -370,10 +370,8 @@ test(ExtendedZoneSpecifierTest, fixTransitionTimes_generateStartUntilTimes) {
   YearMonthTuple untilYm = {20, 2};
   const uint8_t kMaxMaches = 4;
   extended::ZoneMatch matches[kMaxMaches];
-  uint8_t numMatches;
-  ExtendedZoneSpecifier::findMatches(
-      &kZoneAlmostLosAngeles, startYm, untilYm, matches, kMaxMaches,
-      &numMatches);
+  uint8_t numMatches = ExtendedZoneSpecifier::findMatches(
+      &kZoneAlmostLosAngeles, startYm, untilYm, matches, kMaxMaches);
   assertEqual(3, numMatches);
 
   TransitionStorage<4> storage;
