@@ -18,7 +18,7 @@ struct ValidationItem {
 };
 
 struct ValidationData {
-  const common::ZoneInfo* const zoneInfo;
+  const zonedb::ZoneInfo* const zoneInfo;
   uint16_t const numItems;
   const ValidationItem* const items;
 };

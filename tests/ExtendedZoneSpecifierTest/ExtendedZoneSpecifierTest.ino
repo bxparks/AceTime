@@ -5,7 +5,7 @@
 
 using namespace aunit;
 using namespace ace_time;
-using namespace ace_time::extended;
+using namespace ace_time::zonedbx;
 
 // --------------------------------------------------------------------------
 // A simplified version of America/Los_Angeles, using only simple ZoneEras
@@ -13,7 +13,7 @@ using namespace ace_time::extended;
 // --------------------------------------------------------------------------
 
 // Create simplified ZoneEras which approximate America/Los_Angeles
-static const common::ZoneEra kZoneEraAlmostLosAngeles[] = {
+static const ZoneEra kZoneEraAlmostLosAngeles[] = {
   {
     -32 /*offsetCode*/,
     nullptr,
@@ -49,11 +49,17 @@ static const common::ZoneEra kZoneEraAlmostLosAngeles[] = {
   },
 };
 
+static const ZoneInfo kZoneAlmostLosAngeles = {
+  "Almost_Los_Angeles" /*name*/,
+  kZoneEraAlmostLosAngeles /*eras*/,
+  3 /*numEras*/,
+};
+
 // --------------------------------------------------------------------------
 // A real ZoneInfo for America/Los_Angeles. Taken from zonedbx/zone_infos.cpp.
 // --------------------------------------------------------------------------
 
-static const common::ZoneRule kZoneRulesUS[] = {
+static const ZoneRule kZoneRulesTestUS[] = {
   // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
   {
     -33 /*fromYearTiny*/,
@@ -117,24 +123,18 @@ static const common::ZoneRule kZoneRulesUS[] = {
 
 };
 
-static const common::ZonePolicy kPolicyUS = {
+static const ZonePolicy kPolicyTestUS = {
   5 /*numRules*/,
-  kZoneRulesUS /*rules*/,
+  kZoneRulesTestUS /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
 };
 
-static const common::ZoneInfo kZoneAlmostLosAngeles = {
-  "Almost_Los_Angeles" /*name*/,
-  kZoneEraAlmostLosAngeles /*eras*/,
-  3 /*numEras*/,
-};
-
-static const common::ZoneEra kZoneEraLos_Angeles[] = {
+static const ZoneEra kZoneEraTestLos_Angeles[] = {
   //             -8:00    US    P%sT
   {
     -32 /*offsetCode*/,
-    &kPolicyUS /*zonePolicy*/,
+    &kPolicyTestUS /*zonePolicy*/,
     0 /*deltaCode*/,
     "P%T" /*format*/,
     127 /*untilYearTiny*/,
@@ -146,9 +146,9 @@ static const common::ZoneEra kZoneEraLos_Angeles[] = {
 
 };
 
-static const common::ZoneInfo kZoneLos_Angeles = {
+static const ZoneInfo kZoneTestLos_Angeles = {
   "America/Los_Angeles" /*name*/,
-  kZoneEraLos_Angeles /*eras*/,
+  kZoneEraTestLos_Angeles /*eras*/,
   1 /*numEras*/,
 };
 
@@ -157,21 +157,21 @@ static const common::ZoneInfo kZoneLos_Angeles = {
 // --------------------------------------------------------------------------
 
 test(ExtendedZoneSpecifierTest, compareEraToYearMonth) {
-  common::ZoneEra era = {0, nullptr, 0, "", 0, 1, 2, 12, 'w'};
+  ZoneEra era = {0, nullptr, 0, "", 0, 1, 2, 12, 'w'};
   assertEqual(1, ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 1));
   assertEqual(1, ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 1));
   assertEqual(-1, ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 2));
   assertEqual(-1, ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 3));
 
-  common::ZoneEra era2 = {0, nullptr, 0, "", 0, 1, 0, 0, 'w'};
+  ZoneEra era2 = {0, nullptr, 0, "", 0, 1, 0, 0, 'w'};
   assertEqual(0, ExtendedZoneSpecifier::compareEraToYearMonth(&era2, 0, 1));
 }
 
 test(ExtendedZoneSpecifierTest, createMatch) {
   // UNTIL = 2000-01-02 3:00
-  common::ZoneEra prev = {0, nullptr, 0, "", 0, 1, 2, 3, 'w'};
+  ZoneEra prev = {0, nullptr, 0, "", 0, 1, 2, 3, 'w'};
   // UNTIL = 2002-03-04 5:00
-  common::ZoneEra era = {0, nullptr, 0, "", 2, 3, 4, 5, 'w'};
+  ZoneEra era = {0, nullptr, 0, "", 2, 3, 4, 5, 'w'};
 
   YearMonthTuple startYm = {0, 12};
   YearMonthTuple untilYm = {1, 2};
@@ -193,7 +193,7 @@ test(ExtendedZoneSpecifierTest, findMatches_simple) {
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
   const uint8_t kMaxMaches = 4;
-  extended::ZoneMatch matches[kMaxMaches];
+  ZoneMatch matches[kMaxMaches];
   uint8_t numMatches = ExtendedZoneSpecifier::findMatches(
       &kZoneAlmostLosAngeles, startYm, untilYm, matches, kMaxMaches);
   assertEqual(3, numMatches);
@@ -215,14 +215,14 @@ test(ExtendedZoneSpecifierTest, findMatches_named) {
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
   const uint8_t kMaxMaches = 4;
-  extended::ZoneMatch matches[kMaxMaches];
+  ZoneMatch matches[kMaxMaches];
   uint8_t numMatches = ExtendedZoneSpecifier::findMatches(
-      &kZoneLos_Angeles, startYm, untilYm, matches, kMaxMaches);
+      &kZoneTestLos_Angeles, startYm, untilYm, matches, kMaxMaches);
   assertEqual(1, numMatches);
 
   assertTrue((matches[0].startDateTime == DateTuple{18, 12, 1, 0, 'w'}));
   assertTrue((matches[0].untilDateTime == DateTuple{20, 2, 1, 0, 'w'}));
-  assertTrue(&kZoneEraLos_Angeles[0] == matches[0].era);
+  assertTrue(&kZoneEraTestLos_Angeles[0] == matches[0].era);
 }
 
 test(ExtendedZoneSpecifierTest, getTransitionTime) {
@@ -484,7 +484,7 @@ test(ExtendedZoneSpecifierTest, fixTransitionTimes_generateStartUntilTimes) {
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
   const uint8_t kMaxMaches = 4;
-  extended::ZoneMatch matches[kMaxMaches];
+  ZoneMatch matches[kMaxMaches];
   uint8_t numMatches = ExtendedZoneSpecifier::findMatches(
       &kZoneAlmostLosAngeles, startYm, untilYm, matches, kMaxMaches);
   assertEqual(3, numMatches);

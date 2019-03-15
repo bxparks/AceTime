@@ -27,7 +27,7 @@ namespace zonedb {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAbidjan[] = {
+static const ZoneEra kZoneEraAbidjan[] = {
   //              0:00    -    GMT
   {
     0 /*offsetCode*/,
@@ -43,7 +43,7 @@ static const common::ZoneEra kZoneEraAbidjan[] = {
 
 };
 
-const common::ZoneInfo kZoneAbidjan = {
+const ZoneInfo kZoneAbidjan = {
   "Africa/Abidjan" /*name*/,
   kZoneEraAbidjan /*eras*/,
   1 /*numEras*/,
@@ -57,7 +57,7 @@ const common::ZoneInfo kZoneAbidjan = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAccra[] = {
+static const ZoneEra kZoneEraAccra[] = {
   //              0:00    Ghana    GMT/+0020
   {
     0 /*offsetCode*/,
@@ -73,7 +73,7 @@ static const common::ZoneEra kZoneEraAccra[] = {
 
 };
 
-const common::ZoneInfo kZoneAccra = {
+const ZoneInfo kZoneAccra = {
   "Africa/Accra" /*name*/,
   kZoneEraAccra /*eras*/,
   1 /*numEras*/,
@@ -87,7 +87,7 @@ const common::ZoneInfo kZoneAccra = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAlgiers[] = {
+static const ZoneEra kZoneEraAlgiers[] = {
   //             1:00    -    CET
   {
     4 /*offsetCode*/,
@@ -103,7 +103,7 @@ static const common::ZoneEra kZoneEraAlgiers[] = {
 
 };
 
-const common::ZoneInfo kZoneAlgiers = {
+const ZoneInfo kZoneAlgiers = {
   "Africa/Algiers" /*name*/,
   kZoneEraAlgiers /*eras*/,
   1 /*numEras*/,
@@ -117,7 +117,7 @@ const common::ZoneInfo kZoneAlgiers = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBissau[] = {
+static const ZoneEra kZoneEraBissau[] = {
   //              0:00    -    GMT
   {
     0 /*offsetCode*/,
@@ -133,7 +133,7 @@ static const common::ZoneEra kZoneEraBissau[] = {
 
 };
 
-const common::ZoneInfo kZoneBissau = {
+const ZoneInfo kZoneBissau = {
   "Africa/Bissau" /*name*/,
   kZoneEraBissau /*eras*/,
   1 /*numEras*/,
@@ -147,7 +147,7 @@ const common::ZoneInfo kZoneBissau = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCeuta[] = {
+static const ZoneEra kZoneEraCeuta[] = {
   //              1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -163,7 +163,7 @@ static const common::ZoneEra kZoneEraCeuta[] = {
 
 };
 
-const common::ZoneInfo kZoneCeuta = {
+const ZoneInfo kZoneCeuta = {
   "Africa/Ceuta" /*name*/,
   kZoneEraCeuta /*eras*/,
   1 /*numEras*/,
@@ -177,7 +177,7 @@ const common::ZoneInfo kZoneCeuta = {
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraJohannesburg[] = {
+static const ZoneEra kZoneEraJohannesburg[] = {
   //             2:00    SA    SAST
   {
     8 /*offsetCode*/,
@@ -193,7 +193,7 @@ static const common::ZoneEra kZoneEraJohannesburg[] = {
 
 };
 
-const common::ZoneInfo kZoneJohannesburg = {
+const ZoneInfo kZoneJohannesburg = {
   "Africa/Johannesburg" /*name*/,
   kZoneEraJohannesburg /*eras*/,
   1 /*numEras*/,
@@ -207,7 +207,7 @@ const common::ZoneInfo kZoneJohannesburg = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraLagos[] = {
+static const ZoneEra kZoneEraLagos[] = {
   //             1:00    -    WAT
   {
     4 /*offsetCode*/,
@@ -223,7 +223,7 @@ static const common::ZoneEra kZoneEraLagos[] = {
 
 };
 
-const common::ZoneInfo kZoneLagos = {
+const ZoneInfo kZoneLagos = {
   "Africa/Lagos" /*name*/,
   kZoneEraLagos /*eras*/,
   1 /*numEras*/,
@@ -237,7 +237,7 @@ const common::ZoneInfo kZoneLagos = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMaputo[] = {
+static const ZoneEra kZoneEraMaputo[] = {
   //             2:00    -    CAT
   {
     8 /*offsetCode*/,
@@ -253,7 +253,7 @@ static const common::ZoneEra kZoneEraMaputo[] = {
 
 };
 
-const common::ZoneInfo kZoneMaputo = {
+const ZoneInfo kZoneMaputo = {
   "Africa/Maputo" /*name*/,
   kZoneEraMaputo /*eras*/,
   1 /*numEras*/,
@@ -267,7 +267,7 @@ const common::ZoneInfo kZoneMaputo = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMonrovia[] = {
+static const ZoneEra kZoneEraMonrovia[] = {
   //              0:00    -    GMT
   {
     0 /*offsetCode*/,
@@ -283,7 +283,7 @@ static const common::ZoneEra kZoneEraMonrovia[] = {
 
 };
 
-const common::ZoneInfo kZoneMonrovia = {
+const ZoneInfo kZoneMonrovia = {
   "Africa/Monrovia" /*name*/,
   kZoneEraMonrovia /*eras*/,
   1 /*numEras*/,
@@ -297,7 +297,7 @@ const common::ZoneInfo kZoneMonrovia = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraNairobi[] = {
+static const ZoneEra kZoneEraNairobi[] = {
   //             3:00    -    EAT
   {
     12 /*offsetCode*/,
@@ -313,7 +313,7 @@ static const common::ZoneEra kZoneEraNairobi[] = {
 
 };
 
-const common::ZoneInfo kZoneNairobi = {
+const ZoneInfo kZoneNairobi = {
   "Africa/Nairobi" /*name*/,
   kZoneEraNairobi /*eras*/,
   1 /*numEras*/,
@@ -327,7 +327,7 @@ const common::ZoneInfo kZoneNairobi = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraNdjamena[] = {
+static const ZoneEra kZoneEraNdjamena[] = {
   //             1:00    -    WAT
   {
     4 /*offsetCode*/,
@@ -343,7 +343,7 @@ static const common::ZoneEra kZoneEraNdjamena[] = {
 
 };
 
-const common::ZoneInfo kZoneNdjamena = {
+const ZoneInfo kZoneNdjamena = {
   "Africa/Ndjamena" /*name*/,
   kZoneEraNdjamena /*eras*/,
   1 /*numEras*/,
@@ -357,7 +357,7 @@ const common::ZoneInfo kZoneNdjamena = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraTunis[] = {
+static const ZoneEra kZoneEraTunis[] = {
   //             1:00    Tunisia    CE%sT
   {
     4 /*offsetCode*/,
@@ -373,7 +373,7 @@ static const common::ZoneEra kZoneEraTunis[] = {
 
 };
 
-const common::ZoneInfo kZoneTunis = {
+const ZoneInfo kZoneTunis = {
   "Africa/Tunis" /*name*/,
   kZoneEraTunis /*eras*/,
   1 /*numEras*/,
@@ -387,7 +387,7 @@ const common::ZoneInfo kZoneTunis = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAdak[] = {
+static const ZoneEra kZoneEraAdak[] = {
   //             -10:00    US    H%sT
   {
     -40 /*offsetCode*/,
@@ -403,7 +403,7 @@ static const common::ZoneEra kZoneEraAdak[] = {
 
 };
 
-const common::ZoneInfo kZoneAdak = {
+const ZoneInfo kZoneAdak = {
   "America/Adak" /*name*/,
   kZoneEraAdak /*eras*/,
   1 /*numEras*/,
@@ -417,7 +417,7 @@ const common::ZoneInfo kZoneAdak = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAnchorage[] = {
+static const ZoneEra kZoneEraAnchorage[] = {
   //              -9:00    US    AK%sT
   {
     -36 /*offsetCode*/,
@@ -433,7 +433,7 @@ static const common::ZoneEra kZoneEraAnchorage[] = {
 
 };
 
-const common::ZoneInfo kZoneAnchorage = {
+const ZoneInfo kZoneAnchorage = {
   "America/Anchorage" /*name*/,
   kZoneEraAnchorage /*eras*/,
   1 /*numEras*/,
@@ -447,7 +447,7 @@ const common::ZoneInfo kZoneAnchorage = {
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAsuncion[] = {
+static const ZoneEra kZoneEraAsuncion[] = {
   //             -4:00    Para    -04/-03
   {
     -16 /*offsetCode*/,
@@ -463,7 +463,7 @@ static const common::ZoneEra kZoneEraAsuncion[] = {
 
 };
 
-const common::ZoneInfo kZoneAsuncion = {
+const ZoneInfo kZoneAsuncion = {
   "America/Asuncion" /*name*/,
   kZoneEraAsuncion /*eras*/,
   1 /*numEras*/,
@@ -477,7 +477,7 @@ const common::ZoneInfo kZoneAsuncion = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAtikokan[] = {
+static const ZoneEra kZoneEraAtikokan[] = {
   //             -5:00    -    EST
   {
     -20 /*offsetCode*/,
@@ -493,7 +493,7 @@ static const common::ZoneEra kZoneEraAtikokan[] = {
 
 };
 
-const common::ZoneInfo kZoneAtikokan = {
+const ZoneInfo kZoneAtikokan = {
   "America/Atikokan" /*name*/,
   kZoneEraAtikokan /*eras*/,
   1 /*numEras*/,
@@ -507,7 +507,7 @@ const common::ZoneInfo kZoneAtikokan = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBarbados[] = {
+static const ZoneEra kZoneEraBarbados[] = {
   //             -4:00    Barb    A%sT
   {
     -16 /*offsetCode*/,
@@ -523,7 +523,7 @@ static const common::ZoneEra kZoneEraBarbados[] = {
 
 };
 
-const common::ZoneInfo kZoneBarbados = {
+const ZoneInfo kZoneBarbados = {
   "America/Barbados" /*name*/,
   kZoneEraBarbados /*eras*/,
   1 /*numEras*/,
@@ -537,7 +537,7 @@ const common::ZoneInfo kZoneBarbados = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBelem[] = {
+static const ZoneEra kZoneEraBelem[] = {
   //             -3:00    -    -03
   {
     -12 /*offsetCode*/,
@@ -553,7 +553,7 @@ static const common::ZoneEra kZoneEraBelem[] = {
 
 };
 
-const common::ZoneInfo kZoneBelem = {
+const ZoneInfo kZoneBelem = {
   "America/Belem" /*name*/,
   kZoneEraBelem /*eras*/,
   1 /*numEras*/,
@@ -567,7 +567,7 @@ const common::ZoneInfo kZoneBelem = {
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBlanc_Sablon[] = {
+static const ZoneEra kZoneEraBlanc_Sablon[] = {
   //             -4:00    -    AST
   {
     -16 /*offsetCode*/,
@@ -583,7 +583,7 @@ static const common::ZoneEra kZoneEraBlanc_Sablon[] = {
 
 };
 
-const common::ZoneInfo kZoneBlanc_Sablon = {
+const ZoneInfo kZoneBlanc_Sablon = {
   "America/Blanc_Sablon" /*name*/,
   kZoneEraBlanc_Sablon /*eras*/,
   1 /*numEras*/,
@@ -597,7 +597,7 @@ const common::ZoneInfo kZoneBlanc_Sablon = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBogota[] = {
+static const ZoneEra kZoneEraBogota[] = {
   //             -5:00    CO    -05/-04
   {
     -20 /*offsetCode*/,
@@ -613,7 +613,7 @@ static const common::ZoneEra kZoneEraBogota[] = {
 
 };
 
-const common::ZoneInfo kZoneBogota = {
+const ZoneInfo kZoneBogota = {
   "America/Bogota" /*name*/,
   kZoneEraBogota /*eras*/,
   1 /*numEras*/,
@@ -627,7 +627,7 @@ const common::ZoneInfo kZoneBogota = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBoise[] = {
+static const ZoneEra kZoneEraBoise[] = {
   //             -7:00    US    M%sT
   {
     -28 /*offsetCode*/,
@@ -643,7 +643,7 @@ static const common::ZoneEra kZoneEraBoise[] = {
 
 };
 
-const common::ZoneInfo kZoneBoise = {
+const ZoneInfo kZoneBoise = {
   "America/Boise" /*name*/,
   kZoneEraBoise /*eras*/,
   1 /*numEras*/,
@@ -657,7 +657,7 @@ const common::ZoneInfo kZoneBoise = {
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCampo_Grande[] = {
+static const ZoneEra kZoneEraCampo_Grande[] = {
   //             -4:00    Brazil    -04/-03
   {
     -16 /*offsetCode*/,
@@ -673,7 +673,7 @@ static const common::ZoneEra kZoneEraCampo_Grande[] = {
 
 };
 
-const common::ZoneInfo kZoneCampo_Grande = {
+const ZoneInfo kZoneCampo_Grande = {
   "America/Campo_Grande" /*name*/,
   kZoneEraCampo_Grande /*eras*/,
   1 /*numEras*/,
@@ -687,7 +687,7 @@ const common::ZoneInfo kZoneCampo_Grande = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCayenne[] = {
+static const ZoneEra kZoneEraCayenne[] = {
   //             -3:00    -    -03
   {
     -12 /*offsetCode*/,
@@ -703,7 +703,7 @@ static const common::ZoneEra kZoneEraCayenne[] = {
 
 };
 
-const common::ZoneInfo kZoneCayenne = {
+const ZoneInfo kZoneCayenne = {
   "America/Cayenne" /*name*/,
   kZoneEraCayenne /*eras*/,
   1 /*numEras*/,
@@ -717,7 +717,7 @@ const common::ZoneInfo kZoneCayenne = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraChicago[] = {
+static const ZoneEra kZoneEraChicago[] = {
   //             -6:00    US    C%sT
   {
     -24 /*offsetCode*/,
@@ -733,7 +733,7 @@ static const common::ZoneEra kZoneEraChicago[] = {
 
 };
 
-const common::ZoneInfo kZoneChicago = {
+const ZoneInfo kZoneChicago = {
   "America/Chicago" /*name*/,
   kZoneEraChicago /*eras*/,
   1 /*numEras*/,
@@ -747,7 +747,7 @@ const common::ZoneInfo kZoneChicago = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraChihuahua[] = {
+static const ZoneEra kZoneEraChihuahua[] = {
   //             -7:00    Mexico    M%sT
   {
     -28 /*offsetCode*/,
@@ -763,7 +763,7 @@ static const common::ZoneEra kZoneEraChihuahua[] = {
 
 };
 
-const common::ZoneInfo kZoneChihuahua = {
+const ZoneInfo kZoneChihuahua = {
   "America/Chihuahua" /*name*/,
   kZoneEraChihuahua /*eras*/,
   1 /*numEras*/,
@@ -777,7 +777,7 @@ const common::ZoneInfo kZoneChihuahua = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCosta_Rica[] = {
+static const ZoneEra kZoneEraCosta_Rica[] = {
   //             -6:00    CR    C%sT
   {
     -24 /*offsetCode*/,
@@ -793,7 +793,7 @@ static const common::ZoneEra kZoneEraCosta_Rica[] = {
 
 };
 
-const common::ZoneInfo kZoneCosta_Rica = {
+const ZoneInfo kZoneCosta_Rica = {
   "America/Costa_Rica" /*name*/,
   kZoneEraCosta_Rica /*eras*/,
   1 /*numEras*/,
@@ -807,7 +807,7 @@ const common::ZoneInfo kZoneCosta_Rica = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCreston[] = {
+static const ZoneEra kZoneEraCreston[] = {
   //             -7:00    -    MST
   {
     -28 /*offsetCode*/,
@@ -823,7 +823,7 @@ static const common::ZoneEra kZoneEraCreston[] = {
 
 };
 
-const common::ZoneInfo kZoneCreston = {
+const ZoneInfo kZoneCreston = {
   "America/Creston" /*name*/,
   kZoneEraCreston /*eras*/,
   1 /*numEras*/,
@@ -837,7 +837,7 @@ const common::ZoneInfo kZoneCreston = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCuracao[] = {
+static const ZoneEra kZoneEraCuracao[] = {
   //             -4:00    -    AST
   {
     -16 /*offsetCode*/,
@@ -853,7 +853,7 @@ static const common::ZoneEra kZoneEraCuracao[] = {
 
 };
 
-const common::ZoneInfo kZoneCuracao = {
+const ZoneInfo kZoneCuracao = {
   "America/Curacao" /*name*/,
   kZoneEraCuracao /*eras*/,
   1 /*numEras*/,
@@ -867,7 +867,7 @@ const common::ZoneInfo kZoneCuracao = {
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDanmarkshavn[] = {
+static const ZoneEra kZoneEraDanmarkshavn[] = {
   //             0:00    -    GMT
   {
     0 /*offsetCode*/,
@@ -883,7 +883,7 @@ static const common::ZoneEra kZoneEraDanmarkshavn[] = {
 
 };
 
-const common::ZoneInfo kZoneDanmarkshavn = {
+const ZoneInfo kZoneDanmarkshavn = {
   "America/Danmarkshavn" /*name*/,
   kZoneEraDanmarkshavn /*eras*/,
   1 /*numEras*/,
@@ -897,7 +897,7 @@ const common::ZoneInfo kZoneDanmarkshavn = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDawson[] = {
+static const ZoneEra kZoneEraDawson[] = {
   //             -8:00    Canada    P%sT
   {
     -32 /*offsetCode*/,
@@ -913,7 +913,7 @@ static const common::ZoneEra kZoneEraDawson[] = {
 
 };
 
-const common::ZoneInfo kZoneDawson = {
+const ZoneInfo kZoneDawson = {
   "America/Dawson" /*name*/,
   kZoneEraDawson /*eras*/,
   1 /*numEras*/,
@@ -927,7 +927,7 @@ const common::ZoneInfo kZoneDawson = {
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDawson_Creek[] = {
+static const ZoneEra kZoneEraDawson_Creek[] = {
   //             -7:00    -    MST
   {
     -28 /*offsetCode*/,
@@ -943,7 +943,7 @@ static const common::ZoneEra kZoneEraDawson_Creek[] = {
 
 };
 
-const common::ZoneInfo kZoneDawson_Creek = {
+const ZoneInfo kZoneDawson_Creek = {
   "America/Dawson_Creek" /*name*/,
   kZoneEraDawson_Creek /*eras*/,
   1 /*numEras*/,
@@ -957,7 +957,7 @@ const common::ZoneInfo kZoneDawson_Creek = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDenver[] = {
+static const ZoneEra kZoneEraDenver[] = {
   //             -7:00    US    M%sT
   {
     -28 /*offsetCode*/,
@@ -973,7 +973,7 @@ static const common::ZoneEra kZoneEraDenver[] = {
 
 };
 
-const common::ZoneInfo kZoneDenver = {
+const ZoneInfo kZoneDenver = {
   "America/Denver" /*name*/,
   kZoneEraDenver /*eras*/,
   1 /*numEras*/,
@@ -987,7 +987,7 @@ const common::ZoneInfo kZoneDenver = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDetroit[] = {
+static const ZoneEra kZoneEraDetroit[] = {
   //             -5:00    US    E%sT
   {
     -20 /*offsetCode*/,
@@ -1003,7 +1003,7 @@ static const common::ZoneEra kZoneEraDetroit[] = {
 
 };
 
-const common::ZoneInfo kZoneDetroit = {
+const ZoneInfo kZoneDetroit = {
   "America/Detroit" /*name*/,
   kZoneEraDetroit /*eras*/,
   1 /*numEras*/,
@@ -1017,7 +1017,7 @@ const common::ZoneInfo kZoneDetroit = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraEdmonton[] = {
+static const ZoneEra kZoneEraEdmonton[] = {
   //             -7:00    Canada    M%sT
   {
     -28 /*offsetCode*/,
@@ -1033,7 +1033,7 @@ static const common::ZoneEra kZoneEraEdmonton[] = {
 
 };
 
-const common::ZoneInfo kZoneEdmonton = {
+const ZoneInfo kZoneEdmonton = {
   "America/Edmonton" /*name*/,
   kZoneEraEdmonton /*eras*/,
   1 /*numEras*/,
@@ -1047,7 +1047,7 @@ const common::ZoneInfo kZoneEdmonton = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraEl_Salvador[] = {
+static const ZoneEra kZoneEraEl_Salvador[] = {
   //             -6:00    Salv    C%sT
   {
     -24 /*offsetCode*/,
@@ -1063,7 +1063,7 @@ static const common::ZoneEra kZoneEraEl_Salvador[] = {
 
 };
 
-const common::ZoneInfo kZoneEl_Salvador = {
+const ZoneInfo kZoneEl_Salvador = {
   "America/El_Salvador" /*name*/,
   kZoneEraEl_Salvador /*eras*/,
   1 /*numEras*/,
@@ -1077,7 +1077,7 @@ const common::ZoneInfo kZoneEl_Salvador = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraGlace_Bay[] = {
+static const ZoneEra kZoneEraGlace_Bay[] = {
   //             -4:00    Canada    A%sT
   {
     -16 /*offsetCode*/,
@@ -1093,7 +1093,7 @@ static const common::ZoneEra kZoneEraGlace_Bay[] = {
 
 };
 
-const common::ZoneInfo kZoneGlace_Bay = {
+const ZoneInfo kZoneGlace_Bay = {
   "America/Glace_Bay" /*name*/,
   kZoneEraGlace_Bay /*eras*/,
   1 /*numEras*/,
@@ -1107,7 +1107,7 @@ const common::ZoneInfo kZoneGlace_Bay = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraGodthab[] = {
+static const ZoneEra kZoneEraGodthab[] = {
   //             -3:00    EU    -03/-02
   {
     -12 /*offsetCode*/,
@@ -1123,7 +1123,7 @@ static const common::ZoneEra kZoneEraGodthab[] = {
 
 };
 
-const common::ZoneInfo kZoneGodthab = {
+const ZoneInfo kZoneGodthab = {
   "America/Godthab" /*name*/,
   kZoneEraGodthab /*eras*/,
   1 /*numEras*/,
@@ -1137,7 +1137,7 @@ const common::ZoneInfo kZoneGodthab = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraGuatemala[] = {
+static const ZoneEra kZoneEraGuatemala[] = {
   //             -6:00    Guat    C%sT
   {
     -24 /*offsetCode*/,
@@ -1153,7 +1153,7 @@ static const common::ZoneEra kZoneEraGuatemala[] = {
 
 };
 
-const common::ZoneInfo kZoneGuatemala = {
+const ZoneInfo kZoneGuatemala = {
   "America/Guatemala" /*name*/,
   kZoneEraGuatemala /*eras*/,
   1 /*numEras*/,
@@ -1167,7 +1167,7 @@ const common::ZoneInfo kZoneGuatemala = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraGuayaquil[] = {
+static const ZoneEra kZoneEraGuayaquil[] = {
   //             -5:00    Ecuador    -05/-04
   {
     -20 /*offsetCode*/,
@@ -1183,7 +1183,7 @@ static const common::ZoneEra kZoneEraGuayaquil[] = {
 
 };
 
-const common::ZoneInfo kZoneGuayaquil = {
+const ZoneInfo kZoneGuayaquil = {
   "America/Guayaquil" /*name*/,
   kZoneEraGuayaquil /*eras*/,
   1 /*numEras*/,
@@ -1197,7 +1197,7 @@ const common::ZoneInfo kZoneGuayaquil = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraGuyana[] = {
+static const ZoneEra kZoneEraGuyana[] = {
   //             -4:00    -    -04
   {
     -16 /*offsetCode*/,
@@ -1213,7 +1213,7 @@ static const common::ZoneEra kZoneEraGuyana[] = {
 
 };
 
-const common::ZoneInfo kZoneGuyana = {
+const ZoneInfo kZoneGuyana = {
   "America/Guyana" /*name*/,
   kZoneEraGuyana /*eras*/,
   1 /*numEras*/,
@@ -1227,7 +1227,7 @@ const common::ZoneInfo kZoneGuyana = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraHalifax[] = {
+static const ZoneEra kZoneEraHalifax[] = {
   //             -4:00    Canada    A%sT
   {
     -16 /*offsetCode*/,
@@ -1243,7 +1243,7 @@ static const common::ZoneEra kZoneEraHalifax[] = {
 
 };
 
-const common::ZoneInfo kZoneHalifax = {
+const ZoneInfo kZoneHalifax = {
   "America/Halifax" /*name*/,
   kZoneEraHalifax /*eras*/,
   1 /*numEras*/,
@@ -1257,7 +1257,7 @@ const common::ZoneInfo kZoneHalifax = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraHavana[] = {
+static const ZoneEra kZoneEraHavana[] = {
   //             -5:00    Cuba    C%sT
   {
     -20 /*offsetCode*/,
@@ -1273,7 +1273,7 @@ static const common::ZoneEra kZoneEraHavana[] = {
 
 };
 
-const common::ZoneInfo kZoneHavana = {
+const ZoneInfo kZoneHavana = {
   "America/Havana" /*name*/,
   kZoneEraHavana /*eras*/,
   1 /*numEras*/,
@@ -1287,7 +1287,7 @@ const common::ZoneInfo kZoneHavana = {
 // Memory (32-bit): 66
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraHermosillo[] = {
+static const ZoneEra kZoneEraHermosillo[] = {
   //             -7:00    Mexico    M%sT    1999
   {
     -28 /*offsetCode*/,
@@ -1315,7 +1315,7 @@ static const common::ZoneEra kZoneEraHermosillo[] = {
 
 };
 
-const common::ZoneInfo kZoneHermosillo = {
+const ZoneInfo kZoneHermosillo = {
   "America/Hermosillo" /*name*/,
   kZoneEraHermosillo /*eras*/,
   2 /*numEras*/,
@@ -1329,7 +1329,7 @@ const common::ZoneInfo kZoneHermosillo = {
 // Memory (32-bit): 76
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraIndianapolis[] = {
+static const ZoneEra kZoneEraIndianapolis[] = {
   //             -5:00    -    EST    2006
   {
     -20 /*offsetCode*/,
@@ -1357,7 +1357,7 @@ static const common::ZoneEra kZoneEraIndianapolis[] = {
 
 };
 
-const common::ZoneInfo kZoneIndianapolis = {
+const ZoneInfo kZoneIndianapolis = {
   "America/Indiana/Indianapolis" /*name*/,
   kZoneEraIndianapolis /*eras*/,
   2 /*numEras*/,
@@ -1371,7 +1371,7 @@ const common::ZoneInfo kZoneIndianapolis = {
 // Memory (32-bit): 71
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMarengo[] = {
+static const ZoneEra kZoneEraMarengo[] = {
   //             -5:00    -    EST    2006
   {
     -20 /*offsetCode*/,
@@ -1399,7 +1399,7 @@ static const common::ZoneEra kZoneEraMarengo[] = {
 
 };
 
-const common::ZoneInfo kZoneMarengo = {
+const ZoneInfo kZoneMarengo = {
   "America/Indiana/Marengo" /*name*/,
   kZoneEraMarengo /*eras*/,
   2 /*numEras*/,
@@ -1413,7 +1413,7 @@ const common::ZoneInfo kZoneMarengo = {
 // Memory (32-bit): 69
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraVevay[] = {
+static const ZoneEra kZoneEraVevay[] = {
   //             -5:00    -    EST    2006
   {
     -20 /*offsetCode*/,
@@ -1441,7 +1441,7 @@ static const common::ZoneEra kZoneEraVevay[] = {
 
 };
 
-const common::ZoneInfo kZoneVevay = {
+const ZoneInfo kZoneVevay = {
   "America/Indiana/Vevay" /*name*/,
   kZoneEraVevay /*eras*/,
   2 /*numEras*/,
@@ -1455,7 +1455,7 @@ const common::ZoneInfo kZoneVevay = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraInuvik[] = {
+static const ZoneEra kZoneEraInuvik[] = {
   //             -7:00    Canada    M%sT
   {
     -28 /*offsetCode*/,
@@ -1471,7 +1471,7 @@ static const common::ZoneEra kZoneEraInuvik[] = {
 
 };
 
-const common::ZoneInfo kZoneInuvik = {
+const ZoneInfo kZoneInuvik = {
   "America/Inuvik" /*name*/,
   kZoneEraInuvik /*eras*/,
   1 /*numEras*/,
@@ -1485,7 +1485,7 @@ const common::ZoneInfo kZoneInuvik = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraJamaica[] = {
+static const ZoneEra kZoneEraJamaica[] = {
   //             -5:00    -    EST
   {
     -20 /*offsetCode*/,
@@ -1501,7 +1501,7 @@ static const common::ZoneEra kZoneEraJamaica[] = {
 
 };
 
-const common::ZoneInfo kZoneJamaica = {
+const ZoneInfo kZoneJamaica = {
   "America/Jamaica" /*name*/,
   kZoneEraJamaica /*eras*/,
   1 /*numEras*/,
@@ -1515,7 +1515,7 @@ const common::ZoneInfo kZoneJamaica = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraJuneau[] = {
+static const ZoneEra kZoneEraJuneau[] = {
   //              -9:00    US    AK%sT
   {
     -36 /*offsetCode*/,
@@ -1531,7 +1531,7 @@ static const common::ZoneEra kZoneEraJuneau[] = {
 
 };
 
-const common::ZoneInfo kZoneJuneau = {
+const ZoneInfo kZoneJuneau = {
   "America/Juneau" /*name*/,
   kZoneEraJuneau /*eras*/,
   1 /*numEras*/,
@@ -1545,7 +1545,7 @@ const common::ZoneInfo kZoneJuneau = {
 // Memory (32-bit): 56
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraLouisville[] = {
+static const ZoneEra kZoneEraLouisville[] = {
   //             -5:00    US    E%sT
   {
     -20 /*offsetCode*/,
@@ -1561,7 +1561,7 @@ static const common::ZoneEra kZoneEraLouisville[] = {
 
 };
 
-const common::ZoneInfo kZoneLouisville = {
+const ZoneInfo kZoneLouisville = {
   "America/Kentucky/Louisville" /*name*/,
   kZoneEraLouisville /*eras*/,
   1 /*numEras*/,
@@ -1575,7 +1575,7 @@ const common::ZoneInfo kZoneLouisville = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraLa_Paz[] = {
+static const ZoneEra kZoneEraLa_Paz[] = {
   //             -4:00    -    -04
   {
     -16 /*offsetCode*/,
@@ -1591,7 +1591,7 @@ static const common::ZoneEra kZoneEraLa_Paz[] = {
 
 };
 
-const common::ZoneInfo kZoneLa_Paz = {
+const ZoneInfo kZoneLa_Paz = {
   "America/La_Paz" /*name*/,
   kZoneEraLa_Paz /*eras*/,
   1 /*numEras*/,
@@ -1605,7 +1605,7 @@ const common::ZoneInfo kZoneLa_Paz = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraLima[] = {
+static const ZoneEra kZoneEraLima[] = {
   //             -5:00    Peru    -05/-04
   {
     -20 /*offsetCode*/,
@@ -1621,7 +1621,7 @@ static const common::ZoneEra kZoneEraLima[] = {
 
 };
 
-const common::ZoneInfo kZoneLima = {
+const ZoneInfo kZoneLima = {
   "America/Lima" /*name*/,
   kZoneEraLima /*eras*/,
   1 /*numEras*/,
@@ -1635,7 +1635,7 @@ const common::ZoneInfo kZoneLima = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraLos_Angeles[] = {
+static const ZoneEra kZoneEraLos_Angeles[] = {
   //             -8:00    US    P%sT
   {
     -32 /*offsetCode*/,
@@ -1651,7 +1651,7 @@ static const common::ZoneEra kZoneEraLos_Angeles[] = {
 
 };
 
-const common::ZoneInfo kZoneLos_Angeles = {
+const ZoneInfo kZoneLos_Angeles = {
   "America/Los_Angeles" /*name*/,
   kZoneEraLos_Angeles /*eras*/,
   1 /*numEras*/,
@@ -1665,7 +1665,7 @@ const common::ZoneInfo kZoneLos_Angeles = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraManagua[] = {
+static const ZoneEra kZoneEraManagua[] = {
   //             -6:00    Nic    C%sT
   {
     -24 /*offsetCode*/,
@@ -1681,7 +1681,7 @@ static const common::ZoneEra kZoneEraManagua[] = {
 
 };
 
-const common::ZoneInfo kZoneManagua = {
+const ZoneInfo kZoneManagua = {
   "America/Managua" /*name*/,
   kZoneEraManagua /*eras*/,
   1 /*numEras*/,
@@ -1695,7 +1695,7 @@ const common::ZoneInfo kZoneManagua = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraManaus[] = {
+static const ZoneEra kZoneEraManaus[] = {
   //             -4:00    -    -04
   {
     -16 /*offsetCode*/,
@@ -1711,7 +1711,7 @@ static const common::ZoneEra kZoneEraManaus[] = {
 
 };
 
-const common::ZoneInfo kZoneManaus = {
+const ZoneInfo kZoneManaus = {
   "America/Manaus" /*name*/,
   kZoneEraManaus /*eras*/,
   1 /*numEras*/,
@@ -1725,7 +1725,7 @@ const common::ZoneInfo kZoneManaus = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMartinique[] = {
+static const ZoneEra kZoneEraMartinique[] = {
   //             -4:00    -    AST
   {
     -16 /*offsetCode*/,
@@ -1741,7 +1741,7 @@ static const common::ZoneEra kZoneEraMartinique[] = {
 
 };
 
-const common::ZoneInfo kZoneMartinique = {
+const ZoneInfo kZoneMartinique = {
   "America/Martinique" /*name*/,
   kZoneEraMartinique /*eras*/,
   1 /*numEras*/,
@@ -1755,7 +1755,7 @@ const common::ZoneInfo kZoneMartinique = {
 // Memory (32-bit): 65
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMatamoros[] = {
+static const ZoneEra kZoneEraMatamoros[] = {
   //             -6:00    Mexico    C%sT    2010
   {
     -24 /*offsetCode*/,
@@ -1783,7 +1783,7 @@ static const common::ZoneEra kZoneEraMatamoros[] = {
 
 };
 
-const common::ZoneInfo kZoneMatamoros = {
+const ZoneInfo kZoneMatamoros = {
   "America/Matamoros" /*name*/,
   kZoneEraMatamoros /*eras*/,
   2 /*numEras*/,
@@ -1797,7 +1797,7 @@ const common::ZoneInfo kZoneMatamoros = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMazatlan[] = {
+static const ZoneEra kZoneEraMazatlan[] = {
   //             -7:00    Mexico    M%sT
   {
     -28 /*offsetCode*/,
@@ -1813,7 +1813,7 @@ static const common::ZoneEra kZoneEraMazatlan[] = {
 
 };
 
-const common::ZoneInfo kZoneMazatlan = {
+const ZoneInfo kZoneMazatlan = {
   "America/Mazatlan" /*name*/,
   kZoneEraMazatlan /*eras*/,
   1 /*numEras*/,
@@ -1827,7 +1827,7 @@ const common::ZoneInfo kZoneMazatlan = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMenominee[] = {
+static const ZoneEra kZoneEraMenominee[] = {
   //             -6:00    US    C%sT
   {
     -24 /*offsetCode*/,
@@ -1843,7 +1843,7 @@ static const common::ZoneEra kZoneEraMenominee[] = {
 
 };
 
-const common::ZoneInfo kZoneMenominee = {
+const ZoneInfo kZoneMenominee = {
   "America/Menominee" /*name*/,
   kZoneEraMenominee /*eras*/,
   1 /*numEras*/,
@@ -1857,7 +1857,7 @@ const common::ZoneInfo kZoneMenominee = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMerida[] = {
+static const ZoneEra kZoneEraMerida[] = {
   //             -6:00    Mexico    C%sT
   {
     -24 /*offsetCode*/,
@@ -1873,7 +1873,7 @@ static const common::ZoneEra kZoneEraMerida[] = {
 
 };
 
-const common::ZoneInfo kZoneMerida = {
+const ZoneInfo kZoneMerida = {
   "America/Merida" /*name*/,
   kZoneEraMerida /*eras*/,
   1 /*numEras*/,
@@ -1887,7 +1887,7 @@ const common::ZoneInfo kZoneMerida = {
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMiquelon[] = {
+static const ZoneEra kZoneEraMiquelon[] = {
   //             -3:00    Canada    -03/-02
   {
     -12 /*offsetCode*/,
@@ -1903,7 +1903,7 @@ static const common::ZoneEra kZoneEraMiquelon[] = {
 
 };
 
-const common::ZoneInfo kZoneMiquelon = {
+const ZoneInfo kZoneMiquelon = {
   "America/Miquelon" /*name*/,
   kZoneEraMiquelon /*eras*/,
   1 /*numEras*/,
@@ -1917,7 +1917,7 @@ const common::ZoneInfo kZoneMiquelon = {
 // Memory (32-bit): 63
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMoncton[] = {
+static const ZoneEra kZoneEraMoncton[] = {
   //             -4:00    Moncton    A%sT    2007
   {
     -16 /*offsetCode*/,
@@ -1945,7 +1945,7 @@ static const common::ZoneEra kZoneEraMoncton[] = {
 
 };
 
-const common::ZoneInfo kZoneMoncton = {
+const ZoneInfo kZoneMoncton = {
   "America/Moncton" /*name*/,
   kZoneEraMoncton /*eras*/,
   2 /*numEras*/,
@@ -1959,7 +1959,7 @@ const common::ZoneInfo kZoneMoncton = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMonterrey[] = {
+static const ZoneEra kZoneEraMonterrey[] = {
   //             -6:00    Mexico    C%sT
   {
     -24 /*offsetCode*/,
@@ -1975,7 +1975,7 @@ static const common::ZoneEra kZoneEraMonterrey[] = {
 
 };
 
-const common::ZoneInfo kZoneMonterrey = {
+const ZoneInfo kZoneMonterrey = {
   "America/Monterrey" /*name*/,
   kZoneEraMonterrey /*eras*/,
   1 /*numEras*/,
@@ -1989,7 +1989,7 @@ const common::ZoneInfo kZoneMonterrey = {
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMontevideo[] = {
+static const ZoneEra kZoneEraMontevideo[] = {
   //             -3:00    Uruguay    -03/-02
   {
     -12 /*offsetCode*/,
@@ -2005,7 +2005,7 @@ static const common::ZoneEra kZoneEraMontevideo[] = {
 
 };
 
-const common::ZoneInfo kZoneMontevideo = {
+const ZoneInfo kZoneMontevideo = {
   "America/Montevideo" /*name*/,
   kZoneEraMontevideo /*eras*/,
   1 /*numEras*/,
@@ -2019,7 +2019,7 @@ const common::ZoneInfo kZoneMontevideo = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraNassau[] = {
+static const ZoneEra kZoneEraNassau[] = {
   //             -5:00    US    E%sT
   {
     -20 /*offsetCode*/,
@@ -2035,7 +2035,7 @@ static const common::ZoneEra kZoneEraNassau[] = {
 
 };
 
-const common::ZoneInfo kZoneNassau = {
+const ZoneInfo kZoneNassau = {
   "America/Nassau" /*name*/,
   kZoneEraNassau /*eras*/,
   1 /*numEras*/,
@@ -2049,7 +2049,7 @@ const common::ZoneInfo kZoneNassau = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraNew_York[] = {
+static const ZoneEra kZoneEraNew_York[] = {
   //             -5:00    US    E%sT
   {
     -20 /*offsetCode*/,
@@ -2065,7 +2065,7 @@ static const common::ZoneEra kZoneEraNew_York[] = {
 
 };
 
-const common::ZoneInfo kZoneNew_York = {
+const ZoneInfo kZoneNew_York = {
   "America/New_York" /*name*/,
   kZoneEraNew_York /*eras*/,
   1 /*numEras*/,
@@ -2079,7 +2079,7 @@ const common::ZoneInfo kZoneNew_York = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraNipigon[] = {
+static const ZoneEra kZoneEraNipigon[] = {
   //             -5:00    Canada    E%sT
   {
     -20 /*offsetCode*/,
@@ -2095,7 +2095,7 @@ static const common::ZoneEra kZoneEraNipigon[] = {
 
 };
 
-const common::ZoneInfo kZoneNipigon = {
+const ZoneInfo kZoneNipigon = {
   "America/Nipigon" /*name*/,
   kZoneEraNipigon /*eras*/,
   1 /*numEras*/,
@@ -2109,7 +2109,7 @@ const common::ZoneInfo kZoneNipigon = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraNome[] = {
+static const ZoneEra kZoneEraNome[] = {
   //              -9:00    US    AK%sT
   {
     -36 /*offsetCode*/,
@@ -2125,7 +2125,7 @@ static const common::ZoneEra kZoneEraNome[] = {
 
 };
 
-const common::ZoneInfo kZoneNome = {
+const ZoneInfo kZoneNome = {
   "America/Nome" /*name*/,
   kZoneEraNome /*eras*/,
   1 /*numEras*/,
@@ -2139,7 +2139,7 @@ const common::ZoneInfo kZoneNome = {
 // Memory (32-bit): 56
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCenter[] = {
+static const ZoneEra kZoneEraCenter[] = {
   //             -6:00    US    C%sT
   {
     -24 /*offsetCode*/,
@@ -2155,7 +2155,7 @@ static const common::ZoneEra kZoneEraCenter[] = {
 
 };
 
-const common::ZoneInfo kZoneCenter = {
+const ZoneInfo kZoneCenter = {
   "America/North_Dakota/Center" /*name*/,
   kZoneEraCenter /*eras*/,
   1 /*numEras*/,
@@ -2169,7 +2169,7 @@ const common::ZoneInfo kZoneCenter = {
 // Memory (32-bit): 63
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraOjinaga[] = {
+static const ZoneEra kZoneEraOjinaga[] = {
   //             -7:00    Mexico    M%sT    2010
   {
     -28 /*offsetCode*/,
@@ -2197,7 +2197,7 @@ static const common::ZoneEra kZoneEraOjinaga[] = {
 
 };
 
-const common::ZoneInfo kZoneOjinaga = {
+const ZoneInfo kZoneOjinaga = {
   "America/Ojinaga" /*name*/,
   kZoneEraOjinaga /*eras*/,
   2 /*numEras*/,
@@ -2211,7 +2211,7 @@ const common::ZoneInfo kZoneOjinaga = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPanama[] = {
+static const ZoneEra kZoneEraPanama[] = {
   //             -5:00    -    EST
   {
     -20 /*offsetCode*/,
@@ -2227,7 +2227,7 @@ static const common::ZoneEra kZoneEraPanama[] = {
 
 };
 
-const common::ZoneInfo kZonePanama = {
+const ZoneInfo kZonePanama = {
   "America/Panama" /*name*/,
   kZoneEraPanama /*eras*/,
   1 /*numEras*/,
@@ -2241,7 +2241,7 @@ const common::ZoneInfo kZonePanama = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraParamaribo[] = {
+static const ZoneEra kZoneEraParamaribo[] = {
   //             -3:00    -    -03
   {
     -12 /*offsetCode*/,
@@ -2257,7 +2257,7 @@ static const common::ZoneEra kZoneEraParamaribo[] = {
 
 };
 
-const common::ZoneInfo kZoneParamaribo = {
+const ZoneInfo kZoneParamaribo = {
   "America/Paramaribo" /*name*/,
   kZoneEraParamaribo /*eras*/,
   1 /*numEras*/,
@@ -2271,7 +2271,7 @@ const common::ZoneInfo kZoneParamaribo = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPhoenix[] = {
+static const ZoneEra kZoneEraPhoenix[] = {
   //             -7:00    -    MST
   {
     -28 /*offsetCode*/,
@@ -2287,7 +2287,7 @@ static const common::ZoneEra kZoneEraPhoenix[] = {
 
 };
 
-const common::ZoneInfo kZonePhoenix = {
+const ZoneInfo kZonePhoenix = {
   "America/Phoenix" /*name*/,
   kZoneEraPhoenix /*eras*/,
   1 /*numEras*/,
@@ -2301,7 +2301,7 @@ const common::ZoneInfo kZonePhoenix = {
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPort_au_Prince[] = {
+static const ZoneEra kZoneEraPort_au_Prince[] = {
   //             -5:00    Haiti    E%sT
   {
     -20 /*offsetCode*/,
@@ -2317,7 +2317,7 @@ static const common::ZoneEra kZoneEraPort_au_Prince[] = {
 
 };
 
-const common::ZoneInfo kZonePort_au_Prince = {
+const ZoneInfo kZonePort_au_Prince = {
   "America/Port_au_Prince" /*name*/,
   kZoneEraPort_au_Prince /*eras*/,
   1 /*numEras*/,
@@ -2331,7 +2331,7 @@ const common::ZoneInfo kZonePort_au_Prince = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPort_of_Spain[] = {
+static const ZoneEra kZoneEraPort_of_Spain[] = {
   //             -4:00    -    AST
   {
     -16 /*offsetCode*/,
@@ -2347,7 +2347,7 @@ static const common::ZoneEra kZoneEraPort_of_Spain[] = {
 
 };
 
-const common::ZoneInfo kZonePort_of_Spain = {
+const ZoneInfo kZonePort_of_Spain = {
   "America/Port_of_Spain" /*name*/,
   kZoneEraPort_of_Spain /*eras*/,
   1 /*numEras*/,
@@ -2361,7 +2361,7 @@ const common::ZoneInfo kZonePort_of_Spain = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPorto_Velho[] = {
+static const ZoneEra kZoneEraPorto_Velho[] = {
   //             -4:00    -    -04
   {
     -16 /*offsetCode*/,
@@ -2377,7 +2377,7 @@ static const common::ZoneEra kZoneEraPorto_Velho[] = {
 
 };
 
-const common::ZoneInfo kZonePorto_Velho = {
+const ZoneInfo kZonePorto_Velho = {
   "America/Porto_Velho" /*name*/,
   kZoneEraPorto_Velho /*eras*/,
   1 /*numEras*/,
@@ -2391,7 +2391,7 @@ const common::ZoneInfo kZonePorto_Velho = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPuerto_Rico[] = {
+static const ZoneEra kZoneEraPuerto_Rico[] = {
   //             -4:00    -    AST
   {
     -16 /*offsetCode*/,
@@ -2407,7 +2407,7 @@ static const common::ZoneEra kZoneEraPuerto_Rico[] = {
 
 };
 
-const common::ZoneInfo kZonePuerto_Rico = {
+const ZoneInfo kZonePuerto_Rico = {
   "America/Puerto_Rico" /*name*/,
   kZoneEraPuerto_Rico /*eras*/,
   1 /*numEras*/,
@@ -2421,7 +2421,7 @@ const common::ZoneInfo kZonePuerto_Rico = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraRainy_River[] = {
+static const ZoneEra kZoneEraRainy_River[] = {
   //             -6:00    Canada    C%sT
   {
     -24 /*offsetCode*/,
@@ -2437,7 +2437,7 @@ static const common::ZoneEra kZoneEraRainy_River[] = {
 
 };
 
-const common::ZoneInfo kZoneRainy_River = {
+const ZoneInfo kZoneRainy_River = {
   "America/Rainy_River" /*name*/,
   kZoneEraRainy_River /*eras*/,
   1 /*numEras*/,
@@ -2451,7 +2451,7 @@ const common::ZoneInfo kZoneRainy_River = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraRegina[] = {
+static const ZoneEra kZoneEraRegina[] = {
   //             -6:00    -    CST
   {
     -24 /*offsetCode*/,
@@ -2467,7 +2467,7 @@ static const common::ZoneEra kZoneEraRegina[] = {
 
 };
 
-const common::ZoneInfo kZoneRegina = {
+const ZoneInfo kZoneRegina = {
   "America/Regina" /*name*/,
   kZoneEraRegina /*eras*/,
   1 /*numEras*/,
@@ -2481,7 +2481,7 @@ const common::ZoneInfo kZoneRegina = {
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraSantiago[] = {
+static const ZoneEra kZoneEraSantiago[] = {
   //             -4:00    Chile    -04/-03
   {
     -16 /*offsetCode*/,
@@ -2497,7 +2497,7 @@ static const common::ZoneEra kZoneEraSantiago[] = {
 
 };
 
-const common::ZoneInfo kZoneSantiago = {
+const ZoneInfo kZoneSantiago = {
   "America/Santiago" /*name*/,
   kZoneEraSantiago /*eras*/,
   1 /*numEras*/,
@@ -2511,7 +2511,7 @@ const common::ZoneInfo kZoneSantiago = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraSao_Paulo[] = {
+static const ZoneEra kZoneEraSao_Paulo[] = {
   //             -3:00    Brazil    -03/-02
   {
     -12 /*offsetCode*/,
@@ -2527,7 +2527,7 @@ static const common::ZoneEra kZoneEraSao_Paulo[] = {
 
 };
 
-const common::ZoneInfo kZoneSao_Paulo = {
+const ZoneInfo kZoneSao_Paulo = {
   "America/Sao_Paulo" /*name*/,
   kZoneEraSao_Paulo /*eras*/,
   1 /*numEras*/,
@@ -2541,7 +2541,7 @@ const common::ZoneInfo kZoneSao_Paulo = {
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraScoresbysund[] = {
+static const ZoneEra kZoneEraScoresbysund[] = {
   //             -1:00    EU    -01/+00
   {
     -4 /*offsetCode*/,
@@ -2557,7 +2557,7 @@ static const common::ZoneEra kZoneEraScoresbysund[] = {
 
 };
 
-const common::ZoneInfo kZoneScoresbysund = {
+const ZoneInfo kZoneScoresbysund = {
   "America/Scoresbysund" /*name*/,
   kZoneEraScoresbysund /*eras*/,
   1 /*numEras*/,
@@ -2571,7 +2571,7 @@ const common::ZoneInfo kZoneScoresbysund = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraSitka[] = {
+static const ZoneEra kZoneEraSitka[] = {
   //              -9:00    US    AK%sT
   {
     -36 /*offsetCode*/,
@@ -2587,7 +2587,7 @@ static const common::ZoneEra kZoneEraSitka[] = {
 
 };
 
-const common::ZoneInfo kZoneSitka = {
+const ZoneInfo kZoneSitka = {
   "America/Sitka" /*name*/,
   kZoneEraSitka /*eras*/,
   1 /*numEras*/,
@@ -2601,7 +2601,7 @@ const common::ZoneInfo kZoneSitka = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraSwift_Current[] = {
+static const ZoneEra kZoneEraSwift_Current[] = {
   //             -6:00    -    CST
   {
     -24 /*offsetCode*/,
@@ -2617,7 +2617,7 @@ static const common::ZoneEra kZoneEraSwift_Current[] = {
 
 };
 
-const common::ZoneInfo kZoneSwift_Current = {
+const ZoneInfo kZoneSwift_Current = {
   "America/Swift_Current" /*name*/,
   kZoneEraSwift_Current /*eras*/,
   1 /*numEras*/,
@@ -2631,7 +2631,7 @@ const common::ZoneInfo kZoneSwift_Current = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraTegucigalpa[] = {
+static const ZoneEra kZoneEraTegucigalpa[] = {
   //             -6:00    Hond    C%sT
   {
     -24 /*offsetCode*/,
@@ -2647,7 +2647,7 @@ static const common::ZoneEra kZoneEraTegucigalpa[] = {
 
 };
 
-const common::ZoneInfo kZoneTegucigalpa = {
+const ZoneInfo kZoneTegucigalpa = {
   "America/Tegucigalpa" /*name*/,
   kZoneEraTegucigalpa /*eras*/,
   1 /*numEras*/,
@@ -2661,7 +2661,7 @@ const common::ZoneInfo kZoneTegucigalpa = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraThule[] = {
+static const ZoneEra kZoneEraThule[] = {
   //             -4:00    Thule    A%sT
   {
     -16 /*offsetCode*/,
@@ -2677,7 +2677,7 @@ static const common::ZoneEra kZoneEraThule[] = {
 
 };
 
-const common::ZoneInfo kZoneThule = {
+const ZoneInfo kZoneThule = {
   "America/Thule" /*name*/,
   kZoneEraThule /*eras*/,
   1 /*numEras*/,
@@ -2691,7 +2691,7 @@ const common::ZoneInfo kZoneThule = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraThunder_Bay[] = {
+static const ZoneEra kZoneEraThunder_Bay[] = {
   //             -5:00    Canada    E%sT
   {
     -20 /*offsetCode*/,
@@ -2707,7 +2707,7 @@ static const common::ZoneEra kZoneEraThunder_Bay[] = {
 
 };
 
-const common::ZoneInfo kZoneThunder_Bay = {
+const ZoneInfo kZoneThunder_Bay = {
   "America/Thunder_Bay" /*name*/,
   kZoneEraThunder_Bay /*eras*/,
   1 /*numEras*/,
@@ -2721,7 +2721,7 @@ const common::ZoneInfo kZoneThunder_Bay = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraToronto[] = {
+static const ZoneEra kZoneEraToronto[] = {
   //             -5:00    Canada    E%sT
   {
     -20 /*offsetCode*/,
@@ -2737,7 +2737,7 @@ static const common::ZoneEra kZoneEraToronto[] = {
 
 };
 
-const common::ZoneInfo kZoneToronto = {
+const ZoneInfo kZoneToronto = {
   "America/Toronto" /*name*/,
   kZoneEraToronto /*eras*/,
   1 /*numEras*/,
@@ -2751,7 +2751,7 @@ const common::ZoneInfo kZoneToronto = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraVancouver[] = {
+static const ZoneEra kZoneEraVancouver[] = {
   //             -8:00    Canada    P%sT
   {
     -32 /*offsetCode*/,
@@ -2767,7 +2767,7 @@ static const common::ZoneEra kZoneEraVancouver[] = {
 
 };
 
-const common::ZoneInfo kZoneVancouver = {
+const ZoneInfo kZoneVancouver = {
   "America/Vancouver" /*name*/,
   kZoneEraVancouver /*eras*/,
   1 /*numEras*/,
@@ -2781,7 +2781,7 @@ const common::ZoneInfo kZoneVancouver = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraWhitehorse[] = {
+static const ZoneEra kZoneEraWhitehorse[] = {
   //             -8:00    Canada    P%sT
   {
     -32 /*offsetCode*/,
@@ -2797,7 +2797,7 @@ static const common::ZoneEra kZoneEraWhitehorse[] = {
 
 };
 
-const common::ZoneInfo kZoneWhitehorse = {
+const ZoneInfo kZoneWhitehorse = {
   "America/Whitehorse" /*name*/,
   kZoneEraWhitehorse /*eras*/,
   1 /*numEras*/,
@@ -2811,7 +2811,7 @@ const common::ZoneInfo kZoneWhitehorse = {
 // Memory (32-bit): 64
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraWinnipeg[] = {
+static const ZoneEra kZoneEraWinnipeg[] = {
   //             -6:00    Winn    C%sT    2006
   {
     -24 /*offsetCode*/,
@@ -2839,7 +2839,7 @@ static const common::ZoneEra kZoneEraWinnipeg[] = {
 
 };
 
-const common::ZoneInfo kZoneWinnipeg = {
+const ZoneInfo kZoneWinnipeg = {
   "America/Winnipeg" /*name*/,
   kZoneEraWinnipeg /*eras*/,
   2 /*numEras*/,
@@ -2853,7 +2853,7 @@ const common::ZoneInfo kZoneWinnipeg = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraYakutat[] = {
+static const ZoneEra kZoneEraYakutat[] = {
   //              -9:00    US    AK%sT
   {
     -36 /*offsetCode*/,
@@ -2869,7 +2869,7 @@ static const common::ZoneEra kZoneEraYakutat[] = {
 
 };
 
-const common::ZoneInfo kZoneYakutat = {
+const ZoneInfo kZoneYakutat = {
   "America/Yakutat" /*name*/,
   kZoneEraYakutat /*eras*/,
   1 /*numEras*/,
@@ -2883,7 +2883,7 @@ const common::ZoneInfo kZoneYakutat = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraYellowknife[] = {
+static const ZoneEra kZoneEraYellowknife[] = {
   //             -7:00    Canada    M%sT
   {
     -28 /*offsetCode*/,
@@ -2899,7 +2899,7 @@ static const common::ZoneEra kZoneEraYellowknife[] = {
 
 };
 
-const common::ZoneInfo kZoneYellowknife = {
+const ZoneInfo kZoneYellowknife = {
   "America/Yellowknife" /*name*/,
   kZoneEraYellowknife /*eras*/,
   1 /*numEras*/,
@@ -2913,7 +2913,7 @@ const common::ZoneInfo kZoneYellowknife = {
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDumontDUrville[] = {
+static const ZoneEra kZoneEraDumontDUrville[] = {
   //             10:00    -    +10
   {
     40 /*offsetCode*/,
@@ -2929,7 +2929,7 @@ static const common::ZoneEra kZoneEraDumontDUrville[] = {
 
 };
 
-const common::ZoneInfo kZoneDumontDUrville = {
+const ZoneInfo kZoneDumontDUrville = {
   "Antarctica/DumontDUrville" /*name*/,
   kZoneEraDumontDUrville /*eras*/,
   1 /*numEras*/,
@@ -2943,7 +2943,7 @@ const common::ZoneInfo kZoneDumontDUrville = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraRothera[] = {
+static const ZoneEra kZoneEraRothera[] = {
   //             -3:00    -    -03
   {
     -12 /*offsetCode*/,
@@ -2959,7 +2959,7 @@ static const common::ZoneEra kZoneEraRothera[] = {
 
 };
 
-const common::ZoneInfo kZoneRothera = {
+const ZoneInfo kZoneRothera = {
   "Antarctica/Rothera" /*name*/,
   kZoneEraRothera /*eras*/,
   1 /*numEras*/,
@@ -2973,7 +2973,7 @@ const common::ZoneInfo kZoneRothera = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraSyowa[] = {
+static const ZoneEra kZoneEraSyowa[] = {
   //             3:00    -    +03
   {
     12 /*offsetCode*/,
@@ -2989,7 +2989,7 @@ static const common::ZoneEra kZoneEraSyowa[] = {
 
 };
 
-const common::ZoneInfo kZoneSyowa = {
+const ZoneInfo kZoneSyowa = {
   "Antarctica/Syowa" /*name*/,
   kZoneEraSyowa /*eras*/,
   1 /*numEras*/,
@@ -3003,7 +3003,7 @@ const common::ZoneInfo kZoneSyowa = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraVostok[] = {
+static const ZoneEra kZoneEraVostok[] = {
   //             6:00    -    +06
   {
     24 /*offsetCode*/,
@@ -3019,7 +3019,7 @@ static const common::ZoneEra kZoneEraVostok[] = {
 
 };
 
-const common::ZoneInfo kZoneVostok = {
+const ZoneInfo kZoneVostok = {
   "Antarctica/Vostok" /*name*/,
   kZoneEraVostok /*eras*/,
   1 /*numEras*/,
@@ -3033,7 +3033,7 @@ const common::ZoneInfo kZoneVostok = {
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAmman[] = {
+static const ZoneEra kZoneEraAmman[] = {
   //             2:00    Jordan    EE%sT
   {
     8 /*offsetCode*/,
@@ -3049,7 +3049,7 @@ static const common::ZoneEra kZoneEraAmman[] = {
 
 };
 
-const common::ZoneInfo kZoneAmman = {
+const ZoneInfo kZoneAmman = {
   "Asia/Amman" /*name*/,
   kZoneEraAmman /*eras*/,
   1 /*numEras*/,
@@ -3063,7 +3063,7 @@ const common::ZoneInfo kZoneAmman = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAshgabat[] = {
+static const ZoneEra kZoneEraAshgabat[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -3079,7 +3079,7 @@ static const common::ZoneEra kZoneEraAshgabat[] = {
 
 };
 
-const common::ZoneInfo kZoneAshgabat = {
+const ZoneInfo kZoneAshgabat = {
   "Asia/Ashgabat" /*name*/,
   kZoneEraAshgabat /*eras*/,
   1 /*numEras*/,
@@ -3093,7 +3093,7 @@ const common::ZoneInfo kZoneAshgabat = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBaghdad[] = {
+static const ZoneEra kZoneEraBaghdad[] = {
   //             3:00    Iraq    +03/+04
   {
     12 /*offsetCode*/,
@@ -3109,7 +3109,7 @@ static const common::ZoneEra kZoneEraBaghdad[] = {
 
 };
 
-const common::ZoneInfo kZoneBaghdad = {
+const ZoneInfo kZoneBaghdad = {
   "Asia/Baghdad" /*name*/,
   kZoneEraBaghdad /*eras*/,
   1 /*numEras*/,
@@ -3123,7 +3123,7 @@ const common::ZoneInfo kZoneBaghdad = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBaku[] = {
+static const ZoneEra kZoneEraBaku[] = {
   //             4:00    Azer    +04/+05
   {
     16 /*offsetCode*/,
@@ -3139,7 +3139,7 @@ static const common::ZoneEra kZoneEraBaku[] = {
 
 };
 
-const common::ZoneInfo kZoneBaku = {
+const ZoneInfo kZoneBaku = {
   "Asia/Baku" /*name*/,
   kZoneEraBaku /*eras*/,
   1 /*numEras*/,
@@ -3153,7 +3153,7 @@ const common::ZoneInfo kZoneBaku = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBangkok[] = {
+static const ZoneEra kZoneEraBangkok[] = {
   //             7:00    -    +07
   {
     28 /*offsetCode*/,
@@ -3169,7 +3169,7 @@ static const common::ZoneEra kZoneEraBangkok[] = {
 
 };
 
-const common::ZoneInfo kZoneBangkok = {
+const ZoneInfo kZoneBangkok = {
   "Asia/Bangkok" /*name*/,
   kZoneEraBangkok /*eras*/,
   1 /*numEras*/,
@@ -3183,7 +3183,7 @@ const common::ZoneInfo kZoneBangkok = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBeirut[] = {
+static const ZoneEra kZoneEraBeirut[] = {
   //             2:00    Lebanon    EE%sT
   {
     8 /*offsetCode*/,
@@ -3199,7 +3199,7 @@ static const common::ZoneEra kZoneEraBeirut[] = {
 
 };
 
-const common::ZoneInfo kZoneBeirut = {
+const ZoneInfo kZoneBeirut = {
   "Asia/Beirut" /*name*/,
   kZoneEraBeirut /*eras*/,
   1 /*numEras*/,
@@ -3213,7 +3213,7 @@ const common::ZoneInfo kZoneBeirut = {
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBrunei[] = {
+static const ZoneEra kZoneEraBrunei[] = {
   //             8:00    -    +08
   {
     32 /*offsetCode*/,
@@ -3229,7 +3229,7 @@ static const common::ZoneEra kZoneEraBrunei[] = {
 
 };
 
-const common::ZoneInfo kZoneBrunei = {
+const ZoneInfo kZoneBrunei = {
   "Asia/Brunei" /*name*/,
   kZoneEraBrunei /*eras*/,
   1 /*numEras*/,
@@ -3243,7 +3243,7 @@ const common::ZoneInfo kZoneBrunei = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDamascus[] = {
+static const ZoneEra kZoneEraDamascus[] = {
   //             2:00    Syria    EE%sT
   {
     8 /*offsetCode*/,
@@ -3259,7 +3259,7 @@ static const common::ZoneEra kZoneEraDamascus[] = {
 
 };
 
-const common::ZoneInfo kZoneDamascus = {
+const ZoneInfo kZoneDamascus = {
   "Asia/Damascus" /*name*/,
   kZoneEraDamascus /*eras*/,
   1 /*numEras*/,
@@ -3273,7 +3273,7 @@ const common::ZoneInfo kZoneDamascus = {
 // Memory (32-bit): 62
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDhaka[] = {
+static const ZoneEra kZoneEraDhaka[] = {
   //             6:00    -    +06    2009
   {
     24 /*offsetCode*/,
@@ -3301,7 +3301,7 @@ static const common::ZoneEra kZoneEraDhaka[] = {
 
 };
 
-const common::ZoneInfo kZoneDhaka = {
+const ZoneInfo kZoneDhaka = {
   "Asia/Dhaka" /*name*/,
   kZoneEraDhaka /*eras*/,
   2 /*numEras*/,
@@ -3315,7 +3315,7 @@ const common::ZoneInfo kZoneDhaka = {
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDubai[] = {
+static const ZoneEra kZoneEraDubai[] = {
   //             4:00    -    +04
   {
     16 /*offsetCode*/,
@@ -3331,7 +3331,7 @@ static const common::ZoneEra kZoneEraDubai[] = {
 
 };
 
-const common::ZoneInfo kZoneDubai = {
+const ZoneInfo kZoneDubai = {
   "Asia/Dubai" /*name*/,
   kZoneEraDubai /*eras*/,
   1 /*numEras*/,
@@ -3345,7 +3345,7 @@ const common::ZoneInfo kZoneDubai = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDushanbe[] = {
+static const ZoneEra kZoneEraDushanbe[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -3361,7 +3361,7 @@ static const common::ZoneEra kZoneEraDushanbe[] = {
 
 };
 
-const common::ZoneInfo kZoneDushanbe = {
+const ZoneInfo kZoneDushanbe = {
   "Asia/Dushanbe" /*name*/,
   kZoneEraDushanbe /*eras*/,
   1 /*numEras*/,
@@ -3375,7 +3375,7 @@ const common::ZoneInfo kZoneDushanbe = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraHo_Chi_Minh[] = {
+static const ZoneEra kZoneEraHo_Chi_Minh[] = {
   //             7:00    -    +07
   {
     28 /*offsetCode*/,
@@ -3391,7 +3391,7 @@ static const common::ZoneEra kZoneEraHo_Chi_Minh[] = {
 
 };
 
-const common::ZoneInfo kZoneHo_Chi_Minh = {
+const ZoneInfo kZoneHo_Chi_Minh = {
   "Asia/Ho_Chi_Minh" /*name*/,
   kZoneEraHo_Chi_Minh /*eras*/,
   1 /*numEras*/,
@@ -3405,7 +3405,7 @@ const common::ZoneInfo kZoneHo_Chi_Minh = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraHong_Kong[] = {
+static const ZoneEra kZoneEraHong_Kong[] = {
   //             8:00    HK    HK%sT
   {
     32 /*offsetCode*/,
@@ -3421,7 +3421,7 @@ static const common::ZoneEra kZoneEraHong_Kong[] = {
 
 };
 
-const common::ZoneInfo kZoneHong_Kong = {
+const ZoneInfo kZoneHong_Kong = {
   "Asia/Hong_Kong" /*name*/,
   kZoneEraHong_Kong /*eras*/,
   1 /*numEras*/,
@@ -3435,7 +3435,7 @@ const common::ZoneInfo kZoneHong_Kong = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraHovd[] = {
+static const ZoneEra kZoneEraHovd[] = {
   //             7:00    Mongol    +07/+08
   {
     28 /*offsetCode*/,
@@ -3451,7 +3451,7 @@ static const common::ZoneEra kZoneEraHovd[] = {
 
 };
 
-const common::ZoneInfo kZoneHovd = {
+const ZoneInfo kZoneHovd = {
   "Asia/Hovd" /*name*/,
   kZoneEraHovd /*eras*/,
   1 /*numEras*/,
@@ -3465,7 +3465,7 @@ const common::ZoneInfo kZoneHovd = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraJakarta[] = {
+static const ZoneEra kZoneEraJakarta[] = {
   //             7:00    -    WIB
   {
     28 /*offsetCode*/,
@@ -3481,7 +3481,7 @@ static const common::ZoneEra kZoneEraJakarta[] = {
 
 };
 
-const common::ZoneInfo kZoneJakarta = {
+const ZoneInfo kZoneJakarta = {
   "Asia/Jakarta" /*name*/,
   kZoneEraJakarta /*eras*/,
   1 /*numEras*/,
@@ -3495,7 +3495,7 @@ const common::ZoneInfo kZoneJakarta = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraJayapura[] = {
+static const ZoneEra kZoneEraJayapura[] = {
   //             9:00    -    WIT
   {
     36 /*offsetCode*/,
@@ -3511,7 +3511,7 @@ static const common::ZoneEra kZoneEraJayapura[] = {
 
 };
 
-const common::ZoneInfo kZoneJayapura = {
+const ZoneInfo kZoneJayapura = {
   "Asia/Jayapura" /*name*/,
   kZoneEraJayapura /*eras*/,
   1 /*numEras*/,
@@ -3525,7 +3525,7 @@ const common::ZoneInfo kZoneJayapura = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraJerusalem[] = {
+static const ZoneEra kZoneEraJerusalem[] = {
   //             2:00    Zion    I%sT
   {
     8 /*offsetCode*/,
@@ -3541,7 +3541,7 @@ static const common::ZoneEra kZoneEraJerusalem[] = {
 
 };
 
-const common::ZoneInfo kZoneJerusalem = {
+const ZoneInfo kZoneJerusalem = {
   "Asia/Jerusalem" /*name*/,
   kZoneEraJerusalem /*eras*/,
   1 /*numEras*/,
@@ -3555,7 +3555,7 @@ const common::ZoneInfo kZoneJerusalem = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraKabul[] = {
+static const ZoneEra kZoneEraKabul[] = {
   //             4:30    -    +0430
   {
     18 /*offsetCode*/,
@@ -3571,7 +3571,7 @@ static const common::ZoneEra kZoneEraKabul[] = {
 
 };
 
-const common::ZoneInfo kZoneKabul = {
+const ZoneInfo kZoneKabul = {
   "Asia/Kabul" /*name*/,
   kZoneEraKabul /*eras*/,
   1 /*numEras*/,
@@ -3585,7 +3585,7 @@ const common::ZoneInfo kZoneKabul = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraKarachi[] = {
+static const ZoneEra kZoneEraKarachi[] = {
   //             5:00 Pakistan    PK%sT
   {
     20 /*offsetCode*/,
@@ -3601,7 +3601,7 @@ static const common::ZoneEra kZoneEraKarachi[] = {
 
 };
 
-const common::ZoneInfo kZoneKarachi = {
+const ZoneInfo kZoneKarachi = {
   "Asia/Karachi" /*name*/,
   kZoneEraKarachi /*eras*/,
   1 /*numEras*/,
@@ -3615,7 +3615,7 @@ const common::ZoneInfo kZoneKarachi = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraKathmandu[] = {
+static const ZoneEra kZoneEraKathmandu[] = {
   //             5:45    -    +0545
   {
     23 /*offsetCode*/,
@@ -3631,7 +3631,7 @@ static const common::ZoneEra kZoneEraKathmandu[] = {
 
 };
 
-const common::ZoneInfo kZoneKathmandu = {
+const ZoneInfo kZoneKathmandu = {
   "Asia/Kathmandu" /*name*/,
   kZoneEraKathmandu /*eras*/,
   1 /*numEras*/,
@@ -3645,7 +3645,7 @@ const common::ZoneInfo kZoneKathmandu = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraKolkata[] = {
+static const ZoneEra kZoneEraKolkata[] = {
   //             5:30    -    IST
   {
     22 /*offsetCode*/,
@@ -3661,7 +3661,7 @@ static const common::ZoneEra kZoneEraKolkata[] = {
 
 };
 
-const common::ZoneInfo kZoneKolkata = {
+const ZoneInfo kZoneKolkata = {
   "Asia/Kolkata" /*name*/,
   kZoneEraKolkata /*eras*/,
   1 /*numEras*/,
@@ -3675,7 +3675,7 @@ const common::ZoneInfo kZoneKolkata = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraKuala_Lumpur[] = {
+static const ZoneEra kZoneEraKuala_Lumpur[] = {
   //             8:00    -    +08
   {
     32 /*offsetCode*/,
@@ -3691,7 +3691,7 @@ static const common::ZoneEra kZoneEraKuala_Lumpur[] = {
 
 };
 
-const common::ZoneInfo kZoneKuala_Lumpur = {
+const ZoneInfo kZoneKuala_Lumpur = {
   "Asia/Kuala_Lumpur" /*name*/,
   kZoneEraKuala_Lumpur /*eras*/,
   1 /*numEras*/,
@@ -3705,7 +3705,7 @@ const common::ZoneInfo kZoneKuala_Lumpur = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraKuching[] = {
+static const ZoneEra kZoneEraKuching[] = {
   //             8:00    -    +08
   {
     32 /*offsetCode*/,
@@ -3721,7 +3721,7 @@ static const common::ZoneEra kZoneEraKuching[] = {
 
 };
 
-const common::ZoneInfo kZoneKuching = {
+const ZoneInfo kZoneKuching = {
   "Asia/Kuching" /*name*/,
   kZoneEraKuching /*eras*/,
   1 /*numEras*/,
@@ -3735,7 +3735,7 @@ const common::ZoneInfo kZoneKuching = {
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMacau[] = {
+static const ZoneEra kZoneEraMacau[] = {
   //             8:00    Macau    C%sT
   {
     32 /*offsetCode*/,
@@ -3751,7 +3751,7 @@ static const common::ZoneEra kZoneEraMacau[] = {
 
 };
 
-const common::ZoneInfo kZoneMacau = {
+const ZoneInfo kZoneMacau = {
   "Asia/Macau" /*name*/,
   kZoneEraMacau /*eras*/,
   1 /*numEras*/,
@@ -3765,7 +3765,7 @@ const common::ZoneInfo kZoneMacau = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMakassar[] = {
+static const ZoneEra kZoneEraMakassar[] = {
   //             8:00    -    WITA
   {
     32 /*offsetCode*/,
@@ -3781,7 +3781,7 @@ static const common::ZoneEra kZoneEraMakassar[] = {
 
 };
 
-const common::ZoneInfo kZoneMakassar = {
+const ZoneInfo kZoneMakassar = {
   "Asia/Makassar" /*name*/,
   kZoneEraMakassar /*eras*/,
   1 /*numEras*/,
@@ -3795,7 +3795,7 @@ const common::ZoneInfo kZoneMakassar = {
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraManila[] = {
+static const ZoneEra kZoneEraManila[] = {
   //             8:00    Phil    P%sT
   {
     32 /*offsetCode*/,
@@ -3811,7 +3811,7 @@ static const common::ZoneEra kZoneEraManila[] = {
 
 };
 
-const common::ZoneInfo kZoneManila = {
+const ZoneInfo kZoneManila = {
   "Asia/Manila" /*name*/,
   kZoneEraManila /*eras*/,
   1 /*numEras*/,
@@ -3825,7 +3825,7 @@ const common::ZoneInfo kZoneManila = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraNicosia[] = {
+static const ZoneEra kZoneEraNicosia[] = {
   //             2:00    EUAsia    EE%sT
   {
     8 /*offsetCode*/,
@@ -3841,7 +3841,7 @@ static const common::ZoneEra kZoneEraNicosia[] = {
 
 };
 
-const common::ZoneInfo kZoneNicosia = {
+const ZoneInfo kZoneNicosia = {
   "Asia/Nicosia" /*name*/,
   kZoneEraNicosia /*eras*/,
   1 /*numEras*/,
@@ -3855,7 +3855,7 @@ const common::ZoneInfo kZoneNicosia = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPontianak[] = {
+static const ZoneEra kZoneEraPontianak[] = {
   //             7:00    -    WIB
   {
     28 /*offsetCode*/,
@@ -3871,7 +3871,7 @@ static const common::ZoneEra kZoneEraPontianak[] = {
 
 };
 
-const common::ZoneInfo kZonePontianak = {
+const ZoneInfo kZonePontianak = {
   "Asia/Pontianak" /*name*/,
   kZoneEraPontianak /*eras*/,
   1 /*numEras*/,
@@ -3885,7 +3885,7 @@ const common::ZoneInfo kZonePontianak = {
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraQatar[] = {
+static const ZoneEra kZoneEraQatar[] = {
   //             3:00    -    +03
   {
     12 /*offsetCode*/,
@@ -3901,7 +3901,7 @@ static const common::ZoneEra kZoneEraQatar[] = {
 
 };
 
-const common::ZoneInfo kZoneQatar = {
+const ZoneInfo kZoneQatar = {
   "Asia/Qatar" /*name*/,
   kZoneEraQatar /*eras*/,
   1 /*numEras*/,
@@ -3915,7 +3915,7 @@ const common::ZoneInfo kZoneQatar = {
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraRiyadh[] = {
+static const ZoneEra kZoneEraRiyadh[] = {
   //             3:00    -    +03
   {
     12 /*offsetCode*/,
@@ -3931,7 +3931,7 @@ static const common::ZoneEra kZoneEraRiyadh[] = {
 
 };
 
-const common::ZoneInfo kZoneRiyadh = {
+const ZoneInfo kZoneRiyadh = {
   "Asia/Riyadh" /*name*/,
   kZoneEraRiyadh /*eras*/,
   1 /*numEras*/,
@@ -3945,7 +3945,7 @@ const common::ZoneInfo kZoneRiyadh = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraSamarkand[] = {
+static const ZoneEra kZoneEraSamarkand[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -3961,7 +3961,7 @@ static const common::ZoneEra kZoneEraSamarkand[] = {
 
 };
 
-const common::ZoneInfo kZoneSamarkand = {
+const ZoneInfo kZoneSamarkand = {
   "Asia/Samarkand" /*name*/,
   kZoneEraSamarkand /*eras*/,
   1 /*numEras*/,
@@ -3975,7 +3975,7 @@ const common::ZoneInfo kZoneSamarkand = {
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraSeoul[] = {
+static const ZoneEra kZoneEraSeoul[] = {
   //             9:00    ROK    K%sT
   {
     36 /*offsetCode*/,
@@ -3991,7 +3991,7 @@ static const common::ZoneEra kZoneEraSeoul[] = {
 
 };
 
-const common::ZoneInfo kZoneSeoul = {
+const ZoneInfo kZoneSeoul = {
   "Asia/Seoul" /*name*/,
   kZoneEraSeoul /*eras*/,
   1 /*numEras*/,
@@ -4005,7 +4005,7 @@ const common::ZoneInfo kZoneSeoul = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraShanghai[] = {
+static const ZoneEra kZoneEraShanghai[] = {
   //             8:00    PRC    C%sT
   {
     32 /*offsetCode*/,
@@ -4021,7 +4021,7 @@ static const common::ZoneEra kZoneEraShanghai[] = {
 
 };
 
-const common::ZoneInfo kZoneShanghai = {
+const ZoneInfo kZoneShanghai = {
   "Asia/Shanghai" /*name*/,
   kZoneEraShanghai /*eras*/,
   1 /*numEras*/,
@@ -4035,7 +4035,7 @@ const common::ZoneInfo kZoneShanghai = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraSingapore[] = {
+static const ZoneEra kZoneEraSingapore[] = {
   //             8:00    -    +08
   {
     32 /*offsetCode*/,
@@ -4051,7 +4051,7 @@ static const common::ZoneEra kZoneEraSingapore[] = {
 
 };
 
-const common::ZoneInfo kZoneSingapore = {
+const ZoneInfo kZoneSingapore = {
   "Asia/Singapore" /*name*/,
   kZoneEraSingapore /*eras*/,
   1 /*numEras*/,
@@ -4065,7 +4065,7 @@ const common::ZoneInfo kZoneSingapore = {
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraTaipei[] = {
+static const ZoneEra kZoneEraTaipei[] = {
   //             8:00    Taiwan    C%sT
   {
     32 /*offsetCode*/,
@@ -4081,7 +4081,7 @@ static const common::ZoneEra kZoneEraTaipei[] = {
 
 };
 
-const common::ZoneInfo kZoneTaipei = {
+const ZoneInfo kZoneTaipei = {
   "Asia/Taipei" /*name*/,
   kZoneEraTaipei /*eras*/,
   1 /*numEras*/,
@@ -4095,7 +4095,7 @@ const common::ZoneInfo kZoneTaipei = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraTashkent[] = {
+static const ZoneEra kZoneEraTashkent[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -4111,7 +4111,7 @@ static const common::ZoneEra kZoneEraTashkent[] = {
 
 };
 
-const common::ZoneInfo kZoneTashkent = {
+const ZoneInfo kZoneTashkent = {
   "Asia/Tashkent" /*name*/,
   kZoneEraTashkent /*eras*/,
   1 /*numEras*/,
@@ -4125,7 +4125,7 @@ const common::ZoneInfo kZoneTashkent = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraTehran[] = {
+static const ZoneEra kZoneEraTehran[] = {
   //             3:30    Iran    +0330/+0430
   {
     14 /*offsetCode*/,
@@ -4141,7 +4141,7 @@ static const common::ZoneEra kZoneEraTehran[] = {
 
 };
 
-const common::ZoneInfo kZoneTehran = {
+const ZoneInfo kZoneTehran = {
   "Asia/Tehran" /*name*/,
   kZoneEraTehran /*eras*/,
   1 /*numEras*/,
@@ -4155,7 +4155,7 @@ const common::ZoneInfo kZoneTehran = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraThimphu[] = {
+static const ZoneEra kZoneEraThimphu[] = {
   //             6:00    -    +06
   {
     24 /*offsetCode*/,
@@ -4171,7 +4171,7 @@ static const common::ZoneEra kZoneEraThimphu[] = {
 
 };
 
-const common::ZoneInfo kZoneThimphu = {
+const ZoneInfo kZoneThimphu = {
   "Asia/Thimphu" /*name*/,
   kZoneEraThimphu /*eras*/,
   1 /*numEras*/,
@@ -4185,7 +4185,7 @@ const common::ZoneInfo kZoneThimphu = {
 // Memory (32-bit): 39
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraTokyo[] = {
+static const ZoneEra kZoneEraTokyo[] = {
   //             9:00    Japan    J%sT
   {
     36 /*offsetCode*/,
@@ -4201,7 +4201,7 @@ static const common::ZoneEra kZoneEraTokyo[] = {
 
 };
 
-const common::ZoneInfo kZoneTokyo = {
+const ZoneInfo kZoneTokyo = {
   "Asia/Tokyo" /*name*/,
   kZoneEraTokyo /*eras*/,
   1 /*numEras*/,
@@ -4215,7 +4215,7 @@ const common::ZoneInfo kZoneTokyo = {
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraUlaanbaatar[] = {
+static const ZoneEra kZoneEraUlaanbaatar[] = {
   //             8:00    Mongol    +08/+09
   {
     32 /*offsetCode*/,
@@ -4231,7 +4231,7 @@ static const common::ZoneEra kZoneEraUlaanbaatar[] = {
 
 };
 
-const common::ZoneInfo kZoneUlaanbaatar = {
+const ZoneInfo kZoneUlaanbaatar = {
   "Asia/Ulaanbaatar" /*name*/,
   kZoneEraUlaanbaatar /*eras*/,
   1 /*numEras*/,
@@ -4245,7 +4245,7 @@ const common::ZoneInfo kZoneUlaanbaatar = {
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraUrumqi[] = {
+static const ZoneEra kZoneEraUrumqi[] = {
   //             6:00    -    +06
   {
     24 /*offsetCode*/,
@@ -4261,7 +4261,7 @@ static const common::ZoneEra kZoneEraUrumqi[] = {
 
 };
 
-const common::ZoneInfo kZoneUrumqi = {
+const ZoneInfo kZoneUrumqi = {
   "Asia/Urumqi" /*name*/,
   kZoneEraUrumqi /*eras*/,
   1 /*numEras*/,
@@ -4275,7 +4275,7 @@ const common::ZoneInfo kZoneUrumqi = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraYangon[] = {
+static const ZoneEra kZoneEraYangon[] = {
   //             6:30    -    +0630
   {
     26 /*offsetCode*/,
@@ -4291,7 +4291,7 @@ static const common::ZoneEra kZoneEraYangon[] = {
 
 };
 
-const common::ZoneInfo kZoneYangon = {
+const ZoneInfo kZoneYangon = {
   "Asia/Yangon" /*name*/,
   kZoneEraYangon /*eras*/,
   1 /*numEras*/,
@@ -4305,7 +4305,7 @@ const common::ZoneInfo kZoneYangon = {
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraYerevan[] = {
+static const ZoneEra kZoneEraYerevan[] = {
   //             4:00 RussiaAsia    +04/+05    2011
   {
     16 /*offsetCode*/,
@@ -4333,7 +4333,7 @@ static const common::ZoneEra kZoneEraYerevan[] = {
 
 };
 
-const common::ZoneInfo kZoneYerevan = {
+const ZoneInfo kZoneYerevan = {
   "Asia/Yerevan" /*name*/,
   kZoneEraYerevan /*eras*/,
   2 /*numEras*/,
@@ -4347,7 +4347,7 @@ const common::ZoneInfo kZoneYerevan = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAzores[] = {
+static const ZoneEra kZoneEraAzores[] = {
   //             -1:00    EU    -01/+00
   {
     -4 /*offsetCode*/,
@@ -4363,7 +4363,7 @@ static const common::ZoneEra kZoneEraAzores[] = {
 
 };
 
-const common::ZoneInfo kZoneAzores = {
+const ZoneInfo kZoneAzores = {
   "Atlantic/Azores" /*name*/,
   kZoneEraAzores /*eras*/,
   1 /*numEras*/,
@@ -4377,7 +4377,7 @@ const common::ZoneInfo kZoneAzores = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBermuda[] = {
+static const ZoneEra kZoneEraBermuda[] = {
   //             -4:00    US    A%sT
   {
     -16 /*offsetCode*/,
@@ -4393,7 +4393,7 @@ static const common::ZoneEra kZoneEraBermuda[] = {
 
 };
 
-const common::ZoneInfo kZoneBermuda = {
+const ZoneInfo kZoneBermuda = {
   "Atlantic/Bermuda" /*name*/,
   kZoneEraBermuda /*eras*/,
   1 /*numEras*/,
@@ -4407,7 +4407,7 @@ const common::ZoneInfo kZoneBermuda = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCanary[] = {
+static const ZoneEra kZoneEraCanary[] = {
   //              0:00    EU    WE%sT
   {
     0 /*offsetCode*/,
@@ -4423,7 +4423,7 @@ static const common::ZoneEra kZoneEraCanary[] = {
 
 };
 
-const common::ZoneInfo kZoneCanary = {
+const ZoneInfo kZoneCanary = {
   "Atlantic/Canary" /*name*/,
   kZoneEraCanary /*eras*/,
   1 /*numEras*/,
@@ -4437,7 +4437,7 @@ const common::ZoneInfo kZoneCanary = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCape_Verde[] = {
+static const ZoneEra kZoneEraCape_Verde[] = {
   //             -1:00    -    -01
   {
     -4 /*offsetCode*/,
@@ -4453,7 +4453,7 @@ static const common::ZoneEra kZoneEraCape_Verde[] = {
 
 };
 
-const common::ZoneInfo kZoneCape_Verde = {
+const ZoneInfo kZoneCape_Verde = {
   "Atlantic/Cape_Verde" /*name*/,
   kZoneEraCape_Verde /*eras*/,
   1 /*numEras*/,
@@ -4467,7 +4467,7 @@ const common::ZoneInfo kZoneCape_Verde = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraFaroe[] = {
+static const ZoneEra kZoneEraFaroe[] = {
   //              0:00    EU    WE%sT
   {
     0 /*offsetCode*/,
@@ -4483,7 +4483,7 @@ static const common::ZoneEra kZoneEraFaroe[] = {
 
 };
 
-const common::ZoneInfo kZoneFaroe = {
+const ZoneInfo kZoneFaroe = {
   "Atlantic/Faroe" /*name*/,
   kZoneEraFaroe /*eras*/,
   1 /*numEras*/,
@@ -4497,7 +4497,7 @@ const common::ZoneInfo kZoneFaroe = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMadeira[] = {
+static const ZoneEra kZoneEraMadeira[] = {
   //              0:00    EU    WE%sT
   {
     0 /*offsetCode*/,
@@ -4513,7 +4513,7 @@ static const common::ZoneEra kZoneEraMadeira[] = {
 
 };
 
-const common::ZoneInfo kZoneMadeira = {
+const ZoneInfo kZoneMadeira = {
   "Atlantic/Madeira" /*name*/,
   kZoneEraMadeira /*eras*/,
   1 /*numEras*/,
@@ -4527,7 +4527,7 @@ const common::ZoneInfo kZoneMadeira = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraReykjavik[] = {
+static const ZoneEra kZoneEraReykjavik[] = {
   //              0:00    -    GMT
   {
     0 /*offsetCode*/,
@@ -4543,7 +4543,7 @@ static const common::ZoneEra kZoneEraReykjavik[] = {
 
 };
 
-const common::ZoneInfo kZoneReykjavik = {
+const ZoneInfo kZoneReykjavik = {
   "Atlantic/Reykjavik" /*name*/,
   kZoneEraReykjavik /*eras*/,
   1 /*numEras*/,
@@ -4557,7 +4557,7 @@ const common::ZoneInfo kZoneReykjavik = {
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraSouth_Georgia[] = {
+static const ZoneEra kZoneEraSouth_Georgia[] = {
   //             -2:00    -    -02
   {
     -8 /*offsetCode*/,
@@ -4573,7 +4573,7 @@ static const common::ZoneEra kZoneEraSouth_Georgia[] = {
 
 };
 
-const common::ZoneInfo kZoneSouth_Georgia = {
+const ZoneInfo kZoneSouth_Georgia = {
   "Atlantic/South_Georgia" /*name*/,
   kZoneEraSouth_Georgia /*eras*/,
   1 /*numEras*/,
@@ -4587,7 +4587,7 @@ const common::ZoneInfo kZoneSouth_Georgia = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAdelaide[] = {
+static const ZoneEra kZoneEraAdelaide[] = {
   //             9:30    AS    AC%sT
   {
     38 /*offsetCode*/,
@@ -4603,7 +4603,7 @@ static const common::ZoneEra kZoneEraAdelaide[] = {
 
 };
 
-const common::ZoneInfo kZoneAdelaide = {
+const ZoneInfo kZoneAdelaide = {
   "Australia/Adelaide" /*name*/,
   kZoneEraAdelaide /*eras*/,
   1 /*numEras*/,
@@ -4617,7 +4617,7 @@ const common::ZoneInfo kZoneAdelaide = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBrisbane[] = {
+static const ZoneEra kZoneEraBrisbane[] = {
   //             10:00    AQ    AE%sT
   {
     40 /*offsetCode*/,
@@ -4633,7 +4633,7 @@ static const common::ZoneEra kZoneEraBrisbane[] = {
 
 };
 
-const common::ZoneInfo kZoneBrisbane = {
+const ZoneInfo kZoneBrisbane = {
   "Australia/Brisbane" /*name*/,
   kZoneEraBrisbane /*eras*/,
   1 /*numEras*/,
@@ -4647,7 +4647,7 @@ const common::ZoneInfo kZoneBrisbane = {
 // Memory (32-bit): 71
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBroken_Hill[] = {
+static const ZoneEra kZoneEraBroken_Hill[] = {
   //             9:30    AN    AC%sT    2000
   {
     38 /*offsetCode*/,
@@ -4675,7 +4675,7 @@ static const common::ZoneEra kZoneEraBroken_Hill[] = {
 
 };
 
-const common::ZoneInfo kZoneBroken_Hill = {
+const ZoneInfo kZoneBroken_Hill = {
   "Australia/Broken_Hill" /*name*/,
   kZoneEraBroken_Hill /*eras*/,
   2 /*numEras*/,
@@ -4689,7 +4689,7 @@ const common::ZoneInfo kZoneBroken_Hill = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCurrie[] = {
+static const ZoneEra kZoneEraCurrie[] = {
   //             10:00    AT    AE%sT
   {
     40 /*offsetCode*/,
@@ -4705,7 +4705,7 @@ static const common::ZoneEra kZoneEraCurrie[] = {
 
 };
 
-const common::ZoneInfo kZoneCurrie = {
+const ZoneInfo kZoneCurrie = {
   "Australia/Currie" /*name*/,
   kZoneEraCurrie /*eras*/,
   1 /*numEras*/,
@@ -4719,7 +4719,7 @@ const common::ZoneInfo kZoneCurrie = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDarwin[] = {
+static const ZoneEra kZoneEraDarwin[] = {
   //              9:30    Aus    AC%sT
   {
     38 /*offsetCode*/,
@@ -4735,7 +4735,7 @@ static const common::ZoneEra kZoneEraDarwin[] = {
 
 };
 
-const common::ZoneInfo kZoneDarwin = {
+const ZoneInfo kZoneDarwin = {
   "Australia/Darwin" /*name*/,
   kZoneEraDarwin /*eras*/,
   1 /*numEras*/,
@@ -4749,7 +4749,7 @@ const common::ZoneInfo kZoneDarwin = {
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraEucla[] = {
+static const ZoneEra kZoneEraEucla[] = {
   //              8:45    AW  +0845/+0945
   {
     35 /*offsetCode*/,
@@ -4765,7 +4765,7 @@ static const common::ZoneEra kZoneEraEucla[] = {
 
 };
 
-const common::ZoneInfo kZoneEucla = {
+const ZoneInfo kZoneEucla = {
   "Australia/Eucla" /*name*/,
   kZoneEraEucla /*eras*/,
   1 /*numEras*/,
@@ -4779,7 +4779,7 @@ const common::ZoneInfo kZoneEucla = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraHobart[] = {
+static const ZoneEra kZoneEraHobart[] = {
   //             10:00    AT    AE%sT
   {
     40 /*offsetCode*/,
@@ -4795,7 +4795,7 @@ static const common::ZoneEra kZoneEraHobart[] = {
 
 };
 
-const common::ZoneInfo kZoneHobart = {
+const ZoneInfo kZoneHobart = {
   "Australia/Hobart" /*name*/,
   kZoneEraHobart /*eras*/,
   1 /*numEras*/,
@@ -4809,7 +4809,7 @@ const common::ZoneInfo kZoneHobart = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraLindeman[] = {
+static const ZoneEra kZoneEraLindeman[] = {
   //             10:00    Holiday    AE%sT
   {
     40 /*offsetCode*/,
@@ -4825,7 +4825,7 @@ static const common::ZoneEra kZoneEraLindeman[] = {
 
 };
 
-const common::ZoneInfo kZoneLindeman = {
+const ZoneInfo kZoneLindeman = {
   "Australia/Lindeman" /*name*/,
   kZoneEraLindeman /*eras*/,
   1 /*numEras*/,
@@ -4839,7 +4839,7 @@ const common::ZoneInfo kZoneLindeman = {
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraLord_Howe[] = {
+static const ZoneEra kZoneEraLord_Howe[] = {
   //             10:30    LH    +1030/+11
   {
     42 /*offsetCode*/,
@@ -4855,7 +4855,7 @@ static const common::ZoneEra kZoneEraLord_Howe[] = {
 
 };
 
-const common::ZoneInfo kZoneLord_Howe = {
+const ZoneInfo kZoneLord_Howe = {
   "Australia/Lord_Howe" /*name*/,
   kZoneEraLord_Howe /*eras*/,
   1 /*numEras*/,
@@ -4869,7 +4869,7 @@ const common::ZoneInfo kZoneLord_Howe = {
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMelbourne[] = {
+static const ZoneEra kZoneEraMelbourne[] = {
   //             10:00    AV    AE%sT
   {
     40 /*offsetCode*/,
@@ -4885,7 +4885,7 @@ static const common::ZoneEra kZoneEraMelbourne[] = {
 
 };
 
-const common::ZoneInfo kZoneMelbourne = {
+const ZoneInfo kZoneMelbourne = {
   "Australia/Melbourne" /*name*/,
   kZoneEraMelbourne /*eras*/,
   1 /*numEras*/,
@@ -4899,7 +4899,7 @@ const common::ZoneInfo kZoneMelbourne = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPerth[] = {
+static const ZoneEra kZoneEraPerth[] = {
   //              8:00    AW    AW%sT
   {
     32 /*offsetCode*/,
@@ -4915,7 +4915,7 @@ static const common::ZoneEra kZoneEraPerth[] = {
 
 };
 
-const common::ZoneInfo kZonePerth = {
+const ZoneInfo kZonePerth = {
   "Australia/Perth" /*name*/,
   kZoneEraPerth /*eras*/,
   1 /*numEras*/,
@@ -4929,7 +4929,7 @@ const common::ZoneInfo kZonePerth = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraSydney[] = {
+static const ZoneEra kZoneEraSydney[] = {
   //             10:00    AN    AE%sT
   {
     40 /*offsetCode*/,
@@ -4945,7 +4945,7 @@ static const common::ZoneEra kZoneEraSydney[] = {
 
 };
 
-const common::ZoneInfo kZoneSydney = {
+const ZoneInfo kZoneSydney = {
   "Australia/Sydney" /*name*/,
   kZoneEraSydney /*eras*/,
   1 /*numEras*/,
@@ -4959,7 +4959,7 @@ const common::ZoneInfo kZoneSydney = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAmsterdam[] = {
+static const ZoneEra kZoneEraAmsterdam[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -4975,7 +4975,7 @@ static const common::ZoneEra kZoneEraAmsterdam[] = {
 
 };
 
-const common::ZoneInfo kZoneAmsterdam = {
+const ZoneInfo kZoneAmsterdam = {
   "Europe/Amsterdam" /*name*/,
   kZoneEraAmsterdam /*eras*/,
   1 /*numEras*/,
@@ -4989,7 +4989,7 @@ const common::ZoneInfo kZoneAmsterdam = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAndorra[] = {
+static const ZoneEra kZoneEraAndorra[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5005,7 +5005,7 @@ static const common::ZoneEra kZoneEraAndorra[] = {
 
 };
 
-const common::ZoneInfo kZoneAndorra = {
+const ZoneInfo kZoneAndorra = {
   "Europe/Andorra" /*name*/,
   kZoneEraAndorra /*eras*/,
   1 /*numEras*/,
@@ -5019,7 +5019,7 @@ const common::ZoneInfo kZoneAndorra = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAthens[] = {
+static const ZoneEra kZoneEraAthens[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -5035,7 +5035,7 @@ static const common::ZoneEra kZoneEraAthens[] = {
 
 };
 
-const common::ZoneInfo kZoneAthens = {
+const ZoneInfo kZoneAthens = {
   "Europe/Athens" /*name*/,
   kZoneEraAthens /*eras*/,
   1 /*numEras*/,
@@ -5049,7 +5049,7 @@ const common::ZoneInfo kZoneAthens = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBelgrade[] = {
+static const ZoneEra kZoneEraBelgrade[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5065,7 +5065,7 @@ static const common::ZoneEra kZoneEraBelgrade[] = {
 
 };
 
-const common::ZoneInfo kZoneBelgrade = {
+const ZoneInfo kZoneBelgrade = {
   "Europe/Belgrade" /*name*/,
   kZoneEraBelgrade /*eras*/,
   1 /*numEras*/,
@@ -5079,7 +5079,7 @@ const common::ZoneInfo kZoneBelgrade = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBerlin[] = {
+static const ZoneEra kZoneEraBerlin[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5095,7 +5095,7 @@ static const common::ZoneEra kZoneEraBerlin[] = {
 
 };
 
-const common::ZoneInfo kZoneBerlin = {
+const ZoneInfo kZoneBerlin = {
   "Europe/Berlin" /*name*/,
   kZoneEraBerlin /*eras*/,
   1 /*numEras*/,
@@ -5109,7 +5109,7 @@ const common::ZoneInfo kZoneBerlin = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBrussels[] = {
+static const ZoneEra kZoneEraBrussels[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5125,7 +5125,7 @@ static const common::ZoneEra kZoneEraBrussels[] = {
 
 };
 
-const common::ZoneInfo kZoneBrussels = {
+const ZoneInfo kZoneBrussels = {
   "Europe/Brussels" /*name*/,
   kZoneEraBrussels /*eras*/,
   1 /*numEras*/,
@@ -5139,7 +5139,7 @@ const common::ZoneInfo kZoneBrussels = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBucharest[] = {
+static const ZoneEra kZoneEraBucharest[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -5155,7 +5155,7 @@ static const common::ZoneEra kZoneEraBucharest[] = {
 
 };
 
-const common::ZoneInfo kZoneBucharest = {
+const ZoneInfo kZoneBucharest = {
   "Europe/Bucharest" /*name*/,
   kZoneEraBucharest /*eras*/,
   1 /*numEras*/,
@@ -5169,7 +5169,7 @@ const common::ZoneInfo kZoneBucharest = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraBudapest[] = {
+static const ZoneEra kZoneEraBudapest[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5185,7 +5185,7 @@ static const common::ZoneEra kZoneEraBudapest[] = {
 
 };
 
-const common::ZoneInfo kZoneBudapest = {
+const ZoneInfo kZoneBudapest = {
   "Europe/Budapest" /*name*/,
   kZoneEraBudapest /*eras*/,
   1 /*numEras*/,
@@ -5199,7 +5199,7 @@ const common::ZoneInfo kZoneBudapest = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraChisinau[] = {
+static const ZoneEra kZoneEraChisinau[] = {
   //             2:00    Moldova    EE%sT
   {
     8 /*offsetCode*/,
@@ -5215,7 +5215,7 @@ static const common::ZoneEra kZoneEraChisinau[] = {
 
 };
 
-const common::ZoneInfo kZoneChisinau = {
+const ZoneInfo kZoneChisinau = {
   "Europe/Chisinau" /*name*/,
   kZoneEraChisinau /*eras*/,
   1 /*numEras*/,
@@ -5229,7 +5229,7 @@ const common::ZoneInfo kZoneChisinau = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCopenhagen[] = {
+static const ZoneEra kZoneEraCopenhagen[] = {
   //              1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5245,7 +5245,7 @@ static const common::ZoneEra kZoneEraCopenhagen[] = {
 
 };
 
-const common::ZoneInfo kZoneCopenhagen = {
+const ZoneInfo kZoneCopenhagen = {
   "Europe/Copenhagen" /*name*/,
   kZoneEraCopenhagen /*eras*/,
   1 /*numEras*/,
@@ -5259,7 +5259,7 @@ const common::ZoneInfo kZoneCopenhagen = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraDublin[] = {
+static const ZoneEra kZoneEraDublin[] = {
   //              1:00    Eire    IST/GMT
   {
     4 /*offsetCode*/,
@@ -5275,7 +5275,7 @@ static const common::ZoneEra kZoneEraDublin[] = {
 
 };
 
-const common::ZoneInfo kZoneDublin = {
+const ZoneInfo kZoneDublin = {
   "Europe/Dublin" /*name*/,
   kZoneEraDublin /*eras*/,
   1 /*numEras*/,
@@ -5289,7 +5289,7 @@ const common::ZoneInfo kZoneDublin = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraGibraltar[] = {
+static const ZoneEra kZoneEraGibraltar[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5305,7 +5305,7 @@ static const common::ZoneEra kZoneEraGibraltar[] = {
 
 };
 
-const common::ZoneInfo kZoneGibraltar = {
+const ZoneInfo kZoneGibraltar = {
   "Europe/Gibraltar" /*name*/,
   kZoneEraGibraltar /*eras*/,
   1 /*numEras*/,
@@ -5319,7 +5319,7 @@ const common::ZoneInfo kZoneGibraltar = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraHelsinki[] = {
+static const ZoneEra kZoneEraHelsinki[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -5335,7 +5335,7 @@ static const common::ZoneEra kZoneEraHelsinki[] = {
 
 };
 
-const common::ZoneInfo kZoneHelsinki = {
+const ZoneInfo kZoneHelsinki = {
   "Europe/Helsinki" /*name*/,
   kZoneEraHelsinki /*eras*/,
   1 /*numEras*/,
@@ -5349,7 +5349,7 @@ const common::ZoneInfo kZoneHelsinki = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraKiev[] = {
+static const ZoneEra kZoneEraKiev[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -5365,7 +5365,7 @@ static const common::ZoneEra kZoneEraKiev[] = {
 
 };
 
-const common::ZoneInfo kZoneKiev = {
+const ZoneInfo kZoneKiev = {
   "Europe/Kiev" /*name*/,
   kZoneEraKiev /*eras*/,
   1 /*numEras*/,
@@ -5379,7 +5379,7 @@ const common::ZoneInfo kZoneKiev = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraLisbon[] = {
+static const ZoneEra kZoneEraLisbon[] = {
   //              0:00    EU    WE%sT
   {
     0 /*offsetCode*/,
@@ -5395,7 +5395,7 @@ static const common::ZoneEra kZoneEraLisbon[] = {
 
 };
 
-const common::ZoneInfo kZoneLisbon = {
+const ZoneInfo kZoneLisbon = {
   "Europe/Lisbon" /*name*/,
   kZoneEraLisbon /*eras*/,
   1 /*numEras*/,
@@ -5409,7 +5409,7 @@ const common::ZoneInfo kZoneLisbon = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraLondon[] = {
+static const ZoneEra kZoneEraLondon[] = {
   //              0:00    EU    GMT/BST
   {
     0 /*offsetCode*/,
@@ -5425,7 +5425,7 @@ static const common::ZoneEra kZoneEraLondon[] = {
 
 };
 
-const common::ZoneInfo kZoneLondon = {
+const ZoneInfo kZoneLondon = {
   "Europe/London" /*name*/,
   kZoneEraLondon /*eras*/,
   1 /*numEras*/,
@@ -5439,7 +5439,7 @@ const common::ZoneInfo kZoneLondon = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraLuxembourg[] = {
+static const ZoneEra kZoneEraLuxembourg[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5455,7 +5455,7 @@ static const common::ZoneEra kZoneEraLuxembourg[] = {
 
 };
 
-const common::ZoneInfo kZoneLuxembourg = {
+const ZoneInfo kZoneLuxembourg = {
   "Europe/Luxembourg" /*name*/,
   kZoneEraLuxembourg /*eras*/,
   1 /*numEras*/,
@@ -5469,7 +5469,7 @@ const common::ZoneInfo kZoneLuxembourg = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMadrid[] = {
+static const ZoneEra kZoneEraMadrid[] = {
   //              1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5485,7 +5485,7 @@ static const common::ZoneEra kZoneEraMadrid[] = {
 
 };
 
-const common::ZoneInfo kZoneMadrid = {
+const ZoneInfo kZoneMadrid = {
   "Europe/Madrid" /*name*/,
   kZoneEraMadrid /*eras*/,
   1 /*numEras*/,
@@ -5499,7 +5499,7 @@ const common::ZoneInfo kZoneMadrid = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMalta[] = {
+static const ZoneEra kZoneEraMalta[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5515,7 +5515,7 @@ static const common::ZoneEra kZoneEraMalta[] = {
 
 };
 
-const common::ZoneInfo kZoneMalta = {
+const ZoneInfo kZoneMalta = {
   "Europe/Malta" /*name*/,
   kZoneEraMalta /*eras*/,
   1 /*numEras*/,
@@ -5529,7 +5529,7 @@ const common::ZoneInfo kZoneMalta = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMonaco[] = {
+static const ZoneEra kZoneEraMonaco[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5545,7 +5545,7 @@ static const common::ZoneEra kZoneEraMonaco[] = {
 
 };
 
-const common::ZoneInfo kZoneMonaco = {
+const ZoneInfo kZoneMonaco = {
   "Europe/Monaco" /*name*/,
   kZoneEraMonaco /*eras*/,
   1 /*numEras*/,
@@ -5559,7 +5559,7 @@ const common::ZoneInfo kZoneMonaco = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraOslo[] = {
+static const ZoneEra kZoneEraOslo[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5575,7 +5575,7 @@ static const common::ZoneEra kZoneEraOslo[] = {
 
 };
 
-const common::ZoneInfo kZoneOslo = {
+const ZoneInfo kZoneOslo = {
   "Europe/Oslo" /*name*/,
   kZoneEraOslo /*eras*/,
   1 /*numEras*/,
@@ -5589,7 +5589,7 @@ const common::ZoneInfo kZoneOslo = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraParis[] = {
+static const ZoneEra kZoneEraParis[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5605,7 +5605,7 @@ static const common::ZoneEra kZoneEraParis[] = {
 
 };
 
-const common::ZoneInfo kZoneParis = {
+const ZoneInfo kZoneParis = {
   "Europe/Paris" /*name*/,
   kZoneEraParis /*eras*/,
   1 /*numEras*/,
@@ -5619,7 +5619,7 @@ const common::ZoneInfo kZoneParis = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPrague[] = {
+static const ZoneEra kZoneEraPrague[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5635,7 +5635,7 @@ static const common::ZoneEra kZoneEraPrague[] = {
 
 };
 
-const common::ZoneInfo kZonePrague = {
+const ZoneInfo kZonePrague = {
   "Europe/Prague" /*name*/,
   kZoneEraPrague /*eras*/,
   1 /*numEras*/,
@@ -5649,7 +5649,7 @@ const common::ZoneInfo kZonePrague = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraRome[] = {
+static const ZoneEra kZoneEraRome[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5665,7 +5665,7 @@ static const common::ZoneEra kZoneEraRome[] = {
 
 };
 
-const common::ZoneInfo kZoneRome = {
+const ZoneInfo kZoneRome = {
   "Europe/Rome" /*name*/,
   kZoneEraRome /*eras*/,
   1 /*numEras*/,
@@ -5679,7 +5679,7 @@ const common::ZoneInfo kZoneRome = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraSofia[] = {
+static const ZoneEra kZoneEraSofia[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -5695,7 +5695,7 @@ static const common::ZoneEra kZoneEraSofia[] = {
 
 };
 
-const common::ZoneInfo kZoneSofia = {
+const ZoneInfo kZoneSofia = {
   "Europe/Sofia" /*name*/,
   kZoneEraSofia /*eras*/,
   1 /*numEras*/,
@@ -5709,7 +5709,7 @@ const common::ZoneInfo kZoneSofia = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraStockholm[] = {
+static const ZoneEra kZoneEraStockholm[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5725,7 +5725,7 @@ static const common::ZoneEra kZoneEraStockholm[] = {
 
 };
 
-const common::ZoneInfo kZoneStockholm = {
+const ZoneInfo kZoneStockholm = {
   "Europe/Stockholm" /*name*/,
   kZoneEraStockholm /*eras*/,
   1 /*numEras*/,
@@ -5739,7 +5739,7 @@ const common::ZoneInfo kZoneStockholm = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraTirane[] = {
+static const ZoneEra kZoneEraTirane[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5755,7 +5755,7 @@ static const common::ZoneEra kZoneEraTirane[] = {
 
 };
 
-const common::ZoneInfo kZoneTirane = {
+const ZoneInfo kZoneTirane = {
   "Europe/Tirane" /*name*/,
   kZoneEraTirane /*eras*/,
   1 /*numEras*/,
@@ -5769,7 +5769,7 @@ const common::ZoneInfo kZoneTirane = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraUzhgorod[] = {
+static const ZoneEra kZoneEraUzhgorod[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -5785,7 +5785,7 @@ static const common::ZoneEra kZoneEraUzhgorod[] = {
 
 };
 
-const common::ZoneInfo kZoneUzhgorod = {
+const ZoneInfo kZoneUzhgorod = {
   "Europe/Uzhgorod" /*name*/,
   kZoneEraUzhgorod /*eras*/,
   1 /*numEras*/,
@@ -5799,7 +5799,7 @@ const common::ZoneInfo kZoneUzhgorod = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraVienna[] = {
+static const ZoneEra kZoneEraVienna[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5815,7 +5815,7 @@ static const common::ZoneEra kZoneEraVienna[] = {
 
 };
 
-const common::ZoneInfo kZoneVienna = {
+const ZoneInfo kZoneVienna = {
   "Europe/Vienna" /*name*/,
   kZoneEraVienna /*eras*/,
   1 /*numEras*/,
@@ -5829,7 +5829,7 @@ const common::ZoneInfo kZoneVienna = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraWarsaw[] = {
+static const ZoneEra kZoneEraWarsaw[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5845,7 +5845,7 @@ static const common::ZoneEra kZoneEraWarsaw[] = {
 
 };
 
-const common::ZoneInfo kZoneWarsaw = {
+const ZoneInfo kZoneWarsaw = {
   "Europe/Warsaw" /*name*/,
   kZoneEraWarsaw /*eras*/,
   1 /*numEras*/,
@@ -5859,7 +5859,7 @@ const common::ZoneInfo kZoneWarsaw = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraZaporozhye[] = {
+static const ZoneEra kZoneEraZaporozhye[] = {
   //             2:00    EU    EE%sT
   {
     8 /*offsetCode*/,
@@ -5875,7 +5875,7 @@ static const common::ZoneEra kZoneEraZaporozhye[] = {
 
 };
 
-const common::ZoneInfo kZoneZaporozhye = {
+const ZoneInfo kZoneZaporozhye = {
   "Europe/Zaporozhye" /*name*/,
   kZoneEraZaporozhye /*eras*/,
   1 /*numEras*/,
@@ -5889,7 +5889,7 @@ const common::ZoneInfo kZoneZaporozhye = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraZurich[] = {
+static const ZoneEra kZoneEraZurich[] = {
   //             1:00    EU    CE%sT
   {
     4 /*offsetCode*/,
@@ -5905,7 +5905,7 @@ static const common::ZoneEra kZoneEraZurich[] = {
 
 };
 
-const common::ZoneInfo kZoneZurich = {
+const ZoneInfo kZoneZurich = {
   "Europe/Zurich" /*name*/,
   kZoneEraZurich /*eras*/,
   1 /*numEras*/,
@@ -5919,7 +5919,7 @@ const common::ZoneInfo kZoneZurich = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraChagos[] = {
+static const ZoneEra kZoneEraChagos[] = {
   //             6:00    -    +06
   {
     24 /*offsetCode*/,
@@ -5935,7 +5935,7 @@ static const common::ZoneEra kZoneEraChagos[] = {
 
 };
 
-const common::ZoneInfo kZoneChagos = {
+const ZoneInfo kZoneChagos = {
   "Indian/Chagos" /*name*/,
   kZoneEraChagos /*eras*/,
   1 /*numEras*/,
@@ -5949,7 +5949,7 @@ const common::ZoneInfo kZoneChagos = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraChristmas[] = {
+static const ZoneEra kZoneEraChristmas[] = {
   //             7:00    -    +07
   {
     28 /*offsetCode*/,
@@ -5965,7 +5965,7 @@ static const common::ZoneEra kZoneEraChristmas[] = {
 
 };
 
-const common::ZoneInfo kZoneChristmas = {
+const ZoneInfo kZoneChristmas = {
   "Indian/Christmas" /*name*/,
   kZoneEraChristmas /*eras*/,
   1 /*numEras*/,
@@ -5979,7 +5979,7 @@ const common::ZoneInfo kZoneChristmas = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraCocos[] = {
+static const ZoneEra kZoneEraCocos[] = {
   //             6:30    -    +0630
   {
     26 /*offsetCode*/,
@@ -5995,7 +5995,7 @@ static const common::ZoneEra kZoneEraCocos[] = {
 
 };
 
-const common::ZoneInfo kZoneCocos = {
+const ZoneInfo kZoneCocos = {
   "Indian/Cocos" /*name*/,
   kZoneEraCocos /*eras*/,
   1 /*numEras*/,
@@ -6009,7 +6009,7 @@ const common::ZoneInfo kZoneCocos = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraKerguelen[] = {
+static const ZoneEra kZoneEraKerguelen[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -6025,7 +6025,7 @@ static const common::ZoneEra kZoneEraKerguelen[] = {
 
 };
 
-const common::ZoneInfo kZoneKerguelen = {
+const ZoneInfo kZoneKerguelen = {
   "Indian/Kerguelen" /*name*/,
   kZoneEraKerguelen /*eras*/,
   1 /*numEras*/,
@@ -6039,7 +6039,7 @@ const common::ZoneInfo kZoneKerguelen = {
 // Memory (32-bit): 40
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMahe[] = {
+static const ZoneEra kZoneEraMahe[] = {
   //             4:00    -    +04
   {
     16 /*offsetCode*/,
@@ -6055,7 +6055,7 @@ static const common::ZoneEra kZoneEraMahe[] = {
 
 };
 
-const common::ZoneInfo kZoneMahe = {
+const ZoneInfo kZoneMahe = {
   "Indian/Mahe" /*name*/,
   kZoneEraMahe /*eras*/,
   1 /*numEras*/,
@@ -6069,7 +6069,7 @@ const common::ZoneInfo kZoneMahe = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMaldives[] = {
+static const ZoneEra kZoneEraMaldives[] = {
   //             5:00    -    +05
   {
     20 /*offsetCode*/,
@@ -6085,7 +6085,7 @@ static const common::ZoneEra kZoneEraMaldives[] = {
 
 };
 
-const common::ZoneInfo kZoneMaldives = {
+const ZoneInfo kZoneMaldives = {
   "Indian/Maldives" /*name*/,
   kZoneEraMaldives /*eras*/,
   1 /*numEras*/,
@@ -6099,7 +6099,7 @@ const common::ZoneInfo kZoneMaldives = {
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMauritius[] = {
+static const ZoneEra kZoneEraMauritius[] = {
   //             4:00 Mauritius    +04/+05
   {
     16 /*offsetCode*/,
@@ -6115,7 +6115,7 @@ static const common::ZoneEra kZoneEraMauritius[] = {
 
 };
 
-const common::ZoneInfo kZoneMauritius = {
+const ZoneInfo kZoneMauritius = {
   "Indian/Mauritius" /*name*/,
   kZoneEraMauritius /*eras*/,
   1 /*numEras*/,
@@ -6129,7 +6129,7 @@ const common::ZoneInfo kZoneMauritius = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraReunion[] = {
+static const ZoneEra kZoneEraReunion[] = {
   //             4:00    -    +04
   {
     16 /*offsetCode*/,
@@ -6145,7 +6145,7 @@ static const common::ZoneEra kZoneEraReunion[] = {
 
 };
 
-const common::ZoneInfo kZoneReunion = {
+const ZoneInfo kZoneReunion = {
   "Indian/Reunion" /*name*/,
   kZoneEraReunion /*eras*/,
   1 /*numEras*/,
@@ -6159,7 +6159,7 @@ const common::ZoneInfo kZoneReunion = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraAuckland[] = {
+static const ZoneEra kZoneEraAuckland[] = {
   //             12:00    NZ    NZ%sT
   {
     48 /*offsetCode*/,
@@ -6175,7 +6175,7 @@ static const common::ZoneEra kZoneEraAuckland[] = {
 
 };
 
-const common::ZoneInfo kZoneAuckland = {
+const ZoneInfo kZoneAuckland = {
   "Pacific/Auckland" /*name*/,
   kZoneEraAuckland /*eras*/,
   1 /*numEras*/,
@@ -6189,7 +6189,7 @@ const common::ZoneInfo kZoneAuckland = {
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraChatham[] = {
+static const ZoneEra kZoneEraChatham[] = {
   //             12:45    Chatham    +1245/+1345
   {
     51 /*offsetCode*/,
@@ -6205,7 +6205,7 @@ static const common::ZoneEra kZoneEraChatham[] = {
 
 };
 
-const common::ZoneInfo kZoneChatham = {
+const ZoneInfo kZoneChatham = {
   "Pacific/Chatham" /*name*/,
   kZoneEraChatham /*eras*/,
   1 /*numEras*/,
@@ -6219,7 +6219,7 @@ const common::ZoneInfo kZoneChatham = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraChuuk[] = {
+static const ZoneEra kZoneEraChuuk[] = {
   //              10:00    -    +10
   {
     40 /*offsetCode*/,
@@ -6235,7 +6235,7 @@ static const common::ZoneEra kZoneEraChuuk[] = {
 
 };
 
-const common::ZoneInfo kZoneChuuk = {
+const ZoneInfo kZoneChuuk = {
   "Pacific/Chuuk" /*name*/,
   kZoneEraChuuk /*eras*/,
   1 /*numEras*/,
@@ -6249,7 +6249,7 @@ const common::ZoneInfo kZoneChuuk = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraEaster[] = {
+static const ZoneEra kZoneEraEaster[] = {
   //             -6:00    Chile    -06/-05
   {
     -24 /*offsetCode*/,
@@ -6265,7 +6265,7 @@ static const common::ZoneEra kZoneEraEaster[] = {
 
 };
 
-const common::ZoneInfo kZoneEaster = {
+const ZoneInfo kZoneEaster = {
   "Pacific/Easter" /*name*/,
   kZoneEraEaster /*eras*/,
   1 /*numEras*/,
@@ -6279,7 +6279,7 @@ const common::ZoneInfo kZoneEaster = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraEfate[] = {
+static const ZoneEra kZoneEraEfate[] = {
   //             11:00    Vanuatu    +11/+12
   {
     44 /*offsetCode*/,
@@ -6295,7 +6295,7 @@ static const common::ZoneEra kZoneEraEfate[] = {
 
 };
 
-const common::ZoneInfo kZoneEfate = {
+const ZoneInfo kZoneEfate = {
   "Pacific/Efate" /*name*/,
   kZoneEraEfate /*eras*/,
   1 /*numEras*/,
@@ -6309,7 +6309,7 @@ const common::ZoneInfo kZoneEfate = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraEnderbury[] = {
+static const ZoneEra kZoneEraEnderbury[] = {
   //              13:00    -    +13
   {
     52 /*offsetCode*/,
@@ -6325,7 +6325,7 @@ static const common::ZoneEra kZoneEraEnderbury[] = {
 
 };
 
-const common::ZoneInfo kZoneEnderbury = {
+const ZoneInfo kZoneEnderbury = {
   "Pacific/Enderbury" /*name*/,
   kZoneEraEnderbury /*eras*/,
   1 /*numEras*/,
@@ -6339,7 +6339,7 @@ const common::ZoneInfo kZoneEnderbury = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraFiji[] = {
+static const ZoneEra kZoneEraFiji[] = {
   //             12:00    Fiji    +12/+13
   {
     48 /*offsetCode*/,
@@ -6355,7 +6355,7 @@ static const common::ZoneEra kZoneEraFiji[] = {
 
 };
 
-const common::ZoneInfo kZoneFiji = {
+const ZoneInfo kZoneFiji = {
   "Pacific/Fiji" /*name*/,
   kZoneEraFiji /*eras*/,
   1 /*numEras*/,
@@ -6369,7 +6369,7 @@ const common::ZoneInfo kZoneFiji = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraFunafuti[] = {
+static const ZoneEra kZoneEraFunafuti[] = {
   //             12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -6385,7 +6385,7 @@ static const common::ZoneEra kZoneEraFunafuti[] = {
 
 };
 
-const common::ZoneInfo kZoneFunafuti = {
+const ZoneInfo kZoneFunafuti = {
   "Pacific/Funafuti" /*name*/,
   kZoneEraFunafuti /*eras*/,
   1 /*numEras*/,
@@ -6399,7 +6399,7 @@ const common::ZoneInfo kZoneFunafuti = {
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraGalapagos[] = {
+static const ZoneEra kZoneEraGalapagos[] = {
   //             -6:00    Ecuador    -06/-05
   {
     -24 /*offsetCode*/,
@@ -6415,7 +6415,7 @@ static const common::ZoneEra kZoneEraGalapagos[] = {
 
 };
 
-const common::ZoneInfo kZoneGalapagos = {
+const ZoneInfo kZoneGalapagos = {
   "Pacific/Galapagos" /*name*/,
   kZoneEraGalapagos /*eras*/,
   1 /*numEras*/,
@@ -6429,7 +6429,7 @@ const common::ZoneInfo kZoneGalapagos = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraGambier[] = {
+static const ZoneEra kZoneEraGambier[] = {
   //              -9:00    -    -09
   {
     -36 /*offsetCode*/,
@@ -6445,7 +6445,7 @@ static const common::ZoneEra kZoneEraGambier[] = {
 
 };
 
-const common::ZoneInfo kZoneGambier = {
+const ZoneInfo kZoneGambier = {
   "Pacific/Gambier" /*name*/,
   kZoneEraGambier /*eras*/,
   1 /*numEras*/,
@@ -6459,7 +6459,7 @@ const common::ZoneInfo kZoneGambier = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraGuadalcanal[] = {
+static const ZoneEra kZoneEraGuadalcanal[] = {
   //             11:00    -    +11
   {
     44 /*offsetCode*/,
@@ -6475,7 +6475,7 @@ static const common::ZoneEra kZoneEraGuadalcanal[] = {
 
 };
 
-const common::ZoneInfo kZoneGuadalcanal = {
+const ZoneInfo kZoneGuadalcanal = {
   "Pacific/Guadalcanal" /*name*/,
   kZoneEraGuadalcanal /*eras*/,
   1 /*numEras*/,
@@ -6489,7 +6489,7 @@ const common::ZoneInfo kZoneGuadalcanal = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraHonolulu[] = {
+static const ZoneEra kZoneEraHonolulu[] = {
   //             -10:00    -    HST
   {
     -40 /*offsetCode*/,
@@ -6505,7 +6505,7 @@ static const common::ZoneEra kZoneEraHonolulu[] = {
 
 };
 
-const common::ZoneInfo kZoneHonolulu = {
+const ZoneInfo kZoneHonolulu = {
   "Pacific/Honolulu" /*name*/,
   kZoneEraHonolulu /*eras*/,
   1 /*numEras*/,
@@ -6519,7 +6519,7 @@ const common::ZoneInfo kZoneHonolulu = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraKiritimati[] = {
+static const ZoneEra kZoneEraKiritimati[] = {
   //              14:00    -    +14
   {
     56 /*offsetCode*/,
@@ -6535,7 +6535,7 @@ static const common::ZoneEra kZoneEraKiritimati[] = {
 
 };
 
-const common::ZoneInfo kZoneKiritimati = {
+const ZoneInfo kZoneKiritimati = {
   "Pacific/Kiritimati" /*name*/,
   kZoneEraKiritimati /*eras*/,
   1 /*numEras*/,
@@ -6549,7 +6549,7 @@ const common::ZoneInfo kZoneKiritimati = {
 // Memory (32-bit): 62
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraKosrae[] = {
+static const ZoneEra kZoneEraKosrae[] = {
   //              12:00    -    +12    1999
   {
     48 /*offsetCode*/,
@@ -6577,7 +6577,7 @@ static const common::ZoneEra kZoneEraKosrae[] = {
 
 };
 
-const common::ZoneInfo kZoneKosrae = {
+const ZoneInfo kZoneKosrae = {
   "Pacific/Kosrae" /*name*/,
   kZoneEraKosrae /*eras*/,
   2 /*numEras*/,
@@ -6591,7 +6591,7 @@ const common::ZoneInfo kZoneKosrae = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraKwajalein[] = {
+static const ZoneEra kZoneEraKwajalein[] = {
   //              12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -6607,7 +6607,7 @@ static const common::ZoneEra kZoneEraKwajalein[] = {
 
 };
 
-const common::ZoneInfo kZoneKwajalein = {
+const ZoneInfo kZoneKwajalein = {
   "Pacific/Kwajalein" /*name*/,
   kZoneEraKwajalein /*eras*/,
   1 /*numEras*/,
@@ -6621,7 +6621,7 @@ const common::ZoneInfo kZoneKwajalein = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMajuro[] = {
+static const ZoneEra kZoneEraMajuro[] = {
   //              12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -6637,7 +6637,7 @@ static const common::ZoneEra kZoneEraMajuro[] = {
 
 };
 
-const common::ZoneInfo kZoneMajuro = {
+const ZoneInfo kZoneMajuro = {
   "Pacific/Majuro" /*name*/,
   kZoneEraMajuro /*eras*/,
   1 /*numEras*/,
@@ -6651,7 +6651,7 @@ const common::ZoneInfo kZoneMajuro = {
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraMarquesas[] = {
+static const ZoneEra kZoneEraMarquesas[] = {
   //              -9:30    -    -0930
   {
     -38 /*offsetCode*/,
@@ -6667,7 +6667,7 @@ static const common::ZoneEra kZoneEraMarquesas[] = {
 
 };
 
-const common::ZoneInfo kZoneMarquesas = {
+const ZoneInfo kZoneMarquesas = {
   "Pacific/Marquesas" /*name*/,
   kZoneEraMarquesas /*eras*/,
   1 /*numEras*/,
@@ -6681,7 +6681,7 @@ const common::ZoneInfo kZoneMarquesas = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraNauru[] = {
+static const ZoneEra kZoneEraNauru[] = {
   //             12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -6697,7 +6697,7 @@ static const common::ZoneEra kZoneEraNauru[] = {
 
 };
 
-const common::ZoneInfo kZoneNauru = {
+const ZoneInfo kZoneNauru = {
   "Pacific/Nauru" /*name*/,
   kZoneEraNauru /*eras*/,
   1 /*numEras*/,
@@ -6711,7 +6711,7 @@ const common::ZoneInfo kZoneNauru = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraNiue[] = {
+static const ZoneEra kZoneEraNiue[] = {
   //             -11:00    -    -11
   {
     -44 /*offsetCode*/,
@@ -6727,7 +6727,7 @@ static const common::ZoneEra kZoneEraNiue[] = {
 
 };
 
-const common::ZoneInfo kZoneNiue = {
+const ZoneInfo kZoneNiue = {
   "Pacific/Niue" /*name*/,
   kZoneEraNiue /*eras*/,
   1 /*numEras*/,
@@ -6741,7 +6741,7 @@ const common::ZoneInfo kZoneNiue = {
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraNoumea[] = {
+static const ZoneEra kZoneEraNoumea[] = {
   //             11:00    NC    +11/+12
   {
     44 /*offsetCode*/,
@@ -6757,7 +6757,7 @@ static const common::ZoneEra kZoneEraNoumea[] = {
 
 };
 
-const common::ZoneInfo kZoneNoumea = {
+const ZoneInfo kZoneNoumea = {
   "Pacific/Noumea" /*name*/,
   kZoneEraNoumea /*eras*/,
   1 /*numEras*/,
@@ -6771,7 +6771,7 @@ const common::ZoneInfo kZoneNoumea = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPago_Pago[] = {
+static const ZoneEra kZoneEraPago_Pago[] = {
   //             -11:00    -    SST
   {
     -44 /*offsetCode*/,
@@ -6787,7 +6787,7 @@ static const common::ZoneEra kZoneEraPago_Pago[] = {
 
 };
 
-const common::ZoneInfo kZonePago_Pago = {
+const ZoneInfo kZonePago_Pago = {
   "Pacific/Pago_Pago" /*name*/,
   kZoneEraPago_Pago /*eras*/,
   1 /*numEras*/,
@@ -6801,7 +6801,7 @@ const common::ZoneInfo kZonePago_Pago = {
 // Memory (32-bit): 42
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPalau[] = {
+static const ZoneEra kZoneEraPalau[] = {
   //               9:00    -    +09
   {
     36 /*offsetCode*/,
@@ -6817,7 +6817,7 @@ static const common::ZoneEra kZoneEraPalau[] = {
 
 };
 
-const common::ZoneInfo kZonePalau = {
+const ZoneInfo kZonePalau = {
   "Pacific/Palau" /*name*/,
   kZoneEraPalau /*eras*/,
   1 /*numEras*/,
@@ -6831,7 +6831,7 @@ const common::ZoneInfo kZonePalau = {
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPitcairn[] = {
+static const ZoneEra kZoneEraPitcairn[] = {
   //             -8:00    -    -08
   {
     -32 /*offsetCode*/,
@@ -6847,7 +6847,7 @@ static const common::ZoneEra kZoneEraPitcairn[] = {
 
 };
 
-const common::ZoneInfo kZonePitcairn = {
+const ZoneInfo kZonePitcairn = {
   "Pacific/Pitcairn" /*name*/,
   kZoneEraPitcairn /*eras*/,
   1 /*numEras*/,
@@ -6861,7 +6861,7 @@ const common::ZoneInfo kZonePitcairn = {
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPohnpei[] = {
+static const ZoneEra kZoneEraPohnpei[] = {
   //              11:00    -    +11
   {
     44 /*offsetCode*/,
@@ -6877,7 +6877,7 @@ static const common::ZoneEra kZoneEraPohnpei[] = {
 
 };
 
-const common::ZoneInfo kZonePohnpei = {
+const ZoneInfo kZonePohnpei = {
   "Pacific/Pohnpei" /*name*/,
   kZoneEraPohnpei /*eras*/,
   1 /*numEras*/,
@@ -6891,7 +6891,7 @@ const common::ZoneInfo kZonePohnpei = {
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraPort_Moresby[] = {
+static const ZoneEra kZoneEraPort_Moresby[] = {
   //             10:00    -    +10
   {
     40 /*offsetCode*/,
@@ -6907,7 +6907,7 @@ static const common::ZoneEra kZoneEraPort_Moresby[] = {
 
 };
 
-const common::ZoneInfo kZonePort_Moresby = {
+const ZoneInfo kZonePort_Moresby = {
   "Pacific/Port_Moresby" /*name*/,
   kZoneEraPort_Moresby /*eras*/,
   1 /*numEras*/,
@@ -6921,7 +6921,7 @@ const common::ZoneInfo kZonePort_Moresby = {
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraRarotonga[] = {
+static const ZoneEra kZoneEraRarotonga[] = {
   //             -10:00    Cook    -10/-0930
   {
     -40 /*offsetCode*/,
@@ -6937,7 +6937,7 @@ static const common::ZoneEra kZoneEraRarotonga[] = {
 
 };
 
-const common::ZoneInfo kZoneRarotonga = {
+const ZoneInfo kZoneRarotonga = {
   "Pacific/Rarotonga" /*name*/,
   kZoneEraRarotonga /*eras*/,
   1 /*numEras*/,
@@ -6951,7 +6951,7 @@ const common::ZoneInfo kZoneRarotonga = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraTahiti[] = {
+static const ZoneEra kZoneEraTahiti[] = {
   //             -10:00    -    -10
   {
     -40 /*offsetCode*/,
@@ -6967,7 +6967,7 @@ static const common::ZoneEra kZoneEraTahiti[] = {
 
 };
 
-const common::ZoneInfo kZoneTahiti = {
+const ZoneInfo kZoneTahiti = {
   "Pacific/Tahiti" /*name*/,
   kZoneEraTahiti /*eras*/,
   1 /*numEras*/,
@@ -6981,7 +6981,7 @@ const common::ZoneInfo kZoneTahiti = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraTarawa[] = {
+static const ZoneEra kZoneEraTarawa[] = {
   //              12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -6997,7 +6997,7 @@ static const common::ZoneEra kZoneEraTarawa[] = {
 
 };
 
-const common::ZoneInfo kZoneTarawa = {
+const ZoneInfo kZoneTarawa = {
   "Pacific/Tarawa" /*name*/,
   kZoneEraTarawa /*eras*/,
   1 /*numEras*/,
@@ -7011,7 +7011,7 @@ const common::ZoneInfo kZoneTarawa = {
 // Memory (32-bit): 69
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraTongatapu[] = {
+static const ZoneEra kZoneEraTongatapu[] = {
   //             13:00    -    +13    1999
   {
     52 /*offsetCode*/,
@@ -7039,7 +7039,7 @@ static const common::ZoneEra kZoneEraTongatapu[] = {
 
 };
 
-const common::ZoneInfo kZoneTongatapu = {
+const ZoneInfo kZoneTongatapu = {
   "Pacific/Tongatapu" /*name*/,
   kZoneEraTongatapu /*eras*/,
   2 /*numEras*/,
@@ -7053,7 +7053,7 @@ const common::ZoneInfo kZoneTongatapu = {
 // Memory (32-bit): 41
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraWake[] = {
+static const ZoneEra kZoneEraWake[] = {
   //             12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -7069,7 +7069,7 @@ static const common::ZoneEra kZoneEraWake[] = {
 
 };
 
-const common::ZoneInfo kZoneWake = {
+const ZoneInfo kZoneWake = {
   "Pacific/Wake" /*name*/,
   kZoneEraWake /*eras*/,
   1 /*numEras*/,
@@ -7083,7 +7083,7 @@ const common::ZoneInfo kZoneWake = {
 // Memory (32-bit): 43
 //---------------------------------------------------------------------------
 
-static const common::ZoneEra kZoneEraWallis[] = {
+static const ZoneEra kZoneEraWallis[] = {
   //             12:00    -    +12
   {
     48 /*offsetCode*/,
@@ -7099,7 +7099,7 @@ static const common::ZoneEra kZoneEraWallis[] = {
 
 };
 
-const common::ZoneInfo kZoneWallis = {
+const ZoneInfo kZoneWallis = {
   "Pacific/Wallis" /*name*/,
   kZoneEraWallis /*eras*/,
   1 /*numEras*/,
