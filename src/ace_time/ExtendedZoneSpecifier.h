@@ -16,7 +16,8 @@
 
 class ExtendedZoneSpecifierTest_compareEraToYearMonth;
 class ExtendedZoneSpecifierTest_createMatch;
-class ExtendedZoneSpecifierTest_findMatches;
+class ExtendedZoneSpecifierTest_findMatches_simple;
+class ExtendedZoneSpecifierTest_findMatches_named;
 class ExtendedZoneSpecifierTest_normalizeDateTuple;
 class ExtendedZoneSpecifierTest_expandDateTuple;
 class ExtendedZoneSpecifierTest_calcInteriorYears;
@@ -458,7 +459,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
   private:
     friend class ::ExtendedZoneSpecifierTest_compareEraToYearMonth;
     friend class ::ExtendedZoneSpecifierTest_createMatch;
-    friend class ::ExtendedZoneSpecifierTest_findMatches;
+    friend class ::ExtendedZoneSpecifierTest_findMatches_simple;
+    friend class ::ExtendedZoneSpecifierTest_findMatches_named;
     friend class ::ExtendedZoneSpecifierTest_normalizeDateTuple;
     friend class ::ExtendedZoneSpecifierTest_expandDateTuple;
     friend class ::ExtendedZoneSpecifierTest_calcInteriorYears;

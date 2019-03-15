@@ -8,7 +8,8 @@ using namespace ace_time;
 using namespace ace_time::extended;
 
 // --------------------------------------------------------------------------
-// ExtendedZoneSpecifier
+// A simplified version of America/Los_Angeles, using only simple ZoneEras
+// (i.e. no references to a ZonePolicy). Valid only for 2018.
 // --------------------------------------------------------------------------
 
 // Create simplified ZoneEras which approximate America/Los_Angeles
@@ -48,12 +49,112 @@ static const common::ZoneEra kZoneEraAlmostLosAngeles[] = {
   },
 };
 
+// --------------------------------------------------------------------------
+// A real ZoneInfo for America/Los_Angeles. Taken from zonedbx/zone_infos.cpp.
+// --------------------------------------------------------------------------
+
+static const common::ZoneRule kZoneRulesUS[] = {
+  // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
+  {
+    -33 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
+    10 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+  // Rule    US    1976    1986    -    Apr    lastSun    2:00    1:00    D
+  {
+    -24 /*fromYearTiny*/,
+    -14 /*toYearTiny*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    0 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'D' /*letter*/,
+  },
+  // Rule    US    1987    2006    -    Apr    Sun>=1    2:00    1:00    D
+  {
+    -13 /*fromYearTiny*/,
+    6 /*toYearTiny*/,
+    4 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'D' /*letter*/,
+  },
+  // Rule    US    2007    max    -    Mar    Sun>=8    2:00    1:00    D
+  {
+    7 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
+    3 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    8 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    4 /*deltaCode*/,
+    'D' /*letter*/,
+  },
+  // Rule    US    2007    max    -    Nov    Sun>=1    2:00    0    S
+  {
+    7 /*fromYearTiny*/,
+    126 /*toYearTiny*/,
+    11 /*inMonth*/,
+    7 /*onDayOfWeek*/,
+    1 /*onDayOfMonth*/,
+    8 /*atTimeCode*/,
+    'w' /*atTimeModifier*/,
+    0 /*deltaCode*/,
+    'S' /*letter*/,
+  },
+
+};
+
+static const common::ZonePolicy kPolicyUS = {
+  5 /*numRules*/,
+  kZoneRulesUS /*rules*/,
+  0 /* numLetters */,
+  nullptr /* letters */,
+};
+
 static const common::ZoneInfo kZoneAlmostLosAngeles = {
   "Almost_Los_Angeles" /*name*/,
   kZoneEraAlmostLosAngeles /*eras*/,
   3 /*numEras*/,
 };
 
+static const common::ZoneEra kZoneEraLos_Angeles[] = {
+  //             -8:00    US    P%sT
+  {
+    -32 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "P%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+static const common::ZoneInfo kZoneLos_Angeles = {
+  "America/Los_Angeles" /*name*/,
+  kZoneEraLos_Angeles /*eras*/,
+  1 /*numEras*/,
+};
+
+// --------------------------------------------------------------------------
+// ExtendedZoneSpecifier
+// --------------------------------------------------------------------------
 
 test(ExtendedZoneSpecifierTest, compareEraToYearMonth) {
   common::ZoneEra era = {0, nullptr, 0, "", 0, 1, 2, 12, 'w'};
@@ -88,7 +189,7 @@ test(ExtendedZoneSpecifierTest, createMatch) {
   assertTrue(&era == match.era);
 }
 
-test(ExtendedZoneSpecifierTest, findMatches) {
+test(ExtendedZoneSpecifierTest, findMatches_simple) {
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
   const uint8_t kMaxMaches = 4;
@@ -108,6 +209,20 @@ test(ExtendedZoneSpecifierTest, findMatches) {
   assertTrue((matches[2].startDateTime == DateTuple{19, 11, 3, 8, 'w'}));
   assertTrue((matches[2].untilDateTime == DateTuple{20, 2, 1, 0, 'w'}));
   assertTrue(&kZoneEraAlmostLosAngeles[2] == matches[2].era);
+}
+
+test(ExtendedZoneSpecifierTest, findMatches_named) {
+  YearMonthTuple startYm = {18, 12};
+  YearMonthTuple untilYm = {20, 2};
+  const uint8_t kMaxMaches = 4;
+  extended::ZoneMatch matches[kMaxMaches];
+  uint8_t numMatches = ExtendedZoneSpecifier::findMatches(
+      &kZoneLos_Angeles, startYm, untilYm, matches, kMaxMaches);
+  assertEqual(1, numMatches);
+
+  assertTrue((matches[0].startDateTime == DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue((matches[0].untilDateTime == DateTuple{20, 2, 1, 0, 'w'}));
+  assertTrue(&kZoneEraLos_Angeles[0] == matches[0].era);
 }
 
 test(ExtendedZoneSpecifierTest, getTransitionTime) {
