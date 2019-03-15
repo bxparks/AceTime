@@ -11,6 +11,50 @@ using namespace ace_time::extended;
 // ExtendedZoneSpecifier
 // --------------------------------------------------------------------------
 
+// Create simplified ZoneEras which approximate America/Los_Angeles
+static const common::ZoneEra kZoneEraAlmostLosAngeles[] = {
+  {
+    -32 /*offsetCode*/,
+    nullptr,
+    0 /*deltaCode*/,
+    "PST" /*format*/,
+    19 /*untilYearTiny*/,
+    3 /*untilMonth*/,
+    10 /*untilDay*/,
+    2*4 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/
+  },
+  {
+    -32 /*offsetCode*/,
+    nullptr,
+    4 /*deltaCode*/,
+    "PDT" /*format*/,
+    19 /*untilYearTiny*/,
+    11 /*untilMonth*/,
+    3 /*untilDay*/,
+    2*4 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/
+  },
+  {
+    -32 /*offsetCode*/,
+    nullptr,
+    0 /*deltaCode*/,
+    "PST" /*format*/,
+    20 /*untilYearTiny*/,
+    3 /*untilMonth*/,
+    8 /*untilDay*/,
+    2*4 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/
+  },
+};
+
+static const common::ZoneInfo kZoneAlmostLosAngeles = {
+  "Almost_Los_Angeles" /*name*/,
+  kZoneEraAlmostLosAngeles /*eras*/,
+  3 /*numEras*/,
+};
+
+
 test(ExtendedZoneSpecifierTest, compareEraToYearMonth) {
   common::ZoneEra era = {0, nullptr, 0, "", 0, 1, 2, 12, 'w'};
   assertEqual(1, ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 1));
@@ -45,7 +89,25 @@ test(ExtendedZoneSpecifierTest, createMatch) {
 }
 
 test(ExtendedZoneSpecifierTest, findMatches) {
-  // TODO: Implement
+  YearMonthTuple startYm = {18, 12};
+  YearMonthTuple untilYm = {20, 2};
+  extended::ZoneMatch matches[4];
+  uint8_t numMatches;
+  ExtendedZoneSpecifier::findMatches(
+      &kZoneAlmostLosAngeles, startYm, untilYm, matches, 4, &numMatches);
+  assertEqual(3, numMatches);
+
+  assertTrue((matches[0].startDateTime == DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue((matches[0].untilDateTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue(&kZoneEraAlmostLosAngeles[0] == matches[0].era);
+
+  assertTrue((matches[1].startDateTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue((matches[1].untilDateTime == DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue(&kZoneEraAlmostLosAngeles[1] == matches[1].era);
+
+  assertTrue((matches[2].startDateTime == DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue((matches[2].untilDateTime == DateTuple{20, 2, 1, 0, 'w'}));
+  assertTrue(&kZoneEraAlmostLosAngeles[2] == matches[2].era);
 }
 
 test(ExtendedZoneSpecifierTest, getTransitionTime) {
@@ -303,61 +365,16 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
 }
 
 test(ExtendedZoneSpecifierTest, fixTransitionTimes_generateStartUntilTimes) {
-  // Create simplified ZoneEras which approximate America/Los_Angeles
-  static common::ZoneEra kEra1 = {
-    -32 /*offsetCode*/,
-    nullptr,
-    0 /*deltaCode*/,
-    "PST" /*format*/,
-    19 /*untilYearTiny*/,
-    3 /*untilMonth*/,
-    10 /*untilDay*/,
-    2*4 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/
-  };
-  static common::ZoneEra kEra2 = {
-    -32 /*offsetCode*/,
-    nullptr,
-    4 /*deltaCode*/,
-    "PDT" /*format*/,
-    19 /*untilYearTiny*/,
-    11 /*untilMonth*/,
-    3 /*untilDay*/,
-    2*4 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/
-  };
-  static common::ZoneEra kEra3 = {
-    -32 /*offsetCode*/,
-    nullptr,
-    0 /*deltaCode*/,
-    "PST" /*format*/,
-    20 /*untilYearTiny*/,
-    3 /*untilMonth*/,
-    8 /*untilDay*/,
-    2*4 /*untilTimeCode*/,
-    'w' /*untilTimeModifier*/
-  };
+  // Create 3 matches for the AlmostLosAngeles test zone.
   YearMonthTuple startYm = {18, 12};
   YearMonthTuple untilYm = {20, 2};
-
-  // Create 3 ZoneMatches that follow from the ZoneEras
-  ZoneMatch match1 = ExtendedZoneSpecifier::createMatch(
-      &ExtendedZoneSpecifier::kAnchorEra, &kEra1, startYm, untilYm);
-  assertTrue((match1.startDateTime == DateTuple{18, 12, 1, 0, 'w'}));
-  assertTrue((match1.untilDateTime == DateTuple{19, 3, 10, 8, 'w'}));
-  assertTrue(&kEra1 == match1.era);
-
-  ZoneMatch match2 = ExtendedZoneSpecifier::createMatch(
-      &kEra1, &kEra2, startYm, untilYm);
-  assertTrue((match2.startDateTime == DateTuple{19, 3, 10, 8, 'w'}));
-  assertTrue((match2.untilDateTime == DateTuple{19, 11, 3, 8, 'w'}));
-  assertTrue(&kEra2 == match2.era);
-
-  ZoneMatch match3 = ExtendedZoneSpecifier::createMatch(
-      &kEra2, &kEra3, startYm, untilYm);
-  assertTrue((match3.startDateTime == DateTuple{19, 11, 3, 8, 'w'}));
-  assertTrue((match3.untilDateTime == DateTuple{20, 2, 1, 0, 'w'}));
-  assertTrue(&kEra3 == match3.era);
+  const uint8_t kMaxMaches = 4;
+  extended::ZoneMatch matches[kMaxMaches];
+  uint8_t numMatches;
+  ExtendedZoneSpecifier::findMatches(
+      &kZoneAlmostLosAngeles, startYm, untilYm, matches, kMaxMaches,
+      &numMatches);
+  assertEqual(3, numMatches);
 
   TransitionStorage<4> storage;
   storage.init();
@@ -365,23 +382,23 @@ test(ExtendedZoneSpecifierTest, fixTransitionTimes_generateStartUntilTimes) {
   // Create 3 Transitions corresponding to the matches.
   // Implements ExtendedZoneSpecifier::findTransitionsFromSimpleMatch().
   Transition* transition1 = storage.getFreeAgent();
-  transition1->match = &match1;
+  transition1->match = &matches[0];
   transition1->rule = nullptr;
-  transition1->transitionTime = match1.startDateTime;
+  transition1->transitionTime = matches[0].startDateTime;
   transition1->active = true;
   storage.addFreeAgentToCandidatePool();
 
   Transition* transition2 = storage.getFreeAgent();
-  transition2->match = &match2;
+  transition2->match = &matches[1];
   transition2->rule = nullptr;
-  transition2->transitionTime = match2.startDateTime;
+  transition2->transitionTime = matches[1].startDateTime;
   transition2->active = true;
   storage.addFreeAgentToCandidatePool();
 
   Transition* transition3 = storage.getFreeAgent();
-  transition3->match = &match3;
+  transition3->match = &matches[2];
   transition3->rule = nullptr;
-  transition3->transitionTime = match3.startDateTime;
+  transition3->transitionTime = matches[2].startDateTime;
   transition3->active = true;
   storage.addFreeAgentToCandidatePool();
 
