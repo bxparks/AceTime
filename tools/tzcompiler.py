@@ -263,7 +263,7 @@ def main():
 
         # Generate validation data files
         logging.info('Generating test validation files')
-        if language == 'arduino':
+        if language == 'arduino' or language == 'arduinox':
             extended = (language == 'arduinox')
             arval_generator = ArduinoValidationGenerator(
                 invocation, args.tz_version, test_data, num_items, extended)
