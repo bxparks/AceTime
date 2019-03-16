@@ -28,8 +28,8 @@ class ArduinoValidationGenerator:
 //
 // DO NOT EDIT
 
-#ifndef ACE_TIME_VALIDATION_TEST_{dbHeaderNamespace}_DATA_H
-#define ACE_TIME_VALIDATION_TEST_{dbHeaderNamespace}_DATA_H
+#ifndef ACE_TIME_VALIDATION_TEST_{includeHeaderNamespace}_DATA_H
+#define ACE_TIME_VALIDATION_TEST_{includeHeaderNamespace}_DATA_H
 
 #include "ValidationDataType.h"
 
@@ -46,7 +46,7 @@ namespace {dbNamespace} {{
 """
 
     VALIDATION_DATA_H_ITEM = """\
-extern const ValidationData kValidationData{zoneShortName};
+extern const {validationDataClass} kValidationData{zoneShortName};
 """
 
     VALIDATION_DATA_CPP_FILE = """\
@@ -81,7 +81,7 @@ static const ValidationItem kValidationItems{zoneShortName}[] = {{
 {testItems}
 }};
 
-const ValidationData kValidationData{zoneShortName} = {{
+const {validationDataClass} kValidationData{zoneShortName} = {{
   &kZone{zoneShortName} /*zoneInfo*/,
   sizeof(kValidationItems{zoneShortName})/sizeof(ValidationItem) /*numItems*/,
   kValidationItems{zoneShortName} /*items*/,
@@ -106,7 +106,7 @@ const ValidationData kValidationData{zoneShortName} = {{
 // DO NOT EDIT
 
 #include <AUnit.h>
-#include "TransitionTest.h"
+#include "{testClass}.h"
 #include "{fileBase}_data.h"
 
 // numZones: {numZones}
@@ -114,7 +114,7 @@ const ValidationData kValidationData{zoneShortName} = {{
 """
 
     TEST_CASE = """\
-{comment}testF(TransitionTest, {zoneShortName}) {{
+{comment}testF({testClass}, {zoneShortName}) {{
 {comment}  assertValid(&ace_time::{dbNamespace}::kValidationData{zoneShortName});
 {comment}}}
 """
@@ -130,15 +130,17 @@ const ValidationData kValidationData{zoneShortName} = {{
         self.extended = extended  # extended Arduino/C++ database
         self.extended_suffix = 'x' if extended else ''
         if extended:
-            self.file_base = 'extended_validation'
-            self.db_header_namespace = 'EXTENDED_VALIDATION'
+            self.file_base = 'validation'
+            self.include_header_namespace = 'VALIDATION'
             self.db_namespace = 'zonedbx'
-            self.var_prefix = 'Extended'
+            self.test_class = 'TransitionTest'
+            self.validation_data_class = 'ValidationData'
         else:
             self.file_base = 'validation'
-            self.db_header_namespace = 'VALIDATION'
+            self.include_header_namespace = 'VALIDATION'
             self.db_namespace = 'zonedb'
-            self.var_prefix = ''
+            self.test_class = 'TransitionTest'
+            self.validation_data_class = 'ValidationData'
         self.validation_data_h_file_name = (self.file_base + '_data.h')
         self.validation_data_cpp_file_name = (self.file_base + '_data.cpp')
         self.validation_tests_file_name = (self.file_base + '_tests.cpp')
@@ -164,7 +166,7 @@ const ValidationData kValidationData{zoneShortName} = {{
         return self.VALIDATION_DATA_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
-            dbHeaderNamespace=self.db_header_namespace,
+            includeHeaderNamespace=self.include_header_namespace,
             dbNamespace=self.db_namespace,
             numZones=len(self.test_data),
             validationItems=validation_items)
@@ -173,6 +175,7 @@ const ValidationData kValidationData{zoneShortName} = {{
         validation_items = ''
         for short_name, test_items in sorted(test_data.items()):
             validation_items += self.VALIDATION_DATA_H_ITEM.format(
+                validationDataClass=self.validation_data_class,
                 zoneShortName=short_name)
         return validation_items
 
@@ -193,6 +196,7 @@ const ValidationData kValidationData{zoneShortName} = {{
             test_items_string = self._generate_validation_data_cpp_test_items(
                 short_name, test_items)
             validation_item = self.VALIDATION_DATA_CPP_ITEM.format(
+                validationDataClass=self.validation_data_class,
                 zoneShortName=short_name, testItems=test_items_string)
             validation_items += validation_item
         return validation_items
@@ -223,6 +227,7 @@ const ValidationData kValidationData{zoneShortName} = {{
         return self.TESTS_CPP.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            testClass=self.test_class,
             fileBase=self.file_base,
             numZones=len(self.test_data),
             testCases=test_cases)
@@ -233,6 +238,7 @@ const ValidationData kValidationData{zoneShortName} = {{
             comment = '//' if short_name in self.BROKEN_ZONE_BLACK_LIST else ''
             test_case = self.TEST_CASE.format(
                 dbNamespace=self.db_namespace,
+                testClass=self.test_class,
                 zoneShortName=short_name,
                 comment=comment)
             test_cases += test_case
