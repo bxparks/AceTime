@@ -225,6 +225,28 @@ test(ExtendedZoneSpecifierTest, findMatches_named) {
   assertTrue(&kZoneEraTestLos_Angeles[0] == matches[0].era);
 }
 
+test(ExtendedZoneSpecifierTest, findTransitionsFromNamedMatch) {
+  // Create matches
+  YearMonthTuple startYm = {18, 12};
+  YearMonthTuple untilYm = {20, 2};
+  const uint8_t kMaxMaches = 4;
+  ZoneMatch matches[kMaxMaches];
+  uint8_t numMatches = ExtendedZoneSpecifier::findMatches(
+      &kZoneTestLos_Angeles, startYm, untilYm, matches, kMaxMaches);
+  assertEqual(1, numMatches);
+
+  // Reserve storage for the Transitions
+  const uint8_t kMaxStorage = 8;
+  TransitionStorage<kMaxStorage> storage;
+  storage.init();
+
+  // There's only one ZoneMatch and we know it's a named ZonedMatch, so call
+  // the findTransitionsFromNamedMatch() directly.
+  ExtendedZoneSpecifier::findTransitionsFromNamedMatch(storage, &matches[0]);
+  assertEqual(3,
+      (int) (storage.getActivePoolEnd() - storage.getActivePoolEnd()));
+}
+
 test(ExtendedZoneSpecifierTest, getTransitionTime) {
   // TODO: Implement
 }
