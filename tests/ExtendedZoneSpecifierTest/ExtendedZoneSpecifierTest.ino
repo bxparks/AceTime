@@ -225,7 +225,7 @@ test(ExtendedZoneSpecifierTest, findMatches_named) {
   assertTrue(&kZoneEraTestLos_Angeles[0] == matches[0].era);
 }
 
-test(ExtendedZoneSpecifierTest, findTransitionsFromNamedMatch) {
+test(ExtendedZoneSpecifierTest, findCandidateTransitions) {
   const ZoneMatch match = {
     {18, 12, 1, 0, 'w'},
     {20, 2, 1, 0, 'w'},
@@ -237,24 +237,31 @@ test(ExtendedZoneSpecifierTest, findTransitionsFromNamedMatch) {
   TransitionStorage<kMaxStorage> storage;
   storage.init();
 
-  // Verify that 5 candidate Transitions are found:
-  // * Nov Sun>=1 2017
-  // * Mar Sun>=8 2018
-  // * Nov Sun>=1 2018
-  // * Mar Sun>=8 2019
-  // * Nov Sun>=1 2019
+  // Verify compareTransitionToMatchFuzzy() elminates various transitions
+  // to get down to 5:
+  //    * 2018 Mar Sun>=8 (11)
+  //    * 2019 Nov Sun>=1 (4)
+  //    * 2019 Mar Sun>=8 (10)
+  //    * 2019 Nov Sun>=1 (3)
+  //    * 2020 Mar Sun>=8 (8)
   storage.resetCandidatePool();
   ExtendedZoneSpecifier::findCandidateTransitions(storage, &match);
   assertEqual(5,
-      (int) (storage.getCandidatePoolEnd() - storage.getActivePoolBegin()));
-  Transition** t = storage.getCandidatePoolEnd();
-  assertTrue(((*t)->transitionTime == DateTuple{17, 11, 5, 8, 'w'}));
+      (int) (storage.getCandidatePoolEnd() - storage.getCandidatePoolBegin()));
+  Transition** t = storage.getCandidatePoolBegin();
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 3, 11, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 11, 4, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{20, 3, 8, 8, 'w'}));
 
+#if 0
   // There's only one ZoneMatch and we know it's a named ZonedMatch, so call
   // the findTransitionsFromNamedMatch() directly.
   ExtendedZoneSpecifier::findTransitionsFromNamedMatch(storage, &match);
   assertEqual(3,
       (int) (storage.getActivePoolEnd() - storage.getActivePoolBegin()));
+#endif
 }
 
 test(ExtendedZoneSpecifierTest, getTransitionTime) {
@@ -894,6 +901,12 @@ void setup() {
 #endif
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while(!Serial); // for the Arduino Leonardo/Micro only
+
+#if 0
+  TestRunner::exclude("*");
+  TestRunner::include("ExtendedZoneSpecifierTest",
+      "findTransitionsFromNamedMatch");
+#endif
 }
 
 void loop() {
