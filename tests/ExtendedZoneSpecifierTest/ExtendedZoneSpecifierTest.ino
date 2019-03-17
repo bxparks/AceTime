@@ -225,58 +225,6 @@ test(ExtendedZoneSpecifierTest, findMatches_named) {
   assertTrue(&kZoneEraTestLos_Angeles[0] == matches[0].era);
 }
 
-test(ExtendedZoneSpecifierTest, findCandidateTransitions) {
-  const ZoneMatch match = {
-    {18, 12, 1, 0, 'w'},
-    {20, 2, 1, 0, 'w'},
-    &kZoneEraTestLos_Angeles[0]
-  };
-
-  // Reserve storage for the Transitions
-  const uint8_t kMaxStorage = 8;
-  TransitionStorage<kMaxStorage> storage;
-  storage.init();
-
-  // Verify compareTransitionToMatchFuzzy() elminates various transitions
-  // to get down to 5:
-  //    * 2018 Mar Sun>=8 (11)
-  //    * 2019 Nov Sun>=1 (4)
-  //    * 2019 Mar Sun>=8 (10)
-  //    * 2019 Nov Sun>=1 (3)
-  //    * 2020 Mar Sun>=8 (8)
-  storage.resetCandidatePool();
-  ExtendedZoneSpecifier::findCandidateTransitions(storage, &match);
-  assertEqual(5,
-      (int) (storage.getCandidatePoolEnd() - storage.getCandidatePoolBegin()));
-  Transition** t = storage.getCandidatePoolBegin();
-  assertTrue(((*t++)->transitionTime == DateTuple{18, 3, 11, 8, 'w'}));
-  assertTrue(((*t++)->transitionTime == DateTuple{18, 11, 4, 8, 'w'}));
-  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
-  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
-  assertTrue(((*t++)->transitionTime == DateTuple{20, 3, 8, 8, 'w'}));
-}
-
-test(ExtendedZoneSpecifierTest, findTransitionsFromNamedMatch) {
-  const ZoneMatch match = {
-    {18, 12, 1, 0, 'w'},
-    {20, 2, 1, 0, 'w'},
-    &kZoneEraTestLos_Angeles[0]
-  };
-
-  // Reserve storage for the Transitions
-  const uint8_t kMaxStorage = 8;
-  TransitionStorage<kMaxStorage> storage;
-  storage.init();
-
-  ExtendedZoneSpecifier::findTransitionsFromNamedMatch(storage, &match);
-  assertEqual(3,
-      (int) (storage.getActivePoolEnd() - storage.getActivePoolBegin()));
-  Transition** t = storage.getActivePoolBegin();
-  assertTrue(((*t++)->transitionTime == DateTuple{18, 12, 1, 0, 'w'}));
-  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
-  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
-}
-
 test(ExtendedZoneSpecifierTest, getTransitionTime) {
   const ZoneRule* rule = &kZoneRulesTestUS[4]; // Nov Sun>=1
   DateTuple dt = ExtendedZoneSpecifier::getTransitionTime(18, rule);
@@ -541,6 +489,58 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   };
   assertFalse(transition3.active);
   assertTrue(prior == &transition1);
+}
+
+test(ExtendedZoneSpecifierTest, findCandidateTransitions) {
+  const ZoneMatch match = {
+    {18, 12, 1, 0, 'w'},
+    {20, 2, 1, 0, 'w'},
+    &kZoneEraTestLos_Angeles[0]
+  };
+
+  // Reserve storage for the Transitions
+  const uint8_t kMaxStorage = 8;
+  TransitionStorage<kMaxStorage> storage;
+  storage.init();
+
+  // Verify compareTransitionToMatchFuzzy() elminates various transitions
+  // to get down to 5:
+  //    * 2018 Mar Sun>=8 (11)
+  //    * 2019 Nov Sun>=1 (4)
+  //    * 2019 Mar Sun>=8 (10)
+  //    * 2019 Nov Sun>=1 (3)
+  //    * 2020 Mar Sun>=8 (8)
+  storage.resetCandidatePool();
+  ExtendedZoneSpecifier::findCandidateTransitions(storage, &match);
+  assertEqual(5,
+      (int) (storage.getCandidatePoolEnd() - storage.getCandidatePoolBegin()));
+  Transition** t = storage.getCandidatePoolBegin();
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 3, 11, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 11, 4, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{20, 3, 8, 8, 'w'}));
+}
+
+test(ExtendedZoneSpecifierTest, findTransitionsFromNamedMatch) {
+  const ZoneMatch match = {
+    {18, 12, 1, 0, 'w'},
+    {20, 2, 1, 0, 'w'},
+    &kZoneEraTestLos_Angeles[0]
+  };
+
+  // Reserve storage for the Transitions
+  const uint8_t kMaxStorage = 8;
+  TransitionStorage<kMaxStorage> storage;
+  storage.init();
+
+  ExtendedZoneSpecifier::findTransitionsFromNamedMatch(storage, &match);
+  assertEqual(3,
+      (int) (storage.getActivePoolEnd() - storage.getActivePoolBegin()));
+  Transition** t = storage.getActivePoolBegin();
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
 }
 
 test(ExtendedZoneSpecifierTest, fixTransitionTimes_generateStartUntilTimes) {
