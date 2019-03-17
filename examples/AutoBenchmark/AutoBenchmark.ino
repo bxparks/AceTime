@@ -15,7 +15,10 @@ using namespace ace_time;
 using namespace ace_time::provider;
 
 void setup() {
+#if defined(ARDUINO)
   delay(1000);
+#endif
+
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
   pinMode(LED_BENCHMARK, OUTPUT);
