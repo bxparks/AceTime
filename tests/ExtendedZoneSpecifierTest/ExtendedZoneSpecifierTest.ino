@@ -254,14 +254,27 @@ test(ExtendedZoneSpecifierTest, findCandidateTransitions) {
   assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
   assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
   assertTrue(((*t++)->transitionTime == DateTuple{20, 3, 8, 8, 'w'}));
+}
 
-#if 0
-  // There's only one ZoneMatch and we know it's a named ZonedMatch, so call
-  // the findTransitionsFromNamedMatch() directly.
+test(ExtendedZoneSpecifierTest, findTransitionsFromNamedMatch) {
+  const ZoneMatch match = {
+    {18, 12, 1, 0, 'w'},
+    {20, 2, 1, 0, 'w'},
+    &kZoneEraTestLos_Angeles[0]
+  };
+
+  // Reserve storage for the Transitions
+  const uint8_t kMaxStorage = 8;
+  TransitionStorage<kMaxStorage> storage;
+  storage.init();
+
   ExtendedZoneSpecifier::findTransitionsFromNamedMatch(storage, &match);
   assertEqual(3,
       (int) (storage.getActivePoolEnd() - storage.getActivePoolBegin()));
-#endif
+  Transition** t = storage.getActivePoolBegin();
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
 }
 
 test(ExtendedZoneSpecifierTest, getTransitionTime) {

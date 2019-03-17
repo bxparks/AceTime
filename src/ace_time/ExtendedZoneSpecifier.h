@@ -19,6 +19,7 @@ class ExtendedZoneSpecifierTest_createMatch;
 class ExtendedZoneSpecifierTest_findMatches_simple;
 class ExtendedZoneSpecifierTest_findMatches_named;
 class ExtendedZoneSpecifierTest_findCandidateTransitions;
+class ExtendedZoneSpecifierTest_findTransitionsFromNamedMatch;
 class ExtendedZoneSpecifierTest_getTransitionTime;
 class ExtendedZoneSpecifierTest_createTransitionForYear;
 class ExtendedZoneSpecifierTest_normalizeDateTuple;
@@ -471,6 +472,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_findMatches_simple;
     friend class ::ExtendedZoneSpecifierTest_findMatches_named;
     friend class ::ExtendedZoneSpecifierTest_findCandidateTransitions;
+    friend class ::ExtendedZoneSpecifierTest_findTransitionsFromNamedMatch;
     friend class ::ExtendedZoneSpecifierTest_getTransitionTime;
     friend class ::ExtendedZoneSpecifierTest_createTransitionForYear;
     friend class ::ExtendedZoneSpecifierTest_normalizeDateTuple;
