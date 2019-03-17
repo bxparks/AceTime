@@ -226,33 +226,55 @@ test(ExtendedZoneSpecifierTest, findMatches_named) {
 }
 
 test(ExtendedZoneSpecifierTest, findTransitionsFromNamedMatch) {
-  // Create matches
-  YearMonthTuple startYm = {18, 12};
-  YearMonthTuple untilYm = {20, 2};
-  const uint8_t kMaxMaches = 4;
-  ZoneMatch matches[kMaxMaches];
-  uint8_t numMatches = ExtendedZoneSpecifier::findMatches(
-      &kZoneTestLos_Angeles, startYm, untilYm, matches, kMaxMaches);
-  assertEqual(1, numMatches);
+  const ZoneMatch match = {
+    {18, 12, 1, 0, 'w'},
+    {20, 2, 1, 0, 'w'},
+    &kZoneEraTestLos_Angeles[0]
+  };
 
   // Reserve storage for the Transitions
   const uint8_t kMaxStorage = 8;
   TransitionStorage<kMaxStorage> storage;
   storage.init();
 
+  // Verify that 5 candidate Transitions are found:
+  // * Nov Sun>=1 2017
+  // * Mar Sun>=8 2018
+  // * Nov Sun>=1 2018
+  // * Mar Sun>=8 2019
+  // * Nov Sun>=1 2019
+  storage.resetCandidatePool();
+  ExtendedZoneSpecifier::findCandidateTransitions(storage, &match);
+  assertEqual(5,
+      (int) (storage.getCandidatePoolEnd() - storage.getActivePoolBegin()));
+  Transition** t = storage.getCandidatePoolEnd();
+  assertTrue(((*t)->transitionTime == DateTuple{17, 11, 5, 8, 'w'}));
+
   // There's only one ZoneMatch and we know it's a named ZonedMatch, so call
   // the findTransitionsFromNamedMatch() directly.
-  ExtendedZoneSpecifier::findTransitionsFromNamedMatch(storage, &matches[0]);
+  ExtendedZoneSpecifier::findTransitionsFromNamedMatch(storage, &match);
   assertEqual(3,
-      (int) (storage.getActivePoolEnd() - storage.getActivePoolEnd()));
+      (int) (storage.getActivePoolEnd() - storage.getActivePoolBegin()));
 }
 
 test(ExtendedZoneSpecifierTest, getTransitionTime) {
-  // TODO: Implement
+  const ZoneRule* rule = &kZoneRulesTestUS[4]; // Nov Sun>=1
+  DateTuple dt = ExtendedZoneSpecifier::getTransitionTime(18, rule);
+  assertTrue((dt == DateTuple{18, 11, 4, 8, 'w'})); // Nov 4 2018
+  dt = ExtendedZoneSpecifier::getTransitionTime(19, rule);
+  assertTrue((dt == DateTuple{19, 11, 3, 8, 'w'})); // Nov 3 2019
 }
 
 test(ExtendedZoneSpecifierTest, createTransitionForYear) {
-  // TODO: Implement
+  const ZoneMatch match = {
+    {18, 12, 1, 0, 'w'},
+    {20, 2, 1, 0, 'w'},
+    &kZoneEraTestLos_Angeles[0]
+  };
+  const ZoneRule* const rule = &kZoneRulesTestUS[4]; // Nov Sun>=1
+  Transition t;
+  ExtendedZoneSpecifier::createTransitionForYear(&t, 19, rule, &match);
+  assertTrue((t.transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
 }
 
 test(ExtendedZoneSpecifierTest, normalizeDateTuple) {
@@ -491,7 +513,7 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   ExtendedZoneSpecifier::processActiveTransition(&match, &transition2, &prior);
   assertTrue(transition2.active);
   assertTrue(prior == &transition1);
-  
+
   // Occurs after match.untilDateTime, so should be rejected.
   Transition transition3 = {
     &match /*match*/, nullptr /*rule*/, {1, 1, 2, 0, 'w'} /*transitionTime*/,

@@ -19,6 +19,8 @@ class ExtendedZoneSpecifierTest_createMatch;
 class ExtendedZoneSpecifierTest_findMatches_simple;
 class ExtendedZoneSpecifierTest_findMatches_named;
 class ExtendedZoneSpecifierTest_findTransitionsFromNamedMatch;
+class ExtendedZoneSpecifierTest_getTransitionTime;
+class ExtendedZoneSpecifierTest_createTransitionForYear;
 class ExtendedZoneSpecifierTest_normalizeDateTuple;
 class ExtendedZoneSpecifierTest_expandDateTuple;
 class ExtendedZoneSpecifierTest_calcInteriorYears;
@@ -463,6 +465,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_findMatches_simple;
     friend class ::ExtendedZoneSpecifierTest_findMatches_named;
     friend class ::ExtendedZoneSpecifierTest_findTransitionsFromNamedMatch;
+    friend class ::ExtendedZoneSpecifierTest_getTransitionTime;
+    friend class ::ExtendedZoneSpecifierTest_createTransitionForYear;
     friend class ::ExtendedZoneSpecifierTest_normalizeDateTuple;
     friend class ::ExtendedZoneSpecifierTest_expandDateTuple;
     friend class ::ExtendedZoneSpecifierTest_calcInteriorYears;
@@ -730,15 +734,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       transitionStorage.addPriorToCandidatePool();
     }
 
-    /** Return true if Transition 't' was created. */
-    static void createTransitionForYear(zonedbx::Transition* t, int8_t year,
-        const zonedbx::ZoneRule* rule,
-        const zonedbx::ZoneMatch* match) {
-      t->match = match;
-      t->transitionTime = getTransitionTime(year, rule);
-      t->rule = rule;
-    }
-
     /**
      * Calculate interior years. Up to maxInteriorYears, usually 3 or 4.
      * Returns the number of interior years.
@@ -755,6 +750,15 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         }
       }
       return i;
+    }
+
+    /** Return true if Transition 't' was created. */
+    static void createTransitionForYear(zonedbx::Transition* t, int8_t year,
+        const zonedbx::ZoneRule* rule,
+        const zonedbx::ZoneMatch* match) {
+      t->match = match;
+      t->transitionTime = getTransitionTime(year, rule);
+      t->rule = rule;
     }
 
     /**
@@ -776,10 +780,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     static zonedbx::DateTuple getTransitionTime(
-        int8_t year, const zonedbx::ZoneRule* rule) {
+        int8_t yearTiny, const zonedbx::ZoneRule* rule) {
       uint8_t dayOfMonth = BasicZoneSpecifier::calcStartDayOfMonth(
-          year, rule->inMonth, rule->onDayOfWeek, rule->onDayOfMonth);
-      return {year, rule->inMonth, dayOfMonth,
+          yearTiny + LocalDate::kEpochYear, rule->inMonth, rule->onDayOfWeek,
+          rule->onDayOfMonth);
+      return {yearTiny, rule->inMonth, dayOfMonth,
           (int8_t) rule->atTimeCode, rule->atTimeModifier};
     }
 
