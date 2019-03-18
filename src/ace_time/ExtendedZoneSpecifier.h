@@ -245,6 +245,13 @@ class TransitionStorage {
     /** Return the current prior transition. */
     Transition* getPrior() { return mTransitions[mIndexPrior]; }
 
+    /** Swap 2 transitions. */
+    void swap(Transition** a, Transition** b) {
+      Transition* tmp = *a;
+      *a = *b;
+      *b = tmp;
+    }
+
     /**
      * Empty the Candidate pool by resetting the various indexes.
      *
@@ -290,14 +297,15 @@ class TransitionStorage {
      */
     void addFreeAgentToActivePool() {
       if (mIndexFree >= SIZE) return;
-      mIndexPrior++;
-      mIndexCandidates++;
       mIndexFree++;
+      mIndexPrior = mIndexFree;
+      mIndexCandidates = mIndexFree;
     }
 
     /**
      * Allocate one Transition just after the Active pool, but before the
-     * Candidate pool, to keep the most recent prior Transition.
+     * Candidate pool, to keep the most recent prior Transition. Shift the
+     * Candidate pool and Free pool up by one.
      */
     Transition* reservePrior() {
       Transition* prior = mTransitions[mIndexPrior];
@@ -308,9 +316,7 @@ class TransitionStorage {
 
     /** Swap the Free agrent transition with the current Prior transition. */
     void setFreeAgentAsPrior() {
-      Transition* prevPrior = mTransitions[mIndexPrior];
-      mTransitions[mIndexPrior] = mTransitions[mIndexFree];
-      mTransitions[mIndexFree] = prevPrior;
+      swap(&mTransitions[mIndexPrior], &mTransitions[mIndexFree]);
     }
 
     /**
