@@ -158,7 +158,7 @@ class NtpTimeProvider: public TimeProvider {
       mUdp.write(mPacketBuffer, kNtpPacketSize);
       mUdp.endPacket();
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
-      common::logger("NtpTimeProvider::sendNtpPacket(): %u ms",
+      logging::println("NtpTimeProvider::sendNtpPacket(): %u ms",
           (uint16_t) (millis() - startTime));
 #endif
     }
