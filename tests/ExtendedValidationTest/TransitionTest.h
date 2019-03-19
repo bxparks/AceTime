@@ -48,4 +48,6 @@ class TransitionTest: public aunit::TestOnce {
     }
 };
 
+#undef DEBUG
+
 #endif
