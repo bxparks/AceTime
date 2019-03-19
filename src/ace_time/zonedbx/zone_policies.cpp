@@ -695,8 +695,8 @@ const ZonePolicy kPolicyArg = {
 static const ZoneRule kZoneRulesArmenia[] = {
   // Anchor: Rule Armenia    2011    only    -    Oct    lastSun     2:00s    0    -
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1895,8 +1895,8 @@ const ZonePolicy kPolicyCuba = {
 static const ZoneRule kZoneRulesDhaka[] = {
   // Anchor: Rule    Dhaka    2009    only    -    Dec    31    24:00    0    -
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6192,8 +6192,8 @@ const ZonePolicy kPolicyPRC = {
 static const ZoneRule kZoneRulesPakistan[] = {
   // Anchor: Rule Pakistan    2002    only    -    Oct    Sun>=2    0:00    0    -
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -6284,8 +6284,8 @@ const ZonePolicy kPolicyPakistan = {
 static const ZoneRule kZoneRulesPalestine[] = {
   // Anchor: Rule Palestine    1999    2003    -    Oct    Fri>=15    0:00    0    -
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -7004,8 +7004,8 @@ const ZonePolicy kPolicySalv = {
 static const ZoneRule kZoneRulesSanLuis[] = {
   // Anchor: Rule    SanLuis    2008    2009    -    Mar    Sun>=8    0:00    0    -
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -7452,8 +7452,8 @@ const ZonePolicy kPolicyThule = {
 static const ZoneRule kZoneRulesTonga[] = {
   // Anchor: Rule    Tonga    2000    only    -    Mar    19    2:00s    0    -
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -7556,8 +7556,8 @@ const ZonePolicy kPolicyTonga = {
 static const ZoneRule kZoneRulesTroll[] = {
   // Anchor: Rule    Troll    2004    max    -    Oct    lastSun    1:00u    0:00    +00
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -7957,8 +7957,8 @@ const ZonePolicy kPolicyVanuatu = {
 static const ZoneRule kZoneRulesWS[] = {
   // Anchor: Rule    WS    2011    only    -    Apr    Sat>=1    4:00    0    -
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,

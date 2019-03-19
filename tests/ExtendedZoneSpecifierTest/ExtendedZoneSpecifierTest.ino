@@ -226,11 +226,23 @@ test(ExtendedZoneSpecifierTest, findMatches_named) {
 }
 
 test(ExtendedZoneSpecifierTest, getTransitionTime) {
-  // TODO: Implement
+  const ZoneRule* rule = &kZoneRulesTestUS[4]; // Nov Sun>=1
+  DateTuple dt = ExtendedZoneSpecifier::getTransitionTime(18, rule);
+  assertTrue((dt == DateTuple{18, 11, 4, 8, 'w'})); // Nov 4 2018
+  dt = ExtendedZoneSpecifier::getTransitionTime(19, rule);
+  assertTrue((dt == DateTuple{19, 11, 3, 8, 'w'})); // Nov 3 2019
 }
 
 test(ExtendedZoneSpecifierTest, createTransitionForYear) {
-  // TODO: Implement
+  const ZoneMatch match = {
+    {18, 12, 1, 0, 'w'},
+    {20, 2, 1, 0, 'w'},
+    &kZoneEraTestLos_Angeles[0]
+  };
+  const ZoneRule* const rule = &kZoneRulesTestUS[4]; // Nov Sun>=1
+  Transition t;
+  ExtendedZoneSpecifier::createTransitionForYear(&t, 19, rule, &match);
+  assertTrue((t.transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
 }
 
 test(ExtendedZoneSpecifierTest, normalizeDateTuple) {
@@ -469,7 +481,7 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   ExtendedZoneSpecifier::processActiveTransition(&match, &transition2, &prior);
   assertTrue(transition2.active);
   assertTrue(prior == &transition1);
-  
+
   // Occurs after match.untilDateTime, so should be rejected.
   Transition transition3 = {
     &match /*match*/, nullptr /*rule*/, {1, 1, 2, 0, 'w'} /*transitionTime*/,
@@ -477,6 +489,58 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   };
   assertFalse(transition3.active);
   assertTrue(prior == &transition1);
+}
+
+test(ExtendedZoneSpecifierTest, findCandidateTransitions) {
+  const ZoneMatch match = {
+    {18, 12, 1, 0, 'w'},
+    {20, 2, 1, 0, 'w'},
+    &kZoneEraTestLos_Angeles[0]
+  };
+
+  // Reserve storage for the Transitions
+  const uint8_t kMaxStorage = 8;
+  TransitionStorage<kMaxStorage> storage;
+  storage.init();
+
+  // Verify compareTransitionToMatchFuzzy() elminates various transitions
+  // to get down to 5:
+  //    * 2018 Mar Sun>=8 (11)
+  //    * 2019 Nov Sun>=1 (4)
+  //    * 2019 Mar Sun>=8 (10)
+  //    * 2019 Nov Sun>=1 (3)
+  //    * 2020 Mar Sun>=8 (8)
+  storage.resetCandidatePool();
+  ExtendedZoneSpecifier::findCandidateTransitions(storage, &match);
+  assertEqual(5,
+      (int) (storage.getCandidatePoolEnd() - storage.getCandidatePoolBegin()));
+  Transition** t = storage.getCandidatePoolBegin();
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 3, 11, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 11, 4, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{20, 3, 8, 8, 'w'}));
+}
+
+test(ExtendedZoneSpecifierTest, findTransitionsFromNamedMatch) {
+  const ZoneMatch match = {
+    {18, 12, 1, 0, 'w'},
+    {20, 2, 1, 0, 'w'},
+    &kZoneEraTestLos_Angeles[0]
+  };
+
+  // Reserve storage for the Transitions
+  const uint8_t kMaxStorage = 8;
+  TransitionStorage<kMaxStorage> storage;
+  storage.init();
+
+  ExtendedZoneSpecifier::findTransitionsFromNamedMatch(storage, &match);
+  assertEqual(3,
+      (int) (storage.getActivePoolEnd() - storage.getActivePoolBegin()));
+  Transition** t = storage.getActivePoolBegin();
+  assertTrue(((*t++)->transitionTime == DateTuple{18, 12, 1, 0, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 3, 10, 8, 'w'}));
+  assertTrue(((*t++)->transitionTime == DateTuple{19, 11, 3, 8, 'w'}));
 }
 
 test(ExtendedZoneSpecifierTest, fixTransitionTimes_generateStartUntilTimes) {
@@ -649,8 +713,8 @@ test(TransitionStorageTest, addFreeAgentToActivePool) {
 test(TransitionStorageTest, reservePrior) {
   TransitionStorage<4> storage;
   storage.init();
-  Transition* prior = storage.reservePrior();
-  assertTrue(prior == &storage.mPool[0]);
+  Transition** prior = storage.reservePrior();
+  assertTrue(prior == &storage.mTransitions[0]);
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
   assertEqual(1, storage.mIndexFree);
@@ -665,14 +729,14 @@ test(TransitionStorageTest, setFreeAgentAsPrior) {
   TransitionStorage<4> storage;
   storage.init();
 
-  Transition* prior = storage.reservePrior();
-  prior->active = false;
+  Transition** priorReservation = storage.reservePrior();
+  (*priorReservation)->active = false;
   Transition* freeAgent = storage.getFreeAgent();
   freeAgent->active = true;
   storage.setFreeAgentAsPrior();
 
   // Verify that the two have been swapped.
-  prior = storage.getPrior();
+  Transition* prior = storage.getPrior();
   freeAgent = storage.getFreeAgent();
   assertTrue(prior->active);
   assertFalse(freeAgent->active);
@@ -718,9 +782,9 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
   storage.init();
 
   // create Prior to make it interesting
-  Transition* prior = storage.reservePrior();
-  prior->transitionTime = {-1, 0, 1, 2, 'w'};
-  prior->active = true;
+  Transition** prior = storage.reservePrior();
+  (*prior)->transitionTime = {-1, 0, 1, 2, 'w'};
+  (*prior)->active = true;
 
   // Add 3 transitions to Candidate pool, 2 active, 1 inactive.
   Transition* freeAgent = storage.getFreeAgent();
@@ -850,6 +914,12 @@ void setup() {
 #endif
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while(!Serial); // for the Arduino Leonardo/Micro only
+
+#if 0
+  TestRunner::exclude("*");
+  TestRunner::include("ExtendedZoneSpecifierTest",
+      "findTransitionsFromNamedMatch");
+#endif
 }
 
 void loop() {

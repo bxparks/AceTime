@@ -64,8 +64,9 @@ MAX_YEAR_TINY = MAX_UNTIL_YEAR_TINY - 1
 # Marker year to indicate -Infinity year.
 MIN_YEAR = 0
 
-# Tiny (int8_t) version of MIN_YEAR.
-MIN_YEAR_TINY = -128
+# Tiny (int8_t) version of MIN_YEAR. Can't be -128 because that's
+# used for INVALID_YEAR_TINY.
+MIN_YEAR_TINY = -127
 
 
 class ZoneEraRaw:

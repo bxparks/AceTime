@@ -72,6 +72,9 @@ class UtcOffset {
       return UtcOffset().initFromOffsetString(offsetString);
     }
 
+    /** Return an error indicator. */
+    static UtcOffset forError() { return UtcOffset(kErrorCode); }
+
     /**
      * Create UtcOffset from the offset code.
      *
@@ -90,6 +93,7 @@ class UtcOffset {
      */
     int8_t code() const { return mOffsetCode; }
 
+    // TODO: Rename isShifted() or isNonZero()?
     /** Returns true if offset is not 0. */
     bool isDst() const { return mOffsetCode != 0; }
 
@@ -125,7 +129,7 @@ class UtcOffset {
      * UtcOffset can be returned using 'return UtcOffset().setError()'. The
      * compiler will optimize away all the apparent method calls.
      */
-    // TODO: convert this into an immutable object?
+    // TODO: Remove by rewriting initFromOffsetString().
     UtcOffset& setError() {
       mOffsetCode = kErrorCode;
       return *this;
