@@ -5,7 +5,7 @@
 #include "ValidationDataType.h"
 #include "ace_time/common/logger.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 class TransitionTest: public aunit::TestOnce {
   protected:
@@ -21,8 +21,6 @@ class TransitionTest: public aunit::TestOnce {
       for (uint16_t i = 0; i < testData->numItems; i++) {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
-
-        UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);
         if (DEBUG) {
           ace_time::logging::println("==== test index: %d", i);
           if (sizeof(acetime_t) == sizeof(int)) {
@@ -30,8 +28,10 @@ class TransitionTest: public aunit::TestOnce {
           } else {
             ace_time::logging::println("epochSeconds: %ld", epochSeconds);
           }
-          zoneSpecifier.log();
         }
+
+        UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);
+        if (DEBUG) zoneSpecifier.log();
 
         // Verify utcOffset
         assertEqual(item.utcOffsetMinutes, utcOffset.toMinutes());

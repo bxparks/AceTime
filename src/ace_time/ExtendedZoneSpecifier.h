@@ -14,7 +14,7 @@
 #include "BasicZoneSpecifier.h"
 #include "local_date_mutation.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 class ExtendedZoneSpecifierTest_compareEraToYearMonth;
 class ExtendedZoneSpecifierTest_createMatch;
@@ -103,7 +103,7 @@ struct ZoneMatch {
     logging::print("ZoneMatch(");
     logging::print("Start:"); startDateTime.log();
     logging::print("; Until:"); untilDateTime.log();
-    logging::print("; Era: %s null", (era) ? "not" : "");
+    logging::print("; Era: %snull", (era) ? "!" : "");
     logging::print(")");
   }
 };
@@ -214,19 +214,21 @@ struct Transition {
   void log() const {
     logging::print("Transition(");
     if (sizeof(acetime_t) == sizeof(int)) {
-      logging::print("sepoch: %d", startEpochSeconds);
+      logging::print("sE: %d", startEpochSeconds);
     } else {
-      logging::print("sepoch: %ld", startEpochSeconds);
+      logging::print("sE: %ld", startEpochSeconds);
     }
-    logging::print("; match: %s", (match) ? "not null" : "null");
-    logging::print("; era: %s", (match && match->era) ? "not null" : "null");
-    logging::print("; offsetCode: %d", offsetCode());
-    logging::print("; abbrev: %s", abbrev);
+    logging::print("; match: %snull", (match) ? "!" : "");
+    logging::print("; era: %snull", (match && match->era) ? "!" : "");
+    logging::print("; oCode: %d", offsetCode());
+    logging::print("; dCode: %d", deltaCode());
+    logging::print("; tt: "); transitionTime.log();
     if (rule != nullptr) {
-      logging::print("; R.fromYear: %d", rule->fromYearTiny);
-      logging::print("; R.toYear: %d", rule->toYearTiny);
-      logging::print("; R.inMonth: %d", rule->inMonth);
-      logging::print("; R.onDayOfMonth: %d", rule->onDayOfMonth);
+      logging::print("; R.fY: %d", rule->fromYearTiny);
+      logging::print("; R.tY: %d", rule->toYearTiny);
+      logging::print("; R.M: %d", rule->inMonth);
+      logging::print("; R.dow: %d", rule->onDayOfWeek);
+      logging::print("; R.dom: %d", rule->onDayOfMonth);
     }
   }
 };
@@ -407,6 +409,10 @@ class TransitionStorage {
       logging::println("  mIndexPrior: %d", mIndexPrior);
       logging::println("  mIndexCandidates: %d", mIndexCandidates);
       logging::println("  mIndexFree: %d", mIndexFree);
+      logging::println("  Actives:");
+      for (uint8_t i = 0; i < mIndexPrior; i++) {
+        mTransitions[i]->log(); logging::println();
+      }
     }
 
   private:
@@ -494,10 +500,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       logging::println("  mYear: %d", mYear);
       logging::println("  mNumMatches: %d", mNumMatches);
       for (int i = 0; i < mNumMatches; i++) {
-        logging::println("  ---- Match: %d", i);
+        logging::print("  Match %d: ", i);
         mMatches[i].log();
         logging::println();
       }
+      mTransitionStorage.log();
     }
 
   private:
