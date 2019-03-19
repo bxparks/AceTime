@@ -5,7 +5,7 @@
 #include "ValidationDataType.h"
 #include "ace_time/common/logger.h"
 
-#define DEBUG 1
+#define DEBUG 0
 
 class TransitionTest: public aunit::TestOnce {
   protected:

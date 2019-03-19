@@ -52,7 +52,10 @@ struct Transition {
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
 
-  /** The calculated effective UTC offsetCode at the start of transition. */
+  /**
+   * The total effective UTC offsetCode at the start of transition, including
+   * DST offset.
+   */
   int8_t offsetCode;
 
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
@@ -422,6 +425,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         const int16_t year = transition.yearTiny + LocalDate::kEpochYear;
 
         if (transition.rule == nullptr) {
+          // TODO: Double-check this algorithm, something doesn't seem right.
           const int8_t offsetCode = calcRuleOffsetCode(
               prevTransition->offsetCode, transition.era->offsetCode, 'w');
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(

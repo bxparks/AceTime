@@ -14,7 +14,7 @@
 #include "BasicZoneSpecifier.h"
 #include "local_date_mutation.h"
 
-#define DEBUG 1
+#define DEBUG 0
 
 class ExtendedZoneSpecifierTest_compareEraToYearMonth;
 class ExtendedZoneSpecifierTest_createMatch;
@@ -192,6 +192,10 @@ struct Transition {
     return match->era->format;
   }
 
+  /**
+   * The base offset code. Note that this is different than
+   * zonedb::Transition::offsetCode used by BasicZoneSpecifier.
+   */
   int8_t offsetCode() const {
     return match->era->offsetCode;
   }
@@ -206,6 +210,7 @@ struct Transition {
     return rule->letter;
   }
 
+  /** The DST offset code. */
   int8_t deltaCode() const {
     return (rule) ? rule->deltaCode : match->era->deltaCode;
   }
@@ -468,11 +473,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     uint8_t getType() const override { return kTypeExtended; }
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) override {
+      // TODO: Will mZoneInfo ever be nullptr? Maybe not needed.
       if (mZoneInfo == nullptr) return UtcOffset();
+
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
       return (transition)
-          ? UtcOffset::forOffsetCode(transition->offsetCode())
+          ? UtcOffset::forOffsetCode(
+              transition->offsetCode() + transition->deltaCode())
           : UtcOffset::forError();
     }
 
@@ -481,6 +489,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       if (mZoneInfo == nullptr) return UtcOffset();
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
+
+      // TODO: Replace with Transition::deltaCode()?
       if (transition->rule == nullptr) return UtcOffset();
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
