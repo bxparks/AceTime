@@ -67,8 +67,14 @@ class LocalTime {
      * returns true. However, the data validation on parsing is very weak and
      * the behavior is undefined for most invalid time strings.
      */
-    static LocalTime forTimeString(const char* timeString) {
-      return LocalTime().initFromTimeString(timeString);
+    static LocalTime forTimeString(const char* timeString);
+
+    /**
+     * Factory method that returns an instance which indicates an error
+     * condition. The isError() method will return true.
+     */
+    static LocalTime forError() {
+      return LocalTime(kInvalidValue, kInvalidValue, kInvalidValue);
     }
 
     /** Default constructor does nothing. */
@@ -87,16 +93,6 @@ class LocalTime {
         return mSecond != 0 || mMinute != 0;
       }
       return mHour > 24;
-    }
-
-    /**
-     * Mark the LocalTime so that isError() returns true. Returns a reference
-     * to (*this) so that an invalid OffsetDateTime can be returned in a single
-     * statement like this: 'return OffsetDateTime().setError()'.
-     */
-    LocalTime& setError() {
-      mHour = mMinute = mSecond = kInvalidValue;
-      return *this;
     }
 
     /** Return the hour. */
@@ -167,9 +163,6 @@ class LocalTime {
         mHour(hour),
         mMinute(minute),
         mSecond(second) {}
-
-    /** Extract the time components from the given timeString. */
-    LocalTime& initFromTimeString(const char* timeString);
 
     uint8_t mHour; // [0, 23]
     uint8_t mMinute; // [0, 59]

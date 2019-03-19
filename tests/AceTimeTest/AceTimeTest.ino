@@ -153,7 +153,7 @@ test(UtcOffsetTest, error) {
   UtcOffset offset;
   assertFalse(offset.isError());
 
-  offset.setError();
+  offset = UtcOffset::forError();
   assertTrue(offset.isError());
 }
 

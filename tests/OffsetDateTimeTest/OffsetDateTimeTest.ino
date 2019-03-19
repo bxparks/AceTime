@@ -26,8 +26,8 @@ test(OffsetDateTimeTest, invalidSeconds) {
   assertEqual(LocalDate::kInvalidEpochDays, dt.toEpochDays());
 }
 
-test(OffsetDateTimeTest, setError) {
-  OffsetDateTime dt = OffsetDateTime().setError();
+test(OffsetDateTimeTest, forError) {
+  OffsetDateTime dt = OffsetDateTime::forError();
   assertTrue(dt.isError());
 }
 

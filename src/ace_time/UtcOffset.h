@@ -68,9 +68,7 @@ class UtcOffset {
      * Create from UTC offset string ("-07:00" or "+01:00"). Intended mostly
      * for testing purposes.
      */
-    static UtcOffset forOffsetString(const char* offsetString) {
-      return UtcOffset().initFromOffsetString(offsetString);
-    }
+    static UtcOffset forOffsetString(const char* offsetString);
 
     /** Return an error indicator. */
     static UtcOffset forError() { return UtcOffset(kErrorCode); }
@@ -124,17 +122,6 @@ class UtcOffset {
       minute = (code & 0x03) * 15;
     }
 
-    /**
-     * Mark the UtcOffset so that isError() returns true. An invalid
-     * UtcOffset can be returned using 'return UtcOffset().setError()'. The
-     * compiler will optimize away all the apparent method calls.
-     */
-    // TODO: Remove by rewriting initFromOffsetString().
-    UtcOffset& setError() {
-      mOffsetCode = kErrorCode;
-      return *this;
-    }
-
     /** Return true if this UtcOffset represents an error. */
     bool isError() const {
       return mOffsetCode == kErrorCode;
@@ -162,9 +149,6 @@ class UtcOffset {
     /** Constructor. Create a time zone from the offset code. */
     explicit UtcOffset(int8_t offsetCode):
         mOffsetCode(offsetCode) {}
-
-    /** Set time zone from the given UTC offset string. */
-    UtcOffset& initFromOffsetString(const char* offsetString);
 
     /**
      * Time zone code, offset from UTC in 15 minute increments from UTC. In

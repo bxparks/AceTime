@@ -1,5 +1,6 @@
 #include "common/util.h"
 #include "common/DateStrings.h"
+#include "LocalDateTime.h"
 #include "OffsetDateTime.h"
 
 namespace ace_time {
@@ -39,13 +40,13 @@ void OffsetDateTime::printTo(Print& printer) const {
   printer.print(ds.weekDayLongString(dayOfWeek()));
 }
 
-OffsetDateTime& OffsetDateTime::initFromDateString(const char* ds) {
+OffsetDateTime OffsetDateTime::forDateString(const char* ds) {
   if (strlen(ds) < kDateStringLength) {
-    return setError();
+    return forError();
   }
 
   // date
-  mLocalDateTime.initFromDateString(ds);
+  LocalDateTime ldt = LocalDateTime::forDateString(ds);
   ds += LocalDateTime::kDateTimeStringLength;
 
   // '+' or '-'
@@ -56,7 +57,7 @@ OffsetDateTime& OffsetDateTime::initFromDateString(const char* ds) {
   } else if (utcSign == '+') {
     sign = 1;
   } else {
-    return setError();
+    return forError();
   }
 
   // utc hour
@@ -70,9 +71,9 @@ OffsetDateTime& OffsetDateTime::initFromDateString(const char* ds) {
   ds++;
 
   // create timeZone from (hour, minute)
-  mUtcOffset = UtcOffset::forHourMinute(sign, utcHour, utcMinute);
+  UtcOffset offset = UtcOffset::forHourMinute(sign, utcHour, utcMinute);
 
-  return *this;
+  return OffsetDateTime(ldt, offset);
 }
 
 }

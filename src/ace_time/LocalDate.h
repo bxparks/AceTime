@@ -169,8 +169,14 @@ class LocalDate {
      *
      * @param dateString the date in ISO 8601 format (yyyy-mm-dd)
      */
-    static LocalDate forDateString(const char* dateString) {
-      return LocalDate().initFromDateString(dateString);
+    static LocalDate forDateString(const char* dateString);
+
+    /**
+     * Factory method that returns a LocalDate which represents an error
+     * condition. The isError() method will return true.
+     */
+    static LocalDate forError() {
+      return LocalDate(0, 0, 0);
     }
 
     /** True if year is a leap year. */
@@ -186,16 +192,6 @@ class LocalDate {
 
     /** Default constructor does nothing. */
     explicit LocalDate() {}
-
-    /**
-     * Mark the LocalDate so that isError() returns true. Returns a reference
-     * to (*this) so that an invalid LocalDate can be returned in a single
-     * statement like this: 'return LocalDate().setError()'.
-     */
-    LocalDate& setError() {
-      mYearTiny = mMonth = mDay = 0;
-      return *this;
-    }
 
     /** Return the full year instead of just the last 2 digits. */
     int16_t year() const { return mYearTiny + kEpochYear; }
@@ -376,9 +372,6 @@ class LocalDate {
       // 2000-01-01 is Saturday (7)
       //dayOfWeek = (epochDays + 6) % 7 + 1;
     }
-
-    /** Extract the date components from the given dateString. */
-    LocalDate& initFromDateString(const char* dateString);
 
     /**
      * Store year as a int8_t offset from year 2000. This saves memory, but may

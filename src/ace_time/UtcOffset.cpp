@@ -19,16 +19,16 @@ void UtcOffset::printTo(Print& printer) const {
   common::printPad2(printer, minute);
 }
 
-UtcOffset& UtcOffset::initFromOffsetString(const char* ts) {
+UtcOffset UtcOffset::forOffsetString(const char* ts) {
   // verify exact ISO 8601 string length
   if (strlen(ts) != kUtcOffsetStringLength) {
-    return setError();
+    return forError();
   }
 
   // '+' or '-'
   char utcSign = *ts++;
   if (utcSign != '-' && utcSign != '+') {
-    return setError();
+    return forError();
   }
 
   // hour
@@ -42,9 +42,9 @@ UtcOffset& UtcOffset::initFromOffsetString(const char* ts) {
   ts++;
 
   uint8_t offsetCode = hour * 4 + (minute / 15);
-  mOffsetCode = (utcSign == '-') ? -offsetCode : offsetCode;
+  int8_t code = (utcSign == '-') ? -offsetCode : offsetCode;
 
-  return *this;
+  return UtcOffset(code);
 }
 
 }

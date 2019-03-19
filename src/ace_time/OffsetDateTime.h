@@ -62,7 +62,7 @@ class OffsetDateTime {
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
           UtcOffset utcOffset = UtcOffset()) {
       OffsetDateTime dt;
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return dt.setError();
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return forError();
 
       // Get the real epochSeconds
       dt.mUtcOffset = utcOffset;
@@ -106,9 +106,7 @@ class OffsetDateTime {
      * cause some of the dates on the two extreme ends invalid. The behavior is
      * undefined in those cases.
      */
-    static OffsetDateTime forDateString(const char* dateString) {
-      return OffsetDateTime().initFromDateString(dateString);
-    }
+    static OffsetDateTime forDateString(const char* dateString);
 
     /**
      * Factory method. Create a OffsetDateTime from date string in flash memory
@@ -124,10 +122,15 @@ class OffsetDateTime {
       // check if the original F() was too long
       size_t len = strlen(buffer);
       if (len > kDateStringLength) {
-        return OffsetDateTime().setError();
+        return forError();
       }
 
       return forDateString(buffer);
+    }
+
+    /** Factory method that returns an instance whose isError() is true. */
+    static OffsetDateTime forError() {
+      return OffsetDateTime(LocalDateTime::forError(), UtcOffset::forError());
     }
 
     /** Constructor. All internal fields are left in an undefined state. */
@@ -135,7 +138,7 @@ class OffsetDateTime {
 
     /** Return true if any component indicates an error condition. */
     bool isError() const {
-      return mLocalDateTime.isError();
+      return mLocalDateTime.isError() || mUtcOffset.isError();
     }
 
     /** Return the year. */
@@ -271,16 +274,6 @@ class OffsetDateTime {
       return 0;
     }
 
-    /**
-     * Mark the OffsetDateTime so that isError() returns true. Returns a
-     * reference to (*this) so that an invalid OffsetDateTime can be returned in
-     * a single statement like this: 'return OffsetDateTime().setError()'.
-     */
-    OffsetDateTime& setError() {
-      mLocalDateTime.setError();
-      return *this;
-    }
-
   private:
     friend bool operator==(const OffsetDateTime& a, const OffsetDateTime& b);
 
@@ -307,8 +300,10 @@ class OffsetDateTime {
         mLocalDateTime(year, month, day, hour, minute, second),
         mUtcOffset(utcOffset) {}
 
-    /** Extract the date time components from the given dateString. */
-    OffsetDateTime& initFromDateString(const char* dateString);
+    /** Constructor from LocalDateTime and a UtcOffset. */
+    explicit OffsetDateTime(const LocalDateTime& ldt, UtcOffset utcOffset):
+        mLocalDateTime(ldt),
+        mUtcOffset(utcOffset) {}
 
     LocalDateTime mLocalDateTime;
     UtcOffset mUtcOffset; // offset from UTC

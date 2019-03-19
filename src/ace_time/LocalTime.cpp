@@ -19,15 +19,14 @@ void LocalTime::printTo(Print& printer) const {
   printPad2(printer, mSecond);
 }
 
-LocalTime& LocalTime::initFromTimeString(const char* ds) {
+LocalTime LocalTime::forTimeString(const char* ds) {
   if (strlen(ds) < kTimeStringLength) {
-    return setError();
+    return forError();
   }
 
   // hour
   uint8_t hour = (*ds++ - '0');
   hour = 10 * hour + (*ds++ - '0');
-  mHour = hour;
 
   // ':'
   ds++;
@@ -35,7 +34,6 @@ LocalTime& LocalTime::initFromTimeString(const char* ds) {
   // minute
   uint8_t minute = (*ds++ - '0');
   minute = 10 * minute + (*ds++ - '0');
-  mMinute = minute;
 
   // ':'
   ds++;
@@ -43,9 +41,8 @@ LocalTime& LocalTime::initFromTimeString(const char* ds) {
   // second
   uint8_t second = (*ds++ - '0');
   second = 10 * second + (*ds++ - '0');
-  mSecond = second;
 
-  return *this;
+  return LocalTime(hour, minute, second);
 }
 
 }

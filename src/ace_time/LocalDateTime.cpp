@@ -35,22 +35,22 @@ void LocalDateTime::printTo(Print& printer) const {
   printer.print(ds.weekDayLongString(dayOfWeek()));
 }
 
-LocalDateTime& LocalDateTime::initFromDateString(const char* ds) {
+LocalDateTime LocalDateTime::forDateString(const char* ds) {
   if (strlen(ds) < kDateTimeStringLength) {
-    return setError();
+    return LocalDateTime::forError();
   }
 
   // date
-  mLocalDate.initFromDateString(ds);
+  LocalDate ld = LocalDate::forDateString(ds);
   ds += LocalDate::kDateStringLength;
 
   // 'T'
   ds++;
 
   // time
-  mLocalTime.initFromTimeString(ds);
+  LocalTime lt = LocalTime::forTimeString(ds);
 
-  return *this;
+  return LocalDateTime(ld, lt);
 }
 
 }

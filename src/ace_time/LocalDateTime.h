@@ -37,8 +37,7 @@ class LocalDateTime {
      *    an invalid instance whose isError() returns true.
      */
     static LocalDateTime forEpochSeconds(acetime_t epochSeconds) {
-      LocalDateTime dt;
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return dt.setError();
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return forError();
 
       // Integer floor-division towards -infinity
       acetime_t days = (epochSeconds < 0)
@@ -49,10 +48,10 @@ class LocalDateTime {
       // epochSeconds could be negative.
       acetime_t seconds = epochSeconds - 86400 * days;
 
-      dt.mLocalDate = LocalDate::forEpochDays(days);
-      dt.mLocalTime = LocalTime::forSeconds(seconds);
+      LocalDate ld = LocalDate::forEpochDays(days);
+      LocalTime lt = LocalTime::forSeconds(seconds);
 
-      return dt;
+      return LocalDateTime(ld, lt);
     }
 
     /**
@@ -85,9 +84,7 @@ class LocalDateTime {
      * most invalid date/time strings. The range of valid dates is roughly from
      * 1872-01-01T00:00:00 to 2127-12-31T23:59:59.
      */
-    static LocalDateTime forDateString(const char* dateString) {
-      return LocalDateTime().initFromDateString(dateString);
-    }
+    static LocalDateTime forDateString(const char* dateString);
 
     /**
      * Factory method. Create a LocalDateTime from date string in flash memory
@@ -103,10 +100,15 @@ class LocalDateTime {
       // check if the original F() was too long
       size_t len = strlen(buffer);
       if (len > kDateTimeStringLength) {
-        return LocalDateTime().setError();
+        return LocalDateTime::forError();
       }
 
       return forDateString(buffer);
+    }
+
+    /** Factory method that returns an instance where isError() returns true. */
+    static LocalDateTime forError() {
+      return LocalDateTime(LocalDate::forError(), LocalTime::forError());
     }
 
     /** Constructor. All internal fields are left in an undefined state. */
@@ -223,17 +225,6 @@ class LocalDateTime {
       return 0;
     }
 
-    /**
-     * Mark the LocalDateTime so that isError() returns true. Returns a
-     * reference to (*this) so that an invalid LocalDateTime can be returned in
-     * a single statement like this: 'return LocalDateTime().setError()'.
-     */
-    LocalDateTime& setError() {
-      mLocalDate.setError();
-      mLocalTime.setError();
-      return *this;
-    }
-
   private:
     friend class OffsetDateTime;
     friend bool operator==(const LocalDateTime& a, const LocalDateTime& b);
@@ -256,8 +247,10 @@ class LocalDateTime {
         mLocalDate(year - LocalDate::kEpochYear, month, day),
         mLocalTime(hour, minute, second) {}
 
-    /** Extract the date time components from the given dateString. */
-    LocalDateTime& initFromDateString(const char* dateString);
+    /** Constructor from a LocalDate and LocalTime. */
+    explicit LocalDateTime(const LocalDate& ld, const LocalTime& lt):
+        mLocalDate(ld),
+        mLocalTime(lt) {}
 
     LocalDate mLocalDate;
     LocalTime mLocalTime;

@@ -34,10 +34,10 @@ test(LocalDateTest, isError) {
 // Verify that toEpochDays()/forEpochDays() and
 // toEpochSeconds()/forEpochSeconds() support round trip conversions when when
 // isError()==true.
-test(LocalDateTest, setError) {
+test(LocalDateTest, forError) {
   LocalDate ld;
 
-  ld = LocalDate().setError();
+  ld = LocalDate::forError();
   assertTrue(ld.isError());
   assertEqual(LocalDate::kInvalidEpochDays, ld.toEpochDays());
   assertEqual(LocalDate::kInvalidEpochSeconds, ld.toEpochSeconds());
@@ -440,8 +440,8 @@ test(LocalTimeTest, isError) {
   assertTrue(LocalTime::forComponents(0, 0, 60).isError());
 }
 
-test(LocalTimeTest, setError) {
-  LocalTime lt = LocalTime().setError();
+test(LocalTimeTest, forError) {
+  LocalTime lt = LocalTime::forError();
   assertTrue(lt.isError());
   assertEqual(LocalTime::kInvalidSeconds, lt.toSeconds());
 
@@ -530,8 +530,8 @@ test(LocalDateTimeTest, invalidSeconds) {
   assertEqual(LocalDate::kInvalidEpochDays, dt.toEpochDays());
 }
 
-test(LocalDateTimeTest, setError) {
-  LocalDateTime dt = LocalDateTime().setError();
+test(LocalDateTimeTest, forError) {
+  LocalDateTime dt = LocalDateTime::forError();
   assertTrue(dt.isError());
 }
 

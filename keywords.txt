@@ -45,7 +45,6 @@ forEpochSeconds	KEYWORD2
 forUnixSeconds	KEYWORD2
 forDateString	KEYWORD2
 isError	KEYWORD2
-setError	KEYWORD2
 year	KEYWORD2
 yearShort	KEYWORD2
 month	KEYWORD2
@@ -63,7 +62,6 @@ forEpochSeconds	KEYWORD2
 forUnixSeconds	KEYWORD2
 forDateString	KEYWORD2
 isError	KEYWORD2
-setError	KEYWORD2
 year	KEYWORD2
 yearShort	KEYWORD2
 month	KEYWORD2
@@ -87,7 +85,6 @@ forEpochSeconds	KEYWORD2
 forUnixSeconds	KEYWORD2
 forDateString	KEYWORD2
 isError	KEYWORD2
-setError	KEYWORD2
 year	KEYWORD2
 yearShort	KEYWORD2
 month	KEYWORD2
@@ -121,7 +118,6 @@ code	KEYWORD2
 toSeconds	KEYWORD2
 toMinutes	KEYWORD2
 toHourMinute	KEYWORD2
-setError	KEYWORD2
 isError	KEYWORD2
 isDst	KEYWORD2
 printTo	KEYWORD2

@@ -109,7 +109,7 @@ class ZonedDateTime {
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone = TimeZone()) {
       ZonedDateTime dt;
-      if (epochSeconds == kInvalidEpochSeconds) return dt.setError();
+      if (epochSeconds == kInvalidEpochSeconds) return forError();
 
       UtcOffset utcOffset = timeZone.getUtcOffset(epochSeconds);
       dt.mOffsetDateTime = OffsetDateTime::forEpochSeconds(
@@ -162,21 +162,16 @@ class ZonedDateTime {
       return ZonedDateTime(dt, TimeZone());
     }
 
+    /** Return an instance whose isError() returns true. */
+    static ZonedDateTime forError() {
+      return ZonedDateTime(OffsetDateTime::forError(), TimeZone());
+    }
+
     /** Default constructor. */
     explicit ZonedDateTime() {}
 
     /** Return true if any component indicates an error condition. */
     bool isError() const { return mOffsetDateTime.isError(); }
-
-    /**
-     * Mark the ZonedDateTime so that isError() returns true. Returns a
-     * reference to (*this) so that an invalid ZonedDateTime can be returned in
-     * a single statement like this: 'return ZonedDateTime().setError()'.
-     */
-    ZonedDateTime& setError() {
-      mOffsetDateTime.setError();
-      return *this;
-    }
 
     /** Return the year. */
     int16_t year() const { return mOffsetDateTime.year(); }
@@ -304,9 +299,6 @@ class ZonedDateTime {
 
     friend bool operator==(const ZonedDateTime& a, const ZonedDateTime& b);
     friend bool operator!=(const ZonedDateTime& a, const ZonedDateTime& b);
-
-    /** Extract the date time components from the given dateString. */
-    ZonedDateTime& initFromDateString(const char* dateString);
 
     /** Constructor. From OffsetDateTime and TimeZone. */
     ZonedDateTime(const OffsetDateTime& offsetDateTime, TimeZone tz):
