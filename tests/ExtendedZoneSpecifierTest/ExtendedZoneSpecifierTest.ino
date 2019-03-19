@@ -713,8 +713,8 @@ test(TransitionStorageTest, addFreeAgentToActivePool) {
 test(TransitionStorageTest, reservePrior) {
   TransitionStorage<4> storage;
   storage.init();
-  Transition* prior = storage.reservePrior();
-  assertTrue(prior == &storage.mPool[0]);
+  Transition** prior = storage.reservePrior();
+  assertTrue(prior == &storage.mTransitions[0]);
   assertEqual(0, storage.mIndexPrior);
   assertEqual(1, storage.mIndexCandidates);
   assertEqual(1, storage.mIndexFree);
@@ -729,14 +729,14 @@ test(TransitionStorageTest, setFreeAgentAsPrior) {
   TransitionStorage<4> storage;
   storage.init();
 
-  Transition* prior = storage.reservePrior();
-  prior->active = false;
+  Transition** priorReservation = storage.reservePrior();
+  (*priorReservation)->active = false;
   Transition* freeAgent = storage.getFreeAgent();
   freeAgent->active = true;
   storage.setFreeAgentAsPrior();
 
   // Verify that the two have been swapped.
-  prior = storage.getPrior();
+  Transition* prior = storage.getPrior();
   freeAgent = storage.getFreeAgent();
   assertTrue(prior->active);
   assertFalse(freeAgent->active);
@@ -782,9 +782,9 @@ test(TransitionStorageTest, addActiveCandidatesToActivePool) {
   storage.init();
 
   // create Prior to make it interesting
-  Transition* prior = storage.reservePrior();
-  prior->transitionTime = {-1, 0, 1, 2, 'w'};
-  prior->active = true;
+  Transition** prior = storage.reservePrior();
+  (*prior)->transitionTime = {-1, 0, 1, 2, 'w'};
+  (*prior)->active = true;
 
   // Add 3 transitions to Candidate pool, 2 active, 1 inactive.
   Transition* freeAgent = storage.getFreeAgent();

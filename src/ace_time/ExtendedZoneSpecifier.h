@@ -322,10 +322,10 @@ class TransitionStorage {
      * Candidate pool, to keep the most recent prior Transition. Shift the
      * Candidate pool and Free pool up by one.
      */
-    Transition* reservePrior() {
+    Transition** reservePrior() {
       mIndexCandidates++;
       mIndexFree++;
-      return mTransitions[mIndexPrior];
+      return &mTransitions[mIndexPrior];
     }
 
     /** Swap the Free agrent transition with the current Prior transition. */
@@ -368,7 +368,7 @@ class TransitionStorage {
      */
     void addActiveCandidatesToActivePool() {
       if (DEBUG) common::logger("addActiveCandidatesToActivePool()");
-      uint8_t iActive = mIndexCandidates; // FIXME: Replace with mIndexPrior
+      uint8_t iActive = mIndexPrior;
       uint8_t iCandidate = mIndexCandidates;
       for (; iCandidate < mIndexFree; iCandidate++) {
         if (mTransitions[iCandidate]->active) {
@@ -465,7 +465,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       const zonedbx::Transition* transition = findTransition(epochSeconds);
       return (transition)
           ? UtcOffset::forOffsetCode(transition->offsetCode())
-          : UtcOffset::forOffsetCode(-128); // FIXME: Replace with forError()
+          : UtcOffset::forError();
     }
 
     /** Return the DST delta offset at epochSeconds. */
@@ -750,8 +750,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       int8_t startY = match->startDateTime.yearTiny;
       int8_t endY = match->untilDateTime.yearTiny;
 
-      zonedbx::Transition* prior = transitionStorage.reservePrior();
-      prior->active = false; // indicates "no prior transition"
+      zonedbx::Transition** prior = transitionStorage.reservePrior();
+      (*prior)->active = false; // indicates "no prior transition"
       for (uint8_t r = 0; r < numRules; r++) {
         const zonedbx::ZoneRule* const rule = &rules[r];
 
@@ -783,10 +783,13 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         }
       }
 
-      // Add the reserved prior into the Candidate pool, whether or not
-      // 'active' is true. The 'active' flag will be recalculated in
-      // selectActiveTransitions().
-      transitionStorage.addPriorToCandidatePool();
+      // Add the reserved prior into the Candidate pool only if 'active' is
+      // true, meaning that a prior was found.
+      if ((*prior)->active) {
+        if (DEBUG) common::logger(
+            "findCandidateTransitions(): adding prior to Candidate pool");
+        transitionStorage.addPriorToCandidatePool();
+      }
     }
 
     /**
