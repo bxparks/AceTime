@@ -14,7 +14,7 @@
 #include "BasicZoneSpecifier.h"
 #include "local_date_mutation.h"
 
-#define DEBUG 1
+#define DEBUG 0
 
 class ExtendedZoneSpecifierTest_compareEraToYearMonth;
 class ExtendedZoneSpecifierTest_createMatch;

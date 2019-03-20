@@ -8,6 +8,7 @@ import collections
 import pytz
 from zone_specifier import ZoneSpecifier
 from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
+from zone_specifier import DateTuple
 
 # An entry in the test data set.
 TestItem = collections.namedtuple(
@@ -19,6 +20,89 @@ class TestDataGenerator:
     ZoneSpecifier and the UTC offsets determined by pytz. This gives us
     stability which we can use to test other versions of ZoneSpecifier.
     """
+
+    # The following zones have transitions which occurs at a time which is not a
+    # multiple of 15 minutes, so cannot be represented by the C++ UtcOffset
+    # object. In all cases below, the actual transition occurs at 00:01, but the
+    # Transformer filter truncated the transition time to the nearest 15-minute
+    # towards 00:00. To produce the correct validation_data.cpp data file,
+    # for the transitions appearing below, we must shift the actual transition
+    # time to 00:01 before calling the timezone object in PyTz.
+    CORRECTIONS = {
+        'Gaza': [
+            (DateTuple(2010, 3, 17, 60, 'w'), -60),
+            (DateTuple(2011, 4, 1, 60, 'w'), -60),
+        ],
+        'Goose_Bay': [
+            (DateTuple(2000, 4, 2, 60, 'w'), -60),
+            (DateTuple(2000, 10, 29, 60, 'w'), -60),
+            (DateTuple(2001, 4, 1, 60, 'w'), -60),
+            (DateTuple(2001, 10, 28, 60, 'w'), -60),
+            (DateTuple(2002, 4, 7, 60, 'w'), -60),
+            (DateTuple(2002, 10, 27, 60, 'w'), -60),
+            (DateTuple(2003, 4, 6, 60, 'w'), -60),
+            (DateTuple(2003, 10, 26, 60, 'w'), -60),
+            (DateTuple(2004, 4, 4, 60, 'w'), -60),
+            (DateTuple(2004, 10, 31, 60, 'w'), -60),
+            (DateTuple(2005, 4, 3, 60, 'w'), -60),
+            (DateTuple(2005, 10, 30, 60, 'w'), -60),
+            (DateTuple(2006, 4, 2, 60, 'w'), -60),
+            (DateTuple(2006, 10, 29, 60, 'w'), -60),
+            (DateTuple(2007, 3, 11, 60, 'w'), -60),
+            (DateTuple(2007, 11, 4, 60, 'w'), -60),
+            (DateTuple(2008, 3, 9, 60, 'w'), -60),
+            (DateTuple(2008, 11, 2, 60, 'w'), -60),
+            (DateTuple(2009, 3, 8, 60, 'w'), -60),
+            (DateTuple(2009, 11, 1, 60, 'w'), -60),
+            (DateTuple(2010, 3, 14, 60, 'w'), -60),
+            (DateTuple(2010, 11, 7, 60, 'w'), -60),
+            (DateTuple(2011, 3, 13, 60, 'w'), -60),
+        ],
+        'Hebron': [
+            (DateTuple(2011, 4, 1, 60, 'w'), -60),
+        ],
+        'Moncton': [
+            (DateTuple(2000, 4, 2, 60, 'w'), -60),
+            (DateTuple(2000, 10, 29, 60, 'w'), -60),
+            (DateTuple(2001, 4, 1, 60, 'w'), -60),
+            (DateTuple(2001, 10, 28, 60, 'w'), -60),
+            (DateTuple(2002, 4, 7, 60, 'w'), -60),
+            (DateTuple(2002, 10, 27, 60, 'w'), -60),
+            (DateTuple(2003, 4, 6, 60, 'w'), -60),
+            (DateTuple(2003, 10, 26, 60, 'w'), -60),
+            (DateTuple(2004, 4, 4, 60, 'w'), -60),
+            (DateTuple(2004, 10, 31, 60, 'w'), -60),
+            (DateTuple(2005, 4, 3, 60, 'w'), -60),
+            (DateTuple(2005, 10, 30, 60, 'w'), -60),
+            (DateTuple(2006, 4, 2, 60, 'w'), -60),
+            (DateTuple(2006, 10, 29, 60, 'w'), -60),
+        ],
+        'St_Johns': [
+            (DateTuple(2000, 4, 2, 60, 'w'), -60),
+            (DateTuple(2000, 10, 29, 60, 'w'), -60),
+            (DateTuple(2001, 4, 1, 60, 'w'), -60),
+            (DateTuple(2001, 10, 28, 60, 'w'), -60),
+            (DateTuple(2002, 4, 7, 60, 'w'), -60),
+            (DateTuple(2002, 10, 27, 60, 'w'), -60),
+            (DateTuple(2003, 4, 6, 60, 'w'), -60),
+            (DateTuple(2003, 10, 26, 60, 'w'), -60),
+            (DateTuple(2004, 4, 4, 60, 'w'), -60),
+            (DateTuple(2004, 10, 31, 60, 'w'), -60),
+            (DateTuple(2005, 4, 3, 60, 'w'), -60),
+            (DateTuple(2005, 10, 30, 60, 'w'), -60),
+            (DateTuple(2006, 4, 2, 60, 'w'), -60),
+            (DateTuple(2006, 10, 29, 60, 'w'), -60),
+            (DateTuple(2007, 3, 11, 60, 'w'), -60),
+            (DateTuple(2007, 11, 4, 60, 'w'), -60),
+            (DateTuple(2008, 3, 9, 60, 'w'), -60),
+            (DateTuple(2008, 11, 2, 60, 'w'), -60),
+            (DateTuple(2009, 3, 8, 60, 'w'), -60),
+            (DateTuple(2009, 11, 1, 60, 'w'), -60),
+            (DateTuple(2010, 3, 14, 60, 'w'), -60),
+            (DateTuple(2010, 11, 7, 60, 'w'), -60),
+            (DateTuple(2011, 3, 13, 60, 'w'), -60),
+        ],
+    }
 
     def __init__(self, zone_infos, zone_policies):
         """
