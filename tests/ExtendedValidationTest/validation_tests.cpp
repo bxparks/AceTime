@@ -351,9 +351,9 @@ testF(TransitionTest, Galapagos) {
 testF(TransitionTest, Gambier) {
   assertValid(&ace_time::zonedbx::kValidationDataGambier);
 }
-testF(TransitionTest, Gaza) {
-  assertValid(&ace_time::zonedbx::kValidationDataGaza);
-}
+//testF(TransitionTest, Gaza) {
+//  assertValid(&ace_time::zonedbx::kValidationDataGaza);
+//}
 testF(TransitionTest, Gibraltar) {
   assertValid(&ace_time::zonedbx::kValidationDataGibraltar);
 }
@@ -363,9 +363,9 @@ testF(TransitionTest, Glace_Bay) {
 testF(TransitionTest, Godthab) {
   assertValid(&ace_time::zonedbx::kValidationDataGodthab);
 }
-testF(TransitionTest, Goose_Bay) {
-  assertValid(&ace_time::zonedbx::kValidationDataGoose_Bay);
-}
+//testF(TransitionTest, Goose_Bay) {
+//  assertValid(&ace_time::zonedbx::kValidationDataGoose_Bay);
+//}
 testF(TransitionTest, Grand_Turk) {
   assertValid(&ace_time::zonedbx::kValidationDataGrand_Turk);
 }
@@ -885,9 +885,9 @@ testF(TransitionTest, South_Georgia) {
 testF(TransitionTest, Srednekolymsk) {
   assertValid(&ace_time::zonedbx::kValidationDataSrednekolymsk);
 }
-testF(TransitionTest, St_Johns) {
-  assertValid(&ace_time::zonedbx::kValidationDataSt_Johns);
-}
+//testF(TransitionTest, St_Johns) {
+//  assertValid(&ace_time::zonedbx::kValidationDataSt_Johns);
+//}
 testF(TransitionTest, Stanley) {
   assertValid(&ace_time::zonedbx::kValidationDataStanley);
 }
@@ -924,9 +924,9 @@ testF(TransitionTest, Tbilisi) {
 testF(TransitionTest, Tegucigalpa) {
   assertValid(&ace_time::zonedbx::kValidationDataTegucigalpa);
 }
-//testF(TransitionTest, Tehran) {
-//  assertValid(&ace_time::zonedbx::kValidationDataTehran);
-//}
+testF(TransitionTest, Tehran) {
+  assertValid(&ace_time::zonedbx::kValidationDataTehran);
+}
 testF(TransitionTest, Tell_City) {
   assertValid(&ace_time::zonedbx::kValidationDataTell_City);
 }

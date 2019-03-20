@@ -14,9 +14,15 @@ void setup() {
 #endif
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while(!Serial); // for the Arduino Leonardo/Micro only
-  //TestRunner::exclude("*");
-  //TestRunner::include("TransitionTest", "Andorra");
-  //TestRunner::include("TransitionTest", "Apia");
+
+#if 0
+  TestRunner::exclude("*");
+  TestRunner::include("TransitionTest", "Gaza");
+  TestRunner::include("TransitionTest", "Goose_Bay");
+  TestRunner::include("TransitionTest", "Hebron");
+  TestRunner::include("TransitionTest", "Moncton");
+  TestRunner::include("TransitionTest", "St_Johns");
+#endif
 }
 
 void loop() {

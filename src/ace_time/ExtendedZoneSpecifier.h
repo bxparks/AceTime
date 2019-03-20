@@ -55,7 +55,7 @@ struct DateTuple {
 
   /** Used only for debugging. */
   void log() const {
-    common::logger("DateTuple(%d-%u-%uT%d'%c')",
+    logging::print("DateTuple(%d-%u-%uT%d'%c')",
         yearTiny+LocalDate::kEpochYear, month, day, timeCode, modifier);
   }
 };
@@ -100,10 +100,11 @@ struct ZoneMatch {
   const zonedbx::ZoneEra* era;
 
   void log() const {
-    common::logger("ZoneMatch:");
-    common::logger("Start:"); startDateTime.log();
-    common::logger("Until:"); untilDateTime.log();
-    common::logger("Era: %s null", (era) ? "not" : "");
+    logging::print("ZoneMatch(");
+    logging::print("Start:"); startDateTime.log();
+    logging::print("; Until:"); untilDateTime.log();
+    logging::print("; Era: %snull", (era) ? "!" : "");
+    logging::print(")");
   }
 };
 
@@ -191,6 +192,10 @@ struct Transition {
     return match->era->format;
   }
 
+  /**
+   * The base offset code. Note that this is different than
+   * zonedb::Transition::offsetCode used by BasicZoneSpecifier.
+   */
   int8_t offsetCode() const {
     return match->era->offsetCode;
   }
@@ -205,27 +210,30 @@ struct Transition {
     return rule->letter;
   }
 
+  /** The DST offset code. */
   int8_t deltaCode() const {
     return (rule) ? rule->deltaCode : match->era->deltaCode;
   }
 
   /** Used only for debugging. */
   void log() const {
-    common::logger("Transition:");
+    logging::print("Transition(");
     if (sizeof(acetime_t) == sizeof(int)) {
-      common::logger("startEpochSeconds: %d", startEpochSeconds);
+      logging::print("sE: %d", startEpochSeconds);
     } else {
-      common::logger("startEpochSeconds: %ld", startEpochSeconds);
+      logging::print("sE: %ld", startEpochSeconds);
     }
-    common::logger("match: %s", (match) ? "not null" : "null");
-    common::logger("era: %s", (match && match->era) ? "not null" : "null");
-    common::logger("offsetCode: %d", offsetCode());
-    common::logger("abbrev: %s", abbrev);
+    logging::print("; match: %snull", (match) ? "!" : "");
+    logging::print("; era: %snull", (match && match->era) ? "!" : "");
+    logging::print("; oCode: %d", offsetCode());
+    logging::print("; dCode: %d", deltaCode());
+    logging::print("; tt: "); transitionTime.log();
     if (rule != nullptr) {
-      common::logger("Rule.fromYear: %d", rule->fromYearTiny);
-      common::logger("Rule.toYear: %d", rule->toYearTiny);
-      common::logger("Rule.inMonth: %d", rule->inMonth);
-      common::logger("Rule.onDayOfMonth: %d", rule->onDayOfMonth);
+      logging::print("; R.fY: %d", rule->fromYearTiny);
+      logging::print("; R.tY: %d", rule->toYearTiny);
+      logging::print("; R.M: %d", rule->inMonth);
+      logging::print("; R.dow: %d", rule->onDayOfWeek);
+      logging::print("; R.dom: %d", rule->onDayOfMonth);
     }
   }
 };
@@ -367,12 +375,14 @@ class TransitionStorage {
      * pool.
      */
     void addActiveCandidatesToActivePool() {
-      if (DEBUG) common::logger("addActiveCandidatesToActivePool()");
+      if (DEBUG) logging::println("addActiveCandidatesToActivePool()");
       uint8_t iActive = mIndexPrior;
       uint8_t iCandidate = mIndexCandidates;
       for (; iCandidate < mIndexFree; iCandidate++) {
         if (mTransitions[iCandidate]->active) {
-          mTransitions[iActive] = mTransitions[iCandidate];
+          if (iActive != iCandidate) {
+            swap(&mTransitions[iActive], &mTransitions[iCandidate]);
+          }
           ++iActive;
         }
       }
@@ -387,7 +397,8 @@ class TransitionStorage {
      */
     const Transition* findTransition(acetime_t epochSeconds) {
       const Transition* match = nullptr;
-      if (DEBUG) common::logger("findTransition(): mIndexFree: %d", mIndexFree);
+      if (DEBUG) logging::println(
+        "findTransition(): mIndexFree: %d", mIndexFree);
       for (uint8_t i = 0; i < mIndexFree; i++) {
         const Transition* candidate = mTransitions[i];
         if (candidate->startEpochSeconds <= epochSeconds) {
@@ -401,10 +412,29 @@ class TransitionStorage {
 
     /** Verify that the indexes are valid. Used only for debugging. */
     void log() const {
-      common::logger("TransitionStorage:");
-      common::logger("  mIndexPrior: %d", mIndexPrior);
-      common::logger("  mIndexCandidates: %d", mIndexCandidates);
-      common::logger("  mIndexFree: %d", mIndexFree);
+      logging::println("TransitionStorage:");
+      logging::println("  mIndexPrior: %d", mIndexPrior);
+      logging::println("  mIndexCandidates: %d", mIndexCandidates);
+      logging::println("  mIndexFree: %d", mIndexFree);
+      if (mIndexPrior != 0) {
+        logging::println("  Actives:");
+        for (uint8_t i = 0; i < mIndexPrior; i++) {
+          mTransitions[i]->log();
+          logging::println();
+        }
+      }
+      if (mIndexPrior != mIndexCandidates) {
+        logging::print("  Prior: ");
+        mTransitions[mIndexPrior]->log();
+        logging::println();
+      }
+      if (mIndexCandidates != mIndexFree) {
+        logging::println("  Candidates:");
+        for (uint8_t i = mIndexCandidates; i < mIndexFree; i++) {
+          mTransitions[i]->log();
+          logging::println();
+        }
+      }
     }
 
   private:
@@ -460,11 +490,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     uint8_t getType() const override { return kTypeExtended; }
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) override {
+      // TODO: Will mZoneInfo ever be nullptr? Maybe not needed.
       if (mZoneInfo == nullptr) return UtcOffset();
+
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
       return (transition)
-          ? UtcOffset::forOffsetCode(transition->offsetCode())
+          ? UtcOffset::forOffsetCode(
+              transition->offsetCode() + transition->deltaCode())
           : UtcOffset::forError();
     }
 
@@ -473,6 +506,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       if (mZoneInfo == nullptr) return UtcOffset();
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
+
+      // TODO: Replace with Transition::deltaCode()?
       if (transition->rule == nullptr) return UtcOffset();
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
@@ -488,13 +523,15 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /** Used only for debugging. */
     void log() const {
-      common::logger("ExtendedZoneSpecifier:");
-      common::logger("  mYear: %d", mYear);
-      common::logger("  mNumMatches: %d", mNumMatches);
+      logging::println("ExtendedZoneSpecifier:");
+      logging::println("  mYear: %d", mYear);
+      logging::println("  mNumMatches: %d", mNumMatches);
       for (int i = 0; i < mNumMatches; i++) {
-        common::logger("  ---- Match: %d", i);
+        logging::print("  Match %d: ", i);
         mMatches[i].log();
+        logging::println();
       }
+      mTransitionStorage.log();
     }
 
   private:
@@ -557,7 +594,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     void init(const LocalDate& ld) {
       int16_t year = ld.year();
       if (isFilled(year)) return;
-      if (DEBUG) common::logger("init(): %d", year);
+      if (DEBUG) logging::println("init(): %d", year);
 
       mYear = year;
       mNumMatches = 0; // clear cache
@@ -597,7 +634,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         const zonedbx::YearMonthTuple& startYm,
         const zonedbx::YearMonthTuple& untilYm,
         zonedbx::ZoneMatch* matches, uint8_t maxMatches) {
-      if (DEBUG) common::logger("findMatches()");
+      if (DEBUG) logging::println("findMatches()");
       uint8_t iMatch = 0;
       const zonedbx::ZoneEra* prev = &kAnchorEra;
       for (uint8_t iEra = 0; iEra < zoneInfo->numEras; iEra++) {
@@ -689,7 +726,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
         zonedbx::ZoneMatch* matches,
         uint8_t numMatches) {
-      if (DEBUG) common::logger("findTransitions()");
+      if (DEBUG) logging::println("findTransitions()");
       for (uint8_t i = 0; i < numMatches; i++) {
         findTransitionsForMatch(transitionStorage, &matches[i]);
       }
@@ -699,7 +736,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     static void findTransitionsForMatch(
         zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
         const zonedbx::ZoneMatch* match) {
-      if (DEBUG) common::logger("findTransitionsForMatch()");
+      if (DEBUG) logging::println("findTransitionsForMatch()");
       const zonedbx::ZonePolicy* policy = match->era->zonePolicy;
       if (policy == nullptr) {
         findTransitionsFromSimpleMatch(transitionStorage, match);
@@ -711,7 +748,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     static void findTransitionsFromSimpleMatch(
         zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
         const zonedbx::ZoneMatch* match) {
-      if (DEBUG) common::logger("findTransitionsFromSimpleMatch()");
+      if (DEBUG) logging::println("findTransitionsFromSimpleMatch()");
       zonedbx::Transition* freeTransition = transitionStorage.getFreeAgent();
       freeTransition->match = match;
       freeTransition->rule = nullptr;
@@ -723,26 +760,28 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     static void findTransitionsFromNamedMatch(
         zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
         const zonedbx::ZoneMatch* match) {
-      if (DEBUG) common::logger("findTransitionsFromNamedMatch()");
+      if (DEBUG) logging::println("findTransitionsFromNamedMatch()");
       transitionStorage.resetCandidatePool();
-      if (DEBUG) match->log();
+      if (DEBUG) { match->log(); logging::println(); }
       findCandidateTransitions(transitionStorage, match);
-      if (DEBUG) transitionStorage.log();
+      if (DEBUG) { transitionStorage.log(); logging::println(); }
       fixTransitionTimes(
           transitionStorage.getCandidatePoolBegin(),
           transitionStorage.getCandidatePoolEnd());
       selectActiveTransitions(transitionStorage, match);
-      if (DEBUG) transitionStorage.log();
+      if (DEBUG) { transitionStorage.log(); logging::println(); }
 
       transitionStorage.addActiveCandidatesToActivePool();
+      if (DEBUG) { transitionStorage.log(); logging::println(); }
     }
 
     static void findCandidateTransitions(
         zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
         const zonedbx::ZoneMatch* match) {
       if (DEBUG) {
-        common::logger("findCandidateTransitions()");
+        logging::print("findCandidateTransitions(): ");
         match->log();
+        logging::println();
       }
       const zonedbx::ZonePolicy* policy = match->era->zonePolicy;
       uint8_t numRules = policy->numRules;
@@ -775,7 +814,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         int8_t priorYear = getMostRecentPriorYear(
             rule->fromYearTiny, rule->toYearTiny, startY, endY);
         if (priorYear != LocalDate::kInvalidYearTiny) {
-          if (DEBUG) common::logger(
+          if (DEBUG) logging::println(
               "findCandidateTransitions(): priorYear: %d", priorYear);
           zonedbx::Transition* t = transitionStorage.getFreeAgent();
           createTransitionForYear(t, priorYear, rule, match);
@@ -786,7 +825,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       // Add the reserved prior into the Candidate pool only if 'active' is
       // true, meaning that a prior was found.
       if ((*prior)->active) {
-        if (DEBUG) common::logger(
+        if (DEBUG) logging::println(
             "findCandidateTransitions(): adding prior to Candidate pool");
         transitionStorage.addPriorToCandidatePool();
       }
@@ -879,7 +918,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     static void setAsPriorTransition(
         zonedbx::TransitionStorage<kMaxTransitions>& transitionStorage,
         zonedbx::Transition* t) {
-      if (DEBUG) common::logger("setAsPriorTransition()");
+      if (DEBUG) logging::println("setAsPriorTransition()");
       zonedbx::Transition* prior = transitionStorage.getPrior();
       if (prior->active) {
         if (prior->transitionTime < t->transitionTime) {
@@ -902,22 +941,23 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      */
     static void fixTransitionTimes(
         zonedbx::Transition** begin, zonedbx::Transition** end) {
-      if (DEBUG) common::logger("fixTransitionTimes(): #transitions: %d;",
+      if (DEBUG) logging::println("fixTransitionTimes(): #transitions: %d;",
           (int) (end - begin));
       // extend first Transition to -infinity
       zonedbx::Transition* prev = *begin;
       for (zonedbx::Transition** iter = begin; iter != end; ++iter) {
         zonedbx::Transition* curr = *iter;
         if (DEBUG) {
-          common::logger("fixTransitionTimes(): LOOP");
+          logging::println("fixTransitionTimes(): LOOP");
           curr->log();
+          logging::println();
         }
         expandDateTuple(&curr->transitionTime,
             &curr->transitionTimeS, &curr->transitionTimeU,
             prev->offsetCode(), prev->deltaCode());
         prev = curr;
       }
-      if (DEBUG) common::logger("fixTransitionTimes(): END");
+      if (DEBUG) logging::println("fixTransitionTimes(): END");
     }
 
     /**
@@ -928,7 +968,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     static void expandDateTuple(zonedbx::DateTuple* tt,
         zonedbx::DateTuple* tts, zonedbx::DateTuple* ttu,
         int8_t offsetCode, int8_t deltaCode) {
-      if (DEBUG) common::logger("expandDateTuple()");
+      if (DEBUG) logging::println("expandDateTuple()");
       if (tt->modifier == 's') {
         *tts = *tt;
         *ttu = {tt->yearTiny, tt->month, tt->day,
@@ -950,11 +990,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
             (int8_t) (tt->timeCode - deltaCode - offsetCode), 'u'};
       }
 
-      if (DEBUG) common::logger("expandDateTuple(): normalizeDateTuple(): 1");
+      if (DEBUG) logging::println("expandDateTuple(): normalizeDateTuple(): 1");
       normalizeDateTuple(tt);
-      if (DEBUG) common::logger("expandDateTuple(): normalizeDateTuple(): 2");
+      if (DEBUG) logging::println("expandDateTuple(): normalizeDateTuple(): 2");
       normalizeDateTuple(tts);
-      if (DEBUG) common::logger("expandDateTuple(): normalizeDateTuple(): 3");
+      if (DEBUG) logging::println("expandDateTuple(): normalizeDateTuple(): 3");
       normalizeDateTuple(ttu);
     }
 
@@ -989,7 +1029,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         const zonedbx::ZoneMatch* match) {
       zonedbx::Transition** begin = transitionStorage.getCandidatePoolBegin();
       zonedbx::Transition** end = transitionStorage.getCandidatePoolEnd();
-      if (DEBUG) common::logger("selectActiveTransitions(): #candidates: %d",
+      if (DEBUG) logging::println("selectActiveTransitions(): #candidates: %d",
           (int) (end - begin));
       zonedbx::Transition* prior = nullptr;
       for (zonedbx::Transition** iter = begin; iter != end; ++iter) {
@@ -1000,7 +1040,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       // If the latest prior transition is found, shift it to start at the
       // startDateTime of the current match.
       if (prior) {
-        if (DEBUG) common::logger(
+        if (DEBUG) logging::println(
             "selectActiveTransitions(): found latest prior");
         prior->originalTransitionTime = prior->transitionTime;
         prior->transitionTime = match->startDateTime;
@@ -1092,7 +1132,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      */
     static void generateStartUntilTimes(
         zonedbx::Transition** begin, zonedbx::Transition** end) {
-      if (DEBUG) common::logger("generateStartUntilTimes(): #transitions: %d;",
+      if (DEBUG) logging::println(
+          "generateStartUntilTimes(): #transitions: %d;",
           (int) (end - begin));
 
       zonedbx::Transition* prev = *begin;
@@ -1154,7 +1195,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      */
     static void calcAbbreviations(
         zonedbx::Transition** begin, zonedbx::Transition** end) {
-      if (DEBUG) common::logger("calcAbbreviations(): #transitions: %d;",
+      if (DEBUG) logging::println("calcAbbreviations(): #transitions: %d;",
           (int) (end - begin));
       for (zonedbx::Transition** iter = begin; iter != end; ++iter) {
         zonedbx::Transition* const t = *iter;

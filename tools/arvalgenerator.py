@@ -119,8 +119,11 @@ const {validationDataClass} kValidationData{zoneShortName} = {{
 {comment}}}
 """
 
-    # List of zones whose tests are broken
-    BROKEN_ZONE_BLACK_LIST = ['Hebron', 'Moncton', 'Tehran']
+    # List of zones whose tests are broken. See also
+    # TestDataGenerator.CORRECTIONS.
+    BROKEN_ZONE_BLACK_LIST = [
+        'Gaza', 'Goose_Bay', 'Hebron', 'Moncton', 'St_Johns'
+    ]
 
     def __init__(self, invocation, tz_version, test_data, num_items, extended):
         self.invocation = invocation

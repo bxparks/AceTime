@@ -52,7 +52,10 @@ struct Transition {
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
 
-  /** The calculated effective UTC offsetCode at the start of transition. */
+  /**
+   * The total effective UTC offsetCode at the start of transition, including
+   * DST offset.
+   */
   int8_t offsetCode;
 
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
@@ -61,17 +64,17 @@ struct Transition {
   /** Used only for debugging. */
   void log() const {
     if (sizeof(acetime_t) == sizeof(int)) {
-      common::logger("startEpochSeconds: %d", startEpochSeconds);
+      logging::println("startEpochSeconds: %d", startEpochSeconds);
     } else {
-      common::logger("startEpochSeconds: %ld", startEpochSeconds);
+      logging::println("startEpochSeconds: %ld", startEpochSeconds);
     }
-    common::logger("offsetCode: %d", offsetCode);
-    common::logger("abbrev: %s", abbrev);
+    logging::println("offsetCode: %d", offsetCode);
+    logging::println("abbrev: %s", abbrev);
     if (rule != nullptr) {
-      common::logger("Rule.fromYear: %d", rule->fromYearTiny);
-      common::logger("Rule.toYear: %d", rule->toYearTiny);
-      common::logger("Rule.inMonth: %d", rule->inMonth);
-      common::logger("Rule.onDayOfMonth: %d", rule->onDayOfMonth);
+      logging::println("Rule.fromYear: %d", rule->fromYearTiny);
+      logging::println("Rule.toYear: %d", rule->toYearTiny);
+      logging::println("Rule.inMonth: %d", rule->inMonth);
+      logging::println("Rule.onDayOfMonth: %d", rule->onDayOfMonth);
     }
   }
 };
@@ -163,15 +166,15 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     /** Used only for debugging. */
     void log() const {
       if (!mIsFilled) {
-        common::logger("*not initialized*");
+        logging::println("*not initialized*");
         return;
       }
-      common::logger("mYear: %d", mYear);
-      common::logger("mNumTransitions: %d", mNumTransitions);
-      common::logger("---- PrevTransition");
+      logging::println("mYear: %d", mYear);
+      logging::println("mNumTransitions: %d", mNumTransitions);
+      logging::println("---- PrevTransition");
       mPrevTransition.log();
       for (int i = 0; i < mNumTransitions; i++) {
-        common::logger("---- Transition: %d", i);
+        logging::println("---- Transition: %d", i);
         mTransitions[i].log();
       }
     }
@@ -422,6 +425,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         const int16_t year = transition.yearTiny + LocalDate::kEpochYear;
 
         if (transition.rule == nullptr) {
+          // TODO: Double-check this algorithm, something doesn't seem right.
           const int8_t offsetCode = calcRuleOffsetCode(
               prevTransition->offsetCode, transition.era->offsetCode, 'w');
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(

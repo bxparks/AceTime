@@ -21,17 +21,24 @@ class TransitionTest: public aunit::TestOnce {
       for (uint16_t i = 0; i < testData->numItems; i++) {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
+        if (DEBUG) {
+          ace_time::logging::println("==== test index: %d", i);
+          if (sizeof(acetime_t) == sizeof(int)) {
+            ace_time::logging::print("epochSeconds: %d", epochSeconds);
+          } else {
+            ace_time::logging::print("epochSeconds: %ld", epochSeconds);
+          }
+          ace_time::logging::println("; %d-%d-%dT%d:%d:%d",
+            item.yearTiny + LocalDate::kEpochYear,
+            item.month,
+            item.day,
+            item.hour,
+            item.minute,
+            item.second);
+        }
 
         UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);
-        if (DEBUG) {
-          ace_time::common::logger("==== test index: %d", i);
-          if (sizeof(acetime_t) == sizeof(int)) {
-            ace_time::common::logger("epochSeconds: %d", epochSeconds);
-          } else {
-            ace_time::common::logger("epochSeconds: %ld", epochSeconds);
-          }
-          zoneSpecifier.log();
-        }
+        if (DEBUG) zoneSpecifier.log();
 
         // Verify utcOffset
         assertEqual(item.utcOffsetMinutes, utcOffset.toMinutes());
