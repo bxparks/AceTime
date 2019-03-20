@@ -5,7 +5,7 @@
 #include "ValidationDataType.h"
 #include "ace_time/common/logger.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 class TransitionTest: public aunit::TestOnce {
   protected:
@@ -24,10 +24,17 @@ class TransitionTest: public aunit::TestOnce {
         if (DEBUG) {
           ace_time::logging::println("==== test index: %d", i);
           if (sizeof(acetime_t) == sizeof(int)) {
-            ace_time::logging::println("epochSeconds: %d", epochSeconds);
+            ace_time::logging::print("epochSeconds: %d", epochSeconds);
           } else {
-            ace_time::logging::println("epochSeconds: %ld", epochSeconds);
+            ace_time::logging::print("epochSeconds: %ld", epochSeconds);
           }
+          ace_time::logging::println("; %d-%d-%dT%d:%d:%d",
+            item.yearTiny + LocalDate::kEpochYear,
+            item.month,
+            item.day,
+            item.hour,
+            item.minute,
+            item.second);
         }
 
         UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);

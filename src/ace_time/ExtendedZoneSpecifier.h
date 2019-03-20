@@ -14,7 +14,7 @@
 #include "BasicZoneSpecifier.h"
 #include "local_date_mutation.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 class ExtendedZoneSpecifierTest_compareEraToYearMonth;
 class ExtendedZoneSpecifierTest_createMatch;
@@ -380,7 +380,9 @@ class TransitionStorage {
       uint8_t iCandidate = mIndexCandidates;
       for (; iCandidate < mIndexFree; iCandidate++) {
         if (mTransitions[iCandidate]->active) {
-          mTransitions[iActive] = mTransitions[iCandidate];
+          if (iActive != iCandidate) {
+            swap(&mTransitions[iActive], &mTransitions[iCandidate]);
+          }
           ++iActive;
         }
       }
@@ -414,9 +416,24 @@ class TransitionStorage {
       logging::println("  mIndexPrior: %d", mIndexPrior);
       logging::println("  mIndexCandidates: %d", mIndexCandidates);
       logging::println("  mIndexFree: %d", mIndexFree);
-      logging::println("  Actives:");
-      for (uint8_t i = 0; i < mIndexPrior; i++) {
-        mTransitions[i]->log(); logging::println();
+      if (mIndexPrior != 0) {
+        logging::println("  Actives:");
+        for (uint8_t i = 0; i < mIndexPrior; i++) {
+          mTransitions[i]->log();
+          logging::println();
+        }
+      }
+      if (mIndexPrior != mIndexCandidates) {
+        logging::print("  Prior: ");
+        mTransitions[mIndexPrior]->log();
+        logging::println();
+      }
+      if (mIndexCandidates != mIndexFree) {
+        logging::println("  Candidates:");
+        for (uint8_t i = mIndexCandidates; i < mIndexFree; i++) {
+          mTransitions[i]->log();
+          logging::println();
+        }
       }
     }
 
@@ -755,6 +772,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       if (DEBUG) { transitionStorage.log(); logging::println(); }
 
       transitionStorage.addActiveCandidatesToActivePool();
+      if (DEBUG) { transitionStorage.log(); logging::println(); }
     }
 
     static void findCandidateTransitions(
