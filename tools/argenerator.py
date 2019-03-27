@@ -487,8 +487,8 @@ static const ZoneEra kZoneEra{zoneShortName}[] = {{
 
 const ZoneInfo kZone{zoneShortName} = {{
   "{zoneFullName}" /*name*/,
-  kZoneEra{zoneShortName} /*eras*/,
   {numEras} /*numEras*/,
+  kZoneEra{zoneShortName} /*eras*/,
 }};
 
 """

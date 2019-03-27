@@ -51,8 +51,8 @@ static const ZoneEra kZoneEraAlmostLosAngeles[] = {
 
 static const ZoneInfo kZoneAlmostLosAngeles = {
   "Almost_Los_Angeles" /*name*/,
-  kZoneEraAlmostLosAngeles /*eras*/,
   3 /*numEras*/,
+  kZoneEraAlmostLosAngeles /*eras*/,
 };
 
 // --------------------------------------------------------------------------
@@ -148,8 +148,8 @@ static const ZoneEra kZoneEraTestLos_Angeles[] = {
 
 static const ZoneInfo kZoneTestLos_Angeles = {
   "America/Los_Angeles" /*name*/,
-  kZoneEraTestLos_Angeles /*eras*/,
   1 /*numEras*/,
+  kZoneEraTestLos_Angeles /*eras*/,
 };
 
 // --------------------------------------------------------------------------

@@ -72,9 +72,9 @@ struct ZoneInfo {
   /** Name of zone. */
   const char* const name; // name of zone
 
-  /** ZoneEra entries in increasing order of UNTIL time. */
-  const ZoneEra* const eras;
-
   /** Number of ZoneEra entries. */
   uint8_t const numEras;
+
+  /** ZoneEra entries in increasing order of UNTIL time. */
+  const ZoneEra* const eras;
 };
