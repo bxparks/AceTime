@@ -46,6 +46,10 @@ namespace ace_time {
 namespace zonedbx {
 
 // TODO: Consider compressing 'modifier' into 'month' field
+/**
+ * A tuple that represents a date and time, using a timeCode that tracks the
+ * time component using 15-minute intervals.
+ */
 struct DateTuple {
   int8_t yearTiny; // [-127, 126], 127 will cause bugs
   uint8_t month; // [1-12]
@@ -60,6 +64,7 @@ struct DateTuple {
   }
 };
 
+/** Determine if DateTuple a is less than DateTuple b, ignoring the modifier. */
 inline bool operator<(const DateTuple& a, const DateTuple& b) {
   if (a.yearTiny < b.yearTiny) return true;
   if (a.yearTiny > b.yearTiny) return false;
@@ -72,6 +77,7 @@ inline bool operator<(const DateTuple& a, const DateTuple& b) {
   return false;
 }
 
+/** Determine if DateTuple a is equal to DateTuple b, including the modifier. */
 inline bool operator==(const DateTuple& a, const DateTuple& b) {
   return a.yearTiny == b.yearTiny
       && a.month == b.month
@@ -80,6 +86,7 @@ inline bool operator==(const DateTuple& a, const DateTuple& b) {
       && a.modifier == b.modifier;
 }
 
+/** A simple tuple to represent a year/month pair. */
 struct YearMonthTuple {
   int8_t yearTiny;
   uint8_t month;
@@ -117,10 +124,10 @@ struct ZoneMatch {
  *
  * There are 2 types of Transition instances:
  *  1) Simple, indicated by 'rule' == nullptr. The base UTC offsetCode is given
- *  by ZoneMatch::offsetCode. The additional DST delta is given by
+ *  by match->offsetCode. The additional DST delta is given by
  *  match->deltaCode.
  *  2) Named, indicated by 'rule' != nullptr. The base UTC offsetCode is given
- *  by ZoneMatch::offsetCode. The additional DST delta is given by
+ *  by match->offsetCode. The additional DST delta is given by
  *  rule->deltaCode.
  */
 struct Transition {
@@ -239,15 +246,30 @@ struct Transition {
 };
 
 /**
- * Manages a collection of Transitions, keeping track of unused, used,
- * and active states, using a fixed array of Transitions. This class
- * was create to avoid dynamic allocation of memory. We create a fixed sized
- * array, then manage the pool through this class. There are 3 regions in
- * the mPool space:
- * 1) Active pool: starts at index 0
- * 2) Prior pool (0, 1): at mIndexPrior
- * 3) Candidate pool: at mIndexCandidates
- * 4) Free pool: at mIndexFree until index SIZE
+ * A heap manager which is specialized and tuned to manage a collection of
+ * Transitions, keeping track of unused, used, and active states, using a fixed
+ * array of Transitions. Its main purpose is to provide some illusion of
+ * dynamic memory allocation without actually performing any dynamic memory
+ * allocation.
+ *
+ * We create a fixed sized array for the total pool, determined by the template
+ * parameter SIZE, then manage the various sub-pools of Transition objects.
+ * The allocation of the various sub-pools is intricately tied to the precise
+ * pattern of creation and release of the various Transition objects within the
+ * ExtendedZoneSpecifier class.
+ *
+ * There are 4 pools indicated by the following half-open (exclusive) index
+ * ranges:
+ *
+ * 1) Active pool: [0, mIndexPrior)
+ * 2) Prior pool: [mIndexPrior, mIndexCandidates), either 0 or 1 element
+ * 3) Candidate pool: [mIndexCandidates, mIndexFree)
+ * 4) Free pool: [mIndexFree, SIZE)
+ *
+ * At the completion of the ExtendedZoneSpecifier::init(LocalDate& ld) method,
+ * the Active pool will contain the active Transitions relevant to the
+ * 'year' defined by the LocalDate. The Prior and Candidate pools will be
+ * empty, with the Free pool taking up the remaining space.
  */
 template<uint8_t SIZE>
 class TransitionStorage {
@@ -460,12 +482,15 @@ class TransitionStorage {
 } // namespace extended
 
 /**
- * Version of BasicZoneSpecifier that works for more obscure zones
- * which obscure rules.
+ * Version of BasicZoneSpecifier that works for more obscure zones with
+ * more complex rules. This class supports:
  *
- *  - Zone untilTimeModifier works for 's' or 'u' in addition to 'w'
- *  - Zone UNTIL field supports addtional month, day, or time
- *  - RULES column supports an offset (hh:mm)
+ *  - Zone Infos whose untilTimeModifier is 's' or 'u', not just 'w'
+ *  - Zone Infos whose RULES column contains an offset (hh:mm)
+ *  - Zone Infos whose UNTIL field supports month, day, or time, not just
+ *    whole years
+ *  - Supports zones and policies whose transition occurs at 00:01 by
+ *    truncating the transition to the lowest 15-minute interval (i.e. 00:00)
  *
  * Not thread-safe.
  */

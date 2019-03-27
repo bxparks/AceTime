@@ -32,6 +32,7 @@ struct Transition {
   /**
    * Longest abbreviation seems to be 5 characters.
    * https://www.timeanddate.com/time/zones/
+   * TODO: Probably should be 6 characters according to the TZ Database spec.
    */
   static const uint8_t kAbbrevSize = 5 + 1;
 
@@ -106,10 +107,12 @@ struct Transition {
  *
  * Limitations:
  *
- *  - Zone untilTimeModifier works only for 'w' (not 's' or 'u')
- *  - but Rule atTimeModifier supports all three ('w', 's', and 'u')
- *  - Zone UNTIL field supports only year component, not month, day, or time
- *  - RULES column supports only a named Rule reference, not an offset (hh:mm)
+ *  - supports Zone Infos whose untilTimeModifier is 'w' (not 's' or 'u')
+ *  - supports Zone Infos whose RULES column refers to a named Zone Rule, not
+ *    an offset (hh:mm)
+ *  - supports Zone Infos whose UNTIL field contains only full year component,
+ *    not month, day, or time
+ *  - supports Zone Rules whose atTimeModifier can be any of ('w', 's', and 'u')
  *
  * Not thread-safe.
  */
