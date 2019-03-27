@@ -257,7 +257,8 @@ def main():
 
         # Generate test data for unit test.
         logging.info('Generating test data')
-        data_generator = TestDataGenerator(zone_infos, zone_policies)
+        data_generator = TestDataGenerator(zone_infos, zone_policies,
+            granularity)
         (test_data, num_items) = data_generator.create_test_data()
         logging.info('test_data=%d', len(test_data))
 
@@ -278,6 +279,7 @@ def main():
         validator = Validator(
             zone_infos=zone_infos,
             zone_policies=zone_policies,
+            granularity=granularity,
             viewing_months=args.viewing_months,
             validate_dst_offset=args.validate_dst_offset,
             debug_validator=args.debug_validator,

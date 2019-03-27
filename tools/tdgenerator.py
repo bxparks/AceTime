@@ -118,7 +118,7 @@ class TestDataGenerator:
         ],
     }
 
-    def __init__(self, zone_infos, zone_policies):
+    def __init__(self, zone_infos, zone_policies, granularity):
         """
         Args:
             zone_infos: (dict) of {name -> zone_info{} }
@@ -126,6 +126,8 @@ class TestDataGenerator:
         """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
+        self.granularity = granularity
+
         self.zone_name = ''
         self.viewing_months = 14
         self.start_year = 2000
@@ -261,21 +263,22 @@ class TestDataGenerator:
         # Return the TestItems ordered by epoch
         return [items_map[x] for x in sorted(items_map)]
 
-    @staticmethod
-    def _get_correction(zone_short_name, tt):
+    def _get_correction(self, zone_short_name, tt):
         """Given the DateTuple of interest, return the correction (in seconds)
         due to truncation of the transition time caused by the granularity. For
         example, if the actual transition time was 00:01, but the granularity is
         15 minutes, then the various transition times got truncated to 00:00 and
         the correction will be 60 seconds.
         """
+        if self.granularity <= 60:
+            return 0
+
         correction_list = TestDataGenerator.CORRECTIONS.get(zone_short_name)
         if correction_list:
             for correction in correction_list:
                 if tt == correction[0]:
                     return correction[1]
         return 0
-
 
     def _create_test_item_from_datetime(self, tz, tt, correction, type):
         """Create a TestItem for the given DateTuple in the local time zone.
