@@ -28,79 +28,93 @@ class TestDataGenerator:
     # towards 00:00. To produce the correct validation_data.cpp data file,
     # for the transitions appearing below, we must shift the actual transition
     # time to 00:01 before calling the timezone object in PyTz.
+    #
+    # The first value of the 2-tuple is a DateTuple that marks the
+    # 'transitionTime' of the current Transition (usually the wall time, using
+    # the UTC offset of the *previous* Transition). This is the expected
+    # transition time *after* the granularity truncation has been applied.
+    # In other words, if the actual transitionTime was 00:01, then the truncated
+    # transitionTime would be 00:00.
+    #
+    # The second value of the 2-tuple is the amount of offset (in seconds) that
+    # should be added to the transitionTime to get the corrected transitionTime
+    # which should be passed to pytz to determine the expected UTC offset.
+    #
+    # TODO: Check if using a dict {} would make the look up faster than using a
+    # sequential scan through the DateTuple.
     CORRECTIONS = {
         'Gaza': [
-            (DateTuple(2010, 3, 17, 60, 'w'), -60),
-            (DateTuple(2011, 4, 1, 60, 'w'), -60),
+            (DateTuple(2010, 3, 27, 0, 'w'), 60),
+            (DateTuple(2011, 4, 1, 0, 'w'), 60),
         ],
         'Goose_Bay': [
-            (DateTuple(2000, 4, 2, 60, 'w'), -60),
-            (DateTuple(2000, 10, 29, 60, 'w'), -60),
-            (DateTuple(2001, 4, 1, 60, 'w'), -60),
-            (DateTuple(2001, 10, 28, 60, 'w'), -60),
-            (DateTuple(2002, 4, 7, 60, 'w'), -60),
-            (DateTuple(2002, 10, 27, 60, 'w'), -60),
-            (DateTuple(2003, 4, 6, 60, 'w'), -60),
-            (DateTuple(2003, 10, 26, 60, 'w'), -60),
-            (DateTuple(2004, 4, 4, 60, 'w'), -60),
-            (DateTuple(2004, 10, 31, 60, 'w'), -60),
-            (DateTuple(2005, 4, 3, 60, 'w'), -60),
-            (DateTuple(2005, 10, 30, 60, 'w'), -60),
-            (DateTuple(2006, 4, 2, 60, 'w'), -60),
-            (DateTuple(2006, 10, 29, 60, 'w'), -60),
-            (DateTuple(2007, 3, 11, 60, 'w'), -60),
-            (DateTuple(2007, 11, 4, 60, 'w'), -60),
-            (DateTuple(2008, 3, 9, 60, 'w'), -60),
-            (DateTuple(2008, 11, 2, 60, 'w'), -60),
-            (DateTuple(2009, 3, 8, 60, 'w'), -60),
-            (DateTuple(2009, 11, 1, 60, 'w'), -60),
-            (DateTuple(2010, 3, 14, 60, 'w'), -60),
-            (DateTuple(2010, 11, 7, 60, 'w'), -60),
-            (DateTuple(2011, 3, 13, 60, 'w'), -60),
+            (DateTuple(2000, 4, 2, 0, 'w'), 60),
+            (DateTuple(2000, 10, 29, 0, 'w'), 60),
+            (DateTuple(2001, 4, 1, 0, 'w'), 60),
+            (DateTuple(2001, 10, 28, 0, 'w'), 60),
+            (DateTuple(2002, 4, 7, 0, 'w'), 60),
+            (DateTuple(2002, 10, 27, 0, 'w'), 60),
+            (DateTuple(2003, 4, 6, 0, 'w'), 60),
+            (DateTuple(2003, 10, 26, 0, 'w'), 60),
+            (DateTuple(2004, 4, 4, 0, 'w'), 60),
+            (DateTuple(2004, 10, 31, 0, 'w'), 60),
+            (DateTuple(2005, 4, 3, 0, 'w'), 60),
+            (DateTuple(2005, 10, 30, 0, 'w'), 60),
+            (DateTuple(2006, 4, 2, 0, 'w'), 60),
+            (DateTuple(2006, 10, 29, 0, 'w'), 60),
+            (DateTuple(2007, 3, 11, 0, 'w'), 60),
+            (DateTuple(2007, 11, 4, 0, 'w'), 60),
+            (DateTuple(2008, 3, 9, 0, 'w'), 60),
+            (DateTuple(2008, 11, 2, 0, 'w'), 60),
+            (DateTuple(2009, 3, 8, 0, 'w'), 60),
+            (DateTuple(2009, 11, 1, 0, 'w'), 60),
+            (DateTuple(2010, 3, 14, 0, 'w'), 60),
+            (DateTuple(2010, 11, 7, 0, 'w'), 60),
+            (DateTuple(2011, 3, 13, 0, 'w'), 60),
         ],
         'Hebron': [
-            (DateTuple(2011, 4, 1, 60, 'w'), -60),
+            (DateTuple(2011, 4, 1, 0, 'w'), 60),
         ],
         'Moncton': [
-            (DateTuple(2000, 4, 2, 60, 'w'), -60),
-            (DateTuple(2000, 10, 29, 60, 'w'), -60),
-            (DateTuple(2001, 4, 1, 60, 'w'), -60),
-            (DateTuple(2001, 10, 28, 60, 'w'), -60),
-            (DateTuple(2002, 4, 7, 60, 'w'), -60),
-            (DateTuple(2002, 10, 27, 60, 'w'), -60),
-            (DateTuple(2003, 4, 6, 60, 'w'), -60),
-            (DateTuple(2003, 10, 26, 60, 'w'), -60),
-            (DateTuple(2004, 4, 4, 60, 'w'), -60),
-            (DateTuple(2004, 10, 31, 60, 'w'), -60),
-            (DateTuple(2005, 4, 3, 60, 'w'), -60),
-            (DateTuple(2005, 10, 30, 60, 'w'), -60),
-            (DateTuple(2006, 4, 2, 60, 'w'), -60),
-            (DateTuple(2006, 10, 29, 60, 'w'), -60),
+            (DateTuple(2000, 4, 2, 0, 'w'), 60),
+            (DateTuple(2000, 10, 29, 0, 'w'), 60),
+            (DateTuple(2001, 4, 1, 0, 'w'), 60),
+            (DateTuple(2001, 10, 28, 0, 'w'), 60),
+            (DateTuple(2002, 4, 7, 0, 'w'), 60),
+            (DateTuple(2002, 10, 27, 0, 'w'), 60),
+            (DateTuple(2003, 4, 6, 0, 'w'), 60),
+            (DateTuple(2003, 10, 26, 0, 'w'), 60),
+            (DateTuple(2004, 4, 4, 0, 'w'), 60),
+            (DateTuple(2004, 10, 31, 0, 'w'), 60),
+            (DateTuple(2005, 4, 3, 0, 'w'), 60),
+            (DateTuple(2005, 10, 30, 0, 'w'), 60),
+            (DateTuple(2006, 4, 2, 0, 'w'), 60),
+            (DateTuple(2006, 10, 29, 0, 'w'), 60),
         ],
         'St_Johns': [
-            (DateTuple(2000, 4, 2, 60, 'w'), -60),
-            (DateTuple(2000, 10, 29, 60, 'w'), -60),
-            (DateTuple(2001, 4, 1, 60, 'w'), -60),
-            (DateTuple(2001, 10, 28, 60, 'w'), -60),
-            (DateTuple(2002, 4, 7, 60, 'w'), -60),
-            (DateTuple(2002, 10, 27, 60, 'w'), -60),
-            (DateTuple(2003, 4, 6, 60, 'w'), -60),
-            (DateTuple(2003, 10, 26, 60, 'w'), -60),
-            (DateTuple(2004, 4, 4, 60, 'w'), -60),
-            (DateTuple(2004, 10, 31, 60, 'w'), -60),
-            (DateTuple(2005, 4, 3, 60, 'w'), -60),
-            (DateTuple(2005, 10, 30, 60, 'w'), -60),
-            (DateTuple(2006, 4, 2, 60, 'w'), -60),
-            (DateTuple(2006, 10, 29, 60, 'w'), -60),
-            (DateTuple(2007, 3, 11, 60, 'w'), -60),
-            (DateTuple(2007, 11, 4, 60, 'w'), -60),
-            (DateTuple(2008, 3, 9, 60, 'w'), -60),
-            (DateTuple(2008, 11, 2, 60, 'w'), -60),
-            (DateTuple(2009, 3, 8, 60, 'w'), -60),
-            (DateTuple(2009, 11, 1, 60, 'w'), -60),
-            (DateTuple(2010, 3, 14, 60, 'w'), -60),
-            (DateTuple(2010, 11, 7, 60, 'w'), -60),
-            (DateTuple(2011, 3, 13, 60, 'w'), -60),
+            (DateTuple(2000, 4, 2, 0, 'w'), 60),
+            (DateTuple(2000, 10, 29, 0, 'w'), 60),
+            (DateTuple(2001, 4, 1, 0, 'w'), 60),
+            (DateTuple(2001, 10, 28, 0, 'w'), 60),
+            (DateTuple(2002, 4, 7, 0, 'w'), 60),
+            (DateTuple(2002, 10, 27, 0, 'w'), 60),
+            (DateTuple(2003, 4, 6, 0, 'w'), 60),
+            (DateTuple(2003, 10, 26, 0, 'w'), 60),
+            (DateTuple(2004, 4, 4, 0, 'w'), 60),
+            (DateTuple(2004, 10, 31, 0, 'w'), 60),
+            (DateTuple(2005, 4, 3, 0, 'w'), 60),
+            (DateTuple(2005, 10, 30, 0, 'w'), 60),
+            (DateTuple(2006, 4, 2, 0, 'w'), 60),
+            (DateTuple(2006, 10, 29, 0, 'w'), 60),
+            (DateTuple(2007, 3, 11, 0, 'w'), 60),
+            (DateTuple(2007, 11, 4, 0, 'w'), 60),
+            (DateTuple(2008, 3, 9, 0, 'w'), 60),
+            (DateTuple(2008, 11, 2, 0, 'w'), 60),
+            (DateTuple(2009, 3, 8, 0, 'w'), 60),
+            (DateTuple(2009, 11, 1, 0, 'w'), 60),
+            (DateTuple(2010, 3, 14, 0, 'w'), 60),
+            (DateTuple(2010, 11, 7, 0, 'w'), 60),
+            (DateTuple(2011, 3, 13, 0, 'w'), 60),
         ],
     }
 
@@ -147,7 +161,8 @@ class TestDataGenerator:
                           zone_full_name)
             return None
 
-        return self._create_transition_test_items(tz, zone_specifier)
+        return self._create_transition_test_items(
+            zone_short_name, tz, zone_specifier)
 
     @staticmethod
     def _add_test_item(items_map, item):
@@ -168,7 +183,8 @@ class TestDataGenerator:
         else:
             items_map[item.epoch] = item
 
-    def _create_transition_test_items(self, tz, zone_specifier):
+    def _create_transition_test_items(
+        self, zone_short_name, tz, zone_specifier):
         """Create a TestItem for the tz for each zone, for each year from
         start_year to end_year, inclusive. The following test samples are
         created:
@@ -179,6 +195,8 @@ class TestDataGenerator:
         * A test point one second before the transition.
 
         Each TestData is annotated as:
+        * 'a': corrected pre-transition
+        * 'b': corrected post-transition
         * 'A': pre-transition
         * 'B': post-transition
         * 'S': a monthly test sample
@@ -208,54 +226,104 @@ class TestDataGenerator:
                     if start.M == 1 and start.d == 1 and start.ss == 0:
                         continue
 
+                correction = self._get_correction(
+                    zone_short_name, transition.transitionTime)
+
                 epoch_seconds = transition.startEpochSecond
+
+                # Add a test data just before the transition
                 test_item = self._create_test_item_from_epoch_seconds(
-                    tz, epoch_seconds - 1, 'A')
+                    tz, epoch_seconds - 1, correction,
+                    'a' if correction else 'A')
                 self._add_test_item(items_map, test_item)
 
+                # Add a test data at the transition itself (which will
+                # normally be shifted forward or backwards).
                 test_item = self._create_test_item_from_epoch_seconds(
-                    tz, epoch_seconds, 'B')
+                    tz, epoch_seconds, correction, 'b' if correction else 'B')
                 self._add_test_item(items_map, test_item)
 
             # Add one sample test point on the first of each month
             for month in range(1, 13):
+                tt = DateTuple(y=year, M=month, d=1, ss=0, f='w')
+                correction = self._get_correction(zone_short_name, tt)
                 test_item = self._create_test_item_from_datetime(
-                    tz, year, month=month, day=1, hour=0, type='S')
+                    tz, tt, correction, type='S')
                 self._add_test_item(items_map, test_item)
 
             # Add a sample test point at the end of the year.
+            tt = DateTuple(y=year, M=12, d=31, ss=23*3600, f='w')
+            correction = self._get_correction(zone_short_name, tt)
             test_item = self._create_test_item_from_datetime(
-                tz, year, month=12, day=31, hour=23, type='Y')
+                tz, tt, correction, type='Y')
             self._add_test_item(items_map, test_item)
 
         # Return the TestItems ordered by epoch
         return [items_map[x] for x in sorted(items_map)]
 
-    def _create_test_item_from_datetime(self, tz, year, month, day, hour,
-                                        type):
-        """Create a TestItem for the given year, month, day, hour in local
-        time zone.
+    @staticmethod
+    def _get_correction(zone_short_name, tt):
+        """Given the DateTuple of interest, return the correction (in seconds)
+        due to truncation of the transition time caused by the granularity. For
+        example, if the actual transition time was 00:01, but the granularity is
+        15 minutes, then the various transition times got truncated to 00:00 and
+        the correction will be 60 seconds.
+        """
+        correction_list = TestDataGenerator.CORRECTIONS.get(zone_short_name)
+        if correction_list:
+            for correction in correction_list:
+                if tt == correction[0]:
+                    return correction[1]
+        return 0
+
+
+    def _create_test_item_from_datetime(self, tz, tt, correction, type):
+        """Create a TestItem for the given DateTuple in the local time zone.
         """
         # Can't use the normal datetime constructor for pytz. Must use
         # timezone.localize(). See https://stackoverflow.com/questions/18541051
-        dt = tz.localize(datetime.datetime(year, month, day, hour))
+        ldt = datetime.datetime(tt.y, tt.M, tt.d, tt.ss//3600)
+        dt = tz.localize(ldt)
         unix_seconds = int(dt.timestamp())
         epoch_seconds = unix_seconds - SECONDS_SINCE_UNIX_EPOCH
         return self._create_test_item_from_epoch_seconds(
-            tz, epoch_seconds, type)
+            tz, epoch_seconds, correction, type)
 
-    def _create_test_item_from_epoch_seconds(self, tz, epoch_seconds, type):
-        """Return the TestItem fro the epoch_seconds.
+
+    def _create_test_item_from_epoch_seconds(self, tz, epoch_seconds,
+        correction, type):
+        """Determine the expected date/time fields from the given epoch_seconds
+        and the tz of the zone. The 'correction' is the offset that we
+        must add to epoch_seconds to retrieve the real UTC offset.
+
+        The correction is non-zero for the handful (5) zones which have
+        transition times that don't occur at a 15-minute boundary. In all
+        cases in 2018, this is usually at 00:01. The transformer.py will
+        truncate the AceTime zoneinfo file to the smallest 15-minute interval
+        (i.e. 00:00), so the actual epochSeconds given to the 'tz' object must
+        be shifted by this correction value.
+
+        Return the TestItem with the following fields:
+            epoch: epoch seconds
             total_offset: the total UTC offset
             dst_offset: the DST offset
+            y, M, d, h, m, s: components of the dateTime
+            type: 'a', 'b', 'A', 'B', 'S', 'Y'
         The base offset is (total_offset - dst_offset).
         """
+
+        # Get the startTime components directly from the epoch seconds.
         unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
         utc_dt = datetime.datetime.fromtimestamp(
             unix_seconds, tz=datetime.timezone.utc)
         dt = utc_dt.astimezone(tz)
-        total_offset = int(dt.utcoffset().total_seconds())
-        dst_offset = int(dt.dst().total_seconds())
+
+        # Get the UTC offset by shifting the epoch seconds by its correction.
+        utc_offset_dt = datetime.datetime.fromtimestamp(
+            unix_seconds + correction, tz=datetime.timezone.utc)
+        offset_dt = utc_offset_dt.astimezone(tz)
+        total_offset = int(offset_dt.utcoffset().total_seconds())
+        dst_offset = int(offset_dt.dst().total_seconds())
 
         return TestItem(
             epoch=epoch_seconds,
