@@ -85,6 +85,8 @@ class Transformer:
         zones_map = self._create_zones_with_expanded_until_time(zones_map)
         zones_map = self._remove_zones_invalid_until_time_modifier(zones_map)
         zones_map = self._create_zones_with_expanded_offset_string(zones_map)
+        zones_map = self._remove_zones_with_invalid_rules_format_combo(
+            zones_map)
         zones_map = self._create_zones_with_rules_expansion(zones_map)
         zones_map = self._remove_zones_with_non_monotonic_until(zones_map)
 
@@ -368,7 +370,56 @@ class Transformer:
             if valid:
                 results[name] = zones
 
-        logging.info("Removed %s zone infos with invalid offsetString",
+        logging.info("Removed %s zones with invalid offsetString",
+                     len(removed_zones))
+        self._print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
+        self.all_notable_zones.update(notable_zones)
+        return results
+
+    def _remove_zones_with_invalid_rules_format_combo(self, zones_map):
+        """If the RULES is fixed (i.e. contains '-' or a 'hh:mm' offset, then
+        the FORMAT cannot contains a '%' or a '/' because there would be no RULE
+        entry to decide which one to pick.
+
+        If the RULES is a reference to a named RULE, then it seems reasonable to
+        expect a '%' or a '/'. However, Africa/Johannesburg fails this test
+        because it defines DST transitions for 1942-1944, but there is no
+        corresponding change in the abbreviation. Output a warning about this.
+        """
+        results = {}
+        removed_zones = {}
+        notable_zones = {}
+        for zone_name, eras in zones_map.items():
+            valid = True
+            for era in eras:
+                if not era.format:
+                    removed_zones[zone_name] = 'FORMAT is empty'
+                    valid = False
+                    break
+
+                if era.rules == '-' or ':' in era.rules:
+                    if '%' in era.format:
+                        removed_zones[zone_name] = (
+                            "RULES is fixed but FORMAT contains '%'")
+                        valid = False
+                        break
+                    if '/' in era.format:
+                        removed_zones[zone_name] = (
+                            "RULES is fixed but FORMAT contains '/'")
+                        valid = False
+                        break
+                else:
+                   if not ('%' in era.format or '/' in era.format):
+                        notable_zones[zone_name] = (
+                            "RULES not fixed but FORMAT is missing '%' or '/'")
+                        valid = True
+                        break
+
+            if valid:
+                results[zone_name] = eras
+
+        logging.info("Removed %s zones with invalid RULES and FORMAT combo",
                      len(removed_zones))
         self._print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)

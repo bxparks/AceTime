@@ -530,6 +530,29 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * (e.g. "P%T", "E%T"), the time zone deltaCode (!= 0 means DST), and the
      * replacement letter (e.g. 'S', 'D', or '-').
      *
+     * 1) If the RULES column (transition->rule) is empty '-', then FORMAT
+     * cannot contain a '/' or a '%' because the ZoneEra specifies only a
+     * single transition rule. (Verified in transformer.py). This condition is
+     * indicated by (deltaCode == 0) and (letter == '\0').
+     *
+     * 2) If RULES column is not empty, then the FORMAT should contain either
+     * a '/' or a '%'. The deltaCode will determine whether the time interval
+     * is in DST.
+     * This is verified by transformer.py to be true for all
+     * Zones except Africa/Johannesburg which fails this for 1942-1944 where
+     * the RULES contains a reference to named RULEs with DST transitions but
+     * there is no '/' or '%' to distinguish between the 2. Technically, since
+     * this occurs before year 2000, we don't absolutely need to suppor this,
+     * but for robustness sake, we do.
+     *
+     * 2a) If the FORMAT contains a '%', use the LETTER to substitute the '%'.
+     * If the 'letter' is '-', an empty character is substituted.
+     *
+     * 2b) If the FORMAT contains a '/', then pick the first (no DST) or the
+     * second component (DST). The deltaCode selects between the two. The
+     * letter is ignored, but cannot be '\0' because that would trigger Case
+     * (1). The recommended value is '-'.
+     *
      * @param dest destination string buffer
      * @param destSize size of buffer
      * @param format encoded abbreviation, '%' is a character substitution
@@ -539,23 +562,33 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
         const char* format, uint8_t deltaCode, char letter) {
+      // Check if RULES column empty.
       if (deltaCode == 0 && letter == '\0') {
         strncpy(dest, format, destSize);
         dest[destSize - 1] = '\0';
         return;
       }
 
+      // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
         copyAndReplace(dest, destSize, format, '%', letter);
       } else {
+        // Check if FORMAT contains a '/'.
         const char* slashPos = strchr(format, '/');
         if (slashPos != nullptr) {
           if (deltaCode == 0) {
-            copyAndReplace(dest, destSize, format, '/', '\0');
+            uint8_t headLength = (slashPos - format);
+            if (headLength >= destSize) headLength = destSize - 1;
+            memcpy(dest, format, headLength);
+            dest[headLength] = '\0';
           } else {
-            memmove(dest, slashPos+1, strlen(slashPos+1) + 1);
+            uint8_t tailLength = strlen(slashPos+1);
+            if (tailLength >= destSize) tailLength = destSize - 1;
+            memcpy(dest, slashPos+1, tailLength);
+            dest[tailLength] = '\0';
           }
         } else {
+          // Just copy the FORMAT disregarding the deltaCode and letter.
           strncpy(dest, format, destSize);
           dest[destSize - 1] = '\0';
         }
