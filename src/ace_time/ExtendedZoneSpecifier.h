@@ -2,7 +2,7 @@
 #define ACE_TIME_EXTENDED_ZONE_SPECIFIER_H
 
 #include <Arduino.h>
-#include <string.h> // memset()
+#include <string.h> // memcpy()
 #include <stdint.h>
 #include "common/ZonePolicy.h"
 #include "common/ZoneInfo.h"
@@ -924,12 +924,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * Return the most recent prior year of the rule[from_year, to_year].
      * Return LocalDate::kInvalidYearTiny (-128) if the rule[from_year,
      * to_year] has no prior year to the match[start_year, end_year].
-     *
-     * FIXME: We need to change argenerator.py so that MIN_YEAR is represented
-     * by -127, not -128, since -128 is needed to represent INVALID_YEAR.
      */
     static int8_t getMostRecentPriorYear(int8_t fromYear, int8_t toYear,
-        int8_t startYear, int8_t endYear) {
+        int8_t startYear, int8_t /*endYear*/) {
       if (fromYear < startYear) {
         if (toYear < startYear) {
           return toYear;
