@@ -45,8 +45,8 @@ static const ZoneEra kZoneEraAbidjan[] = {
 
 const ZoneInfo kZoneAbidjan = {
   "Africa/Abidjan" /*name*/,
-  kZoneEraAbidjan /*eras*/,
   1 /*numEras*/,
+  kZoneEraAbidjan /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -75,8 +75,8 @@ static const ZoneEra kZoneEraAccra[] = {
 
 const ZoneInfo kZoneAccra = {
   "Africa/Accra" /*name*/,
-  kZoneEraAccra /*eras*/,
   1 /*numEras*/,
+  kZoneEraAccra /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -105,8 +105,8 @@ static const ZoneEra kZoneEraAlgiers[] = {
 
 const ZoneInfo kZoneAlgiers = {
   "Africa/Algiers" /*name*/,
-  kZoneEraAlgiers /*eras*/,
   1 /*numEras*/,
+  kZoneEraAlgiers /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -135,8 +135,8 @@ static const ZoneEra kZoneEraBissau[] = {
 
 const ZoneInfo kZoneBissau = {
   "Africa/Bissau" /*name*/,
-  kZoneEraBissau /*eras*/,
   1 /*numEras*/,
+  kZoneEraBissau /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -165,8 +165,8 @@ static const ZoneEra kZoneEraCairo[] = {
 
 const ZoneInfo kZoneCairo = {
   "Africa/Cairo" /*name*/,
-  kZoneEraCairo /*eras*/,
   1 /*numEras*/,
+  kZoneEraCairo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -207,8 +207,8 @@ static const ZoneEra kZoneEraCasablanca[] = {
 
 const ZoneInfo kZoneCasablanca = {
   "Africa/Casablanca" /*name*/,
-  kZoneEraCasablanca /*eras*/,
   2 /*numEras*/,
+  kZoneEraCasablanca /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -237,8 +237,8 @@ static const ZoneEra kZoneEraCeuta[] = {
 
 const ZoneInfo kZoneCeuta = {
   "Africa/Ceuta" /*name*/,
-  kZoneEraCeuta /*eras*/,
   1 /*numEras*/,
+  kZoneEraCeuta /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -279,8 +279,8 @@ static const ZoneEra kZoneEraEl_Aaiun[] = {
 
 const ZoneInfo kZoneEl_Aaiun = {
   "Africa/El_Aaiun" /*name*/,
-  kZoneEraEl_Aaiun /*eras*/,
   2 /*numEras*/,
+  kZoneEraEl_Aaiun /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -309,8 +309,8 @@ static const ZoneEra kZoneEraJohannesburg[] = {
 
 const ZoneInfo kZoneJohannesburg = {
   "Africa/Johannesburg" /*name*/,
-  kZoneEraJohannesburg /*eras*/,
   1 /*numEras*/,
+  kZoneEraJohannesburg /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -351,8 +351,8 @@ static const ZoneEra kZoneEraJuba[] = {
 
 const ZoneInfo kZoneJuba = {
   "Africa/Juba" /*name*/,
-  kZoneEraJuba /*eras*/,
   2 /*numEras*/,
+  kZoneEraJuba /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -405,8 +405,8 @@ static const ZoneEra kZoneEraKhartoum[] = {
 
 const ZoneInfo kZoneKhartoum = {
   "Africa/Khartoum" /*name*/,
-  kZoneEraKhartoum /*eras*/,
   3 /*numEras*/,
+  kZoneEraKhartoum /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -435,8 +435,8 @@ static const ZoneEra kZoneEraLagos[] = {
 
 const ZoneInfo kZoneLagos = {
   "Africa/Lagos" /*name*/,
-  kZoneEraLagos /*eras*/,
   1 /*numEras*/,
+  kZoneEraLagos /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -465,8 +465,8 @@ static const ZoneEra kZoneEraMaputo[] = {
 
 const ZoneInfo kZoneMaputo = {
   "Africa/Maputo" /*name*/,
-  kZoneEraMaputo /*eras*/,
   1 /*numEras*/,
+  kZoneEraMaputo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -495,8 +495,8 @@ static const ZoneEra kZoneEraMonrovia[] = {
 
 const ZoneInfo kZoneMonrovia = {
   "Africa/Monrovia" /*name*/,
-  kZoneEraMonrovia /*eras*/,
   1 /*numEras*/,
+  kZoneEraMonrovia /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -525,8 +525,8 @@ static const ZoneEra kZoneEraNairobi[] = {
 
 const ZoneInfo kZoneNairobi = {
   "Africa/Nairobi" /*name*/,
-  kZoneEraNairobi /*eras*/,
   1 /*numEras*/,
+  kZoneEraNairobi /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -555,8 +555,8 @@ static const ZoneEra kZoneEraNdjamena[] = {
 
 const ZoneInfo kZoneNdjamena = {
   "Africa/Ndjamena" /*name*/,
-  kZoneEraNdjamena /*eras*/,
   1 /*numEras*/,
+  kZoneEraNdjamena /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -609,8 +609,8 @@ static const ZoneEra kZoneEraSao_Tome[] = {
 
 const ZoneInfo kZoneSao_Tome = {
   "Africa/Sao_Tome" /*name*/,
-  kZoneEraSao_Tome /*eras*/,
   3 /*numEras*/,
+  kZoneEraSao_Tome /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -663,8 +663,8 @@ static const ZoneEra kZoneEraTripoli[] = {
 
 const ZoneInfo kZoneTripoli = {
   "Africa/Tripoli" /*name*/,
-  kZoneEraTripoli /*eras*/,
   3 /*numEras*/,
+  kZoneEraTripoli /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -693,8 +693,8 @@ static const ZoneEra kZoneEraTunis[] = {
 
 const ZoneInfo kZoneTunis = {
   "Africa/Tunis" /*name*/,
-  kZoneEraTunis /*eras*/,
   1 /*numEras*/,
+  kZoneEraTunis /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -723,8 +723,8 @@ static const ZoneEra kZoneEraWindhoek[] = {
 
 const ZoneInfo kZoneWindhoek = {
   "Africa/Windhoek" /*name*/,
-  kZoneEraWindhoek /*eras*/,
   1 /*numEras*/,
+  kZoneEraWindhoek /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -753,8 +753,8 @@ static const ZoneEra kZoneEraAdak[] = {
 
 const ZoneInfo kZoneAdak = {
   "America/Adak" /*name*/,
-  kZoneEraAdak /*eras*/,
   1 /*numEras*/,
+  kZoneEraAdak /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -783,8 +783,8 @@ static const ZoneEra kZoneEraAnchorage[] = {
 
 const ZoneInfo kZoneAnchorage = {
   "America/Anchorage" /*name*/,
-  kZoneEraAnchorage /*eras*/,
   1 /*numEras*/,
+  kZoneEraAnchorage /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -849,8 +849,8 @@ static const ZoneEra kZoneEraAraguaina[] = {
 
 const ZoneInfo kZoneAraguaina = {
   "America/Araguaina" /*name*/,
-  kZoneEraAraguaina /*eras*/,
   4 /*numEras*/,
+  kZoneEraAraguaina /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -903,8 +903,8 @@ static const ZoneEra kZoneEraBuenos_Aires[] = {
 
 const ZoneInfo kZoneBuenos_Aires = {
   "America/Argentina/Buenos_Aires" /*name*/,
-  kZoneEraBuenos_Aires /*eras*/,
   3 /*numEras*/,
+  kZoneEraBuenos_Aires /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -993,8 +993,8 @@ static const ZoneEra kZoneEraCatamarca[] = {
 
 const ZoneInfo kZoneCatamarca = {
   "America/Argentina/Catamarca" /*name*/,
-  kZoneEraCatamarca /*eras*/,
   6 /*numEras*/,
+  kZoneEraCatamarca /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1047,8 +1047,8 @@ static const ZoneEra kZoneEraCordoba[] = {
 
 const ZoneInfo kZoneCordoba = {
   "America/Argentina/Cordoba" /*name*/,
-  kZoneEraCordoba /*eras*/,
   3 /*numEras*/,
+  kZoneEraCordoba /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1113,8 +1113,8 @@ static const ZoneEra kZoneEraJujuy[] = {
 
 const ZoneInfo kZoneJujuy = {
   "America/Argentina/Jujuy" /*name*/,
-  kZoneEraJujuy /*eras*/,
   4 /*numEras*/,
+  kZoneEraJujuy /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1203,8 +1203,8 @@ static const ZoneEra kZoneEraLa_Rioja[] = {
 
 const ZoneInfo kZoneLa_Rioja = {
   "America/Argentina/La_Rioja" /*name*/,
-  kZoneEraLa_Rioja /*eras*/,
   6 /*numEras*/,
+  kZoneEraLa_Rioja /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1293,8 +1293,8 @@ static const ZoneEra kZoneEraMendoza[] = {
 
 const ZoneInfo kZoneMendoza = {
   "America/Argentina/Mendoza" /*name*/,
-  kZoneEraMendoza /*eras*/,
   6 /*numEras*/,
+  kZoneEraMendoza /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1383,8 +1383,8 @@ static const ZoneEra kZoneEraRio_Gallegos[] = {
 
 const ZoneInfo kZoneRio_Gallegos = {
   "America/Argentina/Rio_Gallegos" /*name*/,
-  kZoneEraRio_Gallegos /*eras*/,
   6 /*numEras*/,
+  kZoneEraRio_Gallegos /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1449,8 +1449,8 @@ static const ZoneEra kZoneEraSalta[] = {
 
 const ZoneInfo kZoneSalta = {
   "America/Argentina/Salta" /*name*/,
-  kZoneEraSalta /*eras*/,
   4 /*numEras*/,
+  kZoneEraSalta /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1539,8 +1539,8 @@ static const ZoneEra kZoneEraSan_Juan[] = {
 
 const ZoneInfo kZoneSan_Juan = {
   "America/Argentina/San_Juan" /*name*/,
-  kZoneEraSan_Juan /*eras*/,
   6 /*numEras*/,
+  kZoneEraSan_Juan /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1641,8 +1641,8 @@ static const ZoneEra kZoneEraSan_Luis[] = {
 
 const ZoneInfo kZoneSan_Luis = {
   "America/Argentina/San_Luis" /*name*/,
-  kZoneEraSan_Luis /*eras*/,
   7 /*numEras*/,
+  kZoneEraSan_Luis /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1719,8 +1719,8 @@ static const ZoneEra kZoneEraTucuman[] = {
 
 const ZoneInfo kZoneTucuman = {
   "America/Argentina/Tucuman" /*name*/,
-  kZoneEraTucuman /*eras*/,
   5 /*numEras*/,
+  kZoneEraTucuman /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1809,8 +1809,8 @@ static const ZoneEra kZoneEraUshuaia[] = {
 
 const ZoneInfo kZoneUshuaia = {
   "America/Argentina/Ushuaia" /*name*/,
-  kZoneEraUshuaia /*eras*/,
   6 /*numEras*/,
+  kZoneEraUshuaia /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1839,8 +1839,8 @@ static const ZoneEra kZoneEraAsuncion[] = {
 
 const ZoneInfo kZoneAsuncion = {
   "America/Asuncion" /*name*/,
-  kZoneEraAsuncion /*eras*/,
   1 /*numEras*/,
+  kZoneEraAsuncion /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1869,8 +1869,8 @@ static const ZoneEra kZoneEraAtikokan[] = {
 
 const ZoneInfo kZoneAtikokan = {
   "America/Atikokan" /*name*/,
-  kZoneEraAtikokan /*eras*/,
   1 /*numEras*/,
+  kZoneEraAtikokan /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1935,8 +1935,8 @@ static const ZoneEra kZoneEraBahia[] = {
 
 const ZoneInfo kZoneBahia = {
   "America/Bahia" /*name*/,
-  kZoneEraBahia /*eras*/,
   4 /*numEras*/,
+  kZoneEraBahia /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -1977,8 +1977,8 @@ static const ZoneEra kZoneEraBahia_Banderas[] = {
 
 const ZoneInfo kZoneBahia_Banderas = {
   "America/Bahia_Banderas" /*name*/,
-  kZoneEraBahia_Banderas /*eras*/,
   2 /*numEras*/,
+  kZoneEraBahia_Banderas /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2007,8 +2007,8 @@ static const ZoneEra kZoneEraBarbados[] = {
 
 const ZoneInfo kZoneBarbados = {
   "America/Barbados" /*name*/,
-  kZoneEraBarbados /*eras*/,
   1 /*numEras*/,
+  kZoneEraBarbados /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2037,8 +2037,8 @@ static const ZoneEra kZoneEraBelem[] = {
 
 const ZoneInfo kZoneBelem = {
   "America/Belem" /*name*/,
-  kZoneEraBelem /*eras*/,
   1 /*numEras*/,
+  kZoneEraBelem /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2067,8 +2067,8 @@ static const ZoneEra kZoneEraBelize[] = {
 
 const ZoneInfo kZoneBelize = {
   "America/Belize" /*name*/,
-  kZoneEraBelize /*eras*/,
   1 /*numEras*/,
+  kZoneEraBelize /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2097,8 +2097,8 @@ static const ZoneEra kZoneEraBlanc_Sablon[] = {
 
 const ZoneInfo kZoneBlanc_Sablon = {
   "America/Blanc_Sablon" /*name*/,
-  kZoneEraBlanc_Sablon /*eras*/,
   1 /*numEras*/,
+  kZoneEraBlanc_Sablon /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2151,8 +2151,8 @@ static const ZoneEra kZoneEraBoa_Vista[] = {
 
 const ZoneInfo kZoneBoa_Vista = {
   "America/Boa_Vista" /*name*/,
-  kZoneEraBoa_Vista /*eras*/,
   3 /*numEras*/,
+  kZoneEraBoa_Vista /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2181,8 +2181,8 @@ static const ZoneEra kZoneEraBogota[] = {
 
 const ZoneInfo kZoneBogota = {
   "America/Bogota" /*name*/,
-  kZoneEraBogota /*eras*/,
   1 /*numEras*/,
+  kZoneEraBogota /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2211,8 +2211,8 @@ static const ZoneEra kZoneEraBoise[] = {
 
 const ZoneInfo kZoneBoise = {
   "America/Boise" /*name*/,
-  kZoneEraBoise /*eras*/,
   1 /*numEras*/,
+  kZoneEraBoise /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2289,8 +2289,8 @@ static const ZoneEra kZoneEraCambridge_Bay[] = {
 
 const ZoneInfo kZoneCambridge_Bay = {
   "America/Cambridge_Bay" /*name*/,
-  kZoneEraCambridge_Bay /*eras*/,
   5 /*numEras*/,
+  kZoneEraCambridge_Bay /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2319,8 +2319,8 @@ static const ZoneEra kZoneEraCampo_Grande[] = {
 
 const ZoneInfo kZoneCampo_Grande = {
   "America/Campo_Grande" /*name*/,
-  kZoneEraCampo_Grande /*eras*/,
   1 /*numEras*/,
+  kZoneEraCampo_Grande /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2361,8 +2361,8 @@ static const ZoneEra kZoneEraCancun[] = {
 
 const ZoneInfo kZoneCancun = {
   "America/Cancun" /*name*/,
-  kZoneEraCancun /*eras*/,
   2 /*numEras*/,
+  kZoneEraCancun /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2415,8 +2415,8 @@ static const ZoneEra kZoneEraCaracas[] = {
 
 const ZoneInfo kZoneCaracas = {
   "America/Caracas" /*name*/,
-  kZoneEraCaracas /*eras*/,
   3 /*numEras*/,
+  kZoneEraCaracas /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2445,8 +2445,8 @@ static const ZoneEra kZoneEraCayenne[] = {
 
 const ZoneInfo kZoneCayenne = {
   "America/Cayenne" /*name*/,
-  kZoneEraCayenne /*eras*/,
   1 /*numEras*/,
+  kZoneEraCayenne /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2475,8 +2475,8 @@ static const ZoneEra kZoneEraChicago[] = {
 
 const ZoneInfo kZoneChicago = {
   "America/Chicago" /*name*/,
-  kZoneEraChicago /*eras*/,
   1 /*numEras*/,
+  kZoneEraChicago /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2505,8 +2505,8 @@ static const ZoneEra kZoneEraChihuahua[] = {
 
 const ZoneInfo kZoneChihuahua = {
   "America/Chihuahua" /*name*/,
-  kZoneEraChihuahua /*eras*/,
   1 /*numEras*/,
+  kZoneEraChihuahua /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2535,8 +2535,8 @@ static const ZoneEra kZoneEraCosta_Rica[] = {
 
 const ZoneInfo kZoneCosta_Rica = {
   "America/Costa_Rica" /*name*/,
-  kZoneEraCosta_Rica /*eras*/,
   1 /*numEras*/,
+  kZoneEraCosta_Rica /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2565,8 +2565,8 @@ static const ZoneEra kZoneEraCreston[] = {
 
 const ZoneInfo kZoneCreston = {
   "America/Creston" /*name*/,
-  kZoneEraCreston /*eras*/,
   1 /*numEras*/,
+  kZoneEraCreston /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2619,8 +2619,8 @@ static const ZoneEra kZoneEraCuiaba[] = {
 
 const ZoneInfo kZoneCuiaba = {
   "America/Cuiaba" /*name*/,
-  kZoneEraCuiaba /*eras*/,
   3 /*numEras*/,
+  kZoneEraCuiaba /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2649,8 +2649,8 @@ static const ZoneEra kZoneEraCuracao[] = {
 
 const ZoneInfo kZoneCuracao = {
   "America/Curacao" /*name*/,
-  kZoneEraCuracao /*eras*/,
   1 /*numEras*/,
+  kZoneEraCuracao /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2679,8 +2679,8 @@ static const ZoneEra kZoneEraDanmarkshavn[] = {
 
 const ZoneInfo kZoneDanmarkshavn = {
   "America/Danmarkshavn" /*name*/,
-  kZoneEraDanmarkshavn /*eras*/,
   1 /*numEras*/,
+  kZoneEraDanmarkshavn /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2709,8 +2709,8 @@ static const ZoneEra kZoneEraDawson[] = {
 
 const ZoneInfo kZoneDawson = {
   "America/Dawson" /*name*/,
-  kZoneEraDawson /*eras*/,
   1 /*numEras*/,
+  kZoneEraDawson /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2739,8 +2739,8 @@ static const ZoneEra kZoneEraDawson_Creek[] = {
 
 const ZoneInfo kZoneDawson_Creek = {
   "America/Dawson_Creek" /*name*/,
-  kZoneEraDawson_Creek /*eras*/,
   1 /*numEras*/,
+  kZoneEraDawson_Creek /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2769,8 +2769,8 @@ static const ZoneEra kZoneEraDenver[] = {
 
 const ZoneInfo kZoneDenver = {
   "America/Denver" /*name*/,
-  kZoneEraDenver /*eras*/,
   1 /*numEras*/,
+  kZoneEraDenver /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2799,8 +2799,8 @@ static const ZoneEra kZoneEraDetroit[] = {
 
 const ZoneInfo kZoneDetroit = {
   "America/Detroit" /*name*/,
-  kZoneEraDetroit /*eras*/,
   1 /*numEras*/,
+  kZoneEraDetroit /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2829,8 +2829,8 @@ static const ZoneEra kZoneEraEdmonton[] = {
 
 const ZoneInfo kZoneEdmonton = {
   "America/Edmonton" /*name*/,
-  kZoneEraEdmonton /*eras*/,
   1 /*numEras*/,
+  kZoneEraEdmonton /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2883,8 +2883,8 @@ static const ZoneEra kZoneEraEirunepe[] = {
 
 const ZoneInfo kZoneEirunepe = {
   "America/Eirunepe" /*name*/,
-  kZoneEraEirunepe /*eras*/,
   3 /*numEras*/,
+  kZoneEraEirunepe /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2913,8 +2913,8 @@ static const ZoneEra kZoneEraEl_Salvador[] = {
 
 const ZoneInfo kZoneEl_Salvador = {
   "America/El_Salvador" /*name*/,
-  kZoneEraEl_Salvador /*eras*/,
   1 /*numEras*/,
+  kZoneEraEl_Salvador /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -2955,8 +2955,8 @@ static const ZoneEra kZoneEraFort_Nelson[] = {
 
 const ZoneInfo kZoneFort_Nelson = {
   "America/Fort_Nelson" /*name*/,
-  kZoneEraFort_Nelson /*eras*/,
   2 /*numEras*/,
+  kZoneEraFort_Nelson /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3033,8 +3033,8 @@ static const ZoneEra kZoneEraFortaleza[] = {
 
 const ZoneInfo kZoneFortaleza = {
   "America/Fortaleza" /*name*/,
-  kZoneEraFortaleza /*eras*/,
   5 /*numEras*/,
+  kZoneEraFortaleza /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3063,8 +3063,8 @@ static const ZoneEra kZoneEraGlace_Bay[] = {
 
 const ZoneInfo kZoneGlace_Bay = {
   "America/Glace_Bay" /*name*/,
-  kZoneEraGlace_Bay /*eras*/,
   1 /*numEras*/,
+  kZoneEraGlace_Bay /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3093,8 +3093,8 @@ static const ZoneEra kZoneEraGodthab[] = {
 
 const ZoneInfo kZoneGodthab = {
   "America/Godthab" /*name*/,
-  kZoneEraGodthab /*eras*/,
   1 /*numEras*/,
+  kZoneEraGodthab /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3135,8 +3135,8 @@ static const ZoneEra kZoneEraGoose_Bay[] = {
 
 const ZoneInfo kZoneGoose_Bay = {
   "America/Goose_Bay" /*name*/,
-  kZoneEraGoose_Bay /*eras*/,
   2 /*numEras*/,
+  kZoneEraGoose_Bay /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3189,8 +3189,8 @@ static const ZoneEra kZoneEraGrand_Turk[] = {
 
 const ZoneInfo kZoneGrand_Turk = {
   "America/Grand_Turk" /*name*/,
-  kZoneEraGrand_Turk /*eras*/,
   3 /*numEras*/,
+  kZoneEraGrand_Turk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3219,8 +3219,8 @@ static const ZoneEra kZoneEraGuatemala[] = {
 
 const ZoneInfo kZoneGuatemala = {
   "America/Guatemala" /*name*/,
-  kZoneEraGuatemala /*eras*/,
   1 /*numEras*/,
+  kZoneEraGuatemala /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3249,8 +3249,8 @@ static const ZoneEra kZoneEraGuayaquil[] = {
 
 const ZoneInfo kZoneGuayaquil = {
   "America/Guayaquil" /*name*/,
-  kZoneEraGuayaquil /*eras*/,
   1 /*numEras*/,
+  kZoneEraGuayaquil /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3279,8 +3279,8 @@ static const ZoneEra kZoneEraGuyana[] = {
 
 const ZoneInfo kZoneGuyana = {
   "America/Guyana" /*name*/,
-  kZoneEraGuyana /*eras*/,
   1 /*numEras*/,
+  kZoneEraGuyana /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3309,8 +3309,8 @@ static const ZoneEra kZoneEraHalifax[] = {
 
 const ZoneInfo kZoneHalifax = {
   "America/Halifax" /*name*/,
-  kZoneEraHalifax /*eras*/,
   1 /*numEras*/,
+  kZoneEraHalifax /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3339,8 +3339,8 @@ static const ZoneEra kZoneEraHavana[] = {
 
 const ZoneInfo kZoneHavana = {
   "America/Havana" /*name*/,
-  kZoneEraHavana /*eras*/,
   1 /*numEras*/,
+  kZoneEraHavana /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3381,8 +3381,8 @@ static const ZoneEra kZoneEraHermosillo[] = {
 
 const ZoneInfo kZoneHermosillo = {
   "America/Hermosillo" /*name*/,
-  kZoneEraHermosillo /*eras*/,
   2 /*numEras*/,
+  kZoneEraHermosillo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3423,8 +3423,8 @@ static const ZoneEra kZoneEraIndianapolis[] = {
 
 const ZoneInfo kZoneIndianapolis = {
   "America/Indiana/Indianapolis" /*name*/,
-  kZoneEraIndianapolis /*eras*/,
   2 /*numEras*/,
+  kZoneEraIndianapolis /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3465,8 +3465,8 @@ static const ZoneEra kZoneEraKnox[] = {
 
 const ZoneInfo kZoneKnox = {
   "America/Indiana/Knox" /*name*/,
-  kZoneEraKnox /*eras*/,
   2 /*numEras*/,
+  kZoneEraKnox /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3507,8 +3507,8 @@ static const ZoneEra kZoneEraMarengo[] = {
 
 const ZoneInfo kZoneMarengo = {
   "America/Indiana/Marengo" /*name*/,
-  kZoneEraMarengo /*eras*/,
   2 /*numEras*/,
+  kZoneEraMarengo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3561,8 +3561,8 @@ static const ZoneEra kZoneEraPetersburg[] = {
 
 const ZoneInfo kZonePetersburg = {
   "America/Indiana/Petersburg" /*name*/,
-  kZoneEraPetersburg /*eras*/,
   3 /*numEras*/,
+  kZoneEraPetersburg /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3603,8 +3603,8 @@ static const ZoneEra kZoneEraTell_City[] = {
 
 const ZoneInfo kZoneTell_City = {
   "America/Indiana/Tell_City" /*name*/,
-  kZoneEraTell_City /*eras*/,
   2 /*numEras*/,
+  kZoneEraTell_City /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3645,8 +3645,8 @@ static const ZoneEra kZoneEraVevay[] = {
 
 const ZoneInfo kZoneVevay = {
   "America/Indiana/Vevay" /*name*/,
-  kZoneEraVevay /*eras*/,
   2 /*numEras*/,
+  kZoneEraVevay /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3699,8 +3699,8 @@ static const ZoneEra kZoneEraVincennes[] = {
 
 const ZoneInfo kZoneVincennes = {
   "America/Indiana/Vincennes" /*name*/,
-  kZoneEraVincennes /*eras*/,
   3 /*numEras*/,
+  kZoneEraVincennes /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3753,8 +3753,8 @@ static const ZoneEra kZoneEraWinamac[] = {
 
 const ZoneInfo kZoneWinamac = {
   "America/Indiana/Winamac" /*name*/,
-  kZoneEraWinamac /*eras*/,
   3 /*numEras*/,
+  kZoneEraWinamac /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3783,8 +3783,8 @@ static const ZoneEra kZoneEraInuvik[] = {
 
 const ZoneInfo kZoneInuvik = {
   "America/Inuvik" /*name*/,
-  kZoneEraInuvik /*eras*/,
   1 /*numEras*/,
+  kZoneEraInuvik /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3837,8 +3837,8 @@ static const ZoneEra kZoneEraIqaluit[] = {
 
 const ZoneInfo kZoneIqaluit = {
   "America/Iqaluit" /*name*/,
-  kZoneEraIqaluit /*eras*/,
   3 /*numEras*/,
+  kZoneEraIqaluit /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3867,8 +3867,8 @@ static const ZoneEra kZoneEraJamaica[] = {
 
 const ZoneInfo kZoneJamaica = {
   "America/Jamaica" /*name*/,
-  kZoneEraJamaica /*eras*/,
   1 /*numEras*/,
+  kZoneEraJamaica /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3897,8 +3897,8 @@ static const ZoneEra kZoneEraJuneau[] = {
 
 const ZoneInfo kZoneJuneau = {
   "America/Juneau" /*name*/,
-  kZoneEraJuneau /*eras*/,
   1 /*numEras*/,
+  kZoneEraJuneau /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3927,8 +3927,8 @@ static const ZoneEra kZoneEraLouisville[] = {
 
 const ZoneInfo kZoneLouisville = {
   "America/Kentucky/Louisville" /*name*/,
-  kZoneEraLouisville /*eras*/,
   1 /*numEras*/,
+  kZoneEraLouisville /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3969,8 +3969,8 @@ static const ZoneEra kZoneEraMonticello[] = {
 
 const ZoneInfo kZoneMonticello = {
   "America/Kentucky/Monticello" /*name*/,
-  kZoneEraMonticello /*eras*/,
   2 /*numEras*/,
+  kZoneEraMonticello /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -3999,8 +3999,8 @@ static const ZoneEra kZoneEraLa_Paz[] = {
 
 const ZoneInfo kZoneLa_Paz = {
   "America/La_Paz" /*name*/,
-  kZoneEraLa_Paz /*eras*/,
   1 /*numEras*/,
+  kZoneEraLa_Paz /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4029,8 +4029,8 @@ static const ZoneEra kZoneEraLima[] = {
 
 const ZoneInfo kZoneLima = {
   "America/Lima" /*name*/,
-  kZoneEraLima /*eras*/,
   1 /*numEras*/,
+  kZoneEraLima /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4059,8 +4059,8 @@ static const ZoneEra kZoneEraLos_Angeles[] = {
 
 const ZoneInfo kZoneLos_Angeles = {
   "America/Los_Angeles" /*name*/,
-  kZoneEraLos_Angeles /*eras*/,
   1 /*numEras*/,
+  kZoneEraLos_Angeles /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4137,8 +4137,8 @@ static const ZoneEra kZoneEraMaceio[] = {
 
 const ZoneInfo kZoneMaceio = {
   "America/Maceio" /*name*/,
-  kZoneEraMaceio /*eras*/,
   5 /*numEras*/,
+  kZoneEraMaceio /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4167,8 +4167,8 @@ static const ZoneEra kZoneEraManagua[] = {
 
 const ZoneInfo kZoneManagua = {
   "America/Managua" /*name*/,
-  kZoneEraManagua /*eras*/,
   1 /*numEras*/,
+  kZoneEraManagua /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4197,8 +4197,8 @@ static const ZoneEra kZoneEraManaus[] = {
 
 const ZoneInfo kZoneManaus = {
   "America/Manaus" /*name*/,
-  kZoneEraManaus /*eras*/,
   1 /*numEras*/,
+  kZoneEraManaus /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4227,8 +4227,8 @@ static const ZoneEra kZoneEraMartinique[] = {
 
 const ZoneInfo kZoneMartinique = {
   "America/Martinique" /*name*/,
-  kZoneEraMartinique /*eras*/,
   1 /*numEras*/,
+  kZoneEraMartinique /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4269,8 +4269,8 @@ static const ZoneEra kZoneEraMatamoros[] = {
 
 const ZoneInfo kZoneMatamoros = {
   "America/Matamoros" /*name*/,
-  kZoneEraMatamoros /*eras*/,
   2 /*numEras*/,
+  kZoneEraMatamoros /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4299,8 +4299,8 @@ static const ZoneEra kZoneEraMazatlan[] = {
 
 const ZoneInfo kZoneMazatlan = {
   "America/Mazatlan" /*name*/,
-  kZoneEraMazatlan /*eras*/,
   1 /*numEras*/,
+  kZoneEraMazatlan /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4329,8 +4329,8 @@ static const ZoneEra kZoneEraMenominee[] = {
 
 const ZoneInfo kZoneMenominee = {
   "America/Menominee" /*name*/,
-  kZoneEraMenominee /*eras*/,
   1 /*numEras*/,
+  kZoneEraMenominee /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4359,8 +4359,8 @@ static const ZoneEra kZoneEraMerida[] = {
 
 const ZoneInfo kZoneMerida = {
   "America/Merida" /*name*/,
-  kZoneEraMerida /*eras*/,
   1 /*numEras*/,
+  kZoneEraMerida /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4425,8 +4425,8 @@ static const ZoneEra kZoneEraMetlakatla[] = {
 
 const ZoneInfo kZoneMetlakatla = {
   "America/Metlakatla" /*name*/,
-  kZoneEraMetlakatla /*eras*/,
   4 /*numEras*/,
+  kZoneEraMetlakatla /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4479,8 +4479,8 @@ static const ZoneEra kZoneEraMexico_City[] = {
 
 const ZoneInfo kZoneMexico_City = {
   "America/Mexico_City" /*name*/,
-  kZoneEraMexico_City /*eras*/,
   3 /*numEras*/,
+  kZoneEraMexico_City /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4509,8 +4509,8 @@ static const ZoneEra kZoneEraMiquelon[] = {
 
 const ZoneInfo kZoneMiquelon = {
   "America/Miquelon" /*name*/,
-  kZoneEraMiquelon /*eras*/,
   1 /*numEras*/,
+  kZoneEraMiquelon /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4551,8 +4551,8 @@ static const ZoneEra kZoneEraMoncton[] = {
 
 const ZoneInfo kZoneMoncton = {
   "America/Moncton" /*name*/,
-  kZoneEraMoncton /*eras*/,
   2 /*numEras*/,
+  kZoneEraMoncton /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4581,8 +4581,8 @@ static const ZoneEra kZoneEraMonterrey[] = {
 
 const ZoneInfo kZoneMonterrey = {
   "America/Monterrey" /*name*/,
-  kZoneEraMonterrey /*eras*/,
   1 /*numEras*/,
+  kZoneEraMonterrey /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4611,8 +4611,8 @@ static const ZoneEra kZoneEraMontevideo[] = {
 
 const ZoneInfo kZoneMontevideo = {
   "America/Montevideo" /*name*/,
-  kZoneEraMontevideo /*eras*/,
   1 /*numEras*/,
+  kZoneEraMontevideo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4641,8 +4641,8 @@ static const ZoneEra kZoneEraNassau[] = {
 
 const ZoneInfo kZoneNassau = {
   "America/Nassau" /*name*/,
-  kZoneEraNassau /*eras*/,
   1 /*numEras*/,
+  kZoneEraNassau /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4671,8 +4671,8 @@ static const ZoneEra kZoneEraNew_York[] = {
 
 const ZoneInfo kZoneNew_York = {
   "America/New_York" /*name*/,
-  kZoneEraNew_York /*eras*/,
   1 /*numEras*/,
+  kZoneEraNew_York /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4701,8 +4701,8 @@ static const ZoneEra kZoneEraNipigon[] = {
 
 const ZoneInfo kZoneNipigon = {
   "America/Nipigon" /*name*/,
-  kZoneEraNipigon /*eras*/,
   1 /*numEras*/,
+  kZoneEraNipigon /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4731,8 +4731,8 @@ static const ZoneEra kZoneEraNome[] = {
 
 const ZoneInfo kZoneNome = {
   "America/Nome" /*name*/,
-  kZoneEraNome /*eras*/,
   1 /*numEras*/,
+  kZoneEraNome /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4809,8 +4809,8 @@ static const ZoneEra kZoneEraNoronha[] = {
 
 const ZoneInfo kZoneNoronha = {
   "America/Noronha" /*name*/,
-  kZoneEraNoronha /*eras*/,
   5 /*numEras*/,
+  kZoneEraNoronha /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4851,8 +4851,8 @@ static const ZoneEra kZoneEraBeulah[] = {
 
 const ZoneInfo kZoneBeulah = {
   "America/North_Dakota/Beulah" /*name*/,
-  kZoneEraBeulah /*eras*/,
   2 /*numEras*/,
+  kZoneEraBeulah /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4881,8 +4881,8 @@ static const ZoneEra kZoneEraCenter[] = {
 
 const ZoneInfo kZoneCenter = {
   "America/North_Dakota/Center" /*name*/,
-  kZoneEraCenter /*eras*/,
   1 /*numEras*/,
+  kZoneEraCenter /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4923,8 +4923,8 @@ static const ZoneEra kZoneEraNew_Salem[] = {
 
 const ZoneInfo kZoneNew_Salem = {
   "America/North_Dakota/New_Salem" /*name*/,
-  kZoneEraNew_Salem /*eras*/,
   2 /*numEras*/,
+  kZoneEraNew_Salem /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4965,8 +4965,8 @@ static const ZoneEra kZoneEraOjinaga[] = {
 
 const ZoneInfo kZoneOjinaga = {
   "America/Ojinaga" /*name*/,
-  kZoneEraOjinaga /*eras*/,
   2 /*numEras*/,
+  kZoneEraOjinaga /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -4995,8 +4995,8 @@ static const ZoneEra kZoneEraPanama[] = {
 
 const ZoneInfo kZonePanama = {
   "America/Panama" /*name*/,
-  kZoneEraPanama /*eras*/,
   1 /*numEras*/,
+  kZoneEraPanama /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5049,8 +5049,8 @@ static const ZoneEra kZoneEraPangnirtung[] = {
 
 const ZoneInfo kZonePangnirtung = {
   "America/Pangnirtung" /*name*/,
-  kZoneEraPangnirtung /*eras*/,
   3 /*numEras*/,
+  kZoneEraPangnirtung /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5079,8 +5079,8 @@ static const ZoneEra kZoneEraParamaribo[] = {
 
 const ZoneInfo kZoneParamaribo = {
   "America/Paramaribo" /*name*/,
-  kZoneEraParamaribo /*eras*/,
   1 /*numEras*/,
+  kZoneEraParamaribo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5109,8 +5109,8 @@ static const ZoneEra kZoneEraPhoenix[] = {
 
 const ZoneInfo kZonePhoenix = {
   "America/Phoenix" /*name*/,
-  kZoneEraPhoenix /*eras*/,
   1 /*numEras*/,
+  kZoneEraPhoenix /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5139,8 +5139,8 @@ static const ZoneEra kZoneEraPort_au_Prince[] = {
 
 const ZoneInfo kZonePort_au_Prince = {
   "America/Port_au_Prince" /*name*/,
-  kZoneEraPort_au_Prince /*eras*/,
   1 /*numEras*/,
+  kZoneEraPort_au_Prince /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5169,8 +5169,8 @@ static const ZoneEra kZoneEraPort_of_Spain[] = {
 
 const ZoneInfo kZonePort_of_Spain = {
   "America/Port_of_Spain" /*name*/,
-  kZoneEraPort_of_Spain /*eras*/,
   1 /*numEras*/,
+  kZoneEraPort_of_Spain /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5199,8 +5199,8 @@ static const ZoneEra kZoneEraPorto_Velho[] = {
 
 const ZoneInfo kZonePorto_Velho = {
   "America/Porto_Velho" /*name*/,
-  kZoneEraPorto_Velho /*eras*/,
   1 /*numEras*/,
+  kZoneEraPorto_Velho /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5229,8 +5229,8 @@ static const ZoneEra kZoneEraPuerto_Rico[] = {
 
 const ZoneInfo kZonePuerto_Rico = {
   "America/Puerto_Rico" /*name*/,
-  kZoneEraPuerto_Rico /*eras*/,
   1 /*numEras*/,
+  kZoneEraPuerto_Rico /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5271,8 +5271,8 @@ static const ZoneEra kZoneEraPunta_Arenas[] = {
 
 const ZoneInfo kZonePunta_Arenas = {
   "America/Punta_Arenas" /*name*/,
-  kZoneEraPunta_Arenas /*eras*/,
   2 /*numEras*/,
+  kZoneEraPunta_Arenas /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5301,8 +5301,8 @@ static const ZoneEra kZoneEraRainy_River[] = {
 
 const ZoneInfo kZoneRainy_River = {
   "America/Rainy_River" /*name*/,
-  kZoneEraRainy_River /*eras*/,
   1 /*numEras*/,
+  kZoneEraRainy_River /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5355,8 +5355,8 @@ static const ZoneEra kZoneEraRankin_Inlet[] = {
 
 const ZoneInfo kZoneRankin_Inlet = {
   "America/Rankin_Inlet" /*name*/,
-  kZoneEraRankin_Inlet /*eras*/,
   3 /*numEras*/,
+  kZoneEraRankin_Inlet /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5433,8 +5433,8 @@ static const ZoneEra kZoneEraRecife[] = {
 
 const ZoneInfo kZoneRecife = {
   "America/Recife" /*name*/,
-  kZoneEraRecife /*eras*/,
   5 /*numEras*/,
+  kZoneEraRecife /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5463,8 +5463,8 @@ static const ZoneEra kZoneEraRegina[] = {
 
 const ZoneInfo kZoneRegina = {
   "America/Regina" /*name*/,
-  kZoneEraRegina /*eras*/,
   1 /*numEras*/,
+  kZoneEraRegina /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5541,8 +5541,8 @@ static const ZoneEra kZoneEraResolute[] = {
 
 const ZoneInfo kZoneResolute = {
   "America/Resolute" /*name*/,
-  kZoneEraResolute /*eras*/,
   5 /*numEras*/,
+  kZoneEraResolute /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5595,8 +5595,8 @@ static const ZoneEra kZoneEraRio_Branco[] = {
 
 const ZoneInfo kZoneRio_Branco = {
   "America/Rio_Branco" /*name*/,
-  kZoneEraRio_Branco /*eras*/,
   3 /*numEras*/,
+  kZoneEraRio_Branco /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5637,8 +5637,8 @@ static const ZoneEra kZoneEraSantarem[] = {
 
 const ZoneInfo kZoneSantarem = {
   "America/Santarem" /*name*/,
-  kZoneEraSantarem /*eras*/,
   2 /*numEras*/,
+  kZoneEraSantarem /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5667,8 +5667,8 @@ static const ZoneEra kZoneEraSantiago[] = {
 
 const ZoneInfo kZoneSantiago = {
   "America/Santiago" /*name*/,
-  kZoneEraSantiago /*eras*/,
   1 /*numEras*/,
+  kZoneEraSantiago /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5721,8 +5721,8 @@ static const ZoneEra kZoneEraSanto_Domingo[] = {
 
 const ZoneInfo kZoneSanto_Domingo = {
   "America/Santo_Domingo" /*name*/,
-  kZoneEraSanto_Domingo /*eras*/,
   3 /*numEras*/,
+  kZoneEraSanto_Domingo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5751,8 +5751,8 @@ static const ZoneEra kZoneEraSao_Paulo[] = {
 
 const ZoneInfo kZoneSao_Paulo = {
   "America/Sao_Paulo" /*name*/,
-  kZoneEraSao_Paulo /*eras*/,
   1 /*numEras*/,
+  kZoneEraSao_Paulo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5781,8 +5781,8 @@ static const ZoneEra kZoneEraScoresbysund[] = {
 
 const ZoneInfo kZoneScoresbysund = {
   "America/Scoresbysund" /*name*/,
-  kZoneEraScoresbysund /*eras*/,
   1 /*numEras*/,
+  kZoneEraScoresbysund /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5811,8 +5811,8 @@ static const ZoneEra kZoneEraSitka[] = {
 
 const ZoneInfo kZoneSitka = {
   "America/Sitka" /*name*/,
-  kZoneEraSitka /*eras*/,
   1 /*numEras*/,
+  kZoneEraSitka /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5853,8 +5853,8 @@ static const ZoneEra kZoneEraSt_Johns[] = {
 
 const ZoneInfo kZoneSt_Johns = {
   "America/St_Johns" /*name*/,
-  kZoneEraSt_Johns /*eras*/,
   2 /*numEras*/,
+  kZoneEraSt_Johns /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5883,8 +5883,8 @@ static const ZoneEra kZoneEraSwift_Current[] = {
 
 const ZoneInfo kZoneSwift_Current = {
   "America/Swift_Current" /*name*/,
-  kZoneEraSwift_Current /*eras*/,
   1 /*numEras*/,
+  kZoneEraSwift_Current /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5913,8 +5913,8 @@ static const ZoneEra kZoneEraTegucigalpa[] = {
 
 const ZoneInfo kZoneTegucigalpa = {
   "America/Tegucigalpa" /*name*/,
-  kZoneEraTegucigalpa /*eras*/,
   1 /*numEras*/,
+  kZoneEraTegucigalpa /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5943,8 +5943,8 @@ static const ZoneEra kZoneEraThule[] = {
 
 const ZoneInfo kZoneThule = {
   "America/Thule" /*name*/,
-  kZoneEraThule /*eras*/,
   1 /*numEras*/,
+  kZoneEraThule /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -5973,8 +5973,8 @@ static const ZoneEra kZoneEraThunder_Bay[] = {
 
 const ZoneInfo kZoneThunder_Bay = {
   "America/Thunder_Bay" /*name*/,
-  kZoneEraThunder_Bay /*eras*/,
   1 /*numEras*/,
+  kZoneEraThunder_Bay /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6039,8 +6039,8 @@ static const ZoneEra kZoneEraTijuana[] = {
 
 const ZoneInfo kZoneTijuana = {
   "America/Tijuana" /*name*/,
-  kZoneEraTijuana /*eras*/,
   4 /*numEras*/,
+  kZoneEraTijuana /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6069,8 +6069,8 @@ static const ZoneEra kZoneEraToronto[] = {
 
 const ZoneInfo kZoneToronto = {
   "America/Toronto" /*name*/,
-  kZoneEraToronto /*eras*/,
   1 /*numEras*/,
+  kZoneEraToronto /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6099,8 +6099,8 @@ static const ZoneEra kZoneEraVancouver[] = {
 
 const ZoneInfo kZoneVancouver = {
   "America/Vancouver" /*name*/,
-  kZoneEraVancouver /*eras*/,
   1 /*numEras*/,
+  kZoneEraVancouver /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6129,8 +6129,8 @@ static const ZoneEra kZoneEraWhitehorse[] = {
 
 const ZoneInfo kZoneWhitehorse = {
   "America/Whitehorse" /*name*/,
-  kZoneEraWhitehorse /*eras*/,
   1 /*numEras*/,
+  kZoneEraWhitehorse /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6171,8 +6171,8 @@ static const ZoneEra kZoneEraWinnipeg[] = {
 
 const ZoneInfo kZoneWinnipeg = {
   "America/Winnipeg" /*name*/,
-  kZoneEraWinnipeg /*eras*/,
   2 /*numEras*/,
+  kZoneEraWinnipeg /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6201,8 +6201,8 @@ static const ZoneEra kZoneEraYakutat[] = {
 
 const ZoneInfo kZoneYakutat = {
   "America/Yakutat" /*name*/,
-  kZoneEraYakutat /*eras*/,
   1 /*numEras*/,
+  kZoneEraYakutat /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6231,8 +6231,8 @@ static const ZoneEra kZoneEraYellowknife[] = {
 
 const ZoneInfo kZoneYellowknife = {
   "America/Yellowknife" /*name*/,
-  kZoneEraYellowknife /*eras*/,
   1 /*numEras*/,
+  kZoneEraYellowknife /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6333,8 +6333,8 @@ static const ZoneEra kZoneEraCasey[] = {
 
 const ZoneInfo kZoneCasey = {
   "Antarctica/Casey" /*name*/,
-  kZoneEraCasey /*eras*/,
   7 /*numEras*/,
+  kZoneEraCasey /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6411,8 +6411,8 @@ static const ZoneEra kZoneEraDavis[] = {
 
 const ZoneInfo kZoneDavis = {
   "Antarctica/Davis" /*name*/,
-  kZoneEraDavis /*eras*/,
   5 /*numEras*/,
+  kZoneEraDavis /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6441,8 +6441,8 @@ static const ZoneEra kZoneEraDumontDUrville[] = {
 
 const ZoneInfo kZoneDumontDUrville = {
   "Antarctica/DumontDUrville" /*name*/,
-  kZoneEraDumontDUrville /*eras*/,
   1 /*numEras*/,
+  kZoneEraDumontDUrville /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6483,8 +6483,8 @@ static const ZoneEra kZoneEraMacquarie[] = {
 
 const ZoneInfo kZoneMacquarie = {
   "Antarctica/Macquarie" /*name*/,
-  kZoneEraMacquarie /*eras*/,
   2 /*numEras*/,
+  kZoneEraMacquarie /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6525,8 +6525,8 @@ static const ZoneEra kZoneEraMawson[] = {
 
 const ZoneInfo kZoneMawson = {
   "Antarctica/Mawson" /*name*/,
-  kZoneEraMawson /*eras*/,
   2 /*numEras*/,
+  kZoneEraMawson /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6567,8 +6567,8 @@ static const ZoneEra kZoneEraPalmer[] = {
 
 const ZoneInfo kZonePalmer = {
   "Antarctica/Palmer" /*name*/,
-  kZoneEraPalmer /*eras*/,
   2 /*numEras*/,
+  kZoneEraPalmer /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6597,8 +6597,8 @@ static const ZoneEra kZoneEraRothera[] = {
 
 const ZoneInfo kZoneRothera = {
   "Antarctica/Rothera" /*name*/,
-  kZoneEraRothera /*eras*/,
   1 /*numEras*/,
+  kZoneEraRothera /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6627,8 +6627,8 @@ static const ZoneEra kZoneEraSyowa[] = {
 
 const ZoneInfo kZoneSyowa = {
   "Antarctica/Syowa" /*name*/,
-  kZoneEraSyowa /*eras*/,
   1 /*numEras*/,
+  kZoneEraSyowa /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6669,8 +6669,8 @@ static const ZoneEra kZoneEraTroll[] = {
 
 const ZoneInfo kZoneTroll = {
   "Antarctica/Troll" /*name*/,
-  kZoneEraTroll /*eras*/,
   2 /*numEras*/,
+  kZoneEraTroll /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6699,8 +6699,8 @@ static const ZoneEra kZoneEraVostok[] = {
 
 const ZoneInfo kZoneVostok = {
   "Antarctica/Vostok" /*name*/,
-  kZoneEraVostok /*eras*/,
   1 /*numEras*/,
+  kZoneEraVostok /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6741,8 +6741,8 @@ static const ZoneEra kZoneEraAlmaty[] = {
 
 const ZoneInfo kZoneAlmaty = {
   "Asia/Almaty" /*name*/,
-  kZoneEraAlmaty /*eras*/,
   2 /*numEras*/,
+  kZoneEraAlmaty /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6771,8 +6771,8 @@ static const ZoneEra kZoneEraAmman[] = {
 
 const ZoneInfo kZoneAmman = {
   "Asia/Amman" /*name*/,
-  kZoneEraAmman /*eras*/,
   1 /*numEras*/,
+  kZoneEraAmman /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6825,8 +6825,8 @@ static const ZoneEra kZoneEraAnadyr[] = {
 
 const ZoneInfo kZoneAnadyr = {
   "Asia/Anadyr" /*name*/,
-  kZoneEraAnadyr /*eras*/,
   3 /*numEras*/,
+  kZoneEraAnadyr /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6867,8 +6867,8 @@ static const ZoneEra kZoneEraAqtau[] = {
 
 const ZoneInfo kZoneAqtau = {
   "Asia/Aqtau" /*name*/,
-  kZoneEraAqtau /*eras*/,
   2 /*numEras*/,
+  kZoneEraAqtau /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6909,8 +6909,8 @@ static const ZoneEra kZoneEraAqtobe[] = {
 
 const ZoneInfo kZoneAqtobe = {
   "Asia/Aqtobe" /*name*/,
-  kZoneEraAqtobe /*eras*/,
   2 /*numEras*/,
+  kZoneEraAqtobe /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6939,8 +6939,8 @@ static const ZoneEra kZoneEraAshgabat[] = {
 
 const ZoneInfo kZoneAshgabat = {
   "Asia/Ashgabat" /*name*/,
-  kZoneEraAshgabat /*eras*/,
   1 /*numEras*/,
+  kZoneEraAshgabat /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -6993,8 +6993,8 @@ static const ZoneEra kZoneEraAtyrau[] = {
 
 const ZoneInfo kZoneAtyrau = {
   "Asia/Atyrau" /*name*/,
-  kZoneEraAtyrau /*eras*/,
   3 /*numEras*/,
+  kZoneEraAtyrau /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7023,8 +7023,8 @@ static const ZoneEra kZoneEraBaghdad[] = {
 
 const ZoneInfo kZoneBaghdad = {
   "Asia/Baghdad" /*name*/,
-  kZoneEraBaghdad /*eras*/,
   1 /*numEras*/,
+  kZoneEraBaghdad /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7053,8 +7053,8 @@ static const ZoneEra kZoneEraBaku[] = {
 
 const ZoneInfo kZoneBaku = {
   "Asia/Baku" /*name*/,
-  kZoneEraBaku /*eras*/,
   1 /*numEras*/,
+  kZoneEraBaku /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7083,8 +7083,8 @@ static const ZoneEra kZoneEraBangkok[] = {
 
 const ZoneInfo kZoneBangkok = {
   "Asia/Bangkok" /*name*/,
-  kZoneEraBangkok /*eras*/,
   1 /*numEras*/,
+  kZoneEraBangkok /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7149,8 +7149,8 @@ static const ZoneEra kZoneEraBarnaul[] = {
 
 const ZoneInfo kZoneBarnaul = {
   "Asia/Barnaul" /*name*/,
-  kZoneEraBarnaul /*eras*/,
   4 /*numEras*/,
+  kZoneEraBarnaul /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7179,8 +7179,8 @@ static const ZoneEra kZoneEraBeirut[] = {
 
 const ZoneInfo kZoneBeirut = {
   "Asia/Beirut" /*name*/,
-  kZoneEraBeirut /*eras*/,
   1 /*numEras*/,
+  kZoneEraBeirut /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7221,8 +7221,8 @@ static const ZoneEra kZoneEraBishkek[] = {
 
 const ZoneInfo kZoneBishkek = {
   "Asia/Bishkek" /*name*/,
-  kZoneEraBishkek /*eras*/,
   2 /*numEras*/,
+  kZoneEraBishkek /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7251,8 +7251,8 @@ static const ZoneEra kZoneEraBrunei[] = {
 
 const ZoneInfo kZoneBrunei = {
   "Asia/Brunei" /*name*/,
-  kZoneEraBrunei /*eras*/,
   1 /*numEras*/,
+  kZoneEraBrunei /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7317,8 +7317,8 @@ static const ZoneEra kZoneEraChita[] = {
 
 const ZoneInfo kZoneChita = {
   "Asia/Chita" /*name*/,
-  kZoneEraChita /*eras*/,
   4 /*numEras*/,
+  kZoneEraChita /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7359,8 +7359,8 @@ static const ZoneEra kZoneEraChoibalsan[] = {
 
 const ZoneInfo kZoneChoibalsan = {
   "Asia/Choibalsan" /*name*/,
-  kZoneEraChoibalsan /*eras*/,
   2 /*numEras*/,
+  kZoneEraChoibalsan /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7401,8 +7401,8 @@ static const ZoneEra kZoneEraColombo[] = {
 
 const ZoneInfo kZoneColombo = {
   "Asia/Colombo" /*name*/,
-  kZoneEraColombo /*eras*/,
   2 /*numEras*/,
+  kZoneEraColombo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7431,8 +7431,8 @@ static const ZoneEra kZoneEraDamascus[] = {
 
 const ZoneInfo kZoneDamascus = {
   "Asia/Damascus" /*name*/,
-  kZoneEraDamascus /*eras*/,
   1 /*numEras*/,
+  kZoneEraDamascus /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7473,8 +7473,8 @@ static const ZoneEra kZoneEraDhaka[] = {
 
 const ZoneInfo kZoneDhaka = {
   "Asia/Dhaka" /*name*/,
-  kZoneEraDhaka /*eras*/,
   2 /*numEras*/,
+  kZoneEraDhaka /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7515,8 +7515,8 @@ static const ZoneEra kZoneEraDili[] = {
 
 const ZoneInfo kZoneDili = {
   "Asia/Dili" /*name*/,
-  kZoneEraDili /*eras*/,
   2 /*numEras*/,
+  kZoneEraDili /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7545,8 +7545,8 @@ static const ZoneEra kZoneEraDubai[] = {
 
 const ZoneInfo kZoneDubai = {
   "Asia/Dubai" /*name*/,
-  kZoneEraDubai /*eras*/,
   1 /*numEras*/,
+  kZoneEraDubai /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7575,8 +7575,8 @@ static const ZoneEra kZoneEraDushanbe[] = {
 
 const ZoneInfo kZoneDushanbe = {
   "Asia/Dushanbe" /*name*/,
-  kZoneEraDushanbe /*eras*/,
   1 /*numEras*/,
+  kZoneEraDushanbe /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7629,8 +7629,8 @@ static const ZoneEra kZoneEraFamagusta[] = {
 
 const ZoneInfo kZoneFamagusta = {
   "Asia/Famagusta" /*name*/,
-  kZoneEraFamagusta /*eras*/,
   3 /*numEras*/,
+  kZoneEraFamagusta /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7743,8 +7743,8 @@ static const ZoneEra kZoneEraGaza[] = {
 
 const ZoneInfo kZoneGaza = {
   "Asia/Gaza" /*name*/,
-  kZoneEraGaza /*eras*/,
   8 /*numEras*/,
+  kZoneEraGaza /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7785,8 +7785,8 @@ static const ZoneEra kZoneEraHebron[] = {
 
 const ZoneInfo kZoneHebron = {
   "Asia/Hebron" /*name*/,
-  kZoneEraHebron /*eras*/,
   2 /*numEras*/,
+  kZoneEraHebron /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7815,8 +7815,8 @@ static const ZoneEra kZoneEraHo_Chi_Minh[] = {
 
 const ZoneInfo kZoneHo_Chi_Minh = {
   "Asia/Ho_Chi_Minh" /*name*/,
-  kZoneEraHo_Chi_Minh /*eras*/,
   1 /*numEras*/,
+  kZoneEraHo_Chi_Minh /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7845,8 +7845,8 @@ static const ZoneEra kZoneEraHong_Kong[] = {
 
 const ZoneInfo kZoneHong_Kong = {
   "Asia/Hong_Kong" /*name*/,
-  kZoneEraHong_Kong /*eras*/,
   1 /*numEras*/,
+  kZoneEraHong_Kong /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7875,8 +7875,8 @@ static const ZoneEra kZoneEraHovd[] = {
 
 const ZoneInfo kZoneHovd = {
   "Asia/Hovd" /*name*/,
-  kZoneEraHovd /*eras*/,
   1 /*numEras*/,
+  kZoneEraHovd /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7929,8 +7929,8 @@ static const ZoneEra kZoneEraIrkutsk[] = {
 
 const ZoneInfo kZoneIrkutsk = {
   "Asia/Irkutsk" /*name*/,
-  kZoneEraIrkutsk /*eras*/,
   3 /*numEras*/,
+  kZoneEraIrkutsk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7959,8 +7959,8 @@ static const ZoneEra kZoneEraJakarta[] = {
 
 const ZoneInfo kZoneJakarta = {
   "Asia/Jakarta" /*name*/,
-  kZoneEraJakarta /*eras*/,
   1 /*numEras*/,
+  kZoneEraJakarta /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -7989,8 +7989,8 @@ static const ZoneEra kZoneEraJayapura[] = {
 
 const ZoneInfo kZoneJayapura = {
   "Asia/Jayapura" /*name*/,
-  kZoneEraJayapura /*eras*/,
   1 /*numEras*/,
+  kZoneEraJayapura /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8019,8 +8019,8 @@ static const ZoneEra kZoneEraJerusalem[] = {
 
 const ZoneInfo kZoneJerusalem = {
   "Asia/Jerusalem" /*name*/,
-  kZoneEraJerusalem /*eras*/,
   1 /*numEras*/,
+  kZoneEraJerusalem /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8049,8 +8049,8 @@ static const ZoneEra kZoneEraKabul[] = {
 
 const ZoneInfo kZoneKabul = {
   "Asia/Kabul" /*name*/,
-  kZoneEraKabul /*eras*/,
   1 /*numEras*/,
+  kZoneEraKabul /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8103,8 +8103,8 @@ static const ZoneEra kZoneEraKamchatka[] = {
 
 const ZoneInfo kZoneKamchatka = {
   "Asia/Kamchatka" /*name*/,
-  kZoneEraKamchatka /*eras*/,
   3 /*numEras*/,
+  kZoneEraKamchatka /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8133,8 +8133,8 @@ static const ZoneEra kZoneEraKarachi[] = {
 
 const ZoneInfo kZoneKarachi = {
   "Asia/Karachi" /*name*/,
-  kZoneEraKarachi /*eras*/,
   1 /*numEras*/,
+  kZoneEraKarachi /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8163,8 +8163,8 @@ static const ZoneEra kZoneEraKathmandu[] = {
 
 const ZoneInfo kZoneKathmandu = {
   "Asia/Kathmandu" /*name*/,
-  kZoneEraKathmandu /*eras*/,
   1 /*numEras*/,
+  kZoneEraKathmandu /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8241,8 +8241,8 @@ static const ZoneEra kZoneEraKhandyga[] = {
 
 const ZoneInfo kZoneKhandyga = {
   "Asia/Khandyga" /*name*/,
-  kZoneEraKhandyga /*eras*/,
   5 /*numEras*/,
+  kZoneEraKhandyga /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8271,8 +8271,8 @@ static const ZoneEra kZoneEraKolkata[] = {
 
 const ZoneInfo kZoneKolkata = {
   "Asia/Kolkata" /*name*/,
-  kZoneEraKolkata /*eras*/,
   1 /*numEras*/,
+  kZoneEraKolkata /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8325,8 +8325,8 @@ static const ZoneEra kZoneEraKrasnoyarsk[] = {
 
 const ZoneInfo kZoneKrasnoyarsk = {
   "Asia/Krasnoyarsk" /*name*/,
-  kZoneEraKrasnoyarsk /*eras*/,
   3 /*numEras*/,
+  kZoneEraKrasnoyarsk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8355,8 +8355,8 @@ static const ZoneEra kZoneEraKuala_Lumpur[] = {
 
 const ZoneInfo kZoneKuala_Lumpur = {
   "Asia/Kuala_Lumpur" /*name*/,
-  kZoneEraKuala_Lumpur /*eras*/,
   1 /*numEras*/,
+  kZoneEraKuala_Lumpur /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8385,8 +8385,8 @@ static const ZoneEra kZoneEraKuching[] = {
 
 const ZoneInfo kZoneKuching = {
   "Asia/Kuching" /*name*/,
-  kZoneEraKuching /*eras*/,
   1 /*numEras*/,
+  kZoneEraKuching /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8415,8 +8415,8 @@ static const ZoneEra kZoneEraMacau[] = {
 
 const ZoneInfo kZoneMacau = {
   "Asia/Macau" /*name*/,
-  kZoneEraMacau /*eras*/,
   1 /*numEras*/,
+  kZoneEraMacau /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8481,8 +8481,8 @@ static const ZoneEra kZoneEraMagadan[] = {
 
 const ZoneInfo kZoneMagadan = {
   "Asia/Magadan" /*name*/,
-  kZoneEraMagadan /*eras*/,
   4 /*numEras*/,
+  kZoneEraMagadan /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8511,8 +8511,8 @@ static const ZoneEra kZoneEraMakassar[] = {
 
 const ZoneInfo kZoneMakassar = {
   "Asia/Makassar" /*name*/,
-  kZoneEraMakassar /*eras*/,
   1 /*numEras*/,
+  kZoneEraMakassar /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8541,8 +8541,8 @@ static const ZoneEra kZoneEraManila[] = {
 
 const ZoneInfo kZoneManila = {
   "Asia/Manila" /*name*/,
-  kZoneEraManila /*eras*/,
   1 /*numEras*/,
+  kZoneEraManila /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8571,8 +8571,8 @@ static const ZoneEra kZoneEraNicosia[] = {
 
 const ZoneInfo kZoneNicosia = {
   "Asia/Nicosia" /*name*/,
-  kZoneEraNicosia /*eras*/,
   1 /*numEras*/,
+  kZoneEraNicosia /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8625,8 +8625,8 @@ static const ZoneEra kZoneEraNovokuznetsk[] = {
 
 const ZoneInfo kZoneNovokuznetsk = {
   "Asia/Novokuznetsk" /*name*/,
-  kZoneEraNovokuznetsk /*eras*/,
   3 /*numEras*/,
+  kZoneEraNovokuznetsk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8691,8 +8691,8 @@ static const ZoneEra kZoneEraNovosibirsk[] = {
 
 const ZoneInfo kZoneNovosibirsk = {
   "Asia/Novosibirsk" /*name*/,
-  kZoneEraNovosibirsk /*eras*/,
   4 /*numEras*/,
+  kZoneEraNovosibirsk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8745,8 +8745,8 @@ static const ZoneEra kZoneEraOmsk[] = {
 
 const ZoneInfo kZoneOmsk = {
   "Asia/Omsk" /*name*/,
-  kZoneEraOmsk /*eras*/,
   3 /*numEras*/,
+  kZoneEraOmsk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8787,8 +8787,8 @@ static const ZoneEra kZoneEraOral[] = {
 
 const ZoneInfo kZoneOral = {
   "Asia/Oral" /*name*/,
-  kZoneEraOral /*eras*/,
   2 /*numEras*/,
+  kZoneEraOral /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8817,8 +8817,8 @@ static const ZoneEra kZoneEraPontianak[] = {
 
 const ZoneInfo kZonePontianak = {
   "Asia/Pontianak" /*name*/,
-  kZoneEraPontianak /*eras*/,
   1 /*numEras*/,
+  kZoneEraPontianak /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8871,8 +8871,8 @@ static const ZoneEra kZoneEraPyongyang[] = {
 
 const ZoneInfo kZonePyongyang = {
   "Asia/Pyongyang" /*name*/,
-  kZoneEraPyongyang /*eras*/,
   3 /*numEras*/,
+  kZoneEraPyongyang /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8901,8 +8901,8 @@ static const ZoneEra kZoneEraQatar[] = {
 
 const ZoneInfo kZoneQatar = {
   "Asia/Qatar" /*name*/,
-  kZoneEraQatar /*eras*/,
   1 /*numEras*/,
+  kZoneEraQatar /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8943,8 +8943,8 @@ static const ZoneEra kZoneEraQostanay[] = {
 
 const ZoneInfo kZoneQostanay = {
   "Asia/Qostanay" /*name*/,
-  kZoneEraQostanay /*eras*/,
   2 /*numEras*/,
+  kZoneEraQostanay /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -8997,8 +8997,8 @@ static const ZoneEra kZoneEraQyzylorda[] = {
 
 const ZoneInfo kZoneQyzylorda = {
   "Asia/Qyzylorda" /*name*/,
-  kZoneEraQyzylorda /*eras*/,
   3 /*numEras*/,
+  kZoneEraQyzylorda /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9027,8 +9027,8 @@ static const ZoneEra kZoneEraRiyadh[] = {
 
 const ZoneInfo kZoneRiyadh = {
   "Asia/Riyadh" /*name*/,
-  kZoneEraRiyadh /*eras*/,
   1 /*numEras*/,
+  kZoneEraRiyadh /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9093,8 +9093,8 @@ static const ZoneEra kZoneEraSakhalin[] = {
 
 const ZoneInfo kZoneSakhalin = {
   "Asia/Sakhalin" /*name*/,
-  kZoneEraSakhalin /*eras*/,
   4 /*numEras*/,
+  kZoneEraSakhalin /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9123,8 +9123,8 @@ static const ZoneEra kZoneEraSamarkand[] = {
 
 const ZoneInfo kZoneSamarkand = {
   "Asia/Samarkand" /*name*/,
-  kZoneEraSamarkand /*eras*/,
   1 /*numEras*/,
+  kZoneEraSamarkand /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9153,8 +9153,8 @@ static const ZoneEra kZoneEraSeoul[] = {
 
 const ZoneInfo kZoneSeoul = {
   "Asia/Seoul" /*name*/,
-  kZoneEraSeoul /*eras*/,
   1 /*numEras*/,
+  kZoneEraSeoul /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9183,8 +9183,8 @@ static const ZoneEra kZoneEraShanghai[] = {
 
 const ZoneInfo kZoneShanghai = {
   "Asia/Shanghai" /*name*/,
-  kZoneEraShanghai /*eras*/,
   1 /*numEras*/,
+  kZoneEraShanghai /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9213,8 +9213,8 @@ static const ZoneEra kZoneEraSingapore[] = {
 
 const ZoneInfo kZoneSingapore = {
   "Asia/Singapore" /*name*/,
-  kZoneEraSingapore /*eras*/,
   1 /*numEras*/,
+  kZoneEraSingapore /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9267,8 +9267,8 @@ static const ZoneEra kZoneEraSrednekolymsk[] = {
 
 const ZoneInfo kZoneSrednekolymsk = {
   "Asia/Srednekolymsk" /*name*/,
-  kZoneEraSrednekolymsk /*eras*/,
   3 /*numEras*/,
+  kZoneEraSrednekolymsk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9297,8 +9297,8 @@ static const ZoneEra kZoneEraTaipei[] = {
 
 const ZoneInfo kZoneTaipei = {
   "Asia/Taipei" /*name*/,
-  kZoneEraTaipei /*eras*/,
   1 /*numEras*/,
+  kZoneEraTaipei /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9327,8 +9327,8 @@ static const ZoneEra kZoneEraTashkent[] = {
 
 const ZoneInfo kZoneTashkent = {
   "Asia/Tashkent" /*name*/,
-  kZoneEraTashkent /*eras*/,
   1 /*numEras*/,
+  kZoneEraTashkent /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9381,8 +9381,8 @@ static const ZoneEra kZoneEraTbilisi[] = {
 
 const ZoneInfo kZoneTbilisi = {
   "Asia/Tbilisi" /*name*/,
-  kZoneEraTbilisi /*eras*/,
   3 /*numEras*/,
+  kZoneEraTbilisi /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9411,8 +9411,8 @@ static const ZoneEra kZoneEraTehran[] = {
 
 const ZoneInfo kZoneTehran = {
   "Asia/Tehran" /*name*/,
-  kZoneEraTehran /*eras*/,
   1 /*numEras*/,
+  kZoneEraTehran /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9441,8 +9441,8 @@ static const ZoneEra kZoneEraThimphu[] = {
 
 const ZoneInfo kZoneThimphu = {
   "Asia/Thimphu" /*name*/,
-  kZoneEraThimphu /*eras*/,
   1 /*numEras*/,
+  kZoneEraThimphu /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9471,8 +9471,8 @@ static const ZoneEra kZoneEraTokyo[] = {
 
 const ZoneInfo kZoneTokyo = {
   "Asia/Tokyo" /*name*/,
-  kZoneEraTokyo /*eras*/,
   1 /*numEras*/,
+  kZoneEraTokyo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9549,8 +9549,8 @@ static const ZoneEra kZoneEraTomsk[] = {
 
 const ZoneInfo kZoneTomsk = {
   "Asia/Tomsk" /*name*/,
-  kZoneEraTomsk /*eras*/,
   5 /*numEras*/,
+  kZoneEraTomsk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9579,8 +9579,8 @@ static const ZoneEra kZoneEraUlaanbaatar[] = {
 
 const ZoneInfo kZoneUlaanbaatar = {
   "Asia/Ulaanbaatar" /*name*/,
-  kZoneEraUlaanbaatar /*eras*/,
   1 /*numEras*/,
+  kZoneEraUlaanbaatar /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9609,8 +9609,8 @@ static const ZoneEra kZoneEraUrumqi[] = {
 
 const ZoneInfo kZoneUrumqi = {
   "Asia/Urumqi" /*name*/,
-  kZoneEraUrumqi /*eras*/,
   1 /*numEras*/,
+  kZoneEraUrumqi /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9675,8 +9675,8 @@ static const ZoneEra kZoneEraUst_Nera[] = {
 
 const ZoneInfo kZoneUst_Nera = {
   "Asia/Ust_Nera" /*name*/,
-  kZoneEraUst_Nera /*eras*/,
   4 /*numEras*/,
+  kZoneEraUst_Nera /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9729,8 +9729,8 @@ static const ZoneEra kZoneEraVladivostok[] = {
 
 const ZoneInfo kZoneVladivostok = {
   "Asia/Vladivostok" /*name*/,
-  kZoneEraVladivostok /*eras*/,
   3 /*numEras*/,
+  kZoneEraVladivostok /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9783,8 +9783,8 @@ static const ZoneEra kZoneEraYakutsk[] = {
 
 const ZoneInfo kZoneYakutsk = {
   "Asia/Yakutsk" /*name*/,
-  kZoneEraYakutsk /*eras*/,
   3 /*numEras*/,
+  kZoneEraYakutsk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9813,8 +9813,8 @@ static const ZoneEra kZoneEraYangon[] = {
 
 const ZoneInfo kZoneYangon = {
   "Asia/Yangon" /*name*/,
-  kZoneEraYangon /*eras*/,
   1 /*numEras*/,
+  kZoneEraYangon /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9867,8 +9867,8 @@ static const ZoneEra kZoneEraYekaterinburg[] = {
 
 const ZoneInfo kZoneYekaterinburg = {
   "Asia/Yekaterinburg" /*name*/,
-  kZoneEraYekaterinburg /*eras*/,
   3 /*numEras*/,
+  kZoneEraYekaterinburg /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9909,8 +9909,8 @@ static const ZoneEra kZoneEraYerevan[] = {
 
 const ZoneInfo kZoneYerevan = {
   "Asia/Yerevan" /*name*/,
-  kZoneEraYerevan /*eras*/,
   2 /*numEras*/,
+  kZoneEraYerevan /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9939,8 +9939,8 @@ static const ZoneEra kZoneEraAzores[] = {
 
 const ZoneInfo kZoneAzores = {
   "Atlantic/Azores" /*name*/,
-  kZoneEraAzores /*eras*/,
   1 /*numEras*/,
+  kZoneEraAzores /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9969,8 +9969,8 @@ static const ZoneEra kZoneEraBermuda[] = {
 
 const ZoneInfo kZoneBermuda = {
   "Atlantic/Bermuda" /*name*/,
-  kZoneEraBermuda /*eras*/,
   1 /*numEras*/,
+  kZoneEraBermuda /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -9999,8 +9999,8 @@ static const ZoneEra kZoneEraCanary[] = {
 
 const ZoneInfo kZoneCanary = {
   "Atlantic/Canary" /*name*/,
-  kZoneEraCanary /*eras*/,
   1 /*numEras*/,
+  kZoneEraCanary /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10029,8 +10029,8 @@ static const ZoneEra kZoneEraCape_Verde[] = {
 
 const ZoneInfo kZoneCape_Verde = {
   "Atlantic/Cape_Verde" /*name*/,
-  kZoneEraCape_Verde /*eras*/,
   1 /*numEras*/,
+  kZoneEraCape_Verde /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10059,8 +10059,8 @@ static const ZoneEra kZoneEraFaroe[] = {
 
 const ZoneInfo kZoneFaroe = {
   "Atlantic/Faroe" /*name*/,
-  kZoneEraFaroe /*eras*/,
   1 /*numEras*/,
+  kZoneEraFaroe /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10089,8 +10089,8 @@ static const ZoneEra kZoneEraMadeira[] = {
 
 const ZoneInfo kZoneMadeira = {
   "Atlantic/Madeira" /*name*/,
-  kZoneEraMadeira /*eras*/,
   1 /*numEras*/,
+  kZoneEraMadeira /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10119,8 +10119,8 @@ static const ZoneEra kZoneEraReykjavik[] = {
 
 const ZoneInfo kZoneReykjavik = {
   "Atlantic/Reykjavik" /*name*/,
-  kZoneEraReykjavik /*eras*/,
   1 /*numEras*/,
+  kZoneEraReykjavik /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10149,8 +10149,8 @@ static const ZoneEra kZoneEraSouth_Georgia[] = {
 
 const ZoneInfo kZoneSouth_Georgia = {
   "Atlantic/South_Georgia" /*name*/,
-  kZoneEraSouth_Georgia /*eras*/,
   1 /*numEras*/,
+  kZoneEraSouth_Georgia /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10191,8 +10191,8 @@ static const ZoneEra kZoneEraStanley[] = {
 
 const ZoneInfo kZoneStanley = {
   "Atlantic/Stanley" /*name*/,
-  kZoneEraStanley /*eras*/,
   2 /*numEras*/,
+  kZoneEraStanley /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10221,8 +10221,8 @@ static const ZoneEra kZoneEraAdelaide[] = {
 
 const ZoneInfo kZoneAdelaide = {
   "Australia/Adelaide" /*name*/,
-  kZoneEraAdelaide /*eras*/,
   1 /*numEras*/,
+  kZoneEraAdelaide /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10251,8 +10251,8 @@ static const ZoneEra kZoneEraBrisbane[] = {
 
 const ZoneInfo kZoneBrisbane = {
   "Australia/Brisbane" /*name*/,
-  kZoneEraBrisbane /*eras*/,
   1 /*numEras*/,
+  kZoneEraBrisbane /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10293,8 +10293,8 @@ static const ZoneEra kZoneEraBroken_Hill[] = {
 
 const ZoneInfo kZoneBroken_Hill = {
   "Australia/Broken_Hill" /*name*/,
-  kZoneEraBroken_Hill /*eras*/,
   2 /*numEras*/,
+  kZoneEraBroken_Hill /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10323,8 +10323,8 @@ static const ZoneEra kZoneEraCurrie[] = {
 
 const ZoneInfo kZoneCurrie = {
   "Australia/Currie" /*name*/,
-  kZoneEraCurrie /*eras*/,
   1 /*numEras*/,
+  kZoneEraCurrie /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10353,8 +10353,8 @@ static const ZoneEra kZoneEraDarwin[] = {
 
 const ZoneInfo kZoneDarwin = {
   "Australia/Darwin" /*name*/,
-  kZoneEraDarwin /*eras*/,
   1 /*numEras*/,
+  kZoneEraDarwin /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10383,8 +10383,8 @@ static const ZoneEra kZoneEraEucla[] = {
 
 const ZoneInfo kZoneEucla = {
   "Australia/Eucla" /*name*/,
-  kZoneEraEucla /*eras*/,
   1 /*numEras*/,
+  kZoneEraEucla /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10413,8 +10413,8 @@ static const ZoneEra kZoneEraHobart[] = {
 
 const ZoneInfo kZoneHobart = {
   "Australia/Hobart" /*name*/,
-  kZoneEraHobart /*eras*/,
   1 /*numEras*/,
+  kZoneEraHobart /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10443,8 +10443,8 @@ static const ZoneEra kZoneEraLindeman[] = {
 
 const ZoneInfo kZoneLindeman = {
   "Australia/Lindeman" /*name*/,
-  kZoneEraLindeman /*eras*/,
   1 /*numEras*/,
+  kZoneEraLindeman /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10473,8 +10473,8 @@ static const ZoneEra kZoneEraLord_Howe[] = {
 
 const ZoneInfo kZoneLord_Howe = {
   "Australia/Lord_Howe" /*name*/,
-  kZoneEraLord_Howe /*eras*/,
   1 /*numEras*/,
+  kZoneEraLord_Howe /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10503,8 +10503,8 @@ static const ZoneEra kZoneEraMelbourne[] = {
 
 const ZoneInfo kZoneMelbourne = {
   "Australia/Melbourne" /*name*/,
-  kZoneEraMelbourne /*eras*/,
   1 /*numEras*/,
+  kZoneEraMelbourne /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10533,8 +10533,8 @@ static const ZoneEra kZoneEraPerth[] = {
 
 const ZoneInfo kZonePerth = {
   "Australia/Perth" /*name*/,
-  kZoneEraPerth /*eras*/,
   1 /*numEras*/,
+  kZoneEraPerth /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10563,8 +10563,8 @@ static const ZoneEra kZoneEraSydney[] = {
 
 const ZoneInfo kZoneSydney = {
   "Australia/Sydney" /*name*/,
-  kZoneEraSydney /*eras*/,
   1 /*numEras*/,
+  kZoneEraSydney /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10593,8 +10593,8 @@ static const ZoneEra kZoneEraAmsterdam[] = {
 
 const ZoneInfo kZoneAmsterdam = {
   "Europe/Amsterdam" /*name*/,
-  kZoneEraAmsterdam /*eras*/,
   1 /*numEras*/,
+  kZoneEraAmsterdam /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10623,8 +10623,8 @@ static const ZoneEra kZoneEraAndorra[] = {
 
 const ZoneInfo kZoneAndorra = {
   "Europe/Andorra" /*name*/,
-  kZoneEraAndorra /*eras*/,
   1 /*numEras*/,
+  kZoneEraAndorra /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10689,8 +10689,8 @@ static const ZoneEra kZoneEraAstrakhan[] = {
 
 const ZoneInfo kZoneAstrakhan = {
   "Europe/Astrakhan" /*name*/,
-  kZoneEraAstrakhan /*eras*/,
   4 /*numEras*/,
+  kZoneEraAstrakhan /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10719,8 +10719,8 @@ static const ZoneEra kZoneEraAthens[] = {
 
 const ZoneInfo kZoneAthens = {
   "Europe/Athens" /*name*/,
-  kZoneEraAthens /*eras*/,
   1 /*numEras*/,
+  kZoneEraAthens /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10749,8 +10749,8 @@ static const ZoneEra kZoneEraBelgrade[] = {
 
 const ZoneInfo kZoneBelgrade = {
   "Europe/Belgrade" /*name*/,
-  kZoneEraBelgrade /*eras*/,
   1 /*numEras*/,
+  kZoneEraBelgrade /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10779,8 +10779,8 @@ static const ZoneEra kZoneEraBerlin[] = {
 
 const ZoneInfo kZoneBerlin = {
   "Europe/Berlin" /*name*/,
-  kZoneEraBerlin /*eras*/,
   1 /*numEras*/,
+  kZoneEraBerlin /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10809,8 +10809,8 @@ static const ZoneEra kZoneEraBrussels[] = {
 
 const ZoneInfo kZoneBrussels = {
   "Europe/Brussels" /*name*/,
-  kZoneEraBrussels /*eras*/,
   1 /*numEras*/,
+  kZoneEraBrussels /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10839,8 +10839,8 @@ static const ZoneEra kZoneEraBucharest[] = {
 
 const ZoneInfo kZoneBucharest = {
   "Europe/Bucharest" /*name*/,
-  kZoneEraBucharest /*eras*/,
   1 /*numEras*/,
+  kZoneEraBucharest /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10869,8 +10869,8 @@ static const ZoneEra kZoneEraBudapest[] = {
 
 const ZoneInfo kZoneBudapest = {
   "Europe/Budapest" /*name*/,
-  kZoneEraBudapest /*eras*/,
   1 /*numEras*/,
+  kZoneEraBudapest /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10899,8 +10899,8 @@ static const ZoneEra kZoneEraChisinau[] = {
 
 const ZoneInfo kZoneChisinau = {
   "Europe/Chisinau" /*name*/,
-  kZoneEraChisinau /*eras*/,
   1 /*numEras*/,
+  kZoneEraChisinau /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10929,8 +10929,8 @@ static const ZoneEra kZoneEraCopenhagen[] = {
 
 const ZoneInfo kZoneCopenhagen = {
   "Europe/Copenhagen" /*name*/,
-  kZoneEraCopenhagen /*eras*/,
   1 /*numEras*/,
+  kZoneEraCopenhagen /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10959,8 +10959,8 @@ static const ZoneEra kZoneEraDublin[] = {
 
 const ZoneInfo kZoneDublin = {
   "Europe/Dublin" /*name*/,
-  kZoneEraDublin /*eras*/,
   1 /*numEras*/,
+  kZoneEraDublin /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -10989,8 +10989,8 @@ static const ZoneEra kZoneEraGibraltar[] = {
 
 const ZoneInfo kZoneGibraltar = {
   "Europe/Gibraltar" /*name*/,
-  kZoneEraGibraltar /*eras*/,
   1 /*numEras*/,
+  kZoneEraGibraltar /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11019,8 +11019,8 @@ static const ZoneEra kZoneEraHelsinki[] = {
 
 const ZoneInfo kZoneHelsinki = {
   "Europe/Helsinki" /*name*/,
-  kZoneEraHelsinki /*eras*/,
   1 /*numEras*/,
+  kZoneEraHelsinki /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11145,8 +11145,8 @@ static const ZoneEra kZoneEraIstanbul[] = {
 
 const ZoneInfo kZoneIstanbul = {
   "Europe/Istanbul" /*name*/,
-  kZoneEraIstanbul /*eras*/,
   9 /*numEras*/,
+  kZoneEraIstanbul /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11199,8 +11199,8 @@ static const ZoneEra kZoneEraKaliningrad[] = {
 
 const ZoneInfo kZoneKaliningrad = {
   "Europe/Kaliningrad" /*name*/,
-  kZoneEraKaliningrad /*eras*/,
   3 /*numEras*/,
+  kZoneEraKaliningrad /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11229,8 +11229,8 @@ static const ZoneEra kZoneEraKiev[] = {
 
 const ZoneInfo kZoneKiev = {
   "Europe/Kiev" /*name*/,
-  kZoneEraKiev /*eras*/,
   1 /*numEras*/,
+  kZoneEraKiev /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11283,8 +11283,8 @@ static const ZoneEra kZoneEraKirov[] = {
 
 const ZoneInfo kZoneKirov = {
   "Europe/Kirov" /*name*/,
-  kZoneEraKirov /*eras*/,
   3 /*numEras*/,
+  kZoneEraKirov /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11313,8 +11313,8 @@ static const ZoneEra kZoneEraLisbon[] = {
 
 const ZoneInfo kZoneLisbon = {
   "Europe/Lisbon" /*name*/,
-  kZoneEraLisbon /*eras*/,
   1 /*numEras*/,
+  kZoneEraLisbon /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11343,8 +11343,8 @@ static const ZoneEra kZoneEraLondon[] = {
 
 const ZoneInfo kZoneLondon = {
   "Europe/London" /*name*/,
-  kZoneEraLondon /*eras*/,
   1 /*numEras*/,
+  kZoneEraLondon /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11373,8 +11373,8 @@ static const ZoneEra kZoneEraLuxembourg[] = {
 
 const ZoneInfo kZoneLuxembourg = {
   "Europe/Luxembourg" /*name*/,
-  kZoneEraLuxembourg /*eras*/,
   1 /*numEras*/,
+  kZoneEraLuxembourg /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11403,8 +11403,8 @@ static const ZoneEra kZoneEraMadrid[] = {
 
 const ZoneInfo kZoneMadrid = {
   "Europe/Madrid" /*name*/,
-  kZoneEraMadrid /*eras*/,
   1 /*numEras*/,
+  kZoneEraMadrid /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11433,8 +11433,8 @@ static const ZoneEra kZoneEraMalta[] = {
 
 const ZoneInfo kZoneMalta = {
   "Europe/Malta" /*name*/,
-  kZoneEraMalta /*eras*/,
   1 /*numEras*/,
+  kZoneEraMalta /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11475,8 +11475,8 @@ static const ZoneEra kZoneEraMinsk[] = {
 
 const ZoneInfo kZoneMinsk = {
   "Europe/Minsk" /*name*/,
-  kZoneEraMinsk /*eras*/,
   2 /*numEras*/,
+  kZoneEraMinsk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11505,8 +11505,8 @@ static const ZoneEra kZoneEraMonaco[] = {
 
 const ZoneInfo kZoneMonaco = {
   "Europe/Monaco" /*name*/,
-  kZoneEraMonaco /*eras*/,
   1 /*numEras*/,
+  kZoneEraMonaco /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11559,8 +11559,8 @@ static const ZoneEra kZoneEraMoscow[] = {
 
 const ZoneInfo kZoneMoscow = {
   "Europe/Moscow" /*name*/,
-  kZoneEraMoscow /*eras*/,
   3 /*numEras*/,
+  kZoneEraMoscow /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11589,8 +11589,8 @@ static const ZoneEra kZoneEraOslo[] = {
 
 const ZoneInfo kZoneOslo = {
   "Europe/Oslo" /*name*/,
-  kZoneEraOslo /*eras*/,
   1 /*numEras*/,
+  kZoneEraOslo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11619,8 +11619,8 @@ static const ZoneEra kZoneEraParis[] = {
 
 const ZoneInfo kZoneParis = {
   "Europe/Paris" /*name*/,
-  kZoneEraParis /*eras*/,
   1 /*numEras*/,
+  kZoneEraParis /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11649,8 +11649,8 @@ static const ZoneEra kZoneEraPrague[] = {
 
 const ZoneInfo kZonePrague = {
   "Europe/Prague" /*name*/,
-  kZoneEraPrague /*eras*/,
   1 /*numEras*/,
+  kZoneEraPrague /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11703,8 +11703,8 @@ static const ZoneEra kZoneEraRiga[] = {
 
 const ZoneInfo kZoneRiga = {
   "Europe/Riga" /*name*/,
-  kZoneEraRiga /*eras*/,
   3 /*numEras*/,
+  kZoneEraRiga /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11733,8 +11733,8 @@ static const ZoneEra kZoneEraRome[] = {
 
 const ZoneInfo kZoneRome = {
   "Europe/Rome" /*name*/,
-  kZoneEraRome /*eras*/,
   1 /*numEras*/,
+  kZoneEraRome /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11787,8 +11787,8 @@ static const ZoneEra kZoneEraSamara[] = {
 
 const ZoneInfo kZoneSamara = {
   "Europe/Samara" /*name*/,
-  kZoneEraSamara /*eras*/,
   3 /*numEras*/,
+  kZoneEraSamara /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11853,8 +11853,8 @@ static const ZoneEra kZoneEraSaratov[] = {
 
 const ZoneInfo kZoneSaratov = {
   "Europe/Saratov" /*name*/,
-  kZoneEraSaratov /*eras*/,
   4 /*numEras*/,
+  kZoneEraSaratov /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11907,8 +11907,8 @@ static const ZoneEra kZoneEraSimferopol[] = {
 
 const ZoneInfo kZoneSimferopol = {
   "Europe/Simferopol" /*name*/,
-  kZoneEraSimferopol /*eras*/,
   3 /*numEras*/,
+  kZoneEraSimferopol /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11937,8 +11937,8 @@ static const ZoneEra kZoneEraSofia[] = {
 
 const ZoneInfo kZoneSofia = {
   "Europe/Sofia" /*name*/,
-  kZoneEraSofia /*eras*/,
   1 /*numEras*/,
+  kZoneEraSofia /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -11967,8 +11967,8 @@ static const ZoneEra kZoneEraStockholm[] = {
 
 const ZoneInfo kZoneStockholm = {
   "Europe/Stockholm" /*name*/,
-  kZoneEraStockholm /*eras*/,
   1 /*numEras*/,
+  kZoneEraStockholm /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12021,8 +12021,8 @@ static const ZoneEra kZoneEraTallinn[] = {
 
 const ZoneInfo kZoneTallinn = {
   "Europe/Tallinn" /*name*/,
-  kZoneEraTallinn /*eras*/,
   3 /*numEras*/,
+  kZoneEraTallinn /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12051,8 +12051,8 @@ static const ZoneEra kZoneEraTirane[] = {
 
 const ZoneInfo kZoneTirane = {
   "Europe/Tirane" /*name*/,
-  kZoneEraTirane /*eras*/,
   1 /*numEras*/,
+  kZoneEraTirane /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12117,8 +12117,8 @@ static const ZoneEra kZoneEraUlyanovsk[] = {
 
 const ZoneInfo kZoneUlyanovsk = {
   "Europe/Ulyanovsk" /*name*/,
-  kZoneEraUlyanovsk /*eras*/,
   4 /*numEras*/,
+  kZoneEraUlyanovsk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12147,8 +12147,8 @@ static const ZoneEra kZoneEraUzhgorod[] = {
 
 const ZoneInfo kZoneUzhgorod = {
   "Europe/Uzhgorod" /*name*/,
-  kZoneEraUzhgorod /*eras*/,
   1 /*numEras*/,
+  kZoneEraUzhgorod /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12177,8 +12177,8 @@ static const ZoneEra kZoneEraVienna[] = {
 
 const ZoneInfo kZoneVienna = {
   "Europe/Vienna" /*name*/,
-  kZoneEraVienna /*eras*/,
   1 /*numEras*/,
+  kZoneEraVienna /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12231,8 +12231,8 @@ static const ZoneEra kZoneEraVilnius[] = {
 
 const ZoneInfo kZoneVilnius = {
   "Europe/Vilnius" /*name*/,
-  kZoneEraVilnius /*eras*/,
   3 /*numEras*/,
+  kZoneEraVilnius /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12297,8 +12297,8 @@ static const ZoneEra kZoneEraVolgograd[] = {
 
 const ZoneInfo kZoneVolgograd = {
   "Europe/Volgograd" /*name*/,
-  kZoneEraVolgograd /*eras*/,
   4 /*numEras*/,
+  kZoneEraVolgograd /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12327,8 +12327,8 @@ static const ZoneEra kZoneEraWarsaw[] = {
 
 const ZoneInfo kZoneWarsaw = {
   "Europe/Warsaw" /*name*/,
-  kZoneEraWarsaw /*eras*/,
   1 /*numEras*/,
+  kZoneEraWarsaw /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12357,8 +12357,8 @@ static const ZoneEra kZoneEraZaporozhye[] = {
 
 const ZoneInfo kZoneZaporozhye = {
   "Europe/Zaporozhye" /*name*/,
-  kZoneEraZaporozhye /*eras*/,
   1 /*numEras*/,
+  kZoneEraZaporozhye /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12387,8 +12387,8 @@ static const ZoneEra kZoneEraZurich[] = {
 
 const ZoneInfo kZoneZurich = {
   "Europe/Zurich" /*name*/,
-  kZoneEraZurich /*eras*/,
   1 /*numEras*/,
+  kZoneEraZurich /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12417,8 +12417,8 @@ static const ZoneEra kZoneEraChagos[] = {
 
 const ZoneInfo kZoneChagos = {
   "Indian/Chagos" /*name*/,
-  kZoneEraChagos /*eras*/,
   1 /*numEras*/,
+  kZoneEraChagos /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12447,8 +12447,8 @@ static const ZoneEra kZoneEraChristmas[] = {
 
 const ZoneInfo kZoneChristmas = {
   "Indian/Christmas" /*name*/,
-  kZoneEraChristmas /*eras*/,
   1 /*numEras*/,
+  kZoneEraChristmas /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12477,8 +12477,8 @@ static const ZoneEra kZoneEraCocos[] = {
 
 const ZoneInfo kZoneCocos = {
   "Indian/Cocos" /*name*/,
-  kZoneEraCocos /*eras*/,
   1 /*numEras*/,
+  kZoneEraCocos /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12507,8 +12507,8 @@ static const ZoneEra kZoneEraKerguelen[] = {
 
 const ZoneInfo kZoneKerguelen = {
   "Indian/Kerguelen" /*name*/,
-  kZoneEraKerguelen /*eras*/,
   1 /*numEras*/,
+  kZoneEraKerguelen /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12537,8 +12537,8 @@ static const ZoneEra kZoneEraMahe[] = {
 
 const ZoneInfo kZoneMahe = {
   "Indian/Mahe" /*name*/,
-  kZoneEraMahe /*eras*/,
   1 /*numEras*/,
+  kZoneEraMahe /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12567,8 +12567,8 @@ static const ZoneEra kZoneEraMaldives[] = {
 
 const ZoneInfo kZoneMaldives = {
   "Indian/Maldives" /*name*/,
-  kZoneEraMaldives /*eras*/,
   1 /*numEras*/,
+  kZoneEraMaldives /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12597,8 +12597,8 @@ static const ZoneEra kZoneEraMauritius[] = {
 
 const ZoneInfo kZoneMauritius = {
   "Indian/Mauritius" /*name*/,
-  kZoneEraMauritius /*eras*/,
   1 /*numEras*/,
+  kZoneEraMauritius /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12627,8 +12627,8 @@ static const ZoneEra kZoneEraReunion[] = {
 
 const ZoneInfo kZoneReunion = {
   "Indian/Reunion" /*name*/,
-  kZoneEraReunion /*eras*/,
   1 /*numEras*/,
+  kZoneEraReunion /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12669,8 +12669,8 @@ static const ZoneEra kZoneEraApia[] = {
 
 const ZoneInfo kZoneApia = {
   "Pacific/Apia" /*name*/,
-  kZoneEraApia /*eras*/,
   2 /*numEras*/,
+  kZoneEraApia /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12699,8 +12699,8 @@ static const ZoneEra kZoneEraAuckland[] = {
 
 const ZoneInfo kZoneAuckland = {
   "Pacific/Auckland" /*name*/,
-  kZoneEraAuckland /*eras*/,
   1 /*numEras*/,
+  kZoneEraAuckland /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12741,8 +12741,8 @@ static const ZoneEra kZoneEraBougainville[] = {
 
 const ZoneInfo kZoneBougainville = {
   "Pacific/Bougainville" /*name*/,
-  kZoneEraBougainville /*eras*/,
   2 /*numEras*/,
+  kZoneEraBougainville /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12771,8 +12771,8 @@ static const ZoneEra kZoneEraChatham[] = {
 
 const ZoneInfo kZoneChatham = {
   "Pacific/Chatham" /*name*/,
-  kZoneEraChatham /*eras*/,
   1 /*numEras*/,
+  kZoneEraChatham /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12801,8 +12801,8 @@ static const ZoneEra kZoneEraChuuk[] = {
 
 const ZoneInfo kZoneChuuk = {
   "Pacific/Chuuk" /*name*/,
-  kZoneEraChuuk /*eras*/,
   1 /*numEras*/,
+  kZoneEraChuuk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12831,8 +12831,8 @@ static const ZoneEra kZoneEraEaster[] = {
 
 const ZoneInfo kZoneEaster = {
   "Pacific/Easter" /*name*/,
-  kZoneEraEaster /*eras*/,
   1 /*numEras*/,
+  kZoneEraEaster /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12861,8 +12861,8 @@ static const ZoneEra kZoneEraEfate[] = {
 
 const ZoneInfo kZoneEfate = {
   "Pacific/Efate" /*name*/,
-  kZoneEraEfate /*eras*/,
   1 /*numEras*/,
+  kZoneEraEfate /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12891,8 +12891,8 @@ static const ZoneEra kZoneEraEnderbury[] = {
 
 const ZoneInfo kZoneEnderbury = {
   "Pacific/Enderbury" /*name*/,
-  kZoneEraEnderbury /*eras*/,
   1 /*numEras*/,
+  kZoneEraEnderbury /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12933,8 +12933,8 @@ static const ZoneEra kZoneEraFakaofo[] = {
 
 const ZoneInfo kZoneFakaofo = {
   "Pacific/Fakaofo" /*name*/,
-  kZoneEraFakaofo /*eras*/,
   2 /*numEras*/,
+  kZoneEraFakaofo /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12963,8 +12963,8 @@ static const ZoneEra kZoneEraFiji[] = {
 
 const ZoneInfo kZoneFiji = {
   "Pacific/Fiji" /*name*/,
-  kZoneEraFiji /*eras*/,
   1 /*numEras*/,
+  kZoneEraFiji /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -12993,8 +12993,8 @@ static const ZoneEra kZoneEraFunafuti[] = {
 
 const ZoneInfo kZoneFunafuti = {
   "Pacific/Funafuti" /*name*/,
-  kZoneEraFunafuti /*eras*/,
   1 /*numEras*/,
+  kZoneEraFunafuti /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13023,8 +13023,8 @@ static const ZoneEra kZoneEraGalapagos[] = {
 
 const ZoneInfo kZoneGalapagos = {
   "Pacific/Galapagos" /*name*/,
-  kZoneEraGalapagos /*eras*/,
   1 /*numEras*/,
+  kZoneEraGalapagos /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13053,8 +13053,8 @@ static const ZoneEra kZoneEraGambier[] = {
 
 const ZoneInfo kZoneGambier = {
   "Pacific/Gambier" /*name*/,
-  kZoneEraGambier /*eras*/,
   1 /*numEras*/,
+  kZoneEraGambier /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13083,8 +13083,8 @@ static const ZoneEra kZoneEraGuadalcanal[] = {
 
 const ZoneInfo kZoneGuadalcanal = {
   "Pacific/Guadalcanal" /*name*/,
-  kZoneEraGuadalcanal /*eras*/,
   1 /*numEras*/,
+  kZoneEraGuadalcanal /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13125,8 +13125,8 @@ static const ZoneEra kZoneEraGuam[] = {
 
 const ZoneInfo kZoneGuam = {
   "Pacific/Guam" /*name*/,
-  kZoneEraGuam /*eras*/,
   2 /*numEras*/,
+  kZoneEraGuam /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13155,8 +13155,8 @@ static const ZoneEra kZoneEraHonolulu[] = {
 
 const ZoneInfo kZoneHonolulu = {
   "Pacific/Honolulu" /*name*/,
-  kZoneEraHonolulu /*eras*/,
   1 /*numEras*/,
+  kZoneEraHonolulu /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13185,8 +13185,8 @@ static const ZoneEra kZoneEraKiritimati[] = {
 
 const ZoneInfo kZoneKiritimati = {
   "Pacific/Kiritimati" /*name*/,
-  kZoneEraKiritimati /*eras*/,
   1 /*numEras*/,
+  kZoneEraKiritimati /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13227,8 +13227,8 @@ static const ZoneEra kZoneEraKosrae[] = {
 
 const ZoneInfo kZoneKosrae = {
   "Pacific/Kosrae" /*name*/,
-  kZoneEraKosrae /*eras*/,
   2 /*numEras*/,
+  kZoneEraKosrae /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13257,8 +13257,8 @@ static const ZoneEra kZoneEraKwajalein[] = {
 
 const ZoneInfo kZoneKwajalein = {
   "Pacific/Kwajalein" /*name*/,
-  kZoneEraKwajalein /*eras*/,
   1 /*numEras*/,
+  kZoneEraKwajalein /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13287,8 +13287,8 @@ static const ZoneEra kZoneEraMajuro[] = {
 
 const ZoneInfo kZoneMajuro = {
   "Pacific/Majuro" /*name*/,
-  kZoneEraMajuro /*eras*/,
   1 /*numEras*/,
+  kZoneEraMajuro /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13317,8 +13317,8 @@ static const ZoneEra kZoneEraMarquesas[] = {
 
 const ZoneInfo kZoneMarquesas = {
   "Pacific/Marquesas" /*name*/,
-  kZoneEraMarquesas /*eras*/,
   1 /*numEras*/,
+  kZoneEraMarquesas /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13347,8 +13347,8 @@ static const ZoneEra kZoneEraNauru[] = {
 
 const ZoneInfo kZoneNauru = {
   "Pacific/Nauru" /*name*/,
-  kZoneEraNauru /*eras*/,
   1 /*numEras*/,
+  kZoneEraNauru /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13377,8 +13377,8 @@ static const ZoneEra kZoneEraNiue[] = {
 
 const ZoneInfo kZoneNiue = {
   "Pacific/Niue" /*name*/,
-  kZoneEraNiue /*eras*/,
   1 /*numEras*/,
+  kZoneEraNiue /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13419,8 +13419,8 @@ static const ZoneEra kZoneEraNorfolk[] = {
 
 const ZoneInfo kZoneNorfolk = {
   "Pacific/Norfolk" /*name*/,
-  kZoneEraNorfolk /*eras*/,
   2 /*numEras*/,
+  kZoneEraNorfolk /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13449,8 +13449,8 @@ static const ZoneEra kZoneEraNoumea[] = {
 
 const ZoneInfo kZoneNoumea = {
   "Pacific/Noumea" /*name*/,
-  kZoneEraNoumea /*eras*/,
   1 /*numEras*/,
+  kZoneEraNoumea /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13479,8 +13479,8 @@ static const ZoneEra kZoneEraPago_Pago[] = {
 
 const ZoneInfo kZonePago_Pago = {
   "Pacific/Pago_Pago" /*name*/,
-  kZoneEraPago_Pago /*eras*/,
   1 /*numEras*/,
+  kZoneEraPago_Pago /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13509,8 +13509,8 @@ static const ZoneEra kZoneEraPalau[] = {
 
 const ZoneInfo kZonePalau = {
   "Pacific/Palau" /*name*/,
-  kZoneEraPalau /*eras*/,
   1 /*numEras*/,
+  kZoneEraPalau /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13539,8 +13539,8 @@ static const ZoneEra kZoneEraPitcairn[] = {
 
 const ZoneInfo kZonePitcairn = {
   "Pacific/Pitcairn" /*name*/,
-  kZoneEraPitcairn /*eras*/,
   1 /*numEras*/,
+  kZoneEraPitcairn /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13569,8 +13569,8 @@ static const ZoneEra kZoneEraPohnpei[] = {
 
 const ZoneInfo kZonePohnpei = {
   "Pacific/Pohnpei" /*name*/,
-  kZoneEraPohnpei /*eras*/,
   1 /*numEras*/,
+  kZoneEraPohnpei /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13599,8 +13599,8 @@ static const ZoneEra kZoneEraPort_Moresby[] = {
 
 const ZoneInfo kZonePort_Moresby = {
   "Pacific/Port_Moresby" /*name*/,
-  kZoneEraPort_Moresby /*eras*/,
   1 /*numEras*/,
+  kZoneEraPort_Moresby /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13629,8 +13629,8 @@ static const ZoneEra kZoneEraRarotonga[] = {
 
 const ZoneInfo kZoneRarotonga = {
   "Pacific/Rarotonga" /*name*/,
-  kZoneEraRarotonga /*eras*/,
   1 /*numEras*/,
+  kZoneEraRarotonga /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13659,8 +13659,8 @@ static const ZoneEra kZoneEraTahiti[] = {
 
 const ZoneInfo kZoneTahiti = {
   "Pacific/Tahiti" /*name*/,
-  kZoneEraTahiti /*eras*/,
   1 /*numEras*/,
+  kZoneEraTahiti /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13689,8 +13689,8 @@ static const ZoneEra kZoneEraTarawa[] = {
 
 const ZoneInfo kZoneTarawa = {
   "Pacific/Tarawa" /*name*/,
-  kZoneEraTarawa /*eras*/,
   1 /*numEras*/,
+  kZoneEraTarawa /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13731,8 +13731,8 @@ static const ZoneEra kZoneEraTongatapu[] = {
 
 const ZoneInfo kZoneTongatapu = {
   "Pacific/Tongatapu" /*name*/,
-  kZoneEraTongatapu /*eras*/,
   2 /*numEras*/,
+  kZoneEraTongatapu /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13761,8 +13761,8 @@ static const ZoneEra kZoneEraWake[] = {
 
 const ZoneInfo kZoneWake = {
   "Pacific/Wake" /*name*/,
-  kZoneEraWake /*eras*/,
   1 /*numEras*/,
+  kZoneEraWake /*eras*/,
 };
 
 //---------------------------------------------------------------------------
@@ -13791,8 +13791,8 @@ static const ZoneEra kZoneEraWallis[] = {
 
 const ZoneInfo kZoneWallis = {
   "Pacific/Wallis" /*name*/,
-  kZoneEraWallis /*eras*/,
   1 /*numEras*/,
+  kZoneEraWallis /*eras*/,
 };
 
 

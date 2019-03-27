@@ -603,8 +603,8 @@ const ZonePolicy kPolicyAW = {
 static const ZoneRule kZoneRulesArmenia[] = {
   // Anchor: Rule Armenia    2011    only    -    Oct    lastSun     2:00s    0    -
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -1767,8 +1767,8 @@ const ZonePolicy kPolicyCuba = {
 static const ZoneRule kZoneRulesDhaka[] = {
   // Anchor: Rule    Dhaka    2009    only    -    Dec    31    24:00    0    -
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -4655,8 +4655,8 @@ const ZonePolicy kPolicyPRC = {
 static const ZoneRule kZoneRulesPakistan[] = {
   // Anchor: Rule Pakistan    2002    only    -    Oct    Sun>=2    0:00    0    -
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
@@ -5379,8 +5379,8 @@ const ZonePolicy kPolicyThule = {
 static const ZoneRule kZoneRulesTonga[] = {
   // Anchor: Rule    Tonga    2000    only    -    Mar    19    2:00s    0    -
   {
-    -128 /*fromYearTiny*/,
-    -128 /*toYearTiny*/,
+    -127 /*fromYearTiny*/,
+    -127 /*toYearTiny*/,
     1 /*inMonth*/,
     0 /*onDayOfWeek*/,
     1 /*onDayOfMonth*/,
