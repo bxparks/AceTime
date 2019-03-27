@@ -539,10 +539,13 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * a '/' or a '%'. TODO: Check this in transformer.py. The deltaCode will
      * determine whether the time interval is in DST.
      *
-     * 2a) If the FORMAT contains a '/', then pick the first (no DST) or the
-     * second component (DST).
+     * 2a) If the FORMAT contains a '%', use the LETTER to substitute the '%'.
+     * If the 'letter' is '-', an empty character is substituted.
      *
-     * 2b) If the FORMAT contains a '%', use the LETTER to substitute the '%'.
+     * 2b) If the FORMAT contains a '/', then pick the first (no DST) or the
+     * second component (DST). The deltaCode selects between the two. The
+     * letter is ignored, but cannot be '\0' because that would trigger Case
+     * (1). The recommended value is '-'.
      *
      * @param dest destination string buffer
      * @param destSize size of buffer
@@ -553,7 +556,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
         const char* format, uint8_t deltaCode, char letter) {
-      // Check for RULES column empty.
+      // Check if RULES column empty.
       if (deltaCode == 0 && letter == '\0') {
         strncpy(dest, format, destSize);
         dest[destSize - 1] = '\0';
@@ -568,9 +571,15 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         const char* slashPos = strchr(format, '/');
         if (slashPos != nullptr) {
           if (deltaCode == 0) {
-            copyAndReplace(dest, destSize, format, '/', '\0');
+            uint8_t headLength = (slashPos - format);
+            if (headLength >= destSize) headLength = destSize - 1;
+            memcpy(dest, format, headLength);
+            dest[headLength] = '\0';
           } else {
-            memmove(dest, slashPos+1, strlen(slashPos+1) + 1);
+            uint8_t tailLength = strlen(slashPos+1);
+            if (tailLength >= destSize) tailLength = destSize - 1;
+            memcpy(dest, slashPos+1, tailLength);
+            dest[tailLength] = '\0';
           }
         } else {
           strncpy(dest, format, destSize);

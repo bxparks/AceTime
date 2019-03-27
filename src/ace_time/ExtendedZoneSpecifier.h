@@ -32,6 +32,7 @@ class ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
 class ExtendedZoneSpecifierTest_compareTransitionToMatch;
 class ExtendedZoneSpecifierTest_processActiveTransition;
 class ExtendedZoneSpecifierTest_fixTransitionTimes_generateStartUntilTimes;
+class ExtendedZoneSpecifierTest_createAbbreviation;
 class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
@@ -193,6 +194,12 @@ struct Transition {
   /** Determines if this transition is valid. */
   bool active;
 
+  /**
+   * Char buffer to allow a single letter to be returned as a (char*).
+   * Not thread-safe.
+   */
+  mutable char letterBuf[2];
+
   //-------------------------------------------------------------------------
 
   const char* format() const {
@@ -207,14 +214,43 @@ struct Transition {
     return match->era->offsetCode;
   }
 
-  char letter() const {
-    if (!rule) return '\0';
+  /**
+   * Return the letter string. Returns nullptr if the RULES column is empty
+   * since that means that the ZoneRule is not used, which means LETTER does
+   * not exist. A LETTER of '-' is returned as an empty string "".
+   */
+  const char* letter() const {
+    // RULES column is '-' or hh:mm, so return nullptr to indicate this.
+    if (!rule) {
+      return nullptr;
+    }
 
-    // TODO: Handle this condition properly using
-    // match->era->zonePolicy->letters[rule->letter]
-    if (rule->letter < 32) return '\0';
+    // RULES point to a named rule, and LETTER is a single, printable
+    // character. However, if it's a '-', convert into an empty string "".
+    if (rule->letter >= 32) {
+      if (rule->letter == '-') {
+        letterBuf[0] = '\0';
+      } else {
+        letterBuf[0] = rule->letter;
+        letterBuf[1] = '\0';
+      }
+      return letterBuf;
+    }
 
-    return rule->letter;
+    // RULES points to a named rule, and the LETTER is a string. The
+    // rule->letter is a non-printable number < 32, which is an index into
+    // a list of strings given by match->era->zonePolicy->letters[].
+    const ZonePolicy* policy = match->era->zonePolicy;
+    uint8_t numLetters = policy->numLetters;
+    if (rule->letter >= numLetters) {
+      // This should never happen unless there is a programming error.
+      // If it does, return an empty string.
+      letterBuf[0] = '\0';
+      return letterBuf;
+    }
+
+    // Return the string at index 'rule->letter'.
+    return policy->letters[rule->letter];
   }
 
   /** The DST offset code. */
@@ -576,6 +612,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatch;
     friend class ::ExtendedZoneSpecifierTest_processActiveTransition;
     friend class ::ExtendedZoneSpecifierTest_fixTransitionTimes_generateStartUntilTimes;
+    friend class ::ExtendedZoneSpecifierTest_createAbbreviation;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -1211,12 +1248,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /**
      * Calculate the time zone abbreviations for each Transition.
-     * There are several cases:
-     *     1) 'format' contains 'A/B', meaning 'A' for standard time, and 'B'
-     *         for DST time.
-     *     2) 'format' contains a %s, which substitutes the 'letter'
-     *         2a) If 'letter' is '-', replace with nothing.
-     *         2b) The 'format' could be just a '%s'.
      */
     static void calcAbbreviations(
         zonedbx::Transition** begin, zonedbx::Transition** end) {
@@ -1226,12 +1257,97 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         zonedbx::Transition* const t = *iter;
         const char* format = t->format();
         int8_t deltaCode = t->deltaCode();
-        uint8_t letter = t->letter();
-        // TODO: Incoporate 'letter' that's more than 1-character.
-        BasicZoneSpecifier::createAbbreviation(
-            t->abbrev, zonedbx::Transition::kAbbrevSize,
+        const char* letter = t->letter();
+        createAbbreviation(t->abbrev, zonedbx::Transition::kAbbrevSize,
             format, deltaCode, letter);
       }
+    }
+
+    /**
+     * Create the time zone abbreviation in dest from the format string (e.g.
+     * "P%T", "E%T"), the time zone deltaCode (!= 0 means DST), and the
+     * replacement letterString (often just "S", "D", or "", but some zones
+     * have longer strings like "WAT", "CAT" and "DD").
+     *
+     * There are several cases:
+     * 1) 'format' contains a simple string because transition->rules is a
+     * nullptr. In this case, (letterString == nullptr) and deltaCode is
+     * ignored.
+     *
+     * 2) If the RULES column is not empty, then the FORMAT should contain
+     * either'format' contains a '%' or a '/' character to determine the
+     * Standard or DST abbreviation.
+     *
+     * 2a) If the FORMAT contains a '%', substitute the letterString. The
+     * deltaCode is ignored. If letterString is "", replace with nothing. The
+     * 'format' could be just a '%' which means substitute the entire
+     * letterString.
+     *
+     * 2b) If the FORMAT contains a '/', then the string is in 'Astr/Bstr'
+     * format, where 'Astr' is for the standard time, and 'Bstr' for DST time.
+     * The deltaCode determines whether or not the zone is in DST. The
+     * letterString is ignored but should be not nullptr, because that would
+     * trigger Case (1). The recommended value is the empty string "".
+     */
+    static void createAbbreviation(char* dest, uint8_t destSize,
+        const char* format, uint8_t deltaCode, const char* letterString) {
+      // Check if RULES column is empty. Ignore the deltaCode because if
+      // letterString is nullptr, we can only just copy the whole thing.
+      if (letterString == nullptr) {
+        strncpy(dest, format, destSize);
+        dest[destSize - 1] = '\0';
+        return;
+      }
+
+      // Check if FORMAT contains a '%'.
+      if (strchr(format, '%') != nullptr) {
+        copyAndReplace(dest, destSize, format, '%', letterString);
+      } else {
+        // Check if FORMAT contains a '/'.
+        const char* slashPos = strchr(format, '/');
+        if (slashPos != nullptr) {
+          if (deltaCode == 0) {
+            uint8_t headLength = (slashPos - format);
+            if (headLength >= destSize) headLength = destSize - 1;
+            memcpy(dest, format, headLength);
+            dest[headLength] = '\0';
+          } else {
+            uint8_t tailLength = strlen(slashPos+1);
+            if (tailLength >= destSize) tailLength = destSize - 1;
+            memcpy(dest, slashPos+1, tailLength);
+            dest[tailLength] = '\0';
+          }
+        } else {
+          strncpy(dest, format, destSize);
+          dest[destSize - 1] = '\0';
+        }
+      }
+    }
+
+    /**
+     * Copy at most dstSize characters from src to dst, while replacing all
+     * occurance of oldChar with newString. If newString is "", then replace
+     * with nothing. The resulting dst string is always NUL terminated.
+     */
+    static void copyAndReplace(char* dst, uint8_t dstSize, const char* src,
+        char oldChar, const char* newString) {
+      while (*src != '\0' && dstSize > 0) {
+        if (*src == oldChar) {
+          while (*newString != '\0' && dstSize > 0) {
+            *dst++ = *newString++;
+            dstSize--;
+          }
+          src++;
+        } else {
+          *dst++ = *src++;
+          dstSize--;
+        }
+      }
+
+      if (dstSize == 0) {
+        --dst;
+      }
+      *dst = '\0';
     }
 
     const zonedbx::ZoneInfo* const mZoneInfo;

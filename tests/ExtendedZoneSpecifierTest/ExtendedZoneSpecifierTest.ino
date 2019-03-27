@@ -635,6 +635,38 @@ test(ExtendedZoneSpecifierTest, fixTransitionTimes_generateStartUntilTimes) {
   assertEqual(epochSecs, transition3->startEpochSeconds);
 }
 
+test(ExtendedZoneSpecifierTest, createAbbreviation) {
+  const uint8_t kDstSize = 6;
+  char dst[kDstSize];
+
+  ExtendedZoneSpecifier::createAbbreviation(dst, kDstSize, "SAST", 0, nullptr);
+  assertEqual("SAST", dst);
+
+  ExtendedZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T", 4, "D");
+  assertEqual("PDT", dst);
+
+  ExtendedZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T", 0, "S");
+  assertEqual("PST", dst);
+
+  ExtendedZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T", 0, "");
+  assertEqual("PT", dst);
+
+  ExtendedZoneSpecifier::createAbbreviation(dst, kDstSize, "GMT/BST", 0, "");
+  assertEqual("GMT", dst);
+
+  ExtendedZoneSpecifier::createAbbreviation(dst, kDstSize, "GMT/BST", 4, "");
+  assertEqual("BST", dst);
+
+  ExtendedZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T3456", 4, "DD");
+  assertEqual("PDDT3", dst);
+
+  ExtendedZoneSpecifier::createAbbreviation(dst, kDstSize, "%", 4, "CAT");
+  assertEqual("CAT", dst);
+
+  ExtendedZoneSpecifier::createAbbreviation(dst, kDstSize, "%", 0, "WAT");
+  assertEqual("WAT", dst);
+}
+
 test(ExtendedZoneSpecifierTest, calcAbbreviations) {
   // TODO: Implement
 }
