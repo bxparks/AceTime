@@ -532,12 +532,18 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      *
      * 1) If the RULES column (transition->rule) is empty '-', then FORMAT
      * cannot contain a '/' or a '%' because the ZoneEra specifies only a
-     * single transition rule. TODO: Check this in transformer.py. This is
+     * single transition rule. (Verified in transformer.py). This condition is
      * indicated by (deltaCode == 0) and (letter == '\0').
      *
      * 2) If RULES column is not empty, then the FORMAT should contain either
-     * a '/' or a '%'. TODO: Check this in transformer.py. The deltaCode will
-     * determine whether the time interval is in DST.
+     * a '/' or a '%'. The deltaCode will determine whether the time interval
+     * is in DST.
+     * This is verified by transformer.py to be true for all
+     * Zones except Africa/Johannesburg which fails this for 1942-1944 where
+     * the RULES contains a reference to named RULEs with DST transitions but
+     * there is no '/' or '%' to distinguish between the 2. Technically, since
+     * this occurs before year 2000, we don't absolutely need to suppor this,
+     * but for robustness sake, we do.
      *
      * 2a) If the FORMAT contains a '%', use the LETTER to substitute the '%'.
      * If the 'letter' is '-', an empty character is substituted.
@@ -582,6 +588,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
             dest[tailLength] = '\0';
           }
         } else {
+          // Just copy the FORMAT disregarding the deltaCode and letter.
           strncpy(dest, format, destSize);
           dest[destSize - 1] = '\0';
         }

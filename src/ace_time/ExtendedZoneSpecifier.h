@@ -1270,13 +1270,21 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * have longer strings like "WAT", "CAT" and "DD").
      *
      * There are several cases:
+     *
      * 1) 'format' contains a simple string because transition->rules is a
-     * nullptr. In this case, (letterString == nullptr) and deltaCode is
-     * ignored.
+     * nullptr. The format should not contain a '%' or '/' (verified by
+     * transformat.py). In this case, (letterString == nullptr) and deltaCode
+     * is ignored.
      *
      * 2) If the RULES column is not empty, then the FORMAT should contain
      * either'format' contains a '%' or a '/' character to determine the
      * Standard or DST abbreviation.
+     * This is verified by transformer.py to be true for all
+     * Zones except Africa/Johannesburg which fails this for 1942-1944 where
+     * the RULES contains a reference to named RULEs with DST transitions but
+     * there is no '/' or '%' to distinguish between the 2. Technically, since
+     * this occurs before year 2000, we don't absolutely need to suppor this,
+     * but for robustness sake, we do.
      *
      * 2a) If the FORMAT contains a '%', substitute the letterString. The
      * deltaCode is ignored. If letterString is "", replace with nothing. The
@@ -1318,6 +1326,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
             dest[tailLength] = '\0';
           }
         } else {
+          // Just copy the FORMAT disregarding deltaCode and letterString.
           strncpy(dest, format, destSize);
           dest[destSize - 1] = '\0';
         }
