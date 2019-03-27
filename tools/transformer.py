@@ -141,13 +141,13 @@ class Transformer:
         results = {}
         removed_zones = {}
         short_names = {}
-        for name, zones in zones_map.items():
+        for name, eras in zones_map.items():
             short = short_name(name)
             if short in short_names:
                 removed_zones[name] = "duplicate short name '%s'" % short
             else:
                 short_names[short] = name
-                results[name] = zones
+                results[name] = eras
 
         logging.info("Removed %s zone infos with duplicate short names" %
                      len(removed_zones))
@@ -158,9 +158,9 @@ class Transformer:
     def _remove_zones_without_slash(self, zones_map):
         results = {}
         removed_zones = {}
-        for name, zones in zones_map.items():
+        for name, eras in zones_map.items():
             if name.rfind('/') >= 0:
-                results[name] = zones
+                results[name] = eras
             else:
                 removed_zones[name] = "no '/' in zone name"
 
@@ -177,15 +177,15 @@ class Transformer:
         """
         results = {}
         count = 0
-        for name, zones in zones_map.items():
-            keep_zones = []
-            for zone in zones:
-                if zone.untilYear >= self.start_year - 1:
-                    keep_zones.append(zone)
+        for name, eras in zones_map.items():
+            keep_eras = []
+            for era in eras:
+                if era.untilYear >= self.start_year - 1:
+                    keep_eras.append(era)
                 else:
                     count += 1
-            if keep_zones:
-                results[name] = keep_zones
+            if keep_eras:
+                results[name] = keep_eras
 
         logging.info("Removed %s zone eras before year %04d", count,
                      self.start_year)
@@ -197,15 +197,15 @@ class Transformer:
         """
         results = {}
         removed_zones = {}
-        for name, zones in zones_map.items():
+        for name, eras in zones_map.items():
             valid = True
-            for zone in zones:
-                if not zone.untilYearOnly:
+            for era in eras:
+                if not era.untilYearOnly:
                     valid = False
                     removed_zones[name] = "UNTIL contains month/day/time"
                     break
             if valid:
-                results[name] = zones
+                results[name] = eras
 
         logging.info("Removed %s zone infos with UNTIL month/day/time",
                      len(removed_zones))
@@ -222,10 +222,10 @@ class Transformer:
         """
         results = {}
         removed_zones = {}
-        for name, zones in zones_map.items():
+        for name, eras in zones_map.items():
             valid = True
-            for zone in zones:
-                until_day = zone.untilDay
+            for era in eras:
+                until_day = era.untilDay
 
                 # Parse the conditional expression in until_day. We can resolve
                 # the 'lastSun' and 'Sun>=X' to a specific day of month because
@@ -237,11 +237,11 @@ class Transformer:
                     removed_zones[name] = "invalid untilDay '%s'" % until_day
                     break
 
-                zone.untilDay = calc_day_of_month(
-                    zone.untilYear, zone.untilMonth, on_day_of_week,
+                era.untilDay = calc_day_of_month(
+                    era.untilYear, era.untilMonth, on_day_of_week,
                     on_day_of_month)
             if valid:
-                results[name] = zones
+                results[name] = eras
 
         logging.info("Removed %s zone infos with invalid untilDay",
                      len(removed_zones))
@@ -255,10 +255,10 @@ class Transformer:
         results = {}
         removed_zones = {}
         notable_zones = {}
-        for name, zones in zones_map.items():
+        for name, eras in zones_map.items():
             valid = True
-            for zone in zones:
-                until_time = zone.untilTime
+            for era in eras:
+                until_time = era.untilTime
                 until_seconds = time_string_to_seconds(until_time)
                 if until_seconds == INVALID_SECONDS:
                     valid = False
@@ -285,10 +285,10 @@ class Transformer:
                             "UNTIL time '%s' truncated to '%s' seconds" %
                             (until_time, self.granularity))
 
-                zone.untilSeconds = until_seconds
-                zone.untilSecondsTruncated = until_seconds_truncated
+                era.untilSeconds = until_seconds
+                era.untilSecondsTruncated = until_seconds_truncated
             if valid:
-                results[name] = zones
+                results[name] = eras
 
         logging.info("Removed %s zone infos with invalid UNTIL time",
                      len(removed_zones))
@@ -312,19 +312,19 @@ class Transformer:
 
         results = {}
         removed_zones = {}
-        for name, zones in zones_map.items():
+        for name, eras in zones_map.items():
             valid = True
-            for zone in zones:
-                modifier = zone.untilTimeModifier
+            for era in eras:
+                modifier = era.untilTimeModifier
                 modifier = modifier if modifier else 'w'
-                zone.untilTimeModifier = modifier
+                era.untilTimeModifier = modifier
                 if modifier not in supported_suffices:
                     valid = False
                     removed_zones[name] = (
                         "unsupported UNTIL time modifier '%s'" % modifier)
                     break
             if valid:
-                results[name] = zones
+                results[name] = eras
 
         logging.info(
             "Removed %s zone infos with unsupported UNTIL time modifier",
@@ -339,10 +339,10 @@ class Transformer:
         results = {}
         removed_zones = {}
         notable_zones = {}
-        for name, zones in zones_map.items():
+        for name, eras in zones_map.items():
             valid = True
-            for zone in zones:
-                offset_string = zone.offsetString
+            for era in eras:
+                offset_string = era.offsetString
                 offset_seconds = time_string_to_seconds(offset_string)
                 if offset_seconds == INVALID_SECONDS:
                     valid = False
@@ -364,11 +364,11 @@ class Transformer:
                             "GMTOFF '%s' truncated to '%s' seconds" %
                             (offset_string, self.granularity))
 
-                zone.offsetSeconds = offset_seconds
-                zone.offsetSecondsTruncated = offset_seconds_truncated
+                era.offsetSeconds = offset_seconds
+                era.offsetSecondsTruncated = offset_seconds_truncated
 
             if valid:
-                results[name] = zones
+                results[name] = eras
 
         logging.info("Removed %s zones with invalid offsetString",
                      len(removed_zones))
@@ -442,10 +442,10 @@ class Transformer:
         results = {}
         removed_zones = {}
         notable_zones = {}
-        for name, zones in zones_map.items():
+        for name, eras in zones_map.items():
             valid = True
-            for zone in zones:
-                rules_string = zone.rules
+            for era in eras:
+                rules_string = era.rules
                 if rules_string.find(':') >= 0:
                     if self.language == 'arduino':
                         valid = False
@@ -481,16 +481,16 @@ class Transformer:
                                 "'%s' seconds" %
                                 (rules_string, self.granularity))
 
-                    zone.rules = ':'
-                    zone.rulesDeltaSeconds = rules_delta_seconds
-                    zone.rulesDeltaSecondsTruncated = \
+                    era.rules = ':'
+                    era.rulesDeltaSeconds = rules_delta_seconds
+                    era.rulesDeltaSecondsTruncated = \
                         rules_delta_seconds_truncated
                 else:
                     # If '-' or named policy, set to 0.
-                    zone.rulesDeltaSeconds = 0
-                    zone.rulesDeltaSecondsTruncated = 0
+                    era.rulesDeltaSeconds = 0
+                    era.rulesDeltaSecondsTruncated = 0
             if valid:
-                results[name] = zones
+                results[name] = eras
 
         logging.info("Removed %s zone infos with invalid RULES",
                      len(removed_zones))
@@ -505,16 +505,16 @@ class Transformer:
         """
         results = {}
         removed_zones = {}
-        for name, zones in zones_map.items():
+        for name, eras in zones_map.items():
             valid = True
-            for zone in zones:
-                rule_name = zone.rules
+            for era in eras:
+                rule_name = era.rules
                 if rule_name not in ['-', ':'] and rule_name not in rules_map:
                     valid = False
                     removed_zones[name] = "policy '%s' not found" % rule_name
                     break
             if valid:
-                results[name] = zones
+                results[name] = eras
 
         logging.info(
             "Removed %s zone infos without rules" % len(removed_zones))
@@ -529,16 +529,16 @@ class Transformer:
         """
         results = {}
         removed_zones = {}
-        for name, zones in zones_map.items():
+        for name, eras in zones_map.items():
             valid = True
             prev_until = None
-            for zone in zones:
+            for era in eras:
                 # yapf: disable
                 current_until = (
-                    zone.untilYear,
-                    zone.untilMonth if zone.untilMonth else 0,
-                    zone.untilDay if zone.untilDay else 0,
-                    zone.untilSeconds if zone.untilSeconds else 0
+                    era.untilYear,
+                    era.untilMonth if era.untilMonth else 0,
+                    era.untilDay if era.untilDay else 0,
+                    era.untilSeconds if era.untilSeconds else 0
                 )
                 # yapf: enable
                 if prev_until:
@@ -555,7 +555,7 @@ class Transformer:
                     'invalid final UNTIL: %04d-%02d-%02d %ds' % current_until)
 
             if valid:
-                results[name] = zones
+                results[name] = eras
 
         logging.info("Removed %s zone infos with invalid UNTIL fields",
                      len(removed_zones))

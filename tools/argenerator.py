@@ -532,7 +532,7 @@ const ZoneInfo kZone{zoneShortName} = {{
 
     def generate_infos_h(self):
         info_items = ''
-        for name, zones in sorted(self.zones_map.items()):
+        for name, eras in sorted(self.zones_map.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
                 zoneShortName=normalize_name(short_name(name)),
                 zoneFullName=name)

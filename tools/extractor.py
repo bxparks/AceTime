@@ -307,8 +307,8 @@ class Extractor:
                 rule_entry_count += 1
 
         zone_entry_count = 0
-        for name, zones in self.zones_map.items():
-            for zone in zones:
+        for name, eras in self.zones_map.items():
+            for era in eras:
                 zone_entry_count += 1
 
         logging.info('-------- Extractor Summary')

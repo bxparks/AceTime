@@ -20,5 +20,5 @@ class Printer:
         """Print the last component in the "a/b/c" zone names. Used to determine
         if the last component is unique. Currently, it seems to be.
         """
-        for name, zones in self.zones.items():
+        for name, eras in self.zones.items():
             print(short_name(name))
