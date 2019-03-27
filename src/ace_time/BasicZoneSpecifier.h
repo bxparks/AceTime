@@ -530,6 +530,20 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * (e.g. "P%T", "E%T"), the time zone deltaCode (!= 0 means DST), and the
      * replacement letter (e.g. 'S', 'D', or '-').
      *
+     * 1) If the RULES column (transition->rule) is empty '-', then FORMAT
+     * cannot contain a '/' or a '%' because the ZoneEra specifies only a
+     * single transition rule. TODO: Check this in transformer.py. This is
+     * indicated by (deltaCode == 0) and (letter == '\0').
+     *
+     * 2) If RULES column is not empty, then the FORMAT should contain either
+     * a '/' or a '%'. TODO: Check this in transformer.py. The deltaCode will
+     * determine whether the time interval is in DST.
+     *
+     * 2a) If the FORMAT contains a '/', then pick the first (no DST) or the
+     * second component (DST).
+     *
+     * 2b) If the FORMAT contains a '%', use the LETTER to substitute the '%'.
+     *
      * @param dest destination string buffer
      * @param destSize size of buffer
      * @param format encoded abbreviation, '%' is a character substitution
@@ -539,15 +553,18 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     static void createAbbreviation(char* dest, uint8_t destSize,
         const char* format, uint8_t deltaCode, char letter) {
+      // Check for RULES column empty.
       if (deltaCode == 0 && letter == '\0') {
         strncpy(dest, format, destSize);
         dest[destSize - 1] = '\0';
         return;
       }
 
+      // Check if FORMAT contains a '%'.
       if (strchr(format, '%') != nullptr) {
         copyAndReplace(dest, destSize, format, '%', letter);
       } else {
+        // Check if FORMAT contains a '/'.
         const char* slashPos = strchr(format, '/');
         if (slashPos != nullptr) {
           if (deltaCode == 0) {
