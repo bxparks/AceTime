@@ -44,8 +44,6 @@ class ManualZoneSpecifier: public ZoneSpecifier {
 
     UtcOffset stdOffset() const { return mStdOffset; }
 
-    UtcOffset& stdOffset() { return mStdOffset; }
-
     const char* stdAbbrev() const { return mStdAbbrev; }
 
     UtcOffset deltaOffset() const { return mDeltaOffset; }
@@ -58,18 +56,18 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     /** Set the base isDst flag. Valid only for ManualZoneSpecifier. */
     void isDst(bool isDst) { mIsDst = isDst; }
 
-    UtcOffset getUtcOffset(acetime_t /*epochSeconds*/) override {
+    UtcOffset getUtcOffset(acetime_t /*epochSeconds*/) const override {
       return mIsDst
         ? UtcOffset::forOffsetCode(mStdOffset.code() + mDeltaOffset.code())
         : mStdOffset;
     }
 
     /** Return the DST delta offset after accounting for mIsDst flag. */
-    UtcOffset getDeltaOffset(acetime_t /*epochSeconds*/) {
+    UtcOffset getDeltaOffset(acetime_t /*epochSeconds*/) const {
       return mIsDst ? mDeltaOffset : UtcOffset();
     }
 
-    const char* getAbbrev(acetime_t /*epochSeconds*/) override {
+    const char* getAbbrev(acetime_t /*epochSeconds*/) const override {
       return mIsDst ? mDstAbbrev : mStdAbbrev;
     }
 
@@ -86,16 +84,16 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Offset from UTC. */
-    UtcOffset mStdOffset;
+    UtcOffset const mStdOffset;
 
     /** Additional offset to add to mStdOffset when observing DST. */
-    UtcOffset mDeltaOffset;
+    UtcOffset const mDeltaOffset;
 
     /** Time zone abbreviation for standard time, e.g. "PST". Not Nullable. */
-    const char* mStdAbbrev;
+    const char* const mStdAbbrev;
 
     /** Time zone abbreviation for daylight time, e.g. "PDT". Not Nullable. */
-    const char* mDstAbbrev;
+    const char* const mDstAbbrev;
 
     /** Set to true if DST is enabled, when using ManualZoneSpecifier. */
     bool mIsDst = false;

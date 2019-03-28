@@ -544,7 +544,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     /** Return the underlying ZoneInfo. */
     const zonedbx::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
-    UtcOffset getUtcOffset(acetime_t epochSeconds) override {
+    UtcOffset getUtcOffset(acetime_t epochSeconds) const override {
       // TODO: Will mZoneInfo ever be nullptr? Maybe not needed.
       if (mZoneInfo == nullptr) return UtcOffset();
 
@@ -557,7 +557,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Return the DST delta offset at epochSeconds. */
-    UtcOffset getDeltaOffset(acetime_t epochSeconds) {
+    UtcOffset getDeltaOffset(acetime_t epochSeconds) const {
       if (mZoneInfo == nullptr) return UtcOffset();
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
@@ -567,7 +567,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
 
-    const char* getAbbrev(acetime_t epochSeconds) override {
+    const char* getAbbrev(acetime_t epochSeconds) const override {
       if (mZoneInfo == nullptr) return "UTC";
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
@@ -636,18 +636,18 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Return the Transition matching the given epochSeconds. */
-    const zonedbx::Transition* findTransition(acetime_t epochSeconds) {
+    const zonedbx::Transition* findTransition(acetime_t epochSeconds) const {
       return mTransitionStorage.findTransition(epochSeconds);
     }
 
     /** Initialize using the epochSeconds. */
-    void init(acetime_t epochSeconds) {
+    void init(acetime_t epochSeconds) const {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
       init(ld);
     }
 
     /** Initialize the zone rules cache, keyed by the "current" year. */
-    void init(const LocalDate& ld) {
+    void init(const LocalDate& ld) const {
       int16_t year = ld.year();
       if (isFilled(year)) return;
       if (DEBUG) logging::println("init(): %d", year);
@@ -1352,12 +1352,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     const zonedbx::ZoneInfo* const mZoneInfo;
 
-    int16_t mYear = 0;
-    bool mIsFilled = false;
+    mutable int16_t mYear = 0;
+    mutable bool mIsFilled = false;
     // TODO: Move mNumMatches and mMatches into a MatchStorage object?
-    uint8_t mNumMatches = 0; // actual number of matches
-    zonedbx::ZoneMatch mMatches[kMaxMatches];
-    zonedbx::TransitionStorage<kMaxTransitions> mTransitionStorage;
+    mutable uint8_t mNumMatches = 0; // actual number of matches
+    mutable zonedbx::ZoneMatch mMatches[kMaxMatches];
+    mutable zonedbx::TransitionStorage<kMaxTransitions> mTransitionStorage;
 };
 
 } // namespace ace_time

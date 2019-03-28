@@ -131,21 +131,21 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     /** Return the underlying ZoneInfo. */
     const zonedb::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
-    UtcOffset getUtcOffset(acetime_t epochSeconds) override {
+    UtcOffset getUtcOffset(acetime_t epochSeconds) const override {
       if (mZoneInfo == nullptr) return UtcOffset();
       const zonedb::Transition* transition = getTransition(epochSeconds);
       return UtcOffset::forOffsetCode(transition->offsetCode);
     }
 
     /** Return the DST delta offset at epochSeconds. */
-    UtcOffset getDeltaOffset(acetime_t epochSeconds) {
+    UtcOffset getDeltaOffset(acetime_t epochSeconds) const {
       if (mZoneInfo == nullptr) return UtcOffset();
       const zonedb::Transition* transition = getTransition(epochSeconds);
       if (transition->rule == nullptr) return UtcOffset();
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
 
-    const char* getAbbrev(acetime_t epochSeconds) override {
+    const char* getAbbrev(acetime_t epochSeconds) const override {
       if (mZoneInfo == nullptr) return "UTC";
       const zonedb::Transition* transition = getTransition(epochSeconds);
       return transition->abbrev;
@@ -192,7 +192,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Return the Transition at the given epochSeconds. */
-    const zonedb::Transition* getTransition(acetime_t epochSeconds) {
+    const zonedb::Transition* getTransition(acetime_t epochSeconds) const {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
       init(ld);
       return findMatch(epochSeconds);
@@ -208,7 +208,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * extract the various rules based upon that year, and determine the DST
      * offset using the matching rules of the previous year.
      */
-    void init(const LocalDate& ld) {
+    void init(const LocalDate& ld) const {
       int16_t year = ld.year();
       if (ld.month() == 1 && ld.day() == 1) {
         year--;
@@ -235,7 +235,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * Add the last matching rule just prior to the given year. This determines
      * the offset at the beginning of the current year.
      */
-    void addRulePriorToYear(int16_t year) {
+    void addRulePriorToYear(int16_t year) const {
       int8_t yearTiny = year - LocalDate::kEpochYear;
       int8_t priorYearTiny = yearTiny - 1;
 
@@ -301,7 +301,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Add all matching rules from the current year. */
-    void addRulesForYear(int16_t year) {
+    void addRulesForYear(int16_t year) const {
       const zonedb::ZoneEra* const era = findZoneEra(year);
 
       // If the ZonePolicy has no rules, then we need to add a Transition which
@@ -400,7 +400,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Calculate the epochSeconds and offsetCode of each Transition. */
-    void calcTransitions() {
+    void calcTransitions() const {
       mPrevTransition.startEpochSeconds = kMinEpochSeconds;
       int8_t deltaCode = (mPrevTransition.rule == nullptr)
             ? 0 : mPrevTransition.rule->deltaCode;
@@ -495,7 +495,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Determine the time zone abbreviations. */
-    void calcAbbreviations() {
+    void calcAbbreviations() const {
       calcAbbreviation(&mPrevTransition);
       for (uint8_t i = 0; i < mNumTransitions; i++) {
         calcAbbreviation(&mTransitions[i]);

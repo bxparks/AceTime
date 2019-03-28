@@ -41,10 +41,10 @@ class ZoneSpecifier {
     uint8_t getType() const { return mType; }
 
     /** Return the total effective UTC offset at epochSeconds, including DST. */
-    virtual UtcOffset getUtcOffset(acetime_t epochSeconds) = 0;
+    virtual UtcOffset getUtcOffset(acetime_t epochSeconds) const = 0;
 
     /** Return the time zone abbreviation at epochSeconds. */
-    virtual const char* getAbbrev(acetime_t epochSeconds) = 0;
+    virtual const char* getAbbrev(acetime_t epochSeconds) const = 0;
 
     /** Print a human-readable identifier. */
     virtual void printTo(Print& printer) const = 0;

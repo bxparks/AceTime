@@ -137,24 +137,6 @@ test(BasicZoneSpecifierTest, nullptr) {
   assertFalse(zoneSpecifier.getDeltaOffset(0).isDst());
 }
 
-test(BasicZoneSpecifierTest, copyConstructorAssignmentOperator) {
-  OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      UtcOffset::forHour(-8));
-  acetime_t epochSeconds = dt.toEpochSeconds();
-
-  BasicZoneSpecifier m1(nullptr);
-  assertEqual(0, m1.getUtcOffset(0).toMinutes());
-
-  BasicZoneSpecifier m2(&zonedb::kZoneLos_Angeles);
-  assertEqual(-8*60, m2.getUtcOffset(epochSeconds).toMinutes());
-
-  m1 = m2;
-  assertEqual(-8*60, m1.getUtcOffset(0).toMinutes());
-
-  BasicZoneSpecifier m3(m2);
-  assertEqual(-8*60, m1.getUtcOffset(0).toMinutes());
-}
-
 // https://www.timeanddate.com/time/zone/usa/los-angeles
 test(BasicZoneSpecifierTest, kZoneLos_Angeles) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
