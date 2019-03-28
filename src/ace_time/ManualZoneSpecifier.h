@@ -14,6 +14,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
      * The abbreviations are set to "UTC".
      */
     explicit ManualZoneSpecifier():
+      ZoneSpecifier(kTypeManual),
       mStdOffset(),
       mDeltaOffset(),
       mStdAbbrev("UTC"),
@@ -32,6 +33,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
         UtcOffset deltaOffset,
         const char* stdAbbrev = "",
         const char* dstAbbrev = ""):
+      ZoneSpecifier(kTypeManual),
       mStdOffset(stdOffset),
       mDeltaOffset(deltaOffset),
       mStdAbbrev(stdAbbrev),
@@ -55,8 +57,6 @@ class ManualZoneSpecifier: public ZoneSpecifier {
 
     /** Set the base isDst flag. Valid only for ManualZoneSpecifier. */
     void isDst(bool isDst) { mIsDst = isDst; }
-
-    uint8_t getType() const override { return kTypeManual; }
 
     UtcOffset getUtcOffset(acetime_t /*epochSeconds*/) override {
       return mIsDst

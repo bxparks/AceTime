@@ -515,7 +515,7 @@ class TransitionStorage {
     uint8_t mIndexFree;
 };
 
-} // namespace extended
+} // namespace zonedbx
 
 /**
  * Version of BasicZoneSpecifier that works for more obscure zones with
@@ -538,17 +538,17 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
      * interpreted as UTC.
      */
     explicit ExtendedZoneSpecifier(const zonedbx::ZoneInfo* zoneInfo = nullptr):
+        ZoneSpecifier(kTypeExtended),
         mZoneInfo(zoneInfo) {}
 
     /** Copy constructor. */
     explicit ExtendedZoneSpecifier(const ExtendedZoneSpecifier& that):
+      ZoneSpecifier(that),
       mZoneInfo(that.mZoneInfo),
       mIsFilled(false) {}
 
     /** Return the underlying ZoneInfo. */
     const zonedbx::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
-
-    uint8_t getType() const override { return kTypeExtended; }
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) override {
       // TODO: Will mZoneInfo ever be nullptr? Maybe not needed.

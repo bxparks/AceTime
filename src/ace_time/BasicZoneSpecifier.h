@@ -80,7 +80,7 @@ struct Transition {
   }
 };
 
-}
+} // namespace zonedb
 
 /**
  * Manages a given ZoneInfo. The ZoneRule and ZoneEra records that match the
@@ -125,6 +125,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     // TODO: Check if nullptr is needed. If not, change to const reference.
     explicit BasicZoneSpecifier(const zonedb::ZoneInfo* zoneInfo = nullptr):
+        ZoneSpecifier(kTypeBasic),
         mZoneInfo(zoneInfo) {}
 
     /**
@@ -136,13 +137,12 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * removed as well.
      */
     explicit BasicZoneSpecifier(const BasicZoneSpecifier& that):
+      ZoneSpecifier(that),
       mZoneInfo(that.mZoneInfo),
       mIsFilled(false) {}
 
     /** Return the underlying ZoneInfo. */
     const zonedb::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
-
-    uint8_t getType() const override { return kTypeBasic; }
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return UtcOffset();

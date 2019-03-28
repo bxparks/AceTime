@@ -37,10 +37,8 @@ class ZoneSpecifier {
     static const uint8_t kTypeBasic = 1;
     static const uint8_t kTypeExtended = 2;
 
-    // TODO: Consider moving this into ZoneSpecifier::mType member variable
-    // to eliminate this virtual method.
     /** Return the type of the zone spec. */
-    virtual uint8_t getType() const = 0;
+    uint8_t getType() const { return mType; }
 
     /** Return the total effective UTC offset at epochSeconds, including DST. */
     virtual UtcOffset getUtcOffset(acetime_t epochSeconds) = 0;
@@ -54,8 +52,18 @@ class ZoneSpecifier {
   protected:
     friend bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b);
 
+    /** Constructor. */
+    ZoneSpecifier(uint8_t type):
+      mType(type) {}
+
+    /** Copy constructor. */
+    ZoneSpecifier(const ZoneSpecifier& that):
+      mType(that.mType) {}
+
     /** Return true if equal. */
     virtual bool equals(const ZoneSpecifier& other) const = 0;
+
+    const uint8_t mType;
 };
 
 inline bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b) {
