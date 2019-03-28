@@ -56,10 +56,6 @@ class ZoneSpecifier {
     ZoneSpecifier(uint8_t type):
       mType(type) {}
 
-    /** Copy constructor. */
-    ZoneSpecifier(const ZoneSpecifier& that):
-      mType(that.mType) {}
-
     /** Return true if equal. */
     virtual bool equals(const ZoneSpecifier& other) const = 0;
 

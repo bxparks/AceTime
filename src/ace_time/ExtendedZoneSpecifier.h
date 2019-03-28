@@ -541,12 +541,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         ZoneSpecifier(kTypeExtended),
         mZoneInfo(zoneInfo) {}
 
-    /** Copy constructor. */
-    explicit ExtendedZoneSpecifier(const ExtendedZoneSpecifier& that):
-      ZoneSpecifier(that),
-      mZoneInfo(that.mZoneInfo),
-      mIsFilled(false) {}
-
     /** Return the underlying ZoneInfo. */
     const zonedbx::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
@@ -1357,6 +1351,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     const zonedbx::ZoneInfo* const mZoneInfo;
+
     int16_t mYear = 0;
     bool mIsFilled = false;
     // TODO: Move mNumMatches and mMatches into a MatchStorage object?

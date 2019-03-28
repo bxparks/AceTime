@@ -128,19 +128,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         ZoneSpecifier(kTypeBasic),
         mZoneInfo(zoneInfo) {}
 
-    /**
-     * Copy constructor. This is needed because some applications (e.g.
-     * WorldClock) find it convenient to initialize the various ZoneSpecifiers
-     * in a setup() method, after the ZoneSpecifier variables have been already
-     * allocated. To reset the specifiers, we need a copy constructor. If
-     * deferred initialization is removed, then this copy constructor can be
-     * removed as well.
-     */
-    explicit BasicZoneSpecifier(const BasicZoneSpecifier& that):
-      ZoneSpecifier(that),
-      mZoneInfo(that.mZoneInfo),
-      mIsFilled(false) {}
-
     /** Return the underlying ZoneInfo. */
     const zonedb::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
@@ -636,7 +623,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       return closestMatch;
     }
 
-    const zonedb::ZoneInfo* mZoneInfo;
+    const zonedb::ZoneInfo* const mZoneInfo;
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;

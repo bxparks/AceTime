@@ -30,12 +30,16 @@ class Controller {
      */
     Controller(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
             Presenter& presenter0, Presenter& presenter1,
-            Presenter& presenter2):
+            Presenter& presenter2, ZoneSpecifier& zspec0,
+            ZoneSpecifier& zspec1, ZoneSpecifier& zspec2):
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),
         mPresenter0(presenter0),
         mPresenter1(presenter1),
         mPresenter2(presenter2),
+        mClockInfo0(zspec0),
+        mClockInfo1(zspec1),
+        mClockInfo2(zspec2),
         mMode(MODE_UNKNOWN) {}
 
     /** Initialize the controller with the various time zones of each clock. */

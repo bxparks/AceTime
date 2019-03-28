@@ -23,14 +23,15 @@ struct ClockInfo {
   /** Blink the colon in HH:MM. */
   bool blinkingColon = false;
 
+  /** Downcast to use the correct zoneSpecifier. */
+  ace_time::ZoneSpecifier& zoneSpecifier;
+
   /** Time zone of the clock. */
   ace_time::TimeZone timeZone;
 
-#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_AUTO
-  ace_time::BasicZoneSpecifier zoneSpecifier;
-#else
-  ace_time::ManualZoneSpecifier zoneSpecifier;
-#endif
+  ClockInfo(ace_time::ZoneSpecifier& zspec):
+      zoneSpecifier(zspec),
+      timeZone(&zspec) {}
 };
 
 #endif

@@ -78,8 +78,21 @@ void setupOled() {
 Presenter presenter0(oled0);
 Presenter presenter1(oled1);
 Presenter presenter2(oled2);
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
+ManualZoneSpecifier zspec0(
+    UtcOffset::forHour(-8), "PST", UtcOffset::forHour(1), "PDT");
+ManualZoneSpecifier zspec1(
+    UtcOffset::forHour(-5), "EST", UtcOffset::forHour(1), "EDT");
+ManualZoneSpecifier zspec2(
+    UtcOffset::forHour(0), "GMT", UtcOffset::forHour(1), "BST");
+#else
+BasicZoneSpecifier zspec0(&zonedb::kZoneLos_Angeles);
+BasicZoneSpecifier zspec1(&zonedb::kZoneNew_York);
+BasicZoneSpecifier zspec2(&zonedb::kZoneLondon);
+#endif
 Controller controller(systemTimeKeeper, crcEeprom,
-    presenter0, presenter1, presenter2);
+    presenter0, presenter1, presenter2,
+    zspec0, zspec1, zspec2);
 
 // The RTC has a resolution of only 1s, so we need to poll it fast enough to
 // make it appear that the display is tracking it correctly. The benchmarking
