@@ -194,12 +194,6 @@ struct Transition {
   /** Determines if this transition is valid. */
   bool active;
 
-  /**
-   * Char buffer to allow a single letter to be returned as a (char*).
-   * Not thread-safe.
-   */
-  mutable char letterBuf[2];
-
   //-------------------------------------------------------------------------
 
   const char* format() const {
@@ -220,6 +214,10 @@ struct Transition {
    * not exist. A LETTER of '-' is returned as an empty string "".
    */
   const char* letter() const {
+    // Char buffer to allow a single letter to be returned as a (char*).
+    // Not thread-safe.
+    static char letterBuf[2];
+
     // RULES column is '-' or hh:mm, so return nullptr to indicate this.
     if (!rule) {
       return nullptr;
