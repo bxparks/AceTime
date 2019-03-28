@@ -85,10 +85,16 @@ ManualZoneSpecifier zspec1(
     UtcOffset::forHour(-5), "EST", UtcOffset::forHour(1), "EDT");
 ManualZoneSpecifier zspec2(
     UtcOffset::forHour(0), "GMT", UtcOffset::forHour(1), "BST");
-#else
+#elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
 BasicZoneSpecifier zspec0(&zonedb::kZoneLos_Angeles);
 BasicZoneSpecifier zspec1(&zonedb::kZoneNew_York);
 BasicZoneSpecifier zspec2(&zonedb::kZoneLondon);
+#elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
+ExtendedZoneSpecifier zspec0(&zonedbx::kZoneLos_Angeles);
+ExtendedZoneSpecifier zspec1(&zonedbx::kZoneNew_York);
+ExtendedZoneSpecifier zspec2(&zonedbx::kZoneLondon);
+#else
+  #error Unknown TIME_ZONE_TYPE
 #endif
 Controller controller(systemTimeKeeper, crcEeprom,
     presenter0, presenter1, presenter2,
