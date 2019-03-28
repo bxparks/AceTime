@@ -151,7 +151,7 @@ test(TimeZoneTest_Auto, LosAngeles) {
   acetime_t epochSeconds;
 
   TimeZone tz(&zoneSpecifier);
-  assertEqual(TimeZone::kTypeAuto, tz.getType());
+  assertEqual(TimeZone::kTypeBasic, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       UtcOffset::forHour(-8));

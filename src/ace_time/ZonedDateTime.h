@@ -69,7 +69,8 @@ class ZonedDateTime {
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             const TimeZone& timeZone = TimeZone()) {
-      if (timeZone.getType() == TimeZone::kTypeAuto) {
+      // TODO: Support kTypeExtended
+      if (timeZone.getType() == TimeZone::kTypeBasic) {
         // First guess at the UtcOffset using Jan 1 of the given year.
         acetime_t initialEpochSeconds =
             LocalDate::forComponents(year, 1, 1).toEpochSeconds();

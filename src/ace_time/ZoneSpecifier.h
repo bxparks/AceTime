@@ -34,7 +34,7 @@ namespace ace_time {
 class ZoneSpecifier {
   public:
     static const uint8_t kTypeManual = 0;
-    static const uint8_t kTypeAuto = 1;
+    static const uint8_t kTypeBasic = 1;
     static const uint8_t kTypeExtended = 2;
 
     // TODO: Consider moving this into ZoneSpecifier::mType member variable

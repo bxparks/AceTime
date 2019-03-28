@@ -142,7 +142,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     /** Return the underlying ZoneInfo. */
     const zonedb::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
-    uint8_t getType() const override { return kTypeAuto; }
+    uint8_t getType() const override { return kTypeBasic; }
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) override {
       if (mZoneInfo == nullptr) return UtcOffset();

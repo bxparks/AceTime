@@ -19,7 +19,7 @@ class Controller {
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
 
       if (mIsStoredInfoValid) {
-        if (mStoredInfo.timeZoneType == TimeZone::kTypeAuto) {
+        if (mStoredInfo.timeZoneType == TimeZone::kTypeBasic) {
           setTimeZone(&zonedb::kZoneLos_Angeles);
         } else {
           setTimeZone(UtcOffset::forMinutes(mStoredInfo.offsetMinutes),

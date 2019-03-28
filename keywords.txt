@@ -187,7 +187,8 @@ getLastSyncTime	KEYWORD2
 
 # ZoneSpecifier.h
 kTypeManual	LITERAL1
-kTypeAuto	LITERAL1
+kTypeBasic	LITERAL1
+kTypeExtended	LITERAL1
 
 # LocalDate.h
 kEpochYear	LITERAL1

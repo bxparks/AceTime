@@ -11,14 +11,15 @@ class Print;
 namespace ace_time {
 
 /**
- * Class that describes a time zone. There are 2 types:
+ * Class that describes a time zone. There are 3 types:
  *
- *    - kTypeManual represents an offset from UTC with a DST flag, both of
- *    which can be adjusted by the user. This type is mutable.
- *
- *    - kTypeAuto represents a time zone described by the TZ Database which
- *    contains rules about when the transition occurs from standard to DST
- *    modes. This type is immutable.
+ *    * kTypeManual: an offset from UTC with a DST flag, both of which can be
+ *    adjusted by the user. This type is mutable.
+ *    * kTypeBasic: A time zone described by a subset of TZ Database which
+ *    contains rules about when DST transitions happen. The subset consists of
+ *    time zones which relatively simple rules that can be implemented using
+ *    simple algorithms.
+ *    * kTypeExtended represents a time zone described by the full TZ Database.
  *
  * The TimeZone class really really wants to be a reference type. In other
  * words, it would be far more convenient for the client code to create this on
@@ -50,7 +51,8 @@ namespace ace_time {
 class TimeZone {
   public:
     static const uint8_t kTypeManual = ZoneSpecifier::kTypeManual;
-    static const uint8_t kTypeAuto = ZoneSpecifier::kTypeAuto;
+    static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
+    static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
 
     /** Constructor. */
     explicit TimeZone(

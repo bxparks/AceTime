@@ -15,7 +15,7 @@ void ZonedDateTime::printTo(Print& printer) const {
   }
 
   mOffsetDateTime.printTo(printer);
-  if (mTimeZone.getType() == TimeZone::kTypeAuto) {
+  if (mTimeZone.getType() == TimeZone::kTypeBasic) {
     printer.print(' ');
     mTimeZone.printTo(printer);
   }
