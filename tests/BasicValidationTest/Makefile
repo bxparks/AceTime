@@ -5,3 +5,6 @@
 APP_NAME := BasicValidationTest
 ARDUINO_LIBS := AceTime
 include ../../../AUnit/unitduino/unitduino.mk
+
+validation_data:
+	../../tools/tzcompiler.sh --tag 2018i --unittest --arduino

@@ -5,3 +5,6 @@
 APP_NAME := ExtendedValidationTest
 ARDUINO_LIBS := AceTime
 include ../../../AUnit/unitduino/unitduino.mk
+
+validation_data:
+	../../tools/tzcompiler.sh --tag 2018i --unittest --arduinox
