@@ -444,9 +444,9 @@ testF(TransitionTest, Miquelon) {
 testF(TransitionTest, Monaco) {
   assertValid(&ace_time::zonedb::kValidationDataMonaco);
 }
-//testF(TransitionTest, Moncton) {
-//  assertValid(&ace_time::zonedb::kValidationDataMoncton);
-//}
+testF(TransitionTest, Moncton) {
+  assertValid(&ace_time::zonedb::kValidationDataMoncton);
+}
 testF(TransitionTest, Monrovia) {
   assertValid(&ace_time::zonedb::kValidationDataMonrovia);
 }
