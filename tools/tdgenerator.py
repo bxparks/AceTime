@@ -6,6 +6,7 @@ import logging
 import datetime
 import collections
 import pytz
+from datetime import timedelta
 from zone_specifier import ZoneSpecifier
 from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 from zone_specifier import DateTuple
@@ -328,14 +329,18 @@ class TestDataGenerator:
         total_offset = int(offset_dt.utcoffset().total_seconds())
         dst_offset = int(offset_dt.dst().total_seconds())
 
+        # Get the YMDHMS components by shifting back the offset_dt by the given
+        # correction.
+        rdt = offset_dt - timedelta(seconds=correction)
+
         return TestItem(
             epoch=epoch_seconds,
             total_offset=total_offset,
             dst_offset=dst_offset,
-            y=dt.year,
-            M=dt.month,
-            d=dt.day,
-            h=dt.hour,
-            m=dt.minute,
-            s=dt.second,
+            y=rdt.year,
+            M=rdt.month,
+            d=rdt.day,
+            h=rdt.hour,
+            m=rdt.minute,
+            s=rdt.second,
             type=type)

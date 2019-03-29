@@ -114,16 +114,10 @@ const {validationDataClass} kValidationData{zoneShortName} = {{
 """
 
     TEST_CASE = """\
-{comment}testF({testClass}, {zoneShortName}) {{
-{comment}  assertValid(&ace_time::{dbNamespace}::kValidationData{zoneShortName});
-{comment}}}
+testF({testClass}, {zoneShortName}) {{
+  assertValid(&ace_time::{dbNamespace}::kValidationData{zoneShortName});
+}}
 """
-
-    # List of zones whose tests are broken. See also
-    # TestDataGenerator.CORRECTIONS.
-    BROKEN_ZONE_BLACK_LIST = [
-        'Gaza', 'Goose_Bay', 'Hebron', 'Moncton', 'St_Johns'
-    ]
 
     def __init__(self, invocation, tz_version, test_data, num_items, extended):
         self.invocation = invocation
@@ -238,11 +232,9 @@ const {validationDataClass} kValidationData{zoneShortName} = {{
     def _generate_test_cases(self, test_data):
         test_cases = ''
         for short_name, _ in sorted(test_data.items()):
-            comment = '//' if short_name in self.BROKEN_ZONE_BLACK_LIST else ''
             test_case = self.TEST_CASE.format(
                 dbNamespace=self.db_namespace,
                 testClass=self.test_class,
-                zoneShortName=short_name,
-                comment=comment)
+                zoneShortName=short_name)
             test_cases += test_case
         return test_cases

@@ -351,9 +351,9 @@ testF(TransitionTest, Galapagos) {
 testF(TransitionTest, Gambier) {
   assertValid(&ace_time::zonedbx::kValidationDataGambier);
 }
-//testF(TransitionTest, Gaza) {
-//  assertValid(&ace_time::zonedbx::kValidationDataGaza);
-//}
+testF(TransitionTest, Gaza) {
+  assertValid(&ace_time::zonedbx::kValidationDataGaza);
+}
 testF(TransitionTest, Gibraltar) {
   assertValid(&ace_time::zonedbx::kValidationDataGibraltar);
 }
@@ -363,9 +363,9 @@ testF(TransitionTest, Glace_Bay) {
 testF(TransitionTest, Godthab) {
   assertValid(&ace_time::zonedbx::kValidationDataGodthab);
 }
-//testF(TransitionTest, Goose_Bay) {
-//  assertValid(&ace_time::zonedbx::kValidationDataGoose_Bay);
-//}
+testF(TransitionTest, Goose_Bay) {
+  assertValid(&ace_time::zonedbx::kValidationDataGoose_Bay);
+}
 testF(TransitionTest, Grand_Turk) {
   assertValid(&ace_time::zonedbx::kValidationDataGrand_Turk);
 }
@@ -390,9 +390,9 @@ testF(TransitionTest, Halifax) {
 testF(TransitionTest, Havana) {
   assertValid(&ace_time::zonedbx::kValidationDataHavana);
 }
-//testF(TransitionTest, Hebron) {
-//  assertValid(&ace_time::zonedbx::kValidationDataHebron);
-//}
+testF(TransitionTest, Hebron) {
+  assertValid(&ace_time::zonedbx::kValidationDataHebron);
+}
 testF(TransitionTest, Helsinki) {
   assertValid(&ace_time::zonedbx::kValidationDataHelsinki);
 }
@@ -633,9 +633,9 @@ testF(TransitionTest, Miquelon) {
 testF(TransitionTest, Monaco) {
   assertValid(&ace_time::zonedbx::kValidationDataMonaco);
 }
-//testF(TransitionTest, Moncton) {
-//  assertValid(&ace_time::zonedbx::kValidationDataMoncton);
-//}
+testF(TransitionTest, Moncton) {
+  assertValid(&ace_time::zonedbx::kValidationDataMoncton);
+}
 testF(TransitionTest, Monrovia) {
   assertValid(&ace_time::zonedbx::kValidationDataMonrovia);
 }
@@ -885,9 +885,9 @@ testF(TransitionTest, South_Georgia) {
 testF(TransitionTest, Srednekolymsk) {
   assertValid(&ace_time::zonedbx::kValidationDataSrednekolymsk);
 }
-//testF(TransitionTest, St_Johns) {
-//  assertValid(&ace_time::zonedbx::kValidationDataSt_Johns);
-//}
+testF(TransitionTest, St_Johns) {
+  assertValid(&ace_time::zonedbx::kValidationDataSt_Johns);
+}
 testF(TransitionTest, Stanley) {
   assertValid(&ace_time::zonedbx::kValidationDataStanley);
 }
