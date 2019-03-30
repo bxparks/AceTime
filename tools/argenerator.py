@@ -32,7 +32,7 @@ class ArduinoGenerator:
 
     def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
-                 notable_policies, extended):
+                 notable_policies, format_strings, zone_strings, extended):
         self.extended = extended  # extended Arduino/C++ database
 
         self.zone_policies_generator = ZonePoliciesGenerator(
@@ -46,7 +46,7 @@ class ArduinoGenerator:
         self.zone_strings_generator = ZoneStringsGenerator(
             invocation, tz_version, tz_files, zones_map, rules_map,
             removed_zones, removed_policies, notable_zones, notable_policies,
-            extended)
+            format_strings, zone_strings, extended)
 
     def generate_files(self, output_dir):
         # zone_policies.*
@@ -64,8 +64,6 @@ class ArduinoGenerator:
                          self.zone_infos_generator.generate_infos_cpp())
 
         # zone_strings.*
-        self.zone_strings_generator.collect_format_strings()
-        self.zone_strings_generator.collect_zone_strings()
         self._write_file(output_dir, self.ZONE_STRINGS_H_FILE_NAME,
                          self.zone_strings_generator.generate_strings_h())
         self._write_file(output_dir, self.ZONE_STRINGS_CPP_FILE_NAME,
@@ -676,14 +674,14 @@ namespace {dbNamespace} {{
 
 // numStrings: {numFormatStrings}
 // memory: {formatStringsSize}
-// memory original: {formatStringsOriginalSize}
+// memory original: {formatStringsOrigSize}
 const char* const kFormats[] = {{
 {formatStringItems}
 }};
 
 // numStrings: {numZoneStrings}
 // memory: {zoneStringsSize}
-// memory original: {zoneStringsOriginalSize}
+// memory original: {zoneStringsOrigSize}
 const char* const kZoneStrings[] = {{
 {zoneStringItems}
 }};
@@ -722,7 +720,7 @@ extern const char* const kZoneStrings[];
 
     def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
-                 notable_policies, extended):
+                 notable_policies, format_strings, zone_strings, extended):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -732,90 +730,22 @@ extern const char* const kZoneStrings[];
         self.removed_policies = removed_policies
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
+        self.format_strings = format_strings
+        self.zone_strings = zone_strings
         self.extended = extended  # extended Arduino/C++ database
 
         self.db_namespace = 'zonedbx' if extended else 'zonedb'
         self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
-        self.format_strings = OrderedDict()
-        self.format_strings_size = 0
-        self.format_strings_original_size = 0
-        self.zone_strings = OrderedDict()
-        self.zone_strings_size = 0
-        self.zone_strings_original_size = 0
-
-    def collect_format_strings(self):
-        """Collect all ZoneRule.letter and ZoneEra.format strings into a single
-        array, for deduplication. However, bringing all strings into a single
-        array means that this gets loaded even if the application uses only a
-        few zones. See collect_letter_strings() for code that collects only the
-        ZoneRule.letter strings.
-        """
-        (self.format_strings, self.format_strings_size,
-            self.format_strings_original_size) = \
-            self.create_format_strings(self.zones_map, self.rules_map)
-
-    @staticmethod
-    def create_format_strings(zones_map, rules_map):
-        strings_count = {}
-        for name, eras in zones_map.items():
-            for era in eras:
-                format = era.format.replace('%s', '%')
-                count = strings_count.get(format)
-                if count == None:
-                    count = 0
-                strings_count[format] = count + 1
-        for name, rules in rules_map.items():
-            for rule in rules:
-                count = strings_count.get(rule.letter)
-                if count == None:
-                    count = 0
-                strings_count[rule.letter] = count + 1
-
-        format_strings = OrderedDict()
-        size = 0
-        original_size = 0
-        for name in sorted(strings_count):
-            transformer.add_string(format_strings, name)
-            csize = len(name) + 1  # including NUL char in C String
-            size += csize
-            original_size += strings_count[name] * csize
-        return (format_strings, size, original_size)
-
-    def collect_zone_strings(self):
-        """Collect Zone names.
-        """
-        (self.zone_strings, self.zone_strings_size,
-            self.zone_strings_original_size) = \
-            self.create_zone_strings(self.zones_map)
-
-    @staticmethod
-    def create_zone_strings(zones_map):
-        strings_count = {}
-        for name, eras in zones_map.items():
-            count = strings_count.get(name)
-            if count == None:
-                count = 0
-            strings_count[name] = count + 1
-
-        zone_strings = OrderedDict()
-        size = 0
-        original_size = 0
-        for name in sorted(strings_count):
-            transformer.add_string(zone_strings, name)
-            csize = len(name) + 1  # including NUL char in C String
-            size += csize
-            original_size += strings_count[name] * csize
-        return (zone_strings, size, original_size)
 
     def generate_strings_cpp(self):
         format_string_items = ''
-        for name, index in self.format_strings.items():
+        for name, index in self.format_strings.ordered_map.items():
             format_string_items += self.ZONE_STRINGS_ITEM.format(
                 stringName=name,
                 index=index)
 
         zone_string_items = ''
-        for name, index in self.zone_strings.items():
+        for name, index in self.zone_strings.ordered_map.items():
             zone_string_items += self.ZONE_STRINGS_ITEM.format(
                 stringName=name,
                 index=index)
@@ -825,13 +755,13 @@ extern const char* const kZoneStrings[];
             tz_version=self.tz_version,
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
-            numFormatStrings=len(self.format_strings),
-            formatStringsSize=self.format_strings_size,
-            formatStringsOriginalSize=self.format_strings_original_size,
+            numFormatStrings=len(self.format_strings.ordered_map),
+            formatStringsSize=self.format_strings.size,
+            formatStringsOrigSize=self.format_strings.orig_size,
             formatStringItems=format_string_items,
-            numZoneStrings=len(self.zone_strings),
-            zoneStringsSize=self.zone_strings_size,
-            zoneStringsOriginalSize=self.zone_strings_original_size,
+            numZoneStrings=len(self.zone_strings.ordered_map),
+            zoneStringsSize=self.zone_strings.size,
+            zoneStringsOrigSize=self.zone_strings.orig_size,
             zoneStringItems=zone_string_items)
 
     def generate_strings_h(self):
