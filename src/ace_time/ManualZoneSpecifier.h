@@ -7,6 +7,12 @@
 
 namespace ace_time {
 
+/**
+ * An implementation of ZoneSpecifier which allows the user to manually adjust
+ * the UTC offset and the DST flag. Unlike other implementations of
+ * ZoneSpecifier, this class is mutable and is expected to be copied during
+ * normal operation.
+ */
 class ManualZoneSpecifier: public ZoneSpecifier {
   public:
     /**
@@ -39,6 +45,12 @@ class ManualZoneSpecifier: public ZoneSpecifier {
       mStdAbbrev(stdAbbrev),
       mDstAbbrev(dstAbbrev) {}
 
+    /** Default copy constructor. */
+    ManualZoneSpecifier(const ManualZoneSpecifier& that) = default;
+
+    /** Default assignment operator. */
+    ManualZoneSpecifier& operator=(const ManualZoneSpecifier& that) = default;
+
     /** Singleton instance of a UTC ZoneSpecifier. */
     static ManualZoneSpecifier sUtcZoneSpecifier;
 
@@ -52,6 +64,9 @@ class ManualZoneSpecifier: public ZoneSpecifier {
 
     /** Return the base isDst flag. Valid only for ManualZoneSpecifier. */
     bool isDst() const { return mIsDst; }
+
+    /** Return the reference to stdOffset to allow changing it. */
+    UtcOffset& stdOffset() { return mStdOffset; }
 
     /** Set the base isDst flag. Valid only for ManualZoneSpecifier. */
     void isDst(bool isDst) { mIsDst = isDst; }
@@ -84,16 +99,16 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Offset from UTC. */
-    UtcOffset const mStdOffset;
+    UtcOffset mStdOffset;
 
     /** Additional offset to add to mStdOffset when observing DST. */
-    UtcOffset const mDeltaOffset;
+    UtcOffset mDeltaOffset;
 
     /** Time zone abbreviation for standard time, e.g. "PST". Not Nullable. */
-    const char* const mStdAbbrev;
+    const char* mStdAbbrev;
 
     /** Time zone abbreviation for daylight time, e.g. "PDT". Not Nullable. */
-    const char* const mDstAbbrev;
+    const char* mDstAbbrev;
 
     /** Set to true if DST is enabled, when using ManualZoneSpecifier. */
     bool mIsDst = false;

@@ -65,8 +65,7 @@ class FullOledClock: public Clock {
     void modeButtonLongPress() override {
       switch (mMode) {
         case MODE_DATE_TIME:
-          mChangingDateTime = mCurrentDateTime;
-          mChangingZoneSpecifier = mCurrentZoneSpecifier;
+          mChangingClockInfo = mClockInfo;
           mSecondFieldCleared = false;
           mMode = MODE_CHANGE_YEAR;
           break;
@@ -82,8 +81,7 @@ class FullOledClock: public Clock {
           break;
 
         case MODE_TIME_ZONE:
-          mChangingDateTime = mCurrentDateTime;
-          mChangingZoneSpecifier = mCurrentZoneSpecifier;
+          mChangingClockInfo = mClockInfo;
           mMode = MODE_CHANGE_TIME_ZONE_HOUR;
           break;
 
@@ -91,7 +89,7 @@ class FullOledClock: public Clock {
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
         case MODE_CHANGE_HOUR_MODE:
-          saveTimeZone();
+          saveClockInfo();
           mMode = MODE_TIME_ZONE;
           break;
       }
@@ -101,46 +99,48 @@ class FullOledClock: public Clock {
       switch (mMode) {
         case MODE_CHANGE_YEAR:
           mSuppressBlink = true;
-          date_time_mutation::incrementYear(mChangingDateTime);
+          date_time_mutation::incrementYear(mChangingClockInfo.dateTime);
           break;
         case MODE_CHANGE_MONTH:
           mSuppressBlink = true;
-          date_time_mutation::incrementMonth(mChangingDateTime);
+          date_time_mutation::incrementMonth(mChangingClockInfo.dateTime);
           break;
         case MODE_CHANGE_DAY:
           mSuppressBlink = true;
-          date_time_mutation::incrementDay(mChangingDateTime);
+          date_time_mutation::incrementDay(mChangingClockInfo.dateTime);
           break;
         case MODE_CHANGE_HOUR:
           mSuppressBlink = true;
-          date_time_mutation::incrementHour(mChangingDateTime);
+          date_time_mutation::incrementHour(mChangingClockInfo.dateTime);
           break;
         case MODE_CHANGE_MINUTE:
           mSuppressBlink = true;
-          date_time_mutation::incrementMinute(mChangingDateTime);
+          date_time_mutation::incrementMinute(mChangingClockInfo.dateTime);
           break;
         case MODE_CHANGE_SECOND:
           mSuppressBlink = true;
-          mChangingDateTime.second(0);
+          mChangingClockInfo.dateTime.second(0);
           mSecondFieldCleared = true;
           break;
 
         case MODE_CHANGE_TIME_ZONE_HOUR:
           mSuppressBlink = true;
-          utc_offset_mutation::incrementHour(mChangingZoneSpecifier.stdOffset());
+          utc_offset_mutation::incrementHour(
+              mChangingClockInfo.zoneSpecifier.stdOffset());
           break;
         case MODE_CHANGE_TIME_ZONE_MINUTE:
           mSuppressBlink = true;
           utc_offset_mutation::increment15Minutes(
-              mChangingZoneSpecifier.stdOffset());
+              mChangingClockInfo.zoneSpecifier.stdOffset());
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
-          mChangingZoneSpecifier.isDst(!mChangingZoneSpecifier.isDst());
+          mChangingClockInfo.zoneSpecifier.isDst(
+              !mChangingClockInfo.zoneSpecifier.isDst());
           break;
         case MODE_CHANGE_HOUR_MODE:
           mSuppressBlink = true;
-          mHourMode = 1 - mHourMode;
+          mChangingClockInfo.hourMode = 1 - mChangingClockInfo.hourMode;
           break;
       }
 

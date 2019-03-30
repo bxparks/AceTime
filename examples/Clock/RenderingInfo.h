@@ -4,8 +4,6 @@
 #include <AceTime.h>
 #include "config.h"
 
-using namespace ace_time;
-
 static const uint8_t MODE_UNKNOWN = 0; // uninitialized
 static const uint8_t MODE_DATE_TIME = 1;
 #if DISPLAY_TYPE == DISPLAY_TYPE_LED || DISPLAY_TYPE == DISPLAY_TYPE_OLED
@@ -34,11 +32,11 @@ static const uint8_t MODE_CHANGE_HOUR_MODE = 19;
  */ 
 struct RenderingInfo {
   uint8_t mode = 0; // display mode, see MODE_xxx above
-  ZonedDateTime dateTime; // the current or user-configured time
-  ManualZoneSpecifier zoneSpecifier; // the current or user-configured zone spec
   bool suppressBlink = false; // true if blinking should be suppressed
   bool blinkShowState = true; // true if blinking info should be shown
   uint8_t hourMode = 0; // 12/24 mode
+  ace_time::ZonedDateTime dateTime; // seconds from AceTime epoch
+  ace_time::ManualZoneSpecifier zoneSpecifier;
 };
 
 #endif

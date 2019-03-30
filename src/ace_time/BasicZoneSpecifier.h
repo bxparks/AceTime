@@ -186,6 +186,10 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     static const acetime_t kMinEpochSeconds = INT32_MIN + 1;
 
+    // Disable copy constructor and assignment operator.
+    BasicZoneSpecifier(const BasicZoneSpecifier& that) = delete;
+    BasicZoneSpecifier& operator=(const BasicZoneSpecifier& that) = delete;
+
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const BasicZoneSpecifier&) other;
       return getZoneInfo() == that.getZoneInfo();

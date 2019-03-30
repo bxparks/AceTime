@@ -4,6 +4,7 @@
 #include <AceTime.h>
 #include <ace_time/hw/CrcEeprom.h>
 #include <ace_time/common/DateStrings.h>
+#include "ClockInfo.h"
 #include "RenderingInfo.h"
 #include "StoredInfo.h"
 #include "Presenter.h"
@@ -43,24 +44,23 @@ class Clock {
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
       if (isValid) {
-        mCurrentZoneSpecifier = ManualZoneSpecifier(
+        mClockInfo.zoneSpecifier = ManualZoneSpecifier(
             UtcOffset::forMinutes(storedInfo.offsetMinutes),
-            UtcOffset::forHour(1));
-        mCurrentZoneSpecifier.isDst(storedInfo.isDst);
-        mHourMode = storedInfo.hourMode;
+            UtcOffset::forHour(1) /*deltaOffset*/);
+        mClockInfo.zoneSpecifier.isDst(storedInfo.isDst);
+        mClockInfo.hourMode = storedInfo.hourMode;
       } else {
-        mCurrentZoneSpecifier = ManualZoneSpecifier(
+        mClockInfo.zoneSpecifier = ManualZoneSpecifier(
             UtcOffset::forMinutes(kDefaultOffsetMinutes),
-            UtcOffset::forHour(1));
-        mHourMode = StoredInfo::kTwentyFour;
+            UtcOffset::forHour(1) /*deltaOffset*/);
+        mClockInfo.zoneSpecifier.isDst(false);
+        mClockInfo.hourMode = StoredInfo::kTwentyFour;
       }
 
-      // Retrieve current time from TimeKeeper.
+      // Retrieve current time from TimeKeeper and set the current clockInfo.
       acetime_t nowSeconds = mTimeKeeper.getNow();
-
-      // Set the current date time using the mTimeZone.
-      mCurrentDateTime = ZonedDateTime::forEpochSeconds(
-          nowSeconds, TimeZone(&mCurrentZoneSpecifier));
+      mClockInfo.dateTime = ZonedDateTime::forEpochSeconds(
+          nowSeconds, TimeZone(&mClockInfo.zoneSpecifier));
     }
 
     /**
@@ -88,8 +88,10 @@ class Clock {
 
   protected:
     void updateDateTime() {
-      mCurrentDateTime = ZonedDateTime::forEpochSeconds(
-          mTimeKeeper.getNow(), TimeZone(&mCurrentZoneSpecifier));
+      // TODO: It might be possible to track just the epochSeconds instead of
+      // converting it to a ZonedDateTime at each iteration.
+      mClockInfo.dateTime = ZonedDateTime::forEpochSeconds(
+          mTimeKeeper.getNow(), TimeZone(&mClockInfo.zoneSpecifier));
 
       // If in CHANGE mode, and the 'second' field has not been cleared,
       // update the mChangingDateTime.second field with the current second.
@@ -101,13 +103,12 @@ class Clock {
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
           if (!mSecondFieldCleared) {
-            mChangingDateTime.second(mCurrentDateTime.second());
+            mChangingClockInfo.dateTime.second(mClockInfo.dateTime.second());
           }
           break;
       }
     }
 
-    /** Update the blinkShowState. */
     void updateBlinkState () {
       uint16_t now = millis();
       uint16_t duration = now - mBlinkCycleStartMillis;
@@ -136,9 +137,9 @@ class Clock {
 #endif
         case MODE_WEEKDAY:
         case MODE_TIME_ZONE:
-          mPresenter.setDateTime(mCurrentDateTime);
-          mPresenter.setTimeZone(mCurrentZoneSpecifier);
-          mPresenter.setHourMode(mHourMode);
+          mPresenter.setDateTime(mClockInfo.dateTime);
+          mPresenter.setTimeZone(mClockInfo.zoneSpecifier);
+          mPresenter.setHourMode(mClockInfo.hourMode);
           break;
 
         case MODE_CHANGE_YEAR:
@@ -151,52 +152,51 @@ class Clock {
         case MODE_CHANGE_TIME_ZONE_MINUTE:
         case MODE_CHANGE_TIME_ZONE_DST:
         case MODE_CHANGE_HOUR_MODE:
-          mPresenter.setDateTime(mChangingDateTime);
-          mPresenter.setTimeZone(mChangingZoneSpecifier);
-          mPresenter.setHourMode(mHourMode);
+          mPresenter.setDateTime(mChangingClockInfo.dateTime);
+          mPresenter.setTimeZone(mChangingClockInfo.zoneSpecifier);
+          mPresenter.setHourMode(mChangingClockInfo.hourMode);
           break;
       }
     }
 
     /** Save the current UTC dateTime to the RTC. */
     void saveDateTime() {
-      mTimeKeeper.setNow(mChangingDateTime.toEpochSeconds());
+      mTimeKeeper.setNow(mChangingClockInfo.dateTime.toEpochSeconds());
     }
 
-    void saveTimeZone() {
-      mCurrentZoneSpecifier = mChangingZoneSpecifier;
-      mCurrentDateTime = mCurrentDateTime.convertToTimeZone(
-          TimeZone(&mCurrentZoneSpecifier));
+    /** Save the time zone from Changing to current. */
+    void saveClockInfo() {
+      mClockInfo.hourMode = mChangingClockInfo.hourMode;
+      mClockInfo.zoneSpecifier = mChangingClockInfo.zoneSpecifier;
+      mClockInfo.dateTime = mClockInfo.dateTime.convertToTimeZone(
+          TimeZone(&mClockInfo.zoneSpecifier));
       preserveInfo();
     }
 
+    /** Save the current clock info info to EEPROM. */
     void preserveInfo() {
       StoredInfo storedInfo;
-      storedInfo.timeZoneType = mCurrentZoneSpecifier.getType();
-      storedInfo.offsetMinutes = mCurrentZoneSpecifier.stdOffset().toMinutes();
-      storedInfo.isDst = mCurrentZoneSpecifier.isDst();
-      storedInfo.hourMode = mHourMode;
+      storedInfo.timeZoneType = mClockInfo.zoneSpecifier.getType();
+      storedInfo.offsetMinutes =
+          mClockInfo.zoneSpecifier.stdOffset().toMinutes();
+      storedInfo.isDst = mClockInfo.zoneSpecifier.isDst();
+      storedInfo.hourMode = mClockInfo.hourMode;
 
       mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
           sizeof(StoredInfo));
     }
 
-  protected:
+
     TimeKeeper& mTimeKeeper;
     hw::CrcEeprom& mCrcEeprom;
     Presenter& mPresenter;
+    ClockInfo mClockInfo; // current clock
+    ClockInfo mChangingClockInfo; // the target clock
 
     uint8_t mMode = MODE_UNKNOWN; // current mode
 
-    ManualZoneSpecifier mCurrentZoneSpecifier;
-    ZonedDateTime mCurrentDateTime; // DateTime from the TimeKeeper
-
-    ManualZoneSpecifier mChangingZoneSpecifier;;
-    ZonedDateTime mChangingDateTime; // DateTime set by user in "Change" modes
-
     bool mSecondFieldCleared;
     bool mSuppressBlink; // true if blinking should be suppressed
-    uint8_t mHourMode = 0; // 12/24 mode
 
     bool mBlinkShowState = true; // true means actually show
     uint16_t mBlinkCycleStartMillis = 0; // millis since blink cycle start

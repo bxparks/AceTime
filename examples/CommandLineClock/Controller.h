@@ -13,20 +13,21 @@ class Controller {
   public:
     Controller(PersistentStore& persistentStore, TimeKeeper& systemTimeKeeper):
         mPersistentStore(persistentStore),
-        mSystemTimeKeeper(systemTimeKeeper) {}
+        mSystemTimeKeeper(systemTimeKeeper),
+        mBasicZoneSpecifier(&zonedb::kZoneLos_Angeles) {}
 
     void setup() {
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
 
       if (mIsStoredInfoValid) {
         if (mStoredInfo.timeZoneType == TimeZone::kTypeBasic) {
-          setTimeZone(&zonedb::kZoneLos_Angeles);
+          setTimeZone();
         } else {
           setTimeZone(UtcOffset::forMinutes(mStoredInfo.offsetMinutes),
               mStoredInfo.isDst);
         }
       } else {
-        setTimeZone(&zonedb::kZoneLos_Angeles);
+        setTimeZone();
       }
 
       // TODO: Set the ssid and password to some initial blank state, so that
@@ -42,9 +43,13 @@ class Controller {
       preserveInfo();
     }
 
-    /** Set the time zone using the given Zone Info. */
-    void setTimeZone(const zonedb::ZoneInfo* zoneInfo) {
-      mBasicZoneSpecifier = BasicZoneSpecifier(zoneInfo);
+    // TODO: If we want the user to be able to select from a menu of zones,
+    // then setTimeZone() needs to take a ZoneInfo as an argument, and we need
+    // to enable the assignment operator() for BasicZoneSpecifier or
+    // ExtendedZoneSpecifier. Doable but makes those classes consume more
+    // program memory.
+    /** Set the time zone to America/Los_Angeles. */
+    void setTimeZone() {
       mTimeZone = TimeZone(&mBasicZoneSpecifier);
       preserveInfo();
     }

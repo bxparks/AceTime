@@ -52,6 +52,10 @@ class ZoneSpecifier {
   protected:
     friend bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b);
 
+    // Use default copy constructor and assignment operator.
+    ZoneSpecifier(const ZoneSpecifier& that) = default;
+    ZoneSpecifier& operator=(const ZoneSpecifier& that) = default;
+
     /** Constructor. */
     ZoneSpecifier(uint8_t type):
       mType(type) {}
@@ -59,7 +63,7 @@ class ZoneSpecifier {
     /** Return true if equal. */
     virtual bool equals(const ZoneSpecifier& other) const = 0;
 
-    const uint8_t mType;
+    uint8_t mType;
 };
 
 inline bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b) {
