@@ -201,7 +201,7 @@ class TimezoneCommand: public CommandHandler {
       } else {
         SHIFT;
         if (strcmp(argv[0], "Los_Angeles") == 0) {
-          controller.setTimeZone(&zonedb::kZoneLos_Angeles);
+          controller.setTimeZone();
           printer.print(FF("Time zone set to: "));
           controller.getTimeZone().printTo(printer);
           printer.println();
