@@ -26,7 +26,7 @@ struct ClockInfo {
   /** Downcast to use the correct zoneSpecifier. */
   ace_time::ZoneSpecifier& zoneSpecifier;
 
-  /** Time zone of the clock. */
+  /** The desired time zone of the clock. */
   ace_time::TimeZone timeZone;
 
   ClockInfo(ace_time::ZoneSpecifier& zspec):

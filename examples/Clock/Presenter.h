@@ -1,6 +1,8 @@
 #ifndef CLOCK_PRESENTER_H
 #define CLOCK_PRESENTER_H
 
+#include <AceTime.h>
+
 class Presenter {
   public:
     /** Constructor. */
@@ -21,11 +23,11 @@ class Presenter {
       mRenderingInfo.mode = mode;
     }
 
-    void setDateTime(const ZonedDateTime& dateTime) {
+    void setDateTime(const ace_time::ZonedDateTime& dateTime) {
       mRenderingInfo.dateTime = dateTime;
     }
 
-    void setTimeZone(const ManualZoneSpecifier& zoneSpecifier) {
+    void setTimeZone(const ace_time::ManualZoneSpecifier& zoneSpecifier) {
       mRenderingInfo.zoneSpecifier = zoneSpecifier;
     }
 

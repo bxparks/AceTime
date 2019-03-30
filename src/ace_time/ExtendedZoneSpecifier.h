@@ -628,6 +628,11 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     /** A sentinel ZoneEra which has the smallest year. */
     static const zonedbx::ZoneEra kAnchorEra;
 
+    // Disable copy constructor and assignment operator.
+    ExtendedZoneSpecifier(const ExtendedZoneSpecifier& that) = delete;
+    ExtendedZoneSpecifier& operator=(const ExtendedZoneSpecifier& that)
+        = delete;
+
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const ExtendedZoneSpecifier&) other;
       return getZoneInfo() == that.getZoneInfo();

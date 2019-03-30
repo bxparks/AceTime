@@ -8,7 +8,6 @@ using namespace ace_time;
 
 // --------------------------------------------------------------------------
 // BasicZoneSpecifier
-// TODO: Move this into BasicZoneSpecifierTest.ino.
 // --------------------------------------------------------------------------
 
 test(BasicZoneSpecifierTest, operatorEqualEqual) {

@@ -76,7 +76,7 @@ class OledClock: public Clock {
         case MODE_CHANGE_HOUR:
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
-          saveDateTime();
+          saveClockInfo();
           mMode = MODE_DATE_TIME;
           break;
 
