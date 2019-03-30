@@ -64,12 +64,12 @@ class ArduinoGenerator:
                          self.zone_infos_generator.generate_infos_cpp())
 
         # zone_strings.*
-        if self.extended:
-            self.zone_strings_generator.collect_format_strings()
-            self._write_file(output_dir, self.ZONE_STRINGS_H_FILE_NAME,
-                             self.zone_strings_generator.generate_strings_h())
-            self._write_file(output_dir, self.ZONE_STRINGS_CPP_FILE_NAME,
-                             self.zone_strings_generator.generate_strings_cpp())
+        self.zone_strings_generator.collect_format_strings()
+        self.zone_strings_generator.collect_zone_strings()
+        self._write_file(output_dir, self.ZONE_STRINGS_H_FILE_NAME,
+                         self.zone_strings_generator.generate_strings_h())
+        self._write_file(output_dir, self.ZONE_STRINGS_CPP_FILE_NAME,
+                         self.zone_strings_generator.generate_strings_cpp())
 
     def _write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)
@@ -674,11 +674,18 @@ class ZoneStringsGenerator:
 namespace ace_time {{
 namespace {dbNamespace} {{
 
-// numStrings: {numStrings}
-// memory: {sizeStrings}
-// memory original: {originalSizeStrings}
+// numStrings: {numFormatStrings}
+// memory: {formatStringsSize}
+// memory original: {formatStringsOriginalSize}
 const char* const kFormats[] = {{
-{stringItems}
+{formatStringItems}
+}};
+
+// numStrings: {numZoneStrings}
+// memory: {zoneStringsSize}
+// memory original: {zoneStringsOriginalSize}
+const char* const kZoneStrings[] = {{
+{zoneStringItems}
 }};
 
 }}
@@ -706,6 +713,8 @@ namespace {dbNamespace} {{
 
 extern const char* const kFormats[];
 
+extern const char* const kZoneStrings[];
+
 }}
 }}
 #endif
@@ -730,6 +739,9 @@ extern const char* const kFormats[];
         self.format_strings = OrderedDict()
         self.format_strings_size = 0
         self.format_strings_original_size = 0
+        self.zone_strings = OrderedDict()
+        self.zone_strings_size = 0
+        self.zone_strings_original_size = 0
 
     def collect_format_strings(self):
         """Collect all ZoneRule.letter and ZoneEra.format strings into a single
@@ -750,7 +762,7 @@ extern const char* const kFormats[];
             for rule in rules:
                 count = strings_count.get(rule.letter)
                 if count == None:
-                    count = 1
+                    count = 0
                 strings_count[rule.letter] = count + 1
 
         size = 0
@@ -763,10 +775,36 @@ extern const char* const kFormats[];
         self.format_strings_size = size
         self.format_strings_original_size = original_size
 
+    def collect_zone_strings(self):
+        """Collect Zone names.
+        """
+        strings_count = {}
+        for name, eras in self.zones_map.items():
+            count = strings_count.get(name)
+            if count == None:
+                count = 0
+            strings_count[name] = count + 1
+
+        size = 0
+        original_size = 0
+        for name in sorted(strings_count):
+            transformer.add_string(self.zone_strings, name)
+            csize = len(name) + 1  # including NUL char in C String
+            size += csize
+            original_size += strings_count[name] * csize
+        self.zone_strings_size = size
+        self.zone_strings_original_size = original_size
+
     def generate_strings_cpp(self):
-        string_items = ''
+        format_string_items = ''
         for name, index in self.format_strings.items():
-            string_items += self.ZONE_STRINGS_ITEM.format(
+            format_string_items += self.ZONE_STRINGS_ITEM.format(
+                stringName=name,
+                index=index)
+
+        zone_string_items = ''
+        for name, index in self.zone_strings.items():
+            zone_string_items += self.ZONE_STRINGS_ITEM.format(
                 stringName=name,
                 index=index)
 
@@ -775,10 +813,14 @@ extern const char* const kFormats[];
             tz_version=self.tz_version,
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
-            numStrings=len(self.format_strings),
-            sizeStrings=self.format_strings_size,
-            originalSizeStrings=self.format_strings_original_size,
-            stringItems=string_items)
+            numFormatStrings=len(self.format_strings),
+            formatStringsSize=self.format_strings_size,
+            formatStringsOriginalSize=self.format_strings_original_size,
+            formatStringItems=format_string_items,
+            numZoneStrings=len(self.zone_strings),
+            zoneStringsSize=self.zone_strings_size,
+            zoneStringsOriginalSize=self.zone_strings_original_size,
+            zoneStringItems=zone_string_items)
 
     def generate_strings_h(self):
         return self.ZONE_STRINGS_H_FILE.format(
