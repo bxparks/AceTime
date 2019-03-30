@@ -12,7 +12,7 @@
 namespace ace_time {
 namespace zonedbx {
 
-extern const char* const kStrings[];
+extern const char* const kFormats[];
 
 }
 }

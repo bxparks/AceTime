@@ -65,7 +65,7 @@ class ArduinoGenerator:
 
         # zone_strings.*
         if self.extended:
-            self.zone_strings_generator.collect_strings()
+            self.zone_strings_generator.collect_format_strings()
             self._write_file(output_dir, self.ZONE_STRINGS_H_FILE_NAME,
                              self.zone_strings_generator.generate_strings_h())
             self._write_file(output_dir, self.ZONE_STRINGS_CPP_FILE_NAME,
@@ -677,7 +677,7 @@ namespace {dbNamespace} {{
 // numStrings: {numStrings}
 // memory: {sizeStrings}
 // memory original: {originalSizeStrings}
-const char* const kStrings[] = {{
+const char* const kFormats[] = {{
 {stringItems}
 }};
 
@@ -704,7 +704,7 @@ const char* const kStrings[] = {{
 namespace ace_time {{
 namespace {dbNamespace} {{
 
-extern const char* const kStrings[];
+extern const char* const kFormats[];
 
 }}
 }}
@@ -727,11 +727,11 @@ extern const char* const kStrings[];
 
         self.db_namespace = 'zonedbx' if extended else 'zonedb'
         self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
-        self.strings = OrderedDict()
-        self.strings_size = 0
-        self.strings_original_size = 0
+        self.format_strings = OrderedDict()
+        self.format_strings_size = 0
+        self.format_strings_original_size = 0
 
-    def collect_strings(self):
+    def collect_format_strings(self):
         """Collect all ZoneRule.letter and ZoneEra.format strings into a single
         array, for deduplication. However, bringing all strings into a single
         array means that this gets loaded even if the application uses only a
@@ -756,16 +756,16 @@ extern const char* const kStrings[];
         size = 0
         original_size = 0
         for name in sorted(strings_count):
-            transformer.add_string(self.strings, name)
+            transformer.add_string(self.format_strings, name)
             csize = len(name) + 1  # including NUL char in C String
             size += csize
             original_size += strings_count[name] * csize
-        self.strings_size = size
-        self.strings_original_size = original_size
+        self.format_strings_size = size
+        self.format_strings_original_size = original_size
 
     def generate_strings_cpp(self):
         string_items = ''
-        for name, index in self.strings.items():
+        for name, index in self.format_strings.items():
             string_items += self.ZONE_STRINGS_ITEM.format(
                 stringName=name,
                 index=index)
@@ -775,9 +775,9 @@ extern const char* const kStrings[];
             tz_version=self.tz_version,
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
-            numStrings=len(self.strings),
-            sizeStrings=self.strings_size,
-            originalSizeStrings=self.strings_original_size,
+            numStrings=len(self.format_strings),
+            sizeStrings=self.format_strings_size,
+            originalSizeStrings=self.format_strings_original_size,
             stringItems=string_items)
 
     def generate_strings_h(self):

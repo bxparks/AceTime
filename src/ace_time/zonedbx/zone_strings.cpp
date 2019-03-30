@@ -12,7 +12,7 @@ namespace zonedbx {
 // numStrings: 109
 // memory: 590
 // memory original: 4901
-const char* const kStrings[] = {
+const char* const kFormats[] = {
   /*  0*/ "%",
   /*  1*/ "+00",
   /*  2*/ "+00/+01",
