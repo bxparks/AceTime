@@ -750,50 +750,62 @@ extern const char* const kZoneStrings[];
         few zones. See collect_letter_strings() for code that collects only the
         ZoneRule.letter strings.
         """
+        (self.format_strings, self.format_strings_size,
+            self.format_strings_original_size) = \
+            self.create_format_strings(self.zones_map, self.rules_map)
+
+    @staticmethod
+    def create_format_strings(zones_map, rules_map):
         strings_count = {}
-        for name, eras in self.zones_map.items():
+        for name, eras in zones_map.items():
             for era in eras:
                 format = era.format.replace('%s', '%')
                 count = strings_count.get(format)
                 if count == None:
                     count = 0
                 strings_count[format] = count + 1
-        for name, rules in self.rules_map.items():
+        for name, rules in rules_map.items():
             for rule in rules:
                 count = strings_count.get(rule.letter)
                 if count == None:
                     count = 0
                 strings_count[rule.letter] = count + 1
 
+        format_strings = OrderedDict()
         size = 0
         original_size = 0
         for name in sorted(strings_count):
-            transformer.add_string(self.format_strings, name)
+            transformer.add_string(format_strings, name)
             csize = len(name) + 1  # including NUL char in C String
             size += csize
             original_size += strings_count[name] * csize
-        self.format_strings_size = size
-        self.format_strings_original_size = original_size
+        return (format_strings, size, original_size)
 
     def collect_zone_strings(self):
         """Collect Zone names.
         """
+        (self.zone_strings, self.zone_strings_size,
+            self.zone_strings_original_size) = \
+            self.create_zone_strings(self.zones_map)
+
+    @staticmethod
+    def create_zone_strings(zones_map):
         strings_count = {}
-        for name, eras in self.zones_map.items():
+        for name, eras in zones_map.items():
             count = strings_count.get(name)
             if count == None:
                 count = 0
             strings_count[name] = count + 1
 
+        zone_strings = OrderedDict()
         size = 0
         original_size = 0
         for name in sorted(strings_count):
-            transformer.add_string(self.zone_strings, name)
+            transformer.add_string(zone_strings, name)
             csize = len(name) + 1  # including NUL char in C String
             size += csize
             original_size += strings_count[name] * csize
-        self.zone_strings_size = size
-        self.zone_strings_original_size = original_size
+        return (zone_strings, size, original_size)
 
     def generate_strings_cpp(self):
         format_string_items = ''
