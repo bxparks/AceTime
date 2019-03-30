@@ -756,7 +756,7 @@ extern const char* const kZoneStrings[];
                 format = era.format.replace('%s', '%')
                 count = strings_count.get(format)
                 if count == None:
-                    count = 1
+                    count = 0
                 strings_count[format] = count + 1
         for name, rules in self.rules_map.items():
             for rule in rules:

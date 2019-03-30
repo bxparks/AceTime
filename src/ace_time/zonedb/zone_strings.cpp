@@ -11,7 +11,7 @@ namespace zonedb {
 
 // numStrings: 83
 // memory: 448
-// memory original: 2452
+// memory original: 2010
 const char* const kFormats[] = {
   /*  0*/ "+03",
   /*  1*/ "+03/+04",
