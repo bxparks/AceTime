@@ -6,6 +6,7 @@
 // https://github.com/eggert/tz/releases/tag/2018i
 //
 // DO NOT EDIT
+
 #ifndef ACE_TIME_ZONEDB_ZONE_STRINGS_H
 #define ACE_TIME_ZONEDB_ZONE_STRINGS_H
 

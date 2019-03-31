@@ -669,6 +669,9 @@ class ZoneStringsGenerator:
 // https://github.com/eggert/tz/releases/tag/{tz_version}
 //
 // DO NOT EDIT
+
+#include "zone_strings.h"
+
 namespace ace_time {{
 namespace {dbNamespace} {{
 
@@ -703,6 +706,7 @@ const char* const kZoneStrings[] = {{
 // https://github.com/eggert/tz/releases/tag/{tz_version}
 //
 // DO NOT EDIT
+
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_STRINGS_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_STRINGS_H
 

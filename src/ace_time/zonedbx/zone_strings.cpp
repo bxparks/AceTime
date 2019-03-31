@@ -6,6 +6,9 @@
 // https://github.com/eggert/tz/releases/tag/2018i
 //
 // DO NOT EDIT
+
+#include "zone_strings.h"
+
 namespace ace_time {
 namespace zonedbx {
 
