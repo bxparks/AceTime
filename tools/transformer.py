@@ -8,6 +8,7 @@ Cleanses and transforms the 'zones' and 'rules' data so that it can be used for
 code generation in the ArduinoGenerator, PythonGenerator or the InlineGenerator.
 """
 
+import collections
 import logging
 import sys
 import datetime
@@ -18,6 +19,10 @@ from extractor import MIN_YEAR
 from extractor import ZoneRuleRaw
 from extractor import ZoneEraRaw
 
+# Deduped list of strings (as OrderedDict of {string -> index}), total size, and
+# the total original size.
+StringCollection = collections.namedtuple(
+    'StringCollection', 'ordered_map size orig_size')
 
 class Transformer:
     def __init__(self, zones_map, rules_map, language, start_year, granularity,
@@ -112,6 +117,11 @@ class Transformer:
 
         self.rules_map = rules_map
         self.zones_map = zones_map
+
+        # Collect deduped format and zone strings
+        self.format_strings = create_format_strings(self.zones_map,
+            self.rules_map)
+        self.zone_strings = create_zone_strings(self.zones_map)
 
     def print_summary(self):
         logging.info('-------- Transformer Summary')
@@ -1249,3 +1259,59 @@ def add_string(strings, name):
         index = len(strings)
         strings[name] = index
     return index
+
+
+def create_format_strings(zones_map, rules_map):
+    """Collect all ZoneRule.letter and ZoneEra.format strings into a single
+    array, for deduplication. However, bringing all strings into a single array
+    means that this gets loaded even if the application uses only a few zones.
+    See collect_letter_strings() for code that collects only the ZoneRule.letter
+    strings.
+    """
+    strings_count = {}
+    for name, eras in zones_map.items():
+        for era in eras:
+            format = era.format.replace('%s', '%')
+            count = strings_count.get(format)
+            if count == None:
+                count = 0
+            strings_count[format] = count + 1
+    for name, rules in rules_map.items():
+        for rule in rules:
+            count = strings_count.get(rule.letter)
+            if count == None:
+                count = 0
+            strings_count[rule.letter] = count + 1
+
+    format_strings = OrderedDict()
+    size = 0
+    orig_size = 0
+    for name in sorted(strings_count):
+        add_string(format_strings, name)
+        csize = len(name) + 1  # including NUL char in C String
+        size += csize
+        orig_size += strings_count[name] * csize
+    return StringCollection(ordered_map=format_strings, size=size,
+        orig_size=orig_size)
+
+
+def create_zone_strings(zones_map):
+    """Collect Zone names.
+    """
+    strings_count = {}
+    for name, eras in zones_map.items():
+        count = strings_count.get(name)
+        if count == None:
+            count = 0
+        strings_count[name] = count + 1
+
+    zone_strings = OrderedDict()
+    size = 0
+    orig_size = 0
+    for name in sorted(strings_count):
+        add_string(zone_strings, name)
+        csize = len(name) + 1  # including NUL char in C String
+        size += csize
+        orig_size += strings_count[name] * csize
+    return StringCollection(ordered_map=zone_strings, size=size,
+        orig_size=orig_size)

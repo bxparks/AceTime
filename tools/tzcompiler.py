@@ -20,6 +20,7 @@ this:
               v              |           v
      zone_infos.{h,cpp}      |           zone_infos.py
      zone_policies.{h,cpp}   |           zone_policies.py
+     zone_strings.{h,cpp}    |           zone_strings.py
                              v                    |
                           InlineGenerator         |
                              |    \     \         |
@@ -248,6 +249,8 @@ def main():
                 transformer.all_removed_policies,
                 transformer.all_notable_zones,
                 transformer.all_notable_policies,
+                transformer.format_strings,
+                transformer.zone_strings,
                 extended)
             generator.generate_files(args.output_dir)
         else:
