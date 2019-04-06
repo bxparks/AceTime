@@ -17,6 +17,7 @@ class TransitionTest: public aunit::TestOnce {
 
       const zonedbx::ZoneInfo* zoneInfo = testData->zoneInfo;
       ExtendedZoneSpecifier zoneSpecifier(zoneInfo);
+      zoneSpecifier.resetTransitionHighWater();
       TimeZone tz(&zoneSpecifier);
       for (uint16_t i = 0; i < testData->numItems; i++) {
         const ValidationItem& item = testData->items[i];
@@ -52,6 +53,8 @@ class TransitionTest: public aunit::TestOnce {
         assertEqual(item.minute, dt.minute());
         assertEqual(item.second, dt.second());
       }
+      ace_time::logging::println("Transition High Water: %d",
+          zoneSpecifier.getTransitionHighWater());
     }
 };
 

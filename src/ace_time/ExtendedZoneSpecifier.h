@@ -360,6 +360,9 @@ class TransitionStorage {
      * getFreeAgent() is called, the same Transition will be returned.
      */
     Transition* getFreeAgent() {
+      if (mIndexFree > mHighWater) {
+        mHighWater = mIndexFree;
+      }
       if (mIndexFree < SIZE) {
         return mTransitions[mIndexFree];
       } else {
@@ -493,6 +496,15 @@ class TransitionStorage {
       }
     }
 
+    /** Reset the high water mark. For debugging. */
+    void resetHighWater() { mHighWater = 0; }
+
+    /**
+     * Return the high water mark. This is the largest value of mIndexFree that
+     * was used. Therefore, the SIZE must be (mHighWater + 1). For debugging.
+     */
+    uint8_t getHighWater() const { return mHighWater; }
+
   private:
     friend class ::TransitionStorageTest_getFreeAgent;
     friend class ::TransitionStorageTest_getFreeAgent2;
@@ -511,6 +523,9 @@ class TransitionStorage {
     uint8_t mIndexPrior;
     uint8_t mIndexCandidates;
     uint8_t mIndexFree;
+
+    /** High water mark. For debugging. */
+    uint8_t mHighWater = 0;
 };
 
 } // namespace zonedbx
@@ -585,6 +600,16 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         logging::println();
       }
       mTransitionStorage.log();
+    }
+
+    /** Reset the TransitionStorage high water mark. For debugging. */
+    void resetTransitionHighWater() {
+      mTransitionStorage.resetHighWater();
+    }
+
+    /** Get the TransitionStorage high water mark. For debugging. */
+    uint8_t getTransitionHighWater() const {
+      return mTransitionStorage.getHighWater();
     }
 
   private:
