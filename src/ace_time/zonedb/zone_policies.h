@@ -85,8 +85,7 @@ extern const ZonePolicy kPolicyWinn;
 extern const ZonePolicy kPolicyZion;
 
 
-// The following zone policies are not supported in the current version of
-// AceTime.
+// The following zone policies are not supported in this database.
 //
 // numPolicies: 75
 //

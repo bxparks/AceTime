@@ -102,8 +102,7 @@ namespace {dbNamespace} {{
 // numPolicies: {numPolicies}
 {policyItems}
 
-// The following zone policies are not supported in the current version of
-// AceTime.
+// The following zone policies are not supported in this database.
 //
 // numPolicies: {numRemovedPolicies}
 //
@@ -412,7 +411,7 @@ namespace {dbNamespace} {{
 // numInfos: {numInfos}
 {infoItems}
 
-// The following zones are not supported in the current version of AceTime.
+// The following zones are not supported in this database.
 //
 // numInfos: {numRemovedInfos}
 //

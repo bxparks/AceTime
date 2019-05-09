@@ -254,7 +254,7 @@ extern const ZoneInfo kZoneWake; // Pacific/Wake
 extern const ZoneInfo kZoneWallis; // Pacific/Wallis
 
 
-// The following zones are not supported in the current version of AceTime.
+// The following zones are not supported in this database.
 //
 // numInfos: 128
 //
