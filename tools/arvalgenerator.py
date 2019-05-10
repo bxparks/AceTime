@@ -8,7 +8,7 @@ files for unit tests.
 
 import logging
 import os
-
+import pytz
 from transformer import short_name
 from transformer import div_to_zero
 from extractor import EPOCH_YEAR
@@ -23,8 +23,11 @@ class ArduinoValidationGenerator:
 //
 //  $ {invocation}
 //
-// using the TZ Database files from
-// https://github.com/eggert/tz/releases/tag/{tz_version}
+// TZ Database comes from:
+//   * https://github.com/eggert/tz/releases/tag/{tz_version}
+//
+// Python database comes from:
+//    * pytz library (version {pytz_version})
 //
 // DO NOT EDIT
 
@@ -54,8 +57,11 @@ extern const {validationDataClass} kValidationData{zoneShortName};
 //
 //   $ {invocation}
 //
-// using the TZ Database files from
-// https://github.com/eggert/tz/releases/tag/{tz_version}
+// TZ Database comes from:
+//   * https://github.com/eggert/tz/releases/tag/{tz_version}
+//
+// Python database comes from:
+//    * pytz library (version {pytz_version})
 //
 // DO NOT EDIT
 
@@ -100,8 +106,11 @@ const {validationDataClass} kValidationData{zoneShortName} = {{
 //
 //   $ {invocation}
 //
-// using the TZ Database files from
-// https://github.com/eggert/tz/releases/tag/{tz_version}
+// TZ Database comes from:
+//   * https://github.com/eggert/tz/releases/tag/{tz_version}
+//
+// Python database comes from:
+//    * pytz library (version {pytz_version})
 //
 // DO NOT EDIT
 
@@ -163,6 +172,7 @@ testF({testClass}, {zoneShortName}) {{
         return self.VALIDATION_DATA_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            pytz_version=pytz.__version__,
             includeHeaderNamespace=self.include_header_namespace,
             dbNamespace=self.db_namespace,
             numZones=len(self.test_data),
@@ -183,6 +193,7 @@ testF({testClass}, {zoneShortName}) {{
         return self.VALIDATION_DATA_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            pytz_version=pytz.__version__,
             fileBase=self.file_base,
             dbNamespace=self.db_namespace,
             validationItems=validation_items)
@@ -224,6 +235,7 @@ testF({testClass}, {zoneShortName}) {{
         return self.TESTS_CPP.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            pytz_version=pytz.__version__,
             testClass=self.test_class,
             fileBase=self.file_base,
             numZones=len(self.test_data),

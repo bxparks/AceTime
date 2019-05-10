@@ -20,9 +20,11 @@ class PythonValidationGenerator:
 #
 #  $ {invocation}
 #
-# using the TZ Database
-# (https://github.com/eggert/tz/releases/tag/{tz_version}) and
-# the pytz library (version {pytz_version}).
+# TZ Database comes from:
+#   * https://github.com/eggert/tz/releases/tag/{tz_version}
+#
+# Python database comes from:
+#   * pytz library (version {pytz_version})
 
 # DO NOT EDIT
 
