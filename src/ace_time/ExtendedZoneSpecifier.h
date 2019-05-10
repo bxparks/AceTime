@@ -658,9 +658,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     static const zonedbx::ZoneEra kAnchorEra;
 
     // Disable copy constructor and assignment operator.
-    ExtendedZoneSpecifier(const ExtendedZoneSpecifier& that) = delete;
-    ExtendedZoneSpecifier& operator=(const ExtendedZoneSpecifier& that)
-        = delete;
+    ExtendedZoneSpecifier(const ExtendedZoneSpecifier&) = delete;
+    ExtendedZoneSpecifier& operator=(const ExtendedZoneSpecifier&) = delete;
 
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const ExtendedZoneSpecifier&) other;

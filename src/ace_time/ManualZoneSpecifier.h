@@ -46,10 +46,10 @@ class ManualZoneSpecifier: public ZoneSpecifier {
       mDstAbbrev(dstAbbrev) {}
 
     /** Default copy constructor. */
-    ManualZoneSpecifier(const ManualZoneSpecifier& that) = default;
+    ManualZoneSpecifier(const ManualZoneSpecifier&) = default;
 
     /** Default assignment operator. */
-    ManualZoneSpecifier& operator=(const ManualZoneSpecifier& that) = default;
+    ManualZoneSpecifier& operator=(const ManualZoneSpecifier&) = default;
 
     /** Singleton instance of a UTC ZoneSpecifier. */
     static ManualZoneSpecifier sUtcZoneSpecifier;

@@ -53,8 +53,8 @@ class ZoneSpecifier {
     friend bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b);
 
     // Use default copy constructor and assignment operator.
-    ZoneSpecifier(const ZoneSpecifier& that) = default;
-    ZoneSpecifier& operator=(const ZoneSpecifier& that) = default;
+    ZoneSpecifier(const ZoneSpecifier&) = default;
+    ZoneSpecifier& operator=(const ZoneSpecifier&) = default;
 
     /** Constructor. */
     ZoneSpecifier(uint8_t type):
