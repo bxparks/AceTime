@@ -360,9 +360,12 @@ class TransitionStorage {
      * getFreeAgent() is called, the same Transition will be returned.
      */
     Transition* getFreeAgent() {
+      // Set the internal high water mark. If that index becomes SIZE,
+      // then we know we have an overflow.
       if (mIndexFree > mHighWater) {
         mHighWater = mIndexFree;
       }
+
       if (mIndexFree < SIZE) {
         return mTransitions[mIndexFree];
       } else {
@@ -501,7 +504,8 @@ class TransitionStorage {
 
     /**
      * Return the high water mark. This is the largest value of mIndexFree that
-     * was used. Therefore, the SIZE must be (mHighWater + 1). For debugging.
+     * was used. If this returns SIZE, it indicates that the Transition mPool
+     * overflowed. For debugging.
      */
     uint8_t getHighWater() const { return mHighWater; }
 
