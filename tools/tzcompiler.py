@@ -216,7 +216,8 @@ def main():
     transformer.transform()
     transformer.print_summary()
 
-    # Validate the zone_infos and zone_policies if requested
+    # Generate internal versions of zone_infos and zone_policies
+    # so that ZoneSpecifier can be created.
     logging.info('======== Generating inlined zone_infos and zone_policies...')
     inline_generator = InlineGenerator(
         transformer.zones_map, transformer.rules_map)
@@ -224,6 +225,7 @@ def main():
     logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
                  len(zone_policies))
 
+    # Validate the zone_infos and zone_policies if requested
     validate_buffer_size = False
     validate_test_data = False
     if args.validate:
