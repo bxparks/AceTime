@@ -469,16 +469,28 @@ class ZoneSpecifier:
         # List of ZoneMatch, i.e. ZoneEra which match the interval of interest.
         self.matches = []
 
-        # List of candidation Transition objects, which is a better indicator
-        # of the static allocated array needed in the C++ code.
-        self.candidate_transitions = []
+        # Cummulative list of all candidate Transitions across all calls to
+        # find_candidate_transitions() method for the year given to
+        # init_for_year(). It was initially thought to be useful for figuring
+        # out the buffer size needed by the C++ implementation of this class but
+        # the C++ code removes those candidate Transitions which aren't needed
+        # after each iteration of ZoneMatch, and reuses the buffer consumed by
+        # those ignored Transitions, so this cummulative list is not as useful.
+        # It is useful to print out for debugging though.
+        self.all_candidate_transitions = []
 
-        # List of matching Transition objects.
+        # List of matching (and active) Transition objects for the year given to
+        # init_for_year().
         self.transitions = []
 
-        # Number of active transitions used during the most recent
-        # init_for_year().
-        self.max_num_transitions = 0
+        # The maximum value of (len(self.transitions) +
+        # len(candidate_transitions)) across all calls to
+        # _find_transitions_from_named_match() for the year given to
+        # init_for_year(). The C++ version of this class uses a single pool of
+        # Transitions to hold both active and candidate transitions. This value
+        # should correspond to the largest number of slots consumed in the pool
+        # by the C++ code.
+        self.max_transition_buffer_size = 0
 
         self.debug = debug
 
@@ -514,7 +526,7 @@ class ZoneSpecifier:
     def init_for_year(self, year):
         """Initialize the Matches and Transitions for the year. Call this
         explicitly before accessing self.matches, self.transitions, and
-        self.candidate_transitions. The high level algorithm is as follows:
+        self.all_candidate_transitions. The high level algorithm is as follows:
             * Extract the list of ZoneEras which overlap with the given year
               and the given window size (e.g. 13, 14, 36 months). These
               are called ZoneMatches.
@@ -537,10 +549,10 @@ class ZoneSpecifier:
             return
 
         self.year = year
-        self.max_num_transitions = 0
+        self.max_transition_buffer_size = 0
         self.matches = []
         self.transitions = []
-        self.candidate_transitions = []
+        self.all_candidate_transitions = []
 
         if self.viewing_months == 12:
             start_ym = YearMonthTuple(year, 1)
@@ -590,9 +602,9 @@ class ZoneSpecifier:
 
     def _update_candidate_transitions(self, candidate_transitions):
         total = len(candidate_transitions) + len(self.transitions)
-        if total > self.max_num_transitions:
-            self.max_num_transitions = total
-        self.candidate_transitions.extend(candidate_transitions)
+        if total > self.max_transition_buffer_size:
+            self.max_transition_buffer_size = total
+        self.all_candidate_transitions.extend(candidate_transitions)
 
     def _init_for_second(self, epoch_seconds):
         """Initialize the Transitions from the given epoch_seconds.
@@ -759,14 +771,10 @@ class ZoneSpecifier:
         microcontroller environments which have limited memory (~32kB of
         flash RAM, and ~2kB of static RAM).
 
-        The 'max_num_transitions' counter and 'candidate_transitions' list
-        attempt to track the amount of internal buffer space needed by the
-        various algorithms. The 'max_num_transitions' should correspond to the
-        the final number of active Transitions. The 'len(candidate_transitions)'
-        should correspond to the size of the intermediate buffer needed to hold
-        the candidate Transitions. This information is critical to determine the
-        size of the buffer needed by the the C++ Arduino implementation of this
-        class which will not use dynamic memory allocation.
+        The 'self.max_transition_buffer_size' counter and
+        'self.all_candidate_transitions' list attempt to track the amount of
+        internal buffer space needed by the various algorithms. See comments in
+        __init__().
         """
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
@@ -779,8 +787,7 @@ class ZoneSpecifier:
         # Find candidate transitions using whole years.
         if self.debug:
             logging.info('==== Get candidate transitions for named ZoneMatch')
-        candidate_transitions = []
-        finder.find_candidate_transitions(candidate_transitions, match, rules)
+        candidate_transitions = finder.find_candidate_transitions(match, rules)
         if self.debug:
             print_transitions(candidate_transitions)
         self._check_transitions_sorted(candidate_transitions)
@@ -831,7 +838,7 @@ class ZoneSpecifier:
         for t in self.transitions:
             logging.info(t)
         logging.info('---- Candidate Transitions:')
-        for t in self.candidate_transitions:
+        for t in self.all_candidate_transitions:
             logging.info(t)
 
     @staticmethod
@@ -1115,7 +1122,7 @@ class CandidateFinderBasic:
     def __init__(self, debug):
         self.debug = debug
 
-    def find_candidate_transitions(self, transitions, match, rules):
+    def find_candidate_transitions(self, match, rules):
         """Get the list of candidate transitions from the 'rules' which overlap
         the whole years [start_y, end_y] (inclusive)) defined by the given
         ZoneMatch. This list includes transitions that may become the "most
@@ -1132,6 +1139,7 @@ class CandidateFinderBasic:
         else:
             end_y = until.y
 
+        transitions = []
         for rule in rules:
             from_year = rule.fromYear
             to_year = rule.toYear
@@ -1141,6 +1149,8 @@ class CandidateFinderBasic:
                 _add_transition_sorted(transitions,
                                        _create_transition_for_year(
                                            year, rule, match))
+
+        return transitions
 
     @staticmethod
     def get_candidate_years(from_year, to_year, start_year, end_year):
@@ -1170,7 +1180,7 @@ class CandidateFinderOptimized:
     def __init__(self, debug):
         self.debug = debug
 
-    def find_candidate_transitions(self, transitions, match, rules):
+    def find_candidate_transitions(self, match, rules):
         """Similar to CandidateFinderBasic.find_candidate_transitions() except
         that prior Transitions which are obviously non-candidates are filtered
         out early. This reduces the size of the statically allocated Transitions
@@ -1187,6 +1197,7 @@ class CandidateFinderOptimized:
         else:
             end_y = until.y
 
+        transitions = []
         prior_transition = None
         for rule in rules:
             from_year = rule.fromYear
@@ -1217,6 +1228,8 @@ class CandidateFinderOptimized:
                     prior_transition, transition)
         if prior_transition:
             _add_transition_sorted(transitions, prior_transition)
+
+        return transitions
 
     @staticmethod
     def _calc_prior_transition(prior_transition, transition):

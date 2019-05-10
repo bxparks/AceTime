@@ -77,7 +77,7 @@ class Validator:
         of candidate transitions required for each zone, across a range of
         years. This information is tracked internally by the
         ZoneSpecifier.transitions array and the
-        ZoneSpecifier.max_num_transitions variable.
+        ZoneSpecifier.max_transition_buffer_size variable.
         """
         # map of {zoneName -> (numTransitions, year)}
         transition_stats = {}
@@ -100,7 +100,7 @@ class Validator:
 
             # Keep track of 2 tuples of the form (count, year).
             # The first pair counts number of actual transitions.
-            # The second pair counts number of candidates transitions.
+            # The second pair contains maximum transitions buffer size.
             count_record = ((0, 0), (0, 0))
 
             for year in range(2000, 2038):
@@ -109,16 +109,19 @@ class Validator:
                 #logging.info('Validating year %s' % year)
                 zone_specifier.init_for_year(year)
 
+                # Number of active transitions.
                 transition_count = len(zone_specifier.transitions)
                 if transition_count > count_record[0][0]:
                     count_record = ((transition_count, year), count_record[1])
 
-                total_count = zone_specifier.max_num_transitions
-                if total_count > count_record[1][0]:
-                    count_record = (count_record[0], (total_count, year))
+                # Max size of the transition buffer.
+                buffer_size = zone_specifier.max_transition_buffer_size
+                if buffer_size > count_record[1][0]:
+                    count_record = (count_record[0], (buffer_size, year))
+
             transition_stats[zone_short_name] = count_record
 
-        logging.info('Count(transitions) group by zone order by count desc')
+        logging.info('Zone Name: #NumTransitions (year); #MaxBufSize (year)')
         for zone_short_name, count_record in sorted(
                 transition_stats.items(), key=lambda x: x[1], reverse=True):
             logging.info(
