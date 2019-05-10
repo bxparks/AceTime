@@ -7159,7 +7159,7 @@ static const ZoneEra kZoneEraAtyrau[] = {
 
 const ZoneInfo kZoneAtyrau = {
   "Asia/Atyrau" /*name*/,
-  5 /*bufSize*/,
+  6 /*bufSize*/,
   3 /*numEras*/,
   kZoneEraAtyrau /*eras*/,
 };
