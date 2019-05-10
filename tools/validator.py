@@ -75,16 +75,22 @@ class Validator:
     def validate_buffer_size(self):
         """Find the maximum number of actual transitions and the maximum number
         of candidate transitions required for each zone, across a range of
-        years. This information is tracked internally by the
-        ZoneSpecifier.transitions array and the
-        ZoneSpecifier.max_transition_buffer_size variable.
+        years.
         """
         # map of {zoneName -> (numTransitions, year)}
         transition_stats = {}
 
-        # Calculate the number of Transitions necessary for every Zone
-        # in zone_infos, for the years 2000 to 2038.
-        logging.info('Calculating transitions between 2000 and 2038')
+        # Determine range of years to validate.
+        if self.year:
+            start_year = self.year
+            until_year = self.year + 1
+        else:
+            start_year = 2000
+            until_year = 2050
+        logging.info('Calculating transitions from [%s, %s)' %
+            (start_year, until_year))
+
+        # Calculate the buffer sizes for every Zone in zone_infos.
         for zone_short_name, zone_info in sorted(self.zone_infos.items()):
             if self.zone_name and zone_short_name != self.zone_name:
                 continue
@@ -98,28 +104,8 @@ class Validator:
                 in_place_transitions=self.in_place_transitions,
                 optimize_candidates=self.optimize_candidates)
 
-            # Keep track of 2 tuples of the form (count, year).
-            # The first pair counts number of actual transitions.
-            # The second pair contains maximum transitions buffer size.
-            count_record = ((0, 0), (0, 0))
-
-            for year in range(2000, 2038):
-                if self.year and self.year != year:
-                    continue
-                #logging.info('Validating year %s' % year)
-                zone_specifier.init_for_year(year)
-
-                # Number of active transitions.
-                transition_count = len(zone_specifier.transitions)
-                if transition_count > count_record[0][0]:
-                    count_record = ((transition_count, year), count_record[1])
-
-                # Max size of the transition buffer.
-                buffer_size = zone_specifier.max_transition_buffer_size
-                if buffer_size > count_record[1][0]:
-                    count_record = (count_record[0], (buffer_size, year))
-
-            transition_stats[zone_short_name] = count_record
+            transition_stats[zone_short_name] = zone_specifier.get_buffer_sizes(
+                start_year, until_year)
 
         logging.info('Zone Name: #NumTransitions (year); #MaxBufSize (year)')
         for zone_short_name, count_record in sorted(

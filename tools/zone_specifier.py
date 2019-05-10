@@ -598,6 +598,32 @@ class ZoneSpecifier:
         if self.debug:
             print_transitions(self.transitions)
 
+    def get_buffer_sizes(self, start_year=2000, until_year=2050):
+        """Find the maximum number of actual transitions and the maximum number
+        of candidate transitions across the given start_year and until_year.
+        This is useful for determining that buffer size of the C++ version
+        of this code which uses static sizes for the Transition buffers.
+
+        Returns a tuple of tuples:
+            ((max_actives, year), (max_buffer_size, year)).
+        """
+        max_actives = (0, 0)  # (count, year)
+        max_buffer_size = (0, 0)  # (count, year)
+        for year in range(start_year, until_year):
+            self.init_for_year(year)
+
+            # Number of active transitions.
+            transition_count = len(self.transitions)
+            if transition_count > max_actives[0]:
+                max_actives = (transition_count, year)
+
+            # Max size of the transition buffer.
+            buffer_size = self.max_transition_buffer_size
+            if buffer_size > max_buffer_size[0]:
+                max_buffer_size = (buffer_size, year)
+
+        return (max_actives, max_buffer_size)
+
     # The following methods are designed to be used internally.
 
     def _update_transition_buffer_size(self, candidate_transitions):
