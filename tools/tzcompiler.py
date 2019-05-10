@@ -6,38 +6,43 @@
 """
 Main driver for TZ Database compiler. The data processing pipeline looks like
 this:
-                         TZDB files
-                             |
-                             v
-                         Extractor --> Printer
-                             |
-                             v
-                        Transformer
-                        /    |   \
-                       v     |    v
-       ArduinoGenerator      |   PythonGenerator
-               /             |          \
-              v              |           v
-     zone_infos.{h,cpp}      |           zone_infos.py
-     zone_policies.{h,cpp}   |           zone_policies.py
-     zone_strings.{h,cpp}    |           zone_strings.py
-                             v
-                       InlineGenerator
-                             |     \
-                             |      \
-                             v       \
-                   TestDataGenerator  \
-                        /    |         \
-                       /     |          \
-                      /      |           \
-                     /       |            \
-                    v        v             v
-    ArduinoValidation   PythonValidation  Validator
-     Generator           Generator
-         |                   |
-         v                   v
-validation_data.{h,cpp} validation_data.py
-validation_tests.cpp
+                      TZDB files
+                          |
+                          v
+                      Extractor --> Printer
+                          |
+                          v
+                     Transformer
+                    /     |    \
+                   /      |     v
+                  /       |     PythonGenerator
+                 /        |            \
+                /  InlineGenerator      v
+               /          |            zone_infos.py
+              /           |            zone_policies.py
+             /           / \           zone_strings.py
+            /           /   \
+           /           v     \
+          / BufSizeEstimator  |
+         /     /              | \
+        v     v               |  \
+   ArduinoGenerator           |   v
+         |                    |   Validator
+         v                    |
+ zone_infos.{h,cpp}           |
+ zone_policies.{h,cpp}        |
+ zone_strings.{h,cpp}         |
+                              |
+                              v
+                         TestDataGenerator
+                           /       \
+                          v         v
+          ArduinoValidation      PythonValidation
+           Generator              Generator
+               |                    |
+               v                    v
+      validation_data.{h,cpp}    validation_data.py
+      validation_tests.cpp
 
 
 ZoneSpecifier class is used by:
@@ -60,6 +65,7 @@ from transformer import Transformer
 from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
+from bufestimator import BufSizeEstimator
 from tdgenerator import TestDataGenerator
 from arvalgenerator import ArduinoValidationGenerator
 from pyvalgenerator import PythonValidationGenerator
@@ -225,6 +231,12 @@ def main():
     logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
                  len(zone_policies))
 
+    # Generate the buf_size estimates for each zone.
+    logging.info('======== Estimating transition buffer sizes...')
+    estimator = BufSizeEstimator(zone_infos, zone_policies)
+    buf_sizes = estimator.estimate()
+    logging.info('buf_sizes=%d', len(buf_sizes))
+
     # Validate the zone_infos and zone_policies if requested
     validate_buffer_size = False
     validate_test_data = False
@@ -264,7 +276,7 @@ def main():
                 transformer.all_notable_policies,
                 transformer.format_strings,
                 transformer.zone_strings,
-                extended)
+                extended, buf_sizes)
             generator.generate_files(args.output_dir)
         else:
             raise Exception("Unrecognized language '%s'" % language)

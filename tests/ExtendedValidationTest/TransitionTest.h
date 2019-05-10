@@ -19,6 +19,9 @@ class TransitionTest: public aunit::TestOnce {
       ExtendedZoneSpecifier zoneSpecifier(zoneInfo);
       zoneSpecifier.resetTransitionHighWater();
       TimeZone tz(&zoneSpecifier);
+
+      // Assert that each epoch_second produces the expected yMdhms
+      // components when converted through ZonedDataTime class.
       for (uint16_t i = 0; i < testData->numItems; i++) {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
@@ -53,8 +56,11 @@ class TransitionTest: public aunit::TestOnce {
         assertEqual(item.minute, dt.minute());
         assertEqual(item.second, dt.second());
       }
-      ace_time::logging::println("Transition High Water: %d",
-          zoneSpecifier.getTransitionHighWater());
+
+      // Assert that size of the internal Transitions buffer never got
+      // above the expected buffer size.
+      assertLess(zoneSpecifier.getTransitionHighWater(),
+        zoneInfo->bufSize);
     }
 };
 

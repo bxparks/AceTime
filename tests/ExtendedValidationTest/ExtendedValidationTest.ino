@@ -1,5 +1,11 @@
 #line 2 "ExtendedValidationTest.ino"
 
+/*
+ * This unit test depends on 'validation_data.cpp' which is so large that
+ * it will likely not compile on an Arduino environment. It can however be run
+ * on a Linux or MacOS environment using the provided Makefile
+ */
+
 #include <AUnit.h>
 #include <AceTime.h>
 

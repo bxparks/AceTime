@@ -19,11 +19,16 @@ class InlineGenerator:
     """
 
     def __init__(self, zones_map, rules_map):
+        """
+        Args:
+            zones_map (dict): {full_name -> ZoneEra[]}
+            rules_map (dict): {policy_name -> ZoneRules[]}
+        """
         self.zones_map = zones_map
         self.rules_map = rules_map
 
-        self.zone_infos = {}  # internal representation of zone_infos.py
-        self.zone_policies = {}  # internal representation of zone_policies.py
+        self.zone_infos = {}  # same as zone_infos.py {short_name -> zone_info}
+        self.zone_policies = {}  # zone_policies.py {policy_name -> zone_policy}
 
     def generate_maps(self):
         """Return the zone_infos and zone_policies maps which look identical
@@ -54,7 +59,7 @@ class InlineGenerator:
 
             normalized_name = normalize_name(name)
             self.zone_policies[normalized_name] = {
-                'name': name,
+                'name': name,  # policy name
                 'rules': policy_rules
             }
 
