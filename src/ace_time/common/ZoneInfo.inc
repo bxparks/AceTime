@@ -69,8 +69,11 @@ struct ZoneEra {
  * records.
  */
 struct ZoneInfo {
-  /** Name of zone. */
-  const char* const name; // name of zone
+  /** Full name of zone (e.g. "America/Los_Angeles" */
+  const char* const name;
+
+  /** Estimated size of Transition buffer (for ExtendedZoneSpecifier). */
+  uint8_t const bufSize;
 
   /** Number of ZoneEra entries. */
   uint8_t const numEras;

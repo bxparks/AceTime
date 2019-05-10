@@ -32,7 +32,8 @@ class ArduinoGenerator:
 
     def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
-                 notable_policies, format_strings, zone_strings, extended):
+                 notable_policies, format_strings, zone_strings, extended,
+                 buf_sizes):
         self.extended = extended  # extended Arduino/C++ database
 
         self.zone_policies_generator = ZonePoliciesGenerator(
@@ -42,7 +43,7 @@ class ArduinoGenerator:
         self.zone_infos_generator = ZoneInfosGenerator(
             invocation, tz_version, tz_files, zones_map, rules_map,
             removed_zones, removed_policies, notable_zones, notable_policies,
-            extended)
+            extended, buf_sizes)
         self.zone_strings_generator = ZoneStringsGenerator(
             invocation, tz_version, tz_files, zones_map, rules_map,
             removed_zones, removed_policies, notable_zones, notable_policies,
@@ -484,6 +485,7 @@ static const ZoneEra kZoneEra{zoneShortName}[] = {{
 
 const ZoneInfo kZone{zoneShortName} = {{
   "{zoneFullName}" /*name*/,
+  {bufSize} /*bufSize*/,
   {numEras} /*numEras*/,
   kZoneEra{zoneShortName} /*eras*/,
 }};
@@ -507,12 +509,12 @@ const ZoneInfo kZone{zoneShortName} = {{
 
     SIZEOF_ZONE_ERA_8 = 11
     SIZEOF_ZONE_ERA_32 = 15
-    SIZEOF_ZONE_INFO_8 = 5
-    SIZEOF_ZONE_INFO_32 = 9
+    SIZEOF_ZONE_INFO_8 = 6
+    SIZEOF_ZONE_INFO_32 = 10
 
     def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
-                 notable_policies, extended):
+                 notable_policies, extended, buf_sizes):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -523,6 +525,7 @@ const ZoneInfo kZone{zoneShortName} = {{
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
         self.extended = extended  # extended Arduino/C++ database
+        self.buf_sizes = buf_sizes
 
         self.db_namespace = 'zonedbx' if extended else 'zonedb'
         self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
@@ -601,9 +604,12 @@ const ZoneInfo kZone{zoneShortName} = {{
         memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
                     1 * self.SIZEOF_ZONE_INFO_32)
 
+        buf_size = self.buf_sizes[name]
+
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
             zoneFullName=normalize_name(name),
             zoneShortName=normalize_name(short_name(name)),
+            bufSize=buf_size,
             numEras=num_eras,
             stringLength=string_length,
             memory8=memory8,

@@ -122,8 +122,8 @@ class TestDataGenerator:
     def __init__(self, zone_infos, zone_policies, granularity):
         """
         Args:
-            zone_infos: (dict) of {name -> zone_info{} }
-            zone_policies: (dict) of {name ->zone_policy{} }
+            zone_infos (dict): {name -> zone_info{} }
+            zone_policies (dict): {name ->zone_policy{} }
         """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
