@@ -8,6 +8,11 @@ A Python version of the C++ ExtendedZoneSpecifier class to allow easier and
 faster iteration of its algorithms. It is too cumbersome and tedious to
 experiment and debug the C++ code in the Arduino environment.
 
+The ZoneSpecifier class will normally be used by another class, such as the
+TestDataGenerator or the Validator class to determine the DST transitions of a
+particular year. However, a command line interface has been exposed for
+debugging. See the examples below.
+
 Examples:
 
     # America/Los_Angeles for 2018-03-10T02:00:00
@@ -370,7 +375,29 @@ class Transition:
 
 
 class ZoneSpecifier:
-    """Extract DST transition information for a given ZoneInfo.
+    """Extract DST transition information for a given ZoneInfo. The
+    DST transition information can be retrieved using the following methods:
+
+        * get_timezone_info_for_seconds(): get info using epoch_seconds (from
+          2000-01-01 00:00:00 UTC)
+        * get_timezone_info_for_datetime(): get info using a 'datetime.datetime'
+          instance
+
+    The DST transition information is returned as a tuple of (offset_seconds,
+    dst_seconds, abbrev) which is valid at the given epoch_seconds or
+    'datetime'.
+
+    Both get_timezone_info_for_seconds() and get_timezone_info_for_datetime()
+    call init_for_year() using a window size (e.g. 12, 13, 14 or 36 months)
+    around the closest 'year' to the given argument. (The 'closest' year could
+    be (year-1) if the datetime was on Jan 1 of the following year in UTC time).
+    The window size can be specified using the 'viewing_months' parameter in the
+    constructor.
+
+    The init_for_year() method calculates the relevant Transitions for the given
+    year and caches results. Subsequent queries for different epoch_seconds or
+    'datetime' will be efficient if the closest 'year' is the same. See
+    init_for_year() for high level explanation of the internal algorithm.
 
     Usage:
         zone_specifier = ZoneSpecifier(zone_info [, viewing_months, debug])
@@ -413,9 +440,23 @@ class ZoneSpecifier:
                  debug=False,
                  in_place_transitions=True,
                  optimize_candidates=True):
-        """zone_info_data map is one of the ZONE_INFO_xxx constants from
-        zone_infos.py. It can contain a reference to a zone_policy_data map. We
-        need to convert these into ZoneEraCooked and ZoneRuleCooked classes.
+        """Constructor.
+
+        Args:
+            zone_info_data (dict): one of the ZONE_INFO_xxx constants from
+                zone_infos.py. It can contain a reference to a zone_policy_data
+                map. We need to convert these into ZoneEraCooked and
+                ZoneRuleCooked classes.
+            viewing_months (int): size of the window to consider when
+                determining the DST transitions (default: 14)
+            debug (bool): set to True to enable logging
+            in_place_transitions (bool): set to True to use
+                ActiveSelectorInPlace class instead of ActiveSelectorBasic
+                to determine the Transitions which overlap with the time
+                interval specified by ZoneMatch
+            optimize_candidates (bool): set to True to use
+                CandidateFinderOptimized class instead of CandidateFinderBasic
+                to obtain the list of candidate Transitions
         """
         self.zone_info = ZoneInfoCooked(zone_info_data)
         self.viewing_months = viewing_months
@@ -473,7 +514,19 @@ class ZoneSpecifier:
     def init_for_year(self, year):
         """Initialize the Matches and Transitions for the year. Call this
         explicitly before accessing self.matches, self.transitions, and
-        self.candidate_transitions.
+        self.candidate_transitions. The high level algorithm is as follows:
+            * Extract the list of ZoneEras which overlap with the given year
+              and the given window size (e.g. 13, 14, 36 months). These
+              are called ZoneMatches.
+            * Find the list of Transitions corresponding to the ZoneMatches
+              using _find_transitions_for_match().
+            * Convert the transition times of the Transition objects into
+              start and until times according to the UTC offset of each
+              Transition.
+            * Determine the start and until times of each transitions according
+              to the wall time of each Transition.
+            * Determine the time zone abbreviations (e.g. "PDT", "GMT") of
+              each Transition.
         """
         if self.debug:
             logging.info('init_for_year(): year: %d' % year)
@@ -649,7 +702,10 @@ class ZoneSpecifier:
         return transitions
 
     def _find_transitions_for_match(self, match):
-        """Find all transitions of the given match.
+        """Determine if the given ZoneMatch is a simple ZoneMatch (contains an
+        explicit DST offset) or named (references a named ZonePolicy to
+        determine the DST offset). Then find the Transitions of the given match
+        using the appropriate algorithm.
         """
         if self.debug:
             logging.info('_find_transitions_for_match(): %s' % match)
@@ -663,7 +719,9 @@ class ZoneSpecifier:
 
     def _find_transitions_from_simple_match(self, match):
         """The zonePolicy is '-' or ':' then the Zone Era itself defines the UTC
-        offset and the abbreviation.
+        offset and the abbreviation. Returns a list of one Transition object,
+        to make it compatible with the return type of
+        _find_transitions_from_named_match().
         """
         if self.debug:
             logging.info('_find_transitions_from_simple_match(): %s' % match)
@@ -675,9 +733,40 @@ class ZoneSpecifier:
         return [transition]
 
     def _find_transitions_from_named_match(self, match):
-        """Find the transitions of the named ZoneMatch. Return
-        (candidate_transitions, transitions) pair, to allow tracking of the
-        static memory requirements of the C++ implementation.
+        """Find the transitions of the named ZoneMatch. The search for the
+        relevant Transition occurs in 2 passes:
+
+            1 Find the candidate Transitions defined by the ZoneMatch using the
+              *whole* years of the ZoneMatch (i.e. ignoring the month, day, and
+              time fields). Whole years are used because the ZoneRules defined
+              recurring rules based on whole years. This pass includes something
+              called the "most recent prior" Transition, because we need to know
+              the Transition that occurred just before the beginning of the
+              given year. In this rough pass, multiple "prior" Transitions may
+              be included as candidates.
+            2 Precisely select the Transitions which are "active", as determined
+              by the entire date fields of ZoneMatch (including month, day and
+              time) fields. In this pass, only a single "most recent prior"
+              Transition will be found.
+
+        For each pass, I implemented 2 different algorithms (for a total of
+        4 different independent combinations). The "Basic" versions are the
+        earlier versions which use simpler code, at the expense of using more
+        memory. The "Optimized" and "InPlace" versions are my subsequent
+        improvements to those algorithms, making them use less memory and
+        hopefully be faster. Using less memory is important because those
+        algorithms will be reimplemenented in C++ for the Arduino
+        microcontroller environments which have limited memory (~32kB of
+        flash RAM, and ~2kB of static RAM).
+
+        The 'max_num_transitions' counter and 'candidate_transitions' list
+        attempt to track the amount of internal buffer space needed by the
+        various algorithms. The 'max_num_transitions' should correspond to the
+        the final number of active Transitions. The 'len(candidate_transitions)'
+        should correspond to the size of the intermediate buffer needed to hold
+        the candidate Transitions. This information is critical to determine the
+        size of the buffer needed by the the C++ Arduino implementation of this
+        class which will not use dynamic memory allocation.
         """
         zone_era = match.zoneEra
         zone_policy = zone_era.zonePolicy
@@ -1082,10 +1171,10 @@ class CandidateFinderOptimized:
         self.debug = debug
 
     def find_candidate_transitions(self, transitions, match, rules):
-        """Similar to find_candidate_transitions() except that prior Transitions
-        which are obviously non-candidates are filtered out early. This reduces
-        the size of the statically allocated Transitions array in the C++
-        implementation.
+        """Similar to CandidateFinderBasic.find_candidate_transitions() except
+        that prior Transitions which are obviously non-candidates are filtered
+        out early. This reduces the size of the statically allocated Transitions
+        array in the C++ implementation.
         """
         if self.debug:
             logging.info('Optimized.find_candidate_transitions()')
@@ -1253,9 +1342,10 @@ class ActiveSelectorInPlace:
         self.debug = debug
 
     def select_active_transitions(self, transitions, match):
-        """Similar to select_active_transitions() except that it does not use
-        any additional dynamically allocated array of Transitions. It uses
-        the Transition.isActive flag to mark if a Transition is active or not.
+        """Similar to ActiveSelectorBasic.select_active_transitions() except
+        that it does not use any additional dynamically allocated array of
+        Transitions. It uses the Transition.isActive flag to mark if a
+        Transition is active or not.
         """
         if self.debug:
             logging.info('ActiveSelectorInPlace.select_active_transitions()')
@@ -1276,9 +1366,10 @@ class ActiveSelectorInPlace:
 
     @staticmethod
     def _process_transition(match, transition, prior):
-        """A version of ActiveSelectorBasic. _process_transition() that works
-        for select_active_transition(). This assumes that all Transitions have
-        been fixed using _fix_transition_times().
+        """A version of ActiveSelectorBasic._process_transition() that does
+        not allocate new array members, rather uses an internal flag. This
+        assumes that all Transitions have been fixed using
+        _fix_transition_times().
         """
         transition_compared_to_match = _compare_transition_to_match(
             transition, match)

@@ -22,12 +22,19 @@ from zone_specifier import SECONDS_SINCE_UNIX_EPOCH
 
 class Validator:
     """Validate the zone_infos and zone_policies data from the TZ Database,
-    as extracted and transformed by Extractor and Transformer.
+    as extracted and transformed by Extractor and Transformer. Provides
+    2 validation methods:
+
+        * validate_buffer_size(): to determine the sizes of various internal
+            buffers (which influences the corresponding buffer sizes of the C++
+            classes
+        * validate_test_data(): to compare the DST transitions between
+            those determined by pztz and those determined by ZoneSpecifier
 
     Usage:
         # For validation against pytz golden test data
         validator = Validator(zone_infos, zone_policies, ...)
-        validator.validate_transition_buffer_size()
+        validator.validate_buffer_size()
         validator.validate_test_data()
     """
 
@@ -36,20 +43,20 @@ class Validator:
                  zone_name, year, in_place_transitions, optimize_candidates):
         """
         Args:
-            zone_infos: (dict) of {name -> zone_info{} }
-            zone_policies: (dict) of {name ->zone_policy{} }
+            zone_infos (dict): {name -> zone_info{} }
+            zone_policies (dict): {name ->zone_policy{} }
             granularity (int): time resolution (in seconds) of
                 zone_infos and zone_policies
-            viewing_months: (int) number of months in the calculation window
+            viewing_months (int): number of months in the calculation window
                 (13, 14, 36)
-            validate_dst_offset: (bool) validate DST offset against Python in
+            validate_dst_offset (bool): validate DST offset against Python in
                 addition to total UTC offset
-            debug_validator: (bool) enable debugging output for Validator
-            debug_specifier: (bool) enable debugging output for ZoneSpecifier
-            zone_name: (str) validate only this zone
-            year: (int | None) validate only this year
-            in_place_transitions: (bool)
-            optimize_candidates: (bool)
+            debug_validator (bool): enable debugging output for Validator
+            debug_specifier (bool): enable debugging output for ZoneSpecifier
+            zone_name (str): validate only this zone
+            year (int | None): validate only this year
+            in_place_transitions (bool): see ZoneSpecifier.in_place_transitions
+            optimize_candidates (bool): see ZoneSpecifier.optimize_candidates
         """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
@@ -66,7 +73,11 @@ class Validator:
     # The following are public methods.
 
     def validate_buffer_size(self):
-        """Determine the size of transition buffer required for each zone.
+        """Find the maximum number of actual transitions and the maximum number
+        of candidate transitions required for each zone, across a range of
+        years. This information is tracked internally by the
+        ZoneSpecifier.transitions array and the
+        ZoneSpecifier.max_num_transitions variable.
         """
         # map of {zoneName -> (numTransitions, year)}
         transition_stats = {}
@@ -86,8 +97,12 @@ class Validator:
                 debug=self.debug_specifier,
                 in_place_transitions=self.in_place_transitions,
                 optimize_candidates=self.optimize_candidates)
-            # pair of tuple(count, year), transition count, and candidate count
+
+            # Keep track of 2 tuples of the form (count, year).
+            # The first pair counts number of actual transitions.
+            # The second pair counts number of candidates transitions.
             count_record = ((0, 0), (0, 0))
+
             for year in range(2000, 2038):
                 if self.year and self.year != year:
                     continue
