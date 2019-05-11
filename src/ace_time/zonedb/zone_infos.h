@@ -390,9 +390,8 @@ extern const ZoneInfo kZoneWallis; // Pacific/Wallis
 
 // The following zones may have inaccuracies due to the following reasons:
 //
-// numInfos: 1
+// numInfos: 0
 //
-// Africa/Johannesburg (RULES not fixed but FORMAT is missing '%' or '/')
 
 
 }

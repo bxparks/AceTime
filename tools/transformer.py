@@ -393,9 +393,13 @@ class Transformer:
         entry to decide which one to pick.
 
         If the RULES is a reference to a named RULE, then it seems reasonable to
-        expect a '%' or a '/'. However, Africa/Johannesburg fails this test
-        because it defines DST transitions for 1942-1944, but there is no
-        corresponding change in the abbreviation. Output a warning about this.
+        expect a '%' or a '/'. Output a warning about this because this
+        shouldn't happen normally. The exception is Africa/Johannesburg because
+        it defines DST transitions for 1942-1944, but there is no corresponding
+        change in the abbreviation, so a '%' or '/' is unnecessary. We will
+        suppress the warning for Africa/Johannesburg. A better check would be to
+        scan the RULES/LETTER column and make sure that all entries are '-', but
+        that's too much work right now.
         """
         results = {}
         removed_zones = {}
@@ -421,8 +425,10 @@ class Transformer:
                         break
                 else:
                    if not ('%' in era.format or '/' in era.format):
-                        notable_zones[zone_name] = (
-                            "RULES not fixed but FORMAT is missing '%' or '/'")
+                        if zone_name != 'Africa/Johannesburg':
+                            notable_zones[zone_name] = (
+                                "RULES not fixed but FORMAT is missing " +
+                                "'%' or '/'")
                         valid = True
                         break
 
