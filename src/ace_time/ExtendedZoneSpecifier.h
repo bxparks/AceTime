@@ -212,6 +212,10 @@ struct Transition {
    * Return the letter string. Returns nullptr if the RULES column is empty
    * since that means that the ZoneRule is not used, which means LETTER does
    * not exist. A LETTER of '-' is returned as an empty string "".
+   *
+   * Not thread safe! (The alternative would be to make Transition.letter into
+   * a char[2], making each Transtion be one byte bigger. Maybe that's the
+   * better implementation, not sure.)
    */
   const char* letter() const {
     // Char buffer to allow a single letter to be returned as a (char*).
@@ -572,10 +576,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     UtcOffset getDeltaOffset(acetime_t epochSeconds) const override {
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
-
-      // TODO: Replace with Transition::deltaCode()?
-      if (transition->rule == nullptr) return UtcOffset();
-      return UtcOffset::forOffsetCode(transition->rule->deltaCode);
+      return UtcOffset::forOffsetCode(transition->deltaCode());
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
