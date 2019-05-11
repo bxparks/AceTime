@@ -48,6 +48,12 @@ class ZoneSpecifier {
     /** Return the total effective UTC offset at epochSeconds, including DST. */
     virtual UtcOffset getUtcOffset(acetime_t epochSeconds) const = 0;
 
+    /**
+     * Return the DST delta offset at epochSeconds. This is an experimental,
+     * unsupported method exposed for testing purposes. DO NOT USE.
+     */
+    virtual UtcOffset getDeltaOffset(acetime_t epochSeconds) const = 0;
+
     /** Return the time zone abbreviation at epochSeconds. */
     virtual const char* getAbbrev(acetime_t epochSeconds) const = 0;
 

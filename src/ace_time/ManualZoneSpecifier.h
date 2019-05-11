@@ -77,8 +77,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
         : mStdOffset;
     }
 
-    /** Return the DST delta offset after accounting for mIsDst flag. */
-    UtcOffset getDeltaOffset(acetime_t /*epochSeconds*/) const {
+    UtcOffset getDeltaOffset(acetime_t /*epochSeconds*/) const override {
       return mIsDst ? mDeltaOffset : UtcOffset();
     }
 

@@ -134,8 +134,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       return UtcOffset::forOffsetCode(transition->offsetCode);
     }
 
-    /** Return the DST delta offset at epochSeconds. */
-    UtcOffset getDeltaOffset(acetime_t epochSeconds) const {
+    UtcOffset getDeltaOffset(acetime_t epochSeconds) const override {
       const zonedb::Transition* transition = getTransition(epochSeconds);
       if (transition->rule == nullptr) return UtcOffset();
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);

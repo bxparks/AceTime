@@ -569,8 +569,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           : UtcOffset::forError();
     }
 
-    /** Return the DST delta offset at epochSeconds. */
-    UtcOffset getDeltaOffset(acetime_t epochSeconds) const {
+    UtcOffset getDeltaOffset(acetime_t epochSeconds) const override {
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
 
