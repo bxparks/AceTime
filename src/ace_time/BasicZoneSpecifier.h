@@ -120,11 +120,9 @@ class BasicZoneSpecifier: public ZoneSpecifier {
   public:
     /**
      * Constructor.
-     * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
-     * interpreted as UTC.
+     * @param zoneInfo pointer to a ZoneInfo. Must not be nullptr.
      */
-    // TODO: Check if nullptr is needed. If not, change to const reference.
-    explicit BasicZoneSpecifier(const zonedb::ZoneInfo* zoneInfo = nullptr):
+    explicit BasicZoneSpecifier(const zonedb::ZoneInfo* zoneInfo):
         ZoneSpecifier(kTypeBasic),
         mZoneInfo(zoneInfo) {}
 
@@ -132,21 +130,18 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     const zonedb::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) const override {
-      if (mZoneInfo == nullptr) return UtcOffset();
       const zonedb::Transition* transition = getTransition(epochSeconds);
       return UtcOffset::forOffsetCode(transition->offsetCode);
     }
 
     /** Return the DST delta offset at epochSeconds. */
     UtcOffset getDeltaOffset(acetime_t epochSeconds) const {
-      if (mZoneInfo == nullptr) return UtcOffset();
       const zonedb::Transition* transition = getTransition(epochSeconds);
       if (transition->rule == nullptr) return UtcOffset();
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
-      if (mZoneInfo == nullptr) return "UTC";
       const zonedb::Transition* transition = getTransition(epochSeconds);
       return transition->abbrev;
     }

@@ -551,10 +551,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
   public:
     /**
      * Constructor.
-     * @param zoneInfo pointer to a ZoneInfo. Can be nullptr which is
-     * interpreted as UTC.
+     * @param zoneInfo pointer to a ZoneInfo. Must not be nullptr.
      */
-    explicit ExtendedZoneSpecifier(const zonedbx::ZoneInfo* zoneInfo = nullptr):
+    explicit ExtendedZoneSpecifier(const zonedbx::ZoneInfo* zoneInfo):
         ZoneSpecifier(kTypeExtended),
         mZoneInfo(zoneInfo) {}
 
@@ -562,9 +561,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     const zonedbx::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) const override {
-      // TODO: Will mZoneInfo ever be nullptr? Maybe not needed.
-      if (mZoneInfo == nullptr) return UtcOffset();
-
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
       return (transition)
@@ -575,7 +571,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /** Return the DST delta offset at epochSeconds. */
     UtcOffset getDeltaOffset(acetime_t epochSeconds) const {
-      if (mZoneInfo == nullptr) return UtcOffset();
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
 
@@ -585,7 +580,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
-      if (mZoneInfo == nullptr) return "UTC";
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
       return transition->abbrev;
