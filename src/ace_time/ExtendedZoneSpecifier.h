@@ -1240,7 +1240,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         // So, it is better to use the properly normalized startDateTime
         // (calculated above) with the *current* UTC offset.
         //
-        // TODO: We should also be able to  calculate this directly from
+        // NOTE: We should also be able to  calculate this directly from
         // 'transitionTimeU' which should still be a valid field, because it
         // hasn't been clobbered by 'untilDateTime' yet. Not sure if this saves
         // any CPU time though, since we still need to mutiply by 900.
