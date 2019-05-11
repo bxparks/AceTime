@@ -128,14 +128,6 @@ test(BasicZoneSpecifierTest, init) {
       zoneSpecifier.mTransitions[1].startEpochSeconds);
 }
 
-// zoneInfo == nullptr means UTC
-test(BasicZoneSpecifierTest, nullptr) {
-  BasicZoneSpecifier zoneSpecifier(nullptr);
-  assertEqual(0, zoneSpecifier.getUtcOffset(0).toMinutes());
-  assertEqual("UTC", zoneSpecifier.getAbbrev(0));
-  assertFalse(zoneSpecifier.getDeltaOffset(0).isDst());
-}
-
 // https://www.timeanddate.com/time/zone/usa/los-angeles
 test(BasicZoneSpecifierTest, kZoneLos_Angeles) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
