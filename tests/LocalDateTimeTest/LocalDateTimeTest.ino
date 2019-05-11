@@ -56,6 +56,12 @@ test(LocalDateTest, dayOfWeek) {
   assertEqual(LocalDate::kThursday,
       LocalDate::forComponents(1900, 3, 1).dayOfWeek());
 
+  // year 1999 was not a leap year
+  assertEqual(LocalDate::kFriday,
+      LocalDate::forComponents(1999, 1, 1).dayOfWeek());
+  assertEqual(LocalDate::kSunday,
+      LocalDate::forComponents(1999, 1, 31).dayOfWeek());
+
   // year 2000 (leap year due to every 400 rule)
   assertEqual(LocalDate::kSaturday,
       LocalDate::forComponents(2000, 1, 1).dayOfWeek());

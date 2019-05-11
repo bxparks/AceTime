@@ -227,8 +227,8 @@ class LocalDate {
       // The "year" starts in March to shift leap year calculation to end.
       int16_t y = year() - (mMonth < 3);
       int16_t d = y + y/4 - y/100 + y/400 + sDayOfWeek[mMonth-1] + mDay;
-      // 2000-1-1 was a Saturday=6
-      // TODO: double check for negative year()
+
+      // 2000-1-1 was a Saturday=6, so set the offsets accordingly
       return (d < -1) ? (d + 1) % 7 + 8 : (d + 1) % 7 + 1;
     }
 
