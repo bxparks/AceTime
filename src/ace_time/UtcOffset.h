@@ -91,9 +91,11 @@ class UtcOffset {
      */
     int8_t code() const { return mOffsetCode; }
 
-    // TODO: Rename isShifted() or isNonZero()?
-    /** Returns true if offset is not 0. */
-    bool isDst() const { return mOffsetCode != 0; }
+    /**
+     * Returns true if offset is not 0, which can be used to check if this
+     * represents a DST time period.
+     */
+    bool isNonZero() const { return mOffsetCode != 0; }
 
     /** Set the offset code. */
     void code(int8_t offsetCode) { mOffsetCode = offsetCode; }

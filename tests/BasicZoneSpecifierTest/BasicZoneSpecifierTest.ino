@@ -139,35 +139,35 @@ test(BasicZoneSpecifierTest, kZoneLos_Angeles) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PST", zoneSpecifier.getAbbrev(epochSeconds));
-  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
+  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isNonZero());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
-  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
+  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isNonZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 0, 0,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
-  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
+  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isNonZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 59,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
-  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
+  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isNonZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 0,
       UtcOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PST", zoneSpecifier.getAbbrev(epochSeconds));
-  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
+  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isNonZero());
 }
 
 // https://www.timeanddate.com/time/zone/south-africa/johannesburg
@@ -182,7 +182,7 @@ test(BasicZoneSpecifierTest, kZoneJohannesburg) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(2*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("SAST", zoneSpecifier.getAbbrev(epochSeconds));
-  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
+  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isNonZero());
 }
 
 // https://www.timeanddate.com/time/zone/australia/darwin
@@ -198,7 +198,7 @@ test(BasicZoneSpecifierTest, kZoneDarwin) {
   epochSeconds = dt.toEpochSeconds();
   assertEqual(9*60+30, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("ACST", zoneSpecifier.getAbbrev(epochSeconds));
-  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isDst());
+  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isNonZero());
 }
 
 test(BasicZoneSpecifierTest, createAbbreviation) {
