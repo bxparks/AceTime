@@ -637,8 +637,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /**
      * Max number of Transitions required for a given Zone, including the most
-     * recent prior Transition. The validator.py script shows that it's 7 or 8.
-     * TODO: Include this in the generated zonedb* files.
+     * recent prior Transition. This value for each Zone is given by
+     * ZoneInfo.bufSize, and ExtendedValidationTest shows that the maximum is
+     * 7. Set this to 8 for safety.
      */
     static const uint8_t kMaxTransitions = 8;
 
