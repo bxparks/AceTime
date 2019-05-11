@@ -81,6 +81,7 @@ class Transformer:
         logging.info('Found %s zone infos' % len(self.zones_map))
         logging.info('Found %s rule policies' % len(self.rules_map))
 
+        # Part 1: Transform the zones_map
         zones_map = self._remove_zones_with_duplicate_short_names(zones_map)
         zones_map = self._remove_zones_without_slash(zones_map)
         zones_map = self._remove_zone_eras_too_old(zones_map)
@@ -95,15 +96,19 @@ class Transformer:
         zones_map = self._create_zones_with_rules_expansion(zones_map)
         zones_map = self._remove_zones_with_non_monotonic_until(zones_map)
 
+        # Part 2: Transformations requring both zones_map and rules_map.
         (zones_map, rules_map) = self._mark_rules_used_by_zones(
             zones_map, rules_map)
+        rules_to_zones = _create_rules_to_zones(zones_map, rules_map)
+
+        # Part 3: Transform the rules_map
         rules_map = self._remove_rules_unused(rules_map)
         rules_map = self._remove_rules_out_of_bounds(rules_map)
         if self.language == 'arduino':
             rules_map = self._remove_rules_multiple_transitions_in_month(
                 rules_map)
-
-        rules_map = self._create_rules_with_expanded_at_time(rules_map)
+        rules_map = self._create_rules_with_expanded_at_time(rules_map,
+            rules_to_zones)
         rules_map = self._remove_rules_invalid_at_time_modifier(rules_map)
         rules_map = self._create_rules_with_expanded_delta_offset(rules_map)
         rules_map = self._create_rules_with_on_day_expansion(rules_map)
@@ -113,12 +118,14 @@ class Transformer:
         if self.language == 'arduino':
             rules_map = self._remove_rules_long_dst_letter(rules_map)
 
+        # Part 4: Go back to zones_map and remove unused.
         zones_map = self._remove_zones_without_rules(zones_map, rules_map)
 
+        # Part 5: Update the original zones and rules.
         self.rules_map = rules_map
         self.zones_map = zones_map
 
-        # Collect deduped format and zone strings
+        # Part 5: Collect deduped format and zone strings
         self.format_strings = create_format_strings(self.zones_map,
             self.rules_map)
         self.zone_strings = create_zone_strings(self.zones_map)
@@ -443,7 +450,8 @@ class Transformer:
         return results
 
     def _create_zones_with_rules_expansion(self, zones_map):
-        """ Create zone.rulesDeltaSeconds from zone.rules.
+        """Expand and normalize the zone.rules field (RULES) and create
+        zone.rulesDeltaSeconds from zone.rules.
 
         The RULES field can hold the following:
             * '-' no rules
@@ -453,7 +461,7 @@ class Transformer:
         After this method, the zone.rules contains 3 possible values:
             * '-' no rules, or
             * ':' which indicates that 'rulesDeltaSeconds' is defined, or
-            * a string reference
+            * a string reference of the zone policy containing the rules
         """
         results = {}
         removed_zones = {}
@@ -925,24 +933,25 @@ class Transformer:
         self.all_removed_policies.update(removed_policies)
         return results
 
-    def _create_rules_with_expanded_at_time(self, rules_map):
+    def _create_rules_with_expanded_at_time(self, rules_map, rules_to_zones):
         """ Create 'atSeconds' parameter from rule.atTime.
         """
         results = {}
         removed_policies = {}
         notable_policies = {}
-        for name, rules in rules_map.items():
+        for policy_name, rules in rules_map.items():
             valid = True
             for rule in rules:
                 at_time = rule.atTime
                 at_seconds = time_string_to_seconds(at_time)
                 if at_seconds == INVALID_SECONDS:
                     valid = False
-                    removed_policies[name] = ("invalid AT time '%s'" % at_time)
+                    removed_policies[policy_name] = (
+                        "invalid AT time '%s'" % at_time)
                     break
                 if at_seconds < 0:
                     valid = False
-                    removed_policies[name] = (
+                    removed_policies[policy_name] = (
                         "negative AT time '%s'" % at_time)
                     break
 
@@ -951,19 +960,27 @@ class Transformer:
                 if at_seconds != at_seconds_truncated:
                     if self.strict:
                         valid = False
-                        removed_policies[name] = (
+                        removed_policies[policy_name] = (
                             "AT time '%s' must be multiples of '%s' seconds" %
                             (at_time, self.granularity))
                         break
                     else:
-                        notable_policies[name] = (
+                        notable_policies[policy_name] = (
                             "AT time '%s' truncated to '%s' seconds" %
                             (at_time, self.granularity))
+                        # Add warning about the affected zones.
+                        zone_names = rules_to_zones.get(policy_name)
+                        if zone_names:
+                            for zone_name in zone_names:
+                                self.all_notable_zones[zone_name] = (
+                                    ("AT time '%s' of RULE '%s' "
+                                    + "truncated to '%s' seconds")
+                                    % (at_time, policy_name, self.granularity))
 
                 rule.atSeconds = at_seconds
                 rule.atSecondsTruncated = at_seconds_truncated
             if valid:
-                results[name] = rules
+                results[policy_name] = rules
 
         logging.info('Removed %s rule policies with invalid atTime' %
                      len(removed_policies))
@@ -1321,3 +1338,23 @@ def create_zone_strings(zones_map):
         orig_size += strings_count[name] * csize
     return StringCollection(ordered_map=zone_strings, size=size,
         orig_size=orig_size)
+
+def _create_rules_to_zones(zones_map, rules_map):
+    """Zones point to Rules. This method causes the reverse to happen,
+    making Rules know about Zones, by creating a map of {rule_name ->
+    zone_full_name[]}. This allows us to determine which zones that may be
+    affected by a change in a particular Rule. Must be called after
+    _create_zones_with_rules_expansion() to normalize the RULES column
+    (zone.rules).
+    """
+    rules_to_zones = {}
+    for full_name, eras in zones_map.items():
+        for era in eras:
+            rule_name = era.rules
+            if rule_name not in ['-', ':']:
+                zones = rules_to_zones.get(rule_name)
+                if not zones:
+                    zones = []
+                    rules_to_zones[rule_name] = zones
+                zones.append(full_name)
+    return rules_to_zones

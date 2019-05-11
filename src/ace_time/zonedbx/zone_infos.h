@@ -390,9 +390,13 @@ extern const ZoneInfo kZoneWallis; // Pacific/Wallis
 
 // The following zones may have inaccuracies due to the following reasons:
 //
-// numInfos: 1
+// numInfos: 5
 //
-// Asia/Gaza (UNTIL time '0:01' truncated to '900' seconds)
+// America/Goose_Bay (AT time '0:01' of RULE 'StJohns' truncated to '900' seconds)
+// America/Moncton (AT time '0:01' of RULE 'Moncton' truncated to '900' seconds)
+// America/St_Johns (AT time '0:01' of RULE 'StJohns' truncated to '900' seconds)
+// Asia/Gaza (AT time '0:01' of RULE 'Palestine' truncated to '900' seconds)
+// Asia/Hebron (AT time '0:01' of RULE 'Palestine' truncated to '900' seconds)
 
 
 }

@@ -390,8 +390,9 @@ extern const ZoneInfo kZoneWallis; // Pacific/Wallis
 
 // The following zones may have inaccuracies due to the following reasons:
 //
-// numInfos: 0
+// numInfos: 1
 //
+// America/Moncton (AT time '0:01' of RULE 'Moncton' truncated to '900' seconds)
 
 
 }
