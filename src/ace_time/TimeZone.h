@@ -80,6 +80,10 @@ class TimeZone {
     /** Print the human readable representation of the time zone. */
     void printTo(Print& printer) const;
 
+    // Use default copy constructor and assignment operator.
+    TimeZone(const TimeZone&) = default;
+    TimeZone& operator=(const TimeZone&) = default;
+
   private:
     friend bool operator==(const TimeZone& a, const TimeZone& b);
 

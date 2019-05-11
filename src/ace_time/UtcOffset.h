@@ -133,6 +133,10 @@ class UtcOffset {
      */
     void printTo(Print& printer) const;
 
+    // Use default copy constructor and assignment operator.
+    UtcOffset(const UtcOffset&) = default;
+    UtcOffset& operator=(const UtcOffset&) = default;
+
   private:
 		friend class BasicZoneSpecifier;
 		friend class ManualZoneSpecifier;

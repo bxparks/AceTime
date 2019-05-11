@@ -134,9 +134,12 @@ class TimePeriod {
       }
     }
 
+    // Use default copy constructor and assignment operator.
+    TimePeriod(const TimePeriod&) = default;
+    TimePeriod& operator=(const TimePeriod&) = default;
+
   private:
     friend bool operator==(const TimePeriod& a, const TimePeriod& b);
-    friend bool operator!=(const TimePeriod& a, const TimePeriod& b);
 
     uint8_t mHour; // [0, 255], normally hour < 24
     uint8_t mMinute; // [0, 59], normally minute < 60

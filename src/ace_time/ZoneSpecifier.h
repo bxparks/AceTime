@@ -33,11 +33,16 @@ namespace ace_time {
  */
 class ZoneSpecifier {
   public:
+    /** Indicate ManualZoneSpecifier. */
     static const uint8_t kTypeManual = 0;
+
+    /** Indicate BasicZoneSpecifier. */
     static const uint8_t kTypeBasic = 1;
+
+    /** Indicate ExtendedZoneSpecifier. */
     static const uint8_t kTypeExtended = 2;
 
-    /** Return the type of the zone spec. */
+    /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
 
     /** Return the total effective UTC offset at epochSeconds, including DST. */

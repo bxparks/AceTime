@@ -225,6 +225,10 @@ class LocalDateTime {
       return 0;
     }
 
+    // Use default copy constructor and assignment operator.
+    LocalDateTime(const LocalDateTime&) = default;
+    LocalDateTime& operator=(const LocalDateTime&) = default;
+
   private:
     friend class OffsetDateTime;
     friend bool operator==(const LocalDateTime& a, const LocalDateTime& b);

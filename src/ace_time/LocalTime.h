@@ -147,6 +147,9 @@ class LocalTime {
      */
     void printTo(Print& printer) const;
 
+    // Use default copy constructor and assignment operator.
+    LocalTime(const LocalTime&) = default;
+    LocalTime& operator=(const LocalTime&) = default;
 
   private:
     friend class LocalDateTime;

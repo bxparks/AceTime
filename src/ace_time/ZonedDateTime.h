@@ -294,6 +294,10 @@ class ZonedDateTime {
       return mOffsetDateTime.compareTo(that.mOffsetDateTime);
     }
 
+    // Use default copy constructor and assignment operator.
+    ZonedDateTime(const ZonedDateTime&) = default;
+    ZonedDateTime& operator=(const ZonedDateTime&) = default;
+
   private:
     /** Expected length of an ISO 8601 date string. */
     static const uint8_t kDateStringLength = 25;

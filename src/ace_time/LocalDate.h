@@ -329,6 +329,10 @@ class LocalDate {
      */
     void printTo(Print& printer) const;
 
+    // Use default copy constructor and assignment operator.
+    LocalDate(const LocalDate&) = default;
+    LocalDate& operator=(const LocalDate&) = default;
+
   private:
     friend class LocalDateTime; // for access to constructor
     friend class ExtendedZoneSpecifier; // for access to constructor

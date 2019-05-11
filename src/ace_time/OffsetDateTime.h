@@ -274,6 +274,10 @@ class OffsetDateTime {
       return 0;
     }
 
+    // Use default copy constructor and assignment operator.
+    OffsetDateTime(const OffsetDateTime&) = default;
+    OffsetDateTime& operator=(const OffsetDateTime&) = default;
+
   private:
     friend bool operator==(const OffsetDateTime& a, const OffsetDateTime& b);
 
