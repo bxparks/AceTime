@@ -55,12 +55,12 @@ class TimeZone {
     static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
 
     /** Constructor. */
-    explicit TimeZone(
-        ZoneSpecifier* zoneSpecifier = &ManualZoneSpecifier::sUtcZoneSpecifier):
+    explicit TimeZone(const ZoneSpecifier* zoneSpecifier =
+            &ManualZoneSpecifier::sUtcZoneSpecifier):
         mZoneSpecifier(zoneSpecifier) {}
 
     /** Return the ZoneSpecifier. */
-    ZoneSpecifier* getZoneSpecifier() const { return mZoneSpecifier; }
+    const ZoneSpecifier* getZoneSpecifier() const { return mZoneSpecifier; }
 
     /** Return the type of TimeZone. */
     uint8_t getType() const {
@@ -95,7 +95,7 @@ class TimeZone {
         uint8_t* offsetCode);
 
     /** Instance of ZoneSpecifier. */
-    ZoneSpecifier* mZoneSpecifier;
+    const ZoneSpecifier* mZoneSpecifier;
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
