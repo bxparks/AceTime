@@ -132,11 +132,8 @@ struct ZoneMatch {
  *  rule->deltaCode.
  */
 struct Transition {
-  /**
-   * Longest abbreviation seems to be 5 characters.
-   * https://www.timeanddate.com/time/zones/
-   */
-  static const uint8_t kAbbrevSize = 5 + 1;
+  /** Size of the timezone abbreviation. */
+  static const uint8_t kAbbrevSize = zonedb::Transition::kAbbrevSize;
 
   /** The match which generated this Transition. */
   const ZoneMatch* match;

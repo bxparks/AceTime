@@ -30,11 +30,13 @@ namespace zonedb {
  */
 struct Transition {
   /**
-   * Longest abbreviation seems to be 5 characters.
-   * https://www.timeanddate.com/time/zones/
-   * TODO: Probably should be 6 characters according to the TZ Database spec.
+   * Longest abbreviation currently seems to be 5 characters
+   * (https://www.timeanddate.com/time/zones/) but the TZ database spec says
+   * that abbreviations are 3 to 6 characters
+   * (https://data.iana.org/time-zones/theory.html#abbreviations), so use 6 as
+   * the maximum.
    */
-  static const uint8_t kAbbrevSize = 5 + 1;
+  static const uint8_t kAbbrevSize = 6 + 1;
 
   /** The ZoneEra that matched the given year. NonNullable. */
   const ZoneEra* era;
