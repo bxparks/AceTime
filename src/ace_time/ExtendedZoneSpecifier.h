@@ -46,7 +46,7 @@ namespace ace_time {
 
 namespace zonedbx {
 
-// TODO: Consider compressing 'modifier' into 'month' field
+// NOTE: Consider compressing 'modifier' into 'month' field
 /**
  * A tuple that represents a date and time, using a timeCode that tracks the
  * time component using 15-minute intervals.

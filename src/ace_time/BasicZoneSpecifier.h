@@ -458,7 +458,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * expressed by onDayOfMonth being 0. An exact match on dayOfMonth is
      * expressed by setting onDayOfWeek to 0.
      */
-    // TODO: Switch order of onDayOfWeek and onDayOfMonth
     static uint8_t calcStartDayOfMonth(int16_t year, uint8_t month,
         uint8_t onDayOfWeek, uint8_t onDayOfMonth) {
       if (onDayOfWeek == 0) return onDayOfMonth;
