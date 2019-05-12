@@ -179,6 +179,14 @@ def main():
     # Configure logging
     logging.basicConfig(level=logging.INFO)
 
+    # Set the validation start and until years (validation data, and buffer
+    # size). pytz cannot handle dates after the end of Unix epoch
+    # (2038-01-19T03:14:07Z), see
+    # https://answers.launchpad.net/pytz/+question/262216, so the until_year
+    # cannot be greater than 2038.
+    start_year = 2000
+    until_year = 2038
+
     # How the script was invoked
     invocation = ' '.join(sys.argv)
 
@@ -204,7 +212,7 @@ def main():
     logging.info('Using granularity: %d' % granularity)
 
     # Extract the TZ files
-    logging.info('======== Extracting TZ Data files...')
+    logging.info('======== Extracting TZ Data files')
     extractor = Extractor(args.input_dir)
     extractor.parse()
     extractor.print_summary()
@@ -216,7 +224,7 @@ def main():
         printer.print_zones_short_name()
 
     # Transform the TZ zones and rules
-    logging.info('======== Transforming Zones and Rules...')
+    logging.info('======== Transforming Zones and Rules')
     transformer = Transformer(extractor.zones_map, extractor.rules_map,
         language, args.start_year, granularity, args.strict)
     transformer.transform()
@@ -224,7 +232,7 @@ def main():
 
     # Generate internal versions of zone_infos and zone_policies
     # so that ZoneSpecifier can be created.
-    logging.info('======== Generating inlined zone_infos and zone_policies...')
+    logging.info('======== Generating inlined zone_infos and zone_policies')
     inline_generator = InlineGenerator(
         transformer.zones_map, transformer.rules_map)
     (zone_infos, zone_policies) = inline_generator.generate_maps()
@@ -232,10 +240,13 @@ def main():
                  len(zone_policies))
 
     # Generate the buf_size estimates for each zone.
-    logging.info('======== Estimating transition buffer sizes...')
-    estimator = BufSizeEstimator(zone_infos, zone_policies)
-    buf_sizes = estimator.estimate()
-    logging.info('buf_sizes=%d', len(buf_sizes))
+    logging.info('======== Estimating transition buffer sizes')
+    logging.info('Checking years in [%d, %d)', start_year,
+        until_year)
+    estimator = BufSizeEstimator(zone_infos, zone_policies, start_year,
+        until_year)
+    (buf_sizes, max_size) = estimator.estimate()
+    logging.info('Num zones=%d; Max buffer size=%d', len(buf_sizes), max_size)
 
     # Validate the zone_infos and zone_policies if requested
     validate_buffer_size = False
@@ -254,7 +265,7 @@ def main():
             logging.error('Must provide --output_dir to generate Python files')
             sys.exit(1)
         if language == 'python':
-            logging.info('======== Creating Python zonedb files...')
+            logging.info('======== Creating Python zonedb files')
             generator = PythonGenerator(invocation, args.tz_version,
                                         Extractor.ZONE_FILES,
                                         transformer.zones_map,
@@ -266,7 +277,7 @@ def main():
             generator.generate_files(args.output_dir)
         elif language == 'arduino' or language == 'arduinox':
             extended = (language == 'arduinox')
-            logging.info('======== Creating Arduino zonedb files...')
+            logging.info('======== Creating Arduino zonedb files')
             generator = ArduinoGenerator(
                 invocation, args.tz_version, Extractor.ZONE_FILES,
                 transformer.zones_map, transformer.rules_map,
@@ -281,14 +292,16 @@ def main():
         else:
             raise Exception("Unrecognized language '%s'" % language)
     elif args.unittest:
-        logging.info('======== Generating unit test files...')
+        logging.info('======== Generating unit test files')
 
         # Generate test data for unit test.
-        logging.info('Generating test data')
+        logging.info('Generating test data for years in [%d, %d)',
+            start_year, until_year)
         data_generator = TestDataGenerator(zone_infos, zone_policies,
-            granularity)
+            granularity, start_year, until_year)
         (test_data, num_items) = data_generator.create_test_data()
-        logging.info('test_data=%d', len(test_data))
+        logging.info('Num zones=%d; Num test items=%d', len(test_data),
+            num_items)
 
         # Generate validation data files
         logging.info('Generating test validation files')
@@ -318,11 +331,11 @@ def main():
             optimize_candidates=args.optimize_candidates)
 
         if validate_buffer_size:
-            logging.info('======== Validating transition buffer sizes...')
+            logging.info('======== Validating transition buffer sizes')
             validator.validate_buffer_size()
 
         if validate_test_data:
-            logging.info('======== Validating test data...')
+            logging.info('======== Validating test data')
             validator.validate_test_data()
     else:
         logging.error(

@@ -598,7 +598,7 @@ class ZoneSpecifier:
         if self.debug:
             print_transitions(self.transitions)
 
-    def get_buffer_sizes(self, start_year=2000, until_year=2050):
+    def get_buffer_sizes(self, start_year, until_year):
         """Find the maximum number of actual transitions and the maximum number
         of candidate transitions across the given start_year and until_year.
         This is useful for determining that buffer size of the C++ version
