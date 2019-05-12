@@ -215,6 +215,9 @@ class Extractor:
                 self._parse_zone_file(f)
 
     def _parse_zone_file(self, input):
+        """Read the 'input' file and collect all 'Rule' lines into
+        self.rule_lines and all 'Zone' lines into self.zone_lines.
+        """
         in_zone_mode = False
         prev_tag = ''
         prev_name = ''
@@ -226,28 +229,30 @@ class Extractor:
             tag = line[:4]
             if tag == 'Rule':
                 tokens = line.split()
-                add_item(self.rule_lines, tokens[1], line)
+                _add_item(self.rule_lines, tokens[1], line)
                 in_zone_mode = False
             elif tag == 'Link':
                 tokens = line.split()
-                add_item(self.link_lines, tokens[1], line)
+                _add_item(self.link_lines, tokens[1], line)
                 in_zone_mode = False
             elif tag == 'Zone':
                 tokens = line.split()
-                add_item(self.zone_lines, tokens[1], ' '.join(tokens[2:]))
+                _add_item(self.zone_lines, tokens[1], ' '.join(tokens[2:]))
                 in_zone_mode = True
                 prev_tag = tag
                 prev_name = tokens[1]
             elif tag[0] == '\t' and in_zone_mode:
-                add_item(self.zone_lines, prev_name, line)
+                # Collect subsequent lines that begin with a TAB character into
+                # the current 'Zone' entry.
+                _add_item(self.zone_lines, prev_name, line)
 
     def _process_rules(self):
         for name, lines in self.rule_lines.items():
             for line in lines:
                 try:
-                    rule_entry = process_rule_line(line)
+                    rule_entry = _process_rule_line(line)
                     if rule_entry:
-                        add_item(self.rules_map, name, rule_entry)
+                        _add_item(self.rules_map, name, rule_entry)
                     else:
                         self.ignored_rule_lines += 1
                 except Exception as e:
@@ -260,7 +265,7 @@ class Extractor:
                 try:
                     zone_era = process_zone_line(line)
                     if zone_era:
-                        add_item(self.zones_map, name, zone_era)
+                        _add_item(self.zones_map, name, zone_era)
                     else:
                         self.ignored_zone_lines += 1
                 except Exception as e:
@@ -326,7 +331,7 @@ class Extractor:
         logging.info('-------- Extractor Summary End')
 
 
-def add_item(table, name, line):
+def _add_item(table, name, line):
     array = table.get(name)
     if not array:
         array = []
@@ -350,7 +355,7 @@ MONTH_TO_MONTH_INDEX = {
 }
 
 
-def process_rule_line(line):
+def _process_rule_line(line):
     """Normalize a dictionary that represents a 'Rule' line from the TZ
     database. Contains the following fields:
     Rule NAME FROM TO TYPE IN ON AT SAVE LETTER
