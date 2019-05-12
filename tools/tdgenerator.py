@@ -119,7 +119,8 @@ class TestDataGenerator:
         ],
     }
 
-    def __init__(self, zone_infos, zone_policies, granularity):
+    def __init__(self, zone_infos, zone_policies, granularity, start_year,
+        until_year):
         """
         Args:
             zone_infos (dict): {name -> zone_info{} }
@@ -131,8 +132,8 @@ class TestDataGenerator:
 
         self.zone_name = ''
         self.viewing_months = 14
-        self.start_year = 2000
-        self.end_year = 2019
+        self.start_year = start_year
+        self.until_year = until_year
 
     def create_test_data(self):
         """Create a map of {
@@ -189,7 +190,7 @@ class TestDataGenerator:
     def _create_transition_test_items(
         self, zone_short_name, tz, zone_specifier):
         """Create a TestItem for the tz for each zone, for each year from
-        start_year to end_year, inclusive. The following test samples are
+        start_year to until_year, exclusive. The following test samples are
         created:
 
         * One test point for each month, on the first of the month.
@@ -208,7 +209,7 @@ class TestDataGenerator:
         For [2000, 2038], this generates about 100,000 data points.
         """
         items_map = {}
-        for year in range(self.start_year, self.end_year + 1):
+        for year in range(self.start_year, self.until_year):
             # Skip start_year when viewing months is 36, because it needs data
             # for (start_year - 3), but ZoneSpecifier won't generate data for
             # years that old.
