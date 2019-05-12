@@ -1377,9 +1377,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
-    // TODO: Move mNumMatches and mMatches into a MatchStorage object?
+
+    // NOTE: Potentially move mNumMatches and mMatches into a MatchStorage
+    // object.
     mutable uint8_t mNumMatches = 0; // actual number of matches
     mutable zonedbx::ZoneMatch mMatches[kMaxMatches];
+
     mutable zonedbx::TransitionStorage<kMaxTransitions> mTransitionStorage;
 };
 
