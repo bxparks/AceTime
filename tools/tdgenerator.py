@@ -41,7 +41,7 @@ class TestDataGenerator:
     # should be added to the transitionTime to get the corrected transitionTime
     # which should be passed to pytz to determine the expected UTC offset.
     #
-    # TODO: Check if using a dict {} would make the look up faster than using a
+    # NOTE: Using a dict {} might make the look up faster than using a
     # sequential scan through the DateTuple.
     CORRECTIONS = {
         'Gaza': [
