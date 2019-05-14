@@ -112,13 +112,18 @@ test(OffsetDateTimeTest, forComponents) {
   assertEqual((acetime_t) 1200798847, dt.toEpochSeconds());
   assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 
-  // 2068-01-19 03:14:06Z (largest value for AceTime Epoch).
-  // INT32_MAX is used as a sentinel invalid value.
-  // TODO: Change this to INT32_MIN.
+  // 2068-01-19 03:14:06Z (one second before largest AceTime Epoch).
   dt = OffsetDateTime::forComponents(2068, 1, 19, 3, 14, 6);
   assertEqual((acetime_t) 24855, dt.toEpochDays());
   assertEqual((acetime_t) 35812, dt.toUnixDays());
   assertEqual((acetime_t) (INT32_MAX - 1), dt.toEpochSeconds());
+  assertEqual(LocalDate::kThursday, dt.dayOfWeek());
+
+  // 2068-01-19 03:14:07Z (largest AceTime Epoch).
+  dt = OffsetDateTime::forComponents(2068, 1, 19, 3, 14, 7);
+  assertEqual((acetime_t) 24855, dt.toEpochDays());
+  assertEqual((acetime_t) 35812, dt.toUnixDays());
+  assertEqual((acetime_t) INT32_MAX, dt.toEpochSeconds());
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 

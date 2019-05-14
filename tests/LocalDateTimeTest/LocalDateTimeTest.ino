@@ -260,9 +260,8 @@ test(LocalDateTest, toAndFromEpochSeconds) {
   // Largest date possible using AceTime Epoch Seconds is 2068-01-19 03:14:07.
   ld = LocalDate::forComponents(2068, 1, 19);
   assertEqual((acetime_t) 24855 * 86400, ld.toEpochSeconds());
-  // 2068-01-19 03:14:06 (largest date at INT32_MAX - 1)
   assertTrue(ld == LocalDate::forEpochSeconds(
-      (acetime_t) 24855 * 86400 + 11646));
+      (acetime_t) 24855 * 86400 + 11647));
 }
 
 test(LocalDateTest, toAndFromUnixSeconds) {
@@ -288,10 +287,9 @@ test(LocalDateTest, toAndFromUnixSeconds) {
   assertTrue(ld == LocalDate::forUnixSeconds((acetime_t) 6574 * 86400 + 2));
 
   // Largest date possible using Unix Seconds is 2038-01-19 03:14:07.
-  // Which means 2038-01-19 03:14:06 corresponds to INT32_MAX - 1.
   ld = LocalDate::forComponents(2038, 1, 19);
   assertEqual((acetime_t) 24855 * 86400, ld.toUnixSeconds());
-  assertTrue(ld == LocalDate::forUnixSeconds((acetime_t) (INT32_MAX - 1)));
+  assertTrue(ld == LocalDate::forUnixSeconds((acetime_t) INT32_MAX));
 }
 
 test(LocalDateTest, compareTo) {
@@ -614,13 +612,18 @@ test(LocalDateTimeTest, forComponents) {
   assertEqual((acetime_t) 1200798847, dt.toEpochSeconds());
   assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 
-  // 2068-01-19 03:14:06Z (largest value for AceTime Epoch).
-  // INT32_MAX is used as a sentinel invalid value.
-  // TODO: Change this to INT32_MIN.
+  // 2068-01-19 03:14:06Z (one second before largest AceTime Epoch)
   dt = LocalDateTime::forComponents(2068, 1, 19, 3, 14, 6);
   assertEqual((acetime_t) 24855, dt.toEpochDays());
   assertEqual((acetime_t) 35812, dt.toUnixDays());
   assertEqual((acetime_t) (INT32_MAX - 1), dt.toEpochSeconds());
+  assertEqual(LocalDate::kThursday, dt.dayOfWeek());
+
+  // 2068-01-19 03:14:07Z (largest value for AceTime Epoch).
+  dt = LocalDateTime::forComponents(2068, 1, 19, 3, 14, 7);
+  assertEqual((acetime_t) 24855, dt.toEpochDays());
+  assertEqual((acetime_t) 35812, dt.toUnixDays());
+  assertEqual((acetime_t) INT32_MAX, dt.toEpochSeconds());
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 
