@@ -51,9 +51,8 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     /** Default assignment operator. */
     ManualZoneSpecifier& operator=(const ManualZoneSpecifier&) = default;
 
-    // TODO: Change this into a 'const'
     /** Singleton instance of a UTC ZoneSpecifier. */
-    static ManualZoneSpecifier sUtcZoneSpecifier;
+    static const ManualZoneSpecifier sUtcZoneSpecifier;
 
     UtcOffset stdOffset() const { return mStdOffset; }
 
