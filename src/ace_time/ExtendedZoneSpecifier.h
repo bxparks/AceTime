@@ -536,15 +536,30 @@ class TransitionStorage {
 } // namespace zonedbx
 
 /**
- * Version of BasicZoneSpecifier that works for more obscure zones with
- * more complex rules. This class supports:
+ * An implementation of ZoneSpecifier that works for *all* zones defined by the
+ * TZ Database (with some zones suffering a slight loss of accurancy described
+ * below). The supported zones are defined in the zonedbx/zone_infos.h header
+ * file. The constructor expects a pointer to one of the ZoneInfo structures
+ * declared in the zonedbx/zone_infos.h file. The zone_specifier.py file is a
+ * Python implementation of this class.
  *
- *  - Zone Infos whose untilTimeModifier is 's' or 'u', not just 'w'
- *  - Zone Infos whose RULES column contains an offset (hh:mm)
- *  - Zone Infos whose UNTIL field supports month, day, or time, not just
- *    whole years
- *  - Supports zones and policies whose transition occurs at 00:01 by
- *    truncating the transition to the lowest 15-minute interval (i.e. 00:00)
+ * Just like BasicZoneSpecifier, UTC offsets are stored as a single signed byte
+ * in units of 15-minute increments to save memory. Fortunately, all current
+ * (year 2019) time zones have DST offsets at 15-minute boundaries. But in
+ * addition to the DST offset, this class uses a single signed byte to store
+ * the *time* at which a timezone changes the DST offset.
+ *
+ * There are current 5 timezones whose DST transition times are at 00:01 (i.e.
+ * 1 minute after midnight). Those transition times are truncated down by
+ * tzcompiler.py to the nearest 15-minutes, in other words to 00:00. Those
+ * zones are:
+ *    - America/Goose_Bay
+ *    - America/Moncton
+ *    - America/St_Johns
+ *    - Asia/Gaza
+ *    - Asia/Hebron
+ * For these zones, the transition to DST (or out of DST) will occur at
+ * midnight using AceTime, instead of at 00:01.
  *
  * Not thread-safe.
  */

@@ -45,7 +45,8 @@ struct Transition {
    * The Zone transition rule that matched for the the given year. Set to
    * nullptr if the RULES column is '-'. We do not support a RULES column that
    * contains a UTC offset. There are only 2 time zones that has this property
-   * as of version 2018g: Europe/Istanbul and America/Argentina/San_Luis.
+   * as of TZ database version 2018g: Europe/Istanbul and
+   * America/Argentina/San_Luis.
    */
   const ZoneRule* rule;
 
@@ -56,8 +57,9 @@ struct Transition {
   acetime_t startEpochSeconds;
 
   /**
-   * The total effective UTC offsetCode at the start of transition, including
-   * DST offset.
+   * The total effective UTC offsetCode at the start of transition, *including*
+   * DST offset. (Maybe rename this effectiveOffsetCode?) The DST offset can be
+   * recovered from rule->deltaCode.
    */
   int8_t offsetCode;
 
@@ -85,18 +87,24 @@ struct Transition {
 } // namespace zonedb
 
 /**
- * Manages a given ZoneInfo. The ZoneRule and ZoneEra records that match the
- * year of the given epochSeconds are cached internally for performance. The
- * expectation is that repeated calls to the various methods will have
- * epochSeconds which do not vary too greatly and will occur in the same year.
+ * An implementation of ZoneSpecifier that supports a subset of the zones
+ * containing in the TZ Database. The supported list of zones, as well as the
+ * list of unsupported zones, are is listed in the zonedb/zone_info.h header
+ * file. The constructor expects a pointer to one of the ZoneInfo structures
+ * declared in the zone_infos.h file.
+ *
+ * The internal ZoneRule and ZoneEra records that match the year of the given
+ * epochSeconds are cached for performance. The expectation is that repeated
+ * calls to the various methods will have epochSeconds which do not vary too
+ * greatly and will occur in the same year.
  *
  * The Rule records are transition points which look like this:
  * @verbatim
  * Rule  NAME  FROM    TO  TYPE    IN     ON        AT      SAVE    LETTER/S
  * @endverbatim
  *
- * Each record is represented by zonedb::ZoneRule and the entire
- * collection is represented by zonedb::ZonePolicy.
+ * Each record is represented by zonedb::ZoneRule and the entire collection is
+ * represented by zonedb::ZonePolicy.
  *
  * The Zone records define the region which follows a specific set of Rules
  * for certain time periods (given by UNTIL below):
@@ -107,14 +115,25 @@ struct Transition {
  * Each record is represented by zonedb::ZoneEra and the entire collection is
  * represented by zonedb::ZoneInfo.
  *
- * Limitations:
+ * This class assumes that the various components of ZoneInfo, ZoneEra, and
+ * ZonePolicy, ZoneRule have a number of limitations and constraints which
+ * simplify the implementation of this class. The tzcompiler.py script will
+ * remove zones which do not meet these constraints when generating the structs
+ * defined by zonedb/zone_infos.h. The constraints are at least the following
+ * (see tools/transformer.py for the authoratative algorithm):
  *
- *  - supports Zone Infos whose untilTimeModifier is 'w' (not 's' or 'u')
- *  - supports Zone Infos whose RULES column refers to a named Zone Rule, not
- *    an offset (hh:mm)
- *  - supports Zone Infos whose UNTIL field contains only full year component,
- *    not month, day, or time
- *  - supports Zone Rules whose atTimeModifier can be any of ('w', 's', and 'u')
+ *  - ZoneInfo UNTIL field must contain only the full year;
+ *    cannot contain month, day, or time components
+ *  - ZoneInfo untilTimeModifier can contain only 'w' (not 's' or 'u')
+ *  - ZoneInfo RULES column must be empty ("-"), OR refer to a
+ *    named Zone Rule (e.g. "US"); cannot contain an explicit offset (hh:mm)
+ *  - ZonePolicy can contain only 1 ZoneRule in a single month
+ *  - ZoneRule AT time cannot occur on Jan 1
+ *  - ZoneRule atTimeModifier can be any of ('w', 's', and 'u')
+ *  - ZoneRule LETTER must contain only a single letter (not "WAT" or "CST")
+ *
+ * Even with these limitations, zonedb/zone_info.h shows that 231 out of a
+ * total of 359 zones are supported by BasicZoneSpecifier.
  *
  * Not thread-safe.
  */
@@ -173,6 +192,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     friend class ::BasicZoneSpecifierTest_calcRuleOffsetCode;
     friend class ExtendedZoneSpecifier; // calcStartDayOfMonth()
 
+    /** Maximum size of Transition cache across supported zones. */
     static const uint8_t kMaxCacheEntries = 4;
 
     /**
@@ -199,14 +219,29 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /**
-     * Initialize the zone rules cache, keyed by the "current" year.
+     * Initialize the transition cache, keyed by the "current" year. The
+     * current year is not always the year determined by the UTC time of
+     * the epoch seconds. If the UTC date is 1/1 (Jan 1), the "current" year
+     * is set to be the previous year as explained below.
      *
-     * If the UTC date is 1/1, the local date could be the previous year.
-     * Unfortunately, there are some countries that decided to make a time
-     * change on 12/31, e.g. Dhaka). So, let's assume that there are no DST
-     * transitions on 1/1, consider the "current year" to be the previous year,
-     * extract the various rules based upon that year, and determine the DST
-     * offset using the matching rules of the previous year.
+     * There are some countries that decided to make a time zone change at on
+     * 12/31 (e.g. Asia/Dhaka), which means that determining the correct DST
+     * offset on 1/1 requires the Transitions from the previous year. To
+     * support these zones, if the UTC date is 1/1, then we force the
+     * transition cache to be generated using the *previous* year. This
+     * workaround will fail for zones which have DST transitions on 1/1.
+     * Therefore, the zone_info.h generator (tools/tzcompiler.py) removes all
+     * zones which have time zone transitions on 1/1 from the list of supported
+     * zones.
+     *
+     * The high level algorithm for determining the DST transitions is as
+     * follows:
+     *
+     *  1. Find the last ZoneRule that was active just before the current year.
+     *  2. Find the ZoneRules which are active in the current year.
+     *  3. Calculate the Transitions given the above ZoneRules.
+     *  4. Calculate the zone abbreviations (e.g. "PDT" or "BST") for each
+     *  Transition.
      */
     void init(const LocalDate& ld) const {
       int16_t year = ld.year();
@@ -226,7 +261,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       }
     }
 
-    /** Check if the ZoneRule cache is filled for the given year. */
+    /** Check if the Transition cache is filled for the given year. */
     bool isFilled(int16_t year) const {
       return mIsFilled && (year == mYear);
     }
@@ -262,6 +297,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
           }
         }
       }
+
       mPrevTransition = {
         era,
         latest /*rule*/,
@@ -304,16 +340,17 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     void addRulesForYear(int16_t year) const {
       const zonedb::ZoneEra* const era = findZoneEra(year);
 
-      // If the ZonePolicy has no rules, then we need to add a Transition which
-      // takes effect at the start time of the current year.
+      // If the ZonePolicy has no rules, then add a Transition which takes
+      // effect at the start time of the current year.
       const zonedb::ZonePolicy* const zonePolicy = era->zonePolicy;
       if (zonePolicy == nullptr) {
         addRule(year, era, nullptr);
         return;
       }
 
-      // Find all matching transitions, and add them to mTransitions, in sorted
-      // order according to the ZoneRule::inMonth field.
+      // If the ZonePolicy has rules, find all matching transitions, and add
+      // them to mTransitions, in sorted order according to the
+      // ZoneRule::inMonth field.
       int8_t yearTiny = year - LocalDate::kEpochYear;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
         const zonedb::ZoneRule* const rule = &zonePolicy->rules[i];
@@ -327,17 +364,37 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     /**
      * Add (era, rule) to the cache, in sorted order according to the
      * 'ZoneRule::inMonth' field. This assumes that there are no more than one
-     * transition per month.
+     * transition per month, so tzcompiler.py removes ZonePolicies which have
+     * multiple transitions in one month (e.g. Egypt, Palestine, Spain,
+     * Tunisia).
      *
-     * Essentially, this is doing an Insertion Sort of the Transition elements.
-     * Even through it is O(N^2), for small number of Transition elements, this
-     * is faster than than the O(N log(N)) algorithms such as Merge Sort, Heap
-     * Sort, Quick Sort. The nice property of this Insertion Sort is that if
-     * the ZoneInfoEntries are already sorted, then the loop terminates early
-     * and the total sort time is O(N).
+     * Essentially, this method is doing an Insertion Sort of the Transition
+     * elements. Even through it is O(N^2), for small number of Transition
+     * elements, this is faster than the O(N log(N)) sorting algorithms. The
+     * nice property of this Insertion Sort is that if the ZoneInfoEntries are
+     * already sorted, then the loop terminates early and the total sort time
+     * is O(N).
      */
     void addRule(int16_t year, const zonedb::ZoneEra* era,
           const zonedb::ZoneRule* rule) const {
+
+      // If a zone needs more transitions than kMaxCacheEntries, the check below
+      // will cause the DST transition information to be inaccurate, and it is
+      // highly likely that this situation would be caught in the
+      // BasicValidationTest unit test. Since BasicValidationTest passes, I
+      // feel confident that those zones which need more than kMaxCacheEntries
+      // are already filtered out by tzcompiler.py due to constraints of
+      // BasicValidationTest which are checked by tzcompiler.py.
+      //
+      // Ideally, the tzcompiler.py script would explicitly remove those zones
+      // which need more than kMaxCacheEntries Transitions. But this would
+      // require a Python version of the BasicZoneSpecifier, and unfortunately,
+      // zone_specifier.py implements only the ExtendedZoneSpecifier algorithm
+      // An early version of zone_specifier.py may have implemented something
+      // close to BasicZoneSpecifier, and it may be available in the git
+      // history. But it seems like too much work right now to try to dig that
+      // out, just to implement the explicit check for kMaxCacheEntries. It
+      // would mean maintaining another version of zone_specifier.py.
       if (mNumTransitions >= kMaxCacheEntries) return;
 
       // insert new element at the end of the list
@@ -401,9 +458,10 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /** Calculate the epochSeconds and offsetCode of each Transition. */
     void calcTransitions() const {
+      // Calculate epochSeconds and offsetCode for the prevTransition.
       mPrevTransition.startEpochSeconds = kMinEpochSeconds;
       int8_t deltaCode = (mPrevTransition.rule == nullptr)
-            ? 0 : mPrevTransition.rule->deltaCode;
+          ? 0 : mPrevTransition.rule->deltaCode;
       mPrevTransition.offsetCode = mPrevTransition.era->offsetCode + deltaCode;
       const zonedb::Transition* prevTransition = &mPrevTransition;
 
@@ -415,15 +473,29 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         const int16_t year = transition.yearTiny + LocalDate::kEpochYear;
 
         if (transition.rule == nullptr) {
-          // TODO: Double-check this algorithm, something doesn't seem right.
-          const int8_t offsetCode = calcRuleOffsetCode(
-              prevTransition->offsetCode, transition.era->offsetCode, 'w');
+          // If the transition is simple (has no named rule), then the
+          // ZoneEra applies for the entire year (since BasicZoneSpecifier
+          // supports only whole year in the UNTIL field). The whole year UNTIL
+          // field has an implied 'w' modifier on 00:00, we don't need to call
+          // calcRuleOffsetCode() with a 'w', we can just use the previous
+          // transition's offset to calculate the startDateTime of this
+          // transition.
+          //
+          // Also, when transition.rule == nullptr, the mNumTransitions should
+          // be 1, since only a single transition is added by
+          // addRulesForYear().
+          const int8_t offsetCode = prevTransition->offsetCode;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, 1, 1, 0, 0, 0,
               UtcOffset::forOffsetCode(offsetCode));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
           transition.offsetCode = transition.era->offsetCode;
         } else {
+          // In this case, the transition points to a named ZonePolicy, which
+          // means that there could be multiple ZoneRules associated with the
+          // given year. For each transition, determine the startEpochSeconds,
+          // and the effective offset code.
+
           // Determine the start date of the rule.
           const uint8_t startDayOfMonth = calcStartDayOfMonth(
               year, transition.rule->inMonth, transition.rule->onDayOfWeek,
@@ -478,15 +550,15 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /**
      * Determine the offset of the 'atTimeModifier'. If 'w', then we
-     * must use the offset of the *previous* zone rule. If 's', use the
-     * current base offset. If 'u', 'g', 'z', then use 0 offset.
+     * must use the offset of the *previous* zone rule. If 's', use the current
+     * base offset (which does not contain the extra DST offset). If 'u', 'g',
+     * 'z', then use 0 offset.
      */
     static int8_t calcRuleOffsetCode(int8_t prevEffectiveOffsetCode,
-        int8_t currentBaseOffsetCode, uint8_t modifier) {
-      if (modifier == 'w') {
+        int8_t currentBaseOffsetCode, uint8_t atModifier) {
+      if (atModifier == 'w') {
         return prevEffectiveOffsetCode;
-      } else if (modifier == 's') {
-        // TODO: Is this right, use the current matched base offset code?
+      } else if (atModifier == 's') {
         return currentBaseOffsetCode;
       } else { // 'u', 'g' or 'z'
         return 0;

@@ -9,9 +9,9 @@ namespace ace_time {
 
 /**
  * An implementation of ZoneSpecifier which allows the user to manually adjust
- * the UTC offset and the DST flag. Unlike other implementations of
- * ZoneSpecifier, this class is mutable and is expected to be copied during
- * normal operation.
+ * the UTC offset and the DST flag. Unlike BasicZoneSpecifier and
+ * ExtendedZoneSpecifier, this class is mutable and copyable to allow the
+ * application to detect changes to the utcOffset made by the user.
  */
 class ManualZoneSpecifier: public ZoneSpecifier {
   public:
@@ -51,6 +51,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     /** Default assignment operator. */
     ManualZoneSpecifier& operator=(const ManualZoneSpecifier&) = default;
 
+    // TODO: Change this into a 'const'
     /** Singleton instance of a UTC ZoneSpecifier. */
     static ManualZoneSpecifier sUtcZoneSpecifier;
 
