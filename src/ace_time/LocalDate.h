@@ -40,6 +40,12 @@ class LocalDate {
      */
     static const int8_t kInvalidYearTiny = INT8_MIN;
 
+    /**
+     * Sentinel yearTiny which represents the smallest year, effectively
+     * -Infinity.
+     */
+    static const int8_t kMinYearTiny = INT8_MIN + 1;
+
     /** Sentinel epochDays which indicates an error. */
     static const acetime_t kInvalidEpochDays = INT32_MIN;
 

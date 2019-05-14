@@ -1,3 +1,4 @@
+#include "LocalDate.h"
 #include "ExtendedZoneSpecifier.h"
 
 namespace ace_time {
@@ -7,7 +8,7 @@ const zonedbx::ZoneEra ExtendedZoneSpecifier::kAnchorEra = {
   nullptr /*zonePolicy*/,
   0 /*deltaCode*/,
   nullptr /*format*/,
-  -128 /*untilYearTiny*/, // TODO: change this to LocalDate::kMinYearTiny?
+  LocalDate::kInvalidYearTiny /*untilYearTiny*/,
   1 /*untilMonth*/,
   1 /*untilDay*/,
   0 /*untilTimeCode*/,
