@@ -103,29 +103,35 @@ class ZonedDateTime {
      * the string cannot be parsed, then isError() on the constructed object
      * returns true.
      *
-     * The dateString is expected to be in ISO 8601 format
+     * @param dateString a string in ISO 8601 format
      * "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very lenient
      * and does not detect most errors. It cares mostly about the positional
      * placement of the various components. It does not validate the separation
-     * characters like '-' or ':'. For example, both of the following will parse
-     * to the exactly same ZonedDateTime object:
-     * "2018-08-31T13:48:01-07:00"
-     * "2018/08/31 13#48#01-07#00"
+     * characters like '-' or ':'. For example, both of the following will
+     * parse to the exactly same ZonedDateTime object:
+     * "2018-08-31T13:48:01-07:00" "2018/08/31 13#48#01-07#00"
+     *
+     * @param spec an instance ManualZoneSpecifier required to create a
+     * TimeZone with the given UTC offset.
      */
-    static ZonedDateTime forDateString(const char* dateString) {
+    static ZonedDateTime forDateString(const char* dateString,
+        ManualZoneSpecifier* spec) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
-      // TODO: fix time zone
-      return ZonedDateTime(dt, TimeZone());
+      spec->stdOffset() = dt.utcOffset();
+      spec->isDst(false);
+      return ZonedDateTime(dt, TimeZone(spec));
     }
 
     /**
      * Factory method. Create a ZonedDateTime from date string in flash memory
      * F() strings. Mostly for unit testing.
      */
-    static ZonedDateTime forDateString(const __FlashStringHelper* dateString) {
+    static ZonedDateTime forDateString(const __FlashStringHelper* dateString,
+        ManualZoneSpecifier* spec) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
-      // TODO: fix time zone
-      return ZonedDateTime(dt, TimeZone());
+      spec->stdOffset() = dt.utcOffset();
+      spec->isDst(false);
+      return ZonedDateTime(dt, TimeZone(spec));
     }
 
     /** Return an instance whose isError() returns true. */
@@ -186,6 +192,9 @@ class ZonedDateTime {
      * Sunday=7.
      */
     uint8_t dayOfWeek() const { return mOffsetDateTime.dayOfWeek(); }
+
+    /** Return the offset zone of the OffsetDateTime. */
+    UtcOffset utcOffset() const { return mOffsetDateTime.utcOffset(); }
 
     /** Return the time zone of the ZonedDateTime. */
     const TimeZone& timeZone() const { return mTimeZone; }

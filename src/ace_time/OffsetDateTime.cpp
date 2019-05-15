@@ -40,39 +40,20 @@ void OffsetDateTime::printTo(Print& printer) const {
   printer.print(ds.weekDayLongString(dayOfWeek()));
 }
 
-OffsetDateTime OffsetDateTime::forDateString(const char* ds) {
-  if (strlen(ds) < kDateStringLength) {
+OffsetDateTime OffsetDateTime::forDateString(const char* dateString) {
+  if (strlen(dateString) < kDateStringLength) {
     return forError();
   }
+  return forDateStringChainable(dateString);
+}
 
-  // date
-  LocalDateTime ldt = LocalDateTime::forDateString(ds);
-  ds += LocalDateTime::kDateTimeStringLength;
+OffsetDateTime OffsetDateTime::forDateStringChainable(const char*& dateString) {
+  const char* s = dateString;
 
-  // '+' or '-'
-  char utcSign = *ds++;
-  int8_t sign;
-  if (utcSign == '-') {
-    sign = -1;
-  } else if (utcSign == '+') {
-    sign = 1;
-  } else {
-    return forError();
-  }
+  LocalDateTime ldt = LocalDateTime::forDateStringChainable(s);
+  UtcOffset offset = UtcOffset::forOffsetStringChainable(s);
 
-  // utc hour
-  uint8_t utcHour = (*ds++ - '0');
-  utcHour = 10 * utcHour + (*ds++ - '0');
-  ds++;
-
-  // utc minute
-  uint8_t utcMinute = (*ds++ - '0');
-  utcMinute = 10 * utcMinute + (*ds++ - '0');
-  ds++;
-
-  // create timeZone from (hour, minute)
-  UtcOffset offset = UtcOffset::forHourMinute(sign, utcHour, utcMinute);
-
+  dateString = s;
   return OffsetDateTime(ldt, offset);
 }
 

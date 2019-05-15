@@ -143,6 +143,7 @@ class UtcOffset {
 		friend class BasicZoneSpecifier;
 		friend class ManualZoneSpecifier;
 		friend class TimeZone;
+		friend class OffsetDateTime; // forOffsetStringChainable()
     friend class UtcOffsetMutator;
     friend bool operator==(const UtcOffset& a, const UtcOffset& b);
 
@@ -151,6 +152,15 @@ class UtcOffset {
 
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
     static const uint8_t kUtcOffsetStringLength = 6;
+
+    /**
+     * The internal version of forOffsetString() that updates the string pointer
+     * to the next unprocessed character. The resulting pointer can be passed
+     * to another forDateStringInternal() method to continue parsing.
+     *
+     * This method assumes that the offsetString is sufficiently long.
+     */
+    static UtcOffset forOffsetStringChainable(const char*& offsetString);
 
     /** Constructor. Create a time zone from the offset code. */
     explicit UtcOffset(int8_t offsetCode):

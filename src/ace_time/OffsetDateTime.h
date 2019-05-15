@@ -193,8 +193,9 @@ class OffsetDateTime {
     const LocalTime& localTime() const { return mLocalDateTime.localTime(); }
 
     /** Return the offset zone of the OffsetDateTime. */
-    const UtcOffset& utcOffset() const { return mUtcOffset; }
+    UtcOffset utcOffset() const { return mUtcOffset; }
 
+    // TODO: Remove this?
     /** Return the offset zone of the OffsetDateTime. */
     UtcOffset& utcOffset() { return mUtcOffset; }
 
@@ -285,6 +286,15 @@ class OffsetDateTime {
 
     /** Expected length of an ISO 8601 date string, including UTC offset. */
     static const uint8_t kDateStringLength = 25;
+
+    /**
+     * The internal version of forDateString() that updates the string pointer
+     * to the next unprocessed character. The resulting pointer can be passed
+     * to another forDateStringInternal() method to continue parsing.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static OffsetDateTime forDateStringChainable(const char*& dateString);
 
     /**
      * Constructor using separated date, time, and time zone fields.

@@ -300,8 +300,7 @@ test(OffsetDateTimeTest, dayOfWeek) {
 
 test(OffsetDateTimeTest, forDateString) {
   // exact ISO8601 format
-  OffsetDateTime dt = OffsetDateTime::forDateString(
-      F("2018-08-31T13:48:01-07:00"));
+  auto dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01-07:00"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
   assertEqual(18, dt.yearTiny());
@@ -348,7 +347,7 @@ test(OffsetDateTimeTest, forDateString_errors) {
   dt = OffsetDateTime::forDateString(F("2018-08-31T13:48:01"));
   assertTrue(dt.isError());
 
-  // parser cares about UTC+/- offset
+  // parser cares about the +/- in front of the UTC offset
   dt = OffsetDateTime::forDateString(F("2018-08-31 13:48:01&07:00"));
   assertTrue(dt.isError());
 }

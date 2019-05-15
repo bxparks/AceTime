@@ -35,21 +35,27 @@ void LocalDateTime::printTo(Print& printer) const {
   printer.print(ds.weekDayLongString(dayOfWeek()));
 }
 
-LocalDateTime LocalDateTime::forDateString(const char* ds) {
-  if (strlen(ds) < kDateTimeStringLength) {
+LocalDateTime LocalDateTime::forDateString(const char* dateString) {
+  if (strlen(dateString) < kDateTimeStringLength) {
     return LocalDateTime::forError();
   }
+  return forDateStringChainable(dateString);
+}
+
+
+LocalDateTime LocalDateTime::forDateStringChainable(const char*& dateString) {
+  const char* s = dateString;
 
   // date
-  LocalDate ld = LocalDate::forDateString(ds);
-  ds += LocalDate::kDateStringLength;
+  LocalDate ld = LocalDate::forDateStringChainable(s);
 
   // 'T'
-  ds++;
+  s++;
 
   // time
-  LocalTime lt = LocalTime::forTimeString(ds);
+  LocalTime lt = LocalTime::forTimeStringChainable(s);
 
+  dateString = s;
   return LocalDateTime(ld, lt);
 }
 

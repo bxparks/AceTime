@@ -62,14 +62,15 @@ class ManualZoneSpecifier: public ZoneSpecifier {
 
     const char* dstAbbrev() const { return mDstAbbrev; }
 
-    /** Return the base isDst flag. Valid only for ManualZoneSpecifier. */
+    /** Return the base isDst flag. */
     bool isDst() const { return mIsDst; }
 
+    /** Set the base isDst flag. */
+    void isDst(bool isDst) { mIsDst = isDst; }
+
+    // TODO: Replace with stdOffset(UtcOffset)?
     /** Return the reference to stdOffset to allow changing it. */
     UtcOffset& stdOffset() { return mStdOffset; }
-
-    /** Set the base isDst flag. Valid only for ManualZoneSpecifier. */
-    void isDst(bool isDst) { mIsDst = isDst; }
 
     UtcOffset getUtcOffset(acetime_t /*epochSeconds*/) const override {
       return mIsDst

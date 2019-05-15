@@ -230,13 +230,22 @@ class LocalDateTime {
     LocalDateTime& operator=(const LocalDateTime&) = default;
 
   private:
-    friend class OffsetDateTime; // constructor
+    friend class OffsetDateTime; // constructor, forDateStringChainable()
     friend class ExtendedZoneSpecifier; // getLocalDate()
     friend class BasicZoneSpecifier; // getLocalDate()
     friend bool operator==(const LocalDateTime& a, const LocalDateTime& b);
 
     /** Expected length of an ISO 8601 date string. */
     static const uint8_t kDateTimeStringLength = 19;
+
+    /**
+     * The internal version of forDateString() that updates the reference to
+     * the pointer to the string to the next unprocessed character. This allows
+     * chaining to another forDateStringChainable() method.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static LocalDateTime forDateStringChainable(const char*& dateString);
 
     /**
      * Constructor using separated date, time, and time zone fields.
