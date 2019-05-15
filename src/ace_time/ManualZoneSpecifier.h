@@ -5,6 +5,8 @@
 #include "UtcOffset.h"
 #include "ZoneSpecifier.h"
 
+class ManualZoneSpecifierTest_setters;
+
 namespace ace_time {
 
 /**
@@ -54,23 +56,23 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     /** Singleton instance of a UTC ZoneSpecifier. */
     static const ManualZoneSpecifier sUtcZoneSpecifier;
 
+    /** Get the standard UTC offset. */
     UtcOffset stdOffset() const { return mStdOffset; }
 
+    /** Get the standard abbreviation. */
     const char* stdAbbrev() const { return mStdAbbrev; }
 
+    /** Get the DST delta offset. */
     UtcOffset deltaOffset() const { return mDeltaOffset; }
 
+    /** Get the DST abbreviation. */
     const char* dstAbbrev() const { return mDstAbbrev; }
 
-    /** Return the base isDst flag. */
+    /** Get the current isDst flag. */
     bool isDst() const { return mIsDst; }
 
-    /** Set the base isDst flag. */
+    /** Set the current isDst flag. */
     void isDst(bool isDst) { mIsDst = isDst; }
-
-    // TODO: Replace with stdOffset(UtcOffset)?
-    /** Return the reference to stdOffset to allow changing it. */
-    UtcOffset& stdOffset() { return mStdOffset; }
 
     UtcOffset getUtcOffset(acetime_t /*epochSeconds*/) const override {
       return mIsDst
@@ -93,6 +95,16 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     void printTo(Print& printer) const override;
 
   private:
+    friend class ZonedDateTime; // stdOffset()
+    friend class ::ManualZoneSpecifierTest_setters; //stdOffset
+
+    /**
+     * Set the standard UTC offset. Used only from
+     * ZonedDateTime::forDateString(), which is expected to be used for
+     * debugging only.
+     */
+    void stdOffset(UtcOffset offset) { mStdOffset = offset; }
+
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const ManualZoneSpecifier&) other;
       return isDst() == that.isDst()
