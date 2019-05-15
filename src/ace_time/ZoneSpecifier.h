@@ -8,6 +8,8 @@ class Print;
 
 namespace ace_time {
 
+class LocalDateTime;
+
 /**
  * Base interface for ZoneSpecifier classes. There were 2 options for
  * implmenting the differing ZoneSpecifiers:
@@ -59,6 +61,10 @@ class ZoneSpecifier {
 
     /** Return the time zone abbreviation at epochSeconds. */
     virtual const char* getAbbrev(acetime_t epochSeconds) const = 0;
+
+    /** Return the UtcOffset matching the given the date/time components. */
+    virtual UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
+        const = 0;
 
     /** Print a human-readable identifier. */
     virtual void printTo(Print& printer) const = 0;

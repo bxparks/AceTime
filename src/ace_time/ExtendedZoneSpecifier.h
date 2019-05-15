@@ -662,9 +662,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return transition->abbrev;
     }
 
-    // TODO: Make this virtual
-    /** Return the UtcOffset matching the given the date/time components. */
-    const UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const {
+    UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
       init(ldt.getLocalDate());
       const zonedbx::Transition* transition =
           mTransitionStorage.findTransitionForDateTime(ldt);
