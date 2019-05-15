@@ -72,9 +72,8 @@ class Controller {
 #endif
 
     /** Set the current time of the system time keeper. */
-    void setNow(const ZonedDateTime& newDateTime) {
-      acetime_t seconds = newDateTime.toEpochSeconds();
-      mSystemTimeKeeper.setNow(seconds);
+    void setNow(acetime_t now) {
+      mSystemTimeKeeper.setNow(now);
     }
 
     /** Return the current time from the system time keeper. */
@@ -115,7 +114,7 @@ class Controller {
 
     /** Save the current mChangingDateTime to system time. */
     void saveDateTime() {
-      setNow(mChangingDateTime);
+      setNow(mChangingDateTime.toEpochSeconds());
       mInModifyMode = false;
     }
 

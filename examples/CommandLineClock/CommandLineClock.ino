@@ -114,12 +114,13 @@ class DateCommand: public CommandHandler {
         printer.println();
       } else {
         SHIFT;
-        ZonedDateTime newDate = ZonedDateTime::forDateString(argv[0]);
+        ManualZoneSpecifier spec;
+        ZonedDateTime newDate = ZonedDateTime::forDateString(argv[0], &spec);
         if (newDate.isError()) {
           printer.println(FF("Invalid date"));
           return;
         }
-        controller.setNow(newDate);
+        controller.setNow(newDate.toEpochSeconds());
         printer.print(FF("Date set to: "));
         newDate.printTo(printer);
         printer.println();
