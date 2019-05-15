@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "common/flash.h"
 #include "OffsetDateTime.h"
+#include "ExtendedZoneSpecifier.h"
 #include "TimeZone.h"
 
 class Print;
@@ -77,7 +78,8 @@ class ZonedDateTime {
           return forComponentsBasic(ldt, timeZone);
           break;
         case TimeZone::kTypeExtended:
-          // TODO: Support kTypeExtended
+          return forComponentsExtended(ldt, timeZone);
+          break;
         default:
           UtcOffset utcOffset = timeZone.getUtcOffset(0);
           OffsetDateTime odt(ldt, utcOffset);
@@ -86,6 +88,7 @@ class ZonedDateTime {
       }
     }
 
+    // TODO: Make this private.
     static ZonedDateTime forComponentsBasic(
         const LocalDateTime& ldt, const TimeZone& timeZone) {
       // First guess at the UtcOffset using Jan 1 of the given year.
@@ -100,6 +103,19 @@ class ZonedDateTime {
       UtcOffset actualUtcOffset = timeZone.getUtcOffset(epochSeconds);
 
       odt = OffsetDateTime(ldt, actualUtcOffset);
+      return ZonedDateTime(odt, timeZone);
+    }
+
+    // TODO: Make this private.
+    // TODO: This causes ExtendedZoneSpecifier to be linked even if only the
+    // BasicZoneSpecifier is used. Move this logic into the XxxZoneSpecifier
+    // classes and call the method virtually.
+    static ZonedDateTime forComponentsExtended(
+        const LocalDateTime& ldt, const TimeZone& timeZone) {
+      const auto* ezs = (const ExtendedZoneSpecifier*)
+          timeZone.getZoneSpecifier();
+      UtcOffset offset = ezs->getUtcOffsetForDateTime(ldt);
+      OffsetDateTime odt(ldt, offset);
       return ZonedDateTime(odt, timeZone);
     }
 
