@@ -195,10 +195,6 @@ class OffsetDateTime {
     /** Return the offset zone of the OffsetDateTime. */
     UtcOffset utcOffset() const { return mUtcOffset; }
 
-    // TODO: Remove this?
-    /** Return the offset zone of the OffsetDateTime. */
-    UtcOffset& utcOffset() { return mUtcOffset; }
-
     /** Set the offset zone. */
     void utcOffset(const UtcOffset& utcOffset) { mUtcOffset = utcOffset; }
 
