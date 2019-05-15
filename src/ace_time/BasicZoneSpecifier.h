@@ -166,6 +166,22 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       return transition->abbrev;
     }
 
+    // TODO: Make this virtual
+    /** Return the UtcOffset matching the given the date/time components. */
+    const UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const {
+      init(ldt.getLocalDate());
+
+      // First guess at the UtcOffset using Jan 1 of the given year.
+      acetime_t initialEpochSeconds =
+          LocalDate::forComponents(ldt.year(), 1, 1).toEpochSeconds();
+      UtcOffset initialUtcOffset = getUtcOffset(initialEpochSeconds);
+
+      // Second guess at the UtcOffset using the first UtcOffset.
+      OffsetDateTime odt(ldt, initialUtcOffset);
+      acetime_t epochSeconds = odt.toEpochSeconds();
+      return getUtcOffset(epochSeconds);
+    }
+
     void printTo(Print& printer) const override;
 
     /** Used only for debugging. */

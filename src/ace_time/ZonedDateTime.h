@@ -88,33 +88,24 @@ class ZonedDateTime {
       }
     }
 
-    // TODO: Make this private.
+    // TODO: Merge into forComponents() after making getUtcOffsetForDatetime()
+    // virtual.
     static ZonedDateTime forComponentsBasic(
         const LocalDateTime& ldt, const TimeZone& timeZone) {
-      // First guess at the UtcOffset using Jan 1 of the given year.
-      acetime_t initialEpochSeconds =
-          LocalDate::forComponents(ldt.year(), 1, 1).toEpochSeconds();
-      UtcOffset initialUtcOffset =
-          timeZone.getUtcOffset(initialEpochSeconds);
-
-      // Second guess at the UtcOffset using the first UtcOffset.
-      OffsetDateTime odt(ldt, initialUtcOffset);
-      acetime_t epochSeconds = odt.toEpochSeconds();
-      UtcOffset actualUtcOffset = timeZone.getUtcOffset(epochSeconds);
-
-      odt = OffsetDateTime(ldt, actualUtcOffset);
+      const auto* basicSpec = (const BasicZoneSpecifier*)
+          timeZone.getZoneSpecifier();
+      UtcOffset actualUtcOffset = basicSpec->getUtcOffsetForDateTime(ldt);
+      OffsetDateTime odt(ldt, actualUtcOffset);
       return ZonedDateTime(odt, timeZone);
     }
 
-    // TODO: Make this private.
-    // TODO: This causes ExtendedZoneSpecifier to be linked even if only the
-    // BasicZoneSpecifier is used. Move this logic into the XxxZoneSpecifier
-    // classes and call the method virtually.
+    // TODO: Merge into forComponents() after making getUtcOffsetForDatetime()
+    // virtual.
     static ZonedDateTime forComponentsExtended(
         const LocalDateTime& ldt, const TimeZone& timeZone) {
-      const auto* ezs = (const ExtendedZoneSpecifier*)
+      const auto* extendedSpec = (const ExtendedZoneSpecifier*)
           timeZone.getZoneSpecifier();
-      UtcOffset offset = ezs->getUtcOffsetForDateTime(ldt);
+      UtcOffset offset = extendedSpec->getUtcOffsetForDateTime(ldt);
       OffsetDateTime odt(ldt, offset);
       return ZonedDateTime(odt, timeZone);
     }
