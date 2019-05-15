@@ -166,6 +166,35 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       return transition->abbrev;
     }
 
+    /**
+     * @copydoc ZoneSpecifier::getUtcOffsetForDateTime()
+     *
+     * The Transitions calculated by BasicZoneSpecifier contain only the
+     * epochSeconds when each transition occurs. They do not contain the local
+     * date/time components of the transition. This design reduces the amount
+     * of memory required by BasicZoneSpecifier, but this means that the
+     * information needed to implement this method correctly does not exist.
+     *
+     * The implementation of this method is therefore a hack. First pass, we
+     * extract the UtcOffset on Jan 1 of the year given by the localDateTime,
+     * and guess its epochSecond using that UtcOffset. Second pass, we use the
+     * epochSecond from the previous pass to calculate the next best guess of
+     * the actual UtcOffset. We return the second pass guess as the result.
+     */
+    UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
+      init(ldt.getLocalDate());
+
+      // First guess at the UtcOffset using Jan 1 of the given year.
+      acetime_t initialEpochSeconds =
+          LocalDate::forComponents(ldt.year(), 1, 1).toEpochSeconds();
+      UtcOffset initialUtcOffset = getUtcOffset(initialEpochSeconds);
+
+      // Second guess at the UtcOffset using the first UtcOffset.
+      OffsetDateTime odt(ldt, initialUtcOffset);
+      acetime_t epochSeconds = odt.toEpochSeconds();
+      return getUtcOffset(epochSeconds);
+    }
+
     void printTo(Print& printer) const override;
 
     /** Used only for debugging. */

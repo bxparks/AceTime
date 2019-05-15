@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "common/flash.h"
 #include "OffsetDateTime.h"
+#include "ExtendedZoneSpecifier.h"
 #include "TimeZone.h"
 
 class Print;
@@ -30,31 +31,12 @@ class ZonedDateTime {
 
     /**
      * Factory method using separated date, time, and time zone fields.
-     * This is mostly provided for testing purposes. Most production code
+     * This is intended mostly for testing purposes. Most production code
      * will use the forEpochSeconds() method.
      *
-     * If the timeZone derived from the ZoneInfo, then the local time may be
-     * ambiguous, because we need to calculate the epochSeconds of the local
-     * time before we can determine the UtcOffset, but the UtcOffset is a
-     * function of the epochSeconds. This function resolves the ambiguity by
-     * first obtaining the UtcOffset defined on Jan 1 of the specified year.
-     * (In the northern hemisphere, this will be the Standard time). Using
-     * that, it calculates what it believes is the actaul epochSeconds of the
-     * components given to the method. Using this epochSeconds, it obtains a
-     * second guess of the UtcOffset at that instant in time. Then it uses
-     * that as the actual UtcOffset of this object.
-     *
-     * In the northern hemisphere the Standard time is observed on Jan 1.
-     * If there are 2 valid UtcOffset for a given local date/time (i.e. when
-     * the clock is shifted back by an hour in the autumn), this method will
-     * prefer the Standard time representation, instead of the Daylight time
-     * representation. If the local date/time represents a time in the gap
-     * (i.e. when the clock is shifted forward), it is interpreted as if the
-     * Standard time was extended into the gap. For example, in the United
-     * States, the time of 2018-03-11T02:01 does not actually exist because the
-     * clock was shifted forward that day from 02:00 to 03:00. However, this
-     * method will interpret the 02:01 as if it was measured using the Standard
-     * time offset.
+     * The UtcOffset at the given date/time component is calculated using the
+     * ZoneSpecifier::getUtcOffsetForDateTime() determined by the actual
+     * subtype of ZoneSpecifier held by the given timeZone.
      *
      * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
      *    16-bit implementation
@@ -69,29 +51,12 @@ class ZonedDateTime {
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             const TimeZone& timeZone = TimeZone()) {
-      // TODO: Support kTypeExtended
-      if (timeZone.getType() == TimeZone::kTypeBasic) {
-        // First guess at the UtcOffset using Jan 1 of the given year.
-        acetime_t initialEpochSeconds =
-            LocalDate::forComponents(year, 1, 1).toEpochSeconds();
-        UtcOffset initialUtcOffset =
-            timeZone.getUtcOffset(initialEpochSeconds);
-
-        // Second guess at the UtcOffset using the first UtcOffset.
-        OffsetDateTime odt = OffsetDateTime::forComponents(
-            year, month, day, hour, minute, second, initialUtcOffset);
-        acetime_t epochSeconds = odt.toEpochSeconds();
-        UtcOffset actualUtcOffset = timeZone.getUtcOffset(epochSeconds);
-
-        odt = OffsetDateTime::forComponents(
-            year, month, day, hour, minute, second, actualUtcOffset);
-        return ZonedDateTime(odt, timeZone);
-      } else {
-        UtcOffset utcOffset = timeZone.getUtcOffset(0);
-        OffsetDateTime odt = OffsetDateTime::forComponents(
-            year, month, day, hour, minute, second, utcOffset);
-        return ZonedDateTime(odt, timeZone);
-      }
+      LocalDateTime ldt = LocalDateTime::forComponents(
+          year, month, day, hour, minute, second);
+      const auto* spec = timeZone.getZoneSpecifier();
+      UtcOffset actualUtcOffset = spec->getUtcOffsetForDateTime(ldt);
+      OffsetDateTime odt(ldt, actualUtcOffset);
+      return ZonedDateTime(odt, timeZone);
     }
 
     /**

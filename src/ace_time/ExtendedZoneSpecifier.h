@@ -78,6 +78,18 @@ inline bool operator<(const DateTuple& a, const DateTuple& b) {
   return false;
 }
 
+inline bool operator>=(const DateTuple& a, const DateTuple& b) {
+  return ! (a < b);
+}
+
+inline bool operator<=(const DateTuple& a, const DateTuple& b) {
+  return ! (b < a);
+}
+
+inline bool operator>(const DateTuple& a, const DateTuple& b) {
+  return (b < a);
+}
+
 /** Determine if DateTuple a is equal to DateTuple b, including the modifier. */
 inline bool operator==(const DateTuple& a, const DateTuple& b) {
   return a.yearTiny == b.yearTiny
@@ -156,22 +168,30 @@ struct Transition {
   union {
     /**
      * Version of transitionTime in 's' mode, using the UTC offset of the
-     * *previous* Transition.
+     * *previous* Transition. Valid before
+     * ExtendedZoneSpecifier::generateStartUntilTimes() is called.
      */
     DateTuple transitionTimeS;
 
-    /** Start time expressed using the UTC offset of the current Transition. */
+    /**
+     * Start time expressed using the UTC offset of the current Transition.
+     * Valid after ExtendedZoneSpecifier::generateStartUntilTimes() is called.
+     */
     DateTuple startDateTime;
   };
 
   union {
     /**
      * Version of transitionTime in 'u' mode, using the UTC offset of the
-     * *previous* transition.
+     * *previous* transition. Valid before
+     * ExtendedZoneSpecifier::generateStartUntilTimes() is called.
      */
     DateTuple transitionTimeU;
 
-    /** Until time expressed using the UTC offset of the current Transition. */
+    /**
+     * Until time expressed using the UTC offset of the current Transition.
+     * Valid after ExtendedZoneSpecifier::generateStartUntilTimes() is called.
+     */
     DateTuple untilDateTime;
   };
 
@@ -458,15 +478,60 @@ class TransitionStorage {
      * Return the Transition matching the given epochSeconds. Return nullptr if
      * no matching Transition found.
      */
-    const Transition* findTransition(acetime_t epochSeconds) {
-      const Transition* match = nullptr;
+    const Transition* findTransition(acetime_t epochSeconds) const {
       if (DEBUG) logging::println(
         "findTransition(): mIndexFree: %d", mIndexFree);
+
+      const Transition* match = nullptr;
       for (uint8_t i = 0; i < mIndexFree; i++) {
         const Transition* candidate = mTransitions[i];
         if (candidate->startEpochSeconds <= epochSeconds) {
           match = candidate;
         } else if (candidate->startEpochSeconds > epochSeconds) {
+          break;
+        }
+      }
+      return match;
+    }
+
+    /**
+     * Return the Transition matching the given dateTime. Return nullptr if no
+     * matching Transition found. During DST changes, a particlar LocalDateTime
+     * may correspond to 2 Transitions or 0 Transitions, and there are
+     * potentially multiple ways to handle this. This method implements the
+     * following algorithm:
+     *
+     * 1) If the localDateTime falls in the DST transition gap where 0
+     * Transitions ought to be found, e.g. between 02:00 and 03:00 in
+     * America/Los_Angeles when standard time switches to DST time), the
+     * immediate prior Transition is returned (in effect extending the UTC
+     * offset of the prior Transition through the gap. For example, when DST
+     * starts, 02:00 becomes 03:00, so a time of 02:30 does not exist, but the
+     * Transition returned will be the one valid at 01:59. When it is converted
+     * to epoch_seconds and converted back to a LocalDateTime, the 02:30 time
+     * will become 03:30, since the later UTC offset will be used.
+     *
+     * 2) If the localDateTime falls in a time period where there are 2
+     * Transitions, hence 2 valid UTC offsets, the later Transition is
+     * returned. For example, when DST ends in America/Los_Angeles, 02:00
+     * becomes 01:00, so a time of 01:30 could belong to the earlier or later
+     * Transition. This method returns the later Transition.
+     */
+    const Transition* findTransitionForDateTime(const LocalDateTime& ldt)
+        const {
+      if (DEBUG) logging::println(
+        "findTransitionForDateTime(): mIndexFree: %d", mIndexFree);
+
+      // Convert to DateTuple. If the localDateTime is not a multiple of 15
+      // minutes, the comparision (startTime < localDate) will still be valid.
+      DateTuple localDate = { ldt.yearTiny(), ldt.month(), ldt.day(),
+          (int8_t) (ldt.hour() * 4 + ldt.minute() / 15), 'w' };
+      const Transition* match = nullptr;
+      for (uint8_t i = 0; i < mIndexFree; i++) {
+        const Transition* candidate = mTransitions[i];
+        if (candidate->startDateTime <= localDate) {
+          match = candidate;
+        } else if (candidate->startDateTime > localDate) {
           break;
         }
       }
@@ -595,6 +660,16 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       init(epochSeconds);
       const zonedbx::Transition* transition = findTransition(epochSeconds);
       return transition->abbrev;
+    }
+
+    UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
+      init(ldt.getLocalDate());
+      const zonedbx::Transition* transition =
+          mTransitionStorage.findTransitionForDateTime(ldt);
+      return (transition)
+          ? UtcOffset::forOffsetCode(
+              transition->offsetCode() + transition->deltaCode())
+          : UtcOffset::forError();
     }
 
     void printTo(Print& printer) const override;

@@ -85,6 +85,10 @@ class ManualZoneSpecifier: public ZoneSpecifier {
       return mIsDst ? mDstAbbrev : mStdAbbrev;
     }
 
+    UtcOffset getUtcOffsetForDateTime(const LocalDateTime&) const override {
+      return getUtcOffset(0);
+    }
+
     void printTo(Print& printer) const override;
 
   private:

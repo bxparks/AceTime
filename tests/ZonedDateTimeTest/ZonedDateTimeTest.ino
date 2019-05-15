@@ -12,7 +12,7 @@ using namespace ace_time;
 
 // Check that ZonedDateTime with ManualZoneSpecifier agrees with simpler
 // OffsetDateTime.
-test(ZonedDateTime_Manual, agreesWithOffsetDateTime) {
+test(ZonedDateTimeTest_Manual, agreesWithOffsetDateTime) {
   ManualZoneSpecifier zoneSpecifier(UtcOffset::forHour(-8),
       UtcOffset::forHour(1));
   TimeZone tz(&zoneSpecifier);
@@ -24,7 +24,7 @@ test(ZonedDateTime_Manual, agreesWithOffsetDateTime) {
   assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
 }
 
-test(ZonedDateTime_Manual, forComponents) {
+test(ZonedDateTimeTest_Manual, forComponents) {
   ZonedDateTime dt;
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
@@ -88,7 +88,7 @@ test(ZonedDateTime_Manual, forComponents) {
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 
-test(ZonedDateTime_Manual, toAndForUnixSeconds) {
+test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
   ZonedDateTime dt;
   ZonedDateTime udt;
 
@@ -134,7 +134,7 @@ test(ZonedDateTime_Manual, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 }
 
-test(ZonedDateTime_Manual, convertToTimeZone) {
+test(ZonedDateTimeTest_Manual, convertToTimeZone) {
   ManualZoneSpecifier stdSpec(UtcOffset::forHour(-8), UtcOffset::forHour(1));
   TimeZone stdTz(&stdSpec);
   ZonedDateTime std = ZonedDateTime::forComponents(
@@ -241,22 +241,23 @@ test(ZonedDateTimeTest_Extended, forComponents_beforeDst) {
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
-  UtcOffset pst = UtcOffset::forHour(-8);
+  UtcOffset expectedOffset = UtcOffset::forHour(-8);
   OffsetDateTime otz = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-    pst);
+    expectedOffset);
 
   assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
 }
 
-// FIXME
-/*
 test(ZonedDateTimeTest_Extended, forComponents_inDstGap) {
   ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 0, 1, tz);
 
-  UtcOffset pdt = UtcOffset::forHour(-7);
-  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 1, pdt);
+  // The expected UtcOffset in the gap is the previous utcOffset, i.e. the
+  // most recent matching Transition.
+  UtcOffset expectedOffset = UtcOffset::forHour(-8);
+  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 1,
+      expectedOffset);
 
   assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
 }
@@ -266,12 +267,38 @@ test(ZonedDateTimeTest_Extended, forComponents_inDst) {
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 0, 1, tz);
 
-  UtcOffset pdt = UtcOffset::forHour(-7);
-  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 3, 11, 3, 0, 1, pdt);
+  UtcOffset expectedOffset = UtcOffset::forHour(-7);
+  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 3, 11, 3, 0, 1,
+      expectedOffset);
 
   assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
 }
-*/
+
+test(ZonedDateTimeTest_Extended, forComponents_inOverlap) {
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpecifier);
+  ZonedDateTime dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 30, 0, tz);
+
+  // When 2 UTC offsets can be valid, the algorithm picks the later one,
+  // i.e. the most recent matching Transition.
+  UtcOffset expectedOffset = UtcOffset::forHour(-8);
+  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 11, 4, 1, 30, 0,
+      expectedOffset);
+
+  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+}
+
+test(ZonedDateTimeTest_Extended, forComponents_afterOverlap) {
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
+  TimeZone tz(&zoneSpecifier);
+  ZonedDateTime dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 30, 0, tz);
+
+  UtcOffset expectedOffset = UtcOffset::forHour(-8);
+  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 11, 4, 2, 30, 0,
+      expectedOffset);
+
+  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+}
 
 // --------------------------------------------------------------------------
 // data_time_mutation

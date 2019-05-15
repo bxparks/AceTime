@@ -230,7 +230,9 @@ class LocalDateTime {
     LocalDateTime& operator=(const LocalDateTime&) = default;
 
   private:
-    friend class OffsetDateTime;
+    friend class OffsetDateTime; // constructor
+    friend class ExtendedZoneSpecifier; // getLocalDate()
+    friend class BasicZoneSpecifier; // getLocalDate()
     friend bool operator==(const LocalDateTime& a, const LocalDateTime& b);
 
     /** Expected length of an ISO 8601 date string. */
@@ -255,6 +257,8 @@ class LocalDateTime {
     explicit LocalDateTime(const LocalDate& ld, const LocalTime& lt):
         mLocalDate(ld),
         mLocalTime(lt) {}
+
+    const LocalDate& getLocalDate() const { return mLocalDate; }
 
     LocalDate mLocalDate;
     LocalTime mLocalTime;

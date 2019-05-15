@@ -54,6 +54,9 @@ class TimeZone {
     static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
     static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
 
+    // TODO: Consider making the default zoneSpecifier be nullptr, OR create a
+    // special ZoneSpecifier which takes less memory than a ManualZoneSpecifier
+    // which consumes 10 bytes.
     /** Constructor. */
     explicit TimeZone(const ZoneSpecifier* zoneSpecifier =
             &ManualZoneSpecifier::sUtcZoneSpecifier):
