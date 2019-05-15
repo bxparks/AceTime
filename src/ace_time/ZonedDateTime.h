@@ -69,29 +69,38 @@ class ZonedDateTime {
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             const TimeZone& timeZone = TimeZone()) {
-      // TODO: Support kTypeExtended
-      if (timeZone.getType() == TimeZone::kTypeBasic) {
-        // First guess at the UtcOffset using Jan 1 of the given year.
-        acetime_t initialEpochSeconds =
-            LocalDate::forComponents(year, 1, 1).toEpochSeconds();
-        UtcOffset initialUtcOffset =
-            timeZone.getUtcOffset(initialEpochSeconds);
+      LocalDateTime ldt = LocalDateTime::forComponents(
+          year, month, day, hour, minute, second);
 
-        // Second guess at the UtcOffset using the first UtcOffset.
-        OffsetDateTime odt = OffsetDateTime::forComponents(
-            year, month, day, hour, minute, second, initialUtcOffset);
-        acetime_t epochSeconds = odt.toEpochSeconds();
-        UtcOffset actualUtcOffset = timeZone.getUtcOffset(epochSeconds);
-
-        odt = OffsetDateTime::forComponents(
-            year, month, day, hour, minute, second, actualUtcOffset);
-        return ZonedDateTime(odt, timeZone);
-      } else {
-        UtcOffset utcOffset = timeZone.getUtcOffset(0);
-        OffsetDateTime odt = OffsetDateTime::forComponents(
-            year, month, day, hour, minute, second, utcOffset);
-        return ZonedDateTime(odt, timeZone);
+      switch (timeZone.getType()) {
+        case TimeZone::kTypeBasic:
+          return forComponentsBasic(ldt, timeZone);
+          break;
+        case TimeZone::kTypeExtended:
+          // TODO: Support kTypeExtended
+        default:
+          UtcOffset utcOffset = timeZone.getUtcOffset(0);
+          OffsetDateTime odt(ldt, utcOffset);
+          return ZonedDateTime(odt, timeZone);
+          break;
       }
+    }
+
+    static ZonedDateTime forComponentsBasic(
+        const LocalDateTime& ldt, const TimeZone& timeZone) {
+      // First guess at the UtcOffset using Jan 1 of the given year.
+      acetime_t initialEpochSeconds =
+          LocalDate::forComponents(ldt.year(), 1, 1).toEpochSeconds();
+      UtcOffset initialUtcOffset =
+          timeZone.getUtcOffset(initialEpochSeconds);
+
+      // Second guess at the UtcOffset using the first UtcOffset.
+      OffsetDateTime odt(ldt, initialUtcOffset);
+      acetime_t epochSeconds = odt.toEpochSeconds();
+      UtcOffset actualUtcOffset = timeZone.getUtcOffset(epochSeconds);
+
+      odt = OffsetDateTime(ldt, actualUtcOffset);
+      return ZonedDateTime(odt, timeZone);
     }
 
     /**

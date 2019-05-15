@@ -280,6 +280,7 @@ class OffsetDateTime {
 
   private:
     friend bool operator==(const OffsetDateTime& a, const OffsetDateTime& b);
+    friend class ZonedDateTime; // access to constructor
 
     /** Expected length of an ISO 8601 date string, including UTC offset. */
     static const uint8_t kDateStringLength = 25;

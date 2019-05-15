@@ -12,7 +12,7 @@ using namespace ace_time;
 
 // Check that ZonedDateTime with ManualZoneSpecifier agrees with simpler
 // OffsetDateTime.
-test(ZonedDateTime_Manual, agreesWithOffsetDateTime) {
+test(ZonedDateTimeTest_Manual, agreesWithOffsetDateTime) {
   ManualZoneSpecifier zoneSpecifier(UtcOffset::forHour(-8),
       UtcOffset::forHour(1));
   TimeZone tz(&zoneSpecifier);
@@ -24,7 +24,7 @@ test(ZonedDateTime_Manual, agreesWithOffsetDateTime) {
   assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
 }
 
-test(ZonedDateTime_Manual, forComponents) {
+test(ZonedDateTimeTest_Manual, forComponents) {
   ZonedDateTime dt;
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
@@ -88,7 +88,7 @@ test(ZonedDateTime_Manual, forComponents) {
   assertEqual(LocalDate::kThursday, dt.dayOfWeek());
 }
 
-test(ZonedDateTime_Manual, toAndForUnixSeconds) {
+test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
   ZonedDateTime dt;
   ZonedDateTime udt;
 
@@ -134,7 +134,7 @@ test(ZonedDateTime_Manual, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 }
 
-test(ZonedDateTime_Manual, convertToTimeZone) {
+test(ZonedDateTimeTest_Manual, convertToTimeZone) {
   ManualZoneSpecifier stdSpec(UtcOffset::forHour(-8), UtcOffset::forHour(1));
   TimeZone stdTz(&stdSpec);
   ZonedDateTime std = ZonedDateTime::forComponents(
