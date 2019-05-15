@@ -195,18 +195,14 @@ class OffsetDateTime {
     /** Return the offset zone of the OffsetDateTime. */
     UtcOffset utcOffset() const { return mUtcOffset; }
 
-    // TODO: Remove this?
-    /** Return the offset zone of the OffsetDateTime. */
-    UtcOffset& utcOffset() { return mUtcOffset; }
-
     /** Set the offset zone. */
-    void utcOffset(const UtcOffset& utcOffset) { mUtcOffset = utcOffset; }
+    void utcOffset(UtcOffset utcOffset) { mUtcOffset = utcOffset; }
 
     /**
      * Create a OffsetDateTime in a different offset zone code (with the same
      * epochSeconds).
      */
-    OffsetDateTime convertToUtcOffset(const UtcOffset& utcOffset) const {
+    OffsetDateTime convertToUtcOffset(UtcOffset utcOffset) const {
       acetime_t epochSeconds = toEpochSeconds();
       return OffsetDateTime::forEpochSeconds(epochSeconds, utcOffset);
     }

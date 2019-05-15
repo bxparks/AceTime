@@ -37,6 +37,46 @@ test(ManualZoneSpecifierTest, copyConstructor) {
   assertTrue(a == b);
 }
 
+test(ManualZoneSpecifierTest, getters) {
+  ManualZoneSpecifier spec(UtcOffset::forHour(-8), UtcOffset::forHour(1),
+      "PST", "PDT");
+
+  assertEqual(UtcOffset::forHour(-8).code(), spec.stdOffset().code());
+  assertEqual("PST", spec.stdAbbrev());
+  assertEqual(UtcOffset::forHour(1).code(), spec.deltaOffset().code());
+  assertEqual("PDT", spec.dstAbbrev());
+  assertFalse(spec.isDst());
+}
+
+test(ManualZoneSpecifierTest, setters) {
+  ManualZoneSpecifier spec(UtcOffset::forHour(-8), UtcOffset::forHour(1),
+      "PST", "PDT");
+
+  // test stdOffset(offset)
+  spec.stdOffset(UtcOffset::forHour(12));
+  assertEqual(UtcOffset::forHour(12).code(), spec.stdOffset().code());
+
+  // test isDst(flag)
+  spec.isDst(true);
+  assertTrue(spec.isDst());
+}
+
+test(ManualZoneSpecifierTest, overrides) {
+  ManualZoneSpecifier spec(UtcOffset::forHour(-8), UtcOffset::forHour(1),
+      "PST", "PDT");
+
+  assertFalse(spec.isDst());
+  assertEqual(UtcOffset::forHour(-8).code(), spec.getUtcOffset(0).code());
+  assertEqual(UtcOffset::forHour(0).code(), spec.getDeltaOffset(0).code());
+  assertEqual("PST", spec.getAbbrev(0));
+
+  spec.isDst(true);
+  assertTrue(spec.isDst());
+  assertEqual(UtcOffset::forHour(-7).code(), spec.getUtcOffset(0).code());
+  assertEqual(UtcOffset::forHour(1).code(), spec.getDeltaOffset(0).code());
+  assertEqual("PDT", spec.getAbbrev(0));
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {
