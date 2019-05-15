@@ -287,6 +287,15 @@ class OffsetDateTime {
     static const uint8_t kDateStringLength = 25;
 
     /**
+     * The internal version of forDateString() that updates the string pointer
+     * to the next unprocessed character. The resulting pointer can be passed
+     * to another forDateStringInternal() method to continue parsing.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static OffsetDateTime forDateStringChainable(const char*& dateString);
+
+    /**
      * Constructor using separated date, time, and time zone fields.
      *
      * @param year

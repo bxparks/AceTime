@@ -59,32 +59,38 @@ void LocalDate::printTo(Print& printer) const {
   printer.print(ds.weekDayLongString(dayOfWeek()));
 }
 
-LocalDate LocalDate::forDateString(const char* ds) {
-  if (strlen(ds) < kDateStringLength) {
+LocalDate LocalDate::forDateString(const char* dateString) {
+  if (strlen(dateString) < kDateStringLength) {
     return forError();
   }
+  return forDateStringChainable(dateString);
+}
+
+LocalDate LocalDate::forDateStringChainable(const char*& dateString) {
+  const char* s = dateString;
 
   // year (assumes 4 digit year)
-  int16_t year = (*ds++ - '0');
-  year = 10 * year + (*ds++ - '0');
-  year = 10 * year + (*ds++ - '0');
-  year = 10 * year + (*ds++ - '0');
+  int16_t year = (*s++ - '0');
+  year = 10 * year + (*s++ - '0');
+  year = 10 * year + (*s++ - '0');
+  year = 10 * year + (*s++ - '0');
   int8_t yearTiny = year - kEpochYear;
 
   // '-'
-  ds++;
+  s++;
 
   // month
-  uint8_t month = (*ds++ - '0');
-  month = 10 * month + (*ds++ - '0');
+  uint8_t month = (*s++ - '0');
+  month = 10 * month + (*s++ - '0');
 
   // '-'
-  ds++;
+  s++;
 
   // day
-  uint8_t day = (*ds++ - '0');
-  day = 10 * day + (*ds++ - '0');
+  uint8_t day = (*s++ - '0');
+  day = 10 * day + (*s++ - '0');
 
+  dateString = s;
   return LocalDate(yearTiny, month, day);
 }
 

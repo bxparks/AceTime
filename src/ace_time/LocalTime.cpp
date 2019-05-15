@@ -19,29 +19,36 @@ void LocalTime::printTo(Print& printer) const {
   printPad2(printer, mSecond);
 }
 
-LocalTime LocalTime::forTimeString(const char* ds) {
-  if (strlen(ds) < kTimeStringLength) {
+LocalTime LocalTime::forTimeString(const char* timeString) {
+  if (strlen(timeString) < kTimeStringLength) {
     return forError();
   }
+  return forTimeStringChainable(timeString);
+}
+
+// This assumes that the dateString is always long enough.
+LocalTime LocalTime::forTimeStringChainable(const char*& timeString) {
+  const char* s = timeString;
 
   // hour
-  uint8_t hour = (*ds++ - '0');
-  hour = 10 * hour + (*ds++ - '0');
+  uint8_t hour = (*s++ - '0');
+  hour = 10 * hour + (*s++ - '0');
 
   // ':'
-  ds++;
+  s++;
 
   // minute
-  uint8_t minute = (*ds++ - '0');
-  minute = 10 * minute + (*ds++ - '0');
+  uint8_t minute = (*s++ - '0');
+  minute = 10 * minute + (*s++ - '0');
 
   // ':'
-  ds++;
+  s++;
 
   // second
-  uint8_t second = (*ds++ - '0');
-  second = 10 * second + (*ds++ - '0');
+  uint8_t second = (*s++ - '0');
+  second = 10 * second + (*s++ - '0');
 
+  timeString = s;
   return LocalTime(hour, minute, second);
 }
 

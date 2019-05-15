@@ -340,8 +340,8 @@ class LocalDate {
     LocalDate& operator=(const LocalDate&) = default;
 
   private:
-    friend class LocalDateTime; // for access to constructor
-    friend class ExtendedZoneSpecifier; // for access to constructor
+    friend class LocalDateTime; // constructor, forDateStringChainable()
+    friend class ExtendedZoneSpecifier; // constructor
     friend bool operator==(const LocalDate& a, const LocalDate& b);
 
     /** Minimum length of the date string. yyyy-mm-dd. */
@@ -356,6 +356,15 @@ class LocalDate {
 
     /** Number of days in each month in a non-leap year. 0=Jan, 11=Dec. */
     static const uint8_t sDaysInMonth[12];
+
+    /**
+     * The internal version of forDateString() that updates the string pointer
+     * to the next unprocessed character. The resulting pointer can be passed
+     * to another forDateStringInternal() method to continue parsing.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static LocalDate forDateStringChainable(const char*& dateString);
 
     /** Constructor. */
     explicit LocalDate(int8_t yearTiny, uint8_t month, uint8_t day):
