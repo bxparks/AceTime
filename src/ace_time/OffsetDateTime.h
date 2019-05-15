@@ -193,8 +193,9 @@ class OffsetDateTime {
     const LocalTime& localTime() const { return mLocalDateTime.localTime(); }
 
     /** Return the offset zone of the OffsetDateTime. */
-    const UtcOffset& utcOffset() const { return mUtcOffset; }
+    UtcOffset utcOffset() const { return mUtcOffset; }
 
+    // TODO: Remove this?
     /** Return the offset zone of the OffsetDateTime. */
     UtcOffset& utcOffset() { return mUtcOffset; }
 
