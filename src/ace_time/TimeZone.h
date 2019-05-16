@@ -110,13 +110,6 @@ class TimeZone {
   private:
     friend bool operator==(const TimeZone& a, const TimeZone& b);
 
-    /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
-    static const uint8_t kUtcOffsetStringLength = 6;
-
-    /** Convert offsetString to offsetCode. */
-    static void parseFromOffsetString(const char* offsetString,
-        uint8_t* offsetCode);
-
     /** Instance of ZoneSpecifier. */
     const ZoneSpecifier* mZoneSpecifier;
 };
