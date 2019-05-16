@@ -14,9 +14,10 @@ test(UtcOffsetTest, code) {
   assertEqual(UtcOffset::forHour(-8).code(), -8*4);
 }
 
-test(UtcOffsetTest, isNonZero) {
-  assertFalse(UtcOffset::forHour(0).isNonZero());
-  assertFalse(UtcOffset().isNonZero());
+test(UtcOffsetTest, isZero) {
+  assertTrue(UtcOffset::forHour(0).isZero());
+  assertTrue(UtcOffset().isZero());
+  assertFalse(UtcOffset::forHour(1).isZero());
 }
 
 test(UtcOffsetTest, forMinutes) {
