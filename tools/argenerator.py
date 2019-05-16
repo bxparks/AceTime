@@ -491,7 +491,7 @@ static const ZoneEra kZoneEra{zoneShortName}[] = {{
 
 const ZoneInfo kZone{zoneShortName} = {{
   "{zoneFullName}" /*name*/,
-  {bufSize} /*bufSize*/,
+  {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,
   kZoneEra{zoneShortName} /*eras*/,
 }};
@@ -610,12 +610,12 @@ const ZoneInfo kZone{zoneShortName} = {{
         memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
                     1 * self.SIZEOF_ZONE_INFO_32)
 
-        buf_size = self.buf_sizes[name]
+        transition_buf_size = self.buf_sizes[name]
 
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
             zoneFullName=normalize_name(name),
             zoneShortName=normalize_name(short_name(name)),
-            bufSize=buf_size,
+            transitionBufSize=transition_buf_size,
             numEras=num_eras,
             stringLength=string_length,
             memory8=memory8,

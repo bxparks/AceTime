@@ -60,7 +60,7 @@ class TransitionTest: public aunit::TestOnce {
       // Assert that size of the internal Transitions buffer never got
       // above the expected buffer size.
       assertLess(zoneSpecifier.getTransitionHighWater(),
-        zoneInfo->bufSize);
+        zoneInfo->transitionBufSize);
     }
 };
 
