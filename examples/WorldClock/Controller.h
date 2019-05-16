@@ -323,12 +323,6 @@ class Controller {
       preserveInfo();
     }
 
-    /** Read the UTC ZonedDateTime from RTC and convert to current time zone. */
-    void readDateTime(ZonedDateTime* dateTime) {
-      acetime_t now = mTimeKeeper.getNow();
-      *dateTime = ZonedDateTime::forEpochSeconds(now, mClockInfo0.timeZone);
-    }
-
     void preserveInfo() {
       StoredInfo storedInfo;
 
