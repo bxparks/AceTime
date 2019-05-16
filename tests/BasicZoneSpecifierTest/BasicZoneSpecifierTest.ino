@@ -10,6 +10,10 @@ using namespace ace_time;
 // BasicZoneSpecifier
 // --------------------------------------------------------------------------
 
+test(BasicZoneSpecifierTest, tzVersion) {
+  assertEqual("2019a", zonedb::kTzDatabaseVersion);
+}
+
 test(BasicZoneSpecifierTest, operatorEqualEqual) {
   BasicZoneSpecifier a(&zonedb::kZoneLos_Angeles);
   BasicZoneSpecifier b(&zonedb::kZoneDarwin);

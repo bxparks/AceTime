@@ -404,10 +404,11 @@ class ZoneInfosGenerator:
 
 #include "../common/ZoneInfo.h"
 
-#define ACE_TIME_TZ_DATABASE_VERSION "{tz_version}"
-
 namespace ace_time {{
 namespace {dbNamespace} {{
+
+// Version of the TZ Database which generated these files.
+extern const char kTzDatabaseVersion[];
 
 // numInfos: {numInfos}
 {infoItems}
@@ -463,6 +464,11 @@ extern const ZoneInfo kZone{zoneShortName}; // {zoneFullName}
 
 namespace ace_time {{
 namespace {dbNamespace} {{
+
+//---------------------------------------------------------------------------
+// Context info
+//---------------------------------------------------------------------------
+const char kTzDatabaseVersion[] = "{tz_version}";
 
 {infoItems}
 

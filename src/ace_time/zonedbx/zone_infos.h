@@ -15,10 +15,11 @@
 
 #include "../common/ZoneInfo.h"
 
-#define ACE_TIME_TZ_DATABASE_VERSION "2019a"
-
 namespace ace_time {
 namespace zonedbx {
+
+// Version of the TZ Database which generated these files.
+extern const char kTzDatabaseVersion[];
 
 // numInfos: 348
 extern const ZoneInfo kZoneAbidjan; // Africa/Abidjan

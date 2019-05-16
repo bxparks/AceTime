@@ -162,6 +162,10 @@ static const ZoneInfo kZoneTestLos_Angeles = {
 // ExtendedZoneSpecifier
 // --------------------------------------------------------------------------
 
+test(ExtendedZoneSpecifierTest, tzVersion) {
+  assertEqual("2019a", zonedbx::kTzDatabaseVersion);
+}
+
 test(ExtendedZoneSpecifierTest, compareEraToYearMonth) {
   ZoneEra era = {0, nullptr, 0, "", 0, 1, 2, 12, 'w'};
   assertEqual(1, ExtendedZoneSpecifier::compareEraToYearMonth(&era, 0, 1));
