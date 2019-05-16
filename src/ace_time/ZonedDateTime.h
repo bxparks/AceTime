@@ -53,9 +53,7 @@ class ZonedDateTime {
             const TimeZone& timeZone = TimeZone()) {
       LocalDateTime ldt = LocalDateTime::forComponents(
           year, month, day, hour, minute, second);
-      const auto* spec = timeZone.getZoneSpecifier();
-      UtcOffset actualUtcOffset = spec->getUtcOffsetForDateTime(ldt);
-      OffsetDateTime odt(ldt, actualUtcOffset);
+      OffsetDateTime odt(ldt, timeZone.getUtcOffsetForDateTime(ldt));
       return ZonedDateTime(odt, timeZone);
     }
 

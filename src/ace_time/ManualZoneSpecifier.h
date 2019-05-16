@@ -16,17 +16,6 @@ namespace ace_time {
 class ManualZoneSpecifier: public ZoneSpecifier {
   public:
     /**
-     * Default constructor describes the UTC+00:00 time zone with no DST.
-     * The abbreviations are set to "UTC".
-     */
-    explicit ManualZoneSpecifier():
-      ZoneSpecifier(kTypeManual),
-      mStdOffset(),
-      mDeltaOffset(),
-      mStdAbbrev("UTC"),
-      mDstAbbrev("UTC") {}
-
-    /**
      * Constructor for a time zone with an offset from UTC that does not change
      * with epochSeconds. The internall isDst flag is set to 'false' initially,
      * and can be changed using the isDst(bool) mutator.
@@ -40,7 +29,8 @@ class ManualZoneSpecifier: public ZoneSpecifier {
      * @param dstAbbrev time zone abbreviation during DST time (default ""),
      *        cannot be changed after construction
      */
-    explicit ManualZoneSpecifier(UtcOffset stdOffset, UtcOffset deltaOffset,
+    explicit ManualZoneSpecifier(UtcOffset stdOffset = UtcOffset(),
+        UtcOffset deltaOffset = UtcOffset(),
         const char* stdAbbrev = "", const char* dstAbbrev = ""):
       ZoneSpecifier(kTypeManual),
       mStdOffset(stdOffset),
@@ -53,9 +43,6 @@ class ManualZoneSpecifier: public ZoneSpecifier {
 
     /** Default assignment operator. */
     ManualZoneSpecifier& operator=(const ManualZoneSpecifier&) = default;
-
-    /** Singleton instance of a UTC ZoneSpecifier. */
-    static const ManualZoneSpecifier sUtcZoneSpecifier;
 
     /** Get the standard UTC offset. */
     UtcOffset stdOffset() const { return mStdOffset; }

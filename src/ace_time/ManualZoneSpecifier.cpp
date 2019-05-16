@@ -3,8 +3,6 @@
 
 namespace ace_time {
 
-const ManualZoneSpecifier ManualZoneSpecifier::sUtcZoneSpecifier;
-
 void ManualZoneSpecifier::printTo(Print& printer) const {
   printer.print(F("UTC"));
   mStdOffset.printTo(printer);
