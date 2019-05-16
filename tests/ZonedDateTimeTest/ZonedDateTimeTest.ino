@@ -305,10 +305,8 @@ test(ZonedDateTimeTest_Extended, forComponents_afterOverlap) {
 // --------------------------------------------------------------------------
 
 test(ZonedDateTimeTest, forDateString) {
-  ManualZoneSpecifier spec;
-
   // exact ISO8601 format
-  auto dt = ZonedDateTime::forDateString(F("2018-08-31T13:48:01-07:00"), &spec);
+  auto dt = ZonedDateTime::forDateString(F("2018-08-31T13:48:01-07:00"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
   assertEqual(18, dt.yearTiny());
@@ -321,7 +319,7 @@ test(ZonedDateTimeTest, forDateString) {
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 
   // parser does not care about most separators, this may change in the future
-  dt = ZonedDateTime::forDateString(F("2018/08/31 13#48#01+07#00"), &spec);
+  dt = ZonedDateTime::forDateString(F("2018/08/31 13#48#01+07#00"));
   assertFalse(dt.isError());
   assertEqual((int16_t) 2018, dt.year());
   assertEqual(18, dt.yearTiny());
@@ -335,30 +333,28 @@ test(ZonedDateTimeTest, forDateString) {
 }
 
 test(ZonedDateTimeTest, forDateString_errors) {
-  ManualZoneSpecifier spec;
-
   // empty string, too short
-  auto dt = ZonedDateTime::forDateString("", &spec);
+  auto dt = ZonedDateTime::forDateString("");
   assertTrue(dt.isError());
 
   // not enough components
-  dt = ZonedDateTime::forDateString(F("2018-08-31"), &spec);
+  dt = ZonedDateTime::forDateString(F("2018-08-31"));
   assertTrue(dt.isError());
 
   // too long
-  dt = ZonedDateTime::forDateString(F("2018-08-31T13:48:01-07:00X"), &spec);
+  dt = ZonedDateTime::forDateString(F("2018-08-31T13:48:01-07:00X"));
   assertTrue(dt.isError());
 
   // too short
-  dt = ZonedDateTime::forDateString(F("2018-08-31T13:48:01-07:0"), &spec);
+  dt = ZonedDateTime::forDateString(F("2018-08-31T13:48:01-07:0"));
   assertTrue(dt.isError());
 
   // missing UTC
-  dt = ZonedDateTime::forDateString(F("2018-08-31T13:48:01"), &spec);
+  dt = ZonedDateTime::forDateString(F("2018-08-31T13:48:01"));
   assertTrue(dt.isError());
 
   // parser cares about the +/- in front of the UTC offset
-  dt = ZonedDateTime::forDateString(F("2018-08-31 13:48:01&07:00"), &spec);
+  dt = ZonedDateTime::forDateString(F("2018-08-31 13:48:01&07:00"));
   assertTrue(dt.isError());
 }
 

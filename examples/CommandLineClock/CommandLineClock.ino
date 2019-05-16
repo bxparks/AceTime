@@ -114,8 +114,7 @@ class DateCommand: public CommandHandler {
         printer.println();
       } else {
         SHIFT;
-        ManualZoneSpecifier spec;
-        ZonedDateTime newDate = ZonedDateTime::forDateString(argv[0], &spec);
+        ZonedDateTime newDate = ZonedDateTime::forDateString(argv[0]);
         if (newDate.isError()) {
           printer.println(FF("Invalid date"));
           return;
