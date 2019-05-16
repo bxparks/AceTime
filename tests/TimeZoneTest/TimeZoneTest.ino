@@ -13,7 +13,7 @@ using namespace ace_time;
 test(TimeZoneTest, default) {
   TimeZone tz;
 
-  assertEqual(TimeZone::kTypeManual, tz.getType());
+  assertEqual(TimeZone::kTypeUtc, tz.getType());
   assertEqual(0, tz.getUtcOffset(0).toMinutes());
   assertEqual("UTC", tz.getAbbrev(0));
 }
@@ -77,13 +77,6 @@ test(TimeZoneTest_Basic, copyConstructor) {
   TimeZone a(&zoneSpecifier);
   TimeZone b(a);
   assertTrue(a == b);
-}
-
-test(TimeZoneTest_Basic, default) {
-  TimeZone tz;
-  assertEqual(TimeZone::kTypeManual, tz.getType());
-  assertEqual(0, tz.getUtcOffset(0).toMinutes());
-  assertEqual("UTC", tz.getAbbrev(0));
 }
 
 test(TimeZoneTest_Basic, LosAngeles) {

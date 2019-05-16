@@ -11,15 +11,19 @@ class Print;
 namespace ace_time {
 
 /**
- * Class that describes a time zone. There are 3 types:
+ * Class that describes a time zone. There are 4 types:
  *
+ *    * kTypeUtc: represents the UTC time zone with no offset. The
+ *      ZoneSpecifier is set to nullptr.
  *    * kTypeManual: an offset from UTC with a DST flag, both of which can be
- *    adjusted by the user. This type is mutable.
+ *      adjusted by the user. The underlying ManualZoneSpecifier is mututable.
  *    * kTypeBasic: A time zone described by a subset of TZ Database which
- *    contains rules about when DST transitions happen. The subset consists of
- *    time zones which relatively simple rules that can be implemented using
- *    simple algorithms.
+ *      contains rules about when DST transitions happen. The subset consists
+ *      of time zones which relatively simple rules that can be implemented
+ *      using simple algorithms. The underlying BasicZoneSpecifier is
+ *      immutable.
  *    * kTypeExtended represents a time zone described by the full TZ Database.
+ *      The underlying ExtendedZoneSpecifier is immutable.
  *
  * The TimeZone class really really wants to be a reference type. In other
  * words, it would be far more convenient for the client code to create this on
@@ -50,29 +54,42 @@ namespace ace_time {
  */
 class TimeZone {
   public:
+    static const uint8_t kTypeUtc = 0;
     static const uint8_t kTypeManual = ZoneSpecifier::kTypeManual;
     static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
     static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
 
-    // TODO: Consider making the default zoneSpecifier be nullptr, OR create a
-    // special ZoneSpecifier which takes less memory than a ManualZoneSpecifier
-    // which consumes 10 bytes.
-    /** Constructor. */
-    explicit TimeZone(const ZoneSpecifier* zoneSpecifier =
-            &ManualZoneSpecifier::sUtcZoneSpecifier):
+    /**
+     * Constructor.
+     *
+     * @param zoneSpecifier an instance of ManualZoneSpecifier,
+     * BasicZoneSpecifier, or ExtendedZoneSpecifier, or nullptr for the UTC
+     * timezone
+     */
+    explicit TimeZone(const ZoneSpecifier* zoneSpecifier = nullptr):
         mZoneSpecifier(zoneSpecifier) {}
-
-    /** Return the ZoneSpecifier. */
-    const ZoneSpecifier* getZoneSpecifier() const { return mZoneSpecifier; }
 
     /** Return the type of TimeZone. */
     uint8_t getType() const {
-      return mZoneSpecifier->getType();
+      return (mZoneSpecifier) ? mZoneSpecifier->getType() : kTypeUtc;
     }
 
     /** Return the UTC offset at epochSeconds. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) const {
-      return mZoneSpecifier->getUtcOffset(epochSeconds);
+      return (mZoneSpecifier)
+          ? mZoneSpecifier->getUtcOffset(epochSeconds)
+          : UtcOffset();
+    }
+
+    /**
+     * Return the best guess of the UTC offset at the given LocalDateTime for
+     * the current TimeZone. Used by ZonedDateTime::forComponents(), so
+     * intended to be used mostly for testing and debugging.
+     */
+    UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const {
+      return (mZoneSpecifier)
+          ? mZoneSpecifier->getUtcOffsetForDateTime(ldt)
+          : UtcOffset();
     }
 
     /**
@@ -80,7 +97,7 @@ class TimeZone {
      * that has not been tested thoroughly. Use with caution.
      */
     const char* getAbbrev(acetime_t epochSeconds) const {
-      return mZoneSpecifier->getAbbrev(epochSeconds);
+      return mZoneSpecifier ? mZoneSpecifier->getAbbrev(epochSeconds) : "UTC";
     }
 
     /** Print the human readable representation of the time zone. */
@@ -92,13 +109,6 @@ class TimeZone {
 
   private:
     friend bool operator==(const TimeZone& a, const TimeZone& b);
-
-    /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
-    static const uint8_t kUtcOffsetStringLength = 6;
-
-    /** Convert offsetString to offsetCode. */
-    static void parseFromOffsetString(const char* offsetString,
-        uint8_t* offsetCode);
 
     /** Instance of ZoneSpecifier. */
     const ZoneSpecifier* mZoneSpecifier;
