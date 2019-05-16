@@ -42,10 +42,8 @@ test(TimeZoneTest, fixed) {
 
 test(TimeZoneTest_Manual, operatorEqualEqual) {
   // PST
-  ManualZoneSpecifier spa(
-      UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
-  ManualZoneSpecifier spb(
-      UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
+  ManualZoneSpecifier spa(UtcOffset::forHour(-8), false, "PST", "PDT");
+  ManualZoneSpecifier spb(UtcOffset::forHour(-8), false, "PST", "PDT");
 
   // Two time zones with same zoneSpecifier should be equal.
   TimeZone a(&spa);
@@ -57,17 +55,15 @@ test(TimeZoneTest_Manual, operatorEqualEqual) {
   assertTrue(a != b);
 
   // Should be different from EST.
-  ManualZoneSpecifier spc(
-      UtcOffset::forHour(-5), UtcOffset::forHour(1), "EST", "EDT");
+  ManualZoneSpecifier spc(UtcOffset::forHour(-5), false, "EST", "EDT");
   TimeZone c(&spc);
   assertTrue(a != c);
 }
 
 test(TimeZoneTest_Manual, forUtcOffset) {
   FakePrint fakePrint;
-  ManualZoneSpecifier zoneSpecifier(
-      UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
-  TimeZone tz(&zoneSpecifier);
+  ManualZoneSpecifier spec(UtcOffset::forHour(-8), false, "PST", "PDT");
+  TimeZone tz(&spec);
 
   assertEqual(TimeZone::kTypeZoneSpecifier, tz.getType());
   assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
@@ -75,7 +71,7 @@ test(TimeZoneTest_Manual, forUtcOffset) {
   assertEqual("PST", fakePrint.getBuffer());
   fakePrint.flush();
 
-  zoneSpecifier.isDst(true);
+  spec.isDst(true);
   assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
   tz.printAbbrevTo(fakePrint, 0);
   assertEqual("PDT", fakePrint.getBuffer());

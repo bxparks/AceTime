@@ -13,8 +13,7 @@ using namespace ace_time;
 // Check that ZonedDateTime with ManualZoneSpecifier agrees with simpler
 // OffsetDateTime.
 test(ZonedDateTimeTest_Manual, agreesWithOffsetDateTime) {
-  ManualZoneSpecifier zoneSpecifier(UtcOffset::forHour(-8),
-      UtcOffset::forHour(1));
+  ManualZoneSpecifier zoneSpecifier(UtcOffset::forHour(-8), false);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
@@ -64,8 +63,7 @@ test(ZonedDateTimeTest_Manual, forComponents) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2018-01-01 00:00:00+00:15 Monday
-  ManualZoneSpecifier zoneSpecifier(UtcOffset::forMinutes(15),
-      UtcOffset::forHour(1));
+  ManualZoneSpecifier zoneSpecifier(UtcOffset::forMinutes(15), false);
   dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0,
       TimeZone(&zoneSpecifier));
   assertEqual((acetime_t) 6574, dt.toEpochDays());
@@ -119,8 +117,7 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 
   // 2018-08-30T06:45:01-07:00
-  ManualZoneSpecifier zoneSpecifier(UtcOffset::forHour(-7),
-      UtcOffset::forHour(1));
+  ManualZoneSpecifier zoneSpecifier(UtcOffset::forHour(-7), false);
   TimeZone tz(&zoneSpecifier);
   dt = ZonedDateTime::forComponents(2018, 8, 30, 6, 45, 1, tz);
   assertEqual((acetime_t) 1535636701, dt.toUnixSeconds());
@@ -135,7 +132,7 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
 }
 
 test(ZonedDateTimeTest_Manual, convertToTimeZone) {
-  ManualZoneSpecifier stdSpec(UtcOffset::forHour(-8), UtcOffset::forHour(1));
+  ManualZoneSpecifier stdSpec(UtcOffset::forHour(-8), false);
   TimeZone stdTz(&stdSpec);
   ZonedDateTime std = ZonedDateTime::forComponents(
       2018, 3, 11, 1, 59, 59, stdTz);

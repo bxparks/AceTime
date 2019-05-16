@@ -36,9 +36,7 @@ class Controller {
 
     /** Set the time zone using the given offset. */
     void setTimeZone(UtcOffset utcOffset, bool isDst) {
-      mManualZoneSpecifier = ManualZoneSpecifier(
-          utcOffset, UtcOffset::forHour(1));
-      mManualZoneSpecifier.isDst(isDst);
+      mManualZoneSpecifier = ManualZoneSpecifier(utcOffset, isDst);
       mTimeZone = TimeZone(&mManualZoneSpecifier);
       preserveInfo();
     }

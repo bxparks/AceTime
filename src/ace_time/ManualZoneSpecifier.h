@@ -20,23 +20,36 @@ class ManualZoneSpecifier: public ZoneSpecifier {
      * with epochSeconds. The internall isDst flag is set to 'false' initially,
      * and can be changed using the isDst(bool) mutator.
      *
-     * @param stdOffset base offset of the zone (required), can be changed using
-     *        the stdOffset(UtcOffset) mutator.
-     * @param deltaOffset additional UTC offset during DST time (required),
-     *        cannot be changed after construction
-     * @param stdAbbrev time zone abbreviation during normal time (default ""),
-     *        cannot be changed after construction
-     * @param dstAbbrev time zone abbreviation during DST time (default ""),
-     *        cannot be changed after construction
+     * Of the 5 parameters in the constructor, only stdOffset and isDst are
+     * mutable after construction. The mutators are expected to be called from
+     * applications that allow the user to change the UTC offset and isDst
+     * flags during runtime. The others are not exposed to be mutable because
+     * it seems unrealistic to expect the user to know the standard and DST
+     * timezone abbreviations.
+     *
+     * @param stdOffset base offset of the zone, can be changed using
+     *        the stdOffset(UtcOffset) mutator (default: 00:00)
+     * @param isDst true if DST shfit is active (default: false)
+     * @param stdAbbrev time zone abbreviation during normal time. Cannot be
+     *        nullptr. Cannot be changed after construction. (default: "")
+     * @param dstAbbrev time zone abbreviation during DST time.
+     *        Cannot be nullptr. Cannot be changed after construction.
+     *        (default: "").
+     * @param deltaOffset additional UTC offset during DST time.
+     *        Cannot be changed after construction. (default: +01:00).
      */
-    explicit ManualZoneSpecifier(UtcOffset stdOffset = UtcOffset(),
-        UtcOffset deltaOffset = UtcOffset(),
-        const char* stdAbbrev = "", const char* dstAbbrev = ""):
+    explicit ManualZoneSpecifier(
+        UtcOffset stdOffset = UtcOffset(),
+        bool isDst = false,
+        const char* stdAbbrev = "",
+        const char* dstAbbrev = "",
+        UtcOffset deltaOffset = UtcOffset::forHour(1)):
       ZoneSpecifier(kTypeManual),
       mStdOffset(stdOffset),
-      mDeltaOffset(deltaOffset),
+      mIsDst(isDst),
       mStdAbbrev(stdAbbrev),
-      mDstAbbrev(dstAbbrev) {}
+      mDstAbbrev(dstAbbrev),
+      mDeltaOffset(deltaOffset) {}
 
     /** Default copy constructor. */
     ManualZoneSpecifier(const ManualZoneSpecifier&) = default;
@@ -47,29 +60,21 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     /** Get the standard UTC offset. */
     UtcOffset stdOffset() const { return mStdOffset; }
 
+    /** Get the current isDst flag. */
+    bool isDst() const { return mIsDst; }
+
     /** Get the standard abbreviation. */
     const char* stdAbbrev() const { return mStdAbbrev; }
-
-    /** Get the DST delta offset. */
-    UtcOffset deltaOffset() const { return mDeltaOffset; }
 
     /** Get the DST abbreviation. */
     const char* dstAbbrev() const { return mDstAbbrev; }
 
-    /** Get the current isDst flag. */
-    bool isDst() const { return mIsDst; }
+    /** Get the DST delta offset. */
+    UtcOffset deltaOffset() const { return mDeltaOffset; }
 
     /**
-     * Set the standard UTC offset. There are currently 2 use-cases for this:
-     *
-     * 1) ZonedDateTime:;forDateString() uses this to convert the string
-     * representation of the UTC offset and store it in a ManualZoneSpecifier
-     * through this method.
-     *
-     * 2) This can be used by applications that allow the user to select a
-     * particular UTC offset. It seems unrealistic to expect the user to know
-     * the standard and DST timezone abbreviations, so I have not exposed
-     * methods to change those fields.
+     * Set the standard UTC offset. This can be used by applications that allow
+     * the user to select a particular UTC offset.
      */
     void stdOffset(UtcOffset offset) { mStdOffset = offset; }
 
@@ -102,6 +107,8 @@ class ManualZoneSpecifier: public ZoneSpecifier {
   private:
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const ManualZoneSpecifier&) other;
+      // These parameters are ordered in decreasing expected probability of
+      // being different from the other.
       return isDst() == that.isDst()
           && stdOffset() == that.stdOffset()
           && deltaOffset() == that.deltaOffset()
@@ -112,8 +119,8 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     /** Offset from UTC. */
     UtcOffset mStdOffset;
 
-    /** Additional offset to add to mStdOffset when observing DST. */
-    UtcOffset mDeltaOffset;
+    /** Set to true if DST is enabled, when using ManualZoneSpecifier. */
+    bool mIsDst;
 
     /** Time zone abbreviation for standard time, e.g. "PST". Not Nullable. */
     const char* mStdAbbrev;
@@ -121,8 +128,8 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     /** Time zone abbreviation for daylight time, e.g. "PDT". Not Nullable. */
     const char* mDstAbbrev;
 
-    /** Set to true if DST is enabled, when using ManualZoneSpecifier. */
-    bool mIsDst = false;
+    /** Additional offset to add to mStdOffset when observing DST. */
+    UtcOffset mDeltaOffset;
 };
 
 }
