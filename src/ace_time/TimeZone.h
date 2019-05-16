@@ -75,7 +75,10 @@ class TimeZone {
       return mZoneSpecifier->getUtcOffset(epochSeconds);
     }
 
-    /** Return the abbreviation at epochSeconds. */
+    /**
+     * Return the abbreviation at epochSeconds. This is an experimental method
+     * that has not been tested thoroughly. Use with caution.
+     */
     const char* getAbbrev(acetime_t epochSeconds) const {
       return mZoneSpecifier->getAbbrev(epochSeconds);
     }
