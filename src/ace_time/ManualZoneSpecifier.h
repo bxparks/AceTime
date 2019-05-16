@@ -5,8 +5,6 @@
 #include "UtcOffset.h"
 #include "ZoneSpecifier.h"
 
-class ManualZoneSpecifierTest_setters;
-
 namespace ace_time {
 
 /**
@@ -30,17 +28,20 @@ class ManualZoneSpecifier: public ZoneSpecifier {
 
     /**
      * Constructor for a time zone with an offset from UTC that does not change
-     * with epochSeconds. The offset can change when the isDst flag is set.
+     * with epochSeconds. The internall isDst flag is set to 'false' initially,
+     * and can be changed using the isDst(bool) mutator.
      *
-     * @param stdOffset base offset of the zone (required)
-     * @param deltaOffset additional UTC offset during DST time
-     * @param stdAbbrev time zone abbreviation during normal time (default "")
-     * @param dstAbbrev time zone abbreviation during DST time (default "")
+     * @param stdOffset base offset of the zone (required), can be changed using
+     *        the stdOffset(UtcOffset) mutator.
+     * @param deltaOffset additional UTC offset during DST time (required),
+     *        cannot be changed after construction
+     * @param stdAbbrev time zone abbreviation during normal time (default ""),
+     *        cannot be changed after construction
+     * @param dstAbbrev time zone abbreviation during DST time (default ""),
+     *        cannot be changed after construction
      */
-    explicit ManualZoneSpecifier(UtcOffset stdOffset,
-        UtcOffset deltaOffset,
-        const char* stdAbbrev = "",
-        const char* dstAbbrev = ""):
+    explicit ManualZoneSpecifier(UtcOffset stdOffset, UtcOffset deltaOffset,
+        const char* stdAbbrev = "", const char* dstAbbrev = ""):
       ZoneSpecifier(kTypeManual),
       mStdOffset(stdOffset),
       mDeltaOffset(deltaOffset),
@@ -71,7 +72,24 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     /** Get the current isDst flag. */
     bool isDst() const { return mIsDst; }
 
-    /** Set the current isDst flag. */
+    /**
+     * Set the standard UTC offset. There are currently 2 use-cases for this:
+     *
+     * 1) ZonedDateTime:;forDateString() uses this to convert the string
+     * representation of the UTC offset and store it in a ManualZoneSpecifier
+     * through this method.
+     *
+     * 2) This can be used by applications that allow the user to select a
+     * particular UTC offset. It seems unrealistic to expect the user to know
+     * the standard and DST timezone abbreviations, so I have not exposed
+     * methods to change those fields.
+     */
+    void stdOffset(UtcOffset offset) { mStdOffset = offset; }
+
+    /**
+     * Set the current isDst flag. This is expected to be used by applications
+     * that allow the user to manually select the DST flag.
+     */
     void isDst(bool isDst) { mIsDst = isDst; }
 
     UtcOffset getUtcOffset(acetime_t /*epochSeconds*/) const override {
@@ -95,16 +113,6 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     void printTo(Print& printer) const override;
 
   private:
-    friend class ZonedDateTime; // stdOffset()
-    friend class ::ManualZoneSpecifierTest_setters; //stdOffset
-
-    /**
-     * Set the standard UTC offset. Used only from
-     * ZonedDateTime::forDateString(), which is expected to be used for
-     * debugging only.
-     */
-    void stdOffset(UtcOffset offset) { mStdOffset = offset; }
-
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const ManualZoneSpecifier&) other;
       return isDst() == that.isDst()

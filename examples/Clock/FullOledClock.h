@@ -124,14 +124,20 @@ class FullOledClock: public Clock {
           break;
 
         case MODE_CHANGE_TIME_ZONE_HOUR:
-          mSuppressBlink = true;
-          utc_offset_mutation::incrementHour(
-              mChangingClockInfo.zoneSpecifier.stdOffset());
+          {
+            mSuppressBlink = true;
+            UtcOffset offset = mChangingClockInfo.zoneSpecifier.stdOffset();
+            utc_offset_mutation::incrementHour(offset);
+            mChangingClockInfo.zoneSpecifier.stdOffset(offset);
+          }
           break;
         case MODE_CHANGE_TIME_ZONE_MINUTE:
-          mSuppressBlink = true;
-          utc_offset_mutation::increment15Minutes(
-              mChangingClockInfo.zoneSpecifier.stdOffset());
+          {
+            mSuppressBlink = true;
+            UtcOffset offset = mChangingClockInfo.zoneSpecifier.stdOffset();
+            utc_offset_mutation::increment15Minutes(offset);
+            mChangingClockInfo.zoneSpecifier.stdOffset(offset);
+          }
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
