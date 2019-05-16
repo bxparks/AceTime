@@ -54,12 +54,16 @@ class ZoneSpecifier {
     virtual UtcOffset getUtcOffset(acetime_t epochSeconds) const = 0;
 
     /**
-     * Return the DST delta offset at epochSeconds. This is an experimental,
-     * unsupported method exposed for testing purposes. DO NOT USE.
+     * Return the DST delta offset at epochSeconds. This is an experimental
+     * method that has not been tested thoroughly. Use with caution.
      */
     virtual UtcOffset getDeltaOffset(acetime_t epochSeconds) const = 0;
 
-    /** Return the time zone abbreviation at epochSeconds. */
+    /**
+     * Return the time zone abbreviation at epochSeconds. This is an
+     * experimental method that has not been tested thoroughly. Use with
+     * caution.
+     */
     virtual const char* getAbbrev(acetime_t epochSeconds) const = 0;
 
     /** Return the UtcOffset matching the given the date/time components. */
