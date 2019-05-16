@@ -63,6 +63,12 @@ class TimeZone {
     /**
      * Constructor.
      *
+     * It would be nice if zoneSpecifier could be a reference instead of a
+     * pointer. But that makes TimeZone non-copyable which prevents it from
+     * being used as a value-type. I don't want to use a wrapper like
+     * std::reference_wrapper<T> because I want to avoid a dependency to the
+     * C++ standard library for something targeted for the Arduino environment.
+     *
      * @param zoneSpecifier an instance of ManualZoneSpecifier,
      * BasicZoneSpecifier, or ExtendedZoneSpecifier. Cannot be nullptr.
      */
