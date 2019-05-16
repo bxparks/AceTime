@@ -1,12 +1,12 @@
 #ifndef ACE_TIME_DS3231_TIME_KEEPER_H
 #define ACE_TIME_DS3231_TIME_KEEPER_H
 
-#if !defined(__linux__) && !defined(__APPLE__)
+#if defined(ARDUINO)
 
 #include <stdint.h>
 #include "../hw/DS3231.h"
 #include "../hw/HardwareDateTime.h"
-#include "../OffsetDateTime.h"
+#include "../LocalDateTime.h"
 #include "TimeKeeper.h"
 
 namespace ace_time {
@@ -30,29 +30,28 @@ class DS3231TimeKeeper: public TimeKeeper {
     void setNow(acetime_t epochSeconds) override {
       if (epochSeconds == kInvalidSeconds) return;
 
-      // TODO: Replace with LocalDateTime
-      OffsetDateTime now = OffsetDateTime::forEpochSeconds(epochSeconds);
+      LocalDateTime now = LocalDateTime::forEpochSeconds(epochSeconds);
       mDS3231.setDateTime(toHardwareDateTime(now));
     }
 
   private:
     /**
      * Convert the HardwareDateTime returned by the DS3231 chip to
-     * the OffsetDateTime object using UTC time zone.
+     * the LocalDateTime object using UTC time zone.
      */
-    static OffsetDateTime toDateTime(const hw::HardwareDateTime& dt) {
-      return OffsetDateTime::forComponents(
+    static LocalDateTime toDateTime(const hw::HardwareDateTime& dt) {
+      return LocalDateTime::forComponents(
           dt.year + LocalDate::kEpochYear, dt.month, dt.day,
           dt.hour, dt.minute, dt.second);
     }
 
     /**
-     * Convert a OffsetDateTime object to a HardwareDateTime object, ignoring
+     * Convert a LocalDateTime object to a HardwareDateTime object, ignoring
      * time zone. In practice, it will often be most convenient to store the
      * DS3231 as UTC time. Only 2 digits are supported by the year field in the
      * DS3231 so the year is assumed to be between 2000 and 2099.
      */
-    static hw::HardwareDateTime toHardwareDateTime(const OffsetDateTime& dt) {
+    static hw::HardwareDateTime toHardwareDateTime(const LocalDateTime& dt) {
       return hw::HardwareDateTime{(uint8_t) dt.yearTiny(), dt.month(),
           dt.day(), dt.hour(), dt.minute(), dt.second(), dt.dayOfWeek()};
     }
