@@ -11,74 +11,73 @@ class Print;
 namespace ace_time {
 
 /**
- * Class that describes a time zone. There are 4 types:
+ * Class that describes a time zone. There are 2 types:
  *
- *    * kTypeUtc: represents the UTC time zone with no offset. The
- *      ZoneSpecifier is set to nullptr.
- *    * kTypeManual: an offset from UTC with a DST flag, both of which can be
- *      adjusted by the user. The underlying ManualZoneSpecifier is mututable.
- *    * kTypeBasic: A time zone described by a subset of TZ Database which
- *      contains rules about when DST transitions happen. The subset consists
- *      of time zones which relatively simple rules that can be implemented
- *      using simple algorithms. The underlying BasicZoneSpecifier is
- *      immutable.
- *    * kTypeExtended represents a time zone described by the full TZ Database.
- *      The underlying ExtendedZoneSpecifier is immutable.
+ *    * kTypeFixed: a time zone with a fixed UTC offset that cannot
+ *      be changed. Very few actual time zones have a fixed UTC offset, but
+ *      this type is useful for testing and parsing date/time strings with a
+ *      fixed offset.
+ *    * kTypeZoneSpecifier: a time zone whose UTC offset is determined by
+ *      one of the implementation classes of ZoneSpecifier.
  *
  * The TimeZone class really really wants to be a reference type. In other
- * words, it would be far more convenient for the client code to create this on
- * the heap, and passed around using a pointer (or smart pointer) to the
- * ZonedDateTime class. This would allow new TimeZones to be created, while
- * older instances of ZonedDateTime would continued to hold on to the previous
- * versions of TimeZone.
+ * words, it would be very convenient if the client code could create this
+ * object on the heap, and pass it around using a pointer (or smart pointer) to
+ * the ZonedDateTime class and shared among multiple ZonedDateTime objects.
+ * This would also allow new TimeZones to be created, while allowing older
+ * instances of ZonedDateTime to hold on to the previous versions of TimeZone.
  *
  * However, in a small memory embedded environment (like Arduino Nano or Micro
  * with only 2kB of RAM), I want to avoid any use of the heap (new operator or
- * malloc()) inside the AceTime library. So, I separated out the memory
- * intensive or mutable features of the TimeZone class into the separate
- * ZoneSpecifier class. The ZoneSpecifier object should be created once at
- * initialization time of the application (either statically allocated or
- * potentially on the heap early in the application start up).
+ * malloc()) inside the AceTime library. I separated out the memory intensive
+ * or mutable features of the TimeZone class into the separate ZoneSpecifier
+ * class. The ZoneSpecifier object should be created once at initialization
+ * time of the application (either statically allocated or potentially on the
+ * heap early in the application start up).
  *
- * The TimeZone class then becomes a thin wrapper around a ZoneSpecifier object
+ * The TimeZone class becomes a thin wrapper around a ZoneSpecifier object
  * (essentially acting like a smart pointer in some sense). It should be
  * treated as a value type and passed around by value or by const reference.
  *
- * An alternative implementation would make TimeZone a base class of an
- * inheritance hierarchy with 2 subclasses (ManualTimeZone and AutoTimeZone).
- * However this means that the TimeZone object can no longer be passed around
- * by value, and the ZonedDateTime is forced to hold on to the TimeZone object
- * using a pointer. It then becomes very difficult to change the offset and DST
- * fields of the ManualTimeZone. Using a single TimeZone class and implementing
- * it as a value type simplifies a lot of code.
+ * An alternative implementation would use an inheritance hierarchy for the
+ * TimeZone, with 2 subclasses (ManualTimeZone and AutoTimeZone). However this
+ * means that the TimeZone object can no longer be passed around by value, and
+ * the ZonedDateTime is forced to hold on to the TimeZone object using a
+ * pointer. It then becomes very difficult to change the offset and DST fields
+ * of the ManualTimeZone. Using a single TimeZone class and implementing it as
+ * a value type simplifies a lot of code.
  */
 class TimeZone {
   public:
-    static const uint8_t kTypeUtc = 0;
-    static const uint8_t kTypeManual = ZoneSpecifier::kTypeManual;
-    static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
-    static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
+    static const uint8_t kTypeFixed = 0;
+    static const uint8_t kTypeZoneSpecifier = 1;
+
+    /**
+     * Constructor for a fixed UTC offset.
+     * @param offset the fix UTC offset
+     */
+    explicit TimeZone(UtcOffset offset = UtcOffset()):
+      mType(kTypeFixed),
+      mOffset(offset) {}
 
     /**
      * Constructor.
      *
      * @param zoneSpecifier an instance of ManualZoneSpecifier,
-     * BasicZoneSpecifier, or ExtendedZoneSpecifier, or nullptr for the UTC
-     * timezone
+     * BasicZoneSpecifier, or ExtendedZoneSpecifier. Cannot be nullptr.
      */
-    explicit TimeZone(const ZoneSpecifier* zoneSpecifier = nullptr):
+    explicit TimeZone(const ZoneSpecifier* zoneSpecifier):
+        mType(kTypeZoneSpecifier),
         mZoneSpecifier(zoneSpecifier) {}
 
     /** Return the type of TimeZone. */
-    uint8_t getType() const {
-      return (mZoneSpecifier) ? mZoneSpecifier->getType() : kTypeUtc;
-    }
+    uint8_t getType() const { return mType; }
 
     /** Return the UTC offset at epochSeconds. */
     UtcOffset getUtcOffset(acetime_t epochSeconds) const {
-      return (mZoneSpecifier)
-          ? mZoneSpecifier->getUtcOffset(epochSeconds)
-          : UtcOffset();
+      return (mType == kTypeFixed)
+          ? mOffset
+          : mZoneSpecifier->getUtcOffset(epochSeconds);
     }
 
     /**
@@ -87,21 +86,16 @@ class TimeZone {
      * intended to be used mostly for testing and debugging.
      */
     UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const {
-      return (mZoneSpecifier)
-          ? mZoneSpecifier->getUtcOffsetForDateTime(ldt)
-          : UtcOffset();
-    }
-
-    /**
-     * Return the abbreviation at epochSeconds. This is an experimental method
-     * that has not been tested thoroughly. Use with caution.
-     */
-    const char* getAbbrev(acetime_t epochSeconds) const {
-      return mZoneSpecifier ? mZoneSpecifier->getAbbrev(epochSeconds) : "UTC";
+      return (mType == kTypeFixed)
+          ? mOffset
+          : mZoneSpecifier->getUtcOffsetForDateTime(ldt);
     }
 
     /** Print the human readable representation of the time zone. */
     void printTo(Print& printer) const;
+
+    /** Print the time zone abbreviation for the given epochSeconds. */
+    void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 
     // Use default copy constructor and assignment operator.
     TimeZone(const TimeZone&) = default;
@@ -110,14 +104,25 @@ class TimeZone {
   private:
     friend bool operator==(const TimeZone& a, const TimeZone& b);
 
-    /** Instance of ZoneSpecifier. */
-    const ZoneSpecifier* mZoneSpecifier;
+    uint8_t mType;
+
+    union {
+      /** Used if mType == mTypeFixed. */
+      UtcOffset mOffset;
+
+      /** Used if mType == mTypeZoneSpecifier. */
+      const ZoneSpecifier* mZoneSpecifier;
+    };
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
-  if (a.mZoneSpecifier == b.mZoneSpecifier) return true;
   if (a.getType() != b.getType()) return false;
-  return *a.mZoneSpecifier == *b.mZoneSpecifier;
+  if (a.getType() == TimeZone::kTypeFixed) {
+    return a.mOffset == b.mOffset;
+  } else {
+    if (a.mZoneSpecifier == b.mZoneSpecifier) return true;
+    return *a.mZoneSpecifier == *b.mZoneSpecifier;
+  }
 }
 
 inline bool operator!=(const TimeZone& a, const TimeZone& b) {

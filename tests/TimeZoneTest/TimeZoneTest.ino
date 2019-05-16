@@ -1,21 +1,39 @@
 #line 2 "TimeZoneTest.ino"
 
 #include <AUnit.h>
+#include <aunit/fake/FakePrint.h>
 #include <AceTime.h>
 
 using namespace aunit;
+using namespace aunit::fake;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// Default TimeZone
+// Default UTC TimeZone
 // --------------------------------------------------------------------------
 
-test(TimeZoneTest, default) {
+test(TimeZoneTest, utc) {
+  FakePrint fakePrint;
   TimeZone tz;
 
-  assertEqual(TimeZone::kTypeUtc, tz.getType());
+  assertEqual(TimeZone::kTypeFixed, tz.getType());
   assertEqual(0, tz.getUtcOffset(0).toMinutes());
-  assertEqual("UTC", tz.getAbbrev(0));
+  tz.printAbbrevTo(fakePrint, 0);
+  assertEqual("UTC", fakePrint.getBuffer());
+}
+
+// --------------------------------------------------------------------------
+// Fixed TimeZone
+// --------------------------------------------------------------------------
+
+test(TimeZoneTest, fixed) {
+  FakePrint fakePrint;
+  TimeZone tz(UtcOffset::forHour(-8));
+
+  assertEqual(TimeZone::kTypeFixed, tz.getType());
+  assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
+  tz.printAbbrevTo(fakePrint, 0);
+  assertEqual("-08:00", fakePrint.getBuffer());
 }
 
 // --------------------------------------------------------------------------
@@ -24,10 +42,8 @@ test(TimeZoneTest, default) {
 
 test(TimeZoneTest_Manual, operatorEqualEqual) {
   // PST
-  ManualZoneSpecifier spa(
-      UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
-  ManualZoneSpecifier spb(
-      UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
+  ManualZoneSpecifier spa(UtcOffset::forHour(-8), false, "PST", "PDT");
+  ManualZoneSpecifier spb(UtcOffset::forHour(-8), false, "PST", "PDT");
 
   // Two time zones with same zoneSpecifier should be equal.
   TimeZone a(&spa);
@@ -39,24 +55,26 @@ test(TimeZoneTest_Manual, operatorEqualEqual) {
   assertTrue(a != b);
 
   // Should be different from EST.
-  ManualZoneSpecifier spc(
-      UtcOffset::forHour(-5), UtcOffset::forHour(1), "EST", "EDT");
+  ManualZoneSpecifier spc(UtcOffset::forHour(-5), false, "EST", "EDT");
   TimeZone c(&spc);
   assertTrue(a != c);
 }
 
 test(TimeZoneTest_Manual, forUtcOffset) {
-  ManualZoneSpecifier zoneSpecifier(
-      UtcOffset::forHour(-8), UtcOffset::forHour(1), "PST", "PDT");
-  TimeZone tz(&zoneSpecifier);
+  FakePrint fakePrint;
+  ManualZoneSpecifier spec(UtcOffset::forHour(-8), false, "PST", "PDT");
+  TimeZone tz(&spec);
 
-  assertEqual(TimeZone::kTypeManual, tz.getType());
+  assertEqual(TimeZone::kTypeZoneSpecifier, tz.getType());
   assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
-  assertEqual("PST", tz.getAbbrev(0));
+  tz.printAbbrevTo(fakePrint, 0);
+  assertEqual("PST", fakePrint.getBuffer());
+  fakePrint.flush();
 
-  zoneSpecifier.isDst(true);
+  spec.isDst(true);
   assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
-  assertEqual("PDT", tz.getAbbrev(0));
+  tz.printAbbrevTo(fakePrint, 0);
+  assertEqual("PDT", fakePrint.getBuffer());
 }
 
 // --------------------------------------------------------------------------
@@ -80,25 +98,29 @@ test(TimeZoneTest_Basic, copyConstructor) {
 }
 
 test(TimeZoneTest_Basic, LosAngeles) {
+  FakePrint fakePrint;
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
 
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
   TimeZone tz(&zoneSpecifier);
-  assertEqual(TimeZone::kTypeBasic, tz.getType());
+  assertEqual(TimeZone::kTypeZoneSpecifier, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PST", tz.getAbbrev(epochSeconds));
+  tz.printAbbrevTo(fakePrint, epochSeconds);
+  assertEqual("PST", fakePrint.getBuffer());
+  fakePrint.flush();
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PDT", tz.getAbbrev(epochSeconds));
+  tz.printAbbrevTo(fakePrint, epochSeconds);
+  assertEqual("PDT", fakePrint.getBuffer());
 }
 
 // TODO: Add tests for ExtendedZoneSpecifier

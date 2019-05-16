@@ -92,10 +92,11 @@ class UtcOffset {
     int8_t code() const { return mOffsetCode; }
 
     /**
-     * Returns true if offset is not 0, which can be used to check if this
-     * represents a DST time period.
+     * Returns true if offset is 00:00. If this represents a time zone, then
+     * isZero means that it is UTC. If this represents a DST delta offset, then
+     * isZero means that the time zone is in standard time.
      */
-    bool isNonZero() const { return mOffsetCode != 0; }
+    bool isZero() const { return mOffsetCode == 0; }
 
     /** Set the offset code. */
     void code(int8_t offsetCode) { mOffsetCode = offsetCode; }

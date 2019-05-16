@@ -108,28 +108,19 @@ class ZonedDateTime {
      * characters like '-' or ':'. For example, both of the following will
      * parse to the exactly same ZonedDateTime object:
      * "2018-08-31T13:48:01-07:00" "2018/08/31 13#48#01-07#00"
-     *
-     * @param spec an instance ManualZoneSpecifier required to create a
-     * TimeZone with the given UTC offset.
      */
-    static ZonedDateTime forDateString(const char* dateString,
-        ManualZoneSpecifier* spec) {
+    static ZonedDateTime forDateString(const char* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
-      spec->stdOffset() = dt.utcOffset();
-      spec->isDst(false);
-      return ZonedDateTime(dt, TimeZone(spec));
+      return ZonedDateTime(dt, TimeZone(dt.utcOffset()));
     }
 
     /**
      * Factory method. Create a ZonedDateTime from date string in flash memory
      * F() strings. Mostly for unit testing.
      */
-    static ZonedDateTime forDateString(const __FlashStringHelper* dateString,
-        ManualZoneSpecifier* spec) {
+    static ZonedDateTime forDateString(const __FlashStringHelper* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
-      spec->stdOffset() = dt.utcOffset();
-      spec->isDst(false);
-      return ZonedDateTime(dt, TimeZone(spec));
+      return ZonedDateTime(dt, TimeZone(dt.utcOffset()));
     }
 
     /** Return an instance whose isError() returns true. */
