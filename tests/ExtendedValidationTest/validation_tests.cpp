@@ -15,1048 +15,1048 @@
 #include "validation_data.h"
 
 // numZones: 348
-testF(TransitionTest, Abidjan) {
-  assertValid(&ace_time::zonedbx::kValidationDataAbidjan);
+testF(TransitionTest, Africa_Abidjan) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Abidjan);
 }
-testF(TransitionTest, Accra) {
-  assertValid(&ace_time::zonedbx::kValidationDataAccra);
+testF(TransitionTest, Africa_Accra) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Accra);
 }
-testF(TransitionTest, Adak) {
-  assertValid(&ace_time::zonedbx::kValidationDataAdak);
+testF(TransitionTest, Africa_Algiers) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Algiers);
 }
-testF(TransitionTest, Adelaide) {
-  assertValid(&ace_time::zonedbx::kValidationDataAdelaide);
+testF(TransitionTest, Africa_Bissau) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Bissau);
 }
-testF(TransitionTest, Algiers) {
-  assertValid(&ace_time::zonedbx::kValidationDataAlgiers);
+testF(TransitionTest, Africa_Cairo) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Cairo);
 }
-testF(TransitionTest, Almaty) {
-  assertValid(&ace_time::zonedbx::kValidationDataAlmaty);
+testF(TransitionTest, Africa_Casablanca) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Casablanca);
 }
-testF(TransitionTest, Amman) {
-  assertValid(&ace_time::zonedbx::kValidationDataAmman);
+testF(TransitionTest, Africa_Ceuta) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Ceuta);
 }
-testF(TransitionTest, Amsterdam) {
-  assertValid(&ace_time::zonedbx::kValidationDataAmsterdam);
+testF(TransitionTest, Africa_El_Aaiun) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_El_Aaiun);
 }
-testF(TransitionTest, Anadyr) {
-  assertValid(&ace_time::zonedbx::kValidationDataAnadyr);
+testF(TransitionTest, Africa_Johannesburg) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Johannesburg);
 }
-testF(TransitionTest, Anchorage) {
-  assertValid(&ace_time::zonedbx::kValidationDataAnchorage);
+testF(TransitionTest, Africa_Juba) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Juba);
 }
-testF(TransitionTest, Andorra) {
-  assertValid(&ace_time::zonedbx::kValidationDataAndorra);
+testF(TransitionTest, Africa_Khartoum) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Khartoum);
 }
-testF(TransitionTest, Apia) {
-  assertValid(&ace_time::zonedbx::kValidationDataApia);
+testF(TransitionTest, Africa_Lagos) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Lagos);
 }
-testF(TransitionTest, Aqtau) {
-  assertValid(&ace_time::zonedbx::kValidationDataAqtau);
+testF(TransitionTest, Africa_Maputo) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Maputo);
 }
-testF(TransitionTest, Aqtobe) {
-  assertValid(&ace_time::zonedbx::kValidationDataAqtobe);
+testF(TransitionTest, Africa_Monrovia) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Monrovia);
 }
-testF(TransitionTest, Araguaina) {
-  assertValid(&ace_time::zonedbx::kValidationDataAraguaina);
+testF(TransitionTest, Africa_Nairobi) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Nairobi);
 }
-testF(TransitionTest, Ashgabat) {
-  assertValid(&ace_time::zonedbx::kValidationDataAshgabat);
+testF(TransitionTest, Africa_Ndjamena) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Ndjamena);
 }
-testF(TransitionTest, Astrakhan) {
-  assertValid(&ace_time::zonedbx::kValidationDataAstrakhan);
+testF(TransitionTest, Africa_Sao_Tome) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Sao_Tome);
 }
-testF(TransitionTest, Asuncion) {
-  assertValid(&ace_time::zonedbx::kValidationDataAsuncion);
+testF(TransitionTest, Africa_Tripoli) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Tripoli);
 }
-testF(TransitionTest, Athens) {
-  assertValid(&ace_time::zonedbx::kValidationDataAthens);
+testF(TransitionTest, Africa_Tunis) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Tunis);
 }
-testF(TransitionTest, Atikokan) {
-  assertValid(&ace_time::zonedbx::kValidationDataAtikokan);
+testF(TransitionTest, Africa_Windhoek) {
+  assertValid(&ace_time::zonedbx::kValidationDataAfrica_Windhoek);
 }
-testF(TransitionTest, Atyrau) {
-  assertValid(&ace_time::zonedbx::kValidationDataAtyrau);
+testF(TransitionTest, America_Adak) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Adak);
 }
-testF(TransitionTest, Auckland) {
-  assertValid(&ace_time::zonedbx::kValidationDataAuckland);
+testF(TransitionTest, America_Anchorage) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Anchorage);
 }
-testF(TransitionTest, Azores) {
-  assertValid(&ace_time::zonedbx::kValidationDataAzores);
+testF(TransitionTest, America_Araguaina) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Araguaina);
 }
-testF(TransitionTest, Baghdad) {
-  assertValid(&ace_time::zonedbx::kValidationDataBaghdad);
+testF(TransitionTest, America_Argentina_Buenos_Aires) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_Buenos_Aires);
 }
-testF(TransitionTest, Bahia) {
-  assertValid(&ace_time::zonedbx::kValidationDataBahia);
+testF(TransitionTest, America_Argentina_Catamarca) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_Catamarca);
 }
-testF(TransitionTest, Bahia_Banderas) {
-  assertValid(&ace_time::zonedbx::kValidationDataBahia_Banderas);
+testF(TransitionTest, America_Argentina_Cordoba) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_Cordoba);
 }
-testF(TransitionTest, Baku) {
-  assertValid(&ace_time::zonedbx::kValidationDataBaku);
+testF(TransitionTest, America_Argentina_Jujuy) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_Jujuy);
 }
-testF(TransitionTest, Bangkok) {
-  assertValid(&ace_time::zonedbx::kValidationDataBangkok);
+testF(TransitionTest, America_Argentina_La_Rioja) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_La_Rioja);
 }
-testF(TransitionTest, Barbados) {
-  assertValid(&ace_time::zonedbx::kValidationDataBarbados);
+testF(TransitionTest, America_Argentina_Mendoza) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_Mendoza);
 }
-testF(TransitionTest, Barnaul) {
-  assertValid(&ace_time::zonedbx::kValidationDataBarnaul);
+testF(TransitionTest, America_Argentina_Rio_Gallegos) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_Rio_Gallegos);
 }
-testF(TransitionTest, Beirut) {
-  assertValid(&ace_time::zonedbx::kValidationDataBeirut);
+testF(TransitionTest, America_Argentina_Salta) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_Salta);
 }
-testF(TransitionTest, Belem) {
-  assertValid(&ace_time::zonedbx::kValidationDataBelem);
+testF(TransitionTest, America_Argentina_San_Juan) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_San_Juan);
 }
-testF(TransitionTest, Belgrade) {
-  assertValid(&ace_time::zonedbx::kValidationDataBelgrade);
+testF(TransitionTest, America_Argentina_San_Luis) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_San_Luis);
 }
-testF(TransitionTest, Belize) {
-  assertValid(&ace_time::zonedbx::kValidationDataBelize);
+testF(TransitionTest, America_Argentina_Tucuman) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_Tucuman);
 }
-testF(TransitionTest, Berlin) {
-  assertValid(&ace_time::zonedbx::kValidationDataBerlin);
+testF(TransitionTest, America_Argentina_Ushuaia) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Argentina_Ushuaia);
 }
-testF(TransitionTest, Bermuda) {
-  assertValid(&ace_time::zonedbx::kValidationDataBermuda);
+testF(TransitionTest, America_Asuncion) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Asuncion);
 }
-testF(TransitionTest, Beulah) {
-  assertValid(&ace_time::zonedbx::kValidationDataBeulah);
+testF(TransitionTest, America_Atikokan) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Atikokan);
 }
-testF(TransitionTest, Bishkek) {
-  assertValid(&ace_time::zonedbx::kValidationDataBishkek);
+testF(TransitionTest, America_Bahia) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Bahia);
 }
-testF(TransitionTest, Bissau) {
-  assertValid(&ace_time::zonedbx::kValidationDataBissau);
+testF(TransitionTest, America_Bahia_Banderas) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Bahia_Banderas);
 }
-testF(TransitionTest, Blanc_Sablon) {
-  assertValid(&ace_time::zonedbx::kValidationDataBlanc_Sablon);
+testF(TransitionTest, America_Barbados) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Barbados);
 }
-testF(TransitionTest, Boa_Vista) {
-  assertValid(&ace_time::zonedbx::kValidationDataBoa_Vista);
+testF(TransitionTest, America_Belem) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Belem);
 }
-testF(TransitionTest, Bogota) {
-  assertValid(&ace_time::zonedbx::kValidationDataBogota);
+testF(TransitionTest, America_Belize) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Belize);
 }
-testF(TransitionTest, Boise) {
-  assertValid(&ace_time::zonedbx::kValidationDataBoise);
+testF(TransitionTest, America_Blanc_Sablon) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Blanc_Sablon);
 }
-testF(TransitionTest, Bougainville) {
-  assertValid(&ace_time::zonedbx::kValidationDataBougainville);
+testF(TransitionTest, America_Boa_Vista) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Boa_Vista);
 }
-testF(TransitionTest, Brisbane) {
-  assertValid(&ace_time::zonedbx::kValidationDataBrisbane);
+testF(TransitionTest, America_Bogota) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Bogota);
 }
-testF(TransitionTest, Broken_Hill) {
-  assertValid(&ace_time::zonedbx::kValidationDataBroken_Hill);
+testF(TransitionTest, America_Boise) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Boise);
 }
-testF(TransitionTest, Brunei) {
-  assertValid(&ace_time::zonedbx::kValidationDataBrunei);
+testF(TransitionTest, America_Cambridge_Bay) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Cambridge_Bay);
 }
-testF(TransitionTest, Brussels) {
-  assertValid(&ace_time::zonedbx::kValidationDataBrussels);
+testF(TransitionTest, America_Campo_Grande) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Campo_Grande);
 }
-testF(TransitionTest, Bucharest) {
-  assertValid(&ace_time::zonedbx::kValidationDataBucharest);
+testF(TransitionTest, America_Cancun) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Cancun);
 }
-testF(TransitionTest, Budapest) {
-  assertValid(&ace_time::zonedbx::kValidationDataBudapest);
+testF(TransitionTest, America_Caracas) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Caracas);
 }
-testF(TransitionTest, Buenos_Aires) {
-  assertValid(&ace_time::zonedbx::kValidationDataBuenos_Aires);
+testF(TransitionTest, America_Cayenne) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Cayenne);
 }
-testF(TransitionTest, Cairo) {
-  assertValid(&ace_time::zonedbx::kValidationDataCairo);
+testF(TransitionTest, America_Chicago) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Chicago);
 }
-testF(TransitionTest, Cambridge_Bay) {
-  assertValid(&ace_time::zonedbx::kValidationDataCambridge_Bay);
+testF(TransitionTest, America_Chihuahua) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Chihuahua);
 }
-testF(TransitionTest, Campo_Grande) {
-  assertValid(&ace_time::zonedbx::kValidationDataCampo_Grande);
+testF(TransitionTest, America_Costa_Rica) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Costa_Rica);
 }
-testF(TransitionTest, Canary) {
-  assertValid(&ace_time::zonedbx::kValidationDataCanary);
+testF(TransitionTest, America_Creston) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Creston);
 }
-testF(TransitionTest, Cancun) {
-  assertValid(&ace_time::zonedbx::kValidationDataCancun);
+testF(TransitionTest, America_Cuiaba) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Cuiaba);
 }
-testF(TransitionTest, Cape_Verde) {
-  assertValid(&ace_time::zonedbx::kValidationDataCape_Verde);
+testF(TransitionTest, America_Curacao) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Curacao);
 }
-testF(TransitionTest, Caracas) {
-  assertValid(&ace_time::zonedbx::kValidationDataCaracas);
+testF(TransitionTest, America_Danmarkshavn) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Danmarkshavn);
 }
-testF(TransitionTest, Casablanca) {
-  assertValid(&ace_time::zonedbx::kValidationDataCasablanca);
+testF(TransitionTest, America_Dawson) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Dawson);
 }
-testF(TransitionTest, Casey) {
-  assertValid(&ace_time::zonedbx::kValidationDataCasey);
+testF(TransitionTest, America_Dawson_Creek) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Dawson_Creek);
 }
-testF(TransitionTest, Catamarca) {
-  assertValid(&ace_time::zonedbx::kValidationDataCatamarca);
+testF(TransitionTest, America_Denver) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Denver);
 }
-testF(TransitionTest, Cayenne) {
-  assertValid(&ace_time::zonedbx::kValidationDataCayenne);
+testF(TransitionTest, America_Detroit) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Detroit);
 }
-testF(TransitionTest, Center) {
-  assertValid(&ace_time::zonedbx::kValidationDataCenter);
+testF(TransitionTest, America_Edmonton) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Edmonton);
 }
-testF(TransitionTest, Ceuta) {
-  assertValid(&ace_time::zonedbx::kValidationDataCeuta);
+testF(TransitionTest, America_Eirunepe) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Eirunepe);
 }
-testF(TransitionTest, Chagos) {
-  assertValid(&ace_time::zonedbx::kValidationDataChagos);
+testF(TransitionTest, America_El_Salvador) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_El_Salvador);
 }
-testF(TransitionTest, Chatham) {
-  assertValid(&ace_time::zonedbx::kValidationDataChatham);
+testF(TransitionTest, America_Fort_Nelson) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Fort_Nelson);
 }
-testF(TransitionTest, Chicago) {
-  assertValid(&ace_time::zonedbx::kValidationDataChicago);
+testF(TransitionTest, America_Fortaleza) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Fortaleza);
 }
-testF(TransitionTest, Chihuahua) {
-  assertValid(&ace_time::zonedbx::kValidationDataChihuahua);
+testF(TransitionTest, America_Glace_Bay) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Glace_Bay);
 }
-testF(TransitionTest, Chisinau) {
-  assertValid(&ace_time::zonedbx::kValidationDataChisinau);
+testF(TransitionTest, America_Godthab) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Godthab);
 }
-testF(TransitionTest, Chita) {
-  assertValid(&ace_time::zonedbx::kValidationDataChita);
+testF(TransitionTest, America_Goose_Bay) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Goose_Bay);
 }
-testF(TransitionTest, Choibalsan) {
-  assertValid(&ace_time::zonedbx::kValidationDataChoibalsan);
+testF(TransitionTest, America_Grand_Turk) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Grand_Turk);
 }
-testF(TransitionTest, Christmas) {
-  assertValid(&ace_time::zonedbx::kValidationDataChristmas);
+testF(TransitionTest, America_Guatemala) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Guatemala);
 }
-testF(TransitionTest, Chuuk) {
-  assertValid(&ace_time::zonedbx::kValidationDataChuuk);
+testF(TransitionTest, America_Guayaquil) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Guayaquil);
 }
-testF(TransitionTest, Cocos) {
-  assertValid(&ace_time::zonedbx::kValidationDataCocos);
+testF(TransitionTest, America_Guyana) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Guyana);
 }
-testF(TransitionTest, Colombo) {
-  assertValid(&ace_time::zonedbx::kValidationDataColombo);
+testF(TransitionTest, America_Halifax) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Halifax);
 }
-testF(TransitionTest, Copenhagen) {
-  assertValid(&ace_time::zonedbx::kValidationDataCopenhagen);
+testF(TransitionTest, America_Havana) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Havana);
 }
-testF(TransitionTest, Cordoba) {
-  assertValid(&ace_time::zonedbx::kValidationDataCordoba);
+testF(TransitionTest, America_Hermosillo) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Hermosillo);
 }
-testF(TransitionTest, Costa_Rica) {
-  assertValid(&ace_time::zonedbx::kValidationDataCosta_Rica);
+testF(TransitionTest, America_Indiana_Indianapolis) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Indiana_Indianapolis);
 }
-testF(TransitionTest, Creston) {
-  assertValid(&ace_time::zonedbx::kValidationDataCreston);
+testF(TransitionTest, America_Indiana_Knox) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Indiana_Knox);
 }
-testF(TransitionTest, Cuiaba) {
-  assertValid(&ace_time::zonedbx::kValidationDataCuiaba);
+testF(TransitionTest, America_Indiana_Marengo) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Indiana_Marengo);
 }
-testF(TransitionTest, Curacao) {
-  assertValid(&ace_time::zonedbx::kValidationDataCuracao);
+testF(TransitionTest, America_Indiana_Petersburg) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Indiana_Petersburg);
 }
-testF(TransitionTest, Currie) {
-  assertValid(&ace_time::zonedbx::kValidationDataCurrie);
+testF(TransitionTest, America_Indiana_Tell_City) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Indiana_Tell_City);
 }
-testF(TransitionTest, Damascus) {
-  assertValid(&ace_time::zonedbx::kValidationDataDamascus);
+testF(TransitionTest, America_Indiana_Vevay) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Indiana_Vevay);
 }
-testF(TransitionTest, Danmarkshavn) {
-  assertValid(&ace_time::zonedbx::kValidationDataDanmarkshavn);
+testF(TransitionTest, America_Indiana_Vincennes) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Indiana_Vincennes);
 }
-testF(TransitionTest, Darwin) {
-  assertValid(&ace_time::zonedbx::kValidationDataDarwin);
+testF(TransitionTest, America_Indiana_Winamac) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Indiana_Winamac);
 }
-testF(TransitionTest, Davis) {
-  assertValid(&ace_time::zonedbx::kValidationDataDavis);
+testF(TransitionTest, America_Inuvik) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Inuvik);
 }
-testF(TransitionTest, Dawson) {
-  assertValid(&ace_time::zonedbx::kValidationDataDawson);
+testF(TransitionTest, America_Iqaluit) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Iqaluit);
 }
-testF(TransitionTest, Dawson_Creek) {
-  assertValid(&ace_time::zonedbx::kValidationDataDawson_Creek);
+testF(TransitionTest, America_Jamaica) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Jamaica);
 }
-testF(TransitionTest, Denver) {
-  assertValid(&ace_time::zonedbx::kValidationDataDenver);
+testF(TransitionTest, America_Juneau) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Juneau);
 }
-testF(TransitionTest, Detroit) {
-  assertValid(&ace_time::zonedbx::kValidationDataDetroit);
+testF(TransitionTest, America_Kentucky_Louisville) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Kentucky_Louisville);
 }
-testF(TransitionTest, Dhaka) {
-  assertValid(&ace_time::zonedbx::kValidationDataDhaka);
+testF(TransitionTest, America_Kentucky_Monticello) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Kentucky_Monticello);
 }
-testF(TransitionTest, Dili) {
-  assertValid(&ace_time::zonedbx::kValidationDataDili);
+testF(TransitionTest, America_La_Paz) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_La_Paz);
 }
-testF(TransitionTest, Dubai) {
-  assertValid(&ace_time::zonedbx::kValidationDataDubai);
+testF(TransitionTest, America_Lima) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Lima);
 }
-testF(TransitionTest, Dublin) {
-  assertValid(&ace_time::zonedbx::kValidationDataDublin);
+testF(TransitionTest, America_Los_Angeles) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Los_Angeles);
 }
-testF(TransitionTest, DumontDUrville) {
-  assertValid(&ace_time::zonedbx::kValidationDataDumontDUrville);
+testF(TransitionTest, America_Maceio) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Maceio);
 }
-testF(TransitionTest, Dushanbe) {
-  assertValid(&ace_time::zonedbx::kValidationDataDushanbe);
+testF(TransitionTest, America_Managua) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Managua);
 }
-testF(TransitionTest, Easter) {
-  assertValid(&ace_time::zonedbx::kValidationDataEaster);
+testF(TransitionTest, America_Manaus) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Manaus);
 }
-testF(TransitionTest, Edmonton) {
-  assertValid(&ace_time::zonedbx::kValidationDataEdmonton);
+testF(TransitionTest, America_Martinique) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Martinique);
 }
-testF(TransitionTest, Efate) {
-  assertValid(&ace_time::zonedbx::kValidationDataEfate);
+testF(TransitionTest, America_Matamoros) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Matamoros);
 }
-testF(TransitionTest, Eirunepe) {
-  assertValid(&ace_time::zonedbx::kValidationDataEirunepe);
+testF(TransitionTest, America_Mazatlan) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Mazatlan);
 }
-testF(TransitionTest, El_Aaiun) {
-  assertValid(&ace_time::zonedbx::kValidationDataEl_Aaiun);
+testF(TransitionTest, America_Menominee) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Menominee);
 }
-testF(TransitionTest, El_Salvador) {
-  assertValid(&ace_time::zonedbx::kValidationDataEl_Salvador);
+testF(TransitionTest, America_Merida) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Merida);
 }
-testF(TransitionTest, Enderbury) {
-  assertValid(&ace_time::zonedbx::kValidationDataEnderbury);
+testF(TransitionTest, America_Metlakatla) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Metlakatla);
 }
-testF(TransitionTest, Eucla) {
-  assertValid(&ace_time::zonedbx::kValidationDataEucla);
+testF(TransitionTest, America_Mexico_City) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Mexico_City);
 }
-testF(TransitionTest, Fakaofo) {
-  assertValid(&ace_time::zonedbx::kValidationDataFakaofo);
+testF(TransitionTest, America_Miquelon) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Miquelon);
 }
-testF(TransitionTest, Famagusta) {
-  assertValid(&ace_time::zonedbx::kValidationDataFamagusta);
+testF(TransitionTest, America_Moncton) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Moncton);
 }
-testF(TransitionTest, Faroe) {
-  assertValid(&ace_time::zonedbx::kValidationDataFaroe);
+testF(TransitionTest, America_Monterrey) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Monterrey);
 }
-testF(TransitionTest, Fiji) {
-  assertValid(&ace_time::zonedbx::kValidationDataFiji);
+testF(TransitionTest, America_Montevideo) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Montevideo);
 }
-testF(TransitionTest, Fort_Nelson) {
-  assertValid(&ace_time::zonedbx::kValidationDataFort_Nelson);
+testF(TransitionTest, America_Nassau) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Nassau);
 }
-testF(TransitionTest, Fortaleza) {
-  assertValid(&ace_time::zonedbx::kValidationDataFortaleza);
+testF(TransitionTest, America_New_York) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_New_York);
 }
-testF(TransitionTest, Funafuti) {
-  assertValid(&ace_time::zonedbx::kValidationDataFunafuti);
+testF(TransitionTest, America_Nipigon) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Nipigon);
 }
-testF(TransitionTest, Galapagos) {
-  assertValid(&ace_time::zonedbx::kValidationDataGalapagos);
+testF(TransitionTest, America_Nome) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Nome);
 }
-testF(TransitionTest, Gambier) {
-  assertValid(&ace_time::zonedbx::kValidationDataGambier);
+testF(TransitionTest, America_Noronha) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Noronha);
 }
-testF(TransitionTest, Gaza) {
-  assertValid(&ace_time::zonedbx::kValidationDataGaza);
+testF(TransitionTest, America_North_Dakota_Beulah) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_North_Dakota_Beulah);
 }
-testF(TransitionTest, Gibraltar) {
-  assertValid(&ace_time::zonedbx::kValidationDataGibraltar);
+testF(TransitionTest, America_North_Dakota_Center) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_North_Dakota_Center);
 }
-testF(TransitionTest, Glace_Bay) {
-  assertValid(&ace_time::zonedbx::kValidationDataGlace_Bay);
+testF(TransitionTest, America_North_Dakota_New_Salem) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_North_Dakota_New_Salem);
 }
-testF(TransitionTest, Godthab) {
-  assertValid(&ace_time::zonedbx::kValidationDataGodthab);
+testF(TransitionTest, America_Ojinaga) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Ojinaga);
 }
-testF(TransitionTest, Goose_Bay) {
-  assertValid(&ace_time::zonedbx::kValidationDataGoose_Bay);
+testF(TransitionTest, America_Panama) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Panama);
 }
-testF(TransitionTest, Grand_Turk) {
-  assertValid(&ace_time::zonedbx::kValidationDataGrand_Turk);
+testF(TransitionTest, America_Pangnirtung) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Pangnirtung);
 }
-testF(TransitionTest, Guadalcanal) {
-  assertValid(&ace_time::zonedbx::kValidationDataGuadalcanal);
+testF(TransitionTest, America_Paramaribo) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Paramaribo);
 }
-testF(TransitionTest, Guam) {
-  assertValid(&ace_time::zonedbx::kValidationDataGuam);
+testF(TransitionTest, America_Phoenix) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Phoenix);
 }
-testF(TransitionTest, Guatemala) {
-  assertValid(&ace_time::zonedbx::kValidationDataGuatemala);
+testF(TransitionTest, America_Port_au_Prince) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Port_au_Prince);
 }
-testF(TransitionTest, Guayaquil) {
-  assertValid(&ace_time::zonedbx::kValidationDataGuayaquil);
+testF(TransitionTest, America_Port_of_Spain) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Port_of_Spain);
 }
-testF(TransitionTest, Guyana) {
-  assertValid(&ace_time::zonedbx::kValidationDataGuyana);
+testF(TransitionTest, America_Porto_Velho) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Porto_Velho);
 }
-testF(TransitionTest, Halifax) {
-  assertValid(&ace_time::zonedbx::kValidationDataHalifax);
+testF(TransitionTest, America_Puerto_Rico) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Puerto_Rico);
 }
-testF(TransitionTest, Havana) {
-  assertValid(&ace_time::zonedbx::kValidationDataHavana);
+testF(TransitionTest, America_Punta_Arenas) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Punta_Arenas);
 }
-testF(TransitionTest, Hebron) {
-  assertValid(&ace_time::zonedbx::kValidationDataHebron);
+testF(TransitionTest, America_Rainy_River) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Rainy_River);
 }
-testF(TransitionTest, Helsinki) {
-  assertValid(&ace_time::zonedbx::kValidationDataHelsinki);
+testF(TransitionTest, America_Rankin_Inlet) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Rankin_Inlet);
 }
-testF(TransitionTest, Hermosillo) {
-  assertValid(&ace_time::zonedbx::kValidationDataHermosillo);
+testF(TransitionTest, America_Recife) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Recife);
 }
-testF(TransitionTest, Ho_Chi_Minh) {
-  assertValid(&ace_time::zonedbx::kValidationDataHo_Chi_Minh);
+testF(TransitionTest, America_Regina) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Regina);
 }
-testF(TransitionTest, Hobart) {
-  assertValid(&ace_time::zonedbx::kValidationDataHobart);
+testF(TransitionTest, America_Resolute) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Resolute);
 }
-testF(TransitionTest, Hong_Kong) {
-  assertValid(&ace_time::zonedbx::kValidationDataHong_Kong);
+testF(TransitionTest, America_Rio_Branco) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Rio_Branco);
 }
-testF(TransitionTest, Honolulu) {
-  assertValid(&ace_time::zonedbx::kValidationDataHonolulu);
+testF(TransitionTest, America_Santarem) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Santarem);
 }
-testF(TransitionTest, Hovd) {
-  assertValid(&ace_time::zonedbx::kValidationDataHovd);
+testF(TransitionTest, America_Santiago) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Santiago);
 }
-testF(TransitionTest, Indianapolis) {
-  assertValid(&ace_time::zonedbx::kValidationDataIndianapolis);
+testF(TransitionTest, America_Santo_Domingo) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Santo_Domingo);
 }
-testF(TransitionTest, Inuvik) {
-  assertValid(&ace_time::zonedbx::kValidationDataInuvik);
+testF(TransitionTest, America_Sao_Paulo) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Sao_Paulo);
 }
-testF(TransitionTest, Iqaluit) {
-  assertValid(&ace_time::zonedbx::kValidationDataIqaluit);
+testF(TransitionTest, America_Scoresbysund) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Scoresbysund);
 }
-testF(TransitionTest, Irkutsk) {
-  assertValid(&ace_time::zonedbx::kValidationDataIrkutsk);
+testF(TransitionTest, America_Sitka) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Sitka);
 }
-testF(TransitionTest, Istanbul) {
-  assertValid(&ace_time::zonedbx::kValidationDataIstanbul);
+testF(TransitionTest, America_St_Johns) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_St_Johns);
 }
-testF(TransitionTest, Jakarta) {
-  assertValid(&ace_time::zonedbx::kValidationDataJakarta);
+testF(TransitionTest, America_Swift_Current) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Swift_Current);
 }
-testF(TransitionTest, Jamaica) {
-  assertValid(&ace_time::zonedbx::kValidationDataJamaica);
+testF(TransitionTest, America_Tegucigalpa) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Tegucigalpa);
 }
-testF(TransitionTest, Jayapura) {
-  assertValid(&ace_time::zonedbx::kValidationDataJayapura);
+testF(TransitionTest, America_Thule) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Thule);
 }
-testF(TransitionTest, Jerusalem) {
-  assertValid(&ace_time::zonedbx::kValidationDataJerusalem);
+testF(TransitionTest, America_Thunder_Bay) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Thunder_Bay);
 }
-testF(TransitionTest, Johannesburg) {
-  assertValid(&ace_time::zonedbx::kValidationDataJohannesburg);
+testF(TransitionTest, America_Tijuana) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Tijuana);
 }
-testF(TransitionTest, Juba) {
-  assertValid(&ace_time::zonedbx::kValidationDataJuba);
+testF(TransitionTest, America_Toronto) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Toronto);
 }
-testF(TransitionTest, Jujuy) {
-  assertValid(&ace_time::zonedbx::kValidationDataJujuy);
+testF(TransitionTest, America_Vancouver) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Vancouver);
 }
-testF(TransitionTest, Juneau) {
-  assertValid(&ace_time::zonedbx::kValidationDataJuneau);
+testF(TransitionTest, America_Whitehorse) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Whitehorse);
 }
-testF(TransitionTest, Kabul) {
-  assertValid(&ace_time::zonedbx::kValidationDataKabul);
+testF(TransitionTest, America_Winnipeg) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Winnipeg);
 }
-testF(TransitionTest, Kaliningrad) {
-  assertValid(&ace_time::zonedbx::kValidationDataKaliningrad);
+testF(TransitionTest, America_Yakutat) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Yakutat);
 }
-testF(TransitionTest, Kamchatka) {
-  assertValid(&ace_time::zonedbx::kValidationDataKamchatka);
+testF(TransitionTest, America_Yellowknife) {
+  assertValid(&ace_time::zonedbx::kValidationDataAmerica_Yellowknife);
 }
-testF(TransitionTest, Karachi) {
-  assertValid(&ace_time::zonedbx::kValidationDataKarachi);
+testF(TransitionTest, Antarctica_Casey) {
+  assertValid(&ace_time::zonedbx::kValidationDataAntarctica_Casey);
 }
-testF(TransitionTest, Kathmandu) {
-  assertValid(&ace_time::zonedbx::kValidationDataKathmandu);
+testF(TransitionTest, Antarctica_Davis) {
+  assertValid(&ace_time::zonedbx::kValidationDataAntarctica_Davis);
 }
-testF(TransitionTest, Kerguelen) {
-  assertValid(&ace_time::zonedbx::kValidationDataKerguelen);
+testF(TransitionTest, Antarctica_DumontDUrville) {
+  assertValid(&ace_time::zonedbx::kValidationDataAntarctica_DumontDUrville);
 }
-testF(TransitionTest, Khandyga) {
-  assertValid(&ace_time::zonedbx::kValidationDataKhandyga);
+testF(TransitionTest, Antarctica_Macquarie) {
+  assertValid(&ace_time::zonedbx::kValidationDataAntarctica_Macquarie);
 }
-testF(TransitionTest, Khartoum) {
-  assertValid(&ace_time::zonedbx::kValidationDataKhartoum);
+testF(TransitionTest, Antarctica_Mawson) {
+  assertValid(&ace_time::zonedbx::kValidationDataAntarctica_Mawson);
 }
-testF(TransitionTest, Kiev) {
-  assertValid(&ace_time::zonedbx::kValidationDataKiev);
+testF(TransitionTest, Antarctica_Palmer) {
+  assertValid(&ace_time::zonedbx::kValidationDataAntarctica_Palmer);
 }
-testF(TransitionTest, Kiritimati) {
-  assertValid(&ace_time::zonedbx::kValidationDataKiritimati);
+testF(TransitionTest, Antarctica_Rothera) {
+  assertValid(&ace_time::zonedbx::kValidationDataAntarctica_Rothera);
 }
-testF(TransitionTest, Kirov) {
-  assertValid(&ace_time::zonedbx::kValidationDataKirov);
+testF(TransitionTest, Antarctica_Syowa) {
+  assertValid(&ace_time::zonedbx::kValidationDataAntarctica_Syowa);
 }
-testF(TransitionTest, Knox) {
-  assertValid(&ace_time::zonedbx::kValidationDataKnox);
+testF(TransitionTest, Antarctica_Troll) {
+  assertValid(&ace_time::zonedbx::kValidationDataAntarctica_Troll);
 }
-testF(TransitionTest, Kolkata) {
-  assertValid(&ace_time::zonedbx::kValidationDataKolkata);
+testF(TransitionTest, Antarctica_Vostok) {
+  assertValid(&ace_time::zonedbx::kValidationDataAntarctica_Vostok);
 }
-testF(TransitionTest, Kosrae) {
-  assertValid(&ace_time::zonedbx::kValidationDataKosrae);
+testF(TransitionTest, Asia_Almaty) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Almaty);
 }
-testF(TransitionTest, Krasnoyarsk) {
-  assertValid(&ace_time::zonedbx::kValidationDataKrasnoyarsk);
+testF(TransitionTest, Asia_Amman) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Amman);
 }
-testF(TransitionTest, Kuala_Lumpur) {
-  assertValid(&ace_time::zonedbx::kValidationDataKuala_Lumpur);
+testF(TransitionTest, Asia_Anadyr) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Anadyr);
 }
-testF(TransitionTest, Kuching) {
-  assertValid(&ace_time::zonedbx::kValidationDataKuching);
+testF(TransitionTest, Asia_Aqtau) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Aqtau);
 }
-testF(TransitionTest, Kwajalein) {
-  assertValid(&ace_time::zonedbx::kValidationDataKwajalein);
+testF(TransitionTest, Asia_Aqtobe) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Aqtobe);
 }
-testF(TransitionTest, La_Paz) {
-  assertValid(&ace_time::zonedbx::kValidationDataLa_Paz);
+testF(TransitionTest, Asia_Ashgabat) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Ashgabat);
 }
-testF(TransitionTest, La_Rioja) {
-  assertValid(&ace_time::zonedbx::kValidationDataLa_Rioja);
+testF(TransitionTest, Asia_Atyrau) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Atyrau);
 }
-testF(TransitionTest, Lagos) {
-  assertValid(&ace_time::zonedbx::kValidationDataLagos);
+testF(TransitionTest, Asia_Baghdad) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Baghdad);
 }
-testF(TransitionTest, Lima) {
-  assertValid(&ace_time::zonedbx::kValidationDataLima);
+testF(TransitionTest, Asia_Baku) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Baku);
 }
-testF(TransitionTest, Lindeman) {
-  assertValid(&ace_time::zonedbx::kValidationDataLindeman);
+testF(TransitionTest, Asia_Bangkok) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Bangkok);
 }
-testF(TransitionTest, Lisbon) {
-  assertValid(&ace_time::zonedbx::kValidationDataLisbon);
+testF(TransitionTest, Asia_Barnaul) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Barnaul);
 }
-testF(TransitionTest, London) {
-  assertValid(&ace_time::zonedbx::kValidationDataLondon);
+testF(TransitionTest, Asia_Beirut) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Beirut);
 }
-testF(TransitionTest, Lord_Howe) {
-  assertValid(&ace_time::zonedbx::kValidationDataLord_Howe);
+testF(TransitionTest, Asia_Bishkek) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Bishkek);
 }
-testF(TransitionTest, Los_Angeles) {
-  assertValid(&ace_time::zonedbx::kValidationDataLos_Angeles);
+testF(TransitionTest, Asia_Brunei) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Brunei);
 }
-testF(TransitionTest, Louisville) {
-  assertValid(&ace_time::zonedbx::kValidationDataLouisville);
+testF(TransitionTest, Asia_Chita) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Chita);
 }
-testF(TransitionTest, Luxembourg) {
-  assertValid(&ace_time::zonedbx::kValidationDataLuxembourg);
+testF(TransitionTest, Asia_Choibalsan) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Choibalsan);
 }
-testF(TransitionTest, Macau) {
-  assertValid(&ace_time::zonedbx::kValidationDataMacau);
+testF(TransitionTest, Asia_Colombo) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Colombo);
 }
-testF(TransitionTest, Maceio) {
-  assertValid(&ace_time::zonedbx::kValidationDataMaceio);
+testF(TransitionTest, Asia_Damascus) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Damascus);
 }
-testF(TransitionTest, Macquarie) {
-  assertValid(&ace_time::zonedbx::kValidationDataMacquarie);
+testF(TransitionTest, Asia_Dhaka) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Dhaka);
 }
-testF(TransitionTest, Madeira) {
-  assertValid(&ace_time::zonedbx::kValidationDataMadeira);
+testF(TransitionTest, Asia_Dili) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Dili);
 }
-testF(TransitionTest, Madrid) {
-  assertValid(&ace_time::zonedbx::kValidationDataMadrid);
+testF(TransitionTest, Asia_Dubai) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Dubai);
 }
-testF(TransitionTest, Magadan) {
-  assertValid(&ace_time::zonedbx::kValidationDataMagadan);
+testF(TransitionTest, Asia_Dushanbe) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Dushanbe);
 }
-testF(TransitionTest, Mahe) {
-  assertValid(&ace_time::zonedbx::kValidationDataMahe);
+testF(TransitionTest, Asia_Famagusta) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Famagusta);
 }
-testF(TransitionTest, Majuro) {
-  assertValid(&ace_time::zonedbx::kValidationDataMajuro);
+testF(TransitionTest, Asia_Gaza) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Gaza);
 }
-testF(TransitionTest, Makassar) {
-  assertValid(&ace_time::zonedbx::kValidationDataMakassar);
+testF(TransitionTest, Asia_Hebron) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Hebron);
 }
-testF(TransitionTest, Maldives) {
-  assertValid(&ace_time::zonedbx::kValidationDataMaldives);
+testF(TransitionTest, Asia_Ho_Chi_Minh) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Ho_Chi_Minh);
 }
-testF(TransitionTest, Malta) {
-  assertValid(&ace_time::zonedbx::kValidationDataMalta);
+testF(TransitionTest, Asia_Hong_Kong) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Hong_Kong);
 }
-testF(TransitionTest, Managua) {
-  assertValid(&ace_time::zonedbx::kValidationDataManagua);
+testF(TransitionTest, Asia_Hovd) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Hovd);
 }
-testF(TransitionTest, Manaus) {
-  assertValid(&ace_time::zonedbx::kValidationDataManaus);
+testF(TransitionTest, Asia_Irkutsk) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Irkutsk);
 }
-testF(TransitionTest, Manila) {
-  assertValid(&ace_time::zonedbx::kValidationDataManila);
+testF(TransitionTest, Asia_Jakarta) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Jakarta);
 }
-testF(TransitionTest, Maputo) {
-  assertValid(&ace_time::zonedbx::kValidationDataMaputo);
+testF(TransitionTest, Asia_Jayapura) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Jayapura);
 }
-testF(TransitionTest, Marengo) {
-  assertValid(&ace_time::zonedbx::kValidationDataMarengo);
+testF(TransitionTest, Asia_Jerusalem) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Jerusalem);
 }
-testF(TransitionTest, Marquesas) {
-  assertValid(&ace_time::zonedbx::kValidationDataMarquesas);
+testF(TransitionTest, Asia_Kabul) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Kabul);
 }
-testF(TransitionTest, Martinique) {
-  assertValid(&ace_time::zonedbx::kValidationDataMartinique);
+testF(TransitionTest, Asia_Kamchatka) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Kamchatka);
 }
-testF(TransitionTest, Matamoros) {
-  assertValid(&ace_time::zonedbx::kValidationDataMatamoros);
+testF(TransitionTest, Asia_Karachi) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Karachi);
 }
-testF(TransitionTest, Mauritius) {
-  assertValid(&ace_time::zonedbx::kValidationDataMauritius);
+testF(TransitionTest, Asia_Kathmandu) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Kathmandu);
 }
-testF(TransitionTest, Mawson) {
-  assertValid(&ace_time::zonedbx::kValidationDataMawson);
+testF(TransitionTest, Asia_Khandyga) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Khandyga);
 }
-testF(TransitionTest, Mazatlan) {
-  assertValid(&ace_time::zonedbx::kValidationDataMazatlan);
+testF(TransitionTest, Asia_Kolkata) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Kolkata);
 }
-testF(TransitionTest, Melbourne) {
-  assertValid(&ace_time::zonedbx::kValidationDataMelbourne);
+testF(TransitionTest, Asia_Krasnoyarsk) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Krasnoyarsk);
 }
-testF(TransitionTest, Mendoza) {
-  assertValid(&ace_time::zonedbx::kValidationDataMendoza);
+testF(TransitionTest, Asia_Kuala_Lumpur) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Kuala_Lumpur);
 }
-testF(TransitionTest, Menominee) {
-  assertValid(&ace_time::zonedbx::kValidationDataMenominee);
+testF(TransitionTest, Asia_Kuching) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Kuching);
 }
-testF(TransitionTest, Merida) {
-  assertValid(&ace_time::zonedbx::kValidationDataMerida);
+testF(TransitionTest, Asia_Macau) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Macau);
 }
-testF(TransitionTest, Metlakatla) {
-  assertValid(&ace_time::zonedbx::kValidationDataMetlakatla);
+testF(TransitionTest, Asia_Magadan) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Magadan);
 }
-testF(TransitionTest, Mexico_City) {
-  assertValid(&ace_time::zonedbx::kValidationDataMexico_City);
+testF(TransitionTest, Asia_Makassar) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Makassar);
 }
-testF(TransitionTest, Minsk) {
-  assertValid(&ace_time::zonedbx::kValidationDataMinsk);
+testF(TransitionTest, Asia_Manila) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Manila);
 }
-testF(TransitionTest, Miquelon) {
-  assertValid(&ace_time::zonedbx::kValidationDataMiquelon);
+testF(TransitionTest, Asia_Nicosia) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Nicosia);
 }
-testF(TransitionTest, Monaco) {
-  assertValid(&ace_time::zonedbx::kValidationDataMonaco);
+testF(TransitionTest, Asia_Novokuznetsk) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Novokuznetsk);
 }
-testF(TransitionTest, Moncton) {
-  assertValid(&ace_time::zonedbx::kValidationDataMoncton);
+testF(TransitionTest, Asia_Novosibirsk) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Novosibirsk);
 }
-testF(TransitionTest, Monrovia) {
-  assertValid(&ace_time::zonedbx::kValidationDataMonrovia);
+testF(TransitionTest, Asia_Omsk) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Omsk);
 }
-testF(TransitionTest, Monterrey) {
-  assertValid(&ace_time::zonedbx::kValidationDataMonterrey);
+testF(TransitionTest, Asia_Oral) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Oral);
 }
-testF(TransitionTest, Montevideo) {
-  assertValid(&ace_time::zonedbx::kValidationDataMontevideo);
+testF(TransitionTest, Asia_Pontianak) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Pontianak);
 }
-testF(TransitionTest, Monticello) {
-  assertValid(&ace_time::zonedbx::kValidationDataMonticello);
+testF(TransitionTest, Asia_Pyongyang) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Pyongyang);
 }
-testF(TransitionTest, Moscow) {
-  assertValid(&ace_time::zonedbx::kValidationDataMoscow);
+testF(TransitionTest, Asia_Qatar) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Qatar);
 }
-testF(TransitionTest, Nairobi) {
-  assertValid(&ace_time::zonedbx::kValidationDataNairobi);
+testF(TransitionTest, Asia_Qostanay) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Qostanay);
 }
-testF(TransitionTest, Nassau) {
-  assertValid(&ace_time::zonedbx::kValidationDataNassau);
+testF(TransitionTest, Asia_Qyzylorda) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Qyzylorda);
 }
-testF(TransitionTest, Nauru) {
-  assertValid(&ace_time::zonedbx::kValidationDataNauru);
+testF(TransitionTest, Asia_Riyadh) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Riyadh);
 }
-testF(TransitionTest, Ndjamena) {
-  assertValid(&ace_time::zonedbx::kValidationDataNdjamena);
+testF(TransitionTest, Asia_Sakhalin) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Sakhalin);
 }
-testF(TransitionTest, New_Salem) {
-  assertValid(&ace_time::zonedbx::kValidationDataNew_Salem);
+testF(TransitionTest, Asia_Samarkand) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Samarkand);
 }
-testF(TransitionTest, New_York) {
-  assertValid(&ace_time::zonedbx::kValidationDataNew_York);
+testF(TransitionTest, Asia_Seoul) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Seoul);
 }
-testF(TransitionTest, Nicosia) {
-  assertValid(&ace_time::zonedbx::kValidationDataNicosia);
+testF(TransitionTest, Asia_Shanghai) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Shanghai);
 }
-testF(TransitionTest, Nipigon) {
-  assertValid(&ace_time::zonedbx::kValidationDataNipigon);
+testF(TransitionTest, Asia_Singapore) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Singapore);
 }
-testF(TransitionTest, Niue) {
-  assertValid(&ace_time::zonedbx::kValidationDataNiue);
+testF(TransitionTest, Asia_Srednekolymsk) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Srednekolymsk);
 }
-testF(TransitionTest, Nome) {
-  assertValid(&ace_time::zonedbx::kValidationDataNome);
+testF(TransitionTest, Asia_Taipei) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Taipei);
 }
-testF(TransitionTest, Norfolk) {
-  assertValid(&ace_time::zonedbx::kValidationDataNorfolk);
+testF(TransitionTest, Asia_Tashkent) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Tashkent);
 }
-testF(TransitionTest, Noronha) {
-  assertValid(&ace_time::zonedbx::kValidationDataNoronha);
+testF(TransitionTest, Asia_Tbilisi) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Tbilisi);
 }
-testF(TransitionTest, Noumea) {
-  assertValid(&ace_time::zonedbx::kValidationDataNoumea);
+testF(TransitionTest, Asia_Tehran) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Tehran);
 }
-testF(TransitionTest, Novokuznetsk) {
-  assertValid(&ace_time::zonedbx::kValidationDataNovokuznetsk);
+testF(TransitionTest, Asia_Thimphu) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Thimphu);
 }
-testF(TransitionTest, Novosibirsk) {
-  assertValid(&ace_time::zonedbx::kValidationDataNovosibirsk);
+testF(TransitionTest, Asia_Tokyo) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Tokyo);
 }
-testF(TransitionTest, Ojinaga) {
-  assertValid(&ace_time::zonedbx::kValidationDataOjinaga);
+testF(TransitionTest, Asia_Tomsk) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Tomsk);
 }
-testF(TransitionTest, Omsk) {
-  assertValid(&ace_time::zonedbx::kValidationDataOmsk);
+testF(TransitionTest, Asia_Ulaanbaatar) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Ulaanbaatar);
 }
-testF(TransitionTest, Oral) {
-  assertValid(&ace_time::zonedbx::kValidationDataOral);
+testF(TransitionTest, Asia_Urumqi) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Urumqi);
 }
-testF(TransitionTest, Oslo) {
-  assertValid(&ace_time::zonedbx::kValidationDataOslo);
+testF(TransitionTest, Asia_Ust_Nera) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Ust_Nera);
 }
-testF(TransitionTest, Pago_Pago) {
-  assertValid(&ace_time::zonedbx::kValidationDataPago_Pago);
+testF(TransitionTest, Asia_Vladivostok) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Vladivostok);
 }
-testF(TransitionTest, Palau) {
-  assertValid(&ace_time::zonedbx::kValidationDataPalau);
+testF(TransitionTest, Asia_Yakutsk) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Yakutsk);
 }
-testF(TransitionTest, Palmer) {
-  assertValid(&ace_time::zonedbx::kValidationDataPalmer);
+testF(TransitionTest, Asia_Yangon) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Yangon);
 }
-testF(TransitionTest, Panama) {
-  assertValid(&ace_time::zonedbx::kValidationDataPanama);
+testF(TransitionTest, Asia_Yekaterinburg) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Yekaterinburg);
 }
-testF(TransitionTest, Pangnirtung) {
-  assertValid(&ace_time::zonedbx::kValidationDataPangnirtung);
+testF(TransitionTest, Asia_Yerevan) {
+  assertValid(&ace_time::zonedbx::kValidationDataAsia_Yerevan);
 }
-testF(TransitionTest, Paramaribo) {
-  assertValid(&ace_time::zonedbx::kValidationDataParamaribo);
+testF(TransitionTest, Atlantic_Azores) {
+  assertValid(&ace_time::zonedbx::kValidationDataAtlantic_Azores);
 }
-testF(TransitionTest, Paris) {
-  assertValid(&ace_time::zonedbx::kValidationDataParis);
+testF(TransitionTest, Atlantic_Bermuda) {
+  assertValid(&ace_time::zonedbx::kValidationDataAtlantic_Bermuda);
 }
-testF(TransitionTest, Perth) {
-  assertValid(&ace_time::zonedbx::kValidationDataPerth);
+testF(TransitionTest, Atlantic_Canary) {
+  assertValid(&ace_time::zonedbx::kValidationDataAtlantic_Canary);
 }
-testF(TransitionTest, Petersburg) {
-  assertValid(&ace_time::zonedbx::kValidationDataPetersburg);
+testF(TransitionTest, Atlantic_Cape_Verde) {
+  assertValid(&ace_time::zonedbx::kValidationDataAtlantic_Cape_Verde);
 }
-testF(TransitionTest, Phoenix) {
-  assertValid(&ace_time::zonedbx::kValidationDataPhoenix);
+testF(TransitionTest, Atlantic_Faroe) {
+  assertValid(&ace_time::zonedbx::kValidationDataAtlantic_Faroe);
 }
-testF(TransitionTest, Pitcairn) {
-  assertValid(&ace_time::zonedbx::kValidationDataPitcairn);
+testF(TransitionTest, Atlantic_Madeira) {
+  assertValid(&ace_time::zonedbx::kValidationDataAtlantic_Madeira);
 }
-testF(TransitionTest, Pohnpei) {
-  assertValid(&ace_time::zonedbx::kValidationDataPohnpei);
+testF(TransitionTest, Atlantic_Reykjavik) {
+  assertValid(&ace_time::zonedbx::kValidationDataAtlantic_Reykjavik);
 }
-testF(TransitionTest, Pontianak) {
-  assertValid(&ace_time::zonedbx::kValidationDataPontianak);
+testF(TransitionTest, Atlantic_South_Georgia) {
+  assertValid(&ace_time::zonedbx::kValidationDataAtlantic_South_Georgia);
 }
-testF(TransitionTest, Port_Moresby) {
-  assertValid(&ace_time::zonedbx::kValidationDataPort_Moresby);
+testF(TransitionTest, Atlantic_Stanley) {
+  assertValid(&ace_time::zonedbx::kValidationDataAtlantic_Stanley);
 }
-testF(TransitionTest, Port_au_Prince) {
-  assertValid(&ace_time::zonedbx::kValidationDataPort_au_Prince);
+testF(TransitionTest, Australia_Adelaide) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Adelaide);
 }
-testF(TransitionTest, Port_of_Spain) {
-  assertValid(&ace_time::zonedbx::kValidationDataPort_of_Spain);
+testF(TransitionTest, Australia_Brisbane) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Brisbane);
 }
-testF(TransitionTest, Porto_Velho) {
-  assertValid(&ace_time::zonedbx::kValidationDataPorto_Velho);
+testF(TransitionTest, Australia_Broken_Hill) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Broken_Hill);
 }
-testF(TransitionTest, Prague) {
-  assertValid(&ace_time::zonedbx::kValidationDataPrague);
+testF(TransitionTest, Australia_Currie) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Currie);
 }
-testF(TransitionTest, Puerto_Rico) {
-  assertValid(&ace_time::zonedbx::kValidationDataPuerto_Rico);
+testF(TransitionTest, Australia_Darwin) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Darwin);
 }
-testF(TransitionTest, Punta_Arenas) {
-  assertValid(&ace_time::zonedbx::kValidationDataPunta_Arenas);
+testF(TransitionTest, Australia_Eucla) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Eucla);
 }
-testF(TransitionTest, Pyongyang) {
-  assertValid(&ace_time::zonedbx::kValidationDataPyongyang);
+testF(TransitionTest, Australia_Hobart) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Hobart);
 }
-testF(TransitionTest, Qatar) {
-  assertValid(&ace_time::zonedbx::kValidationDataQatar);
+testF(TransitionTest, Australia_Lindeman) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Lindeman);
 }
-testF(TransitionTest, Qostanay) {
-  assertValid(&ace_time::zonedbx::kValidationDataQostanay);
+testF(TransitionTest, Australia_Lord_Howe) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Lord_Howe);
 }
-testF(TransitionTest, Qyzylorda) {
-  assertValid(&ace_time::zonedbx::kValidationDataQyzylorda);
+testF(TransitionTest, Australia_Melbourne) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Melbourne);
 }
-testF(TransitionTest, Rainy_River) {
-  assertValid(&ace_time::zonedbx::kValidationDataRainy_River);
+testF(TransitionTest, Australia_Perth) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Perth);
 }
-testF(TransitionTest, Rankin_Inlet) {
-  assertValid(&ace_time::zonedbx::kValidationDataRankin_Inlet);
+testF(TransitionTest, Australia_Sydney) {
+  assertValid(&ace_time::zonedbx::kValidationDataAustralia_Sydney);
 }
-testF(TransitionTest, Rarotonga) {
-  assertValid(&ace_time::zonedbx::kValidationDataRarotonga);
+testF(TransitionTest, Europe_Amsterdam) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Amsterdam);
 }
-testF(TransitionTest, Recife) {
-  assertValid(&ace_time::zonedbx::kValidationDataRecife);
+testF(TransitionTest, Europe_Andorra) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Andorra);
 }
-testF(TransitionTest, Regina) {
-  assertValid(&ace_time::zonedbx::kValidationDataRegina);
+testF(TransitionTest, Europe_Astrakhan) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Astrakhan);
 }
-testF(TransitionTest, Resolute) {
-  assertValid(&ace_time::zonedbx::kValidationDataResolute);
+testF(TransitionTest, Europe_Athens) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Athens);
 }
-testF(TransitionTest, Reunion) {
-  assertValid(&ace_time::zonedbx::kValidationDataReunion);
+testF(TransitionTest, Europe_Belgrade) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Belgrade);
 }
-testF(TransitionTest, Reykjavik) {
-  assertValid(&ace_time::zonedbx::kValidationDataReykjavik);
+testF(TransitionTest, Europe_Berlin) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Berlin);
 }
-testF(TransitionTest, Riga) {
-  assertValid(&ace_time::zonedbx::kValidationDataRiga);
+testF(TransitionTest, Europe_Brussels) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Brussels);
 }
-testF(TransitionTest, Rio_Branco) {
-  assertValid(&ace_time::zonedbx::kValidationDataRio_Branco);
+testF(TransitionTest, Europe_Bucharest) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Bucharest);
 }
-testF(TransitionTest, Rio_Gallegos) {
-  assertValid(&ace_time::zonedbx::kValidationDataRio_Gallegos);
+testF(TransitionTest, Europe_Budapest) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Budapest);
 }
-testF(TransitionTest, Riyadh) {
-  assertValid(&ace_time::zonedbx::kValidationDataRiyadh);
+testF(TransitionTest, Europe_Chisinau) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Chisinau);
 }
-testF(TransitionTest, Rome) {
-  assertValid(&ace_time::zonedbx::kValidationDataRome);
+testF(TransitionTest, Europe_Copenhagen) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Copenhagen);
 }
-testF(TransitionTest, Rothera) {
-  assertValid(&ace_time::zonedbx::kValidationDataRothera);
+testF(TransitionTest, Europe_Dublin) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Dublin);
 }
-testF(TransitionTest, Sakhalin) {
-  assertValid(&ace_time::zonedbx::kValidationDataSakhalin);
+testF(TransitionTest, Europe_Gibraltar) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Gibraltar);
 }
-testF(TransitionTest, Salta) {
-  assertValid(&ace_time::zonedbx::kValidationDataSalta);
+testF(TransitionTest, Europe_Helsinki) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Helsinki);
 }
-testF(TransitionTest, Samara) {
-  assertValid(&ace_time::zonedbx::kValidationDataSamara);
+testF(TransitionTest, Europe_Istanbul) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Istanbul);
 }
-testF(TransitionTest, Samarkand) {
-  assertValid(&ace_time::zonedbx::kValidationDataSamarkand);
+testF(TransitionTest, Europe_Kaliningrad) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Kaliningrad);
 }
-testF(TransitionTest, San_Juan) {
-  assertValid(&ace_time::zonedbx::kValidationDataSan_Juan);
+testF(TransitionTest, Europe_Kiev) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Kiev);
 }
-testF(TransitionTest, San_Luis) {
-  assertValid(&ace_time::zonedbx::kValidationDataSan_Luis);
+testF(TransitionTest, Europe_Kirov) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Kirov);
 }
-testF(TransitionTest, Santarem) {
-  assertValid(&ace_time::zonedbx::kValidationDataSantarem);
+testF(TransitionTest, Europe_Lisbon) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Lisbon);
 }
-testF(TransitionTest, Santiago) {
-  assertValid(&ace_time::zonedbx::kValidationDataSantiago);
+testF(TransitionTest, Europe_London) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_London);
 }
-testF(TransitionTest, Santo_Domingo) {
-  assertValid(&ace_time::zonedbx::kValidationDataSanto_Domingo);
+testF(TransitionTest, Europe_Luxembourg) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Luxembourg);
 }
-testF(TransitionTest, Sao_Paulo) {
-  assertValid(&ace_time::zonedbx::kValidationDataSao_Paulo);
+testF(TransitionTest, Europe_Madrid) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Madrid);
 }
-testF(TransitionTest, Sao_Tome) {
-  assertValid(&ace_time::zonedbx::kValidationDataSao_Tome);
+testF(TransitionTest, Europe_Malta) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Malta);
 }
-testF(TransitionTest, Saratov) {
-  assertValid(&ace_time::zonedbx::kValidationDataSaratov);
+testF(TransitionTest, Europe_Minsk) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Minsk);
 }
-testF(TransitionTest, Scoresbysund) {
-  assertValid(&ace_time::zonedbx::kValidationDataScoresbysund);
+testF(TransitionTest, Europe_Monaco) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Monaco);
 }
-testF(TransitionTest, Seoul) {
-  assertValid(&ace_time::zonedbx::kValidationDataSeoul);
+testF(TransitionTest, Europe_Moscow) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Moscow);
 }
-testF(TransitionTest, Shanghai) {
-  assertValid(&ace_time::zonedbx::kValidationDataShanghai);
+testF(TransitionTest, Europe_Oslo) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Oslo);
 }
-testF(TransitionTest, Simferopol) {
-  assertValid(&ace_time::zonedbx::kValidationDataSimferopol);
+testF(TransitionTest, Europe_Paris) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Paris);
 }
-testF(TransitionTest, Singapore) {
-  assertValid(&ace_time::zonedbx::kValidationDataSingapore);
+testF(TransitionTest, Europe_Prague) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Prague);
 }
-testF(TransitionTest, Sitka) {
-  assertValid(&ace_time::zonedbx::kValidationDataSitka);
+testF(TransitionTest, Europe_Riga) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Riga);
 }
-testF(TransitionTest, Sofia) {
-  assertValid(&ace_time::zonedbx::kValidationDataSofia);
+testF(TransitionTest, Europe_Rome) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Rome);
 }
-testF(TransitionTest, South_Georgia) {
-  assertValid(&ace_time::zonedbx::kValidationDataSouth_Georgia);
+testF(TransitionTest, Europe_Samara) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Samara);
 }
-testF(TransitionTest, Srednekolymsk) {
-  assertValid(&ace_time::zonedbx::kValidationDataSrednekolymsk);
+testF(TransitionTest, Europe_Saratov) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Saratov);
 }
-testF(TransitionTest, St_Johns) {
-  assertValid(&ace_time::zonedbx::kValidationDataSt_Johns);
+testF(TransitionTest, Europe_Simferopol) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Simferopol);
 }
-testF(TransitionTest, Stanley) {
-  assertValid(&ace_time::zonedbx::kValidationDataStanley);
+testF(TransitionTest, Europe_Sofia) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Sofia);
 }
-testF(TransitionTest, Stockholm) {
-  assertValid(&ace_time::zonedbx::kValidationDataStockholm);
+testF(TransitionTest, Europe_Stockholm) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Stockholm);
 }
-testF(TransitionTest, Swift_Current) {
-  assertValid(&ace_time::zonedbx::kValidationDataSwift_Current);
+testF(TransitionTest, Europe_Tallinn) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Tallinn);
 }
-testF(TransitionTest, Sydney) {
-  assertValid(&ace_time::zonedbx::kValidationDataSydney);
+testF(TransitionTest, Europe_Tirane) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Tirane);
 }
-testF(TransitionTest, Syowa) {
-  assertValid(&ace_time::zonedbx::kValidationDataSyowa);
+testF(TransitionTest, Europe_Ulyanovsk) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Ulyanovsk);
 }
-testF(TransitionTest, Tahiti) {
-  assertValid(&ace_time::zonedbx::kValidationDataTahiti);
+testF(TransitionTest, Europe_Uzhgorod) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Uzhgorod);
 }
-testF(TransitionTest, Taipei) {
-  assertValid(&ace_time::zonedbx::kValidationDataTaipei);
+testF(TransitionTest, Europe_Vienna) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Vienna);
 }
-testF(TransitionTest, Tallinn) {
-  assertValid(&ace_time::zonedbx::kValidationDataTallinn);
+testF(TransitionTest, Europe_Vilnius) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Vilnius);
 }
-testF(TransitionTest, Tarawa) {
-  assertValid(&ace_time::zonedbx::kValidationDataTarawa);
+testF(TransitionTest, Europe_Volgograd) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Volgograd);
 }
-testF(TransitionTest, Tashkent) {
-  assertValid(&ace_time::zonedbx::kValidationDataTashkent);
+testF(TransitionTest, Europe_Warsaw) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Warsaw);
 }
-testF(TransitionTest, Tbilisi) {
-  assertValid(&ace_time::zonedbx::kValidationDataTbilisi);
+testF(TransitionTest, Europe_Zaporozhye) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Zaporozhye);
 }
-testF(TransitionTest, Tegucigalpa) {
-  assertValid(&ace_time::zonedbx::kValidationDataTegucigalpa);
+testF(TransitionTest, Europe_Zurich) {
+  assertValid(&ace_time::zonedbx::kValidationDataEurope_Zurich);
 }
-testF(TransitionTest, Tehran) {
-  assertValid(&ace_time::zonedbx::kValidationDataTehran);
+testF(TransitionTest, Indian_Chagos) {
+  assertValid(&ace_time::zonedbx::kValidationDataIndian_Chagos);
 }
-testF(TransitionTest, Tell_City) {
-  assertValid(&ace_time::zonedbx::kValidationDataTell_City);
+testF(TransitionTest, Indian_Christmas) {
+  assertValid(&ace_time::zonedbx::kValidationDataIndian_Christmas);
 }
-testF(TransitionTest, Thimphu) {
-  assertValid(&ace_time::zonedbx::kValidationDataThimphu);
+testF(TransitionTest, Indian_Cocos) {
+  assertValid(&ace_time::zonedbx::kValidationDataIndian_Cocos);
 }
-testF(TransitionTest, Thule) {
-  assertValid(&ace_time::zonedbx::kValidationDataThule);
+testF(TransitionTest, Indian_Kerguelen) {
+  assertValid(&ace_time::zonedbx::kValidationDataIndian_Kerguelen);
 }
-testF(TransitionTest, Thunder_Bay) {
-  assertValid(&ace_time::zonedbx::kValidationDataThunder_Bay);
+testF(TransitionTest, Indian_Mahe) {
+  assertValid(&ace_time::zonedbx::kValidationDataIndian_Mahe);
 }
-testF(TransitionTest, Tijuana) {
-  assertValid(&ace_time::zonedbx::kValidationDataTijuana);
+testF(TransitionTest, Indian_Maldives) {
+  assertValid(&ace_time::zonedbx::kValidationDataIndian_Maldives);
 }
-testF(TransitionTest, Tirane) {
-  assertValid(&ace_time::zonedbx::kValidationDataTirane);
+testF(TransitionTest, Indian_Mauritius) {
+  assertValid(&ace_time::zonedbx::kValidationDataIndian_Mauritius);
 }
-testF(TransitionTest, Tokyo) {
-  assertValid(&ace_time::zonedbx::kValidationDataTokyo);
+testF(TransitionTest, Indian_Reunion) {
+  assertValid(&ace_time::zonedbx::kValidationDataIndian_Reunion);
 }
-testF(TransitionTest, Tomsk) {
-  assertValid(&ace_time::zonedbx::kValidationDataTomsk);
+testF(TransitionTest, Pacific_Apia) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Apia);
 }
-testF(TransitionTest, Tongatapu) {
-  assertValid(&ace_time::zonedbx::kValidationDataTongatapu);
+testF(TransitionTest, Pacific_Auckland) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Auckland);
 }
-testF(TransitionTest, Toronto) {
-  assertValid(&ace_time::zonedbx::kValidationDataToronto);
+testF(TransitionTest, Pacific_Bougainville) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Bougainville);
 }
-testF(TransitionTest, Tripoli) {
-  assertValid(&ace_time::zonedbx::kValidationDataTripoli);
+testF(TransitionTest, Pacific_Chatham) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Chatham);
 }
-testF(TransitionTest, Troll) {
-  assertValid(&ace_time::zonedbx::kValidationDataTroll);
+testF(TransitionTest, Pacific_Chuuk) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Chuuk);
 }
-testF(TransitionTest, Tucuman) {
-  assertValid(&ace_time::zonedbx::kValidationDataTucuman);
+testF(TransitionTest, Pacific_Easter) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Easter);
 }
-testF(TransitionTest, Tunis) {
-  assertValid(&ace_time::zonedbx::kValidationDataTunis);
+testF(TransitionTest, Pacific_Efate) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Efate);
 }
-testF(TransitionTest, Ulaanbaatar) {
-  assertValid(&ace_time::zonedbx::kValidationDataUlaanbaatar);
+testF(TransitionTest, Pacific_Enderbury) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Enderbury);
 }
-testF(TransitionTest, Ulyanovsk) {
-  assertValid(&ace_time::zonedbx::kValidationDataUlyanovsk);
+testF(TransitionTest, Pacific_Fakaofo) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Fakaofo);
 }
-testF(TransitionTest, Urumqi) {
-  assertValid(&ace_time::zonedbx::kValidationDataUrumqi);
+testF(TransitionTest, Pacific_Fiji) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Fiji);
 }
-testF(TransitionTest, Ushuaia) {
-  assertValid(&ace_time::zonedbx::kValidationDataUshuaia);
+testF(TransitionTest, Pacific_Funafuti) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Funafuti);
 }
-testF(TransitionTest, Ust_Nera) {
-  assertValid(&ace_time::zonedbx::kValidationDataUst_Nera);
+testF(TransitionTest, Pacific_Galapagos) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Galapagos);
 }
-testF(TransitionTest, Uzhgorod) {
-  assertValid(&ace_time::zonedbx::kValidationDataUzhgorod);
+testF(TransitionTest, Pacific_Gambier) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Gambier);
 }
-testF(TransitionTest, Vancouver) {
-  assertValid(&ace_time::zonedbx::kValidationDataVancouver);
+testF(TransitionTest, Pacific_Guadalcanal) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Guadalcanal);
 }
-testF(TransitionTest, Vevay) {
-  assertValid(&ace_time::zonedbx::kValidationDataVevay);
+testF(TransitionTest, Pacific_Guam) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Guam);
 }
-testF(TransitionTest, Vienna) {
-  assertValid(&ace_time::zonedbx::kValidationDataVienna);
+testF(TransitionTest, Pacific_Honolulu) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Honolulu);
 }
-testF(TransitionTest, Vilnius) {
-  assertValid(&ace_time::zonedbx::kValidationDataVilnius);
+testF(TransitionTest, Pacific_Kiritimati) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Kiritimati);
 }
-testF(TransitionTest, Vincennes) {
-  assertValid(&ace_time::zonedbx::kValidationDataVincennes);
+testF(TransitionTest, Pacific_Kosrae) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Kosrae);
 }
-testF(TransitionTest, Vladivostok) {
-  assertValid(&ace_time::zonedbx::kValidationDataVladivostok);
+testF(TransitionTest, Pacific_Kwajalein) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Kwajalein);
 }
-testF(TransitionTest, Volgograd) {
-  assertValid(&ace_time::zonedbx::kValidationDataVolgograd);
+testF(TransitionTest, Pacific_Majuro) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Majuro);
 }
-testF(TransitionTest, Vostok) {
-  assertValid(&ace_time::zonedbx::kValidationDataVostok);
+testF(TransitionTest, Pacific_Marquesas) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Marquesas);
 }
-testF(TransitionTest, Wake) {
-  assertValid(&ace_time::zonedbx::kValidationDataWake);
+testF(TransitionTest, Pacific_Nauru) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Nauru);
 }
-testF(TransitionTest, Wallis) {
-  assertValid(&ace_time::zonedbx::kValidationDataWallis);
+testF(TransitionTest, Pacific_Niue) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Niue);
 }
-testF(TransitionTest, Warsaw) {
-  assertValid(&ace_time::zonedbx::kValidationDataWarsaw);
+testF(TransitionTest, Pacific_Norfolk) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Norfolk);
 }
-testF(TransitionTest, Whitehorse) {
-  assertValid(&ace_time::zonedbx::kValidationDataWhitehorse);
+testF(TransitionTest, Pacific_Noumea) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Noumea);
 }
-testF(TransitionTest, Winamac) {
-  assertValid(&ace_time::zonedbx::kValidationDataWinamac);
+testF(TransitionTest, Pacific_Pago_Pago) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Pago_Pago);
 }
-testF(TransitionTest, Windhoek) {
-  assertValid(&ace_time::zonedbx::kValidationDataWindhoek);
+testF(TransitionTest, Pacific_Palau) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Palau);
 }
-testF(TransitionTest, Winnipeg) {
-  assertValid(&ace_time::zonedbx::kValidationDataWinnipeg);
+testF(TransitionTest, Pacific_Pitcairn) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Pitcairn);
 }
-testF(TransitionTest, Yakutat) {
-  assertValid(&ace_time::zonedbx::kValidationDataYakutat);
+testF(TransitionTest, Pacific_Pohnpei) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Pohnpei);
 }
-testF(TransitionTest, Yakutsk) {
-  assertValid(&ace_time::zonedbx::kValidationDataYakutsk);
+testF(TransitionTest, Pacific_Port_Moresby) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Port_Moresby);
 }
-testF(TransitionTest, Yangon) {
-  assertValid(&ace_time::zonedbx::kValidationDataYangon);
+testF(TransitionTest, Pacific_Rarotonga) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Rarotonga);
 }
-testF(TransitionTest, Yekaterinburg) {
-  assertValid(&ace_time::zonedbx::kValidationDataYekaterinburg);
+testF(TransitionTest, Pacific_Tahiti) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Tahiti);
 }
-testF(TransitionTest, Yellowknife) {
-  assertValid(&ace_time::zonedbx::kValidationDataYellowknife);
+testF(TransitionTest, Pacific_Tarawa) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Tarawa);
 }
-testF(TransitionTest, Yerevan) {
-  assertValid(&ace_time::zonedbx::kValidationDataYerevan);
+testF(TransitionTest, Pacific_Tongatapu) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Tongatapu);
 }
-testF(TransitionTest, Zaporozhye) {
-  assertValid(&ace_time::zonedbx::kValidationDataZaporozhye);
+testF(TransitionTest, Pacific_Wake) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Wake);
 }
-testF(TransitionTest, Zurich) {
-  assertValid(&ace_time::zonedbx::kValidationDataZurich);
+testF(TransitionTest, Pacific_Wallis) {
+  assertValid(&ace_time::zonedbx::kValidationDataPacific_Wallis);
 }
 
