@@ -81,13 +81,18 @@ class Controller {
         Serial.println(F("modeButtonPress()"));
       #endif
       switch (mMode) {
+        // Cycle through the 3 main screens.
         case MODE_DATE_TIME:
           mMode = MODE_TIME_ZONE;
           break;
         case MODE_TIME_ZONE:
+          mMode = MODE_ABOUT;
+          break;
+        case MODE_ABOUT:
           mMode = MODE_DATE_TIME;
           break;
 
+        // Cycle through the various changeable date time fields.
         case MODE_CHANGE_YEAR:
           mMode = MODE_CHANGE_MONTH;
           break;
@@ -107,6 +112,7 @@ class Controller {
           mMode = MODE_CHANGE_YEAR;
           break;
 
+        // Cycle through the various changeable time zone fields.
         case MODE_CHANGE_TIME_ZONE_HOUR:
           mMode = MODE_CHANGE_TIME_ZONE_MINUTE;
           break;

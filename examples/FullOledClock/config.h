@@ -7,17 +7,22 @@
 
 const uint8_t MODE_UNKNOWN = 0; // uninitialized
 const uint8_t MODE_DATE_TIME = 1;
-const uint8_t MODE_TIME_ZONE = 8;
+const uint8_t MODE_TIME_ZONE = 2;
+const uint8_t MODE_ABOUT = 3;
+
 const uint8_t MODE_CHANGE_YEAR = 10;
 const uint8_t MODE_CHANGE_MONTH = 11;
 const uint8_t MODE_CHANGE_DAY = 12;
 const uint8_t MODE_CHANGE_HOUR = 13;
 const uint8_t MODE_CHANGE_MINUTE = 14;
 const uint8_t MODE_CHANGE_SECOND = 15;
-const uint8_t MODE_CHANGE_TIME_ZONE_HOUR = 16;
-const uint8_t MODE_CHANGE_TIME_ZONE_MINUTE = 17;
-const uint8_t MODE_CHANGE_TIME_ZONE_DST = 18;
-const uint8_t MODE_CHANGE_HOUR_MODE = 19;
+
+const uint8_t MODE_CHANGE_TIME_ZONE_HOUR = 20;
+const uint8_t MODE_CHANGE_TIME_ZONE_MINUTE = 21;
+const uint8_t MODE_CHANGE_TIME_ZONE_DST = 22;
+const uint8_t MODE_CHANGE_HOUR_MODE = 23;
+
+#define CLOCK_VERSION "0.1"
 
 #define ENABLE_SERIAL 0
 

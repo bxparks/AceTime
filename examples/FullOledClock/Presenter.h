@@ -90,8 +90,6 @@ class Presenter {
 
     void displayData() {
       mOled.home();
-      mOled.setFont(fixed_bold10x15);
-      //mOled.set2X();
 
       switch (mRenderingInfo.mode) {
         case MODE_DATE_TIME:
@@ -111,10 +109,15 @@ class Presenter {
         case MODE_CHANGE_HOUR_MODE:
           displayTimeZone();
           break;
+
+        case MODE_ABOUT:
+          displayAbout();
+          break;
       }
     }
 
     void displayDateTime() const {
+      mOled.setFont(fixed_bold10x15);
       const ZonedDateTime& dateTime = mRenderingInfo.dateTime;
 
       // date
@@ -179,6 +182,8 @@ class Presenter {
     }
 
     void displayTimeZone() const {
+      mOled.setFont(fixed_bold10x15);
+
       int8_t sign;
       uint8_t hour;
       uint8_t minute;
@@ -215,6 +220,18 @@ class Presenter {
       } else {
         mOled.print("  ");
       }
+    }
+
+    void displayAbout() const {
+      mOled.setFont(SystemFont5x7);
+
+      mOled.println(F("FullOledClock"));
+      mOled.print(F("Ver: "));
+      mOled.println(CLOCK_VERSION);
+      mOled.print(F("Tzdata: "));
+      mOled.println(zonedb::kTzDatabaseVersion);
+      mOled.print(F("AceTime: "));
+      mOled.print((uint32_t) ACE_TIME_VERSION);
     }
 
     RenderingInfo mRenderingInfo;
