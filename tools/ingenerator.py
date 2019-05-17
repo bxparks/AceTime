@@ -9,7 +9,6 @@ instead of creating files. These maps can be used for further processing.
 import logging
 from extractor import ZoneEraRaw
 from extractor import ZoneRuleRaw
-from transformer import short_name
 from argenerator import normalize_name
 from argenerator import normalize_raw
 
@@ -27,7 +26,7 @@ class InlineGenerator:
         self.zones_map = zones_map
         self.rules_map = rules_map
 
-        self.zone_infos = {}  # same as zone_infos.py {short_name -> zone_info}
+        self.zone_infos = {}  # same as zone_infos.py {zone_name -> zone_info}
         self.zone_policies = {}  # zone_policies.py {policy_name -> zone_policy}
 
     def generate_maps(self):
@@ -64,7 +63,7 @@ class InlineGenerator:
             }
 
     def _generate_infos(self):
-        for name, eras in self.zones_map.items():
+        for zone_name, eras in self.zones_map.items():
             zone_eras = []
             for era in eras:
                 policy_name = era.rules
@@ -87,5 +86,4 @@ class InlineGenerator:
                     'untilTimeModifier': era.untilTimeModifier,
                 })
                 # yapf: enable
-            sname = normalize_name(short_name(name))
-            self.zone_infos[sname] = {'name': name, 'eras': zone_eras}
+            self.zone_infos[zone_name] = {'name': zone_name, 'eras': zone_eras}

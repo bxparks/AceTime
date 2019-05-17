@@ -44,11 +44,11 @@ class TestDataGenerator:
     # NOTE: Using a dict {} might make the look up faster than using a
     # sequential scan through the DateTuple.
     CORRECTIONS = {
-        'Gaza': [
+        'Asia/Gaza': [
             (DateTuple(2010, 3, 27, 0, 'w'), 60),
             (DateTuple(2011, 4, 1, 0, 'w'), 60),
         ],
-        'Goose_Bay': [
+        'America/Goose_Bay': [
             (DateTuple(2000, 4, 2, 0, 'w'), 60),
             (DateTuple(2000, 10, 29, 0, 'w'), 60),
             (DateTuple(2001, 4, 1, 0, 'w'), 60),
@@ -73,10 +73,10 @@ class TestDataGenerator:
             (DateTuple(2010, 11, 7, 0, 'w'), 60),
             (DateTuple(2011, 3, 13, 0, 'w'), 60),
         ],
-        'Hebron': [
+        'Asia/Hebron': [
             (DateTuple(2011, 4, 1, 0, 'w'), 60),
         ],
-        'Moncton': [
+        'America/Moncton': [
             (DateTuple(2000, 4, 2, 0, 'w'), 60),
             (DateTuple(2000, 10, 29, 0, 'w'), 60),
             (DateTuple(2001, 4, 1, 0, 'w'), 60),
@@ -92,7 +92,7 @@ class TestDataGenerator:
             (DateTuple(2006, 4, 2, 0, 'w'), 60),
             (DateTuple(2006, 10, 29, 0, 'w'), 60),
         ],
-        'St_Johns': [
+        'America/St_Johns': [
             (DateTuple(2000, 4, 2, 0, 'w'), 60),
             (DateTuple(2000, 10, 29, 0, 'w'), 60),
             (DateTuple(2001, 4, 1, 0, 'w'), 60),
@@ -123,8 +123,8 @@ class TestDataGenerator:
         until_year):
         """
         Args:
-            zone_infos (dict): {name -> zone_info{} }
-            zone_policies (dict): {name ->zone_policy{} }
+            zone_infos (dict): {zone_name -> zone_info{} }
+            zone_policies (dict): {zone_name ->zone_policy{} }
         """
         self.zone_infos = zone_infos
         self.zone_policies = zone_policies
@@ -137,36 +137,35 @@ class TestDataGenerator:
 
     def create_test_data(self):
         """Create a map of {
-            zone_short_name: [ TestItem() ]
+            zone_name: [ TestItem() ]
         }
         Return (test_data, num_items).
         """
         test_data = {}
         num_items = 0
-        for zone_short_name, zone_info in sorted(self.zone_infos.items()):
-            if self.zone_name != '' and zone_short_name != self.zone_name:
+        for zone_name, zone_info in sorted(self.zone_infos.items()):
+            if self.zone_name != '' and zone_name != self.zone_name:
                 continue
             test_items = self._create_test_data_for_zone(
-                zone_short_name, zone_info)
+                zone_name, zone_info)
             if test_items:
-                test_data[zone_short_name] = test_items
+                test_data[zone_name] = test_items
                 num_items += len(test_items)
         return (test_data, num_items)
 
-    def _create_test_data_for_zone(self, zone_short_name, zone_info):
+    def _create_test_data_for_zone(self, zone_name, zone_info):
         """Create the TestItems for a specific zone.
         """
         zone_specifier = ZoneSpecifier(zone_info)
-        zone_full_name = zone_info['name']
         try:
-            tz = pytz.timezone(zone_full_name)
+            tz = pytz.timezone(zone_name)
         except:
             logging.error("Zone '%s' not found in Python pytz package",
-                          zone_full_name)
+                          zone_name)
             return None
 
         return self._create_transition_test_items(
-            zone_short_name, tz, zone_specifier)
+            zone_name, tz, zone_specifier)
 
     @staticmethod
     def _add_test_item(items_map, item):
@@ -187,8 +186,7 @@ class TestDataGenerator:
         else:
             items_map[item.epoch] = item
 
-    def _create_transition_test_items(
-        self, zone_short_name, tz, zone_specifier):
+    def _create_transition_test_items(self, zone_name, tz, zone_specifier):
         """Create a TestItem for the tz for each zone, for each year from
         start_year to until_year, exclusive. The following test samples are
         created:
@@ -231,7 +229,7 @@ class TestDataGenerator:
                         continue
 
                 correction = self._get_correction(
-                    zone_short_name, transition.transitionTime)
+                    zone_name, transition.transitionTime)
 
                 epoch_seconds = transition.startEpochSecond
 
@@ -250,14 +248,14 @@ class TestDataGenerator:
             # Add one sample test point on the first of each month
             for month in range(1, 13):
                 tt = DateTuple(y=year, M=month, d=1, ss=0, f='w')
-                correction = self._get_correction(zone_short_name, tt)
+                correction = self._get_correction(zone_name, tt)
                 test_item = self._create_test_item_from_datetime(
                     tz, tt, correction, type='S')
                 self._add_test_item(items_map, test_item)
 
             # Add a sample test point at the end of the year.
             tt = DateTuple(y=year, M=12, d=31, ss=23*3600, f='w')
-            correction = self._get_correction(zone_short_name, tt)
+            correction = self._get_correction(zone_name, tt)
             test_item = self._create_test_item_from_datetime(
                 tz, tt, correction, type='Y')
             self._add_test_item(items_map, test_item)
@@ -265,7 +263,7 @@ class TestDataGenerator:
         # Return the TestItems ordered by epoch
         return [items_map[x] for x in sorted(items_map)]
 
-    def _get_correction(self, zone_short_name, tt):
+    def _get_correction(self, zone_name, tt):
         """Given the DateTuple of interest, return the correction (in seconds)
         due to truncation of the transition time caused by the granularity. For
         example, if the actual transition time was 00:01, but the granularity is
@@ -275,7 +273,7 @@ class TestDataGenerator:
         if self.granularity <= 60:
             return 0
 
-        correction_list = TestDataGenerator.CORRECTIONS.get(zone_short_name)
+        correction_list = TestDataGenerator.CORRECTIONS.get(zone_name)
         if correction_list:
             for correction in correction_list:
                 if tt == correction[0]:

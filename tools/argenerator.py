@@ -9,7 +9,6 @@ import logging
 import os
 import transformer
 from collections import OrderedDict
-from transformer import short_name
 from transformer import div_to_zero
 from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
@@ -432,7 +431,7 @@ extern const char kTzDatabaseVersion[];
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-extern const ZoneInfo kZone{zoneShortName}; // {zoneFullName}
+extern const ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
@@ -485,15 +484,15 @@ const char kTzDatabaseVersion[] = "{tz_version}";
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const ZoneEra kZoneEra{zoneShortName}[] = {{
+static const ZoneEra kZoneEra{zoneNormalizedName}[] = {{
 {eraItems}
 }};
 
-const ZoneInfo kZone{zoneShortName} = {{
+const ZoneInfo kZone{zoneNormalizedName} = {{
   "{zoneFullName}" /*name*/,
   {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,
-  kZoneEra{zoneShortName} /*eras*/,
+  kZoneEra{zoneNormalizedName} /*eras*/,
 }};
 
 """
@@ -538,20 +537,20 @@ const ZoneInfo kZone{zoneShortName} = {{
 
     def generate_infos_h(self):
         info_items = ''
-        for name, eras in sorted(self.zones_map.items()):
+        for zone_name, eras in sorted(self.zones_map.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
-                zoneShortName=normalize_name(short_name(name)),
-                zoneFullName=name)
+                zoneNormalizedName=normalize_name(zone_name),
+                zoneFullName=zone_name)
 
         removed_info_items = ''
-        for name, reason in sorted(self.removed_zones.items()):
+        for zone_name, reason in sorted(self.removed_zones.items()):
             removed_info_items += self.ZONE_INFOS_H_REMOVED_INFO_ITEM.format(
-                zoneFullName=name, infoReason=reason)
+                zoneFullName=zone_name, infoReason=reason)
 
         notable_info_items = ''
-        for name, reason in sorted(self.notable_zones.items()):
+        for zone_name, reason in sorted(self.notable_zones.items()):
             notable_info_items += self.ZONE_INFOS_H_NOTABLE_INFO_ITEM.format(
-                zoneFullName=name, infoReason=reason)
+                zoneFullName=zone_name, infoReason=reason)
 
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
@@ -570,9 +569,9 @@ const ZoneInfo kZone{zoneShortName} = {{
         info_items = ''
         num_eras = 0
         string_length = 0
-        for name, eras in sorted(self.zones_map.items()):
+        for zone_name, eras in sorted(self.zones_map.items()):
             (info_item, info_string_length) = self._generate_info_item(
-                name, eras)
+                zone_name, eras)
             info_items += info_item
             string_length += info_string_length
             num_eras += len(eras)
@@ -595,26 +594,26 @@ const ZoneInfo kZone{zoneShortName} = {{
             memory32=memory32,
             infoItems=info_items)
 
-    def _generate_info_item(self, name, eras):
+    def _generate_info_item(self, zone_name, eras):
         era_items = ''
         string_length = 0
         for era in eras:
-            (era_item, length) = self._generate_era_item(name, era)
+            (era_item, length) = self._generate_era_item(zone_name, era)
             era_items += era_item
             string_length += length
 
-        string_length += len(name) + 1
+        string_length += len(zone_name) + 1
         num_eras = len(eras)
         memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
                    1 * self.SIZEOF_ZONE_INFO_8)
         memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
                     1 * self.SIZEOF_ZONE_INFO_32)
 
-        transition_buf_size = self.buf_sizes[name]
+        transition_buf_size = self.buf_sizes[zone_name]
 
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
-            zoneFullName=normalize_name(name),
-            zoneShortName=normalize_name(short_name(name)),
+            zoneFullName=zone_name,
+            zoneNormalizedName=normalize_name(zone_name),
             transitionBufSize=transition_buf_size,
             numEras=num_eras,
             stringLength=string_length,
@@ -623,7 +622,7 @@ const ZoneInfo kZone{zoneShortName} = {{
             eraItems=era_items)
         return (info_item, string_length)
 
-    def _generate_era_item(self, name, era):
+    def _generate_era_item(self, zone_name, era):
         policy_name = era.rules
         if policy_name == '-' or policy_name == ':':
             zone_policy = 'nullptr'
@@ -797,9 +796,10 @@ def to_tiny_year(year):
 
 
 def normalize_name(name):
-    """Replace hyphen with underscore so that the C++ symbol can compile.
+    """Replace hyphen (-) and slash (/) with underscore (_) to generate valid
+    C++ and Python symbols.
     """
-    return name.replace('-', '_')
+    return name.replace('-', '_').replace('/', '_')
 
 
 def normalize_raw(raw_line):

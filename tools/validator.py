@@ -91,11 +91,11 @@ class Validator:
             (start_year, until_year))
 
         # Calculate the buffer sizes for every Zone in zone_infos.
-        for zone_short_name, zone_info in sorted(self.zone_infos.items()):
-            if self.zone_name and zone_short_name != self.zone_name:
+        for zone_name, zone_info in sorted(self.zone_infos.items()):
+            if self.zone_name and zone_name != self.zone_name:
                 continue
             if self.debug_validator:
-                logging.info('Validating zone %s' % zone_short_name)
+                logging.info('Validating zone %s' % zone_name)
 
             zone_specifier = ZoneSpecifier(
                 zone_info_data=zone_info,
@@ -104,15 +104,15 @@ class Validator:
                 in_place_transitions=self.in_place_transitions,
                 optimize_candidates=self.optimize_candidates)
 
-            transition_stats[zone_short_name] = zone_specifier.get_buffer_sizes(
+            transition_stats[zone_name] = zone_specifier.get_buffer_sizes(
                 start_year, until_year)
 
         logging.info('Zone Name: #NumTransitions (year); #MaxBufSize (year)')
-        for zone_short_name, count_record in sorted(
+        for zone_name, count_record in sorted(
                 transition_stats.items(), key=lambda x: x[1], reverse=True):
             logging.info(
                 '%s: %d (%04d); %d (%04d)' %
-                ((zone_short_name, ) + count_record[0] + count_record[1]))
+                ((zone_name, ) + count_record[0] + count_record[1]))
 
     def validate_test_data(self):
         """Compare Python and AceTime offsets by generating TestDataGenerator.
@@ -129,15 +129,15 @@ class Validator:
     # The following are internal methods.
 
     def _validate_test_data(self, test_data):
-        for zone_short_name, items in test_data.items():
-            if self.zone_name and zone_short_name != self.zone_name:
+        for zone_name, items in test_data.items():
+            if self.zone_name and zone_name != self.zone_name:
                 continue
             if self.debug_validator:
-                logging.info('  Validating zone %s' % zone_short_name)
-            self._validate_test_data_for_zone(zone_short_name, items)
+                logging.info('  Validating zone %s' % zone_name)
+            self._validate_test_data_for_zone(zone_name, items)
 
-    def _validate_test_data_for_zone(self, zone_short_name, items):
-        zone_info = self.zone_infos[zone_short_name]
+    def _validate_test_data_for_zone(self, zone_name, items):
+        zone_info = self.zone_infos[zone_name]
         zone_specifier = ZoneSpecifier(
             zone_info_data=zone_info,
             viewing_months=self.viewing_months,
@@ -153,7 +153,7 @@ class Validator:
             ldt = datetime.utcfromtimestamp(unix_seconds)
             header = (
                 "======== Testing %s; at %sw; utc %s; epoch %s; unix %s" %
-                (zone_short_name, _test_item_to_string(item), ldt, item.epoch,
+                (zone_name, _test_item_to_string(item), ldt, item.epoch,
                  unix_seconds))
 
             if self.debug_specifier:

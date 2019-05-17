@@ -82,8 +82,8 @@ test(TimeZoneTest_Manual, forUtcOffset) {
 // --------------------------------------------------------------------------
 
 test(TimeZoneTest_Basic, operatorEqualEqual) {
-  BasicZoneSpecifier zoneSpecifierLA(&zonedb::kZoneLos_Angeles);
-  BasicZoneSpecifier zoneSpecifierNY(&zonedb::kZoneNew_York);
+  BasicZoneSpecifier zoneSpecifierLA(&zonedb::kZoneAmerica_Los_Angeles);
+  BasicZoneSpecifier zoneSpecifierNY(&zonedb::kZoneAmerica_New_York);
   TimeZone a(&zoneSpecifierLA);
   TimeZone b(&zoneSpecifierNY);
 
@@ -91,7 +91,7 @@ test(TimeZoneTest_Basic, operatorEqualEqual) {
 }
 
 test(TimeZoneTest_Basic, copyConstructor) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone a(&zoneSpecifier);
   TimeZone b(a);
   assertTrue(a == b);
@@ -99,7 +99,7 @@ test(TimeZoneTest_Basic, copyConstructor) {
 
 test(TimeZoneTest_Basic, LosAngeles) {
   FakePrint fakePrint;
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
 
   OffsetDateTime dt;
   acetime_t epochSeconds;

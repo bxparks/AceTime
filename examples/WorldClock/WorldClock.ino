@@ -86,13 +86,13 @@ ManualZoneSpecifier zspec1(
 ManualZoneSpecifier zspec2(
     UtcOffset::forHour(0), "GMT", UtcOffset::forHour(1), "BST");
 #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-BasicZoneSpecifier zspec0(&zonedb::kZoneLos_Angeles);
-BasicZoneSpecifier zspec1(&zonedb::kZoneNew_York);
-BasicZoneSpecifier zspec2(&zonedb::kZoneLondon);
+BasicZoneSpecifier zspec0(&zonedb::kZoneAmerica_Los_Angeles);
+BasicZoneSpecifier zspec1(&zonedb::kZoneAmerica_New_York);
+BasicZoneSpecifier zspec2(&zonedb::kZoneEurope_London);
 #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-ExtendedZoneSpecifier zspec0(&zonedbx::kZoneLos_Angeles);
-ExtendedZoneSpecifier zspec1(&zonedbx::kZoneNew_York);
-ExtendedZoneSpecifier zspec2(&zonedbx::kZoneLondon);
+ExtendedZoneSpecifier zspec0(&zonedbx::kZoneAmerica_Los_Angeles);
+ExtendedZoneSpecifier zspec1(&zonedbx::kZoneAmerica_New_York);
+ExtendedZoneSpecifier zspec2(&zonedbx::kZoneEurope_London);
 #else
   #error Unknown TIME_ZONE_TYPE
 #endif

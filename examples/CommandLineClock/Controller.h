@@ -14,7 +14,7 @@ class Controller {
     Controller(PersistentStore& persistentStore, TimeKeeper& systemTimeKeeper):
         mPersistentStore(persistentStore),
         mSystemTimeKeeper(systemTimeKeeper),
-        mBasicZoneSpecifier(&zonedb::kZoneLos_Angeles) {}
+        mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles) {}
 
     void setup() {
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);

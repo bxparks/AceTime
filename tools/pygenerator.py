@@ -8,7 +8,6 @@ Generate the zone_info and zone_policies files for Python.
 import logging
 import os
 
-from transformer import short_name
 from argenerator import normalize_name
 from argenerator import normalize_raw
 
@@ -152,12 +151,12 @@ ZONE_INFO_MAP = {{
 # Era count: {numEras}
 #---------------------------------------------------------------------------
 
-ZONE_ERAS_{zoneShortName} = [
+ZONE_ERAS_{zoneNormalizedName} = [
 {eraItems}
 ]
-ZONE_INFO_{zoneShortName} = {{
+ZONE_INFO_{zoneNormalizedName} = {{
     'name': '{zoneFullName}',
-    'eras': ZONE_ERAS_{zoneShortName}
+    'eras': ZONE_ERAS_{zoneNormalizedName}
 }}
 
 """
@@ -186,7 +185,7 @@ ZONE_INFO_{zoneShortName} = {{
 """
 
     ZONE_INFO_MAP_ITEM = """\
-    '{zoneShortName}': ZONE_INFO_{zoneShortName}, # {zoneFullName}
+    '{zoneFullName}': ZONE_INFO_{zoneNormalizedName}, # {zoneFullName}
 """
 
     ZONE_INFOS_FILE_NAME = 'zone_infos.py'
@@ -323,39 +322,39 @@ ZONE_INFO_{zoneShortName} = {{
         return (num_eras, info_items)
 
     def _generate_info_map_items(self, zones_map):
-        """Generate a map of (shortName -> zoneInfo), shorted by shortName.
+        """Generate a map of (zone_name -> zoneInfo), shorted by name.
         """
         info_map_items = ''
-        for name, zones in sorted(
+        for zone_name, zones in sorted(
                 zones_map.items(),
-                key=lambda x: normalize_name(short_name(x[0]))):
+                key=lambda x: normalize_name(x[0])):
             info_map_items += self.ZONE_INFO_MAP_ITEM.format(
-                zoneShortName=normalize_name(short_name(name)),
-                zoneFullName=name)
+                zoneNormalizedName=normalize_name(zone_name),
+                zoneFullName=zone_name)
         return info_map_items
 
     def _generate_removed_info_items(self, removed_zones):
         removed_info_items = ''
-        for name, reason in sorted(removed_zones.items()):
+        for zone_name, reason in sorted(removed_zones.items()):
             removed_info_items += self.ZONE_REMOVED_INFO_ITEM.format(
-                zoneFullName=name, infoReason=reason)
+                zoneFullName=zone_name, infoReason=reason)
         return removed_info_items
 
     def _generate_notable_info_items(self, notable_zones):
         notable_info_items = ''
-        for name, reason in sorted(notable_zones.items()):
+        for zone_name, reason in sorted(notable_zones.items()):
             notable_info_items += self.ZONE_NOTABLE_INFO_ITEM.format(
-                zoneFullName=name, infoReason=reason)
+                zoneFullName=zone_name, infoReason=reason)
         return notable_info_items
 
-    def _generate_info_item(self, name, eras):
+    def _generate_info_item(self, zone_name, eras):
         era_items = ''
         for era in eras:
             era_items += self._generate_era_item(era)
 
         return self.ZONE_INFO_ITEM.format(
-            zoneFullName=normalize_name(name),
-            zoneShortName=normalize_name(short_name(name)),
+            zoneFullName=zone_name,
+            zoneNormalizedName=normalize_name(zone_name),
             numEras=len(eras),
             eraItems=era_items)
 

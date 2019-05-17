@@ -9,9 +9,9 @@ files for unit tests.
 import logging
 import os
 import pytz
-from transformer import short_name
 from transformer import div_to_zero
 from extractor import EPOCH_YEAR
+from argenerator import normalize_name
 
 
 class ArduinoValidationGenerator:
@@ -49,7 +49,7 @@ namespace {dbNamespace} {{
 """
 
     VALIDATION_DATA_H_ITEM = """\
-extern const {validationDataClass} kValidationData{zoneShortName};
+extern const {validationDataClass} kValidationData{zoneNormalizedName};
 """
 
     VALIDATION_DATA_CPP_FILE = """\
@@ -79,18 +79,18 @@ namespace {dbNamespace} {{
 
     VALIDATION_DATA_CPP_ITEM = """\
 //---------------------------------------------------------------------------
-// Zone name: {zoneShortName}
+// Zone name: {zoneFullName}
 //---------------------------------------------------------------------------
 
-static const ValidationItem kValidationItems{zoneShortName}[] = {{
+static const ValidationItem kValidationItems{zoneNormalizedName}[] = {{
   //    epoch,  utc,  dst,   y,  m,  d,  h,  m,  s
 {testItems}
 }};
 
-const {validationDataClass} kValidationData{zoneShortName} = {{
-  &kZone{zoneShortName} /*zoneInfo*/,
-  sizeof(kValidationItems{zoneShortName})/sizeof(ValidationItem) /*numItems*/,
-  kValidationItems{zoneShortName} /*items*/,
+const {validationDataClass} kValidationData{zoneNormalizedName} = {{
+  &kZone{zoneNormalizedName} /*zoneInfo*/,
+  sizeof(kValidationItems{zoneNormalizedName})/sizeof(ValidationItem) /*numItems*/,
+  kValidationItems{zoneNormalizedName} /*items*/,
 }};
 
 """
@@ -123,8 +123,8 @@ const {validationDataClass} kValidationData{zoneShortName} = {{
 """
 
     TEST_CASE = """\
-testF({testClass}, {zoneShortName}) {{
-  assertValid(&ace_time::{dbNamespace}::kValidationData{zoneShortName});
+testF({testClass}, {zoneNormalizedName}) {{
+  assertValid(&ace_time::{dbNamespace}::kValidationData{zoneNormalizedName});
 }}
 """
 
@@ -180,10 +180,10 @@ testF({testClass}, {zoneShortName}) {{
 
     def _generate_validation_data_h_items(self, test_data):
         validation_items = ''
-        for short_name, test_items in sorted(test_data.items()):
+        for zone_name, test_items in sorted(test_data.items()):
             validation_items += self.VALIDATION_DATA_H_ITEM.format(
                 validationDataClass=self.validation_data_class,
-                zoneShortName=short_name)
+                zoneNormalizedName=normalize_name(zone_name))
         return validation_items
 
     def _generate_validation_data_cpp(self):
@@ -200,16 +200,18 @@ testF({testClass}, {zoneShortName}) {{
 
     def _generate_validation_data_cpp_items(self, test_data):
         validation_items = ''
-        for short_name, test_items in sorted(test_data.items()):
+        for zone_name, test_items in sorted(test_data.items()):
             test_items_string = self._generate_validation_data_cpp_test_items(
-                short_name, test_items)
+                zone_name, test_items)
             validation_item = self.VALIDATION_DATA_CPP_ITEM.format(
                 validationDataClass=self.validation_data_class,
-                zoneShortName=short_name, testItems=test_items_string)
+                zoneFullName=zone_name,
+                zoneNormalizedName=normalize_name(zone_name),
+                testItems=test_items_string)
             validation_items += validation_item
         return validation_items
 
-    def _generate_validation_data_cpp_test_items(self, short_name, test_items):
+    def _generate_validation_data_cpp_test_items(self, zone_name, test_items):
         """Generate the {testItems} value.
         """
         s = ''
@@ -243,10 +245,10 @@ testF({testClass}, {zoneShortName}) {{
 
     def _generate_test_cases(self, test_data):
         test_cases = ''
-        for short_name, _ in sorted(test_data.items()):
+        for zone_name, _ in sorted(test_data.items()):
             test_case = self.TEST_CASE.format(
                 dbNamespace=self.db_namespace,
                 testClass=self.test_class,
-                zoneShortName=short_name)
+                zoneNormalizedName=normalize_name(zone_name))
             test_cases += test_case
         return test_cases
