@@ -15,8 +15,8 @@ test(BasicZoneSpecifierTest, tzVersion) {
 }
 
 test(BasicZoneSpecifierTest, operatorEqualEqual) {
-  BasicZoneSpecifier a(&zonedb::kZoneLos_Angeles);
-  BasicZoneSpecifier b(&zonedb::kZoneDarwin);
+  BasicZoneSpecifier a(&zonedb::kZoneAmerica_Los_Angeles);
+  BasicZoneSpecifier b(&zonedb::kZoneAustralia_Darwin);
   assertTrue(a != b);
 }
 
@@ -44,7 +44,7 @@ test(BasicZoneSpecifierTest, calcRuleOffsetCode) {
 }
 
 test(BasicZoneSpecifierTest, init_primitives) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   zoneSpecifier.mYear = 2001;
   zoneSpecifier.mNumTransitions = 0;
 
@@ -90,7 +90,7 @@ test(BasicZoneSpecifierTest, init_primitives) {
 test(BasicZoneSpecifierTest, init) {
   // Test using 2018-01-02. If we use 2018-01-01, the code will populate the
   // cache with transitions from 2017.
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   LocalDate ld = LocalDate::forComponents(2018, 1, 2);
   zoneSpecifier.init(ld);
 
@@ -133,8 +133,8 @@ test(BasicZoneSpecifierTest, init) {
 }
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
-test(BasicZoneSpecifierTest, kZoneLos_Angeles) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+test(BasicZoneSpecifierTest, kZoneAmerica_Los_Angeles) {
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
@@ -176,8 +176,8 @@ test(BasicZoneSpecifierTest, kZoneLos_Angeles) {
 
 // https://www.timeanddate.com/time/zone/south-africa/johannesburg
 // No DST changes at all.
-test(BasicZoneSpecifierTest, kZoneJohannesburg) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneJohannesburg);
+test(BasicZoneSpecifierTest, kZoneAfrica_Johannesburg) {
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAfrica_Johannesburg);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
@@ -192,8 +192,8 @@ test(BasicZoneSpecifierTest, kZoneJohannesburg) {
 // https://www.timeanddate.com/time/zone/australia/darwin
 // No DST changes since 1944. Uses the last transition which occurred in March
 // 1944.
-test(BasicZoneSpecifierTest, kZoneDarwin) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneDarwin);
+test(BasicZoneSpecifierTest, kZoneAustralia_Darwin) {
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAustralia_Darwin);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 

@@ -160,7 +160,7 @@ test(ZonedDateTimeTest_Manual, convertToTimeZone) {
 // --------------------------------------------------------------------------
 
 test(ZonedDateTimeTest_Basic, forComponents_beforeDst) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
@@ -172,7 +172,7 @@ test(ZonedDateTimeTest_Basic, forComponents_beforeDst) {
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_inDstGap) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 0, 1, tz);
 
@@ -183,7 +183,7 @@ test(ZonedDateTimeTest_Basic, forComponents_inDstGap) {
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_inDst) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 0, 1, tz);
 
@@ -194,7 +194,7 @@ test(ZonedDateTimeTest_Basic, forComponents_inDst) {
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_beforeStd) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 59, tz);
 
@@ -206,7 +206,7 @@ test(ZonedDateTimeTest_Basic, forComponents_beforeStd) {
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_inOverlap) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2018, 11, 4, 1, 0, 1, tz); // ambiguous
@@ -218,7 +218,7 @@ test(ZonedDateTimeTest_Basic, forComponents_inOverlap) {
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_afterOverlap) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneLos_Angeles);
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(
       2018, 11, 4, 2, 0, 1, tz); // ambiguous
@@ -234,7 +234,7 @@ test(ZonedDateTimeTest_Basic, forComponents_afterOverlap) {
 // --------------------------------------------------------------------------
 
 test(ZonedDateTimeTest_Extended, forComponents_beforeDst) {
-  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
 
@@ -246,7 +246,7 @@ test(ZonedDateTimeTest_Extended, forComponents_beforeDst) {
 }
 
 test(ZonedDateTimeTest_Extended, forComponents_inDstGap) {
-  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 0, 1, tz);
 
@@ -260,7 +260,7 @@ test(ZonedDateTimeTest_Extended, forComponents_inDstGap) {
 }
 
 test(ZonedDateTimeTest_Extended, forComponents_inDst) {
-  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 0, 1, tz);
 
@@ -272,7 +272,7 @@ test(ZonedDateTimeTest_Extended, forComponents_inDst) {
 }
 
 test(ZonedDateTimeTest_Extended, forComponents_inOverlap) {
-  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 30, 0, tz);
 
@@ -286,7 +286,7 @@ test(ZonedDateTimeTest_Extended, forComponents_inOverlap) {
 }
 
 test(ZonedDateTimeTest_Extended, forComponents_afterOverlap) {
-  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneLos_Angeles);
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
   TimeZone tz(&zoneSpecifier);
   ZonedDateTime dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 30, 0, tz);
 
