@@ -167,13 +167,13 @@ void setupLed() {
 
 #if DISPLAY_TYPE == DISPLAY_TYPE_OLED
   OledPresenter presenter(oled);
-  OledClock clock(systemTimeKeeper, crcEeprom, presenter);
+  OledClock controller(systemTimeKeeper, crcEeprom, presenter);
 #elif DISPLAY_TYPE == DISPLAY_TYPE_FULL_OLED
   FullOledPresenter presenter(oled);
-  FullOledClock clock(systemTimeKeeper, crcEeprom, presenter);
+  FullOledClock controller(systemTimeKeeper, crcEeprom, presenter);
 #elif DISPLAY_TYPE == DISPLAY_TYPE_LED
   LedPresenter presenter(ledDisplay);
-  LedClock clock(systemTimeKeeper, crcEeprom, presenter);
+  LedClock controller(systemTimeKeeper, crcEeprom, presenter);
 #else
   #error Invalid DISPLAY_TYPE
 #endif
@@ -184,12 +184,12 @@ void setupLed() {
 
 // The RTC has a resolution of only 1s, so we need to poll it fast enough to
 // make it appear that the display is tracking it correctly. The benchmarking
-// code says that clock.display() runs as fast as or faster than 1ms for all
-// DISPLAY_TYPEs. So we can set this to 100ms without worrying about too
+// code says that controller.display() runs as fast as or faster than 1ms for
+// all DISPLAY_TYPEs. So we can set this to 100ms without worrying about too
 // much overhead.
 COROUTINE(displayClock) {
   COROUTINE_LOOP() {
-    clock.update();
+    controller.update();
     COROUTINE_DELAY(100);
   }
 }
@@ -208,10 +208,10 @@ void handleModeButton(AceButton* /* button */, uint8_t eventType,
     uint8_t /* buttonState */) {
   switch (eventType) {
     case AceButton::kEventReleased:
-      clock.modeButtonPress();
+      controller.modeButtonPress();
       break;
     case AceButton::kEventLongPressed:
-      clock.modeButtonLongPress();
+      controller.modeButtonLongPress();
       break;
   }
 }
@@ -220,13 +220,13 @@ void handleChangeButton(AceButton* /* button */, uint8_t eventType,
     uint8_t /* buttonState */) {
   switch (eventType) {
     case AceButton::kEventPressed:
-      clock.changeButtonPress();
+      controller.changeButtonPress();
       break;
     case AceButton::kEventReleased:
-      clock.changeButtonRelease();
+      controller.changeButtonRelease();
       break;
     case AceButton::kEventRepeatPressed:
-      clock.changeButtonRepeatPress();
+      controller.changeButtonRepeatPress();
       break;
   }
 }
@@ -299,7 +299,7 @@ void setup() {
   ntpTimeProvider.setup(AUNITER_SSID, AUNITER_PASSWORD);
 #endif
   systemTimeKeeper.setup();
-  clock.setup();
+  controller.setup();
 
   systemTimeSync.setupCoroutine(F("systemTimeSync"));
   systemTimeHeartbeat.setupCoroutine(F("systemTimeHeartbeat"));
