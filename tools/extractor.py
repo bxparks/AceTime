@@ -136,7 +136,6 @@ class ZoneRuleRaw:
         'atSecondsTruncated',  # (int) atSeconds after truncation
         'deltaSeconds',  # (int) offset from Standard time in seconds
         'deltaSecondsTruncated',  # (int) deltaSeconds after truncation
-        'shortName',  # (string) short name of the zone
         'earliestDate',  # (y, m, d) tuple of the earliest instance of rule
         'used',  # (boolean) indicates whether or not the rule is used by a zone
     ]

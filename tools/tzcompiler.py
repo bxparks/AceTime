@@ -9,7 +9,7 @@ this:
                       TZDB files
                           |
                           v
-                      Extractor --> Printer
+                      Extractor
                           |
                           v
                      Transformer
@@ -59,7 +59,6 @@ import argparse
 import logging
 import sys
 
-from printer import Printer
 from extractor import Extractor
 from transformer import Transformer
 from argenerator import ArduinoGenerator
@@ -100,13 +99,6 @@ def main():
     parser.add_argument(
         '--strict',
         help='Remove zones and rules not aligned at granularity time boundary',
-        action='store_true',
-        default=False)
-
-    # Printer
-    parser.add_argument(
-        '--print_zones_short_name',
-        help='Print the short zone names',
         action='store_true',
         default=False)
 
@@ -216,12 +208,6 @@ def main():
     extractor = Extractor(args.input_dir)
     extractor.parse()
     extractor.print_summary()
-
-    # Print various slices of the data
-    printer = Printer(extractor.zones_map, extractor.rules_map)
-    # zones
-    if args.print_zones_short_name:
-        printer.print_zones_short_name()
 
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules')

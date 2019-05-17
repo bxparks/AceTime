@@ -82,7 +82,6 @@ class Transformer:
         logging.info('Found %s rule policies' % len(self.rules_map))
 
         # Part 1: Transform the zones_map
-        zones_map = self._remove_zones_with_duplicate_short_names(zones_map)
         zones_map = self._remove_zones_without_slash(zones_map)
         zones_map = self._remove_zone_eras_too_old(zones_map)
         if self.language == 'arduino':
@@ -153,24 +152,6 @@ class Transformer:
     # --------------------------------------------------------------------
     # Methods related to Zones.
     # --------------------------------------------------------------------
-
-    def _remove_zones_with_duplicate_short_names(self, zones_map):
-        results = {}
-        removed_zones = {}
-        short_names = {}
-        for name, eras in zones_map.items():
-            short = short_name(name)
-            if short in short_names:
-                removed_zones[name] = "duplicate short name '%s'" % short
-            else:
-                short_names[short] = name
-                results[name] = eras
-
-        logging.info("Removed %s zone infos with duplicate short names" %
-                     len(removed_zones))
-        self._print_removed_map(removed_zones)
-        self.all_removed_zones.update(removed_zones)
-        return results
 
     def _remove_zones_without_slash(self, zones_map):
         results = {}
@@ -1107,15 +1088,6 @@ def time_string_to_seconds(time_string):
     if second > 59:
         return INVALID_SECONDS
     return sign * ((hour * 60 + minute) * 60 + second)
-
-
-def short_name(name):
-    index = name.rfind('/')
-    if index >= 0:
-        short_name = name[index + 1:]
-    else:
-        short_name = name
-    return short_name
 
 
 def find_matching_rules(rules, era_from, era_until):

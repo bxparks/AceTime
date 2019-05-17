@@ -9,6 +9,7 @@ import logging
 import os
 import pytz
 from transformer import div_to_zero
+from argenerator import normalize_name
 
 
 class PythonValidationGenerator:
@@ -48,7 +49,7 @@ VALIDATION_DATA = {{
 }}
 """
     VALIDATION_ITEM = """\
-VALIDATION_ITEM_{zoneShortName} = [
+VALIDATION_ITEM_{zoneNormalizedName} = [
     #            epoch total   dst     y   M   d   h   m   s type
 {testItems}
 ]
@@ -60,7 +61,7 @@ VALIDATION_ITEM_{zoneShortName} = [
 """
 
     VALIDATION_MAP_ITEM = """\
-    '{zoneShortName}': VALIDATION_ITEM_{zoneShortName},
+    '{zoneFullName}': VALIDATION_ITEM_{zoneNormalizedName},
 """
 
     VALIDATION_FILE_NAME = 'validation_data.py'
@@ -95,10 +96,11 @@ VALIDATION_ITEM_{zoneShortName} = [
 
     def _get_validation_items(self, test_data):
         s = ''
-        for short_name, test_items in sorted(test_data.items()):
+        for zone_name, test_items in sorted(test_data.items()):
             test_items_str = self._get_test_items(test_items)
             s += self.VALIDATION_ITEM.format(
-                zoneShortName=short_name, testItems=test_items_str)
+                zoneNormalizedName=normalize_name(zone_name),
+                testItems=test_items_str)
         return s
 
     def _get_test_items(self, test_items):
@@ -122,6 +124,8 @@ VALIDATION_ITEM_{zoneShortName} = [
 
     def _get_validation_map_items(self, test_data):
         s = ''
-        for short_name, test_items in sorted(test_data.items()):
-            s += self.VALIDATION_MAP_ITEM.format(zoneShortName=short_name)
+        for zone_name, test_items in sorted(test_data.items()):
+            s += self.VALIDATION_MAP_ITEM.format(
+                zoneFullName=zone_name,
+                zoneNormalizedName=normalize_name(zone_name))
         return s

@@ -28,8 +28,7 @@ class BufSizeEstimator:
         """
         buf_sizes = {}
         max_size = 0
-        for zone_short_name, zone_info in self.zone_infos.items():
-            zone_full_name = zone_info['name']
+        for zone_name, zone_info in self.zone_infos.items():
             zone_specifier = ZoneSpecifier(zone_info)
             (max_actives, max_buffer_size) = zone_specifier.get_buffer_sizes(
                 self.start_year, self.until_year)
@@ -43,10 +42,10 @@ class BufSizeEstimator:
             # max_buffer_size[0]==4 which means 5 should be enough, but
             # TransitionStorage.getHighWater() says that 6 is required. Not sure
             # why.
-            if zone_short_name == 'Atyrau':
+            if zone_name == 'Asia/Atyrau':
                 buf_size += 1
 
-            buf_sizes[zone_full_name] = buf_size
+            buf_sizes[zone_name] = buf_size
             if buf_size > max_size:
                 max_size = buf_size
 
