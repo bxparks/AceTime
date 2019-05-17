@@ -284,7 +284,6 @@ class Controller {
 
       switch (mMode) {
         case MODE_DATE_TIME:
-        case MODE_WEEKDAY:
         case MODE_TIME_ZONE:
           mPresenter.setDateTime(mClockInfo.dateTime);
           mPresenter.setTimeZone(mClockInfo.zoneSpecifier);

@@ -7,7 +7,6 @@
 
 const uint8_t MODE_UNKNOWN = 0; // uninitialized
 const uint8_t MODE_DATE_TIME = 1;
-const uint8_t MODE_WEEKDAY = 7;
 const uint8_t MODE_TIME_ZONE = 8;
 const uint8_t MODE_CHANGE_YEAR = 10;
 const uint8_t MODE_CHANGE_MONTH = 11;
