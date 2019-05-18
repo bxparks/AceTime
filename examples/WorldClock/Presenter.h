@@ -246,7 +246,7 @@ class Presenter {
       // Extract time zone info.
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
       const TimeZone& timeZone = mRenderingInfo.timeZone;
-      UtcOffset utcOffset = timeZone.utcOffset();
+      UtcOffset utcOffset = timeZone.getUtcOffset(0);
       int8_t sign;
       uint8_t hour;
       uint8_t minute;

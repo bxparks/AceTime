@@ -190,6 +190,7 @@ class Controller {
           mClockInfo1.blinkingColon = !mClockInfo1.blinkingColon;
           mClockInfo2.blinkingColon = !mClockInfo2.blinkingColon;
           break;
+
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case MODE_CHANGE_TIME_ZONE_DST0:
           mSuppressBlink = true;
