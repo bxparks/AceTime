@@ -190,6 +190,8 @@ class Presenter {
       const ManualZoneSpecifier& zoneSpecifier = mRenderingInfo.zoneSpecifier;
       zoneSpecifier.stdOffset().toHourMinute(sign, hour, minute);
 
+      // Don't use F() strings for these short strings. Seems to increase
+      // flash memory, while saving only a few bytes of RAM.
       mOled.print("UTC");
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_HOUR)) {
         mOled.print((sign < 0) ? '-' : '+');
@@ -225,6 +227,8 @@ class Presenter {
     void displayAbout() const {
       mOled.setFont(SystemFont5x7);
 
+      // Use F() macros for these longer strings. Seems to save both
+      // flash memory and RAM.
       mOled.println(F("FullOledClock"));
       mOled.print(F("Ver: "));
       mOled.println(CLOCK_VERSION);
