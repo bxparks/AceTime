@@ -67,13 +67,8 @@ class Presenter {
           displayDateTime();
           break;
 
-        case MODE_CHANGE_YEAR:
-        case MODE_CHANGE_MONTH:
-        case MODE_CHANGE_DAY:
-        case MODE_CHANGE_HOUR:
-        case MODE_CHANGE_MINUTE:
-        case MODE_CHANGE_SECOND:
-          displayChangeableDateTime();
+        case MODE_ABOUT:
+          displayAbout();
           break;
 
         case MODE_CLOCK_INFO:
@@ -87,8 +82,13 @@ class Presenter {
           displayClockInfo();
           break;
 
-        case MODE_ABOUT:
-          displayAbout();
+        case MODE_CHANGE_YEAR:
+        case MODE_CHANGE_MONTH:
+        case MODE_CHANGE_DAY:
+        case MODE_CHANGE_HOUR:
+        case MODE_CHANGE_MINUTE:
+        case MODE_CHANGE_SECOND:
+          displayChangeableDateTime();
           break;
       }
     }

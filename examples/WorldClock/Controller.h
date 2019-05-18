@@ -272,7 +272,8 @@ class Controller {
     void updateRenderingInfo() {
       switch (mMode) {
         case MODE_DATE_TIME:
-        case MODE_CLOCK_INFO: {
+        case MODE_CLOCK_INFO:
+        case MODE_ABOUT: {
           acetime_t now = mTimeKeeper.getNow();
           mPresenter0.update(mMode, now, mBlinkShowState, mSuppressBlink,
               mClockInfo0);
