@@ -5,6 +5,8 @@
 // Configuration parameters.
 //------------------------------------------------------------------
 
+#define CLOCK_VERSION_STRING "0.1"
+
 #define ENABLE_SERIAL 0
 
 #define TIME_SOURCE_TYPE_NONE 0
@@ -35,21 +37,25 @@
 // Rendering modes.
 //------------------------------------------------------------------
 
-static const uint8_t MODE_UNKNOWN = 0; // uninitialized
-static const uint8_t MODE_DATE_TIME = 1;
-static const uint8_t MODE_CLOCK_INFO = 2;
-static const uint8_t MODE_CHANGE_YEAR = 3;
-static const uint8_t MODE_CHANGE_MONTH = 4;
-static const uint8_t MODE_CHANGE_DAY = 5;
-static const uint8_t MODE_CHANGE_HOUR = 6;
-static const uint8_t MODE_CHANGE_MINUTE = 7;
-static const uint8_t MODE_CHANGE_SECOND = 8;
+const uint8_t MODE_UNKNOWN = 0; // uninitialized
+const uint8_t MODE_DATE_TIME = 1;
+const uint8_t MODE_CLOCK_INFO = 2;
+const uint8_t MODE_ABOUT = 3;
+
+const uint8_t MODE_CHANGE_YEAR = 10;
+const uint8_t MODE_CHANGE_MONTH = 11;
+const uint8_t MODE_CHANGE_DAY = 12;
+const uint8_t MODE_CHANGE_HOUR = 13;
+const uint8_t MODE_CHANGE_MINUTE = 14;
+const uint8_t MODE_CHANGE_SECOND = 15;
+
+const uint8_t MODE_CHANGE_HOUR_MODE = 20;
+const uint8_t MODE_CHANGE_BLINKING_COLON = 21;
+
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-static const uint8_t MODE_CHANGE_TIME_ZONE_DST0 = 9;
-static const uint8_t MODE_CHANGE_TIME_ZONE_DST1 = 10;
-static const uint8_t MODE_CHANGE_TIME_ZONE_DST2 = 11;
+const uint8_t MODE_CHANGE_TIME_ZONE_DST0 = 30;
+const uint8_t MODE_CHANGE_TIME_ZONE_DST1 = 31;
+const uint8_t MODE_CHANGE_TIME_ZONE_DST2 = 32;
 #endif
-static const uint8_t MODE_CHANGE_HOUR_MODE = 12;
-static const uint8_t MODE_CHANGE_BLINKING_COLON = 13;
 
 #endif

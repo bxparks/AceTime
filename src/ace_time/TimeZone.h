@@ -87,6 +87,16 @@ class TimeZone {
     }
 
     /**
+     * Return the delta offset at epochSeconds. This is an experimental
+     * method that has not been tested thoroughly. Use with caution.
+     */
+    UtcOffset getDeltaOffset(acetime_t epochSeconds) const {
+      return (mType == kTypeFixed)
+          ? UtcOffset()
+          : mZoneSpecifier->getDeltaOffset(epochSeconds);
+    }
+
+    /**
      * Return the best guess of the UTC offset at the given LocalDateTime for
      * the current TimeZone. Used by ZonedDateTime::forComponents(), so
      * intended to be used mostly for testing and debugging.
@@ -102,6 +112,32 @@ class TimeZone {
 
     /** Print the time zone abbreviation for the given epochSeconds. */
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
+
+    /**
+     * Return the isDst() value of the underlying ManualZoneSpecifier. This is
+     * a convenience method that is valid only if the TimeZone was constructed
+     * using a ManualZoneSpecifier. Returns false for all other type of
+     * TimeZone. This is intended to be used by applications which allows the
+     * user to set the UTC offset and DST flag manually (e.g.
+     * examples/WorldClock.ino).
+     */
+    bool isDst() const {
+      if (mType != kTypeZoneSpecifier) return false;
+      if (mZoneSpecifier->getType() != ZoneSpecifier::kTypeManual) return false;
+      return ((ManualZoneSpecifier*) mZoneSpecifier)->isDst();
+    }
+
+    /**
+     * Sets the isDst() flag of the underlying ManualZoneSpecifier. Does
+     * nothing for any other type of TimeZone. This is a convenience method for
+     * applications that allow the user to set the DST flag manually (e.g.
+     * examples/WorldClock).
+     */
+    void isDst(bool dst) {
+      if (mType != kTypeZoneSpecifier) return;
+      if (mZoneSpecifier->getType() != ZoneSpecifier::kTypeManual) return;
+      ((ManualZoneSpecifier*) mZoneSpecifier)->isDst(dst);
+    }
 
     // Use default copy constructor and assignment operator.
     TimeZone(const TimeZone&) = default;
