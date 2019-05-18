@@ -42,7 +42,7 @@
   #include "ace_time/provider/SystemTimeHeartbeatCoroutine.h"
 #endif
 
-// Version format: xxyyzz == "xx.yy.zz", 100 == 0.1.0
+// Version format: xxyyzz == "xx.yy.zz"
 #define ACE_TIME_VERSION 100
 #define ACE_TIME_VERSION_STRING "0.1"
 
