@@ -31,7 +31,7 @@
 #define TIME_ZONE_TYPE_MANUAL 0
 #define TIME_ZONE_TYPE_BASIC 1
 #define TIME_ZONE_TYPE_EXTENDED 2
-#define TIME_ZONE_TYPE TIME_ZONE_TYPE_MANUAL
+#define TIME_ZONE_TYPE TIME_ZONE_TYPE_BASIC
 
 //------------------------------------------------------------------
 // Rendering modes.
