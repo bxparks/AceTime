@@ -109,7 +109,7 @@ test(TimeZoneTest_Basic, copyConstructor) {
   assertTrue(a == b);
 }
 
-test(TimeZoneTest_Basic, LosAngeles) {
+test(TimeZoneTest_Basic, Los_Angeles) {
   FakePrint fakePrint;
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
 
@@ -141,7 +141,49 @@ test(TimeZoneTest_Basic, LosAngeles) {
 // TimeZone using ExtendedZoneSpecifier
 // --------------------------------------------------------------------------
 
-// TODO: Add tests for ExtendedZoneSpecifier
+test(TimeZoneTest_Extended, operatorEqualEqual) {
+  ExtendedZoneSpecifier zoneSpecifierLA(&zonedbx::kZoneAmerica_Los_Angeles);
+  ExtendedZoneSpecifier zoneSpecifierNY(&zonedbx::kZoneAmerica_New_York);
+  TimeZone a(&zoneSpecifierLA);
+  TimeZone b(&zoneSpecifierNY);
+
+  assertTrue(a != b);
+}
+
+test(TimeZoneTest_Extended, copyConstructor) {
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+  TimeZone a(&zoneSpecifier);
+  TimeZone b(a);
+  assertTrue(a == b);
+}
+
+test(TimeZoneTest_Extended, Los_Angeles) {
+  FakePrint fakePrint;
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+
+  OffsetDateTime dt;
+  acetime_t epochSeconds;
+
+  TimeZone tz(&zoneSpecifier);
+  assertEqual(TimeZone::kTypeZoneSpecifier, tz.getType());
+
+  dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
+      UtcOffset::forHour(-8));
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
+  tz.printAbbrevTo(fakePrint, epochSeconds);
+  assertEqual("PST", fakePrint.getBuffer());
+  fakePrint.flush();
+
+  dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
+      UtcOffset::forHour(-8));
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
+  tz.printAbbrevTo(fakePrint, epochSeconds);
+  assertEqual("PDT", fakePrint.getBuffer());
+}
 
 // --------------------------------------------------------------------------
 
