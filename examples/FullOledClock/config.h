@@ -22,7 +22,7 @@ const uint8_t MODE_CHANGE_TIME_ZONE_MINUTE = 21;
 const uint8_t MODE_CHANGE_TIME_ZONE_DST = 22;
 const uint8_t MODE_CHANGE_HOUR_MODE = 23;
 
-#define CLOCK_VERSION "0.1"
+#define CLOCK_VERSION_STRING "0.1"
 
 #define ENABLE_SERIAL 0
 

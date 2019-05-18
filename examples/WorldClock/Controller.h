@@ -62,13 +62,18 @@ class Controller {
 
     void modeButtonPress() {
       switch (mMode) {
+        // Cycle through the 3 main screens.
         case MODE_DATE_TIME:
           mMode = MODE_CLOCK_INFO;
           break;
         case MODE_CLOCK_INFO:
+          mMode = MODE_ABOUT;
+          break;
+        case MODE_ABOUT:
           mMode = MODE_DATE_TIME;
           break;
 
+        // Cycle through the various changeable date time fields.
         case MODE_CHANGE_YEAR:
           mMode = MODE_CHANGE_MONTH;
           break;
@@ -88,6 +93,7 @@ class Controller {
           mMode = MODE_CHANGE_YEAR;
           break;
 
+        // Cycle through the various changeable clock config fields.
         case MODE_CHANGE_HOUR_MODE:
           mMode = MODE_CHANGE_BLINKING_COLON;
           break;

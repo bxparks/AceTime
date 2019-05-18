@@ -229,13 +229,12 @@ class Presenter {
 
       // Use F() macros for these longer strings. Seems to save both
       // flash memory and RAM.
-      mOled.println(F("FullOledClock"));
-      mOled.print(F("Ver: "));
-      mOled.println(CLOCK_VERSION);
+      mOled.print(F("FullOledClock: "));
+      mOled.println(CLOCK_VERSION_STRING);
       mOled.print(F("Tzdata: "));
       mOled.println(zonedb::kTzDatabaseVersion);
       mOled.print(F("AceTime: "));
-      mOled.print((uint32_t) ACE_TIME_VERSION);
+      mOled.print(ACE_TIME_VERSION_STRING);
     }
 
     RenderingInfo mRenderingInfo;

@@ -12,7 +12,7 @@ using namespace ace_time::common;
 /**
  * Class that knows how to render a specific Mode on the OLED display.
  *
- * Note: Don't use F() macro for the strings in this class. It causes the
+ * Note: Don't use F() macro for the short strings in this class. It causes the
  * flash/ram to increase from (27748/1535) to (27820/1519). In other words, we
  * increase program size by 72 bytes, to save 16 bytes of RAM. For the
  * WorldClock app, flash memory is more precious than RAM.
@@ -85,6 +85,10 @@ class Presenter {
         case MODE_CHANGE_TIME_ZONE_DST2:
 #endif
           displayClockInfo();
+          break;
+
+        case MODE_ABOUT:
+          displayAbout();
           break;
       }
     }
@@ -265,6 +269,19 @@ class Presenter {
         mOled.print("   ");
       }
 #endif
+    }
+
+    void displayAbout() const {
+      mOled.setFont(SystemFont5x7);
+
+      // For smallest flash memory size, use F() macros for these longer
+      // strings, but no F() for shorter version strings.
+      mOled.print(F("WorldClock: "));
+      mOled.println(CLOCK_VERSION_STRING);
+      mOled.print(F("Tzdata: "));
+      mOled.println(zonedb::kTzDatabaseVersion);
+      mOled.print(F("AceTime: "));
+      mOled.print(ACE_TIME_VERSION_STRING);
     }
 
     /**
