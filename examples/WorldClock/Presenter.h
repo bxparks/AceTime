@@ -11,6 +11,11 @@ using namespace ace_time::common;
 
 /**
  * Class that knows how to render a specific Mode on the OLED display.
+ *
+ * Note: Don't use F() macro for the strings in this class. It causes the
+ * flash/ram to increase from (27748/1535) to (27820/1519). In other words, we
+ * increase program size by 72 bytes, to save 16 bytes of RAM. For the
+ * WorldClock app, flash memory is more precious than RAM.
  */
 class Presenter {
   public:
@@ -218,7 +223,7 @@ class Presenter {
     }
 
     void displayClockInfo() const {
-      mOled.print(FF("12/24: "));
+      mOled.print("12/24: ");
       if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
         mOled.print(mRenderingInfo.hourMode == ClockInfo::kTwelve
             ? "12" : "24");
@@ -227,7 +232,7 @@ class Presenter {
       }
 
       mOled.println();
-      mOled.print(FF("Blink: "));
+      mOled.print("Blink: ");
       if (shouldShowFor(MODE_CHANGE_BLINKING_COLON)) {
         mOled.print(mRenderingInfo.blinkingColon ? "on " : "off");
       } else {
@@ -244,14 +249,14 @@ class Presenter {
       utcOffset.toHourMinute(sign, hour, minute);
 
       mOled.println();
-      mOled.print(FF("UTC"));
+      mOled.print("UTC");
       mOled.print((sign < 0) ? '-' : '+');
       printPad2(mOled, hour);
       mOled.print(':');
       printPad2(mOled, minute);
 
       mOled.println();
-      mOled.print(FF("DST: "));
+      mOled.print("DST: ");
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST0)
           && shouldShowFor(MODE_CHANGE_TIME_ZONE_DST1)
           && shouldShowFor(MODE_CHANGE_TIME_ZONE_DST2)) {
