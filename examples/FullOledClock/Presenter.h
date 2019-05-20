@@ -86,7 +86,7 @@ class Presenter {
           || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode;
     }
 
-    void clearDisplay() { mOled.clear(); }
+    void clearDisplay() const { mOled.clear(); }
 
     void displayData() {
       mOled.home();
@@ -119,6 +119,12 @@ class Presenter {
     void displayDateTime() const {
       mOled.setFont(fixed_bold10x15);
       const ZonedDateTime& dateTime = mRenderingInfo.dateTime;
+      if (dateTime.isError()) {
+        mOled.println(F("9999-99-99"));
+        mOled.println(F("99:99:99   "));
+        mOled.println(F("Error     "));
+        return;
+      }
 
       // date
       if (shouldShowFor(MODE_CHANGE_YEAR)) {

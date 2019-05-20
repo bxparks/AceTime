@@ -25,23 +25,25 @@ StringCollection = collections.namedtuple(
     'StringCollection', 'ordered_map size orig_size')
 
 class Transformer:
-    def __init__(self, zones_map, rules_map, language, start_year, granularity,
-                 strict):
+    def __init__(self, zones_map, rules_map, language, start_year, until_year,
+                 granularity, strict):
         """
-        Arguments:
-            zones_map: map of Zone names to ZoneEras
-            rules_map: map of Policy names to ZoneRules
-            language: (str) target language ('python', 'arduino', 'arduinox')
-            start_year: (int) include only years on or after start_year
-            granularity: (int) retained AT, SAVE, UNTIL, or RULES(offset)
+        Args:
+            zones_map (dict): Zone names to ZoneEras
+            rules_map (dict): Policy names to ZoneRules
+            language (str): target language ('python', 'arduino', 'arduinox')
+            start_year (int): include only years on or after start_year
+            until_year (int): include only years valid before until_year
+            granularity (int): retained AT, SAVE, UNTIL, or RULES(offset)
                 fields in seconds
-            strict: (bool) throw out Zones or Rules which are not exactly
+            strict (bool): throw out Zones or Rules which are not exactly
                 on the time boundary defined by granularity
         """
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.language = language
         self.start_year = start_year
+        self.until_year = until_year
         self.granularity = granularity
         self.strict = strict
 
@@ -84,6 +86,7 @@ class Transformer:
         # Part 1: Transform the zones_map
         zones_map = self._remove_zones_without_slash(zones_map)
         zones_map = self._remove_zone_eras_too_old(zones_map)
+        zones_map = self._remove_zone_eras_too_new(zones_map)
         if self.language == 'arduino':
             zones_map = self._remove_zone_until_year_only_false(zones_map)
         zones_map = self._create_zones_with_until_day(zones_map)
@@ -187,6 +190,37 @@ class Transformer:
 
         logging.info("Removed %s zone eras before year %04d", count,
                      self.start_year)
+        return results
+
+    def _remove_zone_eras_too_new(self, zones_map):
+        """Remove zone eras which are too new, i.e. after self.until_year.
+        We need at least one year after the last valid year (i.e. until_year),
+        so we need zone eras valid to at least until_year. For
+        viewing_months=36, we need until_year + 1. So let's remove zone eras
+        which starts at until_year + 2 or greater.
+
+        TODO: If a zone era is removed because it is too far in the future, it
+        is no longer guaranteed that the last zone era ends with MAX_UNTIL_YEAR.
+        If the ZoneSpecifier code is called with a year greater than
+        self.until_year, it may cause a loop to crash.
+        """
+        results = {}
+        count = 0
+        for name, eras in zones_map.items():
+            keep_eras = []
+            start_year = MIN_YEAR
+            for era in eras:
+                if start_year <= self.until_year + 1:
+                    keep_eras.append(era)
+                else:
+                    count += 1
+                # the next era's start year is this era's until_year
+                start_year = era.untilYear
+            if keep_eras:
+                results[name] = keep_eras
+
+        logging.info("Removed %s zone eras starting after %04d", count,
+                     self.until_year)
         return results
 
     def _remove_zone_until_year_only_false(self, zones_map):
@@ -708,7 +742,7 @@ class Transformer:
                 # components. To be conservative, we need to expand the
                 # until_year to the following year, so the effective zone era
                 # interval becomes [begin_year, until_year+1).
-                until_year = era.untilYear
+                until_year = min(era.untilYear, self.until_year)
                 matching_rules = find_matching_rules(rules, begin_year,
                                                      until_year + 1)
                 for rule in matching_rules:
@@ -722,14 +756,15 @@ class Transformer:
                     rule.used = True
 
                 # Find earliest Rules subsequent to the until_year mark.
-                # Result: It looks like all of these prior rules are
+                # Result: It looks like all of these subsequent rules are
                 # already picked up by previous calls to find_matching_rules().
                 subsequent_rules = find_earliest_subsequent_rules(
                     rules, until_year + 1)
                 for rule in subsequent_rules:
                     rule.used = True
 
-                begin_year = until_year
+                # Set the begin year of the next ZoneEra
+                begin_year = era.untilYear
 
         return (zones_map, rules_map)
 

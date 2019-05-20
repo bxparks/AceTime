@@ -88,9 +88,14 @@ def main():
     # Transformer
     parser.add_argument(
         '--start_year',
-        help='Starting year of Zone Eras (default: 2000)',
+        help='Start year of Zone Eras (default: 2000)',
         type=int,
         default=2000)
+    parser.add_argument(
+        '--until_year',
+        help='Until year of Zone Eras (default: 2038)',
+        type=int,
+        default=2038)
     parser.add_argument(
         '--granularity',
         help='Retained time values (UNTIL, AT, SAVE, RULES) fields ' +
@@ -101,6 +106,25 @@ def main():
         help='Remove zones and rules not aligned at granularity time boundary',
         action='store_true',
         default=False)
+
+    # Flags for the TestDataGenerator. If not given (default 0), then
+    # the validation_start_year will be set to start_year, and the
+    # validation_until_year will be set to until_year.
+    #
+    # pytz cannot handle dates after the end of 32-bit Unix time_t type
+    # (2038-01-19T03:14:07Z), see
+    # https://answers.launchpad.net/pytz/+question/262216, so the
+    # validation_until_year cannot be greater than 2038.
+    parser.add_argument(
+        '--validation_start_year',
+        help='Start year of ZoneSpecifier validation (default: start_year)',
+        type=int,
+        default=0)
+    parser.add_argument(
+        '--validation_until_year',
+        help='Until year of ZoneSpecifier validation (default: 2038)',
+        type=int,
+        default=0)
 
     # Data pipeline selectors
     parser.add_argument(
@@ -168,16 +192,17 @@ def main():
     # Parse the command line arguments
     args = parser.parse_args()
 
-    # Configure logging
+    # Configure logging. This should normally be executed after the
+    # parser.parse_args() because it allows us set the logging.level using a
+    # flag.
     logging.basicConfig(level=logging.INFO)
 
-    # Set the validation start and until years (validation data, and buffer
-    # size). pytz cannot handle dates after the end of Unix epoch
-    # (2038-01-19T03:14:07Z), see
-    # https://answers.launchpad.net/pytz/+question/262216, so the until_year
-    # cannot be greater than 2038.
-    start_year = 2000
-    until_year = 2038
+    # Set the defaults for validation_start_year and validation_until_year
+    # if they were not specified.
+    validation_start_year = args.start_year if args.validation_start_year == 0 \
+        else args.validation_start_year
+    validation_until_year = args.until_year if args.validation_until_year == 0 \
+        else args.validation_until_year
 
     # How the script was invoked
     invocation = ' '.join(sys.argv)
@@ -211,8 +236,11 @@ def main():
 
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules')
+    logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
+    # TODO: pass args.until_year to limit the size of the generated data
+    # structures.
     transformer = Transformer(extractor.zones_map, extractor.rules_map,
-        language, args.start_year, granularity, args.strict)
+        language, args.start_year, args.until_year, granularity, args.strict)
     transformer.transform()
     transformer.print_summary()
 
@@ -225,12 +253,12 @@ def main():
     logging.info('zone_infos=%d; zone_policies=%d', len(zone_infos),
                  len(zone_policies))
 
-    # Generate the buf_size estimates for each zone.
+    # Generate the buf_size estimates for each zone, between start_year and
+    # until_year.
     logging.info('======== Estimating transition buffer sizes')
-    logging.info('Checking years in [%d, %d)', start_year,
-        until_year)
-    estimator = BufSizeEstimator(zone_infos, zone_policies, start_year,
-        until_year)
+    logging.info('Checking years in [%d, %d)', args.start_year, args.until_year)
+    estimator = BufSizeEstimator(zone_infos, zone_policies, args.start_year,
+        args.until_year)
     (buf_sizes, max_size) = estimator.estimate()
     logging.info('Num zones=%d; Max buffer size=%d', len(buf_sizes), max_size)
 
@@ -282,9 +310,9 @@ def main():
 
         # Generate test data for unit test.
         logging.info('Generating test data for years in [%d, %d)',
-            start_year, until_year)
+            validation_start_year, validation_until_year)
         data_generator = TestDataGenerator(zone_infos, zone_policies,
-            granularity, start_year, until_year)
+            granularity, validation_start_year, validation_until_year)
         (test_data, num_items) = data_generator.create_test_data()
         logging.info('Num zones=%d; Num test items=%d', len(test_data),
             num_items)
@@ -313,6 +341,8 @@ def main():
             debug_specifier=args.debug_specifier,
             zone_name=args.zone,
             year=args.year,
+            start_year=validation_start_year,
+            until_year=validation_until_year,
             in_place_transitions=args.in_place_transitions,
             optimize_candidates=args.optimize_candidates)
 
