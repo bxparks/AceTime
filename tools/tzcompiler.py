@@ -294,6 +294,7 @@ def main():
             logging.info('======== Creating Arduino zonedb files')
             generator = ArduinoGenerator(
                 invocation, args.tz_version, Extractor.ZONE_FILES,
+                args.start_year, args.until_year,
                 transformer.zones_map, transformer.rules_map,
                 transformer.all_removed_zones,
                 transformer.all_removed_policies,

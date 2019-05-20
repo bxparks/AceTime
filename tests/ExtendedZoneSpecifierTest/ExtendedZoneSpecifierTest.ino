@@ -16,6 +16,11 @@ using namespace ace_time::zonedbx;
 // (i.e. no references to a ZonePolicy). Valid only for 2018.
 // --------------------------------------------------------------------------
 
+static const common::ZoneContext kZoneContext = {
+  2000 /*startYear*/,
+  2020 /*untilYear*/,
+};
+
 // Create simplified ZoneEras which approximate America/Los_Angeles
 static const ZoneEra kZoneEraAlmostLosAngeles[] = {
   {
@@ -55,6 +60,7 @@ static const ZoneEra kZoneEraAlmostLosAngeles[] = {
 
 static const ZoneInfo kZoneAlmostLosAngeles = {
   "Almost_Los_Angeles" /*name*/,
+  &::kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   3 /*numEras*/,
   kZoneEraAlmostLosAngeles /*eras*/,
@@ -153,6 +159,7 @@ static const ZoneEra kZoneEraTestLos_Angeles[] = {
 
 static const ZoneInfo kZoneTestLos_Angeles = {
   "America/Los_Angeles" /*name*/,
+  &::kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   1 /*numEras*/,
   kZoneEraTestLos_Angeles /*eras*/,

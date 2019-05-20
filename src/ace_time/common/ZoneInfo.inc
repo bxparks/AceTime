@@ -72,6 +72,9 @@ struct ZoneInfo {
   /** Full name of zone (e.g. "America/Los_Angeles" */
   const char* const name;
 
+  /** ZoneContext metadata. */
+  const common::ZoneContext* const zoneContext;
+
   /**
    * Estimated size of Transition buffer. Currently, this is used only in the
    * validation unit test for ExtendedZoneSpecifier. It is slightly wasteful to
