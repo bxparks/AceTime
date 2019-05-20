@@ -369,6 +369,12 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     void addRulesForYear(int16_t year) const {
       const zonedb::ZoneEra* const era = findZoneEra(year);
 
+      // TODO: If no ZoneEra is found, era==nullptr and will crash in the
+      // following line. This will only happen if the 'year' is outside the
+      // [start_year, until_year) interval used to generate the zonedb/* or
+      // zonedbx/* files. Hopefully the calling code ensures that the year is
+      // valid, but we should handle this more gracefully here.
+
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
       const zonedb::ZonePolicy* const zonePolicy = era->zonePolicy;

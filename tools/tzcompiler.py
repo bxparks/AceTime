@@ -97,20 +97,6 @@ def main():
         type=int,
         default=2038)
     parser.add_argument(
-        '--validation_start_year',
-        help='Start year of ZoneSpecifier validation (default: 2000)',
-        type=int,
-        default=2000)
-    # pytz cannot handle dates after the end of 32-bit Unix time_t type
-    # (2038-01-19T03:14:07Z), see
-    # https://answers.launchpad.net/pytz/+question/262216, so the
-    # validation_until_year cannot be greater than 2038.
-    parser.add_argument(
-        '--validation_until_year',
-        help='Until year of ZoneSpecifier validation (default: 2038)',
-        type=int,
-        default=2038)
-    parser.add_argument(
         '--granularity',
         help='Retained time values (UNTIL, AT, SAVE, RULES) fields ' +
         'in seconds (default: 60 or 900)',
@@ -120,6 +106,25 @@ def main():
         help='Remove zones and rules not aligned at granularity time boundary',
         action='store_true',
         default=False)
+
+    # Flags for the TestDataGenerator. If not given (default 0), then
+    # the validation_start_year will be set to start_year, and the
+    # validation_until_year will be set to until_year.
+    #
+    # pytz cannot handle dates after the end of 32-bit Unix time_t type
+    # (2038-01-19T03:14:07Z), see
+    # https://answers.launchpad.net/pytz/+question/262216, so the
+    # validation_until_year cannot be greater than 2038.
+    parser.add_argument(
+        '--validation_start_year',
+        help='Start year of ZoneSpecifier validation (default: start_year)',
+        type=int,
+        default=0)
+    parser.add_argument(
+        '--validation_until_year',
+        help='Until year of ZoneSpecifier validation (default: 2038)',
+        type=int,
+        default=0)
 
     # Data pipeline selectors
     parser.add_argument(
@@ -187,8 +192,17 @@ def main():
     # Parse the command line arguments
     args = parser.parse_args()
 
-    # Configure logging
+    # Configure logging. This should normally be executed after the
+    # parser.parse_args() because it allows us set the logging.level using a
+    # flag.
     logging.basicConfig(level=logging.INFO)
+
+    # Set the defaults for validation_start_year and validation_until_year
+    # if they were not specified.
+    validation_start_year = args.start_year if args.validation_start_year == 0 \
+        else args.validation_start_year
+    validation_until_year = args.until_year if args.validation_until_year == 0 \
+        else args.validation_until_year
 
     # How the script was invoked
     invocation = ' '.join(sys.argv)
@@ -296,9 +310,9 @@ def main():
 
         # Generate test data for unit test.
         logging.info('Generating test data for years in [%d, %d)',
-            args.validation_start_year, args.validation_until_year)
+            validation_start_year, validation_until_year)
         data_generator = TestDataGenerator(zone_infos, zone_policies,
-            granularity, args.validation_start_year, args.validation_until_year)
+            granularity, validation_start_year, validation_until_year)
         (test_data, num_items) = data_generator.create_test_data()
         logging.info('Num zones=%d; Num test items=%d', len(test_data),
             num_items)
@@ -327,8 +341,8 @@ def main():
             debug_specifier=args.debug_specifier,
             zone_name=args.zone,
             year=args.year,
-            start_year=args.validation_start_year,
-            until_year=args.validation_until_year,
+            start_year=validation_start_year,
+            until_year=validation_until_year,
             in_place_transitions=args.in_place_transitions,
             optimize_candidates=args.optimize_candidates)
 

@@ -198,6 +198,11 @@ class Transformer:
         so we need zone eras valid to at least until_year. For
         viewing_months=36, we need until_year + 1. So let's remove zone eras
         which starts at until_year + 2 or greater.
+
+        TODO: If a zone era is removed because it is too far in the future, it
+        is no longer guaranteed that the last zone era ends with MAX_UNTIL_YEAR.
+        If the ZoneSpecifier code is called with a year greater than
+        self.until_year, it may cause a loop to crash.
         """
         results = {}
         count = 0
@@ -737,7 +742,7 @@ class Transformer:
                 # components. To be conservative, we need to expand the
                 # until_year to the following year, so the effective zone era
                 # interval becomes [begin_year, until_year+1).
-                until_year = era.untilYear
+                until_year = min(era.untilYear, self.until_year)
                 matching_rules = find_matching_rules(rules, begin_year,
                                                      until_year + 1)
                 for rule in matching_rules:
@@ -751,14 +756,15 @@ class Transformer:
                     rule.used = True
 
                 # Find earliest Rules subsequent to the until_year mark.
-                # Result: It looks like all of these prior rules are
+                # Result: It looks like all of these subsequent rules are
                 # already picked up by previous calls to find_matching_rules().
                 subsequent_rules = find_earliest_subsequent_rules(
                     rules, until_year + 1)
                 for rule in subsequent_rules:
                     rule.used = True
 
-                begin_year = until_year
+                # Set the begin year of the next ZoneEra
+                begin_year = era.untilYear
 
         return (zones_map, rules_map)
 
