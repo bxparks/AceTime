@@ -304,6 +304,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       int8_t priorYearTiny = yearTiny - 1;
 
       // Find the prior Era.
+      // TODO: Figure out what to do if era == nullptr.
       const zonedb::ZoneEra* const era = findZoneEraPriorTo(year);
 
       // If the prior ZoneEra is a simple Era (no zone policy), then create a
@@ -367,13 +368,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /** Add all matching rules from the current year. */
     void addRulesForYear(int16_t year) const {
+      // TODO: Figure out what to do if era == nullptr.
       const zonedb::ZoneEra* const era = findZoneEra(year);
-
-      // TODO: If no ZoneEra is found, era==nullptr and will crash in the
-      // following line. This will only happen if the 'year' is outside the
-      // [start_year, until_year) interval used to generate the zonedb/* or
-      // zonedbx/* files. Hopefully the calling code ensures that the year is
-      // valid, but we should handle this more gracefully here.
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
@@ -463,6 +459,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * Find the ZoneEra which applies to the given year. The era will
      * satisfy (year < ZoneEra.untilYearTiny + kEpochYear). Since the
      * largest untilYearTiny is 127, the largest supported 'year' is 2126.
+     * Returns nullptr if no matching ZoneEra is found.
      */
     const zonedb::ZoneEra* findZoneEra(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
