@@ -21,6 +21,9 @@ namespace zonedb {
 // Version of the TZ Database which generated these files.
 extern const char kTzDatabaseVersion[];
 
+// Metadata about the zonedb files.
+extern const common::ZoneContext kZoneContext;
+
 // numInfos: 231
 extern const ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
 extern const ZoneInfo kZoneAfrica_Accra; // Africa/Accra
