@@ -40,7 +40,8 @@ class Validator:
 
     def __init__(self, zone_infos, zone_policies, granularity, viewing_months,
                  validate_dst_offset, debug_validator, debug_specifier,
-                 zone_name, year, in_place_transitions, optimize_candidates):
+                 zone_name, year, start_year, until_year,
+                 in_place_transitions, optimize_candidates):
         """
         Args:
             zone_infos (dict): {name -> zone_info{} }
@@ -55,6 +56,8 @@ class Validator:
             debug_specifier (bool): enable debugging output for ZoneSpecifier
             zone_name (str): validate only this zone
             year (int | None): validate only this year
+            start_year (int): start year of validation
+            until_year (int): until year of validation
             in_place_transitions (bool): see ZoneSpecifier.in_place_transitions
             optimize_candidates (bool): see ZoneSpecifier.optimize_candidates
         """
@@ -67,6 +70,8 @@ class Validator:
         self.debug_specifier = debug_specifier
         self.zone_name = zone_name
         self.year = year
+        self.start_year = start_year
+        self.until_year = until_year
         self.in_place_transitions = in_place_transitions
         self.optimize_candidates = optimize_candidates
 
@@ -80,15 +85,12 @@ class Validator:
         # map of {zoneName -> (numTransitions, year)}
         transition_stats = {}
 
-        # Determine range of years to validate.
+        # If 'self.year' is defined, clobber the range of validation years.
         if self.year:
-            start_year = self.year
-            until_year = self.year + 1
-        else:
-            start_year = 2000
-            until_year = 2050
+            self.start_year = self.year
+            self.until_year = self.year + 1
         logging.info('Calculating transitions from [%s, %s)' %
-            (start_year, until_year))
+            (self.start_year, self.until_year))
 
         # Calculate the buffer sizes for every Zone in zone_infos.
         for zone_name, zone_info in sorted(self.zone_infos.items()):
@@ -105,7 +107,7 @@ class Validator:
                 optimize_candidates=self.optimize_candidates)
 
             transition_stats[zone_name] = zone_specifier.get_buffer_sizes(
-                start_year, until_year)
+                self.start_year, self.until_year)
 
         logging.info('Zone Name: #NumTransitions (year); #MaxBufSize (year)')
         for zone_name, count_record in sorted(
@@ -119,7 +121,7 @@ class Validator:
         """
         logging.info('Creating test data')
         data_generator = TestDataGenerator(self.zone_infos, self.zone_policies,
-            self.granularity)
+            self.granularity, self.start_year, self.until_year)
         (test_data, num_items) = data_generator.create_test_data()
         logging.info('test_data=%d', len(test_data))
 
