@@ -13,8 +13,4 @@ void Presenter::displayAbout() const {
   mOled.println(zonedb::kTzDatabaseVersion);
   mOled.print(F("AceTime: "));
   mOled.println(ACE_TIME_VERSION_STRING);
-  mOled.print(F("AceButton: "));
-  mOled.println(ACE_BUTTON_VERSION_STRING);
-  mOled.print(F("AceRoutine: "));
-  mOled.println(ACE_ROUTINE_VERSION_STRING);
 }
