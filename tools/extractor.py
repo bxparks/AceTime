@@ -68,6 +68,15 @@ MIN_YEAR = 0
 # used for INVALID_YEAR_TINY.
 MIN_YEAR_TINY = -127
 
+# TODO: Decide on one of the following options consistently:
+# Option 1: INVALID_YEAR=-32768, MIN_YEAR=0
+# Option 2: INVALID_YEAR=-1, MIN_YEAR=0
+# Option 3: INVALID_YEAR=0, MIN_YEAR=1
+INVALID_YEAR = -1
+
+# Tiny (int8_t) version of INVALID_YEAR.
+INVALID_YEAR_TINY = -128
+
 
 class ZoneEraRaw:
     """Represents the input records corresponding to the 'ZONE' lines in a

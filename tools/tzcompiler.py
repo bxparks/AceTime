@@ -222,11 +222,11 @@ def main():
 
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules')
-    logging.info('Starting year: %d', args.start_year)
+    logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
     # TODO: pass args.until_year to limit the size of the generated data
     # structures.
     transformer = Transformer(extractor.zones_map, extractor.rules_map,
-        language, args.start_year, granularity, args.strict)
+        language, args.start_year, args.until_year, granularity, args.strict)
     transformer.transform()
     transformer.print_summary()
 
