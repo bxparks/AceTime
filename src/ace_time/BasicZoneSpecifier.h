@@ -315,7 +315,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       int8_t priorYearTiny = yearTiny - 1;
 
       // Find the prior Era.
-      // TODO: Figure out what to do if era == nullptr.
       const zonedb::ZoneEra* const era = findZoneEraPriorTo(year);
 
       // If the prior ZoneEra is a simple Era (no zone policy), then create a
@@ -379,7 +378,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /** Add all matching rules from the current year. */
     void addRulesForYear(int16_t year) const {
-      // TODO: Figure out what to do if era == nullptr.
       const zonedb::ZoneEra* const era = findZoneEra(year);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
@@ -470,14 +468,14 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * Find the ZoneEra which applies to the given year. The era will
      * satisfy (year < ZoneEra.untilYearTiny + kEpochYear). Since the
      * largest untilYearTiny is 127, the largest supported 'year' is 2126.
-     * Returns nullptr if no matching ZoneEra is found.
      */
     const zonedb::ZoneEra* findZoneEra(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
         const zonedb::ZoneEra* era = &mZoneInfo->eras[i];
         if (year < era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
-      return nullptr;
+      // Return the last ZoneEra if we run off the end.
+      return &mZoneInfo->eras[mZoneInfo->numEras-1];
     }
 
     /**
@@ -496,7 +494,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         const zonedb::ZoneEra* era = &mZoneInfo->eras[i];
         if (year <= era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
-      return nullptr;
+      // Return the last ZoneEra if we run off the end.
+      return &mZoneInfo->eras[mZoneInfo->numEras-1];
     }
 
     /** Calculate the epochSeconds and offsetCode of each Transition. */
