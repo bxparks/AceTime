@@ -99,21 +99,21 @@ test(BasicZoneSpecifierTest, init) {
   assertEqual(-32, zoneSpecifier.mPrevTransition.era->offsetCode);
   assertEqual("P%T", zoneSpecifier.mPrevTransition.era->format);
   assertEqual(2007-2000, zoneSpecifier.mPrevTransition.rule->fromYearTiny);
-  assertEqual(zonedb::ZoneRule::kMaxYearTiny,
+  assertEqual(basic::ZoneRule::kMaxYearTiny,
       zoneSpecifier.mPrevTransition.rule->toYearTiny);
   assertEqual(11, zoneSpecifier.mPrevTransition.rule->inMonth);
 
   assertEqual(-32, zoneSpecifier.mTransitions[0].era->offsetCode);
   assertEqual("P%T", zoneSpecifier.mTransitions[0].era->format);
   assertEqual(2007-2000, zoneSpecifier.mTransitions[0].rule->fromYearTiny);
-  assertEqual(zonedb::ZoneRule::kMaxYearTiny,
+  assertEqual(basic::ZoneRule::kMaxYearTiny,
       zoneSpecifier.mTransitions[0].rule->toYearTiny);
   assertEqual(3, zoneSpecifier.mTransitions[0].rule->inMonth);
 
   assertEqual(-32, zoneSpecifier.mTransitions[1].era->offsetCode);
   assertEqual("P%T", zoneSpecifier.mTransitions[1].era->format);
   assertEqual(2007-2000, zoneSpecifier.mTransitions[1].rule->fromYearTiny);
-  assertEqual(zonedb::ZoneRule::kMaxYearTiny,
+  assertEqual(basic::ZoneRule::kMaxYearTiny,
       zoneSpecifier.mTransitions[1].rule->toYearTiny);
   assertEqual(11, zoneSpecifier.mTransitions[1].rule->inMonth);
 

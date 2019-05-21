@@ -15,7 +15,7 @@ class TransitionTest: public aunit::TestOnce {
       }
       assertTrue(true);
 
-      const zonedbx::ZoneInfo* zoneInfo = testData->zoneInfo;
+      const extended::ZoneInfo* zoneInfo = testData->zoneInfo;
       ExtendedZoneSpecifier zoneSpecifier(zoneInfo);
       zoneSpecifier.resetTransitionHighWater();
       TimeZone tz(&zoneSpecifier);

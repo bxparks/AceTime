@@ -5,11 +5,13 @@
 
 namespace ace_time {
 
-namespace zonedb {
+// Data structures for BasicZoneSpecifier
+namespace basic {
 #include "ZonePolicy.inc"
 }
 
-namespace zonedbx {
+// Data structures for ExtendedZoneSpecifier
+namespace extended {
 #include "ZonePolicy.inc"
 }
 

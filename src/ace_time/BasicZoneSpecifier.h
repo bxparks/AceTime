@@ -6,11 +6,11 @@
 #include <stdint.h>
 #include "common/ZonePolicy.h"
 #include "common/ZoneInfo.h"
+#include "common/logger.h"
 #include "UtcOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneSpecifier.h"
-#include "common/logger.h"
 
 class BasicZoneSpecifierTest_init_primitives;
 class BasicZoneSpecifierTest_init;
@@ -20,7 +20,7 @@ class BasicZoneSpecifierTest_calcRuleOffsetCode;
 
 namespace ace_time {
 
-namespace zonedb {
+namespace basic {
 
 /**
  * Data structure that defines the start of a specific UTC offset as described
@@ -84,7 +84,7 @@ struct Transition {
   }
 };
 
-} // namespace zonedb
+} // namespace basic
 
 /**
  * An implementation of ZoneSpecifier that supports a subset of the zones
@@ -103,8 +103,8 @@ struct Transition {
  * Rule  NAME  FROM    TO  TYPE    IN     ON        AT      SAVE    LETTER/S
  * @endverbatim
  *
- * Each record is represented by zonedb::ZoneRule and the entire collection is
- * represented by zonedb::ZonePolicy.
+ * Each record is represented by basic::ZoneRule and the entire collection is
+ * represented by basic::ZonePolicy.
  *
  * The Zone records define the region which follows a specific set of Rules
  * for certain time periods (given by UNTIL below):
@@ -112,8 +112,8 @@ struct Transition {
  * Zone NAME              GMTOFF    RULES FORMAT  [UNTIL]
  * @endverbatim
  *
- * Each record is represented by zonedb::ZoneEra and the entire collection is
- * represented by zonedb::ZoneInfo.
+ * Each record is represented by basic::ZoneEra and the entire collection is
+ * represented by basic::ZoneInfo.
  *
  * This class assumes that the various components of ZoneInfo, ZoneEra, and
  * ZonePolicy, ZoneRule have a number of limitations and constraints which
@@ -143,28 +143,28 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * Constructor.
      * @param zoneInfo pointer to a ZoneInfo. Must not be nullptr.
      */
-    explicit BasicZoneSpecifier(const zonedb::ZoneInfo* zoneInfo):
+    explicit BasicZoneSpecifier(const basic::ZoneInfo* zoneInfo):
         ZoneSpecifier(kTypeBasic),
         mZoneInfo(zoneInfo) {}
 
     /** Return the underlying ZoneInfo. */
-    const zonedb::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
+    const basic::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) const override {
-      const zonedb::Transition* transition = getTransition(epochSeconds);
+      const basic::Transition* transition = getTransition(epochSeconds);
       if (!transition) return UtcOffset::forError();
       return UtcOffset::forOffsetCode(transition->offsetCode);
     }
 
     UtcOffset getDeltaOffset(acetime_t epochSeconds) const override {
-      const zonedb::Transition* transition = getTransition(epochSeconds);
+      const basic::Transition* transition = getTransition(epochSeconds);
       if (!transition) return UtcOffset::forError();
       if (transition->rule == nullptr) return UtcOffset();
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
-      const zonedb::Transition* transition = getTransition(epochSeconds);
+      const basic::Transition* transition = getTransition(epochSeconds);
       if (!transition) return "";
       return transition->abbrev;
     }
@@ -245,7 +245,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Return the Transition at the given epochSeconds. */
-    const zonedb::Transition* getTransition(acetime_t epochSeconds) const {
+    const basic::Transition* getTransition(acetime_t epochSeconds) const {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
       init(ld);
       return (mIsOutOfBounds) ? nullptr : findMatch(epochSeconds);
@@ -315,19 +315,19 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       int8_t priorYearTiny = yearTiny - 1;
 
       // Find the prior Era.
-      const zonedb::ZoneEra* const era = findZoneEraPriorTo(year);
+      const basic::ZoneEra* const era = findZoneEraPriorTo(year);
 
       // If the prior ZoneEra is a simple Era (no zone policy), then create a
       // Transition using a rule==nullptr. Otherwise, find the latest rule
       // within the ZoneEra.
-      const zonedb::ZonePolicy* const zonePolicy = era->zonePolicy;
-      const zonedb::ZoneRule* latest = nullptr;
+      const basic::ZonePolicy* const zonePolicy = era->zonePolicy;
+      const basic::ZoneRule* latest = nullptr;
       if (zonePolicy != nullptr) {
         // Find the latest rule for the matching ZoneEra whose
         // ZoneRule::toYearTiny < yearTiny. Assume that there are no more than
         // 1 rule per month.
         for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
-          const zonedb::ZoneRule* const rule = &zonePolicy->rules[i];
+          const basic::ZoneRule* const rule = &zonePolicy->rules[i];
           // Check if rule is effective prior to the given year
           if (rule->fromYearTiny < yearTiny) {
             if ((latest == nullptr)
@@ -350,7 +350,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /** Compare two ZoneRules which are valid prior to the given year. */
     static int8_t compareZoneRule(int16_t year,
-        const zonedb::ZoneRule* a, const zonedb::ZoneRule* b) {
+        const basic::ZoneRule* a, const basic::ZoneRule* b) {
       int16_t aYear = effectiveRuleYear(year, a);
       int16_t bYear = effectiveRuleYear(year, b);
       if (aYear < bYear) return -1;
@@ -365,7 +365,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * Return 0 if rule is greater than the given year.
      */
     static int16_t effectiveRuleYear(int16_t year,
-        const zonedb::ZoneRule* rule) {
+        const basic::ZoneRule* rule) {
       int8_t yearTiny = year - LocalDate::kEpochYear;
       if (rule->toYearTiny < yearTiny) {
         return rule->toYearTiny + LocalDate::kEpochYear;
@@ -378,11 +378,11 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /** Add all matching rules from the current year. */
     void addRulesForYear(int16_t year) const {
-      const zonedb::ZoneEra* const era = findZoneEra(year);
+      const basic::ZoneEra* const era = findZoneEra(year);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
-      const zonedb::ZonePolicy* const zonePolicy = era->zonePolicy;
+      const basic::ZonePolicy* const zonePolicy = era->zonePolicy;
       if (zonePolicy == nullptr) {
         addRule(year, era, nullptr);
         return;
@@ -393,7 +393,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       // ZoneRule::inMonth field.
       int8_t yearTiny = year - LocalDate::kEpochYear;
       for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
-        const zonedb::ZoneRule* const rule = &zonePolicy->rules[i];
+        const basic::ZoneRule* const rule = &zonePolicy->rules[i];
         if ((rule->fromYearTiny <= yearTiny) &&
             (yearTiny <= rule->toYearTiny)) {
           addRule(year, era, rule);
@@ -415,8 +415,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * already sorted, then the loop terminates early and the total sort time
      * is O(N).
      */
-    void addRule(int16_t year, const zonedb::ZoneEra* era,
-          const zonedb::ZoneRule* rule) const {
+    void addRule(int16_t year, const basic::ZoneEra* era,
+          const basic::ZoneRule* rule) const {
 
       // If a zone needs more transitions than kMaxCacheEntries, the check below
       // will cause the DST transition information to be inaccurate, and it is
@@ -451,13 +451,13 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
       // perform an insertion sort
       for (uint8_t i = mNumTransitions - 1; i > 0; i--) {
-        zonedb::Transition& left = mTransitions[i - 1];
-        zonedb::Transition& right = mTransitions[i];
+        basic::Transition& left = mTransitions[i - 1];
+        basic::Transition& right = mTransitions[i];
         // assume only 1 rule per month
         if ((left.rule != nullptr && right.rule != nullptr &&
               left.rule->inMonth > right.rule->inMonth)
             || (left.rule != nullptr && right.rule == nullptr)) {
-          zonedb::Transition tmp = left;
+          basic::Transition tmp = left;
           left = right;
           right = tmp;
         }
@@ -469,9 +469,9 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * satisfy (year < ZoneEra.untilYearTiny + kEpochYear). Since the
      * largest untilYearTiny is 127, the largest supported 'year' is 2126.
      */
-    const zonedb::ZoneEra* findZoneEra(int16_t year) const {
+    const basic::ZoneEra* findZoneEra(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
-        const zonedb::ZoneEra* era = &mZoneInfo->eras[i];
+        const basic::ZoneEra* era = &mZoneInfo->eras[i];
         if (year < era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
@@ -489,9 +489,9 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * zone_infos.cpp verified that the final ZoneEra contains an empty
      * untilYear, interpreted as 'max', and set to 127.
      */
-    const zonedb::ZoneEra* findZoneEraPriorTo(int16_t year) const {
+    const basic::ZoneEra* findZoneEraPriorTo(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
-        const zonedb::ZoneEra* era = &mZoneInfo->eras[i];
+        const basic::ZoneEra* era = &mZoneInfo->eras[i];
         if (year <= era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
@@ -505,13 +505,13 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       int8_t deltaCode = (mPrevTransition.rule == nullptr)
           ? 0 : mPrevTransition.rule->deltaCode;
       mPrevTransition.offsetCode = mPrevTransition.era->offsetCode + deltaCode;
-      const zonedb::Transition* prevTransition = &mPrevTransition;
+      const basic::Transition* prevTransition = &mPrevTransition;
 
       // Loop through Transition items to calculate:
       // 1) Transition::startEpochSeconds
       // 2) Transition::offsetCode
       for (uint8_t i = 0; i < mNumTransitions; i++) {
-        zonedb::Transition& transition = mTransitions[i];
+        basic::Transition& transition = mTransitions[i];
         const int16_t year = transition.yearTiny + LocalDate::kEpochYear;
 
         if (transition.rule == nullptr) {
@@ -616,10 +616,10 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Calculate the time zone abbreviation of the current transition. */
-    static void calcAbbreviation(zonedb::Transition* transition) {
+    static void calcAbbreviation(basic::Transition* transition) {
       createAbbreviation(
           transition->abbrev,
-          zonedb::Transition::kAbbrevSize,
+          basic::Transition::kAbbrevSize,
           transition->era->format,
           transition->rule != nullptr ? transition->rule->deltaCode : 0,
           transition->rule != nullptr ? transition->rule->letter : '\0');
@@ -725,10 +725,10 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Search the cache and find closest Transition. */
-    const zonedb::Transition* findMatch(acetime_t epochSeconds) const {
-      const zonedb::Transition* closestMatch = &mPrevTransition;
+    const basic::Transition* findMatch(acetime_t epochSeconds) const {
+      const basic::Transition* closestMatch = &mPrevTransition;
       for (uint8_t i = 0; i < mNumTransitions; i++) {
-        const zonedb::Transition* m = &mTransitions[i];
+        const basic::Transition* m = &mTransitions[i];
         if (m->startEpochSeconds <= epochSeconds) {
           closestMatch = m;
         }
@@ -736,14 +736,14 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       return closestMatch;
     }
 
-    const zonedb::ZoneInfo* const mZoneInfo;
+    const basic::ZoneInfo* const mZoneInfo;
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
     mutable bool mIsOutOfBounds = false; // year is too early or late
     mutable uint8_t mNumTransitions = 0;
-    mutable zonedb::Transition mTransitions[kMaxCacheEntries];
-    mutable zonedb::Transition mPrevTransition; // previous year's transition
+    mutable basic::Transition mTransitions[kMaxCacheEntries];
+    mutable basic::Transition mPrevTransition; // previous year's transition
 };
 
 }

@@ -20,10 +20,10 @@ struct ValidationItem {
 
 /**
  * Header that points to an array of all ValidationItems and the specific
- * zonedbx::ZoneInfo that is being tested.
+ * extended::ZoneInfo that is being tested.
  */
 struct ValidationData {
-  const zonedbx::ZoneInfo* const zoneInfo;
+  const extended::ZoneInfo* const zoneInfo;
   uint16_t const numItems;
   const ValidationItem* const items;
 };
