@@ -29,7 +29,8 @@ class ArduinoGenerator:
     ZONE_STRINGS_CPP_FILE_NAME = 'zone_strings.cpp'
     ZONE_STRINGS_H_FILE_NAME = 'zone_strings.h'
 
-    def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
+    def __init__(self, invocation, tz_version, tz_files, start_year, until_year,
+                 zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
                  notable_policies, format_strings, zone_strings, extended,
                  buf_sizes):
@@ -40,7 +41,8 @@ class ArduinoGenerator:
             removed_zones, removed_policies, notable_zones, notable_policies,
             extended)
         self.zone_infos_generator = ZoneInfosGenerator(
-            invocation, tz_version, tz_files, zones_map, rules_map,
+            invocation, tz_version, tz_files, start_year, until_year,
+            zones_map, rules_map,
             removed_zones, removed_policies, notable_zones, notable_policies,
             extended, buf_sizes)
         self.zone_strings_generator = ZoneStringsGenerator(
@@ -409,6 +411,9 @@ namespace {dbNamespace} {{
 // Version of the TZ Database which generated these files.
 extern const char kTzDatabaseVersion[];
 
+// Metadata about the zonedb files.
+extern const common::ZoneContext kZoneContext;
+
 // numInfos: {numInfos}
 {infoItems}
 
@@ -469,6 +474,11 @@ namespace {dbNamespace} {{
 //---------------------------------------------------------------------------
 const char kTzDatabaseVersion[] = "{tz_version}";
 
+const common::ZoneContext kZoneContext = {{
+  {startYear} /*startYear*/,
+  {untilYear} /*untilYear*/,
+}};
+
 {infoItems}
 
 }}
@@ -490,6 +500,7 @@ static const ZoneEra kZoneEra{zoneNormalizedName}[] = {{
 
 const ZoneInfo kZone{zoneNormalizedName} = {{
   "{zoneFullName}" /*name*/,
+  &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,
   kZoneEra{zoneNormalizedName} /*eras*/,
@@ -514,15 +525,18 @@ const ZoneInfo kZone{zoneNormalizedName} = {{
 
     SIZEOF_ZONE_ERA_8 = 11
     SIZEOF_ZONE_ERA_32 = 15
-    SIZEOF_ZONE_INFO_8 = 6
-    SIZEOF_ZONE_INFO_32 = 10
+    SIZEOF_ZONE_INFO_8 = 8
+    SIZEOF_ZONE_INFO_32 = 14
 
-    def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
+    def __init__(self, invocation, tz_version, tz_files, start_year, until_year,
+                 zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
                  notable_policies, extended, buf_sizes):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
+        self.start_year = start_year
+        self.until_year = until_year
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.removed_zones = removed_zones
@@ -585,6 +599,8 @@ const ZoneInfo kZone{zoneNormalizedName} = {{
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            startYear=self.start_year,
+            untilYear=self.until_year,
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             numInfos=num_infos,

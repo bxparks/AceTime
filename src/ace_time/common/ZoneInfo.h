@@ -2,6 +2,7 @@
 #define ACE_TIME_ZONE_INFO_H
 
 #include <stdint.h>
+#include "ZoneContext.h"
 #include "ZonePolicy.h"
 
 namespace ace_time {

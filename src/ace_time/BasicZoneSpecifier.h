@@ -152,17 +152,20 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) const override {
       const zonedb::Transition* transition = getTransition(epochSeconds);
+      if (!transition) return UtcOffset::forError();
       return UtcOffset::forOffsetCode(transition->offsetCode);
     }
 
     UtcOffset getDeltaOffset(acetime_t epochSeconds) const override {
       const zonedb::Transition* transition = getTransition(epochSeconds);
+      if (!transition) return UtcOffset::forError();
       if (transition->rule == nullptr) return UtcOffset();
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
       const zonedb::Transition* transition = getTransition(epochSeconds);
+      if (!transition) return "";
       return transition->abbrev;
     }
 
@@ -183,6 +186,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
       init(ldt.getLocalDate());
+      if (mIsOutOfBounds) return UtcOffset::forError();
 
       // First guess at the UtcOffset using Jan 1 of the given year.
       acetime_t initialEpochSeconds =
@@ -244,7 +248,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     const zonedb::Transition* getTransition(acetime_t epochSeconds) const {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
       init(ld);
-      return findMatch(epochSeconds);
+      return (mIsOutOfBounds) ? nullptr : findMatch(epochSeconds);
     }
 
     /**
@@ -277,17 +281,24 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       if (ld.month() == 1 && ld.day() == 1) {
         year--;
       }
+      if (isFilled(year)) return;
 
-      if (!isFilled(year)) {
-        mYear = year;
-        mNumTransitions = 0; // clear cache
+      mYear = year;
+      mNumTransitions = 0; // clear cache
 
-        addRulePriorToYear(year);
-        addRulesForYear(year);
-        calcTransitions();
-        calcAbbreviations();
-        mIsFilled = true;
+      if (year < mZoneInfo->zoneContext->startYear - 1
+          || mZoneInfo->zoneContext->untilYear < year) {
+        mIsOutOfBounds = true;
+        return;
       }
+
+      addRulePriorToYear(year);
+      addRulesForYear(year);
+      calcTransitions();
+      calcAbbreviations();
+
+      mIsFilled = true;
+      mIsOutOfBounds = false;
     }
 
     /** Check if the Transition cache is filled for the given year. */
@@ -304,7 +315,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       int8_t priorYearTiny = yearTiny - 1;
 
       // Find the prior Era.
-      // TODO: Figure out what to do if era == nullptr.
       const zonedb::ZoneEra* const era = findZoneEraPriorTo(year);
 
       // If the prior ZoneEra is a simple Era (no zone policy), then create a
@@ -368,7 +378,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /** Add all matching rules from the current year. */
     void addRulesForYear(int16_t year) const {
-      // TODO: Figure out what to do if era == nullptr.
       const zonedb::ZoneEra* const era = findZoneEra(year);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
@@ -459,14 +468,14 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * Find the ZoneEra which applies to the given year. The era will
      * satisfy (year < ZoneEra.untilYearTiny + kEpochYear). Since the
      * largest untilYearTiny is 127, the largest supported 'year' is 2126.
-     * Returns nullptr if no matching ZoneEra is found.
      */
     const zonedb::ZoneEra* findZoneEra(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
         const zonedb::ZoneEra* era = &mZoneInfo->eras[i];
         if (year < era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
-      return nullptr;
+      // Return the last ZoneEra if we run off the end.
+      return &mZoneInfo->eras[mZoneInfo->numEras-1];
     }
 
     /**
@@ -485,7 +494,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         const zonedb::ZoneEra* era = &mZoneInfo->eras[i];
         if (year <= era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
-      return nullptr;
+      // Return the last ZoneEra if we run off the end.
+      return &mZoneInfo->eras[mZoneInfo->numEras-1];
     }
 
     /** Calculate the epochSeconds and offsetCode of each Transition. */
@@ -730,6 +740,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
+    mutable bool mIsOutOfBounds = false; // year is too early or late
     mutable uint8_t mNumTransitions = 0;
     mutable zonedb::Transition mTransitions[kMaxCacheEntries];
     mutable zonedb::Transition mPrevTransition; // previous year's transition

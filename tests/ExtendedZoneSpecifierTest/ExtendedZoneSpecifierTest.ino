@@ -1,9 +1,5 @@
 #line 2 "ExtendedZoneSpecifierTest.ino"
 
-/*
- * Unit tests for ExtendedZoneSpecifier.
- */
-
 #include <AUnit.h>
 #include <AceTime.h>
 
@@ -15,6 +11,11 @@ using namespace ace_time::zonedbx;
 // A simplified version of America/Los_Angeles, using only simple ZoneEras
 // (i.e. no references to a ZonePolicy). Valid only for 2018.
 // --------------------------------------------------------------------------
+
+static const common::ZoneContext kZoneContext = {
+  2000 /*startYear*/,
+  2020 /*untilYear*/,
+};
 
 // Create simplified ZoneEras which approximate America/Los_Angeles
 static const ZoneEra kZoneEraAlmostLosAngeles[] = {
@@ -55,6 +56,7 @@ static const ZoneEra kZoneEraAlmostLosAngeles[] = {
 
 static const ZoneInfo kZoneAlmostLosAngeles = {
   "Almost_Los_Angeles" /*name*/,
+  &::kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   3 /*numEras*/,
   kZoneEraAlmostLosAngeles /*eras*/,
@@ -153,13 +155,14 @@ static const ZoneEra kZoneEraTestLos_Angeles[] = {
 
 static const ZoneInfo kZoneTestLos_Angeles = {
   "America/Los_Angeles" /*name*/,
+  &::kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   1 /*numEras*/,
   kZoneEraTestLos_Angeles /*eras*/,
 };
 
 // --------------------------------------------------------------------------
-// ExtendedZoneSpecifier
+// ExtendedZoneSpecifier: test private methods
 // --------------------------------------------------------------------------
 
 test(ExtendedZoneSpecifierTest, tzVersion) {
@@ -679,6 +682,75 @@ test(ExtendedZoneSpecifierTest, createAbbreviation) {
 
 test(ExtendedZoneSpecifierTest, calcAbbreviations) {
   // TODO: Implement
+}
+
+// --------------------------------------------------------------------------
+// Test public methods
+// --------------------------------------------------------------------------
+
+// https://www.timeanddate.com/time/zone/usa/los-angeles
+test(ExtendedZoneSpecifierTest, kZoneAmerica_Los_Angeles) {
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+  OffsetDateTime dt;
+  acetime_t epochSeconds;
+
+  dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
+      UtcOffset::forHour(-8));
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-8*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PST", zoneSpecifier.getAbbrev(epochSeconds));
+  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
+
+  dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
+      UtcOffset::forHour(-8));
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
+  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
+
+  dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 0, 0,
+      UtcOffset::forHour(-7));
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
+  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
+
+  dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 59,
+      UtcOffset::forHour(-7));
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
+  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
+
+  dt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 0,
+      UtcOffset::forHour(-7));
+  epochSeconds = dt.toEpochSeconds();
+  assertEqual(-8*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PST", zoneSpecifier.getAbbrev(epochSeconds));
+  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
+}
+
+test(ExtendedZoneSpecifierTest, kZoneAmerica_Los_Angeles_outOfBounds) {
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+  OffsetDateTime dt;
+  acetime_t epochSeconds;
+
+  assertEqual(2000, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->startYear);
+  assertEqual(2038, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
+
+  dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
+      UtcOffset::forHour(-8));
+  epochSeconds = dt.toEpochSeconds();
+  assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
+  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
+  assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
+
+  dt = OffsetDateTime::forComponents(2039, 2, 1, 1, 0, 0,
+      UtcOffset::forHour(-8));
+  epochSeconds = dt.toEpochSeconds();
+  assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
+  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
+  assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
 }
 
 // --------------------------------------------------------------------------
