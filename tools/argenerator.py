@@ -125,7 +125,7 @@ class ZonePoliciesGenerator:
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
 
-#include <AceTime.h>
+#include <ace_time/common/ZonePolicy.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{
@@ -436,7 +436,7 @@ class ZoneInfosGenerator:
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
 
-#include <AceTime.h>
+#include <ace_time/common/ZoneInfo.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{

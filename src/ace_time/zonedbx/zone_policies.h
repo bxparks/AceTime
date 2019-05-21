@@ -13,7 +13,7 @@
 #ifndef ACE_TIME_ZONEDBX_ZONE_POLICIES_H
 #define ACE_TIME_ZONEDBX_ZONE_POLICIES_H
 
-#include "../common/ZonePolicy.h"
+#include <ace_time/common/ZonePolicy.h>
 
 namespace ace_time {
 namespace zonedbx {
