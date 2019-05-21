@@ -124,7 +124,7 @@ namespace {dbNamespace} {{
 """
 
     ZONE_POLICIES_H_POLICY_ITEM = """\
-extern const ZonePolicy kPolicy{policyName};
+extern const {zoneSpecNamespace}::ZonePolicy kPolicy{policyName};
 """
 
     ZONE_POLICIES_H_REMOVED_POLICY_ITEM = """\
@@ -169,13 +169,13 @@ namespace {dbNamespace} {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const ZoneRule kZoneRules{policyName}[] = {{
+static const {zoneSpecNamespace}::ZoneRule kZoneRules{policyName}[] = {{
 {ruleItems}
 }};
 
 {letterArray}
 
-const ZonePolicy kPolicy{policyName} = {{
+const {zoneSpecNamespace}::ZonePolicy kPolicy{policyName} = {{
   {numRules} /*numRules*/,
   kZoneRules{policyName} /*rules*/,
   {numLetters} /* numLetters */,
@@ -227,6 +227,7 @@ static const char* const kLetters{policyName}[] = {{
         self.letters_map = {}  # map{policy_name: map{letter: index}}
         self.db_namespace = 'zonedbx' if extended else 'zonedb'
         self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
+        self.zone_spec_namesapce = 'extended' if extended else 'basic'
 
     def collect_letter_strings(self):
         """Loop through all ZoneRules and collect the LETTERs which are
@@ -249,7 +250,8 @@ static const char* const kLetters{policyName}[] = {{
         policy_items = ''
         for name, rules in sorted(self.rules_map.items()):
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
-                policyName=normalize_name(name))
+                policyName=normalize_name(name),
+                zoneSpecNamespace=self.zone_spec_namesapce)
 
         removed_policy_items = ''
         for name, reason in sorted(self.removed_policies.items()):
@@ -374,6 +376,7 @@ static const char* const kLetters{policyName}[] = {{
                     memoryLetters32)
 
         policy_item = self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
+            zoneSpecNamespace=self.zone_spec_namesapce,
             policyName=policyName,
             numRules=num_rules,
             memory8=memory8,
@@ -436,7 +439,7 @@ extern const common::ZoneContext kZoneContext;
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-extern const ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
+extern const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
@@ -494,11 +497,11 @@ const common::ZoneContext kZoneContext = {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const ZoneEra kZoneEra{zoneNormalizedName}[] = {{
+static const {zoneSpecNamespace}::ZoneEra kZoneEra{zoneNormalizedName}[] = {{
 {eraItems}
 }};
 
-const ZoneInfo kZone{zoneNormalizedName} = {{
+const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName} = {{
   "{zoneFullName}" /*name*/,
   &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
@@ -548,11 +551,13 @@ const ZoneInfo kZone{zoneNormalizedName} = {{
 
         self.db_namespace = 'zonedbx' if extended else 'zonedb'
         self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
+        self.zone_spec_namesapce = 'extended' if extended else 'basic'
 
     def generate_infos_h(self):
         info_items = ''
         for zone_name, eras in sorted(self.zones_map.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
+                zoneSpecNamespace=self.zone_spec_namesapce,
                 zoneNormalizedName=normalize_name(zone_name),
                 zoneFullName=zone_name)
 
@@ -628,6 +633,7 @@ const ZoneInfo kZone{zoneNormalizedName} = {{
         transition_buf_size = self.buf_sizes[zone_name]
 
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
+            zoneSpecNamespace=self.zone_spec_namesapce,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
             transitionBufSize=transition_buf_size,
@@ -766,6 +772,7 @@ extern const char* const kZoneStrings[];
 
         self.db_namespace = 'zonedbx' if extended else 'zonedb'
         self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
+        self.zone_spec_namesapce = 'extended' if extended else 'basic'
 
     def generate_strings_cpp(self):
         format_string_items = ''

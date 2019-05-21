@@ -5,7 +5,7 @@
 
 using namespace aunit;
 using namespace ace_time;
-using namespace ace_time::zonedbx;
+using namespace ace_time::extended;
 
 // --------------------------------------------------------------------------
 // A simplified version of America/Los_Angeles, using only simple ZoneEras
