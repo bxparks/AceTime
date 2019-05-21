@@ -7,7 +7,7 @@ using namespace aunit;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// BasicZoneSpecifier
+// BasicZoneSpecifier: test private methods
 // --------------------------------------------------------------------------
 
 test(BasicZoneSpecifierTest, tzVersion) {
@@ -132,6 +132,36 @@ test(BasicZoneSpecifierTest, init) {
       zoneSpecifier.mTransitions[1].startEpochSeconds);
 }
 
+test(BasicZoneSpecifierTest, createAbbreviation) {
+  const uint8_t kDstSize = 6;
+  char dst[kDstSize];
+
+  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "SAST", 0, '\0');
+  assertEqual("SAST", dst);
+
+  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T", 4, 'D');
+  assertEqual("PDT", dst);
+
+  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
+  assertEqual("PST", dst);
+
+  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T", 0, '-');
+  assertEqual("PT", dst);
+
+  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '-');
+  assertEqual("GMT", dst);
+
+  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "GMT/BST", 4, '-');
+  assertEqual("BST", dst);
+
+  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T3456", 4, 'D');
+  assertEqual("PDT34", dst);
+}
+
+// --------------------------------------------------------------------------
+// Test public methods
+// --------------------------------------------------------------------------
+
 // https://www.timeanddate.com/time/zone/usa/los-angeles
 test(BasicZoneSpecifierTest, kZoneAmerica_Los_Angeles) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
@@ -205,33 +235,7 @@ test(BasicZoneSpecifierTest, kZoneAustralia_Darwin) {
   assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
 }
 
-test(BasicZoneSpecifierTest, createAbbreviation) {
-  const uint8_t kDstSize = 6;
-  char dst[kDstSize];
-
-  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "SAST", 0, '\0');
-  assertEqual("SAST", dst);
-
-  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T", 4, 'D');
-  assertEqual("PDT", dst);
-
-  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T", 0, 'S');
-  assertEqual("PST", dst);
-
-  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T", 0, '-');
-  assertEqual("PT", dst);
-
-  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "GMT/BST", 0, '-');
-  assertEqual("GMT", dst);
-
-  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "GMT/BST", 4, '-');
-  assertEqual("BST", dst);
-
-  BasicZoneSpecifier::createAbbreviation(dst, kDstSize, "P%T3456", 4, 'D');
-  assertEqual("PDT34", dst);
-}
-
-test(BasicZoneSpecifierTest, kZoneAmerica_Los_Angeles_errors) {
+test(BasicZoneSpecifierTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   OffsetDateTime dt;
   acetime_t epochSeconds;
@@ -239,14 +243,14 @@ test(BasicZoneSpecifierTest, kZoneAmerica_Los_Angeles_errors) {
   assertEqual(2000, zonedb::kZoneAmerica_Los_Angeles.zoneContext->startYear);
   assertEqual(2038, zonedb::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
 
-  dt = OffsetDateTime::forComponents(1999, 3, 11, 1, 59, 59,
+  dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
   assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
   assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
 
-  dt = OffsetDateTime::forComponents(2038, 2, 1, 1, 0, 0,
+  dt = OffsetDateTime::forComponents(2039, 2, 1, 1, 0, 0,
       UtcOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());

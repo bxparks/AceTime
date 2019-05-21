@@ -643,6 +643,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) const override {
       init(epochSeconds);
+      if (mIsOutOfBounds) return UtcOffset::forError();
       const zonedbx::Transition* transition = findTransition(epochSeconds);
       return (transition)
           ? UtcOffset::forOffsetCode(
@@ -652,18 +653,21 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     UtcOffset getDeltaOffset(acetime_t epochSeconds) const override {
       init(epochSeconds);
+      if (mIsOutOfBounds) return UtcOffset::forError();
       const zonedbx::Transition* transition = findTransition(epochSeconds);
       return UtcOffset::forOffsetCode(transition->deltaCode());
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
       init(epochSeconds);
+      if (mIsOutOfBounds) return "";
       const zonedbx::Transition* transition = findTransition(epochSeconds);
       return transition->abbrev;
     }
 
     UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
       init(ldt.getLocalDate());
+      if (mIsOutOfBounds) return UtcOffset::forError();
       const zonedbx::Transition* transition =
           mTransitionStorage.findTransitionForDateTime(ldt);
       return (transition)
@@ -769,6 +773,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       mNumMatches = 0; // clear cache
       mTransitionStorage.init();
 
+      if (year < mZoneInfo->zoneContext->startYear - 1
+          || mZoneInfo->zoneContext->untilYear < year) {
+        mIsOutOfBounds = true;
+        return;
+      }
+
       zonedbx::YearMonthTuple startYm = {
         (int8_t) (year - LocalDate::kEpochYear - 1), 12 };
       zonedbx::YearMonthTuple untilYm =  {
@@ -785,6 +795,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       calcAbbreviations(begin, end);
 
       mIsFilled = true;
+      mIsOutOfBounds = false;
     }
 
     /** Check if the ZoneRule cache is filled for the given year. */
@@ -1467,12 +1478,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
-
-    // NOTE: Potentially move mNumMatches and mMatches into a MatchStorage
-    // object.
+    mutable bool mIsOutOfBounds = false; // year is too early or late
+    // NOTE: Maybe move mNumMatches and mMatches into a MatchStorage object.
     mutable uint8_t mNumMatches = 0; // actual number of matches
     mutable zonedbx::ZoneMatch mMatches[kMaxMatches];
-
     mutable zonedbx::TransitionStorage<kMaxTransitions> mTransitionStorage;
 };
 

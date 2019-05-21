@@ -186,7 +186,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
       init(ldt.getLocalDate());
-      if (mIsTooEarlyOrTooLate) return UtcOffset::forError();
+      if (mIsOutOfBounds) return UtcOffset::forError();
 
       // First guess at the UtcOffset using Jan 1 of the given year.
       acetime_t initialEpochSeconds =
@@ -248,7 +248,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     const zonedb::Transition* getTransition(acetime_t epochSeconds) const {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
       init(ld);
-      return (mIsTooEarlyOrTooLate) ? nullptr : findMatch(epochSeconds);
+      return (mIsOutOfBounds) ? nullptr : findMatch(epochSeconds);
     }
 
     /**
@@ -281,23 +281,24 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       if (ld.month() == 1 && ld.day() == 1) {
         year--;
       }
+      if (isFilled(year)) return;
 
-      if (!isFilled(year)) {
-        mYear = year;
-        mNumTransitions = 0; // clear cache
+      mYear = year;
+      mNumTransitions = 0; // clear cache
 
-        if (year < mZoneInfo->zoneContext->startYear
-            || mZoneInfo->zoneContext->untilYear <= year) {
-          mIsTooEarlyOrTooLate = true;
-          return;
-        }
-        addRulePriorToYear(year);
-        addRulesForYear(year);
-        calcTransitions();
-        calcAbbreviations();
-        mIsFilled = true;
-        mIsTooEarlyOrTooLate = false;
+      if (year < mZoneInfo->zoneContext->startYear - 1
+          || mZoneInfo->zoneContext->untilYear < year) {
+        mIsOutOfBounds = true;
+        return;
       }
+
+      addRulePriorToYear(year);
+      addRulesForYear(year);
+      calcTransitions();
+      calcAbbreviations();
+
+      mIsFilled = true;
+      mIsOutOfBounds = false;
     }
 
     /** Check if the Transition cache is filled for the given year. */
@@ -740,7 +741,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
-    mutable bool mIsTooEarlyOrTooLate = false;
+    mutable bool mIsOutOfBounds = false; // year is too early or late
     mutable uint8_t mNumTransitions = 0;
     mutable zonedb::Transition mTransitions[kMaxCacheEntries];
     mutable zonedb::Transition mPrevTransition; // previous year's transition
