@@ -87,6 +87,7 @@ class Transformer:
         zones_map = self._remove_zones_without_slash(zones_map)
         zones_map = self._remove_zone_eras_too_old(zones_map)
         zones_map = self._remove_zone_eras_too_new(zones_map)
+        zones_map = self._remove_zones_without_eras(zones_map)
         if self.language == 'arduino':
             zones_map = self._remove_zone_until_year_only_false(zones_map)
         zones_map = self._create_zones_with_until_day(zones_map)
@@ -221,6 +222,24 @@ class Transformer:
 
         logging.info("Removed %s zone eras starting after %04d", count,
                      self.until_year)
+        return results
+
+    def _remove_zones_without_eras(self, zones_map):
+        """Remove zones without any eras, which can happen if the start_year and
+        until_year are too narrow. This prevents the C++ code from crashing.
+        """
+        results = {}
+        removed_zones = {}
+        for name, eras in zones_map.items():
+            if eras:
+                results[name] = eras
+            else:
+                removed_zones[name] = "no ZoneEra found"
+
+        logging.info(
+            "Removed %s zone infos without ZoneEras" % len(removed_zones))
+        self._print_removed_map(removed_zones)
+        self.all_removed_zones.update(removed_zones)
         return results
 
     def _remove_zone_until_year_only_false(self, zones_map):
