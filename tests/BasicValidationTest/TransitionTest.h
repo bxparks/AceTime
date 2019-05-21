@@ -15,7 +15,7 @@ class TransitionTest: public aunit::TestOnce {
       }
       assertTrue(true);
 
-      const zonedb::ZoneInfo* zoneInfo = testData->zoneInfo;
+      const basic::ZoneInfo* zoneInfo = testData->zoneInfo;
       BasicZoneSpecifier zoneSpecifier(zoneInfo);
       TimeZone tz(&zoneSpecifier);
       for (uint16_t i = 0; i < testData->numItems; i++) {

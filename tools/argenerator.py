@@ -29,26 +29,55 @@ class ArduinoGenerator:
     ZONE_STRINGS_CPP_FILE_NAME = 'zone_strings.cpp'
     ZONE_STRINGS_H_FILE_NAME = 'zone_strings.h'
 
-    def __init__(self, invocation, tz_version, tz_files, start_year, until_year,
-                 zones_map, rules_map,
+    def __init__(self, invocation, tz_version, tz_files, extended, db_namespace,
+                 start_year, until_year, zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
-                 notable_policies, format_strings, zone_strings, extended,
+                 notable_policies, format_strings, zone_strings,
                  buf_sizes):
         self.extended = extended  # extended Arduino/C++ database
+        self.db_namespace = db_namespace
 
         self.zone_policies_generator = ZonePoliciesGenerator(
-            invocation, tz_version, tz_files, zones_map, rules_map,
-            removed_zones, removed_policies, notable_zones, notable_policies,
-            extended)
+            invocation=invocation,
+            tz_version=tz_version,
+            tz_files=tz_files,
+            extended=extended,
+            db_namespace=db_namespace,
+            zones_map=zones_map,
+            rules_map=rules_map,
+            removed_zones=removed_zones,
+            removed_policies=removed_policies,
+            notable_zones=notable_zones,
+            notable_policies=notable_policies)
         self.zone_infos_generator = ZoneInfosGenerator(
-            invocation, tz_version, tz_files, start_year, until_year,
-            zones_map, rules_map,
-            removed_zones, removed_policies, notable_zones, notable_policies,
-            extended, buf_sizes)
+            invocation=invocation,
+            tz_version=tz_version,
+            tz_files=tz_files,
+            extended=extended,
+            db_namespace=db_namespace,
+            start_year=start_year,
+            until_year=until_year,
+            zones_map=zones_map,
+            rules_map=rules_map,
+            removed_zones=removed_zones,
+            removed_policies=removed_policies,
+            notable_zones=notable_zones,
+            notable_policies=notable_policies,
+            buf_sizes=buf_sizes)
         self.zone_strings_generator = ZoneStringsGenerator(
-            invocation, tz_version, tz_files, zones_map, rules_map,
-            removed_zones, removed_policies, notable_zones, notable_policies,
-            format_strings, zone_strings, extended)
+            invocation=invocation,
+            tz_version=tz_version,
+            tz_files=tz_files,
+            extended=extended,
+            db_namespace=db_namespace,
+            zones_map=zones_map,
+            rules_map=rules_map,
+            removed_zones=removed_zones,
+            removed_policies=removed_policies,
+            notable_zones=notable_zones,
+            notable_policies=notable_policies,
+            format_strings=format_strings,
+            zone_strings=zone_strings)
 
     def generate_files(self, output_dir):
         # zone_policies.*
@@ -96,7 +125,7 @@ class ZonePoliciesGenerator:
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
 
-#include "../common/ZonePolicy.h"
+#include <AceTime.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{
@@ -124,7 +153,7 @@ namespace {dbNamespace} {{
 """
 
     ZONE_POLICIES_H_POLICY_ITEM = """\
-extern const ZonePolicy kPolicy{policyName};
+extern const {zoneSpecNamespace}::ZonePolicy kPolicy{policyName};
 """
 
     ZONE_POLICIES_H_REMOVED_POLICY_ITEM = """\
@@ -169,13 +198,13 @@ namespace {dbNamespace} {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const ZoneRule kZoneRules{policyName}[] = {{
+static const {zoneSpecNamespace}::ZoneRule kZoneRules{policyName}[] = {{
 {ruleItems}
 }};
 
 {letterArray}
 
-const ZonePolicy kPolicy{policyName} = {{
+const {zoneSpecNamespace}::ZonePolicy kPolicy{policyName} = {{
   {numRules} /*numRules*/,
   kZoneRules{policyName} /*rules*/,
   {numLetters} /* numLetters */,
@@ -210,23 +239,25 @@ static const char* const kLetters{policyName}[] = {{
     SIZEOF_ZONE_POLICY_8 = 6
     SIZEOF_ZONE_POLICY_32 = 10
 
-    def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
+    def __init__(self, invocation, tz_version, tz_files, extended, db_namespace,
+                 zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
-                 notable_policies, extended):
+                 notable_policies):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
+        self.extended = extended
+        self.db_namespace = db_namespace
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.removed_zones = removed_zones
         self.removed_policies = removed_policies
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
-        self.extended = extended  # extended Arduino/C++ database
 
         self.letters_map = {}  # map{policy_name: map{letter: index}}
-        self.db_namespace = 'zonedbx' if extended else 'zonedb'
-        self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
+        self.db_header_namespace = self.db_namespace.upper()
+        self.zone_spec_namespace = 'extended' if extended else 'basic'
 
     def collect_letter_strings(self):
         """Loop through all ZoneRules and collect the LETTERs which are
@@ -249,7 +280,8 @@ static const char* const kLetters{policyName}[] = {{
         policy_items = ''
         for name, rules in sorted(self.rules_map.items()):
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
-                policyName=normalize_name(name))
+                policyName=normalize_name(name),
+                zoneSpecNamespace=self.zone_spec_namespace)
 
         removed_policy_items = ''
         for name, reason in sorted(self.removed_policies.items()):
@@ -374,6 +406,7 @@ static const char* const kLetters{policyName}[] = {{
                     memoryLetters32)
 
         policy_item = self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
+            zoneSpecNamespace=self.zone_spec_namespace,
             policyName=policyName,
             numRules=num_rules,
             memory8=memory8,
@@ -403,7 +436,7 @@ class ZoneInfosGenerator:
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
 
-#include "../common/ZoneInfo.h"
+#include <AceTime.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{
@@ -436,7 +469,7 @@ extern const common::ZoneContext kZoneContext;
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-extern const ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
+extern const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
@@ -494,11 +527,11 @@ const common::ZoneContext kZoneContext = {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const ZoneEra kZoneEra{zoneNormalizedName}[] = {{
+static const {zoneSpecNamespace}::ZoneEra kZoneEra{zoneNormalizedName}[] = {{
 {eraItems}
 }};
 
-const ZoneInfo kZone{zoneNormalizedName} = {{
+const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName} = {{
   "{zoneFullName}" /*name*/,
   &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
@@ -528,13 +561,15 @@ const ZoneInfo kZone{zoneNormalizedName} = {{
     SIZEOF_ZONE_INFO_8 = 8
     SIZEOF_ZONE_INFO_32 = 14
 
-    def __init__(self, invocation, tz_version, tz_files, start_year, until_year,
-                 zones_map, rules_map,
+    def __init__(self, invocation, tz_version, tz_files, extended, db_namespace,
+                 start_year, until_year, zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
-                 notable_policies, extended, buf_sizes):
+                 notable_policies, buf_sizes):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
+        self.extended = extended
+        self.db_namespace = db_namespace
         self.start_year = start_year
         self.until_year = until_year
         self.zones_map = zones_map
@@ -543,16 +578,16 @@ const ZoneInfo kZone{zoneNormalizedName} = {{
         self.removed_policies = removed_policies
         self.notable_zones = notable_zones
         self.notable_policies = notable_policies
-        self.extended = extended  # extended Arduino/C++ database
         self.buf_sizes = buf_sizes
 
-        self.db_namespace = 'zonedbx' if extended else 'zonedb'
-        self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
+        self.db_header_namespace = self.db_namespace.upper()
+        self.zone_spec_namespace = 'extended' if extended else 'basic'
 
     def generate_infos_h(self):
         info_items = ''
         for zone_name, eras in sorted(self.zones_map.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
+                zoneSpecNamespace=self.zone_spec_namespace,
                 zoneNormalizedName=normalize_name(zone_name),
                 zoneFullName=zone_name)
 
@@ -628,6 +663,7 @@ const ZoneInfo kZone{zoneNormalizedName} = {{
         transition_buf_size = self.buf_sizes[zone_name]
 
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
+            zoneSpecNamespace=self.zone_spec_namespace,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
             transitionBufSize=transition_buf_size,
@@ -748,12 +784,15 @@ extern const char* const kZoneStrings[];
 #endif
 """
 
-    def __init__(self, invocation, tz_version, tz_files, zones_map, rules_map,
+    def __init__(self, invocation, tz_version, tz_files, extended, db_namespace,
+                 zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
-                 notable_policies, format_strings, zone_strings, extended):
+                 notable_policies, format_strings, zone_strings):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
+        self.extended = extended
+        self.db_namespace = db_namespace
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.removed_zones = removed_zones
@@ -762,10 +801,9 @@ extern const char* const kZoneStrings[];
         self.notable_policies = notable_policies
         self.format_strings = format_strings
         self.zone_strings = zone_strings
-        self.extended = extended  # extended Arduino/C++ database
 
-        self.db_namespace = 'zonedbx' if extended else 'zonedb'
-        self.db_header_namespace = 'ZONEDBX' if extended else 'ZONEDB'
+        self.db_header_namespace = self.db_namespace.upper()
+        self.zone_spec_namespace = 'extended' if extended else 'basic'
 
     def generate_strings_cpp(self):
         format_string_items = ''

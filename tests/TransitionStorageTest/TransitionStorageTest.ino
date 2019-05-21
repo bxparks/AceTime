@@ -10,7 +10,7 @@
 
 using namespace aunit;
 using namespace ace_time;
-using namespace ace_time::zonedbx;
+using namespace ace_time::extended;
 
 test(TransitionStorageTest, getFreeAgent) {
   TransitionStorage<4> storage;

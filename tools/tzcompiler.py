@@ -130,6 +130,8 @@ def main():
     parser.add_argument(
         '--zonedb', help='Generate ZoneDB files', action='store_true')
     parser.add_argument(
+        '--unittest', help='Generate Unit Test files', action='store_true')
+    parser.add_argument(
         '--validate',
         help='Validate both buffer size and test data',
         action='store_true')
@@ -141,18 +143,24 @@ def main():
         '--validate_test_data',
         help='Validate the test data',
         action='store_true')
-    parser.add_argument(
-        '--unittest', help='Generate Unit Test files', action='store_true')
 
     # Target language selectors
     parser.add_argument(
         '--python', help='Generate Python files', action='store_true')
     parser.add_argument(
-        '--arduino', help='Generate Arduino files', action='store_true')
-    parser.add_argument(
-        '--arduinox',
-        help='Generate Extended Arduino files',
+        '--arduino_basic',
+        help='Generate Arduino files for BasicZoneSpecifier',
         action='store_true')
+    parser.add_argument(
+        '--arduino_extended',
+        help='Generate Arduino files ExtendedZoneSpecifier',
+        action='store_true')
+
+    # C++ namespace names for arduino_basic or arduino_extended
+    parser.add_argument(
+        '--db_namespace',
+        help='C++ namespace for the zonedb files (default: zonedb or zonedbx)')
+
 
     # File generators
     parser.add_argument(
@@ -208,21 +216,30 @@ def main():
     invocation = ' '.join(sys.argv)
 
     # Select target language
-    if args.arduino:
-        language = 'arduino'
-    elif args.arduinox:
-        language = 'arduinox'
+    if args.arduino_basic:
+        language = 'arduino_basic'
+    elif args.arduino_extended:
+        language = 'arduino_extended'
     elif args.python:
         language = 'python'
     else:
         raise Exception(
-            'Must provide a language (--arduino, --arduinox, --python)')
+            'Must provide a language ' +
+            '(--arduino_basic, --arduino_extended, --python)')
+
+    # Determine zonedb namespace
+    if args.db_namespace:
+        db_namespace = args.db_namespace
+    else:
+        db_namespace = ''
+        if args.arduino_basic: db_namespace = 'zonedb'
+        if args.arduino_extended: db_namespace = 'zonedbx'
 
     # Define language dependent granularity if not overridden by flag
     if args.granularity:
         granularity = args.granularity
     else:
-        if language in ['arduino', 'arduinox']:
+        if language in ['arduino_basic', 'arduino_extended']:
             granularity = 900
         else:
             granularity = 60
@@ -289,20 +306,26 @@ def main():
                                         transformer.all_notable_zones,
                                         transformer.all_notable_policies)
             generator.generate_files(args.output_dir)
-        elif language == 'arduino' or language == 'arduinox':
-            extended = (language == 'arduinox')
+        elif language == 'arduino_basic' or language == 'arduino_extended':
+            extended = (language == 'arduino_extended')
             logging.info('======== Creating Arduino zonedb files')
             generator = ArduinoGenerator(
-                invocation, args.tz_version, Extractor.ZONE_FILES,
-                args.start_year, args.until_year,
-                transformer.zones_map, transformer.rules_map,
-                transformer.all_removed_zones,
-                transformer.all_removed_policies,
-                transformer.all_notable_zones,
-                transformer.all_notable_policies,
-                transformer.format_strings,
-                transformer.zone_strings,
-                extended, buf_sizes)
+                invocation=invocation,
+                tz_version=args.tz_version,
+                tz_files=Extractor.ZONE_FILES,
+                extended=extended,
+                db_namespace=db_namespace,
+                start_year=args.start_year,
+                until_year=args.until_year,
+                zones_map=transformer.zones_map,
+                rules_map=transformer.rules_map,
+                removed_zones=transformer.all_removed_zones,
+                removed_policies=transformer.all_removed_policies,
+                notable_zones=transformer.all_notable_zones,
+                notable_policies=transformer.all_notable_policies,
+                format_strings=transformer.format_strings,
+                zone_strings=transformer.zone_strings,
+                buf_sizes=buf_sizes)
             generator.generate_files(args.output_dir)
         else:
             raise Exception("Unrecognized language '%s'" % language)
@@ -320,8 +343,8 @@ def main():
 
         # Generate validation data files
         logging.info('Generating test validation files')
-        if language == 'arduino' or language == 'arduinox':
-            extended = (language == 'arduinox')
+        if language == 'arduino_basic' or language == 'arduino_extended':
+            extended = (language == 'arduino_extended')
             arval_generator = ArduinoValidationGenerator(
                 invocation, args.tz_version, test_data, num_items, extended)
             arval_generator.generate_files(args.output_dir)

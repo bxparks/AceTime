@@ -40,26 +40,26 @@ void setup() {
   Serial.print(F("sizeof(OffsetDateTime): "));
   Serial.println(sizeof(OffsetDateTime));
 
-  Serial.print(F("sizeof(zonedb::ZoneEra): "));
-  Serial.println(sizeof(zonedb::ZoneEra));
+  Serial.print(F("sizeof(basic::ZoneEra): "));
+  Serial.println(sizeof(basic::ZoneEra));
 
-  Serial.print(F("sizeof(zonedb::ZoneInfo): "));
-  Serial.println(sizeof(zonedb::ZoneInfo));
+  Serial.print(F("sizeof(basic::ZoneInfo): "));
+  Serial.println(sizeof(basic::ZoneInfo));
 
-  Serial.print(F("sizeof(zonedb::ZoneRule): "));
-  Serial.println(sizeof(zonedb::ZoneRule));
+  Serial.print(F("sizeof(basic::ZoneRule): "));
+  Serial.println(sizeof(basic::ZoneRule));
 
-  Serial.print(F("sizeof(zonedb::ZonePolicy): "));
-  Serial.println(sizeof(zonedb::ZonePolicy));
+  Serial.print(F("sizeof(basic::ZonePolicy): "));
+  Serial.println(sizeof(basic::ZonePolicy));
 
-  Serial.print(F("sizeof(zonedb::Transition): "));
-  Serial.println(sizeof(zonedb::Transition));
+  Serial.print(F("sizeof(basic::Transition): "));
+  Serial.println(sizeof(basic::Transition));
 
-  Serial.print(F("sizeof(zonedbx::Transition): "));
-  Serial.println(sizeof(zonedbx::Transition));
+  Serial.print(F("sizeof(extended::Transition): "));
+  Serial.println(sizeof(extended::Transition));
 
-  Serial.print(F("sizeof(zonedbx::ZoneMatch): "));
-  Serial.println(sizeof(zonedbx::ZoneMatch));
+  Serial.print(F("sizeof(extended::ZoneMatch): "));
+  Serial.println(sizeof(extended::ZoneMatch));
 
   Serial.print(F("sizeof(ZoneSpecifier): "));
   Serial.println(sizeof(ZoneSpecifier));
