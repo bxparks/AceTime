@@ -2,6 +2,6 @@
 # about using unitduino to compile and run AUnit tests natively on Linux or
 # MacOS.
 
-APP_NAME := ExtendedZoneSpecifierTest2
+APP_NAME := ExtendedZoneSpecifierMoreTest
 ARDUINO_LIBS := AceTime
 include ../../../AUnit/unitduino/unitduino.mk
