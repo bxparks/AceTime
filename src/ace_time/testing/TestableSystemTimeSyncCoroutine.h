@@ -1,8 +1,6 @@
 #ifndef ACE_TIME_TESTABLE_SYSTEM_TIME_SYNC_COROUTINE_H
 #define ACE_TIME_TESTABLE_SYSTEM_TIME_SYNC_COROUTINE_H
 
-#if !defined(__APPLE__)
-
 #include <AceRoutine.h>
 #include <AceTime.h>
 #include "FakeMillis.h"
@@ -29,7 +27,5 @@ class TestableSystemTimeSyncCoroutine:
 
 }
 }
-
-#endif
 
 #endif

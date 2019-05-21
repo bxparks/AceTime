@@ -66,10 +66,15 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
             break;
           }
 
-          uint16_t waitTime = millis() - mRequestStartTime;
-          if (waitTime >= mRequestTimeoutMillis) {
-            mRequestStatus = kStatusTimedOut;
-            break;
+          {
+            // Local variable waitTime must be scoped with {} so that the goto
+            // in COROUTINE_LOOP() skip past it in clang++. g++ seems to be
+            // fine without it.
+            uint16_t waitTime = millis() - mRequestStartTime;
+            if (waitTime >= mRequestTimeoutMillis) {
+              mRequestStatus = kStatusTimedOut;
+              break;
+            }
           }
 
           COROUTINE_YIELD();
