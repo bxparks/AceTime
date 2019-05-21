@@ -231,6 +231,29 @@ test(BasicZoneSpecifierTest, createAbbreviation) {
   assertEqual("PDT34", dst);
 }
 
+test(BasicZoneSpecifierTest, kZoneAmerica_Los_Angeles_errors) {
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
+  OffsetDateTime dt;
+  acetime_t epochSeconds;
+
+  assertEqual(2000, zonedb::kZoneAmerica_Los_Angeles.zoneContext->startYear);
+  assertEqual(2038, zonedb::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
+
+  dt = OffsetDateTime::forComponents(1999, 3, 11, 1, 59, 59,
+      UtcOffset::forHour(-8));
+  epochSeconds = dt.toEpochSeconds();
+  assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
+  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
+  assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
+
+  dt = OffsetDateTime::forComponents(2038, 2, 1, 1, 0, 0,
+      UtcOffset::forHour(-8));
+  epochSeconds = dt.toEpochSeconds();
+  assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
+  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
+  assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {

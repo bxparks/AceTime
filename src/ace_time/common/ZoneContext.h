@@ -10,10 +10,10 @@ namespace common {
  */
 struct ZoneContext {
   /** Start year of the zone files. */
-  uint16_t startYear;
+  int16_t startYear;
 
   /** Until year of the zone files. */
-  uint16_t untilYear;
+  int16_t untilYear;
 
   /** Epoch year. Currently always 2000 but could change in the future. */
   //uint16_t epoch_year;

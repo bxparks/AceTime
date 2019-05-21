@@ -152,17 +152,20 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     UtcOffset getUtcOffset(acetime_t epochSeconds) const override {
       const zonedb::Transition* transition = getTransition(epochSeconds);
+      if (!transition) return UtcOffset::forError();
       return UtcOffset::forOffsetCode(transition->offsetCode);
     }
 
     UtcOffset getDeltaOffset(acetime_t epochSeconds) const override {
       const zonedb::Transition* transition = getTransition(epochSeconds);
+      if (!transition) return UtcOffset::forError();
       if (transition->rule == nullptr) return UtcOffset();
       return UtcOffset::forOffsetCode(transition->rule->deltaCode);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
       const zonedb::Transition* transition = getTransition(epochSeconds);
+      if (!transition) return "";
       return transition->abbrev;
     }
 
@@ -183,6 +186,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
       init(ldt.getLocalDate());
+      if (mIsTooEarlyOrTooLate) return UtcOffset::forError();
 
       // First guess at the UtcOffset using Jan 1 of the given year.
       acetime_t initialEpochSeconds =
@@ -244,7 +248,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     const zonedb::Transition* getTransition(acetime_t epochSeconds) const {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
       init(ld);
-      return findMatch(epochSeconds);
+      return (mIsTooEarlyOrTooLate) ? nullptr : findMatch(epochSeconds);
     }
 
     /**
@@ -282,11 +286,17 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         mYear = year;
         mNumTransitions = 0; // clear cache
 
+        if (year < mZoneInfo->zoneContext->startYear
+            || mZoneInfo->zoneContext->untilYear <= year) {
+          mIsTooEarlyOrTooLate = true;
+          return;
+        }
         addRulePriorToYear(year);
         addRulesForYear(year);
         calcTransitions();
         calcAbbreviations();
         mIsFilled = true;
+        mIsTooEarlyOrTooLate = false;
       }
     }
 
@@ -730,6 +740,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
+    mutable bool mIsTooEarlyOrTooLate = false;
     mutable uint8_t mNumTransitions = 0;
     mutable zonedb::Transition mTransitions[kMaxCacheEntries];
     mutable zonedb::Transition mPrevTransition; // previous year's transition
