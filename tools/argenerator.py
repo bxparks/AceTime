@@ -30,12 +30,12 @@ class ArduinoGenerator:
     ZONE_STRINGS_H_FILE_NAME = 'zone_strings.h'
 
     def __init__(self, invocation, tz_version, tz_files, extended, db_namespace,
-                 start_year, until_year, zones_map, rules_map,
-                 removed_zones, removed_policies, notable_zones,
-                 notable_policies, format_strings, zone_strings,
-                 buf_sizes):
+                 generate_zone_strings, start_year, until_year, zones_map,
+                 rules_map, removed_zones, removed_policies, notable_zones,
+                 notable_policies, format_strings, zone_strings, buf_sizes):
         self.extended = extended  # extended Arduino/C++ database
         self.db_namespace = db_namespace
+        self.generate_zone_strings = generate_zone_strings
 
         self.zone_policies_generator = ZonePoliciesGenerator(
             invocation=invocation,
@@ -64,20 +64,21 @@ class ArduinoGenerator:
             notable_zones=notable_zones,
             notable_policies=notable_policies,
             buf_sizes=buf_sizes)
-        self.zone_strings_generator = ZoneStringsGenerator(
-            invocation=invocation,
-            tz_version=tz_version,
-            tz_files=tz_files,
-            extended=extended,
-            db_namespace=db_namespace,
-            zones_map=zones_map,
-            rules_map=rules_map,
-            removed_zones=removed_zones,
-            removed_policies=removed_policies,
-            notable_zones=notable_zones,
-            notable_policies=notable_policies,
-            format_strings=format_strings,
-            zone_strings=zone_strings)
+        if generate_zone_strings:
+            self.zone_strings_generator = ZoneStringsGenerator(
+                invocation=invocation,
+                tz_version=tz_version,
+                tz_files=tz_files,
+                extended=extended,
+                db_namespace=db_namespace,
+                zones_map=zones_map,
+                rules_map=rules_map,
+                removed_zones=removed_zones,
+                removed_policies=removed_policies,
+                notable_zones=notable_zones,
+                notable_policies=notable_policies,
+                format_strings=format_strings,
+                zone_strings=zone_strings)
 
     def generate_files(self, output_dir):
         # zone_policies.*
@@ -95,10 +96,11 @@ class ArduinoGenerator:
                          self.zone_infos_generator.generate_infos_cpp())
 
         # zone_strings.*
-        self._write_file(output_dir, self.ZONE_STRINGS_H_FILE_NAME,
-                         self.zone_strings_generator.generate_strings_h())
-        self._write_file(output_dir, self.ZONE_STRINGS_CPP_FILE_NAME,
-                         self.zone_strings_generator.generate_strings_cpp())
+        if self.generate_zone_strings:
+            self._write_file(output_dir, self.ZONE_STRINGS_H_FILE_NAME,
+                             self.zone_strings_generator.generate_strings_h())
+            self._write_file(output_dir, self.ZONE_STRINGS_CPP_FILE_NAME,
+                             self.zone_strings_generator.generate_strings_cpp())
 
     def _write_file(self, output_dir, filename, content):
         full_filename = os.path.join(output_dir, filename)

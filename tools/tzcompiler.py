@@ -161,6 +161,11 @@ def main():
         '--db_namespace',
         help='C++ namespace for the zonedb files (default: zonedb or zonedbx)')
 
+    # Enable zone_strings.{h,cpp} if requested
+    parser.add_argument(
+        '--generate_zone_strings',
+        help='Generate Arduino zone_strings.{h,cpp} files',
+        action='store_true')
 
     # File generators
     parser.add_argument(
@@ -315,6 +320,7 @@ def main():
                 tz_files=Extractor.ZONE_FILES,
                 extended=extended,
                 db_namespace=db_namespace,
+                generate_zone_strings=args.generate_zone_strings,
                 start_year=args.start_year,
                 until_year=args.until_year,
                 zones_map=transformer.zones_map,
