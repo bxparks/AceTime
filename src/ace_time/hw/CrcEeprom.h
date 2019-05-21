@@ -1,7 +1,7 @@
 #ifndef ACE_TIME_HW_CRC_EEPROM_H
 #define ACE_TIME_HW_CRC_EEPROM_H
 
-#if !defined(__linux__) && !defined(__APPLE__)
+#if defined(ARDUINO)
 
 #include <EEPROM.h>
 #include <FastCRC.h>

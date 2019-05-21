@@ -1,4 +1,4 @@
-#if !defined(__linux__) && !defined(__APPLE__)
+#if defined(ARDUINO)
 
 #include <Wire.h>
 #include <Print.h> // Print

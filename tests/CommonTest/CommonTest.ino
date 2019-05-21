@@ -25,7 +25,7 @@ test(bcdToDec) {
 // --------------------------------------------------------------------------
 
 void setup() {
-#if !defined(__linux__) && !defined(__APPLE__)
+#if defined(ARDUINO)
   delay(1000); // wait for stability on some boards to prevent garbage Serial
 #endif
 

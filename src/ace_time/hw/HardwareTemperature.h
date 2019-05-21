@@ -1,7 +1,7 @@
 #ifndef ACE_TIME_HW_TEMPERATURE_H
 #define ACE_TIME_HW_TEMPERATURE_H
 
-#if !defined(__linux__) && !defined(__APPLE__)
+#if defined(ARDUINO)
 
 #include <stdint.h>
 #include <Print.h> // Print
