@@ -36,7 +36,6 @@ UtcOffset UtcOffset::forOffsetStringChainable(const char*& offsetString) {
   if (utcSign != '-' && utcSign != '+') {
     return forError();
   }
-  int8_t sign = (utcSign == '+') ? 1 : -1;
 
   // hour
   uint8_t hour = (*s++ - '0');
@@ -49,7 +48,7 @@ UtcOffset UtcOffset::forOffsetStringChainable(const char*& offsetString) {
   s++;
 
   offsetString = s;
-  return UtcOffset::forHourMinute(sign, hour, minute);
+  return UtcOffset::forHourMinute((utcSign == '+') ? hour : -hour, minute);
 }
 
 }

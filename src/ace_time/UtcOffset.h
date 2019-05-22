@@ -22,15 +22,16 @@ void increment15Minutes(UtcOffset& offset);
 /**
  * A thin wrapper that represents a time offset from a reference point, usually
  * 00:00 at UTC, but not always. Use one of the static factory methods to
- * create an instance:
+ * create an instance. For example, each of the following creates a UtcOffset
+ * of UTC-08:00:
  *
  * @code
  * UtcOffset tz = UtcOffset::forHour(-8);
- * UtcOffset tz = UtcOffset::forHourMinute(-1, -8, 0);
+ * UtcOffset tz = UtcOffset::forHourMinute(-8, 0);
  * UtcOffset tz = UtcOffset::forOffsetString("-08:00");
  * @endcode
  *
- * You can use the default constructor to create a UTC UtcOffset:
+ * You can use the default constructor to create a +00:00 UtcOffset:
  * @code
  * UtcOffset utc;
  * @endcode
@@ -60,13 +61,15 @@ class UtcOffset {
     }
 
     /**
-     * Create UtcOffset from (sign, hour, minute) offset from UTC, where 'sign'
-     * is either -1 or +1. The 'minute' must be in multiples of 15-minutes. For
-     * example, UTC-07:30 is 'forHourMinute(-1, 7, 30)'.
+     * Create UtcOffset from (hour, minute) offset from UTC, where the sign of
+     * hour determines the sign of the offset. The 'minute' must be in
+     * multiples of 15-minutes and is always positive. For example, UTC-07:30
+     * is 'forHourMinute(-7, 30)'.
      */
-    static UtcOffset forHourMinute(int8_t sign, uint8_t hour, uint8_t minute) {
-      uint8_t code = hour * 4 + minute / 15;
-      return (sign < 0) ? UtcOffset(-code) : UtcOffset(code);
+    static UtcOffset forHourMinute(int8_t hour, uint8_t minute) {
+      int8_t uhour = (hour < 0) ? -hour : hour;
+      uint8_t code = uhour * 4 + minute / 15;
+      return (hour < 0) ? UtcOffset(-code) : UtcOffset(code);
     }
 
     /**

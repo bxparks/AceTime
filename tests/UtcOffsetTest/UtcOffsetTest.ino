@@ -44,10 +44,10 @@ test(UtcOffsetTest, forHour) {
 }
 
 test(UtcOffsetTest, forHourMinute) {
-  assertEqual(UtcOffset::forHourMinute(-1, 8, 0).toMinutes(), -(8*60));
-  assertEqual(UtcOffset::forHourMinute(-1, 8, 15).toMinutes(), -(8*60+15));
-  assertEqual(UtcOffset::forHourMinute(1, 1, 0).toMinutes(), 60);
-  assertEqual(UtcOffset::forHourMinute(1, 1, 15).toMinutes(), 75);
+  assertEqual(UtcOffset::forHourMinute(-8, 0).toMinutes(), -(8*60));
+  assertEqual(UtcOffset::forHourMinute(-8, 15).toMinutes(), -(8*60+15));
+  assertEqual(UtcOffset::forHourMinute(1, 0).toMinutes(), 60);
+  assertEqual(UtcOffset::forHourMinute(1, 15).toMinutes(), 75);
 }
 
 test(UtcOffsetTest, forOffsetString) {
@@ -80,7 +80,7 @@ test(UtcOffsetMutationTest, incrementHour) {
   utc_offset_mutation::incrementHour(offset);
   assertEqual((int16_t) 60, offset.toMinutes());
 
-  offset = UtcOffset::forHourMinute(1, 1, 45);
+  offset = UtcOffset::forHourMinute(1, 45);
   utc_offset_mutation::incrementHour(offset);
   offset.toHourMinute(sign, hour, minute);
   assertEqual(1, sign);
@@ -88,7 +88,7 @@ test(UtcOffsetMutationTest, incrementHour) {
   assertEqual(45, minute);
 
   // Wrap around at 16h to -16h, but keep the minutes the same.
-  offset = UtcOffset::forHourMinute(1, 15, 45);
+  offset = UtcOffset::forHourMinute(15, 45);
   utc_offset_mutation::incrementHour(offset);
   offset.toHourMinute(sign, hour, minute);
   assertEqual(-1, sign);
@@ -107,7 +107,7 @@ test(UtcOffsetMutationTest, increment15Minutes) {
   uint8_t hour;
   uint8_t minute;
 
-  UtcOffset offset = UtcOffset::forHourMinute(1, 0, 0);
+  UtcOffset offset;
 
   utc_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(sign, hour, minute);
@@ -134,7 +134,7 @@ test(UtcOffsetMutationTest, increment15Minutes) {
   assertEqual(0, hour);
   assertEqual(0, minute);
 
-  offset = UtcOffset::forHourMinute(-1, 1, 0);
+  offset = UtcOffset::forHourMinute(-1, 0);
   utc_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(sign, hour, minute);
   assertEqual(-1, sign);
