@@ -33,12 +33,12 @@ namespace utc_offset_mutation {
  * In other words, (UTC+15:45) by one hour wraps to (UTC-15:45).
  */
 inline void incrementHour(UtcOffset& offset) {
-  int8_t code = offset.code();
+  int8_t code = offset.toOffsetCode();
   code += 4;
   if (code >= 64) {
     code = -code + 4; // preserve the minute component
   }
-  offset.code(code);
+  offset.setOffsetCode(code);
 }
 
 /**
@@ -47,10 +47,10 @@ inline void incrementHour(UtcOffset& offset) {
  * (-01:00, -01:15, -01:30, -01:45, -01:00, ...).
  */
 inline void increment15Minutes(UtcOffset& offset) {
-  int8_t code = offset.code();
+  int8_t code = offset.toOffsetCode();
   uint8_t ucode = (code < 0) ? -code : code;
   ucode = (ucode & 0xFC) | (((ucode & 0x03) + 1) & 0x03);
-  offset.code((code < 0) ? -ucode : ucode);
+  offset.setOffsetCode((code < 0) ? -ucode : ucode);
 }
 
 }

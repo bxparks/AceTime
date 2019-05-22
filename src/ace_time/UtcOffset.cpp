@@ -8,12 +8,14 @@ namespace ace_time {
 using common::printPad2;
 
 void UtcOffset::printTo(Print& printer) const {
-  int8_t sign;
-  uint8_t hour;
+  int8_t hour;
   uint8_t minute;
-  toHourMinute(sign, hour, minute);
+  toHourMinute(hour, minute);
 
-  printer.print((sign < 0) ? '-' : '+');
+  printer.print((hour < 0) ? '-' : '+');
+  if (hour < 0) {
+    hour = -hour;
+  }
   common::printPad2(printer, hour);
   printer.print(':');
   common::printPad2(printer, minute);
@@ -36,7 +38,6 @@ UtcOffset UtcOffset::forOffsetStringChainable(const char*& offsetString) {
   if (utcSign != '-' && utcSign != '+') {
     return forError();
   }
-  int8_t sign = (utcSign == '+') ? 1 : -1;
 
   // hour
   uint8_t hour = (*s++ - '0');
@@ -49,7 +50,7 @@ UtcOffset UtcOffset::forOffsetStringChainable(const char*& offsetString) {
   s++;
 
   offsetString = s;
-  return UtcOffset::forHourMinute(sign, hour, minute);
+  return UtcOffset::forHourMinute((utcSign == '+') ? hour : -hour, minute);
 }
 
 }

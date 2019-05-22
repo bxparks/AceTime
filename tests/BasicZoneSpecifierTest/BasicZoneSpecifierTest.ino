@@ -228,7 +228,7 @@ test(BasicZoneSpecifierTest, kZoneAustralia_Darwin) {
   acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
-      UtcOffset::forHourMinute(1, 9, 30));
+      UtcOffset::forHourMinute(9, 30));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(9*60+30, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("ACST", zoneSpecifier.getAbbrev(epochSeconds));
