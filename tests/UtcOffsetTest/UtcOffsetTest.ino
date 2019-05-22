@@ -11,7 +11,7 @@ using namespace ace_time;
 // --------------------------------------------------------------------------
 
 test(UtcOffsetTest, code) {
-  assertEqual(UtcOffset::forHour(-8).code(), -8*4);
+  assertEqual(UtcOffset::forHour(-8).toOffsetCode(), -8*4);
 }
 
 test(UtcOffsetTest, isZero) {

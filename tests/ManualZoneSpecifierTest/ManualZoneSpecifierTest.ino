@@ -43,11 +43,13 @@ test(ManualZoneSpecifierTest, getters) {
   ManualZoneSpecifier spec(UtcOffset::forHour(-8), true, "PST", "PDT",
       UtcOffset::forHour(2));
 
-  assertEqual(UtcOffset::forHour(-8).code(), spec.stdOffset().code());
+  assertEqual(UtcOffset::forHour(-8).toMinutes(),
+      spec.stdOffset().toMinutes());
   assertTrue(spec.isDst());
   assertEqual("PST", spec.stdAbbrev());
   assertEqual("PDT", spec.dstAbbrev());
-  assertEqual(UtcOffset::forHour(2).code(), spec.deltaOffset().code());
+  assertEqual(UtcOffset::forHour(2).toMinutes(),
+      spec.deltaOffset().toMinutes());
 }
 
 test(ManualZoneSpecifierTest, setters) {
@@ -55,7 +57,8 @@ test(ManualZoneSpecifierTest, setters) {
 
   // test stdOffset(offset)
   spec.stdOffset(UtcOffset::forHour(12));
-  assertEqual(UtcOffset::forHour(12).code(), spec.stdOffset().code());
+  assertEqual(UtcOffset::forHour(12).toMinutes(),
+      spec.stdOffset().toMinutes());
 
   // test isDst(flag)
   spec.isDst(true);
@@ -66,13 +69,17 @@ test(ManualZoneSpecifierTest, overrides) {
   ManualZoneSpecifier spec(UtcOffset::forHour(-8), false, "PST", "PDT");
 
   assertFalse(spec.isDst());
-  assertEqual(UtcOffset::forHour(-8).code(), spec.getUtcOffset(0).code());
-  assertEqual(UtcOffset::forHour(0).code(), spec.getDeltaOffset(0).code());
+  assertEqual(UtcOffset::forHour(-8).toMinutes(),
+      spec.getUtcOffset(0).toMinutes());
+  assertEqual(UtcOffset::forHour(0).toMinutes(),
+      spec.getDeltaOffset(0).toMinutes());
   assertEqual("PST", spec.getAbbrev(0));
 
   spec.isDst(true);
-  assertEqual(UtcOffset::forHour(-7).code(), spec.getUtcOffset(0).code());
-  assertEqual(UtcOffset::forHour(1).code(), spec.getDeltaOffset(0).code());
+  assertEqual(UtcOffset::forHour(-7).toMinutes(),
+      spec.getUtcOffset(0).toMinutes());
+  assertEqual(UtcOffset::forHour(1).toMinutes(),
+      spec.getDeltaOffset(0).toMinutes());
   assertEqual("PDT", spec.getAbbrev(0));
 }
 

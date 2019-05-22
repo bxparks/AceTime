@@ -86,7 +86,11 @@ class ManualZoneSpecifier: public ZoneSpecifier {
 
     UtcOffset getUtcOffset(acetime_t /*epochSeconds*/) const override {
       return mIsDst
-        ? UtcOffset::forOffsetCode(mStdOffset.code() + mDeltaOffset.code())
+        ? UtcOffset::forOffsetCode(
+            // Note: Use toOffsetCode() because UtcOffset is currently
+            // implemented using OffsetCodes. If that changes to minutes,
+            // then this should use toMinutes().
+            mStdOffset.toOffsetCode() + mDeltaOffset.toOffsetCode())
         : mStdOffset;
     }
 
