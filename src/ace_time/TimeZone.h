@@ -53,28 +53,28 @@ class TimeZone {
     static const uint8_t kTypeZoneSpecifier = 1;
 
     /**
-     * Constructor for a fixed UTC offset.
-     * @param offset the fix UTC offset
+     * Factory method to create from a fixed UTC offset.
+     *
+     * @param offset the fixed UTC offset, default 00:00 offset
      */
-    explicit TimeZone(UtcOffset offset = UtcOffset()):
-      mType(kTypeFixed),
-      mOffset(offset) {}
+    static TimeZone forUtcOffset(UtcOffset offset = UtcOffset()) {
+      return TimeZone(offset);
+    }
 
     /**
-     * Constructor.
-     *
-     * It would be nice if zoneSpecifier could be a reference instead of a
-     * pointer. But that makes TimeZone non-copyable which prevents it from
-     * being used as a value-type. I don't want to use a wrapper like
-     * std::reference_wrapper<T> because I want to avoid a dependency to the
-     * C++ standard library for something targeted for the Arduino environment.
+     * Factory method to create from a ZoneSpecifier.
      *
      * @param zoneSpecifier an instance of ManualZoneSpecifier,
      * BasicZoneSpecifier, or ExtendedZoneSpecifier. Cannot be nullptr.
      */
-    explicit TimeZone(const ZoneSpecifier* zoneSpecifier):
-        mType(kTypeZoneSpecifier),
-        mZoneSpecifier(zoneSpecifier) {}
+    static TimeZone forZoneSpecifier(const ZoneSpecifier* zoneSpecifier) {
+      return TimeZone(zoneSpecifier);
+    }
+
+    /** Default constructor. */
+    TimeZone():
+      mType(kTypeFixed),
+      mOffset() {}
 
     /** Return the type of TimeZone. */
     uint8_t getType() const { return mType; }
@@ -145,6 +145,30 @@ class TimeZone {
 
   private:
     friend bool operator==(const TimeZone& a, const TimeZone& b);
+
+    /**
+     * Constructor for a fixed UTC offset.
+     * @param offset the fix UTC offset
+     */
+    explicit TimeZone(UtcOffset offset):
+      mType(kTypeFixed),
+      mOffset(offset) {}
+
+    /**
+     * Constructor.
+     *
+     * It would be nice if zoneSpecifier could be a reference instead of a
+     * pointer. But that makes TimeZone non-copyable which prevents it from
+     * being used as a value-type. I don't want to use a wrapper like
+     * std::reference_wrapper<T> because I want to avoid a dependency to the
+     * C++ standard library for something targeted for the Arduino environment.
+     *
+     * @param zoneSpecifier an instance of ManualZoneSpecifier,
+     * BasicZoneSpecifier, or ExtendedZoneSpecifier. Cannot be nullptr.
+     */
+    explicit TimeZone(const ZoneSpecifier* zoneSpecifier):
+        mType(kTypeZoneSpecifier),
+        mZoneSpecifier(zoneSpecifier) {}
 
     uint8_t mType;
 

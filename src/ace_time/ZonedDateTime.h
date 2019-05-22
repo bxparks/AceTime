@@ -111,7 +111,7 @@ class ZonedDateTime {
      */
     static ZonedDateTime forDateString(const char* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
-      return ZonedDateTime(dt, TimeZone(dt.utcOffset()));
+      return ZonedDateTime(dt, TimeZone::forUtcOffset(dt.utcOffset()));
     }
 
     /**
@@ -120,7 +120,7 @@ class ZonedDateTime {
      */
     static ZonedDateTime forDateString(const __FlashStringHelper* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
-      return ZonedDateTime(dt, TimeZone(dt.utcOffset()));
+      return ZonedDateTime(dt, TimeZone::forUtcOffset(dt.utcOffset()));
     }
 
     /** Return an instance whose isError() returns true. */

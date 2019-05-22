@@ -17,7 +17,7 @@ class TransitionTest: public aunit::TestOnce {
 
       const basic::ZoneInfo* zoneInfo = testData->zoneInfo;
       BasicZoneSpecifier zoneSpecifier(zoneInfo);
-      TimeZone tz(&zoneSpecifier);
+      TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
       for (uint16_t i = 0; i < testData->numItems; i++) {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;

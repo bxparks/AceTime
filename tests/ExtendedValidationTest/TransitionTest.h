@@ -18,7 +18,7 @@ class TransitionTest: public aunit::TestOnce {
       const extended::ZoneInfo* zoneInfo = testData->zoneInfo;
       ExtendedZoneSpecifier zoneSpecifier(zoneInfo);
       zoneSpecifier.resetTransitionHighWater();
-      TimeZone tz(&zoneSpecifier);
+      TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
 
       // Assert that each epoch_second produces the expected yMdhms
       // components when converted through ZonedDataTime class.

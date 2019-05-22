@@ -246,7 +246,7 @@ static unsigned long runDateTimeForEpochSecondsLosAngeles(
     // ZonedDateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
     BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-    TimeZone tz(&zoneSpecifier);
+    TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(tickMillis, tz);
     disableOptimization(dateTime);
     disableOptimization(tickMillis);
@@ -268,7 +268,7 @@ static unsigned long runDateTimeForEpochSecondsLosAngelesCached(
     unsigned long tickMillis = millis();
     // ZonedDateTime::forEpochSeconds(seconds) takes seconds, but use millis for
     // testing purposes.
-    TimeZone tzLosAngeles(&spec);
+    TimeZone tzLosAngeles = TimeZone::forZoneSpecifier(&spec);
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
         tickMillis, tzLosAngeles);
     disableOptimization(dateTime);

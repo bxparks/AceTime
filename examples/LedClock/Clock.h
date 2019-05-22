@@ -58,7 +58,7 @@ class Clock {
       // Retrieve current time from TimeKeeper and set the current clockInfo.
       acetime_t nowSeconds = mTimeKeeper.getNow();
       mClockInfo.dateTime = ZonedDateTime::forEpochSeconds(
-          nowSeconds, TimeZone(&mClockInfo.zoneSpecifier));
+          nowSeconds, TimeZone::forZoneSpecifier(&mClockInfo.zoneSpecifier));
     }
 
     /**
@@ -89,7 +89,8 @@ class Clock {
       // TODO: It might be possible to track just the epochSeconds instead of
       // converting it to a ZonedDateTime at each iteration.
       mClockInfo.dateTime = ZonedDateTime::forEpochSeconds(
-          mTimeKeeper.getNow(), TimeZone(&mClockInfo.zoneSpecifier));
+          mTimeKeeper.getNow(),
+          TimeZone::forZoneSpecifier(&mClockInfo.zoneSpecifier));
 
       // If in CHANGE mode, and the 'second' field has not been cleared,
       // update the mChangingDateTime.second field with the current second.
@@ -167,7 +168,7 @@ class Clock {
       mClockInfo.hourMode = mChangingClockInfo.hourMode;
       mClockInfo.zoneSpecifier = mChangingClockInfo.zoneSpecifier;
       mClockInfo.dateTime = mClockInfo.dateTime.convertToTimeZone(
-          TimeZone(&mClockInfo.zoneSpecifier));
+          TimeZone::forZoneSpecifier(&mClockInfo.zoneSpecifier));
       preserveInfo();
     }
 

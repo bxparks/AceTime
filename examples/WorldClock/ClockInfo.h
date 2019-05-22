@@ -27,7 +27,7 @@ struct ClockInfo {
   ace_time::TimeZone timeZone;
 
   ClockInfo(ace_time::ZoneSpecifier& zspec):
-      timeZone(&zspec) {}
+      timeZone(ace_time::TimeZone::forZoneSpecifier(&zspec)) {}
 };
 
 #endif

@@ -37,7 +37,7 @@ class Controller {
     /** Set the time zone using the given offset. */
     void setTimeZone(UtcOffset utcOffset, bool isDst) {
       mManualZoneSpecifier = ManualZoneSpecifier(utcOffset, isDst);
-      mTimeZone = TimeZone(&mManualZoneSpecifier);
+      mTimeZone = TimeZone::forZoneSpecifier(&mManualZoneSpecifier);
       preserveInfo();
     }
 
@@ -48,7 +48,7 @@ class Controller {
     // program memory.
     /** Set the time zone to America/Los_Angeles. */
     void setTimeZone() {
-      mTimeZone = TimeZone(&mBasicZoneSpecifier);
+      mTimeZone = TimeZone::forZoneSpecifier(&mBasicZoneSpecifier);
       preserveInfo();
     }
 
