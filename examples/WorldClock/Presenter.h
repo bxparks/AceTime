@@ -247,14 +247,14 @@ class Presenter {
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
       const TimeZone& timeZone = mRenderingInfo.timeZone;
       UtcOffset utcOffset = timeZone.getUtcOffset(0);
-      int8_t sign;
-      uint8_t hour;
+      int8_t hour;
       uint8_t minute;
-      utcOffset.toHourMinute(sign, hour, minute);
+      utcOffset.toHourMinute(hour, minute);
 
       mOled.println();
       mOled.print("UTC");
-      mOled.print((sign < 0) ? '-' : '+');
+      mOled.print((hour < 0) ? '-' : '+');
+      if (hour < 0) hour = -hour;
       printPad2(mOled, hour);
       mOled.print(':');
       printPad2(mOled, minute);

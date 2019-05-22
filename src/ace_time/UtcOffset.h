@@ -122,16 +122,10 @@ class UtcOffset {
     }
 
     /** Extract hour and minute representation of the offset. */
-    void toHourMinute(int8_t& sign, uint8_t& hour, uint8_t& minute) const {
-      uint8_t code;
-      if (mOffsetCode < 0) {
-        sign = -1;
-        code = -mOffsetCode;
-      } else {
-        sign = 1;
-        code = mOffsetCode;
-      }
+    void toHourMinute(int8_t& hour, uint8_t& minute) const {
+      uint8_t code = (mOffsetCode < 0) ? -mOffsetCode : mOffsetCode;
       hour = code / 4;
+      hour = (mOffsetCode < 0) ? -hour : hour;
       minute = (code & 0x03) * 15;
     }
 
