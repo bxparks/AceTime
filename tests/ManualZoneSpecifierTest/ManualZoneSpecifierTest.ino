@@ -70,14 +70,14 @@ test(ManualZoneSpecifierTest, overrides) {
 
   assertFalse(spec.isDst());
   assertEqual(TimeOffset::forHour(-8).toMinutes(),
-      spec.getTimeOffset(0).toMinutes());
+      spec.getUtcOffset(0).toMinutes());
   assertEqual(TimeOffset::forHour(0).toMinutes(),
       spec.getDeltaOffset(0).toMinutes());
   assertEqual("PST", spec.getAbbrev(0));
 
   spec.isDst(true);
   assertEqual(TimeOffset::forHour(-7).toMinutes(),
-      spec.getTimeOffset(0).toMinutes());
+      spec.getUtcOffset(0).toMinutes());
   assertEqual(TimeOffset::forHour(1).toMinutes(),
       spec.getDeltaOffset(0).toMinutes());
   assertEqual("PDT", spec.getAbbrev(0));

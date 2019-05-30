@@ -79,16 +79,17 @@ class TimeZone {
     /** Return the type of TimeZone. */
     uint8_t getType() const { return mType; }
 
-    /** Return the UTC offset at epochSeconds. */
-    TimeOffset getTimeOffset(acetime_t epochSeconds) const {
+    /** Return the total UTC offset at epochSeconds, including DST offset. */
+    TimeOffset getUtcOffset(acetime_t epochSeconds) const {
       return (mType == kTypeFixed)
           ? mOffset
-          : mZoneSpecifier->getTimeOffset(epochSeconds);
+          : mZoneSpecifier->getUtcOffset(epochSeconds);
     }
 
     /**
-     * Return the delta offset at epochSeconds. This is an experimental
-     * method that has not been tested thoroughly. Use with caution.
+     * Return the DST offset from standard UTC offset at epochSeconds. This is
+     * an experimental method that has not been tested thoroughly. Use with
+     * caution.
      */
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const {
       return (mType == kTypeFixed)
@@ -101,10 +102,10 @@ class TimeZone {
      * the current TimeZone. Used by ZonedDateTime::forComponents(), so
      * intended to be used mostly for testing and debugging.
      */
-    TimeOffset getTimeOffsetForDateTime(const LocalDateTime& ldt) const {
+    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const {
       return (mType == kTypeFixed)
           ? mOffset
-          : mZoneSpecifier->getTimeOffsetForDateTime(ldt);
+          : mZoneSpecifier->getUtcOffsetForDateTime(ldt);
     }
 
     /** Print the human readable representation of the time zone. */

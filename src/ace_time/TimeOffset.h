@@ -23,7 +23,7 @@ void increment15Minutes(TimeOffset& offset);
  * A thin wrapper that represents a time offset from a reference point, usually
  * 00:00 at UTC, but not always. Use one of the static factory methods to
  * create an instance. For example, each of the following creates a TimeOffset
- * of UTC-08:00:
+ * of -08:00:
  *
  * @code
  * TimeOffset tz = TimeOffset::forHour(-8);
@@ -33,7 +33,7 @@ void increment15Minutes(TimeOffset& offset);
  *
  * You can use the default constructor to create a +00:00 TimeOffset:
  * @code
- * TimeOffset utc;
+ * TimeOffset offset;
  * @endcode
  *
  * According to https://en.wikipedia.org/wiki/List_of_UTC_time_offsets, all
@@ -53,18 +53,18 @@ void increment15Minutes(TimeOffset& offset);
 class TimeOffset {
   public:
     /**
-     * Create TimeOffset from integer hour offset from UTC. For example,
-     * UTC-08:00 is 'forHour(-8)'.
+     * Create TimeOffset with the corresponding hour offset. For example,
+     * -08:00 is 'forHour(-8)'.
      */
     static TimeOffset forHour(int8_t hour) {
       return TimeOffset(hour * 4);
     }
 
     /**
-     * Create TimeOffset from (hour, minute) offset from UTC, where the sign of
-     * hour determines the sign of the offset. The 'minute' must be in
-     * multiples of 15-minutes and is always positive. For example, UTC-07:30
-     * is 'forHourMinute(-7, 30)'.
+     * Create TimeOffset from (hour, minute) offset, where the sign of hour
+     * determines the sign of the offset. The 'minute' must be in multiples of
+     * 15-minutes and is always positive. For example, -07:30 is
+     * 'forHourMinute(-7, 30)'.
      */
     static TimeOffset forHourMinute(int8_t hour, uint8_t minute) {
       int8_t uhour = (hour < 0) ? -hour : hour;
@@ -81,7 +81,7 @@ class TimeOffset {
     }
 
     /**
-     * Create from UTC offset string ("-07:00" or "+01:00"). Intended mostly
+     * Create from an offset string ("-07:00" or "+01:00"). Intended mostly
      * for testing purposes.
      */
     static TimeOffset forOffsetString(const char* offsetString);
@@ -92,7 +92,7 @@ class TimeOffset {
     /**
      * Create TimeOffset from the offset code.
      *
-     * @param offsetCode the number of 15-minute offset from UTC. 0 means UTC.
+     * @param offsetCode the amount of time offset in 15-minute increments.
      */
     static TimeOffset forOffsetCode(int8_t offsetCode) {
       return TimeOffset(offsetCode);
@@ -108,15 +108,15 @@ class TimeOffset {
      */
     bool isZero() const { return mOffsetCode == 0; }
 
-    /** Return the UTC offset as the number of 15 minute increments. */
+    /** Return the time offset as the number of 15 minute increments. */
     int8_t toOffsetCode() const { return mOffsetCode; }
 
-    /** Return the number of minutes offset from UTC. */
+    /** Return the time offset as minutes. */
     int16_t toMinutes() const {
       return (int16_t) 15 * mOffsetCode;
     }
 
-    /** Return the number of seconds offset from UTC. */
+    /** Return the time offset as seconds. */
     int32_t toSeconds() const {
       return (int32_t) 60 * toMinutes();
     }
@@ -134,10 +134,7 @@ class TimeOffset {
       return mOffsetCode == kErrorCode;
     }
 
-    /**
-     * Print the human readable representation of the time zone as offset from
-     * UTC. For example, a TimeOffset for UTC-08:00 is printed as "-08:00".
-     */
+    /** Print the human readable string. For example, "-08:00". */
     void printTo(Print& printer) const;
 
     // Use default copy constructor and assignment operator.

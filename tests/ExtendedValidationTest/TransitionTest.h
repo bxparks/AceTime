@@ -41,7 +41,7 @@ class TransitionTest: public aunit::TestOnce {
             item.second);
         }
 
-        TimeOffset timeOffset = zoneSpecifier.getTimeOffset(epochSeconds);
+        TimeOffset timeOffset = zoneSpecifier.getUtcOffset(epochSeconds);
         if (DEBUG) zoneSpecifier.log();
 
         // Verify timeOffset

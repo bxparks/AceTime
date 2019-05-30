@@ -35,7 +35,7 @@ class ZonedDateTime {
      * will use the forEpochSeconds() method.
      *
      * The TimeOffset at the given date/time component is calculated using the
-     * ZoneSpecifier::getTimeOffsetForDateTime() determined by the actual
+     * ZoneSpecifier::getUtcOffsetForDateTime() determined by the actual
      * subtype of ZoneSpecifier held by the given timeZone.
      *
      * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
@@ -53,7 +53,7 @@ class ZonedDateTime {
             const TimeZone& timeZone = TimeZone()) {
       LocalDateTime ldt = LocalDateTime::forComponents(
           year, month, day, hour, minute, second);
-      OffsetDateTime odt(ldt, timeZone.getTimeOffsetForDateTime(ldt));
+      OffsetDateTime odt(ldt, timeZone.getUtcOffsetForDateTime(ldt));
       return ZonedDateTime(odt, timeZone);
     }
 
@@ -75,7 +75,7 @@ class ZonedDateTime {
       ZonedDateTime dt;
       if (epochSeconds == kInvalidEpochSeconds) return forError();
 
-      TimeOffset timeOffset = timeZone.getTimeOffset(epochSeconds);
+      TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
       dt.mOffsetDateTime = OffsetDateTime::forEpochSeconds(
           epochSeconds, timeOffset);
       dt.mTimeZone = timeZone;

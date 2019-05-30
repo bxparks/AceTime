@@ -641,7 +641,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     /** Return the underlying ZoneInfo. */
     const extended::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
-    TimeOffset getTimeOffset(acetime_t epochSeconds) const override {
+    TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       init(epochSeconds);
       if (mIsOutOfBounds) return TimeOffset::forError();
       const extended::Transition* transition = findTransition(epochSeconds);
@@ -665,7 +665,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return transition->abbrev;
     }
 
-    TimeOffset getTimeOffsetForDateTime(const LocalDateTime& ldt) const override {
+    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
+        const override {
       init(ldt.getLocalDate());
       if (mIsOutOfBounds) return TimeOffset::forError();
       const extended::Transition* transition =

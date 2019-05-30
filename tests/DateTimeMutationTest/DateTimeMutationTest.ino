@@ -18,7 +18,7 @@ test(DateTimeMutationTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().getTimeOffset(0).toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
   date_time_mutation::incrementYear(dt);
   assertEqual((int16_t) 2002, dt.year());
@@ -27,7 +27,7 @@ test(DateTimeMutationTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().getTimeOffset(0).toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
   date_time_mutation::incrementMonth(dt);
   assertEqual((int16_t) 2002, dt.year());
@@ -36,7 +36,7 @@ test(DateTimeMutationTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().getTimeOffset(0).toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
   date_time_mutation::incrementDay(dt);
   assertEqual((int16_t) 2002, dt.year());
@@ -45,7 +45,7 @@ test(DateTimeMutationTest, increment) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().getTimeOffset(0).toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
   date_time_mutation::incrementHour(dt);
   assertEqual((int16_t) 2002, dt.year());
@@ -54,7 +54,7 @@ test(DateTimeMutationTest, increment) {
   assertEqual(5, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().getTimeOffset(0).toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
   date_time_mutation::incrementMinute(dt);
   assertEqual((int16_t) 2002, dt.year());
@@ -63,7 +63,7 @@ test(DateTimeMutationTest, increment) {
   assertEqual(5, dt.hour());
   assertEqual(6, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.timeZone().getTimeOffset(0).toMinutes());
+  assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 }
 
 // --------------------------------------------------------------------------

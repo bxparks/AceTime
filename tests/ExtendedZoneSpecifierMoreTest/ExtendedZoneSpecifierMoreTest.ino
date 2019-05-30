@@ -1,4 +1,4 @@
-#line 2 "ExtendedZoneSpecifierTest2.ino"
+#line 2 "ExtendedZoneSpecifierMoreTest.ino"
 
 #include <AUnit.h>
 #include <AceTime.h>
@@ -20,35 +20,35 @@ test(ExtendedZoneSpecifierTest, kZoneAmerica_Los_Angeles) {
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, zoneSpecifier.getTimeOffset(epochSeconds).toMinutes());
+  assertEqual(-8*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PST", zoneSpecifier.getAbbrev(epochSeconds));
   assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneSpecifier.getTimeOffset(epochSeconds).toMinutes());
+  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
   assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 0, 0,
       TimeOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneSpecifier.getTimeOffset(epochSeconds).toMinutes());
+  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
   assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 59,
       TimeOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneSpecifier.getTimeOffset(epochSeconds).toMinutes());
+  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
   assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 0,
       TimeOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, zoneSpecifier.getTimeOffset(epochSeconds).toMinutes());
+  assertEqual(-8*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
   assertEqual("PST", zoneSpecifier.getAbbrev(epochSeconds));
   assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
 }
@@ -64,14 +64,14 @@ test(ExtendedZoneSpecifierTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertTrue(zoneSpecifier.getTimeOffset(epochSeconds).isError());
+  assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
   assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
   assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2039, 2, 1, 1, 0, 0,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertTrue(zoneSpecifier.getTimeOffset(epochSeconds).isError());
+  assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
   assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
   assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
 }

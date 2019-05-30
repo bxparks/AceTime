@@ -84,7 +84,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
      */
     void isDst(bool isDst) { mIsDst = isDst; }
 
-    TimeOffset getTimeOffset(acetime_t /*epochSeconds*/) const override {
+    TimeOffset getUtcOffset(acetime_t /*epochSeconds*/) const override {
       return mIsDst
         ? TimeOffset::forOffsetCode(
             // Note: Use toOffsetCode() because TimeOffset is currently
@@ -102,8 +102,8 @@ class ManualZoneSpecifier: public ZoneSpecifier {
       return mIsDst ? mDstAbbrev : mStdAbbrev;
     }
 
-    TimeOffset getTimeOffsetForDateTime(const LocalDateTime&) const override {
-      return getTimeOffset(0);
+    TimeOffset getUtcOffsetForDateTime(const LocalDateTime&) const override {
+      return getUtcOffset(0);
     }
 
     void printTo(Print& printer) const override;

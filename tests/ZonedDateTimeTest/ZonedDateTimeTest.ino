@@ -152,7 +152,7 @@ test(ZonedDateTimeTest_Manual, convertToTimeZone) {
   assertEqual(2, dst.hour());
   assertEqual(59, dst.minute());
   assertEqual(59, dst.second());
-  assertEqual(-7*60, dst.timeZone().getTimeOffset(stdEpochSeconds).toMinutes());
+  assertEqual(-7*60, dst.timeZone().getUtcOffset(stdEpochSeconds).toMinutes());
 }
 
 // --------------------------------------------------------------------------

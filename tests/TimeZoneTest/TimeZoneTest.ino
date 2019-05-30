@@ -17,7 +17,7 @@ test(TimeZoneTest, utc) {
   TimeZone tz;
 
   assertEqual(TimeZone::kTypeFixed, tz.getType());
-  assertEqual(0, tz.getTimeOffset(0).toMinutes());
+  assertEqual(0, tz.getUtcOffset(0).toMinutes());
   assertEqual(0, tz.getDeltaOffset(0).toMinutes());
   tz.printAbbrevTo(fakePrint, 0);
   assertEqual("UTC", fakePrint.getBuffer());
@@ -32,7 +32,7 @@ test(TimeZoneTest, fixed) {
   TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
 
   assertEqual(TimeZone::kTypeFixed, tz.getType());
-  assertEqual(-8*60, tz.getTimeOffset(0).toMinutes());
+  assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
   assertEqual(0, tz.getDeltaOffset(0).toMinutes());
   tz.printAbbrevTo(fakePrint, 0);
   assertEqual("-08:00", fakePrint.getBuffer());
@@ -68,14 +68,14 @@ test(TimeZoneTest_Manual, getTimeOffset_getDeltaOffset) {
   TimeZone tz = TimeZone::forZoneSpecifier(&spec);
 
   assertEqual(TimeZone::kTypeZoneSpecifier, tz.getType());
-  assertEqual(-8*60, tz.getTimeOffset(0).toMinutes());
+  assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
   assertEqual(0, tz.getDeltaOffset(0).toMinutes());
   tz.printAbbrevTo(fakePrint, 0);
   assertEqual("PST", fakePrint.getBuffer());
   fakePrint.flush();
 
   spec.isDst(true);
-  assertEqual(-7*60, tz.getTimeOffset(0).toMinutes());
+  assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
   assertEqual(1*60, tz.getDeltaOffset(0).toMinutes());
   tz.printAbbrevTo(fakePrint, 0);
   assertEqual("PDT", fakePrint.getBuffer());
@@ -122,7 +122,7 @@ test(TimeZoneTest_Basic, Los_Angeles) {
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, tz.getTimeOffset(epochSeconds).toMinutes());
+  assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
   tz.printAbbrevTo(fakePrint, epochSeconds);
   assertEqual("PST", fakePrint.getBuffer());
@@ -131,7 +131,7 @@ test(TimeZoneTest_Basic, Los_Angeles) {
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, tz.getTimeOffset(epochSeconds).toMinutes());
+  assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
   tz.printAbbrevTo(fakePrint, epochSeconds);
   assertEqual("PDT", fakePrint.getBuffer());
@@ -170,7 +170,7 @@ test(TimeZoneTest_Extended, Los_Angeles) {
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, tz.getTimeOffset(epochSeconds).toMinutes());
+  assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
   tz.printAbbrevTo(fakePrint, epochSeconds);
   assertEqual("PST", fakePrint.getBuffer());
@@ -179,7 +179,7 @@ test(TimeZoneTest_Extended, Los_Angeles) {
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, tz.getTimeOffset(epochSeconds).toMinutes());
+  assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
   tz.printAbbrevTo(fakePrint, epochSeconds);
   assertEqual("PDT", fakePrint.getBuffer());

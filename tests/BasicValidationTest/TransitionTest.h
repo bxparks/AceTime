@@ -22,7 +22,7 @@ class TransitionTest: public aunit::TestOnce {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
 
-        TimeOffset timeOffset = zoneSpecifier.getTimeOffset(epochSeconds);
+        TimeOffset timeOffset = zoneSpecifier.getUtcOffset(epochSeconds);
         if (DEBUG) {
           ace_time::logging::println("==== test index: %d", i);
           if (sizeof(acetime_t) == sizeof(int)) {

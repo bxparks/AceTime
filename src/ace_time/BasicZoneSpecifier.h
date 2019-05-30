@@ -150,7 +150,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     /** Return the underlying ZoneInfo. */
     const basic::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
-    TimeOffset getTimeOffset(acetime_t epochSeconds) const override {
+    TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
       if (!transition) return TimeOffset::forError();
       return TimeOffset::forOffsetCode(transition->offsetCode);
@@ -170,7 +170,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /**
-     * @copydoc ZoneSpecifier::getTimeOffsetForDateTime()
+     * @copydoc ZoneSpecifier::getUtcOffsetForDateTime()
      *
      * The Transitions calculated by BasicZoneSpecifier contain only the
      * epochSeconds when each transition occurs. They do not contain the local
@@ -184,19 +184,19 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * epochSecond from the previous pass to calculate the next best guess of
      * the actual TimeOffset. We return the second pass guess as the result.
      */
-    TimeOffset getTimeOffsetForDateTime(const LocalDateTime& ldt) const override {
+    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
       init(ldt.getLocalDate());
       if (mIsOutOfBounds) return TimeOffset::forError();
 
       // First guess at the TimeOffset using Jan 1 of the given year.
       acetime_t initialEpochSeconds =
           LocalDate::forComponents(ldt.year(), 1, 1).toEpochSeconds();
-      TimeOffset initialTimeOffset = getTimeOffset(initialEpochSeconds);
+      TimeOffset initialTimeOffset = getUtcOffset(initialEpochSeconds);
 
       // Second guess at the TimeOffset using the first TimeOffset.
       OffsetDateTime odt(ldt, initialTimeOffset);
       acetime_t epochSeconds = odt.toEpochSeconds();
-      return getTimeOffset(epochSeconds);
+      return getUtcOffset(epochSeconds);
     }
 
     void printTo(Print& printer) const override;
