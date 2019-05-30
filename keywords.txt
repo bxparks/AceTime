@@ -11,7 +11,7 @@ DateStrings	KEYWORD1
 LocalDate	KEYWORD1
 LocalTime	KEYWORD1
 LocalDateTime	KEYWORD1
-UtcOffset	KEYWORD1
+TimeOffset	KEYWORD1
 OffsetDateTime	KEYWORD1
 ZoneSpecifier	KEYWORD1
 ManualZoneSpecifier	KEYWORD1
@@ -53,7 +53,7 @@ hour	KEYWORD2
 minute	KEYWORD2
 second	KEYWORD2
 dayOfWeek	KEYWORD2
-utcOffset	KEYWORD2
+timeOffset	KEYWORD2
 printTo	KEYWORD2
 
 # OffsetDateTime.h
@@ -70,8 +70,8 @@ hour	KEYWORD2
 minute	KEYWORD2
 second	KEYWORD2
 dayOfWeek	KEYWORD2
-utcOffset	KEYWORD2
-convertToUtcOffset	KEYWORD2
+timeOffset	KEYWORD2
+convertToTimeOffset	KEYWORD2
 printTo	KEYWORD2
 toEpochDays	KEYWORD2
 toUnixDays	KEYWORD2
@@ -93,7 +93,7 @@ hour	KEYWORD2
 minute	KEYWORD2
 second	KEYWORD2
 dayOfWeek	KEYWORD2
-utcOffset	KEYWORD2
+timeOffset	KEYWORD2
 convertToTimeZone	KEYWORD2
 printTo	KEYWORD2
 toEpochDays	KEYWORD2
@@ -109,7 +109,7 @@ incrementDay	KEYWORD2
 incrementHour	KEYWORD2
 incrementMinute	KEYWORD2
 
-# UtcOffset.h
+# TimeOffset.h
 forHour	KEYWORD2
 forHourMinute	KEYWORD2
 forMinutes	KEYWORD2
@@ -122,7 +122,7 @@ isError	KEYWORD2
 isDst	KEYWORD2
 printTo	KEYWORD2
 
-# UtcOffsetMutator.h
+# TimeOffsetMutator.h
 incrementHour	KEYWORD2
 increment15Minutes	KEYWORD2
 
@@ -136,19 +136,19 @@ deltaOffset	KEYWORD2
 isDst	KEYWORD2
 dstAbbrev	KEYWORD2
 stdAbbrev	KEYWORD2
-getUtcOffset	KEYWORD2
+getTimeOffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
 
 # ManualZoneSpecifier
 getType	KEYWORD2
-getUtcOffset	KEYWORD2
+getTimeOffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
 
 # TimeZone.h
 getType	KEYWORD2
-getUtcOffset	KEYWORD2
+getTimeOffset	KEYWORD2
 getAbbrev	KEYWORD2
 printTo	KEYWORD2
 

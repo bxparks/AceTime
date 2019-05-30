@@ -34,8 +34,8 @@ void setup() {
   Serial.print(F("sizeof(LocalDateTime): "));
   Serial.println(sizeof(LocalDateTime));
 
-  Serial.print(F("sizeof(UtcOffset): "));
-  Serial.println(sizeof(UtcOffset));
+  Serial.print(F("sizeof(TimeOffset): "));
+  Serial.println(sizeof(TimeOffset));
 
   Serial.print(F("sizeof(OffsetDateTime): "));
   Serial.println(sizeof(OffsetDateTime));

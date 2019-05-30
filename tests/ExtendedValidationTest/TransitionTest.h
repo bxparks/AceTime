@@ -41,11 +41,11 @@ class TransitionTest: public aunit::TestOnce {
             item.second);
         }
 
-        UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);
+        TimeOffset timeOffset = zoneSpecifier.getTimeOffset(epochSeconds);
         if (DEBUG) zoneSpecifier.log();
 
-        // Verify utcOffset
-        assertEqual(item.utcOffsetMinutes, utcOffset.toMinutes());
+        // Verify timeOffset
+        assertEqual(item.timeOffsetMinutes, timeOffset.toMinutes());
 
         // Verify date components
         ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);

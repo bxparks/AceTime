@@ -18,37 +18,37 @@ test(ExtendedZoneSpecifierTest, kZoneAmerica_Los_Angeles) {
   acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      UtcOffset::forHour(-8));
+      TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual(-8*60, zoneSpecifier.getTimeOffset(epochSeconds).toMinutes());
   assertEqual("PST", zoneSpecifier.getAbbrev(epochSeconds));
   assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      UtcOffset::forHour(-8));
+      TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual(-7*60, zoneSpecifier.getTimeOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
   assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 0, 0,
-      UtcOffset::forHour(-7));
+      TimeOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual(-7*60, zoneSpecifier.getTimeOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
   assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 59,
-      UtcOffset::forHour(-7));
+      TimeOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual(-7*60, zoneSpecifier.getTimeOffset(epochSeconds).toMinutes());
   assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
   assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 0,
-      UtcOffset::forHour(-7));
+      TimeOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual(-8*60, zoneSpecifier.getTimeOffset(epochSeconds).toMinutes());
   assertEqual("PST", zoneSpecifier.getAbbrev(epochSeconds));
   assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
 }
@@ -62,16 +62,16 @@ test(ExtendedZoneSpecifierTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   assertEqual(2038, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
 
   dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
-      UtcOffset::forHour(-8));
+      TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
+  assertTrue(zoneSpecifier.getTimeOffset(epochSeconds).isError());
   assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
   assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2039, 2, 1, 1, 0, 0,
-      UtcOffset::forHour(-8));
+      TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
+  assertTrue(zoneSpecifier.getTimeOffset(epochSeconds).isError());
   assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
   assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
 }

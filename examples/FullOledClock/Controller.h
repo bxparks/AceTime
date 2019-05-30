@@ -47,12 +47,12 @@ class Controller {
           &storedInfo, sizeof(StoredInfo));
       if (isValid) {
         mClockInfo.zoneSpecifier = ManualZoneSpecifier(
-            UtcOffset::forMinutes(storedInfo.offsetMinutes), false);
+            TimeOffset::forMinutes(storedInfo.offsetMinutes), false);
         mClockInfo.zoneSpecifier.isDst(storedInfo.isDst);
         mClockInfo.hourMode = storedInfo.hourMode;
       } else {
         mClockInfo.zoneSpecifier = ManualZoneSpecifier(
-            UtcOffset::forMinutes(kDefaultOffsetMinutes), false);
+            TimeOffset::forMinutes(kDefaultOffsetMinutes), false);
         mClockInfo.zoneSpecifier.isDst(false);
         mClockInfo.hourMode = StoredInfo::kTwentyFour;
       }
@@ -198,7 +198,7 @@ class Controller {
         case MODE_CHANGE_TIME_ZONE_HOUR:
           {
             mSuppressBlink = true;
-            UtcOffset offset = mChangingClockInfo.zoneSpecifier.stdOffset();
+            TimeOffset offset = mChangingClockInfo.zoneSpecifier.stdOffset();
             utc_offset_mutation::incrementHour(offset);
             mChangingClockInfo.zoneSpecifier.stdOffset(offset);
           }
@@ -206,7 +206,7 @@ class Controller {
         case MODE_CHANGE_TIME_ZONE_MINUTE:
           {
             mSuppressBlink = true;
-            UtcOffset offset = mChangingClockInfo.zoneSpecifier.stdOffset();
+            TimeOffset offset = mChangingClockInfo.zoneSpecifier.stdOffset();
             utc_offset_mutation::increment15Minutes(offset);
             mChangingClockInfo.zoneSpecifier.stdOffset(offset);
           }

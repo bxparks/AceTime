@@ -7,7 +7,7 @@
 #include "common/ZonePolicy.h"
 #include "common/ZoneInfo.h"
 #include "common/logger.h"
-#include "UtcOffset.h"
+#include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneSpecifier.h"
@@ -150,17 +150,17 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     /** Return the underlying ZoneInfo. */
     const basic::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
-    UtcOffset getUtcOffset(acetime_t epochSeconds) const override {
+    TimeOffset getTimeOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      if (!transition) return UtcOffset::forError();
-      return UtcOffset::forOffsetCode(transition->offsetCode);
+      if (!transition) return TimeOffset::forError();
+      return TimeOffset::forOffsetCode(transition->offsetCode);
     }
 
-    UtcOffset getDeltaOffset(acetime_t epochSeconds) const override {
+    TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      if (!transition) return UtcOffset::forError();
-      if (transition->rule == nullptr) return UtcOffset();
-      return UtcOffset::forOffsetCode(transition->rule->deltaCode);
+      if (!transition) return TimeOffset::forError();
+      if (transition->rule == nullptr) return TimeOffset();
+      return TimeOffset::forOffsetCode(transition->rule->deltaCode);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
@@ -170,7 +170,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /**
-     * @copydoc ZoneSpecifier::getUtcOffsetForDateTime()
+     * @copydoc ZoneSpecifier::getTimeOffsetForDateTime()
      *
      * The Transitions calculated by BasicZoneSpecifier contain only the
      * epochSeconds when each transition occurs. They do not contain the local
@@ -179,24 +179,24 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * information needed to implement this method correctly does not exist.
      *
      * The implementation of this method is therefore a hack. First pass, we
-     * extract the UtcOffset on Jan 1 of the year given by the localDateTime,
-     * and guess its epochSecond using that UtcOffset. Second pass, we use the
+     * extract the TimeOffset on Jan 1 of the year given by the localDateTime,
+     * and guess its epochSecond using that TimeOffset. Second pass, we use the
      * epochSecond from the previous pass to calculate the next best guess of
-     * the actual UtcOffset. We return the second pass guess as the result.
+     * the actual TimeOffset. We return the second pass guess as the result.
      */
-    UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
+    TimeOffset getTimeOffsetForDateTime(const LocalDateTime& ldt) const override {
       init(ldt.getLocalDate());
-      if (mIsOutOfBounds) return UtcOffset::forError();
+      if (mIsOutOfBounds) return TimeOffset::forError();
 
-      // First guess at the UtcOffset using Jan 1 of the given year.
+      // First guess at the TimeOffset using Jan 1 of the given year.
       acetime_t initialEpochSeconds =
           LocalDate::forComponents(ldt.year(), 1, 1).toEpochSeconds();
-      UtcOffset initialUtcOffset = getUtcOffset(initialEpochSeconds);
+      TimeOffset initialTimeOffset = getTimeOffset(initialEpochSeconds);
 
-      // Second guess at the UtcOffset using the first UtcOffset.
-      OffsetDateTime odt(ldt, initialUtcOffset);
+      // Second guess at the TimeOffset using the first TimeOffset.
+      OffsetDateTime odt(ldt, initialTimeOffset);
       acetime_t epochSeconds = odt.toEpochSeconds();
-      return getUtcOffset(epochSeconds);
+      return getTimeOffset(epochSeconds);
     }
 
     void printTo(Print& printer) const override;
@@ -529,7 +529,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
           const int8_t offsetCode = prevTransition->offsetCode;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, 1, 1, 0, 0, 0,
-              UtcOffset::forOffsetCode(offsetCode));
+              TimeOffset::forOffsetCode(offsetCode));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
           transition.offsetCode = transition.era->offsetCode;
         } else {
@@ -556,7 +556,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, transition.rule->inMonth, startDayOfMonth,
               atHour, atMinute, 0 /*second*/,
-              UtcOffset::forOffsetCode(offsetCode));
+              TimeOffset::forOffsetCode(offsetCode));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
 
           // Determine the effective offset code

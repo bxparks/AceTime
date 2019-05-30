@@ -13,7 +13,7 @@ Memory:
 ```
 sizeof(LocalDate): 3
 sizeof(LocalTime): 3
-sizeof(UtcOffset): 1
+sizeof(TimeOffset): 1
 sizeof(ZoneEra): 10
 sizeof(ZoneInfo): 5
 sizeof(ZoneRule): 9
@@ -60,7 +60,7 @@ Memory:
 ```
 sizeof(LocalDate): 3
 sizeof(LocalTime): 3
-sizeof(UtcOffset): 1
+sizeof(TimeOffset): 1
 sizeof(ZoneEra): 20
 sizeof(ZoneInfo): 12
 sizeof(ZoneRule): 9
@@ -109,7 +109,7 @@ Memory:
 ```
 sizeof(LocalDate): 3
 sizeof(LocalTime): 3
-sizeof(UtcOffset): 1
+sizeof(TimeOffset): 1
 sizeof(ZoneEra): 20
 sizeof(ZoneInfo): 12
 sizeof(ZoneRule): 9
@@ -160,7 +160,7 @@ Memory:
 
 ```
 sizeof(LocalDate): 3
-sizeof(UtcOffset): 1
+sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 8
 sizeof(DateTime): 10
 sizeof(TimeZone): 2

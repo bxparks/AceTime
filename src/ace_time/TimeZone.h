@@ -2,7 +2,7 @@
 #define ACE_TIME_TIME_ZONE_H
 
 #include <stdint.h>
-#include "UtcOffset.h"
+#include "TimeOffset.h"
 #include "ZoneSpecifier.h"
 #include "ManualZoneSpecifier.h"
 
@@ -57,7 +57,7 @@ class TimeZone {
      *
      * @param offset the fixed UTC offset, default 00:00 offset
      */
-    static TimeZone forUtcOffset(UtcOffset offset = UtcOffset()) {
+    static TimeZone forTimeOffset(TimeOffset offset = TimeOffset()) {
       return TimeZone(offset);
     }
 
@@ -80,19 +80,19 @@ class TimeZone {
     uint8_t getType() const { return mType; }
 
     /** Return the UTC offset at epochSeconds. */
-    UtcOffset getUtcOffset(acetime_t epochSeconds) const {
+    TimeOffset getTimeOffset(acetime_t epochSeconds) const {
       return (mType == kTypeFixed)
           ? mOffset
-          : mZoneSpecifier->getUtcOffset(epochSeconds);
+          : mZoneSpecifier->getTimeOffset(epochSeconds);
     }
 
     /**
      * Return the delta offset at epochSeconds. This is an experimental
      * method that has not been tested thoroughly. Use with caution.
      */
-    UtcOffset getDeltaOffset(acetime_t epochSeconds) const {
+    TimeOffset getDeltaOffset(acetime_t epochSeconds) const {
       return (mType == kTypeFixed)
-          ? UtcOffset()
+          ? TimeOffset()
           : mZoneSpecifier->getDeltaOffset(epochSeconds);
     }
 
@@ -101,10 +101,10 @@ class TimeZone {
      * the current TimeZone. Used by ZonedDateTime::forComponents(), so
      * intended to be used mostly for testing and debugging.
      */
-    UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const {
+    TimeOffset getTimeOffsetForDateTime(const LocalDateTime& ldt) const {
       return (mType == kTypeFixed)
           ? mOffset
-          : mZoneSpecifier->getUtcOffsetForDateTime(ldt);
+          : mZoneSpecifier->getTimeOffsetForDateTime(ldt);
     }
 
     /** Print the human readable representation of the time zone. */
@@ -150,7 +150,7 @@ class TimeZone {
      * Constructor for a fixed UTC offset.
      * @param offset the fix UTC offset
      */
-    explicit TimeZone(UtcOffset offset):
+    explicit TimeZone(TimeOffset offset):
       mType(kTypeFixed),
       mOffset(offset) {}
 
@@ -174,7 +174,7 @@ class TimeZone {
 
     union {
       /** Used if mType == mTypeFixed. */
-      UtcOffset mOffset;
+      TimeOffset mOffset;
 
       /** Used if mType == mTypeZoneSpecifier. */
       const ZoneSpecifier* mZoneSpecifier;

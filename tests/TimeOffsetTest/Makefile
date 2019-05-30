@@ -2,6 +2,6 @@
 # about using unitduino to compile and run AUnit tests natively on Linux or
 # MacOS.
 
-APP_NAME := UtcOffsetTest
+APP_NAME := TimeOffsetTest
 ARDUINO_LIBS := AceTime
 include ../../../AUnit/unitduino/unitduino.mk

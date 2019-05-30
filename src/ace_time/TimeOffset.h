@@ -1,5 +1,5 @@
-#ifndef ACE_TIME_UTC_OFFSET_H
-#define ACE_TIME_UTC_OFFSET_H
+#ifndef ACE_TIME_TIME_OFFSET_H
+#define ACE_TIME_TIME_OFFSET_H
 
 #include <stdint.h>
 
@@ -13,34 +13,34 @@ namespace ace_time {
 // optimize away the assignment operator, then we could remove these friend
 // declarations and just use the forOffsetCode() factory method instead. I
 // haven't looked into this.
-class UtcOffset;
+class TimeOffset;
 namespace utc_offset_mutation {
-void incrementHour(UtcOffset& offset);
-void increment15Minutes(UtcOffset& offset);
+void incrementHour(TimeOffset& offset);
+void increment15Minutes(TimeOffset& offset);
 }
 
 /**
  * A thin wrapper that represents a time offset from a reference point, usually
  * 00:00 at UTC, but not always. Use one of the static factory methods to
- * create an instance. For example, each of the following creates a UtcOffset
+ * create an instance. For example, each of the following creates a TimeOffset
  * of UTC-08:00:
  *
  * @code
- * UtcOffset tz = UtcOffset::forHour(-8);
- * UtcOffset tz = UtcOffset::forHourMinute(-8, 0);
- * UtcOffset tz = UtcOffset::forOffsetString("-08:00");
+ * TimeOffset tz = TimeOffset::forHour(-8);
+ * TimeOffset tz = TimeOffset::forHourMinute(-8, 0);
+ * TimeOffset tz = TimeOffset::forOffsetString("-08:00");
  * @endcode
  *
- * You can use the default constructor to create a +00:00 UtcOffset:
+ * You can use the default constructor to create a +00:00 TimeOffset:
  * @code
- * UtcOffset utc;
+ * TimeOffset utc;
  * @endcode
  *
  * According to https://en.wikipedia.org/wiki/List_of_UTC_time_offsets, all
  * time zones currently in use occur at 15 minute boundaries, and the smallest
  * time zone is UTC-12:00 and the biggest time zone is UTC+14:00. Therefore, we
  * can encode all currently used time zones as integer multiples of 15-minute
- * offsets from UTC. This allows the UtcOffset to be stored as a single 8-bit
+ * offsets from UTC. This allows the TimeOffset to be stored as a single 8-bit
  * signed integer. For the most part, the internal implementation of this class
  * does not leak out to the outside world, so it should be relatively easy to
  * change its implementation to a 16-bit integer to support 1-minute
@@ -50,56 +50,56 @@ void increment15Minutes(UtcOffset& offset);
  * https://en.wikipedia.org/wiki/Tz_database. That functionality is implemented
  * in the TimeZone class.
  */
-class UtcOffset {
+class TimeOffset {
   public:
     /**
-     * Create UtcOffset from integer hour offset from UTC. For example,
+     * Create TimeOffset from integer hour offset from UTC. For example,
      * UTC-08:00 is 'forHour(-8)'.
      */
-    static UtcOffset forHour(int8_t hour) {
-      return UtcOffset(hour * 4);
+    static TimeOffset forHour(int8_t hour) {
+      return TimeOffset(hour * 4);
     }
 
     /**
-     * Create UtcOffset from (hour, minute) offset from UTC, where the sign of
+     * Create TimeOffset from (hour, minute) offset from UTC, where the sign of
      * hour determines the sign of the offset. The 'minute' must be in
      * multiples of 15-minutes and is always positive. For example, UTC-07:30
      * is 'forHourMinute(-7, 30)'.
      */
-    static UtcOffset forHourMinute(int8_t hour, uint8_t minute) {
+    static TimeOffset forHourMinute(int8_t hour, uint8_t minute) {
       int8_t uhour = (hour < 0) ? -hour : hour;
       uint8_t code = uhour * 4 + minute / 15;
-      return (hour < 0) ? UtcOffset(-code) : UtcOffset(code);
+      return (hour < 0) ? TimeOffset(-code) : TimeOffset(code);
     }
 
     /**
-     * Create UtcOffset from minutes from 00:00. In the current implementation,
+     * Create TimeOffset from minutes from 00:00. In the current implementation,
      * the minutes is truncated to the 15-minute boundary towards 0.
      */
-    static UtcOffset forMinutes(int16_t minutes) {
-      return UtcOffset(minutes / 15);
+    static TimeOffset forMinutes(int16_t minutes) {
+      return TimeOffset(minutes / 15);
     }
 
     /**
      * Create from UTC offset string ("-07:00" or "+01:00"). Intended mostly
      * for testing purposes.
      */
-    static UtcOffset forOffsetString(const char* offsetString);
+    static TimeOffset forOffsetString(const char* offsetString);
 
     /** Return an error indicator. */
-    static UtcOffset forError() { return UtcOffset(kErrorCode); }
+    static TimeOffset forError() { return TimeOffset(kErrorCode); }
 
     /**
-     * Create UtcOffset from the offset code.
+     * Create TimeOffset from the offset code.
      *
      * @param offsetCode the number of 15-minute offset from UTC. 0 means UTC.
      */
-    static UtcOffset forOffsetCode(int8_t offsetCode) {
-      return UtcOffset(offsetCode);
+    static TimeOffset forOffsetCode(int8_t offsetCode) {
+      return TimeOffset(offsetCode);
     }
 
     /** Constructor. Create a time zone corresponding to UTC with no offset. */
-    explicit UtcOffset() {}
+    explicit TimeOffset() {}
 
     /**
      * Returns true if offset is 00:00. If this represents a time zone, then
@@ -129,36 +129,36 @@ class UtcOffset {
       minute = (code & 0x03) * 15;
     }
 
-    /** Return true if this UtcOffset represents an error. */
+    /** Return true if this TimeOffset represents an error. */
     bool isError() const {
       return mOffsetCode == kErrorCode;
     }
 
     /**
      * Print the human readable representation of the time zone as offset from
-     * UTC. For example, a UtcOffset for UTC-08:00 is printed as "-08:00".
+     * UTC. For example, a TimeOffset for UTC-08:00 is printed as "-08:00".
      */
     void printTo(Print& printer) const;
 
     // Use default copy constructor and assignment operator.
-    UtcOffset(const UtcOffset&) = default;
-    UtcOffset& operator=(const UtcOffset&) = default;
+    TimeOffset(const TimeOffset&) = default;
+    TimeOffset& operator=(const TimeOffset&) = default;
 
   private:
     friend class BasicZoneSpecifier;
     friend class ManualZoneSpecifier;
     friend class TimeZone;
     friend class OffsetDateTime; // forOffsetStringChainable()
-    friend class UtcOffsetMutator;
-    friend bool operator==(const UtcOffset& a, const UtcOffset& b);
-    friend void utc_offset_mutation::incrementHour(UtcOffset& offset);
-    friend void utc_offset_mutation::increment15Minutes(UtcOffset& offset);
+    friend class TimeOffsetMutator;
+    friend bool operator==(const TimeOffset& a, const TimeOffset& b);
+    friend void utc_offset_mutation::incrementHour(TimeOffset& offset);
+    friend void utc_offset_mutation::increment15Minutes(TimeOffset& offset);
 
     /** Sentinel value that represents an error. */
     static const int8_t kErrorCode = -128;
 
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
-    static const uint8_t kUtcOffsetStringLength = 6;
+    static const uint8_t kTimeOffsetStringLength = 6;
 
     /**
      * The internal version of forOffsetString() that updates the string pointer
@@ -167,10 +167,10 @@ class UtcOffset {
      *
      * This method assumes that the offsetString is sufficiently long.
      */
-    static UtcOffset forOffsetStringChainable(const char*& offsetString);
+    static TimeOffset forOffsetStringChainable(const char*& offsetString);
 
     /** Constructor. Create a time zone from the offset code. */
-    explicit UtcOffset(int8_t offsetCode):
+    explicit TimeOffset(int8_t offsetCode):
         mOffsetCode(offsetCode) {}
 
     /** Set the offset code. */
@@ -189,11 +189,11 @@ class UtcOffset {
     int8_t mOffsetCode = 0;
 };
 
-inline bool operator==(const UtcOffset& a, const UtcOffset& b) {
+inline bool operator==(const TimeOffset& a, const TimeOffset& b) {
   return a.mOffsetCode == b.mOffsetCode;
 }
 
-inline bool operator!=(const UtcOffset& a, const UtcOffset& b) {
+inline bool operator!=(const TimeOffset& a, const TimeOffset& b) {
   return ! (a == b);
 }
 

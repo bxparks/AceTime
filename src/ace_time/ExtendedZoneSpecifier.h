@@ -7,7 +7,7 @@
 #include "common/ZonePolicy.h"
 #include "common/ZoneInfo.h"
 #include "common/logger.h"
-#include "UtcOffset.h"
+#include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneSpecifier.h"
@@ -641,21 +641,21 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     /** Return the underlying ZoneInfo. */
     const extended::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
-    UtcOffset getUtcOffset(acetime_t epochSeconds) const override {
+    TimeOffset getTimeOffset(acetime_t epochSeconds) const override {
       init(epochSeconds);
-      if (mIsOutOfBounds) return UtcOffset::forError();
+      if (mIsOutOfBounds) return TimeOffset::forError();
       const extended::Transition* transition = findTransition(epochSeconds);
       return (transition)
-          ? UtcOffset::forOffsetCode(
+          ? TimeOffset::forOffsetCode(
               transition->offsetCode() + transition->deltaCode())
-          : UtcOffset::forError();
+          : TimeOffset::forError();
     }
 
-    UtcOffset getDeltaOffset(acetime_t epochSeconds) const override {
+    TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
       init(epochSeconds);
-      if (mIsOutOfBounds) return UtcOffset::forError();
+      if (mIsOutOfBounds) return TimeOffset::forError();
       const extended::Transition* transition = findTransition(epochSeconds);
-      return UtcOffset::forOffsetCode(transition->deltaCode());
+      return TimeOffset::forOffsetCode(transition->deltaCode());
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
@@ -665,15 +665,15 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return transition->abbrev;
     }
 
-    UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
+    TimeOffset getTimeOffsetForDateTime(const LocalDateTime& ldt) const override {
       init(ldt.getLocalDate());
-      if (mIsOutOfBounds) return UtcOffset::forError();
+      if (mIsOutOfBounds) return TimeOffset::forError();
       const extended::Transition* transition =
           mTransitionStorage.findTransitionForDateTime(ldt);
       return (transition)
-          ? UtcOffset::forOffsetCode(
+          ? TimeOffset::forOffsetCode(
               transition->offsetCode() + transition->deltaCode())
-          : UtcOffset::forError();
+          : TimeOffset::forError();
     }
 
     void printTo(Print& printer) const override;

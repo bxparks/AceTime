@@ -246,10 +246,10 @@ class Presenter {
       // Extract time zone info.
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
       const TimeZone& timeZone = mRenderingInfo.timeZone;
-      UtcOffset utcOffset = timeZone.getUtcOffset(0);
+      TimeOffset timeOffset = timeZone.getTimeOffset(0);
       int8_t hour;
       uint8_t minute;
-      utcOffset.toHourMinute(hour, minute);
+      timeOffset.toHourMinute(hour, minute);
 
       mOled.println();
       mOled.print("UTC");

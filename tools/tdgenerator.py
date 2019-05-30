@@ -23,7 +23,7 @@ class TestDataGenerator:
     """
 
     # The following zones have transitions which occurs at a time which is not a
-    # multiple of 15 minutes, so cannot be represented by the C++ UtcOffset
+    # multiple of 15 minutes, so cannot be represented by the C++ TimeOffset
     # object. In all cases below, the actual transition occurs at 00:01, but the
     # Transformer filter truncated the transition time to the nearest 15-minute
     # towards 00:00. To produce the correct validation_data.cpp data file,

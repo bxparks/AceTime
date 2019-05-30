@@ -15,7 +15,7 @@ test(OffsetDateTimeTest, accessors) {
   assertEqual(4, dt.hour());
   assertEqual(5, dt.minute());
   assertEqual(6, dt.second());
-  assertEqual(0, dt.utcOffset().toMinutes());
+  assertEqual(0, dt.timeOffset().toMinutes());
 }
 
 test(OffsetDateTimeTest, invalidSeconds) {
@@ -99,7 +99,7 @@ test(OffsetDateTimeTest, forComponents) {
 
   // 2018-01-01 00:00:00+00:15 Monday
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 0,
-      UtcOffset::forMinutes(15));
+      TimeOffset::forMinutes(15));
   assertEqual((acetime_t) 6574, dt.toEpochDays());
   assertEqual((acetime_t) 17531, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400 - 15*60, dt.toEpochSeconds());
@@ -158,10 +158,10 @@ test(OffsetDateTimeTest, toAndForUnixSeconds) {
 
   // 2018-08-30T06:45:01-07:00
   dt = OffsetDateTime::forComponents(2018, 8, 30, 6, 45, 1,
-      UtcOffset::forHour(-7));
+      TimeOffset::forHour(-7));
   assertEqual((acetime_t) 1535636701, dt.toUnixSeconds());
   udt = OffsetDateTime::forUnixSeconds(dt.toUnixSeconds(),
-      UtcOffset::forHour(-7));
+      TimeOffset::forHour(-7));
   assertTrue(dt == udt);
 
   // 2038-01-19 03:14:06Z (largest value - 1 using Unix Epoch)
@@ -186,7 +186,7 @@ test(OffsetDateTimeTest, forEpochSeconds) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2029-12-31 15:59:59-08:00 Monday
-  UtcOffset offset = UtcOffset::forHour(-8); // UTC-08:00
+  TimeOffset offset = TimeOffset::forHour(-8); // UTC-08:00
   dt = OffsetDateTime::forEpochSeconds(10958 * (acetime_t) 86400 - 1, offset);
   assertEqual((int16_t) 2029, dt.year());
   assertEqual(29, dt.yearTiny());
@@ -198,9 +198,9 @@ test(OffsetDateTimeTest, forEpochSeconds) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 }
 
-test(OffsetDateTimeTest, convertToUtcOffset) {
+test(OffsetDateTimeTest, convertToTimeOffset) {
   OffsetDateTime a = OffsetDateTime::forComponents(2018, 1, 1, 12, 0, 0);
-  OffsetDateTime b = a.convertToUtcOffset(UtcOffset::forHour(-7));
+  OffsetDateTime b = a.convertToTimeOffset(TimeOffset::forHour(-7));
 
   assertEqual((int16_t) 2018, b.year());
   assertEqual(18, b.yearTiny());
@@ -209,7 +209,7 @@ test(OffsetDateTimeTest, convertToUtcOffset) {
   assertEqual(5, b.hour());
   assertEqual(0, b.minute());
   assertEqual(0, b.second());
-  assertEqual(-7*60, b.utcOffset().toMinutes());
+  assertEqual(-7*60, b.timeOffset().toMinutes());
 }
 
 test(OffsetDateTimeTest, compareTo) {
@@ -233,7 +233,7 @@ test(OffsetDateTimeTest, compareTo) {
 
   a = OffsetDateTime::forComponents(2018, 1, 1, 11, 0, 0);
   b = OffsetDateTime::forComponents(2018, 1, 1, 12, 0, 0,
-      UtcOffset::forMinutes(15));
+      TimeOffset::forMinutes(15));
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
@@ -258,10 +258,10 @@ test(OffsetDateTimeTest, compareTo) {
 
   // 2018-1-1 12:00:00+01:00
   a = OffsetDateTime::forComponents(2018, 1, 1, 12, 0, 0,
-      UtcOffset::forHour(1));
+      TimeOffset::forHour(1));
   // 2018-1-1 12:00:00-08:00
   b = OffsetDateTime::forComponents(2018, 1, 1, 12, 0, 0,
-      UtcOffset::forHour(-8));
+      TimeOffset::forHour(-8));
   assertLess(a.compareTo(b), 0);
   assertMore(b.compareTo(a), 0);
   assertTrue(a != b);
@@ -282,7 +282,7 @@ test(OffsetDateTimeTest, dayOfWeek) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2018-01-01 23:40:03+00:45, no change to dayOfWeek
-  dt.utcOffset(UtcOffset::forMinutes(45));
+  dt.timeOffset(TimeOffset::forMinutes(45));
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   dt.day(2); // 2018-01-02 23:40:03+00:45, changes dayOfWeek
@@ -309,7 +309,7 @@ test(OffsetDateTimeTest, forDateString) {
   assertEqual(13, dt.hour());
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
-  assertEqual(-7*60, dt.utcOffset().toMinutes());
+  assertEqual(-7*60, dt.timeOffset().toMinutes());
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 
   // parser does not care about most separators, this may change in the future
@@ -322,7 +322,7 @@ test(OffsetDateTimeTest, forDateString) {
   assertEqual(13, dt.hour());
   assertEqual(48, dt.minute());
   assertEqual(1, dt.second());
-  assertEqual(7*60, dt.utcOffset().toMinutes());
+  assertEqual(7*60, dt.timeOffset().toMinutes());
   assertEqual(LocalDate::kFriday, dt.dayOfWeek());
 }
 
