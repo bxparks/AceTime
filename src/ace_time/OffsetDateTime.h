@@ -138,7 +138,8 @@ class OffsetDateTime {
 
     /** Return true if any component indicates an error condition. */
     bool isError() const {
-      return mLocalDateTime.isError() || mUtcOffset.isError();
+      // Check mUtcOffset first because it's expected to be invalid more often.
+      return  mUtcOffset.isError() || mLocalDateTime.isError();
     }
 
     /** Return the year. */
