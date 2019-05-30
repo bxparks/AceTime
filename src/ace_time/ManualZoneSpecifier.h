@@ -2,7 +2,7 @@
 #define ACE_TIME_MANUAL_ZONE_SPECIFIER_H
 
 #include <string.h> // strcmp()
-#include "UtcOffset.h"
+#include "TimeOffset.h"
 #include "ZoneSpecifier.h"
 
 namespace ace_time {
@@ -11,7 +11,7 @@ namespace ace_time {
  * An implementation of ZoneSpecifier which allows the user to manually adjust
  * the UTC offset and the DST flag. Unlike BasicZoneSpecifier and
  * ExtendedZoneSpecifier, this class is mutable and copyable to allow the
- * application to detect changes to the utcOffset made by the user.
+ * application to detect changes to the timeOffset made by the user.
  */
 class ManualZoneSpecifier: public ZoneSpecifier {
   public:
@@ -28,7 +28,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
      * timezone abbreviations.
      *
      * @param stdOffset base offset of the zone, can be changed using
-     *        the stdOffset(UtcOffset) mutator (default: 00:00)
+     *        the stdOffset(TimeOffset) mutator (default: 00:00)
      * @param isDst true if DST shfit is active (default: false)
      * @param stdAbbrev time zone abbreviation during normal time. Cannot be
      *        nullptr. Cannot be changed after construction. (default: "")
@@ -39,11 +39,11 @@ class ManualZoneSpecifier: public ZoneSpecifier {
      *        Cannot be changed after construction. (default: +01:00).
      */
     explicit ManualZoneSpecifier(
-        UtcOffset stdOffset = UtcOffset(),
+        TimeOffset stdOffset = TimeOffset(),
         bool isDst = false,
         const char* stdAbbrev = "",
         const char* dstAbbrev = "",
-        UtcOffset deltaOffset = UtcOffset::forHour(1)):
+        TimeOffset deltaOffset = TimeOffset::forHour(1)):
       ZoneSpecifier(kTypeManual),
       mStdOffset(stdOffset),
       mIsDst(isDst),
@@ -58,7 +58,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     ManualZoneSpecifier& operator=(const ManualZoneSpecifier&) = default;
 
     /** Get the standard UTC offset. */
-    UtcOffset stdOffset() const { return mStdOffset; }
+    TimeOffset stdOffset() const { return mStdOffset; }
 
     /** Get the current isDst flag. */
     bool isDst() const { return mIsDst; }
@@ -70,13 +70,13 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     const char* dstAbbrev() const { return mDstAbbrev; }
 
     /** Get the DST delta offset. */
-    UtcOffset deltaOffset() const { return mDeltaOffset; }
+    TimeOffset deltaOffset() const { return mDeltaOffset; }
 
     /**
      * Set the standard UTC offset. This can be used by applications that allow
      * the user to select a particular UTC offset.
      */
-    void stdOffset(UtcOffset offset) { mStdOffset = offset; }
+    void stdOffset(TimeOffset offset) { mStdOffset = offset; }
 
     /**
      * Set the current isDst flag. This is expected to be used by applications
@@ -84,25 +84,25 @@ class ManualZoneSpecifier: public ZoneSpecifier {
      */
     void isDst(bool isDst) { mIsDst = isDst; }
 
-    UtcOffset getUtcOffset(acetime_t /*epochSeconds*/) const override {
+    TimeOffset getUtcOffset(acetime_t /*epochSeconds*/) const override {
       return mIsDst
-        ? UtcOffset::forOffsetCode(
-            // Note: Use toOffsetCode() because UtcOffset is currently
+        ? TimeOffset::forOffsetCode(
+            // Note: Use toOffsetCode() because TimeOffset is currently
             // implemented using OffsetCodes. If that changes to minutes,
             // then this should use toMinutes().
             mStdOffset.toOffsetCode() + mDeltaOffset.toOffsetCode())
         : mStdOffset;
     }
 
-    UtcOffset getDeltaOffset(acetime_t /*epochSeconds*/) const override {
-      return mIsDst ? mDeltaOffset : UtcOffset();
+    TimeOffset getDeltaOffset(acetime_t /*epochSeconds*/) const override {
+      return mIsDst ? mDeltaOffset : TimeOffset();
     }
 
     const char* getAbbrev(acetime_t /*epochSeconds*/) const override {
       return mIsDst ? mDstAbbrev : mStdAbbrev;
     }
 
-    UtcOffset getUtcOffsetForDateTime(const LocalDateTime&) const override {
+    TimeOffset getUtcOffsetForDateTime(const LocalDateTime&) const override {
       return getUtcOffset(0);
     }
 
@@ -121,7 +121,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Offset from UTC. */
-    UtcOffset mStdOffset;
+    TimeOffset mStdOffset;
 
     /** Set to true if DST is enabled, when using ManualZoneSpecifier. */
     bool mIsDst;
@@ -133,7 +133,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     const char* mDstAbbrev;
 
     /** Additional offset to add to mStdOffset when observing DST. */
-    UtcOffset mDeltaOffset;
+    TimeOffset mDeltaOffset;
 };
 
 }

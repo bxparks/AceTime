@@ -301,12 +301,12 @@ localDateTime.printTo(Serial); // prints "2018-01-01T00:00:00"
 
 An `OffsetDateTime` is an object that can represent a date&time which is
 offset from the UTC time zone by a fixed amount of time. Internally the
-`OffsetDateTime` is a combination of `LocalDateTime` and `UtcOffset`. We can
+`OffsetDateTime` is a combination of `LocalDateTime` and `TimeOffset`. We can
 create the object using the `forComponents()` method:
 ```C++
 // 2018-01-01 00:00:00+00:15
 OffsetDateTime offsetDateTime = OffsetDateTime::forComponents(
-    2018, 1, 1, 0, 0, 0, UtcOffset::forHourMinute(1, 0, 15));
+    2018, 1, 1, 0, 0, 0, TimeOffset::forHourMinute(1, 0, 15));
 acetime_t epochDays = offsetDateTime.toEpochDays();
 acetime_t epochSeconds = offsetDateTime.toEpochSeconds();
 
@@ -319,7 +319,7 @@ You can go the other way and create a `DateTime` object from the seconds from
 Epoch:
 ```C++
 OffsetDateTime offsetDateTime = OffsetDateTime::forEpochSeconds(
-    568079100, UtcOffset::forHourMinute(0, 0, 15));
+    568079100, TimeOffset::forHourMinute(0, 0, 15));
 ```
 
 ### Invalid LocalDateTime or OffsetDateTime
@@ -363,14 +363,14 @@ TimeZone tz(Utc::forHour(-8)); // UTC-08:00
 
 A `ZonedDateTime` is a `LocalDateTime` associated with a given `TimeZone`. This
 is similar to an `OffsetDateTime` being a `LocalDateTime` associated with a
-given `UtcOffset`. (I will show later how a `ZonedDateTime` is more powerful
+given `TimeOffset`. (I will show later how a `ZonedDateTime` is more powerful
 than an `OffsetDateTime`.)
 
 ```C++
 // 2018-01-01 00:00:00+00:15
 ZonedDateTime zonedDateTime = ZonedDateTime::forComponents(
     2018, 1, 1, 0, 0, 0,
-    TimeZone::forUtcOffset(UtcOffset::forHourMinute(1, 0, 15)));
+    TimeZone::forTimeOffset(TimeOffset::forHourMinute(1, 0, 15)));
 acetime_t epochDays = zonedDateTime.toEpochDays();
 acetime_t epochSeconds = zonedDateTime.toEpochSeconds();
 

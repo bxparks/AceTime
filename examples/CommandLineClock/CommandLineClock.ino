@@ -186,12 +186,12 @@ class IncrementCommand: public CommandHandler {
  * Timezone command.
  * Usage:
  *    timezone - print current timezone
- *    timezone {utcOffset} - set current timezone
+ *    timezone {timeOffset} - set current timezone
  */
 class TimezoneCommand: public CommandHandler {
   public:
     TimezoneCommand():
-      CommandHandler("timezone", "[utcOffset | Los_Angeles]") {}
+      CommandHandler("timezone", "[timeOffset | Los_Angeles]") {}
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
@@ -206,7 +206,7 @@ class TimezoneCommand: public CommandHandler {
           controller.getTimeZone().printTo(printer);
           printer.println();
         } else {
-          UtcOffset offset = UtcOffset::forOffsetString(argv[0]);
+          TimeOffset offset = TimeOffset::forOffsetString(argv[0]);
           if (offset.isError()) {
             printer.println(FF("Invalid time zone offset"));
             return;

@@ -34,7 +34,7 @@ class ZonedDateTime {
      * This is intended mostly for testing purposes. Most production code
      * will use the forEpochSeconds() method.
      *
-     * The UtcOffset at the given date/time component is calculated using the
+     * The TimeOffset at the given date/time component is calculated using the
      * ZoneSpecifier::getUtcOffsetForDateTime() determined by the actual
      * subtype of ZoneSpecifier held by the given timeZone.
      *
@@ -75,9 +75,9 @@ class ZonedDateTime {
       ZonedDateTime dt;
       if (epochSeconds == kInvalidEpochSeconds) return forError();
 
-      UtcOffset utcOffset = timeZone.getUtcOffset(epochSeconds);
+      TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
       dt.mOffsetDateTime = OffsetDateTime::forEpochSeconds(
-          epochSeconds, utcOffset);
+          epochSeconds, timeOffset);
       dt.mTimeZone = timeZone;
       return dt;
     }
@@ -111,7 +111,7 @@ class ZonedDateTime {
      */
     static ZonedDateTime forDateString(const char* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
-      return ZonedDateTime(dt, TimeZone::forUtcOffset(dt.utcOffset()));
+      return ZonedDateTime(dt, TimeZone::forTimeOffset(dt.timeOffset()));
     }
 
     /**
@@ -120,7 +120,7 @@ class ZonedDateTime {
      */
     static ZonedDateTime forDateString(const __FlashStringHelper* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
-      return ZonedDateTime(dt, TimeZone::forUtcOffset(dt.utcOffset()));
+      return ZonedDateTime(dt, TimeZone::forTimeOffset(dt.timeOffset()));
     }
 
     /** Return an instance whose isError() returns true. */
@@ -183,7 +183,7 @@ class ZonedDateTime {
     uint8_t dayOfWeek() const { return mOffsetDateTime.dayOfWeek(); }
 
     /** Return the offset zone of the OffsetDateTime. */
-    UtcOffset utcOffset() const { return mOffsetDateTime.utcOffset(); }
+    TimeOffset timeOffset() const { return mOffsetDateTime.timeOffset(); }
 
     /** Return the time zone of the ZonedDateTime. */
     const TimeZone& timeZone() const { return mTimeZone; }

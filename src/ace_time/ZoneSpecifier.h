@@ -2,7 +2,7 @@
 #define ACE_TIME_ZONE_SPECIFIER_H
 
 #include "common/common.h"
-#include "UtcOffset.h"
+#include "TimeOffset.h"
 
 class Print;
 
@@ -50,14 +50,14 @@ class ZoneSpecifier {
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
 
-    /** Return the total effective UTC offset at epochSeconds, including DST. */
-    virtual UtcOffset getUtcOffset(acetime_t epochSeconds) const = 0;
+    /** Return the total UTC offset at epochSeconds, including DST offset. */
+    virtual TimeOffset getUtcOffset(acetime_t epochSeconds) const = 0;
 
     /**
      * Return the DST delta offset at epochSeconds. This is an experimental
      * method that has not been tested thoroughly. Use with caution.
      */
-    virtual UtcOffset getDeltaOffset(acetime_t epochSeconds) const = 0;
+    virtual TimeOffset getDeltaOffset(acetime_t epochSeconds) const = 0;
 
     /**
      * Return the time zone abbreviation at epochSeconds. This is an
@@ -66,8 +66,8 @@ class ZoneSpecifier {
      */
     virtual const char* getAbbrev(acetime_t epochSeconds) const = 0;
 
-    /** Return the UtcOffset matching the given the date/time components. */
-    virtual UtcOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
+    /** Return the UTC offset matching the given the date/time components. */
+    virtual TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
         const = 0;
 
     /** Print a human-readable identifier. */

@@ -31,8 +31,8 @@ void OffsetDateTime::printTo(Print& printer) const {
   printer.print(':');
   printPad2(printer, mLocalDateTime.second());
 
-  // UtcOffset
-  mUtcOffset.printTo(printer);
+  // TimeOffset
+  mTimeOffset.printTo(printer);
   printer.print(' ');
 
   // Week day
@@ -51,7 +51,7 @@ OffsetDateTime OffsetDateTime::forDateStringChainable(const char*& dateString) {
   const char* s = dateString;
 
   LocalDateTime ldt = LocalDateTime::forDateStringChainable(s);
-  UtcOffset offset = UtcOffset::forOffsetStringChainable(s);
+  TimeOffset offset = TimeOffset::forOffsetStringChainable(s);
 
   dateString = s;
   return OffsetDateTime(ldt, offset);

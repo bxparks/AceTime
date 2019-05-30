@@ -2,7 +2,7 @@
 #define ACE_TIME_OFFSET_DATE_TIME_H
 
 #include <stdint.h>
-#include "UtcOffset.h"
+#include "TimeOffset.h"
 #include "LocalDateTime.h"
 
 class Print;
@@ -39,34 +39,34 @@ class OffsetDateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param utcOffset Optional. Default UTC time zone. Using the UtcOffset
+     * @param timeOffset Optional. Default UTC time zone. Using the TimeOffset
      * object in the last component allows us to add an additional constructor
      * that accepts a millisecond component in the future. It also hides the
-     * internal implementation details of UtcOffset.
+     * internal implementation details of TimeOffset.
      */
     static OffsetDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
-        UtcOffset utcOffset = UtcOffset()) {
-      return OffsetDateTime(year, month, day, hour, minute, second, utcOffset);
+        TimeOffset timeOffset = TimeOffset()) {
+      return OffsetDateTime(year, month, day, hour, minute, second, timeOffset);
     }
 
     /**
      * Factory method. Create the various components of the OffsetDateTime from
-     * the epochSeconds and its UtcOffset.
+     * the epochSeconds and its TimeOffset.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00). Use LocalDate::kInvalidEpochSeconds to define
      *    an invalid instance whose isError() returns true.
-     * @param utcOffset Optional. Default is UTC time zone.
+     * @param timeOffset Optional. Default is UTC time zone.
      */
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
-          UtcOffset utcOffset = UtcOffset()) {
+          TimeOffset timeOffset = TimeOffset()) {
       OffsetDateTime dt;
       if (epochSeconds == LocalDate::kInvalidEpochSeconds) return forError();
 
       // Get the real epochSeconds
-      dt.mUtcOffset = utcOffset;
-      epochSeconds += utcOffset.toSeconds();
+      dt.mTimeOffset = timeOffset;
+      epochSeconds += timeOffset.toSeconds();
 
       dt.mLocalDateTime = LocalDateTime::forEpochSeconds(epochSeconds);
       return dt;
@@ -78,12 +78,12 @@ class OffsetDateTime {
      * the partial day are truncated down towards the smallest whole day.
      */
     static OffsetDateTime forUnixSeconds(acetime_t unixSeconds,
-          UtcOffset utcOffset = UtcOffset()) {
+          TimeOffset timeOffset = TimeOffset()) {
       if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
-        return forEpochSeconds(unixSeconds, utcOffset);
+        return forEpochSeconds(unixSeconds, timeOffset);
       } else {
         return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch,
-            utcOffset);
+            timeOffset);
       }
     }
 
@@ -130,7 +130,7 @@ class OffsetDateTime {
 
     /** Factory method that returns an instance whose isError() is true. */
     static OffsetDateTime forError() {
-      return OffsetDateTime(LocalDateTime::forError(), UtcOffset::forError());
+      return OffsetDateTime(LocalDateTime::forError(), TimeOffset::forError());
     }
 
     /** Constructor. All internal fields are left in an undefined state. */
@@ -138,8 +138,8 @@ class OffsetDateTime {
 
     /** Return true if any component indicates an error condition. */
     bool isError() const {
-      // Check mUtcOffset first because it's expected to be invalid more often.
-      return  mUtcOffset.isError() || mLocalDateTime.isError();
+      // Check mTimeOffset first because it's expected to be invalid more often.
+      return  mTimeOffset.isError() || mLocalDateTime.isError();
     }
 
     /** Return the year. */
@@ -194,18 +194,18 @@ class OffsetDateTime {
     const LocalTime& localTime() const { return mLocalDateTime.localTime(); }
 
     /** Return the offset zone of the OffsetDateTime. */
-    UtcOffset utcOffset() const { return mUtcOffset; }
+    TimeOffset timeOffset() const { return mTimeOffset; }
 
     /** Set the offset zone. */
-    void utcOffset(UtcOffset utcOffset) { mUtcOffset = utcOffset; }
+    void timeOffset(TimeOffset timeOffset) { mTimeOffset = timeOffset; }
 
     /**
      * Create a OffsetDateTime in a different offset zone code (with the same
      * epochSeconds).
      */
-    OffsetDateTime convertToUtcOffset(UtcOffset utcOffset) const {
+    OffsetDateTime convertToTimeOffset(TimeOffset timeOffset) const {
       acetime_t epochSeconds = toEpochSeconds();
-      return OffsetDateTime::forEpochSeconds(epochSeconds, utcOffset);
+      return OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset);
     }
 
     /**
@@ -224,10 +224,10 @@ class OffsetDateTime {
       acetime_t epochDays = mLocalDateTime.localDate().toEpochDays();
 
       // Increment or decrement the day count depending on the offset zone.
-      acetime_t utcOffset = mLocalDateTime.localTime().toSeconds()
-          - mUtcOffset.toSeconds();
-      if (utcOffset >= 86400) return epochDays + 1;
-      if (utcOffset < 0) return epochDays - 1;
+      acetime_t timeOffset = mLocalDateTime.localTime().toSeconds()
+          - mTimeOffset.toSeconds();
+      if (timeOffset >= 86400) return epochDays + 1;
+      if (timeOffset < 0) return epochDays - 1;
       return epochDays;
     }
 
@@ -243,7 +243,7 @@ class OffsetDateTime {
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
-      return mLocalDateTime.toEpochSeconds() - mUtcOffset.toSeconds();
+      return mLocalDateTime.toEpochSeconds() - mTimeOffset.toSeconds();
     }
 
     /**
@@ -302,24 +302,24 @@ class OffsetDateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param utcOffset Optional. Default UTC time zone. Using the UtcOffset
+     * @param timeOffset Optional. Default UTC time zone. Using the TimeOffset
      * object in the last component allows us to add an additional constructor
      * that accepts a millisecond component in the future. It also hides the
-     * internal implementation details of UtcOffset.
+     * internal implementation details of TimeOffset.
      */
     explicit OffsetDateTime(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
-            UtcOffset utcOffset = UtcOffset()):
+            TimeOffset timeOffset = TimeOffset()):
         mLocalDateTime(year, month, day, hour, minute, second),
-        mUtcOffset(utcOffset) {}
+        mTimeOffset(timeOffset) {}
 
-    /** Constructor from LocalDateTime and a UtcOffset. */
-    explicit OffsetDateTime(const LocalDateTime& ldt, UtcOffset utcOffset):
+    /** Constructor from LocalDateTime and a TimeOffset. */
+    explicit OffsetDateTime(const LocalDateTime& ldt, TimeOffset timeOffset):
         mLocalDateTime(ldt),
-        mUtcOffset(utcOffset) {}
+        mTimeOffset(timeOffset) {}
 
     LocalDateTime mLocalDateTime;
-    UtcOffset mUtcOffset; // offset from UTC
+    TimeOffset mTimeOffset; // offset from UTC
 };
 
 /**
@@ -329,7 +329,7 @@ class OffsetDateTime {
  */
 inline bool operator==(const OffsetDateTime& a, const OffsetDateTime& b) {
   return a.mLocalDateTime == b.mLocalDateTime
-      && a.mUtcOffset == b.mUtcOffset;
+      && a.mTimeOffset == b.mTimeOffset;
 }
 
 /** Return true if two OffsetDateTime objects are not equal. */

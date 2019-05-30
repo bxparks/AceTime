@@ -124,13 +124,13 @@ class OledClock: public Clock {
 
         case MODE_CHANGE_TIME_ZONE_HOUR: {
           mSuppressBlink = true;
-          mChangingDateTime.timeZone().getStandardUtcOffset()
+          mChangingDateTime.timeZone().getStandardTimeOffset()
               .incrementHour();
           break;
         }
         case MODE_CHANGE_TIME_ZONE_MINUTE:
           mSuppressBlink = true;
-          mChangingDateTime.timeZone().getStandardUtcOffset()
+          mChangingDateTime.timeZone().getStandardTimeOffset()
               .increment15Minutes();
           break;
         case MODE_CHANGE_TIME_ZONE_DST:

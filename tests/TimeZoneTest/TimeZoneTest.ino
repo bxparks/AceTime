@@ -29,7 +29,7 @@ test(TimeZoneTest, utc) {
 
 test(TimeZoneTest, fixed) {
   FakePrint fakePrint;
-  TimeZone tz = TimeZone::forUtcOffset(UtcOffset::forHour(-8));
+  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
 
   assertEqual(TimeZone::kTypeFixed, tz.getType());
   assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
@@ -44,8 +44,8 @@ test(TimeZoneTest, fixed) {
 
 test(TimeZoneTest_Manual, operatorEqualEqual) {
   // PST
-  ManualZoneSpecifier spa(UtcOffset::forHour(-8), false, "PST", "PDT");
-  ManualZoneSpecifier spb(UtcOffset::forHour(-8), false, "PST", "PDT");
+  ManualZoneSpecifier spa(TimeOffset::forHour(-8), false, "PST", "PDT");
+  ManualZoneSpecifier spb(TimeOffset::forHour(-8), false, "PST", "PDT");
 
   // Two time zones with same zoneSpecifier should be equal.
   TimeZone a = TimeZone::forZoneSpecifier(&spa);
@@ -57,14 +57,14 @@ test(TimeZoneTest_Manual, operatorEqualEqual) {
   assertTrue(a != b);
 
   // Should be different from EST.
-  ManualZoneSpecifier spc(UtcOffset::forHour(-5), false, "EST", "EDT");
+  ManualZoneSpecifier spc(TimeOffset::forHour(-5), false, "EST", "EDT");
   TimeZone c = TimeZone::forZoneSpecifier(&spc);
   assertTrue(a != c);
 }
 
-test(TimeZoneTest_Manual, getUtcOffset_getDeltaOffset) {
+test(TimeZoneTest_Manual, getTimeOffset_getDeltaOffset) {
   FakePrint fakePrint;
-  ManualZoneSpecifier spec(UtcOffset::forHour(-8), false, "PST", "PDT");
+  ManualZoneSpecifier spec(TimeOffset::forHour(-8), false, "PST", "PDT");
   TimeZone tz = TimeZone::forZoneSpecifier(&spec);
 
   assertEqual(TimeZone::kTypeZoneSpecifier, tz.getType());
@@ -82,7 +82,7 @@ test(TimeZoneTest_Manual, getUtcOffset_getDeltaOffset) {
 }
 
 test(TimeZoneTest_Manual, isDst) {
-  ManualZoneSpecifier spec(UtcOffset::forHour(-8), false, "PST", "PDT");
+  ManualZoneSpecifier spec(TimeOffset::forHour(-8), false, "PST", "PDT");
   TimeZone tz = TimeZone::forZoneSpecifier(&spec);
   assertFalse(tz.isDst());
   tz.isDst(true);
@@ -120,7 +120,7 @@ test(TimeZoneTest_Basic, Los_Angeles) {
   assertEqual(TimeZone::kTypeZoneSpecifier, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      UtcOffset::forHour(-8));
+      TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
@@ -129,7 +129,7 @@ test(TimeZoneTest_Basic, Los_Angeles) {
   fakePrint.flush();
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      UtcOffset::forHour(-8));
+      TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
@@ -168,7 +168,7 @@ test(TimeZoneTest_Extended, Los_Angeles) {
   assertEqual(TimeZone::kTypeZoneSpecifier, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      UtcOffset::forHour(-8));
+      TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
@@ -177,7 +177,7 @@ test(TimeZoneTest_Extended, Los_Angeles) {
   fakePrint.flush();
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      UtcOffset::forHour(-8));
+      TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());

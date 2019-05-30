@@ -1,13 +1,13 @@
 #include <string.h> // strlen()
 #include "common/util.h"
 #include "common/DateStrings.h"
-#include "UtcOffset.h"
+#include "TimeOffset.h"
 
 namespace ace_time {
 
 using common::printPad2;
 
-void UtcOffset::printTo(Print& printer) const {
+void TimeOffset::printTo(Print& printer) const {
   int8_t hour;
   uint8_t minute;
   toHourMinute(hour, minute);
@@ -21,16 +21,16 @@ void UtcOffset::printTo(Print& printer) const {
   common::printPad2(printer, minute);
 }
 
-UtcOffset UtcOffset::forOffsetString(const char* offsetString) {
+TimeOffset TimeOffset::forOffsetString(const char* offsetString) {
   // verify exact ISO 8601 string length
-  if (strlen(offsetString) != kUtcOffsetStringLength) {
+  if (strlen(offsetString) != kTimeOffsetStringLength) {
     return forError();
   }
 
   return forOffsetStringChainable(offsetString);
 }
 
-UtcOffset UtcOffset::forOffsetStringChainable(const char*& offsetString) {
+TimeOffset TimeOffset::forOffsetStringChainable(const char*& offsetString) {
   const char* s = offsetString;
 
   // '+' or '-'
@@ -50,7 +50,7 @@ UtcOffset UtcOffset::forOffsetStringChainable(const char*& offsetString) {
   s++;
 
   offsetString = s;
-  return UtcOffset::forHourMinute((utcSign == '+') ? hour : -hour, minute);
+  return TimeOffset::forHourMinute((utcSign == '+') ? hour : -hour, minute);
 }
 
 }

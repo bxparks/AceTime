@@ -22,7 +22,7 @@ class TransitionTest: public aunit::TestOnce {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
 
-        UtcOffset utcOffset = zoneSpecifier.getUtcOffset(epochSeconds);
+        TimeOffset timeOffset = zoneSpecifier.getUtcOffset(epochSeconds);
         if (DEBUG) {
           ace_time::logging::println("==== test index: %d", i);
           if (sizeof(acetime_t) == sizeof(int)) {
@@ -33,8 +33,8 @@ class TransitionTest: public aunit::TestOnce {
           zoneSpecifier.log();
         }
 
-        // Verify utcOffset
-        assertEqual(item.utcOffsetMinutes, utcOffset.toMinutes());
+        // Verify timeOffset
+        assertEqual(item.timeOffsetMinutes, timeOffset.toMinutes());
 
         // Verify date components
         ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);

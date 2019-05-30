@@ -45,12 +45,12 @@ class Clock {
           &storedInfo, sizeof(StoredInfo));
       if (isValid) {
         mClockInfo.zoneSpecifier = ManualZoneSpecifier(
-            UtcOffset::forMinutes(storedInfo.offsetMinutes), false);
+            TimeOffset::forMinutes(storedInfo.offsetMinutes), false);
         mClockInfo.zoneSpecifier.isDst(storedInfo.isDst);
         mClockInfo.hourMode = storedInfo.hourMode;
       } else {
         mClockInfo.zoneSpecifier = ManualZoneSpecifier(
-            UtcOffset::forMinutes(kDefaultOffsetMinutes), false);
+            TimeOffset::forMinutes(kDefaultOffsetMinutes), false);
         mClockInfo.zoneSpecifier.isDst(false);
         mClockInfo.hourMode = StoredInfo::kTwentyFour;
       }

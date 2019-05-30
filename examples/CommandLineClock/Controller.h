@@ -23,7 +23,7 @@ class Controller {
         if (mStoredInfo.timeZoneType == TimeZone::kTypeZoneSpecifier) {
           setTimeZone();
         } else {
-          setTimeZone(UtcOffset::forMinutes(mStoredInfo.offsetMinutes),
+          setTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes),
               mStoredInfo.isDst);
         }
       } else {
@@ -35,8 +35,8 @@ class Controller {
     }
 
     /** Set the time zone using the given offset. */
-    void setTimeZone(UtcOffset utcOffset, bool isDst) {
-      mManualZoneSpecifier = ManualZoneSpecifier(utcOffset, isDst);
+    void setTimeZone(TimeOffset timeOffset, bool isDst) {
+      mManualZoneSpecifier = ManualZoneSpecifier(timeOffset, isDst);
       mTimeZone = TimeZone::forZoneSpecifier(&mManualZoneSpecifier);
       preserveInfo();
     }
