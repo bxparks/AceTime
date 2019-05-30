@@ -20,7 +20,7 @@
 #include "ace_time/LocalTime.h"
 #include "ace_time/LocalDateTime.h"
 #include "ace_time/TimeOffset.h"
-#include "ace_time/utc_offset_mutation.h"
+#include "ace_time/time_offset_mutation.h"
 #include "ace_time/OffsetDateTime.h"
 #include "ace_time/ZoneSpecifier.h"
 #include "ace_time/ManualZoneSpecifier.h"

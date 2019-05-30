@@ -1,15 +1,15 @@
-#ifndef ACE_TIME_UTC_OFFSET_MUTATION_H
-#define ACE_TIME_UTC_OFFSET_MUTATION_H
+#ifndef ACE_TIME_TIME_OFFSET_MUTATION_H
+#define ACE_TIME_TIME_OFFSET_MUTATION_H
 
 #include <stdint.h>
 #include "common/util.h"
 #include "TimeOffset.h"
 
 namespace ace_time {
-namespace utc_offset_mutation {
+namespace time_offset_mutation {
 
 /**
- * @file utc_offset_mutation.h
+ * @file time_offset_mutation.h
  *
  * Methods that mutate a TimeOffset object.
  *
@@ -23,7 +23,7 @@ namespace utc_offset_mutation {
  *
  * @code{.cpp}
  * TimeOffset offset(...);
- * utc_offset_mutation::incrementHour(offset);
+ * time_offset_mutation::incrementHour(offset);
  * @code
  */
 

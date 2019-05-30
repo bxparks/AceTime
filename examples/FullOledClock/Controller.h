@@ -199,7 +199,7 @@ class Controller {
           {
             mSuppressBlink = true;
             TimeOffset offset = mChangingClockInfo.zoneSpecifier.stdOffset();
-            utc_offset_mutation::incrementHour(offset);
+            time_offset_mutation::incrementHour(offset);
             mChangingClockInfo.zoneSpecifier.stdOffset(offset);
           }
           break;
@@ -207,7 +207,7 @@ class Controller {
           {
             mSuppressBlink = true;
             TimeOffset offset = mChangingClockInfo.zoneSpecifier.stdOffset();
-            utc_offset_mutation::increment15Minutes(offset);
+            time_offset_mutation::increment15Minutes(offset);
             mChangingClockInfo.zoneSpecifier.stdOffset(offset);
           }
           break;

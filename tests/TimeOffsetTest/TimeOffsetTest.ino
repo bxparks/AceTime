@@ -68,7 +68,7 @@ test(TimeOffsetTest, error) {
 }
 
 // --------------------------------------------------------------------------
-// utc_offset_mutation
+// time_offset_mutation
 // --------------------------------------------------------------------------
 
 test(TimeOffsetMutationTest, incrementHour) {
@@ -76,23 +76,23 @@ test(TimeOffsetMutationTest, incrementHour) {
   uint8_t minute;
 
   TimeOffset offset = TimeOffset::forMinutes(0);
-  utc_offset_mutation::incrementHour(offset);
+  time_offset_mutation::incrementHour(offset);
   assertEqual((int16_t) 60, offset.toMinutes());
 
   offset = TimeOffset::forHourMinute(1, 45);
-  utc_offset_mutation::incrementHour(offset);
+  time_offset_mutation::incrementHour(offset);
   offset.toHourMinute(hour, minute);
   assertEqual(2, hour);
   assertEqual(45, minute);
 
   // Wrap around at 16h to -16h, but keep the minutes the same.
   offset = TimeOffset::forHourMinute(15, 45);
-  utc_offset_mutation::incrementHour(offset);
+  time_offset_mutation::incrementHour(offset);
   offset.toHourMinute(hour, minute);
   assertEqual(-15, hour);
   assertEqual(45, minute);
 
-  utc_offset_mutation::incrementHour(offset);
+  time_offset_mutation::incrementHour(offset);
   offset.toHourMinute(hour, minute);
   assertEqual(-14, hour);
   assertEqual(45, minute);
@@ -104,44 +104,44 @@ test(TimeOffsetMutationTest, increment15Minutes) {
 
   TimeOffset offset;
 
-  utc_offset_mutation::increment15Minutes(offset);
+  time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
   assertEqual(0, hour);
   assertEqual(15, minute);
 
-  utc_offset_mutation::increment15Minutes(offset);
+  time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
   assertEqual(0, hour);
   assertEqual(30, minute);
 
-  utc_offset_mutation::increment15Minutes(offset);
+  time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
   assertEqual(0, hour);
   assertEqual(45, minute);
 
   // Wrap the minute.
-  utc_offset_mutation::increment15Minutes(offset);
+  time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
   assertEqual(0, hour);
   assertEqual(0, minute);
 
   offset = TimeOffset::forHourMinute(-1, 0);
-  utc_offset_mutation::increment15Minutes(offset);
+  time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
   assertEqual(-1, hour);
   assertEqual(15, minute);
 
-  utc_offset_mutation::increment15Minutes(offset);
+  time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
   assertEqual(-1, hour);
   assertEqual(30, minute);
 
-  utc_offset_mutation::increment15Minutes(offset);
+  time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
   assertEqual(-1, hour);
   assertEqual(45, minute);
 
-  utc_offset_mutation::increment15Minutes(offset);
+  time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
   assertEqual(-1, hour);
   assertEqual(0, minute);

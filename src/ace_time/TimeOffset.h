@@ -14,7 +14,7 @@ namespace ace_time {
 // declarations and just use the forOffsetCode() factory method instead. I
 // haven't looked into this.
 class TimeOffset;
-namespace utc_offset_mutation {
+namespace time_offset_mutation {
 void incrementHour(TimeOffset& offset);
 void increment15Minutes(TimeOffset& offset);
 }
@@ -148,8 +148,8 @@ class TimeOffset {
     friend class OffsetDateTime; // forOffsetStringChainable()
     friend class TimeOffsetMutator;
     friend bool operator==(const TimeOffset& a, const TimeOffset& b);
-    friend void utc_offset_mutation::incrementHour(TimeOffset& offset);
-    friend void utc_offset_mutation::increment15Minutes(TimeOffset& offset);
+    friend void time_offset_mutation::incrementHour(TimeOffset& offset);
+    friend void time_offset_mutation::increment15Minutes(TimeOffset& offset);
 
     /** Sentinel value that represents an error. */
     static const int8_t kErrorCode = -128;
