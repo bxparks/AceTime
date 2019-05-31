@@ -66,7 +66,7 @@ The AceTime library is inspired by and borrows from:
 UTC offsets are internally represented as a single byte representing 15-minute
 increments which supports every time zone offset currently used today.
 
-Version: 0.1 (2019-05-31)
+Version: In-progress (2019-05-20)
 
 ## Installation
 
@@ -296,12 +296,48 @@ We can go the other way and create a `LocalDateTime` from the Epoch Seconds:
 LocalDateTime localDateTime = LocalDateTime::forEpochSeconds(1514764800L);
 localDateTime.printTo(Serial); // prints "2018-01-01T00:00:00"
 ```
+### TimeOffset
+
+A `TimeOffset` class represents an amount of time shift from a reference point.
+Often the reference is the UTC time and this class represents the amount of time
+shift from UTC. Currently (year 2019) every time zone in the world is shifted
+from UTC by a multiple of 15 minutes (e.g. -03:30 or +01:00). `TimeOffset` is a
+thin wrapper around a single 8-bit signed integer which can encode integers from
+[-128, 127]. Internally -128 is used to indicate an error condition, so we can
+represent a UTC shift of from -31:45 to +31:45 hours, which is more than enough
+to encode all UTC offsets currently in use.
+
+A `TimeOffset` can be created using a number of factory methods:
+```C++
+TimeOffset offset = TimeOffset::forHour(-8); // -08:00
+TimeOffset offset = TimeOffset::forHourMinute(-2, 30); // -02:30
+TimeOffset offset = TimeOffset::forMinutes(135); // +02:15
+```
+
+A `TimeOffset` instance can be converted into different formats:
+```C++
+int32_t seconds = offset.toSeconds();
+int16_t minutes = offset.toMinutes();
+
+int8_t hour;
+uint8_t minute;
+offset.toHourMinute(&hour, &minute);
+```
+
+When a method returns a `TimeOffset`, it is useful to return an error indicator
+which can be created by the special factory method `TimeOffset::forError()`. It
+returns an instance whose `TimeOffset::isError()` returns `true`. Internally,
+this is an instance whose internal integer code is -128.
+
+The convenience method `TimeOffset::isZero()` returns `true` if the offset has a
+zero offset. This is often used to determine if a timezone is currently
+observing Daylight Saving Time (DST).
 
 ### OffsetDateTime
 
 An `OffsetDateTime` is an object that can represent a date&time which is
 offset from the UTC time zone by a fixed amount of time. Internally the
-`OffsetDateTime` is a combination of `LocalDateTime` and `TimeOffset`. We can
+`OffsetDateTime` is a aggregation of `LocalDateTime` and `TimeOffset`. We can
 create the object using the `forComponents()` method:
 ```C++
 // 2018-01-01 00:00:00+00:15
@@ -315,8 +351,8 @@ Serial.println(epochDays); // prints 6574
 Serial.println(epochSeconds); // prints 568079100
 ```
 
-You can go the other way and create a `DateTime` object from the seconds from
-Epoch:
+You can create a `DateTime` object from the seconds from Epoch using
+the `forEpochSeconds()` method:
 ```C++
 OffsetDateTime offsetDateTime = OffsetDateTime::forEpochSeconds(
     568079100, TimeOffset::forHourMinute(0, 15));
