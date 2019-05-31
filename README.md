@@ -13,7 +13,7 @@ The date and time classes provide a thin abstraction for date and time fields,
 mostly to allow conversion from Gregorian calendar components to epoch seconds.
 
 Compared to the Arduino Time Library, here are the main differences:
-1. AceTime provides more absstraction to make it easier to use. For example,
+1. AceTime provides more abstraction to make it easier to use. For example,
   you can create multiple instances of the system clock if you need to.
 1. AceTime supports all zones defined by the TZ Database and corrects for
   DST (daylight saving time) transitions automatically.
@@ -66,7 +66,7 @@ The AceTime library is inspired by and borrows from:
 UTC offsets are internally represented as a single byte representing 15-minute
 increments which supports every time zone offset currently used today.
 
-Version: In-progress (2019-05-20)
+Version: 0.1 (2019-05-31)
 
 ## Installation
 
@@ -141,31 +141,35 @@ The following example sketches are provided:
 
 Only a single header file `AceTime.h` is required to use this library.
 To prevent name clashes with other libraries that the calling code may use, all
-classes are separated into a number of namespaces.
+classes are separated into a number of namespaces. They are related in the
+following way, where the arrow means "depends on":
 
-* Common utilities (`namespace ace_time::common`)
-    * e.g. `DateStrings`
-* Zone database files (`namespace ace_time::zonedb`, `ace_time::zonedbx`)
-    * e.g. `zonedb::kZoneAmerica_Los_Angeles`
-* Date Time primitives (`namespace ace_time`)
-    * e.g. `ZonedDateTime`, `TimeZone`, `ZoneSpecifier`, `TimePeriod`
-* Time providers (`namespace ace_time::provider`)
-    * e.g. `SystemTimeKeeper`, `NtpTimeProvider`, `DS3231TimeKeeper`
-
-Each namespace in the above depends on the classes of the previous namespace.
-The `ace_time::provider` is mostly independent of `ace_time` except that
-`DS3231TimeKeeper` uses `LocalDateTime` to convert between `epochSeconds`
-and the `LocalDateTime`.
-
-To use the classes without prepending the `ace_time::`, `ace_time::provider::`
-or `ace_tme::common` prefixes, use one or more of the following `using`
-directives:
+```
+ace_time::provider
+        |       \
+        |        \
+        |         v
+        |         ace_time
+        |          /|\    \
+        |         / | \    v
+        |        /  |  \    ace_time::zonedb
+        |       /   |   \   ace_time::zonedbx
+        |      /    |    \     |
+        v     v     v     v    v
+ace_time::hw  ace_time::  ace_time::basic
+              common      ace_time::extended
+```
+To use the classes without prepending the namespace prefixes, use one or more of
+the following `using` one or more of the following directives:
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
 using namespace ace_time::provider;
 using namespace ace_time::common;
+using namespace ace_time::zonedb;
+using namespace ace_time::zonedbx;
+...
 ```
 
 ### Epoch Seconds Typedef
