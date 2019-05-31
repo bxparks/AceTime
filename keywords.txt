@@ -16,6 +16,7 @@ OffsetDateTime	KEYWORD1
 ZoneSpecifier	KEYWORD1
 ManualZoneSpecifier	KEYWORD1
 BasicZoneSpecifier	KEYWORD1
+ExtendedZoneSpecifier	KEYWORD1
 TimeZone	KEYWORD1
 ZonedDateTime	KEYWORD1
 TimePeriod	KEYWORD1
@@ -39,6 +40,40 @@ monthShortString	KEYWORD2
 weekDayLongString	KEYWORD2
 weekDayShortString	KEYWORD2
 
+# LocalDate.h
+forEpochDays	KEYWORD2
+forUnixDays	KEYWORD2
+forEpochSeconds	KEYWORD2
+forUnixSeconds	KEYWORD2
+forDateString	KEYWORD2
+forError	KEYWORD2
+isLeapYear	KEYWORD2
+daysInMonth	KEYWORD2
+year	KEYWORD2
+yearTiny	KEYWORD2
+month	KEYWORD2
+day	KEYWORD2
+dayOfWeek	KEYWORD2
+isError	KEYWORD2
+toEpochDays	KEYWORD2
+toUnixDays	KEYWORD2
+toEpochSeconds	KEYWORD2
+toUnixSeconds	KEYWORD2
+compareTo	KEYWORD2
+printTo	KEYWORD2
+
+# LocalTime.h
+forSeconds	KEYWORD2
+forTimeString	KEYWORD2
+forError	KEYWORD2
+isError	KEYWORD2
+hour	KEYWORD2
+minute	KEYWORD2
+second	KEYWORD2
+toSeconds	KEYWORD2
+compareTo	KEYWORD2
+printTo	KEYWORD2
+
 # LocalDateTime.h
 forComponents	KEYWORD2
 forEpochSeconds	KEYWORD2
@@ -46,14 +81,28 @@ forUnixSeconds	KEYWORD2
 forDateString	KEYWORD2
 isError	KEYWORD2
 year	KEYWORD2
-yearShort	KEYWORD2
+yearTiny	KEYWORD2
 month	KEYWORD2
 day	KEYWORD2
 hour	KEYWORD2
 minute	KEYWORD2
 second	KEYWORD2
+localDate	KEYWORD2
+localTime	KEYWORD2
 dayOfWeek	KEYWORD2
-timeOffset	KEYWORD2
+printTo	KEYWORD2
+
+# TimeOffset.h
+forHour	KEYWORD2
+forHourMinute	KEYWORD2
+forMinutes	KEYWORD2
+forOffsetString	KEYWORD2
+isZero	KEYWORD2
+toOffsetCode	KEYWORD2
+toMinutes	KEYWORD2
+toSeconds	KEYWORD2
+toHourMinute	KEYWORD2
+isError	KEYWORD2
 printTo	KEYWORD2
 
 # OffsetDateTime.h
@@ -63,14 +112,12 @@ forUnixSeconds	KEYWORD2
 forDateString	KEYWORD2
 isError	KEYWORD2
 year	KEYWORD2
-yearShort	KEYWORD2
 month	KEYWORD2
 day	KEYWORD2
 hour	KEYWORD2
 minute	KEYWORD2
 second	KEYWORD2
 dayOfWeek	KEYWORD2
-timeOffset	KEYWORD2
 convertToTimeOffset	KEYWORD2
 printTo	KEYWORD2
 toEpochDays	KEYWORD2
@@ -84,9 +131,10 @@ forComponents	KEYWORD2
 forEpochSeconds	KEYWORD2
 forUnixSeconds	KEYWORD2
 forDateString	KEYWORD2
+forError	KEYWORD2
 isError	KEYWORD2
 year	KEYWORD2
-yearShort	KEYWORD2
+yearTiny	KEYWORD2
 month	KEYWORD2
 day	KEYWORD2
 hour	KEYWORD2
@@ -94,6 +142,7 @@ minute	KEYWORD2
 second	KEYWORD2
 dayOfWeek	KEYWORD2
 timeOffset	KEYWORD2
+timeZone	KEYWORD2
 convertToTimeZone	KEYWORD2
 printTo	KEYWORD2
 toEpochDays	KEYWORD2
@@ -102,55 +151,61 @@ toEpochSeconds	KEYWORD2
 toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
 
-# DateTimeMutator
+# date_time_mutation.h
 incrementYear	KEYWORD2
 incrementMonth	KEYWORD2
 incrementDay	KEYWORD2
 incrementHour	KEYWORD2
 incrementMinute	KEYWORD2
 
-# TimeOffset.h
-forHour	KEYWORD2
-forHourMinute	KEYWORD2
-forMinutes	KEYWORD2
-forOffsetString	KEYWORD2
-code	KEYWORD2
-toSeconds	KEYWORD2
-toMinutes	KEYWORD2
-toHourMinute	KEYWORD2
-isError	KEYWORD2
-isDst	KEYWORD2
-printTo	KEYWORD2
-
-# TimeOffsetMutator.h
+# time_offset_mutation.h
 incrementHour	KEYWORD2
 increment15Minutes	KEYWORD2
 
-# ZoneSpecifier
+# ZoneSpecifier.h
 getType	KEYWORD2
+getUtcOffset	KEYWORD2
+getDeltaOffset	KEYWORD2
+getAbbrev	KEYWORD2
+getUtcOffsetForDateTime	KEYWORD2
+printTo	KEYWORD2
 
-# ManualZoneSpecifier
+# ManualZoneSpecifier.h
 getType	KEYWORD2
-stdOffset	KEYWORD2
-deltaOffset	KEYWORD2
 isDst	KEYWORD2
 dstAbbrev	KEYWORD2
 stdAbbrev	KEYWORD2
+deltaOffset	KEYWORD2
+getUtcOffset	KEYWORD2
 getTimeOffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
+getUtcOffsetForDateTime	KEYWORD2
 
-# ManualZoneSpecifier
+# BasicZoneSpecifier.h
 getType	KEYWORD2
-getTimeOffset	KEYWORD2
+getUtcffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
+getUtcOffsetForDateTime	KEYWORD2
+printTo	KEYWORD2
+
+# ExtendedZoneSpecifier.h
+getType	KEYWORD2
+getUtcffset	KEYWORD2
+getDeltaOffset	KEYWORD2
+getAbbrev	KEYWORD2
+getUtcOffsetForDateTime	KEYWORD2
+printTo	KEYWORD2
+resetTransitionHighWater	KEYWORD2
+getTransitionHighWater	KEYWORD2
 
 # TimeZone.h
 getType	KEYWORD2
 getTimeOffset	KEYWORD2
 getAbbrev	KEYWORD2
 printTo	KEYWORD2
+printAbbrevTo	KEYWORD2
 
 # TimePeriod.h
 hour	KEYWORD2
@@ -171,11 +226,25 @@ sendRequest	KEYWORD2
 isResponseReady	KEYWORD2
 readResponse	KEYWORD2
 
+# NtpTimeProvider.h
+setup	KEYWORD2
+getServer	KEYWORD2
+isSetup	KEYWORD2
+getNow	KEYWORD2
+sendRequest	KEYWORD2
+isResponseReady	KEYWORD2
+readResponse	KEYWORD2
+
 # TimeKeeper.h
 setNow	KEYWORD2
 
 # SystemTimeKeeper.h
+setup	KEYWORD2
+getNow	KEYWORD2
+setNow	KEYWORD2
+sync	KEYWORD2
 getLastSyncTime	KEYWORD2
+isInit	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
@@ -192,11 +261,20 @@ kTypeExtended	LITERAL1
 
 # LocalDate.h
 kEpochYear	LITERAL1
+kInvalidYearTiny	LITERAL1
+kMinYearTiny	LITERAL1
 kInvalidEpochDays	LITERAL1
 kInvalidEpochSeconds	LITERAL1
 kSecondsSinceUnixEpoch	LITERAL1
 kDaysSinceUnixEpoch	LITERAL1
 kDaysSinceJulianEpoch	LITERAL1
+kMonday	LITERAL1
+kTuesday	LITERAL1
+kWednesday	LITERAL1
+kThursday	LITERAL1
+kFriday	LITERAL1
+kSaturday	LITERAL1
+kSunday	LITERAL1
 
 # LocalTime.h
 kInvalidSeconds	LITERAL1
