@@ -906,11 +906,11 @@ is waiting for a response from the NTP server.
 
 This library was developed and tested using:
 
-* [Arduino IDE 1.8.5 - 1.8.7](https://www.arduino.cc/en/Main/Software)
-* [ESP8266 Arduino Core 2.4.2](https://arduino-esp8266.readthedocs.io/en/2.4.2/)
-* [arduino-esp32](https://github.com/espressif/arduino-esp32)
+* [Arduino IDE 1.8.9](https://www.arduino.cc/en/Main/Software)
+* [ESP8266 Arduino Core 2.5.1](https://github.com/esp8266/Arduino)
+* [ESP32 Arduino Core 1.0.2](https://github.com/espressif/arduino-esp32)
 
-I used Ubuntu 17.10 for most of my development.
+I used Ubuntu 18.04 for most of my development.
 
 The library is tested on the following hardware before each release:
 
