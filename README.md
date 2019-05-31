@@ -168,7 +168,7 @@ using namespace ace_time::provider;
 using namespace ace_time::common;
 ```
 
-### Epoch Typedef
+### Epoch Seconds Typedef
 
 One of the fundamental types in AceTime is the `acetime_t` defined as:
 ```C++
@@ -197,7 +197,7 @@ LocalTime localTime = LocalTime::forComponents(13, 0, 0);
 ```
 
 You can ask the `LocalDate` to determine its day of the week, which returns
-an integer where `1=Monday` and `7=Sunday` per 
+an integer where `1=Monday` and `7=Sunday` per
 [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601):
 ```C++
 uint8_t dayOfWeek = localDate.dayOfWeek();
@@ -306,7 +306,7 @@ create the object using the `forComponents()` method:
 ```C++
 // 2018-01-01 00:00:00+00:15
 OffsetDateTime offsetDateTime = OffsetDateTime::forComponents(
-    2018, 1, 1, 0, 0, 0, TimeOffset::forHourMinute(1, 0, 15));
+    2018, 1, 1, 0, 0, 0, TimeOffset::forHourMinute(0, 15));
 acetime_t epochDays = offsetDateTime.toEpochDays();
 acetime_t epochSeconds = offsetDateTime.toEpochSeconds();
 
@@ -319,7 +319,7 @@ You can go the other way and create a `DateTime` object from the seconds from
 Epoch:
 ```C++
 OffsetDateTime offsetDateTime = OffsetDateTime::forEpochSeconds(
-    568079100, TimeOffset::forHourMinute(0, 0, 15));
+    568079100, TimeOffset::forHourMinute(0, 15));
 ```
 
 ### Invalid LocalDateTime or OffsetDateTime
@@ -335,18 +335,52 @@ creates an object which returns `true` for the `isError()` method.
 
 ### TimeZone
 
-A `ZonedDateTime` is an `OffsetDateTime` which also knows about its
-`TimeZone`. The **AceTime** library supports 4 different types of `TimeZone`
-roughly as follows:
+A `TimeZone` class represents a physical (or conceptual) region whose local time
+is offset by a certain amount from the UTC time. The UTC offset could be a fixed
+amount. Or the offset could be fixed with a user-selectable DST flag that
+increases the offset by one hour. Or the offset could be algorithmically
+determined using rules which are encoded by the TZ Database. The `TimeZone`
+class supports all these modes.
 
-    * `TimeZone::kTypeFixed` representing a fixed offset from UTC
-    * `TimeZone::kTypeZoneSpecifier` (3 subtypes)
-        * `ZoneSpecifier::kManual`: user-defined fixed offset
-        * `ZoneSpecifier::kBasic`: a subset of the zones in the TZ database
-        * `ZoneSpecifier::kExtended`:  all zones in the TZ database
+The 4 different types of `TimeZone` are as follows:
 
-To keep the tutorial simple, I will discuss only the `kTypeFixed` here. The
-`kTypeZoneSpecifier` is described later.
+* `TimeZone::kTypeFixed`: a fixed offset from UTC
+* `TimeZone::kTypeZoneSpecifier` with `ManualZoneSpecifier`: user-defined fixed offset
+* `TimeZone::kTypeZoneSpecifier` with `BasicZoneSpecifier`: zones with
+   simple rules in the TZ Database
+* `TimeZone::kTypeZoneSpecifier` with `ExtendedZoneSpecifier`:  all zones in the TZ Database
+
+The `TimeZone` class exposes the following methods:
+```C++
+class TimeZone {
+  public:
+    TimeOffset getUtcOffset(acetime_t epochSeconds) const;
+    TimeOffset getDeltaOffset(acetime_t epochSeconds) const;
+    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const;
+    void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
+    ...
+};
+```
+
+The `getUtcOffset(epochSeconds)` returns the total `TimeOffset` including any
+DST offset at the given `epochSeconds`. The `getDeltaOffset()` returns only the
+additional DST offset; if DST is not in effect at the given `epochSeconds`, this
+returns 0.
+
+The `getUtcOffsetForDateTime()` method returns the best guess of the total UTC
+offset at the given local date time. The local date time is sometime ambiguious
+during a DST transition. For example, if the local clock shifts from 01:00 to
+02:00 at the start of summer, then the time of 01:30 does not exist. If the
+`getUtcOffsetForDateTime()` method is given a non-existing time, it must make an
+educated guess at what the user meant. Additionally, when the local time
+transitions from 02:00 to 01:00 in the autumn, a given local time such as 01:30
+occurs twice. If the `getUtcOffsetForDateTime()` method is given a time of
+01:30, it will arbitrarily decide the offset to return.
+
+The `printAbbrevTo(epochSeconds)` method prints the human-readable timezone
+abbreviation used at the given `epochSeconds`.
+
+#### Fixed TimeZone
 
 The default constructor creates a fixed `TimeZone` in UTC time zone with no
 offset:
@@ -354,29 +388,129 @@ offset:
 TimeZone tz; // UTC+00:00
 ```
 
-Here is a fixed `TimeZone` for UTC-08:00:
+To create `TimeZone` instances with other offsets, use one of the factory
+methods:
 ```C++
-TimeZone tz(Utc::forHour(-8)); // UTC-08:00
+TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8)); // UTC-08:00
+TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, 30)); // UTC-04:30
 ```
+
+#### ManualZoneSpecifier
+
+The following creates a `TimeZone` using a `ManualZoneSpecifier` which
+is set to be UTC-08:00 normally, but can change to UTC-07:00 when the
+`ManualZoneSpecifier::isDst(true)` is called:
+
+```C++
+ManualZoneSpecifier zoneSpecifier(TimeOffset::forHour(-8), false, "PST", "PDT");
+
+void someFunction() {
+  ...
+  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  TimeOffset offset = tz.getUtcOffset(0); // returns -08:00
+  zoneSpecifier.isDst(true);
+  offset = tz.getUtcOffset(0); // returns -07:00
+  ...
+}
+```
+
+#### BasicZoneSpecifier
+
+The following creates a `TimeZone` using a `BasicZoneSpecifier` which is
+bound to a particular geo-political region, in this case `America/Los_Angeles`,
+which can be either Pacific Standard Time or Pacific Daylight Time. Instances
+of `ZoneSpecifier` is meant to be created once at the start of the application,
+and reused among multiple `TimeZone` instances.
+
+```C++
+BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
+
+void someFunction() {
+  ...
+  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+
+  // 2018-03-11T01:59:59-08:00 was still in STD time
+  {
+    OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
+      TimeOffset::forHour(-8));
+    acetime_t epochSeconds = dt.toEpochSeconds();
+    TimeOffset offset = tz.getUtcOffset(epochSeconds); // returns -08:00
+  }
+
+  // 2018-03-11T02:00:00-08:00 was in DST time
+  {
+    OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
+      TimeOffset::forHour(-8));
+    acetime_t epochSeconds = dt.toEpochSeconds();
+    TimeOffset offset = tz.getUtcOffset(epochSeconds); // returns -07:00
+  }
+  ...
+}
+```
+
+#### ExtendedZoneSpecifier
+
+The `ExtendedZoneSpecifier` is pretty much the same as `BasicZoneSpecifier`
+except that it supports all zones in the TZ Database, intead of a subset. It
+uses the zone files in the `zonedbx` namespace, instead of the `zonedb`
+namespace. In other words, `zonedb::kZoneAmerica_Los_Angeles` is replaced
+with `zonedbx::kZoneAmerica_Los_Angeles`. The usage is the same:
+```C++
+ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+
+void someFunction() {
+  ...
+  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+
+  // 2018-03-11T01:59:59-08:00 was still in STD time
+  {
+    OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
+      TimeOffset::forHour(-8));
+    acetime_t epochSeconds = dt.toEpochSeconds();
+    TimeOffset offset = tz.getUtcOffset(epochSeconds); // returns -08:00
+  }
+
+  // 2018-03-11T02:00:00-08:00 was in DST time
+  {
+    OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
+      TimeOffset::forHour(-8));
+    acetime_t epochSeconds = dt.toEpochSeconds();
+    TimeOffset offset = tz.getUtcOffset(epochSeconds); // returns -07:00
+  }
+  ...
+}
+```
+
+The cost of using `ExtendedZoneSpecifier` instead of `BasicZoneSpecifier` is
+that `ExtendedZoneSpecifier` consumes 5 times more memory and is slower.
+If `BasicZoneSpecifier` supports the zone that you are interested in
+using the zone files in the `zonedb::` namespace, you should normally use that
+instead of `ExtendedZoneSpecifier`.
 
 ### ZonedDateTime
 
 A `ZonedDateTime` is a `LocalDateTime` associated with a given `TimeZone`. This
-is similar to an `OffsetDateTime` being a `LocalDateTime` associated with a
-given `TimeOffset`. (I will show later how a `ZonedDateTime` is more powerful
-than an `OffsetDateTime`.)
+is analogous to an`OffsetDateTime` being a `LocalDateTime` associated with a
+`TimeOffset`.
 
 ```C++
-// 2018-01-01 00:00:00+00:15
-ZonedDateTime zonedDateTime = ZonedDateTime::forComponents(
-    2018, 1, 1, 0, 0, 0,
-    TimeZone::forTimeOffset(TimeOffset::forHourMinute(1, 0, 15)));
-acetime_t epochDays = zonedDateTime.toEpochDays();
-acetime_t epochSeconds = zonedDateTime.toEpochSeconds();
+BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
 
-offsetDateTime.printTo(Serial); // prints "2018-01-01 00:00:00+00:15"
-Serial.println(epochDays); // prints 6574
-Serial.println(epochSeconds); // prints 568079100
+void someFunction() {
+  ...
+  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+
+  // 2018-01-01 00:00:00+00:15
+  ZonedDateTime zonedDateTime = ZonedDateTime::forComponents(
+      2018, 1, 1, 0, 0, 0, tz);
+  acetime_t epochDays = zonedDateTime.toEpochDays();
+  acetime_t epochSeconds = zonedDateTime.toEpochSeconds();
+
+  zonedDateTime.printTo(Serial); // prints "2018-01-01 00:00:00-08:00"
+  Serial.println(epochDays); // prints 6574 [TODO: Check]
+  Serial.println(epochSeconds); // prints 568079100 [TODO: Check]
+  ...
+}
 ```
 
 #### Conversion to Other Time Zones
@@ -384,16 +518,25 @@ Serial.println(epochSeconds); // prints 568079100
 You can convert a given `DateTime` object into a representation in a different
 time zone using the `DateTime::convertToTimeZone()` method:
 ```C++
-// Central European Time
-// 2018-01-01T09:20:00+01:00
-DateTime cetTime = DateTime::forComponents(
-    2018, 1, 1, 9, 20, 0, TimeZone::forHour(1));
+BasicZoneSpecifier zspecLosAngeles(&zonedb::kZoneAmerica_Los_Angeles);
+BasicZoneSpecifier zspecZurich(&zonedb::kZoneEurope_Zurich);
 
-// Convert to Pacific Daylight Time.
-// 2018-01-01T01:20:00-07:00
-DateTime pdtTime = dt.convertToTimeZone(TimeZone::forHour(-8).isDst(true));
+void someFunction() {
+  ...
+  TimeZone tzLosAngeles = TimeZone::forZoneSpecifier(&zspecLosAngeles);
+  TimeZone tzZurich = TimeZone::forZoneSpecifier(&zspecZurich);
+
+  // Europe/Zurich, 2018-01-01T09:20:00+01:00
+  ZonedDateTime zurichTime = ZonedDateTime::forComponents(
+      2018, 1, 1, 9, 20, 0, tzZurich);
+
+  // Convert to America/Los_Angeles, 2018-01-01T01:20:00-08:00
+  ZonedDateTime losAngelesTime = zurichTime.convertToTimeZone(tzLosAngeles);
+  ...
+}
 ```
-The two `DateTime` objects return the same value for `epochSeconds()`
+
+The two `ZonedDateTime` objects will return the same value for `epochSeconds()`
 because that is not affected by the time zone. However, the various date time
 components (year, month, day, hour, minute, seconds) will be different.
 
