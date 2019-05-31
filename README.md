@@ -66,7 +66,7 @@ The AceTime library is inspired by and borrows from:
 UTC offsets are internally represented as a single byte representing 15-minute
 increments which supports every time zone offset currently used today.
 
-Version: In-progress (2019-05-20)
+Version: 0.1 (2019-05-31)
 
 ## Installation
 
