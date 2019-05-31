@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['readdatetime',['readDateTime',['../classace__time_1_1hw_1_1DS3231.html#a02066010a27357968cd7b7717d784ba4',1,'ace_time::hw::DS3231']]],
-  ['readresponse',['readResponse',['../classace__time_1_1TimeProvider.html#a091ab9aa2465d08751d9f0cccee6b55e',1,'ace_time::TimeProvider']]],
-  ['readtemperature',['readTemperature',['../classace__time_1_1hw_1_1DS3231.html#a88b11c8c9be5bee0075bcb28b1a6b107',1,'ace_time::hw::DS3231']]],
-  ['readwithcrc',['readWithCrc',['../classace__time_1_1hw_1_1CrcEeprom.html#a005f7f5ddff83bcb20d22fe3342dc9c8',1,'ace_time::hw::CrcEeprom']]]
+  ['offsetcode',['offsetCode',['../structace__time_1_1extended_1_1Transition.html#a37672328bfbd775bec2c37cd2bc6f38e',1,'ace_time::extended::Transition']]],
+  ['offsetdatetime',['OffsetDateTime',['../classace__time_1_1OffsetDateTime.html#a36910b1403ba764f3e29675424760e6c',1,'ace_time::OffsetDateTime']]],
+  ['operator_3d',['operator=',['../classace__time_1_1ManualZoneSpecifier.html#a5b5c02c68a678880233ca7ee9b869bb8',1,'ace_time::ManualZoneSpecifier']]]
 ];

@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['datetime',['DateTime',['../classace__time_1_1DateTime.html#a3f8b24aae8b7c022cfd6ae5c31d9353d',1,'ace_time::DateTime::DateTime()'],['../classace__time_1_1DateTime.html#a3dc872eef8f92ecc706df498290a15a8',1,'ace_time::DateTime::DateTime(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second, TimeZone timeZone=TimeZone(0))'],['../classace__time_1_1DateTime.html#a6010806cf09f362d9fcaf0e673f856be',1,'ace_time::DateTime::DateTime(uint32_t secondsSinceEpoch, TimeZone timeZone=TimeZone(0))']]],
-  ['day',['day',['../classace__time_1_1DateTime.html#a401e7a3808d669a81871f10c00e563de',1,'ace_time::DateTime::day() const'],['../classace__time_1_1DateTime.html#ac70ff335fbef3ae11660e6a13cd1d757',1,'ace_time::DateTime::day(uint8_t day)']]],
-  ['dayofweek',['dayOfWeek',['../classace__time_1_1DateTime.html#a5c058ad7ff63200a142a43ba4df99765',1,'ace_time::DateTime']]],
-  ['ds3231',['DS3231',['../classace__time_1_1hw_1_1DS3231.html#adb09db1034cb58b3b9ca2bc3f8207c0d',1,'ace_time::hw::DS3231']]]
+  ['compareto',['compareTo',['../classace__time_1_1LocalDate.html#a1ba19edcadd27859bd542a52f68d2ea4',1,'ace_time::LocalDate::compareTo()'],['../classace__time_1_1LocalDateTime.html#a6e10613abd8e759c3ee8e4659914b5e8',1,'ace_time::LocalDateTime::compareTo()'],['../classace__time_1_1LocalTime.html#a5e34711f1794047fce93ce3c9a1ed1f7',1,'ace_time::LocalTime::compareTo()'],['../classace__time_1_1OffsetDateTime.html#afc66a21eda00fdc14e37e3e2e2345604',1,'ace_time::OffsetDateTime::compareTo()'],['../classace__time_1_1TimePeriod.html#adc66dedd423e4de76fa79846189083a3',1,'ace_time::TimePeriod::compareTo()'],['../classace__time_1_1ZonedDateTime.html#a699e5b7d3ccf3e89822aa78a892635dd',1,'ace_time::ZonedDateTime::compareTo()']]],
+  ['converttotimeoffset',['convertToTimeOffset',['../classace__time_1_1OffsetDateTime.html#a1e458da9c66d2d483fbc1f298ebd1274',1,'ace_time::OffsetDateTime']]],
+  ['converttotimezone',['convertToTimeZone',['../classace__time_1_1ZonedDateTime.html#aa89e9d3d4c232df6c499bf7c5053c172',1,'ace_time::ZonedDateTime']]]
 ];

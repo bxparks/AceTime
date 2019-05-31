@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['systemtimekeeper',['SystemTimeKeeper',['../classace__time_1_1SystemTimeKeeper.html',1,'ace_time']]],
-  ['systemtimeloop',['SystemTimeLoop',['../classace__time_1_1SystemTimeLoop.html',1,'ace_time']]]
+  ['localdate',['LocalDate',['../classace__time_1_1LocalDate.html',1,'ace_time']]],
+  ['localdatetime',['LocalDateTime',['../classace__time_1_1LocalDateTime.html',1,'ace_time']]],
+  ['localtime',['LocalTime',['../classace__time_1_1LocalTime.html',1,'ace_time']]]
 ];

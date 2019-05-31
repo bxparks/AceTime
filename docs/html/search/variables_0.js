@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['kbuffersize',['kBufferSize',['../classace__time_1_1common_1_1DateStrings.html#a70826653bf8b0832dd372897f131b831',1,'ace_time::common::DateStrings']]],
-  ['kdayssincejulianepoch',['kDaysSinceJulianEpoch',['../classace__time_1_1DateTime.html#a79982a646550747774c2bdd89e134191',1,'ace_time::DateTime']]],
-  ['kepochyear',['kEpochYear',['../classace__time_1_1DateTime.html#af2e19374f1b89d0a271d22804f2f504a',1,'ace_time::DateTime']]],
-  ['ksecondssinceunixepoch',['kSecondsSinceUnixEpoch',['../classace__time_1_1DateTime.html#ac7c68af9e1b0b1620c1090ca688ac6b5',1,'ace_time::DateTime']]],
-  ['kshortnamelength',['kShortNameLength',['../classace__time_1_1common_1_1DateStrings.html#abde5f97845b8ffdbff3d6eaf2346ce7a',1,'ace_time::common::DateStrings']]]
+  ['abbrev',['abbrev',['../structace__time_1_1basic_1_1Transition.html#a32036a045f41089f421c447040cc5c9d',1,'ace_time::basic::Transition::abbrev()'],['../structace__time_1_1extended_1_1Transition.html#ae0e25e6c0752e8c2e2668fdb1a2be6d5',1,'ace_time::extended::Transition::abbrev()']]],
+  ['active',['active',['../structace__time_1_1extended_1_1Transition.html#a204b9201f51a3e1a5c26549d6ae6be06',1,'ace_time::extended::Transition']]],
+  ['attimecode',['atTimeCode',['../structace__time_1_1basic_1_1ZoneRule.html#aa731a4af1b7cedb21903a46ea38ade7a',1,'ace_time::basic::ZoneRule::atTimeCode()'],['../structace__time_1_1extended_1_1ZoneRule.html#a004096ccdc4a83713783890299555d70',1,'ace_time::extended::ZoneRule::atTimeCode()']]],
+  ['attimemodifier',['atTimeModifier',['../structace__time_1_1basic_1_1ZoneRule.html#acc3e44cf4dc4a005c15a4e39863a909a',1,'ace_time::basic::ZoneRule::atTimeModifier()'],['../structace__time_1_1extended_1_1ZoneRule.html#a74119f8ff228ee0d79d3dadd2539ac70',1,'ace_time::extended::ZoneRule::atTimeModifier()']]]
 ];

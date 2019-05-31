@@ -1,0 +1,4 @@
+<map id="ace_time::provider::SystemTimeKeeper" name="ace_time::provider::SystemTimeKeeper">
+<area shape="rect" id="node2" href="$classace__time_1_1provider_1_1TimeKeeper.html" title="A TimeProvider whose time can be set by the end&#45;user. " alt="" coords="12,95,153,136"/>
+<area shape="rect" id="node3" href="$classace__time_1_1provider_1_1TimeProvider.html" title="Base class for objects that provide a source of time whose time cannot be changed by the end&#45;user..." alt="" coords="12,5,153,47"/>
+</map>

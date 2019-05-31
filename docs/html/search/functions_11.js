@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['_7etimeprovider',['~TimeProvider',['../classace__time_1_1TimeProvider.html#a2f4920788141f185ad1e5beeecd37fc3',1,'ace_time::TimeProvider']]]
+  ['weekdaylongstring',['weekDayLongString',['../classace__time_1_1common_1_1DateStrings.html#a6c3965ea74d35a7ceb81dc9a34023993',1,'ace_time::common::DateStrings']]],
+  ['weekdayshortstring',['weekDayShortString',['../classace__time_1_1common_1_1DateStrings.html#a429f59611d21da4746f341608e6edc25',1,'ace_time::common::DateStrings']]]
 ];
