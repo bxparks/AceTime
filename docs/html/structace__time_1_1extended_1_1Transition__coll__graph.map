@@ -1,0 +1,7 @@
+<map id="ace_time::extended::Transition" name="ace_time::extended::Transition">
+<area shape="rect" id="node2" href="$structace__time_1_1extended_1_1ZoneMatch.html" title="Data structure that captures the matching ZoneEra and its ZoneRule transitions for a given year..." alt="" coords="803,63,952,105"/>
+<area shape="rect" id="node3" href="$structace__time_1_1extended_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per..." alt="" coords="508,69,657,110"/>
+<area shape="rect" id="node4" href="$structace__time_1_1extended_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region..." alt="" coords="239,61,388,102"/>
+<area shape="rect" id="node5" href="$structace__time_1_1extended_1_1ZoneRule.html" title="A time zone transition rule. " alt="" coords="5,23,155,65"/>
+<area shape="rect" id="node6" href="$structace__time_1_1extended_1_1DateTuple.html" title="A tuple that represents a date and time, using a timeCode that tracks the time component using 15&#45;min..." alt="" coords="508,165,657,206"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="ace_time::provider::TimeKeeper" name="ace_time::provider::TimeKeeper">
+<area shape="rect" id="node3" href="$classace__time_1_1provider_1_1SystemTimeKeeper.html" title="A TimeKeeper that uses the Arduino millis() function to advance the time returned to the user..." alt="" coords="5,184,160,225"/>
+<area shape="rect" id="node2" href="$classace__time_1_1provider_1_1TimeProvider.html" title="Base class for objects that provide a source of time whose time cannot be changed by the end&#45;user..." alt="" coords="12,5,153,47"/>
+</map>

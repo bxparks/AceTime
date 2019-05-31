@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classace__time_1_1provider_1_1SystemTimeHeartbeatCoroutine.html" title="A coroutine that calls SystemTimeKeeper.getNow() peridically. " alt="" coords="137,5,375,47"/>
+<area shape="rect" id="node3" href="$classace__time_1_1provider_1_1SystemTimeSyncCoroutine.html" title="A coroutine that syncs the SystemTimeKeeper with its syncTimeProvider. " alt="" coords="155,71,357,112"/>
+</map>
