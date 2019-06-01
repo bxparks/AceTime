@@ -14,7 +14,6 @@
 #include <AceTime.h>
 
 using namespace ace_time;
-using namespace ace_time::provider;
 
 static BasicZoneSpecifier pacificZone(&zonedb::kZoneAmerica_Los_Angeles);
 static BasicZoneSpecifier easternZone(&zonedb::kZoneAmerica_New_York);

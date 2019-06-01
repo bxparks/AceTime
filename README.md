@@ -1,8 +1,8 @@
 # AceTime
 
-Date and time classes for Arduino with support for
-[TZ database](https://en.wikipedia.org/wiki/Tz_database)
-time zone support. It also supports an enhanced "system clock" that can be
+Date and time classes for Arduino with support for geographical time zones
+in the [TZ database](https://en.wikipedia.org/wiki/Tz_database).
+It also supports an enhanced "system clock" that can be
 synchronized from an external time source, such as an
 [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server
 or a DS3231 RTC chip. This library is meant to be an alternative to the
@@ -12,8 +12,8 @@ or a DS3231 RTC chip. This library is meant to be an alternative to the
 The date and time classes provide a thin abstraction for date and time fields,
 mostly to allow conversion from Gregorian calendar components to epoch seconds.
 Two implementations of the TZ Database are provided: `BasicZoneSpecifier`
-supports 231 zones which have simpler time zone rules, `ExtendedZoneSpecifier`
-supports all 348 geographical zones in the database.
+supports 231 zones which have simpler time zone transition rules,
+`ExtendedZoneSpecifier` supports all 348 geographical zones in the database.
 
 Compared to the Arduino Time Library, here are the main differences:
 1. AceTime provides more abstraction to make it easier to use. For example,
@@ -104,10 +104,72 @@ The AceTime library is inspired by and borrows from:
 * [Noda Time](https://nodatime.org/)
 * [Python datetime](https://docs.python.org/3/library/datetime.html)
 
-UTC offsets are internally represented as a single byte representing 15-minute
-increments which supports every time zone offset currently used today.
-
 Version: 0.1 (2019-05-31)
+
+## HelloTime
+
+Here is a simple program (see [examples/HelloTime](examples/HelloTime)) which
+demonstrates how to create and manipulate date and times in different time
+zones:
+
+```C++
+#include <AceTime.h>
+
+using namespace ace_time;
+
+static BasicZoneSpecifier pacificZone(&zonedb::kZoneAmerica_Los_Angeles);
+static BasicZoneSpecifier easternZone(&zonedb::kZoneAmerica_New_York);
+static ExtendedZoneSpecifier turkeyZone(&zonedbx::kZoneEurope_Istanbul);
+
+void setup() {
+  delay(1000);
+  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  while (!Serial); // Wait until Serial is ready - Leonardo/Micro
+
+  auto pacificTz = TimeZone::forZoneSpecifier(&pacificZone);
+  auto easternTz = TimeZone::forZoneSpecifier(&easternZone);
+  auto turkeyTz = TimeZone::forZoneSpecifier(&turkeyZone);
+
+  // Create from components
+  auto pacificTime = ZonedDateTime::forComponents(
+      2019, 6, 1, 11, 38, 0, pacificTz);
+
+  Serial.print(F("America/Los_Angeles: "));
+  pacificTime.printTo(Serial);
+  Serial.println();
+
+  Serial.print(F("Epoch Seconds: "));
+  acetime_t epochSeconds = pacificTime.toEpochSeconds();
+  Serial.println(epochSeconds);
+
+  Serial.print(F("Unix Seconds: "));
+  acetime_t unixSeconds = pacificTime.toUnixSeconds();
+  Serial.println(unixSeconds);
+
+  // Create from epoch seconds
+  auto easternTime = ZonedDateTime::forEpochSeconds(epochSeconds, easternTz);
+
+  Serial.print(F("America/New_York: "));
+  easternTime.printTo(Serial);
+  Serial.println();
+
+  // Create by conversion to time zone
+  auto turkeyTime = easternTime.convertToTimeZone(turkeyTz);
+
+  Serial.print(F("Europe/Istanbul: "));
+  turkeyTime.printTo(Serial);
+  Serial.println();
+
+  Serial.print(F("pacific.compareTo(turkey): "));
+  Serial.println(pacificTime.compareTo(turkeyTime));
+
+  Serial.print(F("pacific == turkey: "));
+  Serial.println((pacificTime == turkeyTime) ? "true" : "false");
+}
+
+void loop() {
+}
+```
 
 ## Installation
 
