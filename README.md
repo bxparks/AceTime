@@ -11,6 +11,9 @@ or a DS3231 RTC chip. This library is meant to be an alternative to the
 
 The date and time classes provide a thin abstraction for date and time fields,
 mostly to allow conversion from Gregorian calendar components to epoch seconds.
+Two implementations of the TZ Database are provided: `BasicZoneSpecifier`
+supports 231 zones which have simpler time zone rules, `ExtendedZoneSpecifier`
+supports all 348 geographical zones in the database.
 
 Compared to the Arduino Time Library, here are the main differences:
 1. AceTime provides more abstraction to make it easier to use. For example,
@@ -18,10 +21,10 @@ Compared to the Arduino Time Library, here are the main differences:
 1. AceTime supports all zones defined by the TZ Database and corrects for
   DST (daylight saving time) transitions automatically.
 1. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z, where as
-   Arduino Time Library uses the Unix epoch of 1970-01-01T00:00:00Z.
-    * Using an `int32_t` (typedefed as `acetime_t`) to track the number of
-      seconds since the Epoch, the AceTime library can handle all dates from
-      approximately *1931* to the **2068**.
+   Arduino Time Library uses the Unix epoch of 1970-01-01T00:00:00Z. Using an
+   `int32_t` (typedefed as `acetime_t`) to track the number of seconds since the
+   Epoch, the AceTime library can handle all dates from approximately *1931* to
+   **2068**.
 1. AceTime is **2-3X** faster on an ATmega328P, **4X** faster on the ESP8266,
    and **10-20X** faster on the ARM (Teensy) and ESP32 processors.
 1. AceTime begins the week on a Monday, assigning 1=Monday and 7=Sunday, per ISO
@@ -82,7 +85,7 @@ separated into namespaces:
         * `zonedb::kZoneEurope_London`
         * `zonedb::kZoneEurope_Zurich`
         * ...
-    * `ace_time::zonedbx` (all 348 zones from TZ Database)
+    * `ace_time::zonedbx` (all 348 geographical zones from TZ Database)
         * Used by `ExtendedZoneSpecifier`
         * `zonedbx::kZoneAfrica_Cairo`
         * `zonedbx::kZoneAfrica_Casablanca`
@@ -121,13 +124,13 @@ directory used by the Arduino IDE. (The result is a directory named
 
 The source files are organized as follows:
 * `src/AceTime.h` - main header file
-* `src/ace_time/` - implementation files
+* `src/ace_time/` - date and time files
 * `src/ace_time/common/` - internal shared files
 * `src/ace_time/hw/` - thin hardware abstraction layer
 * `src/ace_time/provider/` - providers from RTC or NTP sources
 * `src/ace_time/testing/` - files used in unit tests
-* `src/ace_time/zonedb/` - TZ Database used by `BasicZoneSpecifier`
-* `src/ace_time/zonedbx/` - TZ Database used by `ExtendedZoneSpecifier`
+* `src/ace_time/zonedb/` - files generated from TZ Database for `BasicZoneSpecifier`
+* `src/ace_time/zonedbx/` - files generated from TZ Database for `ExtendedZoneSpecifier`
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `examples/` - example programs
 * `tools/` - scripts to parse the TZ Database files
@@ -1071,29 +1074,51 @@ Teensy 3.2 96MHz            |   1.980 |   22.570 |
 
 ## Bugs and Limitations
 
-* AceTime uses an epoch of 2000-01-01T00:00:00Z.
-  `OffsetDateTime::toEpochSeconds()` returns the number of seconds since the
-  epoch as a 32-bit unsigned integer. So it will rollover just after
-  2136-02-07T06:28:15Z. However, the largest `int32_t` value of `INT32_MAX` is
-  used by `OffsetDateTime::kInvalidEpochSeconds` to indicate an invalid value.
-  Therefore, the actual largest possible dateTime is one second before that,
-  i.e. 2136-02-07T06:28:14Z.
-* It is possible to construct a `DateTime` object with a `year` component
-  greater than 136, but such an object may not be very useful because the
-  `toSecondsSincEpoch()` method would return an incorrect number.
-* The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
-  the IP address of the NTP server. Unfortunately, this seems to be blocking
-  call. When the DNS resolver is working properly, this call returns in ~10ms or
-  less. But sometimes, the DNS resolver seems to get into a state where it takes
-  4-5 **seconds** to time out. Even if you use coroutines, the entire program
-  will block for those 4-5 seconds.
-* [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
-  of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds counter.
-  It will overflow just after 2036-02-07T06:28:15Z.
-* [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
-  1970-01-01T00:00:00Z. On 32-bit Unix systems that use a signed 32-bit integer
-  to represent the seconds field, the unix time will rollover just after
-  2038-01-19T03:14:07Z.
+* `acetime_t`
+    * AceTime uses an epoch of 2000-01-01T00:00:00Z.
+      The `acetime_t` type is a 32-bit signed integer whose largest value is
+      `INT32_MAX`, which corresponds to 2068-01-19T03:14:7Z.
+    * The smallest date the `acetime_t` is `INT32_MIN` but that value is used to
+      indicate an "invalid" value. Therefore, the smallest normal value is
+      `INT32_MIN+1` which corresponds to 1931-12-13T20:45:53.
+* `LocalDate`, `LocalDateTime`
+    * These classes (and all other Date classes which are based on these) use
+      a single 8-bit signed byte to represent the 'year' internally. This saves
+      memory, at the cost of restricting the range.
+    * The value of -128 (INT8_MIN) is used to indicate an "invalid" value, so
+      the actual range is [-127, 127]. This restricts the year range to [1873,
+      2127].
+    * It is possible to construct a `LocalDate` or `LocalDateTime` object with a
+      `year` component greater than 2127, but such an object may not be very
+      useful because the `toSecondsSincEpoch()` method would exceed the range of
+      `acetime_t, so would return an incorrect value.
+* `toUnixSeconds()`
+    * [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
+      1970-01-01T00:00:00Z. On 32-bit Unix systems that use a signed 32-bit
+      integer to represent the seconds field, the unix time will rollover just
+      after 2038-01-19T03:14:07Z.
+* `BasicZoneSpecifier`, `ExtendedZoneSpecifier`
+    * have been tested only between year 2000 and 2038 because the
+      Python [pytz](https://pypi.org/project/pytz/) library supports dates only
+      until Unix Epoch.
+* `ExtendedZoneSpecifier`
+    * There are 5 time zones (as of version 2019a of the TZ Database, see
+      the bottom of `zonedbx/zone_infos.h`) whose DST transitions occur at 00:01
+      (one minute after midnight), which cannot be represented as a multiple of
+      15-minutes. The transition times of these zones have been shifted to the
+      nearest 15-minute boundary, in other words, the transitions occur at 00:00
+      instead of 00:01. Clocks based on `ExtendedZoneSpecifier` will be off by
+      one hour during the 1-minute interval from 00:00 and 00:01.
+* `NtpTimeProvider`
+    * The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
+      the IP address of the NTP server. Unfortunately, this seems to be blocking
+      call. When the DNS resolver is working properly, this call returns in ~10ms or
+      less. But sometimes, the DNS resolver seems to get into a state where it takes
+      4-5 **seconds** to time out. Even if you use coroutines, the entire program
+      will block for those 4-5 seconds.
+    * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
+      of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds counter.
+      It will overflow just after 2036-02-07T06:28:15Z.
 
 ## Changelog
 
