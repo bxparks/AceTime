@@ -5,9 +5,7 @@
  * This should compile on all microcontrollers supported by the Arduino IDE.
  */
 
-#ifdef ARDUINO
 #include <AceRoutine.h> // activate SystemTime coroutines
-#endif
 #include <AceTime.h>
 #include "Benchmark.h"
 
