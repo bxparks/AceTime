@@ -204,8 +204,9 @@ class ZonedDateTime {
     }
 
     /**
-     * Print ZonedDateTime to 'printer'. Does not implement Printable to avoid
-     * memory cost of vtable pointer.
+     * Print ZonedDateTime to 'printer'.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 
@@ -249,9 +250,9 @@ class ZonedDateTime {
     /**
      * Compare this ZonedDateTime with another ZonedDateTime, and return (<0,
      * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b). The
-     * dayOfWeek field is ignored but the time zone is used.  This method can
-     * return 0 (equal) even if the operator==() returns false if the two
-     * ZonedDateTime objects are in different time zones.
+     * dayOfWeek field is ignored.  This method can return 0 (equal) even if
+     * the operator==() returns false if the two ZonedDateTime objects are in
+     * different time zones.
      */
     int8_t compareTo(const ZonedDateTime& that) const {
       return mOffsetDateTime.compareTo(that.mOffsetDateTime);
@@ -282,7 +283,7 @@ class ZonedDateTime {
  * Optimized for small changes in the less signficant fields, such as 'second'
  * or 'minute'. The dayOfWeek is a derived field so it is not explicitly used
  * to test equality, but it follows that if all the other fields are identical,
- * thenthe dayOfWeek must also be equal.
+ * then the dayOfWeek must also be equal.
  */
 inline bool operator==(const ZonedDateTime& a, const ZonedDateTime& b) {
   return a.mOffsetDateTime == b.mOffsetDateTime

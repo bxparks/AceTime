@@ -142,8 +142,9 @@ class LocalTime {
     }
 
     /**
-     * Print LocalTime to 'printer' in ISO 8601 format. Does not implement
-     * Printable to avoid memory cost of a vtable pointer.
+     * Print LocalTime to 'printer' in ISO 8601 format.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 
@@ -152,8 +153,7 @@ class LocalTime {
     LocalTime& operator=(const LocalTime&) = default;
 
   private:
-    friend class LocalDateTime;
-    friend class OffsetDateTime;
+    friend class LocalDateTime; // constructor
     friend bool operator==(const LocalTime& a, const LocalTime& b);
 
     /** Expected length of an ISO 8601 time string "hh:mm:ss" */

@@ -330,8 +330,9 @@ class LocalDate {
 
     /**
      * Print LocalDate to 'printer' in ISO 8601 format, along with the
-     * day of week. Does not implement Printable to avoid memory cost of a
-     * vtable pointer.
+     * day of week.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 

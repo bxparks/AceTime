@@ -209,8 +209,9 @@ class OffsetDateTime {
     }
 
     /**
-     * Print OffsetDateTime to 'printer' in ISO 8601 format. Does not implement
-     * Printable to avoid memory cost of a vtable pointer.
+     * Print OffsetDateTime to 'printer' in ISO 8601 format.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 
@@ -251,7 +252,7 @@ class OffsetDateTime {
      * It returns kInvalidEpochSeconds if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
-     * print the unix seconds.
+     * convert an ISO8601 date to the unix seconds.
      */
     acetime_t toUnixSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
@@ -262,7 +263,7 @@ class OffsetDateTime {
      * Compare this OffsetDateTime with another OffsetDateTime, and return (<0,
      * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b). This
      * method can return 0 (equal) even if the operator==() returns false if
-     * the two OffsetDateTime objects are in different offset zones.
+     * the two OffsetDateTime objects are using different time offsets.
      */
     int8_t compareTo(const OffsetDateTime& that) const {
       acetime_t thisSeconds = toEpochSeconds();

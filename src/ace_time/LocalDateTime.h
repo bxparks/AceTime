@@ -171,8 +171,9 @@ class LocalDateTime {
     const LocalTime& localTime() const { return mLocalTime; }
 
     /**
-     * Print LocalDateTime to 'printer' in ISO 8601 format. Does not implement
-     * Printable to avoid memory cost of a vtable pointer.
+     * Print LocalDateTime to 'printer' in ISO 8601 format.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 
