@@ -117,18 +117,18 @@ zones:
 
 using namespace ace_time;
 
-static BasicZoneSpecifier pacificZone(&zonedb::kZoneAmerica_Los_Angeles);
-static BasicZoneSpecifier easternZone(&zonedb::kZoneAmerica_New_York);
-static ExtendedZoneSpecifier turkeyZone(&zonedbx::kZoneEurope_Istanbul);
+static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
+static BasicZoneSpecifier easternSpec(&zonedb::kZoneAmerica_New_York);
+static ExtendedZoneSpecifier turkeySpec(&zonedbx::kZoneEurope_Istanbul);
 
 void setup() {
   delay(1000);
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
 
-  auto pacificTz = TimeZone::forZoneSpecifier(&pacificZone);
-  auto easternTz = TimeZone::forZoneSpecifier(&easternZone);
-  auto turkeyTz = TimeZone::forZoneSpecifier(&turkeyZone);
+  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
+  auto easternTz = TimeZone::forZoneSpecifier(&easternSpec);
+  auto turkeyTz = TimeZone::forZoneSpecifier(&turkeySpec);
 
   // Create from components
   auto pacificTime = ZonedDateTime::forComponents(
