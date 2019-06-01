@@ -108,10 +108,21 @@ class TimeZone {
           : mZoneSpecifier->getUtcOffsetForDateTime(ldt);
     }
 
-    /** Print the human readable representation of the time zone. */
+    /**
+     * Print the human readable representation of the time zone.
+     *    * kTypeFixed at UTC is printed as "UTC"
+     *    * kTypeFixed at another offset is printed as "+/-hh:mm"
+     *    * kTypeZoneSpecifier is printed as "{zonename}" (e.g.
+     *      "America/Los_Angeles")
+     */
     void printTo(Print& printer) const;
 
-    /** Print the time zone abbreviation for the given epochSeconds. */
+    /**
+     * Print the time zone abbreviation for the given epochSeconds.
+     *    * kTypeFixed at UTC is printed as "UTC"
+     *    * kTypeFixed at another offset is printed as "+/-hh:mm"
+     *    * kTypeZoneSpecifier is printed as "{abbrev}" (e.g. "PDT")
+     */
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 
     /**
