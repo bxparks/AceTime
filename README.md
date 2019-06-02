@@ -171,6 +171,17 @@ void loop() {
 }
 ```
 
+Running this should produce the following on the Serial port:
+```
+ America/Los_Angeles: 2019-06-01T11:38:00-07:00 Saturday [America/Los_Angeles]
+ Epoch Seconds: 612729480
+ Unix Seconds: 1559414280
+ America/New_York: 2019-06-01T14:38:00-04:00 Saturday [America/New_York]
+ Europe/Istanbul: 2019-06-01T21:38:00+03:00 Saturday [Europe/Istanbul]
+ pacific.compareTo(turkey): 0
+ pacific == turkey: false
+```
+
 ## Installation
 
 The latest stable release will soon be available in the Arduino IDE Library
