@@ -21,8 +21,7 @@ static const uint8_t MODE_CHANGE_DAY = 12;
 static const uint8_t MODE_CHANGE_HOUR = 13;
 static const uint8_t MODE_CHANGE_MINUTE = 14;
 static const uint8_t MODE_CHANGE_SECOND = 15;
-static const uint8_t MODE_CHANGE_TIME_ZONE_HOUR = 16;
-static const uint8_t MODE_CHANGE_TIME_ZONE_MINUTE = 17;
+static const uint8_t MODE_CHANGE_TIME_ZONE_OFFSET = 16;
 static const uint8_t MODE_CHANGE_TIME_ZONE_DST = 18;
 static const uint8_t MODE_CHANGE_HOUR_MODE = 19;
 
