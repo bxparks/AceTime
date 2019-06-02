@@ -17,10 +17,9 @@ const uint8_t MODE_CHANGE_HOUR = 13;
 const uint8_t MODE_CHANGE_MINUTE = 14;
 const uint8_t MODE_CHANGE_SECOND = 15;
 
-const uint8_t MODE_CHANGE_TIME_ZONE_HOUR = 20;
-const uint8_t MODE_CHANGE_TIME_ZONE_MINUTE = 21;
-const uint8_t MODE_CHANGE_TIME_ZONE_DST = 22;
-const uint8_t MODE_CHANGE_HOUR_MODE = 23;
+const uint8_t MODE_CHANGE_TIME_ZONE_OFFSET = 20;
+const uint8_t MODE_CHANGE_TIME_ZONE_DST = 21;
+const uint8_t MODE_CHANGE_HOUR_MODE = 22;
 
 #define CLOCK_VERSION_STRING "0.1"
 

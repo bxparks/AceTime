@@ -103,8 +103,7 @@ class Presenter {
           break;
 
         case MODE_TIME_ZONE:
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
         case MODE_CHANGE_HOUR_MODE:
           displayTimeZone();
@@ -190,26 +189,16 @@ class Presenter {
     void displayTimeZone() const {
       mOled.setFont(fixed_bold10x15);
 
-      int8_t hour;
-      uint8_t minute;
       const ManualZoneSpecifier& zoneSpecifier = mRenderingInfo.zoneSpecifier;
-      zoneSpecifier.stdOffset().toHourMinute(hour, minute);
+      TimeOffset offset = zoneSpecifier.stdOffset();
 
       // Don't use F() strings for these short strings. Seems to increase
       // flash memory, while saving only a few bytes of RAM.
       mOled.print("UTC");
-      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_HOUR)) {
-        mOled.print((hour < 0) ? '-' : '+');
-        if (hour < 0) hour = -hour;
-        printPad2(mOled, hour);
+      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
+        offset.printTo(mOled);
       } else {
-        mOled.print("   ");
-      }
-      mOled.print(':');
-      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_MINUTE)) {
-        printPad2(mOled, minute);
-      } else {
-        mOled.print("  ");
+        mOled.print("      "); // 6 spaces to span "+hh:mm"
       }
 
       mOled.println();
