@@ -15,42 +15,24 @@ namespace time_offset_mutation {
  *
  * The number of mutation methods of a TimeOffset object is basically unlimited,
  * so including them in the TimeOffset class would make its API too complex and
- * always incomplete. By extracting them into a separate namespace, we limit
- * the complexity of the TimeOffset class and allow additional mutation methods
- * to be added to this namespace by downstream applications.
+ * incomplete. Instead, they are split off into this separate namespace.
  *
  * Example:
  *
  * @code{.cpp}
- * TimeOffset offset(...);
- * time_offset_mutation::incrementHour(offset);
+ * TimeOffset offset = TimeOffset::forXxx(...);
+ * time_offset_mutation::increment15Minute(offset);
  * @code
  */
 
 /**
- * Increment the TimeOffset by one hour, keeping the minute component
- * unchanged. For usability, limit the hour to [-15, -15].
- * In other words, (UTC+15:45) by one hour wraps to (UTC-15:45).
- */
-inline void incrementHour(TimeOffset& offset) {
-  int8_t code = offset.toOffsetCode();
-  code += 4;
-  if (code >= 64) {
-    code = -code + 4; // preserve the minute component
-  }
-  offset.setOffsetCode(code);
-}
-
-/**
- * Increment the TimeOffset by one zone (i.e. 15 minutes) keeping the hour
- * component unchanged. If the offsetCode is negative, the cycle looks like:
- * (-01:00, -01:15, -01:30, -01:45, -01:00, ...).
+ * Increment the TimeOffset by 15 minute interval. For usability, the range is
+ * limited from -16:00 to +16:00, inclusive, with +16:00 wrapping to -16:00.
  */
 inline void increment15Minutes(TimeOffset& offset) {
-  int8_t code = offset.toOffsetCode();
-  uint8_t ucode = (code < 0) ? -code : code;
-  ucode = (ucode & 0xFC) | (((ucode & 0x03) + 1) & 0x03);
-  offset.setOffsetCode((code < 0) ? -ucode : ucode);
+  int8_t code = offset.toOffsetCode() + 1;
+  if (code > 64) code = -64;
+  offset.setOffsetCode(code);
 }
 
 }

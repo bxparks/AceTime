@@ -9,12 +9,15 @@ using common::printPad2;
 
 void TimeOffset::printTo(Print& printer) const {
   int8_t hour;
-  uint8_t minute;
+  int8_t minute;
   toHourMinute(hour, minute);
 
-  printer.print((hour < 0) ? '-' : '+');
-  if (hour < 0) {
+  if (mOffsetCode < 0) {
+    printer.print('-');
     hour = -hour;
+    minute = -minute;
+  } else {
+    printer.print('+');
   }
   common::printPad2(printer, hour);
   printer.print(':');
@@ -50,7 +53,11 @@ TimeOffset TimeOffset::forOffsetStringChainable(const char*& offsetString) {
   s++;
 
   offsetString = s;
-  return TimeOffset::forHourMinute((utcSign == '+') ? hour : -hour, minute);
+  if (utcSign == '+') {
+    return forHourMinute(hour, minute);
+  } else {
+    return forHourMinute(-hour, -minute);
+  }
 }
 
 }
