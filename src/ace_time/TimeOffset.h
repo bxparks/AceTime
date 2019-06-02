@@ -61,15 +61,16 @@ class TimeOffset {
     }
 
     /**
-     * Create TimeOffset from (hour, minute) offset, where the sign of hour
-     * determines the sign of the offset. The 'minute' must be in multiples of
-     * 15-minutes and is always positive. For example, -07:30 is
-     * 'forHourMinute(-7, 30)'.
+     * Create TimeOffset from (hour, minute) offset. If the offset is negative,
+     * then the negative sign must be added to both the hour and minute
+     * components. This allows a negative offset of less than -01:00 to be
+     * created. The 'minute' must be in multiples of 15-minutes. For example,
+     * -07:30 is created by 'forHourMinute(-7, -30)' (not 'forHourMinute(-7,
+     * 30), and -00:15 is created by 'forHourMinute(0, -15)'.
      */
-    static TimeOffset forHourMinute(int8_t hour, uint8_t minute) {
-      int8_t uhour = (hour < 0) ? -hour : hour;
-      uint8_t code = uhour * 4 + minute / 15;
-      return (hour < 0) ? TimeOffset(-code) : TimeOffset(code);
+    static TimeOffset forHourMinute(int8_t hour, int8_t minute) {
+      int8_t code = hour * 4 + minute / 15;
+      return TimeOffset(code);
     }
 
     /**
@@ -121,12 +122,14 @@ class TimeOffset {
       return (int32_t) 60 * toMinutes();
     }
 
-    /** Extract hour and minute representation of the offset. */
-    void toHourMinute(int8_t& hour, uint8_t& minute) const {
-      uint8_t code = (mOffsetCode < 0) ? -mOffsetCode : mOffsetCode;
-      hour = code / 4;
-      hour = (mOffsetCode < 0) ? -hour : hour;
-      minute = (code & 0x03) * 15;
+    /**
+     * Extract hour and minute representation of the offset. This the inverse
+     * of 'forHourMinute()'. If the TimeOffset is negative, then both the
+     * hour and minute components will contain the negative sign.
+     */
+    void toHourMinute(int8_t& hour, int8_t& minute) const {
+      hour = mOffsetCode / 4;
+      minute = (mOffsetCode % 4) * 15;
     }
 
     /** Return true if this TimeOffset represents an error. */

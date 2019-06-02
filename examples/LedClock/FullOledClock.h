@@ -47,17 +47,14 @@ class FullOledClock: public Clock {
           mMode = MODE_CHANGE_YEAR;
           break;
 
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-          mMode = MODE_CHANGE_TIME_ZONE_MINUTE;
-          break;
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_OFFSET:
           mMode = MODE_CHANGE_TIME_ZONE_DST;
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mMode = MODE_CHANGE_HOUR_MODE;
           break;
         case MODE_CHANGE_HOUR_MODE:
-          mMode = MODE_CHANGE_TIME_ZONE_HOUR;
+          mMode = MODE_CHANGE_TIME_ZONE_OFFSET;
           break;
       }
     }
@@ -82,11 +79,10 @@ class FullOledClock: public Clock {
 
         case MODE_TIME_ZONE:
           mChangingClockInfo = mClockInfo;
-          mMode = MODE_CHANGE_TIME_ZONE_HOUR;
+          mMode = MODE_CHANGE_TIME_ZONE_OFFSET;
           break;
 
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
         case MODE_CHANGE_HOUR_MODE:
           saveClockInfo();
@@ -123,15 +119,7 @@ class FullOledClock: public Clock {
           mSecondFieldCleared = true;
           break;
 
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-          {
-            mSuppressBlink = true;
-            TimeOffset offset = mChangingClockInfo.zoneSpecifier.stdOffset();
-            time_offset_mutation::incrementHour(offset);
-            mChangingClockInfo.zoneSpecifier.stdOffset(offset);
-          }
-          break;
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_OFFSET:
           {
             mSuppressBlink = true;
             TimeOffset offset = mChangingClockInfo.zoneSpecifier.stdOffset();
@@ -167,8 +155,7 @@ class FullOledClock: public Clock {
         case MODE_CHANGE_HOUR:
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
         case MODE_CHANGE_HOUR_MODE:
           mSuppressBlink = false;

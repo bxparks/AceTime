@@ -50,14 +50,11 @@ class OledClock: public Clock {
           mMode = MODE_CHANGE_YEAR;
           break;
 
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-          mMode = MODE_CHANGE_TIME_ZONE_MINUTE;
-          break;
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_OFFSET:
           mMode = MODE_CHANGE_TIME_ZONE_DST;
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
-          mMode = MODE_CHANGE_TIME_ZONE_HOUR;
+          mMode = MODE_CHANGE_TIME_ZONE_OFFSET;
           break;
       }
     }
@@ -82,11 +79,10 @@ class OledClock: public Clock {
 
         case MODE_TIME_ZONE:
           mChangingDateTime.timeZone(mTimeZone);
-          mMode = MODE_CHANGE_TIME_ZONE_HOUR;
+          mMode = MODE_CHANGE_TIME_ZONE_OFFSET;
           break;
 
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
           saveTimeZone();
           mMode = MODE_TIME_ZONE;
@@ -122,13 +118,7 @@ class OledClock: public Clock {
           mSecondFieldCleared = true;
           break;
 
-        case MODE_CHANGE_TIME_ZONE_HOUR: {
-          mSuppressBlink = true;
-          mChangingDateTime.timeZone().getStandardTimeOffset()
-              .incrementHour();
-          break;
-        }
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_OFFSET:
           mSuppressBlink = true;
           mChangingDateTime.timeZone().getStandardTimeOffset()
               .increment15Minutes();
@@ -157,8 +147,7 @@ class OledClock: public Clock {
         case MODE_CHANGE_HOUR:
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = false;
           break;

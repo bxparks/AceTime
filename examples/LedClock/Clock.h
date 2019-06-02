@@ -147,8 +147,7 @@ class Clock {
         case MODE_CHANGE_HOUR:
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
-        case MODE_CHANGE_TIME_ZONE_HOUR:
-        case MODE_CHANGE_TIME_ZONE_MINUTE:
+        case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
         case MODE_CHANGE_HOUR_MODE:
           mPresenter.setDateTime(mChangingClockInfo.dateTime);
