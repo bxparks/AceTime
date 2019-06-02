@@ -93,6 +93,7 @@ void setup() {
   Serial.print(F("sizeof(NtpTimeProvider): "));
   Serial.println(sizeof(NtpTimeProvider));
 #endif
+#endif
 
   Serial.print(F("sizeof(SystemTimeSyncLoop): "));
   Serial.println(sizeof(SystemTimeSyncLoop));
@@ -105,7 +106,6 @@ void setup() {
 
   Serial.print(F("sizeof(SystemTimeHeartbeatCoroutine): "));
   Serial.println(sizeof(SystemTimeHeartbeatCoroutine));
-#endif
 
   runBenchmarks();
 #ifndef ARDUINO
