@@ -144,7 +144,7 @@ static void runLocalDateForEpochDays() {
 }
 
 // LocalDate::toEpochDays()
-static void runLocalDateToEpochDaysMillis() {
+static void runLocalDateToEpochDays() {
   unsigned long localDateToEpochDaysMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochDays = millis();
     LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
@@ -164,7 +164,7 @@ static void runLocalDateToEpochDaysMillis() {
 }
 
 // LocalDate::dayOfWeek()
-static void runLocalDateDaysOfWeekMillis() {
+static void runLocalDateDaysOfWeek() {
   unsigned long localDateDayOfWeekMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochDays = millis();
     LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
@@ -243,7 +243,7 @@ static void runZonedDateTimeToEpochSeconds() {
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) without cached ZoneSpecifier
-static void runZonedDateTimeForEpochSecondsLosAngeles() {
+static void runZonedDateTimeForEpochSecondsBasicZoneSpecifier() {
   unsigned long forEpochSecondsMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochSeconds = millis();
     BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
@@ -266,7 +266,7 @@ static void runZonedDateTimeForEpochSecondsLosAngeles() {
 static BasicZoneSpecifier spec(&zonedb::kZoneAmerica_Los_Angeles);
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) w/ cached ZoneSpecifier
-static void runZonedDateTimeForEpochSecondsLosAngelesCached() {
+static void runZonedDateTimeForEpochSecondsBasicZoneSpecifierCached() {
   unsigned long forEpochSecondsMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochSeconds = millis();
     TimeZone tzLosAngeles = TimeZone::forZoneSpecifier(&spec);
@@ -292,13 +292,14 @@ void runBenchmarks() {
 
   runEmptyLoop();
   Serial.println(ROW_DIVIDER);
+
   runLocalDateForEpochDays();
-  runLocalDateToEpochDaysMillis();
-  runLocalDateDaysOfWeekMillis();
+  runLocalDateToEpochDays();
+  runLocalDateDaysOfWeek();
 
   runZonedDateTimeForEpochSeconds();
-  runZonedDateTimeForEpochSecondsLosAngeles();
-  runZonedDateTimeForEpochSecondsLosAngelesCached();
+  runZonedDateTimeForEpochSecondsBasicZoneSpecifier();
+  runZonedDateTimeForEpochSecondsBasicZoneSpecifierCached();
   runZonedDateTimeToEpochDays();
   runZonedDateTimeToEpochSeconds();
 

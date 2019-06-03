@@ -6,23 +6,29 @@ slow on 8-bit AVR processors.
 
 ## Arduino Nano
 
-IDE: Arduino 1.8.8 (AVR Core 1.6.23)
+IDE: Arduino 1.8.9 (AVR Core 1.6.23)
 
 Memory:
 
 ```
 sizeof(LocalDate): 3
 sizeof(LocalTime): 3
+sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
-sizeof(ZoneEra): 10
-sizeof(ZoneInfo): 5
-sizeof(ZoneRule): 9
-sizeof(ZonePolicy): 3
-sizeof(internal::Transition): 15
-sizeof(ZoneSpecifier): 81
-sizeof(TimeZone): 7
 sizeof(OffsetDateTime): 7
-sizeof(ZonedDateTime): 14
+sizeof(basic::ZoneEra): 11
+sizeof(basic::ZoneInfo): 8
+sizeof(basic::ZoneRule): 9
+sizeof(basic::ZonePolicy): 6
+sizeof(basic::Transition): 17
+sizeof(extended::Transition): 36
+sizeof(extended::ZoneMatch): 12
+sizeof(ZoneSpecifier): 3
+sizeof(ManualZoneSpecifier): 10
+sizeof(BasicZoneSpecifier): 95
+sizeof(ExtendedZoneSpecifier): 366
+sizeof(TimeZone): 3
+sizeof(ZonedDateTime): 10
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 17
 sizeof(DS3231TimeKeeper): 3
@@ -38,18 +44,18 @@ CPU:
 ---------------------------------------------+----------+
 Method                                       |   micros |
 ---------------------------------------------|----------|
-Empty loop                                   |    3.000 |
+Empty loop                                   |    3.600 |
 ---------------------------------------------|----------|
-LocalDate::forEpochDays()                    |  217.000 |
-LocalDate::toEpochDays()                     |   59.200 |
-LocalDate::dayOfWeek()                       |   50.000 |
-ZonedDateTime::forEpochSeconds(UTC)          |  333.600 |
-ZonedDateTime::forEpochSeconds(Los_Angeles)  | 1012.800 |
-ZonedDateTime::forEpochSeconds(Cached)       |  596.000 |
-ZonedDateTime::toEpochDays()                 |   70.000 |
-ZonedDateTime::toEpochSeconds()              |   77.400 |
+LocalDate::forEpochDays()                    |  216.000 |
+LocalDate::toEpochDays()                     |   55.600 |
+LocalDate::dayOfWeek()                       |   48.400 |
+ZonedDateTime::forEpochSeconds(UTC)          |  329.600 |
+ZonedDateTime::forEpochSeconds(Los_Angeles)  | 1035.600 |
+ZonedDateTime::forEpochSeconds(Cached)       |  608.000 |
+ZonedDateTime::toEpochDays()                 |   67.200 |
+ZonedDateTime::toEpochSeconds()              |   76.000 |
 ---------------------------------------------+----------+
-Number of iterations per run: 5000
+Number of iterations per run: 2500
 ```
 
 ## ESP8266
