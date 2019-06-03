@@ -12,12 +12,6 @@ void setup() {
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
 
-  // Used to disable compiler optimization. The compiler is extremely good at
-  // detecting code that does nothing and simply removing it. This will cause
-  // the benchmark program to have an external side-effect, which prevents
-  // optimization.
-  pinMode(LED_BENCHMARK, OUTPUT);
-
   runBenchmarks();
 }
 

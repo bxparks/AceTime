@@ -1,7 +1,6 @@
-#if defined(LED_BUILTIN)
-#define LED_BENCHMARK LED_BUILTIN
-#else
-#define LED_BENCHMARK 5
-#endif
+#ifndef AUTO_BENCHMARK_BENCHMARK_H
+#define AUTO_BENCHMARK_BENCHMARK_H
 
 extern void runBenchmarks();
+
+#endif

@@ -46,9 +46,10 @@ const char ARDUINO_TIME_LABEL[] =
 const char ENDING[] = " |";
 
 // The compiler is extremelly good about removing code that does nothing. This
-// variable is used to ensure user-visible side-effects, preventing the compiler
-// optimization.
-uint8_t guard;
+// volatile variable is used to carete side-effects that prevent the compiler
+// from optimizing out the code that's being tested.
+volatile uint8_t guard;
+
 void disableOptimization(acetime_t seconds) {
   guard ^= (seconds >> 24) & 0xff;
   guard ^= (seconds >> 16) & 0xff;
@@ -69,7 +70,6 @@ unsigned long runBenchmark(acetime_t startSeconds, F&& lambda) {
     startSeconds += DELTA_SECONDS;
   }
   yield();
-  digitalWrite(LED_BENCHMARK, (guard & 0x55) ? 1 : 0);
   return millis() - startMillis;
 }
 
@@ -109,7 +109,7 @@ void runBenchmarks() {
   printMicrosPerIteration(baseMillis);
   Serial.println(ENDING);
 
-  // AceTime library
+  // AceTime library: ZonedDateTime::forEpochSeconds(), toEpochSeconds()
   elapsedMillis = runBenchmark(START_SECONDS, [](acetime_t seconds) {
     ZonedDateTime dt = ZonedDateTime::forEpochSeconds(seconds);
     acetime_t roundTripSeconds = dt.toEpochSeconds();
@@ -119,7 +119,7 @@ void runBenchmarks() {
   printMicrosPerIteration(elapsedMillis - baseMillis);
   Serial.println(ENDING);
 
-  // Time library
+  // Time library: breakTime(), makeTime()
   elapsedMillis = runBenchmark(START_SECONDS_UNIX, [](acetime_t seconds) {
     tmElements_t tm;
     breakTime((time_t) seconds, tm);
