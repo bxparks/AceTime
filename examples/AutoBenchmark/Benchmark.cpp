@@ -56,8 +56,8 @@ const char DATE_TIME_TO_EPOCH_SECONDS_LABEL[] =
   "ZonedDateTime::toEpochSeconds()                  | ";
 
 // The compiler is extremelly good about removing code that does nothing. This
-// variable is used to create side-effects that prevent the compiler from
-// optimizing out the code that's being tested.
+// volatile variable is used to create side-effects that prevent the compiler
+// from optimizing out the code that's being tested.
 volatile uint8_t guard;
 
 void disableOptimization(const LocalDate& ld) {

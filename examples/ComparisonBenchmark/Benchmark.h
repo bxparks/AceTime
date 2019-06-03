@@ -1,8 +1,6 @@
-#if defined(LED_BUILTIN)
-  #define LED_BENCHMARK LED_BUILTIN
-#else
-  // define a random pin number for those boards that have multiple BUILTIN
-  #define LED_BENCHMARK 5
-#endif
+#ifndef COMPARISON_BENCHMARK_BENCHMARK_H
+#define COMPARISON_BENCHMARK_BENCHMARK_H
 
 extern void runBenchmarks();
+
+#endif
