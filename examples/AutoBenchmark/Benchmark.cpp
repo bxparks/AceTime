@@ -7,49 +7,64 @@
 using namespace ace_time;
 using ace_time::common::printPad3;
 
-#if defined(AVR)
-const uint32_t COUNT = 2500;
-#elif defined(ESP8266)
+#if defined(ESP8266)
 const uint32_t COUNT = 25000;
-#else
+#elif defined(ESP32)
 const uint32_t COUNT = 250000;
+#elif !defined(ARDUINO)
+const uint32_t COUNT = 100000;
+#elif defined(AVR)
+const uint32_t COUNT = 2500;
+#else
+#error Unsupported platform
 #endif
 
 const uint32_t MILLIS_TO_NANO_PER_ITERATION = ((uint32_t) 1000000 / COUNT);
 
 const char TOP[] =
-  "---------------------------------------------+----------+";
+  "-------------------------------------------------+----------+";
 const char HEADER[] =
-  "Method                                       |   micros |";
+  "Method                                           |   micros |";
 const char ROW_DIVIDER[] =
-  "---------------------------------------------|----------|";
+  "-------------------------------------------------|----------|";
 const char BOTTOM[] =
-  "---------------------------------------------+----------+";
+  "-------------------------------------------------+----------+";
 const char COL_DIVIDER[] = " |";
 const char EMPTY_LOOP_LABEL[] =
-  "Empty loop                                   | ";
+  "Empty loop                                       | ";
 const char LOCAL_DATE_FOR_EPOCH_DAYS_LABEL[] =
-  "LocalDate::forEpochDays()                    | ";
+  "LocalDate::forEpochDays()                        | ";
 const char LOCAL_DATE_TO_EPOCH_DAYS_LABEL[] =
-  "LocalDate::toEpochDays()                     | ";
+  "LocalDate::toEpochDays()                         | ";
 const char LOCAL_DATE_DAY_OF_WEEK_LABEL[] =
-  "LocalDate::dayOfWeek()                       | ";
+  "LocalDate::dayOfWeek()                           | ";
+
+const char OFFSET_DATE_TIME_FOR_EPOCH_SECONDS_LABEL[] =
+  "OffsetDateTime::forEpochSeconds()                | ";
+const char OFFSET_DATE_TIME_TO_EPOCH_SECONDS_LABEL[] =
+  "OffsetDateTime::toEpochSeconds()                 | ";
 
 const char DATE_TIME_FOR_EPOCH_SECONDS_LABEL[] =
-  "ZonedDateTime::forEpochSeconds(UTC)          | ";
+  "ZonedDateTime::forEpochSeconds(UTC)              | ";
 const char DATE_TIME_FOR_EPOCH_SECONDS_LOS_ANGELES_LABEL[] =
-  "ZonedDateTime::forEpochSeconds(Los_Angeles)  | ";
+  "ZonedDateTime::forEpochSeconds(BasicZoneSpec)    | ";
 const char DATE_TIME_FOR_EPOCH_SECONDS_CACHED_LABEL[] =
-  "ZonedDateTime::forEpochSeconds(Cached)       | ";
+  "ZonedDateTime::forEpochSeconds(BasicZone cached) | ";
 const char DATE_TIME_TO_EPOCH_DAYS_LABEL[] =
-  "ZonedDateTime::toEpochDays()                 | ";
+  "ZonedDateTime::toEpochDays()                     | ";
 const char DATE_TIME_TO_EPOCH_SECONDS_LABEL[] =
-  "ZonedDateTime::toEpochSeconds()              | ";
+  "ZonedDateTime::toEpochSeconds()                  | ";
 
 // The compiler is extremelly good about removing code that does nothing. This
 // variable is used to create side-effects that prevent the compiler from
 // optimizing out the code that's being tested.
 volatile uint8_t guard;
+
+void disableOptimization(const LocalDate& ld) {
+  guard ^= ld.year();
+  guard ^= ld.month();
+  guard ^= ld.day();
+}
 
 void disableOptimization(const ZonedDateTime& dt) {
   guard ^= dt.year();
@@ -60,10 +75,13 @@ void disableOptimization(const ZonedDateTime& dt) {
   guard ^= dt.second();
 }
 
-void disableOptimization(const LocalDate& ld) {
-  guard ^= ld.year();
-  guard ^= ld.month();
-  guard ^= ld.day();
+void disableOptimization(const OffsetDateTime& dt) {
+  guard ^= dt.year();
+  guard ^= dt.month();
+  guard ^= dt.day();
+  guard ^= dt.hour();
+  guard ^= dt.minute();
+  guard ^= dt.second();
 }
 
 void disableOptimization(uint32_t value) {
@@ -184,6 +202,44 @@ static void runLocalDateDaysOfWeek() {
   Serial.println(COL_DIVIDER);
 }
 
+// OffsetDateTime::forEpochSeconds()
+static void runOffsetDateTimeForEpochSeconds() {
+  unsigned long localDateForDaysMillis = runLambda(COUNT, []() {
+    unsigned long fakeEpochSeconds = millis();
+    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(fakeEpochSeconds);
+    disableOptimization(odt);
+  });
+  unsigned long emptyLoopMillis = runLambda(COUNT, []() {
+    unsigned long emptyMillis = millis();
+    disableOptimization(emptyMillis);
+  });
+  unsigned long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
+
+  Serial.print(OFFSET_DATE_TIME_FOR_EPOCH_SECONDS_LABEL);
+  printMicrosPerIteration(elapsedMillis);
+  Serial.println(COL_DIVIDER);
+}
+
+// OffsetDateTime::toEpochSeconds()
+static void runOffsetDateTimeToEpochSeconds() {
+  unsigned long localDateToEpochDaysMillis = runLambda(COUNT, []() {
+    unsigned long fakeEpochSeconds = millis();
+    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(fakeEpochSeconds);
+    acetime_t epochDays = odt.toEpochSeconds();
+    disableOptimization(epochDays);
+  });
+  unsigned long forEpochDaysMillis = runLambda(COUNT, []() {
+    unsigned long fakeEpochSeconds = millis();
+    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(fakeEpochSeconds);
+    disableOptimization(odt);
+  });
+  unsigned long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
+
+  Serial.print(OFFSET_DATE_TIME_TO_EPOCH_SECONDS_LABEL);
+  printMicrosPerIteration(elapsedMillis);
+  Serial.println(COL_DIVIDER);
+}
+
 // ZonedDateTime::forEpochSeconds(seconds)
 static void runZonedDateTimeForEpochSeconds() {
   unsigned long forEpochSecondsMillis = runLambda(COUNT, []() {
@@ -297,11 +353,14 @@ void runBenchmarks() {
   runLocalDateToEpochDays();
   runLocalDateDaysOfWeek();
 
+  runOffsetDateTimeForEpochSeconds();
+  runOffsetDateTimeToEpochSeconds();
+
   runZonedDateTimeForEpochSeconds();
   runZonedDateTimeForEpochSecondsBasicZoneSpecifier();
   runZonedDateTimeForEpochSecondsBasicZoneSpecifierCached();
-  runZonedDateTimeToEpochDays();
   runZonedDateTimeToEpochSeconds();
+  runZonedDateTimeToEpochDays();
 
   // End footer
   Serial.println(BOTTOM);

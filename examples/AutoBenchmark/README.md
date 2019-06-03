@@ -41,20 +41,22 @@ sizeof(SystemTimeHeartbeatCoroutine): 18
 CPU:
 
 ```
----------------------------------------------+----------+
-Method                                       |   micros |
----------------------------------------------|----------|
-Empty loop                                   |    3.600 |
----------------------------------------------|----------|
-LocalDate::forEpochDays()                    |  216.000 |
-LocalDate::toEpochDays()                     |   55.600 |
-LocalDate::dayOfWeek()                       |   48.400 |
-ZonedDateTime::forEpochSeconds(UTC)          |  329.600 |
-ZonedDateTime::forEpochSeconds(Los_Angeles)  | 1035.600 |
-ZonedDateTime::forEpochSeconds(Cached)       |  608.000 |
-ZonedDateTime::toEpochDays()                 |   67.200 |
-ZonedDateTime::toEpochSeconds()              |   76.000 |
----------------------------------------------+----------+
+-------------------------------------------------+----------+
+Method                                           |   micros |
+-------------------------------------------------|----------|
+Empty loop                                       |    3.600 |
+-------------------------------------------------|----------|
+LocalDate::forEpochDays()                        |  216.000 |
+LocalDate::toEpochDays()                         |   56.000 |
+LocalDate::dayOfWeek()                           |   48.800 |
+OffsetDateTime::forEpochSeconds()                |  323.600 |
+OffsetDateTime::toEpochSeconds()                 |   75.600 |
+ZonedDateTime::forEpochSeconds(UTC)              |  336.000 |
+ZonedDateTime::forEpochSeconds(BasicZoneSpec)    | 1041.200 |
+ZonedDateTime::forEpochSeconds(BasicZone cached) |  613.600 |
+ZonedDateTime::toEpochSeconds()                  |   75.600 |
+ZonedDateTime::toEpochDays()                     |   68.400 |
+-------------------------------------------------+----------+
 Number of iterations per run: 2500
 ```
 
