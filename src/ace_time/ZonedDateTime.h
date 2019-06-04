@@ -59,11 +59,8 @@ class ZonedDateTime {
 
     /**
      * Factory method. Create the ZonedDateTime from epochSeconds as seen from
-     * the given time zone. If the time zone's offset is negative, then
-     * (epochSeconds >= TimeZone::effectiveOffsetSeconds().toEpochSeconds())
-     * must be true. Otherwise, the local time will be in the year 1999, which
-     * cannot be represented by a 2-digit year beginning with the year 2000.
-     * The dayOfWeek will be calculated internally.
+     * the given time zone. The dayOfWeek will be calculated internally.
+     * Returns ZonedDateTime::forError() if epochSeconds is invalid.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00Z). A value of kInvalidEpochSeconds is a sentinel
@@ -72,24 +69,23 @@ class ZonedDateTime {
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone = TimeZone()) {
-      ZonedDateTime dt;
       if (epochSeconds == kInvalidEpochSeconds) return forError();
 
       TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
-      dt.mOffsetDateTime = OffsetDateTime::forEpochSeconds(
-          epochSeconds, timeOffset);
-      dt.mTimeZone = timeZone;
-      return dt;
+      return ZonedDateTime(
+          OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset),
+          timeZone);
     }
 
     /**
      * Factory method to create a ZonedDateTime using the number of seconds from
      * Unix epoch.
+     * Returns ZonedDateTime::forError() if unixSeconds is invalid.
      */
     static ZonedDateTime forUnixSeconds(acetime_t unixSeconds,
         const TimeZone& timeZone = TimeZone()) {
       if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
-        return forEpochSeconds(unixSeconds, timeZone);
+        return forError();
       } else {
         return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch,
             timeZone);
@@ -271,7 +267,7 @@ class ZonedDateTime {
     friend bool operator!=(const ZonedDateTime& a, const ZonedDateTime& b);
 
     /** Constructor. From OffsetDateTime and TimeZone. */
-    ZonedDateTime(const OffsetDateTime& offsetDateTime, TimeZone tz):
+    ZonedDateTime(const OffsetDateTime& offsetDateTime, const TimeZone& tz):
       mOffsetDateTime(offsetDateTime),
       mTimeZone(tz) {}
 

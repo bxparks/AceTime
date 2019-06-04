@@ -52,7 +52,8 @@ class OffsetDateTime {
 
     /**
      * Factory method. Create the various components of the OffsetDateTime from
-     * the epochSeconds and its TimeOffset.
+     * the epochSeconds and its TimeOffset. Returns OffsetDateTime::forError()
+     * if epochSeconds or timeOffset is an error.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00). Use LocalDate::kInvalidEpochSeconds to define
@@ -62,7 +63,8 @@ class OffsetDateTime {
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
           TimeOffset timeOffset = TimeOffset()) {
       OffsetDateTime dt;
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return forError();
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds
+          || timeOffset.isError()) return forError();
 
       // Get the real epochSeconds
       dt.mTimeOffset = timeOffset;
@@ -89,8 +91,8 @@ class OffsetDateTime {
 
     /**
      * Factory method. Create a OffsetDateTime from the ISO 8601 date string. If
-     * the string cannot be parsed, then isError() on the constructed object
-     * returns true. Created for debugging purposes not for production use.
+     * the string cannot be parsed, then returns OffsetDateTime::forError().
+     * Created for debugging purposes not for production use.
      *
      * The parsing validation is so weak that the behavior is undefined for
      * most invalid date/time strings. The range of valid dates is roughly from
@@ -110,7 +112,8 @@ class OffsetDateTime {
 
     /**
      * Factory method. Create a OffsetDateTime from date string in flash memory
-     * F() strings. Mostly for unit testing.
+     * F() strings. Mostly for unit testing. Returns OffsetDateTime::forError()
+     * if a parsing error occurs.
      */
     static OffsetDateTime forDateString(const __FlashStringHelper* dateString) {
       // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and

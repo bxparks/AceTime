@@ -63,9 +63,9 @@ class LocalTime {
 
     /**
      * Factory method. Create a LocalTime from the ISO 8601 time string. If
-     * the string cannot be parsed, then isError() on the constructed object
-     * returns true. However, the data validation on parsing is very weak and
-     * the behavior is undefined for most invalid time strings.
+     * the string cannot be parsed, then returns LocalTime::forError().
+     * However, the data validation on parsing is very weak and the behavior is
+     * undefined for most invalid time strings.
      *
      * @param @timeString time in the form of "hh:mm:ss" (e.g. 12:34:56)
      */

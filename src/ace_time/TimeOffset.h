@@ -84,6 +84,7 @@ class TimeOffset {
     /**
      * Create from an offset string ("-07:00" or "+01:00"). Intended mostly
      * for testing purposes.
+     * Returns TimeOffset::forError() if a parsing error occurs.
      */
     static TimeOffset forOffsetString(const char* offsetString);
 
@@ -149,7 +150,6 @@ class TimeOffset {
     friend class ManualZoneSpecifier;
     friend class TimeZone;
     friend class OffsetDateTime; // forOffsetStringChainable()
-    friend class TimeOffsetMutator;
     friend bool operator==(const TimeOffset& a, const TimeOffset& b);
     friend void time_offset_mutation::incrementHour(TimeOffset& offset);
     friend void time_offset_mutation::increment15Minutes(TimeOffset& offset);
@@ -166,6 +166,7 @@ class TimeOffset {
      * to another forDateStringInternal() method to continue parsing.
      *
      * This method assumes that the offsetString is sufficiently long.
+     * Returns TimeOffset::forError() if a parsing error occurs.
      */
     static TimeOffset forOffsetStringChainable(const char*& offsetString);
 

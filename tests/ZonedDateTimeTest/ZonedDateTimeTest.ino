@@ -155,6 +155,18 @@ test(ZonedDateTimeTest_Manual, convertToTimeZone) {
   assertEqual(-7*60, dst.timeZone().getUtcOffset(stdEpochSeconds).toMinutes());
 }
 
+test(ZonedDateTimeTest_Manual, error) {
+  ManualZoneSpecifier stdSpec(TimeOffset::forHour(-8), false);
+  TimeZone stdTz = TimeZone::forZoneSpecifier(&stdSpec);
+
+  ZonedDateTime zdt = ZonedDateTime::forEpochSeconds(
+      LocalTime::kInvalidSeconds, stdTz);
+  assertTrue(zdt.isError());
+
+  zdt = ZonedDateTime::forUnixSeconds(LocalTime::kInvalidSeconds, stdTz);
+  assertTrue(zdt.isError());
+}
+
 // --------------------------------------------------------------------------
 // ZonedDateTime + BasicZoneSpecifier
 // --------------------------------------------------------------------------
