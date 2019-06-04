@@ -14,41 +14,55 @@ class Controller {
     Controller(PersistentStore& persistentStore, TimeKeeper& systemTimeKeeper):
         mPersistentStore(persistentStore),
         mSystemTimeKeeper(systemTimeKeeper),
-        mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles) {}
+        mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles),
+        mExtendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles) {}
 
     void setup() {
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
 
       if (mIsStoredInfoValid) {
         if (mStoredInfo.timeZoneType == TimeZone::kTypeZoneSpecifier) {
-          setTimeZone();
+          setBasicTimeZone();
         } else {
-          setTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes),
+          setManualTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes),
               mStoredInfo.isDst);
         }
       } else {
-        setTimeZone();
+        setBasicTimeZone();
       }
 
       // TODO: Set the ssid and password to some initial blank state, so that
       // the user can be notified that they need to be provided.
     }
 
-    /** Set the time zone using the given offset. */
-    void setTimeZone(TimeOffset timeOffset, bool isDst) {
+    /** Set the time zone to the given offset using Fixed type. */
+    void setFixedTimeZone(TimeOffset timeOffset) {
+      mTimeZone = TimeZone::forTimeOffset(timeOffset);
+      preserveInfo();
+    }
+
+    /** Set the time zone to given offset using ManualZoneSpecifier. */
+    void setManualTimeZone(TimeOffset timeOffset, bool isDst) {
       mManualZoneSpecifier = ManualZoneSpecifier(timeOffset, isDst);
       mTimeZone = TimeZone::forZoneSpecifier(&mManualZoneSpecifier);
       preserveInfo();
     }
 
-    // TODO: If we want the user to be able to select from a menu of zones,
-    // then setTimeZone() needs to take a ZoneInfo as an argument, and we need
-    // to enable the assignment operator() for BasicZoneSpecifier or
-    // ExtendedZoneSpecifier. Doable but makes those classes consume more
-    // program memory.
-    /** Set the time zone to America/Los_Angeles. */
-    void setTimeZone() {
+    /** Set the time zone to America/Los_Angeles using BasicZoneSpecifier. */
+    void setBasicTimeZone() {
       mTimeZone = TimeZone::forZoneSpecifier(&mBasicZoneSpecifier);
+      preserveInfo();
+    }
+
+    /** Set the time zone to America/Los_Angeles using ExtendedZoneSpecifier. */
+    void setExtendedTimeZone() {
+      mTimeZone = TimeZone::forZoneSpecifier(&mExtendedZoneSpecifier);
+      preserveInfo();
+    }
+
+    /** Set the DST setting of ManualZoneSpecifier. */
+    void setDst(bool isDst) {
+      mTimeZone.isDst(isDst);
       preserveInfo();
     }
 
@@ -56,16 +70,13 @@ class Controller {
     const TimeZone& getTimeZone() const { return mTimeZone; }
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-    /**
-     * Set the wifi credentials and setup the NtpTimeProvider.
-     * Return the number of bytes written.
-     */
-    uint16_t setWiFi(const char* ssid, const char* password) {
+    /** Set the wifi credentials and setup the NtpTimeProvider. */
+    void setWiFi(const char* ssid, const char* password) {
       strncpy(mStoredInfo.ssid, ssid, StoredInfo::kSsidMaxLength);
       mStoredInfo.ssid[StoredInfo::kSsidMaxLength - 1] = '\0';
       strncpy(mStoredInfo.password, password, StoredInfo::kPasswordMaxLength);
       mStoredInfo.password[StoredInfo::kPasswordMaxLength - 1] = '\0';
-      return preserveInfo();
+      preserveInfo();
     }
 #endif
 
@@ -87,34 +98,7 @@ class Controller {
     const StoredInfo& getStoredInfo() const { return mStoredInfo; }
 
     /** Return DST mode. */
-    bool isDst() const { return mManualZoneSpecifier.isDst(); }
-
-    /** Set DST on or off */
-    void setDst(bool status) {
-      mManualZoneSpecifier.isDst(status);
-      preserveInfo();
-    }
-
-    /**
-     * Implement the 'modify' command, which copies the current dateTime to
-     * mChangingDateTime.
-     */
-    void modifyDateTime() {
-      ZonedDateTime dt = getNow();
-      mChangingDateTime = dt;
-      mInModifyMode = true;
-    }
-
-    bool inModifyMode() const { return mInModifyMode; }
-
-    /** Return reference to mChangingDateTime. */
-    ZonedDateTime& getChangingDateTime() { return mChangingDateTime; }
-
-    /** Save the current mChangingDateTime to system time. */
-    void saveDateTime() {
-      setNow(mChangingDateTime.toEpochSeconds());
-      mInModifyMode = false;
-    }
+    bool isDst() const { return mTimeZone.isDst(); }
 
   private:
     uint16_t preserveInfo() {
@@ -127,14 +111,13 @@ class Controller {
 
     PersistentStore& mPersistentStore;
     TimeKeeper& mSystemTimeKeeper;
-    ZonedDateTime mChangingDateTime;
     TimeZone mTimeZone;
-    BasicZoneSpecifier mBasicZoneSpecifier;
     ManualZoneSpecifier mManualZoneSpecifier;
+    BasicZoneSpecifier mBasicZoneSpecifier;
+    ExtendedZoneSpecifier mExtendedZoneSpecifier;
 
     StoredInfo mStoredInfo;
     bool mIsStoredInfoValid = false;
-    bool mInModifyMode = false;
 };
 
 #endif
