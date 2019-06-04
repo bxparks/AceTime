@@ -66,6 +66,8 @@ class LocalTime {
      * the string cannot be parsed, then isError() on the constructed object
      * returns true. However, the data validation on parsing is very weak and
      * the behavior is undefined for most invalid time strings.
+     *
+     * @param @timeString time in the form of "hh:mm:ss" (e.g. 12:34:56)
      */
     static LocalTime forTimeString(const char* timeString);
 

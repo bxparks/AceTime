@@ -13,12 +13,12 @@ namespace ace_time {
 /**
  * Class that describes a time zone. There are 2 types:
  *
- *    * kTypeFixed: a time zone with a fixed UTC offset that cannot
- *      be changed. Very few actual time zones have a fixed UTC offset, but
- *      this type is useful for testing and parsing date/time strings with a
- *      fixed offset.
- *    * kTypeZoneSpecifier: a time zone whose UTC offset is determined by
- *      one of the implementation classes of ZoneSpecifier.
+ *    * kTypeFixed: a time zone with a fixed UTC offset that cannot be changed.
+ *      Very few actual time zones have a fixed UTC offset, but this type is
+ *      useful for testing and parsing date/time strings with a fixed offset.
+ *    * kTypeManual: a time zone using an underlyingManualZoneSpecifier
+ *    * kTypeBasic: a time zone using an underlyingBasicZoneSpecifier
+ *    * kTypeExtended: a time zone using an underlyingExtendedZoneSpecifier
  *
  * The TimeZone class really really wants to be a reference type. In other
  * words, it would be very convenient if the client code could create this
@@ -50,7 +50,9 @@ namespace ace_time {
 class TimeZone {
   public:
     static const uint8_t kTypeFixed = 0;
-    static const uint8_t kTypeZoneSpecifier = 1;
+    static const uint8_t kTypeManual = ZoneSpecifier::kTypeManual;
+    static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
+    static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
 
     /**
      * Factory method to create from a fixed UTC offset.
@@ -112,8 +114,10 @@ class TimeZone {
      * Print the human readable representation of the time zone.
      *    * kTypeFixed at UTC is printed as "UTC"
      *    * kTypeFixed at another offset is printed as "+/-hh:mm"
-     *    * kTypeZoneSpecifier is printed as "{zonename}" (e.g.
-     *      "America/Los_Angeles")
+     *    * kTypeManual is printed as "UTC+/-hh:mm (STD|DST)" (e.g. "-08:00
+     *    (DST)")
+     *    * kTypeBasic is printed as "{zonename}" (e.g. "America/Los_Angeles")
+     *    * kTypeExtended is printed as "{zonename}" (e.g. "America/Los_Angeles")
      */
     void printTo(Print& printer) const;
 
@@ -121,7 +125,9 @@ class TimeZone {
      * Print the time zone abbreviation for the given epochSeconds.
      *    * kTypeFixed at UTC is printed as "UTC"
      *    * kTypeFixed at another offset is printed as "+/-hh:mm"
-     *    * kTypeZoneSpecifier is printed as "{abbrev}" (e.g. "PDT")
+     *    * kTypeManual is printed as "{abbrev}" (e.g. "PDT")
+     *    * kTypeBasic is printed as "{abbrev}" (e.g. "PDT")
+     *    * kTypeExtended is printed as "{abbrev}" (e.g. "PDT")
      */
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 
@@ -134,8 +140,7 @@ class TimeZone {
      * examples/WorldClock.ino).
      */
     bool isDst() const {
-      if (mType != kTypeZoneSpecifier) return false;
-      if (mZoneSpecifier->getType() != ZoneSpecifier::kTypeManual) return false;
+      if (mType != kTypeManual) return false;
       return ((ManualZoneSpecifier*) mZoneSpecifier)->isDst();
     }
 
@@ -146,8 +151,7 @@ class TimeZone {
      * examples/WorldClock).
      */
     void isDst(bool dst) {
-      if (mType != kTypeZoneSpecifier) return;
-      if (mZoneSpecifier->getType() != ZoneSpecifier::kTypeManual) return;
+      if (mType != kTypeManual) return;
       ((ManualZoneSpecifier*) mZoneSpecifier)->isDst(dst);
     }
 
@@ -179,7 +183,7 @@ class TimeZone {
      * BasicZoneSpecifier, or ExtendedZoneSpecifier. Cannot be nullptr.
      */
     explicit TimeZone(const ZoneSpecifier* zoneSpecifier):
-        mType(kTypeZoneSpecifier),
+        mType(zoneSpecifier->getType()),
         mZoneSpecifier(zoneSpecifier) {}
 
     uint8_t mType;

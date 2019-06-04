@@ -168,10 +168,11 @@ class LocalDate {
     }
 
     /**
-     * Factory method. Create a LocalDate from the ISO 8601 date string. If
-     * the string cannot be parsed, then isError() on the constructed object
+     * Factory method. Create a LocalDate from the ISO 8601 date string. If the
+     * string cannot be parsed, then isError() on the constructed object
      * returns true, but the data validation is very weak. Year should probably
-     * be between 1872 and 2127.
+     * be between 1872 and 2127. Created for debugging purposes not for
+     * production use.
      *
      * @param dateString the date in ISO 8601 format (yyyy-mm-dd)
      */
