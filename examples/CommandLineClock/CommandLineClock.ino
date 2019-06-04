@@ -407,8 +407,13 @@ void setup() {
   dsTimeKeeper.setup();
 #endif
 
+#if defined(ARDUINO)
   persistentStore.setup();
   systemClock.setup();
+#else
+  persistentStore.setup("commandline.dat");
+  systemClock.setup();
+#endif
   controller.setup();
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
