@@ -4,7 +4,7 @@
  * depends on the DS3231 RTC chip, or an NTP client.
  *
  * Depends on the following libaries:
- *    * Wire  (built-in)
+ *    * Wire  (built-in to Arduino IDE package)
  *    * AceTime (https://github.com/bxparks/AceTime)
  *    * AceRoutine (https://github.com/bxparks/AceRoutine)
  *
@@ -18,11 +18,19 @@
  * The following commands on the serial monitor are supported:
  *
  *    help [command]
+ *        Print the list of supported commands.
  *    list
+ *        List the AceRoutine coroutines.
  *    date [dateString]
+ *        Print or set the date.
  *    timezone [fixed offset | manual offset | basic | extended | dst (on | off)]
+ *        Print or set the currently active TimeZone.
  *    sync_status
- *		wifi (status | connect | config [ssid password]) # [ESP8266 and ESP32]
+ *        Print the status of the SystemTimeSyncLoop helper.
+ *		wifi (status | connect | config [ssid password])
+ *        Print the ESP8266 or ESP32 wifi connection info.
+ *        Connect to the wifi network.
+ *        Print or set the wifi ssid and password.
  */
 
 #if defined(ESP8266)
@@ -277,7 +285,7 @@ class WifiCommand: public CommandHandler {
         Controller& controller,
         NtpTimeProvider& ntpTimeProvider):
       CommandHandler(
-          "wifi", "status | (config [ssid password]) | connect " ),
+          "wifi", "status | (config [ssid password]) | connect" ),
       mController(controller),
       mNtpTimeProvider(ntpTimeProvider)
       {}
