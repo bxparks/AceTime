@@ -11,9 +11,18 @@
  * Supported boards are:
  *    * Arduino Nano
  *    * Arduino Pro Mini
- *    * Arduino Leonardo (Pro Micro clone)
+ *    * Arduino Leonardo or Pro Micro
  *    * ESP8266
  *    * ESP32
+ *
+ * The following commands on the serial monitor are supported:
+ *
+ *    help [command]
+ *    list
+ *    date [dateString]
+ *    timezone [fixed offset | manual offset | basic | extended | dst (on | off)]
+ *    sync_status
+ *		wifi (status | connect | config [ssid password]) # [ESP8266 and ESP32]
  */
 
 #if defined(ESP8266)

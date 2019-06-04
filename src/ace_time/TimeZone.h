@@ -46,6 +46,48 @@ namespace ace_time {
  * pointer. It then becomes very difficult to change the offset and DST fields
  * of the ManualTimeZone. Using a single TimeZone class and implementing it as
  * a value type simplifies a lot of code.
+ *
+ * Serializing and deserializing the TimeZone object is difficult because we
+ * need to save information from both the TimeZone object and (potentially) the
+ * ZoneSpecifier object. The TimeZone object can be identified by its
+ * `getType()` parameter. Then, if the type is kTypeManual, the underlying
+ * ManualZoneSpecifier can be fully described using 2 parameters (the
+ * timeOffset and the isDst flag. If the type is kTypeBasic or kTypeExtended,
+ * the underlying BasicZoneSpecifier and ExtendedZoneSpecifier can both be
+ * uniquely identified by the fully-qualified zone identifier (e.g.
+ * "America/Los_Angeles").
+ *
+ * The problem occurs during deserialization (or restore) of the TimeZone
+ * object for the kTypeBasic or kTypeExtended. Arduino environments are not
+ * expected to contain the entire TZ Database with all 348 zones supported by
+ * AceTime due to memory limitations. And there is currently no ability to
+ * create a BasicZoneSpecifier or ExtendedZoneSpecifier from its
+ * fully-qualified zone name (because the entire database must be loaded at
+ * runtime). A given Arduino environment may contain only a handful, like 2 or
+ * 3. The recommended procedure is to identify each of the TZ Database zones
+ * with a small (byte size) numerical identifier, and use an out-of-band
+ * mapping between the numerical value and the corresponding TZ Database zone.
+ *
+ * For example, we could hardwire the mapping that '0' corresponds to
+ * 'America/Los_Angeles" and '1' corresponds to 'American/New_York'. We write
+ * the deserialization (or restore) code such that when it sees a kTypeBasic
+ * (or kTypeExtended) and a numerical code '0' or '1', the correct
+ * BasicZoneSpecifier or ExtendedZoneSpecifier is created with the correct
+ * basic::ZoneInfo or extended:ZoneInfo database entry.
+ *
+ * On larger Arduino environments (e.g. ESP8266 or ESP32) with enough memory,
+ * it may be possible to implement code that can create a BasicZoneSpecifier or
+ * ExtendedZoneSpecifier from the fully-qualified zone name. If this is
+ * implemented, then it would be sufficient to just store the fully-qualified
+ * zone name, instead of creating a customized mapping table. However, we still
+ * need to worry about TZ Database version skew. In other words, the code needs
+ * to handle siutations where the serialized zone name (using one version of
+ * the TZ Database) is not recognized by the code that the deserializes the
+ * zone name (which uses a different version of TZ Database).
+ *
+ * expect a given Arduino environment to contain all time zones in the TZ Database.
+ * Instead, we expect the given Arduino environment to support only a handful of
+ * zones.
  */
 class TimeZone {
   public:
@@ -78,7 +120,10 @@ class TimeZone {
       mType(kTypeFixed),
       mOffset() {}
 
-    /** Return the type of TimeZone. */
+    /**
+     * Return the type of TimeZone. This value is useful for serializing and
+     * deserializing (or storing and restoring) the TimeZone object.
+     */
     uint8_t getType() const { return mType; }
 
     /** Return the total UTC offset at epochSeconds, including DST offset. */
