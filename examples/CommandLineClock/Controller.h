@@ -21,12 +21,7 @@ class Controller {
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
 
       if (mIsStoredInfoValid) {
-        if (mStoredInfo.timeZoneType == TimeZone::kTypeZoneSpecifier) {
-          setBasicTimeZone();
-        } else {
-          setManualTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes),
-              mStoredInfo.isDst);
-        }
+        restoreInfo();
       } else {
         setBasicTimeZone();
       }
@@ -107,6 +102,19 @@ class Controller {
       mStoredInfo.offsetMinutes = mManualZoneSpecifier.stdOffset().toMinutes();
       mStoredInfo.isDst = mManualZoneSpecifier.isDst();
       return mPersistentStore.writeStoredInfo(mStoredInfo);
+    }
+
+    void restoreInfo() {
+      if (mStoredInfo.timeZoneType == TimeZone::kTypeFixed) {
+        setFixedTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes));
+      } else if (mStoredInfo.timeZoneType == TimeZone::kTypeManual) {
+        setManualTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes),
+            mStoredInfo.isDst);
+      } else if (mStoredInfo.timeZoneType == TimeZone::kTypeBasic) {
+        setBasicTimeZone();
+      } else if (mStoredInfo.timeZoneType == TimeZone::kTypeExtended) {
+        setExtendedTimeZone();
+      }
     }
 
     PersistentStore& mPersistentStore;
