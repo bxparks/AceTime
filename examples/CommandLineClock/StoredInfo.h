@@ -9,7 +9,11 @@ struct StoredInfo {
 
   /** Time zone of the displayed time */
   uint8_t timeZoneType;
+
+  /** The offset minutes for kTypeManual and kTypeFixed. */
   int16_t offsetMinutes;
+
+  /** The isDst flag for kTypeManual. */
   bool isDst;
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP

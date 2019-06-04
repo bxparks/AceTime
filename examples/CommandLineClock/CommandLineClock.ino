@@ -3,17 +3,26 @@
  * debugging. Requires no additional hardware in the simple case. Optionally
  * depends on the DS3231 RTC chip, or an NTP client.
  *
- * Depends on:
- *    * Wire
- *    * AceTime
- *    * AceRoutine
+ * Depends on the following libaries:
+ *    * Wire  (built-in)
+ *    * AceTime (https://github.com/bxparks/AceTime)
+ *    * AceRoutine (https://github.com/bxparks/AceRoutine)
  *
  * Supported boards are:
  *    * Arduino Nano
  *    * Arduino Pro Mini
- *    * Arduino Leonardo (Pro Micro clone)
+ *    * Arduino Leonardo or Pro Micro
  *    * ESP8266
  *    * ESP32
+ *
+ * The following commands on the serial monitor are supported:
+ *
+ *    help [command]
+ *    list
+ *    date [dateString]
+ *    timezone [fixed offset | manual offset | basic | extended | dst (on | off)]
+ *    sync_status
+ *		wifi (status | connect | config [ssid password]) # [ESP8266 and ESP32]
  */
 
 #if defined(ESP8266)
@@ -80,6 +89,7 @@ Controller controller(persistentStore, systemTimeKeeper);
 // AceRoutine CLI commands
 //---------------------------------------------------------------------------
 
+/** Shift command arguments to the left by one token. */
 #define SHIFT do { argv++; argc--; } while (false)
 
 /** List the coroutines known by the CoroutineScheduler. */
@@ -107,9 +117,7 @@ class DateCommand: public CommandHandler {
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
-        ZonedDateTime now = (controller.inModifyMode())
-            ? controller.getChangingDateTime()
-            : controller.getNow();
+        ZonedDateTime now = controller.getNow();
         now.printTo(printer);
         printer.println();
       } else {
@@ -127,129 +135,106 @@ class DateCommand: public CommandHandler {
     }
 };
 
-class ModifyCommand: public CommandHandler {
-  public:
-    ModifyCommand():
-        CommandHandler("modify", nullptr) {}
-
-    void run(Print&, int, const char**) const override {
-      controller.modifyDateTime();
-    }
-};
-
-class SaveCommand: public CommandHandler {
-  public:
-    SaveCommand():
-        CommandHandler("save", nullptr) {}
-
-    void run(Print&, int, const char**) const override {
-      controller.saveDateTime();
-    }
-};
-
-
-/**
- * Increment year, month, day, hour, minute
- * Usage:
- *    inc (year | month | day | hour | minute)
- */
-class IncrementCommand: public CommandHandler {
-  public:
-    IncrementCommand():
-        CommandHandler("inc", "(year | month | day | hour | minute)") {}
-
-    void run(Print& printer, int argc, const char** argv) const override {
-      if (argc != 2) {
-        printer.println(FF("Missing argument"));
-        return;
-      }
-      SHIFT;
-      ZonedDateTime& dt = controller.getChangingDateTime();
-      if (strcmp(argv[0], "year") == 0) {
-        date_time_mutation::incrementYear(dt);
-      } else if (strcmp(argv[0], "month") == 0) {
-        date_time_mutation::incrementMonth(dt);
-      } else if (strcmp(argv[0], "day") == 0) {
-        date_time_mutation::incrementDay(dt);
-      } else if (strcmp(argv[0], "hour") == 0) {
-        date_time_mutation::incrementHour(dt);
-      } else if (strcmp(argv[0], "minute") == 0) {
-        date_time_mutation::incrementMinute(dt);
-      } else {
-        printer.println(FF("Ivalid 'inc' argument"));
-        return;
-      }
-    }
-};
-
 /**
  * Timezone command.
  * Usage:
  *    timezone - print current timezone
- *    timezone {timeOffset} - set current timezone
+ *    timezone fixed timeOffset - set timezone to fixed mode with given offset
+ *    timezone manual timeOffset - set timezone to ManualZoneSpecifier with given offset
+ *    timezone basic - set timezone to BasicZoneSpecifier
+ *    timezone extended - set timezone to ExtendedZoneSpecifier
+ *    timezone dst (on | off) - set ManualZoneSpecifier DST flag to on or off
  */
 class TimezoneCommand: public CommandHandler {
   public:
     TimezoneCommand():
-      CommandHandler("timezone", "[timeOffset | Los_Angeles]") {}
+      CommandHandler("timezone",
+        "[fixed offset | manual offset | basic | extended | dst (on | off)]") {}
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
         const TimeZone& timeZone = controller.getTimeZone();
         timeZone.printTo(printer);
         printer.println();
-      } else {
-        SHIFT;
-        if (strcmp(argv[0], "Los_Angeles") == 0) {
-          controller.setTimeZone();
-          printer.print(FF("Time zone set to: "));
-          controller.getTimeZone().printTo(printer);
-          printer.println();
-        } else {
-          TimeOffset offset = TimeOffset::forOffsetString(argv[0]);
-          if (offset.isError()) {
-            printer.println(FF("Invalid time zone offset"));
-            return;
-          }
-          controller.setTimeZone(offset, false /*isDst*/);
-          printer.print(FF("Time zone set to: "));
-          controller.getTimeZone().printTo(printer);
-          printer.println();
-        }
+        return;
       }
-    }
-};
 
-/**
- * Dst command.
- * Usage:
- *    dst - print the current DST setting
- *    dst on - turn on DST, changing the current timeZone
- *    dst off - turn off DST, changing the current timeZone
- */
-class DstCommand: public CommandHandler {
-  public:
-    DstCommand(Controller& controller):
-          CommandHandler("dst", "[on | off]"),
-      mController(controller) {}
-
-    void run(Print& printer, int argc, const char** argv) const override {
       SHIFT;
-      if (argc == 0) {
-        printer.print(FF("DST: "));
-        printer.println(mController.isDst() ? FF("on") : FF("off"));
-      } else if (strcmp(argv[0], "on") == 0) {
-        mController.setDst(true);
-      } else if (strcmp(argv[0], "off") == 0) {
-        mController.setDst(false);
-      } else {
-        printer.print(FF("Unknown argument: "));
-        printer.println(argv[0]);
+      if (strcmp(argv[0], "basic") == 0) {
+        controller.setBasicTimeZone();
+        printer.print(FF("Time zone using BasicZoneSpecifier: "));
+        controller.getTimeZone().printTo(printer);
+        printer.println();
+        return;
       }
-    }
 
-  private:
-    Controller& mController;
+      if (strcmp(argv[0], "extended") == 0) {
+        controller.setExtendedTimeZone();
+        printer.print(FF("Time zone using ExtendedZoneSpecifier: "));
+        controller.getTimeZone().printTo(printer);
+        printer.println();
+        return;
+      }
+
+      if (strcmp(argv[0], "fixed") == 0) {
+        SHIFT;
+        if (argc == 0) {
+          printer.print(FF("'timezone fixed' requires 'offset'"));
+          return;
+        }
+        TimeOffset offset = TimeOffset::forOffsetString(argv[0]);
+        if (offset.isError()) {
+          printer.println(FF("Invalid time zone offset"));
+          return;
+        }
+        controller.setFixedTimeZone(offset);
+        printer.print(FF("Time zone set to: "));
+        controller.getTimeZone().printTo(printer);
+        printer.println();
+        return;
+      }
+
+      if (strcmp(argv[0], "manual") == 0) {
+        SHIFT;
+        if (argc == 0) {
+          printer.print(FF("'timezone manual' requires 'offset'"));
+          return;
+        }
+        TimeOffset offset = TimeOffset::forOffsetString(argv[0]);
+        if (offset.isError()) {
+          printer.println(FF("Invalid time zone offset"));
+          return;
+        }
+        controller.setManualTimeZone(offset, false /*isDst*/);
+        printer.print(FF("Time zone set to: "));
+        controller.getTimeZone().printTo(printer);
+        printer.println();
+        return;
+      }
+
+      if (strcmp(argv[0], "dst") == 0) {
+        SHIFT;
+        if (argc == 0) {
+          printer.print(FF("DST: "));
+          printer.println(controller.isDst() ? FF("on") : FF("off"));
+          return;
+        }
+
+        if (strcmp(argv[0], "on") == 0) {
+          controller.setDst(true);
+        } else if (strcmp(argv[0], "off") == 0) {
+          controller.setDst(false);
+        } else {
+          printer.print(FF("'timezone dst' must be either 'on' or 'off'"));
+        }
+        return;
+      }
+
+      // If we get here, we don't recognize the subcommand.
+      printer.print(FF("Unknown option ("));
+      printer.print(argv[0]);
+      printer.println(")");
+    }
 };
 
 #if SYNC_TYPE == SYNC_TYPE_MANUAL
@@ -257,12 +242,12 @@ class DstCommand: public CommandHandler {
 /**
  * Sync status command.
  * Usage:
- *    sync - print the sync status
+ *    sync_status - print the sync status
  */
 class SyncStatusCommand: public CommandHandler {
   public:
     SyncStatusCommand(SystemTimeSyncLoop& systemTimeSyncLoop):
-          CommandHandler("sync", nullptr),
+          CommandHandler("sync_status", nullptr),
       mSystemTimeSyncLoop(systemTimeSyncLoop) {}
 
     void run(Print& printer, int /*argc*/, const char** /*argv*/)
@@ -361,10 +346,6 @@ class WifiCommand: public CommandHandler {
 ListCommand listCommand;
 DateCommand dateCommand;
 TimezoneCommand timezoneCommand;
-ModifyCommand modifyCommand;
-SaveCommand saveCommand;
-IncrementCommand incrementCommand;
-DstCommand dstCommand(controller);
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 WifiCommand wifiCommand(controller, ntpTimeProvider);
 #endif
@@ -376,10 +357,6 @@ const CommandHandler* const COMMANDS[] = {
   &listCommand,
   &dateCommand,
   &timezoneCommand,
-  &modifyCommand,
-  &saveCommand,
-  &incrementCommand,
-  &dstCommand,
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   &wifiCommand,
 #endif

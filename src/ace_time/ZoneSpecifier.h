@@ -38,13 +38,13 @@ class LocalDateTime;
  */
 class ZoneSpecifier {
   public:
-    /** Indicate ManualZoneSpecifier. */
+    /** Indicate ManualZoneSpecifier. Must not be TimeZone::kTypeFixed. */
     static const uint8_t kTypeManual = 1;
 
-    /** Indicate BasicZoneSpecifier. */
+    /** Indicate BasicZoneSpecifier. Must not be TimeZone::kTypeFixed. */
     static const uint8_t kTypeBasic = 2;
 
-    /** Indicate ExtendedZoneSpecifier. */
+    /** Indicate ExtendedZoneSpecifier. Must not be TimeZone::kTypeFixed. */
     static const uint8_t kTypeExtended = 3;
 
     /** Return the kTypeXxx of the current instance. */

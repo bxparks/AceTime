@@ -90,21 +90,21 @@ class OffsetDateTime {
     /**
      * Factory method. Create a OffsetDateTime from the ISO 8601 date string. If
      * the string cannot be parsed, then isError() on the constructed object
-     * returns true.
-     *
-     * The dateString is expected to be in ISO 8601 format
-     * "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very lenient.
-     * It cares mostly about the positional placement of the various
-     * components. It does not validate the separation characters like '-' or
-     * ':'. For example, both of the following will parse to the exactly same
-     * OffsetDateTime object: "2018-08-31T13:48:01-07:00" "2018/08/31
-     * 13#48#01-07#00"
+     * returns true. Created for debugging purposes not for production use.
      *
      * The parsing validation is so weak that the behavior is undefined for
      * most invalid date/time strings. The range of valid dates is roughly from
      * 1872-01-01T00:00:00 to 2127-12-31T23:59:59. However, the UTC offset may
      * cause some of the dates on the two extreme ends invalid. The behavior is
      * undefined in those cases.
+     *
+     * @param dateString the date and time in ISO 8601 format
+     *        "YYYY-MM-DDThh:mm:ss+/-hh:mm", but currently, the parser is very
+     *        lenient. It cares mostly about the positional placement of the
+     *        various components. It does not validate the separation
+     *        characters like '-' or ':'. For example, both of the following
+     *        will parse to the exactly same OffsetDateTime object:
+     *        "2018-08-31T13:48:01-07:00" "2018/08/31 13#48#01-07#00"
      */
     static OffsetDateTime forDateString(const char* dateString);
 
