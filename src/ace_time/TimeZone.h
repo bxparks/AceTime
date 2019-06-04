@@ -11,14 +11,28 @@ class Print;
 namespace ace_time {
 
 /**
- * Class that describes a time zone. There are 2 types:
+ * Class that describes a time zone. There are 2 colloquial usages of "time
+ * zone". The first refers to a simple fixed offset from UTC. For example, we
+ * may say that "we are in -05:00 time zone". The second is a geographical
+ * region that obeys a consistent set of rules regarding the value of the UTC
+ * offset, and when the transitions to DST happens (if at all). The best known
+ * source of these geographical regions is the TZ Database maintained by IANA
+ * (https://www.iana.org/time-zones). The TimeZone class supports both meanings.
+ *
+ * There are 4 types of TimeZone:
  *
  *    * kTypeFixed: a time zone with a fixed UTC offset that cannot be changed.
  *      Very few actual time zones have a fixed UTC offset, but this type is
- *      useful for testing and parsing date/time strings with a fixed offset.
- *    * kTypeManual: a time zone using an underlyingManualZoneSpecifier
- *    * kTypeBasic: a time zone using an underlyingBasicZoneSpecifier
- *    * kTypeExtended: a time zone using an underlyingExtendedZoneSpecifier
+ *      useful for testing and for parsing date/time strings with a fixed offset.
+ *      In many cases, it may be simpler to use an OffsetDateTime instead of a
+ *      ZonedDateTime with a kTypeFixed TimeZone.
+ *    * kTypeManual: a time zone using an underlying ManualZoneSpecifier which
+ *      allows the user to manually select the UTC offset and the DST flag.
+ *    * kTypeBasic: a time zone using an underlying BasicZoneSpecifier which
+ *      supports 231 geographical zones in the TZ Database.
+ *    * kTypeExtended: a time zone using an underlying ExtendedZoneSpecifier
+ *      which supports 348 geographical zones in the TZ Database (essentially
+ *      the entire database).
  *
  * The TimeZone class really really wants to be a reference type. In other
  * words, it would be very convenient if the client code could create this
@@ -47,47 +61,37 @@ namespace ace_time {
  * of the ManualTimeZone. Using a single TimeZone class and implementing it as
  * a value type simplifies a lot of code.
  *
+ * Serialization and Deserialization:
+ *
  * Serializing and deserializing the TimeZone object is difficult because we
  * need to save information from both the TimeZone object and (potentially) the
  * ZoneSpecifier object. The TimeZone object can be identified by its
- * `getType()` parameter. Then, if the type is kTypeManual, the underlying
- * ManualZoneSpecifier can be fully described using 2 parameters (the
- * timeOffset and the isDst flag. If the type is kTypeBasic or kTypeExtended,
- * the underlying BasicZoneSpecifier and ExtendedZoneSpecifier can both be
- * uniquely identified by the fully-qualified zone identifier (e.g.
- * "America/Los_Angeles").
+ * `getType()` parameter. If this type is kTypeFixed, then the UTC offset is
+ * sufficient to reconstruct the TimeZone. If this type is kTypeManual, the
+ * underlying ManualZoneSpecifier can be fully described using 2 parameters
+ * (the timeOffset and the isDst flag.
  *
- * The problem occurs during deserialization (or restore) of the TimeZone
- * object for the kTypeBasic or kTypeExtended. Arduino environments are not
- * expected to contain the entire TZ Database with all 348 zones supported by
- * AceTime due to memory limitations. And there is currently no ability to
- * create a BasicZoneSpecifier or ExtendedZoneSpecifier from its
- * fully-qualified zone name (because the entire database must be loaded at
- * runtime). A given Arduino environment may contain only a handful, like 2 or
- * 3. The recommended procedure is to identify each of the TZ Database zones
- * with a small (byte size) numerical identifier, and use an out-of-band
- * mapping between the numerical value and the corresponding TZ Database zone.
+ * If the type is kTypeBasic or kTypeExtended, the underlying
+ * BasicZoneSpecifier and ExtendedZoneSpecifier can both be uniquely identified
+ * by the fully-qualified zone identifier (e.g. "America/Los_Angeles").
+ * However, due to memory limitations, most Arduino environments cannot contain
+ * the entire TZ Database with all 348 zones supported by AceTime. Therefore,
+ * there is currently no ability to create a BasicZoneSpecifier or
+ * ExtendedZoneSpecifier from its fully-qualified zone name.
  *
- * For example, we could hardwire the mapping that '0' corresponds to
- * 'America/Los_Angeles" and '1' corresponds to 'American/New_York'. We write
- * the deserialization (or restore) code such that when it sees a kTypeBasic
- * (or kTypeExtended) and a numerical code '0' or '1', the correct
- * BasicZoneSpecifier or ExtendedZoneSpecifier is created with the correct
- * basic::ZoneInfo or extended:ZoneInfo database entry.
+ * Since most Arduino environments will support only a handful of hardcoded
+ * time zones, the recommended procedure is to associate each of these zones
+ * with a small numerical identifier, and use that to recreate the appropriate
+ * instance of BasicZoneSpecifier or ExtendedZoneSpecifier.
  *
  * On larger Arduino environments (e.g. ESP8266 or ESP32) with enough memory,
- * it may be possible to implement code that can create a BasicZoneSpecifier or
- * ExtendedZoneSpecifier from the fully-qualified zone name. If this is
- * implemented, then it would be sufficient to just store the fully-qualified
- * zone name, instead of creating a customized mapping table. However, we still
- * need to worry about TZ Database version skew. In other words, the code needs
- * to handle siutations where the serialized zone name (using one version of
- * the TZ Database) is not recognized by the code that the deserializes the
- * zone name (which uses a different version of TZ Database).
- *
- * expect a given Arduino environment to contain all time zones in the TZ Database.
- * Instead, we expect the given Arduino environment to support only a handful of
- * zones.
+ * it may be possible to allow the creation of a BasicZoneSpecifier or
+ * ExtendedZoneSpecifier from the fully-qualified zone name. It would then be
+ * sufficient to just store the fully-qualified zone name, instead of creating
+ * a customized mapping table. However, we still would need to worry about TZ
+ * Database version skew. In other words, the code needs to handle siutations
+ * where the serialized zone name using one version of the TZ Database is not
+ * recognized by a new version of TZ Database.
  */
 class TimeZone {
   public:
