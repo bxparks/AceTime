@@ -1,5 +1,5 @@
-#ifndef CLOCK_LED_DISPLAY_H
-#define CLOCK_LED_DISPLAY_H
+#ifndef LED_CLOCK_DISPLAY_H
+#define LED_CLOCK_DISPLAY_H
 
 #include <AceSegment.h>
 
