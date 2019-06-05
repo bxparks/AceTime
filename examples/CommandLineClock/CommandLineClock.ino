@@ -422,8 +422,6 @@ void setup() {
   systemClock.setup();
 
   Serial.println(F("Setting up Controller"));
-  systemClock.setup();
-
   controller.setup();
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
