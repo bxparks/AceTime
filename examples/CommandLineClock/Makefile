@@ -4,4 +4,5 @@
 
 APP_NAME := CommandLineClock
 ARDUINO_LIBS := AceTime AceRoutine
+LDFLAGS := -lz
 include ../../../UnixHostDuino/UnixHostDuino.mk

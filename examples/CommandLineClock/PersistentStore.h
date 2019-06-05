@@ -76,6 +76,8 @@ class PersistentStore {
 
     bool readStoredInfo(StoredInfo& storedInfo) const {
       FILE* file = fopen(mFile, "rb");
+      if (!file) return false;
+
       uint32_t expectedCrc;
       fread((void*) &storedInfo, sizeof(storedInfo), 1, file);
       fread((void*) &expectedCrc, sizeof(expectedCrc), 1, file);

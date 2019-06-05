@@ -400,20 +400,28 @@ void setup() {
   SERIAL_PORT_MONITOR.print(F("sizeof(StoredInfo): "));
   SERIAL_PORT_MONITOR.println(sizeof(StoredInfo));
 
+#if defined(ARDUINO)
+  Serial.println(F("Setting up Wire"));
   Wire.begin();
   Wire.setClock(400000L);
+#endif
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
+  Serial.println(F("Setting up DS3231TimeKeeper"));
   dsTimeKeeper.setup();
 #endif
 
+  Serial.println(F("Setting up PersistentStore"));
 #if defined(ARDUINO)
   persistentStore.setup();
-  systemClock.setup();
 #else
   persistentStore.setup("commandline.dat");
-  systemClock.setup();
 #endif
+
+  Serial.println(F("Setting up SystemClock"));
+  systemClock.setup();
+
+  Serial.println(F("Setting up Controller"));
   controller.setup();
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
@@ -427,9 +435,13 @@ void setup() {
 
   // insert coroutines into the scheduler
 #if SYNC_TYPE == SYNC_TYPE_COROUTINE
+  Serial.println(F("Setting up SystemTime*Coroutines"));
   systemClockSync.setupCoroutine(F("systemClockSync"));
 #endif
+
+  Serial.println(F("Setting up CommandManager"));
   commandManager.setupCoroutine(F("commandManager"));
+
   CoroutineScheduler::setup();
 
   SERIAL_PORT_MONITOR.println(F("setup(): end"));
