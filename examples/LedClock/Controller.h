@@ -1,42 +1,32 @@
-#ifndef CLOCK_CLOCK_H
-#define CLOCK_CLOCK_H
+#ifndef LED_CLOCK_CONTROLLER_H
+#define LED_CLOCK_CONTROLLER_H
 
 #include <AceTime.h>
-#include <ace_time/hw/CrcEeprom.h>
-#include <ace_time/common/DateStrings.h>
+#include <AceSegment.h>
+#include "config.h"
 #include "ClockInfo.h"
-#include "RenderingInfo.h"
-#include "StoredInfo.h"
 #include "Presenter.h"
+#include "StoredInfo.h"
 
+using namespace ace_segment;
 using namespace ace_time;
 using namespace ace_time::common;
 using namespace ace_time::provider;
 
-/**
- * Class responsible for rendering the RenderingInfo to the indicated display.
- * Different subclasses output to different types of displays. In an MVC
- * architecture, this would be the Controller. The Model would be the various
- * member variables in this class. The View layer are the various Presenter
- * classes.
- */
-class Clock {
+class Controller {
   public:
     static const uint16_t kStoredInfoEepromAddress = 0;
 
     static const int16_t kDefaultOffsetMinutes = -8*60; // UTC-08:00
 
-    /**
-     * Constructor.
-     * @param timeKeeper source of the current time
-     * @param crcEeprom stores objects into the EEPROM with CRC
-     * @param presenter renders the date and time info to the screen
-     */
-    Clock(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
-            Presenter& presenter):
+    /** Constructor. */
+    Controller(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
+          Presenter& presenter):
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),
-        mPresenter(presenter) {}
+        mPresenter(presenter) {
+      mMode = MODE_HOUR_MINUTE;
+    }
 
     void setup() {
       // Restore from EEPROM to retrieve time zone.
@@ -74,17 +64,144 @@ class Clock {
       mPresenter.display();
     }
 
-    virtual void modeButtonPress() = 0;
+    void modeButtonPress() {
+      switch (mMode) {
+        case MODE_HOUR_MINUTE:
+          mMode = MODE_MINUTE_SECOND;
+          break;
+        case MODE_MINUTE_SECOND:
+          mMode = MODE_YEAR;
+          break;
+        case MODE_YEAR:
+          mMode = MODE_MONTH;
+          break;
+        case MODE_MONTH:
+          mMode = MODE_DAY;
+          break;
+        case MODE_DAY:
+          mMode = MODE_WEEKDAY;
+          break;
+        case MODE_WEEKDAY:
+          mMode = MODE_HOUR_MINUTE;
+          break;
+        case MODE_CHANGE_HOUR:
+          mMode = MODE_CHANGE_MINUTE;
+          break;
+        case MODE_CHANGE_MINUTE:
+          mMode = MODE_CHANGE_YEAR;
+          break;
+        case MODE_CHANGE_YEAR:
+          mMode = MODE_CHANGE_MONTH;
+          break;
+        case MODE_CHANGE_MONTH:
+          mMode = MODE_CHANGE_DAY;
+          break;
+        case MODE_CHANGE_DAY:
+          mMode = MODE_CHANGE_HOUR;
+          break;
+      }
+    }
 
-    virtual void modeButtonLongPress() = 0;
+    void modeButtonLongPress() {
+      switch (mMode) {
+        case MODE_HOUR_MINUTE:
+          mChangingClockInfo = mClockInfo;
+          mSecondFieldCleared = false;
+          mMode = MODE_CHANGE_HOUR;
+          break;
+        case MODE_MINUTE_SECOND:
+          mChangingClockInfo = mClockInfo;
+          mSecondFieldCleared = false;
+          mMode = MODE_CHANGE_MINUTE;
+          break;
 
-    virtual void changeButtonPress() = 0;
+        case MODE_YEAR:
+          mChangingClockInfo = mClockInfo;
+          mSecondFieldCleared = false;
+          mMode = MODE_CHANGE_YEAR;
+          break;
+        case MODE_MONTH:
+          mChangingClockInfo = mClockInfo;
+          mSecondFieldCleared = false;
+          mMode = MODE_CHANGE_MONTH;
+          break;
+        case MODE_DAY:
+          mChangingClockInfo = mClockInfo;
+          mSecondFieldCleared = false;
+          mMode = MODE_CHANGE_DAY;
+          break;
 
-    virtual void changeButtonRelease() = 0;
+        case MODE_CHANGE_YEAR:
+          saveDateTime();
+          mMode = MODE_YEAR;
+          break;
+        case MODE_CHANGE_MONTH:
+          saveDateTime();
+          mMode = MODE_MONTH;
+          break;
+        case MODE_CHANGE_DAY:
+          saveDateTime();
+          mMode = MODE_DAY;
+          break;
+        case MODE_CHANGE_HOUR:
+          saveDateTime();
+          mMode = MODE_HOUR_MINUTE;
+          break;
+        case MODE_CHANGE_MINUTE:
+          saveDateTime();
+          mMode = MODE_HOUR_MINUTE;
+          break;
+      }
+    }
 
-    virtual void changeButtonRepeatPress() = 0;
+    void changeButtonPress() {
+      switch (mMode) {
+        case MODE_CHANGE_HOUR:
+          mSuppressBlink = true;
+          date_time_mutation::incrementHour(mChangingClockInfo.dateTime);
+          break;
+        case MODE_CHANGE_MINUTE:
+          mSuppressBlink = true;
+          date_time_mutation::incrementMinute(mChangingClockInfo.dateTime);
+          break;
+        case MODE_CHANGE_YEAR:
+          mSuppressBlink = true;
+          date_time_mutation::incrementYear(mChangingClockInfo.dateTime);
+          break;
+        case MODE_CHANGE_MONTH:
+          mSuppressBlink = true;
+          date_time_mutation::incrementMonth(mChangingClockInfo.dateTime);
+          break;
+        case MODE_CHANGE_DAY:
+          mSuppressBlink = true;
+          date_time_mutation::incrementDay(mChangingClockInfo.dateTime);
+          break;
+      }
 
-  protected:
+      // Update the display right away to prevent jitters in the display when
+      // the button is triggering RepeatPressed events.
+      update();
+    }
+
+    void changeButtonRepeatPress() {
+      changeButtonPress();
+    }
+
+    void changeButtonRelease() {
+      switch (mMode) {
+        case MODE_CHANGE_YEAR:
+        case MODE_CHANGE_MONTH:
+        case MODE_CHANGE_DAY:
+        case MODE_CHANGE_HOUR:
+        case MODE_CHANGE_MINUTE:
+        case MODE_CHANGE_SECOND:
+        case MODE_CHANGE_TIME_ZONE_OFFSET:
+          mSuppressBlink = false;
+          break;
+      }
+    }
+
+  private:
     void updateDateTime() {
       // TODO: It might be possible to track just the epochSeconds instead of
       // converting it to a ZonedDateTime at each iteration.
@@ -92,8 +209,8 @@ class Clock {
           mTimeKeeper.getNow(),
           TimeZone::forZoneSpecifier(&mClockInfo.zoneSpecifier));
 
-      // If in CHANGE mode, and the 'second' field has not been cleared,
-      // update the mChangingDateTime.second field with the current second.
+      // If in CHANGE mode, and the 'second' field has not been cleared, update
+      // the displayed time with the current second.
       switch (mMode) {
         case MODE_CHANGE_YEAR:
         case MODE_CHANGE_MONTH:
@@ -127,13 +244,11 @@ class Clock {
 
       switch (mMode) {
         case MODE_DATE_TIME:
-#if DISPLAY_TYPE == DISPLAY_TYPE_LED || DISPLAY_TYPE == DISPLAY_TYPE_OLED
         case MODE_HOUR_MINUTE:
         case MODE_MINUTE_SECOND:
         case MODE_YEAR:
         case MODE_MONTH:
         case MODE_DAY:
-#endif
         case MODE_WEEKDAY:
         case MODE_TIME_ZONE:
           mPresenter.setDateTime(mClockInfo.dateTime);

@@ -5,22 +5,6 @@
 // Configuration parameters.
 //------------------------------------------------------------------
 
-const uint8_t MODE_UNKNOWN = 0; // uninitialized
-const uint8_t MODE_DATE_TIME = 1;
-const uint8_t MODE_TIME_ZONE = 2;
-const uint8_t MODE_ABOUT = 3;
-
-const uint8_t MODE_CHANGE_YEAR = 10;
-const uint8_t MODE_CHANGE_MONTH = 11;
-const uint8_t MODE_CHANGE_DAY = 12;
-const uint8_t MODE_CHANGE_HOUR = 13;
-const uint8_t MODE_CHANGE_MINUTE = 14;
-const uint8_t MODE_CHANGE_SECOND = 15;
-
-const uint8_t MODE_CHANGE_TIME_ZONE_OFFSET = 20;
-const uint8_t MODE_CHANGE_TIME_ZONE_DST = 21;
-const uint8_t MODE_CHANGE_HOUR_MODE = 22;
-
 #define CLOCK_VERSION_STRING "0.1"
 
 #define ENABLE_SERIAL 0
@@ -70,5 +54,25 @@ const uint8_t MODE_CHANGE_HOUR_MODE = 22;
 #else
   #error Unknown AUNITER environment
 #endif
+
+//------------------------------------------------------------------
+// Button state transition nodes.
+//------------------------------------------------------------------
+
+const uint8_t MODE_UNKNOWN = 0; // uninitialized
+const uint8_t MODE_DATE_TIME = 1;
+const uint8_t MODE_TIME_ZONE = 2;
+const uint8_t MODE_ABOUT = 3;
+
+const uint8_t MODE_CHANGE_YEAR = 10;
+const uint8_t MODE_CHANGE_MONTH = 11;
+const uint8_t MODE_CHANGE_DAY = 12;
+const uint8_t MODE_CHANGE_HOUR = 13;
+const uint8_t MODE_CHANGE_MINUTE = 14;
+const uint8_t MODE_CHANGE_SECOND = 15;
+
+const uint8_t MODE_CHANGE_TIME_ZONE_OFFSET = 20;
+const uint8_t MODE_CHANGE_TIME_ZONE_DST = 21;
+const uint8_t MODE_CHANGE_HOUR_MODE = 22;
 
 #endif

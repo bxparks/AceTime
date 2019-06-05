@@ -19,9 +19,7 @@ Supported boards are:
 #include <SSD1306AsciiWire.h>
 #include "config.h"
 #include "LedDisplay.h"
-#include "OledClock.h"
-#include "FullOledClock.h"
-#include "LedClock.h"
+#include "Controller.h"
 
 using namespace ace_segment;
 using namespace ace_button;
@@ -59,36 +57,11 @@ SystemTimeSyncCoroutine systemTimeSync(systemTimeKeeper);
 SystemTimeHeartbeatCoroutine systemTimeHeartbeat(systemTimeKeeper);
 
 //------------------------------------------------------------------
-// Configure OLED display using SSD1306Ascii.
-//------------------------------------------------------------------
-
-#if DISPLAY_TYPE == DISPLAY_TYPE_OLED || DISPLAY_TYPE == DISPLAY_TYPE_FULL_OLED
-
-// OLED address: 0X3C+SA0 - 0x3C or 0x3D
-#define OLED_I2C_ADDRESS 0x3C
-
-SSD1306AsciiWire oled;
-
-void setupOled() {
-#if DISPLAY_TYPE == DISPLAY_TYPE_FULL_OLED
-  oled.begin(&Adafruit128x64, OLED_I2C_ADDRESS);
-#else
-  oled.begin(&Adafruit128x32, OLED_I2C_ADDRESS);
-#endif
-  oled.displayRemap(OLED_REMAP);
-  oled.clear();
-}
-
-#endif
-
-//------------------------------------------------------------------
 // Configure LED display using AceSegment.
 //------------------------------------------------------------------
 
 // Use polling or interrupt for AceSegment
 #define USE_INTERRUPT 0
-
-#if DISPLAY_TYPE == DISPLAY_TYPE_LED
 
 const uint8_t DIGIT_PINS[LedDisplay::NUM_DIGITS] = {4, 5, 6, 7};
 
@@ -158,25 +131,12 @@ void setupLed() {
 #endif
 }
 
-#endif
-
 //------------------------------------------------------------------
-// Create an appropriate controller/presenter pair depending on
-// the DISPLAY_TYPE.
+// Create an appropriate controller/presenter pair.
 //------------------------------------------------------------------
 
-#if DISPLAY_TYPE == DISPLAY_TYPE_OLED
-  OledPresenter presenter(oled);
-  OledClock controller(systemTimeKeeper, crcEeprom, presenter);
-#elif DISPLAY_TYPE == DISPLAY_TYPE_FULL_OLED
-  FullOledPresenter presenter(oled);
-  FullOledClock controller(systemTimeKeeper, crcEeprom, presenter);
-#elif DISPLAY_TYPE == DISPLAY_TYPE_LED
-  LedPresenter presenter(ledDisplay);
-  LedClock controller(systemTimeKeeper, crcEeprom, presenter);
-#else
-  #error Invalid DISPLAY_TYPE
-#endif
+Presenter presenter(ledDisplay);
+Controller controller(systemTimeKeeper, crcEeprom, presenter);
 
 //------------------------------------------------------------------
 // Render the Clock periodically.
@@ -284,11 +244,7 @@ void setup() {
 
   setupAceButton();
 
-#if DISPLAY_TYPE == DISPLAY_TYPE_LED
   setupLed();
-#else
-  setupOled();
-#endif
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
   dsTimeKeeper.setup();

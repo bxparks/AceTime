@@ -1,5 +1,5 @@
-#ifndef CLOCK_CLOCK_INFO_H
-#define CLOCK_CLOCK_INFO_H
+#ifndef LED_CLOCK_CLOCK_INFO_H
+#define LED_CLOCK_CLOCK_INFO_H
 
 #include <AceTime.h>
 #include "config.h"
