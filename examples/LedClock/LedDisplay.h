@@ -15,16 +15,11 @@ class LedDisplay {
     static const uint8_t NUM_DIGITS = 4;
     static const uint8_t NUM_SEGMENTS = 8;
 
-    static const uint8_t DIGIT_PINS[NUM_DIGITS];
-
     #if LED_MODULE_TYPE == LED_MODULE_DIRECT
+      static const uint8_t DIGIT_PINS[NUM_DIGITS];
       static const uint8_t SEGMENT_PINS[NUM_SEGMENTS];
-    #elif LED_MODULE_TYPE == LED_MODULE_SERIAL
-      static const uint8_t LATCH_PIN = 10; // ST_CP on 74HC595
-      static const uint8_t DATA_PIN = MOSI; // DS on 74HC595
-      static const uint8_t CLOCK_PIN = SCK; // SH_CP on 74HC595
-    #else
-      #error Unsupported LED_MODULE_TYPE
+    #elif LED_MODULE_TYPE == LED_MODULE_SEGMENT_SERIAL
+      static const uint8_t DIGIT_PINS[NUM_DIGITS];
     #endif
 
     static const uint8_t FRAMES_PER_SECOND = 60;
@@ -46,15 +41,21 @@ class LedDisplay {
       #if LED_MODULE_TYPE == LED_MODULE_DIRECT
         driver = new SplitDirectDigitDriver(
             hardware, dimmablePatterns,
-            true /*commonCathode*/, true /*useTransitors*/,
+            false /*commonCathode*/, true /*useTransitors*/,
             false /* transistorsOnSegments */, NUM_DIGITS, NUM_SEGMENTS,
-            NUM_SUBFIELDS, DIGIT_PINS, segmentPins);
-      #elif LED_MODULE_TYPE == LED_MODULE_SERIAL
+            NUM_SUBFIELDS, DIGIT_PINS, SEGMENT_PINS);
+      #elif LED_MODULE_TYPE == LED_MODULE_SEGMENT_SERIAL
         driver = new SplitSerialDigitDriver(
             hardware, dimmablePatterns,
             true /*commonCathode*/, true /*useTransitors*/,
             false /* transistorsOnSegments */, NUM_DIGITS, NUM_SEGMENTS,
             NUM_SUBFIELDS, DIGIT_PINS, LATCH_PIN, DATA_PIN, CLOCK_PIN);
+      #elif LED_MODULE_TYPE == LED_MODULE_DUAL_SERIAL
+        driver = new MergedSerialDigitDriver(
+            hardware, dimmablePatterns,
+            false /*commonCathode*/, true /*useTransitors*/,
+            false /* transistorsOnSegments */, NUM_DIGITS, NUM_SEGMENTS,
+            NUM_SUBFIELDS, LATCH_PIN, DATA_PIN, CLOCK_PIN);
       #else
         #error Unsupported LED_MODULE_TYPE
       #endif

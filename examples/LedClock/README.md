@@ -7,8 +7,8 @@ This program was split off from the original `example/Clock` directory. This
 version supports 4-segment LED clock displays. It supports multiple types of
 4-segment LED displays, according to the `LED_MODULE_TYPE`:
     * `LED_MODULE_DIRECT`: both segment and digit pins driven by GPIO pins directly
-    * `LED_MODULE_SERIAL`: segment pins driven by 74HC595
-    * `LED_MODULE_SPI`: both segment and digit pins driven by 74HC595
+    * `LED_MODULE_SEGMENT_SERIAL`: segment pins driven by 74HC595
+    * `LED_MODULE_DUAL_SERIAL`: both segment and digit pins driven by 74HC595
 
 The time source can be one of the following:
     * TIME_SOURCE_TYPE_NONE: use the system millis()
