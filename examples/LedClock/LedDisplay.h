@@ -2,6 +2,7 @@
 #define LED_CLOCK_DISPLAY_H
 
 #include <AceSegment.h>
+#include "config.h"
 
 using namespace ace_segment;
 
@@ -11,22 +12,25 @@ using namespace ace_segment;
  */
 class LedDisplay {
   public:
-    static const uint8_t DRIVER_TYPE_DIRECT = 0;
-    static const uint8_t DRIVER_TYPE_SERIAL = 1;
+    static const uint8_t NUM_DIGITS = 4;
+    static const uint8_t NUM_SEGMENTS = 8;
+
+    static const uint8_t DIGIT_PINS[NUM_DIGITS];
+
+    #if LED_MODULE_TYPE == LED_MODULE_DIRECT
+      static const uint8_t SEGMENT_PINS[NUM_SEGMENTS];
+    #elif LED_MODULE_TYPE == LED_MODULE_SERIAL
+      static const uint8_t LATCH_PIN = 10; // ST_CP on 74HC595
+      static const uint8_t DATA_PIN = MOSI; // DS on 74HC595
+      static const uint8_t CLOCK_PIN = SCK; // SH_CP on 74HC595
+    #else
+      #error Unsupported LED_MODULE_TYPE
+    #endif
 
     static const uint8_t FRAMES_PER_SECOND = 60;
     static const uint8_t NUM_SUBFIELDS = 1;
     static const uint8_t BLINK_STYLE = 1;
     static const uint16_t BLINK_DURATION_MILLIS = 1000;
-
-    static const uint8_t NUM_DIGITS = 4;
-    static const uint8_t NUM_SEGMENTS = 8;
-
-    // Transistors on the digits or segments which do NOT have the resistors.
-    static const bool USE_TRANSISTORS = true;
-
-    // Common Cathode or Anode
-    static const bool COMMON_CATHODE = true;
 
     static const uint16_t STATS_RESET_INTERVAL = 1200;
 
@@ -35,25 +39,25 @@ class LedDisplay {
      * that the LedDisplay object is created once at the beginning of the
      * program and never deleted.
      */
-    LedDisplay(uint8_t driverType, const uint8_t* digitPins,
-        const uint8_t* segmentPins) {
+    LedDisplay() {
       hardware = new Hardware();
 
       // Create the Driver.
-      if (driverType == DRIVER_TYPE_DIRECT) {
+      #if LED_MODULE_TYPE == LED_MODULE_DIRECT
         driver = new SplitDirectDigitDriver(
             hardware, dimmablePatterns,
-            COMMON_CATHODE, USE_TRANSISTORS,
+            true /*commonCathode*/, true /*useTransitors*/,
             false /* transistorsOnSegments */, NUM_DIGITS, NUM_SEGMENTS,
-            NUM_SUBFIELDS, digitPins, segmentPins);
-      } else if (driverType == DRIVER_TYPE_SERIAL) {
+            NUM_SUBFIELDS, DIGIT_PINS, segmentPins);
+      #elif LED_MODULE_TYPE == LED_MODULE_SERIAL
         driver = new SplitSerialDigitDriver(
             hardware, dimmablePatterns,
-            COMMON_CATHODE, USE_TRANSISTORS,
+            true /*commonCathode*/, true /*useTransitors*/,
             false /* transistorsOnSegments */, NUM_DIGITS, NUM_SEGMENTS,
-            NUM_SUBFIELDS, digitPins, segmentPins[0], segmentPins[1],
-            segmentPins[2]);
-      }
+            NUM_SUBFIELDS, DIGIT_PINS, LATCH_PIN, DATA_PIN, CLOCK_PIN);
+      #else
+        #error Unsupported LED_MODULE_TYPE
+      #endif
       driver->configure();
 
       // Create the blink styler
