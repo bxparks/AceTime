@@ -1,5 +1,5 @@
-#ifndef FULL_OLED_CLOCK_RENDERING_INFO_H
-#define FULL_OLED_CLOCK_RENDERING_INFO_H
+#ifndef OLED_CLOCK_RENDERING_INFO_H
+#define OLED_CLOCK_RENDERING_INFO_H
 
 #include <AceTime.h>
 #include "config.h"

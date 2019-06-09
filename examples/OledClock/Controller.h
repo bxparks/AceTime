@@ -1,5 +1,5 @@
-#ifndef FULL_OLED_CLOCK_CONTROLLER_H
-#define FULL_OLED_CLOCK_CONTROLLER_H
+#ifndef OLED_CLOCK_CONTROLLER_H
+#define OLED_CLOCK_CONTROLLER_H
 
 #include <AceTime.h>
 #include <ace_time/hw/CrcEeprom.h>

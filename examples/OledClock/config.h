@@ -1,5 +1,5 @@
-#ifndef FULL_OLED_CLOCK_CONFIG_H
-#define FULL_OLED_CLOCK_CONFIG_H
+#ifndef OLED_CLOCK_CONFIG_H
+#define OLED_CLOCK_CONFIG_H
 
 //------------------------------------------------------------------
 // Configuration parameters.
@@ -39,7 +39,7 @@
 #elif defined(AUNITER_ESP8266) || defined(AUNITER_ESP_MINDER)
   #define MODE_BUTTON_PIN D4
   #define CHANGE_BUTTON_PIN D3
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
   #define OLED_REMAP false
 #elif defined(AUNITER_ESP_MINDER2)
   #define MODE_BUTTON_PIN D4

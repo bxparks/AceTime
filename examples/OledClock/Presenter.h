@@ -1,5 +1,5 @@
-#ifndef FULL_OLED_CLOCK_PRESERNTER_H
-#define FULL_OLED_CLOCK_PRESERNTER_H
+#ifndef OLED_CLOCK_PRESERNTER_H
+#define OLED_CLOCK_PRESERNTER_H
 
 #include <AceTime.h>
 #include <SSD1306AsciiWire.h>
@@ -224,7 +224,7 @@ class Presenter {
 
       // Use F() macros for these longer strings. Seems to save both
       // flash memory and RAM.
-      mOled.print(F("FullOledClock: "));
+      mOled.print(F("OledClock: "));
       mOled.println(CLOCK_VERSION_STRING);
       mOled.print(F("Tzdata: "));
       mOled.println(zonedb::kTzDatabaseVersion);
