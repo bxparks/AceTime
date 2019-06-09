@@ -63,37 +63,7 @@ SystemTimeHeartbeatCoroutine systemTimeHeartbeat(systemTimeKeeper);
 // Use polling or interrupt for AceSegment
 #define USE_INTERRUPT 0
 
-const uint8_t DIGIT_PINS[LedDisplay::NUM_DIGITS] = {4, 5, 6, 7};
-
-#if defined(AUNITER_MINI_MINDER)
-  #if LED_MODULE_TYPE == LED_MODULE_DIRECT
-    static const uint8_t SEGMENT_PINS[LedDisplay::NUM_SEGMENTS] =
-        {8, 9, 10, 11, 12, 14, 15, 13};
-    static const uint8_t DRIVER_TYPE = LedDisplay::DRIVER_TYPE_DIRECT;
-  #elif LED_MODULE_TYPE == LED_MODULE_SERIAL
-    static const uint8_t LATCH_PIN = SS; // ST_CP on 74HC595
-    static const uint8_t DATA_PIN = MOSI; // DS on 74HC595
-    static const uint8_t CLOCK_PIN = SCK; // SH_CP on 74HC595
-    static const uint8_t SEGMENT_PINS[3] = { LATCH_PIN, DATA_PIN, CLOCK_PIN };
-    static const uint8_t DRIVER_TYPE = LedDisplay::DRIVER_TYPE_SERIAL;
-  #else
-    #error Unsupported LED_MODULE_TYPE
-  #endif
-#elif defined(AUNITER_MICRO_MINDER)
-  #if LED_MODULE_TYPE == LED_MODULE_SERIAL
-    static const uint8_t LATCH_PIN = 10; // ST_CP on 74HC595
-    static const uint8_t DATA_PIN = MOSI; // DS on 74HC595
-    static const uint8_t CLOCK_PIN = SCK; // SH_CP on 74HC595
-    static const uint8_t SEGMENT_PINS[3] = { LATCH_PIN, DATA_PIN, CLOCK_PIN };
-    static const uint8_t DRIVER_TYPE = LedDisplay::DRIVER_TYPE_SERIAL;
-  #else
-    #error Unsupported LED_MODULE_TYPE
-  #endif
-#else
-  #error Unsupported BOARD
-#endif
-
-LedDisplay ledDisplay(LedDisplay::DRIVER_TYPE_SERIAL, DIGIT_PINS, SEGMENT_PINS);
+LedDisplay ledDisplay;
 
 #if USE_INTERRUPT == 1
   // interrupt handler for timer 2
