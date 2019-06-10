@@ -2,36 +2,42 @@
 
 This library provides date and time classes for the Arduino platform with
 support for geographical time zones in the [TZ
-database](https://en.wikipedia.org/wiki/Tz_database) so that date-times from one
-timezone can be converted to another timezone. The library also provides
-classes uild on the built-in `millis()` method to create a "system clock" that
-can be synchronized from an external time source, such as an
+database](https://en.wikipedia.org/wiki/Tz_database). Date and time from one
+timezone can be converted to another timezone. The library also provides classes
+that build on the built-in `millis()` function to create a "system clock" that
+can be synchronized from a more reliable external time source, such as an
 [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server or a DS3231
 RTC chip. This library is meant to be an alternative to the [Arduino
 Time](https://github.com/PaulStoffregen/Time) and [Arduino
 Timezone](https://github.com/JChristensen/Timezone) libraries.
 
-The library's various date and time classes provide a thin abstraction for date
-and time fields, mostly to allow conversions from Gregorian calendar components
-to epoch seconds and back. In addition, 2 implementations of the IANA TZ
-Database are provided: `BasicZoneSpecifier` supports 231 zones which have
-(relatively) simple time zone transition rules, and `ExtendedZoneSpecifier`
-supports all 348 geographical zones in the database.
+The library's various date and time classes provide a thin abstraction layer to
+make it easier to manipulate date and time fields. For example, the
+`dayOfWeek()` returns the day of the week of a date; the `toEpochSeconds()`
+returns the number of seconds from a epoch date; the `fromEpochSeconds()`
+constructs the date and time fields from the epoch seconds; the
+`convertToTimeZone()` converts the datetime from one time zone to another time
+zone. The library provides 2 implementations of the IANA TZ Database:
+`BasicZoneSpecifier` supports 231 zones which have (relatively) simple time zone
+transition rules, and `ExtendedZoneSpecifier` supports all 348 geographical
+zones in the database.
 
 Compared to the Arduino Time Library, here are the main differences:
-1. AceTime provides more abstraction to make it easier to use. For example,
-  you can create multiple instances of the system clock if you need to.
-1. AceTime supports all zones defined by the TZ Database and corrects for
-  DST (daylight saving time) transitions automatically.
-1. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z, where as
-   Arduino Time Library uses the Unix epoch of 1970-01-01T00:00:00Z. Using an
-   `int32_t` (typedef'ed as `ace_time::acetime_t`) to track the number of
-   seconds since the Epoch, the AceTime library can handle all dates from
-   approximately *1931* to **2068**.
-1. AceTime is **2-3X** faster on an ATmega328P, **4X** faster on the ESP8266,
-   and **10-20X** faster on the ARM (Teensy) and ESP32 processors.
+1. AceTime provides more abstraction to make it easier to use. For example, you
+can create multiple instances of the system clock if you need to.
+1. AceTime supports all 348 geographical zones defined by the TZ Database and
+corrects for DST (daylight saving time) transitions automatically.
+1. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z, where as Arduino
+Time Library uses the Unix epoch of 1970-01-01T00:00:00Z. Using an `int32_t`
+(typedef'ed as `ace_time::acetime_t`) to track the number of seconds since the
+Epoch, the AceTime library can handle all dates from approximately *1931* to
+**2068**.
+1. AceTime is **2-5X** faster on an ATmega328P, **3-4X** faster on the ESP8266,
+**3-5X** faster on the ESP32, and **7-20X** faster on the ARM (Teensy).
 1. AceTime begins the week on a Monday, assigning 1=Monday and 7=Sunday, per ISO
-   8601 standard, instead of beginning the week on a Sunday.
+8601 standard, instead of beginning the week on a Sunday.
+1. The "system" clock can have both a syncing time source, as well as a backup
+time source which can preserve the time after a power failure.
 
 There are roughly 3 bundles of classes provided by the AceTime library,
 separated into namespaces:
@@ -191,20 +197,27 @@ The source files are organized as follows:
 
 ### Dependencies
 
-The main AceTime library itself has no external dependency. There is an
-an optional dependency to
-[AceRoutine](https://github.com/bxparks/AceRoutine)
-if you want to use the `SystemTimeSyncCoroutine` and
-`SystemTimeHeartbeatCoroutine` classes for automatic syncing and freshening.
-(This is recommended but not strictly necessary).
+The vast majority of the AceTime library has no dependency any other external
+libraries. There is an optional dependency to
+[AceRoutine](https://github.com/bxparks/AceRoutine) if you want to use the
+`SystemTimeSyncCoroutine` and `SystemTimeHeartbeatCoroutine` classes for
+automatic syncing and freshening. (This is recommended but not strictly
+necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to the FastCRC
+library but the `CrcEeprom.h` file is not included by in the `AceTime.h` main
+header file, so you should not need FastCRC to compile AceTime. (The
+`CrcEeprom.h` header file does not strictly belong in the AceTime library but
+many of my "clock" projects that use the AceTime library also use the
+`CrcEeprom` class, so this is a convenient place to keep it.)
 
-Various sketches in the `examples/` directory have a number of external
-dependencies (not all of the sketches require all of the following):
+Various programs in the `examples/` directory have one or more of the following
+external dependencies:
 
 * [AceRoutine](https://github.com/bxparks/AceRoutine)
 * [AceButton](https://github.com/bxparks/AceButton)
 * [FastCRC](https://github.com/FrankBoesing/FastCRC)
 * [SSD1306Ascii](https://github.com/greiman/SSD1306Ascii)
+* [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
+* [Arduino Timezone](https://github.com/JChristensen/Timezone)
 
 ### Docs
 
@@ -215,23 +228,27 @@ The [docs/](docs/) directory contains the
 
 The following example sketches are provided:
 
-* [AutoBenchmark.ino](examples/AutoBenchmark/)
-    * a program that performs CPU and memory benchmarking and print a report
-* [Clock.ino](examples/Clock/)
-    * a digital clock using a DS3231 RTC chip, an NTP client, 2 buttons, and a
+* [HelloTime](examples/HelloTime/)
+    * demo program of various date and time classes
+* [CommandLineClock](examples/CommandLineClock/)
+    * a clock with a DS3231 RTC chip, an NTP client, and using the serial port
+      for receiving commands and printing results, useful for debugging
+* [OledClock](examples/OledClock/)
+    * a digital clock using a DS3231 RTC chip, an NTP client, 2 buttons, and an
       SSD1306 OLED display
-* [CommandLineClock.ino](examples/CommandLineClock/)
-    * a clock using a DS3231 RTC chip, an NTP client, and serial port command
-      line interface,
-* [ComparisonBenchmark.ino](examples/ComparisonBenchmark/)
-    * a program that compares the speed of AceTime with the
-      [Arduino Time Library](https://github.com/PaulStoffregen/Time).
-* [CrcEepromDemo.ino](examples/CrcEepromDemo/)
+* [WorldClock](examples/WorldClock/)
+    * a clock with 3 OLED screens showing the time at 3 different time zones
+* [AutoBenchmark](examples/AutoBenchmark/)
+    * perform CPU and memory benchmarking of various methods and print a report
+* [ComparisonBenchmark](examples/ComparisonBenchmark/)
+    * compare AceTime with
+    [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
+* [CrcEepromDemo](examples/CrcEepromDemo/)
     * a program that verifies the `CrcEeprom` class
 
 ## Usage
 
-### Include Header and Namespace
+### Headers and Namespaces
 
 Only a single header file `AceTime.h` is required to use this library.
 To prevent name clashes with other libraries that the calling code may use, all
@@ -774,10 +791,10 @@ of the time period. The largest (or smallest) time period that can be
 represented by this class is +/- 255h59m59s, corresponding to +/- 921599
 seconds.
 
-This class is intended to be used when the difference between 2 dates need
-to be presented to the user broken down into hours, minutes and seconds. For
-example, we can print out a count down to a target `DateTime` from the current
-`DateTime` like this:
+This class is intended to be used when the difference between 2 dates need to be
+presented to the user broken down into hours, minutes and seconds. For example,
+we can print out a count down to a target `ZonedDateTime` from the current
+`ZonedDateTime` like this:
 ```C++
 ZonedDateTime currentDate = ...;
 ZonedDateTime targetDate = ...;
