@@ -56,10 +56,15 @@ const char DATE_TIME_TO_EPOCH_SECONDS_LABEL[] =
 
 // The compiler is extremelly good about removing code that does nothing. This
 // volatile variable is used to create side-effects that prevent the compiler
-// from optimizing out the code that's being tested.
+// from optimizing out the code that's being tested. Each disableOptimization()
+// method should perform 6 XOR operations to cancel each other out when
+// subtracted.
 volatile uint8_t guard;
 
 void disableOptimization(const LocalDate& ld) {
+  guard ^= ld.year();
+  guard ^= ld.month();
+  guard ^= ld.day();
   guard ^= ld.year();
   guard ^= ld.month();
   guard ^= ld.day();
@@ -84,16 +89,19 @@ void disableOptimization(const OffsetDateTime& dt) {
 }
 
 void disableOptimization(uint32_t value) {
+  // Two temp variables allows 2 more XOR operations, for a total of 6.
+  uint8_t tmp1, tmp2;
+
   guard ^= value & 0xff;
   guard ^= (value >> 8) & 0xff;
-  guard ^= (value >> 16) & 0xff;
-  guard ^= (value >> 24) & 0xff;
+  guard ^= (tmp1 = (value >> 16) & 0xff);
+  guard ^= (tmp2 = (value >> 24) & 0xff);
+  guard ^= tmp1;
+  guard ^= tmp2;
 }
 
-/**
- * A small helper that runs the given lamba expression in a loop
- * and returns how long it took.
- */
+// A small helper that runs the given lamba expression in a loop
+// and returns how long it took.
 template <typename F>
 unsigned long runLambda(uint32_t count, F&& lambda) {
   yield();
