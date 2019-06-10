@@ -7,16 +7,18 @@
 using namespace ace_time;
 using ace_time::common::printPad3;
 
-#if defined(ESP8266)
+#if defined(AVR)
+const uint32_t COUNT = 2500;
+#elif defined(ESP8266)
 const uint32_t COUNT = 25000;
 #elif defined(ESP32)
 const uint32_t COUNT = 250000;
+#elif defined(TEENSYDUINO)
+const uint32_t COUNT = 250000;
 #elif !defined(ARDUINO)
 const uint32_t COUNT = 100000;
-#elif defined(AVR)
-const uint32_t COUNT = 2500;
 #else
-#error Unsupported platform
+  #error Unsupported platform
 #endif
 
 const uint32_t MILLIS_TO_NANO_PER_ITERATION = ((uint32_t) 1000000 / COUNT);
