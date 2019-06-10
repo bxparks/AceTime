@@ -22,38 +22,37 @@ const uint32_t COUNT = 2500;
 const uint32_t MILLIS_TO_NANO_PER_ITERATION = ((uint32_t) 1000000 / COUNT);
 
 const char TOP[] =
-  "-------------------------------------------------+----------+";
+  "+--------------------------------------------------+----------+";
 const char HEADER[] =
-  "Method                                           |   micros |";
+  "| Method                                           |   micros |";
 const char ROW_DIVIDER[] =
-  "-------------------------------------------------|----------|";
-const char BOTTOM[] =
-  "-------------------------------------------------+----------+";
+  "|--------------------------------------------------|----------|";
+const char* const BOTTOM = TOP;
 const char COL_DIVIDER[] = " |";
 const char EMPTY_LOOP_LABEL[] =
-  "Empty loop                                       | ";
+  "| Empty loop                                       | ";
 const char LOCAL_DATE_FOR_EPOCH_DAYS_LABEL[] =
-  "LocalDate::forEpochDays()                        | ";
+  "| LocalDate::forEpochDays()                        | ";
 const char LOCAL_DATE_TO_EPOCH_DAYS_LABEL[] =
-  "LocalDate::toEpochDays()                         | ";
+  "| LocalDate::toEpochDays()                         | ";
 const char LOCAL_DATE_DAY_OF_WEEK_LABEL[] =
-  "LocalDate::dayOfWeek()                           | ";
+  "| LocalDate::dayOfWeek()                           | ";
 
 const char OFFSET_DATE_TIME_FOR_EPOCH_SECONDS_LABEL[] =
-  "OffsetDateTime::forEpochSeconds()                | ";
+  "| OffsetDateTime::forEpochSeconds()                | ";
 const char OFFSET_DATE_TIME_TO_EPOCH_SECONDS_LABEL[] =
-  "OffsetDateTime::toEpochSeconds()                 | ";
+  "| OffsetDateTime::toEpochSeconds()                 | ";
 
 const char DATE_TIME_FOR_EPOCH_SECONDS_LABEL[] =
-  "ZonedDateTime::forEpochSeconds(UTC)              | ";
+  "| ZonedDateTime::forEpochSeconds(UTC)              | ";
 const char DATE_TIME_FOR_EPOCH_SECONDS_LOS_ANGELES_LABEL[] =
-  "ZonedDateTime::forEpochSeconds(BasicZoneSpec)    | ";
+  "| ZonedDateTime::forEpochSeconds(BasicZoneSpec)    | ";
 const char DATE_TIME_FOR_EPOCH_SECONDS_CACHED_LABEL[] =
-  "ZonedDateTime::forEpochSeconds(BasicZone cached) | ";
+  "| ZonedDateTime::forEpochSeconds(BasicZone cached) | ";
 const char DATE_TIME_TO_EPOCH_DAYS_LABEL[] =
-  "ZonedDateTime::toEpochDays()                     | ";
+  "| ZonedDateTime::toEpochDays()                     | ";
 const char DATE_TIME_TO_EPOCH_SECONDS_LABEL[] =
-  "ZonedDateTime::toEpochSeconds()                  | ";
+  "| ZonedDateTime::toEpochSeconds()                  | ";
 
 // The compiler is extremelly good about removing code that does nothing. This
 // volatile variable is used to create side-effects that prevent the compiler

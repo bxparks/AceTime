@@ -30,19 +30,18 @@ acetime_t const START_SECONDS = 568080000; // 2018-01-01
 acetime_t const START_SECONDS_UNIX = 1514764800; // 2018-01-01
   
 const char TOP[] = 
-  "----------------------------+---------+";
+  "+-----------------------------+---------+";
 const char HEADER[] = 
-  "Method                      |  micros |";
+  "| Method                      |  micros |";
 const char DIVIDER[] = 
-  "----------------------------|---------|";
-const char BOTTOM[] = 
-  "----------------------------+---------+";
+  "|-----------------------------|---------|";
+const char* const BOTTOM = TOP;
 const char EMPTY_LOOP_LABEL[] =
-  "Empty loop                  | ";
+  "| Empty loop                  | ";
 const char ACE_TIME_LABEL[] =
-  "AceTime library             | ";
+  "| AceTime library             | ";
 const char ARDUINO_TIME_LABEL[] =
-  "Arduino Time library        | ";
+  "| Arduino Time library        | ";
 const char ENDING[] = " |";
 
 // The compiler is extremelly good about removing code that does nothing. This
