@@ -2,7 +2,7 @@
 
 This library provides date and time classes for the Arduino platform with
 support for geographical time zones in the [TZ
-database](https://en.wikipedia.org/wiki/Tz_database). Date and time from one
+database](https://www.iana.org/time-zones). Date and time from one
 timezone can be converted to another timezone. The library also provides classes
 that build on the built-in `millis()` function to create a "system clock" that
 can be synchronized from a more reliable external time source, such as an
