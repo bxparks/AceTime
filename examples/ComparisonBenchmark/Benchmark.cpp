@@ -30,25 +30,34 @@ uint32_t const DELTA_SECONDS = (uint32_t) 15 * 365.25 * 86400 / COUNT;
 
 acetime_t const START_SECONDS = 568080000; // 2018-01-01
 acetime_t const START_SECONDS_UNIX = 1514764800; // 2018-01-01
-  
-const char TOP[] = 
+
+// The following strings are placed into PROGMEM flash memory to prevent them
+// from consuming static RAM on the AVR platform. The FPSTR() macro converts
+// these (const char*) into (const __FlashHelperString*) so that the correct
+// version of println() or print() is called.
+#ifndef FPSTR
+#define FPSTR(pstr_pointer) \
+      (reinterpret_cast<const __FlashStringHelper *>(pstr_pointer))
+#endif
+
+const char TOP[] PROGMEM =
   "+--------------------------------------------+---------+";
-const char HEADER[] = 
+const char HEADER[] PROGMEM =
   "| Method                                     |  micros |";
-const char DIVIDER[] = 
+const char DIVIDER[] PROGMEM =
   "|--------------------------------------------|---------|";
 const char* const BOTTOM = TOP;
-const char EMPTY_LOOP_LABEL[] =
+const char EMPTY_LOOP_LABEL[] PROGMEM =
   "| Empty loop                                 | ";
-const char ACE_TIME_FOR_EPOCH_SECONDS[] =
+const char ACE_TIME_FOR_EPOCH_SECONDS[] PROGMEM =
   "| AceTime - ZonedDateTime::forEpochSeconds() | ";
-const char ACE_TIME_TO_EPOCH_SECONDS[] =
+const char ACE_TIME_TO_EPOCH_SECONDS[] PROGMEM =
   "| AceTime - ZonedDateTime::toEpochSeconds()  | ";
-const char ARDUINO_TIME_BREAK_TIME[] =
+const char ARDUINO_TIME_BREAK_TIME[] PROGMEM =
   "| Arduino Time - breakTime()                 | ";
-const char ARDUINO_TIME_MAKE_TIME[] =
+const char ARDUINO_TIME_MAKE_TIME[] PROGMEM =
   "| Arduino Time - makeTime()                  | ";
-const char ENDING[] = " |";
+const char ENDING[] PROGMEM = " |";
 
 // The compiler is extremelly good about removing code that does nothing. This
 // volatile variable is used to carete side-effects that prevent the compiler
@@ -112,7 +121,16 @@ const uint32_t MILLIS_TO_NANO_PER_ITERATION = ( 1000000 / COUNT);
 
 // Given total elapsed time in millis, print micros per iteration as
 // a floating point number (without using floating point operations).
-void printMicrosPerIteration(unsigned long elapsedMillis) {
+//
+// Sometimes, the elapsedMillis is negative. This happens on some benchmarks on
+// higher powered CPUs where the thing being measured is so quickly executed
+// that the empty loop overhead can take a longer. Print "-0.000" if that
+// occurs.
+void printMicrosPerIteration(long elapsedMillis) {
+  if (elapsedMillis < 0) {
+    Serial.print(F("  -0.000"));
+    return;
+  }
   unsigned long nanos = elapsedMillis * MILLIS_TO_NANO_PER_ITERATION;
   uint16_t whole = nanos / 1000;
   uint16_t frac = nanos % 1000;
@@ -127,9 +145,9 @@ void runEmptyLoop() {
     disableOptimization(seconds);
   });
 
-  Serial.print(EMPTY_LOOP_LABEL);
+  Serial.print(FPSTR(EMPTY_LOOP_LABEL));
   printMicrosPerIteration(baseMillis);
-  Serial.println(ENDING);
+  Serial.println(FPSTR(ENDING));
 }
 
 // AceTime library: ZonedDateTime::forEpochSeconds()
@@ -142,9 +160,9 @@ void runAceTimeForEpochSeconds() {
     disableOptimization(seconds);
   });
 
-  Serial.print(ACE_TIME_FOR_EPOCH_SECONDS);
+  Serial.print(FPSTR(ACE_TIME_FOR_EPOCH_SECONDS));
   printMicrosPerIteration(elapsedMillis - baseMillis);
-  Serial.println(ENDING);
+  Serial.println(FPSTR(ENDING));
 }
 
 // AceTime library: ZonedDateTime::toEpochSeconds()
@@ -159,9 +177,9 @@ void runAceTimeToEpochSeconds() {
     disableOptimization(dt);
   });
 
-  Serial.print(ACE_TIME_TO_EPOCH_SECONDS);
+  Serial.print(FPSTR(ACE_TIME_TO_EPOCH_SECONDS));
   printMicrosPerIteration(elapsedMillis - baseMillis);
-  Serial.println(ENDING);
+  Serial.println(FPSTR(ENDING));
 }
 
 // Time library: breakTime()
@@ -177,9 +195,9 @@ void runTimeLibBreakTime() {
       disableOptimization(seconds);
     });
 
-  Serial.print(ARDUINO_TIME_BREAK_TIME);
+  Serial.print(FPSTR(ARDUINO_TIME_BREAK_TIME));
   printMicrosPerIteration(elapsedMillis - baseMillis);
-  Serial.println(ENDING);
+  Serial.println(FPSTR(ENDING));
 }
 
 // Time library: makeTime()
@@ -198,30 +216,30 @@ void runTimeLibMakeTime() {
       disableOptimization(tm);
     });
 
-  Serial.print(ARDUINO_TIME_MAKE_TIME);
+  Serial.print(FPSTR(ARDUINO_TIME_MAKE_TIME));
   printMicrosPerIteration(elapsedMillis - baseMillis);
-  Serial.println(ENDING);
+  Serial.println(FPSTR(ENDING));
 }
 
 void runBenchmarks() {
-  Serial.println(TOP);
-  Serial.println(HEADER);
-  Serial.println(DIVIDER);
+  Serial.println(FPSTR(TOP));
+  Serial.println(FPSTR(HEADER));
+  Serial.println(FPSTR(DIVIDER));
 
   runEmptyLoop();
-  Serial.println(DIVIDER);
+  Serial.println(FPSTR(DIVIDER));
 
   runAceTimeForEpochSeconds();
   runTimeLibBreakTime();
-  Serial.println(DIVIDER);
+  Serial.println(FPSTR(DIVIDER));
 
   runAceTimeToEpochSeconds();
   runTimeLibMakeTime();
-  Serial.println(BOTTOM);
+  Serial.println(FPSTR(BOTTOM));
 
   // Print some stats
   Serial.print("Number of iterations per run: ");
-  Serial.println(COUNT);
+  Serial.println(FPSTR(COUNT));
   Serial.print("Delta seconds: ");
-  Serial.println(DELTA_SECONDS);
+  Serial.println(FPSTR(DELTA_SECONDS));
 }

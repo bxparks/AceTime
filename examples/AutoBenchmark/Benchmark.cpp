@@ -24,11 +24,11 @@ const uint32_t COUNT = 100000;
 const uint32_t MILLIS_TO_NANO_PER_ITERATION = ((uint32_t) 1000000 / COUNT);
 
 // The following strings are placed into PROGMEM flash memory to prevent them
-// from consuming static RAM in the AVR platform. The FPSTR() macro converts
+// from consuming static RAM on the AVR platform. The FPSTR() macro converts
 // these (const char*) into (const __FlashHelperString*) so that the correct
 // version of println() or print() is called. This reduces the static RAM
-// usage on an Nano from 1957 bytes to 1059 bytes.
-
+// usage on an Nano from 1957 bytes to 1059 bytes, which allows this program
+// to run on a controller with 2kB of RAM.
 #ifndef FPSTR
 #define FPSTR(pstr_pointer) \
       (reinterpret_cast<const __FlashStringHelper *>(pstr_pointer))
@@ -56,6 +56,10 @@ const char OFFSET_DATE_TIME_FOR_EPOCH_SECONDS_LABEL[] PROGMEM =
 const char OFFSET_DATE_TIME_TO_EPOCH_SECONDS_LABEL[] PROGMEM =
   "| OffsetDateTime::toEpochSeconds()                 | ";
 
+const char DATE_TIME_TO_EPOCH_DAYS_LABEL[] PROGMEM =
+  "| ZonedDateTime::toEpochDays()                     | ";
+const char DATE_TIME_TO_EPOCH_SECONDS_LABEL[] PROGMEM =
+  "| ZonedDateTime::toEpochSeconds()                  | ";
 const char DATE_TIME_FOR_EPOCH_SECONDS_LABEL[] PROGMEM =
   "| ZonedDateTime::forEpochSeconds(UTC)              | ";
 const char DATE_TIME_FOR_EPOCH_SECONDS_BASIC_NO_CACHE[] PROGMEM =
@@ -66,10 +70,6 @@ const char DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_NO_CACHE[] PROGMEM =
   "| ZonedDateTime::forEpochSeconds(Extended nocache) | ";
 const char DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_CACHED[] PROGMEM =
   "| ZonedDateTime::forEpochSeconds(Extended cached)  | ";
-const char DATE_TIME_TO_EPOCH_DAYS_LABEL[] PROGMEM =
-  "| ZonedDateTime::toEpochDays()                     | ";
-const char DATE_TIME_TO_EPOCH_SECONDS_LABEL[] PROGMEM =
-  "| ZonedDateTime::toEpochSeconds()                  | ";
 
 // The compiler is extremelly good about removing code that does nothing. This
 // volatile variable is used to create side-effects that prevent the compiler
@@ -144,11 +144,18 @@ void printPad4(uint16_t val, char padChar) {
   Serial.print(val);
 }
 
-/**
- * Given total elapsed time in millis, print micros per iteration as
- * a floating point number (without using floating point operations).
- */
-static void printMicrosPerIteration(unsigned long elapsedMillis) {
+// Given total elapsed time in millis, print micros per iteration as a floating
+// point number (without using floating point operations).
+//
+// Sometimes, the elapsedMillis is negative. This happens on some benchmarks on
+// higher powered CPUs where the thing being measured is so quickly executed
+// that the empty loop overhead can take a longer. Print "-0.000" if that
+// occurs.
+static void printMicrosPerIteration(long elapsedMillis) {
+  if (elapsedMillis < 0) {
+    Serial.print(F("  -0.000"));
+    return;
+  }
   unsigned long nanos = elapsedMillis * MILLIS_TO_NANO_PER_ITERATION;
   uint16_t whole = nanos / 1000;
   uint16_t frac = nanos % 1000;
@@ -178,7 +185,7 @@ static void runLocalDateForEpochDays() {
     unsigned long emptyMillis = millis();
     disableOptimization(emptyMillis);
   });
-  unsigned long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
+  long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
 
   Serial.print(FPSTR(LOCAL_DATE_FOR_EPOCH_DAYS_LABEL));
   printMicrosPerIteration(elapsedMillis);
@@ -198,7 +205,7 @@ static void runLocalDateToEpochDays() {
     LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
     disableOptimization(localDate);
   });
-  unsigned long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
+  long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
 
   Serial.print(FPSTR(LOCAL_DATE_TO_EPOCH_DAYS_LABEL));
   printMicrosPerIteration(elapsedMillis);
@@ -219,7 +226,7 @@ static void runLocalDateDaysOfWeek() {
     LocalDate localDate = LocalDate::forEpochDays(fakeEpochDays);
     disableOptimization(localDate);
   });
-  unsigned long elapsedMillis = localDateDayOfWeekMillis - forEpochDaysMillis;
+  long elapsedMillis = localDateDayOfWeekMillis - forEpochDaysMillis;
 
   Serial.print(FPSTR(LOCAL_DATE_DAY_OF_WEEK_LABEL));
   printMicrosPerIteration(elapsedMillis);
@@ -237,7 +244,7 @@ static void runOffsetDateTimeForEpochSeconds() {
     unsigned long emptyMillis = millis();
     disableOptimization(emptyMillis);
   });
-  unsigned long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
+  long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
 
   Serial.print(FPSTR(OFFSET_DATE_TIME_FOR_EPOCH_SECONDS_LABEL));
   printMicrosPerIteration(elapsedMillis);
@@ -257,7 +264,7 @@ static void runOffsetDateTimeToEpochSeconds() {
     OffsetDateTime odt = OffsetDateTime::forEpochSeconds(fakeEpochSeconds);
     disableOptimization(odt);
   });
-  unsigned long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
+  long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
 
   Serial.print(FPSTR(OFFSET_DATE_TIME_TO_EPOCH_SECONDS_LABEL));
   printMicrosPerIteration(elapsedMillis);
@@ -275,7 +282,7 @@ static void runZonedDateTimeForEpochSeconds() {
     unsigned long emptyMillis = millis();
     disableOptimization(emptyMillis);
   });
-  unsigned long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
+  long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   Serial.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_LABEL));
   printMicrosPerIteration(elapsedMillis);
@@ -295,10 +302,10 @@ static void runZonedDateTimeToEpochDays() {
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays);
     disableOptimization(dateTime);
   });
-  unsigned long elapsedMillis = toEpochDaysMillis - forEpochSecondsMillis;
+  long elapsedMillis = toEpochDaysMillis - forEpochSecondsMillis;
 
   Serial.print(FPSTR(DATE_TIME_TO_EPOCH_DAYS_LABEL));
-  printMicrosPerIteration(elapsedMillis);
+  printMicrosPerIteration(elapsedMillis < 0 ? 0 : elapsedMillis);
   Serial.println(FPSTR(COL_DIVIDER));
 }
 
@@ -315,7 +322,7 @@ static void runZonedDateTimeToEpochSeconds() {
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays);
     disableOptimization(dateTime);
   });
-  unsigned long elapsedMillis = toEpochSecondsMillis - forEpochSecondsMillis;
+  long elapsedMillis = toEpochSecondsMillis - forEpochSecondsMillis;
 
   Serial.print(FPSTR(DATE_TIME_TO_EPOCH_SECONDS_LABEL));
   printMicrosPerIteration(elapsedMillis);
@@ -336,7 +343,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneSpecifier() {
     unsigned long fakeEpochSeconds = millis();
     disableOptimization(fakeEpochSeconds);
   });
-  unsigned long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
+  long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   Serial.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_BASIC_NO_CACHE));
   printMicrosPerIteration(elapsedMillis);
@@ -358,7 +365,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneSpecifierCached() {
     unsigned long fakeEpochSeconds = millis();
     disableOptimization(fakeEpochSeconds);
   });
-  unsigned long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
+  long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   Serial.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_BASIC_CACHED));
   printMicrosPerIteration(elapsedMillis);
@@ -379,7 +386,7 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneSpecifier() {
     unsigned long fakeEpochSeconds = millis();
     disableOptimization(fakeEpochSeconds);
   });
-  unsigned long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
+  long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   Serial.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_NO_CACHE));
   printMicrosPerIteration(elapsedMillis);
@@ -401,7 +408,7 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneSpecifierCached() {
     unsigned long fakeEpochSeconds = millis();
     disableOptimization(fakeEpochSeconds);
   });
-  unsigned long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
+  long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
   Serial.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_CACHED));
   printMicrosPerIteration(elapsedMillis);
@@ -432,10 +439,8 @@ void runBenchmarks() {
   runZonedDateTimeForEpochSecondsExtendedZoneSpecifier();
   runZonedDateTimeForEpochSecondsExtendedZoneSpecifierCached();
 
-  // End footer
   Serial.println(FPSTR(BOTTOM));
 
-  // Print some stats
   Serial.print(F("Number of iterations per run: "));
   Serial.println(COUNT);
 }

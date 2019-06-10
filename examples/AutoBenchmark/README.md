@@ -186,6 +186,7 @@ duration of an empty loop, the numbers become suspect.
 ## Teensy 3.2
 
 IDE: Arduino 1.8.9 (Teensyduino 1.46)
+Compiler Optimization: "Faster"
 
 Memory:
 
@@ -230,13 +231,13 @@ CPU:
 | LocalDate::dayOfWeek()                           |    1.960 |
 | OffsetDateTime::forEpochSeconds()                |    2.130 |
 | OffsetDateTime::toEpochSeconds()                 |    0.170 |
-| ZonedDateTime::toEpochSeconds()                  |    0.380 |
-| ZonedDateTime::toEpochDays()                     |    0.410 |
-| ZonedDateTime::forEpochSeconds(UTC)              |    2.310 |
-| ZonedDateTime::forEpochSeconds(Basic nocache)    |   26.210 |
-| ZonedDateTime::forEpochSeconds(Basic cached)     |    5.300 |
-| ZonedDateTime::forEpochSeconds(Extended nocache) |   61.760 |
-| ZonedDateTime::forEpochSeconds(Extended cached)  |    5.490 |
+| ZonedDateTime::toEpochSeconds()                  |    0.340 |
+| ZonedDateTime::toEpochDays()                     |    0.300 |
+| ZonedDateTime::forEpochSeconds(UTC)              |    2.300 |
+| ZonedDateTime::forEpochSeconds(Basic nocache)    |   26.150 |
+| ZonedDateTime::forEpochSeconds(Basic cached)     |    5.470 |
+| ZonedDateTime::forEpochSeconds(Extended nocache) |   61.880 |
+| ZonedDateTime::forEpochSeconds(Extended cached)  |    5.610 |
 +--------------------------------------------------+----------+
 Number of iterations per run: 100000
 ```
