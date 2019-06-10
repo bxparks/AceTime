@@ -11,12 +11,11 @@ Supported boards are:
 */
 
 #include <Wire.h>
-#include <AceSegment.h>
+#include <SSD1306AsciiWire.h>
 #include <AceButton.h>
 #include <AceRoutine.h>
 #include <AceTime.h>
 #include <ace_time/hw/CrcEeprom.h>
-#include <SSD1306AsciiWire.h>
 #include "config.h"
 #include "Presenter.h"
 #include "Controller.h"
