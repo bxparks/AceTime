@@ -1118,18 +1118,17 @@ I will occasionally test on the following hardware as a sanity check:
 ### CPU
 
 The [AutoBenchmark.ino](examples/AutoBenchmark/) program measures the
-amount of CPU cycles taken by some of the more expensive `XxxDateTime`
-methods. The most expensive method is the
-`XxxDateTime::forEpochSeconds(seconds)` factory method. Here is a summary of how
-long that constructor takes for some Arduino boards that I have access to:
+amount of CPU cycles taken by some of the more expensive methods. Here is a
+summary of the elapsed time for `OffsetDateTime::forEpochSeconds()` for some
+Arduino boards that I have access to:
 ```
 ----------------------------+---------+
 Board or CPU                |  micros |
 ----------------------------+---------+
-ATmega328P 16MHz (Nano)     | 401.800 |
-ESP8266 80MHz               |  12.080 |
-ESP32 240MHz                |   0.705 |
-Teensy 3.2 96MHz            |   2.750 |
+ATmega328P 16MHz (Nano)     | 321.600 |
+ESP8266 80MHz               |  13.400 |
+ESP32 240MHz                |   1.470 |
+Teensy 3.2 96MHz            |   2.130 |
 ----------------------------+---------+
 ```
 
@@ -1141,25 +1140,40 @@ classes:
 **8-bit processors**
 
 ```
-sizeof(DateTime): 8
-sizeof(TimeZone): 1
+sizeof(LocalDate): 3
+sizeof(LocalTime): 3
+sizeof(LocalDateTime): 6
+sizeof(TimeOffset): 1
+sizeof(OffsetDateTime): 7
+sizeof(ManualZoneSpecifier): 10
+sizeof(BasicZoneSpecifier): 95
+sizeof(ExtendedZoneSpecifier): 366
+sizeof(TimeZone): 3
+sizeof(ZonedDateTime): 10
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 17
-sizeof(DS3231TimeKeeper): 4
+sizeof(DS3231TimeKeeper): 3
 sizeof(SystemTimeSyncLoop): 14
 sizeof(SystemTimeHeartbeatLoop): 8
-sizeof(SystemTimeSyncCoroutine): 29
+sizeof(SystemTimeSyncCoroutine): 31
 sizeof(SystemTimeHeartbeatCoroutine): 18
 ```
 
 **32-bit processors**
 ```
-sizeof(DateTime): 8
-sizeof(TimeZone): 1
+sizeof(LocalDate): 3
+sizeof(LocalTime): 3
+sizeof(LocalDateTime): 6
+sizeof(TimeOffset): 1
+sizeof(OffsetDateTime): 7
+sizeof(ManualZoneSpecifier): 20
+sizeof(BasicZoneSpecifier): 140
+sizeof(ExtendedZoneSpecifier): 472
+sizeof(TimeZone): 8
+sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 24
-sizeof(DS3231TimeKeeper): 8
-sizeof(NtpTimeProvider): 96 (ESP8266), 120 (ESP32)
+sizeof(NtpTimeProvider): 88 (ESP8266), 116 (ESP32)
 sizeof(SystemTimeSyncLoop): 20
 sizeof(SystemTimeHeartbeatLoop): 12
 sizeof(SystemTimeSyncCoroutine): 52
@@ -1169,21 +1183,23 @@ sizeof(SystemTimeHeartbeatCoroutine): 36
 ## Comparisons to Other Time Libraries
 
 The [ComparisonBenchmark.ino](examples/ComparisonBenchmark/) program compares
-the CPU time of AceTime methods with the equilvalent methods
-[Arduino Time Library](https://github.com/PaulStoffregen/Time).
-The functionality tested was the roundtrip conversion from `secondsFromEpoch` to
-the date time components, then back to `secondsFromEpoch` again. Details are
-given in the README.md file in that folder, but here is a summary for various
-boards (all times in microseconds):
+the CPU time of AceTime methods with the equilvalent methods [Arduino Time
+Library](https://github.com/PaulStoffregen/Time). The functionality tested was
+the roundtrip conversion from `ZonedDateTime::forEpochSeconds()` to the date
+time components, then back to `ZonedDateTime::toEpochSeconds()` again. Details
+are given in the [README.md](examples/ComparisonBenchmark/README.md) file in
+that folder, but here is a summary for various boards (all times in
+microseconds):
+
 ```
 ----------------------------+---------+----------+
 Board or CPU                | AceTime | Time Lib |
 ----------------------------+---------+----------+
-ATmega328P 16MHz (Nano)     | 364.000 |  879.000 |
-ESP8266 80MHz               |  20.900 |   68.500 |
-ESP32 240MHz                |   0.570 |    9.330 |
-Teensy 3.2 96MHz            |   1.980 |   22.570 |
-----------------------------+---------+---------+
+ATmega328P 16MHz (Nano)     | 353.000 |  931.000 |
+ESP8266 80MHz               |  21.600 |   68.100 |
+ESP32 240MHz                |   2.145 |    9.355 |
+Teensy 3.2 96MHz            |   2.330 |   22.390 |
+----------------------------+---------+----------+
 ```
 
 Compared to the
