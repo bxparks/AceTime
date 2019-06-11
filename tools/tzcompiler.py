@@ -6,43 +6,43 @@
 """
 Main driver for TZ Database compiler. The data processing pipeline looks like
 this:
-                      TZDB files
-                          |
-                          v
-                      Extractor
-                          |
-                          v
-                     Transformer
-                    /     |    \
-                   /      |     v
-                  /       |     PythonGenerator
-                 /        |            \
-                /  InlineGenerator      v
-               /          |            zone_infos.py
-              /           |            zone_policies.py
-             /           / \           zone_strings.py
-            /           /   \
-           /           v     \
-          / BufSizeEstimator  |
-         /     /              | \
-        v     v               |  \
-   ArduinoGenerator           |   v
-         |                    |   Validator
-         v                    |
- zone_infos.{h,cpp}           |
- zone_policies.{h,cpp}        |
- zone_strings.{h,cpp}         |
-                              |
-                              v
-                         TestDataGenerator
-                           /       \
-                          v         v
-          ArduinoValidation      PythonValidation
-           Generator              Generator
-               |                    |
-               v                    v
-      validation_data.{h,cpp}    validation_data.py
-      validation_tests.cpp
+                     TZDB files
+                         |
+                         v
+                     Extractor
+                         |
+                         v
+                    Transformer----------------------.
+                   /     |    \                       \
+                  /      |     v                       v
+                 /       |     PythonGenerator         JavaGenerator
+                /        |           \                    \
+               /  InlineGenerator     v                    v
+              /          |           zone_infos.py        BasicZones.java
+             /           |           zone_policies.py     ExtendedZones.java
+            /           / \          zone_strings.py
+           /           /   \
+          /           v     \
+         / BufSizeEstimator  .
+        /     /              |\
+       v     v               | \
+  ArduinoGenerator           |  v
+        |                    |   Validator
+        v                    |
+zone_infos.{h,cpp}           |
+zone_policies.{h,cpp}        |
+zone_strings.{h,cpp}         |
+                             |
+                             v
+                        TestDataGenerator
+                          /       \
+                         v         v
+         ArduinoValidation      PythonValidation
+          Generator              Generator
+              |                    |
+              v                    v
+     validation_data.{h,cpp}    validation_data.py
+     validation_tests.cpp
 
 
 ZoneSpecifier class is used by:
@@ -64,6 +64,7 @@ from transformer import Transformer
 from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
+from javagenerator import JavaGenerator
 from validator import Validator
 from bufestimator import BufSizeEstimator
 from tdgenerator import TestDataGenerator
@@ -143,9 +144,10 @@ def main():
     #
     # python: generate Python files
     # arduino: generate C++ files for Arduino
+    # java: generate Java files
     parser.add_argument(
         '--language',
-        help='Target language (arduino|python)',
+        help='Target language (arduino|python|java)',
         required=True)
 
     # Scope (size of the database):
@@ -286,7 +288,7 @@ def main():
     if args.action == 'zonedb':
         # Create the Python or Arduino files if requested
         if not args.output_dir:
-            logging.error('Must provide --output_dir to generate Python files')
+            logging.error('Must provide --output_dir to generate zonedb files')
             sys.exit(1)
         if args.language == 'python':
             logging.info('======== Creating Python zonedb files')
@@ -319,6 +321,14 @@ def main():
                 format_strings=transformer.format_strings,
                 zone_strings=transformer.zone_strings,
                 buf_sizes=buf_sizes)
+            generator.generate_files(args.output_dir)
+        elif args.language == 'java':
+            generator = JavaGenerator(
+                invocation=invocation,
+                tz_version=args.tz_version,
+                tz_files=Extractor.ZONE_FILES,
+                scope=args.scope,
+                zones_map=transformer.zones_map)
             generator.generate_files(args.output_dir)
         else:
             raise Exception("Unrecognized language '%s'" % args.language)
