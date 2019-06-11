@@ -15,16 +15,17 @@ import java.util.TreeSet;
  * Generate the validation_data.* files for AceTime.
  *
  * {@code
- * $ javac TestDataGenerator.java
+ * $ javac TestDataGenerator.java BasicZones.java ExtendedZones.java
  * $ java TestDataGenerator
  * }
  */
 public class TestDataGenerator {
+  private static final int SECONDS_SINCE_UNIX_EPOCH = 946684800;
+
   public static void main(String[] argv) {
     LocalDateTime ldt = LocalDateTime.now();
     ZoneId zoneLosAngeles = ZoneId.of("America/Los_Angeles");
-    ZonedDateTime zdt = ZonedDateTime.ofInstant(
-        Instant.now(), zoneLosAngeles);
+    ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.now(), zoneLosAngeles);
     System.out.println("Hello TestDataGenerator");
     System.out.println("LocalDateTime is " + ldt);
     System.out.println("ZonedDateTime is " + zdt);
@@ -33,6 +34,9 @@ public class TestDataGenerator {
     printAvaiableZoneIds();
     printHistoricalTransitions(zoneLosAngeles);
     printFutureTransitions(zoneLosAngeles);
+
+    TestDataGenerator generator = new TestDataGenerator();
+    generator.process();
   }
 
   // Print out the list of all ZoneIds
@@ -77,15 +81,14 @@ public class TestDataGenerator {
     int count = 0;
     while (true) {
       ZoneOffsetTransition transition = rules.nextTransition(instant);
-      ZoneOffset offsetAfter = transition.getOffsetAfter();
       instant = transition.getInstant();
       LocalDateTime dt = LocalDateTime.ofInstant(instant, zoneId);
       if (dt.getYear() > 2050) {
         break;
       }
 
-      System.out.println("  Transition: " + dt
-          + "; offset: " + offsetAfter.getTotalSeconds());
+      ZoneOffset offsetAfter = transition.getOffsetAfter();
+      System.out.println("  Transition: " + dt + "; offset: " + offsetAfter.getTotalSeconds());
       count++;
     }
     System.out.println("Found " + count + " transitions");
@@ -98,4 +101,65 @@ public class TestDataGenerator {
       System.out.println("  Zone: " + zone);
     }
   }
+
+  private void process() {
+    ZoneId zoneLosAngeles = ZoneId.of("America/Los_Angeles");
+    createValidationData(zoneLosAngeles);
+  }
+
+  private List<TestItem> createValidationData(ZoneId zoneId) {
+    Instant instant = LocalDateTime.of(startYear, 1, 1, 0, 0, 0)
+        .toInstant(ZoneOffset.UTC);
+    ZoneRules rules = zoneId.getRules();
+    List<TestItem> testItems = new ArrayList<>();
+    while (true) {
+      ZoneOffsetTransition transition = rules.nextTransition(instant);
+      instant = transition.getInstant();
+      LocalDateTime dt = LocalDateTime.ofInstant(instant, zoneId);
+      if (dt.getYear() > endYear) {
+        break;
+      }
+
+      Instant instantBefore = instant.minusSeconds(1);
+
+      ZoneOffset offsetBefore = transition.getOffsetBefore();
+      TestItem item = createTestItem(instantBefore, offsetBefore, 'A');
+      testItems.add(item);
+
+      ZoneOffset offsetAfter = transition.getOffsetAfter();
+      item = createTestItem(instant, offsetAfter, 'B');
+      testItems.add(item);
+    }
+  }
+
+  private TestItem createTestItem(Instant instant, ZoneOffset offset, char type) {
+    LocalDateTime ldt = LocalDateTime.ofInstant(instant, offset);
+    TestItem item = new TestItem();
+
+    item.epochSeconds = instant.toEpochMillis() / 1000 - SECONDS_SINCE_UNIX_EPOCH;
+    item.utcOffset = offset.getTotalSeconds();
+    item.year = ldt.getYear();
+    item.month = ldt.getMonth();
+    item.day = ldt.getDayOfMonth();
+    item.hour = ldt.getHour();
+    item.minute = ldt.getMinute();
+    item.second = ldt.getSecond();
+    item.type = type;
+  }
+
+  private final int startYear = 2000;
+  private final int endYear = 2050;
+}
+
+class TestItem {
+  int epochSeconds;
+  int utcOffset;
+  int dstOffset;
+  int year;
+  int month;
+  int day;
+  int hour;
+  int minute;
+  int second;
+  char type;
 }
