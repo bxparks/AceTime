@@ -29,7 +29,14 @@ public class TestDataGenerator {
     System.out.println("LocalDateTime is " + ldt);
     System.out.println("ZonedDateTime is " + zdt);
 
-    // Print out the list of all ZoneIds
+    printBasicZones();
+    printAvaiableZoneIds();
+    printHistoricalTransitions(zoneLosAngeles);
+    printFutureTransitions(zoneLosAngeles);
+  }
+
+  // Print out the list of all ZoneIds
+  static void printAvaiableZoneIds() {
     Set<String> allZones = ZoneId.getAvailableZoneIds();
     System.out.printf("Found %s ids total:\n", allZones.size());
     SortedSet<String> selectedIds = new TreeSet<>();
@@ -47,27 +54,32 @@ public class TestDataGenerator {
     for (String id : selectedIds) {
       System.out.println("  " + id);
     }
+  }
 
+  static void printHistoricalTransitions(ZoneId zoneId) {
     // There seems to be a precompiled list of historical transitions.
     // For Los Angeles, there are 127, from 1883-11-18T12:00 to
     // 2008-11-02T01:00. (Why only 2008?)
-    ZoneRules rules = zoneLosAngeles.getRules();
+    ZoneRules rules = zoneId.getRules();
     List<ZoneOffsetTransition> transitions = rules.getTransitions();
     System.out.println("Num(Transitions) is " + transitions.size());
     for (ZoneOffsetTransition transition : transitions) {
       LocalDateTime l = transition.getDateTimeAfter();
       System.out.println("  Transition: " + l);
     }
+  }
 
+  static void printFutureTransitions(ZoneId zoneId) {
     // Use nexTransition() to get future transitions from now to 2050.
     System.out.println("Future transitions");
     Instant instant = Instant.now();
+    ZoneRules rules = zoneId.getRules();
     int count = 0;
     while (true) {
       ZoneOffsetTransition transition = rules.nextTransition(instant);
       ZoneOffset offsetAfter = transition.getOffsetAfter();
       instant = transition.getInstant();
-      LocalDateTime dt = LocalDateTime.ofInstant(instant, zoneLosAngeles);
+      LocalDateTime dt = LocalDateTime.ofInstant(instant, zoneId);
       if (dt.getYear() > 2050) {
         break;
       }
@@ -77,5 +89,13 @@ public class TestDataGenerator {
       count++;
     }
     System.out.println("Found " + count + " transitions");
+  }
+
+  // Print the list of zones in BasicZones.
+  static void printBasicZones() {
+    System.out.println("Found " + BasicZones.ZONES.length + " zones");
+    for (String zone : BasicZones.ZONES) {
+      System.out.println("  Zone: " + zone);
+    }
   }
 }
