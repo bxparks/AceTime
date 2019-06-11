@@ -128,14 +128,12 @@ testF({testClass}, {zoneNormalizedName}) {{
 }}
 """
 
-    def __init__(self, invocation, tz_version, test_data, num_items, extended):
+    def __init__(self, invocation, tz_version, test_data, num_items, scope):
         self.invocation = invocation
         self.tz_version = tz_version
         self.test_data = test_data
         self.num_items = num_items
-        self.extended = extended  # extended Arduino/C++ database
-        self.extended_suffix = 'x' if extended else ''
-        if extended:
+        if scope == 'extended':
             self.file_base = 'validation'
             self.include_header_namespace = 'VALIDATION'
             self.db_namespace = 'zonedbx'

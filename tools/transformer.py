@@ -25,14 +25,14 @@ StringCollection = collections.namedtuple(
     'StringCollection', 'ordered_map size orig_size')
 
 class Transformer:
-    def __init__(self, zones_map, rules_map, language, start_year, until_year,
-                 granularity, strict):
+    def __init__(self, zones_map, rules_map, language, scope, start_year,
+                 until_year, granularity, strict):
         """
         Args:
             zones_map (dict): Zone names to ZoneEras
             rules_map (dict): Policy names to ZoneRules
-            language (str): target language ('python', 'arduino_basic',
-                'arduino_extended')
+            language (str): target language ('python', 'arduino', 'java')
+            scope (str): scope of database (basic, or extended)
             start_year (int): include only years on or after start_year
             until_year (int): include only years valid before until_year
             granularity (int): retained AT, SAVE, UNTIL, or RULES(offset)
@@ -43,6 +43,7 @@ class Transformer:
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.language = language
+        self.scope = scope
         self.start_year = start_year
         self.until_year = until_year
         self.granularity = granularity
@@ -89,7 +90,7 @@ class Transformer:
         zones_map = self._remove_zone_eras_too_old(zones_map)
         zones_map = self._remove_zone_eras_too_new(zones_map)
         zones_map = self._remove_zones_without_eras(zones_map)
-        if self.language == 'arduino_basic':
+        if self.scope == 'basic':
             zones_map = self._remove_zone_until_year_only_false(zones_map)
         zones_map = self._create_zones_with_until_day(zones_map)
         zones_map = self._create_zones_with_expanded_until_time(zones_map)
@@ -108,7 +109,7 @@ class Transformer:
         # Part 3: Transform the rules_map
         rules_map = self._remove_rules_unused(rules_map)
         rules_map = self._remove_rules_out_of_bounds(rules_map)
-        if self.language == 'arduino_basic':
+        if self.scope == 'basic':
             rules_map = self._remove_rules_multiple_transitions_in_month(
                 rules_map)
         rules_map = self._create_rules_with_expanded_at_time(rules_map,
@@ -117,9 +118,9 @@ class Transformer:
         rules_map = self._create_rules_with_expanded_delta_offset(rules_map)
         rules_map = self._create_rules_with_on_day_expansion(rules_map)
         rules_map = self._create_rules_with_anchor_transition(rules_map)
-        if self.language == 'arduino_basic':
+        if self.scope == 'basic':
             rules_map = self._remove_rules_with_border_transitions(rules_map)
-        if self.language == 'arduino_basic':
+        if self.scope == 'basic':
             rules_map = self._remove_rules_long_dst_letter(rules_map)
 
         # Part 4: Go back to zones_map and remove unused.
@@ -355,12 +356,13 @@ class Transformer:
         # Determine which suffices are supported. The 'g' and 'z' is the same as
         # 'u' and does not currently appear in any TZ file, so let's catch it
         # because it could indicate a bug
-        if self.language == 'arduino_basic':
-            supported_suffices = ['w']
-        elif self.language == 'arduino_extended' or self.language == 'python':
+        if self.language == 'python':
             supported_suffices = ['w', 's', 'u']
         else:
-            raise Exception('Unknown laguage: %s' % self.language)
+            if self.scope == 'extended':
+                supported_suffices = ['w', 's', 'u']
+            else:
+                supported_suffices = ['w']
 
         results = {}
         removed_zones = {}
@@ -506,7 +508,7 @@ class Transformer:
             for era in eras:
                 rules_string = era.rules
                 if rules_string.find(':') >= 0:
-                    if self.language == 'arduino_basic':
+                    if self.scope == 'basic':
                         valid = False
                         removed_zones[name] = (
                             "offset in RULES '%s'" % rules_string)
