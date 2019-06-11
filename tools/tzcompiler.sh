@@ -6,27 +6,36 @@
 #
 # Usage:
 #
-#   $ tzcompiler.sh --tag {tag} (--zonedb|--validate|--unittest)
-#       [--python|--arduino | --arduinox] [other flags...]
+#   $ tzcompiler.sh --tag {tag}
+#       --action (zonedb|validate|unittest)
+#       --language (python|arduino)
+#       --scope (basic|extended)
+#       [other flags...]
 #
 # Examples:
 #
-#   $ tzcompiler.sh --tag 2018i --zonedb --python
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language python
+#           --scope basic
 #       - generates zone*.py files in the current directory
 #
-#   $ tzcompiler.sh --tag 2018i --zonedb --arduino
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino
+#           --scope basic
 #       - generates zone*.{h,cpp} files in the current directory
 #
-#   $ tzcompiler.sh --tag 2018i --zonedb --arduinox
+#   $ tzcompiler.sh --tag 2018i --action zonedb --language arduino
+#           --scope extended
 #       - generates extended zone*.{h,cpp} files in the current directory
 #
-#   $ tzcompiler.sh --tag 2018i --unittest --arduino
+#   $ tzcompiler.sh --tag 2018i --action unittest --language arduino
+#           --scope basic
 #       - generates test data for ValidationTest unit test
 #
-#   $ tzcompiler.sh --tag 2018i --validate --python
+#   $ tzcompiler.sh --tag 2018i --action validate --language python
+#           --scope basic
 #       - validate the internal zone_info and zone_policies data
 #
-#   $ tzcompiler.sh --tag 2018i --validate --arduino
+#   $ tzcompiler.sh --tag 2018i --action validate --language arduino
+#           --scope basic
 #       - validate the internal zone_info and zone_policies data
 #
 # Flags
@@ -60,8 +69,9 @@ INPUT_DIR=$HOME/dev/tz
 OUTPUT_DIR=$PWD
 
 function usage() {
-    echo 'Usage: tzcompiler.sh --tag tag [--python | --arduino | --arduinox ]'
-    echo '      (--zonedb|--validate|--unittest) [...other python_flags...]'
+    echo 'Usage: tzcompiler.sh --tag tag --action (zonedb|validate|unittest)'
+    echo '      --language (python|arduino) --scope (basic|extended)'
+    echo '      [...other python_flags...]'
     exit 1
 }
 

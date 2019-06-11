@@ -6,43 +6,43 @@
 """
 Main driver for TZ Database compiler. The data processing pipeline looks like
 this:
-                      TZDB files
-                          |
-                          v
-                      Extractor
-                          |
-                          v
-                     Transformer
-                    /     |    \
-                   /      |     v
-                  /       |     PythonGenerator
-                 /        |            \
-                /  InlineGenerator      v
-               /          |            zone_infos.py
-              /           |            zone_policies.py
-             /           / \           zone_strings.py
-            /           /   \
-           /           v     \
-          / BufSizeEstimator  |
-         /     /              | \
-        v     v               |  \
-   ArduinoGenerator           |   v
-         |                    |   Validator
-         v                    |
- zone_infos.{h,cpp}           |
- zone_policies.{h,cpp}        |
- zone_strings.{h,cpp}         |
-                              |
-                              v
-                         TestDataGenerator
-                           /       \
-                          v         v
-          ArduinoValidation      PythonValidation
-           Generator              Generator
-               |                    |
-               v                    v
-      validation_data.{h,cpp}    validation_data.py
-      validation_tests.cpp
+                     TZDB files
+                         |
+                         v
+                     Extractor
+                         |
+                         v
+                    Transformer----------------------.
+                   /     |    \                       \
+                  /      |     v                       v
+                 /       |     PythonGenerator         JavaGenerator
+                /        |           \                    \
+               /  InlineGenerator     v                    v
+              /          |           zone_infos.py        BasicZones.java
+             /           |           zone_policies.py     ExtendedZones.java
+            /           / \          zone_strings.py
+           /           /   \
+          /           v     \
+         / BufSizeEstimator  .
+        /     /              |\
+       v     v               | \
+  ArduinoGenerator           |  v
+        |                    |   Validator
+        v                    |
+zone_infos.{h,cpp}           |
+zone_policies.{h,cpp}        |
+zone_strings.{h,cpp}         |
+                             |
+                             v
+                        TestDataGenerator
+                          /       \
+                         v         v
+         ArduinoValidation      PythonValidation
+          Generator              Generator
+              |                    |
+              v                    v
+     validation_data.{h,cpp}    validation_data.py
+     validation_tests.cpp
 
 
 ZoneSpecifier class is used by:
@@ -64,11 +64,12 @@ from transformer import Transformer
 from argenerator import ArduinoGenerator
 from pygenerator import PythonGenerator
 from ingenerator import InlineGenerator
+from javagenerator import JavaGenerator
+from validator import Validator
 from bufestimator import BufSizeEstimator
 from tdgenerator import TestDataGenerator
 from arvalgenerator import ArduinoValidationGenerator
 from pyvalgenerator import PythonValidationGenerator
-from validator import Validator
 
 
 def main():
@@ -126,37 +127,39 @@ def main():
         type=int,
         default=0)
 
-    # Data pipeline selectors
+    # Data pipeline selectors:
+    #
+    # zonedb: generate zonedb files
+    # unittest: genearte unit test validation_data.* files
+    # validate: validate both buffer size and validation data
+    # validate_buffer_size: determine max sizes of internal buffers
+    # validate_test_data: compare pytz and zone_specifierusing validation data
     parser.add_argument(
-        '--zonedb', help='Generate ZoneDB files', action='store_true')
-    parser.add_argument(
-        '--unittest', help='Generate Unit Test files', action='store_true')
-    parser.add_argument(
-        '--validate',
-        help='Validate both buffer size and test data',
-        action='store_true')
-    parser.add_argument(
-        '--validate_buffer_size',
-        help='Determine the maximum size of internal buffers ',
-        action='store_true')
-    parser.add_argument(
-        '--validate_test_data',
-        help='Validate the test data',
-        action='store_true')
+        '--action',
+        help='Data pipeline (zonedb|unittest|validate|validate_buffer_size|'
+            + 'validate_test_data)',
+        required=True)
 
-    # Target language selectors
+    # Language selector:
+    #
+    # python: generate Python files
+    # arduino: generate C++ files for Arduino
+    # java: generate Java files
     parser.add_argument(
-        '--python', help='Generate Python files', action='store_true')
-    parser.add_argument(
-        '--arduino_basic',
-        help='Generate Arduino files for BasicZoneSpecifier',
-        action='store_true')
-    parser.add_argument(
-        '--arduino_extended',
-        help='Generate Arduino files ExtendedZoneSpecifier',
-        action='store_true')
+        '--language',
+        help='Target language (arduino|python|java)',
+        required=True)
 
-    # C++ namespace names for arduino_basic or arduino_extended
+    # Scope (size of the database):
+    # basic: 241 of the simpler time zones for BasicZoneSpecifier
+    # extended: all 348 time zones for ExtendedZoneSpecifier
+    parser.add_argument(
+        '--scope',
+        help='Size of the generated database (basic|extended)',
+        required=True)
+
+    # C++ namespace names for language=arduino. If not specified, it will
+    # automatically be set to 'zonedb' or 'zonedbx' depending on the 'scope'.
     parser.add_argument(
         '--db_namespace',
         help='C++ namespace for the zonedb files (default: zonedb or zonedbx)')
@@ -220,31 +223,19 @@ def main():
     # How the script was invoked
     invocation = ' '.join(sys.argv)
 
-    # Select target language
-    if args.arduino_basic:
-        language = 'arduino_basic'
-    elif args.arduino_extended:
-        language = 'arduino_extended'
-    elif args.python:
-        language = 'python'
-    else:
-        raise Exception(
-            'Must provide a language ' +
-            '(--arduino_basic, --arduino_extended, --python)')
-
     # Determine zonedb namespace
     if args.db_namespace:
         db_namespace = args.db_namespace
     else:
         db_namespace = ''
-        if args.arduino_basic: db_namespace = 'zonedb'
-        if args.arduino_extended: db_namespace = 'zonedbx'
+        if args.scope == 'basic': db_namespace = 'zonedb'
+        if args.scope == 'extended': db_namespace = 'zonedbx'
 
     # Define language dependent granularity if not overridden by flag
     if args.granularity:
         granularity = args.granularity
     else:
-        if language in ['arduino_basic', 'arduino_extended']:
+        if args.language in ['arduino']:
             granularity = 900
         else:
             granularity = 60
@@ -259,10 +250,9 @@ def main():
     # Transform the TZ zones and rules
     logging.info('======== Transforming Zones and Rules')
     logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
-    # TODO: pass args.until_year to limit the size of the generated data
-    # structures.
     transformer = Transformer(extractor.zones_map, extractor.rules_map,
-        language, args.start_year, args.until_year, granularity, args.strict)
+        args.language, args.scope, args.start_year, args.until_year,
+        granularity, args.strict)
     transformer.transform()
     transformer.print_summary()
 
@@ -287,20 +277,20 @@ def main():
     # Validate the zone_infos and zone_policies if requested
     validate_buffer_size = False
     validate_test_data = False
-    if args.validate:
+    if args.action == 'validate':
         validate_buffer_size = True
         validate_test_data = True
-    if args.validate_buffer_size:
+    if args.action == 'validate_buffer_size':
         validate_buffer_size = True
-    if args.validate_test_data:
+    if args.action == 'validate_test_data':
         validate_test_data = True
 
-    if args.zonedb:
+    if args.action == 'zonedb':
         # Create the Python or Arduino files if requested
         if not args.output_dir:
-            logging.error('Must provide --output_dir to generate Python files')
+            logging.error('Must provide --output_dir to generate zonedb files')
             sys.exit(1)
-        if language == 'python':
+        if args.language == 'python':
             logging.info('======== Creating Python zonedb files')
             generator = PythonGenerator(invocation, args.tz_version,
                                         Extractor.ZONE_FILES,
@@ -311,14 +301,13 @@ def main():
                                         transformer.all_notable_zones,
                                         transformer.all_notable_policies)
             generator.generate_files(args.output_dir)
-        elif language == 'arduino_basic' or language == 'arduino_extended':
-            extended = (language == 'arduino_extended')
+        elif args.language == 'arduino':
             logging.info('======== Creating Arduino zonedb files')
             generator = ArduinoGenerator(
                 invocation=invocation,
                 tz_version=args.tz_version,
                 tz_files=Extractor.ZONE_FILES,
-                extended=extended,
+                scope=args.scope,
                 db_namespace=db_namespace,
                 generate_zone_strings=args.generate_zone_strings,
                 start_year=args.start_year,
@@ -333,9 +322,17 @@ def main():
                 zone_strings=transformer.zone_strings,
                 buf_sizes=buf_sizes)
             generator.generate_files(args.output_dir)
+        elif args.language == 'java':
+            generator = JavaGenerator(
+                invocation=invocation,
+                tz_version=args.tz_version,
+                tz_files=Extractor.ZONE_FILES,
+                scope=args.scope,
+                zones_map=transformer.zones_map)
+            generator.generate_files(args.output_dir)
         else:
-            raise Exception("Unrecognized language '%s'" % language)
-    elif args.unittest:
+            raise Exception("Unrecognized language '%s'" % args.language)
+    elif args.action == 'unittest':
         logging.info('======== Generating unit test files')
 
         # Generate test data for unit test.
@@ -349,17 +346,16 @@ def main():
 
         # Generate validation data files
         logging.info('Generating test validation files')
-        if language == 'arduino_basic' or language == 'arduino_extended':
-            extended = (language == 'arduino_extended')
+        if args.language == 'arduino':
             arval_generator = ArduinoValidationGenerator(
-                invocation, args.tz_version, test_data, num_items, extended)
+                invocation, args.tz_version, test_data, num_items, args.scope)
             arval_generator.generate_files(args.output_dir)
-        elif language == 'python':
+        elif args.language == 'python':
             pyval_generator = PythonValidationGenerator(
                 invocation, args.tz_version, test_data, num_items)
             pyval_generator.generate_files(args.output_dir)
         else:
-            raise Exception("Unrecognized language '%s'" % language)
+            raise Exception("Unrecognized language '%s'" % args.language)
     elif validate_buffer_size or validate_test_data:
         validator = Validator(
             zone_infos=zone_infos,
