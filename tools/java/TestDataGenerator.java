@@ -11,6 +11,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.zone.ZoneOffsetTransition;
 import java.time.zone.ZoneRules;
+import java.time.zone.ZoneRulesException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,24 +25,25 @@ import java.util.TreeSet;
  *
  * {@code
  * $ javac TestDataGenerator.java BasicZones.java ExtendedZones.java
- * $ java TestDataGenerator
+ * $ java TestDataGenerator (basic | extended)
  * }
  */
 public class TestDataGenerator {
   private static final int SECONDS_SINCE_UNIX_EPOCH = 946684800;
-  private static final String CPP_FILE = "validation.cpp";
 
   public static void main(String[] argv) throws IOException {
-    LocalDateTime ldt = LocalDateTime.now();
-    ZoneId zoneLosAngeles = ZoneId.of("America/Los_Angeles");
-    ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.now(), zoneLosAngeles);
-    System.out.println("Hello TestDataGenerator");
-    System.out.println("LocalDateTime is " + ldt);
-    System.out.println("ZonedDateTime is " + zdt);
+    if (argv.length == 0) {
+      System.out.println("Usage: java TestDataGenerator (basic | extended)");
+      System.exit(1);
+    }
+    String scope = argv[0];
+    if (!"basic".equals(scope) && !"extended".equals(scope)) {
+      System.out.printf("Unknown scope '%s'%n", scope);
+      System.out.println("Usage: DataGenerator (basic | extended)");
+      System.exit(1);
+    }
 
-    printAvailableZoneIds();
-
-    TestDataGenerator generator = new TestDataGenerator();
+    TestDataGenerator generator = new TestDataGenerator(scope);
     generator.process();
   }
 
@@ -66,28 +68,59 @@ public class TestDataGenerator {
     }
   }
 
+  private TestDataGenerator(String scope) {
+    this.scope = scope;
+    if (scope == "basic") {
+      this.inputZones = BasicZones.ZONES;
+      this.cppFile = "validation_data.cpp";
+      this.headerFile = "validation_data.h";
+      this.dbNamespace = "zonedb";
+    } else {
+      this.inputZones = ExtendedZones.ZONES;
+      this.cppFile = "validation_data.cpp";
+      this.headerFile = "validation_data.h";
+      this.dbNamespace = "zonedbx";
+    }
+  }
+
   private void process() throws IOException {
-    System.out.println("Found " + BasicZones.ZONES.length + " zones");
+    System.out.println("Found " + inputZones.length + " zones");
     Map<String, List<TestItem>> testData = new TreeMap<>();
-    for (String zoneName : BasicZones.ZONES) {
-      System.out.println("Processing zone " + zoneName);
-      ZoneId zoneId = ZoneId.of(zoneName);
-      if (zoneId == null) {
-        System.out.println("  Zone not found");
+    for (String zoneName : inputZones) {
+      ZoneId zoneId;
+      try {
+        zoneId = ZoneId.of(zoneName);
+      } catch (ZoneRulesException e) {
+        System.out.printf("Zone '%s' not found%n", zoneName);
         continue;
       }
-
       List<TestItem> testItems = createValidationData(zoneId);
       testData.put(zoneName, testItems);
     }
 
-    try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(CPP_FILE)))) {
+    printCpp(testData);
+    printHeader(testData);
+  }
+
+  private void printCpp(Map<String, List<TestItem>> testData) throws IOException {
+    try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(cppFile)))) {
+      writer.println("#include <AceTime.h>");
+      writer.println("#include \"validation_data.h\"");
+      writer.println("namespace ace_time {");
+      writer.printf("namespace %s {%n", dbNamespace);
+
       for (Map.Entry<String, List<TestItem>> entry : testData.entrySet()) {
         String zoneName = entry.getKey();
         List<TestItem> testItems = entry.getValue();
         printDataToFile(writer, zoneName, testItems);
       }
+
+      writer.println("}");
+      writer.println("}");
     }
+  }
+
+  private void printHeader(Map<String, List<TestItem>> testData) {
   }
 
   private void printDataToFile(PrintWriter writer, String zoneName, List<TestItem> testItems) {
@@ -150,6 +183,12 @@ public class TestDataGenerator {
 
     return item;
   }
+
+  private final String scope;
+  private final String[] inputZones;
+  private final String cppFile;
+  private final String headerFile;
+  private final String dbNamespace;
 
   private final int startYear = 2000;
   private final int endYear = 2050;
