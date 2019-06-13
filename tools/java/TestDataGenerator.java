@@ -141,6 +141,7 @@ public class TestDataGenerator {
     printHeader(testData);
   }
 
+  /** Create list of TestItems for each zone in this.zones. */
   private Map<String, List<TestItem>> createTestData() {
     System.out.println("createTestData():");
     Map<String, List<TestItem>> testData = new TreeMap<>();
@@ -214,7 +215,6 @@ public class TestDataGenerator {
     YearMonth untilYm = new YearMonth(untilDateTime.getYear(), untilDateTime.getMonthValue());
 
     YearMonth currentYm = new YearMonth(startYm.year, startYm.month);
-    currentYm.incrementOneMonth();
     while (currentYm.compareTo(untilYm) < 0) {
       ZonedDateTime currentDateTime = ZonedDateTime.of(currentYm.year, currentYm.month, 1,
           0, 0, 0, 0, zoneId);
@@ -267,8 +267,8 @@ public class TestDataGenerator {
 
     TestItem item = new TestItem();
     item.epochSecond = (int) (dt.toEpochSecond() - SECONDS_SINCE_UNIX_EPOCH);
-    item.utcOffset = offset.getTotalSeconds();
-    item.dstOffset = (int) dst.getSeconds();
+    item.utcOffset = offset.getTotalSeconds() / 60;
+    item.dstOffset = (int) dst.getSeconds() / 60;
     item.year = dt.getYear();
     item.month = dt.getMonthValue();
     item.day = dt.getDayOfMonth();
@@ -285,14 +285,16 @@ public class TestDataGenerator {
       writer.println("#include <AceTime.h>");
       writer.println("#include \"validation_data.h\"");
       writer.println("namespace ace_time {");
-      writer.printf("namespace %s {%n", dbNamespace);
+      writer.printf ("namespace %s {%n", dbNamespace);
 
       for (Map.Entry<String, List<TestItem>> entry : testData.entrySet()) {
         String zoneName = entry.getKey();
         List<TestItem> testItems = entry.getValue();
         printDataToFile(writer, zoneName, testItems);
+        writer.printf("}%n");
       }
 
+      writer.println();
       writer.println("}");
       writer.println("}");
     }
@@ -303,11 +305,26 @@ public class TestDataGenerator {
   private void printHeader(Map<String, List<TestItem>> testData) {
   }
 
+  private static String normalizeName(String name) {
+    return name.replace('/', '_').replace('-', '_');
+  }
+
   private void printDataToFile(PrintWriter writer, String zoneName, List<TestItem> testItems) {
-    writer.println(zoneName);
+    String normalizedName = normalizeName(zoneName);
+
+    writer.println();
+    writer.println("//---------------------------------------------------------------------------");
+    writer.printf ("// Zone name: %s%n", normalizedName);
+    writer.println("//---------------------------------------------------------------------------");
+    writer.println();
+    writer.printf ("static const ValidationItem kValidationItems%s[] = {%n", normalizedName);
+    writer.printf ("  //    epoch,  utc,  dst,   y,  m,  d,  h,  m,  s%n");
+
     for (TestItem item : testItems) {
-      writer.printf("  %d %d %d %d %d %d %d %c%n",
+      writer.printf("  { %10d, %4d, %4d, %4d, %2d, %2d, %2d, %2d, %2d }, // type=%c%n",
           item.epochSecond,
+          item.utcOffset,
+          item.dstOffset,
           item.year,
           item.month,
           item.day,
