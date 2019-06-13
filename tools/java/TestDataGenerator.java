@@ -211,52 +211,20 @@ public class TestDataGenerator {
       Instant startInstant, Instant untilInstant) {
     ZonedDateTime startDateTime = ZonedDateTime.ofInstant(startInstant, zoneId);
     ZonedDateTime untilDateTime = ZonedDateTime.ofInstant(untilInstant, zoneId);
-    YearMonth startYm = new YearMonth(startDateTime.getYear(), startDateTime.getMonthValue());
-    YearMonth untilYm = new YearMonth(untilDateTime.getYear(), untilDateTime.getMonthValue());
 
-    YearMonth currentYm = new YearMonth(startYm.year, startYm.month);
-    while (currentYm.compareTo(untilYm) < 0) {
-      ZonedDateTime currentDateTime = ZonedDateTime.of(currentYm.year, currentYm.month, 1,
-          0, 0, 0, 0, zoneId);
+    for (int year = startDateTime.getYear(); year < untilDateTime.getMonthValue(); year++) {
+      for (int month = 1; month <= 12; month++) {
+        ZonedDateTime currentDateTime = ZonedDateTime.of(year, month, 1, 0, 0, 0, 0, zoneId);
+        Instant currentInstant = currentDateTime.toInstant();
+        testItems.put(currentInstant.toEpochMilli()/1000,
+            createTestItem(currentInstant, zoneId, 'S'));
+      }
+      // Add {year}-12-31-23:00:00
+      ZonedDateTime currentDateTime = ZonedDateTime.of(year, 12, 31, 23, 0, 0, 0, zoneId);
       Instant currentInstant = currentDateTime.toInstant();
       testItems.put(currentInstant.toEpochMilli()/1000,
-          createTestItem(currentInstant, zoneId, 'S'));
-      currentYm.incrementOneMonth();
+          createTestItem(currentInstant, zoneId, 'Y'));
     }
-  }
-  /** Helper class that emulates a 2-tuple of (year, month) with a compareTo() method. */
-  private static class YearMonth {
-    YearMonth(int year, int month) {
-      this.year = year;
-      this.month = month;
-    }
-
-    int compareTo(YearMonth other) {
-      if (year > other.year) {
-        return 1;
-      }
-      if (year < other.year) {
-        return -1;
-      }
-      if (month > other.month) {
-        return 1;
-      }
-      if (month < other.month) {
-        return -1;
-      }
-      return 0;
-    }
-
-    void incrementOneMonth() {
-      month++;
-      if (month > 12) {
-        year++;
-        month = 1;
-      }
-    }
-
-    private int year;
-    private int month;
   }
 
   private static TestItem createTestItem(Instant instant, ZoneId zoneId, char type) {
@@ -314,11 +282,11 @@ public class TestDataGenerator {
 
     writer.println();
     writer.println("//---------------------------------------------------------------------------");
-    writer.printf ("// Zone name: %s%n", normalizedName);
+    writer.printf ("// Zone name: %s%n", zoneName);
     writer.println("//---------------------------------------------------------------------------");
     writer.println();
     writer.printf ("static const ValidationItem kValidationItems%s[] = {%n", normalizedName);
-    writer.printf ("  //    epoch,  utc,  dst,   y,  m,  d,  h,  m,  s%n");
+    writer.printf ("  //    epoch,  utc,  dst,     y,  m,  d,  h,  m,  s%n");
 
     for (TestItem item : testItems) {
       writer.printf("  { %10d, %4d, %4d, %4d, %2d, %2d, %2d, %2d, %2d }, // type=%c%n",
