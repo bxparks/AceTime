@@ -33,7 +33,7 @@ class TransitionTest: public aunit::TestOnce {
             ace_time::logging::print("epochSeconds: %ld", epochSeconds);
           }
           ace_time::logging::println("; %d-%d-%dT%d:%d:%d",
-            item.yearTiny + LocalDate::kEpochYear,
+            item.year,
             item.month,
             item.day,
             item.hour,
@@ -49,7 +49,7 @@ class TransitionTest: public aunit::TestOnce {
 
         // Verify date components
         ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
-        assertEqual(item.yearTiny, dt.yearTiny());
+        assertEqual(item.year, dt.year());
         assertEqual(item.month, dt.month());
         assertEqual(item.day, dt.day());
         assertEqual(item.hour, dt.hour());

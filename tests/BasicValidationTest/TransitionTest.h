@@ -38,7 +38,7 @@ class TransitionTest: public aunit::TestOnce {
 
         // Verify date components
         ZonedDateTime dt = ZonedDateTime::forEpochSeconds(epochSeconds, tz);
-        assertEqual(item.yearTiny, dt.yearTiny());
+        assertEqual(item.year, dt.year());
         assertEqual(item.month, dt.month());
         assertEqual(item.day, dt.day());
         assertEqual(item.hour, dt.hour());

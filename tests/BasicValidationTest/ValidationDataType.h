@@ -10,7 +10,7 @@ struct ValidationItem {
   acetime_t const epochSeconds;
   int16_t const timeOffsetMinutes;
   int16_t const deltaOffsetMinutes;
-  int8_t const yearTiny;
+  int16_t const year;
   uint8_t const month;
   uint8_t const day;
   uint8_t const hour;
