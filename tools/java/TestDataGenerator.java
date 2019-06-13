@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -24,11 +26,13 @@ import java.util.TreeSet;
  * Generate the validation_data.* files for AceTime.
  *
  * {@code
- * $ javac TestDataGenerator.java BasicZones.java ExtendedZones.java
+ * $ javac TestDataGenerator.java
  * $ java TestDataGenerator (basic | extended)
  * }
  */
 public class TestDataGenerator {
+  // Number of seconds from Unix epoch (1970-01-01T00:00:00Z) to AceTime epoch
+  // (2000-01-01T00:00:00Z).
   private static final int SECONDS_SINCE_UNIX_EPOCH = 946684800;
 
   public static void main(String[] argv) throws IOException {
@@ -43,8 +47,10 @@ public class TestDataGenerator {
       System.exit(1);
     }
 
-    TestDataGenerator generator = new TestDataGenerator(scope);
-    generator.process();
+    printZones();
+
+    //TestDataGenerator generator = new TestDataGenerator(scope);
+    //generator.process();
   }
 
   // Print out the list of all ZoneIds
@@ -65,6 +71,17 @@ public class TestDataGenerator {
     System.out.printf("Selected %s ids:\n", selectedIds.size());
     for (String id : selectedIds) {
       System.out.println("  " + id);
+    }
+  }
+
+  // Print out 'zones.txt' from the current directory
+  static void printZones() throws IOException {
+    String zonesFile = "zones.txt";
+    try (BufferedReader reader = new BufferedReader(new FileReader(zonesFile))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        System.out.println(line);
+      }
     }
   }
 
