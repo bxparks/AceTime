@@ -158,18 +158,24 @@ public class TestDataGenerator {
     return testData;
   }
 
+  /** Return a list of TestItems for zoneId sorted by epochSecond. */
   private List<TestItem> createValidationData(ZoneId zoneId) {
     Instant startInstant = ZonedDateTime.of(startYear, 1, 1, 0, 0, 0, 0, zoneId).toInstant();
     Instant untilInstant = ZonedDateTime.of(untilYear, 1, 1, 0, 0, 0, 0, zoneId).toInstant();
-    List<TestItem> testItems = new ArrayList<>();
+    Map<Long, TestItem> testItems = new TreeMap<>();
 
     addTestItemsFromTransitions(testItems, zoneId, startInstant, untilInstant);
     addTestItemsFromSampling(testItems, zoneId, startInstant, untilInstant);
 
-    return testItems;
+    List<TestItem> sortedItems = new ArrayList<>();
+    for (TestItem item : testItems.values()) {
+      sortedItems.add(item);
+    }
+
+    return sortedItems;
   }
 
-  private static void addTestItemsFromTransitions(List<TestItem> testItems, ZoneId zoneId,
+  private static void addTestItemsFromTransitions(Map<Long, TestItem> testItems, ZoneId zoneId,
       Instant startInstant, Instant untilInstant) {
     ZonedDateTime untilDateTime = ZonedDateTime.ofInstant(untilInstant, zoneId);
     ZoneRules rules = zoneId.getRules();
@@ -190,15 +196,17 @@ public class TestDataGenerator {
 
       // Add test items before and at the current instant.
       Instant instantBefore = currentInstant.minusSeconds(1);
-      testItems.add(createTestItem(instantBefore, zoneId, 'A'));
-      testItems.add(createTestItem(currentInstant, zoneId, 'B'));
+      testItems.put(instantBefore.toEpochMilli()/1000,
+          createTestItem(instantBefore, zoneId, 'A'));
+      testItems.put(currentInstant.toEpochMilli()/1000,
+          createTestItem(currentInstant, zoneId, 'B'));
 
       prevInstant = currentInstant;
     }
   }
 
   // Add intervening sample test items if the jump between transitions is too large.
-  private static void addTestItemsFromSampling(List<TestItem> testItems, ZoneId zoneId,
+  private static void addTestItemsFromSampling(Map<Long, TestItem> testItems, ZoneId zoneId,
       Instant startInstant, Instant untilInstant) {
     ZonedDateTime startDateTime = ZonedDateTime.ofInstant(startInstant, zoneId);
     ZonedDateTime untilDateTime = ZonedDateTime.ofInstant(untilInstant, zoneId);
@@ -211,11 +219,11 @@ public class TestDataGenerator {
       ZonedDateTime currentDateTime = ZonedDateTime.of(currentYm.year, currentYm.month, 1,
           0, 0, 0, 0, zoneId);
       Instant currentInstant = currentDateTime.toInstant();
-      testItems.add(createTestItem(currentInstant, zoneId, 'S'));
+      testItems.put(currentInstant.toEpochMilli()/1000,
+          createTestItem(currentInstant, zoneId, 'S'));
       currentYm.incrementOneMonth();
     }
   }
-
   /** Helper class that emulates a 2-tuple of (year, month) with a compareTo() method. */
   private static class YearMonth {
     YearMonth(int year, int month) {
