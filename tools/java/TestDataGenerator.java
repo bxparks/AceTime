@@ -28,7 +28,7 @@ import java.util.TreeSet;
  *
  * {@code
  * $ javac TestDataGenerator.java
- * $ java TestDataGenerator --scope (basic | extended) [--startYear start] [--endYear end]
+ * $ java TestDataGenerator --scope (basic | extended) [--startYear start] [--untilYear until]
  * }
  */
 public class TestDataGenerator {
@@ -45,7 +45,7 @@ public class TestDataGenerator {
     }
     String scope = null;
     String start = "2000";
-    String end = "2050";
+    String until = "2050";
     while (argc > 0) {
       String arg0 = argv[argi];
       if ("--scope".equals(arg0)) {
@@ -53,7 +53,7 @@ public class TestDataGenerator {
         if (argc == 0) usageAndExit();
         scope = arg0;
       } else if ("--startYear".equals(arg0)) {
-      } else if ("--endYear".equals(arg0)) {
+      } else if ("--untilYear".equals(arg0)) {
       } else if ("--".equals(arg0)) {
         break;
       } else if (arg0.startsWith("-")) {
@@ -70,16 +70,16 @@ public class TestDataGenerator {
     }
     // Should check for NumberFormatException but too much overhead for this simple tool
     int startYear = Integer.parseInt(start);
-    int endYear = Integer.parseInt(end);
+    int untilYear = Integer.parseInt(until);
 
     List<String> zones = readZones();
-    TestDataGenerator generator = new TestDataGenerator(scope, startYear, endYear, zones);
+    TestDataGenerator generator = new TestDataGenerator(scope, startYear, untilYear, zones);
     generator.process();
   }
 
   private static void usageAndExit() {
     System.err.println("Usage: java TestDataGenerator --scope (basic|extended)");
-    System.err.println("       [--startYear {start}] [--endYear {endYear}] < zones.txt");
+    System.err.println("       [--startYear {start}] [--untilYear {until}] < zones.txt");
     System.exit(1);
   }
 
@@ -117,10 +117,10 @@ public class TestDataGenerator {
     return zones;
   }
 
-  private TestDataGenerator(String scope, int startYear, int endYear, List<String> zones) {
+  private TestDataGenerator(String scope, int startYear, int untilYear, List<String> zones) {
     this.scope = scope;
     this.startYear = startYear;
-    this.endYear = endYear;
+    this.untilYear = untilYear;
     this.zones = zones;
 
     if (scope == "basic") {
@@ -159,23 +159,34 @@ public class TestDataGenerator {
   }
 
   private List<TestItem> createValidationData(ZoneId zoneId) {
-    Instant prevInstant = ZonedDateTime.of(startYear, 1, 1, 0, 0, 0, 0, zoneId).toInstant();
-    ZoneRules rules = zoneId.getRules();
+    Instant startInstant = ZonedDateTime.of(startYear, 1, 1, 0, 0, 0, 0, zoneId).toInstant();
+    Instant untilInstant = ZonedDateTime.of(untilYear, 1, 1, 0, 0, 0, 0, zoneId).toInstant();
     List<TestItem> testItems = new ArrayList<>();
+
+    addTestItemsFromTransitions(testItems, zoneId, startInstant, untilInstant);
+    addTestItemsFromSampling(testItems, zoneId, startInstant, untilInstant);
+
+    return testItems;
+  }
+
+  private static void addTestItemsFromTransitions(List<TestItem> testItems, ZoneId zoneId,
+      Instant startInstant, Instant untilInstant) {
+    ZonedDateTime untilDateTime = ZonedDateTime.ofInstant(untilInstant, zoneId);
+    ZoneRules rules = zoneId.getRules();
+    Instant prevInstant = startInstant;
+    int untilYear = untilDateTime.getYear();
     while (true) {
-      // Exit loop if we get to endYear.
+      // Exit if no more transitions
       ZoneOffsetTransition transition = rules.nextTransition(prevInstant);
       if (transition == null) {
         break;
       }
+      // Exit if we get to untilYear.
       Instant currentInstant = transition.getInstant();
       ZonedDateTime currentDateTime = ZonedDateTime.ofInstant(currentInstant, zoneId);
-      if (currentDateTime.getYear() > endYear) {
+      if (currentDateTime.getYear() >= untilYear) {
         break;
       }
-
-      // Add intervening sample test items if the jump between transitions is too large.
-      addSamplesFromPrevToCurrent(testItems, prevInstant, currentInstant, zoneId);
 
       // Add test items before and at the current instant.
       Instant instantBefore = currentInstant.minusSeconds(1);
@@ -184,12 +195,11 @@ public class TestDataGenerator {
 
       prevInstant = currentInstant;
     }
-
-    return testItems;
   }
 
-  private void addSamplesFromPrevToCurrent(List<TestItem> testItems, Instant startInstant,
-      Instant untilInstant, ZoneId zoneId) {
+  // Add intervening sample test items if the jump between transitions is too large.
+  private static void addTestItemsFromSampling(List<TestItem> testItems, ZoneId zoneId,
+      Instant startInstant, Instant untilInstant) {
     ZonedDateTime startDateTime = ZonedDateTime.ofInstant(startInstant, zoneId);
     ZonedDateTime untilDateTime = ZonedDateTime.ofInstant(untilInstant, zoneId);
     YearMonth startYm = new YearMonth(startDateTime.getYear(), startDateTime.getMonthValue());
@@ -241,7 +251,7 @@ public class TestDataGenerator {
     private int month;
   }
 
-  private TestItem createTestItem(Instant instant, ZoneId zoneId, char type) {
+  private static TestItem createTestItem(Instant instant, ZoneId zoneId, char type) {
     ZonedDateTime dt = ZonedDateTime.ofInstant(instant, zoneId);
     ZoneRules rules = zoneId.getRules();
     Duration dst = rules.getDaylightSavings(instant);
@@ -308,7 +318,7 @@ public class TestDataGenerator {
   private final String dbNamespace;
 
   private final int startYear;
-  private final int endYear;
+  private final int untilYear;
 }
 
 class TestItem {
