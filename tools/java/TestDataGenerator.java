@@ -27,7 +27,7 @@ import java.util.TreeSet;
  *
  * {@code
  * $ javac TestDataGenerator.java
- * $ java TestDataGenerator (basic | extended)
+ * $ java TestDataGenerator --scope (basic | extended) --startYear {start} --endYear {end}
  * }
  */
 public class TestDataGenerator {
@@ -43,12 +43,16 @@ public class TestDataGenerator {
       usageAndExit();
     }
     String scope = null;
+    String start = "2000";
+    String end = "2050";
     while (argc > 0) {
       String arg0 = argv[argi];
       if ("--scope".equals(arg0)) {
         {argc--; argi++; arg0 = argv[argi];} // shift-left
         if (argc == 0) usageAndExit();
         scope = arg0;
+      } else if ("--startYear".equals(arg0)) {
+      } else if ("--endYear".equals(arg0)) {
       } else if ("--".equals(arg0)) {
         break;
       } else if (arg0.startsWith("-")) {
@@ -63,14 +67,18 @@ public class TestDataGenerator {
       System.err.printf("Unknown scope '%s'%n", scope);
       usageAndExit();
     }
+    // Should check for NumberFormatException but too much overhead for this simple tool
+    int startYear = Integer.parseInt(start);
+    int endYear = Integer.parseInt(end);
 
     List<String> zones = readZones();
-    TestDataGenerator generator = new TestDataGenerator(scope, zones);
+    TestDataGenerator generator = new TestDataGenerator(scope, startYear, endYear, zones);
     generator.process();
   }
 
   private static void usageAndExit() {
-    System.err.println("Usage: java DataGenerator --scope (basic|extended) < zones.txt");
+    System.err.println("Usage: java TestDataGenerator --scope (basic|extended)");
+    System.err.println("       [--startYear {start}] [--endYear {endYear}] < zones.txt");
     System.exit(1);
   }
 
@@ -107,8 +115,10 @@ public class TestDataGenerator {
     return zones;
   }
 
-  private TestDataGenerator(String scope, List<String> zones) {
+  private TestDataGenerator(String scope, int startYear, int endYear, List<String> zones) {
     this.scope = scope;
+    this.startYear = startYear;
+    this.endYear = endYear;
     this.zones = zones;
 
     if (scope == "basic") {
@@ -156,6 +166,8 @@ public class TestDataGenerator {
       writer.println("}");
       writer.println("}");
     }
+
+    System.out.printf("Created %s%n", cppFile);
   }
 
   private void printHeader(Map<String, List<TestItem>> testData) {
@@ -229,8 +241,8 @@ public class TestDataGenerator {
   private final String headerFile;
   private final String dbNamespace;
 
-  private final int startYear = 2000;
-  private final int endYear = 2050;
+  private final int startYear;
+  private final int endYear;
 }
 
 class TestItem {
