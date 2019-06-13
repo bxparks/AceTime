@@ -96,7 +96,7 @@ const {validationDataClass} kValidationData{zoneNormalizedName} = {{
 """
 
     TEST_ITEM = """\
-  {{ {epochSeconds:9}, {totalOffsetMinutes:4}, {deltaOffsetMinutes:4}, \
+  {{ {epochSeconds:10}, {totalOffsetMinutes:4}, {deltaOffsetMinutes:4}, \
 {yearTiny:3}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2} }}, \
 // type={type}
 """
