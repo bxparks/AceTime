@@ -3,12 +3,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -24,11 +21,12 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * Generate the validation_data.* files for AceTime.
+ * Generate the validation_data.* files for AceTime from the list of zone names in System.in.
  *
  * {@code
  * $ javac TestDataGenerator.java
  * $ java TestDataGenerator --scope (basic | extended) [--startYear start] [--untilYear until]
+ *      < zones.txt
  * }
  */
 public class TestDataGenerator {
