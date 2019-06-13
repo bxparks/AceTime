@@ -36,21 +36,43 @@ public class TestDataGenerator {
   private static final int SECONDS_SINCE_UNIX_EPOCH = 946684800;
 
   public static void main(String[] argv) throws IOException {
-    if (argv.length == 0) {
-      System.out.println("Usage: java TestDataGenerator (basic | extended)");
-      System.exit(1);
+    // Parse command line flags
+    int argc = argv.length;
+    int argi = 0;
+    String arg0 = argv[argi];
+    if (argc == 0) {
+      usageAndExit();
     }
-    String scope = argv[0];
+    String scope = null;
+    while (argc > 0) {
+      if ("--scope".equals(arg0)) {
+        {argc--; argi++; arg0 = argv[argi];} // shift-left
+        if (argc == 0) usageAndExit();
+        scope = arg0;
+      } else if ("--".equals(arg0)) {
+        break;
+      } else if (arg0.startsWith("-")) {
+        System.err.printf("Unknown flag '%s'%n", arg0);
+        usageAndExit();
+      } else if (!arg0.startsWith("-")) {
+        break;
+      }
+      {argc--; argi++; arg0 = argv[argi];} // shift-left
+    }
     if (!"basic".equals(scope) && !"extended".equals(scope)) {
-      System.out.printf("Unknown scope '%s'%n", scope);
-      System.out.println("Usage: DataGenerator (basic | extended)");
-      System.exit(1);
+      System.err.printf("Unknown scope '%s'%n", scope);
+      usageAndExit();
     }
 
     printZones();
 
     //TestDataGenerator generator = new TestDataGenerator(scope);
     //generator.process();
+  }
+
+  private static void usageAndExit() {
+    System.err.println("Usage: java DataGenerator --scope (basic|extended) < zones.txt");
+    System.exit(1);
   }
 
   // Print out the list of all ZoneIds
