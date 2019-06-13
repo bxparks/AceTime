@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.io.IOException;
@@ -39,12 +39,12 @@ public class TestDataGenerator {
     // Parse command line flags
     int argc = argv.length;
     int argi = 0;
-    String arg0 = argv[argi];
     if (argc == 0) {
       usageAndExit();
     }
     String scope = null;
     while (argc > 0) {
+      String arg0 = argv[argi];
       if ("--scope".equals(arg0)) {
         {argc--; argi++; arg0 = argv[argi];} // shift-left
         if (argc == 0) usageAndExit();
@@ -57,17 +57,16 @@ public class TestDataGenerator {
       } else if (!arg0.startsWith("-")) {
         break;
       }
-      {argc--; argi++; arg0 = argv[argi];} // shift-left
+      {argc--; argi++;} // shift-left
     }
     if (!"basic".equals(scope) && !"extended".equals(scope)) {
       System.err.printf("Unknown scope '%s'%n", scope);
       usageAndExit();
     }
 
-    printZones();
-
-    //TestDataGenerator generator = new TestDataGenerator(scope);
-    //generator.process();
+    List<String> zones = readZones();
+    TestDataGenerator generator = new TestDataGenerator(scope, zones);
+    generator.process();
   }
 
   private static void usageAndExit() {
@@ -96,26 +95,27 @@ public class TestDataGenerator {
     }
   }
 
-  // Print out 'zones.txt' from the current directory
-  static void printZones() throws IOException {
-    String zonesFile = "zones.txt";
-    try (BufferedReader reader = new BufferedReader(new FileReader(zonesFile))) {
+  /** Return the list of zone names from the System.in. */
+  private static List<String> readZones() throws IOException {
+    List<String> zones = new ArrayList<>();
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
       String line;
       while ((line = reader.readLine()) != null) {
-        System.out.println(line);
+        zones.add(line);
       }
     }
+    return zones;
   }
 
-  private TestDataGenerator(String scope) {
+  private TestDataGenerator(String scope, List<String> zones) {
     this.scope = scope;
+    this.zones = zones;
+
     if (scope == "basic") {
-      this.inputZones = BasicZones.ZONES;
       this.cppFile = "validation_data.cpp";
       this.headerFile = "validation_data.h";
       this.dbNamespace = "zonedb";
     } else {
-      this.inputZones = ExtendedZones.ZONES;
       this.cppFile = "validation_data.cpp";
       this.headerFile = "validation_data.h";
       this.dbNamespace = "zonedbx";
@@ -123,9 +123,8 @@ public class TestDataGenerator {
   }
 
   private void process() throws IOException {
-    System.out.println("Found " + inputZones.length + " zones");
     Map<String, List<TestItem>> testData = new TreeMap<>();
-    for (String zoneName : inputZones) {
+    for (String zoneName : zones) {
       ZoneId zoneId;
       try {
         zoneId = ZoneId.of(zoneName);
@@ -224,7 +223,8 @@ public class TestDataGenerator {
   }
 
   private final String scope;
-  private final String[] inputZones;
+  private final List<String> zones;
+
   private final String cppFile;
   private final String headerFile;
   private final String dbNamespace;

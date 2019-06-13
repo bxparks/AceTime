@@ -1,4 +1,4 @@
-SRCS := TestDataGenerator.java BasicZones.java ExtendedZones.java
+SRCS := TestDataGenerator.java
 CLASSES := $(SRCS:.java=.class)
 
 .SUFFIXES:.java .class
@@ -12,12 +12,6 @@ classes: $(CLASSES)
 
 run:
 	java TestDataGenerator
-
-BasicZones.java:
-	../tzcompiler.sh --tag 2019a --action zonedb --language java --scope basic
-
-ExtendedZones.java:
-	../tzcompiler.sh --tag 2019a --action zonedb --language java --scope extended
 
 clean:
 	rm -f *.class
