@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -27,7 +28,7 @@ import java.util.TreeSet;
  *
  * {@code
  * $ javac TestDataGenerator.java
- * $ java TestDataGenerator --scope (basic | extended) --startYear {start} --endYear {end}
+ * $ java TestDataGenerator --scope (basic | extended) [--startYear start] [--endYear end]
  * }
  */
 public class TestDataGenerator {
@@ -105,6 +106,7 @@ public class TestDataGenerator {
 
   /** Return the list of zone names from the System.in. */
   private static List<String> readZones() throws IOException {
+    System.out.println("readZones():");
     List<String> zones = new ArrayList<>();
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
       String line;
@@ -133,6 +135,14 @@ public class TestDataGenerator {
   }
 
   private void process() throws IOException {
+    System.out.println("process():");
+    Map<String, List<TestItem>> testData = createTestData();
+    printCpp(testData);
+    printHeader(testData);
+  }
+
+  private Map<String, List<TestItem>> createTestData() {
+    System.out.println("createTestData():");
     Map<String, List<TestItem>> testData = new TreeMap<>();
     for (String zoneName : zones) {
       ZoneId zoneId;
@@ -145,9 +155,111 @@ public class TestDataGenerator {
       List<TestItem> testItems = createValidationData(zoneId);
       testData.put(zoneName, testItems);
     }
+    return testData;
+  }
 
-    printCpp(testData);
-    printHeader(testData);
+  private List<TestItem> createValidationData(ZoneId zoneId) {
+    Instant prevInstant = ZonedDateTime.of(startYear, 1, 1, 0, 0, 0, 0, zoneId).toInstant();
+    ZoneRules rules = zoneId.getRules();
+    List<TestItem> testItems = new ArrayList<>();
+    while (true) {
+      // Exit loop if we get to endYear.
+      ZoneOffsetTransition transition = rules.nextTransition(prevInstant);
+      if (transition == null) {
+        break;
+      }
+      Instant currentInstant = transition.getInstant();
+      ZonedDateTime currentDateTime = ZonedDateTime.ofInstant(currentInstant, zoneId);
+      if (currentDateTime.getYear() > endYear) {
+        break;
+      }
+
+      // Add intervening sample test items if the jump between transitions is too large.
+      addSamplesFromPrevToCurrent(testItems, prevInstant, currentInstant, zoneId);
+
+      // Add test items before and at the current instant.
+      Instant instantBefore = currentInstant.minusSeconds(1);
+      testItems.add(createTestItem(instantBefore, zoneId, 'A'));
+      testItems.add(createTestItem(currentInstant, zoneId, 'B'));
+
+      prevInstant = currentInstant;
+    }
+
+    return testItems;
+  }
+
+  private void addSamplesFromPrevToCurrent(List<TestItem> testItems, Instant startInstant,
+      Instant untilInstant, ZoneId zoneId) {
+    ZonedDateTime startDateTime = ZonedDateTime.ofInstant(startInstant, zoneId);
+    ZonedDateTime untilDateTime = ZonedDateTime.ofInstant(untilInstant, zoneId);
+    YearMonth startYm = new YearMonth(startDateTime.getYear(), startDateTime.getMonthValue());
+    YearMonth untilYm = new YearMonth(untilDateTime.getYear(), untilDateTime.getMonthValue());
+
+    YearMonth currentYm = new YearMonth(startYm.year, startYm.month);
+    currentYm.incrementOneMonth();
+    while (currentYm.compareTo(untilYm) < 0) {
+      ZonedDateTime currentDateTime = ZonedDateTime.of(currentYm.year, currentYm.month, 1,
+          0, 0, 0, 0, zoneId);
+      Instant currentInstant = currentDateTime.toInstant();
+      testItems.add(createTestItem(currentInstant, zoneId, 'S'));
+      currentYm.incrementOneMonth();
+    }
+  }
+
+  /** Helper class that emulates a 2-tuple of (year, month) with a compareTo() method. */
+  private static class YearMonth {
+    YearMonth(int year, int month) {
+      this.year = year;
+      this.month = month;
+    }
+
+    int compareTo(YearMonth other) {
+      if (year > other.year) {
+        return 1;
+      }
+      if (year < other.year) {
+        return -1;
+      }
+      if (month > other.month) {
+        return 1;
+      }
+      if (month < other.month) {
+        return -1;
+      }
+      return 0;
+    }
+
+    void incrementOneMonth() {
+      month++;
+      if (month > 12) {
+        year++;
+        month = 1;
+      }
+    }
+
+    private int year;
+    private int month;
+  }
+
+  private TestItem createTestItem(Instant instant, ZoneId zoneId, char type) {
+    ZonedDateTime dt = ZonedDateTime.ofInstant(instant, zoneId);
+    ZoneRules rules = zoneId.getRules();
+    Duration dst = rules.getDaylightSavings(instant);
+    ZoneOffset offset = rules.getOffset(instant);
+
+    TestItem item = new TestItem();
+    item.epochSecond = (int) (dt.toEpochSecond() - SECONDS_SINCE_UNIX_EPOCH);
+    item.utcOffset = offset.getTotalSeconds();
+    item.dstOffset = (int) dst.getSeconds();
+    item.year = dt.getYear();
+    item.month = dt.getMonthValue();
+    item.day = dt.getDayOfMonth();
+    item.hour = dt.getHour();
+    item.minute = dt.getMinute();
+    item.second = dt.getSecond();
+    item.type = type;
+
+    return item;
   }
 
   private void printCpp(Map<String, List<TestItem>> testData) throws IOException {
@@ -177,7 +289,7 @@ public class TestDataGenerator {
     writer.println(zoneName);
     for (TestItem item : testItems) {
       writer.printf("  %d %d %d %d %d %d %d %c%n",
-          item.epochSeconds,
+          item.epochSecond,
           item.year,
           item.month,
           item.day,
@@ -186,52 +298,6 @@ public class TestDataGenerator {
           item.second,
           item.type);
     }
-  }
-
-  private List<TestItem> createValidationData(ZoneId zoneId) {
-    Instant instant = LocalDateTime.of(startYear, 1, 1, 0, 0, 0)
-        .toInstant(ZoneOffset.UTC);
-    ZoneRules rules = zoneId.getRules();
-    List<TestItem> testItems = new ArrayList<>();
-    while (true) {
-      ZoneOffsetTransition transition = rules.nextTransition(instant);
-      if (transition == null) {
-        break;
-      }
-      instant = transition.getInstant();
-      LocalDateTime dt = LocalDateTime.ofInstant(instant, zoneId);
-      if (dt.getYear() > endYear) {
-        break;
-      }
-
-      Instant instantBefore = instant.minusSeconds(1);
-      ZoneOffset offsetBefore = transition.getOffsetBefore();
-      TestItem item = createTestItem(instantBefore, offsetBefore, 'A');
-      testItems.add(item);
-
-      ZoneOffset offsetAfter = transition.getOffsetAfter();
-      item = createTestItem(instant, offsetAfter, 'B');
-      testItems.add(item);
-    }
-
-    return testItems;
-  }
-
-  private TestItem createTestItem(Instant instant, ZoneOffset offset, char type) {
-    LocalDateTime ldt = LocalDateTime.ofInstant(instant, offset);
-    TestItem item = new TestItem();
-
-    item.epochSeconds = (int) (instant.toEpochMilli() / 1000 - SECONDS_SINCE_UNIX_EPOCH);
-    item.utcOffset = offset.getTotalSeconds();
-    item.year = ldt.getYear();
-    item.month = ldt.getMonthValue();
-    item.day = ldt.getDayOfMonth();
-    item.hour = ldt.getHour();
-    item.minute = ldt.getMinute();
-    item.second = ldt.getSecond();
-    item.type = type;
-
-    return item;
   }
 
   private final String scope;
@@ -246,7 +312,7 @@ public class TestDataGenerator {
 }
 
 class TestItem {
-  int epochSeconds;
+  int epochSecond;
   int utcOffset;
   int dstOffset;
   int year;
