@@ -79,9 +79,8 @@ public class TestDataGenerator {
     int untilYear = Integer.parseInt(until);
 
     List<String> zones = readZones();
-    TestDataGenerator generator = new TestDataGenerator(
-        invocation, scope, startYear, untilYear, zones);
-    generator.process();
+    TestDataGenerator generator = new TestDataGenerator(invocation, scope, startYear, untilYear);
+    generator.process(zones);
   }
 
   private static void usageAndExit() {
@@ -124,13 +123,11 @@ public class TestDataGenerator {
     return zones;
   }
 
-  private TestDataGenerator(String invocation, String scope, int startYear, int untilYear,
-      List<String> zones) {
+  private TestDataGenerator(String invocation, String scope, int startYear, int untilYear) {
     this.invocation = invocation;
     this.scope = scope;
     this.startYear = startYear;
     this.untilYear = untilYear;
-    this.zones = zones;
 
     if ("basic".equals(scope)) {
       this.cppFile = "validation_data.cpp";
@@ -143,15 +140,15 @@ public class TestDataGenerator {
     }
   }
 
-  private void process() throws IOException {
+  private void process(List<String> zones) throws IOException {
     System.out.println("process():");
-    Map<String, List<TestItem>> testData = createTestData();
+    Map<String, List<TestItem>> testData = createTestData(zones);
     printCpp(testData);
     printHeader(testData);
   }
 
   /** Create list of TestItems for each zone in this.zones. */
-  private Map<String, List<TestItem>> createTestData() {
+  private Map<String, List<TestItem>> createTestData(List<String> zones) {
     System.out.println("createTestData():");
     Map<String, List<TestItem>> testData = new TreeMap<>();
     for (String zoneName : zones) {
@@ -364,8 +361,6 @@ public class TestDataGenerator {
   private final String scope;
   private final int startYear;
   private final int untilYear;
-  private final List<String> zones;
-
 
   // derived parameters
   private final String cppFile;
