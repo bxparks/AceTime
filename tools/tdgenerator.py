@@ -32,10 +32,13 @@ class TestDataGenerator:
     #
     # The first value of the 2-tuple is a DateTuple that marks the
     # 'transitionTime' of the current Transition (usually the wall time, using
-    # the UTC offset of the *previous* Transition). This is the expected
-    # transition time *after* the granularity truncation has been applied.
-    # In other words, if the actual transitionTime was 00:01, then the truncated
-    # transitionTime would be 00:00.
+    # the UTC offset of the *previous* Transition), as determined by the
+    # (Python) ZoneSpecifier class. Since the algorithm in ZoneSpecifier already
+    # truncates the transition time, this will be the transition time *after*
+    # the granularity truncation has been applied. In other words, if the actual
+    # transitionTime according to the TZ Database was 00:01, then the first
+    # component will be stored as 00:00. (The DateTuple[3] component is 'ss'
+    # which is the transitionTime in seconds.)
     #
     # The second value of the 2-tuple is the amount of offset (in seconds) that
     # should be added to the transitionTime to get the corrected transitionTime

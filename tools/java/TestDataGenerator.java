@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -13,6 +14,7 @@ import java.time.zone.ZoneOffsetTransition;
 import java.time.zone.ZoneRules;
 import java.time.zone.ZoneRulesException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -205,18 +207,35 @@ public class TestDataGenerator {
         break;
       }
 
-      // Add test items before and at the current instant.
-      Instant instantBefore = currentInstant.minusSeconds(1);
-      testItems.put(instantBefore.toEpochMilli()/1000,
-          createTestItem(instantBefore, zoneId, 'A'));
-      testItems.put(currentInstant.toEpochMilli()/1000,
-          createTestItem(currentInstant, zoneId, 'B'));
+      // Check for corrections
+      int correctionOffset = getCorrectionOffset(zoneId, currentDateTime);
+
+      // One second before the transition, and at the transition
+      addTestItem(testItems, currentInstant.minusSeconds(1), correctionOffset, zoneId, 'A');
+      addTestItem(testItems, currentInstant, correctionOffset, zoneId, 'B');
 
       prevInstant = currentInstant;
     }
   }
 
-  // Add intervening sample test items if the jump between transitions is too large.
+  // Check for corrections
+  private static int getCorrectionOffset(ZoneId zoneId, ZonedDateTime currentDateTime) {
+    String name = zoneId.getId();
+    Map<LocalDateTime, Integer> corrections = CORRECTIONS.get(name);
+    if (corrections == null) return 0;
+
+    LocalDateTime correctionTime = currentDateTime.toLocalDateTime();
+    System.out.println("Correction Time: " + correctionTime);
+    if (correctionTime.equals(LocalDateTime.of(2000, 4, 2, 0, 1))) {
+      System.out.println("EQUALS");
+    }
+    Integer correction = corrections.get(correctionTime);
+    if (correction == null) return 0;
+
+    return correction;
+  }
+
+  /** Add intervening sample test items from startInstant to untilInstant for zoneId. */
   private static void addTestItemsFromSampling(Map<Long, TestItem> testItems, ZoneId zoneId,
       Instant startInstant, Instant untilInstant) {
     ZonedDateTime startDateTime = ZonedDateTime.ofInstant(startInstant, zoneId);
@@ -225,23 +244,39 @@ public class TestDataGenerator {
     for (int year = startDateTime.getYear(); year < untilDateTime.getYear(); year++) {
       for (int month = 1; month <= 12; month++) {
         ZonedDateTime currentDateTime = ZonedDateTime.of(year, month, 1, 0, 0, 0, 0, zoneId);
-        Instant currentInstant = currentDateTime.toInstant();
-        testItems.put(currentInstant.toEpochMilli()/1000,
-            createTestItem(currentInstant, zoneId, 'S'));
+        int correctionOffset = getCorrectionOffset(zoneId, currentDateTime);
+        addTestItem(testItems, currentDateTime.toInstant(), correctionOffset, zoneId, 'S');
       }
       // Add {year}-12-31-23:00:00
       ZonedDateTime currentDateTime = ZonedDateTime.of(year, 12, 31, 23, 0, 0, 0, zoneId);
-      Instant currentInstant = currentDateTime.toInstant();
-      testItems.put(currentInstant.toEpochMilli()/1000,
-          createTestItem(currentInstant, zoneId, 'Y'));
+      int correctionOffset = getCorrectionOffset(zoneId, currentDateTime);
+      addTestItem(testItems, currentDateTime.toInstant(), correctionOffset, zoneId, 'Y');
     }
   }
 
-  private static TestItem createTestItem(Instant instant, ZoneId zoneId, char type) {
-    ZonedDateTime dt = ZonedDateTime.ofInstant(instant, zoneId);
+  /**
+   * Add the TestItem at actualInstant, but with the renderingInstant corrected by
+   * renderingCorrection.
+   */
+  private static void addTestItem(Map<Long, TestItem> testItems, Instant actualInstant,
+      int renderingCorrection, ZoneId zoneId, char type) {
+    Instant renderingInstant = actualInstant.minusSeconds(renderingCorrection);
+    long renderingSecond = renderingInstant.toEpochMilli()/1000;
+    TestItem testItem = createTestItem(actualInstant, renderingInstant, zoneId, type);
+    testItems.put(renderingSecond, testItem);
+  }
+
+  /**
+   * Create a test item using the actualInstant to determine the offsets, but using renderingInstant
+   * when creating the TestItem object. This supports zones whose transition occurs at 00:01, which
+   * AceTime truncates to 00:00.
+   */
+  private static TestItem createTestItem(Instant actualInstant, Instant renderingInstant,
+      ZoneId zoneId, char type) {
+    ZonedDateTime dt = ZonedDateTime.ofInstant(renderingInstant, zoneId);
     ZoneRules rules = zoneId.getRules();
-    Duration dst = rules.getDaylightSavings(instant);
-    ZoneOffset offset = rules.getOffset(instant);
+    Duration dst = rules.getDaylightSavings(actualInstant);
+    ZoneOffset offset = rules.getOffset(actualInstant);
 
     TestItem item = new TestItem();
     item.epochSecond = (int) (dt.toEpochSecond() - SECONDS_SINCE_UNIX_EPOCH);
@@ -358,6 +393,94 @@ public class TestDataGenerator {
 
   private static String normalizeName(String name) {
     return name.replace('/', '_').replace('-', '_');
+  }
+
+  // List of transition corrections, serving the same function as the CORRECTIONS parameter in
+  // tdgeneartor.py. Normally I would use an ImmutableMap<> but to avoid dependency to any external
+  // libraries like Guava, I create this static map using old-school techniques.
+  //
+  // The LocalDateTime is the expected transition date from java.time.ZoneId. The Integer correction
+  // is the number of seconds that the LocalDateTime needs to be shifted BACK to get the transition
+  // calculated by AceTime.
+  private static final Map<String, Map<LocalDateTime, Integer>> CORRECTIONS = new HashMap<>();
+  {
+    Map<LocalDateTime, Integer> GAZA = new HashMap<>();
+    GAZA.put(LocalDateTime.of(2010, 3, 27, 0, 1), 60);
+    GAZA.put(LocalDateTime.of(2010, 4, 1, 0, 1), 60);
+    CORRECTIONS.put("Asia/Gaza", GAZA);
+
+    Map<LocalDateTime, Integer> GOOSE_BAY = new HashMap<>();
+    GOOSE_BAY.put(LocalDateTime.of(2000, 4, 2, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2000, 10, 29, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2001, 4, 1, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2001, 10, 28, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2002, 4, 7, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2002, 10, 27, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2003, 4, 6, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2003, 10, 26, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2004, 4, 4, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2004, 10, 31, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2005, 4, 3, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2005, 10, 30, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2006, 4, 2, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2006, 10, 29, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2007, 3, 11, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2007, 11, 4, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2008, 3, 9, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2008, 11, 2, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2009, 3, 8, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2009, 11, 1, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2010, 3, 14, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2010, 11, 7, 0, 1), 60);
+    GOOSE_BAY.put(LocalDateTime.of(2011, 3, 13, 0, 1), 60);
+    CORRECTIONS.put("America/Goose_Bay", GOOSE_BAY);
+
+    Map<LocalDateTime, Integer> HEBRON = new HashMap<>();
+    HEBRON.put(LocalDateTime.of(2011, 4, 1, 0, 1), 60);
+    CORRECTIONS.put("Asia/Hebron", HEBRON);
+
+    Map<LocalDateTime, Integer> MONCTON = new HashMap<>();
+    MONCTON.put(LocalDateTime.of(2000, 4, 2, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2000, 10, 29, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2001, 4, 1, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2001, 10, 28, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2002, 4, 7, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2002, 10, 27, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2003, 4, 6, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2003, 10, 26, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2004, 4, 4, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2004, 10, 31, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2005, 4, 3, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2005, 10, 30, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2006, 4, 2, 0, 1), 60);
+    MONCTON.put(LocalDateTime.of(2006, 10, 29, 0, 1), 60);
+    CORRECTIONS.put("America/Moncton", MONCTON);
+
+    Map<LocalDateTime, Integer> ST_JOHNS = new HashMap<>();
+    ST_JOHNS.put(LocalDateTime.of(2000, 4, 2, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2000, 10, 29, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2001, 4, 1, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2001, 10, 28, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2002, 4, 7, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2002, 10, 27, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2003, 4, 6, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2003, 10, 26, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2004, 4, 4, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2004, 10, 31, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2005, 4, 3, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2005, 10, 30, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2006, 4, 2, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2006, 10, 29, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2007, 3, 11, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2007, 11, 4, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2008, 3, 9, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2008, 11, 2, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2009, 3, 8, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2009, 11, 1, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2010, 3, 14, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2010, 11, 7, 0, 1), 60);
+    ST_JOHNS.put(LocalDateTime.of(2011, 3, 13, 0, 1), 60);
+    CORRECTIONS.put("America/St_Johns", ST_JOHNS);
   }
 
   // constructor parameters
