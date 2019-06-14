@@ -108,13 +108,19 @@ public class TestDataGenerator {
     }
   }
 
-  /** Return the list of zone names from the System.in. */
+  /**
+   * Return the list of zone names from the System.in.
+   * Ignore empty lines and comment lines starting with '#'.
+   */
   private static List<String> readZones() throws IOException {
     System.out.println("readZones():");
     List<String> zones = new ArrayList<>();
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
       String line;
       while ((line = reader.readLine()) != null) {
+        line = line.trim();
+        if (line.isEmpty()) continue;
+        if (line.startsWith("#")) continue;
         zones.add(line);
       }
     }

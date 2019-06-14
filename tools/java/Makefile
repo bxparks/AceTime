@@ -10,8 +10,5 @@ all: classes
 
 classes: $(CLASSES)
 
-run:
-	java TestDataGenerator
-
 clean:
 	rm -f *.class
