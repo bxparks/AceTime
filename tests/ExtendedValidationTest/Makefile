@@ -7,4 +7,4 @@ ARDUINO_LIBS := AceTime
 include ../../../AUnit/unitduino/unitduino.mk
 
 validation_data:
-	../../tools/tzcompiler.sh --tag 2019a --action unittest --language arduino --scope extended
+	../../tools/tzcompiler.sh --tag 2019a --action unittest --language arduino --scope extended --start_year 2000 --until_year 2038

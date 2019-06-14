@@ -15,25 +15,25 @@ this:
                     Transformer----------------------.
                    /     |    \                       \
                   /      |     v                       v
-                 /       |     PythonGenerator         JavaGenerator
+                 /       |     PythonGenerator       JavaGenerator
                 /        |           \                    \
                /  InlineGenerator     v                    v
-              /          |           zone_infos.py        BasicZones.java
-             /           |           zone_policies.py     ExtendedZones.java
-            /           / \          zone_strings.py
-           /           /   \
-          /           v     \
-         / BufSizeEstimator  .
-        /     /              |\
-       v     v               | \
-  ArduinoGenerator           |  v
-        |                    |   Validator
-        v                    |
-zone_infos.{h,cpp}           |
-zone_policies.{h,cpp}        |
-zone_strings.{h,cpp}         |
-                             |
-                             v
+              /          |           zone_infos.py        zones.txt
+             /           |           zone_policies.py       |
+            /           / \          zone_strings.py        |
+           /           /   \                                v
+          /           v     \                         TestDataGenerator.java
+         / BufSizeEstimator  .                                  |
+        /     /              |\            pytz                 |
+       v     v               | \          /  |                  v
+  ArduinoGenerator           |  v        v   |          validation_data{h,cpp}
+        |                    |   Validator   |
+        v                    |               |
+zone_infos.{h,cpp}           |               |
+zone_policies.{h,cpp}        |              /
+zone_strings.{h,cpp}         |             /
+                             |            /
+                             v           v
                         TestDataGenerator
                           /       \
                          v         v
