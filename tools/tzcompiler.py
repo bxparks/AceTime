@@ -5,42 +5,42 @@
 # MIT License.
 """
 Main driver for TZ Database compiler. The data processing pipeline looks like
-this:
-                     TZDB files
-                         |
-                         v
-                     Extractor
-                         |
-                         v
-                    Transformer----------------------.
-                   /     |    \                       \
-                  /      |     v                       v
-                 /       |     PythonGenerator       JavaGenerator
-                /        |           \                    \
-               /  InlineGenerator     v                    v
-              /          |           zone_infos.py        zones.txt
-             /           |           zone_policies.py       |
-            /           / \          zone_strings.py        |
-           /           /   \                                v
-          /           v     \                         TestDataGenerator.java
-         / BufSizeEstimator  .                                  |
-        /     /              |\            pytz                 |
-       v     v               | \          /  |                  v
-  ArduinoGenerator           |  v        v   |          validation_data{h,cpp}
-        |                    |   Validator   |
-        v                    |               |
-zone_infos.{h,cpp}           |               |
-zone_policies.{h,cpp}        |              /
-zone_strings.{h,cpp}         |             /
-                             |            /
-                             v           v
-                        TestDataGenerator
+the following. The node names are usually the python modules:
+
+                    TZDB files
+                        |
+                        v
+                    extractor
+                        |
+                        v
+                   transformer----------------------.
+                  /     |    \                       \
+                 /      |     v                       v
+                /       |     pygenerator        javagenerator
+               /        |           \                    \
+              /   ingenerator        v                    v
+             /          |         zone_infos.py        zones.txt    java.time
+            /           |         zone_policies.py         |          /
+           /           / \        zone_strings.py          |         /
+          /           /   \                                v        v
+         /           v     \                         TestDataGenerator.java
+        /  bufestimator     .                                |
+       /     /              |\          pytz                 |
+      v     v               | \        /  |                  v
+    argenerator             |  v      v   |          validation_data{h,cpp}
+       |                    |   Validator |          validation_tests.cpp
+       v                    |             /
+zone_infos.{h,cpp}          |            /
+zone_policies.{h,cpp}       |           /
+zone_strings.{h,cpp}        |          /
+                            |         /
+                            v        v
+                           tdgenerator
                           /       \
                          v         v
-         ArduinoValidation      PythonValidation
-          Generator              Generator
-              |                    |
-              v                    v
+            arvalgenerator      pyvalgenerator
+                |                    |
+                v                    v
      validation_data.{h,cpp}    validation_data.py
      validation_tests.cpp
 

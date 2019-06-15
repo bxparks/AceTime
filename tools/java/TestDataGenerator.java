@@ -31,11 +31,22 @@ import java.util.TreeSet;
 /**
  * Generate the validation_data.* files for AceTime from the list of zone names in System.in.
  *
+ * <pre>
  * {@code
  * $ javac TestDataGenerator.java
  * $ java TestDataGenerator --scope (basic | extended) [--startYear start] [--untilYear until]
  *      < zones.txt
  * }
+ * </pre>
+ *
+ * The zones.txt file is a list of fully qualified zone names (e.g. "America/Los_Angeles") listed
+ * one zone per line. It will normally be generated programmatically using
+ *
+ * <pre>
+ * {@code
+ * $ ../../tools/tzcompiler.sh --tag 2019a --scope extended --action zonedb --language java
+ * }
+ * </pre>
  */
 public class TestDataGenerator {
   // Number of seconds from Unix epoch (1970-01-01T00:00:00Z) to AceTime epoch
