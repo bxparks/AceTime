@@ -9,7 +9,7 @@
 #include "validation_data.h"
 
 // numZones: 347
-// missingZones: 1
+// missingZones: 0
 testF(TransitionTest, Africa_Abidjan) {
   assertValid(&ace_time::zonedbx::kValidationDataAfrica_Abidjan);
 }
@@ -649,9 +649,6 @@ testF(TransitionTest, Asia_Pyongyang) {
 testF(TransitionTest, Asia_Qatar) {
   assertValid(&ace_time::zonedbx::kValidationDataAsia_Qatar);
 }
-// testF(TransitionTest, Asia_Qostanay) {
-//   assertValid(&ace_time::zonedbx::kValidationDataAsia_Qostanay);
-// }
 testF(TransitionTest, Asia_Qyzylorda) {
   assertValid(&ace_time::zonedbx::kValidationDataAsia_Qyzylorda);
 }

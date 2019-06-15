@@ -511,7 +511,7 @@ public class TestDataGenerator {
   {
     Map<LocalDateTime, Integer> GAZA = new HashMap<>();
     GAZA.put(LocalDateTime.of(2010, 3, 27, 0, 1), 60);
-    GAZA.put(LocalDateTime.of(2010, 4, 1, 0, 1), 60);
+    GAZA.put(LocalDateTime.of(2011, 4, 1, 0, 1), 60);
     CORRECTIONS.put("Asia/Gaza", GAZA);
 
     Map<LocalDateTime, Integer> GOOSE_BAY = new HashMap<>();

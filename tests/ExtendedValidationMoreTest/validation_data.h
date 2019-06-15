@@ -13,7 +13,6 @@ namespace ace_time {
 namespace zonedbx {
 
 // numZones: 347
-// missingZones: 1
 extern const ValidationData kValidationDataAfrica_Abidjan;
 extern const ValidationData kValidationDataAfrica_Accra;
 extern const ValidationData kValidationDataAfrica_Algiers;
@@ -361,10 +360,6 @@ extern const ValidationData kValidationDataPacific_Tarawa;
 extern const ValidationData kValidationDataPacific_Tongatapu;
 extern const ValidationData kValidationDataPacific_Wake;
 extern const ValidationData kValidationDataPacific_Wallis;
-
-// Zones missing from java.time
-// missingZones: 1
-// extern const ValidationData kValidationDataAsia_Qostanay;
 
 }
 }
