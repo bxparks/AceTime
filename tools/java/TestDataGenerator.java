@@ -66,6 +66,7 @@ public class TestDataGenerator {
     String scope = null;
     String start = "2000";
     String until = "2050";
+    String dbNamespace = null;
     while (argc > 0) {
       String arg0 = argv[argi];
       if ("--scope".equals(arg0)) {
@@ -78,6 +79,9 @@ public class TestDataGenerator {
       } else if ("--until_year".equals(arg0)) {
         {argc--; argi++; arg0 = argv[argi];} // shift-left
         until = arg0;
+      } else if ("--db_namespace".equals(arg0)) {
+        {argc--; argi++; arg0 = argv[argi];} // shift-left
+        dbNamespace = arg0;
       } else if ("--".equals(arg0)) {
         break;
       } else if (arg0.startsWith("-")) {
@@ -88,22 +92,37 @@ public class TestDataGenerator {
       }
       {argc--; argi++;} // shift-left
     }
+
+    // Validate --scope.
     if (!"basic".equals(scope) && !"extended".equals(scope)) {
       System.err.printf("Unknown scope '%s'%n", scope);
       usageAndExit();
     }
-    // Should check for NumberFormatException but too much overhead for this simple tool
+
+    // Validate --start_year and --end_year.
+    // Should check for NumberFormatException but too much overhead for this simple tool.
     int startYear = Integer.parseInt(start);
     int untilYear = Integer.parseInt(until);
 
+    // Validate --db_namespace. Assume defaults if flag not given.
+    if (dbNamespace == null) {
+      if ("basic".equals(scope)) {
+        dbNamespace = "zonedb";
+      } else {
+        dbNamespace = "zonedbx";
+      }
+    }
+
     List<String> zones = readZones();
-    TestDataGenerator generator = new TestDataGenerator(invocation, scope, startYear, untilYear);
+    TestDataGenerator generator = new TestDataGenerator(invocation, scope, dbNamespace,
+        startYear, untilYear);
     generator.process(zones);
   }
 
   private static void usageAndExit() {
     System.err.println("Usage: java TestDataGenerator --scope (basic|extended)");
-    System.err.println("       [--start_year {start}] [--untilYear {until}] < zones.txt");
+    System.err.println("       [--db_namespace ns] [--start_year {start}] [--untilYear {until}] ");
+    System.err.println("       < zones.txt");
     System.exit(1);
   }
 
@@ -146,20 +165,18 @@ public class TestDataGenerator {
     return zones;
   }
 
-  private TestDataGenerator(String invocation, String scope, int startYear, int untilYear) {
+  private TestDataGenerator(String invocation, String scope, String dbNamespace,
+      int startYear, int untilYear) {
     this.invocation = invocation;
     this.scope = scope;
+    this.dbNamespace = dbNamespace;
     this.startYear = startYear;
     this.untilYear = untilYear;
+    this.isDefaultNamespace = ("zonedb".equals(dbNamespace) || "zonedbx".equals(dbNamespace));
 
     this.cppFile = "validation_data.cpp";
     this.headerFile = "validation_data.h";
     this.testsFile = "validation_tests.cpp";
-    if ("basic".equals(scope)) {
-      this.dbNamespace = "zonedb";
-    } else {
-      this.dbNamespace = "zonedbx";
-    }
   }
 
   private void process(List<String> zones) throws IOException {
@@ -336,6 +353,10 @@ public class TestDataGenerator {
       writer.println("// DO NOT EDIT");
       writer.println();
       writer.println("#include <AceTime.h>");
+      if (!isDefaultNamespace) {
+        writer.printf ("#include \"%s/zone_infos.h\"%n", dbNamespace);
+        writer.printf ("#include \"%s/zone_policies.h\"%n", dbNamespace);
+      }
       writer.println("#include \"validation_data.h\"");
       writer.println();
       writer.println("namespace ace_time {");
@@ -511,7 +532,7 @@ public class TestDataGenerator {
   {
     Map<LocalDateTime, Integer> GAZA = new HashMap<>();
     GAZA.put(LocalDateTime.of(2010, 3, 27, 0, 1), 60);
-    GAZA.put(LocalDateTime.of(2010, 4, 1, 0, 1), 60);
+    GAZA.put(LocalDateTime.of(2011, 4, 1, 0, 1), 60);
     CORRECTIONS.put("Asia/Gaza", GAZA);
 
     Map<LocalDateTime, Integer> GOOSE_BAY = new HashMap<>();
@@ -593,12 +614,13 @@ public class TestDataGenerator {
   private final String scope;
   private final int startYear;
   private final int untilYear;
+  private final String dbNamespace;
 
   // derived parameters
+  private final boolean isDefaultNamespace;
   private final String cppFile;
   private final String headerFile;
   private final String testsFile;;
-  private final String dbNamespace;
 }
 
 class TestItem {
