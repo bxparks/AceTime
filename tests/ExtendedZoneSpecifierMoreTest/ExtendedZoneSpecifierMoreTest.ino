@@ -1,5 +1,8 @@
 #line 2 "ExtendedZoneSpecifierMoreTest.ino"
 
+// Spillovers from ExtendedZoneSpecifierTest.ino after it became too big for a
+// Arduino Pro Micro.
+
 #include <AUnit.h>
 #include <AceTime.h>
 
@@ -59,7 +62,7 @@ test(ExtendedZoneSpecifierTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   acetime_t epochSeconds;
 
   assertEqual(2000, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->startYear);
-  assertEqual(2038, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
+  assertEqual(2050, zonedbx::kZoneAmerica_Los_Angeles.zoneContext->untilYear);
 
   dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
@@ -68,7 +71,7 @@ test(ExtendedZoneSpecifierTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
   assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
 
-  dt = OffsetDateTime::forComponents(2039, 2, 1, 1, 0, 0,
+  dt = OffsetDateTime::forComponents(2051, 2, 1, 1, 0, 0,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
   assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
