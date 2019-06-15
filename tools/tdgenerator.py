@@ -298,42 +298,43 @@ class TestDataGenerator:
 
     def _create_test_item_from_epoch_seconds(self, tz, epoch_seconds,
         correction, type):
-        """Determine the expected date/time fields from the given epoch_seconds
-        and the tz of the zone. The 'correction' is the offset that we
-        must add to epoch_seconds to retrieve the real UTC offset.
+        """Determine the expected date and time components for the given
+        'epoch_seconds' for the given 'tz'. The 'epoch_seconds' is the
+        transition time calculated by the ZoneSpecifier class (which is the
+        Python implementation of the C++ ExtendedZoneSpecifier class). That
+        epoch_seconds will be off by 'correction' seconds (usually 60 seconds)
+        for a handful of zones at small number of transitions because
+        ZoneSpecifier truncates transition time to multiples of 15 minutes. For
+        example, a transition time of 00:01 will be truncated to 00:00.
 
-        The correction is non-zero for the handful (5) zones which have
-        transition times that don't occur at a 15-minute boundary. In all
-        cases in 2018, this is usually at 00:01. The transformer.py will
-        truncate the AceTime zoneinfo file to the smallest 15-minute interval
-        (i.e. 00:00), so the actual epochSeconds given to the 'tz' object must
-        be shifted by this correction value.
+        To calculate the expected date & time components using pytz, the actual
+        transition time must be corrected using 'epoch_seconds + correction',
+        and this corrected epoch_seconds must be given to pytz to retrieve the
+        expected DST offsets.
 
         Return the TestItem with the following fields:
-            epoch: epoch seconds
-            total_offset: the total UTC offset
-            dst_offset: the DST offset
-            y, M, d, h, m, s: components of the dateTime
+            epoch: epoch seconds from AceTime epoch (2000-01-01T00:00:00Z)
+            total_offset: the expected total UTC offset at epoch_seconds
+            dst_offset: the expected DST offset at epoch_seconds
+            y, M, d, h, m, s: expected date&time components at epoch_seconds
             type: 'a', 'b', 'A', 'B', 'S', 'Y'
-        The base offset is (total_offset - dst_offset).
         """
 
-        # Get the startTime components directly from the epoch seconds.
+        # Convert AceTime epoch_seconds to Unix epoch_seconds.
         unix_seconds = epoch_seconds + SECONDS_SINCE_UNIX_EPOCH
-        utc_dt = datetime.datetime.fromtimestamp(
-            unix_seconds, tz=datetime.timezone.utc)
-        dt = utc_dt.astimezone(tz)
 
-        # Get the UTC offset by shifting the epoch seconds by its correction.
-        utc_offset_dt = datetime.datetime.fromtimestamp(
+        # Shift the epoch seconds by its correction to get the actual transition
+        # time, then feed that into pytz to get the total offset and DST shift
+        corrected_utc_dt = datetime.datetime.fromtimestamp(
             unix_seconds + correction, tz=datetime.timezone.utc)
-        offset_dt = utc_offset_dt.astimezone(tz)
-        total_offset = int(offset_dt.utcoffset().total_seconds())
-        dst_offset = int(offset_dt.dst().total_seconds())
+        corrected_dt = corrected_utc_dt.astimezone(tz)
+        total_offset = int(corrected_dt.utcoffset().total_seconds())
+        dst_offset = int(corrected_dt.dst().total_seconds())
 
-        # Get the YMDHMS components by shifting back the offset_dt by the given
+        # The expected YMDHMS components (from AceTime) are determined by taking
+        # the corrected datetime (from pytz), and shifting back by the given
         # correction.
-        rdt = offset_dt - timedelta(seconds=correction)
+        rdt = corrected_dt - timedelta(seconds=correction)
 
         return TestItem(
             epoch=epoch_seconds,
