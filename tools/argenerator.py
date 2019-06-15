@@ -512,6 +512,7 @@ const char kTzDatabaseVersion[] = "{tz_version}";
 const common::ZoneContext kZoneContext = {{
   {startYear} /*startYear*/,
   {untilYear} /*untilYear*/,
+  kTzDatabaseVersion /*tzVersion*/,
 }};
 
 {infoItems}
