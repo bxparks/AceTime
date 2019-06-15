@@ -29,18 +29,19 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * Generate the validation_data.* files for AceTime from the list of zone names in System.in.
+ * Generate 'validation_data.cpp', 'validation_data.h' and 'validation_tests.cpp' files for AceTime
+ * from the list of zone names in System.in, normally supplied by a 'zones.txt' file.
  *
  * <pre>
  * {@code
  * $ javac TestDataGenerator.java
- * $ java TestDataGenerator --scope (basic | extended) [--startYear start] [--untilYear until]
+ * $ java TestDataGenerator --scope (basic | extended) [--start_year start] [--until_year until]
  *      < zones.txt
  * }
  * </pre>
  *
  * The zones.txt file is a list of fully qualified zone names (e.g. "America/Los_Angeles") listed
- * one zone per line. It will normally be generated programmatically using
+ * one zone per line. It will normally be generated programmatically using:
  *
  * <pre>
  * {@code
@@ -71,10 +72,10 @@ public class TestDataGenerator {
         {argc--; argi++; arg0 = argv[argi];} // shift-left
         if (argc == 0) usageAndExit();
         scope = arg0;
-      } else if ("--startYear".equals(arg0)) {
+      } else if ("--start_year".equals(arg0)) {
         {argc--; argi++; arg0 = argv[argi];} // shift-left
         start = arg0;
-      } else if ("--untilYear".equals(arg0)) {
+      } else if ("--until_year".equals(arg0)) {
         {argc--; argi++; arg0 = argv[argi];} // shift-left
         until = arg0;
       } else if ("--".equals(arg0)) {
@@ -102,7 +103,7 @@ public class TestDataGenerator {
 
   private static void usageAndExit() {
     System.err.println("Usage: java TestDataGenerator --scope (basic|extended)");
-    System.err.println("       [--startYear {start}] [--untilYear {until}] < zones.txt");
+    System.err.println("       [--start_year {start}] [--untilYear {until}] < zones.txt");
     System.exit(1);
   }
 

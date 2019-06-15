@@ -7,7 +7,7 @@ ARDUINO_LIBS := AceTime
 include ../../../AUnit/unitduino/unitduino.mk
 
 validation_data: zones.txt
-	java -cp ../../tools/java TestDataGenerator --scope extended --startYear 2000 --untilYear 2050 < zones.txt
+	java -cp ../../tools/java TestDataGenerator --scope extended --start_year 2000 --until_year 2050 < zones.txt
 
 zones.txt:
 	../../tools/tzcompiler.sh --tag 2019a --scope extended --action zonedb --language java
