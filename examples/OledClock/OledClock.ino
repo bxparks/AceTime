@@ -20,7 +20,6 @@ Supported boards are:
 #include "Presenter.h"
 #include "Controller.h"
 
-using namespace ace_segment;
 using namespace ace_button;
 using namespace ace_routine;
 using namespace ace_time;
