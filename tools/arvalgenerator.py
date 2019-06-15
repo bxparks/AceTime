@@ -83,7 +83,7 @@ namespace {dbNamespace} {{
 //---------------------------------------------------------------------------
 
 static const ValidationItem kValidationItems{zoneNormalizedName}[] = {{
-  //    epoch,  utc,  dst,     y,  m,  d,  h,  m,  s
+  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s
 {testItems}
 }};
 
