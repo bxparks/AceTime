@@ -1,3 +1,9 @@
+/*
+ * Copyright 2019 Brian T. Park
+ *
+ * MIT License
+ */
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -171,11 +177,13 @@ public class TestDataGenerator {
     return testData;
   }
 
-  /** Return a list of TestItems for zoneId sorted by epochSecond. */
+  /** Return a list of TestItems for zoneId sorted by increasing epochSeconds. */
   private List<TestItem> createValidationData(ZoneId zoneId) {
     Instant startInstant = ZonedDateTime.of(startYear, 1, 1, 0, 0, 0, 0, zoneId).toInstant();
     Instant untilInstant = ZonedDateTime.of(untilYear, 1, 1, 0, 0, 0, 0, zoneId).toInstant();
-    Map<Long, TestItem> testItems = new TreeMap<>();
+
+    // Map of (testItem.epochSeconds -> TestItem).
+    Map<Integer, TestItem> testItems = new TreeMap<>();
 
     addTestItemsFromTransitions(testItems, zoneId, startInstant, untilInstant);
     addTestItemsFromSampling(testItems, zoneId, startInstant, untilInstant);
@@ -188,7 +196,7 @@ public class TestDataGenerator {
     return sortedItems;
   }
 
-  private static void addTestItemsFromTransitions(Map<Long, TestItem> testItems, ZoneId zoneId,
+  private static void addTestItemsFromTransitions(Map<Integer, TestItem> testItems, ZoneId zoneId,
       Instant startInstant, Instant untilInstant) {
     ZonedDateTime untilDateTime = ZonedDateTime.ofInstant(untilInstant, zoneId);
     ZoneRules rules = zoneId.getRules();
@@ -201,93 +209,105 @@ public class TestDataGenerator {
         break;
       }
       // Exit if we get to untilYear.
-      Instant currentInstant = transition.getInstant();
-      ZonedDateTime currentDateTime = ZonedDateTime.ofInstant(currentInstant, zoneId);
-      if (currentDateTime.getYear() >= untilYear) {
+      LocalDateTime transitionDateTime = transition.getDateTimeBefore();
+      if (transitionDateTime.getYear() >= untilYear) {
         break;
       }
 
-      // Check for corrections
-      int correctionOffset = getCorrectionOffset(zoneId, currentDateTime);
+      // Get transition time correction, if any.
+      int correctionOffset = getCorrectionOffset(zoneId, transitionDateTime);
+      Instant currentInstant = transition.getInstant();
 
       // One second before the transition, and at the transition
-      addTestItem(testItems, currentInstant.minusSeconds(1), correctionOffset, zoneId, 'A');
-      addTestItem(testItems, currentInstant, correctionOffset, zoneId, 'B');
+      addTestItem(testItems, currentInstant.minusSeconds(1), correctionOffset, zoneId,
+          (correctionOffset == 0) ? 'A' : 'a');
+      addTestItem(testItems, currentInstant, correctionOffset, zoneId,
+          (correctionOffset == 0) ? 'B' : 'b');
 
       prevInstant = currentInstant;
     }
   }
 
-  // Check for corrections
-  private static int getCorrectionOffset(ZoneId zoneId, ZonedDateTime currentDateTime) {
+  /**
+   * Get correction offset (if any) at the given transitionDateTime for the zoneId. The
+   * transitionDateTime comes from java.time.ZoneId. The correction offset is the number of seconds
+   * that we must *subtract* from the transitionDateTime to get the dateTime used by AceTime
+   * library.
+   */
+  private static int getCorrectionOffset(ZoneId zoneId, LocalDateTime transitionDateTime) {
     String name = zoneId.getId();
     Map<LocalDateTime, Integer> corrections = CORRECTIONS.get(name);
     if (corrections == null) return 0;
 
-    LocalDateTime correctionTime = currentDateTime.toLocalDateTime();
-    System.out.println("Correction Time: " + correctionTime);
-    if (correctionTime.equals(LocalDateTime.of(2000, 4, 2, 0, 1))) {
-      System.out.println("EQUALS");
-    }
-    Integer correction = corrections.get(correctionTime);
+    Integer correction = corrections.get(transitionDateTime);
     if (correction == null) return 0;
 
     return correction;
   }
 
   /** Add intervening sample test items from startInstant to untilInstant for zoneId. */
-  private static void addTestItemsFromSampling(Map<Long, TestItem> testItems, ZoneId zoneId,
+  private static void addTestItemsFromSampling(Map<Integer, TestItem> testItems, ZoneId zoneId,
       Instant startInstant, Instant untilInstant) {
     ZonedDateTime startDateTime = ZonedDateTime.ofInstant(startInstant, zoneId);
     ZonedDateTime untilDateTime = ZonedDateTime.ofInstant(untilInstant, zoneId);
 
     for (int year = startDateTime.getYear(); year < untilDateTime.getYear(); year++) {
+      // Add the 1st of every month of every year.
       for (int month = 1; month <= 12; month++) {
-        ZonedDateTime currentDateTime = ZonedDateTime.of(year, month, 1, 0, 0, 0, 0, zoneId);
-        int correctionOffset = getCorrectionOffset(zoneId, currentDateTime);
-        addTestItem(testItems, currentDateTime.toInstant(), correctionOffset, zoneId, 'S');
+        LocalDateTime localDateTime = LocalDateTime.of(year, month, 1, 0, 0, 0);
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, zoneId);
+        int correctionOffset = getCorrectionOffset(zoneId, localDateTime);
+        addTestItem(testItems, zonedDateTime.toInstant(), correctionOffset, zoneId, 'S');
       }
-      // Add {year}-12-31-23:00:00
-      ZonedDateTime currentDateTime = ZonedDateTime.of(year, 12, 31, 23, 0, 0, 0, zoneId);
-      int correctionOffset = getCorrectionOffset(zoneId, currentDateTime);
-      addTestItem(testItems, currentDateTime.toInstant(), correctionOffset, zoneId, 'Y');
+      // Add last day and hour of the year ({year}-12-31-23:00:00)
+      LocalDateTime localDateTime = LocalDateTime.of(year, 12, 31, 23, 0, 0);
+      ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, zoneId);
+      int correctionOffset = getCorrectionOffset(zoneId, localDateTime);
+      addTestItem(testItems, zonedDateTime.toInstant(), correctionOffset, zoneId, 'Y');
     }
   }
 
   /**
-   * Add the TestItem at actualInstant, but with the renderingInstant corrected by
-   * renderingCorrection.
+   * Add the TestItem at actualInstant, with the epoch_seconds, UTC offset, and DST shift calculated
+   * at actualInstant, but the date and time components are calculated from the
+   * actualDateTime.minus(truncationCorrection).
    */
-  private static void addTestItem(Map<Long, TestItem> testItems, Instant actualInstant,
-      int renderingCorrection, ZoneId zoneId, char type) {
-    Instant renderingInstant = actualInstant.minusSeconds(renderingCorrection);
-    long renderingSecond = renderingInstant.toEpochMilli()/1000;
-    TestItem testItem = createTestItem(actualInstant, renderingInstant, zoneId, type);
-    testItems.put(renderingSecond, testItem);
+  private static void addTestItem(Map<Integer, TestItem> testItems, Instant actualInstant,
+      int truncationCorrection, ZoneId zoneId, char type) {
+    TestItem testItem = createTestItem(actualInstant, truncationCorrection, zoneId, type);
+    if (testItems.containsKey(testItem.epochSeconds)) return;
+    testItems.put(testItem.epochSeconds, testItem);
   }
 
   /**
-   * Create a test item using the actualInstant to determine the offsets, but using renderingInstant
-   * when creating the TestItem object. This supports zones whose transition occurs at 00:01, which
-   * AceTime truncates to 00:00.
+   * Create a test item using the actualInstant to determine the offsets, but using
+   * truncatedDateTime when creating the TestItem object. This supports zones whose transition
+   * occurs at 00:01, which AceTime truncates to 00:00.
    */
-  private static TestItem createTestItem(Instant actualInstant, Instant renderingInstant,
+  private static TestItem createTestItem(Instant actualInstant, int truncationCorrection,
       ZoneId zoneId, char type) {
-    ZonedDateTime dt = ZonedDateTime.ofInstant(renderingInstant, zoneId);
+    // Calculate the offsets using the accurate actualInstant
     ZoneRules rules = zoneId.getRules();
     Duration dst = rules.getDaylightSavings(actualInstant);
     ZoneOffset offset = rules.getOffset(actualInstant);
 
+    // Calculate the truncatedDateTime reported by the AceTime library using the
+    // truncationCorrection.
+    ZonedDateTime actualDateTime = ZonedDateTime.ofInstant(actualInstant, zoneId);
+    LocalDateTime truncatedDateTime =
+        actualDateTime.toLocalDateTime().minusSeconds(truncationCorrection);
+
     TestItem item = new TestItem();
-    item.epochSecond = (int) (dt.toEpochSecond() - SECONDS_SINCE_UNIX_EPOCH);
+    item.epochSeconds = (int) (actualInstant.getEpochSecond() - truncationCorrection
+        - SECONDS_SINCE_UNIX_EPOCH);
     item.utcOffset = offset.getTotalSeconds() / 60;
     item.dstOffset = (int) dst.getSeconds() / 60;
-    item.year = dt.getYear();
-    item.month = dt.getMonthValue();
-    item.day = dt.getDayOfMonth();
-    item.hour = dt.getHour();
-    item.minute = dt.getMinute();
-    item.second = dt.getSecond();
+    item.year = truncatedDateTime.getYear();
+    item.month = truncatedDateTime.getMonthValue();
+    item.day = truncatedDateTime.getDayOfMonth();
+    item.hour = truncatedDateTime.getHour();
+    item.minute = truncatedDateTime.getMinute();
+    item.second = truncatedDateTime.getSecond();
     item.type = type;
 
     return item;
@@ -296,9 +316,9 @@ public class TestDataGenerator {
   private void printCpp(Map<String, List<TestItem>> testData) throws IOException {
     try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(cppFile)))) {
       writer.println("// This file was auto-generated by the following script:");
-      writer.println();
-      writer.printf ("// $ %s", invocation);
-      writer.println();
+      writer.println("//");
+      writer.printf ("// $ %s%n", invocation);
+      writer.println("//");
       writer.println("// DO NOT EDIT");
       writer.println();
       writer.println("#include <AceTime.h>");
@@ -331,11 +351,11 @@ public class TestDataGenerator {
     writer.println("//---------------------------------------------------------------------------");
     writer.println();
     writer.printf ("static const ValidationItem kValidationItems%s[] = {%n", normalizedName);
-    writer.printf ("  //     epoch, utc,  dst,     y,  m,  d,  h,  m,  s%n");
+    writer.printf ("  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s%n");
 
     for (TestItem item : testItems) {
       writer.printf("  { %10d, %4d, %4d, %4d, %2d, %2d, %2d, %2d, %2d }, // type=%c%n",
-          item.epochSecond,
+          item.epochSeconds,
           item.utcOffset,
           item.dstOffset,
           item.year,
@@ -346,6 +366,7 @@ public class TestDataGenerator {
           item.second,
           item.type);
     }
+    writer.println(); // extra blank just to match format generated by arvalgenerator.py
     writer.println("};");
 
     writer.println();
@@ -360,9 +381,8 @@ public class TestDataGenerator {
   private void printHeader(Map<String, List<TestItem>> testData) throws IOException {
     try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(headerFile)))) {
       writer.println("// This file was auto-generated by the following script:");
-      writer.println();
-      writer.printf ("// $ %s", invocation);
-      writer.println();
+      writer.println("//");
+      writer.printf ("// $ %s%n", invocation);
       writer.println("//");
       writer.println("// DO NOT EDIT");
       writer.println();
@@ -496,9 +516,9 @@ public class TestDataGenerator {
 }
 
 class TestItem {
-  int epochSecond;
-  int utcOffset;
-  int dstOffset;
+  int epochSeconds; // seconds from AceTime epoch (2000-01-01T00:00:00Z)
+  int utcOffset; // total UTC offset in minutes
+  int dstOffset; // DST shift from standard offset in minutes
   int year;
   int month;
   int day;
