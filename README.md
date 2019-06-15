@@ -1279,11 +1279,11 @@ See [CHANGELOG.md](CHANGELOG.md).
 ## Feedback and Support
 
 If you have any questions, comments, bug reports, or feature requests, please
-file a GitHub ticket. I'd love to hear about how this software and its
-documentation can be improved. The scope of a library of this type could become
-almost arbitrarily large, and different people may have different ideas about
-whcih functionality should be included. I can't promise that I will incorporate
-everything, but I will give your ideas serious consideration.
+file a GitHub ticket instead of emailing me unless the content is sensitive.
+(The problem with email is that I cannot reference the email conversation when
+other people ask similar questions later.) I'd love to hear about how this
+software and its documentation can be improved. I can't promise that I will
+incorporate everything, but I will give your ideas serious consideration.
 
 ## Authors
 
