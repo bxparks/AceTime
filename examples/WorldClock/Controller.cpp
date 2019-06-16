@@ -1,11 +1,6 @@
 #include "Controller.h"
 
 void Controller::setup() {
-  // Name the 3 clocks using the airport codes.
-  mClockInfo0.name = "SFO";
-  mClockInfo1.name = "PHL";
-  mClockInfo2.name = "LHR";
-
   // Restore from EEPROM to other settings
   StoredInfo storedInfo;
   bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
