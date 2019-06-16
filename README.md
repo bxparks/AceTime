@@ -83,11 +83,11 @@ separated into namespaces:
         * `zonedbx::kZonePacific_Wallis`
 
 The AceTime library is inspired by and borrows from:
-* [Java Time package](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+* [Java 11 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
 * [Micro Time Zone](https://github.com/evq/utz)
 * [Arduino Timezone](https://github.com/JChristensen/Timezone)
 * [Arduino Time](https://github.com/PaulStoffregen/Time)
-* [Joda-Time](https://www.joda.org/joda-time/) Java library
+* [Joda-Time](https://www.joda.org/joda-time/)
 * [Noda Time](https://nodatime.org/)
 * [Python datetime](https://docs.python.org/3/library/datetime.html)
 
@@ -729,7 +729,7 @@ is more accurate than `BasicZoneSpecifier::forComponents()` because the
 
 A `ZonedDateTime` is a `LocalDateTime` associated with a given `TimeZone`. This
 is analogous to an`OffsetDateTime` being a `LocalDateTime` associated with a
-`TimeOffset`. All 4 types of `TimeOffset` are supported, the `ZonedDateTime`
+`TimeOffset`. All 4 types of `TimeZone` are supported, the `ZonedDateTime`
 class itself does not care which one is used.
 
 Here is an example of how to create one and extract the epoch seconds:
@@ -1251,12 +1251,14 @@ ESP8266 and ESP32), instead of just the AVR platform.
       until Unix Epoch.
 * `ExtendedZoneSpecifier`
     * There are 5 time zones (as of version 2019a of the TZ Database, see
-      the bottom of `zonedbx/zone_infos.h`) whose DST transitions occur at 00:01
-      (one minute after midnight), which cannot be represented as a multiple of
-      15-minutes. The transition times of these zones have been shifted to the
-      nearest 15-minute boundary, in other words, the transitions occur at 00:00
-      instead of 00:01. Clocks based on `ExtendedZoneSpecifier` will be off by
-      one hour during the 1-minute interval from 00:00 and 00:01.
+      the bottom of `zonedbx/zone_infos.h`) which have DST transitions that occur at 00:01
+      (one minute after midnight). This transition cannot be represented as a
+      multiple of 15-minutes. The transition times of these zones have been
+      shifted to the nearest 15-minute boundary, in other words, the transitions
+      occur at 00:00 instead of 00:01. Clocks based on `ExtendedZoneSpecifier`
+      will be off by one hour during the 1-minute interval from 00:00 and 00:01.
+    * Fortunately all of these transitions happen before 2012. If you are
+      interested in only dates after 2019, then this will not affect you.
 * `NtpTimeProvider`
     * The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
       the IP address of the NTP server. Unfortunately, this seems to be blocking
@@ -1267,6 +1269,15 @@ ESP8266 and ESP32), instead of just the AVR platform.
     * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
       of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds
       counter. It will overflow just after 2036-02-07T06:28:15Z.
+* `BasicValidationTest` and `ExtendedValidationTest`
+    * These tests compare the transition times calculated by AceTime to Python's
+      [pytz](https://pypi.org/project/pytz/) library. Unfortunately, pytz
+      does not support dates after Unix epoch rollover (2038-01-19T03:14:07Z).
+* `BasicValidationMoreTest` and `ExtendedValidationMoreTest`
+    * These tests compare the transition times calculated by AceTime to Java's
+      `java.time` package which should support the entire range of dates that
+      AceTime can represent. We have artificially limited the range of testing
+      from 2000 to 2050.
 
 ## Changelog
 
