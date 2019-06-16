@@ -181,9 +181,9 @@ class Controller {
 
         case MODE_CHANGE_HOUR_MODE:
           mSuppressBlink = true;
-          mClockInfo0.hourMode = 1 - mClockInfo0.hourMode;
-          mClockInfo1.hourMode = 1 - mClockInfo1.hourMode;
-          mClockInfo2.hourMode = 1 - mClockInfo2.hourMode;
+          mClockInfo0.hourMode = 1 ^ mClockInfo0.hourMode;
+          mClockInfo1.hourMode = 1 ^ mClockInfo1.hourMode;
+          mClockInfo2.hourMode = 1 ^ mClockInfo2.hourMode;
           break;
         case MODE_CHANGE_BLINKING_COLON:
           mSuppressBlink = true;
