@@ -91,7 +91,7 @@ The AceTime library is inspired by and borrows from:
 * [Noda Time](https://nodatime.org/)
 * [Python datetime](https://docs.python.org/3/library/datetime.html)
 
-Version: 0.1 (2019-05-31)
+Version: 0.1 (2019-06-15)
 
 ## HelloTime
 
