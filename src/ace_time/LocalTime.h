@@ -63,9 +63,11 @@ class LocalTime {
 
     /**
      * Factory method. Create a LocalTime from the ISO 8601 time string. If
-     * the string cannot be parsed, then isError() on the constructed object
-     * returns true. However, the data validation on parsing is very weak and
-     * the behavior is undefined for most invalid time strings.
+     * the string cannot be parsed, then returns LocalTime::forError().
+     * However, the data validation on parsing is very weak and the behavior is
+     * undefined for most invalid time strings.
+     *
+     * @param @timeString time in the form of "hh:mm:ss" (e.g. 12:34:56)
      */
     static LocalTime forTimeString(const char* timeString);
 
@@ -142,8 +144,9 @@ class LocalTime {
     }
 
     /**
-     * Print LocalTime to 'printer' in ISO 8601 format. Does not implement
-     * Printable to avoid memory cost of a vtable pointer.
+     * Print LocalTime to 'printer' in ISO 8601 format.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 
@@ -152,8 +155,7 @@ class LocalTime {
     LocalTime& operator=(const LocalTime&) = default;
 
   private:
-    friend class LocalDateTime;
-    friend class OffsetDateTime;
+    friend class LocalDateTime; // constructor
     friend bool operator==(const LocalTime& a, const LocalTime& b);
 
     /** Expected length of an ISO 8601 time string "hh:mm:ss" */

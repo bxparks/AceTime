@@ -84,8 +84,9 @@ class TimePeriod {
 
     /**
      * Print to given printer. If the time period is negative, a minus sign is
-     * prepended. Does not implement Printable to avoid memory cost of vtable
-     * pointer.
+     * prepended.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 

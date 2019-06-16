@@ -29,11 +29,11 @@ class ArduinoGenerator:
     ZONE_STRINGS_CPP_FILE_NAME = 'zone_strings.cpp'
     ZONE_STRINGS_H_FILE_NAME = 'zone_strings.h'
 
-    def __init__(self, invocation, tz_version, tz_files, extended, db_namespace,
+    def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
                  generate_zone_strings, start_year, until_year, zones_map,
                  rules_map, removed_zones, removed_policies, notable_zones,
                  notable_policies, format_strings, zone_strings, buf_sizes):
-        self.extended = extended  # extended Arduino/C++ database
+        self.scope = scope
         self.db_namespace = db_namespace
         self.generate_zone_strings = generate_zone_strings
 
@@ -41,7 +41,7 @@ class ArduinoGenerator:
             invocation=invocation,
             tz_version=tz_version,
             tz_files=tz_files,
-            extended=extended,
+            scope=scope,
             db_namespace=db_namespace,
             zones_map=zones_map,
             rules_map=rules_map,
@@ -53,7 +53,7 @@ class ArduinoGenerator:
             invocation=invocation,
             tz_version=tz_version,
             tz_files=tz_files,
-            extended=extended,
+            scope=scope,
             db_namespace=db_namespace,
             start_year=start_year,
             until_year=until_year,
@@ -69,7 +69,7 @@ class ArduinoGenerator:
                 invocation=invocation,
                 tz_version=tz_version,
                 tz_files=tz_files,
-                extended=extended,
+                scope=scope,
                 db_namespace=db_namespace,
                 zones_map=zones_map,
                 rules_map=rules_map,
@@ -82,7 +82,7 @@ class ArduinoGenerator:
 
     def generate_files(self, output_dir):
         # zone_policies.*
-        if self.extended:
+        if self.scope == 'extended':
             self.zone_policies_generator.collect_letter_strings()
         self._write_file(output_dir, self.ZONE_POLICIES_H_FILE_NAME,
                          self.zone_policies_generator.generate_policies_h())
@@ -241,14 +241,14 @@ static const char* const kLetters{policyName}[] = {{
     SIZEOF_ZONE_POLICY_8 = 6
     SIZEOF_ZONE_POLICY_32 = 10
 
-    def __init__(self, invocation, tz_version, tz_files, extended, db_namespace,
+    def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
                  zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
                  notable_policies):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
-        self.extended = extended
+        self.scope = scope
         self.db_namespace = db_namespace
         self.zones_map = zones_map
         self.rules_map = rules_map
@@ -259,7 +259,7 @@ static const char* const kLetters{policyName}[] = {{
 
         self.letters_map = {}  # map{policy_name: map{letter: index}}
         self.db_header_namespace = self.db_namespace.upper()
-        self.zone_spec_namespace = 'extended' if extended else 'basic'
+        self.zone_spec_namespace = scope
 
     def collect_letter_strings(self):
         """Loop through all ZoneRules and collect the LETTERs which are
@@ -512,6 +512,7 @@ const char kTzDatabaseVersion[] = "{tz_version}";
 const common::ZoneContext kZoneContext = {{
   {startYear} /*startYear*/,
   {untilYear} /*untilYear*/,
+  kTzDatabaseVersion /*tzVersion*/,
 }};
 
 {infoItems}
@@ -563,14 +564,14 @@ const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName} = {{
     SIZEOF_ZONE_INFO_8 = 8
     SIZEOF_ZONE_INFO_32 = 14
 
-    def __init__(self, invocation, tz_version, tz_files, extended, db_namespace,
+    def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
                  start_year, until_year, zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
                  notable_policies, buf_sizes):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
-        self.extended = extended
+        self.scope = scope
         self.db_namespace = db_namespace
         self.start_year = start_year
         self.until_year = until_year
@@ -583,7 +584,7 @@ const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName} = {{
         self.buf_sizes = buf_sizes
 
         self.db_header_namespace = self.db_namespace.upper()
-        self.zone_spec_namespace = 'extended' if extended else 'basic'
+        self.zone_spec_namespace = scope
 
     def generate_infos_h(self):
         info_items = ''
@@ -786,14 +787,14 @@ extern const char* const kZoneStrings[];
 #endif
 """
 
-    def __init__(self, invocation, tz_version, tz_files, extended, db_namespace,
+    def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
                  zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
                  notable_policies, format_strings, zone_strings):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
-        self.extended = extended
+        self.scope = scope
         self.db_namespace = db_namespace
         self.zones_map = zones_map
         self.rules_map = rules_map
@@ -805,7 +806,7 @@ extern const char* const kZoneStrings[];
         self.zone_strings = zone_strings
 
         self.db_header_namespace = self.db_namespace.upper()
-        self.zone_spec_namespace = 'extended' if extended else 'basic'
+        self.zone_spec_namespace = scope
 
     def generate_strings_cpp(self):
         format_string_items = ''

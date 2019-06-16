@@ -168,10 +168,11 @@ class LocalDate {
     }
 
     /**
-     * Factory method. Create a LocalDate from the ISO 8601 date string. If
-     * the string cannot be parsed, then isError() on the constructed object
+     * Factory method. Create a LocalDate from the ISO 8601 date string. If the
+     * string cannot be parsed, then isError() on the constructed object
      * returns true, but the data validation is very weak. Year should probably
-     * be between 1872 and 2127.
+     * be between 1872 and 2127. Created for debugging purposes not for
+     * production use.
      *
      * @param dateString the date in ISO 8601 format (yyyy-mm-dd)
      */
@@ -330,8 +331,9 @@ class LocalDate {
 
     /**
      * Print LocalDate to 'printer' in ISO 8601 format, along with the
-     * day of week. Does not implement Printable to avoid memory cost of a
-     * vtable pointer.
+     * day of week.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 

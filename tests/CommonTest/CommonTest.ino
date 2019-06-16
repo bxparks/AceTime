@@ -4,8 +4,95 @@
 #include <AceTime.h>
 
 using namespace aunit;
+using namespace ace_time;
 using namespace ace_time::common;
 
+// --------------------------------------------------------------------------
+// DateStrings
+// --------------------------------------------------------------------------
+
+test(DateStringsTest, monthString) {
+  common::DateStrings ds;
+
+  assertEqual(F("Error"), ds.monthLongString(0));
+  assertEqual(F("January"), ds.monthLongString(1));
+  assertEqual(F("February"), ds.monthLongString(2));
+  assertEqual(F("March"), ds.monthLongString(3));
+  assertEqual(F("April"), ds.monthLongString(4));
+  assertEqual(F("May"), ds.monthLongString(5));
+  assertEqual(F("June"), ds.monthLongString(6));
+  assertEqual(F("July"), ds.monthLongString(7));
+  assertEqual(F("August"), ds.monthLongString(8));
+  assertEqual(F("September"), ds.monthLongString(9));
+  assertEqual(F("October"), ds.monthLongString(10));
+  assertEqual(F("November"), ds.monthLongString(11));
+  assertEqual(F("December"), ds.monthLongString(12));
+  assertEqual(F("Error"), ds.monthLongString(13));
+
+  assertEqual(F("Err"), ds.monthShortString(0));
+  assertEqual(F("Jan"), ds.monthShortString(1));
+  assertEqual(F("Feb"), ds.monthShortString(2));
+  assertEqual(F("Mar"), ds.monthShortString(3));
+  assertEqual(F("Apr"), ds.monthShortString(4));
+  assertEqual(F("May"), ds.monthShortString(5));
+  assertEqual(F("Jun"), ds.monthShortString(6));
+  assertEqual(F("Jul"), ds.monthShortString(7));
+  assertEqual(F("Aug"), ds.monthShortString(8));
+  assertEqual(F("Sep"), ds.monthShortString(9));
+  assertEqual(F("Oct"), ds.monthShortString(10));
+  assertEqual(F("Nov"), ds.monthShortString(11));
+  assertEqual(F("Dec"), ds.monthShortString(12));
+  assertEqual(F("Err"), ds.monthShortString(13));
+}
+
+test(DateStringsTest, monthStringsFitInBuffer) {
+  common::DateStrings ds;
+  uint8_t maxLength = 0;
+  for (uint8_t month = 0; month <= 12; month++) {
+    const char* monthString = ds.monthLongString(month);
+    uint8_t length = strlen(monthString);
+    if (length > maxLength) { maxLength = length; }
+  }
+  assertLessOrEqual(maxLength, common::DateStrings::kBufferSize - 1);
+}
+
+test(DateStringsTest, weekDayStrings) {
+  common::DateStrings ds;
+
+  assertEqual(F("Error"), ds.weekDayLongString(0));
+  assertEqual(F("Monday"), ds.weekDayLongString(1));
+  assertEqual(F("Tuesday"), ds.weekDayLongString(2));
+  assertEqual(F("Wednesday"), ds.weekDayLongString(3));
+  assertEqual(F("Thursday"), ds.weekDayLongString(4));
+  assertEqual(F("Friday"), ds.weekDayLongString(5));
+  assertEqual(F("Saturday"), ds.weekDayLongString(6));
+  assertEqual(F("Sunday"), ds.weekDayLongString(7));
+  assertEqual(F("Error"), ds.weekDayLongString(8));
+
+  assertEqual(F("Err"), ds.weekDayShortString(0));
+  assertEqual(F("Mon"), ds.weekDayShortString(1));
+  assertEqual(F("Tue"), ds.weekDayShortString(2));
+  assertEqual(F("Wed"), ds.weekDayShortString(3));
+  assertEqual(F("Thu"), ds.weekDayShortString(4));
+  assertEqual(F("Fri"), ds.weekDayShortString(5));
+  assertEqual(F("Sat"), ds.weekDayShortString(6));
+  assertEqual(F("Sun"), ds.weekDayShortString(7));
+  assertEqual(F("Err"), ds.weekDayShortString(8));
+}
+
+test(DateStringsTest, weekDayStringsFitInBuffer) {
+  common::DateStrings ds;
+  uint8_t maxLength = 0;
+  for (uint8_t weekDay = 0; weekDay <= 7; weekDay++) {
+    const char* weekDayString = ds.weekDayLongString(weekDay);
+    uint8_t length = strlen(weekDayString);
+    if (length > maxLength) { maxLength = length; }
+  }
+  assertLessOrEqual(maxLength, common::DateStrings::kBufferSize - 1);
+}
+
+// --------------------------------------------------------------------------
+// common::decToBcd(), common::bcdToDec()
 // --------------------------------------------------------------------------
 
 test(decToBcd) {
@@ -20,6 +107,18 @@ test(bcdToDec) {
   assertEqual(10, bcdToDec(0x10));
   assertEqual(23, bcdToDec(0x23));
   assertEqual(99, bcdToDec(0x99));
+}
+
+test(incrementMod) {
+  int counter = 0;
+  incrementMod(counter, 3);
+  assertEqual(1, counter);
+
+  incrementMod(counter, 3);
+  assertEqual(2, counter);
+
+  incrementMod(counter, 3);
+  assertEqual(0, counter);
 }
 
 // --------------------------------------------------------------------------

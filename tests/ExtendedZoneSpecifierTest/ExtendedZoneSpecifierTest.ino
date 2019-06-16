@@ -15,6 +15,7 @@ using namespace ace_time::extended;
 static const common::ZoneContext kZoneContext = {
   2000 /*startYear*/,
   2020 /*untilYear*/,
+  "testing" /*tzVersion*/,
 };
 
 // Create simplified ZoneEras which approximate America/Los_Angeles

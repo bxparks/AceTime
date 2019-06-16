@@ -5,9 +5,9 @@ all: $(TARGETS)
 .PHONY: $(TARGETS)
 
 zone_infos.py:
-	../tzcompiler.sh --tag 2019a --zonedb --python
+	../tzcompiler.sh --tag 2019a --action zonedb --language python --scope extended
 
 zone_policies.py: zone_infos.py
 
 validation_data.py:
-	../tzcompiler.sh --tag 2019a --unittest --python
+	../tzcompiler.sh --tag 2019a --action unittest --language python --scope extended

@@ -3,5 +3,5 @@
 # MacOS.
 
 APP_NAME := AutoBenchmark
-ARDUINO_LIBS := AceTime
+ARDUINO_LIBS := AceTime AceRoutine
 include ../../../AUnit/unitduino/unitduino.mk

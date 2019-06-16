@@ -83,7 +83,7 @@ namespace {dbNamespace} {{
 //---------------------------------------------------------------------------
 
 static const ValidationItem kValidationItems{zoneNormalizedName}[] = {{
-  //    epoch,  utc,  dst,   y,  m,  d,  h,  m,  s
+  //     epoch,  utc,  dst,    y,  m,  d,  h,  m,  s
 {testItems}
 }};
 
@@ -96,8 +96,8 @@ const {validationDataClass} kValidationData{zoneNormalizedName} = {{
 """
 
     TEST_ITEM = """\
-  {{ {epochSeconds:9}, {totalOffsetMinutes:4}, {deltaOffsetMinutes:4}, \
-{yearTiny:3}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2} }}, \
+  {{ {epochSeconds:10}, {totalOffsetMinutes:4}, {deltaOffsetMinutes:4}, \
+{year:4}, {month:2}, {day:2}, {hour:2}, {minute:2}, {second:2} }}, \
 // type={type}
 """
 
@@ -128,14 +128,12 @@ testF({testClass}, {zoneNormalizedName}) {{
 }}
 """
 
-    def __init__(self, invocation, tz_version, test_data, num_items, extended):
+    def __init__(self, invocation, tz_version, test_data, num_items, scope):
         self.invocation = invocation
         self.tz_version = tz_version
         self.test_data = test_data
         self.num_items = num_items
-        self.extended = extended  # extended Arduino/C++ database
-        self.extended_suffix = 'x' if extended else ''
-        if extended:
+        if scope == 'extended':
             self.file_base = 'validation'
             self.include_header_namespace = 'VALIDATION'
             self.db_namespace = 'zonedbx'
@@ -222,7 +220,7 @@ testF({testClass}, {zoneNormalizedName}) {{
                 epochSeconds=test_item.epoch,
                 totalOffsetMinutes=total_offset_minutes,
                 deltaOffsetMinutes=delta_offset_minutes,
-                yearTiny=test_item.y - EPOCH_YEAR,
+                year=test_item.y,
                 month=test_item.M,
                 day=test_item.d,
                 hour=test_item.h,

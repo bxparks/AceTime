@@ -1,72 +1,173 @@
 # AceTime
 
-Date and time classes for Arduino with support for
-[TZ database](https://en.wikipedia.org/wiki/Tz_database)
-time zone support. It also supports an enhanced "system clock" that can be
-synchronized from an external time source, such as an
-[NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server
-or a DS3231 RTC chip. This library is meant to be an alternative to the
-[Arduino Time](https://github.com/PaulStoffregen/Time) and
-[Arduino Timezone](https://github.com/JChristensen/Timezone) libraries.
+This library provides date and time classes for the Arduino platform with
+support for geographical time zones in the [TZ
+database](https://www.iana.org/time-zones). Date and time from one
+timezone can be converted to another timezone. The library also provides classes
+that build on the built-in `millis()` function to create a "system clock" that
+can be synchronized from a more reliable external time source, such as an
+[NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server or a DS3231
+RTC chip. This library is meant to be an alternative to the [Arduino
+Time](https://github.com/PaulStoffregen/Time) and [Arduino
+Timezone](https://github.com/JChristensen/Timezone) libraries.
 
-The date and time classes provide a thin abstraction for date and time fields,
-mostly to allow conversion from Gregorian calendar components to epoch seconds.
+The library's various date and time classes provide a thin abstraction layer to
+make it easier to manipulate date and time fields. For example, the
+`dayOfWeek()` returns the day of the week of a date; the `toEpochSeconds()`
+returns the number of seconds from a epoch date; the `fromEpochSeconds()`
+constructs the date and time fields from the epoch seconds; the
+`convertToTimeZone()` converts the datetime from one time zone to another time
+zone. The library provides 2 implementations of the IANA TZ Database:
+`BasicZoneSpecifier` supports 231 zones which have (relatively) simple time zone
+transition rules, and `ExtendedZoneSpecifier` supports all 348 geographical
+zones in the database.
 
 Compared to the Arduino Time Library, here are the main differences:
-1. AceTime provides more absstraction to make it easier to use. For example,
-  you can create multiple instances of the system clock if you need to.
-1. AceTime supports all zones defined by the TZ Database and corrects for
-  DST (daylight saving time) transitions automatically.
-1. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z, where as
-   Arduino Time Library uses the Unix epoch of 1970-01-01T00:00:00Z.
-    * Using an `int32_t` (typedefed as `acetime_t`) to track the number of
-      seconds since the Epoch, the AceTime library can handle all dates from
-      approximately *1931* to the **2068**.
-1. AceTime is **2-3X** faster on an ATmega328P, **4X** faster on the ESP8266,
-   and **10-20X** faster on the ARM (Teensy) and ESP32 processors.
+1. AceTime provides more abstraction to make it easier to use. For example, you
+can create multiple instances of the system clock if you need to.
+1. AceTime supports all 348 geographical zones defined by the TZ Database and
+corrects for DST (daylight saving time) transitions automatically.
+1. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z, where as Arduino
+Time Library uses the Unix epoch of 1970-01-01T00:00:00Z. Using an `int32_t`
+(typedef'ed as `ace_time::acetime_t`) to track the number of seconds since the
+Epoch, the AceTime library can handle all dates from approximately *1931* to
+**2068**.
+1. AceTime is **2-5X** faster on an ATmega328P, **3-4X** faster on the ESP8266,
+**3-5X** faster on the ESP32, and **7-20X** faster on the ARM (Teensy).
 1. AceTime begins the week on a Monday, assigning 1=Monday and 7=Sunday, per ISO
-   8601 standard, instead of beginning the week on a Sunday.
+8601 standard, instead of beginning the week on a Sunday.
+1. The "system" clock can have both a syncing time source, as well as a backup
+time source which can preserve the time after a power failure.
 
-Compared to the
-[AVR libc time library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html),
-which is based on the UNIX/POSIX time library, AceTime has the following
-differences:
-1. AceTime is written in C++ and is more object oriented. For example, you can
-   create multiple system clocks if you need to.
-1. AceTime is far easier to understand and use (in my opinion).
-1. All AceTime classes and methods are re-entrant (i.e. does not use
-  static buffers).
-1. AceTime does not require an ISR to be called at 1 second intervals to
-  maintain the system clock. AceTime uses the `millis()` method and
-  synchronizes to it lazily when `SystemTimeKeeper::getNow()` is called.
-1. AceTime works across all platforms supported by the Arduino framework
-   (e.g. ESP8266 and ESP32), instead of just the AVR platform.
-1. Both AceTime and AVR time library uses an epoch of 2000-01-01T00:00:00Z.
+There are roughly 3 bundles of classes provided by the AceTime library,
+separated into namespaces:
 
-There are roughly 3 bundles of classes provided by the AceTime library:
-
-* date and time primitives (`namespace ace_time`)
-    * e.g `LocalDate`, `LocalTime`, `LocalDateTime`, `ZonedDateTime`,
-      `TimeZone`, `TimePeriod`
-* system clock classes (`namespace ace_time::provider`)
-    * e.g. `SystemTimeKeeper`, `NtpTimeProvider`, `DS3231TimeKeeper`
-    * Implements the system clock syncing feature of the Arduino Time library.
-* TZ Database zone files (`namespace ace_time::zonedb`)
+* date and time classes
+    * `ace_time::LocalDate`
+    * `ace_time::LocalTime`
+    * `ace_time::LocalDateTime`
+    * `ace_time::TimeOffset`
+    * `ace_time::OffsetDateTime`
+    * `ace_time::ZoneSpecifier`
+        * `ace_time::ManualZoneSpecifier`
+        * `ace_time::BasicZoneSpecifier`
+        * `ace_time::ExtendedZoneSpecifier`
+    * `ace_time::ZonedDateTime`
+    * `ace_time::TimeZone`
+    * `ace_time::TimePeriod`
+* system clock classes
+    * `ace_time::provider::TimeProvider`
+        * `ace_time::provider::TimeKeeper`
+            * `ace_time::provider::SystemTimeKeeper`
+            * `ace_time::provider::DS3231TimeKeeper`
+        * `ace_time::provider::NtpTimeProvider`
+    * `ace_time::provider::SystemTimeHeartbeatCoroutine`
+    * `ace_time::provider::SystemTimeHeartbeatLoop`
+    * `ace_time::provider::SystemTimeSyncCoroutine`
+    * `ace_time::provider::SystemTimeSyncLoop`
+* TZ Database zone files
     * C++ files generated by a code-generator from the TZ Database zone files
+    * `ace_time::zonedb` (231 zones from TZ Database)
+        * Used by `BasicZoneSpecifier`
+        * `zonedb::kZoneAfrica_Abidjan`
+        * `zonedb::kZoneAfrica_Accra`
+        * (...227 other zones...)
+        * `zonedb::kZonePacific_Wake`
+        * `zonedb::kZonePacific_Wallis`
+    * `ace_time::zonedbx` (all 348 geographical zones from TZ Database)
+        * Used by `ExtendedZoneSpecifier`
+        * `zonedbx::kZoneAfrica_Abidjan`
+        * `zonedbx::kZoneAfrica_Accra`
+        * (...344 other zones...)
+        * `zonedbx::kZonePacific_Wake`
+        * `zonedbx::kZonePacific_Wallis`
 
 The AceTime library is inspired by and borrows from:
-* [Java Time package](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+* [Java 11 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
 * [Micro Time Zone](https://github.com/evq/utz)
 * [Arduino Timezone](https://github.com/JChristensen/Timezone)
 * [Arduino Time](https://github.com/PaulStoffregen/Time)
-* [Joda-Time](https://www.joda.org/joda-time/) Java library
+* [Joda-Time](https://www.joda.org/joda-time/)
 * [Noda Time](https://nodatime.org/)
 * [Python datetime](https://docs.python.org/3/library/datetime.html)
 
-UTC offsets are internally represented as a single byte representing 15-minute
-increments which supports every time zone offset currently used today.
+Version: 0.1 (2019-06-15)
 
-Version: In-progress (2019-05-20)
+## HelloTime
+
+Here is a simple program (see [examples/HelloTime](examples/HelloTime)) which
+demonstrates how to create and manipulate date and times in different time
+zones:
+
+```C++
+#include <AceTime.h>
+
+using namespace ace_time;
+
+static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
+static BasicZoneSpecifier easternSpec(&zonedb::kZoneAmerica_New_York);
+static ExtendedZoneSpecifier turkeySpec(&zonedbx::kZoneEurope_Istanbul);
+
+void setup() {
+  delay(1000);
+  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  while (!Serial); // Wait until Serial is ready - Leonardo/Micro
+
+  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
+  auto easternTz = TimeZone::forZoneSpecifier(&easternSpec);
+  auto turkeyTz = TimeZone::forZoneSpecifier(&turkeySpec);
+
+  // Create from components
+  auto pacificTime = ZonedDateTime::forComponents(
+      2019, 6, 1, 11, 38, 0, pacificTz);
+
+  Serial.print(F("America/Los_Angeles: "));
+  pacificTime.printTo(Serial);
+  Serial.println();
+
+  Serial.print(F("Epoch Seconds: "));
+  acetime_t epochSeconds = pacificTime.toEpochSeconds();
+  Serial.println(epochSeconds);
+
+  Serial.print(F("Unix Seconds: "));
+  acetime_t unixSeconds = pacificTime.toUnixSeconds();
+  Serial.println(unixSeconds);
+
+  // Create from epoch seconds
+  auto easternTime = ZonedDateTime::forEpochSeconds(epochSeconds, easternTz);
+
+  Serial.print(F("America/New_York: "));
+  easternTime.printTo(Serial);
+  Serial.println();
+
+  // Create by conversion to time zone
+  auto turkeyTime = easternTime.convertToTimeZone(turkeyTz);
+
+  Serial.print(F("Europe/Istanbul: "));
+  turkeyTime.printTo(Serial);
+  Serial.println();
+
+  Serial.print(F("pacific.compareTo(turkey): "));
+  Serial.println(pacificTime.compareTo(turkeyTime));
+
+  Serial.print(F("pacific == turkey: "));
+  Serial.println((pacificTime == turkeyTime) ? "true" : "false");
+}
+
+void loop() {
+}
+```
+
+Running this should produce the following on the Serial port:
+```
+ America/Los_Angeles: 2019-06-01T11:38:00-07:00 Saturday [America/Los_Angeles]
+ Epoch Seconds: 612729480
+ Unix Seconds: 1559414280
+ America/New_York: 2019-06-01T14:38:00-04:00 Saturday [America/New_York]
+ Europe/Istanbul: 2019-06-01T21:38:00+03:00 Saturday [Europe/Istanbul]
+ pacific.compareTo(turkey): 0
+ pacific == turkey: false
+```
 
 ## Installation
 
@@ -83,34 +184,40 @@ directory used by the Arduino IDE. (The result is a directory named
 
 The source files are organized as follows:
 * `src/AceTime.h` - main header file
-* `src/ace_time/` - implementation files
+* `src/ace_time/` - date and time files
 * `src/ace_time/common/` - internal shared files
 * `src/ace_time/hw/` - thin hardware abstraction layer
 * `src/ace_time/provider/` - providers from RTC or NTP sources
 * `src/ace_time/testing/` - files used in unit tests
-* `src/ace_time/zonedb/` - TZ Database used by `BasicZoneSpecifier`
-* `src/ace_time/zonedbx/` - TZ Database used by `ExtendedZoneSpecifier`
+* `src/ace_time/zonedb/` - files generated from TZ Database for `BasicZoneSpecifier`
+* `src/ace_time/zonedbx/` - files generated from TZ Database for `ExtendedZoneSpecifier`
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `examples/` - example programs
 * `tools/` - scripts to parse the TZ Database files
 
 ### Dependencies
 
-The main AceTime library itself has no external dependency. There is an
-an optional dependency to
-[AceRoutine](https://github.com/bxparks/AceRoutine)
-if you want to use the `SystemTimeSyncCoroutine` and
-`SystemTimeHeartbeatCoroutine` classes for automatic syncing and freshening.
-(This is recommended but not strictly necessary).
+The vast majority of the AceTime library has no dependency any other external
+libraries. There is an optional dependency to
+[AceRoutine](https://github.com/bxparks/AceRoutine) if you want to use the
+`SystemTimeSyncCoroutine` and `SystemTimeHeartbeatCoroutine` classes for
+automatic syncing and freshening. (This is recommended but not strictly
+necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to the FastCRC
+library but the `CrcEeprom.h` file is not included by in the `AceTime.h` main
+header file, so you should not need FastCRC to compile AceTime. (The
+`CrcEeprom.h` header file does not strictly belong in the AceTime library but
+many of my "clock" projects that use the AceTime library also use the
+`CrcEeprom` class, so this is a convenient place to keep it.)
 
-Various sketches in the `examples/` directory have a number of external
-dependencies (not all of the sketches require all of the following):
+Various programs in the `examples/` directory have one or more of the following
+external dependencies:
 
 * [AceRoutine](https://github.com/bxparks/AceRoutine)
 * [AceButton](https://github.com/bxparks/AceButton)
-* [AceSegment](https://github.com/bxparks/AceSegment)
 * [FastCRC](https://github.com/FrankBoesing/FastCRC)
 * [SSD1306Ascii](https://github.com/greiman/SSD1306Ascii)
+* [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
+* [Arduino Timezone](https://github.com/JChristensen/Timezone)
 
 ### Docs
 
@@ -121,51 +228,64 @@ The [docs/](docs/) directory contains the
 
 The following example sketches are provided:
 
-* [AutoBenchmark.ino](examples/AutoBenchmark/)
-    * a program that performs CPU and memory benchmarking and print a report
-* [Clock.ino](examples/Clock/)
-    * a digital clock using a DS3231 RTC chip, an NTP client, 2 buttons, and a
+* [HelloTime](examples/HelloTime/)
+    * demo program of various date and time classes
+* [CommandLineClock](examples/CommandLineClock/)
+    * a clock with a DS3231 RTC chip, an NTP client, and using the serial port
+      for receiving commands and printing results, useful for debugging
+* [OledClock](examples/OledClock/)
+    * a digital clock using a DS3231 RTC chip, an NTP client, 2 buttons, and an
       SSD1306 OLED display
-* [CommandLineClock.ino](examples/CommandLineClock/)
-    * a clock using a DS3231 RTC chip, an NTP client, and serial port command
-      line interface,
-* [ComparisonBenchmark.ino](examples/ComparisonBenchmark/)
-    * a program that compares the speed of AceTime with the
-      [Arduino Time Library](https://github.com/PaulStoffregen/Time).
-* [CrcEepromDemo.ino](examples/CrcEepromDemo/)
+* [WorldClock](examples/WorldClock/)
+    * a clock with 3 OLED screens showing the time at 3 different time zones
+* [AutoBenchmark](examples/AutoBenchmark/)
+    * perform CPU and memory benchmarking of various methods and print a report
+* [ComparisonBenchmark](examples/ComparisonBenchmark/)
+    * compare AceTime with
+    [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
+* [CrcEepromDemo](examples/CrcEepromDemo/)
     * a program that verifies the `CrcEeprom` class
 
 ## Usage
 
-### Include Header and Namespace
+### Headers and Namespaces
 
 Only a single header file `AceTime.h` is required to use this library.
 To prevent name clashes with other libraries that the calling code may use, all
-classes are separated into a number of namespaces.
+classes are separated into a number of namespaces. They are related in the
+following way, where the arrow means "depends on":
 
-* Common utilities (`namespace ace_time::common`)
-    * e.g. `DateStrings`
-* Zone database files (`namespace ace_time::zonedb`, `ace_time::zonedbx`)
-    * e.g. `zonedb::kZoneAmerica_Los_Angeles`
-* Date Time primitives (`namespace ace_time`)
-    * e.g. `ZonedDateTime`, `TimeZone`, `ZoneSpecifier`, `TimePeriod`
-* Time providers (`namespace ace_time::provider`)
-    * e.g. `SystemTimeKeeper`, `NtpTimeProvider`, `DS3231TimeKeeper`
+```
+ace_time::provider
+      |      \
+      |       \
+      |        v
+      |        ace_time
+      |         |\     \
+      |         | \     v
+      |         |  \    ace_time::zonedb
+      |         |   \   ace_time::zonedbx
+      |         |    \     |
+      v         |     v    v
+ace_time::hw    |     ace_time::basic
+          \     |     ace_time::extended
+           \    |     /
+            \   |    /
+             v  v   v
+           ace_time::common
+```
 
-Each namespace in the above depends on the classes of the previous namespace.
-The `ace_time::provider` is mostly independent of `ace_time` except that
-`DS3231TimeKeeper` uses `LocalDateTime` to convert between `epochSeconds`
-and the `LocalDateTime`.
-
-To use the classes without prepending the `ace_time::`, `ace_time::provider::`
-or `ace_tme::common` prefixes, use one or more of the following `using`
-directives:
+To use the classes without prepending the namespace prefixes, use one or more of
+the following `using` one or more of the following directives:
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
 using namespace ace_time::provider;
 using namespace ace_time::common;
+using namespace ace_time::zonedb;
+using namespace ace_time::zonedbx;
+...
 ```
 
 ### Epoch Seconds Typedef
@@ -187,7 +307,7 @@ by the end-users, but they are available if needed.
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
-[...]
+...
 
 // LocalDate that represents 2019-05-20
 LocalDate localDate = LocalDate::forComponents(2019, 5, 20);
@@ -222,7 +342,7 @@ debugging or display, we can use the `common::DateStrings` class:
 #include <AceTime.h>
 using namespace ace_time;
 using common::DateStrings;
-[...]
+...
 
 LocalDate localDate = LocalDate::forComponents(2019, 5, 20);
 uint8_t dayOfWeek = localDate.dayOfWeek();
@@ -296,13 +416,54 @@ We can go the other way and create a `LocalDateTime` from the Epoch Seconds:
 LocalDateTime localDateTime = LocalDateTime::forEpochSeconds(1514764800L);
 localDateTime.printTo(Serial); // prints "2018-01-01T00:00:00"
 ```
+### TimeOffset
+
+A `TimeOffset` class represents an amount of time shift from a reference point.
+Often the reference is the UTC time and this class represents the amount of time
+shift from UTC. Currently (year 2019) every time zone in the world is shifted
+from UTC by a multiple of 15 minutes (e.g. -03:30 or +01:00). `TimeOffset` is a
+thin wrapper around a single 8-bit signed integer which can encode integers from
+[-128, 127]. Internally -128 is used to indicate an error condition, so we can
+represent a UTC shift of from -31:45 to +31:45 hours, which is more than enough
+to encode all UTC offsets currently in use.
+
+A `TimeOffset` can be created using a number of factory methods:
+```C++
+TimeOffset offset = TimeOffset::forHour(-8); // -08:00
+TimeOffset offset = TimeOffset::forHourMinute(-2, -30); // -02:30
+TimeOffset offset = TimeOffset::forMinutes(135); // +02:15
+```
+
+If the time offset is negative, then both the hour and minute components of
+`forHourMinute()` must be negative. (The duplication of the negative sign allows
+the creation of UTC-00:15, UTC-00:30 and UTC-00:45.)
+
+A `TimeOffset` instance can be converted into different formats:
+```C++
+int32_t seconds = offset.toSeconds();
+int16_t minutes = offset.toMinutes();
+
+int8_t hour;
+int8_t minute;
+offset.toHourMinute(&hour, &minute);
+```
+
+When a method in some class (e.g. `OffsetDateTime` or `ZonedDateTime` below)
+returns a `TimeOffset`, it is useful to indicate an error condition by returning
+the special value created by the factory method `TimeOffset::forError()`. This
+special error marker has the property that `TimeOffset::isError()` returns
+`true`. Internally, this is an instance whose internal integer code is -128.
+
+The convenience method `TimeOffset::isZero()` returns `true` if the offset has a
+zero offset. This is often used to determine if a timezone is currently
+observing Daylight Saving Time (DST).
 
 ### OffsetDateTime
 
 An `OffsetDateTime` is an object that can represent a date&time which is
-offset from the UTC time zone by a fixed amount of time. Internally the
-`OffsetDateTime` is a combination of `LocalDateTime` and `TimeOffset`. We can
-create the object using the `forComponents()` method:
+offset from the UTC time zone by a fixed amount. Internally the `OffsetDateTime`
+is a aggregation of `LocalDateTime` and `TimeOffset`. We can create the object
+using the `forComponents()` method:
 ```C++
 // 2018-01-01 00:00:00+00:15
 OffsetDateTime offsetDateTime = OffsetDateTime::forComponents(
@@ -315,14 +476,12 @@ Serial.println(epochDays); // prints 6574
 Serial.println(epochSeconds); // prints 568079100
 ```
 
-You can go the other way and create a `DateTime` object from the seconds from
-Epoch:
+We can create an `OffsetDateTime` object from the seconds from Epoch using
+the `forEpochSeconds()` method:
 ```C++
 OffsetDateTime offsetDateTime = OffsetDateTime::forEpochSeconds(
     568079100, TimeOffset::forHourMinute(0, 15));
 ```
-
-### Invalid LocalDateTime or OffsetDateTime
 
 A value of `LocalDate::kInvalidEpochSeconds` is used internally as an ERROR
 marker so it is not possible to create a `LocalDateTime` or an `OffsetDateTime`
@@ -335,20 +494,23 @@ creates an object which returns `true` for the `isError()` method.
 
 ### TimeZone
 
-A `TimeZone` class represents a physical (or conceptual) region whose local time
-is offset by a certain amount from the UTC time. The UTC offset could be a fixed
-amount. Or the offset could be fixed with a user-selectable DST flag that
-increases the offset by one hour. Or the offset could be algorithmically
-determined using rules which are encoded by the TZ Database. The `TimeZone`
-class supports all these modes.
+A "time zone" is often used colloquially to mean 2 different things:
+* A time which is offset from the UTC time by a fixed amount, or
+* A physical (or conceptual) region whose local time is offset
+from the UTC time using various transition rules.
 
-The 4 different types of `TimeZone` are as follows:
+Both meanings of "time zone" are supported by the `TimeZone` class using
+4 different types as follows:
 
 * `TimeZone::kTypeFixed`: a fixed offset from UTC
-* `TimeZone::kTypeZoneSpecifier` with `ManualZoneSpecifier`: user-defined fixed offset
-* `TimeZone::kTypeZoneSpecifier` with `BasicZoneSpecifier`: zones with
-   simple rules in the TZ Database
-* `TimeZone::kTypeZoneSpecifier` with `ExtendedZoneSpecifier`:  all zones in the TZ Database
+* `TimeZone::kTypeManual` with `ManualZoneSpecifier`: A user-defined
+fixed offset with a user-defined DST flag
+* `TimeZone::kTypeBasic` with `BasicZoneSpecifier`: zones which can
+be encoded with (relatively) simple rules from the TZ Database
+* `TimeZone::kTypeExtended` with `ExtendedZoneSpecifier`:  all zones in
+the TZ Database
+
+The subsections below show how these can be constructed.
 
 The `TimeZone` class exposes the following methods:
 ```C++
@@ -362,25 +524,26 @@ class TimeZone {
 };
 ```
 
-The `getUtcOffset(epochSeconds)` returns the total `TimeOffset` including any
-DST offset at the given `epochSeconds`. The `getDeltaOffset()` returns only the
+The `getUtcOffset(epochSeconds)` returns the total `TimeOffset` (including any
+DST offset) at the given `epochSeconds`. The `getDeltaOffset()` returns only the
 additional DST offset; if DST is not in effect at the given `epochSeconds`, this
-returns 0.
+returns a `TimeOffset` whose `isZero()` returns true.
 
 The `getUtcOffsetForDateTime()` method returns the best guess of the total UTC
-offset at the given local date time. The local date time is sometime ambiguious
-during a DST transition. For example, if the local clock shifts from 01:00 to
-02:00 at the start of summer, then the time of 01:30 does not exist. If the
-`getUtcOffsetForDateTime()` method is given a non-existing time, it must make an
-educated guess at what the user meant. Additionally, when the local time
-transitions from 02:00 to 01:00 in the autumn, a given local time such as 01:30
-occurs twice. If the `getUtcOffsetForDateTime()` method is given a time of
-01:30, it will arbitrarily decide the offset to return.
+offset at the given local date time. The reaon that this is a best guess is
+because the local date time is sometime ambiguious during a DST transition. For
+example, if the local clock shifts from 01:00 to 02:00 at the start of summer,
+then the time of 01:30 does not exist. If the `getUtcOffsetForDateTime()` method
+is given a non-existing time, it makes an educated guess at what the user meant.
+Additionally, when the local time transitions from 02:00 to 01:00 in the autumn,
+a given local time such as 01:30 occurs twice. If the
+`getUtcOffsetForDateTime()` method is given a time of 01:30, it will arbitrarily
+decide which offset to return.
 
 The `printAbbrevTo(epochSeconds)` method prints the human-readable timezone
 abbreviation used at the given `epochSeconds`.
 
-#### Fixed TimeZone
+#### Fixed TimeZone (kTypeFixed)
 
 The default constructor creates a fixed `TimeZone` in UTC time zone with no
 offset:
@@ -392,13 +555,40 @@ To create `TimeZone` instances with other offsets, use one of the factory
 methods:
 ```C++
 TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8)); // UTC-08:00
-TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, 30)); // UTC-04:30
+TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30)); // UTC-04:30
 ```
 
-#### ManualZoneSpecifier
+#### ManualZoneSpecifier (kTypeManual)
 
-The following creates a `TimeZone` using a `ManualZoneSpecifier` which
-is set to be UTC-08:00 normally, but can change to UTC-07:00 when the
+A `ManualZoneSpecifier` describes a time zone which allows the user to set
+the UTC offset, and to select whether or not the DST offset is being observed.
+The constructor looks like this:
+```C++
+ManualZoneSpecifier(
+    TimeOffset stdOffset = TimeOffset(),
+    bool isDst = false,
+    const char* stdAbbrev = "",
+    const char* dstAbbrev = "",
+    TimeOffset deltaOffset = TimeOffset::forHour(1));
+```
+All the parameters are theoretically optional, but most applications will
+set at least the `stdOffset` parameter:
+
+* `stdOffset`: the standard time UTC offset (default: 00:00)
+* `isDst`: whether the DST is being observed (default: false)
+* `stdAbbrev`: the abbreviation during standard time (default: "")
+* `dstAbbrev`: the abbreviation during DST (default: "")
+* `deltaOffset`: the time shift during DST (default: +01:00)
+
+When `ManualZoneSpecifier::getUtcOffset()` is called, it will normally return
+the value of `stdOffset`. However, if the user sets the `isDst` flag to `true`
+using `ManualZoneSpecifier::isDst(true)`, then `getUtcOffset()` will return
+`stdOffset + deltaOffset`.
+
+The `ManualZoneSpecifier` is expected to be created once at the beginning of
+the application. The `TimeZone` object can be created on demand by pointing it
+to the `ManualZoneSpecifier` instance. For example, the following creates a
+`TimeZone` set to be UTC-08:00 normally, but can change to UTC-07:00 when the
 `ManualZoneSpecifier::isDst(true)` is called:
 
 ```C++
@@ -408,21 +598,49 @@ void someFunction() {
   ...
   TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
   TimeOffset offset = tz.getUtcOffset(0); // returns -08:00
-  zoneSpecifier.isDst(true);
+  tz.isDst(true);
   offset = tz.getUtcOffset(0); // returns -07:00
   ...
 }
 ```
 
-#### BasicZoneSpecifier
+The `TimeZone::isDst()` and `TimeZone::isDst(bool)` methods are convenience
+methods that work only if the `TimeZone` instance refers to a
+`ManualZoneSpecifier`. They simply call the underying `ManualZoneSpecifier`. If
+the underlying `ZoneSpecifier` is a different type, the `TimeZone::isDst()` does
+nothing.
 
-The following creates a `TimeZone` using a `BasicZoneSpecifier` which is
-bound to a particular geo-political region, in this case `America/Los_Angeles`,
-which can be either Pacific Standard Time or Pacific Daylight Time. Instances
-of `ZoneSpecifier` is meant to be created once at the start of the application,
-and reused among multiple `TimeZone` instances.
+#### BasicZoneSpecifier (kTypeBasic)
+
+The `BasicZoneSpecifier` represents a time zone defined by the TZ Database. The
+constructor accepts a pointer to a `basic::ZoneInfo`:
+```C++
+BasicZoneSpecifier(const basic::ZoneInfo* zoneInfo);
+```
+
+The supported `basic::ZoneInfo` data objects are contained in
+[zonedb/zone_info.h](src/ace_time/zonedb/zone_infos.h) which was generated by
+a script using the TZ Database. This header file is already included in
+`<AceTime.h>`. As of version 2019a of the database, it contains 231 zones whose
+time change rules are simple enough to be supported by `BasicZoneSpecifier`. The
+bottom of the `zone_infos.h` header file lists 128 zones whose zone rules are
+too complicated for `BasicZoneSpecifier`. Some examples of `ZoneInfo` entries
+supported by `zonedb` are:
+
+* `zonedb::kZoneAmerica_Los_Angeles`
+* `zonedb::kZoneAmerica_New_York`
+* `zonedb::kZoneEurope_London`
+* ...
+
+
+The following example creates a `TimeZone` using a `BasicZoneSpecifier` which
+describes `America/Los_Angeles`:
 
 ```C++
+#include <AceTime.h>
+using namespace ace_time;
+...
+
 BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
 
 void someFunction() {
@@ -448,13 +666,28 @@ void someFunction() {
 }
 ```
 
-#### ExtendedZoneSpecifier
+#### ExtendedZoneSpecifier (kTypeExtended)
 
-The `ExtendedZoneSpecifier` is pretty much the same as `BasicZoneSpecifier`
-except that it supports all zones in the TZ Database, intead of a subset. It
-uses the zone files in the `zonedbx` namespace, instead of the `zonedb`
-namespace. In other words, `zonedb::kZoneAmerica_Los_Angeles` is replaced
-with `zonedbx::kZoneAmerica_Los_Angeles`. The usage is the same:
+The `ExtendedZoneSpecifier` is very similar to `BasicZoneSpecifier` except that
+it supports (almost) all zones in the TZ Database instead of a subset. The
+supported zones are given in
+[zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h).
+As of version 2019a of TZ Database, there are 348 supported time zones. We`
+ignore the 11 zones are those whose zone names do **not** contain a `/`
+character (CET, CST6CDT, EET, EST, EST5EDT, HST, MET, MST, MST7MDT, PST8PDT,
+WET) because they don't correspond to an actual geographical zone.
+
+The zone infos which can be used by `ExtendedZoneSpecifier` are in the
+`zonedbx::` namespace instead of the `zonedb::` namespace. Some examples of the
+zone infos are:
+* `zonedbx::kZoneAmerica_Los_Angeles`
+* `zonedbx::kZoneAmerica_Indiana_Indianapolis`
+* `zonedbx::kZoneAmerica_New_York`
+* `zonedbx::kZoneEurope_London`
+* `zonedbx::kZoneAfrica_Casablanca`
+* ...
+
+The usage is the same as `BasicZoneSpecifier`:
 ```C++
 ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
 
@@ -481,17 +714,25 @@ void someFunction() {
 }
 ```
 
-The cost of using `ExtendedZoneSpecifier` instead of `BasicZoneSpecifier` is
-that `ExtendedZoneSpecifier` consumes 5 times more memory and is slower.
-If `BasicZoneSpecifier` supports the zone that you are interested in
-using the zone files in the `zonedb::` namespace, you should normally use that
-instead of `ExtendedZoneSpecifier`.
+The advantage of `ExtendedZoneSpecifier` over `BasicZoneSpecifier` is that
+`ExtendedZoneSpecifier` supports all (actual geographical) time zones in the TZ
+Database. The cost is that it consumes 5 times more memory and is slower. If
+`BasicZoneSpecifier` supports the zone that you want using the zone files in the
+`zonedb::` namespace, you should normally use that instead of
+`ExtendedZoneSpecifier`. The one other advatnage of `ExtendedZoneSpecifier`
+over `BasicZoneSpecifier` is that `ExtendedZoneSpecifier::forComponents()`
+is more accurate than `BasicZoneSpecifier::forComponents()` because the
+`zonedbx::` data files contain transition information which are missing in the
+`zonedb::` data files due to space constraints.
 
 ### ZonedDateTime
 
 A `ZonedDateTime` is a `LocalDateTime` associated with a given `TimeZone`. This
 is analogous to an`OffsetDateTime` being a `LocalDateTime` associated with a
-`TimeOffset`.
+`TimeOffset`. All 4 types of `TimeZone` are supported, the `ZonedDateTime`
+class itself does not care which one is used.
+
+Here is an example of how to create one and extract the epoch seconds:
 
 ```C++
 BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
@@ -515,8 +756,8 @@ void someFunction() {
 
 #### Conversion to Other Time Zones
 
-You can convert a given `DateTime` object into a representation in a different
-time zone using the `DateTime::convertToTimeZone()` method:
+You can convert a given `ZonedDateTime` object into a representation in a
+different time zone using the `DateTime::convertToTimeZone()` method:
 ```C++
 BasicZoneSpecifier zspecLosAngeles(&zonedb::kZoneAmerica_Los_Angeles);
 BasicZoneSpecifier zspecZurich(&zonedb::kZoneEurope_Zurich);
@@ -543,131 +784,140 @@ components (year, month, day, hour, minute, seconds) will be different.
 ### TimePeriod
 
 The `TimePeriod` class can be used to represents a difference between two
-`DateTime` objects, if the difference is not too large. Internally, it is
+`XxxDateTime` objects, if the difference is not too large. Internally, it is
 implemented as 3 unsigned `uint8_t` integers representing the hour, minute and
 seconds. There is a 4th signed `int8_t` integer that holds the sign (-1 or +1)
 of the time period. The largest (or smallest) time period that can be
 represented by this class is +/- 255h59m59s, corresponding to +/- 921599
 seconds.
 
-This class is intended to be used when the difference between 2 dates need
-to be presented to the user broken down into hours, minutes and seconds. For
-example, we can print out a count down to a target `DateTime` from the current
-`DateTime` like this:
+This class is intended to be used when the difference between 2 dates need to be
+presented to the user broken down into hours, minutes and seconds. For example,
+we can print out a count down to a target `ZonedDateTime` from the current
+`ZonedDateTime` like this:
 ```C++
-DateTime currentDate(...);
-DateTime targetDate(...);
-int32_t diffSeconds =
+ZonedDateTime currentDate = ...;
+ZonedDateTime targetDate = ...;
+acetime_t diffSeconds =
     targetDate.toEpochSeconds() - currentDate.toEpochSeconds();
-TimePeriod diff(diffSeconds);
-diff.printTo(Serial)
+TimePeriod timePeriod(diffSeconds);
+timePeriod.printTo(Serial)
 ```
 
 ### TimeProviders and TimeKeepers
 
-The `TimeProvider` class and its subclasses implement the `getNow()` method
-which returns an `acetime_t` that represents the number of seconds since the
-AceTime Epoch (2000-01-01T00:00:00Z). The relevant part of the `TimeProvider`
-class is:
+The `acetime::provider` namespace contains classes that implement various clocks
+which track the number of seconds (`acetime_t`) since the AceTime epoch
+(2000-01-01T00:00:00Z).
 
+The `TimeProvider` interface implements the `TimeProvider::getNow()` method
+which returns an `acetime_t`. The `TimeKeeper` interface implements the
+`TimeKeeper::setNow(acetime_t)` method which sets the current time. A
+`TimeKeeper` is a subclass of `TimeProvider`.
+
+The `acetime_t` value can be converted into the desired time zone using the
+`ZonedDateTime` and `TimeZone` classes desribed in the previous section. For
+example, to print the current time in UTC, use something like:
 ```C++
-class TimeProvider {
-  public:
-    ...
-    virtual acetime_t getNow() const = 0;
-    ...
-};
+TimeProvider timeProvider = ...;
+acetime_t nowSeconds = timeProvider.getNow();
+LocalDateTime now = LocalDateTime::forEpochSeconds(nowSeconds);
+now.printTo(Serial);
 ```
 
-To obtain the human-readable version of the current time, create a
-`DateTime` object from the seconds from Epoch returned by `getNow()`:
-```C++
-TimeProvider* timeProvider = ...;
-
-acetime_t nowSeconds = timeProvider->getNow();
-DateTime now(nowSeconds);
-```
-
-The `TimeKeeper` class and its subclasses are also subclasses of`TimeProvider`
-but the time keepers implement the `setNow()` method which allows their time to
-be set.
-```C++
-class TimeKeeper: public TimeProvider {
-  public:
-    virtual void setNow(acetime_t epochSeconds) = 0;
-};
-```
-
-In other words, the `TimeKeeper` can be set to the current time. It is then
-expected to have an internal clock that continues to update the current time.
-
-The AceTime library comes with a number of time providers and keepers, as
-described in the following subsections. All of these classes are in the
-`ace_time::provider` namespace, and they do *not* depend on the
-`DateTime` classes of the `ace_time` namespace.
-
-```
-#include <AceTime.h>
-using namespace ace_time::provider;
-```
-
-#### DS3231 Time Keeper
-
-The `DS3231TimeKeeper` is backed by a DS3231 RTC chip which is normally backed
-by a battery or a supercapacitor to survive power failures. The DS3231 chip does
-not contain the concept of a time zone. Therefore, I recommend that the
-`DS3231TimeKeeper` class is used to store only the UTC date/time components,
-instead of the local time. When the time is read back in using the
-`DS3231TimeKeeper::getNow()`, you can convert that to the appropriate time zone
-using the `DateTime::convertToTimeZone()` method.
-
-```C++
-DS3231TimeKeeper dsTimeKeeper;
-...
-void setup() {
-  ...
-  dsTimeKeeper.setup();
-  ...
-
-}
-void loop() {
-  ...
-}
-```
+Various implementation class of `TimeProvider` and `TimeKeeper` are described in
+more detail the following subsections. All of these classes are in the
+`ace_time::provider` namespace.
 
 #### NTP Time Provider
 
-The `NtpTimeProvider` is available on the ESP8266 and ESP32 have builtin WiFi
-capability. This class uses an NTP client to fetch the current time from the
-specified NTP server. The constructor takes 3 parameters which all of default
-values so are optional.
+The `NtpTimeProvider` is available on the ESP8266 and ESP32 which have builtin
+WiFi capability. (I have not tested the code on the Arduino WiFi shield
+because I don't have that hardware.) This class uses an NTP client to fetch the
+current time from the specified NTP server. The constructor takes 3 parameters
+which have default values so they are optional.
 
 You need to call the `setup()` with the `ssid` and `password` of the WiFi
 connection. The method will time out after 5 seconds if the connection cannot
 be established.
 
 ```C++
-const char SSID[] = ...;
-const char PASSWORD[] = ...;
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::provider;
+
+const char SSID[] = ...; // Warning: don't store SSID in GitHub
+const char PASSWORD[] = ...; // Warning: don't store passwd in GitHub
 
 NtpTimeProvider ntpTimeProvider;
 
 void setup() {
+  Serial.begin(115200);
+  while(!Serial); // needed for Leonardo/Micro
   ...
   ntpTimeProvider.setup(SSID, PASSWORD);
   if (ntpTimeProvider.isSetup()) {
     Serial.println("WiFi connection failed... try again.");
   }
+}
+
+// Print the NTP time every 10 seconds, in UTC-08:00 time zone.
+void loop() {
+  acetime_t nowSeconds = ntpTimeProvider.getNow();
+  OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
+      nowSeconds, TimeOffset::forHour(-8)); // convert UTC to UTC-08:00
+  odt.printTo(Serial);
+  delay(10000); // wait 10 seconds
+}
+```
+
+**Security Warning**: You should avoid committing your SSID and PASSWORD into a
+public repository like GitHub because they will become public to anyone. Even if
+you delete the commit, they can be retrieved from the git history.
+
+#### DS3231 Time Keeper
+
+The `DS3231TimeKeeper` is the class describing the DS3231 RTC chip. It contains
+an internal 32kHz, temperature compensated osciallator that counts time in 1
+second steps. It is often connected to a battery or a supercapacitor to survive
+power failures. The DS3231 chip stores the time broken down by various date and
+time components (i.e. year, month, day, hour, minute, seconds). It contains
+internal logic that knows about the number of days in an month, and leap years.
+It supports dates from 2000 to 2099. It does *not* contain the concept of a time
+zone. Therefore, The `DS3231TimeKeeper` assumes that the date/time components
+stored on the chip is in **UTC** time.
+
+The `DS3231TimeKeeper::getNow()` returns the number of seconds since
+AceTime Epoch by converting the UTC date and time components to `acetime_t`
+(using `LocalDatetime` internally). Users can convert the epoch seconds
+into either an `OffsetDateTime` or a `ZonedDateTime` as needed.
+
+The `DS3231TimeKeeper::setup()` should be called from the global `setup()`
+function to initialize the object. Here is a sample that
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::provider;
+
+DS3231TimeKeeper dsTimeKeeper;
+...
+void setup() {
+  Serial.begin(115200);
+  while(!Serial); // needed for Leonardo/Micro
   ...
+  dsTimeKeeper.setup();
+  dsTimeKeeper.setNow(0); // 2000-01-01T00:00:00Z
 }
 
 void loop() {
-  ...
+  acetime_t nowSeconds = dsTimeKeeper.getNow();
+  OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
+      nowSeconds, TimeOffset::forHour(-8)); // convert UTC to UTC-08:00
+  odt.printTo(Serial);
+  delay(10000); // wait 10 seconds
 }
 ```
-**Security Warning**: You should avoid committing your SSID and PASSWORD into a
-public repository like GitHub because it will become public to anyone. Even if
-you delete the commit, it will be accessible through the git history.
 
 #### System Time Keeper
 
@@ -681,13 +931,13 @@ worse, the `NtpTimeProvider` must the talk to the NTP server over the network
 which can be unpredictably slow.
 
 Unfortunately, the `millis()` internal clock of most (all?) Arduino boards is
-not accurate. Therefore, the `SystemTimeKeeper` provides a mechanism to
-synchronize its clock to an external (and presumably more accurate clock)
-`TimeProvider`.
+not very accurate and unsuitable for implementing an accurate clock. Therefore,
+the `SystemTimeKeeper` provides a mechanism to synchronize its clock to an
+external (and presumably more accurate clock) `TimeProvider`.
 
 The `SystemTimeKeeper` also provides a way to save the current time to a
-`backupTimeKeeper` (e.g. the `DS3231TimeKeeper` using an RTC chip with battery
-backup). When the `SystemTimeKeeper` starts up, it will read the backup
+`backupTimeKeeper` (e.g. the `DS3231TimeKeeper` using the DS3231 chip with
+battery backup). When the `SystemTimeKeeper` starts up, it will read the backup
 `TimeKeeper` and set the current time. Then it can synchronize with an external
 clock source (e.g. the `NtpTimeProvider`). The time is saved to the backup time
 keeper whenever the `SystemTimeKeeper` is synced with the external time
@@ -695,6 +945,10 @@ provider.
 
 Here is how to set up the `SystemTimeKeeper`:
 ```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::provider;
+
 DS3231TimeKeeper dsTimeKeeper;
 NtpTimeProvider ntpTimeProvider(SSID, PASSWORD);
 SystemTimeKeeper systemTimeKeeper(
@@ -702,13 +956,20 @@ SystemTimeKeeper systemTimeKeeper(
 ...
 
 void setup() {
+  Serial.begin(115200);
+  while(!Serial); // needed for Leonardo/Micro
+  ...
   dsTimeKeeper.setup();
   ntpTimeProvider.setup();
   systemTimeKeeper.setup();
-  ...
 }
 
 void loop() {
+  acetime_t nowSeconds = systemTimeKeeper.getNow();
+  OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
+      nowSeconds, TimeOffset::forHour(-8)); // convert UTC to UTC-08:00
+  odt.printTo(Serial);
+  delay(10000); // wait 10 seconds
 }
 ```
 
@@ -730,6 +991,7 @@ void setup() {
 You could also choose not to have either the backup or sync time sources, in
 which case you can give `nullptr` as the correspond argument. For example,
 to use no backup time keeper:
+
 ```C++
 DS3231TimeKeeper dsTimeKeeper;
 SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper /*sync*/, nullptr /*backup*/);
@@ -742,32 +1004,38 @@ void setup() {
 }
 ```
 
-#### System Clock Syncing and Heartbeat
+#### System Clock Heartbeat and Syncing
 
-For technical reasons &mdash; see the implementation of
-`SystemTimeKeeper::getNow()`) &mdash; the `getNow()` method must be called
-periodically to avoid an integer overflow. The maximum period between 2
-consecutive calls to `getNow()` is 65.535 seconds. We need to implement a
-"heartbeat" mechanism which simply calls the `getNow()` of the system time
-keeper.
+The `SystemTimeKeeper` requires 2 maintenance tasks to run periodically
+to help it keep proper time.
+
+First, the `SystemTimeKeeper::getNow()` method must be called peridically
+before an internal integer overflow occurs, even if the `getNow()` is not
+needed. The internal integer overflow happens every 65.536 seconds.
+Even if your application is *guaranteed* to call `SystemTimeKeeper::getNow()`
+faster than every 65 seconds, it is probably prudent to implement a "heartbeat"
+mechanism which simply calls the `SystemTimeKeeper::getNow()` periodically
+regardless of how often the application makes that call.
 
 Secondly, since the internal `millis()` clock is not very accurate, we must
-synchronize the system time keeper periodically. The frequency depends on the
-accurate of the `millis()` and the cost of the call to the `getNow()` method of
-the syncing time provider. For a DS3231 time source, syncing once every 1-10
-minutes might work since talking to the RTC chip is cheap. For syncing with the
-`NtpTimeProvider` with an accurate `millis()` maybe once every 1-12 hours might
-be advisable.
+synchronize the `SystemTimeKeeper` periodically with a more accurate time
+source. The frequency of this syncing depends on the accuracy of the `millis()`
+(which depends on the hardware oscillator of the chip) and the cost of the call
+to the `getNow()` method of the syncing time provider. If the syncing time
+source is the DS3231 chip, syncing once every 1-10 minutes might be sufficient
+since talking to the RTC chip is relatively cheap. If the syncing time source is
+the `NtpTimeProvider`, the network connection is fairly expensive so maybe once
+every 1-12 hours might be advisable.
 
 The `SystemTimeKeeper` provides 2 ways to perform these periodic maintenance
-actions. By default, the syncing happens every 3600 seconds, and the heartbeat
-happens every 5 seconds. Those parameters are configurable in the constructors
-of the following classes.
+actions. By default, the heartbeat happens every 5 seconds and the syncing
+happens every 3600 seconds. Those parameters are configurable in the
+constructors of the following classes.
 
-**Method 1: Using the Global Loop()**
+**Method 1: Using the Global Loop() Function**
 
 You can use the `SystemTimeSyncLoop` and `SystemTimeHeartbeatLoop` classes and
-insert them into the global `loop()` method:
+insert them somewhere into the global `loop()` method, like this:
 
 ```C++
 SystemTimeKeeper systemTimeKeeper(...);
@@ -775,17 +1043,23 @@ SystemTimeSyncLoop systemTimeSyncLoop(systemTimeKeeper);
 SystemTimeHeartbeatLoop systemTimeHeartbeatLoop(systemTimeKeeper);
 
 void loop() {
+  ...
   systemTimeSyncLoop.loop();
   systemTimeHeartbeatLoop.loop();
+  ...
 }
 ```
 
+We have assumed here that the global `loop()` function executes sufficiently
+frequently, for example, faster than 10 or 100 times a second.
+
 **Method 2: Using AceRoutine Coroutines**
 
-You can use 2 AceRoutine coroutines to perform the sync and heartbeat. First,
-`#include <AceRoutine.h>` before the `<AceTime.h>` (to activate the
-`SystemTimeSyncCoroutine` and `SystemTimeHeartbeatCoroutine` classes). Then
-create the 2 coroutines, and configure it to run using the `CoroutineScheduler`:
+You can use two [AceRoutine](https://github.com/bxparks/AceRoutine) coroutines
+to perform the heartbeat and sync. First, `#include <AceRoutine.h>` *before* the
+`#include <AceTime.h>` (which activates the `SystemTimeSyncCoroutine` and
+`SystemTimeHeartbeatCoroutine` classes). Then create the 2 coroutines, and
+configure it to run using the `CoroutineScheduler`:
 
 ```C++
 #include <AceRoutine.h>
@@ -814,19 +1088,19 @@ becomes non-blocking. In other words, if you are using the `NtpTimeProvider` to
 provide syncing, the `SystemTimeSyncLoop` object calls its `getNow()` method,
 which blocks the execution of the program until the NTP server returns a
 response (or the request times out after 1000 milliseconds). If you use the
-coroutines, the program continues to do other things (e.g. update displays, scan
-for buttons) during the time that the `NtpTimeProvider` has issued a request and
-is waiting for a response from the NTP server.
+`SystemTimeSyncCoroutine`, the program continues to do other things (e.g. update
+displays, scan for buttons) while the `NtpTimeProvider` is waiting for a
+response from the NTP server.
 
 ## System Requirements
 
 This library was developed and tested using:
 
-* [Arduino IDE 1.8.5 - 1.8.7](https://www.arduino.cc/en/Main/Software)
-* [ESP8266 Arduino Core 2.4.2](https://arduino-esp8266.readthedocs.io/en/2.4.2/)
-* [arduino-esp32](https://github.com/espressif/arduino-esp32)
+* [Arduino IDE 1.8.9](https://www.arduino.cc/en/Main/Software)
+* [ESP8266 Arduino Core 2.5.1](https://github.com/esp8266/Arduino)
+* [ESP32 Arduino Core 1.0.2](https://github.com/espressif/arduino-esp32)
 
-I used Ubuntu 17.10 for most of my development.
+I used Ubuntu 18.04 for most of my development.
 
 The library is tested on the following hardware before each release:
 
@@ -844,18 +1118,17 @@ I will occasionally test on the following hardware as a sanity check:
 ### CPU
 
 The [AutoBenchmark.ino](examples/AutoBenchmark/) program measures the
-amount of CPU cycles taken by some of the more expensive `DateTime`
-methods. The most expensive method is the `DateTime::forEpochSeconds(seconds)`
-factory method. Here is a summary of how long that constructor takes for some
+amount of CPU cycles taken by some of the more expensive methods. Here is a
+summary of the elapsed time for `OffsetDateTime::forEpochSeconds()` for some
 Arduino boards that I have access to:
 ```
 ----------------------------+---------+
 Board or CPU                |  micros |
 ----------------------------+---------+
-ATmega328P 16MHz (Nano)     | 401.800 |
-ESP8266 80MHz               |  12.080 |
-ESP32 240MHz                |   0.705 |
-Teensy 3.2 96MHz            |   2.750 |
+ATmega328P 16MHz (Nano)     | 321.600 |
+ESP8266 80MHz               |  13.400 |
+ESP32 240MHz                |   1.470 |
+Teensy 3.2 96MHz            |   2.130 |
 ----------------------------+---------+
 ```
 
@@ -867,76 +1140,144 @@ classes:
 **8-bit processors**
 
 ```
-sizeof(DateTime): 8
-sizeof(TimeZone): 1
+sizeof(LocalDate): 3
+sizeof(LocalTime): 3
+sizeof(LocalDateTime): 6
+sizeof(TimeOffset): 1
+sizeof(OffsetDateTime): 7
+sizeof(ManualZoneSpecifier): 10
+sizeof(BasicZoneSpecifier): 95
+sizeof(ExtendedZoneSpecifier): 366
+sizeof(TimeZone): 3
+sizeof(ZonedDateTime): 10
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 17
-sizeof(DS3231TimeKeeper): 4
+sizeof(DS3231TimeKeeper): 3
 sizeof(SystemTimeSyncLoop): 14
 sizeof(SystemTimeHeartbeatLoop): 8
-sizeof(SystemTimeSyncCoroutine): 29
+sizeof(SystemTimeSyncCoroutine): 31
 sizeof(SystemTimeHeartbeatCoroutine): 18
 ```
 
 **32-bit processors**
 ```
-sizeof(DateTime): 8
-sizeof(TimeZone): 1
+sizeof(LocalDate): 3
+sizeof(LocalTime): 3
+sizeof(LocalDateTime): 6
+sizeof(TimeOffset): 1
+sizeof(OffsetDateTime): 7
+sizeof(ManualZoneSpecifier): 20
+sizeof(BasicZoneSpecifier): 140
+sizeof(ExtendedZoneSpecifier): 472
+sizeof(TimeZone): 8
+sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
 sizeof(SystemTimeKeeper): 24
-sizeof(DS3231TimeKeeper): 8
-sizeof(NtpTimeProvider): 96 (ESP8266), 120 (ESP32)
+sizeof(NtpTimeProvider): 88 (ESP8266), 116 (ESP32)
 sizeof(SystemTimeSyncLoop): 20
 sizeof(SystemTimeHeartbeatLoop): 12
 sizeof(SystemTimeSyncCoroutine): 52
 sizeof(SystemTimeHeartbeatCoroutine): 36
 ```
 
-### Comparison to Arduino Time Library
+## Comparisons to Other Time Libraries
 
 The [ComparisonBenchmark.ino](examples/ComparisonBenchmark/) program compares
-the CPU time of AceTime methods with the equilvalent methods
-[Arduino Time Library](https://github.com/PaulStoffregen/Time).
-The functionality tested was the roundtrip conversion from `secondsFromEpoch` to
-the date time components, then back to `secondsFromEpoch` again. Details are
-given in the README.md file in that folder, but here is a summary for various
-boards (all times in microseconds):
+the CPU time of AceTime methods with the equilvalent methods [Arduino Time
+Library](https://github.com/PaulStoffregen/Time). The functionality tested was
+the roundtrip conversion from `ZonedDateTime::forEpochSeconds()` to the date
+time components, then back to `ZonedDateTime::toEpochSeconds()` again. Details
+are given in the [README.md](examples/ComparisonBenchmark/README.md) file in
+that folder, but here is a summary for various boards (all times in
+microseconds):
+
 ```
 ----------------------------+---------+----------+
 Board or CPU                | AceTime | Time Lib |
 ----------------------------+---------+----------+
-ATmega328P 16MHz (Nano)     | 364.000 |  879.000 |
-ESP8266 80MHz               |  20.900 |   68.500 |
-ESP32 240MHz                |   0.570 |    9.330 |
-Teensy 3.2 96MHz            |   1.980 |   22.570 |
-----------------------------+---------+---------+
+ATmega328P 16MHz (Nano)     | 353.000 |  931.000 |
+ESP8266 80MHz               |  21.600 |   68.100 |
+ESP32 240MHz                |   2.145 |    9.355 |
+Teensy 3.2 96MHz            |   2.330 |   22.390 |
+----------------------------+---------+----------+
 ```
+
+Compared to the
+[AVR libc time library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html),
+which is based on the UNIX/POSIX time library, AceTime has the following
+differences:
+1. AceTime is written in C++ and provides more abstractions. For example, you
+can create multiple system clocks if you need to.
+1. AceTime is easier to understand and use (in my opinion of course).
+1. All AceTime classes and methods are re-entrant (i.e. does not use static
+buffers), except for `common::DateStrings` which is meant to be created
+temporarily on the stack and discarded.
+1. AceTime does not require an ISR (interrupt service routine) to be called at 1
+second intervals to maintain the system clock. AceTime uses the `millis()`
+method and synchronizes to it lazily when `SystemTimeKeeper::getNow()` is
+called.
+1. AceTime works across all platforms supported by the Arduino framework (e.g.
+ESP8266 and ESP32), instead of just the AVR platform.
+1. Both AceTime and AVR time libraries use an epoch of 2000-01-01T00:00:00Z.
 
 ## Bugs and Limitations
 
-* AceTime uses an epoch of 2000-01-01T00:00:00Z.
-  `OffsetDateTime::toEpochSeconds()` returns the number of seconds since the
-  epoch as a 32-bit unsigned integer. So it will rollover just after
-  2136-02-07T06:28:15Z. However, the largest `int32_t` value of `INT32_MAX` is
-  used by `OffsetDateTime::kInvalidEpochSeconds` to indicate an invalid value.
-  Therefore, the actual largest possible dateTime is one second before that,
-  i.e. 2136-02-07T06:28:14Z.
-* It is possible to construct a `DateTime` object with a `year` component
-  greater than 136, but such an object may not be very useful because the
-  `toSecondsSincEpoch()` method would return an incorrect number.
-* The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
-  the IP address of the NTP server. Unfortunately, this seems to be blocking
-  call. When the DNS resolver is working properly, this call returns in ~10ms or
-  less. But sometimes, the DNS resolver seems to get into a state where it takes
-  4-5 **seconds** to time out. Even if you use coroutines, the entire program
-  will block for those 4-5 seconds.
-* [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
-  of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds counter.
-  It will overflow just after 2036-02-07T06:28:15Z.
-* [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
-  1970-01-01T00:00:00Z. On 32-bit Unix systems that use a signed 32-bit integer
-  to represent the seconds field, the unix time will rollover just after
-  2038-01-19T03:14:07Z.
+* `acetime_t`
+    * AceTime uses an epoch of 2000-01-01T00:00:00Z.
+      The `acetime_t` type is a 32-bit signed integer whose largest value is
+      `INT32_MAX`, which corresponds to 2068-01-19T03:14:7Z.
+    * The smallest date the `acetime_t` is `INT32_MIN` but that value is used to
+      indicate an "invalid" value. Therefore, the smallest normal value is
+      `INT32_MIN+1` which corresponds to 1931-12-13T20:45:53.
+* `LocalDate`, `LocalDateTime`
+    * These classes (and all other Date classes which are based on these) use
+      a single 8-bit signed byte to represent the 'year' internally. This saves
+      memory, at the cost of restricting the range.
+    * The value of -128 (INT8_MIN) is used to indicate an "invalid" value, so
+      the actual range is [-127, 127]. This restricts the year range to [1873,
+      2127].
+    * It is possible to construct a `LocalDate` or `LocalDateTime` object with a
+      `year` component greater than 2127, but such an object may not be very
+      useful because the `toSecondsSincEpoch()` method would exceed the range of
+      `acetime_t, so would return an incorrect value.
+* `toUnixSeconds()`
+    * [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
+      1970-01-01T00:00:00Z. On 32-bit Unix systems that use a signed 32-bit
+      integer to represent the seconds field, the unix time will rollover just
+      after 2038-01-19T03:14:07Z.
+* `BasicZoneSpecifier`, `ExtendedZoneSpecifier`
+    * have been tested only between year 2000 and 2038 because the
+      Python [pytz](https://pypi.org/project/pytz/) library supports dates only
+      until Unix Epoch.
+* `ExtendedZoneSpecifier`
+    * There are 5 time zones (as of version 2019a of the TZ Database, see
+      the bottom of `zonedbx/zone_infos.h`) which have DST transitions that occur at 00:01
+      (one minute after midnight). This transition cannot be represented as a
+      multiple of 15-minutes. The transition times of these zones have been
+      shifted to the nearest 15-minute boundary, in other words, the transitions
+      occur at 00:00 instead of 00:01. Clocks based on `ExtendedZoneSpecifier`
+      will be off by one hour during the 1-minute interval from 00:00 and 00:01.
+    * Fortunately all of these transitions happen before 2012. If you are
+      interested in only dates after 2019, then this will not affect you.
+* `NtpTimeProvider`
+    * The `NtpTimeProvider` on an ESP8266 calls `WiFi.hostByName()` to resolve
+      the IP address of the NTP server. Unfortunately, this seems to be blocking
+      call. When the DNS resolver is working properly, this call returns in
+      ~10ms or less. But sometimes, the DNS resolver seems to get into a state
+      where it takes 4-5 **seconds** to time out. Even if you use coroutines,
+      the entire program will block for those 4-5 seconds.
+    * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
+      of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds
+      counter. It will overflow just after 2036-02-07T06:28:15Z.
+* `BasicValidationTest` and `ExtendedValidationTest`
+    * These tests compare the transition times calculated by AceTime to Python's
+      [pytz](https://pypi.org/project/pytz/) library. Unfortunately, pytz
+      does not support dates after Unix epoch rollover (2038-01-19T03:14:07Z).
+* `BasicValidationMoreTest` and `ExtendedValidationMoreTest`
+    * These tests compare the transition times calculated by AceTime to Java's
+      `java.time` package which should support the entire range of dates that
+      AceTime can represent. We have artificially limited the range of testing
+      from 2000 to 2050.
 
 ## Changelog
 
@@ -949,12 +1290,11 @@ See [CHANGELOG.md](CHANGELOG.md).
 ## Feedback and Support
 
 If you have any questions, comments, bug reports, or feature requests, please
-file a GitHub ticket or send me an email. I'd love to hear about how this
-software and its documentation can be improved. Instead of forking the
-repository to modify or add a feature for your own projects, let me have a
-chance to incorporate the change into the main repository so that your external
-dependencies are simpler and so that others can benefit. I can't promise that I
-will incorporate everything, but I will give your ideas serious considerationk
+file a GitHub ticket instead of emailing me unless the content is sensitive.
+(The problem with email is that I cannot reference the email conversation when
+other people ask similar questions later.) I'd love to hear about how this
+software and its documentation can be improved. I can't promise that I will
+incorporate everything, but I will give your ideas serious consideration.
 
 ## Authors
 

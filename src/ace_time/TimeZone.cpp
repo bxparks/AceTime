@@ -5,7 +5,6 @@
 namespace ace_time {
 
 void TimeZone::printTo(Print& printer) const {
-    printer.print('[');
   if (mType == kTypeFixed) {
     if (mOffset.isZero()) {
       printer.print("UTC");
@@ -15,7 +14,6 @@ void TimeZone::printTo(Print& printer) const {
   } else {
     mZoneSpecifier->printTo(printer);
   }
-  printer.print(']');
 }
 
 void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {

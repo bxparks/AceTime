@@ -59,11 +59,8 @@ class ZonedDateTime {
 
     /**
      * Factory method. Create the ZonedDateTime from epochSeconds as seen from
-     * the given time zone. If the time zone's offset is negative, then
-     * (epochSeconds >= TimeZone::effectiveOffsetSeconds().toEpochSeconds())
-     * must be true. Otherwise, the local time will be in the year 1999, which
-     * cannot be represented by a 2-digit year beginning with the year 2000.
-     * The dayOfWeek will be calculated internally.
+     * the given time zone. The dayOfWeek will be calculated internally.
+     * Returns ZonedDateTime::forError() if epochSeconds is invalid.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00Z). A value of kInvalidEpochSeconds is a sentinel
@@ -72,24 +69,23 @@ class ZonedDateTime {
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone = TimeZone()) {
-      ZonedDateTime dt;
       if (epochSeconds == kInvalidEpochSeconds) return forError();
 
       TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
-      dt.mOffsetDateTime = OffsetDateTime::forEpochSeconds(
-          epochSeconds, timeOffset);
-      dt.mTimeZone = timeZone;
-      return dt;
+      return ZonedDateTime(
+          OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset),
+          timeZone);
     }
 
     /**
      * Factory method to create a ZonedDateTime using the number of seconds from
      * Unix epoch.
+     * Returns ZonedDateTime::forError() if unixSeconds is invalid.
      */
     static ZonedDateTime forUnixSeconds(acetime_t unixSeconds,
         const TimeZone& timeZone = TimeZone()) {
       if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
-        return forEpochSeconds(unixSeconds, timeZone);
+        return forError();
       } else {
         return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch,
             timeZone);
@@ -102,12 +98,13 @@ class ZonedDateTime {
      * returns true.
      *
      * @param dateString a string in ISO 8601 format
-     * "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very lenient
-     * and does not detect most errors. It cares mostly about the positional
-     * placement of the various components. It does not validate the separation
-     * characters like '-' or ':'. For example, both of the following will
-     * parse to the exactly same ZonedDateTime object:
-     * "2018-08-31T13:48:01-07:00" "2018/08/31 13#48#01-07#00"
+     *        "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very
+     *        lenient and does not detect most errors. It cares mostly about
+     *        the positional placement of the various components. It does not
+     *        validate the separation characters like '-' or ':'. For example,
+     *        both of the following will parse to the exactly same
+     *        ZonedDateTime object: "2018-08-31T13:48:01-07:00" "2018/08/31
+     *        13#48#01-07#00"
      */
     static ZonedDateTime forDateString(const char* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
@@ -204,8 +201,9 @@ class ZonedDateTime {
     }
 
     /**
-     * Print ZonedDateTime to 'printer'. Does not implement Printable to avoid
-     * memory cost of vtable pointer.
+     * Print ZonedDateTime to 'printer'.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 
@@ -249,9 +247,9 @@ class ZonedDateTime {
     /**
      * Compare this ZonedDateTime with another ZonedDateTime, and return (<0,
      * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b). The
-     * dayOfWeek field is ignored but the time zone is used.  This method can
-     * return 0 (equal) even if the operator==() returns false if the two
-     * ZonedDateTime objects are in different time zones.
+     * dayOfWeek field is ignored.  This method can return 0 (equal) even if
+     * the operator==() returns false if the two ZonedDateTime objects are in
+     * different time zones.
      */
     int8_t compareTo(const ZonedDateTime& that) const {
       return mOffsetDateTime.compareTo(that.mOffsetDateTime);
@@ -269,7 +267,7 @@ class ZonedDateTime {
     friend bool operator!=(const ZonedDateTime& a, const ZonedDateTime& b);
 
     /** Constructor. From OffsetDateTime and TimeZone. */
-    ZonedDateTime(const OffsetDateTime& offsetDateTime, TimeZone tz):
+    ZonedDateTime(const OffsetDateTime& offsetDateTime, const TimeZone& tz):
       mOffsetDateTime(offsetDateTime),
       mTimeZone(tz) {}
 
@@ -282,7 +280,7 @@ class ZonedDateTime {
  * Optimized for small changes in the less signficant fields, such as 'second'
  * or 'minute'. The dayOfWeek is a derived field so it is not explicitly used
  * to test equality, but it follows that if all the other fields are identical,
- * thenthe dayOfWeek must also be equal.
+ * then the dayOfWeek must also be equal.
  */
 inline bool operator==(const ZonedDateTime& a, const ZonedDateTime& b) {
   return a.mOffsetDateTime == b.mOffsetDateTime

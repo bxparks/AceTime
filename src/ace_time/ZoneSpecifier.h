@@ -38,35 +38,42 @@ class LocalDateTime;
  */
 class ZoneSpecifier {
   public:
-    /** Indicate ManualZoneSpecifier. */
+    /** Indicate ManualZoneSpecifier. Must not be TimeZone::kTypeFixed. */
     static const uint8_t kTypeManual = 1;
 
-    /** Indicate BasicZoneSpecifier. */
+    /** Indicate BasicZoneSpecifier. Must not be TimeZone::kTypeFixed. */
     static const uint8_t kTypeBasic = 2;
 
-    /** Indicate ExtendedZoneSpecifier. */
+    /** Indicate ExtendedZoneSpecifier. Must not be TimeZone::kTypeFixed. */
     static const uint8_t kTypeExtended = 3;
 
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
 
-    /** Return the total UTC offset at epochSeconds, including DST offset. */
+    /**
+     * Return the total UTC offset at epochSeconds, including DST offset.
+     * Returns TimeOffset::forError() if an error occurs.
+     */
     virtual TimeOffset getUtcOffset(acetime_t epochSeconds) const = 0;
 
     /**
      * Return the DST delta offset at epochSeconds. This is an experimental
      * method that has not been tested thoroughly. Use with caution.
+     * Returns TimeOffset::forError() if an error occurs.
      */
     virtual TimeOffset getDeltaOffset(acetime_t epochSeconds) const = 0;
 
     /**
      * Return the time zone abbreviation at epochSeconds. This is an
      * experimental method that has not been tested thoroughly. Use with
-     * caution.
+     * caution. Returns an empty string ("") if an error occurs.
      */
     virtual const char* getAbbrev(acetime_t epochSeconds) const = 0;
 
-    /** Return the UTC offset matching the given the date/time components. */
+    /**
+     * Return the UTC offset matching the given the date/time components.
+     * Returns TimeOffset::forError() if an error occurs.
+     */
     virtual TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
         const = 0;
 

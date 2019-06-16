@@ -32,6 +32,9 @@ class LocalDateTime {
      * Factory method. Create the various components of the LocalDateTime from
      * the epochSeconds.
      *
+     * Returns LocalDateTime::forError() if epochSeconds is equal to
+     * LocalDate::kInvalidEpochSeconds.
+     *
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00). Use LocalDate::kInvalidEpochSeconds to define
      *    an invalid instance whose isError() returns true.
@@ -58,10 +61,13 @@ class LocalDateTime {
      * Factory method that takes the number of seconds since Unix Epoch of
      * 1970-01-01. Similar to forEpochSeconds(), the seconds corresponding to
      * the partial day are truncated down towards the smallest whole day.
+     *
+     * Returns LocalDateTime::forError() if epochSeconds is equal to
+     * LocalDate::kInvalidEpochSeconds.
      */
     static LocalDateTime forUnixSeconds(acetime_t unixSeconds) {
       if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
-        return forEpochSeconds(unixSeconds);
+        return forError();
       } else {
         return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch);
       }
@@ -69,8 +75,7 @@ class LocalDateTime {
 
     /**
      * Factory method. Create a LocalDateTime from the ISO 8601 date string. If
-     * the string cannot be parsed, then isError() on the constructed object
-     * returns true.
+     * the string cannot be parsed, then returns LocalDateTime::forError().
      *
      * The dateString is expected to be in ISO 8601 format
      * "YYYY-MM-DDThh:mm:ss", but currently, the parser is very lenient.
@@ -171,8 +176,9 @@ class LocalDateTime {
     const LocalTime& localTime() const { return mLocalTime; }
 
     /**
-     * Print LocalDateTime to 'printer' in ISO 8601 format. Does not implement
-     * Printable to avoid memory cost of a vtable pointer.
+     * Print LocalDateTime to 'printer' in ISO 8601 format.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 

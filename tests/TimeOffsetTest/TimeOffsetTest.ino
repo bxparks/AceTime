@@ -45,9 +45,10 @@ test(TimeOffsetTest, forHour) {
 
 test(TimeOffsetTest, forHourMinute) {
   assertEqual(TimeOffset::forHourMinute(-8, 0).toMinutes(), -(8*60));
-  assertEqual(TimeOffset::forHourMinute(-8, 15).toMinutes(), -(8*60+15));
+  assertEqual(TimeOffset::forHourMinute(-8, -15).toMinutes(), -(8*60+15));
   assertEqual(TimeOffset::forHourMinute(1, 0).toMinutes(), 60);
   assertEqual(TimeOffset::forHourMinute(1, 15).toMinutes(), 75);
+  assertEqual(TimeOffset::forHourMinute(0, -15).toMinutes(), -15);
 }
 
 test(TimeOffsetTest, forOffsetString) {
@@ -57,6 +58,28 @@ test(TimeOffsetTest, forOffsetString) {
   assertEqual(TimeOffset::forOffsetString("+01:00").toMinutes(), 60);
   assertEqual(TimeOffset::forOffsetString("+01:15").toMinutes(), 75);
   assertEqual(TimeOffset::forOffsetString("+01:16").toMinutes(), 75);
+}
+
+test(TimeOffsetTest, toHourMinute) {
+  int8_t hour;
+  int8_t minute;
+  TimeOffset offset;
+
+  TimeOffset::forHourMinute(0, 15).toHourMinute(hour, minute);
+  assertEqual(0, hour);
+  assertEqual(15, minute);
+
+  TimeOffset::forHourMinute(0, -15).toHourMinute(hour, minute);
+  assertEqual(0, hour);
+  assertEqual(-15, minute);
+
+  TimeOffset::forHourMinute(-1, -15).toHourMinute(hour, minute);
+  assertEqual(-1, hour);
+  assertEqual(-15, minute);
+
+  TimeOffset::forHourMinute(1, 15).toHourMinute(hour, minute);
+  assertEqual(1, hour);
+  assertEqual(15, minute);
 }
 
 test(TimeOffsetTest, error) {
@@ -71,79 +94,41 @@ test(TimeOffsetTest, error) {
 // time_offset_mutation
 // --------------------------------------------------------------------------
 
-test(TimeOffsetMutationTest, incrementHour) {
-  int8_t hour;
-  uint8_t minute;
-
-  TimeOffset offset = TimeOffset::forMinutes(0);
-  time_offset_mutation::incrementHour(offset);
-  assertEqual((int16_t) 60, offset.toMinutes());
-
-  offset = TimeOffset::forHourMinute(1, 45);
-  time_offset_mutation::incrementHour(offset);
-  offset.toHourMinute(hour, minute);
-  assertEqual(2, hour);
-  assertEqual(45, minute);
-
-  // Wrap around at 16h to -16h, but keep the minutes the same.
-  offset = TimeOffset::forHourMinute(15, 45);
-  time_offset_mutation::incrementHour(offset);
-  offset.toHourMinute(hour, minute);
-  assertEqual(-15, hour);
-  assertEqual(45, minute);
-
-  time_offset_mutation::incrementHour(offset);
-  offset.toHourMinute(hour, minute);
-  assertEqual(-14, hour);
-  assertEqual(45, minute);
-}
-
 test(TimeOffsetMutationTest, increment15Minutes) {
   int8_t hour;
-  uint8_t minute;
-
+  int8_t minute;
   TimeOffset offset;
 
+  offset = TimeOffset::forHourMinute(-16, 0);
   time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
-  assertEqual(0, hour);
-  assertEqual(15, minute);
+  assertEqual(-15, hour);
+  assertEqual(-45, minute);
 
   time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
-  assertEqual(0, hour);
-  assertEqual(30, minute);
+  assertEqual(-15, hour);
+  assertEqual(-30, minute);
 
   time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
-  assertEqual(0, hour);
-  assertEqual(45, minute);
+  assertEqual(-15, hour);
+  assertEqual(-15, minute);
 
-  // Wrap the minute.
   time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
-  assertEqual(0, hour);
+  assertEqual(-15, hour);
   assertEqual(0, minute);
 
-  offset = TimeOffset::forHourMinute(-1, 0);
+  offset = TimeOffset::forHourMinute(15, 45);
   time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
-  assertEqual(-1, hour);
-  assertEqual(15, minute);
+  assertEqual(16, hour);
+  assertEqual(0, minute);
 
   time_offset_mutation::increment15Minutes(offset);
   offset.toHourMinute(hour, minute);
-  assertEqual(-1, hour);
-  assertEqual(30, minute);
-
-  time_offset_mutation::increment15Minutes(offset);
-  offset.toHourMinute(hour, minute);
-  assertEqual(-1, hour);
-  assertEqual(45, minute);
-
-  time_offset_mutation::increment15Minutes(offset);
-  offset.toHourMinute(hour, minute);
-  assertEqual(-1, hour);
+  assertEqual(-16, hour);
   assertEqual(0, minute);
 }
 

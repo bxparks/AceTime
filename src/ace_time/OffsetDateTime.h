@@ -52,7 +52,8 @@ class OffsetDateTime {
 
     /**
      * Factory method. Create the various components of the OffsetDateTime from
-     * the epochSeconds and its TimeOffset.
+     * the epochSeconds and its TimeOffset. Returns OffsetDateTime::forError()
+     * if epochSeconds or timeOffset is an error.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00). Use LocalDate::kInvalidEpochSeconds to define
@@ -62,7 +63,8 @@ class OffsetDateTime {
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
           TimeOffset timeOffset = TimeOffset()) {
       OffsetDateTime dt;
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return forError();
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds
+          || timeOffset.isError()) return forError();
 
       // Get the real epochSeconds
       dt.mTimeOffset = timeOffset;
@@ -89,28 +91,29 @@ class OffsetDateTime {
 
     /**
      * Factory method. Create a OffsetDateTime from the ISO 8601 date string. If
-     * the string cannot be parsed, then isError() on the constructed object
-     * returns true.
-     *
-     * The dateString is expected to be in ISO 8601 format
-     * "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very lenient.
-     * It cares mostly about the positional placement of the various
-     * components. It does not validate the separation characters like '-' or
-     * ':'. For example, both of the following will parse to the exactly same
-     * OffsetDateTime object: "2018-08-31T13:48:01-07:00" "2018/08/31
-     * 13#48#01-07#00"
+     * the string cannot be parsed, then returns OffsetDateTime::forError().
+     * Created for debugging purposes not for production use.
      *
      * The parsing validation is so weak that the behavior is undefined for
      * most invalid date/time strings. The range of valid dates is roughly from
      * 1872-01-01T00:00:00 to 2127-12-31T23:59:59. However, the UTC offset may
      * cause some of the dates on the two extreme ends invalid. The behavior is
      * undefined in those cases.
+     *
+     * @param dateString the date and time in ISO 8601 format
+     *        "YYYY-MM-DDThh:mm:ss+/-hh:mm", but currently, the parser is very
+     *        lenient. It cares mostly about the positional placement of the
+     *        various components. It does not validate the separation
+     *        characters like '-' or ':'. For example, both of the following
+     *        will parse to the exactly same OffsetDateTime object:
+     *        "2018-08-31T13:48:01-07:00" "2018/08/31 13#48#01-07#00"
      */
     static OffsetDateTime forDateString(const char* dateString);
 
     /**
      * Factory method. Create a OffsetDateTime from date string in flash memory
-     * F() strings. Mostly for unit testing.
+     * F() strings. Mostly for unit testing. Returns OffsetDateTime::forError()
+     * if a parsing error occurs.
      */
     static OffsetDateTime forDateString(const __FlashStringHelper* dateString) {
       // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
@@ -209,8 +212,9 @@ class OffsetDateTime {
     }
 
     /**
-     * Print OffsetDateTime to 'printer' in ISO 8601 format. Does not implement
-     * Printable to avoid memory cost of a vtable pointer.
+     * Print OffsetDateTime to 'printer' in ISO 8601 format.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
      */
     void printTo(Print& printer) const;
 
@@ -251,7 +255,7 @@ class OffsetDateTime {
      * It returns kInvalidEpochSeconds if isError() is true.
      *
      * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
-     * print the unix seconds.
+     * convert an ISO8601 date to the unix seconds.
      */
     acetime_t toUnixSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
@@ -262,7 +266,7 @@ class OffsetDateTime {
      * Compare this OffsetDateTime with another OffsetDateTime, and return (<0,
      * 0, >0) according to whether the epochSeconds is (a<b, a==b, a>b). This
      * method can return 0 (equal) even if the operator==() returns false if
-     * the two OffsetDateTime objects are in different offset zones.
+     * the two OffsetDateTime objects are using different time offsets.
      */
     int8_t compareTo(const OffsetDateTime& that) const {
       acetime_t thisSeconds = toEpochSeconds();

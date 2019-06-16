@@ -5,9 +5,7 @@
  * This should compile on all microcontrollers supported by the Arduino IDE.
  */
 
-#ifdef ARDUINO
 #include <AceRoutine.h> // activate SystemTime coroutines
-#endif
 #include <AceTime.h>
 #include "Benchmark.h"
 
@@ -21,7 +19,6 @@ void setup() {
 
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
-  pinMode(LED_BENCHMARK, OUTPUT);
 
   // ace_time primitives
 
@@ -95,6 +92,7 @@ void setup() {
   Serial.print(F("sizeof(NtpTimeProvider): "));
   Serial.println(sizeof(NtpTimeProvider));
 #endif
+#endif
 
   Serial.print(F("sizeof(SystemTimeSyncLoop): "));
   Serial.println(sizeof(SystemTimeSyncLoop));
@@ -107,7 +105,6 @@ void setup() {
 
   Serial.print(F("sizeof(SystemTimeHeartbeatCoroutine): "));
   Serial.println(sizeof(SystemTimeHeartbeatCoroutine));
-#endif
 
   runBenchmarks();
 #ifndef ARDUINO
