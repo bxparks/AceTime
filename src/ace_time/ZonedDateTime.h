@@ -1,5 +1,5 @@
-#ifndef ACE_TIME_DATE_TIME_H
-#define ACE_TIME_DATE_TIME_H
+#ifndef ACE_TIME_ZONED_DATE_TIME_H
+#define ACE_TIME_ZONED_DATE_TIME_H
 
 #include <stdint.h>
 #include "common/flash.h"
