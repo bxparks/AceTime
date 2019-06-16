@@ -9,6 +9,6 @@ void Presenter::displayAbout() const {
   // strings, but no F() for shorter version strings.
   mOled.print(F("WorldClock: "));
   mOled.println(CLOCK_VERSION_STRING);
-  mOled.print(F("Tzdata: "));
+  mOled.print(F("TZ: "));
   mOled.println(zonedb::kTzDatabaseVersion);
 }

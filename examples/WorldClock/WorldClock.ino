@@ -212,8 +212,8 @@ void setup() {
 
   controller.setup();
 
-  systemTimeSync.setupCoroutine(F("systemTimeSync"));
-  systemTimeHeartbeat.setupCoroutine(F("systemTimeHeartbeat"));
+  systemTimeSync.setupCoroutine(F("sync"));
+  systemTimeHeartbeat.setupCoroutine(F("heartbeat"));
   CoroutineScheduler::setup();
 
 #if ENABLE_SERIAL == 1
