@@ -11,6 +11,4 @@ void Presenter::displayAbout() const {
   mOled.println(CLOCK_VERSION_STRING);
   mOled.print(F("Tzdata: "));
   mOled.println(zonedb::kTzDatabaseVersion);
-  mOled.print(F("AceTime: "));
-  mOled.println(ACE_TIME_VERSION_STRING);
 }
