@@ -24,11 +24,11 @@ TimeProvider	KEYWORD1
 TimeKeeper	KEYWORD1
 DS3231TimeKeeper	KEYWORD1
 NtpTimeProvider	KEYWORD1
-SystemTimeKeeper	KEYWORD1
-SystemTimeSyncLoop	KEYWORD1
-SystemTimeHeartbeatLoop	KEYWORD1
-SystemTimeSyncCoroutine	KEYWORD1
-SystemTimeHeartbeatCoroutine	KEYWORD1
+SystemClock	KEYWORD1
+SystemClockSyncLoop	KEYWORD1
+SystemClockHeartbeatLoop	KEYWORD1
+SystemClockSyncCoroutine	KEYWORD1
+SystemClockHeartbeatCoroutine	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -238,7 +238,7 @@ readResponse	KEYWORD2
 # TimeKeeper.h
 setNow	KEYWORD2
 
-# SystemTimeKeeper.h
+# SystemClock.h
 setup	KEYWORD2
 getNow	KEYWORD2
 setNow	KEYWORD2

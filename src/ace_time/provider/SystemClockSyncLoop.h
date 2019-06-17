@@ -1,34 +1,34 @@
-#ifndef ACE_TIME_SYSTEM_TIME_SYNC_LOOP_H
-#define ACE_TIME_SYSTEM_TIME_SYNC_LOOP_H
+#ifndef ACE_TIME_SYSTEM_CLOCK_SYNC_LOOP_H
+#define ACE_TIME_SYSTEM_CLOCK_SYNC_LOOP_H
 
 #include <stdint.h>
-#include "SystemTimeKeeper.h"
+#include "SystemClock.h"
 
 namespace ace_time {
 namespace provider {
 
 /**
- * A class that periodically that syncs the SystemTimeKeeper with its
+ * A class that periodically that syncs the SystemClock with its
  * syncTimeProvider.
  */
-class SystemTimeSyncLoop {
+class SystemClockSyncLoop {
   public:
     /**
      * Constructor.
      *
-     * @param systemTimeKeeper the system time keeper to sync up
+     * @param systemClock the system time keeper to sync up
      * @param syncPeriodSeconds seconds between normal sync attempts
      *    (default 3600)
      * @param initialSyncPeriodSeconds seconds between sync attempts when
-     *    the systemTimeKeeper is not initialized (default 5)
+     *    the systemClock is not initialized (default 5)
      * @param requestTimeoutMillis number of milliseconds before the request to
      *    syncTimeProvider times out
      */
-    SystemTimeSyncLoop(SystemTimeKeeper& systemTimeKeeper,
+    SystemClockSyncLoop(SystemClock& systemClock,
           uint16_t syncPeriodSeconds = 3600,
           uint16_t initialSyncPeriodSeconds = 5,
           uint16_t requestTimeoutMillis = 1000):
-      mSystemTimeKeeper(systemTimeKeeper),
+      mSystemClock(systemClock),
       mSyncPeriodSeconds(syncPeriodSeconds),
       mInitialSyncPeriodSeconds(initialSyncPeriodSeconds),
       mRequestTimeoutMillis(requestTimeoutMillis),
@@ -39,14 +39,14 @@ class SystemTimeSyncLoop {
      * the global loop() method.
      */
     void loop() {
-      if (mSystemTimeKeeper.mSyncTimeProvider == nullptr) return;
+      if (mSystemClock.mSyncTimeProvider == nullptr) return;
 
       unsigned long nowMillis = millis();
       unsigned long timeSinceLastSync = nowMillis - mLastSyncMillis;
 
       if (timeSinceLastSync >= mCurrentSyncPeriodSeconds * 1000UL
-          || mSystemTimeKeeper.getNow() == 0) {
-        acetime_t nowSeconds = mSystemTimeKeeper.mSyncTimeProvider->getNow();
+          || mSystemClock.getNow() == 0) {
+        acetime_t nowSeconds = mSystemClock.mSyncTimeProvider->getNow();
 
         if (nowSeconds == 0) {
           // retry with exponential backoff
@@ -56,7 +56,7 @@ class SystemTimeSyncLoop {
             mCurrentSyncPeriodSeconds *= 2;
           }
         } else {
-          mSystemTimeKeeper.sync(nowSeconds);
+          mSystemClock.sync(nowSeconds);
           mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
         }
 
@@ -74,7 +74,7 @@ class SystemTimeSyncLoop {
     }
 
   private:
-    SystemTimeKeeper& mSystemTimeKeeper;
+    SystemClock& mSystemClock;
     uint16_t const mSyncPeriodSeconds;
     uint16_t const mInitialSyncPeriodSeconds;
     uint16_t const mRequestTimeoutMillis;

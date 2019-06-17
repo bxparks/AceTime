@@ -1,32 +1,32 @@
-#ifndef ACE_TIME_SYSTEM_TIME_HEARTBEAT_LOOP_H
-#define ACE_TIME_SYSTEM_TIME_HEARTBEAT_LOOP_H
+#ifndef ACE_TIME_SYSTEM_CLOCK_HEARTBEAT_LOOP_H
+#define ACE_TIME_SYSTEM_CLOCK_HEARTBEAT_LOOP_H
 
 #include <stdint.h>
-#include "SystemTimeKeeper.h"
+#include "SystemClock.h"
 
 namespace ace_time {
 namespace provider {
 
 /**
- * A class that peridically freshens the SystemTimeKeeper using the heartbeat
+ * A class that peridically freshens the SystemClock using the heartbeat
  * call to getNow(). Call loop() from the global loop() method.
  */
-class SystemTimeHeartbeatLoop {
+class SystemClockHeartbeatLoop {
   public:
     /**
      * Constructor.
      *
-     * @param systemTimeKeeper the underlying SystemTimeKeeper
+     * @param systemClock the underlying SystemClock
      * @param heartbeatPeriodMillis millis between calls to getNow()
      *    (default 5000)
      */
-    SystemTimeHeartbeatLoop(SystemTimeKeeper& systemTimeKeeper,
+    SystemClockHeartbeatLoop(SystemClock& systemClock,
           uint16_t heartbeatPeriodMillis = 5000):
-      mSystemTimeKeeper(systemTimeKeeper),
+      mSystemClock(systemClock),
       mHeartbeatPeriodMillis(heartbeatPeriodMillis) {}
 
     /**
-     * Call this from the global loop() method to make SystemTimeKeeper
+     * Call this from the global loop() method to make SystemClock
      * keep in sync with the system millis().
      */
     void loop() {
@@ -35,13 +35,13 @@ class SystemTimeHeartbeatLoop {
 
       // Make sure that mEpochSeconds does not fall too far behind.
       if (timeSinceLastSync >= mHeartbeatPeriodMillis) {
-        mSystemTimeKeeper.getNow();
+        mSystemClock.getNow();
         mLastSyncMillis = nowMillis;
       }
     }
 
   private:
-    SystemTimeKeeper& mSystemTimeKeeper;
+    SystemClock& mSystemClock;
     uint16_t const mHeartbeatPeriodMillis;
 
     unsigned long mLastSyncMillis = 0; // should be the same type as millis()

@@ -34,14 +34,14 @@
 #include "ace_time/provider/TimeKeeper.h"
 #include "ace_time/provider/NtpTimeProvider.h"
 #include "ace_time/provider/DS3231TimeKeeper.h"
-#include "ace_time/provider/SystemTimeKeeper.h"
-#include "ace_time/provider/SystemTimeSyncLoop.h"
-#include "ace_time/provider/SystemTimeHeartbeatLoop.h"
+#include "ace_time/provider/SystemClock.h"
+#include "ace_time/provider/SystemClockSyncLoop.h"
+#include "ace_time/provider/SystemClockHeartbeatLoop.h"
 
 // activate only if <AceRoutine.h> is included before this header
 #ifdef ACE_ROUTINE_VERSION
-  #include "ace_time/provider/SystemTimeSyncCoroutine.h"
-  #include "ace_time/provider/SystemTimeHeartbeatCoroutine.h"
+  #include "ace_time/provider/SystemClockSyncCoroutine.h"
+  #include "ace_time/provider/SystemClockHeartbeatCoroutine.h"
 #endif
 
 // Version format: xxyyzz == "xx.yy.zz"

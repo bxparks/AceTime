@@ -5,7 +5,7 @@
  * This should compile on all microcontrollers supported by the Arduino IDE.
  */
 
-#include <AceRoutine.h> // activate SystemTime coroutines
+#include <AceRoutine.h> // activate SystemClock coroutines
 #include <AceTime.h>
 #include "Benchmark.h"
 
@@ -81,8 +81,8 @@ void setup() {
 
   // ace_time::provider classes
 
-  Serial.print(F("sizeof(SystemTimeKeeper): "));
-  Serial.println(sizeof(SystemTimeKeeper));
+  Serial.print(F("sizeof(SystemClock): "));
+  Serial.println(sizeof(SystemClock));
 
 #ifdef ARDUINO
   Serial.print(F("sizeof(DS3231TimeKeeper): "));
@@ -94,17 +94,17 @@ void setup() {
 #endif
 #endif
 
-  Serial.print(F("sizeof(SystemTimeSyncLoop): "));
-  Serial.println(sizeof(SystemTimeSyncLoop));
+  Serial.print(F("sizeof(SystemClockSyncLoop): "));
+  Serial.println(sizeof(SystemClockSyncLoop));
 
-  Serial.print(F("sizeof(SystemTimeHeartbeatLoop): "));
-  Serial.println(sizeof(SystemTimeHeartbeatLoop));
+  Serial.print(F("sizeof(SystemClockHeartbeatLoop): "));
+  Serial.println(sizeof(SystemClockHeartbeatLoop));
 
-  Serial.print(F("sizeof(SystemTimeSyncCoroutine): "));
-  Serial.println(sizeof(SystemTimeSyncCoroutine));
+  Serial.print(F("sizeof(SystemClockSyncCoroutine): "));
+  Serial.println(sizeof(SystemClockSyncCoroutine));
 
-  Serial.print(F("sizeof(SystemTimeHeartbeatCoroutine): "));
-  Serial.println(sizeof(SystemTimeHeartbeatCoroutine));
+  Serial.print(F("sizeof(SystemClockHeartbeatCoroutine): "));
+  Serial.println(sizeof(SystemClockHeartbeatCoroutine));
 
   runBenchmarks();
 #ifndef ARDUINO

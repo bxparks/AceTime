@@ -82,15 +82,15 @@ void setup() {
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_SYSTEM_CLOCK
   DS3231TimeKeeper dsTimeKeeper;
-  SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper);
-  systemTimeKeeper.setup();
-  acetime_t now = systemTimeKeeper.getNow();
+  SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
+  systemClock.setup();
+  acetime_t now = systemClock.getNow();
   guard ^= now;
 #elif FEATURE == FEATURE_SYSTEM_CLOCK_AND_BASIC_ZONE_SPECIFIER
   DS3231TimeKeeper dsTimeKeeper;
-  SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper);
-  systemTimeKeeper.setup();
-  acetime_t now = systemTimeKeeper.getNow();
+  SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
+  systemClock.setup();
+  acetime_t now = systemClock.getNow();
   BasicZoneSpecifier zspec(&zonedb::kZoneAmerica_Los_Angeles);
   auto tz = TimeZone::forZoneSpecifier(&zspec);
   auto dt = ZonedDateTime::forEpochSeconds(now, tz);
