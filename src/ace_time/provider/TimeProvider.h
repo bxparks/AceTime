@@ -24,16 +24,16 @@ class TimeProvider {
      */
     virtual acetime_t getNow() const = 0;
 
-    /** Send a time request asynchronously. Used by SystemTimeSyncCoroutine. */
+    /** Send a time request asynchronously. Used by SystemClockSyncCoroutine. */
     virtual void sendRequest() const {}
 
-    /** Return true if a response is ready. Used by SystemTimeSyncCoroutine. */
+    /** Return true if a response is ready. Used by SystemClockSyncCoroutine. */
     virtual bool isResponseReady() const { return true; }
 
     /**
      * Returns number of seconds since AceTime epoch (2000-01-01). Return
      * kInvalidSeconds if there is an error. Valid only if isResponseReady()
-     * returns true. Used by SystemTimeSyncCoroutine.
+     * returns true. Used by SystemClockSyncCoroutine.
      */
     virtual acetime_t readResponse() const { return getNow(); }
 };

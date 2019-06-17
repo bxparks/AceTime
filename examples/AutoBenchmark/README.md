@@ -37,12 +37,12 @@ sizeof(ExtendedZoneSpecifier): 366
 sizeof(TimeZone): 3
 sizeof(ZonedDateTime): 10
 sizeof(TimePeriod): 4
-sizeof(SystemTimeKeeper): 17
+sizeof(SystemClock): 17
 sizeof(DS3231TimeKeeper): 3
-sizeof(SystemTimeSyncLoop): 14
-sizeof(SystemTimeHeartbeatLoop): 8
-sizeof(SystemTimeSyncCoroutine): 31
-sizeof(SystemTimeHeartbeatCoroutine): 18
+sizeof(SystemClockSyncLoop): 14
+sizeof(SystemClockHeartbeatLoop): 8
+sizeof(SystemClockSyncCoroutine): 31
+sizeof(SystemClockHeartbeatCoroutine): 18
 ```
 
 CPU:
@@ -94,13 +94,13 @@ sizeof(ExtendedZoneSpecifier): 472
 sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
-sizeof(SystemTimeKeeper): 24
+sizeof(SystemClock): 24
 sizeof(DS3231TimeKeeper): 8
 sizeof(NtpTimeProvider): 88
-sizeof(SystemTimeSyncLoop): 20
-sizeof(SystemTimeHeartbeatLoop): 12
-sizeof(SystemTimeSyncCoroutine): 52
-sizeof(SystemTimeHeartbeatCoroutine): 36
+sizeof(SystemClockSyncLoop): 20
+sizeof(SystemClockHeartbeatLoop): 12
+sizeof(SystemClockSyncCoroutine): 52
+sizeof(SystemClockHeartbeatCoroutine): 36
 ```
 
 CPU:
@@ -154,13 +154,13 @@ sizeof(ExtendedZoneSpecifier): 472
 sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
-sizeof(SystemTimeKeeper): 24
+sizeof(SystemClock): 24
 sizeof(DS3231TimeKeeper): 8
 sizeof(NtpTimeProvider): 116
-sizeof(SystemTimeSyncLoop): 20
-sizeof(SystemTimeHeartbeatLoop): 12
-sizeof(SystemTimeSyncCoroutine): 52
-sizeof(SystemTimeHeartbeatCoroutine): 36
+sizeof(SystemClockSyncLoop): 20
+sizeof(SystemClockHeartbeatLoop): 12
+sizeof(SystemClockSyncCoroutine): 52
+sizeof(SystemClockHeartbeatCoroutine): 36
 ```
 
 CPU:
@@ -217,12 +217,12 @@ sizeof(ExtendedZoneSpecifier): 472
 sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
-sizeof(SystemTimeKeeper): 24
+sizeof(SystemClock): 24
 sizeof(DS3231TimeKeeper): 8
-sizeof(SystemTimeSyncLoop): 20
-sizeof(SystemTimeHeartbeatLoop): 12
-sizeof(SystemTimeSyncCoroutine): 52
-sizeof(SystemTimeHeartbeatCoroutine): 36
+sizeof(SystemClockSyncLoop): 20
+sizeof(SystemClockHeartbeatLoop): 12
+sizeof(SystemClockSyncCoroutine): 52
+sizeof(SystemClockHeartbeatCoroutine): 36
 ```
 
 CPU:

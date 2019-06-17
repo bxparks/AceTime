@@ -1,5 +1,5 @@
-#ifndef ACE_TIME_SYSTEM_TIME_KEEPER_H
-#define ACE_TIME_SYSTEM_TIME_KEEPER_H
+#ifndef ACE_TIME_SYSTEM_CLOCK_H
+#define ACE_TIME_SYSTEM_CLOCK_H
 
 #include <Arduino.h> // millis()
 #include <stdint.h>
@@ -26,23 +26,23 @@ namespace provider {
  * the that internal counter will rollover within 65.535 milliseconds. To
  * prevent that, getNow() or setNow() must be called more frequently than every
  * 65.536 seconds. This can be satisfied by using the
- * SystemTimeHeartbeatCoroutine or SystemTimeHeartbeatLoop helper classes.
+ * SystemClockHeartbeatCoroutine or SystemClockHeartbeatLoop helper classes.
  *
  * There are 2 ways to perform syncing from the syncTimeProvider:
  *
- * 1) Create an instance of SystemTimeSyncCoroutine and register it with the
+ * 1) Create an instance of SystemClockSyncCoroutine and register it with the
  * CoroutineSchedule so that it runs periodically. The
- * SystemTimeSyncCoroutine::runCoroutine() method uses the non-blocking
+ * SystemClockSyncCoroutine::runCoroutine() method uses the non-blocking
  * sendRequest(), isResponseReady() and readResponse() methods of TimeProvider
  * to retrieve the current time. Some time providers (e.g. NtpTimeProvider) can
  * take 100s of milliseconds to return, so using the coroutine infrastructure
  * allows other coroutines to continue executing.
  *
- * 2) Call the SystemTimeSyncLoop::loop() method from the global loop()
+ * 2) Call the SystemClockSyncLoop::loop() method from the global loop()
  * function. This method uses the blocking TimeProvider::getNow() method which
  * can take O(100) milliseconds for something like NtpTimeProvider.
  */
-class SystemTimeKeeper: public TimeKeeper {
+class SystemClock: public TimeKeeper {
   public:
 
     /**
@@ -52,7 +52,7 @@ class SystemTimeKeeper: public TimeKeeper {
      * @param backupTimeKeeper An RTC chip which continues to keep time
      * even when power is lost. Can be null.
      */
-    explicit SystemTimeKeeper(
+    explicit SystemClock(
             TimeProvider* syncTimeProvider /* nullable */,
             TimeKeeper* backupTimeKeeper /* nullable */):
         mSyncTimeProvider(syncTimeProvider),
@@ -123,8 +123,8 @@ class SystemTimeKeeper: public TimeKeeper {
     virtual unsigned long millis() const { return ::millis(); }
 
   private:
-    friend class SystemTimeSyncCoroutine;
-    friend class SystemTimeSyncLoop;
+    friend class SystemClockSyncCoroutine;
+    friend class SystemClockSyncLoop;
 
     /**
      * Write the nowSeconds to the backup TimeKeeper (which can be an RTC that

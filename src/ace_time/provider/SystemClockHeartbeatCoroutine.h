@@ -1,41 +1,41 @@
-#ifndef ACE_TIME_SYSTEM_TIME_HEARTBEAT_COROUTINE_H
-#define ACE_TIME_SYSTEM_TIME_HEARTBEAT_COROUTINE_H
+#ifndef ACE_TIME_SYSTEM_CLOCK_HEARTBEAT_COROUTINE_H
+#define ACE_TIME_SYSTEM_CLOCK_HEARTBEAT_COROUTINE_H
 
 #include <stdint.h>
-#include "SystemTimeKeeper.h"
+#include "SystemClock.h"
 
 namespace ace_time {
 namespace provider {
 
 /**
- * A coroutine that calls SystemTimeKeeper.getNow() peridically. This must be
- * performed before the uint16_t timer in SystemTimeKeeper overflows, i.e.
+ * A coroutine that calls SystemClock.getNow() peridically. This must be
+ * performed before the uint16_t timer in SystemClock overflows, i.e.
  * every 65535 milliseconds at a minimum. I recommend every 5000 millis, which
  * is the default.
  */
-class SystemTimeHeartbeatCoroutine: public ace_routine::Coroutine {
+class SystemClockHeartbeatCoroutine: public ace_routine::Coroutine {
   public:
     /**
      * Constructor.
      *
-     * @param systemTimeKeeper the underlying SystemTimeKeeper
+     * @param systemClock the underlying SystemClock
      * @param heartbeatPeriodMillis milliseconds between calls to getNow()
      *    (default 5000)
      */
-    SystemTimeHeartbeatCoroutine(SystemTimeKeeper& systemTimeKeeper,
+    SystemClockHeartbeatCoroutine(SystemClock& systemClock,
         uint16_t heartbeatPeriodMillis = 5000):
-      mSystemTimeKeeper(systemTimeKeeper),
+      mSystemClock(systemClock),
       mHeartbeatPeriodMillis(heartbeatPeriodMillis) {}
 
     int runCoroutine() override {
       COROUTINE_LOOP() {
-        mSystemTimeKeeper.getNow();
+        mSystemClock.getNow();
         COROUTINE_DELAY(mHeartbeatPeriodMillis);
       }
     }
 
   private:
-    SystemTimeKeeper& mSystemTimeKeeper;
+    SystemClock& mSystemClock;
     uint16_t const mHeartbeatPeriodMillis;
 };
 

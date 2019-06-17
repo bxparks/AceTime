@@ -1,43 +1,43 @@
-#ifndef ACE_TIME_SYSTEM_TIME_SYNC_COROUTINE_H
-#define ACE_TIME_SYSTEM_TIME_SYNC_COROUTINE_H
+#ifndef ACE_TIME_SYSTEM_CLOCK_SYNC_COROUTINE_H
+#define ACE_TIME_SYSTEM_CLOCK_SYNC_COROUTINE_H
 
 #include <stdint.h>
 #include "../common/TimingStats.h"
-#include "SystemTimeKeeper.h"
+#include "SystemClock.h"
 
-class SystemTimeSyncCoroutineTest;
+class SystemClockSyncCoroutineTest;
 
 namespace ace_time {
 namespace provider {
 
 /**
- * A coroutine that syncs the SystemTimeKeeper with its syncTimeProvider.
+ * A coroutine that syncs the SystemClock with its syncTimeProvider.
  * Initially, the class attempts to sync with its syncTimeProvider every
  * initialSyncPeriodSeconds. If the request fails, then it retries with an
  * exponential backoff (doubling the delay every iteration), until the sync
  * period becomes greater than syncPeriodSeconds, then the delay is set
  * permanently to syncPeriodSeconds.
  */
-class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
+class SystemClockSyncCoroutine: public ace_routine::Coroutine {
   public:
     /**
      * Constructor.
      *
-     * @param systemTimeKeeper the system time keeper to sync up
+     * @param systemClock the system time keeper to sync up
      * @param syncPeriodSeconds seconds between normal sync attempts
      *    (default 3600)
      * @param initialSyncPeriodSeconds seconds between sync attempts when
-     *    the systemTimeKeeper is not initialized (default 5)
+     *    the systemClock is not initialized (default 5)
      * @param requestTimeoutMillis number of milliseconds before the request to
      *    syncTimeProvider times out
      * @param timingStats internal statistics
      */
-    SystemTimeSyncCoroutine(SystemTimeKeeper& systemTimeKeeper,
+    SystemClockSyncCoroutine(SystemClock& systemClock,
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
         uint16_t requestTimeoutMillis = 1000,
         common::TimingStats* timingStats = nullptr):
-      mSystemTimeKeeper(systemTimeKeeper),
+      mSystemClock(systemClock),
       mSyncPeriodSeconds(syncPeriodSeconds),
       mInitialSyncPeriodSeconds(initialSyncPeriodSeconds),
       mRequestTimeoutMillis(requestTimeoutMillis),
@@ -52,16 +52,16 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
      * register this coroutine into the CoroutineScheduler.
      */
     int runCoroutine() override {
-      if (mSystemTimeKeeper.mSyncTimeProvider == nullptr) return 0;
+      if (mSystemClock.mSyncTimeProvider == nullptr) return 0;
 
       COROUTINE_LOOP() {
         // Send request
-        mSystemTimeKeeper.mSyncTimeProvider->sendRequest();
+        mSystemClock.mSyncTimeProvider->sendRequest();
         mRequestStartTime = millis();
 
         // Wait for request
         while (true) {
-          if (mSystemTimeKeeper.mSyncTimeProvider->isResponseReady()) {
+          if (mSystemClock.mSyncTimeProvider->isResponseReady()) {
             mRequestStatus = kStatusOk;
             break;
           }
@@ -83,12 +83,12 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
         // Process the response
         if (mRequestStatus == kStatusOk) {
           acetime_t nowSeconds =
-              mSystemTimeKeeper.mSyncTimeProvider->readResponse();
+              mSystemClock.mSyncTimeProvider->readResponse();
           uint16_t elapsedTime = millis() - mRequestStartTime;
           if (mTimingStats != nullptr) {
             mTimingStats->update(elapsedTime);
           }
-          mSystemTimeKeeper.sync(nowSeconds);
+          mSystemClock.sync(nowSeconds);
           mCurrentSyncPeriodSeconds = mSyncPeriodSeconds;
         }
 
@@ -108,12 +108,12 @@ class SystemTimeSyncCoroutine: public ace_routine::Coroutine {
     }
 
   private:
-    friend class ::SystemTimeSyncCoroutineTest;
+    friend class ::SystemClockSyncCoroutineTest;
 
     static const uint8_t kStatusOk = 0;
     static const uint8_t kStatusTimedOut = 1;
 
-    SystemTimeKeeper& mSystemTimeKeeper;
+    SystemClock& mSystemClock;
     uint16_t const mSyncPeriodSeconds;
     uint16_t const mInitialSyncPeriodSeconds;
     uint16_t const mRequestTimeoutMillis;

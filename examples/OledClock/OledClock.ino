@@ -45,22 +45,22 @@ hw::CrcEeprom crcEeprom;
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
   DS3231TimeKeeper dsTimeKeeper;
-  SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper);
+  SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   NtpTimeProvider ntpTimeProvider;
-  SystemTimeKeeper systemTimeKeeper(&ntpTimeProvider, nullptr);
+  SystemClock systemClock(&ntpTimeProvider, nullptr);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_BOTH
   DS3231TimeKeeper dsTimeKeeper;
   NtpTimeProvider ntpTimeProvider;
-  SystemTimeKeeper systemTimeKeeper(&ntpTimeProvider, &dsTimeKeeper);
+  SystemClock systemClock(&ntpTimeProvider, &dsTimeKeeper);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
-  SystemTimeKeeper systemTimeKeeper(nullptr /*sync*/, nullptr /*backup*/);
+  SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
 #else
   #error Unknown time keeper option
 #endif
 
-SystemTimeSyncCoroutine systemTimeSync(systemTimeKeeper);
-SystemTimeHeartbeatCoroutine systemTimeHeartbeat(systemTimeKeeper);
+SystemClockSyncCoroutine systemClockSync(systemClock);
+SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
 
 //------------------------------------------------------------------
 // Configure OLED display using SSD1306Ascii.
@@ -82,7 +82,7 @@ void setupOled() {
 //------------------------------------------------------------------
 
 Presenter presenter(oled);
-Controller controller(systemTimeKeeper, crcEeprom, presenter);
+Controller controller(systemClock, crcEeprom, presenter);
 
 //------------------------------------------------------------------
 // Render the Clock periodically.
@@ -198,11 +198,11 @@ void setup() {
   dsTimeKeeper.setup();
   ntpTimeProvider.setup(AUNITER_SSID, AUNITER_PASSWORD);
 #endif
-  systemTimeKeeper.setup();
+  systemClock.setup();
   controller.setup();
 
-  systemTimeSync.setupCoroutine(F("systemTimeSync"));
-  systemTimeHeartbeat.setupCoroutine(F("systemTimeHeartbeat"));
+  systemClockSync.setupCoroutine(F("systemClockSync"));
+  systemClockHeartbeat.setupCoroutine(F("systemClockHeartbeat"));
   CoroutineScheduler::setup();
 
 #if ENABLE_SERIAL == 1

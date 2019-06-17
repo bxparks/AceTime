@@ -47,10 +47,10 @@ hw::CrcEeprom crcEeprom;
 //------------------------------------------------------------------
 
 DS3231TimeKeeper dsTimeKeeper;
-SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper);
+SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
 
-SystemTimeSyncCoroutine systemTimeSync(systemTimeKeeper);
-SystemTimeHeartbeatCoroutine systemTimeHeartbeat(systemTimeKeeper);
+SystemClockSyncCoroutine systemClockSync(systemClock);
+SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
 
 //------------------------------------------------------------------
 // Configure OLED display using SSD1306Ascii.
@@ -101,7 +101,7 @@ ExtendedZoneSpecifier zspec2(&zonedbx::kZoneEurope_London);
 #else
   #error Unknown TIME_ZONE_TYPE
 #endif
-Controller controller(systemTimeKeeper, crcEeprom,
+Controller controller(systemClock, crcEeprom,
     presenter0, presenter1, presenter2,
     zspec0, zspec1, zspec2, "SFO", "PHL", "LHR");
 
@@ -208,12 +208,12 @@ void setup() {
   setupOled();
 
   dsTimeKeeper.setup();
-  systemTimeKeeper.setup();
+  systemClock.setup();
 
   controller.setup();
 
-  systemTimeSync.setupCoroutine("s");
-  systemTimeHeartbeat.setupCoroutine("h");
+  systemClockSync.setupCoroutine("s");
+  systemClockHeartbeat.setupCoroutine("h");
   CoroutineScheduler::setup();
 
 #if ENABLE_SERIAL == 1
