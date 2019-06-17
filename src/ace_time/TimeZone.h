@@ -103,9 +103,9 @@ class TimeZone {
     /**
      * Factory method to create from a fixed UTC offset.
      *
-     * @param offset the fixed UTC offset, default 00:00 offset
+     * @param offset the fixed UTC offset, use TimeOffset() for UTC
      */
-    static TimeZone forTimeOffset(TimeOffset offset = TimeOffset()) {
+    static TimeZone forTimeOffset(TimeOffset offset) {
       return TimeZone(offset);
     }
 
