@@ -197,13 +197,13 @@ The source files are organized as follows:
 
 ### Dependencies
 
-The vast majority of the AceTime library has no dependency any other external
+The vast majority of the AceTime library has no dependency to any other external
 libraries. There is an optional dependency to
 [AceRoutine](https://github.com/bxparks/AceRoutine) if you want to use the
 `SystemTimeSyncCoroutine` and `SystemTimeHeartbeatCoroutine` classes for
 automatic syncing and freshening. (This is recommended but not strictly
 necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to the FastCRC
-library but the `CrcEeprom.h` file is not included by in the `AceTime.h` main
+library but the `CrcEeprom.h` file is not included in the `AceTime.h` main
 header file, so you should not need FastCRC to compile AceTime. (The
 `CrcEeprom.h` header file does not strictly belong in the AceTime library but
 many of my "clock" projects that use the AceTime library also use the

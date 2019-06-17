@@ -1,14 +1,22 @@
 /*
-A simple digital clock using:
-  * a DS3231 RTC chip
-  * a 7-segment LED display, OR an SSD1306 OLED display
-  * 2 push buttons
-
-Supported boards are:
-  * Arduino Nano
-  * Arduino Pro Mini
-  * Arduino Leonardo (Pro Micro clone)
-*/
+ * A simple digital clock using:
+ *   * a DS3231 RTC chip and/or NTP server
+ *   * an SSD1306 OLED display
+ *   * 2 push buttons
+ *
+ * Tested using:
+ *   * Arduino Nano
+ *   * Arduino Pro Mini
+ *   * Arduino Pro Micro
+ *   * ESP8266
+ *
+ * Dependencies:
+ *   * [AceTime](https://github.com/bxparks/AceTime)
+ *   * [AceRoutine](https://github.com/bxparks/AceRoutine)
+ *   * [AceButton](https://github.com/bxparks/AceButton)
+ *   * [FastCRC](https://github.com/FrankBoesing/FastCRC)
+ *   * [SSD1306Ascii](https://github.com/greiman/SSD1306Ascii)
+ */
 
 #include <Wire.h>
 #include <SSD1306AsciiWire.h>

@@ -4,6 +4,13 @@ Here are the results from `AutoBenchmark.ino` for various boards.
 These results show that integer division and modulus operations are incredibly
 slow on 8-bit AVR processors.
 
+## Dependencies
+
+This program depends on the following libraries:
+
+* [AceTime](https://github.com/bxparks/AceTime)
+* [AceRoutine](https://github.com/bxparks/AceRoutine)
+
 ## Arduino Nano
 
 IDE: Arduino 1.8.9 (AVR Core 1.6.23)

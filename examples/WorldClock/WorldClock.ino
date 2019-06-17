@@ -1,13 +1,21 @@
 /*
- * A digital clock with multiple displays for keeping track of multiple time
- * zones.
+ * A digital clock with 3 OLED displays to show 3 different time zones. The
+ * hardware consists of:
  *
- *   * a DS3231 RTC chip (I2C)
- *   * 2 or more SSD1306 OLED displays (SPI)
- *   * 2 push buttons
- * 
- * Supported boards are:
- *   * Arduino Pro Micro
+ *   * 1 x DS3231 RTC chip (I2C)
+ *   * 3 x SSD1306 OLED displays using SPI interface (not I2C)
+ *   * 2 x push buttons
+ *
+ * Tested on Arduino Pro Micro, but should work for Arduino Nano, ESP8266 and
+ * ESP32.
+ *
+ * Dependencies:
+ *
+ *  * [AceTime](https://github.com/bxparks/AceTime)
+ *  * [AceRoutine](https://github.com/bxparks/AceRoutine)
+ *  * [AceButton](https://github.com/bxparks/AceButton)
+ *  * [FastCRC](https://github.com/FrankBoesing/FastCRC)
+ *  * [SSD1306Ascii](https://github.com/greiman/SSD1306Ascii)
  */
 
 #include <Wire.h>
