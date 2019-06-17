@@ -28,35 +28,35 @@ test(ZonedDateTimeTest_Manual, forComponents) {
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
   // Let's use +1 of that since INT_MIN will be used to indicate an error.
-  dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53);
+  dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53, TimeZone());
   assertEqual((acetime_t) -24856, dt.toEpochDays());
   assertEqual((acetime_t) -13899, dt.toUnixDays());
   assertEqual((acetime_t) (INT32_MIN + 1), dt.toEpochSeconds());
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 
   // 2000-01-01 00:00:00Z Saturday
-  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0);
+  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0, TimeZone());
   assertEqual((acetime_t) 0, dt.toEpochDays());
   assertEqual((acetime_t) 10957, dt.toUnixDays());
   assertEqual((acetime_t) 0, dt.toEpochSeconds());
   assertEqual(LocalDate::kSaturday, dt.dayOfWeek());
 
   // 2000-01-02 00:00:00Z Sunday
-  dt = ZonedDateTime::forComponents(2000, 1, 2, 0, 0, 0);
+  dt = ZonedDateTime::forComponents(2000, 1, 2, 0, 0, 0, TimeZone());
   assertEqual((acetime_t) 1, dt.toEpochDays());
   assertEqual((acetime_t) 10958, dt.toUnixDays());
   assertEqual((acetime_t) 86400, dt.toEpochSeconds());
   assertEqual(LocalDate::kSunday, dt.dayOfWeek());
 
   // 2000-02-29 00:00:00Z Tuesday
-  dt = ZonedDateTime::forComponents(2000, 2, 29, 0, 0, 0);
+  dt = ZonedDateTime::forComponents(2000, 2, 29, 0, 0, 0, TimeZone());
   assertEqual((acetime_t) 59, dt.toEpochDays());
   assertEqual((acetime_t) 11016, dt.toUnixDays());
   assertEqual((acetime_t) 86400 * 59, dt.toEpochSeconds());
   assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 
   // 2018-01-01 00:00:00Z Monday
-  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0);
+  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeZone());
   assertEqual((acetime_t) 6575, dt.toEpochDays());
   assertEqual((acetime_t) 17532, dt.toUnixDays());
   assertEqual(6575 * (acetime_t) 86400, dt.toEpochSeconds());
@@ -72,14 +72,14 @@ test(ZonedDateTimeTest_Manual, forComponents) {
   assertEqual(LocalDate::kMonday, dt.dayOfWeek());
 
   // 2038-01-19 03:14:07Z (largest value using Unix Epoch)
-  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 7);
+  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 7, TimeZone());
   assertEqual((acetime_t) 13898, dt.toEpochDays());
   assertEqual((acetime_t) 24855, dt.toUnixDays());
   assertEqual((acetime_t) 1200798847, dt.toEpochSeconds());
   assertEqual(LocalDate::kTuesday, dt.dayOfWeek());
 
   // 2068-01-19 03:14:06Z (largest value for AceTime Epoch).
-  dt = ZonedDateTime::forComponents(2068, 1, 19, 3, 14, 7);
+  dt = ZonedDateTime::forComponents(2068, 1, 19, 3, 14, 7, TimeZone());
   assertEqual((acetime_t) 24855, dt.toEpochDays());
   assertEqual((acetime_t) 35812, dt.toUnixDays());
   assertEqual((acetime_t) (INT32_MAX), dt.toEpochSeconds());
@@ -92,28 +92,28 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
 
   // 1931-12-13 20:45:52Z, smalltest datetime using int32_t from AceTime Epoch.
   // Let's use +1 of that since INT_MIN will be used to indicate an error.
-  dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53);
+  dt = ZonedDateTime::forComponents(1931, 12, 13, 20, 45, 53, TimeZone());
   assertEqual((acetime_t) -1200798847, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds());
+  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
   assertTrue(dt == udt);
 
   // 1970-01-01 00:00:00Z
-  dt = ZonedDateTime::forComponents(1970, 1, 1, 0, 0, 0);
+  dt = ZonedDateTime::forComponents(1970, 1, 1, 0, 0, 0, TimeZone());
   assertEqual((acetime_t) 0, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds());
+  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
   assertTrue(dt == udt);
 
   // 2000-01-01 00:00:00Z
-  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0);
+  dt = ZonedDateTime::forComponents(2000, 1, 1, 0, 0, 0, TimeZone());
   assertEqual((acetime_t) 946684800, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds());
+  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
   assertTrue(dt == udt);
 
 
   // 2018-01-01 00:00:00Z
-  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0);
+  dt = ZonedDateTime::forComponents(2018, 1, 1, 0, 0, 0, TimeZone());
   assertEqual((acetime_t) 1514764800, dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds());
+  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
   assertTrue(dt == udt);
 
   // 2018-08-30T06:45:01-07:00
@@ -125,9 +125,9 @@ test(ZonedDateTimeTest_Manual, toAndForUnixSeconds) {
   assertTrue(dt == udt);
 
   // 2038-01-19 03:14:06Z (largest value - 1 using Unix Epoch)
-  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 6);
+  dt = ZonedDateTime::forComponents(2038, 1, 19, 3, 14, 6, TimeZone());
   assertEqual((acetime_t) (INT32_MAX - 1), dt.toUnixSeconds());
-  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds());
+  udt = ZonedDateTime::forUnixSeconds(dt.toUnixSeconds(), TimeZone());
   assertTrue(dt == udt);
 }
 

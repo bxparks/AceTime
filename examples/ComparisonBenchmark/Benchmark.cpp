@@ -153,7 +153,8 @@ void runEmptyLoop() {
 // AceTime library: ZonedDateTime::forEpochSeconds()
 void runAceTimeForEpochSeconds() {
   unsigned long elapsedMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
-    ZonedDateTime dt = ZonedDateTime::forEpochSeconds(seconds);
+    ZonedDateTime dt = ZonedDateTime::forEpochSeconds(seconds,
+        TimeZone());
     disableOptimization(dt);
   });
   unsigned long baseMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
@@ -168,12 +169,14 @@ void runAceTimeForEpochSeconds() {
 // AceTime library: ZonedDateTime::toEpochSeconds()
 void runAceTimeToEpochSeconds() {
   unsigned long elapsedMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
-    ZonedDateTime dt = ZonedDateTime::forEpochSeconds(seconds);
+    ZonedDateTime dt = ZonedDateTime::forEpochSeconds(seconds,
+        TimeZone());
     acetime_t roundTripSeconds = dt.toEpochSeconds();
     disableOptimization(roundTripSeconds);
   });
   unsigned long baseMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
-    ZonedDateTime dt = ZonedDateTime::forEpochSeconds(seconds);
+    ZonedDateTime dt = ZonedDateTime::forEpochSeconds(seconds,
+        TimeZone());
     disableOptimization(dt);
   });
 

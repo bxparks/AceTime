@@ -11,7 +11,7 @@ using namespace ace_time;
 // --------------------------------------------------------------------------
 
 test(DateTimeMutationTest, increment) {
-  ZonedDateTime dt = ZonedDateTime::forComponents(2001, 2, 3, 4, 5, 6);
+  ZonedDateTime dt = ZonedDateTime::forComponents(2001, 2, 3, 4, 5, 6, TimeZone());
   assertEqual((int16_t) 2001, dt.year());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());

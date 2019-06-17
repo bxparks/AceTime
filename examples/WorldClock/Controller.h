@@ -250,7 +250,7 @@ class Controller {
         case MODE_CHANGE_SECOND:
           if (!mSecondFieldCleared) {
             ZonedDateTime dt = ZonedDateTime::forEpochSeconds(
-                mTimeKeeper.getNow());
+                mTimeKeeper.getNow(), TimeZone());
             mChangingDateTime.second(dt.second());
           }
           break;

@@ -45,12 +45,11 @@ class ZonedDateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param timeZone pointer to an existing TimeZone instance. Optional,
-     *        not nullable. Default is UTC TimeZone.
+     * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
-            const TimeZone& timeZone = TimeZone()) {
+            const TimeZone& timeZone) {
       LocalDateTime ldt = LocalDateTime::forComponents(
           year, month, day, hour, minute, second);
       OffsetDateTime odt(ldt, timeZone.getUtcOffsetForDateTime(ldt));
@@ -64,11 +63,11 @@ class ZonedDateTime {
      *
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00Z). A value of kInvalidEpochSeconds is a sentinel
-     *    is considered to be an error and causes isError() to return true.
-     * @param timeZone Optional, not nullable. Default is UTC TimeZone.
+     *    that is considered to be an error and causes isError() to return true.
+     * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
-        const TimeZone& timeZone = TimeZone()) {
+        const TimeZone& timeZone) {
       if (epochSeconds == kInvalidEpochSeconds) return forError();
 
       TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
@@ -81,9 +80,13 @@ class ZonedDateTime {
      * Factory method to create a ZonedDateTime using the number of seconds from
      * Unix epoch.
      * Returns ZonedDateTime::forError() if unixSeconds is invalid.
+     *
+     * @param unixSeconds number of seconds since Unix epoch
+     *    (1970-01-01T00:00:00Z)
+     * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forUnixSeconds(acetime_t unixSeconds,
-        const TimeZone& timeZone = TimeZone()) {
+        const TimeZone& timeZone) {
       if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
         return forError();
       } else {
@@ -98,13 +101,12 @@ class ZonedDateTime {
      * returns true.
      *
      * @param dateString a string in ISO 8601 format
-     *        "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very
-     *        lenient and does not detect most errors. It cares mostly about
-     *        the positional placement of the various components. It does not
-     *        validate the separation characters like '-' or ':'. For example,
-     *        both of the following will parse to the exactly same
-     *        ZonedDateTime object: "2018-08-31T13:48:01-07:00" "2018/08/31
-     *        13#48#01-07#00"
+     *        "YYYY-MM-DDThh:mm:ss+hh:mm". The parser is very lenient and does
+     *        not detect most errors. It cares mostly about the positional
+     *        placement of the various components. It does not validate the
+     *        separation characters like '-' or ':'. For example, both of the
+     *        following will parse to the exactly same ZonedDateTime object:
+     *        "2018-08-31T13:48:01-07:00" "2018/08/31 13#48#01-07#00".
      */
     static ZonedDateTime forDateString(const char* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
