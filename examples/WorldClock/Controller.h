@@ -31,15 +31,16 @@ class Controller {
     Controller(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
             Presenter& presenter0, Presenter& presenter1,
             Presenter& presenter2, ZoneSpecifier& zspec0,
-            ZoneSpecifier& zspec1, ZoneSpecifier& zspec2):
+            ZoneSpecifier& zspec1, ZoneSpecifier& zspec2,
+            const char* name0, const char* name1, const char* name2):
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),
         mPresenter0(presenter0),
         mPresenter1(presenter1),
         mPresenter2(presenter2),
-        mClockInfo0(zspec0),
-        mClockInfo1(zspec1),
-        mClockInfo2(zspec2),
+        mClockInfo0(zspec0, name0),
+        mClockInfo1(zspec1, name1),
+        mClockInfo2(zspec2, name2),
         mMode(MODE_UNKNOWN) {}
 
     /** Initialize the controller with the various time zones of each clock. */
@@ -180,9 +181,9 @@ class Controller {
 
         case MODE_CHANGE_HOUR_MODE:
           mSuppressBlink = true;
-          mClockInfo0.hourMode = 1 - mClockInfo0.hourMode;
-          mClockInfo1.hourMode = 1 - mClockInfo1.hourMode;
-          mClockInfo2.hourMode = 1 - mClockInfo2.hourMode;
+          mClockInfo0.hourMode ^= 0x1;
+          mClockInfo1.hourMode ^= 0x1;
+          mClockInfo2.hourMode ^= 0x1;
           break;
         case MODE_CHANGE_BLINKING_COLON:
           mSuppressBlink = true;

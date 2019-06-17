@@ -5,8 +5,6 @@
 // Configuration parameters.
 //------------------------------------------------------------------
 
-#define CLOCK_VERSION_STRING "0.1"
-
 #define ENABLE_SERIAL 0
 
 #define TIME_SOURCE_TYPE_NONE 0

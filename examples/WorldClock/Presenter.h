@@ -112,11 +112,8 @@ class Presenter {
       } else {
         printPad2(mOled, hour);
       }
-      if (!mRenderingInfo.blinkingColon || shouldShowFor(MODE_DATE_TIME)) {
-        mOled.print(':');
-      } else {
-        mOled.print(' ');
-      }
+      mOled.print((!mRenderingInfo.blinkingColon || shouldShowFor(MODE_DATE_TIME))
+          ? ':' : ' ');
       printPad2(mOled, dateTime.minute());
 
       // AM/PM indicator
@@ -227,7 +224,7 @@ class Presenter {
     }
 
     void displayClockInfo() const {
-      mOled.print("12/24: ");
+      mOled.print(F("12/24: "));
       if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
         mOled.print(mRenderingInfo.hourMode == ClockInfo::kTwelve
             ? "12" : "24");
@@ -236,7 +233,7 @@ class Presenter {
       }
 
       mOled.println();
-      mOled.print("Blink: ");
+      mOled.print(F("Blink: "));
       if (shouldShowFor(MODE_CHANGE_BLINKING_COLON)) {
         mOled.print(mRenderingInfo.blinkingColon ? "on " : "off");
       } else {

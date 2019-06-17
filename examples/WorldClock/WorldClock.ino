@@ -103,7 +103,7 @@ ExtendedZoneSpecifier zspec2(&zonedbx::kZoneEurope_London);
 #endif
 Controller controller(systemTimeKeeper, crcEeprom,
     presenter0, presenter1, presenter2,
-    zspec0, zspec1, zspec2);
+    zspec0, zspec1, zspec2, "SFO", "PHL", "LHR");
 
 // The RTC has a resolution of only 1s, so we need to poll it fast enough to
 // make it appear that the display is tracking it correctly. The benchmarking
@@ -212,8 +212,8 @@ void setup() {
 
   controller.setup();
 
-  systemTimeSync.setupCoroutine(F("systemTimeSync"));
-  systemTimeHeartbeat.setupCoroutine(F("systemTimeHeartbeat"));
+  systemTimeSync.setupCoroutine("s");
+  systemTimeHeartbeat.setupCoroutine("h");
   CoroutineScheduler::setup();
 
 #if ENABLE_SERIAL == 1
