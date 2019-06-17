@@ -15,6 +15,7 @@
 
 using namespace ace_time;
 
+// ZoneSpecifier instances should be created statically at initialization time.
 static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
 static BasicZoneSpecifier easternSpec(&zonedb::kZoneAmerica_New_York);
 static ExtendedZoneSpecifier turkeySpec(&zonedbx::kZoneEurope_Istanbul);
@@ -60,10 +61,10 @@ void setup() {
   turkeyTime.printTo(Serial);
   Serial.println();
 
-  Serial.print(F("pacific.compareTo(turkey): "));
+  Serial.print(F("pacificTime.compareTo(turkeyTime): "));
   Serial.println(pacificTime.compareTo(turkeyTime));
 
-  Serial.print(F("pacific == turkey: "));
+  Serial.print(F("pacificTime == turkeyTime: "));
   Serial.println((pacificTime == turkeyTime) ? "true" : "false");
 
 #ifndef ARDUINO
