@@ -93,14 +93,20 @@ class Presenter {
       }
     }
 
-    void displayDateTime() const {
+    void displayDateTime() {
+      mOled.setFont(fixed_bold10x15);
+
       const ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
           mRenderingInfo.now, mRenderingInfo.timeZone);
-
-      mOled.setFont(fixed_bold10x15);
-      mOled.set2X();
+      if (dateTime.isError()) {
+        mOled.println(F("9999-99-99"));
+        mOled.println(F("99:99:99"));
+        mOled.println(F("Error"));
+        return;
+      }
 
       // time
+      mOled.set2X();
       uint8_t hour = dateTime.hour();
       if (mRenderingInfo.hourMode == ClockInfo::kTwelve) {
         if (hour == 0) {
@@ -112,7 +118,8 @@ class Presenter {
       } else {
         printPad2(mOled, hour);
       }
-      mOled.print((!mRenderingInfo.blinkingColon || shouldShowFor(MODE_DATE_TIME))
+      mOled.print(
+          (! mRenderingInfo.blinkingColon || shouldShowFor(MODE_DATE_TIME))
           ? ':' : ' ');
       printPad2(mOled, dateTime.minute());
 
