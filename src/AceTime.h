@@ -30,6 +30,7 @@
 #include "ace_time/ZonedDateTime.h"
 #include "ace_time/date_time_mutation.h"
 #include "ace_time/TimePeriod.h"
+#include "ace_time/time_period_mutation.h"
 #include "ace_time/provider/TimeProvider.h"
 #include "ace_time/provider/TimeKeeper.h"
 #include "ace_time/provider/NtpTimeProvider.h"

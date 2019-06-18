@@ -1169,8 +1169,6 @@ class TimePeriod {
 
     int32_t toSeconds() const;
 
-    void negate();
-
     int8_t compareTo(const TimePeriod& that) const;
     void printTo(Print& printer) const;
 };
@@ -1186,7 +1184,8 @@ we can print out a countdown to a target `ZonedDateTime` from the current
 ```C++
 ZonedDateTime currentDate = ...;
 ZonedDateTime targetDate = ...;
-acetime_t diffSeconds = targetDate.toEpochSeconds() - currentDate.toEpochSeconds();
+acetime_t diffSeconds = targetDate.toEpochSeconds()
+    - currentDate.toEpochSeconds();
 TimePeriod timePeriod(diffSeconds);
 timePeriod.printTo(Serial)
 ```

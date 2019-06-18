@@ -93,24 +93,6 @@ class TimePeriod {
       return (mSign >= 0) ? seconds : -seconds;
     }
 
-    /** Change the sign of the object. */
-    void negate() { mSign = -mSign; }
-
-    /** Increment the hour component by one, modulo 24. */
-    void incrementHour() {
-      common::incrementMod(mHour, (uint8_t) 24);
-    }
-
-    /** Increment the hour by one, modulo 'limit'. */
-    void incrementHour(uint8_t limit) {
-      common::incrementMod(mHour, limit);
-    }
-
-    /** Increment the minute by one, modulo 60. */
-    void incrementMinute() {
-      common::incrementMod(mMinute, (uint8_t) 60);
-    }
-
     /**
      * Compare this TimePeriod with another TimePeriod and return (<0, 0, >0)
      * according to (a<b, a==b, a>b).
