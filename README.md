@@ -1890,12 +1890,13 @@ only a handful of zones are used, which is the expected use case of AceTime.
       of `ZonedDateTime`. Testing was performed from 2000 to until 2050.
 * `ExtendedZoneSpecifier`
     * There are 5 time zones (as of version 2019a of the TZ Database, see
-      the bottom of `zonedbx/zone_infos.h`) which have DST transitions that occur at 00:01
-      (one minute after midnight). This transition cannot be represented as a
-      multiple of 15-minutes. The transition times of these zones have been
-      shifted to the nearest 15-minute boundary, in other words, the transitions
-      occur at 00:00 instead of 00:01. Clocks based on `ExtendedZoneSpecifier`
-      will be off by one hour during the 1-minute interval from 00:00 and 00:01.
+      the bottom of `zonedbx/zone_infos.h`) which have DST transitions that
+      occur at 00:01 (one minute after midnight). This transition cannot be
+      represented as a multiple of 15-minutes. The transition times of these
+      zones have been shifted to the nearest 15-minute boundary, in other words,
+      the transitions occur at 00:00 instead of 00:01. Clocks based on
+      `ExtendedZoneSpecifier` will be off by one hour during the 1-minute
+      interval from 00:00 and 00:01.
     * Fortunately all of these transitions happen before 2012. If you are
       interested in only dates after 2019, then this will not affect you.
 * `NtpTimeProvider`
@@ -1933,6 +1934,11 @@ only a handful of zones are used, which is the expected use case of AceTime.
       keyword to store them only on flash. Fortunately, most `ZoneInfo`
       instances are only 40-60 bytes and the corresponding `ZonePolicy`
       instances are 50-100 bytes.
+* TZ Database
+    * The TZ data files contain 3 types of records: Zone, Rule and Link.
+      We do not yet support Link entries which are essentiallly symbolic links
+      of one timezone identifier to another. This will be added in a later
+      version.
 
 ## Changelog
 
