@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include "../common/common.h"
+#include "../LocalTime.h"
 
 namespace ace_time {
 namespace provider {
@@ -13,7 +14,7 @@ namespace provider {
  */
 class TimeProvider {
   public:
-    static const acetime_t kInvalidSeconds = INT32_MAX;
+    static const acetime_t kInvalidSeconds = LocalTime::kInvalidSeconds;
 
     /** Virtual destructor. Unused except in unit tests. */
     virtual ~TimeProvider() {}
