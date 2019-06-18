@@ -64,9 +64,13 @@ C++ namespaces:
     * `ace_time::common::DateStrings`
     * `ace_time::common::ZoneContext`
     * `ace_time::basic::ZoneInfo`
+    * `ace_time::basic::ZoneEra`
     * `ace_time::basic::ZonePolicy`
+    * `ace_time::basic::ZoneRule`
     * `ace_time::extended::ZoneInfo`
+    * `ace_time::extended::ZoneEra`
     * `ace_time::extended::ZonePolicy`
+    * `ace_time::extended::ZoneRule`
 
 The "date and time" classes provide a thin abstraction layer to make it easier
 to use and manipulate date and time fields. For example, each of the
@@ -278,12 +282,14 @@ The source files are organized as follows:
 * `src/ace_time/hw/` - thin hardware abstraction layer
 * `src/ace_time/provider/` - providers from RTC or NTP sources
 * `src/ace_time/testing/` - files used in unit tests
-* `src/ace_time/zonedb/` - files generated from TZ Database for `BasicZoneSpecifier`
-* `src/ace_time/zonedbx/` - files generated from TZ Database for `ExtendedZoneSpecifier`
+* `src/ace_time/zonedb/` - files generated from TZ Database for
+  `BasicZoneSpecifier`
+* `src/ace_time/zonedbx/` - files generated from TZ Database for
+  `ExtendedZoneSpecifier`
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `examples/` - example programs
-* `tools/` - parser for the TZ Database files, code generators for `zonedb::` and
-  `zonedbx::` zone files, and code generators for various unit tests
+* `tools/` - parser for the TZ Database files, code generators for `zonedb::`
+  and `zonedbx::` zone files, and code generators for various unit tests
 
 ### Dependencies
 
@@ -310,6 +316,13 @@ usually have more precise dependency information:
 * [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
 * [Arduino Timezone](https://github.com/JChristensen/Timezone)
 
+Various scripts in the `tools/` directory depend on:
+
+* [TZ Database on GitHub](https://github.com/eggert/tz)
+* [pytz library](https://pypi.org/project/pytz/)
+* Python 3.5 or greater
+* Java OpenJDK 11
+
 ### Docs
 
 The [docs/](docs/) directory contains the
@@ -321,6 +334,10 @@ The following example sketches are provided:
 
 * [HelloTime](examples/HelloTime/)
     * demo program of various date and time classes
+* [HelloSystemClock](examples/HelloSystemClock/)
+    * demo program of `SystemClock`
+* [HelloSystemClockCoroutine](examples/HelloSystemClockCoroutine/)
+    * same as `SystemClock` but using AceRoutine coroutines
 * [CommandLineClock](examples/CommandLineClock/)
     * a clock with a DS3231 RTC chip, an NTP client, and using the serial port
       for receiving commands and printing results, useful for debugging
@@ -367,7 +384,7 @@ ace_time::hw    |     ace_time::basic
 ```
 
 To use the classes without prepending the namespace prefixes, use one or more of
-the following `using` one or more of the following directives:
+the following `using` directives:
 
 ```C++
 #include <AceTime.h>
@@ -382,6 +399,7 @@ using namespace ace_time::zonedbx;
 ### Epoch Seconds Typedef
 
 One of the fundamental types in AceTime is the `acetime_t` defined as:
+
 ```C++
 namespace ace_time {
 
@@ -390,8 +408,10 @@ typedef int32_t acetime_t;
 }
 ```
 This represents the number of seconds since the Epoch. In AceTime, the Epoch is
-defined to be 2000-01-01 00:00:00 UTC time. In contrast, Unix Epoch is defined
-to be 1970-01-01 00:00:00 UTC.
+defined to be 2000-01-01 00:00:00 UTC time. In contrast, the Unix Epoch is
+defined to be 1970-01-01 00:00:00 UTC. Since `acetime_t` is a 32-bit signed
+integer, the largest value is 2,147,483,647. Therefore, the largest date
+that can be represented in this library is 2068-01-19T03:14:07 UTC.
 
 ### LocalDate and LocalTime
 
@@ -407,7 +427,8 @@ class LocalTime {
   public:
     static const acetime_t kInvalidSeconds = INT32_MIN;
 
-    static LocalTime forComponents(uint8_t hour, uint8_t minute, uint8_t second);
+    static LocalTime forComponents(uint8_t hour, uint8_t minute,
+            uint8_t second);
     static LocalTime forSeconds(acetime_t seconds);
 
     bool isError() const;
@@ -617,6 +638,7 @@ class LocalDateTime {
 
     int8_t compareTo(const LocalDateTime& that) const;
     void printTo(Print& printer) const;
+    ...
 };
 
 }
@@ -634,6 +656,7 @@ acetime_t epoch_seconds = localDateTime.toEpochSeconds();
 ```
 
 We can go the other way and create a `LocalDateTime` from the Epoch Seconds:
+
 ```C++
 LocalDateTime localDateTime = LocalDateTime::forEpochSeconds(1514764800L);
 localDateTime.printTo(Serial); // prints "2018-01-01T00:00:00"
@@ -683,6 +706,7 @@ If the time offset is negative, then both the hour and minute components of
 the creation of UTC-00:15, UTC-00:30 and UTC-00:45.)
 
 A `TimeOffset` instance can be converted into different formats:
+
 ```C++
 int32_t seconds = offset.toSeconds();
 int16_t minutes = offset.toMinutes();
@@ -778,6 +802,7 @@ Serial.println(epochSeconds); // prints 568079100
 
 We can create an `OffsetDateTime` object from the seconds from Epoch using
 the `forEpochSeconds()` method:
+
 ```C++
 OffsetDateTime offsetDateTime = OffsetDateTime::forEpochSeconds(
     568079100, TimeOffset::forHourMinute(0, 15));
@@ -855,12 +880,14 @@ abbreviation used at the given `epochSeconds` to the `printer`.
 
 The default constructor creates a fixed `TimeZone` in UTC time zone with no
 offset:
+
 ```C++
 TimeZone tz; // UTC+00:00
 ```
 
 To create `TimeZone` instances with other offsets, use one of the factory
 methods:
+
 ```C++
 TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8)); // UTC-08:00
 TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30)); // UTC-04:30
@@ -871,6 +898,7 @@ TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30)); // UT
 A `ManualZoneSpecifier` describes a time zone which allows the user to set
 the UTC offset, and to select whether or not the DST offset is being observed.
 The constructor looks like this:
+
 ```C++
 ManualZoneSpecifier(
     TimeOffset stdOffset = TimeOffset(),
@@ -922,6 +950,7 @@ nothing.
 
 The `BasicZoneSpecifier` represents a time zone defined by the TZ Database. The
 constructor accepts a pointer to a `basic::ZoneInfo`:
+
 ```C++
 BasicZoneSpecifier(const basic::ZoneInfo* zoneInfo);
 ```
@@ -996,6 +1025,7 @@ zone infos are:
 * ...
 
 The usage is the same as `BasicZoneSpecifier`:
+
 ```C++
 ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
 
@@ -1126,6 +1156,7 @@ void someFunction() {
 
 You can convert a given `ZonedDateTime` object into a representation in a
 different time zone using the `DateTime::convertToTimeZone()` method:
+
 ```C++
 static BasicZoneSpecifier zspecLosAngeles(&zonedb::kZoneAmerica_Los_Angeles);
 static BasicZoneSpecifier zspecZurich(&zonedb::kZoneEurope_Zurich);
@@ -1203,13 +1234,13 @@ TimePeriod timePeriod(diffSeconds);
 timePeriod.printTo(Serial)
 ```
 
-### TimeProviders and TimeKeepers
+### SystemClock, TimeProviders and TimeKeepers
 
 The `acetime::provider` namespace contains classes needed to implement the
-System Clock. The `TimeProvider` interface implements the
+SystemClock. The `TimeProvider` interface implements the
 `TimeProvider::getNow()` method which returns an `acetime_t`. The `TimeKeeper`
-interface implements the `TimeKeeper::setNow(acetime_t)` method which sets the
-current time. A `TimeKeeper` is a subclass of `TimeProvider`.
+subinterface of `TimeProvider` implements the `TimeKeeper::setNow(acetime_t)`
+method which sets the current time.
 
 ```C++
 namespace ace_time {
@@ -1217,7 +1248,7 @@ namespace provider {
 
 class TimeProvider {
   public:
-    static const acetime_t kInvalidSeconds = INT32_MAX;
+    static const acetime_t kInvalidSeconds = LocalTime::kInvalidSeconds;
 
     virtual acetime_t getNow() const = 0;
     ...
@@ -1235,6 +1266,7 @@ class TimeKeeper: public TimeProvider {
 The `acetime_t` value can be converted into the desired time zone using the
 `ZonedDateTime` and `TimeZone` classes desribed in the previous section. For
 example, to print the current time in UTC, use something like:
+
 ```C++
 TimeProvider timeProvider = ...;
 acetime_t nowSeconds = timeProvider.getNow();
@@ -1245,6 +1277,84 @@ now.printTo(Serial);
 Various implementation class of `TimeProvider` and `TimeKeeper` are described in
 more detail the following subsections. All of these classes are in the
 `ace_time::provider` namespace.
+
+#### HelloSystemClock
+
+This is the example code for using the `SystemClock` taken from
+[HelloSystemClock](examples/HelloSystemClock/).
+
+```C++
+#include <AceTime.h>
+
+using namespace ace_time;
+using namespace ace_time::provider;
+
+// ZoneSpecifier instances should be created statically at initialization time.
+static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
+static BasicZoneSpecifier easternSpec(&zonedb::kZoneAmerica_New_York);
+
+SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
+SystemClockHeartbeatLoop systemClockHeartbeat(systemClock);
+
+//------------------------------------------------------------------
+
+void setup() {
+  delay(1000);
+  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  while (!Serial); // Wait until Serial is ready - Leonardo/Micro
+
+  systemClock.setup();
+
+  // Creating timezones is cheap, so we can create them on the fly as needed.
+  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
+
+  // Set the SystemClock using these components.
+  auto pacificTime = ZonedDateTime::forComponents(
+      2019, 6, 17, 19, 50, 0, pacificTz);
+  systemClock.setNow(pacificTime.toEpochSeconds());
+}
+
+//------------------------------------------------------------------
+
+void printCurrentTime() {
+  acetime_t now = systemClock.getNow();
+
+  // Create Pacific Time and print.
+  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
+  auto pacificTime = ZonedDateTime::forEpochSeconds(now, pacificTz);
+  Serial.print(F("Pacific Time: "));
+  pacificTime.printTo(Serial);
+  Serial.println();
+
+  // Convert to Eastern Time and print.
+  auto easternTz = TimeZone::forZoneSpecifier(&easternSpec);
+  auto easternTime = pacificTime.convertToTimeZone(easternTz);
+  Serial.print(F("Eastern Time: "));
+  easternTime.printTo(Serial);
+  Serial.println();
+
+  Serial.println();
+}
+
+void loop() {
+  printCurrentTime();
+  systemClockHeartbeat.loop(); // must call every 65s or less
+  delay(2000);
+}
+```
+
+This will start by setting the SystemClock to 2019-06-17T19:50:00-07:00,
+then printing the system time every 2 seconds in 2 time zones:
+```
+Pacific Time: 2019-06-17T19:50:00-07:00 Monday [America/Los_Angeles]
+Eastern Time: 2019-06-17T22:50:00-04:00 Monday [America/New_York]
+
+Pacific Time: 2019-06-17T19:50:02-07:00 Monday [America/Los_Angeles]
+Eastern Time: 2019-06-17T22:50:02-04:00 Monday [America/New_York]
+
+Pacific Time: 2019-06-17T19:50:04-07:00 Monday [America/Los_Angeles]
+Eastern Time: 2019-06-17T22:50:04-04:00 Monday [America/New_York]
+```
 
 #### NTP Time Provider
 
@@ -1316,7 +1426,7 @@ you delete the commit, they can be retrieved from the git history.
 #### DS3231 Time Keeper
 
 The `DS3231TimeKeeper` is the class describing the DS3231 RTC chip. It contains
-an internal 32kHz, temperature compensated osciallator that counts time in 1
+an internal temperature-compensated osciallator that counts time in 1
 second steps. It is often connected to a battery or a supercapacitor to survive
 power failures. The DS3231 chip stores the time broken down by various date and
 time components (i.e. year, month, day, hour, minute, seconds). It contains
@@ -1427,7 +1537,9 @@ clock source (e.g. the `NtpTimeProvider`). The time is saved to the backup time
 keeper whenever the `SystemClock` is synced with the external time
 provider.
 
-Here is how to set up the `SystemClock`:
+Here is how to set up the `SystemClock` with the `NtpTimeProvider` and
+`DS3231TimeKeeper` as sync and backup time sources:
+
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
@@ -1459,6 +1571,7 @@ void loop() {
 
 If you wanted to use the `DS3231TimeKeeper` as *both* the backup and sync
 time sources, then the setup would something like this:
+
 ```C++
 DS3231TimeKeeper dsTimeKeeper;
 SystemClock systemClock(

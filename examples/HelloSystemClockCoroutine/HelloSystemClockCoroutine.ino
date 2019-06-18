@@ -37,7 +37,7 @@ void setup() {
   systemClock.setup();
 
   // Creating timezones is cheap, so we can create them on the fly as needed.
-	auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
+  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
 
   // Set the SystemClock using these components.
   auto pacificTime = ZonedDateTime::forComponents(
@@ -51,19 +51,18 @@ void setup() {
 //------------------------------------------------------------------
 
 void printCurrentTime() {
-  // Create Pacific Time from epoch seconds
-	auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
-  auto pacificTime = ZonedDateTime::forEpochSeconds(
-      systemClock.getNow(), pacificTz);
+  acetime_t now = systemClock.getNow();
 
+  // Create Pacific Time and print.
+  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
+  auto pacificTime = ZonedDateTime::forEpochSeconds(now, pacificTz);
   Serial.print(F("Pacific Time: "));
   pacificTime.printTo(Serial);
   Serial.println();
 
-  // Convert to Eastern Time.
-	auto easternTz = TimeZone::forZoneSpecifier(&easternSpec);
+  // Convert to Eastern Time and print.
+  auto easternTz = TimeZone::forZoneSpecifier(&easternSpec);
   auto easternTime = pacificTime.convertToTimeZone(easternTz);
-
   Serial.print(F("Eastern Time: "));
   easternTime.printTo(Serial);
   Serial.println();
