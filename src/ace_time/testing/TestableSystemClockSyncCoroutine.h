@@ -9,10 +9,10 @@ namespace ace_time {
 namespace testing {
 
 class TestableSystemClockSyncCoroutine:
-    public provider::SystemClockSyncCoroutine {
+    public clock::SystemClockSyncCoroutine {
   public:
     TestableSystemClockSyncCoroutine(
-        provider::SystemClock& systemClock,
+        clock::SystemClock& systemClock,
         FakeMillis* fakeMillis):
       SystemClockSyncCoroutine(systemClock),
       mFakeMillis(fakeMillis) {}

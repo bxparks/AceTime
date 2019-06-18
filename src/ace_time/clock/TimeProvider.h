@@ -6,7 +6,7 @@
 #include "../LocalTime.h"
 
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 /**
  * Base class for objects that provide a source of time whose time cannot be

@@ -50,7 +50,7 @@
 using namespace ace_routine;
 using namespace ace_routine::cli;
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 //---------------------------------------------------------------------------
 // Compensate for buggy F() implementation in ESP8266.

@@ -3,7 +3,7 @@
 #if defined(ESP8266) || defined(ESP32)
 
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 const char NtpTimeProvider::kNtpServerName[] = "us.pool.ntp.org";
 

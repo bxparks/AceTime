@@ -5,7 +5,7 @@
 #include "SystemClock.h"
 
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 /**
  * A class that peridically freshens the SystemClock using the heartbeat

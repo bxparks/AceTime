@@ -18,7 +18,7 @@ The source files are organized as follows:
 * `src/ace_time/` - date and time files
 * `src/ace_time/common/` - internal shared files
 * `src/ace_time/hw/` - thin hardware abstraction layer
-* `src/ace_time/provider/` - providers from RTC or NTP sources
+* `src/ace_time/clock/` - system clock from RTC or NTP sources
 * `src/ace_time/testing/` - files used in unit tests
 * `src/ace_time/zonedb/` - files generated from TZ Database for
   `BasicZoneSpecifier`
@@ -188,7 +188,7 @@ classes are separated into a number of namespaces. They are related in the
 following way, where the arrow means "depends on":
 
 ```
-ace_time::provider
+ace_time::clock
       |      \
       |       \
       |        v
@@ -213,7 +213,7 @@ the following `using` directives:
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 using namespace ace_time::common;
 using namespace ace_time::zonedb;
 using namespace ace_time::zonedbx;
@@ -1062,7 +1062,7 @@ timePeriod.printTo(Serial)
 
 ## SystemClock, TimeProviders and TimeKeepers
 
-The `acetime::provider` namespace contains classes needed to implement the
+The `acetime::clock` namespace contains classes needed to implement the
 SystemClock. The `TimeProvider` interface implements the
 `TimeProvider::getNow()` method which returns an `acetime_t`. The `TimeKeeper`
 subinterface of `TimeProvider` implements the `TimeKeeper::setNow(acetime_t)`
@@ -1070,7 +1070,7 @@ method which sets the current time.
 
 ```C++
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 class TimeProvider {
   public:
@@ -1102,7 +1102,7 @@ now.printTo(Serial);
 
 Various implementation class of `TimeProvider` and `TimeKeeper` are described in
 more detail the following subsections. All of these classes are in the
-`ace_time::provider` namespace.
+`ace_time::clock` namespace.
 
 ### NTP Time Provider
 
@@ -1114,7 +1114,7 @@ which have default values so they are optional.
 
 ```C++
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 class NtpTimeProvider: public TimeProvider {
   public:
@@ -1140,7 +1140,7 @@ be established.
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 const char SSID[] = ...; // Warning: don't store SSID in GitHub
 const char PASSWORD[] = ...; // Warning: don't store passwd in GitHub
@@ -1185,7 +1185,7 @@ stored on the chip is in **UTC** time.
 
 ```C++
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 class DS3231TimeKeeper: public TimeKeeper {
   public:
@@ -1211,7 +1211,7 @@ function to initialize the object. Here is a sample that
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 DS3231TimeKeeper dsTimeKeeper;
 ...
@@ -1245,7 +1245,7 @@ which can be unpredictably slow.
 
 ```C++
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 class SystemClock: public TimeKeeper {
   public:
@@ -1283,7 +1283,7 @@ battery backup). When the `SystemClock` starts up, it will read the backup
 `TimeKeeper` and set the current time. Then it can synchronize with an external
 clock source (e.g. the `NtpTimeProvider`). The time is saved to the backup time
 keeper whenever the `SystemClock` is synced with the external time
-provider.
+clock.
 
 Here is how to set up the `SystemClock` with the `NtpTimeProvider` and
 `DS3231TimeKeeper` as sync and backup time sources:
@@ -1291,7 +1291,7 @@ Here is how to set up the `SystemClock` with the `NtpTimeProvider` and
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 DS3231TimeKeeper dsTimeKeeper;
 NtpTimeProvider ntpTimeProvider(SSID, PASSWORD);
@@ -1366,7 +1366,7 @@ Secondly, since the internal `millis()` clock is not very accurate, we must
 synchronize the `SystemClock` periodically with a more accurate time
 source. The frequency of this syncing depends on the accuracy of the `millis()`
 (which depends on the hardware oscillator of the chip) and the cost of the call
-to the `getNow()` method of the syncing time provider. If the syncing time
+to the `getNow()` method of the syncing time clock. If the syncing time
 source is the DS3231 chip, syncing once every 1-10 minutes might be sufficient
 since talking to the RTC chip is relatively cheap. If the syncing time source is
 the `NtpTimeProvider`, the network connection is fairly expensive so maybe once
@@ -1385,7 +1385,7 @@ insert them somewhere into the global `loop()` method, like this:
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 ...
 
 SystemClock systemClock(...);
@@ -1415,7 +1415,7 @@ configure it to run using the `CoroutineScheduler`:
 #include <AceRoutine.h> // include this before <AceTime.h>
 #include <AceTime.h>
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 using namespace ace_routine;
 ...
 

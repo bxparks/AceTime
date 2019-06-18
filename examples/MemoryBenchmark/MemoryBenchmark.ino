@@ -22,7 +22,7 @@
 #if FEATURE != FEATURE_BASELINE
 #include <AceTime.h>
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 #endif
 
 // Set this variable to prevent the compiler optimizer from removing the code

@@ -10,7 +10,7 @@
 #include "TimeKeeper.h"
 
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 /**
  * An implementation of TimeKeeper that uses a DS3231 RTC chip.

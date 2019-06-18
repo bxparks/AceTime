@@ -5,7 +5,7 @@
 #include "TimeProvider.h"
 
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 /**
  * A TimeProvider whose time can be set by the end-user. For example, an RTC

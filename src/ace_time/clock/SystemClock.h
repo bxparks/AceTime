@@ -8,7 +8,7 @@
 #include "TimeKeeper.h"
 
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 /**
  * A TimeKeeper that uses the Arduino millis() function to advance the time

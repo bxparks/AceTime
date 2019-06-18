@@ -5,7 +5,7 @@
 #include "SystemClock.h"
 
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 /**
  * A class that periodically that syncs the SystemClock with its
