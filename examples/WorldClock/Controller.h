@@ -10,7 +10,7 @@
 
 using namespace ace_time;
 using namespace ace_time::common;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 /**
  * Maintains the internal state of the world clock, handling button inputs,

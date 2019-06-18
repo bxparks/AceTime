@@ -8,7 +8,7 @@
 class SystemClockSyncCoroutineTest;
 
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 /**
  * A coroutine that syncs the SystemClock with its syncTimeProvider.

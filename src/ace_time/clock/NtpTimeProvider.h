@@ -18,7 +18,7 @@
 #endif
 
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 /**
  * A TimeProvider that retrieves the time from an NTP server. This class has the

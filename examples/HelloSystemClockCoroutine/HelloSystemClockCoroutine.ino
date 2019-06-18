@@ -17,7 +17,7 @@
 #include <AceTime.h>
 
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 using namespace ace_routine;
 
 // ZoneSpecifier instances should be created statically at initialization time.

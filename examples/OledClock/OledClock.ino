@@ -31,7 +31,7 @@
 using namespace ace_button;
 using namespace ace_routine;
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 //------------------------------------------------------------------
 // Configure CrcEeprom.

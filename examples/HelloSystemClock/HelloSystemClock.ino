@@ -16,7 +16,7 @@
 #include <AceTime.h>
 
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 // ZoneSpecifier instances should be created statically at initialization time.
 static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);

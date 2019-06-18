@@ -10,7 +10,7 @@
 #include "Benchmark.h"
 
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 void setup() {
 #if defined(ARDUINO)
@@ -79,7 +79,7 @@ void setup() {
   Serial.print(F("sizeof(TimePeriod): "));
   Serial.println(sizeof(TimePeriod));
 
-  // ace_time::provider classes
+  // ace_time::clock classes
 
   Serial.print(F("sizeof(SystemClock): "));
   Serial.println(sizeof(SystemClock));

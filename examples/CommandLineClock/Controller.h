@@ -7,7 +7,7 @@
 #include "StoredInfo.h"
 
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 class Controller {
   public:

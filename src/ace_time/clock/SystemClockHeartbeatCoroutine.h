@@ -5,7 +5,7 @@
 #include "SystemClock.h"
 
 namespace ace_time {
-namespace provider {
+namespace clock {
 
 /**
  * A coroutine that calls SystemClock.getNow() peridically. This must be
