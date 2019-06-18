@@ -45,7 +45,7 @@ class LocalTime {
      *
      * @param seconds number of seconds from midnight, (0-86399)
      */
-    static LocalTime forSeconds(acetime_t seconds)  {
+    static LocalTime forSeconds(acetime_t seconds) {
       uint8_t second, minute, hour;
 
       if (seconds == kInvalidSeconds) {

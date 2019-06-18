@@ -212,13 +212,6 @@ class OffsetDateTime {
     }
 
     /**
-     * Print OffsetDateTime to 'printer' in ISO 8601 format.
-     * This class does not implement the Printable interface to avoid
-     * increasing the size of the object from the additional virtual function.
-     */
-    void printTo(Print& printer) const;
-
-    /**
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
      * taking into account the offset zone.
      */
@@ -275,6 +268,13 @@ class OffsetDateTime {
       if (thisSeconds > thatSeconds) return 1;
       return 0;
     }
+
+    /**
+     * Print OffsetDateTime to 'printer' in ISO 8601 format.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
+     */
+    void printTo(Print& printer) const;
 
     // Use default copy constructor and assignment operator.
     OffsetDateTime(const OffsetDateTime&) = default;

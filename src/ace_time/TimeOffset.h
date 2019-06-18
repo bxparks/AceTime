@@ -103,13 +103,6 @@ class TimeOffset {
     /** Constructor. Create a time zone corresponding to UTC with no offset. */
     explicit TimeOffset() {}
 
-    /**
-     * Returns true if offset is 00:00. If this represents a time zone, then
-     * isZero means that it is UTC. If this represents a DST delta offset, then
-     * isZero means that the time zone is in standard time.
-     */
-    bool isZero() const { return mOffsetCode == 0; }
-
     /** Return the time offset as the number of 15 minute increments. */
     int8_t toOffsetCode() const { return mOffsetCode; }
 
@@ -132,6 +125,13 @@ class TimeOffset {
       hour = mOffsetCode / 4;
       minute = (mOffsetCode % 4) * 15;
     }
+
+    /**
+     * Returns true if offset is 00:00. If this represents a time zone, then
+     * isZero means that it is UTC. If this represents a DST delta offset, then
+     * isZero means that the time zone is in standard time.
+     */
+    bool isZero() const { return mOffsetCode == 0; }
 
     /** Return true if this TimeOffset represents an error. */
     bool isError() const {

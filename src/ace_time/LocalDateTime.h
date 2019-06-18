@@ -176,13 +176,6 @@ class LocalDateTime {
     const LocalTime& localTime() const { return mLocalTime; }
 
     /**
-     * Print LocalDateTime to 'printer' in ISO 8601 format.
-     * This class does not implement the Printable interface to avoid
-     * increasing the size of the object from the additional virtual function.
-     */
-    void printTo(Print& printer) const;
-
-    /**
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z).
      */
     acetime_t toEpochDays() const {
@@ -230,6 +223,13 @@ class LocalDateTime {
       if (thisSeconds > thatSeconds) return 1;
       return 0;
     }
+
+    /**
+     * Print LocalDateTime to 'printer' in ISO 8601 format.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
+     */
+    void printTo(Print& printer) const;
 
     // Use default copy constructor and assignment operator.
     LocalDateTime(const LocalDateTime&) = default;
