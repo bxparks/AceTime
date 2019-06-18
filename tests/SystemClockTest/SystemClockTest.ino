@@ -14,6 +14,20 @@ using namespace ace_time::provider;
 using namespace ace_time::common;
 using namespace ace_time::testing;
 
+//---------------------------------------------------------------------------
+
+// Verify that LocalTime::kInvalidSeconds is returned upon error
+test(SystemClockTest, invalidSeconds) {
+  FakeMillis* fakeMillis = new FakeMillis();
+  FakeTimeKeeper* backupAndSyncTimeKeeper = new FakeTimeKeeper();
+  TestableSystemClock* systemClock = new TestableSystemClock(
+      backupAndSyncTimeKeeper, backupAndSyncTimeKeeper, fakeMillis);
+  acetime_t now = systemClock->getNow();
+  assertEqual(LocalTime::kInvalidSeconds, now);
+}
+
+//---------------------------------------------------------------------------
+
 class SystemClockTest: public TestOnce {
   protected:
     void setup() override {
