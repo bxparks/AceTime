@@ -45,24 +45,43 @@ test(OffsetDateTimeTest, isError) {
       TimeOffset());
   assertFalse(dt.isError());
 
+  // bad year
+  dt = OffsetDateTime::forComponents(0, 0, 1, 0, 0, 0, TimeOffset());
+  assertTrue(dt.isError());
+
+  // bad year
+  dt = OffsetDateTime::forComponents(1872, 0, 1, 0, 0, 0, TimeOffset());
+  assertTrue(dt.isError());
+
+  // bad year
+  dt = OffsetDateTime::forComponents(2128, 255, 1, 0, 0, 0, TimeOffset());
+  assertTrue(dt.isError());
+
+  // bad month
   dt = OffsetDateTime::forComponents(2018, 0, 1, 0, 0, 0, TimeOffset());
   assertTrue(dt.isError());
 
+  // bad month
   dt = OffsetDateTime::forComponents(2018, 255, 1, 0, 0, 0, TimeOffset());
   assertTrue(dt.isError());
 
+  // bad day
   dt = OffsetDateTime::forComponents(2018, 1, 0, 0, 0, 0, TimeOffset());
   assertTrue(dt.isError());
 
+  // bad day
   dt = OffsetDateTime::forComponents(2018, 1, 255, 0, 0, 0, TimeOffset());
   assertTrue(dt.isError());
 
+  // bad hour
   dt = OffsetDateTime::forComponents(2018, 1, 1, 255, 0, 0, TimeOffset());
   assertTrue(dt.isError());
 
+  // bad minute
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 255, 0, TimeOffset());
   assertTrue(dt.isError());
 
+  // bad second
   dt = OffsetDateTime::forComponents(2018, 1, 1, 0, 0, 255, TimeOffset());
   assertTrue(dt.isError());
 }
