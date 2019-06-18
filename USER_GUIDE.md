@@ -1,5 +1,97 @@
 # AceTime Library User Guide
 
+## Installation
+
+The latest stable release will soon be available in the Arduino IDE Library
+Manager. Search for "AceTime". Click Install.
+
+The development version can be installed by cloning the
+[GitHub repository](https://github.com/bxparks/AceTime), checking out the
+`develop` branch, then manually copying over the contents to the `./libraries`
+directory used by the Arduino IDE. (The result is a directory named
+`./libraries/AceTime`.) The `master` branch contains the stable release.
+
+### Source Code
+
+The source files are organized as follows:
+* `src/AceTime.h` - main header file
+* `src/ace_time/` - date and time files
+* `src/ace_time/common/` - internal shared files
+* `src/ace_time/hw/` - thin hardware abstraction layer
+* `src/ace_time/provider/` - providers from RTC or NTP sources
+* `src/ace_time/testing/` - files used in unit tests
+* `src/ace_time/zonedb/` - files generated from TZ Database for
+  `BasicZoneSpecifier`
+* `src/ace_time/zonedbx/` - files generated from TZ Database for
+  `ExtendedZoneSpecifier`
+* `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
+* `examples/` - example programs
+* `tools/` - parser for the TZ Database files, code generators for `zonedb::`
+  and `zonedbx::` zone files, and code generators for various unit tests
+
+### Dependencies
+
+The vast majority of the AceTime library has no dependency to any other external
+libraries. There is an optional dependency to
+[AceRoutine](https://github.com/bxparks/AceRoutine) if you want to use the
+`SystemClockSyncCoroutine` and `SystemClockHeartbeatCoroutine` classes for
+automatic syncing and freshening. (This is recommended but not strictly
+necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to the FastCRC
+library but the `CrcEeprom.h` file is not included in the `AceTime.h` main
+header file, so you should not need FastCRC to compile AceTime. (The
+`CrcEeprom.h` header file does not strictly belong in the AceTime library but
+many of my "clock" projects that use the AceTime library also use the
+`CrcEeprom` class, so this is a convenient place to keep it.)
+
+Various programs in the `examples/` directory have one or more of the following
+external dependencies. The comment section near the top of the `*.ino` file will
+usually have more precise dependency information:
+
+* [AceRoutine](https://github.com/bxparks/AceRoutine)
+* [AceButton](https://github.com/bxparks/AceButton)
+* [FastCRC](https://github.com/FrankBoesing/FastCRC)
+* [SSD1306Ascii](https://github.com/greiman/SSD1306Ascii)
+* [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
+* [Arduino Timezone](https://github.com/JChristensen/Timezone)
+
+Various scripts in the `tools/` directory depend on:
+
+* [TZ Database on GitHub](https://github.com/eggert/tz)
+* [pytz library](https://pypi.org/project/pytz/)
+* Python 3.5 or greater
+* Java OpenJDK 11
+
+### Doxygen Docs
+
+The [docs/](docs/) directory contains the
+[Doxygen docs on GitHub Pages](https://bxparks.github.io/AceTime/html).
+
+### Examples
+
+The following programs are provided in the `examples/` directory:
+
+* [HelloTime](examples/HelloTime/)
+    * demo program of various date and time classes
+* [HelloSystemClock](examples/HelloSystemClock/)
+    * demo program of `SystemClock`
+* [HelloSystemClockCoroutine](examples/HelloSystemClockCoroutine/)
+    * same as `SystemClock` but using AceRoutine coroutines
+* [CommandLineClock](examples/CommandLineClock/)
+    * a clock with a DS3231 RTC chip, an NTP client, and using the serial port
+      for receiving commands and printing results, useful for debugging
+* [OledClock](examples/OledClock/)
+    * a digital clock using a DS3231 RTC chip, an NTP client, 2 buttons, and an
+      SSD1306 OLED display
+* [WorldClock](examples/WorldClock/)
+    * a clock with 3 OLED screens showing the time at 3 different time zones
+* [AutoBenchmark](examples/AutoBenchmark/)
+    * perform CPU and memory benchmarking of various methods and print a report
+* [ComparisonBenchmark](examples/ComparisonBenchmark/)
+    * compare AceTime with
+    [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
+* [CrcEepromDemo](examples/CrcEepromDemo/)
+    * a program that verifies the `CrcEeprom` class
+
 ## Motivation and Design Considerations
 
 In the beginning, I created a digital clock using an Arduino Nano board, a small
@@ -88,9 +180,7 @@ timezones in the TZ Database. It also aims to be as portable as possible, and
 will support AVR microcontrollers, as well as ESP8266, ESP32 and most Teensy
 microcontrollers.
 
-## Date and Time Classes
-
-### Headers and Namespaces
+## Headers and Namespaces
 
 Only a single header file `AceTime.h` is required to use this library.
 To prevent name clashes with other libraries that the calling code may use, all
@@ -129,6 +219,8 @@ using namespace ace_time::zonedb;
 using namespace ace_time::zonedbx;
 ...
 ```
+
+## Date and Time Classes
 
 ### Epoch Seconds Typedef
 
@@ -1012,84 +1104,6 @@ Various implementation class of `TimeProvider` and `TimeKeeper` are described in
 more detail the following subsections. All of these classes are in the
 `ace_time::provider` namespace.
 
-### HelloSystemClock
-
-This is the example code for using the `SystemClock` taken from
-[HelloSystemClock](examples/HelloSystemClock/).
-
-```C++
-#include <AceTime.h>
-
-using namespace ace_time;
-using namespace ace_time::provider;
-
-// ZoneSpecifier instances should be created statically at initialization time.
-static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
-static BasicZoneSpecifier easternSpec(&zonedb::kZoneAmerica_New_York);
-
-SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
-SystemClockHeartbeatLoop systemClockHeartbeat(systemClock);
-
-//------------------------------------------------------------------
-
-void setup() {
-  delay(1000);
-  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
-  while (!Serial); // Wait until Serial is ready - Leonardo/Micro
-
-  systemClock.setup();
-
-  // Creating timezones is cheap, so we can create them on the fly as needed.
-  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
-
-  // Set the SystemClock using these components.
-  auto pacificTime = ZonedDateTime::forComponents(
-      2019, 6, 17, 19, 50, 0, pacificTz);
-  systemClock.setNow(pacificTime.toEpochSeconds());
-}
-
-//------------------------------------------------------------------
-
-void printCurrentTime() {
-  acetime_t now = systemClock.getNow();
-
-  // Create Pacific Time and print.
-  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
-  auto pacificTime = ZonedDateTime::forEpochSeconds(now, pacificTz);
-  Serial.print(F("Pacific Time: "));
-  pacificTime.printTo(Serial);
-  Serial.println();
-
-  // Convert to Eastern Time and print.
-  auto easternTz = TimeZone::forZoneSpecifier(&easternSpec);
-  auto easternTime = pacificTime.convertToTimeZone(easternTz);
-  Serial.print(F("Eastern Time: "));
-  easternTime.printTo(Serial);
-  Serial.println();
-
-  Serial.println();
-}
-
-void loop() {
-  printCurrentTime();
-  systemClockHeartbeat.loop(); // must call every 65s or less
-  delay(2000);
-}
-```
-
-This will start by setting the SystemClock to 2019-06-17T19:50:00-07:00,
-then printing the system time every 2 seconds in 2 time zones:
-```
-Pacific Time: 2019-06-17T19:50:00-07:00 Monday [America/Los_Angeles]
-Eastern Time: 2019-06-17T22:50:00-04:00 Monday [America/New_York]
-
-Pacific Time: 2019-06-17T19:50:02-07:00 Monday [America/Los_Angeles]
-Eastern Time: 2019-06-17T22:50:02-04:00 Monday [America/New_York]
-
-Pacific Time: 2019-06-17T19:50:04-07:00 Monday [America/Los_Angeles]
-Eastern Time: 2019-06-17T22:50:04-04:00 Monday [America/New_York]
-```
-
 ### NTP Time Provider
 
 The `NtpTimeProvider` is available on the ESP8266 and ESP32 which have builtin
@@ -1521,15 +1535,14 @@ Teensy 3.2 96MHz            |   2.330 |   22.390 |
 ----------------------------+---------+----------+
 ```
 
-The
-[AVR libc time library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html),
-is based on the UNIX/POSIX time library. I have not tried to use it on an
-Arduino platform. There are 2 things going against it: First it works only on
-AVR processors, and I wanted a time library that worked across multiple
-processors (like the ESP8266 and ESP32). Second, the AVR time library is based
-on the [traditional C/Unix library
-methods](http://www.catb.org/esr/time-programming/) which are very difficult to
-understand.
+The [AVR libc time
+library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html), is
+based on the UNIX/POSIX time library. I have not tried to use it on an Arduino
+platform. There are 2 things going against it: First it works only on AVR
+processors, and I wanted a time library that worked across multiple processors
+(like the ESP8266 and ESP32). Second, the AVR time library is based on the
+[traditional C/Unix library methods](http://www.catb.org/esr/time-programming/)
+which can be difficult to understand.
 
 The [ezTime](https://github.com/ropg/ezTime) is a library that seems to be
 composed of 2 parts: A client library that runs on the microcontroller and a
@@ -1639,4 +1652,3 @@ only a handful of zones are used, which is the expected use case of AceTime.
       We do not yet support Link entries which are essentiallly symbolic links
       of one timezone identifier to another. This will be added in a later
       version.
-

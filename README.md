@@ -187,102 +187,93 @@ Running this should produce the following on the Serial port:
  pacific == turkey: false
 ```
 
-## Installation
+## HelloSystemClock
 
-The latest stable release will soon be available in the Arduino IDE Library
-Manager. Search for "AceTime". Click Install.
+This is the example code for using the `SystemClock` taken from
+[HelloSystemClock](examples/HelloSystemClock/).
 
-The development version can be installed by cloning the
-[GitHub repository](https://github.com/bxparks/AceTime), checking out the
-`develop` branch, then manually copying over the contents to the `./libraries`
-directory used by the Arduino IDE. (The result is a directory named
-`./libraries/AceTime`.) The `master` branch contains the stable release.
+```C++
+#include <AceTime.h>
 
-### Source Code
+using namespace ace_time;
+using namespace ace_time::provider;
 
-The source files are organized as follows:
-* `src/AceTime.h` - main header file
-* `src/ace_time/` - date and time files
-* `src/ace_time/common/` - internal shared files
-* `src/ace_time/hw/` - thin hardware abstraction layer
-* `src/ace_time/provider/` - providers from RTC or NTP sources
-* `src/ace_time/testing/` - files used in unit tests
-* `src/ace_time/zonedb/` - files generated from TZ Database for
-  `BasicZoneSpecifier`
-* `src/ace_time/zonedbx/` - files generated from TZ Database for
-  `ExtendedZoneSpecifier`
-* `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
-* `examples/` - example programs
-* `tools/` - parser for the TZ Database files, code generators for `zonedb::`
-  and `zonedbx::` zone files, and code generators for various unit tests
+// ZoneSpecifier instances should be created statically at initialization time.
+static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
+static BasicZoneSpecifier easternSpec(&zonedb::kZoneAmerica_New_York);
 
-### Dependencies
+SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
+SystemClockHeartbeatLoop systemClockHeartbeat(systemClock);
 
-The vast majority of the AceTime library has no dependency to any other external
-libraries. There is an optional dependency to
-[AceRoutine](https://github.com/bxparks/AceRoutine) if you want to use the
-`SystemClockSyncCoroutine` and `SystemClockHeartbeatCoroutine` classes for
-automatic syncing and freshening. (This is recommended but not strictly
-necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to the FastCRC
-library but the `CrcEeprom.h` file is not included in the `AceTime.h` main
-header file, so you should not need FastCRC to compile AceTime. (The
-`CrcEeprom.h` header file does not strictly belong in the AceTime library but
-many of my "clock" projects that use the AceTime library also use the
-`CrcEeprom` class, so this is a convenient place to keep it.)
+//------------------------------------------------------------------
 
-Various programs in the `examples/` directory have one or more of the following
-external dependencies. The comment section near the top of the `*.ino` file will
-usually have more precise dependency information:
+void setup() {
+  delay(1000);
+  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  while (!Serial); // Wait until Serial is ready - Leonardo/Micro
 
-* [AceRoutine](https://github.com/bxparks/AceRoutine)
-* [AceButton](https://github.com/bxparks/AceButton)
-* [FastCRC](https://github.com/FrankBoesing/FastCRC)
-* [SSD1306Ascii](https://github.com/greiman/SSD1306Ascii)
-* [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
-* [Arduino Timezone](https://github.com/JChristensen/Timezone)
+  systemClock.setup();
 
-Various scripts in the `tools/` directory depend on:
+  // Creating timezones is cheap, so we can create them on the fly as needed.
+  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
 
-* [TZ Database on GitHub](https://github.com/eggert/tz)
-* [pytz library](https://pypi.org/project/pytz/)
-* Python 3.5 or greater
-* Java OpenJDK 11
+  // Set the SystemClock using these components.
+  auto pacificTime = ZonedDateTime::forComponents(
+      2019, 6, 17, 19, 50, 0, pacificTz);
+  systemClock.setNow(pacificTime.toEpochSeconds());
+}
 
-### Docs
+//------------------------------------------------------------------
 
-The [docs/](docs/) directory contains the
-[Doxygen docs on GitHub Pages](https://bxparks.github.io/AceTime/html).
+void printCurrentTime() {
+  acetime_t now = systemClock.getNow();
 
-### Examples
+  // Create Pacific Time and print.
+  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
+  auto pacificTime = ZonedDateTime::forEpochSeconds(now, pacificTz);
+  Serial.print(F("Pacific Time: "));
+  pacificTime.printTo(Serial);
+  Serial.println();
 
-The following example sketches are provided:
+  // Convert to Eastern Time and print.
+  auto easternTz = TimeZone::forZoneSpecifier(&easternSpec);
+  auto easternTime = pacificTime.convertToTimeZone(easternTz);
+  Serial.print(F("Eastern Time: "));
+  easternTime.printTo(Serial);
+  Serial.println();
 
-* [HelloTime](examples/HelloTime/)
-    * demo program of various date and time classes
-* [HelloSystemClock](examples/HelloSystemClock/)
-    * demo program of `SystemClock`
-* [HelloSystemClockCoroutine](examples/HelloSystemClockCoroutine/)
-    * same as `SystemClock` but using AceRoutine coroutines
-* [CommandLineClock](examples/CommandLineClock/)
-    * a clock with a DS3231 RTC chip, an NTP client, and using the serial port
-      for receiving commands and printing results, useful for debugging
-* [OledClock](examples/OledClock/)
-    * a digital clock using a DS3231 RTC chip, an NTP client, 2 buttons, and an
-      SSD1306 OLED display
-* [WorldClock](examples/WorldClock/)
-    * a clock with 3 OLED screens showing the time at 3 different time zones
-* [AutoBenchmark](examples/AutoBenchmark/)
-    * perform CPU and memory benchmarking of various methods and print a report
-* [ComparisonBenchmark](examples/ComparisonBenchmark/)
-    * compare AceTime with
-    [Arduino Time Lib](https://github.com/PaulStoffregen/Time)
-* [CrcEepromDemo](examples/CrcEepromDemo/)
-    * a program that verifies the `CrcEeprom` class
+  Serial.println();
+}
 
-## Usage
+void loop() {
+  printCurrentTime();
+  systemClockHeartbeat.loop(); // must call every 65s or less
+  delay(2000);
+}
+```
 
-The [AceTime User Guide](USER_GUIDE.md) is long enough to require a separate
-document.
+This will start by setting the SystemClock to 2019-06-17T19:50:00-07:00,
+then printing the system time every 2 seconds in 2 time zones:
+```
+Pacific Time: 2019-06-17T19:50:00-07:00 Monday [America/Los_Angeles]
+Eastern Time: 2019-06-17T22:50:00-04:00 Monday [America/New_York]
+
+Pacific Time: 2019-06-17T19:50:02-07:00 Monday [America/Los_Angeles]
+Eastern Time: 2019-06-17T22:50:02-04:00 Monday [America/New_York]
+
+Pacific Time: 2019-06-17T19:50:04-07:00 Monday [America/Los_Angeles]
+Eastern Time: 2019-06-17T22:50:04-04:00 Monday [America/New_York]
+```
+
+## User Guide
+
+See the [AceTime User Guide](USER_GUIDE.md) for information on:
+* Installation
+* Date and Time classes
+* System Clock classes
+* Benchmarks
+* Comparison to Other Libraries
+* Bugs and Limitations
 
 ## System Requirements
 
