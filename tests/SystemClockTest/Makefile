@@ -2,6 +2,6 @@
 # about using unitduino to compile and run AUnit tests natively on Linux or
 # MacOS.
 
-APP_NAME := TimeKeeperTest
+APP_NAME := SystemClockTest
 ARDUINO_LIBS := AceTime AceRoutine
 include ../../../AUnit/unitduino/unitduino.mk
