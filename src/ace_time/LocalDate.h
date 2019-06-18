@@ -169,7 +169,7 @@ class LocalDate {
      * condition. The isError() method will return true.
      */
     static LocalDate forError() {
-      return LocalDate(0, 0, 0);
+      return LocalDate();
     }
 
     /** True if year is a leap year. */
@@ -183,8 +183,11 @@ class LocalDate {
       return (month == 2 && isLeapYear(year)) ? days + 1 : days;
     }
 
-    /** Default constructor does nothing. */
-    explicit LocalDate() {}
+    /** Default constructor sets the isError() condition. */
+    explicit LocalDate():
+        mYearTiny(0),
+        mMonth(0),
+        mDay(0) {}
 
     /** Return the full year instead of just the last 2 digits. */
     int16_t year() const { return mYearTiny + kEpochYear; }
@@ -330,7 +333,6 @@ class LocalDate {
 
   private:
     friend class LocalDateTime; // constructor, forDateStringChainable()
-    friend class ExtendedZoneSpecifier; // constructor
     friend bool operator==(const LocalDate& a, const LocalDate& b);
 
     /**
@@ -373,7 +375,7 @@ class LocalDate {
      */
     static LocalDate forDateStringChainable(const char*& dateString);
 
-    /** Constructor using int16_t year. */
+    /** Constructor. */
     explicit LocalDate(int16_t year, uint8_t month, uint8_t day):
         mYearTiny(year - kEpochYear),
         mMonth(month),
@@ -411,7 +413,7 @@ class LocalDate {
      * Store year as a int8_t offset from year 2000. This saves memory, but may
      * cause other problems later. Consider changing to int16_t if necessary.
      */
-    int8_t mYearTiny; // [-128, 127], year offset from 2000
+    int8_t mYearTiny; // [-127, 127], -128 indicates error
 
     uint8_t mMonth; // [1, 12], 0 indicates error
     uint8_t mDay; // [1, 31], 0 indicates error

@@ -1188,14 +1188,16 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     static void normalizeDateTuple(extended::DateTuple* dt) {
       const int8_t kOneDayAsCode = 4 * 24;
       if (dt->timeCode <= -kOneDayAsCode) {
-        LocalDate ld(dt->yearTiny, dt->month, dt->day);
+        LocalDate ld = LocalDate::forComponents(
+            dt->yearTiny + LocalDate::kEpochYear, dt->month, dt->day);
         local_date_mutation::decrementOneDay(ld);
         dt->yearTiny = ld.yearTiny();
         dt->month = ld.month();
         dt->day = ld.day();
         dt->timeCode += kOneDayAsCode;
       } else if (kOneDayAsCode <= dt->timeCode) {
-        LocalDate ld(dt->yearTiny, dt->month, dt->day);
+        LocalDate ld = LocalDate::forComponents(
+            dt->yearTiny + LocalDate::kEpochYear, dt->month, dt->day);
         local_date_mutation::incrementOneDay(ld);
         dt->yearTiny = ld.yearTiny();
         dt->month = ld.month();
@@ -1354,7 +1356,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         const extended::DateTuple& st = t->startDateTime;
         const acetime_t offsetSeconds = (acetime_t) 900
             * (st.timeCode - t->offsetCode() - t->deltaCode());
-        LocalDate ld(st.yearTiny, st.month, st.day);
+        LocalDate ld = LocalDate::forComponents(
+            st.yearTiny + LocalDate::kEpochYear, st.month, st.day);
         t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;
 
         prev = t;

@@ -79,8 +79,11 @@ class LocalTime {
       return LocalTime(kInvalidValue, kInvalidValue, kInvalidValue);
     }
 
-    /** Default constructor does nothing. */
-    explicit LocalTime() {}
+    /** Default constructor sets the isError() condition. */
+    explicit LocalTime():
+        mHour(0),
+        mMinute(0),
+        mSecond(0) {}
 
     /**
      * Return true if any component is outside the normal time range of
