@@ -522,6 +522,9 @@ reclaimed from the stack. The class is not meant to be created and persisted for
 a long period of time, unless you are sure that nothing else will reuse the
 internal buffer between calls.
 
+The `DateStrings` class is inside the `ace_time::common` namespace, so you need
+to prefix it with `common::`, unless a `using` statement is used.
+
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
@@ -534,14 +537,13 @@ Serial.println(DateStrings().weekDayLongString(dayOfWeek));
 Serial.println(DateStrings().weekDayShortString(dayOfWeek));
 ```
 
-The `DateStrings` class is inside the `ace_time::common` namespace, so you need
-to prefix it with `common::`. The `weekDayShortString()` method returns the
+The `weekDayShortString()` method returns the
 first 3 characters of the week day (i.e. "Mon", "Tue", "Wed", "Thu",
 "Fri", "Sat", "Sun").
 
 Similarly the `LocalDate::month()` method returns an integer code where
 `1=January` and `12=December`. This integer code can be translated into English
-strings using:
+strings using `DateStrings().monthLongString()`:
 
 ```C++
 uint8_t month = localDate.month();
@@ -576,25 +578,25 @@ class LocalDateTime {
 
     bool isError() const;
 
-    int16_t year() const;
+    int16_t year() const; // 1872 - 2127
     void year(int16_t year);
 
-    uint8_t month() const;
+    uint8_t month() const; // 1 - 12
     void month(uint8_t month);
 
-    uint8_t day() const;
+    uint8_t day() const; // 1 - 31
     void day(uint8_t day);
 
-    uint8_t hour() const;
+    uint8_t hour() const; // 0 - 23
     void hour(uint8_t hour);
 
-    uint8_t minute() const;
+    uint8_t minute() const; // 0 - 59
     void minute(uint8_t minute);
 
-    uint8_t second() const;
+    uint8_t second() const; // 0 - 59 (no leap seconds)
     void second(uint8_t second);
 
-    uint8_t dayOfWeek() const;
+    uint8_t dayOfWeek() const; // 1=Monday, 7=Sunday
 
     const LocalDate& localDate() const;
     const LocalTime& localTime() const;
@@ -611,30 +613,14 @@ class LocalDateTime {
 }
 ```
 
-Here is a sample code:
+Here is a sample code that extracts the number of seconds since AceTime Epoch
+(2000-01-01T00:00:00Z) using the `toEpochSeconds()` method:
 
 ```C++
 LocalDateTime localDateTime;
 
 // 2018-08-30T06:45:01-08:00
 localDateTime = LocalDateTime::forComponents(2018, 8, 30, 6, 45, 1);
-```
-
-Once a `LocalDateTime` object is created you can access the individual date/time
-components using the accessor methods:
-```C++
-int16_t year = localDateTime.year(); // 1872 - 2127
-uint8_t month = localDateTime.month(); // 1 - 12
-uint8_t day = localDateTime.day(); // 1 - 31
-uint8_t hour = localDateTime.hour(); // 0 - 23
-uint8_t minute = localDateTime.minute(); // 0 - 59
-uint8_t second = localDateTime.second(); // 0 - 59
-uint8_t dayOfWeek = localDateTime.dayOfWeek(); // 1=Monday, 7=Sunday
-```
-
-We can extract the number of seconds since AceTime Epoch
-(2000-01-01T00:00:00Z) using the `toEpochSeconds()` method:
-```C++
 acetime_t epoch_seconds = localDateTime.toEpochSeconds();
 ```
 
@@ -649,10 +635,10 @@ A `TimeOffset` class represents an amount of time shift from a reference point.
 Often the reference is the UTC time and this class represents the amount of time
 shift from UTC. Currently (year 2019) every time zone in the world is shifted
 from UTC by a multiple of 15 minutes (e.g. -03:30 or +01:00). `TimeOffset` is a
-thin wrapper around a single 8-bit signed integer which can encode integers from
+thin wrapper around a single `int8_t` type which can encode integers from
 [-128, 127]. Internally -128 is used to indicate an error condition, so we can
 represent a UTC shift of from -31:45 to +31:45 hours, which is more than enough
-to encode all UTC offsets currently in use.
+to encode all UTC offsets currently in use in the world.
 
 ```C++
 namespace ace_time {
@@ -1778,17 +1764,25 @@ ESP8266 and ESP32), instead of just the AVR platform.
       [pytz](https://pypi.org/project/pytz/) library. Unfortunately, pytz does
       not support dates after Unix signed 32-bit `time_t` rollover at
       (2038-01-19T03:14:07Z).
+    * These are too big to run on any Arduino controller. They are designed to run
+      on a Linux or MacOS machine through the Makefiles using the
+      [unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino)
+      emulator.
+* `BasicValidationMoreTest` and `ExtendedValidationMoreTest`
+    * These tests compare the transition times calculated by AceTime to Java's
+      `java.time` package which should support the entire range of dates that
+      AceTime can represent. We have artificially limited the range of testing
+      from 2000 to 2050.
+    * These are too big to run on any Arduino controller. They are designed to run
+      on a Linux or MacOS machine through the Makefiles using the
+      [unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino)
+      emulator.
 * `zonedb::` and `zonedbx::` zone files
     * These statically defined data structures are loaded into flash memory
       then copied to RAM on the Arduino chips. They do not use the `PROGMEM`
       keyword to store them only on flash. Fortunately, most `ZoneInfo`
       instances are only 40-60 bytes and the corresponding `ZonePolicy`
       instances are 50-100 bytes.
-* `BasicValidationMoreTest` and `ExtendedValidationMoreTest`
-    * These tests compare the transition times calculated by AceTime to Java's
-      `java.time` package which should support the entire range of dates that
-      AceTime can represent. We have artificially limited the range of testing
-      from 2000 to 2050.
 
 ## Changelog
 
