@@ -83,10 +83,19 @@ class LocalDate {
      *
      * @param year [1873-2127]
      * @param month month with January=1, December=12
-     * @param day day of month (1-31)
+     * @param day day of month [1-31]
      */
     static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day) {
-      return LocalDate(year, month, day);
+      // Check year is within valid range. Don't need to validate month or
+      // year, that's done in isError().
+      int8_t yearTiny;
+      if (year < kEpochYear + kMinYearTiny
+          || year > kEpochYear + kMaxYearTiny) {
+        yearTiny = kInvalidYearTiny;
+      } else {
+        yearTiny = year - kEpochYear;
+      }
+      return LocalDate(yearTiny, month, day);
     }
 
     /**
@@ -169,7 +178,7 @@ class LocalDate {
      * condition. The isError() method will return true.
      */
     static LocalDate forError() {
-      return LocalDate();
+      return LocalDate(kInvalidYearTiny, 0, 0);
     }
 
     /** True if year is a leap year. */
@@ -183,11 +192,8 @@ class LocalDate {
       return (month == 2 && isLeapYear(year)) ? days + 1 : days;
     }
 
-    /** Default constructor sets the isError() condition. */
-    explicit LocalDate():
-        mYearTiny(0),
-        mMonth(0),
-        mDay(0) {}
+    /** Default constructor does nothing. */
+    explicit LocalDate() {}
 
     /** Return the full year instead of just the last 2 digits. */
     int16_t year() const { return mYearTiny + kEpochYear; }
@@ -375,19 +381,11 @@ class LocalDate {
      */
     static LocalDate forDateStringChainable(const char*& dateString);
 
-    /** Constructor. */
-    explicit LocalDate(int16_t year, uint8_t month, uint8_t day):
-        mYearTiny(year - kEpochYear),
+    /** Constructor that sets the components. */
+    explicit LocalDate(int8_t yearTiny, uint8_t month, uint8_t day):
+        mYearTiny(yearTiny),
         mMonth(month),
-        mDay(day) {
-
-      // Check year is within valid range. Don't need to validate month or
-      // year, that's done in isError().
-      if (year < kEpochYear + kMinYearTiny
-          || year > kEpochYear + kMaxYearTiny) {
-        mYearTiny = kInvalidYearTiny;
-      }
-    }
+        mDay(day) {}
 
     /**
      * Extract the (year, month, day, dayOfWeek) fields from epochDays.

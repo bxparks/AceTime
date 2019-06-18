@@ -18,14 +18,16 @@ class LocalDateTime {
      * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
      *    16-bit implementation
      * @param month month with January=1, December=12
-     * @param day day of month (1-31)
-     * @param hour hour (0-23)
-     * @param minute minute (0-59)
-     * @param second second (0-59), does not support leap seconds
+     * @param day day of month [1-31]
+     * @param hour hour [0-23]
+     * @param minute minute [0-59]
+     * @param second second [0-59], does not support leap seconds
      */
     static LocalDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second) {
-      return LocalDateTime(year, month, day, hour, minute, second);
+      return LocalDateTime(
+          LocalDate::forComponents(year, month, day),
+          LocalTime(hour, minute, second));
     }
 
     /**
@@ -252,21 +254,6 @@ class LocalDateTime {
      * This method assumes that the dateString is sufficiently long.
      */
     static LocalDateTime forDateStringChainable(const char*& dateString);
-
-    /**
-     * Constructor using separated date, time, and time zone fields.
-     *
-     * @param year
-     * @param month month with January=1, December=12
-     * @param day day of month (1-31)
-     * @param hour hour (0-23)
-     * @param minute minute (0-59)
-     * @param second second (0-59), does not support leap seconds
-     */
-    explicit LocalDateTime(int16_t year, uint8_t month, uint8_t day,
-            uint8_t hour, uint8_t minute, uint8_t second):
-        mLocalDate(year, month, day),
-        mLocalTime(hour, minute, second) {}
 
     /** Constructor from a LocalDate and LocalTime. */
     explicit LocalDateTime(const LocalDate& ld, const LocalTime& lt):

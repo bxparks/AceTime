@@ -35,10 +35,10 @@ class OffsetDateTime {
      * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
      *    16-bit implementation
      * @param month month with January=1, December=12
-     * @param day day of month (1-31)
-     * @param hour hour (0-23)
-     * @param minute minute (0-59)
-     * @param second second (0-59), does not support leap seconds
+     * @param day day of month [1-31]
+     * @param hour hour [0-23]
+     * @param minute minute [0-59]
+     * @param second second [0-59], does not support leap seconds
      * @param timeOffset the time offset from UTC. Using TimeOffset in the last
      * component (instead of a int8_t or int16_t) allows us to overload an
      * additional constructor that accepts a millisecond component in the
@@ -47,7 +47,9 @@ class OffsetDateTime {
     static OffsetDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
         TimeOffset timeOffset) {
-      return OffsetDateTime(year, month, day, hour, minute, second, timeOffset);
+      return OffsetDateTime(
+          LocalDateTime::forComponents(year, month, day, hour, minute, second),
+          timeOffset);
     }
 
     /**
@@ -296,23 +298,6 @@ class OffsetDateTime {
      * This method assumes that the dateString is sufficiently long.
      */
     static OffsetDateTime forDateStringChainable(const char*& dateString);
-
-    /**
-     * Constructor using separated date, time, and time zone fields.
-     *
-     * @param year
-     * @param month month with January=1, December=12
-     * @param day day of month (1-31)
-     * @param hour hour (0-23)
-     * @param minute minute (0-59)
-     * @param second second (0-59), does not support leap seconds
-     * @param timeOffset time offset from UTC
-     */
-    explicit OffsetDateTime(int16_t year, uint8_t month, uint8_t day,
-            uint8_t hour, uint8_t minute, uint8_t second,
-            TimeOffset timeOffset):
-        mLocalDateTime(year, month, day, hour, minute, second),
-        mTimeOffset(timeOffset) {}
 
     /** Constructor from LocalDateTime and a TimeOffset. */
     explicit OffsetDateTime(const LocalDateTime& ldt, TimeOffset timeOffset):

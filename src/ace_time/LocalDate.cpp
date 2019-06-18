@@ -90,7 +90,7 @@ LocalDate LocalDate::forDateStringChainable(const char*& dateString) {
   day = 10 * day + (*s++ - '0');
 
   dateString = s;
-  return LocalDate(year, month, day);
+  return forComponents(year, month, day);
 }
 
 }

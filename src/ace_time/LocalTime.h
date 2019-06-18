@@ -79,11 +79,8 @@ class LocalTime {
       return LocalTime(kInvalidValue, kInvalidValue, kInvalidValue);
     }
 
-    /** Default constructor sets the isError() condition. */
-    explicit LocalTime():
-        mHour(0),
-        mMinute(0),
-        mSecond(0) {}
+    /** Default constructor does nothing. */
+    explicit LocalTime() {}
 
     /**
      * Return true if any component is outside the normal time range of
@@ -176,6 +173,7 @@ class LocalTime {
      */
     static LocalTime forTimeStringChainable(const char*& timeString);
 
+    /** Constructor that sets the components. */
     explicit LocalTime(uint8_t hour, uint8_t minute, uint8_t second):
         mHour(hour),
         mMinute(minute),
