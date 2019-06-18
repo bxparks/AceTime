@@ -39,14 +39,14 @@ class OffsetDateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param timeOffset Optional. Default UTC time zone. Using the TimeOffset
-     * object in the last component allows us to add an additional constructor
-     * that accepts a millisecond component in the future. It also hides the
-     * internal implementation details of TimeOffset.
+     * @param timeOffset the time offset from UTC. Using TimeOffset in the last
+     * component (instead of a int8_t or int16_t) allows us to overload an
+     * additional constructor that accepts a millisecond component in the
+     * future.
      */
     static OffsetDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
-        TimeOffset timeOffset = TimeOffset()) {
+        TimeOffset timeOffset) {
       return OffsetDateTime(year, month, day, hour, minute, second, timeOffset);
     }
 
@@ -58,10 +58,10 @@ class OffsetDateTime {
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00). Use LocalDate::kInvalidEpochSeconds to define
      *    an invalid instance whose isError() returns true.
-     * @param timeOffset Optional. Default is UTC time zone.
+     * @param timeOffset time offset from UTC
      */
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
-          TimeOffset timeOffset = TimeOffset()) {
+          TimeOffset timeOffset) {
       OffsetDateTime dt;
       if (epochSeconds == LocalDate::kInvalidEpochSeconds
           || timeOffset.isError()) return forError();
@@ -80,7 +80,7 @@ class OffsetDateTime {
      * the partial day are truncated down towards the smallest whole day.
      */
     static OffsetDateTime forUnixSeconds(acetime_t unixSeconds,
-          TimeOffset timeOffset = TimeOffset()) {
+          TimeOffset timeOffset) {
       if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
         return forEpochSeconds(unixSeconds, timeOffset);
       } else {
@@ -306,14 +306,11 @@ class OffsetDateTime {
      * @param hour hour (0-23)
      * @param minute minute (0-59)
      * @param second second (0-59), does not support leap seconds
-     * @param timeOffset Optional. Default UTC time zone. Using the TimeOffset
-     * object in the last component allows us to add an additional constructor
-     * that accepts a millisecond component in the future. It also hides the
-     * internal implementation details of TimeOffset.
+     * @param timeOffset time offset from UTC
      */
     explicit OffsetDateTime(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
-            TimeOffset timeOffset = TimeOffset()):
+            TimeOffset timeOffset):
         mLocalDateTime(year, month, day, hour, minute, second),
         mTimeOffset(timeOffset) {}
 

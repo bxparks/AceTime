@@ -237,7 +237,8 @@ static void runLocalDateDaysOfWeek() {
 static void runOffsetDateTimeForEpochSeconds() {
   unsigned long localDateForDaysMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochSeconds = millis();
-    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(fakeEpochSeconds);
+    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
+        fakeEpochSeconds, TimeOffset());
     disableOptimization(odt);
   });
   unsigned long emptyLoopMillis = runLambda(COUNT, []() {
@@ -255,13 +256,15 @@ static void runOffsetDateTimeForEpochSeconds() {
 static void runOffsetDateTimeToEpochSeconds() {
   unsigned long localDateToEpochDaysMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochSeconds = millis();
-    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(fakeEpochSeconds);
+    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
+        fakeEpochSeconds, TimeOffset());
     acetime_t epochDays = odt.toEpochSeconds();
     disableOptimization(epochDays);
   });
   unsigned long forEpochDaysMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochSeconds = millis();
-    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(fakeEpochSeconds);
+    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
+        fakeEpochSeconds, TimeOffset());
     disableOptimization(odt);
   });
   long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
