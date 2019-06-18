@@ -11,24 +11,33 @@ using namespace ace_time::common;
 // LocalDate
 // --------------------------------------------------------------------------
 
+test(LocalDateTest, isError_year_out_of_range) {
+  assertTrue(LocalDate::forComponents(0, 1, 1).isError());
+  assertTrue(LocalDate::forComponents(1872, 1, 1).isError());
+  assertTrue(LocalDate::forComponents(2128, 1, 1).isError());
+  assertTrue(LocalDate::forComponents(9999, 1, 1).isError());
+}
+
+test(LocalDateTest, isError_month_out_of_range) {
+  assertTrue(LocalDate::forComponents(2000, 0, 1).isError());
+  assertTrue(LocalDate::forComponents(2000, 13, 1).isError());
+}
+
+test(LocalDateTest, isError_day_out_of_range) {
+  assertTrue(LocalDate::forComponents(2000, 1, 0).isError());
+  assertTrue(LocalDate::forComponents(2000, 1, 32).isError());
+}
+
+test(LocalDateTest, isError_valid_at_boundaries) {
+  assertFalse(LocalDate::forComponents(1873, 1, 1).isError());
+  assertFalse(LocalDate::forComponents(2127, 12, 31).isError());
+}
+
 test(LocalDateTest, accessors) {
   LocalDate ld = LocalDate::forComponents(2001, 2, 3);
   assertEqual((int16_t) 2001, ld.year());
   assertEqual(2, ld.month());
   assertEqual(3, ld.day());
-}
-
-test(LocalDateTest, isError) {
-  assertFalse(LocalDate::forComponents(0, 1, 1).isError());
-  assertFalse(LocalDate::forComponents(0, 1, 31).isError());
-  assertFalse(LocalDate::forComponents(0, 2, 30).isError());
-  assertFalse(LocalDate::forComponents(0, 2, 31).isError());
-  assertFalse(LocalDate::forComponents(0, 12, 31).isError());
-
-  assertTrue(LocalDate::forComponents(0, 0, 1).isError());
-  assertTrue(LocalDate::forComponents(0, 1, 0).isError());
-  assertTrue(LocalDate::forComponents(0, 1, 32).isError());
-  assertTrue(LocalDate::forComponents(0, 13, 1).isError());
 }
 
 // Verify that toEpochDays()/forEpochDays() and
@@ -154,9 +163,9 @@ test(LocalDateTest, toAndFromEpochDays) {
   LocalDate ld;
 
   // Smallest LocalDate in an 8-bit implementation
-  ld = LocalDate::forComponents(1872, 1, 1);
-  assertEqual((acetime_t) -46751, ld.toEpochDays());
-  assertTrue(ld == LocalDate::forEpochDays(-46751));
+  ld = LocalDate::forComponents(1873, 1, 1);
+  assertEqual((acetime_t) -46385, ld.toEpochDays());
+  assertTrue(ld == LocalDate::forEpochDays(-46385));
 
   ld = LocalDate::forComponents(1900, 1, 1);
   assertEqual((acetime_t) -36524, ld.toEpochDays());
@@ -196,9 +205,9 @@ test(LocalDateTest, toAndFromUnixDays) {
   LocalDate ld;
 
   // Smallest LocalDate in an 8-bit implementation
-  ld = LocalDate::forComponents(1872, 1, 1);
-  assertEqual((acetime_t) -35794, ld.toUnixDays());
-  assertTrue(ld == LocalDate::forUnixDays(-35794));
+  ld = LocalDate::forComponents(1873, 1, 1);
+  assertEqual((acetime_t) -35428, ld.toUnixDays());
+  assertTrue(ld == LocalDate::forUnixDays(-35428));
 
   // Smallest date using int32_t from Unix epoch
   ld = LocalDate::forComponents(1901, 12, 14);
@@ -540,29 +549,53 @@ test(LocalDateTimeTest, forError) {
 }
 
 test(LocalDateTimeTest, isError) {
+  // Good LocalDateTime.
   // 2018-01-01 00:00:00Z
   LocalDateTime dt = LocalDateTime::forComponents(2018, 1, 1, 0, 0, 0);
   assertFalse(dt.isError());
 
+  // bad year
+  dt = LocalDateTime::forComponents(0, 1, 1, 0, 0, 0);
+  assertTrue(dt.isError());
+
+  // bad year
+  dt = LocalDateTime::forComponents(1872, 1, 1, 0, 0, 0);
+  assertTrue(dt.isError());
+
+  // bad year
+  dt = LocalDateTime::forComponents(2128, 1, 1, 0, 0, 0);
+  assertTrue(dt.isError());
+
+  // bad year
+  dt = LocalDateTime::forComponents(9999, 1, 1, 0, 0, 0);
+  assertTrue(dt.isError());
+
+  // bad month
   dt = LocalDateTime::forComponents(2018, 0, 1, 0, 0, 0);
   assertTrue(dt.isError());
 
-  dt = LocalDateTime::forComponents(2018, 255, 1, 0, 0, 0);
+  // bad month
+  dt = LocalDateTime::forComponents(2018, 13, 0, 0, 0, 0);
   assertTrue(dt.isError());
 
+  // bad day
   dt = LocalDateTime::forComponents(2018, 1, 0, 0, 0, 0);
   assertTrue(dt.isError());
 
-  dt = LocalDateTime::forComponents(2018, 1, 255, 0, 0, 0);
+  // bad day
+  dt = LocalDateTime::forComponents(2018, 1, 32, 0, 0, 0);
   assertTrue(dt.isError());
 
-  dt = LocalDateTime::forComponents(2018, 1, 1, 255, 0, 0);
+  // bad hour
+  dt = LocalDateTime::forComponents(2018, 1, 1, 25, 0, 0);
   assertTrue(dt.isError());
 
-  dt = LocalDateTime::forComponents(2018, 1, 1, 0, 255, 0);
+  // bad minute
+  dt = LocalDateTime::forComponents(2018, 1, 1, 0, 60, 0);
   assertTrue(dt.isError());
 
-  dt = LocalDateTime::forComponents(2018, 1, 1, 0, 0, 255);
+  // bad second
+  dt = LocalDateTime::forComponents(2018, 1, 1, 0, 0, 60);
   assertTrue(dt.isError());
 }
 

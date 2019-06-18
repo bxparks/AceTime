@@ -262,12 +262,10 @@ kTypeExtended	LITERAL1
 # LocalDate.h
 kEpochYear	LITERAL1
 kInvalidYearTiny	LITERAL1
-kMinYearTiny	LITERAL1
 kInvalidEpochDays	LITERAL1
 kInvalidEpochSeconds	LITERAL1
 kSecondsSinceUnixEpoch	LITERAL1
 kDaysSinceUnixEpoch	LITERAL1
-kDaysSinceJulianEpoch	LITERAL1
 kMonday	LITERAL1
 kTuesday	LITERAL1
 kWednesday	LITERAL1

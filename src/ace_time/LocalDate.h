@@ -13,12 +13,10 @@ namespace ace_time {
  * The date (year, month, day) representing the date without regards to time
  * zone. The "epoch" for this library is 2000-01-01.
  *
- * The year field is internally represented as int8_t offset from the year
- * 2000, so in theory it is valid from [1872, 2127]. However, the internal year
- * value of -128 is often used to indicate an error condition. Secondly, the
- * value of 127 will sometimes cause for-loops to misbehave due to integer
- * overflow. Therefore, it's safer to restrict the valid interval to [1873,
- * 2126].
+ * The year field is internally represented as an int8_t offset from the year
+ * 2000. However, the value of -128 (kInvalidYearTiny) is used to indicate an
+ * error condition. So the actual range of the year is [1873, 2127] instead of
+ * [1872, 2127].
  *
  * If the year is restricted to 2000-2099 (2 digit years), these fields
  * correspond to the range supported by the DS3231 RTC chip.
@@ -40,12 +38,6 @@ class LocalDate {
      */
     static const int8_t kInvalidYearTiny = INT8_MIN;
 
-    /**
-     * Sentinel yearTiny which represents the smallest year, effectively
-     * -Infinity.
-     */
-    static const int8_t kMinYearTiny = INT8_MIN + 1;
-
     /** Sentinel epochDays which indicates an error. */
     static const acetime_t kInvalidEpochDays = INT32_MIN;
 
@@ -63,12 +55,6 @@ class LocalDate {
      * the AceTime epoch (2000-01-01 00:00:00Z).
      */
     static const acetime_t kDaysSinceUnixEpoch = 10957;
-
-    /**
-     * Number of days between the Julian calendar epoch (4713 BC 01-01) and the
-     * AceTime epoch (2000-01-01).
-     */
-    static const acetime_t kDaysSinceJulianEpoch = 2451545;
 
     /** Monday ISO 8601 number. */
     static const uint8_t kMonday = 1;
@@ -92,15 +78,15 @@ class LocalDate {
     static const uint8_t kSunday = 7;
 
     /**
-     * Factory method using separated year, month and day fields.
+     * Factory method using separated year, month and day fields. Returns
+     * LocalDate::forError() if the parameters are out of range.
      *
-     * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
-     *    16-bit implementation
+     * @param year [1873-2127]
      * @param month month with January=1, December=12
      * @param day day of month (1-31)
      */
     static LocalDate forComponents(int16_t year, uint8_t month, uint8_t day) {
-      return LocalDate(year - kEpochYear, month, day);
+      return LocalDate(year, month, day);
     }
 
     /**
@@ -241,7 +227,8 @@ class LocalDate {
 
     /** Return true if any component indicates an error condition. */
     bool isError() const {
-      return mDay < 1 || mDay > 31
+      return mYearTiny == kInvalidYearTiny
+          || mDay < 1 || mDay > 31
           || mMonth < 1 || mMonth > 12;
     }
 
@@ -346,6 +333,24 @@ class LocalDate {
     friend class ExtendedZoneSpecifier; // constructor
     friend bool operator==(const LocalDate& a, const LocalDate& b);
 
+    /**
+     * Sentinel yearTiny which represents the smallest year, effectively
+     * -Infinity.
+     */
+    static const int8_t kMinYearTiny = INT8_MIN + 1;
+
+    /**
+     * Sentinel yearTiny which represents the largest year, effectively
+     * -Infinity.
+     */
+    static const int8_t kMaxYearTiny = INT8_MAX;
+
+    /**
+     * Number of days between the Julian calendar epoch (4713 BC 01-01) and the
+     * AceTime epoch (2000-01-01).
+     */
+    static const acetime_t kDaysSinceJulianEpoch = 2451545;
+
     /** Minimum length of the date string. yyyy-mm-dd. */
     static const uint8_t kDateStringLength = 10;
 
@@ -368,11 +373,19 @@ class LocalDate {
      */
     static LocalDate forDateStringChainable(const char*& dateString);
 
-    /** Constructor. */
-    explicit LocalDate(int8_t yearTiny, uint8_t month, uint8_t day):
-        mYearTiny(yearTiny),
+    /** Constructor using int16_t year. */
+    explicit LocalDate(int16_t year, uint8_t month, uint8_t day):
+        mYearTiny(year - kEpochYear),
         mMonth(month),
-        mDay(day) {}
+        mDay(day) {
+
+      // Check year is within valid range. Don't need to validate month or
+      // year, that's done in isError().
+      if (year < kEpochYear + kMinYearTiny
+          || year > kEpochYear + kMaxYearTiny) {
+        mYearTiny = kInvalidYearTiny;
+      }
+    }
 
     /**
      * Extract the (year, month, day, dayOfWeek) fields from epochDays.
