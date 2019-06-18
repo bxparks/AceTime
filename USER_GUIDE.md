@@ -121,8 +121,8 @@ accurately expressed. The problem with the TZ Database is that most
 implementations are too large to fit inside most Arduino environments. The
 Arduino libraries that I am aware of use the POSIX format (e.g.
 [ropg/ezTime](https://github.com/ropg/ezTime) or
-[JChristensen/Timezone](https://github.com/JChristensen/Timezone) for simplicity
-and smaller memory usage.
+[JChristensen/Timezone](https://github.com/JChristensen/Timezone)) for
+simplicity and smaller memory footprint.
 
 The AceTime library uses the TZ Database. When new versions of the database are
 released (several times a year), I can regenerate the zone files, recompile the
@@ -149,15 +149,19 @@ The AceTime library is inspired by and borrows from:
 The names and API of AceTime classes is heavily borrowed from the [Java JDK 11
 java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
 package. Some important differences come from the fact that in Java, most
-objects are reference objects and created on the heap. On Arduino, I went out of
-my way to make sure that the AceTime C++ classes perform *no* heap allocations
-(i.e. no calls to `operator new()` or `malloc()`). Many of the smaller objects
-are expected to be used as "value objects", in other words, created on the stack
-and copied by value. Fortunately, the C++ compilers are extremely good at
-optimizing away unnecessary copies of these small objects. There are a handful
-of classes (`ZoneSpecifier` and subclasses) which are meant to be created
-statically at start-up time, and never deleted during the lifetime of the
-application.
+objects are reference objects and created on the heap. To allow AceTime
+to work on an Arduino chip with only 2kB of RAM and 32kB of flash, I made sure
+that the AceTime C++ classes perform *no* heap allocations (i.e. no calls to
+`operator new()` or `malloc()`). Many of the smaller classes in the library are
+expected to be used as "value objects", in other words, created on the stack and
+copied by value. Fortunately, the C++ compilers are extremely good at optimizing
+away unnecessary copies of these small objects. It is not possible to remove all
+complex memory allocations when dealing with the TZ Database. In the AceTime
+library, I managed to move most (if not all) of the complex memory handling
+logic into the `ZoneSpecifier` class hierarhcy. These are relatively large
+objects which are meant to be opaque objects (to the application developer),
+created statically at start-up time of the application, and never deleted during
+the lifetime of the application.
 
 The [Arduino Time](https://github.com/PaulStoffregen/Time) library uses
 a set of C functions similar to the
@@ -1060,13 +1064,79 @@ TimePeriod timePeriod(diffSeconds);
 timePeriod.printTo(Serial)
 ```
 
-## SystemClock, TimeProviders and TimeKeepers
+## Error Handling
+
+Many features of the date and time classes have explicit or implicit
+range of validity in their inputs and outputs. The Arduino programming
+environment does not use C++ exceptions, so we encode error states in the return
+value of various classes. Most date and time classes have an `isError()` method
+on them, for example:
+
+```C++
+bool LocalDate::isError() const;
+bool LocalTime::isError() const;
+bool LocalDateTime::isError() const;
+bool OffsetDatetime::isError() const;
+bool ZonedDateTime::isError() const;
+bool TimeOffset::isError() const;
+```
+
+A well-crafted application should check for these error conditions before
+writing or displaying the objects to the user. For example, the `zonedb::` and
+`zonedbx::` files are valid from year 2000 until 2050. If you try to create a
+date outside of this range, the `ZonedDateTime` object will return true of
+`isError()`. The following snippet will print "true" because the year 1998 is
+outside of the valid range of the `::zonedb` files.
+
+```C++
+BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
+TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
+Serial.println(dt.isError() ? "true" : "false");
+```
+
+
+## Clock
 
 The `acetime::clock` namespace contains classes needed to implement the
-SystemClock. The `TimeProvider` interface implements the
-`TimeProvider::getNow()` method which returns an `acetime_t`. The `TimeKeeper`
-subinterface of `TimeProvider` implements the `TimeKeeper::setNow(acetime_t)`
-method which sets the current time.
+`SystemClock`. The `SystemClock` is a source of time (normally represented as a
+`acetime_t` type, in other words, seconds from AceTime Epoch). The `SystemClock`
+is normally powered by the internal `millis()` function, but that function is
+usually not accurate enough. So the `SystemClock` has the ability to synchronize
+against more accurate external clocks (e.g. NTP server). The `SystemClock` also
+has the ability to backup the current time to a non-volatile time source (e.g.
+DS3231 chip) so that the current time can be restored when the power is
+restored.
+
+The class hierarchy diagram looks like this, where the arrow means
+"is-subclass-of") and the diamond-line means ("is-aggregation-of"):
+```
+                        1
+           TimeProvider ------------.
+          ^     ^                   |
+         /      |      1            |
+        /   TimeKeeper --------.    |
+       NTP      ^  ^           |    |
+TimeProvider   /   |           |    |
+              /    |           |    |
+         DS3231    |           |    |
+      TimeKeeper   |           |    |
+                   |           |    |
+              SystemClock <>---+----'
+```
+
+The library currently provides only a single implementation of `TimeProvider`
+and a single implementation of `TimeKeeper`. More could be added later.
+
+### TimeProvider and TimeKeeper
+
+These 2 interfaces distinguish between clocks that provide a source of time but
+cannot be set to a particular time (e.g. NTP servers or GPS modules), and clocks
+whose time can be set by the user (e.g. DS3231 RTC chip). The `TimeProvider`
+interface implements the `TimeProvider::getNow()` method which returns an
+`acetime_t` type. The `TimeKeeper` is a subinterface of `TimeProvider` and
+implements the `TimeKeeper::setNow(acetime_t)` method which sets the current
+time.
 
 ```C++
 namespace ace_time {
@@ -1100,9 +1170,8 @@ LocalDateTime now = LocalDateTime::forEpochSeconds(nowSeconds);
 now.printTo(Serial);
 ```
 
-Various implementation class of `TimeProvider` and `TimeKeeper` are described in
-more detail the following subsections. All of these classes are in the
-`ace_time::clock` namespace.
+Various implementations of `TimeProvider` and `TimeKeeper` are described in
+more detail the following subsections.
 
 ### NTP Time Provider
 
@@ -1111,6 +1180,8 @@ WiFi capability. (I have not tested the code on the Arduino WiFi shield
 because I don't have that hardware.) This class uses an NTP client to fetch the
 current time from the specified NTP server. The constructor takes 3 parameters
 which have default values so they are optional.
+
+The class declaration looks like this:
 
 ```C++
 namespace ace_time {
@@ -1135,7 +1206,7 @@ class NtpTimeProvider: public TimeProvider {
 
 You need to call the `setup()` with the `ssid` and `password` of the WiFi
 connection. The method will time out after 5 seconds if the connection cannot
-be established.
+be established. Here is a sample of how it can be used:
 
 ```C++
 #include <AceTime.h>
@@ -1154,6 +1225,7 @@ void setup() {
   ntpTimeProvider.setup(SSID, PASSWORD);
   if (ntpTimeProvider.isSetup()) {
     Serial.println("WiFi connection failed... try again.");
+    ...
   }
 }
 
@@ -1161,7 +1233,7 @@ void setup() {
 void loop() {
   acetime_t nowSeconds = ntpTimeProvider.getNow();
   OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8)); // convert UTC to UTC-08:00
+      nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
 }
@@ -1182,6 +1254,8 @@ internal logic that knows about the number of days in an month, and leap years.
 It supports dates from 2000 to 2099. It does *not* contain the concept of a time
 zone. Therefore, The `DS3231TimeKeeper` assumes that the date/time components
 stored on the chip is in **UTC** time.
+
+The class declaration looks like this:
 
 ```C++
 namespace ace_time {
@@ -1206,7 +1280,7 @@ AceTime Epoch by converting the UTC date and time components to `acetime_t`
 into either an `OffsetDateTime` or a `ZonedDateTime` as needed.
 
 The `DS3231TimeKeeper::setup()` should be called from the global `setup()`
-function to initialize the object. Here is a sample that
+function to initialize the object. Here is a sample that:
 
 ```C++
 #include <AceTime.h>
@@ -1226,7 +1300,7 @@ void setup() {
 void loop() {
   acetime_t nowSeconds = dsTimeKeeper.getNow();
   OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8)); // convert UTC to UTC-08:00
+      nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
 }
@@ -1236,12 +1310,14 @@ void loop() {
 
 The `SystemClock` is a special `TimeKeeper` that uses the Arduino built-in
 `millis()` method as the source of its time. The biggest advantage of
-`SystemClock` is that its `getNow()` has very little overhead _(TBD: insert
-benchmark)_ so it can be called as frequently as needed. The `getNow()` method
-of other `TimeProviders` can consume a significant amount of time. For example,
-the `DS3231TimeKeeper` must talk to the DS3231 RTC chip over an I2C bus. Even
-worse, the `NtpTimeProvider` must the talk to the NTP server over the network
-which can be unpredictably slow.
+`SystemClock` is that its `getNow()` has very little overhead so it can be
+called as frequently as needed. The `getNow()` method of other `TimeProviders`
+can consume a significant amount of time. For example, the `DS3231TimeKeeper`
+must talk to the DS3231 RTC chip over an I2C bus. Even worse, the
+`NtpTimeProvider` must the talk to the NTP server over the network which can be
+unpredictably slow.
+
+The `SystemClock` class looks like this:
 
 ```C++
 namespace ace_time {
@@ -1311,7 +1387,7 @@ void setup() {
 void loop() {
   acetime_t nowSeconds = systemClock.getNow();
   OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
-      nowSeconds, TimeOffset::forHour(-8)); // convert UTC to UTC-08:00
+      nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
 }
@@ -1321,6 +1397,10 @@ If you wanted to use the `DS3231TimeKeeper` as *both* the backup and sync
 time sources, then the setup would something like this:
 
 ```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+
 DS3231TimeKeeper dsTimeKeeper;
 SystemClock systemClock(
     &dsTimeKeeper /*sync*/, &dsTimeKeeper /*backup*/);
@@ -1338,6 +1418,10 @@ which case you can give `nullptr` as the correspond argument. For example,
 to use no backup time keeper:
 
 ```C++
+#include <AceTime.h>
+using namespace ace_time;
+using namespace ace_time::clock;
+
 DS3231TimeKeeper dsTimeKeeper;
 SystemClock systemClock(&dsTimeKeeper /*sync*/, nullptr /*backup*/);
 ...

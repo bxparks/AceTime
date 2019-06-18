@@ -171,6 +171,17 @@ test(ZonedDateTimeTest_Manual, error) {
 // ZonedDateTime + BasicZoneSpecifier
 // --------------------------------------------------------------------------
 
+test(ZonedDateTimeTest_Basic, forComponents_isError) {
+  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
+  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+
+  // outside [2000, 2050) range, so should generate error
+  ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
+  assertTrue(dt.isError());
+  dt = ZonedDateTime::forComponents(2051, 3, 11, 1, 59, 59, tz);
+  assertTrue(dt.isError());
+}
+
 test(ZonedDateTimeTest_Basic, forComponents_beforeDst) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
@@ -244,6 +255,17 @@ test(ZonedDateTimeTest_Basic, forComponents_afterOverlap) {
 // --------------------------------------------------------------------------
 // ZonedDateTime + ExtendedZoneSpecifier
 // --------------------------------------------------------------------------
+
+test(ZonedDateTimeTest_Extended, forComponents_isError) {
+  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+
+  // outside [2000, 2050) range, so should generate error
+  ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
+  assertTrue(dt.isError());
+  dt = ZonedDateTime::forComponents(2051, 3, 11, 1, 59, 59, tz);
+  assertTrue(dt.isError());
+}
 
 test(ZonedDateTimeTest_Extended, forComponents_beforeDst) {
   ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
