@@ -72,7 +72,9 @@ class ZoneSpecifier {
 
     /**
      * Return the UTC offset matching the given the date/time components.
-     * Returns TimeOffset::forError() if an error occurs.
+     * Returns TimeOffset::forError() if an error occurs, for example, if the
+     * localDateTime is outside of the support date range of the underlying
+     * ZoneInfo files.
      */
     virtual TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
         const = 0;

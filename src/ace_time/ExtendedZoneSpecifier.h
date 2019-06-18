@@ -476,7 +476,11 @@ class TransitionStorage {
 
     /**
      * Return the Transition matching the given epochSeconds. Return nullptr if
-     * no matching Transition found.
+     * no matching Transition found. If a zone does not have any transition
+     * according to TZ Database, the tools/transformer.py script adds an
+     * "anchor" transition at the "beginning of time" which happens to be the
+     * year 1872 (because the year is stored as an int8_t). Therefore, this
+     * method should never return a nullptr for a well-formed ZoneInfo file.
      */
     const Transition* findTransition(acetime_t epochSeconds) const {
       if (DEBUG) logging::println(
@@ -669,6 +673,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         const override {
       init(ldt.getLocalDate());
       if (mIsOutOfBounds) return TimeOffset::forError();
+
       const extended::Transition* transition =
           mTransitionStorage.findTransitionForDateTime(ldt);
       return (transition)
@@ -753,7 +758,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return getZoneInfo() == that.getZoneInfo();
     }
 
-    /** Return the Transition matching the given epochSeconds. */
+    /**
+     * Return the Transition matching the given epochSeconds. Returns nullptr
+     * if no matching Transition found.
+     */
     const extended::Transition* findTransition(acetime_t epochSeconds) const {
       return mTransitionStorage.findTransition(epochSeconds);
     }

@@ -184,7 +184,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * epochSecond from the previous pass to calculate the next best guess of
      * the actual TimeOffset. We return the second pass guess as the result.
      */
-    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
+    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
+        const override {
       init(ldt.getLocalDate());
       if (mIsOutOfBounds) return TimeOffset::forError();
 
