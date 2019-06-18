@@ -16,8 +16,8 @@ The AceTime classes are organized into roughly 4 bundles, placed in different
 C++ namespaces:
 
 * date and time classes
-    * `ace_time::LocalDate`
     * `ace_time::LocalTime`
+    * `ace_time::LocalDate`
     * `ace_time::LocalDateTime`
     * `ace_time::TimeOffset`
     * `ace_time::OffsetDateTime`
@@ -25,9 +25,14 @@ C++ namespaces:
         * `ace_time::ManualZoneSpecifier`
         * `ace_time::BasicZoneSpecifier`
         * `ace_time::ExtendedZoneSpecifier`
-    * `ace_time::ZonedDateTime`
     * `ace_time::TimeZone`
+    * `ace_time::ZonedDateTime`
     * `ace_time::TimePeriod`
+    * mutation helpers
+        * `ace_time::date_time_mutation::*`
+        * `ace_time::local_date_mutation::*`
+        * `ace_time::time_offset_mutation::*`
+        * `ace_time::time_period_mutation::*`
 * system clock classes
     * `ace_time::provider::TimeProvider`
         * `ace_time::provider::TimeKeeper`
@@ -44,14 +49,14 @@ C++ namespaces:
         * Used by `BasicZoneSpecifier`
         * `zonedb::kZoneAfrica_Abidjan`
         * `zonedb::kZoneAfrica_Accra`
-        * (...227 other zones...)
+        * ...227 other zones...
         * `zonedb::kZonePacific_Wake`
         * `zonedb::kZonePacific_Wallis`
     * `ace_time::zonedbx` (348 timezones)
         * Used by `ExtendedZoneSpecifier`
         * `zonedbx::kZoneAfrica_Abidjan`
         * `zonedbx::kZoneAfrica_Accra`
-        * (...344 other zones...)
+        * ...344 other zones...
         * `zonedbx::kZonePacific_Wake`
         * `zonedbx::kZonePacific_Wallis`
 * Helper and common classes
@@ -378,7 +383,11 @@ using namespace ace_time::zonedbx;
 
 One of the fundamental types in AceTime is the `acetime_t` defined as:
 ```C++
+namespace ace_time {
+
 typedef int32_t acetime_t;
+
+}
 ```
 This represents the number of seconds since the Epoch. In AceTime, the Epoch is
 defined to be 2000-01-01 00:00:00 UTC time. In contrast, Unix Epoch is defined
@@ -816,6 +825,8 @@ class TimeZone {
 
     bool isDst() const;
     void isDst(bool dst);
+
+    ...
 };
 
 }
@@ -1082,6 +1093,8 @@ class ZonedDateTime {
 
     int8_t compareTo(const ZonedDateTime& that) const;
     void printTo(Print& printer) const;
+
+    ...
 };
 
 }
