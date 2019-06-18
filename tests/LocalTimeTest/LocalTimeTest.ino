@@ -1,0 +1,113 @@
+#line 2 "LocalTimeTest.ino"
+
+#include <AUnit.h>
+#include <AceTime.h>
+
+using namespace aunit;
+using namespace ace_time;
+using namespace ace_time::common;
+
+// --------------------------------------------------------------------------
+// LocalTime
+// --------------------------------------------------------------------------
+
+test(LocalTimeTest, accessors) {
+  LocalTime lt = LocalTime::forComponents(1, 2, 3);
+  assertEqual(1, lt.hour());
+  assertEqual(2, lt.minute());
+  assertEqual(3, lt.second());
+}
+
+test(LocalTimeTest, isError) {
+  assertFalse(LocalTime::forComponents(0, 0, 0).isError());
+  assertFalse(LocalTime::forComponents(0, 59, 0).isError());
+  assertFalse(LocalTime::forComponents(0, 59, 59).isError());
+  assertFalse(LocalTime::forComponents(23, 59, 59).isError());
+  assertFalse(LocalTime::forComponents(24, 0, 0).isError());
+
+  assertTrue(LocalTime::forComponents(24, 0, 1).isError());
+  assertTrue(LocalTime::forComponents(25, 0, 0).isError());
+  assertTrue(LocalTime::forComponents(0, 60, 0).isError());
+  assertTrue(LocalTime::forComponents(0, 0, 60).isError());
+}
+
+test(LocalTimeTest, forError) {
+  LocalTime lt = LocalTime::forError();
+  assertTrue(lt.isError());
+  assertEqual(LocalTime::kInvalidSeconds, lt.toSeconds());
+
+  lt = LocalTime::forSeconds(LocalTime::kInvalidSeconds);
+  assertTrue(lt.isError());
+}
+
+test(LocalTimeTest, toAndFromSeconds) {
+  LocalTime lt;
+
+  lt = LocalTime::forSeconds(0);
+  assertTrue(lt == LocalTime::forComponents(0, 0, 0));
+  assertEqual((acetime_t) 0, lt.toSeconds());
+
+  lt = LocalTime::forSeconds(3662);
+  assertTrue(lt == LocalTime::forComponents(1, 1, 2));
+  assertEqual((acetime_t) 3662, lt.toSeconds());
+
+  lt = LocalTime::forSeconds(86399);
+  assertTrue(lt == LocalTime::forComponents(23, 59, 59));
+  assertEqual((acetime_t) 86399, lt.toSeconds());
+}
+
+test(LocalTimeTest, compareTo) {
+  LocalTime a, b;
+
+  a = LocalTime::forComponents(0, 1, 1);
+  b = LocalTime::forComponents(0, 1, 1);
+  assertEqual(a.compareTo(b), 0);
+  assertTrue(a == b);
+  assertFalse(a != b);
+
+  a = LocalTime::forComponents(0, 1, 1);
+  b = LocalTime::forComponents(0, 1, 2);
+  assertLess(a.compareTo(b), 0);
+  assertMore(b.compareTo(a), 0);
+  assertTrue(a != b);
+
+  a = LocalTime::forComponents(0, 1, 1);
+  b = LocalTime::forComponents(0, 2, 1);
+  assertLess(a.compareTo(b), 0);
+  assertMore(b.compareTo(a), 0);
+  assertTrue(a != b);
+
+  a = LocalTime::forComponents(0, 1, 1);
+  b = LocalTime::forComponents(1, 1, 1);
+  assertLess(a.compareTo(b), 0);
+  assertMore(b.compareTo(a), 0);
+  assertTrue(a != b);
+}
+
+test(LocalTimeTest, forTimeString) {
+  LocalTime lt;
+  lt = LocalTime::forTimeString("00:00:00");
+  assertTrue(lt == LocalTime::forComponents(0, 0, 0));
+
+  lt = LocalTime::forTimeString("01:02:03");
+  assertTrue(lt == LocalTime::forComponents(1, 2, 3));
+}
+
+test(LocalTimeTest, fortimeString_invalid) {
+  LocalTime lt = LocalTime::forTimeString("01:02");
+  assertTrue(lt.isError());
+}
+
+// --------------------------------------------------------------------------
+
+void setup() {
+#if defined(ARDUINO)
+  delay(1000); // wait for stability on some boards to prevent garbage Serial
+#endif
+  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  while(!Serial); // for the Arduino Leonardo/Micro only
+}
+
+void loop() {
+  TestRunner::run();
+}
