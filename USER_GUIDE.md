@@ -1066,11 +1066,15 @@ timePeriod.printTo(Serial)
 
 ## Error Handling
 
-Many features of the date and time classes have explicit or implicit
-range of validity in their inputs and outputs. The Arduino programming
-environment does not use C++ exceptions, so we encode error states in the return
-value of various classes. Most date and time classes have an `isError()` method
-on them, for example:
+Many features of the date and time classes have explicit or implicit range of
+validity in their inputs and outputs. The Arduino programming environment does
+not use C++ exceptions, so we handle invalid values by returning special version
+of various date/time objects to the caller.
+
+### isError()
+
+The `isError()` method on these
+classes will return `true` upon a data range error:
 
 ```C++
 bool LocalDate::isError() const;
@@ -1082,11 +1086,27 @@ bool TimeOffset::isError() const;
 ```
 
 A well-crafted application should check for these error conditions before
-writing or displaying the objects to the user. For example, the `zonedb::` and
-`zonedbx::` files are valid from year 2000 until 2050. If you try to create a
-date outside of this range, the `ZonedDateTime` object will return true of
-`isError()`. The following snippet will print "true" because the year 1998 is
-outside of the valid range of the `::zonedb` files.
+writing or displaying the objects to the user.
+
+For example, the `LocalDate` class uses a single byte `int8_t` instead of 2 byte
+`int16_t` to store the year. (This saves memory). The range of a `int8_t` type
+is -128 to 127, which is interpreted to be the offset from the year 2000. The
+value of -128 is a reserved value, so the actual valid range of a valid year is
+1873 to 2127. Other data and time classes in the library use the `LocalDate`
+class internally so will have the same range of validity. If you try to create
+an instance with a year component outside of this range, an error object is
+returned whose `isError()` method returns `true`. The following code snippet
+prints "true":
+
+```C+++
+auto dt = LocalDateTime::forComponents(1800, 1, 1, 0, 0, 0); // invalid year
+Serial.println(dt.isError() ? "true" : "false");
+```
+
+Another example, the `ZonedDateTime` class uses the generated TZ Database in
+the `zonedb::` and `zonedbx::` namespaces. These data files are valid from 2000
+until 2050. If you try to create a date outside of this range, an error
+`ZonedDateTime` object will returned. The following snippet will print "true":
 
 ```C++
 BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
@@ -1095,6 +1115,17 @@ ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
 Serial.println(dt.isError() ? "true" : "false");
 ```
 
+### LocalDate::kInvalidEpochSeconds
+
+Many methods return an `acetime_t` type. For example, `toEpochSeconds()` or
+`toUnixSeconds()` on `LocalDateTime`, `OffsetDateTime` or `ZonedDateTime`.
+These methods will return `LocalDate::kInvalidEpochSeconds` if an invalid
+value is calculated.
+
+Similarly, there are many methods which accept an `acetime_t` as an argument and
+returns a object of time `LocalDateTime`, `OffsetDateTime` or `ZonedDateTime`.
+When these methods are passed a value of `LocalDate::kInvalidEpochSeconds`, the
+resulting object will return a true value for `isError()`.
 
 ## Clock
 
@@ -1727,12 +1758,15 @@ only a handful of zones are used, which is the expected use case of AceTime.
       emulator.
 * `zonedb::` and `zonedbx::` zone files
     * These statically defined data structures are loaded into flash memory
-      then copied to RAM on the Arduino chips. They do not use the `PROGMEM`
-      keyword to store them only on flash. Fortunately, most `ZoneInfo`
-      instances are only 40-60 bytes and the corresponding `ZonePolicy`
-      instances are 50-100 bytes.
+      then copied to RAM when the application starts. Fortunately, most
+      `ZoneInfo` instances are only 40-60 bytes and the corresponding
+      `ZonePolicy` instances are 50-100 bytes.
+    * It maybe possible to use the `PROGMEM` keyword to store them only on
+      flash memory, but that requires more code to be generated to read them
+      from flash. The end result may be a wash when only a small number of zones
+      are loaded.
 * TZ Database
-    * The TZ data files contain 3 types of records: Zone, Rule and Link.
-      We do not yet support Link entries which are essentiallly symbolic links
-      of one timezone identifier to another. This will be added in a later
-      version.
+    * The TZ data files contain 3 types of records: `Zone`, `Rule` and `Link`.
+      AceTime does not yet support `Link` entries which are essentiallly
+      symbolic links from one timezone identifier to another. This will be added
+      in a later version.
