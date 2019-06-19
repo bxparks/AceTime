@@ -12,10 +12,11 @@ namespace ace_time {
 
 class LocalDateTime {
   public:
+
     /**
-     * Factory method using separated date, time.
+     * Factory method using separated date and time components.
      *
-     * @param year [1872-2127]
+     * @param year [1873-2127]
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      * @param hour hour [0-23]
@@ -27,6 +28,12 @@ class LocalDateTime {
       int8_t yearTiny = LocalDate::isYearValid(year)
           ? year - LocalDate::kEpochYear
           : LocalDate::kInvalidYearTiny;
+      return LocalDateTime(yearTiny, month, day, hour, minute, second);
+    }
+
+    /** Factory method using components with a int8_t yearTiny. */
+    static LocalDateTime forTinyComponents(int8_t yearTiny, uint8_t month,
+        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second) {
       return LocalDateTime(yearTiny, month, day, hour, minute, second);
     }
 
@@ -92,6 +99,15 @@ class LocalDateTime {
      * 1872-01-01T00:00:00 to 2127-12-31T23:59:59.
      */
     static LocalDateTime forDateString(const char* dateString);
+
+    /**
+     * Variant of forDateString() that updates the pointer to the next
+     * unprocessed character. This allows chaining to another
+     * forXxxStringChainable() method.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static LocalDateTime forDateStringChainable(const char*& dateString);
 
     /**
      * Factory method. Create a LocalDateTime from date string in flash memory
@@ -241,26 +257,16 @@ class LocalDateTime {
     LocalDateTime& operator=(const LocalDateTime&) = default;
 
   private:
-    friend class OffsetDateTime; // forDateStringChainable()
     friend bool operator==(const LocalDateTime& a, const LocalDateTime& b);
 
     /** Expected length of an ISO 8601 date string. */
     static const uint8_t kDateTimeStringLength = 19;
 
-    /**
-     * The internal version of forDateString() that updates the reference to
-     * the pointer to the string to the next unprocessed character. This allows
-     * chaining to another forDateStringChainable() method.
-     *
-     * This method assumes that the dateString is sufficiently long.
-     */
-    static LocalDateTime forDateStringChainable(const char*& dateString);
-
     /** Constructor from components. */
     explicit LocalDateTime(int8_t yearTiny, uint8_t month, uint8_t day,
         uint8_t hour, uint8_t minute, uint8_t second):
-        mLocalDate(yearTiny, month, day),
-        mLocalTime(hour, minute, second) {}
+        mLocalDate(LocalDate::forTinyComponents(yearTiny, month, day)),
+        mLocalTime(LocalTime::forComponents(hour, minute, second)) {}
 
     /** Constructor from a LocalDate and LocalTime. */
     explicit LocalDateTime(const LocalDate& ld, const LocalTime& lt):

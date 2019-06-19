@@ -119,6 +119,15 @@ class OffsetDateTime {
     static OffsetDateTime forDateString(const char* dateString);
 
     /**
+     * Variant of forDateString() that updates the pointer to the next
+     * unprocessed character. This allows chaining to another
+     * forXxxStringChainable() method.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static OffsetDateTime forDateStringChainable(const char*& dateString);
+
+    /**
      * Factory method. Create a OffsetDateTime from date string in flash memory
      * F() strings. Mostly for unit testing. Returns OffsetDateTime::forError()
      * if a parsing error occurs.
@@ -294,19 +303,11 @@ class OffsetDateTime {
     /** Expected length of an ISO 8601 date string, including UTC offset. */
     static const uint8_t kDateStringLength = 25;
 
-    /**
-     * The internal version of forDateString() that updates the string pointer
-     * to the next unprocessed character. The resulting pointer can be passed
-     * to another forDateStringInternal() method to continue parsing.
-     *
-     * This method assumes that the dateString is sufficiently long.
-     */
-    static OffsetDateTime forDateStringChainable(const char*& dateString);
-
     /** Constructor from components. */
     explicit OffsetDateTime(int8_t yearTiny, uint8_t month, uint8_t day,
         uint8_t hour, uint8_t minute, uint8_t second, TimeOffset timeOffset):
-        mLocalDateTime(yearTiny, month, day, hour, minute, second),
+        mLocalDateTime(LocalDateTime::forTinyComponents(
+            yearTiny, month, day, hour, minute, second)),
         mTimeOffset(timeOffset) {}
 
     /** Constructor from LocalDateTime and a TimeOffset. */

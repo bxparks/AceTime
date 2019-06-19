@@ -88,6 +88,16 @@ class TimeOffset {
      */
     static TimeOffset forOffsetString(const char* offsetString);
 
+    /**
+     * Variant of forOffsetString() that updates the string pointer to the next
+     * unprocessed character. The resulting pointer can be passed to another
+     * forDateStringInternal() method to chain the parsing.
+     *
+     * This method assumes that the offsetString is sufficiently long.
+     * Returns TimeOffset::forError() if a parsing error occurs.
+     */
+    static TimeOffset forOffsetStringChainable(const char*& offsetString);
+
     /** Return an error indicator. */
     static TimeOffset forError() { return TimeOffset(kErrorCode); }
 
@@ -147,9 +157,6 @@ class TimeOffset {
 
   private:
     friend bool operator==(const TimeOffset& a, const TimeOffset& b);
-
-    friend class OffsetDateTime; // forOffsetStringChainable()
-
     // Give access to setOffsetCode()
     friend void time_offset_mutation::incrementHour(TimeOffset& offset);
     friend void time_offset_mutation::increment15Minutes(TimeOffset& offset);
@@ -159,16 +166,6 @@ class TimeOffset {
 
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
     static const uint8_t kTimeOffsetStringLength = 6;
-
-    /**
-     * The internal version of forOffsetString() that updates the string pointer
-     * to the next unprocessed character. The resulting pointer can be passed
-     * to another forDateStringInternal() method to continue parsing.
-     *
-     * This method assumes that the offsetString is sufficiently long.
-     * Returns TimeOffset::forError() if a parsing error occurs.
-     */
-    static TimeOffset forOffsetStringChainable(const char*& offsetString);
 
     /** Constructor. Create a time zone from the offset code. */
     explicit TimeOffset(int8_t offsetCode):

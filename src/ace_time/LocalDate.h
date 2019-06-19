@@ -91,13 +91,7 @@ class LocalDate {
       return LocalDate(yearTiny, month, day);
     }
 
-    /**
-     * Factory method using separated yearTiny, month and day fields.
-     *
-     * @param year -127, 127
-     * @param month month with January=1, December=12
-     * @param day day of month [1-31]
-     */
+    /** Factory method using components with a int8_t yearTiny. */
     static LocalDate forTinyComponents(int8_t yearTiny, uint8_t month,
         uint8_t day) {
       return LocalDate(yearTiny, month, day);
@@ -177,6 +171,15 @@ class LocalDate {
      * @param dateString the date in ISO 8601 format (yyyy-mm-dd)
      */
     static LocalDate forDateString(const char* dateString);
+
+    /**
+     * Variant of forDateString() that updates the pointer to the next
+     * unprocessed character. This allows chaining to another
+     * forXxxStringChainable() method.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static LocalDate forDateStringChainable(const char*& dateString);
 
     /**
      * Factory method that returns a LocalDate which represents an error
@@ -349,7 +352,6 @@ class LocalDate {
     LocalDate& operator=(const LocalDate&) = default;
 
   private:
-    friend class LocalDateTime; // constructor, forDateStringChainable(),
     friend bool operator==(const LocalDate& a, const LocalDate& b);
 
     /**
@@ -382,15 +384,6 @@ class LocalDate {
 
     /** Number of days in each month in a non-leap year. 0=Jan, 11=Dec. */
     static const uint8_t sDaysInMonth[12];
-
-    /**
-     * The internal version of forDateString() that updates the string pointer
-     * to the next unprocessed character. The resulting pointer can be passed
-     * to another forDateStringInternal() method to continue parsing.
-     *
-     * This method assumes that the dateString is sufficiently long.
-     */
-    static LocalDate forDateStringChainable(const char*& dateString);
 
     /** Constructor that sets the components. */
     explicit LocalDate(int8_t yearTiny, uint8_t month, uint8_t day):
