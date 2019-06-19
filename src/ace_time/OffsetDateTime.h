@@ -47,8 +47,10 @@ class OffsetDateTime {
     static OffsetDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
         TimeOffset timeOffset) {
-      return OffsetDateTime(
-          LocalDateTime::forComponents(year, month, day, hour, minute, second),
+      int8_t yearTiny = LocalDate::isYearValid(year)
+          ? year - LocalDate::kEpochYear
+          : LocalDate::kInvalidYearTiny;
+      return OffsetDateTime(yearTiny, month, day, hour, minute, second,
           timeOffset);
     }
 
@@ -298,6 +300,12 @@ class OffsetDateTime {
      * This method assumes that the dateString is sufficiently long.
      */
     static OffsetDateTime forDateStringChainable(const char*& dateString);
+
+    /** Constructor from components. */
+    explicit OffsetDateTime(int8_t yearTiny, uint8_t month, uint8_t day,
+        uint8_t hour, uint8_t minute, uint8_t second, TimeOffset timeOffset):
+        mLocalDateTime(yearTiny, month, day, hour, minute, second),
+        mTimeOffset(timeOffset) {}
 
     /** Constructor from LocalDateTime and a TimeOffset. */
     explicit OffsetDateTime(const LocalDateTime& ldt, TimeOffset timeOffset):

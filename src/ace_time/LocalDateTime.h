@@ -25,9 +25,10 @@ class LocalDateTime {
      */
     static LocalDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second) {
-      return LocalDateTime(
-          LocalDate::forComponents(year, month, day),
-          LocalTime(hour, minute, second));
+      int8_t yearTiny = LocalDate::isYearValid(year)
+          ? year - LocalDate::kEpochYear
+          : LocalDate::kInvalidYearTiny;
+      return LocalDateTime(yearTiny, month, day, hour, minute, second);
     }
 
     /**
@@ -254,6 +255,12 @@ class LocalDateTime {
      * This method assumes that the dateString is sufficiently long.
      */
     static LocalDateTime forDateStringChainable(const char*& dateString);
+
+    /** Constructor from components. */
+    explicit LocalDateTime(int8_t yearTiny, uint8_t month, uint8_t day,
+        uint8_t hour, uint8_t minute, uint8_t second):
+        mLocalDate(yearTiny, month, day),
+        mLocalTime(hour, minute, second) {}
 
     /** Constructor from a LocalDate and LocalTime. */
     explicit LocalDateTime(const LocalDate& ld, const LocalTime& lt):
