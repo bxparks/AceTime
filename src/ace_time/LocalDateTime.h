@@ -51,19 +51,23 @@ class LocalDateTime {
      *    an invalid instance whose isError() returns true.
      */
     static LocalDateTime forEpochSeconds(acetime_t epochSeconds) {
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return forError();
+      LocalDate ld;
+      LocalTime lt;
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds) {
+        ld = LocalDate::forError();
+        lt = LocalTime::forError();
+      } else {
+        // Integer floor-division towards -infinity
+        acetime_t days = (epochSeconds < 0)
+            ? (epochSeconds + 1) / 86400 - 1
+            : epochSeconds / 86400;
 
-      // Integer floor-division towards -infinity
-      acetime_t days = (epochSeconds < 0)
-          ? (epochSeconds + 1) / 86400 - 1
-          : epochSeconds / 86400;
-
-      // Avoid % operator, because it's slow on an 8-bit process and because
-      // epochSeconds could be negative.
-      acetime_t seconds = epochSeconds - 86400 * days;
-
-      LocalDate ld = LocalDate::forEpochDays(days);
-      LocalTime lt = LocalTime::forSeconds(seconds);
+        // Avoid % operator, because it's slow on an 8-bit process and because
+        // epochSeconds could be negative.
+        acetime_t seconds = epochSeconds - 86400 * days;
+        ld = LocalDate::forEpochDays(days);
+        lt = LocalTime::forSeconds(seconds);
+      }
 
       return LocalDateTime(ld, lt);
     }
@@ -77,11 +81,10 @@ class LocalDateTime {
      * LocalDate::kInvalidEpochSeconds.
      */
     static LocalDateTime forUnixSeconds(acetime_t unixSeconds) {
-      if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
-        return forError();
-      } else {
-        return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch);
-      }
+      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidEpochSeconds)
+          ? unixSeconds
+          : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
+      return forEpochSeconds(epochSeconds);
     }
 
     /**

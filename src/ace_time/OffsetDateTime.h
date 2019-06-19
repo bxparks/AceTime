@@ -68,16 +68,11 @@ class OffsetDateTime {
      */
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
           TimeOffset timeOffset) {
-      OffsetDateTime dt;
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds
-          || timeOffset.isError()) return forError();
-
-      // Get the real epochSeconds
-      dt.mTimeOffset = timeOffset;
-      epochSeconds += timeOffset.toSeconds();
-
-      dt.mLocalDateTime = LocalDateTime::forEpochSeconds(epochSeconds);
-      return dt;
+      if (epochSeconds != LocalDate::kInvalidEpochSeconds) {
+        epochSeconds += timeOffset.toSeconds();
+      }
+      auto ldt = LocalDateTime::forEpochSeconds(epochSeconds);
+      return OffsetDateTime(ldt, timeOffset);
     }
 
     /**
@@ -87,12 +82,10 @@ class OffsetDateTime {
      */
     static OffsetDateTime forUnixSeconds(acetime_t unixSeconds,
           TimeOffset timeOffset) {
-      if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
-        return forEpochSeconds(unixSeconds, timeOffset);
-      } else {
-        return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch,
-            timeOffset);
-      }
+      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidEpochSeconds)
+          ? unixSeconds
+          : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
+      return forEpochSeconds(epochSeconds, timeOffset);
     }
 
     /**
@@ -302,13 +295,12 @@ class OffsetDateTime {
     static const uint8_t kDateStringLength = 25;
 
     /** Constructor from LocalDateTime and a TimeOffset. */
-    explicit OffsetDateTime(const LocalDateTime& ldt,
-        const TimeOffset timeOffset):
+    explicit OffsetDateTime(const LocalDateTime& ldt, TimeOffset timeOffset):
         mLocalDateTime(ldt),
         mTimeOffset(timeOffset) {}
 
     LocalDateTime mLocalDateTime;
-    TimeOffset mTimeOffset; // offset from UTC
+    TimeOffset mTimeOffset;
 };
 
 /**

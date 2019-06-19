@@ -67,12 +67,14 @@ class ZonedDateTime {
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone) {
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return forError();
-
-      TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
-      return ZonedDateTime(
-          OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset),
-          timeZone);
+      OffsetDateTime odt;
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds) {
+        odt = OffsetDateTime::forError();
+      } else {
+        TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
+        odt = OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset);
+      }
+      return ZonedDateTime(odt, timeZone);
     }
 
     /**
@@ -86,12 +88,10 @@ class ZonedDateTime {
      */
     static ZonedDateTime forUnixSeconds(acetime_t unixSeconds,
         const TimeZone& timeZone) {
-      if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
-        return forError();
-      } else {
-        return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch,
-            timeZone);
-      }
+      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidEpochSeconds)
+          ? unixSeconds
+          : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
+      return forEpochSeconds(epochSeconds, timeZone);
     }
 
     /**
