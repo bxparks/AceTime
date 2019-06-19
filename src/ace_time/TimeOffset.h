@@ -52,6 +52,9 @@ void increment15Minutes(TimeOffset& offset);
  */
 class TimeOffset {
   public:
+    /** Sentinel value that represents an error. */
+    static const int8_t kErrorCode = INT8_MIN;
+
     /**
      * Create TimeOffset with the corresponding hour offset. For example,
      * -08:00 is 'forHour(-8)'.
@@ -160,9 +163,6 @@ class TimeOffset {
     // Give access to setOffsetCode()
     friend void time_offset_mutation::incrementHour(TimeOffset& offset);
     friend void time_offset_mutation::increment15Minutes(TimeOffset& offset);
-
-    /** Sentinel value that represents an error. */
-    static const int8_t kErrorCode = -128;
 
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
     static const uint8_t kTimeOffsetStringLength = 6;
