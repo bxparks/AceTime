@@ -1101,46 +1101,48 @@ Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/pac
 Time](https://nodatime.org/)) avoid the problem altogether by making all objects
 immutable. In those libraries, mutations occur by creating a new copy of the
 target object with a new value for the mutated parameter. Making the objects
-immutable is definitely cleaner, but it causes the code size to increase, and we
-often cannot afford that on an Arduino microcontroller with only 30-32kB of
-flash memory.
+immutable is definitely cleaner, but it causes the code size to increase
+significantly. For the case of the [WorldClock](example/WorldClock) program,
+the code size increased by 500-700 bytes, which I could not afford because the
+program takes up almost the entire flash memory of an Ardunio Pro Micro with
+only 28672 bytes of flash memory.
 
-The second problem with mutation is that the number of ways that an application
-developer may want to change a DateTime object can vary wildly. It would be
-impossible for the AceTime library to provide all possible mutation operations.
-If added mutation operations into the various classes themselves (e.g.
-`LocalDateTime`, `OffsetDateTime`, `ZonedDateTime`), the complexity of API of
-those classes would become overwhelming.
+Most date and time classes in the AceTime library are mutable. The mutation
+operations are not implemented within the class itself to avoid bloating
+the class API surface. The mutation functions live as functions in separate
+namespaces outside of the class definitions:
+* `time_period_mutation.h`
+* `time_offset_mutation.h`
+* `local_date_time_mutation.h`
+* `zoned_date_time_mutation.h`
 
-The solution that I used for the AceTime library was to move the mutation
-operations into helper functions in separate namespaces outside of the class
-definitions. This means that additional mutation operations can be written by
-the application developer and added into the *same* namespace.
+Additional mutation operations can be written by the application developer and
+added into the *same* namespace.
 
-Most of these mutation functions were created to solve a particular UI
-problem in my "clock" applications, where the end-user is prompted to set the
-current date and time by change the various date/time components using a button
-on a clock. The "select" button select the mutating field (e.g. "hour") and
-causes the field to blink. The other "change" button increases the value of this
-field by a certain amount (usually 1 unit). Holding down the "change" button
-causes field to increase repeatedly. When the "select" button is pressed again,
-the blinking goes to the next field. When the "select" button is pressed for
-more than 3 seconds, the entire date and time object is copied and stored into
-the `SystemClock`.
+Most of these mutation functions were created to solve a particular UI problem
+in my various clock applications. In those clocks, the user is provided an OLED
+display and 2 buttons. The user can change the time by presss and holding down
+the Select button. One of the components of the date or time will blink. The
+user can press the other Change button to increment the component. Pressing the
+Select button will move the blinking cursor to the next field. After all the
+fields have been set, the user can long-press the Select button again to save
+the new date and time into the `SystemClock`.
 
-The mutation operations provided in this library often have very poor data
-validation rules, mostly because they were not needed for the clock applications
-that I have written. For example, the `zoned_date_time_mutation::incrementDay()`
-method will increment the `ZonedDateTime::day()` field from Feb 29 to Feb 30,
-then to Feb 31, then wrap around to Feb 1. The object will become normalized
-when it is converted into an Epoch seconds (using `toEpochSeconds()`), then
-converted back to a `ZonedDateTime` object (using `forEpochSeconds()`). By
-deferring this normalization step until the user has finished setting all the
-clock fields, we can save some processing cycles of a Arduino microcontroller.
+The mutation function directly manipulate the underlying date and time
+components of `ZonedDateTime` and other target classes. No
+validation rules are performed. For example, the
+`zoned_date_time_mutation::incrementDay()` method will increment the
+`ZonedDateTime::day()` field from Feb 29 to Feb 30, then to Feb 31, then wrap
+around to Feb 1. The object will become normalized when it is converted into an
+Epoch seconds (using `toEpochSeconds()`), then converted back to a
+`ZonedDateTime` object (using `forEpochSeconds()`). By deferring this
+normalization step until the user has finished setting all the clock fields, we
+can reduce the size of the code in flash. (The limiting factor for many
+Arduino environments is the code size, not the CPU time.)
 
-(I am not fully convinced that making the AceTime objects mutable is the best
-design decision. But I have found it to work pretty well for the applications
-that I have written so far.)
+It is not clear that making the AceTime objects mutable was the best design
+decision. But it seems to produce far smaller code sizes, while providing the
+features that I need to implement the various Clock applications.
 
 ### TimeOffset Mutation
 
