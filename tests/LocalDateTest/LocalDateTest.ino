@@ -401,6 +401,12 @@ test(LocalDateTest, incrementOneDay) {
   assertTrue(ld == LocalDate::forComponents(2004, 2, 29));
 }
 
+test(LocalDateTest, incrementOneDay_error) {
+  auto ld = LocalDate::forComponents(2127, 12, 31);
+  local_date_mutation::incrementOneDay(ld);
+  assertTrue(ld.isError());
+}
+
 test(LocalDateTest, decrementOneDay) {
   LocalDate ld;
 
@@ -427,6 +433,12 @@ test(LocalDateTest, decrementOneDay) {
   ld = LocalDate::forComponents(2000, 2, 29);
   local_date_mutation::decrementOneDay(ld);
   assertTrue(ld == LocalDate::forComponents(2000, 2, 28));
+}
+
+test(LocalDateTest, decrementOneDay_error) {
+  auto ld = LocalDate::forComponents(1873, 1, 1);
+  local_date_mutation::decrementOneDay(ld);
+  assertTrue(ld.isError());
 }
 
 // --------------------------------------------------------------------------
