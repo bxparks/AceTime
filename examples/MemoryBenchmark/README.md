@@ -21,8 +21,8 @@ FEATURE memory usage.
 | ExtendedZoneSpecifier               |  7738/307 |     7290/297   |
 | ExtendedZoneSpecifier (2 zones)     |  8634/381 |     8186/371   |
 |-------------------------------------+-----------+----------------|
-| SystemClock                    |  4720/276 |     4272/266   |
-| SystemClock+BasicZoneSpecifier |  8406/444 |     7958/434   |
+| SystemClock                         |  4720/276 |     4272/266   |
+| SystemClock+BasicZoneSpecifier      |  8406/444 |     7958/434   |
 +------------------------------------------------------------------+
 ```
 
@@ -42,7 +42,7 @@ FEATURE memory usage.
 | ExtendedZoneSpecifier               | 272056/33344 |    14952/6804  |
 | ExtendedZoneSpecifier (2 zones)     | 272988/33428 |    15884/6888  |
 |-------------------------------------+--------------+----------------|
-| SystemClock                    | 263772/26960 |     6668/ 420  |
-| SystemClock+BasicZoneSpecifier | 271232/31180 |    14128/4640  |
+| SystemClock                         | 263772/26960 |     6668/ 420  |
+| SystemClock+BasicZoneSpecifier      | 271232/31180 |    14128/4640  |
 +---------------------------------------------------------------------+
 ```
