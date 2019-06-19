@@ -191,6 +191,12 @@ class LocalDate {
       return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
     }
 
+    /** Return true if year is within valid range of [1873, 2127]. */
+    static bool isYearValid(int16_t year) {
+      return year >= kEpochYear + kMinYearTiny
+          && year <= kEpochYear + kMaxYearTiny;
+    }
+
     /** Return the number of days in the current month. */
     static uint8_t daysInMonth(int16_t year, uint8_t month) {
       uint8_t days = sDaysInMonth[month - 1];
@@ -344,8 +350,6 @@ class LocalDate {
 
   private:
     friend class LocalDateTime; // constructor, forDateStringChainable(),
-                                // isYearValid()
-    friend class OffsetDateTime; // isYearValid()
     friend bool operator==(const LocalDate& a, const LocalDate& b);
 
     /**
@@ -387,15 +391,6 @@ class LocalDate {
      * This method assumes that the dateString is sufficiently long.
      */
     static LocalDate forDateStringChainable(const char*& dateString);
-
-    /**
-     * Check year is within valid range. Don't need to validate month or
-     * year, that's done in isError().
-     */
-    static bool isYearValid(int16_t year) {
-      return year >= kEpochYear + kMinYearTiny
-          && year <= kEpochYear + kMaxYearTiny;
-    }
 
     /** Constructor that sets the components. */
     explicit LocalDate(int8_t yearTiny, uint8_t month, uint8_t day):

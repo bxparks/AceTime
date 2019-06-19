@@ -195,7 +195,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       TimeOffset initialTimeOffset = getUtcOffset(initialEpochSeconds);
 
       // Second guess at the TimeOffset using the first TimeOffset.
-      OffsetDateTime odt(ldt, initialTimeOffset);
+      auto odt = OffsetDateTime::forLocalDateTimeAndOffset(
+          ldt, initialTimeOffset);
       acetime_t epochSeconds = odt.toEpochSeconds();
       return getUtcOffset(epochSeconds);
     }
@@ -219,13 +220,36 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       }
     }
 
+    /**
+     * Calculate the actual dayOfMonth of the expresssion
+     * (onDayOfWeek >= onDayOfMonth). The "last{dayOfWeek}" expression is
+     * expressed by onDayOfMonth being 0. An exact match on dayOfMonth is
+     * expressed by setting onDayOfWeek to 0.
+     *
+     * Not private, used by ExtendedZoneSpecifier.
+     */
+    static uint8_t calcStartDayOfMonth(int16_t year, uint8_t month,
+        uint8_t onDayOfWeek, uint8_t onDayOfMonth) {
+      if (onDayOfWeek == 0) return onDayOfMonth;
+
+
+      // Convert "last{Xxx}" to "last{Xxx}>={daysInMonth-6}".
+      if (onDayOfMonth == 0) {
+        onDayOfMonth = LocalDate::daysInMonth(year, month) - 6;
+      }
+
+      LocalDate limitDate = LocalDate::forComponents(
+          year, month, onDayOfMonth);
+      uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
+      return onDayOfMonth + dayOfWeekShift;
+    }
+
   private:
     friend class ::BasicZoneSpecifierTest_init_primitives;
     friend class ::BasicZoneSpecifierTest_init;
     friend class ::BasicZoneSpecifierTest_createAbbreviation;
     friend class ::BasicZoneSpecifierTest_calcStartDayOfMonth;
     friend class ::BasicZoneSpecifierTest_calcRuleOffsetCode;
-    friend class ExtendedZoneSpecifier; // calcStartDayOfMonth()
 
     /** Maximum size of Transition cache across supported zones. */
     static const uint8_t kMaxCacheEntries = 4;
@@ -568,28 +592,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
         prevTransition = &transition;
       }
-    }
-
-    /**
-     * Calculate the actual dayOfMonth of the expresssion
-     * (onDayOfWeek >= onDayOfMonth). The "last{dayOfWeek}" expression is
-     * expressed by onDayOfMonth being 0. An exact match on dayOfMonth is
-     * expressed by setting onDayOfWeek to 0.
-     */
-    static uint8_t calcStartDayOfMonth(int16_t year, uint8_t month,
-        uint8_t onDayOfWeek, uint8_t onDayOfMonth) {
-      if (onDayOfWeek == 0) return onDayOfMonth;
-
-
-      // Convert "last{Xxx}" to "last{Xxx}>={daysInMonth-6}".
-      if (onDayOfMonth == 0) {
-        onDayOfMonth = LocalDate::daysInMonth(year, month) - 6;
-      }
-
-      LocalDate limitDate = LocalDate::forComponents(
-          year, month, onDayOfMonth);
-      uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
-      return onDayOfMonth + dayOfWeekShift;
     }
 
     /**

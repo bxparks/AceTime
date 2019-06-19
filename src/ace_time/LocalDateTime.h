@@ -241,7 +241,7 @@ class LocalDateTime {
     LocalDateTime& operator=(const LocalDateTime&) = default;
 
   private:
-    friend class OffsetDateTime; // constructor, forDateStringChainable()
+    friend class OffsetDateTime; // forDateStringChainable()
     friend bool operator==(const LocalDateTime& a, const LocalDateTime& b);
 
     /** Expected length of an ISO 8601 date string. */

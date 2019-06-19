@@ -28,8 +28,17 @@ namespace ace_time {
  * Java 8
  * (https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html).
  */
-class OffsetDateTime { public:
-    /** Factory method using separated date, time, and UTC offset fields.
+class OffsetDateTime {
+  public:
+
+    /** Factory method from LocalDateTime and TimeOffset. */
+    static OffsetDateTime forLocalDateTimeAndOffset(
+        const LocalDateTime& localDateTime, TimeOffset timeOffset) {
+      return OffsetDateTime(localDateTime, timeOffset);
+    }
+
+    /**
+     * Factory method using separated date, time, and UTC offset fields.
      *
      * @param year [1873-2127] @param month month with January=1, December=12
      * @param day day of month [1-31] @param hour hour [0-23] @param minute
@@ -40,10 +49,14 @@ class OffsetDateTime { public:
      * future.
      */
     static OffsetDateTime forComponents(int16_t year, uint8_t month, uint8_t
-    day, uint8_t hour, uint8_t minute, uint8_t second, TimeOffset timeOffset) {
-    int8_t yearTiny = LocalDate::isYearValid(year) ? year -
-    LocalDate::kEpochYear : LocalDate::kInvalidYearTiny; return
-    OffsetDateTime(yearTiny, month, day, hour, minute, second, timeOffset); }
+        day, uint8_t hour, uint8_t minute, uint8_t second, TimeOffset
+        timeOffset) {
+      int8_t yearTiny = LocalDate::isYearValid(year)
+          ? year - LocalDate::kEpochYear
+          : LocalDate::kInvalidYearTiny;
+      return OffsetDateTime(yearTiny, month, day, hour, minute, second,
+          timeOffset);
+    }
 
     /**
      * Factory method. Create the various components of the OffsetDateTime from
@@ -277,8 +290,6 @@ class OffsetDateTime { public:
 
   private:
     friend bool operator==(const OffsetDateTime& a, const OffsetDateTime& b);
-    friend class ZonedDateTime; // constructor
-    friend class BasicZoneSpecifier; // constructor
 
     /** Expected length of an ISO 8601 date string, including UTC offset. */
     static const uint8_t kDateStringLength = 25;

@@ -146,11 +146,11 @@ class TimeOffset {
     TimeOffset& operator=(const TimeOffset&) = default;
 
   private:
-    friend class BasicZoneSpecifier;
-    friend class ManualZoneSpecifier;
-    friend class TimeZone;
-    friend class OffsetDateTime; // forOffsetStringChainable()
     friend bool operator==(const TimeOffset& a, const TimeOffset& b);
+
+    friend class OffsetDateTime; // forOffsetStringChainable()
+
+    // Give access to setOffsetCode()
     friend void time_offset_mutation::incrementHour(TimeOffset& offset);
     friend void time_offset_mutation::increment15Minutes(TimeOffset& offset);
 
