@@ -49,7 +49,7 @@ void setup() {
 
   Serial.print(F("Day of Week: "));
   Serial.println(
-      common::DateStrings().weekDayLongString(pacificTime.dayOfWeek()));
+      common::DateStrings().dayOfWeekLongString(pacificTime.dayOfWeek()));
 
   // Print info about UTC offset
   TimeOffset offset = pacificTime.timeOffset();

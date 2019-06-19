@@ -182,7 +182,7 @@ class Presenter {
       mOled.println();
 
       // week day
-      mOled.print(DateStrings().weekDayLongString(dateTime.dayOfWeek()));
+      mOled.print(DateStrings().dayOfWeekLongString(dateTime.dayOfWeek()));
       mOled.clearToEOL();
     }
 

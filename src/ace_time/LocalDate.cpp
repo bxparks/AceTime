@@ -56,7 +56,7 @@ void LocalDate::printTo(Print& printer) const {
 
   // Week day
   DateStrings ds;
-  printer.print(ds.weekDayLongString(dayOfWeek()));
+  printer.print(ds.dayOfWeekLongString(dayOfWeek()));
 }
 
 LocalDate LocalDate::forDateString(const char* dateString) {

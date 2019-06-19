@@ -9,7 +9,7 @@ namespace ace_time {
 namespace common {
 
 /**
- * Class that translates a numeric month (1-12) or weekDay (1-7) into a human
+ * Class that translates a numeric month (1-12) or dayOfWeek (1-7) into a human
  * readable string. Both long and short versions can be retrieved. The object
  * uses an internal char[] buffer to store the result strings, so the strings
  * must be used before DateStrings object is destroyed. This also means that
@@ -44,25 +44,25 @@ class DateStrings {
       return mBuffer;
     }
 
-    /** Return the short weekDay name. 0=Error, 1=Monday, 7=Sunday. */
-    const char* weekDayLongString(uint8_t weekDay) const {
-      uint8_t index = (weekDay < kNumWeekDayNames) ? weekDay : 0;
-      strcpy_P(mBuffer, kWeekDayNames[index]);
+    /** Return the short dayOfWeek name. 0=Error, 1=Monday, 7=Sunday. */
+    const char* dayOfWeekLongString(uint8_t dayOfWeek) const {
+      uint8_t index = (dayOfWeek < kNumDayOfWeekNames) ? dayOfWeek : 0;
+      strcpy_P(mBuffer, kDayOfWeekNames[index]);
       return mBuffer;
     }
 
-    /** Return the short weekDay name. 0=Err, 1=Mon, 7=Sun. */
-    const char* weekDayShortString(uint8_t weekDay) const {
-      uint8_t index = (weekDay < kNumWeekDayNames) ? weekDay : 0;
-      strncpy_P(mBuffer, kWeekDayNames[index], kShortNameLength);
+    /** Return the short dayOfWeek name. 0=Err, 1=Mon, 7=Sun. */
+    const char* dayOfWeekShortString(uint8_t dayOfWeek) const {
+      uint8_t index = (dayOfWeek < kNumDayOfWeekNames) ? dayOfWeek : 0;
+      strncpy_P(mBuffer, kDayOfWeekNames[index], kShortNameLength);
       mBuffer[kShortNameLength] = '\0';
       return mBuffer;
     }
 
   private:
-    static const char * const kWeekDayNames[];
+    static const char * const kDayOfWeekNames[];
     static const char * const kMonthNames[];
-    static const uint8_t kNumWeekDayNames;
+    static const uint8_t kNumDayOfWeekNames;
     static const uint8_t kNumMonthNames;
 
     mutable char mBuffer[kBufferSize];

@@ -56,36 +56,36 @@ test(DateStringsTest, monthStringsFitInBuffer) {
   assertLessOrEqual(maxLength, common::DateStrings::kBufferSize - 1);
 }
 
-test(DateStringsTest, weekDayStrings) {
+test(DateStringsTest, dayOfWeekStrings) {
   common::DateStrings ds;
 
-  assertEqual(F("Error"), ds.weekDayLongString(0));
-  assertEqual(F("Monday"), ds.weekDayLongString(1));
-  assertEqual(F("Tuesday"), ds.weekDayLongString(2));
-  assertEqual(F("Wednesday"), ds.weekDayLongString(3));
-  assertEqual(F("Thursday"), ds.weekDayLongString(4));
-  assertEqual(F("Friday"), ds.weekDayLongString(5));
-  assertEqual(F("Saturday"), ds.weekDayLongString(6));
-  assertEqual(F("Sunday"), ds.weekDayLongString(7));
-  assertEqual(F("Error"), ds.weekDayLongString(8));
+  assertEqual(F("Error"), ds.dayOfWeekLongString(0));
+  assertEqual(F("Monday"), ds.dayOfWeekLongString(1));
+  assertEqual(F("Tuesday"), ds.dayOfWeekLongString(2));
+  assertEqual(F("Wednesday"), ds.dayOfWeekLongString(3));
+  assertEqual(F("Thursday"), ds.dayOfWeekLongString(4));
+  assertEqual(F("Friday"), ds.dayOfWeekLongString(5));
+  assertEqual(F("Saturday"), ds.dayOfWeekLongString(6));
+  assertEqual(F("Sunday"), ds.dayOfWeekLongString(7));
+  assertEqual(F("Error"), ds.dayOfWeekLongString(8));
 
-  assertEqual(F("Err"), ds.weekDayShortString(0));
-  assertEqual(F("Mon"), ds.weekDayShortString(1));
-  assertEqual(F("Tue"), ds.weekDayShortString(2));
-  assertEqual(F("Wed"), ds.weekDayShortString(3));
-  assertEqual(F("Thu"), ds.weekDayShortString(4));
-  assertEqual(F("Fri"), ds.weekDayShortString(5));
-  assertEqual(F("Sat"), ds.weekDayShortString(6));
-  assertEqual(F("Sun"), ds.weekDayShortString(7));
-  assertEqual(F("Err"), ds.weekDayShortString(8));
+  assertEqual(F("Err"), ds.dayOfWeekShortString(0));
+  assertEqual(F("Mon"), ds.dayOfWeekShortString(1));
+  assertEqual(F("Tue"), ds.dayOfWeekShortString(2));
+  assertEqual(F("Wed"), ds.dayOfWeekShortString(3));
+  assertEqual(F("Thu"), ds.dayOfWeekShortString(4));
+  assertEqual(F("Fri"), ds.dayOfWeekShortString(5));
+  assertEqual(F("Sat"), ds.dayOfWeekShortString(6));
+  assertEqual(F("Sun"), ds.dayOfWeekShortString(7));
+  assertEqual(F("Err"), ds.dayOfWeekShortString(8));
 }
 
-test(DateStringsTest, weekDayStringsFitInBuffer) {
+test(DateStringsTest, dayOfWeekStringsFitInBuffer) {
   common::DateStrings ds;
   uint8_t maxLength = 0;
-  for (uint8_t weekDay = 0; weekDay <= 7; weekDay++) {
-    const char* weekDayString = ds.weekDayLongString(weekDay);
-    uint8_t length = strlen(weekDayString);
+  for (uint8_t dayOfWeek = 0; dayOfWeek <= 7; dayOfWeek++) {
+    const char* dayOfWeekString = ds.dayOfWeekLongString(dayOfWeek);
+    uint8_t length = strlen(dayOfWeekString);
     if (length > maxLength) { maxLength = length; }
   }
   assertLessOrEqual(maxLength, common::DateStrings::kBufferSize - 1);

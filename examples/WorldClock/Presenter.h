@@ -129,12 +129,12 @@ class Presenter {
         mOled.print((dateTime.hour() < 12) ? 'A' : 'P');
       }
 
-      // weekDay, month/day, AM/PM
+      // dayOfWeek, month/day, AM/PM
       // "Thu 10/18 P"
       mOled.println();
       mOled.println();
 
-      mOled.print(DateStrings().weekDayShortString(dateTime.dayOfWeek()));
+      mOled.print(DateStrings().dayOfWeekShortString(dateTime.dayOfWeek()));
       mOled.print(' ');
       printPad2(mOled, dateTime.month(), ' ');
       mOled.print('/');
@@ -217,7 +217,7 @@ class Presenter {
 
       // week day
       mOled.println();
-      mOled.print(DateStrings().weekDayLongString(dateTime.dayOfWeek()));
+      mOled.print(DateStrings().dayOfWeekLongString(dateTime.dayOfWeek()));
       mOled.clearToEOL();
 
       // abbreviation and place name

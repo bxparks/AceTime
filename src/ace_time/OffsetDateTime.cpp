@@ -37,7 +37,7 @@ void OffsetDateTime::printTo(Print& printer) const {
 
   // Week day
   DateStrings ds;
-  printer.print(ds.weekDayLongString(dayOfWeek()));
+  printer.print(ds.dayOfWeekLongString(dayOfWeek()));
 }
 
 OffsetDateTime OffsetDateTime::forDateString(const char* dateString) {

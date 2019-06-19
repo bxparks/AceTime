@@ -37,8 +37,8 @@ SystemClockHeartbeatCoroutine	KEYWORD1
 # DateStrings.h
 monthLongString	KEYWORD2
 monthShortString	KEYWORD2
-weekDayLongString	KEYWORD2
-weekDayShortString	KEYWORD2
+dayOfWeekLongString	KEYWORD2
+dayOfWeekShortString	KEYWORD2
 
 # LocalDate.h
 forEpochDays	KEYWORD2

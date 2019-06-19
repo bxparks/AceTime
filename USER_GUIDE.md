@@ -365,8 +365,8 @@ class DateStrings {
     const char* monthLongString(uint8_t month) const;
     const char* monthShortString(uint8_t month) const;
 
-    const char* weekDayLongString(uint8_t weekDay) const;
-    const char* weekDayShortString(uint8_t weekDay) const;
+    const char* dayOfWeekLongString(uint8_t dayOfWeek) const;
+    const char* dayOfWeekShortString(uint8_t dayOfWeek) const;
 };
 
 }
@@ -375,9 +375,9 @@ class DateStrings {
 
 The `DateStrings` object uses a temporary internal buffer to hold the generated
 human-readable strings, which makes it stateful. The recommended usage of this
-object is to create an instance the stack, call one of the `weekDay*String()` or
-`month*String()` methods, copy the resulting string somewhere else (e.g. print
-it to Serial), then allow the `DateStrings` object to go out of scope and
+object is to create an instance the stack, call one of the `dayOfWeek*String()`
+or `month*String()` methods, copy the resulting string somewhere else (e.g.
+print it to Serial), then allow the `DateStrings` object to go out of scope and
 reclaimed from the stack. The class is not meant to be created and persisted for
 a long period of time, unless you are sure that nothing else will reuse the
 internal buffer between calls.
@@ -393,11 +393,11 @@ using common::DateStrings;
 
 LocalDate localDate = LocalDate::forComponents(2019, 5, 20);
 uint8_t dayOfWeek = localDate.dayOfWeek();
-Serial.println(DateStrings().weekDayLongString(dayOfWeek));
-Serial.println(DateStrings().weekDayShortString(dayOfWeek));
+Serial.println(DateStrings().dayOfWeekLongString(dayOfWeek));
+Serial.println(DateStrings().dayOfWeekShortString(dayOfWeek));
 ```
 
-The `weekDayShortString()` method returns the
+The `dayOfWeekShortString()` method returns the
 first 3 characters of the week day (i.e. "Mon", "Tue", "Wed", "Thu",
 "Fri", "Sat", "Sun").
 
