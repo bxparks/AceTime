@@ -671,7 +671,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
         const override {
-      init(ldt.getLocalDate());
+      init(ldt.localDate());
       if (mIsOutOfBounds) return TimeOffset::forError();
 
       const extended::Transition* transition =

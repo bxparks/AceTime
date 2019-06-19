@@ -186,7 +186,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
         const override {
-      init(ldt.getLocalDate());
+      init(ldt.localDate());
       if (mIsOutOfBounds) return TimeOffset::forError();
 
       // First guess at the TimeOffset using Jan 1 of the given year.
