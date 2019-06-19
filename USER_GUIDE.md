@@ -1744,12 +1744,13 @@ sizeof(SystemClockHeartbeatCoroutine): 36
 
 ## Comparisons to Other Time Libraries
 
-The [ComparisonBenchmark.ino](examples/ComparisonBenchmark/) program compares
-the CPU time of AceTime methods with the equilvalent methods [Arduino Time
-Library](https://github.com/PaulStoffregen/Time). The functionality tested was
-the roundtrip conversion from `ZonedDateTime::forEpochSeconds()` to the date
-time components, then back to `ZonedDateTime::toEpochSeconds()` again. Details
-are given in the [README.md](examples/ComparisonBenchmark/README.md) file in
+The AceTime library can be substantially faster than the equivalent methods in
+the [Arduino Time Library](https://github.com/PaulStoffregen/Time). The
+[ComparisonBenchmark.ino](examples/ComparisonBenchmark/) program compares the
+CPU time of the roundtrip conversion from `ZonedDateTime::forEpochSeconds()` to
+the date time components, then back to `ZonedDateTime::toEpochSeconds()` again.
+Details are given in the
+[ComparisonBenchmark/README.md](examples/ComparisonBenchmark/README.md) file in
 that folder, but here is a summary for various boards (all times in
 microseconds):
 
@@ -1793,6 +1794,17 @@ is that it loads the entire tzinfo database for all 45 time zones, even if only
 one zone is used. Therefore, the AceTime library will consume less resources if
 only a handful of zones are used, which is the expected use case of AceTime.
 
+Many time libraries (such as [Java 11
+Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html),
+[Joda-Time](https://www.joda.org/joda-time/), and [Noda
+Time](https://nodatime.org/)) provide substantially more fine-grained class
+hierarchies to provider better type-safety. For example, those libraries
+just mentioned provided an `Instant` class, a `Duration` class, an `Interval`
+class. The `java.time` package also provides other fine-grained classes such as
+`OffsetTime`, `OffsetDate`, `Year`, `Month`, `MonthDay` classes. For the AceTime
+library, I decided to avoid providing too many classes. The API of the library
+is already too large, I did not want to make them larger than necessary.
+
 ## Bugs and Limitations
 
 * `acetime_t`
@@ -1815,15 +1827,12 @@ only a handful of zones are used, which is the expected use case of AceTime.
     * The value of -128 (`INT8_MIN`) is used to indicate an "invalid" value, so
       the actual range is [-127, 127]. This restricts the year range to [1873,
       2127].
-    * It is possible to construct a `LocalDate` or `LocalDateTime` object with a
-      `year` component greater than 2127, but such an object may not be very
-      useful because the `toSecondsSincEpoch()` method would exceed the range of
-      `acetime_t, so would return an incorrect value.
 * `toUnixSeconds()`
     * [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
-      1970-01-01T00:00:00Z. On 32-bit Unix systems that use a signed 32-bit
-      integer to represent the seconds field, the unix time will rollover just
-      after 2038-01-19T03:14:07Z.
+      1970-01-01T00:00:00Z. This method returns an `acetime_t` which is
+      a signed integer, just like the old 32-bit Unix systems. This method will
+      fail just after 2038-01-19T03:14:07Z, even though the underlying date
+      object is still valid.
 * `BasicZoneSpecifier`, `ExtendedZoneSpecifier`
     * Tested using both Python and Java libraries.
     * Python [pytz](https://pypi.org/project/pytz/) library supports dates only
