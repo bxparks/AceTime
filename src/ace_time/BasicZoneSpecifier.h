@@ -152,21 +152,27 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      if (!transition) return TimeOffset::forError();
-      return TimeOffset::forOffsetCode(transition->offsetCode);
+      int8_t code = (transition)
+          ? transition->offsetCode : TimeOffset::kErrorCode;
+      return TimeOffset::forOffsetCode(code);
     }
 
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      if (!transition) return TimeOffset::forError();
-      if (transition->rule == nullptr) return TimeOffset();
-      return TimeOffset::forOffsetCode(transition->rule->deltaCode);
+      int8_t code;
+      if (!transition) {
+        code = TimeOffset::kErrorCode;
+      } else if (transition->rule == nullptr) {
+        code = 0;
+      } else {
+        code = transition->rule->deltaCode;
+      }
+      return TimeOffset::forOffsetCode(code);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      if (!transition) return "";
-      return transition->abbrev;
+      return (transition) ? transition->abbrev : "";
     }
 
     /**
@@ -501,7 +507,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         if (year < era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
-      return &mZoneInfo->eras[mZoneInfo->numEras-1];
+      return &mZoneInfo->eras[mZoneInfo->numEras - 1];
     }
 
     /**
@@ -521,7 +527,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         if (year <= era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
-      return &mZoneInfo->eras[mZoneInfo->numEras-1];
+      return &mZoneInfo->eras[mZoneInfo->numEras - 1];
     }
 
     /** Calculate the epochSeconds and offsetCode of each Transition. */
@@ -625,8 +631,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
           transition->abbrev,
           basic::Transition::kAbbrevSize,
           transition->era->format,
-          transition->rule != nullptr ? transition->rule->deltaCode : 0,
-          transition->rule != nullptr ? transition->rule->letter : '\0');
+          (transition->rule) ? transition->rule->deltaCode : 0,
+          (transition->rule) ? transition->rule->letter : '\0');
     }
 
     /**
