@@ -362,22 +362,23 @@ class DateStrings {
     static const uint8_t kBufferSize = 10;
     static const uint8_t kShortNameLength = 3;
 
-    const char* monthLongString(uint8_t month) const;
-    const char* monthShortString(uint8_t month) const;
+    const char* monthLongString(uint8_t month);
+    const char* monthShortString(uint8_t month);
 
-    const char* dayOfWeekLongString(uint8_t dayOfWeek) const;
-    const char* dayOfWeekShortString(uint8_t dayOfWeek) const;
+    const char* dayOfWeekLongString(uint8_t dayOfWeek);
+    const char* dayOfWeekShortString(uint8_t dayOfWeek);
 };
 
 }
 }
 ```
 
-The `DateStrings` object uses a temporary internal buffer to hold the generated
-human-readable strings, which makes it stateful. The recommended usage of this
-object is to create an instance the stack, call one of the `dayOfWeek*String()`
-or `month*String()` methods, copy the resulting string somewhere else (e.g.
-print it to Serial), then allow the `DateStrings` object to go out of scope and
+The `DateStrings` object uses an internal buffer to hold the generated
+human-readable strings. That makes this class stateful, which means that we need
+to handle its lifecycle carefully. The recommended usage of this object is to
+create an instance the stack, call one of the `dayOfWeek*String()` or
+`month*String()` methods, copy the resulting string somewhere else (e.g. print
+it to Serial), then allow the `DateStrings` object to go out of scope and
 reclaimed from the stack. The class is not meant to be created and persisted for
 a long period of time, unless you are sure that nothing else will reuse the
 internal buffer between calls.
@@ -416,8 +417,8 @@ The `monthShortString()` method returns the first 3 characters of the month
 
 **Caveat**: The `DateStrings` class supports only the English language. If you
 need to convert to another language, you need to write the conversion class
-yourself. See the implementation details of the `DateStrings` class to see how
-that can be done.
+yourself, possibly by copying the implementation details of the `DateStrings`
+class.
 
 ### LocalDateTime
 
