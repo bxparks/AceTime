@@ -30,14 +30,14 @@ C++ namespaces:
     * `ace_time::TimePeriod`
     * mutation helpers
         * `ace_time::local_date_mutation::*`
-        * `ace_time::zoned_date_time_mutation::*`
         * `ace_time::time_offset_mutation::*`
         * `ace_time::time_period_mutation::*`
+        * `ace_time::zoned_date_time_mutation::*`
 * system clock classes
     * `ace_time::clock::TimeProvider`
         * `ace_time::clock::TimeKeeper`
-            * `ace_time::clock::SystemClock`
             * `ace_time::clock::DS3231TimeKeeper`
+            * `ace_time::clock::SystemClock`
         * `ace_time::clock::NtpTimeProvider`
     * `ace_time::clock::SystemClockHeartbeatCoroutine`
     * `ace_time::clock::SystemClockHeartbeatLoop`
@@ -137,8 +137,7 @@ using namespace ace_time;
 
 // ZoneSpecifier instances should be created statically at initialization time.
 static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
-static BasicZoneSpecifier easternSpec(&zonedb::kZoneAmerica_New_York);
-static ExtendedZoneSpecifier turkeySpec(&zonedbx::kZoneEurope_Istanbul);
+static BasicZoneSpecifier londonSpec(&zonedb::kZoneEurope_London);
 
 void setup() {
   delay(1000);
@@ -146,24 +145,26 @@ void setup() {
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
 
   auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
-  auto easternTz = TimeZone::forZoneSpecifier(&easternSpec);
-  auto turkeyTz = TimeZone::forZoneSpecifier(&turkeySpec);
+  auto londonTz = TimeZone::forZoneSpecifier(&londonSpec);
 
-  // Create from components
-  auto pacificTime = ZonedDateTime::forComponents(
-      2019, 6, 1, 11, 38, 0, pacificTz);
-
-  Serial.print(F("America/Los_Angeles: "));
-  pacificTime.printTo(Serial);
-  Serial.println();
+  // Create from components. 2019-03-10T03:00:00 is just after DST change in
+  // Los Angeles (2am goes to 3am).
+  auto startTime = ZonedDateTime::forComponents(
+      2019, 3, 10, 3, 0, 0, pacificTz);
 
   Serial.print(F("Epoch Seconds: "));
-  acetime_t epochSeconds = pacificTime.toEpochSeconds();
+  acetime_t epochSeconds = startTime.toEpochSeconds();
   Serial.println(epochSeconds);
 
   Serial.print(F("Unix Seconds: "));
-  acetime_t unixSeconds = pacificTime.toUnixSeconds();
+  acetime_t unixSeconds = startTime.toUnixSeconds();
   Serial.println(unixSeconds);
+
+  Serial.println(F("=== Los_Angeles: "));
+  auto pacificTime = ZonedDateTime::forEpochSeconds(epochSeconds, pacificTz);
+  Serial.print(F("Time: "));
+  pacificTime.printTo(Serial);
+  Serial.println();
 
   Serial.print(F("Day of Week: "));
   Serial.println(
@@ -176,29 +177,38 @@ void setup() {
   Serial.println();
 
   // Print info about the current time zone
-  Serial.print(F("Time Zone: "));
+  Serial.print(F("Zone: "));
   pacificTz.printTo(Serial);
   Serial.println();
 
-  // Create from epoch seconds
-  auto easternTime = ZonedDateTime::forEpochSeconds(epochSeconds, easternTz);
-
-  Serial.print(F("America/New_York: "));
-  easternTime.printTo(Serial);
+  // Print the current time zone abbreviation, e.g. "PST" or "PDT"
+  Serial.print(F("Abbreviation: "));
+  pacificTz.printAbbrevTo(Serial, epochSeconds);
   Serial.println();
 
-  // Create by conversion to time zone
-  auto turkeyTime = easternTime.convertToTimeZone(turkeyTz);
+  // Create from epoch seconds. London is still on standard time.
+  auto londonTime = ZonedDateTime::forEpochSeconds(epochSeconds, londonTz);
 
-  Serial.print(F("Europe/Istanbul: "));
-  turkeyTime.printTo(Serial);
+  Serial.println(F("=== London: "));
+  Serial.print(F("Time: "));
+  londonTime.printTo(Serial);
   Serial.println();
 
-  Serial.print(F("pacificTime.compareTo(turkeyTime): "));
-  Serial.println(pacificTime.compareTo(turkeyTime));
+  // Print info about the current time zone
+  Serial.print(F("Zone: "));
+  londonTz.printTo(Serial);
+  Serial.println();
 
-  Serial.print(F("pacificTime == turkeyTime: "));
-  Serial.println((pacificTime == turkeyTime) ? "true" : "false");
+  // Print the current time zone abbreviation, e.g. "PST" or "PDT"
+  Serial.print(F("Abbreviation: "));
+  londonTz.printAbbrevTo(Serial, epochSeconds);
+  Serial.println();
+
+  Serial.println(F("=== Compare ZonedDateTime"));
+  Serial.print(F("pacificTime.compareTo(londonTime): "));
+  Serial.println(pacificTime.compareTo(londonTime));
+  Serial.print(F("pacificTime == londonTime: "));
+  Serial.println((pacificTime == londonTime) ? "true" : "false");
 }
 
 void loop() {
@@ -207,16 +217,21 @@ void loop() {
 
 Running this should produce the following on the Serial port:
 ```
-America/Los_Angeles: 2019-06-01T11:38:00-07:00[America/Los_Angeles]
-Epoch Seconds: 612729480
-Unix Seconds: 1559414280
-Day of Week: Saturday
+Epoch Seconds: 605527200
+Unix Seconds: 1552212000
+=== Los Angeles
+Time: 2019-03-10T03:00:00-07:00[America/Los_Angeles]
+Day of Week: Sunday
 Total UTC Offset: -07:00
-Time Zone: [America/Los_Angeles]
-America/New_York: 2019-06-01T14:38:00-04:00[America/New_York]
-Europe/Istanbul: 2019-06-01T21:38:00+03:00[Europe/Istanbul]
-pacificTime.compareTo(turkeyTime): 0
-pacificTime == turkeyTime: false
+Zone: America/Los_Angeles
+Abbreviation: PDT
+=== London:
+Time: 2019-03-10T10:00:00+00:00[Europe/London]
+Zone: Europe/London
+Abbreviation: GMT
+=== Compare ZonedDateTime
+pacificTime.compareTo(londonTime): 0
+pacificTime == londonTime: false
 ```
 
 ## HelloSystemClock
