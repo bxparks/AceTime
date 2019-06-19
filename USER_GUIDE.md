@@ -1130,7 +1130,7 @@ the `SystemClock`.
 
 The mutation operations provided in this library often have very poor data
 validation rules, mostly because they were not needed for the clock applications
-that I have written. For example, the `date_time_mutation::incrementDay()`
+that I have written. For example, the `zoned_date_time_mutation::incrementDay()`
 method will increment the `ZonedDateTime::day()` field from Feb 29 to Feb 30,
 then to Feb 31, then wrap around to Feb 1. The object will become normalized
 when it is converted into an Epoch seconds (using `toEpochSeconds()`), then
@@ -1177,7 +1177,7 @@ The `ZonedDateTime` object can be mutated using the following methods:
 
 ```C++
 namespace ace_time {
-namespace date_time_mutation {
+namespace zoned_date_time_mutation {
 
 void incrementYear(ZonedDateTime& dateTime);
 void incrementMonth(ZonedDateTime& dateTime);

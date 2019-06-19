@@ -239,7 +239,7 @@ test(DateTimeMutationTest, increment) {
   assertEqual(6, dt.second());
   assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
-  date_time_mutation::incrementYear(dt);
+  zoned_date_time_mutation::incrementYear(dt);
   assertEqual((int16_t) 2002, dt.year());
   assertEqual(2, dt.month());
   assertEqual(3, dt.day());
@@ -248,7 +248,7 @@ test(DateTimeMutationTest, increment) {
   assertEqual(6, dt.second());
   assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
-  date_time_mutation::incrementMonth(dt);
+  zoned_date_time_mutation::incrementMonth(dt);
   assertEqual((int16_t) 2002, dt.year());
   assertEqual(3, dt.month());
   assertEqual(3, dt.day());
@@ -257,7 +257,7 @@ test(DateTimeMutationTest, increment) {
   assertEqual(6, dt.second());
   assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
-  date_time_mutation::incrementDay(dt);
+  zoned_date_time_mutation::incrementDay(dt);
   assertEqual((int16_t) 2002, dt.year());
   assertEqual(3, dt.month());
   assertEqual(4, dt.day());
@@ -266,7 +266,7 @@ test(DateTimeMutationTest, increment) {
   assertEqual(6, dt.second());
   assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
-  date_time_mutation::incrementHour(dt);
+  zoned_date_time_mutation::incrementHour(dt);
   assertEqual((int16_t) 2002, dt.year());
   assertEqual(3, dt.month());
   assertEqual(4, dt.day());
@@ -275,7 +275,7 @@ test(DateTimeMutationTest, increment) {
   assertEqual(6, dt.second());
   assertEqual(0, dt.timeZone().getUtcOffset(0).toMinutes());
 
-  date_time_mutation::incrementMinute(dt);
+  zoned_date_time_mutation::incrementMinute(dt);
   assertEqual((int16_t) 2002, dt.year());
   assertEqual(3, dt.month());
   assertEqual(4, dt.day());

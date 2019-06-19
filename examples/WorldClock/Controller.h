@@ -155,23 +155,23 @@ class Controller {
       switch (mMode) {
         case MODE_CHANGE_YEAR:
           mSuppressBlink = true;
-          date_time_mutation::incrementYear(mChangingDateTime);
+          zoned_date_time_mutation::incrementYear(mChangingDateTime);
           break;
         case MODE_CHANGE_MONTH:
           mSuppressBlink = true;
-          date_time_mutation::incrementMonth(mChangingDateTime);
+          zoned_date_time_mutation::incrementMonth(mChangingDateTime);
           break;
         case MODE_CHANGE_DAY:
           mSuppressBlink = true;
-          date_time_mutation::incrementDay(mChangingDateTime);
+          zoned_date_time_mutation::incrementDay(mChangingDateTime);
           break;
         case MODE_CHANGE_HOUR:
           mSuppressBlink = true;
-          date_time_mutation::incrementHour(mChangingDateTime);
+          zoned_date_time_mutation::incrementHour(mChangingDateTime);
           break;
         case MODE_CHANGE_MINUTE:
           mSuppressBlink = true;
-          date_time_mutation::incrementMinute(mChangingDateTime);
+          zoned_date_time_mutation::incrementMinute(mChangingDateTime);
           break;
         case MODE_CHANGE_SECOND:
           mSuppressBlink = true;

@@ -29,8 +29,8 @@ C++ namespaces:
     * `ace_time::ZonedDateTime`
     * `ace_time::TimePeriod`
     * mutation helpers
-        * `ace_time::date_time_mutation::*`
         * `ace_time::local_date_mutation::*`
+        * `ace_time::zoned_date_time_mutation::*`
         * `ace_time::time_offset_mutation::*`
         * `ace_time::time_period_mutation::*`
 * system clock classes

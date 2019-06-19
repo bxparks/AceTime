@@ -1,15 +1,15 @@
-#ifndef ACE_TIME_DATE_TIME_MUTATION_H
-#define ACE_TIME_DATE_TIME_MUTATION_H
+#ifndef ACE_TIME_ZONED_DATE_TIME_MUTATION_H
+#define ACE_TIME_ZONED_DATE_TIME_MUTATION_H
 
 #include <stdint.h>
 #include "common/util.h"
 #include "ZonedDateTime.h"
 
 namespace ace_time {
-namespace date_time_mutation {
+namespace zoned_date_time_mutation {
 
 /**
- * @file date_time_mutation.h
+ * @file zoned_date_time_mutation.h
  *
  * Methods that mutate a DateTime object.
  *
@@ -20,11 +20,16 @@ namespace date_time_mutation {
  * additional mutation methods to be added to this namespace by downstream
  * applications.
  *
+ * No validation is performed during the mutation operation. Client code is
+ * normally expected to call the toEpochSeconds() method to convert this into
+ * an acetime_t, then later convert it back to human-readable components using
+ * the forEpochSeconds() factory method.
+ *
  * Example:
  *
  * @code{.cpp}
  * ZonedDateTime dt(...);
- * date_time_mutation::incrementDay(dt);
+ * zoned_date_time_mutation::incrementDay(dt);
  * @code
  */
 
