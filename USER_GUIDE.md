@@ -658,6 +658,26 @@ be encoded with (relatively) simple rules from the TZ Database
 * `TimeZone::kTypeExtended` with `ExtendedZoneSpecifier`:  all zones in
 the TZ Database
 
+The class hierarchy of `TimeZone` is shown below, where the arrow means
+"is-subclass-of" and the diamond-line means "is-aggregation-of". A `TimeZone`
+can hold a reference to 0 or 1 `ZoneSpecifier` class, as shown below. When it is
+a `kTypeFixed` it holds no `ZoneSpecifier` object. When it is a `kTypeManual`,
+`kTypeBasic` or `kTypeExtended`, it holds a reference one of the implementation
+classes of `ZoneSpecifier`:
+
+```
+              0..1
+TimeZone <>------- ZoneSpecifier
+                         ^
+                         |
+                .------- +----------.
+                |        |          |
+            Manual     Basic       Extended
+     ZoneSpecifier  ZoneSpecifier  ZoneSpecifier
+```
+
+Here is the class declaration of `TimeZone`:
+
 ```C++
 namespace ace_time {
 
@@ -705,8 +725,10 @@ transitions from 02:00 to 01:00 in the autumn, a given local time such as 01:30
 occurs twice. If the `getUtcOffsetForDateTime()` method is given a time of
 01:30, it will arbitrarily decide which offset to return.
 
-The `printAbbrevTo(printer, epochSeconds)` method prints the human-readable timezone
-abbreviation used at the given `epochSeconds` to the `printer`.
+The `printAbbrevTo(printer, epochSeconds)` method prints the human-readable
+timezone abbreviation used at the given `epochSeconds` to the `printer`. For
+example, this be "PST" for Pacific Standard Time, or "BST" for British Summer
+Time.
 
 #### Fixed TimeZone (kTypeFixed)
 
@@ -1261,10 +1283,10 @@ restored.
 The class hierarchy diagram looks like this, where the arrow means
 "is-subclass-of") and the diamond-line means ("is-aggregation-of"):
 ```
-                        1
+                        0..1
            TimeProvider ------------.
           ^     ^                   |
-         /      |      1            |
+         /      |      0..1         |
         /   TimeKeeper --------.    |
        NTP      ^  ^           |    |
 TimeProvider   /   |           |    |
