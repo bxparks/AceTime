@@ -16,43 +16,34 @@ namespace ace_time {
  * internally from the date fields.
  *
  * The year field is internally represented as int8_t offset from the year
- * 2000, so in theory it is valid from [1872, 2127]. If the year is restricted
- * to the range 00-99, these fields map directly to the fields supported by the
- * DS3231 RTC chip. The "epoch" for this library is 2000-01-01T00:00:00Z and
- * toEpochSeconds() returns a int32_t number of seconds offset from that
- * epoch. The largest possible int32_t value is INT32_MAX, but this value is
- * used by kInvalidEpochSeconds to indicate an invalid value.
+ * 2000, so in theory it is valid from [1873, 2127] since -128 is used to
+ * indicate an error condition. If the year is restricted to the range 00-99,
+ * these fields map directly to the fields supported by the DS3231 RTC chip.
+ * The "epoch" for this library is 2000-01-01T00:00:00Z and toEpochSeconds()
+ * returns a int32_t number of seconds offset from that epoch. The largest
+ * possible int32_t value is INT32_MAX, but this value is used by
+ * kInvalidEpochSeconds to indicate an invalid value.
  *
  * Parts of this class were inspired by the java.time.OffsetDateTime class of
  * Java 8
  * (https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html).
  */
-class OffsetDateTime {
-  public:
-    /**
-     * Factory method using separated date, time, and UTC offset fields.
+class OffsetDateTime { public:
+    /** Factory method using separated date, time, and UTC offset fields.
      *
-     * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
-     *    16-bit implementation
-     * @param month month with January=1, December=12
-     * @param day day of month [1-31]
-     * @param hour hour [0-23]
-     * @param minute minute [0-59]
-     * @param second second [0-59], does not support leap seconds
+     * @param year [1873-2127] @param month month with January=1, December=12
+     * @param day day of month [1-31] @param hour hour [0-23] @param minute
+     * minute [0-59] @param second second [0-59], does not support leap seconds
      * @param timeOffset the time offset from UTC. Using TimeOffset in the last
      * component (instead of a int8_t or int16_t) allows us to overload an
      * additional constructor that accepts a millisecond component in the
      * future.
      */
-    static OffsetDateTime forComponents(int16_t year, uint8_t month,
-        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
-        TimeOffset timeOffset) {
-      int8_t yearTiny = LocalDate::isYearValid(year)
-          ? year - LocalDate::kEpochYear
-          : LocalDate::kInvalidYearTiny;
-      return OffsetDateTime(yearTiny, month, day, hour, minute, second,
-          timeOffset);
-    }
+    static OffsetDateTime forComponents(int16_t year, uint8_t month, uint8_t
+    day, uint8_t hour, uint8_t minute, uint8_t second, TimeOffset timeOffset) {
+    int8_t yearTiny = LocalDate::isYearValid(year) ? year -
+    LocalDate::kEpochYear : LocalDate::kInvalidYearTiny; return
+    OffsetDateTime(yearTiny, month, day, hour, minute, second, timeOffset); }
 
     /**
      * Factory method. Create the various components of the OffsetDateTime from

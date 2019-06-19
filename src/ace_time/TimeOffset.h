@@ -43,10 +43,10 @@ void increment15Minutes(TimeOffset& offset);
  * offsets from UTC. This allows the TimeOffset to be stored as a single 8-bit
  * signed integer. For the most part, the internal implementation of this class
  * does not leak out to the outside world, so it should be relatively easy to
- * change its implementation to a 16-bit integer to support 1-minute
- * granularity instead of 15-minute granularity.
+ * change its implementation to a int16_t type to support 1-minute granularity
+ * instead of 15-minute granularity.
  *
- * This class does NOT know about the "tz database" (aka Olson database)
+ * This class does NOT know about the TZ Database (aka Olson database)
  * https://en.wikipedia.org/wiki/Tz_database. That functionality is implemented
  * in the TimeZone class.
  */

@@ -15,8 +15,7 @@ class LocalDateTime {
     /**
      * Factory method using separated date, time.
      *
-     * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
-     *    16-bit implementation
+     * @param year [1872-2127]
      * @param month month with January=1, December=12
      * @param day day of month [1-31]
      * @param hour hour [0-23]

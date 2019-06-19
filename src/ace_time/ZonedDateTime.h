@@ -14,9 +14,9 @@ namespace ace_time {
 /**
  * The date (year, month, day) and time (hour, minute, second) fields
  * representing an instant in time. In an 8-bit implementation, the year field
- * is internally represented as a int8_t number from -128 to 127 representing
- * the year 1872 to 2127 inclusive. In a 16-bit implementation, the year field
- * is an int16_t, so can represent years from 0000-9999 inclusive.
+ * is internally represented as a int8_t number from -128 to 127. The value of
+ * -128 is used to indicate an error condition so that range of valid year is
+ * 1873 to 2127 inclusive.
  *
  * The "epoch" for this library is 2000-01-01 00:00:00Z. The dayOfWeek
  * (1=Sunday, 7=Saturday) is calculated internally from the date components.
@@ -38,13 +38,12 @@ class ZonedDateTime {
      * ZoneSpecifier::getUtcOffsetForDateTime() determined by the actual
      * subtype of ZoneSpecifier held by the given timeZone.
      *
-     * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
-     *    16-bit implementation
+     * @param year [1873-2127]
      * @param month month with January=1, December=12
-     * @param day day of month (1-31)
-     * @param hour hour (0-23)
-     * @param minute minute (0-59)
-     * @param second second (0-59), does not support leap seconds
+     * @param day day of month [1-31]
+     * @param hour hour [0-23]
+     * @param minute minute [0-59]
+     * @param second second [0-59], does not support leap seconds
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
