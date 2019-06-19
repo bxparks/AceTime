@@ -28,8 +28,17 @@ namespace ace_time {
  * Java 8
  * (https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html).
  */
-class OffsetDateTime { public:
-    /** Factory method using separated date, time, and UTC offset fields.
+class OffsetDateTime {
+  public:
+
+    /** Factory method from LocalDateTime and TimeOffset. */
+    static OffsetDateTime forLocalDateTimeAndOffset(
+        const LocalDateTime& localDateTime, TimeOffset timeOffset) {
+      return OffsetDateTime(localDateTime, timeOffset);
+    }
+
+    /**
+     * Factory method using separated date, time, and UTC offset fields.
      *
      * @param year [1873-2127] @param month month with January=1, December=12
      * @param day day of month [1-31] @param hour hour [0-23] @param minute
@@ -40,10 +49,14 @@ class OffsetDateTime { public:
      * future.
      */
     static OffsetDateTime forComponents(int16_t year, uint8_t month, uint8_t
-    day, uint8_t hour, uint8_t minute, uint8_t second, TimeOffset timeOffset) {
-    int8_t yearTiny = LocalDate::isYearValid(year) ? year -
-    LocalDate::kEpochYear : LocalDate::kInvalidYearTiny; return
-    OffsetDateTime(yearTiny, month, day, hour, minute, second, timeOffset); }
+        day, uint8_t hour, uint8_t minute, uint8_t second, TimeOffset
+        timeOffset) {
+      int8_t yearTiny = LocalDate::isYearValid(year)
+          ? year - LocalDate::kEpochYear
+          : LocalDate::kInvalidYearTiny;
+      return OffsetDateTime(yearTiny, month, day, hour, minute, second,
+          timeOffset);
+    }
 
     /**
      * Factory method. Create the various components of the OffsetDateTime from
@@ -104,6 +117,15 @@ class OffsetDateTime { public:
      *        "2018-08-31T13:48:01-07:00" "2018/08/31 13#48#01-07#00"
      */
     static OffsetDateTime forDateString(const char* dateString);
+
+    /**
+     * Variant of forDateString() that updates the pointer to the next
+     * unprocessed character. This allows chaining to another
+     * forXxxStringChainable() method.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static OffsetDateTime forDateStringChainable(const char*& dateString);
 
     /**
      * Factory method. Create a OffsetDateTime from date string in flash memory
@@ -277,25 +299,15 @@ class OffsetDateTime { public:
 
   private:
     friend bool operator==(const OffsetDateTime& a, const OffsetDateTime& b);
-    friend class ZonedDateTime; // constructor
-    friend class BasicZoneSpecifier; // constructor
 
     /** Expected length of an ISO 8601 date string, including UTC offset. */
     static const uint8_t kDateStringLength = 25;
 
-    /**
-     * The internal version of forDateString() that updates the string pointer
-     * to the next unprocessed character. The resulting pointer can be passed
-     * to another forDateStringInternal() method to continue parsing.
-     *
-     * This method assumes that the dateString is sufficiently long.
-     */
-    static OffsetDateTime forDateStringChainable(const char*& dateString);
-
     /** Constructor from components. */
     explicit OffsetDateTime(int8_t yearTiny, uint8_t month, uint8_t day,
         uint8_t hour, uint8_t minute, uint8_t second, TimeOffset timeOffset):
-        mLocalDateTime(yearTiny, month, day, hour, minute, second),
+        mLocalDateTime(LocalDateTime::forTinyComponents(
+            yearTiny, month, day, hour, minute, second)),
         mTimeOffset(timeOffset) {}
 
     /** Constructor from LocalDateTime and a TimeOffset. */

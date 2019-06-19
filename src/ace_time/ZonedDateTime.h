@@ -47,9 +47,10 @@ class ZonedDateTime {
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
             uint8_t hour, uint8_t minute, uint8_t second,
             const TimeZone& timeZone) {
-      LocalDateTime ldt = LocalDateTime::forComponents(
+      auto ldt = LocalDateTime::forComponents(
           year, month, day, hour, minute, second);
-      OffsetDateTime odt(ldt, timeZone.getUtcOffsetForDateTime(ldt));
+      auto odt = OffsetDateTime::forLocalDateTimeAndOffset(
+          ldt, timeZone.getUtcOffsetForDateTime(ldt));
       return ZonedDateTime(odt, timeZone);
     }
 
@@ -264,7 +265,6 @@ class ZonedDateTime {
     static const uint8_t kDateStringLength = 25;
 
     friend bool operator==(const ZonedDateTime& a, const ZonedDateTime& b);
-    friend bool operator!=(const ZonedDateTime& a, const ZonedDateTime& b);
 
     /** Constructor. From OffsetDateTime and TimeZone. */
     ZonedDateTime(const OffsetDateTime& offsetDateTime, const TimeZone& tz):

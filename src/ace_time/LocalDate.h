@@ -91,13 +91,7 @@ class LocalDate {
       return LocalDate(yearTiny, month, day);
     }
 
-    /**
-     * Factory method using separated yearTiny, month and day fields.
-     *
-     * @param year -127, 127
-     * @param month month with January=1, December=12
-     * @param day day of month [1-31]
-     */
+    /** Factory method using components with a int8_t yearTiny. */
     static LocalDate forTinyComponents(int8_t yearTiny, uint8_t month,
         uint8_t day) {
       return LocalDate(yearTiny, month, day);
@@ -179,6 +173,15 @@ class LocalDate {
     static LocalDate forDateString(const char* dateString);
 
     /**
+     * Variant of forDateString() that updates the pointer to the next
+     * unprocessed character. This allows chaining to another
+     * forXxxStringChainable() method.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static LocalDate forDateStringChainable(const char*& dateString);
+
+    /**
      * Factory method that returns a LocalDate which represents an error
      * condition. The isError() method will return true.
      */
@@ -189,6 +192,12 @@ class LocalDate {
     /** True if year is a leap year. */
     static bool isLeapYear(int16_t year) {
       return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+    }
+
+    /** Return true if year is within valid range of [1873, 2127]. */
+    static bool isYearValid(int16_t year) {
+      return year >= kEpochYear + kMinYearTiny
+          && year <= kEpochYear + kMaxYearTiny;
     }
 
     /** Return the number of days in the current month. */
@@ -343,9 +352,6 @@ class LocalDate {
     LocalDate& operator=(const LocalDate&) = default;
 
   private:
-    friend class LocalDateTime; // constructor, forDateStringChainable(),
-                                // isYearValid()
-    friend class OffsetDateTime; // isYearValid()
     friend bool operator==(const LocalDate& a, const LocalDate& b);
 
     /**
@@ -378,24 +384,6 @@ class LocalDate {
 
     /** Number of days in each month in a non-leap year. 0=Jan, 11=Dec. */
     static const uint8_t sDaysInMonth[12];
-
-    /**
-     * The internal version of forDateString() that updates the string pointer
-     * to the next unprocessed character. The resulting pointer can be passed
-     * to another forDateStringInternal() method to continue parsing.
-     *
-     * This method assumes that the dateString is sufficiently long.
-     */
-    static LocalDate forDateStringChainable(const char*& dateString);
-
-    /**
-     * Check year is within valid range. Don't need to validate month or
-     * year, that's done in isError().
-     */
-    static bool isYearValid(int16_t year) {
-      return year >= kEpochYear + kMinYearTiny
-          && year <= kEpochYear + kMaxYearTiny;
-    }
 
     /** Constructor that sets the components. */
     explicit LocalDate(int8_t yearTiny, uint8_t month, uint8_t day):

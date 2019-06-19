@@ -72,6 +72,15 @@ class LocalTime {
     static LocalTime forTimeString(const char* timeString);
 
     /**
+     * Variant of forTimeString() that updates the pointer to the next
+     * unprocessed character. This allows chaining to another
+     * forXxxStringChainable() method.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static LocalTime forTimeStringChainable(const char*& timeString);
+
+    /**
      * Factory method that returns an instance which indicates an error
      * condition. The isError() method will return true.
      */
@@ -155,7 +164,6 @@ class LocalTime {
     LocalTime& operator=(const LocalTime&) = default;
 
   private:
-    friend class LocalDateTime; // constructor
     friend bool operator==(const LocalTime& a, const LocalTime& b);
 
     /** Expected length of an ISO 8601 time string "hh:mm:ss" */
@@ -163,15 +171,6 @@ class LocalTime {
 
     /** A value that is invalid for all components. */
     static const uint8_t kInvalidValue = UINT8_MAX;
-
-    /**
-     * The internal version of forTimeString() that updates the reference to
-     * the pointer to the string to the next unprocessed character. This allows
-     * chaining to another forDateStringChainable() method.
-     *
-     * This method assumes that the dateString is sufficiently long.
-     */
-    static LocalTime forTimeStringChainable(const char*& timeString);
 
     /** Constructor that sets the components. */
     explicit LocalTime(uint8_t hour, uint8_t minute, uint8_t second):
