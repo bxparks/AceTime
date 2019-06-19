@@ -682,6 +682,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           : TimeOffset::forError();
     }
 
+    /** Print the TD database zone identifier e.g "America/Los_Angeles". */
     void printTo(Print& printer) const override;
 
     /** Used only for debugging. */

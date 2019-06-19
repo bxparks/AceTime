@@ -2,9 +2,9 @@
  * Identical to HelloSystemClock, but using AceRoutine coroutines.
  * Should print the following on the Serial port every 2 seconds:
  *
- *   2019-06-17T19:50:00-07:00 Monday [America/Los_Angeles]
- *   2019-06-17T19:50:02-07:00 Monday [America/Los_Angeles]
- *   2019-06-17T19:50:04-07:00 Monday [America/Los_Angeles]
+ *   2019-06-17T19:50:00-07:00[America/Los_Angeles]
+ *   2019-06-17T19:50:02-07:00[America/Los_Angeles]
+ *   2019-06-17T19:50:04-07:00[America/Los_Angeles]
  *   ...
  */
 

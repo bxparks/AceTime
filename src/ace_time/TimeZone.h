@@ -161,22 +161,20 @@ class TimeZone {
 
     /**
      * Print the human readable representation of the time zone.
-     *    * kTypeFixed at UTC is printed as "UTC"
-     *    * kTypeFixed at another offset is printed as "+/-hh:mm"
-     *    * kTypeManual is printed as "UTC+/-hh:mm (STD|DST)" (e.g. "-08:00
-     *    (DST)")
-     *    * kTypeBasic is printed as "{zonename}" (e.g. "America/Los_Angeles")
-     *    * kTypeExtended is printed as "{zonename}" (e.g. "America/Los_Angeles")
+     *   * kTypeFixed at UTC is printed as "UTC" or "+/-hh:mm"
+     *   * kTypeManual is printed as "+/-hh:mm(STD|DST)" (e.g. "-08:00(DST)")
+     *   * kTypeBasic is printed as "{zonename}" (e.g. "America/Los_Angeles")
+     *   * kTypeExtended is printed as "{zonename}" (e.g.
+     *     "America/Los_Angeles")
      */
     void printTo(Print& printer) const;
 
     /**
      * Print the time zone abbreviation for the given epochSeconds.
-     *    * kTypeFixed at UTC is printed as "UTC"
-     *    * kTypeFixed at another offset is printed as "+/-hh:mm"
-     *    * kTypeManual is printed as "{abbrev}" (e.g. "PDT")
-     *    * kTypeBasic is printed as "{abbrev}" (e.g. "PDT")
-     *    * kTypeExtended is printed as "{abbrev}" (e.g. "PDT")
+     *   * kTypeFixed at UTC is printed as "UTC" or "+/-hh:mm"
+     *   * kTypeManual is printed as "{abbrev}" (e.g. "PDT")
+     *   * kTypeBasic is printed as "{abbrev}" (e.g. "PDT")
+     *   * kTypeExtended is printed as "{abbrev}" (e.g. "PDT")
      */
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 

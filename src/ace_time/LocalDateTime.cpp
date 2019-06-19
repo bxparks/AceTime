@@ -29,10 +29,6 @@ void LocalDateTime::printTo(Print& printer) const {
   printPad2(printer, mLocalTime.minute());
   printer.print(':');
   printPad2(printer, mLocalTime.second());
-
-  // Week day
-  DateStrings ds;
-  printer.print(ds.dayOfWeekLongString(dayOfWeek()));
 }
 
 LocalDateTime LocalDateTime::forDateString(const char* dateString) {

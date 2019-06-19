@@ -2,13 +2,16 @@
  * A program to demonstrate the use of AceTime classes. It should print the
  * following on the Serial port:
  *
- *   America/Los_Angeles: 2019-06-01T11:38:00-07:00 Saturday [America/Los_Angeles]
- *   Epoch Seconds: 612729480
- *   Unix Seconds: 1559414280
- *   America/New_York: 2019-06-01T14:38:00-04:00 Saturday [America/New_York]
- *   Europe/Istanbul: 2019-06-01T21:38:00+03:00 Saturday [Europe/Istanbul]
- *   pacificTime.compareTo(turkeyTime): 0
- *   pacificTime == turkeyTime: false
+ * America/Los_Angeles: 2019-06-01T11:38:00-07:00[America/Los_Angeles]
+ * Epoch Seconds: 612729480
+ * Unix Seconds: 1559414280
+ * Day of Week: Saturday
+ * Total UTC Offset: -07:00
+ * Time Zone: America/Los_Angeles
+ * America/New_York: 2019-06-01T14:38:00-04:00[America/New_York]
+ * Europe/Istanbul: 2019-06-01T21:38:00+03:00[Europe/Istanbul]
+ * pacificTime.compareTo(turkeyTime): 0
+ * pacificTime == turkeyTime: false
  */
 
 #include <AceTime.h>

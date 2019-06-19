@@ -106,6 +106,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
       return getUtcOffset(0);
     }
 
+    /** Print the zone specifier in the format of "+/-HH:MM (DST|STD)". */
     void printTo(Print& printer) const override;
 
   private:
