@@ -124,10 +124,10 @@ flash size of an Arduino Pro Micro controller.
 
 Version: 0.1 (2019-06-15)
 
-## HelloTime
+## HelloDateTime
 
-Here is a simple program (see [examples/HelloTime](examples/HelloTime)) which
-demonstrates how to create and manipulate date and times in different time
+Here is a simple program (see [examples/HelloDateTime](examples/HelloDateTime))
+which demonstrates how to create and manipulate date and times in different time
 zones:
 
 ```C++
@@ -165,6 +165,21 @@ void setup() {
   acetime_t unixSeconds = pacificTime.toUnixSeconds();
   Serial.println(unixSeconds);
 
+  Serial.print(F("Day of Week: "));
+  Serial.println(
+      common::DateStrings().weekDayLongString(pacificTime.dayOfWeek()));
+
+  // Print info about UTC offset
+  TimeOffset offset = pacificTime.timeOffset();
+  Serial.print(F("Total UTC Offset: "));
+  offset.printTo(Serial);
+  Serial.println();
+
+  // Print info about the current time zone
+  Serial.print(F("Time Zone: "));
+  pacificTz.printTo(Serial);
+  Serial.println();
+
   // Create from epoch seconds
   auto easternTime = ZonedDateTime::forEpochSeconds(epochSeconds, easternTz);
 
@@ -192,13 +207,16 @@ void loop() {
 
 Running this should produce the following on the Serial port:
 ```
- America/Los_Angeles: 2019-06-01T11:38:00-07:00 Saturday [America/Los_Angeles]
- Epoch Seconds: 612729480
- Unix Seconds: 1559414280
- America/New_York: 2019-06-01T14:38:00-04:00 Saturday [America/New_York]
- Europe/Istanbul: 2019-06-01T21:38:00+03:00 Saturday [Europe/Istanbul]
- pacific.compareTo(turkey): 0
- pacific == turkey: false
+America/Los_Angeles: 2019-06-01T11:38:00-07:00 Saturday [America/Los_Angeles]
+Epoch Seconds: 612729480
+Unix Seconds: 1559414280
+Day of Week: Saturday
+Total UTC Offset: -07:00
+Time Zone: [America/Los_Angeles]
+America/New_York: 2019-06-01T14:38:00-04:00 Saturday [America/New_York]
+Europe/Istanbul: 2019-06-01T21:38:00+03:00 Saturday [Europe/Istanbul]
+pacificTime.compareTo(turkeyTime): 0
+pacificTime == turkeyTime: false
 ```
 
 ## HelloSystemClock
@@ -214,7 +232,6 @@ using namespace ace_time::clock;
 
 // ZoneSpecifier instances should be created statically at initialization time.
 static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
-static BasicZoneSpecifier easternSpec(&zonedb::kZoneAmerica_New_York);
 
 SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
 SystemClockHeartbeatLoop systemClockHeartbeat(systemClock);
@@ -245,17 +262,7 @@ void printCurrentTime() {
   // Create Pacific Time and print.
   auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
   auto pacificTime = ZonedDateTime::forEpochSeconds(now, pacificTz);
-  Serial.print(F("Pacific Time: "));
   pacificTime.printTo(Serial);
-  Serial.println();
-
-  // Convert to Eastern Time and print.
-  auto easternTz = TimeZone::forZoneSpecifier(&easternSpec);
-  auto easternTime = pacificTime.convertToTimeZone(easternTz);
-  Serial.print(F("Eastern Time: "));
-  easternTime.printTo(Serial);
-  Serial.println();
-
   Serial.println();
 }
 
@@ -269,14 +276,9 @@ void loop() {
 This will start by setting the SystemClock to 2019-06-17T19:50:00-07:00,
 then printing the system time every 2 seconds in 2 time zones:
 ```
-Pacific Time: 2019-06-17T19:50:00-07:00 Monday [America/Los_Angeles]
-Eastern Time: 2019-06-17T22:50:00-04:00 Monday [America/New_York]
-
-Pacific Time: 2019-06-17T19:50:02-07:00 Monday [America/Los_Angeles]
-Eastern Time: 2019-06-17T22:50:02-04:00 Monday [America/New_York]
-
-Pacific Time: 2019-06-17T19:50:04-07:00 Monday [America/Los_Angeles]
-Eastern Time: 2019-06-17T22:50:04-04:00 Monday [America/New_York]
+2019-06-17T19:50:00-07:00 Monday [America/Los_Angeles]
+2019-06-17T19:50:02-07:00 Monday [America/Los_Angeles]
+2019-06-17T19:50:04-07:00 Monday [America/Los_Angeles]
 ```
 
 ## User Guide

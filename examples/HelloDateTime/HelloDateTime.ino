@@ -7,8 +7,8 @@
  *   Unix Seconds: 1559414280
  *   America/New_York: 2019-06-01T14:38:00-04:00 Saturday [America/New_York]
  *   Europe/Istanbul: 2019-06-01T21:38:00+03:00 Saturday [Europe/Istanbul]
- *   pacific.compareTo(turkey): 0
- *   pacific == turkey: false
+ *   pacificTime.compareTo(turkeyTime): 0
+ *   pacificTime == turkeyTime: false
  */
 
 #include <AceTime.h>
@@ -46,6 +46,21 @@ void setup() {
   Serial.print(F("Unix Seconds: "));
   acetime_t unixSeconds = pacificTime.toUnixSeconds();
   Serial.println(unixSeconds);
+
+  Serial.print(F("Day of Week: "));
+  Serial.println(
+      common::DateStrings().weekDayLongString(pacificTime.dayOfWeek()));
+
+  // Print info about UTC offset
+  TimeOffset offset = pacificTime.timeOffset();
+  Serial.print(F("Total UTC Offset: "));
+  offset.printTo(Serial);
+  Serial.println();
+
+  // Print info about the current time zone
+  Serial.print(F("Time Zone: "));
+  pacificTz.printTo(Serial);
+  Serial.println();
 
   // Create from epoch seconds
   auto easternTime = ZonedDateTime::forEpochSeconds(epochSeconds, easternTz);

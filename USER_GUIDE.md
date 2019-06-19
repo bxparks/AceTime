@@ -70,7 +70,7 @@ The [docs/](docs/) directory contains the
 
 The following programs are provided in the `examples/` directory:
 
-* [HelloTime](examples/HelloTime/)
+* [HelloDateTime](examples/HelloDateTime/)
     * demo program of various date and time classes
 * [HelloSystemClock](examples/HelloSystemClock/)
     * demo program of `SystemClock`
