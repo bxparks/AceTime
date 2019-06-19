@@ -27,8 +27,6 @@ namespace ace_time {
  */
 class ZonedDateTime {
   public:
-    static const acetime_t kInvalidEpochSeconds = LocalTime::kInvalidSeconds;
-
     /**
      * Factory method using separated date, time, and time zone fields.
      * This is intended mostly for testing purposes. Most production code
@@ -61,13 +59,14 @@ class ZonedDateTime {
      * Returns ZonedDateTime::forError() if epochSeconds is invalid.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00Z). A value of kInvalidEpochSeconds is a sentinel
-     *    that is considered to be an error and causes isError() to return true.
+     *    (2000-01-01 00:00:00Z). A value of LocalDate::kInvalidEpochSeconds is
+     *    a sentinel that is considered to be an error and causes isError() to
+     *    return true.
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
         const TimeZone& timeZone) {
-      if (epochSeconds == kInvalidEpochSeconds) return forError();
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return forError();
 
       TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
       return ZonedDateTime(
