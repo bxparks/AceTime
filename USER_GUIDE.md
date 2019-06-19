@@ -1064,6 +1064,120 @@ TimePeriod timePeriod(diffSeconds);
 timePeriod.printTo(Serial)
 ```
 
+## Mutations
+
+Mutating the date and time classes can be tricky. In fact, many other
+time libraries (such as [Java 11
+Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html),
+[Joda-Time](https://www.joda.org/joda-time/), and [Noda
+Time](https://nodatime.org/)) avoid the problem altogether by making all objects
+immutable. In those libraries, mutations occur by creating a new copy of the
+target object with a new value for the mutated parameter. Making the objects
+immutable is definitely cleaner, but it causes the code size to increase, and we
+often cannot afford that on an Arduino microcontroller with only 30-32kB of
+flash memory.
+
+The second problem with mutation is that the number of ways that an application
+developer may want to change a DateTime object can vary wildly. It would be
+impossible for the AceTime library to provide all possible mutation operations.
+If added mutation operations into the various classes themselves (e.g.
+`LocalDateTime`, `OffsetDateTime`, `ZonedDateTime`), the complexity of API of
+those classes would become overwhelming.
+
+The solution that I used for the AceTime library was to move the mutation
+operations into helper functions in separate namespaces outside of the class
+definitions. This means that additional mutation operations can be written by
+the application developer and added into the *same* namespace.
+
+Most of these mutation functions were created to solve a particular UI
+problem in my "clock" applications, where the end-user is prompted to set the
+current date and time by change the various date/time components using a button
+on a clock. The "select" button select the mutating field (e.g. "hour") and
+causes the field to blink. The other "change" button increases the value of this
+field by a certain amount (usually 1 unit). Holding down the "change" button
+causes field to increase repeatedly. When the "select" button is pressed again,
+the blinking goes to the next field. When the "select" button is pressed for
+more than 3 seconds, the entire date and time object is copied and stored into
+the `SystemClock`.
+
+The mutation operations provided in this library often have very poor data
+validation rules, mostly because they were not needed for the clock applications
+that I have written. For example, the `date_time_mutation::incrementDay()`
+method will increment the `ZonedDateTime::day()` field from Feb 29 to Feb 30,
+then to Feb 31, then wrap around to Feb 1. The object will become normalized
+when it is converted into an Epoch seconds (using `toEpochSeconds()`), then
+converted back to a `ZonedDateTime` object (using `forEpochSeconds()`). By
+deferring this normalization step until the user has finished setting all the
+clock fields, we can save some processing cycles of a Arduino microcontroller.
+
+(I am not fully convinced that making the AceTime objects mutable is the best
+design decision. But I have found it to work pretty well for the applications
+that I have written so far.)
+
+### TimeOffset Mutation
+
+The `TimeOffset` object can be mutated with:
+
+```C++
+namespace ace_time {
+namespace time_offset_mutation {
+
+void increment15Minutes(TimeOffset& offset);
+
+}
+}
+```
+
+### LocalDate Mutation
+
+The `LocalDate` object can be mutated with the following methods:
+
+```C++
+namespace ace_time {
+namespace local_date_mutation {
+
+void incrementOneDay(LocalDate& ld);
+void decrementOneDay(LocalDate& ld);
+
+}
+}
+```
+
+### ZonedDateTime Mutation
+
+The `ZonedDateTime` object can be mutated using the following methods:
+
+```C++
+namespace ace_time {
+namespace date_time_mutation {
+
+void incrementYear(ZonedDateTime& dateTime);
+void incrementMonth(ZonedDateTime& dateTime);
+void incrementDay(ZonedDateTime& dateTime);
+void incrementHour(ZonedDateTime& dateTime);
+void incrementMinute(ZonedDateTime& dateTime);
+
+]
+}
+```
+
+### TimePeriod Mutation
+
+The `TimePeriod` can be mutated using the following methods:
+
+```C++
+namespace ace_time {
+namespace time_period_mutation {
+
+void negate(TimePeriod& period);
+void incrementHour(TimePeriod& period, uint8_t limit);
+void incrementHour(TimePeriod& period);
+void incrementMinute(TimePeriod& period);
+
+}
+}
+```
+
 ## Error Handling
 
 Many features of the date and time classes have explicit or implicit range of
