@@ -92,6 +92,18 @@ class LocalDate {
     }
 
     /**
+     * Factory method using separated yearTiny, month and day fields.
+     *
+     * @param year -127, 127
+     * @param month month with January=1, December=12
+     * @param day day of month [1-31]
+     */
+    static LocalDate forTinyComponents(int8_t yearTiny, uint8_t month,
+        uint8_t day) {
+      return LocalDate(yearTiny, month, day);
+    }
+
+    /**
      * Factory method using the number of days since AceTime epoch of
      * 2000-01-01. If epochDays is kInvalidEpochDays, isError() will return
      * true.
