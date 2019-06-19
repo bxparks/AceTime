@@ -91,7 +91,7 @@ class LocalDate {
       return LocalDate(yearTiny, month, day);
     }
 
-    /** Factory method using components with a int8_t yearTiny. */
+    /** Factory method using components with an int8_t yearTiny. */
     static LocalDate forTinyComponents(int8_t yearTiny, uint8_t month,
         uint8_t day) {
       return LocalDate(yearTiny, month, day);
@@ -412,7 +412,7 @@ class LocalDate {
     }
 
     /**
-     * Store year as a int8_t offset from year 2000. This saves memory, but may
+     * Store year as an int8_t offset from year 2000. This saves memory, but may
      * cause other problems later. Consider changing to int16_t if necessary.
      */
     int8_t mYearTiny; // [-127, 127], -128 indicates error

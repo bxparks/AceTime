@@ -44,18 +44,16 @@ class OffsetDateTime {
      * @param day day of month [1-31] @param hour hour [0-23] @param minute
      * minute [0-59] @param second second [0-59], does not support leap seconds
      * @param timeOffset the time offset from UTC. Using TimeOffset in the last
-     * component (instead of a int8_t or int16_t) allows us to overload an
+     * component (instead of an int8_t or int16_t) allows us to overload an
      * additional constructor that accepts a millisecond component in the
      * future.
      */
     static OffsetDateTime forComponents(int16_t year, uint8_t month, uint8_t
         day, uint8_t hour, uint8_t minute, uint8_t second, TimeOffset
         timeOffset) {
-      int8_t yearTiny = LocalDate::isYearValid(year)
-          ? year - LocalDate::kEpochYear
-          : LocalDate::kInvalidYearTiny;
-      return OffsetDateTime(yearTiny, month, day, hour, minute, second,
-          timeOffset);
+      auto ldt = LocalDateTime::forComponents(year, month, day, hour, minute,
+          second);
+      return OffsetDateTime(ldt, timeOffset);
     }
 
     /**
@@ -237,7 +235,7 @@ class OffsetDateTime {
 
       acetime_t epochDays = mLocalDateTime.localDate().toEpochDays();
 
-      // Increment or decrement the day count depending on the offset zone.
+      // Increment or decrement the day count depending on the time offset.
       acetime_t timeOffset = mLocalDateTime.localTime().toSeconds()
           - mTimeOffset.toSeconds();
       if (timeOffset >= 86400) return epochDays + 1;
@@ -303,15 +301,9 @@ class OffsetDateTime {
     /** Expected length of an ISO 8601 date string, including UTC offset. */
     static const uint8_t kDateStringLength = 25;
 
-    /** Constructor from components. */
-    explicit OffsetDateTime(int8_t yearTiny, uint8_t month, uint8_t day,
-        uint8_t hour, uint8_t minute, uint8_t second, TimeOffset timeOffset):
-        mLocalDateTime(LocalDateTime::forTinyComponents(
-            yearTiny, month, day, hour, minute, second)),
-        mTimeOffset(timeOffset) {}
-
     /** Constructor from LocalDateTime and a TimeOffset. */
-    explicit OffsetDateTime(const LocalDateTime& ldt, TimeOffset timeOffset):
+    explicit OffsetDateTime(const LocalDateTime& ldt,
+        const TimeOffset timeOffset):
         mLocalDateTime(ldt),
         mTimeOffset(timeOffset) {}
 

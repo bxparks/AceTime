@@ -14,7 +14,7 @@ namespace ace_time {
 /**
  * The date (year, month, day) and time (hour, minute, second) fields
  * representing an instant in time. In an 8-bit implementation, the year field
- * is internally represented as a int8_t number from -128 to 127. The value of
+ * is internally represented as an int8_t number from -128 to 127. The value of
  * -128 is used to indicate an error condition so that range of valid year is
  * 1873 to 2127 inclusive.
  *

@@ -28,13 +28,15 @@ class LocalDateTime {
       int8_t yearTiny = LocalDate::isYearValid(year)
           ? year - LocalDate::kEpochYear
           : LocalDate::kInvalidYearTiny;
-      return LocalDateTime(yearTiny, month, day, hour, minute, second);
+      return forTinyComponents(yearTiny, month, day, hour, minute, second);
     }
 
-    /** Factory method using components with a int8_t yearTiny. */
+    /** Factory method using components with an int8_t yearTiny. */
     static LocalDateTime forTinyComponents(int8_t yearTiny, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second) {
-      return LocalDateTime(yearTiny, month, day, hour, minute, second);
+      return LocalDateTime(
+          LocalDate::forTinyComponents(yearTiny, month, day),
+          LocalTime::forComponents(hour, minute, second));
     }
 
     /**
@@ -261,12 +263,6 @@ class LocalDateTime {
 
     /** Expected length of an ISO 8601 date string. */
     static const uint8_t kDateTimeStringLength = 19;
-
-    /** Constructor from components. */
-    explicit LocalDateTime(int8_t yearTiny, uint8_t month, uint8_t day,
-        uint8_t hour, uint8_t minute, uint8_t second):
-        mLocalDate(LocalDate::forTinyComponents(yearTiny, month, day)),
-        mLocalTime(LocalTime::forComponents(hour, minute, second)) {}
 
     /** Constructor from a LocalDate and LocalTime. */
     explicit LocalDateTime(const LocalDate& ld, const LocalTime& lt):
