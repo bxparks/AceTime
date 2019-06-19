@@ -558,9 +558,11 @@ observing Daylight Saving Time (DST).
 
 ### OffsetDateTime
 
-An `OffsetDateTime` is an object that can represent a date&time which is
+An `OffsetDateTime` is an object that can represent a `LocalDateTime` which is
 offset from the UTC time zone by a fixed amount. Internally the `OffsetDateTime`
-is a aggregation of `LocalDateTime` and `TimeOffset`.
+is a aggregation of `LocalDateTime` and `TimeOffset`. Use this class for
+creating and writing timestamps for events which are destined for logging for
+example. This class does not know about Daylight Saving Time transitions.
 
 ```C++
 namespace ace_time {
@@ -898,7 +900,10 @@ is more accurate than `BasicZoneSpecifier::forComponents()` because the
 A `ZonedDateTime` is a `LocalDateTime` associated with a given `TimeZone`. This
 is analogous to an`OffsetDateTime` being a `LocalDateTime` associated with a
 `TimeOffset`. All 4 types of `TimeZone` are supported, the `ZonedDateTime`
-class itself does not care which one is used.
+class itself does not care which one is used. You should use the `ZonedDateTime`
+when interacting with human beings, who are aware of timezones and DST
+transitions. It can also be used to convert time from one timezone to anther
+timezone.
 
 ```C++
 namespace ace_time {

@@ -192,7 +192,9 @@ class LocalDateTime {
     }
 
     /**
-     * Return seconds since AceTime epoch (2000-01-01 00:00:00Z).
+     * Return seconds since AceTime epoch 2000-01-01 00:00:00Z, after assuming
+     * that the date and time components are in UTC timezone. Returns
+     * LocalDate::kInvalidEpochSeconds if isError() is true.
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
@@ -203,11 +205,12 @@ class LocalDateTime {
     }
 
     /**
-     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z.
-     * It returns kInvalidEpochSeconds if isError() is true.
+     * Return seconds from Unix epoch 1970-01-01 00:00:00Z, after assuming that
+     * the date and time components are in UTC timezone. Returns
+     * LocalDate::kInvalidEpochSeconds if isError() is true.
      *
-     * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
-     * print the unix seconds.
+     * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box
+     * to print the unix seconds of a given ISO8601 date.
      */
     acetime_t toUnixSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
