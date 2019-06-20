@@ -199,17 +199,20 @@ class OffsetDateTime {
     /** Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). */
     uint8_t dayOfWeek() const { return mLocalDateTime.dayOfWeek(); }
 
-    /** Return the LocalDate. */
-    const LocalDate& localDate() const { return mLocalDateTime.localDate(); }
-
-    /** Return the LocalTime. */
-    const LocalTime& localTime() const { return mLocalDateTime.localTime(); }
-
     /** Return the offset zone of the OffsetDateTime. */
     TimeOffset timeOffset() const { return mTimeOffset; }
 
     /** Set the offset zone. */
     void timeOffset(TimeOffset timeOffset) { mTimeOffset = timeOffset; }
+
+    /** Return the LocalDateTime. */
+    const LocalDateTime& localDateTime() const { return mLocalDateTime; }
+
+    /** Return the LocalDate. */
+    const LocalDate& localDate() const { return mLocalDateTime.localDate(); }
+
+    /** Return the LocalTime. */
+    const LocalTime& localTime() const { return mLocalDateTime.localTime(); }
 
     /**
      * Create a OffsetDateTime in a different offset zone code (with the same

@@ -15,80 +15,81 @@ test(ZonedDateTimeTest_Basic, forComponents_isError) {
   TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
 
   // outside [2000, 2050) range, should generate error
-  ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
+  ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 0, tz);
   assertTrue(dt.isError());
-  dt = ZonedDateTime::forComponents(2051, 3, 11, 1, 59, 59, tz);
+  dt = ZonedDateTime::forComponents(2051, 3, 11, 1, 59, 0, tz);
   assertTrue(dt.isError());
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_beforeDst) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 59, tz);
+  auto dtInput = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 0, tz);
+  auto dt = ZonedDateTime::forEpochSeconds(dtInput.toEpochSeconds(), tz);
 
-  TimeOffset pst = TimeOffset::forHour(-8);
-  OffsetDateTime otz = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-    pst);
-
-  assertEqual(otz.toEpochSeconds(), dt.toEpochSeconds());
+  assertEqual(TimeOffset::forHour(-8).toMinutes(), dt.timeOffset().toMinutes());
+  auto expected = LocalDateTime::forComponents(2018, 3, 11, 1, 59, 0);
+  assertTrue(expected == dt.localDateTime());
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_inDstGap) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 0, 1, tz);
+  // 2:01am doesn't exist
+  auto dtInput = ZonedDateTime::forComponents(2018, 3, 11, 2, 1, 0, tz);
+  auto dt = ZonedDateTime::forEpochSeconds(dtInput.toEpochSeconds(), tz);
 
-  TimeOffset pdt = TimeOffset::forHour(-7);
-  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 1, pdt);
-
-  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+  // TODO: The time gets shifted back to 1:01am, which is probably not what the
+  // user expected, but that's the current result in the gap.
+  assertEqual(TimeOffset::forHour(-8).toMinutes(), dt.timeOffset().toMinutes());
+  auto expected = LocalDateTime::forComponents(2018, 3, 11, 1, 1, 0);
+  assertTrue(expected == dt.localDateTime());
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_inDst) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  ZonedDateTime dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 0, 1, tz);
+  auto dtInput = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tz);
+  auto dt = ZonedDateTime::forEpochSeconds(dtInput.toEpochSeconds(), tz);
 
-  TimeOffset pdt = TimeOffset::forHour(-7);
-  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 3, 11, 3, 0, 1, pdt);
-
-  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+  assertEqual(TimeOffset::forHour(-7).toMinutes(), dt.timeOffset().toMinutes());
+  auto expected = LocalDateTime::forComponents(2018, 3, 11, 3, 1, 0);
+  assertTrue(expected == dt.localDateTime());
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_beforeStd) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  ZonedDateTime dt = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 59, tz);
+  auto dtInput = ZonedDateTime::forComponents(2018, 11, 4, 0, 59, 0, tz);
+  auto dt = ZonedDateTime::forEpochSeconds(dtInput.toEpochSeconds(), tz);
 
-  TimeOffset pdt = TimeOffset::forHour(-7);
-  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 11, 4, 0, 59, 59,
-      pdt);
-
-  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+  assertEqual(TimeOffset::forHour(-7).toMinutes(), dt.timeOffset().toMinutes());
+  auto expected = LocalDateTime::forComponents(2018, 11, 4, 0, 59, 0);
+  assertTrue(expected == dt.localDateTime());
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_inOverlap) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  ZonedDateTime dt = ZonedDateTime::forComponents(
-      2018, 11, 4, 1, 0, 1, tz); // ambiguous
+  // There were two instances of 01:00:01.
+  auto dtInput = ZonedDateTime::forComponents(2018, 11, 4, 1, 1, 0, tz);
+  auto dt = ZonedDateTime::forEpochSeconds(dtInput.toEpochSeconds(), tz);
 
-  TimeOffset pdt = TimeOffset::forHour(-8);
-  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 11, 4, 1, 0, 1, pdt);
-
-  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+  // BasicZoneSpecifier chooses the earlier offset.
+  assertEqual(TimeOffset::forHour(-8).toMinutes(), dt.timeOffset().toMinutes());
+  auto expected = LocalDateTime::forComponents(2018, 11, 4, 1, 1, 0);
+  assertTrue(expected == dt.localDateTime());
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_afterOverlap) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  ZonedDateTime dt = ZonedDateTime::forComponents(
-      2018, 11, 4, 2, 0, 1, tz); // ambiguous
+  auto dtInput = ZonedDateTime::forComponents(2018, 11, 4, 2, 1, 0, tz);
+  auto dt = ZonedDateTime::forEpochSeconds(dtInput.toEpochSeconds(), tz);
 
-  TimeOffset pdt = TimeOffset::forHour(-8);
-  OffsetDateTime odt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 1, pdt);
-
-  assertEqual(odt.toEpochSeconds(), dt.toEpochSeconds());
+  assertEqual(TimeOffset::forHour(-8).toMinutes(), dt.timeOffset().toMinutes());
+  auto expected = LocalDateTime::forComponents(2018, 11, 4, 2, 1, 0);
+  assertTrue(expected == dt.localDateTime());
 }
 
 // --------------------------------------------------------------------------

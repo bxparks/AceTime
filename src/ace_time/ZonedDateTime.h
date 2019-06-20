@@ -192,6 +192,11 @@ class ZonedDateTime {
      */
     void timeZone(const TimeZone& timeZone) { mTimeZone = timeZone; }
 
+    /** Return the LocalDateTime of the components. */
+    const LocalDateTime& localDateTime() const {
+      return mOffsetDateTime.localDateTime();
+    }
+
     /**
      * Create a ZonedDateTime in a different time zone (with the same
      * epochSeconds).
