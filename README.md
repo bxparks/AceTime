@@ -160,7 +160,7 @@ void setup() {
   acetime_t unixSeconds = startTime.toUnixSeconds();
   Serial.println(unixSeconds);
 
-  Serial.println(F("=== Los_Angeles: "));
+  Serial.println(F("=== Los_Angeles"));
   auto pacificTime = ZonedDateTime::forEpochSeconds(epochSeconds, pacificTz);
   Serial.print(F("Time: "));
   pacificTime.printTo(Serial);
@@ -189,7 +189,7 @@ void setup() {
   // Create from epoch seconds. London is still on standard time.
   auto londonTime = ZonedDateTime::forEpochSeconds(epochSeconds, londonTz);
 
-  Serial.println(F("=== London: "));
+  Serial.println(F("=== London"));
   Serial.print(F("Time: "));
   londonTime.printTo(Serial);
   Serial.println();
@@ -225,7 +225,7 @@ Day of Week: Sunday
 Total UTC Offset: -07:00
 Zone: America/Los_Angeles
 Abbreviation: PDT
-=== London:
+=== London
 Time: 2019-03-10T10:00:00+00:00[Europe/London]
 Zone: Europe/London
 Abbreviation: GMT

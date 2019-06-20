@@ -436,6 +436,7 @@ class LocalDateTime {
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
     static LocalDateTime forEpochSeconds(acetime_t epochSeconds);
     static LocalDateTime forUnixSeconds(acetime_t unixSeconds);
+    static LocalDateTime forDateString(const char* dateString);
 
     bool isError() const;
 
@@ -492,6 +493,14 @@ We can go the other way and create a `LocalDateTime` from the Epoch Seconds:
 LocalDateTime localDateTime = LocalDateTime::forEpochSeconds(1514764800L);
 localDateTime.printTo(Serial); // prints "2018-01-01T00:00:00"
 ```
+
+Both `printTo()` and `forDateString()` are expected to be used only for
+debugging. The `printTo()` prints a human-readable representation of the date in
+[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format (yyyy-mm-ddThh:mm:ss)
+to the given `Print` object. The most common `Print` object is the `Serial`
+object which prints on the serial port. The `forDateString()` parses the
+ISO 8601 formatted string and returns the `LocalDateTime` object.
+
 ### TimeOffset
 
 A `TimeOffset` class represents an amount of time shift from a reference point.
@@ -577,6 +586,7 @@ class OffsetDateTime {
         TimeOffset timeOffset);
     static OffsetDateTime forUnixSeconds(acetime_t unixSeconds,
         TimeOffset timeOffset);
+    static OffsetDateTime forDateString(const char* dateString);
 
     bool isError() const;
 
@@ -640,6 +650,14 @@ the `forEpochSeconds()` method:
 OffsetDateTime offsetDateTime = OffsetDateTime::forEpochSeconds(
     568079100, TimeOffset::forHourMinute(0, 15));
 ```
+
+Both `printTo()` and `forDateString()` are expected to be used only for
+debugging. The `printTo()` prints a human-readable representation of the date in
+[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format
+(yyyy-mm-ddThh:mm:ss+/-hh:mm) to the given `Print` object. The most common
+`Print` object is the `Serial` object which prints on the serial port. The
+`forDateString()` parses the ISO 8601 formatted string and returns the
+`OffsetDateTime` object.
 
 ### TimeZone
 
@@ -1009,6 +1027,25 @@ void someFunction() {
   ...
 }
 ```
+
+Both `printTo()` and `forDateString()` are expected to be used only for
+debugging. The `printTo()` prints a human-readable representation of the date in
+[ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format
+(yyyy-mm-ddThh:mm:ss+/-hh:mm) to the given `Print` object. The most common
+`Print` object is the `Serial` object which prints on the serial port. The
+`forDateString()` parses the ISO 8601 formatted string and returns the
+`ZonedDateTime` object.
+
+**Caveat**: The parser for `forDateString()` looks only at the UTC offset. It
+does *not* recognize the TZ Database identifier (e.g. `[America/Los_Angeles]`).
+To handle the time zone identifier correctly, the library needs to load
+the entire TZ Database into memory and be able to create the
+`BasicZoneSpecifier` or `ExtendedZoneSpecifier` dynamically. But the dataset
+is too large to fit on most AVR microcontrollers with only 32kB of flash memory.
+(It may be possible to add this functionality for the ESP8266 or ESP32
+platforms which have far more memory.) The `ZonedDateTime::timeZone()` will
+return a `TimeZone` instance whose `TimeZone::getType()` returns
+`TimeZone::kTypeFixed`.
 
 #### Conversion to Other Time Zones
 
