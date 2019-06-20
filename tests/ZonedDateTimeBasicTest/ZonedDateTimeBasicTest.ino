@@ -71,7 +71,7 @@ test(ZonedDateTimeTest_Basic, forComponents_beforeStd) {
 test(ZonedDateTimeTest_Basic, forComponents_inOverlap) {
   BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  // There were two instances of 01:00:01.
+  // There were two instances of 1:00am.
   auto dtInput = ZonedDateTime::forComponents(2018, 11, 4, 1, 1, 0, tz);
   auto dt = ZonedDateTime::forEpochSeconds(dtInput.toEpochSeconds(), tz);
 
