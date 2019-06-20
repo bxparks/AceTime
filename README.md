@@ -289,7 +289,7 @@ void loop() {
 ```
 
 This will start by setting the SystemClock to 2019-06-17T19:50:00-07:00,
-then printing the system time every 2 seconds in 2 time zones:
+then printing the system time every 2 seconds:
 ```
 2019-06-17T19:50:00-07:00[America/Los_Angeles]
 2019-06-17T19:50:02-07:00[America/Los_Angeles]

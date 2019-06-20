@@ -744,6 +744,14 @@ transitions from 02:00 to 01:00 in the autumn, a given local time such as 01:30
 occurs twice. If the `getUtcOffsetForDateTime()` method is given a time of
 01:30, it will arbitrarily decide which offset to return.
 
+The `isDst()` and `isDst(bool)` methods are active *only* if the `TimeZone` is a
+`kTypeManual`, meaning that it uses the `ManualZoneSpecifier` as the underlying
+engine for determining the DST transitions. Otherwise, they do nothing. If the
+type is `kTypeManual`, the `isDst()` returns the value of the underlying
+`ManualZoneSpecifier::isDst()` and the `isDst(bool)` pass the value to the
+underlying `ManualZoneSpecifier::isDst(bool)` method. These methods allow the
+user to manuaally set the DST flag, instead of using the TZ Database.
+
 The `printAbbrevTo(printer, epochSeconds)` method prints the human-readable
 timezone abbreviation used at the given `epochSeconds` to the `printer`. For
 example, this be "PST" for Pacific Standard Time, or "BST" for British Summer
