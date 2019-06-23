@@ -646,8 +646,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     const extended::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
-      init(epochSeconds);
-      if (mIsOutOfBounds) return TimeOffset::forError();
+      bool success = init(epochSeconds);
+      if (!success) return TimeOffset::forError();
       const extended::Transition* transition = findTransition(epochSeconds);
       return (transition)
           ? TimeOffset::forOffsetCode(
@@ -656,23 +656,23 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
-      init(epochSeconds);
-      if (mIsOutOfBounds) return TimeOffset::forError();
+      bool success = init(epochSeconds);
+      if (!success) return TimeOffset::forError();
       const extended::Transition* transition = findTransition(epochSeconds);
       return TimeOffset::forOffsetCode(transition->deltaCode());
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
-      init(epochSeconds);
-      if (mIsOutOfBounds) return "";
+      bool success = init(epochSeconds);
+      if (!success) return "";
       const extended::Transition* transition = findTransition(epochSeconds);
       return transition->abbrev;
     }
 
     TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
         const override {
-      init(ldt.localDate());
-      if (mIsOutOfBounds) return TimeOffset::forError();
+      bool success = init(ldt.localDate());
+      if (!success) return TimeOffset::forError();
 
       const extended::Transition* transition =
           mTransitionStorage.findTransitionForDateTime(ldt);
@@ -768,15 +768,18 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     /** Initialize using the epochSeconds. */
-    void init(acetime_t epochSeconds) const {
+    bool init(acetime_t epochSeconds) const {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
-      init(ld);
+      return init(ld);
     }
 
-    /** Initialize the zone rules cache, keyed by the "current" year. */
-    void init(const LocalDate& ld) const {
+    /**
+     * Initialize the zone rules cache, keyed by the "current" year.
+     * Returns success status: true if successful, false if an error occurred.
+     */
+    bool init(const LocalDate& ld) const {
       int16_t year = ld.year();
-      if (isFilled(year)) return;
+      if (isFilled(year)) return true;
       if (DEBUG) logging::println("init(): %d", year);
 
       mYear = year;
@@ -785,8 +788,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
       if (year < mZoneInfo->zoneContext->startYear - 1
           || mZoneInfo->zoneContext->untilYear < year) {
-        mIsOutOfBounds = true;
-        return;
+        return false;
       }
 
       extended::YearMonthTuple startYm = {
@@ -805,7 +807,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       calcAbbreviations(begin, end);
 
       mIsFilled = true;
-      mIsOutOfBounds = false;
+      return true;
     }
 
     /** Check if the ZoneRule cache is filled for the given year. */
@@ -1491,7 +1493,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
-    mutable bool mIsOutOfBounds = false; // year is too early or late
     // NOTE: Maybe move mNumMatches and mMatches into a MatchStorage object.
     mutable uint8_t mNumMatches = 0; // actual number of matches
     mutable extended::ZoneMatch mMatches[kMaxMatches];

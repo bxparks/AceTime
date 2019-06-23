@@ -15,9 +15,9 @@ class LocalDateTime;
  * implmenting the differing ZoneSpecifiers:
  *
  * 1) Implement only a single getType() method to distinguish the different
- * runtime types of the object. Then use this type
- * information in the TimeZone class to downcast the ZoneSpecifier pointer to
- * the correct subclass, and call the correct methods.
+ * runtime types of the object. Then use this type information in the TimeZone
+ * class to downcast the ZoneSpecifier pointer to the correct subclass, and
+ * call the correct methods.
  *
  * 2) Fully implement a polymorphic class hierarchy, lifting various common
  * methods (getUtcOffset(), getDeltaOffset(), getAbbrev()) into this interface
