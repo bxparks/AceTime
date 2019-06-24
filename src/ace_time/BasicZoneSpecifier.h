@@ -192,8 +192,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
         const override {
-      init(ldt.localDate());
-      if (mIsOutOfBounds) return TimeOffset::forError();
+      bool success = init(ldt.localDate());
+      if (!success) return TimeOffset::forError();
 
       // First guess at the TimeOffset using Jan 1 of the given year.
       acetime_t initialEpochSeconds =
@@ -279,8 +279,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     /** Return the Transition at the given epochSeconds. */
     const basic::Transition* getTransition(acetime_t epochSeconds) const {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
-      init(ld);
-      return (mIsOutOfBounds) ? nullptr : findMatch(epochSeconds);
+      bool success = init(ld);
+      return (success) ? findMatch(epochSeconds) : nullptr;
     }
 
     /**
@@ -307,21 +307,23 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      *  3. Calculate the Transitions given the above ZoneRules.
      *  4. Calculate the zone abbreviations (e.g. "PDT" or "BST") for each
      *  Transition.
+     *
+     * Returns success status: true if successful, false if an error occurred
+     * (e.g. out of bounds).
      */
-    void init(const LocalDate& ld) const {
+    bool init(const LocalDate& ld) const {
       int16_t year = ld.year();
       if (ld.month() == 1 && ld.day() == 1) {
         year--;
       }
-      if (isFilled(year)) return;
+      if (isFilled(year)) return true;
 
       mYear = year;
       mNumTransitions = 0; // clear cache
 
       if (year < mZoneInfo->zoneContext->startYear - 1
           || mZoneInfo->zoneContext->untilYear < year) {
-        mIsOutOfBounds = true;
-        return;
+        return false;
       }
 
       addRulePriorToYear(year);
@@ -330,7 +332,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       calcAbbreviations();
 
       mIsFilled = true;
-      mIsOutOfBounds = false;
+      return true;
     }
 
     /** Check if the Transition cache is filled for the given year. */
@@ -750,7 +752,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
-    mutable bool mIsOutOfBounds = false; // year is too early or late
     mutable uint8_t mNumTransitions = 0;
     mutable basic::Transition mTransitions[kMaxCacheEntries];
     mutable basic::Transition mPrevTransition; // previous year's transition

@@ -32,8 +32,8 @@ sizeof(extended::Transition): 36
 sizeof(extended::ZoneMatch): 12
 sizeof(ZoneSpecifier): 3
 sizeof(ManualZoneSpecifier): 10
-sizeof(BasicZoneSpecifier): 95
-sizeof(ExtendedZoneSpecifier): 366
+sizeof(BasicZoneSpecifier): 94
+sizeof(ExtendedZoneSpecifier): 365
 sizeof(TimeZone): 3
 sizeof(ZonedDateTime): 10
 sizeof(TimePeriod): 4
