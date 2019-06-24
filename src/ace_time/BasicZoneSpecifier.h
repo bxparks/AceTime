@@ -190,21 +190,27 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * epochSecond from the previous pass to calculate the next best guess of
      * the actual TimeOffset. We return the second pass guess as the result.
      */
-    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
-        const override {
+    OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
+      TimeOffset offset;
       bool success = init(ldt.localDate());
-      if (!success) return TimeOffset::forError();
+      if (success) {
+        // First guess at the TimeOffset using Jan 1 of the given year.
+        acetime_t initialEpochSeconds =
+            LocalDate::forComponents(ldt.year(), 1, 1).toEpochSeconds();
+        TimeOffset initialTimeOffset = getUtcOffset(initialEpochSeconds);
 
-      // First guess at the TimeOffset using Jan 1 of the given year.
-      acetime_t initialEpochSeconds =
-          LocalDate::forComponents(ldt.year(), 1, 1).toEpochSeconds();
-      TimeOffset initialTimeOffset = getUtcOffset(initialEpochSeconds);
+        // Second guess at the TimeOffset using the first TimeOffset.
+        auto odt = OffsetDateTime::forLocalDateTimeAndOffset(
+            ldt, initialTimeOffset);
+        acetime_t epochSeconds = odt.toEpochSeconds();
+        offset = getUtcOffset(epochSeconds);
 
-      // Second guess at the TimeOffset using the first TimeOffset.
-      auto odt = OffsetDateTime::forLocalDateTimeAndOffset(
-          ldt, initialTimeOffset);
-      acetime_t epochSeconds = odt.toEpochSeconds();
-      return getUtcOffset(epochSeconds);
+        // FIXME: This is inaccurate if ldt falls in the DST gap where the ldt is
+        // invalid. Add a normalization step.
+      } else {
+        offset = TimeOffset::forError();
+      }
+      return OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset);
     }
 
     /** Print the TD database zone identifier e.g "America/Los_Angeles". */

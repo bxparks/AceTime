@@ -669,17 +669,23 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return transition->abbrev;
     }
 
-    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
-        const override {
+    OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
+      TimeOffset offset;
       bool success = init(ldt.localDate());
-      if (!success) return TimeOffset::forError();
+      if (success) {
+        const extended::Transition* transition =
+            mTransitionStorage.findTransitionForDateTime(ldt);
+        offset = (transition)
+            ? TimeOffset::forOffsetCode(
+                transition->offsetCode() + transition->deltaCode())
+            : TimeOffset::forError();
 
-      const extended::Transition* transition =
-          mTransitionStorage.findTransitionForDateTime(ldt);
-      return (transition)
-          ? TimeOffset::forOffsetCode(
-              transition->offsetCode() + transition->deltaCode())
-          : TimeOffset::forError();
+        // FIXME: This is maybe inaccurate if ldt falls in the DST gap where the
+        // ldt is invalid. Add a normalization step.
+      } else {
+        offset = TimeOffset::forError();
+      }
+      return OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset);
     }
 
     /** Print the TD database zone identifier e.g "America/Los_Angeles". */

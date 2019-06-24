@@ -102,8 +102,8 @@ class ManualZoneSpecifier: public ZoneSpecifier {
       return mIsDst ? mDstAbbrev : mStdAbbrev;
     }
 
-    TimeOffset getUtcOffsetForDateTime(const LocalDateTime&) const override {
-      return getUtcOffset(0);
+    OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
+      return OffsetDateTime::forLocalDateTimeAndOffset(ldt, getUtcOffset(0));
     }
 
     /** Print the zone specifier in the format of "+/-HH:MM (DST|STD)". */

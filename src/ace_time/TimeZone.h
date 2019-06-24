@@ -149,14 +149,16 @@ class TimeZone {
     }
 
     /**
-     * Return the best guess of the UTC offset at the given LocalDateTime for
-     * the current TimeZone. Used by ZonedDateTime::forComponents(), so
-     * intended to be used mostly for testing and debugging.
+     * Return the best estimate of the OffsetDateTime at the given
+     * LocalDateTime for the current TimeZone. Used by
+     * ZonedDateTime::forComponents(), so intended to be used mostly for
+     * testing and debugging.
      */
-    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const {
-      return (mType == kTypeFixed)
-          ? mOffset
-          : mZoneSpecifier->getUtcOffsetForDateTime(ldt);
+    OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const {
+      OffsetDateTime odt = (mType == kTypeFixed)
+          ? OffsetDateTime::forLocalDateTimeAndOffset(ldt, mOffset)
+          : mZoneSpecifier->getOffsetDateTime(ldt);
+      return odt;
     }
 
     /**

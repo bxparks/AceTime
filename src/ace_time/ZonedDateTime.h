@@ -45,12 +45,10 @@ class ZonedDateTime {
      * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
-            uint8_t hour, uint8_t minute, uint8_t second,
-            const TimeZone& timeZone) {
+            uint8_t hour, uint8_t minute, uint8_t second, const TimeZone& timeZone) {
       auto ldt = LocalDateTime::forComponents(
           year, month, day, hour, minute, second);
-      auto odt = OffsetDateTime::forLocalDateTimeAndOffset(
-          ldt, timeZone.getUtcOffsetForDateTime(ldt));
+      auto odt = timeZone.getOffsetDateTime(ldt);
       return ZonedDateTime(odt, timeZone);
     }
 
