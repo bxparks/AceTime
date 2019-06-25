@@ -123,6 +123,7 @@ SystemClock synchronized to a DS3231 chip, and 2 buttons can fit inside the 30kB
 flash size of an Arduino Pro Micro controller.
 
 Version: 0.1 (2019-06-15)
+
 Status: Work in progress. Getting very close to a beta release.
 
 ## HelloDateTime
