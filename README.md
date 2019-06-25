@@ -118,7 +118,7 @@ initialization time. On an 8-bit Arduino Nano (AVR), the AceTime library with
 one timezone using the `BasicZoneSpecifier` and the `SystemClock` consumes about
 8kB of flash and 430 bytes of RAM. On an ESP8266 processor (32-bit) the same
 functionality consumes 14kB of flash and 4600 bytes of RAM. Fully functioning
-[WorldClock][examples/WorldClock] with 3 OLED displays, 3 timezones, a
+[WorldClock](examples/WorldClock) with 3 OLED displays, 3 timezones, a
 SystemClock synchronized to a DS3231 chip, and 2 buttons can fit inside the 30kB
 flash size of an Arduino Pro Micro controller.
 
