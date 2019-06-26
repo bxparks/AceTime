@@ -1,4 +1,4 @@
-# ExtendedValidationMoreTest
+# ExtendedValidationUsingJavaTest
 
 This unit test compares the DST transitions calculated by the
 `ExtendedZoneSpecifier` class (which uses the `zonedbx` data files) with the
@@ -7,8 +7,7 @@ This unit test compares the DST transitions calculated by the
 
 The Java program generates about 260,000 data points spanning the year 2000 to
 2050. It is too large to run on any Arduino board that I am aware of, including
-the ESP32.
-However it does run on a Linux machine using the
+the ESP32. However it does run on a Linux machine using the
 [unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino) adaptor
 layer included with [AUnit](https://github.com/bxparks/AUnit).
 
@@ -17,7 +16,7 @@ layer included with [AUnit](https://github.com/bxparks/AUnit).
 Assuming that you have `g++` and `make` installed, just type:
 ```
 $ make clean && make -j 4
-$ ./ExtendedValidationMoreTest.out
+$ ./ExtendedValidationUsingJavaTest.out
 TestRunner started on 347 test(s).
 Test TransitionTest_Africa_Abidjan passed.
 ...

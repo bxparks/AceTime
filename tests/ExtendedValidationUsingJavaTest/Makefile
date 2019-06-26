@@ -2,7 +2,7 @@
 # about using unitduino to compile and run AUnit tests natively on Linux or
 # MacOS.
 
-APP_NAME := ExtendedValidationMoreTest
+APP_NAME := ExtendedValidationUsingJavaTest
 ARDUINO_LIBS := AceTime
 include ../../../AUnit/unitduino/unitduino.mk
 
