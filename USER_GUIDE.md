@@ -1936,7 +1936,7 @@ is already too large, I did not want to make them larger than necessary.
     * [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) uses an epoch
       of 1900-01-01T00:00:00Z, with 32-bit unsigned integer as the seconds
       counter. It will overflow just after 2036-02-07T06:28:15Z.
-* `BasicValidationTest` and `ExtendedValidationTest`
+* `BasicValidationUsingPythonTest` and `ExtendedValidationUsingPythonTest`
     * These tests compare the transition times calculated by AceTime to Python's
       [pytz](https://pypi.org/project/pytz/) library. Unfortunately, pytz does
       not support dates after Unix signed 32-bit `time_t` rollover at
@@ -1945,8 +1945,8 @@ is already too large, I did not want to make them larger than necessary.
       run on a Linux or MacOS machine through the Makefiles using the
       [unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino)
       emulator.
-* `BasicValidationMoreTest` and `ExtendedValidationMoreTest`
-    * These tests compare the transition times calculated by AceTime to Java's
+* `BasicValidationUsingJavaTest` and `ExtendedValidationUsingJavaTest`
+    * These tests compare the transition times calculated by AceTime to Java 11
       `java.time` package which should support the entire range of dates that
       AceTime can represent. We have artificially limited the range of testing
       from 2000 to 2050.

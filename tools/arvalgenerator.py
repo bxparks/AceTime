@@ -15,7 +15,8 @@ from argenerator import normalize_name
 
 
 class ArduinoValidationGenerator:
-    """Generate Arduino data files for ValidationTest.ino.
+    """Generate Arduino data files for BasicValidationUsingPythonTest and
+    ExtendedValidationUsingPythonTest.
     """
 
     VALIDATION_DATA_H_FILE = """\

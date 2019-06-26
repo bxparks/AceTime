@@ -43,7 +43,7 @@ test(s).
 
 The following unit tests will **only** run on a Linux or MacOS machine, not on
 any Arduino, because they consume too much memory:
-* [BasicValidationTest](BasicValidationTest)
-* [BasicValidationMoreTest](BasicValidationMoreTest)
-* [ExtendedValidationTest](ExtendedValidationTest)
-* [ExtendedValidationMoreTest](ExtendedValidationMoreTest)
+* [BasicValidationUsingPythonTest](BasicValidationUsingPythonTest)
+* [BasicValidationUsingJavaTest](BasicValidationUsingJavaTest)
+* [ExtendedValidationUsingPythonTest](ExtendedValidationUsingPythonTest)
+* [ExtendedValidationUsingJavaTest](ExtendedValidationUsingJavaTest)

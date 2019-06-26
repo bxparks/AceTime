@@ -692,7 +692,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       acetime_t epochSeconds = odt.toEpochSeconds();
       const extended::Transition* transition =
           mTransitionStorage.findTransition(epochSeconds);
-      offset =  (transition) 
+      offset =  (transition)
             ? TimeOffset::forOffsetCode(
                 transition->offsetCode() + transition->deltaCode())
             : TimeOffset::forError();
@@ -754,8 +754,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     /**
      * Max number of Transitions required for a given Zone, including the most
      * recent prior Transition. This value for each Zone is given by
-     * ZoneInfo.transitionBufSize, and ExtendedValidationTest shows that the
-     * maximum is 7. Set this to 8 for safety.
+     * ZoneInfo.transitionBufSize, and ExtendedValidationUsingPythonTest
+     * and ExtendedValidationUsingJavaTest show that the maximum is 7. Set
+     * this to 8 for safety.
      */
     static const uint8_t kMaxTransitions = 8;
 

@@ -482,10 +482,10 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       // If a zone needs more transitions than kMaxCacheEntries, the check below
       // will cause the DST transition information to be inaccurate, and it is
       // highly likely that this situation would be caught in the
-      // BasicValidationTest unit test. Since BasicValidationTest passes, I
-      // feel confident that those zones which need more than kMaxCacheEntries
-      // are already filtered out by tzcompiler.py due to constraints of
-      // BasicValidationTest which are checked by tzcompiler.py.
+      // BasicValidationUsingPython or BasicValidationUsingJava unit tests.
+      // Since these unit tests pass, I feel confident that those zones which
+      // need more than kMaxCacheEntries are already filtered out by
+      // tzcompiler.py.
       //
       // Ideally, the tzcompiler.py script would explicitly remove those zones
       // which need more than kMaxCacheEntries Transitions. But this would
