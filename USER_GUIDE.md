@@ -1819,26 +1819,30 @@ sizeof(SystemClockHeartbeatCoroutine): 36
 
 ## Comparisons to Other Time Libraries
 
+### Arduino Time Library
+
 The AceTime library can be substantially faster than the equivalent methods in
 the [Arduino Time Library](https://github.com/PaulStoffregen/Time). The
 [ComparisonBenchmark.ino](examples/ComparisonBenchmark/) program compares the
-CPU time of the roundtrip conversion from `ZonedDateTime::forEpochSeconds()` to
-the date time components, then back to `ZonedDateTime::toEpochSeconds()` again.
-Details are given in the
+CPU run time of `LocalDateTime::forEpochSeconds()` and
+`LocalDateTime::toEpochSeconds()` with the equivalent `breakTime()` and
+`makeTime()` functions of the Arduino Time Library. Details are given in the
 [ComparisonBenchmark/README.md](examples/ComparisonBenchmark/README.md) file in
-that folder, but here is a summary for various boards (all times in
+that folder, but here is a summary of the roundtrip times for various boards (in
 microseconds):
 
 ```
 ----------------------------+---------+----------+
 Board or CPU                | AceTime | Time Lib |
 ----------------------------+---------+----------+
-ATmega328P 16MHz (Nano)     | 353.000 |  931.000 |
-ESP8266 80MHz               |  21.600 |   68.100 |
-ESP32 240MHz                |   2.145 |    9.355 |
-Teensy 3.2 96MHz            |   2.330 |   22.390 |
+ATmega328P 16MHz (Nano)     | 337.500 |  931.500 |
+ESP8266 80MHz               |  19.700 |   68.200 |
+ESP32 240MHz                |   1.180 |    9.380 |
+Teensy 3.2 96MHz            |   2.750 |   22.390 |
 ----------------------------+---------+----------+
 ```
+
+### AVR Libc
 
 The [AVR libc time
 library](https://www.nongnu.org/avr-libc/user-manual/group__avr__time.html), is
@@ -1849,6 +1853,8 @@ processors, and I wanted a time library that worked across multiple processors
 [traditional C/Unix library methods](http://www.catb.org/esr/time-programming/)
 which can be difficult to understand.
 
+### ezTime
+
 The [ezTime](https://github.com/ropg/ezTime) is a library that seems to be
 composed of 2 parts: A client library that runs on the microcontroller and a
 server part that provides a translation from the timezone name to the POSIX DST
@@ -1856,6 +1862,8 @@ transition string. Unfortunately, this means that the controller must have
 network access for this library to work. I wanted to create a library that was
 self-contained and could run on an Arduino Nano with just an RTC chip without a
 network shield.
+
+### Micro Time Zone
 
 The [Micro Time Zone](https://github.com/evq/utz) is a pure-C library
 that can compile on the Arduino platform. It contains a limited subset of the TZ
@@ -1868,6 +1876,8 @@ and see how accurate this library is. One problem with Micro Time Zone library
 is that it loads the entire tzinfo database for all 45 time zones, even if only
 one zone is used. Therefore, the AceTime library will consume less resources if
 only a handful of zones are used, which is the expected use case of AceTime.
+
+### Java 11 Time
 
 Many time libraries (such as [Java 11
 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html),

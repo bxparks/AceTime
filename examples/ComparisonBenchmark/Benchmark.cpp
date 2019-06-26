@@ -43,22 +43,22 @@ acetime_t const START_SECONDS_UNIX = 1514764800; // 2018-01-01
 #endif
 
 const char TOP[] PROGMEM =
-  "+--------------------------------------------+---------+";
+  "+----------------------------------+---------+";
 const char HEADER[] PROGMEM =
-  "| Method                                     |  micros |";
+  "| Method                           |  micros |";
 const char DIVIDER[] PROGMEM =
-  "|--------------------------------------------|---------|";
+  "|----------------------------------|---------|";
 const char* const BOTTOM = TOP;
 const char EMPTY_LOOP_LABEL[] PROGMEM =
-  "| Empty loop                                 | ";
+  "| Empty loop                       | ";
 const char ACE_TIME_FOR_EPOCH_SECONDS[] PROGMEM =
-  "| AceTime - LocalDateTime::forEpochSeconds() | ";
+  "| LocalDateTime::forEpochSeconds() | ";
 const char ACE_TIME_TO_EPOCH_SECONDS[] PROGMEM =
-  "| AceTime - LocalDateTime::toEpochSeconds()  | ";
+  "| LocalDateTime::toEpochSeconds()  | ";
 const char ARDUINO_TIME_BREAK_TIME[] PROGMEM =
-  "| Arduino Time - breakTime()                 | ";
+  "| breakTime()                      | ";
 const char ARDUINO_TIME_MAKE_TIME[] PROGMEM =
-  "| Arduino Time - makeTime()                  | ";
+  "| makeTime()                       | ";
 const char ENDING[] PROGMEM = " |";
 
 // The compiler is extremelly good about removing code that does nothing. This
