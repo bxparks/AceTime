@@ -40,7 +40,7 @@ inline void incrementYear(ZonedDateTime& dateTime) {
   dateTime.yearTiny(yearTiny);
 }
 
-/** Increment the year by one within the interval [1, 12]. */
+/** Increment the month by one within the interval [1, 12]. */
 inline void incrementMonth(ZonedDateTime& dateTime) {
   uint8_t month = dateTime.month();
   common::incrementMod(month, (uint8_t) 12, (uint8_t) 1);
