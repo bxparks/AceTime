@@ -175,14 +175,16 @@ handle is 2038-01-19T03:14:07Z. AceTime uses an epoch that starts on
 which means that maximum date increases to 2068-01-19T03:14:07Z. AceTime is also
 quite a bit faster than the Arduino Time Library (although in most cases,
 performance of the Time Library is not an issue): AceTime is **2-5X** faster on
-an ATmega328P, **3-4X** faster on the ESP8266, **3-5X** faster on the ESP32, and
-**7-20X** faster on the Teensy ARM processor.
+an ATmega328P, **3-5X** faster on the ESP8266, **7-8X** faster on the ESP32, and
+**7-8X** faster on the Teensy ARM processor.
 
 AceTime aims to be the smallest library that can run on the basic Arduino
 platform (e.g. Nano with 32kB flash and 2kB of RAM) that fully supports all
-timezones in the TZ Database. It also aims to be as portable as possible, and
-will support AVR microcontrollers, as well as ESP8266, ESP32 and most Teensy
-microcontrollers.
+timezones in the TZ Database at compile-time. Memory constraints of the given
+Arduino board may limit the number of timezones supported by a single program
+at runtime to 1-3 timezones. The library also aims to be as portable as
+possible, and supports AVR microcontrollers, as well as ESP8266, ESP32 and
+Teensy microcontrollers.
 
 ## Headers and Namespaces
 
