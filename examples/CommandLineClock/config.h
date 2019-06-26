@@ -35,7 +35,7 @@
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NONE
 #endif
 
-// Determine how to sync the SystemTimeKeeper.
+// Determine how to sync the SystemClock.
 #define SYNC_TYPE_MANUAL 0
 #define SYNC_TYPE_COROUTINE 1
 #define SYNC_TYPE SYNC_TYPE_MANUAL

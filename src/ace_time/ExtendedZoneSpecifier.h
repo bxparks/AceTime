@@ -218,8 +218,11 @@ struct Transition {
   }
 
   /**
-   * The base offset code. Note that this is different than
-   * basic::Transition::offsetCode used by BasicZoneSpecifier.
+   * The base offset code, not the total effective UTC offset. Note that this
+   * is different than basic::Transition::offsetCode() used by
+   * BasicZoneSpecifier which is the total effective offsetCode. (It may be
+   * possible to make this into an effective offsetCode (i.e. offsetCode +
+   * deltaCode) but it does not seem worth making that change right now.)
    */
   int8_t offsetCode() const {
     return match->era->offsetCode;
@@ -436,19 +439,17 @@ class TransitionStorage {
     /**
      * Add the free agent Transition at index mIndexFree to the Candidate pool,
      * sorted by transitionTime. Then increment mIndexFree by one to remove the
-     * free agent from the Free pool.
+     * free agent from the Free pool. Essentially this is an Insertion Sort
+     * keyed by the 'transitionTime' (ignoring the DateTuple.modifier).
      */
     void addFreeAgentToCandidatePool() {
       if (mIndexFree >= SIZE) return;
       for (uint8_t i = mIndexFree; i > mIndexCandidates; i--) {
         Transition* curr = mTransitions[i];
         Transition* prev = mTransitions[i - 1];
-        if (curr->transitionTime < prev->transitionTime) {
-          mTransitions[i] = prev;
-          mTransitions[i - 1] = curr;
-        } else {
-          break;
-        }
+        if (curr->transitionTime >= prev->transitionTime) break;
+        mTransitions[i] = prev;
+        mTransitions[i - 1] = curr;
       }
       mIndexFree++;
     }
@@ -476,7 +477,11 @@ class TransitionStorage {
 
     /**
      * Return the Transition matching the given epochSeconds. Return nullptr if
-     * no matching Transition found.
+     * no matching Transition found. If a zone does not have any transition
+     * according to TZ Database, the tools/transformer.py script adds an
+     * "anchor" transition at the "beginning of time" which happens to be the
+     * year 1872 (because the year is stored as an int8_t). Therefore, this
+     * method should never return a nullptr for a well-formed ZoneInfo file.
      */
     const Transition* findTransition(acetime_t epochSeconds) const {
       if (DEBUG) logging::println(
@@ -485,11 +490,8 @@ class TransitionStorage {
       const Transition* match = nullptr;
       for (uint8_t i = 0; i < mIndexFree; i++) {
         const Transition* candidate = mTransitions[i];
-        if (candidate->startEpochSeconds <= epochSeconds) {
-          match = candidate;
-        } else if (candidate->startEpochSeconds > epochSeconds) {
-          break;
-        }
+        if (candidate->startEpochSeconds > epochSeconds) break;
+        match = candidate;
       }
       return match;
     }
@@ -529,11 +531,8 @@ class TransitionStorage {
       const Transition* match = nullptr;
       for (uint8_t i = 0; i < mIndexFree; i++) {
         const Transition* candidate = mTransitions[i];
-        if (candidate->startDateTime <= localDate) {
-          match = candidate;
-        } else if (candidate->startDateTime > localDate) {
-          break;
-        }
+        if (candidate->startDateTime > localDate) break;
+        match = candidate;
       }
       return match;
     }
@@ -642,8 +641,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     const extended::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
-      init(epochSeconds);
-      if (mIsOutOfBounds) return TimeOffset::forError();
+      bool success = init(epochSeconds);
+      if (!success) return TimeOffset::forError();
       const extended::Transition* transition = findTransition(epochSeconds);
       return (transition)
           ? TimeOffset::forOffsetCode(
@@ -652,31 +651,56 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
-      init(epochSeconds);
-      if (mIsOutOfBounds) return TimeOffset::forError();
+      bool success = init(epochSeconds);
+      if (!success) return TimeOffset::forError();
       const extended::Transition* transition = findTransition(epochSeconds);
       return TimeOffset::forOffsetCode(transition->deltaCode());
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
-      init(epochSeconds);
-      if (mIsOutOfBounds) return "";
+      bool success = init(epochSeconds);
+      if (!success) return "";
       const extended::Transition* transition = findTransition(epochSeconds);
       return transition->abbrev;
     }
 
-    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
-        const override {
-      init(ldt.getLocalDate());
-      if (mIsOutOfBounds) return TimeOffset::forError();
+    OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
+      TimeOffset offset;
+      bool success = init(ldt.localDate());
+      if (success) {
+        const extended::Transition* transition =
+            mTransitionStorage.findTransitionForDateTime(ldt);
+        offset = (transition)
+            ? TimeOffset::forOffsetCode(
+                transition->offsetCode() + transition->deltaCode())
+            : TimeOffset::forError();
+      } else {
+        offset = TimeOffset::forError();
+      }
+
+      auto odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset);
+      if (offset.isError()) {
+        return odt;
+      }
+
+      // Normalize the OffsetDateTime, causing LocalDateTime in the DST
+      // transtion gap to be shifted forward one hour. For LocalDateTime in an
+      // overlap (DST->STD transition), the earlier UTC offset is selected// by
+      // findTransitionForDateTime(). Use that to calculate the epochSeconds,
+      // then recalculate the offset. Use this final offset to determine the
+      // effective OffsetDateTime that will survive a round-trip unchanged.
+      acetime_t epochSeconds = odt.toEpochSeconds();
       const extended::Transition* transition =
-          mTransitionStorage.findTransitionForDateTime(ldt);
-      return (transition)
-          ? TimeOffset::forOffsetCode(
-              transition->offsetCode() + transition->deltaCode())
-          : TimeOffset::forError();
+          mTransitionStorage.findTransition(epochSeconds);
+      offset =  (transition)
+            ? TimeOffset::forOffsetCode(
+                transition->offsetCode() + transition->deltaCode())
+            : TimeOffset::forError();
+      odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
+      return odt;
     }
 
+    /** Print the TD database zone identifier e.g "America/Los_Angeles". */
     void printTo(Print& printer) const override;
 
     /** Used only for debugging. */
@@ -730,8 +754,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     /**
      * Max number of Transitions required for a given Zone, including the most
      * recent prior Transition. This value for each Zone is given by
-     * ZoneInfo.transitionBufSize, and ExtendedValidationTest shows that the
-     * maximum is 7. Set this to 8 for safety.
+     * ZoneInfo.transitionBufSize, and ExtendedValidationUsingPythonTest
+     * and ExtendedValidationUsingJavaTest show that the maximum is 7. Set
+     * this to 8 for safety.
      */
     static const uint8_t kMaxTransitions = 8;
 
@@ -753,21 +778,27 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return getZoneInfo() == that.getZoneInfo();
     }
 
-    /** Return the Transition matching the given epochSeconds. */
+    /**
+     * Return the Transition matching the given epochSeconds. Returns nullptr
+     * if no matching Transition found.
+     */
     const extended::Transition* findTransition(acetime_t epochSeconds) const {
       return mTransitionStorage.findTransition(epochSeconds);
     }
 
     /** Initialize using the epochSeconds. */
-    void init(acetime_t epochSeconds) const {
+    bool init(acetime_t epochSeconds) const {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
-      init(ld);
+      return init(ld);
     }
 
-    /** Initialize the zone rules cache, keyed by the "current" year. */
-    void init(const LocalDate& ld) const {
+    /**
+     * Initialize the zone rules cache, keyed by the "current" year.
+     * Returns success status: true if successful, false if an error occurred.
+     */
+    bool init(const LocalDate& ld) const {
       int16_t year = ld.year();
-      if (isFilled(year)) return;
+      if (isFilled(year)) return true;
       if (DEBUG) logging::println("init(): %d", year);
 
       mYear = year;
@@ -776,8 +807,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
       if (year < mZoneInfo->zoneContext->startYear - 1
           || mZoneInfo->zoneContext->untilYear < year) {
-        mIsOutOfBounds = true;
-        return;
+        return false;
       }
 
       extended::YearMonthTuple startYm = {
@@ -796,7 +826,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       calcAbbreviations(begin, end);
 
       mIsFilled = true;
-      mIsOutOfBounds = false;
+      return true;
     }
 
     /** Check if the ZoneRule cache is filled for the given year. */
@@ -1180,14 +1210,16 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     static void normalizeDateTuple(extended::DateTuple* dt) {
       const int8_t kOneDayAsCode = 4 * 24;
       if (dt->timeCode <= -kOneDayAsCode) {
-        LocalDate ld(dt->yearTiny, dt->month, dt->day);
+        LocalDate ld = LocalDate::forTinyComponents(
+            dt->yearTiny, dt->month, dt->day);
         local_date_mutation::decrementOneDay(ld);
         dt->yearTiny = ld.yearTiny();
         dt->month = ld.month();
         dt->day = ld.day();
         dt->timeCode += kOneDayAsCode;
       } else if (kOneDayAsCode <= dt->timeCode) {
-        LocalDate ld(dt->yearTiny, dt->month, dt->day);
+        LocalDate ld = LocalDate::forTinyComponents(
+            dt->yearTiny, dt->month, dt->day);
         local_date_mutation::incrementOneDay(ld);
         dt->yearTiny = ld.yearTiny();
         dt->month = ld.month();
@@ -1346,7 +1378,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         const extended::DateTuple& st = t->startDateTime;
         const acetime_t offsetSeconds = (acetime_t) 900
             * (st.timeCode - t->offsetCode() - t->deltaCode());
-        LocalDate ld(st.yearTiny, st.month, st.day);
+        LocalDate ld = LocalDate::forTinyComponents(
+            st.yearTiny, st.month, st.day);
         t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;
 
         prev = t;
@@ -1479,7 +1512,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
-    mutable bool mIsOutOfBounds = false; // year is too early or late
     // NOTE: Maybe move mNumMatches and mMatches into a MatchStorage object.
     mutable uint8_t mNumMatches = 0; // actual number of matches
     mutable extended::ZoneMatch mMatches[kMaxMatches];

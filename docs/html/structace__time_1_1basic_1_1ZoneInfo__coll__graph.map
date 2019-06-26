@@ -1,6 +1,6 @@
 <map id="ace_time::basic::ZoneInfo" name="ace_time::basic::ZoneInfo">
-<area shape="rect" id="node2" href="$structace__time_1_1common_1_1ZoneContext.html" title="Metadata about the zone database. " alt="" coords="5,184,244,211"/>
-<area shape="rect" id="node3" href="$structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per..." alt="" coords="268,184,453,211"/>
-<area shape="rect" id="node4" href="$structace__time_1_1basic_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region..." alt="" coords="261,95,461,121"/>
-<area shape="rect" id="node5" href="$structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. " alt="" coords="265,5,456,32"/>
+<area shape="rect" id="node2" href="$structace__time_1_1common_1_1ZoneContext.html" title="Metadata about the zone database. " alt="" coords="5,184,221,211"/>
+<area shape="rect" id="node3" href="$structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per..." alt="" coords="245,184,416,211"/>
+<area shape="rect" id="node4" href="$structace__time_1_1basic_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region..." alt="" coords="237,95,424,121"/>
+<area shape="rect" id="node5" href="$structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. " alt="" coords="241,5,420,32"/>
 </map>

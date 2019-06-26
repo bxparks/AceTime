@@ -68,24 +68,24 @@ test(TimePeriodTest, compareAndEquals) {
 
 test(TimePeriodTest, incrementHour) {
   TimePeriod a(3, 2, 1, 1);
-  a.incrementHour();
+  time_period_mutation::incrementHour(a);
   TimePeriod expected(4, 2, 1, 1);
   assertTrue(expected == a);
 
   a = TimePeriod(23, 2, 1, -1);
-  a.incrementHour();
+  time_period_mutation::incrementHour(a);
   expected = TimePeriod(0, 2, 1, -1);
   assertTrue(expected == a);
 }
 
 test(TimePeriodTest, incrementMinute) {
   TimePeriod a(3, 2, 1, 1);
-  a.incrementMinute();
+  time_period_mutation::incrementMinute(a);
   TimePeriod expected(3, 3, 1, 1);
   assertTrue(expected == a);
 
   a = TimePeriod(3, 59, 1, 1);
-  a.incrementMinute();
+  time_period_mutation::incrementMinute(a);
   expected = TimePeriod(3, 0, 1, 1);
   assertTrue(expected == a);
 }
@@ -93,7 +93,7 @@ test(TimePeriodTest, incrementMinute) {
 test(TimePeriodTest, negate) {
   TimePeriod a(3, 2, 1, 1);
   assertEqual((int8_t) 1, a.sign());
-  a.negate();
+  time_period_mutation::negate(a);
   assertEqual((int8_t) -1, a.sign());
 }
 

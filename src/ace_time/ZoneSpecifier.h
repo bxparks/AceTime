@@ -3,6 +3,7 @@
 
 #include "common/common.h"
 #include "TimeOffset.h"
+#include "OffsetDateTime.h"
 
 class Print;
 
@@ -15,9 +16,9 @@ class LocalDateTime;
  * implmenting the differing ZoneSpecifiers:
  *
  * 1) Implement only a single getType() method to distinguish the different
- * runtime types of the object. Then use this type
- * information in the TimeZone class to downcast the ZoneSpecifier pointer to
- * the correct subclass, and call the correct methods.
+ * runtime types of the object. Then use this type information in the TimeZone
+ * class to downcast the ZoneSpecifier pointer to the correct subclass, and
+ * call the correct methods.
  *
  * 2) Fully implement a polymorphic class hierarchy, lifting various common
  * methods (getUtcOffset(), getDeltaOffset(), getAbbrev()) into this interface
@@ -71,11 +72,12 @@ class ZoneSpecifier {
     virtual const char* getAbbrev(acetime_t epochSeconds) const = 0;
 
     /**
-     * Return the UTC offset matching the given the date/time components.
-     * Returns TimeOffset::forError() if an error occurs.
+     * Return the best estimate of the OffsetDateTime at the given LocalDateTime.
+     * Returns OffsetDateTime::forError() if an error occurs, for example, if the
+     * localDateTime is outside of the support date range of the underlying
+     * ZoneInfo files.
      */
-    virtual TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt)
-        const = 0;
+    virtual OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const = 0;
 
     /** Print a human-readable identifier. */
     virtual void printTo(Print& printer) const = 0;

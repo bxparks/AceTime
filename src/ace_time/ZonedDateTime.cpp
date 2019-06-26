@@ -15,8 +15,9 @@ void ZonedDateTime::printTo(Print& printer) const {
   }
 
   mOffsetDateTime.printTo(printer);
-  printer.print(' ');
+  printer.print('[');
   mTimeZone.printTo(printer);
+  printer.print(']');
 }
 
 }

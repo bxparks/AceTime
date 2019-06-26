@@ -1,13 +1,21 @@
 /*
- * A digital clock with multiple displays for keeping track of multiple time
- * zones.
+ * A digital clock with 3 OLED displays to show 3 different time zones. The
+ * hardware consists of:
  *
- *   * a DS3231 RTC chip (I2C)
- *   * 2 or more SSD1306 OLED displays (SPI)
- *   * 2 push buttons
- * 
- * Supported boards are:
- *   * Arduino Pro Micro
+ *   * 1 x DS3231 RTC chip (I2C)
+ *   * 3 x SSD1306 OLED displays using SPI interface (not I2C)
+ *   * 2 x push buttons
+ *
+ * Tested on Arduino Pro Micro, but should work for Arduino Nano, ESP8266 and
+ * ESP32.
+ *
+ * Dependencies:
+ *
+ *  * [AceTime](https://github.com/bxparks/AceTime)
+ *  * [AceRoutine](https://github.com/bxparks/AceRoutine)
+ *  * [AceButton](https://github.com/bxparks/AceButton)
+ *  * [FastCRC](https://github.com/FrankBoesing/FastCRC)
+ *  * [SSD1306Ascii](https://github.com/greiman/SSD1306Ascii)
  */
 
 #include <Wire.h>
@@ -39,10 +47,10 @@ hw::CrcEeprom crcEeprom;
 //------------------------------------------------------------------
 
 DS3231TimeKeeper dsTimeKeeper;
-SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper);
+SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
 
-SystemTimeSyncCoroutine systemTimeSync(systemTimeKeeper);
-SystemTimeHeartbeatCoroutine systemTimeHeartbeat(systemTimeKeeper);
+SystemClockSyncCoroutine systemClockSync(systemClock);
+SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
 
 //------------------------------------------------------------------
 // Configure OLED display using SSD1306Ascii.
@@ -93,9 +101,9 @@ ExtendedZoneSpecifier zspec2(&zonedbx::kZoneEurope_London);
 #else
   #error Unknown TIME_ZONE_TYPE
 #endif
-Controller controller(systemTimeKeeper, crcEeprom,
+Controller controller(systemClock, crcEeprom,
     presenter0, presenter1, presenter2,
-    zspec0, zspec1, zspec2);
+    zspec0, zspec1, zspec2, "SFO", "PHL", "LHR");
 
 // The RTC has a resolution of only 1s, so we need to poll it fast enough to
 // make it appear that the display is tracking it correctly. The benchmarking
@@ -200,12 +208,12 @@ void setup() {
   setupOled();
 
   dsTimeKeeper.setup();
-  systemTimeKeeper.setup();
+  systemClock.setup();
 
   controller.setup();
 
-  systemTimeSync.setupCoroutine(F("systemTimeSync"));
-  systemTimeHeartbeat.setupCoroutine(F("systemTimeHeartbeat"));
+  systemClockSync.setupCoroutine("s");
+  systemClockHeartbeat.setupCoroutine("h");
   CoroutineScheduler::setup();
 
 #if ENABLE_SERIAL == 1

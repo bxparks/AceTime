@@ -43,15 +43,18 @@ void increment15Minutes(TimeOffset& offset);
  * offsets from UTC. This allows the TimeOffset to be stored as a single 8-bit
  * signed integer. For the most part, the internal implementation of this class
  * does not leak out to the outside world, so it should be relatively easy to
- * change its implementation to a 16-bit integer to support 1-minute
- * granularity instead of 15-minute granularity.
+ * change its implementation to a int16_t type to support 1-minute granularity
+ * instead of 15-minute granularity.
  *
- * This class does NOT know about the "tz database" (aka Olson database)
+ * This class does NOT know about the TZ Database (aka Olson database)
  * https://en.wikipedia.org/wiki/Tz_database. That functionality is implemented
  * in the TimeZone class.
  */
 class TimeOffset {
   public:
+    /** Sentinel value that represents an error. */
+    static const int8_t kErrorCode = INT8_MIN;
+
     /**
      * Create TimeOffset with the corresponding hour offset. For example,
      * -08:00 is 'forHour(-8)'.
@@ -88,6 +91,16 @@ class TimeOffset {
      */
     static TimeOffset forOffsetString(const char* offsetString);
 
+    /**
+     * Variant of forOffsetString() that updates the string pointer to the next
+     * unprocessed character. The resulting pointer can be passed to another
+     * forDateStringInternal() method to chain the parsing.
+     *
+     * This method assumes that the offsetString is sufficiently long.
+     * Returns TimeOffset::forError() if a parsing error occurs.
+     */
+    static TimeOffset forOffsetStringChainable(const char*& offsetString);
+
     /** Return an error indicator. */
     static TimeOffset forError() { return TimeOffset(kErrorCode); }
 
@@ -102,13 +115,6 @@ class TimeOffset {
 
     /** Constructor. Create a time zone corresponding to UTC with no offset. */
     explicit TimeOffset() {}
-
-    /**
-     * Returns true if offset is 00:00. If this represents a time zone, then
-     * isZero means that it is UTC. If this represents a DST delta offset, then
-     * isZero means that the time zone is in standard time.
-     */
-    bool isZero() const { return mOffsetCode == 0; }
 
     /** Return the time offset as the number of 15 minute increments. */
     int8_t toOffsetCode() const { return mOffsetCode; }
@@ -133,6 +139,13 @@ class TimeOffset {
       minute = (mOffsetCode % 4) * 15;
     }
 
+    /**
+     * Returns true if offset is 00:00. If this represents a time zone, then
+     * isZero means that it is UTC. If this represents a DST delta offset, then
+     * isZero means that the time zone is in standard time.
+     */
+    bool isZero() const { return mOffsetCode == 0; }
+
     /** Return true if this TimeOffset represents an error. */
     bool isError() const {
       return mOffsetCode == kErrorCode;
@@ -146,29 +159,13 @@ class TimeOffset {
     TimeOffset& operator=(const TimeOffset&) = default;
 
   private:
-    friend class BasicZoneSpecifier;
-    friend class ManualZoneSpecifier;
-    friend class TimeZone;
-    friend class OffsetDateTime; // forOffsetStringChainable()
     friend bool operator==(const TimeOffset& a, const TimeOffset& b);
+    // Give access to setOffsetCode()
     friend void time_offset_mutation::incrementHour(TimeOffset& offset);
     friend void time_offset_mutation::increment15Minutes(TimeOffset& offset);
 
-    /** Sentinel value that represents an error. */
-    static const int8_t kErrorCode = -128;
-
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
     static const uint8_t kTimeOffsetStringLength = 6;
-
-    /**
-     * The internal version of forOffsetString() that updates the string pointer
-     * to the next unprocessed character. The resulting pointer can be passed
-     * to another forDateStringInternal() method to continue parsing.
-     *
-     * This method assumes that the offsetString is sufficiently long.
-     * Returns TimeOffset::forError() if a parsing error occurs.
-     */
-    static TimeOffset forOffsetStringChainable(const char*& offsetString);
 
     /** Constructor. Create a time zone from the offset code. */
     explicit TimeOffset(int8_t offsetCode):

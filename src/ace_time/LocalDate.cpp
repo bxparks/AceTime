@@ -56,7 +56,7 @@ void LocalDate::printTo(Print& printer) const {
 
   // Week day
   DateStrings ds;
-  printer.print(ds.weekDayLongString(dayOfWeek()));
+  printer.print(ds.dayOfWeekLongString(dayOfWeek()));
 }
 
 LocalDate LocalDate::forDateString(const char* dateString) {
@@ -74,7 +74,6 @@ LocalDate LocalDate::forDateStringChainable(const char*& dateString) {
   year = 10 * year + (*s++ - '0');
   year = 10 * year + (*s++ - '0');
   year = 10 * year + (*s++ - '0');
-  int8_t yearTiny = year - kEpochYear;
 
   // '-'
   s++;
@@ -91,7 +90,7 @@ LocalDate LocalDate::forDateStringChainable(const char*& dateString) {
   day = 10 * day + (*s++ - '0');
 
   dateString = s;
-  return LocalDate(yearTiny, month, day);
+  return forComponents(year, month, day);
 }
 
 }

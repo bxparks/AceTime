@@ -16,12 +16,13 @@ namespace ace_time {
  * internally from the date fields.
  *
  * The year field is internally represented as int8_t offset from the year
- * 2000, so in theory it is valid from [1872, 2127]. If the year is restricted
- * to the range 00-99, these fields map directly to the fields supported by the
- * DS3231 RTC chip. The "epoch" for this library is 2000-01-01T00:00:00Z and
- * toEpochSeconds() returns a int32_t number of seconds offset from that
- * epoch. The largest possible int32_t value is INT32_MAX, but this value is
- * used by kInvalidEpochSeconds to indicate an invalid value.
+ * 2000, so in theory it is valid from [1873, 2127] since -128 is used to
+ * indicate an error condition. If the year is restricted to the range 00-99,
+ * these fields map directly to the fields supported by the DS3231 RTC chip.
+ * The "epoch" for this library is 2000-01-01T00:00:00Z and toEpochSeconds()
+ * returns a int32_t number of seconds offset from that epoch. The largest
+ * possible int32_t value is INT32_MAX, but this value is used by
+ * kInvalidEpochSeconds to indicate an invalid value.
  *
  * Parts of this class were inspired by the java.time.OffsetDateTime class of
  * Java 8
@@ -29,25 +30,30 @@ namespace ace_time {
  */
 class OffsetDateTime {
   public:
+
+    /** Factory method from LocalDateTime and TimeOffset. */
+    static OffsetDateTime forLocalDateTimeAndOffset(
+        const LocalDateTime& localDateTime, TimeOffset timeOffset) {
+      return OffsetDateTime(localDateTime, timeOffset);
+    }
+
     /**
      * Factory method using separated date, time, and UTC offset fields.
      *
-     * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
-     *    16-bit implementation
-     * @param month month with January=1, December=12
-     * @param day day of month (1-31)
-     * @param hour hour (0-23)
-     * @param minute minute (0-59)
-     * @param second second (0-59), does not support leap seconds
-     * @param timeOffset Optional. Default UTC time zone. Using the TimeOffset
-     * object in the last component allows us to add an additional constructor
-     * that accepts a millisecond component in the future. It also hides the
-     * internal implementation details of TimeOffset.
+     * @param year [1873-2127] @param month month with January=1, December=12
+     * @param day day of month [1-31] @param hour hour [0-23] @param minute
+     * minute [0-59] @param second second [0-59], does not support leap seconds
+     * @param timeOffset the time offset from UTC. Using TimeOffset in the last
+     * component (instead of an int8_t or int16_t) allows us to overload an
+     * additional constructor that accepts a millisecond component in the
+     * future.
      */
-    static OffsetDateTime forComponents(int16_t year, uint8_t month,
-        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second,
-        TimeOffset timeOffset = TimeOffset()) {
-      return OffsetDateTime(year, month, day, hour, minute, second, timeOffset);
+    static OffsetDateTime forComponents(int16_t year, uint8_t month, uint8_t
+        day, uint8_t hour, uint8_t minute, uint8_t second, TimeOffset
+        timeOffset) {
+      auto ldt = LocalDateTime::forComponents(year, month, day, hour, minute,
+          second);
+      return OffsetDateTime(ldt, timeOffset);
     }
 
     /**
@@ -58,20 +64,15 @@ class OffsetDateTime {
      * @param epochSeconds Number of seconds from AceTime epoch
      *    (2000-01-01 00:00:00). Use LocalDate::kInvalidEpochSeconds to define
      *    an invalid instance whose isError() returns true.
-     * @param timeOffset Optional. Default is UTC time zone.
+     * @param timeOffset time offset from UTC
      */
     static OffsetDateTime forEpochSeconds(acetime_t epochSeconds,
-          TimeOffset timeOffset = TimeOffset()) {
-      OffsetDateTime dt;
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds
-          || timeOffset.isError()) return forError();
-
-      // Get the real epochSeconds
-      dt.mTimeOffset = timeOffset;
-      epochSeconds += timeOffset.toSeconds();
-
-      dt.mLocalDateTime = LocalDateTime::forEpochSeconds(epochSeconds);
-      return dt;
+          TimeOffset timeOffset) {
+      if (epochSeconds != LocalDate::kInvalidEpochSeconds) {
+        epochSeconds += timeOffset.toSeconds();
+      }
+      auto ldt = LocalDateTime::forEpochSeconds(epochSeconds);
+      return OffsetDateTime(ldt, timeOffset);
     }
 
     /**
@@ -80,13 +81,11 @@ class OffsetDateTime {
      * the partial day are truncated down towards the smallest whole day.
      */
     static OffsetDateTime forUnixSeconds(acetime_t unixSeconds,
-          TimeOffset timeOffset = TimeOffset()) {
-      if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
-        return forEpochSeconds(unixSeconds, timeOffset);
-      } else {
-        return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch,
-            timeOffset);
-      }
+          TimeOffset timeOffset) {
+      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidEpochSeconds)
+          ? unixSeconds
+          : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
+      return forEpochSeconds(epochSeconds, timeOffset);
     }
 
     /**
@@ -111,13 +110,23 @@ class OffsetDateTime {
     static OffsetDateTime forDateString(const char* dateString);
 
     /**
+     * Variant of forDateString() that updates the pointer to the next
+     * unprocessed character. This allows chaining to another
+     * forXxxStringChainable() method.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static OffsetDateTime forDateStringChainable(const char*& dateString);
+
+    /**
      * Factory method. Create a OffsetDateTime from date string in flash memory
      * F() strings. Mostly for unit testing. Returns OffsetDateTime::forError()
      * if a parsing error occurs.
      */
     static OffsetDateTime forDateString(const __FlashStringHelper* dateString) {
       // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
-      // ESP8266 do not have strlcpy_P().
+      // ESP8266 do not have strlcpy_P(). We need +1 for the '\0' character and
+      // another +1 to determine if the dateString is too long to fit.
       char buffer[kDateStringLength + 2];
       strncpy_P(buffer, (const char*) dateString, sizeof(buffer));
       buffer[kDateStringLength + 1] = 0;
@@ -190,17 +199,20 @@ class OffsetDateTime {
     /** Return the day of the week, Monday=1, Sunday=7 (per ISO 8601). */
     uint8_t dayOfWeek() const { return mLocalDateTime.dayOfWeek(); }
 
-    /** Return the LocalDate. */
-    const LocalDate& localDate() const { return mLocalDateTime.localDate(); }
-
-    /** Return the LocalTime. */
-    const LocalTime& localTime() const { return mLocalDateTime.localTime(); }
-
     /** Return the offset zone of the OffsetDateTime. */
     TimeOffset timeOffset() const { return mTimeOffset; }
 
     /** Set the offset zone. */
     void timeOffset(TimeOffset timeOffset) { mTimeOffset = timeOffset; }
+
+    /** Return the LocalDateTime. */
+    const LocalDateTime& localDateTime() const { return mLocalDateTime; }
+
+    /** Return the LocalDate. */
+    const LocalDate& localDate() const { return mLocalDateTime.localDate(); }
+
+    /** Return the LocalTime. */
+    const LocalTime& localTime() const { return mLocalDateTime.localTime(); }
 
     /**
      * Create a OffsetDateTime in a different offset zone code (with the same
@@ -212,13 +224,6 @@ class OffsetDateTime {
     }
 
     /**
-     * Print OffsetDateTime to 'printer' in ISO 8601 format.
-     * This class does not implement the Printable interface to avoid
-     * increasing the size of the object from the additional virtual function.
-     */
-    void printTo(Print& printer) const;
-
-    /**
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
      * taking into account the offset zone.
      */
@@ -227,7 +232,7 @@ class OffsetDateTime {
 
       acetime_t epochDays = mLocalDateTime.localDate().toEpochDays();
 
-      // Increment or decrement the day count depending on the offset zone.
+      // Increment or decrement the day count depending on the time offset.
       acetime_t timeOffset = mLocalDateTime.localTime().toSeconds()
           - mTimeOffset.toSeconds();
       if (timeOffset >= 86400) return epochDays + 1;
@@ -276,46 +281,22 @@ class OffsetDateTime {
       return 0;
     }
 
+    /**
+     * Print OffsetDateTime to 'printer' in ISO 8601 format.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
+     */
+    void printTo(Print& printer) const;
+
     // Use default copy constructor and assignment operator.
     OffsetDateTime(const OffsetDateTime&) = default;
     OffsetDateTime& operator=(const OffsetDateTime&) = default;
 
   private:
     friend bool operator==(const OffsetDateTime& a, const OffsetDateTime& b);
-    friend class ZonedDateTime; // constructor
-    friend class BasicZoneSpecifier; // constructor
 
     /** Expected length of an ISO 8601 date string, including UTC offset. */
     static const uint8_t kDateStringLength = 25;
-
-    /**
-     * The internal version of forDateString() that updates the string pointer
-     * to the next unprocessed character. The resulting pointer can be passed
-     * to another forDateStringInternal() method to continue parsing.
-     *
-     * This method assumes that the dateString is sufficiently long.
-     */
-    static OffsetDateTime forDateStringChainable(const char*& dateString);
-
-    /**
-     * Constructor using separated date, time, and time zone fields.
-     *
-     * @param year
-     * @param month month with January=1, December=12
-     * @param day day of month (1-31)
-     * @param hour hour (0-23)
-     * @param minute minute (0-59)
-     * @param second second (0-59), does not support leap seconds
-     * @param timeOffset Optional. Default UTC time zone. Using the TimeOffset
-     * object in the last component allows us to add an additional constructor
-     * that accepts a millisecond component in the future. It also hides the
-     * internal implementation details of TimeOffset.
-     */
-    explicit OffsetDateTime(int16_t year, uint8_t month, uint8_t day,
-            uint8_t hour, uint8_t minute, uint8_t second,
-            TimeOffset timeOffset = TimeOffset()):
-        mLocalDateTime(year, month, day, hour, minute, second),
-        mTimeOffset(timeOffset) {}
 
     /** Constructor from LocalDateTime and a TimeOffset. */
     explicit OffsetDateTime(const LocalDateTime& ldt, TimeOffset timeOffset):
@@ -323,7 +304,7 @@ class OffsetDateTime {
         mTimeOffset(timeOffset) {}
 
     LocalDateTime mLocalDateTime;
-    TimeOffset mTimeOffset; // offset from UTC
+    TimeOffset mTimeOffset;
 };
 
 /**

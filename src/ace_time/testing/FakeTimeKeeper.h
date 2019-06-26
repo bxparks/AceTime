@@ -2,12 +2,12 @@
 #define ACE_TIME_FAKE_TIME_KEEPER_H
 
 #include <stdint.h>
-#include "../provider/TimeKeeper.h"
+#include "../clock/TimeKeeper.h"
 
 namespace ace_time {
 namespace testing {
 
-class FakeTimeKeeper: public provider::TimeKeeper {
+class FakeTimeKeeper: public clock::TimeKeeper {
   public:
     void setNow(acetime_t epochSeconds) override {
       mEpochSeconds = epochSeconds;

@@ -28,7 +28,7 @@
 #
 #   $ tzcompiler.sh --tag 2018i --action unittest --language arduino
 #           --scope basic
-#       - generates test data for ValidationTest unit test
+#       - generates test data for BasicValidationUsingPythonTest unit test
 #
 #   $ tzcompiler.sh --tag 2018i --action validate --language python
 #           --scope basic

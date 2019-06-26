@@ -30,7 +30,7 @@ void HardwareDateTime::printTo(Print& printer) const {
   printPad2(printer, second);
 
   // Week day
-  printer.print(DateStrings().weekDayLongString(dayOfWeek));
+  printer.print(DateStrings().dayOfWeekLongString(dayOfWeek));
 }
 
 

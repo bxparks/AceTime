@@ -16,9 +16,7 @@ const extended::ZoneEra ExtendedZoneSpecifier::kAnchorEra = {
 };
 
 void ExtendedZoneSpecifier::printTo(Print& printer) const {
-  printer.print('[');
   printer.print(mZoneInfo->name);
-  printer.print(']');
 }
 
 }

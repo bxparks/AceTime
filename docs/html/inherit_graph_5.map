@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classace__time_1_1common_1_1DateStrings.html" title="Class that translates a numeric month (1&#45;12) or weekDay (1&#45;7) into a human readable string..." alt="" coords="5,5,236,32"/>
+<area shape="rect" id="node2" href="$classace__time_1_1clock_1_1SystemClockHeartbeatCoroutine.html" title="A coroutine that calls SystemClock.getNow() peridically. " alt="" coords="132,5,333,47"/>
+<area shape="rect" id="node3" href="$classace__time_1_1clock_1_1SystemClockSyncCoroutine.html" title="A coroutine that syncs the SystemClock with its syncTimeProvider. " alt="" coords="132,71,333,112"/>
 </map>

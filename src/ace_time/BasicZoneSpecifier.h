@@ -152,21 +152,27 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      if (!transition) return TimeOffset::forError();
-      return TimeOffset::forOffsetCode(transition->offsetCode);
+      int8_t code = (transition)
+          ? transition->offsetCode : TimeOffset::kErrorCode;
+      return TimeOffset::forOffsetCode(code);
     }
 
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      if (!transition) return TimeOffset::forError();
-      if (transition->rule == nullptr) return TimeOffset();
-      return TimeOffset::forOffsetCode(transition->rule->deltaCode);
+      int8_t code;
+      if (!transition) {
+        code = TimeOffset::kErrorCode;
+      } else if (transition->rule == nullptr) {
+        code = 0;
+      } else {
+        code = transition->rule->deltaCode;
+      }
+      return TimeOffset::forOffsetCode(code);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      if (!transition) return "";
-      return transition->abbrev;
+      return (transition) ? transition->abbrev : "";
     }
 
     /**
@@ -180,25 +186,55 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      *
      * The implementation of this method is therefore a hack. First pass, we
      * extract the TimeOffset on Jan 1 of the year given by the localDateTime,
-     * and guess its epochSecond using that TimeOffset. Second pass, we use the
-     * epochSecond from the previous pass to calculate the next best guess of
+     * and guess its epochSeconds using that TimeOffset. Second pass, we use the
+     * epochSeconds from the previous pass to calculate the next best guess of
      * the actual TimeOffset. We return the second pass guess as the result.
      */
-    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const override {
-      init(ldt.getLocalDate());
-      if (mIsOutOfBounds) return TimeOffset::forError();
+    OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
+      // Only a single local variable of OffsetDateTime used, to allow Return
+      // Value Optimization (and save 20 bytes of flash for WorldClock).
+      OffsetDateTime odt;
+      bool success = init(ldt.localDate());
+      if (success) {
+        // 0) Use the UTC epochSeconds to get intial guess of offset.
+        acetime_t epochSeconds0 = ldt.toEpochSeconds();
+        auto offset0 = getUtcOffset(epochSeconds0);
 
-      // First guess at the TimeOffset using Jan 1 of the given year.
-      acetime_t initialEpochSeconds =
-          LocalDate::forComponents(ldt.year(), 1, 1).toEpochSeconds();
-      TimeOffset initialTimeOffset = getUtcOffset(initialEpochSeconds);
+        // 1) Use offset0 to get the next epochSeconds and offset.
+        odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset0);
+        acetime_t epochSeconds1 = odt.toEpochSeconds();
+        auto offset1 = getUtcOffset(epochSeconds1);
 
-      // Second guess at the TimeOffset using the first TimeOffset.
-      OffsetDateTime odt(ldt, initialTimeOffset);
-      acetime_t epochSeconds = odt.toEpochSeconds();
-      return getUtcOffset(epochSeconds);
+        // 2) Use offset1 to get the next epochSeconds and offset.
+        odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset1);
+        acetime_t epochSeconds2 = odt.toEpochSeconds();
+        auto offset2 = getUtcOffset(epochSeconds2);
+
+        // If offset1 and offset2 are equal, then we have an equilibrium
+        // and odt(1) must equal odt(2), so we can just return the last odt.
+        if (offset1.toOffsetCode() == offset2.toOffsetCode()) {
+          // pass
+        } else {
+          // Pick the later epochSeconds and offset
+          acetime_t epochSeconds;
+          TimeOffset offset;
+          if (epochSeconds1 > epochSeconds2) {
+            epochSeconds = epochSeconds1;
+            offset = offset1;
+          } else {
+            epochSeconds = epochSeconds2;
+            offset = offset2;
+          }
+          odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
+        }
+      } else {
+        odt = OffsetDateTime::forError();
+      }
+
+      return odt;
     }
 
+    /** Print the TD database zone identifier e.g "America/Los_Angeles". */
     void printTo(Print& printer) const override;
 
     /** Used only for debugging. */
@@ -217,13 +253,36 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       }
     }
 
+    /**
+     * Calculate the actual dayOfMonth of the expresssion
+     * (onDayOfWeek >= onDayOfMonth). The "last{dayOfWeek}" expression is
+     * expressed by onDayOfMonth being 0. An exact match on dayOfMonth is
+     * expressed by setting onDayOfWeek to 0.
+     *
+     * Not private, used by ExtendedZoneSpecifier.
+     */
+    static uint8_t calcStartDayOfMonth(int16_t year, uint8_t month,
+        uint8_t onDayOfWeek, uint8_t onDayOfMonth) {
+      if (onDayOfWeek == 0) return onDayOfMonth;
+
+
+      // Convert "last{Xxx}" to "last{Xxx}>={daysInMonth-6}".
+      if (onDayOfMonth == 0) {
+        onDayOfMonth = LocalDate::daysInMonth(year, month) - 6;
+      }
+
+      LocalDate limitDate = LocalDate::forComponents(
+          year, month, onDayOfMonth);
+      uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
+      return onDayOfMonth + dayOfWeekShift;
+    }
+
   private:
     friend class ::BasicZoneSpecifierTest_init_primitives;
     friend class ::BasicZoneSpecifierTest_init;
     friend class ::BasicZoneSpecifierTest_createAbbreviation;
     friend class ::BasicZoneSpecifierTest_calcStartDayOfMonth;
     friend class ::BasicZoneSpecifierTest_calcRuleOffsetCode;
-    friend class ExtendedZoneSpecifier; // calcStartDayOfMonth()
 
     /** Maximum size of Transition cache across supported zones. */
     static const uint8_t kMaxCacheEntries = 4;
@@ -247,8 +306,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     /** Return the Transition at the given epochSeconds. */
     const basic::Transition* getTransition(acetime_t epochSeconds) const {
       LocalDate ld = LocalDate::forEpochSeconds(epochSeconds);
-      init(ld);
-      return (mIsOutOfBounds) ? nullptr : findMatch(epochSeconds);
+      bool success = init(ld);
+      return (success) ? findMatch(epochSeconds) : nullptr;
     }
 
     /**
@@ -275,21 +334,23 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      *  3. Calculate the Transitions given the above ZoneRules.
      *  4. Calculate the zone abbreviations (e.g. "PDT" or "BST") for each
      *  Transition.
+     *
+     * Returns success status: true if successful, false if an error occurred
+     * (e.g. out of bounds).
      */
-    void init(const LocalDate& ld) const {
+    bool init(const LocalDate& ld) const {
       int16_t year = ld.year();
       if (ld.month() == 1 && ld.day() == 1) {
         year--;
       }
-      if (isFilled(year)) return;
+      if (isFilled(year)) return true;
 
       mYear = year;
       mNumTransitions = 0; // clear cache
 
       if (year < mZoneInfo->zoneContext->startYear - 1
           || mZoneInfo->zoneContext->untilYear < year) {
-        mIsOutOfBounds = true;
-        return;
+        return false;
       }
 
       addRulePriorToYear(year);
@@ -298,7 +359,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       calcAbbreviations();
 
       mIsFilled = true;
-      mIsOutOfBounds = false;
+      return true;
     }
 
     /** Check if the Transition cache is filled for the given year. */
@@ -421,10 +482,10 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       // If a zone needs more transitions than kMaxCacheEntries, the check below
       // will cause the DST transition information to be inaccurate, and it is
       // highly likely that this situation would be caught in the
-      // BasicValidationTest unit test. Since BasicValidationTest passes, I
-      // feel confident that those zones which need more than kMaxCacheEntries
-      // are already filtered out by tzcompiler.py due to constraints of
-      // BasicValidationTest which are checked by tzcompiler.py.
+      // BasicValidationUsingPython or BasicValidationUsingJava unit tests.
+      // Since these unit tests pass, I feel confident that those zones which
+      // need more than kMaxCacheEntries are already filtered out by
+      // tzcompiler.py.
       //
       // Ideally, the tzcompiler.py script would explicitly remove those zones
       // which need more than kMaxCacheEntries Transitions. But this would
@@ -475,7 +536,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         if (year < era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
-      return &mZoneInfo->eras[mZoneInfo->numEras-1];
+      return &mZoneInfo->eras[mZoneInfo->numEras - 1];
     }
 
     /**
@@ -495,7 +556,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         if (year <= era->untilYearTiny + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
-      return &mZoneInfo->eras[mZoneInfo->numEras-1];
+      return &mZoneInfo->eras[mZoneInfo->numEras - 1];
     }
 
     /** Calculate the epochSeconds and offsetCode of each Transition. */
@@ -569,28 +630,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /**
-     * Calculate the actual dayOfMonth of the expresssion
-     * (onDayOfWeek >= onDayOfMonth). The "last{dayOfWeek}" expression is
-     * expressed by onDayOfMonth being 0. An exact match on dayOfMonth is
-     * expressed by setting onDayOfWeek to 0.
-     */
-    static uint8_t calcStartDayOfMonth(int16_t year, uint8_t month,
-        uint8_t onDayOfWeek, uint8_t onDayOfMonth) {
-      if (onDayOfWeek == 0) return onDayOfMonth;
-
-
-      // Convert "last{Xxx}" to "last{Xxx}>={daysInMonth-6}".
-      if (onDayOfMonth == 0) {
-        onDayOfMonth = LocalDate::daysInMonth(year, month) - 6;
-      }
-
-      LocalDate limitDate = LocalDate::forComponents(
-          year, month, onDayOfMonth);
-      uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
-      return onDayOfMonth + dayOfWeekShift;
-    }
-
-    /**
      * Determine the offset of the 'atTimeModifier'. If 'w', then we
      * must use the offset of the *previous* zone rule. If 's', use the current
      * base offset (which does not contain the extra DST offset). If 'u', 'g',
@@ -621,8 +660,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
           transition->abbrev,
           basic::Transition::kAbbrevSize,
           transition->era->format,
-          transition->rule != nullptr ? transition->rule->deltaCode : 0,
-          transition->rule != nullptr ? transition->rule->letter : '\0');
+          (transition->rule) ? transition->rule->deltaCode : 0,
+          (transition->rule) ? transition->rule->letter : '\0');
     }
 
     /**
@@ -740,7 +779,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
-    mutable bool mIsOutOfBounds = false; // year is too early or late
     mutable uint8_t mNumTransitions = 0;
     mutable basic::Transition mTransitions[kMaxCacheEntries];
     mutable basic::Transition mPrevTransition; // previous year's transition

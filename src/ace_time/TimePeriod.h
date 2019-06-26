@@ -83,14 +83,6 @@ class TimePeriod {
     void sign(int8_t sign) { mSign = sign; }
 
     /**
-     * Print to given printer. If the time period is negative, a minus sign is
-     * prepended.
-     * This class does not implement the Printable interface to avoid
-     * increasing the size of the object from the additional virtual function.
-     */
-    void printTo(Print& printer) const;
-
-    /**
      * Convert to number of seconds. The largest/smallest possible value
      * returned by this method is +/- 933555, corresponding to (hour=255,
      * minute=255, second=255).
@@ -99,24 +91,6 @@ class TimePeriod {
       int32_t seconds = ((mHour * (int16_t) 60) + mMinute) * (int32_t) 60
           + mSecond;
       return (mSign >= 0) ? seconds : -seconds;
-    }
-
-    /** Change the sign of the object. */
-    void negate() { mSign = -mSign; }
-
-    /** Increment the hour component by one, modulo 24. */
-    void incrementHour() {
-      common::incrementMod(mHour, (uint8_t) 24);
-    }
-
-    /** Increment the hour by one, modulo 'limit'. */
-    void incrementHour(uint8_t limit) {
-      common::incrementMod(mHour, limit);
-    }
-
-    /** Increment the minute by one, modulo 60. */
-    void incrementMinute() {
-      common::incrementMod(mMinute, (uint8_t) 60);
     }
 
     /**
@@ -134,6 +108,14 @@ class TimePeriod {
         return 1;
       }
     }
+
+    /**
+     * Print to given printer. If the time period is negative, a minus sign is
+     * prepended.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
+     */
+    void printTo(Print& printer) const;
 
     // Use default copy constructor and assignment operator.
     TimePeriod(const TimePeriod&) = default;

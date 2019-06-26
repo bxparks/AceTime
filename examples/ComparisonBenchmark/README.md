@@ -1,20 +1,18 @@
 # Compare Time Libraries
 
-This program compares the runtime performance of AceTime library versus the
-[Arduino Time Library](https://github.com/PaulStoffregen/Time) for the
-functions that perform the round trip conversion from the set of human-readable
-date/time components (i.e. year, month, day, hour, minute, second) into the
-number of seconds since a particular epoch (2000-01-01 for AceTime and
-1970-01-01 for Arduino Time library), then back to the human-readable date/time
-components.
+This program compares the runtime performance of
+`LocalDateTime::forEpochSeconds` and the `LocalDateTime::toEpochSeconds()`
+methods in the AceTime library versus the equivalent `breakTime()` and
+`makeTime()` functions in the [Arduino Time
+Library](https://github.com/PaulStoffregen/Time).
 
-From the benchmarks below on various processors, I conclude that the AceTime
-library is:
+From the benchmarks below on various processors, I conclude that the
+`LocalDateTime` methods are;
 
 * 2-5X faster on an 8-bit AVR processor
-* 3-4X faster on an ESP8266
-* 3-5X faster on an ESP32
-* 7-20X faster on Teensy 3.2 controller
+* 3-5X faster on an ESP8266
+* 7-8X faster on an ESP32
+* 7-8X faster on Teensy 3.2 controller
 
 The main culprit for the slow speed of the `makeTime()` and `breakTime()`
 methods in the Arduino Time library is that they use a loop to count the number
@@ -37,17 +35,17 @@ than the Arduino Time Library.
 ## Arduino Nano
 
 ```
-+--------------------------------------------+---------+
-| Method                                     |  micros |
-|--------------------------------------------|---------|
-| Empty loop                                 |   4.500 |
-|--------------------------------------------|---------|
-| AceTime - ZonedDateTime::forEpochSeconds() | 277.000 |
-| Arduino Time - breakTime()                 | 595.000 |
-|--------------------------------------------|---------|
-| AceTime - ZonedDateTime::toEpochSeconds()  |  76.500 |
-| Arduino Time - makeTime()                  | 336.000 |
-+--------------------------------------------+---------+
++----------------------------------+---------+
+| Method                           |  micros |
+|----------------------------------|---------|
+| Empty loop                       |   4.500 |
+|----------------------------------|---------|
+| LocalDateTime::forEpochSeconds() | 271.000 |
+| breakTime()                      | 595.500 |
+|----------------------------------|---------|
+| LocalDateTime::toEpochSeconds()  |  66.500 |
+| makeTime()                       | 336.000 |
++----------------------------------+---------+
 Number of iterations per run: 2000
 Delta seconds: 236682
 ```
@@ -55,17 +53,17 @@ Delta seconds: 236682
 ## ESP8266
 
 ```
-+--------------------------------------------+---------+
-| Method                                     |  micros |
-|--------------------------------------------|---------|
-| Empty loop                                 |   0.800 |
-|--------------------------------------------|---------|
-| AceTime - ZonedDateTime::forEpochSeconds() |  16.500 |
-| Arduino Time - breakTime()                 |  45.700 |
-|--------------------------------------------|---------|
-| AceTime - ZonedDateTime::toEpochSeconds()  |   5.100 |
-| Arduino Time - makeTime()                  |  22.400 |
-+--------------------------------------------+---------+
++----------------------------------+---------+
+| Method                           |  micros |
+|----------------------------------|---------|
+| Empty loop                       |   0.900 |
+|----------------------------------|---------|
+| LocalDateTime::forEpochSeconds() |  15.200 |
+| breakTime()                      |  45.600 |
+|----------------------------------|---------|
+| LocalDateTime::toEpochSeconds()  |   4.500 |
+| makeTime()                       |  22.600 |
++----------------------------------+---------+
 Number of iterations per run: 10000
 Delta seconds: 47336
 ```
@@ -73,35 +71,38 @@ Delta seconds: 47336
 ## ESP32
 
 ```
-+--------------------------------------------+---------+
-| Method                                     |  micros |
-|--------------------------------------------|---------|
-| Empty loop                                 |   0.275 |
-|--------------------------------------------|---------|
-| AceTime - ZonedDateTime::forEpochSeconds() |   1.295 |
-| Arduino Time - breakTime()                 |   5.050 |
-|--------------------------------------------|---------|
-| AceTime - ZonedDateTime::toEpochSeconds()  |   0.850 |
-| Arduino Time - makeTime()                  |   4.305 |
-+--------------------------------------------+---------+
++----------------------------------+---------+
+| Method                           |  micros |
+|----------------------------------|---------|
+| Empty loop                       |   0.280 |
+|----------------------------------|---------|
+| LocalDateTime::forEpochSeconds() |   0.620 |
+| breakTime()                      |   5.070 |
+|----------------------------------|---------|
+| LocalDateTime::toEpochSeconds()  |   0.560 |
+| makeTime()                       |   4.310 |
++----------------------------------+---------+
 Number of iterations per run: 100000
 Delta seconds: 2366
 ```
 
 ## Teensy 3.2
 
+* CPU Speed: 96 MHz
+* Compiler Optimization: "Faster"
+
 ```
-+--------------------------------------------+---------+
-| Method                                     |  micros |
-|--------------------------------------------|---------|
-| Empty loop                                 |   0.510 |
-|--------------------------------------------|---------|
-| AceTime - ZonedDateTime::forEpochSeconds() |   1.870 |
-| Arduino Time - breakTime()                 |  12.610 |
-|--------------------------------------------|---------|
-| AceTime - ZonedDateTime::toEpochSeconds()  |   0.460 |
-| Arduino Time - makeTime()                  |   9.780 |
-+--------------------------------------------+---------+
++----------------------------------+---------+
+| Method                           |  micros |
+|----------------------------------|---------|
+| Empty loop                       |   0.510 |
+|----------------------------------|---------|
+| LocalDateTime::forEpochSeconds() |   1.580 |
+| breakTime()                      |  12.610 |
+|----------------------------------|---------|
+| LocalDateTime::toEpochSeconds()  |   1.170 |
+| makeTime()                       |   9.780 |
++----------------------------------+---------+
 Number of iterations per run: 100000
 Delta seconds: 4733
 ```

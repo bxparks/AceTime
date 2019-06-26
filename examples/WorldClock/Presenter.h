@@ -93,14 +93,20 @@ class Presenter {
       }
     }
 
-    void displayDateTime() const {
+    void displayDateTime() {
+      mOled.setFont(fixed_bold10x15);
+
       const ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
           mRenderingInfo.now, mRenderingInfo.timeZone);
-
-      mOled.setFont(fixed_bold10x15);
-      mOled.set2X();
+      if (dateTime.isError()) {
+        mOled.println(F("9999-99-99"));
+        mOled.println(F("99:99:99"));
+        mOled.println(F("Error"));
+        return;
+      }
 
       // time
+      mOled.set2X();
       uint8_t hour = dateTime.hour();
       if (mRenderingInfo.hourMode == ClockInfo::kTwelve) {
         if (hour == 0) {
@@ -112,11 +118,9 @@ class Presenter {
       } else {
         printPad2(mOled, hour);
       }
-      if (!mRenderingInfo.blinkingColon || shouldShowFor(MODE_DATE_TIME)) {
-        mOled.print(':');
-      } else {
-        mOled.print(' ');
-      }
+      mOled.print(
+          (! mRenderingInfo.blinkingColon || shouldShowFor(MODE_DATE_TIME))
+          ? ':' : ' ');
       printPad2(mOled, dateTime.minute());
 
       // AM/PM indicator
@@ -125,12 +129,12 @@ class Presenter {
         mOled.print((dateTime.hour() < 12) ? 'A' : 'P');
       }
 
-      // weekDay, month/day, AM/PM
+      // dayOfWeek, month/day, AM/PM
       // "Thu 10/18 P"
       mOled.println();
       mOled.println();
 
-      mOled.print(DateStrings().weekDayShortString(dateTime.dayOfWeek()));
+      mOled.print(DateStrings().dayOfWeekShortString(dateTime.dayOfWeek()));
       mOled.print(' ');
       printPad2(mOled, dateTime.month(), ' ');
       mOled.print('/');
@@ -213,7 +217,7 @@ class Presenter {
 
       // week day
       mOled.println();
-      mOled.print(DateStrings().weekDayLongString(dateTime.dayOfWeek()));
+      mOled.print(DateStrings().dayOfWeekLongString(dateTime.dayOfWeek()));
       mOled.clearToEOL();
 
       // abbreviation and place name
@@ -227,7 +231,7 @@ class Presenter {
     }
 
     void displayClockInfo() const {
-      mOled.print("12/24: ");
+      mOled.print(F("12/24: "));
       if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
         mOled.print(mRenderingInfo.hourMode == ClockInfo::kTwelve
             ? "12" : "24");
@@ -236,7 +240,7 @@ class Presenter {
       }
 
       mOled.println();
-      mOled.print("Blink: ");
+      mOled.print(F("Blink: "));
       if (shouldShowFor(MODE_CHANGE_BLINKING_COLON)) {
         mOled.print(mRenderingInfo.blinkingColon ? "on " : "off");
       } else {

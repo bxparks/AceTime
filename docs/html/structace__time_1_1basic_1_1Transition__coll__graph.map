@@ -1,5 +1,5 @@
 <map id="ace_time::basic::Transition" name="ace_time::basic::Transition">
-<area shape="rect" id="node2" href="$structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. " alt="" coords="29,5,220,32"/>
-<area shape="rect" id="node4" href="$structace__time_1_1basic_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region..." alt="" coords="117,95,317,121"/>
-<area shape="rect" id="node3" href="$structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per..." alt="" coords="120,184,305,211"/>
+<area shape="rect" id="node2" href="$structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. " alt="" coords="5,5,184,32"/>
+<area shape="rect" id="node4" href="$structace__time_1_1basic_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region..." alt="" coords="111,95,297,121"/>
+<area shape="rect" id="node3" href="$structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per..." alt="" coords="112,184,283,211"/>
 </map>

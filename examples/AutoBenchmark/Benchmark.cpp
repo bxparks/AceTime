@@ -237,7 +237,8 @@ static void runLocalDateDaysOfWeek() {
 static void runOffsetDateTimeForEpochSeconds() {
   unsigned long localDateForDaysMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochSeconds = millis();
-    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(fakeEpochSeconds);
+    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
+        fakeEpochSeconds, TimeOffset());
     disableOptimization(odt);
   });
   unsigned long emptyLoopMillis = runLambda(COUNT, []() {
@@ -255,13 +256,15 @@ static void runOffsetDateTimeForEpochSeconds() {
 static void runOffsetDateTimeToEpochSeconds() {
   unsigned long localDateToEpochDaysMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochSeconds = millis();
-    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(fakeEpochSeconds);
+    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
+        fakeEpochSeconds, TimeOffset());
     acetime_t epochDays = odt.toEpochSeconds();
     disableOptimization(epochDays);
   });
   unsigned long forEpochDaysMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochSeconds = millis();
-    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(fakeEpochSeconds);
+    OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
+        fakeEpochSeconds, TimeOffset());
     disableOptimization(odt);
   });
   long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
@@ -275,7 +278,8 @@ static void runOffsetDateTimeToEpochSeconds() {
 static void runZonedDateTimeForEpochSeconds() {
   unsigned long forEpochSecondsMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochDays = millis();
-    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays,
+        TimeZone());
     disableOptimization(dateTime);
   });
   unsigned long emptyLoopMillis = runLambda(COUNT, []() {
@@ -293,13 +297,15 @@ static void runZonedDateTimeForEpochSeconds() {
 static void runZonedDateTimeToEpochDays() {
   unsigned long toEpochDaysMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochDays = millis();
-    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays,
+        TimeZone());
     acetime_t epochDays = dateTime.toEpochDays();
     disableOptimization(epochDays);
   });
   unsigned long forEpochSecondsMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochDays = millis();
-    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays,
+        TimeZone());
     disableOptimization(dateTime);
   });
   long elapsedMillis = toEpochDaysMillis - forEpochSecondsMillis;
@@ -313,13 +319,15 @@ static void runZonedDateTimeToEpochDays() {
 static void runZonedDateTimeToEpochSeconds() {
   unsigned long toEpochSecondsMillis = runLambda(COUNT, []() {
     unsigned long tickMillis = millis();
-    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(tickMillis);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(tickMillis,
+        TimeZone());
     acetime_t epochSeconds = dateTime.toEpochSeconds();
     disableOptimization(epochSeconds);
   });
   unsigned long forEpochSecondsMillis = runLambda(COUNT, []() {
     unsigned long fakeEpochDays = millis();
-    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays);
+    ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(fakeEpochDays,
+        TimeZone());
     disableOptimization(dateTime);
   });
   long elapsedMillis = toEpochSecondsMillis - forEpochSecondsMillis;

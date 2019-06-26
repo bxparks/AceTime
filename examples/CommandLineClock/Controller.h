@@ -7,13 +7,13 @@
 #include "StoredInfo.h"
 
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 class Controller {
   public:
-    Controller(PersistentStore& persistentStore, TimeKeeper& systemTimeKeeper):
+    Controller(PersistentStore& persistentStore, TimeKeeper& systemClock):
         mPersistentStore(persistentStore),
-        mSystemTimeKeeper(systemTimeKeeper),
+        mSystemClockKeeper(systemClock),
         mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles),
         mExtendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles) {}
 
@@ -77,13 +77,13 @@ class Controller {
 
     /** Set the current time of the system time keeper. */
     void setNow(acetime_t now) {
-      mSystemTimeKeeper.setNow(now);
+      mSystemClockKeeper.setNow(now);
     }
 
     /** Return the current time from the system time keeper. */
     ZonedDateTime getNow() const {
       return ZonedDateTime::forEpochSeconds(
-          mSystemTimeKeeper.getNow(), mTimeZone);
+          mSystemClockKeeper.getNow(), mTimeZone);
     }
 
     /** Return true if the initial setup() retrieved a valid storedInfo. */
@@ -118,7 +118,7 @@ class Controller {
     }
 
     PersistentStore& mPersistentStore;
-    TimeKeeper& mSystemTimeKeeper;
+    TimeKeeper& mSystemClockKeeper;
     TimeZone mTimeZone;
     ManualZoneSpecifier mManualZoneSpecifier;
     BasicZoneSpecifier mBasicZoneSpecifier;

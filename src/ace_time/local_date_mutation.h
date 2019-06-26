@@ -7,43 +7,50 @@
 namespace ace_time {
 namespace local_date_mutation {
 
-/** Increment LocalDate by one day. */
+/**
+ * Increment LocalDate by one day. Incrementing past 2127-12-31 produces
+ * an error result whose isError() returns true.
+ */
 inline void incrementOneDay(LocalDate& ld) {
   uint8_t day = ld.day() + 1;
-  if (day <= LocalDate::daysInMonth(ld.year(), ld.month())) {
-    ld.day(day);
-    return;
-  }
+  uint8_t month = ld.month();
+  int8_t yearTiny = ld.yearTiny();
 
-  ld.day(1);
-  uint8_t month = ld.month() + 1;
-  if (month <= 12) {
-    ld.month(month);
-    return;
+  if (day > LocalDate::daysInMonth(ld.year(), month)) {
+    day = 1;
+    month++;
+    if (month > 12) {
+      month = 1;
+      yearTiny++;
+    }
   }
-
-  ld.month(1);
-  ld.yearTiny(ld.yearTiny() + 1);
+  ld.day(day);
+  ld.month(month);
+  ld.yearTiny(yearTiny);
 }
 
-/** Decrement LocalDate by one day. */
+/**
+ * Decrement LocalDate by one day. Decrementing past 1873-01-01 produces
+ * an error result whose isError() returns true.
+ */
 inline void decrementOneDay(LocalDate& ld) {
   uint8_t day = ld.day() - 1;
-  if (day > 0) {
-    ld.day(day);
-    return;
-  }
+  uint8_t month = ld.month();
+  int8_t yearTiny = ld.yearTiny();
 
-  if (ld.month() == 1) {
-    ld.day(31);
-    ld.month(12);
-    ld.yearTiny(ld.yearTiny() - 1);
-    return;
+  if (day == 0) {
+    if (month == 1) {
+      day = 31;
+      month = 12;
+      yearTiny--;
+    } else {
+      month--;
+      day = LocalDate::daysInMonth(ld.year(), month);
+    }
   }
-
-  uint8_t newMonth = ld.month() - 1;
-  ld.day(LocalDate::daysInMonth(ld.year(), newMonth));
-  ld.month(newMonth);
+  ld.day(day);
+  ld.month(month);
+  ld.yearTiny(yearTiny);
 }
 
 }

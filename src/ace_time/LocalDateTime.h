@@ -12,20 +12,31 @@ namespace ace_time {
 
 class LocalDateTime {
   public:
+
     /**
-     * Factory method using separated date, time.
+     * Factory method using separated date and time components.
      *
-     * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
-     *    16-bit implementation
+     * @param year [1873-2127]
      * @param month month with January=1, December=12
-     * @param day day of month (1-31)
-     * @param hour hour (0-23)
-     * @param minute minute (0-59)
-     * @param second second (0-59), does not support leap seconds
+     * @param day day of month [1-31]
+     * @param hour hour [0-23]
+     * @param minute minute [0-59]
+     * @param second second [0-59], does not support leap seconds
      */
     static LocalDateTime forComponents(int16_t year, uint8_t month,
         uint8_t day, uint8_t hour, uint8_t minute, uint8_t second) {
-      return LocalDateTime(year, month, day, hour, minute, second);
+      int8_t yearTiny = LocalDate::isYearValid(year)
+          ? year - LocalDate::kEpochYear
+          : LocalDate::kInvalidYearTiny;
+      return forTinyComponents(yearTiny, month, day, hour, minute, second);
+    }
+
+    /** Factory method using components with an int8_t yearTiny. */
+    static LocalDateTime forTinyComponents(int8_t yearTiny, uint8_t month,
+        uint8_t day, uint8_t hour, uint8_t minute, uint8_t second) {
+      return LocalDateTime(
+          LocalDate::forTinyComponents(yearTiny, month, day),
+          LocalTime::forComponents(hour, minute, second));
     }
 
     /**
@@ -40,19 +51,23 @@ class LocalDateTime {
      *    an invalid instance whose isError() returns true.
      */
     static LocalDateTime forEpochSeconds(acetime_t epochSeconds) {
-      if (epochSeconds == LocalDate::kInvalidEpochSeconds) return forError();
+      LocalDate ld;
+      LocalTime lt;
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds) {
+        ld = LocalDate::forError();
+        lt = LocalTime::forError();
+      } else {
+        // Integer floor-division towards -infinity
+        acetime_t days = (epochSeconds < 0)
+            ? (epochSeconds + 1) / 86400 - 1
+            : epochSeconds / 86400;
 
-      // Integer floor-division towards -infinity
-      acetime_t days = (epochSeconds < 0)
-          ? (epochSeconds + 1) / 86400 - 1
-          : epochSeconds / 86400;
-
-      // Avoid % operator, because it's slow on an 8-bit process and because
-      // epochSeconds could be negative.
-      acetime_t seconds = epochSeconds - 86400 * days;
-
-      LocalDate ld = LocalDate::forEpochDays(days);
-      LocalTime lt = LocalTime::forSeconds(seconds);
+        // Avoid % operator, because it's slow on an 8-bit process and because
+        // epochSeconds could be negative.
+        acetime_t seconds = epochSeconds - 86400 * days;
+        ld = LocalDate::forEpochDays(days);
+        lt = LocalTime::forSeconds(seconds);
+      }
 
       return LocalDateTime(ld, lt);
     }
@@ -66,11 +81,10 @@ class LocalDateTime {
      * LocalDate::kInvalidEpochSeconds.
      */
     static LocalDateTime forUnixSeconds(acetime_t unixSeconds) {
-      if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
-        return forError();
-      } else {
-        return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch);
-      }
+      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidEpochSeconds)
+          ? unixSeconds
+          : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
+      return forEpochSeconds(epochSeconds);
     }
 
     /**
@@ -92,12 +106,22 @@ class LocalDateTime {
     static LocalDateTime forDateString(const char* dateString);
 
     /**
+     * Variant of forDateString() that updates the pointer to the next
+     * unprocessed character. This allows chaining to another
+     * forXxxStringChainable() method.
+     *
+     * This method assumes that the dateString is sufficiently long.
+     */
+    static LocalDateTime forDateStringChainable(const char*& dateString);
+
+    /**
      * Factory method. Create a LocalDateTime from date string in flash memory
      * F() strings. Mostly for unit testing.
      */
     static LocalDateTime forDateString(const __FlashStringHelper* dateString) {
       // Copy the F() string into a buffer. Use strncpy_P() because ESP32 and
-      // ESP8266 do not have strlcpy_P().
+      // ESP8266 do not have strlcpy_P(). We need +1 for the '\0' character and
+      // another +1 to determine if the dateString is too long to fit.
       char buffer[kDateTimeStringLength + 2];
       strncpy_P(buffer, (const char*) dateString, sizeof(buffer));
       buffer[kDateTimeStringLength + 1] = 0;
@@ -105,7 +129,7 @@ class LocalDateTime {
       // check if the original F() was too long
       size_t len = strlen(buffer);
       if (len > kDateTimeStringLength) {
-        return LocalDateTime::forError();
+        return forError();
       }
 
       return forDateString(buffer);
@@ -176,13 +200,6 @@ class LocalDateTime {
     const LocalTime& localTime() const { return mLocalTime; }
 
     /**
-     * Print LocalDateTime to 'printer' in ISO 8601 format.
-     * This class does not implement the Printable interface to avoid
-     * increasing the size of the object from the additional virtual function.
-     */
-    void printTo(Print& printer) const;
-
-    /**
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z).
      */
     acetime_t toEpochDays() const {
@@ -197,7 +214,9 @@ class LocalDateTime {
     }
 
     /**
-     * Return seconds since AceTime epoch (2000-01-01 00:00:00Z).
+     * Return seconds since AceTime epoch 2000-01-01 00:00:00Z, after assuming
+     * that the date and time components are in UTC timezone. Returns
+     * LocalDate::kInvalidEpochSeconds if isError() is true.
      */
     acetime_t toEpochSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
@@ -208,11 +227,12 @@ class LocalDateTime {
     }
 
     /**
-     * Return the number of seconds from Unix epoch 1970-01-01 00:00:00Z.
-     * It returns kInvalidEpochSeconds if isError() is true.
+     * Return seconds from Unix epoch 1970-01-01 00:00:00Z, after assuming that
+     * the date and time components are in UTC timezone. Returns
+     * LocalDate::kInvalidEpochSeconds if isError() is true.
      *
-     * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box to
-     * print the unix seconds.
+     * Tip: You can use the command 'date +%s -d {iso8601date}' on a Unix box
+     * to print the unix seconds of a given ISO8601 date.
      */
     acetime_t toUnixSeconds() const {
       if (isError()) return LocalDate::kInvalidEpochSeconds;
@@ -231,49 +251,27 @@ class LocalDateTime {
       return 0;
     }
 
+    /**
+     * Print LocalDateTime to 'printer' in ISO 8601 format.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
+     */
+    void printTo(Print& printer) const;
+
     // Use default copy constructor and assignment operator.
     LocalDateTime(const LocalDateTime&) = default;
     LocalDateTime& operator=(const LocalDateTime&) = default;
 
   private:
-    friend class OffsetDateTime; // constructor, forDateStringChainable()
-    friend class ExtendedZoneSpecifier; // getLocalDate()
-    friend class BasicZoneSpecifier; // getLocalDate()
     friend bool operator==(const LocalDateTime& a, const LocalDateTime& b);
 
     /** Expected length of an ISO 8601 date string. */
     static const uint8_t kDateTimeStringLength = 19;
 
-    /**
-     * The internal version of forDateString() that updates the reference to
-     * the pointer to the string to the next unprocessed character. This allows
-     * chaining to another forDateStringChainable() method.
-     *
-     * This method assumes that the dateString is sufficiently long.
-     */
-    static LocalDateTime forDateStringChainable(const char*& dateString);
-
-    /**
-     * Constructor using separated date, time, and time zone fields.
-     *
-     * @param year
-     * @param month month with January=1, December=12
-     * @param day day of month (1-31)
-     * @param hour hour (0-23)
-     * @param minute minute (0-59)
-     * @param second second (0-59), does not support leap seconds
-     */
-    explicit LocalDateTime(int16_t year, uint8_t month, uint8_t day,
-            uint8_t hour, uint8_t minute, uint8_t second):
-        mLocalDate(year - LocalDate::kEpochYear, month, day),
-        mLocalTime(hour, minute, second) {}
-
     /** Constructor from a LocalDate and LocalTime. */
     explicit LocalDateTime(const LocalDate& ld, const LocalTime& lt):
         mLocalDate(ld),
         mLocalTime(lt) {}
-
-    const LocalDate& getLocalDate() const { return mLocalDate; }
 
     LocalDate mLocalDate;
     LocalTime mLocalTime;

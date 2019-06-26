@@ -1,5 +1,5 @@
 <map id="ace_time::ZoneSpecifier" name="ace_time::ZoneSpecifier">
-<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneSpecifier.html" title="An implementation of ZoneSpecifier that supports a subset of the zones containing in the TZ Database..." alt="" coords="245,5,457,32"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ExtendedZoneSpecifier.html" title="An implementation of ZoneSpecifier that works for all zones defined by the TZ Database (with some zon..." alt="" coords="232,56,471,83"/>
-<area shape="rect" id="node4" href="$classace__time_1_1ManualZoneSpecifier.html" title="An implementation of ZoneSpecifier which allows the user to manually adjust the UTC offset and the DS..." alt="" coords="239,107,463,133"/>
+<area shape="rect" id="node2" href="$classace__time_1_1BasicZoneSpecifier.html" title="An implementation of ZoneSpecifier that supports a subset of the zones containing in the TZ Database..." alt="" coords="227,5,423,32"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ExtendedZoneSpecifier.html" title="An implementation of ZoneSpecifier that works for all zones defined by the TZ Database (with some zon..." alt="" coords="216,56,435,83"/>
+<area shape="rect" id="node4" href="$classace__time_1_1ManualZoneSpecifier.html" title="An implementation of ZoneSpecifier which allows the user to manually adjust the UTC offset and the DS..." alt="" coords="223,107,428,133"/>
 </map>

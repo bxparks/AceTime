@@ -103,9 +103,9 @@ class TimeZone {
     /**
      * Factory method to create from a fixed UTC offset.
      *
-     * @param offset the fixed UTC offset, default 00:00 offset
+     * @param offset the fixed UTC offset, use TimeOffset() for UTC
      */
-    static TimeZone forTimeOffset(TimeOffset offset = TimeOffset()) {
+    static TimeZone forTimeOffset(TimeOffset offset) {
       return TimeZone(offset);
     }
 
@@ -149,34 +149,34 @@ class TimeZone {
     }
 
     /**
-     * Return the best guess of the UTC offset at the given LocalDateTime for
-     * the current TimeZone. Used by ZonedDateTime::forComponents(), so
-     * intended to be used mostly for testing and debugging.
+     * Return the best estimate of the OffsetDateTime at the given
+     * LocalDateTime for the current TimeZone. Used by
+     * ZonedDateTime::forComponents(), so intended to be used mostly for
+     * testing and debugging.
      */
-    TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const {
-      return (mType == kTypeFixed)
-          ? mOffset
-          : mZoneSpecifier->getUtcOffsetForDateTime(ldt);
+    OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const {
+      OffsetDateTime odt = (mType == kTypeFixed)
+          ? OffsetDateTime::forLocalDateTimeAndOffset(ldt, mOffset)
+          : mZoneSpecifier->getOffsetDateTime(ldt);
+      return odt;
     }
 
     /**
      * Print the human readable representation of the time zone.
-     *    * kTypeFixed at UTC is printed as "UTC"
-     *    * kTypeFixed at another offset is printed as "+/-hh:mm"
-     *    * kTypeManual is printed as "UTC+/-hh:mm (STD|DST)" (e.g. "-08:00
-     *    (DST)")
-     *    * kTypeBasic is printed as "{zonename}" (e.g. "America/Los_Angeles")
-     *    * kTypeExtended is printed as "{zonename}" (e.g. "America/Los_Angeles")
+     *   * kTypeFixed at UTC is printed as "UTC" or "+/-hh:mm"
+     *   * kTypeManual is printed as "+/-hh:mm(STD|DST)" (e.g. "-08:00(DST)")
+     *   * kTypeBasic is printed as "{zonename}" (e.g. "America/Los_Angeles")
+     *   * kTypeExtended is printed as "{zonename}" (e.g.
+     *     "America/Los_Angeles")
      */
     void printTo(Print& printer) const;
 
     /**
      * Print the time zone abbreviation for the given epochSeconds.
-     *    * kTypeFixed at UTC is printed as "UTC"
-     *    * kTypeFixed at another offset is printed as "+/-hh:mm"
-     *    * kTypeManual is printed as "{abbrev}" (e.g. "PDT")
-     *    * kTypeBasic is printed as "{abbrev}" (e.g. "PDT")
-     *    * kTypeExtended is printed as "{abbrev}" (e.g. "PDT")
+     *   * kTypeFixed at UTC is printed as "UTC" or "+/-hh:mm"
+     *   * kTypeManual is printed as "{abbrev}" (e.g. "PDT")
+     *   * kTypeBasic is printed as "{abbrev}" (e.g. "PDT")
+     *   * kTypeExtended is printed as "{abbrev}" (e.g. "PDT")
      */
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 

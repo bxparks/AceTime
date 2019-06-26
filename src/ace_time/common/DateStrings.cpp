@@ -34,12 +34,12 @@ static const char kSaturday[] PROGMEM = "Saturday";
 static const char kSunday[] PROGMEM = "Sunday";
 
 // ISO8601 says Monday=1, Sunday=7.
-const char* const DateStrings::kWeekDayNames[] = {
+const char* const DateStrings::kDayOfWeekNames[] = {
   kError, kMonday, kTuesday, kWednesday, kThursday, kFriday, kSaturday, kSunday
 };
 
-const uint8_t DateStrings::kNumWeekDayNames =
-    sizeof(kWeekDayNames) / sizeof(const char *);
+const uint8_t DateStrings::kNumDayOfWeekNames =
+    sizeof(kDayOfWeekNames) / sizeof(const char *);
 
 }
 }

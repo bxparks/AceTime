@@ -24,11 +24,11 @@ TimeProvider	KEYWORD1
 TimeKeeper	KEYWORD1
 DS3231TimeKeeper	KEYWORD1
 NtpTimeProvider	KEYWORD1
-SystemTimeKeeper	KEYWORD1
-SystemTimeSyncLoop	KEYWORD1
-SystemTimeHeartbeatLoop	KEYWORD1
-SystemTimeSyncCoroutine	KEYWORD1
-SystemTimeHeartbeatCoroutine	KEYWORD1
+SystemClock	KEYWORD1
+SystemClockSyncLoop	KEYWORD1
+SystemClockHeartbeatLoop	KEYWORD1
+SystemClockSyncCoroutine	KEYWORD1
+SystemClockHeartbeatCoroutine	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -37,8 +37,8 @@ SystemTimeHeartbeatCoroutine	KEYWORD1
 # DateStrings.h
 monthLongString	KEYWORD2
 monthShortString	KEYWORD2
-weekDayLongString	KEYWORD2
-weekDayShortString	KEYWORD2
+dayOfWeekLongString	KEYWORD2
+dayOfWeekShortString	KEYWORD2
 
 # LocalDate.h
 forEpochDays	KEYWORD2
@@ -238,7 +238,7 @@ readResponse	KEYWORD2
 # TimeKeeper.h
 setNow	KEYWORD2
 
-# SystemTimeKeeper.h
+# SystemClock.h
 setup	KEYWORD2
 getNow	KEYWORD2
 setNow	KEYWORD2
@@ -262,12 +262,10 @@ kTypeExtended	LITERAL1
 # LocalDate.h
 kEpochYear	LITERAL1
 kInvalidYearTiny	LITERAL1
-kMinYearTiny	LITERAL1
 kInvalidEpochDays	LITERAL1
 kInvalidEpochSeconds	LITERAL1
 kSecondsSinceUnixEpoch	LITERAL1
 kDaysSinceUnixEpoch	LITERAL1
-kDaysSinceJulianEpoch	LITERAL1
 kMonday	LITERAL1
 kTuesday	LITERAL1
 kWednesday	LITERAL1

@@ -1,5 +1,5 @@
-#ifndef ACE_TIME_DATE_TIME_H
-#define ACE_TIME_DATE_TIME_H
+#ifndef ACE_TIME_ZONED_DATE_TIME_H
+#define ACE_TIME_ZONED_DATE_TIME_H
 
 #include <stdint.h>
 #include "common/flash.h"
@@ -14,9 +14,9 @@ namespace ace_time {
 /**
  * The date (year, month, day) and time (hour, minute, second) fields
  * representing an instant in time. In an 8-bit implementation, the year field
- * is internally represented as a int8_t number from -128 to 127 representing
- * the year 1872 to 2127 inclusive. In a 16-bit implementation, the year field
- * is an int16_t, so can represent years from 0000-9999 inclusive.
+ * is internally represented as an int8_t number from -128 to 127. The value of
+ * -128 is used to indicate an error condition so that range of valid year is
+ * 1873 to 2127 inclusive.
  *
  * The "epoch" for this library is 2000-01-01 00:00:00Z. The dayOfWeek
  * (1=Sunday, 7=Saturday) is calculated internally from the date components.
@@ -27,8 +27,6 @@ namespace ace_time {
  */
 class ZonedDateTime {
   public:
-    static const acetime_t kInvalidEpochSeconds = LocalTime::kInvalidSeconds;
-
     /**
      * Factory method using separated date, time, and time zone fields.
      * This is intended mostly for testing purposes. Most production code
@@ -38,22 +36,20 @@ class ZonedDateTime {
      * ZoneSpecifier::getUtcOffsetForDateTime() determined by the actual
      * subtype of ZoneSpecifier held by the given timeZone.
      *
-     * @param year [1872-2127] for 8-bit implementation, [0000-9999] for
-     *    16-bit implementation
+     * @param year [1873-2127]
      * @param month month with January=1, December=12
-     * @param day day of month (1-31)
-     * @param hour hour (0-23)
-     * @param minute minute (0-59)
-     * @param second second (0-59), does not support leap seconds
-     * @param timeZone pointer to an existing TimeZone instance. Optional,
-     *        not nullable. Default is UTC TimeZone.
+     * @param day day of month [1-31]
+     * @param hour hour [0-23]
+     * @param minute minute [0-59]
+     * @param second second [0-59], does not support leap seconds
+     * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forComponents(int16_t year, uint8_t month, uint8_t day,
-            uint8_t hour, uint8_t minute, uint8_t second,
-            const TimeZone& timeZone = TimeZone()) {
-      LocalDateTime ldt = LocalDateTime::forComponents(
+        uint8_t hour, uint8_t minute, uint8_t second,
+        const TimeZone& timeZone) {
+      auto ldt = LocalDateTime::forComponents(
           year, month, day, hour, minute, second);
-      OffsetDateTime odt(ldt, timeZone.getUtcOffsetForDateTime(ldt));
+      auto odt = timeZone.getOffsetDateTime(ldt);
       return ZonedDateTime(odt, timeZone);
     }
 
@@ -63,33 +59,38 @@ class ZonedDateTime {
      * Returns ZonedDateTime::forError() if epochSeconds is invalid.
      *
      * @param epochSeconds Number of seconds from AceTime epoch
-     *    (2000-01-01 00:00:00Z). A value of kInvalidEpochSeconds is a sentinel
-     *    is considered to be an error and causes isError() to return true.
-     * @param timeZone Optional, not nullable. Default is UTC TimeZone.
+     *    (2000-01-01 00:00:00Z). A value of LocalDate::kInvalidEpochSeconds is
+     *    a sentinel that is considered to be an error and causes isError() to
+     *    return true.
+     * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forEpochSeconds(acetime_t epochSeconds,
-        const TimeZone& timeZone = TimeZone()) {
-      if (epochSeconds == kInvalidEpochSeconds) return forError();
-
-      TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
-      return ZonedDateTime(
-          OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset),
-          timeZone);
+        const TimeZone& timeZone) {
+      OffsetDateTime odt;
+      if (epochSeconds == LocalDate::kInvalidEpochSeconds) {
+        odt = OffsetDateTime::forError();
+      } else {
+        TimeOffset timeOffset = timeZone.getUtcOffset(epochSeconds);
+        odt = OffsetDateTime::forEpochSeconds(epochSeconds, timeOffset);
+      }
+      return ZonedDateTime(odt, timeZone);
     }
 
     /**
      * Factory method to create a ZonedDateTime using the number of seconds from
      * Unix epoch.
      * Returns ZonedDateTime::forError() if unixSeconds is invalid.
+     *
+     * @param unixSeconds number of seconds since Unix epoch
+     *    (1970-01-01T00:00:00Z)
+     * @param timeZone a TimeZone instance (use TimeZone() for UTC)
      */
     static ZonedDateTime forUnixSeconds(acetime_t unixSeconds,
-        const TimeZone& timeZone = TimeZone()) {
-      if (unixSeconds == LocalDate::kInvalidEpochSeconds) {
-        return forError();
-      } else {
-        return forEpochSeconds(unixSeconds - LocalDate::kSecondsSinceUnixEpoch,
-            timeZone);
-      }
+        const TimeZone& timeZone) {
+      acetime_t epochSeconds = (unixSeconds == LocalDate::kInvalidEpochSeconds)
+          ? unixSeconds
+          : unixSeconds - LocalDate::kSecondsSinceUnixEpoch;
+      return forEpochSeconds(epochSeconds, timeZone);
     }
 
     /**
@@ -98,13 +99,12 @@ class ZonedDateTime {
      * returns true.
      *
      * @param dateString a string in ISO 8601 format
-     *        "YYYY-MM-DDThh:mm:ss+hh:mm", but currently, the parser is very
-     *        lenient and does not detect most errors. It cares mostly about
-     *        the positional placement of the various components. It does not
-     *        validate the separation characters like '-' or ':'. For example,
-     *        both of the following will parse to the exactly same
-     *        ZonedDateTime object: "2018-08-31T13:48:01-07:00" "2018/08/31
-     *        13#48#01-07#00"
+     *    "YYYY-MM-DDThh:mm:ss+hh:mm". The parser is very lenient and does
+     *    not detect most errors. It cares mostly about the positional
+     *    placement of the various components. It does not validate the
+     *    separation characters like '-' or ':'. For example, both of the
+     *    following will parse to the exactly same ZonedDateTime object:
+     *    "2018-08-31T13:48:01-07:00" "2018/08/31 13#48#01-07#00".
      */
     static ZonedDateTime forDateString(const char* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
@@ -191,6 +191,11 @@ class ZonedDateTime {
      */
     void timeZone(const TimeZone& timeZone) { mTimeZone = timeZone; }
 
+    /** Return the LocalDateTime of the components. */
+    const LocalDateTime& localDateTime() const {
+      return mOffsetDateTime.localDateTime();
+    }
+
     /**
      * Create a ZonedDateTime in a different time zone (with the same
      * epochSeconds).
@@ -199,13 +204,6 @@ class ZonedDateTime {
       acetime_t epochSeconds = toEpochSeconds();
       return ZonedDateTime::forEpochSeconds(epochSeconds, timeZone);
     }
-
-    /**
-     * Print ZonedDateTime to 'printer'.
-     * This class does not implement the Printable interface to avoid
-     * increasing the size of the object from the additional virtual function.
-     */
-    void printTo(Print& printer) const;
 
     /**
      * Return number of whole days since AceTime epoch (2000-01-01 00:00:00Z),
@@ -255,6 +253,13 @@ class ZonedDateTime {
       return mOffsetDateTime.compareTo(that.mOffsetDateTime);
     }
 
+    /**
+     * Print ZonedDateTime to 'printer'.
+     * This class does not implement the Printable interface to avoid
+     * increasing the size of the object from the additional virtual function.
+     */
+    void printTo(Print& printer) const;
+
     // Use default copy constructor and assignment operator.
     ZonedDateTime(const ZonedDateTime&) = default;
     ZonedDateTime& operator=(const ZonedDateTime&) = default;
@@ -264,7 +269,6 @@ class ZonedDateTime {
     static const uint8_t kDateStringLength = 25;
 
     friend bool operator==(const ZonedDateTime& a, const ZonedDateTime& b);
-    friend bool operator!=(const ZonedDateTime& a, const ZonedDateTime& b);
 
     /** Constructor. From OffsetDateTime and TimeZone. */
     ZonedDateTime(const OffsetDateTime& offsetDateTime, const TimeZone& tz):

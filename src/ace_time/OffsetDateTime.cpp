@@ -14,30 +14,11 @@ void OffsetDateTime::printTo(Print& printer) const {
     return;
   }
 
-  // Date
-  printer.print(mLocalDateTime.year());
-  printer.print('-');
-  printPad2(printer, mLocalDateTime.month());
-  printer.print('-');
-  printPad2(printer, mLocalDateTime.day());
+  // LocalDateTime
+  mLocalDateTime.printTo(printer);
 
-  // 'T' separator
-  printer.print('T');
-
-  // Time
-  printPad2(printer, mLocalDateTime.hour());
-  printer.print(':');
-  printPad2(printer, mLocalDateTime.minute());
-  printer.print(':');
-  printPad2(printer, mLocalDateTime.second());
-
-  // TimeOffset
+  // TimeOffset "+/-hh:mm
   mTimeOffset.printTo(printer);
-  printer.print(' ');
-
-  // Week day
-  DateStrings ds;
-  printer.print(ds.weekDayLongString(dayOfWeek()));
 }
 
 OffsetDateTime OffsetDateTime::forDateString(const char* dateString) {

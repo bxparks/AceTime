@@ -26,7 +26,7 @@
  *    timezone [fixed offset | manual offset | basic | extended | dst (on | off)]
  *        Print or set the currently active TimeZone.
  *    sync_status
- *        Print the status of the SystemTimeSyncLoop helper.
+ *        Print the status of the SystemClockSyncLoop helper.
  *		wifi (status | connect | config [ssid password])
  *        Print the ESP8266 or ESP32 wifi connection info.
  *        Connect to the wifi network.
@@ -50,7 +50,7 @@
 using namespace ace_routine;
 using namespace ace_routine::cli;
 using namespace ace_time;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 //---------------------------------------------------------------------------
 // Compensate for buggy F() implementation in ESP8266.
@@ -68,22 +68,22 @@ using namespace ace_time::provider;
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_DS3231
   DS3231TimeKeeper dsTimeKeeper;
-  SystemTimeKeeper systemTimeKeeper(&dsTimeKeeper, &dsTimeKeeper /*backup*/);
+  SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper /*backup*/);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   NtpTimeProvider ntpTimeProvider;
-  SystemTimeKeeper systemTimeKeeper(&ntpTimeProvider, nullptr /*backup*/);
+  SystemClock systemClock(&ntpTimeProvider, nullptr /*backup*/);
 #elif TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NONE
-  SystemTimeKeeper systemTimeKeeper(nullptr /*sync*/, nullptr /*backup*/);
+  SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
 #else
   #error Unknown time keeper option
 #endif
 
 #if SYNC_TYPE == SYNC_TYPE_COROUTINE
-  SystemTimeSyncCoroutine systemTimeSync(systemTimeKeeper);
-  SystemTimeHeartbeatCoroutine systemTimeHeartbeat(systemTimeKeeper);
+  SystemClockSyncCoroutine systemClockSync(systemClock);
+  SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
 #else
-  SystemTimeSyncLoop systemTimeSyncLoop(systemTimeKeeper);
-  SystemTimeHeartbeatLoop systemTimeHeartbeatLoop(systemTimeKeeper);
+  SystemClockSyncLoop systemClockSyncLoop(systemClock);
+  SystemClockHeartbeatLoop systemClockHeartbeatLoop(systemClock);
 #endif
 
 //---------------------------------------------------------------------------
@@ -91,7 +91,7 @@ using namespace ace_time::provider;
 //---------------------------------------------------------------------------
 
 PersistentStore persistentStore;
-Controller controller(persistentStore, systemTimeKeeper);
+Controller controller(persistentStore, systemClock);
 
 //---------------------------------------------------------------------------
 // AceRoutine CLI commands
@@ -254,18 +254,18 @@ class TimezoneCommand: public CommandHandler {
  */
 class SyncStatusCommand: public CommandHandler {
   public:
-    SyncStatusCommand(SystemTimeSyncLoop& systemTimeSyncLoop):
+    SyncStatusCommand(SystemClockSyncLoop& systemClockSyncLoop):
           CommandHandler("sync_status", nullptr),
-      mSystemTimeSyncLoop(systemTimeSyncLoop) {}
+      mSystemClockSyncLoop(systemClockSyncLoop) {}
 
     void run(Print& printer, int /*argc*/, const char** /*argv*/)
         const override {
       printer.print(FF("Seconds since last sync: "));
-      printer.println(mSystemTimeSyncLoop.getSecondsSinceLastSync());
+      printer.println(mSystemClockSyncLoop.getSecondsSinceLastSync());
     }
 
   private:
-    SystemTimeSyncLoop& mSystemTimeSyncLoop;
+    SystemClockSyncLoop& mSystemClockSyncLoop;
 };
 
 #endif
@@ -358,7 +358,7 @@ TimezoneCommand timezoneCommand;
 WifiCommand wifiCommand(controller, ntpTimeProvider);
 #endif
 #if SYNC_TYPE == SYNC_TYPE_MANUAL
-SyncStatusCommand syncStatusCommand(systemTimeSyncLoop);
+SyncStatusCommand syncStatusCommand(systemClockSyncLoop);
 #endif
 
 const CommandHandler* const COMMANDS[] = {
@@ -410,7 +410,7 @@ void setup() {
 #endif
 
   persistentStore.setup();
-  systemTimeKeeper.setup();
+  systemClock.setup();
   controller.setup();
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
@@ -424,8 +424,8 @@ void setup() {
 
   // insert coroutines into the scheduler
 #if SYNC_TYPE == SYNC_TYPE_COROUTINE
-  systemTimeSync.setupCoroutine(FF("systemTimeSync"));
-  systemTimeHeartbeat.setupCoroutine(FF("systemTimeHeartbeat"));
+  systemClockSync.setupCoroutine(FF("systemClockSync"));
+  systemClockHeartbeat.setupCoroutine(FF("systemClockHeartbeat"));
 #endif
   commandManager.setupCoroutine(FF("commandManager"));
   CoroutineScheduler::setup();
@@ -436,7 +436,7 @@ void setup() {
 void loop() {
   CoroutineScheduler::loop();
 #if SYNC_TYPE == SYNC_TYPE_MANUAL
-  systemTimeSyncLoop.loop();
-  systemTimeHeartbeatLoop.loop();
+  systemClockSyncLoop.loop();
+  systemClockHeartbeatLoop.loop();
 #endif
 }

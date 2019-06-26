@@ -12,7 +12,7 @@
 
 using namespace ace_time;
 using namespace ace_time::common;
-using namespace ace_time::provider;
+using namespace ace_time::clock;
 
 /**
  * Class responsible for rendering the RenderingInfo to the indicated display.
@@ -167,23 +167,24 @@ class Controller {
       switch (mMode) {
         case MODE_CHANGE_YEAR:
           mSuppressBlink = true;
-          date_time_mutation::incrementYear(mChangingClockInfo.dateTime);
+          zoned_date_time_mutation::incrementYear(mChangingClockInfo.dateTime);
           break;
         case MODE_CHANGE_MONTH:
           mSuppressBlink = true;
-          date_time_mutation::incrementMonth(mChangingClockInfo.dateTime);
+          zoned_date_time_mutation::incrementMonth(mChangingClockInfo.dateTime);
           break;
         case MODE_CHANGE_DAY:
           mSuppressBlink = true;
-          date_time_mutation::incrementDay(mChangingClockInfo.dateTime);
+          zoned_date_time_mutation::incrementDay(mChangingClockInfo.dateTime);
           break;
         case MODE_CHANGE_HOUR:
           mSuppressBlink = true;
-          date_time_mutation::incrementHour(mChangingClockInfo.dateTime);
+          zoned_date_time_mutation::incrementHour(mChangingClockInfo.dateTime);
           break;
         case MODE_CHANGE_MINUTE:
           mSuppressBlink = true;
-          date_time_mutation::incrementMinute(mChangingClockInfo.dateTime);
+          zoned_date_time_mutation::incrementMinute(
+              mChangingClockInfo.dateTime);
           break;
         case MODE_CHANGE_SECOND:
           mSuppressBlink = true;
