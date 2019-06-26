@@ -186,31 +186,50 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      *
      * The implementation of this method is therefore a hack. First pass, we
      * extract the TimeOffset on Jan 1 of the year given by the localDateTime,
-     * and guess its epochSecond using that TimeOffset. Second pass, we use the
-     * epochSecond from the previous pass to calculate the next best guess of
+     * and guess its epochSeconds using that TimeOffset. Second pass, we use the
+     * epochSeconds from the previous pass to calculate the next best guess of
      * the actual TimeOffset. We return the second pass guess as the result.
      */
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
-      TimeOffset offset;
+      OffsetDateTime odt;
       bool success = init(ldt.localDate());
       if (success) {
-        // First guess at the TimeOffset using Jan 1 of the given year.
-        acetime_t initialEpochSeconds =
-            LocalDate::forComponents(ldt.year(), 1, 1).toEpochSeconds();
-        TimeOffset initialTimeOffset = getUtcOffset(initialEpochSeconds);
+        // 0) Use the UTC epochSeconds to get intial guess of offset.
+        acetime_t epochSeconds0 = ldt.toEpochSeconds();
+        auto offset0 = getUtcOffset(epochSeconds0);
 
-        // Second guess at the TimeOffset using the first TimeOffset.
-        auto odt = OffsetDateTime::forLocalDateTimeAndOffset(
-            ldt, initialTimeOffset);
-        acetime_t epochSeconds = odt.toEpochSeconds();
-        offset = getUtcOffset(epochSeconds);
+        // 1) Use offset0 to get the next epochSeconds and offset.
+        auto odt1 = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset0);
+        acetime_t epochSeconds1 = odt1.toEpochSeconds();
+        auto offset1 = getUtcOffset(epochSeconds1);
 
-        // FIXME: This is inaccurate if ldt falls in the DST gap where the ldt is
-        // invalid. Add a normalization step.
+        // 2) Use offset1 to get the next epochSeconds and offset.
+        auto odt2 = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset1);
+        acetime_t epochSeconds2 = odt2.toEpochSeconds();
+        auto offset2 = getUtcOffset(epochSeconds2);
+
+        // If offset1 and offset2 are equal, then we have an equilibrium
+        // and odt1 must equal odt2.
+        if (offset1.toOffsetCode() == offset2.toOffsetCode()) {
+          odt = odt2;
+        } else {
+          // Pick the later epochSeconds and offset
+          acetime_t epochSeconds;
+          TimeOffset offset;
+          if (epochSeconds1 > epochSeconds2) {
+            epochSeconds = epochSeconds1;
+            offset = offset1;
+          } else {
+            epochSeconds = epochSeconds2;
+            offset = offset2;
+          }
+          odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
+        }
       } else {
-        offset = TimeOffset::forError();
+        odt = OffsetDateTime::forError();
       }
-      return OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset);
+
+      return odt;
     }
 
     /** Print the TD database zone identifier e.g "America/Los_Angeles". */

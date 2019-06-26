@@ -24,6 +24,8 @@ test(ZonedDateTimeTest_Extended, forComponents_isError) {
 test(ZonedDateTimeTest_Extended, forComponents_beforeDst) {
   ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
   TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+
+  // 01:59 should resolve to 01:59-08:00
   auto dtInput = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 0, tz);
   auto dt = ZonedDateTime::forEpochSeconds(dtInput.toEpochSeconds(), tz);
 

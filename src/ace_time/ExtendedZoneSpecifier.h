@@ -673,15 +673,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       TimeOffset offset;
       bool success = init(ldt.localDate());
       if (success) {
+        // FIXME: This is maybe inaccurate if ldt falls in the DST gap where the
+        // ldt is invalid. Add a normalization step.
         const extended::Transition* transition =
             mTransitionStorage.findTransitionForDateTime(ldt);
         offset = (transition)
             ? TimeOffset::forOffsetCode(
                 transition->offsetCode() + transition->deltaCode())
             : TimeOffset::forError();
-
-        // FIXME: This is maybe inaccurate if ldt falls in the DST gap where the
-        // ldt is invalid. Add a normalization step.
       } else {
         offset = TimeOffset::forError();
       }
