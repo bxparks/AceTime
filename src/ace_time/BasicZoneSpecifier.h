@@ -191,6 +191,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * the actual TimeOffset. We return the second pass guess as the result.
      */
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
+      // Only a single local variable of OffsetDateTime used, to allow Return
+      // Value Optimization (and save 20 bytes of flash for WorldClock).
       OffsetDateTime odt;
       bool success = init(ldt.localDate());
       if (success) {
@@ -199,19 +201,19 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         auto offset0 = getUtcOffset(epochSeconds0);
 
         // 1) Use offset0 to get the next epochSeconds and offset.
-        auto odt1 = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset0);
-        acetime_t epochSeconds1 = odt1.toEpochSeconds();
+        odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset0);
+        acetime_t epochSeconds1 = odt.toEpochSeconds();
         auto offset1 = getUtcOffset(epochSeconds1);
 
         // 2) Use offset1 to get the next epochSeconds and offset.
-        auto odt2 = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset1);
-        acetime_t epochSeconds2 = odt2.toEpochSeconds();
+        odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset1);
+        acetime_t epochSeconds2 = odt.toEpochSeconds();
         auto offset2 = getUtcOffset(epochSeconds2);
 
         // If offset1 and offset2 are equal, then we have an equilibrium
-        // and odt1 must equal odt2.
+        // and odt(1) must equal odt(2), so we can just return the last odt.
         if (offset1.toOffsetCode() == offset2.toOffsetCode()) {
-          odt = odt2;
+          // pass
         } else {
           // Pick the later epochSeconds and offset
           acetime_t epochSeconds;
