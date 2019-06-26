@@ -1,4 +1,4 @@
-# BasicValidationMoreTest
+# BasicValidationUsingJavaTest
 
 This unit test compares the DST transitions calculated by the
 `BasicZoneSpecifier` class (which uses the `zonedb` data files) with the
@@ -17,7 +17,7 @@ layer included with [AUnit](https://github.com/bxparks/AUnit).
 Assuming that you have `g++` and `make` installed, just type:
 ```
 $ make clean && make -j 4
-$ ./BasicValidationTest.out
+$ ./BasicValidationUsingJavaTest.out
 TestRunner started on 231 test(s).        
 Test TransitionTest_Africa_Abidjan passed. 
 ...
