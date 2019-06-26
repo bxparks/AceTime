@@ -1918,6 +1918,30 @@ is already too large, I did not want to make them larger than necessary.
       a signed integer, just like the old 32-bit Unix systems. This method will
       fail just after 2038-01-19T03:14:07Z, even though the underlying date
       object is still valid.
+* `forDateString()`
+    * Various classes provide a `forDateString()` method to construct
+      the object from a human-readable string. These methods are mostly meant to
+      be used for debugging. The parsers are not robust and do not perform very
+      much error checking, but they may be sufficient for your needs.
+    * `ZonedDateTime::forDateString()` cannot support TZ Database zone
+      identifiers (e.g. "America/Los_Angeles") because the AceTime library does
+      not load the entire TZ Database due to memory constraints of most Arduino
+      boards.
+* `ZonedDateTime::forComponents()`
+    * The `ZonedDateTime::forComponents()` method takes the local wall time and
+      `TimeZone` instance as parameters which can be ambiguous or invalid for
+      some values.
+        * During the Standard time to DST transitions, a one-hour gap of
+      illegal values may exist. For example, 2am (Standard) shifts to 3am (DST),
+      therefore wall times between 02:00 and 03:00 (exclusive) are not valid.
+        * During DST to Standard time transitions, a one-hour interval occurs
+        twice. For example, 2am (DST) shifts to 1am, so all times between 01:00
+        and 02:00 (exclusive) occurs twice in one day.
+   * The `ZonedDateTime::forCommponent()` methods makes an educated guess
+     at what the user meant, but the algorithm may not be robust, is not tested
+     as well as it could be, and the algorithm may change in the future. To keep
+     the code size within reasonble limits of a small Arduino controller, the
+     algorithm may be permanently sub-optimal.
 * `BasicZoneSpecifier`, `ExtendedZoneSpecifier`
     * Tested using both Python and Java libraries.
     * Python [pytz](https://pypi.org/project/pytz/) library supports dates only

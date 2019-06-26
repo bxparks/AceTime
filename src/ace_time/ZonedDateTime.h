@@ -99,12 +99,12 @@ class ZonedDateTime {
      * returns true.
      *
      * @param dateString a string in ISO 8601 format
-     *        "YYYY-MM-DDThh:mm:ss+hh:mm". The parser is very lenient and does
-     *        not detect most errors. It cares mostly about the positional
-     *        placement of the various components. It does not validate the
-     *        separation characters like '-' or ':'. For example, both of the
-     *        following will parse to the exactly same ZonedDateTime object:
-     *        "2018-08-31T13:48:01-07:00" "2018/08/31 13#48#01-07#00".
+     *    "YYYY-MM-DDThh:mm:ss+hh:mm". The parser is very lenient and does
+     *    not detect most errors. It cares mostly about the positional
+     *    placement of the various components. It does not validate the
+     *    separation characters like '-' or ':'. For example, both of the
+     *    following will parse to the exactly same ZonedDateTime object:
+     *    "2018-08-31T13:48:01-07:00" "2018/08/31 13#48#01-07#00".
      */
     static ZonedDateTime forDateString(const char* dateString) {
       OffsetDateTime dt = OffsetDateTime::forDateString(dateString);
