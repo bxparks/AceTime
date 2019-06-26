@@ -218,8 +218,11 @@ struct Transition {
   }
 
   /**
-   * The base offset code. Note that this is different than
-   * basic::Transition::offsetCode used by BasicZoneSpecifier.
+   * The base offset code, not the total effective UTC offset. Note that this
+   * is different than basic::Transition::offsetCode() used by
+   * BasicZoneSpecifier which is the total effective offsetCode. (It may be
+   * possible to make this into an effective offsetCode (i.e. offsetCode +
+   * deltaCode) but it does not seem worth making that change right now.)
    */
   int8_t offsetCode() const {
     return match->era->offsetCode;
@@ -436,19 +439,17 @@ class TransitionStorage {
     /**
      * Add the free agent Transition at index mIndexFree to the Candidate pool,
      * sorted by transitionTime. Then increment mIndexFree by one to remove the
-     * free agent from the Free pool.
+     * free agent from the Free pool. Essentially this is an Insertion Sort
+     * keyed by the 'transitionTime' (ignoring the DateTuple.modifier).
      */
     void addFreeAgentToCandidatePool() {
       if (mIndexFree >= SIZE) return;
       for (uint8_t i = mIndexFree; i > mIndexCandidates; i--) {
         Transition* curr = mTransitions[i];
         Transition* prev = mTransitions[i - 1];
-        if (curr->transitionTime < prev->transitionTime) {
-          mTransitions[i] = prev;
-          mTransitions[i - 1] = curr;
-        } else {
-          break;
-        }
+        if (curr->transitionTime >= prev->transitionTime) break;
+        mTransitions[i] = prev;
+        mTransitions[i - 1] = curr;
       }
       mIndexFree++;
     }
@@ -489,11 +490,8 @@ class TransitionStorage {
       const Transition* match = nullptr;
       for (uint8_t i = 0; i < mIndexFree; i++) {
         const Transition* candidate = mTransitions[i];
-        if (candidate->startEpochSeconds <= epochSeconds) {
-          match = candidate;
-        } else if (candidate->startEpochSeconds > epochSeconds) {
-          break;
-        }
+        if (candidate->startEpochSeconds > epochSeconds) break;
+        match = candidate;
       }
       return match;
     }
@@ -533,11 +531,8 @@ class TransitionStorage {
       const Transition* match = nullptr;
       for (uint8_t i = 0; i < mIndexFree; i++) {
         const Transition* candidate = mTransitions[i];
-        if (candidate->startDateTime <= localDate) {
-          match = candidate;
-        } else if (candidate->startDateTime > localDate) {
-          break;
-        }
+        if (candidate->startDateTime > localDate) break;
+        match = candidate;
       }
       return match;
     }
@@ -673,8 +668,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       TimeOffset offset;
       bool success = init(ldt.localDate());
       if (success) {
-        // FIXME: This is maybe inaccurate if ldt falls in the DST gap where the
-        // ldt is invalid. Add a normalization step.
         const extended::Transition* transition =
             mTransitionStorage.findTransitionForDateTime(ldt);
         offset = (transition)
@@ -684,7 +677,27 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       } else {
         offset = TimeOffset::forError();
       }
-      return OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset);
+
+      auto odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, offset);
+      if (offset.isError()) {
+        return odt;
+      }
+
+      // Normalize the OffsetDateTime, causing LocalDateTime in the DST
+      // transtion gap to be shifted forward one hour. For LocalDateTime in an
+      // overlap (DST->STD transition), the earlier UTC offset is selected// by
+      // findTransitionForDateTime(). Use that to calculate the epochSeconds,
+      // then recalculate the offset. Use this final offset to determine the
+      // effective OffsetDateTime that will survive a round-trip unchanged.
+      acetime_t epochSeconds = odt.toEpochSeconds();
+      const extended::Transition* transition =
+          mTransitionStorage.findTransition(epochSeconds);
+      offset =  (transition) 
+            ? TimeOffset::forOffsetCode(
+                transition->offsetCode() + transition->deltaCode())
+            : TimeOffset::forError();
+      odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
+      return odt;
     }
 
     /** Print the TD database zone identifier e.g "America/Los_Angeles". */
