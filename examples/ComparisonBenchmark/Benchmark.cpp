@@ -242,7 +242,7 @@ void runBenchmarks() {
 
   // Print some stats
   Serial.print("Number of iterations per run: ");
-  Serial.println(FPSTR(COUNT));
+  Serial.println(COUNT);
   Serial.print("Delta seconds: ");
-  Serial.println(FPSTR(DELTA_SECONDS));
+  Serial.println(DELTA_SECONDS);
 }
