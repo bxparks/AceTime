@@ -1,4 +1,4 @@
 <map id="ace_time::TimeZone" name="ace_time::TimeZone">
-<area shape="rect" id="node2" href="$classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC..." alt="" coords="5,5,164,32"/>
-<area shape="rect" id="node3" href="$classace__time_1_1ZoneSpecifier.html" title="Base interface for ZoneSpecifier classes. " alt="" coords="189,5,367,32"/>
+<area shape="rect" id="node2" href="$classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC..." alt="" coords="5,5,153,32"/>
+<area shape="rect" id="node3" href="$classace__time_1_1ZoneSpecifier.html" title="Base interface for ZoneSpecifier classes. " alt="" coords="178,5,341,32"/>
 </map>

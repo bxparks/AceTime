@@ -1,4 +1,4 @@
 <map id="ace_time::extended::ZoneEra" name="ace_time::extended::ZoneEra">
-<area shape="rect" id="node2" href="$structace__time_1_1extended_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region..." alt="" coords="5,109,155,151"/>
-<area shape="rect" id="node3" href="$structace__time_1_1extended_1_1ZoneRule.html" title="A time zone transition rule. " alt="" coords="5,5,155,47"/>
+<area shape="rect" id="node2" href="$structace__time_1_1extended_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region..." alt="" coords="5,109,141,151"/>
+<area shape="rect" id="node3" href="$structace__time_1_1extended_1_1ZoneRule.html" title="A time zone transition rule. " alt="" coords="5,5,141,47"/>
 </map>
