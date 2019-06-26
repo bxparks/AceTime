@@ -1,5 +1,7 @@
 /*
- * Compare the run time of AceTime to the Arduino Time Library
+ * Compare the run time of LocalDateTime::toEpochSeconds() and
+ * forEpochSeconds() with the equivalent makeTime() and breakTime() functions
+ * of the Arduino Time Library
  * (https://github.com/PaulStoffregen/Time). Each iteration performs:
  *    1) a conversion from seconds (from epoch) to the date/time components (y,
  *       m, d, h, m, s), then,
@@ -50,9 +52,9 @@ const char* const BOTTOM = TOP;
 const char EMPTY_LOOP_LABEL[] PROGMEM =
   "| Empty loop                                 | ";
 const char ACE_TIME_FOR_EPOCH_SECONDS[] PROGMEM =
-  "| AceTime - ZonedDateTime::forEpochSeconds() | ";
+  "| AceTime - LocalDateTime::forEpochSeconds() | ";
 const char ACE_TIME_TO_EPOCH_SECONDS[] PROGMEM =
-  "| AceTime - ZonedDateTime::toEpochSeconds()  | ";
+  "| AceTime - LocalDateTime::toEpochSeconds()  | ";
 const char ARDUINO_TIME_BREAK_TIME[] PROGMEM =
   "| Arduino Time - breakTime()                 | ";
 const char ARDUINO_TIME_MAKE_TIME[] PROGMEM =
@@ -78,7 +80,7 @@ void disableOptimization(acetime_t seconds) {
   guard ^= tmp2;
 }
 
-void disableOptimization(const ZonedDateTime& dt) {
+void disableOptimization(const LocalDateTime& dt) {
   guard ^= dt.year();
   guard ^= dt.month();
   guard ^= dt.day();
@@ -150,11 +152,10 @@ void runEmptyLoop() {
   Serial.println(FPSTR(ENDING));
 }
 
-// AceTime library: ZonedDateTime::forEpochSeconds()
+// AceTime library: LocalDateTime::forEpochSeconds()
 void runAceTimeForEpochSeconds() {
   unsigned long elapsedMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
-    ZonedDateTime dt = ZonedDateTime::forEpochSeconds(seconds,
-        TimeZone());
+    LocalDateTime dt = LocalDateTime::forEpochSeconds(seconds);
     disableOptimization(dt);
   });
   unsigned long baseMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
@@ -166,17 +167,15 @@ void runAceTimeForEpochSeconds() {
   Serial.println(FPSTR(ENDING));
 }
 
-// AceTime library: ZonedDateTime::toEpochSeconds()
+// AceTime library: LocalDateTime::toEpochSeconds()
 void runAceTimeToEpochSeconds() {
   unsigned long elapsedMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
-    ZonedDateTime dt = ZonedDateTime::forEpochSeconds(seconds,
-        TimeZone());
+    LocalDateTime dt = LocalDateTime::forEpochSeconds(seconds);
     acetime_t roundTripSeconds = dt.toEpochSeconds();
     disableOptimization(roundTripSeconds);
   });
   unsigned long baseMillis = runLambda(START_SECONDS, [](acetime_t seconds) {
-    ZonedDateTime dt = ZonedDateTime::forEpochSeconds(seconds,
-        TimeZone());
+    LocalDateTime dt = LocalDateTime::forEpochSeconds(seconds);
     disableOptimization(dt);
   });
 
