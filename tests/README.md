@@ -7,6 +7,7 @@ Linux or MacOS machine.
 ## Running Tests on Linux or MacOS
 
 Prerequisites:
+
 * Install GNU Make.
     * Ubuntu Linux: `$ sudo apt install make`
     * MacOS: `/usr/bin/make` - version 3.81 seems to be already installed on my machine
@@ -21,16 +22,18 @@ Prerequisites:
   AceTime.
   * `$ (cd ../../..; git clone https://github.com/bxparks/AUnit)`
 
-Compile the unit test programs using the following shell script:
+Compile the unit test programs using the following `make` commands (or run
+the equivalent one-line shell commands shown in the `Makefile`):
 
-* `$ for i in */Makefile ; do make -C $(dirname $i) clean ; done`
-* `$ for i in */Makefile ; do make -C $(dirname $i) ; done`
+* `$ make clean`
+* `$ make tests`
 
 Run all the unit tests sequentially, piping the output to `less`:
-* `$ (for i in */Makefile ; do $(dirname $i)/$(dirname $i).out ; done) 2>&1 | less`
+* `$ make runtests | less`
 
 Look for the word `failed` in the output. These should all say `0 failed`, like
 this:
+
 ```
 TestRunner summary: 231 passed, 0 failed, 0 skipped, 0 timed out, out of 231
 test(s).
@@ -44,4 +47,3 @@ any Arduino, because they consume too much memory:
 * [BasicValidationMoreTest](BasicValidationMoreTest)
 * [ExtendedValidationTest](ExtendedValidationTest)
 * [ExtendedValidationMoreTest](ExtendedValidationMoreTest)
-
