@@ -23,22 +23,43 @@ Of these, the following are not relevant:
     backzone - contains zones differing before 1970
     systemv - 'SystemV' zone
 
-A Zone Policy is composed of a collection of Zone Rules. A Zone Rule record has
-the following columns:
+There are 3 types of entries in these files: 'Rule', 'Zone' and 'Link' entries.
+
+1) 'Rule' entries look like the following:
 
 # Rule  NAME    FROM    TO    TYPE IN   ON      AT      SAVE    LETTER
 Rule    US      2007    max   -    Mar  Sun>=8  2:00    1:00    D
 Rule    US      2007    max   -    Nov  Sun>=1  2:00    0       S
 
-A Zone Info is composed of a collection of Zone Eras. A Zone Era is each line
-of the following and has the following columns:
+Each 'Rule' entry is mapped to a ZoneRule class and a collection of Zone Rules
+with the same name is called a "Zone Policy".
+
+2) 'Zone' entries look like this:
+
 # Zone  NAME                GMTOFF      RULES   FORMAT  [UNTIL]
 Zone    America/Chicago     -5:50:36    -       LMT     1883 Nov 18 12:09:24
                             -6:00       US      C%sT    1920
                             ...
                             -6:00       US      C%sT
+
 The UNTIL column should be monotonically increasing and the last Zone era line
 has an empty UNTIL field.
+
+Each 'Zone' entry is mapped to a ZoneEra class and a collection of ZoneEras with
+the same name is called a "Zone Info".
+
+3) The 'backward' file and other files contain 'Link' entries which are synonyms
+for other 'Zone' entries. The format is:
+
+Link {target_zone} {alias_zoned}
+
+For example:
+
+Link	America/Los_Angeles	US/Pacific
+
+(The order of the 2 arguments is the reverse of what I would consider natural.
+Maybe it helps to think of the 'Link' command similar to the 'ln' link command
+in Unix, which has the same order of arguments as the 'cp' command.)
 """
 
 import argparse
@@ -49,7 +70,7 @@ import os
 # AceTime Epoch is 2000-01-01 00:00:00
 EPOCH_YEAR = 2000
 
-# Indicate max UNTIL year (represented by empty field).
+# Indicate +Infinity UNTIL year (represented by empty field).
 MAX_UNTIL_YEAR = 10000
 
 # Tiny (int8_t) version of MAX_UNTIL_YEAR_TINY.
@@ -68,10 +89,7 @@ MIN_YEAR = 0
 # used for INVALID_YEAR_TINY.
 MIN_YEAR_TINY = -127
 
-# TODO: Decide on one of the following options consistently:
-# Option 1: INVALID_YEAR=-32768, MIN_YEAR=0
-# Option 2: INVALID_YEAR=-1, MIN_YEAR=0
-# Option 3: INVALID_YEAR=0, MIN_YEAR=1
+# Indicate an invalid year.
 INVALID_YEAR = -1
 
 # Tiny (int8_t) version of INVALID_YEAR.
@@ -271,7 +289,7 @@ class Extractor:
         for name, lines in self.zone_lines.items():
             for line in lines:
                 try:
-                    zone_era = process_zone_line(line)
+                    zone_era = _process_zone_line(line)
                     if zone_era:
                         _add_item(self.zones_map, name, zone_era)
                     else:
@@ -417,7 +435,7 @@ def parse_at_time_string(at_string):
     return (at_time, modifier)
 
 
-def process_zone_line(line):
+def _process_zone_line(line):
     """Normalize an zone era from dictionary that represents one line of
     a 'Zone' record. The columns are:
     GMTOFF	 RULES	FORMAT	[UNTIL]
