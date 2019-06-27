@@ -4,24 +4,24 @@
 #
 # MIT License.
 """
-Parses the zone info files in the TZ Database, and produces the various .cpp and
-.h files needed for the AceTime library. The zone files which containa valid
-"Rule" are:
+Parses the zone info files in the TZ Database into Python data structures which
+can be processed by subsequent Python scripts. The zone files used by this
+script are:
 
     africa
     antarctica
     asia
     australasia
-    backzone
+    backward
+    etcetera
     europe
     northamerica
     southamerica
-    systemv
 
-Of these, the following are not relevant:
+The following zone files are not used:
 
     backzone - contains zones differing before 1970
-    systemv - 'SystemV' zone
+    systemv - 'SystemV' zones
 
 There are 3 types of entries in these files: 'Rule', 'Zone' and 'Link' entries.
 
@@ -204,6 +204,7 @@ class Extractor:
         'asia',
         'australasia',
         'backward',
+        'etcetera',
         'europe',
         'northamerica',
         'southamerica',

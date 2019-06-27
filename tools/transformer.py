@@ -102,7 +102,7 @@ class Transformer:
         logging.info('Found %s rule policies' % len(self.rules_map))
 
         # Part 1: Transform the zones_map
-        zones_map = self._remove_zones_without_slash(zones_map)
+        #zones_map = self._remove_zones_without_slash(zones_map)
         zones_map = self._remove_zone_eras_too_old(zones_map)
         zones_map = self._remove_zone_eras_too_new(zones_map)
         zones_map = self._remove_zones_without_eras(zones_map)
