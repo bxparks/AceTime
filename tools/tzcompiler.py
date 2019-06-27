@@ -150,7 +150,7 @@ def main():
         help='Target language (arduino|python|java)',
         required=True)
 
-    # Scope (size of the database):
+    # Scope (of the zones in the database):
     # basic: 241 of the simpler time zones for BasicZoneSpecifier
     # extended: all 348 time zones for ExtendedZoneSpecifier
     parser.add_argument(
@@ -170,7 +170,7 @@ def main():
         help='Generate Arduino zone_strings.{h,cpp} files',
         action='store_true')
 
-    # File generators
+    # Options for file generators
     parser.add_argument(
         '--tz_version', help='Version string of the TZ files', required=True)
     parser.add_argument(
@@ -313,10 +313,13 @@ def main():
                 start_year=args.start_year,
                 until_year=args.until_year,
                 zones_map=transformer.zones_map,
+                links_map=transformer.links_map,
                 rules_map=transformer.rules_map,
                 removed_zones=transformer.all_removed_zones,
+                removed_links=transformer.all_removed_links,
                 removed_policies=transformer.all_removed_policies,
                 notable_zones=transformer.all_notable_zones,
+                notable_links=transformer.all_notable_links,
                 notable_policies=transformer.all_notable_policies,
                 format_strings=transformer.format_strings,
                 zone_strings=transformer.zone_strings,

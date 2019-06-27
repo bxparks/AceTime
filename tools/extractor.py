@@ -203,6 +203,7 @@ class Extractor:
         'antarctica',
         'asia',
         'australasia',
+        'backward',
         'europe',
         'northamerica',
         'southamerica',
