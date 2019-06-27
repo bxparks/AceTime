@@ -4,13 +4,13 @@
 #
 # using the TZ Database files
 #
-#  africa, antarctica, asia, australasia, europe, northamerica, southamerica
+#  africa, antarctica, asia, australasia, backward, etcetera, europe, northamerica, southamerica
 #
 # from https://github.com/eggert/tz/releases/tag/2018g
 #
 # DO NOT EDIT
 
-# numZones: 347
+# numZones: 387
 Africa/Abidjan
 Africa/Accra
 Africa/Algiers
@@ -268,6 +268,40 @@ Australia/Lord_Howe
 Australia/Melbourne
 Australia/Perth
 Australia/Sydney
+CET
+CST6CDT
+EET
+EST
+EST5EDT
+Etc/GMT
+Etc/GMT+1
+Etc/GMT+10
+Etc/GMT+11
+Etc/GMT+12
+Etc/GMT+2
+Etc/GMT+3
+Etc/GMT+4
+Etc/GMT+5
+Etc/GMT+6
+Etc/GMT+7
+Etc/GMT+8
+Etc/GMT+9
+Etc/GMT-1
+Etc/GMT-10
+Etc/GMT-11
+Etc/GMT-12
+Etc/GMT-13
+Etc/GMT-14
+Etc/GMT-2
+Etc/GMT-3
+Etc/GMT-4
+Etc/GMT-5
+Etc/GMT-6
+Etc/GMT-7
+Etc/GMT-8
+Etc/GMT-9
+Etc/UCT
+Etc/UTC
 Europe/Amsterdam
 Europe/Andorra
 Europe/Astrakhan
@@ -314,6 +348,7 @@ Europe/Volgograd
 Europe/Warsaw
 Europe/Zaporozhye
 Europe/Zurich
+HST
 Indian/Chagos
 Indian/Christmas
 Indian/Cocos
@@ -322,6 +357,10 @@ Indian/Mahe
 Indian/Maldives
 Indian/Mauritius
 Indian/Reunion
+MET
+MST
+MST7MDT
+PST8PDT
 Pacific/Apia
 Pacific/Auckland
 Pacific/Bougainville
@@ -358,4 +397,5 @@ Pacific/Tarawa
 Pacific/Tongatapu
 Pacific/Wake
 Pacific/Wallis
+WET
 

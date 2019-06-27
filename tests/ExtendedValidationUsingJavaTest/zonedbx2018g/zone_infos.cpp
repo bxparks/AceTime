@@ -5,11 +5,11 @@
 // using the TZ Database files from
 // https://github.com/eggert/tz/releases/tag/2018g
 //
-// Zone info count: 347
-// Zone era count: 620
-// Strings: 8897
-// Memory (8-bit): 18493
-// Memory (32-bit): 23055
+// Zones: 387
+// Links: 204
+// Strings (bytes): 9413
+// Memory (8-bit): 19769
+// Memory (32-bit): 24731
 //
 // DO NOT EDIT
 
@@ -20,8 +20,9 @@ namespace ace_time {
 namespace zonedbx2018g {
 
 //---------------------------------------------------------------------------
-// Context info
+// ZoneContext
 //---------------------------------------------------------------------------
+
 const char kTzDatabaseVersion[] = "2018g";
 
 const common::ZoneContext kZoneContext = {
@@ -31,9 +32,13 @@ const common::ZoneContext kZoneContext = {
 };
 
 //---------------------------------------------------------------------------
+// Zones: 387
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
 // Zone name: Africa/Abidjan
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -64,8 +69,8 @@ const extended::ZoneInfo kZoneAfrica_Abidjan = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Accra
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -96,8 +101,8 @@ const extended::ZoneInfo kZoneAfrica_Accra = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Algiers
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -128,8 +133,8 @@ const extended::ZoneInfo kZoneAfrica_Algiers = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Bissau
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -160,8 +165,8 @@ const extended::ZoneInfo kZoneAfrica_Bissau = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Cairo
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -192,8 +197,8 @@ const extended::ZoneInfo kZoneAfrica_Cairo = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Casablanca
-// Era count: 2
-// Strings: 30
+// Zone Eras: 2
+// Strings (bytes): 30
 // Memory (8-bit): 60
 // Memory (32-bit): 74
 //---------------------------------------------------------------------------
@@ -236,8 +241,8 @@ const extended::ZoneInfo kZoneAfrica_Casablanca = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Ceuta
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -268,8 +273,8 @@ const extended::ZoneInfo kZoneAfrica_Ceuta = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/El_Aaiun
-// Era count: 2
-// Strings: 28
+// Zone Eras: 2
+// Strings (bytes): 28
 // Memory (8-bit): 58
 // Memory (32-bit): 72
 //---------------------------------------------------------------------------
@@ -312,8 +317,8 @@ const extended::ZoneInfo kZoneAfrica_El_Aaiun = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Johannesburg
-// Era count: 1
-// Strings: 25
+// Zone Eras: 1
+// Strings (bytes): 25
 // Memory (8-bit): 44
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
@@ -344,8 +349,8 @@ const extended::ZoneInfo kZoneAfrica_Johannesburg = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Juba
-// Era count: 2
-// Strings: 21
+// Zone Eras: 2
+// Strings (bytes): 21
 // Memory (8-bit): 51
 // Memory (32-bit): 65
 //---------------------------------------------------------------------------
@@ -388,8 +393,8 @@ const extended::ZoneInfo kZoneAfrica_Juba = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Khartoum
-// Era count: 3
-// Strings: 29
+// Zone Eras: 3
+// Strings (bytes): 29
 // Memory (8-bit): 70
 // Memory (32-bit): 88
 //---------------------------------------------------------------------------
@@ -444,8 +449,8 @@ const extended::ZoneInfo kZoneAfrica_Khartoum = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Lagos
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -476,8 +481,8 @@ const extended::ZoneInfo kZoneAfrica_Lagos = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Maputo
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -508,8 +513,8 @@ const extended::ZoneInfo kZoneAfrica_Maputo = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Monrovia
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -540,8 +545,8 @@ const extended::ZoneInfo kZoneAfrica_Monrovia = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Nairobi
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -572,8 +577,8 @@ const extended::ZoneInfo kZoneAfrica_Nairobi = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Ndjamena
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -604,8 +609,8 @@ const extended::ZoneInfo kZoneAfrica_Ndjamena = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Sao_Tome
-// Era count: 2
-// Strings: 24
+// Zone Eras: 2
+// Strings (bytes): 24
 // Memory (8-bit): 54
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
@@ -648,8 +653,8 @@ const extended::ZoneInfo kZoneAfrica_Sao_Tome = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Tripoli
-// Era count: 3
-// Strings: 28
+// Zone Eras: 3
+// Strings (bytes): 28
 // Memory (8-bit): 69
 // Memory (32-bit): 87
 //---------------------------------------------------------------------------
@@ -704,8 +709,8 @@ const extended::ZoneInfo kZoneAfrica_Tripoli = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Tunis
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -736,8 +741,8 @@ const extended::ZoneInfo kZoneAfrica_Tunis = {
 
 //---------------------------------------------------------------------------
 // Zone name: Africa/Windhoek
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -768,8 +773,8 @@ const extended::ZoneInfo kZoneAfrica_Windhoek = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Adak
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -800,8 +805,8 @@ const extended::ZoneInfo kZoneAmerica_Adak = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Anchorage
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -832,8 +837,8 @@ const extended::ZoneInfo kZoneAmerica_Anchorage = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Araguaina
-// Era count: 4
-// Strings: 42
+// Zone Eras: 4
+// Strings (bytes): 42
 // Memory (8-bit): 94
 // Memory (32-bit): 116
 //---------------------------------------------------------------------------
@@ -900,8 +905,8 @@ const extended::ZoneInfo kZoneAmerica_Araguaina = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Buenos_Aires
-// Era count: 3
-// Strings: 55
+// Zone Eras: 3
+// Strings (bytes): 55
 // Memory (8-bit): 96
 // Memory (32-bit): 114
 //---------------------------------------------------------------------------
@@ -956,8 +961,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_Buenos_Aires = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Catamarca
-// Era count: 6
-// Strings: 64
+// Zone Eras: 6
+// Strings (bytes): 64
 // Memory (8-bit): 138
 // Memory (32-bit): 168
 //---------------------------------------------------------------------------
@@ -1048,8 +1053,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_Catamarca = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Cordoba
-// Era count: 3
-// Strings: 50
+// Zone Eras: 3
+// Strings (bytes): 50
 // Memory (8-bit): 91
 // Memory (32-bit): 109
 //---------------------------------------------------------------------------
@@ -1104,8 +1109,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_Cordoba = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Jujuy
-// Era count: 4
-// Strings: 52
+// Zone Eras: 4
+// Strings (bytes): 52
 // Memory (8-bit): 104
 // Memory (32-bit): 126
 //---------------------------------------------------------------------------
@@ -1172,8 +1177,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_Jujuy = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/La_Rioja
-// Era count: 6
-// Strings: 63
+// Zone Eras: 6
+// Strings (bytes): 63
 // Memory (8-bit): 137
 // Memory (32-bit): 167
 //---------------------------------------------------------------------------
@@ -1264,8 +1269,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_La_Rioja = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Mendoza
-// Era count: 6
-// Strings: 62
+// Zone Eras: 6
+// Strings (bytes): 62
 // Memory (8-bit): 136
 // Memory (32-bit): 166
 //---------------------------------------------------------------------------
@@ -1356,8 +1361,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_Mendoza = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Rio_Gallegos
-// Era count: 6
-// Strings: 67
+// Zone Eras: 6
+// Strings (bytes): 67
 // Memory (8-bit): 141
 // Memory (32-bit): 171
 //---------------------------------------------------------------------------
@@ -1448,8 +1453,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_Rio_Gallegos = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Salta
-// Era count: 4
-// Strings: 52
+// Zone Eras: 4
+// Strings (bytes): 52
 // Memory (8-bit): 104
 // Memory (32-bit): 126
 //---------------------------------------------------------------------------
@@ -1516,8 +1521,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_Salta = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/San_Juan
-// Era count: 6
-// Strings: 63
+// Zone Eras: 6
+// Strings (bytes): 63
 // Memory (8-bit): 137
 // Memory (32-bit): 167
 //---------------------------------------------------------------------------
@@ -1608,8 +1613,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_San_Juan = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/San_Luis
-// Era count: 7
-// Strings: 63
+// Zone Eras: 7
+// Strings (bytes): 63
 // Memory (8-bit): 148
 // Memory (32-bit): 182
 //---------------------------------------------------------------------------
@@ -1712,8 +1717,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_San_Luis = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Tucuman
-// Era count: 5
-// Strings: 58
+// Zone Eras: 5
+// Strings (bytes): 58
 // Memory (8-bit): 121
 // Memory (32-bit): 147
 //---------------------------------------------------------------------------
@@ -1792,8 +1797,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_Tucuman = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Argentina/Ushuaia
-// Era count: 6
-// Strings: 62
+// Zone Eras: 6
+// Strings (bytes): 62
 // Memory (8-bit): 136
 // Memory (32-bit): 166
 //---------------------------------------------------------------------------
@@ -1884,8 +1889,8 @@ const extended::ZoneInfo kZoneAmerica_Argentina_Ushuaia = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Asuncion
-// Era count: 1
-// Strings: 25
+// Zone Eras: 1
+// Strings (bytes): 25
 // Memory (8-bit): 44
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
@@ -1916,8 +1921,8 @@ const extended::ZoneInfo kZoneAmerica_Asuncion = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Atikokan
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -1948,8 +1953,8 @@ const extended::ZoneInfo kZoneAmerica_Atikokan = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Bahia
-// Era count: 4
-// Strings: 38
+// Zone Eras: 4
+// Strings (bytes): 38
 // Memory (8-bit): 90
 // Memory (32-bit): 112
 //---------------------------------------------------------------------------
@@ -2016,8 +2021,8 @@ const extended::ZoneInfo kZoneAmerica_Bahia = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Bahia_Banderas
-// Era count: 2
-// Strings: 31
+// Zone Eras: 2
+// Strings (bytes): 31
 // Memory (8-bit): 61
 // Memory (32-bit): 75
 //---------------------------------------------------------------------------
@@ -2060,8 +2065,8 @@ const extended::ZoneInfo kZoneAmerica_Bahia_Banderas = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Barbados
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -2092,8 +2097,8 @@ const extended::ZoneInfo kZoneAmerica_Barbados = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Belem
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -2124,8 +2129,8 @@ const extended::ZoneInfo kZoneAmerica_Belem = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Belize
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -2156,8 +2161,8 @@ const extended::ZoneInfo kZoneAmerica_Belize = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Blanc-Sablon
-// Era count: 1
-// Strings: 25
+// Zone Eras: 1
+// Strings (bytes): 25
 // Memory (8-bit): 44
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
@@ -2188,8 +2193,8 @@ const extended::ZoneInfo kZoneAmerica_Blanc_Sablon = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Boa_Vista
-// Era count: 3
-// Strings: 34
+// Zone Eras: 3
+// Strings (bytes): 34
 // Memory (8-bit): 75
 // Memory (32-bit): 93
 //---------------------------------------------------------------------------
@@ -2244,8 +2249,8 @@ const extended::ZoneInfo kZoneAmerica_Boa_Vista = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Bogota
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -2276,8 +2281,8 @@ const extended::ZoneInfo kZoneAmerica_Bogota = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Boise
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -2308,8 +2313,8 @@ const extended::ZoneInfo kZoneAmerica_Boise = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Cambridge_Bay
-// Era count: 5
-// Strings: 42
+// Zone Eras: 5
+// Strings (bytes): 42
 // Memory (8-bit): 105
 // Memory (32-bit): 131
 //---------------------------------------------------------------------------
@@ -2388,8 +2393,8 @@ const extended::ZoneInfo kZoneAmerica_Cambridge_Bay = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Campo_Grande
-// Era count: 1
-// Strings: 29
+// Zone Eras: 1
+// Strings (bytes): 29
 // Memory (8-bit): 48
 // Memory (32-bit): 58
 //---------------------------------------------------------------------------
@@ -2420,8 +2425,8 @@ const extended::ZoneInfo kZoneAmerica_Campo_Grande = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Cancun
-// Era count: 2
-// Strings: 23
+// Zone Eras: 2
+// Strings (bytes): 23
 // Memory (8-bit): 53
 // Memory (32-bit): 67
 //---------------------------------------------------------------------------
@@ -2464,8 +2469,8 @@ const extended::ZoneInfo kZoneAmerica_Cancun = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Caracas
-// Era count: 3
-// Strings: 30
+// Zone Eras: 3
+// Strings (bytes): 30
 // Memory (8-bit): 71
 // Memory (32-bit): 89
 //---------------------------------------------------------------------------
@@ -2520,8 +2525,8 @@ const extended::ZoneInfo kZoneAmerica_Caracas = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Cayenne
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -2552,8 +2557,8 @@ const extended::ZoneInfo kZoneAmerica_Cayenne = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Chicago
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -2584,8 +2589,8 @@ const extended::ZoneInfo kZoneAmerica_Chicago = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Chihuahua
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -2616,8 +2621,8 @@ const extended::ZoneInfo kZoneAmerica_Chihuahua = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Costa_Rica
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -2648,8 +2653,8 @@ const extended::ZoneInfo kZoneAmerica_Costa_Rica = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Creston
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -2680,8 +2685,8 @@ const extended::ZoneInfo kZoneAmerica_Creston = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Cuiaba
-// Era count: 3
-// Strings: 35
+// Zone Eras: 3
+// Strings (bytes): 35
 // Memory (8-bit): 76
 // Memory (32-bit): 94
 //---------------------------------------------------------------------------
@@ -2736,8 +2741,8 @@ const extended::ZoneInfo kZoneAmerica_Cuiaba = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Curacao
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -2768,8 +2773,8 @@ const extended::ZoneInfo kZoneAmerica_Curacao = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Danmarkshavn
-// Era count: 1
-// Strings: 25
+// Zone Eras: 1
+// Strings (bytes): 25
 // Memory (8-bit): 44
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
@@ -2800,8 +2805,8 @@ const extended::ZoneInfo kZoneAmerica_Danmarkshavn = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Dawson
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -2832,8 +2837,8 @@ const extended::ZoneInfo kZoneAmerica_Dawson = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Dawson_Creek
-// Era count: 1
-// Strings: 25
+// Zone Eras: 1
+// Strings (bytes): 25
 // Memory (8-bit): 44
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
@@ -2864,8 +2869,8 @@ const extended::ZoneInfo kZoneAmerica_Dawson_Creek = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Denver
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -2896,8 +2901,8 @@ const extended::ZoneInfo kZoneAmerica_Denver = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Detroit
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -2928,8 +2933,8 @@ const extended::ZoneInfo kZoneAmerica_Detroit = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Edmonton
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -2960,8 +2965,8 @@ const extended::ZoneInfo kZoneAmerica_Edmonton = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Eirunepe
-// Era count: 3
-// Strings: 29
+// Zone Eras: 3
+// Strings (bytes): 29
 // Memory (8-bit): 70
 // Memory (32-bit): 88
 //---------------------------------------------------------------------------
@@ -3016,8 +3021,8 @@ const extended::ZoneInfo kZoneAmerica_Eirunepe = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/El_Salvador
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -3048,8 +3053,8 @@ const extended::ZoneInfo kZoneAmerica_El_Salvador = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Fort_Nelson
-// Era count: 2
-// Strings: 28
+// Zone Eras: 2
+// Strings (bytes): 28
 // Memory (8-bit): 58
 // Memory (32-bit): 72
 //---------------------------------------------------------------------------
@@ -3092,8 +3097,8 @@ const extended::ZoneInfo kZoneAmerica_Fort_Nelson = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Fortaleza
-// Era count: 5
-// Strings: 46
+// Zone Eras: 5
+// Strings (bytes): 46
 // Memory (8-bit): 109
 // Memory (32-bit): 135
 //---------------------------------------------------------------------------
@@ -3172,8 +3177,8 @@ const extended::ZoneInfo kZoneAmerica_Fortaleza = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Glace_Bay
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -3204,8 +3209,8 @@ const extended::ZoneInfo kZoneAmerica_Glace_Bay = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Godthab
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -3236,8 +3241,8 @@ const extended::ZoneInfo kZoneAmerica_Godthab = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Goose_Bay
-// Era count: 2
-// Strings: 26
+// Zone Eras: 2
+// Strings (bytes): 26
 // Memory (8-bit): 56
 // Memory (32-bit): 70
 //---------------------------------------------------------------------------
@@ -3280,8 +3285,8 @@ const extended::ZoneInfo kZoneAmerica_Goose_Bay = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Grand_Turk
-// Era count: 3
-// Strings: 31
+// Zone Eras: 3
+// Strings (bytes): 31
 // Memory (8-bit): 72
 // Memory (32-bit): 90
 //---------------------------------------------------------------------------
@@ -3336,8 +3341,8 @@ const extended::ZoneInfo kZoneAmerica_Grand_Turk = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Guatemala
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -3368,8 +3373,8 @@ const extended::ZoneInfo kZoneAmerica_Guatemala = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Guayaquil
-// Era count: 1
-// Strings: 26
+// Zone Eras: 1
+// Strings (bytes): 26
 // Memory (8-bit): 45
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
@@ -3400,8 +3405,8 @@ const extended::ZoneInfo kZoneAmerica_Guayaquil = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Guyana
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -3432,8 +3437,8 @@ const extended::ZoneInfo kZoneAmerica_Guyana = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Halifax
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -3464,8 +3469,8 @@ const extended::ZoneInfo kZoneAmerica_Halifax = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Havana
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -3496,8 +3501,8 @@ const extended::ZoneInfo kZoneAmerica_Havana = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Hermosillo
-// Era count: 2
-// Strings: 27
+// Zone Eras: 2
+// Strings (bytes): 27
 // Memory (8-bit): 57
 // Memory (32-bit): 71
 //---------------------------------------------------------------------------
@@ -3540,8 +3545,8 @@ const extended::ZoneInfo kZoneAmerica_Hermosillo = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Indianapolis
-// Era count: 2
-// Strings: 37
+// Zone Eras: 2
+// Strings (bytes): 37
 // Memory (8-bit): 67
 // Memory (32-bit): 81
 //---------------------------------------------------------------------------
@@ -3584,8 +3589,8 @@ const extended::ZoneInfo kZoneAmerica_Indiana_Indianapolis = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Knox
-// Era count: 2
-// Strings: 29
+// Zone Eras: 2
+// Strings (bytes): 29
 // Memory (8-bit): 59
 // Memory (32-bit): 73
 //---------------------------------------------------------------------------
@@ -3628,8 +3633,8 @@ const extended::ZoneInfo kZoneAmerica_Indiana_Knox = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Marengo
-// Era count: 2
-// Strings: 32
+// Zone Eras: 2
+// Strings (bytes): 32
 // Memory (8-bit): 62
 // Memory (32-bit): 76
 //---------------------------------------------------------------------------
@@ -3672,8 +3677,8 @@ const extended::ZoneInfo kZoneAmerica_Indiana_Marengo = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Petersburg
-// Era count: 3
-// Strings: 39
+// Zone Eras: 3
+// Strings (bytes): 39
 // Memory (8-bit): 80
 // Memory (32-bit): 98
 //---------------------------------------------------------------------------
@@ -3728,8 +3733,8 @@ const extended::ZoneInfo kZoneAmerica_Indiana_Petersburg = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Tell_City
-// Era count: 2
-// Strings: 34
+// Zone Eras: 2
+// Strings (bytes): 34
 // Memory (8-bit): 64
 // Memory (32-bit): 78
 //---------------------------------------------------------------------------
@@ -3772,8 +3777,8 @@ const extended::ZoneInfo kZoneAmerica_Indiana_Tell_City = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Vevay
-// Era count: 2
-// Strings: 30
+// Zone Eras: 2
+// Strings (bytes): 30
 // Memory (8-bit): 60
 // Memory (32-bit): 74
 //---------------------------------------------------------------------------
@@ -3816,8 +3821,8 @@ const extended::ZoneInfo kZoneAmerica_Indiana_Vevay = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Vincennes
-// Era count: 3
-// Strings: 38
+// Zone Eras: 3
+// Strings (bytes): 38
 // Memory (8-bit): 79
 // Memory (32-bit): 97
 //---------------------------------------------------------------------------
@@ -3872,8 +3877,8 @@ const extended::ZoneInfo kZoneAmerica_Indiana_Vincennes = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Indiana/Winamac
-// Era count: 3
-// Strings: 36
+// Zone Eras: 3
+// Strings (bytes): 36
 // Memory (8-bit): 77
 // Memory (32-bit): 95
 //---------------------------------------------------------------------------
@@ -3928,8 +3933,8 @@ const extended::ZoneInfo kZoneAmerica_Indiana_Winamac = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Inuvik
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -3960,8 +3965,8 @@ const extended::ZoneInfo kZoneAmerica_Inuvik = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Iqaluit
-// Era count: 3
-// Strings: 28
+// Zone Eras: 3
+// Strings (bytes): 28
 // Memory (8-bit): 69
 // Memory (32-bit): 87
 //---------------------------------------------------------------------------
@@ -4016,8 +4021,8 @@ const extended::ZoneInfo kZoneAmerica_Iqaluit = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Jamaica
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -4048,8 +4053,8 @@ const extended::ZoneInfo kZoneAmerica_Jamaica = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Juneau
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -4080,8 +4085,8 @@ const extended::ZoneInfo kZoneAmerica_Juneau = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Kentucky/Louisville
-// Era count: 1
-// Strings: 32
+// Zone Eras: 1
+// Strings (bytes): 32
 // Memory (8-bit): 51
 // Memory (32-bit): 61
 //---------------------------------------------------------------------------
@@ -4112,8 +4117,8 @@ const extended::ZoneInfo kZoneAmerica_Kentucky_Louisville = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Kentucky/Monticello
-// Era count: 2
-// Strings: 36
+// Zone Eras: 2
+// Strings (bytes): 36
 // Memory (8-bit): 66
 // Memory (32-bit): 80
 //---------------------------------------------------------------------------
@@ -4156,8 +4161,8 @@ const extended::ZoneInfo kZoneAmerica_Kentucky_Monticello = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/La_Paz
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -4188,8 +4193,8 @@ const extended::ZoneInfo kZoneAmerica_La_Paz = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Lima
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -4220,8 +4225,8 @@ const extended::ZoneInfo kZoneAmerica_Lima = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Los_Angeles
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -4252,8 +4257,8 @@ const extended::ZoneInfo kZoneAmerica_Los_Angeles = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Maceio
-// Era count: 5
-// Strings: 43
+// Zone Eras: 5
+// Strings (bytes): 43
 // Memory (8-bit): 106
 // Memory (32-bit): 132
 //---------------------------------------------------------------------------
@@ -4332,8 +4337,8 @@ const extended::ZoneInfo kZoneAmerica_Maceio = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Managua
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -4364,8 +4369,8 @@ const extended::ZoneInfo kZoneAmerica_Managua = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Manaus
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -4396,8 +4401,8 @@ const extended::ZoneInfo kZoneAmerica_Manaus = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Martinique
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -4428,8 +4433,8 @@ const extended::ZoneInfo kZoneAmerica_Martinique = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Matamoros
-// Era count: 2
-// Strings: 26
+// Zone Eras: 2
+// Strings (bytes): 26
 // Memory (8-bit): 56
 // Memory (32-bit): 70
 //---------------------------------------------------------------------------
@@ -4472,8 +4477,8 @@ const extended::ZoneInfo kZoneAmerica_Matamoros = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Mazatlan
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -4504,8 +4509,8 @@ const extended::ZoneInfo kZoneAmerica_Mazatlan = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Menominee
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -4536,8 +4541,8 @@ const extended::ZoneInfo kZoneAmerica_Menominee = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Merida
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -4568,8 +4573,8 @@ const extended::ZoneInfo kZoneAmerica_Merida = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Metlakatla
-// Era count: 2
-// Strings: 28
+// Zone Eras: 2
+// Strings (bytes): 28
 // Memory (8-bit): 58
 // Memory (32-bit): 72
 //---------------------------------------------------------------------------
@@ -4612,8 +4617,8 @@ const extended::ZoneInfo kZoneAmerica_Metlakatla = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Mexico_City
-// Era count: 3
-// Strings: 32
+// Zone Eras: 3
+// Strings (bytes): 32
 // Memory (8-bit): 73
 // Memory (32-bit): 91
 //---------------------------------------------------------------------------
@@ -4668,8 +4673,8 @@ const extended::ZoneInfo kZoneAmerica_Mexico_City = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Miquelon
-// Era count: 1
-// Strings: 25
+// Zone Eras: 1
+// Strings (bytes): 25
 // Memory (8-bit): 44
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
@@ -4700,8 +4705,8 @@ const extended::ZoneInfo kZoneAmerica_Miquelon = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Moncton
-// Era count: 2
-// Strings: 24
+// Zone Eras: 2
+// Strings (bytes): 24
 // Memory (8-bit): 54
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
@@ -4744,8 +4749,8 @@ const extended::ZoneInfo kZoneAmerica_Moncton = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Monterrey
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -4776,8 +4781,8 @@ const extended::ZoneInfo kZoneAmerica_Monterrey = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Montevideo
-// Era count: 1
-// Strings: 27
+// Zone Eras: 1
+// Strings (bytes): 27
 // Memory (8-bit): 46
 // Memory (32-bit): 56
 //---------------------------------------------------------------------------
@@ -4808,8 +4813,8 @@ const extended::ZoneInfo kZoneAmerica_Montevideo = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Nassau
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -4840,8 +4845,8 @@ const extended::ZoneInfo kZoneAmerica_Nassau = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/New_York
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -4872,8 +4877,8 @@ const extended::ZoneInfo kZoneAmerica_New_York = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Nipigon
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -4904,8 +4909,8 @@ const extended::ZoneInfo kZoneAmerica_Nipigon = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Nome
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -4936,8 +4941,8 @@ const extended::ZoneInfo kZoneAmerica_Nome = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Noronha
-// Era count: 5
-// Strings: 44
+// Zone Eras: 5
+// Strings (bytes): 44
 // Memory (8-bit): 107
 // Memory (32-bit): 133
 //---------------------------------------------------------------------------
@@ -5016,8 +5021,8 @@ const extended::ZoneInfo kZoneAmerica_Noronha = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/North_Dakota/Beulah
-// Era count: 2
-// Strings: 36
+// Zone Eras: 2
+// Strings (bytes): 36
 // Memory (8-bit): 66
 // Memory (32-bit): 80
 //---------------------------------------------------------------------------
@@ -5060,8 +5065,8 @@ const extended::ZoneInfo kZoneAmerica_North_Dakota_Beulah = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/North_Dakota/Center
-// Era count: 1
-// Strings: 32
+// Zone Eras: 1
+// Strings (bytes): 32
 // Memory (8-bit): 51
 // Memory (32-bit): 61
 //---------------------------------------------------------------------------
@@ -5092,8 +5097,8 @@ const extended::ZoneInfo kZoneAmerica_North_Dakota_Center = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/North_Dakota/New_Salem
-// Era count: 2
-// Strings: 39
+// Zone Eras: 2
+// Strings (bytes): 39
 // Memory (8-bit): 69
 // Memory (32-bit): 83
 //---------------------------------------------------------------------------
@@ -5136,8 +5141,8 @@ const extended::ZoneInfo kZoneAmerica_North_Dakota_New_Salem = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Ojinaga
-// Era count: 2
-// Strings: 24
+// Zone Eras: 2
+// Strings (bytes): 24
 // Memory (8-bit): 54
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
@@ -5180,8 +5185,8 @@ const extended::ZoneInfo kZoneAmerica_Ojinaga = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Panama
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -5212,8 +5217,8 @@ const extended::ZoneInfo kZoneAmerica_Panama = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Pangnirtung
-// Era count: 3
-// Strings: 32
+// Zone Eras: 3
+// Strings (bytes): 32
 // Memory (8-bit): 73
 // Memory (32-bit): 91
 //---------------------------------------------------------------------------
@@ -5268,8 +5273,8 @@ const extended::ZoneInfo kZoneAmerica_Pangnirtung = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Paramaribo
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -5300,8 +5305,8 @@ const extended::ZoneInfo kZoneAmerica_Paramaribo = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Phoenix
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -5332,8 +5337,8 @@ const extended::ZoneInfo kZoneAmerica_Phoenix = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Port-au-Prince
-// Era count: 1
-// Strings: 27
+// Zone Eras: 1
+// Strings (bytes): 27
 // Memory (8-bit): 46
 // Memory (32-bit): 56
 //---------------------------------------------------------------------------
@@ -5364,8 +5369,8 @@ const extended::ZoneInfo kZoneAmerica_Port_au_Prince = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Port_of_Spain
-// Era count: 1
-// Strings: 26
+// Zone Eras: 1
+// Strings (bytes): 26
 // Memory (8-bit): 45
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
@@ -5396,8 +5401,8 @@ const extended::ZoneInfo kZoneAmerica_Port_of_Spain = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Porto_Velho
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -5428,8 +5433,8 @@ const extended::ZoneInfo kZoneAmerica_Porto_Velho = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Puerto_Rico
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -5460,8 +5465,8 @@ const extended::ZoneInfo kZoneAmerica_Puerto_Rico = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Punta_Arenas
-// Era count: 2
-// Strings: 33
+// Zone Eras: 2
+// Strings (bytes): 33
 // Memory (8-bit): 63
 // Memory (32-bit): 77
 //---------------------------------------------------------------------------
@@ -5504,8 +5509,8 @@ const extended::ZoneInfo kZoneAmerica_Punta_Arenas = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Rainy_River
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -5536,8 +5541,8 @@ const extended::ZoneInfo kZoneAmerica_Rainy_River = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Rankin_Inlet
-// Era count: 3
-// Strings: 33
+// Zone Eras: 3
+// Strings (bytes): 33
 // Memory (8-bit): 74
 // Memory (32-bit): 92
 //---------------------------------------------------------------------------
@@ -5592,8 +5597,8 @@ const extended::ZoneInfo kZoneAmerica_Rankin_Inlet = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Recife
-// Era count: 5
-// Strings: 43
+// Zone Eras: 5
+// Strings (bytes): 43
 // Memory (8-bit): 106
 // Memory (32-bit): 132
 //---------------------------------------------------------------------------
@@ -5672,8 +5677,8 @@ const extended::ZoneInfo kZoneAmerica_Recife = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Regina
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -5704,8 +5709,8 @@ const extended::ZoneInfo kZoneAmerica_Regina = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Resolute
-// Era count: 5
-// Strings: 37
+// Zone Eras: 5
+// Strings (bytes): 37
 // Memory (8-bit): 100
 // Memory (32-bit): 126
 //---------------------------------------------------------------------------
@@ -5784,8 +5789,8 @@ const extended::ZoneInfo kZoneAmerica_Resolute = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Rio_Branco
-// Era count: 3
-// Strings: 31
+// Zone Eras: 3
+// Strings (bytes): 31
 // Memory (8-bit): 72
 // Memory (32-bit): 90
 //---------------------------------------------------------------------------
@@ -5840,8 +5845,8 @@ const extended::ZoneInfo kZoneAmerica_Rio_Branco = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Santarem
-// Era count: 2
-// Strings: 25
+// Zone Eras: 2
+// Strings (bytes): 25
 // Memory (8-bit): 55
 // Memory (32-bit): 69
 //---------------------------------------------------------------------------
@@ -5884,8 +5889,8 @@ const extended::ZoneInfo kZoneAmerica_Santarem = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Santiago
-// Era count: 1
-// Strings: 25
+// Zone Eras: 1
+// Strings (bytes): 25
 // Memory (8-bit): 44
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
@@ -5916,8 +5921,8 @@ const extended::ZoneInfo kZoneAmerica_Santiago = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Santo_Domingo
-// Era count: 3
-// Strings: 34
+// Zone Eras: 3
+// Strings (bytes): 34
 // Memory (8-bit): 75
 // Memory (32-bit): 93
 //---------------------------------------------------------------------------
@@ -5972,8 +5977,8 @@ const extended::ZoneInfo kZoneAmerica_Santo_Domingo = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Sao_Paulo
-// Era count: 1
-// Strings: 26
+// Zone Eras: 1
+// Strings (bytes): 26
 // Memory (8-bit): 45
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
@@ -6004,8 +6009,8 @@ const extended::ZoneInfo kZoneAmerica_Sao_Paulo = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Scoresbysund
-// Era count: 1
-// Strings: 29
+// Zone Eras: 1
+// Strings (bytes): 29
 // Memory (8-bit): 48
 // Memory (32-bit): 58
 //---------------------------------------------------------------------------
@@ -6036,8 +6041,8 @@ const extended::ZoneInfo kZoneAmerica_Scoresbysund = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Sitka
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -6068,8 +6073,8 @@ const extended::ZoneInfo kZoneAmerica_Sitka = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/St_Johns
-// Era count: 2
-// Strings: 25
+// Zone Eras: 2
+// Strings (bytes): 25
 // Memory (8-bit): 55
 // Memory (32-bit): 69
 //---------------------------------------------------------------------------
@@ -6112,8 +6117,8 @@ const extended::ZoneInfo kZoneAmerica_St_Johns = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Swift_Current
-// Era count: 1
-// Strings: 26
+// Zone Eras: 1
+// Strings (bytes): 26
 // Memory (8-bit): 45
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
@@ -6144,8 +6149,8 @@ const extended::ZoneInfo kZoneAmerica_Swift_Current = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Tegucigalpa
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -6176,8 +6181,8 @@ const extended::ZoneInfo kZoneAmerica_Tegucigalpa = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Thule
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -6208,8 +6213,8 @@ const extended::ZoneInfo kZoneAmerica_Thule = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Thunder_Bay
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -6240,8 +6245,8 @@ const extended::ZoneInfo kZoneAmerica_Thunder_Bay = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Tijuana
-// Era count: 4
-// Strings: 32
+// Zone Eras: 4
+// Strings (bytes): 32
 // Memory (8-bit): 84
 // Memory (32-bit): 106
 //---------------------------------------------------------------------------
@@ -6308,8 +6313,8 @@ const extended::ZoneInfo kZoneAmerica_Tijuana = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Toronto
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -6340,8 +6345,8 @@ const extended::ZoneInfo kZoneAmerica_Toronto = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Vancouver
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -6372,8 +6377,8 @@ const extended::ZoneInfo kZoneAmerica_Vancouver = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Whitehorse
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -6404,8 +6409,8 @@ const extended::ZoneInfo kZoneAmerica_Whitehorse = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Winnipeg
-// Era count: 2
-// Strings: 25
+// Zone Eras: 2
+// Strings (bytes): 25
 // Memory (8-bit): 55
 // Memory (32-bit): 69
 //---------------------------------------------------------------------------
@@ -6448,8 +6453,8 @@ const extended::ZoneInfo kZoneAmerica_Winnipeg = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Yakutat
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -6480,8 +6485,8 @@ const extended::ZoneInfo kZoneAmerica_Yakutat = {
 
 //---------------------------------------------------------------------------
 // Zone name: America/Yellowknife
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -6512,8 +6517,8 @@ const extended::ZoneInfo kZoneAmerica_Yellowknife = {
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Casey
-// Era count: 7
-// Strings: 45
+// Zone Eras: 7
+// Strings (bytes): 45
 // Memory (8-bit): 130
 // Memory (32-bit): 164
 //---------------------------------------------------------------------------
@@ -6616,8 +6621,8 @@ const extended::ZoneInfo kZoneAntarctica_Casey = {
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Davis
-// Era count: 5
-// Strings: 37
+// Zone Eras: 5
+// Strings (bytes): 37
 // Memory (8-bit): 100
 // Memory (32-bit): 126
 //---------------------------------------------------------------------------
@@ -6696,8 +6701,8 @@ const extended::ZoneInfo kZoneAntarctica_Davis = {
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/DumontDUrville
-// Era count: 1
-// Strings: 30
+// Zone Eras: 1
+// Strings (bytes): 30
 // Memory (8-bit): 49
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
@@ -6728,8 +6733,8 @@ const extended::ZoneInfo kZoneAntarctica_DumontDUrville = {
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Macquarie
-// Era count: 2
-// Strings: 30
+// Zone Eras: 2
+// Strings (bytes): 30
 // Memory (8-bit): 60
 // Memory (32-bit): 74
 //---------------------------------------------------------------------------
@@ -6772,8 +6777,8 @@ const extended::ZoneInfo kZoneAntarctica_Macquarie = {
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Mawson
-// Era count: 2
-// Strings: 26
+// Zone Eras: 2
+// Strings (bytes): 26
 // Memory (8-bit): 56
 // Memory (32-bit): 70
 //---------------------------------------------------------------------------
@@ -6816,8 +6821,8 @@ const extended::ZoneInfo kZoneAntarctica_Mawson = {
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Palmer
-// Era count: 2
-// Strings: 30
+// Zone Eras: 2
+// Strings (bytes): 30
 // Memory (8-bit): 60
 // Memory (32-bit): 74
 //---------------------------------------------------------------------------
@@ -6860,8 +6865,8 @@ const extended::ZoneInfo kZoneAntarctica_Palmer = {
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Rothera
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -6892,8 +6897,8 @@ const extended::ZoneInfo kZoneAntarctica_Rothera = {
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Syowa
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -6924,8 +6929,8 @@ const extended::ZoneInfo kZoneAntarctica_Syowa = {
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Troll
-// Era count: 2
-// Strings: 23
+// Zone Eras: 2
+// Strings (bytes): 23
 // Memory (8-bit): 53
 // Memory (32-bit): 67
 //---------------------------------------------------------------------------
@@ -6968,8 +6973,8 @@ const extended::ZoneInfo kZoneAntarctica_Troll = {
 
 //---------------------------------------------------------------------------
 // Zone name: Antarctica/Vostok
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -7000,8 +7005,8 @@ const extended::ZoneInfo kZoneAntarctica_Vostok = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Almaty
-// Era count: 2
-// Strings: 24
+// Zone Eras: 2
+// Strings (bytes): 24
 // Memory (8-bit): 54
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
@@ -7044,8 +7049,8 @@ const extended::ZoneInfo kZoneAsia_Almaty = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Amman
-// Era count: 1
-// Strings: 16
+// Zone Eras: 1
+// Strings (bytes): 16
 // Memory (8-bit): 35
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
@@ -7076,8 +7081,8 @@ const extended::ZoneInfo kZoneAsia_Amman = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Anadyr
-// Era count: 3
-// Strings: 32
+// Zone Eras: 3
+// Strings (bytes): 32
 // Memory (8-bit): 73
 // Memory (32-bit): 91
 //---------------------------------------------------------------------------
@@ -7132,8 +7137,8 @@ const extended::ZoneInfo kZoneAsia_Anadyr = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Aqtau
-// Era count: 2
-// Strings: 23
+// Zone Eras: 2
+// Strings (bytes): 23
 // Memory (8-bit): 53
 // Memory (32-bit): 67
 //---------------------------------------------------------------------------
@@ -7176,8 +7181,8 @@ const extended::ZoneInfo kZoneAsia_Aqtau = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Aqtobe
-// Era count: 2
-// Strings: 24
+// Zone Eras: 2
+// Strings (bytes): 24
 // Memory (8-bit): 54
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
@@ -7220,8 +7225,8 @@ const extended::ZoneInfo kZoneAsia_Aqtobe = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Ashgabat
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -7252,8 +7257,8 @@ const extended::ZoneInfo kZoneAsia_Ashgabat = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Atyrau
-// Era count: 3
-// Strings: 32
+// Zone Eras: 3
+// Strings (bytes): 32
 // Memory (8-bit): 73
 // Memory (32-bit): 91
 //---------------------------------------------------------------------------
@@ -7308,8 +7313,8 @@ const extended::ZoneInfo kZoneAsia_Atyrau = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Baghdad
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -7340,8 +7345,8 @@ const extended::ZoneInfo kZoneAsia_Baghdad = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Baku
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -7372,8 +7377,8 @@ const extended::ZoneInfo kZoneAsia_Baku = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Bangkok
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -7404,8 +7409,8 @@ const extended::ZoneInfo kZoneAsia_Bangkok = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Barnaul
-// Era count: 4
-// Strings: 33
+// Zone Eras: 4
+// Strings (bytes): 33
 // Memory (8-bit): 85
 // Memory (32-bit): 107
 //---------------------------------------------------------------------------
@@ -7472,8 +7477,8 @@ const extended::ZoneInfo kZoneAsia_Barnaul = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Beirut
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -7504,8 +7509,8 @@ const extended::ZoneInfo kZoneAsia_Beirut = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Bishkek
-// Era count: 2
-// Strings: 25
+// Zone Eras: 2
+// Strings (bytes): 25
 // Memory (8-bit): 55
 // Memory (32-bit): 69
 //---------------------------------------------------------------------------
@@ -7548,8 +7553,8 @@ const extended::ZoneInfo kZoneAsia_Bishkek = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Brunei
-// Era count: 1
-// Strings: 16
+// Zone Eras: 1
+// Strings (bytes): 16
 // Memory (8-bit): 35
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
@@ -7580,8 +7585,8 @@ const extended::ZoneInfo kZoneAsia_Brunei = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Chita
-// Era count: 4
-// Strings: 31
+// Zone Eras: 4
+// Strings (bytes): 31
 // Memory (8-bit): 83
 // Memory (32-bit): 105
 //---------------------------------------------------------------------------
@@ -7648,8 +7653,8 @@ const extended::ZoneInfo kZoneAsia_Chita = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Choibalsan
-// Era count: 2
-// Strings: 32
+// Zone Eras: 2
+// Strings (bytes): 32
 // Memory (8-bit): 62
 // Memory (32-bit): 76
 //---------------------------------------------------------------------------
@@ -7692,8 +7697,8 @@ const extended::ZoneInfo kZoneAsia_Choibalsan = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Colombo
-// Era count: 2
-// Strings: 23
+// Zone Eras: 2
+// Strings (bytes): 23
 // Memory (8-bit): 53
 // Memory (32-bit): 67
 //---------------------------------------------------------------------------
@@ -7736,8 +7741,8 @@ const extended::ZoneInfo kZoneAsia_Colombo = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Damascus
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -7768,8 +7773,8 @@ const extended::ZoneInfo kZoneAsia_Damascus = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Dhaka
-// Era count: 2
-// Strings: 23
+// Zone Eras: 2
+// Strings (bytes): 23
 // Memory (8-bit): 53
 // Memory (32-bit): 67
 //---------------------------------------------------------------------------
@@ -7812,8 +7817,8 @@ const extended::ZoneInfo kZoneAsia_Dhaka = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Dili
-// Era count: 2
-// Strings: 18
+// Zone Eras: 2
+// Strings (bytes): 18
 // Memory (8-bit): 48
 // Memory (32-bit): 62
 //---------------------------------------------------------------------------
@@ -7856,8 +7861,8 @@ const extended::ZoneInfo kZoneAsia_Dili = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Dubai
-// Era count: 1
-// Strings: 15
+// Zone Eras: 1
+// Strings (bytes): 15
 // Memory (8-bit): 34
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
@@ -7888,8 +7893,8 @@ const extended::ZoneInfo kZoneAsia_Dubai = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Dushanbe
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -7920,8 +7925,8 @@ const extended::ZoneInfo kZoneAsia_Dushanbe = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Famagusta
-// Era count: 3
-// Strings: 29
+// Zone Eras: 3
+// Strings (bytes): 29
 // Memory (8-bit): 70
 // Memory (32-bit): 88
 //---------------------------------------------------------------------------
@@ -7976,8 +7981,8 @@ const extended::ZoneInfo kZoneAsia_Famagusta = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Gaza
-// Era count: 8
-// Strings: 47
+// Zone Eras: 8
+// Strings (bytes): 47
 // Memory (8-bit): 143
 // Memory (32-bit): 181
 //---------------------------------------------------------------------------
@@ -8092,8 +8097,8 @@ const extended::ZoneInfo kZoneAsia_Gaza = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Hebron
-// Era count: 2
-// Strings: 22
+// Zone Eras: 2
+// Strings (bytes): 22
 // Memory (8-bit): 52
 // Memory (32-bit): 66
 //---------------------------------------------------------------------------
@@ -8136,8 +8141,8 @@ const extended::ZoneInfo kZoneAsia_Hebron = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Ho_Chi_Minh
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -8168,8 +8173,8 @@ const extended::ZoneInfo kZoneAsia_Ho_Chi_Minh = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Hong_Kong
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -8200,8 +8205,8 @@ const extended::ZoneInfo kZoneAsia_Hong_Kong = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Hovd
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -8232,8 +8237,8 @@ const extended::ZoneInfo kZoneAsia_Hovd = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Irkutsk
-// Era count: 3
-// Strings: 29
+// Zone Eras: 3
+// Strings (bytes): 29
 // Memory (8-bit): 70
 // Memory (32-bit): 88
 //---------------------------------------------------------------------------
@@ -8288,8 +8293,8 @@ const extended::ZoneInfo kZoneAsia_Irkutsk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Jakarta
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -8320,8 +8325,8 @@ const extended::ZoneInfo kZoneAsia_Jakarta = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Jayapura
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -8352,8 +8357,8 @@ const extended::ZoneInfo kZoneAsia_Jayapura = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Jerusalem
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -8384,8 +8389,8 @@ const extended::ZoneInfo kZoneAsia_Jerusalem = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Kabul
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -8416,8 +8421,8 @@ const extended::ZoneInfo kZoneAsia_Kabul = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Kamchatka
-// Era count: 3
-// Strings: 35
+// Zone Eras: 3
+// Strings (bytes): 35
 // Memory (8-bit): 76
 // Memory (32-bit): 94
 //---------------------------------------------------------------------------
@@ -8472,8 +8477,8 @@ const extended::ZoneInfo kZoneAsia_Kamchatka = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Karachi
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -8504,8 +8509,8 @@ const extended::ZoneInfo kZoneAsia_Karachi = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Kathmandu
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -8536,8 +8541,8 @@ const extended::ZoneInfo kZoneAsia_Kathmandu = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Khandyga
-// Era count: 5
-// Strings: 42
+// Zone Eras: 5
+// Strings (bytes): 42
 // Memory (8-bit): 105
 // Memory (32-bit): 131
 //---------------------------------------------------------------------------
@@ -8616,8 +8621,8 @@ const extended::ZoneInfo kZoneAsia_Khandyga = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Kolkata
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -8648,8 +8653,8 @@ const extended::ZoneInfo kZoneAsia_Kolkata = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Krasnoyarsk
-// Era count: 3
-// Strings: 33
+// Zone Eras: 3
+// Strings (bytes): 33
 // Memory (8-bit): 74
 // Memory (32-bit): 92
 //---------------------------------------------------------------------------
@@ -8704,8 +8709,8 @@ const extended::ZoneInfo kZoneAsia_Krasnoyarsk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Kuala_Lumpur
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -8736,8 +8741,8 @@ const extended::ZoneInfo kZoneAsia_Kuala_Lumpur = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Kuching
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -8768,8 +8773,8 @@ const extended::ZoneInfo kZoneAsia_Kuching = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Macau
-// Era count: 1
-// Strings: 15
+// Zone Eras: 1
+// Strings (bytes): 15
 // Memory (8-bit): 34
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
@@ -8800,8 +8805,8 @@ const extended::ZoneInfo kZoneAsia_Macau = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Magadan
-// Era count: 4
-// Strings: 33
+// Zone Eras: 4
+// Strings (bytes): 33
 // Memory (8-bit): 85
 // Memory (32-bit): 107
 //---------------------------------------------------------------------------
@@ -8868,8 +8873,8 @@ const extended::ZoneInfo kZoneAsia_Magadan = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Makassar
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -8900,8 +8905,8 @@ const extended::ZoneInfo kZoneAsia_Makassar = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Manila
-// Era count: 1
-// Strings: 16
+// Zone Eras: 1
+// Strings (bytes): 16
 // Memory (8-bit): 35
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
@@ -8932,8 +8937,8 @@ const extended::ZoneInfo kZoneAsia_Manila = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Nicosia
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -8964,8 +8969,8 @@ const extended::ZoneInfo kZoneAsia_Nicosia = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Novokuznetsk
-// Era count: 3
-// Strings: 38
+// Zone Eras: 3
+// Strings (bytes): 38
 // Memory (8-bit): 79
 // Memory (32-bit): 97
 //---------------------------------------------------------------------------
@@ -9020,8 +9025,8 @@ const extended::ZoneInfo kZoneAsia_Novokuznetsk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Novosibirsk
-// Era count: 4
-// Strings: 37
+// Zone Eras: 4
+// Strings (bytes): 37
 // Memory (8-bit): 89
 // Memory (32-bit): 111
 //---------------------------------------------------------------------------
@@ -9088,8 +9093,8 @@ const extended::ZoneInfo kZoneAsia_Novosibirsk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Omsk
-// Era count: 3
-// Strings: 26
+// Zone Eras: 3
+// Strings (bytes): 26
 // Memory (8-bit): 67
 // Memory (32-bit): 85
 //---------------------------------------------------------------------------
@@ -9144,8 +9149,8 @@ const extended::ZoneInfo kZoneAsia_Omsk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Oral
-// Era count: 2
-// Strings: 22
+// Zone Eras: 2
+// Strings (bytes): 22
 // Memory (8-bit): 52
 // Memory (32-bit): 66
 //---------------------------------------------------------------------------
@@ -9188,8 +9193,8 @@ const extended::ZoneInfo kZoneAsia_Oral = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Pontianak
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -9220,8 +9225,8 @@ const extended::ZoneInfo kZoneAsia_Pontianak = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Pyongyang
-// Era count: 3
-// Strings: 27
+// Zone Eras: 3
+// Strings (bytes): 27
 // Memory (8-bit): 68
 // Memory (32-bit): 86
 //---------------------------------------------------------------------------
@@ -9276,8 +9281,8 @@ const extended::ZoneInfo kZoneAsia_Pyongyang = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Qatar
-// Era count: 1
-// Strings: 15
+// Zone Eras: 1
+// Strings (bytes): 15
 // Memory (8-bit): 34
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
@@ -9308,8 +9313,8 @@ const extended::ZoneInfo kZoneAsia_Qatar = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Qyzylorda
-// Era count: 2
-// Strings: 27
+// Zone Eras: 2
+// Strings (bytes): 27
 // Memory (8-bit): 57
 // Memory (32-bit): 71
 //---------------------------------------------------------------------------
@@ -9352,8 +9357,8 @@ const extended::ZoneInfo kZoneAsia_Qyzylorda = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Riyadh
-// Era count: 1
-// Strings: 16
+// Zone Eras: 1
+// Strings (bytes): 16
 // Memory (8-bit): 35
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
@@ -9384,8 +9389,8 @@ const extended::ZoneInfo kZoneAsia_Riyadh = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Sakhalin
-// Era count: 4
-// Strings: 34
+// Zone Eras: 4
+// Strings (bytes): 34
 // Memory (8-bit): 86
 // Memory (32-bit): 108
 //---------------------------------------------------------------------------
@@ -9452,8 +9457,8 @@ const extended::ZoneInfo kZoneAsia_Sakhalin = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Samarkand
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -9484,8 +9489,8 @@ const extended::ZoneInfo kZoneAsia_Samarkand = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Seoul
-// Era count: 1
-// Strings: 15
+// Zone Eras: 1
+// Strings (bytes): 15
 // Memory (8-bit): 34
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
@@ -9516,8 +9521,8 @@ const extended::ZoneInfo kZoneAsia_Seoul = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Shanghai
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -9548,8 +9553,8 @@ const extended::ZoneInfo kZoneAsia_Shanghai = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Singapore
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -9580,8 +9585,8 @@ const extended::ZoneInfo kZoneAsia_Singapore = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Srednekolymsk
-// Era count: 3
-// Strings: 35
+// Zone Eras: 3
+// Strings (bytes): 35
 // Memory (8-bit): 76
 // Memory (32-bit): 94
 //---------------------------------------------------------------------------
@@ -9636,8 +9641,8 @@ const extended::ZoneInfo kZoneAsia_Srednekolymsk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Taipei
-// Era count: 1
-// Strings: 16
+// Zone Eras: 1
+// Strings (bytes): 16
 // Memory (8-bit): 35
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
@@ -9668,8 +9673,8 @@ const extended::ZoneInfo kZoneAsia_Taipei = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Tashkent
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -9700,8 +9705,8 @@ const extended::ZoneInfo kZoneAsia_Tashkent = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Tbilisi
-// Era count: 3
-// Strings: 33
+// Zone Eras: 3
+// Strings (bytes): 33
 // Memory (8-bit): 74
 // Memory (32-bit): 92
 //---------------------------------------------------------------------------
@@ -9756,8 +9761,8 @@ const extended::ZoneInfo kZoneAsia_Tbilisi = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Tehran
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -9788,8 +9793,8 @@ const extended::ZoneInfo kZoneAsia_Tehran = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Thimphu
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -9820,8 +9825,8 @@ const extended::ZoneInfo kZoneAsia_Thimphu = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Tokyo
-// Era count: 1
-// Strings: 15
+// Zone Eras: 1
+// Strings (bytes): 15
 // Memory (8-bit): 34
 // Memory (32-bit): 44
 //---------------------------------------------------------------------------
@@ -9852,8 +9857,8 @@ const extended::ZoneInfo kZoneAsia_Tokyo = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Tomsk
-// Era count: 5
-// Strings: 39
+// Zone Eras: 5
+// Strings (bytes): 39
 // Memory (8-bit): 102
 // Memory (32-bit): 128
 //---------------------------------------------------------------------------
@@ -9932,8 +9937,8 @@ const extended::ZoneInfo kZoneAsia_Tomsk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Ulaanbaatar
-// Era count: 1
-// Strings: 25
+// Zone Eras: 1
+// Strings (bytes): 25
 // Memory (8-bit): 44
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
@@ -9964,8 +9969,8 @@ const extended::ZoneInfo kZoneAsia_Ulaanbaatar = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Urumqi
-// Era count: 1
-// Strings: 16
+// Zone Eras: 1
+// Strings (bytes): 16
 // Memory (8-bit): 35
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
@@ -9996,8 +10001,8 @@ const extended::ZoneInfo kZoneAsia_Urumqi = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Ust-Nera
-// Era count: 4
-// Strings: 34
+// Zone Eras: 4
+// Strings (bytes): 34
 // Memory (8-bit): 86
 // Memory (32-bit): 108
 //---------------------------------------------------------------------------
@@ -10064,8 +10069,8 @@ const extended::ZoneInfo kZoneAsia_Ust_Nera = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Vladivostok
-// Era count: 3
-// Strings: 33
+// Zone Eras: 3
+// Strings (bytes): 33
 // Memory (8-bit): 74
 // Memory (32-bit): 92
 //---------------------------------------------------------------------------
@@ -10120,8 +10125,8 @@ const extended::ZoneInfo kZoneAsia_Vladivostok = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Yakutsk
-// Era count: 3
-// Strings: 29
+// Zone Eras: 3
+// Strings (bytes): 29
 // Memory (8-bit): 70
 // Memory (32-bit): 88
 //---------------------------------------------------------------------------
@@ -10176,8 +10181,8 @@ const extended::ZoneInfo kZoneAsia_Yakutsk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Yangon
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -10208,8 +10213,8 @@ const extended::ZoneInfo kZoneAsia_Yangon = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Yekaterinburg
-// Era count: 3
-// Strings: 35
+// Zone Eras: 3
+// Strings (bytes): 35
 // Memory (8-bit): 76
 // Memory (32-bit): 94
 //---------------------------------------------------------------------------
@@ -10264,8 +10269,8 @@ const extended::ZoneInfo kZoneAsia_Yekaterinburg = {
 
 //---------------------------------------------------------------------------
 // Zone name: Asia/Yerevan
-// Era count: 2
-// Strings: 29
+// Zone Eras: 2
+// Strings (bytes): 29
 // Memory (8-bit): 59
 // Memory (32-bit): 73
 //---------------------------------------------------------------------------
@@ -10308,8 +10313,8 @@ const extended::ZoneInfo kZoneAsia_Yerevan = {
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Azores
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -10340,8 +10345,8 @@ const extended::ZoneInfo kZoneAtlantic_Azores = {
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Bermuda
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -10372,8 +10377,8 @@ const extended::ZoneInfo kZoneAtlantic_Bermuda = {
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Canary
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -10404,8 +10409,8 @@ const extended::ZoneInfo kZoneAtlantic_Canary = {
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Cape_Verde
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -10436,8 +10441,8 @@ const extended::ZoneInfo kZoneAtlantic_Cape_Verde = {
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Faroe
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -10468,8 +10473,8 @@ const extended::ZoneInfo kZoneAtlantic_Faroe = {
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Madeira
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -10500,8 +10505,8 @@ const extended::ZoneInfo kZoneAtlantic_Madeira = {
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Reykjavik
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -10532,8 +10537,8 @@ const extended::ZoneInfo kZoneAtlantic_Reykjavik = {
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/South_Georgia
-// Era count: 1
-// Strings: 27
+// Zone Eras: 1
+// Strings (bytes): 27
 // Memory (8-bit): 46
 // Memory (32-bit): 56
 //---------------------------------------------------------------------------
@@ -10564,8 +10569,8 @@ const extended::ZoneInfo kZoneAtlantic_South_Georgia = {
 
 //---------------------------------------------------------------------------
 // Zone name: Atlantic/Stanley
-// Era count: 2
-// Strings: 29
+// Zone Eras: 2
+// Strings (bytes): 29
 // Memory (8-bit): 59
 // Memory (32-bit): 73
 //---------------------------------------------------------------------------
@@ -10608,8 +10613,8 @@ const extended::ZoneInfo kZoneAtlantic_Stanley = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Adelaide
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -10640,8 +10645,8 @@ const extended::ZoneInfo kZoneAustralia_Adelaide = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Brisbane
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -10672,8 +10677,8 @@ const extended::ZoneInfo kZoneAustralia_Brisbane = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Broken_Hill
-// Era count: 2
-// Strings: 32
+// Zone Eras: 2
+// Strings (bytes): 32
 // Memory (8-bit): 62
 // Memory (32-bit): 76
 //---------------------------------------------------------------------------
@@ -10716,8 +10721,8 @@ const extended::ZoneInfo kZoneAustralia_Broken_Hill = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Currie
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -10748,8 +10753,8 @@ const extended::ZoneInfo kZoneAustralia_Currie = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Darwin
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -10780,8 +10785,8 @@ const extended::ZoneInfo kZoneAustralia_Darwin = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Eucla
-// Era count: 1
-// Strings: 28
+// Zone Eras: 1
+// Strings (bytes): 28
 // Memory (8-bit): 47
 // Memory (32-bit): 57
 //---------------------------------------------------------------------------
@@ -10812,8 +10817,8 @@ const extended::ZoneInfo kZoneAustralia_Eucla = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Hobart
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -10844,8 +10849,8 @@ const extended::ZoneInfo kZoneAustralia_Hobart = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Lindeman
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -10876,8 +10881,8 @@ const extended::ZoneInfo kZoneAustralia_Lindeman = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Lord_Howe
-// Era count: 1
-// Strings: 30
+// Zone Eras: 1
+// Strings (bytes): 30
 // Memory (8-bit): 49
 // Memory (32-bit): 59
 //---------------------------------------------------------------------------
@@ -10908,8 +10913,8 @@ const extended::ZoneInfo kZoneAustralia_Lord_Howe = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Melbourne
-// Era count: 1
-// Strings: 25
+// Zone Eras: 1
+// Strings (bytes): 25
 // Memory (8-bit): 44
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
@@ -10940,8 +10945,8 @@ const extended::ZoneInfo kZoneAustralia_Melbourne = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Perth
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -10972,8 +10977,8 @@ const extended::ZoneInfo kZoneAustralia_Perth = {
 
 //---------------------------------------------------------------------------
 // Zone name: Australia/Sydney
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -11003,9 +11008,1097 @@ const extended::ZoneInfo kZoneAustralia_Sydney = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: CET
+// Zone Eras: 1
+// Strings (bytes): 9
+// Memory (8-bit): 28
+// Memory (32-bit): 38
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraCET[] = {
+  // 1:00 C-Eur CE%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyC_Eur /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "CE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneCET = {
+  "CET" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  5 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraCET /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: CST6CDT
+// Zone Eras: 1
+// Strings (bytes): 12
+// Memory (8-bit): 31
+// Memory (32-bit): 41
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraCST6CDT[] = {
+  // -6:00 US C%sT
+  {
+    -24 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "C%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneCST6CDT = {
+  "CST6CDT" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  6 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraCST6CDT /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: EET
+// Zone Eras: 1
+// Strings (bytes): 9
+// Memory (8-bit): 28
+// Memory (32-bit): 38
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEET[] = {
+  // 2:00 EU EE%sT
+  {
+    8 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "EE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEET = {
+  "EET" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  5 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEET /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: EST
+// Zone Eras: 1
+// Strings (bytes): 8
+// Memory (8-bit): 27
+// Memory (32-bit): 37
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEST[] = {
+  // -5:00 - EST
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "EST" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEST = {
+  "EST" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEST /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: EST5EDT
+// Zone Eras: 1
+// Strings (bytes): 12
+// Memory (8-bit): 31
+// Memory (32-bit): 41
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEST5EDT[] = {
+  // -5:00 US E%sT
+  {
+    -20 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "E%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEST5EDT = {
+  "EST5EDT" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  6 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEST5EDT /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT
+// Zone Eras: 1
+// Strings (bytes): 12
+// Memory (8-bit): 31
+// Memory (32-bit): 41
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT[] = {
+  // 0 - GMT
+  {
+    0 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "GMT" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT = {
+  "Etc/GMT" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+1
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_1[] = {
+  // -1 - -01
+  {
+    -4 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-01" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_1 = {
+  "Etc/GMT+1" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_1 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+10
+// Zone Eras: 1
+// Strings (bytes): 15
+// Memory (8-bit): 34
+// Memory (32-bit): 44
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_10[] = {
+  // -10 - -10
+  {
+    -40 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-10" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_10 = {
+  "Etc/GMT+10" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_10 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+11
+// Zone Eras: 1
+// Strings (bytes): 15
+// Memory (8-bit): 34
+// Memory (32-bit): 44
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_11[] = {
+  // -11 - -11
+  {
+    -44 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-11" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_11 = {
+  "Etc/GMT+11" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_11 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+12
+// Zone Eras: 1
+// Strings (bytes): 15
+// Memory (8-bit): 34
+// Memory (32-bit): 44
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_12[] = {
+  // -12 - -12
+  {
+    -48 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-12" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_12 = {
+  "Etc/GMT+12" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_12 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+2
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_2[] = {
+  // -2 - -02
+  {
+    -8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-02" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_2 = {
+  "Etc/GMT+2" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_2 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+3
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_3[] = {
+  // -3 - -03
+  {
+    -12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-03" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_3 = {
+  "Etc/GMT+3" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_3 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+4
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_4[] = {
+  // -4 - -04
+  {
+    -16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-04" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_4 = {
+  "Etc/GMT+4" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_4 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+5
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_5[] = {
+  // -5 - -05
+  {
+    -20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-05" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_5 = {
+  "Etc/GMT+5" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_5 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+6
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_6[] = {
+  // -6 - -06
+  {
+    -24 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-06" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_6 = {
+  "Etc/GMT+6" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_6 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+7
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_7[] = {
+  // -7 - -07
+  {
+    -28 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-07" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_7 = {
+  "Etc/GMT+7" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_7 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+8
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_8[] = {
+  // -8 - -08
+  {
+    -32 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-08" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_8 = {
+  "Etc/GMT+8" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_8 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT+9
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_9[] = {
+  // -9 - -09
+  {
+    -36 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "-09" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_PLUS_9 = {
+  "Etc/GMT+9" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_PLUS_9 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-1
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_1[] = {
+  // 1 - +01
+  {
+    4 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+01" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_1 = {
+  "Etc/GMT-1" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_1 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-10
+// Zone Eras: 1
+// Strings (bytes): 15
+// Memory (8-bit): 34
+// Memory (32-bit): 44
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_10[] = {
+  // 10 - +10
+  {
+    40 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+10" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_10 = {
+  "Etc/GMT-10" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_10 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-11
+// Zone Eras: 1
+// Strings (bytes): 15
+// Memory (8-bit): 34
+// Memory (32-bit): 44
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_11[] = {
+  // 11 - +11
+  {
+    44 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+11" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_11 = {
+  "Etc/GMT-11" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_11 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-12
+// Zone Eras: 1
+// Strings (bytes): 15
+// Memory (8-bit): 34
+// Memory (32-bit): 44
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_12[] = {
+  // 12 - +12
+  {
+    48 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+12" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_12 = {
+  "Etc/GMT-12" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_12 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-13
+// Zone Eras: 1
+// Strings (bytes): 15
+// Memory (8-bit): 34
+// Memory (32-bit): 44
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_13[] = {
+  // 13 - +13
+  {
+    52 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+13" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_13 = {
+  "Etc/GMT-13" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_13 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-14
+// Zone Eras: 1
+// Strings (bytes): 15
+// Memory (8-bit): 34
+// Memory (32-bit): 44
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_14[] = {
+  // 14 - +14
+  {
+    56 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+14" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_14 = {
+  "Etc/GMT-14" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_14 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-2
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_2[] = {
+  // 2 - +02
+  {
+    8 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+02" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_2 = {
+  "Etc/GMT-2" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_2 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-3
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_3[] = {
+  // 3 - +03
+  {
+    12 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+03" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_3 = {
+  "Etc/GMT-3" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_3 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-4
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_4[] = {
+  // 4 - +04
+  {
+    16 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+04" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_4 = {
+  "Etc/GMT-4" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_4 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-5
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_5[] = {
+  // 5 - +05
+  {
+    20 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+05" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_5 = {
+  "Etc/GMT-5" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_5 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-6
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_6[] = {
+  // 6 - +06
+  {
+    24 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+06" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_6 = {
+  "Etc/GMT-6" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_6 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-7
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_7[] = {
+  // 7 - +07
+  {
+    28 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+07" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_7 = {
+  "Etc/GMT-7" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_7 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-8
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_8[] = {
+  // 8 - +08
+  {
+    32 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+08" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_8 = {
+  "Etc/GMT-8" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_8 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/GMT-9
+// Zone Eras: 1
+// Strings (bytes): 14
+// Memory (8-bit): 33
+// Memory (32-bit): 43
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_GMT_9[] = {
+  // 9 - +09
+  {
+    36 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "+09" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_GMT_9 = {
+  "Etc/GMT-9" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_GMT_9 /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/UCT
+// Zone Eras: 1
+// Strings (bytes): 12
+// Memory (8-bit): 31
+// Memory (32-bit): 41
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_UCT[] = {
+  // 0 - UCT
+  {
+    0 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "UCT" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_UCT = {
+  "Etc/UCT" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_UCT /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: Etc/UTC
+// Zone Eras: 1
+// Strings (bytes): 12
+// Memory (8-bit): 31
+// Memory (32-bit): 41
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraEtc_UTC[] = {
+  // 0 - UTC
+  {
+    0 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "UTC" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneEtc_UTC = {
+  "Etc/UTC" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraEtc_UTC /*eras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Europe/Amsterdam
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -11036,8 +12129,8 @@ const extended::ZoneInfo kZoneEurope_Amsterdam = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Andorra
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -11068,8 +12161,8 @@ const extended::ZoneInfo kZoneEurope_Andorra = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Astrakhan
-// Era count: 4
-// Strings: 37
+// Zone Eras: 4
+// Strings (bytes): 37
 // Memory (8-bit): 89
 // Memory (32-bit): 111
 //---------------------------------------------------------------------------
@@ -11136,8 +12229,8 @@ const extended::ZoneInfo kZoneEurope_Astrakhan = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Athens
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -11168,8 +12261,8 @@ const extended::ZoneInfo kZoneEurope_Athens = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Belgrade
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -11200,8 +12293,8 @@ const extended::ZoneInfo kZoneEurope_Belgrade = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Berlin
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -11232,8 +12325,8 @@ const extended::ZoneInfo kZoneEurope_Berlin = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Brussels
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -11264,8 +12357,8 @@ const extended::ZoneInfo kZoneEurope_Brussels = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Bucharest
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -11296,8 +12389,8 @@ const extended::ZoneInfo kZoneEurope_Bucharest = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Budapest
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -11328,8 +12421,8 @@ const extended::ZoneInfo kZoneEurope_Budapest = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Chisinau
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -11360,8 +12453,8 @@ const extended::ZoneInfo kZoneEurope_Chisinau = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Copenhagen
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -11392,8 +12485,8 @@ const extended::ZoneInfo kZoneEurope_Copenhagen = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Dublin
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -11424,8 +12517,8 @@ const extended::ZoneInfo kZoneEurope_Dublin = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Gibraltar
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -11456,8 +12549,8 @@ const extended::ZoneInfo kZoneEurope_Gibraltar = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Helsinki
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -11488,8 +12581,8 @@ const extended::ZoneInfo kZoneEurope_Helsinki = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Istanbul
-// Era count: 9
-// Strings: 58
+// Zone Eras: 9
+// Strings (bytes): 58
 // Memory (8-bit): 165
 // Memory (32-bit): 207
 //---------------------------------------------------------------------------
@@ -11616,8 +12709,8 @@ const extended::ZoneInfo kZoneEurope_Istanbul = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Kaliningrad
-// Era count: 3
-// Strings: 32
+// Zone Eras: 3
+// Strings (bytes): 32
 // Memory (8-bit): 73
 // Memory (32-bit): 91
 //---------------------------------------------------------------------------
@@ -11672,8 +12765,8 @@ const extended::ZoneInfo kZoneEurope_Kaliningrad = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Kiev
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -11704,8 +12797,8 @@ const extended::ZoneInfo kZoneEurope_Kiev = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Kirov
-// Era count: 3
-// Strings: 29
+// Zone Eras: 3
+// Strings (bytes): 29
 // Memory (8-bit): 70
 // Memory (32-bit): 88
 //---------------------------------------------------------------------------
@@ -11760,8 +12853,8 @@ const extended::ZoneInfo kZoneEurope_Kirov = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Lisbon
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -11792,8 +12885,8 @@ const extended::ZoneInfo kZoneEurope_Lisbon = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/London
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -11824,8 +12917,8 @@ const extended::ZoneInfo kZoneEurope_London = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Luxembourg
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -11856,8 +12949,8 @@ const extended::ZoneInfo kZoneEurope_Luxembourg = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Madrid
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -11888,8 +12981,8 @@ const extended::ZoneInfo kZoneEurope_Madrid = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Malta
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -11920,8 +13013,8 @@ const extended::ZoneInfo kZoneEurope_Malta = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Minsk
-// Era count: 2
-// Strings: 22
+// Zone Eras: 2
+// Strings (bytes): 22
 // Memory (8-bit): 52
 // Memory (32-bit): 66
 //---------------------------------------------------------------------------
@@ -11964,8 +13057,8 @@ const extended::ZoneInfo kZoneEurope_Minsk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Monaco
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -11996,8 +13089,8 @@ const extended::ZoneInfo kZoneEurope_Monaco = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Moscow
-// Era count: 3
-// Strings: 30
+// Zone Eras: 3
+// Strings (bytes): 30
 // Memory (8-bit): 71
 // Memory (32-bit): 89
 //---------------------------------------------------------------------------
@@ -12052,8 +13145,8 @@ const extended::ZoneInfo kZoneEurope_Moscow = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Oslo
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -12084,8 +13177,8 @@ const extended::ZoneInfo kZoneEurope_Oslo = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Paris
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -12116,8 +13209,8 @@ const extended::ZoneInfo kZoneEurope_Paris = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Prague
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -12148,8 +13241,8 @@ const extended::ZoneInfo kZoneEurope_Prague = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Riga
-// Era count: 3
-// Strings: 26
+// Zone Eras: 3
+// Strings (bytes): 26
 // Memory (8-bit): 67
 // Memory (32-bit): 85
 //---------------------------------------------------------------------------
@@ -12204,8 +13297,8 @@ const extended::ZoneInfo kZoneEurope_Riga = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Rome
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -12236,8 +13329,8 @@ const extended::ZoneInfo kZoneEurope_Rome = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Samara
-// Era count: 3
-// Strings: 34
+// Zone Eras: 3
+// Strings (bytes): 34
 // Memory (8-bit): 75
 // Memory (32-bit): 93
 //---------------------------------------------------------------------------
@@ -12292,8 +13385,8 @@ const extended::ZoneInfo kZoneEurope_Samara = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Saratov
-// Era count: 4
-// Strings: 35
+// Zone Eras: 4
+// Strings (bytes): 35
 // Memory (8-bit): 87
 // Memory (32-bit): 109
 //---------------------------------------------------------------------------
@@ -12360,8 +13453,8 @@ const extended::ZoneInfo kZoneEurope_Saratov = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Simferopol
-// Era count: 3
-// Strings: 31
+// Zone Eras: 3
+// Strings (bytes): 31
 // Memory (8-bit): 72
 // Memory (32-bit): 90
 //---------------------------------------------------------------------------
@@ -12416,8 +13509,8 @@ const extended::ZoneInfo kZoneEurope_Simferopol = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Sofia
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -12448,8 +13541,8 @@ const extended::ZoneInfo kZoneEurope_Sofia = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Stockholm
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -12480,8 +13573,8 @@ const extended::ZoneInfo kZoneEurope_Stockholm = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Tallinn
-// Era count: 3
-// Strings: 29
+// Zone Eras: 3
+// Strings (bytes): 29
 // Memory (8-bit): 70
 // Memory (32-bit): 88
 //---------------------------------------------------------------------------
@@ -12536,8 +13629,8 @@ const extended::ZoneInfo kZoneEurope_Tallinn = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Tirane
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -12568,8 +13661,8 @@ const extended::ZoneInfo kZoneEurope_Tirane = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Ulyanovsk
-// Era count: 4
-// Strings: 37
+// Zone Eras: 4
+// Strings (bytes): 37
 // Memory (8-bit): 89
 // Memory (32-bit): 111
 //---------------------------------------------------------------------------
@@ -12636,8 +13729,8 @@ const extended::ZoneInfo kZoneEurope_Ulyanovsk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Uzhgorod
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -12668,8 +13761,8 @@ const extended::ZoneInfo kZoneEurope_Uzhgorod = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Vienna
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -12700,8 +13793,8 @@ const extended::ZoneInfo kZoneEurope_Vienna = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Vilnius
-// Era count: 3
-// Strings: 29
+// Zone Eras: 3
+// Strings (bytes): 29
 // Memory (8-bit): 70
 // Memory (32-bit): 88
 //---------------------------------------------------------------------------
@@ -12756,8 +13849,8 @@ const extended::ZoneInfo kZoneEurope_Vilnius = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Volgograd
-// Era count: 4
-// Strings: 37
+// Zone Eras: 4
+// Strings (bytes): 37
 // Memory (8-bit): 89
 // Memory (32-bit): 111
 //---------------------------------------------------------------------------
@@ -12824,8 +13917,8 @@ const extended::ZoneInfo kZoneEurope_Volgograd = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Warsaw
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -12856,8 +13949,8 @@ const extended::ZoneInfo kZoneEurope_Warsaw = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Zaporozhye
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -12888,8 +13981,8 @@ const extended::ZoneInfo kZoneEurope_Zaporozhye = {
 
 //---------------------------------------------------------------------------
 // Zone name: Europe/Zurich
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -12919,9 +14012,41 @@ const extended::ZoneInfo kZoneEurope_Zurich = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: HST
+// Zone Eras: 1
+// Strings (bytes): 8
+// Memory (8-bit): 27
+// Memory (32-bit): 37
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraHST[] = {
+  // -10:00 - HST
+  {
+    -40 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "HST" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneHST = {
+  "HST" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraHST /*eras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Indian/Chagos
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -12952,8 +14077,8 @@ const extended::ZoneInfo kZoneIndian_Chagos = {
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Christmas
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -12984,8 +14109,8 @@ const extended::ZoneInfo kZoneIndian_Christmas = {
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Cocos
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -13016,8 +14141,8 @@ const extended::ZoneInfo kZoneIndian_Cocos = {
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Kerguelen
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -13048,8 +14173,8 @@ const extended::ZoneInfo kZoneIndian_Kerguelen = {
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Mahe
-// Era count: 1
-// Strings: 16
+// Zone Eras: 1
+// Strings (bytes): 16
 // Memory (8-bit): 35
 // Memory (32-bit): 45
 //---------------------------------------------------------------------------
@@ -13080,8 +14205,8 @@ const extended::ZoneInfo kZoneIndian_Mahe = {
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Maldives
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -13112,8 +14237,8 @@ const extended::ZoneInfo kZoneIndian_Maldives = {
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Mauritius
-// Era count: 1
-// Strings: 25
+// Zone Eras: 1
+// Strings (bytes): 25
 // Memory (8-bit): 44
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
@@ -13144,8 +14269,8 @@ const extended::ZoneInfo kZoneIndian_Mauritius = {
 
 //---------------------------------------------------------------------------
 // Zone name: Indian/Reunion
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -13175,9 +14300,137 @@ const extended::ZoneInfo kZoneIndian_Reunion = {
 };
 
 //---------------------------------------------------------------------------
+// Zone name: MET
+// Zone Eras: 1
+// Strings (bytes): 9
+// Memory (8-bit): 28
+// Memory (32-bit): 38
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraMET[] = {
+  // 1:00 C-Eur ME%sT
+  {
+    4 /*offsetCode*/,
+    &kPolicyC_Eur /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "ME%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneMET = {
+  "MET" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  5 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraMET /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: MST
+// Zone Eras: 1
+// Strings (bytes): 8
+// Memory (8-bit): 27
+// Memory (32-bit): 37
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraMST[] = {
+  // -7:00 - MST
+  {
+    -28 /*offsetCode*/,
+    nullptr /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "MST" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneMST = {
+  "MST" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  2 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraMST /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: MST7MDT
+// Zone Eras: 1
+// Strings (bytes): 12
+// Memory (8-bit): 31
+// Memory (32-bit): 41
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraMST7MDT[] = {
+  // -7:00 US M%sT
+  {
+    -28 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "M%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneMST7MDT = {
+  "MST7MDT" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  6 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraMST7MDT /*eras*/,
+};
+
+//---------------------------------------------------------------------------
+// Zone name: PST8PDT
+// Zone Eras: 1
+// Strings (bytes): 12
+// Memory (8-bit): 31
+// Memory (32-bit): 41
+//---------------------------------------------------------------------------
+
+static const extended::ZoneEra kZoneEraPST8PDT[] = {
+  // -8:00 US P%sT
+  {
+    -32 /*offsetCode*/,
+    &kPolicyUS /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "P%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZonePST8PDT = {
+  "PST8PDT" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  6 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraPST8PDT /*eras*/,
+};
+
+//---------------------------------------------------------------------------
 // Zone name: Pacific/Apia
-// Era count: 2
-// Strings: 29
+// Zone Eras: 2
+// Strings (bytes): 29
 // Memory (8-bit): 59
 // Memory (32-bit): 73
 //---------------------------------------------------------------------------
@@ -13220,8 +14473,8 @@ const extended::ZoneInfo kZonePacific_Apia = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Auckland
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -13252,8 +14505,8 @@ const extended::ZoneInfo kZonePacific_Auckland = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Bougainville
-// Era count: 2
-// Strings: 29
+// Zone Eras: 2
+// Strings (bytes): 29
 // Memory (8-bit): 59
 // Memory (32-bit): 73
 //---------------------------------------------------------------------------
@@ -13296,8 +14549,8 @@ const extended::ZoneInfo kZonePacific_Bougainville = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Chatham
-// Era count: 1
-// Strings: 28
+// Zone Eras: 1
+// Strings (bytes): 28
 // Memory (8-bit): 47
 // Memory (32-bit): 57
 //---------------------------------------------------------------------------
@@ -13328,8 +14581,8 @@ const extended::ZoneInfo kZonePacific_Chatham = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Chuuk
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -13360,8 +14613,8 @@ const extended::ZoneInfo kZonePacific_Chuuk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Easter
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -13392,8 +14645,8 @@ const extended::ZoneInfo kZonePacific_Easter = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Efate
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -13424,8 +14677,8 @@ const extended::ZoneInfo kZonePacific_Efate = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Enderbury
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -13456,8 +14709,8 @@ const extended::ZoneInfo kZonePacific_Enderbury = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Fakaofo
-// Era count: 2
-// Strings: 24
+// Zone Eras: 2
+// Strings (bytes): 24
 // Memory (8-bit): 54
 // Memory (32-bit): 68
 //---------------------------------------------------------------------------
@@ -13500,8 +14753,8 @@ const extended::ZoneInfo kZonePacific_Fakaofo = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Fiji
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -13532,8 +14785,8 @@ const extended::ZoneInfo kZonePacific_Fiji = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Funafuti
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -13564,8 +14817,8 @@ const extended::ZoneInfo kZonePacific_Funafuti = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Galapagos
-// Era count: 1
-// Strings: 26
+// Zone Eras: 1
+// Strings (bytes): 26
 // Memory (8-bit): 45
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
@@ -13596,8 +14849,8 @@ const extended::ZoneInfo kZonePacific_Galapagos = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Gambier
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -13628,8 +14881,8 @@ const extended::ZoneInfo kZonePacific_Gambier = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Guadalcanal
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -13660,8 +14913,8 @@ const extended::ZoneInfo kZonePacific_Guadalcanal = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Guam
-// Era count: 2
-// Strings: 22
+// Zone Eras: 2
+// Strings (bytes): 22
 // Memory (8-bit): 52
 // Memory (32-bit): 66
 //---------------------------------------------------------------------------
@@ -13704,8 +14957,8 @@ const extended::ZoneInfo kZonePacific_Guam = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Honolulu
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -13736,8 +14989,8 @@ const extended::ZoneInfo kZonePacific_Honolulu = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Kiritimati
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -13768,8 +15021,8 @@ const extended::ZoneInfo kZonePacific_Kiritimati = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Kosrae
-// Era count: 2
-// Strings: 23
+// Zone Eras: 2
+// Strings (bytes): 23
 // Memory (8-bit): 53
 // Memory (32-bit): 67
 //---------------------------------------------------------------------------
@@ -13812,8 +15065,8 @@ const extended::ZoneInfo kZonePacific_Kosrae = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Kwajalein
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -13844,8 +15097,8 @@ const extended::ZoneInfo kZonePacific_Kwajalein = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Majuro
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -13876,8 +15129,8 @@ const extended::ZoneInfo kZonePacific_Majuro = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Marquesas
-// Era count: 1
-// Strings: 24
+// Zone Eras: 1
+// Strings (bytes): 24
 // Memory (8-bit): 43
 // Memory (32-bit): 53
 //---------------------------------------------------------------------------
@@ -13908,8 +15161,8 @@ const extended::ZoneInfo kZonePacific_Marquesas = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Nauru
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -13940,8 +15193,8 @@ const extended::ZoneInfo kZonePacific_Nauru = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Niue
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -13972,8 +15225,8 @@ const extended::ZoneInfo kZonePacific_Niue = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Norfolk
-// Era count: 2
-// Strings: 26
+// Zone Eras: 2
+// Strings (bytes): 26
 // Memory (8-bit): 56
 // Memory (32-bit): 70
 //---------------------------------------------------------------------------
@@ -14016,8 +15269,8 @@ const extended::ZoneInfo kZonePacific_Norfolk = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Noumea
-// Era count: 1
-// Strings: 23
+// Zone Eras: 1
+// Strings (bytes): 23
 // Memory (8-bit): 42
 // Memory (32-bit): 52
 //---------------------------------------------------------------------------
@@ -14048,8 +15301,8 @@ const extended::ZoneInfo kZonePacific_Noumea = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Pago_Pago
-// Era count: 1
-// Strings: 22
+// Zone Eras: 1
+// Strings (bytes): 22
 // Memory (8-bit): 41
 // Memory (32-bit): 51
 //---------------------------------------------------------------------------
@@ -14080,8 +15333,8 @@ const extended::ZoneInfo kZonePacific_Pago_Pago = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Palau
-// Era count: 1
-// Strings: 18
+// Zone Eras: 1
+// Strings (bytes): 18
 // Memory (8-bit): 37
 // Memory (32-bit): 47
 //---------------------------------------------------------------------------
@@ -14112,8 +15365,8 @@ const extended::ZoneInfo kZonePacific_Palau = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Pitcairn
-// Era count: 1
-// Strings: 21
+// Zone Eras: 1
+// Strings (bytes): 21
 // Memory (8-bit): 40
 // Memory (32-bit): 50
 //---------------------------------------------------------------------------
@@ -14144,8 +15397,8 @@ const extended::ZoneInfo kZonePacific_Pitcairn = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Pohnpei
-// Era count: 1
-// Strings: 20
+// Zone Eras: 1
+// Strings (bytes): 20
 // Memory (8-bit): 39
 // Memory (32-bit): 49
 //---------------------------------------------------------------------------
@@ -14176,8 +15429,8 @@ const extended::ZoneInfo kZonePacific_Pohnpei = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Port_Moresby
-// Era count: 1
-// Strings: 25
+// Zone Eras: 1
+// Strings (bytes): 25
 // Memory (8-bit): 44
 // Memory (32-bit): 54
 //---------------------------------------------------------------------------
@@ -14208,8 +15461,8 @@ const extended::ZoneInfo kZonePacific_Port_Moresby = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Rarotonga
-// Era count: 1
-// Strings: 28
+// Zone Eras: 1
+// Strings (bytes): 28
 // Memory (8-bit): 47
 // Memory (32-bit): 57
 //---------------------------------------------------------------------------
@@ -14240,8 +15493,8 @@ const extended::ZoneInfo kZonePacific_Rarotonga = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Tahiti
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -14272,8 +15525,8 @@ const extended::ZoneInfo kZonePacific_Tahiti = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Tarawa
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -14304,8 +15557,8 @@ const extended::ZoneInfo kZonePacific_Tarawa = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Tongatapu
-// Era count: 2
-// Strings: 30
+// Zone Eras: 2
+// Strings (bytes): 30
 // Memory (8-bit): 60
 // Memory (32-bit): 74
 //---------------------------------------------------------------------------
@@ -14348,8 +15601,8 @@ const extended::ZoneInfo kZonePacific_Tongatapu = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Wake
-// Era count: 1
-// Strings: 17
+// Zone Eras: 1
+// Strings (bytes): 17
 // Memory (8-bit): 36
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
@@ -14380,8 +15633,8 @@ const extended::ZoneInfo kZonePacific_Wake = {
 
 //---------------------------------------------------------------------------
 // Zone name: Pacific/Wallis
-// Era count: 1
-// Strings: 19
+// Zone Eras: 1
+// Strings (bytes): 19
 // Memory (8-bit): 38
 // Memory (32-bit): 48
 //---------------------------------------------------------------------------
@@ -14410,7 +15663,248 @@ const extended::ZoneInfo kZonePacific_Wallis = {
   kZoneEraPacific_Wallis /*eras*/,
 };
 
+//---------------------------------------------------------------------------
+// Zone name: WET
+// Zone Eras: 1
+// Strings (bytes): 9
+// Memory (8-bit): 28
+// Memory (32-bit): 38
+//---------------------------------------------------------------------------
 
+static const extended::ZoneEra kZoneEraWET[] = {
+  // 0:00 EU WE%sT
+  {
+    0 /*offsetCode*/,
+    &kPolicyEU /*zonePolicy*/,
+    0 /*deltaCode*/,
+    "WE%T" /*format*/,
+    127 /*untilYearTiny*/,
+    1 /*untilMonth*/,
+    1 /*untilDay*/,
+    0 /*untilTimeCode*/,
+    'w' /*untilTimeModifier*/,
+  },
+
+};
+
+const extended::ZoneInfo kZoneWET = {
+  "WET" /*name*/,
+  &kZoneContext /*zoneContext*/,
+  5 /*transitionBufSize*/,
+  1 /*numEras*/,
+  kZoneEraWET /*eras*/,
+};
+
+
+
+//---------------------------------------------------------------------------
+// Links: 204
+//---------------------------------------------------------------------------
+
+const extended::ZoneInfo& kZoneAfrica_Addis_Ababa = kZoneAfrica_Nairobi;
+const extended::ZoneInfo& kZoneAfrica_Asmara = kZoneAfrica_Nairobi;
+const extended::ZoneInfo& kZoneAfrica_Asmera = kZoneAfrica_Nairobi;
+const extended::ZoneInfo& kZoneAfrica_Bamako = kZoneAfrica_Abidjan;
+const extended::ZoneInfo& kZoneAfrica_Bangui = kZoneAfrica_Lagos;
+const extended::ZoneInfo& kZoneAfrica_Banjul = kZoneAfrica_Abidjan;
+const extended::ZoneInfo& kZoneAfrica_Blantyre = kZoneAfrica_Maputo;
+const extended::ZoneInfo& kZoneAfrica_Brazzaville = kZoneAfrica_Lagos;
+const extended::ZoneInfo& kZoneAfrica_Bujumbura = kZoneAfrica_Maputo;
+const extended::ZoneInfo& kZoneAfrica_Conakry = kZoneAfrica_Abidjan;
+const extended::ZoneInfo& kZoneAfrica_Dakar = kZoneAfrica_Abidjan;
+const extended::ZoneInfo& kZoneAfrica_Dar_es_Salaam = kZoneAfrica_Nairobi;
+const extended::ZoneInfo& kZoneAfrica_Djibouti = kZoneAfrica_Nairobi;
+const extended::ZoneInfo& kZoneAfrica_Douala = kZoneAfrica_Lagos;
+const extended::ZoneInfo& kZoneAfrica_Freetown = kZoneAfrica_Abidjan;
+const extended::ZoneInfo& kZoneAfrica_Gaborone = kZoneAfrica_Maputo;
+const extended::ZoneInfo& kZoneAfrica_Harare = kZoneAfrica_Maputo;
+const extended::ZoneInfo& kZoneAfrica_Kampala = kZoneAfrica_Nairobi;
+const extended::ZoneInfo& kZoneAfrica_Kigali = kZoneAfrica_Maputo;
+const extended::ZoneInfo& kZoneAfrica_Kinshasa = kZoneAfrica_Lagos;
+const extended::ZoneInfo& kZoneAfrica_Libreville = kZoneAfrica_Lagos;
+const extended::ZoneInfo& kZoneAfrica_Lome = kZoneAfrica_Abidjan;
+const extended::ZoneInfo& kZoneAfrica_Luanda = kZoneAfrica_Lagos;
+const extended::ZoneInfo& kZoneAfrica_Lubumbashi = kZoneAfrica_Maputo;
+const extended::ZoneInfo& kZoneAfrica_Lusaka = kZoneAfrica_Maputo;
+const extended::ZoneInfo& kZoneAfrica_Malabo = kZoneAfrica_Lagos;
+const extended::ZoneInfo& kZoneAfrica_Maseru = kZoneAfrica_Johannesburg;
+const extended::ZoneInfo& kZoneAfrica_Mbabane = kZoneAfrica_Johannesburg;
+const extended::ZoneInfo& kZoneAfrica_Mogadishu = kZoneAfrica_Nairobi;
+const extended::ZoneInfo& kZoneAfrica_Niamey = kZoneAfrica_Lagos;
+const extended::ZoneInfo& kZoneAfrica_Nouakchott = kZoneAfrica_Abidjan;
+const extended::ZoneInfo& kZoneAfrica_Ouagadougou = kZoneAfrica_Abidjan;
+const extended::ZoneInfo& kZoneAfrica_Porto_Novo = kZoneAfrica_Lagos;
+const extended::ZoneInfo& kZoneAfrica_Timbuktu = kZoneAfrica_Abidjan;
+const extended::ZoneInfo& kZoneAmerica_Anguilla = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_Antigua = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_Argentina_ComodRivadavia = kZoneAmerica_Argentina_Catamarca;
+const extended::ZoneInfo& kZoneAmerica_Aruba = kZoneAmerica_Curacao;
+const extended::ZoneInfo& kZoneAmerica_Atka = kZoneAmerica_Adak;
+const extended::ZoneInfo& kZoneAmerica_Buenos_Aires = kZoneAmerica_Argentina_Buenos_Aires;
+const extended::ZoneInfo& kZoneAmerica_Catamarca = kZoneAmerica_Argentina_Catamarca;
+const extended::ZoneInfo& kZoneAmerica_Cayman = kZoneAmerica_Panama;
+const extended::ZoneInfo& kZoneAmerica_Coral_Harbour = kZoneAmerica_Atikokan;
+const extended::ZoneInfo& kZoneAmerica_Cordoba = kZoneAmerica_Argentina_Cordoba;
+const extended::ZoneInfo& kZoneAmerica_Dominica = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_Ensenada = kZoneAmerica_Tijuana;
+const extended::ZoneInfo& kZoneAmerica_Fort_Wayne = kZoneAmerica_Indiana_Indianapolis;
+const extended::ZoneInfo& kZoneAmerica_Grenada = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_Guadeloupe = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_Indianapolis = kZoneAmerica_Indiana_Indianapolis;
+const extended::ZoneInfo& kZoneAmerica_Jujuy = kZoneAmerica_Argentina_Jujuy;
+const extended::ZoneInfo& kZoneAmerica_Knox_IN = kZoneAmerica_Indiana_Knox;
+const extended::ZoneInfo& kZoneAmerica_Kralendijk = kZoneAmerica_Curacao;
+const extended::ZoneInfo& kZoneAmerica_Louisville = kZoneAmerica_Kentucky_Louisville;
+const extended::ZoneInfo& kZoneAmerica_Lower_Princes = kZoneAmerica_Curacao;
+const extended::ZoneInfo& kZoneAmerica_Marigot = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_Mendoza = kZoneAmerica_Argentina_Mendoza;
+const extended::ZoneInfo& kZoneAmerica_Montreal = kZoneAmerica_Toronto;
+const extended::ZoneInfo& kZoneAmerica_Montserrat = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_Porto_Acre = kZoneAmerica_Rio_Branco;
+const extended::ZoneInfo& kZoneAmerica_Rosario = kZoneAmerica_Argentina_Cordoba;
+const extended::ZoneInfo& kZoneAmerica_Santa_Isabel = kZoneAmerica_Tijuana;
+const extended::ZoneInfo& kZoneAmerica_Shiprock = kZoneAmerica_Denver;
+const extended::ZoneInfo& kZoneAmerica_St_Barthelemy = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_St_Kitts = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_St_Lucia = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_St_Thomas = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_St_Vincent = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_Tortola = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAmerica_Virgin = kZoneAmerica_Port_of_Spain;
+const extended::ZoneInfo& kZoneAntarctica_McMurdo = kZonePacific_Auckland;
+const extended::ZoneInfo& kZoneAntarctica_South_Pole = kZonePacific_Auckland;
+const extended::ZoneInfo& kZoneArctic_Longyearbyen = kZoneEurope_Oslo;
+const extended::ZoneInfo& kZoneAsia_Aden = kZoneAsia_Riyadh;
+const extended::ZoneInfo& kZoneAsia_Ashkhabad = kZoneAsia_Ashgabat;
+const extended::ZoneInfo& kZoneAsia_Bahrain = kZoneAsia_Qatar;
+const extended::ZoneInfo& kZoneAsia_Calcutta = kZoneAsia_Kolkata;
+const extended::ZoneInfo& kZoneAsia_Chongqing = kZoneAsia_Shanghai;
+const extended::ZoneInfo& kZoneAsia_Chungking = kZoneAsia_Shanghai;
+const extended::ZoneInfo& kZoneAsia_Dacca = kZoneAsia_Dhaka;
+const extended::ZoneInfo& kZoneAsia_Harbin = kZoneAsia_Shanghai;
+const extended::ZoneInfo& kZoneAsia_Istanbul = kZoneEurope_Istanbul;
+const extended::ZoneInfo& kZoneAsia_Kashgar = kZoneAsia_Urumqi;
+const extended::ZoneInfo& kZoneAsia_Katmandu = kZoneAsia_Kathmandu;
+const extended::ZoneInfo& kZoneAsia_Kuwait = kZoneAsia_Riyadh;
+const extended::ZoneInfo& kZoneAsia_Macao = kZoneAsia_Macau;
+const extended::ZoneInfo& kZoneAsia_Muscat = kZoneAsia_Dubai;
+const extended::ZoneInfo& kZoneAsia_Phnom_Penh = kZoneAsia_Bangkok;
+const extended::ZoneInfo& kZoneAsia_Rangoon = kZoneAsia_Yangon;
+const extended::ZoneInfo& kZoneAsia_Saigon = kZoneAsia_Ho_Chi_Minh;
+const extended::ZoneInfo& kZoneAsia_Tel_Aviv = kZoneAsia_Jerusalem;
+const extended::ZoneInfo& kZoneAsia_Thimbu = kZoneAsia_Thimphu;
+const extended::ZoneInfo& kZoneAsia_Ujung_Pandang = kZoneAsia_Makassar;
+const extended::ZoneInfo& kZoneAsia_Ulan_Bator = kZoneAsia_Ulaanbaatar;
+const extended::ZoneInfo& kZoneAsia_Vientiane = kZoneAsia_Bangkok;
+const extended::ZoneInfo& kZoneAtlantic_Faeroe = kZoneAtlantic_Faroe;
+const extended::ZoneInfo& kZoneAtlantic_Jan_Mayen = kZoneEurope_Oslo;
+const extended::ZoneInfo& kZoneAtlantic_St_Helena = kZoneAfrica_Abidjan;
+const extended::ZoneInfo& kZoneAustralia_ACT = kZoneAustralia_Sydney;
+const extended::ZoneInfo& kZoneAustralia_Canberra = kZoneAustralia_Sydney;
+const extended::ZoneInfo& kZoneAustralia_LHI = kZoneAustralia_Lord_Howe;
+const extended::ZoneInfo& kZoneAustralia_NSW = kZoneAustralia_Sydney;
+const extended::ZoneInfo& kZoneAustralia_North = kZoneAustralia_Darwin;
+const extended::ZoneInfo& kZoneAustralia_Queensland = kZoneAustralia_Brisbane;
+const extended::ZoneInfo& kZoneAustralia_South = kZoneAustralia_Adelaide;
+const extended::ZoneInfo& kZoneAustralia_Tasmania = kZoneAustralia_Hobart;
+const extended::ZoneInfo& kZoneAustralia_Victoria = kZoneAustralia_Melbourne;
+const extended::ZoneInfo& kZoneAustralia_West = kZoneAustralia_Perth;
+const extended::ZoneInfo& kZoneAustralia_Yancowinna = kZoneAustralia_Broken_Hill;
+const extended::ZoneInfo& kZoneBrazil_Acre = kZoneAmerica_Rio_Branco;
+const extended::ZoneInfo& kZoneBrazil_DeNoronha = kZoneAmerica_Noronha;
+const extended::ZoneInfo& kZoneBrazil_East = kZoneAmerica_Sao_Paulo;
+const extended::ZoneInfo& kZoneBrazil_West = kZoneAmerica_Manaus;
+const extended::ZoneInfo& kZoneCanada_Atlantic = kZoneAmerica_Halifax;
+const extended::ZoneInfo& kZoneCanada_Central = kZoneAmerica_Winnipeg;
+const extended::ZoneInfo& kZoneCanada_Eastern = kZoneAmerica_Toronto;
+const extended::ZoneInfo& kZoneCanada_Mountain = kZoneAmerica_Edmonton;
+const extended::ZoneInfo& kZoneCanada_Newfoundland = kZoneAmerica_St_Johns;
+const extended::ZoneInfo& kZoneCanada_Pacific = kZoneAmerica_Vancouver;
+const extended::ZoneInfo& kZoneCanada_Saskatchewan = kZoneAmerica_Regina;
+const extended::ZoneInfo& kZoneCanada_Yukon = kZoneAmerica_Whitehorse;
+const extended::ZoneInfo& kZoneChile_Continental = kZoneAmerica_Santiago;
+const extended::ZoneInfo& kZoneChile_EasterIsland = kZonePacific_Easter;
+const extended::ZoneInfo& kZoneCuba = kZoneAmerica_Havana;
+const extended::ZoneInfo& kZoneEgypt = kZoneAfrica_Cairo;
+const extended::ZoneInfo& kZoneEire = kZoneEurope_Dublin;
+const extended::ZoneInfo& kZoneEtc_GMT_PLUS_0 = kZoneEtc_GMT;
+const extended::ZoneInfo& kZoneEtc_GMT_0 = kZoneEtc_GMT;
+const extended::ZoneInfo& kZoneEtc_GMT0 = kZoneEtc_GMT;
+const extended::ZoneInfo& kZoneEtc_Greenwich = kZoneEtc_GMT;
+const extended::ZoneInfo& kZoneEtc_Universal = kZoneEtc_UTC;
+const extended::ZoneInfo& kZoneEtc_Zulu = kZoneEtc_UTC;
+const extended::ZoneInfo& kZoneEurope_Belfast = kZoneEurope_London;
+const extended::ZoneInfo& kZoneEurope_Bratislava = kZoneEurope_Prague;
+const extended::ZoneInfo& kZoneEurope_Busingen = kZoneEurope_Zurich;
+const extended::ZoneInfo& kZoneEurope_Guernsey = kZoneEurope_London;
+const extended::ZoneInfo& kZoneEurope_Isle_of_Man = kZoneEurope_London;
+const extended::ZoneInfo& kZoneEurope_Jersey = kZoneEurope_London;
+const extended::ZoneInfo& kZoneEurope_Ljubljana = kZoneEurope_Belgrade;
+const extended::ZoneInfo& kZoneEurope_Mariehamn = kZoneEurope_Helsinki;
+const extended::ZoneInfo& kZoneEurope_Nicosia = kZoneAsia_Nicosia;
+const extended::ZoneInfo& kZoneEurope_Podgorica = kZoneEurope_Belgrade;
+const extended::ZoneInfo& kZoneEurope_San_Marino = kZoneEurope_Rome;
+const extended::ZoneInfo& kZoneEurope_Sarajevo = kZoneEurope_Belgrade;
+const extended::ZoneInfo& kZoneEurope_Skopje = kZoneEurope_Belgrade;
+const extended::ZoneInfo& kZoneEurope_Tiraspol = kZoneEurope_Chisinau;
+const extended::ZoneInfo& kZoneEurope_Vaduz = kZoneEurope_Zurich;
+const extended::ZoneInfo& kZoneEurope_Vatican = kZoneEurope_Rome;
+const extended::ZoneInfo& kZoneEurope_Zagreb = kZoneEurope_Belgrade;
+const extended::ZoneInfo& kZoneGB = kZoneEurope_London;
+const extended::ZoneInfo& kZoneGB_Eire = kZoneEurope_London;
+const extended::ZoneInfo& kZoneGMT = kZoneEtc_GMT;
+const extended::ZoneInfo& kZoneGMT_PLUS_0 = kZoneEtc_GMT;
+const extended::ZoneInfo& kZoneGMT_0 = kZoneEtc_GMT;
+const extended::ZoneInfo& kZoneGMT0 = kZoneEtc_GMT;
+const extended::ZoneInfo& kZoneGreenwich = kZoneEtc_GMT;
+const extended::ZoneInfo& kZoneHongkong = kZoneAsia_Hong_Kong;
+const extended::ZoneInfo& kZoneIceland = kZoneAtlantic_Reykjavik;
+const extended::ZoneInfo& kZoneIndian_Antananarivo = kZoneAfrica_Nairobi;
+const extended::ZoneInfo& kZoneIndian_Comoro = kZoneAfrica_Nairobi;
+const extended::ZoneInfo& kZoneIndian_Mayotte = kZoneAfrica_Nairobi;
+const extended::ZoneInfo& kZoneIran = kZoneAsia_Tehran;
+const extended::ZoneInfo& kZoneIsrael = kZoneAsia_Jerusalem;
+const extended::ZoneInfo& kZoneJamaica = kZoneAmerica_Jamaica;
+const extended::ZoneInfo& kZoneJapan = kZoneAsia_Tokyo;
+const extended::ZoneInfo& kZoneKwajalein = kZonePacific_Kwajalein;
+const extended::ZoneInfo& kZoneLibya = kZoneAfrica_Tripoli;
+const extended::ZoneInfo& kZoneMexico_BajaNorte = kZoneAmerica_Tijuana;
+const extended::ZoneInfo& kZoneMexico_BajaSur = kZoneAmerica_Mazatlan;
+const extended::ZoneInfo& kZoneMexico_General = kZoneAmerica_Mexico_City;
+const extended::ZoneInfo& kZoneNZ = kZonePacific_Auckland;
+const extended::ZoneInfo& kZoneNZ_CHAT = kZonePacific_Chatham;
+const extended::ZoneInfo& kZoneNavajo = kZoneAmerica_Denver;
+const extended::ZoneInfo& kZonePRC = kZoneAsia_Shanghai;
+const extended::ZoneInfo& kZonePacific_Johnston = kZonePacific_Honolulu;
+const extended::ZoneInfo& kZonePacific_Midway = kZonePacific_Pago_Pago;
+const extended::ZoneInfo& kZonePacific_Ponape = kZonePacific_Pohnpei;
+const extended::ZoneInfo& kZonePacific_Saipan = kZonePacific_Guam;
+const extended::ZoneInfo& kZonePacific_Samoa = kZonePacific_Pago_Pago;
+const extended::ZoneInfo& kZonePacific_Truk = kZonePacific_Chuuk;
+const extended::ZoneInfo& kZonePacific_Yap = kZonePacific_Chuuk;
+const extended::ZoneInfo& kZonePoland = kZoneEurope_Warsaw;
+const extended::ZoneInfo& kZonePortugal = kZoneEurope_Lisbon;
+const extended::ZoneInfo& kZoneROC = kZoneAsia_Taipei;
+const extended::ZoneInfo& kZoneROK = kZoneAsia_Seoul;
+const extended::ZoneInfo& kZoneSingapore = kZoneAsia_Singapore;
+const extended::ZoneInfo& kZoneTurkey = kZoneEurope_Istanbul;
+const extended::ZoneInfo& kZoneUCT = kZoneEtc_UCT;
+const extended::ZoneInfo& kZoneUS_Alaska = kZoneAmerica_Anchorage;
+const extended::ZoneInfo& kZoneUS_Aleutian = kZoneAmerica_Adak;
+const extended::ZoneInfo& kZoneUS_Arizona = kZoneAmerica_Phoenix;
+const extended::ZoneInfo& kZoneUS_Central = kZoneAmerica_Chicago;
+const extended::ZoneInfo& kZoneUS_East_Indiana = kZoneAmerica_Indiana_Indianapolis;
+const extended::ZoneInfo& kZoneUS_Eastern = kZoneAmerica_New_York;
+const extended::ZoneInfo& kZoneUS_Hawaii = kZonePacific_Honolulu;
+const extended::ZoneInfo& kZoneUS_Indiana_Starke = kZoneAmerica_Indiana_Knox;
+const extended::ZoneInfo& kZoneUS_Michigan = kZoneAmerica_Detroit;
+const extended::ZoneInfo& kZoneUS_Mountain = kZoneAmerica_Denver;
+const extended::ZoneInfo& kZoneUS_Pacific = kZoneAmerica_Los_Angeles;
+const extended::ZoneInfo& kZoneUS_Samoa = kZonePacific_Pago_Pago;
+const extended::ZoneInfo& kZoneUTC = kZoneEtc_UTC;
+const extended::ZoneInfo& kZoneUniversal = kZoneEtc_UTC;
+const extended::ZoneInfo& kZoneW_SU = kZoneEurope_Moscow;
+const extended::ZoneInfo& kZoneZulu = kZoneEtc_UTC;
 
 }
 }

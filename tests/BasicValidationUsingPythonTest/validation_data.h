@@ -18,7 +18,7 @@
 namespace ace_time {
 namespace zonedb {
 
-// numZones: 231
+// numZones: 270
 extern const ValidationData kValidationDataAfrica_Abidjan;
 extern const ValidationData kValidationDataAfrica_Accra;
 extern const ValidationData kValidationDataAfrica_Algiers;
@@ -179,6 +179,39 @@ extern const ValidationData kValidationDataAustralia_Lord_Howe;
 extern const ValidationData kValidationDataAustralia_Melbourne;
 extern const ValidationData kValidationDataAustralia_Perth;
 extern const ValidationData kValidationDataAustralia_Sydney;
+extern const ValidationData kValidationDataCET;
+extern const ValidationData kValidationDataCST6CDT;
+extern const ValidationData kValidationDataEET;
+extern const ValidationData kValidationDataEST;
+extern const ValidationData kValidationDataEST5EDT;
+extern const ValidationData kValidationDataEtc_GMT;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_1;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_10;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_11;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_12;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_2;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_3;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_4;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_5;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_6;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_7;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_8;
+extern const ValidationData kValidationDataEtc_GMT_PLUS_9;
+extern const ValidationData kValidationDataEtc_GMT_1;
+extern const ValidationData kValidationDataEtc_GMT_10;
+extern const ValidationData kValidationDataEtc_GMT_11;
+extern const ValidationData kValidationDataEtc_GMT_12;
+extern const ValidationData kValidationDataEtc_GMT_13;
+extern const ValidationData kValidationDataEtc_GMT_14;
+extern const ValidationData kValidationDataEtc_GMT_2;
+extern const ValidationData kValidationDataEtc_GMT_3;
+extern const ValidationData kValidationDataEtc_GMT_4;
+extern const ValidationData kValidationDataEtc_GMT_5;
+extern const ValidationData kValidationDataEtc_GMT_6;
+extern const ValidationData kValidationDataEtc_GMT_7;
+extern const ValidationData kValidationDataEtc_GMT_8;
+extern const ValidationData kValidationDataEtc_GMT_9;
+extern const ValidationData kValidationDataEtc_UTC;
 extern const ValidationData kValidationDataEurope_Amsterdam;
 extern const ValidationData kValidationDataEurope_Andorra;
 extern const ValidationData kValidationDataEurope_Athens;
@@ -211,6 +244,7 @@ extern const ValidationData kValidationDataEurope_Vienna;
 extern const ValidationData kValidationDataEurope_Warsaw;
 extern const ValidationData kValidationDataEurope_Zaporozhye;
 extern const ValidationData kValidationDataEurope_Zurich;
+extern const ValidationData kValidationDataHST;
 extern const ValidationData kValidationDataIndian_Chagos;
 extern const ValidationData kValidationDataIndian_Christmas;
 extern const ValidationData kValidationDataIndian_Cocos;
@@ -219,6 +253,10 @@ extern const ValidationData kValidationDataIndian_Mahe;
 extern const ValidationData kValidationDataIndian_Maldives;
 extern const ValidationData kValidationDataIndian_Mauritius;
 extern const ValidationData kValidationDataIndian_Reunion;
+extern const ValidationData kValidationDataMET;
+extern const ValidationData kValidationDataMST;
+extern const ValidationData kValidationDataMST7MDT;
+extern const ValidationData kValidationDataPST8PDT;
 extern const ValidationData kValidationDataPacific_Auckland;
 extern const ValidationData kValidationDataPacific_Chatham;
 extern const ValidationData kValidationDataPacific_Chuuk;
@@ -250,6 +288,7 @@ extern const ValidationData kValidationDataPacific_Tarawa;
 extern const ValidationData kValidationDataPacific_Tongatapu;
 extern const ValidationData kValidationDataPacific_Wake;
 extern const ValidationData kValidationDataPacific_Wallis;
+extern const ValidationData kValidationDataWET;
 
 
 }

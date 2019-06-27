@@ -4,7 +4,7 @@
 //
 // using the TZ Database files
 //
-//  africa, antarctica, asia, australasia, europe, northamerica, southamerica
+//  africa, antarctica, asia, australasia, backward, etcetera, europe, northamerica, southamerica
 //
 // from https://github.com/eggert/tz/releases/tag/2019a
 //
@@ -18,7 +18,9 @@
 namespace ace_time {
 namespace zonedbx {
 
-// numPolicies: 83
+//---------------------------------------------------------------------------
+// Supported zone policies: 84
+//
 extern const extended::ZonePolicy kPolicyAN;
 extern const extended::ZonePolicy kPolicyAQ;
 extern const extended::ZonePolicy kPolicyAS;
@@ -32,6 +34,7 @@ extern const extended::ZonePolicy kPolicyAzer;
 extern const extended::ZonePolicy kPolicyBarb;
 extern const extended::ZonePolicy kPolicyBelize;
 extern const extended::ZonePolicy kPolicyBrazil;
+extern const extended::ZonePolicy kPolicyC_Eur;
 extern const extended::ZonePolicy kPolicyCO;
 extern const extended::ZonePolicy kPolicyCR;
 extern const extended::ZonePolicy kPolicyCanada;
@@ -104,9 +107,8 @@ extern const extended::ZonePolicy kPolicyWinn;
 extern const extended::ZonePolicy kPolicyZion;
 
 
-// The following zone policies are not supported in this database.
-//
-// numPolicies: 56
+//---------------------------------------------------------------------------
+// Unsupported zone policies: 55
 //
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
@@ -114,7 +116,6 @@ extern const extended::ZonePolicy kPolicyZion;
 // kPolicyBahamas (unused)
 // kPolicyBelgium (unused)
 // kPolicyBulg (unused)
-// kPolicyC-Eur (unused)
 // kPolicyCA (unused)
 // kPolicyChicago (unused)
 // kPolicyCyprus (unused)
@@ -166,10 +167,7 @@ extern const extended::ZonePolicy kPolicyZion;
 // kPolicyW-Eur (unused)
 
 
-// The following zone policies may have inaccuracies due to the following
-// reasons:
-//
-// numPolicies: 3
+// Inaccurate zone policies: 3
 //
 // kPolicyMoncton (AT time '0:01' truncated to '900' seconds)
 // kPolicyPalestine (AT time '0:01' truncated to '900' seconds)
