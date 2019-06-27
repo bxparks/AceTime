@@ -12,6 +12,7 @@ InlineGenerator.
 import collections
 import logging
 import sys
+import re
 import datetime
 import extractor
 from collections import OrderedDict
@@ -144,12 +145,18 @@ class Transformer:
         # Part 5: Remove links which point to removed zones.
         links_map = self.remove_links_to_missing_zones(links_map, zones_map)
 
-        # Part 6: Replace the original maps with the transformed ones.
+        # Part 6: Remove zones and links whose normalized names conflict.
+        # For example, "GTM+0" and "GMT-0" will normalize to the same
+        # kZoneGMT_0, so cannot be used.
+        zones_map, links_map = self.remove_zones_and_links_with_similar_names(
+          zones_map, links_map)
+
+        # Part 7: Replace the original maps with the transformed ones.
         self.rules_map = rules_map
         self.zones_map = zones_map
         self.links_map = links_map
 
-        # Part 7: Collect deduped format and zone strings
+        # Part 8: Collect deduped FORMAT and zone name strings
         self.format_strings = create_format_strings(self.zones_map,
             self.rules_map)
         self.zone_strings = create_zone_strings(self.zones_map)
@@ -193,11 +200,10 @@ class Transformer:
             if name.rfind('/') >= 0:
                 results[name] = eras
             else:
-                removed_zones[name] = "no '/' in zone name"
+                removed_zones[name] = "No '/' in zone name"
 
         logging.info(
             "Removed %s zone infos without '/' in name" % len(removed_zones))
-        self._print_removed_map(removed_zones)
         self.all_removed_zones.update(removed_zones)
         return results
 
@@ -1099,7 +1105,7 @@ class Transformer:
         return results
 
     # --------------------------------------------------------------------
-    # Methods related to Rules
+    # Methods related to Links.
     # --------------------------------------------------------------------
 
     def remove_links_to_missing_zones(self, links_map, zones_map):
@@ -1112,9 +1118,39 @@ class Transformer:
                 removed_links[link_name] = f'Target Zone "{zone_name}" missing'
 
         logging.info('Removed %s links with missing zones', len(removed_links))
-        self._print_removed_map(removed_links)
         self.all_removed_links.update(removed_links)
         return results
+
+    def remove_zones_and_links_with_similar_names(self, zones_map, links_map):
+        normalized_names = {} # normalized_name, name
+        result_zones = {}
+        removed_zones = {}
+        result_links = {}
+        removed_links = {}
+
+        # Check for duplicate zone names.
+        for zone_name, value in zones_map.items():
+            nname = normalize_name(zone_name)
+            if normalized_names.get(nname):
+                removed_zones[zone_name] = 'Duplicate normalized name'
+            else:
+                normalized_names[nname] = zone_name
+                result_zones[zone_name] = value
+
+        # Then strike out any duplicate links.
+        for link_name, value in links_map.items():
+            nname = normalize_name(link_name)
+            if normalized_names.get(nname):
+                removed_links[link_name] = 'Duplicate normalized name'
+            else:
+                normalized_names[nname] = link_name
+                result_links[link_name] = value
+
+        logging.info('Removed %d Zones and %s Links with duplicate names',
+            len(removed_zones), len(removed_links))
+        self.all_removed_zones.update(removed_zones)
+        self.all_removed_links.update(removed_links)
+        return result_zones, result_links
 
 
 # ISO-8601 specifies Monday=1, Sunday=7
@@ -1432,3 +1468,10 @@ def _create_rules_to_zones(zones_map, rules_map):
                     rules_to_zones[rule_name] = zones
                 zones.append(full_name)
     return rules_to_zones
+
+
+def normalize_name(name):
+    """Replace hyphen (-) and slash (/) with underscore (_) to generate valid
+    C++ and Python symbols.
+    """
+    return re.sub('[^a-zA-Z0-9_]', '_', name)

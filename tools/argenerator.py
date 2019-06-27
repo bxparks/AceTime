@@ -10,6 +10,7 @@ import os
 import transformer
 from collections import OrderedDict
 from transformer import div_to_zero
+from transformer import normalize_name
 from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
 from extractor import MAX_YEAR_TINY
@@ -939,13 +940,6 @@ def to_tiny_year(year):
         return MIN_YEAR_TINY
     else:
         return year - EPOCH_YEAR
-
-
-def normalize_name(name):
-    """Replace hyphen (-) and slash (/) with underscore (_) to generate valid
-    C++ and Python symbols.
-    """
-    return name.replace('-', '_').replace('/', '_')
 
 
 def normalize_raw(raw_line):
