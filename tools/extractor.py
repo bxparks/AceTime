@@ -51,7 +51,7 @@ the same name is called a "Zone Info".
 3) The 'backward' file and other files contain 'Link' entries which are synonyms
 for other 'Zone' entries. The format is:
 
-Link {target_zone} {alias_zoned}
+Link {target_zone} {linked_zone}
 
 For example:
 
@@ -214,13 +214,16 @@ class Extractor:
         self.next_line = None
         self.rule_lines = {}  # dictionary of ruleName to lines[]
         self.zone_lines = {}  # dictionary of zoneName to lines[]
-        self.link_lines = {}  # dictionary of linkName to lines[]
+        self.link_lines = {}  # dictionary of linkName to zoneName[]
         self.rules_map = {}  # map of ruleName to ZoneRuleRaw[]
         self.zones_map = {}  # map of zoneName to ZoneEraRaw[]
+        self.links_map = {}  # map of linkName to zoneName
         self.ignored_rule_lines = 0
         self.ignored_zone_lines = 0
+        self.ignored_link_lines = 0
         self.invalid_rule_lines = 0
         self.invalid_zone_lines = 0
+        self.invalid_link_lines = 0
 
     def parse(self):
         """Read the zoneinfo files from TZ Database and create the 'zones_map'
@@ -231,6 +234,7 @@ class Extractor:
         self._parse_zone_files()
         self._process_rules()
         self._process_zones()
+        self._process_links()
 
     def _parse_zone_files(self):
         logging.basicConfig(level=logging.INFO)
@@ -255,18 +259,21 @@ class Extractor:
             tag = line[:4]
             if tag == 'Rule':
                 tokens = line.split()
-                _add_item(self.rule_lines, tokens[1], line)
+                rule_name = tokens[1]
+                _add_item(self.rule_lines, rule_name, line)
                 in_zone_mode = False
             elif tag == 'Link':
                 tokens = line.split()
-                _add_item(self.link_lines, tokens[1], line)
+                link_name = tokens[2]
+                _add_item(self.link_lines, link_name, tokens[1])
                 in_zone_mode = False
             elif tag == 'Zone':
                 tokens = line.split()
-                _add_item(self.zone_lines, tokens[1], ' '.join(tokens[2:]))
+                zone_name = tokens[1]
+                _add_item(self.zone_lines, zone_name, ' '.join(tokens[2:]))
                 in_zone_mode = True
                 prev_tag = tag
-                prev_name = tokens[1]
+                prev_name = zone_name
             elif tag[0] == '\t' and in_zone_mode:
                 # Collect subsequent lines that begin with a TAB character into
                 # the current 'Zone' entry.
@@ -297,6 +304,14 @@ class Extractor:
                 except Exception as e:
                     logging.exception('Exception %s: %s', e, line)
                     self.invalid_zone_lines += 1
+
+    def _process_links(self):
+        for link_name, lines in self.link_lines.items():
+            if len(lines) > 1:
+                self.invalid_link_lines += len(lines)
+            else:
+                self.links_map[link_name] = lines[0]
+        print(self.links_map)
 
     def _read_line(self, input):
         """Return the next line, while supporting a one-line push_back().
@@ -343,17 +358,24 @@ class Extractor:
                 zone_entry_count += 1
 
         logging.info('-------- Extractor Summary')
-        logging.info('Rule lines count: %s' % len(self.rule_lines))
-        logging.info('Zone lines count: %s' % len(self.zone_lines))
-        logging.info('Link lines count: %s' % len(self.link_lines))
-        logging.info('Rules name count: %s' % len(self.rules_map))
-        logging.info('Zones name count: %s' % len(self.zones_map))
+        logging.info(f'Line count (Rule, Zone, Link): ('
+            + f'{len(self.rule_lines)}, '
+            + f'{len(self.zone_lines)}, '
+            + f'{len(self.link_lines)})')
+        logging.info('Name count (Rule, Zone, Link): ('
+            + f'{len(self.rules_map)}, '
+            + f'{len(self.zones_map)}, '
+            + f'{len(self.links_map)})')
         logging.info('Rule entry count: %s' % rule_entry_count)
         logging.info('Zone entry count: %s' % zone_entry_count)
-        logging.info('Ignored Rule lines: %s' % self.ignored_rule_lines)
-        logging.info('Ignored Zone lines: %s' % self.ignored_zone_lines)
-        logging.info('Invalid Rule lines: %s' % self.invalid_rule_lines)
-        logging.info('Invalid Zone lines: %s' % self.invalid_zone_lines)
+        logging.info(f'Ignored lines (Rule, Zone, Link): ('
+            + f'{self.ignored_rule_lines}, '
+            + f'{self.ignored_zone_lines}, '
+            + f'{self.ignored_link_lines})')
+        logging.info('Invalid lines: (Rule, Zone, Link): '
+            + f'{self.invalid_rule_lines}, '
+            + f'{self.invalid_zone_lines}, '
+            + f'{self.invalid_link_lines})')
         logging.info('-------- Extractor Summary End')
 
 
