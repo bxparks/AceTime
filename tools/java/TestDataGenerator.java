@@ -480,7 +480,7 @@ public class TestDataGenerator {
   }
 
   private static String normalizeName(String name) {
-    return name.replace('/', '_').replace('-', '_');
+    return name.replaceAll("\\+", "_PLUS_").replaceAll("[^a-zA-Z0-9_]", "_");
   }
 
   /** Generate the validation_tests.cpp file. */
