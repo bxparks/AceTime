@@ -132,19 +132,17 @@ class ZonePoliciesGenerator:
 namespace ace_time {{
 namespace {dbNamespace} {{
 
-// numPolicies: {numPolicies}
+//---------------------------------------------------------------------------
+// Supported zone policies: {numPolicies}
+//
 {policyItems}
 
-// The following zone policies are not supported in this database.
-//
-// numPolicies: {numRemovedPolicies}
+//---------------------------------------------------------------------------
+// Unsupported zone policies: {numRemovedPolicies}
 //
 {removedPolicyItems}
 
-// The following zone policies may have inaccuracies due to the following
-// reasons:
-//
-// numPolicies: {numNotablePolicies}
+// Inaccurate zone policies: {numNotablePolicies}
 //
 {notablePolicyItems}
 
@@ -449,18 +447,18 @@ extern const char kTzDatabaseVersion[];
 // Metadata about the zonedb files.
 extern const common::ZoneContext kZoneContext;
 
-// numInfos: {numInfos}
+//---------------------------------------------------------------------------
+// Supported zones: {numInfos}
+//
 {infoItems}
 
-// The following zones are not supported in this database.
-//
-// numInfos: {numRemovedInfos}
+//---------------------------------------------------------------------------
+// Unsupported zones: {numRemovedInfos}
 //
 {removedInfoItems}
 
-// The following zones may have inaccuracies due to the following reasons:
-//
-// numInfos: {numNotableInfos}
+//---------------------------------------------------------------------------
+// Inaccurate zones: {numNotableInfos}
 //
 {notableInfoItems}
 

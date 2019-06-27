@@ -24,7 +24,9 @@ extern const char kTzDatabaseVersion[];
 // Metadata about the zonedb files.
 extern const common::ZoneContext kZoneContext;
 
-// numInfos: 231
+//---------------------------------------------------------------------------
+// Supported zones: 231
+//
 extern const basic::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
 extern const basic::ZoneInfo kZoneAfrica_Accra; // Africa/Accra
 extern const basic::ZoneInfo kZoneAfrica_Algiers; // Africa/Algiers
@@ -258,9 +260,8 @@ extern const basic::ZoneInfo kZonePacific_Wake; // Pacific/Wake
 extern const basic::ZoneInfo kZonePacific_Wallis; // Pacific/Wallis
 
 
-// The following zones are not supported in this database.
-//
-// numInfos: 128
+//---------------------------------------------------------------------------
+// Unsupported zones: 128
 //
 // Africa/Cairo (policy 'Egypt' not found)
 // Africa/Casablanca (UNTIL contains month/day/time)
@@ -392,9 +393,8 @@ extern const basic::ZoneInfo kZonePacific_Wallis; // Pacific/Wallis
 // WET (no '/' in zone name)
 
 
-// The following zones may have inaccuracies due to the following reasons:
-//
-// numInfos: 1
+//---------------------------------------------------------------------------
+// Inaccurate zones: 1
 //
 // America/Moncton (AT time '0:01' of RULE 'Moncton' truncated to '900' seconds)
 

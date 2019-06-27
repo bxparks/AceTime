@@ -18,7 +18,9 @@
 namespace ace_time {
 namespace zonedb2018g {
 
-// numPolicies: 64
+//---------------------------------------------------------------------------
+// Supported zone policies: 64
+//
 extern const basic::ZonePolicy kPolicyAN;
 extern const basic::ZonePolicy kPolicyAQ;
 extern const basic::ZonePolicy kPolicyAS;
@@ -85,9 +87,8 @@ extern const basic::ZonePolicy kPolicyWinn;
 extern const basic::ZonePolicy kPolicyZion;
 
 
-// The following zone policies are not supported in this database.
-//
-// numPolicies: 74
+//---------------------------------------------------------------------------
+// Unsupported zone policies: 74
 //
 // kPolicyAlbania (unused)
 // kPolicyAlgeria (unused)
@@ -165,10 +166,7 @@ extern const basic::ZonePolicy kPolicyZion;
 // kPolicyWS (unused)
 
 
-// The following zone policies may have inaccuracies due to the following
-// reasons:
-//
-// numPolicies: 1
+// Inaccurate zone policies: 1
 //
 // kPolicyMoncton (AT time '0:01' truncated to '900' seconds)
 
