@@ -1474,4 +1474,5 @@ def normalize_name(name):
     """Replace hyphen (-) and slash (/) with underscore (_) to generate valid
     C++ and Python symbols.
     """
+    name = name.replace('+', '_PLUS_')
     return re.sub('[^a-zA-Z0-9_]', '_', name)
