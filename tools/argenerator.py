@@ -176,8 +176,8 @@ extern const {zoneSpecNamespace}::ZonePolicy kPolicy{policyName};
 // using the TZ Database files from
 //  https://github.com/eggert/tz/releases/tag/{tz_version}
 //
-// Policy count: {numPolicies}
-// Rule count: {numRules}
+// Policies: {numPolicies}
+// Rules: {numRules}
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
 //
@@ -197,7 +197,7 @@ namespace {dbNamespace} {{
     ZONE_POLICIES_CPP_POLICY_ITEM = """\
 //---------------------------------------------------------------------------
 // Policy name: {policyName}
-// Rule count: {numRules}
+// Rules: {numRules}
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
@@ -500,7 +500,7 @@ extern const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFu
 """
 
     ZONE_INFOS_H_LINK_ITEM = """\
-extern const {zoneSpecNamespace}::ZoneInfo kZone{linkNormalizedName}; // {linkFullName} -> {zoneFullName}
+extern const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName}; // {linkFullName} -> {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_LINK_ITEM = """\
@@ -534,8 +534,9 @@ namespace ace_time {{
 namespace {dbNamespace} {{
 
 //---------------------------------------------------------------------------
-// Context info
+// ZoneContext
 //---------------------------------------------------------------------------
+
 const char kTzDatabaseVersion[] = "{tz_version}";
 
 const common::ZoneContext kZoneContext = {{
@@ -544,7 +545,16 @@ const common::ZoneContext kZoneContext = {{
   kTzDatabaseVersion /*tzVersion*/,
 }};
 
+//---------------------------------------------------------------------------
+// Zones: {numInfos}
+//---------------------------------------------------------------------------
+
 {infoItems}
+
+//---------------------------------------------------------------------------
+// Links: {numLinks}
+//---------------------------------------------------------------------------
+
 {linkItems}
 }}
 }}
@@ -553,7 +563,7 @@ const common::ZoneContext kZoneContext = {{
     ZONE_INFOS_CPP_INFO_ITEM = """\
 //---------------------------------------------------------------------------
 // Zone name: {zoneFullName}
-// Era count: {numEras}
+// Zone Eras: {numEras}
 // Strings (bytes): {stringLength}
 // Memory (8-bit): {memory8}
 // Memory (32-bit): {memory32}
@@ -589,22 +599,7 @@ const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName} = {{
 """
 
     ZONE_INFOS_CPP_LINK_ITEM = """\
-//---------------------------------------------------------------------------
-// Link name: {linkFullName}
-// Zone name: {zoneFullName}
-// Strings (bytes): {stringLength}
-// Memory (8-bit): {memory8}
-// Memory (32-bit): {memory32}
-//---------------------------------------------------------------------------
-
-const {zoneSpecNamespace}::ZoneInfo kZone{linkNormalizedName} = {{
-  "{linkFullName}" /*name*/,
-  &kZoneContext /*zoneContext*/,
-  {transitionBufSize} /*transitionBufSize*/,
-  {numEras} /*numEras*/,
-  kZoneEra{zoneNormalizedName} /*eras*/,
-}};
-
+const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
 """
 
     SIZEOF_ZONE_ERA_8 = 11
@@ -705,25 +700,19 @@ const {zoneSpecNamespace}::ZoneInfo kZone{linkNormalizedName} = {{
             string_length += info_string_length
             num_eras += len(eras)
 
-        # Generate list of links.
+        # Generate links references.
         link_items = ''
         for link_name, zone_name in sorted(self.links_map.items()):
             eras = self.zones_map[zone_name]
-            (link_item, info_string_length) = self._generate_link_item(
-                link_name, zone_name, len(eras))
-            link_items += link_item
-            string_length += info_string_length
-            num_eras += len(eras)
+            link_items += self._generate_link_item(link_name, zone_name)
 
         # Estimate size of entire zone info database.
         num_infos = len(self.zones_map)
         num_links = len(self.links_map)
         memory8 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_8 +
-                   num_infos * self.SIZEOF_ZONE_INFO_8 +
-                   num_links * self.SIZEOF_ZONE_INFO_8)
+                   num_infos * self.SIZEOF_ZONE_INFO_8)
         memory32 = (string_length + num_eras * self.SIZEOF_ZONE_ERA_32 +
-                    num_infos * self.SIZEOF_ZONE_INFO_32 +
-                    num_links * self.SIZEOF_ZONE_INFO_32)
+                    num_infos * self.SIZEOF_ZONE_INFO_32)
 
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
@@ -815,24 +804,13 @@ const {zoneSpecNamespace}::ZoneInfo kZone{linkNormalizedName} = {{
 
         return (era_item, string_length)
 
-    def _generate_link_item(self, link_name, zone_name, num_eras):
-        era_items = ''
-        string_length = len(zone_name) + 1
-        transition_buf_size = self.buf_sizes[zone_name]
-        memory8 = (string_length + 1 * self.SIZEOF_ZONE_INFO_8)
-        memory32 = (string_length + 1 * self.SIZEOF_ZONE_INFO_32)
-        link_item = self.ZONE_INFOS_CPP_LINK_ITEM.format(
+    def _generate_link_item(self, link_name, zone_name):
+        return self.ZONE_INFOS_CPP_LINK_ITEM.format(
             zoneSpecNamespace=self.zone_spec_namespace,
             linkFullName=link_name,
             linkNormalizedName=normalize_name(link_name),
             zoneFullName=zone_name,
-            zoneNormalizedName=normalize_name(zone_name),
-            transitionBufSize=transition_buf_size,
-            numEras=num_eras,
-            stringLength=string_length,
-            memory8=memory8,
-            memory32=memory32)
-        return (link_item, string_length)
+            zoneNormalizedName=normalize_name(zone_name))
 
 class ZoneStringsGenerator:
 

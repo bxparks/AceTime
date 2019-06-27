@@ -93,18 +93,8 @@ test(ZonedDateTimeTest_Extended, forComponents_afterOverlap) {
 
 // Test the linked zones are same as the target zones.
 test(ZonedDateTimeTest_Extended, linked_zones) {
-  ExtendedZoneSpecifier zspecLA(&zonedbx::kZoneAmerica_Los_Angeles);
-  TimeZone tzLA = TimeZone::forZoneSpecifier(&zspecLA);
-  ExtendedZoneSpecifier zspecPac(&zonedbx::kZoneUS_Pacific);
-  TimeZone tzPac = TimeZone::forZoneSpecifier(&zspecPac);
-
-  auto dtLA = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tzLA);
-  auto dtPac = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tzPac);
-  assertEqual(0, dtLA.compareTo(dtPac));
-
-  dtLA = ZonedDateTime::forComponents(2049, 3, 11, 3, 1, 0, tzLA);
-  dtPac = ZonedDateTime::forComponents(2049, 3, 11, 3, 1, 0, tzPac);
-  assertEqual(0, dtLA.compareTo(dtPac));
+  assertEqual((intptr_t) &zonedbx::kZoneAmerica_Los_Angeles,
+      (intptr_t) &zonedbx::kZoneUS_Pacific);
 }
 
 // --------------------------------------------------------------------------
