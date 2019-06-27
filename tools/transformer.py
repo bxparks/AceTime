@@ -4,8 +4,9 @@
 #
 # MIT License.
 """
-Cleanses and transforms the 'zones' and 'rules' data so that it can be used for
-code generation in the ArduinoGenerator, PythonGenerator or the InlineGenerator.
+Cleanses and transforms the Zone, Rule and Link entries so that it can be used
+for code generation in the ArduinoGenerator, PythonGenerator or the
+InlineGenerator.
 """
 
 import collections
@@ -25,12 +26,13 @@ StringCollection = collections.namedtuple(
     'StringCollection', 'ordered_map size orig_size')
 
 class Transformer:
-    def __init__(self, zones_map, rules_map, language, scope, start_year,
-                 until_year, granularity, strict):
+    def __init__(self, zones_map, rules_map, links_map, language, scope,
+                 start_year, until_year, granularity, strict):
         """
         Args:
             zones_map (dict): Zone names to ZoneEras
             rules_map (dict): Policy names to ZoneRules
+            links_map (dict): Link name to Zone Name
             language (str): target language ('python', 'arduino', 'java')
             scope (str): scope of database (basic, or extended)
             start_year (int): include only years on or after start_year
@@ -42,6 +44,7 @@ class Transformer:
         """
         self.zones_map = zones_map
         self.rules_map = rules_map
+        self.links_map = links_map
         self.language = language
         self.scope = scope
         self.start_year = start_year
@@ -49,38 +52,50 @@ class Transformer:
         self.granularity = granularity
         self.strict = strict
 
+        self.original_zone_count = len(zones_map)
+        self.original_rule_count = len(rules_map)
+        self.original_link_count = len(links_map)
+
         self.all_removed_zones = {}  # map of zone name -> reason
         self.all_removed_policies = {}  # map of policy name -> reason
+        self.all_removed_links = {}  # map of link name -> reason
 
         self.all_notable_zones = {}  # map of zone name -> reason
         self.all_notable_policies = {}  # map of policy name -> reason
+        self.all_notable_links = {}  # map of link name -> reason
 
     def transform(self):
         """
         Transforms the zones_map and rules_map given in the constructor
         through a series of filters, and produces the following results:
 
-        * 'self.zones_map' is a map of (name -> ZoneEraRaw[]).
-        * 'self.rules_map' is a map of (name -> ZoneRuleRaw[]).
-        * 'self.all_removed_zones' is a map of the zones which were removed:
-            name: name of zone removed
+        * self.zones_map: map of (zoneName -> ZoneEraRaw[]).
+        * self.rules_map: map of (policyName -> ZoneRuleRaw[]).
+        * self.links_map: map of (linkName -> zoneName)
+        * self.all_removed_zones: map of the zones which were removed:
+            name: name of zone
             reason: human readable reason
-        * 'self.all_removed_policies' is a map of the policies (entire set of
-          RULEs) which were removed:
-            name: name of policy removed
+        * self.all_removed_policies: map of the policies which were removed:
+            name: name of policy
             reason: human readable reason
-        * 'self.all_notable_zones' is a map of the zones which come with
+        * self.all_removed_links: map of removed
+            name: name of link
+            reason: human readable reason
+         self.all_notable_zones: map of the zones which come with
           caveats, e.g., truncation of '00:01' to '00:00'.
             name: name of zone
             reason: human readable reason
-        * 'self.all_notable_policies' is a map of the policies come with
-          caveats:
+        * self.all_notable_policies: map of policies which come with caveats:
             name: name of policy
+            reason: human readable reason
+        * self.all_notable_links: map of links which come with caveats:
+            name: name of link
             reason: human readable reason
         """
 
         zones_map = self.zones_map
         rules_map = self.rules_map
+        links_map = self.links_map
 
         logging.info('Found %s zone infos' % len(self.zones_map))
         logging.info('Found %s rule policies' % len(self.rules_map))
@@ -126,11 +141,15 @@ class Transformer:
         # Part 4: Go back to zones_map and remove unused.
         zones_map = self._remove_zones_without_rules(zones_map, rules_map)
 
-        # Part 5: Update the original zones and rules.
+        # Part 5: Remove links which point to removed zones.
+        links_map = self.remove_links_to_missing_zones(links_map, zones_map)
+
+        # Part 6: Replace the original maps with the transformed ones.
         self.rules_map = rules_map
         self.zones_map = zones_map
+        self.links_map = links_map
 
-        # Part 5: Collect deduped format and zone strings
+        # Part 7: Collect deduped format and zone strings
         self.format_strings = create_format_strings(self.zones_map,
             self.rules_map)
         self.zone_strings = create_zone_strings(self.zones_map)
@@ -138,14 +157,22 @@ class Transformer:
     def print_summary(self):
         logging.info('-------- Transformer Summary')
         logging.info('---- Zones')
-        logging.info('Removed %s infos' % len(self.all_removed_zones))
-        logging.info('Noted %s infos' % len(self.all_notable_zones))
-        logging.info('Generated %s infos' % len(self.zones_map))
+        logging.info('Total %s zones' % self.original_zone_count)
+        logging.info('Removed %s zones' % len(self.all_removed_zones))
+        logging.info('Generated %s zones' % len(self.zones_map))
+        logging.info('Noted %s zones' % len(self.all_notable_zones))
 
         logging.info('---- Rules')
+        logging.info('Total %s rules' % self.original_rule_count)
         logging.info('Removed %s policies' % len(self.all_removed_policies))
-        logging.info('Noted %s policies' % len(self.all_notable_policies))
         logging.info('Generated %s policies' % len(self.rules_map))
+        logging.info('Noted %s policies' % len(self.all_notable_policies))
+
+        logging.info('---- Links')
+        logging.info('Total %s links' % self.original_link_count)
+        logging.info('Removed %s links' % len(self.all_removed_links))
+        logging.info('Generated %s links' % len(self.links_map))
+        logging.info('Noted %s links' % len(self.all_notable_links))
         logging.info('-------- Transformer Summary End')
 
     def _print_removed_map(self, removed_map):
@@ -1069,6 +1096,24 @@ class Transformer:
         self._print_removed_map(removed_policies)
         self.all_removed_policies.update(removed_policies)
         self.all_notable_policies.update(notable_policies)
+        return results
+
+    # --------------------------------------------------------------------
+    # Methods related to Rules
+    # --------------------------------------------------------------------
+
+    def remove_links_to_missing_zones(self, links_map, zones_map):
+        results = {}
+        removed_links = {}
+        for link_name, zone_name in links_map.items():
+            if zones_map.get(zone_name):
+                results[link_name] = zone_name
+            else:
+                removed_links[link_name] = f'Target Zone "{zone_name}" missing'
+
+        logging.info('Removed %s links with missing zones', len(removed_links))
+        self._print_removed_map(removed_links)
+        self.all_removed_links.update(removed_links)
         return results
 
 

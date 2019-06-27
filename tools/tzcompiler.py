@@ -251,8 +251,8 @@ def main():
     logging.info('======== Transforming Zones and Rules')
     logging.info('Extracting years [%d, %d)', args.start_year, args.until_year)
     transformer = Transformer(extractor.zones_map, extractor.rules_map,
-        args.language, args.scope, args.start_year, args.until_year,
-        granularity, args.strict)
+        extractor.links_map, args.language, args.scope, args.start_year,
+        args.until_year, granularity, args.strict)
     transformer.transform()
     transformer.print_summary()
 

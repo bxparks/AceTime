@@ -311,7 +311,6 @@ class Extractor:
                 self.invalid_link_lines += len(lines)
             else:
                 self.links_map[link_name] = lines[0]
-        print(self.links_map)
 
     def _read_line(self, input):
         """Return the next line, while supporting a one-line push_back().
