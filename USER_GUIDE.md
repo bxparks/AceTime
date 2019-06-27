@@ -1995,10 +1995,11 @@ is already too large, I did not want to make them larger than necessary.
       then copied to RAM when the application starts. Fortunately, most
       `ZoneInfo` instances are only 40-60 bytes and the corresponding
       `ZonePolicy` instances are 50-100 bytes.
-    * It maybe possible to use the `PROGMEM` keyword to store them only on
-      flash memory, but that requires more code to be generated to read them
-      from flash. The end result may be a wash when only a small number of zones
-      are loaded.
+    * It may be possible to use the `PROGMEM` keyword to store them only on
+      flash memory, but that will increase the flash memory size due to the code
+      needed to read these data structures from flash. In some applications,
+      flash memory may be more precious than RAM so it is not clear that using
+      `PROGMEM` for these data structures is the appropriate solution.
 * TZ Database
     * The TZ data files contain 3 types of records: `Zone`, `Rule` and `Link`.
       AceTime does not yet support `Link` entries which are essentiallly
