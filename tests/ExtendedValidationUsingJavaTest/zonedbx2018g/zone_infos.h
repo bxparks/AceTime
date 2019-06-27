@@ -4,7 +4,7 @@
 //
 // using the TZ Database files
 //
-//  africa, antarctica, asia, australasia, europe, northamerica, southamerica
+//  africa, antarctica, asia, australasia, backward, etcetera, europe, northamerica, southamerica
 //
 // from https://github.com/eggert/tz/releases/tag/2018g
 //
@@ -18,6 +18,10 @@
 namespace ace_time {
 namespace zonedbx2018g {
 
+//---------------------------------------------------------------------------
+// ZoneContext
+//---------------------------------------------------------------------------
+
 // Version of the TZ Database which generated these files.
 extern const char kTzDatabaseVersion[];
 
@@ -25,8 +29,9 @@ extern const char kTzDatabaseVersion[];
 extern const common::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
-// Supported zones: 347
-//
+// Supported zones: 387
+//---------------------------------------------------------------------------
+
 extern const extended::ZoneInfo kZoneAfrica_Abidjan; // Africa/Abidjan
 extern const extended::ZoneInfo kZoneAfrica_Accra; // Africa/Accra
 extern const extended::ZoneInfo kZoneAfrica_Algiers; // Africa/Algiers
@@ -284,6 +289,40 @@ extern const extended::ZoneInfo kZoneAustralia_Lord_Howe; // Australia/Lord_Howe
 extern const extended::ZoneInfo kZoneAustralia_Melbourne; // Australia/Melbourne
 extern const extended::ZoneInfo kZoneAustralia_Perth; // Australia/Perth
 extern const extended::ZoneInfo kZoneAustralia_Sydney; // Australia/Sydney
+extern const extended::ZoneInfo kZoneCET; // CET
+extern const extended::ZoneInfo kZoneCST6CDT; // CST6CDT
+extern const extended::ZoneInfo kZoneEET; // EET
+extern const extended::ZoneInfo kZoneEST; // EST
+extern const extended::ZoneInfo kZoneEST5EDT; // EST5EDT
+extern const extended::ZoneInfo kZoneEtc_GMT; // Etc/GMT
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_1; // Etc/GMT+1
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_10; // Etc/GMT+10
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_11; // Etc/GMT+11
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_12; // Etc/GMT+12
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_2; // Etc/GMT+2
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_3; // Etc/GMT+3
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_4; // Etc/GMT+4
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_5; // Etc/GMT+5
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_6; // Etc/GMT+6
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_7; // Etc/GMT+7
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_8; // Etc/GMT+8
+extern const extended::ZoneInfo kZoneEtc_GMT_PLUS_9; // Etc/GMT+9
+extern const extended::ZoneInfo kZoneEtc_GMT_1; // Etc/GMT-1
+extern const extended::ZoneInfo kZoneEtc_GMT_10; // Etc/GMT-10
+extern const extended::ZoneInfo kZoneEtc_GMT_11; // Etc/GMT-11
+extern const extended::ZoneInfo kZoneEtc_GMT_12; // Etc/GMT-12
+extern const extended::ZoneInfo kZoneEtc_GMT_13; // Etc/GMT-13
+extern const extended::ZoneInfo kZoneEtc_GMT_14; // Etc/GMT-14
+extern const extended::ZoneInfo kZoneEtc_GMT_2; // Etc/GMT-2
+extern const extended::ZoneInfo kZoneEtc_GMT_3; // Etc/GMT-3
+extern const extended::ZoneInfo kZoneEtc_GMT_4; // Etc/GMT-4
+extern const extended::ZoneInfo kZoneEtc_GMT_5; // Etc/GMT-5
+extern const extended::ZoneInfo kZoneEtc_GMT_6; // Etc/GMT-6
+extern const extended::ZoneInfo kZoneEtc_GMT_7; // Etc/GMT-7
+extern const extended::ZoneInfo kZoneEtc_GMT_8; // Etc/GMT-8
+extern const extended::ZoneInfo kZoneEtc_GMT_9; // Etc/GMT-9
+extern const extended::ZoneInfo kZoneEtc_UCT; // Etc/UCT
+extern const extended::ZoneInfo kZoneEtc_UTC; // Etc/UTC
 extern const extended::ZoneInfo kZoneEurope_Amsterdam; // Europe/Amsterdam
 extern const extended::ZoneInfo kZoneEurope_Andorra; // Europe/Andorra
 extern const extended::ZoneInfo kZoneEurope_Astrakhan; // Europe/Astrakhan
@@ -330,6 +369,7 @@ extern const extended::ZoneInfo kZoneEurope_Volgograd; // Europe/Volgograd
 extern const extended::ZoneInfo kZoneEurope_Warsaw; // Europe/Warsaw
 extern const extended::ZoneInfo kZoneEurope_Zaporozhye; // Europe/Zaporozhye
 extern const extended::ZoneInfo kZoneEurope_Zurich; // Europe/Zurich
+extern const extended::ZoneInfo kZoneHST; // HST
 extern const extended::ZoneInfo kZoneIndian_Chagos; // Indian/Chagos
 extern const extended::ZoneInfo kZoneIndian_Christmas; // Indian/Christmas
 extern const extended::ZoneInfo kZoneIndian_Cocos; // Indian/Cocos
@@ -338,6 +378,10 @@ extern const extended::ZoneInfo kZoneIndian_Mahe; // Indian/Mahe
 extern const extended::ZoneInfo kZoneIndian_Maldives; // Indian/Maldives
 extern const extended::ZoneInfo kZoneIndian_Mauritius; // Indian/Mauritius
 extern const extended::ZoneInfo kZoneIndian_Reunion; // Indian/Reunion
+extern const extended::ZoneInfo kZoneMET; // MET
+extern const extended::ZoneInfo kZoneMST; // MST
+extern const extended::ZoneInfo kZoneMST7MDT; // MST7MDT
+extern const extended::ZoneInfo kZonePST8PDT; // PST8PDT
 extern const extended::ZoneInfo kZonePacific_Apia; // Pacific/Apia
 extern const extended::ZoneInfo kZonePacific_Auckland; // Pacific/Auckland
 extern const extended::ZoneInfo kZonePacific_Bougainville; // Pacific/Bougainville
@@ -374,32 +418,246 @@ extern const extended::ZoneInfo kZonePacific_Tarawa; // Pacific/Tarawa
 extern const extended::ZoneInfo kZonePacific_Tongatapu; // Pacific/Tongatapu
 extern const extended::ZoneInfo kZonePacific_Wake; // Pacific/Wake
 extern const extended::ZoneInfo kZonePacific_Wallis; // Pacific/Wallis
+extern const extended::ZoneInfo kZoneWET; // WET
 
 
 //---------------------------------------------------------------------------
-// Unsupported zones: 11
-//
-// CET (no '/' in zone name)
-// CST6CDT (no '/' in zone name)
-// EET (no '/' in zone name)
-// EST (no '/' in zone name)
-// EST5EDT (no '/' in zone name)
-// HST (no '/' in zone name)
-// MET (no '/' in zone name)
-// MST (no '/' in zone name)
-// MST7MDT (no '/' in zone name)
-// PST8PDT (no '/' in zone name)
-// WET (no '/' in zone name)
+// Supported links: 204
+//---------------------------------------------------------------------------
+
+extern const extended::ZoneInfo& kZoneAfrica_Addis_Ababa; // Africa/Addis_Ababa -> Africa/Nairobi
+extern const extended::ZoneInfo& kZoneAfrica_Asmara; // Africa/Asmara -> Africa/Nairobi
+extern const extended::ZoneInfo& kZoneAfrica_Asmera; // Africa/Asmera -> Africa/Nairobi
+extern const extended::ZoneInfo& kZoneAfrica_Bamako; // Africa/Bamako -> Africa/Abidjan
+extern const extended::ZoneInfo& kZoneAfrica_Bangui; // Africa/Bangui -> Africa/Lagos
+extern const extended::ZoneInfo& kZoneAfrica_Banjul; // Africa/Banjul -> Africa/Abidjan
+extern const extended::ZoneInfo& kZoneAfrica_Blantyre; // Africa/Blantyre -> Africa/Maputo
+extern const extended::ZoneInfo& kZoneAfrica_Brazzaville; // Africa/Brazzaville -> Africa/Lagos
+extern const extended::ZoneInfo& kZoneAfrica_Bujumbura; // Africa/Bujumbura -> Africa/Maputo
+extern const extended::ZoneInfo& kZoneAfrica_Conakry; // Africa/Conakry -> Africa/Abidjan
+extern const extended::ZoneInfo& kZoneAfrica_Dakar; // Africa/Dakar -> Africa/Abidjan
+extern const extended::ZoneInfo& kZoneAfrica_Dar_es_Salaam; // Africa/Dar_es_Salaam -> Africa/Nairobi
+extern const extended::ZoneInfo& kZoneAfrica_Djibouti; // Africa/Djibouti -> Africa/Nairobi
+extern const extended::ZoneInfo& kZoneAfrica_Douala; // Africa/Douala -> Africa/Lagos
+extern const extended::ZoneInfo& kZoneAfrica_Freetown; // Africa/Freetown -> Africa/Abidjan
+extern const extended::ZoneInfo& kZoneAfrica_Gaborone; // Africa/Gaborone -> Africa/Maputo
+extern const extended::ZoneInfo& kZoneAfrica_Harare; // Africa/Harare -> Africa/Maputo
+extern const extended::ZoneInfo& kZoneAfrica_Kampala; // Africa/Kampala -> Africa/Nairobi
+extern const extended::ZoneInfo& kZoneAfrica_Kigali; // Africa/Kigali -> Africa/Maputo
+extern const extended::ZoneInfo& kZoneAfrica_Kinshasa; // Africa/Kinshasa -> Africa/Lagos
+extern const extended::ZoneInfo& kZoneAfrica_Libreville; // Africa/Libreville -> Africa/Lagos
+extern const extended::ZoneInfo& kZoneAfrica_Lome; // Africa/Lome -> Africa/Abidjan
+extern const extended::ZoneInfo& kZoneAfrica_Luanda; // Africa/Luanda -> Africa/Lagos
+extern const extended::ZoneInfo& kZoneAfrica_Lubumbashi; // Africa/Lubumbashi -> Africa/Maputo
+extern const extended::ZoneInfo& kZoneAfrica_Lusaka; // Africa/Lusaka -> Africa/Maputo
+extern const extended::ZoneInfo& kZoneAfrica_Malabo; // Africa/Malabo -> Africa/Lagos
+extern const extended::ZoneInfo& kZoneAfrica_Maseru; // Africa/Maseru -> Africa/Johannesburg
+extern const extended::ZoneInfo& kZoneAfrica_Mbabane; // Africa/Mbabane -> Africa/Johannesburg
+extern const extended::ZoneInfo& kZoneAfrica_Mogadishu; // Africa/Mogadishu -> Africa/Nairobi
+extern const extended::ZoneInfo& kZoneAfrica_Niamey; // Africa/Niamey -> Africa/Lagos
+extern const extended::ZoneInfo& kZoneAfrica_Nouakchott; // Africa/Nouakchott -> Africa/Abidjan
+extern const extended::ZoneInfo& kZoneAfrica_Ouagadougou; // Africa/Ouagadougou -> Africa/Abidjan
+extern const extended::ZoneInfo& kZoneAfrica_Porto_Novo; // Africa/Porto-Novo -> Africa/Lagos
+extern const extended::ZoneInfo& kZoneAfrica_Timbuktu; // Africa/Timbuktu -> Africa/Abidjan
+extern const extended::ZoneInfo& kZoneAmerica_Anguilla; // America/Anguilla -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_Antigua; // America/Antigua -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_Argentina_ComodRivadavia; // America/Argentina/ComodRivadavia -> America/Argentina/Catamarca
+extern const extended::ZoneInfo& kZoneAmerica_Aruba; // America/Aruba -> America/Curacao
+extern const extended::ZoneInfo& kZoneAmerica_Atka; // America/Atka -> America/Adak
+extern const extended::ZoneInfo& kZoneAmerica_Buenos_Aires; // America/Buenos_Aires -> America/Argentina/Buenos_Aires
+extern const extended::ZoneInfo& kZoneAmerica_Catamarca; // America/Catamarca -> America/Argentina/Catamarca
+extern const extended::ZoneInfo& kZoneAmerica_Cayman; // America/Cayman -> America/Panama
+extern const extended::ZoneInfo& kZoneAmerica_Coral_Harbour; // America/Coral_Harbour -> America/Atikokan
+extern const extended::ZoneInfo& kZoneAmerica_Cordoba; // America/Cordoba -> America/Argentina/Cordoba
+extern const extended::ZoneInfo& kZoneAmerica_Dominica; // America/Dominica -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_Ensenada; // America/Ensenada -> America/Tijuana
+extern const extended::ZoneInfo& kZoneAmerica_Fort_Wayne; // America/Fort_Wayne -> America/Indiana/Indianapolis
+extern const extended::ZoneInfo& kZoneAmerica_Grenada; // America/Grenada -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_Guadeloupe; // America/Guadeloupe -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_Indianapolis; // America/Indianapolis -> America/Indiana/Indianapolis
+extern const extended::ZoneInfo& kZoneAmerica_Jujuy; // America/Jujuy -> America/Argentina/Jujuy
+extern const extended::ZoneInfo& kZoneAmerica_Knox_IN; // America/Knox_IN -> America/Indiana/Knox
+extern const extended::ZoneInfo& kZoneAmerica_Kralendijk; // America/Kralendijk -> America/Curacao
+extern const extended::ZoneInfo& kZoneAmerica_Louisville; // America/Louisville -> America/Kentucky/Louisville
+extern const extended::ZoneInfo& kZoneAmerica_Lower_Princes; // America/Lower_Princes -> America/Curacao
+extern const extended::ZoneInfo& kZoneAmerica_Marigot; // America/Marigot -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_Mendoza; // America/Mendoza -> America/Argentina/Mendoza
+extern const extended::ZoneInfo& kZoneAmerica_Montreal; // America/Montreal -> America/Toronto
+extern const extended::ZoneInfo& kZoneAmerica_Montserrat; // America/Montserrat -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_Porto_Acre; // America/Porto_Acre -> America/Rio_Branco
+extern const extended::ZoneInfo& kZoneAmerica_Rosario; // America/Rosario -> America/Argentina/Cordoba
+extern const extended::ZoneInfo& kZoneAmerica_Santa_Isabel; // America/Santa_Isabel -> America/Tijuana
+extern const extended::ZoneInfo& kZoneAmerica_Shiprock; // America/Shiprock -> America/Denver
+extern const extended::ZoneInfo& kZoneAmerica_St_Barthelemy; // America/St_Barthelemy -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_St_Kitts; // America/St_Kitts -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_St_Lucia; // America/St_Lucia -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_St_Thomas; // America/St_Thomas -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_St_Vincent; // America/St_Vincent -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_Tortola; // America/Tortola -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAmerica_Virgin; // America/Virgin -> America/Port_of_Spain
+extern const extended::ZoneInfo& kZoneAntarctica_McMurdo; // Antarctica/McMurdo -> Pacific/Auckland
+extern const extended::ZoneInfo& kZoneAntarctica_South_Pole; // Antarctica/South_Pole -> Pacific/Auckland
+extern const extended::ZoneInfo& kZoneArctic_Longyearbyen; // Arctic/Longyearbyen -> Europe/Oslo
+extern const extended::ZoneInfo& kZoneAsia_Aden; // Asia/Aden -> Asia/Riyadh
+extern const extended::ZoneInfo& kZoneAsia_Ashkhabad; // Asia/Ashkhabad -> Asia/Ashgabat
+extern const extended::ZoneInfo& kZoneAsia_Bahrain; // Asia/Bahrain -> Asia/Qatar
+extern const extended::ZoneInfo& kZoneAsia_Calcutta; // Asia/Calcutta -> Asia/Kolkata
+extern const extended::ZoneInfo& kZoneAsia_Chongqing; // Asia/Chongqing -> Asia/Shanghai
+extern const extended::ZoneInfo& kZoneAsia_Chungking; // Asia/Chungking -> Asia/Shanghai
+extern const extended::ZoneInfo& kZoneAsia_Dacca; // Asia/Dacca -> Asia/Dhaka
+extern const extended::ZoneInfo& kZoneAsia_Harbin; // Asia/Harbin -> Asia/Shanghai
+extern const extended::ZoneInfo& kZoneAsia_Istanbul; // Asia/Istanbul -> Europe/Istanbul
+extern const extended::ZoneInfo& kZoneAsia_Kashgar; // Asia/Kashgar -> Asia/Urumqi
+extern const extended::ZoneInfo& kZoneAsia_Katmandu; // Asia/Katmandu -> Asia/Kathmandu
+extern const extended::ZoneInfo& kZoneAsia_Kuwait; // Asia/Kuwait -> Asia/Riyadh
+extern const extended::ZoneInfo& kZoneAsia_Macao; // Asia/Macao -> Asia/Macau
+extern const extended::ZoneInfo& kZoneAsia_Muscat; // Asia/Muscat -> Asia/Dubai
+extern const extended::ZoneInfo& kZoneAsia_Phnom_Penh; // Asia/Phnom_Penh -> Asia/Bangkok
+extern const extended::ZoneInfo& kZoneAsia_Rangoon; // Asia/Rangoon -> Asia/Yangon
+extern const extended::ZoneInfo& kZoneAsia_Saigon; // Asia/Saigon -> Asia/Ho_Chi_Minh
+extern const extended::ZoneInfo& kZoneAsia_Tel_Aviv; // Asia/Tel_Aviv -> Asia/Jerusalem
+extern const extended::ZoneInfo& kZoneAsia_Thimbu; // Asia/Thimbu -> Asia/Thimphu
+extern const extended::ZoneInfo& kZoneAsia_Ujung_Pandang; // Asia/Ujung_Pandang -> Asia/Makassar
+extern const extended::ZoneInfo& kZoneAsia_Ulan_Bator; // Asia/Ulan_Bator -> Asia/Ulaanbaatar
+extern const extended::ZoneInfo& kZoneAsia_Vientiane; // Asia/Vientiane -> Asia/Bangkok
+extern const extended::ZoneInfo& kZoneAtlantic_Faeroe; // Atlantic/Faeroe -> Atlantic/Faroe
+extern const extended::ZoneInfo& kZoneAtlantic_Jan_Mayen; // Atlantic/Jan_Mayen -> Europe/Oslo
+extern const extended::ZoneInfo& kZoneAtlantic_St_Helena; // Atlantic/St_Helena -> Africa/Abidjan
+extern const extended::ZoneInfo& kZoneAustralia_ACT; // Australia/ACT -> Australia/Sydney
+extern const extended::ZoneInfo& kZoneAustralia_Canberra; // Australia/Canberra -> Australia/Sydney
+extern const extended::ZoneInfo& kZoneAustralia_LHI; // Australia/LHI -> Australia/Lord_Howe
+extern const extended::ZoneInfo& kZoneAustralia_NSW; // Australia/NSW -> Australia/Sydney
+extern const extended::ZoneInfo& kZoneAustralia_North; // Australia/North -> Australia/Darwin
+extern const extended::ZoneInfo& kZoneAustralia_Queensland; // Australia/Queensland -> Australia/Brisbane
+extern const extended::ZoneInfo& kZoneAustralia_South; // Australia/South -> Australia/Adelaide
+extern const extended::ZoneInfo& kZoneAustralia_Tasmania; // Australia/Tasmania -> Australia/Hobart
+extern const extended::ZoneInfo& kZoneAustralia_Victoria; // Australia/Victoria -> Australia/Melbourne
+extern const extended::ZoneInfo& kZoneAustralia_West; // Australia/West -> Australia/Perth
+extern const extended::ZoneInfo& kZoneAustralia_Yancowinna; // Australia/Yancowinna -> Australia/Broken_Hill
+extern const extended::ZoneInfo& kZoneBrazil_Acre; // Brazil/Acre -> America/Rio_Branco
+extern const extended::ZoneInfo& kZoneBrazil_DeNoronha; // Brazil/DeNoronha -> America/Noronha
+extern const extended::ZoneInfo& kZoneBrazil_East; // Brazil/East -> America/Sao_Paulo
+extern const extended::ZoneInfo& kZoneBrazil_West; // Brazil/West -> America/Manaus
+extern const extended::ZoneInfo& kZoneCanada_Atlantic; // Canada/Atlantic -> America/Halifax
+extern const extended::ZoneInfo& kZoneCanada_Central; // Canada/Central -> America/Winnipeg
+extern const extended::ZoneInfo& kZoneCanada_Eastern; // Canada/Eastern -> America/Toronto
+extern const extended::ZoneInfo& kZoneCanada_Mountain; // Canada/Mountain -> America/Edmonton
+extern const extended::ZoneInfo& kZoneCanada_Newfoundland; // Canada/Newfoundland -> America/St_Johns
+extern const extended::ZoneInfo& kZoneCanada_Pacific; // Canada/Pacific -> America/Vancouver
+extern const extended::ZoneInfo& kZoneCanada_Saskatchewan; // Canada/Saskatchewan -> America/Regina
+extern const extended::ZoneInfo& kZoneCanada_Yukon; // Canada/Yukon -> America/Whitehorse
+extern const extended::ZoneInfo& kZoneChile_Continental; // Chile/Continental -> America/Santiago
+extern const extended::ZoneInfo& kZoneChile_EasterIsland; // Chile/EasterIsland -> Pacific/Easter
+extern const extended::ZoneInfo& kZoneCuba; // Cuba -> America/Havana
+extern const extended::ZoneInfo& kZoneEgypt; // Egypt -> Africa/Cairo
+extern const extended::ZoneInfo& kZoneEire; // Eire -> Europe/Dublin
+extern const extended::ZoneInfo& kZoneEtc_GMT_PLUS_0; // Etc/GMT+0 -> Etc/GMT
+extern const extended::ZoneInfo& kZoneEtc_GMT_0; // Etc/GMT-0 -> Etc/GMT
+extern const extended::ZoneInfo& kZoneEtc_GMT0; // Etc/GMT0 -> Etc/GMT
+extern const extended::ZoneInfo& kZoneEtc_Greenwich; // Etc/Greenwich -> Etc/GMT
+extern const extended::ZoneInfo& kZoneEtc_Universal; // Etc/Universal -> Etc/UTC
+extern const extended::ZoneInfo& kZoneEtc_Zulu; // Etc/Zulu -> Etc/UTC
+extern const extended::ZoneInfo& kZoneEurope_Belfast; // Europe/Belfast -> Europe/London
+extern const extended::ZoneInfo& kZoneEurope_Bratislava; // Europe/Bratislava -> Europe/Prague
+extern const extended::ZoneInfo& kZoneEurope_Busingen; // Europe/Busingen -> Europe/Zurich
+extern const extended::ZoneInfo& kZoneEurope_Guernsey; // Europe/Guernsey -> Europe/London
+extern const extended::ZoneInfo& kZoneEurope_Isle_of_Man; // Europe/Isle_of_Man -> Europe/London
+extern const extended::ZoneInfo& kZoneEurope_Jersey; // Europe/Jersey -> Europe/London
+extern const extended::ZoneInfo& kZoneEurope_Ljubljana; // Europe/Ljubljana -> Europe/Belgrade
+extern const extended::ZoneInfo& kZoneEurope_Mariehamn; // Europe/Mariehamn -> Europe/Helsinki
+extern const extended::ZoneInfo& kZoneEurope_Nicosia; // Europe/Nicosia -> Asia/Nicosia
+extern const extended::ZoneInfo& kZoneEurope_Podgorica; // Europe/Podgorica -> Europe/Belgrade
+extern const extended::ZoneInfo& kZoneEurope_San_Marino; // Europe/San_Marino -> Europe/Rome
+extern const extended::ZoneInfo& kZoneEurope_Sarajevo; // Europe/Sarajevo -> Europe/Belgrade
+extern const extended::ZoneInfo& kZoneEurope_Skopje; // Europe/Skopje -> Europe/Belgrade
+extern const extended::ZoneInfo& kZoneEurope_Tiraspol; // Europe/Tiraspol -> Europe/Chisinau
+extern const extended::ZoneInfo& kZoneEurope_Vaduz; // Europe/Vaduz -> Europe/Zurich
+extern const extended::ZoneInfo& kZoneEurope_Vatican; // Europe/Vatican -> Europe/Rome
+extern const extended::ZoneInfo& kZoneEurope_Zagreb; // Europe/Zagreb -> Europe/Belgrade
+extern const extended::ZoneInfo& kZoneGB; // GB -> Europe/London
+extern const extended::ZoneInfo& kZoneGB_Eire; // GB-Eire -> Europe/London
+extern const extended::ZoneInfo& kZoneGMT; // GMT -> Etc/GMT
+extern const extended::ZoneInfo& kZoneGMT_PLUS_0; // GMT+0 -> Etc/GMT
+extern const extended::ZoneInfo& kZoneGMT_0; // GMT-0 -> Etc/GMT
+extern const extended::ZoneInfo& kZoneGMT0; // GMT0 -> Etc/GMT
+extern const extended::ZoneInfo& kZoneGreenwich; // Greenwich -> Etc/GMT
+extern const extended::ZoneInfo& kZoneHongkong; // Hongkong -> Asia/Hong_Kong
+extern const extended::ZoneInfo& kZoneIceland; // Iceland -> Atlantic/Reykjavik
+extern const extended::ZoneInfo& kZoneIndian_Antananarivo; // Indian/Antananarivo -> Africa/Nairobi
+extern const extended::ZoneInfo& kZoneIndian_Comoro; // Indian/Comoro -> Africa/Nairobi
+extern const extended::ZoneInfo& kZoneIndian_Mayotte; // Indian/Mayotte -> Africa/Nairobi
+extern const extended::ZoneInfo& kZoneIran; // Iran -> Asia/Tehran
+extern const extended::ZoneInfo& kZoneIsrael; // Israel -> Asia/Jerusalem
+extern const extended::ZoneInfo& kZoneJamaica; // Jamaica -> America/Jamaica
+extern const extended::ZoneInfo& kZoneJapan; // Japan -> Asia/Tokyo
+extern const extended::ZoneInfo& kZoneKwajalein; // Kwajalein -> Pacific/Kwajalein
+extern const extended::ZoneInfo& kZoneLibya; // Libya -> Africa/Tripoli
+extern const extended::ZoneInfo& kZoneMexico_BajaNorte; // Mexico/BajaNorte -> America/Tijuana
+extern const extended::ZoneInfo& kZoneMexico_BajaSur; // Mexico/BajaSur -> America/Mazatlan
+extern const extended::ZoneInfo& kZoneMexico_General; // Mexico/General -> America/Mexico_City
+extern const extended::ZoneInfo& kZoneNZ; // NZ -> Pacific/Auckland
+extern const extended::ZoneInfo& kZoneNZ_CHAT; // NZ-CHAT -> Pacific/Chatham
+extern const extended::ZoneInfo& kZoneNavajo; // Navajo -> America/Denver
+extern const extended::ZoneInfo& kZonePRC; // PRC -> Asia/Shanghai
+extern const extended::ZoneInfo& kZonePacific_Johnston; // Pacific/Johnston -> Pacific/Honolulu
+extern const extended::ZoneInfo& kZonePacific_Midway; // Pacific/Midway -> Pacific/Pago_Pago
+extern const extended::ZoneInfo& kZonePacific_Ponape; // Pacific/Ponape -> Pacific/Pohnpei
+extern const extended::ZoneInfo& kZonePacific_Saipan; // Pacific/Saipan -> Pacific/Guam
+extern const extended::ZoneInfo& kZonePacific_Samoa; // Pacific/Samoa -> Pacific/Pago_Pago
+extern const extended::ZoneInfo& kZonePacific_Truk; // Pacific/Truk -> Pacific/Chuuk
+extern const extended::ZoneInfo& kZonePacific_Yap; // Pacific/Yap -> Pacific/Chuuk
+extern const extended::ZoneInfo& kZonePoland; // Poland -> Europe/Warsaw
+extern const extended::ZoneInfo& kZonePortugal; // Portugal -> Europe/Lisbon
+extern const extended::ZoneInfo& kZoneROC; // ROC -> Asia/Taipei
+extern const extended::ZoneInfo& kZoneROK; // ROK -> Asia/Seoul
+extern const extended::ZoneInfo& kZoneSingapore; // Singapore -> Asia/Singapore
+extern const extended::ZoneInfo& kZoneTurkey; // Turkey -> Europe/Istanbul
+extern const extended::ZoneInfo& kZoneUCT; // UCT -> Etc/UCT
+extern const extended::ZoneInfo& kZoneUS_Alaska; // US/Alaska -> America/Anchorage
+extern const extended::ZoneInfo& kZoneUS_Aleutian; // US/Aleutian -> America/Adak
+extern const extended::ZoneInfo& kZoneUS_Arizona; // US/Arizona -> America/Phoenix
+extern const extended::ZoneInfo& kZoneUS_Central; // US/Central -> America/Chicago
+extern const extended::ZoneInfo& kZoneUS_East_Indiana; // US/East-Indiana -> America/Indiana/Indianapolis
+extern const extended::ZoneInfo& kZoneUS_Eastern; // US/Eastern -> America/New_York
+extern const extended::ZoneInfo& kZoneUS_Hawaii; // US/Hawaii -> Pacific/Honolulu
+extern const extended::ZoneInfo& kZoneUS_Indiana_Starke; // US/Indiana-Starke -> America/Indiana/Knox
+extern const extended::ZoneInfo& kZoneUS_Michigan; // US/Michigan -> America/Detroit
+extern const extended::ZoneInfo& kZoneUS_Mountain; // US/Mountain -> America/Denver
+extern const extended::ZoneInfo& kZoneUS_Pacific; // US/Pacific -> America/Los_Angeles
+extern const extended::ZoneInfo& kZoneUS_Samoa; // US/Samoa -> Pacific/Pago_Pago
+extern const extended::ZoneInfo& kZoneUTC; // UTC -> Etc/UTC
+extern const extended::ZoneInfo& kZoneUniversal; // Universal -> Etc/UTC
+extern const extended::ZoneInfo& kZoneW_SU; // W-SU -> Europe/Moscow
+extern const extended::ZoneInfo& kZoneZulu; // Zulu -> Etc/UTC
+
+
+//---------------------------------------------------------------------------
+// Unsupported zones: 0
+//---------------------------------------------------------------------------
+
 
 
 //---------------------------------------------------------------------------
 // Inaccurate zones: 5
-//
+//---------------------------------------------------------------------------
+
 // America/Goose_Bay (AT time '0:01' of RULE 'StJohns' truncated to '900' seconds)
 // America/Moncton (AT time '0:01' of RULE 'Moncton' truncated to '900' seconds)
 // America/St_Johns (AT time '0:01' of RULE 'StJohns' truncated to '900' seconds)
 // Asia/Gaza (AT time '0:01' of RULE 'Palestine' truncated to '900' seconds)
 // Asia/Hebron (AT time '0:01' of RULE 'Palestine' truncated to '900' seconds)
+
+
+//---------------------------------------------------------------------------
+// Unsupported links: 0
+//---------------------------------------------------------------------------
+
+
+
+//---------------------------------------------------------------------------
+// Notable links: 0
+//---------------------------------------------------------------------------
+
 
 
 }

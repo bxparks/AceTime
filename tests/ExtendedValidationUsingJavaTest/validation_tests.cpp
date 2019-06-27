@@ -8,8 +8,8 @@
 #include "TransitionTest.h"
 #include "validation_data.h"
 
-// numZones: 347
-// missingZones: 0
+// numZones: 384
+// missingZones: 3
 testF(TransitionTest, Africa_Abidjan) {
   assertValid(&ace_time::zonedbx2018g::kValidationDataAfrica_Abidjan);
 }
@@ -781,6 +781,108 @@ testF(TransitionTest, Australia_Perth) {
 testF(TransitionTest, Australia_Sydney) {
   assertValid(&ace_time::zonedbx2018g::kValidationDataAustralia_Sydney);
 }
+testF(TransitionTest, CET) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataCET);
+}
+testF(TransitionTest, CST6CDT) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataCST6CDT);
+}
+testF(TransitionTest, EET) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEET);
+}
+// testF(TransitionTest, EST) {
+//   assertValid(&ace_time::zonedbx2018g::kValidationDataEST);
+// }
+testF(TransitionTest, EST5EDT) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEST5EDT);
+}
+testF(TransitionTest, Etc_GMT) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT);
+}
+testF(TransitionTest, Etc_GMT_PLUS_1) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_1);
+}
+testF(TransitionTest, Etc_GMT_PLUS_10) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_10);
+}
+testF(TransitionTest, Etc_GMT_PLUS_11) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_11);
+}
+testF(TransitionTest, Etc_GMT_PLUS_12) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_12);
+}
+testF(TransitionTest, Etc_GMT_PLUS_2) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_2);
+}
+testF(TransitionTest, Etc_GMT_PLUS_3) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_3);
+}
+testF(TransitionTest, Etc_GMT_PLUS_4) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_4);
+}
+testF(TransitionTest, Etc_GMT_PLUS_5) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_5);
+}
+testF(TransitionTest, Etc_GMT_PLUS_6) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_6);
+}
+testF(TransitionTest, Etc_GMT_PLUS_7) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_7);
+}
+testF(TransitionTest, Etc_GMT_PLUS_8) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_8);
+}
+testF(TransitionTest, Etc_GMT_PLUS_9) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_PLUS_9);
+}
+testF(TransitionTest, Etc_GMT_1) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_1);
+}
+testF(TransitionTest, Etc_GMT_10) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_10);
+}
+testF(TransitionTest, Etc_GMT_11) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_11);
+}
+testF(TransitionTest, Etc_GMT_12) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_12);
+}
+testF(TransitionTest, Etc_GMT_13) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_13);
+}
+testF(TransitionTest, Etc_GMT_14) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_14);
+}
+testF(TransitionTest, Etc_GMT_2) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_2);
+}
+testF(TransitionTest, Etc_GMT_3) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_3);
+}
+testF(TransitionTest, Etc_GMT_4) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_4);
+}
+testF(TransitionTest, Etc_GMT_5) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_5);
+}
+testF(TransitionTest, Etc_GMT_6) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_6);
+}
+testF(TransitionTest, Etc_GMT_7) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_7);
+}
+testF(TransitionTest, Etc_GMT_8) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_8);
+}
+testF(TransitionTest, Etc_GMT_9) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_GMT_9);
+}
+testF(TransitionTest, Etc_UCT) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_UCT);
+}
+testF(TransitionTest, Etc_UTC) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataEtc_UTC);
+}
 testF(TransitionTest, Europe_Amsterdam) {
   assertValid(&ace_time::zonedbx2018g::kValidationDataEurope_Amsterdam);
 }
@@ -919,6 +1021,9 @@ testF(TransitionTest, Europe_Zaporozhye) {
 testF(TransitionTest, Europe_Zurich) {
   assertValid(&ace_time::zonedbx2018g::kValidationDataEurope_Zurich);
 }
+// testF(TransitionTest, HST) {
+//   assertValid(&ace_time::zonedbx2018g::kValidationDataHST);
+// }
 testF(TransitionTest, Indian_Chagos) {
   assertValid(&ace_time::zonedbx2018g::kValidationDataIndian_Chagos);
 }
@@ -942,6 +1047,18 @@ testF(TransitionTest, Indian_Mauritius) {
 }
 testF(TransitionTest, Indian_Reunion) {
   assertValid(&ace_time::zonedbx2018g::kValidationDataIndian_Reunion);
+}
+testF(TransitionTest, MET) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataMET);
+}
+// testF(TransitionTest, MST) {
+//   assertValid(&ace_time::zonedbx2018g::kValidationDataMST);
+// }
+testF(TransitionTest, MST7MDT) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataMST7MDT);
+}
+testF(TransitionTest, PST8PDT) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataPST8PDT);
 }
 testF(TransitionTest, Pacific_Apia) {
   assertValid(&ace_time::zonedbx2018g::kValidationDataPacific_Apia);
@@ -1050,4 +1167,7 @@ testF(TransitionTest, Pacific_Wake) {
 }
 testF(TransitionTest, Pacific_Wallis) {
   assertValid(&ace_time::zonedbx2018g::kValidationDataPacific_Wallis);
+}
+testF(TransitionTest, WET) {
+  assertValid(&ace_time::zonedbx2018g::kValidationDataWET);
 }
