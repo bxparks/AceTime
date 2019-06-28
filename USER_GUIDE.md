@@ -148,42 +148,40 @@ The AceTime library is inspired by and borrows from:
 * [Python pytz](https://pypi.org/project/pytz/)
 * [ezTime](https://github.com/ropg/ezTime)
 
-The names and API of AceTime classes is heavily borrowed from the [Java JDK 11
+The names and API of AceTime classes are heavily borrowed from the [Java JDK 11
 java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
 package. Some important differences come from the fact that in Java, most
-objects are reference objects and created on the heap. To allow AceTime
-to work on an Arduino chip with only 2kB of RAM and 32kB of flash, I made sure
-that the AceTime C++ classes perform *no* heap allocations (i.e. no calls to
-`operator new()` or `malloc()`). Many of the smaller classes in the library are
-expected to be used as "value objects", in other words, created on the stack and
-copied by value. Fortunately, the C++ compilers are extremely good at optimizing
-away unnecessary copies of these small objects. It is not possible to remove all
-complex memory allocations when dealing with the TZ Database. In the AceTime
-library, I managed to move most (if not all) of the complex memory handling
-logic into the `ZoneSpecifier` class hierarhcy. These are relatively large
-objects which are meant to be opaque objects (to the application developer),
-created statically at start-up time of the application, and never deleted during
-the lifetime of the application.
+objects are reference objects and created on the heap. To allow AceTime to work
+on an Arduino chip with only 2kB of RAM and 32kB of flash, the AceTime C++
+classes perform *no* heap allocations (i.e. no calls to `operator new()` or
+`malloc()`). Many of the smaller classes in the library are expected to be used
+as "value objects", in other words, created on the stack and copied by value.
+Fortunately, the C++ compilers are extremely good at optimizing away unnecessary
+copies of these small objects. It is not possible to remove all complex memory
+allocations when dealing with the TZ Database. In the AceTime library, I managed
+to move most of the complex memory handling logic into the `ZoneSpecifier` class
+hierarhcy. These are relatively large objects which are meant to be opaque
+objects to the application developer, created statically at start-up time of
+the application, and never deleted during the lifetime of the application.
 
-The [Arduino Time](https://github.com/PaulStoffregen/Time) library uses
-a set of C functions similar to the
-[traditional C/Unix library methods](http://www.catb.org/esr/time-programming/)
-(e.g `makeTime()` and `breaktime()`). Unfortunately, those C library functions
-can be very confusing to understand. Arduino Time Library also uses the Unix
-epoch of 1970-01-01T00:00:00Z and a `int32_t` type as its `time_t` to track the
-number of seconds since the epoch. That means that the largest date it can
-handle is 2038-01-19T03:14:07Z. AceTime uses an epoch that starts on
-2000-01-01T00:00:00Z using the same `int32_t` as its `ace_time::acetime_t`,
-which means that maximum date increases to 2068-01-19T03:14:07Z. AceTime is also
-quite a bit faster than the Arduino Time Library (although in most cases,
-performance of the Time Library is not an issue): AceTime is **2-5X** faster on
-an ATmega328P, **3-5X** faster on the ESP8266, **7-8X** faster on the ESP32, and
-**7-8X** faster on the Teensy ARM processor.
+The [Arduino Time](https://github.com/PaulStoffregen/Time) library uses a set of
+C functions similar to the [traditional C/Unix library
+methods](http://www.catb.org/esr/time-programming/) (e.g `makeTime()` and
+`breaktime()`). Arduino Time Library also uses the Unix epoch of
+1970-01-01T00:00:00Z and a `int32_t` type as its `time_t` to track the number of
+seconds since the epoch. That means that the largest date it can handle is
+2038-01-19T03:14:07Z. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z
+using the same `int32_t` as its `ace_time::acetime_t`, which means that maximum
+date increases to 2068-01-19T03:14:07Z. AceTime is also quite a bit faster than
+the Arduino Time Library (although in most cases, performance of the Time
+Library is not an issue): AceTime is **2-5X** faster on an ATmega328P, **3-5X**
+faster on the ESP8266, **7-8X** faster on the ESP32, and **7-8X** faster on the
+Teensy ARM processor.
 
 AceTime aims to be the smallest library that can run on the basic Arduino
 platform (e.g. Nano with 32kB flash and 2kB of RAM) that fully supports all
-timezones in the TZ Database at compile-time. Memory constraints of the given
-Arduino board may limit the number of timezones supported by a single program
+timezones in the TZ Database at compile-time. Memory constraints of the smallest
+Arduino boards may limit the number of timezones supported by a single program
 at runtime to 1-3 timezones. The library also aims to be as portable as
 possible, and supports AVR microcontrollers, as well as ESP8266, ESP32 and
 Teensy microcontrollers.
@@ -1979,7 +1977,7 @@ library contains more algorithmic code so will consume more flash memory. It is
 not entirely clear which library is smaller for 1-3 time zones. (This may be an
 interesting investigation the future.)
 
-### Java 11 Time
+### Java Time, Joda-Time, Noda Time
 
 Many time libraries (such as [Java 11
 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html),
@@ -1992,8 +1990,32 @@ class. The `java.time` package also provides other fine-grained classes such as
 library, I decided to avoid providing too many classes. The API of the library
 is already too large, I did not want to make them larger than necessary.
 
+### HowardHinnant Libraries
+
+A number of C++ libraries from Howard Hinnant are based the `<chrono>` standard
+library:
+
+* [date](http://howardhinnant.github.io/date/date.html)
+* [tz](http://howardhinnant.github.io/date/tz.html)
+* [iso_week](http://howardhinnant.github.io/date/iso_week.html)
+* [julian](http://howardhinnant.github.io/date/julian.html)
+* [islamic](http://howardhinnant.github.io/date/islamic.html)
+
+To be honest, I have not looked very closely at these libraries, mostly because
+of my suspicion that they are too large to fit into an Arduino microcontroller.
+
+### Google cctz
+
+The [cctz](https://github.com/google/cctz) library from Google is also based on
+the `<chrono>` library. Again, I did not look at this library closely because I
+did not think it would fit inside an Arduino controller.
+
 ## Bugs and Limitations
 
+* Leap seconds
+    * This library does not support [leap
+      seconds](https://en.wikipedia.org/wiki/Leap_second) and will probably
+      never do so.
 * `acetime_t`
     * AceTime uses an epoch of 2000-01-01T00:00:00Z.
       The `acetime_t` type is a 32-bit signed integer whose largest value is
