@@ -1,5 +1,7 @@
 # AceTime Library User Guide
 
+Version: 0.3 (2019-06-28, beta)
+
 ## Installation
 
 The latest stable release will soon be available in the Arduino IDE Library

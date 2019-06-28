@@ -123,9 +123,7 @@ functionality consumes 14kB of flash and 4600 bytes of RAM. Fully functioning
 SystemClock synchronized to a DS3231 chip, and 2 buttons can fit inside the 30kB
 flash size of an Arduino Pro Micro controller.
 
-Version: 0.2 (2019-06-26, alpha)
-
-Status: Work in progress. Getting very close to a beta release.
+Version: 0.3 (2019-06-26, alpha)
 
 ## HelloDateTime
 
