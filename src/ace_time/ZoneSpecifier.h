@@ -13,7 +13,7 @@ class LocalDateTime;
 
 /**
  * Base interface for ZoneSpecifier classes. There were 2 options for
- * implmenting the differing ZoneSpecifiers:
+ * implmenting the various concrete implementations of ZoneSpecifiers:
  *
  * 1) Implement only a single getType() method to distinguish the different
  * runtime types of the object. Then use this type information in the TimeZone
@@ -34,8 +34,8 @@ class LocalDateTime;
  * became untenable. So I switched to Option 2, using a fully polymorphic class
  * hierarchy, adding 3-4 virtual methods. When a program uses only a single
  * subclass, only that particular subclass is included into the program.
- * Unfortunately, this comes at the cost of forcing the program to use a
- * virtual dispatch for some of the often-used methods.
+ * Unfortunately, this comes at the cost of forcing programs to use the virtual
+ * dispatch at runtime for some of the often-used methods.
  */
 class ZoneSpecifier {
   public:
@@ -72,12 +72,14 @@ class ZoneSpecifier {
     virtual const char* getAbbrev(acetime_t epochSeconds) const = 0;
 
     /**
-     * Return the best estimate of the OffsetDateTime at the given LocalDateTime.
-     * Returns OffsetDateTime::forError() if an error occurs, for example, if the
-     * localDateTime is outside of the support date range of the underlying
+     * Return the best estimate of the OffsetDateTime at the given
+     * LocalDateTime for the timezone of the current ZoneSpecifier.
+     * Returns OffsetDateTime::forError() if an error occurs, for example, if
+     * the LocalDateTime is outside of the support date range of the underlying
      * ZoneInfo files.
      */
-    virtual OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const = 0;
+    virtual OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt)
+        const = 0;
 
     /** Print a human-readable identifier. */
     virtual void printTo(Print& printer) const = 0;

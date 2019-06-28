@@ -1917,6 +1917,10 @@ is already too large, I did not want to make them larger than necessary.
       2012 are in multiples of 15 minutes.
     * Five zones before 2012 have transitions at 00:01 which cannot be
       represented by this class. Those transitions have been truncated to 00:00.
+      See the bottom of the generated
+      [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) and
+      [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h) files for the
+      up-to-date list.
 * `LocalDate`, `LocalDateTime`
     * These classes (and all other Date classes which are based on these) use
       a single 8-bit signed byte to represent the 'year' internally. This saves
@@ -1939,6 +1943,12 @@ is already too large, I did not want to make them larger than necessary.
       identifiers (e.g. "America/Los_Angeles") because the AceTime library does
       not load the entire TZ Database due to memory constraints of most Arduino
       boards.
+* `TimeZone`
+    * There is not currently the ability to extract a unique identifier for a
+      given TimeZone for serialization purposes (which would allow save and
+      restore). The application developer must create an ad-hoc serialization
+      convention using `TimeZone::getType()` and some other information outside
+      of the AceTime library framework.
 * `ZonedDateTime::forComponents()`
     * The `ZonedDateTime::forComponents()` method takes the local wall time and
       `TimeZone` instance as parameters which can be ambiguous or invalid for
