@@ -941,15 +941,26 @@ void someFunction() {
 ```
 
 The advantage of `ExtendedZoneSpecifier` over `BasicZoneSpecifier` is that
-`ExtendedZoneSpecifier` supports all (actual geographical) time zones in the TZ
-Database. The cost is that it consumes 5 times more memory and is slower. If
+`ExtendedZoneSpecifier` supports all time zones in the TZ Database. The cost is
+that it consumes 5 times more memory and is a bit slower. If
 `BasicZoneSpecifier` supports the zone that you want using the zone files in the
 `zonedb::` namespace, you should normally use that instead of
-`ExtendedZoneSpecifier`. The one other advatnage of `ExtendedZoneSpecifier`
-over `BasicZoneSpecifier` is that `ExtendedZoneSpecifier::forComponents()`
-is more accurate than `BasicZoneSpecifier::forComponents()` because the
-`zonedbx::` data files contain transition information which are missing in the
-`zonedb::` data files due to space constraints.
+`ExtendedZoneSpecifier`. The one other advatnage of `ExtendedZoneSpecifier` over
+`BasicZoneSpecifier` is that `ExtendedZoneSpecifier::forComponents()` is more
+accurate than `BasicZoneSpecifier::forComponents()` because the `zonedbx::` data
+files contain transition information which are missing in the `zonedb::` data
+files due to space constraints.
+
+### TZ Database Version
+
+The IANA TZ Database is updated continually. As of this writing, the latest
+stable version is 2019a. When a new version of the database is released, it is
+relatively easy to regenerate the `zonedb/` and 'zonedbx/` zoneinfo files.
+However, it is likely that I would delay the release of a new version until the
+corresponding `pytz` package is updated to the latest TZ database version, so
+that the validation test suites pass (See Testing section below). Otherwise, I
+don't have a way to verify that the AceTime library with the new TZ Database
+version is correctly functioning.
 
 ### ZonedDateTime
 
@@ -1756,6 +1767,68 @@ response (or the request times out after 1000 milliseconds). If you use the
 `SystemClockSyncCoroutine`, the program continues to do other things (e.g. update
 displays, scan for buttons) while the `NtpTimeProvider` is waiting for a
 response from the NTP server.
+
+## Testing
+
+Writing tests for this library was very challenging, probably taking up 3-4X
+more effort than the core of the library. I think the reason is that the number
+input variables into the library and the number of output variables are
+substantially large, making it difficult to write isolated unit tests. Secondly,
+the TZ Database zone files are deceptively easy to read by humans, but
+contain so many implicit rules that are incredibly difficult to translate into
+computer algorithms, creating a large number of code paths to test.
+
+It is simply impractical to manually create the inputs and expected outputs
+using the TZ database. The calculation of one data point can take several
+minutes manually. The solution would be to programmatically generate the data
+points. To that end, I wrote the 2 different implementations of `ZoneSpecifier`
+(`BasicZoneSpecifier` and `ExtendedZoneSpecifier`) partially as an attempt to
+write different versions of the algorithms to validate them against each other.
+(I think I wrote 4-5 different versions altogether, of which only 2 made it into
+this library). However, it turned out that the number of timezones supported by
+the `ExtendedZoneSpecifier` was much larger than the ones supported by
+`BasicZoneSpecifier` so it became infeasible to test the non-overlapping
+timezones.
+
+My next idea was to validate AceTime against a known, independently created,
+timezone library that also supports the TZ Database. The Python pytz library was
+a natural choice since the `tzcompiler.py` was already written in Python. The
+`BasicValidationUsingPythonTest` and `ExtendedValidationUsingPythonTest` tests
+are the results, where I use `pytz` to determine the list of DST transitions for
+all timezones, then determine the expected (year, month, day, hour, minute,
+second) components that `ZonedDateTime` should produce. The `tzcompiler.py`
+generates a `validation_data.cpp` file which contains the test data points for
+all supported timezones. The resulting program no longer fits in any Arduino
+microcontroller that I am aware of, but through the use of the
+[unitduino](https://github.com/bxparks/AUnit/tree/develop/unitduino) emulation
+framework in [AUnit](https://github.com/bxparks/AUnit), I can run these large
+validation test suites on a Linux or Mac desktop. This worked great until I
+discovered that `pytz` supports [dates only until
+2038](https://answers.launchpad.net/pytz/+question/262216). That meant that I
+could not validate the `ZonedDateTime` classes after 2038.
+
+I then turned to Java 11 `java.time` library, which supports years through the
+[year 1000000000
+(billion)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/class-use/Instant.html).
+I wrote the [TestDataGenerator.java](tools/java/TestDataGenerator) program to
+generate a `validation_data.cpp` file in exactly the same format as the
+`tzcompiler.py` program, and produced data points from year 2000 to year 2050,
+which is the exact range of years supported by the `zonedb::` and `zonedbx::`
+zoneinfo files.
+
+The end result is the 4 validation programs under `tests/validation`:
+
+* `BasicValidationUsingJavaTest`
+* `BasicValidationUsingPythonTest`
+* `ExtendedValidationUsingJavaTest`
+* `ExtendedValidationUsingPythonTest`
+
+When these tests pass, they show that the timezone algorithms in AceTime produce
+the same results as the Python `pytz` library and the Java 11 `java.time`
+library, showing that 3 independently written libraries and algorithms agree
+with each other. These validation tests give me good confidence that AceTime
+produces correct results for the most part, but it is entirely expected that
+some obscure edge-case bugs will be found in the future.
 
 ## Benchmarks
 
