@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2018 Brian T. Park
+ */
+
 #include <Print.h>
 #include "common/util.h"
 #include "TimeZone.h"

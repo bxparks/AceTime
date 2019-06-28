@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2019 Brian T. Park
+ */
+
 #include "LocalDate.h"
 #include "ExtendedZoneSpecifier.h"
 

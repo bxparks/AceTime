@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2018 Brian T. Park
+ */
+
 /**
  * A time zone transition rule. It is useful to think of this as a transition
  * rule that repeats on the given (month, day, hour) every year during the

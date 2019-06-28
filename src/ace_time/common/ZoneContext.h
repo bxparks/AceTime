@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2019 Brian T. Park
+ */
+
 #ifndef ACE_TIME_COMMON_ZONE_CONTEXT_H
 #define ACE_TIME_COMMON_ZONE_CONTEXT_H
 

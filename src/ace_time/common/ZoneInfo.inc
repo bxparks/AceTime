@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2018 Brian T. Park
+ */
+
 /**
  * An entry in ZoneInfo which describes which ZonePolicy was being followed
  * during a particular time period. Corresponds to one line of the ZONE record

@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2018 Brian T. Park
+ */
+
 #include "NtpTimeProvider.h"
 
 #if defined(ESP8266) || defined(ESP32)

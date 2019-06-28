@@ -1,4 +1,9 @@
 /*
+ * MIT License
+ * Copyright (c) 2018 Brian T. Park
+ */
+
+/*
  * Implement logger::print() and logger::println() that accept formatting
  * strings like printf(). I finally got tired of writing multiple lines of
  * Serial.print() for debugging.

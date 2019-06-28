@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2019 Brian T. Park
+ */
+
 #ifndef ACE_TIME_MANUAL_ZONE_SPECIFIER_H
 #define ACE_TIME_MANUAL_ZONE_SPECIFIER_H
 

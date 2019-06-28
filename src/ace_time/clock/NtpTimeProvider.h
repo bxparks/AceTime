@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2018 Brian T. Park
+ */
+
 #ifndef ACE_TIME_NTP_TIME_PROVIDER_H
 #define ACE_TIME_NTP_TIME_PROVIDER_H
 
