@@ -1,5 +1,11 @@
 # Validation Tests
 
+These tests compare the algorithm implemented by `ZonedDateTime` and
+`ZoneSpecifier` classes with the equivalent functionalty of the Python
+[pytz](https://pypi.org/project/pytz/) library and the [Java 11
+Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+library.
+
 These unit tests will **only** run on a Linux or MacOS machine, not on any
 Arduino, because they consume too much memory. They also use various files which
 are *generated* by the Makefile. (They used to be manually generated, then
