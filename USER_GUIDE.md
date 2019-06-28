@@ -1879,12 +1879,15 @@ that can compile on the Arduino platform. It contains a limited subset of the TZ
 Database encoded as C structs and determines the DST transitions using the
 encoded structs. It supports roughly of 45 zones with just a 3kB tzinfo
 database. The initial versions of AceTime, particularly the `BasicZoneSpecifier`
-class was directly inspired by this library. I would be interesting to run this
+class was directly inspired by this library. It would be interesting to run this
 library to the same set of "validation" unit tests that checks the AceTime logic
 and see how accurate this library is. One problem with Micro Time Zone library
 is that it loads the entire tzinfo database for all 45 time zones, even if only
-one zone is used. Therefore, the AceTime library will consume less resources if
-only a handful of zones are used, which is the expected use case of AceTime.
+one zone is used. Therefore, the AceTime library will consume less flash memory
+for the database part if only a handful of zones are used. But the AceTime
+library contains more algorithmic code so will consume more flash memory. It is
+not entirely clear which library is smaller for 1-3 time zones. (This may be an
+interesting investigation the future.)
 
 ### Java 11 Time
 
@@ -2007,8 +2010,18 @@ is already too large, I did not want to make them larger than necessary.
       needed to read these data structures from flash. In some applications,
       flash memory may be more precious than RAM so it is not clear that using
       `PROGMEM` for these data structures is the appropriate solution.
+* `Link` entries
+    * The TZ Database `Link` entries are implemented as C++ references to
+      the equivalent `Zone` entries.
+      For example,
+      `zonedb::kZoneUS_Pacific` is *exactly* identical to
+      `zonedb::kZoneAmerica_Los_Angeles`. This means that if a `ZonedDateTime`
+      is created with a `TimeZone` associated with `kZoneUS_Pacific`, the
+      `ZonedDateTime::printTo()` will print "[America/Los_Angeles]" not
+      "[US/Pacific]".
+    * Another way to think about this is that the distinction between a `Link`
+    * and a `Zone` is lost after compiling the program.
 * TZ Database
-    * The TZ data files contain 3 types of records: `Zone`, `Rule` and `Link`.
-      AceTime does not yet support `Link` entries which are essentiallly
-      symbolic links from one timezone identifier to another. This will be added
-      in a later version.
+    * The entries in the TZ data files `backzone`, `systemv` and `factory` are
+      not processed by the `tzcompiler.py` tool. They don't seem to contain
+      anything worthwhile.
