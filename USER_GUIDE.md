@@ -335,10 +335,10 @@ using namespace ace_time;
 ...
 
 // LocalDate that represents 2019-05-20
-LocalDate localDate = LocalDate::forComponents(2019, 5, 20);
+auto localDate = LocalDate::forComponents(2019, 5, 20);
 
 // LocalTime that represents 13:00:00
-LocalTime localTime = LocalTime::forComponents(13, 0, 0);
+auto localTime = LocalTime::forComponents(13, 0, 0);
 ```
 
 You can ask the `LocalDate` to determine its day of the week, which returns
@@ -394,7 +394,7 @@ using namespace ace_time;
 using common::DateStrings;
 ...
 
-LocalDate localDate = LocalDate::forComponents(2019, 5, 20);
+auto localDate = LocalDate::forComponents(2019, 5, 20);
 uint8_t dayOfWeek = localDate.dayOfWeek();
 Serial.println(DateStrings().dayOfWeekLongString(dayOfWeek));
 Serial.println(DateStrings().dayOfWeekShortString(dayOfWeek));
@@ -955,7 +955,7 @@ files due to space constraints.
 
 The IANA TZ Database is updated continually. As of this writing, the latest
 stable version is 2019a. When a new version of the database is released, it is
-relatively easy to regenerate the `zonedb/` and 'zonedbx/` zoneinfo files.
+relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
 However, it is likely that I would delay the release of a new version until the
 corresponding `pytz` package is updated to the latest TZ database version, so
 that the validation test suites pass (See Testing section below). Otherwise, I
