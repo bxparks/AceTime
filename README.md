@@ -89,12 +89,13 @@ allow conversions to other timezones using the
 
 The library provides 2 sets of zoneinfo files created from the IANA TZ Database:
 
-* `zonedb::` namespace contains 270 zones and 182 links which have
-  (relatively) simple time zone transition rules, and intended to be used by
-  `BasicZoneSpecifier` class, and
-* `zonedbx::` namespace contains 387 zones and 205 links zones in
-  the TZ Database (essentially the entire database) intended to be used by the
-  `ExtendedZoneSpecifier` class.
+* [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) contains `kZone*`
+  declarations for 270 zones and 182 links which have (relatively) simple time
+  zone transition rules, and intended to be used by `BasicZoneSpecifier` class,
+  and
+* [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h) contains `kZone*`
+  declarations for 387 zones and 205 links in the TZ Database (essentially
+  the entire database) intended to be used by the `ExtendedZoneSpecifier` class.
 
 These zoneinfo files have been validated to match the UTC offsets calculated
 using the Python [pytz](https://pypi.org/project/pytz/) library from the year
