@@ -169,7 +169,7 @@ extern const basic::ZonePolicy kPolicyZion;
 
 // Inaccurate zone policies: 1
 //
-// kPolicyMoncton (AT time '0:01' truncated to '900' seconds)
+// kPolicyMoncton (AT time '0:01' truncated to '00:00')
 
 
 }

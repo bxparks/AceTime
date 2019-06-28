@@ -619,7 +619,7 @@ extern const basic::ZoneInfo& kZoneZulu; // Zulu -> Etc/UTC
 // Inaccurate zones: 1
 //---------------------------------------------------------------------------
 
-// America/Moncton (AT time '0:01' of RULE 'Moncton' truncated to '900' seconds)
+// America/Moncton (AT time '0:01' of RULE 'Moncton' truncated to '00:00')
 
 
 //---------------------------------------------------------------------------

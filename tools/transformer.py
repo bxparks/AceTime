@@ -368,8 +368,9 @@ class Transformer:
                         break
                     else:
                         notable_zones[name] = (
-                            "UNTIL time '%s' truncated to '%s' seconds" %
-                            (until_time, self.granularity))
+                            "UNTIL time '%s' truncated to '%s'" %
+                            (until_time,
+                            seconds_to_hm_string(until_seconds_truncated)))
 
                 era.untilSeconds = until_seconds
                 era.untilSecondsTruncated = until_seconds_truncated
@@ -448,8 +449,9 @@ class Transformer:
                         break
                     else:
                         notable_zones[name] = (
-                            "GMTOFF '%s' truncated to '%s' seconds" %
-                            (offset_string, self.granularity))
+                            "GMTOFF '%s' truncated to '%s'" %
+                            (offset_string,
+                            seconds_to_hm_string(offset_seconds_truncated)))
 
                 era.offsetSeconds = offset_seconds
                 era.offsetSecondsTruncated = offset_seconds_truncated
@@ -571,9 +573,10 @@ class Transformer:
                             break
                         else:
                             notable_zones[name] = (
-                                "RULES delta offset '%s' truncated to" +
-                                "'%s' seconds" %
-                                (rules_string, self.granularity))
+                                "RULES delta offset '%s' truncated to '%s'" %
+                                (rules_string,
+                                seconds_to_hm_string(
+                                    rules_delta_seconds_truncated)))
 
                     era.rules = ':'
                     era.rulesDeltaSeconds = rules_delta_seconds
@@ -1037,16 +1040,18 @@ class Transformer:
                         break
                     else:
                         notable_policies[policy_name] = (
-                            "AT time '%s' truncated to '%s' seconds" %
-                            (at_time, self.granularity))
+                            "AT time '%s' truncated to '%s'" %
+                            (at_time,
+                            seconds_to_hm_string(at_seconds_truncated)))
                         # Add warning about the affected zones.
                         zone_names = rules_to_zones.get(policy_name)
                         if zone_names:
                             for zone_name in zone_names:
                                 self.all_notable_zones[zone_name] = (
                                     ("AT time '%s' of RULE '%s' "
-                                    + "truncated to '%s' seconds")
-                                    % (at_time, policy_name, self.granularity))
+                                    + "truncated to '%s'")
+                                    % (at_time, policy_name,
+                                    seconds_to_hm_string(at_seconds_truncated)))
 
                 rule.atSeconds = at_seconds
                 rule.atSecondsTruncated = at_seconds_truncated
@@ -1358,6 +1363,20 @@ def seconds_to_hms(seconds):
     m = minutes % 60
     h = minutes // 60
     return (h, m, s)
+
+
+def seconds_to_hm_string(seconds):
+    """Convert seconds to hh:mm. Assumes that seconds is multiples of 60.
+    """
+    if seconds < 0:
+        sign = -1
+        seconds = -seconds
+    else:
+        sign = 1
+    minutes = seconds // 60
+    m = minutes % 60
+    h = minutes // 60
+    return f'{h:02}:{m:02}'
 
 
 def hms_to_seconds(h, m, s):
