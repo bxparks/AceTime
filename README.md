@@ -7,7 +7,7 @@ be converted to another timezone. The library also provides a SystemClock that
 can be synchronized from a more reliable external time source, such as an
 [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) server or a [DS3231
 RTC](https://www.maximintegrated.com/en/products/analog/real-time-clocks/DS3231.html)
-chip. This library is meant to be an alternative to the [Arduino
+chip. This library is can be an alternative to the [Arduino
 Time](https://github.com/PaulStoffregen/Time) and [Arduino
 Timezone](https://github.com/JChristensen/Timezone) libraries.
 
