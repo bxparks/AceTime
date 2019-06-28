@@ -62,8 +62,8 @@ set -eu
 # Can't use $(realpath $(dirname $0)) because realpath doesn't exist on MacOS
 DIRNAME=$(dirname $0)
 
-# Point to the github repository.
-INPUT_DIR=$HOME/dev/tz
+# Point to the TZ git repository, assumed to be a sibling of AceTime repository.
+INPUT_DIR=$DIRNAME/../../tz
 
 # Output generated code to the current directory
 OUTPUT_DIR=$PWD

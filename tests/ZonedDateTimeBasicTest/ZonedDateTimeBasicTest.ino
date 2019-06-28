@@ -90,6 +90,12 @@ test(ZonedDateTimeTest_Basic, forComponents_afterOverlap) {
   assertTrue(expected == dt.localDateTime());
 }
 
+// Test the linked zones are same as the target zones.
+test(ZonedDateTimeTest_Basic, linked_zones) {
+  assertEqual((intptr_t) &zonedb::kZoneAmerica_Los_Angeles,
+      (intptr_t) &zonedb::kZoneUS_Pacific);
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {

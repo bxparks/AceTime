@@ -3,13 +3,17 @@
 The `MemoryBenchmark.ino` was compiled with each `FEATURE_*` and the flash
 memory and static RAM sizes were recorded. The `FEATURE_BASELINE` selection is
 the baseline, and its memory usage  numbers are subtracted from the subsequent
-FEATURE memory usage.
+`FEATURE_*` memory usage.
 
 ## Arduino Nano
 
+* AceTime 0.3
+* Arduino IDE 1.8.9
+* AVR Core 1.6.23
+
 ```
 +------------------------------------------------------------------+
-| Functionaltiy                       | flash/ram | Baseline Delta |
+| Functionality                       | flash/ram | Baseline Delta |
 |-------------------------------------+-----------+----------------|
 | Baseline                            |   448/ 10 |        0/  0   |
 |-------------------------------------+-----------+----------------|
@@ -28,9 +32,14 @@ FEATURE memory usage.
 
 ## ESP8266
 
+* AceTime 0.3
+* Arduino IDE 1.8.9
+* ESP8266 Core 2.5.2
+* ESP32 Core 1.0.2
+
 ```
 +---------------------------------------------------------------------+
-| Functionaltiy                       |    flash/ram | Baseline Delta |
+| Functionality                       |    flash/ram | Baseline Delta |
 |-------------------------------------+--------------+----------------|
 | Baseline                            | 257104/26540 |        0/   0  |
 |-------------------------------------+--------------+----------------|
@@ -46,3 +55,37 @@ FEATURE memory usage.
 | SystemClock+BasicZoneSpecifier      | 271232/31180 |    14128/4640  |
 +---------------------------------------------------------------------+
 ```
+
+The static RAM usage jump from 404 bytes to 4628 bytes when `BasicZoneSpecifier`
+is added is a bit surprising since `sizeof(BasicZoneSpecifier)` is only 140
+bytes. Fortunately, the ESP8266 has at least 80kB of RAM so this should not be
+an issue.
+
+## ESP32
+
+* AceTime 0.3
+* Arduino IDE 1.8.9
+* ESP32 Core 1.0.2
+
+```
++---------------------------------------------------------------------+
+| Functionality                       |    flash/ram | Baseline Delta |
+|-------------------------------------+--------------+----------------|
+| Baseline                            | 193200/12680 |        0/   0  |
+|-------------------------------------+--------------+----------------|
+| LocalDateTime                       | 203796/14156 |    10596/1476  |
+| ZonedDateTime                       | 204240/14156 |    11040/1476  |
+| ManualZoneSpecifier                 | 204900/14156 |    11700/1476  |
+| BasicZoneSpecifier                  | 211780/14156 |    18580/1476  |
+| BasicZoneSpecifier (2 zones)        | 212152/14156 |    18952/1476  |
+| ExtendedZoneSpecifier               | 215696/14156 |    22496/1476  |
+| ExtendedZoneSpecifier (2 zones)     | 216120/14156 |    22920/1476  |
+|-------------------------------------+--------------+----------------|
+| SystemClock                         | 211480/14260 |    18280/1580  |
+| SystemClock+BasicZoneSpecifier      | 218872/14260 |    42028/1580  |
++---------------------------------------------------------------------+
+```
+
+RAM usage remains constant as more objects are created, which indicates that an
+initial pool of a certain minimum size is created regardless of the actual RAM
+usage by objects.
