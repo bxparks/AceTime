@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.2</span>
+   &#160;<span id="projectnumber">0.3</span>
    </div>
-   <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and provide a system clock that can synchronize from an NTP server or an RTC chip.</div>
+   <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
  </tr>
  </tbody>
@@ -112,7 +112,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a284f72cfe29b9cb8373c7270f2d055c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the time zone abbreviation at epochSeconds.  <a href="#a284f72cfe29b9cb8373c7270f2d055c1">More...</a><br /></td></tr>
 <tr class="separator:a284f72cfe29b9cb8373c7270f2d055c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4183d9020427cd035626f2496d8c8407"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1OffsetDateTime.html">OffsetDateTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneSpecifier.html#a4183d9020427cd035626f2496d8c8407">getOffsetDateTime</a> (const <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> &amp;ldt) const override</td></tr>
-<tr class="memdesc:a4183d9020427cd035626f2496d8c8407"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day) and time (hour, minute, second) fields representing the time with an offs...">OffsetDateTime</a> at the given <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>.  <a href="#a4183d9020427cd035626f2496d8c8407">More...</a><br /></td></tr>
+<tr class="memdesc:a4183d9020427cd035626f2496d8c8407"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day) and time (hour, minute, second) fields representing the time with an offs...">OffsetDateTime</a> at the given <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> for the timezone of the current <a class="el" href="classace__time_1_1ZoneSpecifier.html" title="Base interface for ZoneSpecifier classes. ">ZoneSpecifier</a>.  <a href="#a4183d9020427cd035626f2496d8c8407">More...</a><br /></td></tr>
 <tr class="separator:a4183d9020427cd035626f2496d8c8407"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a792bb2fd977c4bd9734b03abb5b89845"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1ExtendedZoneSpecifier.html#a792bb2fd977c4bd9734b03abb5b89845">printTo</a> (Print &amp;printer) const override</td></tr>
 <tr class="memdesc:a792bb2fd977c4bd9734b03abb5b89845"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the TD database zone identifier e.g "America/Los_Angeles".  <a href="#a792bb2fd977c4bd9734b03abb5b89845">More...</a><br /></td></tr>
@@ -354,8 +354,8 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>mType</b></td></tr
 </table>
 </div><div class="memdoc">
 
-<p>Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day) and time (hour, minute, second) fields representing the time with an offs...">OffsetDateTime</a> at the given <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>. </p>
-<p>Returns <a class="el" href="classace__time_1_1OffsetDateTime.html#a7212a3a5c48a938f10cbebbc41d5deeb" title="Factory method that returns an instance whose isError() is true. ">OffsetDateTime::forError()</a> if an error occurs, for example, if the localDateTime is outside of the support date range of the underlying ZoneInfo files. </p>
+<p>Return the best estimate of the <a class="el" href="classace__time_1_1OffsetDateTime.html" title="The date (year, month, day) and time (hour, minute, second) fields representing the time with an offs...">OffsetDateTime</a> at the given <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> for the timezone of the current <a class="el" href="classace__time_1_1ZoneSpecifier.html" title="Base interface for ZoneSpecifier classes. ">ZoneSpecifier</a>. </p>
+<p>Returns <a class="el" href="classace__time_1_1OffsetDateTime.html#a7212a3a5c48a938f10cbebbc41d5deeb" title="Factory method that returns an instance whose isError() is true. ">OffsetDateTime::forError()</a> if an error occurs, for example, if the <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> is outside of the support date range of the underlying ZoneInfo files. </p>
 
 <p>Implements <a class="el" href="classace__time_1_1ZoneSpecifier.html#ac9332bbb8f24e9c0b145fb9cec516ef5">ace_time::ZoneSpecifier</a>.</p>
 
