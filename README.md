@@ -303,6 +303,14 @@ then printing the system time every 2 seconds:
 2019-06-17T19:50:04-07:00[America/Los_Angeles]
 ```
 
+## Example: WorldClock
+
+Here is a photo of the [WorldClock](examples/WorldClock) that supports 3
+OLED displays with 3 timezones, and automatically adjusts the DST transitions
+for all 3 zones:
+
+![WorldClock](examples/WorldClock/WorldClock.jpg)
+
 ## User Guide
 
 See the [AceTime User Guide](USER_GUIDE.md) for information on:
