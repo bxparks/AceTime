@@ -1,5 +1,5 @@
 tests:
-	for i in */Makefile ; do make -C $$(dirname $$i) -j 4 ; done
+	for i in */Makefile ; do make -C $$(dirname $$i) ; done
 
 clean:
 	for i in */Makefile ; do echo $$i ; make -C $$(dirname $$i) clean ; done
