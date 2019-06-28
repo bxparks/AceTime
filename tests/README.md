@@ -38,12 +38,3 @@ this:
 TestRunner summary: 231 passed, 0 failed, 0 skipped, 0 timed out, out of 231
 test(s).
 ```
-
-## Too Large Unit Tests
-
-The following unit tests will **only** run on a Linux or MacOS machine, not on
-any Arduino, because they consume too much memory:
-* [BasicValidationUsingPythonTest](BasicValidationUsingPythonTest)
-* [BasicValidationUsingJavaTest](BasicValidationUsingJavaTest)
-* [ExtendedValidationUsingPythonTest](ExtendedValidationUsingPythonTest)
-* [ExtendedValidationUsingJavaTest](ExtendedValidationUsingJavaTest)
