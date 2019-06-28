@@ -17,13 +17,13 @@ Assuming that you have `g++` and `make` installed, just type:
 ```
 $ make clean && make -j 4
 $ ./ExtendedValidationUsingJavaTest.out
-TestRunner started on 347 test(s).
+TestRunner started on 384 test(s).
 Test TransitionTest_Africa_Abidjan passed.
 ...
 Test TransitionTest_Pacific_Wallis passed.
 TestRunner duration: 0.113 seconds.
-TestRunner summary: 347 passed, 0 failed, 0 skipped, 0 timed out, out of 348
 test(s).
+TestRunner summary: 384 passed, 0 failed, 0 skipped, 0 timed out, out of 384 test(s).
 ```
 
 ## Regenerating the Data Files
@@ -42,7 +42,11 @@ $ cd zonedbx2018g
 $ make
 ```
 
-The `validation_*.*` files can be regenerated using:
+## Compiling the Java Generator
+
+The `Makefile` assumes that you have already compiled the
+`TestDataGenerator.java` program into `TestDataGenerator.class`. Type the
+following if you have not done so:
 ```
-$ make validation_data
-```
+$ cd .../tools/java
+$ make
