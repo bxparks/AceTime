@@ -151,7 +151,7 @@ toEpochSeconds	KEYWORD2
 toUnixSeconds	KEYWORD2
 compareTo	KEYWORD2
 
-# date_time_mutation.h
+# zoned_date_time_mutation.h
 incrementYear	KEYWORD2
 incrementMonth	KEYWORD2
 incrementDay	KEYWORD2
@@ -254,11 +254,6 @@ isInit	KEYWORD2
 # Constants (LITERAL1)
 #######################################
 
-# ZoneSpecifier.h
-kTypeManual	LITERAL1
-kTypeBasic	LITERAL1
-kTypeExtended	LITERAL1
-
 # LocalDate.h
 kEpochYear	LITERAL1
 kInvalidYearTiny	LITERAL1
@@ -276,6 +271,17 @@ kSunday	LITERAL1
 
 # LocalTime.h
 kInvalidSeconds	LITERAL1
+
+# ZoneSpecifier.h
+kTypeManual	LITERAL1
+kTypeBasic	LITERAL1
+kTypeExtended	LITERAL1
+
+# TimeZone.h
+kTypeFixed	LITERAL1
+kTypeManual	LITERAL1
+kTypeBasic	LITERAL1
+kTypeExtended	LITERAL1
 
 # NtpTimeProvider.h
 kNtpServerName	LITERAL1

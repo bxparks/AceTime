@@ -1,5 +1,17 @@
 # Changelog
 
+* Unreleased
+* 0.3 (2019-06-28, beta)
+    * Support `Link` entries from TZ Database files as C++ references to
+      corresponding `Zone` entries.
+    * Add `backward` and `etctera` files from TZ Database to the tzcompiler.py
+      processing. `ExtendedZoneSpecifier` now supports *every* Zone and Link
+      entry in the TZ Database (except those in `backzone` and `systemv`).
+    * Add better zone and link name normalization. Convert `+` into `_PLUS_`,
+      all other non-alphanumeric (0-9a-zA-Z_) converted to underscore `_`.
+    * Move validation unit tests into separate `tests/validation` directory.
+      Use Makefiles to generate `validation_data.*` files dynamically at compile
+      time.
 * 0.2 (2019-06-26, alpha)
     * Reduce flash memory size of WorldClock by removing extra font.
     * Split `USER_GUIDE.md` from `README.md`.
