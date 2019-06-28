@@ -482,17 +482,15 @@ Here is a sample code that extracts the number of seconds since AceTime Epoch
 (2000-01-01T00:00:00Z) using the `toEpochSeconds()` method:
 
 ```C++
-LocalDateTime localDateTime;
-
 // 2018-08-30T06:45:01-08:00
-localDateTime = LocalDateTime::forComponents(2018, 8, 30, 6, 45, 1);
+auto localDateTime = LocalDateTime::forComponents(2018, 8, 30, 6, 45, 1);
 acetime_t epoch_seconds = localDateTime.toEpochSeconds();
 ```
 
 We can go the other way and create a `LocalDateTime` from the Epoch Seconds:
 
 ```C++
-LocalDateTime localDateTime = LocalDateTime::forEpochSeconds(1514764800L);
+auto localDateTime = LocalDateTime::forEpochSeconds(1514764800L);
 localDateTime.printTo(Serial); // prints "2018-01-01T00:00:00"
 ```
 
@@ -538,9 +536,9 @@ class TimeOffset {
 A `TimeOffset` can be created using the factory methods:
 
 ```C++
-TimeOffset offset = TimeOffset::forHour(-8); // -08:00
-TimeOffset offset = TimeOffset::forHourMinute(-2, -30); // -02:30
-TimeOffset offset = TimeOffset::forMinutes(135); // +02:15
+auto offset = TimeOffset::forHour(-8); // -08:00
+auto offset = TimeOffset::forHourMinute(-2, -30); // -02:30
+auto offset = TimeOffset::forMinutes(135); // +02:15
 ```
 
 If the time offset is negative, then both the hour and minute components of
@@ -635,7 +633,7 @@ We can create the object using the `forComponents()` method:
 
 ```C++
 // 2018-01-01 00:00:00+00:15
-OffsetDateTime offsetDateTime = OffsetDateTime::forComponents(
+auto offsetDateTime = OffsetDateTime::forComponents(
     2018, 1, 1, 0, 0, 0, TimeOffset::forHourMinute(0, 15));
 acetime_t epochDays = offsetDateTime.toEpochDays();
 acetime_t epochSeconds = offsetDateTime.toEpochSeconds();
@@ -649,7 +647,7 @@ We can create an `OffsetDateTime` object from the seconds from Epoch using
 the `forEpochSeconds()` method:
 
 ```C++
-OffsetDateTime offsetDateTime = OffsetDateTime::forEpochSeconds(
+auto offsetDateTime = OffsetDateTime::forEpochSeconds(
     568079100, TimeOffset::forHourMinute(0, 15));
 ```
 
@@ -772,8 +770,8 @@ To create `TimeZone` instances with other offsets, use one of the factory
 methods:
 
 ```C++
-TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8)); // UTC-08:00
-TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30)); // UTC-04:30
+auto tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8)); // UTC-08:00
+auto tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30)); // UTC-04:30
 ```
 
 #### ManualZoneSpecifier (kTypeManual)
@@ -815,8 +813,8 @@ ManualZoneSpecifier zoneSpecifier(TimeOffset::forHour(-8), false, "PST", "PDT");
 
 void someFunction() {
   ...
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  TimeOffset offset = tz.getUtcOffset(0); // returns -08:00
+  auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  auto offset = tz.getUtcOffset(0); // returns -08:00
   tz.isDst(true);
   offset = tz.getUtcOffset(0); // returns -07:00
   ...
@@ -873,22 +871,22 @@ BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
 
 void someFunction() {
   ...
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
 
   // 2018-03-11T01:59:59-08:00 was still in STD time
   {
-    OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
+    auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
-    TimeOffset offset = tz.getUtcOffset(epochSeconds); // returns -08:00
+    auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
   }
 
   // 2018-03-11T02:00:00-08:00 was in DST time
   {
-    OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
+    auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHour(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
-    TimeOffset offset = tz.getUtcOffset(epochSeconds); // returns -07:00
+    auto offset = tz.getUtcOffset(epochSeconds); // returns -07:00
   }
   ...
 }
@@ -925,18 +923,18 @@ void someFunction() {
 
   // 2018-03-11T01:59:59-08:00 was still in STD time
   {
-    OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
+    auto dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
-    TimeOffset offset = tz.getUtcOffset(epochSeconds); // returns -08:00
+    auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
   }
 
   // 2018-03-11T02:00:00-08:00 was in DST time
   {
-    OffsetDateTime dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
+    auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHour(-8));
     acetime_t epochSeconds = dt.toEpochSeconds();
-    TimeOffset offset = tz.getUtcOffset(epochSeconds); // returns -07:00
+    auto offset = tz.getUtcOffset(epochSeconds); // returns -07:00
   }
   ...
 }
@@ -1030,10 +1028,10 @@ BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
 
 void someFunction() {
   ...
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
 
   // 2018-01-01 00:00:00+00:15
-  ZonedDateTime zonedDateTime = ZonedDateTime::forComponents(
+  auto zonedDateTime = ZonedDateTime::forComponents(
       2018, 1, 1, 0, 0, 0, tz);
   acetime_t epochDays = zonedDateTime.toEpochDays();
   acetime_t epochSeconds = zonedDateTime.toEpochSeconds();
@@ -1075,15 +1073,15 @@ static BasicZoneSpecifier zspecZurich(&zonedb::kZoneEurope_Zurich);
 
 void someFunction() {
   ...
-  TimeZone tzLosAngeles = TimeZone::forZoneSpecifier(&zspecLosAngeles);
-  TimeZone tzZurich = TimeZone::forZoneSpecifier(&zspecZurich);
+  auto tzLosAngeles = TimeZone::forZoneSpecifier(&zspecLosAngeles);
+  auto tzZurich = TimeZone::forZoneSpecifier(&zspecZurich);
 
   // Europe/Zurich, 2018-01-01T09:20:00+01:00
-  ZonedDateTime zurichTime = ZonedDateTime::forComponents(
+  auto zurichTime = ZonedDateTime::forComponents(
       2018, 1, 1, 9, 20, 0, tzZurich);
 
   // Convert to America/Los_Angeles, 2018-01-01T01:20:00-08:00
-  ZonedDateTime losAngelesTime = zurichTime.convertToTimeZone(tzLosAngeles);
+  auto losAngelesTime = zurichTime.convertToTimeZone(tzLosAngeles);
   ...
 }
 ```
@@ -1308,8 +1306,8 @@ until 2050. If you try to create a date outside of this range, an error
 
 ```C++
 BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
+auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+auto dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
 Serial.println(dt.isError() ? "true" : "false");
 ```
 
@@ -1389,14 +1387,14 @@ class TimeKeeper: public TimeProvider {
 ```
 
 The `acetime_t` value can be converted into the desired time zone using the
-`ZonedDateTime` and `TimeZone` classes desribed in the previous section. For
-example, to print the current time in UTC, use something like:
+`ZonedDateTime` and `TimeZone` classes desribed in the previous section.
 
 ```C++
+TimeZone tz = ...;
 TimeProvider timeProvider = ...;
 acetime_t nowSeconds = timeProvider.getNow();
-LocalDateTime now = LocalDateTime::forEpochSeconds(nowSeconds);
-now.printTo(Serial);
+auto nowDateTime = ZonedDateTime::forEpochSeconds(nowSeconds, tz);
+nowDateTime.printTo(Serial);
 ```
 
 Various implementations of `TimeProvider` and `TimeKeeper` are described in
@@ -1615,7 +1613,7 @@ void setup() {
 
 void loop() {
   acetime_t nowSeconds = systemClock.getNow();
-  OffsetDateTime odt = OffsetDateTime::forEpochSeconds(
+  auto odt = OffsetDateTime::forEpochSeconds(
       nowSeconds, TimeOffset::forHour(-8)); // convert epochSeconds to UTC-08:00
   odt.printTo(Serial);
   delay(10000); // wait 10 seconds
@@ -1825,6 +1823,23 @@ sizeof(SystemClockHeartbeatLoop): 12
 sizeof(SystemClockSyncCoroutine): 52
 sizeof(SystemClockHeartbeatCoroutine): 36
 ```
+
+The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
+comprehensive answer to the amount of memory taken by this library.
+A short summary is the following for an 8-bit microcontroller (e.g. Arduino
+Nano):
+
+* Using the `TimeZone` class with a `BasicZoneSpecifier` for one timezone takes
+  about 4924 bytes of flash memory and 283 statis RAM. Using 2 timezones
+  increases the consumption to 5852 bytes of flash and 357 bytes of RAM.
+* Adding the `SystemClock` to the `TimeZone` and `BasicZoneSpecifier` with one
+  timezone increases the flash memory to 7958 bytes and 434 bytes of RAM.
+
+These numbers indicate that the AceTime library is useful even on a limited
+8-bit controller with only 30-32kB of flash and 2kB of RAM. As a concrete
+example, the [WorldClock](examples/WorldClock) program contains 3 OLED displays
+over SPI, 2 buttons, one DS3231 chip, and 3 timezones using AceTime, and these
+all fit inside a Arduino Pro Micro limit of 30kB flash and 2.5kB of RAM.
 
 ## Comparisons to Other Time Libraries
 
