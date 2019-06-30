@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2018 Brian T. Park
+ */
+
 #ifndef ACE_TIME_HW_DATE_TIME_H
 #define ACE_TIME_HW_DATE_TIME_H
 

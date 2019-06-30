@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2018 Brian T. Park
+ */
+
 #include "common/util.h"
 #include "LocalTime.h"
 

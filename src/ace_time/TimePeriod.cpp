@@ -1,4 +1,9 @@
-#include <Print.h> // Print
+/*
+ * MIT License
+ * Copyright (c) 2018 Brian T. Park
+ */
+
+#include <Print.h>
 #include "TimePeriod.h"
 
 namespace ace_time {

@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2018 Brian T. Park
+ */
+
 #if defined(ARDUINO)
 
 #include <Wire.h>

@@ -1,3 +1,8 @@
+/*
+ * MIT License
+ * Copyright (c) 2018 Brian T. Park
+ */
+
 #ifndef ACE_TIME_SYSTEM_CLOCK_SYNC_COROUTINE_H
 #define ACE_TIME_SYSTEM_CLOCK_SYNC_COROUTINE_H
 
