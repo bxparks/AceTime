@@ -1,6 +1,6 @@
 # AceTime Library User Guide
 
-Version: 0.3 (2019-06-28, beta)
+Version: 0.3.1 (2019-06-30, beta)
 
 ## Installation
 

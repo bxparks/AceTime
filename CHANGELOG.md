@@ -1,6 +1,10 @@
 # Changelog
 
 * Unreleased
+* 0.3.1 (2019-06-30, beta)
+    * Add copyright notices on source files.
+    * Fix typos and formatting of `README.md` and `USER_GUIDE.md`.
+    * No functional change from 0.3.
 * 0.3 (2019-06-28, beta)
     * Support `Link` entries from TZ Database files as C++ references to
       corresponding `Zone` entries.
