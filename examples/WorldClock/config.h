@@ -7,11 +7,6 @@
 
 #define ENABLE_SERIAL 0
 
-#define TIME_SOURCE_TYPE_NONE 0
-#define TIME_SOURCE_TYPE_DS3231 1
-#define TIME_SOURCE_TYPE_NTP 2
-#define TIME_SOURCE_TYPE_BOTH 3
-
 // This program should compile for most target environments, including
 // AVR, ESP8266, and ESP32. The parameters below are for a Pro Micro
 // with 3 OLED displays.
