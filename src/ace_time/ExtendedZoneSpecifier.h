@@ -1094,10 +1094,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     static extended::DateTuple getTransitionTime(
         int8_t yearTiny, const extended::ZoneRule* rule) {
-      uint8_t dayOfMonth = BasicZoneSpecifier::calcStartDayOfMonth(
+      basic::MonthDay monthDay = BasicZoneSpecifier::calcStartDayOfMonth(
           yearTiny + LocalDate::kEpochYear, rule->inMonth, rule->onDayOfWeek,
           rule->onDayOfMonth);
-      return {yearTiny, rule->inMonth, dayOfMonth,
+      return {yearTiny, monthDay.month, monthDay.day,
           (int8_t) rule->atTimeCode, rule->atTimeModifier};
     }
 
