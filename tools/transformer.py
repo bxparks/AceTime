@@ -314,8 +314,8 @@ class Transformer:
                 until_day = era.untilDay
 
                 # Parse the conditional expression in until_day. We can resolve
-                # the 'lastSun' and 'Sun>=X' to a specific day of month because
-                # we know the year.
+                # the 'lastSun', 'Sun>=X' and 'Fri<=X' to a specific day of
+                # month because we know the year.
                 (on_day_of_week, on_day_of_month) = \
                     parse_on_day_string(until_day)
                 if (on_day_of_week, on_day_of_month) == (0, 0):
@@ -891,10 +891,25 @@ class Transformer:
             for rule in rules:
                 on_day = rule.onDay
                 (on_day_of_week, on_day_of_month) = parse_on_day_string(on_day)
+
                 if (on_day_of_week, on_day_of_month) == (0, 0):
                     valid = False
-                    removed_policies[name] = ("invalid onDay '%s'" % on_day)
+                    removed_policies[name] = f"invalid onDay '%{on_day}'"
                     break
+
+                if on_day_of_week != 0 and on_day_of_month != 0:
+                    if -7 <= on_day_of_month and on_day_of_month < -1 and \
+                        rule.inMonth == 1:
+                        valid = False
+                        removed_policies[name] = \
+                            f"cannot shift '{on_day}' from Jan to prev year"
+                        break
+                    if 26 <= on_day_of_month and rule.inMonth == 12:
+                        valid = False
+                        removed_policies[name] = \
+                            f"cannot shift '%{on_day}' from Dec to next year"
+                        break
+
                 rule.onDayOfWeek = on_day_of_week
                 rule.onDayOfMonth = on_day_of_month
             if valid:
@@ -1171,12 +1186,18 @@ WEEK_TO_WEEK_INDEX = {
 
 
 def parse_on_day_string(on_string):
-    """Parse things like "Sun>=1", "lastSun", "20". Mon=1, Sun=7.
+    """Parse things like "Sun>=1", "lastSun", "20", "Fri<=2".
     Returns (on_day_of_week, on_day_of_month) where
         (0, dayOfMonth) = exact match on dayOfMonth
         (dayOfWeek, dayOfMonth) = matches dayOfWeek>=dayOfMonth
+        (dayOfWeek, -dayOfMonth) = matches dayOfWeek<=dayOfMonth
         (dayOfWeek, 0) = matches lastDayOfWeek
         (0, 0) = error
+
+    where
+        dayOfWeek is represented by a number (Mon=1, ..., Sun=7),
+        dayOfMonth is 0, 1-31 (if >=), or (-1)-(-31) (if <=).
+
     """
     if on_string.isdigit():
         return (0, int(on_string))
@@ -1194,6 +1215,14 @@ def parse_on_day_string(on_string):
         if dayOfWeek not in WEEK_TO_WEEK_INDEX:
             return (0, 0)
         return (WEEK_TO_WEEK_INDEX[dayOfWeek], int(dayOfMonth))
+
+    less_than_equal_index = on_string.find('<=')
+    if less_than_equal_index >= 0:
+        dayOfWeek = on_string[:less_than_equal_index]
+        dayOfMonth = on_string[less_than_equal_index + 2:]
+        if dayOfWeek not in WEEK_TO_WEEK_INDEX:
+            return (0, 0)
+        return (WEEK_TO_WEEK_INDEX[dayOfWeek], -int(dayOfMonth))
 
     return (0, 0)
 

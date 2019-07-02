@@ -30,6 +30,7 @@ struct ZoneRule {
    * @verbatim
    * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
    * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
+   * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
    * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
    * @endverbatim
    *
@@ -40,9 +41,9 @@ struct ZoneRule {
 
   /**
    * Determined by the ON column. Used with onDayOfWeek. Possible values are:
-   * 0, 1-31.
+   * 0, 1-31, or its corresponding negative values.
    */
-  uint8_t const onDayOfMonth;
+  int8_t const onDayOfMonth;
 
   /**
    * Determined by the AT column in units of 15-minutes from 00:00. The range

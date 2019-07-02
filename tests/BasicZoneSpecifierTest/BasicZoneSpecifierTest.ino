@@ -22,19 +22,45 @@ test(BasicZoneSpecifierTest, operatorEqualEqual) {
 
 test(BasicZoneSpecifierTest, calcStartDayOfMonth) {
   // 2018-11, Sun>=1
-  assertEqual(4, BasicZoneSpecifier::calcStartDayOfMonth(
-      2018, 11, LocalDate::kSunday, 1));
+  basic::MonthDay monthDay = BasicZoneSpecifier::calcStartDayOfMonth(
+      2018, 11, LocalDate::kSunday, 1);
+  assertEqual(11, monthDay.month);
+  assertEqual(4, monthDay.day);
 
   // 2018-11, lastSun
-  assertEqual(25, BasicZoneSpecifier::calcStartDayOfMonth(
-      2018, 11, LocalDate::kSunday, 0));
+  monthDay = BasicZoneSpecifier::calcStartDayOfMonth(
+      2018, 11, LocalDate::kSunday, 0);
+  assertEqual(11, monthDay.month);
+  assertEqual(25, monthDay.day);
+
+  // 2018-11, Sun>=30, should shift to 2018-12-2
+  monthDay = BasicZoneSpecifier::calcStartDayOfMonth(
+      2018, 11, LocalDate::kSunday, 30);
+  assertEqual(12, monthDay.month);
+  assertEqual(2, monthDay.day);
+
+  // 2018-11, Mon<=7
+  monthDay = BasicZoneSpecifier::calcStartDayOfMonth(
+      2018, 11, LocalDate::kMonday, -7);
+  assertEqual(11, monthDay.month);
+  assertEqual(5, monthDay.day);
+
+  // 2018-11, Mon<=1, shifts back into October
+  monthDay = BasicZoneSpecifier::calcStartDayOfMonth(
+      2018, 11, LocalDate::kMonday, -1);
+  assertEqual(10, monthDay.month);
+  assertEqual(29, monthDay.day);
 
   // 2018-03, Thu>=9
-  assertEqual(15, BasicZoneSpecifier::calcStartDayOfMonth(
-      2018, 3, LocalDate::kThursday, 9));
+  monthDay = BasicZoneSpecifier::calcStartDayOfMonth(
+      2018, 3, LocalDate::kThursday, 9);
+  assertEqual(3, monthDay.month);
+  assertEqual(15, monthDay.day);
 
-  // 2018-03-30
-  assertEqual(30, BasicZoneSpecifier::calcStartDayOfMonth(2018, 3, 0, 30));
+  // 2018-03-30 exactly
+  monthDay = BasicZoneSpecifier::calcStartDayOfMonth(2018, 3, 0, 30);
+  assertEqual(3, monthDay.month);
+  assertEqual(30, monthDay.day);
 }
 
 test(BasicZoneSpecifierTest, calcRuleOffsetCode) {

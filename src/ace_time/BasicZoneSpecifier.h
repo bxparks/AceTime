@@ -89,6 +89,12 @@ struct Transition {
   }
 };
 
+/** The result of calcStartDayOfMonth(). */
+struct MonthDay {
+  uint8_t month;
+  uint8_t day;
+};
+
 } // namespace basic
 
 /**
@@ -259,27 +265,56 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /**
-     * Calculate the actual dayOfMonth of the expresssion
-     * (onDayOfWeek >= onDayOfMonth). The "last{dayOfWeek}" expression is
-     * expressed by onDayOfMonth being 0. An exact match on dayOfMonth is
-     * expressed by setting onDayOfWeek to 0.
+     * Calculate the actual (month, day) of the expresssion (onDayOfWeek >=
+     * onDayOfMonth) or (onDayOfWeek <= onDayOfMonth).
+     *
+     * There are 4 combinations:
+		 * @verbatim
+		 * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
+		 * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
+		 * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
+		 * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
+		 * @endverbatim
+     *
+     * Caveats: This method handles expressions which crosses month boundaries,
+     * but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to
+     * Jan of the following year.)
      *
      * Not private, used by ExtendedZoneSpecifier.
      */
-    static uint8_t calcStartDayOfMonth(int16_t year, uint8_t month,
-        uint8_t onDayOfWeek, uint8_t onDayOfMonth) {
-      if (onDayOfWeek == 0) return onDayOfMonth;
+    static basic::MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
+        uint8_t onDayOfWeek, int8_t onDayOfMonth) {
+      if (onDayOfWeek == 0) return {month, (uint8_t) onDayOfMonth};
 
+      if (onDayOfMonth >= 0) {
+        // Convert "last{Xxx}" to "last{Xxx}>={daysInMonth-6}".
+        uint8_t daysInMonth = LocalDate::daysInMonth(year, month);
+        if (onDayOfMonth == 0) {
+          onDayOfMonth =  daysInMonth - 6;
+        }
 
-      // Convert "last{Xxx}" to "last{Xxx}>={daysInMonth-6}".
-      if (onDayOfMonth == 0) {
-        onDayOfMonth = LocalDate::daysInMonth(year, month) - 6;
+        auto limitDate = LocalDate::forComponents(year, month, onDayOfMonth);
+        uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
+        uint8_t day = (uint8_t) (onDayOfMonth + dayOfWeekShift);
+        if (day > daysInMonth) {
+          // TODO: Support shifting from Dec to Jan of following  year.
+          day -= daysInMonth;
+          month++;
+        }
+        return {month, day};
+      } else {
+        onDayOfMonth = -onDayOfMonth;
+        auto limitDate = LocalDate::forComponents(year, month, onDayOfMonth);
+        int8_t dayOfWeekShift = (limitDate.dayOfWeek() - onDayOfWeek + 7) % 7;
+        int8_t day = onDayOfMonth - dayOfWeekShift;
+        if (day < 1) {
+          // TODO: Support shifting from Jan to Dec of the previous year.
+          month--;
+          uint8_t daysInPrevMonth = LocalDate::daysInMonth(year, month);
+          day += daysInPrevMonth;
+        }
+        return {month, (uint8_t) day};
       }
-
-      LocalDate limitDate = LocalDate::forComponents(
-          year, month, onDayOfMonth);
-      uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
-      return onDayOfMonth + dayOfWeekShift;
     }
 
   private:
@@ -605,7 +640,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
           // and the effective offset code.
 
           // Determine the start date of the rule.
-          const uint8_t startDayOfMonth = calcStartDayOfMonth(
+          const basic::MonthDay monthDay = calcStartDayOfMonth(
               year, transition.rule->inMonth, transition.rule->onDayOfWeek,
               transition.rule->onDayOfMonth);
 
@@ -620,7 +655,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
           const uint8_t atHour = transition.rule->atTimeCode / 4;
           const uint8_t atMinute = (transition.rule->atTimeCode % 4) * 15;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
-              year, transition.rule->inMonth, startDayOfMonth,
+              year, monthDay.month, monthDay.day,
               atHour, atMinute, 0 /*second*/,
               TimeOffset::forOffsetCode(offsetCode));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
