@@ -125,7 +125,7 @@ class DateCommand: public CommandHandler {
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
-        ZonedDateTime now = controller.getNow();
+        ZonedDateTime now = controller.getCurrentDateTime();
         now.printTo(printer);
         printer.println();
       } else {
@@ -144,11 +144,32 @@ class DateCommand: public CommandHandler {
 };
 
 /**
+ * Sync command - force SystemClock to sync with its time source
+ * Usage:
+ *    sync
+ */
+class SyncCommand: public CommandHandler {
+  public:
+    SyncCommand():
+        CommandHandler("sync", nullptr) {}
+
+    void run(Print& printer, int /*argc*/, const char** /*argv*/)
+        const override {
+      controller.sync();
+      printer.print(FF("Date set to: "));
+      ZonedDateTime currentDateTime = controller.getCurrentDateTime();
+      currentDateTime.printTo(printer);
+      printer.println();
+    }
+};
+
+/**
  * Timezone command.
  * Usage:
  *    timezone - print current timezone
  *    timezone fixed timeOffset - set timezone to fixed mode with given offset
- *    timezone manual timeOffset - set timezone to ManualZoneSpecifier with given offset
+ *    timezone manual timeOffset - set timezone to ManualZoneSpecifier with
+ *        given offset
  *    timezone basic - set timezone to BasicZoneSpecifier
  *    timezone extended - set timezone to ExtendedZoneSpecifier
  *    timezone dst (on | off) - set ManualZoneSpecifier DST flag to on or off
@@ -353,6 +374,7 @@ class WifiCommand: public CommandHandler {
 // Create a list of CommandHandlers.
 ListCommand listCommand;
 DateCommand dateCommand;
+SyncCommand syncCommand;
 TimezoneCommand timezoneCommand;
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 WifiCommand wifiCommand(controller, ntpTimeProvider);
@@ -364,6 +386,7 @@ SyncStatusCommand syncStatusCommand(systemClockSyncLoop);
 const CommandHandler* const COMMANDS[] = {
   &listCommand,
   &dateCommand,
+  &syncCommand,
   &timezoneCommand,
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   &wifiCommand,
