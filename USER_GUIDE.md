@@ -2146,6 +2146,14 @@ did not think it would fit inside an Arduino controller.
       anything worthwhile.
     * The datasets and `*ZoneSpecifier` classes have been *not* been tested or
       validated for years prior to 2000.
+    * TZ Database version 2019b contains the first use of the
+      `{onDayOfWeek<=onDayOfMonth}` syntax that I have seen (specifically `Rule
+      Zion, FROM 2005, TO 2012, IN Apr, ON Fri<=1`). The actual transition date
+      can shift into the previous month (or to the next month in the case of
+      `>=`). However, shifting into the previous year or the next year is not
+      supported. The `tzcompiler.py` will exclude and flag the Rules which could
+      potentially shift to a different year. As of version 2019b, no such Rule
+      seems to exist.
 * `Link` entries
     * The TZ Database `Link` entries are implemented as C++ references to
       the equivalent `Zone` entries. For example,

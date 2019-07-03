@@ -26,16 +26,13 @@ struct ZoneRule {
 
   /**
    * Determined by the ON column. Possible values are: 0, 1=Mon, 7=Sun.
-   * There are 3 combinations:
+   * There are 4 combinations:
    * @verbatim
    * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
    * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
    * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
    * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
    * @endverbatim
-   *
-   * We support only the '>=' operator, not the '<=' operator which does not
-   * seem to be used currently.
    */
   uint8_t const onDayOfWeek;
 
