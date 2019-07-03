@@ -4,8 +4,8 @@ Version: 0.3.1 (2019-06-30, beta)
 
 ## Installation
 
-The latest stable release will soon be available in the Arduino IDE Library
-Manager. Search for "AceTime". Click Install.
+The latest stable release is available in the Arduino IDE Library
+Manager since version 0.3.1. Search for "AceTime". Click Install.
 
 The development version can be installed by cloning the
 [GitHub repository](https://github.com/bxparks/AceTime), checking out the

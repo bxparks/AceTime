@@ -244,7 +244,7 @@ pacificTime == londonTime: false
 ## HelloSystemClock
 
 This is the example code for using the `SystemClock` taken from
-[HelloSystemClock](examples/HelloSystemClock/).
+[examples/HelloSystemClock](examples/HelloSystemClock).
 
 ```C++
 #include <AceTime.h>
@@ -305,7 +305,7 @@ then printing the system time every 2 seconds:
 
 ## Example: WorldClock
 
-Here is a photo of the [WorldClock](examples/WorldClock) that supports 3
+Here is a photo of the [examples/WorldClock](examples/WorldClock) that supports 3
 OLED displays with 3 timezones, and automatically adjusts the DST transitions
 for all 3 zones:
 
