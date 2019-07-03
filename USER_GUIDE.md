@@ -1,6 +1,8 @@
 # AceTime Library User Guide
 
-Version: 0.3.1 (2019-06-30, beta)
+See the [README.md](README.md) for introductory background.
+
+Version: 0.3.1 (2019-06-30, TZ DB version 2019a, beta)
 
 ## Installation
 

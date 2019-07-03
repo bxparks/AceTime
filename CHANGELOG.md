@@ -4,11 +4,11 @@
     * Support the less-than-or-equal syntax `{dayOfWeek}<={dayOfMonth}`
       appearing in version 2019b of the TZ Database which contains `Rule Zion,
       2005 to 20012, IN Apr, ON Fri<=1`.
-* 0.3.1 (2019-06-30, beta)
+* 0.3.1 (2019-06-30, TZ DB version 2019a, beta)
     * Add copyright notices on source files.
     * Fix typos and formatting of `README.md` and `USER_GUIDE.md`.
     * No functional change from 0.3.
-* 0.3 (2019-06-28, beta)
+* 0.3 (2019-06-28, TZ DB version 2019a, beta)
     * Support `Link` entries from TZ Database files as C++ references to
       corresponding `Zone` entries.
     * Add `backward` and `etctera` files from TZ Database to the tzcompiler.py
@@ -19,7 +19,7 @@
     * Move validation unit tests into separate `tests/validation` directory.
       Use Makefiles to generate `validation_data.*` files dynamically at compile
       time.
-* 0.2 (2019-06-26, alpha)
+* 0.2 (2019-06-26, TZ DB version 2019a, alpha)
     * Reduce flash memory size of WorldClock by removing extra font.
     * Split `USER_GUIDE.md` from `README.md`.
     * Rename `ace_time::provider` to `ace_time::clock` and rename
@@ -39,7 +39,8 @@
       of `ZonedDateTime`.
     * Fix `BasicZoneSpecifier::getOffsetDateTime()` to handle gaps and overlaps
       in a reasonable way, and perform some amount of normalization.
-* 0.1 (2019-06-15, alpha)
+* 0.1 (2019-06-15, TZ DB version 2019a, alpha)
     * Initial release on GitHub to establish a reference point.
+    * Upgraded to TZ Database version 2019a.
 * (2018-08-20)
     * Start of library in private repo.
