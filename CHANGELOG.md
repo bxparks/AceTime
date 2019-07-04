@@ -4,6 +4,8 @@
     * Support the less-than-or-equal syntax `{dayOfWeek}<={dayOfMonth}`
       appearing in version 2019b of the TZ Database which contains `Rule Zion,
       2005 to 20012, IN Apr, ON Fri<=1`.
+    * Add BasicZoneManager and ExtendedZoneManager to retrieve ZoneInfo
+      from TZ Database string identifier (e.g. "America/Los_Angeles").
 * 0.3.1 (2019-06-30, TZ DB version 2019a, beta)
     * Add copyright notices on source files.
     * Fix typos and formatting of `README.md` and `USER_GUIDE.md`.
