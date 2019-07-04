@@ -158,7 +158,7 @@ namespace {dbNamespace} {{
 """
 
     ZONE_POLICIES_H_POLICY_ITEM = """\
-extern const {zoneSpecNamespace}::ZonePolicy kPolicy{policyName};
+extern const {scope}::ZonePolicy kPolicy{policyName};
 """
 
     ZONE_POLICIES_H_REMOVED_POLICY_ITEM = """\
@@ -203,13 +203,13 @@ namespace {dbNamespace} {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const {zoneSpecNamespace}::ZoneRule kZoneRules{policyName}[] = {{
+static const {scope}::ZoneRule kZoneRules{policyName}[] = {{
 {ruleItems}
 }};
 
 {letterArray}
 
-const {zoneSpecNamespace}::ZonePolicy kPolicy{policyName} = {{
+const {scope}::ZonePolicy kPolicy{policyName} = {{
   {numRules} /*numRules*/,
   kZoneRules{policyName} /*rules*/,
   {numLetters} /* numLetters */,
@@ -262,7 +262,6 @@ static const char* const kLetters{policyName}[] = {{
 
         self.letters_map = {}  # map{policy_name: map{letter: index}}
         self.db_header_namespace = self.db_namespace.upper()
-        self.zone_spec_namespace = scope
 
     def collect_letter_strings(self):
         """Loop through all ZoneRules and collect the LETTERs which are
@@ -286,7 +285,7 @@ static const char* const kLetters{policyName}[] = {{
         for name, rules in sorted(self.rules_map.items()):
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
                 policyName=normalize_name(name),
-                zoneSpecNamespace=self.zone_spec_namespace)
+                scope=self.scope)
 
         removed_policy_items = ''
         for name, reason in sorted(self.removed_policies.items()):
@@ -411,7 +410,7 @@ static const char* const kLetters{policyName}[] = {{
                     memoryLetters32)
 
         policy_item = self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
-            zoneSpecNamespace=self.zone_spec_namespace,
+            scope=self.scope,
             policyName=policyName,
             numRules=num_rules,
             memory8=memory8,
@@ -499,7 +498,7 @@ extern const common::ZoneContext kZoneContext;
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-extern const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
+extern const {scope}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
@@ -511,7 +510,7 @@ extern const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFu
 """
 
     ZONE_INFOS_H_LINK_ITEM = """\
-extern const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName}; // {linkFullName} -> {zoneFullName}
+extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; // {linkFullName} -> {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_LINK_ITEM = """\
@@ -580,11 +579,11 @@ const common::ZoneContext kZoneContext = {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const {zoneSpecNamespace}::ZoneEra kZoneEra{zoneNormalizedName}[] = {{
+static const {scope}::ZoneEra kZoneEra{zoneNormalizedName}[] = {{
 {eraItems}
 }};
 
-const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName} = {{
+const {scope}::ZoneInfo kZone{zoneNormalizedName} = {{
   "{zoneFullName}" /*name*/,
   &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
@@ -610,7 +609,7 @@ const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName} = {{
 """
 
     ZONE_INFOS_CPP_LINK_ITEM = """\
-const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
+const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
 """
 
     SIZEOF_ZONE_ERA_8 = 11
@@ -641,13 +640,12 @@ const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNorma
         self.buf_sizes = buf_sizes
 
         self.db_header_namespace = self.db_namespace.upper()
-        self.zone_spec_namespace = scope
 
     def generate_infos_h(self):
         info_items = ''
         for zone_name, eras in sorted(self.zones_map.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
-                zoneSpecNamespace=self.zone_spec_namespace,
+                scope=self.scope,
                 zoneNormalizedName=normalize_name(zone_name),
                 zoneFullName=zone_name)
 
@@ -664,7 +662,7 @@ const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNorma
         link_items = ''
         for link_name, zone_name in sorted(self.links_map.items()):
             link_items += self.ZONE_INFOS_H_LINK_ITEM.format(
-                zoneSpecNamespace=self.zone_spec_namespace,
+                scope=self.scope,
                 linkNormalizedName=normalize_name(link_name),
                 linkFullName=link_name,
                 zoneFullName=zone_name)
@@ -759,7 +757,7 @@ const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNorma
         transition_buf_size = self.buf_sizes[zone_name]
 
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
-            zoneSpecNamespace=self.zone_spec_namespace,
+            scope=self.scope,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
             transitionBufSize=transition_buf_size,
@@ -817,7 +815,7 @@ const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNorma
 
     def _generate_link_item(self, link_name, zone_name):
         return self.ZONE_INFOS_CPP_LINK_ITEM.format(
-            zoneSpecNamespace=self.zone_spec_namespace,
+            scope=self.scope,
             linkFullName=link_name,
             linkNormalizedName=normalize_name(link_name),
             zoneFullName=zone_name,
@@ -906,7 +904,6 @@ extern const char* const kZoneStrings[];
         self.zone_strings = zone_strings
 
         self.db_header_namespace = self.db_namespace.upper()
-        self.zone_spec_namespace = scope
 
     def generate_strings_cpp(self):
         format_string_items = ''
