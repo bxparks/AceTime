@@ -9,9 +9,9 @@
 #include <stdint.h>
 #include "common/common.h"
 
-class ZoneManagerTest_Basic_isSorted;
-class ZoneManagerTest_Basic_linearSearch;
-class ZoneManagerTest_Basic_binarySearch;
+class BasicZoneManagerTest_isSorted;
+class BasicZoneManagerTest_linearSearch;
+class BasicZoneManagerTest_binarySearch;
 
 namespace ace_time {
 
@@ -47,11 +47,7 @@ class ZoneManager {
      */
     bool isSorted() const { return mIsSorted; }
 
-  private:
-    friend class ::ZoneManagerTest_Basic_isSorted;
-    friend class ::ZoneManagerTest_Basic_linearSearch;
-    friend class ::ZoneManagerTest_Basic_binarySearch;
-
+  protected:
     /** Use binarySearch() if registrySize > threshold. */
     static const uint8_t kBinarySearchThreshold = 5;
 
@@ -70,8 +66,8 @@ class ZoneManager {
       return true;
     }
 
-    static const ZI* linearSearch(const ZI* const* zoneRegistry, uint16_t registrySize,
-        const char* name) {
+    static const ZI* linearSearch(const ZI* const* zoneRegistry,
+        uint16_t registrySize, const char* name) {
       for (uint16_t i = 0; i < registrySize; ++i) {
         const ZI* zoneInfo = zoneRegistry[i];
         if (strcmp(name, zoneInfo->name) == 0) {
@@ -81,8 +77,8 @@ class ZoneManager {
       return nullptr;
     }
 
-    static const ZI* binarySearch(const ZI* const* zoneRegistry, uint16_t registrySize,
-        const char* name) {
+    static const ZI* binarySearch(const ZI* const* zoneRegistry,
+        uint16_t registrySize, const char* name) {
       uint16_t a = 0;
       uint16_t b = registrySize - 1;
       while (b - a > 0) {
@@ -109,6 +105,25 @@ class ZoneManager {
     const ZI* const* const mZoneRegistry;
     uint16_t const mRegistrySize;
     bool const mIsSorted;
+};
+
+class BasicZoneManager: public ZoneManager<basic::ZoneInfo> {
+  public:
+    BasicZoneManager(const basic::ZoneInfo* const* zoneRegistry,
+        uint16_t registrySize):
+      ZoneManager<basic::ZoneInfo>(zoneRegistry, registrySize) {}
+
+  private:
+    friend class ::BasicZoneManagerTest_isSorted;
+    friend class ::BasicZoneManagerTest_linearSearch;
+    friend class ::BasicZoneManagerTest_binarySearch;
+};
+
+class ExtendedZoneManager: public ZoneManager<extended::ZoneInfo> {
+  public:
+    ExtendedZoneManager(const extended::ZoneInfo* const* zoneRegistry,
+        uint16_t registrySize):
+      ZoneManager<extended::ZoneInfo>(zoneRegistry, registrySize) {}
 };
 
 }
