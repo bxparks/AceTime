@@ -19,23 +19,22 @@ template<typename ZI>
 class ZoneManager {
   public:
     /** Constructor. */
-    ZoneManager(const ZI* const* zoneRegistry, uint16_t numZoneInfos):
+    ZoneManager(const ZI* const* zoneRegistry, uint16_t registrySize):
         mZoneRegistry(zoneRegistry),
-        mNumZoneInfos(numZoneInfos) {}
+        mRegistrySize(registrySize) {}
 
     /**
-     * Return the ZoneSpecifier corresponding to the given zone name.
-     * Return nullptr if not found, or if we have no more ZoneSpecifier
-     * internal buffer.
+     * Return the ZoneSpecifier corresponding to the given zone name. Return
+     * nullptr if not found, or if we have no more ZoneSpecifier internal
+     * buffer.
      */
     const ZI* getZoneInfo(const char* name) const {
-      return findZoneInfo(name);
+      return linearSearch(name);
     }
 
   private:
-    // TODO: Implement a binary search if the zoneRegistry is sorted.
-    const ZI* findZoneInfo(const char* name) const {
-      for (uint16_t i = 0; i < mNumZoneInfos; ++i) {
+    const ZI* linearSearch(const char* name) const {
+      for (uint16_t i = 0; i < mRegistrySize; ++i) {
         const ZI* zoneInfo = mZoneRegistry[i];
         if (strcmp(zoneInfo->name, name) == 0) {
           return zoneInfo;
@@ -45,7 +44,7 @@ class ZoneManager {
     }
 
     const ZI* const* const mZoneRegistry;
-    uint16_t const mNumZoneInfos;
+    uint16_t const mRegistrySize;
 };
 
 }
