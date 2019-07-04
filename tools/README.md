@@ -35,8 +35,8 @@ processing pipeline that converts the various TZ Database files (with `Zone`,
        v                   |              /
 zone_infos.{h,cpp}         \             /
 zone_policies.{h,cpp}       \           /
-zone_strings.{h,cpp}         \         /
-                              \       /
+zone_registry.{h,cpp}        \         /
+zone_strings.{h,cpp}          \       /
                                v     v
                            tdgenerator.py
                               /       \
