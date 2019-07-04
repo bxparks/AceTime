@@ -1185,38 +1185,41 @@ Most date and time classes in the AceTime library are mutable. The mutation
 operations are not implemented within the class itself to avoid bloating
 the class API surface. The mutation functions live as functions in separate
 namespaces outside of the class definitions:
+
 * `time_period_mutation.h`
 * `time_offset_mutation.h`
 * `local_date_time_mutation.h`
 * `zoned_date_time_mutation.h`
 
 Additional mutation operations can be written by the application developer and
-added into the *same* namespace.
+added into the *same* namespace, since C++ allows things to be added to a
+namespace multiple times.
 
 Most of these mutation functions were created to solve a particular UI problem
 in my various clock applications. In those clocks, the user is provided an OLED
-display and 2 buttons. The user can change the time by presss and holding down
+display and 2 buttons. The user can change the time by long-pressing
 the Select button. One of the components of the date or time will blink. The
 user can press the other Change button to increment the component. Pressing the
 Select button will move the blinking cursor to the next field. After all the
 fields have been set, the user can long-press the Select button again to save
 the new date and time into the `SystemClock`.
 
-The mutation function directly manipulate the underlying date and time
-components of `ZonedDateTime` and other target classes. No
-validation rules are performed. For example, the
-`zoned_date_time_mutation::incrementDay()` method will increment the
-`ZonedDateTime::day()` field from Feb 29 to Feb 30, then to Feb 31, then wrap
-around to Feb 1. The object will become normalized when it is converted into an
-Epoch seconds (using `toEpochSeconds()`), then converted back to a
-`ZonedDateTime` object (using `forEpochSeconds()`). By deferring this
+The mutation functions directly manipulate the underlying date and time
+components of `ZonedDateTime` and other target classes. No validation rules are
+applied. For example, the `zoned_date_time_mutation::incrementDay()` method will
+increment the `ZonedDateTime::day()` field from Feb 29 to Feb 30, then to Feb
+31, then wrap around to Feb 1. The object will become normalized when it is
+converted into an Epoch seconds (using `toEpochSeconds()`), then converted back
+to a `ZonedDateTime` object (using `forEpochSeconds()`). By deferring this
 normalization step until the user has finished setting all the clock fields, we
-can reduce the size of the code in flash. (The limiting factor for many
-Arduino environments is the code size, not the CPU time.)
+can reduce the size of the code in flash. (The limiting factor for many Arduino
+environments is the code size, not the CPU time.)
 
 It is not clear that making the AceTime objects mutable was the best design
-decision. But it seems to produce far smaller code sizes, while providing the
-features that I need to implement the various Clock applications.
+decision. But it seems to produce far smaller code sizes (hundreds of bytes of
+flash memory saved for something like
+[examples/WorldClock](examples/WorldClock)), while providing the features that I
+need to implement the various Clock applications.
 
 ### TimeOffset Mutation
 
