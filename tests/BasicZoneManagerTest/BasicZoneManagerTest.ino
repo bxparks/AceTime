@@ -27,42 +27,73 @@ test(BasicZoneManagerTest, getZoneInfo_not_found) {
 }
 
 // --------------------------------------------------------------------------
-// Test ZoneManager::isSorted(), binarySearch(), linearSearch(). Sufficient to
-// test BasicZoneManager only since they are the same for ExtendedZoneManager.
+// Test ZoneManager::isSorted(), binarySearch(), linearSearch() for sorted
+// registry. Sufficient to test BasicZoneManager only since they are the same
+// for ExtendedZoneManager.
 // --------------------------------------------------------------------------
 
-const basic::ZoneInfo* const kRegistry[] = {
+const basic::ZoneInfo* const kSortedRegistry[] = {
   &zonedb::kZoneAmerica_Chicago,
   &zonedb::kZoneAmerica_Denver,
   &zonedb::kZoneAmerica_Los_Angeles,
   &zonedb::kZoneAmerica_New_York,
 };
 
-test(BasicZoneManagerTest, isSorted) {
+test(BasicZoneManagerTest_Sorted, isSorted) {
   bool isSorted = BasicZoneManager::isSorted(
-      kRegistry, sizeof(kRegistry)/sizeof(basic::ZoneInfo*));
+      kSortedRegistry, sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*));
   assertTrue(isSorted);
 }
 
-test(BasicZoneManagerTest, linearSearch) {
+test(BasicZoneManagerTest_Sorted, linearSearch) {
   const basic::ZoneInfo *zi = BasicZoneManager::linearSearch(
-      kRegistry, sizeof(kRegistry)/sizeof(basic::ZoneInfo*),
+      kSortedRegistry, sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*),
       "America/Los_Angeles");
   assertEqual(zi->name, "America/Los_Angeles");
 
-  zi = BasicZoneManager::linearSearch(kRegistry,
-      sizeof(kRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
+  zi = BasicZoneManager::linearSearch(kSortedRegistry,
+      sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
   assertTrue(zi == nullptr);
 }
 
-test(BasicZoneManagerTest, binarySearch) {
+test(BasicZoneManagerTest_Sorted, binarySearch) {
   const basic::ZoneInfo *zi = BasicZoneManager::binarySearch(
-      kRegistry, sizeof(kRegistry)/sizeof(basic::ZoneInfo*),
+      kSortedRegistry, sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*),
       "America/Los_Angeles");
   assertEqual(zi->name, "America/Los_Angeles");
 
-  zi = BasicZoneManager::binarySearch(kRegistry,
-      sizeof(kRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
+  zi = BasicZoneManager::binarySearch(kSortedRegistry,
+      sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
+  assertTrue(zi == nullptr);
+}
+
+// --------------------------------------------------------------------------
+// Test ZoneManager::isSorted(), binarySearch(), linearSearch() for UNsorted
+// registry. Sufficient to test BasicZoneManager only since they are the same
+// for ExtendedZoneManager.
+// --------------------------------------------------------------------------
+
+const basic::ZoneInfo* const kUnsortedRegistry[] = {
+  &zonedb::kZoneAmerica_Chicago,
+  &zonedb::kZoneAmerica_New_York,
+  &zonedb::kZoneAmerica_Denver,
+  &zonedb::kZoneAmerica_Los_Angeles,
+};
+
+test(BasicZoneManagerTest_Unsorted, isSorted) {
+  bool isSorted = BasicZoneManager::isSorted(
+      kUnsortedRegistry, sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*));
+  assertFalse(isSorted);
+}
+
+test(BasicZoneManagerTest_Unsorted, linearSearch) {
+  const basic::ZoneInfo *zi = BasicZoneManager::linearSearch(
+      kUnsortedRegistry, sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*),
+      "America/Los_Angeles");
+  assertEqual(zi->name, "America/Los_Angeles");
+
+  zi = BasicZoneManager::linearSearch(kUnsortedRegistry,
+      sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
   assertTrue(zi == nullptr);
 }
 

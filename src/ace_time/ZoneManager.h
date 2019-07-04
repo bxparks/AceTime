@@ -9,9 +9,11 @@
 #include <stdint.h>
 #include "common/common.h"
 
-class BasicZoneManagerTest_isSorted;
-class BasicZoneManagerTest_linearSearch;
-class BasicZoneManagerTest_binarySearch;
+class BasicZoneManagerTest_Sorted_isSorted;
+class BasicZoneManagerTest_Sorted_linearSearch;
+class BasicZoneManagerTest_Sorted_binarySearch;
+class BasicZoneManagerTest_Unsorted_isSorted;
+class BasicZoneManagerTest_Unsorted_linearSearch;
 
 namespace ace_time {
 
@@ -114,9 +116,11 @@ class BasicZoneManager: public ZoneManager<basic::ZoneInfo> {
       ZoneManager<basic::ZoneInfo>(zoneRegistry, registrySize) {}
 
   private:
-    friend class ::BasicZoneManagerTest_isSorted;
-    friend class ::BasicZoneManagerTest_linearSearch;
-    friend class ::BasicZoneManagerTest_binarySearch;
+    friend class ::BasicZoneManagerTest_Sorted_isSorted;
+    friend class ::BasicZoneManagerTest_Sorted_linearSearch;
+    friend class ::BasicZoneManagerTest_Sorted_binarySearch;
+    friend class ::BasicZoneManagerTest_Unsorted_isSorted;
+    friend class ::BasicZoneManagerTest_Unsorted_linearSearch;
 };
 
 class ExtendedZoneManager: public ZoneManager<extended::ZoneInfo> {
