@@ -1,4 +1,4 @@
-#line 2 "ZoneManagerTest.ino"
+#line 2 "BasicZoneManagerTest.ino"
 
 #include <AUnit.h>
 #include <AceTime.h>
@@ -23,28 +23,6 @@ test(BasicZoneManagerTest, getZoneInfo_Los_Angeles) {
 test(BasicZoneManagerTest, getZoneInfo_not_found) {
   BasicZoneManager zoneManager(zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
   const basic::ZoneInfo* zoneInfo = zoneManager.getZoneInfo("not found");
-  assertTrue(zoneInfo == nullptr);
-}
-
-// --------------------------------------------------------------------------
-// ExtendedZoneManager
-// --------------------------------------------------------------------------
-
-test(ExtendedZoneManagerTest, getZoneInfo_Los_Angeles) {
-  ExtendedZoneManager zoneManager(
-      zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
-  assertTrue(zoneManager.isSorted());
-
-  const extended::ZoneInfo* zoneInfo =
-      zoneManager.getZoneInfo("America/Los_Angeles");
-  assertTrue(zoneInfo != nullptr);
-  assertEqual(zoneInfo->name, "America/Los_Angeles");
-}
-
-test(ExtendedZoneManagerTest, getZoneInfo_not_found) {
-  ExtendedZoneManager zoneManager(
-      zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
-  const extended::ZoneInfo* zoneInfo = zoneManager.getZoneInfo("not found");
   assertTrue(zoneInfo == nullptr);
 }
 
