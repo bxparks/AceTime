@@ -50,6 +50,12 @@ class ZoneManager {
     bool isSorted() const { return mIsSorted; }
 
   protected:
+    friend class ::BasicZoneManagerTest_Sorted_isSorted;
+    friend class ::BasicZoneManagerTest_Sorted_linearSearch;
+    friend class ::BasicZoneManagerTest_Sorted_binarySearch;
+    friend class ::BasicZoneManagerTest_Unsorted_isSorted;
+    friend class ::BasicZoneManagerTest_Unsorted_linearSearch;
+
     /** Use binarySearch() if registrySize > threshold. */
     static const uint8_t kBinarySearchThreshold = 5;
 
@@ -109,26 +115,17 @@ class ZoneManager {
     bool const mIsSorted;
 };
 
-class BasicZoneManager: public ZoneManager<basic::ZoneInfo> {
-  public:
-    BasicZoneManager(const basic::ZoneInfo* const* zoneRegistry,
-        uint16_t registrySize):
-      ZoneManager<basic::ZoneInfo>(zoneRegistry, registrySize) {}
+/**
+ * Concrete template instantiation of ZoneManager for basic::ZoneInfo, which
+ * can be used with BasicZoneSpecifier.
+ */
+typedef ZoneManager<basic::ZoneInfo> BasicZoneManager;
 
-  private:
-    friend class ::BasicZoneManagerTest_Sorted_isSorted;
-    friend class ::BasicZoneManagerTest_Sorted_linearSearch;
-    friend class ::BasicZoneManagerTest_Sorted_binarySearch;
-    friend class ::BasicZoneManagerTest_Unsorted_isSorted;
-    friend class ::BasicZoneManagerTest_Unsorted_linearSearch;
-};
-
-class ExtendedZoneManager: public ZoneManager<extended::ZoneInfo> {
-  public:
-    ExtendedZoneManager(const extended::ZoneInfo* const* zoneRegistry,
-        uint16_t registrySize):
-      ZoneManager<extended::ZoneInfo>(zoneRegistry, registrySize) {}
-};
+/**
+ * Concrete template instantiation of ZoneManager for extended::ZoneInfo, which
+ * can be used with ExtendedZoneSpecifier.
+ */
+typedef ZoneManager<extended::ZoneInfo> ExtendedZoneManager;
 
 }
 
