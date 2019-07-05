@@ -32,6 +32,12 @@ namespace basic {
  * by the matching ZoneEra and its ZoneRule for a given year. If the ZoneEra
  * does not have a ZoneRule, then the Transition is defined by the start date
  * of the ZoneEra.
+ *
+ * The 'era' and 'rule' variables intermediate values calculated during the
+ * init() phase. They are used to calculate the 'yearTiny', 'startEpochSeconds',
+ * 'offsetCode', 'deltaCode', and 'abbrev' parameters which are used during
+ * findMatch() lookup. NOTE: This separation may help move the ZoneInfo and
+ * ZonePolicy data structures into PROGMEM.
  */
 struct Transition {
   /**
@@ -43,7 +49,11 @@ struct Transition {
    */
   static const uint8_t kAbbrevSize = 6 + 1;
 
-  /** The ZoneEra that matched the given year. NonNullable. */
+  /** The ZoneEra that matched the given year. NonNullable.
+   *
+   * This field is used only during the init() phase, not during the
+   * findMatch() phase.
+   */
   const ZoneEra* era;
 
   /**
@@ -52,6 +62,9 @@ struct Transition {
    * contains a UTC offset. There are only 2 time zones that has this property
    * as of TZ database version 2018g: Europe/Istanbul and
    * America/Argentina/San_Luis.
+   *
+   * This field is used only during the init() phase, not during the
+   * findMatch() phase.
    */
   const ZoneRule* rule;
 
@@ -63,10 +76,13 @@ struct Transition {
 
   /**
    * The total effective UTC offsetCode at the start of transition, *including*
-   * DST offset. (Maybe rename this effectiveOffsetCode?) The DST offset can be
-   * recovered from rule->deltaCode.
+   * DST offset. (Maybe rename this effectiveOffsetCode?) The DST offset is
+   * stored at deltaCode.
    */
   int8_t offsetCode;
+
+  /** The delta offsetCode from "standard time" at the start of transition */
+  int8_t deltaCode;
 
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[kAbbrevSize];
@@ -170,14 +186,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      int8_t code;
-      if (!transition) {
-        code = TimeOffset::kErrorCode;
-      } else if (transition->rule == nullptr) {
-        code = 0;
-      } else {
-        code = transition->rule->deltaCode;
-      }
+      int8_t code = (transition)
+          ? transition->deltaCode : TimeOffset::kErrorCode;
       return TimeOffset::forOffsetCode(code);
     }
 
@@ -445,6 +455,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         priorYearTiny /*yearTiny*/,
         0 /*epochSeconds*/,
         0 /*offsetCode*/,
+        0 /*deltaCode*/,
         {0} /*abbrev*/
       };
     }
@@ -546,6 +557,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         yearTiny,
         0 /*epochSeconds*/,
         0 /*offsetCode*/,
+        0 /*deltaCode*/,
         {0} /*abbrev*/
       };
       mNumTransitions++;
@@ -605,12 +617,14 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       mPrevTransition.startEpochSeconds = kMinEpochSeconds;
       int8_t deltaCode = (mPrevTransition.rule == nullptr)
           ? 0 : mPrevTransition.rule->deltaCode;
+      mPrevTransition.deltaCode = deltaCode;
       mPrevTransition.offsetCode = mPrevTransition.era->offsetCode + deltaCode;
       const basic::Transition* prevTransition = &mPrevTransition;
 
       // Loop through Transition items to calculate:
       // 1) Transition::startEpochSeconds
       // 2) Transition::offsetCode
+      // 3) Transition::deltaCode
       for (uint8_t i = 0; i < mNumTransitions; i++) {
         basic::Transition& transition = mTransitions[i];
         const int16_t year = transition.yearTiny + LocalDate::kEpochYear;
@@ -633,6 +647,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
               TimeOffset::forOffsetCode(offsetCode));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
           transition.offsetCode = transition.era->offsetCode;
+          transition.deltaCode = 0;
         } else {
           // In this case, the transition points to a named ZonePolicy, which
           // means that there could be multiple ZoneRules associated with the
@@ -661,8 +676,9 @@ class BasicZoneSpecifier: public ZoneSpecifier {
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
 
           // Determine the effective offset code
-          transition.offsetCode =
-              transition.era->offsetCode + transition.rule->deltaCode;
+          int8_t deltaCode = transition.rule->deltaCode;
+          transition.deltaCode = deltaCode;
+          transition.offsetCode = transition.era->offsetCode + deltaCode;
         }
 
         prevTransition = &transition;
