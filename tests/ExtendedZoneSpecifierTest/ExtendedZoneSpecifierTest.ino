@@ -383,42 +383,42 @@ test(ExtendedZoneSpecifierTest, compareTransitionToMatchFuzzy) {
 
   Transition transition = {
     &match /*match*/, nullptr /*rule*/, {-1, 11, 1, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   assertEqual(-1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
       &transition, &match));
 
   transition = {
     &match /*match*/, nullptr /*rule*/, {-1, 12, 1, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   assertEqual(1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
       &transition, &match));
 
   transition = {
     &match /*match*/, nullptr /*rule*/, {0, 1, 1, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   assertEqual(1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
       &transition, &match));
 
   transition = {
     &match /*match*/, nullptr /*rule*/, {1, 1, 1, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   assertEqual(1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
       &transition, &match));
 
   transition = {
     &match /*match*/, nullptr /*rule*/, {1, 2, 1, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   assertEqual(1, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
       &transition, &match));
 
   transition = {
     &match /*match*/, nullptr /*rule*/, {1, 3, 1, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   assertEqual(2, ExtendedZoneSpecifier::compareTransitionToMatchFuzzy(
       &transition, &match));
@@ -434,28 +434,28 @@ test(ExtendedZoneSpecifierTest, compareTransitionToMatch) {
 
   Transition transition = {
     &match /*match*/, nullptr /*rule*/, {-1, 12, 31, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   assertEqual(-1, ExtendedZoneSpecifier::compareTransitionToMatch(
       &transition, &match));
 
   transition = {
     &match /*match*/, nullptr /*rule*/, {0, 1, 1, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   assertEqual(0, ExtendedZoneSpecifier::compareTransitionToMatch(
       &transition, &match));
 
   transition = {
     &match /*match*/, nullptr /*rule*/, {0, 1, 2, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   assertEqual(1, ExtendedZoneSpecifier::compareTransitionToMatch(
       &transition, &match));
 
   transition = {
     &match /*match*/, nullptr /*rule*/, {1, 1, 2, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   assertEqual(2, ExtendedZoneSpecifier::compareTransitionToMatch(
       &transition, &match));
@@ -472,7 +472,7 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   // This transition occurs before the match, so prior should be filled.
   Transition transition0 = {
     &match /*match*/, nullptr /*rule*/, {-1, 12, 31, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   ExtendedZoneSpecifier::processActiveTransition(&match, &transition0, &prior);
   assertTrue(transition0.active);
@@ -481,7 +481,7 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   // This occurs at exactly match.startDateTime, so should replace
   Transition transition1 = {
     &match /*match*/, nullptr /*rule*/, {0, 1, 1, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   ExtendedZoneSpecifier::processActiveTransition(&match, &transition1, &prior);
   assertTrue(transition1.active);
@@ -490,7 +490,7 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   // An interior transition. Prior should not change.
   Transition transition2 = {
     &match /*match*/, nullptr /*rule*/, {0, 1, 2, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   ExtendedZoneSpecifier::processActiveTransition(&match, &transition2, &prior);
   assertTrue(transition2.active);
@@ -499,7 +499,7 @@ test(ExtendedZoneSpecifierTest, processActiveTransition) {
   // Occurs after match.untilDateTime, so should be rejected.
   Transition transition3 = {
     &match /*match*/, nullptr /*rule*/, {1, 1, 2, 0, 'w'} /*transitionTime*/,
-    {}, {}, {}, {0}, 0, false
+    {}, {}, {}, {0}, 0, false, 0, 0
   };
   assertFalse(transition3.active);
   assertTrue(prior == &transition1);
@@ -573,23 +573,20 @@ test(ExtendedZoneSpecifierTest, fixTransitionTimes_generateStartUntilTimes) {
   // Create 3 Transitions corresponding to the matches.
   // Implements ExtendedZoneSpecifier::findTransitionsFromSimpleMatch().
   Transition* transition1 = storage.getFreeAgent();
-  transition1->match = &matches[0];
-  transition1->rule = nullptr;
-  transition1->transitionTime = matches[0].startDateTime;
+  ExtendedZoneSpecifier::createTransitionForYear(
+      transition1, 0 /*not used*/, nullptr /*rule*/, &matches[0]);
   transition1->active = true;
   storage.addFreeAgentToCandidatePool();
 
   Transition* transition2 = storage.getFreeAgent();
-  transition2->match = &matches[1];
-  transition2->rule = nullptr;
-  transition2->transitionTime = matches[1].startDateTime;
+  ExtendedZoneSpecifier::createTransitionForYear(
+      transition2, 0 /*not used*/, nullptr /*rule*/, &matches[1]);
   transition2->active = true;
   storage.addFreeAgentToCandidatePool();
 
   Transition* transition3 = storage.getFreeAgent();
-  transition3->match = &matches[2];
-  transition3->rule = nullptr;
-  transition3->transitionTime = matches[2].startDateTime;
+  ExtendedZoneSpecifier::createTransitionForYear(
+      transition3, 0 /*not used*/, nullptr /*rule*/, &matches[2]);
   transition3->active = true;
   storage.addFreeAgentToCandidatePool();
 
