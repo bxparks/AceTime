@@ -599,8 +599,10 @@ static const {scope}::ZoneEra kZoneEra{zoneNormalizedName}[] = {{
 {eraItems}
 }};
 
+static const char* const kZoneName{zoneNormalizedName} = "{zoneFullName}";
+
 const {scope}::ZoneInfo kZone{zoneNormalizedName} = {{
-  "{zoneFullName}" /*name*/,
+  kZoneName{zoneNormalizedName} /*name*/,
   &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,
