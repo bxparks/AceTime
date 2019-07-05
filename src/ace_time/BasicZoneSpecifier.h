@@ -205,11 +205,25 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * of memory required by BasicZoneSpecifier, but this means that the
      * information needed to implement this method correctly does not exist.
      *
-     * The implementation of this method is therefore a hack. First pass, we
-     * extract the TimeOffset on Jan 1 of the year given by the localDateTime,
-     * and guess its epochSeconds using that TimeOffset. Second pass, we use the
-     * epochSeconds from the previous pass to calculate the next best guess of
-     * the actual TimeOffset. We return the second pass guess as the result.
+     * The implementation is somewhat of a hack:
+     *
+     * 0) Use the localDateTime to extract the offset, *assuming* that the
+     * localDatetime is UTC. This will get us within 12-14h of the correct
+     * UTC offset.
+     * 1) Use (localDateTime, offset0) to determine offset1.
+     * 2) Use (localdateTime, offset1) to determine offset2.
+     * 3) Finally, check if offset1 and offset2 are equal. If they are
+     * we reached equilibrium so we can just return (localDateTime, offset1).
+     * If they are not equal, then we have a cycle because the localDateTime
+     * occurred in a DST gap (STD->DST transition) or overlap (DST->STD
+     * transition). We arbitrarily pick the offset of the *later* epochSeconds
+     * since that seems to match closely to what most people would expect to
+     * happen in a gap or overlap (e.g. In the gap of 2am->3am, a 2:30am would
+     * get shifted to 3:30am.)
+     *
+     * The code is written slightly ackwardly to try to encourage the compiler
+     * to perform Return Value Optimization. For example, I use only a single
+     * OffsetDateTime instance, and I don't use early return.
      */
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
       // Only a single local variable of OffsetDateTime used, to allow Return
