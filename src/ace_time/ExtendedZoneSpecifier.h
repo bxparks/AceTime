@@ -147,6 +147,13 @@ struct ZoneMatch {
  *  2) Named, indicated by 'rule' != nullptr. The base UTC offsetCode is given
  *  by match->offsetCode. The additional DST delta is given by
  *  rule->deltaCode.
+ *
+ * The 'match', 'rule', 'transitionTime', 'transitionTimeS', 'transitionTimeU',
+ * 'active', 'originalTransitionTime', 'letter()' and 'format()' are temporary
+ * variables or parameters used in the init() method.
+ *
+ * The 'offsetCode', 'deltaCode', 'startDateTime', 'abbrev' are the derived
+ * parameters used in the findTransition() search.
  */
 struct Transition {
   /** Size of the timezone abbreviation. */
@@ -209,28 +216,39 @@ struct Transition {
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[kAbbrevSize];
 
-
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
 
-  /** Determines if this transition is valid. */
+  /**
+   * Flag used for 2 slightly different meanings at different stages of init()
+   * processing.
+   *
+   * 1) During findCandidateTransitions(), this flag indicates whether the
+   * current transition is a valid "prior" transition that occurs before other
+   * transitions. It is set by setAsPriorTransition() if the transition is a
+   * prior transition.
+   *
+   * 2) During processActiveTransition(), this flag indicates if the current
+   * transition falls within the date range of interest.
+   */
   bool active;
+
+  /**
+   * The base offset code, not the total effective UTC offset. Note that this
+   * is different than basic::Transition::offsetCode used by BasicZoneSpecifier
+   * which is the total effective offsetCode. (It may be possible to make this
+   * into an effective offsetCode (i.e. offsetCode + deltaCode) but it does not
+   * seem worth making that change right now.)
+   */
+  int8_t offsetCode;
+
+  /** The DST delta code. */
+  int8_t deltaCode;
 
   //-------------------------------------------------------------------------
 
   const char* format() const {
     return match->era->format;
-  }
-
-  /**
-   * The base offset code, not the total effective UTC offset. Note that this
-   * is different than basic::Transition::offsetCode() used by
-   * BasicZoneSpecifier which is the total effective offsetCode. (It may be
-   * possible to make this into an effective offsetCode (i.e. offsetCode +
-   * deltaCode) but it does not seem worth making that change right now.)
-   */
-  int8_t offsetCode() const {
-    return match->era->offsetCode;
   }
 
   /**
@@ -280,11 +298,6 @@ struct Transition {
     return policy->letters[rule->letter];
   }
 
-  /** The DST offset code. */
-  int8_t deltaCode() const {
-    return (rule) ? rule->deltaCode : match->era->deltaCode;
-  }
-
   /** Used only for debugging. */
   void log() const {
     logging::print("Transition(");
@@ -295,8 +308,8 @@ struct Transition {
     }
     logging::print("; match: %snull", (match) ? "!" : "");
     logging::print("; era: %snull", (match && match->era) ? "!" : "");
-    logging::print("; oCode: %d", offsetCode());
-    logging::print("; dCode: %d", deltaCode());
+    logging::print("; oCode: %d", offsetCode);
+    logging::print("; dCode: %d", deltaCode);
     logging::print("; tt: "); transitionTime.log();
     if (rule != nullptr) {
       logging::print("; R.fY: %d", rule->fromYearTiny);
@@ -651,7 +664,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       const extended::Transition* transition = findTransition(epochSeconds);
       return (transition)
           ? TimeOffset::forOffsetCode(
-              transition->offsetCode() + transition->deltaCode())
+              transition->offsetCode + transition->deltaCode)
           : TimeOffset::forError();
     }
 
@@ -659,7 +672,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       bool success = init(epochSeconds);
       if (!success) return TimeOffset::forError();
       const extended::Transition* transition = findTransition(epochSeconds);
-      return TimeOffset::forOffsetCode(transition->deltaCode());
+      return TimeOffset::forOffsetCode(transition->deltaCode);
     }
 
     const char* getAbbrev(acetime_t epochSeconds) const override {
@@ -677,7 +690,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
             mTransitionStorage.findTransitionForDateTime(ldt);
         offset = (transition)
             ? TimeOffset::forOffsetCode(
-                transition->offsetCode() + transition->deltaCode())
+                transition->offsetCode + transition->deltaCode)
             : TimeOffset::forError();
       } else {
         offset = TimeOffset::forError();
@@ -699,7 +712,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           mTransitionStorage.findTransition(epochSeconds);
       offset =  (transition)
             ? TimeOffset::forOffsetCode(
-                transition->offsetCode() + transition->deltaCode())
+                transition->offsetCode + transition->deltaCode)
             : TimeOffset::forError();
       odt = OffsetDateTime::forEpochSeconds(epochSeconds, offset);
       return odt;
@@ -966,10 +979,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         const extended::ZoneMatch* match) {
       if (DEBUG) logging::println("findTransitionsFromSimpleMatch()");
       extended::Transition* freeTransition = transitionStorage.getFreeAgent();
-      freeTransition->match = match;
-      freeTransition->rule = nullptr;
-      freeTransition->transitionTime = match->startDateTime;
-
+      createTransitionForYear(freeTransition, 0 /*not used*/,
+          nullptr /*rule*/, match);
       transitionStorage.addFreeAgentToActivePool();
     }
 
@@ -1065,13 +1076,20 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return i;
     }
 
-    /** Return true if Transition 't' was created. */
+    /**
+     * Populate Transition 't' using the startTime from 'rule' (if it exists)
+     * else from the start time of 'match'. Fills in 'offsetCode' and
+     * 'deltaCode' as well.
+     */
     static void createTransitionForYear(extended::Transition* t, int8_t year,
         const extended::ZoneRule* rule,
         const extended::ZoneMatch* match) {
       t->match = match;
-      t->transitionTime = getTransitionTime(year, rule);
       t->rule = rule;
+      t->transitionTime = (rule) ? getTransitionTime(year, rule)
+                                 : match->startDateTime;
+      t->offsetCode = match->era->offsetCode;
+      t->deltaCode = (rule) ? rule->deltaCode : match->era->deltaCode;
     }
 
     /**
@@ -1156,8 +1174,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         extended::Transition** begin, extended::Transition** end) {
       if (DEBUG) logging::println("fixTransitionTimes(): #transitions: %d;",
           (int) (end - begin));
+
       // extend first Transition to -infinity
       extended::Transition* prev = *begin;
+
       for (extended::Transition** iter = begin; iter != end; ++iter) {
         extended::Transition* curr = *iter;
         if (DEBUG) {
@@ -1167,7 +1187,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         }
         expandDateTuple(&curr->transitionTime,
             &curr->transitionTimeS, &curr->transitionTimeU,
-            prev->offsetCode(), prev->deltaCode());
+            prev->offsetCode, prev->deltaCode);
         prev = curr;
       }
       if (DEBUG) logging::println("fixTransitionTimes(): END");
@@ -1353,11 +1373,12 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
       extended::Transition* prev = *begin;
       bool isAfterFirst = false;
+
       for (extended::Transition** iter = begin; iter != end; ++iter) {
         extended::Transition* const t = *iter;
-        const extended::DateTuple& tt = t->transitionTime;
 
         // 1) Update the untilDateTime of the previous Transition
+        const extended::DateTuple& tt = t->transitionTime;
         if (isAfterFirst) {
           prev->untilDateTime = tt;
         }
@@ -1365,8 +1386,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         // 2) Calculate the current startDateTime by shifting the
         // transitionTime (represented in the UTC offset of the previous
         // transition) into the UTC offset of the *current* transition.
-        int8_t code = tt.timeCode - prev->offsetCode() - prev->deltaCode()
-            + t->offsetCode() + t->deltaCode();
+        int8_t code = tt.timeCode - prev->offsetCode - prev->deltaCode
+            + t->offsetCode + t->deltaCode;
         t->startDateTime = {tt.yearTiny, tt.month, tt.day, code, tt.modifier};
         normalizeDateTuple(&t->startDateTime);
 
@@ -1382,7 +1403,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         // any CPU time though, since we still need to mutiply by 900.
         const extended::DateTuple& st = t->startDateTime;
         const acetime_t offsetSeconds = (acetime_t) 900
-            * (st.timeCode - t->offsetCode() - t->deltaCode());
+            * (st.timeCode - t->offsetCode - t->deltaCode);
         LocalDate ld = LocalDate::forTinyComponents(
             st.yearTiny, st.month, st.day);
         t->startEpochSeconds = ld.toEpochSeconds() + offsetSeconds;
@@ -1396,7 +1417,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       extended::DateTuple untilTimeS; // needed only for expandDateTuple
       extended::DateTuple untilTimeU; // needed only for expandDateTuple
       expandDateTuple(&untilTime, &untilTimeS, &untilTimeU,
-          prev->offsetCode(), prev->deltaCode());
+          prev->offsetCode, prev->deltaCode);
       prev->untilDateTime = untilTime;
     }
 
@@ -1409,11 +1430,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
           (int) (end - begin));
       for (extended::Transition** iter = begin; iter != end; ++iter) {
         extended::Transition* const t = *iter;
-        const char* format = t->format();
-        int8_t deltaCode = t->deltaCode();
-        const char* letter = t->letter();
         createAbbreviation(t->abbrev, extended::Transition::kAbbrevSize,
-            format, deltaCode, letter);
+            t->format(), t->deltaCode, t->letter());
       }
     }
 
