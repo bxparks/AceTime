@@ -131,6 +131,8 @@ a SystemClock synchronized to a DS3231 chip, and 2 buttons can fit inside the
 
 Version: 0.3.1 (2019-06-30, TZ DB version 2019a, beta)
 
+Status: Available in the Arduino Library Manager as of 0.3.1.
+
 ## HelloDateTime
 
 Here is a simple program (see [examples/HelloDateTime](examples/HelloDateTime))
