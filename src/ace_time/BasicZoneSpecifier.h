@@ -16,6 +16,7 @@
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneSpecifier.h"
+#include "ZoneInfoBroker.h"
 
 class BasicZoneSpecifierTest_init_primitives;
 class BasicZoneSpecifierTest_init;
@@ -172,10 +173,10 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     explicit BasicZoneSpecifier(const basic::ZoneInfo* zoneInfo):
         ZoneSpecifier(kTypeBasic),
-        mZoneInfo(zoneInfo) {}
+        mBroker(zoneInfo) {}
 
     /** Return the underlying ZoneInfo. */
-    const basic::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
+    const basic::ZoneInfo* getZoneInfo() const { return mBroker.zoneInfo(); }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
@@ -412,8 +413,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       mYear = year;
       mNumTransitions = 0; // clear cache
 
-      if (year < mZoneInfo->zoneContext->startYear - 1
-          || mZoneInfo->zoneContext->untilYear < year) {
+      if (year < mBroker.startYear() - 1 || mBroker.untilYear() < year) {
         return false;
       }
 
@@ -440,7 +440,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       int8_t priorYearTiny = yearTiny - 1;
 
       // Find the prior Era.
-      const basic::ZoneEra* const era = findZoneEraPriorTo(year);
+      const basic::ZoneEra* const era = mBroker.findZoneEraPriorTo(year);
 
       // If the prior ZoneEra is a simple Era (no zone policy), then create a
       // Transition using a rule==nullptr. Otherwise, find the latest rule
@@ -525,7 +525,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /** Add all matching rules from the current year. */
     void addRulesForYear(int16_t year) const {
-      const basic::ZoneEra* const era = findZoneEra(year);
+      const basic::ZoneEra* const era = mBroker.findZoneEra(year);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
@@ -850,7 +850,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       return closestMatch;
     }
 
-    const basic::ZoneInfo* const mZoneInfo;
+    BasicZoneInfoBroker mBroker;
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
