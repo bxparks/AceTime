@@ -85,7 +85,13 @@ struct Transition {
   /** The delta offsetCode from "standard time" at the start of transition */
   int8_t deltaCode;
 
-  /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
+  /**
+   * The calculated effective time zone abbreviation, e.g. "PST" or "PDT".
+   * When the Transition is initially created using createTransition(),
+   * abbrev[0] is set to ZoneRule.letter (to avoid potentially another lookup
+   * in PROGMEM). That 'letter' is used later in the init() to generate
+   * the correct abbreviation which will replace the 'letter' in here.
+   */
   char abbrev[kAbbrevSize];
 
   /** Used only for debugging. */
@@ -467,7 +473,11 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       mPrevTransition = createTransition(era, latest, priorYearTiny);
     }
 
-    /** Create a Transition with the 'deltaCode' and 'offsetCode' filled in. */
+    /**
+     * Create a Transition with the 'deltaCode' and 'offsetCode' filled in so
+     * that subsequent processing does not need to retrieve those again
+     * (potentially from PROGMEM).
+     */
     static basic::Transition createTransition(BasicZoneEraBroker era,
         BasicZoneRuleBroker rule, int8_t yearTiny) {
       int8_t offsetCode;
