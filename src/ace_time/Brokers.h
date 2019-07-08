@@ -3,13 +3,14 @@
  * Copyright (c) 2019 Brian T. Park
  */
 
-#ifndef ACE_TIME_ZONE_INFO_BROKER_H
-#define ACE_TIME_ZONE_INFO_BROKER_H
+#ifndef ACE_TIME_BROKERS_H
+#define ACE_TIME_BROKERS_H
 
 #include "common/ZoneInfo.h"
 
 namespace ace_time {
 
+/** A broker for accessing ZoneRule in PROGMEM. */
 template <typename ZR>
 class ZoneRuleBroker {
   public:
@@ -51,6 +52,7 @@ class ZoneRuleBroker {
     const ZR* mZoneRule;
 };
 
+/** A broker for accessing ZonePolicy in PROGMEM. */
 template <typename ZP, typename ZR>
 class ZonePolicyBroker {
   public:
@@ -77,6 +79,7 @@ class ZonePolicyBroker {
     const ZP* const mZonePolicy;
 };
 
+/** A broker for accessing ZoneEra in PROGMEM. */
 template <typename ZE, typename ZP, typename ZR>
 class ZoneEraBroker {
   public:
@@ -107,6 +110,7 @@ class ZoneEraBroker {
 
 };
 
+/** A broker for accessing ZoneInfo in PROGMEM. */
 template <typename ZI, typename ZE, typename ZP, typename ZR>
 class ZoneInfoBroker {
   public:
