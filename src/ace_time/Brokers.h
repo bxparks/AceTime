@@ -10,7 +10,7 @@
 
 namespace ace_time {
 
-/** A broker for accessing ZoneRule in PROGMEM. */
+/** A pass-thru broker for accessing ZoneRule in SRAM. */
 template <typename ZR>
 class ZoneRuleBroker {
   public:
@@ -52,7 +52,7 @@ class ZoneRuleBroker {
     const ZR* mZoneRule;
 };
 
-/** A broker for accessing ZonePolicy in PROGMEM. */
+/** A pass-thru broker for accessing ZonePolicy in SRAM. */
 template <typename ZP, typename ZR>
 class ZonePolicyBroker {
   public:
@@ -79,7 +79,7 @@ class ZonePolicyBroker {
     const ZP* const mZonePolicy;
 };
 
-/** A broker for accessing ZoneEra in PROGMEM. */
+/** A pass-thru broker for accessing ZoneEra in SRAM. */
 template <typename ZE, typename ZP, typename ZR>
 class ZoneEraBroker {
   public:
@@ -110,7 +110,7 @@ class ZoneEraBroker {
 
 };
 
-/** A broker for accessing ZoneInfo in PROGMEM. */
+/** A pass-thru broker for accessing ZoneInfo in SRAM. */
 template <typename ZI, typename ZE, typename ZP, typename ZR>
 class ZoneInfoBroker {
   public:
