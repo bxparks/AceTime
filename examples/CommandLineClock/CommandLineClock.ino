@@ -190,18 +190,26 @@ class TimezoneCommand: public CommandHandler {
 
       SHIFT;
       if (strcmp(argv[0], "basic") == 0) {
+      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
         controller.setBasicTimeZone();
         printer.print(FF("Time zone using BasicZoneSpecifier: "));
         controller.getTimeZone().printTo(printer);
         printer.println();
+      #else
+        printer.print(FF("BasicZoneSpecifier not supported"));
+      #endif
         return;
       }
 
       if (strcmp(argv[0], "extended") == 0) {
+      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
         controller.setExtendedTimeZone();
         printer.print(FF("Time zone using ExtendedZoneSpecifier: "));
         controller.getTimeZone().printTo(printer);
         printer.println();
+      #else
+        printer.print(FF("ExtendedZoneSpecifier not supported"));
+      #endif
         return;
       }
 

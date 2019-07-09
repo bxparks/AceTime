@@ -14,8 +14,12 @@ class Controller {
     Controller(PersistentStore& persistentStore, SystemClock& systemClock):
         mPersistentStore(persistentStore),
         mSystemClock(systemClock),
-        mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles),
-        mExtendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles) {}
+      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+        mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles)
+      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
+        mExtendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles)
+      #endif
+    {}
 
     void setup() {
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
@@ -45,14 +49,18 @@ class Controller {
 
     /** Set the time zone to America/Los_Angeles using BasicZoneSpecifier. */
     void setBasicTimeZone() {
+  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
       mTimeZone = TimeZone::forZoneSpecifier(&mBasicZoneSpecifier);
       preserveInfo();
+  #endif
     }
 
     /** Set the time zone to America/Los_Angeles using ExtendedZoneSpecifier. */
     void setExtendedTimeZone() {
+  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
       mTimeZone = TimeZone::forZoneSpecifier(&mExtendedZoneSpecifier);
       preserveInfo();
+  #endif
     }
 
     /** Set the DST setting of ManualZoneSpecifier. */
@@ -126,8 +134,12 @@ class Controller {
     SystemClock& mSystemClock;
     TimeZone mTimeZone;
     ManualZoneSpecifier mManualZoneSpecifier;
+  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
     BasicZoneSpecifier mBasicZoneSpecifier;
+  #endif
+  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
     ExtendedZoneSpecifier mExtendedZoneSpecifier;
+  #endif
 
     StoredInfo mStoredInfo;
     bool mIsStoredInfoValid = false;

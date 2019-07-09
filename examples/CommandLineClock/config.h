@@ -40,4 +40,10 @@
 #define SYNC_TYPE_COROUTINE 1
 #define SYNC_TYPE SYNC_TYPE_MANUAL
 
+// Determine which ZoneSpecifier to support since a Pro Micro or Nano cannot
+// supportk both BasicZoneSpecifier and ExtendedZoneSpecifier at the same time.
+#define TIME_ZONE_TYPE_BASIC 1
+#define TIME_ZONE_TYPE_EXTENDED 2
+#define TIME_ZONE_TYPE TIME_ZONE_TYPE_EXTENDED
+
 #endif
