@@ -6,10 +6,43 @@
 #ifndef ACE_TIME_BROKERS_H
 #define ACE_TIME_BROKERS_H
 
-#include "common/common.h"
-#include "common/ZoneInfo.h"
+#include "common.h"
+#include "ZoneInfo.h"
+
+/**
+ * @file Brokers.h
+ *
+ * The classes provide a thin layer of indirection for accessing the
+ * zoneinfo files stored in the zonedb/ and zonedbx/ directories. When
+ * ACE_TIME_USE_PROGMEM_BASIC or ACE_TIME_USE_PROGMEM_EXTENDED are enabled, the
+ * zoneinfo files are stored in flash memory (using the PROGMEM keyword), and
+ * cannot be accessed directly on microcontrollers using the Harvard
+ * architecture (e.g. AVR) where data and program live in 2 different address
+ * spaces. The data in flash memory must be accessed using helper routines in
+ * <pgmspace.h>. These classes abstract away this difference so that the code
+ * BasicZoneSpecifier and ExtendedZoneSpecifier can be written to be (mostly)
+ * agnostic to how the zoneinfo files are stored.
+ *
+ * When the ACE_TIME_USE_PROGMEM_BASIC and ACE_TIME_USE_PROGMEM_EXTENDED are
+ * disabled, the compiler will optimize away this entire abstraction layer, so
+ * the resulting machine code is no bigger than (and in most cases, identifical
+ * to) accessing the zoneinfo files directly.
+ *
+ * The abstraction layer is thin enough that the code in BasicZoneSpecifier and
+ * ExtendedZoneSpecifier did not change very much. It was mostly a mechanical
+ * source code replacement of direct zoneinfo access to using these data
+ * brokers.
+ *
+ * The core broker classes live in the common:: namespace and are templatized
+ * so that they can be used for both basic::Zone* classes and the
+ * extended::Zone* classes. Specific template instantiations are created in the
+ * basic:: and extended:: namespaces so that they can be used by the
+ * BasicZoneSpecifier and ExtendedZoneSpecifier respectively.
+ */
 
 namespace ace_time {
+
+namespace common {
 
 /** Data broker for accessing ZoneRule in SRAM or PROGMEM. */
 template <typename ZR>
@@ -229,13 +262,19 @@ class ZoneInfoBroker {
     const ZI* const mZoneInfo;
 };
 
-typedef ZoneRuleBroker<basic::ZoneRule> BasicZoneRuleBroker;
-typedef ZonePolicyBroker<basic::ZonePolicy, basic::ZoneRule> \
-    BasicZonePolicyBroker;
-typedef ZoneEraBroker<basic::ZoneEra, basic::ZonePolicy, basic::ZoneRule> \
-    BasicZoneEraBroker;
-typedef ZoneInfoBroker<basic::ZoneInfo, basic::ZoneEra, basic::ZonePolicy,
-    basic::ZoneRule> BasicZoneInfoBroker;
+}
+
+namespace basic {
+
+typedef common::ZoneRuleBroker<basic::ZoneRule> ZoneRuleBroker;
+typedef common::ZonePolicyBroker<basic::ZonePolicy, basic::ZoneRule>
+    ZonePolicyBroker;
+typedef common::ZoneEraBroker<basic::ZoneEra, basic::ZonePolicy,
+    basic::ZoneRule> ZoneEraBroker;
+typedef common::ZoneInfoBroker<basic::ZoneInfo, basic::ZoneEra, basic::ZonePolicy,
+    basic::ZoneRule> ZoneInfoBroker;
+
+}
 
 }
 

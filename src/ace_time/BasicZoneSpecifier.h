@@ -12,11 +12,11 @@
 #include "common/ZonePolicy.h"
 #include "common/ZoneInfo.h"
 #include "common/logger.h"
+#include "common/Brokers.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
 #include "ZoneSpecifier.h"
-#include "Brokers.h"
 
 class BasicZoneSpecifierTest_init_primitives;
 class BasicZoneSpecifierTest_init;
@@ -55,7 +55,7 @@ struct Transition {
    * This field is used only during the init() phase, not during the
    * findMatch() phase.
    */
-  BasicZoneEraBroker era;
+  ZoneEraBroker era;
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
@@ -67,7 +67,7 @@ struct Transition {
    * This field is used only during the init() phase, not during the
    * findMatch() phase.
    */
-  BasicZoneRuleBroker rule;
+  ZoneRuleBroker rule;
 
   /** Year which applies to the ZoneEra or ZoneRule. */
   int8_t yearTiny;
@@ -446,20 +446,20 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       int8_t priorYearTiny = yearTiny - 1;
 
       // Find the prior Era.
-      const BasicZoneEraBroker era = findZoneEraPriorTo(year);
+      const basic::ZoneEraBroker era = findZoneEraPriorTo(year);
 
       // If the prior ZoneEra is a simple Era (no zone policy), then create a
       // Transition using a rule==nullptr. Otherwise, find the latest rule
       // within the ZoneEra.
-      const BasicZonePolicyBroker zonePolicy = era.zonePolicy();
-      BasicZoneRuleBroker latest;
+      const basic::ZonePolicyBroker zonePolicy = era.zonePolicy();
+      basic::ZoneRuleBroker latest;
       if (zonePolicy.isNotNull()) {
         // Find the latest rule for the matching ZoneEra whose
         // ZoneRule::toYearTiny < yearTiny. Assume that there are no more than
         // 1 rule per month.
         uint8_t numRules = zonePolicy.numRules();
         for (uint8_t i = 0; i < numRules; i++) {
-          const BasicZoneRuleBroker rule = zonePolicy.rule(i);
+          const basic::ZoneRuleBroker rule = zonePolicy.rule(i);
           // Check if rule is effective prior to the given year
           if (rule.fromYearTiny() < yearTiny) {
             if ((latest.isNull()) || compareZoneRule(year, rule, latest) > 0) {
@@ -477,8 +477,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * that subsequent processing does not need to retrieve those again
      * (potentially from PROGMEM).
      */
-    static basic::Transition createTransition(BasicZoneEraBroker era,
-        BasicZoneRuleBroker rule, int8_t yearTiny) {
+    static basic::Transition createTransition(basic::ZoneEraBroker era,
+        basic::ZoneRuleBroker rule, int8_t yearTiny) {
       int8_t offsetCode;
       int8_t deltaCode;
       char letter;
@@ -503,7 +503,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /** Compare two ZoneRules which are valid prior to the given year. */
     static int8_t compareZoneRule(int16_t year,
-        const BasicZoneRuleBroker a, const BasicZoneRuleBroker b) {
+        const basic::ZoneRuleBroker a, const basic::ZoneRuleBroker b) {
       int16_t aYear = effectiveRuleYear(year, a);
       int16_t bYear = effectiveRuleYear(year, b);
       if (aYear < bYear) return -1;
@@ -518,7 +518,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * Return 0 if rule is greater than the given year.
      */
     static int16_t effectiveRuleYear(int16_t year,
-        const BasicZoneRuleBroker rule) {
+        const basic::ZoneRuleBroker rule) {
       int8_t yearTiny = year - LocalDate::kEpochYear;
       if (rule.toYearTiny() < yearTiny) {
         return rule.toYearTiny() + LocalDate::kEpochYear;
@@ -531,13 +531,13 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /** Add all matching rules from the current year. */
     void addRulesForYear(int16_t year) const {
-      const BasicZoneEraBroker era = findZoneEra(year);
+      const basic::ZoneEraBroker era = findZoneEra(year);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
-      const BasicZonePolicyBroker zonePolicy = era.zonePolicy();
+      const basic::ZonePolicyBroker zonePolicy = era.zonePolicy();
       if (zonePolicy.isNull()) {
-        addRule(year, era, BasicZoneRuleBroker());
+        addRule(year, era, basic::ZoneRuleBroker());
         return;
       }
 
@@ -547,7 +547,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       int8_t yearTiny = year - LocalDate::kEpochYear;
       uint8_t numRules = zonePolicy.numRules();
       for (uint8_t i = 0; i < numRules; i++) {
-        const BasicZoneRuleBroker rule = zonePolicy.rule(i);
+        const basic::ZoneRuleBroker rule = zonePolicy.rule(i);
         if ((rule.fromYearTiny() <= yearTiny) &&
             (yearTiny <= rule.toYearTiny())) {
           addRule(year, era, rule);
@@ -569,8 +569,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * already sorted, then the loop terminates early and the total sort time
      * is O(N).
      */
-    void addRule(int16_t year, BasicZoneEraBroker era,
-          BasicZoneRuleBroker rule) const {
+    void addRule(int16_t year, basic::ZoneEraBroker era,
+          basic::ZoneRuleBroker rule) const {
 
       // If a zone needs more transitions than kMaxCacheEntries, the check below
       // will cause the DST transition information to be inaccurate, and it is
@@ -616,9 +616,9 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * satisfy (year < ZoneEra.untilYearTiny + kEpochYear). Since the
      * largest untilYearTiny is 127, the largest supported 'year' is 2126.
      */
-    const BasicZoneEraBroker findZoneEra(int16_t year) const {
+    const basic::ZoneEraBroker findZoneEra(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo.numEras(); i++) {
-        const BasicZoneEraBroker era = mZoneInfo.era(i);
+        const basic::ZoneEraBroker era = mZoneInfo.era(i);
         if (year < era.untilYearTiny() + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
@@ -636,9 +636,9 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * zone_infos.cpp verified that the final ZoneEra contains an empty
      * untilYear, interpreted as 'max', and set to 127.
      */
-    const BasicZoneEraBroker findZoneEraPriorTo(int16_t year) const {
+    const basic::ZoneEraBroker findZoneEraPriorTo(int16_t year) const {
       for (uint8_t i = 0; i < mZoneInfo.numEras(); i++) {
-        const BasicZoneEraBroker era = mZoneInfo.era(i);
+        const basic::ZoneEraBroker era = mZoneInfo.era(i);
         if (year <= era.untilYearTiny() + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
@@ -857,7 +857,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       return closestMatch;
     }
 
-    const BasicZoneInfoBroker mZoneInfo;
+    const basic::ZoneInfoBroker mZoneInfo;
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
