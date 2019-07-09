@@ -59,7 +59,7 @@ static const extended::ZoneEra kZoneEraAfrica_Abidjan[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Abidjan = "Africa/Abidjan";
+static const char kZoneNameAfrica_Abidjan[] = "Africa/Abidjan";
 
 const extended::ZoneInfo kZoneAfrica_Abidjan = {
   kZoneNameAfrica_Abidjan /*name*/,
@@ -93,7 +93,7 @@ static const extended::ZoneEra kZoneEraAfrica_Accra[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Accra = "Africa/Accra";
+static const char kZoneNameAfrica_Accra[] = "Africa/Accra";
 
 const extended::ZoneInfo kZoneAfrica_Accra = {
   kZoneNameAfrica_Accra /*name*/,
@@ -127,7 +127,7 @@ static const extended::ZoneEra kZoneEraAfrica_Algiers[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Algiers = "Africa/Algiers";
+static const char kZoneNameAfrica_Algiers[] = "Africa/Algiers";
 
 const extended::ZoneInfo kZoneAfrica_Algiers = {
   kZoneNameAfrica_Algiers /*name*/,
@@ -161,7 +161,7 @@ static const extended::ZoneEra kZoneEraAfrica_Bissau[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Bissau = "Africa/Bissau";
+static const char kZoneNameAfrica_Bissau[] = "Africa/Bissau";
 
 const extended::ZoneInfo kZoneAfrica_Bissau = {
   kZoneNameAfrica_Bissau /*name*/,
@@ -195,7 +195,7 @@ static const extended::ZoneEra kZoneEraAfrica_Cairo[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Cairo = "Africa/Cairo";
+static const char kZoneNameAfrica_Cairo[] = "Africa/Cairo";
 
 const extended::ZoneInfo kZoneAfrica_Cairo = {
   kZoneNameAfrica_Cairo /*name*/,
@@ -241,7 +241,7 @@ static const extended::ZoneEra kZoneEraAfrica_Casablanca[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Casablanca = "Africa/Casablanca";
+static const char kZoneNameAfrica_Casablanca[] = "Africa/Casablanca";
 
 const extended::ZoneInfo kZoneAfrica_Casablanca = {
   kZoneNameAfrica_Casablanca /*name*/,
@@ -275,7 +275,7 @@ static const extended::ZoneEra kZoneEraAfrica_Ceuta[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Ceuta = "Africa/Ceuta";
+static const char kZoneNameAfrica_Ceuta[] = "Africa/Ceuta";
 
 const extended::ZoneInfo kZoneAfrica_Ceuta = {
   kZoneNameAfrica_Ceuta /*name*/,
@@ -321,7 +321,7 @@ static const extended::ZoneEra kZoneEraAfrica_El_Aaiun[] = {
 
 };
 
-static const char* const kZoneNameAfrica_El_Aaiun = "Africa/El_Aaiun";
+static const char kZoneNameAfrica_El_Aaiun[] = "Africa/El_Aaiun";
 
 const extended::ZoneInfo kZoneAfrica_El_Aaiun = {
   kZoneNameAfrica_El_Aaiun /*name*/,
@@ -355,7 +355,7 @@ static const extended::ZoneEra kZoneEraAfrica_Johannesburg[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Johannesburg = "Africa/Johannesburg";
+static const char kZoneNameAfrica_Johannesburg[] = "Africa/Johannesburg";
 
 const extended::ZoneInfo kZoneAfrica_Johannesburg = {
   kZoneNameAfrica_Johannesburg /*name*/,
@@ -401,7 +401,7 @@ static const extended::ZoneEra kZoneEraAfrica_Juba[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Juba = "Africa/Juba";
+static const char kZoneNameAfrica_Juba[] = "Africa/Juba";
 
 const extended::ZoneInfo kZoneAfrica_Juba = {
   kZoneNameAfrica_Juba /*name*/,
@@ -459,7 +459,7 @@ static const extended::ZoneEra kZoneEraAfrica_Khartoum[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Khartoum = "Africa/Khartoum";
+static const char kZoneNameAfrica_Khartoum[] = "Africa/Khartoum";
 
 const extended::ZoneInfo kZoneAfrica_Khartoum = {
   kZoneNameAfrica_Khartoum /*name*/,
@@ -493,7 +493,7 @@ static const extended::ZoneEra kZoneEraAfrica_Lagos[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Lagos = "Africa/Lagos";
+static const char kZoneNameAfrica_Lagos[] = "Africa/Lagos";
 
 const extended::ZoneInfo kZoneAfrica_Lagos = {
   kZoneNameAfrica_Lagos /*name*/,
@@ -527,7 +527,7 @@ static const extended::ZoneEra kZoneEraAfrica_Maputo[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Maputo = "Africa/Maputo";
+static const char kZoneNameAfrica_Maputo[] = "Africa/Maputo";
 
 const extended::ZoneInfo kZoneAfrica_Maputo = {
   kZoneNameAfrica_Maputo /*name*/,
@@ -561,7 +561,7 @@ static const extended::ZoneEra kZoneEraAfrica_Monrovia[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Monrovia = "Africa/Monrovia";
+static const char kZoneNameAfrica_Monrovia[] = "Africa/Monrovia";
 
 const extended::ZoneInfo kZoneAfrica_Monrovia = {
   kZoneNameAfrica_Monrovia /*name*/,
@@ -595,7 +595,7 @@ static const extended::ZoneEra kZoneEraAfrica_Nairobi[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Nairobi = "Africa/Nairobi";
+static const char kZoneNameAfrica_Nairobi[] = "Africa/Nairobi";
 
 const extended::ZoneInfo kZoneAfrica_Nairobi = {
   kZoneNameAfrica_Nairobi /*name*/,
@@ -629,7 +629,7 @@ static const extended::ZoneEra kZoneEraAfrica_Ndjamena[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Ndjamena = "Africa/Ndjamena";
+static const char kZoneNameAfrica_Ndjamena[] = "Africa/Ndjamena";
 
 const extended::ZoneInfo kZoneAfrica_Ndjamena = {
   kZoneNameAfrica_Ndjamena /*name*/,
@@ -687,7 +687,7 @@ static const extended::ZoneEra kZoneEraAfrica_Sao_Tome[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Sao_Tome = "Africa/Sao_Tome";
+static const char kZoneNameAfrica_Sao_Tome[] = "Africa/Sao_Tome";
 
 const extended::ZoneInfo kZoneAfrica_Sao_Tome = {
   kZoneNameAfrica_Sao_Tome /*name*/,
@@ -745,7 +745,7 @@ static const extended::ZoneEra kZoneEraAfrica_Tripoli[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Tripoli = "Africa/Tripoli";
+static const char kZoneNameAfrica_Tripoli[] = "Africa/Tripoli";
 
 const extended::ZoneInfo kZoneAfrica_Tripoli = {
   kZoneNameAfrica_Tripoli /*name*/,
@@ -779,7 +779,7 @@ static const extended::ZoneEra kZoneEraAfrica_Tunis[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Tunis = "Africa/Tunis";
+static const char kZoneNameAfrica_Tunis[] = "Africa/Tunis";
 
 const extended::ZoneInfo kZoneAfrica_Tunis = {
   kZoneNameAfrica_Tunis /*name*/,
@@ -813,7 +813,7 @@ static const extended::ZoneEra kZoneEraAfrica_Windhoek[] = {
 
 };
 
-static const char* const kZoneNameAfrica_Windhoek = "Africa/Windhoek";
+static const char kZoneNameAfrica_Windhoek[] = "Africa/Windhoek";
 
 const extended::ZoneInfo kZoneAfrica_Windhoek = {
   kZoneNameAfrica_Windhoek /*name*/,
@@ -847,7 +847,7 @@ static const extended::ZoneEra kZoneEraAmerica_Adak[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Adak = "America/Adak";
+static const char kZoneNameAmerica_Adak[] = "America/Adak";
 
 const extended::ZoneInfo kZoneAmerica_Adak = {
   kZoneNameAmerica_Adak /*name*/,
@@ -881,7 +881,7 @@ static const extended::ZoneEra kZoneEraAmerica_Anchorage[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Anchorage = "America/Anchorage";
+static const char kZoneNameAmerica_Anchorage[] = "America/Anchorage";
 
 const extended::ZoneInfo kZoneAmerica_Anchorage = {
   kZoneNameAmerica_Anchorage /*name*/,
@@ -951,7 +951,7 @@ static const extended::ZoneEra kZoneEraAmerica_Araguaina[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Araguaina = "America/Araguaina";
+static const char kZoneNameAmerica_Araguaina[] = "America/Araguaina";
 
 const extended::ZoneInfo kZoneAmerica_Araguaina = {
   kZoneNameAmerica_Araguaina /*name*/,
@@ -1009,7 +1009,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Buenos_Aires[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_Buenos_Aires = "America/Argentina/Buenos_Aires";
+static const char kZoneNameAmerica_Argentina_Buenos_Aires[] = "America/Argentina/Buenos_Aires";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Buenos_Aires = {
   kZoneNameAmerica_Argentina_Buenos_Aires /*name*/,
@@ -1103,7 +1103,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Catamarca[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_Catamarca = "America/Argentina/Catamarca";
+static const char kZoneNameAmerica_Argentina_Catamarca[] = "America/Argentina/Catamarca";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Catamarca = {
   kZoneNameAmerica_Argentina_Catamarca /*name*/,
@@ -1161,7 +1161,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Cordoba[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_Cordoba = "America/Argentina/Cordoba";
+static const char kZoneNameAmerica_Argentina_Cordoba[] = "America/Argentina/Cordoba";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Cordoba = {
   kZoneNameAmerica_Argentina_Cordoba /*name*/,
@@ -1231,7 +1231,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Jujuy[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_Jujuy = "America/Argentina/Jujuy";
+static const char kZoneNameAmerica_Argentina_Jujuy[] = "America/Argentina/Jujuy";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Jujuy = {
   kZoneNameAmerica_Argentina_Jujuy /*name*/,
@@ -1325,7 +1325,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_La_Rioja[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_La_Rioja = "America/Argentina/La_Rioja";
+static const char kZoneNameAmerica_Argentina_La_Rioja[] = "America/Argentina/La_Rioja";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_La_Rioja = {
   kZoneNameAmerica_Argentina_La_Rioja /*name*/,
@@ -1419,7 +1419,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Mendoza[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_Mendoza = "America/Argentina/Mendoza";
+static const char kZoneNameAmerica_Argentina_Mendoza[] = "America/Argentina/Mendoza";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Mendoza = {
   kZoneNameAmerica_Argentina_Mendoza /*name*/,
@@ -1513,7 +1513,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Rio_Gallegos[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_Rio_Gallegos = "America/Argentina/Rio_Gallegos";
+static const char kZoneNameAmerica_Argentina_Rio_Gallegos[] = "America/Argentina/Rio_Gallegos";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Rio_Gallegos = {
   kZoneNameAmerica_Argentina_Rio_Gallegos /*name*/,
@@ -1583,7 +1583,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Salta[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_Salta = "America/Argentina/Salta";
+static const char kZoneNameAmerica_Argentina_Salta[] = "America/Argentina/Salta";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Salta = {
   kZoneNameAmerica_Argentina_Salta /*name*/,
@@ -1677,7 +1677,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Juan[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_San_Juan = "America/Argentina/San_Juan";
+static const char kZoneNameAmerica_Argentina_San_Juan[] = "America/Argentina/San_Juan";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_San_Juan = {
   kZoneNameAmerica_Argentina_San_Juan /*name*/,
@@ -1783,7 +1783,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_San_Luis[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_San_Luis = "America/Argentina/San_Luis";
+static const char kZoneNameAmerica_Argentina_San_Luis[] = "America/Argentina/San_Luis";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_San_Luis = {
   kZoneNameAmerica_Argentina_San_Luis /*name*/,
@@ -1865,7 +1865,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Tucuman[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_Tucuman = "America/Argentina/Tucuman";
+static const char kZoneNameAmerica_Argentina_Tucuman[] = "America/Argentina/Tucuman";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Tucuman = {
   kZoneNameAmerica_Argentina_Tucuman /*name*/,
@@ -1959,7 +1959,7 @@ static const extended::ZoneEra kZoneEraAmerica_Argentina_Ushuaia[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Argentina_Ushuaia = "America/Argentina/Ushuaia";
+static const char kZoneNameAmerica_Argentina_Ushuaia[] = "America/Argentina/Ushuaia";
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Ushuaia = {
   kZoneNameAmerica_Argentina_Ushuaia /*name*/,
@@ -1993,7 +1993,7 @@ static const extended::ZoneEra kZoneEraAmerica_Asuncion[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Asuncion = "America/Asuncion";
+static const char kZoneNameAmerica_Asuncion[] = "America/Asuncion";
 
 const extended::ZoneInfo kZoneAmerica_Asuncion = {
   kZoneNameAmerica_Asuncion /*name*/,
@@ -2027,7 +2027,7 @@ static const extended::ZoneEra kZoneEraAmerica_Atikokan[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Atikokan = "America/Atikokan";
+static const char kZoneNameAmerica_Atikokan[] = "America/Atikokan";
 
 const extended::ZoneInfo kZoneAmerica_Atikokan = {
   kZoneNameAmerica_Atikokan /*name*/,
@@ -2097,7 +2097,7 @@ static const extended::ZoneEra kZoneEraAmerica_Bahia[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Bahia = "America/Bahia";
+static const char kZoneNameAmerica_Bahia[] = "America/Bahia";
 
 const extended::ZoneInfo kZoneAmerica_Bahia = {
   kZoneNameAmerica_Bahia /*name*/,
@@ -2143,7 +2143,7 @@ static const extended::ZoneEra kZoneEraAmerica_Bahia_Banderas[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Bahia_Banderas = "America/Bahia_Banderas";
+static const char kZoneNameAmerica_Bahia_Banderas[] = "America/Bahia_Banderas";
 
 const extended::ZoneInfo kZoneAmerica_Bahia_Banderas = {
   kZoneNameAmerica_Bahia_Banderas /*name*/,
@@ -2177,7 +2177,7 @@ static const extended::ZoneEra kZoneEraAmerica_Barbados[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Barbados = "America/Barbados";
+static const char kZoneNameAmerica_Barbados[] = "America/Barbados";
 
 const extended::ZoneInfo kZoneAmerica_Barbados = {
   kZoneNameAmerica_Barbados /*name*/,
@@ -2211,7 +2211,7 @@ static const extended::ZoneEra kZoneEraAmerica_Belem[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Belem = "America/Belem";
+static const char kZoneNameAmerica_Belem[] = "America/Belem";
 
 const extended::ZoneInfo kZoneAmerica_Belem = {
   kZoneNameAmerica_Belem /*name*/,
@@ -2245,7 +2245,7 @@ static const extended::ZoneEra kZoneEraAmerica_Belize[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Belize = "America/Belize";
+static const char kZoneNameAmerica_Belize[] = "America/Belize";
 
 const extended::ZoneInfo kZoneAmerica_Belize = {
   kZoneNameAmerica_Belize /*name*/,
@@ -2279,7 +2279,7 @@ static const extended::ZoneEra kZoneEraAmerica_Blanc_Sablon[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Blanc_Sablon = "America/Blanc-Sablon";
+static const char kZoneNameAmerica_Blanc_Sablon[] = "America/Blanc-Sablon";
 
 const extended::ZoneInfo kZoneAmerica_Blanc_Sablon = {
   kZoneNameAmerica_Blanc_Sablon /*name*/,
@@ -2337,7 +2337,7 @@ static const extended::ZoneEra kZoneEraAmerica_Boa_Vista[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Boa_Vista = "America/Boa_Vista";
+static const char kZoneNameAmerica_Boa_Vista[] = "America/Boa_Vista";
 
 const extended::ZoneInfo kZoneAmerica_Boa_Vista = {
   kZoneNameAmerica_Boa_Vista /*name*/,
@@ -2371,7 +2371,7 @@ static const extended::ZoneEra kZoneEraAmerica_Bogota[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Bogota = "America/Bogota";
+static const char kZoneNameAmerica_Bogota[] = "America/Bogota";
 
 const extended::ZoneInfo kZoneAmerica_Bogota = {
   kZoneNameAmerica_Bogota /*name*/,
@@ -2405,7 +2405,7 @@ static const extended::ZoneEra kZoneEraAmerica_Boise[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Boise = "America/Boise";
+static const char kZoneNameAmerica_Boise[] = "America/Boise";
 
 const extended::ZoneInfo kZoneAmerica_Boise = {
   kZoneNameAmerica_Boise /*name*/,
@@ -2487,7 +2487,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cambridge_Bay[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Cambridge_Bay = "America/Cambridge_Bay";
+static const char kZoneNameAmerica_Cambridge_Bay[] = "America/Cambridge_Bay";
 
 const extended::ZoneInfo kZoneAmerica_Cambridge_Bay = {
   kZoneNameAmerica_Cambridge_Bay /*name*/,
@@ -2521,7 +2521,7 @@ static const extended::ZoneEra kZoneEraAmerica_Campo_Grande[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Campo_Grande = "America/Campo_Grande";
+static const char kZoneNameAmerica_Campo_Grande[] = "America/Campo_Grande";
 
 const extended::ZoneInfo kZoneAmerica_Campo_Grande = {
   kZoneNameAmerica_Campo_Grande /*name*/,
@@ -2567,7 +2567,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cancun[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Cancun = "America/Cancun";
+static const char kZoneNameAmerica_Cancun[] = "America/Cancun";
 
 const extended::ZoneInfo kZoneAmerica_Cancun = {
   kZoneNameAmerica_Cancun /*name*/,
@@ -2625,7 +2625,7 @@ static const extended::ZoneEra kZoneEraAmerica_Caracas[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Caracas = "America/Caracas";
+static const char kZoneNameAmerica_Caracas[] = "America/Caracas";
 
 const extended::ZoneInfo kZoneAmerica_Caracas = {
   kZoneNameAmerica_Caracas /*name*/,
@@ -2659,7 +2659,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cayenne[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Cayenne = "America/Cayenne";
+static const char kZoneNameAmerica_Cayenne[] = "America/Cayenne";
 
 const extended::ZoneInfo kZoneAmerica_Cayenne = {
   kZoneNameAmerica_Cayenne /*name*/,
@@ -2693,7 +2693,7 @@ static const extended::ZoneEra kZoneEraAmerica_Chicago[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Chicago = "America/Chicago";
+static const char kZoneNameAmerica_Chicago[] = "America/Chicago";
 
 const extended::ZoneInfo kZoneAmerica_Chicago = {
   kZoneNameAmerica_Chicago /*name*/,
@@ -2727,7 +2727,7 @@ static const extended::ZoneEra kZoneEraAmerica_Chihuahua[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Chihuahua = "America/Chihuahua";
+static const char kZoneNameAmerica_Chihuahua[] = "America/Chihuahua";
 
 const extended::ZoneInfo kZoneAmerica_Chihuahua = {
   kZoneNameAmerica_Chihuahua /*name*/,
@@ -2761,7 +2761,7 @@ static const extended::ZoneEra kZoneEraAmerica_Costa_Rica[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Costa_Rica = "America/Costa_Rica";
+static const char kZoneNameAmerica_Costa_Rica[] = "America/Costa_Rica";
 
 const extended::ZoneInfo kZoneAmerica_Costa_Rica = {
   kZoneNameAmerica_Costa_Rica /*name*/,
@@ -2795,7 +2795,7 @@ static const extended::ZoneEra kZoneEraAmerica_Creston[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Creston = "America/Creston";
+static const char kZoneNameAmerica_Creston[] = "America/Creston";
 
 const extended::ZoneInfo kZoneAmerica_Creston = {
   kZoneNameAmerica_Creston /*name*/,
@@ -2853,7 +2853,7 @@ static const extended::ZoneEra kZoneEraAmerica_Cuiaba[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Cuiaba = "America/Cuiaba";
+static const char kZoneNameAmerica_Cuiaba[] = "America/Cuiaba";
 
 const extended::ZoneInfo kZoneAmerica_Cuiaba = {
   kZoneNameAmerica_Cuiaba /*name*/,
@@ -2887,7 +2887,7 @@ static const extended::ZoneEra kZoneEraAmerica_Curacao[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Curacao = "America/Curacao";
+static const char kZoneNameAmerica_Curacao[] = "America/Curacao";
 
 const extended::ZoneInfo kZoneAmerica_Curacao = {
   kZoneNameAmerica_Curacao /*name*/,
@@ -2921,7 +2921,7 @@ static const extended::ZoneEra kZoneEraAmerica_Danmarkshavn[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Danmarkshavn = "America/Danmarkshavn";
+static const char kZoneNameAmerica_Danmarkshavn[] = "America/Danmarkshavn";
 
 const extended::ZoneInfo kZoneAmerica_Danmarkshavn = {
   kZoneNameAmerica_Danmarkshavn /*name*/,
@@ -2955,7 +2955,7 @@ static const extended::ZoneEra kZoneEraAmerica_Dawson[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Dawson = "America/Dawson";
+static const char kZoneNameAmerica_Dawson[] = "America/Dawson";
 
 const extended::ZoneInfo kZoneAmerica_Dawson = {
   kZoneNameAmerica_Dawson /*name*/,
@@ -2989,7 +2989,7 @@ static const extended::ZoneEra kZoneEraAmerica_Dawson_Creek[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Dawson_Creek = "America/Dawson_Creek";
+static const char kZoneNameAmerica_Dawson_Creek[] = "America/Dawson_Creek";
 
 const extended::ZoneInfo kZoneAmerica_Dawson_Creek = {
   kZoneNameAmerica_Dawson_Creek /*name*/,
@@ -3023,7 +3023,7 @@ static const extended::ZoneEra kZoneEraAmerica_Denver[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Denver = "America/Denver";
+static const char kZoneNameAmerica_Denver[] = "America/Denver";
 
 const extended::ZoneInfo kZoneAmerica_Denver = {
   kZoneNameAmerica_Denver /*name*/,
@@ -3057,7 +3057,7 @@ static const extended::ZoneEra kZoneEraAmerica_Detroit[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Detroit = "America/Detroit";
+static const char kZoneNameAmerica_Detroit[] = "America/Detroit";
 
 const extended::ZoneInfo kZoneAmerica_Detroit = {
   kZoneNameAmerica_Detroit /*name*/,
@@ -3091,7 +3091,7 @@ static const extended::ZoneEra kZoneEraAmerica_Edmonton[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Edmonton = "America/Edmonton";
+static const char kZoneNameAmerica_Edmonton[] = "America/Edmonton";
 
 const extended::ZoneInfo kZoneAmerica_Edmonton = {
   kZoneNameAmerica_Edmonton /*name*/,
@@ -3149,7 +3149,7 @@ static const extended::ZoneEra kZoneEraAmerica_Eirunepe[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Eirunepe = "America/Eirunepe";
+static const char kZoneNameAmerica_Eirunepe[] = "America/Eirunepe";
 
 const extended::ZoneInfo kZoneAmerica_Eirunepe = {
   kZoneNameAmerica_Eirunepe /*name*/,
@@ -3183,7 +3183,7 @@ static const extended::ZoneEra kZoneEraAmerica_El_Salvador[] = {
 
 };
 
-static const char* const kZoneNameAmerica_El_Salvador = "America/El_Salvador";
+static const char kZoneNameAmerica_El_Salvador[] = "America/El_Salvador";
 
 const extended::ZoneInfo kZoneAmerica_El_Salvador = {
   kZoneNameAmerica_El_Salvador /*name*/,
@@ -3229,7 +3229,7 @@ static const extended::ZoneEra kZoneEraAmerica_Fort_Nelson[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Fort_Nelson = "America/Fort_Nelson";
+static const char kZoneNameAmerica_Fort_Nelson[] = "America/Fort_Nelson";
 
 const extended::ZoneInfo kZoneAmerica_Fort_Nelson = {
   kZoneNameAmerica_Fort_Nelson /*name*/,
@@ -3311,7 +3311,7 @@ static const extended::ZoneEra kZoneEraAmerica_Fortaleza[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Fortaleza = "America/Fortaleza";
+static const char kZoneNameAmerica_Fortaleza[] = "America/Fortaleza";
 
 const extended::ZoneInfo kZoneAmerica_Fortaleza = {
   kZoneNameAmerica_Fortaleza /*name*/,
@@ -3345,7 +3345,7 @@ static const extended::ZoneEra kZoneEraAmerica_Glace_Bay[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Glace_Bay = "America/Glace_Bay";
+static const char kZoneNameAmerica_Glace_Bay[] = "America/Glace_Bay";
 
 const extended::ZoneInfo kZoneAmerica_Glace_Bay = {
   kZoneNameAmerica_Glace_Bay /*name*/,
@@ -3379,7 +3379,7 @@ static const extended::ZoneEra kZoneEraAmerica_Godthab[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Godthab = "America/Godthab";
+static const char kZoneNameAmerica_Godthab[] = "America/Godthab";
 
 const extended::ZoneInfo kZoneAmerica_Godthab = {
   kZoneNameAmerica_Godthab /*name*/,
@@ -3425,7 +3425,7 @@ static const extended::ZoneEra kZoneEraAmerica_Goose_Bay[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Goose_Bay = "America/Goose_Bay";
+static const char kZoneNameAmerica_Goose_Bay[] = "America/Goose_Bay";
 
 const extended::ZoneInfo kZoneAmerica_Goose_Bay = {
   kZoneNameAmerica_Goose_Bay /*name*/,
@@ -3483,7 +3483,7 @@ static const extended::ZoneEra kZoneEraAmerica_Grand_Turk[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Grand_Turk = "America/Grand_Turk";
+static const char kZoneNameAmerica_Grand_Turk[] = "America/Grand_Turk";
 
 const extended::ZoneInfo kZoneAmerica_Grand_Turk = {
   kZoneNameAmerica_Grand_Turk /*name*/,
@@ -3517,7 +3517,7 @@ static const extended::ZoneEra kZoneEraAmerica_Guatemala[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Guatemala = "America/Guatemala";
+static const char kZoneNameAmerica_Guatemala[] = "America/Guatemala";
 
 const extended::ZoneInfo kZoneAmerica_Guatemala = {
   kZoneNameAmerica_Guatemala /*name*/,
@@ -3551,7 +3551,7 @@ static const extended::ZoneEra kZoneEraAmerica_Guayaquil[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Guayaquil = "America/Guayaquil";
+static const char kZoneNameAmerica_Guayaquil[] = "America/Guayaquil";
 
 const extended::ZoneInfo kZoneAmerica_Guayaquil = {
   kZoneNameAmerica_Guayaquil /*name*/,
@@ -3585,7 +3585,7 @@ static const extended::ZoneEra kZoneEraAmerica_Guyana[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Guyana = "America/Guyana";
+static const char kZoneNameAmerica_Guyana[] = "America/Guyana";
 
 const extended::ZoneInfo kZoneAmerica_Guyana = {
   kZoneNameAmerica_Guyana /*name*/,
@@ -3619,7 +3619,7 @@ static const extended::ZoneEra kZoneEraAmerica_Halifax[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Halifax = "America/Halifax";
+static const char kZoneNameAmerica_Halifax[] = "America/Halifax";
 
 const extended::ZoneInfo kZoneAmerica_Halifax = {
   kZoneNameAmerica_Halifax /*name*/,
@@ -3653,7 +3653,7 @@ static const extended::ZoneEra kZoneEraAmerica_Havana[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Havana = "America/Havana";
+static const char kZoneNameAmerica_Havana[] = "America/Havana";
 
 const extended::ZoneInfo kZoneAmerica_Havana = {
   kZoneNameAmerica_Havana /*name*/,
@@ -3699,7 +3699,7 @@ static const extended::ZoneEra kZoneEraAmerica_Hermosillo[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Hermosillo = "America/Hermosillo";
+static const char kZoneNameAmerica_Hermosillo[] = "America/Hermosillo";
 
 const extended::ZoneInfo kZoneAmerica_Hermosillo = {
   kZoneNameAmerica_Hermosillo /*name*/,
@@ -3745,7 +3745,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Indianapolis[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Indiana_Indianapolis = "America/Indiana/Indianapolis";
+static const char kZoneNameAmerica_Indiana_Indianapolis[] = "America/Indiana/Indianapolis";
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Indianapolis = {
   kZoneNameAmerica_Indiana_Indianapolis /*name*/,
@@ -3791,7 +3791,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Knox[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Indiana_Knox = "America/Indiana/Knox";
+static const char kZoneNameAmerica_Indiana_Knox[] = "America/Indiana/Knox";
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Knox = {
   kZoneNameAmerica_Indiana_Knox /*name*/,
@@ -3837,7 +3837,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Marengo[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Indiana_Marengo = "America/Indiana/Marengo";
+static const char kZoneNameAmerica_Indiana_Marengo[] = "America/Indiana/Marengo";
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Marengo = {
   kZoneNameAmerica_Indiana_Marengo /*name*/,
@@ -3895,7 +3895,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Petersburg[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Indiana_Petersburg = "America/Indiana/Petersburg";
+static const char kZoneNameAmerica_Indiana_Petersburg[] = "America/Indiana/Petersburg";
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Petersburg = {
   kZoneNameAmerica_Indiana_Petersburg /*name*/,
@@ -3941,7 +3941,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Tell_City[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Indiana_Tell_City = "America/Indiana/Tell_City";
+static const char kZoneNameAmerica_Indiana_Tell_City[] = "America/Indiana/Tell_City";
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Tell_City = {
   kZoneNameAmerica_Indiana_Tell_City /*name*/,
@@ -3987,7 +3987,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Vevay[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Indiana_Vevay = "America/Indiana/Vevay";
+static const char kZoneNameAmerica_Indiana_Vevay[] = "America/Indiana/Vevay";
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Vevay = {
   kZoneNameAmerica_Indiana_Vevay /*name*/,
@@ -4045,7 +4045,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Vincennes[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Indiana_Vincennes = "America/Indiana/Vincennes";
+static const char kZoneNameAmerica_Indiana_Vincennes[] = "America/Indiana/Vincennes";
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Vincennes = {
   kZoneNameAmerica_Indiana_Vincennes /*name*/,
@@ -4103,7 +4103,7 @@ static const extended::ZoneEra kZoneEraAmerica_Indiana_Winamac[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Indiana_Winamac = "America/Indiana/Winamac";
+static const char kZoneNameAmerica_Indiana_Winamac[] = "America/Indiana/Winamac";
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Winamac = {
   kZoneNameAmerica_Indiana_Winamac /*name*/,
@@ -4137,7 +4137,7 @@ static const extended::ZoneEra kZoneEraAmerica_Inuvik[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Inuvik = "America/Inuvik";
+static const char kZoneNameAmerica_Inuvik[] = "America/Inuvik";
 
 const extended::ZoneInfo kZoneAmerica_Inuvik = {
   kZoneNameAmerica_Inuvik /*name*/,
@@ -4195,7 +4195,7 @@ static const extended::ZoneEra kZoneEraAmerica_Iqaluit[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Iqaluit = "America/Iqaluit";
+static const char kZoneNameAmerica_Iqaluit[] = "America/Iqaluit";
 
 const extended::ZoneInfo kZoneAmerica_Iqaluit = {
   kZoneNameAmerica_Iqaluit /*name*/,
@@ -4229,7 +4229,7 @@ static const extended::ZoneEra kZoneEraAmerica_Jamaica[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Jamaica = "America/Jamaica";
+static const char kZoneNameAmerica_Jamaica[] = "America/Jamaica";
 
 const extended::ZoneInfo kZoneAmerica_Jamaica = {
   kZoneNameAmerica_Jamaica /*name*/,
@@ -4263,7 +4263,7 @@ static const extended::ZoneEra kZoneEraAmerica_Juneau[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Juneau = "America/Juneau";
+static const char kZoneNameAmerica_Juneau[] = "America/Juneau";
 
 const extended::ZoneInfo kZoneAmerica_Juneau = {
   kZoneNameAmerica_Juneau /*name*/,
@@ -4297,7 +4297,7 @@ static const extended::ZoneEra kZoneEraAmerica_Kentucky_Louisville[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Kentucky_Louisville = "America/Kentucky/Louisville";
+static const char kZoneNameAmerica_Kentucky_Louisville[] = "America/Kentucky/Louisville";
 
 const extended::ZoneInfo kZoneAmerica_Kentucky_Louisville = {
   kZoneNameAmerica_Kentucky_Louisville /*name*/,
@@ -4343,7 +4343,7 @@ static const extended::ZoneEra kZoneEraAmerica_Kentucky_Monticello[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Kentucky_Monticello = "America/Kentucky/Monticello";
+static const char kZoneNameAmerica_Kentucky_Monticello[] = "America/Kentucky/Monticello";
 
 const extended::ZoneInfo kZoneAmerica_Kentucky_Monticello = {
   kZoneNameAmerica_Kentucky_Monticello /*name*/,
@@ -4377,7 +4377,7 @@ static const extended::ZoneEra kZoneEraAmerica_La_Paz[] = {
 
 };
 
-static const char* const kZoneNameAmerica_La_Paz = "America/La_Paz";
+static const char kZoneNameAmerica_La_Paz[] = "America/La_Paz";
 
 const extended::ZoneInfo kZoneAmerica_La_Paz = {
   kZoneNameAmerica_La_Paz /*name*/,
@@ -4411,7 +4411,7 @@ static const extended::ZoneEra kZoneEraAmerica_Lima[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Lima = "America/Lima";
+static const char kZoneNameAmerica_Lima[] = "America/Lima";
 
 const extended::ZoneInfo kZoneAmerica_Lima = {
   kZoneNameAmerica_Lima /*name*/,
@@ -4445,7 +4445,7 @@ static const extended::ZoneEra kZoneEraAmerica_Los_Angeles[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Los_Angeles = "America/Los_Angeles";
+static const char kZoneNameAmerica_Los_Angeles[] = "America/Los_Angeles";
 
 const extended::ZoneInfo kZoneAmerica_Los_Angeles = {
   kZoneNameAmerica_Los_Angeles /*name*/,
@@ -4527,7 +4527,7 @@ static const extended::ZoneEra kZoneEraAmerica_Maceio[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Maceio = "America/Maceio";
+static const char kZoneNameAmerica_Maceio[] = "America/Maceio";
 
 const extended::ZoneInfo kZoneAmerica_Maceio = {
   kZoneNameAmerica_Maceio /*name*/,
@@ -4561,7 +4561,7 @@ static const extended::ZoneEra kZoneEraAmerica_Managua[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Managua = "America/Managua";
+static const char kZoneNameAmerica_Managua[] = "America/Managua";
 
 const extended::ZoneInfo kZoneAmerica_Managua = {
   kZoneNameAmerica_Managua /*name*/,
@@ -4595,7 +4595,7 @@ static const extended::ZoneEra kZoneEraAmerica_Manaus[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Manaus = "America/Manaus";
+static const char kZoneNameAmerica_Manaus[] = "America/Manaus";
 
 const extended::ZoneInfo kZoneAmerica_Manaus = {
   kZoneNameAmerica_Manaus /*name*/,
@@ -4629,7 +4629,7 @@ static const extended::ZoneEra kZoneEraAmerica_Martinique[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Martinique = "America/Martinique";
+static const char kZoneNameAmerica_Martinique[] = "America/Martinique";
 
 const extended::ZoneInfo kZoneAmerica_Martinique = {
   kZoneNameAmerica_Martinique /*name*/,
@@ -4675,7 +4675,7 @@ static const extended::ZoneEra kZoneEraAmerica_Matamoros[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Matamoros = "America/Matamoros";
+static const char kZoneNameAmerica_Matamoros[] = "America/Matamoros";
 
 const extended::ZoneInfo kZoneAmerica_Matamoros = {
   kZoneNameAmerica_Matamoros /*name*/,
@@ -4709,7 +4709,7 @@ static const extended::ZoneEra kZoneEraAmerica_Mazatlan[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Mazatlan = "America/Mazatlan";
+static const char kZoneNameAmerica_Mazatlan[] = "America/Mazatlan";
 
 const extended::ZoneInfo kZoneAmerica_Mazatlan = {
   kZoneNameAmerica_Mazatlan /*name*/,
@@ -4743,7 +4743,7 @@ static const extended::ZoneEra kZoneEraAmerica_Menominee[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Menominee = "America/Menominee";
+static const char kZoneNameAmerica_Menominee[] = "America/Menominee";
 
 const extended::ZoneInfo kZoneAmerica_Menominee = {
   kZoneNameAmerica_Menominee /*name*/,
@@ -4777,7 +4777,7 @@ static const extended::ZoneEra kZoneEraAmerica_Merida[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Merida = "America/Merida";
+static const char kZoneNameAmerica_Merida[] = "America/Merida";
 
 const extended::ZoneInfo kZoneAmerica_Merida = {
   kZoneNameAmerica_Merida /*name*/,
@@ -4847,7 +4847,7 @@ static const extended::ZoneEra kZoneEraAmerica_Metlakatla[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Metlakatla = "America/Metlakatla";
+static const char kZoneNameAmerica_Metlakatla[] = "America/Metlakatla";
 
 const extended::ZoneInfo kZoneAmerica_Metlakatla = {
   kZoneNameAmerica_Metlakatla /*name*/,
@@ -4905,7 +4905,7 @@ static const extended::ZoneEra kZoneEraAmerica_Mexico_City[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Mexico_City = "America/Mexico_City";
+static const char kZoneNameAmerica_Mexico_City[] = "America/Mexico_City";
 
 const extended::ZoneInfo kZoneAmerica_Mexico_City = {
   kZoneNameAmerica_Mexico_City /*name*/,
@@ -4939,7 +4939,7 @@ static const extended::ZoneEra kZoneEraAmerica_Miquelon[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Miquelon = "America/Miquelon";
+static const char kZoneNameAmerica_Miquelon[] = "America/Miquelon";
 
 const extended::ZoneInfo kZoneAmerica_Miquelon = {
   kZoneNameAmerica_Miquelon /*name*/,
@@ -4985,7 +4985,7 @@ static const extended::ZoneEra kZoneEraAmerica_Moncton[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Moncton = "America/Moncton";
+static const char kZoneNameAmerica_Moncton[] = "America/Moncton";
 
 const extended::ZoneInfo kZoneAmerica_Moncton = {
   kZoneNameAmerica_Moncton /*name*/,
@@ -5019,7 +5019,7 @@ static const extended::ZoneEra kZoneEraAmerica_Monterrey[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Monterrey = "America/Monterrey";
+static const char kZoneNameAmerica_Monterrey[] = "America/Monterrey";
 
 const extended::ZoneInfo kZoneAmerica_Monterrey = {
   kZoneNameAmerica_Monterrey /*name*/,
@@ -5053,7 +5053,7 @@ static const extended::ZoneEra kZoneEraAmerica_Montevideo[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Montevideo = "America/Montevideo";
+static const char kZoneNameAmerica_Montevideo[] = "America/Montevideo";
 
 const extended::ZoneInfo kZoneAmerica_Montevideo = {
   kZoneNameAmerica_Montevideo /*name*/,
@@ -5087,7 +5087,7 @@ static const extended::ZoneEra kZoneEraAmerica_Nassau[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Nassau = "America/Nassau";
+static const char kZoneNameAmerica_Nassau[] = "America/Nassau";
 
 const extended::ZoneInfo kZoneAmerica_Nassau = {
   kZoneNameAmerica_Nassau /*name*/,
@@ -5121,7 +5121,7 @@ static const extended::ZoneEra kZoneEraAmerica_New_York[] = {
 
 };
 
-static const char* const kZoneNameAmerica_New_York = "America/New_York";
+static const char kZoneNameAmerica_New_York[] = "America/New_York";
 
 const extended::ZoneInfo kZoneAmerica_New_York = {
   kZoneNameAmerica_New_York /*name*/,
@@ -5155,7 +5155,7 @@ static const extended::ZoneEra kZoneEraAmerica_Nipigon[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Nipigon = "America/Nipigon";
+static const char kZoneNameAmerica_Nipigon[] = "America/Nipigon";
 
 const extended::ZoneInfo kZoneAmerica_Nipigon = {
   kZoneNameAmerica_Nipigon /*name*/,
@@ -5189,7 +5189,7 @@ static const extended::ZoneEra kZoneEraAmerica_Nome[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Nome = "America/Nome";
+static const char kZoneNameAmerica_Nome[] = "America/Nome";
 
 const extended::ZoneInfo kZoneAmerica_Nome = {
   kZoneNameAmerica_Nome /*name*/,
@@ -5271,7 +5271,7 @@ static const extended::ZoneEra kZoneEraAmerica_Noronha[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Noronha = "America/Noronha";
+static const char kZoneNameAmerica_Noronha[] = "America/Noronha";
 
 const extended::ZoneInfo kZoneAmerica_Noronha = {
   kZoneNameAmerica_Noronha /*name*/,
@@ -5317,7 +5317,7 @@ static const extended::ZoneEra kZoneEraAmerica_North_Dakota_Beulah[] = {
 
 };
 
-static const char* const kZoneNameAmerica_North_Dakota_Beulah = "America/North_Dakota/Beulah";
+static const char kZoneNameAmerica_North_Dakota_Beulah[] = "America/North_Dakota/Beulah";
 
 const extended::ZoneInfo kZoneAmerica_North_Dakota_Beulah = {
   kZoneNameAmerica_North_Dakota_Beulah /*name*/,
@@ -5351,7 +5351,7 @@ static const extended::ZoneEra kZoneEraAmerica_North_Dakota_Center[] = {
 
 };
 
-static const char* const kZoneNameAmerica_North_Dakota_Center = "America/North_Dakota/Center";
+static const char kZoneNameAmerica_North_Dakota_Center[] = "America/North_Dakota/Center";
 
 const extended::ZoneInfo kZoneAmerica_North_Dakota_Center = {
   kZoneNameAmerica_North_Dakota_Center /*name*/,
@@ -5397,7 +5397,7 @@ static const extended::ZoneEra kZoneEraAmerica_North_Dakota_New_Salem[] = {
 
 };
 
-static const char* const kZoneNameAmerica_North_Dakota_New_Salem = "America/North_Dakota/New_Salem";
+static const char kZoneNameAmerica_North_Dakota_New_Salem[] = "America/North_Dakota/New_Salem";
 
 const extended::ZoneInfo kZoneAmerica_North_Dakota_New_Salem = {
   kZoneNameAmerica_North_Dakota_New_Salem /*name*/,
@@ -5443,7 +5443,7 @@ static const extended::ZoneEra kZoneEraAmerica_Ojinaga[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Ojinaga = "America/Ojinaga";
+static const char kZoneNameAmerica_Ojinaga[] = "America/Ojinaga";
 
 const extended::ZoneInfo kZoneAmerica_Ojinaga = {
   kZoneNameAmerica_Ojinaga /*name*/,
@@ -5477,7 +5477,7 @@ static const extended::ZoneEra kZoneEraAmerica_Panama[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Panama = "America/Panama";
+static const char kZoneNameAmerica_Panama[] = "America/Panama";
 
 const extended::ZoneInfo kZoneAmerica_Panama = {
   kZoneNameAmerica_Panama /*name*/,
@@ -5535,7 +5535,7 @@ static const extended::ZoneEra kZoneEraAmerica_Pangnirtung[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Pangnirtung = "America/Pangnirtung";
+static const char kZoneNameAmerica_Pangnirtung[] = "America/Pangnirtung";
 
 const extended::ZoneInfo kZoneAmerica_Pangnirtung = {
   kZoneNameAmerica_Pangnirtung /*name*/,
@@ -5569,7 +5569,7 @@ static const extended::ZoneEra kZoneEraAmerica_Paramaribo[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Paramaribo = "America/Paramaribo";
+static const char kZoneNameAmerica_Paramaribo[] = "America/Paramaribo";
 
 const extended::ZoneInfo kZoneAmerica_Paramaribo = {
   kZoneNameAmerica_Paramaribo /*name*/,
@@ -5603,7 +5603,7 @@ static const extended::ZoneEra kZoneEraAmerica_Phoenix[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Phoenix = "America/Phoenix";
+static const char kZoneNameAmerica_Phoenix[] = "America/Phoenix";
 
 const extended::ZoneInfo kZoneAmerica_Phoenix = {
   kZoneNameAmerica_Phoenix /*name*/,
@@ -5637,7 +5637,7 @@ static const extended::ZoneEra kZoneEraAmerica_Port_au_Prince[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Port_au_Prince = "America/Port-au-Prince";
+static const char kZoneNameAmerica_Port_au_Prince[] = "America/Port-au-Prince";
 
 const extended::ZoneInfo kZoneAmerica_Port_au_Prince = {
   kZoneNameAmerica_Port_au_Prince /*name*/,
@@ -5671,7 +5671,7 @@ static const extended::ZoneEra kZoneEraAmerica_Port_of_Spain[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Port_of_Spain = "America/Port_of_Spain";
+static const char kZoneNameAmerica_Port_of_Spain[] = "America/Port_of_Spain";
 
 const extended::ZoneInfo kZoneAmerica_Port_of_Spain = {
   kZoneNameAmerica_Port_of_Spain /*name*/,
@@ -5705,7 +5705,7 @@ static const extended::ZoneEra kZoneEraAmerica_Porto_Velho[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Porto_Velho = "America/Porto_Velho";
+static const char kZoneNameAmerica_Porto_Velho[] = "America/Porto_Velho";
 
 const extended::ZoneInfo kZoneAmerica_Porto_Velho = {
   kZoneNameAmerica_Porto_Velho /*name*/,
@@ -5739,7 +5739,7 @@ static const extended::ZoneEra kZoneEraAmerica_Puerto_Rico[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Puerto_Rico = "America/Puerto_Rico";
+static const char kZoneNameAmerica_Puerto_Rico[] = "America/Puerto_Rico";
 
 const extended::ZoneInfo kZoneAmerica_Puerto_Rico = {
   kZoneNameAmerica_Puerto_Rico /*name*/,
@@ -5785,7 +5785,7 @@ static const extended::ZoneEra kZoneEraAmerica_Punta_Arenas[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Punta_Arenas = "America/Punta_Arenas";
+static const char kZoneNameAmerica_Punta_Arenas[] = "America/Punta_Arenas";
 
 const extended::ZoneInfo kZoneAmerica_Punta_Arenas = {
   kZoneNameAmerica_Punta_Arenas /*name*/,
@@ -5819,7 +5819,7 @@ static const extended::ZoneEra kZoneEraAmerica_Rainy_River[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Rainy_River = "America/Rainy_River";
+static const char kZoneNameAmerica_Rainy_River[] = "America/Rainy_River";
 
 const extended::ZoneInfo kZoneAmerica_Rainy_River = {
   kZoneNameAmerica_Rainy_River /*name*/,
@@ -5877,7 +5877,7 @@ static const extended::ZoneEra kZoneEraAmerica_Rankin_Inlet[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Rankin_Inlet = "America/Rankin_Inlet";
+static const char kZoneNameAmerica_Rankin_Inlet[] = "America/Rankin_Inlet";
 
 const extended::ZoneInfo kZoneAmerica_Rankin_Inlet = {
   kZoneNameAmerica_Rankin_Inlet /*name*/,
@@ -5959,7 +5959,7 @@ static const extended::ZoneEra kZoneEraAmerica_Recife[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Recife = "America/Recife";
+static const char kZoneNameAmerica_Recife[] = "America/Recife";
 
 const extended::ZoneInfo kZoneAmerica_Recife = {
   kZoneNameAmerica_Recife /*name*/,
@@ -5993,7 +5993,7 @@ static const extended::ZoneEra kZoneEraAmerica_Regina[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Regina = "America/Regina";
+static const char kZoneNameAmerica_Regina[] = "America/Regina";
 
 const extended::ZoneInfo kZoneAmerica_Regina = {
   kZoneNameAmerica_Regina /*name*/,
@@ -6075,7 +6075,7 @@ static const extended::ZoneEra kZoneEraAmerica_Resolute[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Resolute = "America/Resolute";
+static const char kZoneNameAmerica_Resolute[] = "America/Resolute";
 
 const extended::ZoneInfo kZoneAmerica_Resolute = {
   kZoneNameAmerica_Resolute /*name*/,
@@ -6133,7 +6133,7 @@ static const extended::ZoneEra kZoneEraAmerica_Rio_Branco[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Rio_Branco = "America/Rio_Branco";
+static const char kZoneNameAmerica_Rio_Branco[] = "America/Rio_Branco";
 
 const extended::ZoneInfo kZoneAmerica_Rio_Branco = {
   kZoneNameAmerica_Rio_Branco /*name*/,
@@ -6179,7 +6179,7 @@ static const extended::ZoneEra kZoneEraAmerica_Santarem[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Santarem = "America/Santarem";
+static const char kZoneNameAmerica_Santarem[] = "America/Santarem";
 
 const extended::ZoneInfo kZoneAmerica_Santarem = {
   kZoneNameAmerica_Santarem /*name*/,
@@ -6213,7 +6213,7 @@ static const extended::ZoneEra kZoneEraAmerica_Santiago[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Santiago = "America/Santiago";
+static const char kZoneNameAmerica_Santiago[] = "America/Santiago";
 
 const extended::ZoneInfo kZoneAmerica_Santiago = {
   kZoneNameAmerica_Santiago /*name*/,
@@ -6271,7 +6271,7 @@ static const extended::ZoneEra kZoneEraAmerica_Santo_Domingo[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Santo_Domingo = "America/Santo_Domingo";
+static const char kZoneNameAmerica_Santo_Domingo[] = "America/Santo_Domingo";
 
 const extended::ZoneInfo kZoneAmerica_Santo_Domingo = {
   kZoneNameAmerica_Santo_Domingo /*name*/,
@@ -6305,7 +6305,7 @@ static const extended::ZoneEra kZoneEraAmerica_Sao_Paulo[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Sao_Paulo = "America/Sao_Paulo";
+static const char kZoneNameAmerica_Sao_Paulo[] = "America/Sao_Paulo";
 
 const extended::ZoneInfo kZoneAmerica_Sao_Paulo = {
   kZoneNameAmerica_Sao_Paulo /*name*/,
@@ -6339,7 +6339,7 @@ static const extended::ZoneEra kZoneEraAmerica_Scoresbysund[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Scoresbysund = "America/Scoresbysund";
+static const char kZoneNameAmerica_Scoresbysund[] = "America/Scoresbysund";
 
 const extended::ZoneInfo kZoneAmerica_Scoresbysund = {
   kZoneNameAmerica_Scoresbysund /*name*/,
@@ -6373,7 +6373,7 @@ static const extended::ZoneEra kZoneEraAmerica_Sitka[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Sitka = "America/Sitka";
+static const char kZoneNameAmerica_Sitka[] = "America/Sitka";
 
 const extended::ZoneInfo kZoneAmerica_Sitka = {
   kZoneNameAmerica_Sitka /*name*/,
@@ -6419,7 +6419,7 @@ static const extended::ZoneEra kZoneEraAmerica_St_Johns[] = {
 
 };
 
-static const char* const kZoneNameAmerica_St_Johns = "America/St_Johns";
+static const char kZoneNameAmerica_St_Johns[] = "America/St_Johns";
 
 const extended::ZoneInfo kZoneAmerica_St_Johns = {
   kZoneNameAmerica_St_Johns /*name*/,
@@ -6453,7 +6453,7 @@ static const extended::ZoneEra kZoneEraAmerica_Swift_Current[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Swift_Current = "America/Swift_Current";
+static const char kZoneNameAmerica_Swift_Current[] = "America/Swift_Current";
 
 const extended::ZoneInfo kZoneAmerica_Swift_Current = {
   kZoneNameAmerica_Swift_Current /*name*/,
@@ -6487,7 +6487,7 @@ static const extended::ZoneEra kZoneEraAmerica_Tegucigalpa[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Tegucigalpa = "America/Tegucigalpa";
+static const char kZoneNameAmerica_Tegucigalpa[] = "America/Tegucigalpa";
 
 const extended::ZoneInfo kZoneAmerica_Tegucigalpa = {
   kZoneNameAmerica_Tegucigalpa /*name*/,
@@ -6521,7 +6521,7 @@ static const extended::ZoneEra kZoneEraAmerica_Thule[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Thule = "America/Thule";
+static const char kZoneNameAmerica_Thule[] = "America/Thule";
 
 const extended::ZoneInfo kZoneAmerica_Thule = {
   kZoneNameAmerica_Thule /*name*/,
@@ -6555,7 +6555,7 @@ static const extended::ZoneEra kZoneEraAmerica_Thunder_Bay[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Thunder_Bay = "America/Thunder_Bay";
+static const char kZoneNameAmerica_Thunder_Bay[] = "America/Thunder_Bay";
 
 const extended::ZoneInfo kZoneAmerica_Thunder_Bay = {
   kZoneNameAmerica_Thunder_Bay /*name*/,
@@ -6625,7 +6625,7 @@ static const extended::ZoneEra kZoneEraAmerica_Tijuana[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Tijuana = "America/Tijuana";
+static const char kZoneNameAmerica_Tijuana[] = "America/Tijuana";
 
 const extended::ZoneInfo kZoneAmerica_Tijuana = {
   kZoneNameAmerica_Tijuana /*name*/,
@@ -6659,7 +6659,7 @@ static const extended::ZoneEra kZoneEraAmerica_Toronto[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Toronto = "America/Toronto";
+static const char kZoneNameAmerica_Toronto[] = "America/Toronto";
 
 const extended::ZoneInfo kZoneAmerica_Toronto = {
   kZoneNameAmerica_Toronto /*name*/,
@@ -6693,7 +6693,7 @@ static const extended::ZoneEra kZoneEraAmerica_Vancouver[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Vancouver = "America/Vancouver";
+static const char kZoneNameAmerica_Vancouver[] = "America/Vancouver";
 
 const extended::ZoneInfo kZoneAmerica_Vancouver = {
   kZoneNameAmerica_Vancouver /*name*/,
@@ -6727,7 +6727,7 @@ static const extended::ZoneEra kZoneEraAmerica_Whitehorse[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Whitehorse = "America/Whitehorse";
+static const char kZoneNameAmerica_Whitehorse[] = "America/Whitehorse";
 
 const extended::ZoneInfo kZoneAmerica_Whitehorse = {
   kZoneNameAmerica_Whitehorse /*name*/,
@@ -6773,7 +6773,7 @@ static const extended::ZoneEra kZoneEraAmerica_Winnipeg[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Winnipeg = "America/Winnipeg";
+static const char kZoneNameAmerica_Winnipeg[] = "America/Winnipeg";
 
 const extended::ZoneInfo kZoneAmerica_Winnipeg = {
   kZoneNameAmerica_Winnipeg /*name*/,
@@ -6807,7 +6807,7 @@ static const extended::ZoneEra kZoneEraAmerica_Yakutat[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Yakutat = "America/Yakutat";
+static const char kZoneNameAmerica_Yakutat[] = "America/Yakutat";
 
 const extended::ZoneInfo kZoneAmerica_Yakutat = {
   kZoneNameAmerica_Yakutat /*name*/,
@@ -6841,7 +6841,7 @@ static const extended::ZoneEra kZoneEraAmerica_Yellowknife[] = {
 
 };
 
-static const char* const kZoneNameAmerica_Yellowknife = "America/Yellowknife";
+static const char kZoneNameAmerica_Yellowknife[] = "America/Yellowknife";
 
 const extended::ZoneInfo kZoneAmerica_Yellowknife = {
   kZoneNameAmerica_Yellowknife /*name*/,
@@ -6947,7 +6947,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Casey[] = {
 
 };
 
-static const char* const kZoneNameAntarctica_Casey = "Antarctica/Casey";
+static const char kZoneNameAntarctica_Casey[] = "Antarctica/Casey";
 
 const extended::ZoneInfo kZoneAntarctica_Casey = {
   kZoneNameAntarctica_Casey /*name*/,
@@ -7029,7 +7029,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Davis[] = {
 
 };
 
-static const char* const kZoneNameAntarctica_Davis = "Antarctica/Davis";
+static const char kZoneNameAntarctica_Davis[] = "Antarctica/Davis";
 
 const extended::ZoneInfo kZoneAntarctica_Davis = {
   kZoneNameAntarctica_Davis /*name*/,
@@ -7063,7 +7063,7 @@ static const extended::ZoneEra kZoneEraAntarctica_DumontDUrville[] = {
 
 };
 
-static const char* const kZoneNameAntarctica_DumontDUrville = "Antarctica/DumontDUrville";
+static const char kZoneNameAntarctica_DumontDUrville[] = "Antarctica/DumontDUrville";
 
 const extended::ZoneInfo kZoneAntarctica_DumontDUrville = {
   kZoneNameAntarctica_DumontDUrville /*name*/,
@@ -7109,7 +7109,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Macquarie[] = {
 
 };
 
-static const char* const kZoneNameAntarctica_Macquarie = "Antarctica/Macquarie";
+static const char kZoneNameAntarctica_Macquarie[] = "Antarctica/Macquarie";
 
 const extended::ZoneInfo kZoneAntarctica_Macquarie = {
   kZoneNameAntarctica_Macquarie /*name*/,
@@ -7155,7 +7155,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Mawson[] = {
 
 };
 
-static const char* const kZoneNameAntarctica_Mawson = "Antarctica/Mawson";
+static const char kZoneNameAntarctica_Mawson[] = "Antarctica/Mawson";
 
 const extended::ZoneInfo kZoneAntarctica_Mawson = {
   kZoneNameAntarctica_Mawson /*name*/,
@@ -7201,7 +7201,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Palmer[] = {
 
 };
 
-static const char* const kZoneNameAntarctica_Palmer = "Antarctica/Palmer";
+static const char kZoneNameAntarctica_Palmer[] = "Antarctica/Palmer";
 
 const extended::ZoneInfo kZoneAntarctica_Palmer = {
   kZoneNameAntarctica_Palmer /*name*/,
@@ -7235,7 +7235,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Rothera[] = {
 
 };
 
-static const char* const kZoneNameAntarctica_Rothera = "Antarctica/Rothera";
+static const char kZoneNameAntarctica_Rothera[] = "Antarctica/Rothera";
 
 const extended::ZoneInfo kZoneAntarctica_Rothera = {
   kZoneNameAntarctica_Rothera /*name*/,
@@ -7269,7 +7269,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Syowa[] = {
 
 };
 
-static const char* const kZoneNameAntarctica_Syowa = "Antarctica/Syowa";
+static const char kZoneNameAntarctica_Syowa[] = "Antarctica/Syowa";
 
 const extended::ZoneInfo kZoneAntarctica_Syowa = {
   kZoneNameAntarctica_Syowa /*name*/,
@@ -7315,7 +7315,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Troll[] = {
 
 };
 
-static const char* const kZoneNameAntarctica_Troll = "Antarctica/Troll";
+static const char kZoneNameAntarctica_Troll[] = "Antarctica/Troll";
 
 const extended::ZoneInfo kZoneAntarctica_Troll = {
   kZoneNameAntarctica_Troll /*name*/,
@@ -7349,7 +7349,7 @@ static const extended::ZoneEra kZoneEraAntarctica_Vostok[] = {
 
 };
 
-static const char* const kZoneNameAntarctica_Vostok = "Antarctica/Vostok";
+static const char kZoneNameAntarctica_Vostok[] = "Antarctica/Vostok";
 
 const extended::ZoneInfo kZoneAntarctica_Vostok = {
   kZoneNameAntarctica_Vostok /*name*/,
@@ -7395,7 +7395,7 @@ static const extended::ZoneEra kZoneEraAsia_Almaty[] = {
 
 };
 
-static const char* const kZoneNameAsia_Almaty = "Asia/Almaty";
+static const char kZoneNameAsia_Almaty[] = "Asia/Almaty";
 
 const extended::ZoneInfo kZoneAsia_Almaty = {
   kZoneNameAsia_Almaty /*name*/,
@@ -7429,7 +7429,7 @@ static const extended::ZoneEra kZoneEraAsia_Amman[] = {
 
 };
 
-static const char* const kZoneNameAsia_Amman = "Asia/Amman";
+static const char kZoneNameAsia_Amman[] = "Asia/Amman";
 
 const extended::ZoneInfo kZoneAsia_Amman = {
   kZoneNameAsia_Amman /*name*/,
@@ -7487,7 +7487,7 @@ static const extended::ZoneEra kZoneEraAsia_Anadyr[] = {
 
 };
 
-static const char* const kZoneNameAsia_Anadyr = "Asia/Anadyr";
+static const char kZoneNameAsia_Anadyr[] = "Asia/Anadyr";
 
 const extended::ZoneInfo kZoneAsia_Anadyr = {
   kZoneNameAsia_Anadyr /*name*/,
@@ -7533,7 +7533,7 @@ static const extended::ZoneEra kZoneEraAsia_Aqtau[] = {
 
 };
 
-static const char* const kZoneNameAsia_Aqtau = "Asia/Aqtau";
+static const char kZoneNameAsia_Aqtau[] = "Asia/Aqtau";
 
 const extended::ZoneInfo kZoneAsia_Aqtau = {
   kZoneNameAsia_Aqtau /*name*/,
@@ -7579,7 +7579,7 @@ static const extended::ZoneEra kZoneEraAsia_Aqtobe[] = {
 
 };
 
-static const char* const kZoneNameAsia_Aqtobe = "Asia/Aqtobe";
+static const char kZoneNameAsia_Aqtobe[] = "Asia/Aqtobe";
 
 const extended::ZoneInfo kZoneAsia_Aqtobe = {
   kZoneNameAsia_Aqtobe /*name*/,
@@ -7613,7 +7613,7 @@ static const extended::ZoneEra kZoneEraAsia_Ashgabat[] = {
 
 };
 
-static const char* const kZoneNameAsia_Ashgabat = "Asia/Ashgabat";
+static const char kZoneNameAsia_Ashgabat[] = "Asia/Ashgabat";
 
 const extended::ZoneInfo kZoneAsia_Ashgabat = {
   kZoneNameAsia_Ashgabat /*name*/,
@@ -7671,7 +7671,7 @@ static const extended::ZoneEra kZoneEraAsia_Atyrau[] = {
 
 };
 
-static const char* const kZoneNameAsia_Atyrau = "Asia/Atyrau";
+static const char kZoneNameAsia_Atyrau[] = "Asia/Atyrau";
 
 const extended::ZoneInfo kZoneAsia_Atyrau = {
   kZoneNameAsia_Atyrau /*name*/,
@@ -7705,7 +7705,7 @@ static const extended::ZoneEra kZoneEraAsia_Baghdad[] = {
 
 };
 
-static const char* const kZoneNameAsia_Baghdad = "Asia/Baghdad";
+static const char kZoneNameAsia_Baghdad[] = "Asia/Baghdad";
 
 const extended::ZoneInfo kZoneAsia_Baghdad = {
   kZoneNameAsia_Baghdad /*name*/,
@@ -7739,7 +7739,7 @@ static const extended::ZoneEra kZoneEraAsia_Baku[] = {
 
 };
 
-static const char* const kZoneNameAsia_Baku = "Asia/Baku";
+static const char kZoneNameAsia_Baku[] = "Asia/Baku";
 
 const extended::ZoneInfo kZoneAsia_Baku = {
   kZoneNameAsia_Baku /*name*/,
@@ -7773,7 +7773,7 @@ static const extended::ZoneEra kZoneEraAsia_Bangkok[] = {
 
 };
 
-static const char* const kZoneNameAsia_Bangkok = "Asia/Bangkok";
+static const char kZoneNameAsia_Bangkok[] = "Asia/Bangkok";
 
 const extended::ZoneInfo kZoneAsia_Bangkok = {
   kZoneNameAsia_Bangkok /*name*/,
@@ -7843,7 +7843,7 @@ static const extended::ZoneEra kZoneEraAsia_Barnaul[] = {
 
 };
 
-static const char* const kZoneNameAsia_Barnaul = "Asia/Barnaul";
+static const char kZoneNameAsia_Barnaul[] = "Asia/Barnaul";
 
 const extended::ZoneInfo kZoneAsia_Barnaul = {
   kZoneNameAsia_Barnaul /*name*/,
@@ -7877,7 +7877,7 @@ static const extended::ZoneEra kZoneEraAsia_Beirut[] = {
 
 };
 
-static const char* const kZoneNameAsia_Beirut = "Asia/Beirut";
+static const char kZoneNameAsia_Beirut[] = "Asia/Beirut";
 
 const extended::ZoneInfo kZoneAsia_Beirut = {
   kZoneNameAsia_Beirut /*name*/,
@@ -7923,7 +7923,7 @@ static const extended::ZoneEra kZoneEraAsia_Bishkek[] = {
 
 };
 
-static const char* const kZoneNameAsia_Bishkek = "Asia/Bishkek";
+static const char kZoneNameAsia_Bishkek[] = "Asia/Bishkek";
 
 const extended::ZoneInfo kZoneAsia_Bishkek = {
   kZoneNameAsia_Bishkek /*name*/,
@@ -7957,7 +7957,7 @@ static const extended::ZoneEra kZoneEraAsia_Brunei[] = {
 
 };
 
-static const char* const kZoneNameAsia_Brunei = "Asia/Brunei";
+static const char kZoneNameAsia_Brunei[] = "Asia/Brunei";
 
 const extended::ZoneInfo kZoneAsia_Brunei = {
   kZoneNameAsia_Brunei /*name*/,
@@ -8027,7 +8027,7 @@ static const extended::ZoneEra kZoneEraAsia_Chita[] = {
 
 };
 
-static const char* const kZoneNameAsia_Chita = "Asia/Chita";
+static const char kZoneNameAsia_Chita[] = "Asia/Chita";
 
 const extended::ZoneInfo kZoneAsia_Chita = {
   kZoneNameAsia_Chita /*name*/,
@@ -8073,7 +8073,7 @@ static const extended::ZoneEra kZoneEraAsia_Choibalsan[] = {
 
 };
 
-static const char* const kZoneNameAsia_Choibalsan = "Asia/Choibalsan";
+static const char kZoneNameAsia_Choibalsan[] = "Asia/Choibalsan";
 
 const extended::ZoneInfo kZoneAsia_Choibalsan = {
   kZoneNameAsia_Choibalsan /*name*/,
@@ -8119,7 +8119,7 @@ static const extended::ZoneEra kZoneEraAsia_Colombo[] = {
 
 };
 
-static const char* const kZoneNameAsia_Colombo = "Asia/Colombo";
+static const char kZoneNameAsia_Colombo[] = "Asia/Colombo";
 
 const extended::ZoneInfo kZoneAsia_Colombo = {
   kZoneNameAsia_Colombo /*name*/,
@@ -8153,7 +8153,7 @@ static const extended::ZoneEra kZoneEraAsia_Damascus[] = {
 
 };
 
-static const char* const kZoneNameAsia_Damascus = "Asia/Damascus";
+static const char kZoneNameAsia_Damascus[] = "Asia/Damascus";
 
 const extended::ZoneInfo kZoneAsia_Damascus = {
   kZoneNameAsia_Damascus /*name*/,
@@ -8199,7 +8199,7 @@ static const extended::ZoneEra kZoneEraAsia_Dhaka[] = {
 
 };
 
-static const char* const kZoneNameAsia_Dhaka = "Asia/Dhaka";
+static const char kZoneNameAsia_Dhaka[] = "Asia/Dhaka";
 
 const extended::ZoneInfo kZoneAsia_Dhaka = {
   kZoneNameAsia_Dhaka /*name*/,
@@ -8245,7 +8245,7 @@ static const extended::ZoneEra kZoneEraAsia_Dili[] = {
 
 };
 
-static const char* const kZoneNameAsia_Dili = "Asia/Dili";
+static const char kZoneNameAsia_Dili[] = "Asia/Dili";
 
 const extended::ZoneInfo kZoneAsia_Dili = {
   kZoneNameAsia_Dili /*name*/,
@@ -8279,7 +8279,7 @@ static const extended::ZoneEra kZoneEraAsia_Dubai[] = {
 
 };
 
-static const char* const kZoneNameAsia_Dubai = "Asia/Dubai";
+static const char kZoneNameAsia_Dubai[] = "Asia/Dubai";
 
 const extended::ZoneInfo kZoneAsia_Dubai = {
   kZoneNameAsia_Dubai /*name*/,
@@ -8313,7 +8313,7 @@ static const extended::ZoneEra kZoneEraAsia_Dushanbe[] = {
 
 };
 
-static const char* const kZoneNameAsia_Dushanbe = "Asia/Dushanbe";
+static const char kZoneNameAsia_Dushanbe[] = "Asia/Dushanbe";
 
 const extended::ZoneInfo kZoneAsia_Dushanbe = {
   kZoneNameAsia_Dushanbe /*name*/,
@@ -8371,7 +8371,7 @@ static const extended::ZoneEra kZoneEraAsia_Famagusta[] = {
 
 };
 
-static const char* const kZoneNameAsia_Famagusta = "Asia/Famagusta";
+static const char kZoneNameAsia_Famagusta[] = "Asia/Famagusta";
 
 const extended::ZoneInfo kZoneAsia_Famagusta = {
   kZoneNameAsia_Famagusta /*name*/,
@@ -8489,7 +8489,7 @@ static const extended::ZoneEra kZoneEraAsia_Gaza[] = {
 
 };
 
-static const char* const kZoneNameAsia_Gaza = "Asia/Gaza";
+static const char kZoneNameAsia_Gaza[] = "Asia/Gaza";
 
 const extended::ZoneInfo kZoneAsia_Gaza = {
   kZoneNameAsia_Gaza /*name*/,
@@ -8535,7 +8535,7 @@ static const extended::ZoneEra kZoneEraAsia_Hebron[] = {
 
 };
 
-static const char* const kZoneNameAsia_Hebron = "Asia/Hebron";
+static const char kZoneNameAsia_Hebron[] = "Asia/Hebron";
 
 const extended::ZoneInfo kZoneAsia_Hebron = {
   kZoneNameAsia_Hebron /*name*/,
@@ -8569,7 +8569,7 @@ static const extended::ZoneEra kZoneEraAsia_Ho_Chi_Minh[] = {
 
 };
 
-static const char* const kZoneNameAsia_Ho_Chi_Minh = "Asia/Ho_Chi_Minh";
+static const char kZoneNameAsia_Ho_Chi_Minh[] = "Asia/Ho_Chi_Minh";
 
 const extended::ZoneInfo kZoneAsia_Ho_Chi_Minh = {
   kZoneNameAsia_Ho_Chi_Minh /*name*/,
@@ -8603,7 +8603,7 @@ static const extended::ZoneEra kZoneEraAsia_Hong_Kong[] = {
 
 };
 
-static const char* const kZoneNameAsia_Hong_Kong = "Asia/Hong_Kong";
+static const char kZoneNameAsia_Hong_Kong[] = "Asia/Hong_Kong";
 
 const extended::ZoneInfo kZoneAsia_Hong_Kong = {
   kZoneNameAsia_Hong_Kong /*name*/,
@@ -8637,7 +8637,7 @@ static const extended::ZoneEra kZoneEraAsia_Hovd[] = {
 
 };
 
-static const char* const kZoneNameAsia_Hovd = "Asia/Hovd";
+static const char kZoneNameAsia_Hovd[] = "Asia/Hovd";
 
 const extended::ZoneInfo kZoneAsia_Hovd = {
   kZoneNameAsia_Hovd /*name*/,
@@ -8695,7 +8695,7 @@ static const extended::ZoneEra kZoneEraAsia_Irkutsk[] = {
 
 };
 
-static const char* const kZoneNameAsia_Irkutsk = "Asia/Irkutsk";
+static const char kZoneNameAsia_Irkutsk[] = "Asia/Irkutsk";
 
 const extended::ZoneInfo kZoneAsia_Irkutsk = {
   kZoneNameAsia_Irkutsk /*name*/,
@@ -8729,7 +8729,7 @@ static const extended::ZoneEra kZoneEraAsia_Jakarta[] = {
 
 };
 
-static const char* const kZoneNameAsia_Jakarta = "Asia/Jakarta";
+static const char kZoneNameAsia_Jakarta[] = "Asia/Jakarta";
 
 const extended::ZoneInfo kZoneAsia_Jakarta = {
   kZoneNameAsia_Jakarta /*name*/,
@@ -8763,7 +8763,7 @@ static const extended::ZoneEra kZoneEraAsia_Jayapura[] = {
 
 };
 
-static const char* const kZoneNameAsia_Jayapura = "Asia/Jayapura";
+static const char kZoneNameAsia_Jayapura[] = "Asia/Jayapura";
 
 const extended::ZoneInfo kZoneAsia_Jayapura = {
   kZoneNameAsia_Jayapura /*name*/,
@@ -8797,7 +8797,7 @@ static const extended::ZoneEra kZoneEraAsia_Jerusalem[] = {
 
 };
 
-static const char* const kZoneNameAsia_Jerusalem = "Asia/Jerusalem";
+static const char kZoneNameAsia_Jerusalem[] = "Asia/Jerusalem";
 
 const extended::ZoneInfo kZoneAsia_Jerusalem = {
   kZoneNameAsia_Jerusalem /*name*/,
@@ -8831,7 +8831,7 @@ static const extended::ZoneEra kZoneEraAsia_Kabul[] = {
 
 };
 
-static const char* const kZoneNameAsia_Kabul = "Asia/Kabul";
+static const char kZoneNameAsia_Kabul[] = "Asia/Kabul";
 
 const extended::ZoneInfo kZoneAsia_Kabul = {
   kZoneNameAsia_Kabul /*name*/,
@@ -8889,7 +8889,7 @@ static const extended::ZoneEra kZoneEraAsia_Kamchatka[] = {
 
 };
 
-static const char* const kZoneNameAsia_Kamchatka = "Asia/Kamchatka";
+static const char kZoneNameAsia_Kamchatka[] = "Asia/Kamchatka";
 
 const extended::ZoneInfo kZoneAsia_Kamchatka = {
   kZoneNameAsia_Kamchatka /*name*/,
@@ -8923,7 +8923,7 @@ static const extended::ZoneEra kZoneEraAsia_Karachi[] = {
 
 };
 
-static const char* const kZoneNameAsia_Karachi = "Asia/Karachi";
+static const char kZoneNameAsia_Karachi[] = "Asia/Karachi";
 
 const extended::ZoneInfo kZoneAsia_Karachi = {
   kZoneNameAsia_Karachi /*name*/,
@@ -8957,7 +8957,7 @@ static const extended::ZoneEra kZoneEraAsia_Kathmandu[] = {
 
 };
 
-static const char* const kZoneNameAsia_Kathmandu = "Asia/Kathmandu";
+static const char kZoneNameAsia_Kathmandu[] = "Asia/Kathmandu";
 
 const extended::ZoneInfo kZoneAsia_Kathmandu = {
   kZoneNameAsia_Kathmandu /*name*/,
@@ -9039,7 +9039,7 @@ static const extended::ZoneEra kZoneEraAsia_Khandyga[] = {
 
 };
 
-static const char* const kZoneNameAsia_Khandyga = "Asia/Khandyga";
+static const char kZoneNameAsia_Khandyga[] = "Asia/Khandyga";
 
 const extended::ZoneInfo kZoneAsia_Khandyga = {
   kZoneNameAsia_Khandyga /*name*/,
@@ -9073,7 +9073,7 @@ static const extended::ZoneEra kZoneEraAsia_Kolkata[] = {
 
 };
 
-static const char* const kZoneNameAsia_Kolkata = "Asia/Kolkata";
+static const char kZoneNameAsia_Kolkata[] = "Asia/Kolkata";
 
 const extended::ZoneInfo kZoneAsia_Kolkata = {
   kZoneNameAsia_Kolkata /*name*/,
@@ -9131,7 +9131,7 @@ static const extended::ZoneEra kZoneEraAsia_Krasnoyarsk[] = {
 
 };
 
-static const char* const kZoneNameAsia_Krasnoyarsk = "Asia/Krasnoyarsk";
+static const char kZoneNameAsia_Krasnoyarsk[] = "Asia/Krasnoyarsk";
 
 const extended::ZoneInfo kZoneAsia_Krasnoyarsk = {
   kZoneNameAsia_Krasnoyarsk /*name*/,
@@ -9165,7 +9165,7 @@ static const extended::ZoneEra kZoneEraAsia_Kuala_Lumpur[] = {
 
 };
 
-static const char* const kZoneNameAsia_Kuala_Lumpur = "Asia/Kuala_Lumpur";
+static const char kZoneNameAsia_Kuala_Lumpur[] = "Asia/Kuala_Lumpur";
 
 const extended::ZoneInfo kZoneAsia_Kuala_Lumpur = {
   kZoneNameAsia_Kuala_Lumpur /*name*/,
@@ -9199,7 +9199,7 @@ static const extended::ZoneEra kZoneEraAsia_Kuching[] = {
 
 };
 
-static const char* const kZoneNameAsia_Kuching = "Asia/Kuching";
+static const char kZoneNameAsia_Kuching[] = "Asia/Kuching";
 
 const extended::ZoneInfo kZoneAsia_Kuching = {
   kZoneNameAsia_Kuching /*name*/,
@@ -9233,7 +9233,7 @@ static const extended::ZoneEra kZoneEraAsia_Macau[] = {
 
 };
 
-static const char* const kZoneNameAsia_Macau = "Asia/Macau";
+static const char kZoneNameAsia_Macau[] = "Asia/Macau";
 
 const extended::ZoneInfo kZoneAsia_Macau = {
   kZoneNameAsia_Macau /*name*/,
@@ -9303,7 +9303,7 @@ static const extended::ZoneEra kZoneEraAsia_Magadan[] = {
 
 };
 
-static const char* const kZoneNameAsia_Magadan = "Asia/Magadan";
+static const char kZoneNameAsia_Magadan[] = "Asia/Magadan";
 
 const extended::ZoneInfo kZoneAsia_Magadan = {
   kZoneNameAsia_Magadan /*name*/,
@@ -9337,7 +9337,7 @@ static const extended::ZoneEra kZoneEraAsia_Makassar[] = {
 
 };
 
-static const char* const kZoneNameAsia_Makassar = "Asia/Makassar";
+static const char kZoneNameAsia_Makassar[] = "Asia/Makassar";
 
 const extended::ZoneInfo kZoneAsia_Makassar = {
   kZoneNameAsia_Makassar /*name*/,
@@ -9371,7 +9371,7 @@ static const extended::ZoneEra kZoneEraAsia_Manila[] = {
 
 };
 
-static const char* const kZoneNameAsia_Manila = "Asia/Manila";
+static const char kZoneNameAsia_Manila[] = "Asia/Manila";
 
 const extended::ZoneInfo kZoneAsia_Manila = {
   kZoneNameAsia_Manila /*name*/,
@@ -9405,7 +9405,7 @@ static const extended::ZoneEra kZoneEraAsia_Nicosia[] = {
 
 };
 
-static const char* const kZoneNameAsia_Nicosia = "Asia/Nicosia";
+static const char kZoneNameAsia_Nicosia[] = "Asia/Nicosia";
 
 const extended::ZoneInfo kZoneAsia_Nicosia = {
   kZoneNameAsia_Nicosia /*name*/,
@@ -9463,7 +9463,7 @@ static const extended::ZoneEra kZoneEraAsia_Novokuznetsk[] = {
 
 };
 
-static const char* const kZoneNameAsia_Novokuznetsk = "Asia/Novokuznetsk";
+static const char kZoneNameAsia_Novokuznetsk[] = "Asia/Novokuznetsk";
 
 const extended::ZoneInfo kZoneAsia_Novokuznetsk = {
   kZoneNameAsia_Novokuznetsk /*name*/,
@@ -9533,7 +9533,7 @@ static const extended::ZoneEra kZoneEraAsia_Novosibirsk[] = {
 
 };
 
-static const char* const kZoneNameAsia_Novosibirsk = "Asia/Novosibirsk";
+static const char kZoneNameAsia_Novosibirsk[] = "Asia/Novosibirsk";
 
 const extended::ZoneInfo kZoneAsia_Novosibirsk = {
   kZoneNameAsia_Novosibirsk /*name*/,
@@ -9591,7 +9591,7 @@ static const extended::ZoneEra kZoneEraAsia_Omsk[] = {
 
 };
 
-static const char* const kZoneNameAsia_Omsk = "Asia/Omsk";
+static const char kZoneNameAsia_Omsk[] = "Asia/Omsk";
 
 const extended::ZoneInfo kZoneAsia_Omsk = {
   kZoneNameAsia_Omsk /*name*/,
@@ -9637,7 +9637,7 @@ static const extended::ZoneEra kZoneEraAsia_Oral[] = {
 
 };
 
-static const char* const kZoneNameAsia_Oral = "Asia/Oral";
+static const char kZoneNameAsia_Oral[] = "Asia/Oral";
 
 const extended::ZoneInfo kZoneAsia_Oral = {
   kZoneNameAsia_Oral /*name*/,
@@ -9671,7 +9671,7 @@ static const extended::ZoneEra kZoneEraAsia_Pontianak[] = {
 
 };
 
-static const char* const kZoneNameAsia_Pontianak = "Asia/Pontianak";
+static const char kZoneNameAsia_Pontianak[] = "Asia/Pontianak";
 
 const extended::ZoneInfo kZoneAsia_Pontianak = {
   kZoneNameAsia_Pontianak /*name*/,
@@ -9729,7 +9729,7 @@ static const extended::ZoneEra kZoneEraAsia_Pyongyang[] = {
 
 };
 
-static const char* const kZoneNameAsia_Pyongyang = "Asia/Pyongyang";
+static const char kZoneNameAsia_Pyongyang[] = "Asia/Pyongyang";
 
 const extended::ZoneInfo kZoneAsia_Pyongyang = {
   kZoneNameAsia_Pyongyang /*name*/,
@@ -9763,7 +9763,7 @@ static const extended::ZoneEra kZoneEraAsia_Qatar[] = {
 
 };
 
-static const char* const kZoneNameAsia_Qatar = "Asia/Qatar";
+static const char kZoneNameAsia_Qatar[] = "Asia/Qatar";
 
 const extended::ZoneInfo kZoneAsia_Qatar = {
   kZoneNameAsia_Qatar /*name*/,
@@ -9809,7 +9809,7 @@ static const extended::ZoneEra kZoneEraAsia_Qostanay[] = {
 
 };
 
-static const char* const kZoneNameAsia_Qostanay = "Asia/Qostanay";
+static const char kZoneNameAsia_Qostanay[] = "Asia/Qostanay";
 
 const extended::ZoneInfo kZoneAsia_Qostanay = {
   kZoneNameAsia_Qostanay /*name*/,
@@ -9867,7 +9867,7 @@ static const extended::ZoneEra kZoneEraAsia_Qyzylorda[] = {
 
 };
 
-static const char* const kZoneNameAsia_Qyzylorda = "Asia/Qyzylorda";
+static const char kZoneNameAsia_Qyzylorda[] = "Asia/Qyzylorda";
 
 const extended::ZoneInfo kZoneAsia_Qyzylorda = {
   kZoneNameAsia_Qyzylorda /*name*/,
@@ -9901,7 +9901,7 @@ static const extended::ZoneEra kZoneEraAsia_Riyadh[] = {
 
 };
 
-static const char* const kZoneNameAsia_Riyadh = "Asia/Riyadh";
+static const char kZoneNameAsia_Riyadh[] = "Asia/Riyadh";
 
 const extended::ZoneInfo kZoneAsia_Riyadh = {
   kZoneNameAsia_Riyadh /*name*/,
@@ -9971,7 +9971,7 @@ static const extended::ZoneEra kZoneEraAsia_Sakhalin[] = {
 
 };
 
-static const char* const kZoneNameAsia_Sakhalin = "Asia/Sakhalin";
+static const char kZoneNameAsia_Sakhalin[] = "Asia/Sakhalin";
 
 const extended::ZoneInfo kZoneAsia_Sakhalin = {
   kZoneNameAsia_Sakhalin /*name*/,
@@ -10005,7 +10005,7 @@ static const extended::ZoneEra kZoneEraAsia_Samarkand[] = {
 
 };
 
-static const char* const kZoneNameAsia_Samarkand = "Asia/Samarkand";
+static const char kZoneNameAsia_Samarkand[] = "Asia/Samarkand";
 
 const extended::ZoneInfo kZoneAsia_Samarkand = {
   kZoneNameAsia_Samarkand /*name*/,
@@ -10039,7 +10039,7 @@ static const extended::ZoneEra kZoneEraAsia_Seoul[] = {
 
 };
 
-static const char* const kZoneNameAsia_Seoul = "Asia/Seoul";
+static const char kZoneNameAsia_Seoul[] = "Asia/Seoul";
 
 const extended::ZoneInfo kZoneAsia_Seoul = {
   kZoneNameAsia_Seoul /*name*/,
@@ -10073,7 +10073,7 @@ static const extended::ZoneEra kZoneEraAsia_Shanghai[] = {
 
 };
 
-static const char* const kZoneNameAsia_Shanghai = "Asia/Shanghai";
+static const char kZoneNameAsia_Shanghai[] = "Asia/Shanghai";
 
 const extended::ZoneInfo kZoneAsia_Shanghai = {
   kZoneNameAsia_Shanghai /*name*/,
@@ -10107,7 +10107,7 @@ static const extended::ZoneEra kZoneEraAsia_Singapore[] = {
 
 };
 
-static const char* const kZoneNameAsia_Singapore = "Asia/Singapore";
+static const char kZoneNameAsia_Singapore[] = "Asia/Singapore";
 
 const extended::ZoneInfo kZoneAsia_Singapore = {
   kZoneNameAsia_Singapore /*name*/,
@@ -10165,7 +10165,7 @@ static const extended::ZoneEra kZoneEraAsia_Srednekolymsk[] = {
 
 };
 
-static const char* const kZoneNameAsia_Srednekolymsk = "Asia/Srednekolymsk";
+static const char kZoneNameAsia_Srednekolymsk[] = "Asia/Srednekolymsk";
 
 const extended::ZoneInfo kZoneAsia_Srednekolymsk = {
   kZoneNameAsia_Srednekolymsk /*name*/,
@@ -10199,7 +10199,7 @@ static const extended::ZoneEra kZoneEraAsia_Taipei[] = {
 
 };
 
-static const char* const kZoneNameAsia_Taipei = "Asia/Taipei";
+static const char kZoneNameAsia_Taipei[] = "Asia/Taipei";
 
 const extended::ZoneInfo kZoneAsia_Taipei = {
   kZoneNameAsia_Taipei /*name*/,
@@ -10233,7 +10233,7 @@ static const extended::ZoneEra kZoneEraAsia_Tashkent[] = {
 
 };
 
-static const char* const kZoneNameAsia_Tashkent = "Asia/Tashkent";
+static const char kZoneNameAsia_Tashkent[] = "Asia/Tashkent";
 
 const extended::ZoneInfo kZoneAsia_Tashkent = {
   kZoneNameAsia_Tashkent /*name*/,
@@ -10291,7 +10291,7 @@ static const extended::ZoneEra kZoneEraAsia_Tbilisi[] = {
 
 };
 
-static const char* const kZoneNameAsia_Tbilisi = "Asia/Tbilisi";
+static const char kZoneNameAsia_Tbilisi[] = "Asia/Tbilisi";
 
 const extended::ZoneInfo kZoneAsia_Tbilisi = {
   kZoneNameAsia_Tbilisi /*name*/,
@@ -10325,7 +10325,7 @@ static const extended::ZoneEra kZoneEraAsia_Tehran[] = {
 
 };
 
-static const char* const kZoneNameAsia_Tehran = "Asia/Tehran";
+static const char kZoneNameAsia_Tehran[] = "Asia/Tehran";
 
 const extended::ZoneInfo kZoneAsia_Tehran = {
   kZoneNameAsia_Tehran /*name*/,
@@ -10359,7 +10359,7 @@ static const extended::ZoneEra kZoneEraAsia_Thimphu[] = {
 
 };
 
-static const char* const kZoneNameAsia_Thimphu = "Asia/Thimphu";
+static const char kZoneNameAsia_Thimphu[] = "Asia/Thimphu";
 
 const extended::ZoneInfo kZoneAsia_Thimphu = {
   kZoneNameAsia_Thimphu /*name*/,
@@ -10393,7 +10393,7 @@ static const extended::ZoneEra kZoneEraAsia_Tokyo[] = {
 
 };
 
-static const char* const kZoneNameAsia_Tokyo = "Asia/Tokyo";
+static const char kZoneNameAsia_Tokyo[] = "Asia/Tokyo";
 
 const extended::ZoneInfo kZoneAsia_Tokyo = {
   kZoneNameAsia_Tokyo /*name*/,
@@ -10475,7 +10475,7 @@ static const extended::ZoneEra kZoneEraAsia_Tomsk[] = {
 
 };
 
-static const char* const kZoneNameAsia_Tomsk = "Asia/Tomsk";
+static const char kZoneNameAsia_Tomsk[] = "Asia/Tomsk";
 
 const extended::ZoneInfo kZoneAsia_Tomsk = {
   kZoneNameAsia_Tomsk /*name*/,
@@ -10509,7 +10509,7 @@ static const extended::ZoneEra kZoneEraAsia_Ulaanbaatar[] = {
 
 };
 
-static const char* const kZoneNameAsia_Ulaanbaatar = "Asia/Ulaanbaatar";
+static const char kZoneNameAsia_Ulaanbaatar[] = "Asia/Ulaanbaatar";
 
 const extended::ZoneInfo kZoneAsia_Ulaanbaatar = {
   kZoneNameAsia_Ulaanbaatar /*name*/,
@@ -10543,7 +10543,7 @@ static const extended::ZoneEra kZoneEraAsia_Urumqi[] = {
 
 };
 
-static const char* const kZoneNameAsia_Urumqi = "Asia/Urumqi";
+static const char kZoneNameAsia_Urumqi[] = "Asia/Urumqi";
 
 const extended::ZoneInfo kZoneAsia_Urumqi = {
   kZoneNameAsia_Urumqi /*name*/,
@@ -10613,7 +10613,7 @@ static const extended::ZoneEra kZoneEraAsia_Ust_Nera[] = {
 
 };
 
-static const char* const kZoneNameAsia_Ust_Nera = "Asia/Ust-Nera";
+static const char kZoneNameAsia_Ust_Nera[] = "Asia/Ust-Nera";
 
 const extended::ZoneInfo kZoneAsia_Ust_Nera = {
   kZoneNameAsia_Ust_Nera /*name*/,
@@ -10671,7 +10671,7 @@ static const extended::ZoneEra kZoneEraAsia_Vladivostok[] = {
 
 };
 
-static const char* const kZoneNameAsia_Vladivostok = "Asia/Vladivostok";
+static const char kZoneNameAsia_Vladivostok[] = "Asia/Vladivostok";
 
 const extended::ZoneInfo kZoneAsia_Vladivostok = {
   kZoneNameAsia_Vladivostok /*name*/,
@@ -10729,7 +10729,7 @@ static const extended::ZoneEra kZoneEraAsia_Yakutsk[] = {
 
 };
 
-static const char* const kZoneNameAsia_Yakutsk = "Asia/Yakutsk";
+static const char kZoneNameAsia_Yakutsk[] = "Asia/Yakutsk";
 
 const extended::ZoneInfo kZoneAsia_Yakutsk = {
   kZoneNameAsia_Yakutsk /*name*/,
@@ -10763,7 +10763,7 @@ static const extended::ZoneEra kZoneEraAsia_Yangon[] = {
 
 };
 
-static const char* const kZoneNameAsia_Yangon = "Asia/Yangon";
+static const char kZoneNameAsia_Yangon[] = "Asia/Yangon";
 
 const extended::ZoneInfo kZoneAsia_Yangon = {
   kZoneNameAsia_Yangon /*name*/,
@@ -10821,7 +10821,7 @@ static const extended::ZoneEra kZoneEraAsia_Yekaterinburg[] = {
 
 };
 
-static const char* const kZoneNameAsia_Yekaterinburg = "Asia/Yekaterinburg";
+static const char kZoneNameAsia_Yekaterinburg[] = "Asia/Yekaterinburg";
 
 const extended::ZoneInfo kZoneAsia_Yekaterinburg = {
   kZoneNameAsia_Yekaterinburg /*name*/,
@@ -10867,7 +10867,7 @@ static const extended::ZoneEra kZoneEraAsia_Yerevan[] = {
 
 };
 
-static const char* const kZoneNameAsia_Yerevan = "Asia/Yerevan";
+static const char kZoneNameAsia_Yerevan[] = "Asia/Yerevan";
 
 const extended::ZoneInfo kZoneAsia_Yerevan = {
   kZoneNameAsia_Yerevan /*name*/,
@@ -10901,7 +10901,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Azores[] = {
 
 };
 
-static const char* const kZoneNameAtlantic_Azores = "Atlantic/Azores";
+static const char kZoneNameAtlantic_Azores[] = "Atlantic/Azores";
 
 const extended::ZoneInfo kZoneAtlantic_Azores = {
   kZoneNameAtlantic_Azores /*name*/,
@@ -10935,7 +10935,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Bermuda[] = {
 
 };
 
-static const char* const kZoneNameAtlantic_Bermuda = "Atlantic/Bermuda";
+static const char kZoneNameAtlantic_Bermuda[] = "Atlantic/Bermuda";
 
 const extended::ZoneInfo kZoneAtlantic_Bermuda = {
   kZoneNameAtlantic_Bermuda /*name*/,
@@ -10969,7 +10969,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Canary[] = {
 
 };
 
-static const char* const kZoneNameAtlantic_Canary = "Atlantic/Canary";
+static const char kZoneNameAtlantic_Canary[] = "Atlantic/Canary";
 
 const extended::ZoneInfo kZoneAtlantic_Canary = {
   kZoneNameAtlantic_Canary /*name*/,
@@ -11003,7 +11003,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Cape_Verde[] = {
 
 };
 
-static const char* const kZoneNameAtlantic_Cape_Verde = "Atlantic/Cape_Verde";
+static const char kZoneNameAtlantic_Cape_Verde[] = "Atlantic/Cape_Verde";
 
 const extended::ZoneInfo kZoneAtlantic_Cape_Verde = {
   kZoneNameAtlantic_Cape_Verde /*name*/,
@@ -11037,7 +11037,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Faroe[] = {
 
 };
 
-static const char* const kZoneNameAtlantic_Faroe = "Atlantic/Faroe";
+static const char kZoneNameAtlantic_Faroe[] = "Atlantic/Faroe";
 
 const extended::ZoneInfo kZoneAtlantic_Faroe = {
   kZoneNameAtlantic_Faroe /*name*/,
@@ -11071,7 +11071,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Madeira[] = {
 
 };
 
-static const char* const kZoneNameAtlantic_Madeira = "Atlantic/Madeira";
+static const char kZoneNameAtlantic_Madeira[] = "Atlantic/Madeira";
 
 const extended::ZoneInfo kZoneAtlantic_Madeira = {
   kZoneNameAtlantic_Madeira /*name*/,
@@ -11105,7 +11105,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Reykjavik[] = {
 
 };
 
-static const char* const kZoneNameAtlantic_Reykjavik = "Atlantic/Reykjavik";
+static const char kZoneNameAtlantic_Reykjavik[] = "Atlantic/Reykjavik";
 
 const extended::ZoneInfo kZoneAtlantic_Reykjavik = {
   kZoneNameAtlantic_Reykjavik /*name*/,
@@ -11139,7 +11139,7 @@ static const extended::ZoneEra kZoneEraAtlantic_South_Georgia[] = {
 
 };
 
-static const char* const kZoneNameAtlantic_South_Georgia = "Atlantic/South_Georgia";
+static const char kZoneNameAtlantic_South_Georgia[] = "Atlantic/South_Georgia";
 
 const extended::ZoneInfo kZoneAtlantic_South_Georgia = {
   kZoneNameAtlantic_South_Georgia /*name*/,
@@ -11185,7 +11185,7 @@ static const extended::ZoneEra kZoneEraAtlantic_Stanley[] = {
 
 };
 
-static const char* const kZoneNameAtlantic_Stanley = "Atlantic/Stanley";
+static const char kZoneNameAtlantic_Stanley[] = "Atlantic/Stanley";
 
 const extended::ZoneInfo kZoneAtlantic_Stanley = {
   kZoneNameAtlantic_Stanley /*name*/,
@@ -11219,7 +11219,7 @@ static const extended::ZoneEra kZoneEraAustralia_Adelaide[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Adelaide = "Australia/Adelaide";
+static const char kZoneNameAustralia_Adelaide[] = "Australia/Adelaide";
 
 const extended::ZoneInfo kZoneAustralia_Adelaide = {
   kZoneNameAustralia_Adelaide /*name*/,
@@ -11253,7 +11253,7 @@ static const extended::ZoneEra kZoneEraAustralia_Brisbane[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Brisbane = "Australia/Brisbane";
+static const char kZoneNameAustralia_Brisbane[] = "Australia/Brisbane";
 
 const extended::ZoneInfo kZoneAustralia_Brisbane = {
   kZoneNameAustralia_Brisbane /*name*/,
@@ -11299,7 +11299,7 @@ static const extended::ZoneEra kZoneEraAustralia_Broken_Hill[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Broken_Hill = "Australia/Broken_Hill";
+static const char kZoneNameAustralia_Broken_Hill[] = "Australia/Broken_Hill";
 
 const extended::ZoneInfo kZoneAustralia_Broken_Hill = {
   kZoneNameAustralia_Broken_Hill /*name*/,
@@ -11333,7 +11333,7 @@ static const extended::ZoneEra kZoneEraAustralia_Currie[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Currie = "Australia/Currie";
+static const char kZoneNameAustralia_Currie[] = "Australia/Currie";
 
 const extended::ZoneInfo kZoneAustralia_Currie = {
   kZoneNameAustralia_Currie /*name*/,
@@ -11367,7 +11367,7 @@ static const extended::ZoneEra kZoneEraAustralia_Darwin[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Darwin = "Australia/Darwin";
+static const char kZoneNameAustralia_Darwin[] = "Australia/Darwin";
 
 const extended::ZoneInfo kZoneAustralia_Darwin = {
   kZoneNameAustralia_Darwin /*name*/,
@@ -11401,7 +11401,7 @@ static const extended::ZoneEra kZoneEraAustralia_Eucla[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Eucla = "Australia/Eucla";
+static const char kZoneNameAustralia_Eucla[] = "Australia/Eucla";
 
 const extended::ZoneInfo kZoneAustralia_Eucla = {
   kZoneNameAustralia_Eucla /*name*/,
@@ -11435,7 +11435,7 @@ static const extended::ZoneEra kZoneEraAustralia_Hobart[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Hobart = "Australia/Hobart";
+static const char kZoneNameAustralia_Hobart[] = "Australia/Hobart";
 
 const extended::ZoneInfo kZoneAustralia_Hobart = {
   kZoneNameAustralia_Hobart /*name*/,
@@ -11469,7 +11469,7 @@ static const extended::ZoneEra kZoneEraAustralia_Lindeman[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Lindeman = "Australia/Lindeman";
+static const char kZoneNameAustralia_Lindeman[] = "Australia/Lindeman";
 
 const extended::ZoneInfo kZoneAustralia_Lindeman = {
   kZoneNameAustralia_Lindeman /*name*/,
@@ -11503,7 +11503,7 @@ static const extended::ZoneEra kZoneEraAustralia_Lord_Howe[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Lord_Howe = "Australia/Lord_Howe";
+static const char kZoneNameAustralia_Lord_Howe[] = "Australia/Lord_Howe";
 
 const extended::ZoneInfo kZoneAustralia_Lord_Howe = {
   kZoneNameAustralia_Lord_Howe /*name*/,
@@ -11537,7 +11537,7 @@ static const extended::ZoneEra kZoneEraAustralia_Melbourne[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Melbourne = "Australia/Melbourne";
+static const char kZoneNameAustralia_Melbourne[] = "Australia/Melbourne";
 
 const extended::ZoneInfo kZoneAustralia_Melbourne = {
   kZoneNameAustralia_Melbourne /*name*/,
@@ -11571,7 +11571,7 @@ static const extended::ZoneEra kZoneEraAustralia_Perth[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Perth = "Australia/Perth";
+static const char kZoneNameAustralia_Perth[] = "Australia/Perth";
 
 const extended::ZoneInfo kZoneAustralia_Perth = {
   kZoneNameAustralia_Perth /*name*/,
@@ -11605,7 +11605,7 @@ static const extended::ZoneEra kZoneEraAustralia_Sydney[] = {
 
 };
 
-static const char* const kZoneNameAustralia_Sydney = "Australia/Sydney";
+static const char kZoneNameAustralia_Sydney[] = "Australia/Sydney";
 
 const extended::ZoneInfo kZoneAustralia_Sydney = {
   kZoneNameAustralia_Sydney /*name*/,
@@ -11639,7 +11639,7 @@ static const extended::ZoneEra kZoneEraCET[] = {
 
 };
 
-static const char* const kZoneNameCET = "CET";
+static const char kZoneNameCET[] = "CET";
 
 const extended::ZoneInfo kZoneCET = {
   kZoneNameCET /*name*/,
@@ -11673,7 +11673,7 @@ static const extended::ZoneEra kZoneEraCST6CDT[] = {
 
 };
 
-static const char* const kZoneNameCST6CDT = "CST6CDT";
+static const char kZoneNameCST6CDT[] = "CST6CDT";
 
 const extended::ZoneInfo kZoneCST6CDT = {
   kZoneNameCST6CDT /*name*/,
@@ -11707,7 +11707,7 @@ static const extended::ZoneEra kZoneEraEET[] = {
 
 };
 
-static const char* const kZoneNameEET = "EET";
+static const char kZoneNameEET[] = "EET";
 
 const extended::ZoneInfo kZoneEET = {
   kZoneNameEET /*name*/,
@@ -11741,7 +11741,7 @@ static const extended::ZoneEra kZoneEraEST[] = {
 
 };
 
-static const char* const kZoneNameEST = "EST";
+static const char kZoneNameEST[] = "EST";
 
 const extended::ZoneInfo kZoneEST = {
   kZoneNameEST /*name*/,
@@ -11775,7 +11775,7 @@ static const extended::ZoneEra kZoneEraEST5EDT[] = {
 
 };
 
-static const char* const kZoneNameEST5EDT = "EST5EDT";
+static const char kZoneNameEST5EDT[] = "EST5EDT";
 
 const extended::ZoneInfo kZoneEST5EDT = {
   kZoneNameEST5EDT /*name*/,
@@ -11809,7 +11809,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT = "Etc/GMT";
+static const char kZoneNameEtc_GMT[] = "Etc/GMT";
 
 const extended::ZoneInfo kZoneEtc_GMT = {
   kZoneNameEtc_GMT /*name*/,
@@ -11843,7 +11843,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_1[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_1 = "Etc/GMT+1";
+static const char kZoneNameEtc_GMT_PLUS_1[] = "Etc/GMT+1";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_1 = {
   kZoneNameEtc_GMT_PLUS_1 /*name*/,
@@ -11877,7 +11877,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_10[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_10 = "Etc/GMT+10";
+static const char kZoneNameEtc_GMT_PLUS_10[] = "Etc/GMT+10";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_10 = {
   kZoneNameEtc_GMT_PLUS_10 /*name*/,
@@ -11911,7 +11911,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_11[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_11 = "Etc/GMT+11";
+static const char kZoneNameEtc_GMT_PLUS_11[] = "Etc/GMT+11";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_11 = {
   kZoneNameEtc_GMT_PLUS_11 /*name*/,
@@ -11945,7 +11945,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_12[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_12 = "Etc/GMT+12";
+static const char kZoneNameEtc_GMT_PLUS_12[] = "Etc/GMT+12";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_12 = {
   kZoneNameEtc_GMT_PLUS_12 /*name*/,
@@ -11979,7 +11979,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_2[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_2 = "Etc/GMT+2";
+static const char kZoneNameEtc_GMT_PLUS_2[] = "Etc/GMT+2";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_2 = {
   kZoneNameEtc_GMT_PLUS_2 /*name*/,
@@ -12013,7 +12013,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_3[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_3 = "Etc/GMT+3";
+static const char kZoneNameEtc_GMT_PLUS_3[] = "Etc/GMT+3";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_3 = {
   kZoneNameEtc_GMT_PLUS_3 /*name*/,
@@ -12047,7 +12047,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_4[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_4 = "Etc/GMT+4";
+static const char kZoneNameEtc_GMT_PLUS_4[] = "Etc/GMT+4";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_4 = {
   kZoneNameEtc_GMT_PLUS_4 /*name*/,
@@ -12081,7 +12081,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_5[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_5 = "Etc/GMT+5";
+static const char kZoneNameEtc_GMT_PLUS_5[] = "Etc/GMT+5";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_5 = {
   kZoneNameEtc_GMT_PLUS_5 /*name*/,
@@ -12115,7 +12115,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_6[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_6 = "Etc/GMT+6";
+static const char kZoneNameEtc_GMT_PLUS_6[] = "Etc/GMT+6";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_6 = {
   kZoneNameEtc_GMT_PLUS_6 /*name*/,
@@ -12149,7 +12149,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_7[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_7 = "Etc/GMT+7";
+static const char kZoneNameEtc_GMT_PLUS_7[] = "Etc/GMT+7";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_7 = {
   kZoneNameEtc_GMT_PLUS_7 /*name*/,
@@ -12183,7 +12183,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_8[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_8 = "Etc/GMT+8";
+static const char kZoneNameEtc_GMT_PLUS_8[] = "Etc/GMT+8";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_8 = {
   kZoneNameEtc_GMT_PLUS_8 /*name*/,
@@ -12217,7 +12217,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_PLUS_9[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_PLUS_9 = "Etc/GMT+9";
+static const char kZoneNameEtc_GMT_PLUS_9[] = "Etc/GMT+9";
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_9 = {
   kZoneNameEtc_GMT_PLUS_9 /*name*/,
@@ -12251,7 +12251,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_1[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_1 = "Etc/GMT-1";
+static const char kZoneNameEtc_GMT_1[] = "Etc/GMT-1";
 
 const extended::ZoneInfo kZoneEtc_GMT_1 = {
   kZoneNameEtc_GMT_1 /*name*/,
@@ -12285,7 +12285,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_10[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_10 = "Etc/GMT-10";
+static const char kZoneNameEtc_GMT_10[] = "Etc/GMT-10";
 
 const extended::ZoneInfo kZoneEtc_GMT_10 = {
   kZoneNameEtc_GMT_10 /*name*/,
@@ -12319,7 +12319,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_11[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_11 = "Etc/GMT-11";
+static const char kZoneNameEtc_GMT_11[] = "Etc/GMT-11";
 
 const extended::ZoneInfo kZoneEtc_GMT_11 = {
   kZoneNameEtc_GMT_11 /*name*/,
@@ -12353,7 +12353,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_12[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_12 = "Etc/GMT-12";
+static const char kZoneNameEtc_GMT_12[] = "Etc/GMT-12";
 
 const extended::ZoneInfo kZoneEtc_GMT_12 = {
   kZoneNameEtc_GMT_12 /*name*/,
@@ -12387,7 +12387,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_13[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_13 = "Etc/GMT-13";
+static const char kZoneNameEtc_GMT_13[] = "Etc/GMT-13";
 
 const extended::ZoneInfo kZoneEtc_GMT_13 = {
   kZoneNameEtc_GMT_13 /*name*/,
@@ -12421,7 +12421,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_14[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_14 = "Etc/GMT-14";
+static const char kZoneNameEtc_GMT_14[] = "Etc/GMT-14";
 
 const extended::ZoneInfo kZoneEtc_GMT_14 = {
   kZoneNameEtc_GMT_14 /*name*/,
@@ -12455,7 +12455,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_2[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_2 = "Etc/GMT-2";
+static const char kZoneNameEtc_GMT_2[] = "Etc/GMT-2";
 
 const extended::ZoneInfo kZoneEtc_GMT_2 = {
   kZoneNameEtc_GMT_2 /*name*/,
@@ -12489,7 +12489,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_3[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_3 = "Etc/GMT-3";
+static const char kZoneNameEtc_GMT_3[] = "Etc/GMT-3";
 
 const extended::ZoneInfo kZoneEtc_GMT_3 = {
   kZoneNameEtc_GMT_3 /*name*/,
@@ -12523,7 +12523,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_4[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_4 = "Etc/GMT-4";
+static const char kZoneNameEtc_GMT_4[] = "Etc/GMT-4";
 
 const extended::ZoneInfo kZoneEtc_GMT_4 = {
   kZoneNameEtc_GMT_4 /*name*/,
@@ -12557,7 +12557,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_5[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_5 = "Etc/GMT-5";
+static const char kZoneNameEtc_GMT_5[] = "Etc/GMT-5";
 
 const extended::ZoneInfo kZoneEtc_GMT_5 = {
   kZoneNameEtc_GMT_5 /*name*/,
@@ -12591,7 +12591,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_6[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_6 = "Etc/GMT-6";
+static const char kZoneNameEtc_GMT_6[] = "Etc/GMT-6";
 
 const extended::ZoneInfo kZoneEtc_GMT_6 = {
   kZoneNameEtc_GMT_6 /*name*/,
@@ -12625,7 +12625,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_7[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_7 = "Etc/GMT-7";
+static const char kZoneNameEtc_GMT_7[] = "Etc/GMT-7";
 
 const extended::ZoneInfo kZoneEtc_GMT_7 = {
   kZoneNameEtc_GMT_7 /*name*/,
@@ -12659,7 +12659,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_8[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_8 = "Etc/GMT-8";
+static const char kZoneNameEtc_GMT_8[] = "Etc/GMT-8";
 
 const extended::ZoneInfo kZoneEtc_GMT_8 = {
   kZoneNameEtc_GMT_8 /*name*/,
@@ -12693,7 +12693,7 @@ static const extended::ZoneEra kZoneEraEtc_GMT_9[] = {
 
 };
 
-static const char* const kZoneNameEtc_GMT_9 = "Etc/GMT-9";
+static const char kZoneNameEtc_GMT_9[] = "Etc/GMT-9";
 
 const extended::ZoneInfo kZoneEtc_GMT_9 = {
   kZoneNameEtc_GMT_9 /*name*/,
@@ -12727,7 +12727,7 @@ static const extended::ZoneEra kZoneEraEtc_UTC[] = {
 
 };
 
-static const char* const kZoneNameEtc_UTC = "Etc/UTC";
+static const char kZoneNameEtc_UTC[] = "Etc/UTC";
 
 const extended::ZoneInfo kZoneEtc_UTC = {
   kZoneNameEtc_UTC /*name*/,
@@ -12761,7 +12761,7 @@ static const extended::ZoneEra kZoneEraEurope_Amsterdam[] = {
 
 };
 
-static const char* const kZoneNameEurope_Amsterdam = "Europe/Amsterdam";
+static const char kZoneNameEurope_Amsterdam[] = "Europe/Amsterdam";
 
 const extended::ZoneInfo kZoneEurope_Amsterdam = {
   kZoneNameEurope_Amsterdam /*name*/,
@@ -12795,7 +12795,7 @@ static const extended::ZoneEra kZoneEraEurope_Andorra[] = {
 
 };
 
-static const char* const kZoneNameEurope_Andorra = "Europe/Andorra";
+static const char kZoneNameEurope_Andorra[] = "Europe/Andorra";
 
 const extended::ZoneInfo kZoneEurope_Andorra = {
   kZoneNameEurope_Andorra /*name*/,
@@ -12865,7 +12865,7 @@ static const extended::ZoneEra kZoneEraEurope_Astrakhan[] = {
 
 };
 
-static const char* const kZoneNameEurope_Astrakhan = "Europe/Astrakhan";
+static const char kZoneNameEurope_Astrakhan[] = "Europe/Astrakhan";
 
 const extended::ZoneInfo kZoneEurope_Astrakhan = {
   kZoneNameEurope_Astrakhan /*name*/,
@@ -12899,7 +12899,7 @@ static const extended::ZoneEra kZoneEraEurope_Athens[] = {
 
 };
 
-static const char* const kZoneNameEurope_Athens = "Europe/Athens";
+static const char kZoneNameEurope_Athens[] = "Europe/Athens";
 
 const extended::ZoneInfo kZoneEurope_Athens = {
   kZoneNameEurope_Athens /*name*/,
@@ -12933,7 +12933,7 @@ static const extended::ZoneEra kZoneEraEurope_Belgrade[] = {
 
 };
 
-static const char* const kZoneNameEurope_Belgrade = "Europe/Belgrade";
+static const char kZoneNameEurope_Belgrade[] = "Europe/Belgrade";
 
 const extended::ZoneInfo kZoneEurope_Belgrade = {
   kZoneNameEurope_Belgrade /*name*/,
@@ -12967,7 +12967,7 @@ static const extended::ZoneEra kZoneEraEurope_Berlin[] = {
 
 };
 
-static const char* const kZoneNameEurope_Berlin = "Europe/Berlin";
+static const char kZoneNameEurope_Berlin[] = "Europe/Berlin";
 
 const extended::ZoneInfo kZoneEurope_Berlin = {
   kZoneNameEurope_Berlin /*name*/,
@@ -13001,7 +13001,7 @@ static const extended::ZoneEra kZoneEraEurope_Brussels[] = {
 
 };
 
-static const char* const kZoneNameEurope_Brussels = "Europe/Brussels";
+static const char kZoneNameEurope_Brussels[] = "Europe/Brussels";
 
 const extended::ZoneInfo kZoneEurope_Brussels = {
   kZoneNameEurope_Brussels /*name*/,
@@ -13035,7 +13035,7 @@ static const extended::ZoneEra kZoneEraEurope_Bucharest[] = {
 
 };
 
-static const char* const kZoneNameEurope_Bucharest = "Europe/Bucharest";
+static const char kZoneNameEurope_Bucharest[] = "Europe/Bucharest";
 
 const extended::ZoneInfo kZoneEurope_Bucharest = {
   kZoneNameEurope_Bucharest /*name*/,
@@ -13069,7 +13069,7 @@ static const extended::ZoneEra kZoneEraEurope_Budapest[] = {
 
 };
 
-static const char* const kZoneNameEurope_Budapest = "Europe/Budapest";
+static const char kZoneNameEurope_Budapest[] = "Europe/Budapest";
 
 const extended::ZoneInfo kZoneEurope_Budapest = {
   kZoneNameEurope_Budapest /*name*/,
@@ -13103,7 +13103,7 @@ static const extended::ZoneEra kZoneEraEurope_Chisinau[] = {
 
 };
 
-static const char* const kZoneNameEurope_Chisinau = "Europe/Chisinau";
+static const char kZoneNameEurope_Chisinau[] = "Europe/Chisinau";
 
 const extended::ZoneInfo kZoneEurope_Chisinau = {
   kZoneNameEurope_Chisinau /*name*/,
@@ -13137,7 +13137,7 @@ static const extended::ZoneEra kZoneEraEurope_Copenhagen[] = {
 
 };
 
-static const char* const kZoneNameEurope_Copenhagen = "Europe/Copenhagen";
+static const char kZoneNameEurope_Copenhagen[] = "Europe/Copenhagen";
 
 const extended::ZoneInfo kZoneEurope_Copenhagen = {
   kZoneNameEurope_Copenhagen /*name*/,
@@ -13171,7 +13171,7 @@ static const extended::ZoneEra kZoneEraEurope_Dublin[] = {
 
 };
 
-static const char* const kZoneNameEurope_Dublin = "Europe/Dublin";
+static const char kZoneNameEurope_Dublin[] = "Europe/Dublin";
 
 const extended::ZoneInfo kZoneEurope_Dublin = {
   kZoneNameEurope_Dublin /*name*/,
@@ -13205,7 +13205,7 @@ static const extended::ZoneEra kZoneEraEurope_Gibraltar[] = {
 
 };
 
-static const char* const kZoneNameEurope_Gibraltar = "Europe/Gibraltar";
+static const char kZoneNameEurope_Gibraltar[] = "Europe/Gibraltar";
 
 const extended::ZoneInfo kZoneEurope_Gibraltar = {
   kZoneNameEurope_Gibraltar /*name*/,
@@ -13239,7 +13239,7 @@ static const extended::ZoneEra kZoneEraEurope_Helsinki[] = {
 
 };
 
-static const char* const kZoneNameEurope_Helsinki = "Europe/Helsinki";
+static const char kZoneNameEurope_Helsinki[] = "Europe/Helsinki";
 
 const extended::ZoneInfo kZoneEurope_Helsinki = {
   kZoneNameEurope_Helsinki /*name*/,
@@ -13369,7 +13369,7 @@ static const extended::ZoneEra kZoneEraEurope_Istanbul[] = {
 
 };
 
-static const char* const kZoneNameEurope_Istanbul = "Europe/Istanbul";
+static const char kZoneNameEurope_Istanbul[] = "Europe/Istanbul";
 
 const extended::ZoneInfo kZoneEurope_Istanbul = {
   kZoneNameEurope_Istanbul /*name*/,
@@ -13427,7 +13427,7 @@ static const extended::ZoneEra kZoneEraEurope_Kaliningrad[] = {
 
 };
 
-static const char* const kZoneNameEurope_Kaliningrad = "Europe/Kaliningrad";
+static const char kZoneNameEurope_Kaliningrad[] = "Europe/Kaliningrad";
 
 const extended::ZoneInfo kZoneEurope_Kaliningrad = {
   kZoneNameEurope_Kaliningrad /*name*/,
@@ -13461,7 +13461,7 @@ static const extended::ZoneEra kZoneEraEurope_Kiev[] = {
 
 };
 
-static const char* const kZoneNameEurope_Kiev = "Europe/Kiev";
+static const char kZoneNameEurope_Kiev[] = "Europe/Kiev";
 
 const extended::ZoneInfo kZoneEurope_Kiev = {
   kZoneNameEurope_Kiev /*name*/,
@@ -13519,7 +13519,7 @@ static const extended::ZoneEra kZoneEraEurope_Kirov[] = {
 
 };
 
-static const char* const kZoneNameEurope_Kirov = "Europe/Kirov";
+static const char kZoneNameEurope_Kirov[] = "Europe/Kirov";
 
 const extended::ZoneInfo kZoneEurope_Kirov = {
   kZoneNameEurope_Kirov /*name*/,
@@ -13553,7 +13553,7 @@ static const extended::ZoneEra kZoneEraEurope_Lisbon[] = {
 
 };
 
-static const char* const kZoneNameEurope_Lisbon = "Europe/Lisbon";
+static const char kZoneNameEurope_Lisbon[] = "Europe/Lisbon";
 
 const extended::ZoneInfo kZoneEurope_Lisbon = {
   kZoneNameEurope_Lisbon /*name*/,
@@ -13587,7 +13587,7 @@ static const extended::ZoneEra kZoneEraEurope_London[] = {
 
 };
 
-static const char* const kZoneNameEurope_London = "Europe/London";
+static const char kZoneNameEurope_London[] = "Europe/London";
 
 const extended::ZoneInfo kZoneEurope_London = {
   kZoneNameEurope_London /*name*/,
@@ -13621,7 +13621,7 @@ static const extended::ZoneEra kZoneEraEurope_Luxembourg[] = {
 
 };
 
-static const char* const kZoneNameEurope_Luxembourg = "Europe/Luxembourg";
+static const char kZoneNameEurope_Luxembourg[] = "Europe/Luxembourg";
 
 const extended::ZoneInfo kZoneEurope_Luxembourg = {
   kZoneNameEurope_Luxembourg /*name*/,
@@ -13655,7 +13655,7 @@ static const extended::ZoneEra kZoneEraEurope_Madrid[] = {
 
 };
 
-static const char* const kZoneNameEurope_Madrid = "Europe/Madrid";
+static const char kZoneNameEurope_Madrid[] = "Europe/Madrid";
 
 const extended::ZoneInfo kZoneEurope_Madrid = {
   kZoneNameEurope_Madrid /*name*/,
@@ -13689,7 +13689,7 @@ static const extended::ZoneEra kZoneEraEurope_Malta[] = {
 
 };
 
-static const char* const kZoneNameEurope_Malta = "Europe/Malta";
+static const char kZoneNameEurope_Malta[] = "Europe/Malta";
 
 const extended::ZoneInfo kZoneEurope_Malta = {
   kZoneNameEurope_Malta /*name*/,
@@ -13735,7 +13735,7 @@ static const extended::ZoneEra kZoneEraEurope_Minsk[] = {
 
 };
 
-static const char* const kZoneNameEurope_Minsk = "Europe/Minsk";
+static const char kZoneNameEurope_Minsk[] = "Europe/Minsk";
 
 const extended::ZoneInfo kZoneEurope_Minsk = {
   kZoneNameEurope_Minsk /*name*/,
@@ -13769,7 +13769,7 @@ static const extended::ZoneEra kZoneEraEurope_Monaco[] = {
 
 };
 
-static const char* const kZoneNameEurope_Monaco = "Europe/Monaco";
+static const char kZoneNameEurope_Monaco[] = "Europe/Monaco";
 
 const extended::ZoneInfo kZoneEurope_Monaco = {
   kZoneNameEurope_Monaco /*name*/,
@@ -13827,7 +13827,7 @@ static const extended::ZoneEra kZoneEraEurope_Moscow[] = {
 
 };
 
-static const char* const kZoneNameEurope_Moscow = "Europe/Moscow";
+static const char kZoneNameEurope_Moscow[] = "Europe/Moscow";
 
 const extended::ZoneInfo kZoneEurope_Moscow = {
   kZoneNameEurope_Moscow /*name*/,
@@ -13861,7 +13861,7 @@ static const extended::ZoneEra kZoneEraEurope_Oslo[] = {
 
 };
 
-static const char* const kZoneNameEurope_Oslo = "Europe/Oslo";
+static const char kZoneNameEurope_Oslo[] = "Europe/Oslo";
 
 const extended::ZoneInfo kZoneEurope_Oslo = {
   kZoneNameEurope_Oslo /*name*/,
@@ -13895,7 +13895,7 @@ static const extended::ZoneEra kZoneEraEurope_Paris[] = {
 
 };
 
-static const char* const kZoneNameEurope_Paris = "Europe/Paris";
+static const char kZoneNameEurope_Paris[] = "Europe/Paris";
 
 const extended::ZoneInfo kZoneEurope_Paris = {
   kZoneNameEurope_Paris /*name*/,
@@ -13929,7 +13929,7 @@ static const extended::ZoneEra kZoneEraEurope_Prague[] = {
 
 };
 
-static const char* const kZoneNameEurope_Prague = "Europe/Prague";
+static const char kZoneNameEurope_Prague[] = "Europe/Prague";
 
 const extended::ZoneInfo kZoneEurope_Prague = {
   kZoneNameEurope_Prague /*name*/,
@@ -13987,7 +13987,7 @@ static const extended::ZoneEra kZoneEraEurope_Riga[] = {
 
 };
 
-static const char* const kZoneNameEurope_Riga = "Europe/Riga";
+static const char kZoneNameEurope_Riga[] = "Europe/Riga";
 
 const extended::ZoneInfo kZoneEurope_Riga = {
   kZoneNameEurope_Riga /*name*/,
@@ -14021,7 +14021,7 @@ static const extended::ZoneEra kZoneEraEurope_Rome[] = {
 
 };
 
-static const char* const kZoneNameEurope_Rome = "Europe/Rome";
+static const char kZoneNameEurope_Rome[] = "Europe/Rome";
 
 const extended::ZoneInfo kZoneEurope_Rome = {
   kZoneNameEurope_Rome /*name*/,
@@ -14079,7 +14079,7 @@ static const extended::ZoneEra kZoneEraEurope_Samara[] = {
 
 };
 
-static const char* const kZoneNameEurope_Samara = "Europe/Samara";
+static const char kZoneNameEurope_Samara[] = "Europe/Samara";
 
 const extended::ZoneInfo kZoneEurope_Samara = {
   kZoneNameEurope_Samara /*name*/,
@@ -14149,7 +14149,7 @@ static const extended::ZoneEra kZoneEraEurope_Saratov[] = {
 
 };
 
-static const char* const kZoneNameEurope_Saratov = "Europe/Saratov";
+static const char kZoneNameEurope_Saratov[] = "Europe/Saratov";
 
 const extended::ZoneInfo kZoneEurope_Saratov = {
   kZoneNameEurope_Saratov /*name*/,
@@ -14207,7 +14207,7 @@ static const extended::ZoneEra kZoneEraEurope_Simferopol[] = {
 
 };
 
-static const char* const kZoneNameEurope_Simferopol = "Europe/Simferopol";
+static const char kZoneNameEurope_Simferopol[] = "Europe/Simferopol";
 
 const extended::ZoneInfo kZoneEurope_Simferopol = {
   kZoneNameEurope_Simferopol /*name*/,
@@ -14241,7 +14241,7 @@ static const extended::ZoneEra kZoneEraEurope_Sofia[] = {
 
 };
 
-static const char* const kZoneNameEurope_Sofia = "Europe/Sofia";
+static const char kZoneNameEurope_Sofia[] = "Europe/Sofia";
 
 const extended::ZoneInfo kZoneEurope_Sofia = {
   kZoneNameEurope_Sofia /*name*/,
@@ -14275,7 +14275,7 @@ static const extended::ZoneEra kZoneEraEurope_Stockholm[] = {
 
 };
 
-static const char* const kZoneNameEurope_Stockholm = "Europe/Stockholm";
+static const char kZoneNameEurope_Stockholm[] = "Europe/Stockholm";
 
 const extended::ZoneInfo kZoneEurope_Stockholm = {
   kZoneNameEurope_Stockholm /*name*/,
@@ -14333,7 +14333,7 @@ static const extended::ZoneEra kZoneEraEurope_Tallinn[] = {
 
 };
 
-static const char* const kZoneNameEurope_Tallinn = "Europe/Tallinn";
+static const char kZoneNameEurope_Tallinn[] = "Europe/Tallinn";
 
 const extended::ZoneInfo kZoneEurope_Tallinn = {
   kZoneNameEurope_Tallinn /*name*/,
@@ -14367,7 +14367,7 @@ static const extended::ZoneEra kZoneEraEurope_Tirane[] = {
 
 };
 
-static const char* const kZoneNameEurope_Tirane = "Europe/Tirane";
+static const char kZoneNameEurope_Tirane[] = "Europe/Tirane";
 
 const extended::ZoneInfo kZoneEurope_Tirane = {
   kZoneNameEurope_Tirane /*name*/,
@@ -14437,7 +14437,7 @@ static const extended::ZoneEra kZoneEraEurope_Ulyanovsk[] = {
 
 };
 
-static const char* const kZoneNameEurope_Ulyanovsk = "Europe/Ulyanovsk";
+static const char kZoneNameEurope_Ulyanovsk[] = "Europe/Ulyanovsk";
 
 const extended::ZoneInfo kZoneEurope_Ulyanovsk = {
   kZoneNameEurope_Ulyanovsk /*name*/,
@@ -14471,7 +14471,7 @@ static const extended::ZoneEra kZoneEraEurope_Uzhgorod[] = {
 
 };
 
-static const char* const kZoneNameEurope_Uzhgorod = "Europe/Uzhgorod";
+static const char kZoneNameEurope_Uzhgorod[] = "Europe/Uzhgorod";
 
 const extended::ZoneInfo kZoneEurope_Uzhgorod = {
   kZoneNameEurope_Uzhgorod /*name*/,
@@ -14505,7 +14505,7 @@ static const extended::ZoneEra kZoneEraEurope_Vienna[] = {
 
 };
 
-static const char* const kZoneNameEurope_Vienna = "Europe/Vienna";
+static const char kZoneNameEurope_Vienna[] = "Europe/Vienna";
 
 const extended::ZoneInfo kZoneEurope_Vienna = {
   kZoneNameEurope_Vienna /*name*/,
@@ -14563,7 +14563,7 @@ static const extended::ZoneEra kZoneEraEurope_Vilnius[] = {
 
 };
 
-static const char* const kZoneNameEurope_Vilnius = "Europe/Vilnius";
+static const char kZoneNameEurope_Vilnius[] = "Europe/Vilnius";
 
 const extended::ZoneInfo kZoneEurope_Vilnius = {
   kZoneNameEurope_Vilnius /*name*/,
@@ -14633,7 +14633,7 @@ static const extended::ZoneEra kZoneEraEurope_Volgograd[] = {
 
 };
 
-static const char* const kZoneNameEurope_Volgograd = "Europe/Volgograd";
+static const char kZoneNameEurope_Volgograd[] = "Europe/Volgograd";
 
 const extended::ZoneInfo kZoneEurope_Volgograd = {
   kZoneNameEurope_Volgograd /*name*/,
@@ -14667,7 +14667,7 @@ static const extended::ZoneEra kZoneEraEurope_Warsaw[] = {
 
 };
 
-static const char* const kZoneNameEurope_Warsaw = "Europe/Warsaw";
+static const char kZoneNameEurope_Warsaw[] = "Europe/Warsaw";
 
 const extended::ZoneInfo kZoneEurope_Warsaw = {
   kZoneNameEurope_Warsaw /*name*/,
@@ -14701,7 +14701,7 @@ static const extended::ZoneEra kZoneEraEurope_Zaporozhye[] = {
 
 };
 
-static const char* const kZoneNameEurope_Zaporozhye = "Europe/Zaporozhye";
+static const char kZoneNameEurope_Zaporozhye[] = "Europe/Zaporozhye";
 
 const extended::ZoneInfo kZoneEurope_Zaporozhye = {
   kZoneNameEurope_Zaporozhye /*name*/,
@@ -14735,7 +14735,7 @@ static const extended::ZoneEra kZoneEraEurope_Zurich[] = {
 
 };
 
-static const char* const kZoneNameEurope_Zurich = "Europe/Zurich";
+static const char kZoneNameEurope_Zurich[] = "Europe/Zurich";
 
 const extended::ZoneInfo kZoneEurope_Zurich = {
   kZoneNameEurope_Zurich /*name*/,
@@ -14769,7 +14769,7 @@ static const extended::ZoneEra kZoneEraHST[] = {
 
 };
 
-static const char* const kZoneNameHST = "HST";
+static const char kZoneNameHST[] = "HST";
 
 const extended::ZoneInfo kZoneHST = {
   kZoneNameHST /*name*/,
@@ -14803,7 +14803,7 @@ static const extended::ZoneEra kZoneEraIndian_Chagos[] = {
 
 };
 
-static const char* const kZoneNameIndian_Chagos = "Indian/Chagos";
+static const char kZoneNameIndian_Chagos[] = "Indian/Chagos";
 
 const extended::ZoneInfo kZoneIndian_Chagos = {
   kZoneNameIndian_Chagos /*name*/,
@@ -14837,7 +14837,7 @@ static const extended::ZoneEra kZoneEraIndian_Christmas[] = {
 
 };
 
-static const char* const kZoneNameIndian_Christmas = "Indian/Christmas";
+static const char kZoneNameIndian_Christmas[] = "Indian/Christmas";
 
 const extended::ZoneInfo kZoneIndian_Christmas = {
   kZoneNameIndian_Christmas /*name*/,
@@ -14871,7 +14871,7 @@ static const extended::ZoneEra kZoneEraIndian_Cocos[] = {
 
 };
 
-static const char* const kZoneNameIndian_Cocos = "Indian/Cocos";
+static const char kZoneNameIndian_Cocos[] = "Indian/Cocos";
 
 const extended::ZoneInfo kZoneIndian_Cocos = {
   kZoneNameIndian_Cocos /*name*/,
@@ -14905,7 +14905,7 @@ static const extended::ZoneEra kZoneEraIndian_Kerguelen[] = {
 
 };
 
-static const char* const kZoneNameIndian_Kerguelen = "Indian/Kerguelen";
+static const char kZoneNameIndian_Kerguelen[] = "Indian/Kerguelen";
 
 const extended::ZoneInfo kZoneIndian_Kerguelen = {
   kZoneNameIndian_Kerguelen /*name*/,
@@ -14939,7 +14939,7 @@ static const extended::ZoneEra kZoneEraIndian_Mahe[] = {
 
 };
 
-static const char* const kZoneNameIndian_Mahe = "Indian/Mahe";
+static const char kZoneNameIndian_Mahe[] = "Indian/Mahe";
 
 const extended::ZoneInfo kZoneIndian_Mahe = {
   kZoneNameIndian_Mahe /*name*/,
@@ -14973,7 +14973,7 @@ static const extended::ZoneEra kZoneEraIndian_Maldives[] = {
 
 };
 
-static const char* const kZoneNameIndian_Maldives = "Indian/Maldives";
+static const char kZoneNameIndian_Maldives[] = "Indian/Maldives";
 
 const extended::ZoneInfo kZoneIndian_Maldives = {
   kZoneNameIndian_Maldives /*name*/,
@@ -15007,7 +15007,7 @@ static const extended::ZoneEra kZoneEraIndian_Mauritius[] = {
 
 };
 
-static const char* const kZoneNameIndian_Mauritius = "Indian/Mauritius";
+static const char kZoneNameIndian_Mauritius[] = "Indian/Mauritius";
 
 const extended::ZoneInfo kZoneIndian_Mauritius = {
   kZoneNameIndian_Mauritius /*name*/,
@@ -15041,7 +15041,7 @@ static const extended::ZoneEra kZoneEraIndian_Reunion[] = {
 
 };
 
-static const char* const kZoneNameIndian_Reunion = "Indian/Reunion";
+static const char kZoneNameIndian_Reunion[] = "Indian/Reunion";
 
 const extended::ZoneInfo kZoneIndian_Reunion = {
   kZoneNameIndian_Reunion /*name*/,
@@ -15075,7 +15075,7 @@ static const extended::ZoneEra kZoneEraMET[] = {
 
 };
 
-static const char* const kZoneNameMET = "MET";
+static const char kZoneNameMET[] = "MET";
 
 const extended::ZoneInfo kZoneMET = {
   kZoneNameMET /*name*/,
@@ -15109,7 +15109,7 @@ static const extended::ZoneEra kZoneEraMST[] = {
 
 };
 
-static const char* const kZoneNameMST = "MST";
+static const char kZoneNameMST[] = "MST";
 
 const extended::ZoneInfo kZoneMST = {
   kZoneNameMST /*name*/,
@@ -15143,7 +15143,7 @@ static const extended::ZoneEra kZoneEraMST7MDT[] = {
 
 };
 
-static const char* const kZoneNameMST7MDT = "MST7MDT";
+static const char kZoneNameMST7MDT[] = "MST7MDT";
 
 const extended::ZoneInfo kZoneMST7MDT = {
   kZoneNameMST7MDT /*name*/,
@@ -15177,7 +15177,7 @@ static const extended::ZoneEra kZoneEraPST8PDT[] = {
 
 };
 
-static const char* const kZoneNamePST8PDT = "PST8PDT";
+static const char kZoneNamePST8PDT[] = "PST8PDT";
 
 const extended::ZoneInfo kZonePST8PDT = {
   kZoneNamePST8PDT /*name*/,
@@ -15223,7 +15223,7 @@ static const extended::ZoneEra kZoneEraPacific_Apia[] = {
 
 };
 
-static const char* const kZoneNamePacific_Apia = "Pacific/Apia";
+static const char kZoneNamePacific_Apia[] = "Pacific/Apia";
 
 const extended::ZoneInfo kZonePacific_Apia = {
   kZoneNamePacific_Apia /*name*/,
@@ -15257,7 +15257,7 @@ static const extended::ZoneEra kZoneEraPacific_Auckland[] = {
 
 };
 
-static const char* const kZoneNamePacific_Auckland = "Pacific/Auckland";
+static const char kZoneNamePacific_Auckland[] = "Pacific/Auckland";
 
 const extended::ZoneInfo kZonePacific_Auckland = {
   kZoneNamePacific_Auckland /*name*/,
@@ -15303,7 +15303,7 @@ static const extended::ZoneEra kZoneEraPacific_Bougainville[] = {
 
 };
 
-static const char* const kZoneNamePacific_Bougainville = "Pacific/Bougainville";
+static const char kZoneNamePacific_Bougainville[] = "Pacific/Bougainville";
 
 const extended::ZoneInfo kZonePacific_Bougainville = {
   kZoneNamePacific_Bougainville /*name*/,
@@ -15337,7 +15337,7 @@ static const extended::ZoneEra kZoneEraPacific_Chatham[] = {
 
 };
 
-static const char* const kZoneNamePacific_Chatham = "Pacific/Chatham";
+static const char kZoneNamePacific_Chatham[] = "Pacific/Chatham";
 
 const extended::ZoneInfo kZonePacific_Chatham = {
   kZoneNamePacific_Chatham /*name*/,
@@ -15371,7 +15371,7 @@ static const extended::ZoneEra kZoneEraPacific_Chuuk[] = {
 
 };
 
-static const char* const kZoneNamePacific_Chuuk = "Pacific/Chuuk";
+static const char kZoneNamePacific_Chuuk[] = "Pacific/Chuuk";
 
 const extended::ZoneInfo kZonePacific_Chuuk = {
   kZoneNamePacific_Chuuk /*name*/,
@@ -15405,7 +15405,7 @@ static const extended::ZoneEra kZoneEraPacific_Easter[] = {
 
 };
 
-static const char* const kZoneNamePacific_Easter = "Pacific/Easter";
+static const char kZoneNamePacific_Easter[] = "Pacific/Easter";
 
 const extended::ZoneInfo kZonePacific_Easter = {
   kZoneNamePacific_Easter /*name*/,
@@ -15439,7 +15439,7 @@ static const extended::ZoneEra kZoneEraPacific_Efate[] = {
 
 };
 
-static const char* const kZoneNamePacific_Efate = "Pacific/Efate";
+static const char kZoneNamePacific_Efate[] = "Pacific/Efate";
 
 const extended::ZoneInfo kZonePacific_Efate = {
   kZoneNamePacific_Efate /*name*/,
@@ -15473,7 +15473,7 @@ static const extended::ZoneEra kZoneEraPacific_Enderbury[] = {
 
 };
 
-static const char* const kZoneNamePacific_Enderbury = "Pacific/Enderbury";
+static const char kZoneNamePacific_Enderbury[] = "Pacific/Enderbury";
 
 const extended::ZoneInfo kZonePacific_Enderbury = {
   kZoneNamePacific_Enderbury /*name*/,
@@ -15519,7 +15519,7 @@ static const extended::ZoneEra kZoneEraPacific_Fakaofo[] = {
 
 };
 
-static const char* const kZoneNamePacific_Fakaofo = "Pacific/Fakaofo";
+static const char kZoneNamePacific_Fakaofo[] = "Pacific/Fakaofo";
 
 const extended::ZoneInfo kZonePacific_Fakaofo = {
   kZoneNamePacific_Fakaofo /*name*/,
@@ -15553,7 +15553,7 @@ static const extended::ZoneEra kZoneEraPacific_Fiji[] = {
 
 };
 
-static const char* const kZoneNamePacific_Fiji = "Pacific/Fiji";
+static const char kZoneNamePacific_Fiji[] = "Pacific/Fiji";
 
 const extended::ZoneInfo kZonePacific_Fiji = {
   kZoneNamePacific_Fiji /*name*/,
@@ -15587,7 +15587,7 @@ static const extended::ZoneEra kZoneEraPacific_Funafuti[] = {
 
 };
 
-static const char* const kZoneNamePacific_Funafuti = "Pacific/Funafuti";
+static const char kZoneNamePacific_Funafuti[] = "Pacific/Funafuti";
 
 const extended::ZoneInfo kZonePacific_Funafuti = {
   kZoneNamePacific_Funafuti /*name*/,
@@ -15621,7 +15621,7 @@ static const extended::ZoneEra kZoneEraPacific_Galapagos[] = {
 
 };
 
-static const char* const kZoneNamePacific_Galapagos = "Pacific/Galapagos";
+static const char kZoneNamePacific_Galapagos[] = "Pacific/Galapagos";
 
 const extended::ZoneInfo kZonePacific_Galapagos = {
   kZoneNamePacific_Galapagos /*name*/,
@@ -15655,7 +15655,7 @@ static const extended::ZoneEra kZoneEraPacific_Gambier[] = {
 
 };
 
-static const char* const kZoneNamePacific_Gambier = "Pacific/Gambier";
+static const char kZoneNamePacific_Gambier[] = "Pacific/Gambier";
 
 const extended::ZoneInfo kZonePacific_Gambier = {
   kZoneNamePacific_Gambier /*name*/,
@@ -15689,7 +15689,7 @@ static const extended::ZoneEra kZoneEraPacific_Guadalcanal[] = {
 
 };
 
-static const char* const kZoneNamePacific_Guadalcanal = "Pacific/Guadalcanal";
+static const char kZoneNamePacific_Guadalcanal[] = "Pacific/Guadalcanal";
 
 const extended::ZoneInfo kZonePacific_Guadalcanal = {
   kZoneNamePacific_Guadalcanal /*name*/,
@@ -15735,7 +15735,7 @@ static const extended::ZoneEra kZoneEraPacific_Guam[] = {
 
 };
 
-static const char* const kZoneNamePacific_Guam = "Pacific/Guam";
+static const char kZoneNamePacific_Guam[] = "Pacific/Guam";
 
 const extended::ZoneInfo kZonePacific_Guam = {
   kZoneNamePacific_Guam /*name*/,
@@ -15769,7 +15769,7 @@ static const extended::ZoneEra kZoneEraPacific_Honolulu[] = {
 
 };
 
-static const char* const kZoneNamePacific_Honolulu = "Pacific/Honolulu";
+static const char kZoneNamePacific_Honolulu[] = "Pacific/Honolulu";
 
 const extended::ZoneInfo kZonePacific_Honolulu = {
   kZoneNamePacific_Honolulu /*name*/,
@@ -15803,7 +15803,7 @@ static const extended::ZoneEra kZoneEraPacific_Kiritimati[] = {
 
 };
 
-static const char* const kZoneNamePacific_Kiritimati = "Pacific/Kiritimati";
+static const char kZoneNamePacific_Kiritimati[] = "Pacific/Kiritimati";
 
 const extended::ZoneInfo kZonePacific_Kiritimati = {
   kZoneNamePacific_Kiritimati /*name*/,
@@ -15849,7 +15849,7 @@ static const extended::ZoneEra kZoneEraPacific_Kosrae[] = {
 
 };
 
-static const char* const kZoneNamePacific_Kosrae = "Pacific/Kosrae";
+static const char kZoneNamePacific_Kosrae[] = "Pacific/Kosrae";
 
 const extended::ZoneInfo kZonePacific_Kosrae = {
   kZoneNamePacific_Kosrae /*name*/,
@@ -15883,7 +15883,7 @@ static const extended::ZoneEra kZoneEraPacific_Kwajalein[] = {
 
 };
 
-static const char* const kZoneNamePacific_Kwajalein = "Pacific/Kwajalein";
+static const char kZoneNamePacific_Kwajalein[] = "Pacific/Kwajalein";
 
 const extended::ZoneInfo kZonePacific_Kwajalein = {
   kZoneNamePacific_Kwajalein /*name*/,
@@ -15917,7 +15917,7 @@ static const extended::ZoneEra kZoneEraPacific_Majuro[] = {
 
 };
 
-static const char* const kZoneNamePacific_Majuro = "Pacific/Majuro";
+static const char kZoneNamePacific_Majuro[] = "Pacific/Majuro";
 
 const extended::ZoneInfo kZonePacific_Majuro = {
   kZoneNamePacific_Majuro /*name*/,
@@ -15951,7 +15951,7 @@ static const extended::ZoneEra kZoneEraPacific_Marquesas[] = {
 
 };
 
-static const char* const kZoneNamePacific_Marquesas = "Pacific/Marquesas";
+static const char kZoneNamePacific_Marquesas[] = "Pacific/Marquesas";
 
 const extended::ZoneInfo kZonePacific_Marquesas = {
   kZoneNamePacific_Marquesas /*name*/,
@@ -15985,7 +15985,7 @@ static const extended::ZoneEra kZoneEraPacific_Nauru[] = {
 
 };
 
-static const char* const kZoneNamePacific_Nauru = "Pacific/Nauru";
+static const char kZoneNamePacific_Nauru[] = "Pacific/Nauru";
 
 const extended::ZoneInfo kZonePacific_Nauru = {
   kZoneNamePacific_Nauru /*name*/,
@@ -16019,7 +16019,7 @@ static const extended::ZoneEra kZoneEraPacific_Niue[] = {
 
 };
 
-static const char* const kZoneNamePacific_Niue = "Pacific/Niue";
+static const char kZoneNamePacific_Niue[] = "Pacific/Niue";
 
 const extended::ZoneInfo kZonePacific_Niue = {
   kZoneNamePacific_Niue /*name*/,
@@ -16065,7 +16065,7 @@ static const extended::ZoneEra kZoneEraPacific_Norfolk[] = {
 
 };
 
-static const char* const kZoneNamePacific_Norfolk = "Pacific/Norfolk";
+static const char kZoneNamePacific_Norfolk[] = "Pacific/Norfolk";
 
 const extended::ZoneInfo kZonePacific_Norfolk = {
   kZoneNamePacific_Norfolk /*name*/,
@@ -16099,7 +16099,7 @@ static const extended::ZoneEra kZoneEraPacific_Noumea[] = {
 
 };
 
-static const char* const kZoneNamePacific_Noumea = "Pacific/Noumea";
+static const char kZoneNamePacific_Noumea[] = "Pacific/Noumea";
 
 const extended::ZoneInfo kZonePacific_Noumea = {
   kZoneNamePacific_Noumea /*name*/,
@@ -16133,7 +16133,7 @@ static const extended::ZoneEra kZoneEraPacific_Pago_Pago[] = {
 
 };
 
-static const char* const kZoneNamePacific_Pago_Pago = "Pacific/Pago_Pago";
+static const char kZoneNamePacific_Pago_Pago[] = "Pacific/Pago_Pago";
 
 const extended::ZoneInfo kZonePacific_Pago_Pago = {
   kZoneNamePacific_Pago_Pago /*name*/,
@@ -16167,7 +16167,7 @@ static const extended::ZoneEra kZoneEraPacific_Palau[] = {
 
 };
 
-static const char* const kZoneNamePacific_Palau = "Pacific/Palau";
+static const char kZoneNamePacific_Palau[] = "Pacific/Palau";
 
 const extended::ZoneInfo kZonePacific_Palau = {
   kZoneNamePacific_Palau /*name*/,
@@ -16201,7 +16201,7 @@ static const extended::ZoneEra kZoneEraPacific_Pitcairn[] = {
 
 };
 
-static const char* const kZoneNamePacific_Pitcairn = "Pacific/Pitcairn";
+static const char kZoneNamePacific_Pitcairn[] = "Pacific/Pitcairn";
 
 const extended::ZoneInfo kZonePacific_Pitcairn = {
   kZoneNamePacific_Pitcairn /*name*/,
@@ -16235,7 +16235,7 @@ static const extended::ZoneEra kZoneEraPacific_Pohnpei[] = {
 
 };
 
-static const char* const kZoneNamePacific_Pohnpei = "Pacific/Pohnpei";
+static const char kZoneNamePacific_Pohnpei[] = "Pacific/Pohnpei";
 
 const extended::ZoneInfo kZonePacific_Pohnpei = {
   kZoneNamePacific_Pohnpei /*name*/,
@@ -16269,7 +16269,7 @@ static const extended::ZoneEra kZoneEraPacific_Port_Moresby[] = {
 
 };
 
-static const char* const kZoneNamePacific_Port_Moresby = "Pacific/Port_Moresby";
+static const char kZoneNamePacific_Port_Moresby[] = "Pacific/Port_Moresby";
 
 const extended::ZoneInfo kZonePacific_Port_Moresby = {
   kZoneNamePacific_Port_Moresby /*name*/,
@@ -16303,7 +16303,7 @@ static const extended::ZoneEra kZoneEraPacific_Rarotonga[] = {
 
 };
 
-static const char* const kZoneNamePacific_Rarotonga = "Pacific/Rarotonga";
+static const char kZoneNamePacific_Rarotonga[] = "Pacific/Rarotonga";
 
 const extended::ZoneInfo kZonePacific_Rarotonga = {
   kZoneNamePacific_Rarotonga /*name*/,
@@ -16337,7 +16337,7 @@ static const extended::ZoneEra kZoneEraPacific_Tahiti[] = {
 
 };
 
-static const char* const kZoneNamePacific_Tahiti = "Pacific/Tahiti";
+static const char kZoneNamePacific_Tahiti[] = "Pacific/Tahiti";
 
 const extended::ZoneInfo kZonePacific_Tahiti = {
   kZoneNamePacific_Tahiti /*name*/,
@@ -16371,7 +16371,7 @@ static const extended::ZoneEra kZoneEraPacific_Tarawa[] = {
 
 };
 
-static const char* const kZoneNamePacific_Tarawa = "Pacific/Tarawa";
+static const char kZoneNamePacific_Tarawa[] = "Pacific/Tarawa";
 
 const extended::ZoneInfo kZonePacific_Tarawa = {
   kZoneNamePacific_Tarawa /*name*/,
@@ -16417,7 +16417,7 @@ static const extended::ZoneEra kZoneEraPacific_Tongatapu[] = {
 
 };
 
-static const char* const kZoneNamePacific_Tongatapu = "Pacific/Tongatapu";
+static const char kZoneNamePacific_Tongatapu[] = "Pacific/Tongatapu";
 
 const extended::ZoneInfo kZonePacific_Tongatapu = {
   kZoneNamePacific_Tongatapu /*name*/,
@@ -16451,7 +16451,7 @@ static const extended::ZoneEra kZoneEraPacific_Wake[] = {
 
 };
 
-static const char* const kZoneNamePacific_Wake = "Pacific/Wake";
+static const char kZoneNamePacific_Wake[] = "Pacific/Wake";
 
 const extended::ZoneInfo kZonePacific_Wake = {
   kZoneNamePacific_Wake /*name*/,
@@ -16485,7 +16485,7 @@ static const extended::ZoneEra kZoneEraPacific_Wallis[] = {
 
 };
 
-static const char* const kZoneNamePacific_Wallis = "Pacific/Wallis";
+static const char kZoneNamePacific_Wallis[] = "Pacific/Wallis";
 
 const extended::ZoneInfo kZonePacific_Wallis = {
   kZoneNamePacific_Wallis /*name*/,
@@ -16519,7 +16519,7 @@ static const extended::ZoneEra kZoneEraWET[] = {
 
 };
 
-static const char* const kZoneNameWET = "WET";
+static const char kZoneNameWET[] = "WET";
 
 const extended::ZoneInfo kZoneWET = {
   kZoneNameWET /*name*/,
