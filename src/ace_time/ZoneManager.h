@@ -7,6 +7,7 @@
 #define ACE_TIME_ZONE_MANAGER_H
 
 #include <stdint.h>
+#include <string.h> // strcmp(), strcmp_P()
 #include "common/flash.h"
 
 class BasicZoneManagerTest_Sorted_isSorted;

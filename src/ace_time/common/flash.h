@@ -30,6 +30,13 @@
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
 #elif defined(ESP8266)
   #include <pgmspace.h>
+
+  // ESP8266 2.5.2 defines strcmp_P() as a macro, which breaks ZoneManager
+  // because it needs the function pointer.
+  #undef strcmp_P
+  inline int strcmp_P(const char* str1, const char* str2P) {
+    return strncmp_P((str1), (str2P), SIZE_IRRELEVANT);
+  }
 #elif defined(ESP32)
   #include <pgmspace.h>
   // Fix incorrect definition of FPSTR in ESP32, see
