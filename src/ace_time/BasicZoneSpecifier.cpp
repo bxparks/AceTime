@@ -9,7 +9,11 @@
 namespace ace_time {
 
 void BasicZoneSpecifier::printTo(Print& printer) const {
-  printer.print(getZoneInfo()->name);
+#if ACE_TIME_USE_BASIC_PROGMEM
+  printer.print(FPSTR(mZoneInfo.name()));
+#else
+  printer.print(mZoneInfo.name());
+#endif
 }
 
 }

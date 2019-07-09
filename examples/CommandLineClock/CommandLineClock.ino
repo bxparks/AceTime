@@ -395,12 +395,12 @@ const CommandHandler* const COMMANDS[] = {
   &listCommand,
   &dateCommand,
   &syncCommand,
+#if SYNC_TYPE == SYNC_TYPE_MANUAL
+  &syncStatusCommand,
+#endif
   &timezoneCommand,
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   &wifiCommand,
-#endif
-#if SYNC_TYPE == SYNC_TYPE_MANUAL
-  &syncStatusCommand,
 #endif
 };
 uint8_t const NUM_COMMANDS = sizeof(COMMANDS) / sizeof(CommandHandler*);

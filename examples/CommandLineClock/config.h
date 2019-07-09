@@ -44,6 +44,6 @@
 // supportk both BasicZoneSpecifier and ExtendedZoneSpecifier at the same time.
 #define TIME_ZONE_TYPE_BASIC 1
 #define TIME_ZONE_TYPE_EXTENDED 2
-#define TIME_ZONE_TYPE TIME_ZONE_TYPE_EXTENDED
+#define TIME_ZONE_TYPE TIME_ZONE_TYPE_BASIC
 
 #endif
