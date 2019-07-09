@@ -27,10 +27,18 @@
 // Include the correct pgmspace.h depending on architecture
 #if defined(__AVR__) || defined(TEENSYDUINO)
   #include <avr/pgmspace.h>
-#elif defined(ESP8266) || defined(ESP32)
+  #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
+#elif defined(ESP8266)
   #include <pgmspace.h>
+#elif defined(ESP32)
+  #include <pgmspace.h>
+  // Fix incorrect definition of FPSTR in ESP32, see
+  // https://github.com/espressif/arduino-esp32/issues/1371
+  #undef FPSTR
+  #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
 #elif defined(__linux__) or defined(__APPLE__)
   #include <pgmspace.h>
+  #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
 #else
   #error Unsupported platform
 #endif

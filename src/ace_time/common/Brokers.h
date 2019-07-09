@@ -163,6 +163,8 @@ class DirectZoneInfoBroker {
 
     const ZI* zoneInfo() const { return mZoneInfo; }
 
+    const char* name() const { return mZoneInfo->name; }
+
     int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
 
     int16_t untilYear() const { return mZoneInfo->zoneContext->untilYear; }
@@ -175,6 +177,31 @@ class DirectZoneInfoBroker {
 
   private:
     const ZI* const mZoneInfo;
+};
+
+/**
+ * Data broker for accessing the ZoneRegistry in SRAM. The ZoneRegistry is an
+ * array of (const ZoneInfo*) in the zone_registry.cpp file.
+ */
+template <typename ZI>
+class DirectZoneRegistryBroker {
+  public:
+    DirectZoneRegistryBroker(const ZI* const* zoneRegistry):
+        mZoneRegistry(zoneRegistry) {}
+
+    // delete default copy constructor
+    DirectZoneRegistryBroker(const DirectZoneRegistryBroker&) = delete;
+
+    // delete default assignment operator
+    DirectZoneRegistryBroker& operator=(const DirectZoneRegistryBroker&) =
+        delete;
+
+    const ZI* zoneInfo(uint16_t i) const {
+      return mZoneRegistry[i];
+    }
+
+  private:
+    const ZI* const* const mZoneRegistry;
 };
 
 //----------------------------------------------------------------------------
@@ -324,6 +351,10 @@ class FlashZoneInfoBroker {
 
     const ZI* zoneInfo() const { return mZoneInfo; }
 
+    const char* name() const {
+      return (const char*) pgm_read_ptr(&mZoneInfo->name);
+    }
+
     int16_t startYear() const {
       const common::ZoneContext* zoneContext = (const common::ZoneContext*)
           pgm_read_ptr(&mZoneInfo->zoneContext);
@@ -349,6 +380,31 @@ class FlashZoneInfoBroker {
     const ZI* const mZoneInfo;
 };
 
+/**
+ * Data broker for accessing the ZoneRegistry in SRAM. The ZoneRegistry is an
+ * array of (const ZoneInfo*) in the zone_registry.cpp file.
+ */
+template <typename ZI>
+class FlashZoneRegistryBroker {
+  public:
+    explicit FlashZoneRegistryBroker(const ZI* const* zoneRegistry):
+        mZoneRegistry(zoneRegistry) {}
+
+    // use default copy constructor
+    FlashZoneRegistryBroker(const FlashZoneRegistryBroker&) = default;
+
+    // use default assignment operator
+    FlashZoneRegistryBroker& operator=(const FlashZoneRegistryBroker&) =
+        default;
+
+    const ZI* zoneInfo(uint16_t i) const {
+      return (const ZI*) pgm_read_ptr(&mZoneRegistry[i]);
+    }
+
+  private:
+    const ZI* const* mZoneRegistry;
+};
+
 }
 
 //----------------------------------------------------------------------------
@@ -356,21 +412,41 @@ class FlashZoneInfoBroker {
 namespace basic {
 
 #if ACE_TIME_USE_PROGMEM_BASIC
-typedef common::FlashZoneRuleBroker<basic::ZoneRule> ZoneRuleBroker;
-typedef common::FlashZonePolicyBroker<basic::ZonePolicy, basic::ZoneRule>
-    ZonePolicyBroker;
-typedef common::FlashZoneEraBroker<basic::ZoneEra, basic::ZonePolicy,
-    basic::ZoneRule> ZoneEraBroker;
-typedef common::FlashZoneInfoBroker<basic::ZoneInfo, basic::ZoneEra,
-    basic::ZonePolicy, basic::ZoneRule> ZoneInfoBroker;
+typedef common::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
+typedef common::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
+typedef common::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule> ZoneEraBroker;
+typedef common::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>
+    ZoneInfoBroker;
+typedef common::FlashZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
 #else
-typedef common::DirectZoneRuleBroker<basic::ZoneRule> ZoneRuleBroker;
-typedef common::DirectZonePolicyBroker<basic::ZonePolicy, basic::ZoneRule>
-    ZonePolicyBroker;
-typedef common::DirectZoneEraBroker<basic::ZoneEra, basic::ZonePolicy,
-    basic::ZoneRule> ZoneEraBroker;
-typedef common::DirectZoneInfoBroker<basic::ZoneInfo, basic::ZoneEra,
-    basic::ZonePolicy, basic::ZoneRule> ZoneInfoBroker;
+typedef common::DirectZoneRuleBroker<ZoneRule> ZoneRuleBroker;
+typedef common::DirectZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
+typedef common::DirectZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
+    ZoneEraBroker;
+typedef common::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>
+    ZoneInfoBroker;
+typedef common::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
+#endif
+
+}
+
+namespace extended {
+
+#if ACE_TIME_USE_PROGMEM_EXTENDED
+typedef common::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
+typedef common::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
+typedef common::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule> ZoneEraBroker;
+typedef common::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>
+    ZoneInfoBroker;
+typedef common::FlashZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
+#else
+typedef common::DirectZoneRuleBroker<ZoneRule> ZoneRuleBroker;
+typedef common::DirectZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
+typedef common::DirectZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
+    ZoneEraBroker;
+typedef common::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>
+    ZoneInfoBroker;
+typedef common::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
 #endif
 
 }
