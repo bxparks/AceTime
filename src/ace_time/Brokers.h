@@ -6,11 +6,12 @@
 #ifndef ACE_TIME_BROKERS_H
 #define ACE_TIME_BROKERS_H
 
+#include "common/common.h"
 #include "common/ZoneInfo.h"
 
 namespace ace_time {
 
-/** A pass-thru broker for accessing ZoneRule in SRAM. */
+/** Data broker for accessing ZoneRule in SRAM or PROGMEM. */
 template <typename ZR>
 class ZoneRuleBroker {
   public:
@@ -30,29 +31,74 @@ class ZoneRuleBroker {
 
     bool isNotNull() const { return mZoneRule != nullptr; }
 
-    int8_t fromYearTiny() const { return mZoneRule->fromYearTiny; }
+    int8_t fromYearTiny() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneRule->fromYearTiny;
+    #endif
+    }
 
-    int8_t toYearTiny() const { return mZoneRule->toYearTiny; }
+    int8_t toYearTiny() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneRule->toYearTiny;
+    #endif
+    }
 
-    int8_t inMonth() const { return mZoneRule->inMonth; }
+    int8_t inMonth() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneRule->inMonth;
+    #endif
+    }
 
-    int8_t onDayOfWeek() const { return mZoneRule->onDayOfWeek; }
+    int8_t onDayOfWeek() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneRule->onDayOfWeek;
+    #endif
+    }
 
-    int8_t onDayOfMonth() const { return mZoneRule->onDayOfMonth; }
+    int8_t onDayOfMonth() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneRule->onDayOfMonth;
+    #endif
+    }
 
-    int8_t atTimeCode() const { return mZoneRule->atTimeCode; }
+    int8_t atTimeCode() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneRule->atTimeCode;
+    #endif
+    }
 
-    int8_t atTimeModifier() const { return mZoneRule->atTimeModifier; }
+    int8_t atTimeModifier() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneRule->atTimeModifier;
+    #endif
+    }
 
-    int8_t deltaCode() const { return mZoneRule->deltaCode; }
+    int8_t deltaCode() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneRule->deltaCode;
+    #endif
+    }
 
-    uint8_t letter() const { return mZoneRule->letter; }
+    uint8_t letter() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneRule->letter;
+    #endif
+    }
 
   private:
     const ZR* mZoneRule;
 };
 
-/** A pass-thru broker for accessing ZonePolicy in SRAM. */
+/** Data broker for accessing ZonePolicy in SRAM or PROGMEM. */
 template <typename ZP, typename ZR>
 class ZonePolicyBroker {
   public:
@@ -69,17 +115,25 @@ class ZonePolicyBroker {
 
     bool isNotNull() const { return mZonePolicy != nullptr; }
 
-    uint8_t numRules() const { return mZonePolicy->numRules; }
+    uint8_t numRules() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZonePolicy->numRules;
+    #endif
+    }
 
     const ZoneRuleBroker<ZR> rule(uint8_t i) const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
       return ZoneRuleBroker<ZR>(&mZonePolicy->rules[i]);
+    #endif
     }
 
   private:
     const ZP* const mZonePolicy;
 };
 
-/** A pass-thru broker for accessing ZoneEra in SRAM. */
+/** Data broker for accessing ZoneEra in SRAM or PROGMEM. */
 template <typename ZE, typename ZP, typename ZR>
 class ZoneEraBroker {
   public:
@@ -96,21 +150,39 @@ class ZoneEraBroker {
     ZoneEraBroker& operator=(const ZoneEraBroker&) = default;
 
     const ZonePolicyBroker<ZP, ZR> zonePolicy() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
       return ZonePolicyBroker<ZP, ZR>(mZoneEra->zonePolicy);
+    #endif
     }
 
-    int8_t offsetCode() const { return mZoneEra->offsetCode; }
+    int8_t offsetCode() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneEra->offsetCode;
+    #endif
+    }
 
-    int8_t untilYearTiny() const { return mZoneEra->untilYearTiny; }
+    int8_t untilYearTiny() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneEra->untilYearTiny;
+    #endif
+    }
 
-    const char* format() const { return mZoneEra->format; }
+    const char* format() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
+      return mZoneEra->format;
+    #endif
+    }
 
   private:
     const ZE* mZoneEra;
 
 };
 
-/** A pass-thru broker for accessing ZoneInfo in SRAM. */
+/** Data broker for accessing ZoneInfo in SRAM or PROGMEM. */
 template <typename ZI, typename ZE, typename ZP, typename ZR>
 class ZoneInfoBroker {
   public:
@@ -126,19 +198,31 @@ class ZoneInfoBroker {
     const ZI* zoneInfo() const { return mZoneInfo; }
 
     int16_t startYear() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
       return mZoneInfo->zoneContext->startYear;
+    #endif
     }
 
     int16_t untilYear() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
       return mZoneInfo->zoneContext->untilYear;
+    #endif
     }
 
     uint8_t numEras() const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
       return mZoneInfo->numEras;
+    #endif
     }
 
     const ZoneEraBroker<ZE, ZP, ZR> era(uint8_t i) const {
+    #if ACE_TIME_USE_PROGMEM_BASIC
+    #else
       return ZoneEraBroker<ZE, ZP, ZR>(&mZoneInfo->eras[i]);
+    #endif
     }
 
   private:
