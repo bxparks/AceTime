@@ -7,6 +7,7 @@
 //
 // DO NOT EDIT
 
+#include <ace_time/common/flash.h>
 #include "zone_infos.h"
 #include "zone_registry.h"
 
@@ -16,7 +17,7 @@ namespace zonedb {
 //---------------------------------------------------------------------------
 // Zone registry. Sorted by zone name.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneRegistry[270] = {
+const basic::ZoneInfo* const kZoneRegistry[270] ACE_TIME_BASIC_PROGMEM = {
   &kZoneAfrica_Abidjan, // Africa/Abidjan
   &kZoneAfrica_Accra, // Africa/Accra
   &kZoneAfrica_Algiers, // Africa/Algiers

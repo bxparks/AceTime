@@ -2,6 +2,7 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
+#include <ace_time/common/flash.h>
 
 using namespace aunit;
 using namespace ace_time;
@@ -11,28 +12,35 @@ using namespace ace_time;
 // --------------------------------------------------------------------------
 
 test(BasicZoneManagerTest, getZoneInfo_Los_Angeles) {
-  BasicZoneManager zoneManager(zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
+  BasicZoneManager zoneManager(
+      zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
   assertTrue(zoneManager.isSorted());
 
   const basic::ZoneInfo* zoneInfo =
       zoneManager.getZoneInfo("America/Los_Angeles");
   assertTrue(zoneInfo != nullptr);
-  assertEqual(zoneInfo->name, "America/Los_Angeles");
+  const char* name = basic::ZoneInfoBroker(zoneInfo).name();
+#if ACE_TIME_USE_BASIC_PROGMEM
+  assertEqual(FPSTR(name), "America/Los_Angeles");
+#else
+  assertEqual(name, "America/Los_Angeles");
+#endif
 }
 
 test(BasicZoneManagerTest, getZoneInfo_not_found) {
-  BasicZoneManager zoneManager(zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
+  BasicZoneManager zoneManager(zonedb::kZoneRegistry,
+      zonedb::kZoneRegistrySize);
   const basic::ZoneInfo* zoneInfo = zoneManager.getZoneInfo("not found");
   assertTrue(zoneInfo == nullptr);
 }
 
 // --------------------------------------------------------------------------
-// Test ZoneManager::isSorted(), binarySearch(), linearSearch() for sorted
+// Test ZoneManager::isSorted(), binarySearch(), linearSearch() for *sorted*
 // registry. Sufficient to test BasicZoneManager only since they are the same
 // for ExtendedZoneManager.
 // --------------------------------------------------------------------------
 
-const basic::ZoneInfo* const kSortedRegistry[] = {
+const basic::ZoneInfo* const kSortedRegistry[] ACE_TIME_BASIC_PROGMEM = {
   &zonedb::kZoneAmerica_Chicago,
   &zonedb::kZoneAmerica_Denver,
   &zonedb::kZoneAmerica_Los_Angeles,
@@ -49,7 +57,12 @@ test(BasicZoneManagerTest_Sorted, linearSearch) {
   const basic::ZoneInfo *zi = BasicZoneManager::linearSearch(
       kSortedRegistry, sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*),
       "America/Los_Angeles");
-  assertEqual(zi->name, "America/Los_Angeles");
+  const char* name = basic::ZoneInfoBroker(zi).name();
+#if ACE_TIME_USE_BASIC_PROGMEM
+  assertEqual(FPSTR(name), "America/Los_Angeles");
+#else
+  assertEqual(name, "America/Los_Angeles");
+#endif
 
   zi = BasicZoneManager::linearSearch(kSortedRegistry,
       sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
@@ -60,7 +73,12 @@ test(BasicZoneManagerTest_Sorted, binarySearch) {
   const basic::ZoneInfo *zi = BasicZoneManager::binarySearch(
       kSortedRegistry, sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*),
       "America/Los_Angeles");
-  assertEqual(zi->name, "America/Los_Angeles");
+  const char* name = basic::ZoneInfoBroker(zi).name();
+#if ACE_TIME_USE_BASIC_PROGMEM
+  assertEqual(FPSTR(name), "America/Los_Angeles");
+#else
+  assertEqual(name, "America/Los_Angeles");
+#endif
 
   zi = BasicZoneManager::binarySearch(kSortedRegistry,
       sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
@@ -68,12 +86,12 @@ test(BasicZoneManagerTest_Sorted, binarySearch) {
 }
 
 // --------------------------------------------------------------------------
-// Test ZoneManager::isSorted(), binarySearch(), linearSearch() for UNsorted
+// Test ZoneManager::isSorted(), binarySearch(), linearSearch() for *unsorted*
 // registry. Sufficient to test BasicZoneManager only since they are the same
 // for ExtendedZoneManager.
 // --------------------------------------------------------------------------
 
-const basic::ZoneInfo* const kUnsortedRegistry[] = {
+const basic::ZoneInfo* const kUnsortedRegistry[] ACE_TIME_BASIC_PROGMEM = {
   &zonedb::kZoneAmerica_Chicago,
   &zonedb::kZoneAmerica_New_York,
   &zonedb::kZoneAmerica_Denver,
@@ -90,7 +108,12 @@ test(BasicZoneManagerTest_Unsorted, linearSearch) {
   const basic::ZoneInfo *zi = BasicZoneManager::linearSearch(
       kUnsortedRegistry, sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*),
       "America/Los_Angeles");
-  assertEqual(zi->name, "America/Los_Angeles");
+  const char* name = basic::ZoneInfoBroker(zi).name();
+#if ACE_TIME_USE_BASIC_PROGMEM
+  assertEqual(FPSTR(name), "America/Los_Angeles");
+#else
+  assertEqual(name, "America/Los_Angeles");
+#endif
 
   zi = BasicZoneManager::linearSearch(kUnsortedRegistry,
       sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");

@@ -33,8 +33,8 @@ class ArduinoGenerator:
     ZONE_STRINGS_H_FILE_NAME = 'zone_strings.h'
 
     def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 generate_zone_strings, start_year, until_year, zones_map,
-                 links_map, rules_map, removed_zones, removed_links,
+                 generate_zone_strings, start_year, until_year,
+                 zones_map, links_map, rules_map, removed_zones, removed_links,
                  removed_policies, notable_zones, notable_links,
                  notable_policies, format_strings, zone_strings, buf_sizes):
         self.scope = scope
@@ -200,6 +200,7 @@ extern const {scope}::ZonePolicy kPolicy{policyName};
 //
 // DO NOT EDIT
 
+#include <ace_time/common/flash.h>
 #include "zone_policies.h"
 
 namespace ace_time {{
@@ -219,13 +220,13 @@ namespace {dbNamespace} {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const {scope}::ZoneRule kZoneRules{policyName}[] = {{
+static const {scope}::ZoneRule kZoneRules{policyName}[] {progmem} = {{
 {ruleItems}
 }};
 
 {letterArray}
 
-const {scope}::ZonePolicy kPolicy{policyName} = {{
+const {scope}::ZonePolicy kPolicy{policyName} {progmem} = {{
   {numRules} /*numRules*/,
   kZoneRules{policyName} /*rules*/,
   {numLetters} /* numLetters */,
@@ -235,7 +236,7 @@ const {scope}::ZonePolicy kPolicy{policyName} = {{
 """
 
     ZONE_POLICIES_LETTER_ARRAY = """\
-static const char* const kLetters{policyName}[] = {{
+static const char* const kLetters{policyName}[] {progmem} = {{
 {letterItems}
 }};
 """
@@ -411,7 +412,8 @@ static const char* const kLetters{policyName}[] = {{
                 memoryLetters32 += len(name) + 1 + 4  # NUL terminated
             letterArray = self.ZONE_POLICIES_LETTER_ARRAY.format(
                 policyName=policyName,
-                letterItems=letterItems)
+                letterItems=letterItems,
+                progmem=_progmem(self.scope))
         else:
             letterArrayRef = 'nullptr'
             letterArray = ''
@@ -434,7 +436,8 @@ static const char* const kLetters{policyName}[] = {{
             ruleItems=rule_items,
             numLetters=numLetters,
             letterArrayRef=letterArrayRef,
-            letterArray=letterArray)
+            letterArray=letterArray,
+            progmem=_progmem(self.scope))
 
         return (policy_item, memory8, memory32)
 
@@ -553,6 +556,7 @@ extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; // {linkFullName} -> 
 //
 // DO NOT EDIT
 
+#include <ace_time/common/flash.h>
 #include "zone_policies.h"
 #include "zone_infos.h"
 
@@ -595,13 +599,13 @@ const common::ZoneContext kZoneContext = {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const {scope}::ZoneEra kZoneEra{zoneNormalizedName}[] = {{
+static const {scope}::ZoneEra kZoneEra{zoneNormalizedName}[] {progmem} = {{
 {eraItems}
 }};
 
-static const char kZoneName{zoneNormalizedName}[] = "{zoneFullName}";
+static const char kZoneName{zoneNormalizedName}[] {progmem} = "{zoneFullName}";
 
-const {scope}::ZoneInfo kZone{zoneNormalizedName} = {{
+const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
   kZoneName{zoneNormalizedName} /*name*/,
   &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
@@ -636,9 +640,9 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
     SIZEOF_ZONE_INFO_32 = 14
 
     def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 start_year, until_year, zones_map, links_map, rules_map,
-                 removed_zones, removed_links, removed_policies, notable_zones,
-                 notable_links, notable_policies, buf_sizes):
+                 start_year, until_year, zones_map, links_map,
+                 rules_map, removed_zones, removed_links, removed_policies,
+                 notable_zones, notable_links, notable_policies, buf_sizes):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -783,7 +787,8 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             stringLength=string_length,
             memory8=memory8,
             memory32=memory32,
-            eraItems=era_items)
+            eraItems=era_items,
+            progmem=_progmem(self.scope))
         return (info_item, string_length)
 
     def _generate_era_item(self, zone_name, era):
@@ -851,6 +856,7 @@ class ZoneStringsGenerator:
 //
 // DO NOT EDIT
 
+#include <ace_time/common/flash.h>
 #include "zone_strings.h"
 
 namespace ace_time {{
@@ -970,6 +976,7 @@ class ZoneRegistryGenerator:
 //
 // DO NOT EDIT
 
+#include <ace_time/common/flash.h>
 #include "zone_infos.h"
 #include "zone_registry.h"
 
@@ -979,7 +986,7 @@ namespace {dbNamespace} {{
 //---------------------------------------------------------------------------
 // Zone registry. Sorted by zone name.
 //---------------------------------------------------------------------------
-const {scope}::ZoneInfo* const kZoneRegistry[{numZones}] = {{
+const {scope}::ZoneInfo* const kZoneRegistry[{numZones}] {progmem} = {{
 {zoneRegistryItems}
 }};
 
@@ -1036,7 +1043,8 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map),
-            zoneRegistryItems=zone_registry_items)
+            zoneRegistryItems=zone_registry_items,
+            progmem=_progmem(self.scope))
 
     def generate_registry_h(self):
         return self.ZONE_REGISTRY_H_FILE.format(
@@ -1046,6 +1054,12 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map))
+
+def _progmem(scope):
+    """Return the appropriate PROGMEM marker given the scope.
+    """
+    return ('ACE_TIME_BASIC_PROGMEM' if scope == 'basic'
+        else 'ACE_TIME_EXTENDED_PROGMEM')
 
 def to_tiny_year(year):
     if year == MAX_YEAR:
