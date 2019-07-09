@@ -216,6 +216,9 @@ struct Transition {
   /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
   char abbrev[kAbbrevSize];
 
+  /** Storage for the single letter 'letter' field if 'rule' is not null. */
+  char letterBuf[2];
+
   /** The calculated transition time of the given rule. */
   acetime_t startEpochSeconds;
 
@@ -255,30 +258,16 @@ struct Transition {
    * Return the letter string. Returns nullptr if the RULES column is empty
    * since that means that the ZoneRule is not used, which means LETTER does
    * not exist. A LETTER of '-' is returned as an empty string "".
-   *
-   * Not thread safe! (The alternative would be to make Transition.letter into
-   * a char[2], making each Transtion be one byte bigger. Maybe that's the
-   * better implementation, not sure.)
    */
   const char* letter() const {
-    // Char buffer to allow a single letter to be returned as a (char*).
-    // Not thread-safe.
-    static char letterBuf[2];
-
     // RULES column is '-' or hh:mm, so return nullptr to indicate this.
     if (!rule) {
       return nullptr;
     }
 
     // RULES point to a named rule, and LETTER is a single, printable
-    // character. However, if it's a '-', convert into an empty string "".
+    // character.
     if (rule->letter >= 32) {
-      if (rule->letter == '-') {
-        letterBuf[0] = '\0';
-      } else {
-        letterBuf[0] = rule->letter;
-        letterBuf[1] = '\0';
-      }
       return letterBuf;
     }
 
@@ -288,9 +277,9 @@ struct Transition {
     const ZonePolicy* policy = match->era->zonePolicy;
     uint8_t numLetters = policy->numLetters;
     if (rule->letter >= numLetters) {
-      // This should never happen unless there is a programming error.
-      // If it does, return an empty string.
-      letterBuf[0] = '\0';
+      // This should never happen unless there is a programming error. If it
+      // does, return an empty string. (createTransitionForYear() sets
+      // letterBuf to a NUL terminated empty string if rule->letter < 32)
       return letterBuf;
     }
 
@@ -1079,17 +1068,36 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     /**
      * Populate Transition 't' using the startTime from 'rule' (if it exists)
      * else from the start time of 'match'. Fills in 'offsetCode' and
-     * 'deltaCode' as well.
+     * 'deltaCode' as well. 'letterBuf' is also well-defined, either an empty
+     * string, or filled with rule->letter with a NUL terminator.
      */
     static void createTransitionForYear(extended::Transition* t, int8_t year,
         const extended::ZoneRule* rule,
         const extended::ZoneMatch* match) {
       t->match = match;
       t->rule = rule;
-      t->transitionTime = (rule) ? getTransitionTime(year, rule)
-                                 : match->startDateTime;
       t->offsetCode = match->era->offsetCode;
-      t->deltaCode = (rule) ? rule->deltaCode : match->era->deltaCode;
+      t->letterBuf[0] = '\0';
+
+      if (rule) {
+        t->transitionTime = getTransitionTime(year, rule);
+        t->deltaCode = rule->deltaCode;
+
+        if (rule->letter >= 32) {
+          // If LETTER is a '-', treat it the same as an empty string.
+          if (rule->letter != '-') {
+            t->letterBuf[0] = rule->letter;
+            t->letterBuf[1] = '\0';
+          }
+        } else {
+          // rule->letter is a long string, so is referenced as an offset index
+          // into the ZonePolicy.letters array. The string cannot fit in
+          // letterBuf, so will be retrieved by the letter() method below.
+        }
+      } else {
+        t->transitionTime = match->startDateTime;
+        t->deltaCode = match->era->deltaCode;
+      }
     }
 
     /**
