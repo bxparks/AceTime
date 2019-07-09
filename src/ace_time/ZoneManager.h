@@ -154,7 +154,7 @@ inline int strcmp_PP(const char* a, const char* b) {
  * Concrete template instantiation of ZoneManager for basic::ZoneInfo, which
  * can be used with BasicZoneSpecifier.
  */
-#if ACE_TIME_USE_PROGMEM_BASIC
+#if ACE_TIME_USE_BASIC_PROGMEM
 typedef ZoneManager<basic::ZoneInfo, basic::ZoneRegistryBroker,
     basic::ZoneInfoBroker, strcmp_P, strcmp_PP> BasicZoneManager;
 #else
@@ -166,7 +166,7 @@ typedef ZoneManager<basic::ZoneInfo, basic::ZoneRegistryBroker,
  * Concrete template instantiation of ZoneManager for extended::ZoneInfo, which
  * can be used with ExtendedZoneSpecifier.
  */
-#if ACE_TIME_USE_PROGMEM_EXTENDED
+#if ACE_TIME_USE_EXTENDED_PROGMEM
 typedef ZoneManager<extended::ZoneInfo, extended::ZoneRegistryBroker,
     extended::ZoneInfoBroker, strcmp_P, strcmp_PP> ExtendedZoneManager;
 #else
