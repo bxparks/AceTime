@@ -123,6 +123,8 @@ class ZoneInfoBroker {
     // delete default assignment operator
     ZoneInfoBroker& operator=(const ZoneInfoBroker&) = delete;
 
+    const ZI* zoneInfo() const { return mZoneInfo; }
+
     int16_t startYear() const {
       return mZoneInfo->zoneContext->startYear;
     }

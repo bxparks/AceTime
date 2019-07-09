@@ -182,7 +182,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         mZoneInfo(zoneInfo) {}
 
     /** Return the underlying ZoneInfo. */
-    const basic::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
+    const basic::ZoneInfo* getZoneInfo() const { return mZoneInfo.zoneInfo(); }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
@@ -419,8 +419,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       mYear = year;
       mNumTransitions = 0; // clear cache
 
-      BasicZoneInfoBroker broker(mZoneInfo);
-      if (year < broker.startYear() - 1 || broker.untilYear() < year) {
+      if (year < mZoneInfo.startYear() - 1 || mZoneInfo.untilYear() < year) {
         return false;
       }
 
@@ -618,13 +617,12 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * largest untilYearTiny is 127, the largest supported 'year' is 2126.
      */
     const BasicZoneEraBroker findZoneEra(int16_t year) const {
-      BasicZoneInfoBroker zoneInfo(mZoneInfo);
-      for (uint8_t i = 0; i < zoneInfo.numEras(); i++) {
-        const BasicZoneEraBroker era = zoneInfo.era(i);
+      for (uint8_t i = 0; i < mZoneInfo.numEras(); i++) {
+        const BasicZoneEraBroker era = mZoneInfo.era(i);
         if (year < era.untilYearTiny() + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
-      return zoneInfo.era(zoneInfo.numEras() - 1);
+      return mZoneInfo.era(mZoneInfo.numEras() - 1);
     }
 
     /**
@@ -639,13 +637,12 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * untilYear, interpreted as 'max', and set to 127.
      */
     const BasicZoneEraBroker findZoneEraPriorTo(int16_t year) const {
-      const BasicZoneInfoBroker zoneInfo(mZoneInfo);
-      for (uint8_t i = 0; i < zoneInfo.numEras(); i++) {
-        const BasicZoneEraBroker era = zoneInfo.era(i);
+      for (uint8_t i = 0; i < mZoneInfo.numEras(); i++) {
+        const BasicZoneEraBroker era = mZoneInfo.era(i);
         if (year <= era.untilYearTiny() + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
-      return zoneInfo.era(zoneInfo.numEras() - 1);
+      return mZoneInfo.era(mZoneInfo.numEras() - 1);
     }
 
     /**
@@ -860,7 +857,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       return closestMatch;
     }
 
-    const basic::ZoneInfo* const mZoneInfo;
+    const BasicZoneInfoBroker mZoneInfo;
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;
