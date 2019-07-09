@@ -599,7 +599,7 @@ static const {scope}::ZoneEra kZoneEra{zoneNormalizedName}[] = {{
 {eraItems}
 }};
 
-static const char* const kZoneName{zoneNormalizedName} = "{zoneFullName}";
+static const char kZoneName{zoneNormalizedName}[] = "{zoneFullName}";
 
 const {scope}::ZoneInfo kZone{zoneNormalizedName} = {{
   kZoneName{zoneNormalizedName} /*name*/,
