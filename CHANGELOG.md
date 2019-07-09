@@ -6,6 +6,8 @@
       2005 to 20012, IN Apr, ON Fri<=1`.
     * Add BasicZoneManager and ExtendedZoneManager to retrieve ZoneInfo
       from TZ Database string identifier (e.g. "America/Los_Angeles").
+    * Add compile-time option (`ACE_TIME_USE_BASIC_PROGMEM`) to put zoneinfo
+      files for BasicZoneSpecifier into PROGMEM.
 * 0.3.1 (2019-06-30, TZ DB version 2019a, beta)
     * Add copyright notices on source files.
     * Fix typos and formatting of `README.md` and `USER_GUIDE.md`.
