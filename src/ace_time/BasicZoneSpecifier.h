@@ -463,14 +463,35 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         }
       }
 
-      mPrevTransition = {
-        era,
-        latest /*rule*/,
-        priorYearTiny /*yearTiny*/,
+      mPrevTransition = createTransition(era, latest, priorYearTiny);
+    }
+
+    /**
+     * Create a Transition with the 'deltaCode' and 'offsetCode' filled in so
+     * that subsequent processing does not need to retrieve those again
+     * (potentially from PROGMEM).
+     */
+    static basic::Transition createTransition(const basic::ZoneEra* era,
+        const basic::ZoneRule* rule, int8_t yearTiny) {
+      int8_t offsetCode;
+      int8_t deltaCode;
+      char letter;
+      if (rule == nullptr) {
+        deltaCode = 0;
+        offsetCode = era->offsetCode;
+        letter = 0;
+      } else {
+        deltaCode = rule->deltaCode;
+        offsetCode = era->offsetCode + deltaCode;
+        letter = rule->letter;
+      }
+
+      return {
+        era, rule, yearTiny,
         0 /*epochSeconds*/,
-        0 /*offsetCode*/,
-        0 /*deltaCode*/,
-        {0} /*abbrev*/
+        offsetCode,
+        deltaCode,
+        {letter} /*abbrev*/
       };
     }
 
@@ -565,15 +586,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
       // insert new element at the end of the list
       int8_t yearTiny = year - LocalDate::kEpochYear;
-      mTransitions[mNumTransitions] = {
-        era,
-        rule,
-        yearTiny,
-        0 /*epochSeconds*/,
-        0 /*offsetCode*/,
-        0 /*deltaCode*/,
-        {0} /*abbrev*/
-      };
+      mTransitions[mNumTransitions] = createTransition( era, rule, yearTiny);
       mNumTransitions++;
 
       // perform an insertion sort
@@ -625,20 +638,18 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       return &mZoneInfo->eras[mZoneInfo->numEras - 1];
     }
 
-    /** Calculate the epochSeconds and offsetCode of each Transition. */
+    /**
+     * Calculate the startEpochSeconds of each Transition. (previous, this used
+     * to calculate the offsetCode and deltaCode as well, but it turned out
+     * that they could be calculated early in createTransition()). The start
+     * time of a given transition is defined as the "wall clock", which means
+     * that it is defined in terms of the *previous* Transition.
+     */
     void calcTransitions() const {
-      // Calculate epochSeconds and offsetCode for the prevTransition.
+      // Set the initial startEpochSeconds to be -Infinity
       mPrevTransition.startEpochSeconds = kMinEpochSeconds;
-      int8_t deltaCode = (mPrevTransition.rule == nullptr)
-          ? 0 : mPrevTransition.rule->deltaCode;
-      mPrevTransition.deltaCode = deltaCode;
-      mPrevTransition.offsetCode = mPrevTransition.era->offsetCode + deltaCode;
       const basic::Transition* prevTransition = &mPrevTransition;
 
-      // Loop through Transition items to calculate:
-      // 1) Transition::startEpochSeconds
-      // 2) Transition::offsetCode
-      // 3) Transition::deltaCode
       for (uint8_t i = 0; i < mNumTransitions; i++) {
         basic::Transition& transition = mTransitions[i];
         const int16_t year = transition.yearTiny + LocalDate::kEpochYear;
@@ -660,8 +671,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
               year, 1, 1, 0, 0, 0,
               TimeOffset::forOffsetCode(offsetCode));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
-          transition.offsetCode = transition.era->offsetCode;
-          transition.deltaCode = 0;
         } else {
           // In this case, the transition points to a named ZonePolicy, which
           // means that there could be multiple ZoneRules associated with the
@@ -681,18 +690,14 @@ class BasicZoneSpecifier: public ZoneSpecifier {
               transition.rule->atTimeModifier);
 
           // startDateTime
-          const uint8_t atHour = transition.rule->atTimeCode / 4;
-          const uint8_t atMinute = (transition.rule->atTimeCode % 4) * 15;
+          const uint8_t timeCode = transition.rule->atTimeCode;
+          const uint8_t atHour = timeCode / 4;
+          const uint8_t atMinute = (timeCode % 4) * 15;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, monthDay.month, monthDay.day,
               atHour, atMinute, 0 /*second*/,
               TimeOffset::forOffsetCode(offsetCode));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
-
-          // Determine the effective offset code
-          int8_t deltaCode = transition.rule->deltaCode;
-          transition.deltaCode = deltaCode;
-          transition.offsetCode = transition.era->offsetCode + deltaCode;
         }
 
         prevTransition = &transition;
@@ -730,8 +735,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
           transition->abbrev,
           basic::Transition::kAbbrevSize,
           transition->era->format,
-          (transition->rule) ? transition->rule->deltaCode : 0,
-          (transition->rule) ? transition->rule->letter : '\0');
+          transition->deltaCode,
+          transition->abbrev[0]);
     }
 
     /**
