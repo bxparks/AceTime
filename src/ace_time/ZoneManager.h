@@ -7,7 +7,7 @@
 #define ACE_TIME_ZONE_MANAGER_H
 
 #include <stdint.h>
-#include "common/common.h"
+#include "common/flash.h"
 
 class BasicZoneManagerTest_Sorted_isSorted;
 class BasicZoneManagerTest_Sorted_linearSearch;

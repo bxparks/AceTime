@@ -116,13 +116,6 @@ def main():
         '--db_namespace',
         help='C++ namespace for the zonedb files (default: zonedb or zonedbx)')
 
-    # For language=arduino, whether to generate zoneinfo files in PROGMEM (i.e.
-    # flash memory).
-    parser.add_argument(
-        '--progmem',
-        help='Generate zoneinfo files in PROGMEM',
-        action="store_true")
-
     # Enable zone_strings.{h,cpp} if requested
     parser.add_argument(
         '--generate_zone_strings',
@@ -268,7 +261,6 @@ def main():
                 tz_files=Extractor.ZONE_FILES,
                 scope=args.scope,
                 db_namespace=db_namespace,
-                progmem=args.progmem,
                 generate_zone_strings=args.generate_zone_strings,
                 start_year=args.start_year,
                 until_year=args.until_year,

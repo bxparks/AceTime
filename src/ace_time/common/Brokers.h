@@ -37,16 +37,8 @@
  * BasicZoneSpecifier and ExtendedZoneSpecifier respectively.
  */
 
-#include "common.h"
+#include "flash.h"
 #include "ZoneInfo.h"
-
-#if defined(__AVR__) || defined(TEENSYDUINO)
-  #include <avr/pgmspace.h>
-#elif defined(ESP8266) || defined(ESP32) || defined(__linux__) || defined(__APPLE__)
-  #include <pgmspace.h>
-#else
-  #error Unsupported platform
-#endif
 
 namespace ace_time {
 
@@ -333,11 +325,15 @@ class FlashZoneInfoBroker {
     const ZI* zoneInfo() const { return mZoneInfo; }
 
     int16_t startYear() const {
-      return pgm_read_word(&mZoneInfo->zoneContext->startYear);
+      const common::ZoneContext* zoneContext = (const common::ZoneContext*)
+          pgm_read_ptr(&mZoneInfo->zoneContext);
+      return zoneContext->startYear;
     }
 
     int16_t untilYear() const {
-      return pgm_read_word(&mZoneInfo->zoneContext->untilYear);
+      const common::ZoneContext* zoneContext = (const common::ZoneContext*)
+          pgm_read_ptr(&mZoneInfo->zoneContext);
+      return zoneContext->untilYear;
     }
 
     uint8_t numEras() const {

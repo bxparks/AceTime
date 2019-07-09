@@ -8,12 +8,6 @@
 
 #include <stdint.h>
 
-/** Use PROGMEM for BasicZoneSpecifier. */
-#define ACE_TIME_USE_PROGMEM_BASIC 0
-
-/** Use PROGMEM for ExtendedZoneSpecifier. */
-#define ACE_TIME_USE_PROGMEM_EXTENDED 0
-
 namespace ace_time {
 
 /**

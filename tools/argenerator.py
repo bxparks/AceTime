@@ -33,7 +33,7 @@ class ArduinoGenerator:
     ZONE_STRINGS_H_FILE_NAME = 'zone_strings.h'
 
     def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 progmem, generate_zone_strings, start_year, until_year,
+                 generate_zone_strings, start_year, until_year,
                  zones_map, links_map, rules_map, removed_zones, removed_links,
                  removed_policies, notable_zones, notable_links,
                  notable_policies, format_strings, zone_strings, buf_sizes):
@@ -47,7 +47,6 @@ class ArduinoGenerator:
             tz_files=tz_files,
             scope=scope,
             db_namespace=db_namespace,
-            progmem=progmem,
             zones_map=zones_map,
             rules_map=rules_map,
             removed_zones=removed_zones,
@@ -60,7 +59,6 @@ class ArduinoGenerator:
             tz_files=tz_files,
             scope=scope,
             db_namespace=db_namespace,
-            progmem=progmem,
             start_year=start_year,
             until_year=until_year,
             zones_map=zones_map,
@@ -79,7 +77,6 @@ class ArduinoGenerator:
             tz_files=tz_files,
             scope=scope,
             db_namespace=db_namespace,
-            progmem=progmem,
             zones_map=zones_map)
 
         if generate_zone_strings:
@@ -89,7 +86,6 @@ class ArduinoGenerator:
                 tz_files=tz_files,
                 scope=scope,
                 db_namespace=db_namespace,
-                progmem=progmem,
                 zones_map=zones_map,
                 rules_map=rules_map,
                 removed_zones=removed_zones,
@@ -204,6 +200,7 @@ extern const {scope}::ZonePolicy kPolicy{policyName};
 //
 // DO NOT EDIT
 
+#include "../common/flash.h"
 #include "zone_policies.h"
 
 namespace ace_time {{
@@ -265,7 +262,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
     SIZEOF_ZONE_POLICY_32 = 10
 
     def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 progmem, zones_map, rules_map,
+                 zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
                  notable_policies):
         self.invocation = invocation
@@ -273,7 +270,6 @@ static const char* const kLetters{policyName}[] {progmem} = {{
         self.tz_files = tz_files
         self.scope = scope
         self.db_namespace = db_namespace
-        self.progmem = progmem
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.removed_zones = removed_zones
@@ -417,7 +413,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             letterArray = self.ZONE_POLICIES_LETTER_ARRAY.format(
                 policyName=policyName,
                 letterItems=letterItems,
-                progmem='PROGMEM' if self.progmem else '')
+                progmem=_progmem(self.scope))
         else:
             letterArrayRef = 'nullptr'
             letterArray = ''
@@ -441,7 +437,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             numLetters=numLetters,
             letterArrayRef=letterArrayRef,
             letterArray=letterArray,
-            progmem='PROGMEM' if self.progmem else '')
+            progmem=_progmem(self.scope))
 
         return (policy_item, memory8, memory32)
 
@@ -560,6 +556,7 @@ extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; // {linkFullName} -> 
 //
 // DO NOT EDIT
 
+#include "../common/flash.h"
 #include "zone_policies.h"
 #include "zone_infos.h"
 
@@ -643,7 +640,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
     SIZEOF_ZONE_INFO_32 = 14
 
     def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 progmem, start_year, until_year, zones_map, links_map,
+                 start_year, until_year, zones_map, links_map,
                  rules_map, removed_zones, removed_links, removed_policies,
                  notable_zones, notable_links, notable_policies, buf_sizes):
         self.invocation = invocation
@@ -651,7 +648,6 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         self.tz_files = tz_files
         self.scope = scope
         self.db_namespace = db_namespace
-        self.progmem = progmem
         self.start_year = start_year
         self.until_year = until_year
         self.zones_map = zones_map
@@ -792,7 +788,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             memory8=memory8,
             memory32=memory32,
             eraItems=era_items,
-            progmem='PROGMEM' if self.progmem else '')
+            progmem=_progmem(self.scope))
         return (info_item, string_length)
 
     def _generate_era_item(self, zone_name, era):
@@ -860,6 +856,7 @@ class ZoneStringsGenerator:
 //
 // DO NOT EDIT
 
+#include "../common/flash.h"
 #include "zone_strings.h"
 
 namespace ace_time {{
@@ -913,7 +910,7 @@ extern const char* const kZoneStrings[];
 """
 
     def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 progmem, zones_map, rules_map,
+                 zones_map, rules_map,
                  removed_zones, removed_policies, notable_zones,
                  notable_policies, format_strings, zone_strings):
         self.invocation = invocation
@@ -921,7 +918,6 @@ extern const char* const kZoneStrings[];
         self.tz_files = tz_files
         self.scope = scope
         self.db_namespace = db_namespace
-        self.progmem = progmem
         self.zones_map = zones_map
         self.rules_map = rules_map
         self.removed_zones = removed_zones
@@ -980,6 +976,7 @@ class ZoneRegistryGenerator:
 //
 // DO NOT EDIT
 
+#include "../common/flash.h"
 #include "zone_infos.h"
 #include "zone_registry.h"
 
@@ -1024,13 +1021,12 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
 #endif
 """
     def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 progmem, zones_map):
+                 zones_map):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
         self.scope = scope
         self.db_namespace = db_namespace
-        self.progmem = progmem
         self.zones_map = zones_map
 
         self.db_header_namespace = self.db_namespace.upper()
@@ -1048,7 +1044,7 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map),
             zoneRegistryItems=zone_registry_items,
-            progmem='PROGMEM' if self.progmem else '')
+            progmem=_progmem(self.scope))
 
     def generate_registry_h(self):
         return self.ZONE_REGISTRY_H_FILE.format(
@@ -1058,6 +1054,12 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map))
+
+def _progmem(scope):
+    """Return the appropriate PROGMEM marker given the scope.
+    """
+    return ('ACE_TIME_BASIC_PROGMEM' if scope == 'basic'
+        else 'ACE_TIME_EXTENDED_PROGMEM')
 
 def to_tiny_year(year):
     if year == MAX_YEAR:
