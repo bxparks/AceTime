@@ -12,7 +12,9 @@
 
 class BasicZoneManagerTest_Sorted_isSorted;
 class BasicZoneManagerTest_Sorted_linearSearch;
+class BasicZoneManagerTest_Sorted_linearSearch_not_found;
 class BasicZoneManagerTest_Sorted_binarySearch;
+class BasicZoneManagerTest_Sorted_binarySearch_not_found;
 class BasicZoneManagerTest_Unsorted_isSorted;
 class BasicZoneManagerTest_Unsorted_linearSearch;
 
@@ -65,7 +67,9 @@ class ZoneManager {
   protected:
     friend class ::BasicZoneManagerTest_Sorted_isSorted;
     friend class ::BasicZoneManagerTest_Sorted_linearSearch;
+    friend class ::BasicZoneManagerTest_Sorted_linearSearch_not_found;
     friend class ::BasicZoneManagerTest_Sorted_binarySearch;
+    friend class ::BasicZoneManagerTest_Sorted_binarySearch_not_found;
     friend class ::BasicZoneManagerTest_Unsorted_isSorted;
     friend class ::BasicZoneManagerTest_Unsorted_linearSearch;
 
@@ -106,24 +110,17 @@ class ZoneManager {
       uint16_t a = 0;
       uint16_t b = registrySize - 1;
       const ZRB zoneRegistry(zr);
-      while (b - a > 0) {
-        uint16_t i = (a + b) / 2;
-        const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
+      while (true) {
+        uint16_t c = (a + b) / 2;
+        const ZI* zoneInfo = zoneRegistry.zoneInfo(c);
         int8_t compare = STRCMP_P(name, ZIB(zoneInfo).name());
+        if (compare == 0) return zoneInfo;
+        if (a == b) return nullptr;
         if (compare < 0) {
-          b = i - 1;
-        } else if (compare > 0) {
-          a = i + 1;
+          b = c - 1;
         } else {
-          return zoneInfo;
+          a = c + 1;
         }
-      }
-
-      const ZI* zi = zoneRegistry.zoneInfo(a);
-      if (STRCMP_P(name, ZIB(zi).name()) == 0) {
-        return zi;
-      } else {
-        return nullptr;
       }
     }
 

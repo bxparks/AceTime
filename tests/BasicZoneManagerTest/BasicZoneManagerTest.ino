@@ -48,16 +48,16 @@ const basic::ZoneInfo* const kSortedRegistry[] ACE_TIME_BASIC_PROGMEM = {
   &zonedb::kZoneAmerica_New_York,
 };
 
+const uint16_t kNumSortedEntries =
+    sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*);
+
 test(BasicZoneManagerTest_Sorted, isSorted) {
-  bool isSorted = BasicZoneManager::isSorted(
-      kSortedRegistry, sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*));
-  assertTrue(isSorted);
+  assertTrue(BasicZoneManager::isSorted(kSortedRegistry, kNumSortedEntries));
 }
 
 test(BasicZoneManagerTest_Sorted, linearSearch) {
-  const basic::ZoneInfo *zi = BasicZoneManager::linearSearch(
-      kSortedRegistry, sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*),
-      "America/Los_Angeles");
+  const basic::ZoneInfo* zi = BasicZoneManager::linearSearch(
+      kSortedRegistry, kNumSortedEntries, "America/Los_Angeles");
 
   const char* name = basic::ZoneInfoBroker(zi).name();
 #if ACE_TIME_USE_BASIC_PROGMEM
@@ -65,25 +65,58 @@ test(BasicZoneManagerTest_Sorted, linearSearch) {
 #else
   assertEqual(name, "America/Los_Angeles");
 #endif
+}
 
-  zi = BasicZoneManager::linearSearch(kSortedRegistry,
-      sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
+test(BasicZoneManagerTest_Sorted, linearSearch_not_found) {
+  const basic::ZoneInfo* zi = BasicZoneManager::linearSearch(kSortedRegistry,
+      kNumSortedEntries, "America/NotFound");
   assertTrue(zi == nullptr);
 }
 
 test(BasicZoneManagerTest_Sorted, binarySearch) {
-  const basic::ZoneInfo *zi = BasicZoneManager::binarySearch(
-      kSortedRegistry, sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*),
-      "America/Los_Angeles");
+  const basic::ZoneInfo* zi;
+  const char* name;
 
-  const char* name = basic::ZoneInfoBroker(zi).name();
+  zi = BasicZoneManager::binarySearch(
+      kSortedRegistry, kNumSortedEntries, "America/Chicago");
+  name = basic::ZoneInfoBroker(zi).name();
+#if ACE_TIME_USE_BASIC_PROGMEM
+  assertEqual(FPSTR(name), "America/Chicago");
+#else
+  assertEqual(name, "America/Chicago");
+#endif
+
+  zi = BasicZoneManager::binarySearch(
+      kSortedRegistry, kNumSortedEntries, "America/Denver");
+  name = basic::ZoneInfoBroker(zi).name();
+#if ACE_TIME_USE_BASIC_PROGMEM
+  assertEqual(FPSTR(name), "America/Denver");
+#else
+  assertEqual(name, "America/Denver");
+#endif
+
+  zi = BasicZoneManager::binarySearch(
+      kSortedRegistry, kNumSortedEntries, "America/Los_Angeles");
+  name = basic::ZoneInfoBroker(zi).name();
 #if ACE_TIME_USE_BASIC_PROGMEM
   assertEqual(FPSTR(name), "America/Los_Angeles");
 #else
   assertEqual(name, "America/Los_Angeles");
 #endif
 
-  zi = BasicZoneManager::binarySearch(kSortedRegistry,
+  zi = BasicZoneManager::binarySearch(
+      kSortedRegistry, kNumSortedEntries, "America/New_York");
+  name = basic::ZoneInfoBroker(zi).name();
+#if ACE_TIME_USE_BASIC_PROGMEM
+  assertEqual(FPSTR(name), "America/New_York");
+#else
+  assertEqual(name, "America/New_York");
+#endif
+
+}
+
+test(BasicZoneManagerTest_Sorted, binarySearch_not_found) {
+  const basic::ZoneInfo* zi = BasicZoneManager::binarySearch(kSortedRegistry,
       sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
   assertTrue(zi == nullptr);
 }
@@ -108,7 +141,7 @@ test(BasicZoneManagerTest_Unsorted, isSorted) {
 }
 
 test(BasicZoneManagerTest_Unsorted, linearSearch) {
-  const basic::ZoneInfo *zi = BasicZoneManager::linearSearch(
+  const basic::ZoneInfo* zi = BasicZoneManager::linearSearch(
       kUnsortedRegistry, sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*),
       "America/Los_Angeles");
 
