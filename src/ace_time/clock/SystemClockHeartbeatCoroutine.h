@@ -13,10 +13,10 @@ namespace ace_time {
 namespace clock {
 
 /**
- * A coroutine that calls SystemClock.getNow() peridically. This must be
- * performed before the uint16_t timer in SystemClock overflows, i.e.
- * every 65535 milliseconds at a minimum. I recommend every 5000 millis, which
- * is the default.
+ * A coroutine that calls SystemClock::getNow() every heartbeatPeriodMillis
+ * interval. This is required because the SystemClock uses an internal uint16_t
+ * counter which can overflow every 65535 milliseconds. Calling
+ * SystemClock::getNow() resets this internal counter.
  */
 class SystemClockHeartbeatCoroutine: public ace_routine::Coroutine {
   public:
@@ -27,7 +27,7 @@ class SystemClockHeartbeatCoroutine: public ace_routine::Coroutine {
      * @param heartbeatPeriodMillis milliseconds between calls to getNow()
      *    (default 5000)
      */
-    SystemClockHeartbeatCoroutine(SystemClock& systemClock,
+    explicit SystemClockHeartbeatCoroutine(SystemClock& systemClock,
         uint16_t heartbeatPeriodMillis = 5000):
       mSystemClock(systemClock),
       mHeartbeatPeriodMillis(heartbeatPeriodMillis) {}
@@ -40,6 +40,12 @@ class SystemClockHeartbeatCoroutine: public ace_routine::Coroutine {
     }
 
   private:
+    // disable copy constructor and assignment operator
+    SystemClockHeartbeatCoroutine(const SystemClockHeartbeatCoroutine&) =
+        delete;
+    SystemClockHeartbeatCoroutine& operator=(
+        const SystemClockHeartbeatCoroutine&) = delete;
+
     SystemClock& mSystemClock;
     uint16_t const mHeartbeatPeriodMillis;
 };

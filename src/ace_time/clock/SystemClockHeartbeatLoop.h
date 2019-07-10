@@ -13,8 +13,10 @@ namespace ace_time {
 namespace clock {
 
 /**
- * A class that peridically freshens the SystemClock using the heartbeat
- * call to getNow(). Call loop() from the global loop() method.
+ * A class that peridically freshens the SystemClock using the heartbeat call
+ * to getNow(). Call loop() from the global loop() method as quickly as
+ * practical. The class will make a call to SystemClock::getNow() every every
+ * heartbeatPeriodMillis interval.
  */
 class SystemClockHeartbeatLoop {
   public:
@@ -25,7 +27,7 @@ class SystemClockHeartbeatLoop {
      * @param heartbeatPeriodMillis millis between calls to getNow()
      *    (default 5000)
      */
-    SystemClockHeartbeatLoop(SystemClock& systemClock,
+    explicit SystemClockHeartbeatLoop(SystemClock& systemClock,
           uint16_t heartbeatPeriodMillis = 5000):
       mSystemClock(systemClock),
       mHeartbeatPeriodMillis(heartbeatPeriodMillis) {}
@@ -46,6 +48,11 @@ class SystemClockHeartbeatLoop {
     }
 
   private:
+    // disable copy constructor and assignment operator
+    SystemClockHeartbeatLoop(const SystemClockHeartbeatLoop&) = delete;
+    SystemClockHeartbeatLoop& operator=(const SystemClockHeartbeatLoop&) =
+        delete;
+
     SystemClock& mSystemClock;
     uint16_t const mHeartbeatPeriodMillis;
 
