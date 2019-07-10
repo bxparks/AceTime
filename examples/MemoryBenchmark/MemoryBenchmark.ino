@@ -9,15 +9,17 @@
 #define FEATURE_MANUAL_ZONE_SPECIFIER 3
 #define FEATURE_BASIC_ZONE_SPECIFIER 4
 #define FEATURE_BASIC_ZONE_SPECIFIER2 5
-#define FEATURE_EXTENDED_ZONE_SPECIFIER 6
-#define FEATURE_EXTENDED_ZONE_SPECIFIER2 7
-#define FEATURE_SYSTEM_CLOCK 8
-#define FEATURE_SYSTEM_CLOCK_AND_BASIC_ZONE_SPECIFIER 9
+#define FEATURE_BASIC_ZONE_SPECIFIER_ALL 6
+#define FEATURE_EXTENDED_ZONE_SPECIFIER 7
+#define FEATURE_EXTENDED_ZONE_SPECIFIER2 8
+#define FEATURE_EXTENDED_ZONE_SPECIFIER_ALL 9
+#define FEATURE_SYSTEM_CLOCK 10
+#define FEATURE_SYSTEM_CLOCK_AND_BASIC_ZONE_SPECIFIER 11
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
 // flash and RAM is consumed by the selected feature.
-#define FEATURE FEATURE_SYSTEM_CLOCK_AND_BASIC_ZONE_SPECIFIER
+#define FEATURE 0
 
 #if FEATURE != FEATURE_BASELINE
 #include <AceTime.h>
@@ -64,6 +66,15 @@ void setup() {
   auto dt2 = dt1.convertToTimeZone(tz2);
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
+#elif FEATURE == FEATURE_BASIC_ZONE_SPECIFIER_ALL
+  BasicZoneManager manager(zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
+  const basic::ZoneInfo* zoneInfo =
+      manager.getZoneInfo("America/Los_Angeles");
+  BasicZoneSpecifier zspec(zoneInfo);
+  auto tz = TimeZone::forZoneSpecifier(&zspec);
+  auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
+  guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_ZONE_SPECIFIER
   ExtendedZoneSpecifier zspec(&zonedbx::kZoneAmerica_Los_Angeles);
   auto tz = TimeZone::forZoneSpecifier(&zspec);
@@ -79,6 +90,16 @@ void setup() {
   auto dt1 = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz1);
   auto dt2 = dt1.convertToTimeZone(tz2);
   acetime_t epochSeconds = dt2.toEpochSeconds();
+  guard ^= epochSeconds;
+#elif FEATURE == FEATURE_EXTENDED_ZONE_SPECIFIER_ALL
+  ExtendedZoneManager manager(zonedbx::kZoneRegistry,
+      zonedbx::kZoneRegistrySize);
+  const extended::ZoneInfo* zoneInfo =
+      manager.getZoneInfo("America/Los_Angeles");
+  ExtendedZoneSpecifier zspec(zoneInfo);
+  auto tz = TimeZone::forZoneSpecifier(&zspec);
+  auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
+  acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_SYSTEM_CLOCK
   DS3231TimeKeeper dsTimeKeeper;
