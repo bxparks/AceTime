@@ -18,7 +18,13 @@ test(ExtendedZoneManagerTest, getZoneInfo_Los_Angeles) {
   const extended::ZoneInfo* zoneInfo =
       zoneManager.getZoneInfo("America/Los_Angeles");
   assertTrue(zoneInfo != nullptr);
-  assertEqual(zoneInfo->name, "America/Los_Angeles");
+
+  const char* name = extended::ZoneInfoBroker(zoneInfo).name();
+#if ACE_TIME_USE_EXTENDED_PROGMEM
+  assertEqual(FPSTR(name), "America/Los_Angeles");
+#else
+  assertEqual(name, "America/Los_Angeles");
+#endif
 }
 
 test(ExtendedZoneManagerTest, getZoneInfo_not_found) {
