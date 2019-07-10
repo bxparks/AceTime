@@ -901,15 +901,21 @@ void someFunction() {
 
 The `ExtendedZoneSpecifier` is very similar to `BasicZoneSpecifier` except that
 it supports (almost) all zones in the TZ Database instead of a subset. The
-supported zones are given in this header file:
+constructor accepts a pointer to an `extended::ZoneInfo`:
+
+```C++
+ExtendedZoneSpecifier(const extended::ZoneInfo* zoneInfo);
+```
+
+The supported zones are given in this header file:
 
 * [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
 
 As of version 2019a of TZ Database, *all* 387 Zone and 205 Link entries from the
 following TZ files are supported: `africa`, `antarctica`, `asia`, `australasia`,
-`backward`, `etcetera`, `europe`, `northamerica`, `southamerica`. The only 3
-files not processed are `backzone`, `systemv`, and `factory` because they don't
-seem to contain anything useful.
+`backward`, `etcetera`, `europe`, `northamerica`, `southamerica`. There are 3
+files which are not processed (`backzone`, `systemv`, `factory`) because they
+don't seem to contain anything useful.
 
 The zone infos which can be used by `ExtendedZoneSpecifier` are in the
 `zonedbx::` namespace instead of the `zonedb::` namespace. Some examples of the
@@ -959,10 +965,98 @@ accurate than `BasicZoneSpecifier::forComponents()` because the `zonedbx::` data
 files contain transition information which are missing in the `zonedb::` data
 files due to space constraints.
 
+### ZoneManager
+
+**Caveat**: This is an experimental feature.
+
+On microcontrollers with more than ~30kB of flash (e.g. ESP8266, ESP32,
+and Teensy), the entire `zonedb` or `zonedbx` database can be loaded and
+timezones could be dynamically selected using the zone identifier strings
+(e.g. `"America/Los_Angeles"`). Two experimental classes are provided in version
+0.4 to give  dynamic access to the zoneinfo files: `BasicZoneManager` and
+`ExtendedZoneManager`. The class definitions look like this:
+
+```C++
+class BasicZoneManager {
+  public:
+    BasicZoneManager(const basic::ZoneInfo* zoneRegistry,
+        uint16_t registrySize);
+
+    const basic::ZoneInfo* getZoneInfo(const char* name) const;
+
+    bool isSorted() const;
+};
+
+class ExtendedZoneManager {
+  public:
+    ExtendedZoneManager(const extended::ZoneInfo* zoneRegistry,
+        uint16_t registrySize);
+
+    const extended::ZoneInfo* getZoneInfo(const char* name) const;
+
+    bool isSorted() const;
+};
+```
+
+They provide a lookup service from the zone identifier string the corresponding
+`const ZoneInfo*` pointer.
+
+The declaration for the zoneinfo registry is available at:
+
+* [zonedb/zone_registry.h](src/ace_time/zonedb/zone_registry.h)
+* [zonedbx/zone_registry.h](src/ace_time/zonedbx/zone_registry.h)
+
+The `BasicZoneManager` can be used like this with the `BasicZoneSpecifier`:
+
+```C++
+BasicZoneManager manager(zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
+const auto* zoneInfo = manager.getZoneInfo("America/Los_Angeles");
+BasicZoneSpecifier zspec(zoneInfo);
+auto tz = TimeZone::forZoneSpecifier(&zspec);
+```
+
+and the `ExtendedZoneManager` can be used with the `ExtendedZoneSpecifier`
+like this:
+
+```C++
+ExtendedZoneManager manager(zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+const auto* zoneInfo = manager.getZoneInfo("America/Los_Angeles");
+ExtendedZoneSpecifier zspec(zoneInfo);
+auto tz = TimeZone::forZoneSpecifier(&zspec);
+```
+
+The ZoneManagers can be initialized with a custom list of timezones, instead
+of using the entire `zonedb` or `zonedbx` databases.
+
+**Caveat**: The ZoneManagers are experimental and currently in development. As
+of version 0.4, the lifecycle management of `BasicZoneManager` and
+`ExtendedZoneManager` has not been fully designed and the recommended usage
+pattern will likely change in future. Before the ZoneManager classes were
+created, it was assumed that `BasicZoneSpecifier` and `ExtendedZoneSpecifier`
+would be long-lived, statically allocated objects. That assumption does not play
+well with the dynamic nature of the ZoneManagers. If the microcontroller has
+sufficient amount of static RAM (e.g. ESP8266, ESP32, etc), it may be possible
+to dynamically allocate the `BasicZoneSpecifier` and `ExtendedZoneSpecifier` on
+the heap and continue using the `TimeZone` objects as before. This usage pattern
+has not been explored and the app developer should be cautious when using these
+ZoneManager classes.
+
 ### TZ Database ZoneInfo Files and Version
 
-A number of zones have been excluded from the basic `zonedb` dataset. The
-reasons are given at the bottom of the `zonedb/zone_infos.h` file.
+The `BasicZoneSpecifier` does not support all the timezones in the TZ Database.
+The list of these zones and The reasons for excluding them are given at the
+bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
+
+Although the `ExtendedZoneSpecifier` supports all zones from its TZ input
+files, there are number of timezones whose DST transitions in the past happened
+at 00:01 (instead of exactly at midnight 00:00). To save memory, the internal
+representation used by AceTime supports only DST transitions which occur at
+15-minute boundaries. For these timezones, the DST transition time is shifted to
+00:00 instead, and the transition happens one-minute earlier than it should.
+As of TZ DB version 2019a, there are 5 zones affected by this rounding, as
+listed at the bottom of
+[zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and these all occur
+before the year 2012.
 
 The IANA TZ Database is updated continually. As of this writing, the latest
 stable version is 2019a. When a new version of the database is released, it is
@@ -972,6 +1066,17 @@ corresponding `pytz` package is updated to the latest TZ database version, so
 that the validation test suites pass (See Testing section below). Otherwise, I
 don't have a way to verify that the AceTime library with the new TZ Database
 version is correctly functioning.
+
+As of version 0.4, the zoneinfo files are stored in in flash memory instead of
+static RAM using the
+[PROGMEM](https://www.arduino.cc/reference/en/language/variables/utilities/progmem/)
+keyword on microcontrollers which support this feature. On an 8-bit
+microcontroller, the entire `zonedb/` database consumes about 14kB of flash
+memory, so it may be possible to create small programs that can dynamically
+access all timezones supported by `BasicZoneSpecifier`. The `zonedbx/` database
+consumes about 23kB of flash memory and the addition code size from various
+classes will exceed the 30-32kB limit of a typical Arduino 8-bit
+microcontroller.
 
 ### ZonedDateTime
 
@@ -1866,7 +1971,7 @@ Teensy 3.2 96MHz            |   2.130 |
 ### Memory
 
 Here is a quick summary of the amount of static RAM consumed by various
-classes:
+classes (more details at [examples/AutoBenchmark](examples/AutoBenchmark):
 
 **8-bit processors**
 
@@ -1877,8 +1982,8 @@ sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
 sizeof(ManualZoneSpecifier): 10
-sizeof(BasicZoneSpecifier): 95
-sizeof(ExtendedZoneSpecifier): 366
+sizeof(BasicZoneSpecifier): 99
+sizeof(ExtendedZoneSpecifier): 397
 sizeof(TimeZone): 3
 sizeof(ZonedDateTime): 10
 sizeof(TimePeriod): 4
@@ -1898,8 +2003,8 @@ sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
 sizeof(ManualZoneSpecifier): 20
-sizeof(BasicZoneSpecifier): 140
-sizeof(ExtendedZoneSpecifier): 472
+sizeof(BasicZoneSpecifier): 156
+sizeof(ExtendedZoneSpecifier): 500
 sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
@@ -1913,14 +2018,16 @@ sizeof(SystemClockHeartbeatCoroutine): 36
 
 The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
 comprehensive answer to the amount of memory taken by this library.
-A short summary is the following for an 8-bit microcontroller (e.g. Arduino
-Nano):
+Here is a short summary for an 8-bit microcontroller (e.g. Arduino Nano):
 
 * Using the `TimeZone` class with a `BasicZoneSpecifier` for one timezone takes
-  about 4924 bytes of flash memory and 283 statis RAM. Using 2 timezones
-  increases the consumption to 5852 bytes of flash and 357 bytes of RAM.
+  about 6140 bytes of flash memory and 193 bytes of static RAM.
+* Using 2 timezones with `BasiCZoneSpecifierincreases the consumption to 6628
+  bytes of flash and 231 bytes of RAM.
+* Loading the entire `zonedb::` zoneinfo database consumes 20354 bytes of flash
+  and 601 bytes of RAM.
 * Adding the `SystemClock` to the `TimeZone` and `BasicZoneSpecifier` with one
-  timezone increases the flash memory to 7958 bytes and 434 bytes of RAM.
+  timezone consumes 8436 bytes of flash and 344 bytes of RAM.
 
 These numbers indicate that the AceTime library is useful even on a limited
 8-bit controller with only 30-32kB of flash and 2kB of RAM. As a concrete
