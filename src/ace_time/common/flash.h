@@ -6,6 +6,8 @@
 #ifndef ACE_TIME_COMMON_FLASH_H
 #define ACE_TIME_COMMON_FLASH_H
 
+#include <stdint.h>
+
 /** Use PROGMEM for BasicZoneSpecifier. */
 #define ACE_TIME_USE_BASIC_PROGMEM 1
 
