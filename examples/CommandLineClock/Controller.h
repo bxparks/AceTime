@@ -11,11 +11,15 @@ using namespace ace_time::clock;
 
 class Controller {
   public:
-    Controller(PersistentStore& persistentStore, TimeKeeper& systemClock):
+    Controller(PersistentStore& persistentStore, SystemClock& systemClock):
         mPersistentStore(persistentStore),
-        mSystemClockKeeper(systemClock),
-        mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles),
-        mExtendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles) {}
+        mSystemClock(systemClock),
+      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+        mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles)
+      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
+        mExtendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles)
+      #endif
+    {}
 
     void setup() {
       mIsStoredInfoValid = mPersistentStore.readStoredInfo(mStoredInfo);
@@ -45,14 +49,18 @@ class Controller {
 
     /** Set the time zone to America/Los_Angeles using BasicZoneSpecifier. */
     void setBasicTimeZone() {
+  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
       mTimeZone = TimeZone::forZoneSpecifier(&mBasicZoneSpecifier);
       preserveInfo();
+  #endif
     }
 
     /** Set the time zone to America/Los_Angeles using ExtendedZoneSpecifier. */
     void setExtendedTimeZone() {
+  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
       mTimeZone = TimeZone::forZoneSpecifier(&mExtendedZoneSpecifier);
       preserveInfo();
+  #endif
     }
 
     /** Set the DST setting of ManualZoneSpecifier. */
@@ -77,13 +85,13 @@ class Controller {
 
     /** Set the current time of the system time keeper. */
     void setNow(acetime_t now) {
-      mSystemClockKeeper.setNow(now);
+      mSystemClock.setNow(now);
     }
 
     /** Return the current time from the system time keeper. */
-    ZonedDateTime getNow() const {
+    ZonedDateTime getCurrentDateTime() const {
       return ZonedDateTime::forEpochSeconds(
-          mSystemClockKeeper.getNow(), mTimeZone);
+          mSystemClock.getNow(), mTimeZone);
     }
 
     /** Return true if the initial setup() retrieved a valid storedInfo. */
@@ -94,6 +102,11 @@ class Controller {
 
     /** Return DST mode. */
     bool isDst() const { return mTimeZone.isDst(); }
+
+    /** Force SystemClock to sync. */
+    void sync() {
+      mSystemClock.setup();
+    }
 
   private:
     uint16_t preserveInfo() {
@@ -118,11 +131,15 @@ class Controller {
     }
 
     PersistentStore& mPersistentStore;
-    TimeKeeper& mSystemClockKeeper;
+    SystemClock& mSystemClock;
     TimeZone mTimeZone;
     ManualZoneSpecifier mManualZoneSpecifier;
+  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
     BasicZoneSpecifier mBasicZoneSpecifier;
+  #endif
+  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
     ExtendedZoneSpecifier mExtendedZoneSpecifier;
+  #endif
 
     StoredInfo mStoredInfo;
     bool mIsStoredInfoValid = false;

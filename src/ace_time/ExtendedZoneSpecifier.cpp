@@ -8,7 +8,8 @@
 
 namespace ace_time {
 
-const extended::ZoneEra ExtendedZoneSpecifier::kAnchorEra = {
+const extended::ZoneEra ExtendedZoneSpecifier::kAnchorEra
+    ACE_TIME_EXTENDED_PROGMEM = {
   0 /*offsetCode*/,
   nullptr /*zonePolicy*/,
   0 /*deltaCode*/,
@@ -21,7 +22,11 @@ const extended::ZoneEra ExtendedZoneSpecifier::kAnchorEra = {
 };
 
 void ExtendedZoneSpecifier::printTo(Print& printer) const {
-  printer.print(mZoneInfo->name);
+#if ACE_TIME_USE_EXTENDED_PROGMEM
+  printer.print(FPSTR(mZoneInfo.name()));
+#else
+  printer.print(mZoneInfo.name());
+#endif
 }
 
 }

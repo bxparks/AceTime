@@ -12,6 +12,7 @@
 #include "common/ZonePolicy.h"
 #include "common/ZoneInfo.h"
 #include "common/logger.h"
+#include "common/Brokers.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
@@ -32,6 +33,12 @@ namespace basic {
  * by the matching ZoneEra and its ZoneRule for a given year. If the ZoneEra
  * does not have a ZoneRule, then the Transition is defined by the start date
  * of the ZoneEra.
+ *
+ * The 'era' and 'rule' variables intermediate values calculated during the
+ * init() phase. They are used to calculate the 'yearTiny', 'startEpochSeconds',
+ * 'offsetCode', 'deltaCode', and 'abbrev' parameters which are used during
+ * findMatch() lookup. NOTE: This separation may help move the ZoneInfo and
+ * ZonePolicy data structures into PROGMEM.
  */
 struct Transition {
   /**
@@ -43,8 +50,12 @@ struct Transition {
    */
   static const uint8_t kAbbrevSize = 6 + 1;
 
-  /** The ZoneEra that matched the given year. NonNullable. */
-  const ZoneEra* era;
+  /** The ZoneEra that matched the given year. NonNullable.
+   *
+   * This field is used only during the init() phase, not during the
+   * findMatch() phase.
+   */
+  ZoneEraBroker era;
 
   /**
    * The Zone transition rule that matched for the the given year. Set to
@@ -52,8 +63,11 @@ struct Transition {
    * contains a UTC offset. There are only 2 time zones that has this property
    * as of TZ database version 2018g: Europe/Istanbul and
    * America/Argentina/San_Luis.
+   *
+   * This field is used only during the init() phase, not during the
+   * findMatch() phase.
    */
-  const ZoneRule* rule;
+  ZoneRuleBroker rule;
 
   /** Year which applies to the ZoneEra or ZoneRule. */
   int8_t yearTiny;
@@ -63,12 +77,21 @@ struct Transition {
 
   /**
    * The total effective UTC offsetCode at the start of transition, *including*
-   * DST offset. (Maybe rename this effectiveOffsetCode?) The DST offset can be
-   * recovered from rule->deltaCode.
+   * DST offset. (Maybe rename this effectiveOffsetCode?) The DST offset is
+   * stored at deltaCode.
    */
   int8_t offsetCode;
 
-  /** The calculated effective time zone abbreviation, e.g. "PST" or "PDT". */
+  /** The delta offsetCode from "standard time" at the start of transition */
+  int8_t deltaCode;
+
+  /**
+   * The calculated effective time zone abbreviation, e.g. "PST" or "PDT".
+   * When the Transition is initially created using createTransition(),
+   * abbrev[0] is set to ZoneRule.letter (to avoid potentially another lookup
+   * in PROGMEM). That 'letter' is used later in the init() to generate
+   * the correct abbreviation which will replace the 'letter' in here.
+   */
   char abbrev[kAbbrevSize];
 
   /** Used only for debugging. */
@@ -80,13 +103,19 @@ struct Transition {
     }
     logging::println("offsetCode: %d", offsetCode);
     logging::println("abbrev: %s", abbrev);
-    if (rule != nullptr) {
-      logging::println("Rule.fromYear: %d", rule->fromYearTiny);
-      logging::println("Rule.toYear: %d", rule->toYearTiny);
-      logging::println("Rule.inMonth: %d", rule->inMonth);
-      logging::println("Rule.onDayOfMonth: %d", rule->onDayOfMonth);
+    if (rule.isNotNull()) {
+      logging::println("Rule.fromYear: %d", rule.fromYearTiny());
+      logging::println("Rule.toYear: %d", rule.toYearTiny());
+      logging::println("Rule.inMonth: %d", rule.inMonth());
+      logging::println("Rule.onDayOfMonth: %d", rule.onDayOfMonth());
     }
   }
+};
+
+/** The result of calcStartDayOfMonth(). */
+struct MonthDay {
+  uint8_t month;
+  uint8_t day;
 };
 
 } // namespace basic
@@ -153,7 +182,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         mZoneInfo(zoneInfo) {}
 
     /** Return the underlying ZoneInfo. */
-    const basic::ZoneInfo* getZoneInfo() const { return mZoneInfo; }
+    const basic::ZoneInfo* getZoneInfo() const { return mZoneInfo.zoneInfo(); }
 
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
@@ -164,14 +193,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
-      int8_t code;
-      if (!transition) {
-        code = TimeOffset::kErrorCode;
-      } else if (transition->rule == nullptr) {
-        code = 0;
-      } else {
-        code = transition->rule->deltaCode;
-      }
+      int8_t code = (transition)
+          ? transition->deltaCode : TimeOffset::kErrorCode;
       return TimeOffset::forOffsetCode(code);
     }
 
@@ -189,11 +212,25 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * of memory required by BasicZoneSpecifier, but this means that the
      * information needed to implement this method correctly does not exist.
      *
-     * The implementation of this method is therefore a hack. First pass, we
-     * extract the TimeOffset on Jan 1 of the year given by the localDateTime,
-     * and guess its epochSeconds using that TimeOffset. Second pass, we use the
-     * epochSeconds from the previous pass to calculate the next best guess of
-     * the actual TimeOffset. We return the second pass guess as the result.
+     * The implementation is somewhat of a hack:
+     *
+     * 0) Use the localDateTime to extract the offset, *assuming* that the
+     * localDatetime is UTC. This will get us within 12-14h of the correct
+     * UTC offset.
+     * 1) Use (localDateTime, offset0) to determine offset1.
+     * 2) Use (localdateTime, offset1) to determine offset2.
+     * 3) Finally, check if offset1 and offset2 are equal. If they are
+     * we reached equilibrium so we can just return (localDateTime, offset1).
+     * If they are not equal, then we have a cycle because the localDateTime
+     * occurred in a DST gap (STD->DST transition) or overlap (DST->STD
+     * transition). We arbitrarily pick the offset of the *later* epochSeconds
+     * since that seems to match closely to what most people would expect to
+     * happen in a gap or overlap (e.g. In the gap of 2am->3am, a 2:30am would
+     * get shifted to 3:30am.)
+     *
+     * The code is written slightly ackwardly to try to encourage the compiler
+     * to perform Return Value Optimization. For example, I use only a single
+     * OffsetDateTime instance, and I don't use early return.
      */
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const override {
       // Only a single local variable of OffsetDateTime used, to allow Return
@@ -259,27 +296,56 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /**
-     * Calculate the actual dayOfMonth of the expresssion
-     * (onDayOfWeek >= onDayOfMonth). The "last{dayOfWeek}" expression is
-     * expressed by onDayOfMonth being 0. An exact match on dayOfMonth is
-     * expressed by setting onDayOfWeek to 0.
+     * Calculate the actual (month, day) of the expresssion (onDayOfWeek >=
+     * onDayOfMonth) or (onDayOfWeek <= onDayOfMonth).
+     *
+     * There are 4 combinations:
+		 * @verbatim
+		 * onDayOfWeek=0, onDayOfMonth=(1-31): exact match
+		 * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek>=dayOfMonth
+		 * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
+		 * onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek<=dayOfMonth
+		 * @endverbatim
+     *
+     * Caveats: This method handles expressions which crosses month boundaries,
+     * but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to
+     * Jan of the following year.)
      *
      * Not private, used by ExtendedZoneSpecifier.
      */
-    static uint8_t calcStartDayOfMonth(int16_t year, uint8_t month,
-        uint8_t onDayOfWeek, uint8_t onDayOfMonth) {
-      if (onDayOfWeek == 0) return onDayOfMonth;
+    static basic::MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
+        uint8_t onDayOfWeek, int8_t onDayOfMonth) {
+      if (onDayOfWeek == 0) return {month, (uint8_t) onDayOfMonth};
 
+      if (onDayOfMonth >= 0) {
+        // Convert "last{Xxx}" to "last{Xxx}>={daysInMonth-6}".
+        uint8_t daysInMonth = LocalDate::daysInMonth(year, month);
+        if (onDayOfMonth == 0) {
+          onDayOfMonth =  daysInMonth - 6;
+        }
 
-      // Convert "last{Xxx}" to "last{Xxx}>={daysInMonth-6}".
-      if (onDayOfMonth == 0) {
-        onDayOfMonth = LocalDate::daysInMonth(year, month) - 6;
+        auto limitDate = LocalDate::forComponents(year, month, onDayOfMonth);
+        uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
+        uint8_t day = (uint8_t) (onDayOfMonth + dayOfWeekShift);
+        if (day > daysInMonth) {
+          // TODO: Support shifting from Dec to Jan of following  year.
+          day -= daysInMonth;
+          month++;
+        }
+        return {month, day};
+      } else {
+        onDayOfMonth = -onDayOfMonth;
+        auto limitDate = LocalDate::forComponents(year, month, onDayOfMonth);
+        int8_t dayOfWeekShift = (limitDate.dayOfWeek() - onDayOfWeek + 7) % 7;
+        int8_t day = onDayOfMonth - dayOfWeekShift;
+        if (day < 1) {
+          // TODO: Support shifting from Jan to Dec of the previous year.
+          month--;
+          uint8_t daysInPrevMonth = LocalDate::daysInMonth(year, month);
+          day += daysInPrevMonth;
+        }
+        return {month, (uint8_t) day};
       }
-
-      LocalDate limitDate = LocalDate::forComponents(
-          year, month, onDayOfMonth);
-      uint8_t dayOfWeekShift = (onDayOfWeek - limitDate.dayOfWeek() + 7) % 7;
-      return onDayOfMonth + dayOfWeekShift;
     }
 
   private:
@@ -353,8 +419,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       mYear = year;
       mNumTransitions = 0; // clear cache
 
-      if (year < mZoneInfo->zoneContext->startYear - 1
-          || mZoneInfo->zoneContext->untilYear < year) {
+      if (year < mZoneInfo.startYear() - 1 || mZoneInfo.untilYear() < year) {
         return false;
       }
 
@@ -381,48 +446,70 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       int8_t priorYearTiny = yearTiny - 1;
 
       // Find the prior Era.
-      const basic::ZoneEra* const era = findZoneEraPriorTo(year);
+      const basic::ZoneEraBroker era = findZoneEraPriorTo(year);
 
       // If the prior ZoneEra is a simple Era (no zone policy), then create a
       // Transition using a rule==nullptr. Otherwise, find the latest rule
       // within the ZoneEra.
-      const basic::ZonePolicy* const zonePolicy = era->zonePolicy;
-      const basic::ZoneRule* latest = nullptr;
-      if (zonePolicy != nullptr) {
+      const basic::ZonePolicyBroker zonePolicy = era.zonePolicy();
+      basic::ZoneRuleBroker latest;
+      if (zonePolicy.isNotNull()) {
         // Find the latest rule for the matching ZoneEra whose
         // ZoneRule::toYearTiny < yearTiny. Assume that there are no more than
         // 1 rule per month.
-        for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
-          const basic::ZoneRule* const rule = &zonePolicy->rules[i];
+        uint8_t numRules = zonePolicy.numRules();
+        for (uint8_t i = 0; i < numRules; i++) {
+          const basic::ZoneRuleBroker rule = zonePolicy.rule(i);
           // Check if rule is effective prior to the given year
-          if (rule->fromYearTiny < yearTiny) {
-            if ((latest == nullptr)
-                || compareZoneRule(year, rule, latest) > 0) {
+          if (rule.fromYearTiny() < yearTiny) {
+            if ((latest.isNull()) || compareZoneRule(year, rule, latest) > 0) {
               latest = rule;
             }
           }
         }
       }
 
-      mPrevTransition = {
-        era,
-        latest /*rule*/,
-        priorYearTiny /*yearTiny*/,
+      mPrevTransition = createTransition(era, latest, priorYearTiny);
+    }
+
+    /**
+     * Create a Transition with the 'deltaCode' and 'offsetCode' filled in so
+     * that subsequent processing does not need to retrieve those again
+     * (potentially from PROGMEM).
+     */
+    static basic::Transition createTransition(basic::ZoneEraBroker era,
+        basic::ZoneRuleBroker rule, int8_t yearTiny) {
+      int8_t offsetCode;
+      int8_t deltaCode;
+      char letter;
+      if (rule.isNull()) {
+        deltaCode = 0;
+        offsetCode = era.offsetCode();
+        letter = 0;
+      } else {
+        deltaCode = rule.deltaCode();
+        offsetCode = era.offsetCode() + deltaCode;
+        letter = rule.letter();
+      }
+
+      return {
+        era, rule, yearTiny,
         0 /*epochSeconds*/,
-        0 /*offsetCode*/,
-        {0} /*abbrev*/
+        offsetCode,
+        deltaCode,
+        {letter} /*abbrev*/
       };
     }
 
     /** Compare two ZoneRules which are valid prior to the given year. */
     static int8_t compareZoneRule(int16_t year,
-        const basic::ZoneRule* a, const basic::ZoneRule* b) {
+        const basic::ZoneRuleBroker a, const basic::ZoneRuleBroker b) {
       int16_t aYear = effectiveRuleYear(year, a);
       int16_t bYear = effectiveRuleYear(year, b);
       if (aYear < bYear) return -1;
       if (aYear > bYear) return 1;
-      if (a->inMonth < b->inMonth) return -1;
-      if (a->inMonth > b->inMonth) return 1;
+      if (a.inMonth() < b.inMonth()) return -1;
+      if (a.inMonth() > b.inMonth()) return 1;
       return 0;
     }
 
@@ -431,12 +518,12 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * Return 0 if rule is greater than the given year.
      */
     static int16_t effectiveRuleYear(int16_t year,
-        const basic::ZoneRule* rule) {
+        const basic::ZoneRuleBroker rule) {
       int8_t yearTiny = year - LocalDate::kEpochYear;
-      if (rule->toYearTiny < yearTiny) {
-        return rule->toYearTiny + LocalDate::kEpochYear;
+      if (rule.toYearTiny() < yearTiny) {
+        return rule.toYearTiny() + LocalDate::kEpochYear;
       }
-      if (rule->fromYearTiny < yearTiny) {
+      if (rule.fromYearTiny() < yearTiny) {
         return year - 1;
       }
       return 0;
@@ -444,13 +531,13 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /** Add all matching rules from the current year. */
     void addRulesForYear(int16_t year) const {
-      const basic::ZoneEra* const era = findZoneEra(year);
+      const basic::ZoneEraBroker era = findZoneEra(year);
 
       // If the ZonePolicy has no rules, then add a Transition which takes
       // effect at the start time of the current year.
-      const basic::ZonePolicy* const zonePolicy = era->zonePolicy;
-      if (zonePolicy == nullptr) {
-        addRule(year, era, nullptr);
+      const basic::ZonePolicyBroker zonePolicy = era.zonePolicy();
+      if (zonePolicy.isNull()) {
+        addRule(year, era, basic::ZoneRuleBroker());
         return;
       }
 
@@ -458,10 +545,11 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       // them to mTransitions, in sorted order according to the
       // ZoneRule::inMonth field.
       int8_t yearTiny = year - LocalDate::kEpochYear;
-      for (uint8_t i = 0; i < zonePolicy->numRules; i++) {
-        const basic::ZoneRule* const rule = &zonePolicy->rules[i];
-        if ((rule->fromYearTiny <= yearTiny) &&
-            (yearTiny <= rule->toYearTiny)) {
+      uint8_t numRules = zonePolicy.numRules();
+      for (uint8_t i = 0; i < numRules; i++) {
+        const basic::ZoneRuleBroker rule = zonePolicy.rule(i);
+        if ((rule.fromYearTiny() <= yearTiny) &&
+            (yearTiny <= rule.toYearTiny())) {
           addRule(year, era, rule);
         }
       }
@@ -481,8 +569,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * already sorted, then the loop terminates early and the total sort time
      * is O(N).
      */
-    void addRule(int16_t year, const basic::ZoneEra* era,
-          const basic::ZoneRule* rule) const {
+    void addRule(int16_t year, basic::ZoneEraBroker era,
+          basic::ZoneRuleBroker rule) const {
 
       // If a zone needs more transitions than kMaxCacheEntries, the check below
       // will cause the DST transition information to be inaccurate, and it is
@@ -505,14 +593,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
       // insert new element at the end of the list
       int8_t yearTiny = year - LocalDate::kEpochYear;
-      mTransitions[mNumTransitions] = {
-        era,
-        rule,
-        yearTiny,
-        0 /*epochSeconds*/,
-        0 /*offsetCode*/,
-        {0} /*abbrev*/
-      };
+      mTransitions[mNumTransitions] = createTransition(era, rule, yearTiny);
       mNumTransitions++;
 
       // perform an insertion sort
@@ -520,9 +601,9 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         basic::Transition& left = mTransitions[i - 1];
         basic::Transition& right = mTransitions[i];
         // assume only 1 rule per month
-        if ((left.rule != nullptr && right.rule != nullptr &&
-              left.rule->inMonth > right.rule->inMonth)
-            || (left.rule != nullptr && right.rule == nullptr)) {
+        if ((left.rule.isNotNull() && right.rule.isNotNull() &&
+              left.rule.inMonth() > right.rule.inMonth())
+            || (left.rule.isNotNull() && right.rule.isNull())) {
           basic::Transition tmp = left;
           left = right;
           right = tmp;
@@ -535,13 +616,13 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * satisfy (year < ZoneEra.untilYearTiny + kEpochYear). Since the
      * largest untilYearTiny is 127, the largest supported 'year' is 2126.
      */
-    const basic::ZoneEra* findZoneEra(int16_t year) const {
-      for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
-        const basic::ZoneEra* era = &mZoneInfo->eras[i];
-        if (year < era->untilYearTiny + LocalDate::kEpochYear) return era;
+    const basic::ZoneEraBroker findZoneEra(int16_t year) const {
+      for (uint8_t i = 0; i < mZoneInfo.numEras(); i++) {
+        const basic::ZoneEraBroker era = mZoneInfo.era(i);
+        if (year < era.untilYearTiny() + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
-      return &mZoneInfo->eras[mZoneInfo->numEras - 1];
+      return mZoneInfo.era(mZoneInfo.numEras() - 1);
     }
 
     /**
@@ -555,32 +636,32 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * zone_infos.cpp verified that the final ZoneEra contains an empty
      * untilYear, interpreted as 'max', and set to 127.
      */
-    const basic::ZoneEra* findZoneEraPriorTo(int16_t year) const {
-      for (uint8_t i = 0; i < mZoneInfo->numEras; i++) {
-        const basic::ZoneEra* era = &mZoneInfo->eras[i];
-        if (year <= era->untilYearTiny + LocalDate::kEpochYear) return era;
+    const basic::ZoneEraBroker findZoneEraPriorTo(int16_t year) const {
+      for (uint8_t i = 0; i < mZoneInfo.numEras(); i++) {
+        const basic::ZoneEraBroker era = mZoneInfo.era(i);
+        if (year <= era.untilYearTiny() + LocalDate::kEpochYear) return era;
       }
       // Return the last ZoneEra if we run off the end.
-      return &mZoneInfo->eras[mZoneInfo->numEras - 1];
+      return mZoneInfo.era(mZoneInfo.numEras() - 1);
     }
 
-    /** Calculate the epochSeconds and offsetCode of each Transition. */
+    /**
+     * Calculate the startEpochSeconds of each Transition. (previous, this used
+     * to calculate the offsetCode and deltaCode as well, but it turned out
+     * that they could be calculated early in createTransition()). The start
+     * time of a given transition is defined as the "wall clock", which means
+     * that it is defined in terms of the *previous* Transition.
+     */
     void calcTransitions() const {
-      // Calculate epochSeconds and offsetCode for the prevTransition.
+      // Set the initial startEpochSeconds to be -Infinity
       mPrevTransition.startEpochSeconds = kMinEpochSeconds;
-      int8_t deltaCode = (mPrevTransition.rule == nullptr)
-          ? 0 : mPrevTransition.rule->deltaCode;
-      mPrevTransition.offsetCode = mPrevTransition.era->offsetCode + deltaCode;
       const basic::Transition* prevTransition = &mPrevTransition;
 
-      // Loop through Transition items to calculate:
-      // 1) Transition::startEpochSeconds
-      // 2) Transition::offsetCode
       for (uint8_t i = 0; i < mNumTransitions; i++) {
         basic::Transition& transition = mTransitions[i];
         const int16_t year = transition.yearTiny + LocalDate::kEpochYear;
 
-        if (transition.rule == nullptr) {
+        if (transition.rule.isNull()) {
           // If the transition is simple (has no named rule), then the
           // ZoneEra applies for the entire year (since BasicZoneSpecifier
           // supports only whole year in the UNTIL field). The whole year UNTIL
@@ -592,12 +673,11 @@ class BasicZoneSpecifier: public ZoneSpecifier {
           // Also, when transition.rule == nullptr, the mNumTransitions should
           // be 1, since only a single transition is added by
           // addRulesForYear().
-          const int8_t offsetCode = prevTransition->offsetCode;
+          const int8_t prevOffsetCode = prevTransition->offsetCode;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
               year, 1, 1, 0, 0, 0,
-              TimeOffset::forOffsetCode(offsetCode));
+              TimeOffset::forOffsetCode(prevOffsetCode));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
-          transition.offsetCode = transition.era->offsetCode;
         } else {
           // In this case, the transition points to a named ZonePolicy, which
           // means that there could be multiple ZoneRules associated with the
@@ -605,29 +685,26 @@ class BasicZoneSpecifier: public ZoneSpecifier {
           // and the effective offset code.
 
           // Determine the start date of the rule.
-          const uint8_t startDayOfMonth = calcStartDayOfMonth(
-              year, transition.rule->inMonth, transition.rule->onDayOfWeek,
-              transition.rule->onDayOfMonth);
+          const basic::MonthDay monthDay = calcStartDayOfMonth(
+              year, transition.rule.inMonth(), transition.rule.onDayOfWeek(),
+              transition.rule.onDayOfMonth());
 
           // Determine the offset of the 'atTimeModifier'. The 'w' modifier
           // requires the offset of the previous transition.
-          const int8_t offsetCode = calcRuleOffsetCode(
+          const int8_t prevOffsetCode = calcRuleOffsetCode(
               prevTransition->offsetCode,
-              transition.era->offsetCode,
-              transition.rule->atTimeModifier);
+              transition.era.offsetCode(),
+              transition.rule.atTimeModifier());
 
           // startDateTime
-          const uint8_t atHour = transition.rule->atTimeCode / 4;
-          const uint8_t atMinute = (transition.rule->atTimeCode % 4) * 15;
+          const uint8_t timeCode = transition.rule.atTimeCode();
+          const uint8_t atHour = timeCode / 4;
+          const uint8_t atMinute = (timeCode % 4) * 15;
           OffsetDateTime startDateTime = OffsetDateTime::forComponents(
-              year, transition.rule->inMonth, startDayOfMonth,
+              year, monthDay.month, monthDay.day,
               atHour, atMinute, 0 /*second*/,
-              TimeOffset::forOffsetCode(offsetCode));
+              TimeOffset::forOffsetCode(prevOffsetCode));
           transition.startEpochSeconds = startDateTime.toEpochSeconds();
-
-          // Determine the effective offset code
-          transition.offsetCode =
-              transition.era->offsetCode + transition.rule->deltaCode;
         }
 
         prevTransition = &transition;
@@ -664,9 +741,9 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       createAbbreviation(
           transition->abbrev,
           basic::Transition::kAbbrevSize,
-          transition->era->format,
-          (transition->rule) ? transition->rule->deltaCode : 0,
-          (transition->rule) ? transition->rule->letter : '\0');
+          transition->era.format(),
+          transition->deltaCode,
+          transition->abbrev[0]);
     }
 
     /**
@@ -780,7 +857,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       return closestMatch;
     }
 
-    const basic::ZoneInfo* const mZoneInfo;
+    const basic::ZoneInfoBroker mZoneInfo;
 
     mutable int16_t mYear = 0;
     mutable bool mIsFilled = false;

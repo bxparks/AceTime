@@ -1595,28 +1595,46 @@ def _get_transition_time(year, rule):
     """Return the (year, month, day, seconds, modifier) of the Rule in given
     year.
     """
-    month = rule.inMonth
-    day_of_month = _calc_day_of_month(year, month, rule.onDayOfWeek,
-                                      rule.onDayOfMonth)
+    month, day = _calc_day_of_month(year, rule.inMonth, rule.onDayOfWeek,
+                                    rule.onDayOfMonth)
     seconds = rule.atSeconds
     modifier = rule.atTimeModifier
-    return DateTuple(y=year, M=month, d=day_of_month, ss=seconds, f=modifier)
+    return DateTuple(y=year, M=month, d=day, ss=seconds, f=modifier)
 
 
 def _calc_day_of_month(year, month, on_day_of_week, on_day_of_month):
-    """Return the actual day of month of expressions such as
-    (onDayOfWeek >= onDayOfMonth) or (lastMon).
+    """Return the actual (month, day) of expressions such as
+    (onDayOfWeek >= onDayOfMonth), (onDayOfWeek <= onDayOfMonth), or (lastMon)
+    See BasicZoneSpecifier::calcStartDayOfMonth(). Shifts into previous or
+    next month can occur.
     """
     if on_day_of_week == 0:
-        return on_day_of_month
+        return (month, on_day_of_month)
 
-    if on_day_of_month == 0:
-        # lastXxx == (Xxx >= (daysInMonth - 6))
-        on_day_of_month = _days_in_month(year, month) - 6
-    limit_date = date(year, month, on_day_of_month)
-    day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
-    return on_day_of_month + day_of_week_shift
+    if on_day_of_month >= 0:
+        days_in_month = _days_in_month(year, month)
 
+        # Handle lastXxx by transforming it into (Xxx >= (daysInMonth - 6))
+        if on_day_of_month == 0:
+            on_day_of_month = days_in_month - 6
+
+        limit_date = date(year, month, on_day_of_month)
+        day_of_week_shift = (on_day_of_week - limit_date.isoweekday() + 7) % 7
+        day = on_day_of_month + day_of_week_shift
+        if day > days_in_month:
+            day -= days_in_month
+            month += 1
+        return (month, day)
+    else:
+        on_day_of_month = -on_day_of_month
+        limit_date = date(year, month, on_day_of_month)
+        day_of_week_shift = (limit_date.isoweekday() - on_day_of_week + 7) % 7
+        day = on_day_of_month - day_of_week_shift
+        if day < 1:
+            month -= 1
+            days_in_prev_month = _days_in_month(year, month)
+            day += days_in_prev_month
+        return (month, day)
 
 def _days_in_month(year, month):
     """Return the number of days in the given (year, month).

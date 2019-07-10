@@ -27,12 +27,14 @@ class ArduinoGenerator:
     ZONE_INFOS_CPP_FILE_NAME = 'zone_infos.cpp'
     ZONE_POLICIES_H_FILE_NAME = 'zone_policies.h'
     ZONE_POLICIES_CPP_FILE_NAME = 'zone_policies.cpp'
+    ZONE_REGISTRY_H_FILE_NAME = 'zone_registry.h'
+    ZONE_REGISTRY_CPP_FILE_NAME = 'zone_registry.cpp'
     ZONE_STRINGS_CPP_FILE_NAME = 'zone_strings.cpp'
     ZONE_STRINGS_H_FILE_NAME = 'zone_strings.h'
 
     def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 generate_zone_strings, start_year, until_year, zones_map,
-                 links_map, rules_map, removed_zones, removed_links,
+                 generate_zone_strings, start_year, until_year,
+                 zones_map, links_map, rules_map, removed_zones, removed_links,
                  removed_policies, notable_zones, notable_links,
                  notable_policies, format_strings, zone_strings, buf_sizes):
         self.scope = scope
@@ -69,6 +71,14 @@ class ArduinoGenerator:
             notable_links=notable_links,
             notable_policies=notable_policies,
             buf_sizes=buf_sizes)
+        self.zone_registry_generator = ZoneRegistryGenerator(
+            invocation=invocation,
+            tz_version=tz_version,
+            tz_files=tz_files,
+            scope=scope,
+            db_namespace=db_namespace,
+            zones_map=zones_map)
+
         if generate_zone_strings:
             self.zone_strings_generator = ZoneStringsGenerator(
                 invocation=invocation,
@@ -99,6 +109,12 @@ class ArduinoGenerator:
                          self.zone_infos_generator.generate_infos_h())
         self._write_file(output_dir, self.ZONE_INFOS_CPP_FILE_NAME,
                          self.zone_infos_generator.generate_infos_cpp())
+
+        # zone_registry.*
+        self._write_file(output_dir, self.ZONE_REGISTRY_H_FILE_NAME,
+                         self.zone_registry_generator.generate_registry_h())
+        self._write_file(output_dir, self.ZONE_REGISTRY_CPP_FILE_NAME,
+                         self.zone_registry_generator.generate_registry_cpp())
 
         # zone_strings.*
         if self.generate_zone_strings:
@@ -158,7 +174,7 @@ namespace {dbNamespace} {{
 """
 
     ZONE_POLICIES_H_POLICY_ITEM = """\
-extern const {zoneSpecNamespace}::ZonePolicy kPolicy{policyName};
+extern const {scope}::ZonePolicy kPolicy{policyName};
 """
 
     ZONE_POLICIES_H_REMOVED_POLICY_ITEM = """\
@@ -184,6 +200,7 @@ extern const {zoneSpecNamespace}::ZonePolicy kPolicy{policyName};
 //
 // DO NOT EDIT
 
+#include <ace_time/common/flash.h>
 #include "zone_policies.h"
 
 namespace ace_time {{
@@ -203,13 +220,13 @@ namespace {dbNamespace} {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const {zoneSpecNamespace}::ZoneRule kZoneRules{policyName}[] = {{
+static const {scope}::ZoneRule kZoneRules{policyName}[] {progmem} = {{
 {ruleItems}
 }};
 
 {letterArray}
 
-const {zoneSpecNamespace}::ZonePolicy kPolicy{policyName} = {{
+const {scope}::ZonePolicy kPolicy{policyName} {progmem} = {{
   {numRules} /*numRules*/,
   kZoneRules{policyName} /*rules*/,
   {numLetters} /* numLetters */,
@@ -219,7 +236,7 @@ const {zoneSpecNamespace}::ZonePolicy kPolicy{policyName} = {{
 """
 
     ZONE_POLICIES_LETTER_ARRAY = """\
-static const char* const kLetters{policyName}[] = {{
+static const char* const kLetters{policyName}[] {progmem} = {{
 {letterItems}
 }};
 """
@@ -262,7 +279,6 @@ static const char* const kLetters{policyName}[] = {{
 
         self.letters_map = {}  # map{policy_name: map{letter: index}}
         self.db_header_namespace = self.db_namespace.upper()
-        self.zone_spec_namespace = scope
 
     def collect_letter_strings(self):
         """Loop through all ZoneRules and collect the LETTERs which are
@@ -286,7 +302,7 @@ static const char* const kLetters{policyName}[] = {{
         for name, rules in sorted(self.rules_map.items()):
             policy_items += self.ZONE_POLICIES_H_POLICY_ITEM.format(
                 policyName=normalize_name(name),
-                zoneSpecNamespace=self.zone_spec_namespace)
+                scope=self.scope)
 
         removed_policy_items = ''
         for name, reason in sorted(self.removed_policies.items()):
@@ -396,7 +412,8 @@ static const char* const kLetters{policyName}[] = {{
                 memoryLetters32 += len(name) + 1 + 4  # NUL terminated
             letterArray = self.ZONE_POLICIES_LETTER_ARRAY.format(
                 policyName=policyName,
-                letterItems=letterItems)
+                letterItems=letterItems,
+                progmem=_progmem(self.scope))
         else:
             letterArrayRef = 'nullptr'
             letterArray = ''
@@ -411,7 +428,7 @@ static const char* const kLetters{policyName}[] = {{
                     memoryLetters32)
 
         policy_item = self.ZONE_POLICIES_CPP_POLICY_ITEM.format(
-            zoneSpecNamespace=self.zone_spec_namespace,
+            scope=self.scope,
             policyName=policyName,
             numRules=num_rules,
             memory8=memory8,
@@ -419,7 +436,8 @@ static const char* const kLetters{policyName}[] = {{
             ruleItems=rule_items,
             numLetters=numLetters,
             letterArrayRef=letterArrayRef,
-            letterArray=letterArray)
+            letterArray=letterArray,
+            progmem=_progmem(self.scope))
 
         return (policy_item, memory8, memory32)
 
@@ -499,7 +517,7 @@ extern const common::ZoneContext kZoneContext;
 """
 
     ZONE_INFOS_H_INFO_ITEM = """\
-extern const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
+extern const {scope}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_INFO_ITEM = """\
@@ -511,7 +529,7 @@ extern const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName}; // {zoneFu
 """
 
     ZONE_INFOS_H_LINK_ITEM = """\
-extern const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName}; // {linkFullName} -> {zoneFullName}
+extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; // {linkFullName} -> {zoneFullName}
 """
 
     ZONE_INFOS_H_REMOVED_LINK_ITEM = """\
@@ -538,6 +556,7 @@ extern const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName}; // {linkF
 //
 // DO NOT EDIT
 
+#include <ace_time/common/flash.h>
 #include "zone_policies.h"
 #include "zone_infos.h"
 
@@ -580,12 +599,14 @@ const common::ZoneContext kZoneContext = {{
 // Memory (32-bit): {memory32}
 //---------------------------------------------------------------------------
 
-static const {zoneSpecNamespace}::ZoneEra kZoneEra{zoneNormalizedName}[] = {{
+static const {scope}::ZoneEra kZoneEra{zoneNormalizedName}[] {progmem} = {{
 {eraItems}
 }};
 
-const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName} = {{
-  "{zoneFullName}" /*name*/,
+static const char kZoneName{zoneNormalizedName}[] {progmem} = "{zoneFullName}";
+
+const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
+  kZoneName{zoneNormalizedName} /*name*/,
   &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,
@@ -610,7 +631,7 @@ const {zoneSpecNamespace}::ZoneInfo kZone{zoneNormalizedName} = {{
 """
 
     ZONE_INFOS_CPP_LINK_ITEM = """\
-const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
+const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
 """
 
     SIZEOF_ZONE_ERA_8 = 11
@@ -619,9 +640,9 @@ const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNorma
     SIZEOF_ZONE_INFO_32 = 14
 
     def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
-                 start_year, until_year, zones_map, links_map, rules_map,
-                 removed_zones, removed_links, removed_policies, notable_zones,
-                 notable_links, notable_policies, buf_sizes):
+                 start_year, until_year, zones_map, links_map,
+                 rules_map, removed_zones, removed_links, removed_policies,
+                 notable_zones, notable_links, notable_policies, buf_sizes):
         self.invocation = invocation
         self.tz_version = tz_version
         self.tz_files = tz_files
@@ -641,13 +662,12 @@ const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNorma
         self.buf_sizes = buf_sizes
 
         self.db_header_namespace = self.db_namespace.upper()
-        self.zone_spec_namespace = scope
 
     def generate_infos_h(self):
         info_items = ''
         for zone_name, eras in sorted(self.zones_map.items()):
             info_items += self.ZONE_INFOS_H_INFO_ITEM.format(
-                zoneSpecNamespace=self.zone_spec_namespace,
+                scope=self.scope,
                 zoneNormalizedName=normalize_name(zone_name),
                 zoneFullName=zone_name)
 
@@ -664,7 +684,7 @@ const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNorma
         link_items = ''
         for link_name, zone_name in sorted(self.links_map.items()):
             link_items += self.ZONE_INFOS_H_LINK_ITEM.format(
-                zoneSpecNamespace=self.zone_spec_namespace,
+                scope=self.scope,
                 linkNormalizedName=normalize_name(link_name),
                 linkFullName=link_name,
                 zoneFullName=zone_name)
@@ -759,7 +779,7 @@ const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNorma
         transition_buf_size = self.buf_sizes[zone_name]
 
         info_item = self.ZONE_INFOS_CPP_INFO_ITEM.format(
-            zoneSpecNamespace=self.zone_spec_namespace,
+            scope=self.scope,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
             transitionBufSize=transition_buf_size,
@@ -767,7 +787,8 @@ const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNorma
             stringLength=string_length,
             memory8=memory8,
             memory32=memory32,
-            eraItems=era_items)
+            eraItems=era_items,
+            progmem=_progmem(self.scope))
         return (info_item, string_length)
 
     def _generate_era_item(self, zone_name, era):
@@ -817,7 +838,7 @@ const {zoneSpecNamespace}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNorma
 
     def _generate_link_item(self, link_name, zone_name):
         return self.ZONE_INFOS_CPP_LINK_ITEM.format(
-            zoneSpecNamespace=self.zone_spec_namespace,
+            scope=self.scope,
             linkFullName=link_name,
             linkNormalizedName=normalize_name(link_name),
             zoneFullName=zone_name,
@@ -835,6 +856,7 @@ class ZoneStringsGenerator:
 //
 // DO NOT EDIT
 
+#include <ace_time/common/flash.h>
 #include "zone_strings.h"
 
 namespace ace_time {{
@@ -906,7 +928,6 @@ extern const char* const kZoneStrings[];
         self.zone_strings = zone_strings
 
         self.db_header_namespace = self.db_namespace.upper()
-        self.zone_spec_namespace = scope
 
     def generate_strings_cpp(self):
         format_string_items = ''
@@ -942,6 +963,103 @@ extern const char* const kZoneStrings[];
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace)
 
+
+class ZoneRegistryGenerator:
+
+    ZONE_REGISTRY_CPP_FILE = """\
+// This file was generated by the following script:
+//
+//   $ {invocation}
+//
+// using the TZ Database files from
+// https://github.com/eggert/tz/releases/tag/{tz_version}
+//
+// DO NOT EDIT
+
+#include <ace_time/common/flash.h>
+#include "zone_infos.h"
+#include "zone_registry.h"
+
+namespace ace_time {{
+namespace {dbNamespace} {{
+
+//---------------------------------------------------------------------------
+// Zone registry. Sorted by zone name.
+//---------------------------------------------------------------------------
+const {scope}::ZoneInfo* const kZoneRegistry[{numZones}] {progmem} = {{
+{zoneRegistryItems}
+}};
+
+}}
+}}
+"""
+
+    ZONE_REGISTRY_H_FILE = """\
+// This file was generated by the following script:
+//
+//   $ {invocation}
+//
+// using the TZ Database files from
+// https://github.com/eggert/tz/releases/tag/{tz_version}
+//
+// DO NOT EDIT
+
+#ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_REGISTRY_H
+#define ACE_TIME_{dbHeaderNamespace}_ZONE_REGISTRY_H
+
+#include <ace_time/common/ZoneInfo.h>
+
+namespace ace_time {{
+namespace {dbNamespace} {{
+
+const uint16_t kZoneRegistrySize = {numZones};
+
+extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
+
+}}
+}}
+#endif
+"""
+    def __init__(self, invocation, tz_version, tz_files, scope, db_namespace,
+                 zones_map):
+        self.invocation = invocation
+        self.tz_version = tz_version
+        self.tz_files = tz_files
+        self.scope = scope
+        self.db_namespace = db_namespace
+        self.zones_map = zones_map
+
+        self.db_header_namespace = self.db_namespace.upper()
+
+    def generate_registry_cpp(self):
+        zone_registry_items = ''
+        for zone_name, eras in sorted(self.zones_map.items()):
+            name = normalize_name(zone_name)
+            zone_registry_items += f'  &kZone{name}, // {zone_name}\n'
+        return self.ZONE_REGISTRY_CPP_FILE.format(
+            invocation=self.invocation,
+            tz_version=self.tz_version,
+            scope=self.scope,
+            dbNamespace=self.db_namespace,
+            dbHeaderNamespace=self.db_header_namespace,
+            numZones=len(self.zones_map),
+            zoneRegistryItems=zone_registry_items,
+            progmem=_progmem(self.scope))
+
+    def generate_registry_h(self):
+        return self.ZONE_REGISTRY_H_FILE.format(
+            invocation=self.invocation,
+            tz_version=self.tz_version,
+            scope=self.scope,
+            dbNamespace=self.db_namespace,
+            dbHeaderNamespace=self.db_header_namespace,
+            numZones=len(self.zones_map))
+
+def _progmem(scope):
+    """Return the appropriate PROGMEM marker given the scope.
+    """
+    return ('ACE_TIME_BASIC_PROGMEM' if scope == 'basic'
+        else 'ACE_TIME_EXTENDED_PROGMEM')
 
 def to_tiny_year(year):
     if year == MAX_YEAR:

@@ -50,7 +50,11 @@ DS3231TimeKeeper dsTimeKeeper;
 SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
 
 SystemClockSyncCoroutine systemClockSync(systemClock);
-SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
+
+// SystemClockHeartbeatCoroutine commented out. Not needed for this app because
+// the SystemClock::getNow() is guaranteed to be called 10 times a second.
+// Save 168 bytes of flash memory.
+//SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
 
 //------------------------------------------------------------------
 // Configure OLED display using SSD1306Ascii.
@@ -80,7 +84,7 @@ void setupOled() {
 }
 
 //------------------------------------------------------------------
-// Create an appropriate controller/presenter pair.
+// Create controller with 3 presenters for the 3 OLED displays.
 //------------------------------------------------------------------
 
 Presenter presenter0(oled0);
@@ -213,7 +217,6 @@ void setup() {
   controller.setup();
 
   systemClockSync.setupCoroutine("s");
-  systemClockHeartbeat.setupCoroutine("h");
   CoroutineScheduler::setup();
 
 #if ENABLE_SERIAL == 1
@@ -222,5 +225,13 @@ void setup() {
 }
 
 void loop() {
-  CoroutineScheduler::loop();
+
+  // Using the CoroutineScheduler is conceptually cleaner, but consumes 159
+  // bytes of extra flash memory. So run the coroutines manually instead.
+  //CoroutineScheduler::loop();
+
+  updateController.runCoroutine();
+  checkButton.runCoroutine();
+  systemClockSync.runCoroutine();
+
 }
