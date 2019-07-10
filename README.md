@@ -125,15 +125,30 @@ clock, but synchronizes to more accurate clocks periodically.
 This library does not perform dynamic allocation of memory, in other words,
 it does not call the `new` operator nor the `malloc()` function, and it does not
 use the Arduino `String` class. Everything it needs is allocated statically at
-initialization time. On an 8-bit Arduino Nano (AVR), the AceTime library with
-one timezone using the `BasicZoneSpecifier` and the `SystemClock` consumes about
-8kB of flash and 350 bytes of RAM. On an ESP8266 processor (32-bit) the same
-functionality consumes 11kB of flash and 850 bytes of RAM. Loading all 270
-timezones supported by `BasicZoneSpecifier` takes about 14kB of flash on an
-8-bit processor and about 21kB of flash on a 32-bit processor. The fully
-functioning [WorldClock](examples/WorldClock) with 3 OLED displays, 3 timezones,
-a SystemClock synchronized to a DS3231 chip, and 2 buttons can fit inside the
-30kB flash size of an Arduino Pro Micro controller.
+initialization time.
+
+The zoneinfo files are stored in flash memory whenever possible so that they do
+not consume static RAM:
+
+* 270 timezones supported by `BasicZoneSpecifier`consume:
+    * 14 kB of flash on an 8-bit processor
+    * 21 kB of flash on a 32-bit processor
+* 387 timezones supported by `ExtendedZoneSpecifier` consume:
+    * 23 kB of flash on an 8-bit processor
+    * 37 kB of flash on a 32-bit processor
+
+Normally a small application will use only a small number of timezones. The
+AceTime library with one timezone using the `BasicZoneSpecifier` and the
+`SystemClock` consumes:
+* 8.5 kB of flash and 350 bytes of RAM on an 8-bit Arduino Nano (AVR),
+* 11 kB of flash and 850 bytes of RAM on an ESP8266 processor (32-bit).
+
+An example of more complex application is the [WorldClock](examples/WorldClock)
+which has 3 OLED displays over SPI, 3 timezones using `BasicZoneSpecifier`, a
+`SystemClock` synchronized to a DS3231 chip on I2C, and 2 buttons with
+debouncing and event dispatching provided by the
+[AceButton](https://github.com/bxparks/AceButton) library. This application fits
+inside the 30 kB flash size of an Arduino Pro Micro controller.
 
 Conversion from date-time components (year, month, day, etc) to epochSeconds
 (`ZonedDateTime::toEpochSeconds()`) takes about:
@@ -143,13 +158,12 @@ Conversion from date-time components (year, month, day, etc) to epochSeconds
 * 0.5 microseconds on a Teensy 3.2.
 
 Conversion from an epochSeconds to date-time components including timezone
-(`ZonedDateTime::forEpochSeconds()`) takes:
+(`ZonedDateTime::forEpochSeconds()`) takes (assuming cache hits):
 * 600 microseconds on an 8-bit AVR,
 * 25 microseconds on an ESP8266,
 * 2.5 microseconds on an ESP32,
 * 6 microseconds on a Teensy 3.2.
 
-if we get hits of the internal transitions cache.
 
 **Version**: 0.4 (2019-07-09, TZ DB version 2019a, beta)
 

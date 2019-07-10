@@ -49,7 +49,7 @@ the baseline, and its memory usage  numbers are subtracted from the subsequent
 | ZonedDateTime                       | 260720/26944 |     3680/ 404  |
 | ManualZoneSpecifier                 | 261432/26944 |     4328/ 404  |
 | BasicZoneSpecifier                  | 265820/27364 |     8716/ 824  |
-| BasicZoneSpecifier (2 zones)        | 266236/27364 |    91322/ 824  |
+| BasicZoneSpecifier (2 zones)        | 266236/27364 |     9132/ 824  |
 | BasicZoneSpecifier (all zones)      | 287248/27392 |    30144/ 852  |
 | ExtendedZoneSpecifier               | 267728/27472 |    10624/ 932  |
 | ExtendedZoneSpecifier (2 zones)     | 268256/27472 |    11152/ 938  |
@@ -101,7 +101,7 @@ usage by objects.
 +---------------------------------------------------------------------+
 | Functionality                       |    flash/ram | Baseline Delta |
 |-------------------------------------+--------------+----------------|
-| Baseline                            |  88480/ 3436 |        0/   0  |
+| Baseline                            |   8848/ 3436 |        0/   0  |
 |-------------------------------------+--------------+----------------|
 | LocalDateTime                       |  14492/ 5204 |     5644/1768  |
 | ZonedDateTime                       |  14492/ 5204 |     5644/1768  |
