@@ -331,13 +331,25 @@ See the [AceTime User Guide](USER_GUIDE.md) for information on:
 
 ## System Requirements
 
+### Tool Chain
+
 This library was developed and tested using:
 
 * [Arduino IDE 1.8.9](https://www.arduino.cc/en/Main/Software)
-* [ESP8266 Arduino Core 2.5.1](https://github.com/esp8266/Arduino)
+* [AVR Core 1.6.23](https://github.com/arduino/ArduinoCore-avr)
+* [ESP8266 Arduino Core 2.5.2](https://github.com/esp8266/Arduino)
 * [ESP32 Arduino Core 1.0.2](https://github.com/espressif/arduino-esp32)
+* [Teensydino 1.46](https://www.pjrc.com/teensy/td_download.html)
 
-I used Ubuntu 18.04 for most of my development.
+It should work with [PlatformIO](https://platformio.org/) but I have
+not tested it.
+
+### Operating System
+
+I use Ubuntu 18.04 for the vast majority of my development. I expect that the
+library will work fine under MacOS and Windows, but I have not tested them.
+
+### Hardware
 
 The library is tested on the following hardware before each release:
 
