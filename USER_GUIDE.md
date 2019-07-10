@@ -965,82 +965,6 @@ accurate than `BasicZoneSpecifier::forComponents()` because the `zonedbx::` data
 files contain transition information which are missing in the `zonedb::` data
 files due to space constraints.
 
-### ZoneManager
-
-**Caveat**: This is an experimental feature.
-
-On microcontrollers with more than ~30kB of flash (e.g. ESP8266, ESP32,
-and Teensy), the entire `zonedb` or `zonedbx` database can be loaded and
-timezones could be dynamically selected using the zone identifier strings
-(e.g. `"America/Los_Angeles"`). Two experimental classes are provided in version
-0.4 to give  dynamic access to the zoneinfo files: `BasicZoneManager` and
-`ExtendedZoneManager`. The class definitions look like this:
-
-```C++
-class BasicZoneManager {
-  public:
-    BasicZoneManager(const basic::ZoneInfo* zoneRegistry,
-        uint16_t registrySize);
-
-    const basic::ZoneInfo* getZoneInfo(const char* name) const;
-
-    bool isSorted() const;
-};
-
-class ExtendedZoneManager {
-  public:
-    ExtendedZoneManager(const extended::ZoneInfo* zoneRegistry,
-        uint16_t registrySize);
-
-    const extended::ZoneInfo* getZoneInfo(const char* name) const;
-
-    bool isSorted() const;
-};
-```
-
-They provide a lookup service from the zone identifier string the corresponding
-`const ZoneInfo*` pointer.
-
-The declaration for the zoneinfo registry is available at:
-
-* [zonedb/zone_registry.h](src/ace_time/zonedb/zone_registry.h)
-* [zonedbx/zone_registry.h](src/ace_time/zonedbx/zone_registry.h)
-
-The `BasicZoneManager` can be used like this with the `BasicZoneSpecifier`:
-
-```C++
-BasicZoneManager manager(zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
-const auto* zoneInfo = manager.getZoneInfo("America/Los_Angeles");
-BasicZoneSpecifier zspec(zoneInfo);
-auto tz = TimeZone::forZoneSpecifier(&zspec);
-```
-
-and the `ExtendedZoneManager` can be used with the `ExtendedZoneSpecifier`
-like this:
-
-```C++
-ExtendedZoneManager manager(zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
-const auto* zoneInfo = manager.getZoneInfo("America/Los_Angeles");
-ExtendedZoneSpecifier zspec(zoneInfo);
-auto tz = TimeZone::forZoneSpecifier(&zspec);
-```
-
-The ZoneManagers can be initialized with a custom list of timezones, instead
-of using the entire `zonedb` or `zonedbx` databases.
-
-**Caveat**: The ZoneManagers are experimental and currently in development. As
-of version 0.4, the lifecycle management of `BasicZoneManager` and
-`ExtendedZoneManager` has not been fully designed and the recommended usage
-pattern will likely change in future. Before the ZoneManager classes were
-created, it was assumed that `BasicZoneSpecifier` and `ExtendedZoneSpecifier`
-would be long-lived, statically allocated objects. That assumption does not play
-well with the dynamic nature of the ZoneManagers. If the microcontroller has
-sufficient amount of static RAM (e.g. ESP8266, ESP32, etc), it may be possible
-to dynamically allocate the `BasicZoneSpecifier` and `ExtendedZoneSpecifier` on
-the heap and continue using the `TimeZone` objects as before. This usage pattern
-has not been explored and the app developer should be cautious when using these
-ZoneManager classes.
-
 ### TZ Database ZoneInfo Files and Version
 
 The `BasicZoneSpecifier` does not support all the timezones in the TZ Database.
@@ -1217,6 +1141,19 @@ The two `ZonedDateTime` objects will return the same value for `epochSeconds()`
 because that is not affected by the time zone. However, the various date time
 components (year, month, day, hour, minute, seconds) will be different.
 
+#### Caching
+
+The conversion from an epochSeconds to date-time components using
+`ZonedDateTime::forEpochSeconds()` is an expensive operation (see
+[AutoBenchmark](examples/AutoBenchmark/)). To improve performance, the
+`BasicZoneSpecifier` and `ExtendedZoneSpecifier` implement internal caching
+based on the `year` component. This optimizes the most commonly expected
+use case where the epochSeconds is incremented by a clock (e.g. `SystemClock`)
+every second, and is converted to human-readable date-time components once a
+second. According to [AutoBenchmark](examples/AutoBenchmark/), the cache
+improves performance by a factor of 2-3X (8-bit AVR) to 10-20X (32-bit
+processors) on consecutive calls to `forEpochSeconds()` with the same `year`.
+
 ### TimePeriod
 
 The `TimePeriod` class can be used to represents a difference between two
@@ -1270,6 +1207,82 @@ acetime_t diffSeconds = targetDate.toEpochSeconds()
 TimePeriod timePeriod(diffSeconds);
 timePeriod.printTo(Serial)
 ```
+
+### ZoneManager
+
+**Caveat**: This is an experimental feature.
+
+On microcontrollers with more than ~30kB of flash (e.g. ESP8266, ESP32,
+and Teensy), the entire `zonedb` or `zonedbx` database can be loaded and
+timezones could be dynamically selected using the zone identifier strings
+(e.g. `"America/Los_Angeles"`). Two experimental classes are provided in version
+0.4 to give  dynamic access to the zoneinfo files: `BasicZoneManager` and
+`ExtendedZoneManager`. The class definitions look like this:
+
+```C++
+class BasicZoneManager {
+  public:
+    BasicZoneManager(const basic::ZoneInfo* zoneRegistry,
+        uint16_t registrySize);
+
+    const basic::ZoneInfo* getZoneInfo(const char* name) const;
+
+    bool isSorted() const;
+};
+
+class ExtendedZoneManager {
+  public:
+    ExtendedZoneManager(const extended::ZoneInfo* zoneRegistry,
+        uint16_t registrySize);
+
+    const extended::ZoneInfo* getZoneInfo(const char* name) const;
+
+    bool isSorted() const;
+};
+```
+
+They provide a lookup service from the zone identifier string the corresponding
+`const ZoneInfo*` pointer.
+
+The declaration for the zoneinfo registry is available at:
+
+* [zonedb/zone_registry.h](src/ace_time/zonedb/zone_registry.h)
+* [zonedbx/zone_registry.h](src/ace_time/zonedbx/zone_registry.h)
+
+The `BasicZoneManager` can be used like this with the `BasicZoneSpecifier`:
+
+```C++
+BasicZoneManager manager(zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
+const auto* zoneInfo = manager.getZoneInfo("America/Los_Angeles");
+BasicZoneSpecifier zspec(zoneInfo);
+auto tz = TimeZone::forZoneSpecifier(&zspec);
+```
+
+and the `ExtendedZoneManager` can be used with the `ExtendedZoneSpecifier`
+like this:
+
+```C++
+ExtendedZoneManager manager(zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+const auto* zoneInfo = manager.getZoneInfo("America/Los_Angeles");
+ExtendedZoneSpecifier zspec(zoneInfo);
+auto tz = TimeZone::forZoneSpecifier(&zspec);
+```
+
+The ZoneManagers can be initialized with a custom list of timezones, instead
+of using the entire `zonedb` or `zonedbx` databases.
+
+**Caveat**: The ZoneManagers are experimental and currently in development. As
+of version 0.4, the lifecycle management of `BasicZoneManager` and
+`ExtendedZoneManager` has not been fully designed and the recommended usage
+pattern will likely change in future. Before the ZoneManager classes were
+created, it was assumed that `BasicZoneSpecifier` and `ExtendedZoneSpecifier`
+would be long-lived, statically allocated objects. That assumption does not play
+well with the dynamic nature of the ZoneManagers. If the microcontroller has
+sufficient amount of static RAM (e.g. ESP8266, ESP32, etc), it may be possible
+to dynamically allocate the `BasicZoneSpecifier` and `ExtendedZoneSpecifier` on
+the heap and continue using the `TimeZone` objects as before. This usage pattern
+has not been explored and the app developer should be cautious when using these
+ZoneManager classes.
 
 ## Mutations
 
