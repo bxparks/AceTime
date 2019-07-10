@@ -16,7 +16,7 @@ namespace ace_time {
 
 /**
  * The date (year, month, day) representing the date without regards to time
- * zone. The "epoch" for this library is 2000-01-01.
+ * zone.
  *
  * The year field is internally represented as an int8_t offset from the year
  * 2000. However, the value of -128 (kInvalidYearTiny) is used to indicate an
@@ -29,8 +29,9 @@ namespace ace_time {
  * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated from the date
  * fields.
  *
- * Parts of this class were inspired by the java.time.LocalDate class of Java 8
- * (https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html).
+ * Parts of this class were inspired by the java.time.LocalDate class of Java
+ * 11
+ * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDate.html).
  */
 class LocalDate {
   public:

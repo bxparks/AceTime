@@ -15,23 +15,20 @@ class Print;
 namespace ace_time {
 
 /**
- * The date (year, month, day) and time (hour, minute, second) fields
- * representing the time with an offset from UTC.
- * The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated
- * internally from the date fields.
+ * The date (year, month, day), time (hour, minute, second) and
+ * offset from UTC (timeOffset). The dayOfWeek (1=Monday, 7=Sunday, per ISO
+ * 8601) is calculated internally from the date fields.
  *
  * The year field is internally represented as int8_t offset from the year
  * 2000, so in theory it is valid from [1873, 2127] since -128 is used to
  * indicate an error condition. If the year is restricted to the range 00-99,
  * these fields map directly to the fields supported by the DS3231 RTC chip.
  * The "epoch" for this library is 2000-01-01T00:00:00Z and toEpochSeconds()
- * returns a int32_t number of seconds offset from that epoch. The largest
- * possible int32_t value is INT32_MAX, but this value is used by
- * kInvalidEpochSeconds to indicate an invalid value.
+ * returns a int32_t number of seconds offset from that epoch.
  *
  * Parts of this class were inspired by the java.time.OffsetDateTime class of
- * Java 8
- * (https://docs.oracle.com/javase/8/docs/api/java/time/OffsetDateTime.html).
+ * Java 11
+ * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/OffsetDateTime.html).
  */
 class OffsetDateTime {
   public:

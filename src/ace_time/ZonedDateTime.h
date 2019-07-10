@@ -17,18 +17,18 @@ class Print;
 namespace ace_time {
 
 /**
- * The date (year, month, day) and time (hour, minute, second) fields
- * representing an instant in time. In an 8-bit implementation, the year field
- * is internally represented as an int8_t number from -128 to 127. The value of
- * -128 is used to indicate an error condition so that range of valid year is
- * 1873 to 2127 inclusive.
+ * The date (year, month, day), time (hour, minute, second), and
+ * a timeZone representing an instant in time. The year field is internally
+ * represented as an int8_t number from -128 to 127. The value of -128 is used
+ * to indicate an error condition so that range of valid year is 1873 to 2127
+ * inclusive.
  *
  * The "epoch" for this library is 2000-01-01 00:00:00Z. The dayOfWeek
  * (1=Sunday, 7=Saturday) is calculated internally from the date components.
  * Changing the timeZone does not affect the dayOfWeek.
  *
- * Some parts of this class was inspired by the org.joda.DateTime of
- * http://www.joda.org and java.time.ZonedDateTime of JDK8.
+ * Some parts of this class were inspired by the org.joda.DateTime of
+ * http://www.joda.org and java.time.ZonedDateTime of Java 11.
  */
 class ZonedDateTime {
   public:

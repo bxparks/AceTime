@@ -19,8 +19,9 @@ namespace ace_time {
  * Trying to create an instance outside of this range causes the isError()
  * method to return true, and toSeconds() returns kInvalidSeconds.
  *
- * Parts of this class were inspired by the java.time.LocalTime class of Java 8
- * (https://docs.oracle.com/javase/8/docs/api/java/time/LocalTime.html).
+ * Parts of this class were inspired by the java.time.LocalTime class of Java
+ * 11
+ * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalTime.html).
  */
 class LocalTime {
   public:
