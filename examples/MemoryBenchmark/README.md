@@ -60,11 +60,6 @@ the baseline, and its memory usage  numbers are subtracted from the subsequent
 +---------------------------------------------------------------------+
 ```
 
-The static RAM usage jump from 404 bytes to 4628 bytes when `BasicZoneSpecifier`
-is added is a bit surprising since `sizeof(BasicZoneSpecifier)` is only 140
-bytes. Fortunately, the ESP8266 has at least 80kB of RAM so this should not be
-an issue.
-
 ## ESP32
 
 * AceTime 0.4

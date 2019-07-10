@@ -127,15 +127,34 @@ it does not call the `new` operator nor the `malloc()` function, and it does not
 use the Arduino `String` class. Everything it needs is allocated statically at
 initialization time. On an 8-bit Arduino Nano (AVR), the AceTime library with
 one timezone using the `BasicZoneSpecifier` and the `SystemClock` consumes about
-8kB of flash and 430 bytes of RAM. On an ESP8266 processor (32-bit) the same
-functionality consumes 14kB of flash and 4600 bytes of RAM. The fully
+8kB of flash and 350 bytes of RAM. On an ESP8266 processor (32-bit) the same
+functionality consumes 11kB of flash and 850 bytes of RAM. Loading all 270
+timezones supported by `BasicZoneSpecifier` takes about 14kB of flash on an
+8-bit processor and about 21kB of flash on a 32-bit processor. The fully
 functioning [WorldClock](examples/WorldClock) with 3 OLED displays, 3 timezones,
 a SystemClock synchronized to a DS3231 chip, and 2 buttons can fit inside the
 30kB flash size of an Arduino Pro Micro controller.
 
-Version: 0.4 (2019-07-09, TZ DB version 2019a, beta)
+Conversion from date-time components (year, month, day, etc) to epochSeconds
+(`ZonedDateTime::toEpochSeconds()`) takes about:
+* 90 microseconds on an 8-bit AVR processor,
+* 7 microseconds on an ESP8266,
+* 1.4 microseconds on an ESP32,
+* 0.5 microseconds on a Teensy 3.2.
 
-Status: Zoneinfo files stored in PROGMEM when available.
+Conversion from an epochSeconds to date-time components including timezone
+(`ZonedDateTime::forEpochSeconds()`) takes:
+* 600 microseconds on an 8-bit AVR,
+* 25 microseconds on an ESP8266,
+* 2.5 microseconds on an ESP32,
+* 6 microseconds on a Teensy 3.2.
+
+if we get hits of the internal transitions cache.
+
+**Version**: 0.4 (2019-07-09, TZ DB version 2019a, beta)
+
+**Status**: Fully functional with an API that is expected to be stable for all
+classes except for the `ZoneManager` classes.
 
 ## HelloDateTime
 
@@ -311,7 +330,7 @@ then printing the system time every 2 seconds:
 
 ## Example: WorldClock
 
-Here is a photo of the [examples/WorldClock](examples/WorldClock) that supports 3
+Here is a photo of the [WorldClock](examples/WorldClock) that supports 3
 OLED displays with 3 timezones, and automatically adjusts the DST transitions
 for all 3 zones:
 
