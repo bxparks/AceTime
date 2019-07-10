@@ -133,31 +133,13 @@ class ZoneManager {
 };
 
 /**
- * Compare 2 strings in flash memory. None of the various strXxx_P() functions
- * work when both strings are in flash memory.
- */
-inline int strcmp_PP(const char* a, const char* b) {
-  if (a == b) { return 0; }
-  if (a == nullptr) { return -1; }
-  if (b == nullptr) { return 1; }
-
-  while (true) {
-    uint8_t ca = pgm_read_byte(a);
-    uint8_t cb = pgm_read_byte(b);
-    if (ca != cb) return (int) ca - (int) cb;
-    if (ca == '\0') return 0;
-    a++;
-    b++;
-  }
-}
-
-/**
  * Concrete template instantiation of ZoneManager for basic::ZoneInfo, which
  * can be used with BasicZoneSpecifier.
  */
 #if ACE_TIME_USE_BASIC_PROGMEM
 typedef ZoneManager<basic::ZoneInfo, basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker, strcmp_P, strcmp_PP> BasicZoneManager;
+    basic::ZoneInfoBroker, acetime_strcmp_P, acetime_strcmp_PP>
+    BasicZoneManager;
 #else
 typedef ZoneManager<basic::ZoneInfo, basic::ZoneRegistryBroker,
     basic::ZoneInfoBroker, strcmp, strcmp> BasicZoneManager;
@@ -169,7 +151,8 @@ typedef ZoneManager<basic::ZoneInfo, basic::ZoneRegistryBroker,
  */
 #if ACE_TIME_USE_EXTENDED_PROGMEM
 typedef ZoneManager<extended::ZoneInfo, extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker, strcmp_P, strcmp_PP> ExtendedZoneManager;
+    extended::ZoneInfoBroker, acetime_strcmp_P, acetime_strcmp_PP>
+    ExtendedZoneManager;
 #else
 typedef ZoneManager<extended::ZoneInfo, extended::ZoneRegistryBroker,
     extended::ZoneInfoBroker, strcmp, strcmp> ExtendedZoneManager;
