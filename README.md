@@ -129,9 +129,9 @@ functioning [WorldClock](examples/WorldClock) with 3 OLED displays, 3 timezones,
 a SystemClock synchronized to a DS3231 chip, and 2 buttons can fit inside the
 30kB flash size of an Arduino Pro Micro controller.
 
-Version: 0.3.1 (2019-06-30, TZ DB version 2019a, beta)
+Version: 0.4 (2019-07-09, TZ DB version 2019a, beta)
 
-Status: Available in the Arduino Library Manager as of 0.3.1.
+Status: Zoneinfo files stored in PROGMEM when available.
 
 ## HelloDateTime
 
