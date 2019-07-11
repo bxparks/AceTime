@@ -21,12 +21,12 @@ namespace ace_time {
 namespace zonedbx {
 
 //---------------------------------------------------------------------------
-// ZoneContext
+// ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
 const char kTzDatabaseVersion[] = "2019a";
 
-const common::ZoneContext kZoneContext = {
+const extended::ZoneContext kZoneContext = {
   2000 /*startYear*/,
   2050 /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,

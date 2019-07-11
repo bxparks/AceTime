@@ -19,14 +19,14 @@ namespace ace_time {
 namespace zonedbx2018g {
 
 //---------------------------------------------------------------------------
-// ZoneContext
+// ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
 // Version of the TZ Database which generated these files.
 extern const char kTzDatabaseVersion[];
 
 // Metadata about the zonedb files.
-extern const common::ZoneContext kZoneContext;
+extern const extended::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: 387

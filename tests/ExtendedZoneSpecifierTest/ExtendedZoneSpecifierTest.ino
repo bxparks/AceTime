@@ -12,7 +12,7 @@ using namespace ace_time::extended;
 // (i.e. no references to a ZonePolicy). Valid only for 2018.
 // --------------------------------------------------------------------------
 
-static const common::ZoneContext kZoneContext = {
+static const ZoneContext kZoneContext = {
   2000 /*startYear*/,
   2020 /*untilYear*/,
   "testing" /*tzVersion*/,
