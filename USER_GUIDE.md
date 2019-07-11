@@ -19,16 +19,22 @@ directory used by the Arduino IDE. (The result is a directory named
 
 The source files are organized as follows:
 * `src/AceTime.h` - main header file
-* `src/ace_time/` - date and time files
-* `src/ace_time/common/` - internal shared files
-* `src/ace_time/hw/` - thin hardware abstraction layer
+* `src/ace_time/` - date and time classes (`ace_time::`)
+* `src/ace_time/common/` - shared classes and utilities (`ace_time::common`,
+  `ace_time::logging`)
+* `src/ace_time/internal/` - internal classes (`ace_time::basic`,
+  `ace_time::extended`)
+* `src/ace_time/hw/` - thin hardware abstraction layer (`ace_time::hw`)
 * `src/ace_time/clock/` - system clock from RTC or NTP sources
-* `src/ace_time/testing/` - files used in unit tests
+  (`ace_time::clock`)
+* `src/ace_time/testing/` - files used in unit tests (`ace_time::testing`)
 * `src/ace_time/zonedb/` - files generated from TZ Database for
-  `BasicZoneSpecifier`
+  `BasicZoneSpecifier` (`ace_time::zonedb`)
 * `src/ace_time/zonedbx/` - files generated from TZ Database for
-  `ExtendedZoneSpecifier`
+  `ExtendedZoneSpecifier` (`ace_time::zonedbx`)
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
+* `tests/validation` - integration tests using AUnit which must be run
+   on desktop Linux or MacOS machines
 * `examples/` - example programs
 * `tools/` - parser for the TZ Database files, code generators for `zonedb::`
   and `zonedbx::` zone files, and code generators for various unit tests
@@ -195,10 +201,9 @@ classes are separated into a number of namespaces. They are related in the
 following way, where the arrow means "depends on":
 
 ```
-ace_time::clock
-      |      \
-      |       \
-      |        v
+ace_time::clock     ace_time::testing
+      |       \        /
+      |        v      v
       |        ace_time
       |         |\     \
       |         | \     v
@@ -212,6 +217,7 @@ ace_time::hw    |     ace_time::basic
             \   |    /
              v  v   v
            ace_time::common
+           ace_time::logging
 ```
 
 To use the classes without prepending the namespace prefixes, use one or more of

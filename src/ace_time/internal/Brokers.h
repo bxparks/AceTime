@@ -37,7 +37,7 @@
  * BasicZoneSpecifier and ExtendedZoneSpecifier respectively.
  */
 
-#include "flash.h"
+#include "../common/flash.h"
 #include "ZoneInfo.h"
 
 namespace ace_time {

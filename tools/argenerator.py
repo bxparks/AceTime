@@ -148,7 +148,7 @@ class ZonePoliciesGenerator:
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
 
-#include <ace_time/common/ZonePolicy.h>
+#include <ace_time/internal/ZonePolicy.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{
@@ -459,7 +459,7 @@ class ZoneInfosGenerator:
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
 
-#include <ace_time/common/ZoneInfo.h>
+#include <ace_time/internal/ZoneInfo.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{
@@ -1009,7 +1009,7 @@ const {scope}::ZoneInfo* const kZoneRegistry[{numZones}] {progmem} = {{
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_REGISTRY_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_REGISTRY_H
 
-#include <ace_time/common/ZoneInfo.h>
+#include <ace_time/internal/ZoneInfo.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{

@@ -9,8 +9,8 @@
 #include <Arduino.h>
 #include <string.h> // memcpy()
 #include <stdint.h>
-#include "common/ZonePolicy.h"
-#include "common/ZoneInfo.h"
+#include "internal/ZonePolicy.h"
+#include "internal/ZoneInfo.h"
 #include "common/logger.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"

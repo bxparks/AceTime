@@ -6,8 +6,8 @@
 #ifndef ACE_TIME_BASIC_ZONE_INFO_H
 #define ACE_TIME_BASIC_ZONE_INFO_H
 
-#include "common/ZoneInfo.h"
-#include "common/Brokers.h"
+#include "internal/ZoneInfo.h"
+#include "internal/Brokers.h"
 
 namespace ace_time {
 
