@@ -78,7 +78,7 @@ struct ZoneInfo {
   const char* const name;
 
   /** ZoneContext metadata. */
-  const common::ZoneContext* const zoneContext;
+  const ZoneContext* const zoneContext;
 
   /**
    * Estimated size of Transition buffer. Currently, this is used only in the

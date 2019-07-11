@@ -3,12 +3,6 @@
  * Copyright (c) 2019 Brian T. Park
  */
 
-#ifndef ACE_TIME_COMMON_ZONE_CONTEXT_H
-#define ACE_TIME_COMMON_ZONE_CONTEXT_H
-
-namespace ace_time {
-namespace common {
-
 /**
  * Metadata about the zone database. A ZoneInfo struct will contain a pointer
  * to this.
@@ -31,8 +25,3 @@ struct ZoneContext {
   /** TZ Database version which generated the zone info. */
   const char* const tzVersion;
 };
-
-}
-}
-
-#endif

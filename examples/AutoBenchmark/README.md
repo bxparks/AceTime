@@ -23,13 +23,6 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(basic::ZoneEra): 11
-sizeof(basic::ZoneInfo): 8
-sizeof(basic::ZoneRule): 9
-sizeof(basic::ZonePolicy): 6
-sizeof(basic::Transition): 18
-sizeof(extended::Transition): 40
-sizeof(extended::ZoneMatch): 12
 sizeof(ZoneSpecifier): 3
 sizeof(ManualZoneSpecifier): 10
 sizeof(BasicZoneSpecifier): 99
@@ -37,10 +30,18 @@ sizeof(ExtendedZoneSpecifier): 397
 sizeof(TimeZone): 3
 sizeof(ZonedDateTime): 10
 sizeof(TimePeriod): 4
-sizeof(SystemClock): 17
-sizeof(DS3231TimeKeeper): 3
-sizeof(SystemClockSyncLoop): 14
-sizeof(SystemClockSyncCoroutine): 31
+sizeof(clock::SystemClock): 17
+sizeof(clock::DS3231TimeKeeper): 3
+sizeof(clock::SystemClockSyncLoop): 14
+sizeof(clock::SystemClockSyncCoroutine): 31
+sizeof(basic::ZoneContext): 6
+sizeof(basic::ZoneEra): 11
+sizeof(basic::ZoneInfo): 8
+sizeof(basic::ZoneRule): 9
+sizeof(basic::ZonePolicy): 6
+sizeof(basic::Transition): 18
+sizeof(extended::Transition): 40
+sizeof(extended::ZoneMatch): 12
 ```
 
 CPU:
@@ -79,13 +80,6 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(basic::ZoneEra): 24
-sizeof(basic::ZoneInfo): 16
-sizeof(basic::ZoneRule): 9
-sizeof(basic::ZonePolicy): 16
-sizeof(basic::Transition): 28
-sizeof(extended::Transition): 48
-sizeof(extended::ZoneMatch): 16
 sizeof(ZoneSpecifier): 8
 sizeof(ManualZoneSpecifier): 20
 sizeof(BasicZoneSpecifier): 156
@@ -93,11 +87,19 @@ sizeof(ExtendedZoneSpecifier): 500
 sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
-sizeof(SystemClock): 24
-sizeof(DS3231TimeKeeper): 8
-sizeof(NtpTimeProvider): 88
-sizeof(SystemClockSyncLoop): 20
-sizeof(SystemClockSyncCoroutine): 52
+sizeof(clock::SystemClock): 24
+sizeof(clock::DS3231TimeKeeper): 8
+sizeof(clock::NtpTimeProvider): 88
+sizeof(clock::SystemClockSyncLoop): 16
+sizeof(clock::SystemClockSyncCoroutine): 48
+sizeof(basic::ZoneContext): 8
+sizeof(basic::ZoneEra): 24
+sizeof(basic::ZoneInfo): 16
+sizeof(basic::ZoneRule): 9
+sizeof(basic::ZonePolicy): 16
+sizeof(basic::Transition): 28
+sizeof(extended::Transition): 48
+sizeof(extended::ZoneMatch): 16
 ```
 
 CPU:
@@ -137,13 +139,6 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(basic::ZoneEra): 24
-sizeof(basic::ZoneInfo): 16
-sizeof(basic::ZoneRule): 9
-sizeof(basic::ZonePolicy): 16
-sizeof(basic::Transition): 28
-sizeof(extended::Transition): 48
-sizeof(extended::ZoneMatch): 16
 sizeof(ZoneSpecifier): 8
 sizeof(ManualZoneSpecifier): 20
 sizeof(BasicZoneSpecifier): 156
@@ -151,11 +146,19 @@ sizeof(ExtendedZoneSpecifier): 500
 sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
-sizeof(SystemClock): 24
-sizeof(DS3231TimeKeeper): 8
-sizeof(NtpTimeProvider): 116
-sizeof(SystemClockSyncLoop): 20
-sizeof(SystemClockSyncCoroutine): 52
+sizeof(clock::SystemClock): 24
+sizeof(clock::DS3231TimeKeeper): 8
+sizeof(clock::NtpTimeProvider): 116
+sizeof(clock::SystemClockSyncLoop): 16
+sizeof(clock::SystemClockSyncCoroutine): 48
+sizeof(basic::ZoneContext): 8
+sizeof(basic::ZoneEra): 24
+sizeof(basic::ZoneInfo): 16
+sizeof(basic::ZoneRule): 9
+sizeof(basic::ZonePolicy): 16
+sizeof(basic::Transition): 28
+sizeof(extended::Transition): 48
+sizeof(extended::ZoneMatch): 16
 ```
 
 CPU:
@@ -198,13 +201,6 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(basic::ZoneEra): 24
-sizeof(basic::ZoneInfo): 16
-sizeof(basic::ZoneRule): 9
-sizeof(basic::ZonePolicy): 16
-sizeof(basic::Transition): 28
-sizeof(extended::Transition): 48
-sizeof(extended::ZoneMatch): 16
 sizeof(ZoneSpecifier): 8
 sizeof(ManualZoneSpecifier): 20
 sizeof(BasicZoneSpecifier): 156
@@ -212,10 +208,18 @@ sizeof(ExtendedZoneSpecifier): 500
 sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
-sizeof(SystemClock): 24
-sizeof(DS3231TimeKeeper): 8
-sizeof(SystemClockSyncLoop): 20
-sizeof(SystemClockSyncCoroutine): 52
+sizeof(clock::SystemClock): 24
+sizeof(clock::DS3231TimeKeeper): 8
+sizeof(clock::SystemClockSyncLoop): 16
+sizeof(clock::SystemClockSyncCoroutine): 48
+sizeof(basic::ZoneContext): 8
+sizeof(basic::ZoneEra): 24
+sizeof(basic::ZoneInfo): 16
+sizeof(basic::ZoneRule): 9
+sizeof(basic::ZonePolicy): 16
+sizeof(basic::Transition): 28
+sizeof(extended::Transition): 48
+sizeof(extended::ZoneMatch): 16
 ```
 
 CPU:

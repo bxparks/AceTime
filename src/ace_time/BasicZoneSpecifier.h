@@ -9,10 +9,10 @@
 #include <Arduino.h>
 #include <string.h> // strchr()
 #include <stdint.h>
-#include "common/ZonePolicy.h"
-#include "common/ZoneInfo.h"
+#include "internal/ZonePolicy.h"
+#include "internal/ZoneInfo.h"
+#include "internal/Brokers.h"
 #include "common/logger.h"
-#include "common/Brokers.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"

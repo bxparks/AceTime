@@ -148,7 +148,7 @@ class ZonePoliciesGenerator:
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
 
-#include <ace_time/common/ZonePolicy.h>
+#include <ace_time/internal/ZonePolicy.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{
@@ -459,20 +459,20 @@ class ZoneInfosGenerator:
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
 
-#include <ace_time/common/ZoneInfo.h>
+#include <ace_time/internal/ZoneInfo.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{
 
 //---------------------------------------------------------------------------
-// ZoneContext
+// ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
 // Version of the TZ Database which generated these files.
 extern const char kTzDatabaseVersion[];
 
 // Metadata about the zonedb files.
-extern const common::ZoneContext kZoneContext;
+extern const {scope}::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: {numInfos}
@@ -564,12 +564,12 @@ namespace ace_time {{
 namespace {dbNamespace} {{
 
 //---------------------------------------------------------------------------
-// ZoneContext
+// ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
 const char kTzDatabaseVersion[] = "{tz_version}";
 
-const common::ZoneContext kZoneContext = {{
+const {scope}::ZoneContext kZoneContext = {{
   {startYear} /*startYear*/,
   {untilYear} /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
@@ -702,6 +702,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            scope=self.scope,
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             tz_files=', '.join(self.tz_files),
@@ -748,6 +749,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            scope=self.scope,
             startYear=self.start_year,
             untilYear=self.until_year,
             dbNamespace=self.db_namespace,
@@ -1007,7 +1009,7 @@ const {scope}::ZoneInfo* const kZoneRegistry[{numZones}] {progmem} = {{
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_REGISTRY_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_REGISTRY_H
 
-#include <ace_time/common/ZoneInfo.h>
+#include <ace_time/internal/ZoneInfo.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{

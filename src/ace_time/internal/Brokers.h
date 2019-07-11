@@ -37,7 +37,7 @@
  * BasicZoneSpecifier and ExtendedZoneSpecifier respectively.
  */
 
-#include "flash.h"
+#include "../common/flash.h"
 #include "ZoneInfo.h"
 
 namespace ace_time {
@@ -171,7 +171,7 @@ class DirectZoneEraBroker {
 };
 
 /** Data broker for accessing ZoneInfo in SRAM. */
-template <typename ZI, typename ZE, typename ZP, typename ZR>
+template <typename ZI, typename ZE, typename ZP, typename ZR, typename ZC>
 class DirectZoneInfoBroker {
   public:
     explicit DirectZoneInfoBroker(const ZI* zoneInfo):
@@ -395,7 +395,7 @@ class FlashZoneEraBroker {
 };
 
 /** Data broker for accessing ZoneInfo in PROGMEM. */
-template <typename ZI, typename ZE, typename ZP, typename ZR>
+template <typename ZI, typename ZE, typename ZP, typename ZR, typename ZC>
 class FlashZoneInfoBroker {
   public:
     explicit FlashZoneInfoBroker(const ZI* zoneInfo):
@@ -414,13 +414,13 @@ class FlashZoneInfoBroker {
     }
 
     int16_t startYear() const {
-      const common::ZoneContext* zoneContext = (const common::ZoneContext*)
+      const ZC* zoneContext = (const ZC*)
           pgm_read_ptr(&mZoneInfo->zoneContext);
       return zoneContext->startYear;
     }
 
     int16_t untilYear() const {
-      const common::ZoneContext* zoneContext = (const common::ZoneContext*)
+      const ZC* zoneContext = (const ZC*)
           pgm_read_ptr(&mZoneInfo->zoneContext);
       return zoneContext->untilYear;
     }
@@ -473,16 +473,16 @@ namespace basic {
 typedef common::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
 typedef common::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
 typedef common::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule> ZoneEraBroker;
-typedef common::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>
-    ZoneInfoBroker;
+typedef common::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
+    ZoneContext> ZoneInfoBroker;
 typedef common::FlashZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
 #else
 typedef common::DirectZoneRuleBroker<ZoneRule> ZoneRuleBroker;
 typedef common::DirectZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
 typedef common::DirectZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
     ZoneEraBroker;
-typedef common::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>
-    ZoneInfoBroker;
+typedef common::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
+    ZoneContext> ZoneInfoBroker;
 typedef common::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
 #endif
 
@@ -494,16 +494,16 @@ namespace extended {
 typedef common::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
 typedef common::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
 typedef common::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule> ZoneEraBroker;
-typedef common::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>
-    ZoneInfoBroker;
+typedef common::FlashZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
+    ZoneContext> ZoneInfoBroker;
 typedef common::FlashZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
 #else
 typedef common::DirectZoneRuleBroker<ZoneRule> ZoneRuleBroker;
 typedef common::DirectZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
 typedef common::DirectZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule>
     ZoneEraBroker;
-typedef common::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule>
-    ZoneInfoBroker;
+typedef common::DirectZoneInfoBroker<ZoneInfo, ZoneEra, ZonePolicy, ZoneRule,
+    ZoneContext> ZoneInfoBroker;
 typedef common::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
 #endif
 

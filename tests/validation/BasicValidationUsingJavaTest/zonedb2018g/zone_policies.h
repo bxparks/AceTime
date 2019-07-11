@@ -13,7 +13,7 @@
 #ifndef ACE_TIME_ZONEDB2018G_ZONE_POLICIES_H
 #define ACE_TIME_ZONEDB2018G_ZONE_POLICIES_H
 
-#include <ace_time/common/ZonePolicy.h>
+#include <ace_time/internal/ZonePolicy.h>
 
 namespace ace_time {
 namespace zonedb2018g {
