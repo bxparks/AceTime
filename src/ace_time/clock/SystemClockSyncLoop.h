@@ -19,10 +19,10 @@ namespace clock {
  * problem, use SystemClockSyncCoroutine instead.
  *
  * Initial syncing occurs at initialSyncPeriodSeconds interval, until the
- * first successful sync, then occurs at syncPeriodSeconds interval.
- * Initial syncing implements an exponential backoff when the sync request
- * fails, increasing from initialSyncPeriodSeconds to until a maximum of
- * syncPeriodSeconds.
+ * first successful sync, then subsequent syncing occurs at syncPeriodSeconds
+ * interval. Initial syncing implements an exponential backoff when the sync
+ * request fails, increasing from initialSyncPeriodSeconds to until a maximum
+ * of syncPeriodSeconds.
  */
 class SystemClockSyncLoop {
   public:
