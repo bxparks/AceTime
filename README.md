@@ -369,7 +369,8 @@ See the [AceTime User Guide](USER_GUIDE.md) for information on:
 This library was developed and tested using:
 
 * [Arduino IDE 1.8.9](https://www.arduino.cc/en/Main/Software)
-* [AVR Core 1.6.23](https://github.com/arduino/ArduinoCore-avr)
+* [Arduino AVR Core 1.6.23](https://github.com/arduino/ArduinoCore-avr)
+* [SparkFun AVR Core 1.1.12](https://github.com/sparkfun/Arduino_Boards)
 * [ESP8266 Arduino Core 2.5.2](https://github.com/esp8266/Arduino)
 * [ESP32 Arduino Core 1.0.2](https://github.com/espressif/arduino-esp32)
 * [Teensydino 1.46](https://www.pjrc.com/teensy/td_download.html)
@@ -387,7 +388,7 @@ library will work fine under MacOS and Windows, but I have not tested them.
 The library is tested on the following hardware before each release:
 
 * Arduino Nano clone (16 MHz ATmega328P)
-* Arduino Pro Micro clone (16 MHz ATmega32U4)
+* SparkFun Pro Micro clone (16 MHz ATmega32U4)
 * WeMos D1 Mini clone (ESP-12E module, 80 MHz ESP8266)
 * ESP32 dev board (ESP-WROOM-32 module, 240 MHz dual core Tensilica LX6)
 
