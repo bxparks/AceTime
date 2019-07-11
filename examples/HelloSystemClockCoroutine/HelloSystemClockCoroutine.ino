@@ -18,8 +18,11 @@ using namespace ace_routine;
 // ZoneSpecifier instance should be created statically at initialization time.
 static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
 
+// The 'syncTimeProvider' is set to nullptr, so systemClockSyncCoroutine does
+// not actually do anything. The purpose of this program is to show how
+// to structure the code if the 'syncTimeProvider' was actually defined.
 SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
-SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
+SystemClockSyncCoroutine systemClockSyncCoroutine(systemClock);
 
 //------------------------------------------------------------------
 
@@ -38,7 +41,7 @@ void setup() {
       2019, 6, 17, 19, 50, 0, pacificTz);
   systemClock.setNow(pacificTime.toEpochSeconds());
 
-  systemClockHeartbeat.setupCoroutine(F("systemClockHeartbeat"));
+  systemClockSyncCoroutine.setupCoroutine(F("systemClockSyncCoroutine"));
   CoroutineScheduler::setup();
 }
 
@@ -62,5 +65,6 @@ COROUTINE(print) {
 }
 
 void loop() {
+  systemClock.keepAlive();
   CoroutineScheduler::loop();
 }

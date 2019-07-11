@@ -60,7 +60,6 @@ hw::CrcEeprom crcEeprom;
 #endif
 
 SystemClockSyncCoroutine systemClockSync(systemClock);
-SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
 
 //------------------------------------------------------------------
 // Configure OLED display using SSD1306Ascii.
@@ -202,7 +201,6 @@ void setup() {
   controller.setup();
 
   systemClockSync.setupCoroutine(F("systemClockSync"));
-  systemClockHeartbeat.setupCoroutine(F("systemClockHeartbeat"));
   CoroutineScheduler::setup();
 
 #if ENABLE_SERIAL == 1

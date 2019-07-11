@@ -80,10 +80,8 @@ using namespace ace_time::clock;
 
 #if SYNC_TYPE == SYNC_TYPE_COROUTINE
   SystemClockSyncCoroutine systemClockSync(systemClock);
-  SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
 #else
   SystemClockSyncLoop systemClockSyncLoop(systemClock);
-  SystemClockHeartbeatLoop systemClockHeartbeatLoop(systemClock);
 #endif
 
 //---------------------------------------------------------------------------
@@ -456,7 +454,6 @@ void setup() {
   // insert coroutines into the scheduler
 #if SYNC_TYPE == SYNC_TYPE_COROUTINE
   systemClockSync.setupCoroutine(FF("systemClockSync"));
-  systemClockHeartbeat.setupCoroutine(FF("systemClockHeartbeat"));
 #endif
   commandManager.setupCoroutine(FF("commandManager"));
   CoroutineScheduler::setup();
@@ -465,9 +462,10 @@ void setup() {
 }
 
 void loop() {
-  CoroutineScheduler::loop();
+  systemClock.keepAlive();
 #if SYNC_TYPE == SYNC_TYPE_MANUAL
   systemClockSyncLoop.loop();
-  systemClockHeartbeatLoop.loop();
 #endif
+
+  CoroutineScheduler::loop();
 }

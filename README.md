@@ -55,8 +55,6 @@ C++ namespaces:
             * `ace_time::clock::DS3231TimeKeeper`
             * `ace_time::clock::SystemClock`
         * `ace_time::clock::NtpTimeProvider`
-    * `ace_time::clock::SystemClockHeartbeatCoroutine`
-    * `ace_time::clock::SystemClockHeartbeatLoop`
     * `ace_time::clock::SystemClockSyncCoroutine`
     * `ace_time::clock::SystemClockSyncLoop`
 * helper and common classes
@@ -295,7 +293,6 @@ using namespace ace_time::clock;
 static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
 
 SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
-SystemClockHeartbeatLoop systemClockHeartbeat(systemClock);
 
 //------------------------------------------------------------------
 
@@ -329,7 +326,7 @@ void printCurrentTime() {
 
 void loop() {
   printCurrentTime();
-  systemClockHeartbeat.loop(); // should be called every 65.535s or less
+  systemClock.keepAlive(); // should be called every 65.535s or less
   delay(2000);
 }
 ```

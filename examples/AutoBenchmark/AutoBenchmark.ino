@@ -97,14 +97,8 @@ void setup() {
   Serial.print(F("sizeof(SystemClockSyncLoop): "));
   Serial.println(sizeof(SystemClockSyncLoop));
 
-  Serial.print(F("sizeof(SystemClockHeartbeatLoop): "));
-  Serial.println(sizeof(SystemClockHeartbeatLoop));
-
   Serial.print(F("sizeof(SystemClockSyncCoroutine): "));
   Serial.println(sizeof(SystemClockSyncCoroutine));
-
-  Serial.print(F("sizeof(SystemClockHeartbeatCoroutine): "));
-  Serial.println(sizeof(SystemClockHeartbeatCoroutine));
 
   runBenchmarks();
 #ifndef ARDUINO

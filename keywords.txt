@@ -26,9 +26,7 @@ DS3231TimeKeeper	KEYWORD1
 NtpTimeProvider	KEYWORD1
 SystemClock	KEYWORD1
 SystemClockSyncLoop	KEYWORD1
-SystemClockHeartbeatLoop	KEYWORD1
 SystemClockSyncCoroutine	KEYWORD1
-SystemClockHeartbeatCoroutine	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)

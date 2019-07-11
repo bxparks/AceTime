@@ -48,13 +48,7 @@ hw::CrcEeprom crcEeprom;
 
 DS3231TimeKeeper dsTimeKeeper;
 SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
-
 SystemClockSyncCoroutine systemClockSync(systemClock);
-
-// SystemClockHeartbeatCoroutine commented out. Not needed for this app because
-// the SystemClock::getNow() is guaranteed to be called 10 times a second.
-// Save 168 bytes of flash memory.
-//SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
 
 //------------------------------------------------------------------
 // Configure OLED display using SSD1306Ascii.
@@ -225,13 +219,12 @@ void setup() {
 }
 
 void loop() {
+  systemClock.keepAlive();
 
   // Using the CoroutineScheduler is conceptually cleaner, but consumes 159
-  // bytes of extra flash memory. So run the coroutines manually instead.
-  //CoroutineScheduler::loop();
-
+  // bytes of extra flash memory. So run the coroutines manually instead of
+  // call CoroutineScheduler::loop();
   updateController.runCoroutine();
   checkButton.runCoroutine();
   systemClockSync.runCoroutine();
-
 }

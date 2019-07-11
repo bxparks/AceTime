@@ -38,13 +38,12 @@ The source files are organized as follows:
 The vast majority of the AceTime library has no dependency to any other external
 libraries. There is an optional dependency to
 [AceRoutine](https://github.com/bxparks/AceRoutine) if you want to use the
-`SystemClockSyncCoroutine` and `SystemClockHeartbeatCoroutine` classes for
-automatic syncing and freshening. (This is recommended but not strictly
-necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to the FastCRC
-library but the `CrcEeprom.h` file is not included in the `AceTime.h` main
-header file, so you should not need FastCRC to compile AceTime. (The
-`CrcEeprom.h` header file does not strictly belong in the AceTime library but
-many of my "clock" projects that use the AceTime library also use the
+`SystemClockSyncCoroutine` class for automatic syncing. (This is recommended but
+not strictly necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to
+the FastCRC library but the `CrcEeprom.h` file is not included in the
+`AceTime.h` main header file, so you should not need FastCRC to compile AceTime.
+(The `CrcEeprom.h` header file does not strictly belong in the AceTime library
+but many of my "clock" projects that use the AceTime library also use the
 `CrcEeprom` class, so this is a convenient place to keep it.)
 
 Various programs in the `examples/` directory have one or more of the following
@@ -1803,18 +1802,18 @@ void setup() {
 }
 ```
 
-### System Clock Heartbeat and Syncing
+### System Clock KeepAlive and Syncing
 
 The `SystemClock` requires 2 maintenance tasks to run periodically
 to help it keep proper time.
 
-First, the `SystemClock::getNow()` method must be called peridically
-before an internal integer overflow occurs, even if the `getNow()` is not
-needed. The internal integer overflow happens every 65.536 seconds.
-Even if your application is *guaranteed* to call `SystemClock::getNow()`
-faster than every 65 seconds, it is probably prudent to implement a "heartbeat"
-mechanism which simply calls the `SystemClock::getNow()` periodically
-regardless of how often the application makes that call.
+First, the `SystemClock::getNow()` or `keepAlive()` method must be called
+peridically before an internal integer overflow occurs, even if the `getNow()`
+is not needed. The internal integer overflow happens every 65.536 seconds.
+If your application is *guaranteed* to call `SystemClock::getNow()` more
+frequently than every 65 seconds, then you don't need to worry about this.
+However, if you want to be prudent, it does not cost very much to call the
+`SystemClock::keepAlive()` function in the global `loop()` method.
 
 Secondly, since the internal `millis()` clock is not very accurate, we must
 synchronize the `SystemClock` periodically with a more accurate time
@@ -1824,17 +1823,13 @@ to the `getNow()` method of the syncing time clock. If the syncing time
 source is the DS3231 chip, syncing once every 1-10 minutes might be sufficient
 since talking to the RTC chip is relatively cheap. If the syncing time source is
 the `NtpTimeProvider`, the network connection is fairly expensive so maybe once
-every 1-12 hours might be advisable.
+every 1-12 hours might be advisable. The `SystemClock` provides 2 ways to
+perform this syncing.
 
-The `SystemClock` provides 2 ways to perform these periodic maintenance
-actions. By default, the heartbeat happens every 5 seconds and the syncing
-happens every 3600 seconds. Those parameters are configurable in the
-constructors of the following classes.
+**Method 1: Using SystemClockSyncLoop**
 
-**Method 1: Using SystemClockSyncLoop and SystemClockHeartbeatLoop**
-
-You can use the `SystemClockSyncLoop` and `SystemClockHeartbeatLoop` classes and
-insert them somewhere into the global `loop()` method, like this:
+You can use the `SystemClockSyncLoop` class and insert it somewhere into the
+global `loop()` method, like this:
 
 ```C++
 #include <AceTime.h>
@@ -1844,26 +1839,21 @@ using namespace ace_time::clock;
 
 SystemClock systemClock(...);
 SystemClockSyncLoop systemClockSyncLoop(systemClock);
-SystemClockHeartbeatLoop systemClockHeartbeatLoop(systemClock);
 
 void loop() {
   ...
+  systemClock.keepAlive();
   systemClockSyncLoop.loop();
-  systemClockHeartbeatLoop.loop();
   ...
 }
 ```
 
-We have assumed here that the global `loop()` function executes sufficiently
-frequently, for example, faster than 10 or 100 times a second.
-
-**Method 2: Using SystemClockSyncCoroutine and SystemClockHeartbeatCoroutine**
+**Method 2: Using SystemClockSyncCoroutine**
 
 You can use two [AceRoutine](https://github.com/bxparks/AceRoutine) coroutines
-to perform the heartbeat and sync. First, `#include <AceRoutine.h>` *before* the
-`#include <AceTime.h>` (which activates the `SystemClockSyncCoroutine` and
-`SystemClockHeartbeatCoroutine` classes). Then create the 2 coroutines, and
-configure it to run using the `CoroutineScheduler`:
+to perform sync. First, `#include <AceRoutine.h>` *before* the
+`#include <AceTime.h>` (which activates the `SystemClockSyncCoroutine`
+class), then configure it to run:
 
 ```C++
 #include <AceRoutine.h> // include this before <AceTime.h>
@@ -1875,17 +1865,17 @@ using namespace ace_routine;
 
 SystemClock systemClock(...);
 SystemClockSyncCoroutine systemClockSync(systemClock);
-SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
 
 void setup() {
   ...
-  systemClockSync.setupCoroutine(F("systemClockSync"));
-  systemClockHeartbeat.setupCoroutine(F("systemClockHeartbeat"));
+  systemClockSyncCoroutine.setupCoroutine(F("systemClockSync"));
   CoroutineScheduler::setup();
   ...
 }
 
 void loop() {
+  ...
+  systemClock.keepAlive();
   CoroutineScheduler::loop();
   ...
 }
@@ -1896,8 +1886,8 @@ becomes non-blocking. In other words, if you are using the `NtpTimeProvider` to
 provide syncing, the `SystemClockSyncLoop` object calls its `getNow()` method,
 which blocks the execution of the program until the NTP server returns a
 response (or the request times out after 1000 milliseconds). If you use the
-`SystemClockSyncCoroutine`, the program continues to do other things (e.g. update
-displays, scan for buttons) while the `NtpTimeProvider` is waiting for a
+`SystemClockSyncCoroutine`, the program continues to do other things (e.g.
+update displays, scan for buttons) while the `NtpTimeProvider` is waiting for a
 response from the NTP server.
 
 ## Testing
@@ -2003,9 +1993,7 @@ sizeof(TimePeriod): 4
 sizeof(SystemClock): 17
 sizeof(DS3231TimeKeeper): 3
 sizeof(SystemClockSyncLoop): 14
-sizeof(SystemClockHeartbeatLoop): 8
 sizeof(SystemClockSyncCoroutine): 31
-sizeof(SystemClockHeartbeatCoroutine): 18
 ```
 
 **32-bit processors**
@@ -2024,9 +2012,7 @@ sizeof(TimePeriod): 4
 sizeof(SystemClock): 24
 sizeof(NtpTimeProvider): 88 (ESP8266), 116 (ESP32)
 sizeof(SystemClockSyncLoop): 20
-sizeof(SystemClockHeartbeatLoop): 12
 sizeof(SystemClockSyncCoroutine): 52
-sizeof(SystemClockHeartbeatCoroutine): 36
 ```
 
 The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more

@@ -47,12 +47,10 @@
 #include "ace_time/clock/DS3231TimeKeeper.h"
 #include "ace_time/clock/SystemClock.h"
 #include "ace_time/clock/SystemClockSyncLoop.h"
-#include "ace_time/clock/SystemClockHeartbeatLoop.h"
 
 // activate only if <AceRoutine.h> is included before this header
 #ifdef ACE_ROUTINE_VERSION
   #include "ace_time/clock/SystemClockSyncCoroutine.h"
-  #include "ace_time/clock/SystemClockHeartbeatCoroutine.h"
 #endif
 
 // Version format: xxyyzz == "xx.yy.zz"

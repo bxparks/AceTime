@@ -17,7 +17,6 @@ using namespace ace_time::clock;
 static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
 
 SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
-SystemClockHeartbeatLoop systemClockHeartbeat(systemClock);
 
 //------------------------------------------------------------------
 
@@ -51,6 +50,6 @@ void printCurrentTime() {
 
 void loop() {
   printCurrentTime();
-  systemClockHeartbeat.loop(); // must call every 65s or less
+  systemClock.keepAlive();
   delay(2000);
 }

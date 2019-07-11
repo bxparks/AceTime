@@ -40,9 +40,7 @@ sizeof(TimePeriod): 4
 sizeof(SystemClock): 17
 sizeof(DS3231TimeKeeper): 3
 sizeof(SystemClockSyncLoop): 14
-sizeof(SystemClockHeartbeatLoop): 8
 sizeof(SystemClockSyncCoroutine): 31
-sizeof(SystemClockHeartbeatCoroutine): 18
 ```
 
 CPU:
@@ -99,9 +97,7 @@ sizeof(SystemClock): 24
 sizeof(DS3231TimeKeeper): 8
 sizeof(NtpTimeProvider): 88
 sizeof(SystemClockSyncLoop): 20
-sizeof(SystemClockHeartbeatLoop): 12
 sizeof(SystemClockSyncCoroutine): 52
-sizeof(SystemClockHeartbeatCoroutine): 36
 ```
 
 CPU:
@@ -159,9 +155,7 @@ sizeof(SystemClock): 24
 sizeof(DS3231TimeKeeper): 8
 sizeof(NtpTimeProvider): 116
 sizeof(SystemClockSyncLoop): 20
-sizeof(SystemClockHeartbeatLoop): 12
 sizeof(SystemClockSyncCoroutine): 52
-sizeof(SystemClockHeartbeatCoroutine): 36
 ```
 
 CPU:
@@ -221,9 +215,7 @@ sizeof(TimePeriod): 4
 sizeof(SystemClock): 24
 sizeof(DS3231TimeKeeper): 8
 sizeof(SystemClockSyncLoop): 20
-sizeof(SystemClockHeartbeatLoop): 12
 sizeof(SystemClockSyncCoroutine): 52
-sizeof(SystemClockHeartbeatCoroutine): 36
 ```
 
 CPU:
