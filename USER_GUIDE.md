@@ -964,43 +964,6 @@ accurate than `BasicZoneSpecifier::forComponents()` because the `zonedbx::` data
 files contain transition information which are missing in the `zonedb::` data
 files due to space constraints.
 
-### TZ Database ZoneInfo Files and Version
-
-The `BasicZoneSpecifier` does not support all the timezones in the TZ Database.
-The list of these zones and The reasons for excluding them are given at the
-bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
-
-Although the `ExtendedZoneSpecifier` supports all zones from its TZ input
-files, there are number of timezones whose DST transitions in the past happened
-at 00:01 (instead of exactly at midnight 00:00). To save memory, the internal
-representation used by AceTime supports only DST transitions which occur at
-15-minute boundaries. For these timezones, the DST transition time is shifted to
-00:00 instead, and the transition happens one-minute earlier than it should.
-As of TZ DB version 2019a, there are 5 zones affected by this rounding, as
-listed at the bottom of
-[zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and these all occur
-before the year 2012.
-
-The IANA TZ Database is updated continually. As of this writing, the latest
-stable version is 2019a. When a new version of the database is released, it is
-relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
-However, it is likely that I would delay the release of a new version until the
-corresponding `pytz` package is updated to the latest TZ database version, so
-that the validation test suites pass (See Testing section below). Otherwise, I
-don't have a way to verify that the AceTime library with the new TZ Database
-version is correctly functioning.
-
-As of version 0.4, the zoneinfo files are stored in in flash memory instead of
-static RAM using the
-[PROGMEM](https://www.arduino.cc/reference/en/language/variables/utilities/progmem/)
-keyword on microcontrollers which support this feature. On an 8-bit
-microcontroller, the entire `zonedb/` database consumes about 14kB of flash
-memory, so it may be possible to create small programs that can dynamically
-access all timezones supported by `BasicZoneSpecifier`. The `zonedbx/` database
-consumes about 23kB of flash memory and the addition code size from various
-classes will exceed the 30-32kB limit of a typical Arduino 8-bit
-microcontroller.
-
 ### ZonedDateTime
 
 A `ZonedDateTime` is a `LocalDateTime` associated with a given `TimeZone`. This
@@ -1207,6 +1170,84 @@ TimePeriod timePeriod(diffSeconds);
 timePeriod.printTo(Serial)
 ```
 
+### ZoneInfo Files
+
+As of version 0.4, the zoneinfo files are stored in in flash memory instead of
+static RAM using the
+[PROGMEM](https://www.arduino.cc/reference/en/language/variables/utilities/progmem/)
+keyword on microcontrollers which support this feature. On an 8-bit
+microcontroller, the entire `zonedb/` database consumes about 14kB of flash
+memory, so it may be possible to create small programs that can dynamically
+access all timezones supported by `BasicZoneSpecifier`. The `zonedbx/` database
+consumes about 23kB of flash memory and the addition code size from various
+classes will exceed the 30-32kB limit of a typical Arduino 8-bit
+microcontroller.
+
+The `basic::ZoneInfo` and `extended::ZoneInfo` (and its related data structures)
+objects are meant to be *opaque* and simply passed into `BasicZoneSpecifier`,
+`ExtendedZoneSpecifier`, `BasicZoneManager` and `ExtendedZoneManager`. The
+internal formats of the `ZoneInfo` structures may change without warning, and
+users of this library should not access its internal data members directly. Two
+helper classes, `BasicZoneInfo` and `ExtendedZoneInfo`, are provided to give
+stable access to some of the internal fields,
+
+```C++
+namespace ace_time {
+
+class BasicZoneInfo {
+  public:
+    BasicZoneInfo(const basic::ZoneInfo* zoneInfo);
+
+#if ACE_TIME_USE_BASIC_PROGMEM
+    const __FlashStringHelper* name() const;
+#else
+    const char* name() const;
+#endif
+};
+
+
+class ExtendedZoneInfo {
+  public:
+    ExtendedZoneInfo(const extended::ZoneInfo* zoneInfo);
+
+#if ACE_TIME_USE_EXTENDED_PROGMEM
+    const __FlashStringHelper* name() const;
+#else
+    const char* name() const;
+#endif
+
+}
+```
+
+The return type of the `name()` method changes whether or not the zone name is
+stored in flash memory or in static memory.
+
+The `BasicZoneSpecifier` does not support all the timezones in the TZ Database.
+The list of these zones and The reasons for excluding them are given at the
+bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
+
+Although the `ExtendedZoneSpecifier` supports all zones from its TZ input
+files, there are number of timezones whose DST transitions in the past happened
+at 00:01 (instead of exactly at midnight 00:00). To save memory, the internal
+representation used by AceTime supports only DST transitions which occur at
+15-minute boundaries. For these timezones, the DST transition time is shifted to
+00:00 instead, and the transition happens one-minute earlier than it should.
+As of TZ DB version 2019a, there are 5 zones affected by this rounding, as
+listed at the bottom of
+[zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and these all occur
+before the year 2012.
+
+### TZ Database Version
+
+The IANA TZ Database is updated continually. As of this writing, the latest
+stable version is 2019a. When a new version of the database is released, it is
+relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
+However, it is likely that I would delay the release of a new version until the
+corresponding `pytz` package is updated to the latest TZ database version, so
+that the validation test suites pass (See Testing section below). Otherwise, I
+don't have a way to verify that the AceTime library with the new TZ Database
+version is correctly functioning.
+
 ### ZoneManager
 
 **Caveat**: This is an experimental feature.
@@ -1224,9 +1265,10 @@ class BasicZoneManager {
     BasicZoneManager(const basic::ZoneInfo* zoneRegistry,
         uint16_t registrySize);
 
-    const basic::ZoneInfo* getZoneInfo(const char* name) const;
-
+    uint16_t registrySize() const;
     bool isSorted() const;
+    const basic::ZoneInfo* getZoneInfo(uint16_t i) const;
+    const basic::ZoneInfo* getZoneInfo(const char* name) const;
 };
 
 class ExtendedZoneManager {
@@ -1234,9 +1276,10 @@ class ExtendedZoneManager {
     ExtendedZoneManager(const extended::ZoneInfo* zoneRegistry,
         uint16_t registrySize);
 
-    const extended::ZoneInfo* getZoneInfo(const char* name) const;
-
+    uint16_t registrySize() const;
     bool isSorted() const;
+    const extended::ZoneInfo* getZoneInfo(uint16_t i) const;
+    const extended::ZoneInfo* getZoneInfo(const char* name) const;
 };
 ```
 

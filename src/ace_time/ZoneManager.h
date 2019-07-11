@@ -45,8 +45,22 @@ class ZoneManager {
         mRegistrySize(registrySize),
         mIsSorted(isSorted(zoneRegistry, registrySize)) {}
 
+    /** Return the number of zones. */
+    uint16_t registrySize() const { return mRegistrySize; }
+
     /**
-     * Return the ZoneSpecifier corresponding to the given zone name. Return
+     * Return true if zoneRegistry is sorted, and eligible to use a binary
+     * search.
+     */
+    bool isSorted() const { return mIsSorted; }
+
+    /* Return the ZoneInfo at index i. */
+    const ZI* getZoneInfo(uint16_t i) const {
+      return ZRB(mZoneRegistry).zoneInfo(i);
+    }
+
+    /**
+     * Return the ZoneInfo corresponding to the given zone name. Return
      * nullptr if not found, or if we have no more ZoneSpecifier internal
      * buffer.
      */
@@ -57,12 +71,6 @@ class ZoneManager {
         return linearSearch(mZoneRegistry, mRegistrySize, name);
       }
     }
-
-    /**
-     * Return true if zoneRegistry is sorted, and eligible to use a binary
-     * search.
-     */
-    bool isSorted() const { return mIsSorted; }
 
   protected:
     friend class ::BasicZoneManagerTest_Sorted_isSorted;

@@ -14,6 +14,7 @@ class Controller {
     Controller(PersistentStore& persistentStore, SystemClock& systemClock):
         mPersistentStore(persistentStore),
         mSystemClock(systemClock),
+        mZoneManager(kZoneRegistry, kZoneRegistrySize),
       #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
         mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles)
       #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
@@ -108,7 +109,29 @@ class Controller {
       mSystemClock.setup();
     }
 
+    /** Print list of supported zones. */
+    void printZonesTo(Print& printer) const {
+      uint16_t registrySize = mZoneManager.registrySize();
+      for (uint16_t i = 0; i < registrySize; i++) {
+      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+        const basic::ZoneInfo* zoneInfo = mZoneManager.getZoneInfo(i);
+        printer.println(BasicZoneInfo(zoneInfo).name());
+      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
+        const extended::ZoneInfo* zoneInfo = mZoneManager.getZoneInfo(i);
+        printer.println(ExtendedZoneInfo(zoneInfo).name());
+      #endif
+      }
+    }
+
   private:
+  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+    static const basic::ZoneInfo* const kZoneRegistry[];
+    static const uint16_t kZoneRegistrySize;
+  #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
+    static const extended::ZoneInfo* const kZoneRegistry[];
+    static const uint16_t kZoneRegistrySize;
+  #endif
+
     uint16_t preserveInfo() {
       mIsStoredInfoValid = true;
       mStoredInfo.timeZoneType = mTimeZone.getType();
@@ -134,10 +157,12 @@ class Controller {
     SystemClock& mSystemClock;
     TimeZone mTimeZone;
     ManualZoneSpecifier mManualZoneSpecifier;
+
   #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+    BasicZoneManager mZoneManager;
     BasicZoneSpecifier mBasicZoneSpecifier;
-  #endif
-  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
+  #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
+    ExtendedZoneManager mZoneManager;
     ExtendedZoneSpecifier mExtendedZoneSpecifier;
   #endif
 
