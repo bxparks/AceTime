@@ -165,8 +165,8 @@ Conversion from an epochSeconds to date-time components including timezone
 
 **Version**: 0.4 (2019-07-09, TZ DB version 2019a, beta)
 
-**Status**: Fully functional with an API that is expected to be stable for all
-classes except for the `ZoneManager` classes.
+**Status**: Fully functional with an API that is expected to be mostly stable
+except for the `ZoneManager` classes.
 
 ## HelloDateTime
 
