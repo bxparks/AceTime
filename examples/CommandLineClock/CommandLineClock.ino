@@ -165,18 +165,20 @@ class SyncCommand: public CommandHandler {
  * Timezone command.
  * Usage:
  *    timezone - print current timezone
- *    timezone fixed timeOffset - set timezone to fixed mode with given offset
- *    timezone manual timeOffset - set timezone to ManualZoneSpecifier with
+ *    timezone list - print support time zones
+ *    timezone fixed {timeOffset} - set timezone to fixed mode with given offset
+ *    timezone manual {timeOffset} - set timezone to ManualZoneSpecifier with
  *        given offset
- *    timezone basic - set timezone to BasicZoneSpecifier
- *    timezone extended - set timezone to ExtendedZoneSpecifier
- *    timezone dst (on | off) - set ManualZoneSpecifier DST flag to on or off
+ *    timezone dst {on | off} - set ManualZoneSpecifier DST flag to on or off
+ *    timezone basic - set timezone to BasicZoneSpecifier (if supported)
+ *    timezone extended - set timezone to ExtendedZoneSpecifier (if supported)
  */
 class TimezoneCommand: public CommandHandler {
   public:
     TimezoneCommand():
       CommandHandler("timezone",
-        "[fixed offset | manual offset | basic | extended | dst (on | off)]") {}
+        "[list | fixed {offset} | manual {offset} | basic | extended | "
+        "dst {on | off}]") {}
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
@@ -196,10 +198,9 @@ class TimezoneCommand: public CommandHandler {
       #else
         printer.print(FF("BasicZoneSpecifier not supported"));
       #endif
-        return;
-      }
-
-      if (strcmp(argv[0], "extended") == 0) {
+      } else if (strcmp(argv[0], "list") == 0) {
+        controller.printZonesTo(printer);
+      } else if (strcmp(argv[0], "extended") == 0) {
       #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
         controller.setExtendedTimeZone();
         printer.print(FF("Time zone using ExtendedZoneSpecifier: "));
@@ -208,10 +209,7 @@ class TimezoneCommand: public CommandHandler {
       #else
         printer.print(FF("ExtendedZoneSpecifier not supported"));
       #endif
-        return;
-      }
-
-      if (strcmp(argv[0], "fixed") == 0) {
+      } else if (strcmp(argv[0], "fixed") == 0) {
         SHIFT;
         if (argc == 0) {
           printer.print(FF("'timezone fixed' requires 'offset'"));
@@ -226,10 +224,7 @@ class TimezoneCommand: public CommandHandler {
         printer.print(FF("Time zone set to: "));
         controller.getTimeZone().printTo(printer);
         printer.println();
-        return;
-      }
-
-      if (strcmp(argv[0], "manual") == 0) {
+      } else if (strcmp(argv[0], "manual") == 0) {
         SHIFT;
         if (argc == 0) {
           printer.print(FF("'timezone manual' requires 'offset'"));
@@ -244,10 +239,7 @@ class TimezoneCommand: public CommandHandler {
         printer.print(FF("Time zone set to: "));
         controller.getTimeZone().printTo(printer);
         printer.println();
-        return;
-      }
-
-      if (strcmp(argv[0], "dst") == 0) {
+      } else if (strcmp(argv[0], "dst") == 0) {
         SHIFT;
         if (argc == 0) {
           printer.print(FF("DST: "));
@@ -262,13 +254,12 @@ class TimezoneCommand: public CommandHandler {
         } else {
           printer.print(FF("'timezone dst' must be either 'on' or 'off'"));
         }
-        return;
+      } else {
+        // If we get here, we don't recognize the subcommand.
+        printer.print(FF("Unknown option ("));
+        printer.print(argv[0]);
+        printer.println(")");
       }
-
-      // If we get here, we don't recognize the subcommand.
-      printer.print(FF("Unknown option ("));
-      printer.print(argv[0]);
-      printer.println(")");
     }
 };
 

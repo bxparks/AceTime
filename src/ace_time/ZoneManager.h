@@ -45,8 +45,16 @@ class ZoneManager {
         mRegistrySize(registrySize),
         mIsSorted(isSorted(zoneRegistry, registrySize)) {}
 
+    /** Return the number of zones. */
+    uint16_t registrySize() const { return mRegistrySize; }
+
+    /* Return the ZoneInfo at index i. */
+    const ZI* getZoneInfo(uint16_t i) const {
+      return ZRB(mZoneRegistry).zoneInfo(i);
+    }
+
     /**
-     * Return the ZoneSpecifier corresponding to the given zone name. Return
+     * Return the ZoneInfo corresponding to the given zone name. Return
      * nullptr if not found, or if we have no more ZoneSpecifier internal
      * buffer.
      */
