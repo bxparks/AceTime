@@ -115,10 +115,10 @@ class Controller {
       for (uint16_t i = 0; i < registrySize; i++) {
       #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
         const basic::ZoneInfo* zoneInfo = mZoneManager.getZoneInfo(i);
-        printer.println(BasicZoneInfo(zoneInfo).name());
+        printer.println(BasicZone(zoneInfo).name());
       #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
         const extended::ZoneInfo* zoneInfo = mZoneManager.getZoneInfo(i);
-        printer.println(ExtendedZoneInfo(zoneInfo).name());
+        printer.println(ExtendedZone(zoneInfo).name());
       #endif
       }
     }
