@@ -61,6 +61,7 @@ class Controller {
   #if ENABLE_TIME_ZONE_TYPE_BASIC
     /** Set the time zone to America/Los_Angeles using BasicZoneSpecifier. */
     void setBasicTimeZone(uint16_t zoneIndex = 0) {
+      mZoneIndex = zoneIndex;
       const basic::ZoneInfo* zoneInfo =
           mBasicZoneManager.getZoneInfo(zoneIndex);
       if (zoneInfo == nullptr) zoneInfo = &zonedb::kZoneAmerica_Los_Angeles;
@@ -73,6 +74,7 @@ class Controller {
   #if ENABLE_TIME_ZONE_TYPE_EXTENDED
     /** Set the time zone to America/Los_Angeles using ExtendedZoneSpecifier. */
     void setExtendedTimeZone(uint16_t zoneIndex = 0) {
+      mZoneIndex = zoneIndex;
       const extended::ZoneInfo* zoneInfo =
           mExtendedZoneManager.getZoneInfo(zoneIndex);
       if (zoneInfo == nullptr) zoneInfo = &zonedbx::kZoneAmerica_Los_Angeles;
@@ -167,6 +169,7 @@ class Controller {
       mStoredInfo.timeZoneType = mTimeZone.getType();
       mStoredInfo.offsetMinutes = mManualZoneSpecifier.stdOffset().toMinutes();
       mStoredInfo.isDst = mManualZoneSpecifier.isDst();
+      mStoredInfo.zoneIndex = mZoneIndex;
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
 
@@ -178,11 +181,11 @@ class Controller {
             mStoredInfo.isDst);
     #if ENABLE_TIME_ZONE_TYPE_BASIC
       } else if (mStoredInfo.timeZoneType == TimeZone::kTypeBasic) {
-        setBasicTimeZone();
+        setBasicTimeZone(mStoredInfo.zoneIndex);
     #endif
     #if ENABLE_TIME_ZONE_TYPE_EXTENDED
       } else if (mStoredInfo.timeZoneType == TimeZone::kTypeExtended) {
-        setExtendedTimeZone();
+        setExtendedTimeZone(mStoredInfo.zoneIndex);
     #endif
       } else {
         setFixedTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes));
@@ -202,6 +205,7 @@ class Controller {
     ExtendedZoneManager mExtendedZoneManager;
     ExtendedZoneSpecifier mExtendedZoneSpecifier;
   #endif
+    uint16_t mZoneIndex = 0;
 
     StoredInfo mStoredInfo;
     bool mIsStoredInfoValid = false;

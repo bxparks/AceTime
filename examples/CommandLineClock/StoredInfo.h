@@ -16,6 +16,14 @@ struct StoredInfo {
   /** The isDst flag for kTypeManual. */
   bool isDst;
 
+  /**
+   * The current zoneInex. This solution is suboptimal because the ZoneRegistry
+   * may be changed after the zoneIndex has been stored in EEPROM, so the same
+   * index may refer to a different ZoneInfo. The solution would need to store
+   * either the full ZoneInfo.name, or some other stable zone identifier.
+   */
+  uint16_t zoneIndex;
+
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   static const uint8_t kSsidMaxLength = 33; // 32 + NUL terminator
   static const uint8_t kPasswordMaxLength = 64; // 63 + NUL terminator
