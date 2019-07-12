@@ -56,7 +56,7 @@ class ZoneManager {
 
     /* Return the ZoneInfo at index i. */
     const ZI* getZoneInfo(uint16_t i) const {
-      return ZRB(mZoneRegistry).zoneInfo(i);
+      return (i < mRegistrySize) ? ZRB(mZoneRegistry).zoneInfo(i) : nullptr;
     }
 
     /**

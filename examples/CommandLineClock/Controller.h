@@ -31,8 +31,10 @@ class Controller {
       if (mIsStoredInfoValid) {
         restoreInfo();
       } else {
+#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
         mStoredInfo.ssid[0] = '\0';
         mStoredInfo.password[0] = '\0';
+#endif
         setBasicTimeZone();
       }
     }
@@ -58,7 +60,11 @@ class Controller {
 
   #if ENABLE_TIME_ZONE_TYPE_BASIC
     /** Set the time zone to America/Los_Angeles using BasicZoneSpecifier. */
-    void setBasicTimeZone() {
+    void setBasicTimeZone(uint16_t zoneIndex = 0) {
+      const basic::ZoneInfo* zoneInfo =
+          mBasicZoneManager.getZoneInfo(zoneIndex);
+      if (zoneInfo == nullptr) zoneInfo = &zonedb::kZoneAmerica_Los_Angeles;
+      mBasicZoneSpecifier.setZoneInfo(zoneInfo);
       mTimeZone = TimeZone::forZoneSpecifier(&mBasicZoneSpecifier);
       preserveInfo();
     }
@@ -66,7 +72,11 @@ class Controller {
 
   #if ENABLE_TIME_ZONE_TYPE_EXTENDED
     /** Set the time zone to America/Los_Angeles using ExtendedZoneSpecifier. */
-    void setExtendedTimeZone() {
+    void setExtendedTimeZone(uint16_t zoneIndex = 0) {
+      const extended::ZoneInfo* zoneInfo =
+          mExtendedZoneManager.getZoneInfo(zoneIndex);
+      if (zoneInfo == nullptr) zoneInfo = &zonedbx::kZoneAmerica_Los_Angeles;
+      mExtendedZoneSpecifier.setZoneInfo(zoneInfo);
       mTimeZone = TimeZone::forZoneSpecifier(&mExtendedZoneSpecifier);
       preserveInfo();
     }

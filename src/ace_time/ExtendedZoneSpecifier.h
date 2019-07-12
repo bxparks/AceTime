@@ -647,6 +647,14 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         ZoneSpecifier(kTypeExtended),
         mZoneInfo(zoneInfo) {}
 
+    /** Set the underlying ZoneInfo. */
+    void setZoneInfo(const extended::ZoneInfo* zoneInfo) {
+      mZoneInfo = extended::ZoneInfoBroker(zoneInfo);
+      mYear = 0;
+      mIsFilled = false;
+      mNumMatches = 0;
+    }
+
     /** Return the underlying ZoneInfo. */
     const extended::ZoneInfo* getZoneInfo() const {
       return mZoneInfo.zoneInfo();
@@ -1547,9 +1555,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       *dst = '\0';
     }
 
-    extended::ZoneInfoBroker const mZoneInfo;
+    extended::ZoneInfoBroker mZoneInfo;
 
-    mutable int16_t mYear = 0;
+    mutable int16_t mYear = 0; // maybe create LocalDate::kInvalidYear?
     mutable bool mIsFilled = false;
     // NOTE: Maybe move mNumMatches and mMatches into a MatchStorage object.
     mutable uint8_t mNumMatches = 0; // actual number of matches

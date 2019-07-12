@@ -170,10 +170,10 @@ class TimezoneCommand: public CommandHandler {
       CommandHandler("timezone",
         "[fixed {offset} | manual {offset} | "
       #if ENABLE_TIME_ZONE_TYPE_BASIC
-        "basic [list] | "
+        "basic [list | {index}] | "
       #endif
       #if ENABLE_TIME_ZONE_TYPE_EXTENDED
-        "extended [list] | "
+        "extended [list | {index}] | "
       #endif
         "dst {on | off}]") {}
 
@@ -219,25 +219,27 @@ class TimezoneCommand: public CommandHandler {
       #if ENABLE_TIME_ZONE_TYPE_BASIC
       } else if (strcmp(argv[0], "basic") == 0) {
         SHIFT;
-        if (argc == 0) {
-          controller.setBasicTimeZone();
-          printer.print(F("Time zone using BasicZoneSpecifier: "));
+        if (argc != 0 && strcmp(argv[0], "list") == 0) {
+          controller.printBasicZonesTo(printer);
+        } else {
+          int16_t zoneIndex = (argc == 0) ? 0 : atoi(argv[0]);
+          controller.setBasicTimeZone(zoneIndex);
+          printer.print(F("Time zone set to: "));
           controller.getTimeZone().printTo(printer);
           printer.println();
-        } else if (strcmp(argv[0], "list") == 0) {
-          controller.printBasicZonesTo(printer);
         }
       #endif
       #if ENABLE_TIME_ZONE_TYPE_EXTENDED
       } else if (strcmp(argv[0], "extended") == 0) {
         SHIFT;
-        if (argc == 0) {
-          controller.setExtendedTimeZone();
-          printer.print(F("Time zone using ExtendedZoneSpecifier: "));
+        if (argc != 0 && strcmp(argv[0], "list") == 0) {
+          controller.printExtendedZonesTo(printer);
+        } else {
+          int16_t zoneIndex = (argc == 0) ? 0 : atoi(argv[0]);
+          controller.setExtendedTimeZone(zoneIndex);
+          printer.print(F("Time zone set to: "));
           controller.getTimeZone().printTo(printer);
           printer.println();
-        } else if (strcmp(argv[0], "list") == 0) {
-          controller.printExtendedZonesTo(printer);
         }
       #endif
       } else if (strcmp(argv[0], "dst") == 0) {
