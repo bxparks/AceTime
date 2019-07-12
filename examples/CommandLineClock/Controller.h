@@ -13,12 +13,15 @@ class Controller {
   public:
     Controller(PersistentStore& persistentStore, SystemClock& systemClock):
         mPersistentStore(persistentStore),
-        mSystemClock(systemClock),
-        mZoneManager(kZoneRegistry, kZoneRegistrySize),
-      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-        mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles)
-      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-        mExtendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles)
+        mSystemClock(systemClock)
+      #if ENABLE_TIME_ZONE_TYPE_BASIC
+        , mBasicZoneManager(kBasicZoneRegistry, kBasicZoneRegistrySize)
+        , mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles)
+      #endif
+      #if ENABLE_TIME_ZONE_TYPE_EXTENDED
+        , mExtendedZoneManager(kExtendedZoneRegistry,
+            kExtendedZoneRegistrySize)
+        , mExtendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles)
       #endif
     {}
 
@@ -48,27 +51,27 @@ class Controller {
       preserveInfo();
     }
 
-    /** Set the time zone to America/Los_Angeles using BasicZoneSpecifier. */
-    void setBasicTimeZone() {
-  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-      mTimeZone = TimeZone::forZoneSpecifier(&mBasicZoneSpecifier);
-      preserveInfo();
-  #endif
-    }
-
-    /** Set the time zone to America/Los_Angeles using ExtendedZoneSpecifier. */
-    void setExtendedTimeZone() {
-  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-      mTimeZone = TimeZone::forZoneSpecifier(&mExtendedZoneSpecifier);
-      preserveInfo();
-  #endif
-    }
-
     /** Set the DST setting of ManualZoneSpecifier. */
     void setDst(bool isDst) {
       mTimeZone.isDst(isDst);
       preserveInfo();
     }
+
+  #if ENABLE_TIME_ZONE_TYPE_BASIC
+    /** Set the time zone to America/Los_Angeles using BasicZoneSpecifier. */
+    void setBasicTimeZone() {
+      mTimeZone = TimeZone::forZoneSpecifier(&mBasicZoneSpecifier);
+      preserveInfo();
+    }
+  #endif
+
+  #if ENABLE_TIME_ZONE_TYPE_EXTENDED
+    /** Set the time zone to America/Los_Angeles using ExtendedZoneSpecifier. */
+    void setExtendedTimeZone() {
+      mTimeZone = TimeZone::forZoneSpecifier(&mExtendedZoneSpecifier);
+      preserveInfo();
+    }
+  #endif
 
     /** Return the current time zone. */
     const TimeZone& getTimeZone() const { return mTimeZone; }
@@ -109,27 +112,37 @@ class Controller {
       mSystemClock.setup();
     }
 
+  #if ENABLE_TIME_ZONE_TYPE_BASIC
     /** Print list of supported zones. */
-    void printZonesTo(Print& printer) const {
-      uint16_t registrySize = mZoneManager.registrySize();
+    void printBasicZonesTo(Print& printer) const {
+      uint16_t registrySize = mBasicZoneManager.registrySize();
       for (uint16_t i = 0; i < registrySize; i++) {
-      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-        const basic::ZoneInfo* zoneInfo = mZoneManager.getZoneInfo(i);
+        const basic::ZoneInfo* zoneInfo = mBasicZoneManager.getZoneInfo(i);
         printer.println(BasicZone(zoneInfo).name());
-      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-        const extended::ZoneInfo* zoneInfo = mZoneManager.getZoneInfo(i);
-        printer.println(ExtendedZone(zoneInfo).name());
-      #endif
       }
     }
+  #endif
+
+  #if ENABLE_TIME_ZONE_TYPE_EXTENDED
+    /** Print list of supported zones. */
+    void printExtendedZonesTo(Print& printer) const {
+      uint16_t registrySize = mExtendedZoneManager.registrySize();
+      for (uint16_t i = 0; i < registrySize; i++) {
+        const extended::ZoneInfo* zoneInfo =
+            mExtendedZoneManager.getZoneInfo(i);
+        printer.println(ExtendedZone(zoneInfo).name());
+      }
+    }
+  #endif
 
   private:
-  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-    static const basic::ZoneInfo* const kZoneRegistry[];
-    static const uint16_t kZoneRegistrySize;
-  #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-    static const extended::ZoneInfo* const kZoneRegistry[];
-    static const uint16_t kZoneRegistrySize;
+  #if ENABLE_TIME_ZONE_TYPE_BASIC
+    static const basic::ZoneInfo* const kBasicZoneRegistry[];
+    static const uint16_t kBasicZoneRegistrySize;
+  #endif
+  #if ENABLE_TIME_ZONE_TYPE_EXTENDED
+    static const extended::ZoneInfo* const kExtendedZoneRegistry[];
+    static const uint16_t kExtendedZoneRegistrySize;
   #endif
 
     uint16_t preserveInfo() {
@@ -146,10 +159,16 @@ class Controller {
       } else if (mStoredInfo.timeZoneType == TimeZone::kTypeManual) {
         setManualTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes),
             mStoredInfo.isDst);
+    #if ENABLE_TIME_ZONE_TYPE_BASIC
       } else if (mStoredInfo.timeZoneType == TimeZone::kTypeBasic) {
         setBasicTimeZone();
+    #endif
+    #if ENABLE_TIME_ZONE_TYPE_EXTENDED
       } else if (mStoredInfo.timeZoneType == TimeZone::kTypeExtended) {
         setExtendedTimeZone();
+    #endif
+      } else {
+        setFixedTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes));
       }
     }
 
@@ -158,11 +177,12 @@ class Controller {
     TimeZone mTimeZone;
     ManualZoneSpecifier mManualZoneSpecifier;
 
-  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-    BasicZoneManager mZoneManager;
+  #if ENABLE_TIME_ZONE_TYPE_BASIC
+    BasicZoneManager mBasicZoneManager;
     BasicZoneSpecifier mBasicZoneSpecifier;
-  #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-    ExtendedZoneManager mZoneManager;
+  #endif
+  #if ENABLE_TIME_ZONE_TYPE_EXTENDED
+    ExtendedZoneManager mExtendedZoneManager;
     ExtendedZoneSpecifier mExtendedZoneSpecifier;
   #endif
 

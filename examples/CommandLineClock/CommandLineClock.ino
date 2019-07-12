@@ -177,7 +177,13 @@ class TimezoneCommand: public CommandHandler {
   public:
     TimezoneCommand():
       CommandHandler("timezone",
-        "[list | fixed {offset} | manual {offset} | basic | extended | "
+        "[fixed {offset} | manual {offset} | "
+      #if ENABLE_TIME_ZONE_TYPE_BASIC
+        "basic [list] | "
+      #endif
+      #if ENABLE_TIME_ZONE_TYPE_EXTENDED
+        "extended [list] | "
+      #endif
         "dst {on | off}]") {}
 
     void run(Print& printer, int argc, const char** argv) const override {
@@ -189,27 +195,7 @@ class TimezoneCommand: public CommandHandler {
       }
 
       SHIFT;
-      if (strcmp(argv[0], "basic") == 0) {
-      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-        controller.setBasicTimeZone();
-        printer.print(FF("Time zone using BasicZoneSpecifier: "));
-        controller.getTimeZone().printTo(printer);
-        printer.println();
-      #else
-        printer.print(FF("BasicZoneSpecifier not supported"));
-      #endif
-      } else if (strcmp(argv[0], "list") == 0) {
-        controller.printZonesTo(printer);
-      } else if (strcmp(argv[0], "extended") == 0) {
-      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-        controller.setExtendedTimeZone();
-        printer.print(FF("Time zone using ExtendedZoneSpecifier: "));
-        controller.getTimeZone().printTo(printer);
-        printer.println();
-      #else
-        printer.print(FF("ExtendedZoneSpecifier not supported"));
-      #endif
-      } else if (strcmp(argv[0], "fixed") == 0) {
+      if (strcmp(argv[0], "fixed") == 0) {
         SHIFT;
         if (argc == 0) {
           printer.print(FF("'timezone fixed' requires 'offset'"));
@@ -239,6 +225,30 @@ class TimezoneCommand: public CommandHandler {
         printer.print(FF("Time zone set to: "));
         controller.getTimeZone().printTo(printer);
         printer.println();
+      #if ENABLE_TIME_ZONE_TYPE_BASIC
+      } else if (strcmp(argv[0], "basic") == 0) {
+        SHIFT;
+        if (argc == 0) {
+          controller.setBasicTimeZone();
+          printer.print(FF("Time zone using BasicZoneSpecifier: "));
+          controller.getTimeZone().printTo(printer);
+          printer.println();
+        } else if (strcmp(argv[0], "list") == 0) {
+          controller.printBasicZonesTo(printer);
+        }
+      #endif
+      #if ENABLE_TIME_ZONE_TYPE_EXTENDED
+      } else if (strcmp(argv[0], "extended") == 0) {
+        SHIFT;
+        if (argc == 0) {
+          controller.setExtendedTimeZone();
+          printer.print(FF("Time zone using ExtendedZoneSpecifier: "));
+          controller.getTimeZone().printTo(printer);
+          printer.println();
+        } else if (strcmp(argv[0], "list") == 0) {
+          controller.printExtendedZonesTo(printer);
+        }
+      #endif
       } else if (strcmp(argv[0], "dst") == 0) {
         SHIFT;
         if (argc == 0) {
