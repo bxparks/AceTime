@@ -54,15 +54,14 @@ class ZoneManager {
      */
     bool isSorted() const { return mIsSorted; }
 
-    /* Return the ZoneInfo at index i. */
+    /* Return the ZoneInfo at index i. Return nullptr if i is out of range. */
     const ZI* getZoneInfo(uint16_t i) const {
       return (i < mRegistrySize) ? ZRB(mZoneRegistry).zoneInfo(i) : nullptr;
     }
 
     /**
-     * Return the ZoneInfo corresponding to the given zone name. Return
-     * nullptr if not found, or if we have no more ZoneSpecifier internal
-     * buffer.
+     * Return the ZoneInfo corresponding to the given zone name. Return nullptr
+     * if not found.
      */
     const ZI* getZoneInfo(const char* name) const {
       if (mIsSorted && mRegistrySize > kBinarySearchThreshold) {

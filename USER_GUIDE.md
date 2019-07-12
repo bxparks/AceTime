@@ -508,6 +508,59 @@ to the given `Print` object. The most common `Print` object is the `Serial`
 object which prints on the serial port. The `forDateString()` parses the
 ISO 8601 formatted string and returns the `LocalDateTime` object.
 
+### TimePeriod
+
+The `TimePeriod` class can be used to represents a difference between two
+`XxxDateTime` objects, if the difference is not too large. Internally, it is
+implemented as 3 unsigned `uint8_t` integers representing the hour, minute and
+seconds. There is a 4th signed `int8_t` integer that holds the sign (-1 or +1)
+of the time period. The largest (or smallest) time period that can be
+represented by this class is +/- 255h59m59s, corresponding to +/- 921599
+seconds.
+
+```C++
+namespace ace_time {
+
+class TimePeriod {
+  public:
+    explicit TimePeriod(uint8_t hour, uint8_t minute, uint8_t second,
+            int8_t sign = 1);
+    explicit TimePeriod(int32_t seconds = 0);
+
+    uint8_t hour() const;
+    void hour(uint8_t hour);
+
+    uint8_t minute() const;
+    void minute(uint8_t minute);
+
+    uint8_t second() const;
+    void second(uint8_t second);
+
+    int8_t sign() const;
+    void sign(int8_t sign);
+
+    int32_t toSeconds() const;
+
+    int8_t compareTo(const TimePeriod& that) const;
+    void printTo(Print& printer) const;
+};
+
+}
+```
+
+This class was created to show the difference between 2 dates in a
+human-readable format, broken down by hours, minutes and seconds. For example,
+we can print out a countdown to a target `LocalDateTime` from the current
+`LocalDateTime` like this:
+
+```C++
+LocalDateTime current = ...;
+LocalDateTime target = ...;
+acetime_t diffSeconds = target.toEpochSeconds() - current.toEpochSeconds();
+TimePeriod timePeriod(diffSeconds);
+timePeriod.printTo(Serial)
+```
+
 ### TimeOffset
 
 A `TimeOffset` class represents an amount of time shift from a reference point.
@@ -1122,60 +1175,6 @@ second. According to [AutoBenchmark](examples/AutoBenchmark/), the cache
 improves performance by a factor of 2-3X (8-bit AVR) to 10-20X (32-bit
 processors) on consecutive calls to `forEpochSeconds()` with the same `year`.
 
-### TimePeriod
-
-The `TimePeriod` class can be used to represents a difference between two
-`XxxDateTime` objects, if the difference is not too large. Internally, it is
-implemented as 3 unsigned `uint8_t` integers representing the hour, minute and
-seconds. There is a 4th signed `int8_t` integer that holds the sign (-1 or +1)
-of the time period. The largest (or smallest) time period that can be
-represented by this class is +/- 255h59m59s, corresponding to +/- 921599
-seconds.
-
-```C++
-namespace ace_time {
-
-class TimePeriod {
-  public:
-    explicit TimePeriod(uint8_t hour, uint8_t minute, uint8_t second,
-            int8_t sign = 1);
-    explicit TimePeriod(int32_t seconds = 0);
-
-    uint8_t hour() const;
-    void hour(uint8_t hour);
-
-    uint8_t minute() const;
-    void minute(uint8_t minute);
-
-    uint8_t second() const;
-    void second(uint8_t second);
-
-    int8_t sign() const;
-    void sign(int8_t sign);
-
-    int32_t toSeconds() const;
-
-    int8_t compareTo(const TimePeriod& that) const;
-    void printTo(Print& printer) const;
-};
-
-}
-```
-
-This class was created to show the difference between 2 dates in a
-human-readable format, broken down by hours, minutes and seconds. For example,
-we can print out a countdown to a target `ZonedDateTime` from the current
-`ZonedDateTime` like this:
-
-```C++
-ZonedDateTime currentDate = ...;
-ZonedDateTime targetDate = ...;
-acetime_t diffSeconds = targetDate.toEpochSeconds()
-    - currentDate.toEpochSeconds();
-TimePeriod timePeriod(diffSeconds);
-timePeriod.printTo(Serial)
-```
-
 ### ZoneInfo Files
 
 As of version 0.4, the zoneinfo files are stored in in flash memory instead of
@@ -1243,26 +1242,16 @@ listed at the bottom of
 [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and these all occur
 before the year 2012.
 
-### TZ Database Version
-
-The IANA TZ Database is updated continually. As of this writing, the latest
-stable version is 2019a. When a new version of the database is released, it is
-relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
-However, it is likely that I would delay the release of a new version until the
-corresponding `pytz` package is updated to the latest TZ database version, so
-that the validation test suites pass (See Testing section below). Otherwise, I
-don't have a way to verify that the AceTime library with the new TZ Database
-version is correctly functioning.
-
 ### ZoneManager
 
-**Caveat**: This is an experimental feature.
+**Caveat**: This is an experimental feature. Previously, `BasicZoneSpecifier`
+and `ExtendedZoneSpecifier` were considered immutable objects. The ZoneManager
+enables dynamic lookup of `ZoneInfo`, which resulted in the `BasicZoneSpecifier`
+and `ExtendedZoneSpecifier` becoming mutable with the `setZoneInfo()` method.
+The consequence of this change may not be fully apparent.
 
-On microcontrollers with more than ~30kB of flash (e.g. ESP8266, ESP32,
-and Teensy), the entire `zonedb` or `zonedbx` database can be loaded and
-timezones could be dynamically selected using the zone identifier strings
-(e.g. `"America/Los_Angeles"`). Two experimental classes are provided in version
-0.4 to give  dynamic access to the zoneinfo files: `BasicZoneManager` and
+Two classes provide a lookup service from the zone identifier string
+(e.g. `"America/Los_Angeles"`) to the zoneinfo files: `BasicZoneManager` and
 `ExtendedZoneManager`. The class definitions look like this:
 
 ```C++
@@ -1289,48 +1278,125 @@ class ExtendedZoneManager {
 };
 ```
 
-They provide a lookup service from the zone identifier string the corresponding
-`const ZoneInfo*` pointer.
+#### Default Zone Registry
 
-The declaration for the zoneinfo registry is available at:
+On microcontrollers with more than ~30kB of flash (e.g. ESP8266, ESP32,
+and Teensy), the entire `zonedb` or `zonedbx` database can be loaded and
+timezones can be dynamically selected using the zone identifier strings.
+The default zoneinfo registry is available at:
 
 * [zonedb/zone_registry.h](src/ace_time/zonedb/zone_registry.h)
 * [zonedbx/zone_registry.h](src/ace_time/zonedbx/zone_registry.h)
 
-The `BasicZoneManager` can be used like this with the `BasicZoneSpecifier`:
+The `BasicZoneManager` can loaded with the `zonedb::kZoneRegistry` default zone
+registry and used to configure the `BasicZoneSpecifier` like this:
 
 ```C++
-BasicZoneManager manager(zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
-const auto* zoneInfo = manager.getZoneInfo("America/Los_Angeles");
-BasicZoneSpecifier zspec(zoneInfo);
-auto tz = TimeZone::forZoneSpecifier(&zspec);
+#include <AceTime.h>
+...
+static const basic::ZoneInfo* const defaultZoneInfo =
+    zonedb::kZoneAmerica_Los_Angeles;
+static BasicZoneSpecifier zoneSpecifier(defaultZoneInfo);
+static const BasicZoneManager zoneManager(
+    zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
+
+void setZone(const char* zoneName) {
+  const auto* zoneInfo = manager.getZoneInfo(zoneName);
+  if (zoneInfo) {
+    zoneSpecifier.setZoneInfo(zoneInfo);
+    auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+    ...
+  }
+}
 ```
 
-and the `ExtendedZoneManager` can be used with the `ExtendedZoneSpecifier`
-like this:
+Similarly, `ExtendedZoneManager` can be configured with the
+`zonedbx::kZoneRegistry` and used to configure the `ExtendedZoneSpecifier` like
+this:
 
 ```C++
-ExtendedZoneManager manager(zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
-const auto* zoneInfo = manager.getZoneInfo("America/Los_Angeles");
-ExtendedZoneSpecifier zspec(zoneInfo);
-auto tz = TimeZone::forZoneSpecifier(&zspec);
+#include <AceTime.h>
+...
+static const extended::ZoneInfo* const defaultZoneInfo =
+    zonedbx::kZoneAmerica_Los_Angeles;
+static ExtendedZoneSpecifier zoneSpecifier(defaultZoneInfo);
+static const ExtendedZoneManager zoneManager(
+    zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+
+void setZone(const char* zoneName) {
+  const auto* zoneInfo = manager.getZoneInfo(zoneName);
+  if (zoneInfo) {
+    zoneSpecifier.setZoneInfo(zoneInfo);
+    auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+    ...
+  }
+}
 ```
 
-The ZoneManagers can be initialized with a custom list of timezones, instead
-of using the entire `zonedb` or `zonedbx` databases.
+#### Custom Zone Registry
 
-**Caveat**: The ZoneManagers are experimental and currently in development. As
-of version 0.4, the lifecycle management of `BasicZoneManager` and
-`ExtendedZoneManager` has not been fully designed and the recommended usage
-pattern will likely change in future. Before the ZoneManager classes were
-created, it was assumed that `BasicZoneSpecifier` and `ExtendedZoneSpecifier`
-would be long-lived, statically allocated objects. That assumption does not play
-well with the dynamic nature of the ZoneManagers. If the microcontroller has
-sufficient amount of static RAM (e.g. ESP8266, ESP32, etc), it may be possible
-to dynamically allocate the `BasicZoneSpecifier` and `ExtendedZoneSpecifier` on
-the heap and continue using the `TimeZone` objects as before. This usage pattern
-has not been explored and the app developer should be cautious when using these
-ZoneManager classes.
+The default zone registries (`zonedb::kZoneRegistry` and
+`zonedbx::kZoneRegistry`) pull in every zone in the respective data sets, which
+consumes significant amounts of flash memory (see
+[MemoryBenchmark](examples/MemoryBenchmark/)). If flash memory is tight, the
+ZoneManagers can be initialized with a custom list of zones, to pull in only the
+zones of interest. For example, here is a `kZoneRegistry` with 4 zones from the
+`zonedb::` data set:
+
+```C++
+#include <AceTime.h>
+...
+static const basic::ZoneInfo* const kBasicZoneRegistry[]
+    ACE_TIME_BASIC_PROGMEM = {
+  &zonedb::kZoneAmerica_Los_Angeles,
+  &zonedb::kZoneAmerica_Denver,
+  &zonedb::kZoneAmerica_Chicago,
+  &zonedb::kZoneAmerica_New_York,
+};
+
+static const uint16_t kZoneRegistrySize =
+    sizeof(Controller::kZoneRegistry) / sizeof(basic::ZoneInfo*);
+
+static const BasicZoneManager zoneManager(kZoneRegistry, kZoneRegistrySize);
+```
+
+and here is the equivalent `kExtendedZoneRegistry`:
+
+```C++
+#include <AceTime.h>
+...
+static const extended::ZoneInfo* const kZoneRegistry[]
+    ACE_TIME_EXTENDED_PROGMEM = {
+  &zonedbx::kZoneAmerica_Los_Angeles,
+  &zonedbx::kZoneAmerica_Denver,
+  &zonedbx::kZoneAmerica_Chicago,
+  &zonedbx::kZoneAmerica_New_York,
+};
+
+static const uint16_t kZoneRegistrySize =
+    sizeof(Controller::kZoneRegistry) / sizeof(extended::ZoneInfo*);
+
+static const BasicZoneManager zoneManager(kZoneRegistry, kZoneRegistrySize);
+```
+
+(The `ACE_TIME_BASIC_PROGMEM` and `ACE_TIME_EXTENDED_PROGMEM` macros are defined
+in [config.h](src/ace_time/config.h) and determines whether the ZoneInfo files
+are stored in normal RAM or flash memory. They are needed because the
+ZoneManagers need to know where the ZoneInfo files are stored.)
+
+See [CommandLineClock](examples/CommandLineClock/) for an example of how these
+custom registries can be created and used.
+
+### TZ Database Version
+
+The IANA TZ Database is updated continually. As of this writing, the latest
+stable version is 2019a. When a new version of the database is released, it is
+relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
+However, it is likely that I would delay the release of a new version until the
+corresponding `pytz` package is updated to the latest TZ database version, so
+that the validation test suites pass (See Testing section below). Otherwise, I
+don't have a way to verify that the AceTime library with the new TZ Database
+version is correctly functioning.
 
 ## Mutations
 
