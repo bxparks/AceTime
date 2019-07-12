@@ -31,11 +31,10 @@ class Controller {
       if (mIsStoredInfoValid) {
         restoreInfo();
       } else {
+        mStoredInfo.ssid[0] = '\0';
+        mStoredInfo.password[0] = '\0';
         setBasicTimeZone();
       }
-
-      // TODO: Set the ssid and password to some initial blank state, so that
-      // the user can be notified that they need to be provided.
     }
 
     /** Set the time zone to the given offset using Fixed type. */
@@ -117,6 +116,10 @@ class Controller {
     void printBasicZonesTo(Print& printer) const {
       uint16_t registrySize = mBasicZoneManager.registrySize();
       for (uint16_t i = 0; i < registrySize; i++) {
+        printer.print('[');
+        printer.print(i);
+        printer.print(']');
+        printer.print(' ');
         const basic::ZoneInfo* zoneInfo = mBasicZoneManager.getZoneInfo(i);
         printer.println(BasicZone(zoneInfo).name());
       }
@@ -128,6 +131,10 @@ class Controller {
     void printExtendedZonesTo(Print& printer) const {
       uint16_t registrySize = mExtendedZoneManager.registrySize();
       for (uint16_t i = 0; i < registrySize; i++) {
+        printer.print('[');
+        printer.print(i);
+        printer.print(']');
+        printer.print(' ');
         const extended::ZoneInfo* zoneInfo =
             mExtendedZoneManager.getZoneInfo(i);
         printer.println(ExtendedZone(zoneInfo).name());
