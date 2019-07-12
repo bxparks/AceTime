@@ -114,8 +114,8 @@ class DateCommand: public CommandHandler {
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
-        ZonedDateTime now = controller.getCurrentDateTime();
-        now.printTo(printer);
+        ZonedDateTime nowDate = controller.getCurrentDateTime();
+        nowDate.printTo(printer);
         printer.println();
       } else {
         SHIFT;
