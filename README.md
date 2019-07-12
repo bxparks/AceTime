@@ -29,8 +29,8 @@ C++ namespaces:
     * `ace_time::TimeZone`
     * `ace_time::ZonedDateTime`
     * `ace_time::TimePeriod`
-    * `ace_time::BasicZoneInfo` [`*`]
-    * `ace_time::ExtendedZoneInfo` [`*`]
+    * `ace_time::BasicZone` [`*`]
+    * `ace_time::ExtendedZone` [`*`]
     * `ace_time::BasicZoneManager` [`*`]
     * `ace_time::ExtendedZoneManager` [`*`]
     * mutation helpers
