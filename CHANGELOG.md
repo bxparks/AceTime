@@ -4,6 +4,9 @@
     * Remove over-engineered `SystemClockHeartbeatLoop` and
       `SystemClockHeartbeatLoop` and replace with just a call to
       `SystemClock::keepAlive()`.
+    * Add `setZoneInfo()` to `BasicZoneSpecifier` and `ExtendedZoneSpecifier`,
+      which allows changing timezones using the `ZoneInfo` returned by the
+      `BasicZoneManager` and `ExtendedZoneManager` classes.
 * 0.4 (2019-07-09, TZ DB version 2019a, beta)
     * Support the less-than-or-equal syntax `{dayOfWeek}<={dayOfMonth}`
       appearing in version 2019b of the TZ Database which contains `Rule Zion,
