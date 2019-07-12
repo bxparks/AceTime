@@ -19,18 +19,29 @@ test(ExtendedZoneManagerTest, getZoneInfo_Los_Angeles) {
       zoneManager.getZoneInfo("America/Los_Angeles");
   assertTrue(zoneInfo != nullptr);
 
-  const char* name = extended::ZoneInfoBroker(zoneInfo).name();
-#if ACE_TIME_USE_EXTENDED_PROGMEM
-  assertEqual(FPSTR(name), "America/Los_Angeles");
-#else
-  assertEqual(name, "America/Los_Angeles");
-#endif
+  assertEqual("America/Los_Angeles", ExtendedZone(zoneInfo).name());
 }
 
 test(ExtendedZoneManagerTest, getZoneInfo_not_found) {
   ExtendedZoneManager zoneManager(
       zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
   const extended::ZoneInfo* zoneInfo = zoneManager.getZoneInfo("not found");
+  assertTrue(zoneInfo == nullptr);
+}
+
+test(ExtendedZoneManagerTest, getZoneInfo_Index_0) {
+  ExtendedZoneManager zoneManager(
+      zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+  const extended::ZoneInfo* zoneInfo = zoneManager.getZoneInfo((uint16_t)0);
+  assertTrue(zoneInfo != nullptr);
+  assertEqual(F("Africa/Abidjan"), ExtendedZone(zoneInfo).name());
+}
+
+test(ExtendedZoneManagerTest, getZoneInfo_Index_not_found) {
+  ExtendedZoneManager zoneManager(
+      zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+  const extended::ZoneInfo* zoneInfo = zoneManager.getZoneInfo(
+      zonedbx::kZoneRegistrySize);
   assertTrue(zoneInfo == nullptr);
 }
 
