@@ -4,6 +4,7 @@
  */
 
 #include "LocalDate.h"
+#include "ExtendedZone.h"
 #include "ExtendedZoneSpecifier.h"
 
 namespace ace_time {
@@ -22,11 +23,7 @@ const extended::ZoneEra ExtendedZoneSpecifier::kAnchorEra
 };
 
 void ExtendedZoneSpecifier::printTo(Print& printer) const {
-#if ACE_TIME_USE_EXTENDED_PROGMEM
-  printer.print(FPSTR(mZoneInfo.name()));
-#else
-  printer.print(mZoneInfo.name());
-#endif
+  printer.print(ExtendedZone(mZoneInfo.zoneInfo()).name());
 }
 
 }

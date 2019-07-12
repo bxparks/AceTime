@@ -9,6 +9,8 @@
 #include "internal/ZoneInfo.h"
 #include "internal/Brokers.h"
 
+class __FlashStringHelper;
+
 namespace ace_time {
 
 /**
