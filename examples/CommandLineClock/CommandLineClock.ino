@@ -23,7 +23,8 @@
  *        List the AceRoutine coroutines.
  *    date [dateString]
  *        Print or set the date.
- *    timezone [fixed offset | manual offset | basic | extended | dst (on | off)]
+ *    timezone [fixed {offset} | manual {offset} | dst (on | off)] |
+ *      basic [list] | extended [list] ]
  *        Print or set the currently active TimeZone.
  *    sync_status
  *        Print the status of the SystemClockSyncLoop helper.
@@ -51,16 +52,6 @@ using namespace ace_routine;
 using namespace ace_routine::cli;
 using namespace ace_time;
 using namespace ace_time::clock;
-
-//---------------------------------------------------------------------------
-// Compensate for buggy F() implementation in ESP8266.
-//---------------------------------------------------------------------------
-
-#if defined(ESP8266)
-  #define FF(x) (x)
-#else
-  #define FF(x) F(x)
-#endif
 
 //---------------------------------------------------------------------------
 // Configure RTC and TimeKeeper
@@ -123,18 +114,18 @@ class DateCommand: public CommandHandler {
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
-        ZonedDateTime now = controller.getCurrentDateTime();
-        now.printTo(printer);
+        ZonedDateTime nowDate = controller.getCurrentDateTime();
+        nowDate.printTo(printer);
         printer.println();
       } else {
         SHIFT;
         ZonedDateTime newDate = ZonedDateTime::forDateString(argv[0]);
         if (newDate.isError()) {
-          printer.println(FF("Invalid date"));
+          printer.println(F("Invalid date"));
           return;
         }
         controller.setNow(newDate.toEpochSeconds());
-        printer.print(FF("Date set to: "));
+        printer.print(F("Date set to: "));
         newDate.printTo(printer);
         printer.println();
       }
@@ -154,7 +145,7 @@ class SyncCommand: public CommandHandler {
     void run(Print& printer, int /*argc*/, const char** /*argv*/)
         const override {
       controller.sync();
-      printer.print(FF("Date set to: "));
+      printer.print(F("Date set to: "));
       ZonedDateTime currentDateTime = controller.getCurrentDateTime();
       currentDateTime.printTo(printer);
       printer.println();
@@ -177,7 +168,13 @@ class TimezoneCommand: public CommandHandler {
   public:
     TimezoneCommand():
       CommandHandler("timezone",
-        "[list | fixed {offset} | manual {offset} | basic | extended | "
+        "[fixed {offset} | manual {offset} | "
+      #if ENABLE_TIME_ZONE_TYPE_BASIC
+        "basic [list | {index}] | "
+      #endif
+      #if ENABLE_TIME_ZONE_TYPE_EXTENDED
+        "extended [list | {index}] | "
+      #endif
         "dst {on | off}]") {}
 
     void run(Print& printer, int argc, const char** argv) const override {
@@ -189,61 +186,67 @@ class TimezoneCommand: public CommandHandler {
       }
 
       SHIFT;
-      if (strcmp(argv[0], "basic") == 0) {
-      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-        controller.setBasicTimeZone();
-        printer.print(FF("Time zone using BasicZoneSpecifier: "));
-        controller.getTimeZone().printTo(printer);
-        printer.println();
-      #else
-        printer.print(FF("BasicZoneSpecifier not supported"));
-      #endif
-      } else if (strcmp(argv[0], "list") == 0) {
-        controller.printZonesTo(printer);
-      } else if (strcmp(argv[0], "extended") == 0) {
-      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-        controller.setExtendedTimeZone();
-        printer.print(FF("Time zone using ExtendedZoneSpecifier: "));
-        controller.getTimeZone().printTo(printer);
-        printer.println();
-      #else
-        printer.print(FF("ExtendedZoneSpecifier not supported"));
-      #endif
-      } else if (strcmp(argv[0], "fixed") == 0) {
+      if (strcmp(argv[0], "fixed") == 0) {
         SHIFT;
         if (argc == 0) {
-          printer.print(FF("'timezone fixed' requires 'offset'"));
+          printer.println(F("'timezone fixed' requires 'offset"));
           return;
         }
         TimeOffset offset = TimeOffset::forOffsetString(argv[0]);
         if (offset.isError()) {
-          printer.println(FF("Invalid time zone offset"));
+          printer.println(F("Invalid time zone offset"));
           return;
         }
         controller.setFixedTimeZone(offset);
-        printer.print(FF("Time zone set to: "));
+        printer.print(F("Time zone set to: "));
         controller.getTimeZone().printTo(printer);
         printer.println();
       } else if (strcmp(argv[0], "manual") == 0) {
         SHIFT;
         if (argc == 0) {
-          printer.print(FF("'timezone manual' requires 'offset'"));
+          printer.print(F("'timezone manual' requires 'offset'"));
           return;
         }
         TimeOffset offset = TimeOffset::forOffsetString(argv[0]);
         if (offset.isError()) {
-          printer.println(FF("Invalid time zone offset"));
+          printer.println(F("Invalid time zone offset"));
           return;
         }
         controller.setManualTimeZone(offset, false /*isDst*/);
-        printer.print(FF("Time zone set to: "));
+        printer.print(F("Time zone set to: "));
         controller.getTimeZone().printTo(printer);
         printer.println();
+      #if ENABLE_TIME_ZONE_TYPE_BASIC
+      } else if (strcmp(argv[0], "basic") == 0) {
+        SHIFT;
+        if (argc != 0 && strcmp(argv[0], "list") == 0) {
+          controller.printBasicZonesTo(printer);
+        } else {
+          int16_t zoneIndex = (argc == 0) ? 0 : atoi(argv[0]);
+          controller.setBasicTimeZone(zoneIndex);
+          printer.print(F("Time zone set to: "));
+          controller.getTimeZone().printTo(printer);
+          printer.println();
+        }
+      #endif
+      #if ENABLE_TIME_ZONE_TYPE_EXTENDED
+      } else if (strcmp(argv[0], "extended") == 0) {
+        SHIFT;
+        if (argc != 0 && strcmp(argv[0], "list") == 0) {
+          controller.printExtendedZonesTo(printer);
+        } else {
+          int16_t zoneIndex = (argc == 0) ? 0 : atoi(argv[0]);
+          controller.setExtendedTimeZone(zoneIndex);
+          printer.print(F("Time zone set to: "));
+          controller.getTimeZone().printTo(printer);
+          printer.println();
+        }
+      #endif
       } else if (strcmp(argv[0], "dst") == 0) {
         SHIFT;
         if (argc == 0) {
-          printer.print(FF("DST: "));
-          printer.println(controller.isDst() ? FF("on") : FF("off"));
+          printer.print(F("DST: "));
+          printer.println(controller.isDst() ? F("on") : F("off"));
           return;
         }
 
@@ -252,11 +255,11 @@ class TimezoneCommand: public CommandHandler {
         } else if (strcmp(argv[0], "off") == 0) {
           controller.setDst(false);
         } else {
-          printer.print(FF("'timezone dst' must be either 'on' or 'off'"));
+          printer.print(F("'timezone dst' must be either 'on' or 'off'"));
         }
       } else {
         // If we get here, we don't recognize the subcommand.
-        printer.print(FF("Unknown option ("));
+        printer.print(F("Unknown option ("));
         printer.print(argv[0]);
         printer.println(")");
       }
@@ -278,7 +281,7 @@ class SyncStatusCommand: public CommandHandler {
 
     void run(Print& printer, int /*argc*/, const char** /*argv*/)
         const override {
-      printer.print(FF("Seconds since last sync: "));
+      printer.print(F("Seconds since last sync: "));
       printer.println(mSystemClockSyncLoop.getSecondsSinceLastSync());
     }
 
@@ -311,20 +314,20 @@ class WifiCommand: public CommandHandler {
     void run(Print& printer, int argc, const char** argv) const override {
       SHIFT;
       if (argc == 0) {
-        printer.println(FF("Must give either 'status' or 'config' command"));
+        printer.println(F("Must give either 'status' or 'config' command"));
       } else if (strcmp(argv[0], "config") == 0) {
         SHIFT;
         if (argc == 0) {
           if (mController.isStoredInfoValid()) {
             // print ssid and password
             const StoredInfo& storedInfo = mController.getStoredInfo();
-            printer.print(FF("ssid: "));
+            printer.print(F("ssid: "));
             printer.println(storedInfo.ssid);
-            printer.print(FF("password: "));
+            printer.print(F("password: "));
             printer.println(storedInfo.password);
           } else {
             printer.println(
-              FF("Invalid ssid and password in persistent storage"));
+              F("Invalid ssid and password in persistent storage"));
           }
         } else if (argc == 2) {
           const char* ssid = argv[0];
@@ -332,19 +335,19 @@ class WifiCommand: public CommandHandler {
           mController.setWiFi(ssid, password);
           connect(printer);
         } else {
-          printer.println(FF("Wifi config command requires 2 arguments"));
+          printer.println(F("Wifi config command requires 2 arguments"));
         }
       } else if (strcmp(argv[0], "status") == 0) {
-        printer.print(FF("NtpTimeProvider::isSetup(): "));
-        printer.println(mNtpTimeProvider.isSetup() ? FF("true") : FF("false"));
-        printer.print(FF("NTP Server: "));
+        printer.print(F("NtpTimeProvider::isSetup(): "));
+        printer.println(mNtpTimeProvider.isSetup() ? F("true") : F("false"));
+        printer.print(F("NTP Server: "));
         printer.println(mNtpTimeProvider.getServer());
-        printer.print(FF("WiFi IP address: "));
+        printer.print(F("WiFi IP address: "));
         printer.println(WiFi.localIP());
       } else if (strcmp(argv[0], "connect") == 0) {
         connect(printer);
       } else {
-        printer.print(FF("Unknown wifi command: "));
+        printer.print(F("Unknown wifi command: "));
         printer.println(argv[0]);
       }
     }
@@ -417,9 +420,9 @@ void setup() {
 
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
-  Serial.println(FF("setup(): begin"));
+  Serial.println(F("setup(): begin"));
 
-  Serial.print(FF("sizeof(StoredInfo): "));
+  Serial.print(F("sizeof(StoredInfo): "));
   Serial.println(sizeof(StoredInfo));
 
   Wire.begin();
@@ -444,12 +447,12 @@ void setup() {
 
   // insert coroutines into the scheduler
 #if SYNC_TYPE == SYNC_TYPE_COROUTINE
-  systemClockSync.setupCoroutine(FF("systemClockSync"));
+  systemClockSync.setupCoroutine(F("systemClockSync"));
 #endif
-  commandManager.setupCoroutine(FF("commandManager"));
+  commandManager.setupCoroutine(F("commandManager"));
   CoroutineScheduler::setup();
 
-  Serial.println(FF("setup(): end"));
+  Serial.println(F("setup(): end"));
 }
 
 void loop() {

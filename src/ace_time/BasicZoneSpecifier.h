@@ -181,6 +181,14 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         ZoneSpecifier(kTypeBasic),
         mZoneInfo(zoneInfo) {}
 
+    /** Set the underlying ZoneInfo. */
+    void setZoneInfo(const basic::ZoneInfo* zoneInfo) {
+      mZoneInfo = basic::ZoneInfoBroker(zoneInfo);
+      mYear = 0;
+      mIsFilled = false;
+      mNumTransitions = 0;
+    }
+
     /** Return the underlying ZoneInfo. */
     const basic::ZoneInfo* getZoneInfo() const { return mZoneInfo.zoneInfo(); }
 
@@ -857,9 +865,9 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       return closestMatch;
     }
 
-    const basic::ZoneInfoBroker mZoneInfo;
+    basic::ZoneInfoBroker mZoneInfo;
 
-    mutable int16_t mYear = 0;
+    mutable int16_t mYear = 0; // maybe create LocalDate::kInvalidYear?
     mutable bool mIsFilled = false;
     mutable uint8_t mNumTransitions = 0;
     mutable basic::Transition mTransitions[kMaxCacheEntries];
