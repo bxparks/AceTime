@@ -70,7 +70,8 @@ const uint8_t MODE_CHANGE_HOUR = 13;
 const uint8_t MODE_CHANGE_MINUTE = 14;
 const uint8_t MODE_CHANGE_SECOND = 15;
 
-const uint8_t MODE_CHANGE_TIME_ZONE_OFFSET = 20;
-const uint8_t MODE_CHANGE_TIME_ZONE_DST = 21;
+const uint8_t MODE_CHANGE_TIME_ZONE_TYPE = 20;
+const uint8_t MODE_CHANGE_TIME_ZONE_OFFSET = 21;
+const uint8_t MODE_CHANGE_TIME_ZONE_DST = 22;
 
 #endif

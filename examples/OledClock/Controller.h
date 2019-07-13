@@ -113,11 +113,14 @@ class Controller {
           break;
 
         // Cycle through the various changeable time zone fields.
+        case MODE_CHANGE_TIME_ZONE_TYPE:
+          mMode = MODE_CHANGE_TIME_ZONE_OFFSET;
+          break;
         case MODE_CHANGE_TIME_ZONE_OFFSET:
           mMode = MODE_CHANGE_TIME_ZONE_DST;
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
-          mMode = MODE_CHANGE_TIME_ZONE_OFFSET;
+          mMode = MODE_CHANGE_TIME_ZONE_TYPE;
           break;
       }
     }
@@ -145,9 +148,10 @@ class Controller {
 
         case MODE_TIME_ZONE:
           mChangingClockInfo = mClockInfo;
-          mMode = MODE_CHANGE_TIME_ZONE_OFFSET;
+          mMode = MODE_CHANGE_TIME_ZONE_TYPE;
           break;
 
+        case MODE_CHANGE_TIME_ZONE_TYPE:
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
           saveClockInfo();
@@ -194,6 +198,10 @@ class Controller {
           mSecondFieldCleared = true;
           break;
 
+        case MODE_CHANGE_TIME_ZONE_TYPE:
+          mSuppressBlink = true;
+          break;
+
         case MODE_CHANGE_TIME_ZONE_OFFSET:
           {
             mSuppressBlink = true;
@@ -226,6 +234,7 @@ class Controller {
         case MODE_CHANGE_HOUR:
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
+        case MODE_CHANGE_TIME_ZONE_TYPE:
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = false;
@@ -288,6 +297,7 @@ class Controller {
         case MODE_CHANGE_HOUR:
         case MODE_CHANGE_MINUTE:
         case MODE_CHANGE_SECOND:
+        case MODE_CHANGE_TIME_ZONE_TYPE:
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
           mPresenter.setDateTime(mChangingClockInfo.dateTime);

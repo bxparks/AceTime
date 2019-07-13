@@ -103,6 +103,7 @@ class Presenter {
           break;
 
         case MODE_TIME_ZONE:
+        case MODE_CHANGE_TIME_ZONE_TYPE:
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
           displayTimeZone();
@@ -193,6 +194,17 @@ class Presenter {
 
       // Don't use F() strings for these short strings. Seems to increase
       // flash memory, while saving only a few bytes of RAM.
+
+      mOled.print("TZ: ");
+      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_TYPE)) {
+        const TimeZone& tz = mRenderingInfo.dateTime.timeZone();
+        mOled.print((tz.getType() == TimeZone::kTypeManual)
+            ? "manual" : "auto");
+      } else {
+        mOled.print("      "); // 6 spaces
+      }
+
+      mOled.println();
       mOled.print("UTC");
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
         offset.printTo(mOled);
