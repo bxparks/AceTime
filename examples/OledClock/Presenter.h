@@ -105,7 +105,6 @@ class Presenter {
         case MODE_TIME_ZONE:
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
-        case MODE_CHANGE_HOUR_MODE:
           displayTimeZone();
           break;
 
@@ -208,15 +207,6 @@ class Presenter {
       } else {
         mOled.print("   ");
       }
-
-      mOled.println();
-      mOled.print("12/24: ");
-      if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
-        mOled.print(mRenderingInfo.hourMode == StoredInfo::kTwelve
-            ? "12" : "24");
-      } else {
-        mOled.print("  ");
-      }
     }
 
     void displayAbout() const {
@@ -226,7 +216,7 @@ class Presenter {
       // flash memory and RAM.
       mOled.print(F("OledClock: "));
       mOled.println(CLOCK_VERSION_STRING);
-      mOled.print(F("Tzdata: "));
+      mOled.print(F("TZ: "));
       mOled.println(zonedb::kTzDatabaseVersion);
       mOled.print(F("AceTime: "));
       mOled.print(ACE_TIME_VERSION_STRING);

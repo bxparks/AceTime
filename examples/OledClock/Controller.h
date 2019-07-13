@@ -117,9 +117,6 @@ class Controller {
           mMode = MODE_CHANGE_TIME_ZONE_DST;
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
-          mMode = MODE_CHANGE_HOUR_MODE;
-          break;
-        case MODE_CHANGE_HOUR_MODE:
           mMode = MODE_CHANGE_TIME_ZONE_OFFSET;
           break;
       }
@@ -153,7 +150,6 @@ class Controller {
 
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
-        case MODE_CHANGE_HOUR_MODE:
           saveClockInfo();
           mMode = MODE_TIME_ZONE;
           break;
@@ -165,6 +161,12 @@ class Controller {
         Serial.println(F("changeButtonPress()"));
       #endif
       switch (mMode) {
+        // Switch 12/24 modes if in MODE_DATA_TIME
+        case MODE_DATE_TIME:
+          mClockInfo.hourMode ^= 0x1;
+          preserveInfo();
+          break;
+
         case MODE_CHANGE_YEAR:
           mSuppressBlink = true;
           zoned_date_time_mutation::incrementYear(mChangingClockInfo.dateTime);
@@ -205,10 +207,6 @@ class Controller {
           mChangingClockInfo.zoneSpecifier.isDst(
               !mChangingClockInfo.zoneSpecifier.isDst());
           break;
-        case MODE_CHANGE_HOUR_MODE:
-          mSuppressBlink = true;
-          mChangingClockInfo.hourMode = 1 - mChangingClockInfo.hourMode;
-          break;
       }
 
       // Update the display right away to prevent jitters in the display when
@@ -230,7 +228,6 @@ class Controller {
         case MODE_CHANGE_SECOND:
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
-        case MODE_CHANGE_HOUR_MODE:
           mSuppressBlink = false;
           break;
       }
@@ -293,7 +290,6 @@ class Controller {
         case MODE_CHANGE_SECOND:
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
-        case MODE_CHANGE_HOUR_MODE:
           mPresenter.setDateTime(mChangingClockInfo.dateTime);
           mPresenter.setTimeZone(mChangingClockInfo.zoneSpecifier);
           mPresenter.setHourMode(mChangingClockInfo.hourMode);
