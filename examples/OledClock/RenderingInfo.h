@@ -32,6 +32,7 @@ struct RenderingInfo {
         (dateTime.timeZone().getType() == ace_time::TimeZone::kTypeManual)
             ? (ace_time::ZoneSpecifier*) &manualZspec
             : (ace_time::ZoneSpecifier*) &basicZspec));
+
     return *this;
   }
 };

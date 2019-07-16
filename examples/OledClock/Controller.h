@@ -196,13 +196,14 @@ class Controller {
           break;
         case MODE_CHANGE_TIME_ZONE_TYPE:
           mSuppressBlink = true;
-          {
-            if (mChangingClockInfo.timeZoneType == TimeZone::kTypeManual) {
-              mChangingClockInfo.timeZoneType = TimeZone::kTypeBasic;
-            } else {
-              mChangingClockInfo.timeZoneType = TimeZone::kTypeManual;
-            }
-          }
+          // Toggle the timezone
+          mChangingClockInfo.timeZone = TimeZone::forZoneSpecifier(
+              (mChangingClockInfo.timeZone.getType() == TimeZone::kTypeManual)
+                  ? (ZoneSpecifier*) &mChangingClockInfo.basicZspec
+                  : (ZoneSpecifier*) &mChangingClockInfo.manualZspec);
+          mChangingClockInfo.dateTime =
+              mChangingClockInfo.dateTime.convertToTimeZone(
+                  mChangingClockInfo.timeZone);
           break;
         case MODE_CHANGE_TIME_ZONE_OFFSET:
           mSuppressBlink = true;
@@ -251,12 +252,8 @@ class Controller {
     void updateDateTime() {
       // TODO: It might be possible to track just the epochSeconds instead of
       // converting it to a ZonedDateTime at each iteration.
-      TimeZone tz = TimeZone::forZoneSpecifier(
-          (mClockInfo.timeZoneType == TimeZone::kTypeManual)
-              ? (ZoneSpecifier*) &mClockInfo.manualZspec
-              : (ZoneSpecifier*) &mClockInfo.basicZspec);
       mClockInfo.dateTime = ZonedDateTime::forEpochSeconds(
-          mTimeKeeper.getNow(), tz);
+          mTimeKeeper.getNow(), mClockInfo.timeZone);
 
       // If in CHANGE mode, and the 'second' field has not been cleared,
       // update the mChangingDateTime.second field with the current second.
@@ -315,21 +312,27 @@ class Controller {
       mTimeKeeper.setNow(mChangingClockInfo.dateTime.toEpochSeconds());
     }
 
-    /** Save the time zone from Changing to current. */
+    /** Transfer info from ChangingClockInfo to ClockInfo. */
     void saveClockInfo() {
-      mClockInfo.timeZoneType = mChangingClockInfo.timeZoneType;
       mClockInfo.hourMode = mChangingClockInfo.hourMode;
       mClockInfo.manualZspec = mChangingClockInfo.manualZspec;
       mClockInfo.basicZspec = mChangingClockInfo.basicZspec;
-      mClockInfo.dateTime = mClockInfo.dateTime.convertToTimeZone(
-          mChangingClockInfo.dateTime.timeZone());
+      mClockInfo.dateTime = mClockInfo.dateTime;
+
+      // Deep-copy the timeZone
+      mClockInfo.timeZone = TimeZone::forZoneSpecifier(
+          (mChangingClockInfo.timeZone.getType() == TimeZone::kTypeManual)
+              ? (ZoneSpecifier*) &mClockInfo.manualZspec
+              : (ZoneSpecifier*) &mClockInfo.basicZspec);
+      mClockInfo.dateTime.timeZone(mClockInfo.timeZone);
+
       preserveInfo();
     }
 
     /** Save the current clock info info to EEPROM. */
     void preserveInfo() {
       StoredInfo storedInfo;
-      storedInfo.timeZoneType = mClockInfo.timeZoneType;
+      storedInfo.timeZoneType = mClockInfo.timeZone.getType();
       storedInfo.offsetMinutes =
           mClockInfo.manualZspec.stdOffset().toMinutes();
       storedInfo.isDst = mClockInfo.manualZspec.isDst();
@@ -350,11 +353,11 @@ class Controller {
     }
 
     void setupInfo() {
-      mClockInfo.timeZoneType = TimeZone::kTypeManual;
       mClockInfo.manualZspec = ManualZoneSpecifier(
           TimeOffset::forMinutes(kDefaultOffsetMinutes), false);
       mClockInfo.manualZspec.isDst(false);
-      mClockInfo.basicZspec.setZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
+      mClockInfo.basicZspec.setZoneInfo(&zonedb::kZoneAmerica_New_York);
+      mClockInfo.timeZone = TimeZone::forZoneSpecifier(&mClockInfo.manualZspec);
       mClockInfo.hourMode = StoredInfo::kTwentyFour;
     }
 
