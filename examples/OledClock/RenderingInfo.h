@@ -13,8 +13,9 @@ struct RenderingInfo {
   bool suppressBlink = false; // true if blinking should be suppressed
   bool blinkShowState = true; // true if blinking info should be shown
   uint8_t hourMode = 0; // 12/24 mode
+  ace_time::ManualZoneSpecifier manualZspec;
+  ace_time::BasicZoneSpecifier basicZspec;
   ace_time::ZonedDateTime dateTime; // seconds from AceTime epoch
-  ace_time::ManualZoneSpecifier zoneSpecifier;
 };
 
 #endif

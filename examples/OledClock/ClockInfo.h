@@ -14,8 +14,14 @@ struct ClockInfo {
   /** 12/24 mode */
   uint8_t hourMode = kTwelve;
 
+  /** Timezone type. */
+  uint8_t timeZoneType;
+
   /** ManualZoneSpecifier. */
-  ace_time::ManualZoneSpecifier zoneSpecifier;
+  ace_time::ManualZoneSpecifier manualZspec;
+
+  /** BasicZoneSpecifier. */
+  ace_time::BasicZoneSpecifier basicZspec;
 
   /** DateTime from the TimeKeeper. */
   ace_time::ZonedDateTime dateTime;

@@ -37,8 +37,8 @@ class Presenter {
       mRenderingInfo.dateTime = dateTime;
     }
 
-    void setTimeZone(const ace_time::ManualZoneSpecifier& zoneSpecifier) {
-      mRenderingInfo.zoneSpecifier = zoneSpecifier;
+    void setTimeZone(const ace_time::ManualZoneSpecifier& manualZspec) {
+      mRenderingInfo.manualZspec = manualZspec;
     }
 
     void setHourMode(uint8_t hourMode) {
@@ -82,7 +82,7 @@ class Presenter {
               && (mRenderingInfo.blinkShowState
                   != mPrevRenderingInfo.blinkShowState))
           || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime
-          || mRenderingInfo.zoneSpecifier != mPrevRenderingInfo.zoneSpecifier
+          || mRenderingInfo.manualZspec != mPrevRenderingInfo.manualZspec
           || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode;
     }
 
@@ -189,8 +189,8 @@ class Presenter {
     void displayTimeZone() const {
       mOled.setFont(fixed_bold10x15);
 
-      const ManualZoneSpecifier& zoneSpecifier = mRenderingInfo.zoneSpecifier;
-      TimeOffset offset = zoneSpecifier.stdOffset();
+      const ManualZoneSpecifier& manualZspec = mRenderingInfo.manualZspec;
+      TimeOffset offset = manualZspec.stdOffset();
 
       // Don't use F() strings for these short strings. Seems to increase
       // flash memory, while saving only a few bytes of RAM.
@@ -215,7 +215,7 @@ class Presenter {
       mOled.println();
       mOled.print("DST: ");
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-        mOled.print(zoneSpecifier.isDst() ? "on " : "off");
+        mOled.print(manualZspec.isDst() ? "on " : "off");
       } else {
         mOled.print("   ");
       }

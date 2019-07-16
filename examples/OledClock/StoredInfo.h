@@ -14,7 +14,7 @@ struct StoredInfo {
   uint8_t timeZoneType;
   int16_t offsetMinutes;
   bool isDst;
-  uint8_t hourMode = kTwentyFour;
+  uint8_t hourMode;
 };
 
 #endif
