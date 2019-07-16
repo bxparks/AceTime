@@ -11,10 +11,13 @@ struct StoredInfo {
   /** 00:00:00 - 23:59:59 */
   static uint8_t const kTwentyFour = 1;
 
-  uint8_t timeZoneType;
-  int16_t offsetMinutes;
-  bool isDst;
-  uint8_t hourMode = kTwentyFour;
+  uint8_t hourMode; // either kTwelve or kTwentyFour
+
+  uint8_t timeZoneType; // kTypeManual or kTypeBasic
+  int16_t offsetMinutes; // defined if timeZoneType == kTypeManual
+  bool isDst; // defined if timeZoneType == kTypeManual
+  // TODO: Replace with stable hash(ZoneInfo)
+  uint8_t zoneIndex; // defined if timeZoneType == kTypeBasic
 };
 
 #endif

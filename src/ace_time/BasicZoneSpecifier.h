@@ -175,11 +175,23 @@ class BasicZoneSpecifier: public ZoneSpecifier {
   public:
     /**
      * Constructor.
-     * @param zoneInfo pointer to a ZoneInfo. Must not be nullptr.
+     * @param zoneInfo pointer to a ZoneInfo.
      */
-    explicit BasicZoneSpecifier(const basic::ZoneInfo* zoneInfo):
+    explicit BasicZoneSpecifier(const basic::ZoneInfo* zoneInfo = nullptr):
         ZoneSpecifier(kTypeBasic),
         mZoneInfo(zoneInfo) {}
+
+    /** Copy constructor */
+    BasicZoneSpecifier(const BasicZoneSpecifier& that):
+      ZoneSpecifier(that.mType),
+      mZoneInfo(that.mZoneInfo) {}
+
+    /** Assignment operator */
+    BasicZoneSpecifier& operator=(const BasicZoneSpecifier& that) {
+      mType = that.mType;
+      setZoneInfo(that.mZoneInfo.zoneInfo());
+      return *this;
+    }
 
     /** Set the underlying ZoneInfo. */
     void setZoneInfo(const basic::ZoneInfo* zoneInfo) {
@@ -372,10 +384,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * "invalid".
      */
     static const acetime_t kMinEpochSeconds = INT32_MIN + 1;
-
-    // Disable copy constructor and assignment operator.
-    BasicZoneSpecifier(const BasicZoneSpecifier&) = delete;
-    BasicZoneSpecifier& operator=(const BasicZoneSpecifier&) = delete;
 
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const BasicZoneSpecifier&) other;

@@ -5,6 +5,7 @@
 #include <SSD1306AsciiWire.h>
 #include "config.h"
 #include "StoredInfo.h"
+#include "ClockInfo.h"
 #include "RenderingInfo.h"
 #include "Presenter.h"
 
@@ -29,28 +30,22 @@ class Presenter {
       mPrevRenderingInfo = mRenderingInfo;
     }
 
-    void setMode(uint8_t mode) {
+    void setRenderingInfo(uint8_t mode, bool suppressBlink, bool blinkShowState,
+        const ClockInfo& clockInfo) {
       mRenderingInfo.mode = mode;
-    }
-
-    void setDateTime(const ZonedDateTime& dateTime) {
-      mRenderingInfo.dateTime = dateTime;
-    }
-
-    void setTimeZone(const ace_time::ManualZoneSpecifier& zoneSpecifier) {
-      mRenderingInfo.zoneSpecifier = zoneSpecifier;
-    }
-
-    void setHourMode(uint8_t hourMode) {
-      mRenderingInfo.hourMode = hourMode;
-    }
-
-    void setSuppressBlink(bool suppressBlink) {
       mRenderingInfo.suppressBlink = suppressBlink;
-    }
-
-    void setBlinkShowState(bool blinkShowState) {
       mRenderingInfo.blinkShowState = blinkShowState;
+      mRenderingInfo.hourMode = clockInfo.hourMode;
+      mRenderingInfo.manualZspec = clockInfo.manualZspec;
+      mRenderingInfo.autoZspec = clockInfo.autoZspec;
+      mRenderingInfo.dateTime = clockInfo.dateTime;
+
+      // Make a deep copy of the TimeZone
+      ZonedDateTime& dateTime = mRenderingInfo.dateTime;
+      dateTime.timeZone(TimeZone::forZoneSpecifier(
+          (dateTime.timeZone().getType() == TimeZone::kTypeManual)
+              ? (ZoneSpecifier*) &mRenderingInfo.manualZspec
+              : (ZoneSpecifier*) &mRenderingInfo.autoZspec));
     }
 
   private:
@@ -81,9 +76,8 @@ class Presenter {
           || (!mRenderingInfo.suppressBlink
               && (mRenderingInfo.blinkShowState
                   != mPrevRenderingInfo.blinkShowState))
-          || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime
-          || mRenderingInfo.zoneSpecifier != mPrevRenderingInfo.zoneSpecifier
-          || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode;
+          || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode
+          || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime;
     }
 
     void clearDisplay() const { mOled.clear(); }
@@ -103,9 +97,10 @@ class Presenter {
           break;
 
         case MODE_TIME_ZONE:
+        case MODE_CHANGE_TIME_ZONE_TYPE:
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
-        case MODE_CHANGE_HOUR_MODE:
+        case MODE_CHANGE_TIME_ZONE_NAME:
           displayTimeZone();
           break;
 
@@ -189,33 +184,45 @@ class Presenter {
     void displayTimeZone() const {
       mOled.setFont(fixed_bold10x15);
 
-      const ManualZoneSpecifier& zoneSpecifier = mRenderingInfo.zoneSpecifier;
-      TimeOffset offset = zoneSpecifier.stdOffset();
+      const ManualZoneSpecifier& manualZspec = mRenderingInfo.manualZspec;
+      TimeOffset offset = manualZspec.stdOffset();
 
       // Don't use F() strings for these short strings. Seems to increase
       // flash memory, while saving only a few bytes of RAM.
-      mOled.print("UTC");
-      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
-        offset.printTo(mOled);
-      } else {
-        mOled.print("      "); // 6 spaces to span "+hh:mm"
-      }
 
-      mOled.println();
-      mOled.print("DST: ");
-      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-        mOled.print(zoneSpecifier.isDst() ? "on " : "off");
-      } else {
-        mOled.print("   ");
+      const TimeZone& tz = mRenderingInfo.dateTime.timeZone();
+      mOled.print("TZ: ");
+      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_TYPE)) {
+        mOled.print((tz.getType() == TimeZone::kTypeManual)
+            ? "manual" : "auto");
       }
+      mOled.clearToEOL();
 
-      mOled.println();
-      mOled.print("12/24: ");
-      if (shouldShowFor(MODE_CHANGE_HOUR_MODE)) {
-        mOled.print(mRenderingInfo.hourMode == StoredInfo::kTwelve
-            ? "12" : "24");
+    if (tz.getType() == TimeZone::kTypeManual) {
+        mOled.println();
+        mOled.print("UTC");
+        if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
+          offset.printTo(mOled);
+        }
+        mOled.clearToEOL();
+
+        mOled.println();
+        mOled.print("DST: ");
+        if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
+          mOled.print(manualZspec.isDst() ? "on " : "off");
+        }
+        mOled.clearToEOL();
       } else {
-        mOled.print("  ");
+        // Print name of timezone
+        mOled.println();
+        if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
+          tz.printTo(mOled);
+        }
+        mOled.clearToEOL();
+
+        // Clear the DST: {on|off} line from a previous screen
+        mOled.println();
+        mOled.clearToEOL();
       }
     }
 
@@ -226,15 +233,16 @@ class Presenter {
       // flash memory and RAM.
       mOled.print(F("OledClock: "));
       mOled.println(CLOCK_VERSION_STRING);
-      mOled.print(F("Tzdata: "));
+      mOled.print(F("TZ: "));
       mOled.println(zonedb::kTzDatabaseVersion);
       mOled.print(F("AceTime: "));
       mOled.print(ACE_TIME_VERSION_STRING);
     }
 
+    SSD1306Ascii& mOled;
+
     RenderingInfo mRenderingInfo;
     RenderingInfo mPrevRenderingInfo;
-    SSD1306Ascii& mOled;
 };
 
 #endif

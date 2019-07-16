@@ -11,6 +11,12 @@
 
 #define EEPROM_SIZE 32
 
+// Determine whether "auto" time zone uses Basic or Extended. Extended is too
+// big for a Nano or Pro Micro, but will work on an ESP8266 or ESP32.
+#define TIME_ZONE_SPECIFIER_TYPE_BASIC 0
+#define TIME_ZONE_SPECIFIER_TYPE_EXTENDED 1
+#define TIME_ZONE_SPECIFIER_TYPE TIME_ZONE_SPECIFIER_TYPE_BASIC
+
 #define TIME_SOURCE_TYPE_NONE 0
 #define TIME_SOURCE_TYPE_DS3231 1
 #define TIME_SOURCE_TYPE_NTP 2
@@ -70,8 +76,9 @@ const uint8_t MODE_CHANGE_HOUR = 13;
 const uint8_t MODE_CHANGE_MINUTE = 14;
 const uint8_t MODE_CHANGE_SECOND = 15;
 
-const uint8_t MODE_CHANGE_TIME_ZONE_OFFSET = 20;
-const uint8_t MODE_CHANGE_TIME_ZONE_DST = 21;
-const uint8_t MODE_CHANGE_HOUR_MODE = 22;
+const uint8_t MODE_CHANGE_TIME_ZONE_TYPE = 20;
+const uint8_t MODE_CHANGE_TIME_ZONE_OFFSET = 21;
+const uint8_t MODE_CHANGE_TIME_ZONE_DST = 22;
+const uint8_t MODE_CHANGE_TIME_ZONE_NAME = 23;
 
 #endif
