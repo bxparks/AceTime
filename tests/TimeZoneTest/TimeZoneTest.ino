@@ -186,6 +186,89 @@ test(TimeZoneTest_Extended, Los_Angeles) {
 }
 
 // --------------------------------------------------------------------------
+// TimeZoneData
+// --------------------------------------------------------------------------
+
+test(TimeZoneDataTest, TypeFixed) {
+  auto tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+  auto tzd = tz.toTimeZoneData();
+  assertEqual(TimeZone::kTypeFixed, tzd.type);
+  assertEqual(-8*4, tzd.offsetCode);
+
+  auto tzCircle = TimeZone::forTimeZoneData(tzd, nullptr, nullptr, nullptr);
+  assertTrue(tz == tzCircle);
+}
+
+test(TimeZoneDataTest, TypeManual) {
+  ManualZoneSpecifier spec(TimeOffset::forHour(-8), true, "PST", "PDT");
+  auto tz = TimeZone::forZoneSpecifier(&spec);
+  auto tzd = tz.toTimeZoneData();
+  assertEqual(TimeZone::kTypeManual, tzd.type);
+  assertEqual(-8*4, tzd.stdOffsetCode);
+  assertTrue(tzd.isDst);
+
+  auto tzCircle = TimeZone::forTimeZoneData(tzd, &spec, nullptr, nullptr);
+  assertTrue(tz == tzCircle);
+}
+
+test(TimeZoneDataTest, TypeBasic) {
+  BasicZoneSpecifier spec(&zonedb::kZoneAmerica_Los_Angeles);
+  auto tz = TimeZone::forZoneSpecifier(&spec);
+  auto tzd = tz.toTimeZoneData();
+  assertEqual(TimeZone::kTypeBasic, tzd.type);
+  assertEqual((intptr_t) &zonedb::kZoneAmerica_Los_Angeles,
+      (intptr_t) tzd.basicZoneInfo);
+
+  auto tzCircle = TimeZone::forTimeZoneData(tzd, nullptr, &spec, nullptr);
+  assertTrue(tz == tzCircle);
+}
+
+test(TimeZoneDataTest, TypeExtended) {
+  ExtendedZoneSpecifier spec(&zonedbx::kZoneAmerica_Los_Angeles);
+  auto tz = TimeZone::forZoneSpecifier(&spec);
+  auto tzd = tz.toTimeZoneData();
+  assertEqual(TimeZone::kTypeExtended, tzd.type);
+  assertEqual((intptr_t) &zonedbx::kZoneAmerica_Los_Angeles,
+      (intptr_t) tzd.extendedZoneInfo);
+
+  auto tzCircle = TimeZone::forTimeZoneData(tzd, nullptr, nullptr, &spec);
+  assertTrue(tz == tzCircle);
+}
+
+test(TimeZoneDataTest, operatorEqualEqual) {
+  auto tz1 = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+  auto tzd1 = tz1.toTimeZoneData();
+  auto tzd1Copy = tz1.toTimeZoneData();
+
+  ManualZoneSpecifier spec2(TimeOffset::forHour(-8), true, "PST", "PDT");
+  auto tz2 = TimeZone::forZoneSpecifier(&spec2);
+  auto tzd2 = tz2.toTimeZoneData();
+  auto tzd2Copy = tz2.toTimeZoneData();
+
+  BasicZoneSpecifier spec3(&zonedb::kZoneAmerica_Los_Angeles);
+  auto tz3 = TimeZone::forZoneSpecifier(&spec3);
+  auto tzd3 = tz3.toTimeZoneData();
+  auto tzd3Copy = tz3.toTimeZoneData();
+
+  ExtendedZoneSpecifier spec4(&zonedbx::kZoneAmerica_Los_Angeles);
+  auto tz4 = TimeZone::forZoneSpecifier(&spec4);
+  auto tzd4 = tz4.toTimeZoneData();
+  auto tzd4Copy = tz4.toTimeZoneData();
+
+  assertTrue(tzd1 != tzd2);
+  assertTrue(tzd1 != tzd3);
+  assertTrue(tzd1 != tzd4);
+  assertTrue(tzd2 != tzd3);
+  assertTrue(tzd2 != tzd4);
+  assertTrue(tzd3 != tzd4);
+
+  assertTrue(tzd1 == tzd1Copy);
+  assertTrue(tzd2 == tzd2Copy);
+  assertTrue(tzd3 == tzd3Copy);
+  assertTrue(tzd4 == tzd4Copy);
+}
+
+// --------------------------------------------------------------------------
 
 void setup() {
 #if defined(ARDUINO)

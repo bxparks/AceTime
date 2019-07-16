@@ -8,8 +8,11 @@
 
 #include <stdint.h>
 #include "TimeOffset.h"
+#include "TimeZoneData.h"
 #include "ZoneSpecifier.h"
 #include "ManualZoneSpecifier.h"
+#include "BasicZoneSpecifier.h"
+#include "ExtendedZoneSpecifier.h"
 
 class Print;
 
@@ -100,10 +103,10 @@ namespace ace_time {
  */
 class TimeZone {
   public:
-    static const uint8_t kTypeFixed = 0;
-    static const uint8_t kTypeManual = ZoneSpecifier::kTypeManual;
-    static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
-    static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
+    static const uint8_t kTypeFixed = TimeZoneData::kTypeFixed;
+    static const uint8_t kTypeManual = TimeZoneData::kTypeManual;
+    static const uint8_t kTypeBasic = TimeZoneData::kTypeBasic;
+    static const uint8_t kTypeExtended = TimeZoneData::kTypeExtended;
 
     /**
      * Factory method to create from a fixed UTC offset.
@@ -124,10 +127,66 @@ class TimeZone {
       return TimeZone(zoneSpecifier);
     }
 
+    static TimeZone forTimeZoneData(const TimeZoneData& data,
+        ManualZoneSpecifier* manualZoneSpecifier,
+        BasicZoneSpecifier* basicZoneSpecifier,
+        ExtendedZoneSpecifier* extendedZoneSpecifier) {
+
+      switch (data.type) {
+        case TimeZone::kTypeFixed:
+          return forTimeOffset(TimeOffset::forOffsetCode(data.offsetCode));
+        case TimeZone::kTypeManual:
+          manualZoneSpecifier->isDst(data.isDst);
+          manualZoneSpecifier->stdOffset(
+              TimeOffset::forOffsetCode(data.stdOffsetCode));
+          return forZoneSpecifier(manualZoneSpecifier);
+        case TimeZone::kTypeBasic:
+          basicZoneSpecifier->setZoneInfo(data.basicZoneInfo);
+          return forZoneSpecifier(basicZoneSpecifier);
+        case TimeZone::kTypeExtended:
+          extendedZoneSpecifier->setZoneInfo(data.extendedZoneInfo);
+          return forZoneSpecifier(extendedZoneSpecifier);
+      }
+      // Maybe add a ::forError() factory method?
+      return TimeZone();
+    }
+
     /** Default constructor. */
     TimeZone():
       mType(kTypeFixed),
       mOffset() {}
+
+    /** Serialize into TimeZoneData. */
+    TimeZoneData toTimeZoneData() const {
+      TimeZoneData data;
+      data.type = mType;
+      switch (mType) {
+        case TimeZone::kTypeFixed:
+          data.offsetCode = mOffset.toOffsetCode();
+          break;
+        case TimeZone::kTypeManual:
+        {
+          auto* zoneSpecifier = (const ManualZoneSpecifier*) mZoneSpecifier;
+          data.stdOffsetCode = zoneSpecifier->stdOffset().toOffsetCode();
+          data.isDst = zoneSpecifier->isDst();
+          break;
+        }
+        case TimeZone::kTypeBasic:
+        {
+          auto* zoneSpecifier = (const BasicZoneSpecifier*) mZoneSpecifier;
+          data.basicZoneInfo = zoneSpecifier->getZoneInfo();
+          break;
+        }
+        case TimeZone::kTypeExtended:
+        {
+          auto* zoneSpecifier = (const ExtendedZoneSpecifier*) mZoneSpecifier;
+          data.extendedZoneInfo = zoneSpecifier->getZoneInfo();
+          break;
+        }
+      }
+
+      return data;
+    }
 
     /**
      * Return the type of TimeZone. This value is useful for serializing and
