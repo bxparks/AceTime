@@ -189,29 +189,38 @@ class Presenter {
       // Don't use F() strings for these short strings. Seems to increase
       // flash memory, while saving only a few bytes of RAM.
 
+      const TimeZone& tz = mRenderingInfo.dateTime.timeZone();
       mOled.print("TZ: ");
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_TYPE)) {
-        const TimeZone& tz = mRenderingInfo.dateTime.timeZone();
         mOled.print((tz.getType() == TimeZone::kTypeManual)
             ? "manual" : "auto");
       } else {
         mOled.print("      "); // 6 spaces
       }
 
-      mOled.println();
-      mOled.print("UTC");
-      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
-        offset.printTo(mOled);
-      } else {
-        mOled.print("      "); // 6 spaces to span "+hh:mm"
-      }
+    if (tz.getType() == TimeZone::kTypeManual) {
+        mOled.println();
+        mOled.print("UTC");
+        if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
+          offset.printTo(mOled);
+        } else {
+          mOled.print("      "); // 6 spaces to span "+hh:mm"
+        }
 
-      mOled.println();
-      mOled.print("DST: ");
-      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-        mOled.print(manualZspec.isDst() ? "on " : "off");
+        mOled.println();
+        mOled.print("DST: ");
+        if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
+          mOled.print(manualZspec.isDst() ? "on " : "off");
+        } else {
+          mOled.print("   ");
+        }
       } else {
-        mOled.print("   ");
+        // Print name of timezone
+        mOled.println();
+        tz.printTo(mOled);
+
+        mOled.println();
+        mOled.clearToEOL();
       }
     }
 

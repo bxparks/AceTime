@@ -111,7 +111,11 @@ class Controller {
 
         // Cycle through the various changeable time zone fields.
         case MODE_CHANGE_TIME_ZONE_TYPE:
-          mMode = MODE_CHANGE_TIME_ZONE_OFFSET;
+          if (mChangingClockInfo.timeZone.getType() == TimeZone::kTypeManual) {
+            mMode = MODE_CHANGE_TIME_ZONE_OFFSET;
+          } else {
+            // pass
+          }
           break;
         case MODE_CHANGE_TIME_ZONE_OFFSET:
           mMode = MODE_CHANGE_TIME_ZONE_DST;
