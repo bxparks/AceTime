@@ -13,5 +13,9 @@ void BasicZoneSpecifier::printTo(Print& printer) const {
   printer.print(BasicZone(mZoneInfo.zoneInfo()).name());
 }
 
+void BasicZoneSpecifier::printShortTo(Print& printer) const {
+  printer.print(BasicZone(mZoneInfo.zoneInfo()).shortName());
+}
+
 }
 

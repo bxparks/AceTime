@@ -46,6 +46,12 @@
   inline int acetime_strcmp_P(const char* str1, const char* str2P) {
     return strcmp_P((str1), (str2P));
   }
+
+  extern "C" {
+    const char* strchr_P(const char* s, int c);
+    const char* strrchr_P(const char* s, int c);
+  }
+
 #elif defined(ESP32)
   #include <pgmspace.h>
   // Fix incorrect definition of FPSTR in ESP32, see
@@ -53,6 +59,12 @@
   #undef FPSTR
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
   #define acetime_strcmp_P strcmp_P
+
+  extern "C" {
+    const char* strchr_P(const char* s, int c);
+    const char* strrchr_P(const char* s, int c);
+  }
+
 #elif defined(__linux__) or defined(__APPLE__)
   #include <pgmspace.h>
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))

@@ -26,4 +26,8 @@ void ExtendedZoneSpecifier::printTo(Print& printer) const {
   printer.print(ExtendedZone(mZoneInfo.zoneInfo()).name());
 }
 
+void ExtendedZoneSpecifier::printShortTo(Print& printer) const {
+  printer.print(ExtendedZone(mZoneInfo.zoneInfo()).shortName());
+}
+
 }

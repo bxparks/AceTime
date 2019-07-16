@@ -216,7 +216,7 @@ class Presenter {
         // Print name of timezone
         mOled.println();
         if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
-          tz.printTo(mOled);
+          tz.printShortTo(mOled);
         }
         mOled.clearToEOL();
 

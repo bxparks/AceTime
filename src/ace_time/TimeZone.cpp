@@ -21,6 +21,18 @@ void TimeZone::printTo(Print& printer) const {
   }
 }
 
+void TimeZone::printShortTo(Print& printer) const {
+  if (mType == kTypeFixed) {
+    if (mOffset.isZero()) {
+      printer.print("UTC");
+    } else{
+      mOffset.printTo(printer);
+    }
+  } else {
+    mZoneSpecifier->printShortTo(printer);
+  }
+}
+
 void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {
   if (mType == kTypeFixed) {
     if (mOffset.isZero()) {

@@ -777,6 +777,7 @@ class TimeZone {
     TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const;
 
     void printTo(Print& printer) const;
+    void printShortTo(Print& printer) const;
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 
     bool isDst() const;
@@ -811,6 +812,14 @@ type is `kTypeManual`, the `isDst()` returns the value of the underlying
 `ManualZoneSpecifier::isDst()` and the `isDst(bool)` pass the value to the
 underlying `ManualZoneSpecifier::isDst(bool)` method. These methods allow the
 user to manuaally set the DST flag, instead of using the TZ Database.
+
+The `printTo()` prints the fully-qualified unique name for the time zone.
+For example, `"UTC"`, `"-08:00", `"-08:00(DST)"`, `"America/Los_Angeles"`.
+
+The `printShortTo()` is similar to `printTo()` except that it prints the
+last component of the IANA TZ Database zone names. In other words,
+`"America/Los_Angeles"` is printed as `"Los_Angeles"`. This is helpful for
+printing on small width OLED displays.
 
 The `printAbbrevTo(printer, epochSeconds)` method prints the human-readable
 timezone abbreviation used at the given `epochSeconds` to the `printer`. For

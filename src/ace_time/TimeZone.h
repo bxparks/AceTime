@@ -177,6 +177,15 @@ class TimeZone {
     void printTo(Print& printer) const;
 
     /**
+     * Print the *short* human readable representation of the time zone.
+     *   * kTypeFixed at UTC is printed as "UTC" or "+/-hh:mm"
+     *   * kTypeManual is printed as "+/-hh:mm(STD|DST)" (e.g. "-08:00(DST)")
+     *   * kTypeBasic is printed as "{zoneShortName}" (e.g. "Los_Angeles")
+     *   * kTypeExtended is printed as "{zoneShortName}" (e.g. "Los_Angeles")
+     */
+    void printShortTo(Print& printer) const;
+
+    /**
      * Print the time zone abbreviation for the given epochSeconds.
      *   * kTypeFixed at UTC is printed as "UTC" or "+/-hh:mm"
      *   * kTypeManual is printed as "{abbrev}" (e.g. "PDT")

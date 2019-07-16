@@ -17,6 +17,8 @@ ZoneSpecifier	KEYWORD1
 ManualZoneSpecifier	KEYWORD1
 BasicZoneSpecifier	KEYWORD1
 ExtendedZoneSpecifier	KEYWORD1
+BasicZone	KEYWORD1
+ExtendedZone	KEYWORD1
 TimeZone	KEYWORD1
 ZonedDateTime	KEYWORD1
 TimePeriod	KEYWORD1
@@ -167,6 +169,7 @@ getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
 getUtcOffsetForDateTime	KEYWORD2
 printTo	KEYWORD2
+printShortTo	KEYWORD2
 
 # ManualZoneSpecifier.h
 getType	KEYWORD2
@@ -179,6 +182,8 @@ getTimeOffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
 getUtcOffsetForDateTime	KEYWORD2
+printTo	KEYWORD2
+printShortTo	KEYWORD2
 
 # BasicZoneSpecifier.h
 getType	KEYWORD2
@@ -187,6 +192,7 @@ getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
 getUtcOffsetForDateTime	KEYWORD2
 printTo	KEYWORD2
+printShortTo	KEYWORD2
 
 # ExtendedZoneSpecifier.h
 getType	KEYWORD2
@@ -197,12 +203,23 @@ getUtcOffsetForDateTime	KEYWORD2
 printTo	KEYWORD2
 resetTransitionHighWater	KEYWORD2
 getTransitionHighWater	KEYWORD2
+printTo	KEYWORD2
+printShortTo	KEYWORD2
+
+# BasicZone.h
+name	KEYWORD2
+shortName	KEYWORD2
+
+# ExtendedZone.h
+name	KEYWORD2
+shortName	KEYWORD2
 
 # TimeZone.h
 getType	KEYWORD2
 getTimeOffset	KEYWORD2
 getAbbrev	KEYWORD2
 printTo	KEYWORD2
+printShortTo	KEYWORD2
 printAbbrevTo	KEYWORD2
 
 # TimePeriod.h
