@@ -16,6 +16,24 @@ struct RenderingInfo {
   ace_time::ManualZoneSpecifier manualZspec;
   ace_time::BasicZoneSpecifier basicZspec;
   ace_time::ZonedDateTime dateTime; // seconds from AceTime epoch
+
+  /** Custom assignment operator to make a deep copy of TimeZone. */
+  RenderingInfo& operator=(const RenderingInfo& that) {
+    mode = that.mode;
+    suppressBlink = that.suppressBlink;
+    blinkShowState = that.blinkShowState;
+    hourMode = that.hourMode;
+    manualZspec = that.manualZspec;
+    basicZspec = that.basicZspec;
+    dateTime = that.dateTime;
+
+    // Make a deep copy of the TimeZone
+    dateTime.timeZone(ace_time::TimeZone::forZoneSpecifier(
+        (dateTime.timeZone().getType() == ace_time::TimeZone::kTypeManual)
+            ? (ace_time::ZoneSpecifier*) &manualZspec
+            : (ace_time::ZoneSpecifier*) &basicZspec));
+    return *this;
+  }
 };
 
 #endif

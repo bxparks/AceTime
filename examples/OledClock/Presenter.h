@@ -5,6 +5,7 @@
 #include <SSD1306AsciiWire.h>
 #include "config.h"
 #include "StoredInfo.h"
+#include "ClockInfo.h"
 #include "RenderingInfo.h"
 #include "Presenter.h"
 
@@ -29,28 +30,22 @@ class Presenter {
       mPrevRenderingInfo = mRenderingInfo;
     }
 
-    void setMode(uint8_t mode) {
+    void setRenderingInfo(uint8_t mode, bool suppressBlink, bool blinkShowState,
+        const ClockInfo& clockInfo) {
       mRenderingInfo.mode = mode;
-    }
-
-    void setDateTime(const ZonedDateTime& dateTime) {
-      mRenderingInfo.dateTime = dateTime;
-    }
-
-    void setTimeZone(const ace_time::ManualZoneSpecifier& manualZspec) {
-      mRenderingInfo.manualZspec = manualZspec;
-    }
-
-    void setHourMode(uint8_t hourMode) {
-      mRenderingInfo.hourMode = hourMode;
-    }
-
-    void setSuppressBlink(bool suppressBlink) {
       mRenderingInfo.suppressBlink = suppressBlink;
-    }
-
-    void setBlinkShowState(bool blinkShowState) {
       mRenderingInfo.blinkShowState = blinkShowState;
+      mRenderingInfo.hourMode = clockInfo.hourMode;
+      mRenderingInfo.manualZspec = clockInfo.manualZspec;
+      mRenderingInfo.basicZspec = clockInfo.basicZspec;
+      mRenderingInfo.dateTime = clockInfo.dateTime;
+
+      // Make a deep copy of the TimeZone
+      ZonedDateTime& dateTime = mRenderingInfo.dateTime;
+      dateTime.timeZone(TimeZone::forZoneSpecifier(
+          (dateTime.timeZone().getType() == TimeZone::kTypeManual)
+              ? (ZoneSpecifier*) &mRenderingInfo.manualZspec
+              : (ZoneSpecifier*) &mRenderingInfo.basicZspec));
     }
 
   private:
@@ -81,9 +76,8 @@ class Presenter {
           || (!mRenderingInfo.suppressBlink
               && (mRenderingInfo.blinkShowState
                   != mPrevRenderingInfo.blinkShowState))
-          || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime
-          || mRenderingInfo.manualZspec != mPrevRenderingInfo.manualZspec
-          || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode;
+          || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode
+          || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime;
     }
 
     void clearDisplay() const { mOled.clear(); }
@@ -234,9 +228,10 @@ class Presenter {
       mOled.print(ACE_TIME_VERSION_STRING);
     }
 
+    SSD1306Ascii& mOled;
+
     RenderingInfo mRenderingInfo;
     RenderingInfo mPrevRenderingInfo;
-    SSD1306Ascii& mOled;
 };
 
 #endif

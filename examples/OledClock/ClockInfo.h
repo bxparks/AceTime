@@ -4,6 +4,7 @@
 #include <AceTime.h>
 #include "config.h"
 
+/** Information about the clock, mostly independent of rendering. */
 struct ClockInfo {
   /** 12:00:00 AM to 12:00:00 PM */
   static uint8_t const kTwelve = 0;
@@ -17,10 +18,10 @@ struct ClockInfo {
   /** Timezone type. */
   uint8_t timeZoneType;
 
-  /** ManualZoneSpecifier. */
+  /** ManualZoneSpecifier for deep-copy of TimeZone. */
   ace_time::ManualZoneSpecifier manualZspec;
 
-  /** BasicZoneSpecifier. */
+  /** BasicZoneSpecifier for deep-copy of TimeZone.  */
   ace_time::BasicZoneSpecifier basicZspec;
 
   /** DateTime from the TimeKeeper. */

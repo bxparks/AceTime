@@ -48,10 +48,10 @@ class Controller {
       if (isValid) {
         restoreInfo(storedInfo);
       } else {
-        initInfo();
+        setupInfo();
       }
     #else
-      initInfo();
+      setupInfo();
     #endif
 
       // Retrieve current time from TimeKeeper and set the current clockInfo.
@@ -197,13 +197,11 @@ class Controller {
         case MODE_CHANGE_TIME_ZONE_TYPE:
           mSuppressBlink = true;
           {
-            auto tz = mChangingClockInfo.dateTime.timeZone();
-            if (tz.getType() == TimeZone::kTypeManual) {
-              tz = TimeZone::forZoneSpecifier(&mChangingClockInfo.basicZspec);
+            if (mChangingClockInfo.timeZoneType == TimeZone::kTypeManual) {
+              mChangingClockInfo.timeZoneType = TimeZone::kTypeBasic;
             } else {
-              tz = TimeZone::forZoneSpecifier(&mChangingClockInfo.manualZspec);
+              mChangingClockInfo.timeZoneType = TimeZone::kTypeManual;
             }
-            mChangingClockInfo.dateTime.timeZone(tz);
           }
           break;
         case MODE_CHANGE_TIME_ZONE_OFFSET:
@@ -289,16 +287,12 @@ class Controller {
     }
 
     void updateRenderingInfo() {
-      mPresenter.setMode(mMode);
-      mPresenter.setSuppressBlink(mSuppressBlink);
-      mPresenter.setBlinkShowState(mBlinkShowState);
-
       switch (mMode) {
         case MODE_DATE_TIME:
         case MODE_TIME_ZONE:
-          mPresenter.setDateTime(mClockInfo.dateTime);
-          mPresenter.setTimeZone(mClockInfo.manualZspec);
-          mPresenter.setHourMode(mClockInfo.hourMode);
+        case MODE_ABOUT:
+          mPresenter.setRenderingInfo(mMode, mSuppressBlink, mBlinkShowState,
+              mClockInfo);
           break;
 
         case MODE_CHANGE_YEAR:
@@ -310,9 +304,8 @@ class Controller {
         case MODE_CHANGE_TIME_ZONE_TYPE:
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
-          mPresenter.setDateTime(mChangingClockInfo.dateTime);
-          mPresenter.setTimeZone(mChangingClockInfo.manualZspec);
-          mPresenter.setHourMode(mChangingClockInfo.hourMode);
+          mPresenter.setRenderingInfo(mMode, mSuppressBlink, mBlinkShowState,
+              mChangingClockInfo);
           break;
       }
     }
@@ -356,7 +349,7 @@ class Controller {
       mClockInfo.hourMode = storedInfo.hourMode;
     }
 
-    void initInfo() {
+    void setupInfo() {
       mClockInfo.timeZoneType = TimeZone::kTypeManual;
       mClockInfo.manualZspec = ManualZoneSpecifier(
           TimeOffset::forMinutes(kDefaultOffsetMinutes), false);
