@@ -20,6 +20,21 @@ test(BasicZoneSpecifierTest, operatorEqualEqual) {
   assertTrue(a != b);
 }
 
+test(BasicZoneSpecifierTest, setZoneInfo) {
+  BasicZoneSpecifier zoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
+  zoneInfo.getUtcOffset(0);
+  assertTrue(zoneInfo.mIsFilled);
+
+  zoneInfo.setZoneInfo(&zonedb::kZoneAustralia_Darwin);
+  assertFalse(zoneInfo.mIsFilled);
+  zoneInfo.getUtcOffset(0);
+  assertTrue(zoneInfo.mIsFilled);
+
+  // Check that the cache remains valid if the zoneInfo does not change
+  zoneInfo.setZoneInfo(&zonedb::kZoneAustralia_Darwin);
+  assertTrue(zoneInfo.mIsFilled);
+}
+
 test(BasicZoneSpecifierTest, calcStartDayOfMonth) {
   // 2018-11, Sun>=1
   basic::MonthDay monthDay = BasicZoneSpecifier::calcStartDayOfMonth(

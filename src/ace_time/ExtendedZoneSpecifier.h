@@ -39,6 +39,7 @@ class ExtendedZoneSpecifierTest_compareTransitionToMatch;
 class ExtendedZoneSpecifierTest_processActiveTransition;
 class ExtendedZoneSpecifierTest_fixTransitionTimes_generateStartUntilTimes;
 class ExtendedZoneSpecifierTest_createAbbreviation;
+class ExtendedZoneSpecifierTest_setZoneInfo;
 class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
@@ -662,6 +663,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /** Set the underlying ZoneInfo. */
     void setZoneInfo(const extended::ZoneInfo* zoneInfo) {
+      if (mZoneInfo.zoneInfo() == zoneInfo) return;
+
       mZoneInfo = extended::ZoneInfoBroker(zoneInfo);
       mYear = 0;
       mIsFilled = false;
@@ -778,6 +781,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_processActiveTransition;
     friend class ::ExtendedZoneSpecifierTest_fixTransitionTimes_generateStartUntilTimes;
     friend class ::ExtendedZoneSpecifierTest_createAbbreviation;
+    friend class ::ExtendedZoneSpecifierTest_setZoneInfo;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current

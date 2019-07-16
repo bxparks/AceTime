@@ -20,6 +20,7 @@
 
 class BasicZoneSpecifierTest_init_primitives;
 class BasicZoneSpecifierTest_init;
+class BasicZoneSpecifierTest_setZoneInfo;
 class BasicZoneSpecifierTest_createAbbreviation;
 class BasicZoneSpecifierTest_calcStartDayOfMonth;
 class BasicZoneSpecifierTest_calcRuleOffsetCode;
@@ -195,6 +196,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
     /** Set the underlying ZoneInfo. */
     void setZoneInfo(const basic::ZoneInfo* zoneInfo) {
+      if (mZoneInfo.zoneInfo() == zoneInfo) return;
+
       mZoneInfo = basic::ZoneInfoBroker(zoneInfo);
       mYear = 0;
       mIsFilled = false;
@@ -371,6 +374,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
   private:
     friend class ::BasicZoneSpecifierTest_init_primitives;
     friend class ::BasicZoneSpecifierTest_init;
+    friend class ::BasicZoneSpecifierTest_setZoneInfo;
     friend class ::BasicZoneSpecifierTest_createAbbreviation;
     friend class ::BasicZoneSpecifierTest_calcStartDayOfMonth;
     friend class ::BasicZoneSpecifierTest_calcRuleOffsetCode;

@@ -721,6 +721,26 @@ test(ExtendedZoneSpecifierTest, calcAbbreviations) {
   // TODO: Implement
 }
 
+
+// --------------------------------------------------------------------------
+// Test public methods
+// --------------------------------------------------------------------------
+
+test(ExtendedZoneSpecifierTest, setZoneInfo) {
+  ExtendedZoneSpecifier zoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
+  zoneInfo.getUtcOffset(0);
+  assertTrue(zoneInfo.mIsFilled);
+
+  zoneInfo.setZoneInfo(&zonedbx::kZoneAustralia_Darwin);
+  assertFalse(zoneInfo.mIsFilled);
+  zoneInfo.getUtcOffset(0);
+  assertTrue(zoneInfo.mIsFilled);
+
+  // Check that the cache remains valid if the zoneInfo does not change
+  zoneInfo.setZoneInfo(&zonedbx::kZoneAustralia_Darwin);
+  assertTrue(zoneInfo.mIsFilled);
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {
