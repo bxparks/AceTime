@@ -195,34 +195,30 @@ class Presenter {
       if (shouldShowFor(MODE_CHANGE_TIME_ZONE_TYPE)) {
         mOled.print((tz.getType() == TimeZone::kTypeManual)
             ? "manual" : "auto");
-      } else {
-        mOled.print("      "); // 6 spaces
       }
+      mOled.clearToEOL();
 
     if (tz.getType() == TimeZone::kTypeManual) {
         mOled.println();
         mOled.print("UTC");
         if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
           offset.printTo(mOled);
-        } else {
-          mOled.print("      "); // 6 spaces to span "+hh:mm"
         }
+        mOled.clearToEOL();
 
         mOled.println();
         mOled.print("DST: ");
         if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
           mOled.print(manualZspec.isDst() ? "on " : "off");
-        } else {
-          mOled.print("   ");
         }
+        mOled.clearToEOL();
       } else {
         // Print name of timezone
         mOled.println();
         if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
           tz.printTo(mOled);
-        } else {
-          mOled.clearToEOL();
         }
+        mOled.clearToEOL();
 
         // Clear the DST: {on|off} line from a previous screen
         mOled.println();
