@@ -8,6 +8,7 @@
 
 #include "internal/ZoneInfo.h"
 #include "internal/Brokers.h"
+#include "common/flash.h"
 
 class __FlashStringHelper;
 
@@ -23,17 +24,32 @@ class BasicZone {
     BasicZone(const basic::ZoneInfo* zoneInfo):
         mZoneInfoBroker(zoneInfo) {}
 
-    // use default copy constructor and assignment operator.
-    BasicZone(const BasicZone&) = delete;
-    BasicZone& operator=(const BasicZone&) = delete;
+    // use default copy constructor and assignment operator
+    BasicZone(const BasicZone&) = default;
+    BasicZone& operator=(const BasicZone&) = default;
 
+// The #if conditional prevents merging with ExtendedZone.h into a template
+// class.
 #if ACE_TIME_USE_BASIC_PROGMEM
     const __FlashStringHelper* name() const {
       return (const __FlashStringHelper*) mZoneInfoBroker.name();
     }
+
+    const __FlashStringHelper* shortName() const {
+      const char* name = mZoneInfoBroker.name();
+      const char* slash = strrchr_P(name, '/');
+      return (slash) ? (const __FlashStringHelper*) (slash + 1)
+          : (const __FlashStringHelper*) name;
+    }
 #else
     const char* name() const {
       return (const char*) mZoneInfoBroker.name();
+    }
+
+    const char* shortName() const {
+      const char* name = mZoneInfoBroker.name();
+      const char* slash = strrchr(name, '/');
+      return (slash) ? (slash + 1) : name;
     }
 #endif
 

@@ -19,7 +19,9 @@ test(BasicZoneManagerTest, getZoneInfo_Los_Angeles) {
   const basic::ZoneInfo* zoneInfo =
       zoneManager.getZoneInfo("America/Los_Angeles");
   assertTrue(zoneInfo != nullptr);
+
   assertEqual(F("America/Los_Angeles"), BasicZone(zoneInfo).name());
+  assertEqual(F("Los_Angeles"), BasicZone(zoneInfo).shortName());
 }
 
 test(BasicZoneManagerTest, getZoneInfo_not_found) {

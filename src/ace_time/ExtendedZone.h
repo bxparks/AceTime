@@ -24,17 +24,31 @@ class ExtendedZone {
     ExtendedZone(const extended::ZoneInfo* zoneInfo):
         mZoneInfoBroker(zoneInfo) {}
 
-    // use default copy constructor and assignment operator.
-    ExtendedZone(const ExtendedZone&) = delete;
-    ExtendedZone& operator=(const ExtendedZone&) = delete;
+    // use default copy constructor and assignment operator
+    ExtendedZone(const ExtendedZone&) = default;
+    ExtendedZone& operator=(const ExtendedZone&) = default;
 
+// The #if conditional prevents merging with BasicZone.h into a template class.
 #if ACE_TIME_USE_EXTENDED_PROGMEM
     const __FlashStringHelper* name() const {
       return (const __FlashStringHelper*) mZoneInfoBroker.name();
     }
+
+    const __FlashStringHelper* shortName() const {
+      const char* name = mZoneInfoBroker.name();
+      const char* slash = strrchr_P(name, '/');
+      return (slash) ? (const __FlashStringHelper*) (slash + 1)
+          : (const __FlashStringHelper*) name;
+    }
 #else
     const char* name() const {
       return mZoneInfoBroker.name();
+    }
+
+    const char* shortName() const {
+      const char* name = mZoneInfoBroker.name();
+      const char* slash = strrchr(name, '/');
+      return (slash) ? (slash + 1) : name;
     }
 #endif
 

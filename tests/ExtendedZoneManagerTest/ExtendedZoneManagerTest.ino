@@ -20,6 +20,7 @@ test(ExtendedZoneManagerTest, getZoneInfo_Los_Angeles) {
   assertTrue(zoneInfo != nullptr);
 
   assertEqual("America/Los_Angeles", ExtendedZone(zoneInfo).name());
+  assertEqual(F("Los_Angeles"), ExtendedZone(zoneInfo).shortName());
 }
 
 test(ExtendedZoneManagerTest, getZoneInfo_not_found) {
