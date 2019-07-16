@@ -37,7 +37,7 @@ class Controller {
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),
         mPresenter(presenter),
-        mBasicZoneManager(kBasicZoneRegistry, kBasicZoneRegistrySize) {}
+        mZoneManager(kZoneRegistry, kZoneRegistrySize) {}
 
     void setup() {
       // Restore from EEPROM to retrieve time zone.
@@ -209,7 +209,7 @@ class Controller {
           mSuppressBlink = true;
           mChangingClockInfo.timeZone = TimeZone::forZoneSpecifier(
               (mChangingClockInfo.timeZone.getType() == TimeZone::kTypeManual)
-                  ? (ZoneSpecifier*) &mChangingClockInfo.basicZspec
+                  ? (ZoneSpecifier*) &mChangingClockInfo.autoZspec
                   : (ZoneSpecifier*) &mChangingClockInfo.manualZspec);
           mChangingClockInfo.dateTime =
               mChangingClockInfo.dateTime.convertToTimeZone(
@@ -234,15 +234,15 @@ class Controller {
         case MODE_CHANGE_TIME_ZONE_NAME:
           mSuppressBlink = true;
           mChangingClockInfo.zoneIndex++;
-          if (mChangingClockInfo.zoneIndex >= kBasicZoneRegistrySize) {
+          if (mChangingClockInfo.zoneIndex >= kZoneRegistrySize) {
             mChangingClockInfo.zoneIndex = 0;
           }
           {
-            const basic::ZoneInfo* zoneInfo =
-                mBasicZoneManager.getZoneInfo(mChangingClockInfo.zoneIndex);
-            mChangingClockInfo.basicZspec.setZoneInfo(zoneInfo);
+            const auto* zoneInfo =
+                mZoneManager.getZoneInfo(mChangingClockInfo.zoneIndex);
+            mChangingClockInfo.autoZspec.setZoneInfo(zoneInfo);
             mChangingClockInfo.timeZone = TimeZone::forZoneSpecifier(
-                &mChangingClockInfo.basicZspec);
+                &mChangingClockInfo.autoZspec);
             mChangingClockInfo.dateTime = mClockInfo.dateTime.convertToTimeZone(
                 mChangingClockInfo.timeZone);
           }
@@ -276,8 +276,12 @@ class Controller {
     }
 
   private:
-    static const basic::ZoneInfo* const kBasicZoneRegistry[];
-    static const uint16_t kBasicZoneRegistrySize;
+  #if TIME_ZONE_SPECIFIER_TYPE == TIME_ZONE_SPECIFIER_TYPE_BASIC
+    static const basic::ZoneInfo* const kZoneRegistry[];
+  #else
+    static const extended::ZoneInfo* const kZoneRegistry[];
+  #endif
+    static const uint16_t kZoneRegistrySize;
 
     void updateDateTime() {
       // TODO: It might be possible to track just the epochSeconds instead of
@@ -348,14 +352,14 @@ class Controller {
       mClockInfo.hourMode = mChangingClockInfo.hourMode;
       mClockInfo.zoneIndex = mChangingClockInfo.zoneIndex;
       mClockInfo.manualZspec = mChangingClockInfo.manualZspec;
-      mClockInfo.basicZspec = mChangingClockInfo.basicZspec;
+      mClockInfo.autoZspec = mChangingClockInfo.autoZspec;
       mClockInfo.dateTime = mClockInfo.dateTime;
 
       // Deep-copy the timeZone
       mClockInfo.timeZone = TimeZone::forZoneSpecifier(
           (mChangingClockInfo.timeZone.getType() == TimeZone::kTypeManual)
               ? (ZoneSpecifier*) &mClockInfo.manualZspec
-              : (ZoneSpecifier*) &mClockInfo.basicZspec);
+              : (ZoneSpecifier*) &mClockInfo.autoZspec);
       mClockInfo.dateTime.timeZone(mClockInfo.timeZone);
 
       preserveInfo();
@@ -383,14 +387,13 @@ class Controller {
           TimeOffset::forMinutes(storedInfo.offsetMinutes), false);
       mClockInfo.manualZspec.isDst(storedInfo.isDst);
       mClockInfo.zoneIndex = storedInfo.zoneIndex;
-      const basic::ZoneInfo* zoneInfo =
-          mBasicZoneManager.getZoneInfo(mClockInfo.zoneIndex);
-      mClockInfo.basicZspec.setZoneInfo(zoneInfo);
+      const auto* zoneInfo = mZoneManager.getZoneInfo(mClockInfo.zoneIndex);
+      mClockInfo.autoZspec.setZoneInfo(zoneInfo);
 
       mClockInfo.timeZone = TimeZone::forZoneSpecifier(
           (storedInfo.timeZoneType == TimeZone::kTypeManual)
               ? (ZoneSpecifier*) &mClockInfo.manualZspec
-              : (ZoneSpecifier*) &mClockInfo.basicZspec);
+              : (ZoneSpecifier*) &mClockInfo.autoZspec);
     }
 
     /** Set up the initial ClockInfo states. */
@@ -408,7 +411,11 @@ class Controller {
     TimeKeeper& mTimeKeeper;
     hw::CrcEeprom& mCrcEeprom;
     Presenter& mPresenter;
-    BasicZoneManager mBasicZoneManager;
+  #if TIME_ZONE_SPECIFIER_TYPE == TIME_ZONE_SPECIFIER_TYPE_BASIC
+    BasicZoneManager mZoneManager;
+  #else
+    ExtendedZoneManager mZoneManager;
+  #endif
     ClockInfo mClockInfo; // current clock
     ClockInfo mChangingClockInfo; // the target clock
 

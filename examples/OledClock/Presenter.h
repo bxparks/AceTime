@@ -37,7 +37,7 @@ class Presenter {
       mRenderingInfo.blinkShowState = blinkShowState;
       mRenderingInfo.hourMode = clockInfo.hourMode;
       mRenderingInfo.manualZspec = clockInfo.manualZspec;
-      mRenderingInfo.basicZspec = clockInfo.basicZspec;
+      mRenderingInfo.autoZspec = clockInfo.autoZspec;
       mRenderingInfo.dateTime = clockInfo.dateTime;
 
       // Make a deep copy of the TimeZone
@@ -45,7 +45,7 @@ class Presenter {
       dateTime.timeZone(TimeZone::forZoneSpecifier(
           (dateTime.timeZone().getType() == TimeZone::kTypeManual)
               ? (ZoneSpecifier*) &mRenderingInfo.manualZspec
-              : (ZoneSpecifier*) &mRenderingInfo.basicZspec));
+              : (ZoneSpecifier*) &mRenderingInfo.autoZspec));
     }
 
   private:

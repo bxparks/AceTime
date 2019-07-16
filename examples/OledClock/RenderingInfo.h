@@ -14,7 +14,11 @@ struct RenderingInfo {
   bool blinkShowState = true; // true if blinking info should be shown
   uint8_t hourMode = 0; // 12/24 mode
   ace_time::ManualZoneSpecifier manualZspec;
-  ace_time::BasicZoneSpecifier basicZspec;
+#if TIME_ZONE_SPECIFIER_TYPE == TIME_ZONE_SPECIFIER_TYPE_BASIC
+  ace_time::BasicZoneSpecifier autoZspec;
+#else
+  ace_time::ExtendedZoneSpecifier autoZspec;
+#endif
   ace_time::ZonedDateTime dateTime; // seconds from AceTime epoch
 
   /** Custom assignment operator to make a deep copy of TimeZone. */
@@ -24,14 +28,14 @@ struct RenderingInfo {
     blinkShowState = that.blinkShowState;
     hourMode = that.hourMode;
     manualZspec = that.manualZspec;
-    basicZspec = that.basicZspec;
+    autoZspec = that.autoZspec;
     dateTime = that.dateTime;
 
     // Make a deep copy of the TimeZone
     dateTime.timeZone(ace_time::TimeZone::forZoneSpecifier(
         (dateTime.timeZone().getType() == ace_time::TimeZone::kTypeManual)
             ? (ace_time::ZoneSpecifier*) &manualZspec
-            : (ace_time::ZoneSpecifier*) &basicZspec));
+            : (ace_time::ZoneSpecifier*) &autoZspec));
 
     return *this;
   }

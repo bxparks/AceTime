@@ -1,6 +1,8 @@
 #include "Controller.h"
 
-const basic::ZoneInfo* const Controller::kBasicZoneRegistry[]
+#if TIME_ZONE_SPECIFIER_TYPE == TIME_ZONE_SPECIFIER_TYPE_BASIC
+
+const basic::ZoneInfo* const Controller::kZoneRegistry[]
     ACE_TIME_BASIC_PROGMEM = {
   &zonedb::kZoneAmerica_Los_Angeles,
   &zonedb::kZoneAmerica_Denver,
@@ -8,5 +10,20 @@ const basic::ZoneInfo* const Controller::kBasicZoneRegistry[]
   &zonedb::kZoneAmerica_New_York,
 };
 
-const uint16_t Controller::kBasicZoneRegistrySize =
-    sizeof(Controller::kBasicZoneRegistry) / sizeof(basic::ZoneInfo*);
+const uint16_t Controller::kZoneRegistrySize =
+    sizeof(Controller::kZoneRegistry) / sizeof(basic::ZoneInfo*);
+
+#else
+
+const extended::ZoneInfo* const Controller::kZoneRegistry[]
+    ACE_TIME_EXTENDED_PROGMEM = {
+  &zonedbx::kZoneAmerica_Los_Angeles,
+  &zonedbx::kZoneAmerica_Denver,
+  &zonedbx::kZoneAmerica_Chicago,
+  &zonedbx::kZoneAmerica_New_York,
+};
+
+const uint16_t Controller::kZoneRegistrySize =
+    sizeof(Controller::kZoneRegistry) / sizeof(extended::ZoneInfo*);
+
+#endif

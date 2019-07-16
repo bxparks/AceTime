@@ -22,7 +22,11 @@ struct ClockInfo {
   ace_time::ManualZoneSpecifier manualZspec;
 
   /** BasicZoneSpecifier for deep-copy of TimeZone.  */
-  ace_time::BasicZoneSpecifier basicZspec;
+#if TIME_ZONE_SPECIFIER_TYPE == TIME_ZONE_SPECIFIER_TYPE_BASIC
+  ace_time::BasicZoneSpecifier autoZspec;
+#else
+  ace_time::ExtendedZoneSpecifier autoZspec;
+#endif
 
   /** Timezone */
   ace_time::TimeZone timeZone;

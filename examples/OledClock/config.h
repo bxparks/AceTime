@@ -11,6 +11,12 @@
 
 #define EEPROM_SIZE 32
 
+// Determine whether "auto" time zone uses Basic or Extended. Extended is too
+// big for a Nano or Pro Micro, but will work on an ESP8266 or ESP32.
+#define TIME_ZONE_SPECIFIER_TYPE_BASIC 0
+#define TIME_ZONE_SPECIFIER_TYPE_EXTENDED 1
+#define TIME_ZONE_SPECIFIER_TYPE TIME_ZONE_SPECIFIER_TYPE_BASIC
+
 #define TIME_SOURCE_TYPE_NONE 0
 #define TIME_SOURCE_TYPE_DS3231 1
 #define TIME_SOURCE_TYPE_NTP 2

@@ -182,14 +182,14 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         mZoneInfo(zoneInfo) {}
 
     /** Copy constructor */
-    BasicZoneSpecifier(const BasicZoneSpecifier& other):
-      ZoneSpecifier(other.mType),
-      mZoneInfo(other.mZoneInfo) {}
+    BasicZoneSpecifier(const BasicZoneSpecifier& that):
+      ZoneSpecifier(that.mType),
+      mZoneInfo(that.mZoneInfo) {}
 
     /** Assignment operator */
-    BasicZoneSpecifier& operator=(const BasicZoneSpecifier& other) {
-      mType = other.mType;
-      setZoneInfo(other.mZoneInfo.zoneInfo());
+    BasicZoneSpecifier& operator=(const BasicZoneSpecifier& that) {
+      mType = that.mType;
+      setZoneInfo(that.mZoneInfo.zoneInfo());
       return *this;
     }
 

@@ -641,11 +641,24 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
   public:
     /**
      * Constructor.
-     * @param zoneInfo pointer to a ZoneInfo. Must not be nullptr.
+     * @param zoneInfo pointer to a ZoneInfo.
      */
-    explicit ExtendedZoneSpecifier(const extended::ZoneInfo* zoneInfo):
+    explicit ExtendedZoneSpecifier(
+        const extended::ZoneInfo* zoneInfo = nullptr):
         ZoneSpecifier(kTypeExtended),
         mZoneInfo(zoneInfo) {}
+
+    /** Copy constructor */
+    ExtendedZoneSpecifier(const ExtendedZoneSpecifier& that):
+      ZoneSpecifier(that.mType),
+      mZoneInfo(that.mZoneInfo) {}
+
+    /** Assignment operator */
+    ExtendedZoneSpecifier& operator=(const ExtendedZoneSpecifier& that) {
+      mType = that.mType;
+      setZoneInfo(that.mZoneInfo.zoneInfo());
+      return *this;
+    }
 
     /** Set the underlying ZoneInfo. */
     void setZoneInfo(const extended::ZoneInfo* zoneInfo) {
@@ -789,10 +802,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /** A sentinel ZoneEra which has the smallest year. */
     static const extended::ZoneEra kAnchorEra;
-
-    // Disable copy constructor and assignment operator.
-    ExtendedZoneSpecifier(const ExtendedZoneSpecifier&) = delete;
-    ExtendedZoneSpecifier& operator=(const ExtendedZoneSpecifier&) = delete;
 
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const ExtendedZoneSpecifier&) other;
