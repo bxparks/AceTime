@@ -736,8 +736,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return odt;
     }
 
-    /** Print the TD database zone identifier e.g "America/Los_Angeles". */
     void printTo(Print& printer) const override;
+
+    void printShortTo(Print& printer) const override;
 
     /** Used only for debugging. */
     void log() const {

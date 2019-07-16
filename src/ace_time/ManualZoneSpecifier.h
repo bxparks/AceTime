@@ -114,6 +114,8 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     /** Print the zone specifier in the format of "+/-HH:MM (DST|STD)". */
     void printTo(Print& printer) const override;
 
+    void printShortTo(Print& printer) const override;
+
   private:
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const ManualZoneSpecifier&) other;

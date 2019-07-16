@@ -13,4 +13,8 @@ void ManualZoneSpecifier::printTo(Print& printer) const {
   printer.print(mIsDst ? F("(DST)") : F("(STD)"));
 }
 
+void ManualZoneSpecifier::printShortTo(Print& printer) const {
+  printTo(printer);
+}
+
 }

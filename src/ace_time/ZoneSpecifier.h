@@ -86,8 +86,11 @@ class ZoneSpecifier {
     virtual OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt)
         const = 0;
 
-    /** Print a human-readable identifier. */
+    /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
     virtual void printTo(Print& printer) const = 0;
+
+    /** Print a short human-readable identifier (e.g. "Los_Angeles") */
+    virtual void printShortTo(Print& printer) const = 0;
 
   protected:
     friend bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b);
