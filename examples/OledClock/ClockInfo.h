@@ -13,7 +13,10 @@ struct ClockInfo {
   static uint8_t const kTwentyFour = 1;
 
   /** 12/24 mode */
-  uint8_t hourMode = kTwelve;
+  uint8_t hourMode;
+
+  /** Zone index into the ZoneRegistry. */
+  uint8_t zoneIndex;
 
   /** ManualZoneSpecifier for deep-copy of TimeZone. */
   ace_time::ManualZoneSpecifier manualZspec;

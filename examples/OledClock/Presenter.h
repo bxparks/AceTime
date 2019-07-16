@@ -100,6 +100,7 @@ class Presenter {
         case MODE_CHANGE_TIME_ZONE_TYPE:
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
+        case MODE_CHANGE_TIME_ZONE_NAME:
           displayTimeZone();
           break;
 
@@ -217,8 +218,13 @@ class Presenter {
       } else {
         // Print name of timezone
         mOled.println();
-        tz.printTo(mOled);
+        if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
+          tz.printTo(mOled);
+        } else {
+          mOled.clearToEOL();
+        }
 
+        // Clear the DST: {on|off} line from a previous screen
         mOled.println();
         mOled.clearToEOL();
       }
