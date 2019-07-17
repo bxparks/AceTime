@@ -57,6 +57,7 @@ static const ZoneEra kZoneEraAlmostLosAngeles[] ACE_TIME_EXTENDED_PROGMEM = {
 
 static const ZoneInfo kZoneAlmostLosAngeles ACE_TIME_EXTENDED_PROGMEM = {
   "Almost_Los_Angeles" /*name*/,
+  0x70166020 /*nameHash*/,
   &::kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -156,6 +157,7 @@ static const ZoneEra kZoneEraTestLos_Angeles[] ACE_TIME_EXTENDED_PROGMEM = {
 
 static const ZoneInfo kZoneTestLos_Angeles ACE_TIME_EXTENDED_PROGMEM = {
   "America/Los_Angeles" /*name*/,
+  0xb7f7e8f2 /*nameHash*/,
   &::kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   1 /*numEras*/,

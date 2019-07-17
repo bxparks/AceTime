@@ -103,6 +103,7 @@ class Transformer:
 
         # Part 1: Transform the zones_map
         #zones_map = self._remove_zones_without_slash(zones_map)
+        zones_map = self._detect_hash_collisions(zones_map)
         zones_map = self._remove_zone_eras_too_old(zones_map)
         zones_map = self._remove_zone_eras_too_new(zones_map)
         zones_map = self._remove_zones_without_eras(zones_map)
@@ -206,6 +207,20 @@ class Transformer:
             "Removed %s zone infos without '/' in name" % len(removed_zones))
         self.all_removed_zones.update(removed_zones)
         return results
+
+    def _detect_hash_collisions(self, zones_map):
+        """Detect a hash collision. Throw exception so that we can fix it
+        programmatically.
+        """
+        hashes = {}
+        for name, _ in zones_map.items():
+            h = hash_name(name)
+            colliding_name = hashes.get(h)
+            if colliding_name:
+                raise Exception("Hash collision: {name} and {colliding_name}")
+            else:
+                hashes[h] = name
+        return zones_map
 
     def _remove_zone_eras_too_old(self, zones_map):
         """Remove zone eras which are too old, i.e. before (self.start_year-1).
@@ -1524,3 +1539,13 @@ def normalize_name(name):
     """
     name = name.replace('+', '_PLUS_')
     return re.sub('[^a-zA-Z0-9_]', '_', name)
+
+def hash_name(name):
+    """Return the hash of the zone name. Implement the djb2 algorithm:
+    https://stackoverflow.com/questions/7666509
+    """
+    U32_MOD = 2**32
+    hash = 5381
+    for c in name:
+        hash = (33 * hash + ord(c)) % U32_MOD;
+    return hash
