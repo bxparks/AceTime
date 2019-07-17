@@ -166,7 +166,7 @@ class TimezoneCommand: public CommandHandler {
   public:
     TimezoneCommand():
       CommandHandler("timezone",
-        "[fixed {offset} | manual {offset} | "
+        "manual {offset} | "
       #if ENABLE_TIME_ZONE_TYPE_BASIC
         "basic [list | {index}] | "
       #endif
