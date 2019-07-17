@@ -608,7 +608,7 @@ static const char kZoneName{zoneNormalizedName}[] {progmem} = "{zoneFullName}";
 
 const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
   kZoneName{zoneNormalizedName} /*name*/,
-  0x{zoneNameHash:08x} /*nameHash*/,
+  0x{zoneNameHash:08x} /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,

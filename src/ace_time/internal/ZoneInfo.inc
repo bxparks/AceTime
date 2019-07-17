@@ -78,10 +78,11 @@ struct ZoneInfo {
   const char* const name;
 
   /**
-   * Unique, stable hash of the zone name. The hash will never change once
-   * assigned. This can be used for presistence and serialization.
+   * Unique, stable ID of the zone name, created from a hash of the name.
+   * This ID will never change once assigned. This can be used for presistence
+   * and serialization.
    */
-  uint32_t const nameHash;
+  uint32_t const zoneId;
 
   /** ZoneContext metadata. */
   const ZoneContext* const zoneContext;
