@@ -39,9 +39,6 @@ void setup() {
   Serial.print(F("sizeof(ZoneSpecifier): "));
   Serial.println(sizeof(ZoneSpecifier));
 
-  Serial.print(F("sizeof(ManualZoneSpecifier): "));
-  Serial.println(sizeof(ManualZoneSpecifier));
-
   Serial.print(F("sizeof(BasicZoneSpecifier): "));
   Serial.println(sizeof(BasicZoneSpecifier));
 

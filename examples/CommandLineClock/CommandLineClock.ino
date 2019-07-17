@@ -23,7 +23,7 @@
  *        List the AceRoutine coroutines.
  *    date [dateString]
  *        Print or set the date.
- *    timezone [fixed {offset} | manual {offset} | dst (on | off)] |
+ *    timezone [manual {offset} | dst (on | off)] |
  *      basic [list] | extended [list] ]
  *        Print or set the currently active TimeZone.
  *    sync_status
@@ -157,10 +157,8 @@ class SyncCommand: public CommandHandler {
  * Usage:
  *    timezone - print current timezone
  *    timezone list - print support time zones
- *    timezone fixed {timeOffset} - set timezone to fixed mode with given offset
- *    timezone manual {timeOffset} - set timezone to ManualZoneSpecifier with
- *        given offset
- *    timezone dst {on | off} - set ManualZoneSpecifier DST flag to on or off
+ *    timezone manual {timeOffset} - set Manual TimeZone with given offset
+ *    timezone dst {on | off} - set Manual TimeZone DST flag to on or off
  *    timezone basic - set timezone to BasicZoneSpecifier (if supported)
  *    timezone extended - set timezone to ExtendedZoneSpecifier (if supported)
  */
@@ -186,22 +184,7 @@ class TimezoneCommand: public CommandHandler {
       }
 
       SHIFT;
-      if (strcmp(argv[0], "fixed") == 0) {
-        SHIFT;
-        if (argc == 0) {
-          printer.println(F("'timezone fixed' requires 'offset"));
-          return;
-        }
-        TimeOffset offset = TimeOffset::forOffsetString(argv[0]);
-        if (offset.isError()) {
-          printer.println(F("Invalid time zone offset"));
-          return;
-        }
-        controller.setFixedTimeZone(offset);
-        printer.print(F("Time zone set to: "));
-        controller.getTimeZone().printTo(printer);
-        printer.println();
-      } else if (strcmp(argv[0], "manual") == 0) {
+      if (strcmp(argv[0], "manual") == 0) {
         SHIFT;
         if (argc == 0) {
           printer.print(F("'timezone manual' requires 'offset'"));
@@ -212,7 +195,7 @@ class TimezoneCommand: public CommandHandler {
           printer.println(F("Invalid time zone offset"));
           return;
         }
-        controller.setManualTimeZone(offset, false /*isDst*/);
+        controller.setManualTimeZone(offset, TimeOffset());
         printer.print(F("Time zone set to: "));
         controller.getTimeZone().printTo(printer);
         printer.println();

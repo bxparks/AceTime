@@ -24,7 +24,6 @@ sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
 sizeof(ZoneSpecifier): 3
-sizeof(ManualZoneSpecifier): 10
 sizeof(BasicZoneSpecifier): 99
 sizeof(ExtendedZoneSpecifier): 397
 sizeof(TimeZone): 3
@@ -81,7 +80,6 @@ sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
 sizeof(ZoneSpecifier): 8
-sizeof(ManualZoneSpecifier): 20
 sizeof(BasicZoneSpecifier): 156
 sizeof(ExtendedZoneSpecifier): 500
 sizeof(TimeZone): 8
@@ -140,7 +138,6 @@ sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
 sizeof(ZoneSpecifier): 8
-sizeof(ManualZoneSpecifier): 20
 sizeof(BasicZoneSpecifier): 156
 sizeof(ExtendedZoneSpecifier): 500
 sizeof(TimeZone): 8
@@ -202,7 +199,6 @@ sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
 sizeof(ZoneSpecifier): 8
-sizeof(ManualZoneSpecifier): 20
 sizeof(BasicZoneSpecifier): 156
 sizeof(ExtendedZoneSpecifier): 500
 sizeof(TimeZone): 8

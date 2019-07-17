@@ -13,7 +13,7 @@ const basic::ZoneInfo* const Controller::kZoneRegistry[]
 const uint16_t Controller::kZoneRegistrySize =
     sizeof(Controller::kZoneRegistry) / sizeof(basic::ZoneInfo*);
 
-#else
+#elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
 
 const extended::ZoneInfo* const Controller::kZoneRegistry[]
     ACE_TIME_EXTENDED_PROGMEM = {

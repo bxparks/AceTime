@@ -10,11 +10,11 @@ struct StoredInfo {
   /** Time zone of the displayed time */
   uint8_t timeZoneType;
 
-  /** The offset minutes for kTypeManual and kTypeFixed. */
-  int16_t offsetMinutes;
+  /** The offset code for kTypeManual. */
+  int8_t stdOffsetCode;
 
-  /** The isDst flag for kTypeManual. */
-  bool isDst;
+  /** The DST offset code for kTypeManual. */
+  int8_t dstOffsetCode;
 
   /**
    * The current zoneInex. This solution is suboptimal because the ZoneRegistry
