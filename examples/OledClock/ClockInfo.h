@@ -18,7 +18,7 @@ struct ClockInfo {
    * Zone index into the ZoneRegistry. Defined if timeZoneData.type is
    * kTypeBasic or kTypeExtended.
    */
-  uint8_t zoneIndex;
+  uint16_t zoneIndex;
 
   /** TimeZone data. */
   ace_time::TimeZoneData timeZoneData;
