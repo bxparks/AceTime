@@ -48,11 +48,16 @@ class Controller {
       StoredInfo storedInfo;
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
+      #if 1
       if (isValid) {
         restoreClockInfo(mClockInfo, storedInfo);
       } else {
         setupClockInfo();
       }
+      #else
+        setupClockInfo();
+      #endif
+
 
       // Retrieve current time from TimeKeeper and set the current clockInfo.
       updateDateTime();
@@ -426,18 +431,18 @@ class Controller {
         default:
         #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
           clockInfo.timeZoneData.type = TimeZoneData::kTypeManual;
-          clockInfo.timeZoneData.stdOffsetCode = kDefaultOffsetMinutes / 4;
+          clockInfo.timeZoneData.stdOffsetCode = kDefaultOffsetMinutes / 15;
           clockInfo.timeZoneData.isDst = false;
         #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
           clockInfo.zoneIndex = 0;
           clockInfo.timeZoneData.type = TimeZoneData::kTypeBasic;
           clockInfo.timeZoneData.basicZoneInfo =
-              mZoneManager.getZoneInfo(storedInfo.zoneIndex);
+              mZoneManager.getZoneInfo(clockInfo.zoneIndex);
         #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
           clockInfo.zoneIndex = 0;
           clockInfo.timeZoneData.type = TimeZoneData::kTypeExtended;
           clockInfo.timeZoneData.extendedZoneInfo =
-              mZoneManager.getZoneInfo(storedInfo.zoneIndex);
+              mZoneManager.getZoneInfo(clockInfo.zoneIndex);
         #endif
       }
     }
@@ -449,7 +454,7 @@ class Controller {
 
     #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
       storedInfo.type = TimeZoneData::kTypeManual;
-      storedInfo.stdOffsetCode = kDefaultOffsetMinutes / 4;
+      storedInfo.stdOffsetCode = kDefaultOffsetMinutes / 15;
       storedInfo.isDst = false;
     #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
       storedInfo.type = TimeZoneData::kTypeBasic;

@@ -11,23 +11,17 @@ struct ClockInfo {
   /** 00:00:00 - 23:59:59 */
   static uint8_t const kTwentyFour = 1;
 
-  static uint8_t const kTimeModeSeconds = 0;
-  static uint8_t const kTimeModeComponents = 1;
-
   /** 12/24 mode */
   uint8_t hourMode;
 
-  /** TimeZone data. */
-  ace_time::TimeZoneData timeZoneData;
-
   /**
-   * Zone index into the ZoneRegistry. Defined if timeZoneData.type ==
-   * kTypeBasic.
+   * Zone index into the ZoneRegistry. Defined if timeZoneData.type is
+   * kTypeBasic or kTypeExtended.
    */
   uint8_t zoneIndex;
 
-  /** Track epochSeconds or dateTime. */
-  uint8_t timeMode;
+  /** TimeZone data. */
+  ace_time::TimeZoneData timeZoneData;
 
   /** Current time. */
   ace_time::ZonedDateTime dateTime;
