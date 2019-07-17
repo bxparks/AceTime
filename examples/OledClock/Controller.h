@@ -48,16 +48,15 @@ class Controller {
       StoredInfo storedInfo;
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
-      #if 1
+    #if FORCE_INITIALIZE
+      setupClockInfo();
+    #else
       if (isValid) {
         restoreClockInfo(mClockInfo, storedInfo);
       } else {
         setupClockInfo();
       }
-      #else
-        setupClockInfo();
-      #endif
-
+    #endif
 
       // Retrieve current time from TimeKeeper and set the current clockInfo.
       updateDateTime();

@@ -33,7 +33,6 @@
 #include "ace_time/time_offset_mutation.h"
 #include "ace_time/OffsetDateTime.h"
 #include "ace_time/ZoneSpecifier.h"
-#include "ace_time/ManualZoneSpecifier.h"
 #include "ace_time/BasicZoneSpecifier.h"
 #include "ace_time/ExtendedZoneSpecifier.h"
 #include "ace_time/TimeZone.h"

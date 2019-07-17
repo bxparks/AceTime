@@ -5,11 +5,17 @@
 // Configuration parameters.
 //------------------------------------------------------------------
 
-#define CLOCK_VERSION_STRING "0.1"
+#define CLOCK_VERSION_STRING "0.2"
 
 #define ENABLE_SERIAL 0
 
 #define EEPROM_SIZE 32
+
+// Set to 1 to force the ClockInfo to its initial state
+#define FORCE_INITIALIZE 0
+
+// Number of minutes to use for a DST offset.
+#define DST_OFFSET_MINUTE 60
 
 // Determine whether "auto" time zone uses Basic or Extended. Extended is too
 // big for a Nano or Pro Micro, but will work on an ESP8266 or ESP32.
