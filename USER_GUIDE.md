@@ -781,7 +781,7 @@ class TimeZone {
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 
     bool isDst() const;
-    void isDst(bool dst);
+    void setDst(bool dst);
 
     ...
 };
@@ -805,13 +805,13 @@ transitions from 02:00 to 01:00 in the autumn, a given local time such as 01:30
 occurs twice. If the `getUtcOffsetForDateTime()` method is given a time of
 01:30, it will arbitrarily decide which offset to return.
 
-The `isDst()` and `isDst(bool)` methods are active *only* if the `TimeZone` is a
-`kTypeManual`, meaning that it uses the `ManualZoneSpecifier` as the underlying
-engine for determining the DST transitions. Otherwise, they do nothing. If the
-type is `kTypeManual`, the `isDst()` returns the value of the underlying
-`ManualZoneSpecifier::isDst()` and the `isDst(bool)` pass the value to the
-underlying `ManualZoneSpecifier::isDst(bool)` method. These methods allow the
-user to manuaally set the DST flag, instead of using the TZ Database.
+The `isDst()` and `setDst(bool)` methods are active *only* if the `TimeZone` is
+a `kTypeManual`, meaning that it uses the `ManualZoneSpecifier` as the
+underlying engine for determining the DST transitions. Otherwise, they do
+nothing. If the type is `kTypeManual`, the `isDst()` returns the value of the
+underlying `ManualZoneSpecifier::isDst()` and the `setDst(bool)` pass the value
+to the underlying `ManualZoneSpecifier::setDst(bool)` method. These methods
+allow the user to manuaally set the DST flag, instead of using the TZ Database.
 
 The `printTo()` prints the fully-qualified unique name for the time zone.
 For example, `"UTC"`, `"-08:00", `"-08:00(DST)"`, `"America/Los_Angeles"`.
@@ -868,14 +868,14 @@ set at least the `stdOffset` parameter:
 
 When `ManualZoneSpecifier::getUtcOffset()` is called, it will normally return
 the value of `stdOffset`. However, if the user sets the `isDst` flag to `true`
-using `ManualZoneSpecifier::isDst(true)`, then `getUtcOffset()` will return
+using `ManualZoneSpecifier::setDst(true)`, then `getUtcOffset()` will return
 `stdOffset + deltaOffset`.
 
 The `ManualZoneSpecifier` is expected to be created once at the beginning of
 the application. The `TimeZone` object can be created on demand by pointing it
 to the `ManualZoneSpecifier` instance. For example, the following creates a
 `TimeZone` set to be UTC-08:00 normally, but can change to UTC-07:00 when the
-`ManualZoneSpecifier::isDst(true)` is called:
+`ManualZoneSpecifier::setDst(true)` is called:
 
 ```C++
 ManualZoneSpecifier zoneSpecifier(TimeOffset::forHour(-8), false, "PST", "PDT");
@@ -884,13 +884,13 @@ void someFunction() {
   ...
   auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
   auto offset = tz.getUtcOffset(0); // returns -08:00
-  tz.isDst(true);
+  tz.setDst(true);
   offset = tz.getUtcOffset(0); // returns -07:00
   ...
 }
 ```
 
-The `TimeZone::isDst()` and `TimeZone::isDst(bool)` methods are convenience
+The `TimeZone::isDst()` and `TimeZone::setDst(bool)` methods are convenience
 methods that work only if the `TimeZone` instance refers to a
 `ManualZoneSpecifier`. They simply call the underying `ManualZoneSpecifier`. If
 the underlying `ZoneSpecifier` is a different type, the `TimeZone::isDst()` does
@@ -1190,66 +1190,82 @@ As of version 0.4, the zoneinfo files are stored in in flash memory instead of
 static RAM using the
 [PROGMEM](https://www.arduino.cc/reference/en/language/variables/utilities/progmem/)
 keyword on microcontrollers which support this feature. On an 8-bit
-microcontroller, the entire `zonedb/` database consumes about 14kB of flash
+microcontroller, the `zonedb/` database consumes about 14kB of flash
 memory, so it may be possible to create small programs that can dynamically
 access all timezones supported by `BasicZoneSpecifier`. The `zonedbx/` database
 consumes about 23kB of flash memory and the addition code size from various
 classes will exceed the 30-32kB limit of a typical Arduino 8-bit
 microcontroller.
 
+The `zonedb/` files do not support all the timezones in the TZ Database.
+The list of these zones and The reasons for excluding them are given at the
+bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
+
+Although the `zonedbx/` files support all zones from its TZ input files, there
+are number of timezones whose DST transitions in the past happened at 00:01
+(instead of exactly at midnight 00:00). To save memory, the internal
+representation used by AceTime supports transitions only at
+15-minute boundaries. For these timezones, the DST transition time is shifted to
+00:00 instead, and the transition happens one-minute earlier than it should. As
+of TZ DB version 2019a, there are 5 zones affected by this rounding, as listed
+at the bottom of [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and
+these all occur before the year 2012.
+
+#### BasicZone and ExtendedZone
+
 The `basic::ZoneInfo` and `extended::ZoneInfo` (and its related data structures)
 objects are meant to be *opaque* and simply passed into `BasicZoneSpecifier`,
 `ExtendedZoneSpecifier`, `BasicZoneManager` and `ExtendedZoneManager`. The
 internal formats of the `ZoneInfo` structures may change without warning, and
-users of this library should not access its internal data members directly. Two
-helper classes, `BasicZoneInfo` and `ExtendedZoneInfo`, are provided to give
-stable access to some of the internal fields,
+users of this library should not access its internal data members directly.
+
+Two helper classes, `BasicZone` and `ExtendedZone`, provide stable access to
+some of the internal fields:
 
 ```C++
 namespace ace_time {
 
-class BasicZoneInfo {
+class BasicZone {
   public:
-    BasicZoneInfo(const basic::ZoneInfo* zoneInfo);
+    BasicZone(const basic::ZoneInfo* zoneInfo);
 
 #if ACE_TIME_USE_BASIC_PROGMEM
     const __FlashStringHelper* name() const;
+    const __FlashStringHelper* shortName() const;
 #else
     const char* name() const;
+    const char* shortName() const;
 #endif
 };
 
 
-class ExtendedZoneInfo {
+class ExtendedZone {
   public:
-    ExtendedZoneInfo(const extended::ZoneInfo* zoneInfo);
+    ExtendedZone(const extended::ZoneInfo* zoneInfo);
 
 #if ACE_TIME_USE_EXTENDED_PROGMEM
     const __FlashStringHelper* name() const;
+    const __FlashStringHelper* shortName() const;
 #else
     const char* name() const;
+    const char* shortName() const;
 #endif
 
 }
 ```
 
-The return type of the `name()` method changes whether or not the zone name is
-stored in flash memory or in static memory.
+They are meant to be used transiently, for example:
+```C++
+...
+const basic::ZoneInfo* zoneInfo = ...;
+Serial.println(BasicZone(zoneInfo).shortName());
+...
+```
 
-The `BasicZoneSpecifier` does not support all the timezones in the TZ Database.
-The list of these zones and The reasons for excluding them are given at the
-bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
-
-Although the `ExtendedZoneSpecifier` supports all zones from its TZ input
-files, there are number of timezones whose DST transitions in the past happened
-at 00:01 (instead of exactly at midnight 00:00). To save memory, the internal
-representation used by AceTime supports only DST transitions which occur at
-15-minute boundaries. For these timezones, the DST transition time is shifted to
-00:00 instead, and the transition happens one-minute earlier than it should.
-As of TZ DB version 2019a, there are 5 zones affected by this rounding, as
-listed at the bottom of
-[zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and these all occur
-before the year 2012.
+The return type of `name()` and `shortName()` change whether or not the zone
+name is stored in flash memory or in static memory. The `name()` method returns
+the full zone name from the TZ Database (e.g. `"America/Los_Angeles"`). The
+`shortName()` method returns only the last component (e.g. `"Los_Angeles"`).
 
 ### ZoneManager
 
@@ -1257,7 +1273,7 @@ before the year 2012.
 and `ExtendedZoneSpecifier` were considered immutable objects. The ZoneManager
 enables dynamic lookup of `ZoneInfo`, which resulted in the `BasicZoneSpecifier`
 and `ExtendedZoneSpecifier` becoming mutable with the `setZoneInfo()` method.
-The consequence of this change may not be fully apparent.
+The consequence of this change has not been fully explored.
 
 Two classes provide a lookup service from the zone identifier string
 (e.g. `"America/Los_Angeles"`) to the zoneinfo files: `BasicZoneManager` and

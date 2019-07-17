@@ -139,7 +139,7 @@ test(ZonedDateTimeTest_Manual, convertToTimeZone) {
   acetime_t stdEpochSeconds = std.toEpochSeconds();
 
   ManualZoneSpecifier dstSpec(stdSpec);
-  dstSpec.isDst(true);
+  dstSpec.setDst(true);
   TimeZone dstTz = TimeZone::forZoneSpecifier(&dstSpec);
   ZonedDateTime dst = std.convertToTimeZone(dstTz);
   acetime_t dstEpochSeconds = dst.toEpochSeconds();

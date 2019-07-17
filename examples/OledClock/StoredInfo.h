@@ -11,13 +11,25 @@ struct StoredInfo {
   /** 00:00:00 - 23:59:59 */
   static uint8_t const kTwentyFour = 1;
 
-  uint8_t hourMode; // either kTwelve or kTwentyFour
+  /** Either kTwelve or kTwentyFour. */
+  uint8_t hourMode;
 
-  uint8_t timeZoneType; // kTypeManual or kTypeBasic
-  int16_t offsetMinutes; // defined if timeZoneType == kTypeManual
-  bool isDst; // defined if timeZoneType == kTypeManual
-  // TODO: Replace with stable hash(ZoneInfo)
-  uint8_t zoneIndex; // defined if timeZoneType == kTypeBasic
+  /** TimeZoneData::kType*. */
+  uint8_t type;
+
+  union {
+    /** Used by kTypeFixed. */
+    int8_t offsetCode;
+
+    /** Used by kTypeManual. */
+    struct {
+      int8_t stdOffsetCode;
+      bool isDst;
+    };
+
+    /** Used by kTypeBasic or kTypeExtended. */
+    uint16_t zoneIndex;
+  };
 };
 
 #endif

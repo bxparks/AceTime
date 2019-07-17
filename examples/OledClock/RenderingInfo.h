@@ -9,36 +9,12 @@
  * what needs to be displayed.
  */ 
 struct RenderingInfo {
-  uint8_t mode = 0; // display mode, see MODE_xxx above
-  bool suppressBlink = false; // true if blinking should be suppressed
-  bool blinkShowState = true; // true if blinking info should be shown
-  uint8_t hourMode = 0; // 12/24 mode
-  ace_time::ManualZoneSpecifier manualZspec;
-#if TIME_ZONE_SPECIFIER_TYPE == TIME_ZONE_SPECIFIER_TYPE_BASIC
-  ace_time::BasicZoneSpecifier autoZspec;
-#else
-  ace_time::ExtendedZoneSpecifier autoZspec;
-#endif
-  ace_time::ZonedDateTime dateTime; // seconds from AceTime epoch
-
-  /** Custom assignment operator to make a deep copy of TimeZone. */
-  RenderingInfo& operator=(const RenderingInfo& that) {
-    mode = that.mode;
-    suppressBlink = that.suppressBlink;
-    blinkShowState = that.blinkShowState;
-    hourMode = that.hourMode;
-    manualZspec = that.manualZspec;
-    autoZspec = that.autoZspec;
-    dateTime = that.dateTime;
-
-    // Make a deep copy of the TimeZone
-    dateTime.timeZone(ace_time::TimeZone::forZoneSpecifier(
-        (dateTime.timeZone().getType() == ace_time::TimeZone::kTypeManual)
-            ? (ace_time::ZoneSpecifier*) &manualZspec
-            : (ace_time::ZoneSpecifier*) &autoZspec));
-
-    return *this;
-  }
+  uint8_t mode; // display mode, see MODE_xxx in config.h
+  bool suppressBlink; // true if blinking should be suppressed
+  bool blinkShowState; // true if blinking info should be shown
+  uint8_t hourMode; // ClockInfo::kTwelve or kTwentyFour
+  ace_time::TimeZoneData timeZoneData;
+  ace_time::ZonedDateTime dateTime;
 };
 
 #endif

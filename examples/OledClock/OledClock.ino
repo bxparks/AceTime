@@ -16,6 +16,11 @@
  *   * [AceButton](https://github.com/bxparks/AceButton)
  *   * [FastCRC](https://github.com/FrankBoesing/FastCRC)
  *   * [SSD1306Ascii](https://github.com/greiman/SSD1306Ascii)
+ *
+ * If ENABLE_SERIAL is set to 1, it prints diagnostics like this:
+ *  * sizeof(ClockInfo): 32
+ *  * sizeof(StoredInfo): 4
+ *  * sizeof(RenderingInfo): 28
  */
 
 #include <Wire.h>
@@ -180,6 +185,12 @@ void setup() {
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
   Serial.println(F("setup(): begin"));
+  Serial.print(F("sizeof(ClockInfo): "));
+  Serial.println(sizeof(ClockInfo));
+  Serial.print(F("sizeof(StoredInfo): "));
+  Serial.println(sizeof(StoredInfo));
+  Serial.print(F("sizeof(RenderingInfo): "));
+  Serial.println(sizeof(RenderingInfo));
 #endif
 
   Wire.begin();
