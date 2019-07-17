@@ -1190,66 +1190,82 @@ As of version 0.4, the zoneinfo files are stored in in flash memory instead of
 static RAM using the
 [PROGMEM](https://www.arduino.cc/reference/en/language/variables/utilities/progmem/)
 keyword on microcontrollers which support this feature. On an 8-bit
-microcontroller, the entire `zonedb/` database consumes about 14kB of flash
+microcontroller, the `zonedb/` database consumes about 14kB of flash
 memory, so it may be possible to create small programs that can dynamically
 access all timezones supported by `BasicZoneSpecifier`. The `zonedbx/` database
 consumes about 23kB of flash memory and the addition code size from various
 classes will exceed the 30-32kB limit of a typical Arduino 8-bit
 microcontroller.
 
+The `zonedb/` files do not support all the timezones in the TZ Database.
+The list of these zones and The reasons for excluding them are given at the
+bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
+
+Although the `zonedbx/` files support all zones from its TZ input files, there
+are number of timezones whose DST transitions in the past happened at 00:01
+(instead of exactly at midnight 00:00). To save memory, the internal
+representation used by AceTime supports transitions only at
+15-minute boundaries. For these timezones, the DST transition time is shifted to
+00:00 instead, and the transition happens one-minute earlier than it should. As
+of TZ DB version 2019a, there are 5 zones affected by this rounding, as listed
+at the bottom of [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and
+these all occur before the year 2012.
+
+#### BasicZone and ExtendedZone
+
 The `basic::ZoneInfo` and `extended::ZoneInfo` (and its related data structures)
 objects are meant to be *opaque* and simply passed into `BasicZoneSpecifier`,
 `ExtendedZoneSpecifier`, `BasicZoneManager` and `ExtendedZoneManager`. The
 internal formats of the `ZoneInfo` structures may change without warning, and
-users of this library should not access its internal data members directly. Two
-helper classes, `BasicZoneInfo` and `ExtendedZoneInfo`, are provided to give
-stable access to some of the internal fields,
+users of this library should not access its internal data members directly.
+
+Two helper classes, `BasicZone` and `ExtendedZone`, provide stable access to
+some of the internal fields:
 
 ```C++
 namespace ace_time {
 
-class BasicZoneInfo {
+class BasicZone {
   public:
-    BasicZoneInfo(const basic::ZoneInfo* zoneInfo);
+    BasicZone(const basic::ZoneInfo* zoneInfo);
 
 #if ACE_TIME_USE_BASIC_PROGMEM
     const __FlashStringHelper* name() const;
+    const __FlashStringHelper* shortName() const;
 #else
     const char* name() const;
+    const char* shortName() const;
 #endif
 };
 
 
-class ExtendedZoneInfo {
+class ExtendedZone {
   public:
-    ExtendedZoneInfo(const extended::ZoneInfo* zoneInfo);
+    ExtendedZone(const extended::ZoneInfo* zoneInfo);
 
 #if ACE_TIME_USE_EXTENDED_PROGMEM
     const __FlashStringHelper* name() const;
+    const __FlashStringHelper* shortName() const;
 #else
     const char* name() const;
+    const char* shortName() const;
 #endif
 
 }
 ```
 
-The return type of the `name()` method changes whether or not the zone name is
-stored in flash memory or in static memory.
+They are meant to be used transiently, for example:
+```C++
+...
+const basic::ZoneInfo* zoneInfo = ...;
+Serial.println(BasicZone(zoneInfo).shortName());
+...
+```
 
-The `BasicZoneSpecifier` does not support all the timezones in the TZ Database.
-The list of these zones and The reasons for excluding them are given at the
-bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
-
-Although the `ExtendedZoneSpecifier` supports all zones from its TZ input
-files, there are number of timezones whose DST transitions in the past happened
-at 00:01 (instead of exactly at midnight 00:00). To save memory, the internal
-representation used by AceTime supports only DST transitions which occur at
-15-minute boundaries. For these timezones, the DST transition time is shifted to
-00:00 instead, and the transition happens one-minute earlier than it should.
-As of TZ DB version 2019a, there are 5 zones affected by this rounding, as
-listed at the bottom of
-[zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and these all occur
-before the year 2012.
+The return type of `name()` and `shortName()` change whether or not the zone
+name is stored in flash memory or in static memory. The `name()` method returns
+the full zone name from the TZ Database (e.g. `"America/Los_Angeles"`). The
+`shortName()` method returns only the last component (e.g. `"Los_Angeles"`).
 
 ### ZoneManager
 
@@ -1257,7 +1273,7 @@ before the year 2012.
 and `ExtendedZoneSpecifier` were considered immutable objects. The ZoneManager
 enables dynamic lookup of `ZoneInfo`, which resulted in the `BasicZoneSpecifier`
 and `ExtendedZoneSpecifier` becoming mutable with the `setZoneInfo()` method.
-The consequence of this change may not be fully apparent.
+The consequence of this change has not been fully explored.
 
 Two classes provide a lookup service from the zone identifier string
 (e.g. `"America/Los_Angeles"`) to the zoneinfo files: `BasicZoneManager` and
