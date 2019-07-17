@@ -36,23 +36,15 @@ class Presenter {
       mRenderingInfo.suppressBlink = suppressBlink;
       mRenderingInfo.blinkShowState = blinkShowState;
       mRenderingInfo.hourMode = clockInfo.hourMode;
-      mRenderingInfo.manualZspec = clockInfo.manualZspec;
-      mRenderingInfo.autoZspec = clockInfo.autoZspec;
+      mRenderingInfo.timeZoneData = clockInfo.timeZoneData;
       mRenderingInfo.dateTime = clockInfo.dateTime;
-
-      // Make a deep copy of the TimeZone
-      ZonedDateTime& dateTime = mRenderingInfo.dateTime;
-      dateTime.timeZone(TimeZone::forZoneSpecifier(
-          (dateTime.timeZone().getType() == TimeZone::kTypeManual)
-              ? (ZoneSpecifier*) &mRenderingInfo.manualZspec
-              : (ZoneSpecifier*) &mRenderingInfo.autoZspec));
     }
 
   private:
     // Disable copy-constructor and assignment operator
     Presenter(const Presenter&) = delete;
     Presenter& operator=(const Presenter&) = delete;
-    
+
     /**
      * True if the display should actually show the data. If the clock is in
      * "blinking" mode, then this will return false in accordance with the
@@ -77,6 +69,7 @@ class Presenter {
               && (mRenderingInfo.blinkShowState
                   != mPrevRenderingInfo.blinkShowState))
           || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode
+          || mRenderingInfo.timeZoneData != mPrevRenderingInfo.timeZoneData
           || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime;
     }
 
@@ -97,10 +90,12 @@ class Presenter {
           break;
 
         case MODE_TIME_ZONE:
-        case MODE_CHANGE_TIME_ZONE_TYPE:
+      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case MODE_CHANGE_TIME_ZONE_OFFSET:
         case MODE_CHANGE_TIME_ZONE_DST:
+      #else
         case MODE_CHANGE_TIME_ZONE_NAME:
+      #endif
           displayTimeZone();
           break;
 
@@ -184,45 +179,84 @@ class Presenter {
     void displayTimeZone() const {
       mOled.setFont(fixed_bold10x15);
 
-      const ManualZoneSpecifier& manualZspec = mRenderingInfo.manualZspec;
-      TimeOffset offset = manualZspec.stdOffset();
+      // Don't use F() strings for short strings <= 4 characters. Seems to
+      // increase flash memory, while saving only a few bytes of RAM.
 
-      // Don't use F() strings for these short strings. Seems to increase
-      // flash memory, while saving only a few bytes of RAM.
-
-      const TimeZone& tz = mRenderingInfo.dateTime.timeZone();
+      // Display the timezone using the TimeZoneData, not the dateTime, since
+      // dateTime will contain a TimeZone, which points to the (singular)
+      // Controller::mZoneSpecifier, which will contain the old timeZone.
+      auto& tzd = mRenderingInfo.timeZoneData;
       mOled.print("TZ: ");
-      if (shouldShowFor(MODE_CHANGE_TIME_ZONE_TYPE)) {
-        mOled.print((tz.getType() == TimeZone::kTypeManual)
-            ? "manual" : "auto");
+      const __FlashStringHelper* typeString = nullptr;
+      switch (tzd.type) {
+        case TimeZone::kTypeManual:
+          typeString = F("manual");
+          break;
+        case TimeZone::kTypeBasic:
+          typeString = F("basic");
+          break;
+        case TimeZone::kTypeExtended:
+          typeString = F("extd");
+          break;
       }
+      mOled.print(typeString);
       mOled.clearToEOL();
 
-    if (tz.getType() == TimeZone::kTypeManual) {
-        mOled.println();
-        mOled.print("UTC");
-        if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
-          offset.printTo(mOled);
-        }
-        mOled.clearToEOL();
+      switch (tzd.type) {
+      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
+        case TimeZone::kTypeManual:
+          mOled.println();
+          mOled.print("UTC");
+          if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
+            auto offset = TimeOffset::forOffsetCode(
+                tzd.stdOffsetCode);
+            offset.printTo(mOled);
+          }
+          mOled.clearToEOL();
 
-        mOled.println();
-        mOled.print("DST: ");
-        if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-          mOled.print(manualZspec.isDst() ? "on " : "off");
-        }
-        mOled.clearToEOL();
-      } else {
-        // Print name of timezone
-        mOled.println();
-        if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
-          tz.printShortTo(mOled);
-        }
-        mOled.clearToEOL();
+          mOled.println();
+          mOled.print("DST: ");
+          if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
+            mOled.print(tzd.isDst ? "on " : "off");
+          }
+          mOled.clearToEOL();
+          break;
 
-        // Clear the DST: {on|off} line from a previous screen
-        mOled.println();
-        mOled.clearToEOL();
+      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+        case TimeZone::kTypeBasic:
+          // Print name of timezone
+          mOled.println();
+          if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
+            mOled.print(BasicZone(tzd.basicZoneInfo).shortName());
+          }
+          mOled.clearToEOL();
+
+          // Clear the DST: {on|off} line from a previous screen
+          mOled.println();
+          mOled.clearToEOL();
+          break;
+      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
+        case TimeZone::kTypeExtended:
+          // Print name of timezone
+          mOled.println();
+          if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
+            mOled.print(ExtendedZone(tzd.extendedZoneInfo).shortName());
+          }
+          mOled.clearToEOL();
+
+          // Clear the DST: {on|off} line from a previous screen
+          mOled.println();
+          mOled.clearToEOL();
+          break;
+      #endif
+
+        default:
+          mOled.println();
+          mOled.print(F("<unknown>"));
+          mOled.clearToEOL();
+          mOled.println();
+          mOled.clearToEOL();
+          break;
       }
     }
 

@@ -13,11 +13,15 @@ struct StoredInfo {
 
   uint8_t hourMode; // either kTwelve or kTwentyFour
 
-  uint8_t timeZoneType; // kTypeManual or kTypeBasic
-  int16_t offsetMinutes; // defined if timeZoneType == kTypeManual
-  bool isDst; // defined if timeZoneType == kTypeManual
-  // TODO: Replace with stable hash(ZoneInfo)
-  uint8_t zoneIndex; // defined if timeZoneType == kTypeBasic
+  uint8_t type; // TimeZoneData::kType*
+  union {
+    int8_t offsetCode;
+    struct {
+      int8_t stdOffsetCode;
+      bool isDst;
+    };
+    uint8_t zoneIndex;
+  };
 };
 
 #endif

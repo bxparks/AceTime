@@ -1,6 +1,6 @@
 #include "Controller.h"
 
-#if TIME_ZONE_SPECIFIER_TYPE == TIME_ZONE_SPECIFIER_TYPE_BASIC
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
 
 const basic::ZoneInfo* const Controller::kZoneRegistry[]
     ACE_TIME_BASIC_PROGMEM = {

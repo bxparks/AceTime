@@ -127,6 +127,11 @@ class TimeZone {
       return TimeZone(zoneSpecifier);
     }
 
+    /**
+     * Return the TimeZone from its TimeZoneData. If the match *ZoneSpecifier
+     * is nullptr, then the method returns a default TimeZone() of UTC to
+     * prevent deferencing a nullptr.
+     */
     static TimeZone forTimeZoneData(const TimeZoneData& data,
         ManualZoneSpecifier* manualZoneSpecifier,
         BasicZoneSpecifier* basicZoneSpecifier,
@@ -136,14 +141,17 @@ class TimeZone {
         case TimeZone::kTypeFixed:
           return forTimeOffset(TimeOffset::forOffsetCode(data.offsetCode));
         case TimeZone::kTypeManual:
+          if (!manualZoneSpecifier) return TimeZone();
           manualZoneSpecifier->isDst(data.isDst);
           manualZoneSpecifier->stdOffset(
               TimeOffset::forOffsetCode(data.stdOffsetCode));
           return forZoneSpecifier(manualZoneSpecifier);
         case TimeZone::kTypeBasic:
+          if (!basicZoneSpecifier) return TimeZone();
           basicZoneSpecifier->setZoneInfo(data.basicZoneInfo);
           return forZoneSpecifier(basicZoneSpecifier);
         case TimeZone::kTypeExtended:
+          if (!extendedZoneSpecifier) return TimeZone();
           extendedZoneSpecifier->setZoneInfo(data.extendedZoneInfo);
           return forZoneSpecifier(extendedZoneSpecifier);
       }

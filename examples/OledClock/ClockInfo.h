@@ -2,7 +2,6 @@
 #define OLED_CLOCK_CLOCK_INFO_H
 
 #include <AceTime.h>
-#include "config.h"
 
 /** Information about the clock, mostly independent of rendering. */
 struct ClockInfo {
@@ -12,26 +11,25 @@ struct ClockInfo {
   /** 00:00:00 - 23:59:59 */
   static uint8_t const kTwentyFour = 1;
 
+  static uint8_t const kTimeModeSeconds = 0;
+  static uint8_t const kTimeModeComponents = 1;
+
   /** 12/24 mode */
   uint8_t hourMode;
 
-  /** Zone index into the ZoneRegistry. */
+  /** TimeZone data. */
+  ace_time::TimeZoneData timeZoneData;
+
+  /**
+   * Zone index into the ZoneRegistry. Defined if timeZoneData.type ==
+   * kTypeBasic.
+   */
   uint8_t zoneIndex;
 
-  /** ManualZoneSpecifier for deep-copy of TimeZone. */
-  ace_time::ManualZoneSpecifier manualZspec;
+  /** Track epochSeconds or dateTime. */
+  uint8_t timeMode;
 
-  /** BasicZoneSpecifier for deep-copy of TimeZone.  */
-#if TIME_ZONE_SPECIFIER_TYPE == TIME_ZONE_SPECIFIER_TYPE_BASIC
-  ace_time::BasicZoneSpecifier autoZspec;
-#else
-  ace_time::ExtendedZoneSpecifier autoZspec;
-#endif
-
-  /** Timezone */
-  ace_time::TimeZone timeZone;
-
-  /** DateTime from the TimeKeeper. */
+  /** Current time. */
   ace_time::ZonedDateTime dateTime;
 };
 
