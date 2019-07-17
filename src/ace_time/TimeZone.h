@@ -125,6 +125,8 @@ class TimeZone {
      * is nullptr, then the method returns a default TimeZone() of UTC to
      * prevent deferencing a nullptr.
      */
+    // TODO: This causes both BasicZoneSpecifier and ExtendedZoneSpecifier to
+    // be compiled into flash memory. Is that ok?
     static TimeZone forTimeZoneData(const TimeZoneData& data,
         BasicZoneSpecifier* basicZoneSpecifier,
         ExtendedZoneSpecifier* extendedZoneSpecifier) {
@@ -217,6 +219,7 @@ class TimeZone {
 
     /** Return true if UTC (+00:00+00:00). */
     bool isUtc() const {
+      if (mType != kTypeManual) return false;
       return mStdOffset == 0 && mDstOffset == 0;
     }
 

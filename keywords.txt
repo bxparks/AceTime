@@ -14,7 +14,6 @@ LocalDateTime	KEYWORD1
 TimeOffset	KEYWORD1
 OffsetDateTime	KEYWORD1
 ZoneSpecifier	KEYWORD1
-ManualZoneSpecifier	KEYWORD1
 BasicZoneSpecifier	KEYWORD1
 ExtendedZoneSpecifier	KEYWORD1
 BasicZone	KEYWORD1
@@ -168,22 +167,6 @@ getUtcOffset	KEYWORD2
 getDeltaOffset	KEYWORD2
 getAbbrev	KEYWORD2
 getUtcOffsetForDateTime	KEYWORD2
-printTo	KEYWORD2
-printShortTo	KEYWORD2
-
-# ManualZoneSpecifier.h
-getType	KEYWORD2
-isDst	KEYWORD2
-dstAbbrev	KEYWORD2
-stdAbbrev	KEYWORD2
-deltaOffset	KEYWORD2
-getUtcOffset	KEYWORD2
-getTimeOffset	KEYWORD2
-getDeltaOffset	KEYWORD2
-getAbbrev	KEYWORD2
-getUtcOffsetForDateTime	KEYWORD2
-setStdOffset	KEYWORD2
-setDst	KEYWORD2
 printTo	KEYWORD2
 printShortTo	KEYWORD2
 

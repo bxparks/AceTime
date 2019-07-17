@@ -7,10 +7,10 @@ using namespace aunit;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// ZonedDateTime + ManualZoneSpecifier
+// ZonedDateTime + Manual TimeZone
 // --------------------------------------------------------------------------
 
-// Check that ZonedDateTime with ManualZoneSpecifier agrees with simpler
+// Check that ZonedDateTime with Manual TimeZone agrees with simpler
 // OffsetDateTime.
 test(ZonedDateTimeTest_Manual, agreesWithOffsetDateTime) {
   TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8));

@@ -30,13 +30,9 @@ class LocalDateTime;
  * as virtual methods, then add a virtual equals() method to implement the
  * operator==().
  *
- * When I had only 2 ZoneSpecifier implementations (BasicZoneSpecifier and
- * ManualZoneSpecifier), Option 1 (using a single getType() and downcasting)
- * seemed to smaller program sizes, by 200-300 bytes. The problem with this
- * design is that the code for both subclasses would be compiled into the
- * program, even if the application used only one of the subclasses. When a 3rd
- * ZoneSpecifier subclass was added (ExtendedZoneSpecifier), the overhead
- * became untenable. So I switched to Option 2, using a fully polymorphic class
+ * The problem with Option 1 is that the code for both subclasses would be
+ * compiled into the program, even if the application used only one of the
+ * subclasses. Instead I use Option 2, using a fully polymorphic class
  * hierarchy, adding 3-4 virtual methods. When a program uses only a single
  * subclass, only that particular subclass is included into the program.
  * Unfortunately, this comes at the cost of forcing programs to use the virtual
@@ -44,14 +40,11 @@ class LocalDateTime;
  */
 class ZoneSpecifier {
   public:
-    /** Indicate ManualZoneSpecifier. Must not be TimeZone::kTypeFixed. */
-    static const uint8_t kTypeManual = 1;
+    /** Indicate BasicZoneSpecifier. Must not be TimeZone::kTypeFixed (0). */
+    static const uint8_t kTypeBasic = 1;
 
-    /** Indicate BasicZoneSpecifier. Must not be TimeZone::kTypeFixed. */
-    static const uint8_t kTypeBasic = 2;
-
-    /** Indicate ExtendedZoneSpecifier. Must not be TimeZone::kTypeFixed. */
-    static const uint8_t kTypeExtended = 3;
+    /** Indicate ExtendedZoneSpecifier. Must not be TimeZone::kTypeFixed (0). */
+    static const uint8_t kTypeExtended = 2;
 
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
