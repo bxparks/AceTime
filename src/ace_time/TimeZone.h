@@ -142,8 +142,8 @@ class TimeZone {
           return forTimeOffset(TimeOffset::forOffsetCode(data.offsetCode));
         case TimeZone::kTypeManual:
           if (!manualZoneSpecifier) return TimeZone();
-          manualZoneSpecifier->isDst(data.isDst);
-          manualZoneSpecifier->stdOffset(
+          manualZoneSpecifier->setDst(data.isDst);
+          manualZoneSpecifier->setStdOffset(
               TimeOffset::forOffsetCode(data.stdOffsetCode));
           return forZoneSpecifier(manualZoneSpecifier);
         case TimeZone::kTypeBasic:
@@ -275,14 +275,14 @@ class TimeZone {
     }
 
     /**
-     * Sets the isDst() flag of the underlying ManualZoneSpecifier. Does
+     * Sets the isDst flag of the underlying ManualZoneSpecifier. Does
      * nothing for any other type of TimeZone. This is a convenience method for
      * applications that allow the user to set the DST flag manually (e.g.
      * examples/WorldClock).
      */
-    void isDst(bool dst) {
+    void setDst(bool dst) {
       if (mType != kTypeManual) return;
-      ((ManualZoneSpecifier*) mZoneSpecifier)->isDst(dst);
+      ((ManualZoneSpecifier*) mZoneSpecifier)->setDst(dst);
     }
 
     // Use default copy constructor and assignment operator.

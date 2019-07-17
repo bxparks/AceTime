@@ -55,13 +55,13 @@ test(ManualZoneSpecifierTest, getters) {
 test(ManualZoneSpecifierTest, setters) {
   ManualZoneSpecifier spec(TimeOffset::forHour(-8), false, "PST", "PDT");
 
-  // test stdOffset(offset)
-  spec.stdOffset(TimeOffset::forHour(12));
+  // test setStdOffset(offset)
+  spec.setStdOffset(TimeOffset::forHour(12));
   assertEqual(TimeOffset::forHour(12).toMinutes(),
       spec.stdOffset().toMinutes());
 
-  // test isDst(flag)
-  spec.isDst(true);
+  // test setDst(flag)
+  spec.setDst(true);
   assertTrue(spec.isDst());
 }
 
@@ -75,7 +75,7 @@ test(ManualZoneSpecifierTest, overrides) {
       spec.getDeltaOffset(0).toMinutes());
   assertEqual("PST", spec.getAbbrev(0));
 
-  spec.isDst(true);
+  spec.setDst(true);
   assertEqual(TimeOffset::forHour(-7).toMinutes(),
       spec.getUtcOffset(0).toMinutes());
   assertEqual(TimeOffset::forHour(1).toMinutes(),

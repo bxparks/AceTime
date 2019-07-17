@@ -53,7 +53,7 @@ test(TimeZoneTest_Manual, operatorEqualEqual) {
   assertTrue(a == b);
 
   // One of them goes to DST. Should be different.
-  spb.isDst(true);
+  spb.setDst(true);
   assertTrue(a != b);
 
   // Should be different from EST.
@@ -74,7 +74,7 @@ test(TimeZoneTest_Manual, getTimeOffset_getDeltaOffset) {
   assertEqual("PST", fakePrint.getBuffer());
   fakePrint.flush();
 
-  spec.isDst(true);
+  spec.setDst(true);
   assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
   assertEqual(1*60, tz.getDeltaOffset(0).toMinutes());
   tz.printAbbrevTo(fakePrint, 0);
@@ -85,7 +85,7 @@ test(TimeZoneTest_Manual, isDst) {
   ManualZoneSpecifier spec(TimeOffset::forHour(-8), false, "PST", "PDT");
   TimeZone tz = TimeZone::forZoneSpecifier(&spec);
   assertFalse(tz.isDst());
-  tz.isDst(true);
+  tz.setDst(true);
   assertTrue(tz.isDst());
 }
 

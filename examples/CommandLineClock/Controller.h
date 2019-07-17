@@ -54,7 +54,7 @@ class Controller {
 
     /** Set the DST setting of ManualZoneSpecifier. */
     void setDst(bool isDst) {
-      mTimeZone.isDst(isDst);
+      mTimeZone.setDst(isDst);
       preserveInfo();
     }
 

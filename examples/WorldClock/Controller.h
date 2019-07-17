@@ -195,17 +195,17 @@ class Controller {
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case MODE_CHANGE_TIME_ZONE_DST0:
           mSuppressBlink = true;
-          mClockInfo0.timeZone.isDst(!mClockInfo0.timeZone.isDst());
+          mClockInfo0.timeZone.setDst(!mClockInfo0.timeZone.isDst());
           break;
 
         case MODE_CHANGE_TIME_ZONE_DST1:
           mSuppressBlink = true;
-          mClockInfo1.timeZone.isDst(!mClockInfo1.timeZone.isDst());
+          mClockInfo1.timeZone.setDst(!mClockInfo1.timeZone.isDst());
           break;
 
         case MODE_CHANGE_TIME_ZONE_DST2:
           mSuppressBlink = true;
-          mClockInfo2.timeZone.isDst(!mClockInfo2.timeZone.isDst());
+          mClockInfo2.timeZone.setDst(!mClockInfo2.timeZone.isDst());
           break;
 #endif
       }

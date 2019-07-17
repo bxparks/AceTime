@@ -781,7 +781,7 @@ class TimeZone {
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 
     bool isDst() const;
-    void isDst(bool dst);
+    void setDst(bool dst);
 
     ...
 };
@@ -805,13 +805,13 @@ transitions from 02:00 to 01:00 in the autumn, a given local time such as 01:30
 occurs twice. If the `getUtcOffsetForDateTime()` method is given a time of
 01:30, it will arbitrarily decide which offset to return.
 
-The `isDst()` and `isDst(bool)` methods are active *only* if the `TimeZone` is a
-`kTypeManual`, meaning that it uses the `ManualZoneSpecifier` as the underlying
-engine for determining the DST transitions. Otherwise, they do nothing. If the
-type is `kTypeManual`, the `isDst()` returns the value of the underlying
-`ManualZoneSpecifier::isDst()` and the `isDst(bool)` pass the value to the
-underlying `ManualZoneSpecifier::isDst(bool)` method. These methods allow the
-user to manuaally set the DST flag, instead of using the TZ Database.
+The `isDst()` and `setDst(bool)` methods are active *only* if the `TimeZone` is
+a `kTypeManual`, meaning that it uses the `ManualZoneSpecifier` as the
+underlying engine for determining the DST transitions. Otherwise, they do
+nothing. If the type is `kTypeManual`, the `isDst()` returns the value of the
+underlying `ManualZoneSpecifier::isDst()` and the `setDst(bool)` pass the value
+to the underlying `ManualZoneSpecifier::setDst(bool)` method. These methods
+allow the user to manuaally set the DST flag, instead of using the TZ Database.
 
 The `printTo()` prints the fully-qualified unique name for the time zone.
 For example, `"UTC"`, `"-08:00", `"-08:00(DST)"`, `"America/Los_Angeles"`.
@@ -868,14 +868,14 @@ set at least the `stdOffset` parameter:
 
 When `ManualZoneSpecifier::getUtcOffset()` is called, it will normally return
 the value of `stdOffset`. However, if the user sets the `isDst` flag to `true`
-using `ManualZoneSpecifier::isDst(true)`, then `getUtcOffset()` will return
+using `ManualZoneSpecifier::setDst(true)`, then `getUtcOffset()` will return
 `stdOffset + deltaOffset`.
 
 The `ManualZoneSpecifier` is expected to be created once at the beginning of
 the application. The `TimeZone` object can be created on demand by pointing it
 to the `ManualZoneSpecifier` instance. For example, the following creates a
 `TimeZone` set to be UTC-08:00 normally, but can change to UTC-07:00 when the
-`ManualZoneSpecifier::isDst(true)` is called:
+`ManualZoneSpecifier::setDst(true)` is called:
 
 ```C++
 ManualZoneSpecifier zoneSpecifier(TimeOffset::forHour(-8), false, "PST", "PDT");
@@ -884,13 +884,13 @@ void someFunction() {
   ...
   auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
   auto offset = tz.getUtcOffset(0); // returns -08:00
-  tz.isDst(true);
+  tz.setDst(true);
   offset = tz.getUtcOffset(0); // returns -07:00
   ...
 }
 ```
 
-The `TimeZone::isDst()` and `TimeZone::isDst(bool)` methods are convenience
+The `TimeZone::isDst()` and `TimeZone::setDst(bool)` methods are convenience
 methods that work only if the `TimeZone` instance refers to a
 `ManualZoneSpecifier`. They simply call the underying `ManualZoneSpecifier`. If
 the underlying `ZoneSpecifier` is a different type, the `TimeZone::isDst()` does

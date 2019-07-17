@@ -17,9 +17,9 @@ void Controller::setup() {
     mClockInfo2.blinkingColon = storedInfo.blinkingColon;
 
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-    mClockInfo0.timeZone.isDst(storedInfo.isDst0);
-    mClockInfo1.timeZone.isDst(storedInfo.isDst1);
-    mClockInfo2.timeZone.isDst(storedInfo.isDst2);
+    mClockInfo0.timeZone.setDst(storedInfo.isDst0);
+    mClockInfo1.timeZone.setDst(storedInfo.isDst1);
+    mClockInfo2.timeZone.setDst(storedInfo.isDst2);
 #endif
   } else {
     preserveInfo();

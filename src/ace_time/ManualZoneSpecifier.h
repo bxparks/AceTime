@@ -23,7 +23,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
     /**
      * Constructor for a time zone with an offset from UTC that does not change
      * with epochSeconds. The internall isDst flag is set to 'false' initially,
-     * and can be changed using the isDst(bool) mutator.
+     * and can be changed using the setDst(bool) mutator.
      *
      * Of the 5 parameters in the constructor, only stdOffset and isDst are
      * mutable after construction. The mutators are expected to be called from
@@ -33,7 +33,7 @@ class ManualZoneSpecifier: public ZoneSpecifier {
      * timezone abbreviations.
      *
      * @param stdOffset base offset of the zone, can be changed using
-     *        the stdOffset(TimeOffset) mutator (default: 00:00)
+     *        the setStdOffset(TimeOffset) mutator (default: 00:00)
      * @param isDst true if DST shfit is active (default: false)
      * @param stdAbbrev time zone abbreviation during normal time. Cannot be
      *        nullptr. Cannot be changed after construction. (default: "")
@@ -81,13 +81,13 @@ class ManualZoneSpecifier: public ZoneSpecifier {
      * Set the standard UTC offset. This can be used by applications that allow
      * the user to select a particular UTC offset.
      */
-    void stdOffset(TimeOffset offset) { mStdOffset = offset; }
+    void setStdOffset(TimeOffset offset) { mStdOffset = offset; }
 
     /**
      * Set the current isDst flag. This is expected to be used by applications
      * that allow the user to manually select the DST flag.
      */
-    void isDst(bool isDst) { mIsDst = isDst; }
+    void setDst(bool isDst) { mIsDst = isDst; }
 
     TimeOffset getUtcOffset(acetime_t /*epochSeconds*/) const override {
       return mIsDst
