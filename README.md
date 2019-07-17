@@ -23,7 +23,6 @@ C++ namespaces:
     * `ace_time::TimeOffset`
     * `ace_time::OffsetDateTime`
     * `ace_time::ZoneSpecifier`
-        * `ace_time::ManualZoneSpecifier`
         * `ace_time::BasicZoneSpecifier`
         * `ace_time::ExtendedZoneSpecifier`
     * `ace_time::TimeZone`

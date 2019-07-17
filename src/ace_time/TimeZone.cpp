@@ -10,11 +10,12 @@
 namespace ace_time {
 
 void TimeZone::printTo(Print& printer) const {
-  if (mType == kTypeFixed) {
-    if (mOffset.isZero()) {
+  if (mType == kTypeManual) {
+    if (isUtc()) {
       printer.print("UTC");
-    } else{
-      mOffset.printTo(printer);
+    } else {
+      TimeOffset::forOffsetCode(mStdOffset).printTo(printer);
+      TimeOffset::forOffsetCode(mDstOffset).printTo(printer);
     }
   } else {
     mZoneSpecifier->printTo(printer);
@@ -22,11 +23,15 @@ void TimeZone::printTo(Print& printer) const {
 }
 
 void TimeZone::printShortTo(Print& printer) const {
-  if (mType == kTypeFixed) {
-    if (mOffset.isZero()) {
+  if (mType == kTypeManual) {
+    if (isUtc()) {
       printer.print("UTC");
-    } else{
-      mOffset.printTo(printer);
+    } else {
+      auto utcOffset = TimeOffset::forOffsetCode(mStdOffset + mDstOffset);
+      utcOffset.printTo(printer);
+      printer.print('(');
+      printer.print((mDstOffset != 0) ? "DST" : "STD");
+      printer.print(')');
     }
   } else {
     mZoneSpecifier->printShortTo(printer);
@@ -34,11 +39,11 @@ void TimeZone::printShortTo(Print& printer) const {
 }
 
 void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {
-  if (mType == kTypeFixed) {
-    if (mOffset.isZero()) {
+  if (mType == kTypeManual) {
+    if (isUtc()) {
       printer.print("UTC");
-    } else{
-      mOffset.printTo(printer);
+    } else {
+      printer.print((mDstOffset != 0) ? "DST" : "STD");
     }
   } else {
     printer.print(mZoneSpecifier->getAbbrev(epochSeconds));

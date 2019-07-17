@@ -85,6 +85,7 @@ Presenter presenter0(oled0);
 Presenter presenter1(oled1);
 Presenter presenter2(oled2);
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
+// TODO: Broken after ManualZoneSpecifier was removed.
 ManualZoneSpecifier zspec0(TimeOffset::forHour(-8), false, "PST", "PDT");
 ManualZoneSpecifier zspec1(TimeOffset::forHour(-5), false, "EST", "EDT");
 ManualZoneSpecifier zspec2(TimeOffset::forHour(0), false, "GMT", "BST");

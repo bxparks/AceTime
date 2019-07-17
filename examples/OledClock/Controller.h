@@ -48,16 +48,15 @@ class Controller {
       StoredInfo storedInfo;
       bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
-      #if 1
+    #if FORCE_INITIALIZE
+      setupClockInfo();
+    #else
       if (isValid) {
         restoreClockInfo(mClockInfo, storedInfo);
       } else {
         setupClockInfo();
       }
-      #else
-        setupClockInfo();
-      #endif
-
+    #endif
 
       // Retrieve current time from TimeKeeper and set the current clockInfo.
       updateDateTime();
@@ -113,7 +112,7 @@ class Controller {
           break;
 
       #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-        // ManualZoneSpecifier
+        // kTypeManual
         case MODE_CHANGE_TIME_ZONE_OFFSET:
           mMode = MODE_CHANGE_TIME_ZONE_DST;
           break;
@@ -121,7 +120,7 @@ class Controller {
           mMode = MODE_CHANGE_TIME_ZONE_OFFSET;
           break;
       #else
-        // BasicZoneSpecifier or ExtendedZoneSpecifier
+        // kTypeBasic or kTypeExtended
         case MODE_CHANGE_TIME_ZONE_NAME:
           mMode = MODE_CHANGE_TIME_ZONE_NAME;
           break;
@@ -222,8 +221,11 @@ class Controller {
           break;
         case MODE_CHANGE_TIME_ZONE_DST:
           mSuppressBlink = true;
-          mChangingClockInfo.timeZoneData.isDst =
-              !mChangingClockInfo.timeZoneData.isDst;
+          uint8_t offsetCode = mChangingClockInfo.timeZoneData.dstOffsetCode;
+          offsetCode = (offsetCode == 0)
+              ? TimeOffset::forMinutes(DST_OFFSET_MINUTES).toOffsetCode()
+              : 0;
+          mChangingClockInfo.timeZoneData.dstOffsetCode = offsetCode;
           break;
 
       #else
@@ -282,7 +284,7 @@ class Controller {
   private:
   #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
     static const basic::ZoneInfo* const kZoneRegistry[];
-  #else
+  #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
     static const extended::ZoneInfo* const kZoneRegistry[];
   #endif
     static const uint16_t kZoneRegistrySize;
@@ -313,14 +315,13 @@ class Controller {
 
     TimeZone getTimeZoneForClockInfo(const TimeZoneData& timeZoneData) {
   #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-      auto tz = TimeZone::forTimeZoneData(timeZoneData,
-          &mZoneSpecifier, nullptr, nullptr);
+      auto tz = TimeZone::forTimeZoneData(timeZoneData, nullptr, nullptr);
   #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
       auto tz = TimeZone::forTimeZoneData(timeZoneData,
-          nullptr, &mZoneSpecifier, nullptr);
+          &mZoneSpecifier, nullptr);
   #else
       auto tz = TimeZone::forTimeZoneData(timeZoneData,
-          nullptr, nullptr, &mZoneSpecifier);
+          nullptr, &mZoneSpecifier);
   #endif
       return tz;
     }
@@ -385,12 +386,9 @@ class Controller {
       storedInfo.hourMode = clockInfo.hourMode;
       storedInfo.type = clockInfo.timeZoneData.type;
       switch (clockInfo.timeZoneData.type) {
-        case TimeZoneData::kTypeFixed:
-          storedInfo.offsetCode = clockInfo.timeZoneData.offsetCode;
-          break;
         case TimeZoneData::kTypeManual:
           storedInfo.stdOffsetCode = clockInfo.timeZoneData.stdOffsetCode;
-          storedInfo.isDst = clockInfo.timeZoneData.isDst;
+          storedInfo.dstOffsetCode = clockInfo.timeZoneData.dstOffsetCode;
           break;
         case TimeZoneData::kTypeBasic:
           storedInfo.zoneIndex = clockInfo.zoneIndex;
@@ -413,7 +411,7 @@ class Controller {
       #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case TimeZoneData::kTypeManual:
           clockInfo.timeZoneData.stdOffsetCode = storedInfo.stdOffsetCode;
-          clockInfo.timeZoneData.isDst = storedInfo.isDst;
+          clockInfo.timeZoneData.dstOffsetCode = storedInfo.dstOffsetCode;
           break;
       #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
         case TimeZoneData::kTypeBasic:
@@ -432,7 +430,7 @@ class Controller {
         #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
           clockInfo.timeZoneData.type = TimeZoneData::kTypeManual;
           clockInfo.timeZoneData.stdOffsetCode = kDefaultOffsetMinutes / 15;
-          clockInfo.timeZoneData.isDst = false;
+          clockInfo.timeZoneData.dstOffsetCode = 0;
         #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
           clockInfo.zoneIndex = 0;
           clockInfo.timeZoneData.type = TimeZoneData::kTypeBasic;
@@ -455,7 +453,7 @@ class Controller {
     #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
       storedInfo.type = TimeZoneData::kTypeManual;
       storedInfo.stdOffsetCode = kDefaultOffsetMinutes / 15;
-      storedInfo.isDst = false;
+      storedInfo.dstOffsetCode = 0;
     #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
       storedInfo.type = TimeZoneData::kTypeBasic;
       storedInfo.zoneIndex = 0;
@@ -471,12 +469,10 @@ class Controller {
     hw::CrcEeprom& mCrcEeprom;
     Presenter& mPresenter;
 
-  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-    ManualZoneSpecifier mZoneSpecifier;
-  #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+  #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
     BasicZoneManager mZoneManager;
     BasicZoneSpecifier mZoneSpecifier;
-  #else
+  #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
     ExtendedZoneManager mZoneManager;
     ExtendedZoneSpecifier mZoneSpecifier;
   #endif

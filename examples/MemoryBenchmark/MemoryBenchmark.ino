@@ -6,15 +6,14 @@
 #define FEATURE_BASELINE 0
 #define FEATURE_LOCAL_DATE_TIME 1
 #define FEATURE_ZONED_DATE_TIME 2
-#define FEATURE_MANUAL_ZONE_SPECIFIER 3
-#define FEATURE_BASIC_ZONE_SPECIFIER 4
-#define FEATURE_BASIC_ZONE_SPECIFIER2 5
-#define FEATURE_BASIC_ZONE_SPECIFIER_ALL 6
-#define FEATURE_EXTENDED_ZONE_SPECIFIER 7
-#define FEATURE_EXTENDED_ZONE_SPECIFIER2 8
-#define FEATURE_EXTENDED_ZONE_SPECIFIER_ALL 9
-#define FEATURE_SYSTEM_CLOCK 10
-#define FEATURE_SYSTEM_CLOCK_AND_BASIC_ZONE_SPECIFIER 11
+#define FEATURE_BASIC_TIME_ZONE 3
+#define FEATURE_BASIC_TIME_ZONE2 4
+#define FEATURE_BASIC_TIME_ZONE_ALL 5
+#define FEATURE_EXTENDED_TIME_ZONE 6
+#define FEATURE_EXTENDED_TIME_ZONE2 7
+#define FEATURE_EXTENDED_TIME_ZONE_ALL 8
+#define FEATURE_SYSTEM_CLOCK 9
+#define FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE 10
 
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
@@ -42,22 +41,14 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, TimeZone());
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_MANUAL_ZONE_SPECIFIER
-  auto timeOffset = TimeOffset::forHour(-8);
-  auto isDst = true;
-  ManualZoneSpecifier zspec(timeOffset, isDst, "PST", "PDT");
-  auto tz = TimeZone::forZoneSpecifier(&zspec);
-  auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
-  acetime_t epochSeconds = dt.toEpochSeconds();
-  guard ^= epochSeconds;
-#elif FEATURE == FEATURE_BASIC_ZONE_SPECIFIER
+#elif FEATURE == FEATURE_BASIC_TIME_ZONE
   BasicZoneSpecifier zspec(&zonedb::kZoneAmerica_Los_Angeles);
   auto tz = TimeZone::forZoneSpecifier(&zspec);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_BASIC_ZONE_SPECIFIER2
-  // Same as FEATURE_BASIC_ZONE_SPECIFIER but with 2 zones
+#elif FEATURE == FEATURE_BASIC_TIME_ZONE2
+  // Same as FEATURE_BASIC_TIME_ZONE but with 2 zones
   BasicZoneSpecifier zspec1(&zonedb::kZoneAmerica_Los_Angeles);
   BasicZoneSpecifier zspec2(&zonedb::kZoneEurope_Amsterdam);
   auto tz1 = TimeZone::forZoneSpecifier(&zspec1);
@@ -66,7 +57,7 @@ void setup() {
   auto dt2 = dt1.convertToTimeZone(tz2);
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_BASIC_ZONE_SPECIFIER_ALL
+#elif FEATURE == FEATURE_BASIC_TIME_ZONE_ALL
   BasicZoneManager manager(zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
   const basic::ZoneInfo* zoneInfo =
       manager.getZoneInfo("America/Los_Angeles");
@@ -75,14 +66,14 @@ void setup() {
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_EXTENDED_ZONE_SPECIFIER
+#elif FEATURE == FEATURE_EXTENDED_TIME_ZONE
   ExtendedZoneSpecifier zspec(&zonedbx::kZoneAmerica_Los_Angeles);
   auto tz = TimeZone::forZoneSpecifier(&zspec);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_EXTENDED_ZONE_SPECIFIER2
-  // Same as FEATURE_EXTENDED_ZONE_SPECIFIER but with 2 zones
+#elif FEATURE == FEATURE_EXTENDED_TIME_ZONE2
+  // Same as FEATURE_EXTENDED_TIME_ZONE but with 2 zones
   ExtendedZoneSpecifier zspec1(&zonedbx::kZoneAmerica_Los_Angeles);
   ExtendedZoneSpecifier zspec2(&zonedbx::kZoneEurope_Amsterdam);
   auto tz1 = TimeZone::forZoneSpecifier(&zspec1);
@@ -91,7 +82,7 @@ void setup() {
   auto dt2 = dt1.convertToTimeZone(tz2);
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
-#elif FEATURE == FEATURE_EXTENDED_ZONE_SPECIFIER_ALL
+#elif FEATURE == FEATURE_EXTENDED_TIME_ZONE_ALL
   ExtendedZoneManager manager(zonedbx::kZoneRegistry,
       zonedbx::kZoneRegistrySize);
   const extended::ZoneInfo* zoneInfo =
@@ -107,7 +98,7 @@ void setup() {
   systemClock.setup();
   acetime_t now = systemClock.getNow();
   guard ^= now;
-#elif FEATURE == FEATURE_SYSTEM_CLOCK_AND_BASIC_ZONE_SPECIFIER
+#elif FEATURE == FEATURE_SYSTEM_CLOCK_AND_BASIC_TIME_ZONE
   DS3231TimeKeeper dsTimeKeeper;
   SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
   systemClock.setup();

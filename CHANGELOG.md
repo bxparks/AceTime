@@ -9,6 +9,10 @@
       `BasicZoneManager` and `ExtendedZoneManager` classes.
     * Add copy constructor and assignment operator to `BasicZoneSpecifier`
       and `ExtendedZoneSpecifier` to allow deep copying of `TimeZone` objects.
+    * Remove overly complex `ManualZoneSpecifier` and merge most of its
+      functionality directly into the `TimeZone` using `kTypeManual`. We lose
+      the abbreviations of `ManualZoneSpecifier` but the simplification of using
+      just the `TimeZone` object without an extra object seems worth it.
 * 0.4 (2019-07-09, TZ DB version 2019a, beta)
     * Support the less-than-or-equal syntax `{dayOfWeek}<={dayOfMonth}`
       appearing in version 2019b of the TZ Database which contains `Rule Zion,

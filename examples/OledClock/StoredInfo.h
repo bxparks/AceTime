@@ -18,13 +18,10 @@ struct StoredInfo {
   uint8_t type;
 
   union {
-    /** Used by kTypeFixed. */
-    int8_t offsetCode;
-
     /** Used by kTypeManual. */
     struct {
       int8_t stdOffsetCode;
-      bool isDst;
+      int8_t dstOffsetCode;
     };
 
     /** Used by kTypeBasic or kTypeExtended. */

@@ -10,7 +10,6 @@
 #include "TimeOffset.h"
 #include "TimeZoneData.h"
 #include "ZoneSpecifier.h"
-#include "ManualZoneSpecifier.h"
 #include "BasicZoneSpecifier.h"
 #include "ExtendedZoneSpecifier.h"
 
@@ -27,15 +26,10 @@ namespace ace_time {
  * source of these geographical regions is the TZ Database maintained by IANA
  * (https://www.iana.org/time-zones). The TimeZone class supports both meanings.
  *
- * There are 4 types of TimeZone:
+ * There are 3 types of TimeZone:
  *
- *    * kTypeFixed: a time zone with a fixed UTC offset that cannot be changed.
- *      Very few actual time zones have a fixed UTC offset, but this type is
- *      useful for testing and for parsing date/time strings with a fixed offset.
- *      In many cases, it may be simpler to use an OffsetDateTime instead of a
- *      ZonedDateTime with a kTypeFixed TimeZone.
- *    * kTypeManual: a time zone using an underlying ManualZoneSpecifier which
- *      allows the user to manually select the UTC offset and the DST flag.
+ *    * kTypeManual: a time zone that holds a base offset and a DST offset, and
+ *      allows the user to modify both of these fields
  *    * kTypeBasic: a time zone using an underlying BasicZoneSpecifier which
  *      supports 231 geographical zones in the TZ Database.
  *    * kTypeExtended: a time zone using an underlying ExtendedZoneSpecifier
@@ -74,10 +68,8 @@ namespace ace_time {
  * Serializing and deserializing the TimeZone object is difficult because we
  * need to save information from both the TimeZone object and (potentially) the
  * ZoneSpecifier object. The TimeZone object can be identified by its
- * `getType()` parameter. If this type is kTypeFixed, then the UTC offset is
- * sufficient to reconstruct the TimeZone. If this type is kTypeManual, the
- * underlying ManualZoneSpecifier can be fully described using 2 parameters
- * (the timeOffset and the isDst flag.
+ * `getType()` parameter. If this type is kTypeManual, the time zone is
+ * fullly identified stdOffset and dstOffset.
  *
  * If the type is kTypeBasic or kTypeExtended, the underlying
  * BasicZoneSpecifier and ExtendedZoneSpecifier can both be uniquely identified
@@ -97,13 +89,12 @@ namespace ace_time {
  * ExtendedZoneSpecifier from the fully-qualified zone name. It would then be
  * sufficient to just store the fully-qualified zone name, instead of creating
  * a customized mapping table. However, we still would need to worry about TZ
- * Database version skew. In other words, the code needs to handle siutations
+ * Database version skew. In other words, the code needs to handle situations
  * where the serialized zone name using one version of the TZ Database is not
  * recognized by a new version of TZ Database.
  */
 class TimeZone {
   public:
-    static const uint8_t kTypeFixed = TimeZoneData::kTypeFixed;
     static const uint8_t kTypeManual = TimeZoneData::kTypeManual;
     static const uint8_t kTypeBasic = TimeZoneData::kTypeBasic;
     static const uint8_t kTypeExtended = TimeZoneData::kTypeExtended;
@@ -111,16 +102,18 @@ class TimeZone {
     /**
      * Factory method to create from a fixed UTC offset.
      *
-     * @param offset the fixed UTC offset, use TimeOffset() for UTC
+     * @param stdOffset the base offset
+     * @param dstOffset the DST offset, default TimeOffset() (i.e. 0 offset)
      */
-    static TimeZone forTimeOffset(TimeOffset offset) {
-      return TimeZone(offset);
+    static TimeZone forTimeOffset(TimeOffset stdOffset,
+        TimeOffset dstOffset = TimeOffset()) {
+      return TimeZone(stdOffset, dstOffset);
     }
 
     /**
      * Factory method to create from a ZoneSpecifier.
      *
-     * @param zoneSpecifier an instance of ManualZoneSpecifier,
+     * @param zoneSpecifier an instance of ZoneSpecifier,
      * BasicZoneSpecifier, or ExtendedZoneSpecifier. Cannot be nullptr.
      */
     static TimeZone forZoneSpecifier(const ZoneSpecifier* zoneSpecifier) {
@@ -132,20 +125,16 @@ class TimeZone {
      * is nullptr, then the method returns a default TimeZone() of UTC to
      * prevent deferencing a nullptr.
      */
+    // TODO: This causes both BasicZoneSpecifier and ExtendedZoneSpecifier to
+    // be compiled into flash memory. Is that ok?
     static TimeZone forTimeZoneData(const TimeZoneData& data,
-        ManualZoneSpecifier* manualZoneSpecifier,
         BasicZoneSpecifier* basicZoneSpecifier,
         ExtendedZoneSpecifier* extendedZoneSpecifier) {
 
       switch (data.type) {
-        case TimeZone::kTypeFixed:
-          return forTimeOffset(TimeOffset::forOffsetCode(data.offsetCode));
         case TimeZone::kTypeManual:
-          if (!manualZoneSpecifier) return TimeZone();
-          manualZoneSpecifier->setDst(data.isDst);
-          manualZoneSpecifier->setStdOffset(
-              TimeOffset::forOffsetCode(data.stdOffsetCode));
-          return forZoneSpecifier(manualZoneSpecifier);
+          return forTimeOffset(TimeOffset::forOffsetCode(data.stdOffsetCode),
+              TimeOffset::forOffsetCode(data.dstOffsetCode));
         case TimeZone::kTypeBasic:
           if (!basicZoneSpecifier) return TimeZone();
           basicZoneSpecifier->setZoneInfo(data.basicZoneInfo);
@@ -161,24 +150,19 @@ class TimeZone {
 
     /** Default constructor. */
     TimeZone():
-      mType(kTypeFixed),
-      mOffset() {}
+      mType(kTypeManual),
+      mStdOffset(),
+      mDstOffset() {}
 
     /** Serialize into TimeZoneData. */
     TimeZoneData toTimeZoneData() const {
       TimeZoneData data;
       data.type = mType;
       switch (mType) {
-        case TimeZone::kTypeFixed:
-          data.offsetCode = mOffset.toOffsetCode();
-          break;
         case TimeZone::kTypeManual:
-        {
-          auto* zoneSpecifier = (const ManualZoneSpecifier*) mZoneSpecifier;
-          data.stdOffsetCode = zoneSpecifier->stdOffset().toOffsetCode();
-          data.isDst = zoneSpecifier->isDst();
+          data.stdOffsetCode = mStdOffset;
+          data.dstOffsetCode = mDstOffset;
           break;
-        }
         case TimeZone::kTypeBasic:
         {
           auto* zoneSpecifier = (const BasicZoneSpecifier*) mZoneSpecifier;
@@ -204,8 +188,8 @@ class TimeZone {
 
     /** Return the total UTC offset at epochSeconds, including DST offset. */
     TimeOffset getUtcOffset(acetime_t epochSeconds) const {
-      return (mType == kTypeFixed)
-          ? mOffset
+      return (mType == kTypeManual)
+          ? TimeOffset::forOffsetCode(mStdOffset + mDstOffset)
           : mZoneSpecifier->getUtcOffset(epochSeconds);
     }
 
@@ -215,8 +199,8 @@ class TimeZone {
      * caution.
      */
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const {
-      return (mType == kTypeFixed)
-          ? TimeOffset()
+      return (mType == kTypeManual)
+          ? TimeOffset::forOffsetCode(mDstOffset)
           : mZoneSpecifier->getDeltaOffset(epochSeconds);
     }
 
@@ -227,16 +211,42 @@ class TimeZone {
      * testing and debugging.
      */
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const {
-      OffsetDateTime odt = (mType == kTypeFixed)
-          ? OffsetDateTime::forLocalDateTimeAndOffset(ldt, mOffset)
+      OffsetDateTime odt = (mType == kTypeManual)
+          ? OffsetDateTime::forLocalDateTimeAndOffset(ldt, getUtcOffset(0))
           : mZoneSpecifier->getOffsetDateTime(ldt);
       return odt;
     }
 
+    /** Return true if UTC (+00:00+00:00). */
+    bool isUtc() const {
+      if (mType != kTypeManual) return false;
+      return mStdOffset == 0 && mDstOffset == 0;
+    }
+
+    /**
+     * Return if mDstOffset is not zero. This is a convenience method that is
+     * valid only if the TimeZone is a kTypeManual. Returns false for all other
+     * type of TimeZone. This is intended to be used by applications which
+     * allows the user to set the UTC offset and DST flag manually (e.g.
+     * examples/WorldClock.ino).
+     */
+    bool isDst() const {
+      if (mType != kTypeManual) return false;
+      return mDstOffset != 0;
+    }
+
+    /**
+     * Sets the dstOffset of the TimeZone. Works only for kTypeManual, does
+     * nothing for any other type of TimeZone.
+     */
+    void setDstOffset(TimeOffset dstOffset) {
+      if (mType != kTypeManual) return;
+      mDstOffset = dstOffset.toOffsetCode();
+    }
+
     /**
      * Print the human readable representation of the time zone.
-     *   * kTypeFixed at UTC is printed as "UTC" or "+/-hh:mm"
-     *   * kTypeManual is printed as "+/-hh:mm(STD|DST)" (e.g. "-08:00(DST)")
+     *   * kTypeManual is printed as "+/-hh:mm+/-hh:mm" (e.g. "-08:00+00:00")
      *   * kTypeBasic is printed as "{zonename}" (e.g. "America/Los_Angeles")
      *   * kTypeExtended is printed as "{zonename}" (e.g.
      *     "America/Los_Angeles")
@@ -245,8 +255,7 @@ class TimeZone {
 
     /**
      * Print the *short* human readable representation of the time zone.
-     *   * kTypeFixed at UTC is printed as "UTC" or "+/-hh:mm"
-     *   * kTypeManual is printed as "+/-hh:mm(STD|DST)" (e.g. "-08:00(DST)")
+     *   * kTypeManual is printed as "+/-hh:mm(STD|DST)" (e.g. "-07:00(DST)")
      *   * kTypeBasic is printed as "{zoneShortName}" (e.g. "Los_Angeles")
      *   * kTypeExtended is printed as "{zoneShortName}" (e.g. "Los_Angeles")
      */
@@ -254,36 +263,11 @@ class TimeZone {
 
     /**
      * Print the time zone abbreviation for the given epochSeconds.
-     *   * kTypeFixed at UTC is printed as "UTC" or "+/-hh:mm"
-     *   * kTypeManual is printed as "{abbrev}" (e.g. "PDT")
+     *   * kTypeManual is printed as "STD" or "DST"
      *   * kTypeBasic is printed as "{abbrev}" (e.g. "PDT")
      *   * kTypeExtended is printed as "{abbrev}" (e.g. "PDT")
      */
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
-
-    /**
-     * Return the isDst() value of the underlying ManualZoneSpecifier. This is
-     * a convenience method that is valid only if the TimeZone was constructed
-     * using a ManualZoneSpecifier. Returns false for all other type of
-     * TimeZone. This is intended to be used by applications which allows the
-     * user to set the UTC offset and DST flag manually (e.g.
-     * examples/WorldClock.ino).
-     */
-    bool isDst() const {
-      if (mType != kTypeManual) return false;
-      return ((ManualZoneSpecifier*) mZoneSpecifier)->isDst();
-    }
-
-    /**
-     * Sets the isDst flag of the underlying ManualZoneSpecifier. Does
-     * nothing for any other type of TimeZone. This is a convenience method for
-     * applications that allow the user to set the DST flag manually (e.g.
-     * examples/WorldClock).
-     */
-    void setDst(bool dst) {
-      if (mType != kTypeManual) return;
-      ((ManualZoneSpecifier*) mZoneSpecifier)->setDst(dst);
-    }
 
     // Use default copy constructor and assignment operator.
     TimeZone(const TimeZone&) = default;
@@ -293,12 +277,15 @@ class TimeZone {
     friend bool operator==(const TimeZone& a, const TimeZone& b);
 
     /**
-     * Constructor for a fixed UTC offset.
-     * @param offset the fix UTC offset
+     * Constructor for a manual Time zone.
+     *
+     * @param stdOffset the base UTC offset
+     * @param dstOffset the DST delta offset (can be negative)
      */
-    explicit TimeZone(TimeOffset offset):
-      mType(kTypeFixed),
-      mOffset(offset) {}
+    explicit TimeZone(TimeOffset stdOffset, TimeOffset dstOffset):
+      mType(kTypeManual),
+      mStdOffset(stdOffset.toOffsetCode()),
+      mDstOffset(dstOffset.toOffsetCode()) {}
 
     /**
      * Constructor.
@@ -309,7 +296,7 @@ class TimeZone {
      * std::reference_wrapper<T> because I want to avoid a dependency to the
      * C++ standard library for something targeted for the Arduino environment.
      *
-     * @param zoneSpecifier an instance of ManualZoneSpecifier,
+     * @param zoneSpecifier an instance of ZoneSpecifier,
      * BasicZoneSpecifier, or ExtendedZoneSpecifier. Cannot be nullptr.
      */
     explicit TimeZone(const ZoneSpecifier* zoneSpecifier):
@@ -319,18 +306,22 @@ class TimeZone {
     uint8_t mType;
 
     union {
-      /** Used if mType == mTypeFixed. */
-      TimeOffset mOffset;
+      /** Used by kTypeManual. */
+      struct {
+        int8_t mStdOffset;
+        int8_t mDstOffset;
+      };
 
-      /** Used if mType == mTypeZoneSpecifier. */
+      /** Used by kTypeBasic and kTypeExtended. */
       const ZoneSpecifier* mZoneSpecifier;
     };
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
   if (a.getType() != b.getType()) return false;
-  if (a.getType() == TimeZone::kTypeFixed) {
-    return a.mOffset == b.mOffset;
+  if (a.getType() == TimeZone::kTypeManual) {
+    return a.mStdOffset == b.mStdOffset
+        && a.mDstOffset == b.mDstOffset;
   } else {
     if (a.mZoneSpecifier == b.mZoneSpecifier) return true;
     return *a.mZoneSpecifier == *b.mZoneSpecifier;

@@ -39,22 +39,15 @@ class Controller {
       }
     }
 
-    /** Set the time zone to the given offset using Fixed type. */
-    void setFixedTimeZone(TimeOffset timeOffset) {
-      mTimeZone = TimeZone::forTimeOffset(timeOffset);
+    /** Set the time zone to the given offset using kTypeManual. */
+    void setManualTimeZone(TimeOffset stdOffset, TimeOffset dstOffset) {
+      mTimeZone = TimeZone::forTimeOffset(stdOffset, dstOffset);
       preserveInfo();
     }
 
-    /** Set the time zone to given offset using ManualZoneSpecifier. */
-    void setManualTimeZone(TimeOffset timeOffset, bool isDst) {
-      mManualZoneSpecifier = ManualZoneSpecifier(timeOffset, isDst);
-      mTimeZone = TimeZone::forZoneSpecifier(&mManualZoneSpecifier);
-      preserveInfo();
-    }
-
-    /** Set the DST setting of ManualZoneSpecifier. */
+    /** Set the DST setting of Manual TimeZone. */
     void setDst(bool isDst) {
-      mTimeZone.setDst(isDst);
+      mTimeZone.setDstOffset(TimeOffset::forHour(isDst ? 1 : 0));
       preserveInfo();
     }
 
@@ -87,7 +80,7 @@ class Controller {
     /** Return the current time zone. */
     const TimeZone& getTimeZone() const { return mTimeZone; }
 
-#if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
+  #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
     /** Set the wifi credentials and setup the NtpTimeProvider. */
     void setWiFi(const char* ssid, const char* password) {
       strncpy(mStoredInfo.ssid, ssid, StoredInfo::kSsidMaxLength);
@@ -96,7 +89,7 @@ class Controller {
       mStoredInfo.password[StoredInfo::kPasswordMaxLength - 1] = '\0';
       preserveInfo();
     }
-#endif
+  #endif
 
     /** Set the current time of the system time keeper. */
     void setNow(acetime_t now) {
@@ -156,46 +149,49 @@ class Controller {
 
   private:
   #if ENABLE_TIME_ZONE_TYPE_BASIC
-    static const basic::ZoneInfo* const kBasicZoneRegistry[];
+    static const basic::ZoneInfo* const kBasicZoneRegistry[]
+        ACE_TIME_BASIC_PROGMEM;
     static const uint16_t kBasicZoneRegistrySize;
   #endif
   #if ENABLE_TIME_ZONE_TYPE_EXTENDED
-    static const extended::ZoneInfo* const kExtendedZoneRegistry[];
+    static const extended::ZoneInfo* const kExtendedZoneRegistry[]
+        ACE_TIME_EXTENDED_PROGMEM;
     static const uint16_t kExtendedZoneRegistrySize;
   #endif
 
     uint16_t preserveInfo() {
       mIsStoredInfoValid = true;
-      mStoredInfo.timeZoneType = mTimeZone.getType();
-      mStoredInfo.offsetMinutes = mManualZoneSpecifier.stdOffset().toMinutes();
-      mStoredInfo.isDst = mManualZoneSpecifier.isDst();
+      TimeZoneData tzd = mTimeZone.toTimeZoneData();
+      mStoredInfo.timeZoneType = tzd.type;
+      mStoredInfo.stdOffsetCode = tzd.stdOffsetCode;
+      mStoredInfo.dstOffsetCode = tzd.dstOffsetCode;
+      // TODO: Replace mZoneIndex with info from TimeZoneData
       mStoredInfo.zoneIndex = mZoneIndex;
       return mPersistentStore.writeStoredInfo(mStoredInfo);
     }
 
     void restoreInfo() {
-      if (mStoredInfo.timeZoneType == TimeZone::kTypeFixed) {
-        setFixedTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes));
-      } else if (mStoredInfo.timeZoneType == TimeZone::kTypeManual) {
-        setManualTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes),
-            mStoredInfo.isDst);
-    #if ENABLE_TIME_ZONE_TYPE_BASIC
-      } else if (mStoredInfo.timeZoneType == TimeZone::kTypeBasic) {
-        setBasicTimeZone(mStoredInfo.zoneIndex);
-    #endif
-    #if ENABLE_TIME_ZONE_TYPE_EXTENDED
-      } else if (mStoredInfo.timeZoneType == TimeZone::kTypeExtended) {
-        setExtendedTimeZone(mStoredInfo.zoneIndex);
-    #endif
-      } else {
-        setFixedTimeZone(TimeOffset::forMinutes(mStoredInfo.offsetMinutes));
+      switch (mStoredInfo.timeZoneType) {
+      #if ENABLE_TIME_ZONE_TYPE_BASIC
+        case TimeZone::kTypeBasic:
+          setBasicTimeZone(mStoredInfo.zoneIndex);
+          break;
+      #endif
+      #if ENABLE_TIME_ZONE_TYPE_EXTENDED
+        case TimeZone::kTypeExtended:
+          setExtendedTimeZone(mStoredInfo.zoneIndex);
+          break;
+      #endif
+        default:
+          setManualTimeZone(
+              TimeOffset::forOffsetCode(mStoredInfo.stdOffsetCode),
+              TimeOffset::forOffsetCode(mStoredInfo.dstOffsetCode));
       }
     }
 
     PersistentStore& mPersistentStore;
     SystemClock& mSystemClock;
     TimeZone mTimeZone;
-    ManualZoneSpecifier mManualZoneSpecifier;
 
   #if ENABLE_TIME_ZONE_TYPE_BASIC
     BasicZoneManager mBasicZoneManager;

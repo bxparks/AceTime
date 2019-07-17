@@ -217,7 +217,7 @@ class Presenter {
           mOled.println();
           mOled.print("DST: ");
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-            mOled.print(tzd.isDst ? "on " : "off");
+            mOled.print((tzd.dstOffsetCode != 0) ? "on " : "off");
           }
           mOled.clearToEOL();
           break;

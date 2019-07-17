@@ -32,21 +32,17 @@ class ZoneInfo;
  * TimeZone::forTimeZoneData() factory method.)
  */
 struct TimeZoneData {
-  static const uint8_t kTypeFixed = 0;
-  static const uint8_t kTypeManual = ZoneSpecifier::kTypeManual;
+  static const uint8_t kTypeManual = 0;
   static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
   static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
 
   uint8_t type;
 
   union {
-    /** Used for kTypeFixed. */
-    int8_t offsetCode;
-
     /** Used for kTypeManual. */
     struct {
       int8_t stdOffsetCode;
-      bool isDst;
+      int8_t dstOffsetCode;
     };
 
     /** Used for kTypeBasic. */
@@ -60,10 +56,9 @@ struct TimeZoneData {
 inline bool operator==(const TimeZoneData& a, const TimeZoneData& b) {
   if (a.type != b.type) return false;
   switch (a.type) {
-    case TimeZoneData::kTypeFixed:
-      return (a.offsetCode == b.offsetCode);
     case TimeZoneData::kTypeManual:
-      return (a.stdOffsetCode == b.stdOffsetCode) && (a.isDst == b.isDst);
+      return (a.stdOffsetCode == b.stdOffsetCode)
+          && (a.dstOffsetCode == b.dstOffsetCode);
     case TimeZoneData::kTypeBasic:
       return (a.basicZoneInfo == b.basicZoneInfo);
     case TimeZoneData::kTypeExtended:
