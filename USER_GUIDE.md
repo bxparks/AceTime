@@ -727,9 +727,9 @@ A "time zone" is often used colloquially to mean 2 different things:
 from the UTC time using various transition rules.
 
 Both meanings of "time zone" are supported by the `TimeZone` class using
-4 different types as follows:
+3 different types as follows:
 
-* `TimeZone::kTypeManual`: a fixed base and DST offsets from UTC
+* `TimeZone::kTypeManual`: a fixed base offset and optional DST offset from UTC
 * `TimeZone::kTypeBasic` with `BasicZoneSpecifier`: zones which can
 be encoded with (relatively) simple rules from the TZ Database
 * `TimeZone::kTypeExtended` with `ExtendedZoneSpecifier`:  all zones in
@@ -747,10 +747,10 @@ classes of `ZoneSpecifier`:
 TimeZone <>------- ZoneSpecifier
                          ^
                          |
-                   .---- +---.
-                   |         |
-                Basic       Extended
-         ZoneSpecifier      ZoneSpecifier
+                   .---- +----.
+                   |          |
+                Basic        Extended
+         ZoneSpecifier       ZoneSpecifier
 ```
 
 Here is the class declaration of `TimeZone`:
@@ -828,8 +828,8 @@ offset:
 TimeZone tz; // UTC+00:00
 ```
 
-To create `TimeZone` instances with other offsets, use one of the factory
-methods:
+To create `TimeZone` instances with other offsets, use the `forTimeOffset()`
+factory method:
 
 ```C++
 auto tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8)); // UTC-08:00
@@ -840,6 +840,10 @@ auto tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8),
 
 The `TimeZone::isUtc()`, `TimeZone::isDst()` and `TimeZone::setDst(bool)`
 methods work only if the `TimeZone` is a `kTypeManual`.
+
+The `setDstOffset()` takes a `TimeOffset` as the argument instead of a simple
+`bool` because there are some zones (e.g. Europe/Dublin) which uses a negative
+offset in the winter, instead of adding a postive offset in the summer.
 
 #### BasicZoneSpecifier (kTypeBasic)
 
