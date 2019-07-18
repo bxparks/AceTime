@@ -10,21 +10,8 @@ using namespace ace_time;
 // BasicZoneSpecifierCache
 // --------------------------------------------------------------------------
 
-const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_BASIC_PROGMEM = {
-  &zonedb::kZoneAmerica_Chicago,
-  &zonedb::kZoneAmerica_Denver,
-  &zonedb::kZoneAmerica_Los_Angeles,
-  &zonedb::kZoneAmerica_New_York,
-};
-
-const uint16_t kBasicZoneRegistrySize =
-    sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
-
-const BasicZoneRegistrar kBasicZoneRegistrar(
-    kBasicZoneRegistrySize, kBasicZoneRegistry);
-
 test(BasicZoneSpecifierCacheTest, getZoneSpecifier) {
-  BasicZoneSpecifierCache<2> cache(kBasicZoneRegistrar);
+  BasicZoneSpecifierCache<2> cache;
 
   ZoneSpecifier* zspec1 = cache.getZoneSpecifier(
       &zonedb::kZoneAmerica_Los_Angeles);
@@ -43,33 +30,12 @@ test(BasicZoneSpecifierCacheTest, getZoneSpecifier) {
   assertEqual((intptr_t) zspec1, (intptr_t) zspec4);
 }
 
-test(BasicZoneSpecifierCacheTest, getZoneSpecifier_not_found) {
-  BasicZoneSpecifierCache<2> cache(kBasicZoneRegistrar);
-  const uint32_t notFound = 0x24323244;
-  ZoneSpecifier* zspec = cache.getZoneSpecifier(notFound);
-  assertTrue(zspec == nullptr);
-}
-
 // --------------------------------------------------------------------------
 // ExtendedZoneSpecifierCache
 // --------------------------------------------------------------------------
 
-const extended::ZoneInfo* const kExtendedZoneRegistry[]
-    ACE_TIME_BASIC_PROGMEM = {
-  &zonedbx::kZoneAmerica_Chicago,
-  &zonedbx::kZoneAmerica_Denver,
-  &zonedbx::kZoneAmerica_Los_Angeles,
-  &zonedbx::kZoneAmerica_New_York,
-};
-
-const uint16_t kExtendedZoneRegistrySize =
-    sizeof(kExtendedZoneRegistry) / sizeof(kExtendedZoneRegistry[0]);
-
-const ExtendedZoneRegistrar kExtendedZoneRegistrar(
-    kExtendedZoneRegistrySize, kExtendedZoneRegistry);
-
 test(ExtendedZoneSpecifierCacheTest, getZoneSpecifier) {
-  ExtendedZoneSpecifierCache<2> cache(kExtendedZoneRegistrar);
+  ExtendedZoneSpecifierCache<2> cache;
 
   ZoneSpecifier* zspec1 = cache.getZoneSpecifier(
       &zonedbx::kZoneAmerica_Los_Angeles);
@@ -86,13 +52,6 @@ test(ExtendedZoneSpecifierCacheTest, getZoneSpecifier) {
   ZoneSpecifier* zspec4 = cache.getZoneSpecifier(
       &zonedbx::kZoneAmerica_Denver);
   assertEqual((intptr_t) zspec1, (intptr_t) zspec4);
-}
-
-test(ExtendedZoneSpecifierCacheTest, getZoneSpecifier_not_found) {
-  ExtendedZoneSpecifierCache<2> cache(kExtendedZoneRegistrar);
-  const uint32_t notFound = 0x24323244;
-  ZoneSpecifier* zspec = cache.getZoneSpecifier(notFound);
-  assertTrue(zspec == nullptr);
 }
 
 // --------------------------------------------------------------------------

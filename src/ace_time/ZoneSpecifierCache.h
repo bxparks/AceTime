@@ -9,6 +9,8 @@
 #include "common/common.h"
 #include "TimeOffset.h"
 #include "OffsetDateTime.h"
+#include "BasicZoneSpecifier.h"
+#include "ExtendedZoneSpecifier.h"
 #include "ZoneRegistrar.h"
 
 namespace ace_time {
@@ -21,9 +23,6 @@ namespace ace_time {
  */
 class ZoneSpecifierCache {
   public:
-    /** Get the ZoneSpecifier from the zoneId (hash of the zoneName). */
-    virtual ZoneSpecifier* getZoneSpecifier(uint32_t zoneId) = 0;
-
     /**
      * Get ZoneSpecifier from either a basic::ZoneInfo or an
      * extended::ZoneInfo. Unfortunately, this is not type-safe, but that's the
@@ -37,34 +36,20 @@ class ZoneSpecifierCache {
  * A cache of ZoneSpecifiers that provides a ZoneSpecifier to the TimeZone
  * upon request.
  *
- * @tparam ZM type of ZoneRegistrar (BasicZoneRegistrar or ExtendedZoneRegistrar)
+ * @tparam SIZE number of zone specifiers, should be approximate the number
+ *    zones *concurrently* used in the app. It is expected that this will be
+ *    small. It can be 1 if the app never changes the TimeZone. It should be 2
+ *    if the user is able to select different timezones from a menu.
  * @tparam ZS type of ZoneSpecifier (BasicZoneSpecifier or
  * ExtendedZoneSpecifier)
  * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo)
  * @tparam ZIB type of ZoneInfoBroker (basic::ZoneInfoBroker or 
  *    extended::ZoneInfoBroker)
- * @tparam SIZE number of zone specifiers, should be approximate the number
- *    zones *concurrently* used in the app. It is expected that this will be
- *    small. It can be 1 if the app never changes the TimeZone. It should be 2
- *    if the user is able to select different timezones from a menu.
  */
-template<typename ZM, typename ZS, typename ZI, typename ZIB, uint8_t SIZE>
+template<uint8_t SIZE, typename ZS, typename ZI, typename ZIB>
 class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
   public:
-    ZoneSpecifierCacheImpl(const ZM& zoneRegistrar):
-        mZoneRegistrar(zoneRegistrar) {}
-
-    /**
-     * Get the ZoneSpecifier for the given zoneId. Returns nullptr if the
-     * zoneId is not recognized by the given ZoneRegistrar. Return a previously
-     * allocated ZoneSpecifier or a new ZoneSpecifier.
-     */
-    ZoneSpecifier* getZoneSpecifier(uint32_t zoneId) override {
-      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoFromId(zoneId);
-      if (! zoneInfo) return nullptr;
-
-      return getZoneSpecifier(zoneInfo);
-    }
+    ZoneSpecifierCacheImpl() {}
 
     /** Get the ZoneSpecifier from the zoneInfo. Will never return nullptr. */
     ZoneSpecifier* getZoneSpecifier(const void* zoneInfo) override {
@@ -99,21 +84,17 @@ class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
       return nullptr;
     }
 
-    const ZM& mZoneRegistrar;
-
     ZS mZoneSpecifiers[SIZE];
     uint8_t mCurrentIndex = 0;
 };
 
 template<uint8_t SIZE>
-using BasicZoneSpecifierCache = ZoneSpecifierCacheImpl<
-    BasicZoneRegistrar, BasicZoneSpecifier, basic::ZoneInfo,
-    basic::ZoneInfoBroker, SIZE>;
+using BasicZoneSpecifierCache = ZoneSpecifierCacheImpl<SIZE,
+    BasicZoneSpecifier, basic::ZoneInfo, basic::ZoneInfoBroker>;
 
 template<uint8_t SIZE>
-using ExtendedZoneSpecifierCache  = ZoneSpecifierCacheImpl<
-    ExtendedZoneRegistrar, ExtendedZoneSpecifier,
-    extended::ZoneInfo, extended::ZoneInfoBroker, SIZE>;
+using ExtendedZoneSpecifierCache  = ZoneSpecifierCacheImpl<SIZE,
+    ExtendedZoneSpecifier, extended::ZoneInfo, extended::ZoneInfoBroker>;
 
 }
 

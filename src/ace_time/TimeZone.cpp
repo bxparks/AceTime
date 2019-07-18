@@ -9,7 +9,7 @@
 
 namespace ace_time {
 
-ZoneSpecifierCache* TimeZone::sZoneSpecifierCache = nullptr;
+ZoneManager* TimeZone::sZoneManager = nullptr;
 
 void TimeZone::printTo(Print& printer) const {
   switch (mType) {
@@ -24,12 +24,12 @@ void TimeZone::printTo(Print& printer) const {
     case kTypeBasic:
     case kTypeExtended:
     {
-      if (! sZoneSpecifierCache) {
+      if (! sZoneManager) {
         printer.print("<Error>");
         return;
       }
       ZoneSpecifier* specifier =
-          sZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
+          sZoneManager->getZoneSpecifier(mZoneInfo);
       if (! specifier) {
         printer.print("<Error>");
         return;
@@ -59,12 +59,12 @@ void TimeZone::printShortTo(Print& printer) const {
     case kTypeBasic:
     case kTypeExtended:
     {
-      if (! sZoneSpecifierCache) {
+      if (! sZoneManager) {
         printer.print("<Error>");
         return;
       }
       ZoneSpecifier* specifier =
-          sZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
+          sZoneManager->getZoneSpecifier(mZoneInfo);
       if (! specifier) {
         printer.print("<Error>");
         return;
@@ -90,12 +90,12 @@ void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {
     case kTypeBasic:
     case kTypeExtended:
     {
-      if (! sZoneSpecifierCache) {
+      if (! sZoneManager) {
         printer.print("<Error>");
         return;
       }
       ZoneSpecifier* specifier =
-          sZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
+          sZoneManager->getZoneSpecifier(mZoneInfo);
       if (! specifier) {
         printer.print("<Error>");
         return;

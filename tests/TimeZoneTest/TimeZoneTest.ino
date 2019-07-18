@@ -102,15 +102,14 @@ test(TimeZoneTest, manual_dst) {
 }
 
 // --------------------------------------------------------------------------
-// TimeZone using BasicZoneSpecifier
+// TimeZone using BasicZoneManager
 // --------------------------------------------------------------------------
 
-const BasicZoneRegistrar basicZoneRegistrar(
+BasicZoneManager<2> basicZoneManager(
     zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-BasicZoneSpecifierCache<2> basicZoneSpecifierCache(basicZoneRegistrar);
 
 test(TimeZoneTest_Basic, operatorEqualEqual) {
-  TimeZone::setZoneSpecifierCache(&basicZoneSpecifierCache);
+  TimeZone::setZoneManager(&basicZoneManager);
 
   TimeZone a = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone b = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_New_York);
@@ -119,7 +118,7 @@ test(TimeZoneTest_Basic, operatorEqualEqual) {
 }
 
 test(TimeZoneTest_Basic, copyConstructor) {
-  TimeZone::setZoneSpecifierCache(&basicZoneSpecifierCache);
+  TimeZone::setZoneManager(&basicZoneManager);
 
   TimeZone a = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   TimeZone b(a);
@@ -127,7 +126,7 @@ test(TimeZoneTest_Basic, copyConstructor) {
 }
 
 test(TimeZoneTest_Basic, Los_Angeles) {
-  TimeZone::setZoneSpecifierCache(&basicZoneSpecifierCache);
+  TimeZone::setZoneManager(&basicZoneManager);
   FakePrint fakePrint;
   OffsetDateTime dt;
   acetime_t epochSeconds;
@@ -157,12 +156,11 @@ test(TimeZoneTest_Basic, Los_Angeles) {
 // TimeZone using ExtendedZoneSpecifier
 // --------------------------------------------------------------------------
 
-const ExtendedZoneRegistrar extendedZoneRegistrar(
+ExtendedZoneManager<2> extendedZoneManager(
     zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-ExtendedZoneSpecifierCache<2> extendedZoneSpecifierCache(extendedZoneRegistrar);
 
 test(TimeZoneTest_Extended, operatorEqualEqual) {
-  TimeZone::setZoneSpecifierCache(&basicZoneSpecifierCache);
+  TimeZone::setZoneManager(&extendedZoneManager);
 
   TimeZone a = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
   TimeZone b = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_New_York);
@@ -171,14 +169,14 @@ test(TimeZoneTest_Extended, operatorEqualEqual) {
 }
 
 test(TimeZoneTest_Extended, copyConstructor) {
-  TimeZone::setZoneSpecifierCache(&basicZoneSpecifierCache);
+  TimeZone::setZoneManager(&basicZoneManager);
   TimeZone a = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
   TimeZone b(a);
   assertTrue(a == b);
 }
 
 test(TimeZoneTest_Extended, Los_Angeles) {
-  TimeZone::setZoneSpecifierCache(&extendedZoneSpecifierCache);
+  TimeZone::setZoneManager(&extendedZoneManager);
   FakePrint fakePrint;
   OffsetDateTime dt;
   acetime_t epochSeconds;
@@ -209,7 +207,7 @@ test(TimeZoneTest_Extended, Los_Angeles) {
 // --------------------------------------------------------------------------
 
 test(TimeZoneDataTest, TypeBasic) {
-  TimeZone::setZoneSpecifierCache(&basicZoneSpecifierCache);
+  TimeZone::setZoneManager(&basicZoneManager);
 
   auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   auto tzd = tz.toTimeZoneData();
@@ -222,7 +220,7 @@ test(TimeZoneDataTest, TypeBasic) {
 }
 
 test(TimeZoneDataTest, TypeExtended) {
-  TimeZone::setZoneSpecifierCache(&extendedZoneSpecifierCache);
+  TimeZone::setZoneManager(&extendedZoneManager);
 
   auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
   auto tzd = tz.toTimeZoneData();

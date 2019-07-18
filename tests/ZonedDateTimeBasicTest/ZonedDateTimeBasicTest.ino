@@ -91,9 +91,8 @@ test(ZonedDateTimeTest_Basic, linked_zones) {
 
 // --------------------------------------------------------------------------
 
-const BasicZoneRegistrar basicZoneRegistrar(
+BasicZoneManager<2> zoneManager(
     zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-BasicZoneSpecifierCache<2> basicZoneSpecifierCache(basicZoneRegistrar);
 
 void setup() {
 #if defined(ARDUINO)
@@ -102,7 +101,7 @@ void setup() {
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while(!Serial); // for the Arduino Leonardo/Micro only
 
-  TimeZone::setZoneSpecifierCache(&basicZoneSpecifierCache);
+  TimeZone::setZoneManager(&zoneManager);
 }
 
 void loop() {
