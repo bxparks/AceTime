@@ -3,20 +3,22 @@
  * Copyright (c) 2019 Brian T. Park
  */
 
-#ifndef ACE_TIME_ZONE_MANAGER_H
-#define ACE_TIME_ZONE_MANAGER_H
+#ifndef ACE_TIME_ZONE_REGISTRAR_H
+#define ACE_TIME_ZONE_REGISTRAR_H
 
 #include <stdint.h>
 #include <string.h> // strcmp(), strcmp_P()
 #include "common/flash.h"
+#include "internal/ZoneInfo.h"
+#include "internal/Brokers.h"
 
-class BasicZoneManagerTest_Sorted_isSorted;
-class BasicZoneManagerTest_Sorted_linearSearch;
-class BasicZoneManagerTest_Sorted_linearSearch_not_found;
-class BasicZoneManagerTest_Sorted_binarySearch;
-class BasicZoneManagerTest_Sorted_binarySearch_not_found;
-class BasicZoneManagerTest_Unsorted_isSorted;
-class BasicZoneManagerTest_Unsorted_linearSearch;
+class BasicZoneRegistrarTest_Sorted_isSorted;
+class BasicZoneRegistrarTest_Sorted_linearSearch;
+class BasicZoneRegistrarTest_Sorted_linearSearch_not_found;
+class BasicZoneRegistrarTest_Sorted_binarySearch;
+class BasicZoneRegistrarTest_Sorted_binarySearch_not_found;
+class BasicZoneRegistrarTest_Unsorted_isSorted;
+class BasicZoneRegistrarTest_Unsorted_linearSearch;
 
 namespace ace_time {
 
@@ -24,8 +26,8 @@ namespace ace_time {
 typedef int (*strcmp_t)(const char*, const char*);
 
 /**
- * Look up the ZoneInfo (ZI) from its TZDB identifier (e.g.
- * "America/Los_Angeles").
+ * Class that allows looking up the ZoneInfo (ZI) from its TZDB identifier
+ * (e.g. "America/Los_Angeles"), or index, or zoneId (hash from its name).
  *
  * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo)
  * @tparam ZRB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
@@ -37,10 +39,10 @@ typedef int (*strcmp_t)(const char*, const char*);
  */
 template<typename ZI, typename ZRB, typename ZIB, strcmp_t STRCMP_P,
     strcmp_t STRCMP_PP>
-class ZoneManager {
+class ZoneRegistrar {
   public:
     /** Constructor. */
-    ZoneManager(uint16_t registrySize, const ZI* const* zoneRegistry):
+    ZoneRegistrar(uint16_t registrySize, const ZI* const* zoneRegistry):
         mRegistrySize(registrySize),
         mZoneRegistry(zoneRegistry),
         mIsSorted(isSorted(zoneRegistry, registrySize)) {}
@@ -72,13 +74,13 @@ class ZoneManager {
     }
 
   protected:
-    friend class ::BasicZoneManagerTest_Sorted_isSorted;
-    friend class ::BasicZoneManagerTest_Sorted_linearSearch;
-    friend class ::BasicZoneManagerTest_Sorted_linearSearch_not_found;
-    friend class ::BasicZoneManagerTest_Sorted_binarySearch;
-    friend class ::BasicZoneManagerTest_Sorted_binarySearch_not_found;
-    friend class ::BasicZoneManagerTest_Unsorted_isSorted;
-    friend class ::BasicZoneManagerTest_Unsorted_linearSearch;
+    friend class ::BasicZoneRegistrarTest_Sorted_isSorted;
+    friend class ::BasicZoneRegistrarTest_Sorted_linearSearch;
+    friend class ::BasicZoneRegistrarTest_Sorted_linearSearch_not_found;
+    friend class ::BasicZoneRegistrarTest_Sorted_binarySearch;
+    friend class ::BasicZoneRegistrarTest_Sorted_binarySearch_not_found;
+    friend class ::BasicZoneRegistrarTest_Unsorted_isSorted;
+    friend class ::BasicZoneRegistrarTest_Unsorted_linearSearch;
 
     /** Use binarySearch() if registrySize >= threshold. */
     static const uint8_t kBinarySearchThreshold = 6;
@@ -137,29 +139,29 @@ class ZoneManager {
 };
 
 /**
- * Concrete template instantiation of ZoneManager for basic::ZoneInfo, which
+ * Concrete template instantiation of ZoneRegistrar for basic::ZoneInfo, which
  * can be used with BasicZoneSpecifier.
  */
 #if ACE_TIME_USE_BASIC_PROGMEM
-typedef ZoneManager<basic::ZoneInfo, basic::ZoneRegistryBroker,
+typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
     basic::ZoneInfoBroker, acetime_strcmp_P, acetime_strcmp_PP>
-    BasicZoneManager;
+    BasicZoneRegistrar;
 #else
-typedef ZoneManager<basic::ZoneInfo, basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker, strcmp, strcmp> BasicZoneManager;
+typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
+    basic::ZoneInfoBroker, strcmp, strcmp> BasicZoneRegistrar;
 #endif
 
 /**
- * Concrete template instantiation of ZoneManager for extended::ZoneInfo, which
+ * Concrete template instantiation of ZoneRegistrar for extended::ZoneInfo, which
  * can be used with ExtendedZoneSpecifier.
  */
 #if ACE_TIME_USE_EXTENDED_PROGMEM
-typedef ZoneManager<extended::ZoneInfo, extended::ZoneRegistryBroker,
+typedef ZoneRegistrar<extended::ZoneInfo, extended::ZoneRegistryBroker,
     extended::ZoneInfoBroker, acetime_strcmp_P, acetime_strcmp_PP>
-    ExtendedZoneManager;
+    ExtendedZoneRegistrar;
 #else
-typedef ZoneManager<extended::ZoneInfo, extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker, strcmp, strcmp> ExtendedZoneManager;
+typedef ZoneRegistrar<extended::ZoneInfo, extended::ZoneRegistryBroker,
+    extended::ZoneInfoBroker, strcmp, strcmp> ExtendedZoneRegistrar;
 #endif
 
 }

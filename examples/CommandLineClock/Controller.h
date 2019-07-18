@@ -15,11 +15,11 @@ class Controller {
         mPersistentStore(persistentStore),
         mSystemClock(systemClock)
       #if ENABLE_TIME_ZONE_TYPE_BASIC
-        , mBasicZoneManager(kBasicZoneRegistrySize, kBasicZoneRegistry)
+        , mBasicZoneRegistrar(kBasicZoneRegistrySize, kBasicZoneRegistry)
         , mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles)
       #endif
       #if ENABLE_TIME_ZONE_TYPE_EXTENDED
-        , mExtendedZoneManager(
+        , mExtendedZoneRegistrar(
             kExtendedZoneRegistrySize, kExtendedZoneRegistry)
         , mExtendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles)
       #endif
@@ -56,7 +56,7 @@ class Controller {
     void setBasicTimeZone(uint16_t zoneIndex = 0) {
       mZoneIndex = zoneIndex;
       const basic::ZoneInfo* zoneInfo =
-          mBasicZoneManager.getZoneInfo(zoneIndex);
+          mBasicZoneRegistrar.getZoneInfo(zoneIndex);
       if (zoneInfo == nullptr) zoneInfo = &zonedb::kZoneAmerica_Los_Angeles;
       mBasicZoneSpecifier.setZoneInfo(zoneInfo);
       mTimeZone = TimeZone::forZoneSpecifier(&mBasicZoneSpecifier);
@@ -69,7 +69,7 @@ class Controller {
     void setExtendedTimeZone(uint16_t zoneIndex = 0) {
       mZoneIndex = zoneIndex;
       const extended::ZoneInfo* zoneInfo =
-          mExtendedZoneManager.getZoneInfo(zoneIndex);
+          mExtendedZoneRegistrar.getZoneInfo(zoneIndex);
       if (zoneInfo == nullptr) zoneInfo = &zonedbx::kZoneAmerica_Los_Angeles;
       mExtendedZoneSpecifier.setZoneInfo(zoneInfo);
       mTimeZone = TimeZone::forZoneSpecifier(&mExtendedZoneSpecifier);
@@ -119,13 +119,13 @@ class Controller {
   #if ENABLE_TIME_ZONE_TYPE_BASIC
     /** Print list of supported zones. */
     void printBasicZonesTo(Print& printer) const {
-      uint16_t registrySize = mBasicZoneManager.registrySize();
+      uint16_t registrySize = mBasicZoneRegistrar.registrySize();
       for (uint16_t i = 0; i < registrySize; i++) {
         printer.print('[');
         printer.print(i);
         printer.print(']');
         printer.print(' ');
-        const basic::ZoneInfo* zoneInfo = mBasicZoneManager.getZoneInfo(i);
+        const basic::ZoneInfo* zoneInfo = mBasicZoneRegistrar.getZoneInfo(i);
         printer.println(BasicZone(zoneInfo).name());
       }
     }
@@ -134,14 +134,14 @@ class Controller {
   #if ENABLE_TIME_ZONE_TYPE_EXTENDED
     /** Print list of supported zones. */
     void printExtendedZonesTo(Print& printer) const {
-      uint16_t registrySize = mExtendedZoneManager.registrySize();
+      uint16_t registrySize = mExtendedZoneRegistrar.registrySize();
       for (uint16_t i = 0; i < registrySize; i++) {
         printer.print('[');
         printer.print(i);
         printer.print(']');
         printer.print(' ');
         const extended::ZoneInfo* zoneInfo =
-            mExtendedZoneManager.getZoneInfo(i);
+            mExtendedZoneRegistrar.getZoneInfo(i);
         printer.println(ExtendedZone(zoneInfo).name());
       }
     }
@@ -194,11 +194,11 @@ class Controller {
     TimeZone mTimeZone;
 
   #if ENABLE_TIME_ZONE_TYPE_BASIC
-    BasicZoneManager mBasicZoneManager;
+    BasicZoneRegistrar mBasicZoneRegistrar;
     BasicZoneSpecifier mBasicZoneSpecifier;
   #endif
   #if ENABLE_TIME_ZONE_TYPE_EXTENDED
-    ExtendedZoneManager mExtendedZoneManager;
+    ExtendedZoneRegistrar mExtendedZoneRegistrar;
     ExtendedZoneSpecifier mExtendedZoneSpecifier;
   #endif
     uint16_t mZoneIndex = 0;

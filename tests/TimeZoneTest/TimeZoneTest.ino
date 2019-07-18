@@ -105,9 +105,9 @@ test(TimeZoneTest, manual_dst) {
 // TimeZone using BasicZoneSpecifier
 // --------------------------------------------------------------------------
 
-const BasicZoneManager basicZoneManager(
+const BasicZoneRegistrar basicZoneRegistrar(
     zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-BasicZoneSpecifierCache<2> basicZoneSpecifierCache(basicZoneManager);
+BasicZoneSpecifierCache<2> basicZoneSpecifierCache(basicZoneRegistrar);
 
 test(TimeZoneTest_Basic, operatorEqualEqual) {
   TimeZone::setZoneSpecifierCache(&basicZoneSpecifierCache);
@@ -157,9 +157,9 @@ test(TimeZoneTest_Basic, Los_Angeles) {
 // TimeZone using ExtendedZoneSpecifier
 // --------------------------------------------------------------------------
 
-const ExtendedZoneManager extendedZoneManager(
+const ExtendedZoneRegistrar extendedZoneRegistrar(
     zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-ExtendedZoneSpecifierCache<2> extendedZoneSpecifierCache(extendedZoneManager);
+ExtendedZoneSpecifierCache<2> extendedZoneSpecifierCache(extendedZoneRegistrar);
 
 test(TimeZoneTest_Extended, operatorEqualEqual) {
   TimeZone::setZoneSpecifierCache(&basicZoneSpecifierCache);

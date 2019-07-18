@@ -1164,7 +1164,7 @@ these all occur before the year 2012.
 
 The `basic::ZoneInfo` and `extended::ZoneInfo` (and its related data structures)
 objects are meant to be *opaque* and simply passed into `BasicZoneSpecifier`,
-`ExtendedZoneSpecifier`, `BasicZoneManager` and `ExtendedZoneManager`. The
+`ExtendedZoneSpecifier`, `BasicZoneRegistrar` and `ExtendedZoneRegistrar`. The
 internal formats of the `ZoneInfo` structures may change without warning, and
 users of this library should not access its internal data members directly.
 
@@ -1216,22 +1216,22 @@ name is stored in flash memory or in static memory. The `name()` method returns
 the full zone name from the TZ Database (e.g. `"America/Los_Angeles"`). The
 `shortName()` method returns only the last component (e.g. `"Los_Angeles"`).
 
-### ZoneManager
+### ZoneRegistrar
 
 **Caveat**: This is an experimental feature. Previously, `BasicZoneSpecifier`
-and `ExtendedZoneSpecifier` were considered immutable objects. The ZoneManager
+and `ExtendedZoneSpecifier` were considered immutable objects. The ZoneRegistrar
 enables dynamic lookup of `ZoneInfo`, which resulted in the `BasicZoneSpecifier`
 and `ExtendedZoneSpecifier` becoming mutable with the `setZoneInfo()` method.
 The consequence of this change has not been fully explored.
 
 Two classes provide a lookup service from the zone identifier string
-(e.g. `"America/Los_Angeles"`) to the zoneinfo files: `BasicZoneManager` and
-`ExtendedZoneManager`. The class definitions look like this:
+(e.g. `"America/Los_Angeles"`) to the zoneinfo files: `BasicZoneRegistrar` and
+`ExtendedZoneRegistrar`. The class definitions look like this:
 
 ```C++
-class BasicZoneManager {
+class BasicZoneRegistrar {
   public:
-    BasicZoneManager(const basic::ZoneInfo* zoneRegistry,
+    BasicZoneRegistrar(const basic::ZoneInfo* zoneRegistry,
         uint16_t registrySize);
 
     uint16_t registrySize() const;
@@ -1240,9 +1240,9 @@ class BasicZoneManager {
     const basic::ZoneInfo* getZoneInfo(const char* name) const;
 };
 
-class ExtendedZoneManager {
+class ExtendedZoneRegistrar {
   public:
-    ExtendedZoneManager(const extended::ZoneInfo* zoneRegistry,
+    ExtendedZoneRegistrar(const extended::ZoneInfo* zoneRegistry,
         uint16_t registrySize);
 
     uint16_t registrySize() const;
@@ -1262,7 +1262,7 @@ The default zoneinfo registry is available at:
 * [zonedb/zone_registry.h](src/ace_time/zonedb/zone_registry.h)
 * [zonedbx/zone_registry.h](src/ace_time/zonedbx/zone_registry.h)
 
-The `BasicZoneManager` can loaded with the `zonedb::kZoneRegistry` default zone
+The `BasicZoneRegistrar` can loaded with the `zonedb::kZoneRegistry` default zone
 registry and used to configure the `BasicZoneSpecifier` like this:
 
 ```C++
@@ -1271,8 +1271,8 @@ registry and used to configure the `BasicZoneSpecifier` like this:
 static const basic::ZoneInfo* const defaultZoneInfo =
     zonedb::kZoneAmerica_Los_Angeles;
 static BasicZoneSpecifier zoneSpecifier(defaultZoneInfo);
-static const BasicZoneManager zoneManager(
-    zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
+static const BasicZoneRegistrar zoneRegistrar(
+    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
 void setZone(const char* zoneName) {
   const auto* zoneInfo = manager.getZoneInfo(zoneName);
@@ -1284,7 +1284,7 @@ void setZone(const char* zoneName) {
 }
 ```
 
-Similarly, `ExtendedZoneManager` can be configured with the
+Similarly, `ExtendedZoneRegistrar` can be configured with the
 `zonedbx::kZoneRegistry` and used to configure the `ExtendedZoneSpecifier` like
 this:
 
@@ -1294,8 +1294,8 @@ this:
 static const extended::ZoneInfo* const defaultZoneInfo =
     zonedbx::kZoneAmerica_Los_Angeles;
 static ExtendedZoneSpecifier zoneSpecifier(defaultZoneInfo);
-static const ExtendedZoneManager zoneManager(
-    zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+static const ExtendedZoneRegistrar zoneRegistrar(
+    zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
 
 void setZone(const char* zoneName) {
   const auto* zoneInfo = manager.getZoneInfo(zoneName);
@@ -1313,7 +1313,7 @@ The default zone registries (`zonedb::kZoneRegistry` and
 `zonedbx::kZoneRegistry`) pull in every zone in the respective data sets, which
 consumes significant amounts of flash memory (see
 [MemoryBenchmark](examples/MemoryBenchmark/)). If flash memory is tight, the
-ZoneManagers can be initialized with a custom list of zones, to pull in only the
+ZoneRegistrar can be initialized with a custom list of zones, to pull in only the
 zones of interest. For example, here is a `kZoneRegistry` with 4 zones from the
 `zonedb::` data set:
 
@@ -1331,7 +1331,7 @@ static const basic::ZoneInfo* const kBasicZoneRegistry[]
 static const uint16_t kZoneRegistrySize =
     sizeof(Controller::kZoneRegistry) / sizeof(basic::ZoneInfo*);
 
-static const BasicZoneManager zoneManager(kZoneRegistry, kZoneRegistrySize);
+static const BasicZoneRegistrar zoneRegistrar(kZoneRegistrySize, kZoneRegistry);
 ```
 
 and here is the equivalent `kExtendedZoneRegistry`:
@@ -1350,13 +1350,13 @@ static const extended::ZoneInfo* const kZoneRegistry[]
 static const uint16_t kZoneRegistrySize =
     sizeof(Controller::kZoneRegistry) / sizeof(extended::ZoneInfo*);
 
-static const BasicZoneManager zoneManager(kZoneRegistry, kZoneRegistrySize);
+static const BasicZoneRegistrar zoneRegistrar(kZoneRegistrySize, kZoneRegistry);
 ```
 
 (The `ACE_TIME_BASIC_PROGMEM` and `ACE_TIME_EXTENDED_PROGMEM` macros are defined
 in [config.h](src/ace_time/config.h) and determines whether the ZoneInfo files
 are stored in normal RAM or flash memory. They are needed because the
-ZoneManagers need to know where the ZoneInfo files are stored.)
+ZoneRegistrar need to know where the ZoneInfo files are stored.)
 
 See [CommandLineClock](examples/CommandLineClock/) for an example of how these
 custom registries can be created and used.

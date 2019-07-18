@@ -20,11 +20,11 @@ const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_BASIC_PROGMEM = {
 const uint16_t kBasicZoneRegistrySize =
     sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
 
-const BasicZoneManager kBasicZoneManager(
+const BasicZoneRegistrar kBasicZoneRegistrar(
     kBasicZoneRegistrySize, kBasicZoneRegistry);
 
 test(BasicZoneSpecifierCacheTest, getZoneSpecifier) {
-  BasicZoneSpecifierCache<2> cache(kBasicZoneManager);
+  BasicZoneSpecifierCache<2> cache(kBasicZoneRegistrar);
 
   ZoneSpecifier* zspec1 = cache.getZoneSpecifier(
       &zonedb::kZoneAmerica_Los_Angeles);
@@ -44,7 +44,7 @@ test(BasicZoneSpecifierCacheTest, getZoneSpecifier) {
 }
 
 test(BasicZoneSpecifierCacheTest, getZoneSpecifier_not_found) {
-  BasicZoneSpecifierCache<2> cache(kBasicZoneManager);
+  BasicZoneSpecifierCache<2> cache(kBasicZoneRegistrar);
   const uint32_t notFound = 0x24323244;
   ZoneSpecifier* zspec = cache.getZoneSpecifier(notFound);
   assertTrue(zspec == nullptr);
@@ -65,11 +65,11 @@ const extended::ZoneInfo* const kExtendedZoneRegistry[]
 const uint16_t kExtendedZoneRegistrySize =
     sizeof(kExtendedZoneRegistry) / sizeof(kExtendedZoneRegistry[0]);
 
-const ExtendedZoneManager kExtendedZoneManager(
+const ExtendedZoneRegistrar kExtendedZoneRegistrar(
     kExtendedZoneRegistrySize, kExtendedZoneRegistry);
 
 test(ExtendedZoneSpecifierCacheTest, getZoneSpecifier) {
-  ExtendedZoneSpecifierCache<2> cache(kExtendedZoneManager);
+  ExtendedZoneSpecifierCache<2> cache(kExtendedZoneRegistrar);
 
   ZoneSpecifier* zspec1 = cache.getZoneSpecifier(
       &zonedbx::kZoneAmerica_Los_Angeles);
@@ -89,7 +89,7 @@ test(ExtendedZoneSpecifierCacheTest, getZoneSpecifier) {
 }
 
 test(ExtendedZoneSpecifierCacheTest, getZoneSpecifier_not_found) {
-  ExtendedZoneSpecifierCache<2> cache(kExtendedZoneManager);
+  ExtendedZoneSpecifierCache<2> cache(kExtendedZoneRegistrar);
   const uint32_t notFound = 0x24323244;
   ZoneSpecifier* zspec = cache.getZoneSpecifier(notFound);
   assertTrue(zspec == nullptr);

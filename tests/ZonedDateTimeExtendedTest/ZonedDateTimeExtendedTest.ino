@@ -92,9 +92,9 @@ test(ZonedDateTimeTest_Extended, linked_zones) {
 
 // --------------------------------------------------------------------------
 
-const ExtendedZoneManager extendedZoneManager(
+const ExtendedZoneRegistrar extendedZoneRegistrar(
     zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-ExtendedZoneSpecifierCache<2> extendedZoneSpecifierCache(extendedZoneManager);
+ExtendedZoneSpecifierCache<2> extendedZoneSpecifierCache(extendedZoneRegistrar);
 
 void setup() {
 #if defined(ARDUINO)

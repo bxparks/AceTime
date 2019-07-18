@@ -25,13 +25,16 @@ C++ namespaces:
     * `ace_time::ZoneSpecifier`
         * `ace_time::BasicZoneSpecifier`
         * `ace_time::ExtendedZoneSpecifier`
+    * `ace_time::ZoneSpecifierCache`
+        * `ace_time::BasicZoneSpecifierCache`
+        * `ace_time::ExtendedZoneSpecifierCache`
     * `ace_time::TimeZone`
     * `ace_time::ZonedDateTime`
     * `ace_time::TimePeriod`
     * `ace_time::BasicZone` [`*`]
     * `ace_time::ExtendedZone` [`*`]
-    * `ace_time::BasicZoneManager` [`*`]
-    * `ace_time::ExtendedZoneManager` [`*`]
+    * `ace_time::BasicZoneRegistrar` [`*`]
+    * `ace_time::ExtendedZoneRegistrar` [`*`]
     * mutation helpers
         * `ace_time::local_date_mutation::`
         * `ace_time::time_offset_mutation::`
@@ -168,7 +171,7 @@ Conversion from an epochSeconds to date-time components including timezone
 **Version**: 0.4 (2019-07-09, TZ DB version 2019a, beta)
 
 **Status**: Fully functional with an API that is expected to be mostly stable
-except for the `ZoneManager` classes.
+except for the `ZoneRegistrar` classes.
 
 ## HelloDateTime
 

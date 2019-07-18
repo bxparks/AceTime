@@ -91,9 +91,9 @@ test(ZonedDateTimeTest_Basic, linked_zones) {
 
 // --------------------------------------------------------------------------
 
-const BasicZoneManager basicZoneManager(
+const BasicZoneRegistrar basicZoneRegistrar(
     zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-BasicZoneSpecifierCache<2> basicZoneSpecifierCache(basicZoneManager);
+BasicZoneSpecifierCache<2> basicZoneSpecifierCache(basicZoneRegistrar);
 
 void setup() {
 #if defined(ARDUINO)

@@ -9,7 +9,7 @@
 #include "common/common.h"
 #include "TimeOffset.h"
 #include "OffsetDateTime.h"
-#include "ZoneManager.h"
+#include "ZoneRegistrar.h"
 
 namespace ace_time {
 
@@ -37,7 +37,7 @@ class ZoneSpecifierCache {
  * A cache of ZoneSpecifiers that provides a ZoneSpecifier to the TimeZone
  * upon request.
  *
- * @tparam ZM type of ZoneManager (BasicZoneManager or ExtendedZoneManager)
+ * @tparam ZM type of ZoneRegistrar (BasicZoneRegistrar or ExtendedZoneRegistrar)
  * @tparam ZS type of ZoneSpecifier (BasicZoneSpecifier or
  * ExtendedZoneSpecifier)
  * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo)
@@ -51,16 +51,16 @@ class ZoneSpecifierCache {
 template<typename ZM, typename ZS, typename ZI, typename ZIB, uint8_t SIZE>
 class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
   public:
-    ZoneSpecifierCacheImpl(const ZM& zoneManager):
-        mZoneManager(zoneManager) {}
+    ZoneSpecifierCacheImpl(const ZM& zoneRegistrar):
+        mZoneRegistrar(zoneRegistrar) {}
 
     /**
      * Get the ZoneSpecifier for the given zoneId. Returns nullptr if the
-     * zoneId is not recognized by the given ZoneManager. Return a previously
+     * zoneId is not recognized by the given ZoneRegistrar. Return a previously
      * allocated ZoneSpecifier or a new ZoneSpecifier.
      */
     ZoneSpecifier* getZoneSpecifier(uint32_t zoneId) override {
-      const ZI* zoneInfo = mZoneManager.getZoneInfo(zoneId);
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfo(zoneId);
       if (! zoneInfo) return nullptr;
 
       return getZoneSpecifier(zoneInfo);
@@ -99,7 +99,7 @@ class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
       return nullptr;
     }
 
-    const ZM& mZoneManager;
+    const ZM& mZoneRegistrar;
 
     ZS mZoneSpecifiers[SIZE];
     uint8_t mCurrentIndex = 0;
@@ -107,12 +107,12 @@ class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
 
 template<uint8_t SIZE>
 using BasicZoneSpecifierCache = ZoneSpecifierCacheImpl<
-    BasicZoneManager, BasicZoneSpecifier, basic::ZoneInfo,
+    BasicZoneRegistrar, BasicZoneSpecifier, basic::ZoneInfo,
     basic::ZoneInfoBroker, SIZE>;
 
 template<uint8_t SIZE>
 using ExtendedZoneSpecifierCache  = ZoneSpecifierCacheImpl<
-    ExtendedZoneManager, ExtendedZoneSpecifier,
+    ExtendedZoneRegistrar, ExtendedZoneSpecifier,
     extended::ZoneInfo, extended::ZoneInfoBroker, SIZE>;
 
 }

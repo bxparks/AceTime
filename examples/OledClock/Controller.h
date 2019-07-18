@@ -39,7 +39,7 @@ class Controller {
         mPresenter(presenter)
       #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC \
           || TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-        , mZoneManager(kZoneRegistrySize, kZoneRegistry)
+        , mZoneRegistrar(kZoneRegistrySize, kZoneRegistry)
       #endif
     {}
 
@@ -238,10 +238,10 @@ class Controller {
           }
         #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
           mChangingClockInfo.timeZoneData.basicZoneInfo =
-              mZoneManager.getZoneInfo(mChangingClockInfo.zoneIndex);
+              mZoneRegistrar.getZoneInfo(mChangingClockInfo.zoneIndex);
         #else
           mChangingClockInfo.timeZoneData.extendedZoneInfo =
-              mZoneManager.getZoneInfo(mChangingClockInfo.zoneIndex);
+              mZoneRegistrar.getZoneInfo(mChangingClockInfo.zoneIndex);
         #endif
           {
             auto tz = getTimeZoneForClockInfo(mChangingClockInfo.timeZoneData);
@@ -417,13 +417,13 @@ class Controller {
         case TimeZoneData::kTypeBasic:
           clockInfo.zoneIndex = storedInfo.zoneIndex;
           clockInfo.timeZoneData.basicZoneInfo =
-              mZoneManager.getZoneInfo(storedInfo.zoneIndex);
+              mZoneRegistrar.getZoneInfo(storedInfo.zoneIndex);
           break;
       #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
         case TimeZoneData::kTypeExtended:
           clockInfo.zoneIndex = storedInfo.zoneIndex;
           clockInfo.timeZoneData.extendedZoneInfo =
-              mZoneManager.getZoneInfo(storedInfo.zoneIndex);
+              mZoneRegistrar.getZoneInfo(storedInfo.zoneIndex);
           break;
       #endif
         default:
@@ -435,12 +435,12 @@ class Controller {
           clockInfo.zoneIndex = 0;
           clockInfo.timeZoneData.type = TimeZoneData::kTypeBasic;
           clockInfo.timeZoneData.basicZoneInfo =
-              mZoneManager.getZoneInfo(clockInfo.zoneIndex);
+              mZoneRegistrar.getZoneInfo(clockInfo.zoneIndex);
         #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
           clockInfo.zoneIndex = 0;
           clockInfo.timeZoneData.type = TimeZoneData::kTypeExtended;
           clockInfo.timeZoneData.extendedZoneInfo =
-              mZoneManager.getZoneInfo(clockInfo.zoneIndex);
+              mZoneRegistrar.getZoneInfo(clockInfo.zoneIndex);
         #endif
       }
     }
@@ -470,10 +470,10 @@ class Controller {
     Presenter& mPresenter;
 
   #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-    BasicZoneManager mZoneManager;
+    BasicZoneRegistrar mZoneRegistrar;
     BasicZoneSpecifier mZoneSpecifier;
   #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-    ExtendedZoneManager mZoneManager;
+    ExtendedZoneRegistrar mZoneRegistrar;
     ExtendedZoneSpecifier mZoneSpecifier;
   #endif
 

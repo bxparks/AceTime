@@ -1,4 +1,4 @@
-#line 2 "ExtendedZoneManagerTest.ino"
+#line 2 "ExtendedZoneRegistrarTest.ino"
 
 #include <AUnit.h>
 #include <AceTime.h>
@@ -7,41 +7,41 @@ using namespace aunit;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// ExtendedZoneManager
+// ExtendedZoneRegistrar
 // --------------------------------------------------------------------------
 
-test(ExtendedZoneManagerTest, getZoneInfo_Los_Angeles) {
-  ExtendedZoneManager zoneManager(
+test(ExtendedZoneRegistrarTest, getZoneInfo_Los_Angeles) {
+  ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  assertTrue(zoneManager.isSorted());
+  assertTrue(zoneRegistrar.isSorted());
 
   const extended::ZoneInfo* zoneInfo =
-      zoneManager.getZoneInfo("America/Los_Angeles");
+      zoneRegistrar.getZoneInfo("America/Los_Angeles");
   assertTrue(zoneInfo != nullptr);
 
   assertEqual("America/Los_Angeles", ExtendedZone(zoneInfo).name());
   assertEqual(F("Los_Angeles"), ExtendedZone(zoneInfo).shortName());
 }
 
-test(ExtendedZoneManagerTest, getZoneInfo_not_found) {
-  ExtendedZoneManager zoneManager(
+test(ExtendedZoneRegistrarTest, getZoneInfo_not_found) {
+  ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  const extended::ZoneInfo* zoneInfo = zoneManager.getZoneInfo("not found");
+  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfo("not found");
   assertTrue(zoneInfo == nullptr);
 }
 
-test(ExtendedZoneManagerTest, getZoneInfo_Index_0) {
-  ExtendedZoneManager zoneManager(
+test(ExtendedZoneRegistrarTest, getZoneInfo_Index_0) {
+  ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  const extended::ZoneInfo* zoneInfo = zoneManager.getZoneInfo((uint16_t)0);
+  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfo((uint16_t)0);
   assertTrue(zoneInfo != nullptr);
   assertEqual(F("Africa/Abidjan"), ExtendedZone(zoneInfo).name());
 }
 
-test(ExtendedZoneManagerTest, getZoneInfo_Index_not_found) {
-  ExtendedZoneManager zoneManager(
+test(ExtendedZoneRegistrarTest, getZoneInfo_Index_not_found) {
+  ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  const extended::ZoneInfo* zoneInfo = zoneManager.getZoneInfo(
+  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfo(
       zonedbx::kZoneRegistrySize);
   assertTrue(zoneInfo == nullptr);
 }

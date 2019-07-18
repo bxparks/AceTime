@@ -58,9 +58,10 @@ void setup() {
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_TIME_ZONE_ALL
-  BasicZoneManager manager(zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  BasicZoneRegistrar registrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   const basic::ZoneInfo* zoneInfo =
-      manager.getZoneInfo("America/Los_Angeles");
+      registrar.getZoneInfo("America/Los_Angeles");
   BasicZoneSpecifier zspec(zoneInfo);
   auto tz = TimeZone::forZoneSpecifier(&zspec);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
@@ -83,10 +84,10 @@ void setup() {
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE_ALL
-  ExtendedZoneManager manager(
+  ExtendedZoneRegistrar registrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo =
-      manager.getZoneInfo("America/Los_Angeles");
+      registrar.getZoneInfo("America/Los_Angeles");
   ExtendedZoneSpecifier zspec(zoneInfo);
   auto tz = TimeZone::forZoneSpecifier(&zspec);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
