@@ -148,6 +148,10 @@ class TimeZone {
      */
     uint8_t getType() const { return mType; }
 
+    uint8_t getStdOffsetCode() const { return mStdOffset; }
+
+    uint8_t getDstOffsetCode() const { return mDstOffset; }
+
     /**
      * Return the zoneId. Returns 0 if not valid. (It is not entirely clear
      * that the zoneId is always > 0, but there is little I can do without

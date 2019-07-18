@@ -30,27 +30,38 @@ class ZoneManager {
         mZoneRegistrar(registrySize, zoneRegistry),
         mZoneSpecifierCache() {}
 
-    TimeZone createForZoneName(const char* name) {
-      const void* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
-      if (! zoneInfo) return TimeZone::forError();
-      return TimeZone(&mZoneSpecifierCache, zoneInfo);
-    }
-
-    TimeZone createForZoneId(uint32_t id) {
-      const void* zoneInfo = mZoneRegistrar.getZoneInfoForId(id);
-      if (! zoneInfo) return TimeZone::forError();
-      return TimeZone(&mZoneSpecifierCache, zoneInfo);
-    }
+    const ZR& getRegistrar() const { return mZoneRegistrar; }
 
     TimeZone createForZoneInfo(const ZI* zoneInfo) {
       if (! zoneInfo) return TimeZone::forError();
       return TimeZone(&mZoneSpecifierCache, zoneInfo);
     }
 
+    TimeZone createForZoneName(const char* name) {
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
+      return createForZoneInfo(zoneInfo);
+    }
+
+    TimeZone createForZoneId(uint32_t id) {
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForId(id);
+      return createForZoneInfo(zoneInfo);
+    }
+
     TimeZone createForZoneIndex(uint16_t index) {
-      const void* zoneInfo = mZoneRegistrar.getZoneInfoForIndex(index);
-      if (! zoneInfo) return TimeZone::forError();
-      return TimeZone(&mZoneSpecifierCache, zoneInfo);
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForIndex(index);
+      return createForZoneInfo(zoneInfo);
+    }
+
+    uint16_t indexForZoneName(const char* name) {
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
+      if (! zoneInfo) return 0;
+      return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
+    }
+
+    uint16_t indexForZoneId(uint32_t id) const {
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForId(id);
+      if (! zoneInfo) return 0;
+      return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
     }
 
   private:
