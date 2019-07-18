@@ -47,6 +47,12 @@ class ZoneManager {
       return TimeZone(&mZoneSpecifierCache, zoneInfo);
     }
 
+    TimeZone createForZoneIndex(uint16_t index) {
+      const void* zoneInfo = mZoneRegistrar.getZoneInfoForIndex(index);
+      if (! zoneInfo) return TimeZone::forError();
+      return TimeZone(&mZoneSpecifierCache, zoneInfo);
+    }
+
   private:
     // disable copy constructor and assignment operator
     ZoneManager(const ZoneManager&) = delete;

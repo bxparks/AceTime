@@ -35,7 +35,7 @@ test(BasicZoneRegistrarTest, getZoneInfo_not_found) {
 test(BasicZoneRegistrarTest, getZoneInfo_Index_0) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfo((uint16_t)0);
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(0);
   assertTrue(zoneInfo != nullptr);
   assertEqual(F("Africa/Abidjan"), BasicZone(zoneInfo).name());
 }
@@ -43,7 +43,7 @@ test(BasicZoneRegistrarTest, getZoneInfo_Index_0) {
 test(BasicZoneRegistrarTest, getZoneInfo_Index_not_found) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfo(
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(
       zonedb::kZoneRegistrySize);
   assertTrue(zoneInfo == nullptr);
 }

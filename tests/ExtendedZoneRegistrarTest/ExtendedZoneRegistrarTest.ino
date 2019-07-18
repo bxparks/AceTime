@@ -33,7 +33,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForName_not_found) {
 test(ExtendedZoneRegistrarTest, getZoneInfo_Index_0) {
   ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfo((uint16_t)0);
+  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(0);
   assertTrue(zoneInfo != nullptr);
   assertEqual(F("Africa/Abidjan"), ExtendedZone(zoneInfo).name());
 }
@@ -41,7 +41,7 @@ test(ExtendedZoneRegistrarTest, getZoneInfo_Index_0) {
 test(ExtendedZoneRegistrarTest, getZoneInfo_Index_not_found) {
   ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfo(
+  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(
       zonedbx::kZoneRegistrySize);
   assertTrue(zoneInfo == nullptr);
 }

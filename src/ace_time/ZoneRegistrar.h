@@ -57,7 +57,7 @@ class ZoneRegistrar {
     bool isSorted() const { return mIsSorted; }
 
     /* Return the ZoneInfo at index i. Return nullptr if i is out of range. */
-    const ZI* getZoneInfo(uint16_t i) const {
+    const ZI* getZoneInfoForIndex(uint16_t i) const {
       return (i < mRegistrySize) ? ZRB(mZoneRegistry).zoneInfo(i) : nullptr;
     }
 
