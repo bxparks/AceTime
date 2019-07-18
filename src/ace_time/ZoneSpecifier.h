@@ -55,6 +55,9 @@ class ZoneSpecifier {
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
 
+    /** Return the unique stable zoneId. */
+    virtual uint32_t getZoneId() const = 0;
+
     /**
      * Return the total UTC offset at epochSeconds, including DST offset.
      * Returns TimeOffset::forError() if an error occurs.

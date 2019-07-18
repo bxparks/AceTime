@@ -24,17 +24,15 @@ void TimeZone::printTo(Print& printer) const {
     case kTypeBasic:
     case kTypeExtended:
     {
-      if (! sZoneManager) break;
-      ZoneSpecifier* specifier =
-          sZoneManager->getZoneSpecifier(mZoneInfo);
+      ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
       if (! specifier) break;
       specifier->printTo(printer);
       return;
     }
-    case kTypeBasicSpecifier:
-    case kTypeExtendedSpecifier:
+    case kTypeManaged:
     {
-      ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
+      if (! sZoneManager) break;
+      ZoneSpecifier* specifier = sZoneManager->getZoneSpecifier(mZoneInfo);
       if (! specifier) break;
       specifier->printTo(printer);
       return;
@@ -59,17 +57,15 @@ void TimeZone::printShortTo(Print& printer) const {
     case kTypeBasic:
     case kTypeExtended:
     {
-      if (! sZoneManager) break;
-      ZoneSpecifier* specifier =
-          sZoneManager->getZoneSpecifier(mZoneInfo);
+      ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
       if (! specifier) break;
       specifier->printShortTo(printer);
       return;
     }
-    case kTypeBasicSpecifier:
-    case kTypeExtendedSpecifier:
+    case kTypeManaged:
     {
-      ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
+      if (! sZoneManager) break;
+      ZoneSpecifier* specifier = sZoneManager->getZoneSpecifier(mZoneInfo);
       if (! specifier) break;
       specifier->printShortTo(printer);
       return;
@@ -90,17 +86,15 @@ void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {
     case kTypeBasic:
     case kTypeExtended:
     {
-      if (! sZoneManager) break;
-      ZoneSpecifier* specifier =
-          sZoneManager->getZoneSpecifier(mZoneInfo);
+      ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
       if (! specifier) break;
       printer.print(specifier->getAbbrev(epochSeconds));
       return;
     }
-    case kTypeBasicSpecifier:
-    case kTypeExtendedSpecifier:
+    case kTypeManaged:
     {
-      ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
+      if (! sZoneManager) break;
+      ZoneSpecifier* specifier = sZoneManager->getZoneSpecifier(mZoneInfo);
       if (! specifier) break;
       printer.print(specifier->getAbbrev(epochSeconds));
       return;

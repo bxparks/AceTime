@@ -207,6 +207,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     /** Return the underlying ZoneInfo. */
     const basic::ZoneInfo* getZoneInfo() const { return mZoneInfo.zoneInfo(); }
 
+    uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
+
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       const basic::Transition* transition = getTransition(epochSeconds);
       int8_t code = (transition)

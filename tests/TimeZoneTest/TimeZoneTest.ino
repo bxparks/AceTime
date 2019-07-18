@@ -16,23 +16,16 @@ test(TimeZoneTest, kType_distinct) {
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeManual);
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasic);
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtended);
-  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasicSpecifier);
-  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtendedSpecifier);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeManaged);
 
   assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasic);
   assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtended);
-  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasicSpecifier);
-  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtendedSpecifier);
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeManaged);
 
   assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtended);
-  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeBasicSpecifier);
-  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtendedSpecifier);
+  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeManaged);
 
-  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeBasicSpecifier);
-  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeExtendedSpecifier);
-
-  assertNotEqual(TimeZone::kTypeBasicSpecifier,
-      TimeZone::kTypeExtendedSpecifier);
+  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeManaged);
 }
 
 // --------------------------------------------------------------------------
@@ -113,32 +106,6 @@ test(TimeZoneTest, manual_dst) {
   tz.printAbbrevTo(fakePrint, 0);
   assertEqual("DST", fakePrint.getBuffer());
   fakePrint.flush();
-}
-
-// --------------------------------------------------------------------------
-// TimeZoneData
-// --------------------------------------------------------------------------
-
-test(TimeZoneDataTest, operatorEqualEqual) {
-  auto tz1 = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
-  auto tzd1 = tz1.toTimeZoneData();
-  auto tzd1Copy = tz1.toTimeZoneData();
-
-  auto tz2 = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
-  auto tzd2 = tz2.toTimeZoneData();
-  auto tzd2Copy = tz2.toTimeZoneData();
-
-  auto tz3 = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
-  auto tzd3 = tz3.toTimeZoneData();
-  auto tzd3Copy = tz3.toTimeZoneData();
-
-  assertTrue(tzd1 != tzd2);
-  assertTrue(tzd1 != tzd3);
-  assertTrue(tzd2 != tzd3);
-
-  assertTrue(tzd1 == tzd1Copy);
-  assertTrue(tzd2 == tzd2Copy);
-  assertTrue(tzd3 == tzd3Copy);
 }
 
 // --------------------------------------------------------------------------

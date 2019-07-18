@@ -36,6 +36,7 @@ struct TimeZoneData {
   static const uint8_t kTypeManual = 1;
   static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
   static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
+  static const uint8_t kTypeManaged = kTypeExtended + 1;
 
   uint8_t type;
 
@@ -48,6 +49,9 @@ struct TimeZoneData {
 
     /** Used for kTypeBasic and kTypeExtended. */
     const void* zoneInfo;
+
+    /** Used for kTypeManaged. */
+    uint32_t zoneId;
   };
 };
 
@@ -60,6 +64,8 @@ inline bool operator==(const TimeZoneData& a, const TimeZoneData& b) {
     case TimeZoneData::kTypeBasic:
     case TimeZoneData::kTypeExtended:
       return (a.zoneInfo == b.zoneInfo);
+    case TimeZoneData::kTypeManaged:
+      return (a.zoneId == b.zoneId);
     default:
       return false;
   }

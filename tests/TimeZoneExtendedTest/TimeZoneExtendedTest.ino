@@ -31,7 +31,7 @@ test(TimeZoneTest_Extended, Los_Angeles) {
   acetime_t epochSeconds;
 
   TimeZone tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
-  assertEqual(TimeZone::kTypeExtended, tz.getType());
+  assertEqual(TimeZone::kTypeManaged, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
@@ -49,32 +49,6 @@ test(TimeZoneTest_Extended, Los_Angeles) {
   assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
   tz.printAbbrevTo(fakePrint, epochSeconds);
   assertEqual("PDT", fakePrint.getBuffer());
-}
-
-// --------------------------------------------------------------------------
-// TimeZoneData
-// --------------------------------------------------------------------------
-
-test(TimeZoneExtendedTest, forTimeZoneData) {
-  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
-  auto tzd = tz.toTimeZoneData();
-  assertEqual(TimeZone::kTypeBasic, tzd.type);
-  assertEqual((intptr_t) &zonedb::kZoneAmerica_Los_Angeles,
-      (intptr_t) tzd.zoneInfo);
-
-  auto tzCircle = TimeZone::forTimeZoneData(tzd);
-  assertTrue(tz == tzCircle);
-}
-
-test(TimeZoneDataTest, TypeExtended) {
-  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
-  auto tzd = tz.toTimeZoneData();
-  assertEqual(TimeZone::kTypeExtended, tzd.type);
-  assertEqual((intptr_t) &zonedbx::kZoneAmerica_Los_Angeles,
-      (intptr_t) tzd.zoneInfo);
-
-  auto tzCircle = TimeZone::forTimeZoneData(tzd);
-  assertTrue(tz == tzCircle);
 }
 
 // --------------------------------------------------------------------------
