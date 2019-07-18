@@ -56,7 +56,7 @@ class Controller {
     void setBasicTimeZone(uint16_t zoneIndex = 0) {
       mZoneIndex = zoneIndex;
       const basic::ZoneInfo* zoneInfo =
-          mBasicZoneRegistrar.getZoneInfo(zoneIndex);
+          mBasicZoneRegistrar.getZoneInfoForIndex(zoneIndex);
       if (zoneInfo == nullptr) zoneInfo = &zonedb::kZoneAmerica_Los_Angeles;
       mBasicZoneSpecifier.setZoneInfo(zoneInfo);
       mTimeZone = TimeZone::forZoneSpecifier(&mBasicZoneSpecifier);
@@ -69,7 +69,7 @@ class Controller {
     void setExtendedTimeZone(uint16_t zoneIndex = 0) {
       mZoneIndex = zoneIndex;
       const extended::ZoneInfo* zoneInfo =
-          mExtendedZoneRegistrar.getZoneInfo(zoneIndex);
+          mExtendedZoneRegistrar.getZoneInfoForIndex(zoneIndex);
       if (zoneInfo == nullptr) zoneInfo = &zonedbx::kZoneAmerica_Los_Angeles;
       mExtendedZoneSpecifier.setZoneInfo(zoneInfo);
       mTimeZone = TimeZone::forZoneSpecifier(&mExtendedZoneSpecifier);
@@ -125,7 +125,8 @@ class Controller {
         printer.print(i);
         printer.print(']');
         printer.print(' ');
-        const basic::ZoneInfo* zoneInfo = mBasicZoneRegistrar.getZoneInfo(i);
+        const basic::ZoneInfo* zoneInfo =
+            mBasicZoneRegistrar.getZoneInfoForIndex(i);
         printer.println(BasicZone(zoneInfo).name());
       }
     }
@@ -141,7 +142,7 @@ class Controller {
         printer.print(']');
         printer.print(' ');
         const extended::ZoneInfo* zoneInfo =
-            mExtendedZoneRegistrar.getZoneInfo(i);
+            mExtendedZoneRegistrar.getZoneInfoForIndex(i);
         printer.println(ExtendedZone(zoneInfo).name());
       }
     }

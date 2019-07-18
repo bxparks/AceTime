@@ -29,7 +29,7 @@ test(TimeZoneTest, kType_distinct) {
 }
 
 // --------------------------------------------------------------------------
-// Error TimeZone
+// kTypeError
 // --------------------------------------------------------------------------
 
 test(TimeZoneTest, error) {
@@ -41,7 +41,7 @@ test(TimeZoneTest, error) {
 }
 
 // --------------------------------------------------------------------------
-// Manual TimeZone
+// kTypeManual
 // --------------------------------------------------------------------------
 
 test(TimeZoneTest, manual_utc) {
@@ -109,7 +109,7 @@ test(TimeZoneTest, manual_dst) {
 }
 
 // --------------------------------------------------------------------------
-// BasicZoneManager
+// kTypeManaged + BasicZoneManager
 // --------------------------------------------------------------------------
 
 const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_BASIC_PROGMEM = {
@@ -170,7 +170,7 @@ test(TimeZoneBasicTest, Los_Angeles) {
 }
 
 // --------------------------------------------------------------------------
-// ExtendedZoneManager
+// kTypeManaged + ExtendedZoneManager
 // --------------------------------------------------------------------------
 
 const extended::ZoneInfo* const kExtendedZoneRegistry[]
@@ -229,6 +229,55 @@ test(TimeZoneExtendedTest, Los_Angeles) {
   assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
   tz.printAbbrevTo(fakePrint, epochSeconds);
   assertEqual("PDT", fakePrint.getBuffer());
+}
+
+// --------------------------------------------------------------------------
+// operator==()
+// --------------------------------------------------------------------------
+
+BasicZoneSpecifier basicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
+BasicZoneSpecifier basicZoneSpecifier2(&zonedb::kZoneAmerica_New_York);
+ExtendedZoneSpecifier extendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+ExtendedZoneSpecifier extendedZoneSpecifier2(&zonedbx::kZoneAmerica_New_York);
+
+test(TimeZoneTest, operatorEqualEqual) {
+  TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+  TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHour(-7));
+  assertTrue(manual != manual2);
+
+  TimeZone basic = TimeZone::forZoneSpecifier(&basicZoneSpecifier);
+  TimeZone basic2 = TimeZone::forZoneSpecifier(&basicZoneSpecifier2);
+  assertTrue(basic != basic2);
+
+  TimeZone basicManaged = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles);
+  TimeZone basicManaged2 = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_New_York);
+  assertTrue(basicManaged != basicManaged2);
+
+  TimeZone extended = TimeZone::forZoneSpecifier(&extendedZoneSpecifier);
+  TimeZone extended2 = TimeZone::forZoneSpecifier(&extendedZoneSpecifier2);
+  assertTrue(extended != extended2);
+
+  TimeZone extendedManaged = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles);
+  TimeZone extendedManaged2 = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_New_York);
+  assertTrue(extendedManaged != extendedManaged2);
+
+  assertTrue(manual != basic);
+  assertTrue(manual != basicManaged);
+  assertTrue(manual != extended);
+  assertTrue(manual != extendedManaged);
+
+  assertTrue(basic != basicManaged);
+  assertTrue(basic != extended);
+  assertTrue(basic != extendedManaged);
+
+  assertTrue(basicManaged != extended);
+  assertTrue(basicManaged != extendedManaged);
+
+  assertTrue(extended != extendedManaged);
 }
 
 // --------------------------------------------------------------------------

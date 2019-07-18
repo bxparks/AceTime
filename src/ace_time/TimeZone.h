@@ -104,7 +104,7 @@ class TimeZone {
 
     /** Factory method to create a UTC TimeZone. */
     static TimeZone forUtc() {
-      return TimeZone(TimeOffset(), TimeOffset());
+      return TimeZone();
     }
 
     /**
@@ -365,8 +365,13 @@ inline bool operator==(const TimeZone& a, const TimeZone& b) {
   } else if (a.mType == TimeZone::kTypeManual) {
     return a.mStdOffset == b.mStdOffset
         && a.mDstOffset == b.mDstOffset;
-  } else {
+  } else if (a.mType == TimeZone::kTypeBasic
+      || a.mType == TimeZone::kTypeExtended) {
+    return *a.mZoneSpecifier == *b.mZoneSpecifier;
+  } else if (a.mType == TimeZone::kTypeManaged) {
     return (a.mZoneInfo == b.mZoneInfo);
+  } else {
+    return false;
   }
 }
 
