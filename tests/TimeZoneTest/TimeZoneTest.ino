@@ -106,7 +106,7 @@ test(TimeZoneTest, manual_dst) {
 // --------------------------------------------------------------------------
 
 const BasicZoneManager basicZoneManager(
-    zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
+    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 BasicZoneSpecifierCache<2> basicZoneSpecifierCache(basicZoneManager);
 
 test(TimeZoneTest_Basic, operatorEqualEqual) {
@@ -158,7 +158,7 @@ test(TimeZoneTest_Basic, Los_Angeles) {
 // --------------------------------------------------------------------------
 
 const ExtendedZoneManager extendedZoneManager(
-    zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+    zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
 ExtendedZoneSpecifierCache<2> extendedZoneSpecifierCache(extendedZoneManager);
 
 test(TimeZoneTest_Extended, operatorEqualEqual) {

@@ -12,7 +12,7 @@ using namespace ace_time;
 
 test(ExtendedZoneManagerTest, getZoneInfo_Los_Angeles) {
   ExtendedZoneManager zoneManager(
-      zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   assertTrue(zoneManager.isSorted());
 
   const extended::ZoneInfo* zoneInfo =
@@ -25,14 +25,14 @@ test(ExtendedZoneManagerTest, getZoneInfo_Los_Angeles) {
 
 test(ExtendedZoneManagerTest, getZoneInfo_not_found) {
   ExtendedZoneManager zoneManager(
-      zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo = zoneManager.getZoneInfo("not found");
   assertTrue(zoneInfo == nullptr);
 }
 
 test(ExtendedZoneManagerTest, getZoneInfo_Index_0) {
   ExtendedZoneManager zoneManager(
-      zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo = zoneManager.getZoneInfo((uint16_t)0);
   assertTrue(zoneInfo != nullptr);
   assertEqual(F("Africa/Abidjan"), ExtendedZone(zoneInfo).name());
@@ -40,7 +40,7 @@ test(ExtendedZoneManagerTest, getZoneInfo_Index_0) {
 
 test(ExtendedZoneManagerTest, getZoneInfo_Index_not_found) {
   ExtendedZoneManager zoneManager(
-      zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo = zoneManager.getZoneInfo(
       zonedbx::kZoneRegistrySize);
   assertTrue(zoneInfo == nullptr);

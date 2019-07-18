@@ -93,7 +93,7 @@ test(ZonedDateTimeTest_Extended, linked_zones) {
 // --------------------------------------------------------------------------
 
 const ExtendedZoneManager extendedZoneManager(
-    zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
+    zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
 ExtendedZoneSpecifierCache<2> extendedZoneSpecifierCache(extendedZoneManager);
 
 void setup() {

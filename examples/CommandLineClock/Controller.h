@@ -15,12 +15,12 @@ class Controller {
         mPersistentStore(persistentStore),
         mSystemClock(systemClock)
       #if ENABLE_TIME_ZONE_TYPE_BASIC
-        , mBasicZoneManager(kBasicZoneRegistry, kBasicZoneRegistrySize)
+        , mBasicZoneManager(kBasicZoneRegistrySize, kBasicZoneRegistry)
         , mBasicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles)
       #endif
       #if ENABLE_TIME_ZONE_TYPE_EXTENDED
-        , mExtendedZoneManager(kExtendedZoneRegistry,
-            kExtendedZoneRegistrySize)
+        , mExtendedZoneManager(
+            kExtendedZoneRegistrySize, kExtendedZoneRegistry)
         , mExtendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles)
       #endif
     {}

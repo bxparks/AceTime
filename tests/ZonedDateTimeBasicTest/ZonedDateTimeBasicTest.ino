@@ -92,7 +92,7 @@ test(ZonedDateTimeTest_Basic, linked_zones) {
 // --------------------------------------------------------------------------
 
 const BasicZoneManager basicZoneManager(
-    zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
+    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 BasicZoneSpecifierCache<2> basicZoneSpecifierCache(basicZoneManager);
 
 void setup() {

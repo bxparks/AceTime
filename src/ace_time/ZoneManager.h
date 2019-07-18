@@ -40,9 +40,9 @@ template<typename ZI, typename ZRB, typename ZIB, strcmp_t STRCMP_P,
 class ZoneManager {
   public:
     /** Constructor. */
-    ZoneManager(const ZI* const* zoneRegistry, uint16_t registrySize):
-        mZoneRegistry(zoneRegistry),
+    ZoneManager(uint16_t registrySize, const ZI* const* zoneRegistry):
         mRegistrySize(registrySize),
+        mZoneRegistry(zoneRegistry),
         mIsSorted(isSorted(zoneRegistry, registrySize)) {}
 
     /** Return the number of zones. */
@@ -64,7 +64,7 @@ class ZoneManager {
      * if not found.
      */
     const ZI* getZoneInfo(const char* name) const {
-      if (mIsSorted && mRegistrySize > kBinarySearchThreshold) {
+      if (mIsSorted && mRegistrySize >= kBinarySearchThreshold) {
         return binarySearch(mZoneRegistry, mRegistrySize, name);
       } else {
         return linearSearch(mZoneRegistry, mRegistrySize, name);
@@ -80,8 +80,8 @@ class ZoneManager {
     friend class ::BasicZoneManagerTest_Unsorted_isSorted;
     friend class ::BasicZoneManagerTest_Unsorted_linearSearch;
 
-    /** Use binarySearch() if registrySize > threshold. */
-    static const uint8_t kBinarySearchThreshold = 5;
+    /** Use binarySearch() if registrySize >= threshold. */
+    static const uint8_t kBinarySearchThreshold = 6;
 
     static bool isSorted(const ZI* const* zr, uint16_t registrySize) {
       if (registrySize == 0) {
@@ -131,8 +131,8 @@ class ZoneManager {
       }
     }
 
-    const ZI* const* mZoneRegistry;
     uint16_t const mRegistrySize;
+    const ZI* const* const mZoneRegistry;
     bool const mIsSorted;
 };
 

@@ -58,7 +58,7 @@ void setup() {
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_TIME_ZONE_ALL
-  BasicZoneManager manager(zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
+  BasicZoneManager manager(zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
   const basic::ZoneInfo* zoneInfo =
       manager.getZoneInfo("America/Los_Angeles");
   BasicZoneSpecifier zspec(zoneInfo);
@@ -83,8 +83,8 @@ void setup() {
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE_ALL
-  ExtendedZoneManager manager(zonedbx::kZoneRegistry,
-      zonedbx::kZoneRegistrySize);
+  ExtendedZoneManager manager(
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
   const extended::ZoneInfo* zoneInfo =
       manager.getZoneInfo("America/Los_Angeles");
   ExtendedZoneSpecifier zspec(zoneInfo);

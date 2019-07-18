@@ -21,7 +21,7 @@ const uint16_t kBasicZoneRegistrySize =
     sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
 
 const BasicZoneManager kBasicZoneManager(
-    kBasicZoneRegistry, kBasicZoneRegistrySize);
+    kBasicZoneRegistrySize, kBasicZoneRegistry);
 
 test(BasicZoneSpecifierCacheTest, getZoneSpecifier) {
   BasicZoneSpecifierCache<2> cache(kBasicZoneManager);
@@ -66,7 +66,7 @@ const uint16_t kExtendedZoneRegistrySize =
     sizeof(kExtendedZoneRegistry) / sizeof(kExtendedZoneRegistry[0]);
 
 const ExtendedZoneManager kExtendedZoneManager(
-    kExtendedZoneRegistry, kExtendedZoneRegistrySize);
+    kExtendedZoneRegistrySize, kExtendedZoneRegistry);
 
 test(ExtendedZoneSpecifierCacheTest, getZoneSpecifier) {
   ExtendedZoneSpecifierCache<2> cache(kExtendedZoneManager);

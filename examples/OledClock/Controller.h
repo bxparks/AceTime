@@ -39,7 +39,7 @@ class Controller {
         mPresenter(presenter)
       #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC \
           || TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-        , mZoneManager(kZoneRegistry, kZoneRegistrySize)
+        , mZoneManager(kZoneRegistrySize, kZoneRegistry)
       #endif
     {}
 
