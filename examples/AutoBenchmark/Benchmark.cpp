@@ -353,13 +353,12 @@ static const uint16_t kBasicZoneRegistrySize =
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
 static void runZonedDateTimeForEpochSecondsBasicZoneSpecifier() {
 	BasicZoneManager<2> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
-	TimeZone::setZoneManager(&manager);
   acetime_t offset = 0;
 
-  unsigned long forEpochSecondsMillis = runLambda(COUNT, [&offset]() {
+  unsigned long forEpochSecondsMillis = runLambda(COUNT, [&offset, &manager]() {
     offset = (offset) ? 0 : kTwoYears;
     unsigned long fakeEpochSeconds = millis() + offset;
-    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+    TimeZone tzLosAngeles = manager.createForZoneInfo(
         &zonedb::kZoneAmerica_Los_Angeles);
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
         fakeEpochSeconds, tzLosAngeles);
@@ -379,11 +378,10 @@ static void runZonedDateTimeForEpochSecondsBasicZoneSpecifier() {
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached
 static void runZonedDateTimeForEpochSecondsBasicZoneSpecifierCached() {
 	BasicZoneManager<2> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
-	TimeZone::setZoneManager(&manager);
 
-  unsigned long forEpochSecondsMillis = runLambda(COUNT, []() {
+  unsigned long forEpochSecondsMillis = runLambda(COUNT, [&manager]() {
     unsigned long fakeEpochSeconds = millis();
-    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+    TimeZone tzLosAngeles = manager.createForZoneInfo(
         &zonedb::kZoneAmerica_Los_Angeles);
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
         fakeEpochSeconds, tzLosAngeles);
@@ -415,13 +413,12 @@ static const uint16_t kExtendedZoneRegistrySize =
 static void runZonedDateTimeForEpochSecondsExtendedZoneSpecifier() {
 	ExtendedZoneManager<2> manager(
       kExtendedZoneRegistrySize, kExtendedZoneRegistry);
-	TimeZone::setZoneManager(&manager);
   acetime_t offset = 0;
 
-  unsigned long forEpochSecondsMillis = runLambda(COUNT, [&offset]() {
+  unsigned long forEpochSecondsMillis = runLambda(COUNT, [&offset, &manager]() {
     offset = (offset) ? 0 : kTwoYears;
     unsigned long fakeEpochSeconds = millis() + offset;
-    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+    TimeZone tzLosAngeles = manager.createForZoneInfo(
         &zonedbx::kZoneAmerica_Los_Angeles);
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
         fakeEpochSeconds, tzLosAngeles);
@@ -442,11 +439,10 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneSpecifier() {
 static void runZonedDateTimeForEpochSecondsExtendedZoneSpecifierCached() {
 	ExtendedZoneManager<2> manager(
       kExtendedZoneRegistrySize, kExtendedZoneRegistry);
-	TimeZone::setZoneManager(&manager);
 
-  unsigned long forEpochSecondsMillis = runLambda(COUNT, []() {
+  unsigned long forEpochSecondsMillis = runLambda(COUNT, [&manager]() {
     unsigned long fakeEpochSeconds = millis();
-    TimeZone tzLosAngeles = TimeZone::forZoneInfo(
+    TimeZone tzLosAngeles = manager.createForZoneInfo(
         &zonedbx::kZoneAmerica_Los_Angeles);
     ZonedDateTime dateTime = ZonedDateTime::forEpochSeconds(
         fakeEpochSeconds, tzLosAngeles);

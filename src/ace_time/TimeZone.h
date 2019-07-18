@@ -148,6 +148,29 @@ class TimeZone {
      */
     uint8_t getType() const { return mType; }
 
+    /**
+     * Return the zoneId. Returns 0 if not valid. (It is not entirely clear
+     * that the zoneId is always > 0, but there is little I can do without
+     * C++ exceptions.)
+     */
+    uint32_t getZoneId() const {
+      switch (mType) {
+        case kTypeManual:
+          return 0;
+        case kTypeBasic:
+        case kTypeExtended:
+          return mZoneSpecifier->getZoneId();
+        case kTypeManaged:
+        {
+          ZoneSpecifier* specifier =
+              mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
+          if (! specifier) return 0;
+          return specifier->getZoneId();
+        }
+      }
+      return 0;
+    }
+
     /** Return true if TimeZone is an error. */
     bool isError() const { return mType == kTypeError; }
 

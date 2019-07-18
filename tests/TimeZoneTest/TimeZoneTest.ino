@@ -134,11 +134,12 @@ test(TimeZoneBasicTest, createFor) {
       &zonedb::kZoneAmerica_New_York);
 
   TimeZone aa = basicZoneManager.createForZoneName("America/Los_Angeles");
-  TimeZone bb = basicZoneManager.createForZoneId(0x1e2a7654); // New_York
+  TimeZone bb = basicZoneManager.createForZoneId(0x1e2a7654U); // New_York
 
   assertTrue(a != b);
   assertTrue(a == aa);
   assertTrue(b == bb);
+  assertEqual(0x1e2a7654U, bb.getZoneId());
 }
 
 test(TimeZoneBasicTest, Los_Angeles) {
@@ -195,11 +196,12 @@ test(TimeZoneExtendedTest, createFor) {
       &zonedbx::kZoneAmerica_New_York);
 
   TimeZone aa = extendedZoneManager.createForZoneName("America/Los_Angeles");
-  TimeZone bb = extendedZoneManager.createForZoneId(0x1e2a7654); // New_York
+  TimeZone bb = extendedZoneManager.createForZoneId(0x1e2a7654U); // New_York
 
   assertTrue(a != b);
   assertTrue(a == aa);
   assertTrue(b == bb);
+  assertEqual(0x1e2a7654U, bb.getZoneId());
 }
 
 test(TimeZoneExtendedTest, Los_Angeles) {
