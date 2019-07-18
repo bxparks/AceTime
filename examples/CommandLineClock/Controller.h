@@ -184,18 +184,17 @@ class Controller {
 
     void restoreInfo() {
       switch (mStoredInfo.timeZoneType) {
-      #if ENABLE_TIME_ZONE_TYPE_BASIC
         case TimeZone::kTypeManaged:
         case TimeZone::kTypeBasic:
-          setBasicTimeZoneForId(mStoredInfo.zoneId);
-          break;
-      #endif
-      #if ENABLE_TIME_ZONE_TYPE_EXTENDED
-        case TimeZone::kTypeManaged:
         case TimeZone::kTypeExtended:
+      #if ENABLE_TIME_ZONE_TYPE_BASIC
+          setBasicTimeZoneForId(mStoredInfo.zoneId);
+      #elif ENABLE_TIME_ZONE_TYPE_EXTENDED
           setExtendedTimeZoneForId(mStoredInfo.zoneId);
-          break;
+      #else
+          setManualTimeZone(TimeOffset::forHour(-8), TimeOffset())
       #endif
+          break;
         default:
           setManualTimeZone(
               TimeOffset::forOffsetCode(mStoredInfo.stdOffsetCode),
@@ -211,7 +210,7 @@ class Controller {
     BasicZoneManager<1> mBasicZoneManager;;
   #endif
   #if ENABLE_TIME_ZONE_TYPE_EXTENDED
-    BasicZoneManager<1> mExtendedZoneManager;;
+    ExtendedZoneManager<1> mExtendedZoneManager;;
   #endif
     uint16_t mZoneIndex = 0;
 
