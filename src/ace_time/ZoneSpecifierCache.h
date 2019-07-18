@@ -13,7 +13,25 @@
 
 namespace ace_time {
 
-namespace common {
+/**
+ * Common interface to BasicZoneSpecifierCache and ExtendedZoneSpecifierCache.
+ * This allows TimeZone to hold only a single implementation of
+ * ZoneSpecifierCache, without having to load the code for both
+ * implementations.
+ */
+class ZoneSpecifierCache {
+  public:
+    /** Get the ZoneSpecifier from the zoneId (hash of the zoneName). */
+    virtual ZoneSpecifier* getZoneSpecifier(uint32_t zoneId) = 0;
+
+    /**
+     * Get ZoneSpecifier from either a basic::ZoneInfo or an
+     * extended::ZoneInfo. Unfortunately, this is not type-safe, but that's the
+     * only way we can avoid compile-time dependencies to both implementation
+     * classes.
+     */
+    virtual ZoneSpecifier* getZoneSpecifier(const void* zoneInfo) = 0;
+};
 
 /**
  * A cache of ZoneSpecifiers that provides a ZoneSpecifier to the TimeZone
@@ -31,9 +49,9 @@ namespace common {
  *    if the user is able to select different timezones from a menu.
  */
 template<typename ZM, typename ZS, typename ZI, typename ZIB, uint8_t SIZE>
-class ZoneSpecifierCache {
+class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
   public:
-    ZoneSpecifierCache(const ZM& zoneManager):
+    ZoneSpecifierCacheImpl(const ZM& zoneManager):
         mZoneManager(zoneManager) {}
 
     /**
@@ -41,7 +59,7 @@ class ZoneSpecifierCache {
      * zoneId is not recognized by the given ZoneManager. Return a previously
      * allocated ZoneSpecifier or a new ZoneSpecifier.
      */
-    ZS* getZoneSpecifier(uint32_t zoneId) {
+    ZoneSpecifier* getZoneSpecifier(uint32_t zoneId) override {
       const ZI* zoneInfo = mZoneManager.getZoneInfo(zoneId);
       if (! zoneInfo) return nullptr;
 
@@ -49,22 +67,22 @@ class ZoneSpecifierCache {
     }
 
     /** Get the ZoneSpecifier from the zoneInfo. Will never return nullptr. */
-    ZS* getZoneSpecifier(const ZI* zoneInfo) {
-      ZS* zoneSpecifier = findUsingZoneInfo(zoneInfo);
+    ZoneSpecifier* getZoneSpecifier(const void* zoneInfo) override {
+      ZS* zoneSpecifier = findUsingZoneInfo((const ZI*) zoneInfo);
       if (zoneSpecifier) return zoneSpecifier;
 
       // Allocate the next ZoneSpecifier in the cache using round-robin.
       zoneSpecifier = &mZoneSpecifiers[mCurrentIndex];
       mCurrentIndex++;
       if (mCurrentIndex >= SIZE) mCurrentIndex = 0;
-      zoneSpecifier->setZoneInfo(zoneInfo);
+      zoneSpecifier->setZoneInfo((const ZI*) zoneInfo);
       return zoneSpecifier;
     }
 
   private:
     // disable copy constructor and assignment operator
-    ZoneSpecifierCache(const ZoneSpecifierCache&) = delete;
-    ZoneSpecifierCache& operator=(const ZoneSpecifierCache&) = delete;
+    ZoneSpecifierCacheImpl(const ZoneSpecifierCacheImpl&) = delete;
+    ZoneSpecifierCacheImpl& operator=(const ZoneSpecifierCacheImpl&) = delete;
 
     /**
      * Find an existing ZoneSpecifier with the same zoneInfo.
@@ -87,15 +105,13 @@ class ZoneSpecifierCache {
     uint8_t mCurrentIndex = 0;
 };
 
-}
-
 template<uint8_t SIZE>
-using BasicZoneSpecifierCache = common::ZoneSpecifierCache<
+using BasicZoneSpecifierCache = ZoneSpecifierCacheImpl<
     BasicZoneManager, BasicZoneSpecifier, basic::ZoneInfo,
     basic::ZoneInfoBroker, SIZE>;
 
 template<uint8_t SIZE>
-using ExtendedZoneSpecifierCache  = common::ZoneSpecifierCache<
+using ExtendedZoneSpecifierCache  = ZoneSpecifierCacheImpl<
     ExtendedZoneManager, ExtendedZoneSpecifier,
     extended::ZoneInfo, extended::ZoneInfoBroker, SIZE>;
 
