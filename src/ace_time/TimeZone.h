@@ -148,11 +148,12 @@ class TimeZone {
     }
 
     /**
-     * Return the TimeZone from its TimeZoneData. Some early error detection is
-     * performed and the TimeZone::forError() is returned if the underlying
-     * ZoneInfo is not recognized. Hopefully this will help debugging by
-     * catching unknown zones early instead of later when getUtcOffset(),
-     * getDeltaOffset() or getOffsetDateTime() is called.
+     * Return the TimeZone from its TimeZoneData.
+     *
+     * This method requires setTimeZoneManager() to be called so that the
+     * ZoneManager can perform early validation of the zoneInfo in the
+     * TimeZoneData. TimeZone::forError() is returned if the underlying
+     * ZoneInfo is not recognized.
      */
     static TimeZone forTimeZoneData(const TimeZoneData& data) {
       switch (data.type) {
@@ -205,7 +206,10 @@ class TimeZone {
     /** Return true if TimeZone is an error. */
     bool isError() const { return mType == kTypeError; }
 
-    /** Return the total UTC offset at epochSeconds, including DST offset. */
+    /**
+     * Return the total UTC offset at epochSeconds, including DST offset.
+     * Requires setZoneManager() to be called. Otherwise, returns forError().
+     */
     TimeOffset getUtcOffset(acetime_t epochSeconds) const {
       switch (mType) {
         case kTypeManual:
@@ -232,6 +236,7 @@ class TimeZone {
      * Return the DST offset from standard UTC offset at epochSeconds. This is
      * an experimental method that has not been tested thoroughly. Use with
      * caution.
+     * Requires setZoneManager() to be called. Otherwise, returns forError().
      */
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const {
       switch (mType) {
@@ -260,6 +265,7 @@ class TimeZone {
      * LocalDateTime for the current TimeZone. Used by
      * ZonedDateTime::forComponents(), so intended to be used mostly for
      * testing and debugging.
+     * Requires setZoneManager() to be called. Otherwise, returns forError().
      */
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const {
       OffsetDateTime odt = OffsetDateTime::forError();
