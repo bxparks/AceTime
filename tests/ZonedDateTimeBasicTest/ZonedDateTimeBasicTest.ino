@@ -11,8 +11,7 @@ using namespace ace_time;
 // --------------------------------------------------------------------------
 
 test(ZonedDateTimeTest_Basic, forComponents_isError) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  TimeZone tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
 
   // outside [2000, 2050) range, should generate error
   ZonedDateTime dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 0, tz);
@@ -22,8 +21,7 @@ test(ZonedDateTimeTest_Basic, forComponents_isError) {
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_beforeDst) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  TimeZone tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
 
   // 01:59 should resolve to 01:59-08:00
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 1, 59, 0, tz);
@@ -33,8 +31,7 @@ test(ZonedDateTimeTest_Basic, forComponents_beforeDst) {
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_inDstGap) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  TimeZone tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
 
   // 02:01 doesn't exist, but BasicZoneSpecifier picks the later epochSeconds
   // and offset, so should push forward the 02:01 to 03:01-07:00.
@@ -45,8 +42,7 @@ test(ZonedDateTimeTest_Basic, forComponents_inDstGap) {
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_inDst) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  TimeZone tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
 
   // 03:01 should resolve to 03:01-07:00
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 3, 1, 0, tz);
@@ -56,8 +52,7 @@ test(ZonedDateTimeTest_Basic, forComponents_inDst) {
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_beforeStd) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  TimeZone tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
 
   // 00:59 is more than an hour before the DST->STD transition so should
   // resolve to 00:59-07:00
@@ -68,8 +63,7 @@ test(ZonedDateTimeTest_Basic, forComponents_beforeStd) {
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_inOverlap) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  TimeZone tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
 
   // There were two instances of 01:01. BasicZoneSpecifier chooses the earlier
   // occurrence, giving 01:01-07:00.
@@ -80,8 +74,7 @@ test(ZonedDateTimeTest_Basic, forComponents_inOverlap) {
 }
 
 test(ZonedDateTimeTest_Basic, forComponents_afterOverlap) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  TimeZone tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
 
   // 02:01 should always be 02:01-08:00
   auto dt = ZonedDateTime::forComponents(2018, 11, 4, 2, 1, 0, tz);
@@ -98,12 +91,18 @@ test(ZonedDateTimeTest_Basic, linked_zones) {
 
 // --------------------------------------------------------------------------
 
+const BasicZoneManager basicZoneManager(
+    zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
+BasicZoneSpecifierCache<2> basicZoneSpecifierCache(basicZoneManager);
+
 void setup() {
 #if defined(ARDUINO)
   delay(1000); // wait for stability on some boards to prevent garbage Serial
 #endif
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while(!Serial); // for the Arduino Leonardo/Micro only
+
+  TimeZone::setZoneSpecifierCache(&basicZoneSpecifierCache);
 }
 
 void loop() {

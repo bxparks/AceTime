@@ -32,7 +32,8 @@ class ZoneInfo;
  * TimeZone::forTimeZoneData() factory method.)
  */
 struct TimeZoneData {
-  static const uint8_t kTypeManual = 0;
+  static const uint8_t kTypeError = 0;
+  static const uint8_t kTypeManual = 1;
   static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
   static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
 
@@ -45,11 +46,8 @@ struct TimeZoneData {
       int8_t dstOffsetCode;
     };
 
-    /** Used for kTypeBasic. */
-    const basic::ZoneInfo* basicZoneInfo;
-
-    /** Used for kTypeExtended. */
-    const extended::ZoneInfo* extendedZoneInfo;
+    /** Used for kTypeBasic and kTypeExtended. */
+    const void* zoneInfo;
   };
 };
 
@@ -60,9 +58,8 @@ inline bool operator==(const TimeZoneData& a, const TimeZoneData& b) {
       return (a.stdOffsetCode == b.stdOffsetCode)
           && (a.dstOffsetCode == b.dstOffsetCode);
     case TimeZoneData::kTypeBasic:
-      return (a.basicZoneInfo == b.basicZoneInfo);
     case TimeZoneData::kTypeExtended:
-      return (a.extendedZoneInfo == b.extendedZoneInfo);
+      return (a.zoneInfo == b.zoneInfo);
     default:
       return false;
   }

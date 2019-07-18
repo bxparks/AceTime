@@ -9,7 +9,6 @@
 #include <stdint.h>
 #include "common/flash.h"
 #include "OffsetDateTime.h"
-#include "ExtendedZoneSpecifier.h"
 #include "TimeZone.h"
 
 class Print;

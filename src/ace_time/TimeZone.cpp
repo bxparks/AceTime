@@ -9,44 +9,103 @@
 
 namespace ace_time {
 
+ZoneSpecifierCache* TimeZone::sZoneSpecifierCache = nullptr;
+
 void TimeZone::printTo(Print& printer) const {
-  if (mType == kTypeManual) {
-    if (isUtc()) {
-      printer.print("UTC");
-    } else {
-      TimeOffset::forOffsetCode(mStdOffset).printTo(printer);
-      TimeOffset::forOffsetCode(mDstOffset).printTo(printer);
+  switch (mType) {
+    case kTypeManual:
+      if (isUtc()) {
+        printer.print("UTC");
+      } else {
+        TimeOffset::forOffsetCode(mStdOffset).printTo(printer);
+        TimeOffset::forOffsetCode(mDstOffset).printTo(printer);
+      }
+      break;
+    case kTypeBasic:
+    case kTypeExtended:
+    {
+      if (! sZoneSpecifierCache) {
+        printer.print("<Error>");
+        return;
+      }
+      ZoneSpecifier* specifier =
+          sZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
+      if (! specifier) {
+        printer.print("<Error>");
+        return;
+      }
+      specifier->printTo(printer);
+      break;
     }
-  } else {
-    mZoneSpecifier->printTo(printer);
+    default:
+      printer.print("<Error>");
+      break;
   }
 }
 
 void TimeZone::printShortTo(Print& printer) const {
-  if (mType == kTypeManual) {
-    if (isUtc()) {
-      printer.print("UTC");
-    } else {
-      auto utcOffset = TimeOffset::forOffsetCode(mStdOffset + mDstOffset);
-      utcOffset.printTo(printer);
-      printer.print('(');
-      printer.print((mDstOffset != 0) ? "DST" : "STD");
-      printer.print(')');
+  switch (mType) {
+    case kTypeManual:
+      if (isUtc()) {
+        printer.print("UTC");
+      } else {
+        auto utcOffset = TimeOffset::forOffsetCode(mStdOffset + mDstOffset);
+        utcOffset.printTo(printer);
+        printer.print('(');
+        printer.print((mDstOffset != 0) ? "DST" : "STD");
+        printer.print(')');
+      }
+      break;
+    case kTypeBasic:
+    case kTypeExtended:
+    {
+      if (! sZoneSpecifierCache) {
+        printer.print("<Error>");
+        return;
+      }
+      ZoneSpecifier* specifier =
+          sZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
+      if (! specifier) {
+        printer.print("<Error>");
+        return;
+      }
+      specifier->printShortTo(printer);
+      break;
     }
-  } else {
-    mZoneSpecifier->printShortTo(printer);
+    default:
+      printer.print("<Error>");
+      break;
   }
 }
 
 void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {
-  if (mType == kTypeManual) {
-    if (isUtc()) {
-      printer.print("UTC");
-    } else {
-      printer.print((mDstOffset != 0) ? "DST" : "STD");
+  switch (mType) {
+    case kTypeManual:
+      if (isUtc()) {
+        printer.print("UTC");
+      } else {
+        printer.print((mDstOffset != 0) ? "DST" : "STD");
+      }
+      break;
+    case kTypeBasic:
+    case kTypeExtended:
+    {
+      if (! sZoneSpecifierCache) {
+        printer.print("<Error>");
+        return;
+      }
+      ZoneSpecifier* specifier =
+          sZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
+      if (! specifier) {
+        printer.print("<Error>");
+        return;
+      }
+      printer.print(specifier->getAbbrev(epochSeconds));
+      break;
     }
-  } else {
-    printer.print(mZoneSpecifier->getAbbrev(epochSeconds));
+    default:
+      printer.print("<Error>");
+      break;
   }
 }
 
