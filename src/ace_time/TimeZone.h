@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include "TimeOffset.h"
 #include "ZoneSpecifier.h"
-#include "ZoneManager.h"
+#include "ZoneSpecifierCache.h"
 
 class Print;
 
@@ -33,8 +33,9 @@ namespace ace_time {
  *    * kTypeExtended: a time zone using an underlying ExtendedZoneSpecifier
  *      which supports 348 geographical zones in the TZ Database (essentially
  *      the entire database).
- *    * kTypeManaged: uses the ZoneManager to manage a cache of ZoneSpecifiers
- *      and provide mapping from zoneName or zoneId to the ZoneInfo.
+ *    * kTypeManaged: uses the ZoneSpecifierCache to manage a cache of
+ *      ZoneSpecifiers and provide mapping from zoneName or zoneId to the
+ *      ZoneInfo.
  *
  * The TimeZone class really really wants to be a reference type. In other
  * words, it would be very convenient if the client code could create this
@@ -101,14 +102,6 @@ class TimeZone {
     static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
     static const uint8_t kTypeManaged = kTypeExtended + 1;
 
-    /**
-     * Set the global ZoneManager for all TimeZone objects in this app. Should
-     * be called at the beginning of the program, e.g. in the global setup().
-     */
-    static void setZoneManager(ZoneManager* manager) {
-      sZoneManager = manager;
-    }
-
     /** Factory method to create a UTC TimeZone. */
     static TimeZone forUtc() {
       return TimeZone(TimeOffset(), TimeOffset());
@@ -126,48 +119,13 @@ class TimeZone {
     }
 
     /**
-     * Factory method to create from a ZoneSpecifier. A ZoneManager is not
-     * required.
+     * Factory method to create from a ZoneSpecifier. A ZoneSpecifierCache is
+     * not required.
      * @param zoneSpecifier a pointer to a ZoneSpecifier, cannot be nullptr
      */
     static TimeZone forZoneSpecifier(ZoneSpecifier* zoneSpecifier) {
       if (! zoneSpecifier) return forError();
       return TimeZone(zoneSpecifier->getType(), zoneSpecifier);
-    }
-
-    /**
-     * Factory method to create from a basic::ZoneInfo or extended::ZoneInfo,
-     * and managed by the ZoneManager. The ZoneInfo does *not* need to be
-     * registered with a ZoneManager but the ZoneManager must be provided for
-     * ZoneSpecifier caching.
-     *
-     * @param zoneInfo a pointer to a basic::ZoneInfo or extended::ZoneInfo,
-     * cannot be nullptr
-     */
-    static TimeZone forZoneInfo(const basic::ZoneInfo* zoneInfo) {
-      if (! zoneInfo) return forError();
-      if (! sZoneManager) return forError(); // early validation
-      if (sZoneManager->getType() != kTypeBasic) return forError();
-      return TimeZone(kTypeManaged, zoneInfo);
-    }
-
-    static TimeZone forZoneInfo(const extended::ZoneInfo* zoneInfo) {
-      if (! zoneInfo) return forError();
-      if (! sZoneManager) return forError(); // early validation
-      if (sZoneManager->getType() != kTypeExtended) return forError();
-      return TimeZone(kTypeManaged, zoneInfo);
-    }
-
-    /**
-     * Factory method to create from a fully qualified zone name (e.g.
-     * "America/Los_Angeles"). Returns TimeZone::forError() if not found.
-     * Requires setZoneManager() to be called. Otherwise, returns forError().
-     */
-    static TimeZone forName(const char* name) {
-      if (! sZoneManager) return forError();
-      const void* zoneInfo = sZoneManager->getZoneInfo(name);
-      if (! zoneInfo) return forError();
-      return TimeZone(kTypeManaged, zoneInfo);
     }
 
     /**
@@ -195,7 +153,6 @@ class TimeZone {
 
     /**
      * Return the total UTC offset at epochSeconds, including DST offset.
-     * Requires setZoneManager() to be called. Otherwise, returns forError().
      */
     TimeOffset getUtcOffset(acetime_t epochSeconds) const {
       switch (mType) {
@@ -203,15 +160,11 @@ class TimeZone {
           return TimeOffset::forOffsetCode(mStdOffset + mDstOffset);
         case kTypeBasic:
         case kTypeExtended:
-        {
-          ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
-          if (! specifier) break;
-          return specifier->getUtcOffset(epochSeconds);
-        }
+          return mZoneSpecifier->getUtcOffset(epochSeconds);
         case kTypeManaged:
         {
-          if (! sZoneManager) break;
-          ZoneSpecifier* specifier = sZoneManager->getZoneSpecifier(mZoneInfo);
+          ZoneSpecifier* specifier =
+              mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
           if (! specifier) break;
           return specifier->getUtcOffset(epochSeconds);
         }
@@ -223,7 +176,6 @@ class TimeZone {
      * Return the DST offset from standard UTC offset at epochSeconds. This is
      * an experimental method that has not been tested thoroughly. Use with
      * caution.
-     * Requires setZoneManager() to be called. Otherwise, returns forError().
      */
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const {
       switch (mType) {
@@ -231,15 +183,11 @@ class TimeZone {
           return TimeOffset::forOffsetCode(mDstOffset);
         case kTypeBasic:
         case kTypeExtended:
-        {
-          ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
-          if (! specifier) break;
-          return specifier->getDeltaOffset(epochSeconds);
-        }
+          return mZoneSpecifier->getDeltaOffset(epochSeconds);
         case kTypeManaged:
         {
-          if (! sZoneManager) break;
-          ZoneSpecifier* specifier = sZoneManager->getZoneSpecifier(mZoneInfo);
+          ZoneSpecifier* specifier =
+              mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
           if (! specifier) break;
           return specifier->getDeltaOffset(epochSeconds);
         }
@@ -252,7 +200,6 @@ class TimeZone {
      * LocalDateTime for the current TimeZone. Used by
      * ZonedDateTime::forComponents(), so intended to be used mostly for
      * testing and debugging.
-     * Requires setZoneManager() to be called. Otherwise, returns forError().
      */
     OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt) const {
       OffsetDateTime odt = OffsetDateTime::forError();
@@ -262,15 +209,12 @@ class TimeZone {
           break;
         case kTypeBasic:
         case kTypeExtended:
-        {
-          ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
-          if (! specifier) break;
-          return specifier->getOffsetDateTime(ldt);
-        }
+          odt = mZoneSpecifier->getOffsetDateTime(ldt);
+          break;
         case kTypeManaged:
         {
-          if (! sZoneManager) break;
-          ZoneSpecifier* specifier = sZoneManager->getZoneSpecifier(mZoneInfo);
+          ZoneSpecifier* specifier =
+              mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
           if (! specifier) break;
           odt = specifier->getOffsetDateTime(ldt);
           break;
@@ -331,14 +275,25 @@ class TimeZone {
      */
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 
+    /**
+     * Constructor for kTypeManaged. Intended to be used ONLY by
+     * BasicZoneManager and ExtendedZoneManager.
+     *
+     * @param zoneSpecifierCache a cache of ZoneInfo -> ZoneSpecifier
+     * @param zoneInfo a pointer to a basic::ZoneInfo. Cannot be nullptr.
+     */
+    explicit TimeZone(ZoneSpecifierCache* zoneSpecifierCache,
+        const void* zoneInfo):
+        mType(kTypeManaged),
+        mZoneSpecifierCache(zoneSpecifierCache),
+        mZoneInfo(zoneInfo) {}
+
     // Use default copy constructor and assignment operator.
     TimeZone(const TimeZone&) = default;
     TimeZone& operator=(const TimeZone&) = default;
 
   private:
     friend bool operator==(const TimeZone& a, const TimeZone& b);
-
-    static ZoneManager* sZoneManager;
 
     /**
      * Constructor for a manual Time zone.
@@ -360,15 +315,6 @@ class TimeZone {
         mType(type),
         mZoneSpecifier(mZoneSpecifier) {}
 
-    /**
-     * Constructor kTypeManaged.
-     * @param type kTypeBasic or kTypeExtended
-     * @param zoneInfo a pointer to a basic::ZoneInfo. Cannot be nullptr.
-     */
-    explicit TimeZone(uint8_t type, const void* zoneInfo):
-        mType(type),
-        mZoneInfo(zoneInfo) {}
-
     uint8_t mType;
 
     union {
@@ -382,7 +328,10 @@ class TimeZone {
       const ZoneSpecifier* mZoneSpecifier;
 
       /** Used by kTypeManaged. */
-      const void* mZoneInfo;
+      struct {
+        ZoneSpecifierCache* mZoneSpecifierCache;
+        const void* mZoneInfo;
+      };
     };
 };
 

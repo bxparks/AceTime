@@ -65,7 +65,7 @@ class ZoneRegistrar {
      * Return the ZoneInfo corresponding to the given zone name. Return nullptr
      * if not found.
      */
-    const ZI* getZoneInfo(const char* name) const {
+    const ZI* getZoneInfoForName(const char* name) const {
       if (mIsSorted && mRegistrySize >= kBinarySearchThreshold) {
         return binarySearch(mZoneRegistry, mRegistrySize, name);
       } else {
@@ -74,7 +74,7 @@ class ZoneRegistrar {
     }
 
     /* Return the ZoneInfo using the zoneId. Return nullptr if not found. */
-    const ZI* getZoneInfoFromId(uint32_t zoneId) const {
+    const ZI* getZoneInfoForId(uint32_t zoneId) const {
         return linearSearchUsingId(mZoneRegistry, mRegistrySize, zoneId);
     }
 

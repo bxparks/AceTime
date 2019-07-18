@@ -17,7 +17,7 @@ test(BasicZoneRegistrarTest, getZoneInfo_Los_Angeles) {
   assertTrue(zoneRegistrar.isSorted());
 
   const basic::ZoneInfo* zoneInfo =
-      zoneRegistrar.getZoneInfo("America/Los_Angeles");
+      zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
   assertTrue(zoneInfo != nullptr);
 
   assertEqual(F("America/Los_Angeles"), BasicZone(zoneInfo).name());
@@ -27,7 +27,8 @@ test(BasicZoneRegistrarTest, getZoneInfo_Los_Angeles) {
 test(BasicZoneRegistrarTest, getZoneInfo_not_found) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfo("not found");
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName(
+      "not found");
   assertTrue(zoneInfo == nullptr);
 }
 
@@ -47,21 +48,21 @@ test(BasicZoneRegistrarTest, getZoneInfo_Index_not_found) {
   assertTrue(zoneInfo == nullptr);
 }
 
-test(BasicZoneRegistrarTest, getZoneInfoFromId) {
+test(BasicZoneRegistrarTest, getZoneInfoForId) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoFromId(
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
       0xb7f7e8f2);
-  const basic::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfo(
+  const basic::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfoForName(
       "America/Los_Angeles");
   assertFalse(zoneInfo == nullptr);
   assertTrue((intptr_t) zoneInfo == (intptr_t) zoneInfoExpected);
 }
 
-test(BasicZoneRegistrarTest, getZoneInfoFromId_not_found) {
+test(BasicZoneRegistrarTest, getZoneInfoForId_not_found) {
   BasicZoneRegistrar zoneRegistrar(
       zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoFromId(
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
       0x11111111);
   assertTrue(zoneInfo == nullptr);
 }
