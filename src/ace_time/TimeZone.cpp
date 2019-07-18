@@ -20,27 +20,27 @@ void TimeZone::printTo(Print& printer) const {
         TimeOffset::forOffsetCode(mStdOffset).printTo(printer);
         TimeOffset::forOffsetCode(mDstOffset).printTo(printer);
       }
-      break;
+      return;
     case kTypeBasic:
     case kTypeExtended:
     {
-      if (! sZoneManager) {
-        printer.print("<Error>");
-        return;
-      }
+      if (! sZoneManager) break;
       ZoneSpecifier* specifier =
           sZoneManager->getZoneSpecifier(mZoneInfo);
-      if (! specifier) {
-        printer.print("<Error>");
-        return;
-      }
+      if (! specifier) break;
       specifier->printTo(printer);
-      break;
+      return;
     }
-    default:
-      printer.print("<Error>");
-      break;
+    case kTypeBasicSpecifier:
+    case kTypeExtendedSpecifier:
+    {
+      ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
+      if (! specifier) break;
+      specifier->printTo(printer);
+      return;
+    }
   }
+  printer.print("<Error>");
 }
 
 void TimeZone::printShortTo(Print& printer) const {
@@ -55,27 +55,27 @@ void TimeZone::printShortTo(Print& printer) const {
         printer.print((mDstOffset != 0) ? "DST" : "STD");
         printer.print(')');
       }
-      break;
+      return;
     case kTypeBasic:
     case kTypeExtended:
     {
-      if (! sZoneManager) {
-        printer.print("<Error>");
-        return;
-      }
+      if (! sZoneManager) break;
       ZoneSpecifier* specifier =
           sZoneManager->getZoneSpecifier(mZoneInfo);
-      if (! specifier) {
-        printer.print("<Error>");
-        return;
-      }
+      if (! specifier) break;
       specifier->printShortTo(printer);
-      break;
+      return;
     }
-    default:
-      printer.print("<Error>");
-      break;
+    case kTypeBasicSpecifier:
+    case kTypeExtendedSpecifier:
+    {
+      ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
+      if (! specifier) break;
+      specifier->printShortTo(printer);
+      return;
+    }
   }
+  printer.print("<Error>");
 }
 
 void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {
@@ -86,27 +86,27 @@ void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {
       } else {
         printer.print((mDstOffset != 0) ? "DST" : "STD");
       }
-      break;
+      return;
     case kTypeBasic:
     case kTypeExtended:
     {
-      if (! sZoneManager) {
-        printer.print("<Error>");
-        return;
-      }
+      if (! sZoneManager) break;
       ZoneSpecifier* specifier =
           sZoneManager->getZoneSpecifier(mZoneInfo);
-      if (! specifier) {
-        printer.print("<Error>");
-        return;
-      }
+      if (! specifier) break;
       printer.print(specifier->getAbbrev(epochSeconds));
-      break;
+      return;
     }
-    default:
-      printer.print("<Error>");
-      break;
+    case kTypeBasicSpecifier:
+    case kTypeExtendedSpecifier:
+    {
+      ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
+      if (! specifier) break;
+      printer.print(specifier->getAbbrev(epochSeconds));
+      return;
+    }
   }
+  printer.print("<Error>");
 }
 
 }

@@ -16,9 +16,23 @@ test(TimeZoneTest, kType_distinct) {
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeManual);
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasic);
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtended);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasicSpecifier);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtendedSpecifier);
+
   assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasic);
   assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtended);
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasicSpecifier);
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtendedSpecifier);
+
   assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtended);
+  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeBasicSpecifier);
+  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtendedSpecifier);
+
+  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeBasicSpecifier);
+  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeExtendedSpecifier);
+
+  assertNotEqual(TimeZone::kTypeBasicSpecifier,
+      TimeZone::kTypeExtendedSpecifier);
 }
 
 // --------------------------------------------------------------------------

@@ -98,6 +98,9 @@ class TimeZone {
     static const uint8_t kTypeManual = TimeZoneData::kTypeManual;
     static const uint8_t kTypeBasic = TimeZoneData::kTypeBasic;
     static const uint8_t kTypeExtended = TimeZoneData::kTypeExtended;
+    static const uint8_t kTypeBasicSpecifier = TimeZoneData::kTypeBasic + 2;
+    static const uint8_t kTypeExtendedSpecifier =
+        TimeZoneData::kTypeExtended + 2;
 
     /**
      * Set the global ZoneManager for all TimeZone objects in this app. Should
@@ -153,6 +156,22 @@ class TimeZone {
     }
 
     /**
+     * Factory method to create from a BasicZoneSpecifier.
+     * @param zoneSpecifier a pointer to a basic::ZoneInfo, cannot be nullptr
+     */
+    static TimeZone forZoneSpecifier(BasicZoneSpecifier* zoneSpecifier) {
+      return TimeZone(kTypeBasicSpecifier, zoneSpecifier);
+    }
+
+    /**
+     * Factory method to create from a extended::ZoneInfo;
+     * @param zoneInfo a pointer to a extended::ZoneInfo, cannot be nullptr
+     */
+    static TimeZone forZoneSpecifier(ExtendedZoneSpecifier* zoneSpecifier) {
+      return TimeZone(kTypeExtendedSpecifier, zoneSpecifier);
+    }
+
+    /**
      * Return a TimeZone representing an error condition. isError() returns
      * true for this instance.
      */
@@ -171,14 +190,12 @@ class TimeZone {
     static TimeZone forTimeZoneData(const TimeZoneData& data) {
       switch (data.type) {
         case TimeZone::kTypeManual:
-          return TimeZone(data.type,
-              TimeOffset::forOffsetCode(data.stdOffsetCode),
+          return TimeZone(TimeOffset::forOffsetCode(data.stdOffsetCode),
               TimeOffset::forOffsetCode(data.dstOffsetCode));
         case TimeZone::kTypeBasic:
         case TimeZone::kTypeExtended:
-          if (! sZoneManager) return forError();
-          if (! sZoneManager->getZoneSpecifier(data.zoneInfo))
-              return forError();
+          if (! sZoneManager) break;
+          if (! sZoneManager->getZoneSpecifier(data.zoneInfo)) break;
           return TimeZone(data.type, data.zoneInfo);
       }
       return forError();
@@ -227,9 +244,16 @@ class TimeZone {
         case kTypeBasic:
         case kTypeExtended:
         {
-          if (! sZoneManager) return TimeOffset::forError();
+          if (! sZoneManager) break;
           ZoneSpecifier* specifier = sZoneManager->getZoneSpecifier(mZoneInfo);
-          if (! specifier) return TimeOffset::forError();
+          if (! specifier) break;
+          return specifier->getUtcOffset(epochSeconds);
+        }
+        case kTypeBasicSpecifier:
+        case kTypeExtendedSpecifier:
+        {
+          ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
+          if (! specifier) break;
           return specifier->getUtcOffset(epochSeconds);
         }
       }
@@ -249,9 +273,16 @@ class TimeZone {
         case kTypeBasic:
         case kTypeExtended:
         {
-          if (! sZoneManager) return TimeOffset::forError();
+          if (! sZoneManager) break;
           ZoneSpecifier* specifier = sZoneManager->getZoneSpecifier(mZoneInfo);
-          if (! specifier) return TimeOffset::forError();
+          if (! specifier) break;
+          return specifier->getDeltaOffset(epochSeconds);
+        }
+        case kTypeBasicSpecifier:
+        case kTypeExtendedSpecifier:
+        {
+          ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
+          if (! specifier) break;
           return specifier->getDeltaOffset(epochSeconds);
         }
       }
@@ -279,6 +310,13 @@ class TimeZone {
           if (! specifier) break;
           odt = specifier->getOffsetDateTime(ldt);
           break;
+        }
+        case kTypeBasicSpecifier:
+        case kTypeExtendedSpecifier:
+        {
+          ZoneSpecifier* specifier = (ZoneSpecifier*) mZoneInfo;
+          if (! specifier) break;
+          return specifier->getOffsetDateTime(ldt);
         }
       }
       return odt;
