@@ -9,10 +9,23 @@ using namespace aunit::fake;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
+// Check TimeZone::kType* values
+// --------------------------------------------------------------------------
+
+test(TimeZoneTest, kType_distinct) {
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeManual);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasic);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtended);
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasic);
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtended);
+  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtended);
+}
+
+// --------------------------------------------------------------------------
 // Default UTC TimeZone
 // --------------------------------------------------------------------------
 
-test(TimeZonetest, error) {
+test(TimeZoneTest, error) {
   FakePrint fakePrint;
   auto tz = TimeZone::forError();
   assertEqual(TimeZone::kTypeError, tz.getType());
