@@ -171,18 +171,15 @@ class TimeZone {
     static TimeZone forTimeZoneData(const TimeZoneData& data) {
       switch (data.type) {
         case TimeZone::kTypeManual:
-          return forTimeOffset(TimeOffset::forOffsetCode(data.stdOffsetCode),
+          return TimeZone(data.type,
+              TimeOffset::forOffsetCode(data.stdOffsetCode),
               TimeOffset::forOffsetCode(data.dstOffsetCode));
         case TimeZone::kTypeBasic:
-          if (! sZoneManager) return forError();
-          if (! sZoneManager->getZoneSpecifier(data.zoneInfo))
-              return forError();
-          return forZoneInfo((const basic::ZoneInfo*) data.zoneInfo);
         case TimeZone::kTypeExtended:
           if (! sZoneManager) return forError();
           if (! sZoneManager->getZoneSpecifier(data.zoneInfo))
               return forError();
-          return forZoneInfo((const extended::ZoneInfo*) data.zoneInfo);
+          return TimeZone(data.type, data.zoneInfo);
       }
       return forError();
     }
@@ -228,12 +225,6 @@ class TimeZone {
         case kTypeManual:
           return TimeOffset::forOffsetCode(mStdOffset + mDstOffset);
         case kTypeBasic:
-        {
-          if (! sZoneManager) return TimeOffset::forError();
-          ZoneSpecifier* specifier = sZoneManager->getZoneSpecifier(mZoneInfo);
-          if (! specifier) return TimeOffset::forError();
-          return specifier->getUtcOffset(epochSeconds);
-        }
         case kTypeExtended:
         {
           if (! sZoneManager) return TimeOffset::forError();
@@ -256,12 +247,6 @@ class TimeZone {
         case kTypeManual:
           return TimeOffset::forOffsetCode(mDstOffset);
         case kTypeBasic:
-        {
-          if (! sZoneManager) return TimeOffset::forError();
-          ZoneSpecifier* specifier = sZoneManager->getZoneSpecifier(mZoneInfo);
-          if (! specifier) return TimeOffset::forError();
-          return specifier->getDeltaOffset(epochSeconds);
-        }
         case kTypeExtended:
         {
           if (! sZoneManager) return TimeOffset::forError();
@@ -287,13 +272,6 @@ class TimeZone {
           odt = OffsetDateTime::forLocalDateTimeAndOffset(ldt, getUtcOffset(0));
           break;
         case kTypeBasic:
-        {
-          if (! sZoneManager) break;
-          ZoneSpecifier* specifier = sZoneManager->getZoneSpecifier(mZoneInfo);
-          if (! specifier) break;
-          odt = specifier->getOffsetDateTime(ldt);
-          break;
-        }
         case kTypeExtended:
         {
           if (! sZoneManager) break;
