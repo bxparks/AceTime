@@ -27,7 +27,7 @@ test(BasicZoneManagerTest, getZoneSpecifier_by_zoneInfo) {
       &zonedb::kZoneAmerica_Los_Angeles);
 
   ZoneSpecifier* zspec2 = manager.getZoneSpecifier(
-      &zonedb::kZoneAmerica_Los_Angeles);
+      "America/Los_Angeles");
   assertEqual((intptr_t) zspec1, (intptr_t) zspec2);
 
   ZoneSpecifier* zspec3 = manager.getZoneSpecifier(
@@ -57,7 +57,7 @@ test(BasicZoneManagerTest, getZoneSpecifier_by_id_not_found) {
 // --------------------------------------------------------------------------
 
 const extended::ZoneInfo* const kExtendedZoneRegistry[]
-    ACE_TIME_BASIC_PROGMEM = {
+    ACE_TIME_EXTENDED_PROGMEM = {
   &zonedbx::kZoneAmerica_Chicago,
   &zonedbx::kZoneAmerica_Denver,
   &zonedbx::kZoneAmerica_Los_Angeles,
@@ -75,7 +75,7 @@ test(ExtendedZoneManagerTest, getZoneSpecifier_by_zoneInfo) {
       &zonedbx::kZoneAmerica_Los_Angeles);
 
   ZoneSpecifier* zspec2 = manager.getZoneSpecifier(
-      &zonedbx::kZoneAmerica_Los_Angeles);
+      "America/Los_Angeles");
   assertEqual((intptr_t) zspec1, (intptr_t) zspec2);
 
   ZoneSpecifier* zspec3 = manager.getZoneSpecifier(

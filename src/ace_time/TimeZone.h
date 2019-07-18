@@ -128,7 +128,7 @@ class TimeZone {
      * @param zoneInfo a pointer to a basic::ZoneInfo, cannot be nullptr
      */
     static TimeZone forZoneInfo(const basic::ZoneInfo* zoneInfo) {
-      return TimeZone(zoneInfo);
+      return TimeZone(kTypeBasic, zoneInfo);
     }
 
     /**
@@ -136,7 +136,20 @@ class TimeZone {
      * @param zoneInfo a pointer to a extended::ZoneInfo, cannot be nullptr
      */
     static TimeZone forZoneInfo(const extended::ZoneInfo* zoneInfo) {
-      return TimeZone(zoneInfo);
+      return TimeZone(kTypeExtended, zoneInfo);
+    }
+
+    /**
+     * Factory method to create from a fully qualified zone name (e.g.
+     * "America/Los_Angeles"). Returns TimeZone::forError() if not found.
+     * Requires setZoneManager() to be called. Otherwise, returns forError().
+     */
+    static TimeZone forName(const char* name) {
+      if (! sZoneManager) return forError();
+      const void* zoneInfo = sZoneManager->getZoneInfo(name);
+      if (! zoneInfo) return forError();
+      uint8_t type = sZoneManager->getType();
+      return TimeZone(type, zoneInfo);
     }
 
     /**
@@ -370,19 +383,12 @@ class TimeZone {
       mType(type) {}
 
     /**
-     * Constructor.
+     * Constructor for kTypeBasic or kTypeExtended.
+     * @param type kTypeBasic or kTypeExtended
      * @param zoneInfo a pointer to a basic::ZoneInfo. Cannot be nullptr.
      */
-    explicit TimeZone(const basic::ZoneInfo* zoneInfo):
-        mType(kTypeBasic),
-        mZoneInfo(zoneInfo) {}
-
-    /**
-     * Constructor.
-     * @param zoneInfo a pointer to a basic::ZoneInfo. Cannot be nullptr.
-     */
-    explicit TimeZone(const extended::ZoneInfo* zoneInfo):
-        mType(kTypeExtended),
+    explicit TimeZone(uint8_t type, const void* zoneInfo):
+        mType(type),
         mZoneInfo(zoneInfo) {}
 
     uint8_t mType;
@@ -400,10 +406,10 @@ class TimeZone {
 };
 
 inline bool operator==(const TimeZone& a, const TimeZone& b) {
-  if (a.getType() != b.getType()) return false;
-  if (a.getType() == TimeZone::kTypeError) {
+  if (a.mType != b.mType) return false;
+  if (a.mType == TimeZone::kTypeError) {
     return true;
-  } else if (a.getType() == TimeZone::kTypeManual) {
+  } else if (a.mType == TimeZone::kTypeManual) {
     return a.mStdOffset == b.mStdOffset
         && a.mDstOffset == b.mDstOffset;
   } else {

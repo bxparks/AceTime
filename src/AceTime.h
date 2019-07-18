@@ -38,6 +38,7 @@
 #include "ace_time/ExtendedZoneSpecifier.h"
 #include "ace_time/ZoneSpecifierCache.h"
 #include "ace_time/ZoneManager.h"
+#include "ace_time/TimeZoneData.h"
 #include "ace_time/TimeZone.h"
 #include "ace_time/BasicZone.h"
 #include "ace_time/ExtendedZone.h"

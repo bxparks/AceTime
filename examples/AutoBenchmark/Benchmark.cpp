@@ -401,7 +401,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneSpecifierCached() {
 }
 
 static const extended::ZoneInfo* const kExtendedZoneRegistry[]
-    ACE_TIME_BASIC_PROGMEM = {
+    ACE_TIME_EXTENDED_PROGMEM = {
   &zonedbx::kZoneAmerica_Chicago,
   &zonedbx::kZoneAmerica_Denver,
   &zonedbx::kZoneAmerica_Los_Angeles,
