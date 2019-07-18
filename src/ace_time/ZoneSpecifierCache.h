@@ -60,7 +60,7 @@ class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
      * allocated ZoneSpecifier or a new ZoneSpecifier.
      */
     ZoneSpecifier* getZoneSpecifier(uint32_t zoneId) override {
-      const ZI* zoneInfo = mZoneRegistrar.getZoneInfo(zoneId);
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoFromId(zoneId);
       if (! zoneInfo) return nullptr;
 
       return getZoneSpecifier(zoneInfo);

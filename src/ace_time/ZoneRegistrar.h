@@ -73,6 +73,11 @@ class ZoneRegistrar {
       }
     }
 
+    /* Return the ZoneInfo using the zoneId. Return nullptr if not found. */
+    const ZI* getZoneInfoFromId(uint32_t zoneId) const {
+        return linearSearchUsingId(mZoneRegistry, mRegistrySize, zoneId);
+    }
+
   protected:
     friend class ::BasicZoneRegistrarTest_Sorted_isSorted;
     friend class ::BasicZoneRegistrarTest_Sorted_linearSearch;
@@ -131,6 +136,18 @@ class ZoneRegistrar {
           a = c + 1;
         }
       }
+    }
+
+    static const ZI* linearSearchUsingId(const ZI* const* zr,
+        uint16_t registrySize, uint32_t zoneId) {
+      const ZRB zoneRegistry(zr);
+      for (uint16_t i = 0; i < registrySize; ++i) {
+        const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
+        if (zoneId == ZIB(zoneInfo).zoneId()) {
+          return zoneInfo;
+        }
+      }
+      return nullptr;
     }
 
     uint16_t const mRegistrySize;

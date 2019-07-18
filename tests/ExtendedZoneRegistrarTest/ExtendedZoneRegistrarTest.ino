@@ -46,6 +46,25 @@ test(ExtendedZoneRegistrarTest, getZoneInfo_Index_not_found) {
   assertTrue(zoneInfo == nullptr);
 }
 
+test(ExtendedZoneRegistrarTest, getZoneInfoFromId) {
+  ExtendedZoneRegistrar zoneRegistrar(
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoFromId(
+      0xb7f7e8f2);
+  const extended::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfo(
+      "America/Los_Angeles");
+  assertFalse(zoneInfo == nullptr);
+  assertTrue((intptr_t) zoneInfo == (intptr_t) zoneInfoExpected);
+}
+
+test(ExtendedZoneRegistrarTest, getZoneInfoFromId_not_found) {
+  ExtendedZoneRegistrar zoneRegistrar(
+      zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
+  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoFromId(
+      0x11111111);
+  assertTrue(zoneInfo == nullptr);
+}
+
 // --------------------------------------------------------------------------
 
 void setup() {

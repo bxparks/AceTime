@@ -47,6 +47,25 @@ test(BasicZoneRegistrarTest, getZoneInfo_Index_not_found) {
   assertTrue(zoneInfo == nullptr);
 }
 
+test(BasicZoneRegistrarTest, getZoneInfoFromId) {
+  BasicZoneRegistrar zoneRegistrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoFromId(
+      0xb7f7e8f2);
+  const basic::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfo(
+      "America/Los_Angeles");
+  assertFalse(zoneInfo == nullptr);
+  assertTrue((intptr_t) zoneInfo == (intptr_t) zoneInfoExpected);
+}
+
+test(BasicZoneRegistrarTest, getZoneInfoFromId_not_found) {
+  BasicZoneRegistrar zoneRegistrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoFromId(
+      0x11111111);
+  assertTrue(zoneInfo == nullptr);
+}
+
 // --------------------------------------------------------------------------
 // Test ZoneRegistrar::isSorted(), binarySearch(), linearSearch() for *sorted*
 // registry. Sufficient to test BasicZoneRegistrar only since they are the same
