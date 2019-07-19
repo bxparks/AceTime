@@ -14,7 +14,11 @@ class Print;
 
 namespace ace_time {
 
+template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+class ZoneSpecifierCacheImpl;
+
 class LocalDateTime;
+class TimeZone;
 
 /**
  * Base interface for ZoneSpecifier classes. There were 2 options for
@@ -91,9 +95,6 @@ class ZoneSpecifier {
     virtual OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt)
         const = 0;
 
-    /** Set the opaque zoneInfo. */
-    virtual void setZoneInfo(const void* zoneInfo) = 0;
-
     /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
     virtual void printTo(Print& printer) const = 0;
 
@@ -102,6 +103,11 @@ class ZoneSpecifier {
 
   protected:
     friend bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b);
+
+    friend class TimeZone; // setZoneInfo()
+
+    template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+    friend class ZoneSpecifierCacheImpl; // setZoneInfo()
 
     // Disable copy constructor and assignment operator.
     ZoneSpecifier(const ZoneSpecifier&) = delete;
@@ -113,6 +119,9 @@ class ZoneSpecifier {
 
     /** Return true if equal. */
     virtual bool equals(const ZoneSpecifier& other) const = 0;
+
+    /** Set the opaque zoneInfo. */
+    virtual void setZoneInfo(const void* zoneInfo) = 0;
 
     uint8_t mType;
 };

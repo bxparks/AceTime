@@ -27,6 +27,9 @@ class BasicZoneSpecifierTest_calcRuleOffsetCode;
 
 namespace ace_time {
 
+template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+class ZoneSpecifierCacheImpl;
+
 namespace basic {
 
 /**
@@ -181,16 +184,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     explicit BasicZoneSpecifier(const basic::ZoneInfo* zoneInfo = nullptr):
         ZoneSpecifier(kTypeBasic),
         mZoneInfo(zoneInfo) {}
-
-    /** Set the underlying ZoneInfo. */
-    void setZoneInfo(const void* zoneInfo) override {
-      if (mZoneInfo.zoneInfo() == zoneInfo) return;
-
-      mZoneInfo = basic::ZoneInfoBroker((const basic::ZoneInfo*) zoneInfo);
-      mYear = 0;
-      mIsFilled = false;
-      mNumTransitions = 0;
-    }
 
     /** Return the underlying ZoneInfo. */
     const void* getZoneInfo() const override {
@@ -372,9 +365,8 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     friend class ::BasicZoneSpecifierTest_calcStartDayOfMonth;
     friend class ::BasicZoneSpecifierTest_calcRuleOffsetCode;
 
-    // Disable copy constructor and assignment operator.
-    BasicZoneSpecifier(const BasicZoneSpecifier&) = delete;
-    BasicZoneSpecifier& operator=(const BasicZoneSpecifier&) = delete;
+    template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+    friend class ZoneSpecifierCacheImpl; // setZoneInfo()
 
     /** Maximum size of Transition cache across supported zones. */
     static const uint8_t kMaxCacheEntries = 4;
@@ -386,9 +378,23 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      */
     static const acetime_t kMinEpochSeconds = INT32_MIN + 1;
 
+    // Disable copy constructor and assignment operator.
+    BasicZoneSpecifier(const BasicZoneSpecifier&) = delete;
+    BasicZoneSpecifier& operator=(const BasicZoneSpecifier&) = delete;
+
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const BasicZoneSpecifier&) other;
       return getZoneInfo() == that.getZoneInfo();
+    }
+
+    /** Set the underlying ZoneInfo. */
+    void setZoneInfo(const void* zoneInfo) override {
+      if (mZoneInfo.zoneInfo() == zoneInfo) return;
+
+      mZoneInfo = basic::ZoneInfoBroker((const basic::ZoneInfo*) zoneInfo);
+      mYear = 0;
+      mIsFilled = false;
+      mNumTransitions = 0;
     }
 
     /** Return the Transition at the given epochSeconds. */
