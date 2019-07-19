@@ -148,8 +148,10 @@ class TimeZone {
      */
     uint8_t getType() const { return mType; }
 
+    // TODO: Change this to return TimeOffset
     uint8_t getStdOffsetCode() const { return mStdOffset; }
 
+    // TODO: Change this to return TimeOffset
     uint8_t getDstOffsetCode() const { return mDstOffset; }
 
     /**
@@ -266,6 +268,15 @@ class TimeZone {
     bool isDst() const {
       if (mType != kTypeManual) return false;
       return mDstOffset != 0;
+    }
+
+    /**
+     * Sets the stdOffset of the TimeZone. Works only for kTypeManual, does
+     * nothing for any other type of TimeZone.
+     */
+    void setStdOffset(TimeOffset stdOffset) {
+      if (mType != kTypeManual) return;
+      mStdOffset = stdOffset.toOffsetCode();
     }
 
     /**

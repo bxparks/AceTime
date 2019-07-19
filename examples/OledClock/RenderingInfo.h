@@ -12,8 +12,9 @@ struct RenderingInfo {
   uint8_t mode; // display mode, see MODE_xxx in config.h
   bool suppressBlink; // true if blinking should be suppressed
   bool blinkShowState; // true if blinking info should be shown
+
   uint8_t hourMode; // ClockInfo::kTwelve or kTwentyFour
-  ace_time::TimeZoneData timeZoneData;
+  ace_time::TimeZone timeZone;
   ace_time::ZonedDateTime dateTime;
 };
 

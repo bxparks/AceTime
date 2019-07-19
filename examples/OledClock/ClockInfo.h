@@ -14,14 +14,8 @@ struct ClockInfo {
   /** 12/24 mode */
   uint8_t hourMode;
 
-  /**
-   * Zone index into the ZoneRegistry. Defined if timeZoneData.type is
-   * kTypeBasic or kTypeExtended.
-   */
-  uint16_t zoneIndex;
-
-  /** TimeZone data. */
-  ace_time::TimeZoneData timeZoneData;
+  /** The desired timezone of the clock. */
+  ace_time::TimeZone timeZone;
 
   /** Current time. */
   ace_time::ZonedDateTime dateTime;

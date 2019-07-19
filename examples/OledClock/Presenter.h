@@ -36,7 +36,7 @@ class Presenter {
       mRenderingInfo.suppressBlink = suppressBlink;
       mRenderingInfo.blinkShowState = blinkShowState;
       mRenderingInfo.hourMode = clockInfo.hourMode;
-      mRenderingInfo.timeZoneData = clockInfo.timeZoneData;
+      mRenderingInfo.timeZone = clockInfo.timeZone;
       mRenderingInfo.dateTime = clockInfo.dateTime;
     }
 
@@ -69,7 +69,7 @@ class Presenter {
               && (mRenderingInfo.blinkShowState
                   != mPrevRenderingInfo.blinkShowState))
           || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode
-          || mRenderingInfo.timeZoneData != mPrevRenderingInfo.timeZoneData
+          || mRenderingInfo.timeZone != mPrevRenderingInfo.timeZone
           || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime;
     }
 
@@ -185,10 +185,10 @@ class Presenter {
       // Display the timezone using the TimeZoneData, not the dateTime, since
       // dateTime will contain a TimeZone, which points to the (singular)
       // Controller::mZoneSpecifier, which will contain the old timeZone.
-      auto& tzd = mRenderingInfo.timeZoneData;
+      auto& tz = mRenderingInfo.timeZone;
       mOled.print("TZ: ");
       const __FlashStringHelper* typeString = nullptr;
-      switch (tzd.type) {
+      switch (tz.getType()) {
         case TimeZone::kTypeManual:
           typeString = F("manual");
           break;
@@ -202,14 +202,13 @@ class Presenter {
       mOled.print(typeString);
       mOled.clearToEOL();
 
-      switch (tzd.type) {
+      switch (tz.getType()) {
       #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case TimeZone::kTypeManual:
           mOled.println();
           mOled.print("UTC");
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
-            auto offset = TimeOffset::forOffsetCode(
-                tzd.stdOffsetCode);
+            auto offset = TimeOffset::forOffsetCode(tz.getStdOffsetCode());
             offset.printTo(mOled);
           }
           mOled.clearToEOL();
@@ -217,7 +216,7 @@ class Presenter {
           mOled.println();
           mOled.print("DST: ");
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-            mOled.print((tzd.dstOffsetCode != 0) ? "on " : "off");
+            mOled.print((tz.getDstOffsetCode() != 0) ? "on " : "off");
           }
           mOled.clearToEOL();
           break;
@@ -227,7 +226,7 @@ class Presenter {
           // Print name of timezone
           mOled.println();
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
-            mOled.print(BasicZone(tzd.basicZoneInfo).shortName());
+            tz.printShortTo(mOled);
           }
           mOled.clearToEOL();
 
@@ -240,7 +239,7 @@ class Presenter {
           // Print name of timezone
           mOled.println();
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
-            mOled.print(ExtendedZone(tzd.extendedZoneInfo).shortName());
+            tz.printShortTo(mOled);
           }
           mOled.clearToEOL();
 
