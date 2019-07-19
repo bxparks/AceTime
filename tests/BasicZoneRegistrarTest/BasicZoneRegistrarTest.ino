@@ -91,7 +91,7 @@ test(BasicZoneRegistrarTest_Sorted, linearSearch) {
   const basic::ZoneInfo* zi = BasicZoneRegistrar::linearSearch(
       kSortedRegistry, kNumSortedEntries, "America/Los_Angeles");
 
-  assertEqual(F("America/Los_Angeles"), basic::ZoneInfoBroker(zi).name());
+  assertEqual(F("America/Los_Angeles"), BasicZone(zi).name());
 }
 
 test(BasicZoneRegistrarTest_Sorted, linearSearch_not_found) {
@@ -105,19 +105,19 @@ test(BasicZoneRegistrarTest_Sorted, binarySearch) {
 
   zi = BasicZoneRegistrar::binarySearch(
       kSortedRegistry, kNumSortedEntries, "America/Chicago");
-  assertEqual(F("America/Chicago"), basic::ZoneInfoBroker(zi).name());
+  assertEqual(F("America/Chicago"), BasicZone(zi).name());
 
   zi = BasicZoneRegistrar::binarySearch(
       kSortedRegistry, kNumSortedEntries, "America/Denver");
-  assertEqual(F("America/Denver"), basic::ZoneInfoBroker(zi).name());
+  assertEqual(F("America/Denver"), BasicZone(zi).name());
 
   zi = BasicZoneRegistrar::binarySearch(
       kSortedRegistry, kNumSortedEntries, "America/Los_Angeles");
-  assertEqual(F("America/Los_Angeles"), basic::ZoneInfoBroker(zi).name());
+  assertEqual(F("America/Los_Angeles"), BasicZone(zi).name());
 
   zi = BasicZoneRegistrar::binarySearch(
       kSortedRegistry, kNumSortedEntries, "America/New_York");
-  assertEqual(F("America/New_York"), basic::ZoneInfoBroker(zi).name());
+  assertEqual(F("America/New_York"), BasicZone(zi).name());
 
 }
 
@@ -151,7 +151,7 @@ test(BasicZoneRegistrarTest_Unsorted, linearSearch) {
       kUnsortedRegistry, sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*),
       "America/Los_Angeles");
 
-  assertEqual(F("America/Los_Angeles"), basic::ZoneInfoBroker(zi).name());
+  assertEqual(F("America/Los_Angeles"), BasicZone(zi).name());
 
   zi = BasicZoneRegistrar::linearSearch(kUnsortedRegistry,
       sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
