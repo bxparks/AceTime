@@ -1178,7 +1178,7 @@ class BasicZone {
   public:
     BasicZone(const basic::ZoneInfo* zoneInfo);
 
-#if ACE_TIME_USE_BASIC_PROGMEM
+#if ACE_TIME_USE_PROGMEM
     const __FlashStringHelper* name() const;
     const __FlashStringHelper* shortName() const;
 #else
@@ -1192,7 +1192,7 @@ class ExtendedZone {
   public:
     ExtendedZone(const extended::ZoneInfo* zoneInfo);
 
-#if ACE_TIME_USE_EXTENDED_PROGMEM
+#if ACE_TIME_USE_PROGMEM
     const __FlashStringHelper* name() const;
     const __FlashStringHelper* shortName() const;
 #else
@@ -1313,15 +1313,14 @@ The default zone registries (`zonedb::kZoneRegistry` and
 `zonedbx::kZoneRegistry`) pull in every zone in the respective data sets, which
 consumes significant amounts of flash memory (see
 [MemoryBenchmark](examples/MemoryBenchmark/)). If flash memory is tight, the
-ZoneRegistrar can be initialized with a custom list of zones, to pull in only the
-zones of interest. For example, here is a `kZoneRegistry` with 4 zones from the
-`zonedb::` data set:
+ZoneRegistrar can be initialized with a custom list of zones, to pull in only
+the zones of interest. For example, here is a `kZoneRegistry` with 4 zones from
+the `zonedb::` data set:
 
 ```C++
 #include <AceTime.h>
 ...
-static const basic::ZoneInfo* const kBasicZoneRegistry[]
-    ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedb::kZoneAmerica_Los_Angeles,
   &zonedb::kZoneAmerica_Denver,
   &zonedb::kZoneAmerica_Chicago,
@@ -1339,8 +1338,7 @@ and here is the equivalent `kExtendedZoneRegistry`:
 ```C++
 #include <AceTime.h>
 ...
-static const extended::ZoneInfo* const kZoneRegistry[]
-    ACE_TIME_EXTENDED_PROGMEM = {
+static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Los_Angeles,
   &zonedbx::kZoneAmerica_Denver,
   &zonedbx::kZoneAmerica_Chicago,
@@ -1353,10 +1351,11 @@ static const uint16_t kZoneRegistrySize =
 static const BasicZoneRegistrar zoneRegistrar(kZoneRegistrySize, kZoneRegistry);
 ```
 
-(The `ACE_TIME_BASIC_PROGMEM` and `ACE_TIME_EXTENDED_PROGMEM` macros are defined
-in [config.h](src/ace_time/config.h) and determines whether the ZoneInfo files
-are stored in normal RAM or flash memory. They are needed because the
-ZoneRegistrar need to know where the ZoneInfo files are stored.)
+(The `ACE_TIME_PROGMEM` macro is defined in
+[flash.h](src/ace_time/common/flash.h) and determines whether the ZoneInfo files
+are stored in normal RAM or flash memory (i.e. `PROGMEM`). They are needed
+because the `ZoneRegistrar` needs to know where the `ZoneInfo` files are
+stored.)
 
 See [CommandLineClock](examples/CommandLineClock/) for an example of how these
 custom registries can be created and used.

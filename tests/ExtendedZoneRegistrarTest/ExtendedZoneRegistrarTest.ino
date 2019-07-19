@@ -19,14 +19,15 @@ test(ExtendedZoneRegistrarTest, getZoneInfoForName_Los_Angeles) {
       zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
   assertTrue(zoneInfo != nullptr);
 
-  assertEqual("America/Los_Angeles", ExtendedZone(zoneInfo).name());
+  assertEqual(F("America/Los_Angeles"), ExtendedZone(zoneInfo).name());
   assertEqual(F("Los_Angeles"), ExtendedZone(zoneInfo).shortName());
 }
 
 test(ExtendedZoneRegistrarTest, getZoneInfoForName_not_found) {
   ExtendedZoneRegistrar zoneRegistrar(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  const extended::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName("not found");
+  const extended::ZoneInfo* zoneInfo =
+      zoneRegistrar.getZoneInfoForName("not found");
   assertTrue(zoneInfo == nullptr);
 }
 

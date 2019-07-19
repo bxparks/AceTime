@@ -8,26 +8,19 @@
 
 #include <stdint.h>
 
-/** Use PROGMEM for BasicZoneSpecifier. */
-#define ACE_TIME_USE_BASIC_PROGMEM 1
-
-/** Use PROGMEM for ExtendedZoneSpecifier. */
-#define ACE_TIME_USE_EXTENDED_PROGMEM 1
-
-#if ACE_TIME_USE_BASIC_PROGMEM
-  #define ACE_TIME_BASIC_PROGMEM PROGMEM
+/**
+ * Use PROGMEM for zonedb and zonedbx zoneinfo files. Controls how
+ * ACE_TIME_PROGMEM macro gets expanded.
+ */
+#define ACE_TIME_USE_PROGMEM 1
+#if ACE_TIME_USE_PROGMEM
+  #define ACE_TIME_PROGMEM PROGMEM
 #else
-  #define ACE_TIME_BASIC_PROGMEM
-#endif
-
-#if ACE_TIME_USE_EXTENDED_PROGMEM
-  #define ACE_TIME_EXTENDED_PROGMEM PROGMEM
-#else
-  #define ACE_TIME_EXTENDED_PROGMEM
+  #define ACE_TIME_PROGMEM
 #endif
 
 // Include the correct pgmspace.h depending on architecture. Define a
-// consistent acetime_strcmp_P() which can be passed as a funcdtion pointer
+// consistent acetime_strcmp_P() which can be passed as a function pointer
 // into the ZoneManager template class.
 #if defined(__AVR__)
   #include <avr/pgmspace.h>

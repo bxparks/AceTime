@@ -23,17 +23,18 @@ const uint32_t COUNT = 100000;
 
 const uint32_t MILLIS_TO_NANO_PER_ITERATION = ((uint32_t) 1000000 / COUNT);
 
-// The following strings are placed into PROGMEM flash memory to prevent them
-// from consuming static RAM on the AVR platform. The FPSTR() macro converts
-// these (const char*) into (const __FlashHelperString*) so that the correct
-// version of println() or print() is called. This reduces the static RAM
-// usage on an Nano from 1957 bytes to 1059 bytes, which allows this program
-// to run on a controller with 2kB of RAM.
+// The FPSTR() macro converts these (const char*) into (const
+// __FlashHelperString*) so that the correct version of println() or print() is
+// called. ESP8266 and ESP32 already define this. AVR and Teensy do not.
 #ifndef FPSTR
 #define FPSTR(pstr_pointer) \
       (reinterpret_cast<const __FlashStringHelper *>(pstr_pointer))
 #endif
 
+// The following strings are placed into PROGMEM flash memory to prevent them
+// from consuming static RAM on the AVR platform. This reduces the static RAM
+// usage on an Nano from 1957 bytes to 1059 bytes, which allows this program to
+// run on a controller with 2kB of RAM.
 const char TOP[] PROGMEM =
   "+--------------------------------------------------+----------+";
 const char HEADER[] PROGMEM =
@@ -339,8 +340,7 @@ static void runZonedDateTimeToEpochSeconds() {
 
 static const acetime_t kTwoYears = 2 * 365 * 24 * 3600L;
 
-static const basic::ZoneInfo* const kBasicZoneRegistry[]
-		ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedb::kZoneAmerica_Chicago,
   &zonedb::kZoneAmerica_Denver,
   &zonedb::kZoneAmerica_Los_Angeles,
@@ -399,7 +399,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneSpecifierCached() {
 }
 
 static const extended::ZoneInfo* const kExtendedZoneRegistry[]
-    ACE_TIME_EXTENDED_PROGMEM = {
+    ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Chicago,
   &zonedbx::kZoneAmerica_Denver,
   &zonedbx::kZoneAmerica_Los_Angeles,

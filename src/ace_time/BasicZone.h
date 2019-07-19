@@ -28,9 +28,9 @@ class BasicZone {
     BasicZone(const BasicZone&) = default;
     BasicZone& operator=(const BasicZone&) = default;
 
-// The #if conditional prevents merging with ExtendedZone.h into a template
-// class.
-#if ACE_TIME_USE_BASIC_PROGMEM
+// TODO: Merge this with ExtendedZone.h now that they both use the same
+// ACE_TIME_USE_PROGMEM macro.
+#if ACE_TIME_USE_PROGMEM
     const __FlashStringHelper* name() const {
       return (const __FlashStringHelper*) mZoneInfoBroker.name();
     }

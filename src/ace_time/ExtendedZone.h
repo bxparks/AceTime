@@ -8,6 +8,7 @@
 
 #include "internal/ZoneInfo.h"
 #include "internal/Brokers.h"
+#include "common/flash.h"
 
 class __FlashStringHelper;
 
@@ -28,8 +29,9 @@ class ExtendedZone {
     ExtendedZone(const ExtendedZone&) = default;
     ExtendedZone& operator=(const ExtendedZone&) = default;
 
-// The #if conditional prevents merging with BasicZone.h into a template class.
-#if ACE_TIME_USE_EXTENDED_PROGMEM
+// TODO: Merge this with BasicZone.h now that they both use the same
+// ACE_TIME_USE_PROGMEM macro.
+#if ACE_TIME_USE_PROGMEM
     const __FlashStringHelper* name() const {
       return (const __FlashStringHelper*) mZoneInfoBroker.name();
     }

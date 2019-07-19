@@ -19,7 +19,7 @@ static const ZoneContext kZoneContext = {
 };
 
 // Create simplified ZoneEras which approximate America/Los_Angeles
-static const ZoneEra kZoneEraAlmostLosAngeles[] ACE_TIME_EXTENDED_PROGMEM = {
+static const ZoneEra kZoneEraAlmostLosAngeles[] ACE_TIME_PROGMEM = {
   {
     -32 /*offsetCode*/,
     nullptr,
@@ -55,7 +55,7 @@ static const ZoneEra kZoneEraAlmostLosAngeles[] ACE_TIME_EXTENDED_PROGMEM = {
   },
 };
 
-static const ZoneInfo kZoneAlmostLosAngeles ACE_TIME_EXTENDED_PROGMEM = {
+static const ZoneInfo kZoneAlmostLosAngeles ACE_TIME_PROGMEM = {
   "Almost_Los_Angeles" /*name*/,
   0x70166020 /*zoneId*/,
   &::kZoneContext /*zoneContext*/,
@@ -68,7 +68,7 @@ static const ZoneInfo kZoneAlmostLosAngeles ACE_TIME_EXTENDED_PROGMEM = {
 // A real ZoneInfo for America/Los_Angeles. Taken from zonedbx/zone_infos.cpp.
 // --------------------------------------------------------------------------
 
-static const ZoneRule kZoneRulesTestUS[] ACE_TIME_EXTENDED_PROGMEM = {
+static const ZoneRule kZoneRulesTestUS[] ACE_TIME_PROGMEM = {
   // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
   {
     -33 /*fromYearTiny*/,
@@ -132,14 +132,14 @@ static const ZoneRule kZoneRulesTestUS[] ACE_TIME_EXTENDED_PROGMEM = {
 
 };
 
-static const ZonePolicy kPolicyTestUS ACE_TIME_EXTENDED_PROGMEM = {
+static const ZonePolicy kPolicyTestUS ACE_TIME_PROGMEM = {
   5 /*numRules*/,
   kZoneRulesTestUS /*rules*/,
   0 /* numLetters */,
   nullptr /* letters */,
 };
 
-static const ZoneEra kZoneEraTestLos_Angeles[] ACE_TIME_EXTENDED_PROGMEM = {
+static const ZoneEra kZoneEraTestLos_Angeles[] ACE_TIME_PROGMEM = {
   //             -8:00    US    P%sT
   {
     -32 /*offsetCode*/,
@@ -155,7 +155,7 @@ static const ZoneEra kZoneEraTestLos_Angeles[] ACE_TIME_EXTENDED_PROGMEM = {
 
 };
 
-static const ZoneInfo kZoneTestLos_Angeles ACE_TIME_EXTENDED_PROGMEM = {
+static const ZoneInfo kZoneTestLos_Angeles ACE_TIME_PROGMEM = {
   "America/Los_Angeles" /*name*/,
   0xb7f7e8f2 /*zoneId*/,
   &::kZoneContext /*zoneContext*/,
@@ -172,7 +172,7 @@ test(ExtendedZoneSpecifierTest, tzVersion) {
   assertEqual("2019a", zonedbx::kTzDatabaseVersion);
 }
 
-static const ZoneEra era ACE_TIME_EXTENDED_PROGMEM =
+static const ZoneEra era ACE_TIME_PROGMEM =
     {0, nullptr, 0, "", 0, 1, 2, 12, 'w'};
 
 test(ExtendedZoneSpecifierTest, compareEraToYearMonth) {
@@ -186,7 +186,7 @@ test(ExtendedZoneSpecifierTest, compareEraToYearMonth) {
       extended::ZoneEraBroker(&era), 0, 3));
 }
 
-static const ZoneEra era2 ACE_TIME_EXTENDED_PROGMEM =
+static const ZoneEra era2 ACE_TIME_PROGMEM =
     {0, nullptr, 0, "", 0, 1, 0, 0, 'w'};
 
 test(ExtendedZoneSpecifierTest, compareEraToYearMonth2) {
@@ -195,11 +195,11 @@ test(ExtendedZoneSpecifierTest, compareEraToYearMonth2) {
 }
 
 // UNTIL = 2000-01-02 3:00
-static const ZoneEra prev ACE_TIME_EXTENDED_PROGMEM =
+static const ZoneEra prev ACE_TIME_PROGMEM =
     {0, nullptr, 0, "", 0, 1, 2, 3, 'w'};
 
 // UNTIL = 2002-03-04 5:00
-static const ZoneEra era3 ACE_TIME_EXTENDED_PROGMEM =
+static const ZoneEra era3 ACE_TIME_PROGMEM =
     {0, nullptr, 0, "", 2, 3, 4, 5, 'w'};
 
 test(ExtendedZoneSpecifierTest, createMatch) {

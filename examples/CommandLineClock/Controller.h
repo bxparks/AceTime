@@ -163,13 +163,12 @@ class Controller {
 
   private:
   #if ENABLE_TIME_ZONE_TYPE_BASIC
-    static const basic::ZoneInfo* const kBasicZoneRegistry[]
-        ACE_TIME_BASIC_PROGMEM;
+    static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM;
     static const uint16_t kBasicZoneRegistrySize;
   #endif
   #if ENABLE_TIME_ZONE_TYPE_EXTENDED
     static const extended::ZoneInfo* const kExtendedZoneRegistry[]
-        ACE_TIME_EXTENDED_PROGMEM;
+        ACE_TIME_PROGMEM;
     static const uint16_t kExtendedZoneRegistrySize;
   #endif
 
