@@ -11,8 +11,17 @@
       and `ExtendedZoneSpecifier` to allow deep copying of `TimeZone` objects.
     * Remove overly complex `ManualZoneSpecifier` and merge most of its
       functionality directly into the `TimeZone` using `kTypeManual`. We lose
-      the abbreviations of `ManualZoneSpecifier` but the simplification of using
-      just the `TimeZone` object without an extra object seems worth it.
+      the manual abbreviations provided by `ManualZoneSpecifier` but the
+      simplification of using just the `TimeZone` object without an extra object
+      seems worth it.
+    * Add a stable `zoneId` to `ZoneInfo` that identifies a zone. It is
+      formed using a hash of the fully qualified zone `name`. The
+      `tzcompiler.py` generator script will detect hash collisions and create an
+      alternate hash. Rename old `ZoneManager` as the `ZoneRegistrar`, and
+      repurpose `ZoneManager` as the `TimeZone` factory, which keeps an internal
+      cache of `ZoneSpecifier`. `TimeZone` objects can be dynamically bound to a
+      `ZoneSpecifier`. This allows the `zoneId` to be saved then used to
+      recreate a TimeZone object at runtime.
 * 0.4 (2019-07-09, TZ DB version 2019a, beta)
     * Support the less-than-or-equal syntax `{dayOfWeek}<={dayOfMonth}`
       appearing in version 2019b of the TZ Database which contains `Rule Zion,
