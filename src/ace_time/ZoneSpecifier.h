@@ -112,7 +112,7 @@ class ZoneSpecifier {
 };
 
 inline bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b) {
-  if (a.getType() != b.getType()) return false;
+  if (a.mType != b.mType) return false;
   return a.equals(b);
 }
 

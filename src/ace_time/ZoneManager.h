@@ -34,7 +34,7 @@ class ZoneManager {
 
     TimeZone createForZoneInfo(const ZI* zoneInfo) {
       if (! zoneInfo) return TimeZone::forError();
-      return TimeZone(&mZoneSpecifierCache, zoneInfo);
+      return TimeZone(zoneInfo, &mZoneSpecifierCache);
     }
 
     TimeZone createForZoneName(const char* name) {
