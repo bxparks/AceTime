@@ -9,7 +9,7 @@ using namespace aunit::fake;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// kTypeManaged + ExtendedZoneManager
+// kTypeExtendedManaged + ExtendedZoneManager
 // --------------------------------------------------------------------------
 
 const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
@@ -49,7 +49,7 @@ test(TimeZoneExtendedTest, Los_Angeles) {
 
   TimeZone tz = extendedZoneManager.createForZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles);
-  assertEqual(TimeZone::kTypeManaged, tz.getType());
+  assertEqual(TimeZone::kTypeExtendedManaged, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));

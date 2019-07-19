@@ -16,7 +16,10 @@ struct StoredInfo {
   /** The DST offset code for kTypeManual. */
   int8_t dstOffsetCode;
 
-  /** The stable zone ID if kTypeBasic, kTypeExtended, kTypeManaged. */
+  /**
+  * Stable zone ID for kTypeBasic, kTypeExtended, kTypeBasicManaged,
+   * kTypeExtendedManaged.
+   */
   uint32_t zoneId;
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP

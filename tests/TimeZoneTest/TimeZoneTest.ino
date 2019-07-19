@@ -9,23 +9,29 @@ using namespace aunit::fake;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// Check TimeZone::kType* values
+// Check that TimeZone::kType* are distinct
 // --------------------------------------------------------------------------
 
 test(TimeZoneTest, kType_distinct) {
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeManual);
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasic);
   assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtended);
-  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeManaged);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasicManaged);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtendedManaged);
 
   assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasic);
   assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtended);
-  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeManaged);
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasicManaged);
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtendedManaged);
 
   assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtended);
-  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeManaged);
+  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeBasicManaged);
+  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtendedManaged);
 
-  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeManaged);
+  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeBasicManaged);
+  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeExtendedManaged);
+
+  assertNotEqual(TimeZone::kTypeBasicManaged, TimeZone::kTypeExtendedManaged);
 }
 
 // --------------------------------------------------------------------------
@@ -115,7 +121,7 @@ test(TimeZoneTest, manual_dst) {
 }
 
 // --------------------------------------------------------------------------
-// kTypeManaged + BasicZoneManager
+// kTypeBasicManaged + BasicZoneManager
 // --------------------------------------------------------------------------
 
 const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
@@ -155,7 +161,7 @@ test(TimeZoneBasicTest, Los_Angeles) {
 
   TimeZone tz = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles);
-  assertEqual(TimeZone::kTypeManaged, tz.getType());
+  assertEqual(TimeZone::kTypeBasicManaged, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
@@ -178,7 +184,7 @@ test(TimeZoneBasicTest, Los_Angeles) {
 #if !defined(__AVR__)
 
 // --------------------------------------------------------------------------
-// operator==() for kTypeManaged. The following will not run on an Arduino
+// operator==() for kTypeBasicManaged. The following will not run on an Arduino
 // Nano or Micro because it consumes about 1.8kB of RAM, leaving about 180-200
 // bytes, which is not sufficient to run this. We can run it on bigger
 // microcontrollers.

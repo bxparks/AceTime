@@ -26,7 +26,7 @@ namespace ace_time {
  * source of these geographical regions is the TZ Database maintained by IANA
  * (https://www.iana.org/time-zones). The TimeZone class supports both meanings.
  *
- * There are 4 types of TimeZone:
+ * There are 5 types of TimeZone:
  *
  *    * kTypeManual: a time zone that holds a base offset and a DST offset, and
  *      allows the user to modify both of these fields
@@ -35,9 +35,12 @@ namespace ace_time {
  *    * kTypeExtended: a time zone using an underlying ExtendedZoneSpecifier
  *      which supports 348 geographical zones in the TZ Database (essentially
  *      the entire database).
- *    * kTypeManaged: uses the ZoneSpecifierCache to manage a cache of
- *      ZoneSpecifiers and provide mapping from zoneName or zoneId to the
+ *    * kTypeBasicManaged: uses the ZoneSpecifierCache to manage a cache of
+ *      BasicZoneSpecifiers and provide mapping from zoneName or zoneId to the
  *      ZoneInfo.
+ *    * kTypeExtendedManaged: uses the ZoneSpecifierCache to manage a cache of
+ *      ExtendedZoneSpecifiers and provide mapping from zoneName or zoneId to
+ *      the ZoneInfo.
  *
  * The TimeZone class really really wants to be a reference type. In other
  * words, it would be very convenient if the client code could create this
@@ -102,7 +105,10 @@ class TimeZone {
     static const uint8_t kTypeManual = 1;
     static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
     static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
-    static const uint8_t kTypeManaged = kTypeExtended + 1;
+    static const uint8_t kTypeBasicManaged =
+        ZoneSpecifierCache::kTypeBasicManaged;
+    static const uint8_t kTypeExtendedManaged =
+        ZoneSpecifierCache::kTypeExtendedManaged;
 
     /** Factory method to create a UTC TimeZone. */
     static TimeZone forUtc() {
@@ -178,16 +184,11 @@ class TimeZone {
         case kTypeManual:
           return 0;
         case kTypeBasic:
+        case kTypeBasicManaged:
           return BasicZone((const basic::ZoneInfo*) mZoneInfo).zoneId();
         case kTypeExtended:
+        case kTypeExtendedManaged:
           return ExtendedZone((const extended::ZoneInfo*) mZoneInfo).zoneId();
-        case kTypeManaged:
-        {
-          ZoneSpecifier* specifier =
-              mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
-          if (! specifier) return 0;
-          return specifier->getZoneId();
-        }
       }
       return 0;
     }
@@ -206,7 +207,8 @@ class TimeZone {
         case kTypeExtended:
           mZoneSpecifier->setZoneInfo(mZoneInfo);
           return mZoneSpecifier->getUtcOffset(epochSeconds);
-        case kTypeManaged:
+        case kTypeBasicManaged:
+        case kTypeExtendedManaged:
         {
           ZoneSpecifier* specifier =
               mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
@@ -230,7 +232,8 @@ class TimeZone {
         case kTypeExtended:
           mZoneSpecifier->setZoneInfo(mZoneInfo);
           return mZoneSpecifier->getDeltaOffset(epochSeconds);
-        case kTypeManaged:
+        case kTypeBasicManaged:
+        case kTypeExtendedManaged:
         {
           ZoneSpecifier* specifier =
               mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
@@ -259,7 +262,8 @@ class TimeZone {
           mZoneSpecifier->setZoneInfo(mZoneInfo);
           odt = mZoneSpecifier->getOffsetDateTime(ldt);
           break;
-        case kTypeManaged:
+        case kTypeBasicManaged:
+        case kTypeExtendedManaged:
         {
           ZoneSpecifier* specifier =
               mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
@@ -333,7 +337,7 @@ class TimeZone {
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 
     /**
-     * Constructor for kTypeManaged. Intended to be used ONLY by
+     * Constructor for kType*Managed. Intended to be used ONLY by
      * BasicZoneManager and ExtendedZoneManager.
      *
      * @param zoneInfo a pointer to a basic::ZoneInfo. Cannot be nullptr.
@@ -341,7 +345,7 @@ class TimeZone {
      */
     explicit TimeZone(const void* zoneInfo,
         ZoneSpecifierCache* zoneSpecifierCache):
-        mType(kTypeManaged),
+        mType(zoneSpecifierCache->getType()),
         mZoneInfo(zoneInfo),
         mZoneSpecifierCache(zoneSpecifierCache) {}
 
@@ -389,14 +393,17 @@ class TimeZone {
       };
 
       struct {
-        /** Used by kTypeBasic, kTypeExtended, kTypeManaged. */
+        /**
+         * Used by kTypeBasic, kTypeExtended, kTypeBasicManaged,
+         * kTypeExtendedManaged.
+         */
         const void* mZoneInfo;
 
         union {
           /** Used by kTypeBasic, kTypeExtended. */
           ZoneSpecifier* mZoneSpecifier;
 
-          /** Used by kTypeManaged. */
+          /** Used by kTypeBasicManaged, kTypeExtendedManaged. */
           ZoneSpecifierCache* mZoneSpecifierCache;
         };
       };
@@ -413,7 +420,8 @@ inline bool operator==(const TimeZone& a, const TimeZone& b) {
           && a.mDstOffsetCode == b.mDstOffsetCode;
     case TimeZone::kTypeBasic:
     case TimeZone::kTypeExtended:
-    case TimeZone::kTypeManaged:
+    case TimeZone::kTypeBasicManaged:
+    case TimeZone::kTypeExtendedManaged:
       return (a.mZoneInfo == b.mZoneInfo);
     default:
       return false;
