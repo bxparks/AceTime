@@ -207,7 +207,7 @@ class Presenter {
         case TimeZone::kTypeBasicManaged:
           typeString = F("bas-man");
           break;
-        case TimeZone::kTypeBasicManaged:
+        case TimeZone::kTypeExtendedManaged:
           typeString = F("extd-man");
           break;
         default:
