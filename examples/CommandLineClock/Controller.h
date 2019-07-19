@@ -185,9 +185,10 @@ class Controller {
 
     void restoreInfo() {
       switch (mStoredInfo.timeZoneType) {
-        case TimeZone::kTypeManaged:
         case TimeZone::kTypeBasic:
         case TimeZone::kTypeExtended:
+        case TimeZone::kTypeBasicManaged:
+        case TimeZone::kTypeExtendedManaged:
       #if ENABLE_TIME_ZONE_TYPE_BASIC
           setBasicTimeZoneForId(mStoredInfo.zoneId);
       #elif ENABLE_TIME_ZONE_TYPE_EXTENDED

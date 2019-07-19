@@ -23,7 +23,8 @@ void TimeZone::printTo(Print& printer) const {
     case kTypeExtended:
       mZoneSpecifier->printTo(printer);
       return;
-    case kTypeManaged:
+    case kTypeBasicManaged:
+    case kTypeExtendedManaged:
     {
       ZoneSpecifier* specifier =
           mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
@@ -53,7 +54,8 @@ void TimeZone::printShortTo(Print& printer) const {
     case kTypeExtended:
       mZoneSpecifier->printShortTo(printer);
       return;
-    case kTypeManaged:
+    case kTypeBasicManaged:
+    case kTypeExtendedManaged:
     {
       ZoneSpecifier* specifier =
           mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
@@ -78,7 +80,8 @@ void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {
     case kTypeExtended:
       printer.print(mZoneSpecifier->getAbbrev(epochSeconds));
       return;
-    case kTypeManaged:
+    case kTypeBasicManaged:
+    case kTypeExtendedManaged:
     {
       ZoneSpecifier* specifier =
           mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);

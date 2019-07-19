@@ -15,9 +15,8 @@ struct ClockInfo {
   static uint8_t const kTwentyFour = 1;
 
   /** Construct from ZoneSpecifier. */
-  ClockInfo(ace_time::ZoneSpecifier& zspec, const char* theName):
-      timeZone(ace_time::TimeZone::forZoneSpecifier(&zspec)),
-      name(theName) {}
+  ClockInfo(const ace_time::TimeZone& tz, const char* theName):
+      timeZone(tz), name(theName) {}
 
   /** Hour mode, 12H or 24H. */
   uint8_t hourMode = kTwelve;

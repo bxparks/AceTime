@@ -23,6 +23,13 @@ namespace ace_time {
  */
 class ZoneSpecifierCache {
   public:
+    static const uint8_t kTypeBasicManaged = ZoneSpecifier::kTypeBasic + 2;
+    static const uint8_t kTypeExtendedManaged =
+        ZoneSpecifier::kTypeExtended + 2;
+
+    /** Return the type of this cache. */
+    virtual uint8_t getType() = 0;
+
     /**
      * Get ZoneSpecifier from either a basic::ZoneInfo or an
      * extended::ZoneInfo. Unfortunately, this is not type-safe, but that's the
@@ -46,10 +53,12 @@ class ZoneSpecifierCache {
  * @tparam ZIB type of ZoneInfoBroker (basic::ZoneInfoBroker or 
  *    extended::ZoneInfoBroker)
  */
-template<uint8_t SIZE, typename ZS, typename ZI, typename ZIB>
+template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
 class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
   public:
     ZoneSpecifierCacheImpl() {}
+
+    uint8_t getType() override { return TYPE; }
 
     /** Get the ZoneSpecifier from the zoneInfo. Will never return nullptr. */
     ZoneSpecifier* getZoneSpecifier(const void* zoneInfo) override {
@@ -76,7 +85,7 @@ class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
      */
     ZS* findUsingZoneInfo(const ZI* zoneInfoKey) {
       for (uint8_t i = 0; i < SIZE; i++) {
-        const ZI* zoneInfo = mZoneSpecifiers[i].getZoneInfo();
+        const ZI* zoneInfo = (const ZI*) mZoneSpecifiers[i].getZoneInfo();
         if (zoneInfo == zoneInfoKey) {
           return &mZoneSpecifiers[i];
         }
@@ -88,13 +97,36 @@ class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
     uint8_t mCurrentIndex = 0;
 };
 
+#if 1
 template<uint8_t SIZE>
-using BasicZoneSpecifierCache = ZoneSpecifierCacheImpl<SIZE,
+class BasicZoneSpecifierCache: public ZoneSpecifierCacheImpl<
+    SIZE, ZoneSpecifierCache::kTypeBasicManaged,
+    BasicZoneSpecifier, basic::ZoneInfo, basic::ZoneInfoBroker> {
+};
+
+template<uint8_t SIZE>
+class ExtendedZoneSpecifierCache: public ZoneSpecifierCacheImpl<
+    SIZE, ZoneSpecifierCache::kTypeExtendedManaged,
+    ExtendedZoneSpecifier, extended::ZoneInfo, extended::ZoneInfoBroker> {
+};
+#else
+
+// NOTE: The following typedef seems shorter and easier to maintain. The
+// problem is that it makes error messages basically impossible to decipher
+// because the immensely long full template class name is printed out. There
+// seems to be no difference in code size between the two. The compiler seems
+// to optimize away the vtables of the parent and child classes.
+
+template<uint8_t SIZE>
+using BasicZoneSpecifierCache = ZoneSpecifierCacheImpl<
+    SIZE, ZoneSpecifierCache::kTypeBasicManaged,
     BasicZoneSpecifier, basic::ZoneInfo, basic::ZoneInfoBroker>;
 
 template<uint8_t SIZE>
-using ExtendedZoneSpecifierCache  = ZoneSpecifierCacheImpl<SIZE,
+using ExtendedZoneSpecifierCache  = ZoneSpecifierCacheImpl<
+    SIZE, ZoneSpecifierCache::kTypeExtendedManaged,
     ExtendedZoneSpecifier, extended::ZoneInfo, extended::ZoneInfoBroker>;
+#endif
 
 }
 

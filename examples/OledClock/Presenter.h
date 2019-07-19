@@ -204,8 +204,11 @@ class Presenter {
         case TimeZone::kTypeExtended:
           typeString = F("extd");
           break;
-        case TimeZone::kTypeManaged:
-          typeString = F("managed");
+        case TimeZone::kTypeBasicManaged:
+          typeString = F("bas-man");
+          break;
+        case TimeZone::kTypeBasicManaged:
+          typeString = F("extd-man");
           break;
         default:
           typeString = F("unknown");
@@ -235,7 +238,8 @@ class Presenter {
       #else
         case TimeZone::kTypeBasic:
         case TimeZone::kTypeExtended:
-        case TimeZone::kTypeManaged:
+        case TimeZone::kTypeBasicManaged:
+        case TimeZone::kTypeExtendedManaged:
           // Print name of timezone
           mOled.println();
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {

@@ -378,7 +378,8 @@ class Controller {
           break;
         case TimeZone::kTypeBasic:
         case TimeZone::kTypeExtended:
-        case TimeZone::kTypeManaged:
+        case TimeZone::kTypeBasicManaged:
+        case TimeZone::kTypeExtendedManaged:
           storedInfo.zoneId = clockInfo.timeZone.getZoneId();
           break;
       }
@@ -413,7 +414,8 @@ class Controller {
           || TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
         case TimeZone::kTypeBasic:
         case TimeZone::kTypeExtended:
-        case TimeZone::kTypeManaged:
+        case TimeZone::kTypeBasicManaged:
+        case TimeZone::kTypeExtendedManaged:
           clockInfo.timeZone = mZoneManager.createForZoneId(storedInfo.zoneId);
           mZoneIndex = mZoneManager.indexForZoneId(storedInfo.zoneId);
           break;

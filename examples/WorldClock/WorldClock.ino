@@ -85,24 +85,29 @@ Presenter presenter0(oled0);
 Presenter presenter1(oled1);
 Presenter presenter2(oled2);
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-// TODO: Broken after ManualZoneSpecifier was removed.
-ManualZoneSpecifier zspec0(TimeOffset::forHour(-8), false, "PST", "PDT");
-ManualZoneSpecifier zspec1(TimeOffset::forHour(-5), false, "EST", "EDT");
-ManualZoneSpecifier zspec2(TimeOffset::forHour(0), false, "GMT", "BST");
+TimeZone tz0 = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+TimeZone tz1 = TimeZone::forTimeOffset(TimeOffset::forHour(-5));
+TimeZone tz2 = TimeZone::forTimeOffset(TimeOffset::forHour(0));
 #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
 BasicZoneSpecifier zspec0(&zonedb::kZoneAmerica_Los_Angeles);
 BasicZoneSpecifier zspec1(&zonedb::kZoneAmerica_New_York);
 BasicZoneSpecifier zspec2(&zonedb::kZoneEurope_London);
+TimeZone tz0 = TimeZone::forZoneSpecifier(&zspec0);
+TimeZone tz1 = TimeZone::forZoneSpecifier(&zspec1);
+TimeZone tz2 = TimeZone::forZoneSpecifier(&zspec2);
 #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
 ExtendedZoneSpecifier zspec0(&zonedbx::kZoneAmerica_Los_Angeles);
 ExtendedZoneSpecifier zspec1(&zonedbx::kZoneAmerica_New_York);
 ExtendedZoneSpecifier zspec2(&zonedbx::kZoneEurope_London);
+TimeZone tz0 = TimeZone::forZoneSpecifier(&zspec0);
+TimeZone tz1 = TimeZone::forZoneSpecifier(&zspec1);
+TimeZone tz2 = TimeZone::forZoneSpecifier(&zspec2);
 #else
   #error Unknown TIME_ZONE_TYPE
 #endif
 Controller controller(systemClock, crcEeprom,
     presenter0, presenter1, presenter2,
-    zspec0, zspec1, zspec2, "SFO", "PHL", "LHR");
+    tz0, tz1, tz2, "SFO", "PHL", "LHR");
 
 // The RTC has a resolution of only 1s, so we need to poll it fast enough to
 // make it appear that the display is tracking it correctly. The benchmarking

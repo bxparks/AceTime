@@ -51,6 +51,9 @@ class TransitionStorageTest_resetCandidatePool;
 
 namespace ace_time {
 
+template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+class ZoneSpecifierCacheImpl;
+
 namespace extended {
 
 // NOTE: Consider compressing 'modifier' into 'month' field
@@ -649,18 +652,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         ZoneSpecifier(kTypeExtended),
         mZoneInfo(zoneInfo) {}
 
-    /** Set the underlying ZoneInfo. */
-    void setZoneInfo(const extended::ZoneInfo* zoneInfo) {
-      if (mZoneInfo.zoneInfo() == zoneInfo) return;
-
-      mZoneInfo = extended::ZoneInfoBroker(zoneInfo);
-      mYear = 0;
-      mIsFilled = false;
-      mNumMatches = 0;
-    }
-
     /** Return the underlying ZoneInfo. */
-    const extended::ZoneInfo* getZoneInfo() const {
+    const void* getZoneInfo() const override {
       return mZoneInfo.zoneInfo();
     }
 
@@ -774,6 +767,9 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_createAbbreviation;
     friend class ::ExtendedZoneSpecifierTest_setZoneInfo;
 
+    template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
+    friend class ZoneSpecifierCacheImpl; // setZoneInfo()
+
     // Disable copy constructor and assignment operator.
     ExtendedZoneSpecifier(const ExtendedZoneSpecifier&) = delete;
     ExtendedZoneSpecifier& operator=(const ExtendedZoneSpecifier&) = delete;
@@ -805,6 +801,17 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     bool equals(const ZoneSpecifier& other) const override {
       const auto& that = (const ExtendedZoneSpecifier&) other;
       return getZoneInfo() == that.getZoneInfo();
+    }
+
+    /** Set the underlying ZoneInfo. */
+    void setZoneInfo(const void* zoneInfo) override {
+      if (mZoneInfo.zoneInfo() == zoneInfo) return;
+
+      mZoneInfo = extended::ZoneInfoBroker(
+          (const extended::ZoneInfo*) zoneInfo);
+      mYear = 0;
+      mIsFilled = false;
+      mNumMatches = 0;
     }
 
     /**

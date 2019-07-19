@@ -24,7 +24,10 @@ struct StoredInfo {
       int8_t dstOffsetCode;
     };
 
-    /** Used by kTypeBasic, kTypeExtended, kTypeManaged. */
+    /**
+     * Used by kTypeBasic, kTypeExtended, kTypeBasicManaged,
+     * kTypeExtendedManaged.
+     */
     uint32_t zoneId;
   };
 };
