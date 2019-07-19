@@ -14,7 +14,7 @@ using namespace ace_time;
 using namespace ace_time::clock;
 
 // ZoneProcessor instance should be created statically at initialization time.
-static BasicZoneProcessor pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
+static BasicZoneProcessor pacificProcessor(&zonedb::kZoneAmerica_Los_Angeles);
 
 SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
 
@@ -28,7 +28,8 @@ void setup() {
   systemClock.setup();
 
   // Creating timezones is cheap, so we can create them on the fly as needed.
-  auto pacificTz = TimeZone::forZoneProcessor(&pacificSpec);
+  auto pacificTz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &pacificProcessor);
 
   // Set the SystemClock using these components.
   auto pacificTime = ZonedDateTime::forComponents(
@@ -42,7 +43,8 @@ void printCurrentTime() {
   acetime_t now = systemClock.getNow();
 
   // Create Pacific Time and print.
-  auto pacificTz = TimeZone::forZoneProcessor(&pacificSpec);
+  auto pacificTz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &pacificProcessor);
   auto pacificTime = ZonedDateTime::forEpochSeconds(now, pacificTz);
   pacificTime.printTo(Serial);
   Serial.println();

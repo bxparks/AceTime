@@ -107,20 +107,24 @@ class TimeZone {
     }
 
     /**
-     * Factory method to create from a BasicZoneProcessor.
+     * Factory method to create from a zoneInfo and an associated
+     * BasicZoneProcessor.
+     * @param zoneInfo a basic::ZoneInfo that identifies the zone
      * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
      */
-    static TimeZone forZoneProcessor(BasicZoneProcessor* zoneProcessor) {
-      auto zoneInfo = (const basic::ZoneInfo*) zoneProcessor->getZoneInfo();
+    static TimeZone forZoneInfo(const basic::ZoneInfo* zoneInfo,
+        BasicZoneProcessor* zoneProcessor) {
       return TimeZone(kTypeBasic, zoneInfo, zoneProcessor);
     }
 
     /**
-     * Factory method to create from a ExtendedZoneProcessor.
+     * Factory method to create from a zoneInfo and an associated
+     * ExtendedZoneProcessor.
+     * @param zoneInfo an extended::ZoneInfo that identifies the zone
      * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
      */
-    static TimeZone forZoneProcessor(ExtendedZoneProcessor* zoneProcessor) {
-      auto zoneInfo = (const extended::ZoneInfo*) zoneProcessor->getZoneInfo();
+    static TimeZone forZoneInfo(const extended::ZoneInfo* zoneInfo,
+        ExtendedZoneProcessor* zoneProcessor) {
       return TimeZone(kTypeExtended, zoneInfo, zoneProcessor);
     }
 

@@ -321,12 +321,16 @@ test(TimeZoneTest, operatorEqualEqual_directZone) {
   TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHour(-7));
   assertTrue(manual != manual2);
 
-  TimeZone basic = TimeZone::forZoneProcessor(&basicZoneProcessor);
-  TimeZone basic2 = TimeZone::forZoneProcessor(&basicZoneProcessor2);
+  TimeZone basic = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles, &basicZoneProcessor);
+  TimeZone basic2 = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_New_York, &basicZoneProcessor2);
   assertTrue(basic != basic2);
 
-  TimeZone extended = TimeZone::forZoneProcessor(&extendedZoneProcessor);
-  TimeZone extended2 = TimeZone::forZoneProcessor(&extendedZoneProcessor2);
+  TimeZone extended = TimeZone::forZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles, &extendedZoneProcessor);
+  TimeZone extended2 = TimeZone::forZoneInfo(
+      &zonedbx::kZoneAmerica_New_York, &extendedZoneProcessor2);
   assertTrue(extended != extended2);
 
   assertTrue(manual != basic);

@@ -89,19 +89,25 @@ TimeZone tz0 = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
 TimeZone tz1 = TimeZone::forTimeOffset(TimeOffset::forHour(-5));
 TimeZone tz2 = TimeZone::forTimeOffset(TimeOffset::forHour(0));
 #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-BasicZoneProcessor zspec0(&zonedb::kZoneAmerica_Los_Angeles);
-BasicZoneProcessor zspec1(&zonedb::kZoneAmerica_New_York);
-BasicZoneProcessor zspec2(&zonedb::kZoneEurope_London);
-TimeZone tz0 = TimeZone::forZoneProcessor(&zspec0);
-TimeZone tz1 = TimeZone::forZoneProcessor(&zspec1);
-TimeZone tz2 = TimeZone::forZoneProcessor(&zspec2);
+BasicZoneProcessor zoneProcessor0(&zonedb::kZoneAmerica_Los_Angeles);
+BasicZoneProcessor zoneProcessor1(&zonedb::kZoneAmerica_New_York);
+BasicZoneProcessor zoneProcessor2(&zonedb::kZoneEurope_London);
+TimeZone tz0 = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+    &zoneProcessor0);
+TimeZone tz1 = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_New_York,
+    &zoneProcessor1);
+TimeZone tz2 = TimeZone::forZoneInfo(&zonedb::kZoneEurope_London,
+    &zoneProcessor2);
 #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-ExtendedZoneProcessor zspec0(&zonedbx::kZoneAmerica_Los_Angeles);
-ExtendedZoneProcessor zspec1(&zonedbx::kZoneAmerica_New_York);
-ExtendedZoneProcessor zspec2(&zonedbx::kZoneEurope_London);
-TimeZone tz0 = TimeZone::forZoneProcessor(&zspec0);
-TimeZone tz1 = TimeZone::forZoneProcessor(&zspec1);
-TimeZone tz2 = TimeZone::forZoneProcessor(&zspec2);
+ExtendedZoneProcessor zoneProcessor0(&zonedbx::kZoneAmerica_Los_Angeles);
+ExtendedZoneProcessor zoneProcessor1(&zonedbx::kZoneAmerica_New_York);
+ExtendedZoneProcessor zoneProcessor2(&zonedbx::kZoneEurope_London);
+TimeZone tz0 = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+    &zoneProcessor0);
+TimeZone tz1 = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_New_York,
+    &zoneProcessor1);
+TimeZone tz2 = TimeZone::forZoneInfo(&zonedbx::kZoneEurope_London,
+    &zoneProcessor2);
 #else
   #error Unknown TIME_ZONE_TYPE
 #endif

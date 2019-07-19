@@ -25,8 +25,8 @@
 using namespace ace_time;
 
 // ZoneProcessor instances should be created statically at initialization time.
-static BasicZoneProcessor pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
-static BasicZoneProcessor londonSpec(&zonedb::kZoneEurope_London);
+static BasicZoneProcessor pacificProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+static BasicZoneProcessor londonProcessor(&zonedb::kZoneEurope_London);
 
 void setup() {
 #if defined(ARDUINO)
@@ -35,8 +35,10 @@ void setup() {
   Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
 
-  auto pacificTz = TimeZone::forZoneProcessor(&pacificSpec);
-  auto londonTz = TimeZone::forZoneProcessor(&londonSpec);
+  auto pacificTz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &pacificProcessor);
+  auto londonTz = TimeZone::forZoneInfo(&zonedb::kZoneEurope_London,
+      &londonProcessor);
 
   // Create from components. 2019-03-10T03:00:00 is just after DST change in
   // Los Angeles (2am goes to 3am).
