@@ -9,8 +9,7 @@
 
 namespace ace_time {
 
-const extended::ZoneEra ExtendedZoneSpecifier::kAnchorEra
-    ACE_TIME_EXTENDED_PROGMEM = {
+const extended::ZoneEra ExtendedZoneSpecifier::kAnchorEra ACE_TIME_PROGMEM = {
   0 /*offsetCode*/,
   nullptr /*zonePolicy*/,
   0 /*deltaCode*/,

@@ -118,7 +118,7 @@ test(TimeZoneTest, manual_dst) {
 // kTypeManaged + BasicZoneManager
 // --------------------------------------------------------------------------
 
-const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_BASIC_PROGMEM = {
+const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedb::kZoneAmerica_Chicago,
   &zonedb::kZoneAmerica_Denver,
   &zonedb::kZoneAmerica_Los_Angeles,
@@ -184,8 +184,7 @@ test(TimeZoneBasicTest, Los_Angeles) {
 // microcontrollers.
 // --------------------------------------------------------------------------
 
-const extended::ZoneInfo* const kExtendedZoneRegistry[]
-    ACE_TIME_EXTENDED_PROGMEM = {
+const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Chicago,
   &zonedbx::kZoneAmerica_Denver,
   &zonedbx::kZoneAmerica_Los_Angeles,

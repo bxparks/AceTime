@@ -2,8 +2,7 @@
 
 #if ENABLE_TIME_ZONE_TYPE_BASIC
 
-const basic::ZoneInfo* const Controller::kBasicZoneRegistry[]
-    ACE_TIME_BASIC_PROGMEM = {
+const basic::ZoneInfo* const Controller::kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedb::kZoneAmerica_Los_Angeles,
   &zonedb::kZoneAmerica_Denver,
   &zonedb::kZoneAmerica_Chicago,
@@ -18,7 +17,7 @@ const uint16_t Controller::kBasicZoneRegistrySize =
 #if ENABLE_TIME_ZONE_TYPE_EXTENDED
 
 const extended::ZoneInfo* const Controller::kExtendedZoneRegistry[]
-    ACE_TIME_EXTENDED_PROGMEM = {
+    ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Los_Angeles,
   &zonedbx::kZoneAmerica_Denver,
   &zonedbx::kZoneAmerica_Chicago,

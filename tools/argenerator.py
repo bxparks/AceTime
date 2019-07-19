@@ -414,7 +414,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             letterArray = self.ZONE_POLICIES_LETTER_ARRAY.format(
                 policyName=policyName,
                 letterItems=letterItems,
-                progmem=_progmem(self.scope))
+                progmem='ACE_TIME_PROGMEM')
         else:
             letterArrayRef = 'nullptr'
             letterArray = ''
@@ -438,7 +438,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             numLetters=numLetters,
             letterArrayRef=letterArrayRef,
             letterArray=letterArray,
-            progmem=_progmem(self.scope))
+            progmem='ACE_TIME_PROGMEM')
 
         return (policy_item, memory8, memory32)
 
@@ -793,7 +793,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             memory8=memory8,
             memory32=memory32,
             eraItems=era_items,
-            progmem=_progmem(self.scope))
+            progmem='ACE_TIME_PROGMEM')
         return (info_item, string_length)
 
     def _generate_era_item(self, zone_name, era):
@@ -1049,7 +1049,7 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map),
             zoneRegistryItems=zone_registry_items,
-            progmem=_progmem(self.scope))
+            progmem='ACE_TIME_PROGMEM')
 
     def generate_registry_h(self):
         return self.ZONE_REGISTRY_H_FILE.format(
@@ -1059,12 +1059,6 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map))
-
-def _progmem(scope):
-    """Return the appropriate PROGMEM marker given the scope.
-    """
-    return ('ACE_TIME_BASIC_PROGMEM' if scope == 'basic'
-        else 'ACE_TIME_EXTENDED_PROGMEM')
 
 def to_tiny_year(year):
     if year == MAX_YEAR:

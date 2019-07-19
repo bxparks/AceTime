@@ -159,7 +159,7 @@ class ZoneRegistrar {
  * Concrete template instantiation of ZoneRegistrar for basic::ZoneInfo, which
  * can be used with BasicZoneSpecifier.
  */
-#if ACE_TIME_USE_BASIC_PROGMEM
+#if ACE_TIME_USE_PROGMEM
 typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
     basic::ZoneInfoBroker, acetime_strcmp_P, acetime_strcmp_PP>
     BasicZoneRegistrar;
@@ -172,7 +172,7 @@ typedef ZoneRegistrar<basic::ZoneInfo, basic::ZoneRegistryBroker,
  * Concrete template instantiation of ZoneRegistrar for extended::ZoneInfo, which
  * can be used with ExtendedZoneSpecifier.
  */
-#if ACE_TIME_USE_EXTENDED_PROGMEM
+#if ACE_TIME_USE_PROGMEM
 typedef ZoneRegistrar<extended::ZoneInfo, extended::ZoneRegistryBroker,
     extended::ZoneInfoBroker, acetime_strcmp_P, acetime_strcmp_PP>
     ExtendedZoneRegistrar;

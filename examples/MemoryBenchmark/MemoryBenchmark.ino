@@ -25,8 +25,7 @@
 using namespace ace_time;
 using namespace ace_time::clock;
 
-static const basic::ZoneInfo* const kBasicZoneRegistry[]
-		ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedb::kZoneAmerica_Chicago,
   &zonedb::kZoneAmerica_Denver,
   &zonedb::kZoneAmerica_Los_Angeles,
@@ -37,7 +36,7 @@ static const uint16_t kBasicZoneRegistrySize =
     sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
 
 static const extended::ZoneInfo* const kExtendedZoneRegistry[]
-    ACE_TIME_EXTENDED_PROGMEM = {
+    ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Chicago,
   &zonedbx::kZoneAmerica_Denver,
   &zonedbx::kZoneAmerica_Los_Angeles,

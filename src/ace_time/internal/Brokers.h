@@ -11,7 +11,7 @@
  *
  * The classes provide a thin layer of indirection for accessing the
  * zoneinfo files stored in the zonedb/ and zonedbx/ directories. When
- * ACE_TIME_USE_BASIC_PROGMEM or ACE_TIME_USE_EXTENDED_PROGMEM are enabled, the
+ * ACE_TIME_USE_PROGMEM or ACE_TIME_USE_PROGMEM are enabled, the
  * zoneinfo files are stored in flash memory (using the PROGMEM keyword), and
  * cannot be accessed directly on microcontrollers using the Harvard
  * architecture (e.g. AVR) where data and program live in 2 different address
@@ -20,7 +20,7 @@
  * BasicZoneSpecifier and ExtendedZoneSpecifier can be written to be (mostly)
  * agnostic to how the zoneinfo files are stored.
  *
- * When the ACE_TIME_USE_BASIC_PROGMEM and ACE_TIME_USE_EXTENDED_PROGMEM are
+ * When the ACE_TIME_USE_PROGMEM and ACE_TIME_USE_PROGMEM are
  * disabled, the compiler will optimize away this entire abstraction layer, so
  * the resulting machine code is no bigger than (and in most cases, identifical
  * to) accessing the zoneinfo files directly.
@@ -473,7 +473,7 @@ class FlashZoneRegistryBroker {
 
 namespace basic {
 
-#if ACE_TIME_USE_BASIC_PROGMEM
+#if ACE_TIME_USE_PROGMEM
 typedef common::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
 typedef common::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
 typedef common::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule> ZoneEraBroker;
@@ -494,7 +494,7 @@ typedef common::DirectZoneRegistryBroker<ZoneInfo> ZoneRegistryBroker;
 
 namespace extended {
 
-#if ACE_TIME_USE_EXTENDED_PROGMEM
+#if ACE_TIME_USE_PROGMEM
 typedef common::FlashZoneRuleBroker<ZoneRule> ZoneRuleBroker;
 typedef common::FlashZonePolicyBroker<ZonePolicy, ZoneRule> ZonePolicyBroker;
 typedef common::FlashZoneEraBroker<ZoneEra, ZonePolicy, ZoneRule> ZoneEraBroker;

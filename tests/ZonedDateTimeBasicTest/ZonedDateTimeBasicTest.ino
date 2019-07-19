@@ -10,7 +10,7 @@ using namespace ace_time;
 // BasicZoneManager
 // --------------------------------------------------------------------------
 
-const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_BASIC_PROGMEM = {
+const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedb::kZoneAmerica_Chicago,
   &zonedb::kZoneAmerica_Denver,
   &zonedb::kZoneAmerica_Los_Angeles,
