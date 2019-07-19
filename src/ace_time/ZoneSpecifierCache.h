@@ -97,6 +97,26 @@ class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
     uint8_t mCurrentIndex = 0;
 };
 
+#if 1
+template<uint8_t SIZE>
+class BasicZoneSpecifierCache: public ZoneSpecifierCacheImpl<
+    SIZE, ZoneSpecifierCache::kTypeBasicManaged,
+    BasicZoneSpecifier, basic::ZoneInfo, basic::ZoneInfoBroker> {
+};
+
+template<uint8_t SIZE>
+class ExtendedZoneSpecifierCache: public ZoneSpecifierCacheImpl<
+    SIZE, ZoneSpecifierCache::kTypeExtendedManaged,
+    ExtendedZoneSpecifier, extended::ZoneInfo, extended::ZoneInfoBroker> {
+};
+#else
+
+// NOTE: The following typedef seems shorter and easier to maintain. The
+// problem is that it makes error messages basically impossible to decipher
+// because the immensely long full template class name is printed out. There
+// seems to be no difference in code size between the two. The compiler seems
+// to optimize away the vtables of the parent and child classes.
+
 template<uint8_t SIZE>
 using BasicZoneSpecifierCache = ZoneSpecifierCacheImpl<
     SIZE, ZoneSpecifierCache::kTypeBasicManaged,
@@ -106,6 +126,7 @@ template<uint8_t SIZE>
 using ExtendedZoneSpecifierCache  = ZoneSpecifierCacheImpl<
     SIZE, ZoneSpecifierCache::kTypeExtendedManaged,
     ExtendedZoneSpecifier, extended::ZoneInfo, extended::ZoneInfoBroker>;
+#endif
 
 }
 

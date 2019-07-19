@@ -103,14 +103,11 @@ class ExtendedZoneManager: public ZoneManager<extended::ZoneInfo,
 
 #else
 
-// NOTE: Instead of using subclassing, we could have used the following typedef
-// that does a partial template instantiation. It's shorter, and looks to be
-// easier to maintain. The problem is that it makes error messages basically
-// impossible to decipher because the full template is printed out across 6-7
-// lines.
-// 
-// There seems to be no difference in code size between the two. The compiler
-// seems to optimize away the vtables of the parent and child classes.
+// NOTE: The following typedef seems shorter and easier to maintain. The
+// problem is that it makes error messages basically impossible to decipher
+// because the immensely long full template class name is printed out. There
+// seems to be no difference in code size between the two. The compiler seems
+// to optimize away the vtables of the parent and child classes.
 
 template<uint8_t SIZE>
 using BasicZoneManager = ZoneManager<basic::ZoneInfo,
