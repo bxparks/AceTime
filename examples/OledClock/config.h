@@ -10,7 +10,7 @@
 #define EEPROM_SIZE 32
 
 // Set to 1 to print debugging info to Serial
-#define ENABLE_SERIAL 1
+#define ENABLE_SERIAL 0
 
 // Set to 1 to force the ClockInfo to its initial state
 #define FORCE_INITIALIZE 0

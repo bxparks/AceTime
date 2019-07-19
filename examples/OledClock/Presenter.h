@@ -180,7 +180,7 @@ class Presenter {
     }
 
     void displayTimeZone() const {
-    #if 0
+    #if ENABLE_SERIAL
       Serial.println(F("displayTimeZone()"));
     #endif
       mOled.setFont(fixed_bold10x15);

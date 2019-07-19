@@ -238,13 +238,8 @@ class Controller {
           if (mZoneIndex >= kZoneRegistrySize) {
             mZoneIndex = 0;
           }
-        #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
           mChangingClockInfo.timeZone =
               mZoneManager.createForZoneIndex(mZoneIndex);
-        #else
-          mChangingClockInfo.timeZone =
-              mZoneManager.createForZoneIndex(mZoneIndex);
-        #endif
           mChangingClockInfo.dateTime =
               mChangingClockInfo.dateTime.convertToTimeZone(
                   mChangingClockInfo.timeZone);
@@ -395,7 +390,15 @@ class Controller {
     /** Restore clockInfo from storedInfo. */
     void restoreClockInfo(ClockInfo& clockInfo, const StoredInfo& storedInfo) {
     #if ENABLE_SERIAL == 1
-      Serial.println(F("preserveClockInfo()"));
+      Serial.println(F("restoreClockInfo()"));
+      Serial.print(F("hourMode: ")); Serial.println(storedInfo.hourMode);
+      Serial.print(F("type: ")); Serial.println(storedInfo.type);
+      if (storedInfo.type == TimeZone::kTypeManual) {
+        Serial.print(F("std: ")); Serial.println(storedInfo.stdOffsetCode);
+        Serial.print(F("dst: ")); Serial.println(storedInfo.dstOffsetCode);
+      } else {
+        Serial.print(F("zoneId: 0x")); Serial.println(storedInfo.zoneId, 16);
+      }
     #endif
       clockInfo.hourMode = storedInfo.hourMode;
 
@@ -406,13 +409,11 @@ class Controller {
               TimeOffset::forOffsetCode(storedInfo.stdOffsetCode),
               TimeOffset::forOffsetCode(storedInfo.dstOffsetCode));
           break;
-      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC \
+          || TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
         case TimeZone::kTypeBasic:
-          clockInfo.timeZone = mZoneManager.createForZoneId(storedInfo.zoneId);
-          mZoneIndex = mZoneManager.indexForZoneId(storedInfo.zoneId);
-          break;
-      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
         case TimeZone::kTypeExtended:
+        case TimeZone::kTypeManaged:
           clockInfo.timeZone = mZoneManager.createForZoneId(storedInfo.zoneId);
           mZoneIndex = mZoneManager.indexForZoneId(storedInfo.zoneId);
           break;
