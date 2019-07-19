@@ -29,8 +29,8 @@ class Controller {
      * @param presenter renders the date and time info to the screen
      */
     Controller(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
-            Presenter& presenter0, Presenter& presenter1,
-            Presenter& presenter2, TimeZone& tz0, TimeZone& tz1, TimeZone& tz2,
+            Presenter& presenter0, Presenter& presenter1, Presenter& presenter2,
+            const TimeZone& tz0, const TimeZone& tz1, const TimeZone& tz2,
             const char* name0, const char* name1, const char* name2):
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),

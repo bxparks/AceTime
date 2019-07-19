@@ -85,7 +85,6 @@ Presenter presenter0(oled0);
 Presenter presenter1(oled1);
 Presenter presenter2(oled2);
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-// TODO: Broken after ManualZoneSpecifier was removed.
 TimeZone tz0 = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
 TimeZone tz1 = TimeZone::forTimeOffset(TimeOffset::forHour(-5));
 TimeZone tz2 = TimeZone::forTimeOffset(TimeOffset::forHour(0));
