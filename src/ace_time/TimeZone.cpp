@@ -15,8 +15,8 @@ void TimeZone::printTo(Print& printer) const {
       if (isUtc()) {
         printer.print("UTC");
       } else {
-        TimeOffset::forOffsetCode(mStdOffset).printTo(printer);
-        TimeOffset::forOffsetCode(mDstOffset).printTo(printer);
+        TimeOffset::forOffsetCode(mStdOffsetCode).printTo(printer);
+        TimeOffset::forOffsetCode(mDstOffsetCode).printTo(printer);
       }
       return;
     case kTypeBasic:
@@ -41,10 +41,11 @@ void TimeZone::printShortTo(Print& printer) const {
       if (isUtc()) {
         printer.print("UTC");
       } else {
-        auto utcOffset = TimeOffset::forOffsetCode(mStdOffset + mDstOffset);
+        auto utcOffset = TimeOffset::forOffsetCode(
+            mStdOffsetCode + mDstOffsetCode);
         utcOffset.printTo(printer);
         printer.print('(');
-        printer.print((mDstOffset != 0) ? "DST" : "STD");
+        printer.print((mDstOffsetCode != 0) ? "DST" : "STD");
         printer.print(')');
       }
       return;
@@ -70,7 +71,7 @@ void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {
       if (isUtc()) {
         printer.print("UTC");
       } else {
-        printer.print((mDstOffset != 0) ? "DST" : "STD");
+        printer.print((mDstOffsetCode != 0) ? "DST" : "STD");
       }
       return;
     case kTypeBasic:

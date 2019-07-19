@@ -13,7 +13,7 @@
 #define ENABLE_SERIAL 1
 
 // Set to 1 to force the ClockInfo to its initial state
-#define FORCE_INITIALIZE 1
+#define FORCE_INITIALIZE 0
 
 // Number of minutes to use for a DST offset.
 #define DST_OFFSET_MINUTES 60

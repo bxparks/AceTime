@@ -139,8 +139,8 @@ class TimeZone {
     /** Default constructor creates a UTC TimeZone. */
     TimeZone():
         mType(kTypeManual),
-        mStdOffset(0),
-        mDstOffset(0) {}
+        mStdOffsetCode(0),
+        mDstOffsetCode(0) {}
 
     /**
      * Return the type of TimeZone. This value is useful for serializing and
@@ -148,11 +148,13 @@ class TimeZone {
      */
     uint8_t getType() const { return mType; }
 
-    // TODO: Change this to return TimeOffset
-    uint8_t getStdOffsetCode() const { return mStdOffset; }
+    TimeOffset getStdOffset() const {
+      return TimeOffset::forOffsetCode(mStdOffsetCode);
+    }
 
-    // TODO: Change this to return TimeOffset
-    uint8_t getDstOffsetCode() const { return mDstOffset; }
+    TimeOffset getDstOffset() const {
+      return TimeOffset::forOffsetCode(mDstOffsetCode);
+    }
 
     /**
      * Return the zoneId. Returns 0 if not valid. (It is not entirely clear
@@ -186,7 +188,7 @@ class TimeZone {
     TimeOffset getUtcOffset(acetime_t epochSeconds) const {
       switch (mType) {
         case kTypeManual:
-          return TimeOffset::forOffsetCode(mStdOffset + mDstOffset);
+          return TimeOffset::forOffsetCode(mStdOffsetCode + mDstOffsetCode);
         case kTypeBasic:
         case kTypeExtended:
           return mZoneSpecifier->getUtcOffset(epochSeconds);
@@ -209,7 +211,7 @@ class TimeZone {
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const {
       switch (mType) {
         case kTypeManual:
-          return TimeOffset::forOffsetCode(mDstOffset);
+          return TimeOffset::forOffsetCode(mDstOffsetCode);
         case kTypeBasic:
         case kTypeExtended:
           return mZoneSpecifier->getDeltaOffset(epochSeconds);
@@ -255,19 +257,19 @@ class TimeZone {
     /** Return true if UTC (+00:00+00:00). */
     bool isUtc() const {
       if (mType != kTypeManual) return false;
-      return mStdOffset == 0 && mDstOffset == 0;
+      return mStdOffsetCode == 0 && mDstOffsetCode == 0;
     }
 
     /**
-     * Return if mDstOffset is not zero. This is a convenience method that is
-     * valid only if the TimeZone is a kTypeManual. Returns false for all other
-     * type of TimeZone. This is intended to be used by applications which
-     * allows the user to set the UTC offset and DST flag manually (e.g.
+     * Return if mDstOffsetCode is not zero. This is a convenience method that
+     * is valid only if the TimeZone is a kTypeManual. Returns false for all
+     * other type of TimeZone. This is intended to be used by applications
+     * which allows the user to set the UTC offset and DST flag manually (e.g.
      * examples/WorldClock.ino).
      */
     bool isDst() const {
       if (mType != kTypeManual) return false;
-      return mDstOffset != 0;
+      return mDstOffsetCode != 0;
     }
 
     /**
@@ -276,7 +278,7 @@ class TimeZone {
      */
     void setStdOffset(TimeOffset stdOffset) {
       if (mType != kTypeManual) return;
-      mStdOffset = stdOffset.toOffsetCode();
+      mStdOffsetCode = stdOffset.toOffsetCode();
     }
 
     /**
@@ -285,7 +287,7 @@ class TimeZone {
      */
     void setDstOffset(TimeOffset dstOffset) {
       if (mType != kTypeManual) return;
-      mDstOffset = dstOffset.toOffsetCode();
+      mDstOffsetCode = dstOffset.toOffsetCode();
     }
 
     /**
@@ -341,8 +343,8 @@ class TimeZone {
      */
     explicit TimeZone(TimeOffset stdOffset, TimeOffset dstOffset):
       mType(kTypeManual),
-      mStdOffset(stdOffset.toOffsetCode()),
-      mDstOffset(dstOffset.toOffsetCode()) {}
+      mStdOffsetCode(stdOffset.toOffsetCode()),
+      mDstOffsetCode(dstOffset.toOffsetCode()) {}
 
     /** Constructor needed to create a ::forError(). */
     explicit TimeZone(uint8_t type):
@@ -358,8 +360,8 @@ class TimeZone {
     union {
       /** Used by kTypeManual. */
       struct {
-        int8_t mStdOffset;
-        int8_t mDstOffset;
+        int8_t mStdOffsetCode;
+        int8_t mDstOffsetCode;
       };
 
       /** Used by kTypeBasic, kTypeExtended. */
@@ -378,8 +380,8 @@ inline bool operator==(const TimeZone& a, const TimeZone& b) {
   if (a.mType == TimeZone::kTypeError) {
     return true;
   } else if (a.mType == TimeZone::kTypeManual) {
-    return a.mStdOffset == b.mStdOffset
-        && a.mDstOffset == b.mDstOffset;
+    return a.mStdOffsetCode == b.mStdOffsetCode
+        && a.mDstOffsetCode == b.mDstOffsetCode;
   } else if (a.mType == TimeZone::kTypeBasic
       || a.mType == TimeZone::kTypeExtended) {
     return *a.mZoneSpecifier == *b.mZoneSpecifier;

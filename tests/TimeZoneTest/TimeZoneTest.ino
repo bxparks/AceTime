@@ -50,6 +50,8 @@ test(TimeZoneTest, manual_utc) {
   auto tz = TimeZone::forUtc();
   assertEqual(0, tz.getUtcOffset(0).toMinutes());
   assertEqual(0, tz.getDeltaOffset(0).toMinutes());
+  assertEqual(0, tz.getStdOffset().toMinutes());
+  assertEqual(0, tz.getDstOffset().toMinutes());
   assertTrue(tz.isUtc());
 
   tz.printTo(fakePrint);
@@ -72,6 +74,8 @@ test(TimeZoneTest, manual_no_dst) {
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
   assertEqual(0, tz.getDeltaOffset(0).toMinutes());
+  assertEqual(-8*60, tz.getStdOffset().toMinutes());
+  assertEqual(0, tz.getDstOffset().toMinutes());
 
   tz.printTo(fakePrint);
   assertEqual("-08:00+00:00", fakePrint.getBuffer());
@@ -94,6 +98,8 @@ test(TimeZoneTest, manual_dst) {
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
   assertEqual(60, tz.getDeltaOffset(0).toMinutes());
+  assertEqual(-8*60, tz.getStdOffset().toMinutes());
+  assertEqual(60, tz.getDstOffset().toMinutes());
 
   tz.printTo(fakePrint);
   assertEqual("-08:00+01:00", fakePrint.getBuffer());

@@ -376,8 +376,10 @@ class Controller {
       storedInfo.type = clockInfo.timeZone.getType();
       switch (storedInfo.type) {
         case TimeZone::kTypeManual:
-          storedInfo.stdOffsetCode = clockInfo.timeZone.getStdOffsetCode();
-          storedInfo.dstOffsetCode = clockInfo.timeZone.getDstOffsetCode();
+          storedInfo.stdOffsetCode =
+              clockInfo.timeZone.getStdOffset().toOffsetCode();
+          storedInfo.dstOffsetCode =
+              clockInfo.timeZone.getDstOffset().toOffsetCode();
           break;
         case TimeZone::kTypeBasic:
         case TimeZone::kTypeExtended:
