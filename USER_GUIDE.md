@@ -1313,9 +1313,9 @@ The default zone registries (`zonedb::kZoneRegistry` and
 `zonedbx::kZoneRegistry`) pull in every zone in the respective data sets, which
 consumes significant amounts of flash memory (see
 [MemoryBenchmark](examples/MemoryBenchmark/)). If flash memory is tight, the
-ZoneRegistrar can be initialized with a custom list of zones, to pull in only the
-zones of interest. For example, here is a `kZoneRegistry` with 4 zones from the
-`zonedb::` data set:
+ZoneRegistrar can be initialized with a custom list of zones, to pull in only
+the zones of interest. For example, here is a `kZoneRegistry` with 4 zones from
+the `zonedb::` data set:
 
 ```C++
 #include <AceTime.h>
