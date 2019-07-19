@@ -8,6 +8,7 @@
 
 #include "ZoneSpecifierCache.h"
 #include "ZoneRegistrar.h"
+#include "TimeZoneData.h"
 #include "TimeZone.h"
 
 namespace ace_time {
@@ -16,7 +17,9 @@ namespace ace_time {
  * Returns the TimeZone given the zoneInfo, zoneName, or zoneId. Looks up the
  * ZoneInfo in the ZoneRegistrar. If an existing ZoneSpecifier exists in the
  * ZoneSpecifierCache, then it is used. If not, another ZoneSpecifier is picked
- * from the cache in a round-robin fashion.
+ * from the cache in a round-robin fashion. The type of the TimeZone will be
+ * assigned to be the type of the ZoneSpecifierCache, which will be either
+ * kTypeBasicManaged or kTypeExtendedManaged.
  *
  * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo) which
  *    make up the zone registry
@@ -46,6 +49,27 @@ class ZoneManager {
     TimeZone createForZoneIndex(uint16_t index) {
       const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForIndex(index);
       return createForZoneInfo(zoneInfo);
+    }
+
+    /**
+     * Create from the TimeZoneData created by TimeZone::toTimeZoneData().
+     * kTypeBasic is converted into a kTypeBasicManaged, and kTypeExtended is
+     * converted into a kTypeExtendedManaged.
+     */
+    TimeZone createForTimeZoneData(const TimeZoneData& d) {
+      switch (d.type) {
+        case TimeZone::kTypeError:
+          return TimeZone::forError();
+        case TimeZone::kTypeManual:
+          return TimeZone::forTimeOffset(
+              TimeOffset::forOffsetCode(d.stdOffsetCode),
+              TimeOffset::forOffsetCode(d.dstOffsetCode));
+        case TimeZone::kTypeBasic:
+        case TimeZone::kTypeExtended:
+          return createForZoneId(d.zoneId);
+        default:
+          return TimeZone();
+      }
     }
 
     uint16_t indexForZoneName(const char* name) {

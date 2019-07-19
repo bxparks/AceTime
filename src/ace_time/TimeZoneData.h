@@ -11,32 +11,16 @@
 
 namespace ace_time {
 
-namespace basic {
-class ZoneInfo;
-}
-namespace extended {
-class ZoneInfo;
-}
-
 /**
  * Data structure that captures the internal state of a TimeZone object with
- * enough information that is equivalent to doing a deep-copy of the TimeZone,
- * including its underlying ZoneSpecifier object. It may be used to compare
- * different TimeZone objects, without having to keep multiple copies
- * of the ZoneSpecifier object which can consume a significant amount of RAM.
- *
- * The data structure is intended to be used within the application in-memory,
- * since it holds a pointer to a ZoneInfo object. However, a serialization data
- * structure can be created from the fields in this data structure. A TimeZone
- * object may be recreated with the information in this struct (see
- * TimeZone::forTimeZoneData() factory method.)
+ * enough information so that it can be reconstructed using a ZoneManager.
+ * The data structure can be stored persistently then read back.
+ * TimeZone::forTimeZoneData() factory method.
  */
 struct TimeZoneData {
   static const uint8_t kTypeError = 0;
   static const uint8_t kTypeManual = 1;
-  static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
-  static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
-  static const uint8_t kTypeManaged = kTypeExtended + 1;
+  static const uint8_t kTypeZoneId = 2;
 
   uint8_t type;
 
@@ -47,10 +31,10 @@ struct TimeZoneData {
       int8_t dstOffsetCode;
     };
 
-    /** Used for kTypeBasic and kTypeExtended. */
-    const void* zoneInfo;
-
-    /** Used for kTypeManaged. */
+    /**
+     * All of kTypeBasic, kTypeExtended, kTypeBasicManaged,
+     * kTypeExtendedManaged collapse down to a kTypeZoneId.
+     */
     uint32_t zoneId;
   };
 };
@@ -61,10 +45,7 @@ inline bool operator==(const TimeZoneData& a, const TimeZoneData& b) {
     case TimeZoneData::kTypeManual:
       return (a.stdOffsetCode == b.stdOffsetCode)
           && (a.dstOffsetCode == b.dstOffsetCode);
-    case TimeZoneData::kTypeBasic:
-    case TimeZoneData::kTypeExtended:
-      return (a.zoneInfo == b.zoneInfo);
-    case TimeZoneData::kTypeManaged:
+    case TimeZoneData::kTypeZoneId:
       return (a.zoneId == b.zoneId);
     default:
       return false;

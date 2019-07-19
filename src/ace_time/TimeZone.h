@@ -12,6 +12,7 @@
 #include "ZoneSpecifierCache.h"
 #include "BasicZone.h"
 #include "ExtendedZone.h"
+#include "TimeZoneData.h"
 
 class Print;
 
@@ -311,6 +312,34 @@ class TimeZone {
     void setDstOffset(TimeOffset dstOffset) {
       if (mType != kTypeManual) return;
       mDstOffsetCode = dstOffset.toOffsetCode();
+    }
+
+    /**
+     * Convert to a TimeZoneData object, which can be fed back into
+     * ZoneManager::createForTimeZoneData() to recreate the TimeZone. All of
+     * TimeZone::kTypeBasic, kTypeExtended, kTypeBasicManaged,
+     * kTypeExtendedManaged collapse into TimeZoneData::kTypeZoneId.
+     */
+    TimeZoneData toTimeZoneData() {
+      TimeZoneData d;
+      switch (mType) {
+        case TimeZone::kTypeManual:
+          d.stdOffsetCode = mStdOffsetCode;
+          d.dstOffsetCode = mDstOffsetCode;
+          d.type = TimeZoneData::kTypeManual;
+          break;
+        case TimeZone::kTypeBasic:
+        case TimeZone::kTypeExtended:
+        case TimeZone::kTypeBasicManaged:
+        case TimeZone::kTypeExtendedManaged:
+          d.zoneId = getZoneId();
+          d.type = TimeZoneData::kTypeZoneId;
+          break;
+        default:
+          d.type = TimeZoneData::kTypeError;
+          break;
+      }
+      return d;
     }
 
     /**
