@@ -15,9 +15,6 @@
 // Set to 1 to force the ClockInfo to its initial state
 #define FORCE_INITIALIZE 0
 
-// Number of minutes to use for a DST offset.
-#define DST_OFFSET_MINUTES 60
-
 // Determine whether "auto" time zone uses Basic or Extended. Extended is too
 // big for a Nano or Pro Micro, but will work on an ESP8266 or ESP32.
 #define TIME_ZONE_TYPE_MANUAL 0

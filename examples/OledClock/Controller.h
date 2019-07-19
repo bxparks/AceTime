@@ -26,6 +26,9 @@ class Controller {
 
     static const int16_t kDefaultOffsetMinutes = -8*60; // UTC-08:00
 
+    // Number of minutes to use for a DST offset.
+    static const int16_t kDstOffsetMinutes = 60;
+
     /**
      * Constructor.
      * @param timeKeeper source of the current time
@@ -223,7 +226,7 @@ class Controller {
           mSuppressBlink = true;
           uint8_t offsetCode = mChangingClockInfo.timeZone.getDstOffsetCode();
           offsetCode = (offsetCode == 0)
-              ? TimeOffset::forMinutes(DST_OFFSET_MINUTES).toOffsetCode()
+              ? TimeOffset::forMinutes(kDstOffsetMinutes).toOffsetCode()
               : 0;
           mChangingClockInfo.timeZone.setDstOffset(
               TimeOffset::forOffsetCode(offsetCode));
@@ -368,22 +371,7 @@ class Controller {
     #endif
       StoredInfo storedInfo;
       storedInfo.hourMode = clockInfo.hourMode;
-      storedInfo.type = clockInfo.timeZone.getType();
-      switch (storedInfo.type) {
-        case TimeZone::kTypeManual:
-          storedInfo.stdOffsetCode =
-              clockInfo.timeZone.getStdOffset().toOffsetCode();
-          storedInfo.dstOffsetCode =
-              clockInfo.timeZone.getDstOffset().toOffsetCode();
-          break;
-        case TimeZone::kTypeBasic:
-        case TimeZone::kTypeExtended:
-        case TimeZone::kTypeBasicManaged:
-        case TimeZone::kTypeExtendedManaged:
-          storedInfo.zoneId = clockInfo.timeZone.getZoneId();
-          break;
-      }
-
+      storedInfo.timeZoneData = clockInfo.timeZone.toTimeZoneData();
       crcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
           sizeof(StoredInfo));
     }
@@ -393,44 +381,48 @@ class Controller {
     #if ENABLE_SERIAL == 1
       Serial.println(F("restoreClockInfo()"));
       Serial.print(F("hourMode: ")); Serial.println(storedInfo.hourMode);
-      Serial.print(F("type: ")); Serial.println(storedInfo.type);
-      if (storedInfo.type == TimeZone::kTypeManual) {
-        Serial.print(F("std: ")); Serial.println(storedInfo.stdOffsetCode);
-        Serial.print(F("dst: ")); Serial.println(storedInfo.dstOffsetCode);
-      } else {
+      Serial.print(F("type: ")); Serial.println(storedInfo.timeZoneData.type);
+      if (storedInfo.type == TimeZoneData::kTypeManual) {
+        Serial.print(F("std: "));
+        Serial.println(storedInfo.timeZoneData.stdOffsetCode);
+        Serial.print(F("dst: "));
+        Serial.println(storedInfo.timeZoneData.dstOffsetCode);
+      } else if (storedInfo.type == TimeZoneData::kTypeZoneId) {
         Serial.print(F("zoneId: 0x")); Serial.println(storedInfo.zoneId, 16);
+      } else {
+        Serial.println(F("<error>"));
       }
     #endif
       clockInfo.hourMode = storedInfo.hourMode;
 
-      switch (storedInfo.type) {
-      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-        case TimeZone::kTypeManual:
-          clockInfo.timeZone = TimeZone::forTimeOffset(
-              TimeOffset::forOffsetCode(storedInfo.stdOffsetCode),
-              TimeOffset::forOffsetCode(storedInfo.dstOffsetCode));
-          break;
-      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC \
-          || TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-        case TimeZone::kTypeBasic:
-        case TimeZone::kTypeExtended:
-        case TimeZone::kTypeBasicManaged:
-        case TimeZone::kTypeExtendedManaged:
-          clockInfo.timeZone = mZoneManager.createForZoneId(storedInfo.zoneId);
-          mZoneIndex = mZoneManager.indexForZoneId(storedInfo.zoneId);
-          break;
-      #endif
-        default:
-        #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-          clockInfo.timeZone = TimeZone::forTimeOffset(
-              TimeOffset::forMinutes(kDefaultOffsetMinutes),
-              TimeOffset());
-        #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-          clockInfo.timeZone = mZoneManager.createForZoneIndex(0);
-        #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-          clockInfo.timeZone = mZoneManager.createForZoneIndex(0);
-        #endif
+    #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
+      if (storedInfo.timeZoneData.type == TimeZoneData::kTypeManual) {
+        clockInfo.timeZone = TimeZone::forTimeOffset(
+            TimeOffset::forOffsetCode(storedInfo.stdOffsetCode),
+            TimeOffset::forOffsetCode(storedInfo.dstOffsetCode));
+      } else {
+        clockInfo.timeZone = TimeZone::forTimeOffset(
+            TimeOffset::forMinutes(kDefaultOffsetMinutes),
+            TimeOffset());
       }
+    #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC \
+        || TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
+      if (storedInfo.timeZoneData.type == TimeZoneData::kTypeZoneId) {
+        clockInfo.timeZone = mZoneManager.createForTimeZoneData(
+            storedInfo.timeZoneData);
+        if (! clockInfo.timeZone.isError()) {
+          mZoneIndex = mZoneManager.indexForZoneId(
+              storedInfo.timeZoneData.zoneId);
+        } else {
+          clockInfo.timeZone = mZoneManager.createForZoneIndex(0);
+          mZoneIndex = 0;
+        }
+      } else {
+        clockInfo.timeZone = mZoneManager.createForZoneIndex(0);
+        mZoneIndex = 0;
+      }
+    #endif
+
     }
 
     /** Set up the initial ClockInfo states. */
@@ -439,16 +431,17 @@ class Controller {
       storedInfo.hourMode = StoredInfo::kTwentyFour;
 
     #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-      storedInfo.type = TimeZone::kTypeManual;
-      storedInfo.stdOffsetCode = kDefaultOffsetMinutes / 15;
-      storedInfo.dstOffsetCode = 0;
+      storedInfo.timeZoneData.type = TimeZone::kTypeManual;
+      storedInfo.timeZoneData.stdOffsetCode =
+          TimeOffset::forMinues(kDefaultOffsetMinutes).toOffsetCode();
+      storedInfo.timeZoneData.dstOffsetCode = 0;
     #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-      storedInfo.type = TimeZone::kTypeBasic;
-      storedInfo.zoneId =
+      storedInfo.timeZoneData.type = TimeZoneData::kTypeZoneId;
+      storedInfo.timeZoneData.zoneId =
           BasicZone(&zonedb::kZoneAmerica_Los_Angeles).zoneId();
     #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-      storedInfo.type = TimeZone::kTypeExtended;
-      storedInfo.zoneId =
+      storedInfo.timeZoneData.type = TimeZoneData::kTypeZoneId;
+      storedInfo.timeZoneData.zoneId =
           ExtendedZone(&zonedbx::kZoneAmerica_Los_Angeles).zoneId();
     #endif
 

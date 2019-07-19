@@ -14,22 +14,8 @@ struct StoredInfo {
   /** Either kTwelve or kTwentyFour. */
   uint8_t hourMode;
 
-  /** TimeZone::kType* */
-  uint8_t type;
-
-  union {
-    /** Used by kTypeManual. */
-    struct {
-      int8_t stdOffsetCode;
-      int8_t dstOffsetCode;
-    };
-
-    /**
-     * Used by kTypeBasic, kTypeExtended, kTypeBasicManaged,
-     * kTypeExtendedManaged.
-     */
-    uint32_t zoneId;
-  };
+  /** TimeZone serialization. */
+  ace_time::TimeZoneData timeZoneData;
 };
 
 #endif

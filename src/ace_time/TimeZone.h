@@ -297,7 +297,7 @@ class TimeZone {
      * TimeZone::kTypeBasic, kTypeExtended, kTypeBasicManaged,
      * kTypeExtendedManaged collapse into TimeZoneData::kTypeZoneId.
      */
-    TimeZoneData toTimeZoneData() {
+    TimeZoneData toTimeZoneData() const {
       TimeZoneData d;
       switch (mType) {
         case TimeZone::kTypeManual:
