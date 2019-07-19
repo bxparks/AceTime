@@ -118,7 +118,7 @@ class TimeOffset {
       return TimeOffset(offsetCode);
     }
 
-    /** Constructor. Create a time zone corresponding to UTC with no offset. */
+    /** Constructor. Create a time offset of 0. */
     explicit TimeOffset() {}
 
     /** Return the time offset as the number of 15 minute increments. */
@@ -172,7 +172,7 @@ class TimeOffset {
     /** Length of UTC offset string (e.g. "-07:00", "+01:30"). */
     static const uint8_t kTimeOffsetStringLength = 6;
 
-    /** Constructor. Create a time zone from the offset code. */
+    /** Constructor. Create a time offset from the offset code. */
     explicit TimeOffset(int8_t offsetCode):
         mOffsetCode(offsetCode) {}
 
@@ -180,10 +180,10 @@ class TimeOffset {
     void setOffsetCode(int8_t offsetCode) { mOffsetCode = offsetCode; }
 
     /**
-     * Time zone code, offset from UTC in 15 minute increments from UTC. In
-     * theory, the code can range from [-128, 127]. But the value of -128 is
-     * used to represent an internal error, causing isError() to return true
-     * so the valid range is [-127, 127].
+     * Time offset code, representing 15 minute increments from UTC. In theory,
+     * the code can range from [-128, 127]. But the value of -128 is used to
+     * represent an internal error, causing isError() to return true so the
+     * valid range is [-127, 127].
      *
      * The actual range of time zones used in real life values are expected to
      * be smaller, probably smaller than the range of [-64, 63], i.e. [-16:00,

@@ -40,14 +40,23 @@ class LocalDateTime;
  */
 class ZoneSpecifier {
   public:
-    /** Indicate BasicZoneSpecifier. Must not be TimeZone::kTypeFixed (0). */
-    static const uint8_t kTypeBasic = 1;
+    /**
+     * Indicate BasicZoneSpecifier. Must not be TimeZone::kTypeError (0) or
+     * TimeZone::kTypeManual (1).
+     */
+    static const uint8_t kTypeBasic = 2;
 
-    /** Indicate ExtendedZoneSpecifier. Must not be TimeZone::kTypeFixed (0). */
-    static const uint8_t kTypeExtended = 2;
+    /**
+     * Indicate ExtendedZoneSpecifier. Must not be TimeZone::kTypeError (0) or
+     * TimeZone::kTypeManual (1).
+     */
+    static const uint8_t kTypeExtended = 3;
 
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
+
+    /** Return the unique stable zoneId. */
+    virtual uint32_t getZoneId() const = 0;
 
     /**
      * Return the total UTC offset at epochSeconds, including DST offset.

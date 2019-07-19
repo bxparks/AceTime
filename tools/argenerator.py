@@ -11,6 +11,7 @@ import transformer
 from collections import OrderedDict
 from transformer import div_to_zero
 from transformer import normalize_name
+from transformer import hash_name
 from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
 from extractor import MAX_YEAR_TINY
@@ -607,6 +608,7 @@ static const char kZoneName{zoneNormalizedName}[] {progmem} = "{zoneFullName}";
 
 const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
   kZoneName{zoneNormalizedName} /*name*/,
+  0x{zoneNameHash:08x} /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,
@@ -784,6 +786,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             scope=self.scope,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
+            zoneNameHash=hash_name(zone_name),
             transitionBufSize=transition_buf_size,
             numEras=num_eras,
             stringLength=string_length,

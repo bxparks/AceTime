@@ -64,6 +64,7 @@ static const char kZoneNameAfrica_Abidjan[] ACE_TIME_EXTENDED_PROGMEM = "Africa/
 
 const extended::ZoneInfo kZoneAfrica_Abidjan ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Abidjan /*name*/,
+  0xc21305a3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -98,6 +99,7 @@ static const char kZoneNameAfrica_Accra[] ACE_TIME_EXTENDED_PROGMEM = "Africa/Ac
 
 const extended::ZoneInfo kZoneAfrica_Accra ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Accra /*name*/,
+  0x77d5b054 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -132,6 +134,7 @@ static const char kZoneNameAfrica_Algiers[] ACE_TIME_EXTENDED_PROGMEM = "Africa/
 
 const extended::ZoneInfo kZoneAfrica_Algiers ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Algiers /*name*/,
+  0xd94515c1 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -166,6 +169,7 @@ static const char kZoneNameAfrica_Bissau[] ACE_TIME_EXTENDED_PROGMEM = "Africa/B
 
 const extended::ZoneInfo kZoneAfrica_Bissau ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Bissau /*name*/,
+  0x75564141 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -200,6 +204,7 @@ static const char kZoneNameAfrica_Cairo[] ACE_TIME_EXTENDED_PROGMEM = "Africa/Ca
 
 const extended::ZoneInfo kZoneAfrica_Cairo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Cairo /*name*/,
+  0x77f8e228 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -246,6 +251,7 @@ static const char kZoneNameAfrica_Casablanca[] ACE_TIME_EXTENDED_PROGMEM = "Afri
 
 const extended::ZoneInfo kZoneAfrica_Casablanca ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Casablanca /*name*/,
+  0xc59f1b33 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -280,6 +286,7 @@ static const char kZoneNameAfrica_Ceuta[] ACE_TIME_EXTENDED_PROGMEM = "Africa/Ce
 
 const extended::ZoneInfo kZoneAfrica_Ceuta ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Ceuta /*name*/,
+  0x77fb46ec /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -326,6 +333,7 @@ static const char kZoneNameAfrica_El_Aaiun[] ACE_TIME_EXTENDED_PROGMEM = "Africa
 
 const extended::ZoneInfo kZoneAfrica_El_Aaiun ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_El_Aaiun /*name*/,
+  0x9d6fb118 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -360,6 +368,7 @@ static const char kZoneNameAfrica_Johannesburg[] ACE_TIME_EXTENDED_PROGMEM = "Af
 
 const extended::ZoneInfo kZoneAfrica_Johannesburg ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Johannesburg /*name*/,
+  0xd5d157a0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -406,6 +415,7 @@ static const char kZoneNameAfrica_Juba[] ACE_TIME_EXTENDED_PROGMEM = "Africa/Jub
 
 const extended::ZoneInfo kZoneAfrica_Juba ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Juba /*name*/,
+  0xd51b395c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -464,6 +474,7 @@ static const char kZoneNameAfrica_Khartoum[] ACE_TIME_EXTENDED_PROGMEM = "Africa
 
 const extended::ZoneInfo kZoneAfrica_Khartoum ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Khartoum /*name*/,
+  0xfb3d4205 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -498,6 +509,7 @@ static const char kZoneNameAfrica_Lagos[] ACE_TIME_EXTENDED_PROGMEM = "Africa/La
 
 const extended::ZoneInfo kZoneAfrica_Lagos ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Lagos /*name*/,
+  0x789bb5d0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -532,6 +544,7 @@ static const char kZoneNameAfrica_Maputo[] ACE_TIME_EXTENDED_PROGMEM = "Africa/M
 
 const extended::ZoneInfo kZoneAfrica_Maputo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Maputo /*name*/,
+  0x8e6ca1f0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -566,6 +579,7 @@ static const char kZoneNameAfrica_Monrovia[] ACE_TIME_EXTENDED_PROGMEM = "Africa
 
 const extended::ZoneInfo kZoneAfrica_Monrovia ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Monrovia /*name*/,
+  0x0ce90385 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -600,6 +614,7 @@ static const char kZoneNameAfrica_Nairobi[] ACE_TIME_EXTENDED_PROGMEM = "Africa/
 
 const extended::ZoneInfo kZoneAfrica_Nairobi ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Nairobi /*name*/,
+  0xa87ab57e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -634,6 +649,7 @@ static const char kZoneNameAfrica_Ndjamena[] ACE_TIME_EXTENDED_PROGMEM = "Africa
 
 const extended::ZoneInfo kZoneAfrica_Ndjamena ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Ndjamena /*name*/,
+  0x9fe09898 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -692,6 +708,7 @@ static const char kZoneNameAfrica_Sao_Tome[] ACE_TIME_EXTENDED_PROGMEM = "Africa
 
 const extended::ZoneInfo kZoneAfrica_Sao_Tome ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Sao_Tome /*name*/,
+  0x61b319d1 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -750,6 +767,7 @@ static const char kZoneNameAfrica_Tripoli[] ACE_TIME_EXTENDED_PROGMEM = "Africa/
 
 const extended::ZoneInfo kZoneAfrica_Tripoli ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Tripoli /*name*/,
+  0x9dfebd3d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -784,6 +802,7 @@ static const char kZoneNameAfrica_Tunis[] ACE_TIME_EXTENDED_PROGMEM = "Africa/Tu
 
 const extended::ZoneInfo kZoneAfrica_Tunis ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Tunis /*name*/,
+  0x79378e6d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -818,6 +837,7 @@ static const char kZoneNameAfrica_Windhoek[] ACE_TIME_EXTENDED_PROGMEM = "Africa
 
 const extended::ZoneInfo kZoneAfrica_Windhoek ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAfrica_Windhoek /*name*/,
+  0x789c9bd3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -852,6 +872,7 @@ static const char kZoneNameAmerica_Adak[] ACE_TIME_EXTENDED_PROGMEM = "America/A
 
 const extended::ZoneInfo kZoneAmerica_Adak ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Adak /*name*/,
+  0x97fe49d7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -886,6 +907,7 @@ static const char kZoneNameAmerica_Anchorage[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Anchorage ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Anchorage /*name*/,
+  0x5a79260e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -956,6 +978,7 @@ static const char kZoneNameAmerica_Araguaina[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Araguaina ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Araguaina /*name*/,
+  0x6f9a3aef /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -1014,6 +1037,7 @@ static const char kZoneNameAmerica_Argentina_Buenos_Aires[] ACE_TIME_EXTENDED_PR
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Buenos_Aires ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_Buenos_Aires /*name*/,
+  0xd43b4c0d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -1108,6 +1132,7 @@ static const char kZoneNameAmerica_Argentina_Catamarca[] ACE_TIME_EXTENDED_PROGM
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Catamarca ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_Catamarca /*name*/,
+  0x8d40986b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   6 /*numEras*/,
@@ -1166,6 +1191,7 @@ static const char kZoneNameAmerica_Argentina_Cordoba[] ACE_TIME_EXTENDED_PROGMEM
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Cordoba ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_Cordoba /*name*/,
+  0xbfccc308 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -1236,6 +1262,7 @@ static const char kZoneNameAmerica_Argentina_Jujuy[] ACE_TIME_EXTENDED_PROGMEM =
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Jujuy ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_Jujuy /*name*/,
+  0x5f2f46c5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -1330,6 +1357,7 @@ static const char kZoneNameAmerica_Argentina_La_Rioja[] ACE_TIME_EXTENDED_PROGME
 
 const extended::ZoneInfo kZoneAmerica_Argentina_La_Rioja ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_La_Rioja /*name*/,
+  0xa46b7eef /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   6 /*numEras*/,
@@ -1424,6 +1452,7 @@ static const char kZoneNameAmerica_Argentina_Mendoza[] ACE_TIME_EXTENDED_PROGMEM
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Mendoza ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_Mendoza /*name*/,
+  0xa9f72d5c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   6 /*numEras*/,
@@ -1518,6 +1547,7 @@ static const char kZoneNameAmerica_Argentina_Rio_Gallegos[] ACE_TIME_EXTENDED_PR
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Rio_Gallegos ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_Rio_Gallegos /*name*/,
+  0xc5b0f565 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   6 /*numEras*/,
@@ -1588,6 +1618,7 @@ static const char kZoneNameAmerica_Argentina_Salta[] ACE_TIME_EXTENDED_PROGMEM =
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Salta ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_Salta /*name*/,
+  0x5fc73403 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -1682,6 +1713,7 @@ static const char kZoneNameAmerica_Argentina_San_Juan[] ACE_TIME_EXTENDED_PROGME
 
 const extended::ZoneInfo kZoneAmerica_Argentina_San_Juan ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_San_Juan /*name*/,
+  0x3e1009bd /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   6 /*numEras*/,
@@ -1788,6 +1820,7 @@ static const char kZoneNameAmerica_Argentina_San_Luis[] ACE_TIME_EXTENDED_PROGME
 
 const extended::ZoneInfo kZoneAmerica_Argentina_San_Luis ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_San_Luis /*name*/,
+  0x3e11238c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   7 /*numEras*/,
@@ -1870,6 +1903,7 @@ static const char kZoneNameAmerica_Argentina_Tucuman[] ACE_TIME_EXTENDED_PROGMEM
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Tucuman ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_Tucuman /*name*/,
+  0xe96399eb /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   5 /*numEras*/,
@@ -1964,6 +1998,7 @@ static const char kZoneNameAmerica_Argentina_Ushuaia[] ACE_TIME_EXTENDED_PROGMEM
 
 const extended::ZoneInfo kZoneAmerica_Argentina_Ushuaia ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Argentina_Ushuaia /*name*/,
+  0x320dcdde /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   6 /*numEras*/,
@@ -1998,6 +2033,7 @@ static const char kZoneNameAmerica_Asuncion[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_Asuncion ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Asuncion /*name*/,
+  0x50ec79a6 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2032,6 +2068,7 @@ static const char kZoneNameAmerica_Atikokan[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_Atikokan ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Atikokan /*name*/,
+  0x81b92098 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2102,6 +2139,7 @@ static const char kZoneNameAmerica_Bahia[] ACE_TIME_EXTENDED_PROGMEM = "America/
 
 const extended::ZoneInfo kZoneAmerica_Bahia ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Bahia /*name*/,
+  0x97d815fb /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -2148,6 +2186,7 @@ static const char kZoneNameAmerica_Bahia_Banderas[] ACE_TIME_EXTENDED_PROGMEM = 
 
 const extended::ZoneInfo kZoneAmerica_Bahia_Banderas ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Bahia_Banderas /*name*/,
+  0x14f6329a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -2182,6 +2221,7 @@ static const char kZoneNameAmerica_Barbados[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_Barbados ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Barbados /*name*/,
+  0xcbbc3b04 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2216,6 +2256,7 @@ static const char kZoneNameAmerica_Belem[] ACE_TIME_EXTENDED_PROGMEM = "America/
 
 const extended::ZoneInfo kZoneAmerica_Belem ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Belem /*name*/,
+  0x97da580b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2250,6 +2291,7 @@ static const char kZoneNameAmerica_Belize[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Belize ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Belize /*name*/,
+  0x93256c81 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2284,6 +2326,7 @@ static const char kZoneNameAmerica_Blanc_Sablon[] ACE_TIME_EXTENDED_PROGMEM = "A
 
 const extended::ZoneInfo kZoneAmerica_Blanc_Sablon ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Blanc_Sablon /*name*/,
+  0x6e299892 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2342,6 +2385,7 @@ static const char kZoneNameAmerica_Boa_Vista[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Boa_Vista ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Boa_Vista /*name*/,
+  0x0a7b7efe /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -2376,6 +2420,7 @@ static const char kZoneNameAmerica_Bogota[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Bogota ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Bogota /*name*/,
+  0x93d7bc62 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2410,6 +2455,7 @@ static const char kZoneNameAmerica_Boise[] ACE_TIME_EXTENDED_PROGMEM = "America/
 
 const extended::ZoneInfo kZoneAmerica_Boise ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Boise /*name*/,
+  0x97dfc8d8 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2492,6 +2538,7 @@ static const char kZoneNameAmerica_Cambridge_Bay[] ACE_TIME_EXTENDED_PROGMEM = "
 
 const extended::ZoneInfo kZoneAmerica_Cambridge_Bay ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Cambridge_Bay /*name*/,
+  0xd5a44aff /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   5 /*numEras*/,
@@ -2526,6 +2573,7 @@ static const char kZoneNameAmerica_Campo_Grande[] ACE_TIME_EXTENDED_PROGMEM = "A
 
 const extended::ZoneInfo kZoneAmerica_Campo_Grande ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Campo_Grande /*name*/,
+  0xfec3e7a6 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2572,6 +2620,7 @@ static const char kZoneNameAmerica_Cancun[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Cancun ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Cancun /*name*/,
+  0x953331be /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -2630,6 +2679,7 @@ static const char kZoneNameAmerica_Caracas[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Caracas ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Caracas /*name*/,
+  0x3be064f4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -2664,6 +2714,7 @@ static const char kZoneNameAmerica_Cayenne[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Cayenne ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Cayenne /*name*/,
+  0x3c617269 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2698,6 +2749,7 @@ static const char kZoneNameAmerica_Chicago[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Chicago ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Chicago /*name*/,
+  0x4b92b5d4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2732,6 +2784,7 @@ static const char kZoneNameAmerica_Chihuahua[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Chihuahua ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Chihuahua /*name*/,
+  0x8827d776 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2766,6 +2819,7 @@ static const char kZoneNameAmerica_Costa_Rica[] ACE_TIME_EXTENDED_PROGMEM = "Ame
 
 const extended::ZoneInfo kZoneAmerica_Costa_Rica ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Costa_Rica /*name*/,
+  0x63ff66be /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2800,6 +2854,7 @@ static const char kZoneNameAmerica_Creston[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Creston ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Creston /*name*/,
+  0x62a70204 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2858,6 +2913,7 @@ static const char kZoneNameAmerica_Cuiaba[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Cuiaba ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Cuiaba /*name*/,
+  0x969a52eb /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -2892,6 +2948,7 @@ static const char kZoneNameAmerica_Curacao[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Curacao ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Curacao /*name*/,
+  0x6a879184 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2926,6 +2983,7 @@ static const char kZoneNameAmerica_Danmarkshavn[] ACE_TIME_EXTENDED_PROGMEM = "A
 
 const extended::ZoneInfo kZoneAmerica_Danmarkshavn ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Danmarkshavn /*name*/,
+  0xf554d204 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2960,6 +3018,7 @@ static const char kZoneNameAmerica_Dawson[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Dawson ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Dawson /*name*/,
+  0x978d8d12 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -2994,6 +3053,7 @@ static const char kZoneNameAmerica_Dawson_Creek[] ACE_TIME_EXTENDED_PROGMEM = "A
 
 const extended::ZoneInfo kZoneAmerica_Dawson_Creek ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Dawson_Creek /*name*/,
+  0x6cf24e5b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3028,6 +3088,7 @@ static const char kZoneNameAmerica_Denver[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Denver ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Denver /*name*/,
+  0x97d10b2a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3062,6 +3123,7 @@ static const char kZoneNameAmerica_Detroit[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Detroit ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Detroit /*name*/,
+  0x925cfbc1 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3096,6 +3158,7 @@ static const char kZoneNameAmerica_Edmonton[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_Edmonton ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Edmonton /*name*/,
+  0x6cb9484a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3154,6 +3217,7 @@ static const char kZoneNameAmerica_Eirunepe[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_Eirunepe ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Eirunepe /*name*/,
+  0xf9b29683 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -3188,6 +3252,7 @@ static const char kZoneNameAmerica_El_Salvador[] ACE_TIME_EXTENDED_PROGMEM = "Am
 
 const extended::ZoneInfo kZoneAmerica_El_Salvador ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_El_Salvador /*name*/,
+  0x752ad652 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3234,6 +3299,7 @@ static const char kZoneNameAmerica_Fort_Nelson[] ACE_TIME_EXTENDED_PROGMEM = "Am
 
 const extended::ZoneInfo kZoneAmerica_Fort_Nelson ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Fort_Nelson /*name*/,
+  0x3f437e0f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -3316,6 +3382,7 @@ static const char kZoneNameAmerica_Fortaleza[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Fortaleza ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Fortaleza /*name*/,
+  0x2ad018ee /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   5 /*numEras*/,
@@ -3350,6 +3417,7 @@ static const char kZoneNameAmerica_Glace_Bay[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Glace_Bay ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Glace_Bay /*name*/,
+  0x9681f8dd /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3384,6 +3452,7 @@ static const char kZoneNameAmerica_Godthab[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Godthab ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Godthab /*name*/,
+  0x8f7eba1f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3430,6 +3499,7 @@ static const char kZoneNameAmerica_Goose_Bay[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Goose_Bay ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Goose_Bay /*name*/,
+  0xb649541e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -3488,6 +3558,7 @@ static const char kZoneNameAmerica_Grand_Turk[] ACE_TIME_EXTENDED_PROGMEM = "Ame
 
 const extended::ZoneInfo kZoneAmerica_Grand_Turk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Grand_Turk /*name*/,
+  0x6e216197 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -3522,6 +3593,7 @@ static const char kZoneNameAmerica_Guatemala[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Guatemala ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Guatemala /*name*/,
+  0x0c8259f7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3556,6 +3628,7 @@ static const char kZoneNameAmerica_Guayaquil[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Guayaquil ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Guayaquil /*name*/,
+  0x17e64958 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3590,6 +3663,7 @@ static const char kZoneNameAmerica_Guyana[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Guyana ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Guyana /*name*/,
+  0x9ff7bd0b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3624,6 +3698,7 @@ static const char kZoneNameAmerica_Halifax[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Halifax ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Halifax /*name*/,
+  0xbc5b7183 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3658,6 +3733,7 @@ static const char kZoneNameAmerica_Havana[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Havana ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Havana /*name*/,
+  0xa0e15675 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -3704,6 +3780,7 @@ static const char kZoneNameAmerica_Hermosillo[] ACE_TIME_EXTENDED_PROGMEM = "Ame
 
 const extended::ZoneInfo kZoneAmerica_Hermosillo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Hermosillo /*name*/,
+  0x065d21c4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -3750,6 +3827,7 @@ static const char kZoneNameAmerica_Indiana_Indianapolis[] ACE_TIME_EXTENDED_PROG
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Indianapolis ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Indiana_Indianapolis /*name*/,
+  0x28a669a4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -3796,6 +3874,7 @@ static const char kZoneNameAmerica_Indiana_Knox[] ACE_TIME_EXTENDED_PROGMEM = "A
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Knox ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Indiana_Knox /*name*/,
+  0x6554adc9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -3842,6 +3921,7 @@ static const char kZoneNameAmerica_Indiana_Marengo[] ACE_TIME_EXTENDED_PROGMEM =
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Marengo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Indiana_Marengo /*name*/,
+  0x2feeee72 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -3900,6 +3980,7 @@ static const char kZoneNameAmerica_Indiana_Petersburg[] ACE_TIME_EXTENDED_PROGME
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Petersburg ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Indiana_Petersburg /*name*/,
+  0x94ac7acc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -3946,6 +4027,7 @@ static const char kZoneNameAmerica_Indiana_Tell_City[] ACE_TIME_EXTENDED_PROGMEM
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Tell_City ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Indiana_Tell_City /*name*/,
+  0x09263612 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -3992,6 +4074,7 @@ static const char kZoneNameAmerica_Indiana_Vevay[] ACE_TIME_EXTENDED_PROGMEM = "
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Vevay ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Indiana_Vevay /*name*/,
+  0x10aca054 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -4050,6 +4133,7 @@ static const char kZoneNameAmerica_Indiana_Vincennes[] ACE_TIME_EXTENDED_PROGMEM
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Vincennes ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Indiana_Vincennes /*name*/,
+  0x28a0b212 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -4108,6 +4192,7 @@ static const char kZoneNameAmerica_Indiana_Winamac[] ACE_TIME_EXTENDED_PROGMEM =
 
 const extended::ZoneInfo kZoneAmerica_Indiana_Winamac ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Indiana_Winamac /*name*/,
+  0x4413fa69 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -4142,6 +4227,7 @@ static const char kZoneNameAmerica_Inuvik[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Inuvik ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Inuvik /*name*/,
+  0xa42189fc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4200,6 +4286,7 @@ static const char kZoneNameAmerica_Iqaluit[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Iqaluit ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Iqaluit /*name*/,
+  0x2de310bf /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -4234,6 +4321,7 @@ static const char kZoneNameAmerica_Jamaica[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Jamaica ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Jamaica /*name*/,
+  0x565dad6c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4268,6 +4356,7 @@ static const char kZoneNameAmerica_Juneau[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Juneau ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Juneau /*name*/,
+  0xa6f13e2e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4302,6 +4391,7 @@ static const char kZoneNameAmerica_Kentucky_Louisville[] ACE_TIME_EXTENDED_PROGM
 
 const extended::ZoneInfo kZoneAmerica_Kentucky_Louisville ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Kentucky_Louisville /*name*/,
+  0x1a21024b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4348,6 +4438,7 @@ static const char kZoneNameAmerica_Kentucky_Monticello[] ACE_TIME_EXTENDED_PROGM
 
 const extended::ZoneInfo kZoneAmerica_Kentucky_Monticello ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Kentucky_Monticello /*name*/,
+  0xde71c439 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -4382,6 +4473,7 @@ static const char kZoneNameAmerica_La_Paz[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_La_Paz ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_La_Paz /*name*/,
+  0xaa29125d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4416,6 +4508,7 @@ static const char kZoneNameAmerica_Lima[] ACE_TIME_EXTENDED_PROGMEM = "America/L
 
 const extended::ZoneInfo kZoneAmerica_Lima ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Lima /*name*/,
+  0x980468c9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4450,6 +4543,7 @@ static const char kZoneNameAmerica_Los_Angeles[] ACE_TIME_EXTENDED_PROGMEM = "Am
 
 const extended::ZoneInfo kZoneAmerica_Los_Angeles ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Los_Angeles /*name*/,
+  0xb7f7e8f2 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4532,6 +4626,7 @@ static const char kZoneNameAmerica_Maceio[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Maceio ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Maceio /*name*/,
+  0xac80c6d4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   5 /*numEras*/,
@@ -4566,6 +4661,7 @@ static const char kZoneNameAmerica_Managua[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Managua ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Managua /*name*/,
+  0x3d5e7600 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4600,6 +4696,7 @@ static const char kZoneNameAmerica_Manaus[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Manaus ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Manaus /*name*/,
+  0xac86bf8b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4634,6 +4731,7 @@ static const char kZoneNameAmerica_Martinique[] ACE_TIME_EXTENDED_PROGMEM = "Ame
 
 const extended::ZoneInfo kZoneAmerica_Martinique ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Martinique /*name*/,
+  0x551e84c5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4680,6 +4778,7 @@ static const char kZoneNameAmerica_Matamoros[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Matamoros ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Matamoros /*name*/,
+  0xdd1b0259 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -4714,6 +4813,7 @@ static const char kZoneNameAmerica_Mazatlan[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_Mazatlan ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Mazatlan /*name*/,
+  0x0532189e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4748,6 +4848,7 @@ static const char kZoneNameAmerica_Menominee[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Menominee ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Menominee /*name*/,
+  0xe0e9c583 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4782,6 +4883,7 @@ static const char kZoneNameAmerica_Merida[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Merida ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Merida /*name*/,
+  0xacd172d8 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4852,6 +4954,7 @@ static const char kZoneNameAmerica_Metlakatla[] ACE_TIME_EXTENDED_PROGMEM = "Ame
 
 const extended::ZoneInfo kZoneAmerica_Metlakatla ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Metlakatla /*name*/,
+  0x84de2686 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -4910,6 +5013,7 @@ static const char kZoneNameAmerica_Mexico_City[] ACE_TIME_EXTENDED_PROGMEM = "Am
 
 const extended::ZoneInfo kZoneAmerica_Mexico_City ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Mexico_City /*name*/,
+  0xd0d93f43 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -4944,6 +5048,7 @@ static const char kZoneNameAmerica_Miquelon[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_Miquelon ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Miquelon /*name*/,
+  0x59674330 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -4990,6 +5095,7 @@ static const char kZoneNameAmerica_Moncton[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Moncton ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Moncton /*name*/,
+  0x5e07fe24 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -5024,6 +5130,7 @@ static const char kZoneNameAmerica_Monterrey[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Monterrey ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Monterrey /*name*/,
+  0x269a1deb /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5058,6 +5165,7 @@ static const char kZoneNameAmerica_Montevideo[] ACE_TIME_EXTENDED_PROGMEM = "Ame
 
 const extended::ZoneInfo kZoneAmerica_Montevideo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Montevideo /*name*/,
+  0xfa214780 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5092,6 +5200,7 @@ static const char kZoneNameAmerica_Nassau[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Nassau ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Nassau /*name*/,
+  0xaedef011 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5126,6 +5235,7 @@ static const char kZoneNameAmerica_New_York[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_New_York ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_New_York /*name*/,
+  0x1e2a7654 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5160,6 +5270,7 @@ static const char kZoneNameAmerica_Nipigon[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Nipigon ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Nipigon /*name*/,
+  0x9d2a8b1a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5194,6 +5305,7 @@ static const char kZoneNameAmerica_Nome[] ACE_TIME_EXTENDED_PROGMEM = "America/N
 
 const extended::ZoneInfo kZoneAmerica_Nome ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Nome /*name*/,
+  0x98059b15 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5276,6 +5388,7 @@ static const char kZoneNameAmerica_Noronha[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Noronha ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Noronha /*name*/,
+  0xab5116fb /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   5 /*numEras*/,
@@ -5322,6 +5435,7 @@ static const char kZoneNameAmerica_North_Dakota_Beulah[] ACE_TIME_EXTENDED_PROGM
 
 const extended::ZoneInfo kZoneAmerica_North_Dakota_Beulah ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_North_Dakota_Beulah /*name*/,
+  0x9b52b384 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -5356,6 +5470,7 @@ static const char kZoneNameAmerica_North_Dakota_Center[] ACE_TIME_EXTENDED_PROGM
 
 const extended::ZoneInfo kZoneAmerica_North_Dakota_Center ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_North_Dakota_Center /*name*/,
+  0x9da42814 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5402,6 +5517,7 @@ static const char kZoneNameAmerica_North_Dakota_New_Salem[] ACE_TIME_EXTENDED_PR
 
 const extended::ZoneInfo kZoneAmerica_North_Dakota_New_Salem ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_North_Dakota_New_Salem /*name*/,
+  0x04f9958e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -5448,6 +5564,7 @@ static const char kZoneNameAmerica_Ojinaga[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Ojinaga ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Ojinaga /*name*/,
+  0xebfde83f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -5482,6 +5599,7 @@ static const char kZoneNameAmerica_Panama[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Panama ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Panama /*name*/,
+  0xb3863854 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5540,6 +5658,7 @@ static const char kZoneNameAmerica_Pangnirtung[] ACE_TIME_EXTENDED_PROGMEM = "Am
 
 const extended::ZoneInfo kZoneAmerica_Pangnirtung ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Pangnirtung /*name*/,
+  0x2d999193 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -5574,6 +5693,7 @@ static const char kZoneNameAmerica_Paramaribo[] ACE_TIME_EXTENDED_PROGMEM = "Ame
 
 const extended::ZoneInfo kZoneAmerica_Paramaribo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Paramaribo /*name*/,
+  0xb319e4c4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5608,6 +5728,7 @@ static const char kZoneNameAmerica_Phoenix[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Phoenix ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Phoenix /*name*/,
+  0x34b5af01 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5642,6 +5763,7 @@ static const char kZoneNameAmerica_Port_au_Prince[] ACE_TIME_EXTENDED_PROGMEM = 
 
 const extended::ZoneInfo kZoneAmerica_Port_au_Prince ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Port_au_Prince /*name*/,
+  0x8e4a7bdc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5676,6 +5798,7 @@ static const char kZoneNameAmerica_Port_of_Spain[] ACE_TIME_EXTENDED_PROGMEM = "
 
 const extended::ZoneInfo kZoneAmerica_Port_of_Spain ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Port_of_Spain /*name*/,
+  0xd8b28d59 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5710,6 +5833,7 @@ static const char kZoneNameAmerica_Porto_Velho[] ACE_TIME_EXTENDED_PROGMEM = "Am
 
 const extended::ZoneInfo kZoneAmerica_Porto_Velho ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Porto_Velho /*name*/,
+  0x6b1aac77 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5744,6 +5868,7 @@ static const char kZoneNameAmerica_Puerto_Rico[] ACE_TIME_EXTENDED_PROGMEM = "Am
 
 const extended::ZoneInfo kZoneAmerica_Puerto_Rico ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Puerto_Rico /*name*/,
+  0x6752ca31 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5790,6 +5915,7 @@ static const char kZoneNameAmerica_Punta_Arenas[] ACE_TIME_EXTENDED_PROGMEM = "A
 
 const extended::ZoneInfo kZoneAmerica_Punta_Arenas ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Punta_Arenas /*name*/,
+  0xc2c3bce7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -5824,6 +5950,7 @@ static const char kZoneNameAmerica_Rainy_River[] ACE_TIME_EXTENDED_PROGMEM = "Am
 
 const extended::ZoneInfo kZoneAmerica_Rainy_River ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Rainy_River /*name*/,
+  0x9cd58a10 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -5882,6 +6009,7 @@ static const char kZoneNameAmerica_Rankin_Inlet[] ACE_TIME_EXTENDED_PROGMEM = "A
 
 const extended::ZoneInfo kZoneAmerica_Rankin_Inlet ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Rankin_Inlet /*name*/,
+  0xc8de4984 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -5964,6 +6092,7 @@ static const char kZoneNameAmerica_Recife[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Recife ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Recife /*name*/,
+  0xb8730494 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   5 /*numEras*/,
@@ -5998,6 +6127,7 @@ static const char kZoneNameAmerica_Regina[] ACE_TIME_EXTENDED_PROGMEM = "America
 
 const extended::ZoneInfo kZoneAmerica_Regina ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Regina /*name*/,
+  0xb875371c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6080,6 +6210,7 @@ static const char kZoneNameAmerica_Resolute[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_Resolute ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Resolute /*name*/,
+  0xc7093459 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   5 /*numEras*/,
@@ -6138,6 +6269,7 @@ static const char kZoneNameAmerica_Rio_Branco[] ACE_TIME_EXTENDED_PROGMEM = "Ame
 
 const extended::ZoneInfo kZoneAmerica_Rio_Branco ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Rio_Branco /*name*/,
+  0x9d352764 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -6184,6 +6316,7 @@ static const char kZoneNameAmerica_Santarem[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_Santarem ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Santarem /*name*/,
+  0x740caec1 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -6218,6 +6351,7 @@ static const char kZoneNameAmerica_Santiago[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_Santiago ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Santiago /*name*/,
+  0x7410c9bc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6276,6 +6410,7 @@ static const char kZoneNameAmerica_Santo_Domingo[] ACE_TIME_EXTENDED_PROGMEM = "
 
 const extended::ZoneInfo kZoneAmerica_Santo_Domingo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Santo_Domingo /*name*/,
+  0x75a0d177 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -6310,6 +6445,7 @@ static const char kZoneNameAmerica_Sao_Paulo[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Sao_Paulo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Sao_Paulo /*name*/,
+  0x1063bfc9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6344,6 +6480,7 @@ static const char kZoneNameAmerica_Scoresbysund[] ACE_TIME_EXTENDED_PROGMEM = "A
 
 const extended::ZoneInfo kZoneAmerica_Scoresbysund ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Scoresbysund /*name*/,
+  0x123f8d2a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6378,6 +6515,7 @@ static const char kZoneNameAmerica_Sitka[] ACE_TIME_EXTENDED_PROGMEM = "America/
 
 const extended::ZoneInfo kZoneAmerica_Sitka ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Sitka /*name*/,
+  0x99104ce2 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6424,6 +6562,7 @@ static const char kZoneNameAmerica_St_Johns[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_St_Johns ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_St_Johns /*name*/,
+  0x04b14e6e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -6458,6 +6597,7 @@ static const char kZoneNameAmerica_Swift_Current[] ACE_TIME_EXTENDED_PROGMEM = "
 
 const extended::ZoneInfo kZoneAmerica_Swift_Current ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Swift_Current /*name*/,
+  0xdef98e55 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6492,6 +6632,7 @@ static const char kZoneNameAmerica_Tegucigalpa[] ACE_TIME_EXTENDED_PROGMEM = "Am
 
 const extended::ZoneInfo kZoneAmerica_Tegucigalpa ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Tegucigalpa /*name*/,
+  0xbfd6fd4c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6526,6 +6667,7 @@ static const char kZoneNameAmerica_Thule[] ACE_TIME_EXTENDED_PROGMEM = "America/
 
 const extended::ZoneInfo kZoneAmerica_Thule ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Thule /*name*/,
+  0x9921dd68 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6560,6 +6702,7 @@ static const char kZoneNameAmerica_Thunder_Bay[] ACE_TIME_EXTENDED_PROGMEM = "Am
 
 const extended::ZoneInfo kZoneAmerica_Thunder_Bay ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Thunder_Bay /*name*/,
+  0xf962e71b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6630,6 +6773,7 @@ static const char kZoneNameAmerica_Tijuana[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Tijuana ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Tijuana /*name*/,
+  0x6aa1df72 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -6664,6 +6808,7 @@ static const char kZoneNameAmerica_Toronto[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Toronto ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Toronto /*name*/,
+  0x792e851b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6698,6 +6843,7 @@ static const char kZoneNameAmerica_Vancouver[] ACE_TIME_EXTENDED_PROGMEM = "Amer
 
 const extended::ZoneInfo kZoneAmerica_Vancouver ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Vancouver /*name*/,
+  0x2c6f6b1f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6732,6 +6878,7 @@ static const char kZoneNameAmerica_Whitehorse[] ACE_TIME_EXTENDED_PROGMEM = "Ame
 
 const extended::ZoneInfo kZoneAmerica_Whitehorse ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Whitehorse /*name*/,
+  0x54e0e3e8 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6778,6 +6925,7 @@ static const char kZoneNameAmerica_Winnipeg[] ACE_TIME_EXTENDED_PROGMEM = "Ameri
 
 const extended::ZoneInfo kZoneAmerica_Winnipeg ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Winnipeg /*name*/,
+  0x8c7dafc7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -6812,6 +6960,7 @@ static const char kZoneNameAmerica_Yakutat[] ACE_TIME_EXTENDED_PROGMEM = "Americ
 
 const extended::ZoneInfo kZoneAmerica_Yakutat ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Yakutat /*name*/,
+  0xd8ee31e9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6846,6 +6995,7 @@ static const char kZoneNameAmerica_Yellowknife[] ACE_TIME_EXTENDED_PROGMEM = "Am
 
 const extended::ZoneInfo kZoneAmerica_Yellowknife ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAmerica_Yellowknife /*name*/,
+  0x0f76c76f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -6952,6 +7102,7 @@ static const char kZoneNameAntarctica_Casey[] ACE_TIME_EXTENDED_PROGMEM = "Antar
 
 const extended::ZoneInfo kZoneAntarctica_Casey ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAntarctica_Casey /*name*/,
+  0xe2022583 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   7 /*numEras*/,
@@ -7034,6 +7185,7 @@ static const char kZoneNameAntarctica_Davis[] ACE_TIME_EXTENDED_PROGMEM = "Antar
 
 const extended::ZoneInfo kZoneAntarctica_Davis ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAntarctica_Davis /*name*/,
+  0xe2144b45 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   5 /*numEras*/,
@@ -7068,6 +7220,7 @@ static const char kZoneNameAntarctica_DumontDUrville[] ACE_TIME_EXTENDED_PROGMEM
 
 const extended::ZoneInfo kZoneAntarctica_DumontDUrville ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAntarctica_DumontDUrville /*name*/,
+  0x5a3c656c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -7114,6 +7267,7 @@ static const char kZoneNameAntarctica_Macquarie[] ACE_TIME_EXTENDED_PROGMEM = "A
 
 const extended::ZoneInfo kZoneAntarctica_Macquarie ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAntarctica_Macquarie /*name*/,
+  0x92f47626 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -7160,6 +7314,7 @@ static const char kZoneNameAntarctica_Mawson[] ACE_TIME_EXTENDED_PROGMEM = "Anta
 
 const extended::ZoneInfo kZoneAntarctica_Mawson ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAntarctica_Mawson /*name*/,
+  0x399cd863 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -7206,6 +7361,7 @@ static const char kZoneNameAntarctica_Palmer[] ACE_TIME_EXTENDED_PROGMEM = "Anta
 
 const extended::ZoneInfo kZoneAntarctica_Palmer ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAntarctica_Palmer /*name*/,
+  0x40962f4f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -7240,6 +7396,7 @@ static const char kZoneNameAntarctica_Rothera[] ACE_TIME_EXTENDED_PROGMEM = "Ant
 
 const extended::ZoneInfo kZoneAntarctica_Rothera ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAntarctica_Rothera /*name*/,
+  0x0e86d203 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -7274,6 +7431,7 @@ static const char kZoneNameAntarctica_Syowa[] ACE_TIME_EXTENDED_PROGMEM = "Antar
 
 const extended::ZoneInfo kZoneAntarctica_Syowa ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAntarctica_Syowa /*name*/,
+  0xe330c7e1 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -7320,6 +7478,7 @@ static const char kZoneNameAntarctica_Troll[] ACE_TIME_EXTENDED_PROGMEM = "Antar
 
 const extended::ZoneInfo kZoneAntarctica_Troll ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAntarctica_Troll /*name*/,
+  0xe33f085b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -7354,6 +7513,7 @@ static const char kZoneNameAntarctica_Vostok[] ACE_TIME_EXTENDED_PROGMEM = "Anta
 
 const extended::ZoneInfo kZoneAntarctica_Vostok ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAntarctica_Vostok /*name*/,
+  0x4f966fd4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -7400,6 +7560,7 @@ static const char kZoneNameAsia_Almaty[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Almat
 
 const extended::ZoneInfo kZoneAsia_Almaty ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Almaty /*name*/,
+  0xa61f41fa /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -7434,6 +7595,7 @@ static const char kZoneNameAsia_Amman[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Amman"
 
 const extended::ZoneInfo kZoneAsia_Amman ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Amman /*name*/,
+  0x148d21bc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -7492,6 +7654,7 @@ static const char kZoneNameAsia_Anadyr[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Anady
 
 const extended::ZoneInfo kZoneAsia_Anadyr ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Anadyr /*name*/,
+  0xa63cebd1 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -7538,6 +7701,7 @@ static const char kZoneNameAsia_Aqtau[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Aqtau"
 
 const extended::ZoneInfo kZoneAsia_Aqtau ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Aqtau /*name*/,
+  0x148f710e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -7584,6 +7748,7 @@ static const char kZoneNameAsia_Aqtobe[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Aqtob
 
 const extended::ZoneInfo kZoneAsia_Aqtobe ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Aqtobe /*name*/,
+  0xa67dcc4e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -7618,6 +7783,7 @@ static const char kZoneNameAsia_Ashgabat[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Ash
 
 const extended::ZoneInfo kZoneAsia_Ashgabat ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Ashgabat /*name*/,
+  0xba87598d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -7676,6 +7842,7 @@ static const char kZoneNameAsia_Atyrau[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Atyra
 
 const extended::ZoneInfo kZoneAsia_Atyrau ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Atyrau /*name*/,
+  0xa6b6e068 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -7710,6 +7877,7 @@ static const char kZoneNameAsia_Baghdad[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Bagh
 
 const extended::ZoneInfo kZoneAsia_Baghdad ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Baghdad /*name*/,
+  0x9ceffbed /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -7744,6 +7912,7 @@ static const char kZoneNameAsia_Baku[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Baku";
 
 const extended::ZoneInfo kZoneAsia_Baku ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Baku /*name*/,
+  0x1fa788b5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -7778,6 +7947,7 @@ static const char kZoneNameAsia_Bangkok[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Bang
 
 const extended::ZoneInfo kZoneAsia_Bangkok ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Bangkok /*name*/,
+  0x9d6e3aaf /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -7848,6 +8018,7 @@ static const char kZoneNameAsia_Barnaul[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Barn
 
 const extended::ZoneInfo kZoneAsia_Barnaul ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Barnaul /*name*/,
+  0x9dba4997 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -7882,6 +8053,7 @@ static const char kZoneNameAsia_Beirut[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Beiru
 
 const extended::ZoneInfo kZoneAsia_Beirut ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Beirut /*name*/,
+  0xa7f3d5fd /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -7928,6 +8100,7 @@ static const char kZoneNameAsia_Bishkek[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Bish
 
 const extended::ZoneInfo kZoneAsia_Bishkek ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Bishkek /*name*/,
+  0xb0728553 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -7962,6 +8135,7 @@ static const char kZoneNameAsia_Brunei[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Brune
 
 const extended::ZoneInfo kZoneAsia_Brunei ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Brunei /*name*/,
+  0xa8e595f7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8032,6 +8206,7 @@ static const char kZoneNameAsia_Chita[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Chita"
 
 const extended::ZoneInfo kZoneAsia_Chita ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Chita /*name*/,
+  0x14ae863b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -8078,6 +8253,7 @@ static const char kZoneNameAsia_Choibalsan[] ACE_TIME_EXTENDED_PROGMEM = "Asia/C
 
 const extended::ZoneInfo kZoneAsia_Choibalsan ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Choibalsan /*name*/,
+  0x928aa4a6 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -8124,6 +8300,7 @@ static const char kZoneNameAsia_Colombo[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Colo
 
 const extended::ZoneInfo kZoneAsia_Colombo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Colombo /*name*/,
+  0x0af0e91d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -8158,6 +8335,7 @@ static const char kZoneNameAsia_Damascus[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Dam
 
 const extended::ZoneInfo kZoneAsia_Damascus ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Damascus /*name*/,
+  0x20fbb063 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8204,6 +8382,7 @@ static const char kZoneNameAsia_Dhaka[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Dhaka"
 
 const extended::ZoneInfo kZoneAsia_Dhaka ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Dhaka /*name*/,
+  0x14c07b8b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -8250,6 +8429,7 @@ static const char kZoneNameAsia_Dili[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Dili";
 
 const extended::ZoneInfo kZoneAsia_Dili ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Dili /*name*/,
+  0x1fa8c394 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -8284,6 +8464,7 @@ static const char kZoneNameAsia_Dubai[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Dubai"
 
 const extended::ZoneInfo kZoneAsia_Dubai ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Dubai /*name*/,
+  0x14c79f77 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8318,6 +8499,7 @@ static const char kZoneNameAsia_Dushanbe[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Dus
 
 const extended::ZoneInfo kZoneAsia_Dushanbe ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Dushanbe /*name*/,
+  0x32fc5c3c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8376,6 +8558,7 @@ static const char kZoneNameAsia_Famagusta[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Fa
 
 const extended::ZoneInfo kZoneAsia_Famagusta ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Famagusta /*name*/,
+  0x289b4f8b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -8494,6 +8677,7 @@ static const char kZoneNameAsia_Gaza[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Gaza";
 
 const extended::ZoneInfo kZoneAsia_Gaza ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Gaza /*name*/,
+  0x1faa4875 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   8 /*numEras*/,
@@ -8540,6 +8724,7 @@ static const char kZoneNameAsia_Hebron[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Hebro
 
 const extended::ZoneInfo kZoneAsia_Hebron ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Hebron /*name*/,
+  0xb5eef250 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -8574,6 +8759,7 @@ static const char kZoneNameAsia_Ho_Chi_Minh[] ACE_TIME_EXTENDED_PROGMEM = "Asia/
 
 const extended::ZoneInfo kZoneAsia_Ho_Chi_Minh ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Ho_Chi_Minh /*name*/,
+  0x20f2d127 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8608,6 +8794,7 @@ static const char kZoneNameAsia_Hong_Kong[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Ho
 
 const extended::ZoneInfo kZoneAsia_Hong_Kong ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Hong_Kong /*name*/,
+  0x577f28ac /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8642,6 +8829,7 @@ static const char kZoneNameAsia_Hovd[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Hovd";
 
 const extended::ZoneInfo kZoneAsia_Hovd ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Hovd /*name*/,
+  0x1fab0fe3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8700,6 +8888,7 @@ static const char kZoneNameAsia_Irkutsk[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Irku
 
 const extended::ZoneInfo kZoneAsia_Irkutsk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Irkutsk /*name*/,
+  0xdfbf213f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -8734,6 +8923,7 @@ static const char kZoneNameAsia_Jakarta[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Jaka
 
 const extended::ZoneInfo kZoneAsia_Jakarta ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Jakarta /*name*/,
+  0x0506ab50 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8768,6 +8958,7 @@ static const char kZoneNameAsia_Jayapura[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Jay
 
 const extended::ZoneInfo kZoneAsia_Jayapura ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Jayapura /*name*/,
+  0xc6833c2f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8802,6 +8993,7 @@ static const char kZoneNameAsia_Jerusalem[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Je
 
 const extended::ZoneInfo kZoneAsia_Jerusalem ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Jerusalem /*name*/,
+  0x5becd23a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8836,6 +9028,7 @@ static const char kZoneNameAsia_Kabul[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Kabul"
 
 const extended::ZoneInfo kZoneAsia_Kabul ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Kabul /*name*/,
+  0x153b5601 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8894,6 +9087,7 @@ static const char kZoneNameAsia_Kamchatka[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Ka
 
 const extended::ZoneInfo kZoneAsia_Kamchatka ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Kamchatka /*name*/,
+  0x73baf9d7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -8928,6 +9122,7 @@ static const char kZoneNameAsia_Karachi[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Kara
 
 const extended::ZoneInfo kZoneAsia_Karachi ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Karachi /*name*/,
+  0x527f5245 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -8962,6 +9157,7 @@ static const char kZoneNameAsia_Kathmandu[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Ka
 
 const extended::ZoneInfo kZoneAsia_Kathmandu ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Kathmandu /*name*/,
+  0x9a96ce6f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -9044,6 +9240,7 @@ static const char kZoneNameAsia_Khandyga[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Kha
 
 const extended::ZoneInfo kZoneAsia_Khandyga ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Khandyga /*name*/,
+  0x9685a4d9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   5 /*numEras*/,
@@ -9078,6 +9275,7 @@ static const char kZoneNameAsia_Kolkata[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Kolk
 
 const extended::ZoneInfo kZoneAsia_Kolkata ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Kolkata /*name*/,
+  0x72c06cd9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -9136,6 +9334,7 @@ static const char kZoneNameAsia_Krasnoyarsk[] ACE_TIME_EXTENDED_PROGMEM = "Asia/
 
 const extended::ZoneInfo kZoneAsia_Krasnoyarsk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Krasnoyarsk /*name*/,
+  0xd0376c6a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -9170,6 +9369,7 @@ static const char kZoneNameAsia_Kuala_Lumpur[] ACE_TIME_EXTENDED_PROGMEM = "Asia
 
 const extended::ZoneInfo kZoneAsia_Kuala_Lumpur ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Kuala_Lumpur /*name*/,
+  0x014763c4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -9204,6 +9404,7 @@ static const char kZoneNameAsia_Kuching[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Kuch
 
 const extended::ZoneInfo kZoneAsia_Kuching ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Kuching /*name*/,
+  0x801b003b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -9238,6 +9439,7 @@ static const char kZoneNameAsia_Macau[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Macau"
 
 const extended::ZoneInfo kZoneAsia_Macau ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Macau /*name*/,
+  0x155f88b9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -9308,6 +9510,7 @@ static const char kZoneNameAsia_Magadan[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Maga
 
 const extended::ZoneInfo kZoneAsia_Magadan ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Magadan /*name*/,
+  0xebacc19b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -9342,6 +9545,7 @@ static const char kZoneNameAsia_Makassar[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Mak
 
 const extended::ZoneInfo kZoneAsia_Makassar ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Makassar /*name*/,
+  0x6aa21c85 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -9376,6 +9580,7 @@ static const char kZoneNameAsia_Manila[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Manil
 
 const extended::ZoneInfo kZoneAsia_Manila ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Manila /*name*/,
+  0xc156c944 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -9410,6 +9615,7 @@ static const char kZoneNameAsia_Nicosia[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Nico
 
 const extended::ZoneInfo kZoneAsia_Nicosia ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Nicosia /*name*/,
+  0x4b0fcf78 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -9468,6 +9674,7 @@ static const char kZoneNameAsia_Novokuznetsk[] ACE_TIME_EXTENDED_PROGMEM = "Asia
 
 const extended::ZoneInfo kZoneAsia_Novokuznetsk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Novokuznetsk /*name*/,
+  0x69264f93 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -9538,6 +9745,7 @@ static const char kZoneNameAsia_Novosibirsk[] ACE_TIME_EXTENDED_PROGMEM = "Asia/
 
 const extended::ZoneInfo kZoneAsia_Novosibirsk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Novosibirsk /*name*/,
+  0xa2a435cb /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -9596,6 +9804,7 @@ static const char kZoneNameAsia_Omsk[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Omsk";
 
 const extended::ZoneInfo kZoneAsia_Omsk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Omsk /*name*/,
+  0x1faeddac /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -9642,6 +9851,7 @@ static const char kZoneNameAsia_Oral[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Oral";
 
 const extended::ZoneInfo kZoneAsia_Oral ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Oral /*name*/,
+  0x1faef0a0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -9676,6 +9886,7 @@ static const char kZoneNameAsia_Pontianak[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Po
 
 const extended::ZoneInfo kZoneAsia_Pontianak ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Pontianak /*name*/,
+  0x1a76c057 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -9734,6 +9945,7 @@ static const char kZoneNameAsia_Pyongyang[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Py
 
 const extended::ZoneInfo kZoneAsia_Pyongyang ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Pyongyang /*name*/,
+  0x93ed1c8e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -9768,6 +9980,7 @@ static const char kZoneNameAsia_Qatar[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Qatar"
 
 const extended::ZoneInfo kZoneAsia_Qatar ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Qatar /*name*/,
+  0x15a8330b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -9814,6 +10027,7 @@ static const char kZoneNameAsia_Qostanay[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Qos
 
 const extended::ZoneInfo kZoneAsia_Qostanay ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Qostanay /*name*/,
+  0x654fe522 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -9872,6 +10086,7 @@ static const char kZoneNameAsia_Qyzylorda[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Qy
 
 const extended::ZoneInfo kZoneAsia_Qyzylorda ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Qyzylorda /*name*/,
+  0x71282e81 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -9906,6 +10121,7 @@ static const char kZoneNameAsia_Riyadh[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Riyad
 
 const extended::ZoneInfo kZoneAsia_Riyadh ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Riyadh /*name*/,
+  0xcd973d93 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -9976,6 +10192,7 @@ static const char kZoneNameAsia_Sakhalin[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Sak
 
 const extended::ZoneInfo kZoneAsia_Sakhalin ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Sakhalin /*name*/,
+  0xf4a1c9bd /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -10010,6 +10227,7 @@ static const char kZoneNameAsia_Samarkand[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Sa
 
 const extended::ZoneInfo kZoneAsia_Samarkand ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Samarkand /*name*/,
+  0x13ae5104 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10044,6 +10262,7 @@ static const char kZoneNameAsia_Seoul[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Seoul"
 
 const extended::ZoneInfo kZoneAsia_Seoul ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Seoul /*name*/,
+  0x15ce82da /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10078,6 +10297,7 @@ static const char kZoneNameAsia_Shanghai[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Sha
 
 const extended::ZoneInfo kZoneAsia_Shanghai ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Shanghai /*name*/,
+  0xf895a7f5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10112,6 +10332,7 @@ static const char kZoneNameAsia_Singapore[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Si
 
 const extended::ZoneInfo kZoneAsia_Singapore ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Singapore /*name*/,
+  0xcf8581fa /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10170,6 +10391,7 @@ static const char kZoneNameAsia_Srednekolymsk[] ACE_TIME_EXTENDED_PROGMEM = "Asi
 
 const extended::ZoneInfo kZoneAsia_Srednekolymsk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Srednekolymsk /*name*/,
+  0xbf8e337d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -10204,6 +10426,7 @@ static const char kZoneNameAsia_Taipei[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Taipe
 
 const extended::ZoneInfo kZoneAsia_Taipei ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Taipei /*name*/,
+  0xd1a844ae /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10238,6 +10461,7 @@ static const char kZoneNameAsia_Tashkent[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Tas
 
 const extended::ZoneInfo kZoneAsia_Tashkent ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Tashkent /*name*/,
+  0xf3924254 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10296,6 +10520,7 @@ static const char kZoneNameAsia_Tbilisi[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Tbil
 
 const extended::ZoneInfo kZoneAsia_Tbilisi ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Tbilisi /*name*/,
+  0x0903e442 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -10330,6 +10555,7 @@ static const char kZoneNameAsia_Tehran[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Tehra
 
 const extended::ZoneInfo kZoneAsia_Tehran ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Tehran /*name*/,
+  0xd1f02254 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10364,6 +10590,7 @@ static const char kZoneNameAsia_Thimphu[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Thim
 
 const extended::ZoneInfo kZoneAsia_Thimphu ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Thimphu /*name*/,
+  0x170380d1 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10398,6 +10625,7 @@ static const char kZoneNameAsia_Tokyo[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Tokyo"
 
 const extended::ZoneInfo kZoneAsia_Tokyo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Tokyo /*name*/,
+  0x15e606a8 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10480,6 +10708,7 @@ static const char kZoneNameAsia_Tomsk[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Tomsk"
 
 const extended::ZoneInfo kZoneAsia_Tomsk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Tomsk /*name*/,
+  0x15e60e60 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   5 /*numEras*/,
@@ -10514,6 +10743,7 @@ static const char kZoneNameAsia_Ulaanbaatar[] ACE_TIME_EXTENDED_PROGMEM = "Asia/
 
 const extended::ZoneInfo kZoneAsia_Ulaanbaatar ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Ulaanbaatar /*name*/,
+  0x30f0cc4e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10548,6 +10778,7 @@ static const char kZoneNameAsia_Urumqi[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Urumq
 
 const extended::ZoneInfo kZoneAsia_Urumqi ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Urumqi /*name*/,
+  0xd5379735 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10618,6 +10849,7 @@ static const char kZoneNameAsia_Ust_Nera[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Ust
 
 const extended::ZoneInfo kZoneAsia_Ust_Nera ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Ust_Nera /*name*/,
+  0x4785f921 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -10676,6 +10908,7 @@ static const char kZoneNameAsia_Vladivostok[] ACE_TIME_EXTENDED_PROGMEM = "Asia/
 
 const extended::ZoneInfo kZoneAsia_Vladivostok ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Vladivostok /*name*/,
+  0x29de34a8 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -10734,6 +10967,7 @@ static const char kZoneNameAsia_Yakutsk[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Yaku
 
 const extended::ZoneInfo kZoneAsia_Yakutsk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Yakutsk /*name*/,
+  0x87bb3a9e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -10768,6 +11002,7 @@ static const char kZoneNameAsia_Yangon[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Yango
 
 const extended::ZoneInfo kZoneAsia_Yangon ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Yangon /*name*/,
+  0xdd54a8be /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10826,6 +11061,7 @@ static const char kZoneNameAsia_Yekaterinburg[] ACE_TIME_EXTENDED_PROGMEM = "Asi
 
 const extended::ZoneInfo kZoneAsia_Yekaterinburg ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Yekaterinburg /*name*/,
+  0xfb544c6e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -10872,6 +11108,7 @@ static const char kZoneNameAsia_Yerevan[] ACE_TIME_EXTENDED_PROGMEM = "Asia/Yere
 
 const extended::ZoneInfo kZoneAsia_Yerevan ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAsia_Yerevan /*name*/,
+  0x9185c8cc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -10906,6 +11143,7 @@ static const char kZoneNameAtlantic_Azores[] ACE_TIME_EXTENDED_PROGMEM = "Atlant
 
 const extended::ZoneInfo kZoneAtlantic_Azores ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAtlantic_Azores /*name*/,
+  0xf93ed918 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10940,6 +11178,7 @@ static const char kZoneNameAtlantic_Bermuda[] ACE_TIME_EXTENDED_PROGMEM = "Atlan
 
 const extended::ZoneInfo kZoneAtlantic_Bermuda ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAtlantic_Bermuda /*name*/,
+  0x3d4bb1c4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -10974,6 +11213,7 @@ static const char kZoneNameAtlantic_Canary[] ACE_TIME_EXTENDED_PROGMEM = "Atlant
 
 const extended::ZoneInfo kZoneAtlantic_Canary ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAtlantic_Canary /*name*/,
+  0xfc23f2c2 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11008,6 +11248,7 @@ static const char kZoneNameAtlantic_Cape_Verde[] ACE_TIME_EXTENDED_PROGMEM = "At
 
 const extended::ZoneInfo kZoneAtlantic_Cape_Verde ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAtlantic_Cape_Verde /*name*/,
+  0x5c5e1772 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11042,6 +11283,7 @@ static const char kZoneNameAtlantic_Faroe[] ACE_TIME_EXTENDED_PROGMEM = "Atlanti
 
 const extended::ZoneInfo kZoneAtlantic_Faroe ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAtlantic_Faroe /*name*/,
+  0xe110a971 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11076,6 +11318,7 @@ static const char kZoneNameAtlantic_Madeira[] ACE_TIME_EXTENDED_PROGMEM = "Atlan
 
 const extended::ZoneInfo kZoneAtlantic_Madeira ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAtlantic_Madeira /*name*/,
+  0x81b5c037 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11110,6 +11353,7 @@ static const char kZoneNameAtlantic_Reykjavik[] ACE_TIME_EXTENDED_PROGMEM = "Atl
 
 const extended::ZoneInfo kZoneAtlantic_Reykjavik ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAtlantic_Reykjavik /*name*/,
+  0x1c2b4f74 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11144,6 +11388,7 @@ static const char kZoneNameAtlantic_South_Georgia[] ACE_TIME_EXTENDED_PROGMEM = 
 
 const extended::ZoneInfo kZoneAtlantic_South_Georgia ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAtlantic_South_Georgia /*name*/,
+  0x33013174 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11190,6 +11435,7 @@ static const char kZoneNameAtlantic_Stanley[] ACE_TIME_EXTENDED_PROGMEM = "Atlan
 
 const extended::ZoneInfo kZoneAtlantic_Stanley ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAtlantic_Stanley /*name*/,
+  0x7bb3e1c4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -11224,6 +11470,7 @@ static const char kZoneNameAustralia_Adelaide[] ACE_TIME_EXTENDED_PROGMEM = "Aus
 
 const extended::ZoneInfo kZoneAustralia_Adelaide ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Adelaide /*name*/,
+  0x2428e8a3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11258,6 +11505,7 @@ static const char kZoneNameAustralia_Brisbane[] ACE_TIME_EXTENDED_PROGMEM = "Aus
 
 const extended::ZoneInfo kZoneAustralia_Brisbane ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Brisbane /*name*/,
+  0x4fedc9c0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11304,6 +11552,7 @@ static const char kZoneNameAustralia_Broken_Hill[] ACE_TIME_EXTENDED_PROGMEM = "
 
 const extended::ZoneInfo kZoneAustralia_Broken_Hill ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Broken_Hill /*name*/,
+  0xb06eada3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -11338,6 +11587,7 @@ static const char kZoneNameAustralia_Currie[] ACE_TIME_EXTENDED_PROGMEM = "Austr
 
 const extended::ZoneInfo kZoneAustralia_Currie ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Currie /*name*/,
+  0x278b6a24 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11372,6 +11622,7 @@ static const char kZoneNameAustralia_Darwin[] ACE_TIME_EXTENDED_PROGMEM = "Austr
 
 const extended::ZoneInfo kZoneAustralia_Darwin ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Darwin /*name*/,
+  0x2876bdff /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11406,6 +11657,7 @@ static const char kZoneNameAustralia_Eucla[] ACE_TIME_EXTENDED_PROGMEM = "Austra
 
 const extended::ZoneInfo kZoneAustralia_Eucla ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Eucla /*name*/,
+  0x8cf99e44 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11440,6 +11692,7 @@ static const char kZoneNameAustralia_Hobart[] ACE_TIME_EXTENDED_PROGMEM = "Austr
 
 const extended::ZoneInfo kZoneAustralia_Hobart ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Hobart /*name*/,
+  0x32bf951a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11474,6 +11727,7 @@ static const char kZoneNameAustralia_Lindeman[] ACE_TIME_EXTENDED_PROGMEM = "Aus
 
 const extended::ZoneInfo kZoneAustralia_Lindeman ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Lindeman /*name*/,
+  0xe05029e2 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11508,6 +11762,7 @@ static const char kZoneNameAustralia_Lord_Howe[] ACE_TIME_EXTENDED_PROGMEM = "Au
 
 const extended::ZoneInfo kZoneAustralia_Lord_Howe ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Lord_Howe /*name*/,
+  0xa748b67d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11542,6 +11797,7 @@ static const char kZoneNameAustralia_Melbourne[] ACE_TIME_EXTENDED_PROGMEM = "Au
 
 const extended::ZoneInfo kZoneAustralia_Melbourne ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Melbourne /*name*/,
+  0x0fe559a3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11576,6 +11832,7 @@ static const char kZoneNameAustralia_Perth[] ACE_TIME_EXTENDED_PROGMEM = "Austra
 
 const extended::ZoneInfo kZoneAustralia_Perth ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Perth /*name*/,
+  0x8db8269d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11610,6 +11867,7 @@ static const char kZoneNameAustralia_Sydney[] ACE_TIME_EXTENDED_PROGMEM = "Austr
 
 const extended::ZoneInfo kZoneAustralia_Sydney ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameAustralia_Sydney /*name*/,
+  0x4d1e9776 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11644,6 +11902,7 @@ static const char kZoneNameCET[] ACE_TIME_EXTENDED_PROGMEM = "CET";
 
 const extended::ZoneInfo kZoneCET ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameCET /*name*/,
+  0x0b87d921 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11678,6 +11937,7 @@ static const char kZoneNameCST6CDT[] ACE_TIME_EXTENDED_PROGMEM = "CST6CDT";
 
 const extended::ZoneInfo kZoneCST6CDT ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameCST6CDT /*name*/,
+  0xf0e87d00 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11712,6 +11972,7 @@ static const char kZoneNameEET[] ACE_TIME_EXTENDED_PROGMEM = "EET";
 
 const extended::ZoneInfo kZoneEET ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEET /*name*/,
+  0x0b87e1a3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11746,6 +12007,7 @@ static const char kZoneNameEST[] ACE_TIME_EXTENDED_PROGMEM = "EST";
 
 const extended::ZoneInfo kZoneEST ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEST /*name*/,
+  0x0b87e371 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11780,6 +12042,7 @@ static const char kZoneNameEST5EDT[] ACE_TIME_EXTENDED_PROGMEM = "EST5EDT";
 
 const extended::ZoneInfo kZoneEST5EDT ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEST5EDT /*name*/,
+  0x8adc72a3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11814,6 +12077,7 @@ static const char kZoneNameEtc_GMT[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT";
 
 const extended::ZoneInfo kZoneEtc_GMT ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT /*name*/,
+  0xd8e2de58 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11848,6 +12112,7 @@ static const char kZoneNameEtc_GMT_PLUS_1[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_1 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_1 /*name*/,
+  0x9d13da14 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11882,6 +12147,7 @@ static const char kZoneNameEtc_GMT_PLUS_10[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GM
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_10 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_10 /*name*/,
+  0x3f8f1cc4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11916,6 +12182,7 @@ static const char kZoneNameEtc_GMT_PLUS_11[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GM
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_11 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_11 /*name*/,
+  0x3f8f1cc5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11950,6 +12217,7 @@ static const char kZoneNameEtc_GMT_PLUS_12[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GM
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_12 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_12 /*name*/,
+  0x3f8f1cc6 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -11984,6 +12252,7 @@ static const char kZoneNameEtc_GMT_PLUS_2[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_2 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_2 /*name*/,
+  0x9d13da15 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12018,6 +12287,7 @@ static const char kZoneNameEtc_GMT_PLUS_3[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_3 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_3 /*name*/,
+  0x9d13da16 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12052,6 +12322,7 @@ static const char kZoneNameEtc_GMT_PLUS_4[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_4 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_4 /*name*/,
+  0x9d13da17 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12086,6 +12357,7 @@ static const char kZoneNameEtc_GMT_PLUS_5[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_5 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_5 /*name*/,
+  0x9d13da18 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12120,6 +12392,7 @@ static const char kZoneNameEtc_GMT_PLUS_6[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_6 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_6 /*name*/,
+  0x9d13da19 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12154,6 +12427,7 @@ static const char kZoneNameEtc_GMT_PLUS_7[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_7 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_7 /*name*/,
+  0x9d13da1a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12188,6 +12462,7 @@ static const char kZoneNameEtc_GMT_PLUS_8[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_8 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_8 /*name*/,
+  0x9d13da1b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12222,6 +12497,7 @@ static const char kZoneNameEtc_GMT_PLUS_9[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT
 
 const extended::ZoneInfo kZoneEtc_GMT_PLUS_9 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_PLUS_9 /*name*/,
+  0x9d13da1c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12256,6 +12532,7 @@ static const char kZoneNameEtc_GMT_1[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-1";
 
 const extended::ZoneInfo kZoneEtc_GMT_1 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_1 /*name*/,
+  0x9d13da56 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12290,6 +12567,7 @@ static const char kZoneNameEtc_GMT_10[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-10"
 
 const extended::ZoneInfo kZoneEtc_GMT_10 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_10 /*name*/,
+  0x3f8f2546 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12324,6 +12602,7 @@ static const char kZoneNameEtc_GMT_11[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-11"
 
 const extended::ZoneInfo kZoneEtc_GMT_11 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_11 /*name*/,
+  0x3f8f2547 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12358,6 +12637,7 @@ static const char kZoneNameEtc_GMT_12[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-12"
 
 const extended::ZoneInfo kZoneEtc_GMT_12 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_12 /*name*/,
+  0x3f8f2548 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12392,6 +12672,7 @@ static const char kZoneNameEtc_GMT_13[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-13"
 
 const extended::ZoneInfo kZoneEtc_GMT_13 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_13 /*name*/,
+  0x3f8f2549 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12426,6 +12707,7 @@ static const char kZoneNameEtc_GMT_14[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-14"
 
 const extended::ZoneInfo kZoneEtc_GMT_14 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_14 /*name*/,
+  0x3f8f254a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12460,6 +12742,7 @@ static const char kZoneNameEtc_GMT_2[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-2";
 
 const extended::ZoneInfo kZoneEtc_GMT_2 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_2 /*name*/,
+  0x9d13da57 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12494,6 +12777,7 @@ static const char kZoneNameEtc_GMT_3[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-3";
 
 const extended::ZoneInfo kZoneEtc_GMT_3 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_3 /*name*/,
+  0x9d13da58 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12528,6 +12812,7 @@ static const char kZoneNameEtc_GMT_4[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-4";
 
 const extended::ZoneInfo kZoneEtc_GMT_4 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_4 /*name*/,
+  0x9d13da59 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12562,6 +12847,7 @@ static const char kZoneNameEtc_GMT_5[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-5";
 
 const extended::ZoneInfo kZoneEtc_GMT_5 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_5 /*name*/,
+  0x9d13da5a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12596,6 +12882,7 @@ static const char kZoneNameEtc_GMT_6[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-6";
 
 const extended::ZoneInfo kZoneEtc_GMT_6 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_6 /*name*/,
+  0x9d13da5b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12630,6 +12917,7 @@ static const char kZoneNameEtc_GMT_7[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-7";
 
 const extended::ZoneInfo kZoneEtc_GMT_7 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_7 /*name*/,
+  0x9d13da5c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12664,6 +12952,7 @@ static const char kZoneNameEtc_GMT_8[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-8";
 
 const extended::ZoneInfo kZoneEtc_GMT_8 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_8 /*name*/,
+  0x9d13da5d /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12698,6 +12987,7 @@ static const char kZoneNameEtc_GMT_9[] ACE_TIME_EXTENDED_PROGMEM = "Etc/GMT-9";
 
 const extended::ZoneInfo kZoneEtc_GMT_9 ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_GMT_9 /*name*/,
+  0x9d13da5e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12732,6 +13022,7 @@ static const char kZoneNameEtc_UTC[] ACE_TIME_EXTENDED_PROGMEM = "Etc/UTC";
 
 const extended::ZoneInfo kZoneEtc_UTC ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEtc_UTC /*name*/,
+  0xd8e31abc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12766,6 +13057,7 @@ static const char kZoneNameEurope_Amsterdam[] ACE_TIME_EXTENDED_PROGMEM = "Europ
 
 const extended::ZoneInfo kZoneEurope_Amsterdam ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Amsterdam /*name*/,
+  0x109395c2 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12800,6 +13092,7 @@ static const char kZoneNameEurope_Andorra[] ACE_TIME_EXTENDED_PROGMEM = "Europe/
 
 const extended::ZoneInfo kZoneEurope_Andorra ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Andorra /*name*/,
+  0x97f6764b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12870,6 +13163,7 @@ static const char kZoneNameEurope_Astrakhan[] ACE_TIME_EXTENDED_PROGMEM = "Europ
 
 const extended::ZoneInfo kZoneEurope_Astrakhan ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Astrakhan /*name*/,
+  0xe22256e1 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -12904,6 +13198,7 @@ static const char kZoneNameEurope_Athens[] ACE_TIME_EXTENDED_PROGMEM = "Europe/A
 
 const extended::ZoneInfo kZoneEurope_Athens ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Athens /*name*/,
+  0x4318fa27 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12938,6 +13233,7 @@ static const char kZoneNameEurope_Belgrade[] ACE_TIME_EXTENDED_PROGMEM = "Europe
 
 const extended::ZoneInfo kZoneEurope_Belgrade ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Belgrade /*name*/,
+  0xe0532b3a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -12972,6 +13268,7 @@ static const char kZoneNameEurope_Berlin[] ACE_TIME_EXTENDED_PROGMEM = "Europe/B
 
 const extended::ZoneInfo kZoneEurope_Berlin ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Berlin /*name*/,
+  0x44644c20 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13006,6 +13303,7 @@ static const char kZoneNameEurope_Brussels[] ACE_TIME_EXTENDED_PROGMEM = "Europe
 
 const extended::ZoneInfo kZoneEurope_Brussels ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Brussels /*name*/,
+  0xdee07337 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13040,6 +13338,7 @@ static const char kZoneNameEurope_Bucharest[] ACE_TIME_EXTENDED_PROGMEM = "Europ
 
 const extended::ZoneInfo kZoneEurope_Bucharest ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Bucharest /*name*/,
+  0xfb349ec5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13074,6 +13373,7 @@ static const char kZoneNameEurope_Budapest[] ACE_TIME_EXTENDED_PROGMEM = "Europe
 
 const extended::ZoneInfo kZoneEurope_Budapest ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Budapest /*name*/,
+  0x9ce0197c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13108,6 +13408,7 @@ static const char kZoneNameEurope_Chisinau[] ACE_TIME_EXTENDED_PROGMEM = "Europe
 
 const extended::ZoneInfo kZoneEurope_Chisinau ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Chisinau /*name*/,
+  0xad58aa18 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13142,6 +13443,7 @@ static const char kZoneNameEurope_Copenhagen[] ACE_TIME_EXTENDED_PROGMEM = "Euro
 
 const extended::ZoneInfo kZoneEurope_Copenhagen ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Copenhagen /*name*/,
+  0xe0ed30bc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13176,6 +13478,7 @@ static const char kZoneNameEurope_Dublin[] ACE_TIME_EXTENDED_PROGMEM = "Europe/D
 
 const extended::ZoneInfo kZoneEurope_Dublin ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Dublin /*name*/,
+  0x4a275f62 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13210,6 +13513,7 @@ static const char kZoneNameEurope_Gibraltar[] ACE_TIME_EXTENDED_PROGMEM = "Europ
 
 const extended::ZoneInfo kZoneEurope_Gibraltar ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Gibraltar /*name*/,
+  0xf8e325fc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13244,6 +13548,7 @@ static const char kZoneNameEurope_Helsinki[] ACE_TIME_EXTENDED_PROGMEM = "Europe
 
 const extended::ZoneInfo kZoneEurope_Helsinki ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Helsinki /*name*/,
+  0x6ab2975b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13374,6 +13679,7 @@ static const char kZoneNameEurope_Istanbul[] ACE_TIME_EXTENDED_PROGMEM = "Europe
 
 const extended::ZoneInfo kZoneEurope_Istanbul ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Istanbul /*name*/,
+  0x9e09d6e6 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   7 /*transitionBufSize*/,
   9 /*numEras*/,
@@ -13432,6 +13738,7 @@ static const char kZoneNameEurope_Kaliningrad[] ACE_TIME_EXTENDED_PROGMEM = "Eur
 
 const extended::ZoneInfo kZoneEurope_Kaliningrad ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Kaliningrad /*name*/,
+  0xd33b2f28 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -13466,6 +13773,7 @@ static const char kZoneNameEurope_Kiev[] ACE_TIME_EXTENDED_PROGMEM = "Europe/Kie
 
 const extended::ZoneInfo kZoneEurope_Kiev ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Kiev /*name*/,
+  0xa2c19eb3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13524,6 +13832,7 @@ static const char kZoneNameEurope_Kirov[] ACE_TIME_EXTENDED_PROGMEM = "Europe/Ki
 
 const extended::ZoneInfo kZoneEurope_Kirov ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Kirov /*name*/,
+  0xfaf5abef /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -13558,6 +13867,7 @@ static const char kZoneNameEurope_Lisbon[] ACE_TIME_EXTENDED_PROGMEM = "Europe/L
 
 const extended::ZoneInfo kZoneEurope_Lisbon ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Lisbon /*name*/,
+  0x5c00a70b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13592,6 +13902,7 @@ static const char kZoneNameEurope_London[] ACE_TIME_EXTENDED_PROGMEM = "Europe/L
 
 const extended::ZoneInfo kZoneEurope_London ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_London /*name*/,
+  0x5c6a84ae /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13626,6 +13937,7 @@ static const char kZoneNameEurope_Luxembourg[] ACE_TIME_EXTENDED_PROGMEM = "Euro
 
 const extended::ZoneInfo kZoneEurope_Luxembourg ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Luxembourg /*name*/,
+  0x1f8bc6ce /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13660,6 +13972,7 @@ static const char kZoneNameEurope_Madrid[] ACE_TIME_EXTENDED_PROGMEM = "Europe/M
 
 const extended::ZoneInfo kZoneEurope_Madrid ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Madrid /*name*/,
+  0x5dbd1535 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13694,6 +14007,7 @@ static const char kZoneNameEurope_Malta[] ACE_TIME_EXTENDED_PROGMEM = "Europe/Ma
 
 const extended::ZoneInfo kZoneEurope_Malta ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Malta /*name*/,
+  0xfb1560f3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13740,6 +14054,7 @@ static const char kZoneNameEurope_Minsk[] ACE_TIME_EXTENDED_PROGMEM = "Europe/Mi
 
 const extended::ZoneInfo kZoneEurope_Minsk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Minsk /*name*/,
+  0xfb19cc66 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -13774,6 +14089,7 @@ static const char kZoneNameEurope_Monaco[] ACE_TIME_EXTENDED_PROGMEM = "Europe/M
 
 const extended::ZoneInfo kZoneEurope_Monaco ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Monaco /*name*/,
+  0x5ebf9f01 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13832,6 +14148,7 @@ static const char kZoneNameEurope_Moscow[] ACE_TIME_EXTENDED_PROGMEM = "Europe/M
 
 const extended::ZoneInfo kZoneEurope_Moscow ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Moscow /*name*/,
+  0x5ec266fc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -13866,6 +14183,7 @@ static const char kZoneNameEurope_Oslo[] ACE_TIME_EXTENDED_PROGMEM = "Europe/Osl
 
 const extended::ZoneInfo kZoneEurope_Oslo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Oslo /*name*/,
+  0xa2c3fba1 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13900,6 +14218,7 @@ static const char kZoneNameEurope_Paris[] ACE_TIME_EXTENDED_PROGMEM = "Europe/Pa
 
 const extended::ZoneInfo kZoneEurope_Paris ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Paris /*name*/,
+  0xfb4bc2a3 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13934,6 +14253,7 @@ static const char kZoneNameEurope_Prague[] ACE_TIME_EXTENDED_PROGMEM = "Europe/P
 
 const extended::ZoneInfo kZoneEurope_Prague ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Prague /*name*/,
+  0x65ee5d48 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -13992,6 +14312,7 @@ static const char kZoneNameEurope_Riga[] ACE_TIME_EXTENDED_PROGMEM = "Europe/Rig
 
 const extended::ZoneInfo kZoneEurope_Riga ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Riga /*name*/,
+  0xa2c57587 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -14026,6 +14347,7 @@ static const char kZoneNameEurope_Rome[] ACE_TIME_EXTENDED_PROGMEM = "Europe/Rom
 
 const extended::ZoneInfo kZoneEurope_Rome ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Rome /*name*/,
+  0xa2c58fd7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14084,6 +14406,7 @@ static const char kZoneNameEurope_Samara[] ACE_TIME_EXTENDED_PROGMEM = "Europe/S
 
 const extended::ZoneInfo kZoneEurope_Samara ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Samara /*name*/,
+  0x6bc0b139 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -14154,6 +14477,7 @@ static const char kZoneNameEurope_Saratov[] ACE_TIME_EXTENDED_PROGMEM = "Europe/
 
 const extended::ZoneInfo kZoneEurope_Saratov ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Saratov /*name*/,
+  0xe4315da4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -14212,6 +14536,7 @@ static const char kZoneNameEurope_Simferopol[] ACE_TIME_EXTENDED_PROGMEM = "Euro
 
 const extended::ZoneInfo kZoneEurope_Simferopol ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Simferopol /*name*/,
+  0xda9eb724 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -14246,6 +14571,7 @@ static const char kZoneNameEurope_Sofia[] ACE_TIME_EXTENDED_PROGMEM = "Europe/So
 
 const extended::ZoneInfo kZoneEurope_Sofia ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Sofia /*name*/,
+  0xfb898656 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14280,6 +14606,7 @@ static const char kZoneNameEurope_Stockholm[] ACE_TIME_EXTENDED_PROGMEM = "Europ
 
 const extended::ZoneInfo kZoneEurope_Stockholm ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Stockholm /*name*/,
+  0x5bf6fbb8 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14338,6 +14665,7 @@ static const char kZoneNameEurope_Tallinn[] ACE_TIME_EXTENDED_PROGMEM = "Europe/
 
 const extended::ZoneInfo kZoneEurope_Tallinn ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Tallinn /*name*/,
+  0x30c4e096 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -14372,6 +14700,7 @@ static const char kZoneNameEurope_Tirane[] ACE_TIME_EXTENDED_PROGMEM = "Europe/T
 
 const extended::ZoneInfo kZoneEurope_Tirane ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Tirane /*name*/,
+  0x6ea95b47 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14442,6 +14771,7 @@ static const char kZoneNameEurope_Ulyanovsk[] ACE_TIME_EXTENDED_PROGMEM = "Europ
 
 const extended::ZoneInfo kZoneEurope_Ulyanovsk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Ulyanovsk /*name*/,
+  0xe03783d0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -14476,6 +14806,7 @@ static const char kZoneNameEurope_Uzhgorod[] ACE_TIME_EXTENDED_PROGMEM = "Europe
 
 const extended::ZoneInfo kZoneEurope_Uzhgorod ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Uzhgorod /*name*/,
+  0xb066f5d6 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14510,6 +14841,7 @@ static const char kZoneNameEurope_Vienna[] ACE_TIME_EXTENDED_PROGMEM = "Europe/V
 
 const extended::ZoneInfo kZoneEurope_Vienna ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Vienna /*name*/,
+  0x734cc2e5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14568,6 +14900,7 @@ static const char kZoneNameEurope_Vilnius[] ACE_TIME_EXTENDED_PROGMEM = "Europe/
 
 const extended::ZoneInfo kZoneEurope_Vilnius ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Vilnius /*name*/,
+  0xdd63b8ce /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   3 /*numEras*/,
@@ -14638,6 +14971,7 @@ static const char kZoneNameEurope_Volgograd[] ACE_TIME_EXTENDED_PROGMEM = "Europ
 
 const extended::ZoneInfo kZoneEurope_Volgograd ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Volgograd /*name*/,
+  0x3ed0f389 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   4 /*numEras*/,
@@ -14672,6 +15006,7 @@ static const char kZoneNameEurope_Warsaw[] ACE_TIME_EXTENDED_PROGMEM = "Europe/W
 
 const extended::ZoneInfo kZoneEurope_Warsaw ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Warsaw /*name*/,
+  0x75185c19 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14706,6 +15041,7 @@ static const char kZoneNameEurope_Zaporozhye[] ACE_TIME_EXTENDED_PROGMEM = "Euro
 
 const extended::ZoneInfo kZoneEurope_Zaporozhye ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Zaporozhye /*name*/,
+  0xeab9767f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14740,6 +15076,7 @@ static const char kZoneNameEurope_Zurich[] ACE_TIME_EXTENDED_PROGMEM = "Europe/Z
 
 const extended::ZoneInfo kZoneEurope_Zurich ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameEurope_Zurich /*name*/,
+  0x7d8195b9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14774,6 +15111,7 @@ static const char kZoneNameHST[] ACE_TIME_EXTENDED_PROGMEM = "HST";
 
 const extended::ZoneInfo kZoneHST ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameHST /*name*/,
+  0x0b87f034 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14808,6 +15146,7 @@ static const char kZoneNameIndian_Chagos[] ACE_TIME_EXTENDED_PROGMEM = "Indian/C
 
 const extended::ZoneInfo kZoneIndian_Chagos ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameIndian_Chagos /*name*/,
+  0x456f7c3c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14842,6 +15181,7 @@ static const char kZoneNameIndian_Christmas[] ACE_TIME_EXTENDED_PROGMEM = "India
 
 const extended::ZoneInfo kZoneIndian_Christmas ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameIndian_Christmas /*name*/,
+  0x68c207d5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14876,6 +15216,7 @@ static const char kZoneNameIndian_Cocos[] ACE_TIME_EXTENDED_PROGMEM = "Indian/Co
 
 const extended::ZoneInfo kZoneIndian_Cocos ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameIndian_Cocos /*name*/,
+  0x021e86de /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14910,6 +15251,7 @@ static const char kZoneNameIndian_Kerguelen[] ACE_TIME_EXTENDED_PROGMEM = "India
 
 const extended::ZoneInfo kZoneIndian_Kerguelen ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameIndian_Kerguelen /*name*/,
+  0x4351b389 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14944,6 +15286,7 @@ static const char kZoneNameIndian_Mahe[] ACE_TIME_EXTENDED_PROGMEM = "Indian/Mah
 
 const extended::ZoneInfo kZoneIndian_Mahe ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameIndian_Mahe /*name*/,
+  0x45e725e2 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -14978,6 +15321,7 @@ static const char kZoneNameIndian_Maldives[] ACE_TIME_EXTENDED_PROGMEM = "Indian
 
 const extended::ZoneInfo kZoneIndian_Maldives ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameIndian_Maldives /*name*/,
+  0x9869681c /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15012,6 +15356,7 @@ static const char kZoneNameIndian_Mauritius[] ACE_TIME_EXTENDED_PROGMEM = "India
 
 const extended::ZoneInfo kZoneIndian_Mauritius ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameIndian_Mauritius /*name*/,
+  0x7b09c02a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   4 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15046,6 +15391,7 @@ static const char kZoneNameIndian_Reunion[] ACE_TIME_EXTENDED_PROGMEM = "Indian/
 
 const extended::ZoneInfo kZoneIndian_Reunion ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameIndian_Reunion /*name*/,
+  0x7076c047 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15080,6 +15426,7 @@ static const char kZoneNameMET[] ACE_TIME_EXTENDED_PROGMEM = "MET";
 
 const extended::ZoneInfo kZoneMET ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameMET /*name*/,
+  0x0b8803ab /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15114,6 +15461,7 @@ static const char kZoneNameMST[] ACE_TIME_EXTENDED_PROGMEM = "MST";
 
 const extended::ZoneInfo kZoneMST ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameMST /*name*/,
+  0x0b880579 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15148,6 +15496,7 @@ static const char kZoneNameMST7MDT[] ACE_TIME_EXTENDED_PROGMEM = "MST7MDT";
 
 const extended::ZoneInfo kZoneMST7MDT ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameMST7MDT /*name*/,
+  0xf2af9375 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15182,6 +15531,7 @@ static const char kZoneNamePST8PDT[] ACE_TIME_EXTENDED_PROGMEM = "PST8PDT";
 
 const extended::ZoneInfo kZonePST8PDT ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePST8PDT /*name*/,
+  0xd99ee2dc /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15228,6 +15578,7 @@ static const char kZoneNamePacific_Apia[] ACE_TIME_EXTENDED_PROGMEM = "Pacific/A
 
 const extended::ZoneInfo kZonePacific_Apia ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Apia /*name*/,
+  0x23359b5e /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -15262,6 +15613,7 @@ static const char kZoneNamePacific_Auckland[] ACE_TIME_EXTENDED_PROGMEM = "Pacif
 
 const extended::ZoneInfo kZonePacific_Auckland ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Auckland /*name*/,
+  0x25062f86 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15308,6 +15660,7 @@ static const char kZoneNamePacific_Bougainville[] ACE_TIME_EXTENDED_PROGMEM = "P
 
 const extended::ZoneInfo kZonePacific_Bougainville ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Bougainville /*name*/,
+  0x5e10f7a4 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -15342,6 +15695,7 @@ static const char kZoneNamePacific_Chatham[] ACE_TIME_EXTENDED_PROGMEM = "Pacifi
 
 const extended::ZoneInfo kZonePacific_Chatham ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Chatham /*name*/,
+  0x2f0de999 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15376,6 +15730,7 @@ static const char kZoneNamePacific_Chuuk[] ACE_TIME_EXTENDED_PROGMEM = "Pacific/
 
 const extended::ZoneInfo kZonePacific_Chuuk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Chuuk /*name*/,
+  0x8a090b23 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15410,6 +15765,7 @@ static const char kZoneNamePacific_Easter[] ACE_TIME_EXTENDED_PROGMEM = "Pacific
 
 const extended::ZoneInfo kZonePacific_Easter ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Easter /*name*/,
+  0xcf54f7e7 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15444,6 +15800,7 @@ static const char kZoneNamePacific_Efate[] ACE_TIME_EXTENDED_PROGMEM = "Pacific/
 
 const extended::ZoneInfo kZonePacific_Efate ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Efate /*name*/,
+  0x8a2bce28 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15478,6 +15835,7 @@ static const char kZoneNamePacific_Enderbury[] ACE_TIME_EXTENDED_PROGMEM = "Paci
 
 const extended::ZoneInfo kZonePacific_Enderbury ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Enderbury /*name*/,
+  0x61599a93 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15524,6 +15882,7 @@ static const char kZoneNamePacific_Fakaofo[] ACE_TIME_EXTENDED_PROGMEM = "Pacifi
 
 const extended::ZoneInfo kZonePacific_Fakaofo ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Fakaofo /*name*/,
+  0x06532bba /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -15558,6 +15917,7 @@ static const char kZoneNamePacific_Fiji[] ACE_TIME_EXTENDED_PROGMEM = "Pacific/F
 
 const extended::ZoneInfo kZonePacific_Fiji ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Fiji /*name*/,
+  0x23383ba5 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15592,6 +15952,7 @@ static const char kZoneNamePacific_Funafuti[] ACE_TIME_EXTENDED_PROGMEM = "Pacif
 
 const extended::ZoneInfo kZonePacific_Funafuti ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Funafuti /*name*/,
+  0xdb402d65 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15626,6 +15987,7 @@ static const char kZoneNamePacific_Galapagos[] ACE_TIME_EXTENDED_PROGMEM = "Paci
 
 const extended::ZoneInfo kZonePacific_Galapagos ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Galapagos /*name*/,
+  0xa952f752 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15660,6 +16022,7 @@ static const char kZoneNamePacific_Gambier[] ACE_TIME_EXTENDED_PROGMEM = "Pacifi
 
 const extended::ZoneInfo kZonePacific_Gambier ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Gambier /*name*/,
+  0x53720c3a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15694,6 +16057,7 @@ static const char kZoneNamePacific_Guadalcanal[] ACE_TIME_EXTENDED_PROGMEM = "Pa
 
 const extended::ZoneInfo kZonePacific_Guadalcanal ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Guadalcanal /*name*/,
+  0xf4dd25f0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15740,6 +16104,7 @@ static const char kZoneNamePacific_Guam[] ACE_TIME_EXTENDED_PROGMEM = "Pacific/G
 
 const extended::ZoneInfo kZonePacific_Guam ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Guam /*name*/,
+  0x2338f9ed /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -15774,6 +16139,7 @@ static const char kZoneNamePacific_Honolulu[] ACE_TIME_EXTENDED_PROGMEM = "Pacif
 
 const extended::ZoneInfo kZonePacific_Honolulu ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Honolulu /*name*/,
+  0xe6e70af9 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15808,6 +16174,7 @@ static const char kZoneNamePacific_Kiritimati[] ACE_TIME_EXTENDED_PROGMEM = "Pac
 
 const extended::ZoneInfo kZonePacific_Kiritimati ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Kiritimati /*name*/,
+  0x8305073a /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15854,6 +16221,7 @@ static const char kZoneNamePacific_Kosrae[] ACE_TIME_EXTENDED_PROGMEM = "Pacific
 
 const extended::ZoneInfo kZonePacific_Kosrae ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Kosrae /*name*/,
+  0xde5139a8 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -15888,6 +16256,7 @@ static const char kZoneNamePacific_Kwajalein[] ACE_TIME_EXTENDED_PROGMEM = "Paci
 
 const extended::ZoneInfo kZonePacific_Kwajalein ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Kwajalein /*name*/,
+  0x8e216759 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15922,6 +16291,7 @@ static const char kZoneNamePacific_Majuro[] ACE_TIME_EXTENDED_PROGMEM = "Pacific
 
 const extended::ZoneInfo kZonePacific_Majuro ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Majuro /*name*/,
+  0xe1f95371 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15956,6 +16326,7 @@ static const char kZoneNamePacific_Marquesas[] ACE_TIME_EXTENDED_PROGMEM = "Paci
 
 const extended::ZoneInfo kZonePacific_Marquesas ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Marquesas /*name*/,
+  0x57ca7135 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -15990,6 +16361,7 @@ static const char kZoneNamePacific_Nauru[] ACE_TIME_EXTENDED_PROGMEM = "Pacific/
 
 const extended::ZoneInfo kZonePacific_Nauru ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Nauru /*name*/,
+  0x8acc41ae /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16024,6 +16396,7 @@ static const char kZoneNamePacific_Niue[] ACE_TIME_EXTENDED_PROGMEM = "Pacific/N
 
 const extended::ZoneInfo kZonePacific_Niue ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Niue /*name*/,
+  0x233ca014 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16070,6 +16443,7 @@ static const char kZoneNamePacific_Norfolk[] ACE_TIME_EXTENDED_PROGMEM = "Pacifi
 
 const extended::ZoneInfo kZonePacific_Norfolk ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Norfolk /*name*/,
+  0x8f4eb4be /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   3 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -16104,6 +16478,7 @@ static const char kZoneNamePacific_Noumea[] ACE_TIME_EXTENDED_PROGMEM = "Pacific
 
 const extended::ZoneInfo kZonePacific_Noumea ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Noumea /*name*/,
+  0xe551b788 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16138,6 +16513,7 @@ static const char kZoneNamePacific_Pago_Pago[] ACE_TIME_EXTENDED_PROGMEM = "Paci
 
 const extended::ZoneInfo kZonePacific_Pago_Pago ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Pago_Pago /*name*/,
+  0x603aebd0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16172,6 +16548,7 @@ static const char kZoneNamePacific_Palau[] ACE_TIME_EXTENDED_PROGMEM = "Pacific/
 
 const extended::ZoneInfo kZonePacific_Palau ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Palau /*name*/,
+  0x8af04a36 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16206,6 +16583,7 @@ static const char kZoneNamePacific_Pitcairn[] ACE_TIME_EXTENDED_PROGMEM = "Pacif
 
 const extended::ZoneInfo kZonePacific_Pitcairn ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Pitcairn /*name*/,
+  0x8837d8bd /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16240,6 +16618,7 @@ static const char kZoneNamePacific_Pohnpei[] ACE_TIME_EXTENDED_PROGMEM = "Pacifi
 
 const extended::ZoneInfo kZonePacific_Pohnpei ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Pohnpei /*name*/,
+  0x28929f96 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16274,6 +16653,7 @@ static const char kZoneNamePacific_Port_Moresby[] ACE_TIME_EXTENDED_PROGMEM = "P
 
 const extended::ZoneInfo kZonePacific_Port_Moresby ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Port_Moresby /*name*/,
+  0xa7ba7f68 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16308,6 +16688,7 @@ static const char kZoneNamePacific_Rarotonga[] ACE_TIME_EXTENDED_PROGMEM = "Paci
 
 const extended::ZoneInfo kZonePacific_Rarotonga ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Rarotonga /*name*/,
+  0x9981a3b0 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16342,6 +16723,7 @@ static const char kZoneNamePacific_Tahiti[] ACE_TIME_EXTENDED_PROGMEM = "Pacific
 
 const extended::ZoneInfo kZonePacific_Tahiti ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Tahiti /*name*/,
+  0xf24c2446 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16376,6 +16758,7 @@ static const char kZoneNamePacific_Tarawa[] ACE_TIME_EXTENDED_PROGMEM = "Pacific
 
 const extended::ZoneInfo kZonePacific_Tarawa ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Tarawa /*name*/,
+  0xf2517e63 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16422,6 +16805,7 @@ static const char kZoneNamePacific_Tongatapu[] ACE_TIME_EXTENDED_PROGMEM = "Paci
 
 const extended::ZoneInfo kZonePacific_Tongatapu ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Tongatapu /*name*/,
+  0x262ca836 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   6 /*transitionBufSize*/,
   2 /*numEras*/,
@@ -16456,6 +16840,7 @@ static const char kZoneNamePacific_Wake[] ACE_TIME_EXTENDED_PROGMEM = "Pacific/W
 
 const extended::ZoneInfo kZonePacific_Wake ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Wake /*name*/,
+  0x23416c2b /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16490,6 +16875,7 @@ static const char kZoneNamePacific_Wallis[] ACE_TIME_EXTENDED_PROGMEM = "Pacific
 
 const extended::ZoneInfo kZonePacific_Wallis ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNamePacific_Wallis /*name*/,
+  0xf94ddb0f /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   2 /*transitionBufSize*/,
   1 /*numEras*/,
@@ -16524,6 +16910,7 @@ static const char kZoneNameWET[] ACE_TIME_EXTENDED_PROGMEM = "WET";
 
 const extended::ZoneInfo kZoneWET ACE_TIME_EXTENDED_PROGMEM = {
   kZoneNameWET /*name*/,
+  0x0b882e35 /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   5 /*transitionBufSize*/,
   1 /*numEras*/,

@@ -36,7 +36,7 @@ class Presenter {
       mRenderingInfo.suppressBlink = suppressBlink;
       mRenderingInfo.blinkShowState = blinkShowState;
       mRenderingInfo.hourMode = clockInfo.hourMode;
-      mRenderingInfo.timeZoneData = clockInfo.timeZoneData;
+      mRenderingInfo.timeZone = clockInfo.timeZone;
       mRenderingInfo.dateTime = clockInfo.dateTime;
     }
 
@@ -69,7 +69,7 @@ class Presenter {
               && (mRenderingInfo.blinkShowState
                   != mPrevRenderingInfo.blinkShowState))
           || mRenderingInfo.hourMode != mPrevRenderingInfo.hourMode
-          || mRenderingInfo.timeZoneData != mPrevRenderingInfo.timeZoneData
+          || mRenderingInfo.timeZone != mPrevRenderingInfo.timeZone
           || mRenderingInfo.dateTime != mPrevRenderingInfo.dateTime;
     }
 
@@ -106,6 +106,9 @@ class Presenter {
     }
 
     void displayDateTime() const {
+    #if ENABLE_SERIAL == 1
+      Serial.println(F("displayDateTime()"));
+    #endif
       mOled.setFont(fixed_bold10x15);
       const ZonedDateTime& dateTime = mRenderingInfo.dateTime;
       if (dateTime.isError()) {
@@ -177,6 +180,9 @@ class Presenter {
     }
 
     void displayTimeZone() const {
+    #if ENABLE_SERIAL
+      Serial.println(F("displayTimeZone()"));
+    #endif
       mOled.setFont(fixed_bold10x15);
 
       // Don't use F() strings for short strings <= 4 characters. Seems to
@@ -185,10 +191,10 @@ class Presenter {
       // Display the timezone using the TimeZoneData, not the dateTime, since
       // dateTime will contain a TimeZone, which points to the (singular)
       // Controller::mZoneSpecifier, which will contain the old timeZone.
-      auto& tzd = mRenderingInfo.timeZoneData;
+      auto& tz = mRenderingInfo.timeZone;
       mOled.print("TZ: ");
-      const __FlashStringHelper* typeString = nullptr;
-      switch (tzd.type) {
+      const __FlashStringHelper* typeString;
+      switch (tz.getType()) {
         case TimeZone::kTypeManual:
           typeString = F("manual");
           break;
@@ -198,18 +204,22 @@ class Presenter {
         case TimeZone::kTypeExtended:
           typeString = F("extd");
           break;
+        case TimeZone::kTypeManaged:
+          typeString = F("managed");
+          break;
+        default:
+          typeString = F("unknown");
       }
       mOled.print(typeString);
       mOled.clearToEOL();
 
-      switch (tzd.type) {
+      switch (tz.getType()) {
       #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case TimeZone::kTypeManual:
           mOled.println();
           mOled.print("UTC");
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_OFFSET)) {
-            auto offset = TimeOffset::forOffsetCode(
-                tzd.stdOffsetCode);
+            auto offset = TimeOffset::forOffsetCode(tz.getStdOffsetCode());
             offset.printTo(mOled);
           }
           mOled.clearToEOL();
@@ -217,30 +227,19 @@ class Presenter {
           mOled.println();
           mOled.print("DST: ");
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_DST)) {
-            mOled.print((tzd.dstOffsetCode != 0) ? "on " : "off");
+            mOled.print((tz.getDstOffsetCode() != 0) ? "on " : "off");
           }
           mOled.clearToEOL();
           break;
 
-      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+      #else
         case TimeZone::kTypeBasic:
-          // Print name of timezone
-          mOled.println();
-          if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
-            mOled.print(BasicZone(tzd.basicZoneInfo).shortName());
-          }
-          mOled.clearToEOL();
-
-          // Clear the DST: {on|off} line from a previous screen
-          mOled.println();
-          mOled.clearToEOL();
-          break;
-      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
         case TimeZone::kTypeExtended:
+        case TimeZone::kTypeManaged:
           // Print name of timezone
           mOled.println();
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
-            mOled.print(ExtendedZone(tzd.extendedZoneInfo).shortName());
+            tz.printShortTo(mOled);
           }
           mOled.clearToEOL();
 
@@ -261,6 +260,9 @@ class Presenter {
     }
 
     void displayAbout() const {
+    #if ENABLE_SERIAL == 1
+      Serial.println(F("displayAbout()"));
+    #endif
       mOled.setFont(SystemFont5x7);
 
       // Use F() macros for these longer strings. Seems to save both

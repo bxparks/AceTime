@@ -185,6 +185,8 @@ class DirectZoneInfoBroker {
 
     const ZI* zoneInfo() const { return mZoneInfo; }
 
+    uint32_t zoneId() const { return mZoneInfo->zoneId; }
+
     const char* name() const { return mZoneInfo->name; }
 
     int16_t startYear() const { return mZoneInfo->zoneContext->startYear; }
@@ -413,15 +415,17 @@ class FlashZoneInfoBroker {
       return (const char*) pgm_read_ptr(&mZoneInfo->name);
     }
 
+    uint32_t zoneId() const {
+      return pgm_read_dword(&mZoneInfo->zoneId);
+    }
+
     int16_t startYear() const {
-      const ZC* zoneContext = (const ZC*)
-          pgm_read_ptr(&mZoneInfo->zoneContext);
+      const ZC* zoneContext = (const ZC*) pgm_read_ptr(&mZoneInfo->zoneContext);
       return zoneContext->startYear;
     }
 
     int16_t untilYear() const {
-      const ZC* zoneContext = (const ZC*)
-          pgm_read_ptr(&mZoneInfo->zoneContext);
+      const ZC* zoneContext = (const ZC*) pgm_read_ptr(&mZoneInfo->zoneContext);
       return zoneContext->untilYear;
     }
 

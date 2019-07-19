@@ -676,6 +676,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
       return mZoneInfo.zoneInfo();
     }
 
+    uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
+
     TimeOffset getUtcOffset(acetime_t epochSeconds) const override {
       bool success = init(epochSeconds);
       if (!success) return TimeOffset::forError();

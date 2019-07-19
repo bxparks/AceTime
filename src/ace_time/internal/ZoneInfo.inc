@@ -74,8 +74,15 @@ struct ZoneEra {
  * records.
  */
 struct ZoneInfo {
-  /** Full name of zone (e.g. "America/Los_Angeles" */
+  /** Full name of zone (e.g. "America/Los_Angeles"). */
   const char* const name;
+
+  /**
+   * Unique, stable ID of the zone name, created from a hash of the name.
+   * This ID will never change once assigned. This can be used for presistence
+   * and serialization.
+   */
+  uint32_t const zoneId;
 
   /** ZoneContext metadata. */
   const ZoneContext* const zoneContext;

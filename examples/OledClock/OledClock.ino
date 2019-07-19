@@ -211,7 +211,7 @@ void setup() {
   systemClock.setup();
   controller.setup();
 
-  systemClockSync.setupCoroutine(F("systemClockSync"));
+  systemClockSync.setupCoroutine(F("s"));
   CoroutineScheduler::setup();
 
 #if ENABLE_SERIAL == 1

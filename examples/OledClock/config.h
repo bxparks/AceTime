@@ -7,9 +7,10 @@
 
 #define CLOCK_VERSION_STRING "0.2"
 
-#define ENABLE_SERIAL 0
-
 #define EEPROM_SIZE 32
+
+// Set to 1 to print debugging info to Serial
+#define ENABLE_SERIAL 0
 
 // Set to 1 to force the ClockInfo to its initial state
 #define FORCE_INITIALIZE 0
@@ -22,7 +23,7 @@
 #define TIME_ZONE_TYPE_MANUAL 0
 #define TIME_ZONE_TYPE_BASIC 1
 #define TIME_ZONE_TYPE_EXTENDED 2
-#define TIME_ZONE_TYPE TIME_ZONE_TYPE_MANUAL
+#define TIME_ZONE_TYPE TIME_ZONE_TYPE_BASIC
 
 #define TIME_SOURCE_TYPE_NONE 0
 #define TIME_SOURCE_TYPE_DS3231 1

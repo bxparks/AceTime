@@ -1,4 +1,4 @@
-#line 2 "BasicZoneManagerTest.ino"
+#line 2 "BasicZoneRegistrarTest.ino"
 
 #include <AUnit.h>
 #include <AceTime.h>
@@ -8,49 +8,69 @@ using namespace aunit;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// BasicZoneManager
+// BasicZoneRegistrar
 // --------------------------------------------------------------------------
 
-test(BasicZoneManagerTest, getZoneInfo_Los_Angeles) {
-  BasicZoneManager zoneManager(
-      zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
-  assertTrue(zoneManager.isSorted());
+test(BasicZoneRegistrarTest, getZoneInfo_Los_Angeles) {
+  BasicZoneRegistrar zoneRegistrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  assertTrue(zoneRegistrar.isSorted());
 
   const basic::ZoneInfo* zoneInfo =
-      zoneManager.getZoneInfo("America/Los_Angeles");
+      zoneRegistrar.getZoneInfoForName("America/Los_Angeles");
   assertTrue(zoneInfo != nullptr);
 
   assertEqual(F("America/Los_Angeles"), BasicZone(zoneInfo).name());
   assertEqual(F("Los_Angeles"), BasicZone(zoneInfo).shortName());
 }
 
-test(BasicZoneManagerTest, getZoneInfo_not_found) {
-  BasicZoneManager zoneManager(zonedb::kZoneRegistry,
-      zonedb::kZoneRegistrySize);
-  const basic::ZoneInfo* zoneInfo = zoneManager.getZoneInfo("not found");
+test(BasicZoneRegistrarTest, getZoneInfo_not_found) {
+  BasicZoneRegistrar zoneRegistrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForName(
+      "not found");
   assertTrue(zoneInfo == nullptr);
 }
 
-test(BasicZoneManagerTest, getZoneInfo_Index_0) {
-  BasicZoneManager zoneManager(
-      zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
-  const basic::ZoneInfo* zoneInfo = zoneManager.getZoneInfo((uint16_t)0);
+test(BasicZoneRegistrarTest, getZoneInfo_Index_0) {
+  BasicZoneRegistrar zoneRegistrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(0);
   assertTrue(zoneInfo != nullptr);
   assertEqual(F("Africa/Abidjan"), BasicZone(zoneInfo).name());
 }
 
-test(BasicZoneManagerTest, getZoneInfo_Index_not_found) {
-  BasicZoneManager zoneManager(
-      zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
-  const basic::ZoneInfo* zoneInfo = zoneManager.getZoneInfo(
+test(BasicZoneRegistrarTest, getZoneInfo_Index_not_found) {
+  BasicZoneRegistrar zoneRegistrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForIndex(
       zonedb::kZoneRegistrySize);
   assertTrue(zoneInfo == nullptr);
 }
 
+test(BasicZoneRegistrarTest, getZoneInfoForId) {
+  BasicZoneRegistrar zoneRegistrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
+      0xb7f7e8f2);
+  const basic::ZoneInfo* zoneInfoExpected = zoneRegistrar.getZoneInfoForName(
+      "America/Los_Angeles");
+  assertFalse(zoneInfo == nullptr);
+  assertTrue((intptr_t) zoneInfo == (intptr_t) zoneInfoExpected);
+}
+
+test(BasicZoneRegistrarTest, getZoneInfoForId_not_found) {
+  BasicZoneRegistrar zoneRegistrar(
+      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+  const basic::ZoneInfo* zoneInfo = zoneRegistrar.getZoneInfoForId(
+      0x11111111);
+  assertTrue(zoneInfo == nullptr);
+}
+
 // --------------------------------------------------------------------------
-// Test ZoneManager::isSorted(), binarySearch(), linearSearch() for *sorted*
-// registry. Sufficient to test BasicZoneManager only since they are the same
-// for ExtendedZoneManager.
+// Test ZoneRegistrar::isSorted(), binarySearch(), linearSearch() for *sorted*
+// registry. Sufficient to test BasicZoneRegistrar only since they are the same
+// for ExtendedZoneRegistrar.
 // --------------------------------------------------------------------------
 
 const basic::ZoneInfo* const kSortedRegistry[] ACE_TIME_BASIC_PROGMEM = {
@@ -63,12 +83,12 @@ const basic::ZoneInfo* const kSortedRegistry[] ACE_TIME_BASIC_PROGMEM = {
 const uint16_t kNumSortedEntries =
     sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*);
 
-test(BasicZoneManagerTest_Sorted, isSorted) {
-  assertTrue(BasicZoneManager::isSorted(kSortedRegistry, kNumSortedEntries));
+test(BasicZoneRegistrarTest_Sorted, isSorted) {
+  assertTrue(BasicZoneRegistrar::isSorted(kSortedRegistry, kNumSortedEntries));
 }
 
-test(BasicZoneManagerTest_Sorted, linearSearch) {
-  const basic::ZoneInfo* zi = BasicZoneManager::linearSearch(
+test(BasicZoneRegistrarTest_Sorted, linearSearch) {
+  const basic::ZoneInfo* zi = BasicZoneRegistrar::linearSearch(
       kSortedRegistry, kNumSortedEntries, "America/Los_Angeles");
 
   const char* name = basic::ZoneInfoBroker(zi).name();
@@ -79,17 +99,17 @@ test(BasicZoneManagerTest_Sorted, linearSearch) {
 #endif
 }
 
-test(BasicZoneManagerTest_Sorted, linearSearch_not_found) {
-  const basic::ZoneInfo* zi = BasicZoneManager::linearSearch(kSortedRegistry,
+test(BasicZoneRegistrarTest_Sorted, linearSearch_not_found) {
+  const basic::ZoneInfo* zi = BasicZoneRegistrar::linearSearch(kSortedRegistry,
       kNumSortedEntries, "America/NotFound");
   assertTrue(zi == nullptr);
 }
 
-test(BasicZoneManagerTest_Sorted, binarySearch) {
+test(BasicZoneRegistrarTest_Sorted, binarySearch) {
   const basic::ZoneInfo* zi;
   const char* name;
 
-  zi = BasicZoneManager::binarySearch(
+  zi = BasicZoneRegistrar::binarySearch(
       kSortedRegistry, kNumSortedEntries, "America/Chicago");
   name = basic::ZoneInfoBroker(zi).name();
 #if ACE_TIME_USE_BASIC_PROGMEM
@@ -98,7 +118,7 @@ test(BasicZoneManagerTest_Sorted, binarySearch) {
   assertEqual(name, "America/Chicago");
 #endif
 
-  zi = BasicZoneManager::binarySearch(
+  zi = BasicZoneRegistrar::binarySearch(
       kSortedRegistry, kNumSortedEntries, "America/Denver");
   name = basic::ZoneInfoBroker(zi).name();
 #if ACE_TIME_USE_BASIC_PROGMEM
@@ -107,7 +127,7 @@ test(BasicZoneManagerTest_Sorted, binarySearch) {
   assertEqual(name, "America/Denver");
 #endif
 
-  zi = BasicZoneManager::binarySearch(
+  zi = BasicZoneRegistrar::binarySearch(
       kSortedRegistry, kNumSortedEntries, "America/Los_Angeles");
   name = basic::ZoneInfoBroker(zi).name();
 #if ACE_TIME_USE_BASIC_PROGMEM
@@ -116,7 +136,7 @@ test(BasicZoneManagerTest_Sorted, binarySearch) {
   assertEqual(name, "America/Los_Angeles");
 #endif
 
-  zi = BasicZoneManager::binarySearch(
+  zi = BasicZoneRegistrar::binarySearch(
       kSortedRegistry, kNumSortedEntries, "America/New_York");
   name = basic::ZoneInfoBroker(zi).name();
 #if ACE_TIME_USE_BASIC_PROGMEM
@@ -127,16 +147,16 @@ test(BasicZoneManagerTest_Sorted, binarySearch) {
 
 }
 
-test(BasicZoneManagerTest_Sorted, binarySearch_not_found) {
-  const basic::ZoneInfo* zi = BasicZoneManager::binarySearch(kSortedRegistry,
+test(BasicZoneRegistrarTest_Sorted, binarySearch_not_found) {
+  const basic::ZoneInfo* zi = BasicZoneRegistrar::binarySearch(kSortedRegistry,
       sizeof(kSortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
   assertTrue(zi == nullptr);
 }
 
 // --------------------------------------------------------------------------
-// Test ZoneManager::isSorted(), binarySearch(), linearSearch() for *unsorted*
-// registry. Sufficient to test BasicZoneManager only since they are the same
-// for ExtendedZoneManager.
+// Test ZoneRegistrar::isSorted(), binarySearch(), linearSearch() for *unsorted*
+// registry. Sufficient to test BasicZoneRegistrar only since they are the same
+// for ExtendedZoneRegistrar.
 // --------------------------------------------------------------------------
 
 const basic::ZoneInfo* const kUnsortedRegistry[] ACE_TIME_BASIC_PROGMEM = {
@@ -146,14 +166,14 @@ const basic::ZoneInfo* const kUnsortedRegistry[] ACE_TIME_BASIC_PROGMEM = {
   &zonedb::kZoneAmerica_Los_Angeles,
 };
 
-test(BasicZoneManagerTest_Unsorted, isSorted) {
-  bool isSorted = BasicZoneManager::isSorted(
+test(BasicZoneRegistrarTest_Unsorted, isSorted) {
+  bool isSorted = BasicZoneRegistrar::isSorted(
       kUnsortedRegistry, sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*));
   assertFalse(isSorted);
 }
 
-test(BasicZoneManagerTest_Unsorted, linearSearch) {
-  const basic::ZoneInfo* zi = BasicZoneManager::linearSearch(
+test(BasicZoneRegistrarTest_Unsorted, linearSearch) {
+  const basic::ZoneInfo* zi = BasicZoneRegistrar::linearSearch(
       kUnsortedRegistry, sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*),
       "America/Los_Angeles");
 
@@ -164,7 +184,7 @@ test(BasicZoneManagerTest_Unsorted, linearSearch) {
   assertEqual(name, "America/Los_Angeles");
 #endif
 
-  zi = BasicZoneManager::linearSearch(kUnsortedRegistry,
+  zi = BasicZoneRegistrar::linearSearch(kUnsortedRegistry,
       sizeof(kUnsortedRegistry)/sizeof(basic::ZoneInfo*), "America/NotFound");
   assertTrue(zi == nullptr);
 }

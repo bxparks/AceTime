@@ -206,7 +206,7 @@ class TimezoneCommand: public CommandHandler {
           controller.printBasicZonesTo(printer);
         } else {
           int16_t zoneIndex = (argc == 0) ? 0 : atoi(argv[0]);
-          controller.setBasicTimeZone(zoneIndex);
+          controller.setBasicTimeZoneForIndex(zoneIndex);
           printer.print(F("Time zone set to: "));
           controller.getTimeZone().printTo(printer);
           printer.println();
@@ -219,7 +219,7 @@ class TimezoneCommand: public CommandHandler {
           controller.printExtendedZonesTo(printer);
         } else {
           int16_t zoneIndex = (argc == 0) ? 0 : atoi(argv[0]);
-          controller.setExtendedTimeZone(zoneIndex);
+          controller.setExtendedTimeZoneForIndex(zoneIndex);
           printer.print(F("Time zone set to: "));
           controller.getTimeZone().printTo(printer);
           printer.println();
