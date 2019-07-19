@@ -26,10 +26,6 @@ namespace ace_time {
 template<typename ZI, typename ZR, typename ZSC>
 class ZoneManager {
   public:
-    ZoneManager(uint16_t registrySize, const ZI* const* zoneRegistry):
-        mZoneRegistrar(registrySize, zoneRegistry),
-        mZoneSpecifierCache() {}
-
     const ZR& getRegistrar() const { return mZoneRegistrar; }
 
     TimeZone createForZoneInfo(const ZI* zoneInfo) {
@@ -64,6 +60,11 @@ class ZoneManager {
       return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
     }
 
+  protected:
+    ZoneManager(uint16_t registrySize, const ZI* const* zoneRegistry):
+        mZoneRegistrar(registrySize, zoneRegistry),
+        mZoneSpecifierCache() {}
+
   private:
     // disable copy constructor and assignment operator
     ZoneManager(const ZoneManager&) = delete;
@@ -73,19 +74,53 @@ class ZoneManager {
     ZSC mZoneSpecifierCache;
 };
 
+#if 1
 /**
- * @tparam SIZE size of the ZoneSpecifierCache
+ * @tparam SIZE size of the BasicZoneSpecifierCache
  */
+template<uint8_t SIZE>
+class BasicZoneManager: public ZoneManager<basic::ZoneInfo,
+    BasicZoneRegistrar, BasicZoneSpecifierCache<SIZE>> {
+  public:
+    BasicZoneManager(uint16_t registrySize,
+        const basic::ZoneInfo* const* zoneRegistry):
+        ZoneManager<basic::ZoneInfo, BasicZoneRegistrar,
+            BasicZoneSpecifierCache<SIZE>>(registrySize, zoneRegistry) {}
+};
+
+/**
+ * @tparam SIZE size of the ExtendedZoneSpecifierCache
+ */
+template<uint8_t SIZE>
+class ExtendedZoneManager: public ZoneManager<extended::ZoneInfo,
+    ExtendedZoneRegistrar, ExtendedZoneSpecifierCache<SIZE>> {
+  public:
+    ExtendedZoneManager(uint16_t registrySize,
+        const extended::ZoneInfo* const* zoneRegistry):
+        ZoneManager<extended::ZoneInfo, ExtendedZoneRegistrar,
+            ExtendedZoneSpecifierCache<SIZE>>(registrySize, zoneRegistry) {}
+};
+
+#else
+
+// NOTE: Instead of using subclassing, we could have used the following typedef
+// that does a partial template instantiation. It's shorter, and looks to be
+// easier to maintain. The problem is that it makes error messages basically
+// impossible to decipher because the full template is printed out across 6-7
+// lines.
+// 
+// There seems to be no difference in code size between the two. The compiler
+// seems to optimize away the vtables of the parent and child classes.
+
 template<uint8_t SIZE>
 using BasicZoneManager = ZoneManager<basic::ZoneInfo,
     BasicZoneRegistrar, BasicZoneSpecifierCache<SIZE>>;
 
-/**
- * @tparam SIZE size of the ZoneSpecifierCache
- */
 template<uint8_t SIZE>
 using ExtendedZoneManager = ZoneManager<extended::ZoneInfo,
     ExtendedZoneRegistrar, ExtendedZoneSpecifierCache<SIZE>>;
+
+#endif
 
 }
 

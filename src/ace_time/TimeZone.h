@@ -17,6 +17,8 @@ class Print;
 
 namespace ace_time {
 
+template<typename ZI, typename ZR, typename ZSC> class ZoneManager;
+
 /**
  * Class that describes a time zone. There are 2 colloquial usages of "time
  * zone". The first refers to a simple fixed offset from UTC. For example, we
@@ -336,6 +338,17 @@ class TimeZone {
      */
     void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 
+    // Use default copy constructor and assignment operator.
+    TimeZone(const TimeZone&) = default;
+    TimeZone& operator=(const TimeZone&) = default;
+
+  private:
+    friend bool operator==(const TimeZone& a, const TimeZone& b);
+
+    // Allow ZoneManager to access the TimeZone() constructor that accepts
+    // a ZoneSpecifierCache.
+    template<typename ZI, typename ZR, typename ZSC> friend class ZoneManager;
+
     /**
      * Constructor for kType*Managed. Intended to be used ONLY by
      * BasicZoneManager and ExtendedZoneManager.
@@ -348,13 +361,6 @@ class TimeZone {
         mType(zoneSpecifierCache->getType()),
         mZoneInfo(zoneInfo),
         mZoneSpecifierCache(zoneSpecifierCache) {}
-
-    // Use default copy constructor and assignment operator.
-    TimeZone(const TimeZone&) = default;
-    TimeZone& operator=(const TimeZone&) = default;
-
-  private:
-    friend bool operator==(const TimeZone& a, const TimeZone& b);
 
     /**
      * Constructor for a manual Time zone.
