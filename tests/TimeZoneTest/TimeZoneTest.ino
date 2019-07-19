@@ -55,15 +55,15 @@ test(TimeZoneTest, manual_utc) {
   assertTrue(tz.isUtc());
 
   tz.printTo(fakePrint);
-  assertEqual("UTC", fakePrint.getBuffer());
+  assertEqual(F("UTC"), fakePrint.getBuffer());
   fakePrint.flush();
 
   tz.printShortTo(fakePrint);
-  assertEqual("UTC", fakePrint.getBuffer());
+  assertEqual(F("UTC"), fakePrint.getBuffer());
   fakePrint.flush();
 
   tz.printAbbrevTo(fakePrint, 0);
-  assertEqual("UTC", fakePrint.getBuffer());
+  assertEqual(F("UTC"), fakePrint.getBuffer());
   fakePrint.flush();
 }
 
@@ -138,11 +138,11 @@ test(TimeZoneBasicTest, createFor) {
       &zonedb::kZoneAmerica_Los_Angeles);
   TimeZone b = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_New_York);
+  assertTrue(a != b);
 
   TimeZone aa = basicZoneManager.createForZoneName("America/Los_Angeles");
   TimeZone bb = basicZoneManager.createForZoneId(0x1e2a7654U); // New_York
 
-  assertTrue(a != b);
   assertTrue(a == aa);
   assertTrue(b == bb);
   assertEqual(0x1e2a7654U, bb.getZoneId());
@@ -175,8 +175,13 @@ test(TimeZoneBasicTest, Los_Angeles) {
   assertEqual(F("PDT"), fakePrint.getBuffer());
 }
 
+#if !defined(__AVR__)
+
 // --------------------------------------------------------------------------
-// kTypeManaged + ExtendedZoneManager
+// operator==() for kTypeManaged. The following will not run on an Arduino
+// Nano or Micro because it consumes about 1.8kB of RAM, leaving about 180-200
+// bytes, which is not sufficient to run this. We can run it on bigger
+// microcontrollers.
 // --------------------------------------------------------------------------
 
 const extended::ZoneInfo* const kExtendedZoneRegistry[]
@@ -193,55 +198,7 @@ const uint16_t kExtendedZoneRegistrySize =
 ExtendedZoneManager<2> extendedZoneManager(
     kExtendedZoneRegistrySize, kExtendedZoneRegistry);
 
-// --------------------------------------------------------------------------
-
-test(TimeZoneExtendedTest, createFor) {
-  TimeZone a = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_Los_Angeles);
-  TimeZone b = extendedZoneManager.createForZoneInfo(
-      &zonedbx::kZoneAmerica_New_York);
-
-  TimeZone aa = extendedZoneManager.createForZoneName("America/Los_Angeles");
-  TimeZone bb = extendedZoneManager.createForZoneId(0x1e2a7654U); // New_York
-
-  assertTrue(a != b);
-  assertTrue(a == aa);
-  assertTrue(b == bb);
-  assertEqual(0x1e2a7654U, bb.getZoneId());
-}
-
-test(TimeZoneExtendedTest, Los_Angeles) {
-  FakePrint fakePrint;
-  OffsetDateTime dt;
-  acetime_t epochSeconds;
-
-  TimeZone tz = basicZoneManager.createForZoneInfo(
-      &zonedb::kZoneAmerica_Los_Angeles);
-  assertEqual(TimeZone::kTypeManaged, tz.getType());
-
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHour(-8));
-  epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
-  tz.printAbbrevTo(fakePrint, epochSeconds);
-  assertEqual(F("PST"), fakePrint.getBuffer());
-  fakePrint.flush();
-
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHour(-8));
-  epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
-  tz.printAbbrevTo(fakePrint, epochSeconds);
-  assertEqual(F("PDT"), fakePrint.getBuffer());
-}
-
-// --------------------------------------------------------------------------
-// operator==() for kTypeManaged
-// --------------------------------------------------------------------------
-
-test(TimeZoneMoreTest, operatorEqualEqual) {
+test(TimeZoneTest, operatorEqualEqual_managedZones) {
   TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
   TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHour(-7));
   assertTrue(manual != manual2);
@@ -262,6 +219,37 @@ test(TimeZoneMoreTest, operatorEqualEqual) {
   assertTrue(manual != extendedManaged);
   assertTrue(basicManaged != extendedManaged);
 }
+
+// --------------------------------------------------------------------------
+// operator==() for kTypeBasic and kTypeExtended. Takes up too much RAM
+// and won't run on a Nano or Micro.
+// --------------------------------------------------------------------------
+
+BasicZoneSpecifier basicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
+BasicZoneSpecifier basicZoneSpecifier2(&zonedb::kZoneAmerica_New_York);
+ExtendedZoneSpecifier extendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+ExtendedZoneSpecifier extendedZoneSpecifier2(&zonedbx::kZoneAmerica_New_York);
+
+test(TimeZoneTest, operatorEqualEqual_directZone) {
+  TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+  TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHour(-7));
+  assertTrue(manual != manual2);
+
+  TimeZone basic = TimeZone::forZoneSpecifier(&basicZoneSpecifier);
+  TimeZone basic2 = TimeZone::forZoneSpecifier(&basicZoneSpecifier2);
+  assertTrue(basic != basic2);
+
+  TimeZone extended = TimeZone::forZoneSpecifier(&extendedZoneSpecifier);
+  TimeZone extended2 = TimeZone::forZoneSpecifier(&extendedZoneSpecifier2);
+  assertTrue(extended != extended2);
+
+  assertTrue(manual != basic);
+  assertTrue(manual != extended);
+  assertTrue(basic != extended);
+}
+
+#endif
+
 // --------------------------------------------------------------------------
 
 void setup() {
