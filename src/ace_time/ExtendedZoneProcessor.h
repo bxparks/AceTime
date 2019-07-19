@@ -3,8 +3,8 @@
  * Copyright (c) 2019 Brian T. Park
  */
 
-#ifndef ACE_TIME_EXTENDED_ZONE_SPECIFIER_H
-#define ACE_TIME_EXTENDED_ZONE_SPECIFIER_H
+#ifndef ACE_TIME_EXTENDED_ZONE_PROCESSOR_H
+#define ACE_TIME_EXTENDED_ZONE_PROCESSOR_H
 
 #include <Arduino.h>
 #include <string.h> // memcpy()
@@ -15,31 +15,31 @@
 #include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
-#include "ZoneSpecifier.h"
-#include "BasicZoneSpecifier.h"
+#include "ZoneProcessor.h"
+#include "BasicZoneProcessor.h"
 #include "local_date_mutation.h"
 
 #define DEBUG 0
 
-class ExtendedZoneSpecifierTest_compareEraToYearMonth;
-class ExtendedZoneSpecifierTest_compareEraToYearMonth2;
-class ExtendedZoneSpecifierTest_createMatch;
-class ExtendedZoneSpecifierTest_findMatches_simple;
-class ExtendedZoneSpecifierTest_findMatches_named;
-class ExtendedZoneSpecifierTest_findCandidateTransitions;
-class ExtendedZoneSpecifierTest_findTransitionsFromNamedMatch;
-class ExtendedZoneSpecifierTest_getTransitionTime;
-class ExtendedZoneSpecifierTest_createTransitionForYear;
-class ExtendedZoneSpecifierTest_normalizeDateTuple;
-class ExtendedZoneSpecifierTest_expandDateTuple;
-class ExtendedZoneSpecifierTest_calcInteriorYears;
-class ExtendedZoneSpecifierTest_getMostRecentPriorYear;
-class ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
-class ExtendedZoneSpecifierTest_compareTransitionToMatch;
-class ExtendedZoneSpecifierTest_processActiveTransition;
-class ExtendedZoneSpecifierTest_fixTransitionTimes_generateStartUntilTimes;
-class ExtendedZoneSpecifierTest_createAbbreviation;
-class ExtendedZoneSpecifierTest_setZoneInfo;
+class ExtendedZoneProcessorTest_compareEraToYearMonth;
+class ExtendedZoneProcessorTest_compareEraToYearMonth2;
+class ExtendedZoneProcessorTest_createMatch;
+class ExtendedZoneProcessorTest_findMatches_simple;
+class ExtendedZoneProcessorTest_findMatches_named;
+class ExtendedZoneProcessorTest_findCandidateTransitions;
+class ExtendedZoneProcessorTest_findTransitionsFromNamedMatch;
+class ExtendedZoneProcessorTest_getTransitionTime;
+class ExtendedZoneProcessorTest_createTransitionForYear;
+class ExtendedZoneProcessorTest_normalizeDateTuple;
+class ExtendedZoneProcessorTest_expandDateTuple;
+class ExtendedZoneProcessorTest_calcInteriorYears;
+class ExtendedZoneProcessorTest_getMostRecentPriorYear;
+class ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
+class ExtendedZoneProcessorTest_compareTransitionToMatch;
+class ExtendedZoneProcessorTest_processActiveTransition;
+class ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
+class ExtendedZoneProcessorTest_createAbbreviation;
+class ExtendedZoneProcessorTest_setZoneInfo;
 class TransitionStorageTest_getFreeAgent;
 class TransitionStorageTest_getFreeAgent2;
 class TransitionStorageTest_addFreeAgentToActivePool;
@@ -52,7 +52,7 @@ class TransitionStorageTest_resetCandidatePool;
 namespace ace_time {
 
 template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
-class ZoneSpecifierCacheImpl;
+class ZoneProcessorCacheImpl;
 
 namespace extended {
 
@@ -186,13 +186,13 @@ struct Transition {
     /**
      * Version of transitionTime in 's' mode, using the UTC offset of the
      * *previous* Transition. Valid before
-     * ExtendedZoneSpecifier::generateStartUntilTimes() is called.
+     * ExtendedZoneProcessor::generateStartUntilTimes() is called.
      */
     DateTuple transitionTimeS;
 
     /**
      * Start time expressed using the UTC offset of the current Transition.
-     * Valid after ExtendedZoneSpecifier::generateStartUntilTimes() is called.
+     * Valid after ExtendedZoneProcessor::generateStartUntilTimes() is called.
      */
     DateTuple startDateTime;
   };
@@ -201,13 +201,13 @@ struct Transition {
     /**
      * Version of transitionTime in 'u' mode, using the UTC offset of the
      * *previous* transition. Valid before
-     * ExtendedZoneSpecifier::generateStartUntilTimes() is called.
+     * ExtendedZoneProcessor::generateStartUntilTimes() is called.
      */
     DateTuple transitionTimeU;
 
     /**
      * Until time expressed using the UTC offset of the current Transition.
-     * Valid after ExtendedZoneSpecifier::generateStartUntilTimes() is called.
+     * Valid after ExtendedZoneProcessor::generateStartUntilTimes() is called.
      */
     DateTuple untilDateTime;
   };
@@ -243,7 +243,7 @@ struct Transition {
 
   /**
    * The base offset code, not the total effective UTC offset. Note that this
-   * is different than basic::Transition::offsetCode used by BasicZoneSpecifier
+   * is different than basic::Transition::offsetCode used by BasicZoneProcessor
    * which is the total effective offsetCode. (It may be possible to make this
    * into an effective offsetCode (i.e. offsetCode + deltaCode) but it does not
    * seem worth making that change right now.)
@@ -328,7 +328,7 @@ struct Transition {
  * parameter SIZE, then manage the various sub-pools of Transition objects.
  * The allocation of the various sub-pools is intricately tied to the precise
  * pattern of creation and release of the various Transition objects within the
- * ExtendedZoneSpecifier class.
+ * ExtendedZoneProcessor class.
  *
  * There are 4 pools indicated by the following half-open (exclusive) index
  * ranges:
@@ -338,7 +338,7 @@ struct Transition {
  * 3) Candidate pool: [mIndexCandidates, mIndexFree)
  * 4) Free pool: [mIndexFree, SIZE)
  *
- * At the completion of the ExtendedZoneSpecifier::init(LocalDate& ld) method,
+ * At the completion of the ExtendedZoneProcessor::init(LocalDate& ld) method,
  * the Active pool will contain the active Transitions relevant to the
  * 'year' defined by the LocalDate. The Prior and Candidate pools will be
  * empty, with the Free pool taking up the remaining space.
@@ -614,14 +614,14 @@ class TransitionStorage {
 } // namespace extended
 
 /**
- * An implementation of ZoneSpecifier that works for *all* zones defined by the
+ * An implementation of ZoneProcessor that works for *all* zones defined by the
  * TZ Database (with some zones suffering a slight loss of accurancy described
  * below). The supported zones are defined in the zonedbx/zone_infos.h header
  * file. The constructor expects a pointer to one of the ZoneInfo structures
  * declared in the zonedbx/zone_infos.h file. The zone_specifier.py file is a
  * Python implementation of this class.
  *
- * Just like BasicZoneSpecifier, UTC offsets are stored as a single signed byte
+ * Just like BasicZoneProcessor, UTC offsets are stored as a single signed byte
  * in units of 15-minute increments to save memory. Fortunately, all current
  * (year 2019) time zones have DST offsets at 15-minute boundaries. But in
  * addition to the DST offset, this class uses a single signed byte to store
@@ -641,15 +641,15 @@ class TransitionStorage {
  *
  * Not thread-safe.
  */
-class ExtendedZoneSpecifier: public ZoneSpecifier {
+class ExtendedZoneProcessor: public ZoneProcessor {
   public:
     /**
      * Constructor.
      * @param zoneInfo pointer to a ZoneInfo.
      */
-    explicit ExtendedZoneSpecifier(
+    explicit ExtendedZoneProcessor(
         const extended::ZoneInfo* zoneInfo = nullptr):
-        ZoneSpecifier(kTypeExtended),
+        ZoneProcessor(kTypeExtended),
         mZoneInfo(zoneInfo) {}
 
     /** Return the underlying ZoneInfo. */
@@ -725,7 +725,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     /** Used only for debugging. */
     void log() const {
-      logging::println("ExtendedZoneSpecifier:");
+      logging::println("ExtendedZoneProcessor:");
       logging::println("  mYear: %d", mYear);
       logging::println("  mNumMatches: %d", mNumMatches);
       for (int i = 0; i < mNumMatches; i++) {
@@ -747,32 +747,32 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     }
 
   private:
-    friend class ::ExtendedZoneSpecifierTest_compareEraToYearMonth;
-    friend class ::ExtendedZoneSpecifierTest_compareEraToYearMonth2;
-    friend class ::ExtendedZoneSpecifierTest_createMatch;
-    friend class ::ExtendedZoneSpecifierTest_findMatches_simple;
-    friend class ::ExtendedZoneSpecifierTest_findMatches_named;
-    friend class ::ExtendedZoneSpecifierTest_findCandidateTransitions;
-    friend class ::ExtendedZoneSpecifierTest_findTransitionsFromNamedMatch;
-    friend class ::ExtendedZoneSpecifierTest_getTransitionTime;
-    friend class ::ExtendedZoneSpecifierTest_createTransitionForYear;
-    friend class ::ExtendedZoneSpecifierTest_normalizeDateTuple;
-    friend class ::ExtendedZoneSpecifierTest_expandDateTuple;
-    friend class ::ExtendedZoneSpecifierTest_calcInteriorYears;
-    friend class ::ExtendedZoneSpecifierTest_getMostRecentPriorYear;
-    friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatchFuzzy;
-    friend class ::ExtendedZoneSpecifierTest_compareTransitionToMatch;
-    friend class ::ExtendedZoneSpecifierTest_processActiveTransition;
-    friend class ::ExtendedZoneSpecifierTest_fixTransitionTimes_generateStartUntilTimes;
-    friend class ::ExtendedZoneSpecifierTest_createAbbreviation;
-    friend class ::ExtendedZoneSpecifierTest_setZoneInfo;
+    friend class ::ExtendedZoneProcessorTest_compareEraToYearMonth;
+    friend class ::ExtendedZoneProcessorTest_compareEraToYearMonth2;
+    friend class ::ExtendedZoneProcessorTest_createMatch;
+    friend class ::ExtendedZoneProcessorTest_findMatches_simple;
+    friend class ::ExtendedZoneProcessorTest_findMatches_named;
+    friend class ::ExtendedZoneProcessorTest_findCandidateTransitions;
+    friend class ::ExtendedZoneProcessorTest_findTransitionsFromNamedMatch;
+    friend class ::ExtendedZoneProcessorTest_getTransitionTime;
+    friend class ::ExtendedZoneProcessorTest_createTransitionForYear;
+    friend class ::ExtendedZoneProcessorTest_normalizeDateTuple;
+    friend class ::ExtendedZoneProcessorTest_expandDateTuple;
+    friend class ::ExtendedZoneProcessorTest_calcInteriorYears;
+    friend class ::ExtendedZoneProcessorTest_getMostRecentPriorYear;
+    friend class ::ExtendedZoneProcessorTest_compareTransitionToMatchFuzzy;
+    friend class ::ExtendedZoneProcessorTest_compareTransitionToMatch;
+    friend class ::ExtendedZoneProcessorTest_processActiveTransition;
+    friend class ::ExtendedZoneProcessorTest_fixTransitionTimes_generateStartUntilTimes;
+    friend class ::ExtendedZoneProcessorTest_createAbbreviation;
+    friend class ::ExtendedZoneProcessorTest_setZoneInfo;
 
     template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
-    friend class ZoneSpecifierCacheImpl; // setZoneInfo()
+    friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     // Disable copy constructor and assignment operator.
-    ExtendedZoneSpecifier(const ExtendedZoneSpecifier&) = delete;
-    ExtendedZoneSpecifier& operator=(const ExtendedZoneSpecifier&) = delete;
+    ExtendedZoneProcessor(const ExtendedZoneProcessor&) = delete;
+    ExtendedZoneProcessor& operator=(const ExtendedZoneProcessor&) = delete;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current
@@ -798,8 +798,8 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     /** A sentinel ZoneEra which has the smallest year. */
     static const extended::ZoneEra kAnchorEra;
 
-    bool equals(const ZoneSpecifier& other) const override {
-      const auto& that = (const ExtendedZoneSpecifier&) other;
+    bool equals(const ZoneProcessor& other) const override {
+      const auto& that = (const ExtendedZoneProcessor&) other;
       return getZoneInfo() == that.getZoneInfo();
     }
 
@@ -1148,7 +1148,7 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
 
     static extended::DateTuple getTransitionTime(
         int8_t yearTiny, const extended::ZoneRuleBroker rule) {
-      basic::MonthDay monthDay = BasicZoneSpecifier::calcStartDayOfMonth(
+      basic::MonthDay monthDay = BasicZoneProcessor::calcStartDayOfMonth(
           yearTiny + LocalDate::kEpochYear, rule.inMonth(), rule.onDayOfWeek(),
           rule.onDayOfMonth());
       return {yearTiny, monthDay.month, monthDay.day,

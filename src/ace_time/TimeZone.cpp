@@ -21,15 +21,15 @@ void TimeZone::printTo(Print& printer) const {
       return;
     case kTypeBasic:
     case kTypeExtended:
-      mZoneSpecifier->printTo(printer);
+      mZoneProcessor->printTo(printer);
       return;
     case kTypeBasicManaged:
     case kTypeExtendedManaged:
     {
-      ZoneSpecifier* specifier =
-          mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
-      if (! specifier) break;
-      specifier->printTo(printer);
+      ZoneProcessor* processor =
+          mZoneProcessorCache->getZoneProcessor(mZoneInfo);
+      if (! processor) break;
+      processor->printTo(printer);
       return;
     }
   }
@@ -52,15 +52,15 @@ void TimeZone::printShortTo(Print& printer) const {
       return;
     case kTypeBasic:
     case kTypeExtended:
-      mZoneSpecifier->printShortTo(printer);
+      mZoneProcessor->printShortTo(printer);
       return;
     case kTypeBasicManaged:
     case kTypeExtendedManaged:
     {
-      ZoneSpecifier* specifier =
-          mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
-      if (! specifier) break;
-      specifier->printShortTo(printer);
+      ZoneProcessor* processor =
+          mZoneProcessorCache->getZoneProcessor(mZoneInfo);
+      if (! processor) break;
+      processor->printShortTo(printer);
       return;
     }
   }
@@ -78,15 +78,15 @@ void TimeZone::printAbbrevTo(Print& printer, acetime_t epochSeconds) const {
       return;
     case kTypeBasic:
     case kTypeExtended:
-      printer.print(mZoneSpecifier->getAbbrev(epochSeconds));
+      printer.print(mZoneProcessor->getAbbrev(epochSeconds));
       return;
     case kTypeBasicManaged:
     case kTypeExtendedManaged:
     {
-      ZoneSpecifier* specifier =
-          mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
-      if (! specifier) break;
-      printer.print(specifier->getAbbrev(epochSeconds));
+      ZoneProcessor* processor =
+          mZoneProcessorCache->getZoneProcessor(mZoneInfo);
+      if (! processor) break;
+      printer.print(processor->getAbbrev(epochSeconds));
       return;
     }
   }

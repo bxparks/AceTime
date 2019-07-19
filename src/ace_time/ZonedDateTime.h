@@ -37,8 +37,8 @@ class ZonedDateTime {
      * will use the forEpochSeconds() method.
      *
      * The TimeOffset at the given date/time component is calculated using the
-     * ZoneSpecifier::getUtcOffsetForDateTime() determined by the actual
-     * subtype of ZoneSpecifier held by the given timeZone.
+     * ZoneProcessor::getUtcOffsetForDateTime() determined by the actual
+     * subtype of ZoneProcessor held by the given timeZone.
      *
      * @param year [1873-2127]
      * @param month month with January=1, December=12

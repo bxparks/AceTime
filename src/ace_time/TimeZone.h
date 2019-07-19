@@ -8,8 +8,8 @@
 
 #include <stdint.h>
 #include "TimeOffset.h"
-#include "ZoneSpecifier.h"
-#include "ZoneSpecifierCache.h"
+#include "ZoneProcessor.h"
+#include "ZoneProcessorCache.h"
 #include "BasicZone.h"
 #include "ExtendedZone.h"
 #include "TimeZoneData.h"
@@ -34,15 +34,15 @@ template<typename ZI, typename ZR, typename ZSC> class ZoneManager;
  *    * kTypeError: represents an error or unknown time zone
  *    * kTypeManual: holds a base offset and a DST offset, and
  *      allows the user to modify both of these fields
- *    * kTypeBasic: using an underlying BasicZoneSpecifier which
+ *    * kTypeBasic: using an underlying BasicZoneProcessor which
  *      supports 231 geographical zones in the TZ Database.
- *    * kTypeExtended: a time zone using an underlying ExtendedZoneSpecifier
+ *    * kTypeExtended: a time zone using an underlying ExtendedZoneProcessor
  *      which supports 348 geographical zones in the TZ Database (essentially
  *      the entire database).
  *    * kTypeBasicManaged: created through the ZoneManager which contains
- *      an internal cache of BasicZoneSpecifiers.
+ *      an internal cache of BasicZoneProcessors.
  *    * kTypeExtendedManaged: created through the ZoneManager which contains
- *      an internal cache of ExtendedZoneSpecifiers.
+ *      an internal cache of ExtendedZoneProcessors.
  *
  * The TimeZone class should be treated as a const value type. (Except for
  * kTypeManual which is self-contained and allows the stdOffset and dstOffset
@@ -52,7 +52,7 @@ template<typename ZI, typename ZR, typename ZSC> class ZoneManager;
  * ZonedDateTime holds the TimeZone object by-value.
  *
  * Semantically, TimeZone really really wants to be a reference type because it
- * needs have a reference to the ZoneSpecifier helper class to do its work. In
+ * needs have a reference to the ZoneProcessor helper class to do its work. In
  * other words, it would be very convenient if the client code could create
  * this object on the heap, and pass it around using a smart pointer to the
  * ZonedDateTime class and shared among multiple ZonedDateTime objects. This
@@ -62,8 +62,8 @@ template<typename ZI, typename ZR, typename ZSC> class ZoneManager;
  * However, in a small memory embedded environment (like Arduino Nano or Micro
  * with only 2kB of RAM), I want to avoid any use of the heap (new operator or
  * malloc()) inside the AceTime library. I separated out the memory intensive
- * or mutable features of the TimeZone class into the separate ZoneSpecifier
- * class. The ZoneSpecifier object should be created once at initialization
+ * or mutable features of the TimeZone class into the separate ZoneProcessor
+ * class. The ZoneProcessor object should be created once at initialization
  * time of the application (either statically allocated or potentially on the
  * heap early in the application start up).
  *
@@ -83,12 +83,12 @@ class TimeZone {
   public:
     static const uint8_t kTypeError = 0;
     static const uint8_t kTypeManual = 1;
-    static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
-    static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
+    static const uint8_t kTypeBasic = ZoneProcessor::kTypeBasic;
+    static const uint8_t kTypeExtended = ZoneProcessor::kTypeExtended;
     static const uint8_t kTypeBasicManaged =
-        ZoneSpecifierCache::kTypeBasicManaged;
+        ZoneProcessorCache::kTypeBasicManaged;
     static const uint8_t kTypeExtendedManaged =
-        ZoneSpecifierCache::kTypeExtendedManaged;
+        ZoneProcessorCache::kTypeExtendedManaged;
 
     /** Factory method to create a UTC TimeZone. */
     static TimeZone forUtc() {
@@ -107,21 +107,21 @@ class TimeZone {
     }
 
     /**
-     * Factory method to create from a BasicZoneSpecifier.
-     * @param zoneSpecifier a pointer to a ZoneSpecifier, cannot be nullptr
+     * Factory method to create from a BasicZoneProcessor.
+     * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
      */
-    static TimeZone forZoneSpecifier(BasicZoneSpecifier* zoneSpecifier) {
-      auto zoneInfo = (const basic::ZoneInfo*) zoneSpecifier->getZoneInfo();
-      return TimeZone(kTypeBasic, zoneInfo, zoneSpecifier);
+    static TimeZone forZoneProcessor(BasicZoneProcessor* zoneProcessor) {
+      auto zoneInfo = (const basic::ZoneInfo*) zoneProcessor->getZoneInfo();
+      return TimeZone(kTypeBasic, zoneInfo, zoneProcessor);
     }
 
     /**
-     * Factory method to create from a ExtendedZoneSpecifier.
-     * @param zoneSpecifier a pointer to a ZoneSpecifier, cannot be nullptr
+     * Factory method to create from a ExtendedZoneProcessor.
+     * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
      */
-    static TimeZone forZoneSpecifier(ExtendedZoneSpecifier* zoneSpecifier) {
-      auto zoneInfo = (const extended::ZoneInfo*) zoneSpecifier->getZoneInfo();
-      return TimeZone(kTypeExtended, zoneInfo, zoneSpecifier);
+    static TimeZone forZoneProcessor(ExtendedZoneProcessor* zoneProcessor) {
+      auto zoneInfo = (const extended::ZoneInfo*) zoneProcessor->getZoneInfo();
+      return TimeZone(kTypeExtended, zoneInfo, zoneProcessor);
     }
 
     /**
@@ -185,15 +185,15 @@ class TimeZone {
           return TimeOffset::forOffsetCode(mStdOffsetCode + mDstOffsetCode);
         case kTypeBasic:
         case kTypeExtended:
-          mZoneSpecifier->setZoneInfo(mZoneInfo);
-          return mZoneSpecifier->getUtcOffset(epochSeconds);
+          mZoneProcessor->setZoneInfo(mZoneInfo);
+          return mZoneProcessor->getUtcOffset(epochSeconds);
         case kTypeBasicManaged:
         case kTypeExtendedManaged:
         {
-          ZoneSpecifier* specifier =
-              mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
-          if (! specifier) break;
-          return specifier->getUtcOffset(epochSeconds);
+          ZoneProcessor* processor =
+              mZoneProcessorCache->getZoneProcessor(mZoneInfo);
+          if (! processor) break;
+          return processor->getUtcOffset(epochSeconds);
         }
       }
       return TimeOffset::forError();
@@ -210,15 +210,15 @@ class TimeZone {
           return TimeOffset::forOffsetCode(mDstOffsetCode);
         case kTypeBasic:
         case kTypeExtended:
-          mZoneSpecifier->setZoneInfo(mZoneInfo);
-          return mZoneSpecifier->getDeltaOffset(epochSeconds);
+          mZoneProcessor->setZoneInfo(mZoneInfo);
+          return mZoneProcessor->getDeltaOffset(epochSeconds);
         case kTypeBasicManaged:
         case kTypeExtendedManaged:
         {
-          ZoneSpecifier* specifier =
-              mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
-          if (! specifier) break;
-          return specifier->getDeltaOffset(epochSeconds);
+          ZoneProcessor* processor =
+              mZoneProcessorCache->getZoneProcessor(mZoneInfo);
+          if (! processor) break;
+          return processor->getDeltaOffset(epochSeconds);
         }
       }
       return TimeOffset::forError();
@@ -239,16 +239,16 @@ class TimeZone {
           break;
         case kTypeBasic:
         case kTypeExtended:
-          mZoneSpecifier->setZoneInfo(mZoneInfo);
-          odt = mZoneSpecifier->getOffsetDateTime(ldt);
+          mZoneProcessor->setZoneInfo(mZoneInfo);
+          odt = mZoneProcessor->getOffsetDateTime(ldt);
           break;
         case kTypeBasicManaged:
         case kTypeExtendedManaged:
         {
-          ZoneSpecifier* specifier =
-              mZoneSpecifierCache->getZoneSpecifier(mZoneInfo);
-          if (! specifier) break;
-          odt = specifier->getOffsetDateTime(ldt);
+          ZoneProcessor* processor =
+              mZoneProcessorCache->getZoneProcessor(mZoneInfo);
+          if (! processor) break;
+          odt = processor->getOffsetDateTime(ldt);
           break;
         }
       }
@@ -352,7 +352,7 @@ class TimeZone {
     friend bool operator==(const TimeZone& a, const TimeZone& b);
 
     // Allow ZoneManager to access the TimeZone() constructor that accepts
-    // a ZoneSpecifierCache.
+    // a ZoneProcessorCache.
     template<typename ZI, typename ZR, typename ZSC> friend class ZoneManager;
 
     /**
@@ -360,13 +360,13 @@ class TimeZone {
      * BasicZoneManager and ExtendedZoneManager.
      *
      * @param zoneInfo a pointer to a basic::ZoneInfo. Cannot be nullptr.
-     * @param zoneSpecifierCache a cache of ZoneInfo -> ZoneSpecifier
+     * @param zoneProcessorCache a cache of ZoneInfo -> ZoneProcessor
      */
     explicit TimeZone(const void* zoneInfo,
-        ZoneSpecifierCache* zoneSpecifierCache):
-        mType(zoneSpecifierCache->getType()),
+        ZoneProcessorCache* zoneProcessorCache):
+        mType(zoneProcessorCache->getType()),
         mZoneInfo(zoneInfo),
-        mZoneSpecifierCache(zoneSpecifierCache) {}
+        mZoneProcessorCache(zoneProcessorCache) {}
 
     /**
      * Constructor for a kTypeManual TimeZone.
@@ -385,18 +385,18 @@ class TimeZone {
 
     /** Constructor for kTypeBasic or kTypeExtended. */
     explicit TimeZone(uint8_t type, const void* zoneInfo,
-        ZoneSpecifier* mZoneSpecifier):
+        ZoneProcessor* mZoneProcessor):
         mType(type),
         mZoneInfo(zoneInfo),
-        mZoneSpecifier(mZoneSpecifier) {}
+        mZoneProcessor(mZoneProcessor) {}
 
     uint8_t mType;
 
     // 4 combinations:
     //   (type) (kTypeError)
     //   (type, mStdOffsetCode, mDstOffsetCode)
-    //   (type, mZoneInfo, mZoneSpecifier)
-    //   (type, mZoneInfo, mZoneSpecifierCache)
+    //   (type, mZoneInfo, mZoneProcessor)
+    //   (type, mZoneInfo, mZoneProcessorCache)
     union {
       /** Used by kTypeManual. */
       struct {
@@ -413,10 +413,10 @@ class TimeZone {
 
         union {
           /** Used by kTypeBasic, kTypeExtended. */
-          ZoneSpecifier* mZoneSpecifier;
+          ZoneProcessor* mZoneProcessor;
 
           /** Used by kTypeBasicManaged, kTypeExtendedManaged. */
-          ZoneSpecifierCache* mZoneSpecifierCache;
+          ZoneProcessorCache* mZoneProcessorCache;
         };
       };
     };

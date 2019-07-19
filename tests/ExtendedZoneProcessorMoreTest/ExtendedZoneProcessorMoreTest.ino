@@ -1,6 +1,6 @@
-#line 2 "ExtendedZoneSpecifierMoreTest.ino"
+#line 2 "ExtendedZoneProcessorMoreTest.ino"
 
-// Spillovers from ExtendedZoneSpecifierTest.ino after it became too big for a
+// Spillovers from ExtendedZoneProcessorTest.ino after it became too big for a
 // Arduino Pro Micro.
 
 #include <AUnit.h>
@@ -15,49 +15,49 @@ using namespace ace_time::zonedbx;
 // --------------------------------------------------------------------------
 
 // https://www.timeanddate.com/time/zone/usa/los-angeles
-test(ExtendedZoneSpecifierTest, kZoneAmerica_Los_Angeles) {
-  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles) {
+  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PST", zoneSpecifier.getAbbrev(epochSeconds));
-  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
+  assertEqual(-8*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PST", zoneProcessor.getAbbrev(epochSeconds));
+  assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
-  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
+  assertEqual(-7*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PDT", zoneProcessor.getAbbrev(epochSeconds));
+  assertFalse(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 0, 0,
       TimeOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
-  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
+  assertEqual(-7*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PDT", zoneProcessor.getAbbrev(epochSeconds));
+  assertFalse(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 1, 59, 59,
       TimeOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PDT", zoneSpecifier.getAbbrev(epochSeconds));
-  assertFalse(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
+  assertEqual(-7*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PDT", zoneProcessor.getAbbrev(epochSeconds));
+  assertFalse(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
 
   dt = OffsetDateTime::forComponents(2018, 11, 4, 2, 0, 0,
       TimeOffset::forHour(-7));
   epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, zoneSpecifier.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual("PST", zoneSpecifier.getAbbrev(epochSeconds));
-  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isZero());
+  assertEqual(-8*60, zoneProcessor.getUtcOffset(epochSeconds).toMinutes());
+  assertEqual("PST", zoneProcessor.getAbbrev(epochSeconds));
+  assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isZero());
 }
 
-test(ExtendedZoneSpecifierTest, kZoneAmerica_Los_Angeles_outOfBounds) {
-  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+test(ExtendedZoneProcessorTest, kZoneAmerica_Los_Angeles_outOfBounds) {
+  ExtendedZoneProcessor zoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
@@ -67,16 +67,16 @@ test(ExtendedZoneSpecifierTest, kZoneAmerica_Los_Angeles_outOfBounds) {
   dt = OffsetDateTime::forComponents(1998, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
-  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
-  assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
+  assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
+  assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
+  assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
 
   dt = OffsetDateTime::forComponents(2051, 2, 1, 1, 0, 0,
       TimeOffset::forHour(-8));
   epochSeconds = dt.toEpochSeconds();
-  assertTrue(zoneSpecifier.getUtcOffset(epochSeconds).isError());
-  assertTrue(zoneSpecifier.getDeltaOffset(epochSeconds).isError());
-  assertEqual("", zoneSpecifier.getAbbrev(epochSeconds));
+  assertTrue(zoneProcessor.getUtcOffset(epochSeconds).isError());
+  assertTrue(zoneProcessor.getDeltaOffset(epochSeconds).isError());
+  assertEqual("", zoneProcessor.getAbbrev(epochSeconds));
 }
 
 // --------------------------------------------------------------------------

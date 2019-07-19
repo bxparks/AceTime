@@ -36,11 +36,11 @@ void setup() {
   Serial.print(F("sizeof(OffsetDateTime): "));
   Serial.println(sizeof(OffsetDateTime));
 
-  Serial.print(F("sizeof(BasicZoneSpecifier): "));
-  Serial.println(sizeof(BasicZoneSpecifier));
+  Serial.print(F("sizeof(BasicZoneProcessor): "));
+  Serial.println(sizeof(BasicZoneProcessor));
 
-  Serial.print(F("sizeof(ExtendedZoneSpecifier): "));
-  Serial.println(sizeof(ExtendedZoneSpecifier));
+  Serial.print(F("sizeof(ExtendedZoneProcessor): "));
+  Serial.println(sizeof(ExtendedZoneProcessor));
 
   Serial.print(F("sizeof(BasicZoneRegistrar): "));
   Serial.println(sizeof(BasicZoneRegistrar));

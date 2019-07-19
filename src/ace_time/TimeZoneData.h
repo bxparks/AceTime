@@ -7,7 +7,7 @@
 #define ACE_TIME_TIME_ZONE_DATA_H
 
 #include <stdint.h>
-#include "ZoneSpecifier.h"
+#include "ZoneProcessor.h"
 
 namespace ace_time {
 

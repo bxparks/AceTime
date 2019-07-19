@@ -13,9 +13,9 @@ LocalTime	KEYWORD1
 LocalDateTime	KEYWORD1
 TimeOffset	KEYWORD1
 OffsetDateTime	KEYWORD1
-ZoneSpecifier	KEYWORD1
-BasicZoneSpecifier	KEYWORD1
-ExtendedZoneSpecifier	KEYWORD1
+ZoneProcessor	KEYWORD1
+BasicZoneProcessor	KEYWORD1
+ExtendedZoneProcessor	KEYWORD1
 BasicZone	KEYWORD1
 ExtendedZone	KEYWORD1
 TimeZone	KEYWORD1
@@ -161,7 +161,7 @@ incrementMinute	KEYWORD2
 incrementHour	KEYWORD2
 increment15Minutes	KEYWORD2
 
-# ZoneSpecifier.h
+# ZoneProcessor.h
 getType	KEYWORD2
 getUtcOffset	KEYWORD2
 getDeltaOffset	KEYWORD2
@@ -170,7 +170,7 @@ getUtcOffsetForDateTime	KEYWORD2
 printTo	KEYWORD2
 printShortTo	KEYWORD2
 
-# BasicZoneSpecifier.h
+# BasicZoneProcessor.h
 getType	KEYWORD2
 getUtcffset	KEYWORD2
 getDeltaOffset	KEYWORD2
@@ -179,7 +179,7 @@ getUtcOffsetForDateTime	KEYWORD2
 printTo	KEYWORD2
 printShortTo	KEYWORD2
 
-# ExtendedZoneSpecifier.h
+# ExtendedZoneProcessor.h
 getType	KEYWORD2
 getUtcffset	KEYWORD2
 getDeltaOffset	KEYWORD2
@@ -201,7 +201,7 @@ shortName	KEYWORD2
 
 # TimeZone.h
 forOffsetCode	KEYWORD2
-forZoneSpecifier	KEYWORD2
+forZoneProcessor	KEYWORD2
 forTimeZoneData	KEYWORD2
 toTimeZoneData	KEYWORD2
 getType	KEYWORD2
@@ -280,7 +280,7 @@ kSunday	LITERAL1
 # LocalTime.h
 kInvalidSeconds	LITERAL1
 
-# ZoneSpecifier.h
+# ZoneProcessor.h
 kTypeManual	LITERAL1
 kTypeBasic	LITERAL1
 kTypeExtended	LITERAL1

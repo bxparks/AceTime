@@ -53,7 +53,7 @@ test(ZonedDateTimeBasicTest, forComponents_inDstGap) {
   TimeZone tz = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles);
 
-  // 02:01 doesn't exist, but BasicZoneSpecifier picks the later epochSeconds
+  // 02:01 doesn't exist, but BasicZoneProcessor picks the later epochSeconds
   // and offset, so should push forward the 02:01 to 03:01-07:00.
   auto dt = ZonedDateTime::forComponents(2018, 3, 11, 2, 1, 0, tz);
   assertEqual(TimeOffset::forHour(-7).toMinutes(), dt.timeOffset().toMinutes());
@@ -88,7 +88,7 @@ test(ZonedDateTimeBasicTest, forComponents_inOverlap) {
   TimeZone tz = basicZoneManager.createForZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles);
 
-  // There were two instances of 01:01. BasicZoneSpecifier chooses the earlier
+  // There were two instances of 01:01. BasicZoneProcessor chooses the earlier
   // occurrence, giving 01:01-07:00.
   auto dt = ZonedDateTime::forComponents(2018, 11, 4, 1, 1, 0, tz);
   assertEqual(TimeOffset::forHour(-7).toMinutes(), dt.timeOffset().toMinutes());

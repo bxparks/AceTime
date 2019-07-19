@@ -14,7 +14,7 @@ struct ClockInfo {
   /** 00:00:00 - 23:59:59 */
   static uint8_t const kTwentyFour = 1;
 
-  /** Construct from ZoneSpecifier. */
+  /** Construct from ZoneProcessor. */
   ClockInfo(const ace_time::TimeZone& tz, const char* theName):
       timeZone(tz), name(theName) {}
 

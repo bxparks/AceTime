@@ -1,4 +1,4 @@
-#line 2 "ZoneSpecifierCacheTest.ino"
+#line 2 "ZoneProcessorCacheTest.ino"
 
 #include <AUnit.h>
 #include <AceTime.h>
@@ -7,49 +7,49 @@ using namespace aunit;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// BasicZoneSpecifierCache
+// BasicZoneProcessorCache
 // --------------------------------------------------------------------------
 
-test(BasicZoneSpecifierCacheTest, getZoneSpecifier) {
-  BasicZoneSpecifierCache<2> cache;
+test(BasicZoneProcessorCacheTest, getZoneProcessor) {
+  BasicZoneProcessorCache<2> cache;
 
-  ZoneSpecifier* zspec1 = cache.getZoneSpecifier(
+  ZoneProcessor* zspec1 = cache.getZoneProcessor(
       &zonedb::kZoneAmerica_Los_Angeles);
 
-  ZoneSpecifier* zspec2 = cache.getZoneSpecifier(
+  ZoneProcessor* zspec2 = cache.getZoneProcessor(
       &zonedb::kZoneAmerica_Los_Angeles);
   assertEqual((intptr_t) zspec1, (intptr_t) zspec2);
 
-  ZoneSpecifier* zspec3 = cache.getZoneSpecifier(
+  ZoneProcessor* zspec3 = cache.getZoneProcessor(
       &zonedb::kZoneAmerica_New_York);
   assertNotEqual((intptr_t) zspec1, (intptr_t) zspec3);
 
   // The 3rd unique ZoneInfo reuses zpec1
-  ZoneSpecifier* zspec4 = cache.getZoneSpecifier(
+  ZoneProcessor* zspec4 = cache.getZoneProcessor(
       &zonedb::kZoneAmerica_Denver);
   assertEqual((intptr_t) zspec1, (intptr_t) zspec4);
 }
 
 // --------------------------------------------------------------------------
-// ExtendedZoneSpecifierCache
+// ExtendedZoneProcessorCache
 // --------------------------------------------------------------------------
 
-test(ExtendedZoneSpecifierCacheTest, getZoneSpecifier) {
-  ExtendedZoneSpecifierCache<2> cache;
+test(ExtendedZoneProcessorCacheTest, getZoneProcessor) {
+  ExtendedZoneProcessorCache<2> cache;
 
-  ZoneSpecifier* zspec1 = cache.getZoneSpecifier(
+  ZoneProcessor* zspec1 = cache.getZoneProcessor(
       &zonedbx::kZoneAmerica_Los_Angeles);
 
-  ZoneSpecifier* zspec2 = cache.getZoneSpecifier(
+  ZoneProcessor* zspec2 = cache.getZoneProcessor(
       &zonedbx::kZoneAmerica_Los_Angeles);
   assertEqual((intptr_t) zspec1, (intptr_t) zspec2);
 
-  ZoneSpecifier* zspec3 = cache.getZoneSpecifier(
+  ZoneProcessor* zspec3 = cache.getZoneProcessor(
       &zonedbx::kZoneAmerica_New_York);
   assertNotEqual((intptr_t) zspec1, (intptr_t) zspec3);
 
   // The 3rd unique ZoneInfo reuses zpec1
-  ZoneSpecifier* zspec4 = cache.getZoneSpecifier(
+  ZoneProcessor* zspec4 = cache.getZoneProcessor(
       &zonedbx::kZoneAmerica_Denver);
   assertEqual((intptr_t) zspec1, (intptr_t) zspec4);
 }

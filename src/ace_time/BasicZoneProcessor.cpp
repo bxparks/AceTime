@@ -5,15 +5,15 @@
 
 #include <Print.h>
 #include "BasicZone.h"
-#include "BasicZoneSpecifier.h"
+#include "BasicZoneProcessor.h"
 
 namespace ace_time {
 
-void BasicZoneSpecifier::printTo(Print& printer) const {
+void BasicZoneProcessor::printTo(Print& printer) const {
   printer.print(BasicZone(mZoneInfo.zoneInfo()).name());
 }
 
-void BasicZoneSpecifier::printShortTo(Print& printer) const {
+void BasicZoneProcessor::printShortTo(Print& printer) const {
   printer.print(BasicZone(mZoneInfo.zoneInfo()).shortName());
 }
 

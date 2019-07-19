@@ -311,22 +311,22 @@ test(TimeZoneExtendedTest, operatorEqualEqual_managedZones) {
 // and won't run on a Nano or Micro.
 // --------------------------------------------------------------------------
 
-BasicZoneSpecifier basicZoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-BasicZoneSpecifier basicZoneSpecifier2(&zonedb::kZoneAmerica_New_York);
-ExtendedZoneSpecifier extendedZoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
-ExtendedZoneSpecifier extendedZoneSpecifier2(&zonedbx::kZoneAmerica_New_York);
+BasicZoneProcessor basicZoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+BasicZoneProcessor basicZoneProcessor2(&zonedb::kZoneAmerica_New_York);
+ExtendedZoneProcessor extendedZoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
+ExtendedZoneProcessor extendedZoneProcessor2(&zonedbx::kZoneAmerica_New_York);
 
 test(TimeZoneTest, operatorEqualEqual_directZone) {
   TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
   TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHour(-7));
   assertTrue(manual != manual2);
 
-  TimeZone basic = TimeZone::forZoneSpecifier(&basicZoneSpecifier);
-  TimeZone basic2 = TimeZone::forZoneSpecifier(&basicZoneSpecifier2);
+  TimeZone basic = TimeZone::forZoneProcessor(&basicZoneProcessor);
+  TimeZone basic2 = TimeZone::forZoneProcessor(&basicZoneProcessor2);
   assertTrue(basic != basic2);
 
-  TimeZone extended = TimeZone::forZoneSpecifier(&extendedZoneSpecifier);
-  TimeZone extended2 = TimeZone::forZoneSpecifier(&extendedZoneSpecifier2);
+  TimeZone extended = TimeZone::forZoneProcessor(&extendedZoneProcessor);
+  TimeZone extended2 = TimeZone::forZoneProcessor(&extendedZoneProcessor2);
   assertTrue(extended != extended2);
 
   assertTrue(manual != basic);
