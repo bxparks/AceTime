@@ -182,18 +182,6 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         ZoneSpecifier(kTypeBasic),
         mZoneInfo(zoneInfo) {}
 
-    /** Copy constructor */
-    BasicZoneSpecifier(const BasicZoneSpecifier& that):
-      ZoneSpecifier(that.mType),
-      mZoneInfo(that.mZoneInfo) {}
-
-    /** Assignment operator */
-    BasicZoneSpecifier& operator=(const BasicZoneSpecifier& that) {
-      mType = that.mType;
-      setZoneInfo(that.mZoneInfo.zoneInfo());
-      return *this;
-    }
-
     /** Set the underlying ZoneInfo. */
     void setZoneInfo(const basic::ZoneInfo* zoneInfo) {
       if (mZoneInfo.zoneInfo() == zoneInfo) return;
@@ -381,6 +369,10 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     friend class ::BasicZoneSpecifierTest_createAbbreviation;
     friend class ::BasicZoneSpecifierTest_calcStartDayOfMonth;
     friend class ::BasicZoneSpecifierTest_calcRuleOffsetCode;
+
+    // Disable copy constructor and assignment operator.
+    BasicZoneSpecifier(const BasicZoneSpecifier&) = delete;
+    BasicZoneSpecifier& operator=(const BasicZoneSpecifier&) = delete;
 
     /** Maximum size of Transition cache across supported zones. */
     static const uint8_t kMaxCacheEntries = 4;

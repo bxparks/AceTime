@@ -649,18 +649,6 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         ZoneSpecifier(kTypeExtended),
         mZoneInfo(zoneInfo) {}
 
-    /** Copy constructor */
-    ExtendedZoneSpecifier(const ExtendedZoneSpecifier& that):
-      ZoneSpecifier(that.mType),
-      mZoneInfo(that.mZoneInfo) {}
-
-    /** Assignment operator */
-    ExtendedZoneSpecifier& operator=(const ExtendedZoneSpecifier& that) {
-      mType = that.mType;
-      setZoneInfo(that.mZoneInfo.zoneInfo());
-      return *this;
-    }
-
     /** Set the underlying ZoneInfo. */
     void setZoneInfo(const extended::ZoneInfo* zoneInfo) {
       if (mZoneInfo.zoneInfo() == zoneInfo) return;
@@ -785,6 +773,10 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
     friend class ::ExtendedZoneSpecifierTest_fixTransitionTimes_generateStartUntilTimes;
     friend class ::ExtendedZoneSpecifierTest_createAbbreviation;
     friend class ::ExtendedZoneSpecifierTest_setZoneInfo;
+
+    // Disable copy constructor and assignment operator.
+    ExtendedZoneSpecifier(const ExtendedZoneSpecifier&) = delete;
+    ExtendedZoneSpecifier& operator=(const ExtendedZoneSpecifier&) = delete;
 
     /**
      * Number of Extended Matches. We look at the 3 years straddling the current

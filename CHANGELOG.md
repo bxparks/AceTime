@@ -7,8 +7,6 @@
     * Add `setZoneInfo()` to `BasicZoneSpecifier` and `ExtendedZoneSpecifier`,
       which allows changing timezones using the `ZoneInfo` returned by the
       `BasicZoneManager` and `ExtendedZoneManager` classes.
-    * Add copy constructor and assignment operator to `BasicZoneSpecifier`
-      and `ExtendedZoneSpecifier` to allow deep copying of `TimeZone` objects.
     * Remove overly complex `ManualZoneSpecifier` and merge most of its
       functionality directly into the `TimeZone` using `kTypeManual`. We lose
       the manual abbreviations provided by `ManualZoneSpecifier` but the
