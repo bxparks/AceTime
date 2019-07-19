@@ -52,6 +52,10 @@ class ExtendedZone {
     }
 #endif
 
+    uint32_t zoneId() const {
+      return mZoneInfoBroker.zoneId();
+    }
+
   private:
     const extended::ZoneInfoBroker mZoneInfoBroker;
 };

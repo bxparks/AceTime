@@ -106,6 +106,9 @@ class Presenter {
     }
 
     void displayDateTime() const {
+    #if ENABLE_SERIAL == 1
+      Serial.println(F("displayDateTime()"));
+    #endif
       mOled.setFont(fixed_bold10x15);
       const ZonedDateTime& dateTime = mRenderingInfo.dateTime;
       if (dateTime.isError()) {
@@ -177,6 +180,9 @@ class Presenter {
     }
 
     void displayTimeZone() const {
+    #if 0
+      Serial.println(F("displayTimeZone()"));
+    #endif
       mOled.setFont(fixed_bold10x15);
 
       // Don't use F() strings for short strings <= 4 characters. Seems to
@@ -187,7 +193,7 @@ class Presenter {
       // Controller::mZoneSpecifier, which will contain the old timeZone.
       auto& tz = mRenderingInfo.timeZone;
       mOled.print("TZ: ");
-      const __FlashStringHelper* typeString = nullptr;
+      const __FlashStringHelper* typeString;
       switch (tz.getType()) {
         case TimeZone::kTypeManual:
           typeString = F("manual");
@@ -198,6 +204,11 @@ class Presenter {
         case TimeZone::kTypeExtended:
           typeString = F("extd");
           break;
+        case TimeZone::kTypeManaged:
+          typeString = F("managed");
+          break;
+        default:
+          typeString = F("unknown");
       }
       mOled.print(typeString);
       mOled.clearToEOL();
@@ -221,21 +232,10 @@ class Presenter {
           mOled.clearToEOL();
           break;
 
-      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+      #else
         case TimeZone::kTypeBasic:
-          // Print name of timezone
-          mOled.println();
-          if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
-            tz.printShortTo(mOled);
-          }
-          mOled.clearToEOL();
-
-          // Clear the DST: {on|off} line from a previous screen
-          mOled.println();
-          mOled.clearToEOL();
-          break;
-      #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
         case TimeZone::kTypeExtended:
+        case TimeZone::kTypeManaged:
           // Print name of timezone
           mOled.println();
           if (shouldShowFor(MODE_CHANGE_TIME_ZONE_NAME)) {
@@ -260,6 +260,9 @@ class Presenter {
     }
 
     void displayAbout() const {
+    #if ENABLE_SERIAL == 1
+      Serial.println(F("displayAbout()"));
+    #endif
       mOled.setFont(SystemFont5x7);
 
       // Use F() macros for these longer strings. Seems to save both

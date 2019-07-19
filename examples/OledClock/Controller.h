@@ -37,7 +37,7 @@ class Controller {
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),
         mPresenter(presenter)
-      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
+      #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC \
           || TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
         , mZoneManager(kZoneRegistrySize, kZoneRegistry)
       #endif
@@ -358,6 +358,9 @@ class Controller {
 
     /** Transfer info from ChangingClockInfo to ClockInfo. */
     void saveClockInfo() {
+    #if ENABLE_SERIAL == 1
+      Serial.println(F("saveClockInfo()"));
+    #endif
       mClockInfo = mChangingClockInfo;
       preserveClockInfo(mCrcEeprom, mClockInfo);
     }
@@ -365,6 +368,9 @@ class Controller {
     /** Save the clock info into EEPROM. */
     static void preserveClockInfo(hw::CrcEeprom& crcEeprom,
         const ClockInfo& clockInfo) {
+    #if ENABLE_SERIAL == 1
+      Serial.println(F("preserveClockInfo()"));
+    #endif
       StoredInfo storedInfo;
       storedInfo.hourMode = clockInfo.hourMode;
       storedInfo.type = clockInfo.timeZone.getType();
@@ -386,6 +392,9 @@ class Controller {
 
     /** Restore clockInfo from storedInfo. */
     void restoreClockInfo(ClockInfo& clockInfo, const StoredInfo& storedInfo) {
+    #if ENABLE_SERIAL == 1
+      Serial.println(F("preserveClockInfo()"));
+    #endif
       clockInfo.hourMode = storedInfo.hourMode;
 
       switch (storedInfo.type) {
@@ -397,13 +406,13 @@ class Controller {
           break;
       #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
         case TimeZone::kTypeBasic:
-          clockInfo.timeZone = mZoneManager.createFromZoneId(storedInfo.zoneId);
-          mZoneIndex = mZoneManager.indexFromZoneId(storedInfo.zoneId);
+          clockInfo.timeZone = mZoneManager.createForZoneId(storedInfo.zoneId);
+          mZoneIndex = mZoneManager.indexForZoneId(storedInfo.zoneId);
           break;
       #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
         case TimeZone::kTypeExtended:
-          clockInfo.timeZone = mZoneManager.createFromZoneId(storedInfo.zoneId);
-          mZoneIndex = mZoneManager.indexFromZoneId(storedInfo.zoneId);
+          clockInfo.timeZone = mZoneManager.createForZoneId(storedInfo.zoneId);
+          mZoneIndex = mZoneManager.indexForZoneId(storedInfo.zoneId);
           break;
       #endif
         default:
@@ -412,9 +421,9 @@ class Controller {
               TimeOffset::forMinutes(kDefaultOffsetMinutes),
               TimeOffset());
         #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-          clockInfo.timeZone = mZoneManager.createFromZoneIndex(0);
+          clockInfo.timeZone = mZoneManager.createForZoneIndex(0);
         #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-          clockInfo.timeZone = mZoneManager.createFromZoneIndex(0);
+          clockInfo.timeZone = mZoneManager.createForZoneIndex(0);
         #endif
       }
     }

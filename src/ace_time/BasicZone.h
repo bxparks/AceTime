@@ -53,6 +53,10 @@ class BasicZone {
     }
 #endif
 
+    uint32_t zoneId() const {
+      return mZoneInfoBroker.zoneId();
+    }
+
   private:
     const basic::ZoneInfoBroker mZoneInfoBroker;
 };
