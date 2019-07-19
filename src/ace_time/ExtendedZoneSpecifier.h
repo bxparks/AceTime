@@ -650,17 +650,18 @@ class ExtendedZoneSpecifier: public ZoneSpecifier {
         mZoneInfo(zoneInfo) {}
 
     /** Set the underlying ZoneInfo. */
-    void setZoneInfo(const extended::ZoneInfo* zoneInfo) {
+    void setZoneInfo(const void* zoneInfo) override {
       if (mZoneInfo.zoneInfo() == zoneInfo) return;
 
-      mZoneInfo = extended::ZoneInfoBroker(zoneInfo);
+      mZoneInfo = extended::ZoneInfoBroker(
+          (const extended::ZoneInfo*) zoneInfo);
       mYear = 0;
       mIsFilled = false;
       mNumMatches = 0;
     }
 
     /** Return the underlying ZoneInfo. */
-    const extended::ZoneInfo* getZoneInfo() const {
+    const void* getZoneInfo() const override {
       return mZoneInfo.zoneInfo();
     }
 

@@ -76,7 +76,7 @@ class ZoneSpecifierCacheImpl: public ZoneSpecifierCache {
      */
     ZS* findUsingZoneInfo(const ZI* zoneInfoKey) {
       for (uint8_t i = 0; i < SIZE; i++) {
-        const ZI* zoneInfo = mZoneSpecifiers[i].getZoneInfo();
+        const ZI* zoneInfo = (const ZI*) mZoneSpecifiers[i].getZoneInfo();
         if (zoneInfo == zoneInfoKey) {
           return &mZoneSpecifiers[i];
         }

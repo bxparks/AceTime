@@ -183,17 +183,19 @@ class BasicZoneSpecifier: public ZoneSpecifier {
         mZoneInfo(zoneInfo) {}
 
     /** Set the underlying ZoneInfo. */
-    void setZoneInfo(const basic::ZoneInfo* zoneInfo) {
+    void setZoneInfo(const void* zoneInfo) override {
       if (mZoneInfo.zoneInfo() == zoneInfo) return;
 
-      mZoneInfo = basic::ZoneInfoBroker(zoneInfo);
+      mZoneInfo = basic::ZoneInfoBroker((const basic::ZoneInfo*) zoneInfo);
       mYear = 0;
       mIsFilled = false;
       mNumTransitions = 0;
     }
 
     /** Return the underlying ZoneInfo. */
-    const basic::ZoneInfo* getZoneInfo() const { return mZoneInfo.zoneInfo(); }
+    const void* getZoneInfo() const override {
+      return mZoneInfo.zoneInfo();
+    }
 
     uint32_t getZoneId() const override { return mZoneInfo.zoneId(); }
 

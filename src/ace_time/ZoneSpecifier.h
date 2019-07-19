@@ -55,6 +55,9 @@ class ZoneSpecifier {
     /** Return the kTypeXxx of the current instance. */
     uint8_t getType() const { return mType; }
 
+    /** Return the opaque zoneInfo. */
+    virtual const void* getZoneInfo() const = 0;
+
     /** Return the unique stable zoneId. */
     virtual uint32_t getZoneId() const = 0;
 
@@ -87,6 +90,9 @@ class ZoneSpecifier {
      */
     virtual OffsetDateTime getOffsetDateTime(const LocalDateTime& ldt)
         const = 0;
+
+    /** Set the opaque zoneInfo. */
+    virtual void setZoneInfo(const void* zoneInfo) = 0;
 
     /** Print a human-readable identifier (e.g. "America/Los_Angeles"). */
     virtual void printTo(Print& printer) const = 0;

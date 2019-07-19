@@ -10,6 +10,8 @@
 #include "TimeOffset.h"
 #include "ZoneSpecifier.h"
 #include "ZoneSpecifierCache.h"
+#include "BasicZone.h"
+#include "ExtendedZone.h"
 
 class Print;
 
@@ -124,7 +126,7 @@ class TimeZone {
      * @param zoneSpecifier a pointer to a ZoneSpecifier, cannot be nullptr
      */
     static TimeZone forZoneSpecifier(BasicZoneSpecifier* zoneSpecifier) {
-      const basic::ZoneInfo* zoneInfo = zoneSpecifier->getZoneInfo();
+      auto zoneInfo = (const basic::ZoneInfo*) zoneSpecifier->getZoneInfo();
       return TimeZone(kTypeBasic, zoneInfo, zoneSpecifier);
     }
 
@@ -134,7 +136,7 @@ class TimeZone {
      * @param zoneSpecifier a pointer to a ZoneSpecifier, cannot be nullptr
      */
     static TimeZone forZoneSpecifier(ExtendedZoneSpecifier* zoneSpecifier) {
-      const extended::ZoneInfo* zoneInfo = zoneSpecifier->getZoneInfo();
+      auto zoneInfo = (const extended::ZoneInfo*) zoneSpecifier->getZoneInfo();
       return TimeZone(kTypeExtended, zoneInfo, zoneSpecifier);
     }
 
@@ -176,8 +178,9 @@ class TimeZone {
         case kTypeManual:
           return 0;
         case kTypeBasic:
+          return BasicZone((const basic::ZoneInfo*) mZoneInfo).zoneId();
         case kTypeExtended:
-          return mZoneSpecifier->getZoneId();
+          return ExtendedZone((const extended::ZoneInfo*) mZoneInfo).zoneId();
         case kTypeManaged:
         {
           ZoneSpecifier* specifier =
@@ -201,6 +204,7 @@ class TimeZone {
           return TimeOffset::forOffsetCode(mStdOffsetCode + mDstOffsetCode);
         case kTypeBasic:
         case kTypeExtended:
+          mZoneSpecifier->setZoneInfo(mZoneInfo);
           return mZoneSpecifier->getUtcOffset(epochSeconds);
         case kTypeManaged:
         {
@@ -224,6 +228,7 @@ class TimeZone {
           return TimeOffset::forOffsetCode(mDstOffsetCode);
         case kTypeBasic:
         case kTypeExtended:
+          mZoneSpecifier->setZoneInfo(mZoneInfo);
           return mZoneSpecifier->getDeltaOffset(epochSeconds);
         case kTypeManaged:
         {
@@ -251,6 +256,7 @@ class TimeZone {
           break;
         case kTypeBasic:
         case kTypeExtended:
+          mZoneSpecifier->setZoneInfo(mZoneInfo);
           odt = mZoneSpecifier->getOffsetDateTime(ldt);
           break;
         case kTypeManaged:
@@ -363,7 +369,7 @@ class TimeZone {
 
     /** Constructor for kTypeBasic or kTypeExtended. */
     explicit TimeZone(uint8_t type, const void* zoneInfo,
-        const ZoneSpecifier* mZoneSpecifier):
+        ZoneSpecifier* mZoneSpecifier):
         mType(type),
         mZoneInfo(zoneInfo),
         mZoneSpecifier(mZoneSpecifier) {}
@@ -388,7 +394,7 @@ class TimeZone {
 
         union {
           /** Used by kTypeBasic, kTypeExtended. */
-          const ZoneSpecifier* mZoneSpecifier;
+          ZoneSpecifier* mZoneSpecifier;
 
           /** Used by kTypeManaged. */
           ZoneSpecifierCache* mZoneSpecifierCache;
