@@ -29,28 +29,35 @@ template<typename ZI, typename ZR, typename ZSC> class ZoneManager;
  * source of these geographical regions is the TZ Database maintained by IANA
  * (https://www.iana.org/time-zones). The TimeZone class supports both meanings.
  *
- * There are 5 types of TimeZone:
+ * There are 6 types of TimeZone:
  *
- *    * kTypeManual: a time zone that holds a base offset and a DST offset, and
+ *    * kTypeError: represents an error or unknown time zone
+ *    * kTypeManual: holds a base offset and a DST offset, and
  *      allows the user to modify both of these fields
- *    * kTypeBasic: a time zone using an underlying BasicZoneSpecifier which
+ *    * kTypeBasic: using an underlying BasicZoneSpecifier which
  *      supports 231 geographical zones in the TZ Database.
  *    * kTypeExtended: a time zone using an underlying ExtendedZoneSpecifier
  *      which supports 348 geographical zones in the TZ Database (essentially
  *      the entire database).
- *    * kTypeBasicManaged: uses the ZoneSpecifierCache to manage a cache of
- *      BasicZoneSpecifiers and provide mapping from zoneName or zoneId to the
- *      ZoneInfo.
- *    * kTypeExtendedManaged: uses the ZoneSpecifierCache to manage a cache of
- *      ExtendedZoneSpecifiers and provide mapping from zoneName or zoneId to
- *      the ZoneInfo.
+ *    * kTypeBasicManaged: created through the ZoneManager which contains
+ *      an internal cache of BasicZoneSpecifiers.
+ *    * kTypeExtendedManaged: created through the ZoneManager which contains
+ *      an internal cache of ExtendedZoneSpecifiers.
  *
- * The TimeZone class really really wants to be a reference type. In other
- * words, it would be very convenient if the client code could create this
- * object on the heap, and pass it around using a pointer (or smart pointer) to
- * the ZonedDateTime class and shared among multiple ZonedDateTime objects.
- * This would also allow new TimeZones to be created, while allowing older
- * instances of ZonedDateTime to hold on to the previous versions of TimeZone.
+ * The TimeZone class should be treated as a const value type. (Except for
+ * kTypeManual which is self-contained and allows the stdOffset and dstOffset
+ * to be modified.) It can be passed around by value, but since it is between 5
+ * bytes (8-bit) and 24 bytes (32-bit) big, it may be slightly more efficient
+ * to pass by const reference, then save locally by-value when needed. The
+ * ZonedDateTime holds the TimeZone object by-value.
+ *
+ * Semantically, TimeZone really really wants to be a reference type because it
+ * needs have a reference to the ZoneSpecifier helper class to do its work. In
+ * other words, it would be very convenient if the client code could create
+ * this object on the heap, and pass it around using a smart pointer to the
+ * ZonedDateTime class and shared among multiple ZonedDateTime objects. This
+ * would also allow new TimeZones to be created, while allowing older instances
+ * of ZonedDateTime to hold on to the previous versions of TimeZone.
  *
  * However, in a small memory embedded environment (like Arduino Nano or Micro
  * with only 2kB of RAM), I want to avoid any use of the heap (new operator or
@@ -60,47 +67,17 @@ template<typename ZI, typename ZR, typename ZSC> class ZoneManager;
  * time of the application (either statically allocated or potentially on the
  * heap early in the application start up).
  *
- * The TimeZone class becomes a thin wrapper around a ZoneSpecifier object
- * (essentially acting like a smart pointer in some sense). It should be
- * treated as a value type and passed around by value or by const reference.
- *
  * An alternative implementation would use an inheritance hierarchy for the
- * TimeZone, with 2 subclasses (ManualTimeZone and AutoTimeZone). However this
- * means that the TimeZone object can no longer be passed around by value, and
- * the ZonedDateTime is forced to hold on to the TimeZone object using a
- * pointer. It then becomes very difficult to change the offset and DST fields
- * of the ManualTimeZone. Using a single TimeZone class and implementing it as
- * a value type simplifies a lot of code.
+ * TimeZone with subclasses like ManualTimeZone, BasicTimeZone and
+ * ExtendedTimeZone. However since different subclasses are of different sizes,
+ * the TimeZone object can no longer be passed around by-value, so the
+ * ZonedDateTime is forced to hold on to the TimeZone object using a pointer.
+ * Then we are forced to deal with difficult memory management and life cycle
+ * problems. Using a single TimeZone class and implementing it as a value type
+ * simplifies a lot of code.
  *
- * Serialization and Deserialization:
- *
- * Serializing and deserializing the TimeZone object is difficult because we
- * need to save information from both the TimeZone object and (potentially) the
- * ZoneSpecifier object. The TimeZone object can be identified by its
- * `getType()` parameter. If this type is kTypeManual, the time zone is
- * fullly identified stdOffset and dstOffset.
- *
- * If the type is kTypeBasic or kTypeExtended, the underlying
- * BasicZoneSpecifier and ExtendedZoneSpecifier can both be uniquely identified
- * by the fully-qualified zone identifier (e.g. "America/Los_Angeles").
- * However, due to memory limitations, most Arduino environments cannot contain
- * the entire TZ Database with all 348 zones supported by AceTime. Therefore,
- * there is currently no ability to create a BasicZoneSpecifier or
- * ExtendedZoneSpecifier from its fully-qualified zone name.
- *
- * Since most Arduino environments will support only a handful of hardcoded
- * time zones, the recommended procedure is to associate each of these zones
- * with a small numerical identifier, and use that to recreate the appropriate
- * instance of BasicZoneSpecifier or ExtendedZoneSpecifier.
- *
- * On larger Arduino environments (e.g. ESP8266 or ESP32) with enough memory,
- * it may be possible to allow the creation of a BasicZoneSpecifier or
- * ExtendedZoneSpecifier from the fully-qualified zone name. It would then be
- * sufficient to just store the fully-qualified zone name, instead of creating
- * a customized mapping table. However, we still would need to worry about TZ
- * Database version skew. In other words, the code needs to handle situations
- * where the serialized zone name using one version of the TZ Database is not
- * recognized by a new version of TZ Database.
+ * The object can be serialized using the TimeZone::toTimeZoneData() method,
+ * and reconstructed using the ZoneManager::createForTimeZoneData() method.
  */
 class TimeZone {
   public:
@@ -130,8 +107,7 @@ class TimeZone {
     }
 
     /**
-     * Factory method to create from a BasicZoneSpecifier. A ZoneSpecifierCache
-     * is not required.
+     * Factory method to create from a BasicZoneSpecifier.
      * @param zoneSpecifier a pointer to a ZoneSpecifier, cannot be nullptr
      */
     static TimeZone forZoneSpecifier(BasicZoneSpecifier* zoneSpecifier) {
@@ -140,8 +116,7 @@ class TimeZone {
     }
 
     /**
-     * Factory method to create from a ExtendedZoneSpecifier. A
-     * ZoneSpecifierCache is not required.
+     * Factory method to create from a ExtendedZoneSpecifier.
      * @param zoneSpecifier a pointer to a ZoneSpecifier, cannot be nullptr
      */
     static TimeZone forZoneSpecifier(ExtendedZoneSpecifier* zoneSpecifier) {
@@ -169,10 +144,12 @@ class TimeZone {
      */
     uint8_t getType() const { return mType; }
 
+    /** Return the Standard TimeOffset. Valid only for kTypeManual. */
     TimeOffset getStdOffset() const {
       return TimeOffset::forOffsetCode(mStdOffsetCode);
     }
 
+    /** Return the DST TimeOffset. Valid only for kTypeManual. */
     TimeOffset getDstOffset() const {
       return TimeOffset::forOffsetCode(mDstOffsetCode);
     }
@@ -392,7 +369,7 @@ class TimeZone {
         mZoneSpecifierCache(zoneSpecifierCache) {}
 
     /**
-     * Constructor for a manual Time zone.
+     * Constructor for a kTypeManual TimeZone.
      *
      * @param stdOffset the base UTC offset
      * @param dstOffset the DST delta offset (can be negative)

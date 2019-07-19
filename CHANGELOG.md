@@ -18,8 +18,9 @@
       alternate hash. Rename old `ZoneManager` as the `ZoneRegistrar`, and
       repurpose `ZoneManager` as the `TimeZone` factory, which keeps an internal
       cache of `ZoneSpecifier`. `TimeZone` objects can be dynamically bound to a
-      `ZoneSpecifier`. This allows the `zoneId` to be saved then used to
-      recreate a TimeZone object at runtime.
+      `ZoneSpecifier`.
+    * Add `TimeZoneData` data struct to allow serialization of a TimeZone object
+      as a zoneId so that it can be reconstructed using ZoneManger.
 * 0.4 (2019-07-09, TZ DB version 2019a, beta)
     * Support the less-than-or-equal syntax `{dayOfWeek}<={dayOfMonth}`
       appearing in version 2019b of the TZ Database which contains `Rule Zion,
