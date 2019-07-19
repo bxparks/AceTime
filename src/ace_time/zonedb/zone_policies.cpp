@@ -25,7 +25,7 @@ namespace zonedb {
 // Memory (32-bit): 91
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesAN[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesAN[] ACE_TIME_PROGMEM = {
   // Rule    AN    1987    1999    -    Oct    lastSun    2:00s    1:00    D
   {
     -13 /*fromYearTiny*/,
@@ -139,7 +139,7 @@ static const basic::ZoneRule kZoneRulesAN[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyAN ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyAN ACE_TIME_PROGMEM = {
   9 /*numRules*/,
   kZoneRulesAN /*rules*/,
   0 /* numLetters */,
@@ -153,7 +153,7 @@ const basic::ZonePolicy kPolicyAN ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesAQ[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesAQ[] ACE_TIME_PROGMEM = {
   // Rule    AQ    1990    1992    -    Mar    Sun>=1    2:00s    0    S
   {
     -10 /*fromYearTiny*/,
@@ -171,7 +171,7 @@ static const basic::ZoneRule kZoneRulesAQ[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyAQ ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyAQ ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesAQ /*rules*/,
   0 /* numLetters */,
@@ -185,7 +185,7 @@ const basic::ZonePolicy kPolicyAQ ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 73
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesAS[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesAS[] ACE_TIME_PROGMEM = {
   // Rule    AS    1987    2007    -    Oct    lastSun    2:00s    1:00    D
   {
     -13 /*fromYearTiny*/,
@@ -275,7 +275,7 @@ static const basic::ZoneRule kZoneRulesAS[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyAS ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyAS ACE_TIME_PROGMEM = {
   7 /*numRules*/,
   kZoneRulesAS /*rules*/,
   0 /* numLetters */,
@@ -289,7 +289,7 @@ const basic::ZonePolicy kPolicyAS ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 82
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesAT[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesAT[] ACE_TIME_PROGMEM = {
   // Rule    AT    1988    1990    -    Oct    lastSun    2:00s    1:00    D
   {
     -12 /*fromYearTiny*/,
@@ -391,7 +391,7 @@ static const basic::ZoneRule kZoneRulesAT[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyAT ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyAT ACE_TIME_PROGMEM = {
   8 /*numRules*/,
   kZoneRulesAT /*rules*/,
   0 /* numLetters */,
@@ -405,7 +405,7 @@ const basic::ZonePolicy kPolicyAT ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 91
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesAV[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesAV[] ACE_TIME_PROGMEM = {
   // Rule    AV    1988    1999    -    Oct    lastSun    2:00s    1:00    D
   {
     -12 /*fromYearTiny*/,
@@ -519,7 +519,7 @@ static const basic::ZoneRule kZoneRulesAV[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyAV ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyAV ACE_TIME_PROGMEM = {
   9 /*numRules*/,
   kZoneRulesAV /*rules*/,
   0 /* numLetters */,
@@ -533,7 +533,7 @@ const basic::ZonePolicy kPolicyAV ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 46
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesAW[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesAW[] ACE_TIME_PROGMEM = {
   // Rule    AW    1992    only    -    Mar    Sun>=1    2:00s    0    S
   {
     -8 /*fromYearTiny*/,
@@ -587,7 +587,7 @@ static const basic::ZoneRule kZoneRulesAW[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyAW ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyAW ACE_TIME_PROGMEM = {
   4 /*numRules*/,
   kZoneRulesAW /*rules*/,
   0 /* numLetters */,
@@ -601,7 +601,7 @@ const basic::ZonePolicy kPolicyAW ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesArmenia[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesArmenia[] ACE_TIME_PROGMEM = {
   // Anchor: Rule Armenia    2011    only    -    Oct    lastSun     2:00s    0    -
   {
     -127 /*fromYearTiny*/,
@@ -643,7 +643,7 @@ static const basic::ZoneRule kZoneRulesArmenia[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyArmenia ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyArmenia ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesArmenia /*rules*/,
   0 /* numLetters */,
@@ -657,7 +657,7 @@ const basic::ZonePolicy kPolicyArmenia ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesAus[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesAus[] ACE_TIME_PROGMEM = {
   // Rule    Aus    1943    1944    -    Mar    lastSun    2:00    0    S
   {
     -57 /*fromYearTiny*/,
@@ -675,7 +675,7 @@ static const basic::ZoneRule kZoneRulesAus[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyAus ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyAus ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesAus /*rules*/,
   0 /* numLetters */,
@@ -689,7 +689,7 @@ const basic::ZonePolicy kPolicyAus ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 28
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesAzer[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesAzer[] ACE_TIME_PROGMEM = {
   // Rule    Azer    1997    2015    -    Mar    lastSun     4:00    1:00    -
   {
     -3 /*fromYearTiny*/,
@@ -719,7 +719,7 @@ static const basic::ZoneRule kZoneRulesAzer[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyAzer ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyAzer ACE_TIME_PROGMEM = {
   2 /*numRules*/,
   kZoneRulesAzer /*rules*/,
   0 /* numLetters */,
@@ -733,7 +733,7 @@ const basic::ZonePolicy kPolicyAzer ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesBarb[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesBarb[] ACE_TIME_PROGMEM = {
   // Rule    Barb    1980    only    -    Sep    25    2:00    0    S
   {
     -20 /*fromYearTiny*/,
@@ -751,7 +751,7 @@ static const basic::ZoneRule kZoneRulesBarb[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyBarb ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyBarb ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesBarb /*rules*/,
   0 /* numLetters */,
@@ -765,7 +765,7 @@ const basic::ZonePolicy kPolicyBarb ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 262
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesBrazil[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesBrazil[] ACE_TIME_PROGMEM = {
   // Rule    Brazil    1998    only    -    Oct    11     0:00    1:00    -
   {
     -2 /*fromYearTiny*/,
@@ -1107,7 +1107,7 @@ static const basic::ZoneRule kZoneRulesBrazil[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyBrazil ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyBrazil ACE_TIME_PROGMEM = {
   28 /*numRules*/,
   kZoneRulesBrazil /*rules*/,
   0 /* numLetters */,
@@ -1121,7 +1121,7 @@ const basic::ZonePolicy kPolicyBrazil ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesC_Eur[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesC_Eur[] ACE_TIME_PROGMEM = {
   // Rule    C-Eur    1979    1995    -    Sep    lastSun     2:00s    0    -
   {
     -21 /*fromYearTiny*/,
@@ -1163,7 +1163,7 @@ static const basic::ZoneRule kZoneRulesC_Eur[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyC_Eur ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyC_Eur ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesC_Eur /*rules*/,
   0 /* numLetters */,
@@ -1177,7 +1177,7 @@ const basic::ZonePolicy kPolicyC_Eur ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesCO[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesCO[] ACE_TIME_PROGMEM = {
   // Rule    CO    1993    only    -    Apr     4    0:00    0    -
   {
     -7 /*fromYearTiny*/,
@@ -1195,7 +1195,7 @@ static const basic::ZoneRule kZoneRulesCO[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyCO ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyCO ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesCO /*rules*/,
   0 /* numLetters */,
@@ -1209,7 +1209,7 @@ const basic::ZonePolicy kPolicyCO ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesCR[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesCR[] ACE_TIME_PROGMEM = {
   // Rule    CR    1992    only    -    Mar    15    0:00    0    S
   {
     -8 /*fromYearTiny*/,
@@ -1227,7 +1227,7 @@ static const basic::ZoneRule kZoneRulesCR[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyCR ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyCR ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesCR /*rules*/,
   0 /* numLetters */,
@@ -1241,7 +1241,7 @@ const basic::ZonePolicy kPolicyCR ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_PROGMEM = {
   // Rule    Canada    1974    1986    -    Apr    lastSun    2:00    1:00    D
   {
     -26 /*fromYearTiny*/,
@@ -1307,7 +1307,7 @@ static const basic::ZoneRule kZoneRulesCanada[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyCanada ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyCanada ACE_TIME_PROGMEM = {
   5 /*numRules*/,
   kZoneRulesCanada /*rules*/,
   0 /* numLetters */,
@@ -1321,7 +1321,7 @@ const basic::ZonePolicy kPolicyCanada ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesChatham[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesChatham[] ACE_TIME_PROGMEM = {
   // Rule    Chatham    1989    only    -    Oct    Sun>=8    2:45s    1:00    -
   {
     -11 /*fromYearTiny*/,
@@ -1387,7 +1387,7 @@ static const basic::ZoneRule kZoneRulesChatham[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyChatham ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyChatham ACE_TIME_PROGMEM = {
   5 /*numRules*/,
   kZoneRulesChatham /*rules*/,
   0 /* numLetters */,
@@ -1401,7 +1401,7 @@ const basic::ZonePolicy kPolicyChatham ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 145
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesChile[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesChile[] ACE_TIME_PROGMEM = {
   // Rule    Chile    1998    only    -    Sep    27    4:00u    1:00    -
   {
     -2 /*fromYearTiny*/,
@@ -1587,7 +1587,7 @@ static const basic::ZoneRule kZoneRulesChile[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyChile ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyChile ACE_TIME_PROGMEM = {
   15 /*numRules*/,
   kZoneRulesChile /*rules*/,
   0 /* numLetters */,
@@ -1601,7 +1601,7 @@ const basic::ZonePolicy kPolicyChile ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesCook[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesCook[] ACE_TIME_PROGMEM = {
   // Rule    Cook    1979    1991    -    Mar    Sun>=1    0:00    0    -
   {
     -21 /*fromYearTiny*/,
@@ -1619,7 +1619,7 @@ static const basic::ZoneRule kZoneRulesCook[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyCook ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyCook ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesCook /*rules*/,
   0 /* numLetters */,
@@ -1633,7 +1633,7 @@ const basic::ZonePolicy kPolicyCook ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 136
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesCuba[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesCuba[] ACE_TIME_PROGMEM = {
   // Rule    Cuba    1997    only    -    Oct    12    0:00s    0    S
   {
     -3 /*fromYearTiny*/,
@@ -1807,7 +1807,7 @@ static const basic::ZoneRule kZoneRulesCuba[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyCuba ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyCuba ACE_TIME_PROGMEM = {
   14 /*numRules*/,
   kZoneRulesCuba /*rules*/,
   0 /* numLetters */,
@@ -1821,7 +1821,7 @@ const basic::ZonePolicy kPolicyCuba ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesDhaka[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesDhaka[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Dhaka    2009    only    -    Dec    31    24:00    0    -
   {
     -127 /*fromYearTiny*/,
@@ -1863,7 +1863,7 @@ static const basic::ZoneRule kZoneRulesDhaka[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyDhaka ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyDhaka ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesDhaka /*rules*/,
   0 /* numLetters */,
@@ -1877,7 +1877,7 @@ const basic::ZonePolicy kPolicyDhaka ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesEU[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesEU[] ACE_TIME_PROGMEM = {
   // Rule    EU    1979    1995    -    Sep    lastSun     1:00u    0    -
   {
     -21 /*fromYearTiny*/,
@@ -1919,7 +1919,7 @@ static const basic::ZoneRule kZoneRulesEU[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyEU ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyEU ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesEU /*rules*/,
   0 /* numLetters */,
@@ -1933,7 +1933,7 @@ const basic::ZonePolicy kPolicyEU ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesEUAsia[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesEUAsia[] ACE_TIME_PROGMEM = {
   // Rule    EUAsia    1981    max    -    Mar    lastSun     1:00u    1:00    S
   {
     -19 /*fromYearTiny*/,
@@ -1975,7 +1975,7 @@ static const basic::ZoneRule kZoneRulesEUAsia[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyEUAsia ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyEUAsia ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesEUAsia /*rules*/,
   0 /* numLetters */,
@@ -1989,7 +1989,7 @@ const basic::ZonePolicy kPolicyEUAsia ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_PROGMEM = {
   // Rule    Ecuador    1993    only    -    Feb     5    0:00    0    -
   {
     -7 /*fromYearTiny*/,
@@ -2007,7 +2007,7 @@ static const basic::ZoneRule kZoneRulesEcuador[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyEcuador ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyEcuador ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesEcuador /*rules*/,
   0 /* numLetters */,
@@ -2021,7 +2021,7 @@ const basic::ZonePolicy kPolicyEcuador ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesEire[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesEire[] ACE_TIME_PROGMEM = {
   // Rule    Eire    1981    max    -    Mar    lastSun     1:00u    0    -
   {
     -19 /*fromYearTiny*/,
@@ -2063,7 +2063,7 @@ static const basic::ZoneRule kZoneRulesEire[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyEire ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyEire ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesEire /*rules*/,
   0 /* numLetters */,
@@ -2077,7 +2077,7 @@ const basic::ZonePolicy kPolicyEire ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 100
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesFiji[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesFiji[] ACE_TIME_PROGMEM = {
   // Rule    Fiji    1998    1999    -    Nov    Sun>=1    2:00    1:00    -
   {
     -2 /*fromYearTiny*/,
@@ -2203,7 +2203,7 @@ static const basic::ZoneRule kZoneRulesFiji[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyFiji ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyFiji ACE_TIME_PROGMEM = {
   10 /*numRules*/,
   kZoneRulesFiji /*rules*/,
   0 /* numLetters */,
@@ -2217,7 +2217,7 @@ const basic::ZonePolicy kPolicyFiji ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesGhana[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesGhana[] ACE_TIME_PROGMEM = {
   // Rule    Ghana    1920    1942    -    Dec    31    0:00    0    -
   {
     -80 /*fromYearTiny*/,
@@ -2235,7 +2235,7 @@ static const basic::ZoneRule kZoneRulesGhana[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyGhana ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyGhana ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesGhana /*rules*/,
   0 /* numLetters */,
@@ -2249,7 +2249,7 @@ const basic::ZonePolicy kPolicyGhana ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesGuat[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesGuat[] ACE_TIME_PROGMEM = {
   // Rule    Guat    1991    only    -    Sep     7    0:00    0    S
   {
     -9 /*fromYearTiny*/,
@@ -2291,7 +2291,7 @@ static const basic::ZoneRule kZoneRulesGuat[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyGuat ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyGuat ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesGuat /*rules*/,
   0 /* numLetters */,
@@ -2305,7 +2305,7 @@ const basic::ZonePolicy kPolicyGuat ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesHK[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesHK[] ACE_TIME_PROGMEM = {
   // Rule    HK    1979    only    -    Oct    Sun>=16    3:30    0    -
   {
     -21 /*fromYearTiny*/,
@@ -2323,7 +2323,7 @@ static const basic::ZoneRule kZoneRulesHK[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyHK ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyHK ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesHK /*rules*/,
   0 /* numLetters */,
@@ -2337,7 +2337,7 @@ const basic::ZonePolicy kPolicyHK ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 73
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesHaiti[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesHaiti[] ACE_TIME_PROGMEM = {
   // Rule    Haiti    1988    1997    -    Oct    lastSun    1:00s    0    S
   {
     -12 /*fromYearTiny*/,
@@ -2427,7 +2427,7 @@ static const basic::ZoneRule kZoneRulesHaiti[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyHaiti ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyHaiti ACE_TIME_PROGMEM = {
   7 /*numRules*/,
   kZoneRulesHaiti /*rules*/,
   0 /* numLetters */,
@@ -2441,7 +2441,7 @@ const basic::ZonePolicy kPolicyHaiti ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesHoliday[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesHoliday[] ACE_TIME_PROGMEM = {
   // Rule    Holiday    1993    1994    -    Mar    Sun>=1    2:00s    0    S
   {
     -7 /*fromYearTiny*/,
@@ -2459,7 +2459,7 @@ static const basic::ZoneRule kZoneRulesHoliday[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyHoliday ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyHoliday ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesHoliday /*rules*/,
   0 /* numLetters */,
@@ -2473,7 +2473,7 @@ const basic::ZonePolicy kPolicyHoliday ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesHond[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesHond[] ACE_TIME_PROGMEM = {
   // Rule    Hond    1987    1988    -    Sep    lastSun    0:00    0    S
   {
     -13 /*fromYearTiny*/,
@@ -2515,7 +2515,7 @@ static const basic::ZoneRule kZoneRulesHond[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyHond ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyHond ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesHond /*rules*/,
   0 /* numLetters */,
@@ -2529,7 +2529,7 @@ const basic::ZonePolicy kPolicyHond ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 505
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesIran[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesIran[] ACE_TIME_PROGMEM = {
   // Rule    Iran    1996    only    -    Sep    20    24:00    0    -
   {
     -4 /*fromYearTiny*/,
@@ -3195,7 +3195,7 @@ static const basic::ZoneRule kZoneRulesIran[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyIran ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyIran ACE_TIME_PROGMEM = {
   55 /*numRules*/,
   kZoneRulesIran /*rules*/,
   0 /* numLetters */,
@@ -3209,7 +3209,7 @@ const basic::ZonePolicy kPolicyIran ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesIraq[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesIraq[] ACE_TIME_PROGMEM = {
   // Rule    Iraq    1985    1990    -    Sep    lastSun    1:00s    0    -
   {
     -15 /*fromYearTiny*/,
@@ -3251,7 +3251,7 @@ static const basic::ZoneRule kZoneRulesIraq[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyIraq ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyIraq ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesIraq /*rules*/,
   0 /* numLetters */,
@@ -3265,7 +3265,7 @@ const basic::ZonePolicy kPolicyIraq ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesJapan[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesJapan[] ACE_TIME_PROGMEM = {
   // Rule    Japan    1948    1951    -    Sep    Sat>=8    25:00    0    S
   {
     -52 /*fromYearTiny*/,
@@ -3283,7 +3283,7 @@ static const basic::ZoneRule kZoneRulesJapan[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyJapan ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyJapan ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesJapan /*rules*/,
   0 /* numLetters */,
@@ -3297,7 +3297,7 @@ const basic::ZonePolicy kPolicyJapan ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 118
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_PROGMEM = {
   // Rule    Jordan    1995    1998    -    Sep    Fri>=15    0:00s    0    -
   {
     -5 /*fromYearTiny*/,
@@ -3447,7 +3447,7 @@ static const basic::ZoneRule kZoneRulesJordan[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyJordan ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyJordan ACE_TIME_PROGMEM = {
   12 /*numRules*/,
   kZoneRulesJordan /*rules*/,
   0 /* numLetters */,
@@ -3461,7 +3461,7 @@ const basic::ZonePolicy kPolicyJordan ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 91
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesLH[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesLH[] ACE_TIME_PROGMEM = {
   // Rule    LH    1987    1999    -    Oct    lastSun    2:00    0:30    -
   {
     -13 /*fromYearTiny*/,
@@ -3575,7 +3575,7 @@ static const basic::ZoneRule kZoneRulesLH[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyLH ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyLH ACE_TIME_PROGMEM = {
   9 /*numRules*/,
   kZoneRulesLH /*rules*/,
   0 /* numLetters */,
@@ -3589,7 +3589,7 @@ const basic::ZonePolicy kPolicyLH ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesLebanon[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesLebanon[] ACE_TIME_PROGMEM = {
   // Rule    Lebanon    1993    max    -    Mar    lastSun    0:00    1:00    S
   {
     -7 /*fromYearTiny*/,
@@ -3631,7 +3631,7 @@ static const basic::ZoneRule kZoneRulesLebanon[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyLebanon ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyLebanon ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesLebanon /*rules*/,
   0 /* numLetters */,
@@ -3645,7 +3645,7 @@ const basic::ZonePolicy kPolicyLebanon ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesMacau[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesMacau[] ACE_TIME_PROGMEM = {
   // Rule    Macau    1979    only    -    Oct    Sun>=16    03:30    0    S
   {
     -21 /*fromYearTiny*/,
@@ -3663,7 +3663,7 @@ static const basic::ZoneRule kZoneRulesMacau[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyMacau ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyMacau ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesMacau /*rules*/,
   0 /* numLetters */,
@@ -3677,7 +3677,7 @@ const basic::ZonePolicy kPolicyMacau ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesMauritius[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesMauritius[] ACE_TIME_PROGMEM = {
   // Rule Mauritius    1983    only    -    Mar    21    0:00    0    -
   {
     -17 /*fromYearTiny*/,
@@ -3719,7 +3719,7 @@ static const basic::ZoneRule kZoneRulesMauritius[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyMauritius ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyMauritius ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesMauritius /*rules*/,
   0 /* numLetters */,
@@ -3733,7 +3733,7 @@ const basic::ZonePolicy kPolicyMauritius ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 73
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesMexico[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesMexico[] ACE_TIME_PROGMEM = {
   // Rule    Mexico    1950    only    -    Jul    30    0:00    0    S
   {
     -50 /*fromYearTiny*/,
@@ -3823,7 +3823,7 @@ static const basic::ZoneRule kZoneRulesMexico[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyMexico ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyMexico ACE_TIME_PROGMEM = {
   7 /*numRules*/,
   kZoneRulesMexico /*rules*/,
   0 /* numLetters */,
@@ -3837,7 +3837,7 @@ const basic::ZonePolicy kPolicyMexico ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 28
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesMoldova[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesMoldova[] ACE_TIME_PROGMEM = {
   // Rule    Moldova    1997    max    -    Mar    lastSun     2:00    1:00    S
   {
     -3 /*fromYearTiny*/,
@@ -3867,7 +3867,7 @@ static const basic::ZoneRule kZoneRulesMoldova[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyMoldova ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyMoldova ACE_TIME_PROGMEM = {
   2 /*numRules*/,
   kZoneRulesMoldova /*rules*/,
   0 /* numLetters */,
@@ -3881,7 +3881,7 @@ const basic::ZonePolicy kPolicyMoldova ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesMoncton[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesMoncton[] ACE_TIME_PROGMEM = {
   // Rule    Moncton    1957    1972    -    Oct    lastSun    2:00    0    S
   {
     -43 /*fromYearTiny*/,
@@ -3923,7 +3923,7 @@ static const basic::ZoneRule kZoneRulesMoncton[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyMoncton ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyMoncton ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesMoncton /*rules*/,
   0 /* numLetters */,
@@ -3937,7 +3937,7 @@ const basic::ZonePolicy kPolicyMoncton ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 64
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesMongol[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesMongol[] ACE_TIME_PROGMEM = {
   // Rule    Mongol    1984    1998    -    Sep    lastSun    0:00    0    -
   {
     -16 /*fromYearTiny*/,
@@ -4015,7 +4015,7 @@ static const basic::ZoneRule kZoneRulesMongol[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyMongol ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyMongol ACE_TIME_PROGMEM = {
   6 /*numRules*/,
   kZoneRulesMongol /*rules*/,
   0 /* numLetters */,
@@ -4029,7 +4029,7 @@ const basic::ZonePolicy kPolicyMongol ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesNC[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesNC[] ACE_TIME_PROGMEM = {
   // Rule    NC    1997    only    -    Mar     2    2:00s    0    -
   {
     -3 /*fromYearTiny*/,
@@ -4047,7 +4047,7 @@ static const basic::ZoneRule kZoneRulesNC[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyNC ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyNC ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesNC /*rules*/,
   0 /* numLetters */,
@@ -4061,7 +4061,7 @@ const basic::ZonePolicy kPolicyNC ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesNZ[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesNZ[] ACE_TIME_PROGMEM = {
   // Rule    NZ    1989    only    -    Oct    Sun>=8    2:00s    1:00    D
   {
     -11 /*fromYearTiny*/,
@@ -4127,7 +4127,7 @@ static const basic::ZoneRule kZoneRulesNZ[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyNZ ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyNZ ACE_TIME_PROGMEM = {
   5 /*numRules*/,
   kZoneRulesNZ /*rules*/,
   0 /* numLetters */,
@@ -4141,7 +4141,7 @@ const basic::ZonePolicy kPolicyNZ ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesNic[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesNic[] ACE_TIME_PROGMEM = {
   // Rule    Nic    1979    1980    -    Jun    Mon>=23    0:00    0    S
   {
     -21 /*fromYearTiny*/,
@@ -4207,7 +4207,7 @@ static const basic::ZoneRule kZoneRulesNic[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyNic ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyNic ACE_TIME_PROGMEM = {
   5 /*numRules*/,
   kZoneRulesNic /*rules*/,
   0 /* numLetters */,
@@ -4221,7 +4221,7 @@ const basic::ZonePolicy kPolicyNic ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesPRC[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesPRC[] ACE_TIME_PROGMEM = {
   // Rule    PRC    1986    1991    -    Sep    Sun>=11     2:00    0    S
   {
     -14 /*fromYearTiny*/,
@@ -4239,7 +4239,7 @@ static const basic::ZoneRule kZoneRulesPRC[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyPRC ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyPRC ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesPRC /*rules*/,
   0 /* numLetters */,
@@ -4253,7 +4253,7 @@ const basic::ZonePolicy kPolicyPRC ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 64
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesPakistan[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesPakistan[] ACE_TIME_PROGMEM = {
   // Anchor: Rule Pakistan    2002    only    -    Oct    Sun>=2    0:00    0    -
   {
     -127 /*fromYearTiny*/,
@@ -4331,7 +4331,7 @@ static const basic::ZoneRule kZoneRulesPakistan[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyPakistan ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyPakistan ACE_TIME_PROGMEM = {
   6 /*numRules*/,
   kZoneRulesPakistan /*rules*/,
   0 /* numLetters */,
@@ -4345,7 +4345,7 @@ const basic::ZonePolicy kPolicyPakistan ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 100
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesPara[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesPara[] ACE_TIME_PROGMEM = {
   // Rule    Para    1996    2001    -    Oct    Sun>=1    0:00    1:00    -
   {
     -4 /*fromYearTiny*/,
@@ -4471,7 +4471,7 @@ static const basic::ZoneRule kZoneRulesPara[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyPara ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyPara ACE_TIME_PROGMEM = {
   10 /*numRules*/,
   kZoneRulesPara /*rules*/,
   0 /* numLetters */,
@@ -4485,7 +4485,7 @@ const basic::ZonePolicy kPolicyPara ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesPeru[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesPeru[] ACE_TIME_PROGMEM = {
   // Rule    Peru    1994    only    -    Apr     1    0:00    0    -
   {
     -6 /*fromYearTiny*/,
@@ -4503,7 +4503,7 @@ static const basic::ZoneRule kZoneRulesPeru[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyPeru ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyPeru ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesPeru /*rules*/,
   0 /* numLetters */,
@@ -4517,7 +4517,7 @@ const basic::ZonePolicy kPolicyPeru ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesPhil[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesPhil[] ACE_TIME_PROGMEM = {
   // Rule    Phil    1978    only    -    Sep    21    0:00    0    S
   {
     -22 /*fromYearTiny*/,
@@ -4535,7 +4535,7 @@ static const basic::ZoneRule kZoneRulesPhil[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyPhil ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyPhil ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesPhil /*rules*/,
   0 /* numLetters */,
@@ -4549,7 +4549,7 @@ const basic::ZonePolicy kPolicyPhil ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesROK[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesROK[] ACE_TIME_PROGMEM = {
   // Rule    ROK    1987    1988    -    Oct    Sun>=8     3:00    0    S
   {
     -13 /*fromYearTiny*/,
@@ -4567,7 +4567,7 @@ static const basic::ZoneRule kZoneRulesROK[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyROK ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyROK ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesROK /*rules*/,
   0 /* numLetters */,
@@ -4581,7 +4581,7 @@ const basic::ZonePolicy kPolicyROK ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesRussiaAsia[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesRussiaAsia[] ACE_TIME_PROGMEM = {
   // Rule RussiaAsia    1984    1995    -    Sep    lastSun     2:00s    0    -
   {
     -16 /*fromYearTiny*/,
@@ -4623,7 +4623,7 @@ static const basic::ZoneRule kZoneRulesRussiaAsia[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyRussiaAsia ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyRussiaAsia ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesRussiaAsia /*rules*/,
   0 /* numLetters */,
@@ -4637,7 +4637,7 @@ const basic::ZonePolicy kPolicyRussiaAsia ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesSA[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesSA[] ACE_TIME_PROGMEM = {
   // Rule    SA    1943    1944    -    Mar    Sun>=15    2:00    0    -
   {
     -57 /*fromYearTiny*/,
@@ -4655,7 +4655,7 @@ static const basic::ZoneRule kZoneRulesSA[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicySA ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicySA ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesSA /*rules*/,
   0 /* numLetters */,
@@ -4669,7 +4669,7 @@ const basic::ZonePolicy kPolicySA ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesSalv[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesSalv[] ACE_TIME_PROGMEM = {
   // Rule    Salv    1987    1988    -    Sep    lastSun    0:00    0    S
   {
     -13 /*fromYearTiny*/,
@@ -4687,7 +4687,7 @@ static const basic::ZoneRule kZoneRulesSalv[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicySalv ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicySalv ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesSalv /*rules*/,
   0 /* numLetters */,
@@ -4701,7 +4701,7 @@ const basic::ZonePolicy kPolicySalv ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 118
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesSyria[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesSyria[] ACE_TIME_PROGMEM = {
   // Rule    Syria    1994    2005    -    Oct     1    0:00    0    -
   {
     -6 /*fromYearTiny*/,
@@ -4851,7 +4851,7 @@ static const basic::ZoneRule kZoneRulesSyria[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicySyria ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicySyria ACE_TIME_PROGMEM = {
   12 /*numRules*/,
   kZoneRulesSyria /*rules*/,
   0 /* numLetters */,
@@ -4865,7 +4865,7 @@ const basic::ZonePolicy kPolicySyria ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesTaiwan[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesTaiwan[] ACE_TIME_PROGMEM = {
   // Rule    Taiwan    1979    only    -    Oct    1    0:00    0    S
   {
     -21 /*fromYearTiny*/,
@@ -4883,7 +4883,7 @@ static const basic::ZoneRule kZoneRulesTaiwan[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyTaiwan ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyTaiwan ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesTaiwan /*rules*/,
   0 /* numLetters */,
@@ -4897,7 +4897,7 @@ const basic::ZonePolicy kPolicyTaiwan ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesThule[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesThule[] ACE_TIME_PROGMEM = {
   // Rule    Thule    1991    1992    -    Sep    lastSun    2:00    0    S
   {
     -9 /*fromYearTiny*/,
@@ -4963,7 +4963,7 @@ static const basic::ZoneRule kZoneRulesThule[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyThule ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyThule ACE_TIME_PROGMEM = {
   5 /*numRules*/,
   kZoneRulesThule /*rules*/,
   0 /* numLetters */,
@@ -4977,7 +4977,7 @@ const basic::ZonePolicy kPolicyThule ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 73
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesTonga[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesTonga[] ACE_TIME_PROGMEM = {
   // Anchor: Rule    Tonga    2000    only    -    Mar    19    2:00s    0    -
   {
     -127 /*fromYearTiny*/,
@@ -5067,7 +5067,7 @@ static const basic::ZoneRule kZoneRulesTonga[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyTonga ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyTonga ACE_TIME_PROGMEM = {
   7 /*numRules*/,
   kZoneRulesTonga /*rules*/,
   0 /* numLetters */,
@@ -5081,7 +5081,7 @@ const basic::ZonePolicy kPolicyTonga ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesTunisia[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesTunisia[] ACE_TIME_PROGMEM = {
   // Rule    Tunisia    1988    1990    -    Sep    lastSun     0:00s    0    -
   {
     -12 /*fromYearTiny*/,
@@ -5147,7 +5147,7 @@ static const basic::ZoneRule kZoneRulesTunisia[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyTunisia ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyTunisia ACE_TIME_PROGMEM = {
   5 /*numRules*/,
   kZoneRulesTunisia /*rules*/,
   0 /* numLetters */,
@@ -5161,7 +5161,7 @@ const basic::ZonePolicy kPolicyTunisia ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 55
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_PROGMEM = {
   // Rule    US    1967    2006    -    Oct    lastSun    2:00    0    S
   {
     -33 /*fromYearTiny*/,
@@ -5227,7 +5227,7 @@ static const basic::ZoneRule kZoneRulesUS[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyUS ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyUS ACE_TIME_PROGMEM = {
   5 /*numRules*/,
   kZoneRulesUS /*rules*/,
   0 /* numLetters */,
@@ -5241,7 +5241,7 @@ const basic::ZonePolicy kPolicyUS ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 64
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesUruguay[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesUruguay[] ACE_TIME_PROGMEM = {
   // Rule    Uruguay    1993    only    -    Feb    28     0:00    0    -
   {
     -7 /*fromYearTiny*/,
@@ -5319,7 +5319,7 @@ static const basic::ZoneRule kZoneRulesUruguay[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyUruguay ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyUruguay ACE_TIME_PROGMEM = {
   6 /*numRules*/,
   kZoneRulesUruguay /*rules*/,
   0 /* numLetters */,
@@ -5333,7 +5333,7 @@ const basic::ZonePolicy kPolicyUruguay ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 19
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesVanuatu[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesVanuatu[] ACE_TIME_PROGMEM = {
   // Rule    Vanuatu    1992    1993    -    Jan    Sun>=23    0:00    0    -
   {
     -8 /*fromYearTiny*/,
@@ -5351,7 +5351,7 @@ static const basic::ZoneRule kZoneRulesVanuatu[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyVanuatu ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyVanuatu ACE_TIME_PROGMEM = {
   1 /*numRules*/,
   kZoneRulesVanuatu /*rules*/,
   0 /* numLetters */,
@@ -5365,7 +5365,7 @@ const basic::ZonePolicy kPolicyVanuatu ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 37
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_PROGMEM = {
   // Rule    Winn    1966    1986    -    Apr    lastSun    2:00s    1:00    D
   {
     -34 /*fromYearTiny*/,
@@ -5407,7 +5407,7 @@ static const basic::ZoneRule kZoneRulesWinn[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyWinn ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyWinn ACE_TIME_PROGMEM = {
   3 /*numRules*/,
   kZoneRulesWinn /*rules*/,
   0 /* numLetters */,
@@ -5421,7 +5421,7 @@ const basic::ZonePolicy kPolicyWinn ACE_TIME_BASIC_PROGMEM = {
 // Memory (32-bit): 253
 //---------------------------------------------------------------------------
 
-static const basic::ZoneRule kZoneRulesZion[] ACE_TIME_BASIC_PROGMEM = {
+static const basic::ZoneRule kZoneRulesZion[] ACE_TIME_PROGMEM = {
   // Rule    Zion    1998    only    -    Sep     6    0:00    0    S
   {
     -2 /*fromYearTiny*/,
@@ -5751,7 +5751,7 @@ static const basic::ZoneRule kZoneRulesZion[] ACE_TIME_BASIC_PROGMEM = {
 
 
 
-const basic::ZonePolicy kPolicyZion ACE_TIME_BASIC_PROGMEM = {
+const basic::ZonePolicy kPolicyZion ACE_TIME_PROGMEM = {
   27 /*numRules*/,
   kZoneRulesZion /*rules*/,
   0 /* numLetters */,

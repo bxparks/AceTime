@@ -17,7 +17,7 @@ namespace zonedb2018g {
 //---------------------------------------------------------------------------
 // Zone registry. Sorted by zone name.
 //---------------------------------------------------------------------------
-const basic::ZoneInfo* const kZoneRegistry[271] ACE_TIME_BASIC_PROGMEM = {
+const basic::ZoneInfo* const kZoneRegistry[271] ACE_TIME_PROGMEM = {
   &kZoneAfrica_Abidjan, // Africa/Abidjan
   &kZoneAfrica_Accra, // Africa/Accra
   &kZoneAfrica_Algiers, // Africa/Algiers
