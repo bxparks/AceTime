@@ -25,8 +25,8 @@
 using namespace ace_time;
 
 // ZoneProcessor instances should be created statically at initialization time.
-static BasicZoneProcessor pacificProcessor(&zonedb::kZoneAmerica_Los_Angeles);
-static BasicZoneProcessor londonProcessor(&zonedb::kZoneEurope_London);
+static BasicZoneProcessor pacificProcessor;
+static BasicZoneProcessor londonProcessor;
 
 void setup() {
 #if defined(ARDUINO)

@@ -72,7 +72,7 @@ class ZoneManager {
       }
     }
 
-    uint16_t indexForZoneName(const char* name) {
+    uint16_t indexForZoneName(const char* name) const {
       const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
       if (! zoneInfo) return 0;
       return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
@@ -102,7 +102,7 @@ class ZoneManager {
 /**
  * @tparam SIZE size of the BasicZoneProcessorCache
  */
-template<uint8_t SIZE>
+template<uint16_t SIZE>
 class BasicZoneManager: public ZoneManager<basic::ZoneInfo,
     BasicZoneRegistrar, BasicZoneProcessorCache<SIZE>> {
   public:
@@ -115,7 +115,7 @@ class BasicZoneManager: public ZoneManager<basic::ZoneInfo,
 /**
  * @tparam SIZE size of the ExtendedZoneProcessorCache
  */
-template<uint8_t SIZE>
+template<uint16_t SIZE>
 class ExtendedZoneManager: public ZoneManager<extended::ZoneInfo,
     ExtendedZoneRegistrar, ExtendedZoneProcessorCache<SIZE>> {
   public:

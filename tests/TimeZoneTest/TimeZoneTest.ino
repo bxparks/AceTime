@@ -305,16 +305,14 @@ test(TimeZoneExtendedTest, operatorEqualEqual_managedZones) {
 }
 #endif
 
-#if !defined(__AVR__)
 // --------------------------------------------------------------------------
-// operator==() for kTypeBasic and kTypeExtended. Takes up too much RAM
-// and won't run on a Nano or Micro.
+// operator==() for kTypeBasic and kTypeExtended.
 // --------------------------------------------------------------------------
 
-BasicZoneProcessor basicZoneProcessor(&zonedb::kZoneAmerica_Los_Angeles);
-BasicZoneProcessor basicZoneProcessor2(&zonedb::kZoneAmerica_New_York);
-ExtendedZoneProcessor extendedZoneProcessor(&zonedbx::kZoneAmerica_Los_Angeles);
-ExtendedZoneProcessor extendedZoneProcessor2(&zonedbx::kZoneAmerica_New_York);
+// We can reuse the processors for these unit tests because the unit tests
+// don't actuallly use them.
+BasicZoneProcessor basicZoneProcessor;
+ExtendedZoneProcessor extendedZoneProcessor;
 
 test(TimeZoneTest, operatorEqualEqual_directZone) {
   TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
@@ -324,20 +322,19 @@ test(TimeZoneTest, operatorEqualEqual_directZone) {
   TimeZone basic = TimeZone::forZoneInfo(
       &zonedb::kZoneAmerica_Los_Angeles, &basicZoneProcessor);
   TimeZone basic2 = TimeZone::forZoneInfo(
-      &zonedb::kZoneAmerica_New_York, &basicZoneProcessor2);
+      &zonedb::kZoneAmerica_New_York, &basicZoneProcessor);
   assertTrue(basic != basic2);
 
   TimeZone extended = TimeZone::forZoneInfo(
       &zonedbx::kZoneAmerica_Los_Angeles, &extendedZoneProcessor);
   TimeZone extended2 = TimeZone::forZoneInfo(
-      &zonedbx::kZoneAmerica_New_York, &extendedZoneProcessor2);
+      &zonedbx::kZoneAmerica_New_York, &extendedZoneProcessor);
   assertTrue(extended != extended2);
 
   assertTrue(manual != basic);
   assertTrue(manual != extended);
   assertTrue(basic != extended);
 }
-#endif
 
 // --------------------------------------------------------------------------
 

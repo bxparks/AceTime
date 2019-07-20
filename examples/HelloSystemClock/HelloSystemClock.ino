@@ -14,7 +14,7 @@ using namespace ace_time;
 using namespace ace_time::clock;
 
 // ZoneProcessor instance should be created statically at initialization time.
-static BasicZoneProcessor pacificProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+static BasicZoneProcessor pacificProcessor;
 
 SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
 

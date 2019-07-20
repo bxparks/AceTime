@@ -16,7 +16,7 @@ using namespace ace_time::clock;
 using namespace ace_routine;
 
 // ZoneProcessor instance should be created statically at initialization time.
-static BasicZoneProcessor pacificProcessor(&zonedb::kZoneAmerica_Los_Angeles);
+static BasicZoneProcessor pacificProcessor;
 
 // The 'syncTimeProvider' is set to nullptr, so systemClockSyncCoroutine does
 // not actually do anything. The purpose of this program is to show how

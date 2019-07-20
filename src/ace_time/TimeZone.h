@@ -108,7 +108,9 @@ class TimeZone {
 
     /**
      * Factory method to create from a zoneInfo and an associated
-     * BasicZoneProcessor.
+     * BasicZoneProcessor. The ZoneInfo previously associated with the
+     * given zoneProcessor is overridden.
+     *
      * @param zoneInfo a basic::ZoneInfo that identifies the zone
      * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
      */
@@ -119,7 +121,9 @@ class TimeZone {
 
     /**
      * Factory method to create from a zoneInfo and an associated
-     * ExtendedZoneProcessor.
+     * ExtendedZoneProcessor. The ZoneInfo previously associated with the
+     * given zoneProcessor is overridden.
+     *
      * @param zoneInfo an extended::ZoneInfo that identifies the zone
      * @param zoneProcessor a pointer to a ZoneProcessor, cannot be nullptr
      */

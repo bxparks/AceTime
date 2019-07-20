@@ -16,9 +16,9 @@ class TransitionTest: public aunit::TestOnce {
       assertTrue(true);
 
       const extended::ZoneInfo* zoneInfo = testData->zoneInfo;
-      ExtendedZoneProcessor zoneProcessor(zoneInfo);
+      ExtendedZoneProcessor zoneProcessor;
       zoneProcessor.resetTransitionHighWater();
-      TimeZone tz = TimeZone::forZoneProcessor(&zoneProcessor);
+      TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
 
       // Assert that each epoch_second produces the expected yMdhms
       // components when converted through ZonedDataTime class.
@@ -59,6 +59,8 @@ class TransitionTest: public aunit::TestOnce {
 
       // Assert that size of the internal Transitions buffer never got
       // above the expected buffer size.
+      // TODO: In theory, this should be BasicZone(zoneInfo).transitionBufSize()
+      // but this code works only on Linux or MacOS, so doesn't really matter.
       assertLess(zoneProcessor.getTransitionHighWater(),
         zoneInfo->transitionBufSize);
     }

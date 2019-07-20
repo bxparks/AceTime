@@ -178,7 +178,7 @@ struct MonthDay {
 class BasicZoneProcessor: public ZoneProcessor {
   public:
     /**
-     * Constructor.
+     * Constructor. The ZoneInfo is given only for unit tests.
      * @param zoneInfo pointer to a ZoneInfo.
      */
     explicit BasicZoneProcessor(const basic::ZoneInfo* zoneInfo = nullptr):

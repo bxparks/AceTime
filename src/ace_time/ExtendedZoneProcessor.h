@@ -644,7 +644,7 @@ class TransitionStorage {
 class ExtendedZoneProcessor: public ZoneProcessor {
   public:
     /**
-     * Constructor.
+     * Constructor. The ZoneInfo is given only for unit tests.
      * @param zoneInfo pointer to a ZoneInfo.
      */
     explicit ExtendedZoneProcessor(
