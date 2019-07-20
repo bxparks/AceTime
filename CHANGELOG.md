@@ -17,12 +17,14 @@
       `tzcompiler.py` generator script will detect hash collisions and create an
       alternate hash. Rename old `ZoneManager` as the `ZoneRegistrar`, and
       repurpose `ZoneManager` as the `TimeZone` factory, which keeps an internal
-      cache of `ZoneProcessor`. `TimeZone` objects can be dynamically bound to a
-      `ZoneProcessor`.
+      cache of `ZoneProcessor`. `TimeZone` objects can be dynamically bound to
+      `ZoneProcessor` objects.
     * Add `TimeZoneData` data struct to allow serialization of a TimeZone object
       as a zoneId so that it can be reconstructed using ZoneManger.
     * Rename `ZoneSpecifier` to `ZoneProcessor` to describe its functionality
-      better.
+      better. `ZoneInfo` is now passed directly into the TimeZone object using
+      the `TimeZone::forZoneInfo()` factory method, with the `ZoneProcessor`
+      acting as a helper object.
 * 0.4 (2019-07-09, TZ DB version 2019a, beta)
     * Support the less-than-or-equal syntax `{dayOfWeek}<={dayOfMonth}`
       appearing in version 2019b of the TZ Database which contains `Rule Zion,
