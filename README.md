@@ -25,16 +25,13 @@ C++ namespaces:
     * `ace_time::ZoneProcessor`
         * `ace_time::BasicZoneProcessor`
         * `ace_time::ExtendedZoneProcessor`
-    * `ace_time::ZoneProcessorCache`
-        * `ace_time::BasicZoneProcessorCache`
-        * `ace_time::ExtendedZoneProcessorCache`
     * `ace_time::TimeZone`
     * `ace_time::ZonedDateTime`
     * `ace_time::TimePeriod`
     * `ace_time::BasicZone` [`*`]
     * `ace_time::ExtendedZone` [`*`]
-    * `ace_time::BasicZoneRegistrar` [`*`]
-    * `ace_time::ExtendedZoneRegistrar` [`*`]
+    * `ace_time::BasicZoneManager` [`*`]
+    * `ace_time::ExtendedZoneManager` [`*`]
     * mutation helpers
         * `ace_time::local_date_mutation::`
         * `ace_time::time_offset_mutation::`
