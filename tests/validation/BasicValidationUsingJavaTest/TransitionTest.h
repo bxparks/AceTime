@@ -16,13 +16,13 @@ class TransitionTest: public aunit::TestOnce {
       assertTrue(true);
 
       const basic::ZoneInfo* zoneInfo = testData->zoneInfo;
-      BasicZoneSpecifier zoneSpecifier(zoneInfo);
-      TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+      BasicZoneProcessor zoneProcessor;
+      TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
       for (uint16_t i = 0; i < testData->numItems; i++) {
         const ValidationItem& item = testData->items[i];
         acetime_t epochSeconds = item.epochSeconds;
 
-        TimeOffset timeOffset = zoneSpecifier.getUtcOffset(epochSeconds);
+        TimeOffset timeOffset = tz.getUtcOffset(epochSeconds);
         if (DEBUG) {
           ace_time::logging::println("==== test index: %d", i);
           if (sizeof(acetime_t) == sizeof(int)) {
@@ -30,7 +30,7 @@ class TransitionTest: public aunit::TestOnce {
           } else {
             ace_time::logging::println("epochSeconds: %ld", epochSeconds);
           }
-          zoneSpecifier.log();
+          zoneProcessor.log();
         }
 
         // Verify timeOffset

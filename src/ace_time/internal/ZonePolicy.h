@@ -16,12 +16,12 @@ namespace ace_time {
 // curly-brace initializers. I believe C++14 removes this restriction but
 // Arduino is currently limited to C++11.
 
-// Data structures for BasicZoneSpecifier
+// Data structures for BasicZoneProcessor
 namespace basic {
 #include "ZonePolicy.inc"
 }
 
-// Data structures for ExtendedZoneSpecifier
+// Data structures for ExtendedZoneProcessor
 namespace extended {
 #include "ZonePolicy.inc"
 }

@@ -89,9 +89,9 @@ struct ZoneInfo {
 
   /**
    * Estimated size of Transition buffer. Currently, this is used only in the
-   * validation unit test for ExtendedZoneSpecifier. It is slightly wasteful to
+   * validation unit test for ExtendedZoneProcessor. It is slightly wasteful to
    * include it for the ZoneInfo and ZoneInfo classes used by
-   * BasicZoneSpecifier, but it's only one byte and it seemed worth having this
+   * BasicZoneProcessor, but it's only one byte and it seemed worth having this
    * additional validation capability.
    */
   uint8_t const transitionBufSize;

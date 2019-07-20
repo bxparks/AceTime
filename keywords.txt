@@ -6,21 +6,27 @@
 # Datatypes (KEYWORD1)
 #######################################
 
+# src/ace_time/common
 acetime_t	KEYWORD1
 DateStrings	KEYWORD1
+
+# src/ace_time
 LocalDate	KEYWORD1
 LocalTime	KEYWORD1
 LocalDateTime	KEYWORD1
 TimeOffset	KEYWORD1
 OffsetDateTime	KEYWORD1
-ZoneSpecifier	KEYWORD1
-BasicZoneSpecifier	KEYWORD1
-ExtendedZoneSpecifier	KEYWORD1
+ZoneProcessor	KEYWORD1
+BasicZoneProcessor	KEYWORD1
+ExtendedZoneProcessor	KEYWORD1
 BasicZone	KEYWORD1
 ExtendedZone	KEYWORD1
 TimeZone	KEYWORD1
 ZonedDateTime	KEYWORD1
+ZoneManager	KEYWORD1
 TimePeriod	KEYWORD1
+
+# src/ace_time/clock
 TimeProvider	KEYWORD1
 TimeKeeper	KEYWORD1
 DS3231TimeKeeper	KEYWORD1
@@ -161,7 +167,7 @@ incrementMinute	KEYWORD2
 incrementHour	KEYWORD2
 increment15Minutes	KEYWORD2
 
-# ZoneSpecifier.h
+# ZoneProcessor.h
 getType	KEYWORD2
 getUtcOffset	KEYWORD2
 getDeltaOffset	KEYWORD2
@@ -170,7 +176,7 @@ getUtcOffsetForDateTime	KEYWORD2
 printTo	KEYWORD2
 printShortTo	KEYWORD2
 
-# BasicZoneSpecifier.h
+# BasicZoneProcessor.h
 getType	KEYWORD2
 getUtcffset	KEYWORD2
 getDeltaOffset	KEYWORD2
@@ -179,7 +185,7 @@ getUtcOffsetForDateTime	KEYWORD2
 printTo	KEYWORD2
 printShortTo	KEYWORD2
 
-# ExtendedZoneSpecifier.h
+# ExtendedZoneProcessor.h
 getType	KEYWORD2
 getUtcffset	KEYWORD2
 getDeltaOffset	KEYWORD2
@@ -200,9 +206,9 @@ name	KEYWORD2
 shortName	KEYWORD2
 
 # TimeZone.h
-forOffsetCode	KEYWORD2
-forZoneSpecifier	KEYWORD2
-forTimeZoneData	KEYWORD2
+forTimeOffset	KEYWORD2
+forZoneInfo	KEYWORD2
+forUtc	KEYWORD2
 toTimeZoneData	KEYWORD2
 getType	KEYWORD2
 getUtcOffset	KEYWORD2
@@ -214,6 +220,15 @@ setDstOffset	KEYWORD2
 printTo	KEYWORD2
 printShortTo	KEYWORD2
 printAbbrevTo	KEYWORD2
+
+# ZoneManager.h
+createForZoneInfo	KEYWORD2
+createForZoneName	KEYWORD2
+createForZoneId	KEYWORD2
+createForZoneIndex	KEYWORD2
+createForTimeZoneData	KEYWORD2
+indexForZoneName	KEYWORD2
+indexForZoneId	KEYWORD2
 
 # TimePeriod.h
 hour	KEYWORD2
@@ -280,16 +295,22 @@ kSunday	LITERAL1
 # LocalTime.h
 kInvalidSeconds	LITERAL1
 
-# ZoneSpecifier.h
-kTypeManual	LITERAL1
+# ZoneProcessor.h
 kTypeBasic	LITERAL1
 kTypeExtended	LITERAL1
+
+# TimeZoneData.h
+kTypeError	LITERAL1
+kTypeManual	LITERAL1
+kTypeZoneId	LITERAL1
 
 # TimeZone.h
 kTypeFixed	LITERAL1
 kTypeManual	LITERAL1
 kTypeBasic	LITERAL1
 kTypeExtended	LITERAL1
+kTypeBasicManaged	LITERAL1
+kTypeExtendedManaged	LITERAL1
 
 # NtpTimeProvider.h
 kNtpServerName	LITERAL1

@@ -29,9 +29,9 @@ The source files are organized as follows:
   (`ace_time::clock`)
 * `src/ace_time/testing/` - files used in unit tests (`ace_time::testing`)
 * `src/ace_time/zonedb/` - files generated from TZ Database for
-  `BasicZoneSpecifier` (`ace_time::zonedb`)
+  `BasicZoneProcessor` (`ace_time::zonedb`)
 * `src/ace_time/zonedbx/` - files generated from TZ Database for
-  `ExtendedZoneSpecifier` (`ace_time::zonedbx`)
+  `ExtendedZoneProcessor` (`ace_time::zonedbx`)
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
 * `tests/validation` - integration tests using AUnit which must be run
    on desktop Linux or MacOS machines
@@ -166,7 +166,7 @@ as "value objects", in other words, created on the stack and copied by value.
 Fortunately, the C++ compilers are extremely good at optimizing away unnecessary
 copies of these small objects. It is not possible to remove all complex memory
 allocations when dealing with the TZ Database. In the AceTime library, I managed
-to move most of the complex memory handling logic into the `ZoneSpecifier` class
+to move most of the complex memory handling logic into the `ZoneProcessor` class
 hierarhcy. These are relatively large objects which are meant to be opaque
 objects to the application developer, created statically at start-up time of
 the application, and never deleted during the lifetime of the application.
@@ -228,8 +228,6 @@ the following `using` directives:
 using namespace ace_time;
 using namespace ace_time::clock;
 using namespace ace_time::common;
-using namespace ace_time::zonedb;
-using namespace ace_time::zonedbx;
 ...
 ```
 
@@ -730,27 +728,27 @@ Both meanings of "time zone" are supported by the `TimeZone` class using
 3 different types as follows:
 
 * `TimeZone::kTypeManual`: a fixed base offset and optional DST offset from UTC
-* `TimeZone::kTypeBasic` with `BasicZoneSpecifier`: zones which can
+* `TimeZone::kTypeBasic` with `BasicZoneProcessor`: zones which can
 be encoded with (relatively) simple rules from the TZ Database
-* `TimeZone::kTypeExtended` with `ExtendedZoneSpecifier`:  all zones in
+* `TimeZone::kTypeExtended` with `ExtendedZoneProcessor`:  all zones in
 the TZ Database
 
 The class hierarchy of `TimeZone` is shown below, where the arrow means
 "is-subclass-of" and the diamond-line means "is-aggregation-of". A `TimeZone`
-can hold a reference to 0 or 1 `ZoneSpecifier` class, as shown below. When it is
-a `kTypeFixed` it holds no `ZoneSpecifier` object. When it is a `kTypeManual`,
+can hold a reference to 0 or 1 `ZoneProcessor` class, as shown below. When it is
+a `kTypeFixed` it holds no `ZoneProcessor` object. When it is a `kTypeManual`,
 `kTypeBasic` or `kTypeExtended`, it holds a reference one of the implementation
-classes of `ZoneSpecifier`:
+classes of `ZoneProcessor`:
 
 ```
               0..1
-TimeZone <>------- ZoneSpecifier
+TimeZone <>------- ZoneProcessor
                          ^
                          |
                    .---- +----.
                    |          |
                 Basic        Extended
-         ZoneSpecifier       ZoneSpecifier
+         ZoneProcessor       ZoneProcessor
 ```
 
 Here is the class declaration of `TimeZone`:
@@ -760,14 +758,22 @@ namespace ace_time {
 
 class TimeZone {
   public:
-    static const uint8_t kTypeManual = 0;
-    static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
-    static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
+    static const uint8_t kTypeError = 0;
+    static const uint8_t kTypeManual = 1;
+    static const uint8_t kTypeBasic = ZoneProcessor::kTypeBasic;
+    static const uint8_t kTypeExtended = ZoneProcessor::kTypeExtended;
+    static const uint8_t kTypeBasicManaged = ZoneProcessorCache::kTypeExtended;
+    static const uint8_t kTypeExtendedManaged = ZoneProcessorCache::kTypeExtended;
 
     static TimeZone forTimeOffset(TimeOffset stdOffset,
         TimeOffset dstOffset = TimeOffset());
-    static TimeZone forZoneSpecifier(const ZoneSpecifier* zoneSpecifier);
-    TimeZone();
+    static TimeZone forZoneInfo(const basic::ZoneInfo* zoneInfo,
+        BasicZoneProcessor* zoneProcessor);
+    static TimeZone forZoneInfo(const extended::ZoneInfo* zoneInfo,
+        ExtendedZoneProcessor* zoneProcessor);
+    static TimeZone forUtc();
+
+    TimeZone(); // same as forUtc()
 
     uint8_t getType() const;
     TimeOffset getUtcOffset(acetime_t epochSeconds) const;
@@ -845,25 +851,33 @@ The `setDstOffset()` takes a `TimeOffset` as the argument instead of a simple
 `bool` because there are some zones (e.g. Europe/Dublin) which uses a negative
 offset in the winter, instead of adding a postive offset in the summer.
 
-#### BasicZoneSpecifier (kTypeBasic)
+The `setStdOffset()` allows the base time offset to be changed, but this
+method is not expected to be used often.
 
-The `BasicZoneSpecifier` represents a time zone defined by the TZ Database. The
-constructor accepts a pointer to a `basic::ZoneInfo`:
+#### Basic TimeZone (kTypeBasic)
+
+This TimeZone is created using two objects:
+* the `basic::ZoneInfo` data objects contained in
+  [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h)
+* an external instance of `BasicZoneProcessor` needed for calculating zone
+  transitions
 
 ```C++
-BasicZoneSpecifier(const basic::ZoneInfo* zoneInfo);
+BasicZoneProcessor zoneProcessor;
+
+void someFunction() {
+  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+  ...
+}
 ```
-
-The supported `basic::ZoneInfo` data objects are contained in this header file:
-
-* [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h)
 
 The zoneinfo files were generated by a script using the TZ Database. This header
 file is already included in `<AceTime.h>` so you don't have to explicitly
 include it. As of version 2019a of the database, it contains 270 Zone and 182
 Link entries and whose time change rules are simple enough to be supported by
-`BasicZoneSpecifier`. The bottom of the `zone_infos.h` header file lists 117
-zones whose zone rules are too complicated for `BasicZoneSpecifier`.
+`BasicZoneProcessor`. The bottom of the `zone_infos.h` header file lists 117
+zones whose zone rules are too complicated for `BasicZoneProcessor`.
 
 The zone names are normalized so that the ZoneInfo variable is a valid C++ name:
 
@@ -880,19 +894,20 @@ Some examples of `ZoneInfo` entries supported by `zonedb` are:
 * `zonedb::kZoneEurope_London`
 * `zonedb::kZoneGMT_PLUS_10`
 
-The following example creates a `TimeZone` using a `BasicZoneSpecifier` which
-describes `America/Los_Angeles`:
+The following example creates a `TimeZone` which describes
+`America/Los_Angeles`:
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
 ...
 
-BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
+BasicZoneProcessor zoneProcessor;
 
 void someFunction() {
   ...
-  auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
 
   // 2018-03-11T01:59:59-08:00 was still in STD time
   {
@@ -913,19 +928,25 @@ void someFunction() {
 }
 ```
 
-#### ExtendedZoneSpecifier (kTypeExtended)
+#### Extended TimeZone (kTypeExtended)
 
-The `ExtendedZoneSpecifier` is very similar to `BasicZoneSpecifier` except that
-it supports (almost) all zones in the TZ Database instead of a subset. The
-constructor accepts a pointer to an `extended::ZoneInfo`:
+This TimeZone is created using two objects:
+* the `extended::ZoneInfo` data objects contained in
+  [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
+* an external instance of `ExtendedZoneProcessor` needed for calculating zone
+  transitions
 
 ```C++
-ExtendedZoneSpecifier(const extended::ZoneInfo* zoneInfo);
+ExtendedZoneProcessor zoneProcessor;
+
+void someFunction() {
+  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+  ...
+}
 ```
-
-The supported zones are given in this header file:
-
-* [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
+(Notice that we use the `zonedbx::` namespace instead of the `zonedb::`
+namespace.)
 
 As of version 2019a of TZ Database, *all* 387 Zone and 205 Link entries from the
 following TZ files are supported: `africa`, `antarctica`, `asia`, `australasia`,
@@ -933,7 +954,7 @@ following TZ files are supported: `africa`, `antarctica`, `asia`, `australasia`,
 files which are not processed (`backzone`, `systemv`, `factory`) because they
 don't seem to contain anything useful.
 
-The zone infos which can be used by `ExtendedZoneSpecifier` are in the
+The zone infos which can be used by `ExtendedZoneProcessor` are in the
 `zonedbx::` namespace instead of the `zonedb::` namespace. Some examples of the
 zone infos which exists in `zonedbx::` but not in `zonedb::` are:
 * `zonedbx::kZoneAfrica_Casablanca`
@@ -942,14 +963,13 @@ zone infos which exists in `zonedbx::` but not in `zonedb::` are:
 * `zonedbx::kZoneAsia_Hebron`
 * `zonedbx::kZoneEurope_Moscow`
 
-The usage is the same as `BasicZoneSpecifier`:
-
 ```C++
-ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+ExtendedZoneProcessor zoneProcessor;
 
 void someFunction() {
   ...
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  TimeZone tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
 
   // 2018-03-11T01:59:59-08:00 was still in STD time
   {
@@ -970,14 +990,14 @@ void someFunction() {
 }
 ```
 
-The advantage of `ExtendedZoneSpecifier` over `BasicZoneSpecifier` is that
-`ExtendedZoneSpecifier` supports all time zones in the TZ Database. The cost is
+The advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is that
+`ExtendedZoneProcessor` supports all time zones in the TZ Database. The cost is
 that it consumes 5 times more memory and is a bit slower. If
-`BasicZoneSpecifier` supports the zone that you want using the zone files in the
+`BasicZoneProcessor` supports the zone that you want using the zone files in the
 `zonedb::` namespace, you should normally use that instead of
-`ExtendedZoneSpecifier`. The one other advatnage of `ExtendedZoneSpecifier` over
-`BasicZoneSpecifier` is that `ExtendedZoneSpecifier::forComponents()` is more
-accurate than `BasicZoneSpecifier::forComponents()` because the `zonedbx::` data
+`ExtendedZoneProcessor`. The one other advatnage of `ExtendedZoneProcessor` over
+`BasicZoneProcessor` is that `ExtendedZoneProcessor::forComponents()` is more
+accurate than `BasicZoneProcessor::forComponents()` because the `zonedbx::` data
 files contain transition information which are missing in the `zonedb::` data
 files due to space constraints.
 
@@ -1054,11 +1074,12 @@ class ZonedDateTime {
 Here is an example of how to create one and extract the epoch seconds:
 
 ```C++
-BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
+BasicZoneProcessor zoneProcessor;
 
 void someFunction() {
   ...
-  auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
 
   // 2018-01-01 00:00:00+00:15
   auto zonedDateTime = ZonedDateTime::forComponents(
@@ -1085,7 +1106,7 @@ debugging. The `printTo()` prints a human-readable representation of the date in
 does *not* recognize the TZ Database identifier (e.g. `[America/Los_Angeles]`).
 To handle the time zone identifier correctly, the library needs to load
 the entire TZ Database into memory and be able to create the
-`BasicZoneSpecifier` or `ExtendedZoneSpecifier` dynamically. But the dataset
+`BasicZoneProcessor` or `ExtendedZoneProcessor` dynamically. But the dataset
 is too large to fit on most AVR microcontrollers with only 32kB of flash memory.
 (It may be possible to add this functionality for the ESP8266 or ESP32
 platforms which have far more memory.) The `ZonedDateTime::timeZone()` will
@@ -1098,13 +1119,15 @@ You can convert a given `ZonedDateTime` object into a representation in a
 different time zone using the `DateTime::convertToTimeZone()` method:
 
 ```C++
-static BasicZoneSpecifier zspecLosAngeles(&zonedb::kZoneAmerica_Los_Angeles);
-static BasicZoneSpecifier zspecZurich(&zonedb::kZoneEurope_Zurich);
+static BasicZoneProcessor processorLosAngeles;
+static BasicZoneProcessor processorZurich;
 
 void someFunction() {
   ...
-  auto tzLosAngeles = TimeZone::forZoneSpecifier(&zspecLosAngeles);
-  auto tzZurich = TimeZone::forZoneSpecifier(&zspecZurich);
+  auto tzLosAngeles = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles, &processorLosAngeles);
+  auto tzZurich = TimeZone::forZoneInfo(
+      &zonedb::kZoneEurope_Zurich, &processorZurich);
 
   // Europe/Zurich, 2018-01-01T09:20:00+01:00
   auto zurichTime = ZonedDateTime::forComponents(
@@ -1125,7 +1148,7 @@ components (year, month, day, hour, minute, seconds) will be different.
 The conversion from an epochSeconds to date-time components using
 `ZonedDateTime::forEpochSeconds()` is an expensive operation (see
 [AutoBenchmark](examples/AutoBenchmark/)). To improve performance, the
-`BasicZoneSpecifier` and `ExtendedZoneSpecifier` implement internal caching
+`BasicZoneProcessor` and `ExtendedZoneProcessor` implement internal caching
 based on the `year` component. This optimizes the most commonly expected
 use case where the epochSeconds is incremented by a clock (e.g. `SystemClock`)
 every second, and is converted to human-readable date-time components once a
@@ -1141,7 +1164,7 @@ static RAM using the
 keyword on microcontrollers which support this feature. On an 8-bit
 microcontroller, the `zonedb/` database consumes about 14kB of flash
 memory, so it may be possible to create small programs that can dynamically
-access all timezones supported by `BasicZoneSpecifier`. The `zonedbx/` database
+access all timezones supported by `BasicZoneProcessor`. The `zonedbx/` database
 consumes about 23kB of flash memory and the addition code size from various
 classes will exceed the 30-32kB limit of a typical Arduino 8-bit
 microcontroller.
@@ -1163,10 +1186,11 @@ these all occur before the year 2012.
 #### BasicZone and ExtendedZone
 
 The `basic::ZoneInfo` and `extended::ZoneInfo` (and its related data structures)
-objects are meant to be *opaque* and simply passed into `BasicZoneSpecifier`,
-`ExtendedZoneSpecifier`, `BasicZoneRegistrar` and `ExtendedZoneRegistrar`. The
-internal formats of the `ZoneInfo` structures may change without warning, and
-users of this library should not access its internal data members directly.
+objects are meant to be *opaque* and simply passed into the `TimeZone`
+class (which in turn, passes the pointer into the `BasicZoneProcessor` and
+`ExtendedZoneProcessor` objects.) The internal formats of the `ZoneInfo`
+structures may change without warning, and users of this library should not
+access its internal data members directly.
 
 Two helper classes, `BasicZone` and `ExtendedZone`, provide stable access to
 some of the internal fields:
@@ -1177,6 +1201,8 @@ namespace ace_time {
 class BasicZone {
   public:
     BasicZone(const basic::ZoneInfo* zoneInfo);
+
+    uint32_t zoneId() const;
 
 #if ACE_TIME_USE_PROGMEM
     const __FlashStringHelper* name() const;
@@ -1191,6 +1217,8 @@ class BasicZone {
 class ExtendedZone {
   public:
     ExtendedZone(const extended::ZoneInfo* zoneInfo);
+
+    uint32_t zoneId() const;
 
 #if ACE_TIME_USE_PROGMEM
     const __FlashStringHelper* name() const;
@@ -1216,92 +1244,86 @@ name is stored in flash memory or in static memory. The `name()` method returns
 the full zone name from the TZ Database (e.g. `"America/Los_Angeles"`). The
 `shortName()` method returns only the last component (e.g. `"Los_Angeles"`).
 
-### ZoneRegistrar
+### ZoneManager
 
-**Caveat**: This is an experimental feature. Previously, `BasicZoneSpecifier`
-and `ExtendedZoneSpecifier` were considered immutable objects. The ZoneRegistrar
-enables dynamic lookup of `ZoneInfo`, which resulted in the `BasicZoneSpecifier`
-and `ExtendedZoneSpecifier` becoming mutable with the `setZoneInfo()` method.
-The consequence of this change has not been fully explored.
+**Caveat**: This is an experimental feature.
 
-Two classes provide a lookup service from the zone identifier string
-(e.g. `"America/Los_Angeles"`) to the zoneinfo files: `BasicZoneRegistrar` and
-`ExtendedZoneRegistrar`. The class definitions look like this:
+Previously, an instance of `BasicZoneProcessor` or `ExtendedZoneProcessor`
+needed to be created manual and provided to the `TimeZone::forZoneInfo()` method
+to create a `TimeZone` instance. This works well for a single time zone,
+but if you have an application that needs 3 or more time zones, this
+may become cumbersome. Also, it is difficult to reconstruct a `TimeZone`
+dynamically, say, from its fullly qualified name (e.g. `"America/Los_Angeles"`).
+The `ZoneManager` solves these problems. It keeps an internal cache or
+`ZoneProcessors`, reusing them as needed. And it holds a registry of `ZoneInfo`
+objects, so that a `TimeZone` can be created using its `zoneName`, `zoneInfo`,
+or `zoneId`.
 
 ```C++
-class BasicZoneRegistrar {
-  public:
-    BasicZoneRegistrar(const basic::ZoneInfo* zoneRegistry,
-        uint16_t registrySize);
+namespace ace_time{
 
-    uint16_t registrySize() const;
-    bool isSorted() const;
-    const basic::ZoneInfo* getZoneInfo(uint16_t i) const;
-    const basic::ZoneInfo* getZoneInfo(const char* name) const;
+template<uint16_t SIZE>
+class BasicZoneManager {
+  public:
+    BasicZoneManager(uint16_t registrySize);
+        const basic::ZoneInfo* const* zoneRegistry,
+
+    TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
+    TimeZone createForZoneName(const char* name);
+    TimeZone createForZoneId(uint32_t id);
+    TimeZone createForZoneIndex(uint16_t index);
+
+    TimeZone createForTimeZoneData(const TimeZoneData& d);
+
+    uint16_t indexForZoneName(const char* name);
+    uint16_t indexForZoneId(uint32_t id) const;
 };
 
-class ExtendedZoneRegistrar {
+template<uint16_t SIZE>
+class ExtendedZoneManager {
   public:
-    ExtendedZoneRegistrar(const extended::ZoneInfo* zoneRegistry,
-        uint16_t registrySize);
+    ExtendedZoneManager(uint16_t registrySize,
+        const extended::ZoneInfo* const* zoneRegistry);
 
-    uint16_t registrySize() const;
-    bool isSorted() const;
-    const extended::ZoneInfo* getZoneInfo(uint16_t i) const;
-    const extended::ZoneInfo* getZoneInfo(const char* name) const;
+    [...same as above...]
 };
+
+}
 ```
+
+The `SIZE` template parameter is the number of time zones that your application
+is expected to use *at the same time*. If your app never changes its time zone
+after initialization, then this can be `<1>`. If your app allows the user to
+dynamically change the time zone (e.g. from a menu of time zones), then this
+should be at least 2 (to allow the system to compare the old time zone to the
+new time zone selected by the user).
+
+The constructor take a `zoneRegistry` which is described below.
 
 #### Default Zone Registry
 
-On microcontrollers with more than ~30kB of flash (e.g. ESP8266, ESP32,
-and Teensy), the entire `zonedb` or `zonedbx` database can be loaded and
-timezones can be dynamically selected using the zone identifier strings.
 The default zoneinfo registry is available at:
 
 * [zonedb/zone_registry.h](src/ace_time/zonedb/zone_registry.h)
 * [zonedbx/zone_registry.h](src/ace_time/zonedbx/zone_registry.h)
 
-The `BasicZoneRegistrar` can loaded with the `zonedb::kZoneRegistry` default zone
-registry and used to configure the `BasicZoneSpecifier` like this:
+It contains the entire `zonedb` or `zonedbx` database. On an 8-bit processor,
+the basic `zonedb::` data set is about 14kB and the extended `zonedbx::`
+database is about 23kB. On 32-bit processors, the `zonedb::` data set is about
+23kB and the extended `zonedbx::` data set is about 36kB.
 
 ```C++
 #include <AceTime.h>
+using namespace ace_time;
 ...
-static const basic::ZoneInfo* const defaultZoneInfo =
-    zonedb::kZoneAmerica_Los_Angeles;
-static BasicZoneSpecifier zoneSpecifier(defaultZoneInfo);
-static const BasicZoneRegistrar zoneRegistrar(
+const uint16_t SIZE = 2;
+BasicZoneManager<SIZE> zoneManager(
     zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
-void setZone(const char* zoneName) {
-  const auto* zoneInfo = manager.getZoneInfo(zoneName);
-  if (zoneInfo) {
-    zoneSpecifier.setZoneInfo(zoneInfo);
-    auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-    ...
-  }
-}
-```
-
-Similarly, `ExtendedZoneRegistrar` can be configured with the
-`zonedbx::kZoneRegistry` and used to configure the `ExtendedZoneSpecifier` like
-this:
-
-```C++
-#include <AceTime.h>
-...
-static const extended::ZoneInfo* const defaultZoneInfo =
-    zonedbx::kZoneAmerica_Los_Angeles;
-static ExtendedZoneSpecifier zoneSpecifier(defaultZoneInfo);
-static const ExtendedZoneRegistrar zoneRegistrar(
-    zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-
-void setZone(const char* zoneName) {
-  const auto* zoneInfo = manager.getZoneInfo(zoneName);
-  if (zoneInfo) {
-    zoneSpecifier.setZoneInfo(zoneInfo);
-    auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+void someFunction(const char* zoneName) {
+  TimeZone tz = zoneManager.createForZoneName("America/Los_Angeles");
+  if (tz.isError()) {
+    tz = TimeZone::forUtc();
     ...
   }
 }
@@ -1309,16 +1331,14 @@ void setZone(const char* zoneName) {
 
 #### Custom Zone Registry
 
-The default zone registries (`zonedb::kZoneRegistry` and
-`zonedbx::kZoneRegistry`) pull in every zone in the respective data sets, which
-consumes significant amounts of flash memory (see
-[MemoryBenchmark](examples/MemoryBenchmark/)). If flash memory is tight, the
-ZoneRegistrar can be initialized with a custom list of zones, to pull in only
-the zones of interest. For example, here is a `kZoneRegistry` with 4 zones from
-the `zonedb::` data set:
+On small microcontrollers, the default zone registries are too large. The
+`ZoneManager` can be configured with a custom zone registry. It needs
+to be given an array of `ZoneInfo` pointers when constructed. For example, here
+is a `BasicZoneManager` with only 4 zones from the `zonedb::` data set:
 
 ```C++
 #include <AceTime.h>
+using namespace ace_time;
 ...
 static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedb::kZoneAmerica_Los_Angeles,
@@ -1330,13 +1350,15 @@ static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
 static const uint16_t kZoneRegistrySize =
     sizeof(Controller::kZoneRegistry) / sizeof(basic::ZoneInfo*);
 
-static const BasicZoneRegistrar zoneRegistrar(kZoneRegistrySize, kZoneRegistry);
+static BasicZoneManager<2> zoneManager(kZoneRegistrySize, kZoneRegistry);
 ```
 
-and here is the equivalent `kExtendedZoneRegistry`:
+Here is the equivalent `ExtendedZoneManager` with 4 zones from the `zonedbx::`
+data set:
 
 ```C++
 #include <AceTime.h>
+using namespace ace_time;
 ...
 static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
   &zonedbx::kZoneAmerica_Los_Angeles,
@@ -1348,17 +1370,59 @@ static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
 static const uint16_t kZoneRegistrySize =
     sizeof(Controller::kZoneRegistry) / sizeof(extended::ZoneInfo*);
 
-static const BasicZoneRegistrar zoneRegistrar(kZoneRegistrySize, kZoneRegistry);
+static ExtendedZoneManager<2> zoneManager(kZoneRegistrySize, kZoneRegistry);
 ```
 
-(The `ACE_TIME_PROGMEM` macro is defined in
-[flash.h](src/ace_time/common/flash.h) and determines whether the ZoneInfo files
-are stored in normal RAM or flash memory (i.e. `PROGMEM`). They are needed
-because the `ZoneRegistrar` needs to know where the `ZoneInfo` files are
-stored.)
+The `ACE_TIME_PROGMEM` macro is defined in
+[flash.h](src/ace_time/common/flash.h) and indicates whether the ZoneInfo files
+are stored in normal RAM or flash memory (i.e. `PROGMEM`). It must be used for
+custom zoneRegistries because the `BasicZoneManager` and `ExtendedZoneManager`
+expect to find them in static RAM or flash memory according to this macro.
 
 See [CommandLineClock](examples/CommandLineClock/) for an example of how these
 custom registries can be created and used.
+
+#### ZoneID
+
+Each zone in the `zonedb::` and `zonedbx::` database is given a unique
+and stable zoneId. This can be retrieved from the `TimeZone` object using:
+```C++
+TimeZone tz = zoneManager.createFor...();
+uint32_t zoneId = tz.getZoneId();
+```
+from the `ZoneInfo` pointer using the `BasicZone()` helper object:
+```C++
+uint32_t zoneId = BasicZone(&zonedb::kZoneAmerica_Los_Angeles).zoneId();
+```
+
+The ZoneId is created using a hash of the fully qualified zone name. It is
+guaranteed to be unique and stable by the `tzcompiler.py` tool that generated
+the `zonedb::` and `zonedbx::` data sets.  By "unique", I mean that
+no 2 time zones will have the same zoneId. By "stable", it means that once
+a zoneId has been assigned to a fully qualified zone name, it will remain
+unchanged forever in the database. This means that we can save the zoneId of a
+TimeZone to persistent memory (e.g. EEPROM), then retrieve the zoneId, and
+recreate the `TimeZone` using:
+```C++
+TimeZone tz = BasicZoneManager::createForZoneId(zoneId);
+TimeZone tz = ExtendedZoneManager::createForZoneId(zoneId);
+```
+
+The zoneId has an obvious advantage over the fully qualified zoneName for
+storage purposes. It is far easier to save a 4-byte zoneId (e.g. `0xb7f7e8f2`)
+rather than a variable length string (e.g. `"America/Los_Angeles"`).
+Since the `zoneId` is derived from just the zoneName, a `TimeZone` created by
+the `BasicZoneManager` has the same zoneId as one created using the
+`ExtendedZoneManager` if it has the same name. This means that a TimeZone can be
+saved using a `BasicZoneManager` but recreated using an `ExtendedZoneManager`. I
+am not able to see how this could be an issue, but let me know if you find this
+to be a problem.
+
+If the ZoneManager cannot find the `zoneId` in its internal zone registry,
+then the `TimeZone::forError()` is returned. The application developer should
+check for this, and substitute a reasonable default TimeZone when this happens.
+This situation is not unique to the zoneId. The same problem would occur if the
+fully qualified zone name was used.
 
 ### TZ Database Version
 
@@ -1535,8 +1599,9 @@ until 2050. If you try to create a date outside of this range, an error
 `ZonedDateTime` object will returned. The following snippet will print "true":
 
 ```C++
-BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+BasicZoneProcessor zoneProcessor;
+auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+    &zoneProcessor);
 auto dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
 Serial.println(dt.isError() ? "true" : "false");
 ```
@@ -1991,13 +2056,13 @@ computer algorithms, creating a large number of code paths to test.
 It is simply impractical to manually create the inputs and expected outputs
 using the TZ database. The calculation of one data point can take several
 minutes manually. The solution would be to programmatically generate the data
-points. To that end, I wrote the 2 different implementations of `ZoneSpecifier`
-(`BasicZoneSpecifier` and `ExtendedZoneSpecifier`) partially as an attempt to
+points. To that end, I wrote the 2 different implementations of `ZoneProcessor`
+(`BasicZoneProcessor` and `ExtendedZoneProcessor`) partially as an attempt to
 write different versions of the algorithms to validate them against each other.
 (I think I wrote 4-5 different versions altogether, of which only 2 made it into
 this library). However, it turned out that the number of timezones supported by
-the `ExtendedZoneSpecifier` was much larger than the ones supported by
-`BasicZoneSpecifier` so it became infeasible to test the non-overlapping
+the `ExtendedZoneProcessor` was much larger than the ones supported by
+`BasicZoneProcessor` so it became infeasible to test the non-overlapping
 timezones.
 
 My next idea was to validate AceTime against a known, independently created,
@@ -2072,8 +2137,8 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneSpecifier): 99
-sizeof(ExtendedZoneSpecifier): 397
+sizeof(BasicZoneProcessor): 99
+sizeof(ExtendedZoneProcessor): 397
 sizeof(TimeZone): 3
 sizeof(ZonedDateTime): 10
 sizeof(TimePeriod): 4
@@ -2090,8 +2155,8 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(BasicZoneSpecifier): 156
-sizeof(ExtendedZoneSpecifier): 500
+sizeof(BasicZoneProcessor): 156
+sizeof(ExtendedZoneProcessor): 500
 sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
@@ -2105,13 +2170,13 @@ The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
 comprehensive answer to the amount of memory taken by this library.
 Here is a short summary for an 8-bit microcontroller (e.g. Arduino Nano):
 
-* Using the `TimeZone` class with a `BasicZoneSpecifier` for one timezone takes
+* Using the `TimeZone` class with a `BasicZoneProcessor` for one timezone takes
   about 6140 bytes of flash memory and 193 bytes of static RAM.
-* Using 2 timezones with `BasiCZoneSpecifierincreases the consumption to 6628
+* Using 2 timezones with `BasiCZoneProcessorincreases the consumption to 6628
   bytes of flash and 231 bytes of RAM.
 * Loading the entire `zonedb::` zoneinfo database consumes 20354 bytes of flash
   and 601 bytes of RAM.
-* Adding the `SystemClock` to the `TimeZone` and `BasicZoneSpecifier` with one
+* Adding the `SystemClock` to the `TimeZone` and `BasicZoneProcessor` with one
   timezone consumes 8436 bytes of flash and 344 bytes of RAM.
 
 These numbers indicate that the AceTime library is useful even on a limited
@@ -2172,7 +2237,7 @@ The [Micro Time Zone](https://github.com/evq/utz) is a pure-C library
 that can compile on the Arduino platform. It contains a limited subset of the TZ
 Database encoded as C structs and determines the DST transitions using the
 encoded structs. It supports roughly of 45 zones with just a 3kB tzinfo
-database. The initial versions of AceTime, particularly the `BasicZoneSpecifier`
+database. The initial versions of AceTime, particularly the `BasicZoneProcessor`
 class was directly inspired by this library. It would be interesting to run this
 library to the same set of "validation" unit tests that checks the AceTime logic
 and see how accurate this library is. One problem with Micro Time Zone library
@@ -2282,20 +2347,20 @@ did not think it would fit inside an Arduino controller.
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
-* `BasicZoneSpecifier`, `ExtendedZoneSpecifier`
+* `BasicZoneProcessor`, `ExtendedZoneProcessor`
     * Tested using both Python and Java libraries.
     * Python [pytz](https://pypi.org/project/pytz/) library supports dates only
       from 2000 until 2038.
     * Java `java.time` library has an upper limit far beyond the year 2068 limit
       of `ZonedDateTime`. Testing was performed from 2000 to until 2050.
-* `ExtendedZoneSpecifier`
+* `ExtendedZoneProcessor`
     * There are 5 time zones (as of version 2019a of the TZ Database, see
       the bottom of `zonedbx/zone_infos.h`) which have DST transitions that
       occur at 00:01 (one minute after midnight). This transition cannot be
       represented as a multiple of 15-minutes. The transition times of these
       zones have been shifted to the nearest 15-minute boundary, in other words,
       the transitions occur at 00:00 instead of 00:01. Clocks based on
-      `ExtendedZoneSpecifier` will be off by one hour during the 1-minute
+      `ExtendedZoneProcessor` will be off by one hour during the 1-minute
       interval from 00:00 and 00:01.
     * Fortunately all of these transitions happen before 2012. If you are
       interested in only dates after 2019, then this will not affect you.
@@ -2341,7 +2406,7 @@ did not think it would fit inside an Arduino controller.
     * The TZ database files `backzone`, `systemv` and `factory` are
       not processed by the `tzcompiler.py` tool. They don't seem to contain
       anything worthwhile.
-    * The datasets and `*ZoneSpecifier` classes have been *not* been tested or
+    * The datasets and `*ZoneProcessor` classes have been *not* been tested or
       validated for years prior to 2000.
     * TZ Database version 2019b contains the first use of the
       `{onDayOfWeek<=onDayOfMonth}` syntax that I have seen (specifically `Rule

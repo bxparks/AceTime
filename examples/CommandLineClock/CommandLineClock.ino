@@ -159,8 +159,8 @@ class SyncCommand: public CommandHandler {
  *    timezone list - print support time zones
  *    timezone manual {timeOffset} - set Manual TimeZone with given offset
  *    timezone dst {on | off} - set Manual TimeZone DST flag to on or off
- *    timezone basic - set timezone to BasicZoneSpecifier (if supported)
- *    timezone extended - set timezone to ExtendedZoneSpecifier (if supported)
+ *    timezone basic - set timezone to BasicZoneProcessor (if supported)
+ *    timezone extended - set timezone to ExtendedZoneProcessor (if supported)
  */
 class TimezoneCommand: public CommandHandler {
   public:

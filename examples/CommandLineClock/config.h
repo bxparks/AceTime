@@ -16,9 +16,9 @@
 #define SYNC_TYPE SYNC_TYPE_MANUAL
 
 // ENABLE_TIME_ZONE_TYPE_BASIC and ENABLE_TIME_ZONE_TYPE_EXTENDED determines
-// which ZoneSpecifier to support. Small boards like the Pro Micro (30kB
-// flash/2kB RAM) cannot support both BasicZoneSpecifier and
-// ExtendedZoneSpecifier at the same time.
+// which ZoneProcessor to support. Small boards like the Pro Micro (30kB
+// flash/2kB RAM) cannot support both BasicZoneProcessor and
+// ExtendedZoneProcessor at the same time.
 
 #ifndef AUNITER
   #warning Using Arduino IDE configuration

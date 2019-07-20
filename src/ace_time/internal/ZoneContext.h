@@ -8,12 +8,12 @@
 
 namespace ace_time {
 
-// Data structure for BasicZoneSpecifier
+// Data structure for BasicZoneProcessor
 namespace basic {
 #include "ZoneContext.inc"
 }
 
-// Data structure for ExtendedZoneSpecifier
+// Data structure for ExtendedZoneProcessor
 namespace extended {
 #include "ZoneContext.inc"
 }

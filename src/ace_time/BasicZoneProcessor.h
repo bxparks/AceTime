@@ -3,8 +3,8 @@
  * Copyright (c) 2019 Brian T. Park
  */
 
-#ifndef ACE_TIME_BASIC_ZONE_SPECIFIER_H
-#define ACE_TIME_BASIC_ZONE_SPECIFIER_H
+#ifndef ACE_TIME_BASIC_ZONE_PROCESSOR_H
+#define ACE_TIME_BASIC_ZONE_PROCESSOR_H
 
 #include <Arduino.h>
 #include <string.h> // strchr()
@@ -16,19 +16,19 @@
 #include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
-#include "ZoneSpecifier.h"
+#include "ZoneProcessor.h"
 
-class BasicZoneSpecifierTest_init_primitives;
-class BasicZoneSpecifierTest_init;
-class BasicZoneSpecifierTest_setZoneInfo;
-class BasicZoneSpecifierTest_createAbbreviation;
-class BasicZoneSpecifierTest_calcStartDayOfMonth;
-class BasicZoneSpecifierTest_calcRuleOffsetCode;
+class BasicZoneProcessorTest_init_primitives;
+class BasicZoneProcessorTest_init;
+class BasicZoneProcessorTest_setZoneInfo;
+class BasicZoneProcessorTest_createAbbreviation;
+class BasicZoneProcessorTest_calcStartDayOfMonth;
+class BasicZoneProcessorTest_calcRuleOffsetCode;
 
 namespace ace_time {
 
 template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
-class ZoneSpecifierCacheImpl;
+class ZoneProcessorCacheImpl;
 
 namespace basic {
 
@@ -125,7 +125,7 @@ struct MonthDay {
 } // namespace basic
 
 /**
- * An implementation of ZoneSpecifier that supports a subset of the zones
+ * An implementation of ZoneProcessor that supports a subset of the zones
  * containing in the TZ Database. The supported list of zones, as well as the
  * list of unsupported zones, are is listed in the zonedb/zone_info.h header
  * file. The constructor expects a pointer to one of the ZoneInfo structures
@@ -171,18 +171,18 @@ struct MonthDay {
  *  - ZoneRule LETTER must contain only a single letter (not "WAT" or "CST")
  *
  * Even with these limitations, zonedb/zone_info.h shows that 231 out of a
- * total of 359 zones are supported by BasicZoneSpecifier.
+ * total of 359 zones are supported by BasicZoneProcessor.
  *
  * Not thread-safe.
  */
-class BasicZoneSpecifier: public ZoneSpecifier {
+class BasicZoneProcessor: public ZoneProcessor {
   public:
     /**
-     * Constructor.
+     * Constructor. The ZoneInfo is given only for unit tests.
      * @param zoneInfo pointer to a ZoneInfo.
      */
-    explicit BasicZoneSpecifier(const basic::ZoneInfo* zoneInfo = nullptr):
-        ZoneSpecifier(kTypeBasic),
+    explicit BasicZoneProcessor(const basic::ZoneInfo* zoneInfo = nullptr):
+        ZoneProcessor(kTypeBasic),
         mZoneInfo(zoneInfo) {}
 
     /** Return the underlying ZoneInfo. */
@@ -212,12 +212,12 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
     /**
-     * @copydoc ZoneSpecifier::getUtcOffsetForDateTime()
+     * @copydoc ZoneProcessor::getUtcOffsetForDateTime()
      *
-     * The Transitions calculated by BasicZoneSpecifier contain only the
+     * The Transitions calculated by BasicZoneProcessor contain only the
      * epochSeconds when each transition occurs. They do not contain the local
      * date/time components of the transition. This design reduces the amount
-     * of memory required by BasicZoneSpecifier, but this means that the
+     * of memory required by BasicZoneProcessor, but this means that the
      * information needed to implement this method correctly does not exist.
      *
      * The implementation is somewhat of a hack:
@@ -320,7 +320,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
      * but not year boundaries (e.g. Jan to Dec of the previous year, or Dec to
      * Jan of the following year.)
      *
-     * Not private, used by ExtendedZoneSpecifier.
+     * Not private, used by ExtendedZoneProcessor.
      */
     static basic::MonthDay calcStartDayOfMonth(int16_t year, uint8_t month,
         uint8_t onDayOfWeek, int8_t onDayOfMonth) {
@@ -358,15 +358,15 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     }
 
   private:
-    friend class ::BasicZoneSpecifierTest_init_primitives;
-    friend class ::BasicZoneSpecifierTest_init;
-    friend class ::BasicZoneSpecifierTest_setZoneInfo;
-    friend class ::BasicZoneSpecifierTest_createAbbreviation;
-    friend class ::BasicZoneSpecifierTest_calcStartDayOfMonth;
-    friend class ::BasicZoneSpecifierTest_calcRuleOffsetCode;
+    friend class ::BasicZoneProcessorTest_init_primitives;
+    friend class ::BasicZoneProcessorTest_init;
+    friend class ::BasicZoneProcessorTest_setZoneInfo;
+    friend class ::BasicZoneProcessorTest_createAbbreviation;
+    friend class ::BasicZoneProcessorTest_calcStartDayOfMonth;
+    friend class ::BasicZoneProcessorTest_calcRuleOffsetCode;
 
     template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
-    friend class ZoneSpecifierCacheImpl; // setZoneInfo()
+    friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     /** Maximum size of Transition cache across supported zones. */
     static const uint8_t kMaxCacheEntries = 4;
@@ -379,11 +379,11 @@ class BasicZoneSpecifier: public ZoneSpecifier {
     static const acetime_t kMinEpochSeconds = INT32_MIN + 1;
 
     // Disable copy constructor and assignment operator.
-    BasicZoneSpecifier(const BasicZoneSpecifier&) = delete;
-    BasicZoneSpecifier& operator=(const BasicZoneSpecifier&) = delete;
+    BasicZoneProcessor(const BasicZoneProcessor&) = delete;
+    BasicZoneProcessor& operator=(const BasicZoneProcessor&) = delete;
 
-    bool equals(const ZoneSpecifier& other) const override {
-      const auto& that = (const BasicZoneSpecifier&) other;
+    bool equals(const ZoneProcessor& other) const override {
+      const auto& that = (const BasicZoneProcessor&) other;
       return getZoneInfo() == that.getZoneInfo();
     }
 
@@ -605,10 +605,10 @@ class BasicZoneSpecifier: public ZoneSpecifier {
       //
       // Ideally, the tzcompiler.py script would explicitly remove those zones
       // which need more than kMaxCacheEntries Transitions. But this would
-      // require a Python version of the BasicZoneSpecifier, and unfortunately,
-      // zone_specifier.py implements only the ExtendedZoneSpecifier algorithm
+      // require a Python version of the BasicZoneProcessor, and unfortunately,
+      // zone_specifier.py implements only the ExtendedZoneProcessor algorithm
       // An early version of zone_specifier.py may have implemented something
-      // close to BasicZoneSpecifier, and it may be available in the git
+      // close to BasicZoneProcessor, and it may be available in the git
       // history. But it seems like too much work right now to try to dig that
       // out, just to implement the explicit check for kMaxCacheEntries. It
       // would mean maintaining another version of zone_specifier.py.
@@ -686,7 +686,7 @@ class BasicZoneSpecifier: public ZoneSpecifier {
 
         if (transition.rule.isNull()) {
           // If the transition is simple (has no named rule), then the
-          // ZoneEra applies for the entire year (since BasicZoneSpecifier
+          // ZoneEra applies for the entire year (since BasicZoneProcessor
           // supports only whole year in the UNTIL field). The whole year UNTIL
           // field has an implied 'w' modifier on 00:00, we don't need to call
           // calcRuleOffsetCode() with a 'w', we can just use the previous

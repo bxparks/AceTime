@@ -9,7 +9,7 @@ types may change without warning when the internal implementations change.
 
 There are 5 core data types: `ZoneContext`, `ZoneRule`, `ZonePolicy`, `ZoneEra`
 and `ZoneInfo`. Currenlty, each data type is duplicated into 2 namespaces
-(`basic::` and `extended::`) for use with `BasicZoneSpecifier` and
-`ExtendedZoneSpecifier` respectively. It is entirely possible that future
+(`basic::` and `extended::`) for use with `BasicZoneProcessor` and
+`ExtendedZoneProcessor` respectively. It is entirely possible that future
 implementations may bifurcate these data types so that they are no longer
 identical.

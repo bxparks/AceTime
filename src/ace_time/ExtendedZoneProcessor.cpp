@@ -5,11 +5,11 @@
 
 #include "LocalDate.h"
 #include "ExtendedZone.h"
-#include "ExtendedZoneSpecifier.h"
+#include "ExtendedZoneProcessor.h"
 
 namespace ace_time {
 
-const extended::ZoneEra ExtendedZoneSpecifier::kAnchorEra ACE_TIME_PROGMEM = {
+const extended::ZoneEra ExtendedZoneProcessor::kAnchorEra ACE_TIME_PROGMEM = {
   0 /*offsetCode*/,
   nullptr /*zonePolicy*/,
   0 /*deltaCode*/,
@@ -21,11 +21,11 @@ const extended::ZoneEra ExtendedZoneSpecifier::kAnchorEra ACE_TIME_PROGMEM = {
   'w' /*untilTimeModifier*/
 };
 
-void ExtendedZoneSpecifier::printTo(Print& printer) const {
+void ExtendedZoneProcessor::printTo(Print& printer) const {
   printer.print(ExtendedZone(mZoneInfo.zoneInfo()).name());
 }
 
-void ExtendedZoneSpecifier::printShortTo(Print& printer) const {
+void ExtendedZoneProcessor::printShortTo(Print& printer) const {
   printer.print(ExtendedZone(mZoneInfo.zoneInfo()).shortName());
 }
 

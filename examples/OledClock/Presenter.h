@@ -190,7 +190,7 @@ class Presenter {
 
       // Display the timezone using the TimeZoneData, not the dateTime, since
       // dateTime will contain a TimeZone, which points to the (singular)
-      // Controller::mZoneSpecifier, which will contain the old timeZone.
+      // Controller::mZoneProcessor, which will contain the old timeZone.
       auto& tz = mRenderingInfo.timeZone;
       mOled.print("TZ: ");
       const __FlashStringHelper* typeString;

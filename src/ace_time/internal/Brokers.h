@@ -17,7 +17,7 @@
  * architecture (e.g. AVR) where data and program live in 2 different address
  * spaces. The data in flash memory must be accessed using helper routines in
  * <pgmspace.h>. These classes abstract away this difference so that the code
- * BasicZoneSpecifier and ExtendedZoneSpecifier can be written to be (mostly)
+ * BasicZoneProcessor and ExtendedZoneProcessor can be written to be (mostly)
  * agnostic to how the zoneinfo files are stored.
  *
  * When the ACE_TIME_USE_PROGMEM and ACE_TIME_USE_PROGMEM are
@@ -25,8 +25,8 @@
  * the resulting machine code is no bigger than (and in most cases, identifical
  * to) accessing the zoneinfo files directly.
  *
- * The abstraction layer is thin enough that the code in BasicZoneSpecifier and
- * ExtendedZoneSpecifier did not change very much. It was mostly a mechanical
+ * The abstraction layer is thin enough that the code in BasicZoneProcessor and
+ * ExtendedZoneProcessor did not change very much. It was mostly a mechanical
  * source code replacement of direct zoneinfo access to using these data
  * brokers.
  *
@@ -34,7 +34,7 @@
  * so that they can be used for both basic::Zone* classes and the
  * extended::Zone* classes. Specific template instantiations are created in the
  * basic:: and extended:: namespaces so that they can be used by the
- * BasicZoneSpecifier and ExtendedZoneSpecifier respectively.
+ * BasicZoneProcessor and ExtendedZoneProcessor respectively.
  */
 
 #include "../common/flash.h"

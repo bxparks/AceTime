@@ -6,7 +6,7 @@
 #ifndef ACE_TIME_ZONE_MANAGER_H
 #define ACE_TIME_ZONE_MANAGER_H
 
-#include "ZoneSpecifierCache.h"
+#include "ZoneProcessorCache.h"
 #include "ZoneRegistrar.h"
 #include "TimeZoneData.h"
 #include "TimeZone.h"
@@ -15,16 +15,16 @@ namespace ace_time {
 
 /**
  * Returns the TimeZone given the zoneInfo, zoneName, or zoneId. Looks up the
- * ZoneInfo in the ZoneRegistrar. If an existing ZoneSpecifier exists in the
- * ZoneSpecifierCache, then it is used. If not, another ZoneSpecifier is picked
+ * ZoneInfo in the ZoneRegistrar. If an existing ZoneProcessor exists in the
+ * ZoneProcessorCache, then it is used. If not, another ZoneProcessor is picked
  * from the cache in a round-robin fashion. The type of the TimeZone will be
- * assigned to be the type of the ZoneSpecifierCache, which will be either
+ * assigned to be the type of the ZoneProcessorCache, which will be either
  * kTypeBasicManaged or kTypeExtendedManaged.
  *
  * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo) which
  *    make up the zone registry
  * @tparam ZR class of ZoneRegistrar
- * @tparam ZSC class of ZoneSpecifierCache
+ * @tparam ZSC class of ZoneProcessorCache
  */
 template<typename ZI, typename ZR, typename ZSC>
 class ZoneManager {
@@ -33,7 +33,7 @@ class ZoneManager {
 
     TimeZone createForZoneInfo(const ZI* zoneInfo) {
       if (! zoneInfo) return TimeZone::forError();
-      return TimeZone(zoneInfo, &mZoneSpecifierCache);
+      return TimeZone(zoneInfo, &mZoneProcessorCache);
     }
 
     TimeZone createForZoneName(const char* name) {
@@ -72,7 +72,7 @@ class ZoneManager {
       }
     }
 
-    uint16_t indexForZoneName(const char* name) {
+    uint16_t indexForZoneName(const char* name) const {
       const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
       if (! zoneInfo) return 0;
       return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
@@ -87,7 +87,7 @@ class ZoneManager {
   protected:
     ZoneManager(uint16_t registrySize, const ZI* const* zoneRegistry):
         mZoneRegistrar(registrySize, zoneRegistry),
-        mZoneSpecifierCache() {}
+        mZoneProcessorCache() {}
 
   private:
     // disable copy constructor and assignment operator
@@ -95,34 +95,34 @@ class ZoneManager {
     ZoneManager& operator=(const ZoneManager&) = delete;
 
     const ZR mZoneRegistrar;
-    ZSC mZoneSpecifierCache;
+    ZSC mZoneProcessorCache;
 };
 
 #if 1
 /**
- * @tparam SIZE size of the BasicZoneSpecifierCache
+ * @tparam SIZE size of the BasicZoneProcessorCache
  */
-template<uint8_t SIZE>
+template<uint16_t SIZE>
 class BasicZoneManager: public ZoneManager<basic::ZoneInfo,
-    BasicZoneRegistrar, BasicZoneSpecifierCache<SIZE>> {
+    BasicZoneRegistrar, BasicZoneProcessorCache<SIZE>> {
   public:
     BasicZoneManager(uint16_t registrySize,
         const basic::ZoneInfo* const* zoneRegistry):
         ZoneManager<basic::ZoneInfo, BasicZoneRegistrar,
-            BasicZoneSpecifierCache<SIZE>>(registrySize, zoneRegistry) {}
+            BasicZoneProcessorCache<SIZE>>(registrySize, zoneRegistry) {}
 };
 
 /**
- * @tparam SIZE size of the ExtendedZoneSpecifierCache
+ * @tparam SIZE size of the ExtendedZoneProcessorCache
  */
-template<uint8_t SIZE>
+template<uint16_t SIZE>
 class ExtendedZoneManager: public ZoneManager<extended::ZoneInfo,
-    ExtendedZoneRegistrar, ExtendedZoneSpecifierCache<SIZE>> {
+    ExtendedZoneRegistrar, ExtendedZoneProcessorCache<SIZE>> {
   public:
     ExtendedZoneManager(uint16_t registrySize,
         const extended::ZoneInfo* const* zoneRegistry):
         ZoneManager<extended::ZoneInfo, ExtendedZoneRegistrar,
-            ExtendedZoneSpecifierCache<SIZE>>(registrySize, zoneRegistry) {}
+            ExtendedZoneProcessorCache<SIZE>>(registrySize, zoneRegistry) {}
 };
 
 #else
@@ -135,11 +135,11 @@ class ExtendedZoneManager: public ZoneManager<extended::ZoneInfo,
 
 template<uint8_t SIZE>
 using BasicZoneManager = ZoneManager<basic::ZoneInfo,
-    BasicZoneRegistrar, BasicZoneSpecifierCache<SIZE>>;
+    BasicZoneRegistrar, BasicZoneProcessorCache<SIZE>>;
 
 template<uint8_t SIZE>
 using ExtendedZoneManager = ZoneManager<extended::ZoneInfo,
-    ExtendedZoneRegistrar, ExtendedZoneSpecifierCache<SIZE>>;
+    ExtendedZoneRegistrar, ExtendedZoneProcessorCache<SIZE>>;
 
 #endif
 

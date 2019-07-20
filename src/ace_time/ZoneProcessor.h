@@ -3,8 +3,8 @@
  * Copyright (c) 2019 Brian T. Park
  */
 
-#ifndef ACE_TIME_ZONE_SPECIFIER_H
-#define ACE_TIME_ZONE_SPECIFIER_H
+#ifndef ACE_TIME_ZONE_PROCESSOR_H
+#define ACE_TIME_ZONE_PROCESSOR_H
 
 #include "common/common.h"
 #include "TimeOffset.h"
@@ -15,18 +15,18 @@ class Print;
 namespace ace_time {
 
 template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
-class ZoneSpecifierCacheImpl;
+class ZoneProcessorCacheImpl;
 
 class LocalDateTime;
 class TimeZone;
 
 /**
- * Base interface for ZoneSpecifier classes. There were 2 options for
- * implmenting the various concrete implementations of ZoneSpecifiers:
+ * Base interface for ZoneProcessor classes. There were 2 options for
+ * implmenting the various concrete implementations of ZoneProcessors:
  *
  * 1) Implement only a single getType() method to distinguish the different
  * runtime types of the object. Then use this type information in the TimeZone
- * class to downcast the ZoneSpecifier pointer to the correct subclass, and
+ * class to downcast the ZoneProcessor pointer to the correct subclass, and
  * call the correct methods.
  *
  * 2) Fully implement a polymorphic class hierarchy, lifting various common
@@ -42,16 +42,16 @@ class TimeZone;
  * Unfortunately, this comes at the cost of forcing programs to use the virtual
  * dispatch at runtime for some of the often-used methods.
  */
-class ZoneSpecifier {
+class ZoneProcessor {
   public:
     /**
-     * Indicate BasicZoneSpecifier. Must not be TimeZone::kTypeError (0) or
+     * Indicate BasicZoneProcessor. Must not be TimeZone::kTypeError (0) or
      * TimeZone::kTypeManual (1).
      */
     static const uint8_t kTypeBasic = 2;
 
     /**
-     * Indicate ExtendedZoneSpecifier. Must not be TimeZone::kTypeError (0) or
+     * Indicate ExtendedZoneProcessor. Must not be TimeZone::kTypeError (0) or
      * TimeZone::kTypeManual (1).
      */
     static const uint8_t kTypeExtended = 3;
@@ -87,7 +87,7 @@ class ZoneSpecifier {
 
     /**
      * Return the best estimate of the OffsetDateTime at the given
-     * LocalDateTime for the timezone of the current ZoneSpecifier.
+     * LocalDateTime for the timezone of the current ZoneProcessor.
      * Returns OffsetDateTime::forError() if an error occurs, for example, if
      * the LocalDateTime is outside of the support date range of the underlying
      * ZoneInfo files.
@@ -102,23 +102,23 @@ class ZoneSpecifier {
     virtual void printShortTo(Print& printer) const = 0;
 
   protected:
-    friend bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b);
+    friend bool operator==(const ZoneProcessor& a, const ZoneProcessor& b);
 
     friend class TimeZone; // setZoneInfo()
 
     template<uint8_t SIZE, uint8_t TYPE, typename ZS, typename ZI, typename ZIB>
-    friend class ZoneSpecifierCacheImpl; // setZoneInfo()
+    friend class ZoneProcessorCacheImpl; // setZoneInfo()
 
     // Disable copy constructor and assignment operator.
-    ZoneSpecifier(const ZoneSpecifier&) = delete;
-    ZoneSpecifier& operator=(const ZoneSpecifier&) = delete;
+    ZoneProcessor(const ZoneProcessor&) = delete;
+    ZoneProcessor& operator=(const ZoneProcessor&) = delete;
 
     /** Constructor. */
-    ZoneSpecifier(uint8_t type):
+    ZoneProcessor(uint8_t type):
       mType(type) {}
 
     /** Return true if equal. */
-    virtual bool equals(const ZoneSpecifier& other) const = 0;
+    virtual bool equals(const ZoneProcessor& other) const = 0;
 
     /** Set the opaque zoneInfo. */
     virtual void setZoneInfo(const void* zoneInfo) = 0;
@@ -126,12 +126,12 @@ class ZoneSpecifier {
     uint8_t mType;
 };
 
-inline bool operator==(const ZoneSpecifier& a, const ZoneSpecifier& b) {
+inline bool operator==(const ZoneProcessor& a, const ZoneProcessor& b) {
   if (a.mType != b.mType) return false;
   return a.equals(b);
 }
 
-inline bool operator!=(const ZoneSpecifier& a, const ZoneSpecifier& b) {
+inline bool operator!=(const ZoneProcessor& a, const ZoneProcessor& b) {
   return ! (a == b);
 }
 

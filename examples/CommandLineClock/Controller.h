@@ -50,7 +50,7 @@ class Controller {
     }
 
   #if ENABLE_TIME_ZONE_TYPE_BASIC
-    /** Set the time zone to America/Los_Angeles using BasicZoneSpecifier. */
+    /** Set the time zone to America/Los_Angeles using BasicZoneProcessor. */
     void setBasicTimeZoneForIndex(uint16_t zoneIndex = 0) {
       mZoneIndex = zoneIndex;
       mTimeZone = mBasicZoneManager.createForZoneIndex(zoneIndex);
@@ -64,7 +64,7 @@ class Controller {
   #endif
 
   #if ENABLE_TIME_ZONE_TYPE_EXTENDED
-    /** Set the time zone to America/Los_Angeles using ExtendedZoneSpecifier. */
+    /** Set the time zone to America/Los_Angeles using ExtendedZoneProcessor. */
     void setExtendedTimeZoneForIndex(uint16_t zoneIndex = 0) {
       mZoneIndex = zoneIndex;
       mTimeZone = mExtendedZoneManager.createForZoneIndex(zoneIndex);

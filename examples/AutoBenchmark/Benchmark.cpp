@@ -351,7 +351,7 @@ static const uint16_t kBasicZoneRegistrySize =
     sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
 
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
-static void runZonedDateTimeForEpochSecondsBasicZoneSpecifier() {
+static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
 	BasicZoneManager<2> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
   acetime_t offset = 0;
 
@@ -376,7 +376,7 @@ static void runZonedDateTimeForEpochSecondsBasicZoneSpecifier() {
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached
-static void runZonedDateTimeForEpochSecondsBasicZoneSpecifierCached() {
+static void runZonedDateTimeForEpochSecondsBasicZoneManagerCached() {
 	BasicZoneManager<2> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
 
   unsigned long forEpochSecondsMillis = runLambda(COUNT, [&manager]() {
@@ -410,7 +410,7 @@ static const uint16_t kExtendedZoneRegistrySize =
     sizeof(kExtendedZoneRegistry) / sizeof(kExtendedZoneRegistry[0]);
 
 // ZonedDateTime::forEpochSeconds(seconds, tz), uncached
-static void runZonedDateTimeForEpochSecondsExtendedZoneSpecifier() {
+static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
 	ExtendedZoneManager<2> manager(
       kExtendedZoneRegistrySize, kExtendedZoneRegistry);
   acetime_t offset = 0;
@@ -435,8 +435,8 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneSpecifier() {
   Serial.println(FPSTR(COL_DIVIDER));
 }
 
-// ZonedDateTime::forEpochSeconds(seconds, tz) cached ExtendedZoneSpecifier
-static void runZonedDateTimeForEpochSecondsExtendedZoneSpecifierCached() {
+// ZonedDateTime::forEpochSeconds(seconds, tz) cached ExtendedZoneManager
+static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
 	ExtendedZoneManager<2> manager(
       kExtendedZoneRegistrySize, kExtendedZoneRegistry);
 
@@ -478,10 +478,10 @@ void runBenchmarks() {
   runZonedDateTimeToEpochDays();
 
   runZonedDateTimeForEpochSeconds();
-  runZonedDateTimeForEpochSecondsBasicZoneSpecifier();
-  runZonedDateTimeForEpochSecondsBasicZoneSpecifierCached();
-  runZonedDateTimeForEpochSecondsExtendedZoneSpecifier();
-  runZonedDateTimeForEpochSecondsExtendedZoneSpecifierCached();
+  runZonedDateTimeForEpochSecondsBasicZoneManager();
+  runZonedDateTimeForEpochSecondsBasicZoneManagerCached();
+  runZonedDateTimeForEpochSecondsExtendedZoneManager();
+  runZonedDateTimeForEpochSecondsExtendedZoneManagerCached();
 
   Serial.println(FPSTR(BOTTOM));
 
