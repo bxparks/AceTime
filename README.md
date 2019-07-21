@@ -181,10 +181,10 @@ Conversion from an epochSeconds to date-time components including timezone
 * 2.5 microseconds on an ESP32,
 * 6 microseconds on a Teensy 3.2.
 
-**Version**: 0.4 (2019-07-09, TZ DB version 2019a, beta)
+**Version**: 0.5 (2019-07-21, TZ DB version 2019a, beta)
 
-**Status**: Fully functional with an API that is expected to be mostly stable
-except for the `ZoneManager` classes.
+**Status**: Fully functional. Added `ZoneManager` for dynamic binding of
+zoneName or zoneId to the TimeZone.
 
 ## HelloDateTime
 

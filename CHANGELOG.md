@@ -1,12 +1,10 @@
 # Changelog
 
 * Unreleased
+* 0.5 (2019-07-21, TB DB version 2019a, beta)
     * Remove over-engineered `SystemClockHeartbeatLoop` and
       `SystemClockHeartbeatLoop` and replace with just a call to
       `SystemClock::keepAlive()`.
-    * Add `setZoneInfo()` to `BasicZoneProcessor` and `ExtendedZoneProcessor`,
-      which allows changing timezones using the `ZoneInfo` returned by the
-      `BasicZoneManager` and `ExtendedZoneManager` classes.
     * Remove overly complex `ManualZoneProcessor` and merge most of its
       functionality directly into the `TimeZone` using `kTypeManual`. We lose
       the manual abbreviations provided by `ManualZoneProcessor` but the
@@ -15,12 +13,15 @@
     * Add a stable `zoneId` to `ZoneInfo` that identifies a zone. It is
       formed using a hash of the fully qualified zone `name`. The
       `tzcompiler.py` generator script will detect hash collisions and create an
-      alternate hash. Rename old `ZoneManager` as the `ZoneRegistrar`, and
+      alternate hash.
+    * Rename old `ZoneManager` as the `ZoneRegistrar`, and
       repurpose `ZoneManager` as the `TimeZone` factory, which keeps an internal
       cache of `ZoneProcessor`. `TimeZone` objects can be dynamically bound to
-      `ZoneProcessor` objects.
+      `ZoneProcessor` objects using `createForZoneInfo()`,
+      `createForZoneName()`, `createForZoneId().
     * Add `TimeZoneData` data struct to allow serialization of a TimeZone object
-      as a zoneId so that it can be reconstructed using ZoneManger.
+      as a zoneId so that it can be reconstructed using
+      `ZoneManger::createForTimeZoneData()`.
     * Rename `ZoneSpecifier` to `ZoneProcessor` to describe its functionality
       better. `ZoneInfo` is now passed directly into the TimeZone object using
       the `TimeZone::forZoneInfo()` factory method, with the `ZoneProcessor`
