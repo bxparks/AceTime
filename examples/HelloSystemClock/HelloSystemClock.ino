@@ -22,7 +22,7 @@ SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
 
 void setup() {
   delay(1000);
-  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  Serial.begin(115200);
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
 
   systemClock.setup();

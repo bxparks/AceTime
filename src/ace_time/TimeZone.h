@@ -163,9 +163,10 @@ class TimeZone {
     }
 
     /**
-     * Return the zoneId. Returns 0 if not valid. (It is not entirely clear
-     * that the zoneId is always > 0, but there is little I can do without
-     * C++ exceptions.)
+     * Return the zoneId for kTypeBasic, kTypeExtended, kTypeBasicManaged,
+     * kTypeExtendedManaged. Returns 0 for kTypeManual. (It is not entirely
+     * clear that a valid zoneId is always > 0, but there is little I can do
+     * without C++ exceptions.)
      */
     uint32_t getZoneId() const {
       switch (mType) {
