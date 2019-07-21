@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.3</span>
+   &#160;<span id="projectnumber">0.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -83,8 +83,10 @@ $(function() {
 
 <h3><a id="index_d"></a>- d -</h3><ul>
 <li>deltaCode
-: <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html#a5cab6f4b2b40de24ecd63865915d9000">ace_time::basic::ZoneEra</a>
+: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a201d6431760262a650003326b5638f4b">ace_time::basic::Transition</a>
+, <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html#a5cab6f4b2b40de24ecd63865915d9000">ace_time::basic::ZoneEra</a>
 , <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#a48540781ee2c3437b02eb2f3eb0b570a">ace_time::basic::ZoneRule</a>
+, <a class="el" href="structace__time_1_1extended_1_1Transition.html#a5b8bd8658f51d730f6e547634261d343">ace_time::extended::Transition</a>
 , <a class="el" href="structace__time_1_1extended_1_1ZoneEra.html#adf06bd20526a598f504b712da5efce4b">ace_time::extended::ZoneEra</a>
 , <a class="el" href="structace__time_1_1extended_1_1ZoneRule.html#a2b3f7b699843c2861baec25d419161e8">ace_time::extended::ZoneRule</a>
 </li>
@@ -93,8 +95,8 @@ $(function() {
 
 <h3><a id="index_e"></a>- e -</h3><ul>
 <li>era
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#ae3d60dc964d4a77798bd2ceeaafc6ef8">ace_time::basic::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1ZoneMatch.html#abc3d441f48816091b6341740c7f1b5ac">ace_time::extended::ZoneMatch</a>
+: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a94cf9a8357c67aa1bd336f66755a9b2c">ace_time::basic::Transition</a>
+, <a class="el" href="structace__time_1_1extended_1_1ZoneMatch.html#a4f3e064d47c81a8a595f1f7465d01ece">ace_time::extended::ZoneMatch</a>
 </li>
 <li>eras
 : <a class="el" href="structace__time_1_1basic_1_1ZoneInfo.html#ab7c074666001221f924b3b4987399011">ace_time::basic::ZoneInfo</a>
@@ -127,6 +129,9 @@ $(function() {
 <li>kAbbrevSize
 : <a class="el" href="structace__time_1_1basic_1_1Transition.html#a39d2a4e51aec03a856d6228251afd060">ace_time::basic::Transition</a>
 , <a class="el" href="structace__time_1_1extended_1_1Transition.html#a81c38032a01b572b95a244c804ce1ba9">ace_time::extended::Transition</a>
+</li>
+<li>kBinarySearchThreshold
+: <a class="el" href="classace__time_1_1ZoneRegistrar.html#a9edefbab9c979f2ba03a25b8811b72b8">ace_time::ZoneRegistrar&lt; ZI, ZRB, ZIB, STRCMP_P, STRCMP_PP &gt;</a>
 </li>
 <li>kBufferSize
 : <a class="el" href="classace__time_1_1common_1_1DateStrings.html#a70826653bf8b0832dd372897f131b831">ace_time::common::DateStrings</a>
@@ -185,13 +190,10 @@ $(function() {
 : <a class="el" href="classace__time_1_1LocalDate.html#a0e088edd58f0f1d1331c937832cb890b">ace_time::LocalDate</a>
 </li>
 <li>kTypeBasic
-: <a class="el" href="classace__time_1_1ZoneSpecifier.html#a0a716a166dac4cac4a43c001050b17db">ace_time::ZoneSpecifier</a>
+: <a class="el" href="classace__time_1_1ZoneProcessor.html#ad909271bf494774000a5102db0a66e09">ace_time::ZoneProcessor</a>
 </li>
 <li>kTypeExtended
-: <a class="el" href="classace__time_1_1ZoneSpecifier.html#a204ff5e556d850554bd31894df355db5">ace_time::ZoneSpecifier</a>
-</li>
-<li>kTypeManual
-: <a class="el" href="classace__time_1_1ZoneSpecifier.html#a8eb82dee42153a8cbcebcf7164a33a8a">ace_time::ZoneSpecifier</a>
+: <a class="el" href="classace__time_1_1ZoneProcessor.html#a0664023085b5339025836f60ed1e1bc2">ace_time::ZoneProcessor</a>
 </li>
 <li>kWednesday
 : <a class="el" href="classace__time_1_1LocalDate.html#a0221ea698dae2739a8bca89e11e1cd01">ace_time::LocalDate</a>
@@ -204,6 +206,9 @@ $(function() {
 : <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#add4b7ffb810d118ae1c4a7ef9d302550">ace_time::basic::ZoneRule</a>
 , <a class="el" href="structace__time_1_1extended_1_1ZoneRule.html#a0b067e33d6aa9248f1f64eea82f0542e">ace_time::extended::ZoneRule</a>
 </li>
+<li>letterBuf
+: <a class="el" href="structace__time_1_1extended_1_1Transition.html#aa99cc94e4e829443328a0ab65228ed2d">ace_time::extended::Transition</a>
+</li>
 </ul>
 
 
@@ -211,11 +216,14 @@ $(function() {
 <li>match
 : <a class="el" href="structace__time_1_1extended_1_1Transition.html#abeeaebbe5515869406cf144f1cc68b1d">ace_time::extended::Transition</a>
 </li>
-<li>mOffset
-: <a class="el" href="classace__time_1_1TimeZone.html#a46adc188b12b659785b63327d9d78c08">ace_time::TimeZone</a>
+<li>mZoneInfo
+: <a class="el" href="classace__time_1_1TimeZone.html#a46df4a9a5e825a3015b2b8953bd57462">ace_time::TimeZone</a>
 </li>
-<li>mZoneSpecifier
-: <a class="el" href="classace__time_1_1TimeZone.html#aa21ce8dd58cc4e303f3d07787aa83282">ace_time::TimeZone</a>
+<li>mZoneProcessor
+: <a class="el" href="classace__time_1_1TimeZone.html#a3380618145722bb6a76108db95153e42">ace_time::TimeZone</a>
+</li>
+<li>mZoneProcessorCache
+: <a class="el" href="classace__time_1_1TimeZone.html#a3ab324046539f8a331b143b47e5eb434">ace_time::TimeZone</a>
 </li>
 </ul>
 
@@ -236,11 +244,12 @@ $(function() {
 <li>offsetCode
 : <a class="el" href="structace__time_1_1basic_1_1Transition.html#a2d6a8737e66f0dca13d10cce26d2b134">ace_time::basic::Transition</a>
 , <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html#a92cdaa3fcc0bdb5a58af3a2c2efea518">ace_time::basic::ZoneEra</a>
+, <a class="el" href="structace__time_1_1extended_1_1Transition.html#a7a1357b0c7aca6d2feea813341b27d8c">ace_time::extended::Transition</a>
 , <a class="el" href="structace__time_1_1extended_1_1ZoneEra.html#a13c4c8ef7dec4e0ac3f2adc55a5525ee">ace_time::extended::ZoneEra</a>
 </li>
 <li>onDayOfMonth
-: <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#a7e125f3c6b60090741fd6c971b9d636c">ace_time::basic::ZoneRule</a>
-, <a class="el" href="structace__time_1_1extended_1_1ZoneRule.html#ae59fbfd2cec88483309da21c644c9c13">ace_time::extended::ZoneRule</a>
+: <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#a7eaa50fb7ce109d98bb8621755c5158e">ace_time::basic::ZoneRule</a>
+, <a class="el" href="structace__time_1_1extended_1_1ZoneRule.html#a01418caf12cf27e7d7c14ab8a6449930">ace_time::extended::ZoneRule</a>
 </li>
 <li>onDayOfWeek
 : <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#aa835f8923240ceca380334f8611fb9de">ace_time::basic::ZoneRule</a>
@@ -254,8 +263,8 @@ $(function() {
 
 <h3><a id="index_r"></a>- r -</h3><ul>
 <li>rule
-: <a class="el" href="structace__time_1_1basic_1_1Transition.html#a6af9a13f06e4259911e40f61163922ac">ace_time::basic::Transition</a>
-, <a class="el" href="structace__time_1_1extended_1_1Transition.html#a070b962664d217e11ae63d23dc587723">ace_time::extended::Transition</a>
+: <a class="el" href="structace__time_1_1basic_1_1Transition.html#ad70ac2546926652bd3fa20cb52d72d16">ace_time::basic::Transition</a>
+, <a class="el" href="structace__time_1_1extended_1_1Transition.html#a8ee7fffb5ccd09ad74658712d0782347">ace_time::extended::Transition</a>
 </li>
 </ul>
 
@@ -270,7 +279,8 @@ $(function() {
 , <a class="el" href="structace__time_1_1extended_1_1Transition.html#a455d7d971489040388fb4750d2b93939">ace_time::extended::Transition</a>
 </li>
 <li>startYear
-: <a class="el" href="structace__time_1_1common_1_1ZoneContext.html#a3bd4368947f9f529bc9fa3054859c766">ace_time::common::ZoneContext</a>
+: <a class="el" href="structace__time_1_1basic_1_1ZoneContext.html#a0edda1972e505bf41e3219eab546c028">ace_time::basic::ZoneContext</a>
+, <a class="el" href="structace__time_1_1extended_1_1ZoneContext.html#a3c47cac43c5fff8e40da57ee974ef51c">ace_time::extended::ZoneContext</a>
 </li>
 </ul>
 
@@ -294,7 +304,8 @@ $(function() {
 : <a class="el" href="structace__time_1_1extended_1_1Transition.html#af647be5804c1372e56fb8520ef673be0">ace_time::extended::Transition</a>
 </li>
 <li>tzVersion
-: <a class="el" href="structace__time_1_1common_1_1ZoneContext.html#a119d01112ecb84457ff218e5a6343769">ace_time::common::ZoneContext</a>
+: <a class="el" href="structace__time_1_1basic_1_1ZoneContext.html#a4aa254cddfb648deb8bb1a373b8c11ca">ace_time::basic::ZoneContext</a>
+, <a class="el" href="structace__time_1_1extended_1_1ZoneContext.html#a9212bdc0eeb8dd4437887173a17c9f44">ace_time::extended::ZoneContext</a>
 </li>
 </ul>
 
@@ -321,7 +332,8 @@ $(function() {
 , <a class="el" href="structace__time_1_1extended_1_1ZoneEra.html#aa0ee3ebff53b1a4ee6ec138a4c5db983">ace_time::extended::ZoneEra</a>
 </li>
 <li>untilYear
-: <a class="el" href="structace__time_1_1common_1_1ZoneContext.html#a34dca7c8e8ac236a15bc9c0f34ab5e93">ace_time::common::ZoneContext</a>
+: <a class="el" href="structace__time_1_1basic_1_1ZoneContext.html#afe169f78107184d55db7a0f1bda422b3">ace_time::basic::ZoneContext</a>
+, <a class="el" href="structace__time_1_1extended_1_1ZoneContext.html#a4c9ac4936246b648fe7b6279b9af1d77">ace_time::extended::ZoneContext</a>
 </li>
 <li>untilYearTiny
 : <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html#a3f27520f1b957312493347f8631779d2">ace_time::basic::ZoneEra</a>
@@ -339,8 +351,13 @@ $(function() {
 
 <h3><a id="index_z"></a>- z -</h3><ul>
 <li>zoneContext
-: <a class="el" href="structace__time_1_1basic_1_1ZoneInfo.html#a889e0e083145423bf5fcb645ad10c41b">ace_time::basic::ZoneInfo</a>
-, <a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html#a5a996ed74cea33707b05cd2ff1ecc661">ace_time::extended::ZoneInfo</a>
+: <a class="el" href="structace__time_1_1basic_1_1ZoneInfo.html#a6369ce434985942e210d378eabeec898">ace_time::basic::ZoneInfo</a>
+, <a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html#a3d10ac1bde7a5143e26d9283f5ea19ce">ace_time::extended::ZoneInfo</a>
+</li>
+<li>zoneId
+: <a class="el" href="structace__time_1_1basic_1_1ZoneInfo.html#ad5aedb0136d5ae203e860caa33e5c0c0">ace_time::basic::ZoneInfo</a>
+, <a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html#a5ca57c8e8407490810d219975dc51a6c">ace_time::extended::ZoneInfo</a>
+, <a class="el" href="structace__time_1_1TimeZoneData.html#a33cee3c6e0a13796bfc9bad62f18d567">ace_time::TimeZoneData</a>
 </li>
 <li>zonePolicy
 : <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html#a8e0727a96a532a7db4c0f86672bd47cb">ace_time::basic::ZoneEra</a>

@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.3</span>
+   &#160;<span id="projectnumber">0.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -76,7 +76,7 @@ $(function() {
 <p>A heap manager which is specialized and tuned to manage a collection of Transitions, keeping track of unused, used, and active states, using a fixed array of Transitions.  
  <a href="classace__time_1_1extended_1_1TransitionStorage.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -178,12 +178,12 @@ class ace_time::extended::TransitionStorage&lt; SIZE &gt;</h3>
 
 <p>A heap manager which is specialized and tuned to manage a collection of Transitions, keeping track of unused, used, and active states, using a fixed array of Transitions. </p>
 <p>Its main purpose is to provide some illusion of dynamic memory allocation without actually performing any dynamic memory allocation.</p>
-<p>We create a fixed sized array for the total pool, determined by the template parameter SIZE, then manage the various sub-pools of <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> objects. The allocation of the various sub-pools is intricately tied to the precise pattern of creation and release of the various <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> objects within the <a class="el" href="classace__time_1_1ExtendedZoneSpecifier.html" title="An implementation of ZoneSpecifier that works for all zones defined by the TZ Database (with some zon...">ExtendedZoneSpecifier</a> class.</p>
+<p>We create a fixed sized array for the total pool, determined by the template parameter SIZE, then manage the various sub-pools of <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> objects. The allocation of the various sub-pools is intricately tied to the precise pattern of creation and release of the various <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> objects within the <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that works for all zones defined by the TZ Database (with some zon...">ExtendedZoneProcessor</a> class.</p>
 <p>There are 4 pools indicated by the following half-open (exclusive) index ranges:</p>
 <p>1) Active pool: [0, mIndexPrior) 2) Prior pool: [mIndexPrior, mIndexCandidates), either 0 or 1 element 3) Candidate pool: [mIndexCandidates, mIndexFree) 4) Free pool: [mIndexFree, SIZE)</p>
-<p>At the completion of the ExtendedZoneSpecifier::init(LocalDate&amp; ld) method, the Active pool will contain the active Transitions relevant to the 'year' defined by the <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone. ">LocalDate</a>. The Prior and Candidate pools will be empty, with the Free pool taking up the remaining space. </p>
+<p>At the completion of the ExtendedZoneProcessor::init(LocalDate&amp; ld) method, the Active pool will contain the active Transitions relevant to the 'year' defined by the <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone. ">LocalDate</a>. The Prior and Candidate pools will be empty, with the Free pool taking up the remaining space. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00333">333</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00347">347</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8cf94d007ac1d394e0c24e685daf1cf2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8cf94d007ac1d394e0c24e685daf1cf2">&#9670;&nbsp;</a></span>TransitionStorage()</h2>
@@ -212,7 +212,7 @@ template&lt;uint8_t SIZE&gt; </div>
 
 <p>Constructor. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00336">336</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00350">350</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -245,7 +245,7 @@ template&lt;uint8_t SIZE&gt; </div>
 <p>Immediately add the free agent <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> at index mIndexFree to the Active pool. </p>
 <p>Then increment mIndexFree to remove the free agent from the Free pool. This assumes that the Pending and Candidate pool are empty, which makes the Active pool come immediately before the Free pool. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00407">407</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00421">421</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -277,7 +277,7 @@ template&lt;uint8_t SIZE&gt; </div>
 <p>Add the free agent <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> at index mIndexFree to the Candidate pool, sorted by transitionTime. </p>
 <p>Then increment mIndexFree by one to remove the free agent from the Free pool. Essentially this is an Insertion Sort keyed by the 'transitionTime' (ignoring the DateTuple.modifier). </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00445">445</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00459">459</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -309,7 +309,7 @@ template&lt;uint8_t SIZE&gt; </div>
 <p>Add the current prior into the Candidates pool. </p>
 <p>Prior is always just before the start of the Candidate pool, so we just need to shift back the start index of the Candidate pool. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00435">435</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00449">449</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -342,7 +342,7 @@ template&lt;uint8_t SIZE&gt; </div>
 <p>Return the <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> matching the given epochSeconds. </p>
 <p>Return nullptr if no matching <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> found. If a zone does not have any transition according to TZ Database, the tools/transformer.py script adds an "anchor" transition at the "beginning of time" which happens to be the year 1872 (because the year is stored as an int8_t). Therefore, this method should never return a nullptr for a well-formed <a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a> file. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00486">486</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00500">500</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -373,11 +373,11 @@ template&lt;uint8_t SIZE&gt; </div>
 </div><div class="memdoc">
 
 <p>Return the <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> matching the given dateTime. </p>
-<p>Return nullptr if no matching <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> found. During DST changes, a particlar <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a> may correspond to 2 Transitions or 0 Transitions, and there are potentially multiple ways to handle this. This method implements the following algorithm:</p>
-<p>1) If the localDateTime falls in the DST transition gap where 0 Transitions ought to be found, e.g. between 02:00 and 03:00 in America/Los_Angeles when standard time switches to DST time), the immediate prior <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> is returned (in effect extending the UTC offset of the prior <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> through the gap. For example, when DST starts, 02:00 becomes 03:00, so a time of 02:30 does not exist, but the <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> returned will be the one valid at 01:59. When it is converted to epoch_seconds and converted back to a <a class="el" href="classace__time_1_1LocalDateTime.html">LocalDateTime</a>, the 02:30 time will become 03:30, since the later UTC offset will be used.</p>
+<p>Return nullptr if no matching <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> found. During DST changes, a particlar <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a> may correspond to 2 Transitions or 0 Transitions, and there are potentially multiple ways to handle this. This method implements the following algorithm:</p>
+<p>1) If the localDateTime falls in the DST transition gap where 0 Transitions ought to be found, e.g. between 02:00 and 03:00 in America/Los_Angeles when standard time switches to DST time), the immediate prior <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> is returned (in effect extending the UTC offset of the prior <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> through the gap. For example, when DST starts, 02:00 becomes 03:00, so a time of 02:30 does not exist, but the <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> returned will be the one valid at 01:59. When it is converted to epoch_seconds and converted back to a <a class="el" href="classace__time_1_1LocalDateTime.html" title="Class that holds the date-time as the components (year, month, day, hour, minute, second) without reg...">LocalDateTime</a>, the 02:30 time will become 03:30, since the later UTC offset will be used.</p>
 <p>2) If the localDateTime falls in a time period where there are 2 Transitions, hence 2 valid UTC offsets, the later <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> is returned. For example, when DST ends in America/Los_Angeles, 02:00 becomes 01:00, so a time of 01:30 could belong to the earlier or later <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a>. This method returns the later <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00522">522</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00536">536</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -409,7 +409,7 @@ template&lt;uint8_t SIZE&gt; </div>
 <p>Return a pointer to the first <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> in the free pool. </p>
 <p>If this transition is not used, then it's ok to just drop it. The next time <a class="el" href="classace__time_1_1extended_1_1TransitionStorage.html#a5db08dce4ba8cbf103b0a3e6c7674d12" title="Return a pointer to the first Transition in the free pool. ">getFreeAgent()</a> is called, the same <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> will be returned. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00386">386</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00400">400</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -441,7 +441,7 @@ template&lt;uint8_t SIZE&gt; </div>
 <p>Return the high water mark. </p>
 <p>This is the largest value of mIndexFree that was used. If this returns SIZE, it indicates that the <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> mPool overflowed. For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00575">575</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00589">589</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -472,7 +472,7 @@ template&lt;uint8_t SIZE&gt; </div>
 
 <p>Return the current prior transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00349">349</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00363">363</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -503,7 +503,7 @@ template&lt;uint8_t SIZE&gt; </div>
 
 <p>Initialize all pools. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00339">339</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00353">353</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -535,7 +535,7 @@ template&lt;uint8_t SIZE&gt; </div>
 <p>Verify that the indexes are valid. </p>
 <p>Used only for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00541">541</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00555">555</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -567,7 +567,7 @@ template&lt;uint8_t SIZE&gt; </div>
 <p>Allocate one <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> just after the Active pool, but before the Candidate pool, to keep the most recent prior <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a>. </p>
 <p>Shift the Candidate pool and Free pool up by one. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00419">419</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00433">433</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -599,7 +599,7 @@ template&lt;uint8_t SIZE&gt; </div>
 <p>Empty the Candidate pool by resetting the various indexes. </p>
 <p>If every iteration of findTransitionsForMatch() finishes with <a class="el" href="classace__time_1_1extended_1_1TransitionStorage.html#a92f9a9c0bc6880f887c9f51ecce42f4e" title="Immediately add the free agent Transition at index mIndexFree to the Active pool. ...">addFreeAgentToActivePool()</a> or <a class="el" href="classace__time_1_1extended_1_1TransitionStorage.html#a114cb0ef4591f824fb41a81b329cded6" title="Add active candidates into the Active pool, and collapse the Candidate pool. ">addActiveCandidatesToActivePool()</a>, it may be possible to remove this. But it's safer to reset the indexes upon each iteration. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00366">366</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00380">380</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -631,7 +631,7 @@ template&lt;uint8_t SIZE&gt; </div>
 <p>Reset the high water mark. </p>
 <p>For debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00568">568</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00582">582</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -662,7 +662,7 @@ template&lt;uint8_t SIZE&gt; </div>
 
 <p>Swap the Free agrent transition with the current Prior transition. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00426">426</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00440">440</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -704,12 +704,12 @@ template&lt;uint8_t SIZE&gt; </div>
 
 <p>Swap 2 transitions. </p>
 
-<p class="definition">Definition at line <a class="el" href="ExtendedZoneSpecifier_8h_source.html#l00352">352</a> of file <a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ExtendedZoneProcessor_8h_source.html#l00366">366</a> of file <a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/home/brian/dev/AceTime/src/ace_time/<a class="el" href="ExtendedZoneSpecifier_8h_source.html">ExtendedZoneSpecifier.h</a></li>
+<li>/home/brian/dev/AceTime/src/ace_time/<a class="el" href="ExtendedZoneProcessor_8h_source.html">ExtendedZoneProcessor.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

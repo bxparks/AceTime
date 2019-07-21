@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.3</span>
+   &#160;<span id="projectnumber">0.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -104,6 +104,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8d9d0d7e3bbf66b45cf6010df983c6c2"><td class="memItemLeft" align="right" valign="top"><a id="a8d9d0d7e3bbf66b45cf6010df983c6c2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setup</b> ()</td></tr>
 <tr class="separator:a8d9d0d7e3bbf66b45cf6010df983c6c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfc9d74fc2b9a0356a44d1e41845b3de"><td class="memItemLeft" align="right" valign="top"><a id="adfc9d74fc2b9a0356a44d1e41845b3de"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#adfc9d74fc2b9a0356a44d1e41845b3de">keepAlive</a> ()</td></tr>
+<tr class="memdesc:adfc9d74fc2b9a0356a44d1e41845b3de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call this (or <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z). ">getNow()</a> every 65.535 seconds or faster to keep the internal counter in sync with <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a821ac223df9233d771f59131cbd5ee22" title="Return the Arduino millis(). ">millis()</a>. <br /></td></tr>
+<tr class="separator:adfc9d74fc2b9a0356a44d1e41845b3de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdb29aa7095759101a9f33b79f863144"><td class="memItemLeft" align="right" valign="top">acetime_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144">getNow</a> () const override</td></tr>
 <tr class="memdesc:acdb29aa7095759101a9f33b79f863144"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z).  <a href="#acdb29aa7095759101a9f33b79f863144">More...</a><br /></td></tr>
 <tr class="separator:acdb29aa7095759101a9f33b79f863144"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,12 +163,12 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <div class="textblock"><p>A <a class="el" href="classace__time_1_1clock_1_1TimeKeeper.html" title="A TimeProvider whose time can be set by the end-user. ">TimeKeeper</a> that uses the Arduino <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a821ac223df9233d771f59131cbd5ee22" title="Return the Arduino millis(). ">millis()</a> function to advance the time returned to the user. </p>
 <p>The real time is returned as the number of seconds since the AceTime epoch of 2000-01-01T00:00:00Z.</p>
 <p>The built-in <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a821ac223df9233d771f59131cbd5ee22" title="Return the Arduino millis(). ">millis()</a> is not accurate, so this class allows a periodic sync using the (presumably) more accurate syncTimeProvider. The current time can be periodically backed up into the backupTimeKeeper which is expected to be an RTC chip that continues to keep time during power loss.</p>
-<p>The value of the previous system time <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a821ac223df9233d771f59131cbd5ee22" title="Return the Arduino millis(). ">millis()</a> is stored internally as a uint16_t. That has 2 advantages: 1) it saves memory, 2) the upper bound of the execution time of <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z). ">getNow()</a> limited to 65 iterations. The disadvantage is the that internal counter will rollover within 65.535 milliseconds. To prevent that, <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z). ">getNow()</a> or <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aa33cfb495e1b6247916b986bbef6875d" title="Set the time to the indicated seconds. ">setNow()</a> must be called more frequently than every 65.536 seconds. This can be satisfied by using the <a class="el" href="classace__time_1_1clock_1_1SystemClockHeartbeatCoroutine.html" title="A coroutine that calls SystemClock.getNow() peridically. ">SystemClockHeartbeatCoroutine</a> or <a class="el" href="classace__time_1_1clock_1_1SystemClockHeartbeatLoop.html" title="A class that peridically freshens the SystemClock using the heartbeat call to getNow(). ">SystemClockHeartbeatLoop</a> helper classes.</p>
+<p>The value of the previous system time <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a821ac223df9233d771f59131cbd5ee22" title="Return the Arduino millis(). ">millis()</a> is stored internally as a uint16_t. That has 2 advantages: 1) it saves memory, 2) the upper bound of the execution time of <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#acdb29aa7095759101a9f33b79f863144" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z). ">getNow()</a> limited to 65 iterations. The disadvantage is the that internal counter will rollover within 65.535 milliseconds. To prevent that, <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#adfc9d74fc2b9a0356a44d1e41845b3de" title="Call this (or getNow() every 65.535 seconds or faster to keep the internal counter in sync with milli...">keepAlive()</a> must be called more frequently than every 65.536 seconds. The easiest way to do this is to call it from the global loop() method.</p>
 <p>There are 2 ways to perform syncing from the syncTimeProvider:</p>
-<p>1) Create an instance of <a class="el" href="classace__time_1_1clock_1_1SystemClockSyncCoroutine.html" title="A coroutine that syncs the SystemClock with its syncTimeProvider. ">SystemClockSyncCoroutine</a> and register it with the CoroutineSchedule so that it runs periodically. The <a class="el" href="classace__time_1_1clock_1_1SystemClockSyncCoroutine.html#a849f4291836de179fb3aa611e25853fc">SystemClockSyncCoroutine::runCoroutine()</a> method uses the non-blocking <a class="el" href="classace__time_1_1clock_1_1TimeProvider.html#a28a580129c0b518ff79ae040dd506995" title="Send a time request asynchronously. ">sendRequest()</a>, <a class="el" href="classace__time_1_1clock_1_1TimeProvider.html#a675396de08c217467f14f61d90b0f7fe" title="Return true if a response is ready. ">isResponseReady()</a> and <a class="el" href="classace__time_1_1clock_1_1TimeProvider.html#afa07602f28a900569b1359410b7523ec" title="Returns number of seconds since AceTime epoch (2000-01-01). ">readResponse()</a> methods of <a class="el" href="classace__time_1_1clock_1_1TimeProvider.html" title="Base class for objects that provide a source of time whose time cannot be changed by the end-user...">TimeProvider</a> to retrieve the current time. Some time providers (e.g. NtpTimeProvider) can take 100s of milliseconds to return, so using the coroutine infrastructure allows other coroutines to continue executing.</p>
-<p>2) Call the <a class="el" href="classace__time_1_1clock_1_1SystemClockSyncLoop.html#af1bc8c275db5ecc7aeed66ff6848c4c6" title="If AceRoutine coroutine infrastructure is not used, then call this from the global loop() method...">SystemClockSyncLoop::loop()</a> method from the global loop() function. This method uses the blocking <a class="el" href="classace__time_1_1clock_1_1TimeProvider.html#ab350cbeb3cf07545d570d16d45f38222" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z). ">TimeProvider::getNow()</a> method which can take O(100) milliseconds for something like NtpTimeProvider. </p>
+<p>1) Create an instance of <a class="el" href="classace__time_1_1clock_1_1SystemClockSyncCoroutine.html" title="A coroutine that syncs the SystemClock with its mSyncTimeProvider. ">SystemClockSyncCoroutine</a> and register it with the CoroutineSchedule so that it runs periodically. The <a class="el" href="classace__time_1_1clock_1_1SystemClockSyncCoroutine.html#a849f4291836de179fb3aa611e25853fc">SystemClockSyncCoroutine::runCoroutine()</a> method uses the non-blocking <a class="el" href="classace__time_1_1clock_1_1TimeProvider.html#a28a580129c0b518ff79ae040dd506995" title="Send a time request asynchronously. ">sendRequest()</a>, <a class="el" href="classace__time_1_1clock_1_1TimeProvider.html#a675396de08c217467f14f61d90b0f7fe" title="Return true if a response is ready. ">isResponseReady()</a> and <a class="el" href="classace__time_1_1clock_1_1TimeProvider.html#afa07602f28a900569b1359410b7523ec" title="Returns number of seconds since AceTime epoch (2000-01-01). ">readResponse()</a> methods of <a class="el" href="classace__time_1_1clock_1_1TimeProvider.html" title="Base class for objects that provide a source of time whose time cannot be changed by the end-user...">TimeProvider</a> to retrieve the current time. Some time providers (e.g. NtpTimeProvider) can take 100s of milliseconds to return, so using the coroutine infrastructure allows other coroutines to continue executing.</p>
+<p>2) Call the <a class="el" href="classace__time_1_1clock_1_1SystemClockSyncLoop.html#af1bc8c275db5ecc7aeed66ff6848c4c6" title="Call this from the global loop() method. ">SystemClockSyncLoop::loop()</a> method from the global loop() function. This method uses the blocking <a class="el" href="classace__time_1_1clock_1_1TimeProvider.html#ab350cbeb3cf07545d570d16d45f38222" title="Return the number of seconds since the AceTime epoch (2000-01-01T00:00:00Z). ">TimeProvider::getNow()</a> method which can take O(100) milliseconds for something like NtpTimeProvider. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00045">45</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00050">50</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a06a954f7d73ec2ad3138f38fcd8889d2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a06a954f7d73ec2ad3138f38fcd8889d2">&#9670;&nbsp;</a></span>SystemClock()</h2>
@@ -207,7 +211,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00055">55</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00060">60</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -238,7 +242,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>Return the time (seconds since Epoch) of the last valid <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aea0bed257e52fe4e9ae93032ef7e4404" title="Similar to setNow() except that backupNow() is called only if the backupTimeKeeper is different from ...">sync()</a> call. </p>
 <p>Returns 0 if never synced. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00114">114</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00127">127</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -270,7 +274,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Implements <a class="el" href="classace__time_1_1clock_1_1TimeProvider.html#ab350cbeb3cf07545d570d16d45f38222">ace_time::clock::TimeProvider</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00067">67</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00080">80</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -299,7 +303,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Return true if initialized by <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aa33cfb495e1b6247916b986bbef6875d" title="Set the time to the indicated seconds. ">setNow()</a> or <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aea0bed257e52fe4e9ae93032ef7e4404" title="Similar to setNow() except that backupNow() is called only if the backupTimeKeeper is different from ...">sync()</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00119">119</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00132">132</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -329,7 +333,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>Return the Arduino <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a821ac223df9233d771f59131cbd5ee22" title="Return the Arduino millis(). ">millis()</a>. </p>
 <p>Override for unit testing. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00123">123</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00136">136</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -362,7 +366,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Implements <a class="el" href="classace__time_1_1clock_1_1TimeKeeper.html#a7ee4d6e3b91ecb9d231836277b68e54d">ace_time::clock::TimeKeeper</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00077">77</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00090">90</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -394,7 +398,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>This prevents us from retrieving the time from the RTC, then saving it right back again, with a drift each time it is saved back.</p>
 <p>TODO: Implement a more graceful <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aea0bed257e52fe4e9ae93032ef7e4404" title="Similar to setNow() except that backupNow() is called only if the backupTimeKeeper is different from ...">sync()</a> algorithm which shifts only a few milliseconds per iteration, and which guarantees that the clock never goes backwards in time. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00096">96</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00109">109</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>

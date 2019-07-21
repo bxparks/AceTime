@@ -5,5 +5,5 @@ var searchData=
   ['transitiontime',['transitionTime',['../structace__time_1_1extended_1_1Transition.html#a921304f2d1a1e7ffcaabd6d3c9f8e1b6',1,'ace_time::extended::Transition']]],
   ['transitiontimes',['transitionTimeS',['../structace__time_1_1extended_1_1Transition.html#afef501c91a4b3c8284cac2bb282380ce',1,'ace_time::extended::Transition']]],
   ['transitiontimeu',['transitionTimeU',['../structace__time_1_1extended_1_1Transition.html#af647be5804c1372e56fb8520ef673be0',1,'ace_time::extended::Transition']]],
-  ['tzversion',['tzVersion',['../structace__time_1_1common_1_1ZoneContext.html#a119d01112ecb84457ff218e5a6343769',1,'ace_time::common::ZoneContext']]]
+  ['tzversion',['tzVersion',['../structace__time_1_1basic_1_1ZoneContext.html#a4aa254cddfb648deb8bb1a373b8c11ca',1,'ace_time::basic::ZoneContext::tzVersion()'],['../structace__time_1_1extended_1_1ZoneContext.html#a9212bdc0eeb8dd4437887173a17c9f44',1,'ace_time::extended::ZoneContext::tzVersion()']]]
 ];
