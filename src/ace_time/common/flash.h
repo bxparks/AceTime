@@ -7,6 +7,7 @@
 #define ACE_TIME_COMMON_FLASH_H
 
 #include <stdint.h>
+#include <string.h>
 
 /**
  * Use PROGMEM for zonedb and zonedbx zoneinfo files. Controls how
