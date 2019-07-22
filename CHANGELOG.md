@@ -1,7 +1,7 @@
 # Changelog
 
 * Unreleased
-* 0.5 (2019-07-21, TB DB version 2019a, beta)
+* 0.5 (2019-07-21, TZ DB version 2019a, beta)
     * Remove over-engineered `SystemClockHeartbeatLoop` and
       `SystemClockHeartbeatLoop` and replace with just a call to
       `SystemClock::keepAlive()`.
