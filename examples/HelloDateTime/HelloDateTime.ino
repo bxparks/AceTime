@@ -1,6 +1,6 @@
 /*
  * A program to demonstrate the use of AceTime classes. It should print the
- * following on the Serial port:
+ * following on the SERIAL_PORT_MONITOR port:
  *
  * Epoch Seconds: 605527200
  * Unix Seconds: 1552212000
@@ -33,7 +33,7 @@ void setup() {
   delay(1000);
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
-  while (!SERIAL_PORT_MONITOR); // Wait until Serial is ready - Leonardo/Micro
+  while (!SERIAL_PORT_MONITOR); // Wait until SERIAL_PORT_MONITOR is ready - Leonardo/Micro
 
   auto pacificTz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
       &pacificProcessor);

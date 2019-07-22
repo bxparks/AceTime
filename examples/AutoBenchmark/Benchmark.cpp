@@ -7,8 +7,10 @@
 using namespace ace_time;
 using ace_time::common::printPad3;
 
-#if defined(AVR)
+#if defined(ARDUINO_ARCH_AVR)
 const uint32_t COUNT = 2500;
+#elif defined(ARDUINO_ARCH_SAMD)
+const uint32_t COUNT = 10000;
 #elif defined(ESP8266)
 const uint32_t COUNT = 10000;
 #elif defined(ESP32)
@@ -16,9 +18,11 @@ const uint32_t COUNT = 100000;
 #elif defined(TEENSYDUINO)
 const uint32_t COUNT = 100000;
 #elif !defined(ARDUINO)
+// Linux or MacOS
 const uint32_t COUNT = 100000;
 #else
-  #error Unsupported platform
+// A generic Arduino board that we have not looked at.
+const uint32_t COUNT = 10000;
 #endif
 
 const uint32_t MILLIS_TO_NANO_PER_ITERATION = ((uint32_t) 1000000 / COUNT);
@@ -133,16 +137,16 @@ unsigned long runLambda(uint32_t count, F&& lambda) {
 }
 
 void printPad3(uint16_t val, char padChar) {
-  if (val < 100) Serial.print(padChar);
-  if (val < 10) Serial.print(padChar);
-  Serial.print(val);
+  if (val < 100) SERIAL_PORT_MONITOR.print(padChar);
+  if (val < 10) SERIAL_PORT_MONITOR.print(padChar);
+  SERIAL_PORT_MONITOR.print(val);
 }
 
 void printPad4(uint16_t val, char padChar) {
-  if (val < 1000) Serial.print(padChar);
-  if (val < 100) Serial.print(padChar);
-  if (val < 10) Serial.print(padChar);
-  Serial.print(val);
+  if (val < 1000) SERIAL_PORT_MONITOR.print(padChar);
+  if (val < 100) SERIAL_PORT_MONITOR.print(padChar);
+  if (val < 10) SERIAL_PORT_MONITOR.print(padChar);
+  SERIAL_PORT_MONITOR.print(val);
 }
 
 // Given total elapsed time in millis, print micros per iteration as a floating
@@ -154,14 +158,14 @@ void printPad4(uint16_t val, char padChar) {
 // occurs.
 static void printMicrosPerIteration(long elapsedMillis) {
   if (elapsedMillis < 0) {
-    Serial.print(F("  -0.000"));
+    SERIAL_PORT_MONITOR.print(F("  -0.000"));
     return;
   }
   unsigned long nanos = elapsedMillis * MILLIS_TO_NANO_PER_ITERATION;
   uint16_t whole = nanos / 1000;
   uint16_t frac = nanos % 1000;
   printPad4(whole, ' ');
-  Serial.print('.');
+  SERIAL_PORT_MONITOR.print('.');
   printPad3(frac, '0');
 }
 
@@ -170,9 +174,9 @@ static void runEmptyLoop() {
     unsigned long tickMillis = millis();
     disableOptimization(tickMillis);
   });
-  Serial.print(FPSTR(EMPTY_LOOP_LABEL));
+  SERIAL_PORT_MONITOR.print(FPSTR(EMPTY_LOOP_LABEL));
   printMicrosPerIteration(emptyLoopMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 // LocalDate::forEpochDays()
@@ -188,9 +192,9 @@ static void runLocalDateForEpochDays() {
   });
   long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
 
-  Serial.print(FPSTR(LOCAL_DATE_FOR_EPOCH_DAYS_LABEL));
+  SERIAL_PORT_MONITOR.print(FPSTR(LOCAL_DATE_FOR_EPOCH_DAYS_LABEL));
   printMicrosPerIteration(elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 // LocalDate::toEpochDays()
@@ -208,9 +212,9 @@ static void runLocalDateToEpochDays() {
   });
   long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
 
-  Serial.print(FPSTR(LOCAL_DATE_TO_EPOCH_DAYS_LABEL));
+  SERIAL_PORT_MONITOR.print(FPSTR(LOCAL_DATE_TO_EPOCH_DAYS_LABEL));
   printMicrosPerIteration(elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 // LocalDate::dayOfWeek()
@@ -229,9 +233,9 @@ static void runLocalDateDaysOfWeek() {
   });
   long elapsedMillis = localDateDayOfWeekMillis - forEpochDaysMillis;
 
-  Serial.print(FPSTR(LOCAL_DATE_DAY_OF_WEEK_LABEL));
+  SERIAL_PORT_MONITOR.print(FPSTR(LOCAL_DATE_DAY_OF_WEEK_LABEL));
   printMicrosPerIteration(elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 // OffsetDateTime::forEpochSeconds()
@@ -248,9 +252,9 @@ static void runOffsetDateTimeForEpochSeconds() {
   });
   long elapsedMillis = localDateForDaysMillis - emptyLoopMillis;
 
-  Serial.print(FPSTR(OFFSET_DATE_TIME_FOR_EPOCH_SECONDS_LABEL));
+  SERIAL_PORT_MONITOR.print(FPSTR(OFFSET_DATE_TIME_FOR_EPOCH_SECONDS_LABEL));
   printMicrosPerIteration(elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 // OffsetDateTime::toEpochSeconds()
@@ -270,9 +274,9 @@ static void runOffsetDateTimeToEpochSeconds() {
   });
   long elapsedMillis = localDateToEpochDaysMillis - forEpochDaysMillis;
 
-  Serial.print(FPSTR(OFFSET_DATE_TIME_TO_EPOCH_SECONDS_LABEL));
+  SERIAL_PORT_MONITOR.print(FPSTR(OFFSET_DATE_TIME_TO_EPOCH_SECONDS_LABEL));
   printMicrosPerIteration(elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 // ZonedDateTime::forEpochSeconds(seconds)
@@ -289,9 +293,9 @@ static void runZonedDateTimeForEpochSeconds() {
   });
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
-  Serial.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_LABEL));
+  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_LABEL));
   printMicrosPerIteration(elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 // ZonedDateTime::toEpochDays()
@@ -311,9 +315,9 @@ static void runZonedDateTimeToEpochDays() {
   });
   long elapsedMillis = toEpochDaysMillis - forEpochSecondsMillis;
 
-  Serial.print(FPSTR(DATE_TIME_TO_EPOCH_DAYS_LABEL));
+  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_TO_EPOCH_DAYS_LABEL));
   printMicrosPerIteration(elapsedMillis < 0 ? 0 : elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 // ZonedDateTime::toEpochSeconds()
@@ -333,9 +337,9 @@ static void runZonedDateTimeToEpochSeconds() {
   });
   long elapsedMillis = toEpochSecondsMillis - forEpochSecondsMillis;
 
-  Serial.print(FPSTR(DATE_TIME_TO_EPOCH_SECONDS_LABEL));
+  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_TO_EPOCH_SECONDS_LABEL));
   printMicrosPerIteration(elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 static const acetime_t kTwoYears = 2 * 365 * 24 * 3600L;
@@ -370,9 +374,9 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManager() {
   });
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
-  Serial.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_BASIC_NO_CACHE));
+  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_BASIC_NO_CACHE));
   printMicrosPerIteration(elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached
@@ -393,9 +397,9 @@ static void runZonedDateTimeForEpochSecondsBasicZoneManagerCached() {
   });
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
-  Serial.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_BASIC_CACHED));
+  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_BASIC_CACHED));
   printMicrosPerIteration(elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 static const extended::ZoneInfo* const kExtendedZoneRegistry[]
@@ -430,9 +434,9 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManager() {
   });
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
-  Serial.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_NO_CACHE));
+  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_NO_CACHE));
   printMicrosPerIteration(elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 // ZonedDateTime::forEpochSeconds(seconds, tz) cached ExtendedZoneManager
@@ -454,18 +458,18 @@ static void runZonedDateTimeForEpochSecondsExtendedZoneManagerCached() {
   });
   long elapsedMillis = forEpochSecondsMillis - emptyLoopMillis;
 
-  Serial.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_CACHED));
+  SERIAL_PORT_MONITOR.print(FPSTR(DATE_TIME_FOR_EPOCH_SECONDS_EXTENDED_CACHED));
   printMicrosPerIteration(elapsedMillis);
-  Serial.println(FPSTR(COL_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(COL_DIVIDER));
 }
 
 void runBenchmarks() {
-  Serial.println(FPSTR(TOP));
-  Serial.println(FPSTR(HEADER));
-  Serial.println(FPSTR(ROW_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(TOP));
+  SERIAL_PORT_MONITOR.println(FPSTR(HEADER));
+  SERIAL_PORT_MONITOR.println(FPSTR(ROW_DIVIDER));
 
   runEmptyLoop();
-  Serial.println(FPSTR(ROW_DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(ROW_DIVIDER));
 
   runLocalDateForEpochDays();
   runLocalDateToEpochDays();
@@ -483,8 +487,8 @@ void runBenchmarks() {
   runZonedDateTimeForEpochSecondsExtendedZoneManager();
   runZonedDateTimeForEpochSecondsExtendedZoneManagerCached();
 
-  Serial.println(FPSTR(BOTTOM));
+  SERIAL_PORT_MONITOR.println(FPSTR(BOTTOM));
 
-  Serial.print(F("Number of iterations per run: "));
-  Serial.println(COUNT);
+  SERIAL_PORT_MONITOR.print(F("Number of iterations per run: "));
+  SERIAL_PORT_MONITOR.println(COUNT);
 }

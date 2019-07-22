@@ -80,7 +80,7 @@ class Controller {
 
     void modeButtonPress() {
       #if ENABLE_SERIAL == 1
-        Serial.println(F("modeButtonPress()"));
+        SERIAL_PORT_MONITOR.println(F("modeButtonPress()"));
       #endif
       switch (mMode) {
         // Cycle through the 3 main screens.
@@ -133,7 +133,7 @@ class Controller {
 
     void modeButtonLongPress() {
       #if ENABLE_SERIAL == 1
-        Serial.println(F("modeButtonLongPress()"));
+        SERIAL_PORT_MONITOR.println(F("modeButtonLongPress()"));
       #endif
       switch (mMode) {
         case MODE_DATE_TIME:
@@ -175,7 +175,7 @@ class Controller {
 
     void changeButtonPress() {
       #if ENABLE_SERIAL == 1
-        Serial.println(F("changeButtonPress()"));
+        SERIAL_PORT_MONITOR.println(F("changeButtonPress()"));
       #endif
       switch (mMode) {
         // Switch 12/24 modes if in MODE_DATA_TIME
@@ -357,7 +357,7 @@ class Controller {
     /** Transfer info from ChangingClockInfo to ClockInfo. */
     void saveClockInfo() {
     #if ENABLE_SERIAL == 1
-      Serial.println(F("saveClockInfo()"));
+      SERIAL_PORT_MONITOR.println(F("saveClockInfo()"));
     #endif
       mClockInfo = mChangingClockInfo;
       preserveClockInfo(mCrcEeprom, mClockInfo);
@@ -367,7 +367,7 @@ class Controller {
     static void preserveClockInfo(hw::CrcEeprom& crcEeprom,
         const ClockInfo& clockInfo) {
     #if ENABLE_SERIAL == 1
-      Serial.println(F("preserveClockInfo()"));
+      SERIAL_PORT_MONITOR.println(F("preserveClockInfo()"));
     #endif
       StoredInfo storedInfo;
       storedInfo.hourMode = clockInfo.hourMode;
@@ -379,18 +379,18 @@ class Controller {
     /** Restore clockInfo from storedInfo. */
     void restoreClockInfo(ClockInfo& clockInfo, const StoredInfo& storedInfo) {
     #if ENABLE_SERIAL == 1
-      Serial.println(F("restoreClockInfo()"));
-      Serial.print(F("hourMode: ")); Serial.println(storedInfo.hourMode);
-      Serial.print(F("type: ")); Serial.println(storedInfo.timeZoneData.type);
+      SERIAL_PORT_MONITOR.println(F("restoreClockInfo()"));
+      SERIAL_PORT_MONITOR.print(F("hourMode: ")); SERIAL_PORT_MONITOR.println(storedInfo.hourMode);
+      SERIAL_PORT_MONITOR.print(F("type: ")); SERIAL_PORT_MONITOR.println(storedInfo.timeZoneData.type);
       if (storedInfo.type == TimeZoneData::kTypeManual) {
-        Serial.print(F("std: "));
-        Serial.println(storedInfo.timeZoneData.stdOffsetCode);
-        Serial.print(F("dst: "));
-        Serial.println(storedInfo.timeZoneData.dstOffsetCode);
+        SERIAL_PORT_MONITOR.print(F("std: "));
+        SERIAL_PORT_MONITOR.println(storedInfo.timeZoneData.stdOffsetCode);
+        SERIAL_PORT_MONITOR.print(F("dst: "));
+        SERIAL_PORT_MONITOR.println(storedInfo.timeZoneData.dstOffsetCode);
       } else if (storedInfo.type == TimeZoneData::kTypeZoneId) {
-        Serial.print(F("zoneId: 0x")); Serial.println(storedInfo.zoneId, 16);
+        SERIAL_PORT_MONITOR.print(F("zoneId: 0x")); SERIAL_PORT_MONITOR.println(storedInfo.zoneId, 16);
       } else {
-        Serial.println(F("<error>"));
+        SERIAL_PORT_MONITOR.println(F("<error>"));
       }
     #endif
       clockInfo.hourMode = storedInfo.hourMode;

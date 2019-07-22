@@ -16,8 +16,10 @@
 
 using namespace ace_time;
 
-#if defined(AVR)
+#if defined(ARDUINO_ARCH_AVR)
 const uint32_t COUNT = 2000;
+#elif defined(ARDUINO_ARCH_SAMD)
+const uint32_t COUNT = 10000;
 #elif defined(ESP8266)
 const uint32_t COUNT = 10000;
 #elif defined(ESP32) || defined(TEENSYDUINO)
@@ -114,9 +116,9 @@ unsigned long runLambda(acetime_t startSeconds, F&& lambda) {
 }
 
 void printPad3(uint16_t val, char padChar) {
-  if (val < 100) Serial.print(padChar);
-  if (val < 10) Serial.print(padChar);
-  Serial.print(val);
+  if (val < 100) SERIAL_PORT_MONITOR.print(padChar);
+  if (val < 10) SERIAL_PORT_MONITOR.print(padChar);
+  SERIAL_PORT_MONITOR.print(val);
 }
 
 const uint32_t MILLIS_TO_NANO_PER_ITERATION = ( 1000000 / COUNT);
@@ -130,14 +132,14 @@ const uint32_t MILLIS_TO_NANO_PER_ITERATION = ( 1000000 / COUNT);
 // occurs.
 void printMicrosPerIteration(long elapsedMillis) {
   if (elapsedMillis < 0) {
-    Serial.print(F("  -0.000"));
+    SERIAL_PORT_MONITOR.print(F("  -0.000"));
     return;
   }
   unsigned long nanos = elapsedMillis * MILLIS_TO_NANO_PER_ITERATION;
   uint16_t whole = nanos / 1000;
   uint16_t frac = nanos % 1000;
   printPad3(whole, ' ');
-  Serial.print('.');
+  SERIAL_PORT_MONITOR.print('.');
   printPad3(frac, '0');
 }
 
@@ -147,9 +149,9 @@ void runEmptyLoop() {
     disableOptimization(seconds);
   });
 
-  Serial.print(FPSTR(EMPTY_LOOP_LABEL));
+  SERIAL_PORT_MONITOR.print(FPSTR(EMPTY_LOOP_LABEL));
   printMicrosPerIteration(baseMillis);
-  Serial.println(FPSTR(ENDING));
+  SERIAL_PORT_MONITOR.println(FPSTR(ENDING));
 }
 
 // AceTime library: LocalDateTime::forEpochSeconds()
@@ -162,9 +164,9 @@ void runAceTimeForEpochSeconds() {
     disableOptimization(seconds);
   });
 
-  Serial.print(FPSTR(ACE_TIME_FOR_EPOCH_SECONDS));
+  SERIAL_PORT_MONITOR.print(FPSTR(ACE_TIME_FOR_EPOCH_SECONDS));
   printMicrosPerIteration(elapsedMillis - baseMillis);
-  Serial.println(FPSTR(ENDING));
+  SERIAL_PORT_MONITOR.println(FPSTR(ENDING));
 }
 
 // AceTime library: LocalDateTime::toEpochSeconds()
@@ -179,9 +181,9 @@ void runAceTimeToEpochSeconds() {
     disableOptimization(dt);
   });
 
-  Serial.print(FPSTR(ACE_TIME_TO_EPOCH_SECONDS));
+  SERIAL_PORT_MONITOR.print(FPSTR(ACE_TIME_TO_EPOCH_SECONDS));
   printMicrosPerIteration(elapsedMillis - baseMillis);
-  Serial.println(FPSTR(ENDING));
+  SERIAL_PORT_MONITOR.println(FPSTR(ENDING));
 }
 
 // Time library: breakTime()
@@ -197,9 +199,9 @@ void runTimeLibBreakTime() {
       disableOptimization(seconds);
     });
 
-  Serial.print(FPSTR(ARDUINO_TIME_BREAK_TIME));
+  SERIAL_PORT_MONITOR.print(FPSTR(ARDUINO_TIME_BREAK_TIME));
   printMicrosPerIteration(elapsedMillis - baseMillis);
-  Serial.println(FPSTR(ENDING));
+  SERIAL_PORT_MONITOR.println(FPSTR(ENDING));
 }
 
 // Time library: makeTime()
@@ -218,30 +220,30 @@ void runTimeLibMakeTime() {
       disableOptimization(tm);
     });
 
-  Serial.print(FPSTR(ARDUINO_TIME_MAKE_TIME));
+  SERIAL_PORT_MONITOR.print(FPSTR(ARDUINO_TIME_MAKE_TIME));
   printMicrosPerIteration(elapsedMillis - baseMillis);
-  Serial.println(FPSTR(ENDING));
+  SERIAL_PORT_MONITOR.println(FPSTR(ENDING));
 }
 
 void runBenchmarks() {
-  Serial.println(FPSTR(TOP));
-  Serial.println(FPSTR(HEADER));
-  Serial.println(FPSTR(DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(TOP));
+  SERIAL_PORT_MONITOR.println(FPSTR(HEADER));
+  SERIAL_PORT_MONITOR.println(FPSTR(DIVIDER));
 
   runEmptyLoop();
-  Serial.println(FPSTR(DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(DIVIDER));
 
   runAceTimeForEpochSeconds();
   runTimeLibBreakTime();
-  Serial.println(FPSTR(DIVIDER));
+  SERIAL_PORT_MONITOR.println(FPSTR(DIVIDER));
 
   runAceTimeToEpochSeconds();
   runTimeLibMakeTime();
-  Serial.println(FPSTR(BOTTOM));
+  SERIAL_PORT_MONITOR.println(FPSTR(BOTTOM));
 
   // Print some stats
-  Serial.print("Number of iterations per run: ");
-  Serial.println(COUNT);
-  Serial.print("Delta seconds: ");
-  Serial.println(DELTA_SECONDS);
+  SERIAL_PORT_MONITOR.print("Number of iterations per run: ");
+  SERIAL_PORT_MONITOR.println(COUNT);
+  SERIAL_PORT_MONITOR.print("Delta seconds: ");
+  SERIAL_PORT_MONITOR.println(DELTA_SECONDS);
 }

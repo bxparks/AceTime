@@ -107,7 +107,7 @@ class Presenter {
 
     void displayDateTime() const {
     #if ENABLE_SERIAL == 1
-      Serial.println(F("displayDateTime()"));
+      SERIAL_PORT_MONITOR.println(F("displayDateTime()"));
     #endif
       mOled.setFont(fixed_bold10x15);
       const ZonedDateTime& dateTime = mRenderingInfo.dateTime;
@@ -181,7 +181,7 @@ class Presenter {
 
     void displayTimeZone() const {
     #if ENABLE_SERIAL
-      Serial.println(F("displayTimeZone()"));
+      SERIAL_PORT_MONITOR.println(F("displayTimeZone()"));
     #endif
       mOled.setFont(fixed_bold10x15);
 
@@ -265,7 +265,7 @@ class Presenter {
 
     void displayAbout() const {
     #if ENABLE_SERIAL == 1
-      Serial.println(F("displayAbout()"));
+      SERIAL_PORT_MONITOR.println(F("displayAbout()"));
     #endif
       mOled.setFont(SystemFont5x7);
 

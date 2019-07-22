@@ -9,7 +9,7 @@
 
 #define EEPROM_SIZE 32
 
-// Set to 1 to print debugging info to Serial
+// Set to 1 to print debugging info to SERIAL_PORT_MONITOR
 #define ENABLE_SERIAL 0
 
 // Set to 1 to force the ClockInfo to its initial state
