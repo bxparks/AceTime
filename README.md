@@ -419,7 +419,7 @@ library will work fine under MacOS and Windows, but I have not tested them.
 
 ### Hardware
 
-The library is tested on the following hardware before each release:
+The library is fully tested on the following boards:
 
 * Arduino Nano clone (16 MHz ATmega328P)
 * SparkFun Pro Micro clone (16 MHz ATmega32U4)
@@ -429,6 +429,13 @@ The library is tested on the following hardware before each release:
 I will occasionally test on the following hardware as a sanity check:
 
 * Teensy 3.2 (72 MHz ARM Cortex-M4)
+
+The following boards may have some incompatibilities:
+
+* Arduino Zero compatible SAMD21 M0 Mini (48 MHz ARM Cortex-M0+)
+    * All unit tests pass.
+    * Some sketches in `examples` do not compile because the SAMD21 does
+      not have an EEPROM.
 
 ## Changelog
 
