@@ -59,7 +59,7 @@ C++ namespaces:
         * `ace_time::clock::NtpTimeProvider`
     * `ace_time::clock::SystemClockSyncCoroutine`
     * `ace_time::clock::SystemClockSyncLoop`
-* internal helper classes (normally unused by app developers)
+* internal helper classes (not normally used by app developers)
     * `ace_time::basic::ZoneContext`
     * `ace_time::basic::ZoneEra`
     * `ace_time::basic::ZoneInfo`
