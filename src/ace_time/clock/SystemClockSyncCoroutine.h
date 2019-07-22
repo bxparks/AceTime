@@ -16,7 +16,10 @@ namespace ace_time {
 namespace clock {
 
 /**
- * A coroutine that syncs the SystemClock with its syncTimeProvider.
+ * A coroutine that syncs the SystemClock with its mSyncTimeProvider. The
+ * call to mSyncTimeProvider is asynchronous, which is helpful when the
+ * syncTimeProvider issues a network request to an NTP server.
+ *
  * Initially, the class attempts to sync with its syncTimeProvider every
  * initialSyncPeriodSeconds. If the request fails, then it retries with an
  * exponential backoff (doubling the delay every iteration), until the sync
@@ -37,14 +40,13 @@ class SystemClockSyncCoroutine: public ace_routine::Coroutine {
      *    syncTimeProvider times out
      * @param timingStats internal statistics
      */
-    SystemClockSyncCoroutine(SystemClock& systemClock,
+    explicit SystemClockSyncCoroutine(SystemClock& systemClock,
         uint16_t syncPeriodSeconds = 3600,
         uint16_t initialSyncPeriodSeconds = 5,
         uint16_t requestTimeoutMillis = 1000,
         common::TimingStats* timingStats = nullptr):
       mSystemClock(systemClock),
       mSyncPeriodSeconds(syncPeriodSeconds),
-      mInitialSyncPeriodSeconds(initialSyncPeriodSeconds),
       mRequestTimeoutMillis(requestTimeoutMillis),
       mTimingStats(timingStats),
       mCurrentSyncPeriodSeconds(initialSyncPeriodSeconds) {}
@@ -115,12 +117,16 @@ class SystemClockSyncCoroutine: public ace_routine::Coroutine {
   private:
     friend class ::SystemClockSyncCoroutineTest;
 
+    // disable copy constructor and assignment operator
+    SystemClockSyncCoroutine(const SystemClockSyncCoroutine&) = delete;
+    SystemClockSyncCoroutine& operator=(const SystemClockSyncCoroutine&) =
+        delete;
+
     static const uint8_t kStatusOk = 0;
     static const uint8_t kStatusTimedOut = 1;
 
     SystemClock& mSystemClock;
     uint16_t const mSyncPeriodSeconds;
-    uint16_t const mInitialSyncPeriodSeconds;
     uint16_t const mRequestTimeoutMillis;
     common::TimingStats* const mTimingStats;
 

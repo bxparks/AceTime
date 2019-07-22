@@ -29,9 +29,9 @@ namespace clock {
  * a uint16_t. That has 2 advantages: 1) it saves memory, 2) the upper bound of
  * the execution time of getNow() limited to 65 iterations. The disadvantage is
  * the that internal counter will rollover within 65.535 milliseconds. To
- * prevent that, getNow() or setNow() must be called more frequently than every
- * 65.536 seconds. This can be satisfied by using the
- * SystemClockHeartbeatCoroutine or SystemClockHeartbeatLoop helper classes.
+ * prevent that, keepAlive() must be called more frequently than every 65.536
+ * seconds. The easiest way to do this is to call it from the global loop()
+ * method.
  *
  * There are 2 ways to perform syncing from the syncTimeProvider:
  *
@@ -67,6 +67,14 @@ class SystemClock: public TimeKeeper {
       if (mBackupTimeKeeper != nullptr) {
         setNow(mBackupTimeKeeper->getNow());
       }
+    }
+
+    /**
+     * Call this (or getNow() every 65.535 seconds or faster to keep the
+     * internal counter in sync with millis().
+     */
+    void keepAlive() {
+      getNow();
     }
 
     acetime_t getNow() const override {

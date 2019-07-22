@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.3</span>
+   &#160;<span id="projectnumber">0.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -233,15 +233,14 @@ Friends</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The date (year, month, day) representing the date without regards to time zone. </p>
-<p>The "epoch" for this library is 2000-01-01.</p>
 <p>The year field is internally represented as an int8_t offset from the year</p><ol type="1">
 <li>However, the value of -128 (kInvalidYearTiny) is used to indicate an error condition. So the actual range of the year is [1873, 2127] instead of [1872, 2127].</li>
 </ol>
 <p>If the year is restricted to 2000-2099 (2 digit years), these fields correspond to the range supported by the DS3231 RTC chip.</p>
 <p>The dayOfWeek (1=Monday, 7=Sunday, per ISO 8601) is calculated from the date fields.</p>
-<p>Parts of this class were inspired by the java.time.LocalDate class of Java 8 (<a href="https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html">https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html</a>). </p>
+<p>Parts of this class were inspired by the java.time.LocalDate class of Java 11 (<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDate.html">https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDate.html</a>). </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00030">30</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00036">36</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a41f1d5077a4189c3b2cab649a532c580"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a41f1d5077a4189c3b2cab649a532c580">&#9670;&nbsp;</a></span>LocalDate()</h2>
@@ -268,7 +267,7 @@ Friends</h2></td></tr>
 
 <p>Default constructor does nothing. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00210">210</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00216">216</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -300,7 +299,7 @@ Friends</h2></td></tr>
 <p>Compare this <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone. ">LocalDate</a> to that <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone. ">LocalDate</a>, returning (&lt;0, 0, &gt;0) according to whether the epochSeconds is (this&lt;that, this==this, this&gt;that). </p>
 <p>If <a class="el" href="classace__time_1_1LocalDate.html#a0c718d4fea5ad37c1263766b44b532ff" title="Return true if any component indicates an error condition. ">isError()</a> is true, the behavior is undefined. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00332">332</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00338">338</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -329,7 +328,7 @@ Friends</h2></td></tr>
 
 <p>Return the day of the month. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00231">231</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00237">237</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -359,7 +358,7 @@ Friends</h2></td></tr>
 
 <p>Set the day of the month. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00234">234</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00240">240</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -389,7 +388,7 @@ Friends</h2></td></tr>
 <p>Calculate the day of week given the (year, month, day). </p>
 <p>Idea borrowed from <a href="https://github.com/evq/utz">https://github.com/evq/utz</a>. No validation of year, month or day is performed. If this is found to be too slow, then consider caching the results. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00242">242</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00248">248</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -429,7 +428,7 @@ Friends</h2></td></tr>
 
 <p>Return the number of days in the current month. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00204">204</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00210">210</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -484,7 +483,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00088">88</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00094">94</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -521,7 +520,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8cpp_source.html#l00062">62</a> of file <a class="el" href="LocalDate_8cpp_source.html">LocalDate.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8cpp_source.html#l00067">67</a> of file <a class="el" href="LocalDate_8cpp_source.html">LocalDate.cpp</a>.</p>
 
 </div>
 </div>
@@ -553,7 +552,7 @@ Friends</h2></td></tr>
 <p>This allows chaining to another forXxxStringChainable() method.</p>
 <p>This method assumes that the dateString is sufficiently long. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8cpp_source.html#l00069">69</a> of file <a class="el" href="LocalDate_8cpp_source.html">LocalDate.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8cpp_source.html#l00074">74</a> of file <a class="el" href="LocalDate_8cpp_source.html">LocalDate.cpp</a>.</p>
 
 </div>
 </div>
@@ -590,7 +589,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00107">107</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00113">113</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -628,7 +627,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00139">139</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00145">145</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -658,7 +657,7 @@ Friends</h2></td></tr>
 <p>Factory method that returns a <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone. ">LocalDate</a> which represents an error condition. </p>
 <p>The <a class="el" href="classace__time_1_1LocalDate.html#a0c718d4fea5ad37c1263766b44b532ff" title="Return true if any component indicates an error condition. ">isError()</a> method will return true. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00188">188</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00194">194</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -704,7 +703,7 @@ Friends</h2></td></tr>
 
 <p>Factory method using components with an int8_t yearTiny. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00095">95</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00101">101</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -734,7 +733,7 @@ Friends</h2></td></tr>
 
 <p>Factory method using the number of days since Unix epoch 1970-01-1. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00120">120</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00126">126</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -765,7 +764,7 @@ Friends</h2></td></tr>
 <p>Factory method that takes the number of seconds since Unix Epoch of 1970-01-01. </p>
 <p>Similar to <a class="el" href="classace__time_1_1LocalDate.html#ab04f803683ec7c9ae5d4037efb297a77" title="Factory method using the number of seconds since AceTime epoch of 2000-01-01. ">forEpochSeconds()</a>, the seconds corresponding to the partial day are truncated down towards the smallest whole day. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00156">156</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00162">162</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -794,7 +793,7 @@ Friends</h2></td></tr>
 
 <p>Return true if any component indicates an error condition. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00252">252</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00258">258</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -824,7 +823,7 @@ Friends</h2></td></tr>
 
 <p>True if year is a leap year. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00193">193</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00199">199</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -854,7 +853,7 @@ Friends</h2></td></tr>
 
 <p>Return true if year is within valid range of [1873, 2127]. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00198">198</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00204">204</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -883,7 +882,7 @@ Friends</h2></td></tr>
 
 <p>Return the month with January=1, December=12. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00225">225</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00231">231</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -913,7 +912,7 @@ Friends</h2></td></tr>
 
 <p>Set the month. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00228">228</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00234">234</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -936,7 +935,7 @@ Friends</h2></td></tr>
 <p>Print <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone. ">LocalDate</a> to 'printer' in ISO 8601 format, along with the day of week. </p>
 <p>This class does not implement the Printable interface to avoid increasing the size of the object from the additional virtual function. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8cpp_source.html#l00043">43</a> of file <a class="el" href="LocalDate_8cpp_source.html">LocalDate.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8cpp_source.html#l00048">48</a> of file <a class="el" href="LocalDate_8cpp_source.html">LocalDate.cpp</a>.</p>
 
 </div>
 </div>
@@ -972,7 +971,7 @@ Friends</h2></td></tr>
 <p>Uses Julian days which normally start at 12:00:00. But this method returns the delta number of days since 00:00:00, so we can interpret the Gregorian calendar day to start at 00:00:00.</p>
 <p>See <a href="https://en.wikipedia.org/wiki/Julian_day">https://en.wikipedia.org/wiki/Julian_day</a> </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00274">274</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00280">280</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1006,7 +1005,7 @@ Friends</h2></td></tr>
 <li>the largest date corresponding to INT32_MAX is 2068-01-19 03:14:07. </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00314">314</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00320">320</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1035,7 +1034,7 @@ Friends</h2></td></tr>
 
 <p>Return the number of days since Unix epoch (1970-01-01 00:00:00). </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00299">299</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00305">305</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1064,7 +1063,7 @@ Friends</h2></td></tr>
 
 <p>Return the full year instead of just the last 2 digits. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00213">213</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00219">219</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1094,7 +1093,7 @@ Friends</h2></td></tr>
 
 <p>Set the year given the full year. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00216">216</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00222">222</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1123,7 +1122,7 @@ Friends</h2></td></tr>
 
 <p>Return the single-byte year offset from year 2000. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00219">219</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00225">225</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1153,7 +1152,7 @@ Friends</h2></td></tr>
 
 <p>Set the single-byte year offset from year 2000. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00222">222</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00228">228</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1194,7 +1193,7 @@ Friends</h2></td></tr>
 
 <p>Return true if two <a class="el" href="classace__time_1_1LocalDate.html" title="The date (year, month, day) representing the date without regards to time zone. ">LocalDate</a> objects are equal in all components. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00425">425</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00431">431</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1221,7 +1220,7 @@ Friends</h2></td></tr>
 
 <p>Base year of epoch. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00033">33</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00039">39</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1247,7 +1246,7 @@ Friends</h2></td></tr>
 
 <p>Friday ISO 8601 number. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00072">72</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00078">78</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1273,7 +1272,7 @@ Friends</h2></td></tr>
 
 <p>Sentinel epochDays which indicates an error. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00042">42</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00048">48</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1299,7 +1298,7 @@ Friends</h2></td></tr>
 
 <p>Sentinel epochSeconds which indicates an error. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00045">45</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00051">51</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1325,7 +1324,7 @@ Friends</h2></td></tr>
 
 <p>Monday ISO 8601 number. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00060">60</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00066">66</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1351,7 +1350,7 @@ Friends</h2></td></tr>
 
 <p>Saturday ISO 8601 number. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00075">75</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00081">81</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1377,7 +1376,7 @@ Friends</h2></td></tr>
 
 <p>Sunday ISO 8601 number. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00078">78</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00084">84</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1403,7 +1402,7 @@ Friends</h2></td></tr>
 
 <p>Thursday ISO 8601 number. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00069">69</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00075">75</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1429,7 +1428,7 @@ Friends</h2></td></tr>
 
 <p>Tuesday ISO 8601 number. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00063">63</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00069">69</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>
@@ -1455,7 +1454,7 @@ Friends</h2></td></tr>
 
 <p>Wednesday ISO 8601 number. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00066">66</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalDate_8h_source.html#l00072">72</a> of file <a class="el" href="LocalDate_8h_source.html">LocalDate.h</a>.</p>
 
 </div>
 </div>

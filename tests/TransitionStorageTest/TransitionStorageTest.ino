@@ -1,7 +1,7 @@
 #line 2 "TransitionStorageTest.ino"
 
 /*
- * Unit tests for TransitionStorage, extracted from ExtendedZoneSpecifierTest
+ * Unit tests for TransitionStorage, extracted from ExtendedZoneProcessorTest
  * after it became too big to run on an Arduino/SparkFun ProMicro environment.
  */
 

@@ -16,9 +16,9 @@ class TransitionTest: public aunit::TestOnce {
       assertTrue(true);
 
       const extended::ZoneInfo* zoneInfo = testData->zoneInfo;
-      ExtendedZoneSpecifier zoneSpecifier(zoneInfo);
-      zoneSpecifier.resetTransitionHighWater();
-      TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+      ExtendedZoneProcessor zoneProcessor;
+      zoneProcessor.resetTransitionHighWater();
+      TimeZone tz = TimeZone::forZoneInfo(zoneInfo, &zoneProcessor);
 
       // Assert that each epoch_second produces the expected yMdhms
       // components when converted through ZonedDataTime class.
@@ -41,8 +41,8 @@ class TransitionTest: public aunit::TestOnce {
             item.second);
         }
 
-        TimeOffset timeOffset = zoneSpecifier.getUtcOffset(epochSeconds);
-        if (DEBUG) zoneSpecifier.log();
+        TimeOffset timeOffset = tz.getUtcOffset(epochSeconds);
+        if (DEBUG) zoneProcessor.log();
 
         // Verify timeOffset
         assertEqual(item.timeOffsetMinutes, timeOffset.toMinutes());
@@ -59,7 +59,9 @@ class TransitionTest: public aunit::TestOnce {
 
       // Assert that size of the internal Transitions buffer never got
       // above the expected buffer size.
-      assertLess(zoneSpecifier.getTransitionHighWater(),
+      // TODO: In theory, this should be BasicZone(zoneInfo).transitionBufSize()
+      // but this code works only on Linux or MacOS, so doesn't really matter.
+      assertLess(zoneProcessor.getTransitionHighWater(),
         zoneInfo->transitionBufSize);
     }
 };

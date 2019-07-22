@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['equals',['equals',['../classace__time_1_1ZoneSpecifier.html#a2b6b0814249fa579822b591b305cd6c8',1,'ace_time::ZoneSpecifier']]],
-  ['extendedzonespecifier',['ExtendedZoneSpecifier',['../classace__time_1_1ExtendedZoneSpecifier.html#ae934912f4cbeae10406124d11f4c241b',1,'ace_time::ExtendedZoneSpecifier']]]
+  ['equals',['equals',['../classace__time_1_1ZoneProcessor.html#aa78857884d8b64d4be4b499970d63a70',1,'ace_time::ZoneProcessor']]],
+  ['extendedzoneprocessor',['ExtendedZoneProcessor',['../classace__time_1_1ExtendedZoneProcessor.html#a6da3153529e65fca92a446022d21820d',1,'ace_time::ExtendedZoneProcessor']]]
 ];

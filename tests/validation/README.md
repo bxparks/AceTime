@@ -1,7 +1,7 @@
 # Validation Tests
 
 These tests compare the algorithm implemented by `ZonedDateTime` and
-`ZoneSpecifier` classes with the equivalent functionalty from the Python
+`ZoneProcessor` classes with the equivalent functionalty from the Python
 [pytz](https://pypi.org/project/pytz/) library and the [Java 11
 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
 library.

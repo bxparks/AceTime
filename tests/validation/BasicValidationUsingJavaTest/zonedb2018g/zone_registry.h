@@ -10,7 +10,7 @@
 #ifndef ACE_TIME_ZONEDB2018G_ZONE_REGISTRY_H
 #define ACE_TIME_ZONEDB2018G_ZONE_REGISTRY_H
 
-#include <ace_time/common/ZoneInfo.h>
+#include <ace_time/internal/ZoneInfo.h>
 
 namespace ace_time {
 namespace zonedb2018g {

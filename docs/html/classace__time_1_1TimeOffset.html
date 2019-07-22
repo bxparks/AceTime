@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.3</span>
+   &#160;<span id="projectnumber">0.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -161,7 +161,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 <div class="fragment"><div class="line"><a class="code" href="classace__time_1_1TimeOffset.html#a0fca23cf055036370aadd89ca307aae8">TimeOffset</a> tz = <a class="code" href="classace__time_1_1TimeOffset.html#a52dc92757fbe1695419d357bb5a0bf85">TimeOffset::forHour</a>(-8);</div><div class="line"><a class="code" href="classace__time_1_1TimeOffset.html#a0fca23cf055036370aadd89ca307aae8">TimeOffset</a> tz = <a class="code" href="classace__time_1_1TimeOffset.html#aeb43c8af6b3b71f1bbabdfb58be62eb7">TimeOffset::forHourMinute</a>(-8, 0);</div><div class="line"><a class="code" href="classace__time_1_1TimeOffset.html#a0fca23cf055036370aadd89ca307aae8">TimeOffset</a> tz = <a class="code" href="classace__time_1_1TimeOffset.html#a432ebcdc40e78c55c6091288ea3ad0eb">TimeOffset::forOffsetString</a>(<span class="stringliteral">&quot;-08:00&quot;</span>);</div></div><!-- fragment --><p>You can use the default constructor to create a +00:00 <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC...">TimeOffset</a>: </p><div class="fragment"><div class="line"><a class="code" href="classace__time_1_1TimeOffset.html#a0fca23cf055036370aadd89ca307aae8">TimeOffset</a> offset;</div></div><!-- fragment --><p>According to <a href="https://en.wikipedia.org/wiki/List_of_UTC_time_offsets,">https://en.wikipedia.org/wiki/List_of_UTC_time_offsets,</a> all time zones currently in use occur at 15 minute boundaries, and the smallest time zone is UTC-12:00 and the biggest time zone is UTC+14:00. Therefore, we can encode all currently used time zones as integer multiples of 15-minute offsets from UTC. This allows the <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC...">TimeOffset</a> to be stored as a single 8-bit signed integer. For the most part, the internal implementation of this class does not leak out to the outside world, so it should be relatively easy to change its implementation to a int16_t type to support 1-minute granularity instead of 15-minute granularity.</p>
 <p>This class does NOT know about the TZ Database (aka Olson database) <a href="https://en.wikipedia.org/wiki/Tz_database">https://en.wikipedia.org/wiki/Tz_database</a>. That functionality is implemented in the <a class="el" href="classace__time_1_1TimeZone.html" title="Class that describes a time zone. ">TimeZone</a> class. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00053">53</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00058">58</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0fca23cf055036370aadd89ca307aae8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0fca23cf055036370aadd89ca307aae8">&#9670;&nbsp;</a></span>TimeOffset()</h2>
@@ -187,9 +187,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 </div><div class="memdoc">
 
 <p>Constructor. </p>
-<p>Create a time zone corresponding to UTC with no offset. </p>
+<p>Create a time offset of 0. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00117">117</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00122">122</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -219,7 +219,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 
 <p>Return an error indicator. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00105">105</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00110">110</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -250,7 +250,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 <p>Create <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC...">TimeOffset</a> with the corresponding hour offset. </p>
 <p>For example, -08:00 is 'forHour(-8)'. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00062">62</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00067">67</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -291,7 +291,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 <p>Create <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC...">TimeOffset</a> from (hour, minute) offset. </p>
 <p>If the offset is negative, then the negative sign must be added to both the hour and minute components. This allows a negative offset of less than -01:00 to be created. The 'minute' must be in multiples of 15-minutes. For example, -07:30 is created by 'forHourMinute(-7, -30)' (not 'forHourMinute(-7, 30), and -00:15 is created by 'forHourMinute(0, -15)'. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00074">74</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00079">79</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -322,7 +322,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 <p>Create <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC...">TimeOffset</a> from minutes from 00:00. </p>
 <p>In the current implementation, the minutes is truncated to the 15-minute boundary towards 0. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00083">83</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00088">88</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -358,7 +358,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00112">112</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00117">117</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -389,7 +389,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 <p>Create from an offset string ("-07:00" or "+01:00"). </p>
 <p>Intended mostly for testing purposes. Returns <a class="el" href="classace__time_1_1TimeOffset.html#a806d24189da02dd31a7570b0dcddc542" title="Return an error indicator. ">TimeOffset::forError()</a> if a parsing error occurs. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8cpp_source.html#l00027">27</a> of file <a class="el" href="TimeOffset_8cpp_source.html">TimeOffset.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8cpp_source.html#l00032">32</a> of file <a class="el" href="TimeOffset_8cpp_source.html">TimeOffset.cpp</a>.</p>
 
 </div>
 </div>
@@ -421,7 +421,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 <p>The resulting pointer can be passed to another forDateStringInternal() method to chain the parsing.</p>
 <p>This method assumes that the offsetString is sufficiently long. Returns <a class="el" href="classace__time_1_1TimeOffset.html#a806d24189da02dd31a7570b0dcddc542" title="Return an error indicator. ">TimeOffset::forError()</a> if a parsing error occurs. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8cpp_source.html#l00036">36</a> of file <a class="el" href="TimeOffset_8cpp_source.html">TimeOffset.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8cpp_source.html#l00041">41</a> of file <a class="el" href="TimeOffset_8cpp_source.html">TimeOffset.cpp</a>.</p>
 
 </div>
 </div>
@@ -450,7 +450,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 
 <p>Return true if this <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC...">TimeOffset</a> represents an error. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00150">150</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00155">155</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -480,7 +480,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 <p>Returns true if offset is 00:00. </p>
 <p>If this represents a time zone, then isZero means that it is UTC. If this represents a DST delta offset, then isZero means that the time zone is in standard time. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00147">147</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00152">152</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -503,7 +503,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 <p>Print the human readable string. </p>
 <p>For example, "-08:00". </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8cpp_source.html#l00010">10</a> of file <a class="el" href="TimeOffset_8cpp_source.html">TimeOffset.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8cpp_source.html#l00015">15</a> of file <a class="el" href="TimeOffset_8cpp_source.html">TimeOffset.cpp</a>.</p>
 
 </div>
 </div>
@@ -544,7 +544,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 <p>Extract hour and minute representation of the offset. </p>
 <p>This the inverse of '<a class="el" href="classace__time_1_1TimeOffset.html#aeb43c8af6b3b71f1bbabdfb58be62eb7" title="Create TimeOffset from (hour, minute) offset. ">forHourMinute()</a>'. If the <a class="el" href="classace__time_1_1TimeOffset.html" title="A thin wrapper that represents a time offset from a reference point, usually 00:00 at UTC...">TimeOffset</a> is negative, then both the hour and minute components will contain the negative sign. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00137">137</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00142">142</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -573,7 +573,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 
 <p>Return the time offset as minutes. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00123">123</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00128">128</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -602,7 +602,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 
 <p>Return the time offset as the number of 15 minute increments. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00120">120</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00125">125</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -631,7 +631,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 
 <p>Return the time offset as seconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00128">128</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00133">133</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>
@@ -658,7 +658,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>time_offset_mutation:
 
 <p>Sentinel value that represents an error. </p>
 
-<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00056">56</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TimeOffset_8h_source.html#l00061">61</a> of file <a class="el" href="TimeOffset_8h_source.html">TimeOffset.h</a>.</p>
 
 </div>
 </div>

@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['equals',['equals',['../classace__time_1_1ZoneSpecifier.html#a2b6b0814249fa579822b591b305cd6c8',1,'ace_time::ZoneSpecifier']]],
-  ['era',['era',['../structace__time_1_1basic_1_1Transition.html#ae3d60dc964d4a77798bd2ceeaafc6ef8',1,'ace_time::basic::Transition::era()'],['../structace__time_1_1extended_1_1ZoneMatch.html#abc3d441f48816091b6341740c7f1b5ac',1,'ace_time::extended::ZoneMatch::era()']]],
+  ['equals',['equals',['../classace__time_1_1ZoneProcessor.html#aa78857884d8b64d4be4b499970d63a70',1,'ace_time::ZoneProcessor']]],
+  ['era',['era',['../structace__time_1_1basic_1_1Transition.html#a94cf9a8357c67aa1bd336f66755a9b2c',1,'ace_time::basic::Transition::era()'],['../structace__time_1_1extended_1_1ZoneMatch.html#a4f3e064d47c81a8a595f1f7465d01ece',1,'ace_time::extended::ZoneMatch::era()']]],
   ['eras',['eras',['../structace__time_1_1basic_1_1ZoneInfo.html#ab7c074666001221f924b3b4987399011',1,'ace_time::basic::ZoneInfo::eras()'],['../structace__time_1_1extended_1_1ZoneInfo.html#a2ab94b905aeed729021d5f84ee77b2f1',1,'ace_time::extended::ZoneInfo::eras()']]],
-  ['extendedzonespecifier',['ExtendedZoneSpecifier',['../classace__time_1_1ExtendedZoneSpecifier.html',1,'ace_time::ExtendedZoneSpecifier'],['../classace__time_1_1ExtendedZoneSpecifier.html#ae934912f4cbeae10406124d11f4c241b',1,'ace_time::ExtendedZoneSpecifier::ExtendedZoneSpecifier()']]]
+  ['extendedzone',['ExtendedZone',['../classace__time_1_1ExtendedZone.html',1,'ace_time']]],
+  ['extendedzonemanager',['ExtendedZoneManager',['../classace__time_1_1ExtendedZoneManager.html',1,'ace_time']]],
+  ['extendedzoneprocessor',['ExtendedZoneProcessor',['../classace__time_1_1ExtendedZoneProcessor.html',1,'ace_time::ExtendedZoneProcessor'],['../classace__time_1_1ExtendedZoneProcessor.html#a6da3153529e65fca92a446022d21820d',1,'ace_time::ExtendedZoneProcessor::ExtendedZoneProcessor()']]],
+  ['extendedzoneprocessorcache',['ExtendedZoneProcessorCache',['../classace__time_1_1ExtendedZoneProcessorCache.html',1,'ace_time']]]
 ];

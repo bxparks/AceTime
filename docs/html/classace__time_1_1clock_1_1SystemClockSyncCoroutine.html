@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.3</span>
+   &#160;<span id="projectnumber">0.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -73,7 +73,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A coroutine that syncs the <a class="el" href="classace__time_1_1clock_1_1SystemClock.html" title="A TimeKeeper that uses the Arduino millis() function to advance the time returned to the user...">SystemClock</a> with its syncTimeProvider.  
+<p>A coroutine that syncs the <a class="el" href="classace__time_1_1clock_1_1SystemClock.html" title="A TimeKeeper that uses the Arduino millis() function to advance the time returned to the user...">SystemClock</a> with its mSyncTimeProvider.  
  <a href="classace__time_1_1clock_1_1SystemClockSyncCoroutine.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="SystemClockSyncCoroutine_8h_source.html">SystemClockSyncCoroutine.h</a>&gt;</code></p>
@@ -107,10 +107,11 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockSyncCor
 <tr class="separator:a5c1bdf24349aa10e94f78014c4602f19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A coroutine that syncs the <a class="el" href="classace__time_1_1clock_1_1SystemClock.html" title="A TimeKeeper that uses the Arduino millis() function to advance the time returned to the user...">SystemClock</a> with its syncTimeProvider. </p>
+<div class="textblock"><p>A coroutine that syncs the <a class="el" href="classace__time_1_1clock_1_1SystemClock.html" title="A TimeKeeper that uses the Arduino millis() function to advance the time returned to the user...">SystemClock</a> with its mSyncTimeProvider. </p>
+<p>The call to mSyncTimeProvider is asynchronous, which is helpful when the syncTimeProvider issues a network request to an NTP server.</p>
 <p>Initially, the class attempts to sync with its syncTimeProvider every initialSyncPeriodSeconds. If the request fails, then it retries with an exponential backoff (doubling the delay every iteration), until the sync period becomes greater than syncPeriodSeconds, then the delay is set permanently to syncPeriodSeconds. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockSyncCoroutine_8h_source.html#l00021">21</a> of file <a class="el" href="SystemClockSyncCoroutine_8h_source.html">SystemClockSyncCoroutine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockSyncCoroutine_8h_source.html#l00029">29</a> of file <a class="el" href="SystemClockSyncCoroutine_8h_source.html">SystemClockSyncCoroutine.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="addf290e61207aa3b47bf85a04c23bb02"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#addf290e61207aa3b47bf85a04c23bb02">&#9670;&nbsp;</a></span>SystemClockSyncCoroutine()</h2>
@@ -159,7 +160,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockSyncCor
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -176,7 +177,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockSyncCor
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockSyncCoroutine_8h_source.html#l00035">35</a> of file <a class="el" href="SystemClockSyncCoroutine_8h_source.html">SystemClockSyncCoroutine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockSyncCoroutine_8h_source.html#l00043">43</a> of file <a class="el" href="SystemClockSyncCoroutine_8h_source.html">SystemClockSyncCoroutine.h</a>.</p>
 
 </div>
 </div>
@@ -207,7 +208,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>::SystemClockSyncCor
 <p></p>
 <p>The CoroutineScheduler will use this method if enabled. Don't forget to call setupCoroutine() (inherited from Coroutine) in the global setup() to register this coroutine into the CoroutineScheduler. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClockSyncCoroutine_8h_source.html#l00054">54</a> of file <a class="el" href="SystemClockSyncCoroutine_8h_source.html">SystemClockSyncCoroutine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClockSyncCoroutine_8h_source.html#l00061">61</a> of file <a class="el" href="SystemClockSyncCoroutine_8h_source.html">SystemClockSyncCoroutine.h</a>.</p>
 
 </div>
 </div>

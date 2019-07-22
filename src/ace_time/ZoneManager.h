@@ -6,156 +6,141 @@
 #ifndef ACE_TIME_ZONE_MANAGER_H
 #define ACE_TIME_ZONE_MANAGER_H
 
-#include <stdint.h>
-#include <string.h> // strcmp(), strcmp_P()
-#include "common/flash.h"
-
-class BasicZoneManagerTest_Sorted_isSorted;
-class BasicZoneManagerTest_Sorted_linearSearch;
-class BasicZoneManagerTest_Sorted_binarySearch;
-class BasicZoneManagerTest_Unsorted_isSorted;
-class BasicZoneManagerTest_Unsorted_linearSearch;
+#include "ZoneProcessorCache.h"
+#include "ZoneRegistrar.h"
+#include "TimeZoneData.h"
+#include "TimeZone.h"
 
 namespace ace_time {
 
-/** Typedef for functions that work like a strcmp(). */
-typedef int (*strcmp_t)(const char*, const char*);
-
 /**
- * Look up the ZoneInfo (ZI) from its TZDB identifier (e.g.
- * "America/Los_Angeles").
+ * Returns the TimeZone given the zoneInfo, zoneName, or zoneId. Looks up the
+ * ZoneInfo in the ZoneRegistrar. If an existing ZoneProcessor exists in the
+ * ZoneProcessorCache, then it is used. If not, another ZoneProcessor is picked
+ * from the cache in a round-robin fashion. The type of the TimeZone will be
+ * assigned to be the type of the ZoneProcessorCache, which will be either
+ * kTypeBasicManaged or kTypeExtendedManaged.
  *
- * @tparam ZI ZoneInfo type (e.g. basic::ZoneInfo)
- * @tparam ZRB ZoneRegistryBroker type (e.g. basic::ZoneRegistryBroker)
- * @tparam ZIB ZoneInfoBroker type (e.g. basic::ZoneInfoBroker)
- * @tparam STRCMP_P a function that compares a normal string to flash string
- * (e.g strcmp_P())
- * @tparam STRCMP_PP a function that compares 2 flash strings (must be custom
- *    written)
+ * @tparam ZI type of ZoneInfo (basic::ZoneInfo or extended::ZoneInfo) which
+ *    make up the zone registry
+ * @tparam ZR class of ZoneRegistrar
+ * @tparam ZSC class of ZoneProcessorCache
  */
-template<typename ZI, typename ZRB, typename ZIB, strcmp_t STRCMP_P,
-    strcmp_t STRCMP_PP>
+template<typename ZI, typename ZR, typename ZSC>
 class ZoneManager {
   public:
-    /** Constructor. */
-    ZoneManager(const ZI* const* zoneRegistry, uint16_t registrySize):
-        mZoneRegistry(zoneRegistry),
-        mRegistrySize(registrySize),
-        mIsSorted(isSorted(zoneRegistry, registrySize)) {}
+    const ZR& getRegistrar() const { return mZoneRegistrar; }
 
-    /**
-     * Return the ZoneSpecifier corresponding to the given zone name. Return
-     * nullptr if not found, or if we have no more ZoneSpecifier internal
-     * buffer.
-     */
-    const ZI* getZoneInfo(const char* name) const {
-      if (mIsSorted && mRegistrySize > kBinarySearchThreshold) {
-        return binarySearch(mZoneRegistry, mRegistrySize, name);
-      } else {
-        return linearSearch(mZoneRegistry, mRegistrySize, name);
-      }
+    TimeZone createForZoneInfo(const ZI* zoneInfo) {
+      if (! zoneInfo) return TimeZone::forError();
+      return TimeZone(zoneInfo, &mZoneProcessorCache);
+    }
+
+    TimeZone createForZoneName(const char* name) {
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
+      return createForZoneInfo(zoneInfo);
+    }
+
+    TimeZone createForZoneId(uint32_t id) {
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForId(id);
+      return createForZoneInfo(zoneInfo);
+    }
+
+    TimeZone createForZoneIndex(uint16_t index) {
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForIndex(index);
+      return createForZoneInfo(zoneInfo);
     }
 
     /**
-     * Return true if zoneRegistry is sorted, and eligible to use a binary
-     * search.
+     * Create from the TimeZoneData created by TimeZone::toTimeZoneData().
+     * kTypeBasic is converted into a kTypeBasicManaged, and kTypeExtended is
+     * converted into a kTypeExtendedManaged.
      */
-    bool isSorted() const { return mIsSorted; }
+    TimeZone createForTimeZoneData(const TimeZoneData& d) {
+      switch (d.type) {
+        case TimeZone::kTypeError:
+          return TimeZone::forError();
+        case TimeZone::kTypeManual:
+          return TimeZone::forTimeOffset(
+              TimeOffset::forOffsetCode(d.stdOffsetCode),
+              TimeOffset::forOffsetCode(d.dstOffsetCode));
+        case TimeZone::kTypeBasic:
+        case TimeZone::kTypeExtended:
+          return createForZoneId(d.zoneId);
+        default:
+          return TimeZone();
+      }
+    }
+
+    uint16_t indexForZoneName(const char* name) const {
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForName(name);
+      if (! zoneInfo) return 0;
+      return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
+    }
+
+    uint16_t indexForZoneId(uint32_t id) const {
+      const ZI* zoneInfo = mZoneRegistrar.getZoneInfoForId(id);
+      if (! zoneInfo) return 0;
+      return (zoneInfo - mZoneRegistrar.getZoneInfoForIndex(0));
+    }
 
   protected:
-    friend class ::BasicZoneManagerTest_Sorted_isSorted;
-    friend class ::BasicZoneManagerTest_Sorted_linearSearch;
-    friend class ::BasicZoneManagerTest_Sorted_binarySearch;
-    friend class ::BasicZoneManagerTest_Unsorted_isSorted;
-    friend class ::BasicZoneManagerTest_Unsorted_linearSearch;
+    ZoneManager(uint16_t registrySize, const ZI* const* zoneRegistry):
+        mZoneRegistrar(registrySize, zoneRegistry),
+        mZoneProcessorCache() {}
 
-    /** Use binarySearch() if registrySize > threshold. */
-    static const uint8_t kBinarySearchThreshold = 5;
+  private:
+    // disable copy constructor and assignment operator
+    ZoneManager(const ZoneManager&) = delete;
+    ZoneManager& operator=(const ZoneManager&) = delete;
 
-    static bool isSorted(const ZI* const* zr, uint16_t registrySize) {
-      if (registrySize == 0) {
-        return false;
-      }
+    const ZR mZoneRegistrar;
+    ZSC mZoneProcessorCache;
+};
 
-      const ZRB zoneRegistry(zr);
-      const char* prevName = ZIB(zoneRegistry.zoneInfo(0)).name();
-      for (uint16_t i = 1; i < registrySize; ++i) {
-        const char* currName = ZIB(zoneRegistry.zoneInfo(i)).name();
-        if (STRCMP_PP(prevName, currName) > 0) {
-          return false;
-        }
-        prevName = currName;
-      }
-      return true;
-    }
-
-    static const ZI* linearSearch(const ZI* const* zr,
-        uint16_t registrySize, const char* name) {
-      const ZRB zoneRegistry(zr);
-      for (uint16_t i = 0; i < registrySize; ++i) {
-        const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
-        if (STRCMP_P(name, ZIB(zoneInfo).name()) == 0) {
-          return zoneInfo;
-        }
-      }
-      return nullptr;
-    }
-
-    static const ZI* binarySearch(const ZI* const* zr,
-        uint16_t registrySize, const char* name) {
-      uint16_t a = 0;
-      uint16_t b = registrySize - 1;
-      const ZRB zoneRegistry(zr);
-      while (b - a > 0) {
-        uint16_t i = (a + b) / 2;
-        const ZI* zoneInfo = zoneRegistry.zoneInfo(i);
-        int8_t compare = STRCMP_P(name, ZIB(zoneInfo).name());
-        if (compare < 0) {
-          b = i - 1;
-        } else if (compare > 0) {
-          a = i + 1;
-        } else {
-          return zoneInfo;
-        }
-      }
-
-      const ZI* zi = zoneRegistry.zoneInfo(a);
-      if (STRCMP_P(name, ZIB(zi).name()) == 0) {
-        return zi;
-      } else {
-        return nullptr;
-      }
-    }
-
-    const ZI* const* mZoneRegistry;
-    uint16_t const mRegistrySize;
-    bool const mIsSorted;
+#if 1
+/**
+ * @tparam SIZE size of the BasicZoneProcessorCache
+ */
+template<uint16_t SIZE>
+class BasicZoneManager: public ZoneManager<basic::ZoneInfo,
+    BasicZoneRegistrar, BasicZoneProcessorCache<SIZE>> {
+  public:
+    BasicZoneManager(uint16_t registrySize,
+        const basic::ZoneInfo* const* zoneRegistry):
+        ZoneManager<basic::ZoneInfo, BasicZoneRegistrar,
+            BasicZoneProcessorCache<SIZE>>(registrySize, zoneRegistry) {}
 };
 
 /**
- * Concrete template instantiation of ZoneManager for basic::ZoneInfo, which
- * can be used with BasicZoneSpecifier.
+ * @tparam SIZE size of the ExtendedZoneProcessorCache
  */
-#if ACE_TIME_USE_BASIC_PROGMEM
-typedef ZoneManager<basic::ZoneInfo, basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker, acetime_strcmp_P, acetime_strcmp_PP>
-    BasicZoneManager;
-#else
-typedef ZoneManager<basic::ZoneInfo, basic::ZoneRegistryBroker,
-    basic::ZoneInfoBroker, strcmp, strcmp> BasicZoneManager;
-#endif
+template<uint16_t SIZE>
+class ExtendedZoneManager: public ZoneManager<extended::ZoneInfo,
+    ExtendedZoneRegistrar, ExtendedZoneProcessorCache<SIZE>> {
+  public:
+    ExtendedZoneManager(uint16_t registrySize,
+        const extended::ZoneInfo* const* zoneRegistry):
+        ZoneManager<extended::ZoneInfo, ExtendedZoneRegistrar,
+            ExtendedZoneProcessorCache<SIZE>>(registrySize, zoneRegistry) {}
+};
 
-/**
- * Concrete template instantiation of ZoneManager for extended::ZoneInfo, which
- * can be used with ExtendedZoneSpecifier.
- */
-#if ACE_TIME_USE_EXTENDED_PROGMEM
-typedef ZoneManager<extended::ZoneInfo, extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker, acetime_strcmp_P, acetime_strcmp_PP>
-    ExtendedZoneManager;
 #else
-typedef ZoneManager<extended::ZoneInfo, extended::ZoneRegistryBroker,
-    extended::ZoneInfoBroker, strcmp, strcmp> ExtendedZoneManager;
+
+// NOTE: The following typedef seems shorter and easier to maintain. The
+// problem is that it makes error messages basically impossible to decipher
+// because the immensely long full template class name is printed out. There
+// seems to be no difference in code size between the two. The compiler seems
+// to optimize away the vtables of the parent and child classes.
+
+template<uint8_t SIZE>
+using BasicZoneManager = ZoneManager<basic::ZoneInfo,
+    BasicZoneRegistrar, BasicZoneProcessorCache<SIZE>>;
+
+template<uint8_t SIZE>
+using ExtendedZoneManager = ZoneManager<extended::ZoneInfo,
+    ExtendedZoneRegistrar, ExtendedZoneProcessorCache<SIZE>>;
+
 #endif
 
 }

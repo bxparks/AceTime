@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.3</span>
+   &#160;<span id="projectnumber">0.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -92,9 +92,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa835f8923240ceca380334f8611fb9de"><td class="memItemLeft" align="right" valign="top">uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#aa835f8923240ceca380334f8611fb9de">onDayOfWeek</a></td></tr>
 <tr class="memdesc:aa835f8923240ceca380334f8611fb9de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determined by the ON column.  <a href="#aa835f8923240ceca380334f8611fb9de">More...</a><br /></td></tr>
 <tr class="separator:aa835f8923240ceca380334f8611fb9de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e125f3c6b60090741fd6c971b9d636c"><td class="memItemLeft" align="right" valign="top">uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#a7e125f3c6b60090741fd6c971b9d636c">onDayOfMonth</a></td></tr>
-<tr class="memdesc:a7e125f3c6b60090741fd6c971b9d636c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determined by the ON column.  <a href="#a7e125f3c6b60090741fd6c971b9d636c">More...</a><br /></td></tr>
-<tr class="separator:a7e125f3c6b60090741fd6c971b9d636c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7eaa50fb7ce109d98bb8621755c5158e"><td class="memItemLeft" align="right" valign="top">int8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#a7eaa50fb7ce109d98bb8621755c5158e">onDayOfMonth</a></td></tr>
+<tr class="memdesc:a7eaa50fb7ce109d98bb8621755c5158e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determined by the ON column.  <a href="#a7eaa50fb7ce109d98bb8621755c5158e">More...</a><br /></td></tr>
+<tr class="separator:a7eaa50fb7ce109d98bb8621755c5158e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa731a4af1b7cedb21903a46ea38ade7a"><td class="memItemLeft" align="right" valign="top">uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#aa731a4af1b7cedb21903a46ea38ade7a">atTimeCode</a></td></tr>
 <tr class="memdesc:aa731a4af1b7cedb21903a46ea38ade7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determined by the AT column in units of 15-minutes from 00:00.  <a href="#aa731a4af1b7cedb21903a46ea38ade7a">More...</a><br /></td></tr>
 <tr class="separator:aa731a4af1b7cedb21903a46ea38ade7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,7 +120,7 @@ Static Public Attributes</h2></td></tr>
 <div class="textblock"><p>A time zone transition rule. </p>
 <p>It is useful to think of this as a transition rule that repeats on the given (month, day, hour) every year during the interval [fromYear, toYear] inclusive. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00007">7</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00012">12</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="aa731a4af1b7cedb21903a46ea38ade7a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa731a4af1b7cedb21903a46ea38ade7a">&#9670;&nbsp;</a></span>atTimeCode</h2>
@@ -137,7 +137,7 @@ Static Public Attributes</h2></td></tr>
 <p>Determined by the AT column in units of 15-minutes from 00:00. </p>
 <p>The range is (0 - 100) corresponding to 00:00 to 25:00. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00047">47</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00050">50</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>
@@ -155,7 +155,7 @@ Static Public Attributes</h2></td></tr>
 
 <p>FROM year as an offset from year 2000 stored as a single byte. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00015">15</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00020">20</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>
@@ -174,7 +174,7 @@ Static Public Attributes</h2></td></tr>
 <p>Determined by the IN column. </p>
 <p>1=Jan, 12=Dec. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00021">21</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00026">26</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>
@@ -201,7 +201,7 @@ Static Public Attributes</h2></td></tr>
 <p>The maximum value of fromYearTiny and toYearTiny. </p>
 <p>Must be &lt; ZoneEra::kMaxUntilYear. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00012">12</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00017">17</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>
@@ -227,26 +227,26 @@ Static Public Attributes</h2></td></tr>
 <li>Troll ('+00' '+02'; used by Antarctica/Troll) </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00078">78</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00081">81</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>
-<a id="a7e125f3c6b60090741fd6c971b9d636c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e125f3c6b60090741fd6c971b9d636c">&#9670;&nbsp;</a></span>onDayOfMonth</h2>
+<a id="a7eaa50fb7ce109d98bb8621755c5158e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7eaa50fb7ce109d98bb8621755c5158e">&#9670;&nbsp;</a></span>onDayOfMonth</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t const ace_time::basic::ZoneRule::onDayOfMonth</td>
+          <td class="memname">int8_t const ace_time::basic::ZoneRule::onDayOfMonth</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Determined by the ON column. </p>
-<p>Used with onDayOfWeek. Possible values are: 0, 1-31. </p>
+<p>Used with onDayOfWeek. Possible values are: 0, 1-31, or its corresponding negative values. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00041">41</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00044">44</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>
@@ -263,12 +263,12 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Determined by the ON column. </p>
-<p>Possible values are: 0, 1=Mon, 7=Sun. There are 3 combinations: </p><pre class="fragment">* onDayOfWeek=0, onDayOfMonth=(1-31): exact match
+<p>Possible values are: 0, 1=Mon, 7=Sun. There are 4 combinations: </p><pre class="fragment">* onDayOfWeek=0, onDayOfMonth=(1-31): exact match
 * onDayOfWeek=1-7, onDayOfMonth=1-31: dayOfWeek&gt;=dayOfMonth
+* onDayOfWeek=1-7, onDayOfMonth=-(1-31): dayOfWeek&lt;=dayOfMonth
 * onDayOfWeek=1-7, onDayOfMonth=0: last{dayOfWeek}
-* </pre><p>We support only the '&gt;=' operator, not the '&lt;=' operator which does not seem to be used currently. </p>
-
-<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00035">35</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+* </pre> 
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00038">38</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>
@@ -286,12 +286,12 @@ Static Public Attributes</h2></td></tr>
 
 <p>TO year as an offset from year 2000 stored as a single byte. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00018">18</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZonePolicy_8h_source.html#l00023">23</a> of file <a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/brian/dev/AceTime/src/ace_time/common/<a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a></li>
+<li>/home/brian/dev/AceTime/src/ace_time/internal/<a class="el" href="ZonePolicy_8h_source.html">ZonePolicy.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

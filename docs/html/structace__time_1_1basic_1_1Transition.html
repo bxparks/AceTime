@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.3</span>
+   &#160;<span id="projectnumber">0.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -77,15 +77,14 @@ $(function() {
 <p>Data structure that defines the start of a specific UTC offset as described by the matching <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> and its <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. ">ZoneRule</a> for a given year.  
  <a href="structace__time_1_1basic_1_1Transition.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="BasicZoneSpecifier_8h_source.html">BasicZoneSpecifier.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for ace_time::basic::Transition:</div>
 <div class="dyncontent">
 <div class="center"><img src="structace__time_1_1basic_1_1Transition__coll__graph.png" border="0" usemap="#ace__time_1_1basic_1_1Transition_coll__map" alt="Collaboration graph"/></div>
 <map name="ace__time_1_1basic_1_1Transition_coll__map" id="ace__time_1_1basic_1_1Transition_coll__map">
-<area shape="rect" id="node2" href="structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. " alt="" coords="5,5,184,32"/>
-<area shape="rect" id="node4" href="structace__time_1_1basic_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region..." alt="" coords="111,95,297,121"/>
-<area shape="rect" id="node3" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per..." alt="" coords="112,184,283,211"/>
+<area shape="rect" id="node2" href="classace__time_1_1common_1_1FlashZoneRuleBroker.html" title="ace_time::common::FlashZone\lRuleBroker\&lt; ZoneRule \&gt;" alt="" coords="13,5,216,47"/>
+<area shape="rect" id="node3" href="classace__time_1_1common_1_1FlashZoneEraBroker.html" title="ace_time::common::FlashZone\lEraBroker\&lt; ZoneEra, ZonePolicy,\l ZoneRule \&gt;" alt="" coords="5,71,224,127"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -97,12 +96,12 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ae3d60dc964d4a77798bd2ceeaafc6ef8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html">ZoneEra</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1Transition.html#ae3d60dc964d4a77798bd2ceeaafc6ef8">era</a></td></tr>
-<tr class="memdesc:ae3d60dc964d4a77798bd2ceeaafc6ef8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> that matched the given year.  <a href="#ae3d60dc964d4a77798bd2ceeaafc6ef8">More...</a><br /></td></tr>
-<tr class="separator:ae3d60dc964d4a77798bd2ceeaafc6ef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6af9a13f06e4259911e40f61163922ac"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html">ZoneRule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1Transition.html#a6af9a13f06e4259911e40f61163922ac">rule</a></td></tr>
-<tr class="memdesc:a6af9a13f06e4259911e40f61163922ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Zone transition rule that matched for the the given year.  <a href="#a6af9a13f06e4259911e40f61163922ac">More...</a><br /></td></tr>
-<tr class="separator:a6af9a13f06e4259911e40f61163922ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94cf9a8357c67aa1bd336f66755a9b2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1common_1_1FlashZoneEraBroker.html">ZoneEraBroker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1Transition.html#a94cf9a8357c67aa1bd336f66755a9b2c">era</a></td></tr>
+<tr class="memdesc:a94cf9a8357c67aa1bd336f66755a9b2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> that matched the given year.  <a href="#a94cf9a8357c67aa1bd336f66755a9b2c">More...</a><br /></td></tr>
+<tr class="separator:a94cf9a8357c67aa1bd336f66755a9b2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad70ac2546926652bd3fa20cb52d72d16"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classace__time_1_1common_1_1FlashZoneRuleBroker.html">ZoneRuleBroker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1Transition.html#ad70ac2546926652bd3fa20cb52d72d16">rule</a></td></tr>
+<tr class="memdesc:ad70ac2546926652bd3fa20cb52d72d16"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Zone transition rule that matched for the the given year.  <a href="#ad70ac2546926652bd3fa20cb52d72d16">More...</a><br /></td></tr>
+<tr class="separator:ad70ac2546926652bd3fa20cb52d72d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81474f9806382bfa270e319c58a68a95"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1Transition.html#a81474f9806382bfa270e319c58a68a95">yearTiny</a></td></tr>
 <tr class="memdesc:a81474f9806382bfa270e319c58a68a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Year which applies to the <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> or <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. ">ZoneRule</a>.  <a href="#a81474f9806382bfa270e319c58a68a95">More...</a><br /></td></tr>
 <tr class="separator:a81474f9806382bfa270e319c58a68a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -112,6 +111,10 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a2d6a8737e66f0dca13d10cce26d2b134"><td class="memItemLeft" align="right" valign="top">int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1Transition.html#a2d6a8737e66f0dca13d10cce26d2b134">offsetCode</a></td></tr>
 <tr class="memdesc:a2d6a8737e66f0dca13d10cce26d2b134"><td class="mdescLeft">&#160;</td><td class="mdescRight">The total effective UTC offsetCode at the start of transition, <em>including</em> DST offset.  <a href="#a2d6a8737e66f0dca13d10cce26d2b134">More...</a><br /></td></tr>
 <tr class="separator:a2d6a8737e66f0dca13d10cce26d2b134"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a201d6431760262a650003326b5638f4b"><td class="memItemLeft" align="right" valign="top"><a id="a201d6431760262a650003326b5638f4b"></a>
+int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1Transition.html#a201d6431760262a650003326b5638f4b">deltaCode</a></td></tr>
+<tr class="memdesc:a201d6431760262a650003326b5638f4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The delta offsetCode from "standard time" at the start of transition. <br /></td></tr>
+<tr class="separator:a201d6431760262a650003326b5638f4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32036a045f41089f421c447040cc5c9d"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1basic_1_1Transition.html#a32036a045f41089f421c447040cc5c9d">abbrev</a> [<a class="el" href="structace__time_1_1basic_1_1Transition.html#a39d2a4e51aec03a856d6228251afd060">kAbbrevSize</a>]</td></tr>
 <tr class="memdesc:a32036a045f41089f421c447040cc5c9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The calculated effective time zone abbreviation, e.g.  <a href="#a32036a045f41089f421c447040cc5c9d">More...</a><br /></td></tr>
 <tr class="separator:a32036a045f41089f421c447040cc5c9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,9 +128,10 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Data structure that defines the start of a specific UTC offset as described by the matching <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> and its <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. ">ZoneRule</a> for a given year. </p>
-<p>If the <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> does not have a <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. ">ZoneRule</a>, then the <a class="el" href="structace__time_1_1basic_1_1Transition.html" title="Data structure that defines the start of a specific UTC offset as described by the matching ZoneEra a...">Transition</a> is defined by the start date of the <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a>. </p>
+<p>If the <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> does not have a <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. ">ZoneRule</a>, then the <a class="el" href="structace__time_1_1basic_1_1Transition.html" title="Data structure that defines the start of a specific UTC offset as described by the matching ZoneEra a...">Transition</a> is defined by the start date of the <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a>.</p>
+<p>The 'era' and 'rule' variables intermediate values calculated during the init() phase. They are used to calculate the 'yearTiny', 'startEpochSeconds', 'offsetCode', 'deltaCode', and 'abbrev' parameters which are used during findMatch() lookup. NOTE: This separation may help move the <a class="el" href="structace__time_1_1basic_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a> and <a class="el" href="structace__time_1_1basic_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region...">ZonePolicy</a> data structures into PROGMEM. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneSpecifier_8h_source.html#l00031">31</a> of file <a class="el" href="BasicZoneSpecifier_8h_source.html">BasicZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00047">47</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a833fc4b15af0eb2dc8b8ed679bceb41b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a833fc4b15af0eb2dc8b8ed679bceb41b">&#9670;&nbsp;</a></span>log()</h2>
@@ -154,7 +158,7 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 
 <p>Used only for debugging. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneSpecifier_8h_source.html#l00070">70</a> of file <a class="el" href="BasicZoneSpecifier_8h_source.html">BasicZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00102">102</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -172,28 +176,29 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 </div><div class="memdoc">
 
 <p>The calculated effective time zone abbreviation, e.g. </p>
-<p>"PST" or "PDT". </p>
+<p>"PST" or "PDT". When the <a class="el" href="structace__time_1_1basic_1_1Transition.html" title="Data structure that defines the start of a specific UTC offset as described by the matching ZoneEra a...">Transition</a> is initially created using createTransition(), abbrev[0] is set to <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html#add4b7ffb810d118ae1c4a7ef9d302550" title="Determined by the LETTER column. ">ZoneRule.letter</a> (to avoid potentially another lookup in PROGMEM). That 'letter' is used later in the init() to generate the correct abbreviation which will replace the 'letter' in here. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneSpecifier_8h_source.html#l00067">67</a> of file <a class="el" href="BasicZoneSpecifier_8h_source.html">BasicZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00099">99</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
-<a id="ae3d60dc964d4a77798bd2ceeaafc6ef8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3d60dc964d4a77798bd2ceeaafc6ef8">&#9670;&nbsp;</a></span>era</h2>
+<a id="a94cf9a8357c67aa1bd336f66755a9b2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94cf9a8357c67aa1bd336f66755a9b2c">&#9670;&nbsp;</a></span>era</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html">ZoneEra</a>* ace_time::basic::Transition::era</td>
+          <td class="memname"><a class="el" href="classace__time_1_1common_1_1FlashZoneEraBroker.html">ZoneEraBroker</a> ace_time::basic::Transition::era</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>The <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> that matched the given year. </p>
-<p>NonNullable. </p>
+<p>NonNullable.</p>
+<p>This field is used only during the init() phase, not during the findMatch() phase. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneSpecifier_8h_source.html#l00042">42</a> of file <a class="el" href="BasicZoneSpecifier_8h_source.html">BasicZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00062">62</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -210,28 +215,29 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 </div><div class="memdoc">
 
 <p>The total effective UTC offsetCode at the start of transition, <em>including</em> DST offset. </p>
-<p>(Maybe rename this effectiveOffsetCode?) The DST offset can be recovered from rule-&gt;deltaCode. </p>
+<p>(Maybe rename this effectiveOffsetCode?) The DST offset is stored at deltaCode. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneSpecifier_8h_source.html#l00064">64</a> of file <a class="el" href="BasicZoneSpecifier_8h_source.html">BasicZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00087">87</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
-<a id="a6af9a13f06e4259911e40f61163922ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6af9a13f06e4259911e40f61163922ac">&#9670;&nbsp;</a></span>rule</h2>
+<a id="ad70ac2546926652bd3fa20cb52d72d16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad70ac2546926652bd3fa20cb52d72d16">&#9670;&nbsp;</a></span>rule</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html">ZoneRule</a>* ace_time::basic::Transition::rule</td>
+          <td class="memname"><a class="el" href="classace__time_1_1common_1_1FlashZoneRuleBroker.html">ZoneRuleBroker</a> ace_time::basic::Transition::rule</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>The Zone transition rule that matched for the the given year. </p>
-<p>Set to nullptr if the RULES column is '-'. We do not support a RULES column that contains a UTC offset. There are only 2 time zones that has this property as of TZ database version 2018g: Europe/Istanbul and America/Argentina/San_Luis. </p>
+<p>Set to nullptr if the RULES column is '-'. We do not support a RULES column that contains a UTC offset. There are only 2 time zones that has this property as of TZ database version 2018g: Europe/Istanbul and America/Argentina/San_Luis.</p>
+<p>This field is used only during the init() phase, not during the findMatch() phase. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneSpecifier_8h_source.html#l00051">51</a> of file <a class="el" href="BasicZoneSpecifier_8h_source.html">BasicZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00074">74</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -249,7 +255,7 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 
 <p>The calculated transition time of the given rule. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneSpecifier_8h_source.html#l00057">57</a> of file <a class="el" href="BasicZoneSpecifier_8h_source.html">BasicZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00080">80</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
@@ -267,12 +273,12 @@ static const uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class
 
 <p>Year which applies to the <a class="el" href="structace__time_1_1basic_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> or <a class="el" href="structace__time_1_1basic_1_1ZoneRule.html" title="A time zone transition rule. ">ZoneRule</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="BasicZoneSpecifier_8h_source.html#l00054">54</a> of file <a class="el" href="BasicZoneSpecifier_8h_source.html">BasicZoneSpecifier.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="BasicZoneProcessor_8h_source.html#l00077">77</a> of file <a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/brian/dev/AceTime/src/ace_time/<a class="el" href="BasicZoneSpecifier_8h_source.html">BasicZoneSpecifier.h</a></li>
+<li>/home/brian/dev/AceTime/src/ace_time/<a class="el" href="BasicZoneProcessor_8h_source.html">BasicZoneProcessor.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

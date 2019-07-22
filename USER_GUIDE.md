@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.4 (2019-07-09, TZ DB version 2019a, beta)
+Version: 0.5 (2019-07-21, TZ DB version 2019a, beta)
 
 ## Installation
 
@@ -19,16 +19,22 @@ directory used by the Arduino IDE. (The result is a directory named
 
 The source files are organized as follows:
 * `src/AceTime.h` - main header file
-* `src/ace_time/` - date and time files
-* `src/ace_time/common/` - internal shared files
-* `src/ace_time/hw/` - thin hardware abstraction layer
+* `src/ace_time/` - date and time classes (`ace_time::`)
+* `src/ace_time/common/` - shared classes and utilities (`ace_time::common`,
+  `ace_time::logging`)
+* `src/ace_time/internal/` - internal classes (`ace_time::basic`,
+  `ace_time::extended`)
+* `src/ace_time/hw/` - thin hardware abstraction layer (`ace_time::hw`)
 * `src/ace_time/clock/` - system clock from RTC or NTP sources
-* `src/ace_time/testing/` - files used in unit tests
+  (`ace_time::clock`)
+* `src/ace_time/testing/` - files used in unit tests (`ace_time::testing`)
 * `src/ace_time/zonedb/` - files generated from TZ Database for
-  `BasicZoneSpecifier`
+  `BasicZoneProcessor` (`ace_time::zonedb`)
 * `src/ace_time/zonedbx/` - files generated from TZ Database for
-  `ExtendedZoneSpecifier`
+  `ExtendedZoneProcessor` (`ace_time::zonedbx`)
 * `tests/` - unit tests using [AUnit](https://github.com/bxparks/AUnit)
+* `tests/validation` - integration tests using AUnit which must be run
+   on desktop Linux or MacOS machines
 * `examples/` - example programs
 * `tools/` - parser for the TZ Database files, code generators for `zonedb::`
   and `zonedbx::` zone files, and code generators for various unit tests
@@ -38,14 +44,14 @@ The source files are organized as follows:
 The vast majority of the AceTime library has no dependency to any other external
 libraries. There is an optional dependency to
 [AceRoutine](https://github.com/bxparks/AceRoutine) if you want to use the
-`SystemClockSyncCoroutine` and `SystemClockHeartbeatCoroutine` classes for
-automatic syncing and freshening. (This is recommended but not strictly
-necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to the FastCRC
-library but the `CrcEeprom.h` file is not included in the `AceTime.h` main
-header file, so you should not need FastCRC to compile AceTime. (The
-`CrcEeprom.h` header file does not strictly belong in the AceTime library but
-many of my "clock" projects that use the AceTime library also use the
-`CrcEeprom` class, so this is a convenient place to keep it.)
+`SystemClockSyncCoroutine` class for automatic syncing. (This is recommended but
+not strictly necessary). The `ace_time/hw/CrcEeprom.h` class has a dependency to
+the [FastCRC](https://github.com/FrankBoesing/FastCRC) library but the
+`CrcEeprom.h` file is not included in the `AceTime.h` main header file, so you
+should not need FastCRC to compile AceTime. (The `CrcEeprom.h` header file does
+not strictly belong in the AceTime library but many of my "clock" projects that
+use the AceTime library also use the `CrcEeprom` class, so this is a convenient
+place to keep it.)
 
 Various programs in the `examples/` directory have one or more of the following
 external dependencies. The comment section near the top of the `*.ino` file will
@@ -69,6 +75,8 @@ Various scripts in the `tools/` directory depend on:
 
 The [docs/](docs/) directory contains the
 [Doxygen docs on GitHub Pages](https://bxparks.github.io/AceTime/html).
+This may be useful to navigate the various classes in this library
+and to lookup the signatures of the methods in those classes.
 
 ### Examples
 
@@ -134,10 +142,13 @@ application, and it will instantly use the new transition rules, without the
 developer needing to create a new POSIX string. To address the memory constraint
 problem, the AceTime library is designed to load only of the smallest subset of
 the TZ Database that is required to support the selected timezones (1 to 3 have
-been tested). (A future version on the ESP8266 and ESP32 microcontrollers (which
-have far more memory than AVR chips) may provide an option to load the entire TZ
-database at run time. This will allow the end-user to select the timezone
-dynamically, just like on the big-iron machines.)
+fully been tested). Dynamic lookup of the time zone is possible using the
+`ZoneManager`, and the app develop can customize it with the list of zones that
+are compiled into the app. On microcontrollers with more than about 32kB of
+flash memory (e.g. ESP8266, ESP32, Teensy 3.2) and depending on the size of the
+rest of the application, it may be possible to load the entire IANA TZ database.
+This will allow the end-user to select the timezone dynamically, just like on
+the big-iron machines.
 
 The AceTime library is inspired by and borrows from:
 * [Java 11 Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
@@ -161,24 +172,24 @@ as "value objects", in other words, created on the stack and copied by value.
 Fortunately, the C++ compilers are extremely good at optimizing away unnecessary
 copies of these small objects. It is not possible to remove all complex memory
 allocations when dealing with the TZ Database. In the AceTime library, I managed
-to move most of the complex memory handling logic into the `ZoneSpecifier` class
-hierarhcy. These are relatively large objects which are meant to be opaque
+to move most of the complex memory handling logic into the `ZoneProcessor` class
+hierarchy. These are relatively large objects which are meant to be opaque
 objects to the application developer, created statically at start-up time of
 the application, and never deleted during the lifetime of the application.
 
-The [Arduino Time](https://github.com/PaulStoffregen/Time) library uses a set of
+The [Arduino Time Library](https://github.com/PaulStoffregen/Time) uses a set of
 C functions similar to the [traditional C/Unix library
 methods](http://www.catb.org/esr/time-programming/) (e.g `makeTime()` and
-`breaktime()`). Arduino Time Library also uses the Unix epoch of
-1970-01-01T00:00:00Z and a `int32_t` type as its `time_t` to track the number of
-seconds since the epoch. That means that the largest date it can handle is
-2038-01-19T03:14:07Z. AceTime uses an epoch that starts on 2000-01-01T00:00:00Z
-using the same `int32_t` as its `ace_time::acetime_t`, which means that maximum
-date increases to 2068-01-19T03:14:07Z. AceTime is also quite a bit faster than
-the Arduino Time Library (although in most cases, performance of the Time
-Library is not an issue): AceTime is **2-5X** faster on an ATmega328P, **3-5X**
-faster on the ESP8266, **7-8X** faster on the ESP32, and **7-8X** faster on the
-Teensy ARM processor.
+`breaktime()`). It also uses the Unix epoch of 1970-01-01T00:00:00Z and a
+`int32_t` type as its `time_t` to track the number of seconds since the epoch.
+That means that the largest date it can handle is 2038-01-19T03:14:07Z. AceTime
+uses an epoch that starts on 2000-01-01T00:00:00Z using the same `int32_t` as
+its `ace_time::acetime_t`, which means that maximum date increases to
+2068-01-19T03:14:07Z. AceTime is also quite a bit faster than the Arduino Time
+Library (although in most cases, performance of the Time Library is not an
+issue): AceTime is **2-5X** faster on an ATmega328P, **3-5X** faster on the
+ESP8266, **7-8X** faster on the ESP32, and **7-8X** faster on the Teensy ARM
+processor.
 
 AceTime aims to be the smallest library that can run on the basic Arduino
 platform (e.g. Nano with 32kB flash and 2kB of RAM) that fully supports all
@@ -196,10 +207,9 @@ classes are separated into a number of namespaces. They are related in the
 following way, where the arrow means "depends on":
 
 ```
-ace_time::clock
-      |      \
-      |       \
-      |        v
+ace_time::clock     ace_time::testing
+      |       \        /
+      |        v      v
       |        ace_time
       |         |\     \
       |         | \     v
@@ -213,6 +223,7 @@ ace_time::hw    |     ace_time::basic
             \   |    /
              v  v   v
            ace_time::common
+           ace_time::logging
 ```
 
 To use the classes without prepending the namespace prefixes, use one or more of
@@ -223,8 +234,6 @@ the following `using` directives:
 using namespace ace_time;
 using namespace ace_time::clock;
 using namespace ace_time::common;
-using namespace ace_time::zonedb;
-using namespace ace_time::zonedbx;
 ...
 ```
 
@@ -503,6 +512,59 @@ to the given `Print` object. The most common `Print` object is the `Serial`
 object which prints on the serial port. The `forDateString()` parses the
 ISO 8601 formatted string and returns the `LocalDateTime` object.
 
+### TimePeriod
+
+The `TimePeriod` class can be used to represents a difference between two
+`XxxDateTime` objects, if the difference is not too large. Internally, it is
+implemented as 3 unsigned `uint8_t` integers representing the hour, minute and
+seconds. There is a 4th signed `int8_t` integer that holds the sign (-1 or +1)
+of the time period. The largest (or smallest) time period that can be
+represented by this class is +/- 255h59m59s, corresponding to +/- 921599
+seconds.
+
+```C++
+namespace ace_time {
+
+class TimePeriod {
+  public:
+    explicit TimePeriod(uint8_t hour, uint8_t minute, uint8_t second,
+            int8_t sign = 1);
+    explicit TimePeriod(int32_t seconds = 0);
+
+    uint8_t hour() const;
+    void hour(uint8_t hour);
+
+    uint8_t minute() const;
+    void minute(uint8_t minute);
+
+    uint8_t second() const;
+    void second(uint8_t second);
+
+    int8_t sign() const;
+    void sign(int8_t sign);
+
+    int32_t toSeconds() const;
+
+    int8_t compareTo(const TimePeriod& that) const;
+    void printTo(Print& printer) const;
+};
+
+}
+```
+
+This class was created to show the difference between 2 dates in a
+human-readable format, broken down by hours, minutes and seconds. For example,
+we can print out a countdown to a target `LocalDateTime` from the current
+`LocalDateTime` like this:
+
+```C++
+LocalDateTime current = ...;
+LocalDateTime target = ...;
+acetime_t diffSeconds = target.toEpochSeconds() - current.toEpochSeconds();
+TimePeriod timePeriod(diffSeconds);
+timePeriod.printTo(Serial)
+```
+
 ### TimeOffset
 
 A `TimeOffset` class represents an amount of time shift from a reference point.
@@ -669,32 +731,40 @@ A "time zone" is often used colloquially to mean 2 different things:
 from the UTC time using various transition rules.
 
 Both meanings of "time zone" are supported by the `TimeZone` class using
-4 different types as follows:
+5 different types as follows:
 
-* `TimeZone::kTypeFixed`: a fixed offset from UTC
-* `TimeZone::kTypeManual` with `ManualZoneSpecifier`: A user-defined
-fixed offset with a user-defined DST flag
-* `TimeZone::kTypeBasic` with `BasicZoneSpecifier`: zones which can
+* `TimeZone::kTypeManual`: a fixed base offset and optional DST offset from UTC
+* `TimeZone::kTypeBasic`: utilizes a `BasicZoneProcessor` which can
 be encoded with (relatively) simple rules from the TZ Database
-* `TimeZone::kTypeExtended` with `ExtendedZoneSpecifier`:  all zones in
-the TZ Database
+* `TimeZone::kTypeExtended`: utilizes a `ExtendedZoneProcessor` which can
+handle all zones in the TZ Database
+* `TimeZone::kTypeBasicManaged`: same as `kTypeBasic` but the
+  `BasicZoneProcessor' is managed by the `ZoneManager
+* `TimeZone::kTypeExtendedManaged`: same as `kTypeExtended` but the
+  `ExtendedZoneProcessor' is managed by the `ZoneManager
 
 The class hierarchy of `TimeZone` is shown below, where the arrow means
-"is-subclass-of" and the diamond-line means "is-aggregation-of". A `TimeZone`
-can hold a reference to 0 or 1 `ZoneSpecifier` class, as shown below. When it is
-a `kTypeFixed` it holds no `ZoneSpecifier` object. When it is a `kTypeManual`,
-`kTypeBasic` or `kTypeExtended`, it holds a reference one of the implementation
-classes of `ZoneSpecifier`:
+"is-subclass-of" and the diamond-line means "is-aggregation-of". This is an
+internal implementation detail of the `TimeZone` class that the application
+develper will not normally need to be aware of all the time, but maybe this
+helps make better sense of the usage of the `TimeZone` class. A `TimeZone` can
+hold a reference to:
+
+* nothing (`kTypeManual`),
+* one `ZoneProcessor` object, (`kTypeBasic` or `kTypeExtended`) class, or
+* one `ZoneProcessorCache` object (`kTypeBasicManaged` or
+  `kTypeExtendedManaged`).
 
 ```
-              0..1
-TimeZone <>------- ZoneSpecifier
-                         ^
-                         |
-                .------- +----------.
-                |        |          |
-            Manual     Basic       Extended
-     ZoneSpecifier  ZoneSpecifier  ZoneSpecifier
+            .------------------------------.
+         <>'   0..1                         \   0..1
+TimeZone <>-------- ZoneProcessor            ------- ZoneProcessorCache
+                          ^                                ^
+                          |                                |
+                    .---- +----.                     .---- +----.
+                   |           |                     |           |
+              BasicZone        ExtendedZone       BasicZone     ExtendedZone
+              Processor        Processor     ProcessorCache     ZoneProcessor
 ```
 
 Here is the class declaration of `TimeZone`:
@@ -704,27 +774,40 @@ namespace ace_time {
 
 class TimeZone {
   public:
-    static const uint8_t kTypeFixed = 0;
-    static const uint8_t kTypeManual = ZoneSpecifier::kTypeManual;
-    static const uint8_t kTypeBasic = ZoneSpecifier::kTypeBasic;
-    static const uint8_t kTypeExtended = ZoneSpecifier::kTypeExtended;
+    static const uint8_t kTypeError = 0;
+    static const uint8_t kTypeManual = 1;
+    static const uint8_t kTypeBasic = ZoneProcessor::kTypeBasic;
+    static const uint8_t kTypeExtended = ZoneProcessor::kTypeExtended;
+    static const uint8_t kTypeBasicManaged = ZoneProcessorCache::kTypeExtended;
+    static const uint8_t kTypeExtendedManaged =
+        ZoneProcessorCache::kTypeExtended;
 
-    static TimeZone forTimeOffset(TimeOffset offset);
-    static TimeZone forZoneSpecifier(const ZoneSpecifier* zoneSpecifier);
-    TimeZone();
+    static TimeZone forTimeOffset(TimeOffset stdOffset,
+        TimeOffset dstOffset = TimeOffset());
+    static TimeZone forZoneInfo(const basic::ZoneInfo* zoneInfo,
+        BasicZoneProcessor* zoneProcessor);
+    static TimeZone forZoneInfo(const extended::ZoneInfo* zoneInfo,
+        ExtendedZoneProcessor* zoneProcessor);
+    static TimeZone forUtc();
+
+    TimeZone(); // same as forUtc()
 
     uint8_t getType() const;
+    TimeOffset getStdOffset() const;
+    TimeOffset getDstOffset() const;
+    uint32_t getZoneId() const;
+
     TimeOffset getUtcOffset(acetime_t epochSeconds) const;
     TimeOffset getDeltaOffset(acetime_t epochSeconds) const;
     TimeOffset getUtcOffsetForDateTime(const LocalDateTime& ldt) const;
 
-    void printTo(Print& printer) const;
-    void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
-
+    bool isUtc() const;
     bool isDst() const;
-    void isDst(bool dst);
+    void setDstOffset(TimeOffset offset);
 
-    ...
+    void printTo(Print& printer) const;
+    void printShortTo(Print& printer) const;
+    void printAbbrevTo(Print& printer, acetime_t epochSeconds) const;
 };
 
 }
@@ -736,118 +819,93 @@ additional DST offset; if DST is not in effect at the given `epochSeconds`, this
 returns a `TimeOffset` whose `isZero()` returns true.
 
 The `getUtcOffsetForDateTime(localDateTime)` method returns the best guess of
-the total UTC offset at the given local date time. The reaon that this is a best
-guess is because the local date time is sometime ambiguious during a DST
-transition. For example, if the local clock shifts from 01:00 to 02:00 at the
-start of summer, then the time of 01:30 does not exist. If the
+the total UTC offset at the given local date time. This method is not
+normally expected to be used by the app developer directly. The reaon that this
+is a best guess is because the local date time is sometime ambiguious during a
+DST transition. For example, if the local clock shifts from 01:00 to 02:00 at
+the start of summer, then the time of 01:30 does not exist. If the
 `getUtcOffsetForDateTime()` method is given a non-existing time, it makes an
 educated guess at what the user meant. Additionally, when the local time
 transitions from 02:00 to 01:00 in the autumn, a given local time such as 01:30
 occurs twice. If the `getUtcOffsetForDateTime()` method is given a time of
 01:30, it will arbitrarily decide which offset to return.
 
-The `isDst()` and `isDst(bool)` methods are active *only* if the `TimeZone` is a
-`kTypeManual`, meaning that it uses the `ManualZoneSpecifier` as the underlying
-engine for determining the DST transitions. Otherwise, they do nothing. If the
-type is `kTypeManual`, the `isDst()` returns the value of the underlying
-`ManualZoneSpecifier::isDst()` and the `isDst(bool)` pass the value to the
-underlying `ManualZoneSpecifier::isDst(bool)` method. These methods allow the
-user to manuaally set the DST flag, instead of using the TZ Database.
+The `isUtc()`, `isDst()` and `setDstOffset(TimeOffset)` methods are valid *only*
+if the `TimeZone` is a `kTypeManual`. Otherwise, `isUtc()` and `isDst()` return
+`false` and `setDstOffset()` does nothing.
+
+The `getZoneId()` returns a `uint32_t` integer which is a unique and stable
+identifier for the IANA timezone. This can be used to save and restore
+the `TimeZone`. See the section on `ZoneManager` below.
+
+The `printTo()` prints the fully-qualified unique name for the time zone.
+For example, `"UTC"`, `"-08:00", `"-08:00(DST)"`, `"America/Los_Angeles"`.
+
+The `printShortTo()` is similar to `printTo()` except that it prints the
+last component of the IANA TZ Database zone names. In other words,
+`"America/Los_Angeles"` is printed as `"Los_Angeles"`. This is helpful for
+printing on small width OLED displays.
 
 The `printAbbrevTo(printer, epochSeconds)` method prints the human-readable
 timezone abbreviation used at the given `epochSeconds` to the `printer`. For
 example, this be "PST" for Pacific Standard Time, or "BST" for British Summer
 Time.
 
-#### Fixed TimeZone (kTypeFixed)
+#### Manual TimeZone (kTypeManual)
 
-The default constructor creates a fixed `TimeZone` in UTC time zone with no
-offset:
+The default constructor creates a `TimeZone` in UTC time zone with no
+offset. This is also identical to the `forUtc()` method:
 
 ```C++
 TimeZone tz; // UTC+00:00
+auto tz = TimeZone::forUtc(); // UTC+00:00
 ```
 
-To create `TimeZone` instances with other offsets, use one of the factory
-methods:
+To create `TimeZone` instances with other offsets, use the `forTimeOffset()`
+factory method:
 
 ```C++
 auto tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8)); // UTC-08:00
 auto tz = TimeZone::forTimeOffset(TimeOffset::forHourMinute(-4, -30)); // UTC-04:30
+auto tz = TimeZone::forTimeOffset(
+    TimeOffset::forHour(-8),
+    TimeOffset::forHour(1)); // UTC-08:00+01:00 (effectively -07:00)
 ```
 
-#### ManualZoneSpecifier (kTypeManual)
+The `TimeZone::isUtc()`, `TimeZone::isDst()` and `TimeZone::setDst(bool)`
+methods work only if the `TimeZone` is a `kTypeManual`.
 
-A `ManualZoneSpecifier` describes a time zone which allows the user to set
-the UTC offset, and to select whether or not the DST offset is being observed.
-The constructor looks like this:
+The `setDstOffset()` takes a `TimeOffset` as the argument instead of a simple
+`bool` because there are some zones (e.g. Europe/Dublin) which uses a negative
+offset in the winter, instead of adding a postive offset in the summer.
 
-```C++
-ManualZoneSpecifier(
-    TimeOffset stdOffset = TimeOffset(),
-    bool isDst = false,
-    const char* stdAbbrev = "",
-    const char* dstAbbrev = "",
-    TimeOffset deltaOffset = TimeOffset::forHour(1));
-```
-All the parameters are theoretically optional, but most applications will
-set at least the `stdOffset` parameter:
+The `setStdOffset()` allows the base time offset to be changed, but this
+method is not expected to be used often.
 
-* `stdOffset`: the standard time UTC offset (default: 00:00)
-* `isDst`: whether the DST is being observed (default: false)
-* `stdAbbrev`: the abbreviation during standard time (default: "")
-* `dstAbbrev`: the abbreviation during DST (default: "")
-* `deltaOffset`: the time shift during DST (default: +01:00)
+#### Basic TimeZone (kTypeBasic)
 
-When `ManualZoneSpecifier::getUtcOffset()` is called, it will normally return
-the value of `stdOffset`. However, if the user sets the `isDst` flag to `true`
-using `ManualZoneSpecifier::isDst(true)`, then `getUtcOffset()` will return
-`stdOffset + deltaOffset`.
-
-The `ManualZoneSpecifier` is expected to be created once at the beginning of
-the application. The `TimeZone` object can be created on demand by pointing it
-to the `ManualZoneSpecifier` instance. For example, the following creates a
-`TimeZone` set to be UTC-08:00 normally, but can change to UTC-07:00 when the
-`ManualZoneSpecifier::isDst(true)` is called:
+This TimeZone is created using two objects:
+* the `basic::ZoneInfo` data objects contained in
+  [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h)
+* an external instance of `BasicZoneProcessor` needed for calculating zone
+  transitions
 
 ```C++
-ManualZoneSpecifier zoneSpecifier(TimeOffset::forHour(-8), false, "PST", "PDT");
+BasicZoneProcessor zoneProcessor;
 
 void someFunction() {
-  ...
-  auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  auto offset = tz.getUtcOffset(0); // returns -08:00
-  tz.isDst(true);
-  offset = tz.getUtcOffset(0); // returns -07:00
+  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
   ...
 }
 ```
-
-The `TimeZone::isDst()` and `TimeZone::isDst(bool)` methods are convenience
-methods that work only if the `TimeZone` instance refers to a
-`ManualZoneSpecifier`. They simply call the underying `ManualZoneSpecifier`. If
-the underlying `ZoneSpecifier` is a different type, the `TimeZone::isDst()` does
-nothing.
-
-#### BasicZoneSpecifier (kTypeBasic)
-
-The `BasicZoneSpecifier` represents a time zone defined by the TZ Database. The
-constructor accepts a pointer to a `basic::ZoneInfo`:
-
-```C++
-BasicZoneSpecifier(const basic::ZoneInfo* zoneInfo);
-```
-
-The supported `basic::ZoneInfo` data objects are contained in this header file:
-
-* [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h)
 
 The zoneinfo files were generated by a script using the TZ Database. This header
 file is already included in `<AceTime.h>` so you don't have to explicitly
 include it. As of version 2019a of the database, it contains 270 Zone and 182
 Link entries and whose time change rules are simple enough to be supported by
-`BasicZoneSpecifier`. The bottom of the `zone_infos.h` header file lists 117
-zones whose zone rules are too complicated for `BasicZoneSpecifier`.
+`BasicZoneProcessor`. The bottom of the `zone_infos.h` header file lists 117
+zones whose zone rules are too complicated for `BasicZoneProcessor`.
 
 The zone names are normalized so that the ZoneInfo variable is a valid C++ name:
 
@@ -858,25 +916,27 @@ The zone names are normalized so that the ZoneInfo variable is a valid C++ name:
 
 Some examples of `ZoneInfo` entries supported by `zonedb` are:
 
-* `zonedb::kZoneAmerica_Los_Angeles`
-* `zonedb::kZoneAmerica_New_York`
-* `zonedb::kZoneAustralia_Darwin`
-* `zonedb::kZoneEurope_London`
-* `zonedb::kZoneGMT_PLUS_10`
+* `zonedb::kZoneAmerica_Los_Angeles` (`America/Los_Angeles`)
+* `zonedb::kZoneAmerica_New_York` (`America/New_York`)
+* `zonedb::kZoneAustralia_Darwin` (`Australia/Darwin`)
+* `zonedb::kZoneEurope_London` (`Europe/London`)
+* `zonedb::kZoneGMT_PLUS_10` (`GMT+10`)
+* `zonedb::kZoneGMT_10` (`GMT-10`)
 
-The following example creates a `TimeZone` using a `BasicZoneSpecifier` which
-describes `America/Los_Angeles`:
+The following example creates a `TimeZone` which describes
+`America/Los_Angeles`:
 
 ```C++
 #include <AceTime.h>
 using namespace ace_time;
 ...
 
-BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
+BasicZoneProcessor zoneProcessor;
 
 void someFunction() {
   ...
-  auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
 
   // 2018-03-11T01:59:59-08:00 was still in STD time
   {
@@ -886,7 +946,7 @@ void someFunction() {
     auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
   }
 
-  // 2018-03-11T02:00:00-08:00 was in DST time
+  // one second later, 2018-03-11T02:00:00-08:00 was in DST time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHour(-8));
@@ -897,19 +957,25 @@ void someFunction() {
 }
 ```
 
-#### ExtendedZoneSpecifier (kTypeExtended)
+#### Extended TimeZone (kTypeExtended)
 
-The `ExtendedZoneSpecifier` is very similar to `BasicZoneSpecifier` except that
-it supports (almost) all zones in the TZ Database instead of a subset. The
-constructor accepts a pointer to an `extended::ZoneInfo`:
+This TimeZone is created using two objects:
+* the `extended::ZoneInfo` data objects contained in
+  [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
+* an external instance of `ExtendedZoneProcessor` needed for calculating zone
+  transitions
 
 ```C++
-ExtendedZoneSpecifier(const extended::ZoneInfo* zoneInfo);
+ExtendedZoneProcessor zoneProcessor;
+
+void someFunction() {
+  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
+  ...
+}
 ```
-
-The supported zones are given in this header file:
-
-* [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h)
+(Notice that we use the `zonedbx::` namespace instead of the `zonedb::`
+namespace.)
 
 As of version 2019a of TZ Database, *all* 387 Zone and 205 Link entries from the
 following TZ files are supported: `africa`, `antarctica`, `asia`, `australasia`,
@@ -917,7 +983,7 @@ following TZ files are supported: `africa`, `antarctica`, `asia`, `australasia`,
 files which are not processed (`backzone`, `systemv`, `factory`) because they
 don't seem to contain anything useful.
 
-The zone infos which can be used by `ExtendedZoneSpecifier` are in the
+The zone infos which can be used by `ExtendedZoneProcessor` are in the
 `zonedbx::` namespace instead of the `zonedb::` namespace. Some examples of the
 zone infos which exists in `zonedbx::` but not in `zonedb::` are:
 * `zonedbx::kZoneAfrica_Casablanca`
@@ -926,14 +992,13 @@ zone infos which exists in `zonedbx::` but not in `zonedb::` are:
 * `zonedbx::kZoneAsia_Hebron`
 * `zonedbx::kZoneEurope_Moscow`
 
-The usage is the same as `BasicZoneSpecifier`:
-
 ```C++
-ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+ExtendedZoneProcessor zoneProcessor;
 
 void someFunction() {
   ...
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  TimeZone tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
 
   // 2018-03-11T01:59:59-08:00 was still in STD time
   {
@@ -943,7 +1008,7 @@ void someFunction() {
     auto offset = tz.getUtcOffset(epochSeconds); // returns -08:00
   }
 
-  // 2018-03-11T02:00:00-08:00 was in DST time
+  // one second later, 2018-03-11T02:00:00-08:00 was in DST time
   {
     auto dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
       TimeOffset::forHour(-8));
@@ -954,129 +1019,63 @@ void someFunction() {
 }
 ```
 
-The advantage of `ExtendedZoneSpecifier` over `BasicZoneSpecifier` is that
-`ExtendedZoneSpecifier` supports all time zones in the TZ Database. The cost is
-that it consumes 5 times more memory and is a bit slower. If
-`BasicZoneSpecifier` supports the zone that you want using the zone files in the
+The advantage of `ExtendedZoneProcessor` over `BasicZoneProcessor` is that
+`ExtendedZoneProcessor` supports all time zones in the TZ Database. The cost is
+that it consumes *5 times* more memory and is a bit slower. If
+`BasicZoneProcessor` supports the zone that you want using the zone files in the
 `zonedb::` namespace, you should normally use that instead of
-`ExtendedZoneSpecifier`. The one other advatnage of `ExtendedZoneSpecifier` over
-`BasicZoneSpecifier` is that `ExtendedZoneSpecifier::forComponents()` is more
-accurate than `BasicZoneSpecifier::forComponents()` because the `zonedbx::` data
+`ExtendedZoneProcessor`. The one other advatnage of `ExtendedZoneProcessor` over
+`BasicZoneProcessor` is that `ExtendedZoneProcessor::forComponents()` is more
+accurate than `BasicZoneProcessor::forComponents()` because the `zonedbx::` data
 files contain transition information which are missing in the `zonedb::` data
 files due to space constraints.
 
-### ZoneManager
+#### Basic Managed TimeZone (kTypeBasicManaged)
 
-**Caveat**: This is an experimental feature.
-
-On microcontrollers with more than ~30kB of flash (e.g. ESP8266, ESP32,
-and Teensy), the entire `zonedb` or `zonedbx` database can be loaded and
-timezones could be dynamically selected using the zone identifier strings
-(e.g. `"America/Los_Angeles"`). Two experimental classes are provided in version
-0.4 to give  dynamic access to the zoneinfo files: `BasicZoneManager` and
-`ExtendedZoneManager`. The class definitions look like this:
+This TimeZone is similar to a `kTypeBasic` TimeZone, except that it is created
+using the `BasicZoneManager`, like this:
 
 ```C++
-class BasicZoneManager {
-  public:
-    BasicZoneManager(const basic::ZoneInfo* zoneRegistry,
-        uint16_t registrySize);
+// Create ZoneManager (see ZoneManager section below)
+...
+const int NUM_ZONES = 2;
+BasicZoneManager<NUM_ZONES> basicZoneManager(
+    kBasicZoneRegistrySize, kBasicZoneRegistry);
+...
 
-    const basic::ZoneInfo* getZoneInfo(const char* name) const;
+void someFunction() {
+  auto tz = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles);
+  ...
+}
 
-    bool isSorted() const;
-};
-
-class ExtendedZoneManager {
-  public:
-    ExtendedZoneManager(const extended::ZoneInfo* zoneRegistry,
-        uint16_t registrySize);
-
-    const extended::ZoneInfo* getZoneInfo(const char* name) const;
-
-    bool isSorted() const;
-};
 ```
 
-They provide a lookup service from the zone identifier string the corresponding
-`const ZoneInfo*` pointer.
+See the *ZoneManager* section below for information on how to create a
+`BasicZoneManager`.
 
-The declaration for the zoneinfo registry is available at:
+#### Extended Managed TimeZone (kTypeExtendedManaged)
 
-* [zonedb/zone_registry.h](src/ace_time/zonedb/zone_registry.h)
-* [zonedbx/zone_registry.h](src/ace_time/zonedbx/zone_registry.h)
-
-The `BasicZoneManager` can be used like this with the `BasicZoneSpecifier`:
+This TimeZone is similar to the `kTypeExtended` TimeZone, except that it is
+created using the `ExtendedZoneManager`, like this:
 
 ```C++
-BasicZoneManager manager(zonedb::kZoneRegistry, zonedb::kZoneRegistrySize);
-const auto* zoneInfo = manager.getZoneInfo("America/Los_Angeles");
-BasicZoneSpecifier zspec(zoneInfo);
-auto tz = TimeZone::forZoneSpecifier(&zspec);
+// Create ZoneManager (see ZoneManager section below)
+...
+const int NUM_ZONES = 2;
+ExtendedZoneManager<NUM_ZONES> basicZoneManager(
+    kExtendedZoneRegistrySize, kExtendedZoneRegistry);
+...
+
+void someFunction() {
+  auto tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles);
+  ...
+}
 ```
 
-and the `ExtendedZoneManager` can be used with the `ExtendedZoneSpecifier`
-like this:
-
-```C++
-ExtendedZoneManager manager(zonedbx::kZoneRegistry, zonedbx::kZoneRegistrySize);
-const auto* zoneInfo = manager.getZoneInfo("America/Los_Angeles");
-ExtendedZoneSpecifier zspec(zoneInfo);
-auto tz = TimeZone::forZoneSpecifier(&zspec);
-```
-
-The ZoneManagers can be initialized with a custom list of timezones, instead
-of using the entire `zonedb` or `zonedbx` databases.
-
-**Caveat**: The ZoneManagers are experimental and currently in development. As
-of version 0.4, the lifecycle management of `BasicZoneManager` and
-`ExtendedZoneManager` has not been fully designed and the recommended usage
-pattern will likely change in future. Before the ZoneManager classes were
-created, it was assumed that `BasicZoneSpecifier` and `ExtendedZoneSpecifier`
-would be long-lived, statically allocated objects. That assumption does not play
-well with the dynamic nature of the ZoneManagers. If the microcontroller has
-sufficient amount of static RAM (e.g. ESP8266, ESP32, etc), it may be possible
-to dynamically allocate the `BasicZoneSpecifier` and `ExtendedZoneSpecifier` on
-the heap and continue using the `TimeZone` objects as before. This usage pattern
-has not been explored and the app developer should be cautious when using these
-ZoneManager classes.
-
-### TZ Database ZoneInfo Files and Version
-
-The `BasicZoneSpecifier` does not support all the timezones in the TZ Database.
-The list of these zones and The reasons for excluding them are given at the
-bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
-
-Although the `ExtendedZoneSpecifier` supports all zones from its TZ input
-files, there are number of timezones whose DST transitions in the past happened
-at 00:01 (instead of exactly at midnight 00:00). To save memory, the internal
-representation used by AceTime supports only DST transitions which occur at
-15-minute boundaries. For these timezones, the DST transition time is shifted to
-00:00 instead, and the transition happens one-minute earlier than it should.
-As of TZ DB version 2019a, there are 5 zones affected by this rounding, as
-listed at the bottom of
-[zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and these all occur
-before the year 2012.
-
-The IANA TZ Database is updated continually. As of this writing, the latest
-stable version is 2019a. When a new version of the database is released, it is
-relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
-However, it is likely that I would delay the release of a new version until the
-corresponding `pytz` package is updated to the latest TZ database version, so
-that the validation test suites pass (See Testing section below). Otherwise, I
-don't have a way to verify that the AceTime library with the new TZ Database
-version is correctly functioning.
-
-As of version 0.4, the zoneinfo files are stored in in flash memory instead of
-static RAM using the
-[PROGMEM](https://www.arduino.cc/reference/en/language/variables/utilities/progmem/)
-keyword on microcontrollers which support this feature. On an 8-bit
-microcontroller, the entire `zonedb/` database consumes about 14kB of flash
-memory, so it may be possible to create small programs that can dynamically
-access all timezones supported by `BasicZoneSpecifier`. The `zonedbx/` database
-consumes about 23kB of flash memory and the addition code size from various
-classes will exceed the 30-32kB limit of a typical Arduino 8-bit
-microcontroller.
+See the *ZoneManager* section below for information on how to create an
+`ExtendedZoneManager`.
 
 ### ZonedDateTime
 
@@ -1151,11 +1150,12 @@ class ZonedDateTime {
 Here is an example of how to create one and extract the epoch seconds:
 
 ```C++
-BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
+BasicZoneProcessor zoneProcessor;
 
 void someFunction() {
   ...
-  auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &zoneProcessor);
 
   // 2018-01-01 00:00:00+00:15
   auto zonedDateTime = ZonedDateTime::forComponents(
@@ -1181,13 +1181,12 @@ debugging. The `printTo()` prints a human-readable representation of the date in
 **Caveat**: The parser for `forDateString()` looks only at the UTC offset. It
 does *not* recognize the TZ Database identifier (e.g. `[America/Los_Angeles]`).
 To handle the time zone identifier correctly, the library needs to load
-the entire TZ Database into memory and be able to create the
-`BasicZoneSpecifier` or `ExtendedZoneSpecifier` dynamically. But the dataset
-is too large to fit on most AVR microcontrollers with only 32kB of flash memory.
-(It may be possible to add this functionality for the ESP8266 or ESP32
-platforms which have far more memory.) The `ZonedDateTime::timeZone()` will
-return a `TimeZone` instance whose `TimeZone::getType()` returns
-`TimeZone::kTypeFixed`.
+the entire TZ Database into memory and use the `ZoneManager` to manage
+the `BasicZoneProcessor` or `ExtendedZoneProcessor` objects dynamically. But the
+dataset is too large to fit on most AVR microcontrollers with only 32kB of flash
+memory, so we currently do not support this dynamic lookup. The
+`ZonedDateTime::timeZone()` will return Manual `TimeZone` whose
+`TimeZone::getType()` returns `TimeZone::kTypeManual`.
 
 #### Conversion to Other Time Zones
 
@@ -1195,13 +1194,15 @@ You can convert a given `ZonedDateTime` object into a representation in a
 different time zone using the `DateTime::convertToTimeZone()` method:
 
 ```C++
-static BasicZoneSpecifier zspecLosAngeles(&zonedb::kZoneAmerica_Los_Angeles);
-static BasicZoneSpecifier zspecZurich(&zonedb::kZoneEurope_Zurich);
+static BasicZoneProcessor processorLosAngeles;
+static BasicZoneProcessor processorZurich;
 
 void someFunction() {
   ...
-  auto tzLosAngeles = TimeZone::forZoneSpecifier(&zspecLosAngeles);
-  auto tzZurich = TimeZone::forZoneSpecifier(&zspecZurich);
+  auto tzLosAngeles = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles, &processorLosAngeles);
+  auto tzZurich = TimeZone::forZoneInfo(
+      &zonedb::kZoneEurope_Zurich, &processorZurich);
 
   // Europe/Zurich, 2018-01-01T09:20:00+01:00
   auto zurichTime = ZonedDateTime::forComponents(
@@ -1217,59 +1218,361 @@ The two `ZonedDateTime` objects will return the same value for `epochSeconds()`
 because that is not affected by the time zone. However, the various date time
 components (year, month, day, hour, minute, seconds) will be different.
 
-### TimePeriod
+#### Caching
 
-The `TimePeriod` class can be used to represents a difference between two
-`XxxDateTime` objects, if the difference is not too large. Internally, it is
-implemented as 3 unsigned `uint8_t` integers representing the hour, minute and
-seconds. There is a 4th signed `int8_t` integer that holds the sign (-1 or +1)
-of the time period. The largest (or smallest) time period that can be
-represented by this class is +/- 255h59m59s, corresponding to +/- 921599
-seconds.
+The conversion from an epochSeconds to date-time components using
+`ZonedDateTime::forEpochSeconds()` is an expensive operation (see
+[AutoBenchmark](examples/AutoBenchmark/)). To improve performance, the
+`BasicZoneProcessor` and `ExtendedZoneProcessor` implement internal caching
+based on the `year` component. This optimizes the most commonly expected
+use case where the epochSeconds is incremented by a clock (e.g. `SystemClock`)
+every second, and is converted to human-readable date-time components once a
+second. According to [AutoBenchmark](examples/AutoBenchmark/), the cache
+improves performance by a factor of 2-3X (8-bit AVR) to 10-20X (32-bit
+processors) on consecutive calls to `forEpochSeconds()` with the same `year`.
+
+### ZoneInfo Files
+
+Starting with version 0.4, the zoneinfo files are stored in in flash memory
+instead of static RAM using the
+[PROGMEM](https://www.arduino.cc/reference/en/language/variables/utilities/progmem/)
+keyword on microcontrollers which support this feature. On an 8-bit
+microcontroller, the `zonedb/` database consumes about 14kB of flash
+memory, so it may be possible to create small programs that can dynamically
+access all timezones supported by `BasicZoneProcessor`. The `zonedbx/` database
+consumes about 23kB of flash memory and the addition code size from various
+classes will exceed the 30-32kB limit of a typical Arduino 8-bit
+microcontroller.
+
+The `zonedb/` files do not support all the timezones in the TZ Database.
+The list of these zones and The reasons for excluding them are given at the
+bottom of the [zonedb/zone_infos.h](src/ace_time/zonedb/zone_infos.h) file.
+
+Although the `zonedbx/` files support all zones from its TZ input files, there
+are number of timezones whose DST transitions in the past happened at 00:01
+(instead of exactly at midnight 00:00). To save memory, the internal
+representation used by AceTime supports transitions only at
+15-minute boundaries. For these timezones, the DST transition time is shifted to
+00:00 instead, and the transition happens one-minute earlier than it should. As
+of TZ DB version 2019a, there are 5 zones affected by this rounding, as listed
+at the bottom of [zonedbx/zone_infos.h](src/ace_time/zonedbx/zone_infos.h), and
+these all occur before the year 2012.
+
+#### BasicZone and ExtendedZone
+
+The `basic::ZoneInfo` and `extended::ZoneInfo` (and its related data structures)
+objects are meant to be *opaque* and simply passed into the `TimeZone`
+class (which in turn, passes the pointer into the `BasicZoneProcessor` and
+`ExtendedZoneProcessor` objects.) The internal formats of the `ZoneInfo`
+structures may change without warning, and users of this library should not
+access its internal data members directly.
+
+Two helper classes, `BasicZone` and `ExtendedZone`, provide stable access to
+some of the internal fields:
 
 ```C++
 namespace ace_time {
 
-class TimePeriod {
+class BasicZone {
   public:
-    explicit TimePeriod(uint8_t hour, uint8_t minute, uint8_t second,
-            int8_t sign = 1);
-    explicit TimePeriod(int32_t seconds = 0);
+    BasicZone(const basic::ZoneInfo* zoneInfo);
 
-    uint8_t hour() const;
-    void hour(uint8_t hour);
+    uint32_t zoneId() const;
 
-    uint8_t minute() const;
-    void minute(uint8_t minute);
+#if ACE_TIME_USE_PROGMEM
+    const __FlashStringHelper* name() const;
+    const __FlashStringHelper* shortName() const;
+#else
+    const char* name() const;
+    const char* shortName() const;
+#endif
+};
 
-    uint8_t second() const;
-    void second(uint8_t second);
 
-    int8_t sign() const;
-    void sign(int8_t sign);
+class ExtendedZone {
+  public:
+    ExtendedZone(const extended::ZoneInfo* zoneInfo);
 
-    int32_t toSeconds() const;
+    uint32_t zoneId() const;
 
-    int8_t compareTo(const TimePeriod& that) const;
-    void printTo(Print& printer) const;
+#if ACE_TIME_USE_PROGMEM
+    const __FlashStringHelper* name() const;
+    const __FlashStringHelper* shortName() const;
+#else
+    const char* name() const;
+    const char* shortName() const;
+#endif
+
+}
+```
+
+They are meant to be used transiently, for example:
+```C++
+...
+const basic::ZoneInfo* zoneInfo = ...;
+Serial.println(BasicZone(zoneInfo).shortName());
+...
+```
+
+The return type of `name()` and `shortName()` change whether or not the zone
+name is stored in flash memory or in static memory. The `name()` method returns
+the full zone name from the TZ Database (e.g. `"America/Los_Angeles"`). The
+`shortName()` method returns only the last component (e.g. `"Los_Angeles"`).
+
+### ZoneManager
+
+The `TimeZone::forZoneInfo()` methods are simple to use but have the
+disadvantage that the `BasicZoneProcessor` or `ExtendedZoneProcessor`
+need to be created manually for each
+`TimeZone` instance. This works well for a single time zone,
+but if you have an application that needs 3 or more time zones, this may become
+cumbersome. Also, it is difficult to reconstruct a `TimeZone` dynamically, say,
+from its fullly qualified name (e.g. `"America/Los_Angeles"`). The `ZoneManager`
+solves these problems. It keeps an internal cache or `ZoneProcessors`, reusing
+them as needed. And it holds a registry of `ZoneInfo` objects, so that a
+`TimeZone` can be created using its `zoneName`, `zoneInfo`, or `zoneId`.
+
+```C++
+namespace ace_time{
+
+template<uint16_t SIZE>
+class BasicZoneManager {
+  public:
+    BasicZoneManager(uint16_t registrySize);
+        const basic::ZoneInfo* const* zoneRegistry,
+
+    TimeZone createForZoneInfo(const basic::ZoneInfo* zoneInfo);
+    TimeZone createForZoneName(const char* name);
+    TimeZone createForZoneId(uint32_t id);
+    TimeZone createForZoneIndex(uint16_t index);
+
+    TimeZone createForTimeZoneData(const TimeZoneData& d);
+
+    uint16_t indexForZoneName(const char* name);
+    uint16_t indexForZoneId(uint32_t id) const;
+};
+
+template<uint16_t SIZE>
+class ExtendedZoneManager {
+  public:
+    ExtendedZoneManager(uint16_t registrySize,
+        const extended::ZoneInfo* const* zoneRegistry);
+
+    [...same as above...]
 };
 
 }
 ```
 
-This class was created to show the difference between 2 dates in a
-human-readable format, broken down by hours, minutes and seconds. For example,
-we can print out a countdown to a target `ZonedDateTime` from the current
-`ZonedDateTime` like this:
+The `SIZE` template parameter is the size of the internal cache of
+`ZoneProcessor` objects. This should be set to the number of time zones that
+your application is expected to use *at the same time*. If your app never
+changes its time zone after initialization, then this can be `<1>`. If your app
+allows the user to dynamically change the time zone (e.g. from a menu of time
+zones), then this should be at least `<2>` (to allow the system to compare the
+old time zone to the new time zone selected by the user). In general, the `SIZE`
+should be set to the number of timezones displayed to the user concurrently,
+plus an additional 1 if the user is able to change the timezone dynamically.
+
+The constructor take a `zoneRegistry` and its `zoneRegistrySize`. It is a
+pointer to an array of pointers to the `zonedb::kZone*` or `zonedbx::kZone*`
+objects. You can use the default zone registry (which contains ALL zones in the
+`zonedb::` or `zonedbx::` database, or you can create your own custom zone
+registry, as described below.
+
+#### Default Zone Registry
+
+The default zoneinfo registry is available at:
+
+* [zonedb/zone_registry.h](src/ace_time/zonedb/zone_registry.h)
+* [zonedbx/zone_registry.h](src/ace_time/zonedbx/zone_registry.h)
+
+It contains the entire `zonedb` or `zonedbx` database. On an 8-bit processor,
+the basic `zonedb::` data set is about 14kB and the extended `zonedbx::`
+database is about 23kB. On 32-bit processors, the `zonedb::` data set is about
+23kB and the extended `zonedbx::` data set is about 36kB.
 
 ```C++
-ZonedDateTime currentDate = ...;
-ZonedDateTime targetDate = ...;
-acetime_t diffSeconds = targetDate.toEpochSeconds()
-    - currentDate.toEpochSeconds();
-TimePeriod timePeriod(diffSeconds);
-timePeriod.printTo(Serial)
+#include <AceTime.h>
+using namespace ace_time;
+...
+const uint16_t SIZE = 2;
+BasicZoneManager<SIZE> zoneManager(
+    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+
+void someFunction(const char* zoneName) {
+  TimeZone tz = zoneManager.createForZoneName("America/Los_Angeles");
+  if (tz.isError()) {
+    tz = TimeZone::forUtc();
+    ...
+  }
+}
 ```
+
+#### Custom Zone Registry
+
+On small microcontrollers, the default zone registries are too large. The
+`ZoneManager` can be configured with a custom zone registry. It needs
+to be given an array of `ZoneInfo` pointers when constructed. For example, here
+is a `BasicZoneManager` with only 4 zones from the `zonedb::` data set:
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+...
+static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+  &zonedb::kZoneAmerica_Los_Angeles,
+  &zonedb::kZoneAmerica_Denver,
+  &zonedb::kZoneAmerica_Chicago,
+  &zonedb::kZoneAmerica_New_York,
+};
+
+static const uint16_t kZoneRegistrySize =
+    sizeof(Controller::kZoneRegistry) / sizeof(basic::ZoneInfo*);
+
+static BasicZoneManager<2> zoneManager(kZoneRegistrySize, kZoneRegistry);
+```
+
+Here is the equivalent `ExtendedZoneManager` with 4 zones from the `zonedbx::`
+data set:
+
+```C++
+#include <AceTime.h>
+using namespace ace_time;
+...
+static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
+  &zonedbx::kZoneAmerica_Los_Angeles,
+  &zonedbx::kZoneAmerica_Denver,
+  &zonedbx::kZoneAmerica_Chicago,
+  &zonedbx::kZoneAmerica_New_York,
+};
+
+static const uint16_t kZoneRegistrySize =
+    sizeof(Controller::kZoneRegistry) / sizeof(extended::ZoneInfo*);
+
+static ExtendedZoneManager<2> zoneManager(kZoneRegistrySize, kZoneRegistry);
+```
+
+The `ACE_TIME_PROGMEM` macro is defined in
+[flash.h](src/ace_time/common/flash.h) and indicates whether the ZoneInfo files
+are stored in normal RAM or flash memory (i.e. `PROGMEM`). It must be used for
+custom zoneRegistries because the `BasicZoneManager` and `ExtendedZoneManager`
+expect to find them in static RAM or flash memory according to this macro.
+
+See [CommandLineClock](examples/CommandLineClock/) for an example of how these
+custom registries can be created and used.
+
+#### createForZoneName
+
+The `ZoneManager` allows creation of a `TimeZone` using the fully qualified
+zone name:
+
+```C++
+BasicZoneManager<NUM_ZONES> manager(...);
+
+void someFunction() {
+  auto tz = manager.createForZoneName("America/Los_Angeles");
+  ...
+}
+```
+
+Of course, you wouldn't actually do this because the same functionality could
+be done more efficiently (less memory, less CPU time) using:
+```C++
+BasicZoneManager<NUM_ZONES> manager(...);
+
+void someFunction() {
+  auto tz = manager.createForZoneInfo(zonedb::kZoneAmerica_Los_Angeles);
+  ...
+}
+```
+
+I think the only time the `createForZoneName()` might be useful is if
+the user was allowed to type in the zone name, and you wanted to create a
+`TimeZone` from the string typed in by the user.
+
+#### createForZoneId
+
+Each zone in the `zonedb::` and `zonedbx::` database is given a unique
+and stable zoneId. This can be retrieved from the `TimeZone` object using:
+```C++
+TimeZone tz = zoneManager.createFor...();
+uint32_t zoneId = tz.getZoneId();
+```
+from the `ZoneInfo` pointer using the `BasicZone()` helper object:
+```C++
+uint32_t zoneId = BasicZone(&zonedb::kZoneAmerica_Los_Angeles).zoneId();
+```
+
+The ZoneId is created using a hash of the fully qualified zone name. It is
+guaranteed to be unique and stable by the `tzcompiler.py` tool that generated
+the `zonedb::` and `zonedbx::` data sets.  By "unique", I mean that
+no 2 time zones will have the same zoneId. By "stable", it means that once
+a zoneId has been assigned to a fully qualified zone name, it will remain
+unchanged forever in the database. This means that we can save the zoneId of a
+TimeZone to persistent memory (e.g. EEPROM), then retrieve the zoneId, and
+recreate the `TimeZone` using the following for a `BasicZoneManager`:
+
+```C++
+BasicZoneManager<NUM_ZONES> manager(...);
+
+void someFunction() {
+  uint32_t zoneId = ...;
+  ...
+  auto tz = manager.createForZoneId(zoneId);
+  ...
+}
+```
+
+and similarly for the `ExtendedZoneManager`:
+
+```C++
+ExtendedZoneManager<NUM_ZONES> manager(...);
+
+void someFunction() {
+  uint32_t zoneId = ...;
+  ...
+  auto tz = manager.createForZoneId(zoneId);
+  ...
+```
+
+The `zoneId` has an obvious advantage over the fully qualified `zoneName` for
+storage purposes. It is far easier to save a 4-byte zoneId (e.g. `0xb7f7e8f2`)
+rather than a variable length string (e.g. `"America/Los_Angeles"`).
+Since the `zoneId` is derived from just the zoneName, a `TimeZone` created by
+the `BasicZoneManager` has the same zoneId as one created using the
+`ExtendedZoneManager` if it has the same name. This means that a TimeZone can be
+saved using a `BasicZoneManager` but recreated using an `ExtendedZoneManager`. I
+am not able to see how this could be an issue, but let me know if you find this
+to be a problem.
+
+If the `ZoneManager` cannot find the `zoneId` in its internal zone registry,
+then the `TimeZone::forError()` is returned. The application developer should
+check for this, and substitute a reasonable default TimeZone when this happens.
+This situation is not unique to the zoneId. The same problem would occur if the
+fully qualified zone name was used.
+
+#### createForZoneIndex
+
+The `ZoneManager::createForZoneIndex()` creates a `TimeZone` from its integer
+index into the Zone registry, from 0 to `registrySize-1`. This is useful when
+you want to show the user with a menu of zones from the `ZoneManager` and allow
+the user to select one of the options.
+
+The `ZoneManager::indexForZoneNmae()` and `ZoneManager::indexForZoneId()` are
+two useful methods to convert an arbitrary time zone reference (either
+by zoneName or zoneId) into an index into the registry.
+
+### TZ Database Version
+
+The IANA TZ Database is updated continually. As of this writing, the latest
+stable version is 2019a. When a new version of the database is released, it is
+relatively easy to regenerate the `zonedb/` and `zonedbx/` zoneinfo files.
+However, it is likely that I would delay the release of a new version until the
+corresponding `pytz` package is updated to the latest TZ database version, so
+that the validation test suites pass (See Testing section below). Otherwise, I
+don't have a way to verify that the AceTime library with the new TZ Database
+version is correctly functioning.
 
 ## Mutations
 
@@ -1435,8 +1738,9 @@ until 2050. If you try to create a date outside of this range, an error
 `ZonedDateTime` object will returned. The following snippet will print "true":
 
 ```C++
-BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-auto tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
+BasicZoneProcessor zoneProcessor;
+auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+    &zoneProcessor);
 auto dt = ZonedDateTime::forComponents(1998, 3, 11, 1, 59, 59, tz);
 Serial.println(dt.isError() ? "true" : "false");
 ```
@@ -1790,18 +2094,18 @@ void setup() {
 }
 ```
 
-### System Clock Heartbeat and Syncing
+### System Clock KeepAlive and Syncing
 
 The `SystemClock` requires 2 maintenance tasks to run periodically
 to help it keep proper time.
 
-First, the `SystemClock::getNow()` method must be called peridically
-before an internal integer overflow occurs, even if the `getNow()` is not
-needed. The internal integer overflow happens every 65.536 seconds.
-Even if your application is *guaranteed* to call `SystemClock::getNow()`
-faster than every 65 seconds, it is probably prudent to implement a "heartbeat"
-mechanism which simply calls the `SystemClock::getNow()` periodically
-regardless of how often the application makes that call.
+First, the `SystemClock::getNow()` or `keepAlive()` method must be called
+peridically before an internal integer overflow occurs, even if the `getNow()`
+is not needed. The internal integer overflow happens every 65.536 seconds.
+If your application is *guaranteed* to call `SystemClock::getNow()` more
+frequently than every 65 seconds, then you don't need to worry about this.
+However, if you want to be prudent, it does not cost very much to call the
+`SystemClock::keepAlive()` function in the global `loop()` method.
 
 Secondly, since the internal `millis()` clock is not very accurate, we must
 synchronize the `SystemClock` periodically with a more accurate time
@@ -1811,17 +2115,13 @@ to the `getNow()` method of the syncing time clock. If the syncing time
 source is the DS3231 chip, syncing once every 1-10 minutes might be sufficient
 since talking to the RTC chip is relatively cheap. If the syncing time source is
 the `NtpTimeProvider`, the network connection is fairly expensive so maybe once
-every 1-12 hours might be advisable.
+every 1-12 hours might be advisable. The `SystemClock` provides 2 ways to
+perform this syncing.
 
-The `SystemClock` provides 2 ways to perform these periodic maintenance
-actions. By default, the heartbeat happens every 5 seconds and the syncing
-happens every 3600 seconds. Those parameters are configurable in the
-constructors of the following classes.
+**Method 1: Using SystemClockSyncLoop**
 
-**Method 1: Using SystemClockSyncLoop and SystemClockHeartbeatLoop**
-
-You can use the `SystemClockSyncLoop` and `SystemClockHeartbeatLoop` classes and
-insert them somewhere into the global `loop()` method, like this:
+You can use the `SystemClockSyncLoop` class and insert it somewhere into the
+global `loop()` method, like this:
 
 ```C++
 #include <AceTime.h>
@@ -1831,26 +2131,21 @@ using namespace ace_time::clock;
 
 SystemClock systemClock(...);
 SystemClockSyncLoop systemClockSyncLoop(systemClock);
-SystemClockHeartbeatLoop systemClockHeartbeatLoop(systemClock);
 
 void loop() {
   ...
+  systemClock.keepAlive();
   systemClockSyncLoop.loop();
-  systemClockHeartbeatLoop.loop();
   ...
 }
 ```
 
-We have assumed here that the global `loop()` function executes sufficiently
-frequently, for example, faster than 10 or 100 times a second.
-
-**Method 2: Using SystemClockSyncCoroutine and SystemClockHeartbeatCoroutine**
+**Method 2: Using SystemClockSyncCoroutine**
 
 You can use two [AceRoutine](https://github.com/bxparks/AceRoutine) coroutines
-to perform the heartbeat and sync. First, `#include <AceRoutine.h>` *before* the
-`#include <AceTime.h>` (which activates the `SystemClockSyncCoroutine` and
-`SystemClockHeartbeatCoroutine` classes). Then create the 2 coroutines, and
-configure it to run using the `CoroutineScheduler`:
+to perform sync. First, `#include <AceRoutine.h>` *before* the
+`#include <AceTime.h>` (which activates the `SystemClockSyncCoroutine`
+class), then configure it to run:
 
 ```C++
 #include <AceRoutine.h> // include this before <AceTime.h>
@@ -1862,17 +2157,17 @@ using namespace ace_routine;
 
 SystemClock systemClock(...);
 SystemClockSyncCoroutine systemClockSync(systemClock);
-SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
 
 void setup() {
   ...
-  systemClockSync.setupCoroutine(F("systemClockSync"));
-  systemClockHeartbeat.setupCoroutine(F("systemClockHeartbeat"));
+  systemClockSyncCoroutine.setupCoroutine(F("systemClockSync"));
   CoroutineScheduler::setup();
   ...
 }
 
 void loop() {
+  ...
+  systemClock.keepAlive();
   CoroutineScheduler::loop();
   ...
 }
@@ -1883,8 +2178,8 @@ becomes non-blocking. In other words, if you are using the `NtpTimeProvider` to
 provide syncing, the `SystemClockSyncLoop` object calls its `getNow()` method,
 which blocks the execution of the program until the NTP server returns a
 response (or the request times out after 1000 milliseconds). If you use the
-`SystemClockSyncCoroutine`, the program continues to do other things (e.g. update
-displays, scan for buttons) while the `NtpTimeProvider` is waiting for a
+`SystemClockSyncCoroutine`, the program continues to do other things (e.g.
+update displays, scan for buttons) while the `NtpTimeProvider` is waiting for a
 response from the NTP server.
 
 ## Testing
@@ -1900,13 +2195,13 @@ computer algorithms, creating a large number of code paths to test.
 It is simply impractical to manually create the inputs and expected outputs
 using the TZ database. The calculation of one data point can take several
 minutes manually. The solution would be to programmatically generate the data
-points. To that end, I wrote the 2 different implementations of `ZoneSpecifier`
-(`BasicZoneSpecifier` and `ExtendedZoneSpecifier`) partially as an attempt to
+points. To that end, I wrote the 2 different implementations of `ZoneProcessor`
+(`BasicZoneProcessor` and `ExtendedZoneProcessor`) partially as an attempt to
 write different versions of the algorithms to validate them against each other.
 (I think I wrote 4-5 different versions altogether, of which only 2 made it into
 this library). However, it turned out that the number of timezones supported by
-the `ExtendedZoneSpecifier` was much larger than the ones supported by
-`BasicZoneSpecifier` so it became infeasible to test the non-overlapping
+the `ExtendedZoneProcessor` was much larger than the ones supported by
+`BasicZoneProcessor` so it became infeasible to test the non-overlapping
 timezones.
 
 My next idea was to validate AceTime against a known, independently created,
@@ -1981,18 +2276,15 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(ManualZoneSpecifier): 10
-sizeof(BasicZoneSpecifier): 99
-sizeof(ExtendedZoneSpecifier): 397
+sizeof(BasicZoneProcessor): 99
+sizeof(ExtendedZoneProcessor): 397
 sizeof(TimeZone): 3
 sizeof(ZonedDateTime): 10
 sizeof(TimePeriod): 4
 sizeof(SystemClock): 17
 sizeof(DS3231TimeKeeper): 3
 sizeof(SystemClockSyncLoop): 14
-sizeof(SystemClockHeartbeatLoop): 8
 sizeof(SystemClockSyncCoroutine): 31
-sizeof(SystemClockHeartbeatCoroutine): 18
 ```
 
 **32-bit processors**
@@ -2002,31 +2294,28 @@ sizeof(LocalTime): 3
 sizeof(LocalDateTime): 6
 sizeof(TimeOffset): 1
 sizeof(OffsetDateTime): 7
-sizeof(ManualZoneSpecifier): 20
-sizeof(BasicZoneSpecifier): 156
-sizeof(ExtendedZoneSpecifier): 500
+sizeof(BasicZoneProcessor): 156
+sizeof(ExtendedZoneProcessor): 500
 sizeof(TimeZone): 8
 sizeof(ZonedDateTime): 16
 sizeof(TimePeriod): 4
 sizeof(SystemClock): 24
 sizeof(NtpTimeProvider): 88 (ESP8266), 116 (ESP32)
 sizeof(SystemClockSyncLoop): 20
-sizeof(SystemClockHeartbeatLoop): 12
 sizeof(SystemClockSyncCoroutine): 52
-sizeof(SystemClockHeartbeatCoroutine): 36
 ```
 
 The [MemoryBenchmark](examples/MemoryBenchmark) program gives a more
 comprehensive answer to the amount of memory taken by this library.
 Here is a short summary for an 8-bit microcontroller (e.g. Arduino Nano):
 
-* Using the `TimeZone` class with a `BasicZoneSpecifier` for one timezone takes
+* Using the `TimeZone` class with a `BasicZoneProcessor` for one timezone takes
   about 6140 bytes of flash memory and 193 bytes of static RAM.
-* Using 2 timezones with `BasiCZoneSpecifierincreases the consumption to 6628
+* Using 2 timezones with `BasiCZoneProcessorincreases the consumption to 6628
   bytes of flash and 231 bytes of RAM.
 * Loading the entire `zonedb::` zoneinfo database consumes 20354 bytes of flash
   and 601 bytes of RAM.
-* Adding the `SystemClock` to the `TimeZone` and `BasicZoneSpecifier` with one
+* Adding the `SystemClock` to the `TimeZone` and `BasicZoneProcessor` with one
   timezone consumes 8436 bytes of flash and 344 bytes of RAM.
 
 These numbers indicate that the AceTime library is useful even on a limited
@@ -2087,7 +2376,7 @@ The [Micro Time Zone](https://github.com/evq/utz) is a pure-C library
 that can compile on the Arduino platform. It contains a limited subset of the TZ
 Database encoded as C structs and determines the DST transitions using the
 encoded structs. It supports roughly of 45 zones with just a 3kB tzinfo
-database. The initial versions of AceTime, particularly the `BasicZoneSpecifier`
+database. The initial versions of AceTime, particularly the `BasicZoneProcessor`
 class was directly inspired by this library. It would be interesting to run this
 library to the same set of "validation" unit tests that checks the AceTime logic
 and see how accurate this library is. One problem with Micro Time Zone library
@@ -2100,16 +2389,24 @@ interesting investigation the future.)
 
 ### Java Time, Joda-Time, Noda Time
 
-Many time libraries (such as [Java 11
-Time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html),
-[Joda-Time](https://www.joda.org/joda-time/), and [Noda
-Time](https://nodatime.org/)) provide substantially more fine-grained class
-hierarchies to provider better type-safety. For example, those libraries
-just mentioned provided an `Instant` class, a `Duration` class, an `Interval`
-class. The `java.time` package also provides other fine-grained classes such as
-`OffsetTime`, `OffsetDate`, `Year`, `Month`, `MonthDay` classes. For the AceTime
-library, I decided to avoid providing too many classes. The API of the library
-is already too large, I did not want to make them larger than necessary.
+The names and functionality of most the date and time classes (`LocalTime`,
+`LocalDate`, `LocalDateTime`, `OffsetDateTime`, and `ZonedDateTime`) were
+inspired by the architecture of the [Java 11
+java.time](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+package. However, there were many parts of the `java.time` package that were not
+appropriate for a microcontroller environment with small memory. Those were
+implemented in other ways. There were other parts that seemed better implemented
+by [Joda-Time](https://www.joda.org/joda-time/) or [Noda
+Time](https://nodatime.org/)). I picked the ones that I liked.
+
+Those other libraries (`java.time`, Joda-Time, and Noda Time) all provide
+substantially more fine-grained class hierarchies to provider better
+type-safety. For example, those libraries just mentioned provided an `Instant`
+class, a `Duration` class, an `Interval` class. The `java.time` package also
+provides other fine-grained classes such as `OffsetTime`, `OffsetDate`, `Year`,
+`Month`, `MonthDay` classes. For the AceTime library, I decided to avoid
+providing too many classes. The API of the library is already too large, I did
+not want to make them larger than necessary.
 
 ### HowardHinnant Libraries
 
@@ -2134,16 +2431,25 @@ did not think it would fit inside an Arduino controller.
 ## Bugs and Limitations
 
 * Leap seconds
-    * This library does not support [leap
-      seconds](https://en.wikipedia.org/wiki/Leap_second) and will probably
-      never do so.
+    * This library does not support
+      [leap seconds](https://en.wikipedia.org/wiki/Leap_second) and will
+      probably never do so.
 * `acetime_t`
     * AceTime uses an epoch of 2000-01-01T00:00:00Z.
-      The `acetime_t` type is a 32-bit signed integer whose largest value is
-      `INT32_MAX`, which corresponds to 2068-01-19T03:14:07Z.
-    * The smallest date the `acetime_t` is `INT32_MIN` but that value is used to
-      indicate an "invalid" value. Therefore, the smallest normal value is
-      `INT32_MIN+1` which corresponds to 1931-12-13T20:45:53.
+      The `acetime_t` type is a 32-bit signed integer whose smallest value
+      is `-2^31` and largest value is `2^31-1`. However, the smallest value is
+      used to indicate an internal "Error" condition, therefore the actual
+      smallest `acetime_t` is `-2^31+1`. Therefore, the smallest and largest
+      dates that can be represented by `acetime_t` is 1931-12-13T20:45:53Z to
+      2068-01-19T03:14:07Z (inclusive).
+    * To be safe, users of this library should stay at least 1 year away from
+      the lower and upper limits of `acetime_t` (i.e. stay within the year 1932
+      to 2067, inclusive).
+* `toUnixSeconds()`
+    * [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
+      1970-01-01T00:00:00Z. This method returns an `acetime_t` which is
+      a signed integer, just like the old 32-bit Unix systems. The range of
+      dates is 1901-12-13T20:45:52Z to 2038-01-19T03:14:07Z.
 * `TimeOffset`
     * Implemented using `int8_t` to save memory.
     * Represents time offsets in increments of 15 minutes. All timezones after
@@ -2161,12 +2467,6 @@ did not think it would fit inside an Arduino controller.
     * The value of -128 (`INT8_MIN`) is used to indicate an "invalid" value, so
       the actual range is [-127, 127]. This restricts the year range to [1873,
       2127].
-* `toUnixSeconds()`
-    * [Unix time](https://en.wikipedia.org/wiki/Unix_time) uses an epoch of
-      1970-01-01T00:00:00Z. This method returns an `acetime_t` which is
-      a signed integer, just like the old 32-bit Unix systems. This method will
-      fail just after 2038-01-19T03:14:07Z, even though the underlying date
-      object is still valid.
 * `forDateString()`
     * Various classes provide a `forDateString()` method to construct
       the object from a human-readable string. These methods are mostly meant to
@@ -2177,11 +2477,14 @@ did not think it would fit inside an Arduino controller.
       not load the entire TZ Database due to memory constraints of most Arduino
       boards.
 * `TimeZone`
-    * There is not currently the ability to extract a unique identifier for a
-      given TimeZone for serialization purposes (which would allow save and
-      restore). The application developer must create an ad-hoc serialization
-      convention using `TimeZone::getType()` and some other information outside
-      of the AceTime library framework.
+    * It might be possible to use a Basic `TimeZone` created using a `zonedb::`
+      zoneinfo file, and an Extended `TimeZone` using a `zonedbx::` zoneinfo
+      file. However, this is not a configuration that is expected to be used
+      often, so it has not been tested well, if at all.
+    * One potential problem is that the equality of two `TimeZone` depends only
+      on the `zoneId`, so a Basic `TimeZone` created with a
+      `zonedb::kZoneAmerica_Los_Angeles` will be considered equal to an Extended
+      `TimeZone` created with a `zonedbx::kZoneAmerica_Los_Angeles`.
 * `ZonedDateTime::forComponents()`
     * The `ZonedDateTime::forComponents()` method takes the local wall time and
       `TimeZone` instance as parameters which can be ambiguous or invalid for
@@ -2197,20 +2500,20 @@ did not think it would fit inside an Arduino controller.
      as well as it could be, and the algorithm may change in the future. To keep
      the code size within reasonble limits of a small Arduino controller, the
      algorithm may be permanently sub-optimal.
-* `BasicZoneSpecifier`, `ExtendedZoneSpecifier`
+* `BasicZoneProcessor`, `ExtendedZoneProcessor`
     * Tested using both Python and Java libraries.
     * Python [pytz](https://pypi.org/project/pytz/) library supports dates only
       from 2000 until 2038.
     * Java `java.time` library has an upper limit far beyond the year 2068 limit
       of `ZonedDateTime`. Testing was performed from 2000 to until 2050.
-* `ExtendedZoneSpecifier`
+* `ExtendedZoneProcessor`
     * There are 5 time zones (as of version 2019a of the TZ Database, see
       the bottom of `zonedbx/zone_infos.h`) which have DST transitions that
       occur at 00:01 (one minute after midnight). This transition cannot be
       represented as a multiple of 15-minutes. The transition times of these
       zones have been shifted to the nearest 15-minute boundary, in other words,
       the transitions occur at 00:00 instead of 00:01. Clocks based on
-      `ExtendedZoneSpecifier` will be off by one hour during the 1-minute
+      `ExtendedZoneProcessor` will be off by one hour during the 1-minute
       interval from 00:00 and 00:01.
     * Fortunately all of these transitions happen before 2012. If you are
       interested in only dates after 2019, then this will not affect you.
@@ -2256,7 +2559,7 @@ did not think it would fit inside an Arduino controller.
     * The TZ database files `backzone`, `systemv` and `factory` are
       not processed by the `tzcompiler.py` tool. They don't seem to contain
       anything worthwhile.
-    * The datasets and `*ZoneSpecifier` classes have been *not* been tested or
+    * The datasets and `*ZoneProcessor` classes have been *not* been tested or
       validated for years prior to 2000.
     * TZ Database version 2019b contains the first use of the
       `{onDayOfWeek<=onDayOfMonth}` syntax that I have seen (specifically `Rule

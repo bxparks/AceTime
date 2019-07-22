@@ -4,8 +4,5 @@ var searchData=
   ['dayofweek',['dayOfWeek',['../classace__time_1_1LocalDate.html#a340aaa8f1767def162ccaae8c2d3e2c5',1,'ace_time::LocalDate::dayOfWeek()'],['../classace__time_1_1LocalDateTime.html#ad8f220f1853f17858618968d8d90b900',1,'ace_time::LocalDateTime::dayOfWeek()'],['../classace__time_1_1OffsetDateTime.html#aacf85984e6500a9a393bff6644d2075a',1,'ace_time::OffsetDateTime::dayOfWeek()'],['../classace__time_1_1ZonedDateTime.html#a252e514a2527c07c2715bb960f6c27d9',1,'ace_time::ZonedDateTime::dayOfWeek()']]],
   ['dayofweeklongstring',['dayOfWeekLongString',['../classace__time_1_1common_1_1DateStrings.html#ab5428d70ea3d74418beddb08055e74ba',1,'ace_time::common::DateStrings']]],
   ['dayofweekshortstring',['dayOfWeekShortString',['../classace__time_1_1common_1_1DateStrings.html#aba20be1bf18a64316558c2017881dd2a',1,'ace_time::common::DateStrings']]],
-  ['daysinmonth',['daysInMonth',['../classace__time_1_1LocalDate.html#a74ac1c52253c7aabb33efd8ce9b50dc2',1,'ace_time::LocalDate']]],
-  ['deltacode',['deltaCode',['../structace__time_1_1extended_1_1Transition.html#a158943403abc72c852638a728aa167ea',1,'ace_time::extended::Transition']]],
-  ['deltaoffset',['deltaOffset',['../classace__time_1_1ManualZoneSpecifier.html#a4053ede93ec9ad3149a5135c0fb5663f',1,'ace_time::ManualZoneSpecifier']]],
-  ['dstabbrev',['dstAbbrev',['../classace__time_1_1ManualZoneSpecifier.html#ab9d96952b2aee8717a424a47a6131e78',1,'ace_time::ManualZoneSpecifier']]]
+  ['daysinmonth',['daysInMonth',['../classace__time_1_1LocalDate.html#a74ac1c52253c7aabb33efd8ce9b50dc2',1,'ace_time::LocalDate']]]
 ];

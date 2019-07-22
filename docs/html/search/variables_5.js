@@ -1,6 +1,7 @@
 var searchData=
 [
   ['kabbrevsize',['kAbbrevSize',['../structace__time_1_1basic_1_1Transition.html#a39d2a4e51aec03a856d6228251afd060',1,'ace_time::basic::Transition::kAbbrevSize()'],['../structace__time_1_1extended_1_1Transition.html#a81c38032a01b572b95a244c804ce1ba9',1,'ace_time::extended::Transition::kAbbrevSize()']]],
+  ['kbinarysearchthreshold',['kBinarySearchThreshold',['../classace__time_1_1ZoneRegistrar.html#a9edefbab9c979f2ba03a25b8811b72b8',1,'ace_time::ZoneRegistrar']]],
   ['kbuffersize',['kBufferSize',['../classace__time_1_1common_1_1DateStrings.html#a70826653bf8b0832dd372897f131b831',1,'ace_time::common::DateStrings']]],
   ['kdayssinceunixepoch',['kDaysSinceUnixEpoch',['../classace__time_1_1LocalDate.html#a763a26be59ffcbdecd1833974ba21a05',1,'ace_time::LocalDate']]],
   ['kepochyear',['kEpochYear',['../classace__time_1_1LocalDate.html#a0061f9720cb66ec66d00b3dbec08bef2',1,'ace_time::LocalDate']]],
@@ -19,8 +20,7 @@ var searchData=
   ['ksunday',['kSunday',['../classace__time_1_1LocalDate.html#af2cb45cfd132d8d08d792935fa1a2520',1,'ace_time::LocalDate']]],
   ['kthursday',['kThursday',['../classace__time_1_1LocalDate.html#ab8d881384833dfe6fe0107cea202d423',1,'ace_time::LocalDate']]],
   ['ktuesday',['kTuesday',['../classace__time_1_1LocalDate.html#a0e088edd58f0f1d1331c937832cb890b',1,'ace_time::LocalDate']]],
-  ['ktypebasic',['kTypeBasic',['../classace__time_1_1ZoneSpecifier.html#a0a716a166dac4cac4a43c001050b17db',1,'ace_time::ZoneSpecifier']]],
-  ['ktypeextended',['kTypeExtended',['../classace__time_1_1ZoneSpecifier.html#a204ff5e556d850554bd31894df355db5',1,'ace_time::ZoneSpecifier']]],
-  ['ktypemanual',['kTypeManual',['../classace__time_1_1ZoneSpecifier.html#a8eb82dee42153a8cbcebcf7164a33a8a',1,'ace_time::ZoneSpecifier']]],
+  ['ktypebasic',['kTypeBasic',['../classace__time_1_1ZoneProcessor.html#ad909271bf494774000a5102db0a66e09',1,'ace_time::ZoneProcessor']]],
+  ['ktypeextended',['kTypeExtended',['../classace__time_1_1ZoneProcessor.html#a0664023085b5339025836f60ed1e1bc2',1,'ace_time::ZoneProcessor']]],
   ['kwednesday',['kWednesday',['../classace__time_1_1LocalDate.html#a0221ea698dae2739a8bca89e11e1cd01',1,'ace_time::LocalDate']]]
 ];

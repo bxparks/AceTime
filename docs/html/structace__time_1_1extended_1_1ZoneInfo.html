@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.3</span>
+   &#160;<span id="projectnumber">0.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -81,10 +81,10 @@ Collaboration diagram for ace_time::extended::ZoneInfo:</div>
 <div class="dyncontent">
 <div class="center"><img src="structace__time_1_1extended_1_1ZoneInfo__coll__graph.png" border="0" usemap="#ace__time_1_1extended_1_1ZoneInfo_coll__map" alt="Collaboration graph"/></div>
 <map name="ace__time_1_1extended_1_1ZoneInfo_coll__map" id="ace__time_1_1extended_1_1ZoneInfo_coll__map">
-<area shape="rect" id="node2" href="structace__time_1_1common_1_1ZoneContext.html" title="Metadata about the zone database. " alt="" coords="5,221,221,247"/>
-<area shape="rect" id="node3" href="structace__time_1_1extended_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per..." alt="" coords="245,213,381,255"/>
-<area shape="rect" id="node4" href="structace__time_1_1extended_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region..." alt="" coords="245,109,381,151"/>
-<area shape="rect" id="node5" href="structace__time_1_1extended_1_1ZoneRule.html" title="A time zone transition rule. " alt="" coords="245,5,381,47"/>
+<area shape="rect" id="node2" href="structace__time_1_1extended_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per..." alt="" coords="5,213,141,255"/>
+<area shape="rect" id="node3" href="structace__time_1_1extended_1_1ZonePolicy.html" title="A collection of transition rules which describe the DST rules of a given administrative region..." alt="" coords="5,109,141,151"/>
+<area shape="rect" id="node4" href="structace__time_1_1extended_1_1ZoneRule.html" title="A time zone transition rule. " alt="" coords="5,5,141,47"/>
+<area shape="rect" id="node5" href="structace__time_1_1extended_1_1ZoneContext.html" title="Metadata about the zone database. " alt="" coords="165,213,301,255"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -93,9 +93,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a5213ada8fb715b325b62ffa84fd419b6"><td class="memItemLeft" align="right" valign="top">const char *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html#a5213ada8fb715b325b62ffa84fd419b6">name</a></td></tr>
 <tr class="memdesc:a5213ada8fb715b325b62ffa84fd419b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Full name of zone (e.g.  <a href="#a5213ada8fb715b325b62ffa84fd419b6">More...</a><br /></td></tr>
 <tr class="separator:a5213ada8fb715b325b62ffa84fd419b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a996ed74cea33707b05cd2ff1ecc661"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structace__time_1_1common_1_1ZoneContext.html">common::ZoneContext</a> *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html#a5a996ed74cea33707b05cd2ff1ecc661">zoneContext</a></td></tr>
-<tr class="memdesc:a5a996ed74cea33707b05cd2ff1ecc661"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZoneContext metadata.  <a href="#a5a996ed74cea33707b05cd2ff1ecc661">More...</a><br /></td></tr>
-<tr class="separator:a5a996ed74cea33707b05cd2ff1ecc661"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ca57c8e8407490810d219975dc51a6c"><td class="memItemLeft" align="right" valign="top">uint32_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html#a5ca57c8e8407490810d219975dc51a6c">zoneId</a></td></tr>
+<tr class="memdesc:a5ca57c8e8407490810d219975dc51a6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique, stable ID of the zone name, created from a hash of the name.  <a href="#a5ca57c8e8407490810d219975dc51a6c">More...</a><br /></td></tr>
+<tr class="separator:a5ca57c8e8407490810d219975dc51a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d10ac1bde7a5143e26d9283f5ea19ce"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structace__time_1_1extended_1_1ZoneContext.html">ZoneContext</a> *const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html#a3d10ac1bde7a5143e26d9283f5ea19ce">zoneContext</a></td></tr>
+<tr class="memdesc:a3d10ac1bde7a5143e26d9283f5ea19ce"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structace__time_1_1extended_1_1ZoneContext.html" title="Metadata about the zone database. ">ZoneContext</a> metadata.  <a href="#a3d10ac1bde7a5143e26d9283f5ea19ce">More...</a><br /></td></tr>
+<tr class="separator:a3d10ac1bde7a5143e26d9283f5ea19ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ef4316a39abfe85191c54d5a7a5e9c5"><td class="memItemLeft" align="right" valign="top">uint8_t const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html#a7ef4316a39abfe85191c54d5a7a5e9c5">transitionBufSize</a></td></tr>
 <tr class="memdesc:a7ef4316a39abfe85191c54d5a7a5e9c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Estimated size of <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> buffer.  <a href="#a7ef4316a39abfe85191c54d5a7a5e9c5">More...</a><br /></td></tr>
 <tr class="separator:a7ef4316a39abfe85191c54d5a7a5e9c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,7 +112,7 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Representation of a given time zone, implemented as an array of <a class="el" href="structace__time_1_1extended_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> records. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00072">72</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00077">77</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a2ab94b905aeed729021d5f84ee77b2f1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2ab94b905aeed729021d5f84ee77b2f1">&#9670;&nbsp;</a></span>eras</h2>
@@ -125,7 +128,7 @@ Public Attributes</h2></td></tr>
 
 <p><a class="el" href="structace__time_1_1extended_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> entries in increasing order of UNTIL time. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00092">92</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00104">104</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -142,9 +145,9 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Full name of zone (e.g. </p>
-<p>"America/Los_Angeles" </p>
+<p>"America/Los_Angeles"). </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00074">74</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00079">79</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -162,7 +165,7 @@ Public Attributes</h2></td></tr>
 
 <p>Number of <a class="el" href="structace__time_1_1extended_1_1ZoneEra.html" title="An entry in ZoneInfo which describes which ZonePolicy was being followed during a particular time per...">ZoneEra</a> entries. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00089">89</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00101">101</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
@@ -179,32 +182,51 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Estimated size of <a class="el" href="structace__time_1_1extended_1_1Transition.html" title="Represents an interval of time where the time zone obeyed a certain UTC offset and DST delta...">Transition</a> buffer. </p>
-<p>Currently, this is used only in the validation unit test for <a class="el" href="classace__time_1_1ExtendedZoneSpecifier.html" title="An implementation of ZoneSpecifier that works for all zones defined by the TZ Database (with some zon...">ExtendedZoneSpecifier</a>. It is slightly wasteful to include it for the <a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a> and <a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a> classes used by <a class="el" href="classace__time_1_1BasicZoneSpecifier.html" title="An implementation of ZoneSpecifier that supports a subset of the zones containing in the TZ Database...">BasicZoneSpecifier</a>, but it's only one byte and it seemed worth having this additional validation capability. </p>
+<p>Currently, this is used only in the validation unit test for <a class="el" href="classace__time_1_1ExtendedZoneProcessor.html" title="An implementation of ZoneProcessor that works for all zones defined by the TZ Database (with some zon...">ExtendedZoneProcessor</a>. It is slightly wasteful to include it for the <a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a> and <a class="el" href="structace__time_1_1extended_1_1ZoneInfo.html" title="Representation of a given time zone, implemented as an array of ZoneEra records. ">ZoneInfo</a> classes used by <a class="el" href="classace__time_1_1BasicZoneProcessor.html" title="An implementation of ZoneProcessor that supports a subset of the zones containing in the TZ Database...">BasicZoneProcessor</a>, but it's only one byte and it seemed worth having this additional validation capability. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00086">86</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00098">98</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
-<a id="a5a996ed74cea33707b05cd2ff1ecc661"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a996ed74cea33707b05cd2ff1ecc661">&#9670;&nbsp;</a></span>zoneContext</h2>
+<a id="a3d10ac1bde7a5143e26d9283f5ea19ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d10ac1bde7a5143e26d9283f5ea19ce">&#9670;&nbsp;</a></span>zoneContext</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structace__time_1_1common_1_1ZoneContext.html">common::ZoneContext</a>* const ace_time::extended::ZoneInfo::zoneContext</td>
+          <td class="memname">const <a class="el" href="structace__time_1_1extended_1_1ZoneContext.html">ZoneContext</a>* const ace_time::extended::ZoneInfo::zoneContext</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>ZoneContext metadata. </p>
+<p><a class="el" href="structace__time_1_1extended_1_1ZoneContext.html" title="Metadata about the zone database. ">ZoneContext</a> metadata. </p>
 
-<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00077">77</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00089">89</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
+
+</div>
+</div>
+<a id="a5ca57c8e8407490810d219975dc51a6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ca57c8e8407490810d219975dc51a6c">&#9670;&nbsp;</a></span>zoneId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t const ace_time::extended::ZoneInfo::zoneId</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Unique, stable ID of the zone name, created from a hash of the name. </p>
+<p>This ID will never change once assigned. This can be used for presistence and serialization. </p>
+
+<p class="definition">Definition at line <a class="el" href="ZoneInfo_8h_source.html#l00086">86</a> of file <a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/brian/dev/AceTime/src/ace_time/common/<a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a></li>
+<li>/home/brian/dev/AceTime/src/ace_time/internal/<a class="el" href="ZoneInfo_8h_source.html">ZoneInfo.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -10,40 +10,39 @@
 #define TIME_SOURCE_TYPE_NTP 2
 #define TIME_SOURCE_TYPE_BOTH 3
 
-#ifndef AUNITER
-  #warning Using Arduino IDE configuration
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
-#elif defined(AUNITER_NANO)
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
-#elif defined(AUNITER_MICRO)
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
-#elif defined(AUNITER_ESP8266)
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
-#elif defined(AUNITER_ESP32)
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
-#elif defined(AUNITER_MICRO_MINDER)
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
-#elif defined(AUNITER_MINI_MINDER)
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
-#elif defined(AUNITER_ESP_MINDER)
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
-#elif defined(AUNITER_ESP_MINDER2)
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
-#elif defined(AUNITER_ESP32_MINDER)
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
-#else
-  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NONE
-#endif
-
 // Determine how to sync the SystemClock.
 #define SYNC_TYPE_MANUAL 0
 #define SYNC_TYPE_COROUTINE 1
 #define SYNC_TYPE SYNC_TYPE_MANUAL
 
-// Determine which ZoneSpecifier to support since a Pro Micro or Nano cannot
-// supportk both BasicZoneSpecifier and ExtendedZoneSpecifier at the same time.
-#define TIME_ZONE_TYPE_BASIC 1
-#define TIME_ZONE_TYPE_EXTENDED 2
-#define TIME_ZONE_TYPE TIME_ZONE_TYPE_BASIC
+// ENABLE_TIME_ZONE_TYPE_BASIC and ENABLE_TIME_ZONE_TYPE_EXTENDED determines
+// which ZoneProcessor to support. Small boards like the Pro Micro (30kB
+// flash/2kB RAM) cannot support both BasicZoneProcessor and
+// ExtendedZoneProcessor at the same time.
+
+#ifndef AUNITER
+  #warning Using Arduino IDE configuration
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
+  #define ENABLE_TIME_ZONE_TYPE_BASIC 1
+  #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
+#elif defined(AUNITER_NANO)
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
+  #define ENABLE_TIME_ZONE_TYPE_BASIC 1
+  #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
+#elif defined(AUNITER_MICRO)
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
+  #define ENABLE_TIME_ZONE_TYPE_BASIC 1
+  #define ENABLE_TIME_ZONE_TYPE_EXTENDED 0
+#elif defined(AUNITER_ESP8266)
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
+  #define ENABLE_TIME_ZONE_TYPE_BASIC 1
+  #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
+#elif defined(AUNITER_ESP32)
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_NTP
+  #define ENABLE_TIME_ZONE_TYPE_BASIC 1
+  #define ENABLE_TIME_ZONE_TYPE_EXTENDED 1
+#else
+  #error Unknown AUNITER environment
+#endif
 
 #endif

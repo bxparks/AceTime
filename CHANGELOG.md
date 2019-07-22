@@ -1,6 +1,31 @@
 # Changelog
 
 * Unreleased
+* 0.5 (2019-07-21, TB DB version 2019a, beta)
+    * Remove over-engineered `SystemClockHeartbeatLoop` and
+      `SystemClockHeartbeatLoop` and replace with just a call to
+      `SystemClock::keepAlive()`.
+    * Remove overly complex `ManualZoneProcessor` and merge most of its
+      functionality directly into the `TimeZone` using `kTypeManual`. We lose
+      the manual abbreviations provided by `ManualZoneProcessor` but the
+      simplification of using just the `TimeZone` object without an extra object
+      seems worth it.
+    * Add a stable `zoneId` to `ZoneInfo` that identifies a zone. It is
+      formed using a hash of the fully qualified zone `name`. The
+      `tzcompiler.py` generator script will detect hash collisions and create an
+      alternate hash.
+    * Rename old `ZoneManager` as the `ZoneRegistrar`, and
+      repurpose `ZoneManager` as the `TimeZone` factory, which keeps an internal
+      cache of `ZoneProcessor`. `TimeZone` objects can be dynamically bound to
+      `ZoneProcessor` objects using `createForZoneInfo()`,
+      `createForZoneName()`, `createForZoneId().
+    * Add `TimeZoneData` data struct to allow serialization of a TimeZone object
+      as a zoneId so that it can be reconstructed using
+      `ZoneManger::createForTimeZoneData()`.
+    * Rename `ZoneSpecifier` to `ZoneProcessor` to describe its functionality
+      better. `ZoneInfo` is now passed directly into the TimeZone object using
+      the `TimeZone::forZoneInfo()` factory method, with the `ZoneProcessor`
+      acting as a helper object.
 * 0.4 (2019-07-09, TZ DB version 2019a, beta)
     * Support the less-than-or-equal syntax `{dayOfWeek}<={dayOfMonth}`
       appearing in version 2019b of the TZ Database which contains `Rule Zion,
@@ -18,7 +43,7 @@
     * Support `Link` entries from TZ Database files as C++ references to
       corresponding `Zone` entries.
     * Add `backward` and `etctera` files from TZ Database to the tzcompiler.py
-      processing. `ExtendedZoneSpecifier` now supports *every* Zone and Link
+      processing. `ExtendedZoneProcessor` now supports *every* Zone and Link
       entry in the TZ Database (except those in `backzone` and `systemv`).
     * Add better zone and link name normalization. Convert `+` into `_PLUS_`,
       all other non-alphanumeric (0-9a-zA-Z_) converted to underscore `_`.
@@ -43,7 +68,7 @@
       methods `OffsetDateTime` instead of defaulting to `TimeOffset()`.
     * Make `timeZone` a required parameter in constructors and factory methods
       of `ZonedDateTime`.
-    * Fix `BasicZoneSpecifier::getOffsetDateTime()` to handle gaps and overlaps
+    * Fix `BasicZoneProcessor::getOffsetDateTime()` to handle gaps and overlaps
       in a reasonable way, and perform some amount of normalization.
 * 0.1 (2019-06-15, TZ DB version 2019a, alpha)
     * Initial release on GitHub to establish a reference point.

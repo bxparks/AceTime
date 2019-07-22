@@ -13,23 +13,23 @@
 using namespace ace_time;
 using namespace ace_time::clock;
 
-// ZoneSpecifier instance should be created statically at initialization time.
-static BasicZoneSpecifier pacificSpec(&zonedb::kZoneAmerica_Los_Angeles);
+// ZoneProcessor instance should be created statically at initialization time.
+static BasicZoneProcessor pacificProcessor;
 
 SystemClock systemClock(nullptr /*sync*/, nullptr /*backup*/);
-SystemClockHeartbeatLoop systemClockHeartbeat(systemClock);
 
 //------------------------------------------------------------------
 
 void setup() {
   delay(1000);
-  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  Serial.begin(115200);
   while (!Serial); // Wait until Serial is ready - Leonardo/Micro
 
   systemClock.setup();
 
   // Creating timezones is cheap, so we can create them on the fly as needed.
-  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
+  auto pacificTz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &pacificProcessor);
 
   // Set the SystemClock using these components.
   auto pacificTime = ZonedDateTime::forComponents(
@@ -43,7 +43,8 @@ void printCurrentTime() {
   acetime_t now = systemClock.getNow();
 
   // Create Pacific Time and print.
-  auto pacificTz = TimeZone::forZoneSpecifier(&pacificSpec);
+  auto pacificTz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &pacificProcessor);
   auto pacificTime = ZonedDateTime::forEpochSeconds(now, pacificTz);
   pacificTime.printTo(Serial);
   Serial.println();
@@ -51,6 +52,6 @@ void printCurrentTime() {
 
 void loop() {
   printCurrentTime();
-  systemClockHeartbeat.loop(); // must call every 65s or less
+  systemClock.keepAlive();
   delay(2000);
 }

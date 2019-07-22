@@ -13,8 +13,16 @@ namespace ace_time {
 namespace clock {
 
 /**
- * A class that periodically that syncs the SystemClock with its
- * syncTimeProvider.
+ * A class that that syncs the SystemClock with its mSyncTimeProvider. The call
+ * to mSyncTimeProvider will be a blocking call which can be a problem for time
+ * providers like NtpTimeProvider which makes a network request. If this is a
+ * problem, use SystemClockSyncCoroutine instead.
+ *
+ * Initial syncing occurs at initialSyncPeriodSeconds interval, until the
+ * first successful sync, then subsequent syncing occurs at syncPeriodSeconds
+ * interval. Initial syncing implements an exponential backoff when the sync
+ * request fails, increasing from initialSyncPeriodSeconds to until a maximum
+ * of syncPeriodSeconds.
  */
 class SystemClockSyncLoop {
   public:
@@ -26,22 +34,17 @@ class SystemClockSyncLoop {
      *    (default 3600)
      * @param initialSyncPeriodSeconds seconds between sync attempts when
      *    the systemClock is not initialized (default 5)
-     * @param requestTimeoutMillis number of milliseconds before the request to
-     *    syncTimeProvider times out
      */
-    SystemClockSyncLoop(SystemClock& systemClock,
+    explicit SystemClockSyncLoop(SystemClock& systemClock,
           uint16_t syncPeriodSeconds = 3600,
-          uint16_t initialSyncPeriodSeconds = 5,
-          uint16_t requestTimeoutMillis = 1000):
+          uint16_t initialSyncPeriodSeconds = 5):
       mSystemClock(systemClock),
       mSyncPeriodSeconds(syncPeriodSeconds),
-      mInitialSyncPeriodSeconds(initialSyncPeriodSeconds),
-      mRequestTimeoutMillis(requestTimeoutMillis),
       mCurrentSyncPeriodSeconds(initialSyncPeriodSeconds) {}
 
     /**
-     * If AceRoutine coroutine infrastructure is not used, then call this from
-     * the global loop() method.
+     * Call this from the global loop() method. This uses a blocking call to
+     * the SystemClock.mSyncTimeProvider.
      */
     void loop() {
       if (mSystemClock.mSyncTimeProvider == nullptr) return;
@@ -79,10 +82,12 @@ class SystemClockSyncLoop {
     }
 
   private:
+    // disable copy constructor and assignment operator
+    SystemClockSyncLoop(const SystemClockSyncLoop&) = delete;
+    SystemClockSyncLoop& operator=(const SystemClockSyncLoop&) = delete;
+
     SystemClock& mSystemClock;
     uint16_t const mSyncPeriodSeconds;
-    uint16_t const mInitialSyncPeriodSeconds;
-    uint16_t const mRequestTimeoutMillis;
 
     unsigned long mLastSyncMillis = 0; // should be the same type as millis()
     uint16_t mCurrentSyncPeriodSeconds;

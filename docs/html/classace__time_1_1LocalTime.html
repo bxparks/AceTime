@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.3</span>
+   &#160;<span id="projectnumber">0.5</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -155,9 +155,9 @@ Friends</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The time (hour, minute, second) fields representing the time without regards to the day or the time zone. </p>
 <p>The valid range is 00:00:00 to 23:59:59. Trying to create an instance outside of this range causes the <a class="el" href="classace__time_1_1LocalTime.html#aef4912030e6b9a2eaa77fe5ae56f9bec" title="Return true if any component is outside the normal time range of 00:00:00 to 23:59:59. ">isError()</a> method to return true, and <a class="el" href="classace__time_1_1LocalTime.html#a53f1dd8b1eea2592a760bedcdf6d1442" title="Return the number of seconds since midnight. ">toSeconds()</a> returns kInvalidSeconds.</p>
-<p>Parts of this class were inspired by the java.time.LocalTime class of Java 8 (<a href="https://docs.oracle.com/javase/8/docs/api/java/time/LocalTime.html">https://docs.oracle.com/javase/8/docs/api/java/time/LocalTime.html</a>). </p>
+<p>Parts of this class were inspired by the java.time.LocalTime class of Java 11 (<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalTime.html">https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalTime.html</a>). </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00020">20</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00026">26</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab34ac02fd32ba8819c5a9710b6c78b65"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab34ac02fd32ba8819c5a9710b6c78b65">&#9670;&nbsp;</a></span>LocalTime()</h2>
@@ -184,7 +184,7 @@ Friends</h2></td></tr>
 
 <p>Default constructor does nothing. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00092">92</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00098">98</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -216,7 +216,7 @@ Friends</h2></td></tr>
 <p>Compare this <a class="el" href="classace__time_1_1LocalTime.html" title="The time (hour, minute, second) fields representing the time without regards to the day or the time z...">LocalTime</a> with that <a class="el" href="classace__time_1_1LocalTime.html" title="The time (hour, minute, second) fields representing the time without regards to the day or the time z...">LocalTime</a>, and return (&lt;0, 0, &gt;0) according to whether (this&lt;that, this==that, this&gt;that). </p>
 <p>The behavior is undefined if <a class="el" href="classace__time_1_1LocalTime.html#aef4912030e6b9a2eaa77fe5ae56f9bec" title="Return true if any component is outside the normal time range of 00:00:00 to 23:59:59. ">isError()</a> is true. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00145">145</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00151">151</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -271,7 +271,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00035">35</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00041">41</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -301,7 +301,7 @@ Friends</h2></td></tr>
 <p>Factory method that returns an instance which indicates an error condition. </p>
 <p>The <a class="el" href="classace__time_1_1LocalTime.html#aef4912030e6b9a2eaa77fe5ae56f9bec" title="Return true if any component is outside the normal time range of 00:00:00 to 23:59:59. ">isError()</a> method will return true. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00087">87</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00093">93</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -338,7 +338,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00048">48</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00054">54</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -375,7 +375,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8cpp_source.html#l00022">22</a> of file <a class="el" href="LocalTime_8cpp_source.html">LocalTime.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8cpp_source.html#l00027">27</a> of file <a class="el" href="LocalTime_8cpp_source.html">LocalTime.cpp</a>.</p>
 
 </div>
 </div>
@@ -407,7 +407,7 @@ Friends</h2></td></tr>
 <p>This allows chaining to another forXxxStringChainable() method.</p>
 <p>This method assumes that the dateString is sufficiently long. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8cpp_source.html#l00030">30</a> of file <a class="el" href="LocalTime_8cpp_source.html">LocalTime.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8cpp_source.html#l00035">35</a> of file <a class="el" href="LocalTime_8cpp_source.html">LocalTime.cpp</a>.</p>
 
 </div>
 </div>
@@ -436,7 +436,7 @@ Friends</h2></td></tr>
 
 <p>Return the hour. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00110">110</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00116">116</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -466,7 +466,7 @@ Friends</h2></td></tr>
 
 <p>Set the hour. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00113">113</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00119">119</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -496,7 +496,7 @@ Friends</h2></td></tr>
 <p>Return true if any component is outside the normal time range of 00:00:00 to 23:59:59. </p>
 <p>We add the exception that 24:00:00 is also considered valid to allow AutoZoneSpecififier to support midnight transitions from the TZ Database. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00100">100</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00106">106</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -525,7 +525,7 @@ Friends</h2></td></tr>
 
 <p>Return the minute. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00116">116</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00122">122</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -555,7 +555,7 @@ Friends</h2></td></tr>
 
 <p>Set the minute. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00119">119</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00125">125</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -578,7 +578,7 @@ Friends</h2></td></tr>
 <p>Print <a class="el" href="classace__time_1_1LocalTime.html" title="The time (hour, minute, second) fields representing the time without regards to the day or the time z...">LocalTime</a> to 'printer' in ISO 8601 format. </p>
 <p>This class does not implement the Printable interface to avoid increasing the size of the object from the additional virtual function. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8cpp_source.html#l00008">8</a> of file <a class="el" href="LocalTime_8cpp_source.html">LocalTime.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8cpp_source.html#l00013">13</a> of file <a class="el" href="LocalTime_8cpp_source.html">LocalTime.cpp</a>.</p>
 
 </div>
 </div>
@@ -607,7 +607,7 @@ Friends</h2></td></tr>
 
 <p>Return the second. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00122">122</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00128">128</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -637,7 +637,7 @@ Friends</h2></td></tr>
 
 <p>Set the second. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00125">125</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00131">131</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -667,7 +667,7 @@ Friends</h2></td></tr>
 <p>Return the number of seconds since midnight. </p>
 <p>Return kInvalidSeconds if <a class="el" href="classace__time_1_1LocalTime.html#aef4912030e6b9a2eaa77fe5ae56f9bec" title="Return true if any component is outside the normal time range of 00:00:00 to 23:59:59. ">isError()</a> is true. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00131">131</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00137">137</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -708,7 +708,7 @@ Friends</h2></td></tr>
 
 <p>Return true if two <a class="el" href="classace__time_1_1LocalTime.html" title="The time (hour, minute, second) fields representing the time without regards to the day or the time z...">LocalTime</a> objects are equal. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00187">187</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00193">193</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>
@@ -735,7 +735,7 @@ Friends</h2></td></tr>
 
 <p>An invalid seconds marker that indicates <a class="el" href="classace__time_1_1LocalTime.html#aef4912030e6b9a2eaa77fe5ae56f9bec" title="Return true if any component is outside the normal time range of 00:00:00 to 23:59:59. ">isError()</a> true. </p>
 
-<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00023">23</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LocalTime_8h_source.html#l00029">29</a> of file <a class="el" href="LocalTime_8h_source.html">LocalTime.h</a>.</p>
 
 </div>
 </div>

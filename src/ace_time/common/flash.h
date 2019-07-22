@@ -7,27 +7,21 @@
 #define ACE_TIME_COMMON_FLASH_H
 
 #include <stdint.h>
+#include <string.h>
 
-/** Use PROGMEM for BasicZoneSpecifier. */
-#define ACE_TIME_USE_BASIC_PROGMEM 1
-
-/** Use PROGMEM for ExtendedZoneSpecifier. */
-#define ACE_TIME_USE_EXTENDED_PROGMEM 1
-
-#if ACE_TIME_USE_BASIC_PROGMEM
-  #define ACE_TIME_BASIC_PROGMEM PROGMEM
+/**
+ * Use PROGMEM for zonedb and zonedbx zoneinfo files. Controls how
+ * ACE_TIME_PROGMEM macro gets expanded.
+ */
+#define ACE_TIME_USE_PROGMEM 1
+#if ACE_TIME_USE_PROGMEM
+  #define ACE_TIME_PROGMEM PROGMEM
 #else
-  #define ACE_TIME_BASIC_PROGMEM
-#endif
-
-#if ACE_TIME_USE_EXTENDED_PROGMEM
-  #define ACE_TIME_EXTENDED_PROGMEM PROGMEM
-#else
-  #define ACE_TIME_EXTENDED_PROGMEM
+  #define ACE_TIME_PROGMEM
 #endif
 
 // Include the correct pgmspace.h depending on architecture. Define a
-// consistent acetime_strcmp_P() which can be passed as a funcdtion pointer
+// consistent acetime_strcmp_P() which can be passed as a function pointer
 // into the ZoneManager template class.
 #if defined(__AVR__)
   #include <avr/pgmspace.h>
@@ -46,6 +40,12 @@
   inline int acetime_strcmp_P(const char* str1, const char* str2P) {
     return strcmp_P((str1), (str2P));
   }
+
+  extern "C" {
+    const char* strchr_P(const char* s, int c);
+    const char* strrchr_P(const char* s, int c);
+  }
+
 #elif defined(ESP32)
   #include <pgmspace.h>
   // Fix incorrect definition of FPSTR in ESP32, see
@@ -53,6 +53,12 @@
   #undef FPSTR
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
   #define acetime_strcmp_P strcmp_P
+
+  extern "C" {
+    const char* strchr_P(const char* s, int c);
+    const char* strrchr_P(const char* s, int c);
+  }
+
 #elif defined(__linux__) or defined(__APPLE__)
   #include <pgmspace.h>
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))

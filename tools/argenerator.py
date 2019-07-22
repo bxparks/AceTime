@@ -11,6 +11,7 @@ import transformer
 from collections import OrderedDict
 from transformer import div_to_zero
 from transformer import normalize_name
+from transformer import hash_name
 from extractor import EPOCH_YEAR
 from extractor import MAX_YEAR
 from extractor import MAX_YEAR_TINY
@@ -148,7 +149,7 @@ class ZonePoliciesGenerator:
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_POLICIES_H
 
-#include <ace_time/common/ZonePolicy.h>
+#include <ace_time/internal/ZonePolicy.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{
@@ -413,7 +414,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             letterArray = self.ZONE_POLICIES_LETTER_ARRAY.format(
                 policyName=policyName,
                 letterItems=letterItems,
-                progmem=_progmem(self.scope))
+                progmem='ACE_TIME_PROGMEM')
         else:
             letterArrayRef = 'nullptr'
             letterArray = ''
@@ -437,7 +438,7 @@ static const char* const kLetters{policyName}[] {progmem} = {{
             numLetters=numLetters,
             letterArrayRef=letterArrayRef,
             letterArray=letterArray,
-            progmem=_progmem(self.scope))
+            progmem='ACE_TIME_PROGMEM')
 
         return (policy_item, memory8, memory32)
 
@@ -459,20 +460,20 @@ class ZoneInfosGenerator:
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_INFOS_H
 
-#include <ace_time/common/ZoneInfo.h>
+#include <ace_time/internal/ZoneInfo.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{
 
 //---------------------------------------------------------------------------
-// ZoneContext
+// ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
 // Version of the TZ Database which generated these files.
 extern const char kTzDatabaseVersion[];
 
 // Metadata about the zonedb files.
-extern const common::ZoneContext kZoneContext;
+extern const {scope}::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: {numInfos}
@@ -564,12 +565,12 @@ namespace ace_time {{
 namespace {dbNamespace} {{
 
 //---------------------------------------------------------------------------
-// ZoneContext
+// ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
 const char kTzDatabaseVersion[] = "{tz_version}";
 
-const common::ZoneContext kZoneContext = {{
+const {scope}::ZoneContext kZoneContext = {{
   {startYear} /*startYear*/,
   {untilYear} /*untilYear*/,
   kTzDatabaseVersion /*tzVersion*/,
@@ -607,6 +608,7 @@ static const char kZoneName{zoneNormalizedName}[] {progmem} = "{zoneFullName}";
 
 const {scope}::ZoneInfo kZone{zoneNormalizedName} {progmem} = {{
   kZoneName{zoneNormalizedName} /*name*/,
+  0x{zoneNameHash:08x} /*zoneId*/,
   &kZoneContext /*zoneContext*/,
   {transitionBufSize} /*transitionBufSize*/,
   {numEras} /*numEras*/,
@@ -702,6 +704,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         return self.ZONE_INFOS_H_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            scope=self.scope,
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             tz_files=', '.join(self.tz_files),
@@ -748,6 +751,7 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
         return self.ZONE_INFOS_CPP_FILE.format(
             invocation=self.invocation,
             tz_version=self.tz_version,
+            scope=self.scope,
             startYear=self.start_year,
             untilYear=self.until_year,
             dbNamespace=self.db_namespace,
@@ -782,13 +786,14 @@ const {scope}::ZoneInfo& kZone{linkNormalizedName} = kZone{zoneNormalizedName};
             scope=self.scope,
             zoneFullName=zone_name,
             zoneNormalizedName=normalize_name(zone_name),
+            zoneNameHash=hash_name(zone_name),
             transitionBufSize=transition_buf_size,
             numEras=num_eras,
             stringLength=string_length,
             memory8=memory8,
             memory32=memory32,
             eraItems=era_items,
-            progmem=_progmem(self.scope))
+            progmem='ACE_TIME_PROGMEM')
         return (info_item, string_length)
 
     def _generate_era_item(self, zone_name, era):
@@ -1007,7 +1012,7 @@ const {scope}::ZoneInfo* const kZoneRegistry[{numZones}] {progmem} = {{
 #ifndef ACE_TIME_{dbHeaderNamespace}_ZONE_REGISTRY_H
 #define ACE_TIME_{dbHeaderNamespace}_ZONE_REGISTRY_H
 
-#include <ace_time/common/ZoneInfo.h>
+#include <ace_time/internal/ZoneInfo.h>
 
 namespace ace_time {{
 namespace {dbNamespace} {{
@@ -1044,7 +1049,7 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map),
             zoneRegistryItems=zone_registry_items,
-            progmem=_progmem(self.scope))
+            progmem='ACE_TIME_PROGMEM')
 
     def generate_registry_h(self):
         return self.ZONE_REGISTRY_H_FILE.format(
@@ -1054,12 +1059,6 @@ extern const {scope}::ZoneInfo* const kZoneRegistry[{numZones}];
             dbNamespace=self.db_namespace,
             dbHeaderNamespace=self.db_header_namespace,
             numZones=len(self.zones_map))
-
-def _progmem(scope):
-    """Return the appropriate PROGMEM marker given the scope.
-    """
-    return ('ACE_TIME_BASIC_PROGMEM' if scope == 'basic'
-        else 'ACE_TIME_EXTENDED_PROGMEM')
 
 def to_tiny_year(year):
     if year == MAX_YEAR:

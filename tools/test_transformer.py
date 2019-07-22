@@ -15,6 +15,7 @@ from transformer import hms_to_seconds
 from transformer import div_to_zero
 from transformer import truncate_to_granularity
 from transformer import INVALID_SECONDS
+from transformer import hash_name
 
 
 class TestParseOnDayString(unittest.TestCase):
@@ -101,6 +102,15 @@ class TestAddString(unittest.TestCase):
         self.assertEqual(3, transformer.add_string(strings, 'c'))
         self.assertEqual(2, transformer.add_string(strings, 'd'))
 
+class TestHash(unittest.TestCase):
+    def test_hash(self):
+        self.assertEqual(5381, hash_name(''))
+        self.assertEqual(177670, hash_name('a'));
+        self.assertEqual(177671, hash_name('b'));
+        self.assertEqual(5863208, hash_name('ab'));
+        self.assertEqual(193485963, hash_name('abc'));
+        self.assertEqual(2090069583, hash_name('abcd'));
+        self.assertEqual(252819604, hash_name('abcde'));
 
 if __name__ == '__main__':
     unittest.main()

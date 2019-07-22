@@ -5,11 +5,22 @@
 // Configuration parameters.
 //------------------------------------------------------------------
 
-#define CLOCK_VERSION_STRING "0.1"
-
-#define ENABLE_SERIAL 0
+#define CLOCK_VERSION_STRING "0.2"
 
 #define EEPROM_SIZE 32
+
+// Set to 1 to print debugging info to Serial
+#define ENABLE_SERIAL 0
+
+// Set to 1 to force the ClockInfo to its initial state
+#define FORCE_INITIALIZE 0
+
+// Determine whether "auto" time zone uses Basic or Extended. Extended is too
+// big for a Nano or Pro Micro, but will work on an ESP8266 or ESP32.
+#define TIME_ZONE_TYPE_MANUAL 0
+#define TIME_ZONE_TYPE_BASIC 1
+#define TIME_ZONE_TYPE_EXTENDED 2
+#define TIME_ZONE_TYPE TIME_ZONE_TYPE_BASIC
 
 #define TIME_SOURCE_TYPE_NONE 0
 #define TIME_SOURCE_TYPE_DS3231 1
@@ -70,8 +81,11 @@ const uint8_t MODE_CHANGE_HOUR = 13;
 const uint8_t MODE_CHANGE_MINUTE = 14;
 const uint8_t MODE_CHANGE_SECOND = 15;
 
+#if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
 const uint8_t MODE_CHANGE_TIME_ZONE_OFFSET = 20;
 const uint8_t MODE_CHANGE_TIME_ZONE_DST = 21;
-const uint8_t MODE_CHANGE_HOUR_MODE = 22;
+#else
+const uint8_t MODE_CHANGE_TIME_ZONE_NAME = 20;
+#endif
 
 #endif

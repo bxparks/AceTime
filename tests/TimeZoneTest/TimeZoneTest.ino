@@ -9,115 +9,181 @@ using namespace aunit::fake;
 using namespace ace_time;
 
 // --------------------------------------------------------------------------
-// Default UTC TimeZone
+// Check that TimeZone::kType* are distinct
 // --------------------------------------------------------------------------
 
-test(TimeZoneTest, utc) {
-  FakePrint fakePrint;
-  TimeZone tz;
+test(TimeZoneTest, kType_distinct) {
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeManual);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasic);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtended);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeBasicManaged);
+  assertNotEqual(TimeZone::kTypeError, TimeZone::kTypeExtendedManaged);
 
-  assertEqual(TimeZone::kTypeFixed, tz.getType());
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasic);
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtended);
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeBasicManaged);
+  assertNotEqual(TimeZone::kTypeManual, TimeZone::kTypeExtendedManaged);
+
+  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtended);
+  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeBasicManaged);
+  assertNotEqual(TimeZone::kTypeBasic, TimeZone::kTypeExtendedManaged);
+
+  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeBasicManaged);
+  assertNotEqual(TimeZone::kTypeExtended, TimeZone::kTypeExtendedManaged);
+
+  assertNotEqual(TimeZone::kTypeBasicManaged, TimeZone::kTypeExtendedManaged);
+}
+
+// --------------------------------------------------------------------------
+// Create ZoneManagers for use later.
+// --------------------------------------------------------------------------
+
+const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
+  &zonedb::kZoneAmerica_Chicago,
+  &zonedb::kZoneAmerica_Denver,
+  &zonedb::kZoneAmerica_Los_Angeles,
+  &zonedb::kZoneAmerica_New_York,
+};
+
+const uint16_t kBasicZoneRegistrySize =
+    sizeof(kBasicZoneRegistry) / sizeof(kBasicZoneRegistry[0]);
+
+BasicZoneManager<2> basicZoneManager(
+    kBasicZoneRegistrySize, kBasicZoneRegistry);
+
+// --------------------------------------------------------------------------
+
+// Use ExtendedZoneManager only for non AVR because we run out of RAM.
+#if !defined(__AVR__)
+
+const extended::ZoneInfo* const kExtendedZoneRegistry[] ACE_TIME_PROGMEM = {
+  &zonedbx::kZoneAmerica_Chicago,
+  &zonedbx::kZoneAmerica_Denver,
+  &zonedbx::kZoneAmerica_Los_Angeles,
+  &zonedbx::kZoneAmerica_New_York,
+};
+
+const uint16_t kExtendedZoneRegistrySize =
+    sizeof(kExtendedZoneRegistry) / sizeof(kExtendedZoneRegistry[0]);
+
+ExtendedZoneManager<2> extendedZoneManager(
+    kExtendedZoneRegistrySize, kExtendedZoneRegistry);
+
+#endif
+
+// --------------------------------------------------------------------------
+// kTypeError
+// --------------------------------------------------------------------------
+
+test(TimeZoneTest, error) {
+  FakePrint fakePrint;
+  auto tz = TimeZone::forError();
+  assertEqual(TimeZone::kTypeError, tz.getType());
+  tz.printTo(fakePrint);
+  assertEqual(F("<Error>"), fakePrint.getBuffer());
+}
+
+// --------------------------------------------------------------------------
+// kTypeManual
+// --------------------------------------------------------------------------
+
+test(TimeZoneTest, manual_utc) {
+  FakePrint fakePrint;
+
+  auto tz = TimeZone::forUtc();
   assertEqual(0, tz.getUtcOffset(0).toMinutes());
   assertEqual(0, tz.getDeltaOffset(0).toMinutes());
+  assertEqual(0, tz.getStdOffset().toMinutes());
+  assertEqual(0, tz.getDstOffset().toMinutes());
+  assertTrue(tz.isUtc());
+
+  tz.printTo(fakePrint);
+  assertEqual(F("UTC"), fakePrint.getBuffer());
+  fakePrint.flush();
+
+  tz.printShortTo(fakePrint);
+  assertEqual(F("UTC"), fakePrint.getBuffer());
+  fakePrint.flush();
+
   tz.printAbbrevTo(fakePrint, 0);
-  assertEqual("UTC", fakePrint.getBuffer());
+  assertEqual(F("UTC"), fakePrint.getBuffer());
+  fakePrint.flush();
 }
 
-// --------------------------------------------------------------------------
-// Fixed TimeZone
-// --------------------------------------------------------------------------
-
-test(TimeZoneTest, fixed) {
+test(TimeZoneTest, manual_no_dst) {
   FakePrint fakePrint;
   TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
-
-  assertEqual(TimeZone::kTypeFixed, tz.getType());
-  assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
-  assertEqual(0, tz.getDeltaOffset(0).toMinutes());
-  tz.printAbbrevTo(fakePrint, 0);
-  assertEqual("-08:00", fakePrint.getBuffer());
-}
-
-// --------------------------------------------------------------------------
-// Manual TimeZone
-// --------------------------------------------------------------------------
-
-test(TimeZoneTest_Manual, operatorEqualEqual) {
-  // PST
-  ManualZoneSpecifier spa(TimeOffset::forHour(-8), false, "PST", "PDT");
-  ManualZoneSpecifier spb(TimeOffset::forHour(-8), false, "PST", "PDT");
-
-  // Two time zones with same zoneSpecifier should be equal.
-  TimeZone a = TimeZone::forZoneSpecifier(&spa);
-  TimeZone b = TimeZone::forZoneSpecifier(&spb);
-  assertTrue(a == b);
-
-  // One of them goes to DST. Should be different.
-  spb.isDst(true);
-  assertTrue(a != b);
-
-  // Should be different from EST.
-  ManualZoneSpecifier spc(TimeOffset::forHour(-5), false, "EST", "EDT");
-  TimeZone c = TimeZone::forZoneSpecifier(&spc);
-  assertTrue(a != c);
-}
-
-test(TimeZoneTest_Manual, getTimeOffset_getDeltaOffset) {
-  FakePrint fakePrint;
-  ManualZoneSpecifier spec(TimeOffset::forHour(-8), false, "PST", "PDT");
-  TimeZone tz = TimeZone::forZoneSpecifier(&spec);
 
   assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(-8*60, tz.getUtcOffset(0).toMinutes());
   assertEqual(0, tz.getDeltaOffset(0).toMinutes());
-  tz.printAbbrevTo(fakePrint, 0);
-  assertEqual("PST", fakePrint.getBuffer());
+  assertEqual(-8*60, tz.getStdOffset().toMinutes());
+  assertEqual(0, tz.getDstOffset().toMinutes());
+
+  tz.printTo(fakePrint);
+  assertEqual(F("-08:00+00:00"), fakePrint.getBuffer());
   fakePrint.flush();
 
-  spec.isDst(true);
+  tz.printShortTo(fakePrint);
+  assertEqual(F("-08:00(STD)"), fakePrint.getBuffer());
+  fakePrint.flush();
+
+  tz.printAbbrevTo(fakePrint, 0);
+  assertEqual(F("STD"), fakePrint.getBuffer());
+  fakePrint.flush();
+}
+
+test(TimeZoneTest, manual_dst) {
+  FakePrint fakePrint;
+  TimeZone tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8),
+      TimeOffset::forHour(1));
+
+  assertEqual(TimeZone::kTypeManual, tz.getType());
   assertEqual(-7*60, tz.getUtcOffset(0).toMinutes());
-  assertEqual(1*60, tz.getDeltaOffset(0).toMinutes());
+  assertEqual(60, tz.getDeltaOffset(0).toMinutes());
+  assertEqual(-8*60, tz.getStdOffset().toMinutes());
+  assertEqual(60, tz.getDstOffset().toMinutes());
+
+  tz.printTo(fakePrint);
+  assertEqual(F("-08:00+01:00"), fakePrint.getBuffer());
+  fakePrint.flush();
+
+  tz.printShortTo(fakePrint);
+  assertEqual(F("-07:00(DST)"), fakePrint.getBuffer());
+  fakePrint.flush();
+
   tz.printAbbrevTo(fakePrint, 0);
-  assertEqual("PDT", fakePrint.getBuffer());
-}
-
-test(TimeZoneTest_Manual, isDst) {
-  ManualZoneSpecifier spec(TimeOffset::forHour(-8), false, "PST", "PDT");
-  TimeZone tz = TimeZone::forZoneSpecifier(&spec);
-  assertFalse(tz.isDst());
-  tz.isDst(true);
-  assertTrue(tz.isDst());
+  assertEqual(F("DST"), fakePrint.getBuffer());
+  fakePrint.flush();
 }
 
 // --------------------------------------------------------------------------
-// TimeZone using BasicZoneSpecifier
+// kTypeBasicManaged + BasicZoneManager
 // --------------------------------------------------------------------------
 
-test(TimeZoneTest_Basic, operatorEqualEqual) {
-  BasicZoneSpecifier zoneSpecifierLA(&zonedb::kZoneAmerica_Los_Angeles);
-  BasicZoneSpecifier zoneSpecifierNY(&zonedb::kZoneAmerica_New_York);
-  TimeZone a = TimeZone::forZoneSpecifier(&zoneSpecifierLA);
-  TimeZone b = TimeZone::forZoneSpecifier(&zoneSpecifierNY);
-
+test(TimeZoneBasicTest, createFor) {
+  TimeZone a = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles);
+  TimeZone b = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_New_York);
   assertTrue(a != b);
+
+  TimeZone aa = basicZoneManager.createForZoneName("America/Los_Angeles");
+  TimeZone bb = basicZoneManager.createForZoneId(0x1e2a7654U); // New_York
+
+  assertTrue(a == aa);
+  assertTrue(b == bb);
+  assertEqual(0x1e2a7654U, bb.getZoneId());
 }
 
-test(TimeZoneTest_Basic, copyConstructor) {
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-  TimeZone a = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  TimeZone b(a);
-  assertTrue(a == b);
-}
-
-test(TimeZoneTest_Basic, Los_Angeles) {
+test(TimeZoneBasicTest, Los_Angeles) {
   FakePrint fakePrint;
-  BasicZoneSpecifier zoneSpecifier(&zonedb::kZoneAmerica_Los_Angeles);
-
   OffsetDateTime dt;
   acetime_t epochSeconds;
 
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  assertEqual(TimeZone::kTypeBasic, tz.getType());
+  TimeZone tz = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles);
+  assertEqual(TimeZone::kTypeBasicManaged, tz.getType());
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
       TimeOffset::forHour(-8));
@@ -125,7 +191,7 @@ test(TimeZoneTest_Basic, Los_Angeles) {
   assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
   tz.printAbbrevTo(fakePrint, epochSeconds);
-  assertEqual("PST", fakePrint.getBuffer());
+  assertEqual(F("PST"), fakePrint.getBuffer());
   fakePrint.flush();
 
   dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
@@ -134,55 +200,140 @@ test(TimeZoneTest_Basic, Los_Angeles) {
   assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
   assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
   tz.printAbbrevTo(fakePrint, epochSeconds);
-  assertEqual("PDT", fakePrint.getBuffer());
+  assertEqual(F("PDT"), fakePrint.getBuffer());
 }
 
 // --------------------------------------------------------------------------
-// TimeZone using ExtendedZoneSpecifier
+// TimeZoneData
 // --------------------------------------------------------------------------
 
-test(TimeZoneTest_Extended, operatorEqualEqual) {
-  ExtendedZoneSpecifier zoneSpecifierLA(&zonedbx::kZoneAmerica_Los_Angeles);
-  ExtendedZoneSpecifier zoneSpecifierNY(&zonedbx::kZoneAmerica_New_York);
-  TimeZone a = TimeZone::forZoneSpecifier(&zoneSpecifierLA);
-  TimeZone b = TimeZone::forZoneSpecifier(&zoneSpecifierNY);
+test(TimeZoneDataTest, error) {
+  auto tz = TimeZone::forError();
+  auto tzd = tz.toTimeZoneData();
+  assertEqual(TimeZone::kTypeError, tzd.type);
 
-  assertTrue(a != b);
+  auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
+  assertTrue(tz == tzCycle);
 }
 
-test(TimeZoneTest_Extended, copyConstructor) {
-  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
-  TimeZone a = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  TimeZone b(a);
-  assertTrue(a == b);
+test(TimeZoneDataTest, utc) {
+  auto tz = TimeZone::forUtc();
+  auto tzd = tz.toTimeZoneData();
+  assertEqual(TimeZone::kTypeManual, tzd.type);
+  assertEqual(0, tzd.stdOffsetCode);
+  assertEqual(0, tzd.dstOffsetCode);
+
+  auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
+  assertTrue(tz == tzCycle);
 }
 
-test(TimeZoneTest_Extended, Los_Angeles) {
-  FakePrint fakePrint;
-  ExtendedZoneSpecifier zoneSpecifier(&zonedbx::kZoneAmerica_Los_Angeles);
+test(TimeZoneDataTest, manual) {
+  auto tz = TimeZone::forTimeOffset(TimeOffset::forHour(-8),
+      TimeOffset::forHour(1));
+  auto tzd = tz.toTimeZoneData();
+  assertEqual(TimeZone::kTypeManual, tzd.type);
+  assertEqual(-8 * 4, tzd.stdOffsetCode);
+  assertEqual(4, tzd.dstOffsetCode);
 
-  OffsetDateTime dt;
-  acetime_t epochSeconds;
+  auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
+  assertTrue(tz == tzCycle);
+}
 
-  TimeZone tz = TimeZone::forZoneSpecifier(&zoneSpecifier);
-  assertEqual(TimeZone::kTypeExtended, tz.getType());
+test(TimeZoneDataTest, basicManaged) {
+  auto tz = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles);
+  auto tzd = tz.toTimeZoneData();
+  assertEqual(TimeZoneData::kTypeZoneId, tzd.type);
+  assertEqual(0xb7f7e8f2, tzd.zoneId);
 
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 1, 59, 59,
-      TimeOffset::forHour(-8));
-  epochSeconds = dt.toEpochSeconds();
-  assertEqual(-8*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(0, tz.getDeltaOffset(epochSeconds).toMinutes());
-  tz.printAbbrevTo(fakePrint, epochSeconds);
-  assertEqual("PST", fakePrint.getBuffer());
-  fakePrint.flush();
+  auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
+  assertTrue(tz == tzCycle);
+}
 
-  dt = OffsetDateTime::forComponents(2018, 3, 11, 2, 0, 0,
-      TimeOffset::forHour(-8));
-  epochSeconds = dt.toEpochSeconds();
-  assertEqual(-7*60, tz.getUtcOffset(epochSeconds).toMinutes());
-  assertEqual(1*60, tz.getDeltaOffset(epochSeconds).toMinutes());
-  tz.printAbbrevTo(fakePrint, epochSeconds);
-  assertEqual("PDT", fakePrint.getBuffer());
+#if !defined(__AVR__)
+test(TimeZoneDataTest, extendedManaged) {
+  auto tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles);
+  auto tzd = tz.toTimeZoneData();
+  assertEqual(TimeZoneData::kTypeZoneId, tzd.type);
+  assertEqual(0xb7f7e8f2, tzd.zoneId);
+
+  auto tzCycle = extendedZoneManager.createForTimeZoneData(tzd);
+  assertTrue(tz == tzCycle);
+}
+
+// If we convert a ExtendedManaged, we can read it back as a BasicManaged if
+// the ZoneManager supports it. The reverse also works.
+test(TimeZoneDataTest, crossed) {
+  auto tz = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles);
+  auto tzd = tz.toTimeZoneData();
+  assertEqual(TimeZoneData::kTypeZoneId, tzd.type);
+  assertEqual(0xb7f7e8f2, tzd.zoneId);
+
+  auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
+  assertTrue(tz.getZoneId() == tzCycle.getZoneId());
+  assertEqual(TimeZone::kTypeBasicManaged, tzCycle.getType());
+}
+#endif
+
+#if !defined(__AVR__)
+// --------------------------------------------------------------------------
+// operator==() for kTypeExtendedManaged.
+// --------------------------------------------------------------------------
+
+test(TimeZoneExtendedTest, operatorEqualEqual_managedZones) {
+  TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+  TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHour(-7));
+  assertTrue(manual != manual2);
+
+  TimeZone basicManaged = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles);
+  TimeZone basicManaged2 = basicZoneManager.createForZoneInfo(
+      &zonedb::kZoneAmerica_New_York);
+  assertTrue(basicManaged != basicManaged2);
+
+  TimeZone extendedManaged = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles);
+  TimeZone extendedManaged2 = extendedZoneManager.createForZoneInfo(
+      &zonedbx::kZoneAmerica_New_York);
+  assertTrue(extendedManaged != extendedManaged2);
+
+  assertTrue(manual != basicManaged);
+  assertTrue(manual != extendedManaged);
+  assertTrue(basicManaged != extendedManaged);
+}
+#endif
+
+// --------------------------------------------------------------------------
+// operator==() for kTypeBasic and kTypeExtended.
+// --------------------------------------------------------------------------
+
+// We can reuse the processors for these unit tests because the unit tests
+// don't actuallly use them.
+BasicZoneProcessor basicZoneProcessor;
+ExtendedZoneProcessor extendedZoneProcessor;
+
+test(TimeZoneTest, operatorEqualEqual_directZone) {
+  TimeZone manual = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+  TimeZone manual2 = TimeZone::forTimeOffset(TimeOffset::forHour(-7));
+  assertTrue(manual != manual2);
+
+  TimeZone basic = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_Los_Angeles, &basicZoneProcessor);
+  TimeZone basic2 = TimeZone::forZoneInfo(
+      &zonedb::kZoneAmerica_New_York, &basicZoneProcessor);
+  assertTrue(basic != basic2);
+
+  TimeZone extended = TimeZone::forZoneInfo(
+      &zonedbx::kZoneAmerica_Los_Angeles, &extendedZoneProcessor);
+  TimeZone extended2 = TimeZone::forZoneInfo(
+      &zonedbx::kZoneAmerica_New_York, &extendedZoneProcessor);
+  assertTrue(extended != extended2);
+
+  assertTrue(manual != basic);
+  assertTrue(manual != extended);
+  assertTrue(basic != extended);
 }
 
 // --------------------------------------------------------------------------

@@ -48,13 +48,7 @@ hw::CrcEeprom crcEeprom;
 
 DS3231TimeKeeper dsTimeKeeper;
 SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
-
 SystemClockSyncCoroutine systemClockSync(systemClock);
-
-// SystemClockHeartbeatCoroutine commented out. Not needed for this app because
-// the SystemClock::getNow() is guaranteed to be called 10 times a second.
-// Save 168 bytes of flash memory.
-//SystemClockHeartbeatCoroutine systemClockHeartbeat(systemClock);
 
 //------------------------------------------------------------------
 // Configure OLED display using SSD1306Ascii.
@@ -91,23 +85,35 @@ Presenter presenter0(oled0);
 Presenter presenter1(oled1);
 Presenter presenter2(oled2);
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
-ManualZoneSpecifier zspec0(TimeOffset::forHour(-8), false, "PST", "PDT");
-ManualZoneSpecifier zspec1(TimeOffset::forHour(-5), false, "EST", "EDT");
-ManualZoneSpecifier zspec2(TimeOffset::forHour(0), false, "GMT", "BST");
+TimeZone tz0 = TimeZone::forTimeOffset(TimeOffset::forHour(-8));
+TimeZone tz1 = TimeZone::forTimeOffset(TimeOffset::forHour(-5));
+TimeZone tz2 = TimeZone::forTimeOffset(TimeOffset::forHour(0));
 #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC
-BasicZoneSpecifier zspec0(&zonedb::kZoneAmerica_Los_Angeles);
-BasicZoneSpecifier zspec1(&zonedb::kZoneAmerica_New_York);
-BasicZoneSpecifier zspec2(&zonedb::kZoneEurope_London);
+BasicZoneProcessor zoneProcessor0;
+BasicZoneProcessor zoneProcessor1;
+BasicZoneProcessor zoneProcessor2;
+TimeZone tz0 = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+    &zoneProcessor0);
+TimeZone tz1 = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_New_York,
+    &zoneProcessor1);
+TimeZone tz2 = TimeZone::forZoneInfo(&zonedb::kZoneEurope_London,
+    &zoneProcessor2);
 #elif TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
-ExtendedZoneSpecifier zspec0(&zonedbx::kZoneAmerica_Los_Angeles);
-ExtendedZoneSpecifier zspec1(&zonedbx::kZoneAmerica_New_York);
-ExtendedZoneSpecifier zspec2(&zonedbx::kZoneEurope_London);
+ExtendedZoneProcessor zoneProcessor0;
+ExtendedZoneProcessor zoneProcessor1;
+ExtendedZoneProcessor zoneProcessor2;
+TimeZone tz0 = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+    &zoneProcessor0);
+TimeZone tz1 = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_New_York,
+    &zoneProcessor1);
+TimeZone tz2 = TimeZone::forZoneInfo(&zonedbx::kZoneEurope_London,
+    &zoneProcessor2);
 #else
   #error Unknown TIME_ZONE_TYPE
 #endif
 Controller controller(systemClock, crcEeprom,
     presenter0, presenter1, presenter2,
-    zspec0, zspec1, zspec2, "SFO", "PHL", "LHR");
+    tz0, tz1, tz2, "SFO", "PHL", "LHR");
 
 // The RTC has a resolution of only 1s, so we need to poll it fast enough to
 // make it appear that the display is tracking it correctly. The benchmarking
@@ -225,13 +231,12 @@ void setup() {
 }
 
 void loop() {
+  systemClock.keepAlive();
 
   // Using the CoroutineScheduler is conceptually cleaner, but consumes 159
-  // bytes of extra flash memory. So run the coroutines manually instead.
-  //CoroutineScheduler::loop();
-
+  // bytes of extra flash memory. So run the coroutines manually instead of
+  // call CoroutineScheduler::loop();
   updateController.runCoroutine();
   checkButton.runCoroutine();
   systemClockSync.runCoroutine();
-
 }

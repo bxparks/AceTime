@@ -10,11 +10,17 @@ struct StoredInfo {
   /** Time zone of the displayed time */
   uint8_t timeZoneType;
 
-  /** The offset minutes for kTypeManual and kTypeFixed. */
-  int16_t offsetMinutes;
+  /** The offset code for kTypeManual. */
+  int8_t stdOffsetCode;
 
-  /** The isDst flag for kTypeManual. */
-  bool isDst;
+  /** The DST offset code for kTypeManual. */
+  int8_t dstOffsetCode;
+
+  /**
+  * Stable zone ID for kTypeBasic, kTypeExtended, kTypeBasicManaged,
+   * kTypeExtendedManaged.
+   */
+  uint32_t zoneId;
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   static const uint8_t kSsidMaxLength = 33; // 32 + NUL terminator

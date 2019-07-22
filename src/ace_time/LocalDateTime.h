@@ -15,6 +15,15 @@ class __FlashStringHelper;
 
 namespace ace_time {
 
+/**
+ * Class that holds the date-time as the components (year, month, day, hour,
+ * minute, second) without regards to the time zone. It is an aggregation of
+ * the LocalDate and LocalTime classes.
+ *
+ * Parts of this class were inspired by the java.time.LocalDateTime class of
+ * Java 11
+ * (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/LocalDateTime.html).
+ */
 class LocalDateTime {
   public:
 

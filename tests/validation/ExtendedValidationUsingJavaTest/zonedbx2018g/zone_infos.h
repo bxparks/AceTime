@@ -13,20 +13,20 @@
 #ifndef ACE_TIME_ZONEDBX2018G_ZONE_INFOS_H
 #define ACE_TIME_ZONEDBX2018G_ZONE_INFOS_H
 
-#include <ace_time/common/ZoneInfo.h>
+#include <ace_time/internal/ZoneInfo.h>
 
 namespace ace_time {
 namespace zonedbx2018g {
 
 //---------------------------------------------------------------------------
-// ZoneContext
+// ZoneContext (should not be in PROGMEM)
 //---------------------------------------------------------------------------
 
 // Version of the TZ Database which generated these files.
 extern const char kTzDatabaseVersion[];
 
 // Metadata about the zonedb files.
-extern const common::ZoneContext kZoneContext;
+extern const extended::ZoneContext kZoneContext;
 
 //---------------------------------------------------------------------------
 // Supported zones: 387

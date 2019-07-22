@@ -10,7 +10,6 @@
 #include "Benchmark.h"
 
 using namespace ace_time;
-using namespace ace_time::clock;
 
 void setup() {
 #if defined(ARDUINO)
@@ -37,6 +36,59 @@ void setup() {
   Serial.print(F("sizeof(OffsetDateTime): "));
   Serial.println(sizeof(OffsetDateTime));
 
+  Serial.print(F("sizeof(BasicZoneProcessor): "));
+  Serial.println(sizeof(BasicZoneProcessor));
+
+  Serial.print(F("sizeof(ExtendedZoneProcessor): "));
+  Serial.println(sizeof(ExtendedZoneProcessor));
+
+  Serial.print(F("sizeof(BasicZoneRegistrar): "));
+  Serial.println(sizeof(BasicZoneRegistrar));
+
+  Serial.print(F("sizeof(ExtendedZoneRegistrar): "));
+  Serial.println(sizeof(ExtendedZoneRegistrar));
+
+  Serial.print(F("sizeof(BasicZoneManager<1>): "));
+  Serial.println(sizeof(BasicZoneManager<1>));
+
+  Serial.print(F("sizeof(ExtendedZoneManager<1>): "));
+  Serial.println(sizeof(ExtendedZoneManager<1>));
+
+  Serial.print(F("sizeof(TimeZone): "));
+  Serial.println(sizeof(TimeZone));
+
+  Serial.print(F("sizeof(ZonedDateTime): "));
+  Serial.println(sizeof(ZonedDateTime));
+
+  Serial.print(F("sizeof(TimePeriod): "));
+  Serial.println(sizeof(TimePeriod));
+
+  // ace_time::clock classes
+
+  Serial.print(F("sizeof(clock::SystemClock): "));
+  Serial.println(sizeof(clock::SystemClock));
+
+#ifdef ARDUINO
+  Serial.print(F("sizeof(clock::DS3231TimeKeeper): "));
+  Serial.println(sizeof(clock::DS3231TimeKeeper));
+
+#if defined(ESP8266) || defined(ESP32)
+  Serial.print(F("sizeof(clock::NtpTimeProvider): "));
+  Serial.println(sizeof(clock::NtpTimeProvider));
+#endif
+#endif
+
+  Serial.print(F("sizeof(clock::SystemClockSyncLoop): "));
+  Serial.println(sizeof(clock::SystemClockSyncLoop));
+
+  Serial.print(F("sizeof(clock::SystemClockSyncCoroutine): "));
+  Serial.println(sizeof(clock::SystemClockSyncCoroutine));
+
+  // ace_time::basic and ace_time::extended classes
+
+  Serial.print(F("sizeof(basic::ZoneContext): "));
+  Serial.println(sizeof(basic::ZoneContext));
+
   Serial.print(F("sizeof(basic::ZoneEra): "));
   Serial.println(sizeof(basic::ZoneEra));
 
@@ -57,54 +109,6 @@ void setup() {
 
   Serial.print(F("sizeof(extended::ZoneMatch): "));
   Serial.println(sizeof(extended::ZoneMatch));
-
-  Serial.print(F("sizeof(ZoneSpecifier): "));
-  Serial.println(sizeof(ZoneSpecifier));
-
-  Serial.print(F("sizeof(ManualZoneSpecifier): "));
-  Serial.println(sizeof(ManualZoneSpecifier));
-
-  Serial.print(F("sizeof(BasicZoneSpecifier): "));
-  Serial.println(sizeof(BasicZoneSpecifier));
-
-  Serial.print(F("sizeof(ExtendedZoneSpecifier): "));
-  Serial.println(sizeof(ExtendedZoneSpecifier));
-
-  Serial.print(F("sizeof(TimeZone): "));
-  Serial.println(sizeof(TimeZone));
-
-  Serial.print(F("sizeof(ZonedDateTime): "));
-  Serial.println(sizeof(ZonedDateTime));
-
-  Serial.print(F("sizeof(TimePeriod): "));
-  Serial.println(sizeof(TimePeriod));
-
-  // ace_time::clock classes
-
-  Serial.print(F("sizeof(SystemClock): "));
-  Serial.println(sizeof(SystemClock));
-
-#ifdef ARDUINO
-  Serial.print(F("sizeof(DS3231TimeKeeper): "));
-  Serial.println(sizeof(DS3231TimeKeeper));
-
-#if defined(ESP8266) || defined(ESP32)
-  Serial.print(F("sizeof(NtpTimeProvider): "));
-  Serial.println(sizeof(NtpTimeProvider));
-#endif
-#endif
-
-  Serial.print(F("sizeof(SystemClockSyncLoop): "));
-  Serial.println(sizeof(SystemClockSyncLoop));
-
-  Serial.print(F("sizeof(SystemClockHeartbeatLoop): "));
-  Serial.println(sizeof(SystemClockHeartbeatLoop));
-
-  Serial.print(F("sizeof(SystemClockSyncCoroutine): "));
-  Serial.println(sizeof(SystemClockSyncCoroutine));
-
-  Serial.print(F("sizeof(SystemClockHeartbeatCoroutine): "));
-  Serial.println(sizeof(SystemClockHeartbeatCoroutine));
 
   runBenchmarks();
 #ifndef ARDUINO

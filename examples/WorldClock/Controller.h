@@ -29,18 +29,17 @@ class Controller {
      * @param presenter renders the date and time info to the screen
      */
     Controller(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
-            Presenter& presenter0, Presenter& presenter1,
-            Presenter& presenter2, ZoneSpecifier& zspec0,
-            ZoneSpecifier& zspec1, ZoneSpecifier& zspec2,
+            Presenter& presenter0, Presenter& presenter1, Presenter& presenter2,
+            const TimeZone& tz0, const TimeZone& tz1, const TimeZone& tz2,
             const char* name0, const char* name1, const char* name2):
         mTimeKeeper(timeKeeper),
         mCrcEeprom(crcEeprom),
         mPresenter0(presenter0),
         mPresenter1(presenter1),
         mPresenter2(presenter2),
-        mClockInfo0(zspec0, name0),
-        mClockInfo1(zspec1, name1),
-        mClockInfo2(zspec2, name2),
+        mClockInfo0(tz0, name0),
+        mClockInfo1(tz1, name1),
+        mClockInfo2(tz2, name2),
         mMode(MODE_UNKNOWN) {}
 
     /** Initialize the controller with the various time zones of each clock. */
@@ -195,17 +194,17 @@ class Controller {
 #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_MANUAL
         case MODE_CHANGE_TIME_ZONE_DST0:
           mSuppressBlink = true;
-          mClockInfo0.timeZone.isDst(!mClockInfo0.timeZone.isDst());
+          mClockInfo0.timeZone.setDst(!mClockInfo0.timeZone.isDst());
           break;
 
         case MODE_CHANGE_TIME_ZONE_DST1:
           mSuppressBlink = true;
-          mClockInfo1.timeZone.isDst(!mClockInfo1.timeZone.isDst());
+          mClockInfo1.timeZone.setDst(!mClockInfo1.timeZone.isDst());
           break;
 
         case MODE_CHANGE_TIME_ZONE_DST2:
           mSuppressBlink = true;
-          mClockInfo2.timeZone.isDst(!mClockInfo2.timeZone.isDst());
+          mClockInfo2.timeZone.setDst(!mClockInfo2.timeZone.isDst());
           break;
 #endif
       }
