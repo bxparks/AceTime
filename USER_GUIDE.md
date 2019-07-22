@@ -1364,14 +1364,21 @@ class ExtendedZoneManager {
 }
 ```
 
-The `SIZE` template parameter is the number of time zones that your application
-is expected to use *at the same time*. If your app never changes its time zone
-after initialization, then this can be `<1>`. If your app allows the user to
-dynamically change the time zone (e.g. from a menu of time zones), then this
-should be at least 2 (to allow the system to compare the old time zone to the
-new time zone selected by the user).
+The `SIZE` template parameter is the size of the internal cache of
+`ZoneProcessor` objects. This should be set to the number of time zones that
+your application is expected to use *at the same time*. If your app never
+changes its time zone after initialization, then this can be `<1>`. If your app
+allows the user to dynamically change the time zone (e.g. from a menu of time
+zones), then this should be at least `<2>` (to allow the system to compare the
+old time zone to the new time zone selected by the user). In general, the `SIZE`
+should be set to the number of timezones displayed to the user concurrently,
+plus an additional 1 if the user is able to change the timezone dynamically.
 
-The constructor take a `zoneRegistry` which is described below.
+The constructor take a `zoneRegistry` and its `zoneRegistrySize`. It is a
+pointer to an array of pointers to the `zonedb::kZone*` or `zonedbx::kZone*`
+objects. You can use the default zone registry (which contains ALL zones in the
+`zonedb::` or `zonedbx::` database, or you can create your own custom zone
+registry, as described below.
 
 #### Default Zone Registry
 
