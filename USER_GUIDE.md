@@ -2577,3 +2577,15 @@ did not think it would fit inside an Arduino controller.
       is created with a `TimeZone` associated with `kZoneUS_Pacific`, the
       `ZonedDateTime::printTo()` will print "[America/Los_Angeles]" not
       "[US/Pacific]".
+* Arduino Zero and SAMD21 Clones
+    * Some amount of support for the Arduino Zero (and other SAMD21 boards)
+      have been added. The original Arduino Zero has
+      [2 USB ports](https://www.arduino.cc/en/Guide/ArduinoZero). The
+      Programming port is connected to `Serial` object and the Native port is
+      connected to `SerialUSB` object. AceTime assumes that you are always using
+      the "Native USB Port" on the Arduino Zero, and redefines the
+      `SERIAL_MONITOR_PORT` macro to be `SerialUSB`. This is the correct setting
+      on the "Ardunio SAMD21 M0 Mini" clones claiming to be compatible with the
+      Arduino Zero. However, if you are using a real Arduino Zero, and using the
+      Programming Port, then you must edit `src/ace_time/common/flash.h` and
+      comment out the code that clobbers the `SERIAL_MONITOR_PORT` macro.
