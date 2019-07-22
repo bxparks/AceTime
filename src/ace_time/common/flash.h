@@ -80,6 +80,9 @@
     const char* strrchr_P(const char* s, int c);
   }
 
+  // ESP32 does not define SERIAL_PORT_MONITOR
+  #define SERIAL_PORT_MONITOR Serial
+
 #elif defined(__linux__) or defined(__APPLE__)
   #include <pgmspace.h>
   #define FPSTR(p) (reinterpret_cast<const __FlashStringHelper *>(p))
