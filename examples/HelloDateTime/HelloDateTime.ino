@@ -32,8 +32,8 @@ void setup() {
 #if defined(ARDUINO)
   delay(1000);
 #endif
-  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
-  while (!Serial); // Wait until Serial is ready - Leonardo/Micro
+  SERIAL_PORT_MONITOR.begin(115200);
+  while (!SERIAL_PORT_MONITOR); // Wait until Serial is ready - Leonardo/Micro
 
   auto pacificTz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
       &pacificProcessor);
@@ -45,63 +45,63 @@ void setup() {
   auto startTime = ZonedDateTime::forComponents(
       2019, 3, 10, 3, 0, 0, pacificTz);
 
-  Serial.print(F("Epoch Seconds: "));
+  SERIAL_PORT_MONITOR.print(F("Epoch Seconds: "));
   acetime_t epochSeconds = startTime.toEpochSeconds();
-  Serial.println(epochSeconds);
+  SERIAL_PORT_MONITOR.println(epochSeconds);
 
-  Serial.print(F("Unix Seconds: "));
+  SERIAL_PORT_MONITOR.print(F("Unix Seconds: "));
   acetime_t unixSeconds = startTime.toUnixSeconds();
-  Serial.println(unixSeconds);
+  SERIAL_PORT_MONITOR.println(unixSeconds);
 
-  Serial.println(F("=== Los Angeles"));
+  SERIAL_PORT_MONITOR.println(F("=== Los Angeles"));
   auto pacificTime = ZonedDateTime::forEpochSeconds(epochSeconds, pacificTz);
-  Serial.print(F("Time: "));
-  pacificTime.printTo(Serial);
-  Serial.println();
+  SERIAL_PORT_MONITOR.print(F("Time: "));
+  pacificTime.printTo(SERIAL_PORT_MONITOR);
+  SERIAL_PORT_MONITOR.println();
 
-  Serial.print(F("Day of Week: "));
-  Serial.println(
+  SERIAL_PORT_MONITOR.print(F("Day of Week: "));
+  SERIAL_PORT_MONITOR.println(
       common::DateStrings().dayOfWeekLongString(pacificTime.dayOfWeek()));
 
   // Print info about UTC offset
   TimeOffset offset = pacificTime.timeOffset();
-  Serial.print(F("Total UTC Offset: "));
-  offset.printTo(Serial);
-  Serial.println();
+  SERIAL_PORT_MONITOR.print(F("Total UTC Offset: "));
+  offset.printTo(SERIAL_PORT_MONITOR);
+  SERIAL_PORT_MONITOR.println();
 
   // Print info about the current time zone
-  Serial.print(F("Zone: "));
-  pacificTz.printTo(Serial);
-  Serial.println();
+  SERIAL_PORT_MONITOR.print(F("Zone: "));
+  pacificTz.printTo(SERIAL_PORT_MONITOR);
+  SERIAL_PORT_MONITOR.println();
 
   // Print the current time zone abbreviation, e.g. "PST" or "PDT"
-  Serial.print(F("Abbreviation: "));
-  pacificTz.printAbbrevTo(Serial, epochSeconds);
-  Serial.println();
+  SERIAL_PORT_MONITOR.print(F("Abbreviation: "));
+  pacificTz.printAbbrevTo(SERIAL_PORT_MONITOR, epochSeconds);
+  SERIAL_PORT_MONITOR.println();
 
   // Create from epoch seconds. London is still on standard time.
   auto londonTime = ZonedDateTime::forEpochSeconds(epochSeconds, londonTz);
 
-  Serial.println(F("=== London"));
-  Serial.print(F("Time: "));
-  londonTime.printTo(Serial);
-  Serial.println();
+  SERIAL_PORT_MONITOR.println(F("=== London"));
+  SERIAL_PORT_MONITOR.print(F("Time: "));
+  londonTime.printTo(SERIAL_PORT_MONITOR);
+  SERIAL_PORT_MONITOR.println();
 
   // Print info about the current time zone
-  Serial.print(F("Zone: "));
-  londonTz.printTo(Serial);
-  Serial.println();
+  SERIAL_PORT_MONITOR.print(F("Zone: "));
+  londonTz.printTo(SERIAL_PORT_MONITOR);
+  SERIAL_PORT_MONITOR.println();
 
   // Print the current time zone abbreviation, e.g. "PST" or "PDT"
-  Serial.print(F("Abbreviation: "));
-  londonTz.printAbbrevTo(Serial, epochSeconds);
-  Serial.println();
+  SERIAL_PORT_MONITOR.print(F("Abbreviation: "));
+  londonTz.printAbbrevTo(SERIAL_PORT_MONITOR, epochSeconds);
+  SERIAL_PORT_MONITOR.println();
 
-  Serial.println(F("=== Compare ZonedDateTime"));
-  Serial.print(F("pacificTime.compareTo(londonTime): "));
-  Serial.println(pacificTime.compareTo(londonTime));
-  Serial.print(F("pacificTime == londonTime: "));
-  Serial.println((pacificTime == londonTime) ? "true" : "false");
+  SERIAL_PORT_MONITOR.println(F("=== Compare ZonedDateTime"));
+  SERIAL_PORT_MONITOR.print(F("pacificTime.compareTo(londonTime): "));
+  SERIAL_PORT_MONITOR.println(pacificTime.compareTo(londonTime));
+  SERIAL_PORT_MONITOR.print(F("pacificTime == londonTime: "));
+  SERIAL_PORT_MONITOR.println((pacificTime == londonTime) ? "true" : "false");
 
 #ifndef ARDUINO
   exit(0);

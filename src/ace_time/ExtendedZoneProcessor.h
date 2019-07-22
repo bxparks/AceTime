@@ -6,9 +6,9 @@
 #ifndef ACE_TIME_EXTENDED_ZONE_PROCESSOR_H
 #define ACE_TIME_EXTENDED_ZONE_PROCESSOR_H
 
-#include <Arduino.h>
 #include <string.h> // memcpy()
 #include <stdint.h>
+#include "common/flash.h"
 #include "internal/ZonePolicy.h"
 #include "internal/ZoneInfo.h"
 #include "common/logger.h"
