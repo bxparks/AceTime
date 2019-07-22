@@ -18,6 +18,8 @@
 // Select one of the FEATURE_* parameter and compile. Then look at the flash
 // and RAM usage, compared to FEATURE_BASELINE usage to determine how much
 // flash and RAM is consumed by the selected feature.
+// NOTE: This line is modified by a 'sed' script in collect.sh. Be careful
+// when modifying its format.
 #define FEATURE 0
 
 #if FEATURE != FEATURE_BASELINE
@@ -64,38 +66,45 @@ void setup() {
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_TIME_ZONE
-  BasicZoneManager<1> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
-  TimeZone::setZoneManager(&manager);
-  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
+  BasicZoneProcessor processor;
+  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &processor);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_TIME_ZONE2
   // Same as FEATURE_BASIC_TIME_ZONE but with 2 zones
-  BasicZoneManager<2> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
-  TimeZone::setZoneManager(&manager);
-  auto tz1 = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
-  auto tz2 = TimeZone::forZoneInfo(&zonedb::kZoneEurope_Amsterdam);
+  BasicZoneProcessor processor1;
+  BasicZoneProcessor processor2;
+  auto tz1 = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &processor1);
+  auto tz2 = TimeZone::forZoneInfo(&zonedb::kZoneEurope_Amsterdam,
+      &processor2);
   auto dt1 = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz1);
   auto dt2 = dt1.convertToTimeZone(tz2);
   acetime_t epochSeconds = dt2.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_BASIC_TIME_ZONE_ALL
   BasicZoneManager<1> manager(zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
-  TimeZone::setZoneManager(&manager);
-  auto tz = TimeZone::forName("America/Los_Angeles");
+  auto tz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE
-  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
+  ExtendedZoneProcessor processor;
+  auto tz = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+      &processor);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE2
   // Same as FEATURE_EXTENDED_TIME_ZONE but with 2 zones
-  auto tz1 = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
-  auto tz2 = TimeZone::forZoneInfo(&zonedb::kZoneEurope_Amsterdam);
+  ExtendedZoneProcessor processor1;
+  ExtendedZoneProcessor processor2;
+  auto tz1 = TimeZone::forZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles,
+      &processor1);
+  auto tz2 = TimeZone::forZoneInfo(&zonedbx::kZoneEurope_Amsterdam,
+      &processor2);
   auto dt1 = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz1);
   auto dt2 = dt1.convertToTimeZone(tz2);
   acetime_t epochSeconds = dt2.toEpochSeconds();
@@ -103,8 +112,7 @@ void setup() {
 #elif FEATURE == FEATURE_EXTENDED_TIME_ZONE_ALL
   ExtendedZoneManager<1> manager(
       zonedbx::kZoneRegistrySize, zonedbx::kZoneRegistry);
-  TimeZone::setZoneManager(&manager);
-  auto tz = TimeZone::forName("America/Los_Angeles");
+  auto tz = manager.createForZoneInfo(&zonedbx::kZoneAmerica_Los_Angeles);
   auto dt = ZonedDateTime::forComponents(2019, 6, 17, 9, 18, 0, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
@@ -119,9 +127,9 @@ void setup() {
   SystemClock systemClock(&dsTimeKeeper, &dsTimeKeeper);
   systemClock.setup();
   acetime_t now = systemClock.getNow();
-  BasicZoneManager<1> manager(kBasicZoneRegistrySize, kBasicZoneRegistry);
-  TimeZone::setZoneManager(&manager);
-  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
+  BasicZoneProcessor processor;
+  auto tz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
+      &processor);
   auto dt = ZonedDateTime::forEpochSeconds(now, tz);
   acetime_t epochSeconds = dt.toEpochSeconds();
   guard ^= epochSeconds;
