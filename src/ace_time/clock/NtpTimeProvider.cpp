@@ -3,6 +3,8 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
+#include <Arduino.h>
+#include "../common/flash.h"
 #include "NtpTimeProvider.h"
 
 #if defined(ESP8266) || defined(ESP32)
@@ -31,8 +33,8 @@ void NtpTimeProvider::setup(const char* ssid, const char* password) {
 
 #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
   #if defined(ESP8266)
-    Serial.print(F("Local port: "));
-    Serial.println(mUdp.localPort());
+    SERIAL_PORT_MONITOR.print(F("Local port: "));
+    SERIAL_PORT_MONITOR.println(mUdp.localPort());
   #endif
 #endif
 

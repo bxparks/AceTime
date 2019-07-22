@@ -16,99 +16,99 @@ void setup() {
   delay(1000);
 #endif
 
-  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
-  while (!Serial); // Wait until Serial is ready - Leonardo/Micro
+  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  while (!SERIAL_PORT_MONITOR); // Wait until SERIAL_PORT_MONITOR is ready - Leonardo/Micro
 
   // ace_time primitives
 
-  Serial.print(F("sizeof(LocalDate): "));
-  Serial.println(sizeof(LocalDate));
+  SERIAL_PORT_MONITOR.print(F("sizeof(LocalDate): "));
+  SERIAL_PORT_MONITOR.println(sizeof(LocalDate));
 
-  Serial.print(F("sizeof(LocalTime): "));
-  Serial.println(sizeof(LocalTime));
+  SERIAL_PORT_MONITOR.print(F("sizeof(LocalTime): "));
+  SERIAL_PORT_MONITOR.println(sizeof(LocalTime));
 
-  Serial.print(F("sizeof(LocalDateTime): "));
-  Serial.println(sizeof(LocalDateTime));
+  SERIAL_PORT_MONITOR.print(F("sizeof(LocalDateTime): "));
+  SERIAL_PORT_MONITOR.println(sizeof(LocalDateTime));
 
-  Serial.print(F("sizeof(TimeOffset): "));
-  Serial.println(sizeof(TimeOffset));
+  SERIAL_PORT_MONITOR.print(F("sizeof(TimeOffset): "));
+  SERIAL_PORT_MONITOR.println(sizeof(TimeOffset));
 
-  Serial.print(F("sizeof(OffsetDateTime): "));
-  Serial.println(sizeof(OffsetDateTime));
+  SERIAL_PORT_MONITOR.print(F("sizeof(OffsetDateTime): "));
+  SERIAL_PORT_MONITOR.println(sizeof(OffsetDateTime));
 
-  Serial.print(F("sizeof(BasicZoneProcessor): "));
-  Serial.println(sizeof(BasicZoneProcessor));
+  SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneProcessor): "));
+  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneProcessor));
 
-  Serial.print(F("sizeof(ExtendedZoneProcessor): "));
-  Serial.println(sizeof(ExtendedZoneProcessor));
+  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneProcessor): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneProcessor));
 
-  Serial.print(F("sizeof(BasicZoneRegistrar): "));
-  Serial.println(sizeof(BasicZoneRegistrar));
+  SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneRegistrar): "));
+  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneRegistrar));
 
-  Serial.print(F("sizeof(ExtendedZoneRegistrar): "));
-  Serial.println(sizeof(ExtendedZoneRegistrar));
+  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneRegistrar): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneRegistrar));
 
-  Serial.print(F("sizeof(BasicZoneManager<1>): "));
-  Serial.println(sizeof(BasicZoneManager<1>));
+  SERIAL_PORT_MONITOR.print(F("sizeof(BasicZoneManager<1>): "));
+  SERIAL_PORT_MONITOR.println(sizeof(BasicZoneManager<1>));
 
-  Serial.print(F("sizeof(ExtendedZoneManager<1>): "));
-  Serial.println(sizeof(ExtendedZoneManager<1>));
+  SERIAL_PORT_MONITOR.print(F("sizeof(ExtendedZoneManager<1>): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ExtendedZoneManager<1>));
 
-  Serial.print(F("sizeof(TimeZone): "));
-  Serial.println(sizeof(TimeZone));
+  SERIAL_PORT_MONITOR.print(F("sizeof(TimeZone): "));
+  SERIAL_PORT_MONITOR.println(sizeof(TimeZone));
 
-  Serial.print(F("sizeof(ZonedDateTime): "));
-  Serial.println(sizeof(ZonedDateTime));
+  SERIAL_PORT_MONITOR.print(F("sizeof(ZonedDateTime): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ZonedDateTime));
 
-  Serial.print(F("sizeof(TimePeriod): "));
-  Serial.println(sizeof(TimePeriod));
+  SERIAL_PORT_MONITOR.print(F("sizeof(TimePeriod): "));
+  SERIAL_PORT_MONITOR.println(sizeof(TimePeriod));
 
   // ace_time::clock classes
 
-  Serial.print(F("sizeof(clock::SystemClock): "));
-  Serial.println(sizeof(clock::SystemClock));
+  SERIAL_PORT_MONITOR.print(F("sizeof(clock::SystemClock): "));
+  SERIAL_PORT_MONITOR.println(sizeof(clock::SystemClock));
 
 #ifdef ARDUINO
-  Serial.print(F("sizeof(clock::DS3231TimeKeeper): "));
-  Serial.println(sizeof(clock::DS3231TimeKeeper));
+  SERIAL_PORT_MONITOR.print(F("sizeof(clock::DS3231TimeKeeper): "));
+  SERIAL_PORT_MONITOR.println(sizeof(clock::DS3231TimeKeeper));
 
 #if defined(ESP8266) || defined(ESP32)
-  Serial.print(F("sizeof(clock::NtpTimeProvider): "));
-  Serial.println(sizeof(clock::NtpTimeProvider));
+  SERIAL_PORT_MONITOR.print(F("sizeof(clock::NtpTimeProvider): "));
+  SERIAL_PORT_MONITOR.println(sizeof(clock::NtpTimeProvider));
 #endif
 #endif
 
-  Serial.print(F("sizeof(clock::SystemClockSyncLoop): "));
-  Serial.println(sizeof(clock::SystemClockSyncLoop));
+  SERIAL_PORT_MONITOR.print(F("sizeof(clock::SystemClockSyncLoop): "));
+  SERIAL_PORT_MONITOR.println(sizeof(clock::SystemClockSyncLoop));
 
-  Serial.print(F("sizeof(clock::SystemClockSyncCoroutine): "));
-  Serial.println(sizeof(clock::SystemClockSyncCoroutine));
+  SERIAL_PORT_MONITOR.print(F("sizeof(clock::SystemClockSyncCoroutine): "));
+  SERIAL_PORT_MONITOR.println(sizeof(clock::SystemClockSyncCoroutine));
 
   // ace_time::basic and ace_time::extended classes
 
-  Serial.print(F("sizeof(basic::ZoneContext): "));
-  Serial.println(sizeof(basic::ZoneContext));
+  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneContext): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneContext));
 
-  Serial.print(F("sizeof(basic::ZoneEra): "));
-  Serial.println(sizeof(basic::ZoneEra));
+  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneEra): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneEra));
 
-  Serial.print(F("sizeof(basic::ZoneInfo): "));
-  Serial.println(sizeof(basic::ZoneInfo));
+  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneInfo): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneInfo));
 
-  Serial.print(F("sizeof(basic::ZoneRule): "));
-  Serial.println(sizeof(basic::ZoneRule));
+  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZoneRule): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::ZoneRule));
 
-  Serial.print(F("sizeof(basic::ZonePolicy): "));
-  Serial.println(sizeof(basic::ZonePolicy));
+  SERIAL_PORT_MONITOR.print(F("sizeof(basic::ZonePolicy): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::ZonePolicy));
 
-  Serial.print(F("sizeof(basic::Transition): "));
-  Serial.println(sizeof(basic::Transition));
+  SERIAL_PORT_MONITOR.print(F("sizeof(basic::Transition): "));
+  SERIAL_PORT_MONITOR.println(sizeof(basic::Transition));
 
-  Serial.print(F("sizeof(extended::Transition): "));
-  Serial.println(sizeof(extended::Transition));
+  SERIAL_PORT_MONITOR.print(F("sizeof(extended::Transition): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::Transition));
 
-  Serial.print(F("sizeof(extended::ZoneMatch): "));
-  Serial.println(sizeof(extended::ZoneMatch));
+  SERIAL_PORT_MONITOR.print(F("sizeof(extended::ZoneMatch): "));
+  SERIAL_PORT_MONITOR.println(sizeof(extended::ZoneMatch));
 
   runBenchmarks();
 #ifndef ARDUINO
