@@ -94,7 +94,7 @@ Controller controller(persistentStore, systemClock);
 class ListCommand: public CommandHandler {
   public:
     ListCommand():
-        CommandHandler("list", nullptr) {}
+        CommandHandler(F("list"), nullptr) {}
 
     void run(Print& printer, int /*argc*/, const char** /*argv*/)
             const override {
@@ -111,7 +111,7 @@ class ListCommand: public CommandHandler {
 class DateCommand: public CommandHandler {
   public:
     DateCommand():
-        CommandHandler("date", "[dateString]") {}
+        CommandHandler(F("date"), F("[dateString]")) {}
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
@@ -146,15 +146,15 @@ class DateCommand: public CommandHandler {
 class TimezoneCommand: public CommandHandler {
   public:
     TimezoneCommand():
-      CommandHandler("timezone",
-        "manual {offset} | "
+      CommandHandler(F("timezone"),
+        F("manual {offset} | "
       #if ENABLE_TIME_ZONE_TYPE_BASIC
         "basic [list | {index}] | "
       #endif
       #if ENABLE_TIME_ZONE_TYPE_EXTENDED
         "extended [list | {index}] | "
       #endif
-        "dst {on | off}]") {}
+        "dst {on | off}]")) {}
 
     void run(Print& printer, int argc, const char** argv) const override {
       if (argc == 1) {
@@ -238,7 +238,7 @@ class TimezoneCommand: public CommandHandler {
 class SyncCommand: public CommandHandler {
   public:
     SyncCommand(SystemClock& systemClock):
-        CommandHandler("sync", "[status]"),
+        CommandHandler(F("sync"), F("[status]")),
         mSystemClock(systemClock) {}
 
     void run(Print& printer, int argc, const char** argv)
@@ -287,8 +287,8 @@ class WifiCommand: public CommandHandler {
     WifiCommand(
         Controller& controller,
         NtpTimeProvider& ntpTimeProvider):
-      CommandHandler(
-          "wifi", "status | (config [ssid password]) | connect" ),
+      CommandHandler(F("wifi"),
+          F("status | (config [ssid password]) | connect") ),
       mController(controller),
       mNtpTimeProvider(ntpTimeProvider)
       {}
