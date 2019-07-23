@@ -2577,15 +2577,31 @@ did not think it would fit inside an Arduino controller.
       is created with a `TimeZone` associated with `kZoneUS_Pacific`, the
       `ZonedDateTime::printTo()` will print "[America/Los_Angeles]" not
       "[US/Pacific]".
-* Arduino Zero and SAMD21 Clones
-    * Some amount of support for the Arduino Zero (and other SAMD21 boards)
-      have been added. The original Arduino Zero has
-      [2 USB ports](https://www.arduino.cc/en/Guide/ArduinoZero). The
-      Programming port is connected to `Serial` object and the Native port is
-      connected to `SerialUSB` object. AceTime assumes that you are always using
-      the "Native USB Port" on the Arduino Zero, and redefines the
-      `SERIAL_MONITOR_PORT` macro to be `SerialUSB`. This is the correct setting
-      on the "Ardunio SAMD21 M0 Mini" clones claiming to be compatible with the
-      Arduino Zero. However, if you are using a real Arduino Zero, and using the
-      Programming Port, then you must edit `src/ace_time/common/flash.h` and
-      comment out the code that clobbers the `SERIAL_MONITOR_PORT` macro.
+* Arduino Zero and SAMD21 Boards
+    * Some amount of support for the SAMD21 boards
+      (which all identify themselves as `ARDUINO_SAMD_ZERO`) has been added.
+    * If you are using an original Arduino Zero and using the "Native USB Port",
+      you may encounter problems with nothing showing up on the Serial Monitor.
+        * The original Arduino Zero has [2 USB
+          ports](https://www.arduino.cc/en/Guide/ArduinoZero). The Programming
+          port is connected to `Serial` object and the Native port is connected
+          to `SerialUSB` object. You can select either the "Arduino/Genuino Zero
+          (Programming Port)" or the "Arduino/Genuino Zero (Native USB Port)" on
+          the Board Manager selector in the Arduino IDEA. Unfortunately, if you
+          select "(Native USB Port)", the `SERIAL_MONITOR_PORT` macro *should*
+          be defined to be `SerialUSB`, but it continues to point to `Serial`,
+          which means that nothing will show up on the Serial Monitor.
+        * You may be able to fix this by setting
+          `ACE_TIME_CLOBBER_SERIAL_PORT_MONITOR` to `1` in
+          `src/ace_time/common/flash.h`. (I do not test this option often, so it
+          may be broke.)
+    * If you are using a SAMD21 development or breakout board, or one of the
+      many clones called something like "Ardunio SAMD21 M0 Mini" (this is what I
+      have), I have found things working better using the SparkFun
+      configurations. Download "SparkFun SAMD Boards" using the Board Manager,
+      then select the board labeled "SparkFun SAMD Mini Breakout". These
+      boards have only a single USB connector, and the `SERIAL_PORT_MONITOR`
+      will be properly defined to be `SerialUSB`.
+    * The SAMD21 microcontroller does not provide any EEPROM. Therefore,
+      some of the more realistic example apps (e.g. CommandLineClock, OledClock,
+      and WorldClock) do not build on the SAMD21.

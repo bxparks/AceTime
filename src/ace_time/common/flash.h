@@ -33,12 +33,11 @@
   // pointer, so map it directly to strcmp()
   #define acetime_strcmp_P strcmp
 
-  // The Arduino Zero using "Native USB Port" uses SerialUSB, but
-  // SERIAL_PORT_MONITOR continues to point to Serial, which causes nothing to
-  // appear on the Serial Monitor. Clobber SERIAL_PORT_MONITOR to point to
-  // SerialUSB. This is the correct setting on the Chinese SAMD21 M0 Mini
-  // clones which claim to be compatible with the Arduino Zero.
-  #if defined(ARDUINO_SAMD_ZERO)
+  // Set this to 1 to clobber SERIAL_PORT_MONITOR to SerialUSB on
+  // an original Arduino Zero when using the Native port. See USER_GUIDE.md for
+  // more info.
+  #define ACE_TIME_CLOBBER_SERIAL_PORT_MONITOR 0
+  #if ACE_TIME_CLOBBER_SERIAL_PORT_MONITOR && defined(ARDUINO_SAMD_ZERO)
     #undef SERIAL_PORT_MONITOR
     #define SERIAL_PORT_MONITOR SerialUSB
   #endif
