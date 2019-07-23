@@ -93,6 +93,7 @@ class SystemClock: public TimeKeeper {
       mEpochSeconds = epochSeconds;
       mPrevMillis = millis();
       mIsInit = true;
+      mLastSyncTime = epochSeconds;
       backupNow(epochSeconds);
     }
 

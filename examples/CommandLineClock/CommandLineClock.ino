@@ -26,8 +26,9 @@
  *    timezone [manual {offset} | dst (on | off)] |
  *      basic [list] | extended [list] ]
  *        Print or set the currently active TimeZone.
- *    sync_status
- *        Print the status of the SystemClockSyncLoop helper.
+ *    sync [status]
+ *        Sync the SystemClock from its external source, or print its sync
+          status.
  *		wifi (status | connect | config [ssid password])
  *        Print the ESP8266 or ESP32 wifi connection info.
  *        Connect to the wifi network.
@@ -133,26 +134,6 @@ class DateCommand: public CommandHandler {
 };
 
 /**
- * Sync command - force SystemClock to sync with its time source
- * Usage:
- *    sync
- */
-class SyncCommand: public CommandHandler {
-  public:
-    SyncCommand():
-        CommandHandler("sync", nullptr) {}
-
-    void run(Print& printer, int /*argc*/, const char** /*argv*/)
-        const override {
-      controller.sync();
-      printer.print(F("Date set to: "));
-      ZonedDateTime currentDateTime = controller.getCurrentDateTime();
-      currentDateTime.printTo(printer);
-      printer.println();
-    }
-};
-
-/**
  * Timezone command.
  * Usage:
  *    timezone - print current timezone
@@ -249,30 +230,48 @@ class TimezoneCommand: public CommandHandler {
     }
 };
 
-#if SYNC_TYPE == SYNC_TYPE_MANUAL
-
 /**
- * Sync status command.
+ * Sync command - force SystemClock to sync with its time source
  * Usage:
- *    sync_status - print the sync status
+ *    sync
  */
-class SyncStatusCommand: public CommandHandler {
+class SyncCommand: public CommandHandler {
   public:
-    SyncStatusCommand(SystemClockSyncLoop& systemClockSyncLoop):
-          CommandHandler("sync_status", nullptr),
-      mSystemClockSyncLoop(systemClockSyncLoop) {}
+    SyncCommand(SystemClock& systemClock):
+        CommandHandler("sync", "[status]"),
+        mSystemClock(systemClock) {}
 
-    void run(Print& printer, int /*argc*/, const char** /*argv*/)
+    void run(Print& printer, int argc, const char** argv)
         const override {
-      printer.print(F("Seconds since last sync: "));
-      printer.println(mSystemClockSyncLoop.getSecondsSinceLastSync());
+      if (argc == 1) {
+        controller.sync();
+        printer.print(F("Date set to: "));
+        ZonedDateTime currentDateTime = controller.getCurrentDateTime();
+        currentDateTime.printTo(printer);
+        printer.println();
+        return;
+      }
+
+      SHIFT;
+      if (strcmp(argv[0], "status") == 0) {
+        printer.print(F("Seconds since last sync: "));
+        if (mSystemClock.isInit()) {
+          acetime_t ago = mSystemClock.getNow()
+              - mSystemClock.getLastSyncTime();
+          printer.println(ago);
+        } else {
+          printer.println(F("<Never>"));
+        }
+        return;
+      }
+
+      printer.print(F("Unknown argument: "));
+      printer.println(argv[0]);
     }
 
   private:
-    SystemClockSyncLoop& mSystemClockSyncLoop;
+    SystemClock& mSystemClock;
 };
-
-#endif
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 
@@ -357,22 +356,16 @@ class WifiCommand: public CommandHandler {
 // Create a list of CommandHandlers.
 ListCommand listCommand;
 DateCommand dateCommand;
-SyncCommand syncCommand;
+SyncCommand syncCommand(systemClock);
 TimezoneCommand timezoneCommand;
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 WifiCommand wifiCommand(controller, ntpTimeProvider);
-#endif
-#if SYNC_TYPE == SYNC_TYPE_MANUAL
-SyncStatusCommand syncStatusCommand(systemClockSyncLoop);
 #endif
 
 const CommandHandler* const COMMANDS[] = {
   &listCommand,
   &dateCommand,
   &syncCommand,
-#if SYNC_TYPE == SYNC_TYPE_MANUAL
-  &syncStatusCommand,
-#endif
   &timezoneCommand,
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   &wifiCommand,
