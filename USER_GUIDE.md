@@ -1454,10 +1454,11 @@ static ExtendedZoneManager<2> zoneManager(kZoneRegistrySize, kZoneRegistry);
 ```
 
 The `ACE_TIME_PROGMEM` macro is defined in
-[flash.h](src/ace_time/common/flash.h) and indicates whether the ZoneInfo files
-are stored in normal RAM or flash memory (i.e. `PROGMEM`). It must be used for
-custom zoneRegistries because the `BasicZoneManager` and `ExtendedZoneManager`
-expect to find them in static RAM or flash memory according to this macro.
+[compat.h](src/ace_time/common/compat.h) and indicates whether the ZoneInfo
+files are stored in normal RAM or flash memory (i.e. `PROGMEM`). It must be used
+for custom zoneRegistries because the `BasicZoneManager` and
+`ExtendedZoneManager` expect to find them in static RAM or flash memory
+according to this macro.
 
 See [CommandLineClock](examples/CommandLineClock/) for an example of how these
 custom registries can be created and used.
@@ -2593,8 +2594,8 @@ did not think it would fit inside an Arduino controller.
           which means that nothing will show up on the Serial Monitor.
         * You may be able to fix this by setting
           `ACE_TIME_CLOBBER_SERIAL_PORT_MONITOR` to `1` in
-          `src/ace_time/common/flash.h`. (I do not test this option often, so it
-          may be broke.)
+          `src/ace_time/common/compat.h`. (I do not test this option often, so
+          it may be broke.)
     * If you are using a SAMD21 development or breakout board, or one of the
       many clones called something like "Ardunio SAMD21 M0 Mini" (this is what I
       have), I have found things working better using the SparkFun

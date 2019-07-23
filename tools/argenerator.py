@@ -201,7 +201,7 @@ extern const {scope}::ZonePolicy kPolicy{policyName};
 //
 // DO NOT EDIT
 
-#include <ace_time/common/flash.h>
+#include <ace_time/common/compat.h>
 #include "zone_policies.h"
 
 namespace ace_time {{
@@ -557,7 +557,7 @@ extern const {scope}::ZoneInfo& kZone{linkNormalizedName}; // {linkFullName} -> 
 //
 // DO NOT EDIT
 
-#include <ace_time/common/flash.h>
+#include <ace_time/common/compat.h>
 #include "zone_policies.h"
 #include "zone_infos.h"
 
@@ -861,7 +861,7 @@ class ZoneStringsGenerator:
 //
 // DO NOT EDIT
 
-#include <ace_time/common/flash.h>
+#include <ace_time/common/compat.h>
 #include "zone_strings.h"
 
 namespace ace_time {{
@@ -981,7 +981,7 @@ class ZoneRegistryGenerator:
 //
 // DO NOT EDIT
 
-#include <ace_time/common/flash.h>
+#include <ace_time/common/compat.h>
 #include "zone_infos.h"
 #include "zone_registry.h"
 

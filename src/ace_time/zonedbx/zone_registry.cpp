@@ -7,7 +7,7 @@
 //
 // DO NOT EDIT
 
-#include <ace_time/common/flash.h>
+#include <ace_time/common/compat.h>
 #include "zone_infos.h"
 #include "zone_registry.h"
 

@@ -37,7 +37,7 @@
  * BasicZoneProcessor and ExtendedZoneProcessor respectively.
  */
 
-#include "../common/flash.h"
+#include "../common/compat.h"
 #include "ZoneInfo.h"
 
 namespace ace_time {

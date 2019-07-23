@@ -13,7 +13,7 @@
 #ifndef ACE_TIME_ACE_TIME_H
 #define ACE_TIME_ACE_TIME_H
 
-#include "ace_time/common/flash.h"
+#include "ace_time/common/compat.h"
 #include "ace_time/common/common.h"
 #include "ace_time/common/DateStrings.h"
 #include "ace_time/internal/ZoneContext.h"

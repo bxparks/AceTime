@@ -2,7 +2,7 @@
 
 #include <AUnit.h>
 #include <AceTime.h>
-#include <ace_time/common/flash.h>
+#include <ace_time/common/compat.h>
 
 using namespace aunit;
 using namespace ace_time;

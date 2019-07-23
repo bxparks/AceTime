@@ -3,8 +3,17 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#ifndef ACE_TIME_COMMON_FLASH_H
-#define ACE_TIME_COMMON_FLASH_H
+#ifndef ACE_TIME_COMMON_COMPAT_H
+#define ACE_TIME_COMMON_COMPAT_H
+
+/**
+ * @file compat.h
+ *
+ * Macros and definitions that provide a consistency layer among the various
+ * Arduino boards for compatibility. Most of this is caused by inconsistent,
+ * incomplete, or sometimes incorrect emulation of the AVR PROGMEM macro and
+ * its related str*_P() functions in <avr/pgmspace.h>.
+ */
 
 #include <stdint.h>
 #include <string.h>

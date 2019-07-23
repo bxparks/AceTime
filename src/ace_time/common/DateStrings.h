@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 #include <string.h>
-#include "flash.h"
+#include "compat.h"
 
 namespace ace_time {
 namespace common {

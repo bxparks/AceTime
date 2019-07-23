@@ -7,6 +7,6 @@ clean:
 runtests:
 	for i in */Makefile ; do $$(dirname $$i)/$$(dirname $$i).out ; done
 
-validation:
+zonedb:
 	make -C BasicValidationUsingJavaTest/zonedb2018g/
 	make -C ExtendedValidationUsingJavaTest/zonedbx2018g/

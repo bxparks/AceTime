@@ -3,7 +3,7 @@
  * Copyright (c) 2018 Brian T. Park
  */
 
-#include "../common/flash.h"
+#include "../common/compat.h"
 #include "NtpTimeProvider.h"
 
 #if defined(ESP8266) || defined(ESP32)

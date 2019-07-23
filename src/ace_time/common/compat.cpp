@@ -1,8 +1,8 @@
-#include "flash.h"
+#include "compat.h"
 
 // There are many different boards which identify themselves as
-// ARDUINO_SAMD_ZERO. The original Arduino Zero is bit broken with regards to
-// the definition of SERIAL_PORT_MONITOR, so warn the user about that.
+// ARDUINO_SAMD_ZERO. The original Arduino Zero using Native USB Port
+// does not set SERIAL_PORT_MONITOR correctly, so warn the user.
 #if defined(ARDUINO_SAMD_ZERO)
   #warning See USER_GUIDE.md about SERIAL_PORT_MONITOR if using an Arduino Zero (ignore if using a dev board from SparkFun or others)
 #endif

@@ -8,7 +8,7 @@
 
 #include <string.h> // memcpy()
 #include <stdint.h>
-#include "common/flash.h"
+#include "common/compat.h"
 #include "internal/ZonePolicy.h"
 #include "internal/ZoneInfo.h"
 #include "common/logging.h"

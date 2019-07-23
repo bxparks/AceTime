@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "flash.h"
+#include "compat.h"
 #include "logging.h"
 
 namespace ace_time {
