@@ -39,7 +39,6 @@
   // SerialUSB. This is the correct setting on the Chinese SAMD21 M0 Mini
   // clones which claim to be compatible with the Arduino Zero.
   #if defined(ARDUINO_SAMD_ZERO)
-    #warning Setting SERIAL_PORT_MONITOR to SerialUSB
     #undef SERIAL_PORT_MONITOR
     #define SERIAL_PORT_MONITOR SerialUSB
   #endif

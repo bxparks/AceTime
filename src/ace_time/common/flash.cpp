@@ -1,5 +1,10 @@
 #include "flash.h"
 
+// Print out a warning about SERIAL_PORT_MONITOR, just once
+#if defined(ARDUINO_SAMD_ZERO)
+  #warning Setting SERIAL_PORT_MONITOR to SerialUSB
+#endif
+
 #if defined(ESP8266) || defined(ESP32)
 
 const char* strchr_P(const char* s, int c) {
