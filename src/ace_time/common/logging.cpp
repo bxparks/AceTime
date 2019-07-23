@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "flash.h"
-#include "logger.h"
+#include "logging.h"
 
 namespace ace_time {
 namespace logging {

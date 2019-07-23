@@ -4,9 +4,9 @@
  */
 
 /*
- * Implement logger::print() and logger::println() that accept formatting
- * strings like printf(). I finally got tired of writing multiple lines of
- * SERIAL_PORT_MONITOR.print() for debugging.
+ * Implement logging::printf() that accept formatting strings like printf(). I
+ * finally got tired of writing multiple lines of SERIAL_PORT_MONITOR.print()
+ * for debugging.
  */
 
 #ifndef ACE_TIME_COMMON_LOGGING_H

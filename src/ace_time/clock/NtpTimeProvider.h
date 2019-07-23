@@ -15,7 +15,7 @@
   #include <WiFi.h>
 #endif
 #include <WiFiUdp.h>
-#include "../common/logger.h"
+#include "../common/logging.h"
 #include "TimeKeeper.h"
 
 #ifndef ACE_TIME_NTP_TIME_PROVIDER_DEBUG

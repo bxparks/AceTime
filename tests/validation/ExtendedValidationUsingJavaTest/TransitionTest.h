@@ -3,7 +3,7 @@
 
 #include <AUnit.h>
 #include "ValidationDataType.h"
-#include "ace_time/common/logger.h"
+#include "ace_time/common/logging.h"
 
 #define DEBUG 0
 

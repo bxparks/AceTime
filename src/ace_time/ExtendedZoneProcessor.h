@@ -11,7 +11,7 @@
 #include "common/flash.h"
 #include "internal/ZonePolicy.h"
 #include "internal/ZoneInfo.h"
-#include "common/logger.h"
+#include "common/logging.h"
 #include "TimeOffset.h"
 #include "LocalDate.h"
 #include "OffsetDateTime.h"
