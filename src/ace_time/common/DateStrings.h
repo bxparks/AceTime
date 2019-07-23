@@ -31,20 +31,24 @@ class DateStrings {
      */
     static const uint8_t kBufferSize = 10;
 
-    /** Number of prefix characters to use to create a short name. */
+    /**
+     * Number of prefix characters to use to create a short name.
+     * kShortNameLength < kBufferSize must be true.
+     */
     static const uint8_t kShortNameLength = 3;
 
     /** Return the long month name. 0=Error, 1=January, 12=December. */
     const char* monthLongString(uint8_t month) {
       uint8_t index = (month < kNumMonthNames) ? month : 0;
-      strcpy_P(mBuffer, kMonthNames[index]);
+      strncpy_P(mBuffer, getStringAt(kMonthNames, index), kBufferSize);
+      mBuffer[kBufferSize - 1] = '\0';
       return mBuffer;
     }
 
     /** Return the short month name. 0=Err, 1=Jan, 12=Dec. */
     const char* monthShortString(uint8_t month) {
       uint8_t index = (month < kNumMonthNames) ? month : 0;
-      strncpy_P(mBuffer, kMonthNames[index], kShortNameLength);
+      strncpy_P(mBuffer, getStringAt(kMonthNames, index), kShortNameLength);
       mBuffer[kShortNameLength] = '\0';
       return mBuffer;
     }
@@ -52,19 +56,24 @@ class DateStrings {
     /** Return the short dayOfWeek name. 0=Error, 1=Monday, 7=Sunday. */
     const char* dayOfWeekLongString(uint8_t dayOfWeek) {
       uint8_t index = (dayOfWeek < kNumDayOfWeekNames) ? dayOfWeek : 0;
-      strcpy_P(mBuffer, kDayOfWeekNames[index]);
+      strncpy_P(mBuffer, getStringAt(kDayOfWeekNames, index), kBufferSize);
+      mBuffer[kBufferSize - 1] = '\0';
       return mBuffer;
     }
 
     /** Return the short dayOfWeek name. 0=Err, 1=Mon, 7=Sun. */
     const char* dayOfWeekShortString(uint8_t dayOfWeek) {
       uint8_t index = (dayOfWeek < kNumDayOfWeekNames) ? dayOfWeek : 0;
-      strncpy_P(mBuffer, kDayOfWeekNames[index], kShortNameLength);
+      strncpy_P(mBuffer, getStringAt(kDayOfWeekNames, index), kShortNameLength);
       mBuffer[kShortNameLength] = '\0';
       return mBuffer;
     }
 
   private:
+    static const char* getStringAt(const char* const* strings, uint8_t i) {
+      return (const char*) pgm_read_ptr(&strings[i]);
+    }
+
     static const char * const kDayOfWeekNames[];
     static const char * const kMonthNames[];
     static const uint8_t kNumDayOfWeekNames;
