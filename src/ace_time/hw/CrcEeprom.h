@@ -8,13 +8,17 @@
 
 #if defined(ARDUINO)
 
-#include <EEPROM.h>
-#include <FastCRC.h>
-
+// EEPROM is supported only on certain Arduino boards. In particular, many
+// (most?) Arduino Zero compatible boards cannot support EEPROM even on Flash
+// emulation because the version of the SAMD21 chip on the board doesn't
+// support RWW (read-while-write).
 #if !defined(AVR) && !defined(ESP8266) && !defined(ESP32) && \
     !defined(TEENSYDUINO)
-  #error Unsupported board type
+  #error Unsupported architecture
 #endif
+
+#include <EEPROM.h>
+#include <FastCRC.h>
 
 namespace ace_time {
 namespace hw {
