@@ -9,6 +9,8 @@
 #include <stdint.h>
 #include "SystemClock.h"
 
+extern "C" unsigned long millis();
+
 namespace ace_time {
 namespace clock {
 

@@ -10,6 +10,8 @@
 #include "../common/TimingStats.h"
 #include "TimeKeeper.h"
 
+extern "C" unsigned long millis();
+
 namespace ace_time {
 namespace clock {
 
@@ -130,12 +132,8 @@ class SystemClock: public TimeKeeper {
     bool isInit() const { return mIsInit; }
 
   protected:
-    /**
-     * Return the Arduino millis(). Override for unit testing.
-     * This is defined in the .cpp file to avoid include <Arduino.h> in
-     * the header, which avoids a multiple #define error.
-     */
-    virtual unsigned long millis() const;
+    /** Return the Arduino millis(). Override for unit testing. */
+    virtual unsigned long millis() const { return ::millis(); }
 
   private:
     friend class SystemClockSyncCoroutine;
