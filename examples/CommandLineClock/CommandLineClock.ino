@@ -87,16 +87,13 @@ Controller controller(persistentStore, systemClock);
 // AceRoutine CLI commands
 //---------------------------------------------------------------------------
 
-/** Shift command arguments to the left by one token. */
-#define SHIFT do { argv++; argc--; } while (false)
-
 /** List the coroutines known by the CoroutineScheduler. */
 class ListCommand: public CommandHandler {
   public:
     ListCommand():
         CommandHandler(F("list"), nullptr) {}
 
-    void run(Print& printer, int /*argc*/, const char** /*argv*/)
+    void run(Print& printer, int /*argc*/, const char* const* /*argv*/)
             const override {
       CoroutineScheduler::list(printer);
     }
@@ -113,13 +110,13 @@ class DateCommand: public CommandHandler {
     DateCommand():
         CommandHandler(F("date"), F("[dateString]")) {}
 
-    void run(Print& printer, int argc, const char** argv) const override {
+    void run(Print& printer, int argc, const char* const* argv) const override {
       if (argc == 1) {
         ZonedDateTime nowDate = controller.getCurrentDateTime();
         nowDate.printTo(printer);
         printer.println();
       } else {
-        SHIFT;
+        SHIFT_ARGC_ARGV(argc, argv);
         ZonedDateTime newDate = ZonedDateTime::forDateString(argv[0]);
         if (newDate.isError()) {
           printer.println(F("Invalid date"));
@@ -156,7 +153,7 @@ class TimezoneCommand: public CommandHandler {
       #endif
         "dst {on | off}]")) {}
 
-    void run(Print& printer, int argc, const char** argv) const override {
+    void run(Print& printer, int argc, const char* const* argv) const override {
       if (argc == 1) {
         const TimeZone& timeZone = controller.getTimeZone();
         timeZone.printTo(printer);
@@ -164,9 +161,9 @@ class TimezoneCommand: public CommandHandler {
         return;
       }
 
-      SHIFT;
-      if (strcmp(argv[0], "manual") == 0) {
-        SHIFT;
+      SHIFT_ARGC_ARGV(argc, argv);
+      if (isArgEqual(argv[0], F("manual"))) {
+        SHIFT_ARGC_ARGV(argc, argv);
         if (argc == 0) {
           printer.print(F("'timezone manual' requires 'offset'"));
           return;
@@ -181,9 +178,9 @@ class TimezoneCommand: public CommandHandler {
         controller.getTimeZone().printTo(printer);
         printer.println();
       #if ENABLE_TIME_ZONE_TYPE_BASIC
-      } else if (strcmp(argv[0], "basic") == 0) {
-        SHIFT;
-        if (argc != 0 && strcmp(argv[0], "list") == 0) {
+      } else if (isArgEqual(argv[0], F("basic"))) {
+        SHIFT_ARGC_ARGV(argc, argv);
+        if (argc != 0 && isArgEqual(argv[0], F("list"))) {
           controller.printBasicZonesTo(printer);
         } else {
           int16_t zoneIndex = (argc == 0) ? 0 : atoi(argv[0]);
@@ -194,9 +191,9 @@ class TimezoneCommand: public CommandHandler {
         }
       #endif
       #if ENABLE_TIME_ZONE_TYPE_EXTENDED
-      } else if (strcmp(argv[0], "extended") == 0) {
-        SHIFT;
-        if (argc != 0 && strcmp(argv[0], "list") == 0) {
+      } else if (isArgEqual(argv[0], F("extended"))) {
+        SHIFT_ARGC_ARGV(argc, argv);
+        if (argc != 0 && isArgEqual(argv[0], F("list"))) {
           controller.printExtendedZonesTo(printer);
         } else {
           int16_t zoneIndex = (argc == 0) ? 0 : atoi(argv[0]);
@@ -206,17 +203,17 @@ class TimezoneCommand: public CommandHandler {
           printer.println();
         }
       #endif
-      } else if (strcmp(argv[0], "dst") == 0) {
-        SHIFT;
+      } else if (isArgEqual(argv[0], F("dst"))) {
+        SHIFT_ARGC_ARGV(argc, argv);
         if (argc == 0) {
           printer.print(F("DST: "));
           printer.println(controller.isDst() ? F("on") : F("off"));
           return;
         }
 
-        if (strcmp(argv[0], "on") == 0) {
+        if (isArgEqual(argv[0], F("on"))) {
           controller.setDst(true);
-        } else if (strcmp(argv[0], "off") == 0) {
+        } else if (isArgEqual(argv[0], F("off"))) {
           controller.setDst(false);
         } else {
           printer.print(F("'timezone dst' must be either 'on' or 'off'"));
@@ -241,7 +238,7 @@ class SyncCommand: public CommandHandler {
         CommandHandler(F("sync"), F("[status]")),
         mSystemClock(systemClock) {}
 
-    void run(Print& printer, int argc, const char** argv)
+    void run(Print& printer, int argc, const char* const* argv)
         const override {
       if (argc == 1) {
         controller.sync();
@@ -252,8 +249,8 @@ class SyncCommand: public CommandHandler {
         return;
       }
 
-      SHIFT;
-      if (strcmp(argv[0], "status") == 0) {
+      SHIFT_ARGC_ARGV(argc, argv);
+      if (isArgEqual(argv[0], F("status"))) {
         printer.print(F("Seconds since last sync: "));
         if (mSystemClock.isInit()) {
           acetime_t ago = mSystemClock.getNow()
@@ -293,12 +290,12 @@ class WifiCommand: public CommandHandler {
       mNtpTimeProvider(ntpTimeProvider)
       {}
 
-    void run(Print& printer, int argc, const char** argv) const override {
-      SHIFT;
+    void run(Print& printer, int argc, const char* const* argv) const override {
+      SHIFT_ARGC_ARGV(argc, argv);
       if (argc == 0) {
         printer.println(F("Must give either 'status' or 'config' command"));
-      } else if (strcmp(argv[0], "config") == 0) {
-        SHIFT;
+      } else if (isArgEqual(argv[0], F("config"))) {
+        SHIFT_ARGC_ARGV(argc, argv);
         if (argc == 0) {
           if (mController.isStoredInfoValid()) {
             // print ssid and password
@@ -319,14 +316,14 @@ class WifiCommand: public CommandHandler {
         } else {
           printer.println(F("Wifi config command requires 2 arguments"));
         }
-      } else if (strcmp(argv[0], "status") == 0) {
+      } else if (isArgEqual(argv[0], F("status"))) {
         printer.print(F("NtpTimeProvider::isSetup(): "));
         printer.println(mNtpTimeProvider.isSetup() ? F("true") : F("false"));
         printer.print(F("NTP Server: "));
         printer.println(mNtpTimeProvider.getServer());
         printer.print(F("WiFi IP address: "));
         printer.println(WiFi.localIP());
-      } else if (strcmp(argv[0], "connect") == 0) {
+      } else if (isArgEqual(argv[0], F("connect"))) {
         connect(printer);
       } else {
         printer.print(F("Unknown wifi command: "));
