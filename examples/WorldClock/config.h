@@ -7,9 +7,10 @@
 
 #define ENABLE_SERIAL 0
 
-// This program should compile for most target environments, including
-// AVR, ESP8266, and ESP32. The parameters below are for a Pro Micro
-// with 3 OLED displays.
+// This program should compile for most target environments, including AVR,
+// ESP8266, and ESP32. The parameters below are for the specific device that I
+// built which has a Pro Micro with 3 OLED displays using SPI, a DS3231 over
+// I2C, and 2 buttons.
 #define MODE_BUTTON_PIN 8
 #define CHANGE_BUTTON_PIN 9
 #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
@@ -20,7 +21,7 @@
 #define OLED_RST_PIN 4
 #define OLED_DC_PIN 10
 
-// Whether to use ManualTimeZone or AutoTimeZone
+// Whether to use Manual TimeZone, Basic TimeZone or Extended TimeZone.
 #define TIME_ZONE_TYPE_MANUAL 0
 #define TIME_ZONE_TYPE_BASIC 1
 #define TIME_ZONE_TYPE_EXTENDED 2

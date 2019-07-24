@@ -26,12 +26,14 @@
 #define TIME_SOURCE_TYPE_DS3231 1
 #define TIME_SOURCE_TYPE_NTP 2
 #define TIME_SOURCE_TYPE_BOTH 3 
-#ifndef AUNITER
-  #define AUNITER_MICRO_MINDER
-  #warning Using default AUNITER_MICRO_MINDER
-#endif
 
-#if defined(AUNITER_NANO)
+#ifndef AUNITER
+  // Arduino IDE in interactive mode
+  #define MODE_BUTTON_PIN 2
+  #define CHANGE_BUTTON_PIN 3
+  #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
+  #define OLED_REMAP false
+#elif defined(AUNITER_NANO)
   #define MODE_BUTTON_PIN 2
   #define CHANGE_BUTTON_PIN 3
   #define TIME_SOURCE_TYPE TIME_SOURCE_TYPE_DS3231
