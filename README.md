@@ -403,10 +403,12 @@ See the [AceTime User Guide](USER_GUIDE.md) for information on:
 This library was developed and tested using:
 
 * [Arduino IDE 1.8.9](https://www.arduino.cc/en/Main/Software)
-* [Arduino AVR Core 1.6.23](https://github.com/arduino/ArduinoCore-avr)
-* [SparkFun AVR Core 1.1.12](https://github.com/sparkfun/Arduino_Boards)
-* [ESP8266 Arduino Core 2.5.2](https://github.com/esp8266/Arduino)
-* [ESP32 Arduino Core 1.0.2](https://github.com/espressif/arduino-esp32)
+* [Arduino AVR Boards 1.6.23](https://github.com/arduino/ArduinoCore-avr)
+* [Arduino SAMD Boards 1.8.3](https://github.com/arduino/ArduinoCore-samd)
+* [SparkFun AVR Boards 1.1.12](https://github.com/sparkfun/Arduino_Boards)
+* [SparkFun SAMD Boards 1.6.2](https://github.com/sparkfun/Arduino_Boards)
+* [ESP8266 Arduino 2.5.2](https://github.com/esp8266/Arduino)
+* [ESP32 Arduino 1.0.2](https://github.com/espressif/arduino-esp32)
 * [Teensydino 1.46](https://www.pjrc.com/teensy/td_download.html)
 
 It should work with [PlatformIO](https://platformio.org/) but I have
@@ -419,23 +421,18 @@ library will work fine under MacOS and Windows, but I have not tested them.
 
 ### Hardware
 
-The library is fully tested on the following boards:
+The library is extensively tested on the following boards:
 
 * Arduino Nano clone (16 MHz ATmega328P)
 * SparkFun Pro Micro clone (16 MHz ATmega32U4)
 * WeMos D1 Mini clone (ESP-12E module, 80 MHz ESP8266)
 * ESP32 dev board (ESP-WROOM-32 module, 240 MHz dual core Tensilica LX6)
+* SAMD21 M0 Mini (48 MHz ARM Cortex-M0+) (compatible with Arduino Zero) (See
+  notes in the [USER_GUIDE.md](USER_GUIDE.md) for some potential issues.)
 
 I will occasionally test on the following hardware as a sanity check:
 
 * Teensy 3.2 (72 MHz ARM Cortex-M4)
-
-The following boards may have some incompatibilities:
-
-* Arduino Zero compatible SAMD21 M0 Mini (48 MHz ARM Cortex-M0+)
-    * All unit tests pass.
-    * Some sketches in `examples` do not compile because the SAMD21 does
-      not have an EEPROM.
 
 ## Changelog
 

@@ -2579,8 +2579,8 @@ did not think it would fit inside an Arduino controller.
       `ZonedDateTime::printTo()` will print "[America/Los_Angeles]" not
       "[US/Pacific]".
 * Arduino Zero and SAMD21 Boards
-    * Some amount of support for the SAMD21 boards
-      (which all identify themselves as `ARDUINO_SAMD_ZERO`) has been added.
+    * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
+      fully supported, but there are some tricky points.
     * If you are using an original Arduino Zero and using the "Native USB Port",
       you may encounter problems with nothing showing up on the Serial Monitor.
         * The original Arduino Zero has [2 USB
@@ -2599,12 +2599,12 @@ did not think it would fit inside an Arduino controller.
     * If you are using a SAMD21 development or breakout board, or one of the
       many clones called something like "Ardunio SAMD21 M0 Mini" (this is what I
       have), I have found things working better using the SparkFun
-      configurations. Download "SparkFun SAMD Boards" using the Board Manager
-      by following the [SparkFun Boards
+      Boards instead of the Arduino Zero board. Download "SparkFun SAMD Boards"
+      using the Board Manager by following the [SparkFun Boards
       Installation](https://github.com/sparkfun/Arduino_Boards), then select the
       board labeled "SparkFun SAMD Mini Breakout". These boards have only a
       single USB connector, and the `SERIAL_PORT_MONITOR` will be properly
       defined to be `SerialUSB`.
-    * The SAMD21 microcontroller does not provide any EEPROM. Therefore,
-      some of the more realistic example apps (e.g. CommandLineClock, OledClock,
-      and WorldClock) do not build on the SAMD21.
+    * The SAMD21 microcontroller does *not* provide any EEPROM. Therefore,
+      this feature is disabled in the apps under `examples` (e.g.
+      `CommandLineClock`, `OledClock`, and `WorldClock`) which use this feature.
