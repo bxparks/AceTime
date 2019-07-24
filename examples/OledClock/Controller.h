@@ -2,11 +2,11 @@
 #define OLED_CLOCK_CONTROLLER_H
 
 #include <AceTime.h>
-#include <ace_time/hw/CrcEeprom.h>
 #include "config.h"
 #include "ClockInfo.h"
 #include "RenderingInfo.h"
 #include "StoredInfo.h"
+#include "PersistentStore.h"
 #include "Presenter.h"
 
 using namespace ace_time;
@@ -31,14 +31,14 @@ class Controller {
 
     /**
      * Constructor.
+     * @param persistentStore stores objects into the EEPROM with CRC
      * @param timeKeeper source of the current time
-     * @param crcEeprom stores objects into the EEPROM with CRC
      * @param presenter renders the date and time info to the screen
      */
-    Controller(TimeKeeper& timeKeeper, hw::CrcEeprom& crcEeprom,
+    Controller(PersistentStore& persistentStore, TimeKeeper& timeKeeper,
             Presenter& presenter):
+        mPersistentStore(persistentStore),
         mTimeKeeper(timeKeeper),
-        mCrcEeprom(crcEeprom),
         mPresenter(presenter)
       #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC \
           || TIME_ZONE_TYPE == TIME_ZONE_TYPE_EXTENDED
@@ -49,8 +49,7 @@ class Controller {
     void setup() {
       // Restore from EEPROM to retrieve time zone.
       StoredInfo storedInfo;
-      bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
-          &storedInfo, sizeof(StoredInfo));
+      bool isValid = mPersistentStore.readStoredInfo(storedInfo);
     #if FORCE_INITIALIZE
       setupClockInfo();
     #else
@@ -181,7 +180,7 @@ class Controller {
         // Switch 12/24 modes if in MODE_DATA_TIME
         case MODE_DATE_TIME:
           mClockInfo.hourMode ^= 0x1;
-          preserveClockInfo(mCrcEeprom, mClockInfo);
+          preserveClockInfo(mClockInfo);
           break;
 
         case MODE_CHANGE_YEAR:
@@ -360,20 +359,18 @@ class Controller {
       SERIAL_PORT_MONITOR.println(F("saveClockInfo()"));
     #endif
       mClockInfo = mChangingClockInfo;
-      preserveClockInfo(mCrcEeprom, mClockInfo);
+      preserveClockInfo(mClockInfo);
     }
 
     /** Save the clock info into EEPROM. */
-    static void preserveClockInfo(hw::CrcEeprom& crcEeprom,
-        const ClockInfo& clockInfo) {
+    void preserveClockInfo(const ClockInfo& clockInfo) {
     #if ENABLE_SERIAL == 1
       SERIAL_PORT_MONITOR.println(F("preserveClockInfo()"));
     #endif
       StoredInfo storedInfo;
       storedInfo.hourMode = clockInfo.hourMode;
       storedInfo.timeZoneData = clockInfo.timeZone.toTimeZoneData();
-      crcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
-          sizeof(StoredInfo));
+      mPersistentStore.writeStoredInfo(storedInfo);
     }
 
     /** Restore clockInfo from storedInfo. */
@@ -448,8 +445,8 @@ class Controller {
       restoreClockInfo(mClockInfo, storedInfo);
     }
 
+    PersistentStore& mPersistentStore;
     TimeKeeper& mTimeKeeper;
-    hw::CrcEeprom& mCrcEeprom;
     Presenter& mPresenter;
 
   #if TIME_ZONE_TYPE == TIME_ZONE_TYPE_BASIC

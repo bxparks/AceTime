@@ -28,8 +28,8 @@
 #include <AceButton.h>
 #include <AceRoutine.h>
 #include <AceTime.h>
-#include <ace_time/hw/CrcEeprom.h>
 #include "config.h"
+#include "PersistentStore.h"
 #include "Presenter.h"
 #include "Controller.h"
 
@@ -37,12 +37,6 @@ using namespace ace_button;
 using namespace ace_routine;
 using namespace ace_time;
 using namespace ace_time::clock;
-
-//------------------------------------------------------------------
-// Configure CrcEeprom.
-//------------------------------------------------------------------
-
-hw::CrcEeprom crcEeprom;
 
 //------------------------------------------------------------------
 // Configure various TimeKeepers and TimeProviders.
@@ -85,8 +79,9 @@ void setupOled() {
 // Create controller/presenter pair.
 //------------------------------------------------------------------
 
+PersistentStore persistentStore;
 Presenter presenter(oled);
-Controller controller(systemClock, crcEeprom, presenter);
+Controller controller(persistentStore, systemClock, presenter);
 
 //------------------------------------------------------------------
 // Render the Clock periodically.
@@ -195,7 +190,6 @@ void setup() {
 
   Wire.begin();
   Wire.setClock(400000L);
-  crcEeprom.begin(EEPROM_SIZE);
 
   setupAceButton();
   setupOled();
@@ -210,6 +204,7 @@ void setup() {
 #endif
   systemClock.setup();
   controller.setup();
+  persistentStore.setup();
 
   systemClockSync.setupCoroutine(F("s"));
   CoroutineScheduler::setup();
