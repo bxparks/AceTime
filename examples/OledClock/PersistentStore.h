@@ -19,32 +19,27 @@ class PersistentStore {
     #endif
     }
 
-    #if defined(ARDUINO_ARCH_SAMD)
+  #if defined(ARDUINO_ARCH_SAMD)
     bool readStoredInfo(StoredInfo& /*storedInfo*/) const {
       return false;
     }
-    #else
+  #else
     bool readStoredInfo(StoredInfo& storedInfo) const {
-      bool isValid = mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
+      return mCrcEeprom.readWithCrc(kStoredInfoEepromAddress,
           &storedInfo, sizeof(StoredInfo));
-    #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
-      storedInfo.ssid[StoredInfo::kSsidMaxLength - 1] = '\0';
-      storedInfo.password[StoredInfo::kPasswordMaxLength - 1] = '\0';
-    #endif
-      return isValid;
     }
-    #endif
+  #endif
 
-    #if defined(ARDUINO_ARCH_SAMD)
+  #if defined(ARDUINO_ARCH_SAMD)
     uint16_t writeStoredInfo(const StoredInfo& /*storedInfo*/) const {
       return 0;
     }
-    #else
+  #else
     uint16_t writeStoredInfo(const StoredInfo& storedInfo) const {
       return mCrcEeprom.writeWithCrc(kStoredInfoEepromAddress, &storedInfo,
           sizeof(StoredInfo));
     }
-    #endif
+  #endif
 
   private:
   #if ! defined(ARDUINO_ARCH_SAMD)
