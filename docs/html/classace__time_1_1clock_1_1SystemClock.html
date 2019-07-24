@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">AceTime
-   &#160;<span id="projectnumber">0.5</span>
+   &#160;<span id="projectnumber">0.5.1</span>
    </div>
    <div id="projectbrief">Date and time classes for Arduino that support timezones from the TZ Database, and a system clock that can synchronize from an NTP server or an RTC chip.</div>
   </td>
@@ -242,7 +242,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>Return the time (seconds since Epoch) of the last valid <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aea0bed257e52fe4e9ae93032ef7e4404" title="Similar to setNow() except that backupNow() is called only if the backupTimeKeeper is different from ...">sync()</a> call. </p>
 <p>Returns 0 if never synced. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00127">127</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00128">128</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -303,7 +303,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 
 <p>Return true if initialized by <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aa33cfb495e1b6247916b986bbef6875d" title="Set the time to the indicated seconds. ">setNow()</a> or <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aea0bed257e52fe4e9ae93032ef7e4404" title="Similar to setNow() except that backupNow() is called only if the backupTimeKeeper is different from ...">sync()</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00132">132</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00133">133</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -333,7 +333,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>Return the Arduino <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#a821ac223df9233d771f59131cbd5ee22" title="Return the Arduino millis(). ">millis()</a>. </p>
 <p>Override for unit testing. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00136">136</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00137">137</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>
@@ -398,7 +398,7 @@ static const acetime_t&#160;</td><td class="memItemRight" valign="bottom"><b>kIn
 <p>This prevents us from retrieving the time from the RTC, then saving it right back again, with a drift each time it is saved back.</p>
 <p>TODO: Implement a more graceful <a class="el" href="classace__time_1_1clock_1_1SystemClock.html#aea0bed257e52fe4e9ae93032ef7e4404" title="Similar to setNow() except that backupNow() is called only if the backupTimeKeeper is different from ...">sync()</a> algorithm which shifts only a few milliseconds per iteration, and which guarantees that the clock never goes backwards in time. </p>
 
-<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00109">109</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SystemClock_8h_source.html#l00110">110</a> of file <a class="el" href="SystemClock_8h_source.html">SystemClock.h</a>.</p>
 
 </div>
 </div>

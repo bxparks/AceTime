@@ -16,10 +16,10 @@ using namespace ace_time;
 
 void setup() {
 #if defined(ARDUINO)
-  delay(1000); // wait for stability on some boards to prevent garbage Serial
+  delay(1000); // wait for stability on some boards to prevent garbage SERIAL_PORT_MONITOR
 #endif
-  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
-  while(!Serial); // for the Arduino Leonardo/Micro only
+  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  while(!SERIAL_PORT_MONITOR); // for the Arduino Leonardo/Micro only
 
 #if 0
   TestRunner::exclude("*");

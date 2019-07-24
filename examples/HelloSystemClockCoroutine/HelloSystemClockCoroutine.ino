@@ -1,6 +1,6 @@
 /*
  * Identical to HelloSystemClock, but using AceRoutine coroutines.
- * Should print the following on the Serial port every 2 seconds:
+ * Should print the following on the SERIAL_PORT_MONITOR port every 2 seconds:
  *
  *   2019-06-17T19:50:00-07:00[America/Los_Angeles]
  *   2019-06-17T19:50:02-07:00[America/Los_Angeles]
@@ -28,8 +28,8 @@ SystemClockSyncCoroutine systemClockSyncCoroutine(systemClock);
 
 void setup() {
   delay(1000);
-  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
-  while (!Serial); // Wait until Serial is ready - Leonardo/Micro
+  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  while (!SERIAL_PORT_MONITOR); // Wait until SERIAL_PORT_MONITOR is ready - Leonardo/Micro
 
   systemClock.setup();
 
@@ -55,8 +55,8 @@ void printCurrentTime() {
   auto pacificTz = TimeZone::forZoneInfo(&zonedb::kZoneAmerica_Los_Angeles,
       &pacificProcessor);
   auto pacificTime = ZonedDateTime::forEpochSeconds(now, pacificTz);
-  pacificTime.printTo(Serial);
-  Serial.println();
+  pacificTime.printTo(SERIAL_PORT_MONITOR);
+  SERIAL_PORT_MONITOR.println();
 }
 
 COROUTINE(print) {

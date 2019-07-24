@@ -2,7 +2,7 @@
 
 See the [README.md](README.md) for introductory background.
 
-Version: 0.5 (2019-07-21, TZ DB version 2019a, beta)
+Version: 0.5.1 (2019-07-24, TZ DB version 2019a, beta)
 
 ## Installation
 
@@ -1454,10 +1454,11 @@ static ExtendedZoneManager<2> zoneManager(kZoneRegistrySize, kZoneRegistry);
 ```
 
 The `ACE_TIME_PROGMEM` macro is defined in
-[flash.h](src/ace_time/common/flash.h) and indicates whether the ZoneInfo files
-are stored in normal RAM or flash memory (i.e. `PROGMEM`). It must be used for
-custom zoneRegistries because the `BasicZoneManager` and `ExtendedZoneManager`
-expect to find them in static RAM or flash memory according to this macro.
+[compat.h](src/ace_time/common/compat.h) and indicates whether the ZoneInfo
+files are stored in normal RAM or flash memory (i.e. `PROGMEM`). It must be used
+for custom zoneRegistries because the `BasicZoneManager` and
+`ExtendedZoneManager` expect to find them in static RAM or flash memory
+according to this macro.
 
 See [CommandLineClock](examples/CommandLineClock/) for an example of how these
 custom registries can be created and used.
@@ -2577,3 +2578,33 @@ did not think it would fit inside an Arduino controller.
       is created with a `TimeZone` associated with `kZoneUS_Pacific`, the
       `ZonedDateTime::printTo()` will print "[America/Los_Angeles]" not
       "[US/Pacific]".
+* Arduino Zero and SAMD21 Boards
+    * SAMD21 boards (which all identify themselves as `ARDUINO_SAMD_ZERO`) are
+      fully supported, but there are some tricky points.
+    * If you are using an original Arduino Zero and using the "Native USB Port",
+      you may encounter problems with nothing showing up on the Serial Monitor.
+        * The original Arduino Zero has [2 USB
+          ports](https://www.arduino.cc/en/Guide/ArduinoZero). The Programming
+          port is connected to `Serial` object and the Native port is connected
+          to `SerialUSB` object. You can select either the "Arduino/Genuino Zero
+          (Programming Port)" or the "Arduino/Genuino Zero (Native USB Port)" on
+          the Board Manager selector in the Arduino IDEA. Unfortunately, if you
+          select "(Native USB Port)", the `SERIAL_MONITOR_PORT` macro *should*
+          be defined to be `SerialUSB`, but it continues to point to `Serial`,
+          which means that nothing will show up on the Serial Monitor.
+        * You may be able to fix this by setting
+          `ACE_TIME_CLOBBER_SERIAL_PORT_MONITOR` to `1` in
+          `src/ace_time/common/compat.h`. (I do not test this option often, so
+          it may be broke.)
+    * If you are using a SAMD21 development or breakout board, or one of the
+      many clones called something like "Ardunio SAMD21 M0 Mini" (this is what I
+      have), I have found things working better using the SparkFun
+      Boards instead of the Arduino Zero board. Download "SparkFun SAMD Boards"
+      using the Board Manager by following the [SparkFun Boards
+      Installation](https://github.com/sparkfun/Arduino_Boards), then select the
+      board labeled "SparkFun SAMD Mini Breakout". These boards have only a
+      single USB connector, and the `SERIAL_PORT_MONITOR` will be properly
+      defined to be `SerialUSB`.
+    * The SAMD21 microcontroller does *not* provide any EEPROM. Therefore,
+      this feature is disabled in the apps under `examples` (e.g.
+      `CommandLineClock`, `OledClock`, and `WorldClock`) which use this feature.

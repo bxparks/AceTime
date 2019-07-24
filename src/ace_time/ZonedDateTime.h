@@ -7,7 +7,7 @@
 #define ACE_TIME_ZONED_DATE_TIME_H
 
 #include <stdint.h>
-#include "common/flash.h"
+#include "common/compat.h"
 #include "OffsetDateTime.h"
 #include "TimeZone.h"
 

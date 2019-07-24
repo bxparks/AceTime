@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 #include <string.h> // strcmp(), strcmp_P()
-#include "common/flash.h"
+#include "common/compat.h"
 #include "internal/ZoneInfo.h"
 #include "internal/Brokers.h"
 

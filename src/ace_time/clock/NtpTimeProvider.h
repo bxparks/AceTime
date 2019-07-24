@@ -15,12 +15,14 @@
   #include <WiFi.h>
 #endif
 #include <WiFiUdp.h>
-#include "../common/logger.h"
+#include "../common/logging.h"
 #include "TimeKeeper.h"
 
 #ifndef ACE_TIME_NTP_TIME_PROVIDER_DEBUG
 #define ACE_TIME_NTP_TIME_PROVIDER_DEBUG 0
 #endif
+
+extern "C" unsigned long millis();
 
 namespace ace_time {
 namespace clock {
@@ -66,7 +68,30 @@ class NtpTimeProvider: public TimeProvider {
         mRequestTimeout(requestTimeout) {}
 
     /** Set up using the provided ssid and password. */
-    void setup(const char* ssid, const char* password);
+    void setup(const char* ssid, const char* password) {
+      uint16_t startMillis = millis();
+      WiFi.begin(ssid, password);
+      while (WiFi.status() != WL_CONNECTED) {
+        uint16_t elapsedMillis = millis() - startMillis;
+        if (elapsedMillis >= kConnectTimeoutMillis) {
+          mIsSetUp = false;
+          return;
+        }
+
+        delay(500);
+      }
+
+      mUdp.begin(mLocalPort);
+
+    #if ACE_TIME_NTP_TIME_PROVIDER_DEBUG == 1
+      #if defined(ESP8266)
+        SERIAL_PORT_MONITOR.print(F("Local port: "));
+        SERIAL_PORT_MONITOR.println(mUdp.localPort());
+      #endif
+    #endif
+
+      mIsSetUp = true;
+    }
 
     const char* getServer() const { return mServer; }
 

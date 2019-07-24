@@ -8,7 +8,7 @@
 
 #include "internal/ZoneInfo.h"
 #include "internal/Brokers.h"
-#include "common/flash.h"
+#include "common/compat.h"
 
 class __FlashStringHelper;
 

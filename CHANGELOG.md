@@ -1,7 +1,12 @@
 # Changelog
 
-* Unreleased
-* 0.5 (2019-07-21, TB DB version 2019a, beta)
+* 0.5.1 (2019-07-24, TZ DB version 2019a, beta)
+    * Add documentation about the ZoneManager into `USER_GUIDE.md`.
+    * Move `DateStrings` string pointers into PROGMEM, saving 42 bytes of RAM.
+    * Use `SERIAL_PORT_MONITOR` instead of `Serial` everywhere for portability
+      across different Arduino boards.
+    * Support SAMD21 boards except for EEPROM which SAMD21 does not support.
+* 0.5 (2019-07-21, TZ DB version 2019a, beta)
     * Remove over-engineered `SystemClockHeartbeatLoop` and
       `SystemClockHeartbeatLoop` and replace with just a call to
       `SystemClock::keepAlive()`.

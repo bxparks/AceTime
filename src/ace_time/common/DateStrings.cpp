@@ -22,7 +22,9 @@ static const char kOctober[] PROGMEM = "October";
 static const char kNovember[] PROGMEM = "November";
 static const char kDecember[] PROGMEM = "December";
 
-const char* const DateStrings::kMonthNames[] = {
+// Place pointers into PROGMEM as well, saving 26 bytes of RAM.
+// Use getStringAt() to access.
+const char* const DateStrings::kMonthNames[] PROGMEM = {
   kError, kJanuary, kFebruary, kMarch, kApril, kMay, kJune,
   kJuly, kAugust, kSeptember, kOctober, kNovember, kDecember
 };
@@ -38,8 +40,10 @@ static const char kFriday[] PROGMEM = "Friday";
 static const char kSaturday[] PROGMEM = "Saturday";
 static const char kSunday[] PROGMEM = "Sunday";
 
+// Place pointers into PROGMEM as well, saving 16 bytes of RAM.
+// Use getStringAt() to access.
 // ISO8601 says Monday=1, Sunday=7.
-const char* const DateStrings::kDayOfWeekNames[] = {
+const char* const DateStrings::kDayOfWeekNames[] PROGMEM = {
   kError, kMonday, kTuesday, kWednesday, kThursday, kFriday, kSaturday, kSunday
 };
 

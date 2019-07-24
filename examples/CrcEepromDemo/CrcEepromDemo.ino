@@ -16,31 +16,31 @@ CrcEeprom crcEeprom;
 
 void setup() {
   delay(1000);
-  Serial.begin(115200);
-  while (!Serial);
+  SERIAL_PORT_MONITOR.begin(115200);
+  while (!SERIAL_PORT_MONITOR);
 
   crcEeprom.begin(32);
 
   Info info;
 
-  Serial.print("Original info: ");
-  Serial.print("startTime: "); Serial.print(info.startTime);
-  Serial.print("; interval: "); Serial.println(info.interval);
+  SERIAL_PORT_MONITOR.print("Original info: ");
+  SERIAL_PORT_MONITOR.print("startTime: "); SERIAL_PORT_MONITOR.print(info.startTime);
+  SERIAL_PORT_MONITOR.print("; interval: "); SERIAL_PORT_MONITOR.println(info.interval);
 
-  Serial.println("Writing Info struct");
+  SERIAL_PORT_MONITOR.println("Writing Info struct");
   uint16_t writtenSize = crcEeprom.writeWithCrc(0, &info, sizeof(info));
-  Serial.print("Written size: "); Serial.println(writtenSize);
+  SERIAL_PORT_MONITOR.print("Written size: "); SERIAL_PORT_MONITOR.println(writtenSize);
 
-  Serial.println("Clearing info struct");
+  SERIAL_PORT_MONITOR.println("Clearing info struct");
   info.startTime = 0;
   info.interval = 0;
-  Serial.println("Reading back Info struct");
+  SERIAL_PORT_MONITOR.println("Reading back Info struct");
   bool isValid = crcEeprom.readWithCrc(0, &info, sizeof(info));
-  Serial.print("isValid: "); Serial.println(isValid);
+  SERIAL_PORT_MONITOR.print("isValid: "); SERIAL_PORT_MONITOR.println(isValid);
 
-  Serial.print("info: ");
-  Serial.print("startTime: "); Serial.print(info.startTime);
-  Serial.print("; interval: "); Serial.println(info.interval);
+  SERIAL_PORT_MONITOR.print("info: ");
+  SERIAL_PORT_MONITOR.print("startTime: "); SERIAL_PORT_MONITOR.print(info.startTime);
+  SERIAL_PORT_MONITOR.print("; interval: "); SERIAL_PORT_MONITOR.println(info.interval);
 }
 
 void loop() {}

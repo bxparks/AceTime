@@ -10,6 +10,8 @@
 #include "../common/TimingStats.h"
 #include "SystemClock.h"
 
+extern "C" unsigned long millis();
+
 class SystemClockSyncCoroutineTest;
 
 namespace ace_time {

@@ -13,7 +13,7 @@
 #ifndef ACE_TIME_ACE_TIME_H
 #define ACE_TIME_ACE_TIME_H
 
-#include "ace_time/common/flash.h"
+#include "ace_time/common/compat.h"
 #include "ace_time/common/common.h"
 #include "ace_time/common/DateStrings.h"
 #include "ace_time/internal/ZoneContext.h"
@@ -59,7 +59,7 @@
 #endif
 
 // Version format: xxyyzz == "xx.yy.zz"
-#define ACE_TIME_VERSION 500
-#define ACE_TIME_VERSION_STRING "0.5"
+#define ACE_TIME_VERSION 501
+#define ACE_TIME_VERSION_STRING "0.5.1"
 
 #endif

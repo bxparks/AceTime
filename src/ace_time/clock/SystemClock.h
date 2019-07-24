@@ -6,11 +6,11 @@
 #ifndef ACE_TIME_SYSTEM_CLOCK_H
 #define ACE_TIME_SYSTEM_CLOCK_H
 
-#include <Arduino.h> // millis()
 #include <stdint.h>
 #include "../common/TimingStats.h"
-#include "../common/logger.h"
 #include "TimeKeeper.h"
+
+extern "C" unsigned long millis();
 
 namespace ace_time {
 namespace clock {
@@ -93,6 +93,7 @@ class SystemClock: public TimeKeeper {
       mEpochSeconds = epochSeconds;
       mPrevMillis = millis();
       mIsInit = true;
+      mLastSyncTime = epochSeconds;
       backupNow(epochSeconds);
     }
 

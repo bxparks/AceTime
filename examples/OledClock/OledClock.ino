@@ -28,8 +28,8 @@
 #include <AceButton.h>
 #include <AceRoutine.h>
 #include <AceTime.h>
-#include <ace_time/hw/CrcEeprom.h>
 #include "config.h"
+#include "PersistentStore.h"
 #include "Presenter.h"
 #include "Controller.h"
 
@@ -37,12 +37,6 @@ using namespace ace_button;
 using namespace ace_routine;
 using namespace ace_time;
 using namespace ace_time::clock;
-
-//------------------------------------------------------------------
-// Configure CrcEeprom.
-//------------------------------------------------------------------
-
-hw::CrcEeprom crcEeprom;
 
 //------------------------------------------------------------------
 // Configure various TimeKeepers and TimeProviders.
@@ -85,8 +79,9 @@ void setupOled() {
 // Create controller/presenter pair.
 //------------------------------------------------------------------
 
+PersistentStore persistentStore;
 Presenter presenter(oled);
-Controller controller(systemClock, crcEeprom, presenter);
+Controller controller(persistentStore, systemClock, presenter);
 
 //------------------------------------------------------------------
 // Render the Clock periodically.
@@ -171,7 +166,7 @@ COROUTINE(checkButton) {
 
 void setup() {
   // Wait for stability on some boards.
-  // 1000ms needed for Serial.
+  // 1000ms needed for SERIAL_PORT_MONITOR.
   // 1500ms needed for Wire, I2C or SSD1306 (don't know which one).
   delay(2000);
 
@@ -182,20 +177,19 @@ void setup() {
 #endif
 
 #if ENABLE_SERIAL == 1
-  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
-  while (!Serial); // Wait until Serial is ready - Leonardo/Micro
-  Serial.println(F("setup(): begin"));
-  Serial.print(F("sizeof(ClockInfo): "));
-  Serial.println(sizeof(ClockInfo));
-  Serial.print(F("sizeof(StoredInfo): "));
-  Serial.println(sizeof(StoredInfo));
-  Serial.print(F("sizeof(RenderingInfo): "));
-  Serial.println(sizeof(RenderingInfo));
+  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  while (!SERIAL_PORT_MONITOR); // Wait until SERIAL_PORT_MONITOR is ready - Leonardo/Micro
+  SERIAL_PORT_MONITOR.println(F("setup(): begin"));
+  SERIAL_PORT_MONITOR.print(F("sizeof(ClockInfo): "));
+  SERIAL_PORT_MONITOR.println(sizeof(ClockInfo));
+  SERIAL_PORT_MONITOR.print(F("sizeof(StoredInfo): "));
+  SERIAL_PORT_MONITOR.println(sizeof(StoredInfo));
+  SERIAL_PORT_MONITOR.print(F("sizeof(RenderingInfo): "));
+  SERIAL_PORT_MONITOR.println(sizeof(RenderingInfo));
 #endif
 
   Wire.begin();
   Wire.setClock(400000L);
-  crcEeprom.begin(EEPROM_SIZE);
 
   setupAceButton();
   setupOled();
@@ -210,12 +204,13 @@ void setup() {
 #endif
   systemClock.setup();
   controller.setup();
+  persistentStore.setup();
 
   systemClockSync.setupCoroutine(F("s"));
   CoroutineScheduler::setup();
 
 #if ENABLE_SERIAL == 1
-  Serial.println(F("setup(): end"));
+  SERIAL_PORT_MONITOR.println(F("setup(): end"));
 #endif
 }
 

@@ -1,5 +1,5 @@
 /*
- * A simple command line (i.e. ascii clock using the Serial line. Useful for
+ * A simple command line (i.e. ascii clock using the SERIAL_PORT_MONITOR line. Useful for
  * debugging. Requires no additional hardware in the simple case. Optionally
  * depends on the DS3231 RTC chip, or an NTP client.
  *
@@ -26,8 +26,9 @@
  *    timezone [manual {offset} | dst (on | off)] |
  *      basic [list] | extended [list] ]
  *        Print or set the currently active TimeZone.
- *    sync_status
- *        Print the status of the SystemClockSyncLoop helper.
+ *    sync [status]
+ *        Sync the SystemClock from its external source, or print its sync
+          status.
  *		wifi (status | connect | config [ssid password])
  *        Print the ESP8266 or ESP32 wifi connection info.
  *        Connect to the wifi network.
@@ -86,16 +87,13 @@ Controller controller(persistentStore, systemClock);
 // AceRoutine CLI commands
 //---------------------------------------------------------------------------
 
-/** Shift command arguments to the left by one token. */
-#define SHIFT do { argv++; argc--; } while (false)
-
 /** List the coroutines known by the CoroutineScheduler. */
 class ListCommand: public CommandHandler {
   public:
     ListCommand():
-        CommandHandler("list", nullptr) {}
+        CommandHandler(F("list"), nullptr) {}
 
-    void run(Print& printer, int /*argc*/, const char** /*argv*/)
+    void run(Print& printer, int /*argc*/, const char* const* /*argv*/)
             const override {
       CoroutineScheduler::list(printer);
     }
@@ -110,15 +108,15 @@ class ListCommand: public CommandHandler {
 class DateCommand: public CommandHandler {
   public:
     DateCommand():
-        CommandHandler("date", "[dateString]") {}
+        CommandHandler(F("date"), F("[dateString]")) {}
 
-    void run(Print& printer, int argc, const char** argv) const override {
+    void run(Print& printer, int argc, const char* const* argv) const override {
       if (argc == 1) {
         ZonedDateTime nowDate = controller.getCurrentDateTime();
         nowDate.printTo(printer);
         printer.println();
       } else {
-        SHIFT;
+        SHIFT_ARGC_ARGV(argc, argv);
         ZonedDateTime newDate = ZonedDateTime::forDateString(argv[0]);
         if (newDate.isError()) {
           printer.println(F("Invalid date"));
@@ -129,26 +127,6 @@ class DateCommand: public CommandHandler {
         newDate.printTo(printer);
         printer.println();
       }
-    }
-};
-
-/**
- * Sync command - force SystemClock to sync with its time source
- * Usage:
- *    sync
- */
-class SyncCommand: public CommandHandler {
-  public:
-    SyncCommand():
-        CommandHandler("sync", nullptr) {}
-
-    void run(Print& printer, int /*argc*/, const char** /*argv*/)
-        const override {
-      controller.sync();
-      printer.print(F("Date set to: "));
-      ZonedDateTime currentDateTime = controller.getCurrentDateTime();
-      currentDateTime.printTo(printer);
-      printer.println();
     }
 };
 
@@ -165,17 +143,17 @@ class SyncCommand: public CommandHandler {
 class TimezoneCommand: public CommandHandler {
   public:
     TimezoneCommand():
-      CommandHandler("timezone",
-        "manual {offset} | "
+      CommandHandler(F("timezone"),
+        F("manual {offset} | "
       #if ENABLE_TIME_ZONE_TYPE_BASIC
         "basic [list | {index}] | "
       #endif
       #if ENABLE_TIME_ZONE_TYPE_EXTENDED
         "extended [list | {index}] | "
       #endif
-        "dst {on | off}]") {}
+        "dst {on | off}]")) {}
 
-    void run(Print& printer, int argc, const char** argv) const override {
+    void run(Print& printer, int argc, const char* const* argv) const override {
       if (argc == 1) {
         const TimeZone& timeZone = controller.getTimeZone();
         timeZone.printTo(printer);
@@ -183,9 +161,9 @@ class TimezoneCommand: public CommandHandler {
         return;
       }
 
-      SHIFT;
-      if (strcmp(argv[0], "manual") == 0) {
-        SHIFT;
+      SHIFT_ARGC_ARGV(argc, argv);
+      if (isArgEqual(argv[0], F("manual"))) {
+        SHIFT_ARGC_ARGV(argc, argv);
         if (argc == 0) {
           printer.print(F("'timezone manual' requires 'offset'"));
           return;
@@ -200,9 +178,9 @@ class TimezoneCommand: public CommandHandler {
         controller.getTimeZone().printTo(printer);
         printer.println();
       #if ENABLE_TIME_ZONE_TYPE_BASIC
-      } else if (strcmp(argv[0], "basic") == 0) {
-        SHIFT;
-        if (argc != 0 && strcmp(argv[0], "list") == 0) {
+      } else if (isArgEqual(argv[0], F("basic"))) {
+        SHIFT_ARGC_ARGV(argc, argv);
+        if (argc != 0 && isArgEqual(argv[0], F("list"))) {
           controller.printBasicZonesTo(printer);
         } else {
           int16_t zoneIndex = (argc == 0) ? 0 : atoi(argv[0]);
@@ -213,9 +191,9 @@ class TimezoneCommand: public CommandHandler {
         }
       #endif
       #if ENABLE_TIME_ZONE_TYPE_EXTENDED
-      } else if (strcmp(argv[0], "extended") == 0) {
-        SHIFT;
-        if (argc != 0 && strcmp(argv[0], "list") == 0) {
+      } else if (isArgEqual(argv[0], F("extended"))) {
+        SHIFT_ARGC_ARGV(argc, argv);
+        if (argc != 0 && isArgEqual(argv[0], F("list"))) {
           controller.printExtendedZonesTo(printer);
         } else {
           int16_t zoneIndex = (argc == 0) ? 0 : atoi(argv[0]);
@@ -225,17 +203,17 @@ class TimezoneCommand: public CommandHandler {
           printer.println();
         }
       #endif
-      } else if (strcmp(argv[0], "dst") == 0) {
-        SHIFT;
+      } else if (isArgEqual(argv[0], F("dst"))) {
+        SHIFT_ARGC_ARGV(argc, argv);
         if (argc == 0) {
           printer.print(F("DST: "));
           printer.println(controller.isDst() ? F("on") : F("off"));
           return;
         }
 
-        if (strcmp(argv[0], "on") == 0) {
+        if (isArgEqual(argv[0], F("on"))) {
           controller.setDst(true);
-        } else if (strcmp(argv[0], "off") == 0) {
+        } else if (isArgEqual(argv[0], F("off"))) {
           controller.setDst(false);
         } else {
           printer.print(F("'timezone dst' must be either 'on' or 'off'"));
@@ -249,30 +227,48 @@ class TimezoneCommand: public CommandHandler {
     }
 };
 
-#if SYNC_TYPE == SYNC_TYPE_MANUAL
-
 /**
- * Sync status command.
+ * Sync command - force SystemClock to sync with its time source
  * Usage:
- *    sync_status - print the sync status
+ *    sync
  */
-class SyncStatusCommand: public CommandHandler {
+class SyncCommand: public CommandHandler {
   public:
-    SyncStatusCommand(SystemClockSyncLoop& systemClockSyncLoop):
-          CommandHandler("sync_status", nullptr),
-      mSystemClockSyncLoop(systemClockSyncLoop) {}
+    SyncCommand(SystemClock& systemClock):
+        CommandHandler(F("sync"), F("[status]")),
+        mSystemClock(systemClock) {}
 
-    void run(Print& printer, int /*argc*/, const char** /*argv*/)
+    void run(Print& printer, int argc, const char* const* argv)
         const override {
-      printer.print(F("Seconds since last sync: "));
-      printer.println(mSystemClockSyncLoop.getSecondsSinceLastSync());
+      if (argc == 1) {
+        controller.sync();
+        printer.print(F("Date set to: "));
+        ZonedDateTime currentDateTime = controller.getCurrentDateTime();
+        currentDateTime.printTo(printer);
+        printer.println();
+        return;
+      }
+
+      SHIFT_ARGC_ARGV(argc, argv);
+      if (isArgEqual(argv[0], F("status"))) {
+        printer.print(F("Seconds since last sync: "));
+        if (mSystemClock.isInit()) {
+          acetime_t ago = mSystemClock.getNow()
+              - mSystemClock.getLastSyncTime();
+          printer.println(ago);
+        } else {
+          printer.println(F("<Never>"));
+        }
+        return;
+      }
+
+      printer.print(F("Unknown argument: "));
+      printer.println(argv[0]);
     }
 
   private:
-    SystemClockSyncLoop& mSystemClockSyncLoop;
+    SystemClock& mSystemClock;
 };
-
-#endif
 
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 
@@ -288,18 +284,18 @@ class WifiCommand: public CommandHandler {
     WifiCommand(
         Controller& controller,
         NtpTimeProvider& ntpTimeProvider):
-      CommandHandler(
-          "wifi", "status | (config [ssid password]) | connect" ),
+      CommandHandler(F("wifi"),
+          F("status | (config [ssid password]) | connect") ),
       mController(controller),
       mNtpTimeProvider(ntpTimeProvider)
       {}
 
-    void run(Print& printer, int argc, const char** argv) const override {
-      SHIFT;
+    void run(Print& printer, int argc, const char* const* argv) const override {
+      SHIFT_ARGC_ARGV(argc, argv);
       if (argc == 0) {
         printer.println(F("Must give either 'status' or 'config' command"));
-      } else if (strcmp(argv[0], "config") == 0) {
-        SHIFT;
+      } else if (isArgEqual(argv[0], F("config"))) {
+        SHIFT_ARGC_ARGV(argc, argv);
         if (argc == 0) {
           if (mController.isStoredInfoValid()) {
             // print ssid and password
@@ -320,14 +316,14 @@ class WifiCommand: public CommandHandler {
         } else {
           printer.println(F("Wifi config command requires 2 arguments"));
         }
-      } else if (strcmp(argv[0], "status") == 0) {
+      } else if (isArgEqual(argv[0], F("status"))) {
         printer.print(F("NtpTimeProvider::isSetup(): "));
         printer.println(mNtpTimeProvider.isSetup() ? F("true") : F("false"));
         printer.print(F("NTP Server: "));
         printer.println(mNtpTimeProvider.getServer());
         printer.print(F("WiFi IP address: "));
         printer.println(WiFi.localIP());
-      } else if (strcmp(argv[0], "connect") == 0) {
+      } else if (isArgEqual(argv[0], F("connect"))) {
         connect(printer);
       } else {
         printer.print(F("Unknown wifi command: "));
@@ -357,22 +353,16 @@ class WifiCommand: public CommandHandler {
 // Create a list of CommandHandlers.
 ListCommand listCommand;
 DateCommand dateCommand;
-SyncCommand syncCommand;
+SyncCommand syncCommand(systemClock);
 TimezoneCommand timezoneCommand;
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
 WifiCommand wifiCommand(controller, ntpTimeProvider);
-#endif
-#if SYNC_TYPE == SYNC_TYPE_MANUAL
-SyncStatusCommand syncStatusCommand(systemClockSyncLoop);
 #endif
 
 const CommandHandler* const COMMANDS[] = {
   &listCommand,
   &dateCommand,
   &syncCommand,
-#if SYNC_TYPE == SYNC_TYPE_MANUAL
-  &syncStatusCommand,
-#endif
   &timezoneCommand,
 #if TIME_SOURCE_TYPE == TIME_SOURCE_TYPE_NTP
   &wifiCommand,
@@ -384,7 +374,7 @@ uint8_t const NUM_COMMANDS = sizeof(COMMANDS) / sizeof(CommandHandler*);
 uint8_t const BUF_SIZE = 64;
 uint8_t const ARGV_SIZE = 5;
 CommandManager<BUF_SIZE, ARGV_SIZE> commandManager(
-    COMMANDS, NUM_COMMANDS, Serial, "> ");
+    COMMANDS, NUM_COMMANDS, SERIAL_PORT_MONITOR, "> ");
 
 //---------------------------------------------------------------------------
 // Main setup and loop
@@ -392,7 +382,7 @@ CommandManager<BUF_SIZE, ARGV_SIZE> commandManager(
 
 void setup() {
   // Wait for stability on some boards.
-  // 1000ms needed for Serial.
+  // 1000ms needed for SERIAL_PORT_MONITOR.
   // 2000ms needed for Wire, I2C or SSD1306 (don't know which one).
   delay(2000);
 
@@ -401,12 +391,12 @@ void setup() {
   TXLED0; // LED off
 #endif
 
-  Serial.begin(115200); // ESP8266 default of 74880 not supported on Linux
-  while (!Serial); // Wait until Serial is ready - Leonardo/Micro
-  Serial.println(F("setup(): begin"));
+  SERIAL_PORT_MONITOR.begin(115200); // ESP8266 default of 74880 not supported on Linux
+  while (!SERIAL_PORT_MONITOR); // Wait until SERIAL_PORT_MONITOR is ready - Leonardo/Micro
+  SERIAL_PORT_MONITOR.println(F("setup(): begin"));
 
-  Serial.print(F("sizeof(StoredInfo): "));
-  Serial.println(sizeof(StoredInfo));
+  SERIAL_PORT_MONITOR.print(F("sizeof(StoredInfo): "));
+  SERIAL_PORT_MONITOR.println(sizeof(StoredInfo));
 
   Wire.begin();
   Wire.setClock(400000L);
@@ -435,7 +425,7 @@ void setup() {
   commandManager.setupCoroutine(F("commandManager"));
   CoroutineScheduler::setup();
 
-  Serial.println(F("setup(): end"));
+  SERIAL_PORT_MONITOR.println(F("setup(): end"));
 }
 
 void loop() {
