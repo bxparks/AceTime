@@ -328,11 +328,8 @@ different ways: `createForZoneInfo()`, `createForZoneName()`, and
 using namespace ace_time;
 
 void setup() {
-#if defined(ARDUINO)
-  delay(1000);
-#endif
-  SERIAL_PORT_MONITOR.begin(115200);
-  while (!SERIAL_PORT_MONITOR); // Wait Serial is ready - Leonardo/Micro
+  Serial.begin(115200);
+  while (!Serial); // Wait Serial is ready - Leonardo/Micro
 
   // Create a BasicZoneManager with the entire TZ Database.
   const int CACHE_SIZE = 3;
@@ -343,25 +340,21 @@ void setup() {
   auto pacificTz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
   auto pacificTime = ZonedDateTime::forComponents(
       2019, 3, 10, 3, 0, 0, pacificTz);
-  pacificTime.printTo(SERIAL_PORT_MONITOR);
-  SERIAL_PORT_MONITOR.println();
+  pacificTime.printTo(Serial);
+  Serial.println();
 
   // Create London by ZoneName
   auto londonTz = manager.createForZoneName("Europe/London");
   auto londonTime = pacificTime.convertToTimeZone(londonTz);
-  londonTime.printTo(SERIAL_PORT_MONITOR);
-  SERIAL_PORT_MONITOR.println();
+  londonTime.printTo(Serial);
+  Serial.println();
 
   // Create Sydney by ZoneId
   uint32_t syndeyId = BasicZone(&zonedb::kZoneAustralia_Sydney).zoneId();
   auto sydneyTz = manager.createForZoneId(syndeyId);
   auto sydneyTime = pacificTime.convertToTimeZone(sydneyTz);
-  sydneyTime.printTo(SERIAL_PORT_MONITOR);
-  SERIAL_PORT_MONITOR.println();
-
-#if ! defined(ARDUINO)
-  exit(0);
-#endif
+  sydneyTime.printTo(Serial);
+  Serial.println();
 }
 
 void loop() {
