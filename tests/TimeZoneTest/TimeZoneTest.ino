@@ -173,7 +173,7 @@ test(TimeZoneBasicTest, createFor) {
 
   assertTrue(a == aa);
   assertTrue(b == bb);
-  assertEqual(0x1e2a7654U, bb.getZoneId());
+  assertEqual((uint32_t) 0x1e2a7654U, bb.getZoneId());
 }
 
 test(TimeZoneBasicTest, Los_Angeles) {
@@ -244,7 +244,7 @@ test(TimeZoneDataTest, basicManaged) {
       &zonedb::kZoneAmerica_Los_Angeles);
   auto tzd = tz.toTimeZoneData();
   assertEqual(TimeZoneData::kTypeZoneId, tzd.type);
-  assertEqual(0xb7f7e8f2, tzd.zoneId);
+  assertEqual((uint32_t) 0xb7f7e8f2, tzd.zoneId);
 
   auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzCycle);
@@ -256,7 +256,7 @@ test(TimeZoneDataTest, extendedManaged) {
       &zonedbx::kZoneAmerica_Los_Angeles);
   auto tzd = tz.toTimeZoneData();
   assertEqual(TimeZoneData::kTypeZoneId, tzd.type);
-  assertEqual(0xb7f7e8f2, tzd.zoneId);
+  assertEqual((uint32_t) 0xb7f7e8f2, tzd.zoneId);
 
   auto tzCycle = extendedZoneManager.createForTimeZoneData(tzd);
   assertTrue(tz == tzCycle);
@@ -269,10 +269,10 @@ test(TimeZoneDataTest, crossed) {
       &zonedbx::kZoneAmerica_Los_Angeles);
   auto tzd = tz.toTimeZoneData();
   assertEqual(TimeZoneData::kTypeZoneId, tzd.type);
-  assertEqual(0xb7f7e8f2, tzd.zoneId);
+  assertEqual((uint32_t) 0xb7f7e8f2, tzd.zoneId);
 
   auto tzCycle = basicZoneManager.createForTimeZoneData(tzd);
-  assertTrue(tz.getZoneId() == tzCycle.getZoneId());
+  assertEqual(tz.getZoneId(), tzCycle.getZoneId());
   assertEqual(TimeZone::kTypeBasicManaged, tzCycle.getType());
 }
 #endif
