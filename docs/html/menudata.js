@@ -69,4 +69,8 @@ var menudata={children:[
 {text:"z",url:"functions_vars.html#index_z"}]},
 {text:"Related Functions",url:"functions_rela.html"}]}]},
 {text:"Files",url:"files.html",children:[
-{text:"File List",url:"files.html"}]}]}
+{text:"File List",url:"files.html"},
+{text:"File Members",url:"globals.html",children:[
+{text:"All",url:"globals.html"},
+{text:"Functions",url:"globals_func.html"},
+{text:"Macros",url:"globals_defs.html"}]}]}]}
