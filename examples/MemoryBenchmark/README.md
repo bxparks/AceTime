@@ -16,7 +16,7 @@ hand since Teensyduino does not seem to allow headless operation.)
 
 * AceTime 0.5
 * Arduino IDE 1.8.9
-* AVR Core 1.6.23
+* Arduino AVR Boards 1.6.23
 
 ```
 +--------------------------------------------------------------+
@@ -42,7 +42,7 @@ hand since Teensyduino does not seem to allow headless operation.)
 
 * AceTime 0.5
 * Arduino IDE 1.8.9
-* AVR Core 1.6.23
+* SparkFun AVR Boards 1.1.12
 
 ```
 +--------------------------------------------------------------+
@@ -64,12 +64,39 @@ hand since Teensyduino does not seem to allow headless operation.)
 +--------------------------------------------------------------+
 ```
 
+## SAMD21 M0 Mini
+
+* AceTime 0.5.1
+* Arduino IDE 1.8.9
+* SparkFun SAMD Boards 1.6.2
+
+```
++--------------------------------------------------------------+
+| Functionality                   |    flash/ram |       Delta |
+|---------------------------------+--------------+-------------|
+| Baseline                        |  10072/    0 |     0/    0 |
+|---------------------------------+--------------+-------------|
+| LocalDateTime                   |  10928/    0 |   856/    0 |
+| ZonedDateTime                   |  11168/    0 |  1096/    0 |
+| Basic TimeZone                  |  15060/    0 |  4988/    0 |
+| Basic TimeZone (2 zones)        |  15460/    0 |  5388/    0 |
+| Basic TimeZone (all zones)      |  37260/    0 | 27188/    0 |
+| Extended TimeZone               |  16764/    0 |  6692/    0 |
+| Extended TimeZone (2 zones)     |  17212/    0 |  7140/    0 |
+| Extended TimeZone (all zones)   |  54852/    0 | 44780/    0 |
+|---------------------------------+--------------+-------------|
+| SystemClock                     |  13208/    0 |  3136/    0 |
+| SystemClock+Basic TimeZone      |  16636/    0 |  6564/    0 |
++--------------------------------------------------------------+
+```
+
+(SAMD compiler does not produce RAM usage numbers.)
+
 ## ESP8266
 
 * AceTime 0.5
 * Arduino IDE 1.8.9
-* ESP8266 Core 2.5.2
-* ESP32 Core 1.0.2
+* ESP8266 Boards 2.5.2
 
 ```
 +--------------------------------------------------------------+
@@ -95,7 +122,7 @@ hand since Teensyduino does not seem to allow headless operation.)
 
 * AceTime 0.5
 * Arduino IDE 1.8.9
-* ESP32 Core 1.0.2
+* ESP32 Boards 1.0.2
 
 ```
 +--------------------------------------------------------------+
