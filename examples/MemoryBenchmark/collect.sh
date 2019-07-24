@@ -4,7 +4,7 @@
 # and collects the flash memory and static RAM usage for each of
 # the FEATURE (0..10).
 #
-# Usage: collect.sh {board} ...
+# Usage: collect.sh {board} {result_file}
 #
 # Creates a ${board}.out file containing:
 #
