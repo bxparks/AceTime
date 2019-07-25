@@ -14,17 +14,17 @@
 
 using namespace ace_time;
 
+// Create a BasicZoneManager with the entire TZ Database.
+static const int CACHE_SIZE = 3;
+static BasicZoneManager<CACHE_SIZE> manager(
+    zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+
 void setup() {
 #if defined(ARDUINO)
   delay(1000);
 #endif
   SERIAL_PORT_MONITOR.begin(115200);
   while (!SERIAL_PORT_MONITOR); // Wait Serial is ready - Leonardo/Micro
-
-  // Create a BasicZoneManager with the entire TZ Database.
-  const int CACHE_SIZE = 3;
-  BasicZoneManager<CACHE_SIZE> manager(
-      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
   // Create Los Angeles by ZoneInfo
   auto pacificTz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);

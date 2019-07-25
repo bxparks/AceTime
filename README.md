@@ -327,14 +327,14 @@ different ways: `createForZoneInfo()`, `createForZoneName()`, and
 
 using namespace ace_time;
 
+// Create a BasicZoneManager with the entire TZ Database.
+static const int CACHE_SIZE = 3;
+static BasicZoneManager<CACHE_SIZE> manager(
+  zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
+
 void setup() {
   Serial.begin(115200);
   while (!Serial); // Wait Serial is ready - Leonardo/Micro
-
-  // Create a BasicZoneManager with the entire TZ Database.
-  const int CACHE_SIZE = 3;
-  BasicZoneManager<CACHE_SIZE> manager(
-      zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
   // Create Los Angeles by ZoneInfo
   auto pacificTz = manager.createForZoneInfo(&zonedb::kZoneAmerica_Los_Angeles);
@@ -430,6 +430,7 @@ then printing the system time every 2 seconds:
 2019-06-17T19:50:00-07:00[America/Los_Angeles]
 2019-06-17T19:50:02-07:00[America/Los_Angeles]
 2019-06-17T19:50:04-07:00[America/Los_Angeles]
+...
 ```
 
 ### WorldClock
