@@ -1396,8 +1396,8 @@ database is about 23kB. On 32-bit processors, the `zonedb::` data set is about
 #include <AceTime.h>
 using namespace ace_time;
 ...
-const uint16_t SIZE = 2;
-BasicZoneManager<SIZE> zoneManager(
+static const uint16_t SIZE = 2;
+static BasicZoneManager<SIZE> zoneManager(
     zonedb::kZoneRegistrySize, zonedb::kZoneRegistry);
 
 void someFunction(const char* zoneName) {
@@ -1430,7 +1430,8 @@ static const basic::ZoneInfo* const kBasicZoneRegistry[] ACE_TIME_PROGMEM = {
 static const uint16_t kZoneRegistrySize =
     sizeof(Controller::kZoneRegistry) / sizeof(basic::ZoneInfo*);
 
-static BasicZoneManager<2> zoneManager(kZoneRegistrySize, kZoneRegistry);
+static const uint16_t NUM_ZONES = 2;
+static BasicZoneManager<NUM_ZONES> zoneManager(kZoneRegistrySize, kZoneRegistry);
 ```
 
 Here is the equivalent `ExtendedZoneManager` with 4 zones from the `zonedbx::`
@@ -1450,7 +1451,8 @@ static const extended::ZoneInfo* const kZoneRegistry[] ACE_TIME_PROGMEM = {
 static const uint16_t kZoneRegistrySize =
     sizeof(Controller::kZoneRegistry) / sizeof(extended::ZoneInfo*);
 
-static ExtendedZoneManager<2> zoneManager(kZoneRegistrySize, kZoneRegistry);
+static const uint16_t NUM_ZONES = 2;
+static ExtendedZoneManager<NUM_ZONES> zoneManager(kZoneRegistrySize, kZoneRegistry);
 ```
 
 The `ACE_TIME_PROGMEM` macro is defined in
@@ -1556,7 +1558,7 @@ fully qualified zone name was used.
 #### createForZoneIndex
 
 The `ZoneManager::createForZoneIndex()` creates a `TimeZone` from its integer
-index into the Zone registry, from 0 to `registrySize-1`. This is useful when
+index into the Zone registry, from 0 to `registrySize - 1`. This is useful when
 you want to show the user with a menu of zones from the `ZoneManager` and allow
 the user to select one of the options.
 
