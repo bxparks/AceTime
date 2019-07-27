@@ -1,5 +1,9 @@
 # Changelog
 
+* Unreleased
+    * Create `HelloZoneManager` and add it to the `README.md`.
+    * Recommend using "Arduino MKR ZERO" board profile for "SAMD21 M0 Mini"
+      boards.
 * 0.5.1 (2019-07-24, TZ DB version 2019a, beta)
     * Add documentation about the ZoneManager into `USER_GUIDE.md`.
     * Move `DateStrings` string pointers into PROGMEM, saving 42 bytes of RAM.
