@@ -160,20 +160,21 @@ time.
 
 The zoneinfo files are stored in flash memory (using the `PROGMEM` compiler
 directive) if the microcontroller allows it (e.g. AVR, ESP8266) so that they do
-not consume static RAM:
+not consume static RAM. The [MemoryBenchmark](examples/MemoryBenchmark/)
+program shows that:
 
-* 270 timezones supported by `BasicZoneProcessor`consume:
-    * 14 kB of flash on an 8-bit processor (AVR)
-    * 21 kB of flash on a 32-bit processor (ESP8266)
+* 270 timezones supported by `BasicZoneProcessor`consume about:
+    * 15 kB of flash on an 8-bit processor (AVR)
+    * 20 kB of flash on a 32-bit processor (ESP8266)
 * 387 timezones supported by `ExtendedZoneProcessor` consume:
-    * 23 kB of flash on an 8-bit processor (AVR)
-    * 37 kB of flash on a 32-bit processor (ESP8266)
+    * 24 kB of flash on an 8-bit processor (AVR)
+    * 33 kB of flash on a 32-bit processor (ESP8266)
 
 Normally a small application will use only a small number of timezones. The
 AceTime library with one timezone using the `BasicZoneProcessor` and the
 `SystemClock` consumes:
-* 8.5 kB of flash and 350 bytes of RAM on an 8-bit Arduino Nano (AVR),
-* 11 kB of flash and 850 bytes of RAM on an ESP8266 processor (32-bit).
+* 9-10 kB of flash and 350 bytes of RAM on an 8-bit AVR processors,
+* 6-22 kB of flash and 900-1800 bytes of RAM on an 32-bit processors.
 
 An example of more complex application is the [WorldClock](examples/WorldClock)
 which has 3 OLED displays over SPI, 3 timezones using `BasicZoneProcessor`, a

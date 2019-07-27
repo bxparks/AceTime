@@ -9,12 +9,12 @@ The `collect.sh` script automates the collection of this data by using
 [AUniter](https://github.com/bxparks/AUniter) to invoke the Arduino IDE
 programmatically. It produces a `*.txt` file with the flash and ram usage
 information (e.g. `nano.txt`). The `generate_table.awk` script takes the `*.txt`
-file and produces the ASCII tables below. (I had to generate `teensy.txt` by
-hand since Teensyduino does not seem to allow headless operation.)
+file and produces the ASCII tables below. (I generate `teensy.txt` by hand since
+Teensyduino does not seem to allow headless operation.)
 
 ## Arduino Nano
 
-* AceTime 0.5
+* AceTime 0.5.2
 * Arduino IDE 1.8.9
 * Arduino AVR Boards 1.6.23
 
@@ -26,21 +26,21 @@ hand since Teensyduino does not seem to allow headless operation.)
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   |   1452/  147 |  1004/  137 |
 | ZonedDateTime                   |   2282/  147 |  1834/  137 |
-| Basic TimeZone                  |   6854/  211 |  6406/  201 |
-| Basic TimeZone (2 zones)        |   7372/  217 |  6924/  207 |
-| Basic TimeZone (all zones)      |  22056/  607 | 21608/  597 |
-| Extended TimeZone               |   9230/  211 |  8782/  201 |
-| Extended TimeZone (2 zones)     |   9700/  217 |  9252/  207 |
-| Extended TimeZone (all zones)   |  34112/  709 | 33664/  699 |
+| Basic TimeZone                  |   6860/  211 |  6412/  201 |
+| Basic TimeZone (2 zones)        |   7378/  217 |  6930/  207 |
+| Basic TimeZone (all zones)      |  22062/  607 | 21614/  597 |
+| Extended TimeZone               |   9232/  211 |  8784/  201 |
+| Extended TimeZone (2 zones)     |   9702/  217 |  9254/  207 |
+| Extended TimeZone (all zones)   |  34114/  709 | 33666/  699 |
 |---------------------------------+--------------+-------------|
 | SystemClock                     |   4758/  276 |  4310/  266 |
-| SystemClock+Basic TimeZone      |   9132/  362 |  8684/  352 |
+| SystemClock+Basic TimeZone      |   9138/  362 |  8690/  352 |
 +--------------------------------------------------------------+
 ```
 
 ## Sparkfun Pro Micro
 
-* AceTime 0.5
+* AceTime 0.5.2
 * Arduino IDE 1.8.9
 * SparkFun AVR Boards 1.1.12
 
@@ -52,21 +52,21 @@ hand since Teensyduino does not seem to allow headless operation.)
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   |   4452/  287 |   830/  137 |
 | ZonedDateTime                   |   5282/  287 |  1660/  137 |
-| Basic TimeZone                  |   9854/  351 |  6232/  201 |
-| Basic TimeZone (2 zones)        |  10370/  355 |  6748/  205 |
-| Basic TimeZone (all zones)      |  25054/  745 | 21432/  595 |
-| Extended TimeZone               |  12230/  351 |  8608/  201 |
-| Extended TimeZone (2 zones)     |  12698/  355 |  9076/  205 |
-| Extended TimeZone (all zones)   |  37110/  847 | 33488/  697 |
+| Basic TimeZone                  |   9860/  351 |  6238/  201 |
+| Basic TimeZone (2 zones)        |  10376/  355 |  6754/  205 |
+| Basic TimeZone (all zones)      |  25060/  745 | 21438/  595 |
+| Extended TimeZone               |  12232/  351 |  8610/  201 |
+| Extended TimeZone (2 zones)     |  12700/  355 |  9078/  205 |
+| Extended TimeZone (all zones)   |  37112/  847 | 33490/  697 |
 |---------------------------------+--------------+-------------|
 | SystemClock                     |   7758/  416 |  4136/  266 |
-| SystemClock+Basic TimeZone      |  12132/  502 |  8510/  352 |
+| SystemClock+Basic TimeZone      |  12138/  502 |  8516/  352 |
 +--------------------------------------------------------------+
 ```
 
 ## SAMD21 M0 Mini
 
-* AceTime 0.5.1
+* AceTime 0.5.2
 * Arduino IDE 1.8.9
 * SparkFun SAMD Boards 1.6.2
 
@@ -78,15 +78,15 @@ hand since Teensyduino does not seem to allow headless operation.)
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   |  10928/    0 |   856/    0 |
 | ZonedDateTime                   |  11168/    0 |  1096/    0 |
-| Basic TimeZone                  |  15060/    0 |  4988/    0 |
-| Basic TimeZone (2 zones)        |  15460/    0 |  5388/    0 |
-| Basic TimeZone (all zones)      |  37260/    0 | 27188/    0 |
-| Extended TimeZone               |  16764/    0 |  6692/    0 |
-| Extended TimeZone (2 zones)     |  17212/    0 |  7140/    0 |
-| Extended TimeZone (all zones)   |  54852/    0 | 44780/    0 |
+| Basic TimeZone                  |  15052/    0 |  4980/    0 |
+| Basic TimeZone (2 zones)        |  15436/    0 |  5364/    0 |
+| Basic TimeZone (all zones)      |  34732/    0 | 24660/    0 |
+| Extended TimeZone               |  16740/    0 |  6668/    0 |
+| Extended TimeZone (2 zones)     |  17180/    0 |  7108/    0 |
+| Extended TimeZone (all zones)   |  49188/    0 | 39116/    0 |
 |---------------------------------+--------------+-------------|
 | SystemClock                     |  13208/    0 |  3136/    0 |
-| SystemClock+Basic TimeZone      |  16636/    0 |  6564/    0 |
+| SystemClock+Basic TimeZone      |  16628/    0 |  6556/    0 |
 +--------------------------------------------------------------+
 ```
 
@@ -94,7 +94,7 @@ hand since Teensyduino does not seem to allow headless operation.)
 
 ## ESP8266
 
-* AceTime 0.5
+* AceTime 0.5.2
 * Arduino IDE 1.8.9
 * ESP8266 Boards 2.5.2
 
@@ -108,19 +108,19 @@ hand since Teensyduino does not seem to allow headless operation.)
 | ZonedDateTime                   | 260184/26884 |  3080/  344 |
 | Basic TimeZone                  | 265428/27312 |  8324/  772 |
 | Basic TimeZone (2 zones)        | 265732/27312 |  8628/  772 |
-| Basic TimeZone (all zones)      | 287844/27312 | 30740/  772 |
-| Extended TimeZone               | 267400/27412 | 10296/  872 |
-| Extended TimeZone (2 zones)     | 267768/27412 | 10664/  872 |
-| Extended TimeZone (all zones)   | 305752/27412 | 48648/  872 |
+| Basic TimeZone (all zones)      | 285348/27312 | 28244/  772 |
+| Extended TimeZone               | 267352/27412 | 10248/  872 |
+| Extended TimeZone (2 zones)     | 267720/27412 | 10616/  872 |
+| Extended TimeZone (all zones)   | 300072/27412 | 42968/  872 |
 |---------------------------------+--------------+-------------|
 | SystemClock                     | 262852/26908 |  5748/  368 |
-| SystemClock+Basic TimeZone      | 267764/27324 | 10660/  784 |
+| SystemClock+Basic TimeZone      | 267748/27324 | 10644/  784 |
 +--------------------------------------------------------------+
 ```
 
 ## ESP32
 
-* AceTime 0.5
+* AceTime 0.5.2
 * Arduino IDE 1.8.9
 * ESP32 Boards 1.0.2
 
@@ -132,15 +132,15 @@ hand since Teensyduino does not seem to allow headless operation.)
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   | 203844/14164 | 10644/ 1484 |
 | ZonedDateTime                   | 204684/14164 | 11484/ 1484 |
-| Basic TimeZone                  | 208600/14164 | 15400/ 1484 |
-| Basic TimeZone (2 zones)        | 208892/14164 | 15692/ 1484 |
-| Basic TimeZone (all zones)      | 230988/14164 | 37788/ 1484 |
-| Extended TimeZone               | 210264/14164 | 17064/ 1484 |
-| Extended TimeZone (2 zones)     | 210596/14164 | 17396/ 1484 |
-| Extended TimeZone (all zones)   | 248620/14164 | 55420/ 1484 |
+| Basic TimeZone                  | 208588/14164 | 15388/ 1484 |
+| Basic TimeZone (2 zones)        | 208868/14164 | 15668/ 1484 |
+| Basic TimeZone (all zones)      | 228464/14164 | 35264/ 1484 |
+| Extended TimeZone               | 210244/14164 | 17044/ 1484 |
+| Extended TimeZone (2 zones)     | 210564/14164 | 17364/ 1484 |
+| Extended TimeZone (all zones)   | 242956/14164 | 49756/ 1484 |
 |---------------------------------+--------------+-------------|
 | SystemClock                     | 211532/14268 | 18332/ 1588 |
-| SystemClock+Basic TimeZone      | 215392/14268 | 22192/ 1588 |
+| SystemClock+Basic TimeZone      | 215380/14268 | 22180/ 1588 |
 +--------------------------------------------------------------+
 ```
 
@@ -150,7 +150,7 @@ usage by objects.
 
 ## Teensy 3.2
 
-* AceTime 0.5
+* AceTime 0.5.2
 * Arduino IDE 1.8.9
 * Teensyduino 1.46
 
@@ -162,14 +162,14 @@ usage by objects.
 |---------------------------------+--------------+-------------|
 | LocalDateTime                   |  14492/ 5204 |  5644/ 1768 |
 | ZonedDateTime                   |  14492/ 5204 |  5644/ 1768 |
-| Basic TimeZone                  |  22100/ 5204 | 13252/ 1768 |
-| Basic TimeZone (2 zones)        |  22848/ 5204 | 14000/ 1768 |
-| Basic TimeZone (all zones)      |  44536/ 5204 | 35688/ 1768 |
-| Extended TimeZone               |  25380/ 5204 | 16532/ 1768 |
-| Extended TimeZone (2 zones)     |  26128/ 5204 | 17280/ 1768 |
-| Extended TimeZone (all zones)   |  63804/ 5204 | 54956/ 1768 |
+| Basic TimeZone                  |  22024/ 5204 | 13176/ 1768 |
+| Basic TimeZone (2 zones)        |  22760/ 5204 | 13912/ 1768 |
+| Basic TimeZone (all zones)      |  41948/ 5204 | 33100/ 1768 |
+| Extended TimeZone               |  25360/ 5204 | 16512/ 1768 |
+| Extended TimeZone (2 zones)     |  26096/ 5204 | 17248/ 1768 |
+| Extended TimeZone (all zones)   |  58140/ 5204 | 49292/ 1768 |
 |---------------------------------+--------------+-------------|
 | SystemClock                     |  17368/ 5204 |  8520/ 1768 |
-| SystemClock+Basic TimeZone      |  25144/ 5204 | 16296/ 1768 |
+| SystemClock+Basic TimeZone      |  25068/ 5204 | 16220/ 1768 |
 +--------------------------------------------------------------+
 ```
