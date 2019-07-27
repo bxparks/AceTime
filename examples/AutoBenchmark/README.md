@@ -29,6 +29,7 @@ sizeof(BasicZoneRegistrar): 5
 sizeof(ExtendedZoneRegistrar): 5
 sizeof(BasicZoneManager<1>): 107
 sizeof(ExtendedZoneManager<1>): 405
+sizeof(TimeZoneData): 5
 sizeof(TimeZone): 5
 sizeof(ZonedDateTime): 12
 sizeof(TimePeriod): 4
@@ -70,7 +71,7 @@ CPU:
 Number of iterations per run: 2500
 ```
 
-## SAMD21 M0 Mini (Arduino Zero Compatible)
+## SAMD21 M0 Mini (Arduino MKR Zero Compatible)
 
 IDE: Arduino 1.8.9 (SAMD Core 1.8.3)
 
@@ -87,6 +88,7 @@ sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
 sizeof(BasicZoneManager<1>): 176
 sizeof(ExtendedZoneManager<1>): 520
+sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
@@ -145,6 +147,7 @@ sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
 sizeof(BasicZoneManager<1>): 176
 sizeof(ExtendedZoneManager<1>): 520
+sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
@@ -205,6 +208,7 @@ sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
 sizeof(BasicZoneManager<1>): 176
 sizeof(ExtendedZoneManager<1>): 520
+sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4
@@ -269,6 +273,7 @@ sizeof(BasicZoneRegistrar): 12
 sizeof(ExtendedZoneRegistrar): 12
 sizeof(BasicZoneManager<1>): 176
 sizeof(ExtendedZoneManager<1>): 520
+sizeof(TimeZoneData): 8
 sizeof(TimeZone): 12
 sizeof(ZonedDateTime): 20
 sizeof(TimePeriod): 4

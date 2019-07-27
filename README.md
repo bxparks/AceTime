@@ -185,6 +185,7 @@ inside the 30 kB flash size of an Arduino Pro Micro controller.
 Conversion from date-time components (year, month, day, etc) to epochSeconds
 (`ZonedDateTime::toEpochSeconds()`) takes about:
 * 90 microseconds on an 8-bit AVR processor,
+* 14 microseconds on an SAMD21,
 * 7 microseconds on an ESP8266,
 * 1.4 microseconds on an ESP32,
 * 0.5 microseconds on a Teensy 3.2.
@@ -192,8 +193,9 @@ Conversion from date-time components (year, month, day, etc) to epochSeconds
 Conversion from an epochSeconds to date-time components including timezone
 (`ZonedDateTime::forEpochSeconds()`) takes (assuming cache hits):
 * 600 microseconds on an 8-bit AVR,
-* 25 microseconds on an ESP8266,
-* 2.5 microseconds on an ESP32,
+* 50 microseconds on an SAMD21,
+* 27 microseconds on an ESP8266,
+* 2.8 microseconds on an ESP32,
 * 6 microseconds on a Teensy 3.2.
 
 **Version**: 0.5.1 (2019-07-24, TZ DB version 2019a, beta)

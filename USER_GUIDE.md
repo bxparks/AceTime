@@ -2597,16 +2597,13 @@ did not think it would fit inside an Arduino controller.
         * You may be able to fix this by setting
           `ACE_TIME_CLOBBER_SERIAL_PORT_MONITOR` to `1` in
           `src/ace_time/common/compat.h`. (I do not test this option often, so
-          it may be broke.)
+          it may be broken.)
     * If you are using a SAMD21 development or breakout board, or one of the
       many clones called something like "Ardunio SAMD21 M0 Mini" (this is what I
-      have), I have found things working better using the SparkFun
-      Boards instead of the Arduino Zero board. Download "SparkFun SAMD Boards"
-      using the Board Manager by following the [SparkFun Boards
-      Installation](https://github.com/sparkfun/Arduino_Boards), then select the
-      board labeled "SparkFun SAMD Mini Breakout". These boards have only a
-      single USB connector, and the `SERIAL_PORT_MONITOR` will be properly
-      defined to be `SerialUSB`.
+      have), I have found things working better using the "Arduino MKR ZERO"
+      board instead of the "Arduino Zero (Native USB Port)" board. This is
+      because the `SERIAL_PORT_MONITOR` macro will be properly defined to be
+      `SerialUSB`, and all the example sketches will work without modifications.
     * The SAMD21 microcontroller does *not* provide any EEPROM. Therefore,
       this feature is disabled in the apps under `examples` (e.g.
       `CommandLineClock`, `OledClock`, and `WorldClock`) which use this feature.
